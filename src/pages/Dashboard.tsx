@@ -1,8 +1,11 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { Target, TrendingUp, Calendar, Flame } from "lucide-react";
+import { Target, TrendingUp, Calendar, Flame, LogIn } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer,
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -34,6 +37,63 @@ const heatColors = ["bg-secondary", "bg-primary/20", "bg-primary/40", "bg-primar
 
 const Dashboard = () => {
   const { t } = useLanguage();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-28 pb-16 flex items-center justify-center">
+          <div className="text-muted-foreground">{t("Đang tải...", "Loading...")}</div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-28 pb-16">
+          <div className="container mx-auto px-6">
+            <div className="max-w-lg mx-auto text-center">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card rounded-2xl p-12">
+                <LogIn className="w-16 h-16 text-primary mx-auto mb-6" />
+                <h1 className="text-3xl font-display font-bold text-foreground mb-4">
+                  {t("Đăng nhập để xem Dashboard", "Login to View Dashboard")}
+                </h1>
+                <p className="text-muted-foreground mb-8">
+                  {t(
+                    "Bạn cần đăng nhập để xem dữ liệu học tập và tiến độ cá nhân của mình.",
+                    "You need to log in to view your personal learning data and progress."
+                  )}
+                </p>
+                <button className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:brightness-110 transition-all shadow-lg">
+                  <LogIn className="w-5 h-5" />
+                  {t("Đăng Nhập", "Login")}
+                </button>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
