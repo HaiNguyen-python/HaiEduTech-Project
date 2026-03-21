@@ -21,7 +21,7 @@ interface CertCarouselProps {
 const CertCarousel = ({ title }: CertCarouselProps) => {
   const { t } = useLanguage();
   const [current, setCurrent] = useState(0);
-  const visibleCount = 2;
+  const visibleCount = 1;
 
   const next = () => setCurrent((p) => Math.min(p + 1, certs.length - visibleCount));
   const prev = () => setCurrent((p) => Math.max(p - 1, 0));
