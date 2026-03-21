@@ -3,8 +3,10 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Brain, FileText, Mic, Send, Loader2, AlertCircle, Sparkles } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AIGrading = () => {
+  const { t } = useLanguage();
   const [mode, setMode] = useState<"writing" | "speaking">("writing");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,7 +21,6 @@ const AIGrading = () => {
   const handleGrade = async () => {
     if (!text.trim()) return;
     setLoading(true);
-    // Mock AI response — replace with real API call
     await new Promise((r) => setTimeout(r, 2000));
     setResult({
       overall: 6.5,
@@ -30,7 +31,10 @@ const AIGrading = () => {
         { error: "Because, so", correction: "Therefore / Consequently", category: "Cohesion" },
       ],
       upgraded: "The rapid advancement of technology has profoundly transformed educational methodologies. While traditional classroom-based instruction remains valuable, the integration of digital tools has proven highly beneficial for enhancing student engagement and learning outcomes...",
-      advice: "Focus on improving cohesive devices and reducing informal vocabulary. Practice using complex sentence structures with subordinate clauses. Aim for more precise academic vocabulary.",
+      advice: t(
+        "Tập trung cải thiện liên kết và giảm từ vựng không trang trọng. Luyện sử dụng câu phức với mệnh đề phụ. Hướng đến từ vựng học thuật chính xác hơn.",
+        "Focus on improving cohesive devices and reducing informal vocabulary. Practice using complex sentence structures with subordinate clauses."
+      ),
     });
     setLoading(false);
   };
@@ -42,16 +46,19 @@ const AIGrading = () => {
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
-              <Brain className="w-3 h-3" /> AI-Powered
+              <Brain className="w-3 h-3" /> {t("Hỗ trợ bởi AI", "AI-Powered")}
             </div>
             <h1 className="text-4xl font-display font-bold mb-4 text-foreground">
-              IELTS <span className="text-gradient">Grading Engine</span>
+              {t("Công cụ chấm ", "IELTS ")}
+              <span className="text-gradient">{t("IELTS bằng AI", "Grading Engine")}</span>
             </h1>
             <p className="text-muted-foreground mb-8">
-              Submit your writing or speaking sample for instant AI-powered examiner-level feedback.
+              {t(
+                "Nộp bài viết hoặc nói để nhận phản hồi cấp giám khảo ngay lập tức.",
+                "Submit your writing or speaking sample for instant AI-powered examiner-level feedback."
+              )}
             </p>
 
-            {/* Mode tabs */}
             <div className="flex gap-2 mb-6">
               <button
                 onClick={() => setMode("writing")}
@@ -72,19 +79,18 @@ const AIGrading = () => {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-6">
-              {/* Input */}
               <div className="glass-card rounded-xl p-6">
                 {mode === "writing" ? (
                   <>
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-sm font-medium text-foreground">Your Essay</h3>
-                      <span className="text-xs text-muted-foreground font-mono">{text.split(/\s+/).filter(Boolean).length} words</span>
+                      <h3 className="text-sm font-medium text-foreground">{t("Bài viết của bạn", "Your Essay")}</h3>
+                      <span className="text-xs text-muted-foreground font-mono">{text.split(/\s+/).filter(Boolean).length} {t("từ", "words")}</span>
                     </div>
                     <textarea
                       value={text}
                       onChange={(e) => setText(e.target.value)}
-                      placeholder="Paste your IELTS Writing Task 2 essay here..."
-                      className="w-full h-64 bg-secondary/50 rounded-lg p-4 text-sm text-foreground placeholder:text-muted-foreground resize-none border border-border/50 focus:border-primary/50 focus:outline-none transition-colors"
+                      placeholder={t("Dán bài IELTS Writing Task 2 của bạn tại đây...", "Paste your IELTS Writing Task 2 essay here...")}
+                      className="w-full h-64 bg-secondary rounded-lg p-4 text-sm text-foreground placeholder:text-muted-foreground resize-none border border-border focus:border-primary/50 focus:outline-none transition-colors"
                     />
                   </>
                 ) : (
@@ -92,8 +98,8 @@ const AIGrading = () => {
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-4 animate-pulse-glow">
                       <Mic className="w-8 h-8 text-primary" />
                     </div>
-                    <p className="text-sm text-muted-foreground mb-2">Audio recording coming soon</p>
-                    <p className="text-xs text-muted-foreground">Visual waveform & real-time transcription</p>
+                    <p className="text-sm text-muted-foreground mb-2">{t("Tính năng ghi âm sắp ra mắt", "Audio recording coming soon")}</p>
+                    <p className="text-xs text-muted-foreground">{t("Sóng âm thanh & phiên âm trực tiếp", "Visual waveform & real-time transcription")}</p>
                   </div>
                 )}
 
@@ -103,32 +109,30 @@ const AIGrading = () => {
                   className="w-full mt-4 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold disabled:opacity-50 hover:brightness-110 transition-all"
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                  {loading ? "Analyzing..." : "Grade My Essay"}
+                  {loading ? t("Đang phân tích...", "Analyzing...") : t("Chấm bài của tôi", "Grade My Essay")}
                 </button>
               </div>
 
-              {/* Results */}
               <div className="glass-card rounded-xl p-6">
                 {!result && !loading && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-12">
                     <Brain className="w-12 h-12 text-muted-foreground/30 mb-4" />
-                    <p className="text-sm text-muted-foreground">Submit your essay to see AI feedback</p>
+                    <p className="text-sm text-muted-foreground">{t("Nộp bài viết để xem phản hồi AI", "Submit your essay to see AI feedback")}</p>
                   </div>
                 )}
 
                 {loading && (
                   <div className="flex flex-col items-center justify-center h-full text-center py-12">
                     <Loader2 className="w-8 h-8 text-primary animate-spin mb-4" />
-                    <p className="text-sm text-muted-foreground">AI Examiner is analyzing...</p>
+                    <p className="text-sm text-muted-foreground">{t("Giám khảo AI đang phân tích...", "AI Examiner is analyzing...")}</p>
                   </div>
                 )}
 
                 {result && !loading && (
                   <div className="space-y-4 overflow-y-auto max-h-[500px]">
-                    {/* Score */}
-                    <div className="bg-secondary/50 rounded-lg p-4">
+                    <div className="bg-secondary rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm font-medium text-foreground">Overall Band Score</span>
+                        <span className="text-sm font-medium text-foreground">{t("Điểm tổng", "Overall Band Score")}</span>
                         <span className="text-3xl font-display font-bold text-primary">{result.overall}</span>
                       </div>
                       <div className="grid grid-cols-2 gap-2">
@@ -146,18 +150,17 @@ const AIGrading = () => {
                       </div>
                     </div>
 
-                    {/* Errors */}
-                    <div className="bg-secondary/50 rounded-lg p-4">
+                    <div className="bg-secondary rounded-lg p-4">
                       <h4 className="text-xs font-medium text-foreground mb-2 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3 text-destructive" /> Error Highlights
+                        <AlertCircle className="w-3 h-3 text-destructive" /> {t("Lỗi nổi bật", "Error Highlights")}
                       </h4>
                       <div className="space-y-2">
                         {result.errors.map((e, i) => (
                           <div key={i} className="flex items-start gap-2 text-xs">
                             <span className={`px-1.5 py-0.5 rounded font-medium text-[10px] shrink-0 ${
                               e.category === "Grammar" ? "bg-destructive/20 text-destructive" :
-                              e.category === "Vocab" ? "bg-yellow-500/20 text-yellow-400" :
-                              "bg-blue-500/20 text-blue-400"
+                              e.category === "Vocab" ? "bg-yellow-500/20 text-yellow-600" :
+                              "bg-sky-500/20 text-sky-600"
                             }`}>{e.category}</span>
                             <span className="text-muted-foreground">"{e.error}" → "{e.correction}"</span>
                           </div>
@@ -165,17 +168,15 @@ const AIGrading = () => {
                       </div>
                     </div>
 
-                    {/* Upgrade Engine */}
-                    <div className="bg-secondary/50 rounded-lg p-4">
+                    <div className="bg-secondary rounded-lg p-4">
                       <h4 className="text-xs font-medium text-foreground mb-2 flex items-center gap-1">
-                        <Sparkles className="w-3 h-3 text-primary" /> Band 8.0+ Version
+                        <Sparkles className="w-3 h-3 text-primary" /> {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}
                       </h4>
                       <p className="text-xs text-secondary-foreground leading-relaxed">{result.upgraded}</p>
                     </div>
 
-                    {/* Advice */}
                     <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-                      <h4 className="text-xs font-medium text-primary mb-1">Next Steps</h4>
+                      <h4 className="text-xs font-medium text-primary mb-1">{t("Bước tiếp theo", "Next Steps")}</h4>
                       <p className="text-xs text-secondary-foreground">{result.advice}</p>
                     </div>
                   </div>
