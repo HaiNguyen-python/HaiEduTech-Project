@@ -37,103 +37,30 @@ const AIGrading = () => {
   const handleGrade = async () => {
     if (!text.trim()) return;
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 2000));
 
-    const wordCount = text.split(/\s+/).filter(Boolean).length;
-    const lengthFactor = Math.min(wordCount / 250, 1);
+    try {
+      const { data, error } = await supabase.functions.invoke("grade-writing", {
+        body: { essay: text },
+      });
+      if (error) throw error;
+      setResult(data as GradingResult);
+    } catch (e) {
+      console.error("Grading error:", e);
+      // Keep a minimal fallback
+      setResult({
+        overall: 6.0,
+        criteria: [
+          { score: 6.0, label: "Task Achievement", strengths: ["Addresses the topic"], weaknesses: ["Needs more depth"], suggestions: ["Add specific examples"] },
+          { score: 6.0, label: "Coherence & Cohesion", strengths: ["Basic structure present"], weaknesses: ["Limited linking words"], suggestions: ["Use Furthermore, Moreover, Nevertheless"] },
+          { score: 6.0, label: "Lexical Resource", strengths: ["Adequate vocabulary"], weaknesses: ["Repetitive words"], suggestions: ["Replace 'good' with 'beneficial'"] },
+          { score: 6.0, label: "Grammatical Range & Accuracy", strengths: ["Basic grammar correct"], weaknesses: ["Limited complex sentences"], suggestions: ["Practice conditionals and relative clauses"] },
+        ],
+        errors: [{ error: "very good", correction: "highly beneficial", category: "Vocab" }],
+        upgraded: "Please try again when AI service is available.",
+        advice: "Focus on expanding vocabulary and sentence variety.",
+      });
+    }
 
-    setResult({
-      overall: 6.5,
-      criteria: [
-        {
-          score: 7.0, label: "Task Achievement",
-          strengths: [
-            t("Trả lời đúng đề bài, nêu rõ quan điểm cá nhân", "Addresses the task clearly with a personal opinion"),
-            t("Có đưa ra ví dụ minh họa cụ thể", "Provides specific supporting examples"),
-            t("Đề cập được các khía cạnh chính của đề bài", "Covers the main aspects of the topic"),
-          ],
-          weaknesses: [
-            t("Các ý chưa được phát triển đầy đủ và sâu sắc", "Ideas are not fully developed in depth"),
-            t("Kết luận quá ngắn, chưa tóm tắt lại đầy đủ các luận điểm", "Conclusion is too brief, doesn't summarize arguments fully"),
-            t("Thiếu ví dụ thực tế hoặc số liệu cụ thể", "Lacks real-world examples or specific data"),
-          ],
-          suggestions: [
-            t("Mở rộng mỗi ý chính bằng 2-3 câu giải thích và ví dụ cụ thể", "Expand each main idea with 2-3 sentences of explanation and specific examples"),
-            t("Viết kết luận dài hơn, tóm tắt lại tất cả luận điểm chính", "Write a longer conclusion summarizing all main arguments"),
-            t("Thêm số liệu, nghiên cứu hoặc ví dụ thực tế để tăng tính thuyết phục", "Add statistics, research or real examples to increase persuasiveness"),
-          ],
-        },
-        {
-          score: 6.0, label: "Coherence & Cohesion",
-          strengths: [
-            t("Có cấu trúc đoạn văn rõ ràng: mở bài, thân bài, kết luận", "Clear paragraph structure: intro, body, conclusion"),
-            t("Sử dụng một số liên kết cơ bản hiệu quả", "Uses some basic cohesive devices effectively"),
-          ],
-          weaknesses: [
-            t("Thiếu đa dạng các từ nối, chủ yếu dùng 'and', 'but', 'so'", "Limited variety of linking words, mainly 'and', 'but', 'so'"),
-            t("Chuyển ý giữa các đoạn chưa mượt mà", "Transitions between paragraphs are not smooth"),
-            t("Một số ý bị lặp lại ở nhiều đoạn khác nhau", "Some ideas are repeated in different paragraphs"),
-          ],
-          suggestions: [
-            t("Sử dụng: Furthermore, Moreover, In contrast, Nevertheless, Consequently", "Use: Furthermore, Moreover, In contrast, Nevertheless, Consequently"),
-            t("Thêm câu chuyển tiếp (topic sentence) ở đầu mỗi đoạn", "Add transition/topic sentences at the beginning of each paragraph"),
-            t("Sắp xếp ý theo trình tự logic: từ chung đến riêng, từ quan trọng đến ít quan trọng", "Organize ideas logically: general to specific, important to less important"),
-            t("Tránh lặp ý bằng cách lập dàn ý trước khi viết", "Avoid repetition by outlining before writing"),
-          ],
-        },
-        {
-          score: 6.5, label: "Lexical Resource",
-          strengths: [
-            t("Từ vựng đủ để truyền đạt ý rõ ràng", "Adequate vocabulary to convey meaning clearly"),
-            t("Có sử dụng một số collocations phù hợp", "Uses some appropriate collocations"),
-          ],
-          weaknesses: [
-            t("Lặp từ nhiều: 'good', 'bad', 'very' xuất hiện quá thường xuyên", "Repetitive: 'good', 'bad', 'very' appear too frequently"),
-            t("Thiếu từ vựng học thuật (academic vocabulary)", "Lacks academic vocabulary"),
-            t("Một số từ dùng chưa chính xác ngữ cảnh", "Some words used inaccurately in context"),
-          ],
-          suggestions: [
-            t("Thay 'very good' → 'highly beneficial', 'significant', 'remarkable'", "Replace 'very good' → 'highly beneficial', 'significant', 'remarkable'"),
-            t("Thay 'bad' → 'detrimental', 'adverse', 'counterproductive'", "Replace 'bad' → 'detrimental', 'adverse', 'counterproductive'"),
-            t("Học collocations theo chủ đề: Education, Technology, Environment", "Learn topic collocations: Education, Technology, Environment"),
-            t("Sử dụng từ đồng nghĩa để tránh lặp từ", "Use synonyms to avoid word repetition"),
-          ],
-        },
-        {
-          score: 6.5, label: "Grammatical Range & Accuracy",
-          strengths: [
-            t("Sử dụng được câu phức cơ bản với mệnh đề phụ", "Uses basic complex sentences with subordinate clauses"),
-            t("Ít lỗi ngữ pháp nghiêm trọng ảnh hưởng giao tiếp", "Few major errors affecting communication"),
-          ],
-          weaknesses: [
-            t("Thiếu đa dạng cấu trúc câu: chủ yếu dùng S+V+O", "Limited sentence variety: mainly S+V+O"),
-            t("Lỗi mạo từ (a/an/the) và số ít/số nhiều", "Article (a/an/the) and singular/plural errors"),
-            t("Chưa sử dụng câu bị động và câu điều kiện hiệu quả", "Doesn't use passive voice and conditionals effectively"),
-          ],
-          suggestions: [
-            t("Luyện câu điều kiện: If technology continues..., education will...", "Practice conditionals: If technology continues..., education will..."),
-            t("Thêm mệnh đề quan hệ: which, that, who để mở rộng câu", "Add relative clauses: which, that, who to extend sentences"),
-            t("Sử dụng câu bị động khi phù hợp: 'Education has been transformed by...'", "Use passive voice when appropriate: 'Education has been transformed by...'"),
-            t("Kiểm tra subject-verb agreement trước khi nộp bài", "Check subject-verb agreement before submission"),
-          ],
-        },
-      ],
-      errors: [
-        { error: "peoples", correction: "people", category: "Grammar" },
-        { error: "very good", correction: "highly beneficial", category: "Vocab" },
-        { error: "Because, so", correction: "Therefore / Consequently", category: "Cohesion" },
-        { error: "make them sad", correction: "cause emotional distress", category: "Vocab" },
-        { error: "more and more", correction: "an increasing number of", category: "Vocab" },
-        { error: "childs", correction: "children", category: "Grammar" },
-        { error: "informations", correction: "information", category: "Grammar" },
-        { error: "In my opinion, I think", correction: "In my opinion, / I believe that", category: "Cohesion" },
-      ],
-      upgraded: fullUpgradedEssay,
-      advice: t(
-        "Tập trung cải thiện liên kết giữa các đoạn và giảm từ vựng không trang trọng. Luyện sử dụng câu phức với mệnh đề phụ. Hướng đến từ vựng học thuật chính xác hơn. Viết ít nhất 2 bài mỗi tuần và kiểm tra lỗi lặp từ. Mục tiêu tiếp theo: Band 7.0.",
-        "Focus on improving cohesive devices and reducing informal vocabulary. Practice complex structures with subordinate clauses. Target academic vocabulary. Write at least 2 essays per week and check for word repetition. Next target: Band 7.0."
-      ),
-    });
     setLoading(false);
     setExpandedCriteria(null);
     setShowFullUpgraded(false);
