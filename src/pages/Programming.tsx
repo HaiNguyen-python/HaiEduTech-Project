@@ -1,8 +1,9 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { Code2, Award, Cpu, BrainCircuit, ExternalLink } from "lucide-react";
+import { Code2, Cpu, BrainCircuit } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import CertCarousel from "@/components/CertCarousel";
 
 const Programming = () => {
   const { t } = useLanguage();
@@ -36,17 +37,6 @@ const Programming = () => {
         t("Giới thiệu Cloud & Big Data", "Introduction to Cloud & Big Data"),
       ],
     },
-  ];
-
-  const itCerts = [
-    { name: "AWS Cloud Foundations", file: "/certs/aws-cloud-foundations.pdf" },
-    { name: "AWS Data Engineering", file: "/certs/aws-data-engineering.pdf" },
-    { name: "AWS ML for NLP", file: "/certs/aws-ml-nlp.pdf" },
-    { name: "ETL/ELT in Python", file: "/certs/etl-elt-python.pdf" },
-    { name: "MLOps", file: "/certs/mlops.pdf" },
-    { name: "SQL Certification", file: "/certs/sql-cert.pdf" },
-    { name: "Intro to Deep Learning", file: "/certs/intro-deep-learning.pdf" },
-    { name: "Reinforcement Learning", file: "/certs/reinforcement-learning.pdf" },
   ];
 
   return (
@@ -97,26 +87,9 @@ const Programming = () => {
               ))}
             </div>
 
-            {/* IT Certifications */}
-            <div className="glass-card rounded-xl p-6 mt-12">
-              <h3 className="font-display font-semibold text-foreground mb-4 flex items-center gap-2">
-                <Award className="w-5 h-5 text-primary" /> {t("Chứng chỉ CNTT", "IT Certifications")}
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {itCerts.map((cert, i) => (
-                  <a
-                    key={i}
-                    href={cert.file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group aspect-[4/3] rounded-lg bg-secondary border border-border flex flex-col items-center justify-center gap-2 p-3 text-center hover:border-primary/50 hover:bg-primary/5 transition-colors"
-                  >
-                    <Award className="w-6 h-6 text-primary/60 group-hover:text-primary transition-colors" />
-                    <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors leading-tight">{cert.name}</span>
-                    <ExternalLink className="w-3 h-3 text-muted-foreground/50 group-hover:text-primary transition-colors" />
-                  </a>
-                ))}
-              </div>
+            {/* IT Certifications Carousel */}
+            <div className="mt-12">
+              <CertCarousel title={t("Chứng chỉ CNTT", "IT Certifications")} />
             </div>
           </motion.div>
         </div>
