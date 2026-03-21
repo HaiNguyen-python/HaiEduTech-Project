@@ -10,15 +10,7 @@ const Navbar = () => {
   const [dropdown, setDropdown] = useState<string | null>(null);
   const location = useLocation();
   const { lang, setLang, t } = useLanguage();
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setDropdown(null);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const englishSubs = [
     { to: "/english", label: t("Tổng quan", "Overview") },
@@ -36,19 +28,28 @@ const Navbar = () => {
   ];
   const programmingSubs = [
     { to: "/programming", label: t("Tổng quan", "Overview") },
-    { to: "/programming#kids", label: t("Lập trình cho trẻ", "Coding for Kids") },
+    { to: "/programming#kids", label: t("Nền tảng Công nghệ", "Tech Foundations") },
     { to: "/programming#data-ai", label: "Data Engineering & AI" },
   ];
 
   const navLinks = [
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap },
-    { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
     { to: "/english", label: t("Học Tiếng Anh", "Learn English"), icon: BookOpen, subs: englishSubs, key: "en" },
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/programming", label: t("Học Lập trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/ai-grading", label: t("Chấm Điểm IELTS", "IELTS Grading"), icon: Brain },
+    { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
+
+  const handleMouseEnter = (key: string) => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    setDropdown(key);
+  };
+
+  const handleMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => setDropdown(null), 150);
+  };
 
   return (
     <>
@@ -61,22 +62,27 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* Desktop */}
-          <div className="hidden lg:flex items-center gap-1" ref={dropdownRef}>
+          {/* Desktop - centered nav */}
+          <div className="hidden lg:flex items-center gap-1 flex-1 justify-center">
             {navLinks.map((l) => {
               const active = location.pathname === l.to;
               if (l.subs) {
                 return (
-                  <div key={l.to} className="relative">
-                    <button
-                      onClick={() => setDropdown(dropdown === l.key ? null : l.key!)}
+                  <div
+                    key={l.to}
+                    className="relative"
+                    onMouseEnter={() => handleMouseEnter(l.key!)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Link
+                      to={l.to}
                       className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                         active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                       }`}
                     >
                       {l.label}
                       <ChevronDown className={`w-3.5 h-3.5 transition-transform ${dropdown === l.key ? "rotate-180" : ""}`} />
-                    </button>
+                    </Link>
                     <AnimatePresence>
                       {dropdown === l.key && (
                         <motion.div
@@ -113,13 +119,17 @@ const Navbar = () => {
                 </Link>
               );
             })}
-            <button className="ml-1 flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:brightness-110 transition-all">
+          </div>
+
+          {/* Right side: Login + Lang */}
+          <div className="hidden lg:flex items-center gap-2">
+            <button className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:brightness-110 transition-all">
               <LogIn className="w-4 h-4" />
               {t("Đăng Nhập", "Login")}
             </button>
             <button
               onClick={() => setLang(lang === "vi" ? "en" : "vi")}
-              className="ml-2 flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
             >
               <Globe className="w-4 h-4" />
               {lang === "vi" ? "EN" : "VI"}
@@ -179,14 +189,14 @@ const Navbar = () => {
         </AnimatePresence>
       </nav>
 
-      {/* Slogan bar */}
+      {/* Slogan bar - larger */}
       <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 border-b border-border/50 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-1.5 flex items-center justify-center gap-3 text-sm">
-          <BookOpen className="w-4 h-4 text-primary shrink-0" />
-          <span className="font-display font-semibold text-foreground italic">
+        <div className="container mx-auto px-6 py-3 flex items-center justify-center gap-4">
+          <BookOpen className="w-5 h-5 text-primary shrink-0" />
+          <span className="font-display font-semibold text-lg text-foreground italic">
             "The Unique Intersection of Language & Technology"
           </span>
-          <Cpu className="w-4 h-4 text-primary shrink-0" />
+          <Cpu className="w-5 h-5 text-primary shrink-0" />
         </div>
       </div>
     </>

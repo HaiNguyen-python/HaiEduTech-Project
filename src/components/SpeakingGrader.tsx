@@ -156,10 +156,10 @@ const SpeakingGrader = () => {
         ))}
         <button
           onClick={shuffleQuestions}
-          className="flex items-center gap-2 px-5 py-3 rounded-xl bg-accent/20 text-accent-foreground font-semibold hover:bg-accent/30 transition-all"
+          className="flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:brightness-110 transition-all shadow-lg"
         >
           <Shuffle className="w-5 h-5" />
-          {t("Đảo câu hỏi", "Shuffle")}
+          {t("🔀 Đảo câu hỏi", "🔀 Shuffle")}
         </button>
       </div>
 

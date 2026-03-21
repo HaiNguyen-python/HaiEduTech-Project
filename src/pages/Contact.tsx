@@ -85,7 +85,7 @@ const Contact = () => {
                           <option>{t("Luyện thi THPT Quốc gia", "National Exam Prep")}</option>
                           <option>HSK 1-6</option>
                           <option>{t("Tiếng Trung giao tiếp", "Conversational Chinese")}</option>
-                          <option>{t("Lập trình cho trẻ", "Coding for Kids")}</option>
+                          <option>{t("Nền tảng Công nghệ", "Tech Foundations")}</option>
                           <option>Data Engineering & AI</option>
                         </select>
                       </div>
