@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Brain, FileText, Mic, Send, Loader2, AlertCircle, Sparkles, ChevronDown, ChevronUp, Download, Copy, Check } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 import SpeakingGrader from "@/components/SpeakingGrader";
+import ReactMarkdown from "react-markdown";
 
 interface CriteriaDetail {
   score: number;
