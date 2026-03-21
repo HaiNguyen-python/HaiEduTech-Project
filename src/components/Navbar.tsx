@@ -51,11 +51,11 @@ const Navbar = () => {
 
   const navLinks = [
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap },
+    { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
     { to: "/english", label: t("Học Tiếng Anh", "Learn English"), icon: BookOpen, subs: englishSubs, key: "en" },
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/programming", label: t("Học Lập trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/ai-grading", label: t("Chấm Điểm IELTS", "IELTS Grading"), icon: Brain },
-    { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
 
