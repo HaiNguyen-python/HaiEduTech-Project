@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Code2, Languages, MapPin, Award, Star, Users, Clock } from "lucide-react";
+import { GraduationCap, Briefcase, Code2, Languages, MapPin, Award, Star, Users, Clock, ExternalLink } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const About = () => {
@@ -19,6 +19,17 @@ const About = () => {
     { icon: Star, value: "IELTS 8.0", label: t("Chứng chỉ Quốc tế", "International Certificate") },
     { icon: Clock, value: "14+", label: t("Năm kinh nghiệm giảng dạy Tiếng Anh & Tiếng Trung", "Years teaching English & Chinese") },
     { icon: Users, value: "Founder", label: t("Sáng lập HaiEdu", "Founded HaiEdu") },
+  ];
+
+  const itCerts = [
+    { name: "AWS Cloud Foundations", file: "/certs/aws-cloud-foundations.pdf" },
+    { name: "AWS Data Engineering", file: "/certs/aws-data-engineering.pdf" },
+    { name: "AWS ML for NLP", file: "/certs/aws-ml-nlp.pdf" },
+    { name: "ETL/ELT in Python", file: "/certs/etl-elt-python.pdf" },
+    { name: "MLOps", file: "/certs/mlops.pdf" },
+    { name: "SQL Certification", file: "/certs/sql-cert.pdf" },
+    { name: "Intro to Deep Learning", file: "/certs/intro-deep-learning.pdf" },
+    { name: "Reinforcement Learning", file: "/certs/reinforcement-learning.pdf" },
   ];
 
   const skills = [
@@ -67,25 +78,26 @@ const About = () => {
               ))}
             </div>
 
-            {/* Professional Certifications */}
+            {/* Professional IT Certifications */}
             <div className="glass-card rounded-xl p-6 mb-12">
-              <h3 className="font-display font-semibold text-foreground mb-3 flex items-center gap-2">
+              <h3 className="font-display font-semibold text-foreground mb-4 flex items-center gap-2">
                 <Award className="w-5 h-5 text-primary" /> {t("Chứng chỉ Chuyên môn", "Professional Certifications")}
               </h3>
-              <div className="grid grid-cols-3 gap-4">
-                {[
-                  t("Chứng chỉ 1", "Certificate 1"),
-                  t("Chứng chỉ 2", "Certificate 2"),
-                  t("Chứng chỉ 3", "Certificate 3"),
-                ].map((label, i) => (
-                  <div key={i} className="aspect-[4/3] rounded-lg bg-secondary border border-border flex items-center justify-center text-xs text-muted-foreground">
-                    {label}
-                  </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {itCerts.map((cert, i) => (
+                  <a
+                    key={i}
+                    href={cert.file}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group aspect-[4/3] rounded-lg bg-secondary border border-border flex flex-col items-center justify-center gap-2 p-3 text-center hover:border-primary/50 hover:bg-primary/5 transition-colors"
+                  >
+                    <Award className="w-6 h-6 text-primary/60 group-hover:text-primary transition-colors" />
+                    <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors leading-tight">{cert.name}</span>
+                    <ExternalLink className="w-3 h-3 text-muted-foreground/50 group-hover:text-primary transition-colors" />
+                  </a>
                 ))}
               </div>
-              <p className="text-xs text-muted-foreground mt-3 text-center italic">
-                {t("Tải lên hình ảnh chứng chỉ thực tế tại đây", "Upload actual certificate images here")}
-              </p>
             </div>
 
             {/* Timeline */}

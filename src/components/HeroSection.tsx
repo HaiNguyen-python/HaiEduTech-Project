@@ -34,16 +34,16 @@ const HeroSection = () => {
 
             <h1 className="text-5xl md:text-7xl font-display font-bold leading-tight mb-6">
               {t("Học ", "Learn ")}
-              <span className="text-gradient">{t("thông minh hơn", "Smarter")}</span>
+              <span className="text-gradient">{t("hiệu quả hơn", "Effectively")}</span>
               <br />
-              {t("cùng ", "with an ")}
-              <span className="text-gradient">{t("Thầy Hải", "Engineer-Tutor")}</span>
+              {t("cùng ", "with ")}
+              <span className="text-gradient">{t("Thầy Hải", "Teacher Hai")}</span>
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
               {t(
-                "Chinh phục Tiếng Anh, Tiếng Trung & Lập trình cùng gia sư kết hợp chuyên môn ngôn ngữ học với kỹ thuật dữ liệu — hỗ trợ bởi AI để tăng tốc tiến bộ của bạn.",
-                "Master English, Chinese & Programming with a tutor who combines linguistic expertise with data engineering — powered by AI analytics to accelerate your progress."
+                "Chinh phục Tiếng Anh, Tiếng Trung & Lập trình cùng thầy Hải – Thạc sỹ Ngôn ngữ & Văn hóa Anh – Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
+                "Master English, Chinese & Programming with Teacher Hai – M.A. in English Language & Culture – Data Engineer & AI specialist in Finland."
               )}
             </p>
           </motion.div>
