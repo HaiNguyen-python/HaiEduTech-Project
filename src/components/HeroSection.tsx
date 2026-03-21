@@ -22,21 +22,21 @@ const HeroSection = () => {
       <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-accent/8 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
 
       <div className="container mx-auto px-6 relative z-10 pt-20">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10">
-          {/* Profile image */}
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+          {/* Profile image - larger */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             className="shrink-0"
           >
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden border-4 border-primary/30 shadow-2xl shadow-primary/20">
+            <div className="w-72 h-72 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px] rounded-2xl overflow-hidden border-4 border-primary/30 shadow-2xl shadow-primary/20">
               <img src={haiProfile} alt="Teacher Hai" className="w-full h-full object-cover" />
             </div>
           </motion.div>
 
           {/* Text content */}
-          <div className="text-center md:text-left flex-1">
+          <div className="text-center lg:text-left flex-1">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ const HeroSection = () => {
             >
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium mb-8">
                 <Sparkles className="w-4 h-4" />
-                {t("Giáo dục thông minh · Công nghệ AI", "Smart Education · AI Technology")}
+                {t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}
               </div>
 
               <h1 className="text-5xl md:text-7xl font-display font-bold leading-tight mb-6">
@@ -55,7 +55,7 @@ const HeroSection = () => {
                 <span className="text-gradient">{t("Thầy Hải", "Teacher Hai")}</span>
               </h1>
 
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto md:mx-0 mb-10">
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 mb-10">
                 {t(
                   "Chinh phục Tiếng Anh, Tiếng Trung & Lập trình cùng thầy Hải – Thạc sỹ Ngôn ngữ & Văn hóa Anh – Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
                   "Master English, Chinese & Programming with Teacher Hai – M.A. in English Language & Culture – Data Engineer & AI specialist in Finland."
@@ -67,7 +67,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="flex flex-wrap justify-center md:justify-start gap-4 mb-16"
+              className="flex flex-wrap justify-center lg:justify-start gap-4 mb-12"
             >
               <Link
                 to="/english"
@@ -99,16 +99,16 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="grid grid-cols-3 gap-6 max-w-lg mx-auto md:mx-0"
+              className="grid grid-cols-3 gap-6 max-w-xl mx-auto lg:mx-0"
             >
               {[
-                { icon: GraduationCap, value: "IELTS 8.0", label: t("Chứng chỉ quốc tế", "International Certificate") },
-                { icon: BookOpen, value: "14+", label: t("Năm kinh nghiệm", "Years Experience") },
-                { icon: Code2, value: "3+", label: t("Ngôn ngữ", "Languages") },
+                { icon: GraduationCap, value: t("Thạc sỹ", "M.A."), label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
+                { icon: BookOpen, value: "15+", label: t("Năm kinh nghiệm giảng dạy các cấp", "Years Teaching Experience") },
+                { icon: Code2, value: t("Kỹ sư", "Engineer"), label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & Artificial Intelligence") },
               ].map((s, i) => (
                 <div key={i} className="text-center">
                   <s.icon className="w-5 h-5 text-primary mx-auto mb-1" />
-                  <div className="text-2xl font-display font-bold text-foreground">{s.value}</div>
+                  <div className="text-xl md:text-2xl font-display font-bold text-foreground">{s.value}</div>
                   <div className="text-xs text-muted-foreground">{s.label}</div>
                 </div>
               ))}
