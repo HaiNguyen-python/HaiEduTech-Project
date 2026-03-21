@@ -357,8 +357,10 @@ ${result.errors.map(e => `
                             </button>
                           </div>
                         </div>
-                        <div className={`text-sm text-secondary-foreground leading-relaxed whitespace-pre-line ${!showFullUpgraded ? "max-h-40 overflow-hidden relative" : ""}`}>
-                          {result.upgraded}
+                        <div className={`text-sm text-secondary-foreground leading-relaxed ${!showFullUpgraded ? "max-h-40 overflow-hidden relative" : ""}`}>
+                          <div className="prose prose-sm max-w-none dark:prose-invert">
+                            <ReactMarkdown>{result.upgraded}</ReactMarkdown>
+                          </div>
                           {!showFullUpgraded && (
                             <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-secondary to-transparent" />
                           )}
