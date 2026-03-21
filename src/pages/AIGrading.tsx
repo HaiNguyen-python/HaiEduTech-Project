@@ -32,26 +32,7 @@ const AIGrading = () => {
   const [showFullUpgraded, setShowFullUpgraded] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const fullUpgradedEssay = t(
-    `Sự tiến bộ nhanh chóng của công nghệ đã biến đổi sâu sắc phương pháp giáo dục trên toàn thế giới. Mặc dù phương pháp giảng dạy truyền thống trên lớp vẫn giữ vai trò quan trọng, việc tích hợp các công cụ kỹ thuật số đã chứng minh lợi ích to lớn trong việc nâng cao sự tham gia và kết quả học tập của sinh viên.
-
-Trước hết, công nghệ giáo dục đã tạo ra những cơ hội học tập cá nhân hóa chưa từng có. Thông qua các nền tảng học tập thích ứng (adaptive learning), mỗi học sinh có thể tiếp cận nội dung phù hợp với trình độ và tốc độ học tập của riêng mình.
-
-Hơn nữa, các nền tảng học trực tuyến đã mở rộng đáng kể khả năng tiếp cận giáo dục chất lượng cho đối tượng toàn cầu. Sinh viên tại các khu vực xa xôi hoặc thiếu nguồn lực giáo dục giờ đây có thể theo dõi các khóa học từ những trường đại học hàng đầu thế giới.
-
-Tuy nhiên, cần thừa nhận rằng công nghệ không thể thay thế hoàn toàn vai trò của giáo viên. Sự tương tác trực tiếp giữa thầy và trò vẫn đóng vai trò then chốt trong việc phát triển tư duy phản biện.
-
-Tóm lại, công nghệ đã và đang đóng vai trò ngày càng quan trọng trong giáo dục. Việc tận dụng hiệu quả các công cụ kỹ thuật số sẽ tạo nên một hệ sinh thái giáo dục toàn diện và hiệu quả hơn.`,
-    `The rapid advancement of technology has profoundly transformed educational methodologies worldwide. While traditional classroom-based instruction remains valuable, the integration of digital tools has proven highly beneficial for enhancing student engagement and learning outcomes.
-
-First and foremost, educational technology has created unprecedented opportunities for personalized learning. Through adaptive learning platforms, each student can access content tailored to their individual proficiency level and learning pace.
-
-Furthermore, online learning platforms have significantly expanded access to quality education for a global audience. Students in remote or under-resourced areas can now follow courses from the world's leading universities through MOOCs.
-
-However, it must be acknowledged that technology cannot entirely replace the role of teachers. Direct interaction between educators and students still plays a pivotal role in developing critical thinking.
-
-In conclusion, technology has played and continues to play an increasingly important role in education. The effective utilization of digital tools will create a more comprehensive and efficient educational ecosystem.`
-  );
+  // Upgraded essay is now provided by AI and always in English
 
   const handleGrade = async () => {
     if (!text.trim()) return;
