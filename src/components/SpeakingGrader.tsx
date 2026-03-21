@@ -1,51 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, Play, Square, RotateCcw, ChevronDown, ChevronUp, Volume2 } from "lucide-react";
+import { Mic, Square, RotateCcw, ChevronDown, ChevronUp, Volume2, Play } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-
-// IELTS Speaking question bank
-const questionBank = {
-  part1: [
-    { topic: "Work & Study", q: "Do you work or are you a student?" },
-    { topic: "Hometown", q: "Can you describe your hometown?" },
-    { topic: "Daily Routine", q: "What does a typical day look like for you?" },
-    { topic: "Hobbies", q: "What do you enjoy doing in your free time?" },
-    { topic: "Food", q: "What kind of food do you like?" },
-    { topic: "Weather", q: "What's the weather like in your country?" },
-    { topic: "Reading", q: "Do you like reading books? What kind?" },
-    { topic: "Music", q: "What type of music do you enjoy listening to?" },
-  ],
-  part2: [
-    {
-      topic: "A memorable trip",
-      q: "Describe a memorable trip you have taken.",
-      prompts: ["Where you went", "Who you went with", "What you did there", "Why it was memorable"],
-    },
-    {
-      topic: "A person you admire",
-      q: "Describe a person you admire.",
-      prompts: ["Who this person is", "How you know them", "What they do", "Why you admire them"],
-    },
-    {
-      topic: "A skill you learned",
-      q: "Describe a skill you learned recently.",
-      prompts: ["What the skill is", "How you learned it", "How long it took", "How it has helped you"],
-    },
-    {
-      topic: "An important event",
-      q: "Describe an important event in your life.",
-      prompts: ["What happened", "When it happened", "Who was involved", "Why it was important"],
-    },
-  ],
-  part3: [
-    { topic: "Education", q: "How has technology changed the way people learn?" },
-    { topic: "Environment", q: "What can individuals do to protect the environment?" },
-    { topic: "Culture", q: "How important is it to preserve traditional culture?" },
-    { topic: "Future", q: "How do you think AI will affect jobs in the future?" },
-    { topic: "Travel", q: "Why do people enjoy traveling to new places?" },
-    { topic: "Health", q: "What are the benefits of regular physical exercise?" },
-  ],
-};
+import { part1Questions, part2Questions, part3Questions } from "@/data/speakingQuestions";
 
 interface SpeakingResult {
   overall: number;
@@ -71,13 +28,12 @@ const SpeakingGrader = () => {
   const chunksRef = useRef<Blob[]>([]);
 
   const currentQuestions =
-    selectedPart === 1 ? questionBank.part1 :
-    selectedPart === 2 ? questionBank.part2 :
-    questionBank.part3;
+    selectedPart === 1 ? part1Questions :
+    selectedPart === 2 ? part2Questions :
+    part3Questions;
 
-  const currentQ = currentQuestions[selectedQuestion];
+  const currentQ = currentQuestions[selectedQuestion] || currentQuestions[0];
 
-  // Cleanup audio URL on unmount
   useEffect(() => {
     return () => {
       if (audioUrl) URL.revokeObjectURL(audioUrl);
@@ -129,75 +85,107 @@ const SpeakingGrader = () => {
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
+  // Generate varied scores based on recording duration and randomness
+  const generateScore = (base: number, range: number) => {
+    const variation = (Math.random() - 0.5) * range;
+    const score = Math.round((base + variation) * 2) / 2; // Round to nearest 0.5
+    return Math.max(4.0, Math.min(9.0, score));
+  };
+
   const handleGrade = async () => {
     if (!audioBlob) return;
     setLoading(true);
 
-    // Mock grading - simulates AI response
     await new Promise((r) => setTimeout(r, 2500));
 
+    // Generate varied scores based on recording duration
+    const durationFactor = Math.min(timer / 120, 1); // longer = potentially better
+    const baseScore = 5.0 + durationFactor * 2.0; // 5.0 to 7.0 base
+
+    const fluencyScore = generateScore(baseScore, 2.0);
+    const lexicalScore = generateScore(baseScore - 0.3, 1.5);
+    const grammarScore = generateScore(baseScore - 0.2, 1.5);
+    const pronunciationScore = generateScore(baseScore + 0.2, 1.5);
+
+    const overall = Math.round(((fluencyScore + lexicalScore + grammarScore + pronunciationScore) / 4) * 2) / 2;
+
+    const fluencyFeedback = fluencyScore >= 7.0
+      ? t("Nói trôi chảy và tự nhiên, ít ngập ngừng. Liên kết ý tốt giữa các câu.", "Speaks fluently and naturally with minimal hesitation. Good idea linking between sentences.")
+      : fluencyScore >= 6.0
+      ? t("Khá trôi chảy nhưng có lúc ngập ngừng. Cần cải thiện liên kết ý.", "Fairly fluent but with some hesitation. Needs improvement in linking ideas.")
+      : t("Nói chậm và thường xuyên ngập ngừng. Cần luyện tập nói liên tục hơn.", "Speaks slowly with frequent hesitation. Needs to practice speaking more continuously.");
+
+    const lexicalFeedback = lexicalScore >= 7.0
+      ? t("Từ vựng đa dạng, sử dụng tốt collocations và idioms phù hợp.", "Diverse vocabulary with good use of collocations and appropriate idioms.")
+      : lexicalScore >= 6.0
+      ? t("Từ vựng đủ dùng nhưng thiếu đa dạng. Nên bổ sung collocations.", "Adequate vocabulary but lacks variety. Should add more collocations.")
+      : t("Từ vựng hạn chế, hay lặp từ. Cần mở rộng vốn từ đáng kể.", "Limited vocabulary with repetition. Needs significant vocabulary expansion.");
+
+    const grammarFeedback = grammarScore >= 7.0
+      ? t("Sử dụng tốt câu phức và đa dạng cấu trúc. Ít lỗi ngữ pháp.", "Good use of complex sentences with structural variety. Few grammatical errors.")
+      : grammarScore >= 6.0
+      ? t("Dùng được câu phức cơ bản. Có lỗi nhỏ về thì và mạo từ.", "Uses basic complex sentences. Minor errors with tenses and articles.")
+      : t("Chủ yếu dùng câu đơn giản. Nhiều lỗi ngữ pháp cơ bản.", "Mainly uses simple sentences. Many basic grammatical errors.");
+
+    const pronunFeedback = pronunciationScore >= 7.0
+      ? t("Phát âm rõ ràng, ngữ điệu tự nhiên. Trọng âm từ và câu chính xác.", "Clear pronunciation with natural intonation. Accurate word and sentence stress.")
+      : pronunciationScore >= 6.0
+      ? t("Phát âm rõ nhưng cần cải thiện ngữ điệu và trọng âm.", "Clear pronunciation but needs improvement in intonation and word stress.")
+      : t("Phát âm cần cải thiện nhiều. Một số âm chưa chuẩn ảnh hưởng đến giao tiếp.", "Pronunciation needs significant improvement. Some sounds affect communication.");
+
+    const suggestions = overall >= 7.0 ? [
+      t("Luyện nói về các chủ đề trừu tượng để chuẩn bị cho Part 3", "Practice speaking about abstract topics for Part 3 preparation"),
+      t("Sử dụng paraphrasing để tránh lặp từ", "Use paraphrasing to avoid word repetition"),
+      t("Thêm ví dụ cụ thể vào câu trả lời", "Add specific examples to your answers"),
+    ] : overall >= 6.0 ? [
+      t("Luyện nói liên tục 2 phút không ngừng cho Part 2", "Practice speaking for 2 minutes non-stop for Part 2"),
+      t("Sử dụng thêm linking words: However, Furthermore, In addition", "Use more linking words: However, Furthermore, In addition"),
+      t("Ghi âm và nghe lại để phát hiện lỗi phát âm", "Record and listen back to spot pronunciation errors"),
+      t("Học collocations theo chủ đề thường gặp", "Learn topic-specific collocations"),
+    ] : [
+      t("Bắt đầu bằng việc luyện nói mỗi ngày 10-15 phút", "Start by practicing speaking 10-15 minutes daily"),
+      t("Học thuộc các cấu trúc câu trả lời mẫu", "Memorize model answer structures"),
+      t("Nghe podcast tiếng Anh để cải thiện phát âm tự nhiên", "Listen to English podcasts to improve natural pronunciation"),
+      t("Tập trung vào việc hoàn thành câu trả lời đầy đủ", "Focus on completing your answers fully"),
+      t("Sử dụng từ điển để tra cứu cách phát âm đúng", "Use a dictionary to check correct pronunciation"),
+    ];
+
     setResult({
-      overall: 6.0,
+      overall,
       criteria: [
-        {
-          label: "Fluency & Coherence",
-          score: 6.0,
-          feedback: t(
-            "Nói khá trôi chảy nhưng có một số lần ngập ngừng. Cần cải thiện cách nối ý giữa các câu.",
-            "Fairly fluent but with some hesitation. Need to improve linking ideas between sentences."
-          ),
-        },
-        {
-          label: "Lexical Resource",
-          score: 6.0,
-          feedback: t(
-            "Từ vựng đủ dùng nhưng thiếu đa dạng. Nên sử dụng thêm collocations và idioms phù hợp.",
-            "Adequate vocabulary but lacks variety. Should use more collocations and appropriate idioms."
-          ),
-        },
-        {
-          label: "Grammatical Range & Accuracy",
-          score: 6.0,
-          feedback: t(
-            "Sử dụng được câu phức cơ bản. Có một số lỗi nhỏ về thì và mạo từ.",
-            "Uses basic complex sentences. Some minor errors with tenses and articles."
-          ),
-        },
-        {
-          label: "Pronunciation",
-          score: 6.0,
-          feedback: t(
-            "Phát âm rõ ràng nhưng cần cải thiện ngữ điệu và trọng âm từ.",
-            "Clear pronunciation but needs improvement in intonation and word stress."
-          ),
-        },
+        { label: "Fluency & Coherence", score: fluencyScore, feedback: fluencyFeedback },
+        { label: "Lexical Resource", score: lexicalScore, feedback: lexicalFeedback },
+        { label: "Grammatical Range & Accuracy", score: grammarScore, feedback: grammarFeedback },
+        { label: "Pronunciation", score: pronunciationScore, feedback: pronunFeedback },
       ],
       transcript: t(
-        "(Phiên âm tự động sẽ hiển thị ở đây khi kết nối AI backend thực tế)",
-        "(Automatic transcript will appear here when connected to a real AI backend)"
+        "(Phiên âm tự động sẽ hiển thị khi kết nối AI backend)",
+        "(Automatic transcript will appear when connected to AI backend)"
       ),
-      suggestions: [
-        t("Luyện nói liên tục 2 phút không ngừng cho Part 2", "Practice speaking for 2 minutes non-stop for Part 2"),
-        t("Sử dụng thêm linking words: However, Furthermore, In addition", "Use more linking words: However, Furthermore, In addition"),
-        t("Ghi âm và nghe lại để phát hiện lỗi phát âm", "Record and listen back to spot pronunciation errors"),
-        t("Học thêm collocations theo chủ đề thường gặp", "Learn more topic-specific collocations"),
-      ],
+      suggestions,
     });
     setLoading(false);
   };
 
+  const getScoreColor = (score: number) => {
+    if (score >= 7.5) return "text-green-600";
+    if (score >= 6.5) return "text-primary";
+    if (score >= 5.5) return "text-yellow-600";
+    return "text-destructive";
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Part selector */}
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         {([1, 2, 3] as const).map((p) => (
           <button
             key={p}
             onClick={() => { setSelectedPart(p); setSelectedQuestion(0); resetRecording(); }}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-6 py-3 rounded-xl text-base font-semibold transition-all ${
               selectedPart === p
-                ? "bg-primary/10 text-primary border border-primary/20"
-                : "bg-secondary text-secondary-foreground hover:bg-primary/5"
+                ? "bg-primary text-primary-foreground shadow-lg scale-105"
+                : "bg-secondary text-secondary-foreground hover:bg-primary/10"
             }`}
           >
             Part {p}
@@ -205,19 +193,22 @@ const SpeakingGrader = () => {
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-8">
         {/* Left: Questions + Recording */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           {/* Question bank */}
-          <div className="glass-card rounded-xl p-4">
+          <div className="glass-card rounded-2xl p-6">
             <button
               onClick={() => setShowQuestions(!showQuestions)}
-              className="w-full flex items-center justify-between mb-2"
+              className="w-full flex items-center justify-between mb-4"
             >
-              <h3 className="text-sm font-semibold text-foreground">
-                {t(`Câu hỏi Part ${selectedPart}`, `Part ${selectedPart} Questions`)}
+              <h3 className="text-base font-bold text-foreground">
+                {t(`Ngân hàng câu hỏi Part ${selectedPart}`, `Part ${selectedPart} Question Bank`)}
+                <span className="ml-2 text-sm font-normal text-muted-foreground">
+                  ({currentQuestions.length} {t("câu", "questions")})
+                </span>
               </h3>
-              {showQuestions ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+              {showQuestions ? <ChevronUp className="w-5 h-5 text-muted-foreground" /> : <ChevronDown className="w-5 h-5 text-muted-foreground" />}
             </button>
             <AnimatePresence>
               {showQuestions && (
@@ -225,83 +216,77 @@ const SpeakingGrader = () => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="space-y-1.5 overflow-hidden"
+                  className="overflow-hidden"
                 >
-                  {currentQuestions.map((q, i) => (
-                    <button
-                      key={i}
-                      onClick={() => { setSelectedQuestion(i); resetRecording(); }}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors ${
-                        selectedQuestion === i
-                          ? "bg-primary/10 text-primary border border-primary/20"
-                          : "bg-secondary text-secondary-foreground hover:bg-primary/5"
-                      }`}
-                    >
-                      <span className="font-medium">{q.topic}:</span> {q.q}
-                    </button>
-                  ))}
+                  <div className="max-h-[400px] overflow-y-auto space-y-2 pr-2">
+                    {currentQuestions.map((q, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setSelectedQuestion(i); resetRecording(); }}
+                        className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all ${
+                          selectedQuestion === i
+                            ? "bg-primary/10 text-primary border-2 border-primary/30 shadow-sm"
+                            : "bg-secondary text-secondary-foreground hover:bg-primary/5 border-2 border-transparent"
+                        }`}
+                      >
+                        <span className="font-semibold text-primary/70 mr-1">{i + 1}.</span>
+                        <span className="font-medium">{q.topic}:</span> {q.q}
+                      </button>
+                    ))}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
           {/* Current question display */}
-          <div className="glass-card rounded-xl p-5">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-semibold">
+          <div className="glass-card rounded-2xl p-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">
                 Part {selectedPart}
               </span>
-              <span className="text-xs text-muted-foreground">{currentQ.topic}</span>
+              <span className="text-sm text-muted-foreground font-medium">{currentQ.topic}</span>
             </div>
-            <p className="text-sm font-medium text-foreground mb-3">{currentQ.q}</p>
-            {selectedPart === 2 && "prompts" in currentQ && (
-              <div className="space-y-1 mb-3">
-                <p className="text-[10px] uppercase font-semibold text-muted-foreground">
+            <p className="text-lg font-semibold text-foreground mb-4 leading-relaxed">{currentQ.q}</p>
+            {selectedPart === 2 && currentQ.prompts && (
+              <div className="space-y-2 mb-5">
+                <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider">
                   {t("Bạn nên nói về:", "You should say:")}
                 </p>
-                {(currentQ as any).prompts.map((p: string, i: number) => (
-                  <p key={i} className="text-xs text-secondary-foreground flex items-center gap-1.5">
-                    <span className="text-primary">•</span> {p}
+                {currentQ.prompts.map((p: string, i: number) => (
+                  <p key={i} className="text-sm text-secondary-foreground flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" /> {p}
                   </p>
                 ))}
               </div>
             )}
 
             {/* Recording controls */}
-            <div className="flex flex-col items-center gap-4 pt-4 border-t border-border">
-              {/* Timer */}
-              <div className="text-2xl font-mono font-bold text-foreground">
+            <div className="flex flex-col items-center gap-5 pt-6 border-t border-border">
+              <div className="text-4xl font-mono font-bold text-foreground">
                 {formatTime(timer)}
               </div>
 
-              {/* Waveform placeholder */}
               {isRecording && (
-                <div className="flex items-center gap-0.5 h-8">
-                  {Array.from({ length: 20 }).map((_, i) => (
+                <div className="flex items-center gap-1 h-10">
+                  {Array.from({ length: 24 }).map((_, i) => (
                     <motion.div
                       key={i}
-                      className="w-1 bg-primary rounded-full"
-                      animate={{
-                        height: [4, Math.random() * 28 + 4, 4],
-                      }}
-                      transition={{
-                        duration: 0.5 + Math.random() * 0.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.05,
-                      }}
+                      className="w-1.5 bg-primary rounded-full"
+                      animate={{ height: [6, Math.random() * 36 + 6, 6] }}
+                      transition={{ duration: 0.5 + Math.random() * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.04 }}
                     />
                   ))}
                 </div>
               )}
 
-              <div className="flex gap-3">
+              <div className="flex gap-4">
                 {!isRecording && !audioBlob && (
                   <button
                     onClick={startRecording}
-                    className="flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all"
+                    className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-primary text-primary-foreground text-lg font-bold hover:brightness-110 transition-all shadow-lg"
                   >
-                    <Mic className="w-5 h-5" />
+                    <Mic className="w-6 h-6" />
                     {t("Bắt đầu ghi âm", "Start Recording")}
                   </button>
                 )}
@@ -309,9 +294,9 @@ const SpeakingGrader = () => {
                 {isRecording && (
                   <button
                     onClick={stopRecording}
-                    className="flex items-center gap-2 px-6 py-3 rounded-full bg-destructive text-destructive-foreground font-semibold hover:brightness-110 transition-all animate-pulse"
+                    className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-destructive text-destructive-foreground text-lg font-bold hover:brightness-110 transition-all animate-pulse shadow-lg"
                   >
-                    <Square className="w-4 h-4 fill-current" />
+                    <Square className="w-5 h-5 fill-current" />
                     {t("Dừng ghi âm", "Stop Recording")}
                   </button>
                 )}
@@ -320,20 +305,20 @@ const SpeakingGrader = () => {
                   <>
                     <button
                       onClick={resetRecording}
-                      className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-secondary-foreground font-medium hover:bg-primary/5 transition-colors"
+                      className="flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary text-secondary-foreground text-base font-semibold hover:bg-primary/5 transition-colors"
                     >
-                      <RotateCcw className="w-4 h-4" />
+                      <RotateCcw className="w-5 h-5" />
                       {t("Ghi lại", "Re-record")}
                     </button>
                     <button
                       onClick={handleGrade}
                       disabled={loading}
-                      className="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold disabled:opacity-50 hover:brightness-110 transition-all"
+                      className="flex items-center gap-2 px-8 py-3 rounded-xl bg-primary text-primary-foreground text-base font-bold disabled:opacity-50 hover:brightness-110 transition-all shadow-lg"
                     >
                       {loading ? (
-                        <motion.div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
+                        <motion.div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
                       ) : (
-                        <Play className="w-4 h-4 fill-current" />
+                        <Play className="w-5 h-5 fill-current" />
                       )}
                       {loading ? t("Đang chấm...", "Grading...") : t("Chấm điểm", "Grade")}
                     </button>
@@ -341,11 +326,10 @@ const SpeakingGrader = () => {
                 )}
               </div>
 
-              {/* Audio playback */}
               {audioUrl && (
-                <div className="w-full flex items-center gap-2 p-2 rounded-lg bg-secondary">
-                  <Volume2 className="w-4 h-4 text-primary shrink-0" />
-                  <audio src={audioUrl} controls className="w-full h-8" style={{ minHeight: 32 }} />
+                <div className="w-full flex items-center gap-3 p-3 rounded-xl bg-secondary">
+                  <Volume2 className="w-5 h-5 text-primary shrink-0" />
+                  <audio src={audioUrl} controls className="w-full h-10" />
                 </div>
               )}
             </div>
@@ -353,45 +337,44 @@ const SpeakingGrader = () => {
         </div>
 
         {/* Right: Result panel */}
-        <div className="glass-card rounded-xl p-6">
+        <div className="glass-card rounded-2xl p-8">
           {!result && !loading && (
-            <div className="flex flex-col items-center justify-center h-full text-center py-12">
-              <Mic className="w-12 h-12 text-muted-foreground/30 mb-4" />
-              <p className="text-sm text-muted-foreground">
+            <div className="flex flex-col items-center justify-center h-full text-center py-16">
+              <Mic className="w-16 h-16 text-muted-foreground/30 mb-6" />
+              <p className="text-base text-muted-foreground">
                 {t("Ghi âm và chấm điểm để xem phản hồi AI", "Record and grade to see AI feedback")}
               </p>
             </div>
           )}
 
           {loading && (
-            <div className="flex flex-col items-center justify-center h-full text-center py-12">
+            <div className="flex flex-col items-center justify-center h-full text-center py-16">
               <motion.div
-                className="w-8 h-8 border-3 border-primary/30 border-t-primary rounded-full mb-4"
+                className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full mb-6"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               />
-              <p className="text-sm text-muted-foreground">{t("AI đang phân tích bài nói...", "AI is analyzing your speaking...")}</p>
+              <p className="text-base text-muted-foreground">{t("AI đang phân tích bài nói...", "AI is analyzing your speaking...")}</p>
             </div>
           )}
 
           {result && !loading && (
-            <div className="space-y-4 overflow-y-auto max-h-[600px]">
+            <div className="space-y-6 overflow-y-auto max-h-[700px]">
               {/* Overall score */}
-              <div className="bg-secondary rounded-lg p-4 text-center">
-                <span className="text-sm text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
-                <div className="text-4xl font-display font-bold text-primary mt-1">{result.overall}</div>
+              <div className="bg-secondary rounded-2xl p-6 text-center">
+                <span className="text-base text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
+                <div className={`text-6xl font-display font-bold mt-2 ${getScoreColor(result.overall)}`}>{result.overall}</div>
               </div>
 
               {/* Criteria breakdown */}
-              <div className="space-y-2">
+              <div className="space-y-4">
                 {result.criteria.map((c) => (
-                  <div key={c.label} className="bg-secondary rounded-lg p-3">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-medium text-foreground">{c.label}</span>
-                      <span className="text-xs font-mono font-bold text-primary">{c.score}</span>
+                  <div key={c.label} className="bg-secondary rounded-2xl p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-base font-semibold text-foreground">{c.label}</span>
+                      <span className={`text-lg font-mono font-bold ${getScoreColor(c.score)}`}>{c.score}</span>
                     </div>
-                    {/* Score bar */}
-                    <div className="w-full h-1.5 bg-border rounded-full mb-2">
+                    <div className="w-full h-2.5 bg-border rounded-full mb-3">
                       <motion.div
                         className="h-full bg-primary rounded-full"
                         initial={{ width: 0 }}
@@ -399,18 +382,18 @@ const SpeakingGrader = () => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground">{c.feedback}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{c.feedback}</p>
                   </div>
                 ))}
               </div>
 
               {/* Suggestions */}
-              <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-                <h4 className="text-xs font-semibold text-primary mb-2">{t("Gợi ý cải thiện", "Improvement Suggestions")}</h4>
-                <div className="space-y-1.5">
+              <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6">
+                <h4 className="text-base font-bold text-primary mb-4">{t("Gợi ý cải thiện", "Improvement Suggestions")}</h4>
+                <div className="space-y-3">
                   {result.suggestions.map((s, i) => (
-                    <p key={i} className="text-xs text-secondary-foreground flex items-start gap-1.5">
-                      <span className="text-primary mt-0.5">→</span> {s}
+                    <p key={i} className="text-sm text-secondary-foreground flex items-start gap-2">
+                      <span className="text-primary mt-0.5 font-bold">→</span> {s}
                     </p>
                   ))}
                 </div>
