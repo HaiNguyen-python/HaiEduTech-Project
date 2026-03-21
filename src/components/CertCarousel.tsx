@@ -21,7 +21,7 @@ interface CertCarouselProps {
 const CertCarousel = ({ title }: CertCarouselProps) => {
   const { t } = useLanguage();
   const [current, setCurrent] = useState(0);
-  const visibleCount = 2;
+  const visibleCount = 1;
 
   const next = () => setCurrent((p) => Math.min(p + 1, certs.length - visibleCount));
   const prev = () => setCurrent((p) => Math.max(p - 1, 0));
@@ -66,7 +66,7 @@ const CertCarousel = ({ title }: CertCarouselProps) => {
               className="group shrink-0 rounded-lg border border-border bg-secondary overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all"
               style={{ width: `calc(${100 / visibleCount}% - ${((visibleCount - 1) * 16) / visibleCount}px)` }}
             >
-              <div className="aspect-[4/3] overflow-hidden bg-white min-h-[220px]">
+              <div className="aspect-[4/3] overflow-hidden bg-white min-h-[400px]">
                 <img
                   src={cert.img}
                   alt={cert.name}

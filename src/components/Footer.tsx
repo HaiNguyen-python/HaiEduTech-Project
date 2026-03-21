@@ -16,7 +16,7 @@ const Footer = () => {
               </div>
               <span className="font-display font-bold text-foreground">HaiEdu</span>
             </div>
-            <p className="text-sm text-muted-foreground">{t("Giáo dục thông minh · Công nghệ AI", "Smart Education · AI Technology")}</p>
+            <p className="text-sm text-muted-foreground">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</p>
           </div>
 
           <div>
