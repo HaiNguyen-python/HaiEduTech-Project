@@ -74,9 +74,9 @@ const CertCarousel = ({ title }: CertCarouselProps) => {
                   loading="lazy"
                 />
               </div>
-              <div className="p-2.5 flex items-center justify-between">
-                <span className="text-xs font-medium text-foreground truncate">{cert.name}</span>
-                <ExternalLink className="w-3 h-3 text-muted-foreground shrink-0 group-hover:text-primary transition-colors" />
+              <div className="p-3 flex items-center justify-between">
+                <span className="text-sm font-medium text-foreground truncate">{cert.name}</span>
+                <ExternalLink className="w-4 h-4 text-muted-foreground shrink-0 group-hover:text-primary transition-colors" />
               </div>
             </a>
           ))}
