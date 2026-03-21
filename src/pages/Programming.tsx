@@ -11,7 +11,7 @@ const Programming = () => {
   const courses = [
     {
       icon: Cpu,
-      title: t("Lập trình cơ bản – nâng cao cho trẻ", "Basic to Advanced Programming for Kids"),
+      title: t("Nền tảng Công nghệ cho trẻ", "Tech Foundations for Kids"),
       desc: t(
         "Khóa học lập trình từ cơ bản đến nâng cao, giúp trẻ phát triển tư duy logic và giải quyết vấn đề thông qua các dự án thực tế.",
         "Programming from basics to advanced, helping kids develop logical thinking and problem-solving through real projects."
