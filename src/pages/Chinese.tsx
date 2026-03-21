@@ -5,6 +5,7 @@ import { Languages, CheckCircle, ArrowRight, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
+import WordOfTheDay from "@/components/WordOfTheDay";
 
 const Chinese = () => {
   const { t } = useLanguage();
@@ -14,7 +15,7 @@ const Chinese = () => {
 
   const modules = [
     {
-      title: t("Tiếng Trung Sơ cấp", "Elementary Chinese"),
+      title: t("Tiếng Trung Nền tảng", "Foundation Chinese"),
       level: t("Mới bắt đầu", "Beginner"),
       desc: t("Xây dựng nền tảng với pinyin, thanh điệu, chữ Hán cơ bản và cụm từ giao tiếp hàng ngày.", "Build your foundation with pinyin, tones, basic characters and everyday phrases."),
       features: [
@@ -50,9 +51,7 @@ const Chinese = () => {
     setDictLoading(true);
     setDictResult(null);
     try {
-      // Using a simple approach - search in a local dictionary mapping
       const word = dictWord.trim();
-      // We'll use a basic Chinese-Vietnamese dictionary with common words
       const commonWords: Record<string, { pinyin: string; meaning: string; examples: string[] }> = {
         "你好": { pinyin: "nǐ hǎo", meaning: t("Xin chào", "Hello"), examples: ["你好，我是小明。", "你好吗？"] },
         "谢谢": { pinyin: "xiè xie", meaning: t("Cảm ơn", "Thank you"), examples: ["谢谢你的帮助。", "非常谢谢！"] },
@@ -75,7 +74,6 @@ const Chinese = () => {
         "天": { pinyin: "tiān", meaning: t("Trời, Ngày", "Sky/Day"), examples: ["今天天气很好。"] },
         "年": { pinyin: "nián", meaning: t("Năm", "Year"), examples: ["新年快乐！"] },
       };
-
       if (commonWords[word]) {
         setDictResult(commonWords[word]);
       } else {
@@ -102,21 +100,14 @@ const Chinese = () => {
             </h1>
             <p className="text-lg text-muted-foreground mb-10">
               {t(
-                "Từ con số 0 đến thành thạo — các module có cấu trúc từ Sơ cấp, HSK, đến Giao tiếp.",
-                "From zero to fluency — structured modules covering Elementary, HSK, and Conversational Chinese."
+                "Từ con số 0 đến thành thạo — các module có cấu trúc từ Nền tảng, HSK, đến Giao tiếp.",
+                "From zero to fluency — structured modules covering Foundation, HSK, and Conversational Chinese."
               )}
             </p>
 
-            {/* Programs - horizontal cards */}
             <div className="grid md:grid-cols-3 gap-6 mb-16">
               {modules.map((m, i) => (
-                <motion.div
-                  key={m.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="glass-card rounded-2xl p-6"
-                >
+                <motion.div key={m.title} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="glass-card rounded-2xl p-6">
                   <div className="flex items-start justify-between mb-3">
                     <h3 className="text-lg font-display font-bold text-foreground">{m.title}</h3>
                     <span className="text-xs px-3 py-1 rounded-full bg-red-500/10 text-red-500 font-semibold">{m.level}</span>
@@ -129,49 +120,31 @@ const Chinese = () => {
                       </li>
                     ))}
                   </ul>
-                  <Link
-                    to="/register"
-                    className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline"
-                  >
+                  <Link to="/register" className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
                     {t("Đăng ký ngay", "Register now")} <ArrowRight className="w-4 h-4" />
                   </Link>
                 </motion.div>
               ))}
             </div>
 
+            {/* Word of the Day */}
+            <WordOfTheDay type="chinese" />
+
             {/* Chinese Dictionary */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card rounded-2xl p-8 mb-10">
-              <h2 className="text-2xl font-display font-bold text-foreground mb-2">
-                📖 {t("Từ điển Trung-Việt", "Chinese Dictionary")}
-              </h2>
-              <p className="text-muted-foreground mb-6">
-                {t("Tra cứu nghĩa, pinyin, và ví dụ của từ tiếng Trung.", "Look up definitions, pinyin, and examples of Chinese words.")}
-              </p>
-
+              <h2 className="text-2xl font-display font-bold text-foreground mb-2">📖 {t("Từ điển Trung-Việt", "Chinese Dictionary")}</h2>
+              <p className="text-muted-foreground mb-6">{t("Tra cứu nghĩa, pinyin, và ví dụ của từ tiếng Trung.", "Look up definitions, pinyin, and examples of Chinese words.")}</p>
               <div className="flex gap-3 mb-4">
-                <input
-                  value={dictWord}
-                  onChange={(e) => setDictWord(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && lookupWord()}
+                <input value={dictWord} onChange={(e) => setDictWord(e.target.value)} onKeyDown={(e) => e.key === "Enter" && lookupWord()}
                   placeholder={t("Nhập chữ Hán (ví dụ: 你好)...", "Enter Chinese characters (e.g. 你好)...")}
-                  className="flex-1 px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-base"
-                />
-                <button
-                  onClick={lookupWord}
-                  disabled={dictLoading}
-                  className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all flex items-center gap-2"
-                >
-                  <Search className="w-5 h-5" />
-                  {t("Tra cứu", "Search")}
+                  className="flex-1 px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-base" />
+                <button onClick={lookupWord} disabled={dictLoading}
+                  className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all flex items-center gap-2">
+                  <Search className="w-5 h-5" /> {t("Tra cứu", "Search")}
                 </button>
               </div>
-
-              <p className="text-xs text-muted-foreground mb-4">
-                {t("Thử: 你好, 谢谢, 学习, 老师, 朋友, 中国, 爱, 书, 水, 天...", "Try: 你好, 谢谢, 学习, 老师, 朋友, 中国, 爱, 书, 水, 天...")}
-              </p>
-
+              <p className="text-xs text-muted-foreground mb-4">{t("Thử: 你好, 谢谢, 学习, 老师, 朋友, 中国, 爱, 书, 水, 天...", "Try: 你好, 谢谢, 学习, 老师, 朋友, 中国, 爱, 书, 水, 天...")}</p>
               {dictLoading && <p className="text-muted-foreground text-sm">{t("Đang tìm kiếm...", "Searching...")}</p>}
-
               {dictResult && !dictResult.error && (
                 <div className="bg-secondary rounded-xl p-6 space-y-3">
                   <div className="flex items-center gap-4">
@@ -189,17 +162,12 @@ const Chinese = () => {
                   )}
                 </div>
               )}
-
-              {dictResult?.error && (
-                <p className="text-destructive text-sm">{t("Không tìm thấy từ này trong từ điển.", "Word not found in dictionary.")}</p>
-              )}
+              {dictResult?.error && <p className="text-destructive text-sm">{t("Không tìm thấy từ này trong từ điển.", "Word not found in dictionary.")}</p>}
             </motion.div>
 
             {/* Learning resources */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="glass-card rounded-2xl p-8">
-              <h2 className="text-2xl font-display font-bold text-foreground mb-6">
-                📚 {t("Tài liệu học tập", "Learning Resources")}
-              </h2>
+              <h2 className="text-2xl font-display font-bold text-foreground mb-6">📚 {t("Tài liệu học tập", "Learning Resources")}</h2>
               <div className="grid md:grid-cols-3 gap-4">
                 {[
                   { title: t("Bảng Pinyin", "Pinyin Chart"), desc: t("Bảng phiên âm đầy đủ với âm thanh", "Complete pronunciation chart with audio"), icon: "🔤" },

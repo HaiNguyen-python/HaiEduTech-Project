@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
@@ -82,10 +83,10 @@ const Dashboard = () => {
                     "You need to log in to view your personal learning data and progress."
                   )}
                 </p>
-                <button className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:brightness-110 transition-all shadow-lg">
+                <Link to="/login" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:brightness-110 transition-all shadow-lg">
                   <LogIn className="w-5 h-5" />
                   {t("Đăng Nhập", "Login")}
-                </button>
+                </Link>
               </motion.div>
             </div>
           </div>

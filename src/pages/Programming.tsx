@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Code2, Cpu, BrainCircuit } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
+import PythonReview from "@/components/PythonReview";
 
 const Programming = () => {
   const { t } = useLanguage();
@@ -59,15 +60,9 @@ const Programming = () => {
               )}
             </p>
 
-            <div className="space-y-8">
+            <div className="space-y-8 mb-12">
               {courses.map((c, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.15 }}
-                  className="glass-card rounded-xl p-6"
-                >
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }} className="glass-card rounded-xl p-6">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                       <c.icon className="w-5 h-5 text-primary" />
@@ -87,7 +82,10 @@ const Programming = () => {
               ))}
             </div>
 
-            {/* IT Certifications Carousel */}
+            {/* Python Review */}
+            <PythonReview />
+
+            {/* IT Certifications */}
             <div className="mt-12">
               <CertCarousel title={t("Chứng chỉ CNTT", "IT Certifications")} />
             </div>
