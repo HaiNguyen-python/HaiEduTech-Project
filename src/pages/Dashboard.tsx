@@ -38,7 +38,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-24 pb-16">
+      <div className="pt-28 pb-16">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto">
             <h1 className="text-4xl font-display font-bold mb-2 text-foreground">
