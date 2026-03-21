@@ -12,6 +12,7 @@ import Programming from "./pages/Programming.tsx";
 import AIGrading from "./pages/AIGrading.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Register from "./pages/Register.tsx";
+import Contact from "./pages/Contact.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/ai-grading" element={<AIGrading />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />

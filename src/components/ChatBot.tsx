@@ -98,7 +98,6 @@ const ChatBot = () => {
         }
       }
 
-      // Final flush
       if (textBuffer.trim()) {
         for (let raw of textBuffer.split("\n")) {
           if (!raw) continue;
@@ -133,9 +132,9 @@ const ChatBot = () => {
             exit={{ scale: 0 }}
             onClick={() => setOpen(true)}
             className="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full shadow-2xl bg-primary hover:brightness-110 transition-all flex items-center justify-center overflow-hidden border-2 border-primary-foreground/20"
-            title="HaiBot"
+            title="Alo, thầy Hải nghe"
           >
-            <img src={chatbotIcon} alt="HaiBot" className="w-14 h-14 object-cover" />
+            <img src={chatbotIcon} alt="Thầy Hải" className="w-14 h-14 object-cover" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -151,9 +150,9 @@ const ChatBot = () => {
           >
             {/* Header */}
             <div className="flex items-center gap-3 p-4 border-b border-border bg-primary/5">
-              <img src={chatbotIcon} alt="HaiBot" className="w-10 h-10 rounded-full" />
+              <img src={chatbotIcon} alt="Thầy Hải" className="w-10 h-10 rounded-full" />
               <div className="flex-1">
-                <h3 className="font-bold text-foreground text-base">HaiBot</h3>
+                <h3 className="font-bold text-foreground text-base">📞 Alo, thầy Hải nghe</h3>
                 <p className="text-xs text-muted-foreground">{t("Trợ lý học tập AI", "AI Learning Assistant")}</p>
               </div>
               <button onClick={() => setOpen(false)} className="p-1.5 rounded-lg hover:bg-secondary transition-colors">
@@ -165,9 +164,9 @@ const ChatBot = () => {
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.length === 0 && (
                 <div className="text-center py-8">
-                  <img src={chatbotIcon} alt="HaiBot" className="w-20 h-20 mx-auto mb-4 opacity-50" />
+                  <img src={chatbotIcon} alt="Thầy Hải" className="w-20 h-20 mx-auto mb-4 opacity-50" />
                   <p className="text-sm text-muted-foreground mb-4">
-                    {t("Xin chào! Mình là HaiBot 🤖\nHãy hỏi mình về Tiếng Anh, Tiếng Trung hoặc Lập trình nhé!", "Hi! I'm HaiBot 🤖\nAsk me about English, Chinese or Programming!")}
+                    {t("Xin chào em! Thầy là thầy Hải 👋\nEm cứ hỏi thầy về Tiếng Anh, Tiếng Trung hoặc Lập trình nhé!", "Hello! I'm Teacher Hai 👋\nAsk me about English, Chinese or Programming!")}
                   </p>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {[
@@ -223,7 +222,7 @@ const ChatBot = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
-                  placeholder={t("Hỏi HaiBot...", "Ask HaiBot...")}
+                  placeholder={t("Hỏi thầy Hải...", "Ask Teacher Hai...")}
                   className="flex-1 px-4 py-2.5 rounded-xl bg-secondary border border-border text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none"
                   disabled={isLoading}
                 />
