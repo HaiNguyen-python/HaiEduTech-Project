@@ -114,7 +114,7 @@ sys.stderr = io.StringIO()
 
         // Check test cases
         const allPassed = challenge.testCases.every(tc => {
-          const expected = tc.expectedOutput.trimEnd();
+          const expected = tc.expected.trimEnd();
           return result === expected;
         });
 
