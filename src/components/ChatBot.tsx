@@ -129,10 +129,11 @@ const ChatBot = () => {
     setIsLoading(false);
   };
 
-  const shakeAnimation = {
+  const shakeVariant = {
     rotate: [0, -3, 3, -3, 3, -2, 2, 0],
+    scale: 1,
     transition: { duration: 0.6, ease: "easeInOut" },
-  };
+  } as const;
 
   return (
     <>
