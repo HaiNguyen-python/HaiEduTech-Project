@@ -113,7 +113,7 @@ const English = () => {
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/5 text-sky-600 text-sm font-medium mb-4">
-              <BookOpen className="w-4 h-4" /> {t("Trung tâm Tiếng Anh", "English Hub")}
+              <BookOpen className="w-4 h-4" /> {t("Chương trình Tiếng Anh", "English Program")}
             </div>
             <h1 className="text-4xl font-display font-bold mb-4 text-foreground">
               {t("Chương trình ", "English ")}
