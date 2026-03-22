@@ -9,7 +9,7 @@ const CoursesOverview = () => {
   const courses = [
     {
       icon: BookOpen,
-      title: t("Trung tâm Tiếng Anh", "English Hub"),
+      title: t("Chương trình Tiếng Anh", "English Program"),
       description: t(
         "Luyện thi IELTS, TOEIC, Cambridge (Starters–PET) và THPT Quốc gia với phản hồi bằng AI.",
         "IELTS, TOEIC, Cambridge (Starters–PET), and National High School Exam preparation with AI feedback."
@@ -20,7 +20,7 @@ const CoursesOverview = () => {
     },
     {
       icon: Languages,
-      title: t("Góc Tiếng Trung", "Chinese Corner"),
+      title: t("Chương trình Tiếng Trung", "Chinese Program"),
       description: t(
         "Từ Sơ cấp đến HSK và Giao tiếp — các module có hệ thống cho mọi trình độ.",
         "From Elementary to HSK and Conversational — structured modules for every level."
@@ -31,7 +31,7 @@ const CoursesOverview = () => {
     },
     {
       icon: Code2,
-      title: t("Phòng Lab Lập trình", "Programming Lab"),
+      title: t("Chương trình Lập trình", "Programming Program"),
       description: t(
         "Lập trình cho trẻ từ cơ bản đến nâng cao. Giới thiệu Data Engineering & AI.",
         "Programming for kids from basics to advanced. Introduction to Data Engineering & AI."
