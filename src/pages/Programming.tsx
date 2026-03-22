@@ -51,7 +51,7 @@ const Programming = () => {
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
-              <Code2 className="w-3 h-3" /> {t("Phòng Lab Lập trình", "Programming Lab")}
+              <Code2 className="w-3 h-3" /> {t("Chương trình Lập trình", "Programming Program")}
             </div>
             <h1 className="text-4xl font-display font-bold mb-4 text-foreground">
               {t("Khóa học ", "Programming ")}
