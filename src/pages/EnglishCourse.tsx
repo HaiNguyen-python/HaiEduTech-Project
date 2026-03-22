@@ -181,7 +181,7 @@ const courseData: Record<string, {
       { label: "Chuyên đề ngữ pháp", labelEn: "Grammar topics", value: "24" },
       { label: "Từ vựng trọng tâm", labelEn: "Key vocabulary", value: "3000+" },
       { label: "Đề luyện tập", labelEn: "Practice tests", value: "100+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "6 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
     ],
     features: [
       { vi: "Hệ thống hóa 24 chuyên đề ngữ pháp trọng tâm — từ dễ đến khó", en: "24 core grammar topics systematized — easy to hard" },
