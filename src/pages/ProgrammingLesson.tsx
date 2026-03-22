@@ -402,7 +402,7 @@ const ProgrammingLessonPage = () => {
                         )}
 
                         {aiChallenge.starterCode && (
-                          <div className="rounded-lg overflow-hidden mb-4">
+                          <div className="rounded-lg overflow-hidden mb-4 max-w-full">
                             <div className="px-3 py-2 bg-slate-900 flex items-center justify-between">
                               <span className="text-xs font-mono text-green-400">Starter Code</span>
                               <button onClick={() => openInTrinket(aiChallenge.starterCode)}
@@ -410,8 +410,8 @@ const ProgrammingLessonPage = () => {
                                 <Play className="w-3 h-3" /> {t("Chạy", "Run")}
                               </button>
                             </div>
-                            <pre className="p-3 bg-slate-950 overflow-x-auto">
-                              <code className="text-xs font-mono text-slate-300">{aiChallenge.starterCode}</code>
+                            <pre className="p-3 bg-slate-950 overflow-x-auto max-w-full">
+                              <code className="text-xs font-mono text-slate-300 break-words">{aiChallenge.starterCode}</code>
                             </pre>
                           </div>
                         )}
