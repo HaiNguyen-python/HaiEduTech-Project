@@ -21,6 +21,8 @@ import LessonDetail from "./pages/LessonDetail.tsx";
 import TeacherAdmin from "./pages/TeacherAdmin.tsx";
 import LessonLibrary from "./pages/LessonLibrary.tsx";
 import GeneratedLessonView from "./pages/GeneratedLessonView.tsx";
+import PythonChallengeList from "./pages/PythonChallengeList.tsx";
+import PythonChallengePage from "./pages/PythonChallenge.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
