@@ -129,7 +129,11 @@ const courseData: Record<string, {
       { vi: "Nhân viên văn phòng cần nâng điểm TOEIC để thăng tiến", en: "Office workers needing higher TOEIC for promotions" },
       { vi: "Sinh viên chuẩn bị xin việc tại các công ty đa quốc gia", en: "Students preparing for multinational company applications" },
     ],
-    duration: "3 tháng (12 tuần)", durationEn: "3 months (12 weeks)",
+    testimonials: [
+      { name: "Anh Bình (Nhân viên logistics)", text: "Từ 450 lên 780 điểm TOEIC sau 10 tuần. Chiến thuật làm bài Part 5, 7 rất hiệu quả!", textEn: "From 450 to 780 TOEIC in 10 weeks. Part 5 and 7 strategies were super effective!" },
+      { name: "Chị Ngọc Ánh (Sales Manager)", text: "Đạt 850 TOEIC để đủ điều kiện thăng chức. Phần Listening nghe quen accent nên thi thật rất tự tin.", textEn: "Got 850 TOEIC to qualify for promotion. The multi-accent listening practice made me confident in the real test." },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "blue",
   },
   conversational: {
