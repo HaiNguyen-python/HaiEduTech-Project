@@ -21,6 +21,8 @@ import LessonDetail from "./pages/LessonDetail.tsx";
 import TeacherAdmin from "./pages/TeacherAdmin.tsx";
 import LessonLibrary from "./pages/LessonLibrary.tsx";
 import GeneratedLessonView from "./pages/GeneratedLessonView.tsx";
+import PythonChallengeList from "./pages/PythonChallengeList.tsx";
+import PythonChallengePage from "./pages/PythonChallenge.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
@@ -53,6 +55,8 @@ const App = () => (
             <Route path="/teacher-admin" element={<TeacherAdmin />} />
             <Route path="/lesson-library" element={<LessonLibrary />} />
             <Route path="/lesson-library/:lessonId" element={<GeneratedLessonView />} />
+            <Route path="/python-challenges" element={<PythonChallengeList />} />
+            <Route path="/python-challenges/:challengeId" element={<PythonChallengePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
