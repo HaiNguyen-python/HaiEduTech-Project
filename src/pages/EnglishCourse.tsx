@@ -54,8 +54,12 @@ const courseData: Record<string, {
       { vi: "Phụ huynh muốn con sở hữu chứng chỉ quốc tế Cambridge", en: "Parents wanting Cambridge international certificates for their children" },
       { vi: "Học sinh chuẩn bị du học hoặc thi vào trường quốc tế", en: "Students preparing for study abroad or international schools" },
     ],
-    testimonial: { name: "Chị Minh Tâm (Phụ huynh)", text: "Con tôi từ sợ tiếng Anh đến yêu thích sau 3 tháng học tại HaiEdu. Giáo viên rất tâm huyết và cách dạy rất sinh động!", textEn: "My child went from fearing English to loving it after 3 months at HaiEdu. The teachers are dedicated and the teaching method is very engaging!" },
-    duration: "18 tháng (lộ trình đầy đủ)", durationEn: "18 months (full pathway)",
+    testimonials: [
+      { name: "Chị Minh Tâm (Phụ huynh)", text: "Con tôi từ sợ tiếng Anh đến yêu thích sau 3 tháng học tại HaiEdu. Giáo viên rất tâm huyết và cách dạy rất sinh động!", textEn: "My child went from fearing English to loving it after 3 months at HaiEdu. The teachers are dedicated and the teaching method is very engaging!" },
+      { name: "Anh Khoa (Phụ huynh)", text: "Bé nhà mình đạt Movers 5 shields sau đúng 6 tháng. Lớp nhỏ nên thầy cô chăm sóc từng bé rất kỹ.", textEn: "My child got 5 shields in Movers after exactly 6 months. Small class sizes mean teachers care for each child individually." },
+      { name: "Chị Hương Giang (Phụ huynh)", text: "Phương pháp học qua trò chơi khiến con mình háo hức đi học mỗi ngày. Tiến bộ rõ rệt!", textEn: "The game-based method makes my child excited to attend class every day. Clear progress!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "sky",
   },
   ielts: {
