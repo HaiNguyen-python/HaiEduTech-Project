@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-28 pb-16 flex items-center justify-center">
+      <div className="pt-6 pb-16 flex items-center justify-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md mx-4">
           <div className="glass-card rounded-2xl p-8">
             <div className="text-center mb-8">
