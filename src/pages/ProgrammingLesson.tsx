@@ -135,16 +135,27 @@ const ProgrammingLessonPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-6 pb-16">
-        <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto">
-            {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6 flex-wrap">
-              <Link to="/programming" className="hover:text-foreground flex items-center gap-1">
-                <ArrowLeft className="w-4 h-4" />
-                {t("Lập trình", "Programming")}
-              </Link>
-              <ChevronRight className="w-3 h-3" />
-              <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
+        <div className={`mx-auto px-4 sm:px-6 ${showIDE && !isMobile ? "max-w-[1600px]" : "container"}`}>
+          <div className={showIDE && !isMobile ? "" : "max-w-5xl mx-auto"}>
+            {/* Breadcrumb + IDE Toggle */}
+            <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Link to="/programming" className="hover:text-foreground flex items-center gap-1">
+                  <ArrowLeft className="w-4 h-4" />
+                  {t("Lập trình", "Programming")}
+                </Link>
+                <ChevronRight className="w-3 h-3" />
+                <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
+              </div>
+              {!isMobile && (
+                <button
+                  onClick={() => setShowIDE(!showIDE)}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border border-border hover:bg-secondary transition-colors active:scale-[0.97]"
+                >
+                  {showIDE ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
+                  {showIDE ? t("Ẩn IDE", "Hide IDE") : t("Mở IDE", "Show IDE")}
+                </button>
+              )}
             </div>
 
             <div className="flex flex-col lg:flex-row gap-6">
