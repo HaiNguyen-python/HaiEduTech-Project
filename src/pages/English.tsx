@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import WordOfTheDay from "@/components/WordOfTheDay";
+import { englishResources } from "@/data/lessonData";
 
 const English = () => {
   const { t } = useLanguage();
@@ -201,19 +202,15 @@ const English = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="glass-card rounded-2xl p-8">
               <h2 className="text-2xl font-display font-bold text-foreground mb-6">📚 {t("Tài liệu học tập", "Learning Resources")}</h2>
               <div className="grid md:grid-cols-3 gap-4">
-                {[
-                  { title: t("Ngữ pháp cơ bản → Nâng cao", "Grammar: Basic → Advanced"), desc: t("12 thì, câu điều kiện, bị động, mệnh đề quan hệ, đảo ngữ", "12 tenses, conditionals, passive, relative clauses, inversion"), icon: "📝" },
-                  { title: t("Từ vựng Academic IELTS", "Academic IELTS Vocabulary"), desc: t("2000+ từ vựng Academic theo 20 chủ đề thi IELTS", "2000+ academic words across 20 IELTS exam topics"), icon: "🎯" },
-                  { title: t("Luyện nghe đa cấp độ", "Multi-level Listening"), desc: t("Podcast, TED Talks, bài nghe IELTS/TOEIC theo cấp độ A1–C1", "Podcasts, TED Talks, IELTS/TOEIC listening graded A1–C1"), icon: "🎧" },
-                  { title: t("Bài mẫu Writing IELTS", "IELTS Writing Samples"), desc: t("100+ bài mẫu Task 1 & Task 2 band 7.0–8.5 có phân tích chi tiết", "100+ sample essays Task 1 & 2 at band 7.0–8.5 with detailed analysis"), icon: "✍️" },
-                  { title: t("Idioms & Collocations", "Idioms & Collocations"), desc: t("500+ thành ngữ và cụm từ cố định thường gặp trong giao tiếp & thi cử", "500+ common idioms and collocations for communication & exams"), icon: "💡" },
-                  { title: t("Đề thi thử Full Test", "Full Practice Tests"), desc: t("Đề thi thử IELTS, TOEIC, Cambridge, THPT QG có đáp án & giải thích", "IELTS, TOEIC, Cambridge, National Exam mocks with answers & explanations"), icon: "📋" },
-                ].map((r, i) => (
-                  <div key={i} className="bg-secondary rounded-xl p-5 hover:bg-primary/5 transition-colors cursor-pointer">
+                {englishResources.map((r) => (
+                  <Link key={r.id} to={`/lesson/${r.id}`} className="bg-secondary rounded-xl p-5 hover:bg-primary/5 transition-colors cursor-pointer group">
                     <span className="text-2xl mb-2 block">{r.icon}</span>
-                    <h4 className="font-semibold text-foreground mb-1">{r.title}</h4>
-                    <p className="text-sm text-muted-foreground">{r.desc}</p>
-                  </div>
+                    <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{t(r.title, r.titleEn)}</h4>
+                    <p className="text-sm text-muted-foreground">{t(r.description, r.descriptionEn)}</p>
+                    <span className="inline-flex items-center gap-1 text-xs text-primary font-medium mt-2">
+                      {r.lessons.length} {t("bài học", "lessons")} <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </Link>
                 ))}
               </div>
             </motion.div>

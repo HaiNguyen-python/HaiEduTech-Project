@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import WordOfTheDay from "@/components/WordOfTheDay";
+import { chineseResources } from "@/data/lessonData";
 
 const Chinese = () => {
   const { t } = useLanguage();
@@ -184,19 +185,15 @@ const Chinese = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="glass-card rounded-2xl p-8">
               <h2 className="text-2xl font-display font-bold text-foreground mb-6">📚 {t("Tài liệu học tập", "Learning Resources")}</h2>
               <div className="grid md:grid-cols-3 gap-4">
-                {[
-                  { title: t("Bảng Pinyin toàn diện", "Complete Pinyin Chart"), desc: t("Bảng phiên âm đầy đủ 400+ âm tiết với audio chuẩn", "Full chart of 400+ syllables with standard audio"), icon: "🔤" },
-                  { title: t("Chữ Hán theo bộ thủ", "Characters by Radicals"), desc: t("Học 214 bộ thủ & 500+ chữ Hán thường dùng nhất", "Learn 214 radicals & 500+ most common characters"), icon: "🈷️" },
-                  { title: t("Ngữ pháp HSK 1–6", "HSK Grammar 1–6"), desc: t("Hệ thống ngữ pháp từ cơ bản đến nâng cao với ví dụ thực tế", "Grammar system from basic to advanced with real-life examples"), icon: "📝" },
-                  { title: t("Luyện nghe theo cấp độ", "Graded Listening"), desc: t("Hội thoại, tin tức, podcast theo trình độ HSK 1–6", "Dialogues, news, podcasts graded by HSK 1–6 level"), icon: "🎧" },
-                  { title: t("Thành ngữ & Chengyu", "Idioms & Chengyu"), desc: t("200+ thành ngữ 4 chữ phổ biến với nguồn gốc & cách dùng", "200+ popular 4-character idioms with origins & usage"), icon: "💡" },
-                  { title: t("Đề thi HSK các cấp", "HSK Practice Tests"), desc: t("Bộ đề thi thử HSK 1–6 mô phỏng đề thi thực + đáp án chi tiết", "HSK 1–6 mock tests simulating real exams + detailed answers"), icon: "📋" },
-                ].map((r, i) => (
-                  <div key={i} className="bg-secondary rounded-xl p-5 hover:bg-primary/5 transition-colors cursor-pointer">
+                {chineseResources.map((r) => (
+                  <Link key={r.id} to={`/lesson/${r.id}`} className="bg-secondary rounded-xl p-5 hover:bg-primary/5 transition-colors cursor-pointer group">
                     <span className="text-2xl mb-2 block">{r.icon}</span>
-                    <h4 className="font-semibold text-foreground mb-1">{r.title}</h4>
-                    <p className="text-sm text-muted-foreground">{r.desc}</p>
-                  </div>
+                    <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{t(r.title, r.titleEn)}</h4>
+                    <p className="text-sm text-muted-foreground">{t(r.description, r.descriptionEn)}</p>
+                    <span className="inline-flex items-center gap-1 text-xs text-primary font-medium mt-2">
+                      {r.lessons.length} {t("bài học", "lessons")} <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </Link>
                 ))}
               </div>
             </motion.div>
