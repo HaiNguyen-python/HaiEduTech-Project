@@ -244,10 +244,10 @@ const ProgrammingLessonPage = () => {
                         <Code2 className="w-4 h-4 text-green-400" />
                         <span className="text-sm font-mono text-green-400">{lesson.codeLanguage}</span>
                       </div>
-                      <button onClick={() => openInTrinket(lesson.code)}
+                      <button onClick={() => setShowIDE(true)}
                         className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-500 transition-colors active:scale-[0.97]">
                         <Play className="w-3 h-3" />
-                        {t("Chạy thử", "Run")}
+                        {t("Mở IDE", "Open IDE")}
                       </button>
                     </div>
                     <div className="overflow-x-auto max-w-full">
