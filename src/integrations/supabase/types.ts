@@ -44,6 +44,45 @@ export type Database = {
         }
         Relationships: []
       }
+      learning_materials: {
+        Row: {
+          content: Json
+          created_at: string
+          created_by: string | null
+          id: string
+          is_published: boolean
+          language: string
+          level: string
+          material_type: string
+          question_count: number
+          title: string
+        }
+        Insert: {
+          content?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_published?: boolean
+          language: string
+          level: string
+          material_type: string
+          question_count?: number
+          title: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_published?: boolean
+          language?: string
+          level?: string
+          material_type?: string
+          question_count?: number
+          title?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
