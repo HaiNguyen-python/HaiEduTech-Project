@@ -6,7 +6,7 @@ export interface ProgrammingModule {
   color: string;
   description: string;
   descriptionEn: string;
-  course: "kids" | "data-ai";
+  course: "kids" | "data-ai" | "python" | "sql" | "data-eng" | "ml";
   lessons: ProgrammingLesson[];
 }
 
