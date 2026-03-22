@@ -20,7 +20,7 @@ const CoursesOverview = () => {
     },
     {
       icon: Languages,
-      title: t("Góc Tiếng Trung", "Chinese Corner"),
+      title: t("Chương trình Tiếng Trung", "Chinese Program"),
       description: t(
         "Từ Sơ cấp đến HSK và Giao tiếp — các module có hệ thống cho mọi trình độ.",
         "From Elementary to HSK and Conversational — structured modules for every level."
