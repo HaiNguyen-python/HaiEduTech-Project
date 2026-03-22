@@ -5,12 +5,15 @@ import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ChevronRight, Sparkles, CheckCircle, XCircle, Clock, Trophy,
-  Loader2, Play, ExternalLink, Lightbulb, Code2, BookOpen, ChevronDown, Eye, EyeOff
+  Loader2, Play, ExternalLink, Lightbulb, Code2, BookOpen, ChevronDown, Eye, EyeOff,
+  PanelRightClose, PanelRightOpen
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { programmingModules, type ProgrammingModule, type ProgrammingLesson as PLType } from "@/data/programmingLessonData";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
+import SqlEditor from "@/components/SqlEditor";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
