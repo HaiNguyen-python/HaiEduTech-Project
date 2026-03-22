@@ -126,10 +126,16 @@ export default function LessonLibraryContent() {
               {lessons.map((lesson, i) => {
                 const cat = CATEGORY_LABELS[lesson.category] || { vi: lesson.category, en: lesson.category, icon: "📄" };
                 const subj = SUBJECT_META[lesson.subject];
+                const isNew = new Date(lesson.created_at).getTime() > Date.now() - 24 * 60 * 60 * 1000;
                 return (
                   <motion.div key={lesson.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.03 }}>
                     <Link to={`/lesson-library/${lesson.id}`}
-                      className="block glass-card rounded-xl p-5 hover:border-primary/30 transition-all h-full group">
+                      className="block glass-card rounded-xl p-5 hover:border-primary/30 transition-all h-full group relative">
+                      {isNew && (
+                        <Badge className="absolute top-2 right-2 bg-green-500 text-white text-[9px] px-1.5 py-0 border-0 flex items-center gap-0.5">
+                          <Sparkles className="w-2.5 h-2.5" /> {t("Mới", "New")}
+                        </Badge>
+                      )}
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-lg">{cat.icon}</span>
                         <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium">{lesson.level}</span>
