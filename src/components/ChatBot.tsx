@@ -129,8 +129,8 @@ const ChatBot = () => {
     setIsLoading(false);
   };
 
-  const shakeVariant = {
-    rotate: [0, -3, 3, -3, 3, -2, 2, 0] as number[],
+  const shakeVariant: import("framer-motion").TargetAndTransition = {
+    rotate: [0, -3, 3, -3, 3, -2, 2, 0],
     scale: 1,
     transition: { duration: 0.6, ease: "easeInOut" },
   };
