@@ -146,7 +146,7 @@ const TeacherAdmin = ({ embedded = false }: { embedded?: boolean }) => {
             {t("Tạo hàng loạt bài học và bài tập bằng Perplexity AI. Nội dung được lưu vào kho học liệu và hiển thị cho học sinh.", "Batch generate lessons and exercises using Perplexity AI. Content is saved to the library and displayed to students.")}
           </p>
         </>
-      )
+      )}
 
               {/* Config */}
               <div className="glass-card rounded-xl p-6 mb-8">
