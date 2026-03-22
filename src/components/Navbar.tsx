@@ -347,7 +347,8 @@ const Navbar = () => {
       </AnimatePresence>
 
       {/* Spacer: mobile = branding only (48px), desktop = branding + nav (92px) */}
-      <div className="h-12 lg:h-[92px]" aria-hidden="true" />
+      {/* Spacer: mobile = branding+slogan (~60px), desktop = branding+nav (92px) */}
+      <div className="h-[60px] md:h-12 lg:h-[92px]" aria-hidden="true" />
     </header>
   );
 };
