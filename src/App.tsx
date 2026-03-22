@@ -36,6 +36,8 @@ const App = () => (
             <Route path="/english" element={<English />} />
             <Route path="/chinese" element={<Chinese />} />
             <Route path="/programming" element={<Programming />} />
+            <Route path="/programming/:moduleId" element={<ProgrammingLesson />} />
+            <Route path="/programming/:moduleId/:lessonId" element={<ProgrammingLesson />} />
             <Route path="/ai-grading" element={<AIGrading />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />

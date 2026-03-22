@@ -1,46 +1,39 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { Code2, Cpu, BrainCircuit } from "lucide-react";
+import { Code2, Cpu, BrainCircuit, ArrowRight, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import PythonReview from "@/components/PythonReview";
+import { programmingModules } from "@/data/programmingLessonData";
 
 const Programming = () => {
   const { t } = useLanguage();
+
+  const kidModules = programmingModules.filter(m => m.course === "kids");
+  const dataModules = programmingModules.filter(m => m.course === "data-ai");
 
   const courses = [
     {
       icon: Cpu,
       title: t("Nền tảng Công nghệ cho trẻ", "Tech Foundations for Kids"),
       desc: t(
-        "Khóa học lập trình toàn diện dành cho trẻ em và thanh thiếu niên từ 8–16 tuổi. Bắt đầu từ tư duy logic với lập trình kéo thả (Scratch), tiến dần đến Python và xây dựng dự án thực tế. Giúp trẻ phát triển khả năng giải quyết vấn đề, sáng tạo và tự tin trong thời đại số.",
-        "Comprehensive programming course for children and teens aged 8–16. Starting with logical thinking through block-based coding (Scratch), progressing to Python and real project building. Developing problem-solving skills, creativity, and digital confidence."
+        "Khóa học lập trình toàn diện dành cho trẻ em và thanh thiếu niên từ 8–16 tuổi. Bắt đầu từ tư duy logic với lập trình kéo thả (Scratch), tiến dần đến Python và xây dựng dự án thực tế.",
+        "Comprehensive programming course for children and teens aged 8–16. Starting with logical thinking through block-based coding (Scratch), progressing to Python and real project building."
       ),
-      features: [
-        t("Scratch & lập trình kéo thả: tư duy thuật toán qua trò chơi sáng tạo", "Scratch & block-based coding: algorithmic thinking through creative games"),
-        t("Python cơ bản → nâng cao: biến, vòng lặp, hàm, OOP, file I/O", "Python basics → advanced: variables, loops, functions, OOP, file I/O"),
-        t("Cấu trúc dữ liệu & thuật toán: array, list, dictionary, sorting, searching", "Data structures & algorithms: array, list, dictionary, sorting, searching"),
-        t("Dự án thực tế: game (Pygame), web cá nhân (HTML/CSS), chatbot đơn giản", "Real projects: games (Pygame), personal website (HTML/CSS), simple chatbot"),
-        t("Tư duy Computational Thinking: phân tích, trừu tượng hóa, pattern recognition", "Computational Thinking: analysis, abstraction, pattern recognition"),
-        t("Hackathon & showcase: trình bày dự án cuối khóa trước phụ huynh & bạn bè", "Hackathon & showcase: end-of-course project presentation to parents & peers"),
-      ],
+      modules: kidModules,
+      anchorId: "kids",
     },
     {
       icon: BrainCircuit,
       title: t("Giới thiệu Data Engineering & AI", "Introduction to Data Engineering & AI"),
       desc: t(
-        "Khám phá thế giới Kỹ thuật Dữ liệu và Trí tuệ Nhân tạo — hai lĩnh vực đang định hình tương lai công nghệ. Khóa học cung cấp kiến thức nền tảng từ quản trị cơ sở dữ liệu, xây dựng data pipeline, đến Machine Learning cơ bản. Phù hợp cho học sinh THPT và sinh viên muốn khám phá sự nghiệp CNTT.",
-        "Explore the world of Data Engineering and Artificial Intelligence — two fields shaping the future of technology. This course provides foundational knowledge from database management, building data pipelines, to basic Machine Learning. Ideal for high school and university students exploring IT careers."
+        "Khám phá thế giới Kỹ thuật Dữ liệu và Trí tuệ Nhân tạo — hai lĩnh vực đang định hình tương lai công nghệ. Phù hợp cho học sinh THPT và sinh viên muốn khám phá sự nghiệp CNTT.",
+        "Explore the world of Data Engineering and Artificial Intelligence — two fields shaping the future of technology. Ideal for high school and university students exploring IT careers."
       ),
-      features: [
-        t("SQL & cơ sở dữ liệu: thiết kế bảng, truy vấn, join, indexing với PostgreSQL", "SQL & databases: table design, queries, joins, indexing with PostgreSQL"),
-        t("Data Pipeline (ETL/ELT): thu thập, xử lý, lưu trữ dữ liệu tự động", "Data Pipeline (ETL/ELT): automated data collection, processing, storage"),
-        t("Python cho Data: pandas, numpy, matplotlib — phân tích & trực quan hóa dữ liệu", "Python for Data: pandas, numpy, matplotlib — data analysis & visualization"),
-        t("Machine Learning cơ bản: regression, classification, clustering với scikit-learn", "Basic Machine Learning: regression, classification, clustering with scikit-learn"),
-        t("Giới thiệu Cloud Computing: AWS/GCP cơ bản, triển khai ứng dụng đám mây", "Introduction to Cloud Computing: AWS/GCP basics, cloud app deployment"),
-        t("Capstone project: xây dựng data pipeline hoặc mô hình ML end-to-end", "Capstone project: build an end-to-end data pipeline or ML model"),
-      ],
+      modules: dataModules,
+      anchorId: "data-ai",
     },
   ];
 
@@ -49,7 +42,7 @@ const Programming = () => {
       <Navbar />
       <div className="pt-28 pb-16">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
               <Code2 className="w-3 h-3" /> {t("Chương trình Lập trình", "Programming Program")}
             </div>
@@ -59,29 +52,56 @@ const Programming = () => {
             </h1>
             <p className="text-muted-foreground mb-12">
               {t(
-                "Hai chương trình chính giúp bạn từ người mới bắt đầu đến nắm vững tư duy lập trình và công nghệ dữ liệu hiện đại. Học qua thực hành dự án thực tế.",
-                "Two main programs taking you from beginner to mastering programming thinking and modern data technologies. Learning through real hands-on projects."
+                "Hai chương trình chính giúp bạn từ người mới bắt đầu đến nắm vững tư duy lập trình và công nghệ dữ liệu hiện đại.",
+                "Two main programs taking you from beginner to mastering programming thinking and modern data technologies."
               )}
             </p>
 
-            <div className="space-y-8 mb-12">
+            {/* Course sections with modules */}
+            <div className="space-y-12 mb-12">
               {courses.map((c, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }} className="glass-card rounded-xl p-6">
-                  <div className="flex items-center gap-3 mb-3">
+                <motion.div key={i} id={c.anchorId} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }}>
+                  <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                       <c.icon className="w-5 h-5 text-primary" />
                     </div>
-                    <h3 className="text-lg font-display font-semibold text-foreground">{c.title}</h3>
+                    <h2 className="text-xl font-display font-bold text-foreground">{c.title}</h2>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-4">{c.desc}</p>
-                  <ul className="space-y-2">
-                    {c.features.map((f, j) => (
-                      <li key={j} className="flex items-center gap-2 text-sm text-secondary-foreground">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                        {f}
-                      </li>
+                  <p className="text-sm text-muted-foreground mb-6 max-w-2xl">{c.desc}</p>
+
+                  {/* Module roadmap */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {c.modules.map((mod, j) => (
+                      <Link key={mod.id} to={`/programming/${mod.id}`}
+                        className="group glass-card rounded-xl p-5 hover:border-primary/30 transition-all">
+                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 + j * 0.08 }}>
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${mod.color} flex items-center justify-center text-lg`}>
+                              {mod.icon}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-display font-semibold text-foreground text-sm group-hover:text-primary transition-colors truncate">
+                                {t(mod.title, mod.titleEn)}
+                              </h3>
+                              <span className="text-xs text-muted-foreground">{mod.lessons.length} {t("bài học", "lessons")}</span>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+                          </div>
+                          <p className="text-xs text-muted-foreground line-clamp-2">{t(mod.description, mod.descriptionEn)}</p>
+
+                          {/* Mini roadmap dots */}
+                          <div className="flex items-center gap-1.5 mt-3">
+                            {mod.lessons.map((_, li) => (
+                              <div key={li} className="w-2 h-2 rounded-full bg-primary/20 group-hover:bg-primary/40 transition-colors" />
+                            ))}
+                            <span className="text-[10px] text-muted-foreground ml-1">
+                              {t("modules", "modules")}
+                            </span>
+                          </div>
+                        </motion.div>
+                      </Link>
                     ))}
-                  </ul>
+                  </div>
                 </motion.div>
               ))}
             </div>
