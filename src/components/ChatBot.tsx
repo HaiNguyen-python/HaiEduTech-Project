@@ -130,10 +130,10 @@ const ChatBot = () => {
   };
 
   const shakeVariant = {
-    rotate: [0, -3, 3, -3, 3, -2, 2, 0],
+    rotate: [0, -3, 3, -3, 3, -2, 2, 0] as number[],
     scale: 1,
     transition: { duration: 0.6, ease: "easeInOut" },
-  } as const;
+  };
 
   return (
     <>
