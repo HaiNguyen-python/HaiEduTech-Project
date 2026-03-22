@@ -72,7 +72,7 @@ const courseData: Record<string, {
       { label: "Điểm trung bình đầu ra", labelEn: "Average output score", value: "7.0+" },
       { label: "Học viên đạt target", labelEn: "Students hitting target", value: "92%" },
       { label: "Bài mẫu Writing", labelEn: "Writing samples", value: "1000+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "5 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
     ],
     features: [
       { vi: "Chiến lược riêng cho từng phần: Listening, Reading, Writing, Speaking", en: "Dedicated strategies for each skill: Listening, Reading, Writing, Speaking" },
