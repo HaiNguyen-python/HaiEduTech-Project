@@ -54,6 +54,7 @@ const App = () => (
             <Route path="/lesson/:resourceId" element={<LessonDetail />} />
             <Route path="/lesson/:resourceId/:lessonId" element={<LessonDetail />} />
             <Route path="/teacher-admin" element={<TeacherAdmin />} />
+            <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
             <Route path="/lesson-library" element={<LessonLibrary />} />
             <Route path="/lesson-library/:lessonId" element={<GeneratedLessonView />} />
             <Route path="/python-challenges" element={<PythonChallengeList />} />

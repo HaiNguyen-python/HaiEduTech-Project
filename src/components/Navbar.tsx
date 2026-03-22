@@ -48,7 +48,7 @@ const Navbar = () => {
     { to: "/programming/prog-ml", label: "Machine Learning" },
   ];
 
-  const navLinks = [
+  const baseLinks = [
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap },
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
     { to: "/english", label: t("Học Tiếng Anh", "Learn English"), icon: BookOpen, subs: englishSubs, key: "en" },
@@ -57,9 +57,12 @@ const Navbar = () => {
     { to: "/smart-resources", label: t("Kho Học Liệu", "Smart Library"), icon: Library },
     { to: "/lesson-library", label: t("Bài Học AI", "AI Lessons"), icon: BookMarked },
     { to: "/ai-grading", label: t("Chấm Điểm IELTS", "IELTS Grading"), icon: Brain },
-    { to: "/teacher-admin", label: t("Soạn bài", "Admin"), icon: Settings },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
+
+  const navLinks = isTeacher
+    ? [...baseLinks, { to: "/teacher-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
+    : baseLinks;
 
   const handleMouseEnter = (key: string) => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
