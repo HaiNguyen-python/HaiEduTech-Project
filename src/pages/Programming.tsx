@@ -1,110 +1,266 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
-import { Code2, Cpu, BrainCircuit, ArrowRight, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import PythonReview from "@/components/PythonReview";
 import { programmingModules } from "@/data/programmingLessonData";
+import { pythonChallenges } from "@/data/pythonChallenges";
+import { Progress } from "@/components/ui/progress";
+
+const pillars = [
+  {
+    id: "python",
+    icon: Code2,
+    emoji: "🐍",
+    color: "from-emerald-500 to-green-600",
+    bgColor: "bg-emerald-500/8",
+    borderColor: "border-emerald-500/20",
+    accentColor: "text-emerald-600",
+  },
+  {
+    id: "sql",
+    icon: Database,
+    emoji: "🗄️",
+    color: "from-violet-500 to-purple-600",
+    bgColor: "bg-violet-500/8",
+    borderColor: "border-violet-500/20",
+    accentColor: "text-violet-600",
+  },
+  {
+    id: "data-eng",
+    icon: Workflow,
+    emoji: "🔄",
+    color: "from-amber-500 to-orange-600",
+    bgColor: "bg-amber-500/8",
+    borderColor: "border-amber-500/20",
+    accentColor: "text-amber-600",
+  },
+  {
+    id: "ml",
+    icon: BrainCircuit,
+    emoji: "🤖",
+    color: "from-teal-500 to-cyan-600",
+    bgColor: "bg-teal-500/8",
+    borderColor: "border-teal-500/20",
+    accentColor: "text-teal-600",
+  },
+];
 
 const Programming = () => {
   const { t } = useLanguage();
+  const [activePillar, setActivePillar] = useState("python");
 
-  const kidModules = programmingModules.filter(m => m.course === "kids");
-  const dataModules = programmingModules.filter(m => m.course === "data-ai");
+  const completedChallenges = pythonChallenges.filter(
+    c => localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1"
+  ).length;
+  const challengeProgress = (completedChallenges / pythonChallenges.length) * 100;
 
-  const courses = [
-    {
-      icon: Cpu,
-      title: t("Nền tảng Công nghệ cho trẻ", "Tech Foundations for Kids"),
-      desc: t(
-        "Khóa học lập trình toàn diện dành cho trẻ em và thanh thiếu niên từ 8–16 tuổi. Bắt đầu từ tư duy logic với lập trình kéo thả (Scratch), tiến dần đến Python và xây dựng dự án thực tế.",
-        "Comprehensive programming course for children and teens aged 8–16. Starting with logical thinking through block-based coding (Scratch), progressing to Python and real project building."
-      ),
-      modules: kidModules,
-      anchorId: "kids",
+  // Map modules to pillars
+  const pillarData: Record<string, {
+    title: string; titleEn: string; desc: string; descEn: string;
+    modules: typeof programmingModules; challengeSection?: boolean;
+  }> = {
+    python: {
+      title: "Python", titleEn: "Python",
+      desc: "Từ tư duy thuật toán cơ bản (Scratch) đến Python nâng cao, cấu trúc dữ liệu và dự án thực tế. Bao gồm 150 thử thách lập trình với IDE tích hợp.",
+      descEn: "From basic algorithmic thinking (Scratch) to advanced Python, data structures and real projects. Includes 150 coding challenges with built-in IDE.",
+      modules: programmingModules.filter(m => m.course === "kids"),
+      challengeSection: true,
     },
-    {
-      icon: BrainCircuit,
-      title: t("Giới thiệu Data Engineering & AI", "Introduction to Data Engineering & AI"),
-      desc: t(
-        "Khám phá thế giới Kỹ thuật Dữ liệu và Trí tuệ Nhân tạo — hai lĩnh vực đang định hình tương lai công nghệ. Phù hợp cho học sinh THPT và sinh viên muốn khám phá sự nghiệp CNTT.",
-        "Explore the world of Data Engineering and Artificial Intelligence — two fields shaping the future of technology. Ideal for high school and university students exploring IT careers."
-      ),
-      modules: dataModules,
-      anchorId: "data-ai",
+    sql: {
+      title: "SQL & Database", titleEn: "SQL & Database",
+      desc: "Nắm vững truy vấn, thiết kế cơ sở dữ liệu, JOIN, indexing và tối ưu hóa với PostgreSQL.",
+      descEn: "Master queries, database design, JOINs, indexing and optimization with PostgreSQL.",
+      modules: programmingModules.filter(m => m.id === "prog-sql"),
     },
-  ];
+    "data-eng": {
+      title: "Data Engineering", titleEn: "Data Engineering",
+      desc: "Xây dựng đường ống dữ liệu (ETL/ELT), xử lý dữ liệu lớn với Pandas và tự động hóa workflow.",
+      descEn: "Build data pipelines (ETL/ELT), process big data with Pandas and automate workflows.",
+      modules: programmingModules.filter(m => m.id === "prog-data-pipeline"),
+    },
+    ml: {
+      title: "Machine Learning", titleEn: "Machine Learning",
+      desc: "Regression, Classification, Clustering và các mô hình AI cơ bản với scikit-learn.",
+      descEn: "Regression, Classification, Clustering and basic AI models with scikit-learn.",
+      modules: programmingModules.filter(m => m.id === "prog-ml"),
+    },
+  };
+
+  const active = pillarData[activePillar];
+  const activePillarMeta = pillars.find(p => p.id === activePillar)!;
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-6 pb-16">
-        <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl mx-auto">
+        <div className="container mx-auto px-4 sm:px-6">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-4xl mx-auto text-center mb-10"
+          >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
-              <Code2 className="w-3 h-3" /> {t("Chương trình Lập trình", "Programming Program")}
+              <Code2 className="w-3 h-3" /> {t("Lộ trình Nghề nghiệp", "Career Path")}
             </div>
-            <h1 className="text-4xl font-display font-bold mb-4 text-foreground">
-              {t("Khóa học ", "Programming ")}
-              <span className="text-gradient">{t("Lập trình", "Courses")}</span>
+            <h1 className="text-3xl sm:text-4xl font-display font-bold mb-3 text-foreground leading-tight">
+              {t("Lộ trình ", "Programming ")}
+              <span className="text-gradient">{t("Lập trình", "Career Path")}</span>
             </h1>
-            <p className="text-muted-foreground mb-12">
+            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
               {t(
-                "Hai chương trình chính giúp bạn từ người mới bắt đầu đến nắm vững tư duy lập trình và công nghệ dữ liệu hiện đại.",
-                "Two main programs taking you from beginner to mastering programming thinking and modern data technologies."
+                "4 trụ cột chính đưa bạn từ người mới bắt đầu đến chuyên gia công nghệ dữ liệu.",
+                "4 core pillars taking you from beginner to data technology expert."
               )}
             </p>
+          </motion.div>
 
-            {/* Course sections with modules */}
-            <div className="space-y-12 mb-12">
-              {courses.map((c, i) => (
-                <motion.div key={i} id={c.anchorId} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }}>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <c.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <h2 className="text-xl font-display font-bold text-foreground">{c.title}</h2>
+          {/* 4 Pillar Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto mb-10">
+            {pillars.map((p, i) => {
+              const data = pillarData[p.id];
+              const isActive = activePillar === p.id;
+              const Icon = p.icon;
+              return (
+                <motion.button
+                  key={p.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  onClick={() => setActivePillar(p.id)}
+                  className={`relative rounded-xl p-4 text-left transition-all duration-300 border active:scale-[0.97] ${
+                    isActive
+                      ? `${p.bgColor} ${p.borderColor} shadow-md`
+                      : "bg-card border-border hover:border-primary/20 hover:shadow-sm"
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${p.color} flex items-center justify-center text-white mb-3`}>
+                    <Icon className="w-5 h-5" />
                   </div>
-                  <p className="text-sm text-muted-foreground mb-6 max-w-2xl">{c.desc}</p>
+                  <h3 className={`font-display font-bold text-sm mb-1 ${isActive ? p.accentColor : "text-foreground"}`}>
+                    {t(data.title, data.titleEn)}
+                  </h3>
+                  <p className="text-[11px] text-muted-foreground line-clamp-2">
+                    {data.modules.length} {t("module", "modules")} · {data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} {t("bài học", "lessons")}
+                  </p>
+                  {isActive && (
+                    <motion.div
+                      layoutId="pillar-indicator"
+                      className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-gradient-to-r ${p.color}`}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </motion.button>
+              );
+            })}
+          </div>
 
-                  {/* Module roadmap */}
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {c.modules.map((mod, j) => (
-                      <Link key={mod.id} to={`/programming/${mod.id}`}
-                        className="group glass-card rounded-xl p-5 hover:border-primary/30 transition-all">
-                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 + j * 0.08 }}>
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${mod.color} flex items-center justify-center text-lg`}>
-                              {mod.icon}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <h3 className="font-display font-semibold text-foreground text-sm group-hover:text-primary transition-colors truncate">
-                                {t(mod.title, mod.titleEn)}
-                              </h3>
-                              <span className="text-xs text-muted-foreground">{mod.lessons.length} {t("bài học", "lessons")}</span>
-                            </div>
-                            <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+          {/* Active Pillar Content */}
+          <div className="max-w-4xl mx-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activePillar}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {/* Pillar header */}
+                <div className={`rounded-xl p-6 mb-6 border ${activePillarMeta.bgColor} ${activePillarMeta.borderColor}`}>
+                  <div className="flex items-start gap-4">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${activePillarMeta.color} flex items-center justify-center text-white shrink-0`}>
+                      <activePillarMeta.icon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-display font-bold text-foreground mb-1">
+                        {t(active.title, active.titleEn)}
+                      </h2>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {t(active.desc, active.descEn)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Python Challenges Section */}
+                {active.challengeSection && (
+                  <Link
+                    to="/python-challenges"
+                    className={`group block rounded-xl p-5 mb-6 border ${activePillarMeta.borderColor} bg-gradient-to-r from-emerald-500/5 to-green-500/5 hover:shadow-md transition-all active:scale-[0.99]`}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center">
+                          <Trophy className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-display font-bold text-foreground text-sm group-hover:text-primary transition-colors">
+                            {t("150 Thử thách Python", "150 Python Challenges")}
+                          </h3>
+                          <p className="text-xs text-muted-foreground">
+                            {t("IDE tích hợp · Chấm điểm tự động · AI Debug", "Built-in IDE · Auto-grading · AI Debug")}
+                          </p>
+                        </div>
+                      </div>
+                      <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Progress value={challengeProgress} className="h-2 flex-1" />
+                      <span className="text-xs font-bold text-primary whitespace-nowrap">
+                        {completedChallenges}/{pythonChallenges.length}
+                      </span>
+                    </div>
+                  </Link>
+                )}
+
+                {/* Module Cards */}
+                <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                  {active.modules.map((mod, j) => (
+                    <Link
+                      key={mod.id}
+                      to={`/programming/${mod.id}`}
+                      className="group glass-card rounded-xl p-5 hover:border-primary/30 transition-all hover:shadow-md active:scale-[0.98]"
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: j * 0.06, duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${mod.color} flex items-center justify-center text-lg`}>
+                            {mod.icon}
                           </div>
-                          <p className="text-xs text-muted-foreground line-clamp-2">{t(mod.description, mod.descriptionEn)}</p>
-
-                          {/* Mini roadmap dots */}
-                          <div className="flex items-center gap-1.5 mt-3">
-                            {mod.lessons.map((_, li) => (
-                              <div key={li} className="w-2 h-2 rounded-full bg-primary/20 group-hover:bg-primary/40 transition-colors" />
-                            ))}
-                            <span className="text-[10px] text-muted-foreground ml-1">
-                              {t("modules", "modules")}
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-display font-semibold text-foreground text-sm group-hover:text-primary transition-colors truncate">
+                              {t(mod.title, mod.titleEn)}
+                            </h3>
+                            <span className="text-xs text-muted-foreground">
+                              {mod.lessons.length} {t("bài học", "lessons")}
                             </span>
                           </div>
-                        </motion.div>
-                      </Link>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                          <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+                        </div>
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {t(mod.description, mod.descriptionEn)}
+                        </p>
+                        {/* Mini roadmap */}
+                        <div className="flex items-center gap-1.5 mt-3">
+                          {mod.lessons.map((_, li) => (
+                            <div key={li} className="w-2 h-2 rounded-full bg-primary/20 group-hover:bg-primary/40 transition-colors" />
+                          ))}
+                        </div>
+                      </motion.div>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
             {/* Python Review */}
             <PythonReview />
@@ -113,7 +269,7 @@ const Programming = () => {
             <div className="mt-12">
               <CertCarousel title={t("Chứng chỉ CNTT", "IT Certifications")} />
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
       <Footer />
