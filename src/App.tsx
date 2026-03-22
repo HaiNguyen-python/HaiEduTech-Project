@@ -16,6 +16,7 @@ import Contact from "./pages/Contact.tsx";
 import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
 import SmartResources from "./pages/SmartResources.tsx";
+import LessonDetail from "./pages/LessonDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
