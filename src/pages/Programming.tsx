@@ -14,28 +14,32 @@ const Programming = () => {
       icon: Cpu,
       title: t("Nền tảng Công nghệ cho trẻ", "Tech Foundations for Kids"),
       desc: t(
-        "Khóa học lập trình từ cơ bản đến nâng cao, giúp trẻ phát triển tư duy logic và giải quyết vấn đề thông qua các dự án thực tế.",
-        "Programming from basics to advanced, helping kids develop logical thinking and problem-solving through real projects."
+        "Khóa học lập trình toàn diện dành cho trẻ em và thanh thiếu niên từ 8–16 tuổi. Bắt đầu từ tư duy logic với lập trình kéo thả (Scratch), tiến dần đến Python và xây dựng dự án thực tế. Giúp trẻ phát triển khả năng giải quyết vấn đề, sáng tạo và tự tin trong thời đại số.",
+        "Comprehensive programming course for children and teens aged 8–16. Starting with logical thinking through block-based coding (Scratch), progressing to Python and real project building. Developing problem-solving skills, creativity, and digital confidence."
       ),
       features: [
-        t("Scratch & lập trình kéo thả cho trẻ nhỏ", "Scratch & block-based coding for young learners"),
-        t("Python cơ bản: biến, vòng lặp, hàm", "Python basics: variables, loops, functions"),
-        t("Cấu trúc dữ liệu & thuật toán cơ bản", "Basic data structures & algorithms"),
-        t("Dự án thực tế: game, web, ứng dụng nhỏ", "Real projects: games, web, mini apps"),
+        t("Scratch & lập trình kéo thả: tư duy thuật toán qua trò chơi sáng tạo", "Scratch & block-based coding: algorithmic thinking through creative games"),
+        t("Python cơ bản → nâng cao: biến, vòng lặp, hàm, OOP, file I/O", "Python basics → advanced: variables, loops, functions, OOP, file I/O"),
+        t("Cấu trúc dữ liệu & thuật toán: array, list, dictionary, sorting, searching", "Data structures & algorithms: array, list, dictionary, sorting, searching"),
+        t("Dự án thực tế: game (Pygame), web cá nhân (HTML/CSS), chatbot đơn giản", "Real projects: games (Pygame), personal website (HTML/CSS), simple chatbot"),
+        t("Tư duy Computational Thinking: phân tích, trừu tượng hóa, pattern recognition", "Computational Thinking: analysis, abstraction, pattern recognition"),
+        t("Hackathon & showcase: trình bày dự án cuối khóa trước phụ huynh & bạn bè", "Hackathon & showcase: end-of-course project presentation to parents & peers"),
       ],
     },
     {
       icon: BrainCircuit,
-      title: t("Giới thiệu chuyên ngành Data Engineering & AI Technologies", "Introduction to Data Engineering & AI Technologies"),
+      title: t("Giới thiệu Data Engineering & AI", "Introduction to Data Engineering & AI"),
       desc: t(
-        "Khám phá thế giới Kỹ thuật Dữ liệu và Trí tuệ Nhân tạo — nền tảng cho sự nghiệp công nghệ tương lai.",
-        "Explore the world of Data Engineering and AI — the foundation for a future tech career."
+        "Khám phá thế giới Kỹ thuật Dữ liệu và Trí tuệ Nhân tạo — hai lĩnh vực đang định hình tương lai công nghệ. Khóa học cung cấp kiến thức nền tảng từ quản trị cơ sở dữ liệu, xây dựng data pipeline, đến Machine Learning cơ bản. Phù hợp cho học sinh THPT và sinh viên muốn khám phá sự nghiệp CNTT.",
+        "Explore the world of Data Engineering and Artificial Intelligence — two fields shaping the future of technology. This course provides foundational knowledge from database management, building data pipelines, to basic Machine Learning. Ideal for high school and university students exploring IT careers."
       ),
       features: [
-        t("SQL & quản trị cơ sở dữ liệu", "SQL & database management"),
-        t("Xây dựng data pipeline (ETL/ELT)", "Building data pipelines (ETL/ELT)"),
-        t("Machine Learning cơ bản với Python", "Basic Machine Learning with Python"),
-        t("Giới thiệu Cloud & Big Data", "Introduction to Cloud & Big Data"),
+        t("SQL & cơ sở dữ liệu: thiết kế bảng, truy vấn, join, indexing với PostgreSQL", "SQL & databases: table design, queries, joins, indexing with PostgreSQL"),
+        t("Data Pipeline (ETL/ELT): thu thập, xử lý, lưu trữ dữ liệu tự động", "Data Pipeline (ETL/ELT): automated data collection, processing, storage"),
+        t("Python cho Data: pandas, numpy, matplotlib — phân tích & trực quan hóa dữ liệu", "Python for Data: pandas, numpy, matplotlib — data analysis & visualization"),
+        t("Machine Learning cơ bản: regression, classification, clustering với scikit-learn", "Basic Machine Learning: regression, classification, clustering with scikit-learn"),
+        t("Giới thiệu Cloud Computing: AWS/GCP cơ bản, triển khai ứng dụng đám mây", "Introduction to Cloud Computing: AWS/GCP basics, cloud app deployment"),
+        t("Capstone project: xây dựng data pipeline hoặc mô hình ML end-to-end", "Capstone project: build an end-to-end data pipeline or ML model"),
       ],
     },
   ];
@@ -47,7 +51,7 @@ const Programming = () => {
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
-              <Code2 className="w-3 h-3" /> {t("Phòng Lab Lập trình", "Programming Lab")}
+              <Code2 className="w-3 h-3" /> {t("Chương trình Lập trình", "Programming Program")}
             </div>
             <h1 className="text-4xl font-display font-bold mb-4 text-foreground">
               {t("Khóa học ", "Programming ")}
@@ -55,8 +59,8 @@ const Programming = () => {
             </h1>
             <p className="text-muted-foreground mb-12">
               {t(
-                "Hai khóa học chính giúp bạn từ người mới bắt đầu đến nắm vững nền tảng công nghệ hiện đại.",
-                "Two main courses to take you from beginner to mastering modern technology foundations."
+                "Hai chương trình chính giúp bạn từ người mới bắt đầu đến nắm vững tư duy lập trình và công nghệ dữ liệu hiện đại. Học qua thực hành dự án thực tế.",
+                "Two main programs taking you from beginner to mastering programming thinking and modern data technologies. Learning through real hands-on projects."
               )}
             </p>
 
