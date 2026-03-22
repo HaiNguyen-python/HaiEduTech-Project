@@ -68,7 +68,7 @@ interface GenerationJob {
   error?: string;
 }
 
-const TeacherAdmin = () => {
+const TeacherAdmin = ({ embedded = false }: { embedded?: boolean }) => {
   const { t } = useLanguage();
   const [subject, setSubject] = useState("english");
   const [category, setCategory] = useState("grammar");
