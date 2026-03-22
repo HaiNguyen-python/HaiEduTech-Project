@@ -50,6 +50,9 @@ const App = () => (
             <Route path="/smart-resources" element={<SmartResources />} />
             <Route path="/lesson/:resourceId" element={<LessonDetail />} />
             <Route path="/lesson/:resourceId/:lessonId" element={<LessonDetail />} />
+            <Route path="/teacher-admin" element={<TeacherAdmin />} />
+            <Route path="/lesson-library" element={<LessonLibrary />} />
+            <Route path="/lesson-library/:lessonId" element={<GeneratedLessonView />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
