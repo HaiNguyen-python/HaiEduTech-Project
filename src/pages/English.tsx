@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import WordOfTheDay from "@/components/WordOfTheDay";
+import { englishResources } from "@/data/lessonData";
 
 const English = () => {
   const { t } = useLanguage();
