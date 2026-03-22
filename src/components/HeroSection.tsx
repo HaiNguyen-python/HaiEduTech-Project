@@ -73,10 +73,10 @@ const HeroSection = () => {
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-3">
+              <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
                 <Link
                   to="/english"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-primary/20 text-sm"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-primary/20 text-sm whitespace-nowrap"
                 >
                   <BookOpen className="w-4 h-4" />
                   {t("Các khóa Tiếng Anh", "English Courses")}
@@ -84,7 +84,7 @@ const HeroSection = () => {
                 </Link>
                 <Link
                   to="/chinese"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-destructive/90 text-destructive-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-destructive/20 text-sm"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-destructive/90 text-destructive-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-destructive/20 text-sm whitespace-nowrap"
                 >
                   <Languages className="w-4 h-4" />
                   {t("Các khóa Tiếng Trung", "Chinese Courses")}
@@ -92,7 +92,7 @@ const HeroSection = () => {
                 </Link>
                 <Link
                   to="/programming"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border bg-card text-foreground font-semibold hover:bg-secondary transition-all shadow-sm text-sm"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border bg-card text-foreground font-semibold hover:bg-secondary transition-all shadow-sm text-sm whitespace-nowrap"
                 >
                   <Code2 className="w-4 h-4" />
                   {t("Các khóa Lập trình", "Programming Courses")}
