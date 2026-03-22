@@ -47,8 +47,12 @@ const courseData: Record<string, {
       { vi: "Người chuẩn bị du lịch hoặc làm việc tại Trung Quốc/Đài Loan", en: "People planning to travel or work in China/Taiwan" },
       { vi: "Sinh viên muốn bắt đầu học tiếng Trung một cách bài bản", en: "Students wanting to start Chinese systematically" },
     ],
-    testimonial: { name: "Bạn Phương Linh (Sinh viên)", text: "Mình từ không biết chữ nào đến nói được cả đoạn hội thoại sau 3 tháng. Phương pháp bộ thủ giúp nhớ chữ Hán cực nhanh!", textEn: "From knowing zero characters to speaking full dialogues in 3 months. The radical method makes memorizing characters super fast!" },
-    duration: "5 tháng", durationEn: "5 months",
+    testimonials: [
+      { name: "Bạn Phương Linh (Sinh viên)", text: "Mình từ không biết chữ nào đến nói được cả đoạn hội thoại sau 3 tháng. Phương pháp bộ thủ giúp nhớ chữ Hán cực nhanh!", textEn: "From knowing zero characters to speaking full dialogues in 3 months. The radical method makes memorizing characters super fast!" },
+      { name: "Chị Thu Hà (Nhân viên văn phòng)", text: "Học tiếng Trung ở đây rất vui, không bị áp lực. Sau 4 tháng mình đã tự tin chào hỏi và mua sắm khi đi Trung Quốc!", textEn: "Learning Chinese here is fun, no pressure. After 4 months I could confidently greet and shop during my China trip!" },
+      { name: "Em Minh Đức (Học sinh lớp 10)", text: "Mình thích cách học qua flashcard và liên tưởng bộ thủ. Nhớ chữ Hán nhanh mà không chán!", textEn: "I love learning through flashcards and radical associations. Memorizing characters is fast and not boring!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
   },
   hsk: {
     title: "Luyện thi HSK", titleEn: "HSK Preparation",
