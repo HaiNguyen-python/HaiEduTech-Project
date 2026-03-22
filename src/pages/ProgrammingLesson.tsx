@@ -113,9 +113,8 @@ const ProgrammingLessonPage = () => {
     setShowChallengeResult(false);
   };
 
-  const openInTrinket = (code: string) => {
-    const encoded = encodeURIComponent(code);
-    window.open(`https://trinket.io/python?outputOnly=true&runOption=run&code=${encoded}`, "_blank");
+  const openInTrinket = (_code: string) => {
+    // No longer used - kept for compatibility
   };
 
   if (!mod || !lesson) {
