@@ -450,8 +450,8 @@ const ProgrammingLessonPage = () => {
                             <AnimatePresence>
                               {showSolution && (
                                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mt-3 overflow-hidden">
-                                  <pre className="p-3 bg-slate-950 rounded-lg overflow-x-auto mb-3">
-                                    <code className="text-xs font-mono text-slate-300">{aiChallenge.solution}</code>
+                                  <pre className="p-3 bg-slate-950 rounded-lg overflow-x-auto max-w-full mb-3">
+                                    <code className="text-xs font-mono text-slate-300 break-words">{aiChallenge.solution}</code>
                                   </pre>
                                   {aiChallenge.explanation && (
                                     <p className="text-xs text-muted-foreground whitespace-pre-line">📖 {aiChallenge.explanation}</p>
