@@ -19,6 +19,7 @@ import Signup from "./pages/Signup.tsx";
 import SmartResources from "./pages/SmartResources.tsx";
 import LessonDetail from "./pages/LessonDetail.tsx";
 import TeacherAdmin from "./pages/TeacherAdmin.tsx";
+import TeacherDashboard from "./pages/TeacherDashboard.tsx";
 import LessonLibrary from "./pages/LessonLibrary.tsx";
 import GeneratedLessonView from "./pages/GeneratedLessonView.tsx";
 import PythonChallengeList from "./pages/PythonChallengeList.tsx";
