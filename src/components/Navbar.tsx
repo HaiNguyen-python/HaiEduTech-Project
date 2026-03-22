@@ -91,68 +91,81 @@ const Navbar = () => {
 
   return (
     <header className="flex flex-col">
-      {/* Row 1: Branding — scrolls away on desktop, always visible on mobile */}
+      {/* Row 1: Branding — fixed on all devices */}
       <div
         className={`w-full z-50 bg-card border-b border-border transition-all duration-300 fixed ${
           scrolled ? "lg:-top-12 lg:opacity-0 lg:pointer-events-none top-0" : "top-0"
         }`}
       >
-        <div className="container mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={teacherLogo} alt="HaiEdu" className="w-8 h-8 rounded-lg object-cover" />
-            <span className="font-display font-bold text-lg text-foreground">
-              Hai<span className="text-primary">Edu</span>
-            </span>
-          </Link>
+        <div className="container mx-auto px-4 sm:px-6">
+          {/* Mobile: flex-col layout; Desktop: single row */}
+          <div className="flex flex-col md:flex-row md:items-center md:h-12">
+            {/* Row 1a: Logo + hamburger (mobile) or Logo + slogan + auth (desktop) */}
+            <div className="flex items-center justify-between h-12 md:flex-1 min-w-0">
+              <Link to="/" className="flex items-center gap-2 shrink-0">
+                <img src={teacherLogo} alt="HaiEdu" className="w-8 h-8 rounded-lg object-cover" />
+                <span className="font-display font-bold text-lg text-foreground whitespace-nowrap">
+                  Hai<span className="text-primary">Edu</span>
+                </span>
+              </Link>
 
-          {/* Slogan: hidden on mobile, shown on md+ */}
-          <div className="hidden md:flex items-center gap-3">
-            <BookOpen className="w-4 h-4 text-primary/60" />
-            <span className="text-sm text-muted-foreground italic font-light tracking-wide">
-              The Unique Intersection of Language & Technology
-            </span>
-            <Cpu className="w-4 h-4 text-primary/60" />
-          </div>
+              {/* Slogan: hidden on mobile, shown on md+ */}
+              <div className="hidden md:flex items-center gap-3 mx-4 min-w-0">
+                <BookOpen className="w-4 h-4 text-primary/60 shrink-0" />
+                <span className="text-sm text-muted-foreground italic font-light tracking-wide truncate">
+                  The Unique Intersection of Language & Technology
+                </span>
+                <Cpu className="w-4 h-4 text-primary/60 shrink-0" />
+              </div>
 
-          {/* Auth + Lang on branding row (desktop only) */}
-          <div className="hidden lg:flex items-center gap-1.5">
-            {user ? (
-              <>
-                <Link to="/dashboard" className="px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
-                  Dashboard
-                </Link>
-                <button onClick={handleLogout} className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
-                  <LogOut className="w-3.5 h-3.5" />
-                  {t("Đăng Xuất", "Logout")}
+              {/* Auth + Lang on branding row (desktop only) */}
+              <div className="hidden lg:flex items-center gap-1.5 shrink-0">
+                {user ? (
+                  <>
+                    <Link to="/dashboard" className="px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+                      Dashboard
+                    </Link>
+                    <button onClick={handleLogout} className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+                      <LogOut className="w-3.5 h-3.5" />
+                      {t("Đăng Xuất", "Logout")}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground hover:brightness-110 transition-all">
+                      <LogIn className="w-3.5 h-3.5" />
+                      {t("Đăng Nhập", "Login")}
+                    </Link>
+                    <Link to="/signup" className="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-primary text-primary hover:bg-primary/10 transition-all">
+                      <UserPlus className="w-3.5 h-3.5" />
+                      {t("Đăng Ký", "Sign Up")}
+                    </Link>
+                  </>
+                )}
+                <button onClick={() => setLang(lang === "vi" ? "en" : "vi")}
+                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+                  <Globe className="w-3.5 h-3.5" />
+                  {lang === "vi" ? "EN" : "VI"}
                 </button>
-              </>
-            ) : (
-              <>
-                <Link to="/login" className="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground hover:brightness-110 transition-all">
-                  <LogIn className="w-3.5 h-3.5" />
-                  {t("Đăng Nhập", "Login")}
-                </Link>
-                <Link to="/signup" className="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-primary text-primary hover:bg-primary/10 transition-all">
-                  <UserPlus className="w-3.5 h-3.5" />
-                  {t("Đăng Ký", "Sign Up")}
-                </Link>
-              </>
-            )}
-            <button onClick={() => setLang(lang === "vi" ? "en" : "vi")}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
-              <Globe className="w-3.5 h-3.5" />
-              {lang === "vi" ? "EN" : "VI"}
-            </button>
-          </div>
+              </div>
 
-          {/* Mobile: lang + hamburger */}
-          <div className="flex items-center gap-1 lg:hidden">
-            <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
-              <Globe className="w-4 h-4" />
-            </button>
-            <button onClick={() => setOpen(!open)} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
-              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+              {/* Mobile: lang + hamburger — same row as logo */}
+              <div className="flex items-center gap-1 md:hidden">
+                <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
+                  <Globe className="w-4 h-4" />
+                </button>
+                <button onClick={() => setOpen(!open)} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
+                  {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Row 1b: Slogan on mobile — separate row, smaller text, centered */}
+            <div className="md:hidden text-center pb-1.5 -mt-1">
+              <span className="text-[11px] text-muted-foreground/70 italic font-light tracking-wide">
+                Học thông minh • Dẫn đầu kỷ nguyên số
+              </span>
+            </div>
           </div>
         </div>
       </div>
