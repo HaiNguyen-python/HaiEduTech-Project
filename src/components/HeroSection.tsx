@@ -92,10 +92,11 @@ const HeroSection = () => {
                 </Link>
                 <Link
                   to="/programming"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border bg-card text-foreground font-semibold hover:bg-secondary transition-all shadow-sm text-sm whitespace-nowrap"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-accent-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-accent/20 text-sm whitespace-nowrap"
                 >
                   <Code2 className="w-4 h-4" />
                   {t("Các khóa Lập trình", "Programming Courses")}
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </motion.div>
