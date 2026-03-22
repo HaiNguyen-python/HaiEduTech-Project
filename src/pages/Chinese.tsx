@@ -107,7 +107,7 @@ const Chinese = () => {
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/30 bg-red-500/5 text-red-500 text-sm font-medium mb-4">
-              <Languages className="w-4 h-4" /> {t("Góc Tiếng Trung", "Chinese Corner")}
+              <Languages className="w-4 h-4" /> {t("Chương trình Tiếng Trung", "Chinese Program")}
             </div>
             <h1 className="text-4xl font-display font-bold mb-4 text-foreground">
               {t("Khóa học ", "Chinese ")}
