@@ -18,6 +18,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
   const [mod, setMod] = useState<ProgrammingModule | null>(null);
   const [lesson, setLesson] = useState<PLType | null>(null);
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -31,6 +32,9 @@ const ProgrammingLessonPage = () => {
   const [challengeActive, setChallengeActive] = useState(false);
   const [challengeAnswer, setChallengeAnswer] = useState<number | null>(null);
   const [showChallengeResult, setShowChallengeResult] = useState(false);
+  const [showIDE, setShowIDE] = useState(true);
+
+  const isSQL = mod?.id === "prog-sql";
 
   useEffect(() => {
     const m = programmingModules.find(m => m.id === moduleId);
