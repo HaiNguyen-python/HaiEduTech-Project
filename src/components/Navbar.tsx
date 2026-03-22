@@ -56,6 +56,7 @@ const Navbar = () => {
   const programmingSubs = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/python-challenges", label: t("🏆 150 Thử thách Python", "🏆 150 Python Challenges") },
+    { to: "/programming/prog-ai-foundation", label: "🧠 AI Foundation" },
     { to: "/programming/prog-sql", label: "🗄️ SQL & Database" },
     { to: "/programming/prog-data-pipeline", label: "🔄 Data Engineer" },
     { to: "/programming/prog-ml", label: "🤖 Machine Learning Engineer" },
