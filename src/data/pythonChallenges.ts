@@ -21,8 +21,7 @@ export interface PythonChallenge {
   tags: string[];
 }
 
-export const pythonChallenges: PythonChallenge[] = 
-[
+export const pythonChallenges: PythonChallenge[] = [
   {
     "id": "001",
     "number": 1,
@@ -1379,17 +1378,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "choice = 'square', value1 = 5",
-        "expected": 25,
+        "expected": "25",
         "description": "Calculates area of a square with side 5"
       },
       {
         "input": "choice = 'triangle', value1 = 4, value2 = 6",
-        "expected": 12,
+        "expected": "12",
         "description": "Calculates area of a triangle with base 4, height 6"
       },
       {
         "input": "choice = 'circle', value1 = 5",
-        "expected": -1,
+        "expected": "-1",
         "description": "Handles invalid choice"
       }
     ],
@@ -1419,29 +1418,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "name = 'Alice'",
-        "expected": [
-          "Alice",
-          "Alice",
-          "Alice"
-        ],
+        "expected": "[\"Alice\", \"Alice\", \"Alice\"]",
         "description": "Displays 'Alice' three times"
       },
       {
         "input": "name = 'Bob'",
-        "expected": [
-          "Bob",
-          "Bob",
-          "Bob"
-        ],
+        "expected": "[\"Bob\", \"Bob\", \"Bob\"]",
         "description": "Displays 'Bob' three times"
       },
       {
         "input": "name = 'Charlie'",
-        "expected": [
-          "Charlie",
-          "Charlie",
-          "Charlie"
-        ],
+        "expected": "[\"Charlie\", \"Charlie\", \"Charlie\"]",
         "description": "Displays 'Charlie', 'Charlie', 'Charlie'"
       }
     ],
@@ -1470,26 +1457,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "name = 'Alice', num_times = 5",
-        "expected": [
-          "Alice",
-          "Alice",
-          "Alice",
-          "Alice",
-          "Alice"
-        ],
+        "expected": "[\"Alice\", \"Alice\", \"Alice\", \"Alice\", \"Alice\"]",
         "description": "Displays 'Alice' five times"
       },
       {
         "input": "name = 'Bob', num_times = 2",
-        "expected": [
-          "Bob",
-          "Bob"
-        ],
+        "expected": "[\"Bob\", \"Bob\"]",
         "description": "Displays 'Bob' two times"
       },
       {
         "input": "name = 'Charlie', num_times = 0",
-        "expected": [],
+        "expected": "[]",
         "description": "Displays 'Charlie' zero times (empty list)"
       }
     ],
@@ -1518,35 +1496,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "name = 'Alice', num_times = 2",
-        "expected": [
-          "A",
-          "l",
-          "i",
-          "c",
-          "e",
-          "A",
-          "l",
-          "i",
-          "c",
-          "e"
-        ],
+        "expected": "[\"A\", \"l\", \"i\", \"c\", \"e\", \"A\", \"l\", \"i\", \"c\", \"e\"]",
         "description": "Displays 'Alice' letter by letter two times"
       },
       {
         "input": "name = 'Hi', num_times = 3",
-        "expected": [
-          "H",
-          "i",
-          "H",
-          "i",
-          "H",
-          "i"
-        ],
+        "expected": "[\"H\", \"i\", \"H\", \"i\", \"H\", \"i\"]",
         "description": "Displays 'Hi' letter by letter three times"
       },
       {
         "input": "name = 'Py', num_times = 0",
-        "expected": [],
+        "expected": "[]",
         "description": "Displays 'Py' zero times (empty list)"
       }
     ],
@@ -1576,56 +1536,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "number = 5",
-        "expected": [
-          "5 x 1 = 5",
-          "5 x 2 = 10",
-          "5 x 3 = 15",
-          "5 x 4 = 20",
-          "5 x 5 = 25",
-          "5 x 6 = 30",
-          "5 x 7 = 35",
-          "5 x 8 = 40",
-          "5 x 9 = 45",
-          "5 x 10 = 50",
-          "5 x 11 = 55",
-          "5 x 12 = 60"
-        ],
+        "expected": "[\"5 x 1 = 5\", \"5 x 2 = 10\", \"5 x 3 = 15\", \"5 x 4 = 20\", \"5 x 5 = 25\", \"5 x 6 = 30\", \"5 x 7 = 35\", \"5 x 8 = 40\", \"5 x 9 = 45\", \"5 x 10 = 50\", \"5 x 11 = 55\", \"5 x 12 = 60\"]",
         "description": "Gets the 5 times table"
       },
       {
         "input": "number = 7",
-        "expected": [
-          "7 x 1 = 7",
-          "7 x 2 = 14",
-          "7 x 3 = 21",
-          "7 x 4 = 28",
-          "7 x 5 = 35",
-          "7 x 6 = 42",
-          "7 x 7 = 49",
-          "7 x 8 = 56",
-          "7 x 9 = 63",
-          "7 x 10 = 70",
-          "7 x 11 = 77",
-          "7 x 12 = 84"
-        ],
+        "expected": "[\"7 x 1 = 7\", \"7 x 2 = 14\", \"7 x 3 = 21\", \"7 x 4 = 28\", \"7 x 5 = 35\", \"7 x 6 = 42\", \"7 x 7 = 49\", \"7 x 8 = 56\", \"7 x 9 = 63\", \"7 x 10 = 70\", \"7 x 11 = 77\", \"7 x 12 = 84\"]",
         "description": "Gets the 7 times table"
       },
       {
         "input": "number = 1",
-        "expected": [
-          "1 x 1 = 1",
-          "1 x 2 = 2",
-          "1 x 3 = 3",
-          "1 x 4 = 4",
-          "1 x 5 = 5",
-          "1 x 6 = 6",
-          "1 x 7 = 7",
-          "1 x 8 = 8",
-          "1 x 9 = 9",
-          "1 x 10 = 10",
-          "1 x 11 = 11",
-          "1 x 12 = 12"
-        ],
+        "expected": "[\"1 x 1 = 1\", \"1 x 2 = 2\", \"1 x 3 = 3\", \"1 x 4 = 4\", \"1 x 5 = 5\", \"1 x 6 = 6\", \"1 x 7 = 7\", \"1 x 8 = 8\", \"1 x 9 = 9\", \"1 x 10 = 10\", \"1 x 11 = 11\", \"1 x 12 = 12\"]",
         "description": "Gets the 1 times table"
       }
     ],
@@ -1655,30 +1576,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "target_number = 45",
-        "expected": [
-          50,
-          49,
-          48,
-          47,
-          46,
-          45
-        ],
+        "expected": "[50, 49, 48, 47, 46, 45]",
         "description": "Counts down from 50 to 45"
       },
       {
         "input": "target_number = 48",
-        "expected": [
-          50,
-          49,
-          48
-        ],
+        "expected": "[50, 49, 48]",
         "description": "Counts down from 50 to 48"
       },
       {
         "input": "target_number = 50",
-        "expected": [
-          50
-        ],
+        "expected": "[50]",
         "description": "Counts down from 50 to 50"
       }
     ],
@@ -1707,36 +1615,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "number = 4, name = 'John'",
-        "expected": [
-          "John",
-          "John",
-          "John",
-          "John"
-        ],
+        "expected": "[\"John\", \"John\", \"John\", \"John\"]",
         "description": "Number under 10, displays name 4 times"
       },
       {
         "input": "number = 12, name = 'Jane'",
-        "expected": [
-          "Too high",
-          "Too high",
-          "Too high"
-        ],
+        "expected": "[\"Too high\", \"Too high\", \"Too high\"]",
         "description": "Number 12 (too high), displays 'Too high' 3 times"
       },
       {
         "input": "number = 9, name = 'Mike'",
-        "expected": [
-          "Mike",
-          "Mike",
-          "Mike",
-          "Mike",
-          "Mike",
-          "Mike",
-          "Mike",
-          "Mike",
-          "Mike"
-        ],
+        "expected": "[\"Mike\", \"Mike\", \"Mike\", \"Mike\", \"Mike\", \"Mike\", \"Mike\", \"Mike\", \"Mike\"]",
         "description": "Number is 9, displays name 9 times"
       }
     ],
@@ -1805,27 +1694,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "choice = 'up', num = 5",
-        "expected": [
-          1,
-          2,
-          3,
-          4,
-          5
-        ],
+        "expected": "[1, 2, 3, 4, 5]",
         "description": "Counts up to 5"
       },
       {
         "input": "choice = 'down', num = 3",
-        "expected": [
-          3,
-          2,
-          1
-        ],
+        "expected": "[3, 2, 1]",
         "description": "Counts down from 3"
       },
       {
         "input": "choice = 'sideways', num = 10",
-        "expected": [],
+        "expected": "[]",
         "description": "Invalid choice"
       }
     ],
@@ -1856,32 +1735,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "friend_list = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi', 'Ivan', 'Judy', 'Kevin', 'Liam']",
-        "expected": [
-          "You have invited Alice",
-          "You have invited Bob",
-          "You have invited Charlie",
-          "You have invited David",
-          "You have invited Eve",
-          "You have invited Frank",
-          "You have invited Grace",
-          "You have invited Heidi",
-          "You have invited Ivan",
-          "You have invited Judy"
-        ],
+        "expected": "[\"You have invited Alice\", \"You have invited Bob\", \"You have invited Charlie\", \"You have invited David\", \"You have invited Eve\", \"You have invited Frank\", \"You have invited Grace\", \"You have invited Heidi\", \"You have invited Ivan\", \"You have invited Judy\"]",
         "description": "More than 10 friends, truncates to 10"
       },
       {
         "input": "friend_list = ['Alice', 'Bob', 'Charlie']",
-        "expected": [
-          "You have invited Alice",
-          "You have invited Bob",
-          "You have invited Charlie"
-        ],
+        "expected": "[\"You have invited Alice\", \"You have invited Bob\", \"You have invited Charlie\"]",
         "description": "Fewer than 10 friends, uses all"
       },
       {
         "input": "friend_list = []",
-        "expected": [],
+        "expected": "[]",
         "description": "Empty friend list"
       }
     ],
@@ -1911,26 +1775,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "start_num = 10, end_num = 16",
-        "expected": [
-          10,
-          12,
-          14,
-          16
-        ],
+        "expected": "[10, 12, 14, 16]",
         "description": "Finds even numbers between 10 and 16"
       },
       {
         "input": "start_num = 3, end_num = 9",
-        "expected": [
-          4,
-          6,
-          8
-        ],
+        "expected": "[4, 6, 8]",
         "description": "Finds even numbers between 3 and 9 (odd start/end)"
       },
       {
         "input": "start_num = 7, end_num = 7",
-        "expected": [],
+        "expected": "[]",
         "description": "No even numbers in a single odd number range"
       }
     ],
@@ -2091,31 +1946,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "guesses = [25, 75, 50, 40]",
-        "expected": [
-          "Too low",
-          "Too high",
-          "Correct!"
-        ],
+        "expected": "[\"Too low\", \"Too high\", \"Correct!\"]",
         "description": "Correct guess found in the middle"
       },
       {
         "input": "guesses = [10, 20, 30, 40, 60, 70, 80]",
-        "expected": [
-          "Too low",
-          "Too low",
-          "Too low",
-          "Too low",
-          "Too high",
-          "Too high",
-          "Too high"
-        ],
+        "expected": "[\"Too low\", \"Too low\", \"Too low\", \"Too low\", \"Too high\", \"Too high\", \"Too high\"]",
         "description": "All guesses incorrect"
       },
       {
         "input": "guesses = [50, 10, 20]",
-        "expected": [
-          "Correct!"
-        ],
+        "expected": "[\"Correct!\"]",
         "description": "Correct guess is the first one"
       }
     ],
@@ -2148,30 +1989,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "target_number = 42, guesses = [20, 60, 42, 30]",
-        "expected": [
-          "Attempt 1: Too low",
-          "Attempt 2: Too high",
-          "Attempt 3: Correct!"
-        ],
+        "expected": "[\"Attempt 1: Too low\", \"Attempt 2: Too high\", \"Attempt 3: Correct!\"]",
         "description": "Correct guess on 3rd attempt"
       },
       {
         "input": "target_number = 77, guesses = [10, 20, 30, 40, 50, 60, 70, 80]",
-        "expected": [
-          "Attempt 1: Too low",
-          "Attempt 2: Too low",
-          "Attempt 3: Too low",
-          "Attempt 4: Too low",
-          "Attempt 5: Too low",
-          "You ran out of attempts."
-        ],
+        "expected": "[\"Attempt 1: Too low\", \"Attempt 2: Too low\", \"Attempt 3: Too low\", \"Attempt 4: Too low\", \"Attempt 5: Too low\", \"You ran out of attempts.\"]",
         "description": "Runs out of attempts without correct guess"
       },
       {
         "input": "target_number = 10, guesses = [10]",
-        "expected": [
-          "Attempt 1: Correct!"
-        ],
+        "expected": "[\"Attempt 1: Correct!\"]",
         "description": "Correct guess on first attempt"
       }
     ],
@@ -2251,31 +2079,17 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "initial_balance = 500.00, transactions = [('deposit', 100.00), ('withdraw', 200.00)]",
-        "expected": [
-          "Deposit: 100.00, New Balance: 600.00",
-          "Withdraw: 200.00, New Balance: 400.00",
-          "Final Balance: 400.00"
-        ],
+        "expected": "[\"Deposit: 100.00, New Balance: 600.00\", \"Withdraw: 200.00, New Balance: 400.00\", \"Final Balance: 400.00\"]",
         "description": "Deposit then valid withdrawal"
       },
       {
         "input": "initial_balance = 100.00, transactions = [('withdraw', 150.00), ('deposit', 200.00)]",
-        "expected": [
-          "Withdraw: 150.00, Insufficient funds. Current Balance: 100.00",
-          "Deposit: 200.00, New Balance: 300.00",
-          "Final Balance: 300.00"
-        ],
+        "expected": "[\"Withdraw: 150.00, Insufficient funds. Current Balance: 100.00\", \"Deposit: 200.00, New Balance: 300.00\", \"Final Balance: 300.00\"]",
         "description": "Insufficient funds then deposit"
       },
       {
         "input": "initial_balance = 0.00, transactions = [('deposit', 50.00), ('withdraw', 25.00), ('withdraw', 25.00), ('withdraw', 10.00)]",
-        "expected": [
-          "Deposit: 50.00, New Balance: 50.00",
-          "Withdraw: 25.00, New Balance: 25.00",
-          "Withdraw: 25.00, New Balance: 0.00",
-          "Withdraw: 10.00, Insufficient funds. Current Balance: 0.00",
-          "Final Balance: 0.00"
-        ],
+        "expected": "[\"Deposit: 50.00, New Balance: 50.00\", \"Withdraw: 25.00, New Balance: 25.00\", \"Withdraw: 25.00, New Balance: 0.00\", \"Withdraw: 10.00, Insufficient funds. Current Balance: 0.00\", \"Final Balance: 0.00\"]",
         "description": "Multiple transactions ending in insufficient funds"
       }
     ],
@@ -2639,32 +2453,22 @@ export const pythonChallenges: PythonChallenge[] =
     "testCases": [
       {
         "input": "side = 4",
-        "expected": [
-          "****",
-          "****",
-          "****",
-          "****"
-        ],
+        "expected": "[\"****\", \"****\", \"****\", \"****\"]",
         "description": "Draws a 4x4 square."
       },
       {
         "input": "side = 2",
-        "expected": [
-          "**",
-          "**"
-        ],
+        "expected": "[\"**\", \"**\"]",
         "description": "Draws a 2x2 square."
       },
       {
         "input": "side = 1",
-        "expected": [
-          "*"
-        ],
+        "expected": "[\"*\"]",
         "description": "Draws a 1x1 square."
       },
       {
         "input": "side = 0",
-        "expected": [],
+        "expected": "[]",
         "description": "Draws a 0x0 square (empty list)."
       }
     ],
@@ -7210,8 +7014,7 @@ export const pythonChallenges: PythonChallenge[] =
       "gallery"
     ]
   }
-]
-;
+];
 
 export const getChallengeById = (id: string): PythonChallenge | undefined => {
   return pythonChallenges.find((c) => c.id === id);
