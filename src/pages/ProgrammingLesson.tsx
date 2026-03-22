@@ -158,9 +158,13 @@ const ProgrammingLessonPage = () => {
               )}
             </div>
 
+            {/* Main 2-column layout: Content + IDE */}
+            <div className={`flex gap-6 ${showIDE && !isMobile ? "flex-row" : "flex-col"}`}>
+              {/* Left side: Sidebar + Lesson content */}
+              <div className={`${showIDE && !isMobile ? "w-1/2 xl:w-3/5" : "w-full"} min-w-0`}>
             <div className="flex flex-col lg:flex-row gap-6">
               {/* Sidebar - Roadmap */}
-              <div className="lg:w-72 shrink-0">
+              <div className="lg:w-64 shrink-0">
                 <div className="glass-card rounded-xl p-4 sticky top-28">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
