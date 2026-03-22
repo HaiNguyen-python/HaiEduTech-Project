@@ -9,6 +9,7 @@ import About from "./pages/About.tsx";
 import English from "./pages/English.tsx";
 import Chinese from "./pages/Chinese.tsx";
 import Programming from "./pages/Programming.tsx";
+import ProgrammingLesson from "./pages/ProgrammingLesson.tsx";
 import AIGrading from "./pages/AIGrading.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Register from "./pages/Register.tsx";
