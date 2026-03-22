@@ -93,8 +93,12 @@ const courseData: Record<string, {
       { vi: "Người đi làm cần chứng chỉ IELTS cho thăng tiến hoặc di cư", en: "Professionals needing IELTS for career advancement or immigration" },
       { vi: "Người đã thi IELTS nhưng chưa đạt band mục tiêu", en: "Those who've taken IELTS but haven't reached their target band" },
     ],
-    testimonial: { name: "Anh Tuấn Anh (Kỹ sư IT)", text: "Từ 5.5 lên 7.5 chỉ sau 4 tháng. AI chấm Writing giúp mình hiểu rõ lỗi sai và cải thiện cực nhanh!", textEn: "From 5.5 to 7.5 in just 4 months. AI Writing grading helped me understand my mistakes and improve incredibly fast!" },
-    duration: "5 tháng (20 tuần)", durationEn: "5 months (20 weeks)",
+    testimonials: [
+      { name: "Anh Tuấn Anh (Kỹ sư IT)", text: "Từ 5.5 lên 7.5 chỉ sau 4 tháng. AI chấm Writing giúp mình hiểu rõ lỗi sai và cải thiện cực nhanh!", textEn: "From 5.5 to 7.5 in just 4 months. AI Writing grading helped me understand my mistakes and improve incredibly fast!" },
+      { name: "Chị Thanh Hà (Giảng viên ĐH)", text: "Lần đầu thi IELTS đạt ngay 7.0 nhờ phương pháp luyện thi rất bài bản. Đặc biệt phần Writing được hướng dẫn cực kỹ.", textEn: "Got 7.0 on my first IELTS attempt thanks to the systematic method. Writing guidance was exceptionally thorough." },
+      { name: "Bạn Minh Quân (Sinh viên năm 4)", text: "Mình cần IELTS 6.5 để nộp hồ sơ du học và đã đạt được 7.0 sau 3 tháng học tại đây!", textEn: "I needed IELTS 6.5 for study abroad applications and achieved 7.0 after just 3 months here!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "emerald",
   },
   toeic: {
