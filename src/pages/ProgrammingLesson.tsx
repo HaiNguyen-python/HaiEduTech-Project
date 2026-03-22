@@ -464,9 +464,44 @@ const ProgrammingLessonPage = () => {
                   </AnimatePresence>
                 </motion.div>
               </div>
+              </div>
+            </div>
+              </div>
+
+              {/* Right side: IDE Panel */}
+              {showIDE && !isMobile && (
+                <div className="w-1/2 xl:w-2/5 shrink-0">
+                  <div className="sticky top-28 rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "calc(100vh - 140px)" }}>
+                    {isSQL ? (
+                      <SqlEditor />
+                    ) : (
+                      <div className="flex flex-col h-full bg-slate-950">
+                        <div className="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Code2 className="w-4 h-4 text-green-400" />
+                            <span className="text-sm font-mono text-green-400">{lesson.codeLanguage} IDE</span>
+                          </div>
+                          <button
+                            onClick={() => openInTrinket(lesson.code)}
+                            className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-500 transition-colors active:scale-[0.97]"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                            {t("Mở Trinket", "Open Trinket")}
+                          </button>
+                        </div>
+                        <div className="flex-1 overflow-auto p-4">
+                          <pre className="text-sm font-mono text-slate-300 leading-relaxed whitespace-pre">{lesson.code}</pre>
+                        </div>
+                        <div className="p-3 bg-slate-900 border-t border-slate-800">
+                          <p className="text-xs text-slate-500">{t("💡 Dùng nút 'Mở Trinket' để chạy code trực tiếp", "💡 Click 'Open Trinket' to run code live")}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        </div>
       </div>
       <Footer />
     </div>
