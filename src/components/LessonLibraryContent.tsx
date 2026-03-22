@@ -34,13 +34,16 @@ export default function LessonLibraryContent() {
   const [filterSubject, setFilterSubject] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    fetchLessons(true);
+    fetchLessonsPage(0);
   }, [filterSubject, filterCategory]);
 
-  const fetchLessons = async (reset = false) => {
-    if (reset) { setLoading(true); setLessons([]); } else { setLoadingMore(true); }
+  const fetchLessonsPage = async (page: number) => {
+    setLoading(true);
+    setLessons([]);
+    setCurrentPage(page);
 
     let query = supabase
       .from("generated_lessons")
@@ -51,12 +54,12 @@ export default function LessonLibraryContent() {
     if (filterSubject) query = query.eq("subject", filterSubject);
     if (filterCategory) query = query.eq("category", filterCategory);
 
-    const offset = reset ? 0 : lessons.length;
+    const offset = page * PAGE_SIZE;
     query = query.range(offset, offset + PAGE_SIZE - 1);
 
     const { data, error, count } = await query;
     if (!error && data) {
-      setLessons(prev => reset ? data : [...prev, ...data]);
+      setLessons(data);
       setTotal(count || 0);
       setHasMore(data.length === PAGE_SIZE);
     }
@@ -143,12 +146,25 @@ export default function LessonLibraryContent() {
                 );
               })}
             </div>
-            {hasMore && (
-              <div className="text-center mt-8">
-                <button onClick={() => fetchLessons(false)} disabled={loadingMore}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-secondary text-foreground text-sm font-medium hover:bg-primary/10 transition-colors disabled:opacity-50">
-                  {loadingMore ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                  {t("Xem thêm bài học", "Load More Lessons")}
+            {/* Pagination */}
+            {total > PAGE_SIZE && (
+              <div className="flex justify-center items-center gap-2 mt-8">
+                <button
+                  onClick={() => { setLessons([]); fetchLessonsPage(Math.max(0, currentPage - 1)); }}
+                  disabled={currentPage === 0 || loadingMore}
+                  className="px-3 py-1.5 rounded-lg text-sm bg-secondary text-foreground disabled:opacity-40 hover:bg-primary/10 transition-colors"
+                >
+                  ← {t("Trước", "Prev")}
+                </button>
+                <span className="text-sm text-muted-foreground">
+                  {currentPage + 1} / {Math.ceil(total / PAGE_SIZE)}
+                </span>
+                <button
+                  onClick={() => { setLessons([]); fetchLessonsPage(currentPage + 1); }}
+                  disabled={!hasMore || loadingMore}
+                  className="px-3 py-1.5 rounded-lg text-sm bg-secondary text-foreground disabled:opacity-40 hover:bg-primary/10 transition-colors"
+                >
+                  {t("Sau", "Next")} →
                 </button>
               </div>
             )}
