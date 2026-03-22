@@ -754,6 +754,8 @@ CREATE POLICY "Users create own notes" ON notes
       },
     ],
   },
+  {
+    id: "prog-data-pipeline",
     title: "Data Pipeline (ETL/ELT)",
     titleEn: "Data Pipeline (ETL/ELT)",
     icon: "🔄",
