@@ -49,6 +49,7 @@ const Navbar = () => {
     { to: "/programming/prog-python-basic", label: t("Python cơ bản", "Python Basics") },
     { to: "/programming/prog-data-structures", label: t("Cấu trúc dữ liệu", "Data Structures") },
     { to: "/programming/prog-pygame", label: t("Game & Web", "Games & Web") },
+    { to: "/python-challenges", label: t("🏆 150 Thử thách Python", "🏆 150 Python Challenges") },
     { to: "/programming/prog-sql", label: "SQL & Database" },
     { to: "/programming/prog-data-pipeline", label: "Data Pipeline" },
     { to: "/programming/prog-ml", label: "Machine Learning" },
