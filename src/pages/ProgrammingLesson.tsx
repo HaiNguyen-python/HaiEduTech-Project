@@ -403,9 +403,9 @@ const ProgrammingLessonPage = () => {
                           <div className="rounded-lg overflow-hidden mb-4 max-w-full">
                             <div className="px-3 py-2 bg-slate-900 flex items-center justify-between">
                               <span className="text-xs font-mono text-green-400">Starter Code</span>
-                              <button onClick={() => openInTrinket(aiChallenge.starterCode)}
+                              <button onClick={() => setShowIDE(true)}
                                 className="flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs hover:bg-green-500">
-                                <Play className="w-3 h-3" /> {t("Chạy", "Run")}
+                                <Play className="w-3 h-3" /> {t("Mở IDE", "Open IDE")}
                               </button>
                             </div>
                             <pre className="p-3 bg-slate-950 overflow-x-auto max-w-full">
