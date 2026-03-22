@@ -252,8 +252,8 @@ const ProgrammingLessonPage = () => {
                       </button>
                     </div>
                     <div className="overflow-x-auto max-w-full">
-                      <pre className="p-4 bg-slate-950">
-                        <code className="text-sm font-mono text-slate-300 leading-relaxed whitespace-pre">{lesson.code}</code>
+                      <pre className="p-4 bg-slate-950 max-w-full">
+                        <code className="text-sm font-mono text-slate-300 leading-relaxed whitespace-pre break-words">{lesson.code}</code>
                       </pre>
                     </div>
                   </div>
