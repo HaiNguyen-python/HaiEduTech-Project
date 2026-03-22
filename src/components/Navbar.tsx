@@ -33,31 +33,27 @@ const Navbar = () => {
   };
 
   const englishSubs = [
-    { to: "/english", label: t("Tổng quan", "Overview") },
-    { to: "/english#starters", label: "Starters - Movers - Flyers" },
-    { to: "/english#ket-pet", label: "KET / PET" },
-    { to: "/english#ielts", label: "IELTS" },
-    { to: "/english#toeic", label: "TOEIC" },
-    { to: "/english#conversation", label: t("Giao tiếp", "Conversational") },
-    { to: "/english#thpt", label: t("Luyện thi THPT", "National Exam Prep") },
+    { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
+    { to: "/english#starters", label: "🌟 Starters - Movers - Flyers" },
+    { to: "/english#ket-pet", label: "📝 KET / PET" },
+    { to: "/english#ielts", label: "🎯 IELTS" },
+    { to: "/english#toeic", label: "💼 TOEIC" },
+    { to: "/english#conversation", label: t("💬 Giao tiếp", "💬 Conversational") },
+    { to: "/english#thpt", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
     { to: "/ai-grading", label: t("✍️ Chấm Điểm IELTS", "✍️ IELTS Grading") },
   ];
   const chineseSubs = [
-    { to: "/chinese", label: t("Tổng quan", "Overview") },
-    { to: "/chinese#foundation", label: t("Nền tảng", "Foundation") },
-    { to: "/chinese#hsk", label: "HSK 1-6" },
-    { to: "/chinese#conversation", label: t("Giao tiếp", "Conversational") },
+    { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
+    { to: "/chinese#foundation", label: t("🏗️ Nền tảng", "🏗️ Foundation") },
+    { to: "/chinese#hsk", label: "📊 HSK 1-6" },
+    { to: "/chinese#conversation", label: t("💬 Giao tiếp", "💬 Conversational") },
   ];
   const programmingSubs = [
-    { to: "/programming", label: t("Tổng quan", "Overview") },
+    { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/python-challenges", label: t("🏆 150 Thử thách Python", "🏆 150 Python Challenges") },
-    { to: "/programming/prog-scratch", label: t("🧩 Scratch & Thuật toán", "🧩 Scratch & Algorithms") },
-    { to: "/programming/prog-python-basic", label: t("🐍 Python cơ bản", "🐍 Python Basics") },
-    { to: "/programming/prog-data-structures", label: t("🏗️ Cấu trúc dữ liệu", "🏗️ Data Structures") },
-    { to: "/programming/prog-pygame", label: t("🎮 Game & Web", "🎮 Games & Web") },
     { to: "/programming/prog-sql", label: "🗄️ SQL & Database" },
-    { to: "/programming/prog-data-pipeline", label: "🔄 Data Pipeline" },
-    { to: "/programming/prog-ml", label: "🤖 Machine Learning" },
+    { to: "/programming/prog-data-pipeline", label: "🔄 Data Engineer" },
+    { to: "/programming/prog-ml", label: "🤖 Machine Learning Engineer" },
   ];
 
   const baseLinks = [
@@ -65,7 +61,7 @@ const Navbar = () => {
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
     { to: "/english", label: t("Học Tiếng Anh", "Learn English"), icon: BookOpen, subs: englishSubs, key: "en" },
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
-    { to: "/programming", label: t("Học Lập trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
+    { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/ai-library", label: t("Thư Viện", "Library"), icon: Library },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
