@@ -17,51 +17,73 @@ const English = () => {
     {
       title: "Cambridge Starters–PET",
       level: t("Mới bắt đầu → Trung cấp", "Beginner → Intermediate"),
-      desc: t("Tiếng Anh nền tảng cho trẻ nhỏ theo chuẩn Cambridge Assessment.", "Foundation English for young learners through Cambridge Assessment."),
+      desc: t(
+        "Chương trình tiếng Anh chuẩn quốc tế dành cho trẻ em từ 6–14 tuổi. Được thiết kế theo khung Cambridge Assessment, giúp trẻ xây dựng nền tảng ngôn ngữ vững chắc qua các hoạt động học tập sinh động và phù hợp lứa tuổi.",
+        "International-standard English program for children aged 6–14. Designed around the Cambridge Assessment framework, building strong language foundations through engaging, age-appropriate learning activities."
+      ),
       features: [
-        t("Chương trình phù hợp lứa tuổi", "Age-appropriate curriculum"),
-        t("Hoạt động tương tác", "Interactive activities"),
-        t("Kiểm tra tiến độ", "Progress testing"),
+        t("Starters → Movers → Flyers → KET → PET: lộ trình rõ ràng theo cấp độ", "Starters → Movers → Flyers → KET → PET: clear progression pathway"),
+        t("4 kỹ năng: Nghe, Nói, Đọc, Viết qua trò chơi và dự án", "4 skills: Listening, Speaking, Reading, Writing through games & projects"),
+        t("Đánh giá định kỳ & phản hồi chi tiết cho phụ huynh", "Regular assessments & detailed parent feedback reports"),
+        t("Lớp học nhỏ (≤8 học sinh) để tối đa tương tác", "Small classes (≤8 students) for maximum interaction"),
       ],
     },
     {
       title: t("Luyện thi IELTS", "IELTS Preparation"),
       level: t("Trung cấp → Nâng cao", "Intermediate → Advanced"),
-      desc: t("Luyện thi IELTS toàn diện với chấm điểm và phản hồi bằng AI.", "Comprehensive IELTS preparation with AI-powered grading and feedback."),
+      desc: t(
+        "Khóa luyện thi IELTS toàn diện với mục tiêu band 6.5–8.0+. Kết hợp phương pháp giảng dạy truyền thống với công nghệ AI chấm điểm Writing & Speaking, giúp học viên nhận phản hồi chi tiết và cải thiện nhanh chóng.",
+        "Comprehensive IELTS preparation targeting band 6.5–8.0+. Combines traditional teaching methods with AI-powered Writing & Speaking grading for detailed feedback and rapid improvement."
+      ),
       features: [
-        t("Luyện đủ 4 kỹ năng", "4-skill training"),
-        t("AI chấm Writing & Speaking", "AI Writing & Speaking grader"),
-        t("Thi thử & chấm điểm", "Mock tests & scoring"),
+        t("Chiến lược làm bài từng phần: Listening, Reading, Writing, Speaking", "Section-specific strategies: Listening, Reading, Writing, Speaking"),
+        t("AI chấm & phân tích bài Writing Task 1 & Task 2 theo tiêu chí IELTS", "AI grading & analysis of Writing Task 1 & 2 following IELTS criteria"),
+        t("AI đánh giá & chấm điểm Speaking theo 4 tiêu chí chính thức", "AI evaluation & scoring of Speaking across 4 official criteria"),
+        t("Thi thử mô phỏng thực tế hàng tuần với phân tích điểm mạnh/yếu", "Weekly mock tests with strength/weakness analysis"),
+        t("Kho tài liệu 1000+ bài mẫu Writing & Speaking topics", "Library of 1000+ Writing samples & Speaking topics"),
       ],
     },
     {
       title: t("Chương trình TOEIC", "TOEIC Program"),
       level: t("Trung cấp", "Intermediate"),
-      desc: t("Tiếng Anh thương mại cho phát triển sự nghiệp.", "Business English proficiency for career advancement."),
+      desc: t(
+        "Chương trình TOEIC chuyên sâu cho người đi làm và sinh viên muốn nâng cao năng lực tiếng Anh thương mại. Tập trung vào kỹ năng Nghe & Đọc với bối cảnh doanh nghiệp thực tế.",
+        "Intensive TOEIC program for professionals and students seeking to enhance business English proficiency. Focused on Listening & Reading skills in real corporate contexts."
+      ),
       features: [
-        t("Tập trung Nghe & Đọc", "Listening & Reading focus"),
-        t("Từ vựng kinh doanh", "Business vocabulary"),
-        t("Thi thử tính giờ", "Timed practice tests"),
+        t("Phân tích 7 dạng bài Part 1–7 với chiến thuật làm bài hiệu quả", "Analysis of 7 question types (Part 1–7) with effective strategies"),
+        t("Từ vựng & ngữ pháp thương mại: email, hợp đồng, báo cáo", "Business vocabulary & grammar: emails, contracts, reports"),
+        t("Luyện nghe với accent Mỹ, Anh, Úc, Canada", "Listening practice with American, British, Australian, Canadian accents"),
+        t("Thi thử tính giờ mỗi tuần + phân tích lỗi sai chi tiết", "Weekly timed mock tests + detailed error analysis"),
       ],
     },
     {
       title: t("Tiếng Anh Giao tiếp", "Conversational English"),
       level: t("Tất cả trình độ", "All Levels"),
-      desc: t("Kỹ năng giao tiếp thực tế cho cuộc sống hàng ngày, du lịch và công việc.", "Practical communication skills for daily life, travel, and work."),
+      desc: t(
+        "Khóa học giao tiếp thực tế giúp bạn tự tin nói tiếng Anh trong mọi tình huống: từ giao tiếp hàng ngày, du lịch, đến môi trường công việc quốc tế. Phương pháp học qua thực hành, roleplay và thảo luận nhóm.",
+        "Practical communication course helping you speak English confidently in any situation: daily life, travel, and international work environments. Learning through practice, roleplay, and group discussions."
+      ),
       features: [
-        t("Hội thoại theo chủ đề thực tế", "Real-world topic dialogues"),
-        t("Luyện phát âm chuẩn", "Pronunciation training"),
-        t("Roleplay & thảo luận nhóm", "Roleplay & group discussions"),
+        t("20+ chủ đề giao tiếp thực tế: mua sắm, du lịch, phỏng vấn, thuyết trình", "20+ real-world topics: shopping, travel, interviews, presentations"),
+        t("Luyện phát âm chuẩn IPA với phản hồi bằng AI", "IPA-based pronunciation training with AI feedback"),
+        t("Roleplay theo tình huống thực tế & thảo luận nhóm hàng tuần", "Situational roleplay & weekly group discussions"),
+        t("Học cách dùng idioms, phrasal verbs tự nhiên như người bản xứ", "Natural usage of idioms & phrasal verbs like a native speaker"),
       ],
     },
     {
       title: t("Luyện thi THPT Quốc gia", "National High School Exam"),
       level: t("Lớp 10–12", "Grade 10–12"),
-      desc: t("Ôn thi tập trung cho kỳ thi tiếng Anh THPT Quốc gia.", "Targeted preparation for Vietnam's national English exam."),
+      desc: t(
+        "Chương trình ôn thi có hệ thống, bám sát cấu trúc đề thi THPT Quốc gia. Giúp học sinh nắm chắc kiến thức ngữ pháp, từ vựng và kỹ năng đọc hiểu để đạt điểm cao trong kỳ thi.",
+        "Systematic exam preparation program aligned with the National High School Exam structure. Helping students master grammar, vocabulary, and reading comprehension for top scores."
+      ),
       features: [
-        t("Bám sát chương trình học", "Curriculum-aligned"),
-        t("Luyện ngữ pháp & từ vựng chuyên sâu", "Grammar & vocabulary drills"),
-        t("Chiến lược làm bài thi", "Exam strategies"),
+        t("Hệ thống hóa 24 chuyên đề ngữ pháp trọng tâm", "Systematized 24 core grammar topics"),
+        t("3000+ từ vựng theo chương trình SGK lớp 10–12", "3000+ vocabulary from Grade 10–12 textbooks"),
+        t("Luyện đề theo cấu trúc thi thực tế (50 câu / 60 phút)", "Practice tests matching real exam format (50 questions / 60 minutes)"),
+        t("Phân tích đề thi các năm & dự đoán xu hướng ra đề", "Past exam analysis & question trend predictions"),
+        t("Chiến lược phân bổ thời gian & kỹ thuật loại trừ đáp án", "Time management strategies & answer elimination techniques"),
       ],
     },
   ];
