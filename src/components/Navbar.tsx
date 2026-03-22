@@ -270,7 +270,7 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden fixed inset-0 top-12 z-40 bg-card/98 backdrop-blur-sm overflow-y-auto"
+            className="md:hidden fixed inset-0 top-[60px] z-40 bg-card/98 backdrop-blur-sm overflow-y-auto"
           >
             <div className="px-4 py-3 space-y-1 pb-20">
               {navLinks.map((l) => {
