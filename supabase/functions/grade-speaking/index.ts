@@ -10,8 +10,8 @@ serve(async (req) => {
 
   try {
     const { question, part, duration } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
 
     const systemPrompt = `You are a Senior IELTS Speaking Examiner. A student just recorded an answer to an IELTS Speaking Part ${part} question.
 
@@ -68,14 +68,14 @@ Return this JSON structure:
 
 Make scores VARIED and REALISTIC. Not all criteria should have the same score. Duration affects scores: <30s = lower scores, 60-120s = mid range, >120s = potentially higher.`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "sonar",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Grade this IELTS Speaking Part ${part} response to the question: "${question}"\nRecording duration: ${duration} seconds.` },
@@ -94,7 +94,9 @@ Make scores VARIED and REALISTIC. Not all criteria should have the same score. D
           status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      throw new Error("AI gateway error");
+      const t = await response.text();
+      console.error("Perplexity API error:", response.status, t);
+      throw new Error("AI API error");
     }
 
     const data = await response.json();

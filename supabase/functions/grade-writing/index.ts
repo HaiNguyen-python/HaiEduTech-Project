@@ -10,8 +10,8 @@ serve(async (req) => {
 
   try {
     const { essay } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
 
     const systemPrompt = `You are a Senior IELTS Examiner & Linguistic Data Analyst. Analyze the Writing Task 2 essay provided.
 
@@ -64,14 +64,14 @@ CRITICAL RULES:
 4. Scores should be realistic and varied (not all the same).
 5. Give at least 6-8 error highlights.`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "sonar",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Grade this IELTS Writing Task 2 essay:\n\n${essay}` },
@@ -93,14 +93,13 @@ CRITICAL RULES:
         });
       }
       const t = await response.text();
-      console.error("AI error:", response.status, t);
-      throw new Error("AI gateway error");
+      console.error("Perplexity API error:", response.status, t);
+      throw new Error("AI API error");
     }
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || "";
 
-    // Parse JSON from response
     let parsed;
     try {
       const jsonStr = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
