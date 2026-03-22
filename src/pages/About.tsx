@@ -36,7 +36,7 @@ const About = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
             <div className="flex items-center gap-2 mb-2">
               <MapPin className="w-4 h-4 text-primary" />
-              <span className="text-sm text-muted-foreground">{t("Phần Lan · Việt Nam · Từ xa", "Finland · Vietnam · Remote")}</span>
+              <span className="text-sm text-muted-foreground">{t("Phần Lan · Việt Nam", "Finland · Vietnam")}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
               Hai <span className="text-gradient">Nguyen</span>

@@ -149,9 +149,9 @@ const ChatBot = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-card text-foreground text-sm px-4 py-2.5 rounded-xl shadow-lg border border-border max-w-[200px] text-center relative"
+                  className="bg-card text-foreground text-sm px-4 py-2.5 rounded-xl shadow-lg border border-border max-w-[220px] text-center relative"
                 >
-                  <span>👋 Hello, thầy Hải chào bạn!</span>
+                  <span>{t("👋 Hello, thầy Hải chào bạn!", "👋 Hi there! I'm Teacher Hai!")}</span>
                   <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-card border-r border-b border-border rotate-45" />
                 </motion.div>
               )}
