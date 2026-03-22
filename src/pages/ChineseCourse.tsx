@@ -14,7 +14,7 @@ const courseData: Record<string, {
   features: { vi: string; en: string }[];
   curriculum: { vi: string; en: string; detail?: string; detailEn?: string }[];
   audience: { vi: string; en: string }[];
-  testimonial?: { name: string; text: string; textEn: string };
+  testimonials: { name: string; text: string; textEn: string }[];
   duration: string; durationEn: string;
 }> = {
   foundation: {
