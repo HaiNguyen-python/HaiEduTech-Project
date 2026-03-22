@@ -840,7 +840,7 @@ export const chineseResources: LessonItem[] = [
       {
         id: "cn-test-1", title: "HSK 1 Mini Test", titleEn: "HSK 1 Mini Test",
         content: {
-          passage: "小明今天去学校。他的老师叫王老师。王老师说："今天我们学习中文。" 小明很高兴。他喜欢学中文。下课以后，小明去吃饭。他吃了米饭和鸡蛋。\n\n(Tiểu Minh hôm nay đi học. Thầy giáo của anh ấy tên là thầy Vương. Thầy Vương nói: \"Hôm nay chúng ta học tiếng Trung.\" Tiểu Minh rất vui. Anh ấy thích học tiếng Trung. Sau giờ học, Tiểu Minh đi ăn cơm. Anh ấy ăn cơm và trứng gà.)",
+          passage: "小明今天去学校。他的老师叫王老师。王老师说：'今天我们学习中文。' 小明很高兴。他喜欢学中文。下课以后，小明去吃饭。他吃了米饭和鸡蛋。\n\n(Tiểu Minh hôm nay đi học. Thầy giáo của anh ấy tên là thầy Vương. Thầy Vương nói: 'Hôm nay chúng ta học tiếng Trung.' Tiểu Minh rất vui. Anh ấy thích học tiếng Trung. Sau giờ học, Tiểu Minh đi ăn cơm. Anh ấy ăn cơm và trứng gà.)",
           tips: ["HSK 1 đọc hiểu: chỉ cần hiểu ý chính, không cần hiểu từng từ", "Từ khóa HSK 1: 去, 学校, 老师, 学习, 喜欢, 吃"],
           quiz: [
             { question: "小明今天去哪里？(Tiểu Minh hôm nay đi đâu?)", options: ["去医院 (Bệnh viện)", "去学校 (Trường học)", "去商店 (Cửa hàng)", "去公园 (Công viên)"], answer: 1, explanation: "Bài viết nói: 小明今天去学校 = Tiểu Minh hôm nay đi trường học." },
