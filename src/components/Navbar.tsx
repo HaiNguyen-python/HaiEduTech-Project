@@ -45,8 +45,13 @@ const Navbar = () => {
   ];
   const programmingSubs = [
     { to: "/programming", label: t("Tổng quan", "Overview") },
-    { to: "/programming#kids", label: t("Nền tảng Công nghệ", "Tech Foundations") },
-    { to: "/programming#data-ai", label: "Data Engineering & AI" },
+    { to: "/programming/prog-scratch", label: t("Scratch & Thuật toán", "Scratch & Algorithms") },
+    { to: "/programming/prog-python-basic", label: t("Python cơ bản", "Python Basics") },
+    { to: "/programming/prog-data-structures", label: t("Cấu trúc dữ liệu", "Data Structures") },
+    { to: "/programming/prog-pygame", label: t("Game & Web", "Games & Web") },
+    { to: "/programming/prog-sql", label: "SQL & Database" },
+    { to: "/programming/prog-data-pipeline", label: "Data Pipeline" },
+    { to: "/programming/prog-ml", label: "Machine Learning" },
   ];
 
   const navLinks = [

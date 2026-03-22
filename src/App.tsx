@@ -9,6 +9,7 @@ import About from "./pages/About.tsx";
 import English from "./pages/English.tsx";
 import Chinese from "./pages/Chinese.tsx";
 import Programming from "./pages/Programming.tsx";
+import ProgrammingLesson from "./pages/ProgrammingLesson.tsx";
 import AIGrading from "./pages/AIGrading.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Register from "./pages/Register.tsx";
@@ -35,6 +36,8 @@ const App = () => (
             <Route path="/english" element={<English />} />
             <Route path="/chinese" element={<Chinese />} />
             <Route path="/programming" element={<Programming />} />
+            <Route path="/programming/:moduleId" element={<ProgrammingLesson />} />
+            <Route path="/programming/:moduleId/:lessonId" element={<ProgrammingLesson />} />
             <Route path="/ai-grading" element={<AIGrading />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
