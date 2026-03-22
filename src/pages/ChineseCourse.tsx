@@ -83,7 +83,11 @@ const courseData: Record<string, {
       { vi: "Người cần chứng chỉ HSK cho du học hoặc làm việc tại Trung Quốc", en: "Those needing HSK for study/work in China" },
       { vi: "Sinh viên ngành Ngôn ngữ Trung hoặc Kinh doanh Quốc tế", en: "Chinese language or International Business students" },
     ],
-    duration: "Tùy cấp độ (2–6 tháng/cấp)", durationEn: "Varies by level (2–6 months/level)",
+    testimonials: [
+      { name: "Anh Quốc Bảo (Kỹ sư phần mềm)", text: "Đạt HSK 4 chỉ sau 8 tháng nhờ phương pháp Spaced Repetition. Đề thi mô phỏng rất sát thực tế!", textEn: "Passed HSK 4 in just 8 months thanks to Spaced Repetition. Mock tests were very close to the real exam!" },
+      { name: "Chị Ngọc Trâm (Sinh viên Thương mại)", text: "Mình cần HSK 3 để xin học bổng du học và đã đạt được điểm cao nhờ lộ trình rõ ràng tại đây.", textEn: "I needed HSK 3 for a scholarship application and scored high thanks to the clear roadmap here." },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
   },
   conversational: {
     title: "Tiếng Trung Giao tiếp", titleEn: "Conversational Chinese",
