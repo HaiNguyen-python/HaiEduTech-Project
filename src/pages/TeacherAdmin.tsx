@@ -298,7 +298,7 @@ const TeacherAdmin = ({ embedded = false }: { embedded?: boolean }) => {
         <div className="mb-6">
           <label className="text-sm font-medium text-foreground mb-2 block">{t("Số lượng bài", "Number of lessons")}</label>
           <div className="flex items-center gap-3">
-            {[5, 10, 15, 20].map(n => (
+            {[1, 3, 5, 10, 20].map(n => (
               <button key={n} onClick={() => setBatchSize(n)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${batchSize === n ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
                 {n}
