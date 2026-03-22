@@ -1001,4 +1001,658 @@ print("✅ Mô hình đã lưu!")`,
       },
     ],
   },
+
+  // ============ AI FOUNDATION ============
+  {
+    id: "prog-ai-foundation",
+    title: "AI Foundation",
+    titleEn: "AI Foundation",
+    icon: "🧠",
+    color: "from-indigo-500/20 to-blue-500/20",
+    description: "Nền tảng AI: Lịch sử, LLMs, Prompt Engineering, Ethics và ứng dụng thực tế",
+    descriptionEn: "AI Fundamentals: History, LLMs, Prompt Engineering, Ethics and real-world applications",
+    course: "data-ai",
+    lessons: [
+      {
+        id: "ai-f-1",
+        title: "AI là gì? Lịch sử & Các nhánh chính",
+        titleEn: "What is AI? History & Main Branches",
+        theory: "**Trí tuệ nhân tạo (AI)** là lĩnh vực khoa học máy tính nhằm tạo ra hệ thống có khả năng thực hiện các nhiệm vụ đòi hỏi trí thông minh.\n\n**Lịch sử:**\n- 1950: Alan Turing đề xuất 'Turing Test'\n- 1956: Thuật ngữ 'AI' ra đời tại Dartmouth\n- 1997: Deep Blue đánh bại Kasparov (cờ vua)\n- 2012: Deep Learning bùng nổ (ImageNet)\n- 2022: ChatGPT thay đổi cách con người tương tác với AI\n\n**Các nhánh chính:**\n- Machine Learning (Học máy)\n- Deep Learning (Học sâu)\n- NLP (Xử lý ngôn ngữ tự nhiên)\n- Computer Vision (Thị giác máy tính)\n- Robotics (Robot học)",
+        theoryEn: "**Artificial Intelligence (AI)** is the field of computer science aiming to create systems capable of performing tasks requiring intelligence.\n\n**History:**\n- 1950: Alan Turing proposed the 'Turing Test'\n- 1956: Term 'AI' coined at Dartmouth\n- 1997: Deep Blue beat Kasparov (chess)\n- 2012: Deep Learning explosion (ImageNet)\n- 2022: ChatGPT changed human-AI interaction\n\n**Main branches:**\n- Machine Learning\n- Deep Learning\n- NLP (Natural Language Processing)\n- Computer Vision\n- Robotics",
+        code: `# AI Timeline Visualization
+import json
+
+ai_timeline = {
+    "1950": {"event": "Turing Test", "type": "theory"},
+    "1956": {"event": "AI coined at Dartmouth", "type": "milestone"},
+    "1966": {"event": "ELIZA chatbot", "type": "nlp"},
+    "1997": {"event": "Deep Blue beats Kasparov", "type": "game"},
+    "2011": {"event": "IBM Watson wins Jeopardy", "type": "nlp"},
+    "2012": {"event": "AlexNet wins ImageNet", "type": "vision"},
+    "2016": {"event": "AlphaGo beats Lee Sedol", "type": "game"},
+    "2022": {"event": "ChatGPT released", "type": "nlp"},
+    "2024": {"event": "Multimodal AI (GPT-4V, Gemini)", "type": "multimodal"},
+}
+
+print("🤖 AI Timeline:")
+print("=" * 50)
+for year, info in ai_timeline.items():
+    emoji = {"theory": "📖", "milestone": "🏆", "nlp": "💬", 
+             "game": "🎮", "vision": "👁️", "multimodal": "🌐"}
+    icon = emoji.get(info["type"], "⭐")
+    print(f"  {year} {icon} {info['event']}")
+
+# AI branches classification
+branches = {
+    "Machine Learning": ["Supervised", "Unsupervised", "Reinforcement"],
+    "Deep Learning": ["CNN", "RNN", "Transformer"],
+    "NLP": ["Translation", "Chatbot", "Sentiment Analysis"],
+    "Computer Vision": ["Object Detection", "Face Recognition", "OCR"],
+}
+
+print("\\n📊 AI Branches:")
+for branch, subs in branches.items():
+    print(f"  📂 {branch}: {', '.join(subs)}")`,
+        codeLanguage: "python",
+        exercise: "Tạo một chương trình Python phân loại các ứng dụng AI hàng ngày (Google Translate, Siri, Tesla Autopilot...) vào đúng nhánh AI tương ứng.",
+        exerciseEn: "Create a Python program that classifies daily AI applications (Google Translate, Siri, Tesla Autopilot...) into the correct AI branch.",
+        quiz: [
+          { question: "AI được đặt tên chính thức năm nào?", options: ["1943", "1950", "1956", "1997"], answer: 2, explanation: "Thuật ngữ 'Artificial Intelligence' được đặt tên tại hội nghị Dartmouth năm 1956." },
+          { question: "ChatGPT thuộc nhánh AI nào?", options: ["Computer Vision", "Robotics", "NLP", "Reinforcement Learning"], answer: 2, explanation: "ChatGPT là mô hình NLP (Natural Language Processing) - xử lý ngôn ngữ tự nhiên." },
+          { question: "Deep Blue nổi tiếng vì điều gì?", options: ["Dịch thuật", "Đánh bại nhà vô địch cờ vua", "Nhận dạng khuôn mặt", "Lái xe tự động"], answer: 1, explanation: "Deep Blue của IBM đánh bại nhà vô địch cờ vua Garry Kasparov năm 1997." },
+        ],
+      },
+      {
+        id: "ai-f-2",
+        title: "Neural Networks & Deep Learning cơ bản",
+        titleEn: "Neural Networks & Deep Learning Basics",
+        theory: "**Mạng nơ-ron nhân tạo (ANN)** mô phỏng cách bộ não hoạt động.\n\n**Cấu trúc:**\n- Input Layer: Nhận dữ liệu đầu vào\n- Hidden Layers: Xử lý và học đặc trưng\n- Output Layer: Đưa ra kết quả\n\n**Neuron nhân tạo:** Nhận inputs → nhân trọng số → tính tổng → activation function → output\n\n**Deep Learning = Nhiều Hidden Layers:**\n- Có thể học các đặc trưng phức tạp\n- Yêu cầu nhiều dữ liệu và tính toán\n- Kiến trúc phổ biến: CNN (ảnh), RNN (chuỗi), Transformer (ngôn ngữ)",
+        theoryEn: "**Artificial Neural Networks (ANN)** mimic how the brain works.\n\n**Structure:**\n- Input Layer: Receives input data\n- Hidden Layers: Process and learn features\n- Output Layer: Produces results\n\n**Artificial Neuron:** Receives inputs → multiply weights → sum → activation function → output\n\n**Deep Learning = Many Hidden Layers:**\n- Can learn complex features\n- Requires lots of data and computation\n- Popular architectures: CNN (images), RNN (sequences), Transformer (language)",
+        code: `# Simulating a simple neural network from scratch
+import numpy as np
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def sigmoid_derivative(x):
+    return x * (1 - x)
+
+# Training data: XOR problem
+X = np.array([[0,0], [0,1], [1,0], [1,1]])
+y = np.array([[0], [1], [1], [0]])
+
+np.random.seed(42)
+weights_input = np.random.uniform(size=(2, 4))
+weights_output = np.random.uniform(size=(4, 1))
+learning_rate = 0.5
+
+print("🧠 Training Neural Network (XOR)...")
+for epoch in range(10000):
+    # Forward pass
+    hidden = sigmoid(np.dot(X, weights_input))
+    output = sigmoid(np.dot(hidden, weights_output))
+    
+    # Backpropagation
+    error = y - output
+    d_output = error * sigmoid_derivative(output)
+    d_hidden = d_output.dot(weights_output.T) * sigmoid_derivative(hidden)
+    
+    weights_output += hidden.T.dot(d_output) * learning_rate
+    weights_input += X.T.dot(d_hidden) * learning_rate
+    
+    if epoch % 2000 == 0:
+        loss = np.mean(np.abs(error))
+        print(f"  Epoch {epoch:>5}: Loss = {loss:.4f}")
+
+print("\\n📊 Results:")
+for i in range(4):
+    print(f"  {X[i]} → {output[i][0]:.3f} (expected: {y[i][0]})")`,
+        codeLanguage: "python",
+        exercise: "Sửa đổi mạng nơ-ron trên để giải bài toán AND và OR. So sánh số epoch cần thiết để đạt accuracy > 95%.",
+        exerciseEn: "Modify the neural network above to solve AND and OR problems. Compare epochs needed for >95% accuracy.",
+        quiz: [
+          { question: "Activation function dùng để làm gì?", options: ["Tăng tốc tính toán", "Thêm tính phi tuyến cho mạng", "Giảm dữ liệu", "Mã hóa dữ liệu"], answer: 1, explanation: "Activation function thêm tính phi tuyến (non-linearity), giúp mạng học được các mối quan hệ phức tạp." },
+          { question: "Deep Learning khác ML thông thường ở điểm nào?", options: ["Không cần dữ liệu", "Nhiều hidden layers hơn", "Chỉ dùng cho ảnh", "Nhanh hơn"], answer: 1, explanation: "Deep Learning có nhiều hidden layers hơn, cho phép học đặc trưng phức tạp và trừu tượng hơn." },
+        ],
+      },
+      {
+        id: "ai-f-3",
+        title: "Large Language Models (LLMs)",
+        titleEn: "Large Language Models (LLMs)",
+        theory: "**LLM** là mô hình AI được huấn luyện trên lượng văn bản khổng lồ để hiểu và tạo ngôn ngữ.\n\n**Kiến trúc Transformer (2017):**\n- Self-Attention: Hiểu mối quan hệ giữa các từ\n- Xử lý song song (nhanh hơn RNN)\n- Nền tảng cho GPT, BERT, LLaMA, Gemini\n\n**Các LLM phổ biến:**\n- GPT-4/5 (OpenAI) - Đa năng\n- Gemini (Google) - Multimodal\n- Claude (Anthropic) - An toàn\n- LLaMA (Meta) - Open source\n\n**Tokenization:** Chia văn bản thành tokens (đơn vị nhỏ nhất)",
+        theoryEn: "**LLM** is an AI model trained on massive text data to understand and generate language.\n\n**Transformer Architecture (2017):**\n- Self-Attention: Understand word relationships\n- Parallel processing (faster than RNN)\n- Foundation for GPT, BERT, LLaMA, Gemini\n\n**Popular LLMs:**\n- GPT-4/5 (OpenAI) - General purpose\n- Gemini (Google) - Multimodal\n- Claude (Anthropic) - Safety-focused\n- LLaMA (Meta) - Open source\n\n**Tokenization:** Split text into tokens (smallest units)",
+        code: `# Understanding Tokenization
+def simple_tokenizer(text):
+    """Simple word-level tokenizer"""
+    tokens = text.lower().split()
+    vocab = {word: idx for idx, word in enumerate(sorted(set(tokens)))}
+    token_ids = [vocab[t] for t in tokens]
+    return tokens, vocab, token_ids
+
+text = "AI is transforming the world and AI will continue to grow"
+tokens, vocab, ids = simple_tokenizer(text)
+
+print("📝 Original:", text)
+print(f"\\n🔤 Tokens ({len(tokens)}):", tokens)
+print(f"\\n📖 Vocabulary ({len(vocab)} unique):")
+for word, idx in sorted(vocab.items(), key=lambda x: x[1]):
+    print(f"  {idx}: '{word}'")
+print(f"\\n🔢 Token IDs: {ids}")
+
+# Simulating attention mechanism
+print("\\n🎯 Self-Attention (simplified):")
+import numpy as np
+n = len(tokens)
+attention = np.random.rand(n, n)
+attention = attention / attention.sum(axis=1, keepdims=True)
+
+focus_word = "transforming"
+idx = tokens.index(focus_word)
+top_attention = sorted(enumerate(attention[idx]), key=lambda x: -x[1])[:3]
+print(f"  '{focus_word}' attends most to:")
+for i, score in top_attention:
+    print(f"    → '{tokens[i]}' (score: {score:.3f})")`,
+        codeLanguage: "python",
+        exercise: "Tạo một BPE (Byte Pair Encoding) tokenizer đơn giản. Cho 1 đoạn văn bản tiếng Việt, đếm số tokens và so sánh với word-level tokenizer.",
+        exerciseEn: "Create a simple BPE tokenizer. Given a Vietnamese text, count tokens and compare with word-level tokenizer.",
+        quiz: [
+          { question: "Transformer khác RNN ở điểm chính nào?", options: ["Dùng ít dữ liệu hơn", "Xử lý song song thay vì tuần tự", "Chỉ dùng cho ảnh", "Không cần GPU"], answer: 1, explanation: "Transformer xử lý tất cả tokens cùng lúc (song song) nhờ Self-Attention, trong khi RNN phải xử lý tuần tự." },
+          { question: "Token trong LLM là gì?", options: ["Một câu", "Một đoạn văn", "Đơn vị nhỏ nhất của văn bản mà mô hình xử lý", "Một file"], answer: 2, explanation: "Token là đơn vị nhỏ nhất (có thể là từ, sub-word, hoặc ký tự) mà LLM sử dụng để xử lý văn bản." },
+        ],
+      },
+      {
+        id: "ai-f-4",
+        title: "Prompt Engineering - Nghệ thuật ra lệnh cho AI",
+        titleEn: "Prompt Engineering - The Art of AI Instructions",
+        theory: "**Prompt Engineering** là kỹ năng thiết kế câu lệnh (prompt) để AI trả lời chính xác và hữu ích nhất.\n\n**Nguyên tắc cốt lõi:**\n- 🎯 Rõ ràng & Cụ thể\n- 📋 Cung cấp ngữ cảnh (Context)\n- 📝 Cho ví dụ (Few-shot learning)\n- 🔄 Chia nhỏ nhiệm vụ phức tạp\n\n**Kỹ thuật nâng cao:**\n- Zero-shot: Không cần ví dụ\n- Few-shot: Cho 2-3 ví dụ mẫu\n- Chain-of-Thought: Yêu cầu AI suy luận từng bước\n- Role-playing: Gán vai trò cho AI\n- System prompts: Thiết lập hành vi mặc định",
+        theoryEn: "**Prompt Engineering** is the skill of designing instructions for AI to get accurate and useful responses.\n\n**Core principles:**\n- 🎯 Clear & Specific\n- 📋 Provide Context\n- 📝 Give Examples (Few-shot learning)\n- 🔄 Break down complex tasks\n\n**Advanced techniques:**\n- Zero-shot: No examples needed\n- Few-shot: Give 2-3 example patterns\n- Chain-of-Thought: Ask AI to reason step-by-step\n- Role-playing: Assign a role to AI\n- System prompts: Set default behavior",
+        code: `# Prompt Engineering Patterns
+prompts = {
+    "❌ Bad (vague)": "Tell me about Python",
+    "✅ Good (specific)": "Explain 3 key differences between Python lists and tuples, with code examples for each.",
+    
+    "❌ Bad (no context)": "Write code",
+    "✅ Good (with context)": "Write a Python function that takes a CSV file path and returns the top 5 rows sorted by the 'revenue' column in descending order.",
+    
+    "❌ Bad (no format)": "Analyze this data",
+    "✅ Good (structured)": """Analyze the sales data below and provide:
+1. Total revenue
+2. Best-selling product
+3. Month-over-month growth rate
+Format the output as a markdown table.""",
+}
+
+print("🎯 Prompt Engineering Examples:")
+print("=" * 60)
+for label, prompt in prompts.items():
+    print(f"\\n{label}:")
+    print(f"  '{prompt}'")
+
+# Chain-of-Thought example
+print("\\n" + "=" * 60)
+print("🧠 Chain-of-Thought Prompting:")
+cot_prompt = """
+Question: A store has 45 apples. They sell 3/5 of them, then receive 20 more. How many apples do they have?
+
+Let's think step by step:
+Step 1: Calculate apples sold = 45 × 3/5 = 27
+Step 2: Remaining after sale = 45 - 27 = 18
+Step 3: After receiving more = 18 + 20 = 38
+
+Answer: 38 apples
+"""
+print(cot_prompt)
+
+# Few-shot example
+print("📝 Few-Shot Learning:")
+few_shot = """
+Classify the sentiment:
+"This product is amazing!" → Positive
+"Terrible experience, never again" → Negative
+"It's okay, nothing special" → Neutral
+
+Now classify: "Best purchase I've ever made!"
+→ Positive ✅
+"""
+print(few_shot)`,
+        codeLanguage: "python",
+        exercise: "Viết 5 prompt khác nhau cho cùng một nhiệm vụ (tóm tắt bài báo) sử dụng 5 kỹ thuật: zero-shot, few-shot, CoT, role-playing, và structured output. Đánh giá chất lượng kết quả.",
+        exerciseEn: "Write 5 different prompts for the same task (article summarization) using 5 techniques: zero-shot, few-shot, CoT, role-playing, and structured output. Evaluate result quality.",
+        quiz: [
+          { question: "Chain-of-Thought prompting là gì?", options: ["Viết prompt ngắn nhất", "Yêu cầu AI suy luận từng bước", "Cho AI nhiều vai trò", "Viết bằng nhiều ngôn ngữ"], answer: 1, explanation: "Chain-of-Thought yêu cầu AI trình bày quá trình suy luận từng bước, giúp cải thiện độ chính xác cho các bài toán phức tạp." },
+          { question: "Few-shot learning cần gì?", options: ["Hàng triệu ví dụ", "2-5 ví dụ mẫu trong prompt", "Không cần ví dụ", "Chỉ dùng cho ảnh"], answer: 1, explanation: "Few-shot learning cho AI 2-5 ví dụ mẫu ngay trong prompt để AI hiểu pattern và áp dụng cho dữ liệu mới." },
+          { question: "Prompt nào tốt hơn?", options: ["'Viết code cho tôi'", "'Viết hàm Python tính giai thừa bằng đệ quy, kèm docstring và 3 test cases'", "'Code something'", "'Help me'"], answer: 1, explanation: "Prompt cụ thể (ngôn ngữ, nhiệm vụ, yêu cầu chi tiết) cho kết quả chính xác hơn prompt mơ hồ." },
+        ],
+      },
+      {
+        id: "ai-f-5",
+        title: "API & Xây dựng ứng dụng AI đầu tiên",
+        titleEn: "APIs & Building Your First AI App",
+        theory: "**AI API** cho phép bạn tích hợp AI vào ứng dụng mà không cần huấn luyện mô hình.\n\n**Quy trình sử dụng API:**\n1. Đăng ký và lấy API Key\n2. Gửi request (prompt + parameters)\n3. Nhận response (text, JSON, image...)\n4. Xử lý và hiển thị kết quả\n\n**Parameters quan trọng:**\n- model: Chọn mô hình (gpt-4, gemini, ...)\n- temperature: Độ sáng tạo (0=chính xác, 1=sáng tạo)\n- max_tokens: Giới hạn độ dài output\n- system prompt: Thiết lập persona/hành vi\n\n**Lưu ý bảo mật:** KHÔNG BAO GIỜ để API key trong code frontend!",
+        theoryEn: "**AI APIs** let you integrate AI into apps without training models.\n\n**API workflow:**\n1. Register and get API Key\n2. Send request (prompt + parameters)\n3. Receive response (text, JSON, image...)\n4. Process and display results\n\n**Important parameters:**\n- model: Choose model (gpt-4, gemini, ...)\n- temperature: Creativity (0=precise, 1=creative)\n- max_tokens: Limit output length\n- system prompt: Set persona/behavior\n\n**Security note:** NEVER put API keys in frontend code!",
+        code: `# Building an AI-powered app (simulation)
+import json
+
+class SimpleAIApp:
+    def __init__(self):
+        self.system_prompt = "You are a helpful Vietnamese tutor."
+        self.conversation = []
+    
+    def chat(self, user_message):
+        self.conversation.append({"role": "user", "content": user_message})
+        
+        # Simulate API call structure
+        api_request = {
+            "model": "gemini-2.5-flash",
+            "messages": [
+                {"role": "system", "content": self.system_prompt},
+                *self.conversation
+            ],
+            "temperature": 0.7,
+            "max_tokens": 500,
+        }
+        
+        print(f"📡 API Request:")
+        print(f"  Model: {api_request['model']}")
+        print(f"  Temperature: {api_request['temperature']}")
+        print(f"  Messages: {len(api_request['messages'])}")
+        
+        # Simulated response
+        response = f"[AI Response to: '{user_message[:50]}...']"
+        self.conversation.append({"role": "assistant", "content": response})
+        return response
+
+app = SimpleAIApp()
+print("🤖 AI Tutor App")
+print("=" * 40)
+
+questions = [
+    "Giải thích từ 'ubiquitous' bằng tiếng Việt",
+    "Cho 3 ví dụ sử dụng từ này",
+]
+for q in questions:
+    print(f"\\n👤 User: {q}")
+    response = app.chat(q)
+    print(f"🤖 AI: {response}")
+    print(f"   (Conversation length: {len(app.conversation)} messages)")`,
+        codeLanguage: "python",
+        exercise: "Xây dựng một chatbot CLI đơn giản bằng Python. Chatbot phải: (1) Lưu lịch sử hội thoại, (2) Hỗ trợ lệnh /clear để xóa lịch sử, (3) Hỗ trợ /role để đổi system prompt.",
+        exerciseEn: "Build a simple CLI chatbot in Python. The chatbot must: (1) Save conversation history, (2) Support /clear to reset, (3) Support /role to change system prompt.",
+        quiz: [
+          { question: "Temperature = 0 trong AI API có nghĩa gì?", options: ["AI ngừng hoạt động", "Output chính xác và nhất quán nhất", "Output sáng tạo nhất", "Tốc độ nhanh nhất"], answer: 1, explanation: "Temperature = 0 cho output deterministic (cùng input luôn cho cùng output), phù hợp cho các tác vụ cần chính xác." },
+          { question: "Tại sao không nên để API key trong frontend?", options: ["Chạy chậm hơn", "Ai cũng có thể thấy và dùng key của bạn", "API không hoạt động", "Bị lỗi CORS"], answer: 1, explanation: "Code frontend ai cũng xem được (Inspect). Nếu để API key, người khác sẽ lấy key và dùng, gây thiệt hại tài chính." },
+        ],
+      },
+      {
+        id: "ai-f-6",
+        title: "RAG - Retrieval Augmented Generation",
+        titleEn: "RAG - Retrieval Augmented Generation",
+        theory: "**RAG** kết hợp tìm kiếm thông tin + AI tạo câu trả lời.\n\n**Vấn đề của LLM thuần:**\n- Hallucination (bịa thông tin)\n- Kiến thức bị giới hạn đến thời điểm huấn luyện\n- Không biết dữ liệu riêng của bạn\n\n**RAG giải quyết bằng cách:**\n1. Chia tài liệu thành chunks\n2. Tạo vector embeddings cho mỗi chunk\n3. Khi có câu hỏi → tìm chunks liên quan\n4. Ghép chunks vào prompt → AI trả lời dựa trên tài liệu\n\n**Vector Embedding:** Biến văn bản thành vector số, văn bản giống nhau → vector gần nhau",
+        theoryEn: "**RAG** combines information retrieval + AI generation.\n\n**Problems with pure LLMs:**\n- Hallucination (making up information)\n- Knowledge limited to training cutoff\n- Doesn't know your private data\n\n**RAG solves this by:**\n1. Split documents into chunks\n2. Create vector embeddings for each chunk\n3. On question → find relevant chunks\n4. Add chunks to prompt → AI answers based on documents\n\n**Vector Embedding:** Convert text to number vectors, similar text → nearby vectors",
+        code: `# Simple RAG simulation
+import numpy as np
+
+# Step 1: Document chunks (knowledge base)
+documents = [
+    "Python was created by Guido van Rossum in 1991.",
+    "Python uses indentation for code blocks instead of braces.",
+    "Python supports multiple paradigms: OOP, functional, procedural.",
+    "pip is the package manager for Python.",
+    "Virtual environments isolate project dependencies.",
+    "Python 3.12 introduced better error messages.",
+]
+
+# Step 2: Simple embedding (word frequency vector)
+def simple_embed(text):
+    words = text.lower().split()
+    unique = list(set(w for doc in documents for w in doc.lower().split()))
+    return np.array([words.count(w) for w in unique])
+
+doc_vectors = [simple_embed(doc) for doc in documents]
+
+# Step 3: Find relevant documents
+def search(query, top_k=2):
+    q_vec = simple_embed(query)
+    scores = []
+    for i, dv in enumerate(doc_vectors):
+        # Cosine similarity
+        if np.linalg.norm(q_vec) == 0 or np.linalg.norm(dv) == 0:
+            scores.append(0)
+        else:
+            score = np.dot(q_vec, dv) / (np.linalg.norm(q_vec) * np.linalg.norm(dv))
+            scores.append(score)
+    top_indices = np.argsort(scores)[-top_k:][::-1]
+    return [(documents[i], scores[i]) for i in top_indices]
+
+# Step 4: RAG pipeline
+query = "How does Python handle code blocks?"
+print(f"❓ Query: {query}")
+print("\\n🔍 Retrieved documents:")
+results = search(query)
+for doc, score in results:
+    print(f"  [{score:.3f}] {doc}")
+
+# Step 5: Generate answer with context
+context = " ".join([doc for doc, _ in results])
+prompt = f"Based on this context: {context}\\n\\nAnswer: {query}"
+print(f"\\n📝 Final prompt for LLM:")
+print(f"  {prompt[:200]}...")`,
+        codeLanguage: "python",
+        exercise: "Xây dựng một RAG system đơn giản cho tài liệu học Python. Cho trước 20 đoạn kiến thức, implement tìm kiếm bằng TF-IDF thay vì word frequency.",
+        exerciseEn: "Build a simple RAG system for Python learning documents. Given 20 knowledge chunks, implement search using TF-IDF instead of word frequency.",
+        quiz: [
+          { question: "RAG giải quyết vấn đề gì của LLM?", options: ["Tốc độ chậm", "Hallucination và kiến thức lỗi thời", "Giao diện xấu", "Chi phí cao"], answer: 1, explanation: "RAG cung cấp thông tin thực tế từ tài liệu, giúp LLM không bịa (hallucinate) và có thể truy cập dữ liệu mới nhất." },
+          { question: "Vector embedding dùng để làm gì trong RAG?", options: ["Mã hóa bảo mật", "So sánh độ tương đồng ngữ nghĩa", "Nén file", "Tạo hình ảnh"], answer: 1, explanation: "Vector embeddings biến văn bản thành vectors số, cho phép tính toán độ tương đồng ngữ nghĩa giữa câu hỏi và tài liệu." },
+        ],
+      },
+      {
+        id: "ai-f-7",
+        title: "AI Agents & Function Calling",
+        titleEn: "AI Agents & Function Calling",
+        theory: "**AI Agent** là hệ thống AI có thể tự lập kế hoạch và thực hiện hành động.\n\n**Function Calling:** Cho phép AI gọi các hàm/công cụ bên ngoài\n\n**Quy trình Agent:**\n1. Nhận nhiệm vụ từ người dùng\n2. Phân tích và lập kế hoạch\n3. Chọn tools/functions cần dùng\n4. Thực thi và thu thập kết quả\n5. Tổng hợp và trả lời\n\n**Ví dụ thực tế:**\n- Agent tra thời tiết → gọi Weather API\n- Agent đặt vé → gọi Booking API\n- Agent phân tích code → gọi linter + test runner",
+        theoryEn: "**AI Agent** is an AI system that can plan and execute actions autonomously.\n\n**Function Calling:** Allows AI to invoke external functions/tools\n\n**Agent workflow:**\n1. Receive task from user\n2. Analyze and plan\n3. Select needed tools/functions\n4. Execute and collect results\n5. Synthesize and respond\n\n**Real examples:**\n- Weather agent → calls Weather API\n- Booking agent → calls Booking API\n- Code analysis agent → calls linter + test runner",
+        code: `# Simple AI Agent with Function Calling
+import json
+from datetime import datetime
+
+# Define available tools
+def get_weather(city):
+    data = {"Hanoi": "28°C, Sunny", "HCMC": "32°C, Cloudy", "Da Nang": "30°C, Rain"}
+    return data.get(city, "Unknown city")
+
+def calculate(expression):
+    try:
+        return str(eval(expression))
+    except:
+        return "Error in calculation"
+
+def get_time():
+    return datetime.now().strftime("%H:%M:%S")
+
+TOOLS = {
+    "get_weather": {"fn": get_weather, "desc": "Get weather for a city"},
+    "calculate": {"fn": calculate, "desc": "Calculate math expression"},
+    "get_time": {"fn": get_time, "desc": "Get current time"},
+}
+
+class SimpleAgent:
+    def __init__(self):
+        self.tools = TOOLS
+    
+    def process(self, user_input):
+        print(f"\\n🤖 Agent received: '{user_input}'")
+        
+        # Step 1: Determine which tool to use
+        input_lower = user_input.lower()
+        if "weather" in input_lower or "thời tiết" in input_lower:
+            tool_name = "get_weather"
+            # Extract city name (simplified)
+            for city in ["Hanoi", "HCMC", "Da Nang"]:
+                if city.lower() in input_lower:
+                    args = city
+                    break
+            else:
+                args = "Hanoi"
+        elif any(op in input_lower for op in ["+", "-", "*", "/", "tính"]):
+            tool_name = "calculate"
+            args = input_lower.replace("tính", "").strip()
+        elif "time" in input_lower or "giờ" in input_lower:
+            tool_name = "get_time"
+            args = None
+        else:
+            return "I don't have a tool for that task."
+        
+        # Step 2: Execute tool
+        tool = self.tools[tool_name]
+        print(f"  🔧 Using tool: {tool_name}")
+        result = tool["fn"](args) if args else tool["fn"]()
+        print(f"  📊 Result: {result}")
+        
+        return f"Based on {tool_name}: {result}"
+
+agent = SimpleAgent()
+queries = [
+    "What's the weather in HCMC?",
+    "Tính 15 * 24 + 100",
+    "What time is it?",
+]
+
+for q in queries:
+    response = agent.process(q)
+    print(f"  💬 Response: {response}")`,
+        codeLanguage: "python",
+        exercise: "Mở rộng Agent trên: thêm tool 'search_knowledge' (tìm trong list kiến thức), tool 'translate' (dịch Việt-Anh), và xử lý multi-step tasks (ví dụ: 'Dịch thời tiết Hà Nội sang tiếng Anh').",
+        exerciseEn: "Extend the Agent: add 'search_knowledge' tool, 'translate' tool (Vietnamese-English), and handle multi-step tasks (e.g., 'Translate Hanoi weather to English').",
+        quiz: [
+          { question: "Function Calling cho phép AI làm gì?", options: ["Viết code", "Gọi các công cụ/API bên ngoài", "Tự huấn luyện", "Tạo hình ảnh"], answer: 1, explanation: "Function Calling cho AI khả năng gọi các hàm/API bên ngoài (thời tiết, database, tìm kiếm...) để lấy dữ liệu thực tế." },
+          { question: "AI Agent khác chatbot thông thường ở điểm nào?", options: ["Nói nhiều hơn", "Có thể tự lập kế hoạch và thực hiện hành động", "Dùng giọng nói", "Miễn phí"], answer: 1, explanation: "AI Agent có thể tự phân tích nhiệm vụ, lập kế hoạch, chọn tools phù hợp và thực thi - không chỉ trả lời text." },
+        ],
+      },
+      {
+        id: "ai-f-8",
+        title: "Computer Vision cơ bản",
+        titleEn: "Computer Vision Basics",
+        theory: "**Computer Vision** cho máy tính khả năng 'nhìn' và hiểu hình ảnh.\n\n**Ứng dụng:**\n- Nhận dạng khuôn mặt (Face ID)\n- Phát hiện vật thể (Tesla Autopilot)\n- OCR (đọc chữ từ ảnh)\n- Phân loại hình ảnh (Google Photos)\n\n**CNN (Convolutional Neural Network):**\n- Convolutional Layer: Phát hiện đặc trưng (cạnh, góc, texture)\n- Pooling Layer: Giảm kích thước, giữ đặc trưng quan trọng\n- Fully Connected: Phân loại cuối cùng\n\n**Transfer Learning:** Dùng mô hình đã huấn luyện (ResNet, VGG) cho bài toán mới",
+        theoryEn: "**Computer Vision** gives computers the ability to 'see' and understand images.\n\n**Applications:**\n- Face recognition (Face ID)\n- Object detection (Tesla Autopilot)\n- OCR (reading text from images)\n- Image classification (Google Photos)\n\n**CNN (Convolutional Neural Network):**\n- Convolutional Layer: Detect features (edges, corners, textures)\n- Pooling Layer: Reduce size, keep important features\n- Fully Connected: Final classification\n\n**Transfer Learning:** Use pre-trained models (ResNet, VGG) for new tasks",
+        code: `# Computer Vision concepts with numpy
+import numpy as np
+
+# Simulating a simple image (8x8 grayscale)
+image = np.array([
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 1, 1, 1, 0, 0],
+    [0, 1, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 1, 1, 0, 1, 0],
+    [0, 1, 0, 1, 1, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 1, 0],
+    [0, 0, 1, 1, 1, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+])
+
+print("📷 Original Image (8x8):")
+for row in image:
+    print("  " + " ".join("⬛" if p else "⬜" for p in row))
+
+# Convolution: Edge detection kernel
+edge_kernel = np.array([[-1, -1, -1],
+                         [-1,  8, -1],
+                         [-1, -1, -1]])
+
+def convolve2d(img, kernel):
+    h, w = img.shape
+    kh, kw = kernel.shape
+    output = np.zeros((h - kh + 1, w - kw + 1))
+    for i in range(output.shape[0]):
+        for j in range(output.shape[1]):
+            region = img[i:i+kh, j:j+kw]
+            output[i, j] = np.sum(region * kernel)
+    return np.clip(output, 0, 1)
+
+edges = convolve2d(image.astype(float), edge_kernel)
+print("\\n🔍 After Edge Detection:")
+for row in edges:
+    print("  " + " ".join("⬛" if p > 0 else "⬜" for p in row))
+
+# Max Pooling (2x2)
+def max_pool(img, size=2):
+    h, w = img.shape
+    output = np.zeros((h // size, w // size))
+    for i in range(0, h, size):
+        for j in range(0, w, size):
+            output[i//size, j//size] = np.max(img[i:i+size, j:j+size])
+    return output
+
+pooled = max_pool(image.astype(float))
+print(f"\\n📐 After Max Pooling (4x4):")
+for row in pooled:
+    print("  " + " ".join("⬛" if p > 0 else "⬜" for p in row))`,
+        codeLanguage: "python",
+        exercise: "Implement thêm các kernel khác: Blur (trung bình), Sharpen, Emboss. Áp dụng lên ảnh 16x16 và so sánh kết quả.",
+        exerciseEn: "Implement additional kernels: Blur (average), Sharpen, Emboss. Apply to a 16x16 image and compare results.",
+        quiz: [
+          { question: "CNN dùng Convolution Layer để làm gì?", options: ["Phóng to ảnh", "Phát hiện đặc trưng (cạnh, góc...)", "Xóa nền ảnh", "Nén ảnh"], answer: 1, explanation: "Convolutional Layer sử dụng kernel/filter để phát hiện các đặc trưng trực quan như cạnh, góc, và textures." },
+          { question: "Transfer Learning hữu ích khi nào?", options: ["Có rất nhiều dữ liệu", "Có ít dữ liệu cho bài toán mới", "Không cần GPU", "Chỉ dùng cho text"], answer: 1, explanation: "Transfer Learning đặc biệt hữu ích khi bạn có ít dữ liệu - dùng kiến thức từ mô hình lớn đã huấn luyện sẵn." },
+        ],
+      },
+      {
+        id: "ai-f-9",
+        title: "AI Ethics & Responsible AI",
+        titleEn: "AI Ethics & Responsible AI",
+        theory: "**Đạo đức AI** là tập hợp nguyên tắc đảm bảo AI được phát triển và sử dụng có trách nhiệm.\n\n**Các vấn đề chính:**\n- 🔒 Quyền riêng tư: AI thu thập và xử lý dữ liệu cá nhân\n- ⚖️ Bias (Thiên lệch): AI có thể phân biệt đối xử\n- 🤖 Deepfake: AI tạo nội dung giả mạo\n- 💼 Việc làm: AI thay thế lao động\n- 🎯 Minh bạch: Giải thích được quyết định của AI\n\n**Nguyên tắc Responsible AI:**\n- Fairness (Công bằng)\n- Transparency (Minh bạch)\n- Privacy (Quyền riêng tư)\n- Accountability (Trách nhiệm giải trình)\n- Safety (An toàn)\n- Human oversight (Con người giám sát)",
+        theoryEn: "**AI Ethics** is a set of principles ensuring AI is developed and used responsibly.\n\n**Key issues:**\n- 🔒 Privacy: AI collects and processes personal data\n- ⚖️ Bias: AI can discriminate\n- 🤖 Deepfake: AI creates fake content\n- 💼 Employment: AI replaces jobs\n- 🎯 Transparency: Explaining AI decisions\n\n**Responsible AI principles:**\n- Fairness\n- Transparency\n- Privacy\n- Accountability\n- Safety\n- Human oversight",
+        code: `# Bias Detection in AI
+import numpy as np
+
+# Simulated hiring AI - checking for bias
+applications = [
+    {"name": "Nguyen An", "gender": "M", "university": "top", "gpa": 3.5, "experience": 2},
+    {"name": "Tran Binh", "gender": "F", "university": "top", "gpa": 3.8, "experience": 1},
+    {"name": "Le Chi", "gender": "M", "university": "regular", "gpa": 3.2, "experience": 3},
+    {"name": "Pham Dung", "gender": "F", "university": "regular", "gpa": 3.6, "experience": 2},
+    {"name": "Hoang Em", "gender": "M", "university": "top", "gpa": 3.0, "experience": 4},
+    {"name": "Vo Fiona", "gender": "F", "university": "top", "gpa": 3.9, "experience": 0},
+]
+
+# Biased model (university weight too high)
+def biased_score(app):
+    uni_bonus = 2.0 if app["university"] == "top" else 0
+    return app["gpa"] * 0.3 + app["experience"] * 0.2 + uni_bonus
+
+# Fair model (balanced weights)
+def fair_score(app):
+    return app["gpa"] * 0.4 + app["experience"] * 0.3 + (0.3 if app["university"] == "top" else 0.15)
+
+print("⚖️ Bias Detection in Hiring AI")
+print("=" * 55)
+print(f"{'Name':<15} {'Gender':<8} {'Biased':<10} {'Fair':<10}")
+print("-" * 55)
+
+for app in applications:
+    b_score = biased_score(app)
+    f_score = fair_score(app)
+    print(f"{app['name']:<15} {app['gender']:<8} {b_score:.2f}      {f_score:.2f}")
+
+# Check demographic parity
+print("\\n📊 Bias Analysis:")
+for model_name, scorer in [("Biased", biased_score), ("Fair", fair_score)]:
+    m_avg = np.mean([scorer(a) for a in applications if a["gender"] == "M"])
+    f_avg = np.mean([scorer(a) for a in applications if a["gender"] == "F"])
+    gap = abs(m_avg - f_avg)
+    print(f"  {model_name}: M avg={m_avg:.2f}, F avg={f_avg:.2f}, Gap={gap:.2f} {'⚠️ BIASED' if gap > 0.5 else '✅ FAIR'}")`,
+        codeLanguage: "python",
+        exercise: "Thiết kế một 'AI Ethics Checklist' bằng Python. Chương trình nhận mô tả về 1 hệ thống AI và đánh giá 6 tiêu chí (Fairness, Transparency, Privacy, Accountability, Safety, Human Oversight) trên thang 1-5.",
+        exerciseEn: "Design an 'AI Ethics Checklist' in Python. The program takes an AI system description and rates 6 criteria (Fairness, Transparency, Privacy, Accountability, Safety, Human Oversight) on a 1-5 scale.",
+        quiz: [
+          { question: "Bias trong AI gây ra vấn đề gì?", options: ["Tốn điện", "Phân biệt đối xử không công bằng", "Chạy chậm", "Giao diện xấu"], answer: 1, explanation: "Bias khiến AI đưa ra quyết định thiên lệch, có thể phân biệt đối xử dựa trên giới tính, chủng tộc, tuổi tác..." },
+          { question: "Nguyên tắc nào yêu cầu AI giải thích được quyết định?", options: ["Fairness", "Transparency", "Privacy", "Safety"], answer: 1, explanation: "Transparency (Minh bạch) yêu cầu hệ thống AI có thể giải thích cách và tại sao nó đưa ra quyết định." },
+        ],
+      },
+      {
+        id: "ai-f-10",
+        title: "Dự án: Xây dựng AI Chatbot hoàn chỉnh",
+        titleEn: "Project: Build a Complete AI Chatbot",
+        theory: "**Dự án tổng hợp:** Xây dựng một chatbot AI có đầy đủ tính năng.\n\n**Yêu cầu:**\n- Hiểu ngữ cảnh (lưu lịch sử hội thoại)\n- System prompt tùy chỉnh\n- Function calling (tra thời tiết, tính toán)\n- Streaming response (hiện từng chữ)\n- Xử lý lỗi và fallback\n\n**Kiến trúc:**\n- Frontend: Giao diện chat (React/HTML)\n- Backend: API server (Python Flask/FastAPI)\n- AI: LLM API (GPT/Gemini)\n- Database: Lưu conversations (SQLite/PostgreSQL)\n\n**Best Practices:**\n- Rate limiting: Giới hạn số request\n- Input validation: Lọc nội dung độc hại\n- Logging: Ghi lại lỗi và metrics\n- Cost management: Tối ưu tokens",
+        theoryEn: "**Capstone Project:** Build a full-featured AI chatbot.\n\n**Requirements:**\n- Context awareness (save conversation history)\n- Custom system prompts\n- Function calling (weather, calculations)\n- Streaming response (show text progressively)\n- Error handling and fallback\n\n**Architecture:**\n- Frontend: Chat UI (React/HTML)\n- Backend: API server (Python Flask/FastAPI)\n- AI: LLM API (GPT/Gemini)\n- Database: Store conversations (SQLite/PostgreSQL)\n\n**Best Practices:**\n- Rate limiting\n- Input validation\n- Logging\n- Cost management",
+        code: `# Complete Chatbot Architecture
+class ProductionChatbot:
+    def __init__(self, name, system_prompt):
+        self.name = name
+        self.system_prompt = system_prompt
+        self.conversations = {}
+        self.tools = {}
+        self.request_count = 0
+        self.max_requests_per_minute = 10
+    
+    def register_tool(self, name, func, description):
+        self.tools[name] = {"fn": func, "desc": description}
+        print(f"  🔧 Registered tool: {name} - {description}")
+    
+    def new_session(self, session_id):
+        self.conversations[session_id] = []
+        return session_id
+    
+    def chat(self, session_id, message):
+        # Rate limiting
+        self.request_count += 1
+        if self.request_count > self.max_requests_per_minute:
+            return "⚠️ Rate limit exceeded. Please wait."
+        
+        # Input validation
+        if len(message) > 2000:
+            return "⚠️ Message too long (max 2000 chars)."
+        if not message.strip():
+            return "⚠️ Empty message."
+        
+        # Add to history
+        self.conversations[session_id].append(
+            {"role": "user", "content": message}
+        )
+        
+        # Check for tool calls
+        tool_result = None
+        for tool_name, tool in self.tools.items():
+            if tool_name.lower() in message.lower():
+                tool_result = tool["fn"](message)
+                break
+        
+        # Generate response (simulated)
+        context_length = len(self.conversations[session_id])
+        response = f"[{self.name}] Processed with {context_length} context messages"
+        if tool_result:
+            response += f" | Tool result: {tool_result}"
+        
+        self.conversations[session_id].append(
+            {"role": "assistant", "content": response}
+        )
+        
+        return response
+    
+    def get_stats(self):
+        total_msgs = sum(len(c) for c in self.conversations.values())
+        return {
+            "sessions": len(self.conversations),
+            "total_messages": total_msgs,
+            "requests": self.request_count,
+            "tools": list(self.tools.keys()),
+        }
+
+# Build the chatbot
+print("🤖 Building Production Chatbot")
+print("=" * 50)
+
+bot = ProductionChatbot(
+    name="HaiEdu Tutor",
+    system_prompt="You are a helpful Vietnamese education tutor."
+)
+
+# Register tools
+bot.register_tool("calculator", lambda m: str(eval("2+2")), "Math calculations")
+bot.register_tool("dictionary", lambda m: "Definition: ...", "Word lookup")
+
+# Simulate session
+session = bot.new_session("user_001")
+messages = [
+    "Xin chào!",
+    "Giải thích 'for loop' trong Python",
+    "Cho ví dụ calculator 5 + 3",
+]
+
+print("\\n💬 Chat Session:")
+for msg in messages:
+    print(f"  👤 {msg}")
+    response = bot.chat(session, msg)
+    print(f"  🤖 {response}")
+
+print(f"\\n📊 Stats: {bot.get_stats()}")`,
+        codeLanguage: "python",
+        exercise: "Hoàn thiện chatbot trên: (1) Thêm SQLite lưu conversations, (2) Implement streaming giả lập (in từng ký tự), (3) Thêm tool 'search_lessons' tìm bài học trong HaiEdu, (4) Viết unit tests.",
+        exerciseEn: "Complete the chatbot: (1) Add SQLite to save conversations, (2) Implement simulated streaming (print char by char), (3) Add 'search_lessons' tool, (4) Write unit tests.",
+        quiz: [
+          { question: "Rate limiting trong chatbot dùng để làm gì?", options: ["Tăng tốc xử lý", "Giới hạn số request để tránh lạm dụng", "Cải thiện chất lượng", "Lưu dữ liệu"], answer: 1, explanation: "Rate limiting giới hạn số request/phút để tránh abuse, bảo vệ API key và quản lý chi phí." },
+          { question: "Tại sao cần lưu conversation history?", options: ["Tiết kiệm bộ nhớ", "Để AI hiểu ngữ cảnh cuộc trò chuyện", "Tăng bảo mật", "Giảm chi phí"], answer: 1, explanation: "Conversation history giúp AI hiểu ngữ cảnh, tham chiếu các tin nhắn trước và trả lời mạch lạc hơn." },
+        ],
+      },
+    ],
+  },
 ];
+
