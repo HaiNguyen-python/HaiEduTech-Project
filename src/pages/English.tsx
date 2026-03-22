@@ -121,8 +121,8 @@ const English = () => {
             </h1>
             <p className="text-lg text-muted-foreground mb-10">
               {t(
-                "Từ Cambridge cho trẻ nhỏ đến IELTS 8.0+ — chương trình có hệ thống với phản hồi bằng AI.",
-                "From Cambridge young learners to IELTS band 8.0+ — structured programs with AI-enhanced feedback."
+                "Từ Cambridge cho trẻ nhỏ đến IELTS 8.0+, TOEIC, Giao tiếp và THPT Quốc gia — chương trình bài bản với AI hỗ trợ chấm điểm và phản hồi cá nhân hóa.",
+                "From Cambridge Young Learners to IELTS 8.0+, TOEIC, Conversational and National Exam — structured programs with AI-powered grading and personalized feedback."
               )}
             </p>
 
