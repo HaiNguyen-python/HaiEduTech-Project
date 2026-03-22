@@ -595,10 +595,165 @@ WHERE id = (
           { question: "Foreign Key dùng để làm gì?", options: ["Mã hóa dữ liệu", "Liên kết giữa 2 bảng", "Tạo index", "Xóa dữ liệu"], answer: 1, explanation: "Foreign Key (khóa ngoại) tạo mối quan hệ ràng buộc giữa 2 bảng, đảm bảo tính toàn vẹn dữ liệu." },
         ],
       },
+      {
+        id: "sql-3",
+        title: "Hàm tổng hợp & GROUP BY",
+        titleEn: "Aggregate Functions & GROUP BY",
+        theory: "**Hàm tổng hợp (Aggregate Functions):**\n- COUNT(): Đếm số hàng\n- SUM(): Tính tổng\n- AVG(): Trung bình\n- MIN() / MAX(): Giá trị nhỏ/lớn nhất\n\n**GROUP BY:** Nhóm dữ liệu để tính tổng hợp theo nhóm\n**HAVING:** Lọc sau khi GROUP BY (WHERE lọc trước GROUP BY)\n\n**Thứ tự thực thi:** FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT",
+        theoryEn: "**Aggregate Functions:**\n- COUNT(): Count rows\n- SUM(): Calculate total\n- AVG(): Average\n- MIN() / MAX(): Smallest/largest value\n\n**GROUP BY:** Group data for aggregate calculations\n**HAVING:** Filter after GROUP BY (WHERE filters before GROUP BY)\n\n**Execution order:** FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT",
+        code: `-- Doanh thu theo danh mục sản phẩm
+SELECT 
+    danh_muc,
+    COUNT(*) AS so_don,
+    SUM(gia * so_luong) AS tong_doanh_thu,
+    AVG(gia) AS gia_trung_binh,
+    MAX(gia) AS gia_cao_nhat
+FROM don_hang
+GROUP BY danh_muc
+HAVING SUM(gia * so_luong) > 1000000
+ORDER BY tong_doanh_thu DESC;
+
+-- Thống kê điểm theo lớp
+SELECT 
+    lop,
+    COUNT(*) AS si_so,
+    ROUND(AVG(diem_toan), 2) AS tb_toan,
+    ROUND(AVG(diem_van), 2) AS tb_van,
+    MIN(diem_toan) AS diem_thap_nhat,
+    MAX(diem_toan) AS diem_cao_nhat
+FROM hoc_sinh
+GROUP BY lop
+ORDER BY tb_toan DESC;`,
+        codeLanguage: "sql",
+        exercise: "Viết truy vấn thống kê: (1) Top 5 sản phẩm bán chạy nhất, (2) Doanh thu trung bình theo tháng, (3) Danh mục có hơn 10 đơn hàng.",
+        exerciseEn: "Write statistical queries: (1) Top 5 best-selling products, (2) Average monthly revenue, (3) Categories with more than 10 orders.",
+        quiz: [
+          { question: "HAVING khác WHERE ở điểm nào?", options: ["Không khác nhau", "HAVING lọc sau GROUP BY", "HAVING nhanh hơn", "WHERE không dùng với SELECT"], answer: 1, explanation: "WHERE lọc dữ liệu TRƯỚC khi nhóm, HAVING lọc SAU khi GROUP BY đã thực thi." },
+          { question: "COUNT(*) đếm gì?", options: ["Chỉ giá trị khác NULL", "Tất cả các hàng kể cả NULL", "Chỉ giá trị duy nhất", "Chỉ số cột"], answer: 1, explanation: "COUNT(*) đếm TẤT CẢ các hàng bao gồm cả NULL. COUNT(column) chỉ đếm giá trị NOT NULL." },
+        ],
+      },
+      {
+        id: "sql-4",
+        title: "Subquery & CTE",
+        titleEn: "Subqueries & CTEs",
+        theory: "**Subquery (Truy vấn con):** Truy vấn lồng bên trong truy vấn khác.\n- Scalar subquery: Trả về 1 giá trị\n- Table subquery: Trả về bảng\n- Correlated subquery: Tham chiếu bảng ngoài\n\n**CTE (Common Table Expression):**\n- Tạo bảng tạm với WITH\n- Code dễ đọc hơn subquery\n- Có thể đệ quy (Recursive CTE)",
+        theoryEn: "**Subquery:** A query nested inside another query.\n- Scalar: Returns 1 value\n- Table: Returns a table\n- Correlated: References outer table\n\n**CTE (Common Table Expression):**\n- Create temp table with WITH\n- More readable than subqueries\n- Can be recursive",
+        code: `-- Subquery: Học sinh có điểm trên trung bình
+SELECT ho_ten, diem_toan
+FROM hoc_sinh
+WHERE diem_toan > (
+    SELECT AVG(diem_toan) FROM hoc_sinh
+);
+
+-- CTE: Xếp hạng học sinh
+WITH xep_hang AS (
+    SELECT 
+        ho_ten,
+        diem_toan,
+        RANK() OVER (ORDER BY diem_toan DESC) AS hang
+    FROM hoc_sinh
+)
+SELECT * FROM xep_hang WHERE hang <= 5;
+
+-- Recursive CTE: Tạo chuỗi ngày
+WITH RECURSIVE ngay AS (
+    SELECT DATE '2024-01-01' AS d
+    UNION ALL
+    SELECT d + 1 FROM ngay WHERE d < '2024-01-07'
+)
+SELECT d AS ngay_trong_tuan FROM ngay;`,
+        codeLanguage: "sql",
+        exercise: "Dùng CTE viết truy vấn: (1) Top 3 khách hàng chi tiêu nhiều nhất, (2) So sánh doanh thu tháng này vs tháng trước.",
+        exerciseEn: "Use CTE to write: (1) Top 3 highest-spending customers, (2) Compare this month vs last month revenue.",
+        quiz: [
+          { question: "CTE được khai báo bằng từ khóa nào?", options: ["CREATE TEMP", "WITH", "DECLARE", "DEFINE"], answer: 1, explanation: "CTE sử dụng từ khóa WITH để định nghĩa bảng tạm, dễ đọc hơn subquery." },
+          { question: "Window Function RANK() dùng để làm gì?", options: ["Xóa dữ liệu trùng", "Xếp hạng các hàng", "Tạo index", "Nối bảng"], answer: 1, explanation: "RANK() xếp hạng các hàng dựa trên ORDER BY, cho phép tìm top N mà không cần GROUP BY." },
+        ],
+      },
+      {
+        id: "sql-5",
+        title: "Index & Tối ưu truy vấn",
+        titleEn: "Indexing & Query Optimization",
+        theory: "**Index** giống mục lục sách — giúp tìm kiếm nhanh hơn.\n\n**Loại Index:**\n- B-tree: Mặc định, tốt cho =, <, >, BETWEEN\n- Hash: Chỉ tốt cho =\n- GIN: Cho mảng, full-text search\n- GiST: Cho dữ liệu không gian\n\n**Khi nào tạo Index:**\n- Cột WHERE, JOIN, ORDER BY thường xuyên\n- Cột có tính chọn lọc cao (nhiều giá trị khác nhau)\n\n**EXPLAIN ANALYZE:** Phân tích kế hoạch truy vấn",
+        theoryEn: "**Index** is like a book index — speeds up lookups.\n\n**Index Types:**\n- B-tree: Default, good for =, <, >, BETWEEN\n- Hash: Only good for =\n- GIN: For arrays, full-text search\n- GiST: For spatial data\n\n**When to create Index:**\n- Frequently used WHERE, JOIN, ORDER BY columns\n- High cardinality columns\n\n**EXPLAIN ANALYZE:** Analyze query plan",
+        code: `-- Tạo index trên cột thường xuyên tìm kiếm
+CREATE INDEX idx_hoc_sinh_lop ON hoc_sinh(lop);
+CREATE INDEX idx_don_hang_ngay ON don_hang(ngay_dat);
+
+-- Index composite (nhiều cột)
+CREATE INDEX idx_hs_lop_diem ON hoc_sinh(lop, diem_toan);
+
+-- Phân tích kế hoạch truy vấn
+EXPLAIN ANALYZE
+SELECT * FROM hoc_sinh WHERE lop = '10A1';
+
+-- So sánh: Không có index vs có index
+-- Seq Scan (quét tuần tự): O(n) - chậm
+-- Index Scan: O(log n) - nhanh
+
+-- Tối ưu: Tránh SELECT *
+-- ❌ Chậm
+SELECT * FROM don_hang WHERE ngay_dat > '2024-01-01';
+-- ✅ Nhanh  
+SELECT id, san_pham, gia FROM don_hang WHERE ngay_dat > '2024-01-01';
+
+-- Tối ưu: Dùng EXISTS thay IN cho subquery lớn
+-- ❌ Chậm với bảng lớn
+SELECT * FROM hoc_sinh WHERE lop IN (SELECT lop FROM lop_hoc WHERE si_so > 30);
+-- ✅ Nhanh hơn
+SELECT * FROM hoc_sinh hs WHERE EXISTS (
+    SELECT 1 FROM lop_hoc lh WHERE lh.lop = hs.lop AND lh.si_so > 30
+);`,
+        codeLanguage: "sql",
+        exercise: "Tạo bảng 10,000 hàng, so sánh tốc độ truy vấn trước/sau khi tạo index. Dùng EXPLAIN ANALYZE.",
+        exerciseEn: "Create a 10,000-row table, compare query speed before/after indexing. Use EXPLAIN ANALYZE.",
+        quiz: [
+          { question: "Tại sao không nên tạo index trên mọi cột?", options: ["Hết dung lượng", "Làm chậm INSERT/UPDATE", "Không có lý do", "Index không tốt"], answer: 1, explanation: "Index tăng tốc đọc nhưng làm CHẬM ghi (INSERT/UPDATE/DELETE) vì phải cập nhật index." },
+          { question: "EXPLAIN ANALYZE dùng để làm gì?", options: ["Xóa dữ liệu", "Tạo bảng mới", "Phân tích hiệu suất truy vấn", "Backup database"], answer: 2, explanation: "EXPLAIN ANALYZE chạy truy vấn thật và hiển thị kế hoạch thực thi + thời gian, giúp tối ưu hóa." },
+        ],
+      },
+      {
+        id: "sql-6",
+        title: "Transaction & Bảo mật dữ liệu",
+        titleEn: "Transactions & Data Security",
+        theory: "**Transaction** đảm bảo tính toàn vẹn dữ liệu (ACID):\n- Atomicity: Tất cả hoặc không gì cả\n- Consistency: Dữ liệu luôn hợp lệ\n- Isolation: Các transaction độc lập\n- Durability: Thay đổi được lưu vĩnh viễn\n\n**Row Level Security (RLS):**\n- Kiểm soát truy cập ở cấp hàng\n- Mỗi user chỉ thấy dữ liệu của mình\n\n**SQL Injection:** Luôn dùng parameterized queries!",
+        theoryEn: "**Transaction** ensures data integrity (ACID):\n- Atomicity: All or nothing\n- Consistency: Data always valid\n- Isolation: Transactions independent\n- Durability: Changes persist\n\n**Row Level Security (RLS):**\n- Control access at row level\n- Each user sees only their data\n\n**SQL Injection:** Always use parameterized queries!",
+        code: `-- Transaction: Chuyển tiền an toàn
+BEGIN;
+UPDATE tai_khoan SET so_du = so_du - 500000 WHERE id = 1;
+UPDATE tai_khoan SET so_du = so_du + 500000 WHERE id = 2;
+-- Kiểm tra: không cho số dư âm
+DO $$
+BEGIN
+    IF (SELECT so_du FROM tai_khoan WHERE id = 1) < 0 THEN
+        RAISE EXCEPTION 'Số dư không đủ!';
+    END IF;
+END $$;
+COMMIT;
+
+-- Row Level Security
+ALTER TABLE notes ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users see own notes" ON notes
+    FOR SELECT USING (user_id = auth.uid());
+
+CREATE POLICY "Users create own notes" ON notes
+    FOR INSERT WITH CHECK (user_id = auth.uid());
+
+-- ❌ SQL Injection nguy hiểm
+-- query = f"SELECT * FROM users WHERE name = '{input}'"
+-- ✅ An toàn: Parameterized query
+-- query = "SELECT * FROM users WHERE name = $1"`,
+        codeLanguage: "sql",
+        exercise: "Viết transaction chuyển điểm giữa 2 sinh viên (trừ điểm A, cộng điểm B). Thêm RLS policy cho bảng bài tập.",
+        exerciseEn: "Write a transaction to transfer points between 2 students. Add RLS policy for assignments table.",
+        quiz: [
+          { question: "ACID trong Transaction, chữ A nghĩa là gì?", options: ["Accuracy", "Atomicity", "Authorization", "Availability"], answer: 1, explanation: "Atomicity = tính nguyên tử: transaction phải hoàn thành TOÀN BỘ hoặc ROLLBACK toàn bộ, không có trạng thái giữa chừng." },
+          { question: "SQL Injection là gì?", options: ["Cách tối ưu SQL", "Lỗi bảo mật khi nhúng input trực tiếp vào SQL", "Kiểu index đặc biệt", "Hàm tổng hợp"], answer: 1, explanation: "SQL Injection xảy ra khi attacker chèn mã SQL độc hại qua input. Phòng tránh bằng parameterized queries." },
+        ],
+      },
     ],
   },
-  {
-    id: "prog-data-pipeline",
     title: "Data Pipeline (ETL/ELT)",
     titleEn: "Data Pipeline (ETL/ELT)",
     icon: "🔄",
