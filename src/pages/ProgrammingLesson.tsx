@@ -461,9 +461,9 @@ const ProgrammingLessonPage = () => {
                   </AnimatePresence>
                 </motion.div>
               </div>
-              </div>
             </div>
               </div>
+            </div>
 
               {/* Right side: IDE Panel */}
               {showIDE && !isMobile && (
