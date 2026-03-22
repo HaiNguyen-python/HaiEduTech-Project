@@ -113,9 +113,6 @@ const ProgrammingLessonPage = () => {
     setShowChallengeResult(false);
   };
 
-  const openInTrinket = (_code: string) => {
-    // No longer used - kept for compatibility
-  };
 
   if (!mod || !lesson) {
     return (
