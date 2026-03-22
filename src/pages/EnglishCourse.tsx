@@ -200,7 +200,12 @@ const courseData: Record<string, {
       { vi: "Học sinh lớp 10–12 muốn đạt điểm cao môn Tiếng Anh", en: "Grade 10–12 students targeting high English scores" },
       { vi: "Phụ huynh muốn con ôn thi bài bản và có cam kết đầu ra", en: "Parents wanting structured prep with guaranteed outcomes" },
     ],
-    duration: "6 tháng", durationEn: "6 months",
+    testimonials: [
+      { name: "Em Thảo Vy (Học sinh lớp 12)", text: "Từ 5 điểm tiếng Anh lên 8.5 thi THPT. Cách hệ thống hóa ngữ pháp rất dễ hiểu, làm đề nhanh hơn hẳn!", textEn: "From 5 to 8.5 in the national exam. The grammar systemization was so clear, I solved questions much faster!" },
+      { name: "Chị Lan (Phụ huynh)", text: "Con trai tôi tiến bộ rõ rệt sau 2 tháng. Thầy rất tận tâm chỉ bài và phân tích lỗi sai kỹ lưỡng.", textEn: "My son improved remarkably after 2 months. The teacher is dedicated and analyzes mistakes thoroughly." },
+      { name: "Em Hoàng Nam (Học sinh lớp 11)", text: "Kiểm tra học kỳ từ 6.0 lên 8.8 nhờ học chiến thuật loại trừ đáp án rất hiệu quả.", textEn: "Semester test went from 6.0 to 8.8 thanks to effective answer elimination strategies." },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "amber",
   },
 };
