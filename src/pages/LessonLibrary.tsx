@@ -87,10 +87,10 @@ const LessonLibrary = () => {
           <div className="max-w-5xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <h1 className="text-3xl font-display font-bold mb-2 text-foreground">
-                📚 {t("Kho Bài Học AI", "AI Lesson Library")}
+                📚 {t("Thư viện bài học Ngôn ngữ & Công nghệ", "Language & Technology Lesson Library")}
               </h1>
               <p className="text-muted-foreground mb-6">
-                {t("Bài học được tạo tự động bởi AI. Chọn bộ lọc để tìm nhanh bài phù hợp.", "AI-generated lessons. Use filters to find what fits.")}
+                {t("Chọn bộ lọc để tìm nhanh bài học phù hợp với bạn.", "Use filters to find what fits.")}
                 {total > 0 && <span className="ml-2 text-primary font-semibold">({total} {t("bài", "lessons")})</span>}
               </p>
 

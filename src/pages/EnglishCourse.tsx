@@ -319,15 +319,21 @@ const EnglishCourse = () => {
               </ul>
             </div>
 
-            {/* Testimonial */}
-            {course.testimonial && (
-              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 border-l-4 border-primary/30">
-                <div className="flex items-center gap-2 mb-3">
+            {/* Testimonials */}
+            {course.testimonials && course.testimonials.length > 0 && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <div className="flex items-center gap-2 mb-5">
                   <Award className="w-5 h-5 text-primary" />
-                  <h2 className="text-lg font-display font-bold text-foreground">{t("Học viên nói gì?", "What students say")}</h2>
+                  <h2 className="text-xl font-display font-bold text-foreground">{t("Học viên nói gì?", "What students say")}</h2>
                 </div>
-                <p className="text-secondary-foreground italic leading-relaxed mb-3">"{t(course.testimonial.text, course.testimonial.textEn)}"</p>
-                <p className="text-sm text-primary font-semibold">— {course.testimonial.name}</p>
+                <div className="space-y-4">
+                  {course.testimonials.map((tm, i) => (
+                    <div key={i} className="border-l-4 border-primary/20 pl-4 py-2">
+                      <p className="text-secondary-foreground italic leading-relaxed mb-2">"{t(tm.text, tm.textEn)}"</p>
+                      <p className="text-sm text-primary font-semibold">— {tm.name}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 

@@ -477,6 +477,19 @@ const ProgrammingLessonPage = () => {
                   </div>
                 </div>
               )}
+
+              {/* Mobile IDE */}
+              {isMobile && (
+                <div className="w-full mt-6">
+                  <div className="rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "400px" }}>
+                    {isSQL ? (
+                      <SqlEditor />
+                    ) : (
+                      <PythonIDEPanel initialCode={lesson.code} />
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
       </div>
