@@ -55,6 +55,8 @@ const App = () => (
             <Route path="/teacher-admin" element={<TeacherAdmin />} />
             <Route path="/lesson-library" element={<LessonLibrary />} />
             <Route path="/lesson-library/:lessonId" element={<GeneratedLessonView />} />
+            <Route path="/python-challenges" element={<PythonChallengeList />} />
+            <Route path="/python-challenges/:challengeId" element={<PythonChallengePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
