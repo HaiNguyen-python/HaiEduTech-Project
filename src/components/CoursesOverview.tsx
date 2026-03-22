@@ -31,7 +31,7 @@ const CoursesOverview = () => {
     },
     {
       icon: Code2,
-      title: t("Phòng Lab Lập trình", "Programming Lab"),
+      title: t("Chương trình Lập trình", "Programming Program"),
       description: t(
         "Lập trình cho trẻ từ cơ bản đến nâng cao. Giới thiệu Data Engineering & AI.",
         "Programming for kids from basics to advanced. Introduction to Data Engineering & AI."
