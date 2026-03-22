@@ -144,7 +144,7 @@ const courseData: Record<string, {
     heroDescEn: "Speak English confidently in 4 months — no dry grammar drills! Practical communication course for travel, interviews, and international work.",
     stats: [
       { label: "Chủ đề giao tiếp", labelEn: "Conversation topics", value: "20+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "4 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
       { label: "Phương pháp", labelEn: "Method", value: "Roleplay" },
       { label: "Trình độ", labelEn: "Level", value: "Mọi cấp" },
     ],
