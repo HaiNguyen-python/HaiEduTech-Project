@@ -25,7 +25,7 @@ const courseData: Record<string, {
     stats: [
       { label: "Chữ Hán cơ bản", labelEn: "Basic characters", value: "300+" },
       { label: "Mẫu hội thoại", labelEn: "Dialogue patterns", value: "50+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "5 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
       { label: "Chuẩn bị cho", labelEn: "Prepares for", value: "HSK 1" },
     ],
     features: [
