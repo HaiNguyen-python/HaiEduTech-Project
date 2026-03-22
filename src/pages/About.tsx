@@ -17,8 +17,8 @@ const About = () => {
   ];
 
   const achievements = [
-    { icon: Star, value: "IELTS 8.0", label: t("Chứng chỉ Quốc tế", "International Certificate") },
-    { icon: Clock, value: "14+", label: t("Năm kinh nghiệm giảng dạy Tiếng Anh & Tiếng Trung", "Years teaching English & Chinese") },
+    { icon: GraduationCap, value: "M.A.", label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
+    { icon: Code2, value: "Engineer", label: t("Ngành Dữ liệu & Trí tuệ Nhân tạo", "Data & Artificial Intelligence") },
     { icon: Users, value: "Founder", label: t("Sáng lập HaiEdu", "Founded HaiEdu") },
   ];
 
