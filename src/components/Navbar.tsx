@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Brain, BookOpen, Languages, Code2, BarChart3, GraduationCap, Globe, UserPlus, LogIn, ChevronDown, Cpu, Sparkles, LogOut, Library, BookMarked, Settings, Shield } from "lucide-react";
+import { Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap, Globe, UserPlus, LogIn, ChevronDown, Cpu, LogOut, Library, Shield } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
@@ -10,6 +10,7 @@ import teacherLogo from "@/assets/teacher-logo.png";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { lang, setLang, t } = useLanguage();
@@ -29,6 +30,7 @@ const Navbar = () => {
     { to: "/english#toeic", label: "TOEIC" },
     { to: "/english#conversation", label: t("Giao tiếp", "Conversational") },
     { to: "/english#thpt", label: t("Luyện thi THPT", "National Exam Prep") },
+    { to: "/ai-grading", label: t("✍️ Chấm Điểm IELTS", "✍️ IELTS Grading") },
   ];
   const chineseSubs = [
     { to: "/chinese", label: t("Tổng quan", "Overview") },
@@ -54,9 +56,7 @@ const Navbar = () => {
     { to: "/english", label: t("Học Tiếng Anh", "Learn English"), icon: BookOpen, subs: englishSubs, key: "en" },
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/programming", label: t("Học Lập trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
-    { to: "/smart-resources", label: t("Kho Học Liệu", "Smart Library"), icon: Library },
-    { to: "/lesson-library", label: t("Bài Học AI", "AI Lessons"), icon: BookMarked },
-    { to: "/ai-grading", label: t("Chấm Điểm IELTS", "IELTS Grading"), icon: Brain },
+    { to: "/ai-library", label: t("Thư Viện AI", "AI Library"), icon: Library },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
 
@@ -71,6 +71,10 @@ const Navbar = () => {
 
   const handleMouseLeave = () => {
     dropdownTimeoutRef.current = setTimeout(() => setDropdown(null), 150);
+  };
+
+  const toggleMobileExpand = (key: string) => {
+    setMobileExpanded(prev => prev === key ? null : key);
   };
 
   return (
@@ -91,24 +95,30 @@ const Navbar = () => {
               if (l.subs) {
                 return (
                   <div key={l.to} className="relative" onMouseEnter={() => handleMouseEnter(l.key!)} onMouseLeave={handleMouseLeave}>
-                    <Link
-                      to={l.to}
-                      className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}
-                    >
+                    <Link to={l.to}
+                      className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
                       {l.label}
-                      <ChevronDown className={`w-3.5 h-3.5 transition-transform ${dropdown === l.key ? "rotate-180" : ""}`} />
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdown === l.key ? "rotate-180" : ""}`} />
                     </Link>
                     <AnimatePresence>
                       {dropdown === l.key && (
                         <motion.div
-                          initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }}
-                          className="absolute top-full left-0 mt-1 w-56 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
+                          initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 6, scale: 0.97 }}
+                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          className="absolute top-full left-0 mt-1 w-60 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
                         >
-                          {l.subs.map((sub) => (
-                            <Link key={sub.to + sub.label} to={sub.to} onClick={() => setDropdown(null)}
-                              className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
-                              {sub.label}
-                            </Link>
+                          {l.subs.map((sub, i) => (
+                            <motion.div key={sub.to + sub.label}
+                              initial={{ opacity: 0, x: -8 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: i * 0.03, duration: 0.2 }}>
+                              <Link to={sub.to} onClick={() => setDropdown(null)}
+                                className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors rounded-md mx-1">
+                                {sub.label}
+                              </Link>
+                            </motion.div>
                           ))}
                         </motion.div>
                       )}
@@ -156,7 +166,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile */}
+          {/* Mobile toggle */}
           <div className="flex items-center gap-2 lg:hidden">
             <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} className="text-foreground p-2 text-sm font-medium">
               <Globe className="w-5 h-5" />
@@ -170,49 +180,76 @@ const Navbar = () => {
         {/* Mobile menu */}
         <AnimatePresence>
           {open && (
-            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="lg:hidden bg-card border-t border-border">
-              <div className="px-6 py-4 space-y-1">
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:hidden bg-card border-t border-border overflow-hidden">
+              <div className="px-6 py-4 space-y-1 max-h-[75vh] overflow-y-auto">
                 {navLinks.map((l) => {
                   const Icon = l.icon;
                   const active = location.pathname === l.to;
+                  const isExpanded = mobileExpanded === l.key;
                   return (
                     <div key={l.to}>
-                      <Link to={l.to} onClick={() => setOpen(false)}
-                        className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-                        <Icon className="w-4 h-4" />
-                        {l.label}
-                      </Link>
+                      <div className="flex items-center">
+                        <Link to={l.to} onClick={() => setOpen(false)}
+                          className={`flex-1 flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+                          <Icon className="w-4 h-4" />
+                          {l.label}
+                        </Link>
+                        {l.subs && (
+                          <button onClick={() => toggleMobileExpand(l.key!)}
+                            className="p-2.5 text-muted-foreground hover:text-foreground transition-colors">
+                            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
+                          </button>
+                        )}
+                      </div>
                       {l.subs && (
-                        <div className="ml-10 space-y-1 mt-1">
-                          {l.subs.map((sub) => (
-                            <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)} className="block px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground">
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="ml-6 pl-4 border-l-2 border-primary/20 space-y-0.5 py-1">
+                                {l.subs.map((sub) => (
+                                  <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)}
+                                    className="block px-3 py-2 text-xs text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors">
+                                    {sub.label}
+                                  </Link>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       )}
                     </div>
                   );
                 })}
-                {user ? (
-                  <>
-                    <Link to="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
-                      Dashboard
-                    </Link>
-                    <button onClick={() => { handleLogout(); setOpen(false); }} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
-                      <LogOut className="w-4 h-4" /> {t("Đăng Xuất", "Logout")}
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/login" onClick={() => setOpen(false)} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium bg-primary text-primary-foreground">
-                      <LogIn className="w-4 h-4" /> {t("Đăng Nhập", "Login")}
-                    </Link>
-                    <Link to="/signup" onClick={() => setOpen(false)} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium border border-primary text-primary">
-                      <UserPlus className="w-4 h-4" /> {t("Đăng Ký", "Sign Up")}
-                    </Link>
-                  </>
-                )}
+
+                <div className="border-t border-border/50 pt-3 mt-3">
+                  {user ? (
+                    <>
+                      <Link to="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
+                        Dashboard
+                      </Link>
+                      <button onClick={() => { handleLogout(); setOpen(false); }} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
+                        <LogOut className="w-4 h-4" /> {t("Đăng Xuất", "Logout")}
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/login" onClick={() => setOpen(false)} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium bg-primary text-primary-foreground">
+                        <LogIn className="w-4 h-4" /> {t("Đăng Nhập", "Login")}
+                      </Link>
+                      <Link to="/signup" onClick={() => setOpen(false)} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium border border-primary text-primary mt-1">
+                        <UserPlus className="w-4 h-4" /> {t("Đăng Ký", "Sign Up")}
+                      </Link>
+                    </>
+                  )}
+                </div>
               </div>
             </motion.div>
           )}
@@ -221,12 +258,12 @@ const Navbar = () => {
 
       {/* Slogan bar */}
       <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 border-b border-border/50 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-3 flex items-center justify-center gap-4">
-          <BookOpen className="w-5 h-5 text-primary shrink-0" />
-          <span className="font-display font-semibold text-lg text-foreground italic">
+        <div className="container mx-auto px-6 py-2.5 flex items-center justify-center gap-4">
+          <BookOpen className="w-4 h-4 text-primary shrink-0" />
+          <span className="font-display font-semibold text-sm md:text-base text-foreground italic">
             "The Unique Intersection of Language & Technology"
           </span>
-          <Cpu className="w-5 h-5 text-primary shrink-0" />
+          <Cpu className="w-4 h-4 text-primary shrink-0" />
         </div>
       </div>
     </>
