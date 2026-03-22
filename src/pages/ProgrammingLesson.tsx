@@ -5,16 +5,20 @@ import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ChevronRight, Sparkles, CheckCircle, XCircle, Clock, Trophy,
-  Loader2, Play, ExternalLink, Lightbulb, Code2, BookOpen, ChevronDown, Eye, EyeOff
+  Loader2, Play, ExternalLink, Lightbulb, Code2, BookOpen, ChevronDown, Eye, EyeOff,
+  PanelRightClose, PanelRightOpen
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { programmingModules, type ProgrammingModule, type ProgrammingLesson as PLType } from "@/data/programmingLessonData";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
+import SqlEditor from "@/components/SqlEditor";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
   const [mod, setMod] = useState<ProgrammingModule | null>(null);
   const [lesson, setLesson] = useState<PLType | null>(null);
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -28,6 +32,9 @@ const ProgrammingLessonPage = () => {
   const [challengeActive, setChallengeActive] = useState(false);
   const [challengeAnswer, setChallengeAnswer] = useState<number | null>(null);
   const [showChallengeResult, setShowChallengeResult] = useState(false);
+  const [showIDE, setShowIDE] = useState(true);
+
+  const isSQL = mod?.id === "prog-sql";
 
   useEffect(() => {
     const m = programmingModules.find(m => m.id === moduleId);
@@ -128,21 +135,36 @@ const ProgrammingLessonPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-6 pb-16">
-        <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto">
-            {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6 flex-wrap">
-              <Link to="/programming" className="hover:text-foreground flex items-center gap-1">
-                <ArrowLeft className="w-4 h-4" />
-                {t("Lập trình", "Programming")}
-              </Link>
-              <ChevronRight className="w-3 h-3" />
-              <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
+        <div className={`mx-auto px-4 sm:px-6 ${showIDE && !isMobile ? "max-w-[1600px]" : "container"}`}>
+          <div className={showIDE && !isMobile ? "" : "max-w-5xl mx-auto"}>
+            {/* Breadcrumb + IDE Toggle */}
+            <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Link to="/programming" className="hover:text-foreground flex items-center gap-1">
+                  <ArrowLeft className="w-4 h-4" />
+                  {t("Lập trình", "Programming")}
+                </Link>
+                <ChevronRight className="w-3 h-3" />
+                <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
+              </div>
+              {!isMobile && (
+                <button
+                  onClick={() => setShowIDE(!showIDE)}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border border-border hover:bg-secondary transition-colors active:scale-[0.97]"
+                >
+                  {showIDE ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
+                  {showIDE ? t("Ẩn IDE", "Hide IDE") : t("Mở IDE", "Show IDE")}
+                </button>
+              )}
             </div>
 
+            {/* Main 2-column layout: Content + IDE */}
+            <div className={`flex gap-6 ${showIDE && !isMobile ? "flex-row" : "flex-col"}`}>
+              {/* Left side: Sidebar + Lesson content */}
+              <div className={`${showIDE && !isMobile ? "w-1/2 xl:w-3/5" : "w-full"} min-w-0`}>
             <div className="flex flex-col lg:flex-row gap-6">
               {/* Sidebar - Roadmap */}
-              <div className="lg:w-72 shrink-0">
+              <div className="lg:w-64 shrink-0">
                 <div className="glass-card rounded-xl p-4 sticky top-28">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
@@ -442,9 +464,44 @@ const ProgrammingLessonPage = () => {
                   </AnimatePresence>
                 </motion.div>
               </div>
+              </div>
+            </div>
+              </div>
+
+              {/* Right side: IDE Panel */}
+              {showIDE && !isMobile && (
+                <div className="w-1/2 xl:w-2/5 shrink-0">
+                  <div className="sticky top-28 rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "calc(100vh - 140px)" }}>
+                    {isSQL ? (
+                      <SqlEditor />
+                    ) : (
+                      <div className="flex flex-col h-full bg-slate-950">
+                        <div className="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Code2 className="w-4 h-4 text-green-400" />
+                            <span className="text-sm font-mono text-green-400">{lesson.codeLanguage} IDE</span>
+                          </div>
+                          <button
+                            onClick={() => openInTrinket(lesson.code)}
+                            className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-500 transition-colors active:scale-[0.97]"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                            {t("Mở Trinket", "Open Trinket")}
+                          </button>
+                        </div>
+                        <div className="flex-1 overflow-auto p-4">
+                          <pre className="text-sm font-mono text-slate-300 leading-relaxed whitespace-pre">{lesson.code}</pre>
+                        </div>
+                        <div className="p-3 bg-slate-900 border-t border-slate-800">
+                          <p className="text-xs text-slate-500">{t("💡 Dùng nút 'Mở Trinket' để chạy code trực tiếp", "💡 Click 'Open Trinket' to run code live")}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        </div>
       </div>
       <Footer />
     </div>

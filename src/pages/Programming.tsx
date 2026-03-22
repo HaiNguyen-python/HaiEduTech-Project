@@ -2,7 +2,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -20,6 +20,15 @@ const pillars = [
     bgColor: "bg-emerald-500/8",
     borderColor: "border-emerald-500/20",
     accentColor: "text-emerald-600",
+  },
+  {
+    id: "ai-foundation",
+    icon: Bot,
+    emoji: "🧠",
+    color: "from-rose-500 to-pink-600",
+    bgColor: "bg-rose-500/8",
+    borderColor: "border-rose-500/20",
+    accentColor: "text-rose-600",
   },
   {
     id: "sql",
@@ -59,7 +68,6 @@ const Programming = () => {
   ).length;
   const challengeProgress = (completedChallenges / pythonChallenges.length) * 100;
 
-  // Map modules to pillars
   const pillarData: Record<string, {
     title: string; titleEn: string; desc: string; descEn: string;
     modules: typeof programmingModules; challengeSection?: boolean;
@@ -70,6 +78,12 @@ const Programming = () => {
       descEn: "From basic algorithmic thinking (Scratch) to advanced Python, data structures and real projects. Includes 150 coding challenges with built-in IDE.",
       modules: programmingModules.filter(m => m.course === "kids"),
       challengeSection: true,
+    },
+    "ai-foundation": {
+      title: "AI Foundation", titleEn: "AI Foundation",
+      desc: "Nền tảng AI: Lịch sử, LLMs, Prompt Engineering, Ethics. Thực hành tối ưu hóa Prompt và xây dựng ứng dụng AI cơ bản.",
+      descEn: "AI Fundamentals: History, LLMs, Prompt Engineering, Ethics. Practice Prompt optimization and build basic AI applications.",
+      modules: programmingModules.filter(m => m.id === "prog-ai-foundation"),
     },
     sql: {
       title: "SQL & Database", titleEn: "SQL & Database",
@@ -104,7 +118,7 @@ const Programming = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-4xl mx-auto text-center mb-10"
+            className="max-w-5xl mx-auto text-center mb-10"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
               <Code2 className="w-3 h-3" /> {t("Lộ trình Nghề nghiệp", "Career Path")}
@@ -115,14 +129,14 @@ const Programming = () => {
             </h1>
             <p className="text-muted-foreground text-sm max-w-xl mx-auto">
               {t(
-                "4 trụ cột chính đưa bạn từ người mới bắt đầu đến chuyên gia công nghệ dữ liệu.",
-                "4 core pillars taking you from beginner to data technology expert."
+                "5 trụ cột chính đưa bạn từ người mới bắt đầu đến chuyên gia công nghệ dữ liệu.",
+                "5 core pillars taking you from beginner to data technology expert."
               )}
             </p>
           </motion.div>
 
-          {/* 4 Pillar Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto mb-10">
+          {/* 5 Pillar Cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 max-w-5xl mx-auto mb-10">
             {pillars.map((p, i) => {
               const data = pillarData[p.id];
               const isActive = activePillar === p.id;
@@ -162,7 +176,7 @@ const Programming = () => {
           </div>
 
           {/* Active Pillar Content */}
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activePillar}
