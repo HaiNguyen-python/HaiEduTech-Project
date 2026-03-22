@@ -649,6 +649,152 @@ print("\\n✅ Đã lưu file ket_qua.csv")`,
           { question: "Pandas DataFrame giống gì nhất?", options: ["Mảng 1 chiều", "Bảng tính Excel", "File JSON", "Cây nhị phân"], answer: 1, explanation: "DataFrame là bảng dữ liệu 2 chiều có hàng và cột, giống bảng tính Excel." },
         ],
       },
+      {
+        id: "etl-2",
+        title: "API & Web Scraping",
+        titleEn: "API & Web Scraping",
+        theory: "**API (Application Programming Interface):** Cổng giao tiếp giữa các hệ thống.\n\n**REST API:** Giao thức phổ biến nhất\n- GET: Lấy dữ liệu\n- POST: Gửi dữ liệu mới\n- PUT: Cập nhật\n- DELETE: Xóa\n\n**Web Scraping:** Thu thập dữ liệu từ website\n- BeautifulSoup: Parse HTML\n- Selenium: Trang web động",
+        theoryEn: "**API (Application Programming Interface):** Communication gateway between systems.\n\n**REST API:** Most popular protocol\n- GET: Retrieve data\n- POST: Send new data\n- PUT: Update\n- DELETE: Remove\n\n**Web Scraping:** Collect data from websites\n- BeautifulSoup: Parse HTML\n- Selenium: Dynamic pages",
+        code: `import requests
+import json
+
+# Gọi API công khai
+url = "https://jsonplaceholder.typicode.com/posts"
+response = requests.get(url)
+posts = response.json()
+
+print(f"Tổng bài viết: {len(posts)}")
+for post in posts[:3]:
+    print(f"  📝 {post['title'][:50]}...")
+
+# Web Scraping với BeautifulSoup
+from bs4 import BeautifulSoup
+
+html = "<html><body><h1>Tiêu đề</h1><p>Nội dung</p></body></html>"
+soup = BeautifulSoup(html, 'html.parser')
+print(f"\\nTiêu đề: {soup.h1.text}")
+print(f"Nội dung: {soup.p.text}")`,
+        codeLanguage: "python",
+        exercise: "Gọi API thời tiết (OpenWeatherMap) lấy nhiệt độ 5 thành phố, lưu vào DataFrame và xuất CSV.",
+        exerciseEn: "Call weather API (OpenWeatherMap) for 5 cities' temperatures, save to DataFrame and export CSV.",
+        quiz: [
+          { question: "HTTP GET dùng để làm gì?", options: ["Xóa dữ liệu", "Gửi dữ liệu mới", "Lấy dữ liệu", "Cập nhật dữ liệu"], answer: 2, explanation: "GET request dùng để lấy/đọc dữ liệu từ server." },
+        ],
+      },
+      {
+        id: "etl-3",
+        title: "Xử lý dữ liệu nâng cao với Pandas",
+        titleEn: "Advanced Data Processing with Pandas",
+        theory: "**Kỹ thuật nâng cao:**\n- merge(): Nối 2 DataFrame (giống SQL JOIN)\n- pivot_table(): Bảng tổng hợp\n- apply(): Áp dụng hàm tùy chỉnh\n- fillna() / dropna(): Xử lý missing data\n\n**Method chaining:** Nối nhiều thao tác liên tục cho code gọn gàng.",
+        theoryEn: "**Advanced techniques:**\n- merge(): Join 2 DataFrames (like SQL JOIN)\n- pivot_table(): Summary table\n- apply(): Apply custom functions\n- fillna() / dropna(): Handle missing data\n\n**Method chaining:** Chain multiple operations for clean code.",
+        code: `import pandas as pd
+
+# Merge DataFrames
+orders = pd.DataFrame({
+    'order_id': [1, 2, 3],
+    'customer': ['An', 'Binh', 'Chi'],
+    'amount': [500000, 1200000, 800000]
+})
+products = pd.DataFrame({
+    'order_id': [1, 2, 3],
+    'product': ['Laptop', 'Phone', 'Tablet']
+})
+merged = orders.merge(products, on='order_id')
+print(merged)
+
+# Pivot Table
+sales = pd.DataFrame({
+    'Month': ['T1','T1','T2','T2','T3','T3'],
+    'Category': ['A','B','A','B','A','B'],
+    'Revenue': [100, 200, 150, 180, 220, 190]
+})
+pivot = sales.pivot_table(values='Revenue', index='Month', columns='Category', aggfunc='sum')
+print(pivot)`,
+        codeLanguage: "python",
+        exercise: "Tải dataset Titanic, làm sạch dữ liệu, tạo pivot table theo Pclass và Sex, tính tỷ lệ sống sót.",
+        exerciseEn: "Load Titanic dataset, clean data, create pivot table by Pclass and Sex, calculate survival rate.",
+        quiz: [
+          { question: "merge() trong Pandas giống lệnh SQL nào?", options: ["SELECT", "WHERE", "JOIN", "GROUP BY"], answer: 2, explanation: "pd.merge() kết nối 2 DataFrame dựa trên cột chung, giống JOIN trong SQL." },
+        ],
+      },
+      {
+        id: "etl-4",
+        title: "Airflow & Tự động hóa Pipeline",
+        titleEn: "Airflow & Pipeline Automation",
+        theory: "**Apache Airflow:** Nền tảng tự động hóa workflow\n- DAG (Directed Acyclic Graph): Định nghĩa luồng công việc\n- Task: Đơn vị công việc nhỏ nhất\n- Operator: Loại task (Python, Bash, SQL)\n- Schedule: Lập lịch chạy tự động\n\n**Lợi ích:** Theo dõi, retry tự động, alert khi lỗi",
+        theoryEn: "**Apache Airflow:** Workflow automation platform\n- DAG (Directed Acyclic Graph): Define workflow\n- Task: Smallest work unit\n- Operator: Task type (Python, Bash, SQL)\n- Schedule: Automatic scheduling\n\n**Benefits:** Monitoring, auto-retry, error alerts",
+        code: `from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime, timedelta
+
+def extract():
+    print("📥 Extracting data from API...")
+    return {"records": 1000}
+
+def transform(**context):
+    data = context['ti'].xcom_pull(task_ids='extract')
+    print(f"🔄 Transforming {data['records']} records...")
+
+def load(**context):
+    print("📤 Loading to data warehouse...")
+    print("✅ Pipeline complete!")
+
+dag = DAG(
+    'daily_etl',
+    start_date=datetime(2024, 1, 1),
+    schedule_interval='@daily',
+    catchup=False,
+)
+
+t1 = PythonOperator(task_id='extract', python_callable=extract, dag=dag)
+t2 = PythonOperator(task_id='transform', python_callable=transform, dag=dag)
+t3 = PythonOperator(task_id='load', python_callable=load, dag=dag)
+
+t1 >> t2 >> t3  # Extract → Transform → Load`,
+        codeLanguage: "python",
+        exercise: "Thiết kế DAG thu thập giá cổ phiếu hàng ngày, tính trung bình 7 ngày, lưu vào database.",
+        exerciseEn: "Design a DAG to collect daily stock prices, calculate 7-day average, save to database.",
+        quiz: [
+          { question: "DAG viết tắt của gì?", options: ["Data Analysis Graph", "Directed Acyclic Graph", "Database Access Gateway", "Dynamic API Generator"], answer: 1, explanation: "DAG = Directed Acyclic Graph - đồ thị có hướng không chu trình, mô tả luồng công việc." },
+        ],
+      },
+      {
+        id: "etl-5",
+        title: "Data Warehouse & Data Lake",
+        titleEn: "Data Warehouse & Data Lake",
+        theory: "**Data Warehouse:** Kho dữ liệu có cấu trúc, tối ưu cho phân tích\n- Schema-on-write: Cấu trúc trước khi lưu\n- Star Schema / Snowflake Schema\n\n**Data Lake:** Lưu trữ mọi loại dữ liệu (thô)\n- Schema-on-read: Cấu trúc khi đọc\n- Lưu file CSV, JSON, Parquet, hình ảnh...\n\n**Data Lakehouse:** Kết hợp cả hai (Delta Lake, Apache Iceberg)",
+        theoryEn: "**Data Warehouse:** Structured data storage, optimized for analytics\n- Schema-on-write: Structure before storing\n- Star Schema / Snowflake Schema\n\n**Data Lake:** Store all data types (raw)\n- Schema-on-read: Structure when reading\n- Store CSV, JSON, Parquet, images...\n\n**Data Lakehouse:** Combines both (Delta Lake, Apache Iceberg)",
+        code: `# Star Schema Example
+# Fact Table: sales_fact
+# Dimension Tables: dim_product, dim_time, dim_store
+
+# Mô phỏng Star Schema với Python
+fact_sales = [
+    {"date_id": 1, "product_id": 101, "store_id": 1, "quantity": 5, "revenue": 500000},
+    {"date_id": 1, "product_id": 102, "store_id": 2, "quantity": 3, "revenue": 900000},
+    {"date_id": 2, "product_id": 101, "store_id": 1, "quantity": 8, "revenue": 800000},
+]
+
+dim_product = {101: "Laptop", 102: "Phone"}
+dim_store = {1: "HCM", 2: "HN"}
+dim_time = {1: "2024-01-15", 2: "2024-01-16"}
+
+# Truy vấn: Doanh thu theo cửa hàng
+from collections import defaultdict
+store_revenue = defaultdict(int)
+for sale in fact_sales:
+    store = dim_store[sale["store_id"]]
+    store_revenue[store] += sale["revenue"]
+
+for store, rev in store_revenue.items():
+    print(f"🏪 {store}: {rev:,.0f} VNĐ")`,
+        codeLanguage: "python",
+        exercise: "Thiết kế Star Schema cho hệ thống e-commerce với 1 Fact table và 4 Dimension tables. Viết truy vấn phân tích.",
+        exerciseEn: "Design a Star Schema for e-commerce with 1 Fact and 4 Dimension tables. Write analytical queries.",
+        quiz: [
+          { question: "Data Lake khác Data Warehouse ở điểm nào?", options: ["Chỉ lưu SQL", "Lưu dữ liệu thô mọi định dạng", "Chỉ lưu hình ảnh", "Nhanh hơn"], answer: 1, explanation: "Data Lake lưu trữ dữ liệu thô (raw) ở mọi định dạng, trong khi Data Warehouse chỉ lưu dữ liệu đã cấu trúc." },
+        ],
+      },
     ],
   },
   {
