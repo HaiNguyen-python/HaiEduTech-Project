@@ -15,6 +15,7 @@ import Register from "./pages/Register.tsx";
 import Contact from "./pages/Contact.tsx";
 import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
+import SmartResources from "./pages/SmartResources.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/smart-resources" element={<SmartResources />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
