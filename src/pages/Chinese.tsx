@@ -17,31 +17,46 @@ const Chinese = () => {
     {
       title: t("Tiếng Trung Nền tảng", "Foundation Chinese"),
       level: t("Mới bắt đầu", "Beginner"),
-      desc: t("Xây dựng nền tảng với pinyin, thanh điệu, chữ Hán cơ bản và cụm từ giao tiếp hàng ngày.", "Build your foundation with pinyin, tones, basic characters and everyday phrases."),
+      desc: t(
+        "Khóa học dành cho người hoàn toàn mới bắt đầu, xây dựng nền tảng vững chắc từ phiên âm Pinyin, thanh điệu, đến chữ Hán cơ bản. Học viên sẽ có khả năng giao tiếp đơn giản trong các tình huống hàng ngày sau khóa học.",
+        "Designed for complete beginners, building a solid foundation from Pinyin pronunciation, tones, to basic Chinese characters. Students will be able to communicate in simple daily situations upon completion."
+      ),
       features: [
-        t("Pinyin & thanh điệu chuẩn", "Pinyin & tone mastery"),
-        t("200+ chữ Hán thiết yếu", "200+ essential characters"),
-        t("Luyện hội thoại hàng ngày", "Daily conversation drills"),
+        t("Hệ thống Pinyin & 4 thanh điệu chuẩn xác với luyện tập audio", "Pinyin system & 4 tones with audio practice drills"),
+        t("300+ chữ Hán thiết yếu với phương pháp ghi nhớ bộ thủ", "300+ essential characters with radical-based memorization method"),
+        t("50+ mẫu hội thoại: chào hỏi, mua sắm, ăn uống, hỏi đường", "50+ dialogue patterns: greetings, shopping, dining, asking directions"),
+        t("Bài tập viết chữ Hán theo nét & thứ tự nét chuẩn", "Character writing exercises with correct stroke order"),
+        t("Văn hóa Trung Quốc cơ bản: phong tục, lễ hội, ứng xử", "Basic Chinese culture: customs, festivals, etiquette"),
       ],
     },
     {
       title: t("Luyện thi HSK", "HSK Preparation"),
       level: "HSK 1–6",
-      desc: t("Ôn luyện có hệ thống cho tất cả cấp độ HSK.", "Structured preparation for all levels of the HSK proficiency test."),
+      desc: t(
+        "Chương trình ôn luyện bài bản cho kỳ thi năng lực Hán ngữ quốc tế HSK. Mỗi cấp độ được thiết kế với lộ trình rõ ràng, kho đề thi phong phú và phương pháp học từ vựng khoa học.",
+        "Systematic preparation for the international Chinese proficiency HSK exam. Each level features a clear roadmap, extensive test banks, and scientific vocabulary learning methods."
+      ),
       features: [
-        t("Từ vựng theo cấp độ HSK", "Vocabulary by HSK level"),
-        t("Luyện đọc & nghe", "Reading & listening practice"),
-        t("Thi thử & chấm điểm", "Mock exams & scoring"),
+        t("Từ vựng & ngữ pháp phân loại theo HSK 1–6 (150 → 5000+ từ)", "Vocabulary & grammar classified by HSK 1–6 (150 → 5000+ words)"),
+        t("Luyện đọc hiểu với bài đọc theo chủ đề & cấp độ", "Reading comprehension with topic & level-graded passages"),
+        t("Luyện nghe với tốc độ nói tự nhiên của người bản xứ", "Listening practice at native speaker natural speed"),
+        t("Thi thử mô phỏng đề HSK thực tế + chấm điểm & phân tích", "Mock tests simulating real HSK format + scoring & analysis"),
+        t("Mẹo ghi nhớ chữ Hán: flashcard, spaced repetition, liên tưởng", "Character memorization tips: flashcards, spaced repetition, mnemonics"),
       ],
     },
     {
       title: t("Tiếng Trung Giao tiếp", "Conversational Chinese"),
       level: t("Tất cả trình độ", "All Levels"),
-      desc: t("Kỹ năng nói thực tế cho du lịch, kinh doanh và cuộc sống hàng ngày.", "Practical speaking skills for travel, business and daily life."),
+      desc: t(
+        "Khóa học tập trung vào kỹ năng nói và nghe trong các tình huống thực tế. Phù hợp cho người học muốn giao tiếp tiếng Trung tự tin trong du lịch, kinh doanh và cuộc sống hàng ngày tại Trung Quốc hoặc Đài Loan.",
+        "Course focused on speaking and listening skills in real-world situations. Ideal for learners who want to communicate confidently in Chinese for travel, business, and daily life in China or Taiwan."
+      ),
       features: [
-        t("Hội thoại thực tế", "Real-world dialogues"),
-        t("Bối cảnh văn hóa", "Cultural context"),
-        t("Luyện phát âm", "Pronunciation coaching"),
+        t("30+ chủ đề giao tiếp: du lịch, nhà hàng, công việc, y tế, ngân hàng", "30+ conversation topics: travel, restaurants, work, healthcare, banking"),
+        t("Luyện phát âm chuẩn với so sánh native speaker recordings", "Pronunciation training with native speaker recording comparisons"),
+        t("Roleplay tình huống thực tế & thảo luận nhóm hàng tuần", "Real-world roleplay & weekly group discussions"),
+        t("Phân biệt tiếng Trung giản thể vs phồn thể (Đại lục vs Đài Loan)", "Simplified vs Traditional Chinese differences (Mainland vs Taiwan)"),
+        t("Slang, thành ngữ & cách nói tự nhiên trong đời sống", "Slang, idioms & natural expressions in daily life"),
       ],
     },
   ];
