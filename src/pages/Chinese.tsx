@@ -115,8 +115,8 @@ const Chinese = () => {
             </h1>
             <p className="text-lg text-muted-foreground mb-10">
               {t(
-                "Từ con số 0 đến thành thạo — các module có cấu trúc từ Nền tảng, HSK, đến Giao tiếp.",
-                "From zero to fluency — structured modules covering Foundation, HSK, and Conversational Chinese."
+                "Từ con số 0 đến giao tiếp tự tin — chương trình bài bản từ Nền tảng, HSK đến Giao tiếp thực tế, kết hợp văn hóa và công nghệ.",
+                "From zero to confident communication — structured modules from Foundation to HSK to real-world Conversation, blending culture and technology."
               )}
             </p>
 
