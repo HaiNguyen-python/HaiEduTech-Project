@@ -164,8 +164,11 @@ const courseData: Record<string, {
       { vi: "Bất kỳ ai muốn nói tiếng Anh tự tin và tự nhiên", en: "Anyone wanting to speak English confidently and naturally" },
       { vi: "Người chuẩn bị đi du lịch hoặc làm việc nước ngoài", en: "People preparing for travel or working abroad" },
     ],
-    testimonial: { name: "Chị Hạnh (Nhân viên marketing)", text: "Sau 2 tháng mình đã tự tin present bằng tiếng Anh trước team quốc tế. Cách học roleplay rất thực tế!", textEn: "After 2 months I could confidently present in English to my international team. The roleplay method is very practical!" },
-    duration: "4 tháng", durationEn: "4 months",
+    testimonials: [
+      { name: "Chị Hạnh (Nhân viên marketing)", text: "Sau 2 tháng mình đã tự tin present bằng tiếng Anh trước team quốc tế. Cách học roleplay rất thực tế!", textEn: "After 2 months I could confidently present in English to my international team. The roleplay method is very practical!" },
+      { name: "Anh Phước (Hướng dẫn viên du lịch)", text: "Từ ngại nói chuyện với khách nước ngoài đến dẫn tour bằng tiếng Anh tự tin. Idioms thực tế giúp mình nói tự nhiên hơn nhiều!", textEn: "From being shy with foreign tourists to confidently leading English tours. Real-world idioms made my speech much more natural!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "violet",
   },
   "national-exam": {
