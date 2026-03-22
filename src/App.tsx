@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,11 +16,10 @@ import Register from "./pages/Register.tsx";
 import Contact from "./pages/Contact.tsx";
 import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
-import SmartResources from "./pages/SmartResources.tsx";
+import AILibrary from "./pages/AILibrary.tsx";
 import LessonDetail from "./pages/LessonDetail.tsx";
 import TeacherAdmin from "./pages/TeacherAdmin.tsx";
 import TeacherDashboard from "./pages/TeacherDashboard.tsx";
-import LessonLibrary from "./pages/LessonLibrary.tsx";
 import GeneratedLessonView from "./pages/GeneratedLessonView.tsx";
 import PythonChallengeList from "./pages/PythonChallengeList.tsx";
 import PythonChallengePage from "./pages/PythonChallenge.tsx";
@@ -50,12 +49,14 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/smart-resources" element={<SmartResources />} />
+            <Route path="/ai-library" element={<AILibrary />} />
+            {/* Redirects for old routes */}
+            <Route path="/smart-resources" element={<Navigate to="/ai-library" replace />} />
+            <Route path="/lesson-library" element={<Navigate to="/ai-library" replace />} />
             <Route path="/lesson/:resourceId" element={<LessonDetail />} />
             <Route path="/lesson/:resourceId/:lessonId" element={<LessonDetail />} />
             <Route path="/teacher-admin" element={<TeacherAdmin />} />
             <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
-            <Route path="/lesson-library" element={<LessonLibrary />} />
             <Route path="/lesson-library/:lessonId" element={<GeneratedLessonView />} />
             <Route path="/python-challenges" element={<PythonChallengeList />} />
             <Route path="/python-challenges/:challengeId" element={<PythonChallengePage />} />
