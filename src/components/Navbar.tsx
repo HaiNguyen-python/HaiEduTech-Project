@@ -1,27 +1,20 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Brain, BookOpen, Languages, Code2, BarChart3, GraduationCap, Globe, UserPlus, LogIn, ChevronDown, Cpu, Sparkles, LogOut, Library, BookMarked, Settings } from "lucide-react";
+import { Menu, X, Brain, BookOpen, Languages, Code2, BarChart3, GraduationCap, Globe, UserPlus, LogIn, ChevronDown, Cpu, Sparkles, LogOut, Library, BookMarked, Settings, Shield } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { useUserRole } from "@/hooks/useUserRole";
 import teacherLogo from "@/assets/teacher-logo.png";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
-  const [user, setUser] = useState<any>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { lang, setLang, t } = useLanguage();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
-      setUser(session?.user ?? null);
-    });
-    supabase.auth.getSession().then(({ data: { session } }) => setUser(session?.user ?? null));
-    return () => subscription.unsubscribe();
-  }, []);
+  const { user, isTeacher } = useUserRole();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
