@@ -132,22 +132,21 @@ const TeacherAdmin = ({ embedded = false }: { embedded?: boolean }) => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <div className="pt-28 pb-16">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
-                <Sparkles className="w-3 h-3" /> {t("Quản trị Nội dung", "Content Management")}
-              </div>
-              <h1 className="text-3xl font-display font-bold mb-2 text-foreground">
-                {t("Soạn bài tự động với AI", "Auto-generate Lessons with AI")}
-              </h1>
-              <p className="text-muted-foreground mb-8">
-                {t("Tạo hàng loạt bài học và bài tập bằng Perplexity AI. Nội dung được lưu vào kho học liệu và hiển thị cho học sinh.", "Batch generate lessons and exercises using Perplexity AI. Content is saved to the library and displayed to students.")}
-              </p>
+  const content = (
+    <>
+      {!embedded && (
+        <>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
+            <Sparkles className="w-3 h-3" /> {t("Quản trị Nội dung", "Content Management")}
+          </div>
+          <h1 className="text-3xl font-display font-bold mb-2 text-foreground">
+            {t("Soạn bài tự động với AI", "Auto-generate Lessons with AI")}
+          </h1>
+          <p className="text-muted-foreground mb-8">
+            {t("Tạo hàng loạt bài học và bài tập bằng Perplexity AI. Nội dung được lưu vào kho học liệu và hiển thị cho học sinh.", "Batch generate lessons and exercises using Perplexity AI. Content is saved to the library and displayed to students.")}
+          </p>
+        </>
+      )
 
               {/* Config */}
               <div className="glass-card rounded-xl p-6 mb-8">
