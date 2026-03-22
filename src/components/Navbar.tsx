@@ -61,7 +61,9 @@ const Navbar = () => {
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/programming", label: t("Học Lập trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/smart-resources", label: t("Kho Học Liệu", "Smart Library"), icon: Library },
+    { to: "/lesson-library", label: t("Bài Học AI", "AI Lessons"), icon: BookMarked },
     { to: "/ai-grading", label: t("Chấm Điểm IELTS", "IELTS Grading"), icon: Brain },
+    { to: "/teacher-admin", label: t("Soạn bài", "Admin"), icon: Settings },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
 
