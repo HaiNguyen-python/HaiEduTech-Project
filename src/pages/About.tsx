@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Code2, Languages, MapPin, Star, Users, Clock } from "lucide-react";
+import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 
@@ -17,8 +17,8 @@ const About = () => {
   ];
 
   const achievements = [
-    { icon: Star, value: "IELTS 8.0", label: t("Chứng chỉ Quốc tế", "International Certificate") },
-    { icon: Clock, value: "14+", label: t("Năm kinh nghiệm giảng dạy Tiếng Anh & Tiếng Trung", "Years teaching English & Chinese") },
+    { icon: GraduationCap, value: "M.A.", label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
+    { icon: Code2, value: "Engineer", label: t("Ngành Dữ liệu & Trí tuệ Nhân tạo", "Data & Artificial Intelligence") },
     { icon: Users, value: "Founder", label: t("Sáng lập HaiEdu", "Founded HaiEdu") },
   ];
 
@@ -36,7 +36,7 @@ const About = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
             <div className="flex items-center gap-2 mb-2">
               <MapPin className="w-4 h-4 text-primary" />
-              <span className="text-sm text-muted-foreground">{t("Phần Lan · Việt Nam · Từ xa", "Finland · Vietnam · Remote")}</span>
+              <span className="text-sm text-muted-foreground">{t("Phần Lan · Việt Nam", "Finland · Vietnam")}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
               Hai <span className="text-gradient">Nguyen</span>

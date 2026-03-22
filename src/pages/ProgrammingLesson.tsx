@@ -252,8 +252,8 @@ const ProgrammingLessonPage = () => {
                       </button>
                     </div>
                     <div className="overflow-x-auto max-w-full">
-                      <pre className="p-4 bg-slate-950">
-                        <code className="text-sm font-mono text-slate-300 leading-relaxed whitespace-pre">{lesson.code}</code>
+                      <pre className="p-4 bg-slate-950 max-w-full">
+                        <code className="text-sm font-mono text-slate-300 leading-relaxed whitespace-pre break-words">{lesson.code}</code>
                       </pre>
                     </div>
                   </div>
@@ -402,7 +402,7 @@ const ProgrammingLessonPage = () => {
                         )}
 
                         {aiChallenge.starterCode && (
-                          <div className="rounded-lg overflow-hidden mb-4">
+                          <div className="rounded-lg overflow-hidden mb-4 max-w-full">
                             <div className="px-3 py-2 bg-slate-900 flex items-center justify-between">
                               <span className="text-xs font-mono text-green-400">Starter Code</span>
                               <button onClick={() => openInTrinket(aiChallenge.starterCode)}
@@ -410,8 +410,8 @@ const ProgrammingLessonPage = () => {
                                 <Play className="w-3 h-3" /> {t("Chạy", "Run")}
                               </button>
                             </div>
-                            <pre className="p-3 bg-slate-950 overflow-x-auto">
-                              <code className="text-xs font-mono text-slate-300">{aiChallenge.starterCode}</code>
+                            <pre className="p-3 bg-slate-950 overflow-x-auto max-w-full">
+                              <code className="text-xs font-mono text-slate-300 break-words">{aiChallenge.starterCode}</code>
                             </pre>
                           </div>
                         )}
@@ -450,8 +450,8 @@ const ProgrammingLessonPage = () => {
                             <AnimatePresence>
                               {showSolution && (
                                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mt-3 overflow-hidden">
-                                  <pre className="p-3 bg-slate-950 rounded-lg overflow-x-auto mb-3">
-                                    <code className="text-xs font-mono text-slate-300">{aiChallenge.solution}</code>
+                                  <pre className="p-3 bg-slate-950 rounded-lg overflow-x-auto max-w-full mb-3">
+                                    <code className="text-xs font-mono text-slate-300 break-words">{aiChallenge.solution}</code>
                                   </pre>
                                   {aiChallenge.explanation && (
                                     <p className="text-xs text-muted-foreground whitespace-pre-line">📖 {aiChallenge.explanation}</p>

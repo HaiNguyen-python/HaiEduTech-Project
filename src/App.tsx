@@ -7,7 +7,9 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index.tsx";
 import About from "./pages/About.tsx";
 import English from "./pages/English.tsx";
+import EnglishCourse from "./pages/EnglishCourse.tsx";
 import Chinese from "./pages/Chinese.tsx";
+import ChineseCourse from "./pages/ChineseCourse.tsx";
 import Programming from "./pages/Programming.tsx";
 import ProgrammingLesson from "./pages/ProgrammingLesson.tsx";
 import AIGrading from "./pages/AIGrading.tsx";
@@ -39,7 +41,9 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/english" element={<English />} />
+            <Route path="/english/:courseId" element={<EnglishCourse />} />
             <Route path="/chinese" element={<Chinese />} />
+            <Route path="/chinese/:courseId" element={<ChineseCourse />} />
             <Route path="/programming" element={<Programming />} />
             <Route path="/programming/:moduleId" element={<ProgrammingLesson />} />
             <Route path="/programming/:moduleId/:lessonId" element={<ProgrammingLesson />} />

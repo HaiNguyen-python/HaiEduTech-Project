@@ -143,9 +143,11 @@ const English = () => {
                       </li>
                     ))}
                   </ul>
-                  <Link to="/register" className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
-                    {t("Đăng ký ngay", "Register now")} <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  <div className="flex gap-3">
+                    <Link to={`/english/${["cambridge", "ielts", "toeic", "conversational", "national-exam"][i]}`} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
+                      {t("Xem chi tiết", "View details")} <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </motion.div>
               ))}
             </div>
