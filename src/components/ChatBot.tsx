@@ -159,7 +159,7 @@ const ChatBot = () => {
 
             <motion.button
               initial={{ scale: 0 }}
-              animate={shake ? { ...shakeAnimation, scale: 1 } : { scale: 1 }}
+              animate={shake ? shakeVariant : { scale: 1 }}
               exit={{ scale: 0 }}
               onClick={handleOpenChat}
               onMouseEnter={() => {
