@@ -264,12 +264,11 @@ const ProgrammingLessonPage = () => {
                       {t("Bài tập thực hành", "Practice Exercise")}
                     </h2>
                     <p className="text-sm text-secondary-foreground mb-4">{t(lesson.exercise, lesson.exerciseEn)}</p>
-                    <a href="https://trinket.io/python" target="_blank" rel="noopener noreferrer"
+                    <button onClick={() => setShowIDE(true)}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-medium hover:bg-amber-400 transition-colors active:scale-[0.97]">
                       <Play className="w-4 h-4" />
-                      {t("Làm bài trên Trinket", "Code on Trinket")}
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
+                      {t("Làm bài trên IDE", "Code in IDE")}
+                    </button>
                   </div>
 
                   {/* Quiz */}
