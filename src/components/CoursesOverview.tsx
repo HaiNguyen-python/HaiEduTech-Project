@@ -9,7 +9,7 @@ const CoursesOverview = () => {
   const courses = [
     {
       icon: BookOpen,
-      title: t("Trung tâm Tiếng Anh", "English Hub"),
+      title: t("Chương trình Tiếng Anh", "English Program"),
       description: t(
         "Luyện thi IELTS, TOEIC, Cambridge (Starters–PET) và THPT Quốc gia với phản hồi bằng AI.",
         "IELTS, TOEIC, Cambridge (Starters–PET), and National High School Exam preparation with AI feedback."
