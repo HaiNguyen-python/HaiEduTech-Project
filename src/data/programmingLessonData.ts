@@ -888,6 +888,117 @@ print(f"\\n📊 Accuracy: {accuracy:.1%}")`,
           { question: "train_test_split chia dữ liệu để làm gì?", options: ["Tăng tốc xử lý", "Đánh giá mô hình trên dữ liệu chưa thấy", "Giảm dung lượng", "Mã hóa dữ liệu"], answer: 1, explanation: "Chia train/test giúp đánh giá mô hình trên dữ liệu mới (test) mà nó chưa được học, tránh đánh giá sai lệch." },
         ],
       },
+      {
+        id: "ml-3",
+        title: "K-Nearest Neighbors (KNN)",
+        titleEn: "K-Nearest Neighbors (KNN)",
+        theory: "**KNN** phân loại dựa trên K điểm dữ liệu gần nhất.\n\n**Nguyên lý:** 'Hãy cho tôi biết bạn của bạn, tôi sẽ nói bạn là ai'\n\n**Bước thực hiện:**\n1. Chọn K (số láng giềng)\n2. Tính khoảng cách đến tất cả điểm\n3. Chọn K điểm gần nhất\n4. Bỏ phiếu đa số → kết quả\n\n**Chọn K:** Thường dùng số lẻ, thử nhiều giá trị",
+        theoryEn: "**KNN** classifies based on K nearest data points.\n\n**Principle:** 'Tell me your friends, I'll tell you who you are'\n\n**Steps:**\n1. Choose K (number of neighbors)\n2. Calculate distance to all points\n3. Select K nearest points\n4. Majority vote → result\n\n**Choosing K:** Usually odd numbers, try multiple values",
+        code: `from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+# Dữ liệu: [chiều cao cm, cân nặng kg] → Thể loại
+X = np.array([
+    [170, 70], [165, 55], [180, 85], [160, 50],
+    [175, 75], [155, 45], [185, 90], [168, 60],
+    [172, 68], [158, 48], [178, 80], [162, 52],
+])
+y = ['athletic', 'slim', 'athletic', 'slim',
+     'athletic', 'slim', 'athletic', 'slim',
+     'athletic', 'slim', 'athletic', 'slim']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+
+knn = KNeighborsClassifier(n_neighbors=3)
+knn.fit(X_train, y_train)
+
+# Dự đoán
+person = [[170, 65]]
+result = knn.predict(person)
+print(f"Người 170cm/65kg → {result[0]}")
+print(f"Accuracy: {knn.score(X_test, y_test):.1%}")`,
+        codeLanguage: "python",
+        exercise: "Dùng KNN phân loại hoa Iris (sklearn.datasets). Thử K=1,3,5,7 và vẽ biểu đồ accuracy.",
+        exerciseEn: "Use KNN to classify Iris flowers (sklearn.datasets). Try K=1,3,5,7 and plot accuracy.",
+        quiz: [
+          { question: "KNN là thuật toán gì?", options: ["Unsupervised", "Supervised", "Reinforcement", "Semi-supervised"], answer: 1, explanation: "KNN là Supervised Learning vì cần dữ liệu đã gán nhãn để phân loại." },
+        ],
+      },
+      {
+        id: "ml-4",
+        title: "Clustering với K-Means",
+        titleEn: "Clustering with K-Means",
+        theory: "**Clustering** nhóm dữ liệu KHÔNG có nhãn (Unsupervised).\n\n**K-Means:**\n1. Chọn K tâm ngẫu nhiên\n2. Gán mỗi điểm vào tâm gần nhất\n3. Cập nhật tâm = trung bình nhóm\n4. Lặp lại đến khi ổn định\n\n**Ứng dụng:** Phân khúc khách hàng, gom nhóm văn bản, nén ảnh\n\n**Elbow Method:** Chọn K tối ưu bằng đồ thị Inertia",
+        theoryEn: "**Clustering** groups UNLABELED data (Unsupervised).\n\n**K-Means:**\n1. Choose K random centroids\n2. Assign each point to nearest centroid\n3. Update centroids = group mean\n4. Repeat until stable\n\n**Applications:** Customer segmentation, text grouping, image compression\n\n**Elbow Method:** Choose optimal K via Inertia plot",
+        code: `from sklearn.cluster import KMeans
+import numpy as np
+
+# Dữ liệu khách hàng: [chi tiêu/tháng, số lần mua]
+customers = np.array([
+    [500, 2], [1500, 8], [300, 1], [2000, 12],
+    [800, 4], [100, 1], [1800, 10], [600, 3],
+    [2500, 15], [400, 2], [1200, 6], [50, 1],
+])
+
+kmeans = KMeans(n_clusters=3, random_state=42)
+kmeans.fit(customers)
+
+labels = kmeans.labels_
+segments = ["💎 VIP", "⭐ Thường xuyên", "👤 Thỉnh thoảng"]
+
+for i, (cust, label) in enumerate(zip(customers, labels)):
+    print(f"KH {i+1}: Chi tiêu {cust[0]:,}k, {cust[1]} lần → {segments[label]}")
+
+print(f"\\nTâm cụm: {kmeans.cluster_centers_}")`,
+        codeLanguage: "python",
+        exercise: "Phân cụm dữ liệu điểm thi sinh viên thành 3 nhóm (Giỏi, Khá, Trung bình). Vẽ scatter plot.",
+        exerciseEn: "Cluster student exam data into 3 groups (Excellent, Good, Average). Draw scatter plot.",
+        quiz: [
+          { question: "K-Means thuộc loại ML nào?", options: ["Supervised", "Unsupervised", "Reinforcement", "Semi-supervised"], answer: 1, explanation: "K-Means là Unsupervised Learning vì không cần dữ liệu gán nhãn." },
+        ],
+      },
+      {
+        id: "ml-5",
+        title: "Đánh giá & Triển khai mô hình",
+        titleEn: "Model Evaluation & Deployment",
+        theory: "**Metrics đánh giá:**\n- Accuracy: Tỷ lệ đúng tổng thể\n- Precision: Tỷ lệ đúng trong dự đoán dương\n- Recall: Tỷ lệ phát hiện dương thật\n- F1-Score: Trung bình điều hòa Precision & Recall\n- Confusion Matrix: Ma trận nhầm lẫn\n\n**Cross-Validation:** Chia dữ liệu thành K phần, đánh giá K lần\n\n**Triển khai:** Lưu mô hình với joblib/pickle → Flask API",
+        theoryEn: "**Evaluation Metrics:**\n- Accuracy: Overall correctness\n- Precision: Correctness of positive predictions\n- Recall: Detection rate of true positives\n- F1-Score: Harmonic mean of Precision & Recall\n- Confusion Matrix\n\n**Cross-Validation:** Split data into K folds, evaluate K times\n\n**Deployment:** Save model with joblib/pickle → Flask API",
+        code: `from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+import joblib
+
+# Giả sử đã có X_train, X_test, y_train, y_test
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+data = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(
+    data.data, data.target, test_size=0.3, random_state=42)
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+# Báo cáo đánh giá
+print(classification_report(y_test, y_pred,
+      target_names=data.target_names))
+
+# Cross-Validation
+cv_scores = cross_val_score(model, data.data, data.target, cv=5)
+print(f"CV Accuracy: {cv_scores.mean():.2%} ± {cv_scores.std():.2%}")
+
+# Lưu mô hình
+joblib.dump(model, 'iris_model.pkl')
+print("✅ Mô hình đã lưu!")`,
+        codeLanguage: "python",
+        exercise: "Huấn luyện 3 mô hình (KNN, Decision Tree, Random Forest) trên cùng dataset, so sánh metrics.",
+        exerciseEn: "Train 3 models (KNN, Decision Tree, Random Forest) on the same dataset, compare metrics.",
+        quiz: [
+          { question: "Precision cao khi nào?", options: ["Nhiều True Positive", "Ít False Positive", "Nhiều False Negative", "Ít True Negative"], answer: 1, explanation: "Precision = TP / (TP + FP). Precision cao khi ít False Positive (ít dự đoán sai là dương)." },
+        ],
+      },
     ],
   },
 ];
