@@ -18,6 +18,9 @@ import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
 import SmartResources from "./pages/SmartResources.tsx";
 import LessonDetail from "./pages/LessonDetail.tsx";
+import TeacherAdmin from "./pages/TeacherAdmin.tsx";
+import LessonLibrary from "./pages/LessonLibrary.tsx";
+import GeneratedLessonView from "./pages/GeneratedLessonView.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
@@ -47,6 +50,9 @@ const App = () => (
             <Route path="/smart-resources" element={<SmartResources />} />
             <Route path="/lesson/:resourceId" element={<LessonDetail />} />
             <Route path="/lesson/:resourceId/:lessonId" element={<LessonDetail />} />
+            <Route path="/teacher-admin" element={<TeacherAdmin />} />
+            <Route path="/lesson-library" element={<LessonLibrary />} />
+            <Route path="/lesson-library/:lessonId" element={<GeneratedLessonView />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
