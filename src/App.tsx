@@ -42,6 +42,8 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/smart-resources" element={<SmartResources />} />
+            <Route path="/lesson/:resourceId" element={<LessonDetail />} />
+            <Route path="/lesson/:resourceId/:lessonId" element={<LessonDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
