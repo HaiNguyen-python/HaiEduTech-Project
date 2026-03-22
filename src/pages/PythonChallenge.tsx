@@ -39,7 +39,7 @@ const PythonChallengePage = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="pt-28 pb-16 text-center">
+        <div className="pt-6 pb-16 text-center">
           <p className="text-muted-foreground">{t("Không tìm thấy thử thách.", "Challenge not found.")}</p>
           <Link to="/python-challenges" className="text-primary hover:underline mt-4 inline-block">
             {t("Quay lại danh sách", "Back to list")}
@@ -54,7 +54,7 @@ const PythonChallengePage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-28 pb-16">
+      <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
             {/* Breadcrumb */}

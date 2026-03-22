@@ -35,7 +35,7 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-28 pb-16">
+      <div className="pt-6 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-4xl font-display font-bold mb-4 text-foreground">

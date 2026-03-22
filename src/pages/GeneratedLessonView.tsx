@@ -78,7 +78,7 @@ const GeneratedLessonView = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="pt-28 pb-16 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
+        <div className="pt-6 pb-16 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
       </div>
     );
   }
@@ -87,7 +87,7 @@ const GeneratedLessonView = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="pt-28 pb-16 text-center">
+        <div className="pt-6 pb-16 text-center">
           <p className="text-muted-foreground">{t("Không tìm thấy bài học", "Lesson not found")}</p>
           <Link to="/lesson-library" className="text-primary hover:underline mt-2 inline-block">{t("Quay lại kho bài học", "Back to library")}</Link>
         </div>
@@ -107,7 +107,7 @@ const GeneratedLessonView = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-28 pb-16">
+      <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
             {/* Breadcrumb */}

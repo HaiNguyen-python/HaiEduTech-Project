@@ -21,7 +21,7 @@ const HeroSection = () => {
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/8 rounded-full blur-3xl animate-pulse-glow" />
       <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-accent/8 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
 
-      <div className="container mx-auto px-6 relative z-10 pt-24 pb-12">
+      <div className="container mx-auto px-6 relative z-10 pt-6 pb-12">
         <div className="max-w-5xl mx-auto">
           {/* Top badge */}
           <motion.div

@@ -101,7 +101,7 @@ const LessonDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="pt-28 pb-16 flex justify-center items-center">
+        <div className="pt-6 pb-16 flex justify-center items-center">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
       </div>
@@ -117,7 +117,7 @@ const LessonDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-28 pb-16">
+      <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
             {/* Breadcrumb */}

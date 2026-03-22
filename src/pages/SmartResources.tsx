@@ -150,7 +150,7 @@ export default function SmartResources() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container mx-auto px-4 pt-32 pb-16">
+      <main className="container mx-auto px-4 pt-6 pb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
