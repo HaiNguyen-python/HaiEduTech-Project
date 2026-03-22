@@ -19,7 +19,7 @@ const courseData: Record<string, {
   features: { vi: string; en: string }[];
   curriculum: { vi: string; en: string; detail?: string; detailEn?: string }[];
   audience: { vi: string; en: string }[];
-  testimonial?: { name: string; text: string; textEn: string };
+  testimonials: { name: string; text: string; textEn: string }[];
   duration: string; durationEn: string;
   color: string;
 }> = {
@@ -33,7 +33,7 @@ const courseData: Record<string, {
       { label: "Học sinh đã tốt nghiệp", labelEn: "Graduates", value: "200+" },
       { label: "Tỷ lệ đạt chứng chỉ", labelEn: "Pass rate", value: "95%" },
       { label: "Sĩ số lớp tối đa", labelEn: "Max class size", value: "8" },
-      { label: "Thời lượng", labelEn: "Duration", value: "18 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
     ],
     features: [
       { vi: "Lộ trình Starters → Movers → Flyers → KET → PET rõ ràng từng bước", en: "Clear Starters → Movers → Flyers → KET → PET progression" },
@@ -54,8 +54,12 @@ const courseData: Record<string, {
       { vi: "Phụ huynh muốn con sở hữu chứng chỉ quốc tế Cambridge", en: "Parents wanting Cambridge international certificates for their children" },
       { vi: "Học sinh chuẩn bị du học hoặc thi vào trường quốc tế", en: "Students preparing for study abroad or international schools" },
     ],
-    testimonial: { name: "Chị Minh Tâm (Phụ huynh)", text: "Con tôi từ sợ tiếng Anh đến yêu thích sau 3 tháng học tại HaiEdu. Giáo viên rất tâm huyết và cách dạy rất sinh động!", textEn: "My child went from fearing English to loving it after 3 months at HaiEdu. The teachers are dedicated and the teaching method is very engaging!" },
-    duration: "18 tháng (lộ trình đầy đủ)", durationEn: "18 months (full pathway)",
+    testimonials: [
+      { name: "Chị Minh Tâm (Phụ huynh)", text: "Con tôi từ sợ tiếng Anh đến yêu thích sau 3 tháng học tại HaiEdu. Giáo viên rất tâm huyết và cách dạy rất sinh động!", textEn: "My child went from fearing English to loving it after 3 months at HaiEdu. The teachers are dedicated and the teaching method is very engaging!" },
+      { name: "Anh Khoa (Phụ huynh)", text: "Bé nhà mình đạt Movers 5 shields sau đúng 6 tháng. Lớp nhỏ nên thầy cô chăm sóc từng bé rất kỹ.", textEn: "My child got 5 shields in Movers after exactly 6 months. Small class sizes mean teachers care for each child individually." },
+      { name: "Chị Hương Giang (Phụ huynh)", text: "Phương pháp học qua trò chơi khiến con mình háo hức đi học mỗi ngày. Tiến bộ rõ rệt!", textEn: "The game-based method makes my child excited to attend class every day. Clear progress!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "sky",
   },
   ielts: {
@@ -68,7 +72,7 @@ const courseData: Record<string, {
       { label: "Điểm trung bình đầu ra", labelEn: "Average output score", value: "7.0+" },
       { label: "Học viên đạt target", labelEn: "Students hitting target", value: "92%" },
       { label: "Bài mẫu Writing", labelEn: "Writing samples", value: "1000+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "5 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
     ],
     features: [
       { vi: "Chiến lược riêng cho từng phần: Listening, Reading, Writing, Speaking", en: "Dedicated strategies for each skill: Listening, Reading, Writing, Speaking" },
@@ -89,8 +93,12 @@ const courseData: Record<string, {
       { vi: "Người đi làm cần chứng chỉ IELTS cho thăng tiến hoặc di cư", en: "Professionals needing IELTS for career advancement or immigration" },
       { vi: "Người đã thi IELTS nhưng chưa đạt band mục tiêu", en: "Those who've taken IELTS but haven't reached their target band" },
     ],
-    testimonial: { name: "Anh Tuấn Anh (Kỹ sư IT)", text: "Từ 5.5 lên 7.5 chỉ sau 4 tháng. AI chấm Writing giúp mình hiểu rõ lỗi sai và cải thiện cực nhanh!", textEn: "From 5.5 to 7.5 in just 4 months. AI Writing grading helped me understand my mistakes and improve incredibly fast!" },
-    duration: "5 tháng (20 tuần)", durationEn: "5 months (20 weeks)",
+    testimonials: [
+      { name: "Anh Tuấn Anh (Kỹ sư IT)", text: "Từ 5.5 lên 7.5 chỉ sau 4 tháng. AI chấm Writing giúp mình hiểu rõ lỗi sai và cải thiện cực nhanh!", textEn: "From 5.5 to 7.5 in just 4 months. AI Writing grading helped me understand my mistakes and improve incredibly fast!" },
+      { name: "Chị Thanh Hà (Giảng viên ĐH)", text: "Lần đầu thi IELTS đạt ngay 7.0 nhờ phương pháp luyện thi rất bài bản. Đặc biệt phần Writing được hướng dẫn cực kỹ.", textEn: "Got 7.0 on my first IELTS attempt thanks to the systematic method. Writing guidance was exceptionally thorough." },
+      { name: "Bạn Minh Quân (Sinh viên năm 4)", text: "Mình cần IELTS 6.5 để nộp hồ sơ du học và đã đạt được 7.0 sau 3 tháng học tại đây!", textEn: "I needed IELTS 6.5 for study abroad applications and achieved 7.0 after just 3 months here!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "emerald",
   },
   toeic: {
@@ -101,7 +109,7 @@ const courseData: Record<string, {
     heroDescEn: "Intensive TOEIC program for professionals and students. Focused on Listening & Reading in real business contexts — reach 700+ in just 3 months.",
     stats: [
       { label: "Mục tiêu điểm", labelEn: "Target score", value: "700+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "3 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
       { label: "Đề luyện tập", labelEn: "Practice tests", value: "50+" },
       { label: "Từ vựng thương mại", labelEn: "Business vocab", value: "2000+" },
     ],
@@ -121,7 +129,11 @@ const courseData: Record<string, {
       { vi: "Nhân viên văn phòng cần nâng điểm TOEIC để thăng tiến", en: "Office workers needing higher TOEIC for promotions" },
       { vi: "Sinh viên chuẩn bị xin việc tại các công ty đa quốc gia", en: "Students preparing for multinational company applications" },
     ],
-    duration: "3 tháng (12 tuần)", durationEn: "3 months (12 weeks)",
+    testimonials: [
+      { name: "Anh Bình (Nhân viên logistics)", text: "Từ 450 lên 780 điểm TOEIC sau 10 tuần. Chiến thuật làm bài Part 5, 7 rất hiệu quả!", textEn: "From 450 to 780 TOEIC in 10 weeks. Part 5 and 7 strategies were super effective!" },
+      { name: "Chị Ngọc Ánh (Sales Manager)", text: "Đạt 850 TOEIC để đủ điều kiện thăng chức. Phần Listening nghe quen accent nên thi thật rất tự tin.", textEn: "Got 850 TOEIC to qualify for promotion. The multi-accent listening practice made me confident in the real test." },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "blue",
   },
   conversational: {
@@ -132,7 +144,7 @@ const courseData: Record<string, {
     heroDescEn: "Speak English confidently in 4 months — no dry grammar drills! Practical communication course for travel, interviews, and international work.",
     stats: [
       { label: "Chủ đề giao tiếp", labelEn: "Conversation topics", value: "20+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "4 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
       { label: "Phương pháp", labelEn: "Method", value: "Roleplay" },
       { label: "Trình độ", labelEn: "Level", value: "Mọi cấp" },
     ],
@@ -152,8 +164,11 @@ const courseData: Record<string, {
       { vi: "Bất kỳ ai muốn nói tiếng Anh tự tin và tự nhiên", en: "Anyone wanting to speak English confidently and naturally" },
       { vi: "Người chuẩn bị đi du lịch hoặc làm việc nước ngoài", en: "People preparing for travel or working abroad" },
     ],
-    testimonial: { name: "Chị Hạnh (Nhân viên marketing)", text: "Sau 2 tháng mình đã tự tin present bằng tiếng Anh trước team quốc tế. Cách học roleplay rất thực tế!", textEn: "After 2 months I could confidently present in English to my international team. The roleplay method is very practical!" },
-    duration: "4 tháng", durationEn: "4 months",
+    testimonials: [
+      { name: "Chị Hạnh (Nhân viên marketing)", text: "Sau 2 tháng mình đã tự tin present bằng tiếng Anh trước team quốc tế. Cách học roleplay rất thực tế!", textEn: "After 2 months I could confidently present in English to my international team. The roleplay method is very practical!" },
+      { name: "Anh Phước (Hướng dẫn viên du lịch)", text: "Từ ngại nói chuyện với khách nước ngoài đến dẫn tour bằng tiếng Anh tự tin. Idioms thực tế giúp mình nói tự nhiên hơn nhiều!", textEn: "From being shy with foreign tourists to confidently leading English tours. Real-world idioms made my speech much more natural!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "violet",
   },
   "national-exam": {
@@ -166,7 +181,7 @@ const courseData: Record<string, {
       { label: "Chuyên đề ngữ pháp", labelEn: "Grammar topics", value: "24" },
       { label: "Từ vựng trọng tâm", labelEn: "Key vocabulary", value: "3000+" },
       { label: "Đề luyện tập", labelEn: "Practice tests", value: "100+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "6 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
     ],
     features: [
       { vi: "Hệ thống hóa 24 chuyên đề ngữ pháp trọng tâm — từ dễ đến khó", en: "24 core grammar topics systematized — easy to hard" },
@@ -185,7 +200,12 @@ const courseData: Record<string, {
       { vi: "Học sinh lớp 10–12 muốn đạt điểm cao môn Tiếng Anh", en: "Grade 10–12 students targeting high English scores" },
       { vi: "Phụ huynh muốn con ôn thi bài bản và có cam kết đầu ra", en: "Parents wanting structured prep with guaranteed outcomes" },
     ],
-    duration: "6 tháng", durationEn: "6 months",
+    testimonials: [
+      { name: "Em Thảo Vy (Học sinh lớp 12)", text: "Từ 5 điểm tiếng Anh lên 8.5 thi THPT. Cách hệ thống hóa ngữ pháp rất dễ hiểu, làm đề nhanh hơn hẳn!", textEn: "From 5 to 8.5 in the national exam. The grammar systemization was so clear, I solved questions much faster!" },
+      { name: "Chị Lan (Phụ huynh)", text: "Con trai tôi tiến bộ rõ rệt sau 2 tháng. Thầy rất tận tâm chỉ bài và phân tích lỗi sai kỹ lưỡng.", textEn: "My son improved remarkably after 2 months. The teacher is dedicated and analyzes mistakes thoroughly." },
+      { name: "Em Hoàng Nam (Học sinh lớp 11)", text: "Kiểm tra học kỳ từ 6.0 lên 8.8 nhờ học chiến thuật loại trừ đáp án rất hiệu quả.", textEn: "Semester test went from 6.0 to 8.8 thanks to effective answer elimination strategies." },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "amber",
   },
 };
@@ -299,15 +319,21 @@ const EnglishCourse = () => {
               </ul>
             </div>
 
-            {/* Testimonial */}
-            {course.testimonial && (
-              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 border-l-4 border-primary/30">
-                <div className="flex items-center gap-2 mb-3">
+            {/* Testimonials */}
+            {course.testimonials && course.testimonials.length > 0 && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <div className="flex items-center gap-2 mb-5">
                   <Award className="w-5 h-5 text-primary" />
-                  <h2 className="text-lg font-display font-bold text-foreground">{t("Học viên nói gì?", "What students say")}</h2>
+                  <h2 className="text-xl font-display font-bold text-foreground">{t("Học viên nói gì?", "What students say")}</h2>
                 </div>
-                <p className="text-secondary-foreground italic leading-relaxed mb-3">"{t(course.testimonial.text, course.testimonial.textEn)}"</p>
-                <p className="text-sm text-primary font-semibold">— {course.testimonial.name}</p>
+                <div className="space-y-4">
+                  {course.testimonials.map((tm, i) => (
+                    <div key={i} className="border-l-4 border-primary/20 pl-4 py-2">
+                      <p className="text-secondary-foreground italic leading-relaxed mb-2">"{t(tm.text, tm.textEn)}"</p>
+                      <p className="text-sm text-primary font-semibold">— {tm.name}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 

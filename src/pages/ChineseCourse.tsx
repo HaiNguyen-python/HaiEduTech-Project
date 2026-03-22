@@ -14,7 +14,7 @@ const courseData: Record<string, {
   features: { vi: string; en: string }[];
   curriculum: { vi: string; en: string; detail?: string; detailEn?: string }[];
   audience: { vi: string; en: string }[];
-  testimonial?: { name: string; text: string; textEn: string };
+  testimonials: { name: string; text: string; textEn: string }[];
   duration: string; durationEn: string;
 }> = {
   foundation: {
@@ -25,7 +25,7 @@ const courseData: Record<string, {
     stats: [
       { label: "Chữ Hán cơ bản", labelEn: "Basic characters", value: "300+" },
       { label: "Mẫu hội thoại", labelEn: "Dialogue patterns", value: "50+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "5 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
       { label: "Chuẩn bị cho", labelEn: "Prepares for", value: "HSK 1" },
     ],
     features: [
@@ -47,8 +47,12 @@ const courseData: Record<string, {
       { vi: "Người chuẩn bị du lịch hoặc làm việc tại Trung Quốc/Đài Loan", en: "People planning to travel or work in China/Taiwan" },
       { vi: "Sinh viên muốn bắt đầu học tiếng Trung một cách bài bản", en: "Students wanting to start Chinese systematically" },
     ],
-    testimonial: { name: "Bạn Phương Linh (Sinh viên)", text: "Mình từ không biết chữ nào đến nói được cả đoạn hội thoại sau 3 tháng. Phương pháp bộ thủ giúp nhớ chữ Hán cực nhanh!", textEn: "From knowing zero characters to speaking full dialogues in 3 months. The radical method makes memorizing characters super fast!" },
-    duration: "5 tháng", durationEn: "5 months",
+    testimonials: [
+      { name: "Bạn Phương Linh (Sinh viên)", text: "Mình từ không biết chữ nào đến nói được cả đoạn hội thoại sau 3 tháng. Phương pháp bộ thủ giúp nhớ chữ Hán cực nhanh!", textEn: "From knowing zero characters to speaking full dialogues in 3 months. The radical method makes memorizing characters super fast!" },
+      { name: "Chị Thu Hà (Nhân viên văn phòng)", text: "Học tiếng Trung ở đây rất vui, không bị áp lực. Sau 4 tháng mình đã tự tin chào hỏi và mua sắm khi đi Trung Quốc!", textEn: "Learning Chinese here is fun, no pressure. After 4 months I could confidently greet and shop during my China trip!" },
+      { name: "Em Minh Đức (Học sinh lớp 10)", text: "Mình thích cách học qua flashcard và liên tưởng bộ thủ. Nhớ chữ Hán nhanh mà không chán!", textEn: "I love learning through flashcards and radical associations. Memorizing characters is fast and not boring!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
   },
   hsk: {
     title: "Luyện thi HSK", titleEn: "HSK Preparation",
@@ -79,7 +83,11 @@ const courseData: Record<string, {
       { vi: "Người cần chứng chỉ HSK cho du học hoặc làm việc tại Trung Quốc", en: "Those needing HSK for study/work in China" },
       { vi: "Sinh viên ngành Ngôn ngữ Trung hoặc Kinh doanh Quốc tế", en: "Chinese language or International Business students" },
     ],
-    duration: "Tùy cấp độ (2–6 tháng/cấp)", durationEn: "Varies by level (2–6 months/level)",
+    testimonials: [
+      { name: "Anh Quốc Bảo (Kỹ sư phần mềm)", text: "Đạt HSK 4 chỉ sau 8 tháng nhờ phương pháp Spaced Repetition. Đề thi mô phỏng rất sát thực tế!", textEn: "Passed HSK 4 in just 8 months thanks to Spaced Repetition. Mock tests were very close to the real exam!" },
+      { name: "Chị Ngọc Trâm (Sinh viên Thương mại)", text: "Mình cần HSK 3 để xin học bổng du học và đã đạt được điểm cao nhờ lộ trình rõ ràng tại đây.", textEn: "I needed HSK 3 for a scholarship application and scored high thanks to the clear roadmap here." },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
   },
   conversational: {
     title: "Tiếng Trung Giao tiếp", titleEn: "Conversational Chinese",
@@ -110,8 +118,12 @@ const courseData: Record<string, {
       { vi: "Doanh nhân làm việc với đối tác Trung Quốc/Đài Loan", en: "Business people working with Chinese/Taiwanese partners" },
       { vi: "Người chuẩn bị sống, làm việc tại Trung Quốc hoặc Đài Loan", en: "People planning to live/work in China or Taiwan" },
     ],
-    testimonial: { name: "Anh Đức Minh (Doanh nhân)", text: "Sau 3 tháng mình đã tự tin đàm phán với đối tác Trung Quốc mà không cần phiên dịch. Cách dạy thực tế, không lý thuyết suông!", textEn: "After 3 months I could confidently negotiate with Chinese partners without an interpreter. Practical teaching, not just theory!" },
-    duration: "4 tháng", durationEn: "4 months",
+    testimonials: [
+      { name: "Anh Đức Minh (Doanh nhân)", text: "Sau 3 tháng mình đã tự tin đàm phán với đối tác Trung Quốc mà không cần phiên dịch. Cách dạy thực tế, không lý thuyết suông!", textEn: "After 3 months I could confidently negotiate with Chinese partners without an interpreter. Practical teaching, not just theory!" },
+      { name: "Chị Kim Anh (Quản lý xuất nhập khẩu)", text: "Roleplay tình huống kinh doanh rất hữu ích. Giờ mình gọi điện cho đối tác Đài Loan bằng tiếng Trung luôn!", textEn: "Business roleplay was incredibly useful. Now I call my Taiwanese partners in Chinese!" },
+      { name: "Bạn Hải Yến (Du học sinh)", text: "Phần slang và thành ngữ giúp mình hòa nhập nhanh khi qua Trung Quốc. Bạn bè bản xứ khen nói tự nhiên!", textEn: "The slang and idioms section helped me integrate quickly in China. Native friends compliment my natural speech!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
   },
 };
 
@@ -222,15 +234,21 @@ const ChineseCourse = () => {
               </ul>
             </div>
 
-            {/* Testimonial */}
-            {course.testimonial && (
-              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 border-l-4 border-red-500/30">
-                <div className="flex items-center gap-2 mb-3">
+            {/* Testimonials */}
+            {course.testimonials && course.testimonials.length > 0 && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <div className="flex items-center gap-2 mb-5">
                   <Award className="w-5 h-5 text-red-500" />
-                  <h2 className="text-lg font-display font-bold text-foreground">{t("Học viên nói gì?", "What students say")}</h2>
+                  <h2 className="text-xl font-display font-bold text-foreground">{t("Học viên nói gì?", "What students say")}</h2>
                 </div>
-                <p className="text-secondary-foreground italic leading-relaxed mb-3">"{t(course.testimonial.text, course.testimonial.textEn)}"</p>
-                <p className="text-sm text-red-500 font-semibold">— {course.testimonial.name}</p>
+                <div className="space-y-4">
+                  {course.testimonials.map((tm, i) => (
+                    <div key={i} className="border-l-4 border-red-500/20 pl-4 py-2">
+                      <p className="text-secondary-foreground italic leading-relaxed mb-2">"{t(tm.text, tm.textEn)}"</p>
+                      <p className="text-sm text-red-500 font-semibold">— {tm.name}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 

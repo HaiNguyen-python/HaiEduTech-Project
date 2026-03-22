@@ -461,14 +461,27 @@ const ProgrammingLessonPage = () => {
                   </AnimatePresence>
                 </motion.div>
               </div>
-              </div>
             </div>
               </div>
+            </div>
 
               {/* Right side: IDE Panel */}
               {showIDE && !isMobile && (
                 <div className="w-1/2 xl:w-2/5 shrink-0 min-w-0">
                   <div className="sticky top-28 rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "calc(100vh - 140px)" }}>
+                    {isSQL ? (
+                      <SqlEditor />
+                    ) : (
+                      <PythonIDEPanel initialCode={lesson.code} />
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Mobile IDE */}
+              {isMobile && (
+                <div className="w-full mt-6">
+                  <div className="rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "400px" }}>
                     {isSQL ? (
                       <SqlEditor />
                     ) : (
