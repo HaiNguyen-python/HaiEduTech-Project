@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { BookOpen, Code2, Languages, Loader2, ArrowRight, Filter } from "lucide-react";
+import { BookOpen, Code2, Languages, Loader2, ArrowRight, Filter, Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
 
 const CATEGORY_LABELS: Record<string, { vi: string; en: string; icon: string }> = {
   grammar: { vi: "Ngữ pháp", en: "Grammar", icon: "📝" },
