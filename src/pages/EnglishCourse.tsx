@@ -33,7 +33,7 @@ const courseData: Record<string, {
       { label: "Học sinh đã tốt nghiệp", labelEn: "Graduates", value: "200+" },
       { label: "Tỷ lệ đạt chứng chỉ", labelEn: "Pass rate", value: "95%" },
       { label: "Sĩ số lớp tối đa", labelEn: "Max class size", value: "8" },
-      { label: "Thời lượng", labelEn: "Duration", value: "18 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
     ],
     features: [
       { vi: "Lộ trình Starters → Movers → Flyers → KET → PET rõ ràng từng bước", en: "Clear Starters → Movers → Flyers → KET → PET progression" },
