@@ -39,19 +39,18 @@ const Navbar = () => {
 
   const englishSubs = [
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/english#starters", label: "🌟 Starters - Movers - Flyers" },
-    { to: "/english#ket-pet", label: "📝 KET / PET" },
-    { to: "/english#ielts", label: "🎯 IELTS" },
-    { to: "/english#toeic", label: "💼 TOEIC" },
-    { to: "/english#conversation", label: t("💬 Giao tiếp", "💬 Conversational") },
-    { to: "/english#thpt", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
+    { to: "/english/cambridge", label: "🌟 Cambridge Starters–PET" },
+    { to: "/english/ielts", label: "🎯 IELTS" },
+    { to: "/english/toeic", label: "💼 TOEIC" },
+    { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
+    { to: "/english/national-exam", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
     { to: "/ai-grading", label: t("✍️ Chấm Điểm IELTS", "✍️ IELTS Grading") },
   ];
   const chineseSubs = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/chinese#foundation", label: t("🏗️ Nền tảng", "🏗️ Foundation") },
-    { to: "/chinese#hsk", label: "📊 HSK 1-6" },
-    { to: "/chinese#conversation", label: t("💬 Giao tiếp", "💬 Conversational") },
+    { to: "/chinese/foundation", label: t("🏗️ Nền tảng", "🏗️ Foundation") },
+    { to: "/chinese/hsk", label: "📊 HSK 1-6" },
+    { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
   ];
   const programmingSubs = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },

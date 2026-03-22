@@ -3,90 +3,114 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Languages, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight } from "lucide-react";
+import { Languages, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight, Star, Users, Clock, Award } from "lucide-react";
+
+import chineseImg from "@/assets/course-chinese.jpg";
 
 const courseData: Record<string, {
   title: string; titleEn: string; level: string; levelEn: string;
   heroDesc: string; heroDescEn: string;
+  stats: { label: string; labelEn: string; value: string }[];
   features: { vi: string; en: string }[];
-  curriculum: { vi: string; en: string }[];
+  curriculum: { vi: string; en: string; detail?: string; detailEn?: string }[];
   audience: { vi: string; en: string }[];
+  testimonial?: { name: string; text: string; textEn: string };
   duration: string; durationEn: string;
 }> = {
   foundation: {
     title: "Tiếng Trung Nền tảng", titleEn: "Foundation Chinese",
     level: "Mới bắt đầu", levelEn: "Beginner",
-    heroDesc: "Khóa học dành cho người hoàn toàn mới bắt đầu, xây dựng nền tảng vững chắc từ Pinyin, thanh điệu đến chữ Hán cơ bản.",
-    heroDescEn: "For complete beginners, building a solid foundation from Pinyin, tones, to basic Chinese characters.",
+    heroDesc: "Từ con số 0 đến giao tiếp cơ bản trong 5 tháng! Khóa học xây dựng nền tảng vững chắc từ Pinyin, thanh điệu đến 300+ chữ Hán thiết yếu — giúp bạn tự tin chào hỏi, mua sắm và hỏi đường bằng tiếng Trung.",
+    heroDescEn: "From zero to basic communication in 5 months! Build a solid foundation from Pinyin, tones to 300+ essential characters — confidently greet, shop and ask directions in Chinese.",
+    stats: [
+      { label: "Chữ Hán cơ bản", labelEn: "Basic characters", value: "300+" },
+      { label: "Mẫu hội thoại", labelEn: "Dialogue patterns", value: "50+" },
+      { label: "Thời lượng", labelEn: "Duration", value: "5 tháng" },
+      { label: "Chuẩn bị cho", labelEn: "Prepares for", value: "HSK 1" },
+    ],
     features: [
-      { vi: "Hệ thống Pinyin & 4 thanh điệu với audio", en: "Pinyin system & 4 tones with audio drills" },
-      { vi: "300+ chữ Hán thiết yếu theo bộ thủ", en: "300+ essential characters with radical method" },
-      { vi: "50+ mẫu hội thoại thực tế", en: "50+ real-world dialogue patterns" },
-      { vi: "Bài tập viết chữ Hán theo nét chuẩn", en: "Character writing with correct stroke order" },
-      { vi: "Văn hóa Trung Quốc cơ bản", en: "Basic Chinese culture" },
+      { vi: "Hệ thống Pinyin & 4 thanh điệu chuẩn xác với luyện tập audio hàng ngày", en: "Pinyin system & 4 tones with daily audio practice drills" },
+      { vi: "300+ chữ Hán thiết yếu — ghi nhớ qua phương pháp bộ thủ & liên tưởng", en: "300+ essential characters — memorized through radical & mnemonic methods" },
+      { vi: "50+ mẫu hội thoại thực tế: chào hỏi, mua sắm, ăn uống, hỏi đường", en: "50+ real-world dialogues: greetings, shopping, dining, asking directions" },
+      { vi: "Bài tập viết chữ Hán theo nét & thứ tự nét chuẩn", en: "Character writing with correct stroke order" },
+      { vi: "Văn hóa Trung Quốc: phong tục, lễ hội, ứng xử — hiểu để giao tiếp tốt hơn", en: "Chinese culture: customs, festivals, etiquette — understand to communicate better" },
     ],
     curriculum: [
-      { vi: "Tháng 1: Pinyin, thanh điệu & 50 chữ Hán đầu tiên", en: "Month 1: Pinyin, tones & first 50 characters" },
-      { vi: "Tháng 2: Chào hỏi, giới thiệu bản thân, số đếm", en: "Month 2: Greetings, self-introduction, numbers" },
-      { vi: "Tháng 3: Mua sắm, ăn uống, hỏi đường", en: "Month 3: Shopping, dining, asking directions" },
-      { vi: "Tháng 4: Ngữ pháp cơ bản & viết câu đơn", en: "Month 4: Basic grammar & simple sentences" },
-      { vi: "Tháng 5: Ôn tập tổng hợp & chuẩn bị HSK 1", en: "Month 5: Review & HSK 1 preparation" },
+      { vi: "Tháng 1: Pinyin, thanh điệu & 50 chữ Hán đầu tiên", en: "Month 1: Pinyin, tones & first 50 characters", detail: "Luyện phát âm hàng ngày • Flashcard 每日练习", detailEn: "Daily pronunciation drills • Flashcard 每日练习" },
+      { vi: "Tháng 2: Chào hỏi, giới thiệu bản thân, số đếm & thời gian", en: "Month 2: Greetings, self-introduction, numbers & time", detail: "你好、我叫...、几点了？• Roleplay tình huống", detailEn: "你好、我叫...、几点了？• Situational roleplay" },
+      { vi: "Tháng 3: Mua sắm, ăn uống, hỏi đường — giao tiếp du lịch", en: "Month 3: Shopping, dining, directions — travel communication", detail: "多少钱？在哪里？• Thực hành tại nhà hàng Trung", detailEn: "多少钱？在哪里？• Practice at Chinese restaurants" },
+      { vi: "Tháng 4: Ngữ pháp cơ bản & viết câu đơn hoàn chỉnh", en: "Month 4: Basic grammar & complete simple sentences", detail: "的/了/过 • Cấu trúc câu Chủ-Vị-Tân", detailEn: "的/了/过 • SVO sentence structure" },
+      { vi: "Tháng 5: Ôn tập tổng hợp & chuẩn bị thi HSK 1", en: "Month 5: Comprehensive review & HSK 1 preparation", detail: "Mock test HSK 1 • Đánh giá đầu ra", detailEn: "HSK 1 mock test • Output assessment" },
     ],
     audience: [
-      { vi: "Người chưa biết gì về tiếng Trung", en: "Complete beginners in Chinese" },
-      { vi: "Người muốn du lịch hoặc làm việc tại Trung Quốc", en: "People planning to travel or work in China" },
-      { vi: "Sinh viên chuẩn bị học tiếng Trung chuyên sâu", en: "Students preparing for advanced Chinese studies" },
+      { vi: "Người hoàn toàn mới — chưa biết gì về tiếng Trung", en: "Complete beginners — zero Chinese knowledge" },
+      { vi: "Người chuẩn bị du lịch hoặc làm việc tại Trung Quốc/Đài Loan", en: "People planning to travel or work in China/Taiwan" },
+      { vi: "Sinh viên muốn bắt đầu học tiếng Trung một cách bài bản", en: "Students wanting to start Chinese systematically" },
     ],
+    testimonial: { name: "Bạn Phương Linh (Sinh viên)", text: "Mình từ không biết chữ nào đến nói được cả đoạn hội thoại sau 3 tháng. Phương pháp bộ thủ giúp nhớ chữ Hán cực nhanh!", textEn: "From knowing zero characters to speaking full dialogues in 3 months. The radical method makes memorizing characters super fast!" },
     duration: "5 tháng", durationEn: "5 months",
   },
   hsk: {
     title: "Luyện thi HSK", titleEn: "HSK Preparation",
     level: "HSK 1–6", levelEn: "HSK 1–6",
-    heroDesc: "Chương trình ôn luyện bài bản cho kỳ thi năng lực Hán ngữ quốc tế HSK với lộ trình rõ ràng từ HSK 1 đến HSK 6.",
-    heroDescEn: "Systematic preparation for international Chinese proficiency HSK exam, from HSK 1 to HSK 6.",
+    heroDesc: "Chinh phục kỳ thi năng lực Hán ngữ quốc tế HSK — từ HSK 1 (150 từ) đến HSK 6 (5000+ từ). Lộ trình rõ ràng, kho đề thi phong phú và phương pháp ghi nhớ từ vựng khoa học giúp bạn đạt chứng chỉ chắc chắn.",
+    heroDescEn: "Conquer the international HSK Chinese proficiency exam — from HSK 1 (150 words) to HSK 6 (5000+ words). Clear roadmap, extensive test banks and scientific vocabulary methods for guaranteed certification.",
+    stats: [
+      { label: "Từ vựng HSK 6", labelEn: "HSK 6 vocabulary", value: "5000+" },
+      { label: "Đề thi luyện tập", labelEn: "Practice tests", value: "200+" },
+      { label: "Tỷ lệ đạt", labelEn: "Pass rate", value: "90%" },
+      { label: "Cấp độ", labelEn: "Levels", value: "HSK 1-6" },
+    ],
     features: [
-      { vi: "Từ vựng phân loại theo HSK 1–6 (150 → 5000+ từ)", en: "Vocabulary classified by HSK 1–6 (150 → 5000+ words)" },
-      { vi: "Luyện đọc hiểu theo chủ đề & cấp độ", en: "Reading comprehension by topic & level" },
-      { vi: "Luyện nghe tốc độ bản xứ", en: "Listening at native speaker speed" },
-      { vi: "Thi thử mô phỏng đề HSK thực tế", en: "Mock tests simulating real HSK format" },
-      { vi: "Flashcard, spaced repetition & mẹo ghi nhớ", en: "Flashcards, spaced repetition & mnemonics" },
+      { vi: "Từ vựng & ngữ pháp phân loại theo HSK 1–6 (150 → 5000+ từ)", en: "Vocabulary & grammar classified by HSK 1–6 (150 → 5000+ words)" },
+      { vi: "Luyện đọc hiểu với bài đọc theo chủ đề & cấp độ tăng dần", en: "Reading comprehension with graded topic-based passages" },
+      { vi: "Luyện nghe với tốc độ nói tự nhiên của người Trung Quốc bản xứ", en: "Listening practice at native Chinese speaker speed" },
+      { vi: "Thi thử mô phỏng đề HSK thực tế + chấm điểm & phân tích chi tiết", en: "Mock tests simulating real HSK + detailed scoring & analysis" },
+      { vi: "Flashcard, Spaced Repetition & mẹo liên tưởng để ghi nhớ chữ Hán lâu dài", en: "Flashcards, Spaced Repetition & mnemonics for long-term character retention" },
     ],
     curriculum: [
-      { vi: "HSK 1: 150 từ vựng, ngữ pháp cơ bản (2 tháng)", en: "HSK 1: 150 words, basic grammar (2 months)" },
-      { vi: "HSK 2: 300 từ vựng, hội thoại mở rộng (2 tháng)", en: "HSK 2: 300 words, extended dialogues (2 months)" },
-      { vi: "HSK 3: 600 từ, đọc hiểu & viết đoạn văn (3 tháng)", en: "HSK 3: 600 words, reading & paragraph writing (3 months)" },
-      { vi: "HSK 4: 1200 từ, giao tiếp nâng cao (3 tháng)", en: "HSK 4: 1200 words, advanced communication (3 months)" },
-      { vi: "HSK 5–6: 2500–5000+ từ, học thuật & chuyên sâu (6 tháng)", en: "HSK 5–6: 2500–5000+ words, academic level (6 months)" },
+      { vi: "HSK 1: 150 từ vựng, ngữ pháp cơ bản", en: "HSK 1: 150 words, basic grammar", detail: "2 tháng • 你好、谢谢、再见", detailEn: "2 months • 你好、谢谢、再见" },
+      { vi: "HSK 2: 300 từ vựng, hội thoại mở rộng", en: "HSK 2: 300 words, extended dialogues", detail: "2 tháng • Miêu tả, so sánh, thời gian", detailEn: "2 months • Description, comparison, time" },
+      { vi: "HSK 3: 600 từ, đọc hiểu & viết đoạn văn", en: "HSK 3: 600 words, reading & paragraphs", detail: "3 tháng • Bài đọc 200-300 chữ • Viết thư/email", detailEn: "3 months • 200-300 character passages • Letters/emails" },
+      { vi: "HSK 4: 1200 từ, giao tiếp nâng cao & chủ đề xã hội", en: "HSK 4: 1200 words, advanced communication", detail: "3 tháng • Thảo luận kinh tế, văn hóa, giáo dục", detailEn: "3 months • Discuss economics, culture, education" },
+      { vi: "HSK 5–6: 2500–5000+ từ, đọc báo & viết luận học thuật", en: "HSK 5–6: 2500–5000+ words, news reading & academic writing", detail: "6 tháng • Đọc 人民日报 • Viết văn nghị luận", detailEn: "6 months • Read 人民日报 • Argumentative essays" },
     ],
     audience: [
-      { vi: "Người cần chứng chỉ HSK cho du học hoặc làm việc", en: "Those needing HSK for study/work abroad" },
-      { vi: "Sinh viên ngành Ngôn ngữ Trung", en: "Chinese language major students" },
+      { vi: "Người cần chứng chỉ HSK cho du học hoặc làm việc tại Trung Quốc", en: "Those needing HSK for study/work in China" },
+      { vi: "Sinh viên ngành Ngôn ngữ Trung hoặc Kinh doanh Quốc tế", en: "Chinese language or International Business students" },
     ],
     duration: "Tùy cấp độ (2–6 tháng/cấp)", durationEn: "Varies by level (2–6 months/level)",
   },
   conversational: {
     title: "Tiếng Trung Giao tiếp", titleEn: "Conversational Chinese",
     level: "Tất cả trình độ", levelEn: "All Levels",
-    heroDesc: "Khóa học tập trung vào nói và nghe trong tình huống thực tế: du lịch, kinh doanh, cuộc sống hàng ngày.",
-    heroDescEn: "Focused on speaking and listening in real-world situations: travel, business, daily life.",
+    heroDesc: "Nói tiếng Trung tự tin trong 4 tháng! Khóa học tập trung vào nói và nghe trong tình huống thực tế — du lịch, kinh doanh với đối tác Trung Quốc, và cuộc sống hàng ngày.",
+    heroDescEn: "Speak Chinese confidently in 4 months! Focused on speaking and listening in real situations — travel, business with Chinese partners, and daily life.",
+    stats: [
+      { label: "Chủ đề giao tiếp", labelEn: "Conversation topics", value: "30+" },
+      { label: "Thời lượng", labelEn: "Duration", value: "4 tháng" },
+      { label: "Phương pháp", labelEn: "Method", value: "Immersion" },
+      { label: "Trình độ", labelEn: "Level", value: "Mọi cấp" },
+    ],
     features: [
-      { vi: "30+ chủ đề giao tiếp thực tế", en: "30+ real conversation topics" },
-      { vi: "Luyện phát âm chuẩn với native speaker", en: "Pronunciation with native speaker recordings" },
-      { vi: "Roleplay & thảo luận nhóm hàng tuần", en: "Weekly roleplay & group discussions" },
-      { vi: "Giản thể vs Phồn thể (Đại lục vs Đài Loan)", en: "Simplified vs Traditional Chinese" },
-      { vi: "Slang, thành ngữ & cách nói tự nhiên", en: "Slang, idioms & natural expressions" },
+      { vi: "30+ chủ đề giao tiếp: du lịch, nhà hàng, công việc, y tế, ngân hàng", en: "30+ topics: travel, restaurants, work, healthcare, banking" },
+      { vi: "Luyện phát âm chuẩn với recording của người bản xứ", en: "Pronunciation with native speaker recordings" },
+      { vi: "Roleplay tình huống thực tế & thảo luận nhóm hàng tuần", en: "Real-world roleplay & weekly group discussions" },
+      { vi: "Phân biệt giản thể vs phồn thể (Đại lục vs Đài Loan)", en: "Simplified vs Traditional Chinese (Mainland vs Taiwan)" },
+      { vi: "Slang, thành ngữ & cách nói tự nhiên trong đời sống hàng ngày", en: "Slang, idioms & natural daily expressions" },
     ],
     curriculum: [
-      { vi: "Tháng 1: Giao tiếp cơ bản – chào hỏi, giới thiệu, mua sắm", en: "Month 1: Basic – greetings, introductions, shopping" },
-      { vi: "Tháng 2: Du lịch – khách sạn, nhà hàng, phương tiện", en: "Month 2: Travel – hotels, restaurants, transport" },
-      { vi: "Tháng 3: Công việc – phỏng vấn, họp, email", en: "Month 3: Work – interviews, meetings, emails" },
-      { vi: "Tháng 4: Nâng cao – tranh luận, văn hóa, tin tức", en: "Month 4: Advanced – debates, culture, news" },
+      { vi: "Tháng 1: Giao tiếp cơ bản — chào hỏi, giới thiệu, mua sắm", en: "Month 1: Basic — greetings, introductions, shopping", detail: "请问...、我要买...、多少钱？", detailEn: "请问...、我要买...、多少钱？" },
+      { vi: "Tháng 2: Du lịch — khách sạn, nhà hàng, phương tiện giao thông", en: "Month 2: Travel — hotels, restaurants, transportation", detail: "我要订房、菜单在哪里？、坐出租车", detailEn: "我要订房、菜单在哪里？、坐出租车" },
+      { vi: "Tháng 3: Công việc — phỏng vấn, họp, email bằng tiếng Trung", en: "Month 3: Work — interviews, meetings, emails in Chinese", detail: "Business Chinese • 商务邮件 • 面试技巧", detailEn: "Business Chinese • 商务邮件 • Interview skills" },
+      { vi: "Tháng 4: Nâng cao — tranh luận, văn hóa, tin tức & chủ đề xã hội", en: "Month 4: Advanced — debates, culture, news & social topics", detail: "Xem tin tức CCTV • Thảo luận thành ngữ", detailEn: "Watch CCTV news • Discuss idioms" },
     ],
     audience: [
-      { vi: "Người muốn giao tiếp tiếng Trung tự tin", en: "Anyone wanting confident Chinese communication" },
-      { vi: "Doanh nhân làm việc với đối tác Trung Quốc", en: "Business people working with Chinese partners" },
-      { vi: "Người chuẩn bị sống tại Trung Quốc/Đài Loan", en: "People planning to live in China/Taiwan" },
+      { vi: "Bất kỳ ai muốn giao tiếp tiếng Trung tự tin và tự nhiên", en: "Anyone wanting confident, natural Chinese communication" },
+      { vi: "Doanh nhân làm việc với đối tác Trung Quốc/Đài Loan", en: "Business people working with Chinese/Taiwanese partners" },
+      { vi: "Người chuẩn bị sống, làm việc tại Trung Quốc hoặc Đài Loan", en: "People planning to live/work in China or Taiwan" },
     ],
+    testimonial: { name: "Anh Đức Minh (Doanh nhân)", text: "Sau 3 tháng mình đã tự tin đàm phán với đối tác Trung Quốc mà không cần phiên dịch. Cách dạy thực tế, không lý thuyết suông!", textEn: "After 3 months I could confidently negotiate with Chinese partners without an interpreter. Practical teaching, not just theory!" },
     duration: "4 tháng", durationEn: "4 months",
   },
 };
@@ -119,20 +143,40 @@ const ChineseCourse = () => {
               <ArrowLeft className="w-4 h-4" /> {t("Chương trình Tiếng Trung", "Chinese Programs")}
             </Link>
 
-            <div className="glass-card rounded-2xl p-8 mb-8">
-              <div className="flex items-center gap-2 mb-3">
-                <Languages className="w-5 h-5 text-red-500" />
-                <span className="text-xs px-3 py-1 rounded-full bg-red-500/10 text-red-500 font-semibold">{t(course.level, course.levelEn)}</span>
+            {/* Hero with image */}
+            <div className="glass-card rounded-2xl overflow-hidden mb-8">
+              <div className="relative h-48 md:h-64 overflow-hidden">
+                <img src={chineseImg} alt={t(course.title, course.titleEn)} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-6 right-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Languages className="w-5 h-5 text-white" />
+                    <span className="text-xs px-3 py-1 rounded-full bg-white/20 text-white font-semibold backdrop-blur-sm">{t(course.level, course.levelEn)}</span>
+                  </div>
+                  <h1 className="text-2xl md:text-3xl font-display font-bold text-white">{t(course.title, course.titleEn)}</h1>
+                </div>
               </div>
-              <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">{t(course.title, course.titleEn)}</h1>
-              <p className="text-muted-foreground leading-relaxed">{t(course.heroDesc, course.heroDescEn)}</p>
-              <div className="mt-4 text-sm text-muted-foreground">
-                ⏱️ {t("Thời lượng", "Duration")}: <span className="font-semibold text-foreground">{t(course.duration, course.durationEn)}</span>
+              <div className="p-6 md:p-8">
+                <p className="text-muted-foreground leading-relaxed">{t(course.heroDesc, course.heroDescEn)}</p>
               </div>
             </div>
 
-            <div className="glass-card rounded-2xl p-8 mb-8">
-              <h2 className="text-xl font-display font-bold text-foreground mb-4">✨ {t("Điểm nổi bật", "Highlights")}</h2>
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              {course.stats.map((s, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
+                  className="glass-card rounded-xl p-4 text-center">
+                  <p className="text-2xl font-bold text-red-500 mb-1">{s.value}</p>
+                  <p className="text-xs text-muted-foreground">{t(s.label, s.labelEn)}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Features */}
+            <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+              <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+                <Star className="w-5 h-5 text-yellow-500" /> {t("Điểm nổi bật", "Highlights")}
+              </h2>
               <ul className="space-y-3">
                 {course.features.map((f, i) => (
                   <li key={i} className="flex items-start gap-3 text-secondary-foreground">
@@ -143,22 +187,31 @@ const ChineseCourse = () => {
               </ul>
             </div>
 
-            <div className="glass-card rounded-2xl p-8 mb-8">
-              <h2 className="text-xl font-display font-bold text-foreground mb-4">📋 {t("Giáo án & Lộ trình", "Curriculum & Roadmap")}</h2>
+            {/* Curriculum */}
+            <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+              <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-red-500" /> {t("Giáo án & Lộ trình", "Curriculum & Roadmap")}
+              </h2>
               <div className="space-y-4">
                 {course.curriculum.map((c, i) => (
                   <div key={i} className="flex items-start gap-4">
                     <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
                       <span className="text-sm font-bold text-red-500">{i + 1}</span>
                     </div>
-                    <p className="text-secondary-foreground pt-1">{t(c.vi, c.en)}</p>
+                    <div>
+                      <p className="text-secondary-foreground font-medium">{t(c.vi, c.en)}</p>
+                      {c.detail && <p className="text-xs text-muted-foreground mt-1">{t(c.detail, c.detailEn || c.detail)}</p>}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="glass-card rounded-2xl p-8 mb-8">
-              <h2 className="text-xl font-display font-bold text-foreground mb-4">🎯 {t("Đối tượng phù hợp", "Who is this for?")}</h2>
+            {/* Audience */}
+            <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+              <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+                <Users className="w-5 h-5 text-red-500" /> {t("Đối tượng phù hợp", "Who is this for?")}
+              </h2>
               <ul className="space-y-2">
                 {course.audience.map((a, i) => (
                   <li key={i} className="flex items-center gap-3 text-secondary-foreground">
@@ -169,11 +222,25 @@ const ChineseCourse = () => {
               </ul>
             </div>
 
+            {/* Testimonial */}
+            {course.testimonial && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8 border-l-4 border-red-500/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <Award className="w-5 h-5 text-red-500" />
+                  <h2 className="text-lg font-display font-bold text-foreground">{t("Học viên nói gì?", "What students say")}</h2>
+                </div>
+                <p className="text-secondary-foreground italic leading-relaxed mb-3">"{t(course.testimonial.text, course.testimonial.textEn)}"</p>
+                <p className="text-sm text-red-500 font-semibold">— {course.testimonial.name}</p>
+              </div>
+            )}
+
             {/* Contact */}
-            <div className="glass-card rounded-2xl p-8 border-2 border-red-500/20">
-              <h2 className="text-xl font-display font-bold text-foreground mb-2">📞 {t("Đăng ký học ngay", "Register Now")}</h2>
+            <div className="glass-card rounded-2xl p-6 md:p-8 border-2 border-red-500/20">
+              <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
+                <Phone className="w-5 h-5 text-red-500" /> {t("Đăng ký học ngay", "Register Now")}
+              </h2>
               <p className="text-muted-foreground mb-6">
-                {t("Liên hệ thầy Hải để được tư vấn chi tiết và đăng ký khóa học.", "Contact Teacher Hai for consultation and registration.")}
+                {t("Liên hệ thầy Hải để được tư vấn chi tiết và đăng ký khóa học phù hợp.", "Contact Teacher Hai for consultation and registration.")}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <a href="tel:0962823800" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-500 text-white font-semibold hover:brightness-110 transition-all active:scale-[0.97]">

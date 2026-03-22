@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ChevronRight, Sparkles, CheckCircle, XCircle, Clock, Trophy,
-  Loader2, Play, ExternalLink, Lightbulb, Code2, BookOpen, ChevronDown, Eye, EyeOff,
+  Loader2, Play, Lightbulb, Code2, BookOpen, ChevronDown, Eye, EyeOff,
   PanelRightClose, PanelRightOpen
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -13,6 +13,7 @@ import { programmingModules, type ProgrammingModule, type ProgrammingLesson as P
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
+import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const ProgrammingLessonPage = () => {
@@ -112,10 +113,6 @@ const ProgrammingLessonPage = () => {
     setShowChallengeResult(false);
   };
 
-  const openInTrinket = (code: string) => {
-    const encoded = encodeURIComponent(code);
-    window.open(`https://trinket.io/python?outputOnly=true&runOption=run&code=${encoded}`, "_blank");
-  };
 
   if (!mod || !lesson) {
     return (
@@ -198,7 +195,6 @@ const ProgrammingLessonPage = () => {
                     className="w-full mt-2 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-green-500/30 text-green-600 text-sm font-medium hover:bg-green-500/5 transition-all">
                     <Play className="w-4 h-4" />
                     {t("Chạy thử Code", "Run Code Online")}
-                    <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
               </div>
@@ -245,10 +241,10 @@ const ProgrammingLessonPage = () => {
                         <Code2 className="w-4 h-4 text-green-400" />
                         <span className="text-sm font-mono text-green-400">{lesson.codeLanguage}</span>
                       </div>
-                      <button onClick={() => openInTrinket(lesson.code)}
+                      <button onClick={() => setShowIDE(true)}
                         className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-500 transition-colors active:scale-[0.97]">
                         <Play className="w-3 h-3" />
-                        {t("Chạy thử", "Run")}
+                        {t("Mở IDE", "Open IDE")}
                       </button>
                     </div>
                     <div className="overflow-x-auto max-w-full">
@@ -265,12 +261,11 @@ const ProgrammingLessonPage = () => {
                       {t("Bài tập thực hành", "Practice Exercise")}
                     </h2>
                     <p className="text-sm text-secondary-foreground mb-4">{t(lesson.exercise, lesson.exerciseEn)}</p>
-                    <a href="https://trinket.io/python" target="_blank" rel="noopener noreferrer"
+                    <button onClick={() => setShowIDE(true)}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-medium hover:bg-amber-400 transition-colors active:scale-[0.97]">
                       <Play className="w-4 h-4" />
-                      {t("Làm bài trên Trinket", "Code on Trinket")}
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
+                      {t("Làm bài trên IDE", "Code in IDE")}
+                    </button>
                   </div>
 
                   {/* Quiz */}
@@ -405,9 +400,9 @@ const ProgrammingLessonPage = () => {
                           <div className="rounded-lg overflow-hidden mb-4 max-w-full">
                             <div className="px-3 py-2 bg-slate-900 flex items-center justify-between">
                               <span className="text-xs font-mono text-green-400">Starter Code</span>
-                              <button onClick={() => openInTrinket(aiChallenge.starterCode)}
+                              <button onClick={() => setShowIDE(true)}
                                 className="flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs hover:bg-green-500">
-                                <Play className="w-3 h-3" /> {t("Chạy", "Run")}
+                                <Play className="w-3 h-3" /> {t("Mở IDE", "Open IDE")}
                               </button>
                             </div>
                             <pre className="p-3 bg-slate-950 overflow-x-auto max-w-full">
@@ -477,27 +472,7 @@ const ProgrammingLessonPage = () => {
                     {isSQL ? (
                       <SqlEditor />
                     ) : (
-                      <div className="flex flex-col h-full bg-slate-950">
-                        <div className="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <Code2 className="w-4 h-4 text-green-400 shrink-0" />
-                            <span className="text-sm font-mono text-green-400 truncate">{lesson.codeLanguage} IDE</span>
-                          </div>
-                          <button
-                            onClick={() => openInTrinket(lesson.code)}
-                            className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-500 transition-colors active:scale-[0.97] shrink-0"
-                          >
-                            <ExternalLink className="w-3 h-3" />
-                            {t("Mở Trinket", "Open Trinket")}
-                          </button>
-                        </div>
-                        <div className="flex-1 overflow-auto p-4">
-                          <pre className="text-sm font-mono text-slate-300 leading-relaxed whitespace-pre break-all">{lesson.code}</pre>
-                        </div>
-                        <div className="p-3 bg-slate-900 border-t border-slate-800">
-                          <p className="text-xs text-slate-500">{t("💡 Dùng nút 'Mở Trinket' để chạy code trực tiếp", "💡 Click 'Open Trinket' to run code live")}</p>
-                        </div>
-                      </div>
+                      <PythonIDEPanel initialCode={lesson.code} />
                     )}
                   </div>
                 </div>
