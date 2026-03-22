@@ -118,8 +118,12 @@ const courseData: Record<string, {
       { vi: "Doanh nhân làm việc với đối tác Trung Quốc/Đài Loan", en: "Business people working with Chinese/Taiwanese partners" },
       { vi: "Người chuẩn bị sống, làm việc tại Trung Quốc hoặc Đài Loan", en: "People planning to live/work in China or Taiwan" },
     ],
-    testimonial: { name: "Anh Đức Minh (Doanh nhân)", text: "Sau 3 tháng mình đã tự tin đàm phán với đối tác Trung Quốc mà không cần phiên dịch. Cách dạy thực tế, không lý thuyết suông!", textEn: "After 3 months I could confidently negotiate with Chinese partners without an interpreter. Practical teaching, not just theory!" },
-    duration: "4 tháng", durationEn: "4 months",
+    testimonials: [
+      { name: "Anh Đức Minh (Doanh nhân)", text: "Sau 3 tháng mình đã tự tin đàm phán với đối tác Trung Quốc mà không cần phiên dịch. Cách dạy thực tế, không lý thuyết suông!", textEn: "After 3 months I could confidently negotiate with Chinese partners without an interpreter. Practical teaching, not just theory!" },
+      { name: "Chị Kim Anh (Quản lý xuất nhập khẩu)", text: "Roleplay tình huống kinh doanh rất hữu ích. Giờ mình gọi điện cho đối tác Đài Loan bằng tiếng Trung luôn!", textEn: "Business roleplay was incredibly useful. Now I call my Taiwanese partners in Chinese!" },
+      { name: "Bạn Hải Yến (Du học sinh)", text: "Phần slang và thành ngữ giúp mình hòa nhập nhanh khi qua Trung Quốc. Bạn bè bản xứ khen nói tự nhiên!", textEn: "The slang and idioms section helped me integrate quickly in China. Native friends compliment my natural speech!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
   },
 };
 
