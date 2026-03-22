@@ -109,7 +109,7 @@ const courseData: Record<string, {
     heroDescEn: "Intensive TOEIC program for professionals and students. Focused on Listening & Reading in real business contexts — reach 700+ in just 3 months.",
     stats: [
       { label: "Mục tiêu điểm", labelEn: "Target score", value: "700+" },
-      { label: "Thời lượng", labelEn: "Duration", value: "3 tháng" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
       { label: "Đề luyện tập", labelEn: "Practice tests", value: "50+" },
       { label: "Từ vựng thương mại", labelEn: "Business vocab", value: "2000+" },
     ],
