@@ -34,13 +34,16 @@ export default function LessonLibraryContent() {
   const [filterSubject, setFilterSubject] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    fetchLessons(true);
+    fetchLessonsPage(0);
   }, [filterSubject, filterCategory]);
 
-  const fetchLessons = async (reset = false) => {
-    if (reset) { setLoading(true); setLessons([]); } else { setLoadingMore(true); }
+  const fetchLessonsPage = async (page: number) => {
+    setLoading(true);
+    setLessons([]);
+    setCurrentPage(page);
 
     let query = supabase
       .from("generated_lessons")
@@ -51,12 +54,12 @@ export default function LessonLibraryContent() {
     if (filterSubject) query = query.eq("subject", filterSubject);
     if (filterCategory) query = query.eq("category", filterCategory);
 
-    const offset = reset ? 0 : lessons.length;
+    const offset = page * PAGE_SIZE;
     query = query.range(offset, offset + PAGE_SIZE - 1);
 
     const { data, error, count } = await query;
     if (!error && data) {
-      setLessons(prev => reset ? data : [...prev, ...data]);
+      setLessons(data);
       setTotal(count || 0);
       setHasMore(data.length === PAGE_SIZE);
     }
