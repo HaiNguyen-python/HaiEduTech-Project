@@ -791,7 +791,7 @@ export const chineseResources: LessonItem[] = [
           vocabulary: [
             { word: "脚踏实地", pinyin: "jiǎo tà shí dì", meaning: "Chân đạp đất thật — làm việc thực tế, chắc chắn", example: "做事要**脚踏实地**，不要好高骛远。" },
             { word: "爱不释手", pinyin: "ài bù shì shǒu", meaning: "Yêu không rời tay — rất thích, không muốn buông", example: "这本书太好了，让人**爱不释手**。" },
-            { word: "异口同声", pinyin: "yì kǒu tóng shēng", meaning: "Khác miệng cùng lời — đồng thanh nói", example: "大家**异口同声**地回答"好！"" },
+            { word: "异口同声", pinyin: "yì kǒu tóng shēng", meaning: "Khác miệng cùng lời — đồng thanh nói", example: "大家**异口同声**地回答'好！'" },
             { word: "刻苦学习", pinyin: "kè kǔ xué xí", meaning: "Học tập chăm chỉ, cần cù", example: "她从小就**刻苦学习**。" },
           ],
           tips: [
