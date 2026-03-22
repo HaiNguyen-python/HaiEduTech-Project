@@ -59,8 +59,8 @@ const Programming = () => {
             </h1>
             <p className="text-muted-foreground mb-12">
               {t(
-                "Hai khóa học chính giúp bạn từ người mới bắt đầu đến nắm vững nền tảng công nghệ hiện đại.",
-                "Two main courses to take you from beginner to mastering modern technology foundations."
+                "Hai chương trình chính giúp bạn từ người mới bắt đầu đến nắm vững tư duy lập trình và công nghệ dữ liệu hiện đại. Học qua thực hành dự án thực tế.",
+                "Two main programs taking you from beginner to mastering programming thinking and modern data technologies. Learning through real hands-on projects."
               )}
             </p>
 

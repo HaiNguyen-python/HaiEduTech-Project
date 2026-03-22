@@ -202,12 +202,12 @@ const English = () => {
               <h2 className="text-2xl font-display font-bold text-foreground mb-6">📚 {t("Tài liệu học tập", "Learning Resources")}</h2>
               <div className="grid md:grid-cols-3 gap-4">
                 {[
-                  { title: t("Ngữ pháp cơ bản", "Basic Grammar"), desc: t("12 thì tiếng Anh, câu điều kiện, bị động", "12 tenses, conditionals, passive voice"), icon: "📝" },
-                  { title: t("Từ vựng IELTS", "IELTS Vocabulary"), desc: t("Từ vựng Academic theo chủ đề", "Topic-based academic vocabulary"), icon: "🎯" },
-                  { title: t("Luyện nghe", "Listening Practice"), desc: t("Podcast & bài nghe theo cấp độ", "Podcasts & graded listening exercises"), icon: "🎧" },
-                  { title: t("Mẫu bài Writing", "Writing Templates"), desc: t("Bài mẫu Task 1 & Task 2", "Sample essays Task 1 & Task 2"), icon: "✍️" },
-                  { title: t("Idioms & Collocations", "Idioms & Collocations"), desc: t("Thành ngữ và cụm từ thông dụng", "Common idioms and collocations"), icon: "💡" },
-                  { title: t("Đề thi thử", "Practice Tests"), desc: t("Full test IELTS với đáp án", "Full IELTS tests with answers"), icon: "📋" },
+                  { title: t("Ngữ pháp cơ bản → Nâng cao", "Grammar: Basic → Advanced"), desc: t("12 thì, câu điều kiện, bị động, mệnh đề quan hệ, đảo ngữ", "12 tenses, conditionals, passive, relative clauses, inversion"), icon: "📝" },
+                  { title: t("Từ vựng Academic IELTS", "Academic IELTS Vocabulary"), desc: t("2000+ từ vựng Academic theo 20 chủ đề thi IELTS", "2000+ academic words across 20 IELTS exam topics"), icon: "🎯" },
+                  { title: t("Luyện nghe đa cấp độ", "Multi-level Listening"), desc: t("Podcast, TED Talks, bài nghe IELTS/TOEIC theo cấp độ A1–C1", "Podcasts, TED Talks, IELTS/TOEIC listening graded A1–C1"), icon: "🎧" },
+                  { title: t("Bài mẫu Writing IELTS", "IELTS Writing Samples"), desc: t("100+ bài mẫu Task 1 & Task 2 band 7.0–8.5 có phân tích chi tiết", "100+ sample essays Task 1 & 2 at band 7.0–8.5 with detailed analysis"), icon: "✍️" },
+                  { title: t("Idioms & Collocations", "Idioms & Collocations"), desc: t("500+ thành ngữ và cụm từ cố định thường gặp trong giao tiếp & thi cử", "500+ common idioms and collocations for communication & exams"), icon: "💡" },
+                  { title: t("Đề thi thử Full Test", "Full Practice Tests"), desc: t("Đề thi thử IELTS, TOEIC, Cambridge, THPT QG có đáp án & giải thích", "IELTS, TOEIC, Cambridge, National Exam mocks with answers & explanations"), icon: "📋" },
                 ].map((r, i) => (
                   <div key={i} className="bg-secondary rounded-xl p-5 hover:bg-primary/5 transition-colors cursor-pointer">
                     <span className="text-2xl mb-2 block">{r.icon}</span>

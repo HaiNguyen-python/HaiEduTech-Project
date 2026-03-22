@@ -185,12 +185,12 @@ const Chinese = () => {
               <h2 className="text-2xl font-display font-bold text-foreground mb-6">📚 {t("Tài liệu học tập", "Learning Resources")}</h2>
               <div className="grid md:grid-cols-3 gap-4">
                 {[
-                  { title: t("Bảng Pinyin", "Pinyin Chart"), desc: t("Bảng phiên âm đầy đủ với âm thanh", "Complete pronunciation chart with audio"), icon: "🔤" },
-                  { title: t("Chữ Hán cơ bản", "Basic Characters"), desc: t("200 chữ Hán thường dùng nhất", "200 most common characters"), icon: "🈷️" },
-                  { title: t("Ngữ pháp HSK", "HSK Grammar"), desc: t("Ngữ pháp từ HSK 1 đến HSK 6", "Grammar from HSK 1 to HSK 6"), icon: "📝" },
-                  { title: t("Luyện nghe", "Listening Practice"), desc: t("Hội thoại theo chủ đề và cấp độ", "Topic & level-based dialogues"), icon: "🎧" },
-                  { title: t("Thành ngữ Trung Quốc", "Chinese Idioms"), desc: t("Chengyu phổ biến và ứng dụng", "Common chengyu and usage"), icon: "💡" },
-                  { title: t("Đề thi HSK", "HSK Practice Tests"), desc: t("Đề thi thử HSK các cấp", "HSK mock tests for all levels"), icon: "📋" },
+                  { title: t("Bảng Pinyin toàn diện", "Complete Pinyin Chart"), desc: t("Bảng phiên âm đầy đủ 400+ âm tiết với audio chuẩn", "Full chart of 400+ syllables with standard audio"), icon: "🔤" },
+                  { title: t("Chữ Hán theo bộ thủ", "Characters by Radicals"), desc: t("Học 214 bộ thủ & 500+ chữ Hán thường dùng nhất", "Learn 214 radicals & 500+ most common characters"), icon: "🈷️" },
+                  { title: t("Ngữ pháp HSK 1–6", "HSK Grammar 1–6"), desc: t("Hệ thống ngữ pháp từ cơ bản đến nâng cao với ví dụ thực tế", "Grammar system from basic to advanced with real-life examples"), icon: "📝" },
+                  { title: t("Luyện nghe theo cấp độ", "Graded Listening"), desc: t("Hội thoại, tin tức, podcast theo trình độ HSK 1–6", "Dialogues, news, podcasts graded by HSK 1–6 level"), icon: "🎧" },
+                  { title: t("Thành ngữ & Chengyu", "Idioms & Chengyu"), desc: t("200+ thành ngữ 4 chữ phổ biến với nguồn gốc & cách dùng", "200+ popular 4-character idioms with origins & usage"), icon: "💡" },
+                  { title: t("Đề thi HSK các cấp", "HSK Practice Tests"), desc: t("Bộ đề thi thử HSK 1–6 mô phỏng đề thi thực + đáp án chi tiết", "HSK 1–6 mock tests simulating real exams + detailed answers"), icon: "📋" },
                 ].map((r, i) => (
                   <div key={i} className="bg-secondary rounded-xl p-5 hover:bg-primary/5 transition-colors cursor-pointer">
                     <span className="text-2xl mb-2 block">{r.icon}</span>
