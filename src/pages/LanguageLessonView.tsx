@@ -211,7 +211,7 @@ const LanguageLessonView = () => {
                         💡 {t("Pro Tips", "Pro Tips")}
                       </h2>
                       <ul className="space-y-2">
-                        {(t(lesson.proTips, lesson.proTipsEn) as string[] || lesson.proTips)?.map((tip: string, i: number) => (
+                        {(lesson.proTipsEn ? lesson.proTipsEn : lesson.proTips)?.map((tip: string, i: number) => (
                           <li key={i} className="flex items-start gap-2 text-sm text-secondary-foreground">
                             <Sparkles className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
                             {tip}

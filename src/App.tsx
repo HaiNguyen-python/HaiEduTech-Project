@@ -26,6 +26,7 @@ import GeneratedLessonView from "./pages/GeneratedLessonView.tsx";
 import PythonChallengeList from "./pages/PythonChallengeList.tsx";
 import PythonChallengePage from "./pages/PythonChallenge.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import LanguageLessonView from "./pages/LanguageLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
 const queryClient = new QueryClient();
