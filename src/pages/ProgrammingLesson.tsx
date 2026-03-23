@@ -13,7 +13,7 @@ import { allProgrammingModules, type ProgrammingModule, type ProgrammingLesson a
 import { updateSkillScore } from "@/components/SkillRadarChart";
 import SkillRadarChart from "@/components/SkillRadarChart";
 import LearningRecommendation from "@/components/LearningRecommendation";
-import { expandedModules } from "@/data/curriculum";
+import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
