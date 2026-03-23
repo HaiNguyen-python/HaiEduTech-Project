@@ -470,6 +470,17 @@ const ProgrammingLessonPage = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
+
+                  {/* Skill Radar & Recommendation */}
+                  {showResults && mod && (
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <SkillRadarChart pillarId={mod.course === "kids" ? "python" : mod.course === "data-ai" ? "ai-foundation" : mod.course} />
+                      <LearningRecommendation
+                        modules={expandedModules as unknown as ProgrammingModule[]}
+                        currentModuleId={mod.id}
+                      />
+                    </div>
+                  )}
                 </motion.div>
               </div>
             </div>
