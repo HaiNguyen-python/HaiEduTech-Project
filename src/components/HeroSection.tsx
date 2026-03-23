@@ -117,7 +117,7 @@ const HeroSection = () => {
               ].map((s, i) => (
                 <div key={i} className="text-center">
                   <s.icon className="w-6 h-6 text-primary mx-auto mb-2" />
-                  <div className="text-xl md:text-2xl font-display font-bold text-foreground">{s.value}</div>
+                  <div className="text-base sm:text-xl md:text-2xl font-display font-bold text-foreground">{s.value}</div>
                   <div className="text-xs text-muted-foreground mt-1">{s.label}</div>
                 </div>
               ))}
