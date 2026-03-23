@@ -1,12 +1,14 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle } from "lucide-react";
+import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle, Star, GraduationCap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import WordOfTheDay from "@/components/WordOfTheDay";
 import { englishResources } from "@/data/lessonData";
+import { allEnglishModules } from "@/data/languageCurriculum";
+import { cn } from "@/lib/utils";
 
 const English = () => {
   const { t } = useLanguage();
