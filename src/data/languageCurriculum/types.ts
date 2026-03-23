@@ -35,7 +35,6 @@ export interface DictationExercise {
 }
 
 export interface MCQExercise {
-  type: "mcq";
   question: string;
   options: string[];
   answer: number;
