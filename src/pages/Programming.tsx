@@ -89,7 +89,7 @@ const Programming = () => {
       title: "SQL & Database", titleEn: "SQL & Database",
       desc: "Nắm vững truy vấn, thiết kế cơ sở dữ liệu, JOIN, indexing và tối ưu hóa với PostgreSQL.",
       descEn: "Master queries, database design, JOINs, indexing and optimization with PostgreSQL.",
-      modules: programmingModules.filter(m => m.id === "prog-sql"),
+      modules: allProgrammingModules.filter(m => m.id === "prog-sql" || m.course === "sql"),
     },
     "data-eng": {
       title: "Data Engineering", titleEn: "Data Engineering",
