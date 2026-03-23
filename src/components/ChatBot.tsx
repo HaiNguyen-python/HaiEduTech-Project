@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 import ReactMarkdown from "react-markdown";
 import chatbotIcon from "@/assets/chatbot-icon.png";
 
@@ -11,6 +12,7 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
 const ChatBot = () => {
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -24,21 +26,22 @@ const ChatBot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Periodic gentle shake every 12 seconds
   useEffect(() => {
     if (open) return;
+
     const interval = setInterval(() => {
       setShake(true);
       setTimeout(() => {
         setShake(false);
-        setShowTooltip(true);
-        tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
+        if (!isMobile) {
+          setShowTooltip(true);
+          tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
+        }
       }, 600);
     }, 12000);
 
-    // Show tooltip on first load after 3s
     const initialTimer = setTimeout(() => {
-      if (!open) {
+      if (!open && !isMobile) {
         setShowTooltip(true);
         tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
       }
@@ -49,7 +52,7 @@ const ChatBot = () => {
       clearTimeout(initialTimer);
       if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current);
     };
-  }, [open]);
+  }, [open, isMobile]);
 
   const handleOpenChat = () => {
     setOpen(true);
@@ -80,11 +83,11 @@ const ChatBot = () => {
 
       if (!resp.ok || !resp.body) {
         if (resp.status === 429) {
-          setMessages(prev => [...prev, { role: "assistant", content: t("⚠️ Quá nhiều yêu cầu. Vui lòng thử lại sau.", "⚠️ Too many requests. Please try again later.") }]);
+          setMessages((prev) => [...prev, { role: "assistant", content: t("⚠️ Quá nhiều yêu cầu. Vui lòng thử lại sau.", "⚠️ Too many requests. Please try again later.") }]);
         } else if (resp.status === 402) {
-          setMessages(prev => [...prev, { role: "assistant", content: t("⚠️ Hết hạn mức sử dụng. Vui lòng liên hệ quản trị.", "⚠️ Usage limit reached. Please contact admin.") }]);
+          setMessages((prev) => [...prev, { role: "assistant", content: t("⚠️ Hết hạn mức sử dụng. Vui lòng liên hệ quản trị.", "⚠️ Usage limit reached. Please contact admin.") }]);
         } else {
-          setMessages(prev => [...prev, { role: "assistant", content: t("⚠️ Lỗi kết nối. Vui lòng thử lại.", "⚠️ Connection error. Please try again.") }]);
+          setMessages((prev) => [...prev, { role: "assistant", content: t("⚠️ Lỗi kết nối. Vui lòng thử lại.", "⚠️ Connection error. Please try again.") }]);
         }
         setIsLoading(false);
         return;
@@ -112,19 +115,21 @@ const ChatBot = () => {
             const content = parsed.choices?.[0]?.delta?.content;
             if (content) {
               assistantSoFar += content;
-              setMessages(prev => {
+              setMessages((prev) => {
                 const last = prev[prev.length - 1];
                 if (last?.role === "assistant") {
-                  return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: assistantSoFar } : m);
+                  return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
                 }
                 return [...prev, { role: "assistant", content: assistantSoFar }];
               });
             }
-          } catch { /* partial JSON */ }
+          } catch {
+            /* partial JSON */
+          }
         }
       }
     } catch {
-      setMessages(prev => [...prev, { role: "assistant", content: t("⚠️ Lỗi kết nối. Vui lòng thử lại.", "⚠️ Connection error. Please try again.") }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: t("⚠️ Lỗi kết nối. Vui lòng thử lại.", "⚠️ Connection error. Please try again.") }]);
     }
     setIsLoading(false);
   };
@@ -137,22 +142,20 @@ const ChatBot = () => {
 
   return (
     <>
-      {/* Floating button */}
       <AnimatePresence>
         {!open && (
-          <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
-            {/* Tooltip bubble */}
+          <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-3 z-50 flex flex-col items-end gap-2 sm:bottom-6 sm:right-6">
             <AnimatePresence>
-              {showTooltip && (
+              {showTooltip && !isMobile && (
                 <motion.div
                   initial={{ opacity: 0, y: 8, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-card text-foreground text-sm px-4 py-2.5 rounded-xl shadow-lg border border-border max-w-[220px] text-center relative"
+                  className="relative max-w-[220px] rounded-xl border border-border bg-card px-4 py-2.5 text-center text-sm text-foreground shadow-lg"
                 >
-                  <span>{t("👋 Hello, thầy Hải chào bạn!", "👋 Hi there! I'm Teacher Hai!")}</span>
-                  <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-card border-r border-b border-border rotate-45" />
+                  <span>{t("👋 Xin chào, thầy Hải đây!", "👋 Hi there! I'm Teacher Hai!")}</span>
+                  <div className="absolute -bottom-1.5 right-6 h-3 w-3 rotate-45 border-b border-r border-border bg-card" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -163,49 +166,47 @@ const ChatBot = () => {
               exit={{ scale: 0 }}
               onClick={handleOpenChat}
               onMouseEnter={() => {
+                if (isMobile) return;
                 setShowTooltip(true);
                 if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current);
                 tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
               }}
-              className="w-16 h-16 rounded-full shadow-2xl bg-primary hover:brightness-110 transition-all flex items-center justify-center overflow-hidden border-2 border-primary-foreground/20"
-              title="Alo, thầy Hải nghe"
+              className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground/20 bg-primary shadow-2xl transition-all hover:brightness-110 sm:h-16 sm:w-16"
+              title={t("Alo, thầy Hải nghe", "Chat with Teacher Hai")}
             >
-              <img src={chatbotIcon} alt="Thầy Hải" className="w-14 h-14 object-cover" />
+              <img src={chatbotIcon} alt="Thầy Hải" className="h-12 w-12 object-cover sm:h-14 sm:w-14" />
             </motion.button>
           </div>
         )}
       </AnimatePresence>
 
-      {/* Chat window */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="fixed bottom-6 right-6 z-50 w-[400px] h-[560px] bg-card rounded-2xl shadow-2xl border border-border flex flex-col overflow-hidden"
+            className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] left-3 right-3 z-50 flex h-[70vh] max-h-[560px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:left-auto sm:right-6 sm:w-[400px]"
           >
-            {/* Header */}
-            <div className="flex items-center gap-3 p-4 border-b border-border bg-primary/5">
-              <img src={chatbotIcon} alt="Thầy Hải" className="w-10 h-10 rounded-full" />
+            <div className="flex items-center gap-3 border-b border-border bg-primary/5 p-4">
+              <img src={chatbotIcon} alt="Thầy Hải" className="h-10 w-10 rounded-full" />
               <div className="flex-1">
-                <h3 className="font-bold text-foreground text-base">📞 Alo, thầy Hải nghe</h3>
+                <h3 className="text-base font-bold text-foreground">{t("📞 Alo, thầy Hải nghe", "📞 Teacher Hai is here")}</h3>
                 <p className="text-xs text-muted-foreground">{t("Trợ lý học tập AI", "AI Learning Assistant")}</p>
               </div>
-              <button onClick={() => setOpen(false)} className="p-1.5 rounded-lg hover:bg-secondary transition-colors">
-                <X className="w-5 h-5 text-muted-foreground" />
+              <button onClick={() => setOpen(false)} className="rounded-lg p-1.5 transition-colors hover:bg-secondary">
+                <X className="h-5 w-5 text-muted-foreground" />
               </button>
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 space-y-4 overflow-y-auto p-4">
               {messages.length === 0 && (
-                <div className="text-center py-8">
-                  <img src={chatbotIcon} alt="Thầy Hải" className="w-20 h-20 mx-auto mb-4 opacity-50" />
-                  <p className="text-sm text-muted-foreground mb-4">
+                <div className="py-8 text-center">
+                  <img src={chatbotIcon} alt="Thầy Hải" className="mx-auto mb-4 h-20 w-20 opacity-50" />
+                  <p className="mb-4 text-sm text-muted-foreground">
                     {t("Xin chào em! Thầy là thầy Hải 👋\nEm cứ hỏi thầy về Tiếng Anh, Tiếng Trung hoặc Lập trình nhé!", "Hello! I'm Teacher Hai 👋\nAsk me about English, Chinese or Programming!")}
                   </p>
-                  <div className="flex flex-wrap gap-2 justify-center">
+                  <div className="flex flex-wrap justify-center gap-2">
                     {[
                       t("Giải thích thì hiện tại hoàn thành", "Explain present perfect tense"),
                       t("你好 nghĩa là gì?", "What does 你好 mean?"),
@@ -213,8 +214,10 @@ const ChatBot = () => {
                     ].map((suggestion) => (
                       <button
                         key={suggestion}
-                        onClick={() => { setInput(suggestion); }}
-                        className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                        onClick={() => {
+                          setInput(suggestion);
+                        }}
+                        className="rounded-full bg-primary/10 px-3 py-1.5 text-xs text-primary transition-colors hover:bg-primary/20"
                       >
                         {suggestion}
                       </button>
@@ -225,11 +228,11 @@ const ChatBot = () => {
 
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
-                    msg.role === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary text-secondary-foreground"
-                  }`}>
+                  <div
+                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
+                      msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
+                    }`}
+                  >
                     {msg.role === "assistant" ? (
                       <div className="prose prose-sm max-w-none dark:prose-invert">
                         <ReactMarkdown>{msg.content}</ReactMarkdown>
@@ -243,8 +246,8 @@ const ChatBot = () => {
 
               {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
                 <div className="flex justify-start">
-                  <div className="bg-secondary rounded-2xl px-4 py-3">
-                    <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                  <div className="rounded-2xl bg-secondary px-4 py-3">
+                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
                   </div>
                 </div>
               )}
@@ -252,23 +255,22 @@ const ChatBot = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
-            <div className="p-3 border-t border-border">
+            <div className="border-t border-border p-3">
               <div className="flex gap-2">
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
                   placeholder={t("Hỏi thầy Hải...", "Ask Teacher Hai...")}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-secondary border border-border text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none"
+                  className="flex-1 rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none"
                   disabled={isLoading}
                 />
                 <button
                   onClick={sendMessage}
                   disabled={isLoading || !input.trim()}
-                  className="px-4 py-2.5 rounded-xl bg-primary text-primary-foreground disabled:opacity-50 hover:brightness-110 transition-all"
+                  className="rounded-xl bg-primary px-4 py-2.5 text-primary-foreground transition-all hover:brightness-110 disabled:opacity-50"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="h-4 w-4" />
                 </button>
               </div>
             </div>

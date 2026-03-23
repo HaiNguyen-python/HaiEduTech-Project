@@ -9,116 +9,107 @@ const HeroSection = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background */}
+    <section className="relative flex items-center justify-center overflow-hidden py-8 sm:py-10 lg:min-h-[90vh]">
       <div className="absolute inset-0">
         <img src={heroBg} alt="" className="w-full h-full object-cover opacity-15" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
         <div className="absolute inset-0 cyber-grid opacity-10" />
       </div>
 
-      {/* Floating orbs */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/8 rounded-full blur-3xl animate-pulse-glow" />
-      <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-accent/8 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
+      <div className="absolute left-1/2 top-24 h-48 w-48 -translate-x-1/2 rounded-full bg-primary/8 blur-3xl sm:left-1/4 sm:top-1/4 sm:h-64 sm:w-64 sm:translate-x-0" />
+      <div className="absolute bottom-20 right-0 h-56 w-56 rounded-full bg-accent/8 blur-3xl sm:bottom-1/3 sm:right-1/4 sm:h-80 sm:w-80" style={{ animationDelay: "1.5s" }} />
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10 pt-6 pb-12">
-        <div className="max-w-5xl mx-auto">
-          {/* Top badge */}
+      <div className="container relative z-10 mx-auto px-4 sm:px-6">
+        <div className="mx-auto max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-10"
+            className="mb-8 text-center sm:mb-10"
           >
-            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
-              <Sparkles className="w-4 h-4" />
-              {t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}
+            <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-2 text-xs font-medium text-primary sm:px-5 sm:text-sm">
+              <Sparkles className="h-4 w-4 shrink-0" />
+              <span className="truncate">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</span>
             </div>
           </motion.div>
 
-          {/* Main content: image + text side by side */}
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-            {/* Profile image */}
+          <div className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="shrink-0"
+              className="w-full max-w-[320px] shrink-0 sm:max-w-[360px]"
             >
-              <div className="w-64 h-64 md:w-72 md:h-72 lg:w-[340px] lg:h-[340px] rounded-2xl overflow-hidden border-4 border-primary/20 shadow-2xl shadow-primary/15 ring-1 ring-primary/10">
-                <img src={haiProfile} alt="Teacher Hai" className="w-full h-full object-cover" />
+              <div className="aspect-square overflow-hidden rounded-[1.75rem] border-4 border-primary/20 shadow-2xl shadow-primary/15 ring-1 ring-primary/10">
+                <img src={haiProfile} alt="Teacher Hai" className="h-full w-full object-cover" />
               </div>
             </motion.div>
 
-            {/* Text content */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center lg:text-left flex-1"
+              className="flex-1 text-center lg:text-left"
             >
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight mb-5">
-                {t("Học ", "Learn ")}
-                <span className="text-gradient">{t("hiệu quả hơn", "Effectively")}</span>
-                <br />
-                {t("cùng ", "with ")}
-                <span className="text-gradient">{t("Thầy Hải", "Teacher Hai")}</span>
+              <h1 className="mb-4 font-display text-3xl font-bold leading-[1.08] text-foreground sm:mb-5 sm:text-4xl md:text-5xl lg:text-6xl">
+                <span className="block sm:inline">{t("Học ", "Learn ")}</span>
+                <span className="block text-gradient sm:inline">{t("hiệu quả hơn", "more effectively")}</span>
+                <span className="block sm:inline">{t(" cùng ", " with ")}</span>
+                <span className="block text-gradient sm:inline">{t("Thầy Hải", "Teacher Hai")}</span>
               </h1>
 
-              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed px-2 sm:px-0">
+              <p className="mx-auto mb-6 max-w-md px-1 text-[15px] leading-7 text-muted-foreground sm:mb-8 sm:max-w-xl sm:px-0 sm:text-base md:text-lg lg:mx-0">
                 {t(
-                  "Chinh phục Tiếng Anh, Tiếng Trung & Lập trình cùng thầy Hải – Thạc sỹ Ngôn ngữ & Văn hóa Anh – Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
-                  "Master English, Chinese & Programming with Teacher Hai – M.A. in English Language & Culture – Data Engineer & AI specialist in Finland."
+                  "Chinh phục Tiếng Anh, Tiếng Trung và Lập trình cùng thầy Hải – Thạc sỹ Ngôn ngữ & Văn hóa Anh, Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
+                  "Master English, Chinese and Programming with Teacher Hai – M.A. in English Language & Culture and a Data & AI Engineer in Finland."
                 )}
               </p>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-3 px-2 sm:px-0">
+              <div className="mx-auto flex w-full max-w-sm flex-col gap-3 lg:mx-0">
                 <Link
                   to="/english"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-primary/20 text-sm"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:brightness-110"
                 >
-                  <BookOpen className="w-4 h-4 shrink-0" />
-                  {t("Các khóa Tiếng Anh", "English Courses")}
-                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                  <BookOpen className="h-4 w-4 shrink-0" />
+                  <span>{t("Các khóa Tiếng Anh", "English Courses")}</span>
+                  <ArrowRight className="h-3.5 w-3.5 shrink-0" />
                 </Link>
                 <Link
                   to="/chinese"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-destructive/90 text-destructive-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-destructive/20 text-sm"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-destructive/90 px-5 py-3 text-sm font-semibold text-destructive-foreground shadow-lg shadow-destructive/20 transition-all hover:brightness-110"
                 >
-                  <Languages className="w-4 h-4 shrink-0" />
-                  {t("Các khóa Tiếng Trung", "Chinese Courses")}
-                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                  <Languages className="h-4 w-4 shrink-0" />
+                  <span>{t("Các khóa Tiếng Trung", "Chinese Courses")}</span>
+                  <ArrowRight className="h-3.5 w-3.5 shrink-0" />
                 </Link>
                 <Link
                   to="/programming"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-accent-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-accent/20 text-sm"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:brightness-110"
                 >
-                  <Code2 className="w-4 h-4 shrink-0" />
-                  {t("Các khóa Lập trình", "Programming Courses")}
-                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                  <Code2 className="h-4 w-4 shrink-0" />
+                  <span>{t("Các khóa Lập trình", "Programming Courses")}</span>
+                  <ArrowRight className="h-3.5 w-3.5 shrink-0" />
                 </Link>
               </div>
             </motion.div>
           </div>
 
-          {/* Stats row - centered below */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-14 max-w-2xl mx-auto"
+            className="mx-auto mt-12 max-w-2xl pb-20 sm:pb-0"
           >
-            <div className="grid grid-cols-3 gap-4 sm:gap-8 glass-card rounded-2xl px-4 sm:px-8 py-5 sm:py-6">
+            <div className="glass-card grid grid-cols-1 gap-4 rounded-2xl px-5 py-5 sm:grid-cols-3 sm:gap-8 sm:px-8 sm:py-6">
               {[
                 { icon: GraduationCap, value: t("Thạc sỹ", "M.A."), label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
                 { icon: BookOpen, value: "15+", label: t("Năm kinh nghiệm giảng dạy các cấp", "Years Teaching Experience") },
                 { icon: Code2, value: t("Kỹ sư", "Engineer"), label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & Artificial Intelligence") },
               ].map((s, i) => (
                 <div key={i} className="text-center">
-                  <s.icon className="w-6 h-6 text-primary mx-auto mb-2" />
-                  <div className="text-base sm:text-xl md:text-2xl font-display font-bold text-foreground">{s.value}</div>
-                  <div className="text-xs text-muted-foreground mt-1">{s.label}</div>
+                  <s.icon className="mx-auto mb-2 h-6 w-6 text-primary" />
+                  <div className="font-display text-lg font-bold text-foreground sm:text-xl md:text-2xl">{s.value}</div>
+                  <div className="mt-1 text-xs leading-5 text-muted-foreground">{s.label}</div>
                 </div>
               ))}
             </div>
