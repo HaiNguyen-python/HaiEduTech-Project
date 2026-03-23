@@ -83,7 +83,7 @@ const Programming = () => {
       title: "AI Foundation", titleEn: "AI Foundation",
       desc: "Nền tảng AI: Lịch sử, LLMs, Prompt Engineering, Ethics. Thực hành tối ưu hóa Prompt và xây dựng ứng dụng AI cơ bản.",
       descEn: "AI Fundamentals: History, LLMs, Prompt Engineering, Ethics. Practice Prompt optimization and build basic AI applications.",
-      modules: programmingModules.filter(m => m.id === "prog-ai-foundation"),
+      modules: allProgrammingModules.filter(m => m.id === "prog-ai-foundation" || m.course === "data-ai"),
     },
     sql: {
       title: "SQL & Database", titleEn: "SQL & Database",
