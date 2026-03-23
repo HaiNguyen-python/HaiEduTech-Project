@@ -1,3 +1,6 @@
+import { expandedModules } from "./curriculum";
+import type { ExtendedProgrammingModule } from "./curriculum/types";
+
 export interface ProgrammingModule {
   id: string;
   title: string;
@@ -21,7 +24,13 @@ export interface ProgrammingLesson {
   exercise: string;
   exerciseEn: string;
   quiz: { question: string; options: string[]; answer: number; explanation: string }[];
+  level?: 1 | 2 | 3 | 4 | 5;
+  difficulty?: "beginner" | "intermediate" | "advanced";
+  testCases?: { input: string; expectedOutput: string; description: string }[];
+  solutionExplanation?: string;
 }
+
+export type { ExtendedProgrammingModule };
 
 // ============ KIDS TECH FOUNDATIONS ============
 
