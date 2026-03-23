@@ -76,7 +76,7 @@ const Programming = () => {
       title: "Python", titleEn: "Python",
       desc: "Từ tư duy thuật toán cơ bản (Scratch) đến Python nâng cao, cấu trúc dữ liệu và dự án thực tế. Bao gồm 150 thử thách lập trình với IDE tích hợp.",
       descEn: "From basic algorithmic thinking (Scratch) to advanced Python, data structures and real projects. Includes 150 coding challenges with built-in IDE.",
-      modules: programmingModules.filter(m => m.course === "kids"),
+      modules: allProgrammingModules.filter(m => m.course === "kids"),
       challengeSection: true,
     },
     "ai-foundation": {
