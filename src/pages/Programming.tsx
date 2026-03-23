@@ -101,7 +101,7 @@ const Programming = () => {
       title: "Machine Learning", titleEn: "Machine Learning",
       desc: "Regression, Classification, Clustering và các mô hình AI cơ bản với scikit-learn.",
       descEn: "Regression, Classification, Clustering and basic AI models with scikit-learn.",
-      modules: programmingModules.filter(m => m.id === "prog-ml"),
+      modules: allProgrammingModules.filter(m => m.id === "prog-ml" || m.course === "ml"),
     },
   };
 
