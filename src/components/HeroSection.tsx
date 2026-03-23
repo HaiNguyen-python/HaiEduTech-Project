@@ -57,7 +57,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8 }}
               className="text-center lg:text-left flex-1"
             >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight mb-5">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight mb-5">
                 {t("Học ", "Learn ")}
                 <span className="text-gradient">{t("hiệu quả hơn", "Effectively")}</span>
                 <br />
