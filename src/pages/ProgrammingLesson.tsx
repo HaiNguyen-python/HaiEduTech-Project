@@ -13,12 +13,52 @@ import { allProgrammingModules, type ProgrammingModule, type ProgrammingLesson a
 import { updateSkillScore } from "@/components/SkillRadarChart";
 import SkillRadarChart from "@/components/SkillRadarChart";
 import LearningRecommendation from "@/components/LearningRecommendation";
-import { expandedModules } from "@/data/curriculum";
+import { expandedModules as curriculumExpandedModules } from "@/data/curriculum";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
 import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+// Map module IDs to their pillar/course for grouping
+const PILLAR_COURSES: Record<string, string[]> = {
+  "python": ["kids"],
+  "ai-foundation": ["data-ai"],
+  "sql": ["sql"],
+  "data-eng": ["data-eng"],
+  "ml": ["ml"],
+};
+
+function getPillarForModule(moduleId: string): string | null {
+  // Check direct ID match first
+  const directMap: Record<string, string> = {
+    "prog-ai-foundation": "ai-foundation",
+    "prog-sql": "sql",
+    "prog-data-pipeline": "data-eng",
+    "prog-ml": "ml",
+  };
+  if (directMap[moduleId]) return directMap[moduleId];
+
+  const mod = allProgrammingModules.find(m => m.id === moduleId);
+  if (!mod) return null;
+  for (const [pillar, courses] of Object.entries(PILLAR_COURSES)) {
+    if (courses.includes(mod.course)) return pillar;
+  }
+  return null;
+}
+
+function getPillarModules(pillar: string): ProgrammingModule[] {
+  const courses = PILLAR_COURSES[pillar] || [];
+  // Also include direct ID matches
+  const directIds: Record<string, string[]> = {
+    "ai-foundation": ["prog-ai-foundation"],
+    "sql": ["prog-sql"],
+    "data-eng": ["prog-data-pipeline"],
+    "ml": ["prog-ml"],
+  };
+  const ids = directIds[pillar] || [];
+  return allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
+}
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
@@ -38,8 +78,13 @@ const ProgrammingLessonPage = () => {
   const [challengeAnswer, setChallengeAnswer] = useState<number | null>(null);
   const [showChallengeResult, setShowChallengeResult] = useState(false);
   const [showIDE, setShowIDE] = useState(true);
+  const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
 
-  const isSQL = mod?.id === "prog-sql";
+  const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
+
+  // Get all sibling modules for same pillar
+  const pillar = moduleId ? getPillarForModule(moduleId) : null;
+  const pillarModules = pillar ? getPillarModules(pillar) : [];
 
   useEffect(() => {
     const m = allProgrammingModules.find(m => m.id === moduleId);
@@ -47,6 +92,8 @@ const ProgrammingLessonPage = () => {
       setMod(m);
       const l = lessonId ? m.lessons.find(l => l.id === lessonId) : m.lessons[0];
       if (l) setLesson(l);
+      // Auto-expand the current module
+      setExpandedModules(prev => new Set(prev).add(m.id));
     }
   }, [moduleId, lessonId]);
 
@@ -164,25 +211,71 @@ const ProgrammingLessonPage = () => {
               {/* Left side: Sidebar + Lesson content */}
               <div className={`${showIDE && !isMobile ? "w-1/2 xl:w-3/5" : "w-full"} min-w-0`}>
             <div className="flex flex-col lg:flex-row gap-6">
-              {/* Sidebar - Roadmap */}
-              <div className="lg:w-64 shrink-0">
-                <div className="glass-card rounded-xl p-4 sticky top-28">
+              {/* Sidebar - Roadmap with ALL pillar modules */}
+              <div className="lg:w-72 shrink-0">
+                <div className="glass-card rounded-xl p-4 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
                     <h3 className="font-semibold text-foreground text-sm">{t("Lộ trình học", "Learning Roadmap")}</h3>
                   </div>
-                  <div className="space-y-1">
-                    {mod.lessons.map((l, i) => {
-                      const isActive = lesson.id === l.id;
-                      const stepNum = i + 1;
+                  <div className="space-y-2">
+                    {pillarModules.map((pm) => {
+                      const isExpanded = expandedModules.has(pm.id);
+                      const isCurrentModule = pm.id === mod.id;
                       return (
-                        <button key={l.id} onClick={() => switchLesson(l)}
-                          className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all flex items-center gap-3 ${isActive ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}>
-                          <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${isActive ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"}`}>
-                            {stepNum}
-                          </span>
-                          <span className="truncate">{t(l.title, l.titleEn)}</span>
-                        </button>
+                        <div key={pm.id}>
+                          <button
+                            onClick={() => {
+                              setExpandedModules(prev => {
+                                const next = new Set(prev);
+                                if (next.has(pm.id)) next.delete(pm.id);
+                                else next.add(pm.id);
+                                return next;
+                              });
+                            }}
+                            className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
+                              isCurrentModule
+                                ? "bg-primary/10 text-primary"
+                                : "text-foreground hover:bg-secondary"
+                            }`}
+                          >
+                            <span className="text-base shrink-0">{pm.icon}</span>
+                            <span className="truncate flex-1">{t(pm.title, pm.titleEn)}</span>
+                            <ChevronDown className={`w-3 h-3 shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                          </button>
+                          {isExpanded && (
+                            <div className="ml-3 mt-1 space-y-0.5 border-l-2 border-border pl-2">
+                              {pm.lessons.map((l, i) => {
+                                const isActive = lesson.id === l.id && mod.id === pm.id;
+                                return (
+                                  <button
+                                    key={l.id}
+                                    onClick={() => {
+                                      if (pm.id !== mod.id) {
+                                        // Navigate to different module
+                                        window.history.pushState({}, '', `/programming/${pm.id}`);
+                                        setMod(pm);
+                                      }
+                                      switchLesson(l);
+                                    }}
+                                    className={`w-full text-left px-2 py-1.5 rounded-md text-xs transition-all flex items-center gap-2 ${
+                                      isActive
+                                        ? "bg-primary/10 text-primary font-medium"
+                                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                                    }`}
+                                  >
+                                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                                      isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                                    }`}>
+                                      {i + 1}
+                                    </span>
+                                    <span className="truncate">{t(l.title, l.titleEn)}</span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
                       );
                     })}
                   </div>
@@ -476,7 +569,7 @@ const ProgrammingLessonPage = () => {
                     <div className="grid sm:grid-cols-2 gap-4">
                       <SkillRadarChart pillarId={mod.course === "kids" ? "python" : mod.course === "data-ai" ? "ai-foundation" : mod.course} />
                       <LearningRecommendation
-                        modules={expandedModules as unknown as ProgrammingModule[]}
+                        modules={curriculumExpandedModules as unknown as ProgrammingModule[]}
                         currentModuleId={mod.id}
                       />
                     </div>
