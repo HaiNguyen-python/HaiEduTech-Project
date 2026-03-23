@@ -1822,3 +1822,9 @@ print(f"\\n📊 Stats: {bot.get_stats()}")`,
   },
 ];
 
+// Merge expanded curriculum modules (cast to ProgrammingModule for compatibility)
+export const allProgrammingModules: ProgrammingModule[] = [
+  ...programmingModules,
+  ...(expandedModules as unknown as ProgrammingModule[]),
+];
+
