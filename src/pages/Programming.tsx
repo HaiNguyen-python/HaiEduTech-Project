@@ -95,7 +95,7 @@ const Programming = () => {
       title: "Data Engineering", titleEn: "Data Engineering",
       desc: "Xây dựng đường ống dữ liệu (ETL/ELT), xử lý dữ liệu lớn với Pandas và tự động hóa workflow.",
       descEn: "Build data pipelines (ETL/ELT), process big data with Pandas and automate workflows.",
-      modules: programmingModules.filter(m => m.id === "prog-data-pipeline"),
+      modules: allProgrammingModules.filter(m => m.id === "prog-data-pipeline" || m.course === "data-eng"),
     },
     ml: {
       title: "Machine Learning", titleEn: "Machine Learning",
