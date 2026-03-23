@@ -73,30 +73,30 @@ const HeroSection = () => {
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-3 px-2 sm:px-0">
                 <Link
                   to="/english"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-primary/20 text-sm whitespace-nowrap"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-primary/20 text-sm"
                 >
-                  <BookOpen className="w-4 h-4" />
+                  <BookOpen className="w-4 h-4 shrink-0" />
                   {t("Các khóa Tiếng Anh", "English Courses")}
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </Link>
                 <Link
                   to="/chinese"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-destructive/90 text-destructive-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-destructive/20 text-sm whitespace-nowrap"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-destructive/90 text-destructive-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-destructive/20 text-sm"
                 >
-                  <Languages className="w-4 h-4" />
+                  <Languages className="w-4 h-4 shrink-0" />
                   {t("Các khóa Tiếng Trung", "Chinese Courses")}
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </Link>
                 <Link
                   to="/programming"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-accent-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-accent/20 text-sm whitespace-nowrap"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-accent-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-accent/20 text-sm"
                 >
-                  <Code2 className="w-4 h-4" />
+                  <Code2 className="w-4 h-4 shrink-0" />
                   {t("Các khóa Lập trình", "Programming Courses")}
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </Link>
               </div>
             </motion.div>
