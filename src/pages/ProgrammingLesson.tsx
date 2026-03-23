@@ -20,6 +20,46 @@ import SqlEditor from "@/components/SqlEditor";
 import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+// Map module IDs to their pillar/course for grouping
+const PILLAR_COURSES: Record<string, string[]> = {
+  "python": ["kids"],
+  "ai-foundation": ["data-ai"],
+  "sql": ["sql"],
+  "data-eng": ["data-eng"],
+  "ml": ["ml"],
+};
+
+function getPillarForModule(moduleId: string): string | null {
+  // Check direct ID match first
+  const directMap: Record<string, string> = {
+    "prog-ai-foundation": "ai-foundation",
+    "prog-sql": "sql",
+    "prog-data-pipeline": "data-eng",
+    "prog-ml": "ml",
+  };
+  if (directMap[moduleId]) return directMap[moduleId];
+
+  const mod = allProgrammingModules.find(m => m.id === moduleId);
+  if (!mod) return null;
+  for (const [pillar, courses] of Object.entries(PILLAR_COURSES)) {
+    if (courses.includes(mod.course)) return pillar;
+  }
+  return null;
+}
+
+function getPillarModules(pillar: string): ProgrammingModule[] {
+  const courses = PILLAR_COURSES[pillar] || [];
+  // Also include direct ID matches
+  const directIds: Record<string, string[]> = {
+    "ai-foundation": ["prog-ai-foundation"],
+    "sql": ["prog-sql"],
+    "data-eng": ["prog-data-pipeline"],
+    "ml": ["prog-ml"],
+  };
+  const ids = directIds[pillar] || [];
+  return allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
+}
+
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
   const { t } = useLanguage();
@@ -38,8 +78,13 @@ const ProgrammingLessonPage = () => {
   const [challengeAnswer, setChallengeAnswer] = useState<number | null>(null);
   const [showChallengeResult, setShowChallengeResult] = useState(false);
   const [showIDE, setShowIDE] = useState(true);
+  const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
 
-  const isSQL = mod?.id === "prog-sql";
+  const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
+
+  // Get all sibling modules for same pillar
+  const pillar = moduleId ? getPillarForModule(moduleId) : null;
+  const pillarModules = pillar ? getPillarModules(pillar) : [];
 
   useEffect(() => {
     const m = allProgrammingModules.find(m => m.id === moduleId);
@@ -47,6 +92,8 @@ const ProgrammingLessonPage = () => {
       setMod(m);
       const l = lessonId ? m.lessons.find(l => l.id === lessonId) : m.lessons[0];
       if (l) setLesson(l);
+      // Auto-expand the current module
+      setExpandedModules(prev => new Set(prev).add(m.id));
     }
   }, [moduleId, lessonId]);
 
