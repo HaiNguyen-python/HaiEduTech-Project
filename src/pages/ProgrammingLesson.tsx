@@ -42,7 +42,7 @@ const ProgrammingLessonPage = () => {
   const isSQL = mod?.id === "prog-sql";
 
   useEffect(() => {
-    const m = programmingModules.find(m => m.id === moduleId);
+    const m = allProgrammingModules.find(m => m.id === moduleId);
     if (m) {
       setMod(m);
       const l = lessonId ? m.lessons.find(l => l.id === lessonId) : m.lessons[0];
