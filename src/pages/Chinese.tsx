@@ -185,6 +185,31 @@ const Chinese = () => {
               {dictResult?.error && <p className="text-destructive text-sm">{t("Không tìm thấy từ này trong từ điển.", "Word not found in dictionary.")}</p>}
             </motion.div>
 
+            {/* Interactive Curriculum Modules */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="glass-card rounded-2xl p-8 mb-10">
+              <h2 className="text-2xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
+                <GraduationCap className="w-6 h-6 text-primary" />
+                {t("Hệ thống bài học tương tác", "Interactive Learning Modules")}
+              </h2>
+              <p className="text-muted-foreground mb-6">{t("Bài học chi tiết với lý thuyết, từ vựng, và bài tập tương tác (Fill-in-blank, Reorder, Dictation, Quiz).", "Detailed lessons with theory, vocabulary, and interactive exercises.")}</p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {allChineseModules.map((mod) => (
+                  <Link key={mod.id} to={`/chinese/learn/${mod.id}`}
+                    className={cn("rounded-xl p-5 bg-gradient-to-br transition-all cursor-pointer group hover:shadow-lg hover:scale-[1.02]", mod.color)}>
+                    <span className="text-3xl mb-3 block">{mod.icon}</span>
+                    <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{t(mod.title, mod.titleEn)}</h4>
+                    <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{t(mod.description, mod.descriptionEn)}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-background/50 border border-border text-muted-foreground uppercase tracking-wide">{mod.category}</span>
+                      <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
+                        {mod.lessons.length} {t("bài", "lessons")} <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+
             {/* Learning resources */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="glass-card rounded-2xl p-8">
               <h2 className="text-2xl font-display font-bold text-foreground mb-6">📚 {t("Tài liệu học tập", "Learning Resources")}</h2>
