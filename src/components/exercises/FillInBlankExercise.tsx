@@ -1,0 +1,154 @@
+// Interactive fill-in-the-blank exercise component
+import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { CheckCircle, XCircle, Lightbulb, RotateCcw } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+interface Sentence {
+  text: string;
+  textEn: string;
+  answer: string;
+  hint?: string;
+}
+
+interface Props {
+  instruction: string;
+  instructionEn: string;
+  sentences: Sentence[];
+}
+
+const FillInBlankExercise = ({ instruction, instructionEn, sentences }: Props) => {
+  const { t } = useLanguage();
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [showHints, setShowHints] = useState<Record<number, boolean>>({});
+
+  const handleChange = (idx: number, value: string) => {
+    if (submitted) return;
+    setAnswers(prev => ({ ...prev, [idx]: value }));
+  };
+
+  const handleSubmit = () => setSubmitted(true);
+
+  const handleReset = () => {
+    setAnswers({});
+    setSubmitted(false);
+    setShowHints({});
+  };
+
+  const toggleHint = (idx: number) => {
+    setShowHints(prev => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
+  const score = sentences.reduce(
+    (acc, s, i) => acc + (answers[i]?.trim().toLowerCase() === s.answer.toLowerCase() ? 1 : 0),
+    0
+  );
+
+  // Render sentence with blank replaced by input
+  const renderSentence = (s: Sentence, idx: number) => {
+    const parts = t(s.text, s.textEn).split("___");
+    const userAnswer = answers[idx] || "";
+    const isCorrect = userAnswer.trim().toLowerCase() === s.answer.toLowerCase();
+
+    return (
+      <motion.div
+        key={idx}
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: idx * 0.08 }}
+        className="glass-card rounded-xl p-4 space-y-2"
+      >
+        <div className="flex items-center gap-2 flex-wrap text-sm text-foreground leading-relaxed">
+          <span className="font-medium text-muted-foreground w-6">{idx + 1}.</span>
+          <span>{parts[0]}</span>
+          <div className="relative inline-flex items-center">
+            <input
+              type="text"
+              value={userAnswer}
+              onChange={(e) => handleChange(idx, e.target.value)}
+              disabled={submitted}
+              placeholder="..."
+              className={cn(
+                "w-36 px-3 py-1.5 rounded-lg border text-sm font-medium text-center transition-all outline-none",
+                submitted
+                  ? isCorrect
+                    ? "border-green-500 bg-green-500/10 text-green-700"
+                    : "border-destructive bg-destructive/10 text-destructive"
+                  : "border-border bg-background text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+              )}
+            />
+            {submitted && (
+              <span className="absolute -right-6">
+                {isCorrect ? (
+                  <CheckCircle className="w-4 h-4 text-green-500" />
+                ) : (
+                  <XCircle className="w-4 h-4 text-destructive" />
+                )}
+              </span>
+            )}
+          </div>
+          {parts[1] && <span>{parts[1]}</span>}
+        </div>
+
+        <div className="flex items-center gap-3 ml-8">
+          {s.hint && !submitted && (
+            <button
+              onClick={() => toggleHint(idx)}
+              className="text-xs text-primary hover:underline flex items-center gap-1"
+            >
+              <Lightbulb className="w-3 h-3" />
+              {showHints[idx] ? s.hint : t("Gợi ý", "Hint")}
+            </button>
+          )}
+          {submitted && !isCorrect && (
+            <span className="text-xs text-muted-foreground">
+              ✅ {t("Đáp án", "Answer")}: <span className="font-bold text-primary">{s.answer}</span>
+            </span>
+          )}
+        </div>
+      </motion.div>
+    );
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="font-semibold text-foreground flex items-center gap-2">
+          ✍️ {t(instruction, instructionEn)}
+        </h3>
+        {submitted && (
+          <div className="flex items-center gap-3">
+            <span className={cn(
+              "text-sm font-bold",
+              score === sentences.length ? "text-green-500" : score >= sentences.length / 2 ? "text-yellow-500" : "text-destructive"
+            )}>
+              {score}/{sentences.length} {t("đúng", "correct")}
+            </span>
+            <button onClick={handleReset} className="text-sm text-primary hover:underline flex items-center gap-1">
+              <RotateCcw className="w-3 h-3" /> {t("Làm lại", "Retry")}
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-3">
+        {sentences.map((s, i) => renderSentence(s, i))}
+      </div>
+
+      {!submitted && Object.keys(answers).length > 0 && (
+        <motion.button
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          onClick={handleSubmit}
+          className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
+        >
+          {t("Kiểm tra", "Check Answers")}
+        </motion.button>
+      )}
+    </div>
+  );
+};
+
+export default FillInBlankExercise;
