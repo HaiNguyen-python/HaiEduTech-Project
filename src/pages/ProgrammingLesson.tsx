@@ -315,7 +315,14 @@ const ProgrammingLessonPage = () => {
                       ))}
                     </div>
                     {!showResults && Object.keys(answers).length > 0 && (
-                      <button onClick={() => setShowResults(true)} className="mt-6 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97]">
+                      <button onClick={() => {
+                        setShowResults(true);
+                        // Track skill score
+                        if (mod) {
+                          const quizScore = lesson.quiz.reduce((acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0), 0);
+                          updateSkillScore(mod.id, quizScore, lesson.quiz.length);
+                        }
+                      }} className="mt-6 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97]">
                         {t("Nộp bài", "Submit")}
                       </button>
                     )}
