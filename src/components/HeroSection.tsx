@@ -65,7 +65,7 @@ const HeroSection = () => {
                 <span className="text-gradient">{t("Thầy Hải", "Teacher Hai")}</span>
               </h1>
 
-              <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed px-2 sm:px-0">
                 {t(
                   "Chinh phục Tiếng Anh, Tiếng Trung & Lập trình cùng thầy Hải – Thạc sỹ Ngôn ngữ & Văn hóa Anh – Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
                   "Master English, Chinese & Programming with Teacher Hai – M.A. in English Language & Culture – Data Engineer & AI specialist in Finland."
