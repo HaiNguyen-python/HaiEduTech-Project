@@ -1,12 +1,14 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle } from "lucide-react";
+import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle, Star, GraduationCap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import WordOfTheDay from "@/components/WordOfTheDay";
 import { englishResources } from "@/data/lessonData";
+import { allEnglishModules } from "@/data/languageCurriculum";
+import { cn } from "@/lib/utils";
 
 const English = () => {
   const { t } = useLanguage();
@@ -198,6 +200,31 @@ const English = () => {
                 </div>
               )}
               {dictResult?.error && <p className="text-destructive text-sm">{t("Không tìm thấy từ này.", "Word not found.")}</p>}
+            </motion.div>
+
+            {/* Interactive Curriculum Modules */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="glass-card rounded-2xl p-8 mb-10">
+              <h2 className="text-2xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
+                <GraduationCap className="w-6 h-6 text-primary" />
+                {t("Hệ thống bài học tương tác", "Interactive Learning Modules")}
+              </h2>
+              <p className="text-muted-foreground mb-6">{t("Bài học chi tiết với lý thuyết, từ vựng, và bài tập tương tác (Fill-in-blank, Reorder, Dictation, Quiz).", "Detailed lessons with theory, vocabulary, and interactive exercises.")}</p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {allEnglishModules.map((mod) => (
+                  <Link key={mod.id} to={`/english/learn/${mod.id}`}
+                    className={cn("rounded-xl p-5 bg-gradient-to-br transition-all cursor-pointer group hover:shadow-lg hover:scale-[1.02]", mod.color)}>
+                    <span className="text-3xl mb-3 block">{mod.icon}</span>
+                    <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{t(mod.title, mod.titleEn)}</h4>
+                    <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{t(mod.description, mod.descriptionEn)}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-background/50 border border-border text-muted-foreground uppercase tracking-wide">{mod.category}</span>
+                      <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
+                        {mod.lessons.length} {t("bài", "lessons")} <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </motion.div>
 
             {/* Learning resources */}

@@ -26,6 +26,7 @@ import GeneratedLessonView from "./pages/GeneratedLessonView.tsx";
 import PythonChallengeList from "./pages/PythonChallengeList.tsx";
 import PythonChallengePage from "./pages/PythonChallenge.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import LanguageLessonView from "./pages/LanguageLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
 const queryClient = new QueryClient();
@@ -42,8 +43,12 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/english" element={<English />} />
             <Route path="/english/:courseId" element={<EnglishCourse />} />
+            <Route path="/english/learn/:moduleId" element={<LanguageLessonView />} />
+            <Route path="/english/learn/:moduleId/:lessonId" element={<LanguageLessonView />} />
             <Route path="/chinese" element={<Chinese />} />
             <Route path="/chinese/:courseId" element={<ChineseCourse />} />
+            <Route path="/chinese/learn/:moduleId" element={<LanguageLessonView />} />
+            <Route path="/chinese/learn/:moduleId/:lessonId" element={<LanguageLessonView />} />
             <Route path="/programming" element={<Programming />} />
             <Route path="/programming/:moduleId" element={<ProgrammingLesson />} />
             <Route path="/programming/:moduleId/:lessonId" element={<ProgrammingLesson />} />
