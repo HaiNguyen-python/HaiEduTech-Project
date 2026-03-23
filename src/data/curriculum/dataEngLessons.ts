@@ -367,19 +367,19 @@ for s in sales_data:
     key = (s["product"], s["region"])
     annual[key] = annual.get(key, 0) + s["revenue"]
 for (p, r), rev in sorted(annual.items()):
-    print(f"  {p:>8} | {r:>6} | ${rev:>8,}")
+    print(f"  {p:>8} | {r:>6} | \${rev:>8,}")
 
 # Drill-down: By product
 print("\\n🔍 DRILL-DOWN (Product: Laptop by quarter)")
 for s in sales_data:
     if s["product"] == "Laptop" and s["region"] == "North":
-        print(f"  {s['quarter']}: ${s['revenue']:,} ({s['units']} units)")
+        print(f"  {s['quarter']}: \${s['revenue']:,} ({s['units']} units)")
 
 # Slice: Only Q1
 print("\\n🔪 SLICE (Only Q1)")
 q1 = [s for s in sales_data if s["quarter"] == "Q1"]
 for s in q1:
-    print(f"  {s['product']:>8} | {s['region']:>6} | ${s['revenue']:>8,}")`,
+    print(f"  {s['product']:>8} | {s['region']:>6} | \${s['revenue']:>8,}")`,
         codeLanguage: "python",
         exercise: "Implement PIVOT operation: chuyển đổi dữ liệu từ dạng dài (rows) sang dạng rộng (columns).",
         exerciseEn: "Implement PIVOT: transform data from long format (rows) to wide format (columns).",
@@ -664,7 +664,7 @@ def estimate_cost(storage_gb, queries_tb, compute_hours):
     }
     print(f"\\n💰 Cost Estimate ({storage_gb}GB, {queries_tb}TB queries, {compute_hours}h compute):")
     for provider, cost in costs.items():
-        print(f"  {provider}: ${cost:.2f}/month")
+        print(f"  {provider}: \${cost:.2f}/month")
     cheapest = min(costs, key=costs.get)
     print(f"  ✅ Cheapest: {cheapest}")
 

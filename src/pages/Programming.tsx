@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import PythonReview from "@/components/PythonReview";
-import { programmingModules } from "@/data/programmingLessonData";
+import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
 
@@ -76,32 +76,32 @@ const Programming = () => {
       title: "Python", titleEn: "Python",
       desc: "Từ tư duy thuật toán cơ bản (Scratch) đến Python nâng cao, cấu trúc dữ liệu và dự án thực tế. Bao gồm 150 thử thách lập trình với IDE tích hợp.",
       descEn: "From basic algorithmic thinking (Scratch) to advanced Python, data structures and real projects. Includes 150 coding challenges with built-in IDE.",
-      modules: programmingModules.filter(m => m.course === "kids"),
+      modules: allProgrammingModules.filter(m => m.course === "kids"),
       challengeSection: true,
     },
     "ai-foundation": {
       title: "AI Foundation", titleEn: "AI Foundation",
       desc: "Nền tảng AI: Lịch sử, LLMs, Prompt Engineering, Ethics. Thực hành tối ưu hóa Prompt và xây dựng ứng dụng AI cơ bản.",
       descEn: "AI Fundamentals: History, LLMs, Prompt Engineering, Ethics. Practice Prompt optimization and build basic AI applications.",
-      modules: programmingModules.filter(m => m.id === "prog-ai-foundation"),
+      modules: allProgrammingModules.filter(m => m.id === "prog-ai-foundation" || m.course === "data-ai"),
     },
     sql: {
       title: "SQL & Database", titleEn: "SQL & Database",
       desc: "Nắm vững truy vấn, thiết kế cơ sở dữ liệu, JOIN, indexing và tối ưu hóa với PostgreSQL.",
       descEn: "Master queries, database design, JOINs, indexing and optimization with PostgreSQL.",
-      modules: programmingModules.filter(m => m.id === "prog-sql"),
+      modules: allProgrammingModules.filter(m => m.id === "prog-sql" || m.course === "sql"),
     },
     "data-eng": {
       title: "Data Engineering", titleEn: "Data Engineering",
       desc: "Xây dựng đường ống dữ liệu (ETL/ELT), xử lý dữ liệu lớn với Pandas và tự động hóa workflow.",
       descEn: "Build data pipelines (ETL/ELT), process big data with Pandas and automate workflows.",
-      modules: programmingModules.filter(m => m.id === "prog-data-pipeline"),
+      modules: allProgrammingModules.filter(m => m.id === "prog-data-pipeline" || m.course === "data-eng"),
     },
     ml: {
       title: "Machine Learning", titleEn: "Machine Learning",
       desc: "Regression, Classification, Clustering và các mô hình AI cơ bản với scikit-learn.",
       descEn: "Regression, Classification, Clustering and basic AI models with scikit-learn.",
-      modules: programmingModules.filter(m => m.id === "prog-ml"),
+      modules: allProgrammingModules.filter(m => m.id === "prog-ml" || m.course === "ml"),
     },
   };
 

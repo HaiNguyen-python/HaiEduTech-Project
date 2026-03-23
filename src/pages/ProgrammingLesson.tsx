@@ -9,7 +9,11 @@ import {
   PanelRightClose, PanelRightOpen
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { programmingModules, type ProgrammingModule, type ProgrammingLesson as PLType } from "@/data/programmingLessonData";
+import { allProgrammingModules, type ProgrammingModule, type ProgrammingLesson as PLType } from "@/data/programmingLessonData";
+import { updateSkillScore } from "@/components/SkillRadarChart";
+import SkillRadarChart from "@/components/SkillRadarChart";
+import LearningRecommendation from "@/components/LearningRecommendation";
+import { expandedModules } from "@/data/curriculum";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
@@ -38,7 +42,7 @@ const ProgrammingLessonPage = () => {
   const isSQL = mod?.id === "prog-sql";
 
   useEffect(() => {
-    const m = programmingModules.find(m => m.id === moduleId);
+    const m = allProgrammingModules.find(m => m.id === moduleId);
     if (m) {
       setMod(m);
       const l = lessonId ? m.lessons.find(l => l.id === lessonId) : m.lessons[0];
@@ -311,7 +315,14 @@ const ProgrammingLessonPage = () => {
                       ))}
                     </div>
                     {!showResults && Object.keys(answers).length > 0 && (
-                      <button onClick={() => setShowResults(true)} className="mt-6 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97]">
+                      <button onClick={() => {
+                        setShowResults(true);
+                        // Track skill score
+                        if (mod) {
+                          const quizScore = lesson.quiz.reduce((acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0), 0);
+                          updateSkillScore(mod.id, quizScore, lesson.quiz.length);
+                        }
+                      }} className="mt-6 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97]">
                         {t("Nộp bài", "Submit")}
                       </button>
                     )}
@@ -459,6 +470,17 @@ const ProgrammingLessonPage = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
+
+                  {/* Skill Radar & Recommendation */}
+                  {showResults && mod && (
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <SkillRadarChart pillarId={mod.course === "kids" ? "python" : mod.course === "data-ai" ? "ai-foundation" : mod.course} />
+                      <LearningRecommendation
+                        modules={expandedModules as unknown as ProgrammingModule[]}
+                        currentModuleId={mod.id}
+                      />
+                    </div>
+                  )}
                 </motion.div>
               </div>
             </div>
