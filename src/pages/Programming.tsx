@@ -249,7 +249,7 @@ const Programming = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="font-display font-semibold text-foreground text-sm group-hover:text-primary transition-colors truncate">
-                              {t(mod.title, mod.titleEn)}
+                              {mod.titleEn}
                             </h3>
                             <span className="text-xs text-muted-foreground">
                               {mod.lessons.length} {t("bài học", "lessons")}
