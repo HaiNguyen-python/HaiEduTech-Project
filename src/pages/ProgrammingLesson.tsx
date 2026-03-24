@@ -369,7 +369,7 @@ const ProgrammingLessonPage = () => {
                   {/* Quiz */}
                   <div className="glass-card rounded-xl p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h2 className="font-semibold text-foreground">✏️ {t("Kiểm tra kiến thức", "Knowledge Check")}</h2>
+                      <h2 className="font-semibold text-foreground">✏️ Knowledge Check</h2>
                       {showResults && (
                         <div className="flex items-center gap-3">
                           <span className={`text-sm font-bold ${score === lesson.quiz.length ? 'text-green-500' : score >= lesson.quiz.length / 2 ? 'text-yellow-500' : 'text-destructive'}`}>
