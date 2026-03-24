@@ -307,7 +307,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe the first half of the process.',
       'Body 2: Describe the second half of the process.',
     ],
-    vocabularyBank: ['the process begins with', 'subsequently', 'following this', 'at the next stage', 'the final step involves', 'are then transported to', 'is converted into', 'the cycle repeats'],
+    vocabularyBank: ['the process begins with (quy trình bắt đầu với)', 'subsequently (sau đó)', 'following this (tiếp theo)', 'at the next stage (ở giai đoạn tiếp theo)', 'the final step involves (bước cuối cùng bao gồm)', 'are then transported to (sau đó được vận chuyển đến)', 'is converted into (được chuyển đổi thành)', 'the cycle repeats (chu trình lặp lại)'],
     brainstormingIdeas: ['8-step cyclical process.', 'Starts with collection, ends with redistribution.', 'Key transformation: shredding and melting.', 'Note passive voice usage for describing processes.'],
   },
   // More Task 1 prompts
