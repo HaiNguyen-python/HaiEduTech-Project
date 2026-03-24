@@ -262,7 +262,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe the 2000 distribution.',
       'Body 2: Describe the 2020 distribution and key changes.',
     ],
-    vocabularyBank: ['accounted for', 'comprised', 'the largest proportion', 'a notable shift', 'declined from…to…', 'doubled', 'renewable sources', 'fossil fuels'],
+    vocabularyBank: ['accounted for (chiếm)', 'comprised (bao gồm)', 'the largest proportion (tỷ lệ lớn nhất)', 'a notable shift (sự thay đổi đáng kể)', 'declined from…to… (giảm từ…xuống…)', 'doubled (tăng gấp đôi)', 'renewable sources (nguồn tái tạo)', 'fossil fuels (nhiên liệu hóa thạch)'],
     brainstormingIdeas: ['Coal dominant in 2000, renewables in 2020.', 'Oil decreased significantly.', 'Nuclear share doubled but remained small.', 'Overall shift from fossil fuels to clean energy.'],
   },
   {
