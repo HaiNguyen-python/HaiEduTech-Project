@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LessonFeedback from "@/components/LessonFeedback";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, Loader2, BookOpen, GraduationCap, Sparkles, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
