@@ -1787,7 +1787,7 @@ print("🤖 Building Production Chatbot")
 print("=" * 50)
 
 bot = ProductionChatbot(
-    name="HaiEdu Tutor",
+    name="HaiEduTech Tutor",
     system_prompt="You are a helpful Vietnamese education tutor."
 )
 
@@ -1811,7 +1811,7 @@ for msg in messages:
 
 print(f"\\n📊 Stats: {bot.get_stats()}")`,
         codeLanguage: "python",
-        exercise: "Hoàn thiện chatbot trên: (1) Thêm SQLite lưu conversations, (2) Implement streaming giả lập (in từng ký tự), (3) Thêm tool 'search_lessons' tìm bài học trong HaiEdu, (4) Viết unit tests.",
+        exercise: "Hoàn thiện chatbot trên: (1) Thêm SQLite lưu conversations, (2) Implement streaming giả lập (in từng ký tự), (3) Thêm tool 'search_lessons' tìm bài học trong HaiEduTech, (4) Viết unit tests.",
         exerciseEn: "Complete the chatbot: (1) Add SQLite to save conversations, (2) Implement simulated streaming (print char by char), (3) Add 'search_lessons' tool, (4) Write unit tests.",
         quiz: [
           { question: "Rate limiting trong chatbot dùng để làm gì?", options: ["Tăng tốc xử lý", "Giới hạn số request để tránh lạm dụng", "Cải thiện chất lượng", "Lưu dữ liệu"], answer: 1, explanation: "Rate limiting giới hạn số request/phút để tránh abuse, bảo vệ API key và quản lý chi phí." },

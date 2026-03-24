@@ -8,7 +8,7 @@ const topics = [
     titleVi: "Biến và Kiểu dữ liệu",
     titleEn: "Variables & Data Types",
     code: `# Variables & Data Types
-name = "HaiEdu"          # str
+name = "HaiEduTech"          # str
 age = 25                  # int
 gpa = 3.85                # float
 is_student = True         # bool
