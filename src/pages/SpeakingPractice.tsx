@@ -471,24 +471,34 @@ const SpeakingPractice = () => {
                         </TabsContent>
 
                         <TabsContent value="structures" className="mt-4">
-                          <div className="space-y-2">
-                            {currentQ.useful_language.model_structures.map((s, i) => (
-                              <div key={i} className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200/30">
-                                <p className="text-sm text-foreground italic">"{s}"</p>
-                              </div>
-                            ))}
-                          </div>
+                          <ScrollArea className="h-[320px]">
+                            <div className="space-y-2 pr-2">
+                              {mergedStructures.map((s, i) => (
+                                <div key={i} className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200/30">
+                                  <p className="text-sm text-foreground italic">"{s}"</p>
+                                </div>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                          <p className="text-[10px] text-muted-foreground mt-2 text-center">
+                            {mergedStructures.length} structures available for this topic
+                          </p>
                         </TabsContent>
 
                         <TabsContent value="ideas" className="mt-4">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {currentQ.useful_language.brainstorming_ideas.map((idea, i) => (
-                              <div key={i} className="flex items-start gap-2 p-2">
-                                <span className="text-primary font-bold text-sm">💡</span>
-                                <p className="text-sm text-muted-foreground">{idea}</p>
-                              </div>
-                            ))}
-                          </div>
+                          <ScrollArea className="h-[320px]">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pr-2">
+                              {mergedIdeas.map((idea, i) => (
+                                <div key={i} className="flex items-start gap-2 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+                                  <span className="text-primary font-bold text-sm shrink-0">💡</span>
+                                  <p className="text-sm text-foreground">{idea}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                          <p className="text-[10px] text-muted-foreground mt-2 text-center">
+                            {mergedIdeas.length} ideas available for this topic
+                          </p>
                         </TabsContent>
                       </Tabs>
                     </CardContent>
