@@ -515,14 +515,15 @@ const IeltsWritingPractice = () => {
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <CardContent>
-                      <ul className="space-y-2 text-sm">
+                      {/* Two-column layout to save space */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
                         {currentPrompt.brainstormingIdeas.map((idea, i) => (
-                          <li key={i} className="flex gap-2 items-start">
-                            <span className="text-primary">•</span>
+                          <div key={i} className="flex gap-2 items-start">
+                            <span className="text-primary font-bold shrink-0">{i + 1}.</span>
                             <span>{idea}</span>
-                          </li>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </CardContent>
                   </CollapsibleContent>
                 </Card>
