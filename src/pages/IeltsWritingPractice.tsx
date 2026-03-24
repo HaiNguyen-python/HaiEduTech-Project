@@ -44,6 +44,7 @@ const TASK2_TIME = 40 * 60; // 40 minutes
 
 const IeltsWritingPractice = () => {
   const { t } = useLanguage();
+  const { isTeacher } = useUserRole();
 
   // Prompt state
   const [taskType, setTaskType] = useState<1 | 2>(2);
