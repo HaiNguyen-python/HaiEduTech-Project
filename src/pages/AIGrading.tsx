@@ -200,7 +200,8 @@ ${result.errors.map(e => `
               </a>
             </div>
 
-              <button
+            <div className="flex gap-3 mb-8">
+
                 onClick={() => setMode("writing")}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl text-base font-semibold transition-all ${
                   mode === "writing" ? "bg-primary text-primary-foreground shadow-lg" : "bg-secondary text-secondary-foreground hover:bg-primary/10"
