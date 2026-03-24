@@ -9,7 +9,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import teacherLogo from "@/assets/teacher-logo.png";
-import TechTeacherIcon from "@/components/TechTeacherIcon";
+import teacherTechIcon from "@/assets/teacher-tech-icon.png";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -104,8 +104,24 @@ const Navbar = () => {
           <div className="flex flex-col md:flex-row md:items-center md:h-12">
             {/* Row 1a: Logo + hamburger (mobile) or Logo + slogan + auth (desktop) */}
             <div className="flex items-center justify-between h-12 md:flex-1 min-w-0">
-              <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
-                <TechTeacherIcon size={36} />
+              <Link to="/" className="flex items-center gap-2 shrink-0 group">
+                {/* Teacher-Tech mascot with timed wave animation: 3s wave, 7s pause */}
+                <motion.img
+                  src={teacherTechIcon}
+                  alt="HaiEduTech Teacher"
+                  className="w-9 h-9 rounded-lg object-cover"
+                  animate={{
+                    rotate: [0, 1.5, -1.5, 1, -1, 0.5, 0],
+                    scale: [1, 1.02, 1, 1.02, 1],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatDelay: 7,
+                    ease: "easeInOut",
+                  }}
+                  whileHover={{ scale: 1.08 }}
+                />
                 <motion.span
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
