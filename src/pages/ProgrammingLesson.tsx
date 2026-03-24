@@ -202,7 +202,7 @@ const ProgrammingLessonPage = () => {
                   className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border border-border hover:bg-secondary transition-colors active:scale-[0.97]"
                 >
                   {showIDE ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
-                  {showIDE ? t("Ẩn IDE", "Hide IDE") : t("Mở IDE", "Show IDE")}
+                  {showIDE ? "Hide IDE" : "Show IDE"}
                 </button>
               )}
             </div>
