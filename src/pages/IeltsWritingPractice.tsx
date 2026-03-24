@@ -613,7 +613,7 @@ const IeltsWritingPractice = () => {
               {/* Cambridge Dictionary Tab */}
               <TabsContent value="dictionary" className="space-y-3">
                 <p className="text-sm text-muted-foreground">
-                  {t("Tra cứu từ điển Cambridge - định nghĩa, phát âm và ví dụ.", "Look up Cambridge Dictionary - definitions, pronunciation and examples.")}
+                  {t("Tra cứu định nghĩa, phát âm và ví dụ ngay tại đây.", "Look up definitions, pronunciation and examples right here.")}
                 </p>
                 <div className="flex gap-2">
                   <Input
@@ -621,30 +621,66 @@ const IeltsWritingPractice = () => {
                     onChange={(e) => setDictSearchWord(e.target.value)}
                     placeholder={t("Nhập từ cần tra...", "Enter a word...")}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && dictSearchWord.trim()) {
-                        window.open(`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase()}`, "_blank");
-                      }
+                      if (e.key === "Enter") handleDictLookup(dictSearchWord);
                     }}
                   />
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      if (dictSearchWord.trim()) {
-                        window.open(`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase()}`, "_blank");
-                      }
-                    }}
-                  >
-                    <Search className="w-4 h-4" />
+                  <Button size="sm" onClick={() => handleDictLookup(dictSearchWord)} disabled={dictLoading}>
+                    {dictLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                   </Button>
                 </div>
+                {/* Inline dictionary results */}
+                {dictResult && !dictResult.error && (
+                  <div className="rounded-lg border bg-card p-3 space-y-2 max-h-[400px] overflow-y-auto">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-semibold text-foreground text-base">{dictResult.word}</h4>
+                      {dictResult.phonetic && (
+                        <span className="text-xs text-muted-foreground">{dictResult.phonetic}</span>
+                      )}
+                      {dictResult.phonetics?.find((p: any) => p.audio) && (
+                        <button
+                          onClick={() => {
+                            const audio = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio);
+                            audio.play();
+                          }}
+                          className="text-primary hover:text-primary/80"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                    {dictResult.meanings?.map((meaning: any, idx: number) => (
+                      <div key={idx} className="space-y-1">
+                        <span className="text-xs font-medium text-primary italic">{meaning.partOfSpeech}</span>
+                        {meaning.definitions?.slice(0, 3).map((def: any, dIdx: number) => (
+                          <div key={dIdx} className="pl-2 border-l-2 border-primary/20">
+                            <p className="text-sm text-foreground">{dIdx + 1}. {def.definition}</p>
+                            {def.example && (
+                              <p className="text-xs text-muted-foreground italic ml-2">"{def.example}"</p>
+                            )}
+                          </div>
+                        ))}
+                        {meaning.synonyms?.length > 0 && (
+                          <p className="text-xs text-muted-foreground">
+                            <strong>Synonyms:</strong> {meaning.synonyms.slice(0, 5).join(", ")}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {dictResult?.error && (
+                  <div className="rounded-lg border bg-muted/50 p-3 text-sm text-muted-foreground text-center">
+                    {t("Không tìm thấy từ này. Hãy thử từ khác.", "Word not found. Try another word.")}
+                  </div>
+                )}
                 <a
-                  href="https://dictionary.cambridge.org/"
+                  href={`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase() || ""}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-primary hover:underline"
+                  className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary hover:underline"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  {t("Mở Cambridge Dictionary", "Open Cambridge Dictionary")}
+                  <ExternalLink className="w-3 h-3" />
+                  {t("Xem thêm trên Cambridge Dictionary", "See more on Cambridge Dictionary")}
                 </a>
               </TabsContent>
 
