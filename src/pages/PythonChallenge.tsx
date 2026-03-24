@@ -78,7 +78,7 @@ const PythonChallengePage = () => {
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
-                        <Flame className="w-3 h-3 text-orange-500" /> {t("Tiến độ", "Progress")}
+                        <Flame className="w-3 h-3 text-orange-500" /> Progress
                       </span>
                       <span className="text-xs font-bold text-primary">{completedCount}/{pythonChallenges.length}</span>
                     </div>
