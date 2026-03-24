@@ -20,6 +20,16 @@ interface Stats {
   programmingLessons: number;
 }
 
+interface FeedbackStat {
+  lesson_id: string;
+  lesson_type: string;
+  subject: string;
+  likes: number;
+  dislikes: number;
+  total: number;
+  ratio: number;
+}
+
 const TeacherDashboard = () => {
   const { t } = useLanguage();
   const { user, isTeacher, loading: roleLoading } = useUserRole();
