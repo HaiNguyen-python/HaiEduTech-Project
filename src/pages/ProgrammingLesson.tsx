@@ -292,7 +292,7 @@ const ProgrammingLessonPage = () => {
                   <a href="https://trinket.io/python" target="_blank" rel="noopener noreferrer"
                     className="w-full mt-2 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-green-500/30 text-green-600 text-sm font-medium hover:bg-green-500/5 transition-all">
                     <Play className="w-4 h-4" />
-                    {t("Chạy thử Code", "Run Code Online")}
+                    Run Code Online
                   </a>
                 </div>
               </div>
