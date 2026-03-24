@@ -689,7 +689,7 @@ const IeltsWritingPractice = () => {
               variant="default"
             >
               <BookMarked className="w-5 h-5" />
-              <span className="hidden sm:inline text-sm font-medium">{t("Tra cứu", "Lookup")}</span>
+              <span className="hidden sm:inline text-sm font-medium">{t("Siêu từ điển", "Your Super Dictionary")}</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-[400px] sm:w-[450px] overflow-y-auto">
