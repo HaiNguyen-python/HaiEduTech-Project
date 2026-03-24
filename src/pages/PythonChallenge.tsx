@@ -125,7 +125,7 @@ const PythonChallengePage = () => {
                         </span>
                         <div>
                           <h1 className="text-xl font-bold text-foreground leading-tight">
-                            #{challenge.number}: {t(challenge.titleVi, challenge.title)}
+                            #{challenge.number}: {challenge.title}
                           </h1>
                           <div className="flex items-center gap-2 mt-1">
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${difficultyColors[challenge.difficulty]}`}>
