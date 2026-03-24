@@ -75,7 +75,7 @@ const AIGrading = () => {
     const html = `
 <!DOCTYPE html>
 <html><head><meta charset="utf-8">
-<title>IELTS Writing Report - HaiEdu</title>
+<title>IELTS Writing Report - HaiEduTech</title>
 <style>
   body { font-family: Georgia, serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #1a1a1a; }
   h1 { color: #0d7377; border-bottom: 3px solid #0d7377; padding-bottom: 10px; }
