@@ -547,7 +547,7 @@ const IeltsWritingPractice = () => {
         <Sheet>
           <SheetTrigger asChild>
             <Button
-              className="fixed bottom-6 right-6 z-40 rounded-full shadow-lg px-4 h-12 gap-2"
+              className="fixed bottom-6 left-6 z-40 rounded-full shadow-lg px-4 h-12 gap-2"
               variant="default"
             >
               <BookMarked className="w-5 h-5" />
