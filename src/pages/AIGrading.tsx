@@ -184,7 +184,22 @@ ${result.errors.map(e => `
               )}
             </p>
 
-            <div className="flex gap-3 mb-8">
+            {/* Link to Writing Practice */}
+            <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <Sparkles className="w-5 h-5 text-primary shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-foreground">
+                  {t("Muốn luyện viết với đề bài + hướng dẫn chi tiết?", "Want guided writing practice with prompts & vocabulary?")}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {t("Thử tính năng Luyện viết IELTS mới với AI tạo đề, hướng dẫn từng bước và bộ từ vựng.", "Try the new IELTS Writing Practice with AI-generated prompts, step-by-step guides, and vocabulary banks.")}
+                </p>
+              </div>
+              <a href="/ielts-writing-practice" className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shrink-0">
+                {t("Luyện viết ngay", "Start Practice")} →
+              </a>
+            </div>
+
               <button
                 onClick={() => setMode("writing")}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl text-base font-semibold transition-all ${
