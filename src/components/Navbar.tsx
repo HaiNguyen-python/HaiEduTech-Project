@@ -57,6 +57,7 @@ const Navbar = () => {
     { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
     { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
     { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
+    { to: "/ielts-speaking-practice", label: t("Luyện nói", "Speaking Practice"), icon: MessageSquare },
     { to: "/ai-grading", label: t("Chấm điểm", "Grading Portal"), icon: Cpu },
   ];
 
