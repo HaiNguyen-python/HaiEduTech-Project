@@ -211,7 +211,7 @@ sys.stderr = io.StringIO()
             className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 active:scale-[0.97] transition-all disabled:opacity-50"
           >
             {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            {t("Hỏi AI tại sao lỗi", "Ask AI why error")}
+            Ask AI why error
           </button>
         )}
       </div>
