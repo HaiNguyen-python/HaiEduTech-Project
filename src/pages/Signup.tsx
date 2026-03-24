@@ -87,7 +87,7 @@ const Signup = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full pl-11 pr-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none"
-                    placeholder="student@haiedu.com"
+                    placeholder="student@haiedutech.com"
                     required
                   />
                 </div>

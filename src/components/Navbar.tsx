@@ -182,9 +182,9 @@ const Navbar = () => {
             {/* Show logo in nav row when scrolled */}
             {scrolled && (
               <Link to="/" className="flex items-center gap-2 mr-4 pr-4 border-r border-border/50">
-                <img src={teacherLogo} alt="HaiEdu" className="w-7 h-7 rounded-md object-cover" />
+                <img src={teacherLogo} alt="HaiEduTech" className="w-7 h-7 rounded-md object-cover" />
                 <span className="font-display font-bold text-sm text-foreground">
-                  Hai<span className="text-primary">Edu</span>
+                  Hai<span className="text-primary">Edu</span><span className="text-muted-foreground text-xs font-normal">Tech</span>
                 </span>
               </Link>
             )}

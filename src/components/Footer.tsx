@@ -14,7 +14,7 @@ const Footer = () => {
               <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center">
                 <Brain className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-display font-bold text-foreground">HaiEdu</span>
+              <span className="font-display font-bold text-foreground">HaiEduTech</span>
             </div>
             <p className="text-sm text-muted-foreground">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</p>
           </div>

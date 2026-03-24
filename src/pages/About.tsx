@@ -47,8 +47,8 @@ const About = () => {
             <div className="text-secondary-foreground mb-8 space-y-4 text-[15px] leading-relaxed">
               <p>
                 {t(
-                  "Chào bạn, thầy là Hai Nguyen – Founder của HaiEdu.",
-                  "Hi, I'm Hai Nguyen – Founder of HaiEdu."
+                  "Chào bạn, thầy là Hai Nguyen – Founder của HaiEduTech.",
+                  "Hi, I'm Hai Nguyen – Founder of HaiEduTech."
                 )}
               </p>
               <p>
