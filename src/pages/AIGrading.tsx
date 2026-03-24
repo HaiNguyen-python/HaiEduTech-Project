@@ -171,7 +171,7 @@ ${result.errors.map(e => `
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-semibold mb-4">
-              <Brain className="w-4 h-4" /> {t("Hỗ trợ bởi AI", "AI-Powered")}
+              <Brain className="w-4 h-4" /> {t("Hệ thống chấm điểm", "Expert Scoring System")}
             </div>
             <h1 className="text-5xl font-display font-bold mb-4 text-foreground">
               Smart{" "}
