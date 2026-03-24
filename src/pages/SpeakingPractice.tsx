@@ -697,7 +697,7 @@ const SpeakingPractice = () => {
                         </h4>
                         <div className="space-y-2">
                           {result.suggestions.map((s, i) => (
-                            <p key={i} className="text-xs text-muted-foreground flex items-start gap-2">
+                            <p key={i} className="text-sm text-foreground flex items-start gap-2">
                               <span className="text-primary font-bold mt-0.5">✓</span> {s}
                             </p>
                           ))}

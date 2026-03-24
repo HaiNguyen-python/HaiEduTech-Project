@@ -274,7 +274,7 @@ const SpeakingGrader = () => {
           )}
 
           {result && !loading && (
-            <div className="space-y-6 overflow-y-auto max-h-[800px]">
+            <div className="space-y-6 overflow-y-auto max-h-[calc(100vh-200px)]">
               {/* Overall */}
               <div className="bg-secondary rounded-2xl p-6 text-center">
                 <span className="text-lg text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
