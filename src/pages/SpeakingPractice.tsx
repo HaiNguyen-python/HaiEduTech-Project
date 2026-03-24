@@ -3,7 +3,8 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp,
-  BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award
+  BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
+  Users, MapPin, Package, Calendar, Sparkles
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -14,11 +15,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
   speakingPracticeData,
   getTopicsByPart,
   type SpeakingPracticeQuestion,
-  type VocabItem,
 } from "@/data/speakingPracticeData";
 
 // Grading result interfaces
@@ -32,6 +33,35 @@ interface SpeakingResult {
   vocabularyUpgrades?: VocabUpgrade[];
   pronunciationFocus?: PronFocus[];
 }
+
+// Part 2 category grouping
+const PART2_CATEGORIES: Record<string, { label: string; icon: React.ReactNode; topics: string[] }> = {
+  people: {
+    label: "People",
+    icon: <Users className="w-4 h-4" />,
+    topics: ["A Person You Admire", "A Creative Person", "A Teacher You Remember", "A Helpful Person", "An Old Person You Respect", "A Friend You Admire", "A Neighbor You Know", "A Punctual Person", "A Childhood Friend", "A Local Hero"],
+  },
+  places: {
+    label: "Places",
+    icon: <MapPin className="w-4 h-4" />,
+    topics: ["A Place You Like to Visit", "A Beautiful Place", "A Crowded Place", "A Quiet Place", "A Place Where You Study", "A Famous Landmark", "A Street Market", "A Noisy Place", "A National Park"],
+  },
+  objects: {
+    label: "Objects & Things",
+    icon: <Package className="w-4 h-4" />,
+    topics: ["A Book You Enjoyed", "A Piece of Technology", "A Gift You Received", "A Photo You Like", "A Piece of Music", "A Piece of Art", "A Website You Use", "A Smart Phone App", "A Childhood Toy", "A Handmade Gift", "A Uniform or Dress Code", "A Song You Know by Heart"],
+  },
+  events: {
+    label: "Events & Experiences",
+    icon: <Calendar className="w-4 h-4" />,
+    topics: ["A Memorable Trip", "A Festival or Celebration", "A Sports Event", "A Childhood Memory", "A Movie You Enjoyed", "An Interesting Conversation", "A Difficult Challenge", "A Historical Event", "A Change in Your Life", "An Exciting Activity", "A Tradition in Your Family", "A Time You Helped Someone", "A Time You Were Late", "A Time You Were Proud", "A Boring Activity", "A Wedding You Attended", "A Rainy Day Memory", "A Competition", "A Volunteering Experience", "A Misunderstanding", "A Disappointing Experience", "A Time You Got Lost", "A Perfect Weekend", "A Party You Organized", "A Time You Changed Your Mind", "A Childhood Punishment", "A Cultural Show", "A Free Day"],
+  },
+  skills: {
+    label: "Skills, Decisions & Ideas",
+    icon: <Sparkles className="w-4 h-4" />,
+    topics: ["A Skill You Learned", "An Important Decision", "A Goal You Want to Achieve", "A Healthy Habit", "A Job You Would Like", "A Risk You Took", "An Invention", "A Piece of Advice", "An Ambition You Have", "A Rule You Disagree With", "A Foreign Culture", "A Language You Want to Learn", "A Problem You Solved", "A News Story", "A New Development", "A Learning Experience", "An Outdoor Activity", "A Podcast or Radio Show", "A Social Media Experience", "A Long Walk", "A Childhood Game", "An Unusual Job", "A Difficult Subject", "A Positive Change in Society", "A Meaningful Song", "A Successful Business", "A Fitness Goal", "A Public Transport Journey", "A Dream You Had", "A TV Program", "A Meal You Cooked", "A Building You Like", "A Local Business", "An Animal You Like", "A Surprise You Received", "A Museum or Gallery", "A Foreign Dish", "An Important River or Lake", "An Environmental Problem"],
+  },
+};
 
 const SpeakingPractice = () => {
   const { t } = useLanguage();
@@ -101,7 +131,7 @@ const SpeakingPractice = () => {
       setIsRecording(true);
       setResult(null);
       setTimer(0);
-      setShowSuggestions(false); // Minimize suggestions during recording
+      setShowSuggestions(false);
       timerRef.current = setInterval(() => setTimer((t) => t + 1), 1000);
     } catch {
       alert(t("Vui lòng cho phép truy cập microphone", "Please allow microphone access"));
@@ -167,15 +197,66 @@ const SpeakingPractice = () => {
     return "text-destructive";
   };
 
-  // Render model answer with bold keywords
+  // Render model answer with bold keywords highlighted
   const renderModelAnswer = (text: string) => {
     const parts = text.split(/(\*\*[^*]+\*\*)/g);
     return parts.map((part, i) => {
       if (part.startsWith("**") && part.endsWith("**")) {
-        return <strong key={i} className="text-primary font-bold">{part.slice(2, -2)}</strong>;
+        const word = part.slice(2, -2);
+        // Check if the word matches any suggested vocabulary
+        const isInSuggestions = currentQ?.useful_language.vocabulary_bank.some(
+          v => v.phrase.toLowerCase() === word.toLowerCase() || word.toLowerCase().includes(v.phrase.toLowerCase().split(" ")[0])
+        );
+        return (
+          <strong
+            key={i}
+            className={`font-bold ${isInSuggestions ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-1 rounded" : "text-primary"}`}
+            title={isInSuggestions ? "✓ From Useful Language suggestions" : ""}
+          >
+            {word}
+          </strong>
+        );
       }
       return <span key={i}>{part}</span>;
     });
+  };
+
+  // Render Part 2 topics grouped by category
+  const renderPart2Categories = () => {
+    return (
+      <Accordion type="multiple" defaultValue={["people", "events"]} className="w-full">
+        {Object.entries(PART2_CATEGORIES).map(([key, cat]) => {
+          // Filter to only show categories that have matching topics in current data
+          const matchingTopics = cat.topics.filter(t => topics.includes(t));
+          if (matchingTopics.length === 0) return null;
+          return (
+            <AccordionItem key={key} value={key} className="border-b-0 mb-1">
+              <AccordionTrigger className="py-2 px-3 rounded-lg hover:bg-secondary hover:no-underline text-sm">
+                <span className="flex items-center gap-2">
+                  {cat.icon}
+                  <span className="font-semibold">{cat.label}</span>
+                  <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5">{matchingTopics.length}</Badge>
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="pb-2 pt-0 pl-2">
+                <div className="flex flex-wrap gap-1.5">
+                  {matchingTopics.map((topic) => (
+                    <Badge
+                      key={topic}
+                      variant={selectedTopic === topic ? "default" : "outline"}
+                      className="cursor-pointer px-2.5 py-1 text-xs"
+                      onClick={() => setSelectedTopic(topic)}
+                    >
+                      {topic}
+                    </Badge>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
+    );
   };
 
   return (
@@ -199,7 +280,7 @@ const SpeakingPractice = () => {
           </p>
         </motion.div>
 
-        {/* Part selector + Topic filter */}
+        {/* Part selector + Shuffle */}
         <div className="flex flex-wrap gap-3 items-center mb-6">
           {([1, 2, 3] as const).map((p) => (
             <Button
@@ -217,32 +298,49 @@ const SpeakingPractice = () => {
           </Button>
         </div>
 
-        {/* Topic filter chips */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          <Badge
-            variant={selectedTopic === null ? "default" : "secondary"}
-            className="cursor-pointer px-3 py-1.5 text-xs"
-            onClick={() => setSelectedTopic(null)}
-          >
-            {t("Tất cả", "All")}
-          </Badge>
-          {topics.map((topic) => (
+        {/* Topic filter - different for Part 2 vs Part 1/3 */}
+        {selectedPart === 2 ? (
+          <Card className="mb-6">
+            <CardContent className="pt-4 pb-3">
+              <div className="flex items-center gap-2 mb-3">
+                <Badge
+                  variant={selectedTopic === null ? "default" : "secondary"}
+                  className="cursor-pointer px-3 py-1.5 text-xs"
+                  onClick={() => setSelectedTopic(null)}
+                >
+                  {t("Tất cả", "All")} ({topics.length})
+                </Badge>
+              </div>
+              {renderPart2Categories()}
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="flex flex-wrap gap-2 mb-6">
             <Badge
-              key={topic}
-              variant={selectedTopic === topic ? "default" : "outline"}
+              variant={selectedTopic === null ? "default" : "secondary"}
               className="cursor-pointer px-3 py-1.5 text-xs"
-              onClick={() => setSelectedTopic(topic)}
+              onClick={() => setSelectedTopic(null)}
             >
-              {topic}
+              {t("Tất cả", "All")}
             </Badge>
-          ))}
-        </div>
+            {topics.map((topic) => (
+              <Badge
+                key={topic}
+                variant={selectedTopic === topic ? "default" : "outline"}
+                className="cursor-pointer px-3 py-1.5 text-xs"
+                onClick={() => setSelectedTopic(topic)}
+              >
+                {topic}
+              </Badge>
+            ))}
+          </div>
+        )}
 
         {/* Main layout: split screen */}
         <div className="grid lg:grid-cols-5 gap-6">
           {/* LEFT PANEL: Question + Useful Language (3 cols) */}
           <div className="lg:col-span-3 space-y-6">
-            {/* Question list - collapsible */}
+            {/* Question list - collapsible with proper scrolling */}
             <Card>
               <CardHeader className="pb-3 cursor-pointer" onClick={() => setShowQuestionList(!showQuestionList)}>
                 <div className="flex items-center justify-between">
@@ -257,8 +355,8 @@ const SpeakingPractice = () => {
                 {showQuestionList && (
                   <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden">
                     <CardContent className="pt-0">
-                      <ScrollArea className="max-h-[250px]">
-                        <div className="space-y-1.5 pr-2">
+                      <div className="h-[300px] overflow-y-auto pr-1 scrollbar-thin">
+                        <div className="space-y-1.5">
                           {allQuestions.map((q, i) => (
                             <button
                               key={q.id}
@@ -275,7 +373,7 @@ const SpeakingPractice = () => {
                             </button>
                           ))}
                         </div>
-                      </ScrollArea>
+                      </div>
                     </CardContent>
                   </motion.div>
                 )}
@@ -305,7 +403,7 @@ const SpeakingPractice = () => {
               </CardContent>
             </Card>
 
-            {/* Useful Language Panel - collapsible during recording */}
+            {/* Useful Language Panel */}
             <Card>
               <CardHeader className="pb-3 cursor-pointer" onClick={() => setShowSuggestions(!showSuggestions)}>
                 <div className="flex items-center justify-between">
@@ -334,7 +432,7 @@ const SpeakingPractice = () => {
                         </TabsList>
 
                         <TabsContent value="vocab" className="mt-4">
-                          <div className="space-y-2">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             {currentQ.useful_language.vocabulary_bank.map((v, i) => (
                               <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
                                 <span className="text-sm font-semibold text-primary shrink-0">•</span>
@@ -358,7 +456,7 @@ const SpeakingPractice = () => {
                         </TabsContent>
 
                         <TabsContent value="ideas" className="mt-4">
-                          <div className="space-y-2">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             {currentQ.useful_language.brainstorming_ideas.map((idea, i) => (
                               <div key={i} className="flex items-start gap-2 p-2">
                                 <span className="text-primary font-bold text-sm">💡</span>
@@ -374,22 +472,36 @@ const SpeakingPractice = () => {
               </AnimatePresence>
             </Card>
 
-            {/* Model Answer - shown after grading or on toggle */}
-            {(result || showModelAnswer) && currentQ && (
-              <Card className="border-emerald-500/30 bg-emerald-50/30 dark:bg-emerald-950/10">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Award className="w-5 h-5 text-emerald-600" />
-                    {t("Bài mẫu Band 8.0+", "Model Answer (Band 8.0+)")}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <p className="text-sm leading-relaxed text-foreground">
-                    {renderModelAnswer(currentQ.model_answer)}
-                  </p>
-                </CardContent>
-              </Card>
-            )}
+            {/* Model Answer panel */}
+            <AnimatePresence>
+              {(result || showModelAnswer) && currentQ && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card className="border-emerald-500/30 bg-emerald-50/30 dark:bg-emerald-950/10">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Award className="w-5 h-5 text-emerald-600" />
+                          {t("Bài mẫu Band 8.0+", "Model Answer (Band 8.0+)")}
+                        </CardTitle>
+                        <Badge variant="outline" className="text-emerald-600 border-emerald-300 text-[10px]">
+                          {t("Từ được gợi ý = nền xanh", "Suggested words = green highlight")}
+                        </Badge>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <p className="text-sm leading-7 text-foreground">
+                        {renderModelAnswer(currentQ.model_answer)}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* RIGHT PANEL: Recording + Results (2 cols) */}
