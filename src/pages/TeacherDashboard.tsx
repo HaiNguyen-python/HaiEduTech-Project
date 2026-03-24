@@ -241,6 +241,67 @@ const TeacherDashboard = () => {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              {/* Content Performance / Feedback Tab */}
+              <TabsContent value="feedback">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <ThumbsUp className="w-5 h-5 text-primary" />
+                      {t("Hiệu suất nội dung — Phản hồi của học viên", "Content Performance — Student Feedback")}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {loadingData ? (
+                      <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
+                    ) : feedbackStats.length === 0 ? (
+                      <p className="text-sm text-muted-foreground py-4">{t("Chưa có phản hồi nào", "No feedback yet")}</p>
+                    ) : (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>{t("Bài học", "Lesson")}</TableHead>
+                            <TableHead>{t("Loại", "Type")}</TableHead>
+                            <TableHead className="text-center">
+                              <span className="flex items-center justify-center gap-1"><ThumbsUp className="w-3.5 h-3.5 text-green-500" /> {t("Thích", "Likes")}</span>
+                            </TableHead>
+                            <TableHead className="text-center">
+                              <span className="flex items-center justify-center gap-1"><ThumbsDown className="w-3.5 h-3.5 text-orange-500" /> {t("Cần cải thiện", "Dislikes")}</span>
+                            </TableHead>
+                            <TableHead className="text-center">{t("Tỷ lệ hài lòng", "Satisfaction")}</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {feedbackStats.slice(0, 50).map((fb) => (
+                            <TableRow key={fb.lesson_id}>
+                              <TableCell className="font-medium text-sm max-w-[200px] truncate">{fb.lesson_id}</TableCell>
+                              <TableCell>
+                                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                                  fb.lesson_type === "english" ? "bg-sky-500/10 text-sky-600" :
+                                  fb.lesson_type === "chinese" ? "bg-rose-500/10 text-rose-600" :
+                                  "bg-violet-500/10 text-violet-600"
+                                }`}>
+                                  {fb.lesson_type}
+                                </span>
+                              </TableCell>
+                              <TableCell className="text-center font-mono text-green-600">{fb.likes}</TableCell>
+                              <TableCell className="text-center font-mono text-orange-600">{fb.dislikes}</TableCell>
+                              <TableCell className="text-center">
+                                <div className="flex items-center justify-center gap-2">
+                                  <div className="w-16 h-2 bg-secondary rounded-full overflow-hidden">
+                                    <div className={`h-full rounded-full ${fb.ratio >= 70 ? "bg-green-500" : fb.ratio >= 40 ? "bg-yellow-500" : "bg-orange-500"}`} style={{ width: `${fb.ratio}%` }} />
+                                  </div>
+                                  <span className={`text-xs font-bold ${fb.ratio >= 70 ? "text-green-600" : fb.ratio >= 40 ? "text-yellow-600" : "text-orange-600"}`}>{fb.ratio}%</span>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
             </Tabs>
           </motion.div>
         </div>
