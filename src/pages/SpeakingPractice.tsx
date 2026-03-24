@@ -647,7 +647,7 @@ const SpeakingPractice = () => {
                               transition={{ duration: 0.8 }}
                             />
                           </div>
-                          <p className="text-xs text-muted-foreground leading-relaxed">{c.feedback}</p>
+                          <p className="text-sm text-foreground leading-relaxed mt-1">{c.feedback}</p>
                         </div>
                       ))}
 
