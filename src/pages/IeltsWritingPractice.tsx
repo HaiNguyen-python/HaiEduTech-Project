@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback } from "react";
 import {
   BookOpen, Send, Loader2, ChevronDown, ChevronUp,
   Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle,
-  BookMarked, Search, ExternalLink
+  BookMarked, Search, ExternalLink, Volume2
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
