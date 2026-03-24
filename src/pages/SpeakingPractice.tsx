@@ -439,17 +439,22 @@ const SpeakingPractice = () => {
                         </TabsList>
 
                         <TabsContent value="vocab" className="mt-4">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {currentQ.useful_language.vocabulary_bank.map((v, i) => (
-                              <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
-                                <span className="text-sm font-semibold text-primary shrink-0">•</span>
-                                <div>
-                                  <p className="text-sm font-semibold text-foreground">{v.phrase}</p>
-                                  <p className="text-xs text-muted-foreground italic">{v.vietnamese}</p>
+                          <ScrollArea className="h-[320px]">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pr-2">
+                              {mergedVocabulary.map((v, i) => (
+                                <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+                                  <span className="text-sm font-semibold text-primary shrink-0">•</span>
+                                  <div>
+                                    <p className="text-sm font-semibold text-foreground">{v.phrase}</p>
+                                    <p className="text-xs text-muted-foreground italic">{v.vietnamese}</p>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
-                          </div>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                          <p className="text-[10px] text-muted-foreground mt-2 text-center">
+                            {mergedVocabulary.length} phrases available for this topic
+                          </p>
                         </TabsContent>
 
                         <TabsContent value="structures" className="mt-4">
