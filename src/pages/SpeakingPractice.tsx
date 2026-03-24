@@ -637,7 +637,7 @@ const SpeakingPractice = () => {
                         <div key={c.label} className="bg-secondary rounded-xl p-4">
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-sm font-semibold text-foreground">{c.label}</span>
-                            <span className={`text-lg font-mono font-bold ${getScoreColor(c.score)}`}>{c.score}</span>
+                            <span className={`text-lg font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
                           </div>
                           <div className="w-full h-2.5 bg-border rounded-full mb-2">
                             <motion.div
