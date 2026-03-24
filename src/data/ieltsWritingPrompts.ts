@@ -566,6 +566,90 @@ export const writingPrompts: WritingPrompt[] = [
   },
 ];
 
+// Extra generic brainstorming ideas to pad prompts with fewer than 10 ideas
+const extraBrainstormingPool: Record<string, string[]> = {
+  opinion: [
+    'Consider real-world examples from different countries to support your argument.',
+    'Think about long-term vs. short-term consequences of each position.',
+    'Consider perspectives of different stakeholders: government, individuals, businesses.',
+    'Historical precedents can strengthen your argument significantly.',
+    'Statistical evidence from reputable sources adds credibility to claims.',
+    'Consider the economic, social, and environmental dimensions of the issue.',
+    'Think about how cultural differences affect views on this topic.',
+    'Consider whether the situation is improving or worsening over time.',
+  ],
+  discussion: [
+    'Present each side\'s strongest argument before giving your opinion.',
+    'Consider cultural and regional differences in perspective.',
+    'Think about how this issue has evolved over the past decade.',
+    'Consider the role of government regulation vs. individual responsibility.',
+    'Use specific case studies from different countries to illustrate points.',
+    'Acknowledge complexity — most real-world issues are not black and white.',
+    'Think about generational differences in how people view this topic.',
+    'Consider unintended consequences of policies related to this issue.',
+  ],
+  'advantage-disadvantage': [
+    'Categorize advantages/disadvantages by short-term and long-term impact.',
+    'Consider who benefits most and who is most negatively affected.',
+    'Think about unintended consequences that are often overlooked.',
+    'Compare with alternative approaches that might offer better outcomes.',
+    'Consider the scale — does this apply equally to all demographics?',
+    'Real-world success and failure stories make compelling evidence.',
+    'Think about the financial cost vs. social benefit trade-off.',
+    'Consider how technology might change the equation in the future.',
+  ],
+  'problem-solution': [
+    'Identify root causes rather than just surface-level symptoms.',
+    'Consider both individual-level and systemic solutions.',
+    'Think about prevention strategies vs. reactive measures.',
+    'Evaluate the feasibility and cost-effectiveness of each solution.',
+    'Look at countries that have successfully addressed similar problems.',
+    'Consider potential drawbacks or resistance to proposed solutions.',
+    'Think about who should be responsible: government, companies, or individuals.',
+    'Consider how education and awareness campaigns could help.',
+  ],
+  'direct-question': [
+    'Break down the question into smaller sub-questions to address each clearly.',
+    'Use specific evidence and examples rather than broad generalizations.',
+    'Consider both developed and developing country contexts.',
+    'Think about how technology is changing the landscape of this issue.',
+    'Address potential counterarguments to strengthen your response.',
+    'Connect your ideas back to the broader social or economic context.',
+    'Consider the role of media and public opinion in shaping this issue.',
+    'Think about what changes might occur in the next 10-20 years.',
+  ],
+  'default': [
+    'Consider examples from at least two different countries or regions.',
+    'Think about the impact on different age groups and social classes.',
+    'Consider both the immediate and long-term effects of this trend.',
+    'Use cause-and-effect reasoning to build a logical argument.',
+    'Think about how this issue connects to broader global trends.',
+    'Consider the role of education in addressing this issue.',
+    'Think about economic implications for governments and individuals.',
+    'Consider environmental sustainability as a factor in your analysis.',
+  ],
+};
+
+/**
+ * Expand brainstorming ideas to at least 10 items
+ */
+function expandBrainstormingIdeas(prompt: WritingPrompt): string[] {
+  const ideas = [...prompt.brainstormingIdeas];
+  if (ideas.length >= 10) return ideas;
+
+  const type = prompt.essayType || prompt.chartType || 'default';
+  const pool = extraBrainstormingPool[type] || extraBrainstormingPool['default'];
+  
+  // Add ideas from the pool that aren't already included
+  for (const idea of pool) {
+    if (ideas.length >= 10) break;
+    if (!ideas.some(existing => existing.toLowerCase().includes(idea.substring(0, 30).toLowerCase()))) {
+      ideas.push(idea);
+    }
+  }
+  return ideas;
+}
+
 /**
  * Get a random prompt by task type and optional sub-type
  */
@@ -577,5 +661,7 @@ export function getRandomPrompt(taskType: 1 | 2, subType?: string): WritingPromp
     );
   }
   if (filtered.length === 0) filtered = writingPrompts.filter(p => p.taskType === taskType);
-  return filtered[Math.floor(Math.random() * filtered.length)];
+  const selected = filtered[Math.floor(Math.random() * filtered.length)];
+  // Auto-expand brainstorming ideas to at least 10
+  return { ...selected, brainstormingIdeas: expandBrainstormingIdeas(selected) };
 }
