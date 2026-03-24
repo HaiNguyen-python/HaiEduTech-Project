@@ -165,7 +165,7 @@ const PythonChallengePage = () => {
                   <div className="flex justify-between items-center pt-6">
                     {prev ? (
                       <Link to={`/python-challenges/${prev.id}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                        <ChevronLeft className="w-4 h-4" /> #{prev.number}: {t(prev.titleVi, prev.title)}
+                        <ChevronLeft className="w-4 h-4" /> #{prev.number}: {prev.title}
                       </Link>
                     ) : <div />}
                     {next ? (
