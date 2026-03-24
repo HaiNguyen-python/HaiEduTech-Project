@@ -234,8 +234,9 @@ sys.stderr = io.StringIO()
           </span>
         </div>
         <pre className="p-4 bg-[#1e1e1e] text-green-400 text-sm font-mono min-h-[100px] max-h-[240px] overflow-auto whitespace-pre-wrap">
-          {loadingPyodide
-            ? t("Đang tải Python runtime (lần đầu có thể mất 5-10s)...", "Loading Python runtime (first time may take 5-10s)...")
+           {loadingPyodide
+239:             ? "Loading Python runtime (first time may take 5-10s)..."
+240:             : output || "Press 'Run Code' to see results..."}
             : output || t("Bấm 'Chạy Code' để xem kết quả...", "Press 'Run Code' to see results...")}
         </pre>
       </div>
