@@ -140,7 +140,7 @@ const Navbar = () => {
               {/* Slogan: hidden on mobile, shown on md+ */}
               <div className="hidden md:flex items-center gap-3 mx-4 min-w-0">
                 <BookOpen className="w-4 h-4 text-primary/60 shrink-0" />
-                <span className="text-sm text-muted-foreground italic font-light tracking-wide truncate">
+                <span className="text-sm text-foreground font-semibold tracking-wide truncate">
                   The Unique Intersection of Language & Technology
                 </span>
                 <Cpu className="w-4 h-4 text-primary/60 shrink-0" />
