@@ -170,6 +170,42 @@ export type Database = {
         }
         Relationships: []
       }
+      writing_attempts: {
+        Row: {
+          created_at: string
+          essay: string
+          id: string
+          overall_score: number | null
+          prompt: string
+          result: Json
+          task_type: number
+          user_id: string
+          word_count: number
+        }
+        Insert: {
+          created_at?: string
+          essay: string
+          id?: string
+          overall_score?: number | null
+          prompt: string
+          result?: Json
+          task_type: number
+          user_id: string
+          word_count: number
+        }
+        Update: {
+          created_at?: string
+          essay?: string
+          id?: string
+          overall_score?: number | null
+          prompt?: string
+          result?: Json
+          task_type?: number
+          user_id?: string
+          word_count?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

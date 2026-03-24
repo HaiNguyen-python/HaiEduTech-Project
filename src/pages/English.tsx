@@ -129,6 +129,23 @@ const English = () => {
               )}
             </p>
 
+            {/* IELTS Writing Practice Banner */}
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+              className="mb-8 p-4 bg-primary/5 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <GraduationCap className="w-5 h-5 text-primary shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-foreground">
+                  {t("Luyện viết IELTS Task 1 & Task 2 với AI chấm điểm", "IELTS Writing Practice with AI Grading")}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {t("AI tạo đề, hướng dẫn viết, ngân hàng từ vựng và chấm điểm tự động theo 4 tiêu chí IELTS.", "AI-generated prompts, writing guides, vocabulary banks, and automated grading across 4 IELTS criteria.")}
+                </p>
+              </div>
+              <Link to="/ielts-writing-practice" className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shrink-0">
+                {t("Luyện viết ngay", "Start Practice")} <ArrowRight className="w-4 h-4" />
+              </Link>
+            </motion.div>
+
             {/* Programs */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
               {programs.map((p, i) => (
