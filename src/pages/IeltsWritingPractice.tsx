@@ -460,29 +460,8 @@ const IeltsWritingPractice = () => {
                 </CardContent>
               </Card>
 
-              {/* Writing Guide */}
-              <Collapsible open={guideOpen} onOpenChange={setGuideOpen}>
-                <Card>
-                  <CollapsibleTrigger className="w-full">
-                    <CardHeader className="pb-3 flex flex-row items-center justify-between cursor-pointer hover:bg-muted/30 transition-colors rounded-t-lg">
-                      <CardTitle className="text-base">📋 {t("Hướng dẫn viết", "Writing Guide")}</CardTitle>
-                      {guideOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                    </CardHeader>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <CardContent>
-                      <ol className="space-y-2 text-sm">
-                        {currentPrompt.writingGuide.map((step, i) => (
-                          <li key={i} className="flex gap-2">
-                            <span className="bg-primary text-primary-foreground w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0">{i + 1}</span>
-                            <span>{step}</span>
-                          </li>
-                        ))}
-                      </ol>
-                    </CardContent>
-                  </CollapsibleContent>
-                </Card>
-              </Collapsible>
+              {/* Writing Guide - Interactive Outline */}
+              <WritingGuidePanel prompt={currentPrompt} open={guideOpen} onOpenChange={setGuideOpen} />
 
               {/* Vocabulary Bank */}
               <Collapsible open={vocabOpen} onOpenChange={setVocabOpen}>
