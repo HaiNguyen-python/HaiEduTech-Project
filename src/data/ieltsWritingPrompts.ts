@@ -28,7 +28,18 @@ export const writingPrompts: WritingPrompt[] = [
       'Conclusion: Restate your opinion and summarize key points.',
     ],
     vocabularyBank: ['vocational training (đào tạo nghề)', 'employability (khả năng tuyển dụng)', 'theoretical knowledge (kiến thức lý thuyết)', 'practical skills (kỹ năng thực hành)', 'career-oriented (định hướng nghề nghiệp)', 'academic rigour (tính nghiêm ngặt học thuật)', 'work-ready graduates (sinh viên sẵn sàng làm việc)', 'curriculum design (thiết kế chương trình)'],
-    brainstormingIdeas: ['Universities provide critical thinking skills applicable to any career.', 'Employers often complain graduates lack practical skills.', 'Internship programs can bridge the gap.', 'Some fields (medicine, engineering) need both.'],
+    brainstormingIdeas: [
+      'Universities provide critical thinking skills applicable to any career.',
+      'Employers often complain graduates lack practical skills.',
+      'Internship programs can bridge the gap between theory and practice.',
+      'Some fields (medicine, engineering) need both academic and practical training.',
+      'Soft skills like teamwork and communication are increasingly valued by employers.',
+      'Research-focused universities drive innovation and economic growth.',
+      'Many successful entrepreneurs dropped out — questioning the traditional purpose of university.',
+      'A blend of theory and practice produces well-rounded, adaptable graduates.',
+      'Government funding often favors academic research over vocational programs.',
+      'Online platforms now offer career-specific training more efficiently than universities.',
+    ],
   },
   {
     id: 't2-op-2',
@@ -42,7 +53,18 @@ export const writingPrompts: WritingPrompt[] = [
       'Conclusion: Summarize and give a balanced final opinion.',
     ],
     vocabularyBank: ['ageing population (dân số già hóa)', 'life expectancy (tuổi thọ)', 'pension system (hệ thống lương hưu)', 'demographic shift (thay đổi nhân khẩu học)', 'elderly care (chăm sóc người cao tuổi)', 'workforce participation (tham gia lực lượng lao động)', 'intergenerational (liên thế hệ)', 'social security burden (gánh nặng an sinh xã hội)'],
-    brainstormingIdeas: ['Older workers bring experience and mentorship.', 'Healthcare and pension costs rise dramatically.', 'Countries like Japan face labour shortages.', 'Technology can assist elderly independence.'],
+    brainstormingIdeas: [
+      'Older workers bring experience and mentorship to workplaces.',
+      'Healthcare and pension costs rise dramatically with an ageing population.',
+      'Countries like Japan face severe labour shortages due to demographics.',
+      'Technology can assist elderly independence and reduce care costs.',
+      'Older populations contribute significantly to volunteering and community stability.',
+      'Immigration can offset workforce shortages in ageing societies.',
+      'Retirement age may need to increase as life expectancy rises.',
+      'Intergenerational programs benefit both young and old populations.',
+      'Economic growth tends to slow when the working-age population declines.',
+      'Digital literacy training can help elderly people remain independent and connected.',
+    ],
   },
   {
     id: 't2-op-3',
@@ -56,7 +78,18 @@ export const writingPrompts: WritingPrompt[] = [
       'Conclusion: Give your clear opinion with reasoning.',
     ],
     vocabularyBank: ['cognitive development (phát triển nhận thức)', 'play-based learning (học qua chơi)', 'socialisation (xã hội hóa)', 'academic readiness (sẵn sàng học thuật)', 'formative years (những năm hình thành)', 'curriculum pressure (áp lực chương trình)', 'childhood autonomy (quyền tự chủ của trẻ)', 'developmental milestones (cột mốc phát triển)'],
-    brainstormingIdeas: ['Early education can build literacy and numeracy foundations.', 'Play is essential for creativity and emotional growth.', 'Scandinavian countries start formal education at 7 and rank highly.', 'Pressure too early can cause burnout.'],
+    brainstormingIdeas: [
+      'Early education can build strong literacy and numeracy foundations.',
+      'Play is essential for creativity, imagination, and emotional growth.',
+      'Scandinavian countries start formal education at 7 and rank highly in education.',
+      'Academic pressure too early can cause burnout and stress in children.',
+      'Different children develop at different rates — one size doesn\'t fit all.',
+      'Research shows free play significantly improves problem-solving skills.',
+      'Structured preschool programs can reduce inequality in educational outcomes.',
+      'Excessive homework at young ages leads to anxiety and family stress.',
+      'Cultural factors heavily influence when formal education traditionally starts.',
+      'Home learning environments often play a bigger role than school entry age.',
+    ],
   },
   {
     id: 't2-op-4',
@@ -70,7 +103,18 @@ export const writingPrompts: WritingPrompt[] = [
       'Conclusion: Summarize and state your preference.',
     ],
     vocabularyBank: ['infrastructure investment (đầu tư hạ tầng)', 'high-speed rail (đường sắt cao tốc)', 'commuter routes (tuyến đường đi lại)', 'urban mobility (giao thông đô thị)', 'sustainable transport (giao thông bền vững)', 'congestion reduction (giảm tắc nghẽn)', 'cost-effective (hiệu quả chi phí)', 'connectivity (khả năng kết nối)'],
-    brainstormingIdeas: ['High-speed rail reduces domestic flights and carbon emissions.', 'Existing systems in many cities are overcrowded and unreliable.', 'Building new lines is extremely expensive.', 'Improving buses and metro serves more people daily.'],
+    brainstormingIdeas: [
+      'High-speed rail reduces domestic flights and carbon emissions significantly.',
+      'Existing systems in many cities are overcrowded, delayed, and unreliable.',
+      'Building new railway lines is extremely expensive and takes years.',
+      'Improving buses and metro serves more commuters on a daily basis.',
+      'Rail infrastructure projects create thousands of construction and service jobs.',
+      'Better public transport reduces car dependency and urban air pollution.',
+      'Rural areas often lack even basic public transport connections.',
+      'Successful examples include Japan\'s Shinkansen and France\'s TGV systems.',
+      'Maintenance costs for new railways can burden future government budgets.',
+      'Electric buses are a cheaper and greener short-term alternative.',
+    ],
   },
   {
     id: 't2-op-5',
@@ -522,6 +566,90 @@ export const writingPrompts: WritingPrompt[] = [
   },
 ];
 
+// Extra generic brainstorming ideas to pad prompts with fewer than 10 ideas
+const extraBrainstormingPool: Record<string, string[]> = {
+  opinion: [
+    'Consider real-world examples from different countries to support your argument.',
+    'Think about long-term vs. short-term consequences of each position.',
+    'Consider perspectives of different stakeholders: government, individuals, businesses.',
+    'Historical precedents can strengthen your argument significantly.',
+    'Statistical evidence from reputable sources adds credibility to claims.',
+    'Consider the economic, social, and environmental dimensions of the issue.',
+    'Think about how cultural differences affect views on this topic.',
+    'Consider whether the situation is improving or worsening over time.',
+  ],
+  discussion: [
+    'Present each side\'s strongest argument before giving your opinion.',
+    'Consider cultural and regional differences in perspective.',
+    'Think about how this issue has evolved over the past decade.',
+    'Consider the role of government regulation vs. individual responsibility.',
+    'Use specific case studies from different countries to illustrate points.',
+    'Acknowledge complexity — most real-world issues are not black and white.',
+    'Think about generational differences in how people view this topic.',
+    'Consider unintended consequences of policies related to this issue.',
+  ],
+  'advantage-disadvantage': [
+    'Categorize advantages/disadvantages by short-term and long-term impact.',
+    'Consider who benefits most and who is most negatively affected.',
+    'Think about unintended consequences that are often overlooked.',
+    'Compare with alternative approaches that might offer better outcomes.',
+    'Consider the scale — does this apply equally to all demographics?',
+    'Real-world success and failure stories make compelling evidence.',
+    'Think about the financial cost vs. social benefit trade-off.',
+    'Consider how technology might change the equation in the future.',
+  ],
+  'problem-solution': [
+    'Identify root causes rather than just surface-level symptoms.',
+    'Consider both individual-level and systemic solutions.',
+    'Think about prevention strategies vs. reactive measures.',
+    'Evaluate the feasibility and cost-effectiveness of each solution.',
+    'Look at countries that have successfully addressed similar problems.',
+    'Consider potential drawbacks or resistance to proposed solutions.',
+    'Think about who should be responsible: government, companies, or individuals.',
+    'Consider how education and awareness campaigns could help.',
+  ],
+  'direct-question': [
+    'Break down the question into smaller sub-questions to address each clearly.',
+    'Use specific evidence and examples rather than broad generalizations.',
+    'Consider both developed and developing country contexts.',
+    'Think about how technology is changing the landscape of this issue.',
+    'Address potential counterarguments to strengthen your response.',
+    'Connect your ideas back to the broader social or economic context.',
+    'Consider the role of media and public opinion in shaping this issue.',
+    'Think about what changes might occur in the next 10-20 years.',
+  ],
+  'default': [
+    'Consider examples from at least two different countries or regions.',
+    'Think about the impact on different age groups and social classes.',
+    'Consider both the immediate and long-term effects of this trend.',
+    'Use cause-and-effect reasoning to build a logical argument.',
+    'Think about how this issue connects to broader global trends.',
+    'Consider the role of education in addressing this issue.',
+    'Think about economic implications for governments and individuals.',
+    'Consider environmental sustainability as a factor in your analysis.',
+  ],
+};
+
+/**
+ * Expand brainstorming ideas to at least 10 items
+ */
+function expandBrainstormingIdeas(prompt: WritingPrompt): string[] {
+  const ideas = [...prompt.brainstormingIdeas];
+  if (ideas.length >= 10) return ideas;
+
+  const type = prompt.essayType || prompt.chartType || 'default';
+  const pool = extraBrainstormingPool[type] || extraBrainstormingPool['default'];
+  
+  // Add ideas from the pool that aren't already included
+  for (const idea of pool) {
+    if (ideas.length >= 10) break;
+    if (!ideas.some(existing => existing.toLowerCase().includes(idea.substring(0, 30).toLowerCase()))) {
+      ideas.push(idea);
+    }
+  }
+  return ideas;
+}
+
 /**
  * Get a random prompt by task type and optional sub-type
  */
@@ -533,5 +661,7 @@ export function getRandomPrompt(taskType: 1 | 2, subType?: string): WritingPromp
     );
   }
   if (filtered.length === 0) filtered = writingPrompts.filter(p => p.taskType === taskType);
-  return filtered[Math.floor(Math.random() * filtered.length)];
+  const selected = filtered[Math.floor(Math.random() * filtered.length)];
+  // Auto-expand brainstorming ideas to at least 10
+  return { ...selected, brainstormingIdeas: expandBrainstormingIdeas(selected) };
 }

@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import ReactMarkdown from "react-markdown";
 import { WritingPrompt, getRandomPrompt } from "@/data/ieltsWritingPrompts";
 import Task1Chart from "@/components/Task1Chart";
+import { useUserRole } from "@/hooks/useUserRole";
 
 // Grading result types (shared with AIGrading)
 interface CriteriaDetail {
@@ -43,6 +44,7 @@ const TASK2_TIME = 40 * 60; // 40 minutes
 
 const IeltsWritingPractice = () => {
   const { t } = useLanguage();
+  const { isTeacher } = useUserRole();
 
   // Prompt state
   const [taskType, setTaskType] = useState<1 | 2>(2);
@@ -401,12 +403,15 @@ const IeltsWritingPractice = () => {
 
           {/* Generate buttons */}
           <Button variant="outline" size="sm" onClick={handleStaticPrompt}>
-            <RefreshCw className="w-4 h-4 mr-1" /> {t("Đề ngẫu nhiên", "Random Prompt")}
+            <RefreshCw className="w-4 h-4 mr-1" /> {t("Đề ngẫu nhiên", "Random Topic")}
           </Button>
-          <Button size="sm" onClick={handleAIPrompt} disabled={promptLoading}>
-            {promptLoading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-1" />}
-            {t("Tạo đề mới", "Generate New")}
-          </Button>
+          {/* Generate New Topic - only visible for teachers/admins to save API costs */}
+          {isTeacher && (
+            <Button size="sm" onClick={handleAIPrompt} disabled={promptLoading}>
+              {promptLoading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-1" />}
+              {t("Tạo đề mới", "Generate New Topic")}
+            </Button>
+          )}
 
           {/* Timer */}
           <div className="flex items-center gap-2 ml-auto">
@@ -510,14 +515,15 @@ const IeltsWritingPractice = () => {
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <CardContent>
-                      <ul className="space-y-2 text-sm">
+                      {/* Two-column layout to save space */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
                         {currentPrompt.brainstormingIdeas.map((idea, i) => (
-                          <li key={i} className="flex gap-2 items-start">
-                            <span className="text-primary">•</span>
+                          <div key={i} className="flex gap-2 items-start">
+                            <span className="text-primary font-bold shrink-0">{i + 1}.</span>
                             <span>{idea}</span>
-                          </li>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </CardContent>
                   </CollapsibleContent>
                 </Card>
@@ -683,14 +689,14 @@ const IeltsWritingPractice = () => {
               variant="default"
             >
               <BookMarked className="w-5 h-5" />
-              <span className="hidden sm:inline text-sm font-medium">{t("Tra cứu", "Lookup")}</span>
+              <span className="hidden sm:inline text-sm font-medium">{t("Siêu từ điển", "Your Super Dictionary")}</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-[400px] sm:w-[450px] overflow-y-auto">
             <SheetHeader>
               <SheetTitle className="flex items-center gap-2">
                 <BookMarked className="w-5 h-5 text-primary" />
-                {t("Công cụ tra cứu", "Reference Toolbox")}
+                {t("Siêu từ điển của bạn", "Your Super Dictionary")}
               </SheetTitle>
             </SheetHeader>
             <Tabs defaultValue="dictionary" className="mt-4">
