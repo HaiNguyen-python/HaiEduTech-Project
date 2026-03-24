@@ -60,6 +60,7 @@ const App = () => (
             <Route path="/ielts-writing-practice" element={<IeltsWritingPractice />} />
             <Route path="/ielts-sample-essays" element={<IeltsSampleEssays />} />
             <Route path="/ielts-sample-essays/:essayId" element={<IeltsSampleEssayDetail />} />
+            <Route path="/ielts-speaking-practice" element={<SpeakingPractice />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
