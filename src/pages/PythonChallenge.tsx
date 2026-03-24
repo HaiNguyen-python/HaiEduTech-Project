@@ -60,7 +60,7 @@ const PythonChallengePage = () => {
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
               <Link to="/programming" className="hover:text-foreground flex items-center gap-1">
-                <ArrowLeft className="w-4 h-4" /> {t("Lập trình", "Programming")}
+                <ArrowLeft className="w-4 h-4" /> Programming
               </Link>
               <ChevronRight className="w-3 h-3" />
               <Link to="/python-challenges" className="hover:text-foreground">
