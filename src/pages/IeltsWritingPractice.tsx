@@ -403,12 +403,15 @@ const IeltsWritingPractice = () => {
 
           {/* Generate buttons */}
           <Button variant="outline" size="sm" onClick={handleStaticPrompt}>
-            <RefreshCw className="w-4 h-4 mr-1" /> {t("Đề ngẫu nhiên", "Random Prompt")}
+            <RefreshCw className="w-4 h-4 mr-1" /> {t("Đề ngẫu nhiên", "Random Topic")}
           </Button>
-          <Button size="sm" onClick={handleAIPrompt} disabled={promptLoading}>
-            {promptLoading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-1" />}
-            {t("Tạo đề mới", "Generate New")}
-          </Button>
+          {/* Generate New Topic - only visible for teachers/admins to save API costs */}
+          {isTeacher && (
+            <Button size="sm" onClick={handleAIPrompt} disabled={promptLoading}>
+              {promptLoading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-1" />}
+              {t("Tạo đề mới", "Generate New Topic")}
+            </Button>
+          )}
 
           {/* Timer */}
           <div className="flex items-center gap-2 ml-auto">
