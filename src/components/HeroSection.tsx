@@ -122,6 +122,20 @@ const HeroSection = () => {
                 </div>
               ))}
             </div>
+
+            {/* Live AI counter */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2 }}
+              className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground sm:text-sm"
+            >
+              <Activity className="h-3.5 w-3.5 animate-pulse text-primary" />
+              <span>
+                {t("Hôm nay", "Today")}: <span className="font-semibold text-foreground">{counter.toLocaleString()}</span>{" "}
+                {t("bài tập đã được chấm điểm bởi hệ thống AI", "exercises graded by the AI system")}
+              </span>
+            </motion.div>
           </motion.div>
         </div>
       </div>
