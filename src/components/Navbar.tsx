@@ -426,12 +426,60 @@ const Navbar = () => {
                             className="overflow-hidden"
                           >
                             <div className="ml-6 pl-4 border-l-2 border-primary/20 space-y-0.5 py-1">
-                              {l.subs.map((sub) => (
-                                <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)}
-                                  className="block px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors">
-                                  {sub.label}
-                                </Link>
-                              ))}
+                              {l.subs.map((sub) => {
+                                // Nested group (IELTS) in mobile
+                                if (sub.children) {
+                                  const isSubOpen = mobileSubExpanded === sub.groupLabel;
+                                  return (
+                                    <div key={sub.groupLabel}>
+                                      <button
+                                        onClick={() => setMobileSubExpanded(prev => prev === sub.groupLabel ? null : sub.groupLabel!)}
+                                        className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
+                                          isSubOpen ? "text-primary bg-primary/5" : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                                        }`}
+                                      >
+                                        <span>{sub.label}</span>
+                                        <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-200 ${isSubOpen ? "rotate-90" : ""}`} />
+                                      </button>
+                                      <AnimatePresence>
+                                        {isSubOpen && (
+                                          <motion.div
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: "auto" }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            transition={{ duration: 0.18 }}
+                                            className="overflow-hidden"
+                                          >
+                                            <div className="ml-4 pl-3 border-l-2 border-emerald-500/30 space-y-0.5 py-1">
+                                              {sub.children.map((child) => {
+                                                const ChildIcon = child.icon;
+                                                return (
+                                                  <Link
+                                                    key={child.to}
+                                                    to={child.to}
+                                                    onClick={() => setOpen(false)}
+                                                    className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+                                                  >
+                                                    {ChildIcon && <ChildIcon className="w-3.5 h-3.5 text-primary/60" />}
+                                                    <span>{child.label}</span>
+                                                  </Link>
+                                                );
+                                              })}
+                                            </div>
+                                          </motion.div>
+                                        )}
+                                      </AnimatePresence>
+                                    </div>
+                                  );
+                                }
+                                // Regular sub-item
+                                return (
+                                  <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)}
+                                    className="block px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors">
+                                    {sub.label}
+                                  </Link>
+                                );
+                              })}
                             </div>
                           </motion.div>
                         )}
