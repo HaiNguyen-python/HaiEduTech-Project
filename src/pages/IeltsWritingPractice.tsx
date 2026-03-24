@@ -8,6 +8,7 @@ import {
   Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle,
   BookMarked, Search, ExternalLink, Volume2
 } from "lucide-react";
+import WritingGuidePanel from "@/components/WritingGuidePanel";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
