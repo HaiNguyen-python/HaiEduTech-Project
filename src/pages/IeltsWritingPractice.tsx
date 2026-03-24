@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback } from "react";
 import {
   BookOpen, Send, Loader2, ChevronDown, ChevronUp,
   Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle,
-  BookMarked, Search, ExternalLink
+  BookMarked, Search, ExternalLink, Volume2
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -66,6 +66,12 @@ const IeltsWritingPractice = () => {
   const [vocabOpen, setVocabOpen] = useState(false);
   const [ideasOpen, setIdeasOpen] = useState(false);
   const [dictSearchWord, setDictSearchWord] = useState("");
+  const [dictResult, setDictResult] = useState<any>(null);
+  const [dictLoading, setDictLoading] = useState(false);
+  const [thesaurusWord, setThesaurusWord] = useState("");
+  const [thesaurusResult, setThesaurusResult] = useState<string[]>([]);
+  const [thesaurusLoading, setThesaurusLoading] = useState(false);
+  const [ozdicWord, setOzdicWord] = useState("");
 
   // Word count
   const wordCount = essay.trim() ? essay.trim().split(/\s+/).length : 0;
@@ -88,6 +94,42 @@ const IeltsWritingPractice = () => {
     setTimeLeft(taskType === 1 ? TASK1_TIME : TASK2_TIME);
     setTimerActive(false);
   }, [taskType]);
+
+  // Inline dictionary lookup using free API
+  const handleDictLookup = async (word: string) => {
+    if (!word.trim()) return;
+    setDictLoading(true);
+    setDictResult(null);
+    try {
+      const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.trim().toLowerCase()}`);
+      if (res.ok) {
+        const data = await res.json();
+        setDictResult(data[0]);
+      } else {
+        setDictResult({ error: true });
+      }
+    } catch {
+      setDictResult({ error: true });
+    }
+    setDictLoading(false);
+  };
+
+  // Inline thesaurus lookup using Datamuse API
+  const handleThesaurusLookup = async (word: string) => {
+    if (!word.trim()) return;
+    setThesaurusLoading(true);
+    setThesaurusResult([]);
+    try {
+      const res = await fetch(`https://api.datamuse.com/words?rel_syn=${word.trim().toLowerCase()}&max=15`);
+      if (res.ok) {
+        const data = await res.json();
+        setThesaurusResult(data.map((d: any) => d.word));
+      }
+    } catch {
+      setThesaurusResult([]);
+    }
+    setThesaurusLoading(false);
+  };
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -571,7 +613,7 @@ const IeltsWritingPractice = () => {
               {/* Cambridge Dictionary Tab */}
               <TabsContent value="dictionary" className="space-y-3">
                 <p className="text-sm text-muted-foreground">
-                  {t("Tra cứu từ điển Cambridge - định nghĩa, phát âm và ví dụ.", "Look up Cambridge Dictionary - definitions, pronunciation and examples.")}
+                  {t("Tra cứu định nghĩa, phát âm và ví dụ ngay tại đây.", "Look up definitions, pronunciation and examples right here.")}
                 </p>
                 <div className="flex gap-2">
                   <Input
@@ -579,30 +621,66 @@ const IeltsWritingPractice = () => {
                     onChange={(e) => setDictSearchWord(e.target.value)}
                     placeholder={t("Nhập từ cần tra...", "Enter a word...")}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && dictSearchWord.trim()) {
-                        window.open(`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase()}`, "_blank");
-                      }
+                      if (e.key === "Enter") handleDictLookup(dictSearchWord);
                     }}
                   />
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      if (dictSearchWord.trim()) {
-                        window.open(`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase()}`, "_blank");
-                      }
-                    }}
-                  >
-                    <Search className="w-4 h-4" />
+                  <Button size="sm" onClick={() => handleDictLookup(dictSearchWord)} disabled={dictLoading}>
+                    {dictLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                   </Button>
                 </div>
+                {/* Inline dictionary results */}
+                {dictResult && !dictResult.error && (
+                  <div className="rounded-lg border bg-card p-3 space-y-2 max-h-[400px] overflow-y-auto">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-semibold text-foreground text-base">{dictResult.word}</h4>
+                      {dictResult.phonetic && (
+                        <span className="text-xs text-muted-foreground">{dictResult.phonetic}</span>
+                      )}
+                      {dictResult.phonetics?.find((p: any) => p.audio) && (
+                        <button
+                          onClick={() => {
+                            const audio = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio);
+                            audio.play();
+                          }}
+                          className="text-primary hover:text-primary/80"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                    {dictResult.meanings?.map((meaning: any, idx: number) => (
+                      <div key={idx} className="space-y-1">
+                        <span className="text-xs font-medium text-primary italic">{meaning.partOfSpeech}</span>
+                        {meaning.definitions?.slice(0, 3).map((def: any, dIdx: number) => (
+                          <div key={dIdx} className="pl-2 border-l-2 border-primary/20">
+                            <p className="text-sm text-foreground">{dIdx + 1}. {def.definition}</p>
+                            {def.example && (
+                              <p className="text-xs text-muted-foreground italic ml-2">"{def.example}"</p>
+                            )}
+                          </div>
+                        ))}
+                        {meaning.synonyms?.length > 0 && (
+                          <p className="text-xs text-muted-foreground">
+                            <strong>Synonyms:</strong> {meaning.synonyms.slice(0, 5).join(", ")}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {dictResult?.error && (
+                  <div className="rounded-lg border bg-muted/50 p-3 text-sm text-muted-foreground text-center">
+                    {t("Không tìm thấy từ này. Hãy thử từ khác.", "Word not found. Try another word.")}
+                  </div>
+                )}
                 <a
-                  href="https://dictionary.cambridge.org/"
+                  href={`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase() || ""}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-primary hover:underline"
+                  className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary hover:underline"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  {t("Mở Cambridge Dictionary", "Open Cambridge Dictionary")}
+                  <ExternalLink className="w-3 h-3" />
+                  {t("Xem thêm trên Cambridge Dictionary", "See more on Cambridge Dictionary")}
                 </a>
               </TabsContent>
 
@@ -613,31 +691,26 @@ const IeltsWritingPractice = () => {
                 </p>
                 <div className="flex gap-2">
                   <Input
+                    value={ozdicWord}
+                    onChange={(e) => setOzdicWord(e.target.value)}
                     placeholder={t("Nhập từ cần tìm collocation...", "Enter word for collocations...")}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && (e.target as HTMLInputElement).value.trim()) {
-                        window.open(`https://ozdic.com/collocation/${(e.target as HTMLInputElement).value.trim().toLowerCase()}`, "_blank");
+                      if (e.key === "Enter" && ozdicWord.trim()) {
+                        window.open(`https://ozdic.com/collocation/${ozdicWord.trim().toLowerCase()}`, "_blank");
                       }
                     }}
                   />
-                  <Button size="sm" onClick={(e) => {
-                    const input = (e.currentTarget.previousElementSibling as HTMLInputElement);
-                    if (input?.value.trim()) {
-                      window.open(`https://ozdic.com/collocation/${input.value.trim().toLowerCase()}`, "_blank");
+                  <Button size="sm" onClick={() => {
+                    if (ozdicWord.trim()) {
+                      window.open(`https://ozdic.com/collocation/${ozdicWord.trim().toLowerCase()}`, "_blank");
                     }
                   }}>
                     <Search className="w-4 h-4" />
                   </Button>
                 </div>
-                <a
-                  href="https://ozdic.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-primary hover:underline"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  {t("Mở Ozdic Collocations", "Open Ozdic Collocations")}
-                </a>
+                <p className="text-xs text-muted-foreground italic">
+                  {t("⚠️ Ozdic chưa hỗ trợ tra trực tiếp, kết quả sẽ mở trong tab mới.", "⚠️ Ozdic doesn't support inline lookup, results open in a new tab.")}
+                </p>
                 <div className="bg-muted/50 rounded-lg p-3">
                   <p className="text-xs font-medium text-foreground mb-2">{t("Ví dụ collocations hữu ích:", "Useful collocation examples:")}</p>
                   <ul className="text-xs text-muted-foreground space-y-1">
@@ -650,38 +723,39 @@ const IeltsWritingPractice = () => {
                 </div>
               </TabsContent>
 
-              {/* Thesaurus Tab */}
+              {/* Thesaurus Tab - Inline results */}
               <TabsContent value="thesaurus" className="space-y-3">
                 <p className="text-sm text-muted-foreground">
                   {t("Tìm từ đồng nghĩa để tránh lặp từ và nâng cao Lexical Resource.", "Find synonyms to avoid repetition and improve Lexical Resource.")}
                 </p>
                 <div className="flex gap-2">
                   <Input
+                    value={thesaurusWord}
+                    onChange={(e) => setThesaurusWord(e.target.value)}
                     placeholder={t("Nhập từ cần tìm đồng nghĩa...", "Enter word for synonyms...")}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && (e.target as HTMLInputElement).value.trim()) {
-                        window.open(`https://www.thesaurus.com/browse/${(e.target as HTMLInputElement).value.trim().toLowerCase()}`, "_blank");
-                      }
+                      if (e.key === "Enter") handleThesaurusLookup(thesaurusWord);
                     }}
                   />
-                  <Button size="sm" onClick={(e) => {
-                    const input = (e.currentTarget.previousElementSibling as HTMLInputElement);
-                    if (input?.value.trim()) {
-                      window.open(`https://www.thesaurus.com/browse/${input.value.trim().toLowerCase()}`, "_blank");
-                    }
-                  }}>
-                    <Search className="w-4 h-4" />
+                  <Button size="sm" onClick={() => handleThesaurusLookup(thesaurusWord)} disabled={thesaurusLoading}>
+                    {thesaurusLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                   </Button>
                 </div>
-                <a
-                  href="https://www.thesaurus.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-primary hover:underline"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  {t("Mở Thesaurus.com", "Open Thesaurus.com")}
-                </a>
+                {/* Inline thesaurus results */}
+                {thesaurusResult.length > 0 && (
+                  <div className="rounded-lg border bg-card p-3">
+                    <p className="text-xs font-medium text-foreground mb-2">
+                      {t("Từ đồng nghĩa của", "Synonyms of")} "<strong>{thesaurusWord}</strong>":
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {thesaurusResult.map((syn) => (
+                        <span key={syn} className="rounded-md bg-primary/10 text-primary px-2 py-0.5 text-xs font-medium">
+                          {syn}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="bg-muted/50 rounded-lg p-3">
                   <p className="text-xs font-medium text-foreground mb-2">{t("Thay thế từ phổ biến:", "Common word replacements:")}</p>
                   <ul className="text-xs text-muted-foreground space-y-1">
