@@ -141,7 +141,7 @@ const PythonChallengeList = () => {
                 disabled={page === 1}
                 className="px-3 py-1.5 rounded-lg text-sm bg-secondary text-foreground disabled:opacity-40 hover:bg-primary/10 transition-colors"
               >
-                ← {t("Trước", "Prev")}
+                ← Prev
               </button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                 <button
