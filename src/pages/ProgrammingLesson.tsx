@@ -320,7 +320,7 @@ const ProgrammingLessonPage = () => {
                       Theory
                     </h2>
                     <div className="prose prose-sm max-w-none text-secondary-foreground whitespace-pre-line leading-relaxed">
-                      {t(lesson.theory, lesson.theoryEn).split('\n').map((line, i) => {
+                      {(lesson.theoryEn || lesson.theory).split('\n').map((line, i) => {
                         if (line.startsWith('**') && line.endsWith('**')) {
                           return <p key={i} className="font-bold text-foreground mt-3 mb-1">{line.replace(/\*\*/g, '')}</p>;
                         }
