@@ -267,8 +267,8 @@ const IeltsWritingPractice = () => {
             <RefreshCw className="w-4 h-4 mr-1" /> {t("Đề ngẫu nhiên", "Random Prompt")}
           </Button>
           <Button size="sm" onClick={handleAIPrompt} disabled={promptLoading}>
-            {promptLoading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Sparkles className="w-4 h-4 mr-1" />}
-            {t("AI tạo đề mới", "AI Generate")}
+            {promptLoading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-1" />}
+            {t("Tạo đề mới", "Generate New")}
           </Button>
 
           {/* Timer */}
