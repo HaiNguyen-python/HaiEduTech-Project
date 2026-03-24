@@ -231,7 +231,7 @@ const IeltsWritingPractice = () => {
             {t("Luyện viết IELTS", "IELTS Writing Practice")}
           </h1>
           <p className="text-muted-foreground mt-1">
-            {t("Luyện viết Task 1 & Task 2 với AI chấm điểm theo tiêu chí IELTS chính thức", "Practice Task 1 & Task 2 with AI grading based on official IELTS criteria")}
+            {t("Luyện viết Task 1 & Task 2 với hệ thống chấm điểm theo tiêu chí IELTS chính thức", "Practice Task 1 & Task 2 with scoring system based on official IELTS criteria")}
           </p>
         </motion.div>
 
