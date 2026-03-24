@@ -72,7 +72,7 @@ const PythonChallengeList = () => {
             </p>
             <div className="mt-4 max-w-xs mx-auto">
               <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                <span>{t("Đã hoàn thành", "Completed")}</span>
+                <span>Completed</span>
                 <span className="font-bold text-primary">{completed}/{pythonChallenges.length}</span>
               </div>
               <Progress value={pct} className="h-2" />
