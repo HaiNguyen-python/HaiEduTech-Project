@@ -622,7 +622,7 @@ const SpeakingPractice = () => {
                 )}
 
                 {result && !loading && (
-                  <ScrollArea className="max-h-[600px]">
+                  <ScrollArea className="h-[700px]">
                     <div className="space-y-4 pr-2">
                       {/* Overall score */}
                       <div className="bg-secondary rounded-xl p-5 text-center">
