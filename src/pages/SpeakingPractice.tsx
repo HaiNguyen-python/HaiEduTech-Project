@@ -94,6 +94,12 @@ const SpeakingPractice = () => {
 
   const currentQ = allQuestions[selectedQuestionIdx] || allQuestions[0];
 
+  // Merge question-specific vocab with topic-level vocabulary bank (20+ items)
+  const mergedVocabulary = useMemo(() => {
+    if (!currentQ) return [];
+    return getMergedVocabulary(selectedPart, currentQ.topic, currentQ.useful_language.vocabulary_bank);
+  }, [currentQ, selectedPart]);
+
   // Reset when part or topic changes
   useEffect(() => {
     setSelectedQuestionIdx(0);
