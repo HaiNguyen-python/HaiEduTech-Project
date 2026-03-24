@@ -111,7 +111,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Reasons why it could be counterproductive.',
       'Conclusion: State your opinion with justification.',
     ],
-    vocabularyBank: ['civic responsibility', 'community engagement', 'volunteer work', 'time management', 'social awareness', 'mandatory service', 'personal development', 'exploitation'],
+    vocabularyBank: ['civic responsibility (trách nhiệm công dân)', 'community engagement (sự tham gia cộng đồng)', 'volunteer work (công việc tình nguyện)', 'time management (quản lý thời gian)', 'social awareness (nhận thức xã hội)', 'mandatory service (nghĩa vụ bắt buộc)', 'personal development (phát triển cá nhân)', 'exploitation (sự bóc lột)'],
     brainstormingIdeas: ['Builds empathy and social responsibility.', 'Teenagers already face academic pressure.', 'Forced volunteering undermines genuine altruism.', 'Skills gained are transferable to employment.'],
   },
   {
