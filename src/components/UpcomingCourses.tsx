@@ -109,6 +109,35 @@ const UpcomingCourses = () => {
             </TabsContent>
           ))}
         </Tabs>
+        {/* Personal consultation CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-14 mx-auto max-w-2xl text-center"
+        >
+          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-8">
+            <h3 className="mb-3 font-display text-xl font-bold text-foreground sm:text-2xl">
+              {t(
+                "Đăng ký tư vấn lớp theo nguyện vọng cá nhân",
+                "Register for Personalized Class Consultation"
+              )}
+            </h3>
+            <p className="mb-5 text-sm text-muted-foreground sm:text-base">
+              {t(
+                "Liên hệ để được tư vấn lộ trình học phù hợp nhất với mục tiêu và thời gian của bạn",
+                "Contact us for a learning path tailored to your goals and schedule"
+              )}
+            </p>
+            <Link
+              to="/register"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:brightness-110"
+            >
+              {t("Đăng ký tư vấn ngay", "Register for Consultation")}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

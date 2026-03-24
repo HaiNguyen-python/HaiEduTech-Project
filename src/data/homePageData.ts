@@ -63,6 +63,26 @@ export const upcomingCourses: Record<string, UpcomingCourse[]> = {
       level: "Sơ cấp",
       levelEn: "Elementary",
     },
+    {
+      id: "toeic-500",
+      name: "TOEIC 500+ Nền tảng",
+      nameEn: "TOEIC 500+ Foundation",
+      status: "ongoing",
+      schedule: "T7 - CN, 14:00",
+      scheduleEn: "Sat - Sun, 14:00",
+      level: "Sơ cấp",
+      levelEn: "Elementary",
+    },
+    {
+      id: "english-conv",
+      name: "Tiếng Anh Giao tiếp",
+      nameEn: "Conversational English",
+      status: "ongoing",
+      schedule: "T2 - T4, 18:00",
+      scheduleEn: "Mon - Wed, 18:00",
+      level: "Mọi trình độ",
+      levelEn: "All Levels",
+    },
   ],
   chinese: [
     {
@@ -107,6 +127,17 @@ export const upcomingCourses: Record<string, UpcomingCourse[]> = {
       level: "Nâng cao",
       levelEn: "Advanced",
     },
+    {
+      id: "chinese-kids",
+      name: "Tiếng Trung cho Thiếu nhi",
+      nameEn: "Chinese for Kids",
+      status: "upcoming",
+      startDate: "2026-06-01",
+      schedule: "T7 - CN, 09:00",
+      scheduleEn: "Sat - Sun, 09:00",
+      level: "Sơ cấp",
+      levelEn: "Beginner",
+    },
   ],
   programming: [
     {
@@ -139,6 +170,17 @@ export const upcomingCourses: Record<string, UpcomingCourse[]> = {
       scheduleEn: "Sat, 10:00",
       level: "Intermediate",
       levelEn: "Intermediate",
+    },
+    {
+      id: "data-eng-adv",
+      name: "Data Engineering Nâng cao",
+      nameEn: "Advanced Data Engineering",
+      status: "upcoming",
+      startDate: "2026-07-01",
+      schedule: "T2 - T4 - T6, 19:00",
+      scheduleEn: "Mon - Wed - Fri, 19:00",
+      level: "Nâng cao",
+      levelEn: "Advanced",
     },
   ],
 };
