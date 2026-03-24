@@ -53,7 +53,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Arguments for starting later.',
       'Conclusion: Give your clear opinion with reasoning.',
     ],
-    vocabularyBank: ['cognitive development', 'play-based learning', 'socialisation', 'academic readiness', 'formative years', 'curriculum pressure', 'childhood autonomy', 'developmental milestones'],
+    vocabularyBank: ['cognitive development (phát triển nhận thức)', 'play-based learning (học qua chơi)', 'socialisation (xã hội hóa)', 'academic readiness (sẵn sàng học thuật)', 'formative years (những năm hình thành)', 'curriculum pressure (áp lực chương trình)', 'childhood autonomy (quyền tự chủ của trẻ)', 'developmental milestones (cột mốc phát triển)'],
     brainstormingIdeas: ['Early education can build literacy and numeracy foundations.', 'Play is essential for creativity and emotional growth.', 'Scandinavian countries start formal education at 7 and rank highly.', 'Pressure too early can cause burnout.'],
   },
   {
