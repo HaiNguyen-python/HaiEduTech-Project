@@ -148,7 +148,7 @@ const PythonChallengePage = () => {
                       <Trophy className="w-4 h-4 text-yellow-500" /> Problem
                     </h2>
                     <p className="text-sm text-secondary-foreground leading-relaxed">
-                      {t(challenge.descriptionVi, challenge.description)}
+                      {challenge.description}
                     </p>
                     {challenge.testCases.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-border">
