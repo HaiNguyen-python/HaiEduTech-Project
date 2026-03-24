@@ -104,8 +104,17 @@ const Navbar = () => {
           <div className="flex flex-col md:flex-row md:items-center md:h-12">
             {/* Row 1a: Logo + hamburger (mobile) or Logo + slogan + auth (desktop) */}
             <div className="flex items-center justify-between h-12 md:flex-1 min-w-0">
-              <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
-                <CodeMonitorIcon size={34} />
+              <Link to="/" className="flex items-center gap-2 shrink-0 group">
+                {/* Teacher mascot with waving animation */}
+                <motion.span
+                  className="text-2xl leading-none select-none"
+                  animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 6, ease: "easeInOut" }}
+                  style={{ transformOrigin: "70% 80%", display: "inline-block" }}
+                >
+                  👨‍🏫
+                </motion.span>
+                <CodeMonitorIcon size={30} />
                 <motion.span
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
