@@ -323,7 +323,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe Tokyo and London patterns.',
       'Body 2: Describe Cairo and make comparisons.',
     ],
-    vocabularyBank: ['precipitation', 'rainfall patterns', 'monsoon season', 'arid climate', 'moderate levels', 'peaked at', 'negligible rainfall', 'in stark contrast'],
+    vocabularyBank: ['precipitation (lượng mưa)', 'rainfall patterns (mô hình mưa)', 'monsoon season (mùa gió mùa)', 'arid climate (khí hậu khô cằn)', 'moderate levels (mức vừa phải)', 'peaked at (đạt đỉnh tại)', 'negligible rainfall (lượng mưa không đáng kể)', 'in stark contrast (trái ngược hoàn toàn)'],
     brainstormingIdeas: ['Tokyo has a clear rainy season.', 'Cairo is almost dry year-round.', 'London has even distribution.', 'Compare extremes between the three.'],
   },
   {
