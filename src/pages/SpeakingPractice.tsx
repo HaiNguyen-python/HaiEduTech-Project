@@ -22,6 +22,7 @@ import {
   type SpeakingPracticeQuestion,
 } from "@/data/speakingPracticeData";
 import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
+import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresIdeas";
 
 // Grading result interfaces
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
@@ -99,6 +100,18 @@ const SpeakingPractice = () => {
     if (!currentQ) return [];
     return getMergedVocabulary(selectedPart, currentQ.topic, currentQ.useful_language.vocabulary_bank);
   }, [currentQ, selectedPart]);
+
+  // Merge structures and ideas with topic-level bank (10+ each)
+  const mergedStructures = useMemo(() => {
+    if (!currentQ) return [];
+    return getMergedStructures(selectedPart, currentQ.topic, currentQ.useful_language.model_structures);
+  }, [currentQ, selectedPart]);
+
+  const mergedIdeas = useMemo(() => {
+    if (!currentQ) return [];
+    return getMergedIdeas(selectedPart, currentQ.topic, currentQ.useful_language.brainstorming_ideas);
+  }, [currentQ, selectedPart]);
+
 
   // Reset when part or topic changes
   useEffect(() => {
@@ -458,24 +471,34 @@ const SpeakingPractice = () => {
                         </TabsContent>
 
                         <TabsContent value="structures" className="mt-4">
-                          <div className="space-y-2">
-                            {currentQ.useful_language.model_structures.map((s, i) => (
-                              <div key={i} className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200/30">
-                                <p className="text-sm text-foreground italic">"{s}"</p>
-                              </div>
-                            ))}
-                          </div>
+                          <ScrollArea className="h-[320px]">
+                            <div className="space-y-2 pr-2">
+                              {mergedStructures.map((s, i) => (
+                                <div key={i} className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200/30">
+                                  <p className="text-sm text-foreground italic">"{s}"</p>
+                                </div>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                          <p className="text-[10px] text-muted-foreground mt-2 text-center">
+                            {mergedStructures.length} structures available for this topic
+                          </p>
                         </TabsContent>
 
                         <TabsContent value="ideas" className="mt-4">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {currentQ.useful_language.brainstorming_ideas.map((idea, i) => (
-                              <div key={i} className="flex items-start gap-2 p-2">
-                                <span className="text-primary font-bold text-sm">💡</span>
-                                <p className="text-sm text-muted-foreground">{idea}</p>
-                              </div>
-                            ))}
-                          </div>
+                          <ScrollArea className="h-[320px]">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pr-2">
+                              {mergedIdeas.map((idea, i) => (
+                                <div key={i} className="flex items-start gap-2 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+                                  <span className="text-primary font-bold text-sm shrink-0">💡</span>
+                                  <p className="text-sm text-foreground">{idea}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                          <p className="text-[10px] text-muted-foreground mt-2 text-center">
+                            {mergedIdeas.length} ideas available for this topic
+                          </p>
                         </TabsContent>
                       </Tabs>
                     </CardContent>
@@ -625,21 +648,21 @@ const SpeakingPractice = () => {
                   <ScrollArea className="h-[700px]">
                     <div className="space-y-4 pr-2">
                       {/* Overall score */}
-                      <div className="bg-secondary rounded-xl p-5 text-center">
-                        <span className="text-sm text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
-                      <div className={`text-5xl font-display font-bold mt-1 ${getScoreColor(result.overall)}`}>
+                      <div className="bg-secondary rounded-2xl p-6 text-center">
+                        <span className="text-base font-medium text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
+                        <div className={`text-6xl font-display font-bold mt-2 ${getScoreColor(result.overall)}`}>
                           {result.overall.toFixed(1)}
                         </div>
                       </div>
 
                       {/* Criteria */}
                       {result.criteria.map((c) => (
-                        <div key={c.label} className="bg-secondary rounded-xl p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-semibold text-foreground">{c.label}</span>
-                            <span className={`text-lg font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
+                        <div key={c.label} className="bg-secondary rounded-xl p-5">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-base font-semibold text-foreground">{c.label}</span>
+                            <span className={`text-2xl font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
                           </div>
-                          <div className="w-full h-2.5 bg-border rounded-full mb-2">
+                          <div className="w-full h-3 bg-border rounded-full mb-3">
                             <motion.div
                               className="h-full bg-gradient-to-r from-primary to-emerald-500 rounded-full"
                               initial={{ width: 0 }}
@@ -647,7 +670,7 @@ const SpeakingPractice = () => {
                               transition={{ duration: 0.8 }}
                             />
                           </div>
-                          <p className="text-sm text-foreground leading-relaxed mt-1">{c.feedback}</p>
+                          <p className="text-base text-foreground leading-relaxed mt-2">{c.feedback}</p>
                         </div>
                       ))}
 
