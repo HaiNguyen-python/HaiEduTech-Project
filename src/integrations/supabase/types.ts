@@ -125,6 +125,39 @@ export type Database = {
         }
         Relationships: []
       }
+      lesson_feedback: {
+        Row: {
+          created_at: string
+          feedback_type: string
+          id: string
+          lesson_id: string
+          lesson_type: string
+          module_id: string | null
+          subject: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          feedback_type: string
+          id?: string
+          lesson_id: string
+          lesson_type: string
+          module_id?: string | null
+          subject?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          feedback_type?: string
+          id?: string
+          lesson_id?: string
+          lesson_type?: string
+          module_id?: string | null
+          subject?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
