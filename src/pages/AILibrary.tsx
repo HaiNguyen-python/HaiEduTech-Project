@@ -32,7 +32,7 @@ const AILibrary = () => {
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
               <TabsTrigger value="lessons" className="flex items-center gap-2">
                 <BookMarked className="w-4 h-4" />
-                {t("Bài Học AI", "AI Lessons")}
+                {t("Bài Học", "Lessons")}
               </TabsTrigger>
               <TabsTrigger value="generator" className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4" />

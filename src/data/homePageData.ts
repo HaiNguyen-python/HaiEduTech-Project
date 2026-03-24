@@ -127,6 +127,17 @@ export const upcomingCourses: Record<string, UpcomingCourse[]> = {
       level: "Nâng cao",
       levelEn: "Advanced",
     },
+    {
+      id: "chinese-kids",
+      name: "Tiếng Trung cho Thiếu nhi",
+      nameEn: "Chinese for Kids",
+      status: "upcoming",
+      startDate: "2026-06-01",
+      schedule: "T7 - CN, 09:00",
+      scheduleEn: "Sat - Sun, 09:00",
+      level: "Sơ cấp",
+      levelEn: "Beginner",
+    },
   ],
   programming: [
     {
