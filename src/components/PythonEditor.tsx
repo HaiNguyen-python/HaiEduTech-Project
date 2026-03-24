@@ -193,7 +193,7 @@ sys.stderr = io.StringIO()
           className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-green-600 text-white font-semibold text-sm hover:bg-green-700 active:scale-[0.97] transition-all disabled:opacity-50"
         >
           {running ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-           {running ? t("Đang chạy...", "Running...") : t("▶ Chạy Code", "▶ Run Code")}
+           {running ? "Running..." : "▶ Run Code"}
         </button>
 
         <button
