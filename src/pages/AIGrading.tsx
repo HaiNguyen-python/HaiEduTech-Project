@@ -355,7 +355,7 @@ ${result.errors.map(e => `
                       <div className="bg-secondary rounded-2xl p-6">
                         <div className="flex items-center justify-between mb-4">
                           <h4 className="text-base font-bold text-foreground flex items-center gap-2">
-                            <Sparkles className="w-5 h-5 text-primary" /> {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}
+                            <Check className="w-5 h-5 text-primary" /> {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}
                           </h4>
                           <div className="flex gap-2">
                             <button
