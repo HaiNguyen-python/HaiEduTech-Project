@@ -256,7 +256,7 @@ sys.stderr = io.StringIO()
       {aiHelp && (
         <div className="rounded-xl bg-primary/5 border border-primary/20 p-5 space-y-2">
           <p className="text-sm font-semibold text-primary flex items-center gap-2">
-            <Sparkles className="w-4 h-4" /> {t("AI Debug Helper", "AI Debug Helper")}
+            <Sparkles className="w-4 h-4" /> AI Debug Helper
           </p>
           <p className="text-sm text-secondary-foreground whitespace-pre-wrap">{aiHelp}</p>
         </div>
