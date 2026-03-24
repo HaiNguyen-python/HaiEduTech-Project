@@ -33,50 +33,60 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* Premium slogan with letter-by-letter reveal and decorative lines */}
+          {/* Premium slogan — appears ONLY here on the entire site */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
-            className="mb-8 sm:mb-10 flex items-center justify-center gap-4 px-4"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 0.4, ease: "easeOut" }}
+            className="mb-8 sm:mb-10 flex items-center justify-center gap-3 sm:gap-5 px-4"
           >
+            {/* Left decorative line */}
             <motion.div
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
-              className="hidden sm:block h-px w-16 md:w-24 bg-gradient-to-r from-transparent to-[#3B82F6]/50 origin-right"
+              transition={{ duration: 1.2, delay: 1, ease: "easeOut" }}
+              className="hidden sm:block h-px w-12 md:w-20 lg:w-28 bg-gradient-to-r from-transparent via-primary/40 to-primary/60 origin-right"
             />
-            <motion.h2
-              className="text-center font-body text-sm sm:text-base md:text-lg lg:text-xl tracking-[0.15em] sm:tracking-[0.2em] font-light"
-              style={{
-                fontVariant: "small-caps",
-                textShadow: "0 0 20px rgba(59,130,246,0.15), 0 0 40px rgba(16,185,129,0.08)",
-              }}
-            >
-              {"The Unique Intersection of ".split("").map((char, i) => (
-                <motion.span key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.04, delay: 0.5 + i * 0.03 }} className="text-foreground/80">{char}</motion.span>
-              ))}
-              {"Language".split("").map((char, i) => (
-                <motion.span key={`l-${i}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.04, delay: 1.4 + i * 0.04 }}
-                  className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent font-medium">{char}</motion.span>
-              ))}
-              {" & ".split("").map((char, i) => (
-                <motion.span key={`a-${i}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.04, delay: 1.72 + i * 0.03 }} className="text-foreground/80">{char}</motion.span>
-              ))}
-              {"Technology".split("").map((char, i) => (
-                <motion.span key={`t-${i}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.04, delay: 1.81 + i * 0.04 }}
-                  className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent font-medium">{char}</motion.span>
-              ))}
-            </motion.h2>
+
+            <h2 className="text-center text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
+              <span
+                className="font-display font-light tracking-[0.12em] text-foreground/75"
+                style={{ fontVariant: "small-caps" }}
+              >
+                The Unique Intersection of{" "}
+              </span>
+              <span
+                className="font-bold tracking-wide bg-gradient-to-r from-[hsl(var(--primary))] to-[#10B981] bg-clip-text text-transparent"
+                style={{
+                  fontFamily: "'Dancing Script', cursive",
+                  fontSize: "1.15em",
+                }}
+              >
+                Language
+              </span>
+              <span
+                className="font-display font-light tracking-[0.12em] text-foreground/75"
+                style={{ fontVariant: "small-caps" }}
+              >
+                {" "}&{" "}
+              </span>
+              <span
+                className="font-bold tracking-wide bg-gradient-to-r from-[#10B981] to-[hsl(var(--primary))] bg-clip-text text-transparent"
+                style={{
+                  fontFamily: "'Dancing Script', cursive",
+                  fontSize: "1.15em",
+                }}
+              >
+                Technology
+              </span>
+            </h2>
+
+            {/* Right decorative line */}
             <motion.div
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
-              className="hidden sm:block h-px w-16 md:w-24 bg-gradient-to-l from-transparent to-[#10B981]/50 origin-left"
+              transition={{ duration: 1.2, delay: 1, ease: "easeOut" }}
+              className="hidden sm:block h-px w-12 md:w-20 lg:w-28 bg-gradient-to-l from-transparent via-accent/40 to-accent/60 origin-left"
             />
           </motion.div>
 
