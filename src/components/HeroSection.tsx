@@ -33,63 +33,6 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* Premium slogan — appears ONLY here on the entire site */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.5, delay: 0.4, ease: "easeOut" }}
-            className="mb-8 sm:mb-10 flex items-center justify-center gap-3 sm:gap-5 px-4"
-          >
-            {/* Left decorative line */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1.2, delay: 1, ease: "easeOut" }}
-              className="hidden sm:block h-px w-12 md:w-20 lg:w-28 bg-gradient-to-r from-transparent via-primary/40 to-primary/60 origin-right"
-            />
-
-            <h2 className="text-center text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
-              <span
-                className="font-display font-light tracking-[0.12em] text-foreground/75"
-                style={{ fontVariant: "small-caps" }}
-              >
-                The Unique Intersection of{" "}
-              </span>
-              <span
-                className="font-bold tracking-wide bg-gradient-to-r from-[hsl(var(--primary))] to-[#10B981] bg-clip-text text-transparent"
-                style={{
-                  fontFamily: "'Dancing Script', cursive",
-                  fontSize: "1.15em",
-                }}
-              >
-                Language
-              </span>
-              <span
-                className="font-display font-light tracking-[0.12em] text-foreground/75"
-                style={{ fontVariant: "small-caps" }}
-              >
-                {" "}&{" "}
-              </span>
-              <span
-                className="font-bold tracking-wide bg-gradient-to-r from-[#10B981] to-[hsl(var(--primary))] bg-clip-text text-transparent"
-                style={{
-                  fontFamily: "'Dancing Script', cursive",
-                  fontSize: "1.15em",
-                }}
-              >
-                Technology
-              </span>
-            </h2>
-
-            {/* Right decorative line */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1.2, delay: 1, ease: "easeOut" }}
-              className="hidden sm:block h-px w-12 md:w-20 lg:w-28 bg-gradient-to-l from-transparent via-accent/40 to-accent/60 origin-left"
-            />
-          </motion.div>
-
           <div className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16">
             <motion.div
               initial={{ opacity: 0, x: -40 }}

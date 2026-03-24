@@ -137,8 +137,15 @@ const Navbar = () => {
                 </motion.span>
               </Link>
 
-              {/* Spacer for layout balance */}
-              <div className="hidden md:block flex-1" />
+              {/* Slogan centered between logo and auth */}
+              <div className="hidden md:flex items-center justify-center flex-1 min-w-0 mx-3">
+                <span className="text-xs lg:text-sm text-muted-foreground font-display font-light tracking-[0.1em] truncate" style={{ fontVariant: "small-caps" }}>
+                  The Unique Intersection of{" "}
+                  <span className="font-bold bg-gradient-to-r from-[hsl(var(--primary))] to-[#10B981] bg-clip-text text-transparent" style={{ fontFamily: "'Dancing Script', cursive" }}>Language</span>
+                  {" & "}
+                  <span className="font-bold bg-gradient-to-r from-[#10B981] to-[hsl(var(--primary))] bg-clip-text text-transparent" style={{ fontFamily: "'Dancing Script', cursive" }}>Technology</span>
+                </span>
+              </div>
 
               {/* Auth + Lang on branding row (desktop only) */}
               <div className="hidden lg:flex items-center gap-1.5 shrink-0">
