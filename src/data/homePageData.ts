@@ -63,6 +63,26 @@ export const upcomingCourses: Record<string, UpcomingCourse[]> = {
       level: "Sơ cấp",
       levelEn: "Elementary",
     },
+    {
+      id: "toeic-500",
+      name: "TOEIC 500+ Nền tảng",
+      nameEn: "TOEIC 500+ Foundation",
+      status: "ongoing",
+      schedule: "T7 - CN, 14:00",
+      scheduleEn: "Sat - Sun, 14:00",
+      level: "Sơ cấp",
+      levelEn: "Elementary",
+    },
+    {
+      id: "english-conv",
+      name: "Tiếng Anh Giao tiếp",
+      nameEn: "Conversational English",
+      status: "ongoing",
+      schedule: "T2 - T4, 18:00",
+      scheduleEn: "Mon - Wed, 18:00",
+      level: "Mọi trình độ",
+      levelEn: "All Levels",
+    },
   ],
   chinese: [
     {
