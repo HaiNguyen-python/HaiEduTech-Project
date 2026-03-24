@@ -248,7 +248,7 @@ sys.stderr = io.StringIO()
              🎉 Congratulations! You passed Challenge {challenge.number}!
            </p>
            <p className="text-sm text-muted-foreground">Keep going to the next challenge!</p>
-          <p className="text-sm text-muted-foreground">{t("Tiếp tục chinh phục thử thách tiếp theo nhé!", "Keep going to the next challenge!")}</p>
+          
         </div>
       )}
 
