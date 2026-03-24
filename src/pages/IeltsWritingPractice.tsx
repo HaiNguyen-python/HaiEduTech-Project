@@ -64,6 +64,7 @@ const IeltsWritingPractice = () => {
   const [guideOpen, setGuideOpen] = useState(true);
   const [vocabOpen, setVocabOpen] = useState(false);
   const [ideasOpen, setIdeasOpen] = useState(false);
+  const [dictSearchWord, setDictSearchWord] = useState("");
 
   // Word count
   const wordCount = essay.trim() ? essay.trim().split(/\s+/).length : 0;
