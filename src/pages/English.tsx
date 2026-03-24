@@ -125,7 +125,7 @@ const English = () => {
             <p className="text-lg text-muted-foreground mb-10">
               {t(
                 "Từ Cambridge cho trẻ nhỏ đến IELTS 8.0+, TOEIC, Giao tiếp và THPT Quốc gia — chương trình bài bản với AI hỗ trợ chấm điểm và phản hồi cá nhân hóa.",
-                "From Cambridge Young Learners to IELTS 8.0+, TOEIC, Conversational and National Exam — structured programs with AI-powered grading and personalized feedback."
+                "From Cambridge Young Learners to IELTS 8.0+, TOEIC, Conversational and National Exam — structured programs with expert scoring and personalized feedback."
               )}
             </p>
 
@@ -135,10 +135,10 @@ const English = () => {
               <GraduationCap className="w-5 h-5 text-primary shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-medium text-foreground">
-                  {t("Luyện viết IELTS Task 1 & Task 2 với AI chấm điểm", "IELTS Writing Practice with AI Grading")}
+                  {t("Luyện viết IELTS Task 1 & Task 2 với hệ thống chấm điểm chuyên nghiệp", "IELTS Writing Practice with Expert Scoring System")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {t("AI tạo đề, hướng dẫn viết, ngân hàng từ vựng và chấm điểm tự động theo 4 tiêu chí IELTS.", "AI-generated prompts, writing guides, vocabulary banks, and automated grading across 4 IELTS criteria.")}
+                  {t("Tạo đề tự động, hướng dẫn viết, ngân hàng từ vựng và chấm điểm theo 4 tiêu chí IELTS chính thức.", "Auto-generated prompts, writing guides, vocabulary banks, and scoring across 4 official IELTS criteria.")}
                 </p>
               </div>
               <Link to="/ielts-writing-practice" className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shrink-0">

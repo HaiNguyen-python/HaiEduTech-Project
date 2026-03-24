@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Brain, FileText, Mic, Send, Loader2, AlertCircle, Sparkles, ChevronDown, ChevronUp, Download, Copy, Check } from "lucide-react";
+import { Brain, FileText, Mic, Send, Loader2, AlertCircle, BookOpen, ChevronDown, ChevronUp, Download, Copy, Check } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import SpeakingGrader from "@/components/SpeakingGrader";
@@ -171,7 +171,7 @@ ${result.errors.map(e => `
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-semibold mb-4">
-              <Brain className="w-4 h-4" /> {t("Hỗ trợ bởi AI", "AI-Powered")}
+              <Brain className="w-4 h-4" /> {t("Hệ thống chấm điểm", "Expert Scoring System")}
             </div>
             <h1 className="text-5xl font-display font-bold mb-4 text-foreground">
               Smart{" "}
@@ -186,13 +186,13 @@ ${result.errors.map(e => `
 
             {/* Link to Writing Practice */}
             <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <Sparkles className="w-5 h-5 text-primary shrink-0" />
+              <BookOpen className="w-5 h-5 text-primary shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-medium text-foreground">
                   {t("Muốn luyện viết với đề bài + hướng dẫn chi tiết?", "Want guided writing practice with prompts & vocabulary?")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {t("Thử tính năng Luyện viết IELTS mới với AI tạo đề, hướng dẫn từng bước và bộ từ vựng.", "Try the new IELTS Writing Practice with AI-generated prompts, step-by-step guides, and vocabulary banks.")}
+                  {t("Thử tính năng Luyện viết IELTS mới với hệ thống tạo đề, hướng dẫn từng bước và bộ từ vựng.", "Try IELTS Writing Practice with system-generated prompts, step-by-step guides, and vocabulary banks.")}
                 </p>
               </div>
               <a href="/ielts-writing-practice" className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shrink-0">
@@ -250,14 +250,14 @@ ${result.errors.map(e => `
                   {!result && !loading && (
                     <div className="flex flex-col items-center justify-center h-full text-center py-16">
                       <Brain className="w-16 h-16 text-muted-foreground/30 mb-6" />
-                      <p className="text-base text-muted-foreground">{t("Nộp bài viết để xem phản hồi AI", "Submit your essay to see AI feedback")}</p>
+                      <p className="text-base text-muted-foreground">{t("Nộp bài viết để xem phản hồi của hệ thống", "Submit your essay to see scoring feedback")}</p>
                     </div>
                   )}
 
                   {loading && (
                     <div className="flex flex-col items-center justify-center h-full text-center py-16">
                       <Loader2 className="w-12 h-12 text-primary animate-spin mb-6" />
-                      <p className="text-base text-muted-foreground">{t("Giám khảo AI đang phân tích...", "AI Examiner is analyzing...")}</p>
+                      <p className="text-base text-muted-foreground">{t("Hệ thống đang phân tích bài viết...", "System is analyzing your essay...")}</p>
                     </div>
                   )}
 
@@ -355,7 +355,7 @@ ${result.errors.map(e => `
                       <div className="bg-secondary rounded-2xl p-6">
                         <div className="flex items-center justify-between mb-4">
                           <h4 className="text-base font-bold text-foreground flex items-center gap-2">
-                            <Sparkles className="w-5 h-5 text-primary" /> {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}
+                            <Check className="w-5 h-5 text-primary" /> {t("Phiên bản Band 8.0+", "Band 8.0+ Version")}
                           </h4>
                           <div className="flex gap-2">
                             <button

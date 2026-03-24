@@ -25,7 +25,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Discuss the opposing view and refute or partially agree.',
       'Conclusion: Restate your opinion and summarize key points.',
     ],
-    vocabularyBank: ['vocational training', 'employability', 'theoretical knowledge', 'practical skills', 'career-oriented', 'academic rigour', 'work-ready graduates', 'curriculum design'],
+    vocabularyBank: ['vocational training (đào tạo nghề)', 'employability (khả năng tuyển dụng)', 'theoretical knowledge (kiến thức lý thuyết)', 'practical skills (kỹ năng thực hành)', 'career-oriented (định hướng nghề nghiệp)', 'academic rigour (tính nghiêm ngặt học thuật)', 'work-ready graduates (sinh viên sẵn sàng làm việc)', 'curriculum design (thiết kế chương trình)'],
     brainstormingIdeas: ['Universities provide critical thinking skills applicable to any career.', 'Employers often complain graduates lack practical skills.', 'Internship programs can bridge the gap.', 'Some fields (medicine, engineering) need both.'],
   },
   {
@@ -39,7 +39,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Address challenges (healthcare costs, workforce shrinkage).',
       'Conclusion: Summarize and give a balanced final opinion.',
     ],
-    vocabularyBank: ['ageing population', 'life expectancy', 'pension system', 'demographic shift', 'elderly care', 'workforce participation', 'intergenerational', 'social security burden'],
+    vocabularyBank: ['ageing population (dân số già hóa)', 'life expectancy (tuổi thọ)', 'pension system (hệ thống lương hưu)', 'demographic shift (thay đổi nhân khẩu học)', 'elderly care (chăm sóc người cao tuổi)', 'workforce participation (tham gia lực lượng lao động)', 'intergenerational (liên thế hệ)', 'social security burden (gánh nặng an sinh xã hội)'],
     brainstormingIdeas: ['Older workers bring experience and mentorship.', 'Healthcare and pension costs rise dramatically.', 'Countries like Japan face labour shortages.', 'Technology can assist elderly independence.'],
   },
   {
@@ -53,7 +53,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Arguments for starting later.',
       'Conclusion: Give your clear opinion with reasoning.',
     ],
-    vocabularyBank: ['cognitive development', 'play-based learning', 'socialisation', 'academic readiness', 'formative years', 'curriculum pressure', 'childhood autonomy', 'developmental milestones'],
+    vocabularyBank: ['cognitive development (phát triển nhận thức)', 'play-based learning (học qua chơi)', 'socialisation (xã hội hóa)', 'academic readiness (sẵn sàng học thuật)', 'formative years (những năm hình thành)', 'curriculum pressure (áp lực chương trình)', 'childhood autonomy (quyền tự chủ của trẻ)', 'developmental milestones (cột mốc phát triển)'],
     brainstormingIdeas: ['Early education can build literacy and numeracy foundations.', 'Play is essential for creativity and emotional growth.', 'Scandinavian countries start formal education at 7 and rank highly.', 'Pressure too early can cause burnout.'],
   },
   {
@@ -67,7 +67,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Benefits of improving current public transport.',
       'Conclusion: Summarize and state your preference.',
     ],
-    vocabularyBank: ['infrastructure investment', 'high-speed rail', 'commuter routes', 'urban mobility', 'sustainable transport', 'congestion reduction', 'cost-effective', 'connectivity'],
+    vocabularyBank: ['infrastructure investment (đầu tư hạ tầng)', 'high-speed rail (đường sắt cao tốc)', 'commuter routes (tuyến đường đi lại)', 'urban mobility (giao thông đô thị)', 'sustainable transport (giao thông bền vững)', 'congestion reduction (giảm tắc nghẽn)', 'cost-effective (hiệu quả chi phí)', 'connectivity (khả năng kết nối)'],
     brainstormingIdeas: ['High-speed rail reduces domestic flights and carbon emissions.', 'Existing systems in many cities are overcrowded and unreliable.', 'Building new lines is extremely expensive.', 'Improving buses and metro serves more people daily.'],
   },
   {
@@ -81,7 +81,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Ways technology has added complexity.',
       'Conclusion: Weigh both sides and give your opinion.',
     ],
-    vocabularyBank: ['digital overload', 'automation', 'information age', 'cyber security', 'work-life balance', 'streamline processes', 'technological dependency', 'digital literacy'],
+    vocabularyBank: ['digital overload (quá tải kỹ thuật số)', 'automation (tự động hóa)', 'information age (thời đại thông tin)', 'cyber security (an ninh mạng)', 'work-life balance (cân bằng công việc-cuộc sống)', 'streamline processes (hợp lý hóa quy trình)', 'technological dependency (phụ thuộc công nghệ)', 'digital literacy (hiểu biết kỹ thuật số)'],
     brainstormingIdeas: ['Technology automates mundane tasks.', 'Constant connectivity blurs work-life boundaries.', 'Information overload causes decision fatigue.', 'Medical technology saves lives that were previously lost.'],
   },
   {
@@ -95,7 +95,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Potential negative impacts (unrealistic expectations).',
       'Conclusion: State whether the message is overall beneficial.',
     ],
-    vocabularyBank: ['growth mindset', 'resilience', 'self-efficacy', 'unrealistic expectations', 'meritocracy', 'intrinsic motivation', 'social inequality', 'perseverance'],
+    vocabularyBank: ['growth mindset (tư duy phát triển)', 'resilience (khả năng phục hồi)', 'self-efficacy (niềm tin vào bản thân)', 'unrealistic expectations (kỳ vọng phi thực tế)', 'meritocracy (chế độ nhân tài)', 'intrinsic motivation (động lực nội tại)', 'social inequality (bất bình đẳng xã hội)', 'perseverance (sự kiên trì)'],
     brainstormingIdeas: ['Encouragement builds confidence and risk-taking.', 'Ignores systemic barriers (poverty, discrimination).', 'Failure despite effort can damage self-esteem.', 'Balanced messaging acknowledges effort AND circumstances.'],
   },
 
@@ -111,7 +111,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Reasons why it could be counterproductive.',
       'Conclusion: State your opinion with justification.',
     ],
-    vocabularyBank: ['civic responsibility', 'community engagement', 'volunteer work', 'time management', 'social awareness', 'mandatory service', 'personal development', 'exploitation'],
+    vocabularyBank: ['civic responsibility (trách nhiệm công dân)', 'community engagement (sự tham gia cộng đồng)', 'volunteer work (công việc tình nguyện)', 'time management (quản lý thời gian)', 'social awareness (nhận thức xã hội)', 'mandatory service (nghĩa vụ bắt buộc)', 'personal development (phát triển cá nhân)', 'exploitation (sự bóc lột)'],
     brainstormingIdeas: ['Builds empathy and social responsibility.', 'Teenagers already face academic pressure.', 'Forced volunteering undermines genuine altruism.', 'Skills gained are transferable to employment.'],
   },
   {
@@ -125,7 +125,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Problems caused by competitive sports.',
       'Conclusion: Balance your view.',
     ],
-    vocabularyBank: ['cultural exchange', 'national pride', 'hooliganism', 'sportsmanship', 'diplomacy', 'commercialisation', 'doping scandals', 'global solidarity'],
+    vocabularyBank: ['cultural exchange (giao lưu văn hóa)', 'national pride (niềm tự hào dân tộc)', 'hooliganism (bạo lực trong thể thao)', 'sportsmanship (tinh thần thể thao)', 'diplomacy (ngoại giao)', 'commercialisation (thương mại hóa)', 'doping scandals (bê bối doping)', 'global solidarity (đoàn kết toàn cầu)'],
     brainstormingIdeas: ['Olympics promote international friendship.', 'Rivalries can escalate into nationalism.', 'Host cities face massive debt.', 'Athletes become role models across cultures.'],
   },
 
@@ -141,7 +141,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: List 2-3 disadvantages with examples.',
       'Conclusion: Summarize and state whether benefits outweigh drawbacks.',
     ],
-    vocabularyBank: ['telecommuting', 'work-life balance', 'productivity', 'isolation', 'commute reduction', 'digital nomad', 'collaborative tools', 'workplace culture'],
+    vocabularyBank: ['telecommuting (làm việc từ xa)', 'work-life balance (cân bằng công việc-cuộc sống)', 'productivity (năng suất)', 'isolation (sự cô lập)', 'commute reduction (giảm đi lại)', 'digital nomad (du mục kỹ thuật số)', 'collaborative tools (công cụ cộng tác)', 'workplace culture (văn hóa công sở)'],
     brainstormingIdeas: ['No commute saves time and reduces stress.', 'Loneliness and poor mental health from isolation.', 'Flexible schedule benefits parents.', 'Blurred boundaries lead to overworking.'],
   },
   {
@@ -155,7 +155,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Disadvantages (loneliness, cost, safety).',
       'Conclusion: Provide a balanced summary.',
     ],
-    vocabularyBank: ['autonomy', 'self-reliance', 'social isolation', 'financial burden', 'personal space', 'emotional well-being', 'solo household', 'support network'],
+    vocabularyBank: ['autonomy (quyền tự chủ)', 'self-reliance (tự lực)', 'social isolation (cô lập xã hội)', 'financial burden (gánh nặng tài chính)', 'personal space (không gian cá nhân)', 'emotional well-being (sức khỏe tinh thần)', 'solo household (hộ gia đình một người)', 'support network (mạng lưới hỗ trợ)'],
     brainstormingIdeas: ['Full control over daily routine.', 'Higher cost of living without shared expenses.', 'Can lead to loneliness, especially for elderly.', 'Encourages independence and problem-solving.'],
   },
 
@@ -171,7 +171,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Propose 2-3 practical solutions.',
       'Conclusion: Summarize causes and solutions briefly.',
     ],
-    vocabularyBank: ['air pollution', 'emissions', 'fossil fuels', 'respiratory diseases', 'green energy', 'public transport', 'carbon footprint', 'environmental regulations'],
+    vocabularyBank: ['air pollution (ô nhiễm không khí)', 'emissions (khí thải)', 'fossil fuels (nhiên liệu hóa thạch)', 'respiratory diseases (bệnh hô hấp)', 'green energy (năng lượng xanh)', 'public transport (giao thông công cộng)', 'carbon footprint (dấu chân carbon)', 'environmental regulations (quy định môi trường)'],
     brainstormingIdeas: ['Vehicle emissions and industrial waste.', 'Promote electric vehicles and renewable energy.', 'Implement congestion charges.', 'Plant more urban trees and green spaces.'],
   },
   {
@@ -185,7 +185,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Possible solutions to reverse the trend.',
       'Conclusion: Brief summary of key points.',
     ],
-    vocabularyBank: ['urbanisation', 'rural depopulation', 'brain drain', 'infrastructure strain', 'agricultural decline', 'job opportunities', 'decentralisation', 'remote work incentives'],
+    vocabularyBank: ['urbanisation (đô thị hóa)', 'rural depopulation (giảm dân số nông thôn)', 'brain drain (chảy máu chất xám)', 'infrastructure strain (quá tải hạ tầng)', 'agricultural decline (suy giảm nông nghiệp)', 'job opportunities (cơ hội việc làm)', 'decentralisation (phân quyền)', 'remote work incentives (ưu đãi làm việc từ xa)'],
     brainstormingIdeas: ['Rural areas lose young workforce.', 'Cities become overcrowded with housing shortages.', 'Government can create rural job incentives.', 'Improve internet and services in countryside.'],
   },
 
@@ -201,7 +201,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Discuss whether advantages outweigh disadvantages.',
       'Conclusion: State your final assessment.',
     ],
-    vocabularyBank: ['delayed parenthood', 'career progression', 'financial stability', 'fertility challenges', 'emotional maturity', 'family planning', 'societal pressure', 'childcare costs'],
+    vocabularyBank: ['delayed parenthood (trì hoãn sinh con)', 'career progression (thăng tiến nghề nghiệp)', 'financial stability (ổn định tài chính)', 'fertility challenges (thách thức sinh sản)', 'emotional maturity (trưởng thành cảm xúc)', 'family planning (kế hoạch hóa gia đình)', 'societal pressure (áp lực xã hội)', 'childcare costs (chi phí chăm sóc trẻ)'],
     brainstormingIdeas: ['Career and financial stability before children.', 'Higher risk of complications with age.', 'More emotionally prepared parents.', 'Less energy for active parenting.'],
   },
   {
@@ -215,7 +215,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Evaluate whether this is positive or negative.',
       'Conclusion: Give your final assessment.',
     ],
-    vocabularyBank: ['e-commerce', 'consumer behaviour', 'convenience', 'brick-and-mortar', 'price comparison', 'impulse buying', 'delivery logistics', 'high street decline'],
+    vocabularyBank: ['e-commerce (thương mại điện tử)', 'consumer behaviour (hành vi tiêu dùng)', 'convenience (sự tiện lợi)', 'brick-and-mortar (cửa hàng truyền thống)', 'price comparison (so sánh giá)', 'impulse buying (mua sắm bốc đồng)', 'delivery logistics (hậu cần giao hàng)', 'high street decline (suy giảm phố thương mại)'],
     brainstormingIdeas: ['Convenience of shopping from home 24/7.', 'Local shops struggle to compete.', 'Environmental cost of packaging and delivery.', 'Greater product variety and price transparency.'],
   },
 
@@ -232,7 +232,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Detail the trends for 2-3 technologies.',
       'Body 2: Compare the remaining technologies.',
     ],
-    vocabularyBank: ['a significant increase', 'a gradual decline', 'overtook', 'peaked at', 'remained stable', 'rose sharply', 'in contrast', 'by comparison'],
+    vocabularyBank: ['a significant increase (tăng đáng kể)', 'a gradual decline (giảm dần)', 'overtook (vượt qua)', 'peaked at (đạt đỉnh tại)', 'remained stable (duy trì ổn định)', 'rose sharply (tăng mạnh)', 'in contrast (ngược lại)', 'by comparison (so sánh)'],
     brainstormingIdeas: ['Identify the highest and lowest values.', 'Note any crossover points.', 'Group similar trends together.', 'Compare start and end values.'],
   },
   {
@@ -247,7 +247,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe USA and UK trends in detail.',
       'Body 2: Describe Australia and Germany trends.',
     ],
-    vocabularyBank: ['fluctuated', 'witnessed a surge', 'remained the dominant', 'saw a modest increase', 'between…and…', 'approximately', 'over the period', 'reached a peak of'],
+    vocabularyBank: ['fluctuated (dao động)', 'witnessed a surge (chứng kiến sự tăng vọt)', 'remained the dominant (duy trì vị trí thống trị)', 'saw a modest increase (tăng nhẹ)', 'between…and… (giữa…và…)', 'approximately (xấp xỉ)', 'over the period (trong suốt giai đoạn)', 'reached a peak of (đạt đỉnh)'],
     brainstormingIdeas: ['USA likely dominates throughout.', 'Growth rates differ between countries.', 'Some countries may have plateaued.', 'Post-2015 data may show acceleration.'],
   },
   {
@@ -262,7 +262,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe the 2000 distribution.',
       'Body 2: Describe the 2020 distribution and key changes.',
     ],
-    vocabularyBank: ['accounted for', 'comprised', 'the largest proportion', 'a notable shift', 'declined from…to…', 'doubled', 'renewable sources', 'fossil fuels'],
+    vocabularyBank: ['accounted for (chiếm)', 'comprised (bao gồm)', 'the largest proportion (tỷ lệ lớn nhất)', 'a notable shift (sự thay đổi đáng kể)', 'declined from…to… (giảm từ…xuống…)', 'doubled (tăng gấp đôi)', 'renewable sources (nguồn tái tạo)', 'fossil fuels (nhiên liệu hóa thạch)'],
     brainstormingIdeas: ['Coal dominant in 2000, renewables in 2020.', 'Oil decreased significantly.', 'Nuclear share doubled but remained small.', 'Overall shift from fossil fuels to clean energy.'],
   },
   {
@@ -277,7 +277,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Focus on countries with highest literacy (Vietnam, Brazil).',
       'Body 2: Discuss the countries with lower but improving rates.',
     ],
-    vocabularyBank: ['literacy rate', 'rose steadily', 'the highest figure', 'lagged behind', 'saw the greatest improvement', 'stood at', 'by the end of the period', 'in comparison to'],
+    vocabularyBank: ['literacy rate (tỷ lệ biết chữ)', 'rose steadily (tăng đều)', 'the highest figure (con số cao nhất)', 'lagged behind (tụt hậu)', 'saw the greatest improvement (có sự cải thiện lớn nhất)', 'stood at (đạt mức)', 'by the end of the period (cuối giai đoạn)', 'in comparison to (so với)'],
     brainstormingIdeas: ['All countries improved.', 'Vietnam consistently the highest.', 'Ethiopia had the lowest but significant progress.', 'India showed dramatic improvement.'],
   },
   {
@@ -292,7 +292,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe the original layout.',
       'Body 2: Detail the changes made.',
     ],
-    vocabularyBank: ['was replaced by', 'was converted into', 'was constructed', 'underwent significant development', 'previously', 'in contrast', 'to the north/south of', 'adjacent to'],
+    vocabularyBank: ['was replaced by (được thay thế bởi)', 'was converted into (được chuyển đổi thành)', 'was constructed (được xây dựng)', 'underwent significant development (trải qua phát triển đáng kể)', 'previously (trước đó)', 'in contrast (ngược lại)', 'to the north/south of (phía bắc/nam của)', 'adjacent to (liền kề với)'],
     brainstormingIdeas: ['Farmland replaced by commercial area.', 'New transport links added.', 'Residential area expanded.', 'River area may have been developed.'],
   },
   {
@@ -307,7 +307,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe the first half of the process.',
       'Body 2: Describe the second half of the process.',
     ],
-    vocabularyBank: ['the process begins with', 'subsequently', 'following this', 'at the next stage', 'the final step involves', 'are then transported to', 'is converted into', 'the cycle repeats'],
+    vocabularyBank: ['the process begins with (quy trình bắt đầu với)', 'subsequently (sau đó)', 'following this (tiếp theo)', 'at the next stage (ở giai đoạn tiếp theo)', 'the final step involves (bước cuối cùng bao gồm)', 'are then transported to (sau đó được vận chuyển đến)', 'is converted into (được chuyển đổi thành)', 'the cycle repeats (chu trình lặp lại)'],
     brainstormingIdeas: ['8-step cyclical process.', 'Starts with collection, ends with redistribution.', 'Key transformation: shredding and melting.', 'Note passive voice usage for describing processes.'],
   },
   // More Task 1 prompts
@@ -323,7 +323,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe Tokyo and London patterns.',
       'Body 2: Describe Cairo and make comparisons.',
     ],
-    vocabularyBank: ['precipitation', 'rainfall patterns', 'monsoon season', 'arid climate', 'moderate levels', 'peaked at', 'negligible rainfall', 'in stark contrast'],
+    vocabularyBank: ['precipitation (lượng mưa)', 'rainfall patterns (mô hình mưa)', 'monsoon season (mùa gió mùa)', 'arid climate (khí hậu khô cằn)', 'moderate levels (mức vừa phải)', 'peaked at (đạt đỉnh tại)', 'negligible rainfall (lượng mưa không đáng kể)', 'in stark contrast (trái ngược hoàn toàn)'],
     brainstormingIdeas: ['Tokyo has a clear rainy season.', 'Cairo is almost dry year-round.', 'London has even distribution.', 'Compare extremes between the three.'],
   },
   {
@@ -338,7 +338,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Detail North America and Europe.',
       'Body 2: Detail Asia and Africa.',
     ],
-    vocabularyBank: ['internet penetration', 'digital divide', 'exponential growth', 'steadily increased', 'remained the frontrunner', 'narrowed the gap', 'lagged behind', 'from a base of'],
+    vocabularyBank: ['internet penetration (mức độ phổ cập internet)', 'digital divide (khoảng cách số)', 'exponential growth (tăng trưởng theo cấp số nhân)', 'steadily increased (tăng đều)', 'remained the frontrunner (duy trì vị trí dẫn đầu)', 'narrowed the gap (thu hẹp khoảng cách)', 'lagged behind (tụt hậu)', 'from a base of (từ mức cơ sở)'],
     brainstormingIdeas: ['Digital divide narrowing but still exists.', 'Asia growth rate steepest post-2010.', 'Africa started lowest but quadrupled.', 'North America approaching saturation.'],
   },
 ];

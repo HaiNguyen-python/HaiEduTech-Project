@@ -4,8 +4,9 @@ import WritingHistory from "@/components/WritingHistory";
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import {
-  BookOpen, Send, Loader2, Sparkles, ChevronDown, ChevronUp,
-  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle
+  BookOpen, Send, Loader2, ChevronDown, ChevronUp,
+  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle,
+  BookMarked, Search, ExternalLink
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,7 +15,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
 import ReactMarkdown from "react-markdown";
 import { WritingPrompt, getRandomPrompt } from "@/data/ieltsWritingPrompts";
 
@@ -61,6 +64,7 @@ const IeltsWritingPractice = () => {
   const [guideOpen, setGuideOpen] = useState(true);
   const [vocabOpen, setVocabOpen] = useState(false);
   const [ideasOpen, setIdeasOpen] = useState(false);
+  const [dictSearchWord, setDictSearchWord] = useState("");
 
   // Word count
   const wordCount = essay.trim() ? essay.trim().split(/\s+/).length : 0;
@@ -231,7 +235,7 @@ const IeltsWritingPractice = () => {
             {t("Luyện viết IELTS", "IELTS Writing Practice")}
           </h1>
           <p className="text-muted-foreground mt-1">
-            {t("Luyện viết Task 1 & Task 2 với AI chấm điểm theo tiêu chí IELTS chính thức", "Practice Task 1 & Task 2 with AI grading based on official IELTS criteria")}
+            {t("Luyện viết Task 1 & Task 2 với hệ thống chấm điểm theo tiêu chí IELTS chính thức", "Practice Task 1 & Task 2 with scoring system based on official IELTS criteria")}
           </p>
         </motion.div>
 
@@ -267,8 +271,8 @@ const IeltsWritingPractice = () => {
             <RefreshCw className="w-4 h-4 mr-1" /> {t("Đề ngẫu nhiên", "Random Prompt")}
           </Button>
           <Button size="sm" onClick={handleAIPrompt} disabled={promptLoading}>
-            {promptLoading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Sparkles className="w-4 h-4 mr-1" />}
-            {t("AI tạo đề mới", "AI Generate")}
+            {promptLoading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-1" />}
+            {t("Tạo đề mới", "Generate New")}
           </Button>
 
           {/* Timer */}
@@ -409,7 +413,7 @@ const IeltsWritingPractice = () => {
                   <div className="flex gap-2 mt-3">
                     <Button onClick={handleSubmit} disabled={grading || wordCount < 50} className="flex-1">
                       {grading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Send className="w-4 h-4 mr-1" />}
-                      {grading ? t("Đang chấm...", "Grading...") : t("Nộp bài & chấm điểm AI", "Submit & AI Grade")}
+                      {grading ? t("Đang chấm...", "Grading...") : t("Nộp bài & Chấm điểm", "Submit & Grade")}
                     </Button>
                     {result && (
                       <Button variant="outline" onClick={handleDownloadPDF}>
@@ -530,6 +534,159 @@ const IeltsWritingPractice = () => {
             </motion.div>
           </div>
         )}
+
+        {/* Reference Toolbox - Floating Button + Sheet */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              className="fixed bottom-6 right-6 z-40 rounded-full w-14 h-14 shadow-lg"
+              size="icon"
+            >
+              <BookMarked className="w-6 h-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent className="w-[400px] sm:w-[450px] overflow-y-auto">
+            <SheetHeader>
+              <SheetTitle className="flex items-center gap-2">
+                <BookMarked className="w-5 h-5 text-primary" />
+                {t("Công cụ tra cứu", "Reference Toolbox")}
+              </SheetTitle>
+            </SheetHeader>
+            <Tabs defaultValue="dictionary" className="mt-4">
+              <TabsList className="w-full">
+                <TabsTrigger value="dictionary" className="flex-1 text-xs">📖 Dictionary</TabsTrigger>
+                <TabsTrigger value="ozdic" className="flex-1 text-xs">🔗 Ozdic</TabsTrigger>
+                <TabsTrigger value="thesaurus" className="flex-1 text-xs">📚 Thesaurus</TabsTrigger>
+              </TabsList>
+
+              {/* Cambridge Dictionary Tab */}
+              <TabsContent value="dictionary" className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  {t("Tra cứu từ điển Cambridge - định nghĩa, phát âm và ví dụ.", "Look up Cambridge Dictionary - definitions, pronunciation and examples.")}
+                </p>
+                <div className="flex gap-2">
+                  <Input
+                    value={dictSearchWord}
+                    onChange={(e) => setDictSearchWord(e.target.value)}
+                    placeholder={t("Nhập từ cần tra...", "Enter a word...")}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && dictSearchWord.trim()) {
+                        window.open(`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase()}`, "_blank");
+                      }
+                    }}
+                  />
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      if (dictSearchWord.trim()) {
+                        window.open(`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase()}`, "_blank");
+                      }
+                    }}
+                  >
+                    <Search className="w-4 h-4" />
+                  </Button>
+                </div>
+                <a
+                  href="https://dictionary.cambridge.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-primary hover:underline"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  {t("Mở Cambridge Dictionary", "Open Cambridge Dictionary")}
+                </a>
+              </TabsContent>
+
+              {/* Ozdic Collocation Tab */}
+              <TabsContent value="ozdic" className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  {t("Tìm cụm từ kết hợp tự nhiên (collocations) để viết tự nhiên hơn.", "Find natural word combinations (collocations) for more natural writing.")}
+                </p>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder={t("Nhập từ cần tìm collocation...", "Enter word for collocations...")}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && (e.target as HTMLInputElement).value.trim()) {
+                        window.open(`https://ozdic.com/collocation/${(e.target as HTMLInputElement).value.trim().toLowerCase()}`, "_blank");
+                      }
+                    }}
+                  />
+                  <Button size="sm" onClick={(e) => {
+                    const input = (e.currentTarget.previousElementSibling as HTMLInputElement);
+                    if (input?.value.trim()) {
+                      window.open(`https://ozdic.com/collocation/${input.value.trim().toLowerCase()}`, "_blank");
+                    }
+                  }}>
+                    <Search className="w-4 h-4" />
+                  </Button>
+                </div>
+                <a
+                  href="https://ozdic.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-primary hover:underline"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  {t("Mở Ozdic Collocations", "Open Ozdic Collocations")}
+                </a>
+                <div className="bg-muted/50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-foreground mb-2">{t("Ví dụ collocations hữu ích:", "Useful collocation examples:")}</p>
+                  <ul className="text-xs text-muted-foreground space-y-1">
+                    <li>• <strong>make</strong> a decision (đưa ra quyết định)</li>
+                    <li>• <strong>exert</strong> pressure on (gây áp lực lên)</li>
+                    <li>• <strong>pose</strong> a threat to (đe dọa)</li>
+                    <li>• <strong>draw</strong> a conclusion (rút ra kết luận)</li>
+                    <li>• <strong>raise</strong> awareness (nâng cao nhận thức)</li>
+                  </ul>
+                </div>
+              </TabsContent>
+
+              {/* Thesaurus Tab */}
+              <TabsContent value="thesaurus" className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  {t("Tìm từ đồng nghĩa để tránh lặp từ và nâng cao Lexical Resource.", "Find synonyms to avoid repetition and improve Lexical Resource.")}
+                </p>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder={t("Nhập từ cần tìm đồng nghĩa...", "Enter word for synonyms...")}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && (e.target as HTMLInputElement).value.trim()) {
+                        window.open(`https://www.thesaurus.com/browse/${(e.target as HTMLInputElement).value.trim().toLowerCase()}`, "_blank");
+                      }
+                    }}
+                  />
+                  <Button size="sm" onClick={(e) => {
+                    const input = (e.currentTarget.previousElementSibling as HTMLInputElement);
+                    if (input?.value.trim()) {
+                      window.open(`https://www.thesaurus.com/browse/${input.value.trim().toLowerCase()}`, "_blank");
+                    }
+                  }}>
+                    <Search className="w-4 h-4" />
+                  </Button>
+                </div>
+                <a
+                  href="https://www.thesaurus.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-primary hover:underline"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  {t("Mở Thesaurus.com", "Open Thesaurus.com")}
+                </a>
+                <div className="bg-muted/50 rounded-lg p-3">
+                  <p className="text-xs font-medium text-foreground mb-2">{t("Thay thế từ phổ biến:", "Common word replacements:")}</p>
+                  <ul className="text-xs text-muted-foreground space-y-1">
+                    <li>• good → beneficial, advantageous, favorable</li>
+                    <li>• bad → detrimental, adverse, harmful</li>
+                    <li>• important → crucial, vital, significant</li>
+                    <li>• many → numerous, a plethora of, countless</li>
+                    <li>• think → argue, contend, maintain, assert</li>
+                  </ul>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </SheetContent>
+        </Sheet>
       </main>
       <Footer />
     </div>
