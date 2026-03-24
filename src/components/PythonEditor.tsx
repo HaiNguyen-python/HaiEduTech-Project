@@ -201,7 +201,7 @@ sys.stderr = io.StringIO()
           className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-secondary-foreground text-sm hover:bg-secondary/80 active:scale-[0.97] transition-all"
         >
           {showHints ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          {t("Gợi ý", "Hints")}
+           Hints
         </button>
 
         {hasError && (
