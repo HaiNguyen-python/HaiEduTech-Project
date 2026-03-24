@@ -104,12 +104,12 @@ const Navbar = () => {
           <div className="flex flex-col md:flex-row md:items-center md:h-12">
             {/* Row 1a: Logo + hamburger (mobile) or Logo + slogan + auth (desktop) */}
             <div className="flex items-center justify-between h-12 md:flex-1 min-w-0">
-              <Link to="/" className="flex items-center gap-2 shrink-0 group">
-                <img src={teacherLogo} alt="HaiEduTech" className="w-8 h-8 rounded-lg object-cover" />
+              <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
+                <CodeMonitorIcon size={34} />
                 <motion.span
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="font-display text-lg whitespace-nowrap flex items-center gap-1.5 tracking-wide"
+                  className="font-display text-lg whitespace-nowrap tracking-wider"
                 >
                   <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent font-medium">
                     HaiEdu
