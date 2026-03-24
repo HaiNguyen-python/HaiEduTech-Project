@@ -691,31 +691,26 @@ const IeltsWritingPractice = () => {
                 </p>
                 <div className="flex gap-2">
                   <Input
+                    value={ozdicWord}
+                    onChange={(e) => setOzdicWord(e.target.value)}
                     placeholder={t("Nhập từ cần tìm collocation...", "Enter word for collocations...")}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && (e.target as HTMLInputElement).value.trim()) {
-                        window.open(`https://ozdic.com/collocation/${(e.target as HTMLInputElement).value.trim().toLowerCase()}`, "_blank");
+                      if (e.key === "Enter" && ozdicWord.trim()) {
+                        window.open(`https://ozdic.com/collocation/${ozdicWord.trim().toLowerCase()}`, "_blank");
                       }
                     }}
                   />
-                  <Button size="sm" onClick={(e) => {
-                    const input = (e.currentTarget.previousElementSibling as HTMLInputElement);
-                    if (input?.value.trim()) {
-                      window.open(`https://ozdic.com/collocation/${input.value.trim().toLowerCase()}`, "_blank");
+                  <Button size="sm" onClick={() => {
+                    if (ozdicWord.trim()) {
+                      window.open(`https://ozdic.com/collocation/${ozdicWord.trim().toLowerCase()}`, "_blank");
                     }
                   }}>
                     <Search className="w-4 h-4" />
                   </Button>
                 </div>
-                <a
-                  href="https://ozdic.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-primary hover:underline"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  {t("Mở Ozdic Collocations", "Open Ozdic Collocations")}
-                </a>
+                <p className="text-xs text-muted-foreground italic">
+                  {t("⚠️ Ozdic chưa hỗ trợ tra trực tiếp, kết quả sẽ mở trong tab mới.", "⚠️ Ozdic doesn't support inline lookup, results open in a new tab.")}
+                </p>
                 <div className="bg-muted/50 rounded-lg p-3">
                   <p className="text-xs font-medium text-foreground mb-2">{t("Ví dụ collocations hữu ích:", "Useful collocation examples:")}</p>
                   <ul className="text-xs text-muted-foreground space-y-1">
@@ -728,38 +723,39 @@ const IeltsWritingPractice = () => {
                 </div>
               </TabsContent>
 
-              {/* Thesaurus Tab */}
+              {/* Thesaurus Tab - Inline results */}
               <TabsContent value="thesaurus" className="space-y-3">
                 <p className="text-sm text-muted-foreground">
                   {t("Tìm từ đồng nghĩa để tránh lặp từ và nâng cao Lexical Resource.", "Find synonyms to avoid repetition and improve Lexical Resource.")}
                 </p>
                 <div className="flex gap-2">
                   <Input
+                    value={thesaurusWord}
+                    onChange={(e) => setThesaurusWord(e.target.value)}
                     placeholder={t("Nhập từ cần tìm đồng nghĩa...", "Enter word for synonyms...")}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && (e.target as HTMLInputElement).value.trim()) {
-                        window.open(`https://www.thesaurus.com/browse/${(e.target as HTMLInputElement).value.trim().toLowerCase()}`, "_blank");
-                      }
+                      if (e.key === "Enter") handleThesaurusLookup(thesaurusWord);
                     }}
                   />
-                  <Button size="sm" onClick={(e) => {
-                    const input = (e.currentTarget.previousElementSibling as HTMLInputElement);
-                    if (input?.value.trim()) {
-                      window.open(`https://www.thesaurus.com/browse/${input.value.trim().toLowerCase()}`, "_blank");
-                    }
-                  }}>
-                    <Search className="w-4 h-4" />
+                  <Button size="sm" onClick={() => handleThesaurusLookup(thesaurusWord)} disabled={thesaurusLoading}>
+                    {thesaurusLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                   </Button>
                 </div>
-                <a
-                  href="https://www.thesaurus.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-primary hover:underline"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  {t("Mở Thesaurus.com", "Open Thesaurus.com")}
-                </a>
+                {/* Inline thesaurus results */}
+                {thesaurusResult.length > 0 && (
+                  <div className="rounded-lg border bg-card p-3">
+                    <p className="text-xs font-medium text-foreground mb-2">
+                      {t("Từ đồng nghĩa của", "Synonyms of")} "<strong>{thesaurusWord}</strong>":
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {thesaurusResult.map((syn) => (
+                        <span key={syn} className="rounded-md bg-primary/10 text-primary px-2 py-0.5 text-xs font-medium">
+                          {syn}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="bg-muted/50 rounded-lg p-3">
                   <p className="text-xs font-medium text-foreground mb-2">{t("Thay thế từ phổ biến:", "Common word replacements:")}</p>
                   <ul className="text-xs text-muted-foreground space-y-1">
