@@ -155,7 +155,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Disadvantages (loneliness, cost, safety).',
       'Conclusion: Provide a balanced summary.',
     ],
-    vocabularyBank: ['autonomy', 'self-reliance', 'social isolation', 'financial burden', 'personal space', 'emotional well-being', 'solo household', 'support network'],
+    vocabularyBank: ['autonomy (quyền tự chủ)', 'self-reliance (tự lực)', 'social isolation (cô lập xã hội)', 'financial burden (gánh nặng tài chính)', 'personal space (không gian cá nhân)', 'emotional well-being (sức khỏe tinh thần)', 'solo household (hộ gia đình một người)', 'support network (mạng lưới hỗ trợ)'],
     brainstormingIdeas: ['Full control over daily routine.', 'Higher cost of living without shared expenses.', 'Can lead to loneliness, especially for elderly.', 'Encourages independence and problem-solving.'],
   },
 
