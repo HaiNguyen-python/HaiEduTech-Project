@@ -292,7 +292,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe the original layout.',
       'Body 2: Detail the changes made.',
     ],
-    vocabularyBank: ['was replaced by', 'was converted into', 'was constructed', 'underwent significant development', 'previously', 'in contrast', 'to the north/south of', 'adjacent to'],
+    vocabularyBank: ['was replaced by (được thay thế bởi)', 'was converted into (được chuyển đổi thành)', 'was constructed (được xây dựng)', 'underwent significant development (trải qua phát triển đáng kể)', 'previously (trước đó)', 'in contrast (ngược lại)', 'to the north/south of (phía bắc/nam của)', 'adjacent to (liền kề với)'],
     brainstormingIdeas: ['Farmland replaced by commercial area.', 'New transport links added.', 'Residential area expanded.', 'River area may have been developed.'],
   },
   {
