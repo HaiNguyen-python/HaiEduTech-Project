@@ -21,6 +21,7 @@ import {
   getTopicsByPart,
   type SpeakingPracticeQuestion,
 } from "@/data/speakingPracticeData";
+import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 
 // Grading result interfaces
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
