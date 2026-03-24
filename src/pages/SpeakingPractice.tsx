@@ -622,13 +622,13 @@ const SpeakingPractice = () => {
                 )}
 
                 {result && !loading && (
-                  <ScrollArea className="max-h-[600px]">
+                  <ScrollArea className="h-[700px]">
                     <div className="space-y-4 pr-2">
                       {/* Overall score */}
                       <div className="bg-secondary rounded-xl p-5 text-center">
                         <span className="text-sm text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
-                        <div className={`text-5xl font-display font-bold mt-1 ${getScoreColor(result.overall)}`}>
-                          {result.overall}
+                      <div className={`text-5xl font-display font-bold mt-1 ${getScoreColor(result.overall)}`}>
+                          {result.overall.toFixed(1)}
                         </div>
                       </div>
 
@@ -637,7 +637,7 @@ const SpeakingPractice = () => {
                         <div key={c.label} className="bg-secondary rounded-xl p-4">
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-sm font-semibold text-foreground">{c.label}</span>
-                            <span className={`text-lg font-mono font-bold ${getScoreColor(c.score)}`}>{c.score}</span>
+                            <span className={`text-lg font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
                           </div>
                           <div className="w-full h-2.5 bg-border rounded-full mb-2">
                             <motion.div
@@ -647,7 +647,7 @@ const SpeakingPractice = () => {
                               transition={{ duration: 0.8 }}
                             />
                           </div>
-                          <p className="text-xs text-muted-foreground leading-relaxed">{c.feedback}</p>
+                          <p className="text-sm text-foreground leading-relaxed mt-1">{c.feedback}</p>
                         </div>
                       ))}
 
@@ -697,7 +697,7 @@ const SpeakingPractice = () => {
                         </h4>
                         <div className="space-y-2">
                           {result.suggestions.map((s, i) => (
-                            <p key={i} className="text-xs text-muted-foreground flex items-start gap-2">
+                            <p key={i} className="text-sm text-foreground flex items-start gap-2">
                               <span className="text-primary font-bold mt-0.5">✓</span> {s}
                             </p>
                           ))}
