@@ -802,6 +802,110 @@ export const part3StructuresIdeas: TopicStructuresIdeas = {
       "Mention the concept of smart cities and connected living."
     ]
   },
+  "Urbanization": {
+    structures: [
+      "Urbanization is a trend that has accelerated dramatically in recent years, especially...",
+      "I think the biggest challenge related to urbanization is...",
+      "From a planning perspective, I believe cities need to...",
+      "There's no denying that moving to cities offers opportunities, but it also...",
+      "If we compare urban and rural living, the key difference is...",
+      "I'd argue that sustainable urban development requires...",
+      "One consequence of rapid urbanization that concerns me is...",
+      "Looking at cities in my country, I've noticed that...",
+      "The solution to urban problems, in my view, lies in...",
+      "While cities offer economic advantages, we must also consider...",
+      "What's particularly worrying about current trends is...",
+      "I believe the future of cities depends on how well we..."
+    ],
+    ideas: [
+      "Discuss the push and pull factors of rural-to-urban migration.",
+      "Talk about housing affordability and the cost of living in cities.",
+      "Mention traffic congestion and possible solutions (public transport, cycling).",
+      "Discuss the environmental impact of urban sprawl.",
+      "Talk about preserving green spaces and parks in cities.",
+      "Mention the concept of smart cities and their potential.",
+      "Discuss social issues in cities (isolation, crime, inequality).",
+      "Talk about the impact of urbanization on traditional communities.",
+      "Mention urban planning success stories from around the world.",
+      "Discuss whether governments should limit city growth.",
+      "Talk about infrastructure challenges (water, electricity, waste).",
+      "Mention the cultural advantages and disadvantages of city living."
+    ]
+  },
+  "Crime & Law": {
+    structures: [
+      "Crime is a complex social issue that requires a multi-faceted approach because...",
+      "I think the main cause of crime in many societies is...",
+      "From a legal perspective, I believe the justice system should...",
+      "There's an ongoing debate about whether... and I tend to think...",
+      "If we look at crime statistics, it's clear that...",
+      "I'd argue that prevention is more effective than punishment because...",
+      "One aspect of the criminal justice system that concerns me is...",
+      "The relationship between poverty and crime is well-documented, which suggests...",
+      "While strict laws are necessary, I also believe we need...",
+      "Looking at different countries' approaches to crime, we can see that...",
+      "I think the role of education in preventing crime is often underestimated because...",
+      "What makes this issue particularly challenging is the fact that..."
+    ],
+    ideas: [
+      "Discuss whether harsh punishments effectively deter crime.",
+      "Talk about rehabilitation vs. punishment for offenders.",
+      "Mention the root causes of crime (poverty, inequality, lack of education).",
+      "Discuss cybercrime and how laws need to adapt to new technologies.",
+      "Talk about juvenile crime and how to address it.",
+      "Mention the role of community policing in crime prevention.",
+      "Discuss white-collar crime and whether it's treated fairly.",
+      "Talk about the death penalty and arguments for/against it.",
+      "Mention prison overcrowding and alternative sentencing.",
+      "Discuss the impact of crime on victims and communities.",
+      "Talk about surveillance, privacy, and crime prevention.",
+      "Mention the importance of legal education for citizens."
+    ]
+  },
+  "Health & Lifestyle": {
+    structures: [
+      "Health and lifestyle choices are closely interconnected, and I believe...",
+      "I think the most important factor in maintaining good health is...",
+      "There's growing evidence that lifestyle changes can...",
+      "From a public health perspective, the priority should be...",
+      "While modern medicine has advanced significantly, I think...",
+      "One health trend that I find particularly interesting is...",
+      "I'd argue that mental health is just as important as physical health because...",
+      "If we look at how lifestyles have changed over the past few decades,...",
+      "The relationship between diet and health is...",
+      "I believe that governments should play a role in promoting...",
+      "What concerns me about modern lifestyles is...",
+      "In my experience, the most effective approach to wellness is..."
+    ],
+    ideas: [
+      "Discuss the impact of sedentary lifestyles on health.",
+      "Talk about mental health awareness and reducing stigma.",
+      "Mention the role of diet and nutrition in preventing diseases.",
+      "Discuss whether healthcare should be free for everyone.",
+      "Talk about the influence of social media on body image and mental health.",
+      "Mention alternative medicine vs. conventional treatments.",
+      "Discuss the importance of work-life balance for health.",
+      "Talk about how technology affects sleep and wellbeing.",
+      "Mention the rising rates of obesity and how to address them.",
+      "Discuss the role of exercise in stress management.",
+      "Talk about healthcare inequality between rich and poor countries.",
+      "Mention the long-term health impacts of the pandemic."
+    ]
+  },
+};
+
+// Topic name aliases to handle mismatches between question data and structures bank
+const part3TopicAliases: Record<string, string> = {
+  "Education": "Education & Learning",
+  "Environment": "Environment & Nature",
+  "Technology": "Technology & Innovation",
+  "Health & Lifestyle": "Health & Wellbeing",
+  "Crime & Law": "Crime & Justice",
+};
+
+// Resolve topic: try exact match, then alias, then _default
+const resolveTopicData = (bankMap: TopicStructuresIdeas, topic: string) => {
+  return bankMap[topic] || bankMap[part3TopicAliases[topic]] || bankMap["_default"] || { structures: [], ideas: [] };
 };
 
 // Utility: get merged structures for a question
@@ -811,7 +915,7 @@ export const getMergedStructures = (
   questionStructures: string[]
 ): string[] => {
   const bankMap = part === 1 ? part1StructuresIdeas : part === 2 ? part2StructuresIdeas : part3StructuresIdeas;
-  const topicData = bankMap[topic] || bankMap["_default"] || { structures: [], ideas: [] };
+  const topicData = resolveTopicData(bankMap, topic);
   const seen = new Set<string>();
   const merged: string[] = [];
 
@@ -831,7 +935,7 @@ export const getMergedIdeas = (
   questionIdeas: string[]
 ): string[] => {
   const bankMap = part === 1 ? part1StructuresIdeas : part === 2 ? part2StructuresIdeas : part3StructuresIdeas;
-  const topicData = bankMap[topic] || bankMap["_default"] || { structures: [], ideas: [] };
+  const topicData = resolveTopicData(bankMap, topic);
   const seen = new Set<string>();
   const merged: string[] = [];
 
