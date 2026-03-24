@@ -67,11 +67,14 @@ const IeltsWritingPractice = () => {
   const [ideasOpen, setIdeasOpen] = useState(false);
   const [dictSearchWord, setDictSearchWord] = useState("");
   const [dictResult, setDictResult] = useState<any>(null);
+  const [dictViTranslations, setDictViTranslations] = useState<Record<string, string>>({});
   const [dictLoading, setDictLoading] = useState(false);
   const [thesaurusWord, setThesaurusWord] = useState("");
-  const [thesaurusResult, setThesaurusResult] = useState<string[]>([]);
+  const [thesaurusResult, setThesaurusResult] = useState<{ word: string; score: number }[]>([]);
   const [thesaurusLoading, setThesaurusLoading] = useState(false);
-  const [ozdicWord, setOzdicWord] = useState("");
+  const [collocationWord, setCollocationWord] = useState("");
+  const [collocationResult, setCollocationResult] = useState<{ left: string[]; right: string[] }>({ left: [], right: [] });
+  const [collocationLoading, setCollocationLoading] = useState(false);
 
   // Word count
   const wordCount = essay.trim() ? essay.trim().split(/\s+/).length : 0;
@@ -95,16 +98,55 @@ const IeltsWritingPractice = () => {
     setTimerActive(false);
   }, [taskType]);
 
-  // Inline dictionary lookup using free API
+  // Translate a text to Vietnamese using MyMemory API
+  const translateToVi = async (text: string): Promise<string> => {
+    try {
+      const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|vi`);
+      if (res.ok) {
+        const data = await res.json();
+        return data.responseData?.translatedText || "";
+      }
+    } catch { /* silent */ }
+    return "";
+  };
+
+  // Inline dictionary lookup with Vietnamese translations
   const handleDictLookup = async (word: string) => {
     if (!word.trim()) return;
     setDictLoading(true);
     setDictResult(null);
+    setDictViTranslations({});
     try {
       const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.trim().toLowerCase()}`);
       if (res.ok) {
         const data = await res.json();
-        setDictResult(data[0]);
+        const entry = data[0];
+        setDictResult(entry);
+        // Translate definitions and examples to Vietnamese in background
+        const translations: Record<string, string> = {};
+        const toTranslate: { key: string; text: string }[] = [];
+        entry.meanings?.forEach((m: any, mIdx: number) => {
+          m.definitions?.slice(0, 3).forEach((def: any, dIdx: number) => {
+            toTranslate.push({ key: `def-${mIdx}-${dIdx}`, text: def.definition });
+            if (def.example) {
+              toTranslate.push({ key: `ex-${mIdx}-${dIdx}`, text: def.example });
+            }
+          });
+        });
+        // Batch translate (parallel, max 6 at a time)
+        const chunks = toTranslate.slice(0, 6);
+        const results = await Promise.allSettled(
+          chunks.map(async (item) => {
+            const viText = await translateToVi(item.text);
+            return { key: item.key, vi: viText };
+          })
+        );
+        results.forEach((r) => {
+          if (r.status === "fulfilled" && r.value.vi) {
+            translations[r.value.key] = r.value.vi;
+          }
+        });
+        setDictViTranslations(translations);
       } else {
         setDictResult({ error: true });
       }
@@ -114,21 +156,52 @@ const IeltsWritingPractice = () => {
     setDictLoading(false);
   };
 
-  // Inline thesaurus lookup using Datamuse API
+  // Inline collocation lookup using Datamuse API
+  const handleCollocationLookup = async (word: string) => {
+    if (!word.trim()) return;
+    setCollocationLoading(true);
+    setCollocationResult({ left: [], right: [] });
+    try {
+      const w = word.trim().toLowerCase();
+      const [leftRes, rightRes] = await Promise.all([
+        fetch(`https://api.datamuse.com/words?rc=${w}&max=10`),
+        fetch(`https://api.datamuse.com/words?lc=${w}&max=10`),
+      ]);
+      const leftData = leftRes.ok ? await leftRes.json() : [];
+      const rightData = rightRes.ok ? await rightRes.json() : [];
+      setCollocationResult({
+        left: leftData.map((d: any) => d.word),
+        right: rightData.map((d: any) => d.word),
+      });
+    } catch {
+      setCollocationResult({ left: [], right: [] });
+    }
+    setCollocationLoading(false);
+  };
+
+  // Inline thesaurus lookup with scores for color grading
   const handleThesaurusLookup = async (word: string) => {
     if (!word.trim()) return;
     setThesaurusLoading(true);
     setThesaurusResult([]);
     try {
-      const res = await fetch(`https://api.datamuse.com/words?rel_syn=${word.trim().toLowerCase()}&max=15`);
+      const res = await fetch(`https://api.datamuse.com/words?rel_syn=${word.trim().toLowerCase()}&max=20`);
       if (res.ok) {
         const data = await res.json();
-        setThesaurusResult(data.map((d: any) => d.word));
+        setThesaurusResult(data.map((d: any) => ({ word: d.word, score: d.score || 0 })));
       }
     } catch {
       setThesaurusResult([]);
     }
     setThesaurusLoading(false);
+  };
+
+  // Get opacity class based on synonym relevance score
+  const getSynonymStyle = (score: number, maxScore: number) => {
+    if (maxScore === 0) return { opacity: 1 };
+    const ratio = score / maxScore;
+    // Map ratio to opacity: highest score = 1.0, lowest = 0.35
+    return { opacity: 0.35 + ratio * 0.65 };
   };
 
   const formatTime = (seconds: number) => {
