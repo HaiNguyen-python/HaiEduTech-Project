@@ -554,7 +554,7 @@ const IeltsWritingPractice = () => {
               <span className="hidden sm:inline text-sm font-medium">{t("Tra cứu", "Lookup")}</span>
             </Button>
           </SheetTrigger>
-          <SheetContent className="w-[400px] sm:w-[450px] overflow-y-auto">
+          <SheetContent side="left" className="w-[400px] sm:w-[450px] overflow-y-auto">
             <SheetHeader>
               <SheetTitle className="flex items-center gap-2">
                 <BookMarked className="w-5 h-5 text-primary" />
