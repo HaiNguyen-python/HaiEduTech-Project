@@ -33,15 +33,13 @@ const ChatBot = () => {
       setShake(true);
       setTimeout(() => {
         setShake(false);
-        if (!isMobile) {
-          setShowTooltip(true);
-          tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
-        }
+        setShowTooltip(true);
+        tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
       }, 600);
     }, 12000);
 
     const initialTimer = setTimeout(() => {
-      if (!open && !isMobile) {
+      if (!open) {
         setShowTooltip(true);
         tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
       }
