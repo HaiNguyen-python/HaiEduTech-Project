@@ -252,7 +252,7 @@ const Programming = () => {
                               {mod.titleEn}
                             </h3>
                             <span className="text-xs text-muted-foreground">
-                              {mod.lessons.length} {t("bài học", "lessons")}
+                              {mod.lessons.length} lessons
                             </span>
                           </div>
                           <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
