@@ -306,7 +306,14 @@ const IeltsWritingPractice = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm leading-relaxed">{currentPrompt.prompt}</p>
-                  {currentPrompt.imageDescription && (
+                  {/* Dynamic chart for Task 1 prompts */}
+                  {currentPrompt.chartData && (
+                    <div className="mt-4">
+                      <Task1Chart config={currentPrompt.chartData} />
+                    </div>
+                  )}
+                  {/* Fallback description for map/process types without chart data */}
+                  {!currentPrompt.chartData && currentPrompt.imageDescription && (
                     <div className="mt-4 p-4 bg-muted/50 rounded-lg border-2 border-dashed">
                       <p className="text-xs text-muted-foreground font-medium mb-1">📊 {t("Mô tả biểu đồ:", "Chart Description:")}</p>
                       <p className="text-xs text-muted-foreground">{currentPrompt.imageDescription}</p>
