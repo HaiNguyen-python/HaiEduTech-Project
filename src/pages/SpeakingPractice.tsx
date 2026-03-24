@@ -294,8 +294,8 @@ const SpeakingPractice = () => {
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {t(
-              "Luyện tập với ngân hàng câu hỏi, từ vựng gợi ý và phản hồi tức thì từ hệ thống AI",
-              "Practice with our question bank, vocabulary suggestions, and instant AI feedback"
+              "Luyện tập với ngân hàng câu hỏi, từ vựng gợi ý và phản hồi tức thì từ hệ thống chấm điểm",
+              "Practice with our question bank, vocabulary suggestions, and instant feedback"
             )}
           </p>
         </motion.div>
