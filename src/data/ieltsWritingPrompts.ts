@@ -185,7 +185,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Possible solutions to reverse the trend.',
       'Conclusion: Brief summary of key points.',
     ],
-    vocabularyBank: ['urbanisation', 'rural depopulation', 'brain drain', 'infrastructure strain', 'agricultural decline', 'job opportunities', 'decentralisation', 'remote work incentives'],
+    vocabularyBank: ['urbanisation (đô thị hóa)', 'rural depopulation (giảm dân số nông thôn)', 'brain drain (chảy máu chất xám)', 'infrastructure strain (quá tải hạ tầng)', 'agricultural decline (suy giảm nông nghiệp)', 'job opportunities (cơ hội việc làm)', 'decentralisation (phân quyền)', 'remote work incentives (ưu đãi làm việc từ xa)'],
     brainstormingIdeas: ['Rural areas lose young workforce.', 'Cities become overcrowded with housing shortages.', 'Government can create rural job incentives.', 'Improve internet and services in countryside.'],
   },
 
