@@ -178,23 +178,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "The graph shows a classic ___ with falling youth shares.",
-          "answer": "demographic transition"
+          "answer": "demographic transition",
+          "explanation": "A 'demographic transition' describes the shift from high birth/death rates to low ones."
         },
         {
           "sentence": "The working-age group began to ___ after 2010.",
-          "answer": "taper off"
+          "answer": "taper off",
+          "explanation": "'Taper off' means to gradually decrease or level out."
         },
         {
           "sentence": "An ___ occurred in the mid-1980s as fertility dropped.",
-          "answer": "inflection point"
+          "answer": "inflection point",
+          "explanation": "An 'inflection point' is where the trend changes direction or pace."
         },
         {
           "sentence": "By 2030, the elderly are expected to ___ the youth share.",
-          "answer": "outpace"
+          "answer": "outpace",
+          "explanation": "'Outpace' means to exceed in rate or proportion."
         },
         {
           "sentence": "These changes are ___ rising dependency ratios.",
-          "answer": "underpinning"
+          "answer": "underpinning",
+          "explanation": "'Underpinning' means forming the foundation or basis for something."
         }
       ]
     }
