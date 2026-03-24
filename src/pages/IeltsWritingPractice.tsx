@@ -780,6 +780,11 @@ const IeltsWritingPractice = () => {
                     {collocationLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                   </Button>
                 </div>
+                {!collocationLoading && collocationWord && collocationResult.left.length === 0 && collocationResult.right.length === 0 && (
+                  <div className="rounded-lg border bg-muted/50 p-3 text-sm text-muted-foreground text-center">
+                    {t("Không tìm thấy collocation. Hãy thử từ khác.", "No collocations found. Try another word.")}
+                  </div>
+                )}
                 {(collocationResult.left.length > 0 || collocationResult.right.length > 0) && (
                   <div className="rounded-lg border bg-card p-3 space-y-3 max-h-[350px] overflow-y-auto">
                     <p className="text-xs font-medium text-foreground">
