@@ -287,7 +287,7 @@ const SpeakingGrader = () => {
                   <div key={c.label} className="bg-secondary rounded-2xl p-5">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-base font-semibold text-foreground">{c.label}</span>
-                      <span className={`text-xl font-mono font-bold ${getScoreColor(c.score)}`}>{c.score}</span>
+                      <span className={`text-xl font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
                     </div>
                     <div className="w-full h-3 bg-border rounded-full mb-3">
                       <motion.div className="h-full bg-primary rounded-full" initial={{ width: 0 }} animate={{ width: `${(c.score / 9) * 100}%` }} transition={{ duration: 0.8 }} />
