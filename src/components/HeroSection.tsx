@@ -33,6 +33,25 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
+          {/* Centered slogan */}
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-center mb-8 sm:mb-10"
+          >
+            <span className="inline-block text-sm sm:text-base md:text-lg italic font-light tracking-wide text-muted-foreground">
+              The Unique Intersection of{" "}
+              <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent font-medium not-italic">
+                Language
+              </span>
+              {" & "}
+              <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent font-medium not-italic">
+                Technology
+              </span>
+            </span>
+          </motion.p>
+
           <div className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
