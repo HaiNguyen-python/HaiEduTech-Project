@@ -110,7 +110,7 @@ const Navbar = () => {
                 <motion.img
                   src={teacherWave}
                   alt="HaiEduTech Teacher"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-primary/20"
+                  className="w-[42px] h-[42px] rounded-full object-cover border-2 border-primary/20"
                   animate={{
                     rotate: [0, -2, 2, -1.5, 1.5, 0],
                     scale: [1, 1.02, 1, 1.01, 1],
