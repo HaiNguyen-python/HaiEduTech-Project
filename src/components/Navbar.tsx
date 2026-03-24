@@ -1,10 +1,11 @@
-// HaiEduTech Navigation Bar
+// HaiEduTech Navigation Bar with nested mega-menu for IELTS
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
-  Globe, UserPlus, LogIn, ChevronDown, Cpu, LogOut, Library, Shield
+  Globe, UserPlus, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
+  FileText, PenTool, Map, MessageSquare, Award, School
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,15 +13,27 @@ import { useUserRole } from "@/hooks/useUserRole";
 import teacherLogo from "@/assets/teacher-logo.png";
 import teacherWave from "@/assets/teacher-wave.png";
 
+// Sub-item with optional icon and nested children
+interface SubItem {
+  to: string;
+  label: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  children?: SubItem[];
+  groupLabel?: string;
+}
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [mobileSubExpanded, setMobileSubExpanded] = useState<string | null>(null);
+  const [ieltsHover, setIeltsHover] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { lang, setLang, t } = useLanguage();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const ieltsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { user, isTeacher } = useUserRole();
 
   useEffect(() => {
@@ -39,24 +52,29 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const englishSubs = [
+  // IELTS nested sub-items with dedicated icons
+  const ieltsChildren: SubItem[] = [
+    { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
+    { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
+    { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
+    { to: "/ai-grading", label: t("Chấm điểm", "Grading Portal"), icon: Cpu },
+  ];
+
+  const englishSubs: SubItem[] = [
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/english/cambridge", label: "🌟 Cambridge Starters–PET" },
-    { to: "/english/ielts", label: t("🎯 Chương trình IELTS", "🎯 IELTS Program") },
-    { to: "/ielts-writing-practice", label: t("✍️ Luyện viết IELTS", "✍️ IELTS Writing") },
-    { to: "/ai-grading", label: t("📝 Chấm điểm IELTS", "📝 IELTS Grading") },
-    { to: "/ielts-sample-essays", label: t("📄 Bài mẫu IELTS", "📄 IELTS Sample Essays") },
+    { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
     { to: "/english/toeic", label: "💼 TOEIC" },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "/english/national-exam", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
   ];
-  const chineseSubs = [
+  const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/chinese/foundation", label: t("🏗️ Nền tảng", "🏗️ Foundation") },
     { to: "/chinese/hsk", label: "📊 HSK 1-6" },
     { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
   ];
-  const programmingSubs = [
+  const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/python-challenges", label: t("🏆 150 Thử thách Python", "🏆 150 Python Challenges") },
     { to: "/programming/prog-ai-foundation", label: "🧠 AI Foundation" },
@@ -236,19 +254,92 @@ const Navbar = () => {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 6, scale: 0.97 }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="absolute top-full left-0 mt-1 w-60 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
+                          className="absolute top-full left-0 mt-1 w-64 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
                         >
-                          {l.subs.map((sub, i) => (
-                            <motion.div key={sub.to + sub.label}
-                              initial={{ opacity: 0, x: -6 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: i * 0.025, duration: 0.18 }}>
-                              <Link to={sub.to} onClick={() => setDropdown(null)}
-                                className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors rounded-md mx-1">
-                                {sub.label}
-                              </Link>
-                            </motion.div>
-                          ))}
+                          {l.subs.map((sub, i) => {
+                            // Nested group with children (IELTS Program)
+                            if (sub.children) {
+                              return (
+                                <div
+                                  key={sub.groupLabel}
+                                  className="relative"
+                                  onMouseEnter={() => {
+                                    if (ieltsTimeoutRef.current) clearTimeout(ieltsTimeoutRef.current);
+                                    setIeltsHover(true);
+                                  }}
+                                  onMouseLeave={() => {
+                                    ieltsTimeoutRef.current = setTimeout(() => setIeltsHover(false), 120);
+                                  }}
+                                >
+                                  <motion.div
+                                    initial={{ opacity: 0, x: -6 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: i * 0.025, duration: 0.18 }}
+                                  >
+                                    <div className={`flex items-center justify-between px-4 py-2.5 text-sm font-medium cursor-pointer rounded-md mx-1 transition-colors ${
+                                      ieltsHover ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary/80"
+                                    }`}>
+                                      <span>{sub.label}</span>
+                                      <ChevronRight className="w-3.5 h-3.5" />
+                                    </div>
+                                  </motion.div>
+
+                                  {/* Nested flyout sub-menu */}
+                                  <AnimatePresence>
+                                    {ieltsHover && (
+                                      <motion.div
+                                        initial={{ opacity: 0, x: -8, scale: 0.96 }}
+                                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                                        exit={{ opacity: 0, x: -6, scale: 0.97 }}
+                                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                                        className="absolute left-full top-0 ml-1 w-56 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
+                                      >
+                                        {/* IELTS header */}
+                                        <div className="px-4 py-1.5 mb-1">
+                                          <span className="text-[10px] font-bold uppercase tracking-widest bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+                                            IELTS Program
+                                          </span>
+                                        </div>
+                                        {sub.children.map((child, ci) => {
+                                          const ChildIcon = child.icon;
+                                          return (
+                                            <motion.div
+                                              key={child.to}
+                                              initial={{ opacity: 0, x: -6 }}
+                                              animate={{ opacity: 1, x: 0 }}
+                                              transition={{ delay: ci * 0.04, duration: 0.16 }}
+                                            >
+                                              <Link
+                                                to={child.to}
+                                                onClick={() => { setDropdown(null); setIeltsHover(false); }}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors rounded-md mx-1"
+                                              >
+                                                {ChildIcon && <ChildIcon className="w-4 h-4 text-primary/70" />}
+                                                <span>{child.label}</span>
+                                              </Link>
+                                            </motion.div>
+                                          );
+                                        })}
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+                              );
+                            }
+
+                            // Regular sub-item
+                            return (
+                              <motion.div key={sub.to + sub.label}
+                                initial={{ opacity: 0, x: -6 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: i * 0.025, duration: 0.18 }}>
+                                <Link to={sub.to} onClick={() => setDropdown(null)}
+                                  className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors rounded-md mx-1">
+                                  {sub.label}
+                                </Link>
+                              </motion.div>
+                            );
+                          })}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -335,12 +426,60 @@ const Navbar = () => {
                             className="overflow-hidden"
                           >
                             <div className="ml-6 pl-4 border-l-2 border-primary/20 space-y-0.5 py-1">
-                              {l.subs.map((sub) => (
-                                <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)}
-                                  className="block px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors">
-                                  {sub.label}
-                                </Link>
-                              ))}
+                              {l.subs.map((sub) => {
+                                // Nested group (IELTS) in mobile
+                                if (sub.children) {
+                                  const isSubOpen = mobileSubExpanded === sub.groupLabel;
+                                  return (
+                                    <div key={sub.groupLabel}>
+                                      <button
+                                        onClick={() => setMobileSubExpanded(prev => prev === sub.groupLabel ? null : sub.groupLabel!)}
+                                        className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
+                                          isSubOpen ? "text-primary bg-primary/5" : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                                        }`}
+                                      >
+                                        <span>{sub.label}</span>
+                                        <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-200 ${isSubOpen ? "rotate-90" : ""}`} />
+                                      </button>
+                                      <AnimatePresence>
+                                        {isSubOpen && (
+                                          <motion.div
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: "auto" }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            transition={{ duration: 0.18 }}
+                                            className="overflow-hidden"
+                                          >
+                                            <div className="ml-4 pl-3 border-l-2 border-emerald-500/30 space-y-0.5 py-1">
+                                              {sub.children.map((child) => {
+                                                const ChildIcon = child.icon;
+                                                return (
+                                                  <Link
+                                                    key={child.to}
+                                                    to={child.to}
+                                                    onClick={() => setOpen(false)}
+                                                    className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+                                                  >
+                                                    {ChildIcon && <ChildIcon className="w-3.5 h-3.5 text-primary/60" />}
+                                                    <span>{child.label}</span>
+                                                  </Link>
+                                                );
+                                              })}
+                                            </div>
+                                          </motion.div>
+                                        )}
+                                      </AnimatePresence>
+                                    </div>
+                                  );
+                                }
+                                // Regular sub-item
+                                return (
+                                  <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)}
+                                    className="block px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors">
+                                    {sub.label}
+                                  </Link>
+                                );
+                              })}
                             </div>
                           </motion.div>
                         )}
