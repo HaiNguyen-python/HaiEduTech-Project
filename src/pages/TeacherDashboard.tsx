@@ -65,10 +65,32 @@ const TeacherDashboard = () => {
       const { data: profiles } = await supabase.from("profiles").select("id, full_name, created_at");
       setStudents(profiles || []);
       setStats(prev => ({ ...prev, totalStudents: (profiles || []).length }));
+
+      // Fetch feedback analytics
+      const { data: feedbackData } = await supabase.from("lesson_feedback").select("lesson_id, lesson_type, subject, feedback_type");
+      if (feedbackData && feedbackData.length > 0) {
+        // Aggregate by lesson_id
+        const map = new Map<string, { lesson_id: string; lesson_type: string; subject: string; likes: number; dislikes: number }>();
+        for (const fb of feedbackData) {
+          const key = fb.lesson_id;
+          if (!map.has(key)) {
+            map.set(key, { lesson_id: fb.lesson_id, lesson_type: fb.lesson_type, subject: fb.subject || "", likes: 0, dislikes: 0 });
+          }
+          const entry = map.get(key)!;
+          if (fb.feedback_type === "like") entry.likes++;
+          else entry.dislikes++;
+        }
+        const aggregated: FeedbackStat[] = Array.from(map.values()).map(e => ({
+          ...e,
+          total: e.likes + e.dislikes,
+          ratio: e.likes + e.dislikes > 0 ? Math.round((e.likes / (e.likes + e.dislikes)) * 100) : 0,
+        }));
+        // Sort by total feedback descending
+        aggregated.sort((a, b) => b.total - a.total);
+        setFeedbackStats(aggregated);
+      }
+
       setLoadingData(false);
-    };
-    fetchData();
-  }, [isTeacher]);
 
   if (roleLoading) {
     return (
