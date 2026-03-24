@@ -128,7 +128,7 @@ ${result.errors.map(e => `
 <p>${result.advice}</p>
 
 <div class="footer">
-  <p>© ${new Date().getFullYear()} HaiEdu - Smart IELTS Grading | Generated on ${new Date().toLocaleDateString()}</p>
+  <p>© ${new Date().getFullYear()} HaiEduTech - Smart IELTS Grading | Generated on ${new Date().toLocaleDateString()}</p>
 </div>
 </body></html>`;
 
