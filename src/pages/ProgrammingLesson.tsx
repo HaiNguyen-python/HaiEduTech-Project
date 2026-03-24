@@ -310,7 +310,7 @@ const ProgrammingLessonPage = () => {
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6" key={lesson.id}>
                   <h1 className="text-2xl font-display font-bold text-foreground">
-                    {mod.icon} {t(lesson.title, lesson.titleEn)}
+                    {mod.icon} {lesson.titleEn}
                   </h1>
 
                   {/* Theory */}
