@@ -522,7 +522,7 @@ const ProgrammingLessonPage = () => {
                             <button onClick={() => setShowHints(!showHints)}
                               className="flex items-center gap-2 text-sm text-amber-600 hover:text-amber-500 font-medium">
                               <Lightbulb className="w-4 h-4" />
-                              {showHints ? t("Ẩn gợi ý", "Hide hints") : t("Xem gợi ý", "Show hints")}
+                              {showHints ? "Hide hints" : "Show hints"}
                               <ChevronDown className={`w-3 h-3 transition-transform ${showHints ? "rotate-180" : ""}`} />
                             </button>
                             <AnimatePresence>
