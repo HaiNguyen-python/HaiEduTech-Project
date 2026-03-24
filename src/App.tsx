@@ -28,6 +28,7 @@ import PythonChallengePage from "./pages/PythonChallenge.tsx";
 import IeltsWritingPractice from "./pages/IeltsWritingPractice.tsx";
 import IeltsSampleEssays from "./pages/IeltsSampleEssays.tsx";
 import IeltsSampleEssayDetail from "./pages/IeltsSampleEssayDetail.tsx";
+import SpeakingPractice from "./pages/SpeakingPractice.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import LanguageLessonView from "./pages/LanguageLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
@@ -59,6 +60,7 @@ const App = () => (
             <Route path="/ielts-writing-practice" element={<IeltsWritingPractice />} />
             <Route path="/ielts-sample-essays" element={<IeltsSampleEssays />} />
             <Route path="/ielts-sample-essays/:essayId" element={<IeltsSampleEssayDetail />} />
+            <Route path="/ielts-speaking-practice" element={<SpeakingPractice />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
