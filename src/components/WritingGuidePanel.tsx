@@ -114,14 +114,14 @@ const WritingGuidePanel = ({ prompt, open, onOpenChange }: WritingGuidePanelProp
 
                   {/* Logical Flow */}
                   <div className="px-3 pb-2">
-                    <p className="text-xs font-medium text-muted-foreground mb-1.5 flex items-center gap-1">
-                      <Target className="w-3 h-3" /> {t("Trình tự viết:", "Logical Flow:")}
+                    <p className="text-sm font-medium text-muted-foreground mb-1.5 flex items-center gap-1">
+                      <Target className="w-3.5 h-3.5" /> {t("Trình tự viết:", "Logical Flow:")}
                     </p>
-                    <div className="flex flex-wrap items-center gap-1">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       {step.logicalFlow.map((flowStep, fi) => (
-                        <span key={fi} className="flex items-center gap-1">
-                          <span className="text-xs bg-muted px-2 py-0.5 rounded-md text-foreground">{flowStep}</span>
-                          {fi < step.logicalFlow.length - 1 && <span className="text-muted-foreground text-xs">→</span>}
+                        <span key={fi} className="flex items-center gap-1.5">
+                          <span className="text-sm bg-muted px-2.5 py-1 rounded-md text-foreground">{flowStep}</span>
+                          {fi < step.logicalFlow.length - 1 && <span className="text-muted-foreground text-sm">→</span>}
                         </span>
                       ))}
                     </div>
