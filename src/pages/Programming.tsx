@@ -193,7 +193,7 @@ const Programming = () => {
                         {active.titleEn}
                       </h2>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        {t(active.desc, active.descEn)}
+                        {active.descEn}
                       </p>
                     </div>
                   </div>
