@@ -138,7 +138,7 @@ const PythonReview = () => {
                 <pre className="bg-background rounded-lg p-4 text-sm text-foreground overflow-x-auto mb-3">
                   <code>{topic.code}</code>
                 </pre>
-                <p className="text-sm text-primary font-medium">💡 {t(topic.noteVi, topic.noteEn)}</p>
+                <p className="text-sm text-primary font-medium">💡 {topic.noteEn}</p>
               </div>
             )}
           </div>

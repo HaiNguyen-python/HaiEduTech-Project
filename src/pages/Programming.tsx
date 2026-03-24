@@ -278,7 +278,7 @@ const Programming = () => {
 
             {/* IT Certifications */}
             <div className="mt-12">
-              <CertCarousel title={t("Chứng chỉ CNTT", "IT Certifications")} />
+              <CertCarousel title="IT Certifications" />
             </div>
           </div>
         </div>

@@ -170,7 +170,7 @@ const PythonChallengePage = () => {
                     ) : <div />}
                     {next ? (
                       <Link to={`/python-challenges/${next.id}`} className="flex items-center gap-2 text-sm text-primary hover:underline font-medium">
-                        #{next.number}: {t(next.titleVi, next.title)} <ChevronRight className="w-4 h-4" />
+                        #{next.number}: {next.title} <ChevronRight className="w-4 h-4" />
                       </Link>
                     ) : <div />}
                   </div>

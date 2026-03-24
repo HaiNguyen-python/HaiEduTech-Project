@@ -159,7 +159,7 @@ const PythonChallengeList = () => {
                 disabled={page === totalPages}
                 className="px-3 py-1.5 rounded-lg text-sm bg-secondary text-foreground disabled:opacity-40 hover:bg-primary/10 transition-colors"
               >
-                {t("Sau", "Next")} →
+                Next →
               </button>
             </div>
           )}
