@@ -14,7 +14,10 @@ const Footer = () => {
               <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center">
                 <Brain className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-display font-bold text-foreground">HaiEduTech</span>
+              <span className="font-display text-foreground">
+                <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent font-medium">HaiEdu</span>
+                <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent font-bold">Tech</span>
+              </span>
             </div>
             <p className="text-sm text-muted-foreground">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</p>
           </div>
