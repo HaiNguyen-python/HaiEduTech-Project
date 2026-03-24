@@ -40,7 +40,9 @@ const Navbar = () => {
   const englishSubs = [
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/english/cambridge", label: "🌟 Cambridge Starters–PET" },
-    { to: "/english/ielts", label: "🎯 IELTS" },
+    { to: "/english/ielts", label: t("🎯 Chương trình IELTS", "🎯 IELTS Program") },
+    { to: "/ielts-writing-practice", label: t("✍️ Luyện viết IELTS", "✍️ IELTS Writing") },
+    { to: "/ai-grading", label: t("📝 Chấm điểm IELTS", "📝 IELTS Grading") },
     { to: "/english/toeic", label: "💼 TOEIC" },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "/english/national-exam", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },

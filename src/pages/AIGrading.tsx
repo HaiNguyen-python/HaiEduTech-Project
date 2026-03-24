@@ -257,7 +257,7 @@ ${result.errors.map(e => `
                   {loading && (
                     <div className="flex flex-col items-center justify-center h-full text-center py-16">
                       <Loader2 className="w-12 h-12 text-primary animate-spin mb-6" />
-                      <p className="text-base text-muted-foreground">{t("Giám khảo AI đang phân tích...", "AI Examiner is analyzing...")}</p>
+                      <p className="text-base text-muted-foreground">{t("Hệ thống đang phân tích bài viết...", "System is analyzing your essay...")}</p>
                     </div>
                   )}
 

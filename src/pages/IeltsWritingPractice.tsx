@@ -409,7 +409,7 @@ const IeltsWritingPractice = () => {
                   <div className="flex gap-2 mt-3">
                     <Button onClick={handleSubmit} disabled={grading || wordCount < 50} className="flex-1">
                       {grading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Send className="w-4 h-4 mr-1" />}
-                      {grading ? t("Đang chấm...", "Grading...") : t("Nộp bài & chấm điểm AI", "Submit & AI Grade")}
+                      {grading ? t("Đang chấm...", "Grading...") : t("Nộp bài & Chấm điểm", "Submit & Grade")}
                     </Button>
                     {result && (
                       <Button variant="outline" onClick={handleDownloadPDF}>
