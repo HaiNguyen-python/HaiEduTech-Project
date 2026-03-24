@@ -9,14 +9,6 @@ import haiProfile from "@/assets/hai-profile.png";
 const HeroSection = () => {
   const { t } = useLanguage();
 
-  // Animated live counter for social proof
-  const [counter, setCounter] = useState(1183);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCounter((c) => c + Math.floor(Math.random() * 3) + 1);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
   return (
     <section className="relative flex items-center justify-center overflow-hidden py-8 sm:py-10 lg:min-h-[90vh]">
       <div className="absolute inset-0">
