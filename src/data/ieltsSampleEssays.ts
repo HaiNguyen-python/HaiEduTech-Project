@@ -10,6 +10,7 @@ export interface GlossaryEntry {
 export interface ReviewItem {
   sentence: string;
   answer: string;
+  explanation?: string;
 }
 
 export interface ReviewExercise {
