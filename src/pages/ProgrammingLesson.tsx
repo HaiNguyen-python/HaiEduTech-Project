@@ -191,7 +191,7 @@ const ProgrammingLessonPage = () => {
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Link to="/programming" className="hover:text-foreground flex items-center gap-1">
                   <ArrowLeft className="w-4 h-4" />
-                  {t("Lập trình", "Programming")}
+                  Programming
                 </Link>
                 <ChevronRight className="w-3 h-3" />
                 <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
