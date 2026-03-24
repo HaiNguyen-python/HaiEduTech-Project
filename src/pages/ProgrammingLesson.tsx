@@ -285,7 +285,7 @@ const ProgrammingLessonPage = () => {
                   <button onClick={generateChallenge} disabled={aiLoading}
                     className="w-full mt-4 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-gradient-to-r from-primary to-primary/80 text-primary-foreground text-sm font-semibold hover:brightness-110 transition-all disabled:opacity-50 active:scale-[0.97]">
                     {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                    {t("Thử thách Code với AI", "AI Code Challenge")}
+                    AI Code Challenge
                   </button>
 
                   {/* Run code link */}
