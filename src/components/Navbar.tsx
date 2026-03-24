@@ -104,9 +104,9 @@ const Navbar = () => {
             {/* Row 1a: Logo + hamburger (mobile) or Logo + slogan + auth (desktop) */}
             <div className="flex items-center justify-between h-12 md:flex-1 min-w-0">
               <Link to="/" className="flex items-center gap-2 shrink-0">
-                <img src={teacherLogo} alt="HaiEdu" className="w-8 h-8 rounded-lg object-cover" />
+                <img src={teacherLogo} alt="HaiEduTech" className="w-8 h-8 rounded-lg object-cover" />
                 <span className="font-display font-bold text-lg text-foreground whitespace-nowrap">
-                  Hai<span className="text-primary">Edu</span>
+                  Hai<span className="text-primary">Edu</span><span className="text-muted-foreground text-sm font-normal">Tech</span>
                 </span>
               </Link>
 
@@ -182,9 +182,9 @@ const Navbar = () => {
             {/* Show logo in nav row when scrolled */}
             {scrolled && (
               <Link to="/" className="flex items-center gap-2 mr-4 pr-4 border-r border-border/50">
-                <img src={teacherLogo} alt="HaiEdu" className="w-7 h-7 rounded-md object-cover" />
+                <img src={teacherLogo} alt="HaiEduTech" className="w-7 h-7 rounded-md object-cover" />
                 <span className="font-display font-bold text-sm text-foreground">
-                  Hai<span className="text-primary">Edu</span>
+                  Hai<span className="text-primary">Edu</span><span className="text-muted-foreground text-xs font-normal">Tech</span>
                 </span>
               </Link>
             )}

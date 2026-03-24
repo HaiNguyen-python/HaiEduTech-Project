@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LessonFeedback from "@/components/LessonFeedback";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, Loader2, BookOpen, GraduationCap, Sparkles, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -307,6 +308,16 @@ const LanguageLessonView = () => {
                             : t("Cố gắng thêm! Hãy đọc lại lý thuyết và thử lại.", "Keep trying! Re-read the theory and try again.")}
                       </p>
                     </motion.div>
+                  )}
+
+                  {/* Lesson Feedback */}
+                  {selectedLesson && (
+                    <LessonFeedback
+                      lessonId={selectedLesson.id}
+                      moduleId={mod.id}
+                      lessonType={mod.category?.includes("chinese") || mod.id.includes("chinese") || mod.id.includes("hsk") ? "chinese" : "english"}
+                      subject={mod.category || "english"}
+                    />
                   )}
                 </motion.div>
               </div>

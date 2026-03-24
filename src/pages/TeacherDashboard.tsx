@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
-import { Shield, Users, BookOpen, Code2, TrendingUp, Loader2, Sparkles, Library } from "lucide-react";
+import { Shield, Users, BookOpen, Code2, TrendingUp, Loader2, Sparkles, Library, ThumbsUp, ThumbsDown } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -20,6 +20,16 @@ interface Stats {
   programmingLessons: number;
 }
 
+interface FeedbackStat {
+  lesson_id: string;
+  lesson_type: string;
+  subject: string;
+  likes: number;
+  dislikes: number;
+  total: number;
+  ratio: number;
+}
+
 const TeacherDashboard = () => {
   const { t } = useLanguage();
   const { user, isTeacher, loading: roleLoading } = useUserRole();
@@ -28,6 +38,7 @@ const TeacherDashboard = () => {
     totalStudents: 0, totalLessons: 0, englishLessons: 0, chineseLessons: 0, programmingLessons: 0,
   });
   const [students, setStudents] = useState<any[]>([]);
+  const [feedbackStats, setFeedbackStats] = useState<FeedbackStat[]>([]);
   const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
@@ -54,6 +65,31 @@ const TeacherDashboard = () => {
       const { data: profiles } = await supabase.from("profiles").select("id, full_name, created_at");
       setStudents(profiles || []);
       setStats(prev => ({ ...prev, totalStudents: (profiles || []).length }));
+
+      // Fetch feedback analytics
+      const { data: feedbackData } = await supabase.from("lesson_feedback").select("lesson_id, lesson_type, subject, feedback_type");
+      if (feedbackData && feedbackData.length > 0) {
+        // Aggregate by lesson_id
+        const map = new Map<string, { lesson_id: string; lesson_type: string; subject: string; likes: number; dislikes: number }>();
+        for (const fb of feedbackData) {
+          const key = fb.lesson_id;
+          if (!map.has(key)) {
+            map.set(key, { lesson_id: fb.lesson_id, lesson_type: fb.lesson_type, subject: fb.subject || "", likes: 0, dislikes: 0 });
+          }
+          const entry = map.get(key)!;
+          if (fb.feedback_type === "like") entry.likes++;
+          else entry.dislikes++;
+        }
+        const aggregated: FeedbackStat[] = Array.from(map.values()).map(e => ({
+          ...e,
+          total: e.likes + e.dislikes,
+          ratio: e.likes + e.dislikes > 0 ? Math.round((e.likes / (e.likes + e.dislikes)) * 100) : 0,
+        }));
+        // Sort by total feedback descending
+        aggregated.sort((a, b) => b.total - a.total);
+        setFeedbackStats(aggregated);
+      }
+
       setLoadingData(false);
     };
     fetchData();
@@ -132,6 +168,10 @@ const TeacherDashboard = () => {
                   <TrendingUp className="w-3.5 h-3.5" />
                   {t("Thống kê", "Analytics")}
                 </TabsTrigger>
+                <TabsTrigger value="feedback" className="gap-1.5">
+                  <ThumbsUp className="w-3.5 h-3.5" />
+                  {t("Phản hồi bài học", "Content Performance")}
+                </TabsTrigger>
               </TabsList>
 
               {/* Generate Tab - Embed TeacherAdmin */}
@@ -201,6 +241,67 @@ const TeacherDashboard = () => {
                         </div>
                       ))}
                     </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              {/* Content Performance / Feedback Tab */}
+              <TabsContent value="feedback">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <ThumbsUp className="w-5 h-5 text-primary" />
+                      {t("Hiệu suất nội dung — Phản hồi của học viên", "Content Performance — Student Feedback")}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {loadingData ? (
+                      <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
+                    ) : feedbackStats.length === 0 ? (
+                      <p className="text-sm text-muted-foreground py-4">{t("Chưa có phản hồi nào", "No feedback yet")}</p>
+                    ) : (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>{t("Bài học", "Lesson")}</TableHead>
+                            <TableHead>{t("Loại", "Type")}</TableHead>
+                            <TableHead className="text-center">
+                              <span className="flex items-center justify-center gap-1"><ThumbsUp className="w-3.5 h-3.5 text-green-500" /> {t("Thích", "Likes")}</span>
+                            </TableHead>
+                            <TableHead className="text-center">
+                              <span className="flex items-center justify-center gap-1"><ThumbsDown className="w-3.5 h-3.5 text-orange-500" /> {t("Cần cải thiện", "Dislikes")}</span>
+                            </TableHead>
+                            <TableHead className="text-center">{t("Tỷ lệ hài lòng", "Satisfaction")}</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {feedbackStats.slice(0, 50).map((fb) => (
+                            <TableRow key={fb.lesson_id}>
+                              <TableCell className="font-medium text-sm max-w-[200px] truncate">{fb.lesson_id}</TableCell>
+                              <TableCell>
+                                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                                  fb.lesson_type === "english" ? "bg-sky-500/10 text-sky-600" :
+                                  fb.lesson_type === "chinese" ? "bg-rose-500/10 text-rose-600" :
+                                  "bg-violet-500/10 text-violet-600"
+                                }`}>
+                                  {fb.lesson_type}
+                                </span>
+                              </TableCell>
+                              <TableCell className="text-center font-mono text-green-600">{fb.likes}</TableCell>
+                              <TableCell className="text-center font-mono text-orange-600">{fb.dislikes}</TableCell>
+                              <TableCell className="text-center">
+                                <div className="flex items-center justify-center gap-2">
+                                  <div className="w-16 h-2 bg-secondary rounded-full overflow-hidden">
+                                    <div className={`h-full rounded-full ${fb.ratio >= 70 ? "bg-green-500" : fb.ratio >= 40 ? "bg-yellow-500" : "bg-orange-500"}`} style={{ width: `${fb.ratio}%` }} />
+                                  </div>
+                                  <span className={`text-xs font-bold ${fb.ratio >= 70 ? "text-green-600" : fb.ratio >= 40 ? "text-yellow-600" : "text-orange-600"}`}>{fb.ratio}%</span>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>

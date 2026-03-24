@@ -1,3 +1,4 @@
+import LessonFeedback from "@/components/LessonFeedback";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -574,6 +575,14 @@ const ProgrammingLessonPage = () => {
                       />
                     </div>
                   )}
+
+                  {/* Lesson Feedback */}
+                  <LessonFeedback
+                    lessonId={lesson.id}
+                    moduleId={mod.id}
+                    lessonType="programming"
+                    subject={mod.course}
+                  />
                 </motion.div>
               </div>
             </div>
