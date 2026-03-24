@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, GraduationCap, BookOpen, Languages, Code2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
