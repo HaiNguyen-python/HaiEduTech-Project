@@ -91,6 +91,9 @@ const TeacherDashboard = () => {
       }
 
       setLoadingData(false);
+    };
+    fetchData();
+  }, [isTeacher]);
 
   if (roleLoading) {
     return (
