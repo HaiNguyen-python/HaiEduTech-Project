@@ -21,6 +21,7 @@ import {
   getTopicsByPart,
   type SpeakingPracticeQuestion,
 } from "@/data/speakingPracticeData";
+import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 
 // Grading result interfaces
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
@@ -92,6 +93,12 @@ const SpeakingPractice = () => {
   const topics = useMemo(() => getTopicsByPart(selectedPart), [selectedPart]);
 
   const currentQ = allQuestions[selectedQuestionIdx] || allQuestions[0];
+
+  // Merge question-specific vocab with topic-level vocabulary bank (20+ items)
+  const mergedVocabulary = useMemo(() => {
+    if (!currentQ) return [];
+    return getMergedVocabulary(selectedPart, currentQ.topic, currentQ.useful_language.vocabulary_bank);
+  }, [currentQ, selectedPart]);
 
   // Reset when part or topic changes
   useEffect(() => {
@@ -204,7 +211,7 @@ const SpeakingPractice = () => {
       if (part.startsWith("**") && part.endsWith("**")) {
         const word = part.slice(2, -2);
         // Check if the word matches any suggested vocabulary
-        const isInSuggestions = currentQ?.useful_language.vocabulary_bank.some(
+        const isInSuggestions = mergedVocabulary.some(
           v => v.phrase.toLowerCase() === word.toLowerCase() || word.toLowerCase().includes(v.phrase.toLowerCase().split(" ")[0])
         );
         return (
@@ -432,17 +439,22 @@ const SpeakingPractice = () => {
                         </TabsList>
 
                         <TabsContent value="vocab" className="mt-4">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {currentQ.useful_language.vocabulary_bank.map((v, i) => (
-                              <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
-                                <span className="text-sm font-semibold text-primary shrink-0">•</span>
-                                <div>
-                                  <p className="text-sm font-semibold text-foreground">{v.phrase}</p>
-                                  <p className="text-xs text-muted-foreground italic">{v.vietnamese}</p>
+                          <ScrollArea className="h-[320px]">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pr-2">
+                              {mergedVocabulary.map((v, i) => (
+                                <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+                                  <span className="text-sm font-semibold text-primary shrink-0">•</span>
+                                  <div>
+                                    <p className="text-sm font-semibold text-foreground">{v.phrase}</p>
+                                    <p className="text-xs text-muted-foreground italic">{v.vietnamese}</p>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
-                          </div>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                          <p className="text-[10px] text-muted-foreground mt-2 text-center">
+                            {mergedVocabulary.length} phrases available for this topic
+                          </p>
                         </TabsContent>
 
                         <TabsContent value="structures" className="mt-4">
