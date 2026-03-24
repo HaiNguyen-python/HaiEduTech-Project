@@ -201,7 +201,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Discuss whether advantages outweigh disadvantages.',
       'Conclusion: State your final assessment.',
     ],
-    vocabularyBank: ['delayed parenthood', 'career progression', 'financial stability', 'fertility challenges', 'emotional maturity', 'family planning', 'societal pressure', 'childcare costs'],
+    vocabularyBank: ['delayed parenthood (trì hoãn sinh con)', 'career progression (thăng tiến nghề nghiệp)', 'financial stability (ổn định tài chính)', 'fertility challenges (thách thức sinh sản)', 'emotional maturity (trưởng thành cảm xúc)', 'family planning (kế hoạch hóa gia đình)', 'societal pressure (áp lực xã hội)', 'childcare costs (chi phí chăm sóc trẻ)'],
     brainstormingIdeas: ['Career and financial stability before children.', 'Higher risk of complications with age.', 'More emotionally prepared parents.', 'Less energy for active parenting.'],
   },
   {
