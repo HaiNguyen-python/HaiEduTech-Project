@@ -66,7 +66,7 @@ const PythonChallengeList = () => {
             <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
               <Code2 className="w-8 h-8 text-primary" />
             </div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">{t("150 Thử thách Python", "150 Python Challenges")}</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">150 Python Challenges</h1>
             <p className="text-muted-foreground text-sm max-w-lg mx-auto">
               {t("Luyện tập Python ngay trên trình duyệt. Không cần cài đặt!", "Practice Python right in your browser. No installation needed!")}
             </p>
