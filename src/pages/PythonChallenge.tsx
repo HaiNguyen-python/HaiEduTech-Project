@@ -85,7 +85,7 @@ const PythonChallengePage = () => {
                     <Progress value={progressPct} className="h-1.5" />
                   </div>
 
-                  <h3 className="font-semibold text-foreground text-sm">{t("Thử thách", "Challenges")}</h3>
+                  <h3 className="font-semibold text-foreground text-sm">Challenges</h3>
                   <div className="space-y-0.5 max-h-[50vh] overflow-y-auto pr-1">
                     {pythonChallenges.map(c => {
                       const done = localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1";
