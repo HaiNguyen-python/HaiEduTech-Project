@@ -39,7 +39,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Address challenges (healthcare costs, workforce shrinkage).',
       'Conclusion: Summarize and give a balanced final opinion.',
     ],
-    vocabularyBank: ['ageing population', 'life expectancy', 'pension system', 'demographic shift', 'elderly care', 'workforce participation', 'intergenerational', 'social security burden'],
+    vocabularyBank: ['ageing population (dân số già hóa)', 'life expectancy (tuổi thọ)', 'pension system (hệ thống lương hưu)', 'demographic shift (thay đổi nhân khẩu học)', 'elderly care (chăm sóc người cao tuổi)', 'workforce participation (tham gia lực lượng lao động)', 'intergenerational (liên thế hệ)', 'social security burden (gánh nặng an sinh xã hội)'],
     brainstormingIdeas: ['Older workers bring experience and mentorship.', 'Healthcare and pension costs rise dramatically.', 'Countries like Japan face labour shortages.', 'Technology can assist elderly independence.'],
   },
   {
