@@ -101,6 +101,18 @@ const SpeakingPractice = () => {
     return getMergedVocabulary(selectedPart, currentQ.topic, currentQ.useful_language.vocabulary_bank);
   }, [currentQ, selectedPart]);
 
+  // Merge structures and ideas with topic-level bank (10+ each)
+  const mergedStructures = useMemo(() => {
+    if (!currentQ) return [];
+    return getMergedStructures(selectedPart, currentQ.topic, currentQ.useful_language.model_structures);
+  }, [currentQ, selectedPart]);
+
+  const mergedIdeas = useMemo(() => {
+    if (!currentQ) return [];
+    return getMergedIdeas(selectedPart, currentQ.topic, currentQ.useful_language.brainstorming_ideas);
+  }, [currentQ, selectedPart]);
+
+
   // Reset when part or topic changes
   useEffect(() => {
     setSelectedQuestionIdx(0);
