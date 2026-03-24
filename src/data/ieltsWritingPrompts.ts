@@ -232,7 +232,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Detail the trends for 2-3 technologies.',
       'Body 2: Compare the remaining technologies.',
     ],
-    vocabularyBank: ['a significant increase', 'a gradual decline', 'overtook', 'peaked at', 'remained stable', 'rose sharply', 'in contrast', 'by comparison'],
+    vocabularyBank: ['a significant increase (tăng đáng kể)', 'a gradual decline (giảm dần)', 'overtook (vượt qua)', 'peaked at (đạt đỉnh tại)', 'remained stable (duy trì ổn định)', 'rose sharply (tăng mạnh)', 'in contrast (ngược lại)', 'by comparison (so sánh)'],
     brainstormingIdeas: ['Identify the highest and lowest values.', 'Note any crossover points.', 'Group similar trends together.', 'Compare start and end values.'],
   },
   {
