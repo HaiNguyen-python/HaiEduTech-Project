@@ -190,7 +190,7 @@ const Programming = () => {
                     </div>
                     <div>
                       <h2 className="text-xl font-display font-bold text-foreground mb-1">
-                        {t(active.title, active.titleEn)}
+                        {active.titleEn}
                       </h2>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {t(active.desc, active.descEn)}
