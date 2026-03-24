@@ -105,7 +105,7 @@ const PythonChallengePage = () => {
                           }`}>
                             {done ? "✓" : c.number}
                           </span>
-                          <span className="truncate">{t(c.titleVi, c.title)}</span>
+                          <span className="truncate">{c.title}</span>
                         </Link>
                       );
                     })}
