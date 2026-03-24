@@ -217,7 +217,7 @@ const ProgrammingLessonPage = () => {
                 <div className="glass-card rounded-xl p-4 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
-                    <h3 className="font-semibold text-foreground text-sm">{t("Lộ trình học", "Learning Roadmap")}</h3>
+                    <h3 className="font-semibold text-foreground text-sm">Learning Roadmap</h3>
                   </div>
                   <div className="space-y-2">
                     {pillarModules.map((pm) => {
