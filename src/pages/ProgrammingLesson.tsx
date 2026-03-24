@@ -302,7 +302,7 @@ const ProgrammingLessonPage = () => {
                 {/* Progress */}
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="glass-card rounded-xl p-4 mb-6">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-foreground">{t("Tiến độ bài học", "Lesson Progress")}</span>
+                    <span className="text-sm font-medium text-foreground">Lesson Progress</span>
                     <span className="text-sm text-primary font-semibold">{Math.round(progress)}%</span>
                   </div>
                   <Progress value={progress} className="h-2" />
