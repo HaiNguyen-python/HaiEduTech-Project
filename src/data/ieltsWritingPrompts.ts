@@ -81,7 +81,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Ways technology has added complexity.',
       'Conclusion: Weigh both sides and give your opinion.',
     ],
-    vocabularyBank: ['digital overload', 'automation', 'information age', 'cyber security', 'work-life balance', 'streamline processes', 'technological dependency', 'digital literacy'],
+    vocabularyBank: ['digital overload (quá tải kỹ thuật số)', 'automation (tự động hóa)', 'information age (thời đại thông tin)', 'cyber security (an ninh mạng)', 'work-life balance (cân bằng công việc-cuộc sống)', 'streamline processes (hợp lý hóa quy trình)', 'technological dependency (phụ thuộc công nghệ)', 'digital literacy (hiểu biết kỹ thuật số)'],
     brainstormingIdeas: ['Technology automates mundane tasks.', 'Constant connectivity blurs work-life boundaries.', 'Information overload causes decision fatigue.', 'Medical technology saves lives that were previously lost.'],
   },
   {
