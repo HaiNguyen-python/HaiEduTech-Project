@@ -171,7 +171,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Propose 2-3 practical solutions.',
       'Conclusion: Summarize causes and solutions briefly.',
     ],
-    vocabularyBank: ['air pollution', 'emissions', 'fossil fuels', 'respiratory diseases', 'green energy', 'public transport', 'carbon footprint', 'environmental regulations'],
+    vocabularyBank: ['air pollution (ô nhiễm không khí)', 'emissions (khí thải)', 'fossil fuels (nhiên liệu hóa thạch)', 'respiratory diseases (bệnh hô hấp)', 'green energy (năng lượng xanh)', 'public transport (giao thông công cộng)', 'carbon footprint (dấu chân carbon)', 'environmental regulations (quy định môi trường)'],
     brainstormingIdeas: ['Vehicle emissions and industrial waste.', 'Promote electric vehicles and renewable energy.', 'Implement congestion charges.', 'Plant more urban trees and green spaces.'],
   },
   {
