@@ -214,7 +214,6 @@ const SpeakingPractice = () => {
         const isInSuggestions = mergedVocabulary.some(
           v => v.phrase.toLowerCase() === word.toLowerCase() || word.toLowerCase().includes(v.phrase.toLowerCase().split(" ")[0])
         );
-        );
         return (
           <strong
             key={i}
