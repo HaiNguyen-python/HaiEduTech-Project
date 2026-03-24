@@ -144,7 +144,7 @@ const ChatBot = () => {
         {!open && (
           <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-3 z-50 flex flex-col items-end gap-2 sm:bottom-6 sm:right-6">
             <AnimatePresence>
-              {showTooltip && !isMobile && (
+              {showTooltip && (
                 <motion.div
                   initial={{ opacity: 0, y: 8, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
