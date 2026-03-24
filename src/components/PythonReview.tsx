@@ -130,7 +130,7 @@ const PythonReview = () => {
               onClick={() => setOpenIdx(openIdx === i ? null : i)}
               className="w-full flex items-center justify-between px-5 py-3 text-left"
             >
-              <span className="font-semibold text-foreground">{t(topic.titleVi, topic.titleEn)}</span>
+              <span className="font-semibold text-foreground">{topic.titleEn}</span>
               {openIdx === i ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
             </button>
             {openIdx === i && (
