@@ -67,7 +67,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Benefits of improving current public transport.',
       'Conclusion: Summarize and state your preference.',
     ],
-    vocabularyBank: ['infrastructure investment', 'high-speed rail', 'commuter routes', 'urban mobility', 'sustainable transport', 'congestion reduction', 'cost-effective', 'connectivity'],
+    vocabularyBank: ['infrastructure investment (đầu tư hạ tầng)', 'high-speed rail (đường sắt cao tốc)', 'commuter routes (tuyến đường đi lại)', 'urban mobility (giao thông đô thị)', 'sustainable transport (giao thông bền vững)', 'congestion reduction (giảm tắc nghẽn)', 'cost-effective (hiệu quả chi phí)', 'connectivity (khả năng kết nối)'],
     brainstormingIdeas: ['High-speed rail reduces domestic flights and carbon emissions.', 'Existing systems in many cities are overcrowded and unreliable.', 'Building new lines is extremely expensive.', 'Improving buses and metro serves more people daily.'],
   },
   {
