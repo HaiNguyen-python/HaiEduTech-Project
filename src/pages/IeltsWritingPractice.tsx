@@ -696,7 +696,7 @@ const IeltsWritingPractice = () => {
             <SheetHeader>
               <SheetTitle className="flex items-center gap-2">
                 <BookMarked className="w-5 h-5 text-primary" />
-                {t("Công cụ tra cứu", "Reference Toolbox")}
+                {t("Siêu từ điển của bạn", "Your Super Dictionary")}
               </SheetTitle>
             </SheetHeader>
             <Tabs defaultValue="dictionary" className="mt-4">
