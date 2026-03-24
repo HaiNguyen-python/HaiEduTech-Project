@@ -317,7 +317,7 @@ const ProgrammingLessonPage = () => {
                   <div className="glass-card rounded-xl p-6">
                     <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                       <BookOpen className="w-5 h-5 text-primary" />
-                      {t("Lý thuyết", "Theory")}
+                      Theory
                     </h2>
                     <div className="prose prose-sm max-w-none text-secondary-foreground whitespace-pre-line leading-relaxed">
                       {t(lesson.theory, lesson.theoryEn).split('\n').map((line, i) => {
