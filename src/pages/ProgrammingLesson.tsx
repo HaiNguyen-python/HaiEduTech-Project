@@ -362,7 +362,7 @@ const ProgrammingLessonPage = () => {
                     <button onClick={() => setShowIDE(true)}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-medium hover:bg-amber-400 transition-colors active:scale-[0.97]">
                       <Play className="w-4 h-4" />
-                      {t("Làm bài trên IDE", "Code in IDE")}
+                      Code in IDE
                     </button>
                   </div>
 
