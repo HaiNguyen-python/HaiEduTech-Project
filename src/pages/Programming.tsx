@@ -212,7 +212,7 @@ const Programming = () => {
                         </div>
                         <div>
                           <h3 className="font-display font-bold text-foreground text-sm group-hover:text-primary transition-colors">
-                            {t("150 Thử thách Python", "150 Python Challenges")}
+                            150 Python Challenges
                           </h3>
                           <p className="text-xs text-muted-foreground">
                             {t("IDE tích hợp · Chấm điểm tự động · AI Debug", "Built-in IDE · Auto-grading · AI Debug")}
