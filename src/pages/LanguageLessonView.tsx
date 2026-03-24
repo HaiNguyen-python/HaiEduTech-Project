@@ -309,6 +309,16 @@ const LanguageLessonView = () => {
                       </p>
                     </motion.div>
                   )}
+
+                  {/* Lesson Feedback */}
+                  {selectedLesson && (
+                    <LessonFeedback
+                      lessonId={selectedLesson.id}
+                      moduleId={mod.id}
+                      lessonType={mod.category?.includes("chinese") || mod.id.includes("chinese") || mod.id.includes("hsk") ? "chinese" : "english"}
+                      subject={mod.category || "english"}
+                    />
+                  )}
                 </motion.div>
               </div>
             </div>
