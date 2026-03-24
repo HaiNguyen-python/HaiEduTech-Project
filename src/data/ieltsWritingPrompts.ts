@@ -215,7 +215,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Evaluate whether this is positive or negative.',
       'Conclusion: Give your final assessment.',
     ],
-    vocabularyBank: ['e-commerce', 'consumer behaviour', 'convenience', 'brick-and-mortar', 'price comparison', 'impulse buying', 'delivery logistics', 'high street decline'],
+    vocabularyBank: ['e-commerce (thương mại điện tử)', 'consumer behaviour (hành vi tiêu dùng)', 'convenience (sự tiện lợi)', 'brick-and-mortar (cửa hàng truyền thống)', 'price comparison (so sánh giá)', 'impulse buying (mua sắm bốc đồng)', 'delivery logistics (hậu cần giao hàng)', 'high street decline (suy giảm phố thương mại)'],
     brainstormingIdeas: ['Convenience of shopping from home 24/7.', 'Local shops struggle to compete.', 'Environmental cost of packaging and delivery.', 'Greater product variety and price transparency.'],
   },
 
