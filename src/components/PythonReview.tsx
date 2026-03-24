@@ -117,9 +117,9 @@ const PythonReview = () => {
         </div>
         <div>
           <h3 className="text-lg font-display font-bold text-foreground">
-            🐍 {t("Ôn tập Python", "Python Review")}
+            🐍 Python Review
           </h3>
-          <p className="text-sm text-muted-foreground">{t("Kiến thức cơ bản cần nhớ", "Essential knowledge recap")}</p>
+          <p className="text-sm text-muted-foreground">Essential knowledge recap</p>
         </div>
       </div>
 
