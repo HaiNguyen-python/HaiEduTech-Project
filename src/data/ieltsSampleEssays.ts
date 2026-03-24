@@ -152,6 +152,21 @@ export const sampleEssays: SampleEssay[] = [
           "explanation": "'Incremental' means small, gradual changes."
         }
       ]
+    },
+    "chartConfig": {
+      "type": "line",
+      "xKey": "year",
+      "yKeys": ["Coal", "Natural Gas", "Renewables", "Nuclear"],
+      "yLabel": "TWh",
+      "data": [
+        {"year": 1990, "Coal": 150, "Natural Gas": 50, "Renewables": 10, "Nuclear": 30},
+        {"year": 1995, "Coal": 140, "Natural Gas": 60, "Renewables": 12, "Nuclear": 32},
+        {"year": 2000, "Coal": 130, "Natural Gas": 75, "Renewables": 18, "Nuclear": 33},
+        {"year": 2005, "Coal": 115, "Natural Gas": 90, "Renewables": 30, "Nuclear": 31},
+        {"year": 2010, "Coal": 95, "Natural Gas": 100, "Renewables": 55, "Nuclear": 30},
+        {"year": 2015, "Coal": 80, "Natural Gas": 110, "Renewables": 85, "Nuclear": 32},
+        {"year": 2020, "Coal": 60, "Natural Gas": 120, "Renewables": 115, "Nuclear": 31}
+      ]
     }
   },
   {
