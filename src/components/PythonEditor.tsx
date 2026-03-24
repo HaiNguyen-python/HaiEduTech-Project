@@ -219,7 +219,7 @@ sys.stderr = io.StringIO()
       {/* Hints */}
       {showHints && (
         <div className="rounded-lg bg-yellow-500/10 border border-yellow-500/30 p-4 space-y-1">
-          <p className="text-sm font-semibold text-yellow-600">💡 {t("Gợi ý", "Hints")}:</p>
+          <p className="text-sm font-semibold text-yellow-600">💡 Hints:</p>
           {challenge.hints.map((h, i) => (
             <p key={i} className="text-sm text-secondary-foreground">• {h}</p>
           ))}
