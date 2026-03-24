@@ -215,7 +215,7 @@ const Programming = () => {
                             150 Python Challenges
                           </h3>
                           <p className="text-xs text-muted-foreground">
-                            {t("IDE tích hợp · Chấm điểm tự động · AI Debug", "Built-in IDE · Auto-grading · AI Debug")}
+                            Built-in IDE · Auto-grading · AI Debug
                           </p>
                         </div>
                       </div>
