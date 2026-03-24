@@ -356,7 +356,7 @@ const ProgrammingLessonPage = () => {
                   <div className="glass-card rounded-xl p-6 border-l-4 border-amber-500">
                     <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                       <Lightbulb className="w-5 h-5 text-amber-500" />
-                      {t("Bài tập thực hành", "Practice Exercise")}
+                      Practice Exercise
                     </h2>
                     <p className="text-sm text-secondary-foreground mb-4">{t(lesson.exercise, lesson.exerciseEn)}</p>
                     <button onClick={() => setShowIDE(true)}
