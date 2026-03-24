@@ -129,16 +129,16 @@ const WritingGuidePanel = ({ prompt, open, onOpenChange }: WritingGuidePanelProp
 
                   {/* Sentence Starters */}
                   <div className="px-3 pb-3">
-                    <p className="text-xs font-medium text-muted-foreground mb-1.5 flex items-center gap-1">
-                      <PenTool className="w-3 h-3" /> {t("Mẫu câu gợi ý:", "Sentence Starters:")}
+                    <p className="text-sm font-medium text-muted-foreground mb-1.5 flex items-center gap-1">
+                      <PenTool className="w-3.5 h-3.5" /> {t("Mẫu câu gợi ý:", "Sentence Starters:")}
                     </p>
-                    <div className="space-y-1">
+                    <div className="space-y-1.5">
                       {step.sentenceStarters.map((starter, si) => (
                         <div
                           key={si}
-                          className="group flex items-center gap-2 bg-background border rounded-md px-2.5 py-1.5 hover:border-primary/40 transition-colors"
+                          className="group flex items-center gap-2 bg-background border rounded-md px-3 py-2 hover:border-primary/40 transition-colors"
                         >
-                          <span className="text-xs text-foreground flex-1 italic">"{starter}"</span>
+                          <span className="text-sm text-foreground flex-1 italic">"{starter}"</span>
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
