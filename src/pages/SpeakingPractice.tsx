@@ -211,8 +211,9 @@ const SpeakingPractice = () => {
       if (part.startsWith("**") && part.endsWith("**")) {
         const word = part.slice(2, -2);
         // Check if the word matches any suggested vocabulary
-        const isInSuggestions = currentQ?.useful_language.vocabulary_bank.some(
+        const isInSuggestions = mergedVocabulary.some(
           v => v.phrase.toLowerCase() === word.toLowerCase() || word.toLowerCase().includes(v.phrase.toLowerCase().split(" ")[0])
+        );
         );
         return (
           <strong
