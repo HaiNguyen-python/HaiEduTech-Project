@@ -250,7 +250,7 @@ ${result.errors.map(e => `
                   {!result && !loading && (
                     <div className="flex flex-col items-center justify-center h-full text-center py-16">
                       <Brain className="w-16 h-16 text-muted-foreground/30 mb-6" />
-                      <p className="text-base text-muted-foreground">{t("Nộp bài viết để xem phản hồi AI", "Submit your essay to see AI feedback")}</p>
+                      <p className="text-base text-muted-foreground">{t("Nộp bài viết để xem phản hồi của hệ thống", "Submit your essay to see scoring feedback")}</p>
                     </div>
                   )}
 
