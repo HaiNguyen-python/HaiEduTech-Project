@@ -96,7 +96,7 @@ const PythonChallengeList = () => {
                       : "bg-secondary text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  {t(s.labelVi, s.labelEn)}
+                  {s.labelEn}
                   {s.range && (
                     <span className="ml-1 opacity-70">({s.range[1] - s.range[0] + 1})</span>
                   )}
