@@ -121,18 +121,15 @@ const Programming = () => {
             className="max-w-5xl mx-auto text-center mb-10"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
-              <Code2 className="w-3 h-3" /> {t("Lộ trình Nghề nghiệp", "Career Path")}
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-display font-bold mb-3 text-foreground leading-tight">
-              {t("Lộ trình ", "Programming ")}
-              <span className="text-gradient">{t("Lập trình", "Career Path")}</span>
-            </h1>
-            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-              {t(
-                "5 trụ cột chính đưa bạn từ người mới bắt đầu đến chuyên gia công nghệ dữ liệu.",
-                "5 core pillars taking you from beginner to data technology expert."
-              )}
-            </p>
+              <Code2 className="w-3 h-3" /> Career Path
+124:             </div>
+125:             <h1 className="text-3xl sm:text-4xl font-display font-bold mb-3 text-foreground leading-tight">
+126:               Programming{" "}
+127:               <span className="text-gradient">Career Path</span>
+128:             </h1>
+129:             <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+130:               5 core pillars taking you from beginner to data technology expert.
+131:             </p>
           </motion.div>
 
           {/* 5 Pillar Cards */}
