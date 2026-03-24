@@ -439,7 +439,7 @@ const ProgrammingLessonPage = () => {
                       <div className="text-center py-4">
                         <p className="text-sm text-muted-foreground mb-4">Answer quickly in 60 seconds!</p>
                         <button onClick={startChallenge} className="px-6 py-2.5 rounded-lg bg-yellow-500 text-white font-semibold text-sm hover:bg-yellow-600 transition-colors active:scale-[0.97]">
-                          {t("Bắt đầu!", "Start!")}
+                          Start!
                         </button>
                       </div>
                     ) : challengeQ ? (
