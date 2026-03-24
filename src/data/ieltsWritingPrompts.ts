@@ -338,7 +338,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Detail North America and Europe.',
       'Body 2: Detail Asia and Africa.',
     ],
-    vocabularyBank: ['internet penetration', 'digital divide', 'exponential growth', 'steadily increased', 'remained the frontrunner', 'narrowed the gap', 'lagged behind', 'from a base of'],
+    vocabularyBank: ['internet penetration (mức độ phổ cập internet)', 'digital divide (khoảng cách số)', 'exponential growth (tăng trưởng theo cấp số nhân)', 'steadily increased (tăng đều)', 'remained the frontrunner (duy trì vị trí dẫn đầu)', 'narrowed the gap (thu hẹp khoảng cách)', 'lagged behind (tụt hậu)', 'from a base of (từ mức cơ sở)'],
     brainstormingIdeas: ['Digital divide narrowing but still exists.', 'Asia growth rate steepest post-2010.', 'Africa started lowest but quadrupled.', 'North America approaching saturation.'],
   },
 ];
