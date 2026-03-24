@@ -125,7 +125,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Problems caused by competitive sports.',
       'Conclusion: Balance your view.',
     ],
-    vocabularyBank: ['cultural exchange', 'national pride', 'hooliganism', 'sportsmanship', 'diplomacy', 'commercialisation', 'doping scandals', 'global solidarity'],
+    vocabularyBank: ['cultural exchange (giao lưu văn hóa)', 'national pride (niềm tự hào dân tộc)', 'hooliganism (bạo lực trong thể thao)', 'sportsmanship (tinh thần thể thao)', 'diplomacy (ngoại giao)', 'commercialisation (thương mại hóa)', 'doping scandals (bê bối doping)', 'global solidarity (đoàn kết toàn cầu)'],
     brainstormingIdeas: ['Olympics promote international friendship.', 'Rivalries can escalate into nationalism.', 'Host cities face massive debt.', 'Athletes become role models across cultures.'],
   },
 
