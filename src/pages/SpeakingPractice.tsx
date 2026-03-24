@@ -22,6 +22,7 @@ import {
   type SpeakingPracticeQuestion,
 } from "@/data/speakingPracticeData";
 import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
+import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresIdeas";
 
 // Grading result interfaces
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
