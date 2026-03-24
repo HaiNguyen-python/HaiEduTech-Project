@@ -19,7 +19,7 @@ const About = () => {
   const achievements = [
     { icon: GraduationCap, value: "M.A.", label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
     { icon: Code2, value: "Engineer", label: t("Ngành Dữ liệu & Trí tuệ Nhân tạo", "Data & Artificial Intelligence") },
-    { icon: Users, value: "Founder", label: t("Sáng lập HaiEdu", "Founded HaiEdu") },
+    { icon: Users, value: "Founder", label: t("Sáng lập HaiEduTech", "Founded HaiEduTech") },
   ];
 
   const skills = [
