@@ -481,7 +481,7 @@ const ProgrammingLessonPage = () => {
                       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="glass-card rounded-xl p-6 border-l-4 border-purple-500">
                         <h2 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                           <Sparkles className="w-5 h-5 text-purple-500" />
-                          {t("Thử thách AI", "AI Challenge")}: {aiChallenge.title}
+                          AI Challenge: {aiChallenge.title}
                         </h2>
                         {aiChallenge.difficulty && (
                           <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium mb-3 ${
