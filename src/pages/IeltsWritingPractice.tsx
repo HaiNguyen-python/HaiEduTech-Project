@@ -4,8 +4,9 @@ import WritingHistory from "@/components/WritingHistory";
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import {
-  BookOpen, Send, Loader2, Sparkles, ChevronDown, ChevronUp,
-  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle
+  BookOpen, Send, Loader2, ChevronDown, ChevronUp,
+  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle,
+  BookMarked, Search, ExternalLink
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,7 +15,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
 import ReactMarkdown from "react-markdown";
 import { WritingPrompt, getRandomPrompt } from "@/data/ieltsWritingPrompts";
 
