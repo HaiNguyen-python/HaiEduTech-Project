@@ -755,6 +755,38 @@ export const part3TopicVocabulary: TopicVocabularyBank = {
     { phrase: "To participate in community sports", vietnamese: "Tham gia thể thao cộng đồng" },
     { phrase: "Fair play and ethical competition", vietnamese: "Chơi đẹp và thi đấu có đạo đức" },
   ],
+  "Urbanization": [
+    { phrase: "Urban sprawl", vietnamese: "Sự mở rộng đô thị tràn lan" },
+    { phrase: "Rural-to-urban migration", vietnamese: "Di cư từ nông thôn ra thành thị" },
+    { phrase: "Overpopulation in cities", vietnamese: "Quá tải dân số ở thành phố" },
+    { phrase: "To gentrify a neighborhood", vietnamese: "Cải tạo khu dân cư (đẩy giá lên)" },
+    { phrase: "Public infrastructure", vietnamese: "Cơ sở hạ tầng công cộng" },
+    { phrase: "Traffic congestion", vietnamese: "Tắc nghẽn giao thông" },
+    { phrase: "Affordable housing crisis", vietnamese: "Khủng hoảng nhà ở giá rẻ" },
+    { phrase: "To revitalize urban areas", vietnamese: "Tái thiết khu vực đô thị" },
+    { phrase: "Green spaces in cities", vietnamese: "Không gian xanh trong thành phố" },
+    { phrase: "A sustainable city model", vietnamese: "Mô hình thành phố bền vững" },
+    { phrase: "To cope with rapid urbanization", vietnamese: "Đối phó với đô thị hóa nhanh" },
+    { phrase: "Slum development", vietnamese: "Phát triển khu ổ chuột" },
+    { phrase: "Public transportation systems", vietnamese: "Hệ thống giao thông công cộng" },
+    { phrase: "To preserve historical buildings", vietnamese: "Bảo tồn các công trình lịch sử" },
+    { phrase: "Urban planning and zoning", vietnamese: "Quy hoạch và phân vùng đô thị" },
+    { phrase: "To address the urban-rural divide", vietnamese: "Giải quyết khoảng cách thành thị - nông thôn" },
+    { phrase: "Smart city initiatives", vietnamese: "Các sáng kiến thành phố thông minh" },
+    { phrase: "Noise and air pollution", vietnamese: "Ô nhiễm tiếng ồn và không khí" },
+    { phrase: "To create livable communities", vietnamese: "Tạo ra cộng đồng đáng sống" },
+    { phrase: "Mixed-use development", vietnamese: "Phát triển đa mục đích sử dụng" },
+    { phrase: "To decentralize urban growth", vietnamese: "Phân tán sự phát triển đô thị" },
+  ],
+};
+
+// Topic name aliases to handle mismatches between question data and vocabulary bank
+const part3TopicAliases: Record<string, string> = {
+  "Education": "Education & Learning",
+  "Environment": "Environment & Nature",
+  "Technology": "Technology & Innovation",
+  "Health & Lifestyle": "Health & Wellbeing",
+  "Crime & Law": "Crime & Justice",
 };
 
 // Utility: get merged vocabulary for a question (question-specific + topic-level)
@@ -764,7 +796,8 @@ export const getMergedVocabulary = (
   questionVocab: { phrase: string; vietnamese: string }[]
 ): { phrase: string; vietnamese: string }[] => {
   const bankMap = part === 1 ? part1TopicVocabulary : part === 2 ? part2TopicVocabulary : part3TopicVocabulary;
-  const topicVocab = bankMap[topic] || [];
+  // Try exact match first, then alias
+  const topicVocab = bankMap[topic] || (part === 3 && part3TopicAliases[topic] ? bankMap[part3TopicAliases[topic]] : []) || [];
 
   // Merge: question-specific first, then topic-level (deduplicate by phrase)
   const seen = new Set<string>();
