@@ -10,7 +10,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import teacherLogo from "@/assets/teacher-logo.png";
-import teacherTechIcon from "@/assets/teacher-tech-icon.png";
+import teacherWave from "@/assets/teacher-wave.png";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
