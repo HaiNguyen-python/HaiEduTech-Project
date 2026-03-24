@@ -48,7 +48,6 @@ const Navbar = () => {
     { to: "/english/toeic", label: "💼 TOEIC" },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "/english/national-exam", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
-    { to: "/ai-grading", label: t("✍️ Chấm Điểm IELTS", "✍️ IELTS Grading") },
   ];
   const chineseSubs = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
