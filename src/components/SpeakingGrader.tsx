@@ -292,7 +292,7 @@ const SpeakingGrader = () => {
                     <div className="w-full h-3 bg-border rounded-full mb-3">
                       <motion.div className="h-full bg-primary rounded-full" initial={{ width: 0 }} animate={{ width: `${(c.score / 9) * 100}%` }} transition={{ duration: 0.8 }} />
                     </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{c.feedback}</p>
+                    <p className="text-sm text-foreground leading-relaxed">{c.feedback}</p>
                   </div>
                 ))}
               </div>
