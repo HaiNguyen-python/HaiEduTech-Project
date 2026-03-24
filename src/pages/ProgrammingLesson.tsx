@@ -427,7 +427,7 @@ const ProgrammingLessonPage = () => {
                     <div className="flex items-center justify-between mb-4">
                       <h2 className="font-semibold text-foreground flex items-center gap-2">
                         <Trophy className="w-5 h-5 text-yellow-500" />
-                        {t("Thử thách 1 phút", "1-Minute Challenge")}
+                        1-Minute Challenge
                       </h2>
                       {challengeActive && (
                         <span className="flex items-center gap-1 text-sm font-mono font-bold text-yellow-600">
