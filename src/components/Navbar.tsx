@@ -112,13 +112,13 @@ const Navbar = () => {
                   alt="HaiEduTech Teacher"
                   className="w-10 h-10 rounded-full object-cover border-2 border-primary/20"
                   animate={{
-                    rotate: [0, -3, 3, -2, 2, 0],
-                    scale: [1, 1.03, 1, 1.02, 1],
+                    rotate: [0, -2, 2, -1.5, 1.5, 0],
+                    scale: [1, 1.02, 1, 1.01, 1],
                   }}
                   transition={{
-                    duration: 2.5,
+                    duration: 2,
                     repeat: Infinity,
-                    repeatDelay: 8,
+                    repeatDelay: 10,
                     ease: "easeInOut",
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
