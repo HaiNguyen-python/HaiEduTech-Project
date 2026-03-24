@@ -156,23 +156,40 @@ const IeltsWritingPractice = () => {
     setDictLoading(false);
   };
 
-  // Inline collocation lookup using Datamuse API
+  // Inline collocation lookup using Datamuse API (multiple strategies)
   const handleCollocationLookup = async (word: string) => {
     if (!word.trim()) return;
     setCollocationLoading(true);
     setCollocationResult({ left: [], right: [] });
     try {
       const w = word.trim().toLowerCase();
-      const [leftRes, rightRes] = await Promise.all([
-        fetch(`https://api.datamuse.com/words?rc=${w}&max=10`),
+      // lc=word → words that follow 'word' (word + ___)
+      // rc=word → words that precede 'word' (___ + word)
+      // rel_jja=word → adjectives for noun, rel_jjb=word → nouns for adjective
+      const [followRes, precedeRes, adjRes, trigRes] = await Promise.all([
         fetch(`https://api.datamuse.com/words?lc=${w}&max=10`),
+        fetch(`https://api.datamuse.com/words?rc=${w}&max=10`),
+        fetch(`https://api.datamuse.com/words?rel_jja=${w}&max=8`),
+        fetch(`https://api.datamuse.com/words?rel_trg=${w}&max=8`),
       ]);
-      const leftData = leftRes.ok ? await leftRes.json() : [];
-      const rightData = rightRes.ok ? await rightRes.json() : [];
-      setCollocationResult({
-        left: leftData.map((d: any) => d.word),
-        right: rightData.map((d: any) => d.word),
-      });
+      const followData = followRes.ok ? await followRes.json() : [];
+      const precedeData = precedeRes.ok ? await precedeRes.json() : [];
+      const adjData = adjRes.ok ? await adjRes.json() : [];
+      const trigData = trigRes.ok ? await trigRes.json() : [];
+
+      // Combine precede + adjectives for "left" collocations (___ + word)
+      const leftWords = [...new Set([
+        ...precedeData.map((d: any) => d.word),
+        ...adjData.map((d: any) => d.word),
+      ])].slice(0, 12);
+
+      // Combine follow + triggered for "right" collocations (word + ___)
+      const rightWords = [...new Set([
+        ...followData.map((d: any) => d.word),
+        ...trigData.map((d: any) => d.word),
+      ])].slice(0, 12);
+
+      setCollocationResult({ left: leftWords, right: rightWords });
     } catch {
       setCollocationResult({ left: [], right: [] });
     }
