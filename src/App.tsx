@@ -28,6 +28,7 @@ import PythonChallengePage from "./pages/PythonChallenge.tsx";
 import IeltsWritingPractice from "./pages/IeltsWritingPractice.tsx";
 import IeltsSampleEssays from "./pages/IeltsSampleEssays.tsx";
 import IeltsSampleEssayDetail from "./pages/IeltsSampleEssayDetail.tsx";
+import SpeakingPractice from "./pages/SpeakingPractice.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import LanguageLessonView from "./pages/LanguageLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
