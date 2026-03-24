@@ -38,6 +38,7 @@ const TeacherDashboard = () => {
     totalStudents: 0, totalLessons: 0, englishLessons: 0, chineseLessons: 0, programmingLessons: 0,
   });
   const [students, setStudents] = useState<any[]>([]);
+  const [feedbackStats, setFeedbackStats] = useState<FeedbackStat[]>([]);
   const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
