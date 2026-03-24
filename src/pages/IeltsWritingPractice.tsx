@@ -95,6 +95,42 @@ const IeltsWritingPractice = () => {
     setTimerActive(false);
   }, [taskType]);
 
+  // Inline dictionary lookup using free API
+  const handleDictLookup = async (word: string) => {
+    if (!word.trim()) return;
+    setDictLoading(true);
+    setDictResult(null);
+    try {
+      const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.trim().toLowerCase()}`);
+      if (res.ok) {
+        const data = await res.json();
+        setDictResult(data[0]);
+      } else {
+        setDictResult({ error: true });
+      }
+    } catch {
+      setDictResult({ error: true });
+    }
+    setDictLoading(false);
+  };
+
+  // Inline thesaurus lookup using Datamuse API
+  const handleThesaurusLookup = async (word: string) => {
+    if (!word.trim()) return;
+    setThesaurusLoading(true);
+    setThesaurusResult([]);
+    try {
+      const res = await fetch(`https://api.datamuse.com/words?rel_syn=${word.trim().toLowerCase()}&max=15`);
+      if (res.ok) {
+        const data = await res.json();
+        setThesaurusResult(data.map((d: any) => d.word));
+      }
+    } catch {
+      setThesaurusResult([]);
+    }
+    setThesaurusLoading(false);
+  };
+
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
