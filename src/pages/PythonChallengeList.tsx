@@ -83,7 +83,7 @@ const PythonChallengeList = () => {
           <div className="glass-card rounded-xl p-4 mb-6">
             <div className="flex items-center gap-2 mb-3">
               <Filter className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">{t("Chủ đề", "Topics")}</span>
+              <span className="text-sm font-medium text-foreground">Topics</span>
             </div>
             <div className="flex flex-wrap gap-2">
               {SECTIONS.map(s => (
