@@ -64,7 +64,7 @@ const PythonChallengePage = () => {
               </Link>
               <ChevronRight className="w-3 h-3" />
               <Link to="/python-challenges" className="hover:text-foreground">
-                {t("Thử thách Python", "Python Challenges")}
+                Python Challenges
               </Link>
               <ChevronRight className="w-3 h-3" />
               <span className="text-foreground font-medium">#{challenge.number}</span>
