@@ -627,8 +627,8 @@ const SpeakingPractice = () => {
                       {/* Overall score */}
                       <div className="bg-secondary rounded-xl p-5 text-center">
                         <span className="text-sm text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
-                        <div className={`text-5xl font-display font-bold mt-1 ${getScoreColor(result.overall)}`}>
-                          {result.overall}
+                      <div className={`text-5xl font-display font-bold mt-1 ${getScoreColor(result.overall)}`}>
+                          {result.overall.toFixed(1)}
                         </div>
                       </div>
 
