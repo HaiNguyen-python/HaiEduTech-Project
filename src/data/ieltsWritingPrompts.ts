@@ -247,7 +247,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Describe USA and UK trends in detail.',
       'Body 2: Describe Australia and Germany trends.',
     ],
-    vocabularyBank: ['fluctuated', 'witnessed a surge', 'remained the dominant', 'saw a modest increase', 'between…and…', 'approximately', 'over the period', 'reached a peak of'],
+    vocabularyBank: ['fluctuated (dao động)', 'witnessed a surge (chứng kiến sự tăng vọt)', 'remained the dominant (duy trì vị trí thống trị)', 'saw a modest increase (tăng nhẹ)', 'between…and… (giữa…và…)', 'approximately (xấp xỉ)', 'over the period (trong suốt giai đoạn)', 'reached a peak of (đạt đỉnh)'],
     brainstormingIdeas: ['USA likely dominates throughout.', 'Growth rates differ between countries.', 'Some countries may have plateaued.', 'Post-2015 data may show acceleration.'],
   },
   {
