@@ -155,7 +155,7 @@ const Programming = () => {
                     <Icon className="w-5 h-5" />
                   </div>
                   <h3 className={`font-display font-bold text-sm mb-1 ${isActive ? p.accentColor : "text-foreground"}`}>
-                    {t(data.title, data.titleEn)}
+                    {data.titleEn}
                   </h3>
                   <p className="text-[11px] text-muted-foreground line-clamp-2">
                     {data.modules.length} {t("module", "modules")} · {data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} {t("bài học", "lessons")}
