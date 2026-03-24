@@ -545,7 +545,7 @@ const ProgrammingLessonPage = () => {
                             <button onClick={() => setShowSolution(!showSolution)}
                               className="flex items-center gap-2 text-sm text-purple-600 hover:text-purple-500 font-medium">
                               {showSolution ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                              {showSolution ? t("Ẩn lời giải", "Hide solution") : t("Xem lời giải", "Show solution")}
+                              {showSolution ? "Hide solution" : "Show solution"}
                             </button>
                             <AnimatePresence>
                               {showSolution && (
