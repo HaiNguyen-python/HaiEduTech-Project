@@ -95,7 +95,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Potential negative impacts (unrealistic expectations).',
       'Conclusion: State whether the message is overall beneficial.',
     ],
-    vocabularyBank: ['growth mindset', 'resilience', 'self-efficacy', 'unrealistic expectations', 'meritocracy', 'intrinsic motivation', 'social inequality', 'perseverance'],
+    vocabularyBank: ['growth mindset (tư duy phát triển)', 'resilience (khả năng phục hồi)', 'self-efficacy (niềm tin vào bản thân)', 'unrealistic expectations (kỳ vọng phi thực tế)', 'meritocracy (chế độ nhân tài)', 'intrinsic motivation (động lực nội tại)', 'social inequality (bất bình đẳng xã hội)', 'perseverance (sự kiên trì)'],
     brainstormingIdeas: ['Encouragement builds confidence and risk-taking.', 'Ignores systemic barriers (poverty, discrimination).', 'Failure despite effort can damage self-esteem.', 'Balanced messaging acknowledges effort AND circumstances.'],
   },
 
