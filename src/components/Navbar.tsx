@@ -1,10 +1,11 @@
-// HaiEduTech Navigation Bar
+// HaiEduTech Navigation Bar with nested mega-menu for IELTS
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
-  Globe, UserPlus, LogIn, ChevronDown, Cpu, LogOut, Library, Shield
+  Globe, UserPlus, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
+  FileText, PenTool, Map, MessageSquare, Award, School
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,15 +13,27 @@ import { useUserRole } from "@/hooks/useUserRole";
 import teacherLogo from "@/assets/teacher-logo.png";
 import teacherWave from "@/assets/teacher-wave.png";
 
+// Sub-item with optional icon and nested children
+interface SubItem {
+  to: string;
+  label: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  children?: SubItem[];
+  groupLabel?: string;
+}
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [mobileSubExpanded, setMobileSubExpanded] = useState<string | null>(null);
+  const [ieltsHover, setIeltsHover] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { lang, setLang, t } = useLanguage();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const ieltsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { user, isTeacher } = useUserRole();
 
   useEffect(() => {
@@ -39,24 +52,29 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const englishSubs = [
+  // IELTS nested sub-items with dedicated icons
+  const ieltsChildren: SubItem[] = [
+    { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
+    { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
+    { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
+    { to: "/ai-grading", label: t("Chấm điểm", "Grading Portal"), icon: Cpu },
+  ];
+
+  const englishSubs: SubItem[] = [
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/english/cambridge", label: "🌟 Cambridge Starters–PET" },
-    { to: "/english/ielts", label: t("🎯 Chương trình IELTS", "🎯 IELTS Program") },
-    { to: "/ielts-writing-practice", label: t("✍️ Luyện viết IELTS", "✍️ IELTS Writing") },
-    { to: "/ai-grading", label: t("📝 Chấm điểm IELTS", "📝 IELTS Grading") },
-    { to: "/ielts-sample-essays", label: t("📄 Bài mẫu IELTS", "📄 IELTS Sample Essays") },
+    { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
     { to: "/english/toeic", label: "💼 TOEIC" },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "/english/national-exam", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
   ];
-  const chineseSubs = [
+  const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/chinese/foundation", label: t("🏗️ Nền tảng", "🏗️ Foundation") },
     { to: "/chinese/hsk", label: "📊 HSK 1-6" },
     { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
   ];
-  const programmingSubs = [
+  const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/python-challenges", label: t("🏆 150 Thử thách Python", "🏆 150 Python Challenges") },
     { to: "/programming/prog-ai-foundation", label: "🧠 AI Foundation" },
