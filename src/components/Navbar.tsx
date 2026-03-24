@@ -45,6 +45,7 @@ const Navbar = () => {
     { to: "/english/ielts", label: t("🎯 Chương trình IELTS", "🎯 IELTS Program") },
     { to: "/ielts-writing-practice", label: t("✍️ Luyện viết IELTS", "✍️ IELTS Writing") },
     { to: "/ai-grading", label: t("📝 Chấm điểm IELTS", "📝 IELTS Grading") },
+    { to: "/ielts-sample-essays", label: t("📄 Bài mẫu IELTS", "📄 IELTS Sample Essays") },
     { to: "/english/toeic", label: "💼 TOEIC" },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "/english/national-exam", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
