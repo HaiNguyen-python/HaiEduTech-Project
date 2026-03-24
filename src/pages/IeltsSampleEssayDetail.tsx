@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { sampleEssays } from "@/data/ieltsSampleEssays";
+import IELTSChart from "@/components/IELTSChart";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, BookOpen, CheckCircle, XCircle, RotateCcw, Download, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -132,6 +133,11 @@ const IeltsSampleEssayDetail = () => {
             <p className="text-sm font-medium text-primary mb-1">{t("Đề bài", "Prompt")}</p>
             <p className="text-foreground leading-relaxed">{essay.prompt}</p>
           </div>
+
+          {/* Dynamic Chart/Diagram for Task 1 */}
+          {essay.taskType === 1 && essay.chartConfig && (
+            <IELTSChart config={essay.chartConfig} />
+          )}
 
           {/* Essay Body with proper paragraph spacing */}
           <div className="glass-card rounded-xl p-6 md:p-8">

@@ -19,6 +19,36 @@ export interface ReviewExercise {
   items: ReviewItem[];
 }
 
+// Chart data point for dynamic visualization
+export interface ChartDataPoint {
+  [key: string]: string | number;
+}
+
+// Configuration for rendering the correct chart type
+export interface ChartConfig {
+  type: "line" | "bar" | "pie" | "table" | "map" | "process" | "mixed";
+  xKey?: string;
+  yKeys?: string[];
+  colors?: string[];
+  yLabel?: string;
+  xLabel?: string;
+  data: ChartDataPoint[];
+  // For pie charts: which key is the label vs the value
+  pieNameKey?: string;
+  pieValueKey?: string;
+  // For dual-year pie charts
+  data2?: ChartDataPoint[];
+  labels?: [string, string];
+  // For table type
+  columns?: string[];
+  rows?: string[][];
+  // For map/process: descriptive stages
+  stages?: { title: string; description: string; icon?: string }[];
+  // For mixed: which keys are bars vs line
+  barKeys?: string[];
+  lineKey?: string;
+}
+
 export interface SampleEssay {
   id: string;
   taskType: 1 | 2;
@@ -29,6 +59,7 @@ export interface SampleEssay {
   essayBody: string;
   glossary: GlossaryEntry[];
   reviewExercise: ReviewExercise;
+  chartConfig?: ChartConfig;
 }
 
 export const sampleEssays: SampleEssay[] = [
@@ -121,6 +152,21 @@ export const sampleEssays: SampleEssay[] = [
           "explanation": "'Incremental' means small, gradual changes."
         }
       ]
+    },
+    "chartConfig": {
+      "type": "line",
+      "xKey": "year",
+      "yKeys": ["Coal", "Natural Gas", "Renewables", "Nuclear"],
+      "yLabel": "TWh",
+      "data": [
+        {"year": 1990, "Coal": 150, "Natural Gas": 50, "Renewables": 10, "Nuclear": 30},
+        {"year": 1995, "Coal": 140, "Natural Gas": 60, "Renewables": 12, "Nuclear": 32},
+        {"year": 2000, "Coal": 130, "Natural Gas": 75, "Renewables": 18, "Nuclear": 33},
+        {"year": 2005, "Coal": 115, "Natural Gas": 90, "Renewables": 30, "Nuclear": 31},
+        {"year": 2010, "Coal": 95, "Natural Gas": 100, "Renewables": 55, "Nuclear": 30},
+        {"year": 2015, "Coal": 80, "Natural Gas": 110, "Renewables": 85, "Nuclear": 32},
+        {"year": 2020, "Coal": 60, "Natural Gas": 120, "Renewables": 115, "Nuclear": 31}
+      ]
     }
   },
   {
@@ -206,6 +252,21 @@ export const sampleEssays: SampleEssay[] = [
           "answer": "underpinning",
           "explanation": "'Underpinning' means forming the foundation or basis for something."
         }
+      ]
+    },
+    "chartConfig": {
+      "type": "line",
+      "xKey": "year",
+      "yKeys": ["0-14", "15-64", "65+"],
+      "yLabel": "% of population",
+      "data": [
+        {"year": 1970, "0-14": 35, "15-64": 58, "65+": 7},
+        {"year": 1980, "0-14": 30, "15-64": 61, "65+": 9},
+        {"year": 1990, "0-14": 25, "15-64": 63, "65+": 12},
+        {"year": 2000, "0-14": 22, "15-64": 64, "65+": 14},
+        {"year": 2010, "0-14": 18, "15-64": 65, "65+": 17},
+        {"year": 2020, "0-14": 15, "15-64": 63, "65+": 22},
+        {"year": 2030, "0-14": 13, "15-64": 60, "65+": 27}
       ]
     }
   },
@@ -298,6 +359,19 @@ export const sampleEssays: SampleEssay[] = [
           "explanation": "'Lagged behind' means failed to keep pace with others."
         }
       ]
+    },
+    "chartConfig": {
+      "type": "bar",
+      "xKey": "country",
+      "yKeys": ["2000", "2020"],
+      "yLabel": "% with degree",
+      "data": [
+        {"country": "Nation A", "2000": 10, "2020": 36},
+        {"country": "Nation B", "2000": 8, "2020": 12},
+        {"country": "Nation C", "2000": 30, "2020": 40},
+        {"country": "Nation D", "2000": 28, "2020": 39},
+        {"country": "Nation E", "2000": 15, "2020": 28}
+      ]
     }
   },
   {
@@ -383,6 +457,17 @@ export const sampleEssays: SampleEssay[] = [
           "answer": "contraction",
           "explanation": "'Contraction' means a decrease or shrinking."
         }
+      ]
+    },
+    "chartConfig": {
+      "type": "bar",
+      "xKey": "city",
+      "yKeys": ["Car", "Bus", "Metro", "Bicycle"],
+      "yLabel": "Commuters (thousands)",
+      "data": [
+        {"city": "City X", "Car": 50, "Bus": 20, "Metro": 15, "Bicycle": 5},
+        {"city": "City Y", "Car": 30, "Bus": 25, "Metro": 45, "Bicycle": 8},
+        {"city": "City Z", "Car": 20, "Bus": 22, "Metro": 18, "Bicycle": 28}
       ]
     }
   },
@@ -470,6 +555,26 @@ export const sampleEssays: SampleEssay[] = [
           "explanation": "'Discretionary' means optional, not essential spending."
         }
       ]
+    },
+    "chartConfig": {
+      "type": "pie",
+      "pieNameKey": "name",
+      "pieValueKey": "value",
+      "labels": ["2010", "2020"],
+      "data": [
+        {"name": "Accommodation", "value": 40},
+        {"name": "Food", "value": 15},
+        {"name": "Entertainment", "value": 10},
+        {"name": "Transport", "value": 20},
+        {"name": "Shopping", "value": 15}
+      ],
+      "data2": [
+        {"name": "Accommodation", "value": 30},
+        {"name": "Food", "value": 20},
+        {"name": "Entertainment", "value": 15},
+        {"name": "Transport", "value": 15},
+        {"name": "Shopping", "value": 20}
+      ]
     }
   },
   {
@@ -555,6 +660,24 @@ export const sampleEssays: SampleEssay[] = [
           "answer": "reorientation",
           "explanation": "'Reorientation' means a fundamental change in direction."
         }
+      ]
+    },
+    "chartConfig": {
+      "type": "pie",
+      "pieNameKey": "name",
+      "pieValueKey": "value",
+      "labels": ["1995", "2025"],
+      "data": [
+        {"name": "Agriculture", "value": 35},
+        {"name": "Manufacturing", "value": 25},
+        {"name": "Services", "value": 30},
+        {"name": "Technology", "value": 10}
+      ],
+      "data2": [
+        {"name": "Agriculture", "value": 10},
+        {"name": "Manufacturing", "value": 20},
+        {"name": "Services", "value": 45},
+        {"name": "Technology", "value": 25}
       ]
     }
   },
@@ -642,6 +765,17 @@ export const sampleEssays: SampleEssay[] = [
           "explanation": "'Concurrent' means happening at the same time."
         }
       ]
+    },
+    "chartConfig": {
+      "type": "table",
+      "columns": ["Country", "Life Exp. 2010", "Life Exp. 2020", "Infant Mort. 2010", "Infant Mort. 2020", "Doctors/1k 2010", "Doctors/1k 2020", "Health Exp. 2010", "Health Exp. 2020"],
+      "rows": [
+        ["Country Q", "68", "75", "35", "18", "1.2", "1.8", "4.5%", "5.8%"],
+        ["Country R", "82", "84", "3", "2", "3.8", "4.2", "10.5%", "11.0%"],
+        ["Country S", "72", "78", "28", "12", "1.5", "2.3", "5.0%", "6.2%"],
+        ["Country T", "70", "77", "32", "15", "1.0", "1.4", "3.8%", "4.0%"]
+      ],
+      "data": []
     }
   },
   {
@@ -728,6 +862,18 @@ export const sampleEssays: SampleEssay[] = [
           "explanation": "A 'greenbelt' is a protected green area around a city."
         }
       ]
+    },
+    "chartConfig": {
+      "type": "map",
+      "stages": [
+        {"title": "1990: Semi-rural Settlement", "description": "Farmland dominates the outskirts. Riverside industrial zone. Small town center with limited road network.", "icon": "map"},
+        {"title": "Farmland → Housing Estates", "description": "Northern and eastern farmland rezoned for dense residential development.", "icon": "map"},
+        {"title": "New Ring Road & Arterial Roads", "description": "Expanded road connections improve connectivity across neighborhoods.", "icon": "map"},
+        {"title": "Central Square Pedestrianized", "description": "Town center converted to a pedestrian-friendly area with foot traffic priority.", "icon": "map"},
+        {"title": "Industry Relocated to Peripheral Park", "description": "Industrial activity moves from the riverside to a southern business park.", "icon": "cog"},
+        {"title": "2020: Transit-oriented Urban Center", "description": "Greenbelt established. Mixed-use infill replaces parking lots. School relocated near residents.", "icon": "map"}
+      ],
+      "data": []
     }
   },
   {
@@ -819,6 +965,18 @@ export const sampleEssays: SampleEssay[] = [
           "explanation": "'Retrieval' means recovering or accessing stored data."
         }
       ]
+    },
+    "chartConfig": {
+      "type": "process",
+      "stages": [
+        {"title": "Client-side Encryption", "description": "Files are encrypted on the user's device before upload to ensure security during transmission.", "icon": "shield"},
+        {"title": "Gateway Intake & Deduplication", "description": "Encrypted files are received by a regional gateway, which removes duplicate data and creates an index.", "icon": "server"},
+        {"title": "Multi-zone Replication", "description": "Data is replicated to at least 3 independent availability zones with checksum validation.", "icon": "database"},
+        {"title": "Orchestration & Health Monitoring", "description": "A central layer continuously monitors zone health and triggers automatic failover if degradation is detected.", "icon": "cog"},
+        {"title": "Integrity Audits & Versioning", "description": "Periodic audits verify data integrity. Versioning enables point-in-time restoration from any snapshot.", "icon": "shield"},
+        {"title": "Parallel Recovery & Retrieval", "description": "Authenticated requests pull data blocks in parallel from the healthiest replica for rapid recovery.", "icon": "database"}
+      ],
+      "data": []
     }
   },
   {
@@ -904,6 +1062,21 @@ export const sampleEssays: SampleEssay[] = [
           "answer": "counteract",
           "explanation": "'Counteract' means to work against or offset something."
         }
+      ]
+    },
+    "chartConfig": {
+      "type": "mixed",
+      "xKey": "year",
+      "barKeys": ["Agriculture", "Manufacturing", "Services"],
+      "lineKey": "Trade Balance",
+      "yLabel": "Billion $",
+      "data": [
+        {"year": 2015, "Agriculture": 15, "Manufacturing": 52, "Services": 30, "Trade Balance": 8},
+        {"year": 2016, "Agriculture": 14, "Manufacturing": 50, "Services": 33, "Trade Balance": 5},
+        {"year": 2017, "Agriculture": 15, "Manufacturing": 45, "Services": 35, "Trade Balance": 2},
+        {"year": 2018, "Agriculture": 14, "Manufacturing": 48, "Services": 38, "Trade Balance": 6},
+        {"year": 2019, "Agriculture": 16, "Manufacturing": 53, "Services": 42, "Trade Balance": 10},
+        {"year": 2020, "Agriculture": 15, "Manufacturing": 55, "Services": 45, "Trade Balance": 12}
       ]
     }
   },
