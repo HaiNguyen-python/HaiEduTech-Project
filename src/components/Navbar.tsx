@@ -10,7 +10,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import teacherLogo from "@/assets/teacher-logo.png";
-import teacherTechIcon from "@/assets/teacher-tech-icon.png";
+import teacherWave from "@/assets/teacher-wave.png";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -106,22 +106,22 @@ const Navbar = () => {
             {/* Row 1a: Logo + hamburger (mobile) or Logo + slogan + auth (desktop) */}
             <div className="flex items-center justify-between h-12 md:flex-1 min-w-0">
               <Link to="/" className="flex items-center gap-2 shrink-0 group">
-                {/* Teacher-Tech mascot with timed wave animation: 3s wave, 7s pause */}
+                {/* Smiling teacher waving hello with gentle rocking animation */}
                 <motion.img
-                  src={teacherTechIcon}
+                  src={teacherWave}
                   alt="HaiEduTech Teacher"
-                  className="w-9 h-9 rounded-lg object-cover"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-primary/20"
                   animate={{
-                    rotate: [0, 1.5, -1.5, 1, -1, 0.5, 0],
-                    scale: [1, 1.02, 1, 1.02, 1],
+                    rotate: [0, -3, 3, -2, 2, 0],
+                    scale: [1, 1.03, 1, 1.02, 1],
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 2.5,
                     repeat: Infinity,
-                    repeatDelay: 7,
+                    repeatDelay: 8,
                     ease: "easeInOut",
                   }}
-                  whileHover={{ scale: 1.08 }}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
                 />
                 <motion.span
                   whileHover={{ scale: 1.05 }}
@@ -139,7 +139,7 @@ const Navbar = () => {
 
               {/* Slogan centered between logo and auth */}
               <div className="hidden md:flex items-center justify-center flex-1 min-w-0 mx-3">
-                <span className="text-xs lg:text-sm text-muted-foreground font-display font-light tracking-[0.1em] truncate" style={{ fontVariant: "small-caps" }}>
+                <span className="text-xs lg:text-sm text-muted-foreground font-display font-medium italic tracking-[0.1em] truncate" style={{ fontVariant: "small-caps" }}>
                   The Unique Intersection of{" "}
                   <span className="font-bold bg-gradient-to-r from-[hsl(var(--primary))] to-[#10B981] bg-clip-text text-transparent" style={{ fontFamily: "'Dancing Script', cursive" }}>Language</span>
                   {" & "}
