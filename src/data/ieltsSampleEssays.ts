@@ -10,6 +10,7 @@ export interface GlossaryEntry {
 export interface ReviewItem {
   sentence: string;
   answer: string;
+  explanation?: string;
 }
 
 export interface ReviewExercise {
@@ -37,7 +38,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "line",
     "topic": "energy",
     "prompt": "The line graph below shows changes in electricity generation by source (coal, natural gas, renewables, and nuclear) in Country X from 1990 to 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "Overall, the most **salient features** of the series are the long-run decline of coal and the pronounced rise of renewables, while gas steadily gained ground and nuclear remained broadly stable. The **long-term trajectory** of coal moved downward from dominance in the early 1990s to a much reduced share by 2020, a slide that **decelerated** after 2010 when levels **plateaued** at roughly a quarter of total output. In contrast, natural gas advanced in near-linear fashion, and eventually **overtook** coal in the late 2010s as policy and market signals favored cleaner combustion. Renewable generation exhibited a **precipitous** upswing from a low base, accelerating post-2005 as subsidies and grid integration matured; despite short-term **volatility**, it closed the period almost on par with gas. Nuclear output showed only **incremental** variation, providing a consistent baseload that buffered demand shocks but never challenged the leading technologies. By the end of the timeframe, there was a clear **convergence** between gas and renewables, jointly displacing coal’s earlier **dominant** position. Taken together, these movements indicate a structural energy transition driven by decarbonization imperatives and cost competitiveness rather than transient price cycles.",
+    "essayBody": "The line graph illustrates changes in electricity generation from four sources \u2014 coal, natural gas, renewables, and nuclear \u2014 in Country X over a thirty-year period from 1990 to 2020.\n\nOverall, the most **salient features** of the series are the long-run decline of coal and the pronounced rise of renewables, while gas steadily gained ground and nuclear remained broadly stable.\n\nThe **long-term trajectory** of coal moved downward from dominance in the early 1990s to a much reduced share by 2020, a slide that **decelerated** after 2010 when levels **plateaued** at roughly a quarter of total output. In contrast, natural gas advanced in near-linear fashion, and eventually **overtook** coal in the late 2010s as policy and market signals favored cleaner combustion.\n\nRenewable generation exhibited a **precipitous** upswing from a low base, accelerating post-2005 as subsidies and grid integration matured; despite short-term **volatility**, it closed the period almost on par with gas. Nuclear output showed only **incremental** variation, providing a consistent baseload. By the end of the timeframe, there was a clear **convergence** between gas and renewables, jointly displacing coal's earlier **dominant** position.",
     "glossary": [
       {
         "term": "salient features",
@@ -96,23 +97,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "Coal’s decline eventually ___ after 2010, settling at a lower level.",
-          "answer": "decelerated"
+          "answer": "decelerated",
+          "explanation": "'Decelerated' means the rate of decline slowed down."
         },
         {
           "sentence": "Renewables experienced a ___ upswing from a low base.",
-          "answer": "precipitous"
+          "answer": "precipitous",
+          "explanation": "'Precipitous' describes a very steep or dramatic increase."
         },
         {
           "sentence": "By the late 2010s, natural gas ___ coal.",
-          "answer": "overtook"
+          "answer": "overtook",
+          "explanation": "'Overtook' means gas surpassed coal to become a larger source."
         },
         {
           "sentence": "The two cleaner sources showed clear ___ by 2020.",
-          "answer": "convergence"
+          "answer": "convergence",
+          "explanation": "'Convergence' means the two sources moved toward similar levels."
         },
         {
           "sentence": "Nuclear changed only in an ___ manner over the period.",
-          "answer": "incremental"
+          "answer": "incremental",
+          "explanation": "'Incremental' means small, gradual changes."
         }
       ]
     }
@@ -123,7 +129,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "line",
     "topic": "population",
     "prompt": "The line graph below shows the proportion of the population in three age groups (0–14, 15–64, 65+) in Country Y from 1970 to 2030. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The data depict a classic **demographic transition**, with shrinking youth shares and a swelling elderly **cohort** alongside a maturing working-age population. From 1970, the 0–14 bracket contracted steadily, marking an early **inflection point** around the mid-1980s when fertility declines became more pronounced. Meanwhile, the 15–64 group expanded for several decades before beginning to **taper off** after 2010, suggesting labor-force ageing even as its absolute size remained substantial. The 65+ category registered a persistent **uptick**, eventually set to **outpace** the youth share by 2030, a trend **underpinning** rising dependency ratios. Although the working-age group dominated throughout, its **proportionally** modest gains in the 1990s gave way to stagnation, while the seniors’ curve steepened as longevity improved. Notwithstanding short-term fluctuations, the overarching pattern is of a rapidly **ageing populace**. In comparative terms, the most dramatic divergence occurs in the final decade, when the elderly surge contrasts with the plateauing prime-age segment and the continuing slide of the young. These shifts imply pressure on pensions and healthcare, offset only partially by potential productivity gains and higher female participation.",
+    "essayBody": "The line graph depicts the proportion of the population in three age groups \u2014 0\u201314, 15\u201364, and 65+ \u2014 in Country Y over a sixty-year period from 1970 to 2030.\n\nOverall, the data reveal a classic **demographic transition**, with shrinking youth shares and a swelling elderly **cohort** alongside a maturing working-age population.\n\nFrom 1970, the 0\u201314 bracket contracted steadily, marking an early **inflection point** around the mid-1980s when fertility declines became more pronounced. Meanwhile, the 15\u201364 group expanded for several decades before beginning to **taper off** after 2010, suggesting labor-force ageing even as its absolute size remained substantial.\n\nThe 65+ category registered a persistent **uptick**, eventually set to **outpace** the youth share by 2030, a trend **underpinning** rising dependency ratios. Although the working-age group dominated throughout, its **proportionally** modest gains in the 1990s gave way to stagnation, while the seniors' curve steepened as longevity improved, underscoring the rapid emergence of an **ageing populace**.",
     "glossary": [
       {
         "term": "demographic transition",
@@ -177,23 +183,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "The graph shows a classic ___ with falling youth shares.",
-          "answer": "demographic transition"
+          "answer": "demographic transition",
+          "explanation": "A 'demographic transition' describes the shift from high birth/death rates to low ones."
         },
         {
           "sentence": "The working-age group began to ___ after 2010.",
-          "answer": "taper off"
+          "answer": "taper off",
+          "explanation": "'Taper off' means to gradually decrease or level out."
         },
         {
           "sentence": "An ___ occurred in the mid-1980s as fertility dropped.",
-          "answer": "inflection point"
+          "answer": "inflection point",
+          "explanation": "An 'inflection point' is where the trend changes direction or pace."
         },
         {
           "sentence": "By 2030, the elderly are expected to ___ the youth share.",
-          "answer": "outpace"
+          "answer": "outpace",
+          "explanation": "'Outpace' means to exceed in rate or proportion."
         },
         {
           "sentence": "These changes are ___ rising dependency ratios.",
-          "answer": "underpinning"
+          "answer": "underpinning",
+          "explanation": "'Underpinning' means forming the foundation or basis for something."
         }
       ]
     }
@@ -204,7 +215,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "bar",
     "topic": "education",
     "prompt": "The bar chart below compares the percentage of adults with a university degree in five countries in 2000 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "Overall, the chart reveals a broad uplift in tertiary attainment, albeit with marked **disparity** across countries. Nation A posted a **steep ascent** from a relatively low starting point, whereas Nation B registered only **marginal** progress and remained an **outlier** at the bottom in both years. By contrast, Nations C and D, already strong performers in 2000, exhibited **incremental gains** that helped them **converge** near the top by 2020. Nation E experienced a mid-range rise, sufficient to **compress** the gap with the leaders but not to **surpass** them. The most **comparative** insight is that improvements were uneven: while some systems capitalized on policy reforms and funding, others **lagged behind**, possibly due to quality bottlenecks or limited access pathways. Despite these differences, the aggregate picture points to a steady expansion of human capital, with the variance narrowing at the upper end and persistent weaknesses at the lower tail.",
+    "essayBody": "The bar chart compares the percentage of adults holding a university degree in five countries in the years 2000 and 2020.\n\nOverall, the chart reveals a broad uplift in tertiary attainment, albeit with marked **disparity** across countries.\n\nNation A posted a **steep ascent** from a relatively low starting point, whereas Nation B registered only **marginal** progress and remained an **outlier** at the bottom in both years. By contrast, Nations C and D, already strong performers in 2000, exhibited **incremental gains** that helped them **converge** near the top by 2020.\n\nNation E experienced a mid-range rise, sufficient to **compress** the gap with the leaders but not to **surpass** them. The most **comparative** insight is that improvements were uneven: while some systems capitalized on policy reforms and funding, others **lagged behind**, possibly due to quality bottlenecks or limited access pathways. Despite these differences, the aggregate picture points to a steady expansion of human capital.",
     "glossary": [
       {
         "term": "disparity",
@@ -263,23 +274,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "Nation B remained an ___ with the lowest attainment.",
-          "answer": "outlier"
+          "answer": "outlier",
+          "explanation": "An 'outlier' is a data point far from the others."
         },
         {
           "sentence": "Nation A recorded a ___ from a low base.",
-          "answer": "steep ascent"
+          "answer": "steep ascent",
+          "explanation": "'Steep ascent' indicates a rapid, significant rise."
         },
         {
           "sentence": "Countries C and D made ___ that kept them near the top.",
-          "answer": "incremental gains"
+          "answer": "incremental gains",
+          "explanation": "'Incremental gains' are small, steady improvements."
         },
         {
           "sentence": "Nation E managed to ___ the gap but did not overtake.",
-          "answer": "compress"
+          "answer": "compress",
+          "explanation": "'Compress' means to narrow or reduce a gap."
         },
         {
           "sentence": "Some systems ___ due to access bottlenecks.",
-          "answer": "lagged behind"
+          "answer": "lagged behind",
+          "explanation": "'Lagged behind' means failed to keep pace with others."
         }
       ]
     }
@@ -290,7 +306,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "bar",
     "topic": "transport",
     "prompt": "The bar chart below shows the average number of daily commuters by transport mode (car, bus, metro, bicycle) in three cities in 2015. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "In general, the **modal split** differed sharply across the three cities. City X displayed a clear **predominance** of car travel, with bus and metro attracting fewer riders and cycling remaining **subdued**. By contrast, City Y’s extensive underground network allowed metro to **surpass** private cars, while bus usage was solid and cycling modest. City Z stood out for a strong bicycle **uptake**, reflecting compact urban form and dedicated lanes; this **pivot towards** active travel coincided with a measurable **contraction** in car commuting relative to the others. Notably, across all cities, buses occupied an intermediate position, with volumes showing only **marginal** variation. The **trajectory** of sustainable modes (metro and bicycle) was most favorable in City Y and Z, suggesting that infrastructure quality and pricing play decisive roles in shaping choices. Overall, the comparison highlights how investment and design can re-balance travel behavior away from congestion-prone car use.",
+    "essayBody": "The bar chart illustrates the average number of daily commuters using four transport modes \u2014 car, bus, metro, and bicycle \u2014 in three cities in 2015.\n\nIn general, the **modal split** differed sharply across the three cities, with car dominance in one, metro strength in another, and notable cycling culture in the third.\n\nCity X displayed a clear **predominance** of car travel, with bus and metro attracting fewer riders and cycling remaining **subdued**. By contrast, City Y's extensive underground network allowed metro to **surpass** private cars, while bus usage was solid and cycling modest.\n\nCity Z stood out for a strong bicycle **uptake**, reflecting compact urban form and dedicated lanes; this **pivot towards** active travel coincided with a measurable **contraction** in car commuting relative to the others. Across all cities, buses occupied an intermediate position, with volumes showing only **marginal** variation. The **trajectory** of sustainable modes was most favorable in Cities Y and Z.",
     "glossary": [
       {
         "term": "modal split",
@@ -344,23 +360,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "City X shows a clear ___ of car travel.",
-          "answer": "predominance"
+          "answer": "predominance",
+          "explanation": "'Predominance' means being the most common or dominant."
         },
         {
           "sentence": "In City Y, metro use managed to ___ cars.",
-          "answer": "surpass"
+          "answer": "surpass",
+          "explanation": "'Surpass' means to exceed or go beyond."
         },
         {
           "sentence": "City Z had notable bicycle ___.",
-          "answer": "uptake"
+          "answer": "uptake",
+          "explanation": "'Uptake' refers to the level of adoption or use."
         },
         {
           "sentence": "Cycling in City X was relatively ___.",
-          "answer": "subdued"
+          "answer": "subdued",
+          "explanation": "'Subdued' means quiet, restrained, or low-level."
         },
         {
           "sentence": "Car commuting saw a ___ in City Z.",
-          "answer": "contraction"
+          "answer": "contraction",
+          "explanation": "'Contraction' means a decrease or shrinking."
         }
       ]
     }
@@ -371,7 +392,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "pie",
     "topic": "tourism",
     "prompt": "The pie charts below show the allocation of tourist expenditure by category in City Z in 2010 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The two pies indicate a discernible **reallocation** of spending over the decade. While accommodation retained the largest **proportion**, its **dominance** eased as travelers diverted funds toward experiences. Food and entertainment together accounted for a growing **segment**, with the latter registering the most **salient shift** amid the rise of events and cultural attractions. By contrast, transport’s share **compressed**, likely reflecting improved pass systems and competition from low-cost carriers. Shopping remained broadly stable, suggesting a ceiling to souvenir-driven outlays. Overall, the **redistribution** favored more **discretionary** categories, implying that visitors prioritized memorable activities over basic lodging. Notably, although accommodation still outweighed any single rival category, it no longer **outweighed** them collectively as decisively as before. This pattern underscores a maturing market in which value is co-created through services rather than fixed assets.",
+    "essayBody": "The two pie charts compare the allocation of tourist expenditure across different categories in City Z in 2010 and 2020.\n\nOverall, the pies indicate a discernible **reallocation** of spending over the decade, with a shift from basic lodging toward experiential categories.\n\nWhile accommodation retained the largest **proportion**, its **dominance** eased as travelers diverted funds toward experiences. Food and entertainment together accounted for a growing **segment**, with the latter registering the most **salient shift** amid the rise of events and cultural attractions. By contrast, transport's share **compressed**, likely reflecting improved pass systems and competition from low-cost carriers.\n\nShopping remained broadly stable, suggesting a ceiling to souvenir-driven outlays. The **redistribution** favored more **discretionary** categories, implying that visitors prioritized memorable activities over basic lodging. Although accommodation still **outweighed** any single rival category, it no longer dominated them collectively as decisively as before.",
     "glossary": [
       {
         "term": "reallocation",
@@ -425,23 +446,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "Accommodation kept the largest ___ of spending.",
-          "answer": "proportion"
+          "answer": "proportion",
+          "explanation": "'Proportion' refers to the relative share of the whole."
         },
         {
           "sentence": "Entertainment saw the most ___ among categories.",
-          "answer": "salient shift"
+          "answer": "salient shift",
+          "explanation": "'Salient shift' means a noticeable or prominent change."
         },
         {
           "sentence": "Transport’s share ___ over the decade.",
-          "answer": "compressed"
+          "answer": "compressed",
+          "explanation": "'Compressed' means reduced or squeezed smaller."
         },
         {
           "sentence": "Spending shows a ___ toward experiential items.",
-          "answer": "reallocation"
+          "answer": "reallocation",
+          "explanation": "'Reallocation' means redistributing resources differently."
         },
         {
           "sentence": "The pattern favored more ___ categories.",
-          "answer": "discretionary"
+          "answer": "discretionary",
+          "explanation": "'Discretionary' means optional, not essential spending."
         }
       ]
     }
@@ -452,7 +478,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "pie",
     "topic": "employment",
     "prompt": "The pie charts below illustrate the distribution of employment by sector (agriculture, manufacturing, services, technology) in Country A in 1995 and 2025. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The figures suggest a pronounced **structural change** in the labor market. Agriculture experienced a marked **contraction**, ceding ground to both services and technology, while manufacturing’s share edged down. By 2025, services had **eclipsed** all other sectors, becoming the principal employer, with technology emerging as a **nascent** but fast-growing contributor. The overall **sectoral composition** thus **rebalanced** away from **labor-intensive** activities toward **high-value-added** roles. Although manufacturing retained a sizeable footprint, its decline, coupled with the plunge in farm jobs, underscores a national **reorientation** toward knowledge-driven employment. Notably, the expansion of technology did not merely siphon workers from factories; it also created complementary roles within services, amplifying the shift. Consequently, the combined services–technology aggregate clearly surpassed the traditional base by 2025.",
+    "essayBody": "The pie charts illustrate the distribution of employment across four sectors \u2014 agriculture, manufacturing, services, and technology \u2014 in Country A in the years 1995 and 2025.\n\nOverall, the figures suggest a pronounced **structural change** in the labor market, shifting away from traditional sectors toward knowledge-driven employment.\n\nAgriculture experienced a marked **contraction**, ceding ground to both services and technology, while manufacturing's share edged down. By 2025, services had **eclipsed** all other sectors, becoming the principal employer, with technology emerging as a **nascent** but fast-growing contributor.\n\nThe overall **sectoral composition** thus **rebalanced** away from **labor-intensive** activities toward **high-value-added** roles. Although manufacturing retained a sizeable footprint, its decline, coupled with the plunge in farm jobs, underscores a national **reorientation** toward knowledge-driven employment. The expansion of technology created complementary roles within services, amplifying the shift.",
     "glossary": [
       {
         "term": "structural change",
@@ -506,23 +532,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "Agriculture underwent a significant ___.",
-          "answer": "contraction"
+          "answer": "contraction",
+          "explanation": "'Contraction' means a decrease in size or scope."
         },
         {
           "sentence": "By 2025, services had ___ the other sectors.",
-          "answer": "eclipsed"
+          "answer": "eclipsed",
+          "explanation": "'Eclipsed' means surpassed and overshadowed."
         },
         {
           "sentence": "Technology appeared as a ___ but growing employer.",
-          "answer": "nascent"
+          "answer": "nascent",
+          "explanation": "'Nascent' means just beginning to develop."
         },
         {
           "sentence": "The economy ___ away from labor-intensive work.",
-          "answer": "rebalanced"
+          "answer": "rebalanced",
+          "explanation": "'Rebalanced' means adjusted to a new equilibrium."
         },
         {
           "sentence": "The shift indicates a national ___.",
-          "answer": "reorientation"
+          "answer": "reorientation",
+          "explanation": "'Reorientation' means a fundamental change in direction."
         }
       ]
     }
@@ -533,7 +564,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "table",
     "topic": "health",
     "prompt": "The table below presents key health indicators (life expectancy, infant mortality per 1,000, doctors per 1,000, and health expenditure as % of GDP) for four countries in 2010 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "Across the decade, all countries registered **sustained improvement**, though the pace varied by metric and nation. Life expectancy rose almost universally, with Country Q posting the largest gain, while Country R—already a **benchmark** in 2010—advanced more modestly. Infant mortality fell markedly, with the steepest drops in Countries Q and S, indicating effective primary care and vaccination outreach. Physician density increased in each case, albeit **incrementally** in lower-income states, and more **markedly** where training capacity expanded. Health spending as a share of GDP diverged: some systems saw a mild uptick aligned with reforms, while others **plateaued**, prioritizing efficiency. A clear **correlation** emerges between higher doctor availability and reduced infant deaths, though Country T is an **outlier**, achieving notable mortality declines without proportionate spending growth. In sum, despite **concurrent** advances across indicators, cross-country **divergence** persists, reflecting heterogeneous baselines and policy choices.",
+    "essayBody": "The table presents four key health indicators — life expectancy, infant mortality per 1,000, doctors per 1,000, and health expenditure as a percentage of GDP — for four countries in 2010 and 2020.\n\nOverall, all countries registered **sustained improvement** across the decade, though the pace varied by metric and nation.\n\nLife expectancy rose almost universally, with Country Q posting the largest gain, while Country R — already a **benchmark** in 2010 — advanced more modestly. Infant mortality fell markedly, with the steepest drops in Countries Q and S, indicating effective primary care and vaccination outreach. Physician density increased in each case, albeit **incrementally** in lower-income states, and more **markedly** where training capacity expanded.\n\nHealth spending as a share of GDP diverged: some systems saw a mild uptick aligned with reforms, while others **plateaued**, prioritizing efficiency. A clear **correlation** emerges between higher doctor availability and reduced infant deaths, though Country T is an **outlier**, achieving notable mortality declines without proportionate spending growth. Despite **concurrent** advances across indicators, cross-country **divergence** persists, reflecting heterogeneous baselines and policy choices.",
     "glossary": [
       {
         "term": "sustained improvement",
@@ -587,23 +618,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "All countries showed ___ across the decade.",
-          "answer": "sustained improvement"
+          "answer": "sustained improvement",
+          "explanation": "'Sustained improvement' means continuous, lasting progress."
         },
         {
           "sentence": "In some cases, health spending ___ rather than rising.",
-          "answer": "plateaued"
+          "answer": "plateaued",
+          "explanation": "'Plateaued' means leveled off without further increase."
         },
         {
           "sentence": "There is a clear ___ between doctors per 1,000 and infant mortality.",
-          "answer": "correlation"
+          "answer": "correlation",
+          "explanation": "'Correlation' is a statistical relationship between variables."
         },
         {
           "sentence": "Country T was an ___ in the pattern.",
-          "answer": "outlier"
+          "answer": "outlier",
+          "explanation": "An 'outlier' deviates from the expected pattern."
         },
         {
           "sentence": "Advances were ___ across multiple indicators.",
-          "answer": "concurrent"
+          "answer": "concurrent",
+          "explanation": "'Concurrent' means happening at the same time."
         }
       ]
     }
@@ -614,7 +650,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "map",
     "topic": "urbanization",
     "prompt": "The maps below show changes to the town of Riverdale between 1990 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "Riverdale underwent substantial **transformation**, evolving from a semi-rural settlement into a more compact urban center. In 1990, farmland dominated the outskirts, but by 2020 much of this had been **rezoned** for housing estates, indicating marked **densification**. A new ring road and expanded **arterial** connections improved **connectivity**, while a central square was **pedestrianized** to prioritize foot traffic. Industrial activity shifted from the riverside to a peripheral business park, reducing **encroachment** on the waterfront and enabling a landscaped **greenbelt**. Civic amenities also multiplied: the school relocated closer to residential clusters, and a transit hub integrated bus and commuter rail. Commercial uses intensified along the former high street, with mixed-use infill replacing parking lots. Overall, the spatial logic pivoted from car-centric sprawl to transit-oriented development, with growth concentrated near public transport and open space protected at the edge.",
+    "essayBody": "The two maps compare the layout of the town of Riverdale in 1990 and 2020, highlighting the changes that occurred over this thirty-year period.\n\nOverall, Riverdale underwent substantial **transformation**, evolving from a semi-rural settlement into a more compact, transit-oriented urban center.\n\nIn 1990, farmland dominated the outskirts, but by 2020 much of this had been **rezoned** for housing estates, indicating marked **densification**. A new ring road and expanded **arterial** connections improved **connectivity**, while a central square was **pedestrianized** to prioritize foot traffic. Industrial activity shifted from the riverside to a peripheral business park, reducing **encroachment** on the waterfront.\n\nCivic amenities also multiplied: the school relocated closer to residential clusters, and a transit hub integrated bus and commuter rail. A landscaped **greenbelt** was established at the edge, and commercial uses intensified along the former high street, with mixed-use **infill** replacing parking lots. The spatial logic pivoted from car-centric sprawl to transit-oriented development.",
     "glossary": [
       {
         "term": "transformation",
@@ -668,23 +704,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "Farmland was ___ for new housing estates.",
-          "answer": "rezoned"
+          "answer": "rezoned",
+          "explanation": "'Rezoned' means the land use designation was officially changed."
         },
         {
           "sentence": "The town experienced marked ___.",
-          "answer": "densification"
+          "answer": "densification",
+          "explanation": "'Densification' means increasing the density of development."
         },
         {
           "sentence": "A central square was ___ to favor walkers.",
-          "answer": "pedestrianized"
+          "answer": "pedestrianized",
+          "explanation": "'Pedestrianized' means converted for foot traffic only."
         },
         {
           "sentence": "A new business park reduced riverfront ___.",
-          "answer": "encroachment"
+          "answer": "encroachment",
+          "explanation": "'Encroachment' means gradually intruding on an area."
         },
         {
           "sentence": "A landscaped ___ was created at the edge.",
-          "answer": "greenbelt"
+          "answer": "greenbelt",
+          "explanation": "A 'greenbelt' is a protected green area around a city."
         }
       ]
     }
@@ -695,7 +736,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "process",
     "topic": "technology",
     "prompt": "The diagram below shows the process of cloud data backup and recovery across multiple availability zones. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "The diagram outlines a **sequential** workflow that safeguards user data from loss. Initially, files undergo client-side **encryption** during **intake**, after which they are transmitted to a regional gateway for deduplication and indexing. The system then performs **replication** to at least three independent zones to create **redundancy**, accompanied by **checksum** validation to detect corruption. A central **orchestration** layer continuously monitors health and automatically triggers **failover** if one zone degrades. Periodic integrity audits and versioning provide additional resilience, allowing point-in-time restoration. During recovery, authenticated requests query the catalog, select the most recent consistent snapshot, and pull blocks in parallel for rapid **retrieval**; if latency spikes, traffic is re-routed to the healthiest replica. Compared with single-site storage, this **fault-tolerant** architecture minimizes downtime and data risk by avoiding single points of failure while optimizing performance through smart placement and caching.",
+    "essayBody": "The diagram illustrates the step-by-step process of cloud data backup and recovery across multiple availability zones.\n\nOverall, the process follows a **sequential** workflow designed to safeguard user data from loss through redundancy, validation, and automated failover mechanisms.\n\nInitially, files undergo client-side **encryption** during **intake**, after which they are transmitted to a regional gateway for deduplication and indexing. The system then performs **replication** to at least three independent zones to create **redundancy**, accompanied by **checksum** validation to detect corruption. A central **orchestration** layer continuously monitors health and automatically triggers **failover** if one zone degrades.\n\nPeriodic integrity audits and versioning provide additional resilience, allowing point-in-time restoration. During recovery, authenticated requests query the catalog, select the most recent consistent snapshot, and pull blocks in parallel for rapid **retrieval**; if latency spikes, traffic is re-routed to the healthiest replica. Compared with single-site storage, this **fault-tolerant** architecture minimizes downtime by avoiding single points of failure.",
     "glossary": [
       {
         "term": "sequential",
@@ -754,23 +795,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "Client-side ___ protects files before upload.",
-          "answer": "encryption"
+          "answer": "encryption",
+          "explanation": "'Encryption' converts data into a secure coded format."
         },
         {
           "sentence": "Data are copied to several zones to ensure ___.",
-          "answer": "redundancy"
+          "answer": "redundancy",
+          "explanation": "'Redundancy' means having backup copies for safety."
         },
         {
           "sentence": "A central layer provides automated ___.",
-          "answer": "orchestration"
+          "answer": "orchestration",
+          "explanation": "'Orchestration' means automated coordination of processes."
         },
         {
           "sentence": "If a zone fails, traffic shifts via ___.",
-          "answer": "failover"
+          "answer": "failover",
+          "explanation": "'Failover' is automatic switching to a backup system."
         },
         {
           "sentence": "Blocks are pulled in parallel for rapid ___.",
-          "answer": "retrieval"
+          "answer": "retrieval",
+          "explanation": "'Retrieval' means recovering or accessing stored data."
         }
       ]
     }
@@ -781,7 +827,7 @@ export const sampleEssays: SampleEssay[] = [
     "chartType": "mixed",
     "topic": "trade",
     "prompt": "The mixed chart below shows export values by sector (agriculture, manufacturing, services) as bars and the overall trade balance as a line from 2015 to 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-    "essayBody": "Taken together, the bars and line point to shifting export dynamics and a volatile **net balance**. Manufacturing remained the **aggregate** driver of exports, though its growth was uneven, with a mid-period **downturn** before recovering. Services exhibited steady **outperformance**, posting a consistent **uptick** each year, which helped **counteract** manufacturing softness. Agricultural exports were relatively flat and, at times, a **drag** on momentum. Correspondingly, the trade balance line mirrored these movements: it dipped during the manufacturing slump, then improved as both services and factories advanced. Despite episodic **volatility**, the account trended modestly upward by 2020, suggesting that competitive services can cushion cyclical goods sectors. Notably, the best overall year coincided with synchronized gains across all three pillars, underscoring the value of diversification.",
+    "essayBody": "The mixed chart presents export values by sector — agriculture, manufacturing, and services — as bars, alongside the overall trade balance shown as a line, from 2015 to 2020.\n\nOverall, the bars and line point to shifting export dynamics and a volatile **net balance**, with services emerging as a stabilizing force.\n\nManufacturing remained the **aggregate** driver of exports, though its growth was uneven, with a mid-period **downturn** before recovering. Services exhibited steady **outperformance**, posting a consistent **uptick** each year, which helped **counteract** manufacturing softness. Agricultural exports were relatively flat and, at times, a **drag** on momentum.\n\nCorrespondingly, the trade balance line mirrored these movements: it dipped during the manufacturing slump, then improved as both services and factories advanced. Despite episodic **volatility**, the account trended modestly upward by 2020, suggesting that competitive services can cushion cyclical goods sectors. The best overall year coincided with synchronized gains across all three pillars, underscoring the value of diversification.",
     "glossary": [
       {
         "term": "net balance",
@@ -835,23 +881,28 @@ export const sampleEssays: SampleEssay[] = [
       "items": [
         {
           "sentence": "Services showed steady ___ over the period.",
-          "answer": "outperformance"
+          "answer": "outperformance",
+          "explanation": "'Outperformance' means exceeding expectations or peers."
         },
         {
           "sentence": "Manufacturing faced a mid-period ___.",
-          "answer": "downturn"
+          "answer": "downturn",
+          "explanation": "A 'downturn' is a period of economic decline."
         },
         {
           "sentence": "The trade ___ improved as exports recovered.",
-          "answer": "net balance"
+          "answer": "net balance",
+          "explanation": "'Net balance' is the difference between exports and imports."
         },
         {
           "sentence": "Agriculture was at times a ___ on growth.",
-          "answer": "drag"
+          "answer": "drag",
+          "explanation": "A 'drag' is something that slows progress."
         },
         {
           "sentence": "Gains in services helped ___ weakness elsewhere.",
-          "answer": "counteract"
+          "answer": "counteract",
+          "explanation": "'Counteract' means to work against or offset something."
         }
       ]
     }
@@ -1712,31 +1763,6 @@ export const sampleEssays: SampleEssay[] = [
         {
           "sentence": "Rules for privacy and access are part of ___.",
           "answer": "data governance"
-        }
-      ]
-    }
-  },
-  {
-    "id": "t2-1a",
-    "taskType": 2,
-    "essayType": "advantages-disadvantages",
-    "topic": "Healthcare funding models",
-    "prompt": "Some countries rely primarily on public healthcare systems while others depend on private insurance. What are the advantages and disadvantages of each approach?",
-    "essayBody": "This item is intentionally omitted to ensure exactly ten essays as requested.",
-    "glossary": [
-      {
-        "term": "placeholder",
-        "vietnamese": "giữ chỗ",
-        "context": "N/A"
-      }
-    ],
-    "reviewExercise": {
-      "type": "gap-fill",
-      "instruction": "N/A",
-      "items": [
-        {
-          "sentence": "N/A",
-          "answer": "placeholder"
         }
       ]
     }

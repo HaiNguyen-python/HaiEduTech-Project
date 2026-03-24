@@ -1,15 +1,16 @@
-// IELTS Sample Essay Detail - Full essay with glossary and review exercise
-import { useState } from "react";
+// IELTS Sample Essay Detail - Full essay with glossary, review exercise, and confetti celebration
+import { useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { sampleEssays } from "@/data/ieltsSampleEssays";
-import { motion } from "framer-motion";
-import { ArrowLeft, BookOpen, CheckCircle, XCircle, RotateCcw, Download } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, BookOpen, CheckCircle, XCircle, RotateCcw, Download, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import confetti from "canvas-confetti";
 
 const IeltsSampleEssayDetail = () => {
   const { essayId } = useParams();
@@ -17,6 +18,12 @@ const IeltsSampleEssayDetail = () => {
   const essay = sampleEssays.find(e => e.id === essayId);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  // Fire confetti for perfect score
+  const fireConfetti = useCallback(() => {
+    confetti({ particleCount: 120, spread: 80, origin: { y: 0.7 } });
+    setTimeout(() => confetti({ particleCount: 60, spread: 100, origin: { y: 0.6 } }), 300);
+  }, []);
 
   if (!essay) {
     return (
@@ -33,21 +40,45 @@ const IeltsSampleEssayDetail = () => {
     );
   }
 
-  // Render essay body with **bold** terms as actual bold
+  // Render essay body with **bold** terms and paragraph breaks
   const renderEssayBody = (text: string) => {
-    const parts = text.split(/\*\*(.*?)\*\*/g);
-    return parts.map((part, i) =>
-      i % 2 === 1 ? (
-        <strong key={i} className="text-primary font-semibold">{part}</strong>
-      ) : (
-        <span key={i}>{part}</span>
-      )
-    );
+    const paragraphs = text.split("\n\n");
+    return paragraphs.map((para, pIdx) => {
+      const parts = para.split(/\*\*(.*?)\*\*/g);
+      return (
+        <p key={pIdx} className="mb-4 last:mb-0">
+          {parts.map((part, i) =>
+            i % 2 === 1 ? (
+              <strong key={i} className="text-primary font-semibold">{part}</strong>
+            ) : (
+              <span key={i}>{part}</span>
+            )
+          )}
+        </p>
+      );
+    });
   };
 
   const score = essay.reviewExercise.items.reduce(
     (acc, item, i) => acc + (answers[i]?.trim().toLowerCase() === item.answer.toLowerCase() ? 1 : 0), 0
   );
+
+  const isPerfect = score === essay.reviewExercise.items.length;
+
+  const handleSubmit = () => {
+    setSubmitted(true);
+    const newScore = essay.reviewExercise.items.reduce(
+      (acc, item, i) => acc + (answers[i]?.trim().toLowerCase() === item.answer.toLowerCase() ? 1 : 0), 0
+    );
+    if (newScore === essay.reviewExercise.items.length) {
+      setTimeout(fireConfetti, 300);
+    }
+  };
+
+  const handleReset = () => {
+    setAnswers({});
+    setSubmitted(false);
+  };
 
   // PDF download handler
   const handleDownloadPDF = () => {
@@ -58,13 +89,14 @@ const IeltsSampleEssayDetail = () => {
       .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;background:#e0f2fe;color:#1e40af;margin-right:6px}
       table{width:100%;border-collapse:collapse;margin:12px 0}td,th{border:1px solid #ddd;padding:8px;text-align:left;font-size:13px}
       th{background:#f1f5f9}strong{color:#3B82F6}.prompt{background:#f8fafc;padding:16px;border-left:4px solid #3B82F6;margin:16px 0;font-style:italic}
+      p{margin-bottom:12px}
       </style></head><body>
       <h1>📝 ${essay.topic}</h1>
       <span class="badge">Task ${essay.taskType}</span>
       <span class="badge">${essay.chartType || essay.essayType}</span>
       <div class="prompt">${essay.prompt}</div>
       <h2>📖 Sample Essay (Band 8.0+)</h2>
-      <div>${essay.essayBody.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</div>
+      <div>${essay.essayBody.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
       <h2>📚 Bilingual Glossary</h2>
       <table><tr><th>Term</th><th>Vietnamese</th><th>Context</th></tr>
       ${essay.glossary.map(g => `<tr><td><strong>${g.term}</strong></td><td>${g.vietnamese}</td><td>${g.context}</td></tr>`).join('')}
@@ -101,13 +133,13 @@ const IeltsSampleEssayDetail = () => {
             <p className="text-foreground leading-relaxed">{essay.prompt}</p>
           </div>
 
-          {/* Essay Body */}
+          {/* Essay Body with proper paragraph spacing */}
           <div className="glass-card rounded-xl p-6 md:p-8">
             <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-primary" />
               {t("Bài mẫu Band 8.0+", "Sample Essay Band 8.0+")}
             </h2>
-            <div className="text-foreground leading-[2] text-[15px] font-['Georgia',_'Merriweather',_serif] whitespace-pre-line">
+            <div className="text-foreground leading-[2] text-[15px] font-['Georgia',_'Merriweather',_serif]">
               {renderEssayBody(essay.essayBody)}
             </div>
             <div className="mt-4 flex justify-end">
@@ -144,73 +176,121 @@ const IeltsSampleEssayDetail = () => {
             </div>
           </div>
 
-          {/* Review Exercise */}
+          {/* Interactive Mini-Review Challenge */}
           <div className="glass-card rounded-xl p-6">
-            <h2 className="text-lg font-semibold text-foreground mb-2">
-              ✍️ {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
+            <h2 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-primary" />
+              {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
             </h2>
-            <p className="text-sm text-muted-foreground mb-4">{essay.reviewExercise.instruction}</p>
+            <p className="text-sm text-muted-foreground mb-5">{essay.reviewExercise.instruction}</p>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               {essay.reviewExercise.items.map((item, idx) => {
                 const userAns = answers[idx] || "";
                 const isCorrect = submitted && userAns.trim().toLowerCase() === item.answer.toLowerCase();
                 const isWrong = submitted && !isCorrect;
 
                 return (
-                  <div key={idx} className="flex items-start gap-3">
-                    <span className="text-sm font-bold text-muted-foreground w-6 shrink-0">{idx + 1}.</span>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 flex-wrap text-sm leading-relaxed">
-                        {item.sentence.split("___").map((part, pi, arr) => (
-                          <span key={pi}>
-                            {part}
-                            {pi < arr.length - 1 && (
-                              <input
-                                type="text"
-                                value={userAns}
-                                onChange={(e) => { if (!submitted) setAnswers(prev => ({ ...prev, [idx]: e.target.value })); }}
-                                disabled={submitted}
-                                placeholder="..."
-                                className={`inline-block w-32 px-2 py-1 mx-1 rounded border text-center text-sm font-medium transition-all outline-none ${
-                                  submitted
-                                    ? isCorrect
-                                      ? "border-green-500 bg-green-500/10 text-green-700"
-                                      : "border-destructive bg-destructive/10 text-destructive"
-                                    : "border-border bg-background focus:border-primary focus:ring-2 focus:ring-primary/20"
-                                }`}
-                              />
-                            )}
-                          </span>
-                        ))}
-                        {submitted && (isCorrect ? <CheckCircle className="w-4 h-4 text-green-500" /> : <XCircle className="w-4 h-4 text-destructive" />)}
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.08 }}
+                    className="rounded-xl border border-border/50 bg-card/50 p-4"
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className="text-sm font-bold text-muted-foreground w-6 shrink-0 mt-1">{idx + 1}.</span>
+                      <div className="flex-1 space-y-2">
+                        <div className="flex items-center gap-2 flex-wrap text-sm leading-relaxed">
+                          {item.sentence.split("___").map((part, pi, arr) => (
+                            <span key={pi}>
+                              {part}
+                              {pi < arr.length - 1 && (
+                                <input
+                                  type="text"
+                                  value={userAns}
+                                  onChange={(e) => { if (!submitted) setAnswers(prev => ({ ...prev, [idx]: e.target.value })); }}
+                                  disabled={submitted}
+                                  placeholder="..."
+                                  className={`inline-block w-36 px-3 py-1.5 mx-1 rounded-lg border text-center text-sm font-medium transition-all outline-none ${
+                                    submitted
+                                      ? isCorrect
+                                        ? "border-green-500 bg-green-500/10 text-green-700 dark:text-green-400"
+                                        : "border-destructive bg-destructive/10 text-destructive"
+                                      : "border-border bg-background focus:border-primary focus:ring-2 focus:ring-primary/20"
+                                  }`}
+                                />
+                              )}
+                            </span>
+                          ))}
+                          {submitted && (
+                            isCorrect
+                              ? <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
+                              : <XCircle className="w-5 h-5 text-destructive shrink-0" />
+                          )}
+                        </div>
+
+                        {/* Show explanation and correct answer after submission */}
+                        <AnimatePresence>
+                          {submitted && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="overflow-hidden"
+                            >
+                              {isWrong && (
+                                <p className="text-xs text-muted-foreground">
+                                  ✅ {t("Đáp án", "Answer")}: <span className="font-bold text-primary">{item.answer}</span>
+                                </p>
+                              )}
+                              {item.explanation && (
+                                <p className="text-xs text-muted-foreground italic mt-0.5">
+                                  💡 {item.explanation}
+                                </p>
+                              )}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
-                      {isWrong && (
-                        <p className="text-xs text-muted-foreground mt-1">
-                          ✅ {t("Đáp án", "Answer")}: <span className="font-bold text-primary">{item.answer}</span>
-                        </p>
-                      )}
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
 
-            <div className="flex gap-3 mt-6">
+            {/* Action buttons */}
+            <div className="flex items-center gap-4 mt-6">
               {!submitted && Object.keys(answers).length > 0 && (
-                <Button onClick={() => setSubmitted(true)}>
-                  {t("Kiểm tra", "Check Answers")}
-                </Button>
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                  <Button
+                    onClick={handleSubmit}
+                    className="bg-gradient-to-r from-primary to-emerald-500 hover:from-primary/90 hover:to-emerald-500/90 text-white font-semibold px-6"
+                  >
+                    {t("Nộp bài & Chấm điểm", "Submit & Grade")}
+                  </Button>
+                </motion.div>
               )}
               {submitted && (
-                <>
-                  <span className={`text-sm font-bold self-center ${score === essay.reviewExercise.items.length ? "text-green-500" : "text-yellow-500"}`}>
-                    {score}/{essay.reviewExercise.items.length} {t("đúng", "correct")}
-                  </span>
-                  <Button variant="outline" size="sm" onClick={() => { setAnswers({}); setSubmitted(false); }}>
-                    <RotateCcw className="w-3 h-3 mr-1" /> {t("Làm lại", "Retry")}
-                  </Button>
-                </>
+                <AnimatePresence>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex items-center gap-4"
+                  >
+                    <span className={`text-lg font-bold ${isPerfect ? "text-green-500" : score >= essay.reviewExercise.items.length / 2 ? "text-yellow-500" : "text-destructive"}`}>
+                      {isPerfect && "🎉 "}{score}/{essay.reviewExercise.items.length} {t("đúng", "correct")}
+                    </span>
+                    {isPerfect && (
+                      <span className="text-sm text-green-500 font-medium">
+                        {t("Xuất sắc! Bạn đã nắm vững từ vựng!", "Excellent! You've mastered the vocabulary!")}
+                      </span>
+                    )}
+                    <Button variant="outline" size="sm" onClick={handleReset}>
+                      <RotateCcw className="w-3 h-3 mr-1" /> {t("Làm lại", "Retry")}
+                    </Button>
+                  </motion.div>
+                </AnimatePresence>
               )}
             </div>
           </div>
