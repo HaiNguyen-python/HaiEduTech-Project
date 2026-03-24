@@ -194,7 +194,7 @@ const ProgrammingLessonPage = () => {
                   Programming
                 </Link>
                 <ChevronRight className="w-3 h-3" />
-                <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
+                <span className="text-foreground font-medium">{mod.titleEn}</span>
               </div>
               {!isMobile && (
                 <button
