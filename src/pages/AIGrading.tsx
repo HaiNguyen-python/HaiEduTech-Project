@@ -186,7 +186,7 @@ ${result.errors.map(e => `
 
             {/* Link to Writing Practice */}
             <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <Sparkles className="w-5 h-5 text-primary shrink-0" />
+              <BookOpen className="w-5 h-5 text-primary shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-medium text-foreground">
                   {t("Muốn luyện viết với đề bài + hướng dẫn chi tiết?", "Want guided writing practice with prompts & vocabulary?")}
