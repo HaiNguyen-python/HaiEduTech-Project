@@ -1721,30 +1721,5 @@ export const sampleEssays: SampleEssay[] = [
         }
       ]
     }
-  },
-  {
-    "id": "t2-1a",
-    "taskType": 2,
-    "essayType": "advantages-disadvantages",
-    "topic": "Healthcare funding models",
-    "prompt": "Some countries rely primarily on public healthcare systems while others depend on private insurance. What are the advantages and disadvantages of each approach?",
-    "essayBody": "This item is intentionally omitted to ensure exactly ten essays as requested.",
-    "glossary": [
-      {
-        "term": "placeholder",
-        "vietnamese": "giữ chỗ",
-        "context": "N/A"
-      }
-    ],
-    "reviewExercise": {
-      "type": "gap-fill",
-      "instruction": "N/A",
-      "items": [
-        {
-          "sentence": "N/A",
-          "answer": "placeholder"
-        }
-      ]
-    }
   }
 ];
