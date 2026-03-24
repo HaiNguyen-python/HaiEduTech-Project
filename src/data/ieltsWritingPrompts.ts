@@ -277,7 +277,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 1: Focus on countries with highest literacy (Vietnam, Brazil).',
       'Body 2: Discuss the countries with lower but improving rates.',
     ],
-    vocabularyBank: ['literacy rate', 'rose steadily', 'the highest figure', 'lagged behind', 'saw the greatest improvement', 'stood at', 'by the end of the period', 'in comparison to'],
+    vocabularyBank: ['literacy rate (tỷ lệ biết chữ)', 'rose steadily (tăng đều)', 'the highest figure (con số cao nhất)', 'lagged behind (tụt hậu)', 'saw the greatest improvement (có sự cải thiện lớn nhất)', 'stood at (đạt mức)', 'by the end of the period (cuối giai đoạn)', 'in comparison to (so với)'],
     brainstormingIdeas: ['All countries improved.', 'Vietnam consistently the highest.', 'Ethiopia had the lowest but significant progress.', 'India showed dramatic improvement.'],
   },
   {
