@@ -137,14 +137,8 @@ const Navbar = () => {
                 </motion.span>
               </Link>
 
-              {/* Slogan: hidden on mobile, shown on md+ */}
-              <div className="hidden md:flex items-center gap-3 mx-4 min-w-0">
-                <BookOpen className="w-4 h-4 text-primary/60 shrink-0" />
-                <span className="text-sm text-foreground font-semibold tracking-wide truncate">
-                  The Unique Intersection of Language & Technology
-                </span>
-                <Cpu className="w-4 h-4 text-primary/60 shrink-0" />
-              </div>
+              {/* Spacer for layout balance */}
+              <div className="hidden md:block flex-1" />
 
               {/* Auth + Lang on branding row (desktop only) */}
               <div className="hidden lg:flex items-center gap-1.5 shrink-0">
