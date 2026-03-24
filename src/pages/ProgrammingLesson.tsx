@@ -342,7 +342,7 @@ const ProgrammingLessonPage = () => {
                       <button onClick={() => setShowIDE(true)}
                         className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-500 transition-colors active:scale-[0.97]">
                         <Play className="w-3 h-3" />
-                        {t("Mở IDE", "Open IDE")}
+                         Open IDE
                       </button>
                     </div>
                     <div className="overflow-x-auto max-w-full">
