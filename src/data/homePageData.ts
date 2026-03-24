@@ -140,6 +140,17 @@ export const upcomingCourses: Record<string, UpcomingCourse[]> = {
       level: "Intermediate",
       levelEn: "Intermediate",
     },
+    {
+      id: "data-eng-adv",
+      name: "Data Engineering Nâng cao",
+      nameEn: "Advanced Data Engineering",
+      status: "upcoming",
+      startDate: "2026-07-01",
+      schedule: "T2 - T4 - T6, 19:00",
+      scheduleEn: "Mon - Wed - Fri, 19:00",
+      level: "Nâng cao",
+      levelEn: "Advanced",
+    },
   ],
 };
 
