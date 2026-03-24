@@ -468,7 +468,7 @@ const ProgrammingLessonPage = () => {
                               {challengeAnswer === challengeQ.answer ? '🎉 Correct!' : '❌ Incorrect!'}
                             </p>
                             <p className="text-xs text-muted-foreground mt-1">💬 {challengeQ.explanation}</p>
-                            <button onClick={startChallenge} className="mt-3 text-sm text-primary hover:underline">{t("Thử lại", "Try again")}</button>
+                            <button onClick={startChallenge} className="mt-3 text-sm text-primary hover:underline">Try again</button>
                           </div>
                         )}
                       </div>
