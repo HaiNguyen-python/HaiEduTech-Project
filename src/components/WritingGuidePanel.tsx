@@ -105,10 +105,10 @@ const WritingGuidePanel = ({ prompt, open, onOpenChange }: WritingGuidePanelProp
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className={`font-semibold text-sm ${isChecked ? "line-through text-muted-foreground" : "text-foreground"}`}>
+                      <h4 className={`font-semibold text-base ${isChecked ? "line-through text-muted-foreground" : "text-foreground"}`}>
                         {step.title}
                       </h4>
-                      <p className="text-xs text-muted-foreground mt-0.5">{step.objective}</p>
+                      <p className="text-sm text-muted-foreground mt-0.5">{step.objective}</p>
                     </div>
                   </div>
 
