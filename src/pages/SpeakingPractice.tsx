@@ -648,21 +648,21 @@ const SpeakingPractice = () => {
                   <ScrollArea className="h-[700px]">
                     <div className="space-y-4 pr-2">
                       {/* Overall score */}
-                      <div className="bg-secondary rounded-xl p-5 text-center">
-                        <span className="text-sm text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
-                      <div className={`text-5xl font-display font-bold mt-1 ${getScoreColor(result.overall)}`}>
+                      <div className="bg-secondary rounded-2xl p-6 text-center">
+                        <span className="text-base font-medium text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
+                        <div className={`text-6xl font-display font-bold mt-2 ${getScoreColor(result.overall)}`}>
                           {result.overall.toFixed(1)}
                         </div>
                       </div>
 
                       {/* Criteria */}
                       {result.criteria.map((c) => (
-                        <div key={c.label} className="bg-secondary rounded-xl p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-semibold text-foreground">{c.label}</span>
-                            <span className={`text-lg font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
+                        <div key={c.label} className="bg-secondary rounded-xl p-5">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-base font-semibold text-foreground">{c.label}</span>
+                            <span className={`text-2xl font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
                           </div>
-                          <div className="w-full h-2.5 bg-border rounded-full mb-2">
+                          <div className="w-full h-3 bg-border rounded-full mb-3">
                             <motion.div
                               className="h-full bg-gradient-to-r from-primary to-emerald-500 rounded-full"
                               initial={{ width: 0 }}
@@ -670,7 +670,7 @@ const SpeakingPractice = () => {
                               transition={{ duration: 0.8 }}
                             />
                           </div>
-                          <p className="text-sm text-foreground leading-relaxed mt-1">{c.feedback}</p>
+                          <p className="text-base text-foreground leading-relaxed mt-2">{c.feedback}</p>
                         </div>
                       ))}
 
