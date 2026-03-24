@@ -373,7 +373,7 @@ const ProgrammingLessonPage = () => {
                       {showResults && (
                         <div className="flex items-center gap-3">
                           <span className={`text-sm font-bold ${score === lesson.quiz.length ? 'text-green-500' : score >= lesson.quiz.length / 2 ? 'text-yellow-500' : 'text-destructive'}`}>
-                            {score}/{lesson.quiz.length} {t("đúng", "correct")}
+                            {score}/{lesson.quiz.length} correct
                           </span>
                           <button onClick={resetQuiz} className="text-sm text-primary hover:underline">{t("Làm lại", "Retry")}</button>
                         </div>
