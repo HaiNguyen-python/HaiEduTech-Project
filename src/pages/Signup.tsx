@@ -59,7 +59,7 @@ const Signup = () => {
             <div className="text-center mb-8">
               <UserPlus className="w-12 h-12 text-primary mx-auto mb-4" />
               <h1 className="text-3xl font-display font-bold text-foreground">{t("Đăng Ký", "Sign Up")}</h1>
-              <p className="text-muted-foreground mt-2">{t("Tạo tài khoản HaiEdu của bạn", "Create your HaiEdu account")}</p>
+              <p className="text-muted-foreground mt-2">{t("Tạo tài khoản HaiEduTech của bạn", "Create your HaiEduTech account")}</p>
             </div>
 
             <form onSubmit={handleSignup} className="space-y-5">
