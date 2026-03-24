@@ -141,7 +141,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: List 2-3 disadvantages with examples.',
       'Conclusion: Summarize and state whether benefits outweigh drawbacks.',
     ],
-    vocabularyBank: ['telecommuting', 'work-life balance', 'productivity', 'isolation', 'commute reduction', 'digital nomad', 'collaborative tools', 'workplace culture'],
+    vocabularyBank: ['telecommuting (làm việc từ xa)', 'work-life balance (cân bằng công việc-cuộc sống)', 'productivity (năng suất)', 'isolation (sự cô lập)', 'commute reduction (giảm đi lại)', 'digital nomad (du mục kỹ thuật số)', 'collaborative tools (công cụ cộng tác)', 'workplace culture (văn hóa công sở)'],
     brainstormingIdeas: ['No commute saves time and reduces stress.', 'Loneliness and poor mental health from isolation.', 'Flexible schedule benefits parents.', 'Blurred boundaries lead to overworking.'],
   },
   {
