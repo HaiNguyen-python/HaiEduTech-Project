@@ -575,6 +575,14 @@ const ProgrammingLessonPage = () => {
                       />
                     </div>
                   )}
+
+                  {/* Lesson Feedback */}
+                  <LessonFeedback
+                    lessonId={lesson.id}
+                    moduleId={mod.id}
+                    lessonType="programming"
+                    subject={mod.course}
+                  />
                 </motion.div>
               </div>
             </div>
