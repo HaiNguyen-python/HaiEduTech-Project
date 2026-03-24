@@ -192,7 +192,7 @@ ${result.errors.map(e => `
                   {t("Muốn luyện viết với đề bài + hướng dẫn chi tiết?", "Want guided writing practice with prompts & vocabulary?")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {t("Thử tính năng Luyện viết IELTS mới với AI tạo đề, hướng dẫn từng bước và bộ từ vựng.", "Try the new IELTS Writing Practice with AI-generated prompts, step-by-step guides, and vocabulary banks.")}
+                  {t("Thử tính năng Luyện viết IELTS mới với hệ thống tạo đề, hướng dẫn từng bước và bộ từ vựng.", "Try IELTS Writing Practice with system-generated prompts, step-by-step guides, and vocabulary banks.")}
                 </p>
               </div>
               <a href="/ielts-writing-practice" className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shrink-0">
