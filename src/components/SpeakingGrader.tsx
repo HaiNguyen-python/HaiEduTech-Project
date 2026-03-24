@@ -278,7 +278,7 @@ const SpeakingGrader = () => {
               {/* Overall */}
               <div className="bg-secondary rounded-2xl p-6 text-center">
                 <span className="text-lg text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
-                <div className={`text-6xl font-display font-bold mt-2 ${getScoreColor(result.overall)}`}>{result.overall}</div>
+                <div className={`text-6xl font-display font-bold mt-2 ${getScoreColor(result.overall)}`}>{result.overall.toFixed(1)}</div>
               </div>
 
               {/* Criteria */}
