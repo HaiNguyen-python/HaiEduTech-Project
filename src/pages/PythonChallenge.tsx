@@ -40,7 +40,7 @@ const PythonChallengePage = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="pt-6 pb-16 text-center">
-          <p className="text-muted-foreground">{t("Không tìm thấy thử thách.", "Challenge not found.")}</p>
+          <p className="text-muted-foreground">Challenge not found.</p>
           <Link to="/python-challenges" className="text-primary hover:underline mt-4 inline-block">
             {t("Quay lại danh sách", "Back to list")}
           </Link>
