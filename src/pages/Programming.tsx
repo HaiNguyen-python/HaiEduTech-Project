@@ -258,7 +258,7 @@ const Programming = () => {
                           <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
                         </div>
                         <p className="text-xs text-muted-foreground line-clamp-2">
-                          {t(mod.description, mod.descriptionEn)}
+                          {mod.descriptionEn}
                         </p>
                         {/* Mini roadmap */}
                         <div className="flex items-center gap-1.5 mt-3">
