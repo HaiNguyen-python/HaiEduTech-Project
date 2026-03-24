@@ -134,6 +134,11 @@ const IeltsSampleEssayDetail = () => {
             <p className="text-foreground leading-relaxed">{essay.prompt}</p>
           </div>
 
+          {/* Dynamic Chart/Diagram for Task 1 */}
+          {essay.taskType === 1 && essay.chartConfig && (
+            <IELTSChart config={essay.chartConfig} />
+          )}
+
           {/* Essay Body with proper paragraph spacing */}
           <div className="glass-card rounded-xl p-6 md:p-8">
             <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
