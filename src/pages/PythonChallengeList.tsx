@@ -123,7 +123,7 @@ const PythonChallengeList = () => {
                       <span className="text-xs font-bold text-muted-foreground">#{c.number}</span>
                       {done && <CheckCircle className="w-4 h-4 text-green-500" />}
                     </div>
-                    <p className="font-semibold text-foreground text-sm leading-tight mb-1">{t(c.titleVi, c.title)}</p>
+                    <p className="font-semibold text-foreground text-sm leading-tight mb-1">{c.title}</p>
                     <span className={`text-[10px] font-bold uppercase ${c.difficulty === "easy" ? "text-green-600" : c.difficulty === "medium" ? "text-yellow-600" : "text-red-600"}`}>
                       {c.difficulty}
                     </span>
