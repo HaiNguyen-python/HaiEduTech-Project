@@ -19,6 +19,36 @@ export interface ReviewExercise {
   items: ReviewItem[];
 }
 
+// Chart data point for dynamic visualization
+export interface ChartDataPoint {
+  [key: string]: string | number;
+}
+
+// Configuration for rendering the correct chart type
+export interface ChartConfig {
+  type: "line" | "bar" | "pie" | "table" | "map" | "process" | "mixed";
+  xKey?: string;
+  yKeys?: string[];
+  colors?: string[];
+  yLabel?: string;
+  xLabel?: string;
+  data: ChartDataPoint[];
+  // For pie charts: which key is the label vs the value
+  pieNameKey?: string;
+  pieValueKey?: string;
+  // For dual-year pie charts
+  data2?: ChartDataPoint[];
+  labels?: [string, string];
+  // For table type
+  columns?: string[];
+  rows?: string[][];
+  // For map/process: descriptive stages
+  stages?: { title: string; description: string; icon?: string }[];
+  // For mixed: which keys are bars vs line
+  barKeys?: string[];
+  lineKey?: string;
+}
+
 export interface SampleEssay {
   id: string;
   taskType: 1 | 2;
@@ -29,6 +59,7 @@ export interface SampleEssay {
   essayBody: string;
   glossary: GlossaryEntry[];
   reviewExercise: ReviewExercise;
+  chartConfig?: ChartConfig;
 }
 
 export const sampleEssays: SampleEssay[] = [
