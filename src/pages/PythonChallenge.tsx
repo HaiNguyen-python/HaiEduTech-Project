@@ -145,7 +145,7 @@ const PythonChallengePage = () => {
                   {/* Description */}
                   <div className="glass-card rounded-xl p-5 mb-6">
                     <h2 className="font-semibold text-foreground text-sm mb-2 flex items-center gap-2">
-                      <Trophy className="w-4 h-4 text-yellow-500" /> {t("Đề bài", "Problem")}
+                      <Trophy className="w-4 h-4 text-yellow-500" /> Problem
                     </h2>
                     <p className="text-sm text-secondary-foreground leading-relaxed">
                       {t(challenge.descriptionVi, challenge.description)}
