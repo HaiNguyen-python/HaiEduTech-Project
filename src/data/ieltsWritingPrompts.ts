@@ -25,7 +25,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Body 2: Discuss the opposing view and refute or partially agree.',
       'Conclusion: Restate your opinion and summarize key points.',
     ],
-    vocabularyBank: ['vocational training', 'employability', 'theoretical knowledge', 'practical skills', 'career-oriented', 'academic rigour', 'work-ready graduates', 'curriculum design'],
+    vocabularyBank: ['vocational training (đào tạo nghề)', 'employability (khả năng tuyển dụng)', 'theoretical knowledge (kiến thức lý thuyết)', 'practical skills (kỹ năng thực hành)', 'career-oriented (định hướng nghề nghiệp)', 'academic rigour (tính nghiêm ngặt học thuật)', 'work-ready graduates (sinh viên sẵn sàng làm việc)', 'curriculum design (thiết kế chương trình)'],
     brainstormingIdeas: ['Universities provide critical thinking skills applicable to any career.', 'Employers often complain graduates lack practical skills.', 'Internship programs can bridge the gap.', 'Some fields (medicine, engineering) need both.'],
   },
   {
