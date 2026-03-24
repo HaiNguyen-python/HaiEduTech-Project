@@ -40,9 +40,9 @@ const PythonChallengePage = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="pt-6 pb-16 text-center">
-          <p className="text-muted-foreground">{t("Không tìm thấy thử thách.", "Challenge not found.")}</p>
+          <p className="text-muted-foreground">Challenge not found.</p>
           <Link to="/python-challenges" className="text-primary hover:underline mt-4 inline-block">
-            {t("Quay lại danh sách", "Back to list")}
+            Back to list
           </Link>
         </div>
       </div>
@@ -60,11 +60,11 @@ const PythonChallengePage = () => {
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
               <Link to="/programming" className="hover:text-foreground flex items-center gap-1">
-                <ArrowLeft className="w-4 h-4" /> {t("Lập trình", "Programming")}
+                <ArrowLeft className="w-4 h-4" /> Programming
               </Link>
               <ChevronRight className="w-3 h-3" />
               <Link to="/python-challenges" className="hover:text-foreground">
-                {t("Thử thách Python", "Python Challenges")}
+                Python Challenges
               </Link>
               <ChevronRight className="w-3 h-3" />
               <span className="text-foreground font-medium">#{challenge.number}</span>
@@ -78,14 +78,14 @@ const PythonChallengePage = () => {
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
-                        <Flame className="w-3 h-3 text-orange-500" /> {t("Tiến độ", "Progress")}
+                        <Flame className="w-3 h-3 text-orange-500" /> Progress
                       </span>
                       <span className="text-xs font-bold text-primary">{completedCount}/{pythonChallenges.length}</span>
                     </div>
                     <Progress value={progressPct} className="h-1.5" />
                   </div>
 
-                  <h3 className="font-semibold text-foreground text-sm">{t("Thử thách", "Challenges")}</h3>
+                  <h3 className="font-semibold text-foreground text-sm">Challenges</h3>
                   <div className="space-y-0.5 max-h-[50vh] overflow-y-auto pr-1">
                     {pythonChallenges.map(c => {
                       const done = localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1";
@@ -105,7 +105,7 @@ const PythonChallengePage = () => {
                           }`}>
                             {done ? "✓" : c.number}
                           </span>
-                          <span className="truncate">{t(c.titleVi, c.title)}</span>
+                          <span className="truncate">{c.title}</span>
                         </Link>
                       );
                     })}
@@ -125,7 +125,7 @@ const PythonChallengePage = () => {
                         </span>
                         <div>
                           <h1 className="text-xl font-bold text-foreground leading-tight">
-                            #{challenge.number}: {t(challenge.titleVi, challenge.title)}
+                            #{challenge.number}: {challenge.title}
                           </h1>
                           <div className="flex items-center gap-2 mt-1">
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${difficultyColors[challenge.difficulty]}`}>
@@ -145,14 +145,14 @@ const PythonChallengePage = () => {
                   {/* Description */}
                   <div className="glass-card rounded-xl p-5 mb-6">
                     <h2 className="font-semibold text-foreground text-sm mb-2 flex items-center gap-2">
-                      <Trophy className="w-4 h-4 text-yellow-500" /> {t("Đề bài", "Problem")}
+                      <Trophy className="w-4 h-4 text-yellow-500" /> Problem
                     </h2>
                     <p className="text-sm text-secondary-foreground leading-relaxed">
-                      {t(challenge.descriptionVi, challenge.description)}
+                      {challenge.description}
                     </p>
                     {challenge.testCases.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-border">
-                        <p className="text-xs font-semibold text-muted-foreground mb-1">{t("Kết quả mong đợi:", "Expected output:")}</p>
+                        <p className="text-xs font-semibold text-muted-foreground mb-1">Expected output:</p>
                         <pre className="text-xs font-mono bg-secondary rounded-lg p-3 text-foreground">{challenge.testCases[0].expected}</pre>
                       </div>
                     )}
@@ -165,12 +165,12 @@ const PythonChallengePage = () => {
                   <div className="flex justify-between items-center pt-6">
                     {prev ? (
                       <Link to={`/python-challenges/${prev.id}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                        <ChevronLeft className="w-4 h-4" /> #{prev.number}: {t(prev.titleVi, prev.title)}
+                        <ChevronLeft className="w-4 h-4" /> #{prev.number}: {prev.title}
                       </Link>
                     ) : <div />}
                     {next ? (
                       <Link to={`/python-challenges/${next.id}`} className="flex items-center gap-2 text-sm text-primary hover:underline font-medium">
-                        #{next.number}: {t(next.titleVi, next.title)} <ChevronRight className="w-4 h-4" />
+                        #{next.number}: {next.title} <ChevronRight className="w-4 h-4" />
                       </Link>
                     ) : <div />}
                   </div>

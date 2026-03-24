@@ -117,9 +117,9 @@ const PythonReview = () => {
         </div>
         <div>
           <h3 className="text-lg font-display font-bold text-foreground">
-            🐍 {t("Ôn tập Python", "Python Review")}
+            🐍 Python Review
           </h3>
-          <p className="text-sm text-muted-foreground">{t("Kiến thức cơ bản cần nhớ", "Essential knowledge recap")}</p>
+          <p className="text-sm text-muted-foreground">Essential knowledge recap</p>
         </div>
       </div>
 
@@ -130,7 +130,7 @@ const PythonReview = () => {
               onClick={() => setOpenIdx(openIdx === i ? null : i)}
               className="w-full flex items-center justify-between px-5 py-3 text-left"
             >
-              <span className="font-semibold text-foreground">{t(topic.titleVi, topic.titleEn)}</span>
+              <span className="font-semibold text-foreground">{topic.titleEn}</span>
               {openIdx === i ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
             </button>
             {openIdx === i && (
@@ -138,7 +138,7 @@ const PythonReview = () => {
                 <pre className="bg-background rounded-lg p-4 text-sm text-foreground overflow-x-auto mb-3">
                   <code>{topic.code}</code>
                 </pre>
-                <p className="text-sm text-primary font-medium">💡 {t(topic.noteVi, topic.noteEn)}</p>
+                <p className="text-sm text-primary font-medium">💡 {topic.noteEn}</p>
               </div>
             )}
           </div>

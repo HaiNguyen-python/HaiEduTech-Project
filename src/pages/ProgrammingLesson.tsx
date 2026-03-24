@@ -191,10 +191,10 @@ const ProgrammingLessonPage = () => {
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Link to="/programming" className="hover:text-foreground flex items-center gap-1">
                   <ArrowLeft className="w-4 h-4" />
-                  {t("Lập trình", "Programming")}
+                  Programming
                 </Link>
                 <ChevronRight className="w-3 h-3" />
-                <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
+                <span className="text-foreground font-medium">{mod.titleEn}</span>
               </div>
               {!isMobile && (
                 <button
@@ -202,7 +202,7 @@ const ProgrammingLessonPage = () => {
                   className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border border-border hover:bg-secondary transition-colors active:scale-[0.97]"
                 >
                   {showIDE ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
-                  {showIDE ? t("Ẩn IDE", "Hide IDE") : t("Mở IDE", "Show IDE")}
+                  {showIDE ? "Hide IDE" : "Show IDE"}
                 </button>
               )}
             </div>
@@ -217,7 +217,7 @@ const ProgrammingLessonPage = () => {
                 <div className="glass-card rounded-xl p-4 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
-                    <h3 className="font-semibold text-foreground text-sm">{t("Lộ trình học", "Learning Roadmap")}</h3>
+                    <h3 className="font-semibold text-foreground text-sm">Learning Roadmap</h3>
                   </div>
                   <div className="space-y-2">
                     {pillarModules.map((pm) => {
@@ -241,7 +241,7 @@ const ProgrammingLessonPage = () => {
                             }`}
                           >
                             <span className="text-base shrink-0">{pm.icon}</span>
-                            <span className="truncate flex-1">{t(pm.title, pm.titleEn)}</span>
+                            <span className="truncate flex-1">{pm.titleEn}</span>
                             <ChevronDown className={`w-3 h-3 shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                           </button>
                           {isExpanded && (
@@ -270,7 +270,7 @@ const ProgrammingLessonPage = () => {
                                     }`}>
                                       {i + 1}
                                     </span>
-                                    <span className="truncate">{t(l.title, l.titleEn)}</span>
+                                    <span className="truncate">{l.titleEn}</span>
                                   </button>
                                 );
                               })}
@@ -285,14 +285,14 @@ const ProgrammingLessonPage = () => {
                   <button onClick={generateChallenge} disabled={aiLoading}
                     className="w-full mt-4 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-gradient-to-r from-primary to-primary/80 text-primary-foreground text-sm font-semibold hover:brightness-110 transition-all disabled:opacity-50 active:scale-[0.97]">
                     {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                    {t("Thử thách Code với AI", "AI Code Challenge")}
+                    AI Code Challenge
                   </button>
 
                   {/* Run code link */}
                   <a href="https://trinket.io/python" target="_blank" rel="noopener noreferrer"
                     className="w-full mt-2 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-green-500/30 text-green-600 text-sm font-medium hover:bg-green-500/5 transition-all">
                     <Play className="w-4 h-4" />
-                    {t("Chạy thử Code", "Run Code Online")}
+                    Run Code Online
                   </a>
                 </div>
               </div>
@@ -302,7 +302,7 @@ const ProgrammingLessonPage = () => {
                 {/* Progress */}
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="glass-card rounded-xl p-4 mb-6">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-foreground">{t("Tiến độ bài học", "Lesson Progress")}</span>
+                    <span className="text-sm font-medium text-foreground">Lesson Progress</span>
                     <span className="text-sm text-primary font-semibold">{Math.round(progress)}%</span>
                   </div>
                   <Progress value={progress} className="h-2" />
@@ -310,17 +310,17 @@ const ProgrammingLessonPage = () => {
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6" key={lesson.id}>
                   <h1 className="text-2xl font-display font-bold text-foreground">
-                    {mod.icon} {t(lesson.title, lesson.titleEn)}
+                    {mod.icon} {lesson.titleEn}
                   </h1>
 
                   {/* Theory */}
                   <div className="glass-card rounded-xl p-6">
                     <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                       <BookOpen className="w-5 h-5 text-primary" />
-                      {t("Lý thuyết", "Theory")}
+                      Theory
                     </h2>
                     <div className="prose prose-sm max-w-none text-secondary-foreground whitespace-pre-line leading-relaxed">
-                      {t(lesson.theory, lesson.theoryEn).split('\n').map((line, i) => {
+                      {(lesson.theoryEn || lesson.theory).split('\n').map((line, i) => {
                         if (line.startsWith('**') && line.endsWith('**')) {
                           return <p key={i} className="font-bold text-foreground mt-3 mb-1">{line.replace(/\*\*/g, '')}</p>;
                         }
@@ -342,7 +342,7 @@ const ProgrammingLessonPage = () => {
                       <button onClick={() => setShowIDE(true)}
                         className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-green-600 text-white text-xs font-medium hover:bg-green-500 transition-colors active:scale-[0.97]">
                         <Play className="w-3 h-3" />
-                        {t("Mở IDE", "Open IDE")}
+                         Open IDE
                       </button>
                     </div>
                     <div className="overflow-x-auto max-w-full">
@@ -356,26 +356,26 @@ const ProgrammingLessonPage = () => {
                   <div className="glass-card rounded-xl p-6 border-l-4 border-amber-500">
                     <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                       <Lightbulb className="w-5 h-5 text-amber-500" />
-                      {t("Bài tập thực hành", "Practice Exercise")}
+                      Practice Exercise
                     </h2>
-                    <p className="text-sm text-secondary-foreground mb-4">{t(lesson.exercise, lesson.exerciseEn)}</p>
+                    <p className="text-sm text-secondary-foreground mb-4">{lesson.exerciseEn || lesson.exercise}</p>
                     <button onClick={() => setShowIDE(true)}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-medium hover:bg-amber-400 transition-colors active:scale-[0.97]">
                       <Play className="w-4 h-4" />
-                      {t("Làm bài trên IDE", "Code in IDE")}
+                      Code in IDE
                     </button>
                   </div>
 
                   {/* Quiz */}
                   <div className="glass-card rounded-xl p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h2 className="font-semibold text-foreground">✏️ {t("Kiểm tra kiến thức", "Knowledge Check")}</h2>
+                      <h2 className="font-semibold text-foreground">✏️ Knowledge Check</h2>
                       {showResults && (
                         <div className="flex items-center gap-3">
                           <span className={`text-sm font-bold ${score === lesson.quiz.length ? 'text-green-500' : score >= lesson.quiz.length / 2 ? 'text-yellow-500' : 'text-destructive'}`}>
-                            {score}/{lesson.quiz.length} {t("đúng", "correct")}
+                            {score}/{lesson.quiz.length} correct
                           </span>
-                          <button onClick={resetQuiz} className="text-sm text-primary hover:underline">{t("Làm lại", "Retry")}</button>
+                          <button onClick={resetQuiz} className="text-sm text-primary hover:underline">Retry</button>
                         </div>
                       )}
                     </div>
@@ -417,7 +417,7 @@ const ProgrammingLessonPage = () => {
                           updateSkillScore(mod.id, quizScore, lesson.quiz.length);
                         }
                       }} className="mt-6 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97]">
-                        {t("Nộp bài", "Submit")}
+                        Submit
                       </button>
                     )}
                   </div>
@@ -427,7 +427,7 @@ const ProgrammingLessonPage = () => {
                     <div className="flex items-center justify-between mb-4">
                       <h2 className="font-semibold text-foreground flex items-center gap-2">
                         <Trophy className="w-5 h-5 text-yellow-500" />
-                        {t("Thử thách 1 phút", "1-Minute Challenge")}
+                        1-Minute Challenge
                       </h2>
                       {challengeActive && (
                         <span className="flex items-center gap-1 text-sm font-mono font-bold text-yellow-600">
@@ -437,9 +437,9 @@ const ProgrammingLessonPage = () => {
                     </div>
                     {!challengeActive && !showChallengeResult ? (
                       <div className="text-center py-4">
-                        <p className="text-sm text-muted-foreground mb-4">{t("Trả lời nhanh trong 60 giây!", "Answer quickly in 60 seconds!")}</p>
+                        <p className="text-sm text-muted-foreground mb-4">Answer quickly in 60 seconds!</p>
                         <button onClick={startChallenge} className="px-6 py-2.5 rounded-lg bg-yellow-500 text-white font-semibold text-sm hover:bg-yellow-600 transition-colors active:scale-[0.97]">
-                          {t("Bắt đầu!", "Start!")}
+                          Start!
                         </button>
                       </div>
                     ) : challengeQ ? (
@@ -465,10 +465,10 @@ const ProgrammingLessonPage = () => {
                         {showChallengeResult && (
                           <div className="mt-3">
                             <p className={`text-sm font-semibold ${challengeAnswer === challengeQ.answer ? 'text-green-600' : 'text-destructive'}`}>
-                              {challengeAnswer === challengeQ.answer ? '🎉 ' + t('Chính xác!', 'Correct!') : '❌ ' + t('Chưa đúng!', 'Incorrect!')}
+                              {challengeAnswer === challengeQ.answer ? '🎉 Correct!' : '❌ Incorrect!'}
                             </p>
                             <p className="text-xs text-muted-foreground mt-1">💬 {challengeQ.explanation}</p>
-                            <button onClick={startChallenge} className="mt-3 text-sm text-primary hover:underline">{t("Thử lại", "Try again")}</button>
+                            <button onClick={startChallenge} className="mt-3 text-sm text-primary hover:underline">Try again</button>
                           </div>
                         )}
                       </div>
@@ -481,7 +481,7 @@ const ProgrammingLessonPage = () => {
                       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="glass-card rounded-xl p-6 border-l-4 border-purple-500">
                         <h2 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                           <Sparkles className="w-5 h-5 text-purple-500" />
-                          {t("Thử thách AI", "AI Challenge")}: {aiChallenge.title}
+                          AI Challenge: {aiChallenge.title}
                         </h2>
                         {aiChallenge.difficulty && (
                           <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium mb-3 ${
@@ -507,7 +507,7 @@ const ProgrammingLessonPage = () => {
                               <span className="text-xs font-mono text-green-400">Starter Code</span>
                               <button onClick={() => setShowIDE(true)}
                                 className="flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs hover:bg-green-500">
-                                <Play className="w-3 h-3" /> {t("Mở IDE", "Open IDE")}
+                                <Play className="w-3 h-3" /> Open IDE
                               </button>
                             </div>
                             <pre className="p-3 bg-slate-950 overflow-x-auto max-w-full">
@@ -522,7 +522,7 @@ const ProgrammingLessonPage = () => {
                             <button onClick={() => setShowHints(!showHints)}
                               className="flex items-center gap-2 text-sm text-amber-600 hover:text-amber-500 font-medium">
                               <Lightbulb className="w-4 h-4" />
-                              {showHints ? t("Ẩn gợi ý", "Hide hints") : t("Xem gợi ý", "Show hints")}
+                              {showHints ? "Hide hints" : "Show hints"}
                               <ChevronDown className={`w-3 h-3 transition-transform ${showHints ? "rotate-180" : ""}`} />
                             </button>
                             <AnimatePresence>
@@ -545,7 +545,7 @@ const ProgrammingLessonPage = () => {
                             <button onClick={() => setShowSolution(!showSolution)}
                               className="flex items-center gap-2 text-sm text-purple-600 hover:text-purple-500 font-medium">
                               {showSolution ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                              {showSolution ? t("Ẩn lời giải", "Hide solution") : t("Xem lời giải", "Show solution")}
+                              {showSolution ? "Hide solution" : "Show solution"}
                             </button>
                             <AnimatePresence>
                               {showSolution && (

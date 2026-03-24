@@ -121,18 +121,15 @@ const Programming = () => {
             className="max-w-5xl mx-auto text-center mb-10"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
-              <Code2 className="w-3 h-3" /> {t("Lộ trình Nghề nghiệp", "Career Path")}
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-display font-bold mb-3 text-foreground leading-tight">
-              {t("Lộ trình ", "Programming ")}
-              <span className="text-gradient">{t("Lập trình", "Career Path")}</span>
-            </h1>
-            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-              {t(
-                "5 trụ cột chính đưa bạn từ người mới bắt đầu đến chuyên gia công nghệ dữ liệu.",
-                "5 core pillars taking you from beginner to data technology expert."
-              )}
-            </p>
+              <Code2 className="w-3 h-3" /> Career Path
+124:             </div>
+125:             <h1 className="text-3xl sm:text-4xl font-display font-bold mb-3 text-foreground leading-tight">
+126:               Programming{" "}
+127:               <span className="text-gradient">Career Path</span>
+128:             </h1>
+129:             <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+130:               5 core pillars taking you from beginner to data technology expert.
+131:             </p>
           </motion.div>
 
           {/* 5 Pillar Cards */}
@@ -158,10 +155,10 @@ const Programming = () => {
                     <Icon className="w-5 h-5" />
                   </div>
                   <h3 className={`font-display font-bold text-sm mb-1 ${isActive ? p.accentColor : "text-foreground"}`}>
-                    {t(data.title, data.titleEn)}
+                    {data.titleEn}
                   </h3>
                   <p className="text-[11px] text-muted-foreground line-clamp-2">
-                    {data.modules.length} {t("module", "modules")} · {data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} {t("bài học", "lessons")}
+                    {data.modules.length} modules · {data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} lessons
                   </p>
                   {isActive && (
                     <motion.div
@@ -193,10 +190,10 @@ const Programming = () => {
                     </div>
                     <div>
                       <h2 className="text-xl font-display font-bold text-foreground mb-1">
-                        {t(active.title, active.titleEn)}
+                        {active.titleEn}
                       </h2>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        {t(active.desc, active.descEn)}
+                        {active.descEn}
                       </p>
                     </div>
                   </div>
@@ -215,10 +212,10 @@ const Programming = () => {
                         </div>
                         <div>
                           <h3 className="font-display font-bold text-foreground text-sm group-hover:text-primary transition-colors">
-                            {t("150 Thử thách Python", "150 Python Challenges")}
+                            150 Python Challenges
                           </h3>
                           <p className="text-xs text-muted-foreground">
-                            {t("IDE tích hợp · Chấm điểm tự động · AI Debug", "Built-in IDE · Auto-grading · AI Debug")}
+                            Built-in IDE · Auto-grading · AI Debug
                           </p>
                         </div>
                       </div>
@@ -252,16 +249,16 @@ const Programming = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="font-display font-semibold text-foreground text-sm group-hover:text-primary transition-colors truncate">
-                              {t(mod.title, mod.titleEn)}
+                              {mod.titleEn}
                             </h3>
                             <span className="text-xs text-muted-foreground">
-                              {mod.lessons.length} {t("bài học", "lessons")}
+                              {mod.lessons.length} lessons
                             </span>
                           </div>
                           <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
                         </div>
                         <p className="text-xs text-muted-foreground line-clamp-2">
-                          {t(mod.description, mod.descriptionEn)}
+                          {mod.descriptionEn}
                         </p>
                         {/* Mini roadmap */}
                         <div className="flex items-center gap-1.5 mt-3">
@@ -281,7 +278,7 @@ const Programming = () => {
 
             {/* IT Certifications */}
             <div className="mt-12">
-              <CertCarousel title={t("Chứng chỉ CNTT", "IT Certifications")} />
+              <CertCarousel title="IT Certifications" />
             </div>
           </div>
         </div>

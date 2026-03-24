@@ -193,7 +193,7 @@ sys.stderr = io.StringIO()
           className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-green-600 text-white font-semibold text-sm hover:bg-green-700 active:scale-[0.97] transition-all disabled:opacity-50"
         >
           {running ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-          {running ? t("Đang chạy...", "Running...") : t("▶ Chạy Code", "▶ Run Code")}
+           {running ? "Running..." : "▶ Run Code"}
         </button>
 
         <button
@@ -201,7 +201,7 @@ sys.stderr = io.StringIO()
           className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-secondary-foreground text-sm hover:bg-secondary/80 active:scale-[0.97] transition-all"
         >
           {showHints ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          {t("Gợi ý", "Hints")}
+           Hints
         </button>
 
         {hasError && (
@@ -211,7 +211,7 @@ sys.stderr = io.StringIO()
             className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 active:scale-[0.97] transition-all disabled:opacity-50"
           >
             {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            {t("Hỏi AI tại sao lỗi", "Ask AI why error")}
+            Ask AI why error
           </button>
         )}
       </div>
@@ -219,7 +219,7 @@ sys.stderr = io.StringIO()
       {/* Hints */}
       {showHints && (
         <div className="rounded-lg bg-yellow-500/10 border border-yellow-500/30 p-4 space-y-1">
-          <p className="text-sm font-semibold text-yellow-600">💡 {t("Gợi ý", "Hints")}:</p>
+          <p className="text-sm font-semibold text-yellow-600">💡 Hints:</p>
           {challenge.hints.map((h, i) => (
             <p key={i} className="text-sm text-secondary-foreground">• {h}</p>
           ))}
@@ -234,19 +234,20 @@ sys.stderr = io.StringIO()
           </span>
         </div>
         <pre className="p-4 bg-[#1e1e1e] text-green-400 text-sm font-mono min-h-[100px] max-h-[240px] overflow-auto whitespace-pre-wrap">
-          {loadingPyodide
-            ? t("Đang tải Python runtime (lần đầu có thể mất 5-10s)...", "Loading Python runtime (first time may take 5-10s)...")
-            : output || t("Bấm 'Chạy Code' để xem kết quả...", "Press 'Run Code' to see results...")}
+           {loadingPyodide
+             ? "Loading Python runtime (first time may take 5-10s)..."
+             : output || "Press 'Run Code' to see results..."}
         </pre>
       </div>
 
       {/* Pass Banner */}
       {passed && (
         <div className="rounded-xl bg-green-500/10 border border-green-500/40 p-5 text-center space-y-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <p className="text-lg font-bold text-green-600">
-            🎉 {t(`Chúc mừng! Bạn đã vượt qua Thử thách ${challenge.number}!`, `Congratulations! You passed Challenge ${challenge.number}!`)}
-          </p>
-          <p className="text-sm text-muted-foreground">{t("Tiếp tục chinh phục thử thách tiếp theo nhé!", "Keep going to the next challenge!")}</p>
+           <p className="text-lg font-bold text-green-600">
+             🎉 Congratulations! You passed Challenge {challenge.number}!
+           </p>
+           <p className="text-sm text-muted-foreground">Keep going to the next challenge!</p>
+          
         </div>
       )}
 
@@ -254,7 +255,7 @@ sys.stderr = io.StringIO()
       {aiHelp && (
         <div className="rounded-xl bg-primary/5 border border-primary/20 p-5 space-y-2">
           <p className="text-sm font-semibold text-primary flex items-center gap-2">
-            <Sparkles className="w-4 h-4" /> {t("AI Debug Helper", "AI Debug Helper")}
+            <Sparkles className="w-4 h-4" /> AI Debug Helper
           </p>
           <p className="text-sm text-secondary-foreground whitespace-pre-wrap">{aiHelp}</p>
         </div>
