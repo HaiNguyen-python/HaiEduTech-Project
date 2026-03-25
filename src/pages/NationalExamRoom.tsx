@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { thptExams, categoryLabels } from "@/data/thptExamData";
 import { useEffect, useState, useCallback, useRef } from "react";
