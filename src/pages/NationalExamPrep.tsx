@@ -1,13 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { thptExams } from "@/data/thptExamData";
 import { Clock, FileText, Award, BookOpen, ChevronRight, GraduationCap, Timer, TimerOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { thptExams, categoryLabels } from "@/data/thptExamData";
-import { Clock, FileText, Award, BookOpen, ChevronRight, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Retrieve best scores from localStorage
@@ -23,6 +20,7 @@ const getBestScore = (examId: string): number | null => {
 };
 
 const NationalExamPrep = () => {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   return (
@@ -31,11 +29,7 @@ const NationalExamPrep = () => {
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 md:px-6">
           {/* Hero */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
               <GraduationCap className="w-4 h-4" />
               {t("Luyện thi THPT Quốc Gia", "National High School Exam Prep")}
@@ -53,12 +47,7 @@ const NationalExamPrep = () => {
           </motion.div>
 
           {/* Stats bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 max-w-3xl mx-auto"
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 max-w-3xl mx-auto">
             {[
               { icon: FileText, label: t("Đề thi", "Exams"), value: "10" },
               { icon: BookOpen, label: t("Câu hỏi", "Questions"), value: "400+" },
@@ -84,31 +73,45 @@ const NationalExamPrep = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
                 >
-                  <Link to={`/national-exam/${exam.id}`} className="block">
-                    <div className="glass-card rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all group h-full">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded">
-                          {t("Mã đề", "Code")}: {exam.code}
+                  <div className="glass-card rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all group h-full">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded">
+                        {t("Mã đề", "Code")}: {exam.code}
+                      </span>
+                      {best !== null && (
+                        <span className={`text-xs font-bold px-2 py-1 rounded ${best >= 8 ? "bg-green-100 text-green-700" : best >= 6 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>
+                          {best.toFixed(1)}/10
                         </span>
-                        {best !== null && (
-                          <span className={`text-xs font-bold px-2 py-1 rounded ${best >= 8 ? "bg-green-100 text-green-700" : best >= 6 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}>
-                            {best.toFixed(1)}/10
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                        {t(exam.title, exam.titleEn)}
-                      </h3>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                        <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {exam.duration} {t("phút", "min")}</span>
-                        <span className="flex items-center gap-1"><FileText className="w-3.5 h-3.5" /> {exam.totalQuestions} {t("câu", "Q")}</span>
-                      </div>
-                      <Button variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-                        {best !== null ? t("Làm lại", "Retake") : t("Bắt đầu làm bài", "Start Exam")}
-                        <ChevronRight className="w-4 h-4 ml-1" />
+                      )}
+                    </div>
+                    <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                      {t(exam.title, exam.titleEn)}
+                    </h3>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                      <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {exam.duration} {t("phút", "min")}</span>
+                      <span className="flex items-center gap-1"><FileText className="w-3.5 h-3.5" /> {exam.totalQuestions} {t("câu", "Q")}</span>
+                    </div>
+                    {/* Timed / Untimed buttons */}
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        className="flex-1 gap-1.5"
+                        onClick={() => navigate(`/national-exam/${exam.id}?mode=timed`)}
+                      >
+                        <Timer className="w-3.5 h-3.5" />
+                        {t("Tính giờ", "Timed")}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 gap-1.5"
+                        onClick={() => navigate(`/national-exam/${exam.id}?mode=untimed`)}
+                      >
+                        <TimerOff className="w-3.5 h-3.5" />
+                        {t("Tự do", "Untimed")}
                       </Button>
                     </div>
-                  </Link>
+                  </div>
                 </motion.div>
               );
             })}
