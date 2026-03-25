@@ -400,7 +400,7 @@ const Navbar = () => {
               animate={{ opacity: 0.3 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden fixed inset-0 z-30 bg-foreground/20"
+              className="md:hidden fixed inset-0 z-[60] bg-foreground/30"
               onClick={() => setOpen(false)}
             />
             <motion.div
@@ -408,7 +408,7 @@ const Navbar = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
               transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-              className="md:hidden fixed inset-y-0 right-0 z-40 w-[85%] max-w-sm bg-card shadow-2xl overflow-y-auto flex flex-col"
+              className="md:hidden fixed inset-y-0 right-0 z-[70] w-[88%] max-w-sm bg-white shadow-2xl overflow-y-auto flex flex-col"
             >
               {/* Close button header */}
               <div className="flex items-center justify-between px-5 py-4 border-b border-border">
