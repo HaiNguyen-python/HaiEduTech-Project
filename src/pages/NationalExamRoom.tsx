@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import TechTeacherIcon from "@/components/TechTeacherIcon";
 import type { ThptExam } from "@/data/thptExamData";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 type ExamPhase = "loading" | "taking" | "result" | "review";
 
