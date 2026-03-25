@@ -33,7 +33,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { lang, setLang, t } = useLanguage();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const ieltsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { user, isTeacher } = useUserRole();
 
   useEffect(() => {
