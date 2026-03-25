@@ -633,7 +633,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-02-p1",
         "title": "Quantum Computing",
-        "text": "Passage about Quantum Computing.",
+        "text": "Quantum computing has (1) __________ revolutionized our understanding of computational science. The development of quantum processors, (2) __________, has opened new frontiers in data encryption and molecular simulation.\n\nResearchers have dedicated themselves (3) __________ solving problems that classical computers cannot handle. Major technology firms (4) __________ significant steps toward achieving quantum supremacy. New quantum algorithms are now (5) __________ performance in real-time. Traditional computing (6) __________ may soon be supplemented by quantum approaches.",
         "questionRange": [
           1,
           6
@@ -642,7 +642,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-02-p2",
         "title": "Deep Space Exploration",
-        "text": "Passage about Deep Space Exploration.",
+        "text": "Scientists are beginning to (7) __________ the vast potential of deep space exploration. Enormous (8) __________ of funding have been directed toward interstellar research programs. Engineers are currently (9) __________ next-generation propulsion systems in advanced laboratories.\n\nSpace agencies deploy (10) __________ telescopes to scan distant galaxies. Astronauts can quickly (11) __________ new survival techniques during extended missions. (12) __________ missions have successfully reached beyond our solar system.",
         "questionRange": [
           7,
           12
@@ -651,7 +651,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-02-p3",
         "title": "Neural Interface Technology",
-        "text": "Passage about Neural Interface Technology.",
+        "text": "Neural interface technology represents a breakthrough in human-computer interaction. (18) ___. Brain-computer interfaces translate neural signals into digital commands. (19) ___. (20) ___, scientists are developing safety protocols. The technology raises ethical questions because (21) ___. Despite uncertainties, clinical trials are expanding. (22) ___.",
         "questionRange": [
           18,
           22
@@ -660,7 +660,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-02-p4",
         "title": "Vertical Farming Systems",
-        "text": "Passage about Vertical Farming Systems.",
+        "text": "Vertical farming has emerged as a revolutionary approach to sustainable agriculture. What initially began as experimental research has evolved into a comprehensive field of study.\n\nVertical farms offer numerous advantages. Sophisticated hydroponic systems enable year-round crop production regardless of external weather conditions. These controlled environments reduce water usage by up to 95 percent compared to traditional farming.\n\nPractical applications of vertical farming extend beyond food production. Pharmaceutical companies have begun cultivating medicinal plants in vertical systems, which enable precise control over growing conditions. Different approaches yield varying effectiveness depending on the crop type.\n\nFunding limitations and ethical concerns remain significant challenges. Nevertheless, future developments will undoubtedly reshape our understanding of food security. Current approaches must adapt to address emerging challenges in global nutrition.",
         "questionRange": [
           23,
           30
@@ -669,7 +669,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-02-p5",
         "title": "Cognitive Enhancement Technology",
-        "text": "Passage about Cognitive Enhancement Technology.",
+        "text": "[I] Cognitive enhancement technology has reached an unprecedented level of sophistication. [II] As these systems become increasingly integral to educational and professional settings, society must establish regulatory frameworks. [III] These challenges demand collaborative solutions. [IV]\n\nResearchers examine economic factors, social implications, and political considerations surrounding cognitive enhancement. These organizations face mounting pressure to balance innovation with accessibility.\n\nAlgorithmic bias in cognitive assessment tools is a pressing concern. Intelligence measurement systems have demonstrated cultural bias, while adaptive learning platforms show socioeconomic discrimination. These challenges can undermine the fundamental purpose of cognitive enhancement.\n\nPrivacy concerns compound these ethical dilemmas. Companies developing cognitive enhancement technologies collect unprecedented quantities of neurological data, creating detailed cognitive profiles that can predict and influence human performance.",
         "questionRange": [
           31,
           40
@@ -1210,7 +1210,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-03-p1",
         "title": "Neuroplasticity",
-        "text": "Passage about Neuroplasticity.",
+        "text": "Recent neuroscience has revealed (1) __________ insights into the brain's capacity for reorganization. New neural pathways form throughout life; (2) __________, targeted interventions can accelerate recovery after injury.\n\nTherapists have dedicated themselves (3) __________ helping patients regain lost cognitive functions. Clinicians (4) __________ decisive action when early symptoms appear. Rehabilitation programs are now (5) __________ patients' progress through advanced brain imaging. Various therapeutic (6) __________ have proven effective in promoting neural recovery.",
         "questionRange": [
           1,
           6
@@ -1219,7 +1219,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-03-p2",
         "title": "Sustainable Architecture",
-        "text": "Passage about Sustainable Architecture.",
+        "text": "Communities are beginning to (7) __________ the environmental benefits of green building design. A remarkable (8) __________ of energy can be saved through passive solar techniques. Architects are currently (9) __________ innovative insulation systems in prototype buildings.\n\nDesigners create (10) __________ structures that minimize carbon footprints. Students can easily (11) __________ sustainable design principles from experienced mentors. (12) __________ buildings achieve true carbon neutrality without significant investment.",
         "questionRange": [
           7,
           12
@@ -1228,7 +1228,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-03-p3",
         "title": "Quantum Computing Principles",
-        "text": "Passage about Quantum Computing Principles.",
+        "text": "Quantum computing principles challenge classical assumptions about information processing. (18) ___. Superposition allows qubits to exist in multiple states simultaneously. (19) ___. (20) ___, engineers are developing error-correction protocols. The technology faces obstacles because (21) ___. Despite limitations, breakthroughs continue. (22) ___.",
         "questionRange": [
           18,
           22
@@ -1237,7 +1237,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-03-p4",
         "title": "Epigenetics Research",
-        "text": "Passage about Epigenetics Research.",
+        "text": "Epigenetics has emerged as a transformative field in modern biology. What initially began as preliminary research has evolved into a comprehensive discipline.\n\nEpigenetic mechanisms offer new explanations for inherited traits. Sophisticated molecular tools enable researchers to track how environmental factors alter gene expression without changing DNA sequences.\n\nPractical applications extend beyond basic science. Pharmaceutical companies have begun developing epigenetic therapies, which enable targeted treatment of complex diseases. Different approaches yield varying effectiveness depending on the genetic background.\n\nFunding limitations and ethical concerns present ongoing challenges. Nevertheless, future developments will undoubtedly reshape our understanding of heredity. Current approaches must adapt to address emerging challenges in personalized medicine.",
         "questionRange": [
           23,
           30
@@ -1246,7 +1246,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-03-p5",
         "title": "Dark Matter Cosmology",
-        "text": "Passage about Dark Matter Cosmology.",
+        "text": "[I] Dark matter research has reached an unprecedented level of sophistication. [II] As detection methods become increasingly integral to astrophysics, the scientific community must establish new theoretical frameworks. [III] These challenges require interdisciplinary collaboration. [IV]\n\nPhysicists examine economic factors, social implications, and political considerations surrounding large-scale particle detectors. These organizations face pressure to justify enormous research expenditures.\n\nMethodological bias in dark matter detection is a pressing concern. Certain experimental designs have demonstrated systematic bias, while observational techniques show calibration limitations. These challenges can compromise the validity of cosmological models.\n\nTechnological constraints compound these scientific difficulties. Research teams developing next-generation detectors collect unprecedented quantities of cosmic data, creating detailed maps of gravitational anomalies that can predict and illuminate the structure of the universe.",
         "questionRange": [
           31,
           40
@@ -1787,7 +1787,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-04-p1",
         "title": "Island Tourism",
-        "text": "Passage about Island Tourism.",
+        "text": "Island tourism has become an (1) __________ important sector of the global economy. Coastal communities benefit enormously; (2) __________, sustainable practices are essential to preserve fragile ecosystems.\n\nGovernments have committed themselves (3) __________ protecting marine biodiversity while promoting tourism. Tour operators must (4) __________ decisive action to reduce environmental impact. Agencies are now (5) __________ visitor numbers at popular sites. Innovative management (6) __________ balance conservation with economic growth.",
         "questionRange": [
           1,
           6
@@ -1796,7 +1796,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-04-p2",
         "title": "Plastic Recycling",
-        "text": "Passage about Plastic Recycling.",
+        "text": "Environmentalists are learning to (7) __________ the complexity of modern waste management. A significant (8) __________ of plastic waste remains unrecycled globally. Scientists are currently (9) __________ biodegradable alternatives in research facilities.\n\nCompanies develop (10) __________ solutions for plastic reduction. Communities can quickly (11) __________ recycling habits through education programs. (12) __________ municipalities have achieved zero-waste targets without substantial investment.",
         "questionRange": [
           7,
           12
@@ -1805,7 +1805,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-04-p3",
         "title": "Environmental Policy",
-        "text": "Passage about Environmental Policy.",
+        "text": "Environmental policy debates have intensified in recent decades. (18) ___. International agreements set binding emission targets for participating nations. (19) ___. (20) ___, governments are implementing carbon taxation. Environmental protection requires trade-offs because (21) ___. Despite political resistance, progress continues. (22) ___.",
         "questionRange": [
           18,
           22
@@ -1814,7 +1814,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-04-p4",
         "title": "Ocean Conservation",
-        "text": "Passage about Ocean Conservation.",
+        "text": "Ocean conservation has emerged as one of the most critical environmental challenges. What initially began as local coastal protection has evolved into a global movement.\n\nMarine protected areas offer significant ecological benefits. Sophisticated monitoring systems enable scientists to track endangered species populations and coral reef health across vast ocean territories.\n\nPractical applications of marine technology extend beyond conservation. Biotechnology firms have begun harvesting marine organisms for pharmaceutical research, which enable development of novel antibiotics. Different approaches yield varying effectiveness depending on the marine ecosystem.\n\nFunding limitations and regulatory barriers remain significant challenges. Nevertheless, future developments will undoubtedly reshape our understanding of marine biodiversity. Current approaches must adapt to address emerging challenges in ocean governance.",
         "questionRange": [
           23,
           30
@@ -1823,7 +1823,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-04-p5",
         "title": "Genetic Engineering",
-        "text": "Passage about Genetic Engineering.",
+        "text": "[I] Genetic engineering has reached an unprecedented level of sophistication. [II] As gene-editing tools become increasingly integral to agriculture and medicine, society must establish comprehensive ethical guidelines. [III] These challenges demand urgent attention. [IV]\n\nBioethicists examine economic factors, social implications, and political considerations surrounding genetic modification. These organizations face mounting pressure to balance scientific progress with public safety.\n\nMethodological bias in genetic research is a pressing concern. Clinical trials have demonstrated selection bias, while gene therapy protocols show unequal access across socioeconomic groups. These challenges can undermine public trust in genetic technologies.\n\nPrivacy concerns compound these ethical complexities. Companies developing genetic therapies collect unprecedented quantities of genomic data, creating detailed genetic profiles that can predict and influence individual health outcomes.",
         "questionRange": [
           31,
           40
@@ -2364,7 +2364,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-05-p1",
         "title": "Rural Revitalization",
-        "text": "Passage about Rural Revitalization.",
+        "text": "Rural communities are undergoing (1) __________ remarkable transformations across developing nations. Government subsidies help struggling villages; (2) __________, sustainable agriculture programs are essential for long-term prosperity.\n\nPolicymakers have dedicated themselves (3) __________ bridging the urban-rural divide. Local authorities must (4) __________ decisive action to attract investment. Organizations are now (5) __________ economic indicators in remote areas. Creative development (6) __________ revitalize declining agricultural communities.",
         "questionRange": [
           1,
           6
@@ -2373,7 +2373,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-05-p2",
         "title": "Lifelong Learning",
-        "text": "Passage about Lifelong Learning.",
+        "text": "Educators are beginning to (7) __________ the transformative power of continuous education. An extraordinary (8) __________ of knowledge becomes obsolete within a decade. Adults are currently (9) __________ new digital literacy skills through online platforms.\n\nUniversities offer (10) __________ programs for working professionals. Learners can readily (11) __________ complex concepts through interactive simulations. (12) __________ institutions have successfully implemented fully flexible curricula.",
         "questionRange": [
           7,
           12
@@ -2382,7 +2382,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-05-p3",
         "title": "Agricultural Innovation",
-        "text": "Passage about Agricultural Innovation.",
+        "text": "Agricultural innovation promises to address global food security. (18) ___. Precision farming uses sensors and AI to optimize crop yields. (19) ___. (20) ___, researchers are developing drought-resistant varieties. Food production must increase because (21) ___. Despite resource constraints, innovations accelerate. (22) ___.",
         "questionRange": [
           18,
           22
@@ -2391,7 +2391,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-05-p4",
         "title": "Digital Education",
-        "text": "Passage about Digital Education.",
+        "text": "Digital education has emerged as a transformative force in global learning. What initially began as supplementary online courses has evolved into a comprehensive educational paradigm.\n\nVirtual classrooms offer unprecedented accessibility. Sophisticated learning management systems enable students from remote regions to access world-class instruction regardless of geographical limitations.\n\nPractical applications extend beyond traditional subjects. Technology companies have begun developing immersive virtual reality curricula, which enable experiential learning in sciences and engineering. Different approaches yield varying effectiveness depending on the subject matter.\n\nFunding limitations and digital equity concerns remain significant challenges. Nevertheless, future developments will undoubtedly reshape our understanding of education delivery. Current approaches must adapt to address emerging challenges in technological accessibility.",
         "questionRange": [
           23,
           30
@@ -2400,7 +2400,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-05-p5",
         "title": "Economic Development",
-        "text": "Passage about Economic Development.",
+        "text": "[I] Economic development theory has reached an unprecedented level of sophistication. [II] As globalization becomes increasingly integral to national prosperity, policymakers must establish adaptive regulatory frameworks. [III] These challenges require balanced strategies. [IV]\n\nEconomists examine structural factors, social implications, and political considerations surrounding trade liberalization. These organizations face pressure to balance growth with environmental sustainability.\n\nInequality in economic distribution is a pressing concern. Trade agreements have demonstrated bias toward developed nations, while development programs show limited effectiveness in the poorest regions. These challenges can perpetuate cycles of poverty.\n\nResource scarcity compounds these developmental obstacles. Nations pursuing rapid industrialization consume unprecedented quantities of natural resources, creating detailed economic profiles that can predict and influence global market dynamics.",
         "questionRange": [
           31,
           40
@@ -2941,7 +2941,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-06-p1",
         "title": "Genome Editing Ethics",
-        "text": "Passage about Genome Editing Ethics.",
+        "text": "The ethical implications of genome editing have become (1) __________ controversial in scientific circles. CRISPR technology enables precise genetic modifications; (2) __________, regulatory frameworks struggle to keep pace with innovation.\n\nBioethicists have committed themselves (3) __________ establishing guidelines for responsible gene therapy. Research institutions must (4) __________ decisive action to prevent misuse. Committees are now (5) __________ clinical trial protocols worldwide. Established ethical (6) __________ guide responsible scientific advancement.",
         "questionRange": [
           1,
           6
@@ -2950,7 +2950,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-06-p2",
         "title": "Free Will & Neuroscience",
-        "text": "Passage about Free Will & Neuroscience.",
+        "text": "Philosophers are starting to (7) __________ how neuroscience challenges traditional concepts of free will. A remarkable (8) __________ of evidence suggests that unconscious brain processes precede conscious decisions. Researchers are currently (9) __________ brain activity patterns during decision-making experiments.\n\nLaboratories employ (10) __________ techniques to study neural determinism. Students can rapidly (11) __________ philosophical arguments through structured debates. (12) __________ scholars accept a purely deterministic view of human behavior.",
         "questionRange": [
           7,
           12
@@ -2959,7 +2959,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-06-p3",
         "title": "Bioethics",
-        "text": "Passage about Bioethics.",
+        "text": "Bioethical dilemmas have multiplied with medical advances. (18) ___. Organ transplantation raises questions about consent and allocation fairness. (19) ___. (20) ___, hospitals are developing ethics committees. Medical progress creates moral tension because (21) ___. Despite disagreements, ethical frameworks evolve. (22) ___.",
         "questionRange": [
           18,
           22
@@ -2968,7 +2968,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-06-p4",
         "title": "Climate Policy",
-        "text": "Passage about Climate Policy.",
+        "text": "Climate policy has emerged as the defining challenge of contemporary governance. What initially began as scientific warnings has evolved into a comprehensive political movement.\n\nInternational climate agreements offer binding emission reduction targets. Sophisticated atmospheric monitoring systems enable scientists to track greenhouse gas concentrations with unprecedented precision.\n\nPractical applications extend beyond environmental protection. Renewable energy companies have begun developing hydrogen fuel infrastructure, which enables decarbonization of heavy industries. Different approaches yield varying effectiveness depending on national energy profiles.\n\nFunding limitations and geopolitical tensions remain significant challenges. Nevertheless, future developments will undoubtedly reshape our understanding of environmental governance. Current approaches must adapt to address emerging challenges in climate justice.",
         "questionRange": [
           23,
           30
@@ -2977,7 +2977,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-06-p5",
         "title": "Space Governance",
-        "text": "Passage about Space Governance.",
+        "text": "[I] Space governance has reached an unprecedented level of complexity. [II] As commercial space activities become increasingly integral to global telecommunications, the international community must establish updated legal frameworks. [III] These challenges require multinational cooperation. [IV]\n\nLegal scholars examine economic factors, social implications, and political considerations surrounding space resource exploitation. These organizations face pressure to balance commercial interests with peaceful use of outer space.\n\nJurisdictional ambiguity in space law is a pressing concern. National space agencies have demonstrated conflicting territorial claims, while private companies show disregard for existing treaties. These challenges can escalate into international disputes.\n\nEnvironmental concerns compound these legal complexities. Corporations launching satellite constellations create unprecedented quantities of orbital debris, creating detailed risk profiles that can predict and influence future space exploration safety.",
         "questionRange": [
           31,
           40
@@ -3518,7 +3518,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-07-p1",
         "title": "Cultural Authenticity",
-        "text": "Passage about Cultural Authenticity.",
+        "text": "The preservation of cultural authenticity has become (1) __________ challenging in an era of rapid globalization. Traditional practices face erosion; (2) __________, communities are developing innovative preservation strategies.\n\nAnthropologists have dedicated themselves (3) __________ documenting endangered cultural traditions. Cultural institutions must (4) __________ decisive action to safeguard intangible heritage. Museums are now (5) __________ visitor engagement with indigenous artifacts. Traditional preservation (6) __________ combine technology with community participation.",
         "questionRange": [
           1,
           6
@@ -3527,7 +3527,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-07-p2",
         "title": "Nuclear Family Structures",
-        "text": "Passage about Nuclear Family Structures.",
+        "text": "Sociologists are beginning to (7) __________ how family structures have transformed across generations. A significant (8) __________ of research focuses on single-parent households and blended families. Researchers are currently (9) __________ demographic shifts in family composition across cultures.\n\nUniversities conduct (10) __________ studies on modern family dynamics. Students can effectively (11) __________ sociological theories through case-study analysis. (12) __________ families conform to the traditional nuclear model in contemporary society.",
         "questionRange": [
           7,
           12
@@ -3536,7 +3536,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-07-p3",
         "title": "Cultural Preservation",
-        "text": "Passage about Cultural Preservation.",
+        "text": "Cultural preservation efforts face unprecedented challenges in the digital age. (18) ___. UNESCO maintains a list of intangible cultural heritage requiring protection. (19) ___. (20) ___, governments are funding archival digitization projects. Heritage sites deteriorate because (21) ___. Despite limited budgets, preservation advances. (22) ___.",
         "questionRange": [
           18,
           22
@@ -3545,7 +3545,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-07-p4",
         "title": "Migration Studies",
-        "text": "Passage about Migration Studies.",
+        "text": "Migration studies have emerged as a vital interdisciplinary field. What initially began as demographic record-keeping has evolved into a comprehensive analysis of human mobility.\n\nMigration research offers critical insights into population dynamics. Sophisticated tracking systems enable demographers to analyze movement patterns and their socioeconomic consequences across national borders.\n\nPractical applications extend beyond academic research. International organizations have begun developing predictive migration models, which enable governments to prepare adequate infrastructure and social services. Different approaches yield varying effectiveness depending on regional contexts.\n\nFunding limitations and political sensitivities remain significant challenges. Nevertheless, future developments will undoubtedly reshape our understanding of global mobility. Current approaches must adapt to address emerging challenges in refugee protection and integration.",
         "questionRange": [
           23,
           30
@@ -3554,7 +3554,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-07-p5",
         "title": "Social Anthropology",
-        "text": "Passage about Social Anthropology.",
+        "text": "[I] Social anthropology has reached an unprecedented level of methodological sophistication. [II] As ethnographic research becomes increasingly integral to policy development, academic institutions must establish rigorous ethical standards. [III] These challenges demand reflexive scholarship. [IV]\n\nResearchers examine economic factors, social implications, and political considerations surrounding fieldwork in vulnerable communities. These organizations face pressure to balance knowledge production with community welfare.\n\nPower dynamics in ethnographic research are a pressing concern. Western academic institutions have demonstrated neo-colonial bias, while research methodologies show limited representation of indigenous perspectives. These challenges can perpetuate epistemic inequality.\n\nConsent issues compound these methodological complexities. Anthropologists conducting long-term fieldwork collect unprecedented quantities of cultural data, creating detailed community profiles that can predict and influence development interventions.",
         "questionRange": [
           31,
           40
@@ -4095,7 +4095,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-08-p1",
         "title": "Cultural Appropriation",
-        "text": "Passage about Cultural Appropriation.",
+        "text": "Debates surrounding cultural appropriation have become (1) __________ heated in contemporary discourse. Fashion industries borrow from indigenous traditions; (2) __________, marginalized communities rarely receive acknowledgment or compensation.\n\nActivists have committed themselves (3) __________ raising awareness about exploitative practices. Cultural organizations must (4) __________ decisive action to establish fair attribution. Advocates are now (5) __________ corporate behavior regarding cultural borrowing. Established attribution (6) __________ promote respectful cross-cultural exchange.",
         "questionRange": [
           1,
           6
@@ -4104,7 +4104,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-08-p2",
         "title": "Multicultural Identity",
-        "text": "Passage about Multicultural Identity.",
+        "text": "Young people are learning to (7) __________ the complexity of navigating multiple cultural identities. A growing (8) __________ of research explores bicultural and multicultural self-concepts. Psychologists are currently (9) __________ identity formation in children of immigrant families.\n\nResearch centers employ (10) __________ methods to study cultural identity. Individuals can successfully (11) __________ coping strategies from community support networks. (12) __________ people experience identity conflict when balancing multiple cultural affiliations.",
         "questionRange": [
           7,
           12
@@ -4113,7 +4113,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-08-p3",
         "title": "Cross-Cultural Communication",
-        "text": "Passage about Cross-Cultural Communication.",
+        "text": "Cross-cultural communication barriers persist in globalized workplaces. (18) ___. Non-verbal cues carry vastly different meanings across cultures. (19) ___. (20) ___, multinational corporations are investing in cultural intelligence training. Miscommunication occurs frequently because (21) ___. Despite awareness programs, challenges remain. (22) ___.",
         "questionRange": [
           18,
           22
@@ -4122,7 +4122,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-08-p4",
         "title": "Social Psychology",
-        "text": "Passage about Social Psychology.",
+        "text": "Social psychology has emerged as a crucial field for understanding group behavior. What initially began as laboratory experiments has evolved into a comprehensive discipline examining real-world social phenomena.\n\nSocial psychology offers powerful explanatory frameworks. Sophisticated experimental designs enable researchers to isolate variables influencing conformity, obedience, and prejudice in controlled and naturalistic settings.\n\nPractical applications extend beyond academic inquiry. Corporate human resources departments have begun implementing behavioral nudge programs, which enable organizations to improve workplace culture. Different approaches yield varying effectiveness depending on organizational context.\n\nFunding limitations and replication concerns remain significant challenges. Nevertheless, future developments will undoubtedly reshape our understanding of collective human behavior. Current approaches must adapt to address emerging challenges in digital social interaction.",
         "questionRange": [
           23,
           30
@@ -4131,7 +4131,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-08-p5",
         "title": "Identity Politics",
-        "text": "Passage about Identity Politics.",
+        "text": "[I] Identity politics has reached an unprecedented level of influence in democratic societies. [II] As intersectional frameworks become increasingly integral to social movements, political theorists must establish nuanced analytical models. [III] These challenges require careful deliberation. [IV]\n\nScholars examine economic factors, social implications, and political considerations surrounding identity-based advocacy. These organizations face pressure to balance group solidarity with universal democratic principles.\n\nRepresentation gaps in political institutions are a pressing concern. Electoral systems have demonstrated structural bias against minority candidates, while media coverage shows disproportionate negative framing. These challenges can deepen social polarization.\n\nAlgorithmic amplification compounds these political dynamics. Social media platforms generating unprecedented quantities of ideological content create detailed behavioral profiles that can predict and influence voter preferences and political mobilization.",
         "questionRange": [
           31,
           40
@@ -4672,7 +4672,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-09-p1",
         "title": "Postmodern Identity",
-        "text": "Passage about Postmodern Identity.",
+        "text": "Postmodern conceptions of identity have become (1) __________ influential in contemporary social sciences. Traditional categories are deconstructed; (2) __________, new theoretical frameworks emerge to explain fluid self-concepts.\n\nScholar have dedicated themselves (3) __________ exploring how identity is performed rather than fixed. Cultural theorists must (4) __________ decisive action to bridge academic theory with lived experience. Researchers are now (5) __________ narrative identity construction across digital platforms. Interdisciplinary (6) __________ enrich understanding of selfhood in late modernity.",
         "questionRange": [
           1,
           6
@@ -4681,7 +4681,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-09-p2",
         "title": "Intergenerational Dynamics",
-        "text": "Passage about Intergenerational Dynamics.",
+        "text": "Social scientists are starting to (7) __________ the profound impact of generational differences on workplace culture. A substantial (8) __________ of tension arises from divergent communication styles between Baby Boomers and Generation Z. Organizations are currently (9) __________ mentorship programs that bridge generational gaps.\n\nCompanies design (10) __________ initiatives to foster intergenerational collaboration. Younger employees can rapidly (11) __________ institutional knowledge from senior colleagues. (12) __________ organizations successfully integrate five distinct generations in the workplace.",
         "questionRange": [
           7,
           12
@@ -4690,7 +4690,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-09-p3",
         "title": "Digital Society",
-        "text": "Passage about Digital Society.",
+        "text": "Digital society fundamentally transforms human relationships and institutions. (18) ___. Social media algorithms curate personalized information environments. (19) ___. (20) ___, governments are drafting digital rights legislation. Online echo chambers intensify polarization because (21) ___. Despite regulatory efforts, digital disruption accelerates. (22) ___.",
         "questionRange": [
           18,
           22
@@ -4699,7 +4699,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-09-p4",
         "title": "Philosophy of Mind",
-        "text": "Passage about Philosophy of Mind.",
+        "text": "Philosophy of mind has emerged as an essential bridge between neuroscience and humanistic inquiry. What initially began as metaphysical speculation has evolved into a comprehensive interdisciplinary field.\n\nConsciousness studies offer provocative theoretical frameworks. Sophisticated neuroimaging technologies enable researchers to correlate subjective experience with measurable brain activity patterns.\n\nPractical applications extend beyond philosophical debate. Artificial intelligence developers have begun incorporating theories of consciousness into machine learning architectures, which enable more adaptive and context-sensitive algorithms. Different approaches yield varying effectiveness depending on the computational model.\n\nFunding limitations and methodological disputes remain significant challenges. Nevertheless, future developments will undoubtedly reshape our understanding of human consciousness. Current approaches must adapt to address emerging challenges in artificial general intelligence.",
         "questionRange": [
           23,
           30
@@ -4708,7 +4708,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-09-p5",
         "title": "Social Theory",
-        "text": "Passage about Social Theory.",
+        "text": "[I] Social theory has reached an unprecedented level of analytical depth. [II] As sociological frameworks become increasingly integral to public policy, research institutions must establish robust empirical methodologies. [III] These challenges necessitate interdisciplinary collaboration. [IV]\n\nTheorists examine economic factors, social implications, and political considerations surrounding structural inequality. These organizations face pressure to balance theoretical abstraction with practical relevance.\n\nEthnocentric bias in sociological research is a pressing concern. Western-centric theoretical models have demonstrated limited applicability in non-Western contexts, while quantitative methodologies show reductionist tendencies. These challenges can distort our understanding of global social phenomena.\n\nData accessibility issues compound these analytical obstacles. Research institutions collecting unprecedented quantities of demographic data create detailed social profiles that can predict and influence policy interventions and community outcomes.",
         "questionRange": [
           31,
           40
@@ -5249,7 +5249,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-10-p1",
         "title": "Individualistic Consciousness",
-        "text": "Passage about Individualistic Consciousness.",
+        "text": "The evolution of individualistic consciousness has become (1) __________ significant in understanding modern social behavior. Western societies emphasize personal autonomy; (2) __________, collective responsibility remains paramount in many Eastern cultures.\n\nPsychologists have dedicated themselves (3) __________ investigating how cultural values shape individual decision-making. Public health campaigns must (4) __________ decisive action to address the loneliness epidemic. Researchers are now (5) __________ self-reliance patterns across demographic groups. Holistic well-being (6) __________ integrate individual fulfillment with communal engagement.",
         "questionRange": [
           1,
           6
@@ -5258,7 +5258,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-10-p2",
         "title": "Democratic Governance",
-        "text": "Passage about Democratic Governance.",
+        "text": "Citizens are beginning to (7) __________ the fragility of democratic institutions in an era of populism. A growing (8) __________ of evidence suggests that voter disengagement threatens representative government. Political scientists are currently (9) __________ the effectiveness of civic education programs in strengthening democratic participation.\n\nResearch institutes employ (10) __________ analytical frameworks to study democratic resilience. Voters can effectively (11) __________ media literacy skills through structured civic programs. (12) __________ democracies maintain high voter turnout without compulsory voting laws.",
         "questionRange": [
           7,
           12
@@ -5267,7 +5267,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-10-p3",
         "title": "Digital Democracy",
-        "text": "Passage about Digital Democracy.",
+        "text": "Digital democracy redefines citizen participation in governance. (18) ___. E-government platforms enable direct consultation between policymakers and constituents. (19) ___. (20) ___, municipalities are piloting digital voting systems. Cybersecurity threatens democratic processes because (21) ___. Despite technological risks, digital civic engagement expands. (22) ___.",
         "questionRange": [
           18,
           22
@@ -5276,7 +5276,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-10-p4",
         "title": "Political Philosophy",
-        "text": "Passage about Political Philosophy.",
+        "text": "Political philosophy has emerged as an indispensable guide to contemporary governance challenges. What initially began as ancient Greek deliberation has evolved into a comprehensive analytical framework for modern democracies.\n\nPolitical theory offers sophisticated interpretive tools. Advanced computational models enable scholars to simulate policy outcomes and their societal consequences across diverse political systems.\n\nPractical applications extend beyond academic discourse. Government think tanks have begun deploying predictive governance models, which enable evidence-based policymaking on complex issues. Different approaches yield varying effectiveness depending on the institutional context.\n\nFunding limitations and ideological polarization remain significant challenges. Nevertheless, future developments will undoubtedly reshape our understanding of democratic governance. Current approaches must adapt to address emerging challenges in participatory democracy.",
         "questionRange": [
           23,
           30
@@ -5285,7 +5285,7 @@ export const thptExams: ThptExam[] = [
       {
         "id": "thpt-10-p5",
         "title": "Social Fragmentation",
-        "text": "Passage about Social Fragmentation.",
+        "text": "[I] Social fragmentation has reached an unprecedented level in post-industrial democracies. [II] As community bonds become increasingly integral to mental health outcomes, sociologists must establish evidence-based intervention strategies. [III] These challenges demand immediate collective action. [IV]\n\nResearchers examine economic factors, social implications, and political considerations surrounding declining civic participation. These organizations face pressure to balance individual privacy with community cohesion.\n\nDigital isolation in modern societies is a pressing concern. Social media platforms have demonstrated paradoxical effects on social connection, while urban planning models show neglect of communal gathering spaces. These challenges can erode the social fabric of democratic societies.\n\nAlgorithmic personalization compounds these social divisions. Technology companies collecting unprecedented quantities of behavioral data create detailed individual profiles that can predict and influence patterns of social interaction and community engagement.",
         "questionRange": [
           31,
           40

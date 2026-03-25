@@ -342,11 +342,18 @@ const NationalExamRoom = () => {
         <div className="flex-1 min-w-0">
           <AnimatePresence mode="wait">
             <motion.div key={currentQ} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.15 }}>
-              {/* Passage if applicable */}
+              {/* Passage if applicable — show maintenance badge if placeholder */}
               {relatedPassage && (
                 <div className="glass-card rounded-xl p-6 mb-4">
                   <h3 className="font-extrabold text-foreground text-lg md:text-xl mb-3">{relatedPassage.title}</h3>
-                  <p className="text-lg md:text-xl font-medium text-foreground/80 whitespace-pre-line leading-loose">{relatedPassage.text}</p>
+                  {relatedPassage.text.startsWith("Passage about") ? (
+                    <div className="flex items-center gap-2 bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-300 dark:border-yellow-700 rounded-lg p-4">
+                      <span className="text-yellow-600 text-lg">🔧</span>
+                      <p className="text-sm text-yellow-800 dark:text-yellow-300 font-medium">{t("Nội dung đang được cập nhật. Vui lòng quay lại sau.", "Content under maintenance. Please check back later.")}</p>
+                    </div>
+                  ) : (
+                    <p className="text-lg md:text-xl font-medium text-foreground/80 whitespace-pre-line leading-loose">{relatedPassage.text}</p>
+                  )}
                 </div>
               )}
 
