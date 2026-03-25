@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { lazy, Suspense } from "react";
 import Index from "./pages/Index.tsx";
 import About from "./pages/About.tsx";
 import English from "./pages/English.tsx";
@@ -30,8 +31,12 @@ import IeltsSampleEssays from "./pages/IeltsSampleEssays.tsx";
 import IeltsSampleEssayDetail from "./pages/IeltsSampleEssayDetail.tsx";
 import SpeakingPractice from "./pages/SpeakingPractice.tsx";
 import NationalExamPrep from "./pages/NationalExamPrep.tsx";
-import NationalExamRoom from "./pages/NationalExamRoom.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import LanguageLessonView from "./pages/LanguageLessonView.tsx";
+import ChatBot from "./components/ChatBot.tsx";
+
+// Lazy-load heavy exam room component to keep main bundle small
+const NationalExamRoom = lazy(() => import("./pages/NationalExamRoom.tsx"));
 import LanguageLessonView from "./pages/LanguageLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
