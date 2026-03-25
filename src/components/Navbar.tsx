@@ -61,13 +61,19 @@ const Navbar = () => {
     { to: "/ai-grading", label: t("Chấm điểm", "Grading Portal"), icon: Cpu },
   ];
 
+  // National Exam nested sub-items
+  const nationalExamChildren: SubItem[] = [
+    { to: "/english/national-exam", label: t("Khóa luyện thi TN THPT", "National Exam Course"), icon: BookOpen },
+    { to: "/national-exam", label: t("Phòng luyện thi TN THPT", "Exam Practice Room"), icon: FileText },
+  ];
+
   const englishSubs: SubItem[] = [
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/english/cambridge", label: "🌟 Cambridge Starters–PET" },
     { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
     { to: "/english/toeic", label: "💼 TOEIC" },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
-    { to: "/national-exam", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
+    { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
