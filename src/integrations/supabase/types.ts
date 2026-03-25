@@ -182,6 +182,81 @@ export type Database = {
         }
         Relationships: []
       }
+      rl_interventions: {
+        Row: {
+          action: string
+          action_details: Json | null
+          created_at: string
+          created_by: string | null
+          id: string
+          reward: number | null
+          state: Json
+          status: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          action: string
+          action_details?: Json | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          reward?: number | null
+          state?: Json
+          status?: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          action?: string
+          action_details?: Json | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          reward?: number | null
+          state?: Json
+          status?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      student_activity_log: {
+        Row: {
+          activity_id: string | null
+          activity_type: string
+          created_at: string
+          id: string
+          max_score: number | null
+          metadata: Json | null
+          score: number | null
+          time_spent_seconds: number | null
+          user_id: string
+        }
+        Insert: {
+          activity_id?: string | null
+          activity_type: string
+          created_at?: string
+          id?: string
+          max_score?: number | null
+          metadata?: Json | null
+          score?: number | null
+          time_spent_seconds?: number | null
+          user_id: string
+        }
+        Update: {
+          activity_id?: string | null
+          activity_type?: string
+          created_at?: string
+          id?: string
+          max_score?: number | null
+          metadata?: Json | null
+          score?: number | null
+          time_spent_seconds?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

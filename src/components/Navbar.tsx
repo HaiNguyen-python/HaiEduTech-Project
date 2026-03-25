@@ -101,7 +101,7 @@ const Navbar = () => {
   ];
 
   const navLinks = isTeacher
-    ? [...baseLinks, { to: "/teacher-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
+    ? [...baseLinks, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
     : baseLinks;
 
   const handleMouseEnter = (key: string) => {

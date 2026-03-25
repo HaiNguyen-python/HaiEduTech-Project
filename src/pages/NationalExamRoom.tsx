@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import TechTeacherIcon from "@/components/TechTeacherIcon";
 import type { ThptExam } from "@/data/thptExamData";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 type ExamPhase = "loading" | "taking" | "result" | "review";
 
@@ -117,6 +118,16 @@ const NationalExamRoom = () => {
 
     // Remove progress
     localStorage.removeItem(`thpt-progress-${exam.id}`);
+
+    // Log activity to database for admin analytics
+    logStudentActivity({
+      activityType: "thpt_exam",
+      activityId: exam.id,
+      score: finalScore,
+      maxScore: 10,
+      timeSpentSeconds: exam.duration * 60 - timeLeft,
+      metadata: { categoryStats: stats, answeredCount: Object.keys(answers).length, totalQuestions: exam.totalQuestions },
+    });
 
     if (finalScore >= 9) {
       confetti({ particleCount: 150, spread: 90 });
