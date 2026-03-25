@@ -35,8 +35,9 @@ import NotFound from "./pages/NotFound.tsx";
 import LanguageLessonView from "./pages/LanguageLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
-// Lazy-load heavy exam room component to keep main bundle small
+// Lazy-load heavy components to keep main bundle small
 const NationalExamRoom = lazy(() => import("./pages/NationalExamRoom.tsx"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard.tsx"));
 
 const queryClient = new QueryClient();
 
