@@ -411,8 +411,8 @@ const Navbar = () => {
               className="md:hidden fixed inset-y-0 right-0 z-[70] w-[88%] max-w-sm bg-white shadow-2xl overflow-y-auto flex flex-col"
             >
               {/* Close button header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-                <span className="font-display text-base font-bold text-foreground tracking-wide">Menu</span>
+              <div className="flex items-center justify-between px-5 py-5 border-b border-gray-200">
+                <span className="font-display text-lg font-bold text-[#1A1A1A] tracking-wide">Menu</span>
                 <button
                   onClick={() => setOpen(false)}
                   className="p-2 rounded-lg hover:bg-secondary transition-colors"
