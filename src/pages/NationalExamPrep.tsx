@@ -136,13 +136,13 @@ const NationalExamPrep = () => {
                         </span>
                       )}
                     </div>
-                    <h3 className="text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
+                    <h3 className="text-lg font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
                       {t(exam.title, exam.titleEn)}
                     </h3>
-                    <p className="text-xs text-muted-foreground italic mb-3">{t(quote.vi, quote.en)}</p>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                      <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {exam.duration} {t("phút", "min")}</span>
-                      <span className="flex items-center gap-1"><FileText className="w-3.5 h-3.5" /> {exam.totalQuestions} {t("câu", "Q")}</span>
+                    <p className="text-sm text-muted-foreground italic mb-3">{t(quote.vi, quote.en)}</p>
+                    <div className="flex items-center gap-4 text-base text-muted-foreground mb-4">
+                      <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {exam.duration} {t("phút", "min")}</span>
+                      <span className="flex items-center gap-1"><FileText className="w-4 h-4" /> {exam.totalQuestions} {t("câu", "Q")}</span>
                     </div>
                     {/* Timed / Untimed buttons */}
                     <div className="flex gap-2 mt-auto">
