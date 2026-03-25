@@ -393,132 +393,183 @@ const Navbar = () => {
       {/* Mobile menu — fullscreen overlay below branding */}
       <AnimatePresence>
         {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden fixed inset-0 top-[60px] z-40 bg-card/98 backdrop-blur-sm overflow-y-auto"
-          >
-            <div className="px-4 py-3 space-y-1 pb-20">
-              {navLinks.map((l) => {
-                const Icon = l.icon;
-                const active = location.pathname === l.to;
-                const isExpanded = mobileExpanded === l.key;
-                return (
-                  <div key={l.to}>
-                    <div className="flex items-center">
-                      <Link to={l.to} onClick={() => setOpen(false)}
-                        className={`flex-1 flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
-                          active ? "text-primary bg-primary/10" : "text-foreground hover:bg-secondary"
-                        }`}>
-                        <Icon className="w-4 h-4 shrink-0" />
-                        <span className="truncate">{l.label}</span>
-                      </Link>
+          <>
+            {/* Overlay backdrop for closing */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.3 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden fixed inset-0 z-30 bg-foreground/20"
+              onClick={() => setOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+              className="md:hidden fixed inset-y-0 right-0 z-40 w-[85%] max-w-sm bg-card shadow-2xl overflow-y-auto flex flex-col"
+            >
+              {/* Close button header */}
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+                <span className="font-display text-base font-bold text-foreground tracking-wide">Menu</span>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="p-2 rounded-lg hover:bg-secondary transition-colors"
+                >
+                  <X className="w-5 h-5 text-foreground" />
+                </button>
+              </div>
+
+              {/* Navigation items */}
+              <div className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+                {navLinks.map((l) => {
+                  const Icon = l.icon;
+                  const active = location.pathname === l.to;
+                  const isExpanded = mobileExpanded === l.key;
+                  return (
+                    <div key={l.to}>
+                      {/* Parent menu item */}
+                      <div className="flex items-center">
+                        <Link to={l.to} onClick={() => setOpen(false)}
+                          className={`flex-1 flex items-center gap-3 px-4 py-3.5 rounded-xl text-[15px] font-semibold transition-all ${
+                            active
+                              ? "text-primary bg-primary/10 shadow-sm"
+                              : "text-foreground hover:bg-secondary/70"
+                          }`}>
+                          <Icon className={`w-5 h-5 shrink-0 ${active ? "text-primary" : "text-muted-foreground"}`} />
+                          <span>{l.label}</span>
+                        </Link>
+                        {l.subs && (
+                          <button onClick={() => toggleMobileExpand(l.key!)}
+                            className="p-3.5 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">
+                            <ChevronDown className={`w-5 h-5 transition-transform duration-300 ease-out ${isExpanded ? "rotate-180" : ""}`} />
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Separator between major sections */}
+                      {!l.subs && <div className="mx-4 border-b border-border/40 my-1" />}
+
+                      {/* Sub-items */}
                       {l.subs && (
-                        <button onClick={() => toggleMobileExpand(l.key!)}
-                          className="p-3 text-muted-foreground hover:text-foreground transition-colors">
-                          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
-                        </button>
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.25, ease: "easeOut" }}
+                              className="overflow-hidden"
+                            >
+                              <div className="ml-5 pl-4 border-l-2 border-primary/30 space-y-0.5 py-2">
+                                {l.subs.map((sub) => {
+                                  // Nested group (IELTS / THPT) in mobile
+                                  if (sub.children) {
+                                    const isSubOpen = mobileSubExpanded === sub.groupLabel;
+                                    return (
+                                      <div key={sub.groupLabel}>
+                                        <button
+                                          onClick={() => setMobileSubExpanded(prev => prev === sub.groupLabel ? null : sub.groupLabel!)}
+                                          className={`w-full flex items-center justify-between px-4 py-3 text-[15px] font-semibold rounded-lg transition-all ${
+                                            isSubOpen
+                                              ? "text-primary bg-primary/10"
+                                              : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                                          }`}
+                                        >
+                                          <span>{sub.label}</span>
+                                          <ChevronRight className={`w-4 h-4 transition-transform duration-300 ease-out ${isSubOpen ? "rotate-90" : ""}`} />
+                                        </button>
+                                        <AnimatePresence>
+                                          {isSubOpen && (
+                                            <motion.div
+                                              initial={{ opacity: 0, height: 0 }}
+                                              animate={{ opacity: 1, height: "auto" }}
+                                              exit={{ opacity: 0, height: 0 }}
+                                              transition={{ duration: 0.2 }}
+                                              className="overflow-hidden"
+                                            >
+                                              <div className="ml-3 pl-3 border-l-2 border-accent/40 space-y-0.5 py-1.5">
+                                                {sub.children.map((child) => {
+                                                  const ChildIcon = child.icon;
+                                                  const childActive = location.pathname === child.to;
+                                                  return (
+                                                    <Link
+                                                      key={child.to}
+                                                      to={child.to}
+                                                      onClick={() => setOpen(false)}
+                                                      className={`flex items-center gap-3 px-4 py-3 text-sm rounded-lg transition-all ${
+                                                        childActive
+                                                          ? "text-primary bg-primary/10 font-medium"
+                                                          : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                                                      }`}
+                                                    >
+                                                      {ChildIcon && <ChildIcon className={`w-4 h-4 ${childActive ? "text-primary" : "text-primary/50"}`} />}
+                                                      <span>{child.label}</span>
+                                                    </Link>
+                                                  );
+                                                })}
+                                              </div>
+                                            </motion.div>
+                                          )}
+                                        </AnimatePresence>
+                                      </div>
+                                    );
+                                  }
+                                  // Regular sub-item
+                                  const subActive = location.pathname === sub.to;
+                                  return (
+                                    <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)}
+                                      className={`block px-4 py-3 text-sm rounded-lg transition-all ${
+                                        subActive
+                                          ? "text-primary bg-primary/10 font-medium"
+                                          : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                                      }`}>
+                                      {sub.label}
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+
+                              {/* Separator after expanded section */}
+                              <div className="mx-4 border-b border-border/40 my-1" />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       )}
                     </div>
-                    {l.subs && (
-                      <AnimatePresence>
-                        {isExpanded && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="overflow-hidden"
-                          >
-                            <div className="ml-6 pl-4 border-l-2 border-primary/20 space-y-0.5 py-1">
-                              {l.subs.map((sub) => {
-                                // Nested group (IELTS) in mobile
-                                if (sub.children) {
-                                  const isSubOpen = mobileSubExpanded === sub.groupLabel;
-                                  return (
-                                    <div key={sub.groupLabel}>
-                                      <button
-                                        onClick={() => setMobileSubExpanded(prev => prev === sub.groupLabel ? null : sub.groupLabel!)}
-                                        className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
-                                          isSubOpen ? "text-primary bg-primary/5" : "text-muted-foreground hover:text-primary hover:bg-primary/5"
-                                        }`}
-                                      >
-                                        <span>{sub.label}</span>
-                                        <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-200 ${isSubOpen ? "rotate-90" : ""}`} />
-                                      </button>
-                                      <AnimatePresence>
-                                        {isSubOpen && (
-                                          <motion.div
-                                            initial={{ opacity: 0, height: 0 }}
-                                            animate={{ opacity: 1, height: "auto" }}
-                                            exit={{ opacity: 0, height: 0 }}
-                                            transition={{ duration: 0.18 }}
-                                            className="overflow-hidden"
-                                          >
-                                            <div className="ml-4 pl-3 border-l-2 border-emerald-500/30 space-y-0.5 py-1">
-                                              {sub.children.map((child) => {
-                                                const ChildIcon = child.icon;
-                                                return (
-                                                  <Link
-                                                    key={child.to}
-                                                    to={child.to}
-                                                    onClick={() => setOpen(false)}
-                                                    className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
-                                                  >
-                                                    {ChildIcon && <ChildIcon className="w-3.5 h-3.5 text-primary/60" />}
-                                                    <span>{child.label}</span>
-                                                  </Link>
-                                                );
-                                              })}
-                                            </div>
-                                          </motion.div>
-                                        )}
-                                      </AnimatePresence>
-                                    </div>
-                                  );
-                                }
-                                // Regular sub-item
-                                return (
-                                  <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)}
-                                    className="block px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-md transition-colors">
-                                    {sub.label}
-                                  </Link>
-                                );
-                              })}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    )}
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
 
-              <div className="border-t border-border/50 pt-3 mt-3 space-y-1">
+              {/* Sticky auth buttons at bottom */}
+              <div className="sticky bottom-0 px-4 py-4 border-t border-border bg-card space-y-2.5">
                 {user ? (
                   <>
-                    <Link to="/dashboard" onClick={() => setOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium text-foreground hover:bg-secondary">
+                    <Link to="/dashboard" onClick={() => setOpen(false)}
+                      className="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl text-[15px] font-semibold bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:shadow-lg transition-all">
                       Dashboard
                     </Link>
-                    <button onClick={() => { handleLogout(); setOpen(false); }} className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium text-foreground hover:bg-secondary">
+                    <button onClick={() => { handleLogout(); setOpen(false); }}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">
                       <LogOut className="w-4 h-4" /> {t("Đăng Xuất", "Logout")}
                     </button>
                   </>
                 ) : (
                   <>
-                    <Link to="/login" onClick={() => setOpen(false)} className="w-full flex items-center justify-center gap-2 px-3 py-3 rounded-lg text-sm font-medium bg-primary text-primary-foreground">
-                      <LogIn className="w-4 h-4" /> {t("Đăng Nhập", "Login")}
+                    <Link to="/login" onClick={() => setOpen(false)}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-[15px] font-semibold bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:shadow-lg transition-all">
+                      <LogIn className="w-5 h-5" /> {t("Đăng Nhập", "Login")}
                     </Link>
-                    <Link to="/signup" onClick={() => setOpen(false)} className="w-full flex items-center justify-center gap-2 px-3 py-3 rounded-lg text-sm font-medium border border-primary text-primary mt-1">
+                    <Link to="/signup" onClick={() => setOpen(false)}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold border-2 border-primary text-primary hover:bg-primary/5 transition-all">
                       <UserPlus className="w-4 h-4" /> {t("Đăng Ký", "Sign Up")}
                     </Link>
                   </>
                 )}
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
