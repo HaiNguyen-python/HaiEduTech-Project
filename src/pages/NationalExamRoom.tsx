@@ -39,9 +39,9 @@ const NationalExamRoom = () => {
     } catch {}
   }, [exam]);
 
-  // Timer
+  // Timer - only runs in timed mode
   useEffect(() => {
-    if (phase !== "taking" || !exam) return;
+    if (phase !== "taking" || !exam || !isTimed) return;
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -52,7 +52,7 @@ const NationalExamRoom = () => {
       });
     }, 1000);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [phase, exam]);
+  }, [phase, exam, isTimed]);
 
   // Auto-save answers
   useEffect(() => {
