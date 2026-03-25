@@ -1,16 +1,18 @@
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { thptExams, categoryLabels } from "@/data/thptExamData";
+import { categoryLabels } from "@/data/thptExamData";
+import { loadExamById } from "@/data/thptExamIndex";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Clock, ChevronLeft, ChevronRight, CheckCircle2, XCircle, RotateCcw, Award, ArrowLeft, BookOpen, TimerOff } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, CheckCircle2, XCircle, RotateCcw, Award, ArrowLeft, BookOpen, TimerOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import TechTeacherIcon from "@/components/TechTeacherIcon";
+import type { ThptExam } from "@/data/thptExamData";
 
-type ExamPhase = "taking" | "result" | "review";
+type ExamPhase = "loading" | "taking" | "result" | "review";
 
 const NationalExamRoom = () => {
   const { examId } = useParams();
@@ -19,25 +21,38 @@ const NationalExamRoom = () => {
   const { t } = useLanguage();
   const isTimed = searchParams.get("mode") !== "untimed";
 
-  const exam = thptExams.find((e) => e.id === examId);
+  const [exam, setExam] = useState<ThptExam | null>(null);
   const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [phase, setPhase] = useState<ExamPhase>("taking");
+  const [phase, setPhase] = useState<ExamPhase>("loading");
   const [timeLeft, setTimeLeft] = useState(0);
   const [currentQ, setCurrentQ] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [score, setScore] = useState(0);
   const [categoryStats, setCategoryStats] = useState<Record<string, { correct: number; total: number }>>({});
 
-  // Initialize exam
+  // Dynamic load exam data
   useEffect(() => {
-    if (!exam) return;
-    setTimeLeft(exam.duration * 60);
-    // Restore auto-saved answers
-    try {
-      const saved = localStorage.getItem(`thpt-progress-${exam.id}`);
-      if (saved) setAnswers(JSON.parse(saved));
-    } catch {}
-  }, [exam]);
+    if (!examId) return;
+    let cancelled = false;
+    setPhase("loading");
+    loadExamById(examId).then((data) => {
+      if (cancelled) return;
+      if (!data) {
+        setExam(null);
+        setPhase("taking");
+        return;
+      }
+      setExam(data);
+      setTimeLeft(data.duration * 60);
+      // Restore auto-saved answers
+      try {
+        const saved = localStorage.getItem(`thpt-progress-${data.id}`);
+        if (saved) setAnswers(JSON.parse(saved));
+      } catch {}
+      setPhase("taking");
+    });
+    return () => { cancelled = true; };
+  }, [examId]);
 
   // Timer - only runs in timed mode
   useEffect(() => {
@@ -116,6 +131,18 @@ const NationalExamRoom = () => {
     const sec = s % 60;
     return `${m.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
   };
+
+  // ========== LOADING ==========
+  if (phase === "loading") {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto" />
+          <p className="text-muted-foreground">{t("Đang tải đề thi...", "Loading exam...")}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!exam) {
     return (
