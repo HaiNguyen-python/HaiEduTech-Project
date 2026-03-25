@@ -82,6 +82,7 @@ const App = () => (
             <Route path="/lesson/:resourceId/:lessonId" element={<LessonDetail />} />
             <Route path="/teacher-admin" element={<TeacherAdmin />} />
             <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
+            <Route path="/admin-dashboard" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}><AdminDashboard /></Suspense>} />
             <Route path="/lesson-library/:lessonId" element={<GeneratedLessonView />} />
             <Route path="/python-challenges" element={<PythonChallengeList />} />
             <Route path="/python-challenges/:challengeId" element={<PythonChallengePage />} />
