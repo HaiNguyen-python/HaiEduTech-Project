@@ -415,14 +415,14 @@ const Navbar = () => {
                 <span className="font-display text-lg font-bold text-[#1A1A1A] tracking-wide">Menu</span>
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-2 rounded-lg hover:bg-secondary transition-colors"
+                  className="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors"
                 >
-                  <X className="w-5 h-5 text-foreground" />
+                  <X className="w-6 h-6 text-[#1A1A1A]" />
                 </button>
               </div>
 
               {/* Navigation items */}
-              <div className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+              <div className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
                 {navLinks.map((l) => {
                   const Icon = l.icon;
                   const active = location.pathname === l.to;
@@ -432,24 +432,24 @@ const Navbar = () => {
                       {/* Parent menu item */}
                       <div className="flex items-center">
                         <Link to={l.to} onClick={() => setOpen(false)}
-                          className={`flex-1 flex items-center gap-3 px-4 py-3.5 rounded-xl text-[15px] font-semibold transition-all ${
+                          className={`flex-1 flex items-center gap-3.5 px-4 py-4 rounded-xl text-base font-bold transition-all ${
                             active
-                              ? "text-primary bg-primary/10 shadow-sm"
-                              : "text-foreground hover:bg-secondary/70"
+                              ? "text-primary bg-primary/10"
+                              : "text-[#1A1A1A] hover:bg-gray-100"
                           }`}>
-                          <Icon className={`w-5 h-5 shrink-0 ${active ? "text-primary" : "text-muted-foreground"}`} />
+                          <Icon className={`w-5 h-5 shrink-0 ${active ? "text-primary" : "text-[#4B5563]"}`} />
                           <span>{l.label}</span>
                         </Link>
                         {l.subs && (
                           <button onClick={() => toggleMobileExpand(l.key!)}
-                            className="p-3.5 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50">
+                            className="p-4 text-[#4B5563] hover:text-[#1A1A1A] transition-colors rounded-xl hover:bg-gray-100">
                             <ChevronDown className={`w-5 h-5 transition-transform duration-300 ease-out ${isExpanded ? "rotate-180" : ""}`} />
                           </button>
                         )}
                       </div>
 
                       {/* Separator between major sections */}
-                      {!l.subs && <div className="mx-4 border-b border-border/40 my-1" />}
+                      {!l.subs && <div className="mx-3 border-b border-gray-200 my-1" />}
 
                       {/* Sub-items */}
                       {l.subs && (
@@ -462,7 +462,7 @@ const Navbar = () => {
                               transition={{ duration: 0.25, ease: "easeOut" }}
                               className="overflow-hidden"
                             >
-                              <div className="ml-5 pl-4 border-l-2 border-primary/30 space-y-0.5 py-2">
+                              <div className="ml-5 pl-4 border-l-[3px] border-primary/30 space-y-0.5 py-2">
                                 {l.subs.map((sub) => {
                                   // Nested group (IELTS / THPT) in mobile
                                   if (sub.children) {
@@ -471,14 +471,14 @@ const Navbar = () => {
                                       <div key={sub.groupLabel}>
                                         <button
                                           onClick={() => setMobileSubExpanded(prev => prev === sub.groupLabel ? null : sub.groupLabel!)}
-                                          className={`w-full flex items-center justify-between px-4 py-3 text-[15px] font-semibold rounded-lg transition-all ${
+                                          className={`w-full flex items-center justify-between px-4 py-3.5 text-base font-bold rounded-xl transition-all ${
                                             isSubOpen
                                               ? "text-primary bg-primary/10"
-                                              : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                                              : "text-[#1A1A1A] hover:text-primary hover:bg-gray-50"
                                           }`}
                                         >
                                           <span>{sub.label}</span>
-                                          <ChevronRight className={`w-4 h-4 transition-transform duration-300 ease-out ${isSubOpen ? "rotate-90" : ""}`} />
+                                          <ChevronRight className={`w-5 h-5 transition-transform duration-300 ease-out ${isSubOpen ? "rotate-90" : ""}`} />
                                         </button>
                                         <AnimatePresence>
                                           {isSubOpen && (
@@ -489,7 +489,7 @@ const Navbar = () => {
                                               transition={{ duration: 0.2 }}
                                               className="overflow-hidden"
                                             >
-                                              <div className="ml-3 pl-3 border-l-2 border-accent/40 space-y-0.5 py-1.5">
+                                              <div className="ml-3 pl-3 border-l-[3px] border-accent/40 space-y-0.5 py-2">
                                                 {sub.children.map((child) => {
                                                   const ChildIcon = child.icon;
                                                   const childActive = location.pathname === child.to;
@@ -498,13 +498,13 @@ const Navbar = () => {
                                                       key={child.to}
                                                       to={child.to}
                                                       onClick={() => setOpen(false)}
-                                                      className={`flex items-center gap-3 px-4 py-3 text-sm rounded-lg transition-all ${
+                                                      className={`flex items-center gap-3 px-4 py-3.5 text-[15px] rounded-xl transition-all ${
                                                         childActive
-                                                          ? "text-primary bg-primary/10 font-medium"
-                                                          : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                                                          ? "text-primary bg-primary/10 font-bold"
+                                                          : "text-[#4B5563] font-medium hover:text-primary hover:bg-gray-50"
                                                       }`}
                                                     >
-                                                      {ChildIcon && <ChildIcon className={`w-4 h-4 ${childActive ? "text-primary" : "text-primary/50"}`} />}
+                                                      {ChildIcon && <ChildIcon className={`w-5 h-5 ${childActive ? "text-primary" : "text-primary/60"}`} />}
                                                       <span>{child.label}</span>
                                                     </Link>
                                                   );
@@ -520,10 +520,10 @@ const Navbar = () => {
                                   const subActive = location.pathname === sub.to;
                                   return (
                                     <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)}
-                                      className={`block px-4 py-3 text-sm rounded-lg transition-all ${
+                                      className={`block px-4 py-3.5 text-[15px] rounded-xl transition-all ${
                                         subActive
-                                          ? "text-primary bg-primary/10 font-medium"
-                                          : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                                          ? "text-primary bg-primary/10 font-bold"
+                                          : "text-[#4B5563] font-medium hover:text-primary hover:bg-gray-50"
                                       }`}>
                                       {sub.label}
                                     </Link>
@@ -532,7 +532,7 @@ const Navbar = () => {
                               </div>
 
                               {/* Separator after expanded section */}
-                              <div className="mx-4 border-b border-border/40 my-1" />
+                              <div className="mx-3 border-b border-gray-200 my-1" />
                             </motion.div>
                           )}
                         </AnimatePresence>
@@ -543,27 +543,27 @@ const Navbar = () => {
               </div>
 
               {/* Sticky auth buttons at bottom */}
-              <div className="sticky bottom-0 px-4 py-4 border-t border-border bg-card space-y-2.5">
+              <div className="sticky bottom-0 px-4 py-5 border-t border-gray-200 bg-white space-y-3">
                 {user ? (
                   <>
                     <Link to="/dashboard" onClick={() => setOpen(false)}
-                      className="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl text-[15px] font-semibold bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:shadow-lg transition-all">
+                      className="flex items-center justify-center gap-2 w-full px-4 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-primary to-accent text-white shadow-lg transition-all">
                       Dashboard
                     </Link>
                     <button onClick={() => { handleLogout(); setOpen(false); }}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">
-                      <LogOut className="w-4 h-4" /> {t("Đăng Xuất", "Logout")}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-[15px] font-semibold text-[#4B5563] hover:text-[#1A1A1A] hover:bg-gray-100 transition-all">
+                      <LogOut className="w-5 h-5" /> {t("Đăng Xuất", "Logout")}
                     </button>
                   </>
                 ) : (
                   <>
                     <Link to="/login" onClick={() => setOpen(false)}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-[15px] font-semibold bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:shadow-lg transition-all">
+                      className="w-full flex items-center justify-center gap-2.5 px-4 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-primary to-accent text-white shadow-lg transition-all">
                       <LogIn className="w-5 h-5" /> {t("Đăng Nhập", "Login")}
                     </Link>
                     <Link to="/signup" onClick={() => setOpen(false)}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold border-2 border-primary text-primary hover:bg-primary/5 transition-all">
-                      <UserPlus className="w-4 h-4" /> {t("Đăng Ký", "Sign Up")}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-[15px] font-bold border-2 border-primary text-primary hover:bg-primary/5 transition-all">
+                      <UserPlus className="w-5 h-5" /> {t("Đăng Ký", "Sign Up")}
                     </Link>
                   </>
                 )}
