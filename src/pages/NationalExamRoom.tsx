@@ -334,8 +334,8 @@ const NationalExamRoom = () => {
               {/* Passage if applicable */}
               {relatedPassage && (
                 <div className="glass-card rounded-xl p-5 mb-4">
-                  <h3 className="font-bold text-foreground text-sm mb-2">{relatedPassage.title}</h3>
-                  <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{relatedPassage.text}</p>
+                  <h3 className="font-bold text-foreground text-base md:text-lg mb-2">{relatedPassage.title}</h3>
+                  <p className="text-base md:text-lg text-muted-foreground whitespace-pre-line leading-relaxed">{relatedPassage.text}</p>
                 </div>
               )}
 
@@ -344,7 +344,7 @@ const NationalExamRoom = () => {
                 <div className="glass-card rounded-xl p-6">
                   <div className="flex items-start gap-3 mb-5">
                     <span className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">{currentQuestion.id}</span>
-                    <p className="text-foreground text-lg font-medium pt-1.5">{currentQuestion.text}</p>
+                    <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{currentQuestion.text}</p>
                   </div>
                   <div className="space-y-3 ml-13">
                     {currentQuestion.options.map((opt, oi) => {
@@ -353,7 +353,7 @@ const NationalExamRoom = () => {
                         <button
                           key={oi}
                           onClick={() => handleAnswer(currentQuestion.id, oi)}
-                          className={`w-full text-left px-4 py-3 rounded-xl border-2 transition-all text-sm ${
+                          className={`w-full text-left px-4 py-3 rounded-xl border-2 transition-all text-base ${
                             isSelected
                               ? "border-primary bg-primary/10 text-foreground font-medium"
                               : "border-border hover:border-primary/40 text-foreground"
