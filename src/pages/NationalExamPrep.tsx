@@ -23,7 +23,7 @@ const getBestScore = (examId: string): number | null => {
 };
 
 const NationalExamPrep = () => {
-  const { t } = useLanguage();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
