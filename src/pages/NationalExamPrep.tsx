@@ -91,32 +91,8 @@ const NationalExamPrep = () => {
             </div>
           </motion.div>
 
-          {/* Motivational quotes array */}
-          {(() => {
-            const motivationalQuotes = [
-              { vi: "🔥 Mỗi đề thi là một bước tiến gần hơn đến ước mơ!", en: "🔥 Every test brings you closer to your dream!" },
-              { vi: "💪 Không có giới hạn nào cho người quyết tâm!", en: "💪 No limits for the determined!" },
-              { vi: "🌟 Em đã rất giỏi rồi, hãy tiếp tục phát huy!", en: "🌟 You're doing great, keep it up!" },
-              { vi: "🎯 Tập trung, kiên trì – thành công sẽ đến!", en: "🎯 Stay focused, stay persistent – success will come!" },
-              { vi: "📚 Ôn luyện hôm nay, tỏa sáng ngày mai!", en: "📚 Practice today, shine tomorrow!" },
-              { vi: "⭐ Mỗi câu hỏi đúng là một viên gạch xây nên tương lai!", en: "⭐ Every correct answer builds your future!" },
-              { vi: "🚀 Đừng sợ khó, hãy sợ không dám thử!", en: "🚀 Don't fear difficulty, fear not trying!" },
-              { vi: "💎 Kiến thức là tài sản quý giá nhất!", en: "💎 Knowledge is the most valuable asset!" },
-              { vi: "🏆 Chiến thắng thuộc về người không bỏ cuộc!", en: "🏆 Victory belongs to those who never give up!" },
-              { vi: "✨ Hãy tin vào bản thân, em làm được!", en: "✨ Believe in yourself, you can do it!" },
-              { vi: "🎓 Mỗi lần ôn tập là thêm một bước vững chắc!", en: "🎓 Every review is a solid step forward!" },
-              { vi: "🌈 Sau cơn mưa trời lại sáng – cố lên em nhé!", en: "🌈 After the rain comes sunshine – keep going!" },
-              { vi: "💡 Sai lầm là cơ hội để học hỏi và tiến bộ!", en: "💡 Mistakes are chances to learn and grow!" },
-              { vi: "🔑 Chìa khóa thành công nằm ở sự kiên trì!", en: "🔑 The key to success is perseverance!" },
-              { vi: "🌻 Hãy biến áp lực thành động lực!", en: "🌻 Turn pressure into motivation!" },
-              { vi: "⚡ Em chính là phiên bản tốt nhất của mình!", en: "⚡ You are the best version of yourself!" },
-              { vi: "🎯 Mục tiêu rõ ràng, nỗ lực hết mình!", en: "🎯 Clear goals, maximum effort!" },
-              { vi: "🌟 Thành công không đến từ may mắn mà từ nỗ lực!", en: "🌟 Success comes from effort, not luck!" },
-              { vi: "💪 Luyện đề đều đặn, thi cử tự tin!", en: "💪 Practice regularly, test confidently!" },
-              { vi: "🏅 Em xứng đáng với kết quả tốt nhất!", en: "🏅 You deserve the best results!" },
-            ];
-            return null; // quotes used below
-          })()}
+
+
 
           {/* Exam cards grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-6xl mx-auto">
