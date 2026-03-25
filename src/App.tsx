@@ -63,6 +63,8 @@ const App = () => (
             <Route path="/ielts-sample-essays" element={<IeltsSampleEssays />} />
             <Route path="/ielts-sample-essays/:essayId" element={<IeltsSampleEssayDetail />} />
             <Route path="/ielts-speaking-practice" element={<SpeakingPractice />} />
+            <Route path="/national-exam" element={<NationalExamPrep />} />
+            <Route path="/national-exam/:examId" element={<NationalExamRoom />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
