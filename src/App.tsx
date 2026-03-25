@@ -67,7 +67,7 @@ const App = () => (
             <Route path="/ielts-sample-essays/:essayId" element={<IeltsSampleEssayDetail />} />
             <Route path="/ielts-speaking-practice" element={<SpeakingPractice />} />
             <Route path="/national-exam" element={<NationalExamPrep />} />
-            <Route path="/national-exam/:examId" element={<NationalExamRoom />} />
+            <Route path="/national-exam/:examId" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}><NationalExamRoom /></Suspense>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
