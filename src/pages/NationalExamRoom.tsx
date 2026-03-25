@@ -177,7 +177,7 @@ const NationalExamRoom = () => {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center mb-8">
             <TechTeacherIcon size={64} />
             <h1 className="text-3xl font-display font-bold text-foreground mt-4 mb-2">{t("Kết Quả Thi Thử", "Exam Results")}</h1>
-            <p className="text-muted-foreground">{t(exam.title, exam.titleEn)} — {t("Mã đề", "Code")}: {exam.code}</p>
+            <p className="text-muted-foreground">{t(exam.title, exam.titleEn)}</p>
           </motion.div>
 
           {/* Score card */}
@@ -313,7 +313,7 @@ const NationalExamRoom = () => {
             <Button variant="ghost" size="sm" onClick={() => navigate("/national-exam")}><ArrowLeft className="w-4 h-4" /></Button>
             <div>
               <h1 className="text-sm font-bold text-foreground">{t(exam.title, exam.titleEn)}</h1>
-              <p className="text-xs text-muted-foreground">{t("Mã đề", "Code")}: {exam.code}</p>
+              
             </div>
           </div>
           <div className="flex items-center gap-4">
