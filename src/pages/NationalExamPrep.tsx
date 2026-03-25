@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { thptExams } from "@/data/thptExamData";
+import { Clock, FileText, Award, BookOpen, ChevronRight, GraduationCap, Timer, TimerOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { thptExams, categoryLabels } from "@/data/thptExamData";
 import { Clock, FileText, Award, BookOpen, ChevronRight, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
