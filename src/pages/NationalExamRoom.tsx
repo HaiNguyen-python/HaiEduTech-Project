@@ -333,9 +333,9 @@ const NationalExamRoom = () => {
             <motion.div key={currentQ} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.15 }}>
               {/* Passage if applicable */}
               {relatedPassage && (
-                <div className="glass-card rounded-xl p-5 mb-4">
-                  <h3 className="font-bold text-foreground text-base md:text-lg mb-2">{relatedPassage.title}</h3>
-                  <p className="text-base md:text-lg text-muted-foreground whitespace-pre-line leading-relaxed">{relatedPassage.text}</p>
+                <div className="glass-card rounded-xl p-6 mb-4">
+                  <h3 className="font-extrabold text-foreground text-lg md:text-xl mb-3">{relatedPassage.title}</h3>
+                  <p className="text-lg md:text-xl font-medium text-foreground/80 whitespace-pre-line leading-loose">{relatedPassage.text}</p>
                 </div>
               )}
 
