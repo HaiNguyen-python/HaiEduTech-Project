@@ -15,7 +15,9 @@ type ExamPhase = "taking" | "result" | "review";
 const NationalExamRoom = () => {
   const { examId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { t } = useLanguage();
+  const isTimed = searchParams.get("mode") !== "untimed";
 
   const exam = thptExams.find((e) => e.id === examId);
   const [answers, setAnswers] = useState<Record<number, number>>({});
