@@ -27,13 +27,13 @@ const Navbar = () => {
   const [dropdown, setDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [mobileSubExpanded, setMobileSubExpanded] = useState<string | null>(null);
-  const [ieltsHover, setIeltsHover] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { lang, setLang, t } = useLanguage();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const ieltsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { user, isTeacher } = useUserRole();
 
   useEffect(() => {
@@ -271,11 +271,11 @@ const Navbar = () => {
                                   key={sub.groupLabel}
                                   className="relative"
                                   onMouseEnter={() => {
-                                    if (ieltsTimeoutRef.current) clearTimeout(ieltsTimeoutRef.current);
-                                    setIeltsHover(true);
+                                    if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
+                                    setActiveSubmenu(sub.groupLabel!);
                                   }}
                                   onMouseLeave={() => {
-                                    ieltsTimeoutRef.current = setTimeout(() => setIeltsHover(false), 120);
+                                    submenuTimeoutRef.current = setTimeout(() => setActiveSubmenu(null), 120);
                                   }}
                                 >
                                   <motion.div
@@ -284,7 +284,7 @@ const Navbar = () => {
                                     transition={{ delay: i * 0.025, duration: 0.18 }}
                                   >
                                     <div className={`flex items-center justify-between px-4 py-2.5 text-sm font-medium cursor-pointer rounded-md mx-1 transition-colors ${
-                                      ieltsHover ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary/80"
+                                      activeSubmenu === sub.groupLabel ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary/80"
                                     }`}>
                                       <span>{sub.label}</span>
                                       <ChevronRight className="w-3.5 h-3.5" />
@@ -293,7 +293,7 @@ const Navbar = () => {
 
                                   {/* Nested flyout sub-menu */}
                                   <AnimatePresence>
-                                    {ieltsHover && (
+                                    {activeSubmenu === sub.groupLabel && (
                                       <motion.div
                                         initial={{ opacity: 0, x: -8, scale: 0.96 }}
                                         animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -301,10 +301,10 @@ const Navbar = () => {
                                         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                                         className="absolute left-full top-0 ml-1 w-56 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
                                       >
-                                        {/* IELTS header */}
+                                        {/* Group header */}
                                         <div className="px-4 py-1.5 mb-1">
-                                          <span className="text-[10px] font-bold uppercase tracking-widest bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
-                                            IELTS Program
+                                          <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
+                                            {sub.groupLabel === "ielts" ? "IELTS Program" : t("Luyện thi THPT", "National Exam Prep")}
                                           </span>
                                         </div>
                                         {sub.children.map((child, ci) => {
@@ -318,7 +318,7 @@ const Navbar = () => {
                                             >
                                               <Link
                                                 to={child.to}
-                                                onClick={() => { setDropdown(null); setIeltsHover(false); }}
+                                                onClick={() => { setDropdown(null); setActiveSubmenu(null); }}
                                                 className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors rounded-md mx-1"
                                               >
                                                 {ChildIcon && <ChildIcon className="w-4 h-4 text-primary/70" />}

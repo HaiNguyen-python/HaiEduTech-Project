@@ -1,11 +1,11 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { thptExams, categoryLabels } from "@/data/thptExamData";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Clock, ChevronLeft, ChevronRight, CheckCircle2, XCircle, RotateCcw, Award, ArrowLeft, BookOpen } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, CheckCircle2, XCircle, RotateCcw, Award, ArrowLeft, BookOpen, TimerOff } from "lucide-react";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import TechTeacherIcon from "@/components/TechTeacherIcon";
@@ -15,7 +15,9 @@ type ExamPhase = "taking" | "result" | "review";
 const NationalExamRoom = () => {
   const { examId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { t } = useLanguage();
+  const isTimed = searchParams.get("mode") !== "untimed";
 
   const exam = thptExams.find((e) => e.id === examId);
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -37,9 +39,9 @@ const NationalExamRoom = () => {
     } catch {}
   }, [exam]);
 
-  // Timer
+  // Timer - only runs in timed mode
   useEffect(() => {
-    if (phase !== "taking" || !exam) return;
+    if (phase !== "taking" || !exam || !isTimed) return;
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -50,7 +52,7 @@ const NationalExamRoom = () => {
       });
     }, 1000);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [phase, exam]);
+  }, [phase, exam, isTimed]);
 
   // Auto-save answers
   useEffect(() => {
@@ -280,9 +282,15 @@ const NationalExamRoom = () => {
             <div className="text-sm text-muted-foreground">
               {answeredCount}/{exam.totalQuestions} {t("đã trả lời", "answered")}
             </div>
-            <div className={`flex items-center gap-1.5 font-mono font-bold text-lg ${timeLeft < 300 ? "text-destructive animate-pulse" : "text-foreground"}`}>
-              <Clock className="w-4 h-4" /> {formatTime(timeLeft)}
-            </div>
+            {isTimed ? (
+              <div className={`flex items-center gap-1.5 font-mono font-bold text-lg ${timeLeft < 300 ? "text-destructive animate-pulse" : "text-foreground"}`}>
+                <Clock className="w-4 h-4" /> {formatTime(timeLeft)}
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                <TimerOff className="w-4 h-4" /> {t("Không giới hạn", "Untimed")}
+              </div>
+            )}
             <Button size="sm" onClick={handleSubmit} disabled={answeredCount === 0} className="bg-primary hover:bg-primary/90">
               {t("Nộp bài", "Submit")}
             </Button>
