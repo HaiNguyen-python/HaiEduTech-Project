@@ -67,7 +67,7 @@ const Navbar = () => {
     { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
     { to: "/english/toeic", label: "💼 TOEIC" },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
-    { to: "/english/national-exam", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
+    { to: "/national-exam", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep") },
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
