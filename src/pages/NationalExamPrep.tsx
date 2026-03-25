@@ -104,9 +104,6 @@ const NationalExamPrep = () => {
                 >
                   <div className="glass-card rounded-xl p-5 hover:shadow-lg hover:border-primary/30 transition-all group h-full flex flex-col">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded">
-                        {t("Mã đề", "Code")}: {exam.code}
-                      </span>
                       {best !== null && (
                         <span className={`text-xs font-bold px-2 py-1 rounded ${best >= 8 ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400" : best >= 6 ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-400" : "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400"}`}>
                           {best.toFixed(1)}/10
