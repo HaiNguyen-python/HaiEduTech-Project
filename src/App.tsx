@@ -37,8 +37,6 @@ import ChatBot from "./components/ChatBot.tsx";
 
 // Lazy-load heavy exam room component to keep main bundle small
 const NationalExamRoom = lazy(() => import("./pages/NationalExamRoom.tsx"));
-import LanguageLessonView from "./pages/LanguageLessonView.tsx";
-import ChatBot from "./components/ChatBot.tsx";
 
 const queryClient = new QueryClient();
 
