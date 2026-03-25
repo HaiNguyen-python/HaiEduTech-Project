@@ -282,9 +282,15 @@ const NationalExamRoom = () => {
             <div className="text-sm text-muted-foreground">
               {answeredCount}/{exam.totalQuestions} {t("đã trả lời", "answered")}
             </div>
-            <div className={`flex items-center gap-1.5 font-mono font-bold text-lg ${timeLeft < 300 ? "text-destructive animate-pulse" : "text-foreground"}`}>
-              <Clock className="w-4 h-4" /> {formatTime(timeLeft)}
-            </div>
+            {isTimed ? (
+              <div className={`flex items-center gap-1.5 font-mono font-bold text-lg ${timeLeft < 300 ? "text-destructive animate-pulse" : "text-foreground"}`}>
+                <Clock className="w-4 h-4" /> {formatTime(timeLeft)}
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                <TimerOff className="w-4 h-4" /> {t("Không giới hạn", "Untimed")}
+              </div>
+            )}
             <Button size="sm" onClick={handleSubmit} disabled={answeredCount === 0} className="bg-primary hover:bg-primary/90">
               {t("Nộp bài", "Submit")}
             </Button>
