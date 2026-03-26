@@ -360,12 +360,29 @@ const NationalExamRoom = () => {
               )}
 
               {/* Question */}
-              {currentQuestion && (
+              {currentQuestion && (() => {
+                const arrKey = `${examId}-${currentQuestion.id}`;
+                const arrData = arrangementSentences[arrKey];
+                return (
                 <div className="glass-card rounded-xl p-6">
                   <div className="flex items-start gap-3 mb-5">
                     <span className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">{currentQuestion.id}</span>
                     <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{currentQuestion.text}</p>
                   </div>
+
+                  {/* Arrangement question sentences */}
+                  {arrData && (
+                    <div className="ml-13 mb-4 bg-muted/40 rounded-xl p-4 space-y-2.5 border border-border">
+                      <p className="text-sm font-semibold text-primary mb-2">{arrData.instruction}</p>
+                      {Object.entries(arrData.sentences).map(([letter, sentence]) => (
+                        <div key={letter} className="flex gap-2 text-sm leading-relaxed">
+                          <span className="font-bold text-primary flex-shrink-0 w-5">{letter}.</span>
+                          <span className="text-foreground">{sentence}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="space-y-3 ml-13">
                     {currentQuestion.options.map((opt, oi) => {
                       const isSelected = answers[currentQuestion.id] === oi;
@@ -396,7 +413,8 @@ const NationalExamRoom = () => {
                     </Button>
                   </div>
                 </div>
-              )}
+                );
+              })()}
             </motion.div>
           </AnimatePresence>
         </div>
