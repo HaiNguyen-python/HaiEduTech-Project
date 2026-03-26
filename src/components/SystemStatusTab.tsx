@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw,
-  AlertTriangle, TrendingUp, Clock, Zap, ExternalLink
+  AlertTriangle, TrendingUp, Clock, Zap, ExternalLink, ShieldAlert
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -56,10 +56,19 @@ interface BalanceRecord {
   note: string | null;
 }
 
+interface ModerationLog {
+  id: string;
+  user_id: string;
+  created_at: string;
+  blocked_content: string;
+  reason: string;
+}
+
 const SystemStatusTab = () => {
   const { t } = useLanguage();
   const [usageLogs, setUsageLogs] = useState<UsageLog[]>([]);
   const [balance, setBalance] = useState<BalanceRecord | null>(null);
+  const [moderationLogs, setModerationLogs] = useState<ModerationLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [newBalance, setNewBalance] = useState("");
   const [balanceNote, setBalanceNote] = useState("");
@@ -71,7 +80,7 @@ const SystemStatusTab = () => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     
-    const [logsRes, balanceRes] = await Promise.all([
+    const [logsRes, balanceRes, modRes] = await Promise.all([
       supabase
         .from("api_usage_log")
         .select("*")
@@ -83,11 +92,17 @@ const SystemStatusTab = () => {
         .select("*")
         .order("updated_at", { ascending: false })
         .limit(1),
+      supabase
+        .from("moderation_logs")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(100),
     ]);
 
     setUsageLogs((logsRes.data || []) as unknown as UsageLog[]);
     const balData = balanceRes.data as unknown as BalanceRecord[];
     setBalance(balData?.[0] || null);
+    setModerationLogs((modRes.data || []) as unknown as ModerationLog[]);
     setLoading(false);
   }, []);
 
