@@ -3,7 +3,9 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Languages, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight, Star, Users, Clock, Award } from "lucide-react";
+import { Languages, CheckCircle, ArrowLeft, Phone, MessageCircle, ArrowRight, Star, Users, Clock, Award, GraduationCap } from "lucide-react";
+import { allChineseModules } from "@/data/languageCurriculum";
+import { cn } from "@/lib/utils";
 
 import chineseImg from "@/assets/course-chinese.jpg";
 
