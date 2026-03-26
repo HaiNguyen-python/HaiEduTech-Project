@@ -213,7 +213,7 @@ const Navbar = () => {
                           initial={{ opacity: 0, y: -4 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -4 }}
-                          className="absolute right-0 top-full mt-1 w-44 bg-card border border-border rounded-xl shadow-lg z-50 py-1 overflow-hidden"
+                          className="absolute right-0 top-full mt-1 w-44 bg-card border border-border rounded-xl shadow-lg z-[100] py-1 overflow-hidden"
                         >
                           <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
                             className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
@@ -426,7 +426,7 @@ const Navbar = () => {
                           initial={{ opacity: 0, y: -4 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -4 }}
-                          className="absolute right-0 top-full mt-1 w-44 bg-card border border-border rounded-xl shadow-lg z-50 py-1 overflow-hidden"
+                          className="absolute right-0 top-full mt-1 w-44 bg-card border border-border rounded-xl shadow-lg z-[100] py-1 overflow-hidden"
                         >
                           <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
                             className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
