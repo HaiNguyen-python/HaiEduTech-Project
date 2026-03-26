@@ -55,9 +55,9 @@ const MarqueeRow = ({
                 e.preventDefault();
                 onClickCert(realIndex);
               }}
-              className="group shrink-0 w-[340px] rounded-xl border border-border bg-secondary overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all cursor-pointer"
+              className="group shrink-0 w-[420px] rounded-xl border border-border bg-secondary overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all cursor-pointer"
             >
-              <div className="aspect-[4/3] overflow-hidden bg-white flex items-center justify-center">
+              <div className="aspect-[4/3] overflow-hidden bg-white flex items-center justify-center p-4">
                 {cert.img ? (
                   <img
                     src={cert.img}
@@ -99,7 +99,7 @@ const CertCarousel = ({ title }: CertCarouselProps) => {
       </div>
 
       {/* Marquee scrolling */}
-      <MarqueeRow items={certs} direction="left" duration={50} onClickCert={setSelected} />
+      <MarqueeRow items={certs} direction="left" duration={30} onClickCert={setSelected} />
 
       {/* Lightbox */}
       <AnimatePresence>
