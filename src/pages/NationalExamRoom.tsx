@@ -470,7 +470,6 @@ const NationalExamRoom = () => {
           </div>
         </div>
       </div>
-    </div>
       {/* Super Dictionary floating button */}
       <SuperDictionary />
     </div>
