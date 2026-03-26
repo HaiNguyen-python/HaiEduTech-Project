@@ -54,7 +54,7 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Front */}
-        <div className="absolute inset-0 backface-hidden rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center gap-3">
+        <div className="absolute inset-0 rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center gap-3" style={{ backfaceVisibility: "hidden" }}>
           <h3 className="text-2xl font-bold text-foreground">{word.word}</h3>
           <p className="text-sm text-muted-foreground font-mono">{word.ipa}</p>
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
