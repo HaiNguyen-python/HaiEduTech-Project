@@ -336,7 +336,7 @@ const SystemStatusTab = () => {
                   <YAxis tick={{ fontSize: 11 }} />
                   <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8 }} />
                   <Line type="monotone" dataKey="calls" stroke="#10b981" strokeWidth={2} name={t("Lượt gọi", "Calls")} />
-                  <Line type="monotone" dataKey="tokens" stroke="#6366f1" strokeWidth={2} name="Tokens" yAxisId="right" hide />
+                  <Line type="monotone" dataKey="tokens" stroke="#6366f1" strokeWidth={2} name="Tokens" hide />
                 </LineChart>
               </ResponsiveContainer>
             )}
