@@ -31,6 +31,7 @@ import IeltsSampleEssays from "./pages/IeltsSampleEssays.tsx";
 import IeltsSampleEssayDetail from "./pages/IeltsSampleEssayDetail.tsx";
 import SpeakingPractice from "./pages/SpeakingPractice.tsx";
 import IeltsVocabulary from "./pages/IeltsVocabulary.tsx";
+import VocabArena from "./pages/VocabArena.tsx";
 import NationalExamPrep from "./pages/NationalExamPrep.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import LanguageLessonView from "./pages/LanguageLessonView.tsx";
