@@ -11,6 +11,7 @@ import SuperDictionary from "@/components/SuperDictionary";
 import WritingGuidePanel from "@/components/WritingGuidePanel";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -155,6 +156,14 @@ const IeltsWritingPractice = () => {
             word_count: wordCount,
             result: data,
             overall_score: data.overall,
+          });
+          // Log activity for admin analytics
+          logStudentActivity({
+            activityType: "ielts_writing",
+            score: data.overall,
+            maxScore: 9,
+            domain: "english",
+            metadata: { taskType, wordCount, criteria: data.criteria },
           });
         }
       } catch (saveErr) {

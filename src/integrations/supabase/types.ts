@@ -336,6 +336,7 @@ export type Database = {
           activity_id: string | null
           activity_type: string
           created_at: string
+          domain: string | null
           id: string
           max_score: number | null
           metadata: Json | null
@@ -347,6 +348,7 @@ export type Database = {
           activity_id?: string | null
           activity_type: string
           created_at?: string
+          domain?: string | null
           id?: string
           max_score?: number | null
           metadata?: Json | null
@@ -358,6 +360,7 @@ export type Database = {
           activity_id?: string | null
           activity_type?: string
           created_at?: string
+          domain?: string | null
           id?: string
           max_score?: number | null
           metadata?: Json | null

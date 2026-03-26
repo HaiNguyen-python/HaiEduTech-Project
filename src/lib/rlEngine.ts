@@ -1,6 +1,8 @@
 // RL (Reinforcement Learning) Intervention Engine
 // Analyzes student activity data and generates personalized recommendations
 
+export type LearningDomain = "english" | "chinese" | "programming";
+
 export interface StudentState {
   userId: string;
   fullName: string;
@@ -11,6 +13,7 @@ export interface StudentState {
   skillBreakdown: Record<string, { score: number; count: number }>;
   weakestAreas: string[];
   strongestAreas: string[];
+  domainBreakdown: Record<LearningDomain, { count: number; avgScore: number }>;
 }
 
 export interface RLRecommendation {
@@ -39,6 +42,18 @@ const CATEGORY_LABELS: Record<string, { en: string; vi: string }> = {
   "ielts_writing": { en: "IELTS Writing", vi: "Viết IELTS" },
   "ielts_speaking": { en: "IELTS Speaking", vi: "Nói IELTS" },
   "python_challenge": { en: "Python", vi: "Python" },
+  "conv_english": { en: "Conversational English", vi: "Giao tiếp tiếng Anh" },
+  "conv_chinese": { en: "Conversational Chinese", vi: "Giao tiếp tiếng Hoa" },
+  "thpt_exam": { en: "THPT Exam", vi: "Thi THPT" },
+  "sql_exercise": { en: "SQL", vi: "SQL" },
+  "coding_quiz": { en: "Coding Quiz", vi: "Quiz lập trình" },
+};
+
+// Domain labels
+export const DOMAIN_LABELS: Record<LearningDomain, { en: string; vi: string; color: string; icon: string }> = {
+  english: { en: "English", vi: "Tiếng Anh", color: "hsl(217, 91%, 60%)", icon: "🇬🇧" },
+  chinese: { en: "Chinese", vi: "Tiếng Hoa", color: "hsl(0, 84%, 60%)", icon: "🇨🇳" },
+  programming: { en: "Programming", vi: "Lập trình", color: "hsl(142, 76%, 36%)", icon: "💻" },
 };
 
 // Compute student state from activity logs
@@ -51,15 +66,26 @@ export function computeStudentState(
     max_score: number | null;
     metadata: any;
     created_at: string;
+    domain?: string;
   }>
 ): StudentState {
   const skillMap: Record<string, { totalScore: number; count: number }> = {};
+  const domainMap: Record<LearningDomain, { totalScore: number; count: number }> = {
+    english: { totalScore: 0, count: 0 },
+    chinese: { totalScore: 0, count: 0 },
+    programming: { totalScore: 0, count: 0 },
+  };
 
   // Process each activity to extract skill-level data
   for (const act of activities) {
     const score = act.score ?? 0;
     const maxScore = act.max_score ?? 10;
     const normalized = (score / maxScore) * 10;
+    const domain = (act.domain as LearningDomain) || "english";
+
+    // Aggregate domain-level data
+    domainMap[domain].totalScore += normalized;
+    domainMap[domain].count++;
 
     // If metadata has category breakdown (e.g., THPT exams), use it
     if (act.metadata?.categoryStats) {
@@ -86,6 +112,13 @@ export function computeStudentState(
       count: data.count,
     };
   }
+
+  // Build domain breakdown
+  const domainBreakdown: Record<LearningDomain, { count: number; avgScore: number }> = {
+    english: { count: domainMap.english.count, avgScore: domainMap.english.count > 0 ? Math.round((domainMap.english.totalScore / domainMap.english.count) * 10) / 10 : 0 },
+    chinese: { count: domainMap.chinese.count, avgScore: domainMap.chinese.count > 0 ? Math.round((domainMap.chinese.totalScore / domainMap.chinese.count) * 10) / 10 : 0 },
+    programming: { count: domainMap.programming.count, avgScore: domainMap.programming.count > 0 ? Math.round((domainMap.programming.totalScore / domainMap.programming.count) * 10) / 10 : 0 },
+  };
 
   // Sort by score to find weakest/strongest
   const sorted = Object.entries(skillBreakdown).sort((a, b) => a[1].score - b[1].score);
@@ -118,6 +151,7 @@ export function computeStudentState(
     skillBreakdown,
     weakestAreas,
     strongestAreas,
+    domainBreakdown,
   };
 }
 
@@ -189,6 +223,26 @@ export function generateRecommendations(state: StudentState): RLRecommendation[]
       detailsVi: `Học sinh xuất sắc (${state.avgScore}/10). Đẩy nội dung nâng cao để duy trì hứng thú.`,
       category: "advancement",
     });
+  }
+
+  // Rule 6: Cross-domain imbalance detection
+  const domainEntries = Object.entries(state.domainBreakdown).filter(([, d]) => d.count > 0);
+  if (domainEntries.length >= 2) {
+    const sorted = domainEntries.sort((a, b) => a[1].avgScore - b[1].avgScore);
+    const weakest = sorted[0];
+    const strongest = sorted[sorted.length - 1];
+    if (strongest[1].avgScore - weakest[0 as any][1].avgScore > 2) {
+      const wLabel = DOMAIN_LABELS[weakest[0] as LearningDomain];
+      const sLabel = DOMAIN_LABELS[strongest[0] as LearningDomain];
+      recommendations.push({
+        action: `Rebalance: more ${wLabel.en}, less ${sLabel.en}`,
+        actionVi: `Cân bằng: tăng ${wLabel.vi}, giảm ${sLabel.vi}`,
+        priority: "medium",
+        details: `${sLabel.en} avg ${strongest[1].avgScore}/10 vs ${wLabel.en} avg ${weakest[1].avgScore}/10. Shift focus to weaker domain.`,
+        detailsVi: `${sLabel.vi} TB ${strongest[1].avgScore}/10 vs ${wLabel.vi} TB ${weakest[1].avgScore}/10. Cần tập trung vào mảng yếu hơn.`,
+        category: "cross-domain",
+      });
+    }
   }
 
   // Sort by priority
