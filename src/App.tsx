@@ -6,44 +6,59 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index.tsx";
-import About from "./pages/About.tsx";
-import English from "./pages/English.tsx";
-import EnglishCourse from "./pages/EnglishCourse.tsx";
-import Chinese from "./pages/Chinese.tsx";
-import ChineseCourse from "./pages/ChineseCourse.tsx";
-import Programming from "./pages/Programming.tsx";
-import ProgrammingLesson from "./pages/ProgrammingLesson.tsx";
-import AIGrading from "./pages/AIGrading.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
-import Register from "./pages/Register.tsx";
-import Contact from "./pages/Contact.tsx";
-import Login from "./pages/Login.tsx";
-import Signup from "./pages/Signup.tsx";
-import AILibrary from "./pages/AILibrary.tsx";
-import LessonDetail from "./pages/LessonDetail.tsx";
-import TeacherAdmin from "./pages/TeacherAdmin.tsx";
-import TeacherDashboard from "./pages/TeacherDashboard.tsx";
-import GeneratedLessonView from "./pages/GeneratedLessonView.tsx";
-import PythonChallengeList from "./pages/PythonChallengeList.tsx";
-import PythonChallengePage from "./pages/PythonChallenge.tsx";
-import IeltsWritingPractice from "./pages/IeltsWritingPractice.tsx";
-import IeltsSampleEssays from "./pages/IeltsSampleEssays.tsx";
-import IeltsSampleEssayDetail from "./pages/IeltsSampleEssayDetail.tsx";
-import SpeakingPractice from "./pages/SpeakingPractice.tsx";
-import IeltsVocabulary from "./pages/IeltsVocabulary.tsx";
-import VocabArena from "./pages/VocabArena.tsx";
-import NationalExamPrep from "./pages/NationalExamPrep.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import LanguageLessonView from "./pages/LanguageLessonView.tsx";
-import ConversationalDashboard from "./pages/ConversationalDashboard.tsx";
-import ConversationalLessonView from "./pages/ConversationalLessonView.tsx";
-import ChineseConversationalDashboard from "./pages/ChineseConversationalDashboard.tsx";
-import ChineseConversationalLessonView from "./pages/ChineseConversationalLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
-// Lazy-load heavy components to keep main bundle small
+// Lazy-load all heavy route components for optimal code splitting
+const About = lazy(() => import("./pages/About.tsx"));
+const English = lazy(() => import("./pages/English.tsx"));
+const EnglishCourse = lazy(() => import("./pages/EnglishCourse.tsx"));
+const Chinese = lazy(() => import("./pages/Chinese.tsx"));
+const ChineseCourse = lazy(() => import("./pages/ChineseCourse.tsx"));
+const Programming = lazy(() => import("./pages/Programming.tsx"));
+const ProgrammingLesson = lazy(() => import("./pages/ProgrammingLesson.tsx"));
+const AIGrading = lazy(() => import("./pages/AIGrading.tsx"));
+const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
+const Register = lazy(() => import("./pages/Register.tsx"));
+const Contact = lazy(() => import("./pages/Contact.tsx"));
+const Login = lazy(() => import("./pages/Login.tsx"));
+const Signup = lazy(() => import("./pages/Signup.tsx"));
+const AILibrary = lazy(() => import("./pages/AILibrary.tsx"));
+const LessonDetail = lazy(() => import("./pages/LessonDetail.tsx"));
+const TeacherAdmin = lazy(() => import("./pages/TeacherAdmin.tsx"));
+const TeacherDashboard = lazy(() => import("./pages/TeacherDashboard.tsx"));
+const GeneratedLessonView = lazy(() => import("./pages/GeneratedLessonView.tsx"));
+const PythonChallengeList = lazy(() => import("./pages/PythonChallengeList.tsx"));
+const PythonChallengePage = lazy(() => import("./pages/PythonChallenge.tsx"));
+const IeltsWritingPractice = lazy(() => import("./pages/IeltsWritingPractice.tsx"));
+const IeltsSampleEssays = lazy(() => import("./pages/IeltsSampleEssays.tsx"));
+const IeltsSampleEssayDetail = lazy(() => import("./pages/IeltsSampleEssayDetail.tsx"));
+const SpeakingPractice = lazy(() => import("./pages/SpeakingPractice.tsx"));
+const IeltsVocabulary = lazy(() => import("./pages/IeltsVocabulary.tsx"));
+const VocabArena = lazy(() => import("./pages/VocabArena.tsx"));
+const NationalExamPrep = lazy(() => import("./pages/NationalExamPrep.tsx"));
 const NationalExamRoom = lazy(() => import("./pages/NationalExamRoom.tsx"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard.tsx"));
+const LanguageLessonView = lazy(() => import("./pages/LanguageLessonView.tsx"));
+const ConversationalDashboard = lazy(() => import("./pages/ConversationalDashboard.tsx"));
+const ConversationalLessonView = lazy(() => import("./pages/ConversationalLessonView.tsx"));
+const ChineseConversationalDashboard = lazy(() => import("./pages/ChineseConversationalDashboard.tsx"));
+const ChineseConversationalLessonView = lazy(() => import("./pages/ChineseConversationalLessonView.tsx"));
+
+// Shared loading fallback component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="flex flex-col items-center gap-3">
+      <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      <p className="text-sm text-muted-foreground animate-pulse">Loading...</p>
+    </div>
+  </div>
+);
+
+// Wrapper for lazy routes
+const LazyRoute = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<PageLoader />}>{children}</Suspense>
+);
 
 const queryClient = new QueryClient();
 
@@ -56,48 +71,48 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/english" element={<English />} />
-            <Route path="/english/conversational/curriculum" element={<ConversationalDashboard />} />
-            <Route path="/english/conversational/learn/:lessonId" element={<ConversationalLessonView />} />
-            <Route path="/english/:courseId" element={<EnglishCourse />} />
-            <Route path="/english/learn/:moduleId" element={<LanguageLessonView />} />
-            <Route path="/english/learn/:moduleId/:lessonId" element={<LanguageLessonView />} />
-            <Route path="/chinese" element={<Chinese />} />
-            <Route path="/chinese/conversational/curriculum" element={<ChineseConversationalDashboard />} />
-            <Route path="/chinese/conversational/learn/:lessonId" element={<ChineseConversationalLessonView />} />
-            <Route path="/chinese/:courseId" element={<ChineseCourse />} />
-            <Route path="/chinese/learn/:moduleId" element={<LanguageLessonView />} />
-            <Route path="/chinese/learn/:moduleId/:lessonId" element={<LanguageLessonView />} />
-            <Route path="/programming" element={<Programming />} />
-            <Route path="/programming/:moduleId" element={<ProgrammingLesson />} />
-            <Route path="/programming/:moduleId/:lessonId" element={<ProgrammingLesson />} />
-            <Route path="/ai-grading" element={<AIGrading />} />
-            <Route path="/ielts-writing-practice" element={<IeltsWritingPractice />} />
-            <Route path="/ielts-sample-essays" element={<IeltsSampleEssays />} />
-            <Route path="/ielts-sample-essays/:essayId" element={<IeltsSampleEssayDetail />} />
-            <Route path="/ielts-speaking-practice" element={<SpeakingPractice />} />
-            <Route path="/ielts-vocabulary" element={<IeltsVocabulary />} />
-            <Route path="/vocab-arena" element={<VocabArena />} />
-            <Route path="/national-exam" element={<NationalExamPrep />} />
-            <Route path="/national-exam/:examId" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}><NationalExamRoom /></Suspense>} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/ai-library" element={<AILibrary />} />
+            <Route path="/about" element={<LazyRoute><About /></LazyRoute>} />
+            <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
+            <Route path="/english/conversational/curriculum" element={<LazyRoute><ConversationalDashboard /></LazyRoute>} />
+            <Route path="/english/conversational/learn/:lessonId" element={<LazyRoute><ConversationalLessonView /></LazyRoute>} />
+            <Route path="/english/:courseId" element={<LazyRoute><EnglishCourse /></LazyRoute>} />
+            <Route path="/english/learn/:moduleId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
+            <Route path="/english/learn/:moduleId/:lessonId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
+            <Route path="/chinese" element={<LazyRoute><Chinese /></LazyRoute>} />
+            <Route path="/chinese/conversational/curriculum" element={<LazyRoute><ChineseConversationalDashboard /></LazyRoute>} />
+            <Route path="/chinese/conversational/learn/:lessonId" element={<LazyRoute><ChineseConversationalLessonView /></LazyRoute>} />
+            <Route path="/chinese/:courseId" element={<LazyRoute><ChineseCourse /></LazyRoute>} />
+            <Route path="/chinese/learn/:moduleId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
+            <Route path="/chinese/learn/:moduleId/:lessonId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
+            <Route path="/programming" element={<LazyRoute><Programming /></LazyRoute>} />
+            <Route path="/programming/:moduleId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
+            <Route path="/programming/:moduleId/:lessonId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
+            <Route path="/ai-grading" element={<LazyRoute><AIGrading /></LazyRoute>} />
+            <Route path="/ielts-writing-practice" element={<LazyRoute><IeltsWritingPractice /></LazyRoute>} />
+            <Route path="/ielts-sample-essays" element={<LazyRoute><IeltsSampleEssays /></LazyRoute>} />
+            <Route path="/ielts-sample-essays/:essayId" element={<LazyRoute><IeltsSampleEssayDetail /></LazyRoute>} />
+            <Route path="/ielts-speaking-practice" element={<LazyRoute><SpeakingPractice /></LazyRoute>} />
+            <Route path="/ielts-vocabulary" element={<LazyRoute><IeltsVocabulary /></LazyRoute>} />
+            <Route path="/vocab-arena" element={<LazyRoute><VocabArena /></LazyRoute>} />
+            <Route path="/national-exam" element={<LazyRoute><NationalExamPrep /></LazyRoute>} />
+            <Route path="/national-exam/:examId" element={<LazyRoute><NationalExamRoom /></LazyRoute>} />
+            <Route path="/dashboard" element={<LazyRoute><Dashboard /></LazyRoute>} />
+            <Route path="/register" element={<LazyRoute><Register /></LazyRoute>} />
+            <Route path="/contact" element={<LazyRoute><Contact /></LazyRoute>} />
+            <Route path="/login" element={<LazyRoute><Login /></LazyRoute>} />
+            <Route path="/signup" element={<LazyRoute><Signup /></LazyRoute>} />
+            <Route path="/ai-library" element={<LazyRoute><AILibrary /></LazyRoute>} />
             {/* Redirects for old routes */}
             <Route path="/smart-resources" element={<Navigate to="/ai-library" replace />} />
             <Route path="/lesson-library" element={<Navigate to="/ai-library" replace />} />
-            <Route path="/lesson/:resourceId" element={<LessonDetail />} />
-            <Route path="/lesson/:resourceId/:lessonId" element={<LessonDetail />} />
-            <Route path="/teacher-admin" element={<TeacherAdmin />} />
-            <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
-            <Route path="/admin-dashboard" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}><AdminDashboard /></Suspense>} />
-            <Route path="/lesson-library/:lessonId" element={<GeneratedLessonView />} />
-            <Route path="/python-challenges" element={<PythonChallengeList />} />
-            <Route path="/python-challenges/:challengeId" element={<PythonChallengePage />} />
+            <Route path="/lesson/:resourceId" element={<LazyRoute><LessonDetail /></LazyRoute>} />
+            <Route path="/lesson/:resourceId/:lessonId" element={<LazyRoute><LessonDetail /></LazyRoute>} />
+            <Route path="/teacher-admin" element={<LazyRoute><TeacherAdmin /></LazyRoute>} />
+            <Route path="/teacher-dashboard" element={<LazyRoute><TeacherDashboard /></LazyRoute>} />
+            <Route path="/admin-dashboard" element={<LazyRoute><AdminDashboard /></LazyRoute>} />
+            <Route path="/lesson-library/:lessonId" element={<LazyRoute><GeneratedLessonView /></LazyRoute>} />
+            <Route path="/python-challenges" element={<LazyRoute><PythonChallengeList /></LazyRoute>} />
+            <Route path="/python-challenges/:challengeId" element={<LazyRoute><PythonChallengePage /></LazyRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
