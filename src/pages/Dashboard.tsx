@@ -42,9 +42,25 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    // Set up auth state listener BEFORE getSession
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
+
+      // Sync Google profile data on sign-in (new or returning user)
+      if (event === 'SIGNED_IN' && session?.user) {
+        const meta = session.user.user_metadata;
+        if (meta?.full_name || meta?.avatar_url) {
+          // Use setTimeout to avoid potential deadlock with auth state change
+          setTimeout(async () => {
+            await supabase.from('profiles').upsert({
+              id: session.user.id,
+              full_name: meta.full_name || meta.name || null,
+              avatar_url: meta.avatar_url || meta.picture || null,
+            }, { onConflict: 'id' });
+          }, 0);
+        }
+      }
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
