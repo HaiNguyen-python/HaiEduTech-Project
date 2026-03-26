@@ -168,10 +168,7 @@ const KnowledgeHub = () => {
       // Silently fail — non-critical tracking
     }
 
-    // Increment engagement score
-    if (!post.id?.startsWith("static-")) {
-      await supabase.rpc("increment_engagement", { post_id: post.id }).catch(() => {});
-    }
+    // Engagement tracking is handled server-side via article_interests count
   };
 
   const meta = (category: string) =>
