@@ -33,6 +33,8 @@ import SpeakingPractice from "./pages/SpeakingPractice.tsx";
 import NationalExamPrep from "./pages/NationalExamPrep.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import LanguageLessonView from "./pages/LanguageLessonView.tsx";
+import ConversationalDashboard from "./pages/ConversationalDashboard.tsx";
+import ConversationalLessonView from "./pages/ConversationalLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
 // Lazy-load heavy components to keep main bundle small
@@ -52,6 +54,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/english" element={<English />} />
+            <Route path="/english/conversational/curriculum" element={<ConversationalDashboard />} />
+            <Route path="/english/conversational/learn/:lessonId" element={<ConversationalLessonView />} />
             <Route path="/english/:courseId" element={<EnglishCourse />} />
             <Route path="/english/learn/:moduleId" element={<LanguageLessonView />} />
             <Route path="/english/learn/:moduleId/:lessonId" element={<LanguageLessonView />} />
