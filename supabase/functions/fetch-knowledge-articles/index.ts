@@ -113,15 +113,18 @@ Return ONLY valid JSON array:
 
         const data = await response.json();
         const content = data.choices?.[0]?.message?.content || "";
+        const tokensUsed = data.usage?.total_tokens || Math.ceil(content.length / 4);
 
         // Extract JSON from response (handle markdown code blocks)
         const jsonMatch = content.match(/\[[\s\S]*?\]/);
         if (!jsonMatch) {
           console.error(`No JSON found in response for ${cat.key}`);
+          await logUsage("fetch-knowledge-articles", "sonar", "english", tokensUsed, "parse_error", cat.key);
           continue;
         }
 
         const articles = JSON.parse(jsonMatch[0]);
+        await logUsage("fetch-knowledge-articles", "sonar", "english", tokensUsed, "success");
 
         for (const article of articles) {
           allArticles.push({
