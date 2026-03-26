@@ -55,7 +55,7 @@ const MarqueeRow = ({
                 e.preventDefault();
                 onClickCert(realIndex);
               }}
-              className="group shrink-0 w-[260px] rounded-xl border border-border bg-secondary overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all cursor-pointer"
+              className="group shrink-0 w-[340px] rounded-xl border border-border bg-secondary overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all cursor-pointer"
             >
               <div className="aspect-[4/3] overflow-hidden bg-white flex items-center justify-center">
                 {cert.img ? (
@@ -95,7 +95,7 @@ const CertCarousel = ({ title }: CertCarouselProps) => {
           <Award className="w-5 h-5 text-primary" />
           {title || t("Chứng chỉ Chuyên môn", "Professional Certifications")}
         </h3>
-        <span className="text-xs text-muted-foreground">{certs.length} {t("chứng chỉ", "certificates")}</span>
+        
       </div>
 
       {/* Marquee scrolling */}
