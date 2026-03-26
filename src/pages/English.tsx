@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle, Star, GraduationCap } from "lucide-react";
@@ -259,6 +260,11 @@ const English = () => {
                   </Link>
                 ))}
               </div>
+            </motion.div>
+
+            {/* Skill Assessment */}
+            <div className="mb-10">
+              <AssessmentTool preSelectedSubject="english" inline />
             </motion.div>
           </motion.div>
         </div>
