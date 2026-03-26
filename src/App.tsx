@@ -44,6 +44,7 @@ const ConversationalDashboard = lazy(() => import("./pages/ConversationalDashboa
 const ConversationalLessonView = lazy(() => import("./pages/ConversationalLessonView.tsx"));
 const ChineseConversationalDashboard = lazy(() => import("./pages/ChineseConversationalDashboard.tsx"));
 const ChineseConversationalLessonView = lazy(() => import("./pages/ChineseConversationalLessonView.tsx"));
+const HskVocabulary = lazy(() => import("./pages/HskVocabulary.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
