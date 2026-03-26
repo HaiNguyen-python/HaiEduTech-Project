@@ -1,6 +1,14 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+// Log API usage to database (fire-and-forget)
+async function logUsage(fn: string, model: string, domain: string, tokens: number, status: string, err?: string) {
+  try {
+    const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    await sb.from("api_usage_log").insert({ function_name: fn, model, domain, tokens_used: tokens, estimated_cost: tokens * 0.000001, status, error_message: err || null });
+  } catch (e) { console.error("Usage logging failed:", e); }
+}
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -317,15 +325,21 @@ serve(async (req) => {
       if (!response.ok) {
         const errText = await response.text();
         console.error("Perplexity error:", response.status, errText);
+        await logUsage("generate-and-store-lesson", "sonar", subject, 0, "error", `HTTP ${response.status}`);
         throw new Error(`Perplexity API error: ${response.status}`);
       }
 
       const data = await response.json();
       const raw = data.choices?.[0]?.message?.content || "";
+      const tokensUsed = data.usage?.total_tokens || Math.ceil(raw.length / 4);
       const jsonMatch = raw.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error("Could not parse lesson content");
+      if (!jsonMatch) {
+        await logUsage("generate-and-store-lesson", "sonar", subject, tokensUsed, "parse_error");
+        throw new Error("Could not parse lesson content");
+      }
 
       content = JSON.parse(jsonMatch[0]);
+      await logUsage("generate-and-store-lesson", "sonar", subject, tokensUsed, "success");
 
       // Check similarity with existing titles
       const newTitle = content.title || "";

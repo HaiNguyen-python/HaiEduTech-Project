@@ -9,6 +9,13 @@ const corsHeaders = {
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+async function logUsage(fn: string, model: string, domain: string, tokens: number, status: string, err?: string) {
+  try {
+    const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    await sb.from("api_usage_log").insert({ function_name: fn, model, domain, tokens_used: tokens, estimated_cost: tokens * 0.000001, status, error_message: err || null });
+  } catch (e) { console.error("Usage logging failed:", e); }
+}
+
 const CATEGORIES = [
   {
     key: "ai_education",
@@ -99,23 +106,25 @@ Return ONLY valid JSON array:
         );
 
         if (!response.ok) {
-          console.error(
-            `Perplexity API error for ${cat.key}: ${response.status}`
-          );
+          console.error(`Perplexity API error for ${cat.key}: ${response.status}`);
+          await logUsage("fetch-knowledge-articles", "sonar", "english", 0, "error", `HTTP ${response.status} for ${cat.key}`);
           continue;
         }
 
         const data = await response.json();
         const content = data.choices?.[0]?.message?.content || "";
+        const tokensUsed = data.usage?.total_tokens || Math.ceil(content.length / 4);
 
         // Extract JSON from response (handle markdown code blocks)
         const jsonMatch = content.match(/\[[\s\S]*?\]/);
         if (!jsonMatch) {
           console.error(`No JSON found in response for ${cat.key}`);
+          await logUsage("fetch-knowledge-articles", "sonar", "english", tokensUsed, "parse_error", cat.key);
           continue;
         }
 
         const articles = JSON.parse(jsonMatch[0]);
+        await logUsage("fetch-knowledge-articles", "sonar", "english", tokensUsed, "success");
 
         for (const article of articles) {
           allArticles.push({

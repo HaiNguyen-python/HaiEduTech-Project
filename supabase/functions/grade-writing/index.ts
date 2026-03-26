@@ -1,9 +1,32 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
+
+// Log API usage to database (fire-and-forget)
+async function logUsage(functionName: string, model: string, domain: string, tokensUsed: number, status: string, errorMessage?: string) {
+  try {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const sb = createClient(supabaseUrl, supabaseKey);
+    // Perplexity sonar pricing: ~$1 per 1M tokens (input+output combined estimate)
+    const estimatedCost = tokensUsed * 0.000001;
+    await sb.from("api_usage_log").insert({
+      function_name: functionName,
+      model,
+      domain,
+      tokens_used: tokensUsed,
+      estimated_cost: estimatedCost,
+      status,
+      error_message: errorMessage || null,
+    });
+  } catch (e) {
+    console.error("Usage logging failed:", e);
+  }
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -80,34 +103,46 @@ CRITICAL RULES:
     });
 
     if (!response.ok) {
-      if (response.status === 429) {
+      const statusCode = response.status;
+      const errText = await response.text();
+      await logUsage("grade-writing", "sonar", "english", 0, "error", `HTTP ${statusCode}`);
+      if (statusCode === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded" }), {
-          status: 429,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (response.status === 402) {
+      if (statusCode === 402) {
         return new Response(JSON.stringify({ error: "Payment required" }), {
-          status: 402,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      const t = await response.text();
-      console.error("Perplexity API error:", response.status, t);
+      console.error("Perplexity API error:", statusCode, errText);
       throw new Error("AI API error");
     }
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || "";
+    const tokensUsed = (data.usage?.total_tokens) || Math.ceil(content.length / 4);
 
     let parsed;
     try {
-      const jsonStr = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
-      parsed = JSON.parse(jsonStr);
+      let cleaned = content.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+      const jsonStart = cleaned.search(/[\{\[]/);
+      const jsonEnd = cleaned.lastIndexOf(jsonStart !== -1 && cleaned[jsonStart] === "[" ? "]" : "}");
+      if (jsonStart === -1 || jsonEnd === -1) throw new Error("No JSON found");
+      cleaned = cleaned.substring(jsonStart, jsonEnd + 1);
+      try { parsed = JSON.parse(cleaned); } catch {
+        cleaned = cleaned.replace(/,\s*}/g, "}").replace(/,\s*]/g, "]").replace(/[\x00-\x1F\x7F]/g, "");
+        parsed = JSON.parse(cleaned);
+      }
     } catch {
       console.error("Failed to parse AI response:", content);
+      await logUsage("grade-writing", "sonar", "english", tokensUsed, "parse_error");
       throw new Error("Failed to parse grading result");
     }
+
+    // Log successful usage
+    await logUsage("grade-writing", "sonar", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -115,8 +150,7 @@ CRITICAL RULES:
   } catch (e) {
     console.error("grade-writing error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });

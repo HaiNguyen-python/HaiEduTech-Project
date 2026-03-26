@@ -7,7 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   Shield, Users, BookOpen, TrendingUp, Loader2, BarChart3,
   Brain, AlertTriangle, ChevronRight, ArrowUpRight, ArrowDownRight, Minus,
-  Target, Sparkles, Clock, Zap, ShieldCheck, Download, Search, Globe
+  Target, Sparkles, Clock, Zap, ShieldCheck, Download, Search, Globe,
+  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -30,6 +31,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TeacherAdmin from "@/pages/TeacherAdmin";
 import CourseAccessManager from "@/components/CourseAccessManager";
+import SystemStatusTab from "@/components/SystemStatusTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -399,6 +401,9 @@ const AdminDashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger value="access" className="gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5" /> {t("Quyền truy cập", "Access")}
+                </TabsTrigger>
+                <TabsTrigger value="system" className="gap-1.5">
+                  <Activity className="w-3.5 h-3.5" /> {t("Hệ thống API", "System Status")}
                 </TabsTrigger>
               </TabsList>
 
@@ -882,6 +887,11 @@ const AdminDashboard = () => {
               {/* ===== ACCESS MANAGEMENT TAB ===== */}
               <TabsContent value="access">
                 <CourseAccessManager />
+              </TabsContent>
+
+              {/* ===== SYSTEM STATUS & API MONITORING TAB ===== */}
+              <TabsContent value="system">
+                <SystemStatusTab />
               </TabsContent>
             </Tabs>
           </motion.div>
