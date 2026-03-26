@@ -1,9 +1,113 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users } from "lucide-react";
+import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
+import { useState } from "react";
+
+import classroom1 from "@/assets/classroom-1.jpg";
+import classroom2 from "@/assets/classroom-2.jpg";
+import classroom3 from "@/assets/classroom-3.jpg";
+import classroom4 from "@/assets/classroom-4.jpg";
+import classroom5 from "@/assets/classroom-5.jpg";
+import classroom6 from "@/assets/classroom-6.jpg";
+import classroom7 from "@/assets/classroom-7.jpg";
+import classroom8 from "@/assets/classroom-8.jpg";
+import classroom9 from "@/assets/classroom-9.jpg";
+import classroom10 from "@/assets/classroom-10.jpg";
+
+const classroomImages = [
+  { src: classroom1, caption: "English Mr.Hai – Since 2013" },
+  { src: classroom2, caption: "IELTS & General English classes" },
+  { src: classroom3, caption: "Students having fun after class" },
+  { src: classroom4, caption: "Group study sessions" },
+  { src: classroom5, caption: "Our amazing students" },
+  { src: classroom6, caption: "Full house learning" },
+  { src: classroom7, caption: "IELTS preparation class" },
+  { src: classroom8, caption: "Focused learning environment" },
+  { src: classroom9, caption: "Interactive teaching moments" },
+  { src: classroom10, caption: "Young learners & teens" },
+];
+
+const ClassroomGallery = () => {
+  const [selected, setSelected] = useState<number | null>(null);
+
+  return (
+    <>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {classroomImages.map((img, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: i * 0.07 }}
+            whileHover={{ scale: 1.03 }}
+            className="relative rounded-xl overflow-hidden cursor-pointer group aspect-[4/3]"
+            onClick={() => setSelected(i)}
+          >
+            <img
+              src={img.src}
+              alt={img.caption}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+              <span className="text-white text-xs font-medium">{img.caption}</span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Lightbox */}
+      {selected !== null && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setSelected(null)}
+        >
+          <motion.div
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            className="relative max-w-4xl max-h-[85vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={classroomImages[selected].src}
+              alt={classroomImages[selected].caption}
+              className="max-w-full max-h-[80vh] object-contain rounded-lg"
+            />
+            <p className="text-white text-center mt-3 text-sm">{classroomImages[selected].caption}</p>
+            <button
+              onClick={() => setSelected(null)}
+              className="absolute -top-3 -right-3 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-lg font-bold hover:bg-primary/80"
+            >
+              ×
+            </button>
+            <div className="absolute top-1/2 -translate-y-1/2 -left-12 flex flex-col gap-2">
+              <button
+                onClick={() => setSelected((selected - 1 + classroomImages.length) % classroomImages.length)}
+                className="w-9 h-9 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white text-lg"
+              >
+                ‹
+              </button>
+            </div>
+            <div className="absolute top-1/2 -translate-y-1/2 -right-12 flex flex-col gap-2">
+              <button
+                onClick={() => setSelected((selected + 1) % classroomImages.length)}
+                className="w-9 h-9 bg-white/20 hover:bg-white/40 rounded-full flex items-center justify-center text-white text-lg"
+              >
+                ›
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </>
+  );
+};
 
 const About = () => {
   const { t } = useLanguage();
@@ -87,7 +191,24 @@ const About = () => {
               <CertCarousel />
             </div>
 
-            {/* Timeline */}
+            {/* Classroom Gallery */}
+            <div className="mb-12">
+              <div className="flex items-center gap-2 mb-2">
+                <Camera className="w-5 h-5 text-primary" />
+                <h3 className="text-xl font-display font-semibold text-foreground">
+                  {t("Không gian lớp học", "Our Classroom")}
+                </h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-6">
+                {t(
+                  "Hành trình giảng dạy Ngôn ngữ & Công nghệ trong 15 năm qua.",
+                  "15 years of teaching Language & Technology."
+                )}
+              </p>
+              <ClassroomGallery />
+            </div>
+
+
             <h3 className="text-xl font-display font-semibold text-foreground mb-6">{t("Hành trình", "Journey")}</h3>
             <div className="space-y-4 mb-12">
               {timeline.map((item, i) => (
