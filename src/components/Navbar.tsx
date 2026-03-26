@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
-  FileText, PenTool, Map, MessageSquare, Award, School
+  FileText, PenTool, Map, MessageSquare, Award, School, Swords
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
