@@ -99,7 +99,24 @@ const About = () => {
               <CertCarousel />
             </div>
 
-            {/* Timeline */}
+            {/* Classroom Gallery */}
+            <div className="mb-12">
+              <div className="flex items-center gap-2 mb-2">
+                <Camera className="w-5 h-5 text-primary" />
+                <h3 className="text-xl font-display font-semibold text-foreground">
+                  {t("Không gian lớp học", "Our Classroom")}
+                </h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-6">
+                {t(
+                  "Hành trình giảng dạy Ngôn ngữ & Công nghệ trong 15 năm qua.",
+                  "15 years of teaching Language & Technology."
+                )}
+              </p>
+              <ClassroomGallery />
+            </div>
+
+
             <h3 className="text-xl font-display font-semibold text-foreground mb-6">{t("Hành trình", "Journey")}</h3>
             <div className="space-y-4 mb-12">
               {timeline.map((item, i) => (
