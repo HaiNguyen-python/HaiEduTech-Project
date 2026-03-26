@@ -44,6 +44,30 @@ export type Database = {
         }
         Relationships: []
       }
+      course_access: {
+        Row: {
+          course_id: string
+          created_at: string
+          granted_by: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       generated_lessons: {
         Row: {
           category: string

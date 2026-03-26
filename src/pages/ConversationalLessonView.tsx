@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { icons, ArrowLeft, BookOpen, Mic, Volume2, ChevronRight, CheckCircle, Award, Play, MessageCircle } from "lucide-react";
+import { icons, ArrowLeft, BookOpen, Mic, Volume2, ChevronRight, CheckCircle, Award, Play, MessageCircle, Lock, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getConvLessonById, getPillarByLessonId, allConversationalLessons, conversationalPillars } from "@/data/conversationalCurriculum";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +14,8 @@ import Footer from "@/components/Footer";
 import SuperDictionary from "@/components/SuperDictionary";
 import ConversationalRoleplay from "@/components/ConversationalRoleplay";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { useCourseAccess } from "@/hooks/useCourseAccess";
+import AccessDeniedModal from "@/components/AccessDeniedModal";
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
 const STORAGE_KEY = "conv-eng-progress";
@@ -52,16 +54,43 @@ const ConversationalLessonView = () => {
   const [listeningRevealed, setListeningRevealed] = useState(false);
   const [listeningAnswers, setListeningAnswers] = useState<Record<number, number>>({});
   const [isCompleted, setIsCompleted] = useState(false);
+  const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-english");
+  const [showAccessModal, setShowAccessModal] = useState(false);
 
   const lesson = lessonId ? getConvLessonById(lessonId) : null;
   const pillar = lessonId ? getPillarByLessonId(lessonId) : null;
 
   useEffect(() => {
-    if (lesson && pillar) {
+    if (lesson && pillar && hasAccess) {
       logTopicChoice(lesson.id, pillar.id);
       setIsCompleted(getCompletedLessons().includes(lesson.id));
     }
-  }, [lesson, pillar]);
+  }, [lesson, pillar, hasAccess]);
+
+  // Access guard - after all hooks
+  if (accessLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!hasAccess) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 py-20 text-center">
+          <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-40" />
+          <h1 className="text-2xl font-bold mb-2">{t("Nội dung bị khóa", "Content Locked")}</h1>
+          <p className="text-muted-foreground mb-4">{t("Bạn chưa có quyền truy cập bài học này.", "You don't have access to this lesson.")}</p>
+          <Button onClick={() => setShowAccessModal(true)}>{t("Xem hướng dẫn đăng ký", "Learn how to enroll")}</Button>
+          <AccessDeniedModal open={showAccessModal} onOpenChange={(open) => { setShowAccessModal(open); if (!open) navigate("/english/conversational"); }} />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!lesson || !pillar) {
     return (

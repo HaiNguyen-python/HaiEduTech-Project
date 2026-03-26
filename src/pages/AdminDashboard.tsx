@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   Shield, Users, BookOpen, TrendingUp, Loader2, BarChart3,
   Brain, AlertTriangle, ChevronRight, ArrowUpRight, ArrowDownRight, Minus,
-  Target, Sparkles, Clock, Zap
+  Target, Sparkles, Clock, Zap, ShieldCheck
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -25,6 +25,7 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TeacherAdmin from "@/pages/TeacherAdmin";
+import CourseAccessManager from "@/components/CourseAccessManager";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -235,6 +236,9 @@ const AdminDashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger value="content" className="gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" /> {t("Quản lý nội dung", "Content")}
+                </TabsTrigger>
+                <TabsTrigger value="access" className="gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" /> {t("Quyền truy cập", "Access")}
                 </TabsTrigger>
               </TabsList>
 
@@ -514,6 +518,11 @@ const AdminDashboard = () => {
               {/* ===== CONTENT MANAGEMENT TAB ===== */}
               <TabsContent value="content">
                 <TeacherAdmin embedded />
+              </TabsContent>
+
+              {/* ===== ACCESS MANAGEMENT TAB ===== */}
+              <TabsContent value="access">
+                <CourseAccessManager />
               </TabsContent>
             </Tabs>
           </motion.div>
