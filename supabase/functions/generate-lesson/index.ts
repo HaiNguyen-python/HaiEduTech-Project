@@ -1,9 +1,17 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+
+async function logUsage(fn: string, model: string, domain: string, tokens: number, status: string, err?: string) {
+  try {
+    const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    await sb.from("api_usage_log").insert({ function_name: fn, model, domain, tokens_used: tokens, estimated_cost: tokens * 0.000001, status, error_message: err || null });
+  } catch (e) { console.error("Usage logging failed:", e); }
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -15,9 +23,9 @@ serve(async (req) => {
 
     const langLabel = language === "english" ? "English" : "Chinese";
     const isChineseLesson = language === "chinese";
+    const domain = isChineseLesson ? "chinese" : "english";
 
     let systemPrompt = `You are an expert language teacher creating educational content. Always respond in valid JSON format.`;
-
     let userPrompt = "";
 
     if (lessonType === "grammar") {
@@ -65,10 +73,7 @@ Provide 3 quiz questions. Write explanations in Vietnamese.`;
 
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
-        "Content-Type": "application/json",
-      },
+      headers: { Authorization: `Bearer ${PERPLEXITY_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "sonar",
         messages: [
@@ -82,17 +87,22 @@ Provide 3 quiz questions. Write explanations in Vietnamese.`;
     if (!response.ok) {
       const errText = await response.text();
       console.error("Perplexity error:", response.status, errText);
+      await logUsage("generate-lesson", "sonar", domain, 0, "error", `HTTP ${response.status}`);
       throw new Error(`Perplexity API error: ${response.status}`);
     }
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || "";
+    const tokensUsed = data.usage?.total_tokens || Math.ceil(content.length / 4);
 
-    // Extract JSON from response
     const jsonMatch = content.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error("Could not parse lesson content");
+    if (!jsonMatch) {
+      await logUsage("generate-lesson", "sonar", domain, tokensUsed, "parse_error");
+      throw new Error("Could not parse lesson content");
+    }
 
     const lessonContent = JSON.parse(jsonMatch[0]);
+    await logUsage("generate-lesson", "sonar", domain, tokensUsed, "success");
 
     return new Response(JSON.stringify(lessonContent), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -100,8 +110,7 @@ Provide 3 quiz questions. Write explanations in Vietnamese.`;
   } catch (e) {
     console.error("generate-lesson error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });

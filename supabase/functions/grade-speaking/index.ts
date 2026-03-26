@@ -1,9 +1,20 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
+
+async function logUsage(functionName: string, model: string, domain: string, tokensUsed: number, status: string, errorMessage?: string) {
+  try {
+    const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    await sb.from("api_usage_log").insert({
+      function_name: functionName, model, domain, tokens_used: tokensUsed,
+      estimated_cost: tokensUsed * 0.000001, status, error_message: errorMessage || null,
+    });
+  } catch (e) { console.error("Usage logging failed:", e); }
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -29,22 +40,22 @@ Return this JSON structure:
     {
       "label": "Fluency & Coherence",
       "score": <number>,
-      "feedback": "<DETAILED feedback: mention specific issues like 'You paused too long between sentences', 'Your linking between ideas about X topic was weak', 'Try using discourse markers like However, Furthermore'>"
+      "feedback": "<DETAILED feedback>"
     },
     {
       "label": "Lexical Resource",
       "score": <number>,
-      "feedback": "<DETAILED feedback: suggest SPECIFIC vocabulary upgrades, e.g. 'Instead of good, use beneficial/advantageous', 'For this topic, learn collocations like: make progress, gain experience, broaden horizons'>"
+      "feedback": "<DETAILED feedback>"
     },
     {
       "label": "Grammatical Range & Accuracy",
       "score": <number>,
-      "feedback": "<DETAILED feedback: point out specific grammar patterns to practice, e.g. 'Practice conditional sentences: If I had studied harder, I would have...', 'Use more passive voice for formal topics'>"
+      "feedback": "<DETAILED feedback>"
     },
     {
       "label": "Pronunciation",
       "score": <number>,
-      "feedback": "<DETAILED feedback: mention specific sounds that Vietnamese speakers commonly mispronounce, e.g. 'Focus on /θ/ (th) sounds in words like think, through', 'Practice word stress in multi-syllable words like edu-CA-tion, tech-NO-lo-gy', 'Work on final consonant clusters: asked /æskt/, helped /hɛlpt/'>"
+      "feedback": "<DETAILED feedback>"
     }
   ],
   "transcript": "<A simulated sample response the student might have given for this question, about 100-150 words>",
@@ -84,6 +95,7 @@ Make scores VARIED and REALISTIC. Not all criteria should have the same score. D
     });
 
     if (!response.ok) {
+      await logUsage("grade-speaking", "sonar", "english", 0, "error", `HTTP ${response.status}`);
       if (response.status === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded" }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -101,6 +113,7 @@ Make scores VARIED and REALISTIC. Not all criteria should have the same score. D
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || "";
+    const tokensUsed = (data.usage?.total_tokens) || Math.ceil(content.length / 4);
 
     let parsed;
     try {
@@ -109,21 +122,17 @@ Make scores VARIED and REALISTIC. Not all criteria should have the same score. D
       const jsonEnd = cleaned.lastIndexOf(jsonStart !== -1 && cleaned[jsonStart] === "[" ? "]" : "}");
       if (jsonStart === -1 || jsonEnd === -1) throw new Error("No JSON found");
       cleaned = cleaned.substring(jsonStart, jsonEnd + 1);
-      try {
-        parsed = JSON.parse(cleaned);
-      } catch {
-        cleaned = cleaned
-          .replace(/,\s*}/g, "}")
-          .replace(/,\s*]/g, "]")
-          .replace(/[\x00-\x1F\x7F]/g, "")
-          .replace(/(["\d\]\}])\s*\n\s*(")/g, "$1,$2")
-          .replace(/\}\s*\]/g, "}]");
+      try { parsed = JSON.parse(cleaned); } catch {
+        cleaned = cleaned.replace(/,\s*}/g, "}").replace(/,\s*]/g, "]").replace(/[\x00-\x1F\x7F]/g, "");
         parsed = JSON.parse(cleaned);
       }
     } catch (e) {
       console.error("Parse error:", content);
+      await logUsage("grade-speaking", "sonar", "english", tokensUsed, "parse_error");
       throw new Error("Failed to parse speaking result");
     }
+
+    await logUsage("grade-speaking", "sonar", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
