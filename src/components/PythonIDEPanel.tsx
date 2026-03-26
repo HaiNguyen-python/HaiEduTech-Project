@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
@@ -189,4 +189,4 @@ sys.stderr = io.StringIO()
   );
 };
 
-export default PythonIDEPanel;
+export default React.memo(PythonIDEPanel);
