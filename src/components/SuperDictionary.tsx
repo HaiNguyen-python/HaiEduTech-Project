@@ -1,14 +1,16 @@
-// Shared Super Dictionary component - used in IELTS Writing Practice and National Exam Room
+// Compact floating Super Dictionary - can be used while taking tests
 import { useState } from "react";
-import { BookMarked, Search, ExternalLink, Volume2, Loader2 } from "lucide-react";
+import { BookMarked, Search, ExternalLink, Volume2, Loader2, X, ChevronUp, Minimize2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { motion, AnimatePresence } from "framer-motion";
 
 const SuperDictionary = () => {
   const { t } = useLanguage();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [dictSearchWord, setDictSearchWord] = useState("");
   const [dictResult, setDictResult] = useState<any>(null);
   const [dictViTranslations, setDictViTranslations] = useState<Record<string, string>>({});
@@ -134,218 +136,242 @@ const SuperDictionary = () => {
     return { opacity: 0.35 + ratio * 0.65 };
   };
 
-  return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button
-          className="fixed bottom-6 left-6 z-40 rounded-full shadow-lg px-4 h-12 gap-2"
-          variant="default"
-        >
-          <BookMarked className="w-5 h-5" />
-          <span className="hidden sm:inline text-sm font-medium">{t("Siêu từ điển", "Super Dictionary")}</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="left" className="w-[400px] sm:w-[450px] overflow-y-auto">
-        <SheetHeader>
-          <SheetTitle className="flex items-center gap-2">
-            <BookMarked className="w-5 h-5 text-primary" />
-            {t("Siêu từ điển của bạn", "Your Super Dictionary")}
-          </SheetTitle>
-        </SheetHeader>
-        <Tabs defaultValue="dictionary" className="mt-4">
-          <TabsList className="w-full">
-            <TabsTrigger value="dictionary" className="flex-1 text-xs">📖 Dictionary</TabsTrigger>
-            <TabsTrigger value="ozdic" className="flex-1 text-xs">🔗 Ozdic</TabsTrigger>
-            <TabsTrigger value="thesaurus" className="flex-1 text-xs">📚 Thesaurus</TabsTrigger>
-          </TabsList>
+  // Compact panel height: default ~280px, expanded ~450px
+  const panelHeight = isExpanded ? "max-h-[450px]" : "max-h-[280px]";
 
-          {/* Dictionary Tab */}
-          <TabsContent value="dictionary" className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              {t("Tra cứu định nghĩa, phát âm, ví dụ (EN/VI) ngay tại đây.", "Look up definitions, pronunciation, examples (EN/VI) right here.")}
-            </p>
-            <div className="flex gap-2">
-              <Input
-                value={dictSearchWord}
-                onChange={(e) => setDictSearchWord(e.target.value)}
-                placeholder={t("Nhập từ cần tra...", "Enter a word...")}
-                onKeyDown={(e) => { if (e.key === "Enter") handleDictLookup(dictSearchWord); }}
-              />
-              <Button size="sm" onClick={() => handleDictLookup(dictSearchWord)} disabled={dictLoading}>
-                {dictLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
-              </Button>
+  return (
+    <>
+      {/* Floating trigger button - only visible when panel is closed */}
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="fixed bottom-4 left-4 z-[60]"
+          >
+            <Button
+              onClick={() => setIsOpen(true)}
+              className="rounded-full shadow-lg px-4 h-11 gap-2"
+              variant="default"
+            >
+              <BookMarked className="w-4 h-4" />
+              <span className="hidden sm:inline text-sm font-medium">{t("Từ điển", "Dictionary")}</span>
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Compact bottom panel - does NOT block test content */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className={`fixed bottom-0 left-0 right-0 z-[60] bg-card border-t-2 border-primary/30 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] ${panelHeight} flex flex-col`}
+          >
+            {/* Header bar - drag handle + controls */}
+            <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50 shrink-0">
+              <div className="flex items-center gap-2">
+                <BookMarked className="w-4 h-4 text-primary" />
+                <span className="text-sm font-semibold text-foreground">
+                  {t("Siêu từ điển", "Super Dictionary")}
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  title={isExpanded ? "Minimize" : "Expand"}
+                >
+                  {isExpanded ? <Minimize2 className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => setIsOpen(false)}
+                  title="Close"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </Button>
+              </div>
             </div>
-            {dictResult && !dictResult.error && (
-              <div className="rounded-lg border bg-card p-3 space-y-3 max-h-[400px] overflow-y-auto">
-                <div className="flex items-center gap-2">
-                  <h4 className="font-semibold text-foreground text-base">{dictResult.word}</h4>
-                  {dictResult.phonetic && <span className="text-xs text-muted-foreground">{dictResult.phonetic}</span>}
-                  {dictResult.phonetics?.find((p: any) => p.audio) && (
-                    <button onClick={() => { const a = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio); a.play(); }} className="text-primary hover:text-primary/80">
-                      <Volume2 className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-                {dictResult.meanings?.map((meaning: any, mIdx: number) => (
-                  <div key={mIdx} className="space-y-2">
-                    <span className="text-xs font-medium text-primary italic">{meaning.partOfSpeech}</span>
-                    {meaning.definitions?.slice(0, 3).map((def: any, dIdx: number) => (
-                      <div key={dIdx} className="pl-2 border-l-2 border-primary/20 space-y-0.5">
-                        <p className="text-sm text-foreground">{dIdx + 1}. {def.definition}</p>
-                        {dictViTranslations[`def-${mIdx}-${dIdx}`] && (
-                          <p className="text-xs text-muted-foreground ml-2">🇻🇳 {dictViTranslations[`def-${mIdx}-${dIdx}`]}</p>
-                        )}
-                        {def.example && (
-                          <>
-                            <p className="text-xs text-foreground/80 italic ml-2">{`📝 "${def.example}"`}</p>
-                            {dictViTranslations[`ex-${mIdx}-${dIdx}`] && (
-                              <p className="text-xs text-muted-foreground ml-2">{`🇻🇳 "${dictViTranslations[`ex-${mIdx}-${dIdx}`]}"`}</p>
-                            )}
-                          </>
+
+            {/* Content area */}
+            <div className="flex-1 overflow-y-auto px-4 py-2">
+              <Tabs defaultValue="dictionary">
+                <TabsList className="w-full h-8 mb-2">
+                  <TabsTrigger value="dictionary" className="flex-1 text-xs h-7">📖 Dictionary</TabsTrigger>
+                  <TabsTrigger value="ozdic" className="flex-1 text-xs h-7">🔗 Ozdic</TabsTrigger>
+                  <TabsTrigger value="thesaurus" className="flex-1 text-xs h-7">📚 Thesaurus</TabsTrigger>
+                </TabsList>
+
+                {/* Dictionary Tab */}
+                <TabsContent value="dictionary" className="space-y-2 mt-0">
+                  <div className="flex gap-2">
+                    <Input
+                      value={dictSearchWord}
+                      onChange={(e) => setDictSearchWord(e.target.value)}
+                      placeholder={t("Nhập từ cần tra...", "Enter a word...")}
+                      onKeyDown={(e) => { if (e.key === "Enter") handleDictLookup(dictSearchWord); }}
+                      className="h-8 text-sm"
+                    />
+                    <Button size="sm" className="h-8 px-3" onClick={() => handleDictLookup(dictSearchWord)} disabled={dictLoading}>
+                      {dictLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
+                    </Button>
+                  </div>
+                  {dictResult && !dictResult.error && (
+                    <div className="rounded-lg border bg-background p-2.5 space-y-2 overflow-y-auto max-h-[200px]">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-semibold text-foreground text-sm">{dictResult.word}</h4>
+                        {dictResult.phonetic && <span className="text-xs text-muted-foreground">{dictResult.phonetic}</span>}
+                        {dictResult.phonetics?.find((p: any) => p.audio) && (
+                          <button onClick={() => { const a = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio); a.play(); }} className="text-primary hover:text-primary/80">
+                            <Volume2 className="w-3.5 h-3.5" />
+                          </button>
                         )}
                       </div>
-                    ))}
-                    {meaning.synonyms?.length > 0 && (
-                      <p className="text-xs text-muted-foreground"><strong>Synonyms:</strong> {meaning.synonyms.slice(0, 5).join(", ")}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-            {dictResult?.error && (
-              <div className="rounded-lg border bg-muted/50 p-3 text-sm text-muted-foreground text-center">
-                {t("Không tìm thấy từ này. Hãy thử từ khác.", "Word not found. Try another word.")}
-              </div>
-            )}
-            <a href={`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase() || ""}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary hover:underline">
-              <ExternalLink className="w-3 h-3" />
-              {t("Xem thêm trên Cambridge Dictionary", "See more on Cambridge Dictionary")}
-            </a>
-          </TabsContent>
-
-          {/* Collocation Tab */}
-          <TabsContent value="ozdic" className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              {t("Tìm cụm từ kết hợp tự nhiên (collocations) ngay tại đây.", "Find natural word combinations (collocations) right here.")}
-            </p>
-            <div className="flex gap-2">
-              <Input
-                value={collocationWord}
-                onChange={(e) => setCollocationWord(e.target.value)}
-                placeholder={t("Nhập từ cần tìm collocation...", "Enter word for collocations...")}
-                onKeyDown={(e) => { if (e.key === "Enter") handleCollocationLookup(collocationWord); }}
-              />
-              <Button size="sm" onClick={() => handleCollocationLookup(collocationWord)} disabled={collocationLoading}>
-                {collocationLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
-              </Button>
-            </div>
-            {!collocationLoading && collocationWord && collocationResult.left.length === 0 && collocationResult.right.length === 0 && (
-              <div className="rounded-lg border bg-muted/50 p-3 text-sm text-muted-foreground text-center">
-                {t("Không tìm thấy collocation. Hãy thử từ khác.", "No collocations found. Try another word.")}
-              </div>
-            )}
-            {(collocationResult.left.length > 0 || collocationResult.right.length > 0) && (
-              <div className="rounded-lg border bg-card p-3 space-y-3 max-h-[350px] overflow-y-auto">
-                <p className="text-xs font-medium text-foreground">
-                  {t("Kết quả collocation cho", "Collocations for")} "<strong>{collocationWord}</strong>":
-                </p>
-                {collocationResult.left.length > 0 && (
-                  <div>
-                    <p className="text-xs font-medium text-primary mb-1">___ + {collocationWord}:</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {collocationResult.left.map((w) => (
-                        <span key={w} className="rounded-md bg-primary/10 text-primary px-2 py-0.5 text-xs font-medium">
-                          {w} <span className="text-foreground">{collocationWord}</span>
-                        </span>
+                      {dictResult.meanings?.map((meaning: any, mIdx: number) => (
+                        <div key={mIdx} className="space-y-1">
+                          <span className="text-xs font-medium text-primary italic">{meaning.partOfSpeech}</span>
+                          {meaning.definitions?.slice(0, 2).map((def: any, dIdx: number) => (
+                            <div key={dIdx} className="pl-2 border-l-2 border-primary/20 space-y-0.5">
+                              <p className="text-xs text-foreground">{dIdx + 1}. {def.definition}</p>
+                              {dictViTranslations[`def-${mIdx}-${dIdx}`] && (
+                                <p className="text-[11px] text-muted-foreground ml-1">🇻🇳 {dictViTranslations[`def-${mIdx}-${dIdx}`]}</p>
+                              )}
+                              {def.example && (
+                                <>
+                                  <p className="text-[11px] text-foreground/80 italic ml-1">{`📝 "${def.example}"`}</p>
+                                  {dictViTranslations[`ex-${mIdx}-${dIdx}`] && (
+                                    <p className="text-[11px] text-muted-foreground ml-1">{`🇻🇳 "${dictViTranslations[`ex-${mIdx}-${dIdx}`]}"`}</p>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          ))}
+                        </div>
                       ))}
                     </div>
-                  </div>
-                )}
-                {collocationResult.right.length > 0 && (
-                  <div>
-                    <p className="text-xs font-medium text-primary mb-1">{collocationWord} + ___:</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {collocationResult.right.map((w) => (
-                        <span key={w} className="rounded-md bg-accent/60 text-accent-foreground px-2 py-0.5 text-xs font-medium">
-                          <span className="text-foreground">{collocationWord}</span> {w}
-                        </span>
-                      ))}
+                  )}
+                  {dictResult?.error && (
+                    <div className="rounded-lg border bg-muted/50 p-2 text-xs text-muted-foreground text-center">
+                      {t("Không tìm thấy từ này.", "Word not found.")}
                     </div>
-                  </div>
-                )}
-              </div>
-            )}
-            <div className="bg-muted/50 rounded-lg p-3">
-              <p className="text-xs font-medium text-foreground mb-2">{t("Ví dụ collocations hữu ích:", "Useful collocation examples:")}</p>
-              <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• <strong>make</strong> a decision (đưa ra quyết định)</li>
-                <li>• <strong>exert</strong> pressure on (gây áp lực lên)</li>
-                <li>• <strong>pose</strong> a threat to (đe dọa)</li>
-                <li>• <strong>draw</strong> a conclusion (rút ra kết luận)</li>
-                <li>• <strong>raise</strong> awareness (nâng cao nhận thức)</li>
-              </ul>
-            </div>
-          </TabsContent>
+                  )}
+                  <a href={`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase() || ""}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-primary hover:underline">
+                    <ExternalLink className="w-3 h-3" />
+                    {t("Cambridge Dictionary", "Cambridge Dictionary")}
+                  </a>
+                </TabsContent>
 
-          {/* Thesaurus Tab */}
-          <TabsContent value="thesaurus" className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              {t("Tìm từ đồng nghĩa — màu đậm = sát nghĩa nhất, nhạt = ít sát hơn.", "Find synonyms — darker = most relevant, lighter = less relevant.")}
-            </p>
-            <div className="flex gap-2">
-              <Input
-                value={thesaurusWord}
-                onChange={(e) => setThesaurusWord(e.target.value)}
-                placeholder={t("Nhập từ cần tìm đồng nghĩa...", "Enter word for synonyms...")}
-                onKeyDown={(e) => { if (e.key === "Enter") handleThesaurusLookup(thesaurusWord); }}
-              />
-              <Button size="sm" onClick={() => handleThesaurusLookup(thesaurusWord)} disabled={thesaurusLoading}>
-                {thesaurusLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
-              </Button>
-            </div>
-            {thesaurusResult.length > 0 && (
-              <div className="rounded-lg border bg-card p-3">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs font-medium text-foreground">
-                    {t("Từ đồng nghĩa của", "Synonyms of")} "<strong>{thesaurusWord}</strong>":
-                  </p>
-                  <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                    <span className="inline-block w-3 h-3 rounded bg-primary" style={{ opacity: 1 }} />
-                    {t("Sát nghĩa", "Closest")}
-                    <span className="inline-block w-3 h-3 rounded bg-primary ml-1" style={{ opacity: 0.35 }} />
-                    {t("Ít sát", "Less")}
+                {/* Collocation Tab */}
+                <TabsContent value="ozdic" className="space-y-2 mt-0">
+                  <div className="flex gap-2">
+                    <Input
+                      value={collocationWord}
+                      onChange={(e) => setCollocationWord(e.target.value)}
+                      placeholder={t("Nhập từ tìm collocation...", "Word for collocations...")}
+                      onKeyDown={(e) => { if (e.key === "Enter") handleCollocationLookup(collocationWord); }}
+                      className="h-8 text-sm"
+                    />
+                    <Button size="sm" className="h-8 px-3" onClick={() => handleCollocationLookup(collocationWord)} disabled={collocationLoading}>
+                      {collocationLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
+                    </Button>
                   </div>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {thesaurusResult.map((syn) => {
-                    const maxScore = thesaurusResult[0]?.score || 1;
-                    return (
-                      <span
-                        key={syn.word}
-                        className="rounded-md bg-primary text-primary-foreground px-2 py-0.5 text-xs font-medium"
-                        style={getSynonymStyle(syn.score, maxScore)}
-                      >
-                        {syn.word}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-            <div className="bg-muted/50 rounded-lg p-3">
-              <p className="text-xs font-medium text-foreground mb-2">{t("Thay thế từ phổ biến:", "Common word replacements:")}</p>
-              <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• good → beneficial, advantageous, favorable</li>
-                <li>• bad → detrimental, adverse, harmful</li>
-                <li>• important → crucial, vital, significant</li>
-                <li>• many → numerous, a plethora of, countless</li>
-                <li>• think → argue, contend, maintain, assert</li>
-              </ul>
+                  {(collocationResult.left.length > 0 || collocationResult.right.length > 0) && (
+                    <div className="rounded-lg border bg-background p-2.5 space-y-2 overflow-y-auto max-h-[200px]">
+                      <p className="text-xs font-medium text-foreground">
+                        {t("Collocations cho", "Collocations for")} "<strong>{collocationWord}</strong>":
+                      </p>
+                      {collocationResult.left.length > 0 && (
+                        <div>
+                          <p className="text-[11px] font-medium text-primary mb-1">___ + {collocationWord}:</p>
+                          <div className="flex flex-wrap gap-1">
+                            {collocationResult.left.map((w) => (
+                              <span key={w} className="rounded bg-primary/10 text-primary px-1.5 py-0.5 text-[11px] font-medium">
+                                {w} <span className="text-foreground">{collocationWord}</span>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {collocationResult.right.length > 0 && (
+                        <div>
+                          <p className="text-[11px] font-medium text-primary mb-1">{collocationWord} + ___:</p>
+                          <div className="flex flex-wrap gap-1">
+                            {collocationResult.right.map((w) => (
+                              <span key={w} className="rounded bg-accent/60 text-accent-foreground px-1.5 py-0.5 text-[11px] font-medium">
+                                <span className="text-foreground">{collocationWord}</span> {w}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {!collocationLoading && collocationWord && collocationResult.left.length === 0 && collocationResult.right.length === 0 && (
+                    <div className="rounded-lg border bg-muted/50 p-2 text-xs text-muted-foreground text-center">
+                      {t("Không tìm thấy.", "No collocations found.")}
+                    </div>
+                  )}
+                </TabsContent>
+
+                {/* Thesaurus Tab */}
+                <TabsContent value="thesaurus" className="space-y-2 mt-0">
+                  <div className="flex gap-2">
+                    <Input
+                      value={thesaurusWord}
+                      onChange={(e) => setThesaurusWord(e.target.value)}
+                      placeholder={t("Nhập từ tìm đồng nghĩa...", "Word for synonyms...")}
+                      onKeyDown={(e) => { if (e.key === "Enter") handleThesaurusLookup(thesaurusWord); }}
+                      className="h-8 text-sm"
+                    />
+                    <Button size="sm" className="h-8 px-3" onClick={() => handleThesaurusLookup(thesaurusWord)} disabled={thesaurusLoading}>
+                      {thesaurusLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
+                    </Button>
+                  </div>
+                  {thesaurusResult.length > 0 && (
+                    <div className="rounded-lg border bg-background p-2.5 overflow-y-auto max-h-[200px]">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <p className="text-xs font-medium text-foreground">
+                          {t("Đồng nghĩa của", "Synonyms of")} "<strong>{thesaurusWord}</strong>":
+                        </p>
+                        <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <span className="inline-block w-2.5 h-2.5 rounded bg-primary" style={{ opacity: 1 }} />
+                          {t("Sát", "Close")}
+                          <span className="inline-block w-2.5 h-2.5 rounded bg-primary ml-0.5" style={{ opacity: 0.35 }} />
+                          {t("Xa", "Far")}
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {thesaurusResult.map((syn) => {
+                          const maxScore = thesaurusResult[0]?.score || 1;
+                          return (
+                            <span
+                              key={syn.word}
+                              className="rounded bg-primary text-primary-foreground px-1.5 py-0.5 text-[11px] font-medium"
+                              style={getSynonymStyle(syn.score, maxScore)}
+                            >
+                              {syn.word}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
             </div>
-          </TabsContent>
-        </Tabs>
-      </SheetContent>
-    </Sheet>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
