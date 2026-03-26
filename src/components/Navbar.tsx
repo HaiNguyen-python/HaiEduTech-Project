@@ -83,7 +83,6 @@ const Navbar = () => {
     { to: "/chinese/hsk", label: "📊 HSK 1-6" },
     { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
     { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
-    { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
