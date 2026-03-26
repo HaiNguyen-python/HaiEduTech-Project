@@ -269,6 +269,24 @@ const NationalExamRoom = () => {
                       {isCorrect ? <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" /> : <XCircle className="w-5 h-5 text-destructive flex-shrink-0" />}
                     </div>
 
+                    {/* Show arrangement sentences in review */}
+                    {(() => {
+                      const arrKey = `${examId}-${q.id}`;
+                      const arrData = arrangementSentences[arrKey];
+                      if (!arrData) return null;
+                      return (
+                        <div className="ml-11 mb-3 bg-muted/40 rounded-lg p-3 space-y-1.5 border border-border">
+                          <p className="text-xs font-semibold text-primary">{arrData.instruction}</p>
+                          {Object.entries(arrData.sentences).map(([letter, sentence]) => (
+                            <div key={letter} className="flex gap-2 text-xs leading-relaxed">
+                              <span className="font-bold text-primary flex-shrink-0">{letter}.</span>
+                              <span className="text-foreground">{sentence}</span>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })()}
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-11">
                       {q.options.map((opt, oi) => {
                         const isSelected = userAnswer === oi;
@@ -452,6 +470,9 @@ const NationalExamRoom = () => {
           </div>
         </div>
       </div>
+    </div>
+      {/* Super Dictionary floating button */}
+      <SuperDictionary />
     </div>
   );
 };
