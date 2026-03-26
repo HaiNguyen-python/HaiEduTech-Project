@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, GraduationCap, BookOpen, Languages, Code2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import FloatingParticles from "@/components/FloatingParticles";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.png";
 
@@ -15,6 +16,8 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
         <div className="absolute inset-0 cyber-grid opacity-10" />
       </div>
+
+      <FloatingParticles count={34} />
 
       <div className="absolute left-1/2 top-24 h-48 w-48 -translate-x-1/2 rounded-full bg-primary/8 blur-3xl sm:left-1/4 sm:top-1/4 sm:h-64 sm:w-64 sm:translate-x-0" />
       <div className="absolute bottom-20 right-0 h-56 w-56 rounded-full bg-accent/8 blur-3xl sm:bottom-1/3 sm:right-1/4 sm:h-80 sm:w-80" style={{ animationDelay: "1.5s" }} />
