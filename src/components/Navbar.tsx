@@ -611,15 +611,19 @@ const Navbar = () => {
               </div>
 
               {/* Sticky auth buttons at bottom */}
-              <div className="sticky bottom-0 px-4 py-5 border-t border-gray-200 bg-white space-y-3">
+              <div className="sticky bottom-0 px-4 py-5 border-t border-border bg-background space-y-3">
                 {user ? (
                   <>
+                    <div className="text-center text-sm font-medium text-foreground mb-2">
+                      <User className="w-4 h-4 inline mr-1" />
+                      Hello, {displayName}
+                    </div>
                     <Link to="/dashboard" onClick={() => setOpen(false)}
                       className="flex items-center justify-center gap-2 w-full px-4 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-primary to-accent text-white shadow-lg transition-all">
-                      Dashboard
+                      <LayoutDashboard className="w-5 h-5" /> Dashboard
                     </Link>
                     <button onClick={() => { handleLogout(); setOpen(false); }}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-[15px] font-semibold text-[#4B5563] hover:text-[#1A1A1A] hover:bg-gray-100 transition-all">
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-sm font-semibold text-destructive hover:bg-destructive/10 transition-all">
                       <LogOut className="w-5 h-5" /> {t("Đăng Xuất", "Logout")}
                     </button>
                   </>
