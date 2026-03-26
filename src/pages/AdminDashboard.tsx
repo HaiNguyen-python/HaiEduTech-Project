@@ -97,9 +97,20 @@ const AdminDashboard = () => {
   // Fetch all data
   const fetchAll = useCallback(async () => {
     if (!isTeacher) return;
-    // Fetch students
+    // Fetch students (exclude teachers/admins) and deduplicate by id
     const { data: profiles } = await supabase.from("profiles").select("id, full_name, created_at");
-    const studentList = profiles || [];
+    const { data: teacherRoles } = await supabase
+      .from("user_roles")
+      .select("user_id")
+      .in("role", ["teacher", "admin"]);
+    const teacherIds = new Set((teacherRoles || []).map((r) => r.user_id));
+    // Deduplicate by id and exclude teachers
+    const seenIds = new Set<string>();
+    const studentList = (profiles || []).filter((p) => {
+      if (teacherIds.has(p.id) || seenIds.has(p.id)) return false;
+      seenIds.add(p.id);
+      return true;
+    });
     setStudents(studentList);
 
     // Fetch all activity logs
