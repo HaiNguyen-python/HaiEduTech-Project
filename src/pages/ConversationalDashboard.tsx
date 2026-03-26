@@ -252,7 +252,7 @@ const LessonPreview = ({ lesson }: { lesson: ConvLesson }) => {
           </Link>
         </Button>
         <Button asChild variant="outline" className="flex-1">
-          <Link to="/ielts-speaking-practice">
+          <Link to={`/english/conversational/learn/${lesson.id}?tab=roleplay`}>
             <Mic className="h-4 w-4 mr-2" />
             {t("Luyện Nói AI", "AI Roleplay")}
           </Link>
