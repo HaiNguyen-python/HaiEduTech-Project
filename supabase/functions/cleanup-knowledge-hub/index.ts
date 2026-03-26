@@ -1,4 +1,4 @@
-// Edge function: Daily cleanup of expired Knowledge Hub posts (60-day TTL)
+// Edge function: Daily cleanup of expired Knowledge Hub posts (15-day TTL)
 // Designed to be called by a cron job
 
 const corsHeaders = {

@@ -15,21 +15,21 @@ const CATEGORIES = [
     labelEn: "AI & Education",
     labelVi: "AI & Giáo dục",
     query:
-      "Latest breakthroughs in AI for education, personalized learning, and edtech trends this week",
+      "Most popular and highly-viewed articles this week about AI tools for education, such as ChatGPT for learning, AI tutoring breakthroughs, or personalized learning platforms. Focus on practical, viral content that students and teachers find useful.",
   },
   {
     key: "language_tech",
     labelEn: "Language Learning",
     labelVi: "Công nghệ Ngôn ngữ",
     query:
-      "Recent innovations in language learning technology, NLP for education, and AI language tutors",
+      "Trending and most-shared articles this week about language learning innovations — IELTS/TOEIC preparation tips, AI-powered language apps, spaced repetition research, or Chinese/English learning strategies. Prioritize content with high engagement and practical value for learners.",
   },
   {
     key: "data_edtech",
     labelEn: "Data & EdTech",
     labelVi: "Data & EdTech",
     query:
-      "Latest trends in data science education, learning analytics, and educational technology platforms",
+      "Most popular articles this week about data science career paths, Python/SQL learning resources, EdTech startup news, or learning analytics trends. Focus on content that would interest students learning programming and data engineering.",
   },
 ];
 
@@ -52,16 +52,26 @@ Deno.serve(async (req) => {
 
     // Fetch articles for each category using Perplexity
     for (const cat of CATEGORIES) {
-      const prompt = `Find 2 recent, high-quality articles or news about: ${cat.query}. 
-For each article, provide:
-1. An informative English title (max 100 chars)
-2. A Vietnamese translation of the title
-3. A concise English summary (2-3 sentences, max 200 chars)
-4. A Vietnamese translation of the summary
-5. The source website name
-6. The source URL
+      const prompt = `You are a content curator for HaiEduTech — an education platform teaching IELTS English, HSK Chinese, and Python/SQL programming.
 
-Return ONLY valid JSON array with this exact structure:
+Find exactly 2 HIGH-QUALITY, TRENDING articles from this week about: ${cat.query}
+
+STRICT SELECTION CRITERIA:
+- Must be from reputable sources (major publications, popular tech blogs, well-known education sites)
+- Must have high engagement (widely shared, many views, or from viral threads)
+- Must be directly relevant to students learning languages or programming
+- Must contain actionable insights, not just news announcements
+- NO clickbait, NO opinion pieces without substance, NO press releases
+
+For each article, provide:
+1. An engaging English title (max 100 chars)
+2. A natural Vietnamese translation of the title  
+3. A compelling English summary (2-3 sentences, max 250 chars) that makes students want to read
+4. A natural Vietnamese translation of the summary
+5. The source website name
+6. The source URL (must be a real, working URL)
+
+Return ONLY valid JSON array:
 [{"title":"...","title_vi":"...","summary":"...","summary_vi":"...","source_name":"...","source_url":"..."}]`;
 
       try {
