@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -9,6 +9,45 @@ import chatbotIcon from "@/assets/chatbot-icon.png";
 type Message = { role: "user" | "assistant"; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
+
+// Client-side keyword filter to block off-topic questions and save API costs
+const ALLOWED_KEYWORDS = [
+  // English
+  "english", "ielts", "toeic", "cambridge", "grammar", "vocabulary", "vocab",
+  "writing", "reading", "listening", "speaking", "essay", "tense", "verb",
+  "noun", "adjective", "adverb", "pronunciation", "phonetic", "band",
+  "starters", "movers", "flyers", "ket", "pet", "thpt", "thi",
+  // Vietnamese English terms
+  "tiếng anh", "ngữ pháp", "từ vựng", "phát âm", "luyện thi", "bài viết",
+  "đọc hiểu", "nghe", "nói", "viết", "câu", "chủ ngữ", "động từ",
+  // Chinese
+  "chinese", "中文", "汉语", "hsk", "pinyin", "hanzi", "tone", "thanh điệu",
+  "tiếng trung", "chữ hán", "拼音", "声调", "语法", "词汇", "你好", "学中文",
+  "giao tiếp", "hội thoại",
+  // Programming
+  "python", "javascript", "sql", "code", "coding", "programming", "lập trình",
+  "data", "algorithm", "function", "variable", "loop", "array", "database",
+  "api", "html", "css", "react", "web", "debug", "error", "machine learning",
+  "ai", "ml", "artificial intelligence",
+  // Platform
+  "haiedu", "course", "khóa học", "lesson", "bài học", "vocab arena",
+  "thầy hải", "teacher hai", "học", "learn", "study", "practice", "luyện",
+  // Greetings (allow basic greetings)
+  "hello", "hi", "xin chào", "chào", "hey", "help", "giúp", "hỏi",
+  "thanks", "cảm ơn", "thank",
+];
+
+/**
+ * Check if the user's message is on-topic for HaiEduTech.
+ * Returns true if the message contains at least one allowed keyword.
+ * Short messages (<=3 words) are always allowed (greetings, follow-ups).
+ */
+function isOnTopic(text: string): boolean {
+  const lower = text.toLowerCase().trim();
+  // Allow short messages (greetings, follow-ups, single words)
+  if (lower.split(/\s+/).length <= 3) return true;
+  return ALLOWED_KEYWORDS.some((kw) => lower.includes(kw));
+}
 
 const ChatBot = () => {
   const { t } = useLanguage();
@@ -62,10 +101,27 @@ const ChatBot = () => {
     if (!input.trim() || isLoading) return;
 
     const userMsg: Message = { role: "user", content: input.trim() };
+
+    // Client-side keyword filter: block off-topic questions to save API costs
+    if (!isOnTopic(userMsg.content)) {
+      setMessages((prev) => [
+        ...prev,
+        userMsg,
+        {
+          role: "assistant",
+          content: t(
+            "Xin lỗi em, thầy chuyên về **Tiếng Anh**, **Tiếng Trung** và **Lập trình** tại HaiEduTech. Để tiết kiệm tài nguyên AI cho việc học, em hãy hỏi thầy về 3 môn này nhé! 💪",
+            "I'm sorry, I specialize in **English**, **Chinese**, and **Programming** at HaiEduTech. To save AI resources for your learning, please ask me questions related to these three subjects! 💪"
+          ),
+        },
+      ]);
+      setInput("");
+      return;
+    }
+
     const allMessages = [...messages, userMsg];
     setMessages(allMessages);
     setInput("");
-    setIsLoading(true);
 
     let assistantSoFar = "";
 
