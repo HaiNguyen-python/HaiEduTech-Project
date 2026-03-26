@@ -57,7 +57,17 @@ const ConversationalLessonView = () => {
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-english");
   const [showAccessModal, setShowAccessModal] = useState(false);
 
-  // Access guard
+  const lesson = lessonId ? getConvLessonById(lessonId) : null;
+  const pillar = lessonId ? getPillarByLessonId(lessonId) : null;
+
+  useEffect(() => {
+    if (lesson && pillar && hasAccess) {
+      logTopicChoice(lesson.id, pillar.id);
+      setIsCompleted(getCompletedLessons().includes(lesson.id));
+    }
+  }, [lesson, pillar, hasAccess]);
+
+  // Access guard - after all hooks
   if (accessLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -81,16 +91,6 @@ const ConversationalLessonView = () => {
       </div>
     );
   }
-
-  const lesson = lessonId ? getConvLessonById(lessonId) : null;
-  const pillar = lessonId ? getPillarByLessonId(lessonId) : null;
-
-  useEffect(() => {
-    if (lesson && pillar) {
-      logTopicChoice(lesson.id, pillar.id);
-      setIsCompleted(getCompletedLessons().includes(lesson.id));
-    }
-  }, [lesson, pillar]);
 
   if (!lesson || !pillar) {
     return (
