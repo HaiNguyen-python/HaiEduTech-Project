@@ -1,6 +1,12 @@
-import { Brain, Mail, Github, Globe } from "lucide-react";
+import { Brain, Mail, Github, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+const socialLinks = [
+  { href: "mailto:hainguyen240195@gmail.com", icon: Mail, label: "Email" },
+  { href: "https://github.com/HaiNguyen-python", icon: Github, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/hainguyen2401/", icon: Linkedin, label: "LinkedIn" },
+];
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -19,7 +25,22 @@ const Footer = () => {
                 <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent font-bold">Tech</span>
               </span>
             </div>
-            <p className="text-sm text-muted-foreground">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</p>
+            <p className="text-sm text-muted-foreground mb-4">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</p>
+            {/* Social bar */}
+            <div className="flex items-center gap-3">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target={s.href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
+                >
+                  <s.icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
           </div>
 
           <div>
@@ -35,23 +56,25 @@ const Footer = () => {
             <h4 className="font-display font-semibold text-sm text-foreground mb-3">{t("Công cụ", "Tools")}</h4>
             <div className="space-y-2">
               <Link to="/ai-grading" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">{t("Chấm điểm AI", "AI Grading")}</Link>
+              <Link to="/ielts-vocabulary" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">{t("Từ vựng IELTS", "IELTS Vocabulary")}</Link>
               <Link to="/dashboard" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">{t("Bảng điều khiển", "Dashboard")}</Link>
-              <Link to="/register" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">{t("Đăng ký", "Register")}</Link>
             </div>
           </div>
 
           <div>
             <h4 className="font-display font-semibold text-sm text-foreground mb-3">{t("Liên hệ", "Contact")}</h4>
             <div className="space-y-2">
-              <a href="mailto:hainguyen240195@gmail.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <Mail className="w-4 h-4" /> Email
-              </a>
-              <a href="https://github.com/Hai_Nguyen_Machine-Learning-Data-Analytics_Portforlio" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <Github className="w-4 h-4" /> GitHub
-              </a>
-              <a href="https://tienganhthayhai.flyer.us" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <Globe className="w-4 h-4" /> Website
-              </a>
+              {socialLinks.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target={s.href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <s.icon className="w-4 h-4" /> {s.label}
+                </a>
+              ))}
             </div>
           </div>
         </div>

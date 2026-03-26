@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Send, CheckCircle } from "lucide-react";
+import { Send, CheckCircle, Mail, Github, Linkedin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -42,9 +42,29 @@ const Contact = () => {
               {t("Liên hệ ", "Contact ")}
               <span className="text-gradient">{t("tư vấn", "Us")}</span>
             </h1>
-            <p className="text-lg text-muted-foreground mb-10">
+            <p className="text-lg text-muted-foreground mb-6">
               {t("Để lại thông tin để thầy Hải tư vấn chương trình học phù hợp nhất cho bạn.", "Leave your details and Teacher Hai will advise the best learning program for you.")}
             </p>
+
+            {/* Get in Touch social bar */}
+            <div className="flex items-center gap-4 mb-10">
+              {[
+                { href: "mailto:hainguyen240195@gmail.com", icon: Mail, label: "Email", color: "text-red-400" },
+                { href: "https://github.com/HaiNguyen-python", icon: Github, label: "GitHub", color: "text-foreground" },
+                { href: "https://www.linkedin.com/in/hainguyen2401/", icon: Linkedin, label: "LinkedIn", color: "text-blue-400" },
+              ].map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target={s.href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary border border-border hover:border-primary/40 hover:bg-primary/5 transition-all duration-200"
+                >
+                  <s.icon className={`w-5 h-5 ${s.color}`} />
+                  <span className="text-sm font-medium text-foreground">{s.label}</span>
+                </a>
+              ))}
+            </div>
 
             <div className="glass-card rounded-2xl p-8">
               {submitted ? (
