@@ -144,7 +144,7 @@ const Navbar = () => {
     <header className="flex flex-col">
       {/* Row 1: Branding — fixed on all devices */}
       <div
-        className={`w-full z-50 bg-card border-b border-border transition-all duration-300 fixed ${
+        className={`w-full z-[60] bg-card border-b border-border transition-all duration-300 fixed ${
           scrolled ? "lg:-top-12 lg:opacity-0 lg:pointer-events-none top-0" : "top-0"
         }`}
       >
