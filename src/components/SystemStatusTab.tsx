@@ -464,8 +464,48 @@ const SystemStatusTab = () => {
           </CardContent>
         </Card>
       )}
+      {/* Moderation Logs */}
+      {moderationLogs.length > 0 && (
+        <Card className="border-destructive/30">
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-destructive" />
+              {t("Nhật ký kiểm duyệt", "Content Moderation Logs")}
+              <Badge variant="destructive" className="ml-2">{moderationLogs.length}</Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="max-h-64">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{t("Thời gian", "Time")}</TableHead>
+                    <TableHead>{t("User ID", "User ID")}</TableHead>
+                    <TableHead>{t("Nội dung bị chặn", "Blocked Content")}</TableHead>
+                    <TableHead>{t("Lý do", "Reason")}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {moderationLogs.slice(0, 20).map((log) => (
+                    <TableRow key={log.id}>
+                      <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
+                        {new Date(log.created_at).toLocaleString()}
+                      </TableCell>
+                      <TableCell className="text-xs font-mono">{log.user_id.slice(0, 8)}...</TableCell>
+                      <TableCell className="text-xs max-w-[200px] truncate text-destructive">{log.blocked_content}</TableCell>
+                      <TableCell>
+                        <Badge variant="destructive" className="text-xs">{log.reason}</Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+      )}
 
-      {/* All Functions Registry */}
+
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
