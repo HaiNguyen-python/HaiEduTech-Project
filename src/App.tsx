@@ -33,6 +33,8 @@ import SpeakingPractice from "./pages/SpeakingPractice.tsx";
 import NationalExamPrep from "./pages/NationalExamPrep.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import LanguageLessonView from "./pages/LanguageLessonView.tsx";
+import ConversationalDashboard from "./pages/ConversationalDashboard.tsx";
+import ConversationalLessonView from "./pages/ConversationalLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
 // Lazy-load heavy components to keep main bundle small
