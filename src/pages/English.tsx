@@ -265,7 +265,7 @@ const English = () => {
             {/* Skill Assessment */}
             <div className="mb-10">
               <AssessmentTool preSelectedSubject="english" inline />
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
