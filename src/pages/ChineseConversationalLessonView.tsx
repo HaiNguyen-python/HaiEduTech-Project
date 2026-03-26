@@ -177,24 +177,45 @@ const ChineseConversationalLessonView = () => {
                         </div>
                       )}
 
-                      {/* Sample dialogue */}
-                      <div className="space-y-3">
-                        {situation.sampleDialogue.map((line, i) => (
-                          <div key={i} className={`flex gap-3 ${line.speaker === "You" ? "justify-end" : ""}`}>
-                            <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${line.speaker === "You" ? "bg-red-500 text-white rounded-br-sm" : "bg-muted rounded-bl-sm"}`}>
-                              <p className="text-[10px] font-bold opacity-70 mb-0.5">{line.speaker}</p>
-                              <p className="font-medium">{line.line}</p>
-                              <p className="text-[11px] opacity-75 mt-0.5 italic">{line.pinyin}</p>
-                              <button
-                                onClick={() => speakChinese(line.line)}
-                                className="mt-1 opacity-60 hover:opacity-100 transition-opacity"
-                                title="Listen"
-                              >
-                                <Volume2 className="h-3.5 w-3.5" />
-                              </button>
+                      {/* Sample dialogue — chat bubble style */}
+                      <div className="space-y-4">
+                        {situation.sampleDialogue.map((line, i) => {
+                          const isUser = line.speaker === "You";
+                          const speakerColors: Record<string, string> = {
+                            "A": "bg-gradient-to-br from-blue-500 to-blue-600 text-white",
+                            "B": "bg-gradient-to-br from-emerald-500 to-teal-600 text-white",
+                            "You": "bg-gradient-to-br from-red-500 to-orange-500 text-white",
+                          };
+                          const bubbleColor = speakerColors[line.speaker] || "bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 text-foreground";
+                          const labelColors: Record<string, string> = {
+                            "A": "bg-blue-600 text-white",
+                            "B": "bg-emerald-600 text-white",
+                            "You": "bg-red-600 text-white",
+                          };
+                          const labelColor = labelColors[line.speaker] || "bg-muted-foreground text-white";
+
+                          return (
+                            <div key={i} className={`flex gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
+                              {/* Avatar circle */}
+                              <div className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold ${labelColor}`}>
+                                {line.speaker.charAt(0)}
+                              </div>
+                              {/* Bubble */}
+                              <div className={`max-w-[80%] px-4 py-3 rounded-2xl shadow-sm ${isUser ? "rounded-tr-sm" : "rounded-tl-sm"} ${bubbleColor}`}>
+                                <p className="text-xs font-bold opacity-80 mb-1">{line.speaker}</p>
+                                <p className="text-lg font-bold leading-relaxed">{line.line}</p>
+                                <p className="text-sm opacity-80 mt-1 italic">{line.pinyin}</p>
+                                <button
+                                  onClick={() => speakChinese(line.line)}
+                                  className="mt-2 opacity-70 hover:opacity-100 transition-opacity"
+                                  title="Listen"
+                                >
+                                  <Volume2 className="h-4 w-4" />
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </CardContent>
                   </Card>
