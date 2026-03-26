@@ -13,11 +13,11 @@ const certs = [
   { name: "Intro to Deep Learning", file: "/certs/intro-deep-learning.pdf", img: "/certs/intro-deep-learning.png" },
   { name: "Reinforcement Learning", file: "/certs/reinforcement-learning.pdf", img: "/certs/reinforcement-learning.png" },
   { name: "Building AI", file: "/certs/building-ai.png", img: "/certs/building-ai.png" },
-  { name: "Data Analytics with Power BI", file: "/certs/data-analytics-power-bi.pdf", img: null },
-  { name: "Data Analytics with Fabric", file: "/certs/data-analytics-fabric.pdf", img: null },
-  { name: "Intro to Data Engineering", file: "/certs/intro-data-engineering.pdf", img: null },
-  { name: "Supervised Learning (scikit-learn)", file: "/certs/supervised-learning-sklearn.pdf", img: null },
-  { name: "Working with OpenAI API", file: "/certs/working-openai-api.pdf", img: null },
+  { name: "Data Analytics with Power BI", file: "/certs/data-analytics-power-bi.pdf", img: "/certs/data-analytics-power-bi.png" },
+  { name: "Data Analytics with Fabric", file: "/certs/data-analytics-fabric.pdf", img: "/certs/data-analytics-fabric.png" },
+  { name: "Intro to Data Engineering", file: "/certs/intro-data-engineering.pdf", img: "/certs/intro-data-engineering.png" },
+  { name: "Supervised Learning (scikit-learn)", file: "/certs/supervised-learning-sklearn.pdf", img: "/certs/supervised-learning-sklearn.png" },
+  { name: "Working with OpenAI API", file: "/certs/working-openai-api.pdf", img: "/certs/working-openai-api.png" },
 ];
 
 interface CertCarouselProps {
