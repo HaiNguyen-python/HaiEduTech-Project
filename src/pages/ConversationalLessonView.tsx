@@ -300,30 +300,13 @@ const ConversationalLessonView = () => {
 
           {/* ROLEPLAY TAB */}
           <TabsContent value="roleplay">
-            <div className="space-y-4">
-              <Card className="border-primary/20 bg-primary/5">
-                <CardContent className="p-5">
-                  <h3 className="font-bold text-base mb-3 flex items-center gap-2">
-                    <Mic className="h-5 w-5 text-primary" />
-                    {t("Chủ đề Luyện nói AI", "AI Speaking Topics")}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {t(
-                      "Chọn một chủ đề bên dưới và thực hành nói với hệ thống Speaking Practice của chúng tôi.",
-                      "Choose a topic below and practice speaking with our Speaking Practice system."
-                    )}
-                  </p>
-                  <div className="space-y-2">
-                    {lesson.speakingTopics.map((topic, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                      >
-                        <Link
-                          to="/ielts-speaking-practice"
-                          className="flex items-center gap-3 p-3 bg-card rounded-lg border hover:border-primary hover:shadow-sm transition-all group"
+            <ConversationalRoleplay
+              lessonTitle={lesson.title}
+              pillar={pillar.title}
+              speakingTopics={lesson.speakingTopics}
+              keySituationTitles={lesson.keySituations.map(s => s.title)}
+            />
+          </TabsContent>
                         >
                           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
                             {i + 1}
