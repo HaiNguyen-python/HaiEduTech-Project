@@ -233,24 +233,24 @@ const ChineseConversationalLessonView = () => {
               {lesson.vocabulary.map((v, idx) => (
                 <motion.div key={idx} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }}>
                   <Card className="overflow-hidden">
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-2">
+                    <CardContent className="p-5">
+                      <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center gap-3">
                           <button onClick={() => speakChinese(v.hanzi)} className="text-red-500 hover:text-red-600 transition-colors">
-                            <Volume2 className="h-5 w-5" />
+                            <Volume2 className="h-6 w-6" />
                           </button>
                           <div>
-                            <h4 className="font-bold text-xl text-red-600">{v.hanzi}</h4>
-                            <p className="text-sm text-primary font-medium">{v.pinyin}</p>
-                            <p className="text-xs text-muted-foreground">{t(v.meaning, v.meaningEn)}</p>
+                            <h4 className="font-bold text-2xl sm:text-3xl text-red-600">{v.hanzi}</h4>
+                            <p className="text-base text-primary font-medium">{v.pinyin}</p>
+                            <p className="text-sm text-muted-foreground">{t(v.meaning, v.meaningEn)}</p>
                           </div>
                         </div>
-                        <Badge variant="outline" className="text-[10px] capitalize shrink-0">{v.type}</Badge>
+                        <Badge variant="outline" className="text-xs capitalize shrink-0">{v.type}</Badge>
                       </div>
-                      <div className="bg-muted/50 p-3 rounded-lg mt-2">
-                        <p className="text-sm font-medium">{v.example}</p>
-                        <p className="text-xs text-primary/80 italic mt-0.5">{v.examplePinyin}</p>
-                        <p className="text-xs text-muted-foreground mt-1">→ {v.exampleVi}</p>
+                      <div className="bg-muted/50 p-4 rounded-lg mt-3">
+                        <p className="text-base sm:text-lg font-semibold">{v.example}</p>
+                        <p className="text-sm text-primary/80 italic mt-1">{v.examplePinyin}</p>
+                        <p className="text-sm text-muted-foreground mt-1">→ {v.exampleVi}</p>
                       </div>
                     </CardContent>
                   </Card>
