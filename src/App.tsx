@@ -54,9 +54,9 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/english" element={<English />} />
-            <Route path="/english/:courseId" element={<EnglishCourse />} />
             <Route path="/english/conversational/curriculum" element={<ConversationalDashboard />} />
             <Route path="/english/conversational/learn/:lessonId" element={<ConversationalLessonView />} />
+            <Route path="/english/:courseId" element={<EnglishCourse />} />
             <Route path="/english/learn/:moduleId" element={<LanguageLessonView />} />
             <Route path="/english/learn/:moduleId/:lessonId" element={<LanguageLessonView />} />
             <Route path="/chinese" element={<Chinese />} />
