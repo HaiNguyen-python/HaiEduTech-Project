@@ -78,10 +78,14 @@ const About = () => {
               ))}
             </div>
 
-            {/* Certificate Carousel */}
-            <div className="mb-12">
-              <CertCarousel />
-            </div>
+          </motion.div>
+
+          {/* Certificate Carousel - full width */}
+          <div className="mb-12 -mx-6 md:mx-0">
+            <CertCarousel />
+          </div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
           </motion.div>
 
           {/* Classroom Gallery - full width for marquee effect */}
