@@ -197,12 +197,16 @@ const ProgrammingLessonPage = () => {
                 <span className="text-foreground font-medium">{mod.titleEn}</span>
               </div>
               {!isMobile && (
-                <button
+              <button
                   onClick={() => setShowIDE(!showIDE)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border border-border hover:bg-secondary transition-colors active:scale-[0.97]"
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-[0.97] shadow-sm ${
+                    showIDE
+                      ? "border border-border bg-secondary text-foreground hover:bg-muted"
+                      : "bg-primary text-primary-foreground hover:brightness-110 shadow-primary/20"
+                  }`}
                 >
-                  {showIDE ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
-                  {showIDE ? "Hide IDE" : "Show IDE"}
+                  {showIDE ? <PanelRightClose className="w-4 h-4" /> : <Code2 className="w-4 h-4" />}
+                  {showIDE ? "Hide IDE" : "Open Interactive IDE"}
                 </button>
               )}
             </div>
