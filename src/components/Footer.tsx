@@ -35,7 +35,7 @@ const Footer = () => {
                   target={s.href.startsWith("mailto") ? undefined : "_blank"}
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
+                  className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200 cursor-pointer relative z-10"
                 >
                   <s.icon className="w-4 h-4" />
                 </a>
@@ -70,7 +70,7 @@ const Footer = () => {
                   href={s.href}
                   target={s.href.startsWith("mailto") ? undefined : "_blank"}
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer relative z-10"
                 >
                   <s.icon className="w-4 h-4" /> {s.label}
                 </a>
