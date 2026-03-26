@@ -47,7 +47,7 @@ function generateParticles(count: number): Particle[] {
       symbol: SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: 18 + Math.random() * 22, // 18–40px
+      size: 13 + Math.random() * 15, // 13–28px
       duration: 12 + Math.random() * 16, // 12–28s
       delay: Math.random() * -20, // stagger start
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
