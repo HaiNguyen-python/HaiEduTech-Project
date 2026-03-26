@@ -130,6 +130,17 @@ const SpeakingGrader = () => {
         ],
       });
     }
+    // Log activity for admin analytics
+    const finalResult = result || (data as SpeakingResult);
+    if (finalResult) {
+      logStudentActivity({
+        activityType: "ielts_speaking",
+        score: finalResult.overall,
+        maxScore: 9,
+        domain: "english",
+        metadata: { part: selectedPart, duration: timer },
+      });
+    }
     setLoading(false);
   };
 
