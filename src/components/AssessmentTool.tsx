@@ -1,94 +1,277 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Zap, CheckCircle, ArrowRight, X, Send } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Zap,
+  CheckCircle,
+  ArrowRight,
+  Send,
+  Languages,
+  Globe,
+  Code2,
+  Timer,
+  Trophy,
+  Star,
+  MessageCircle,
+} from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
+import {
+  englishQuestions,
+  chineseQuestions,
+  programmingQuestions,
+  getEnglishProfile,
+  getChineseProfile,
+  getProgrammingProfile,
+  type AssessmentQuestion,
+  type SkillProfile,
+} from "@/data/assessmentData";
 
-/** Quiz question data */
-interface QuizQ {
-  questionVi: string;
-  questionEn: string;
-  options: string[];
-  correct: number;
+type Subject = "english" | "chinese" | "programming";
+type Phase = "intro" | "select" | "quiz" | "result" | "leadgen";
+
+// Subject card metadata
+const SUBJECTS = [
+  {
+    key: "english" as Subject,
+    icon: Languages,
+    titleEn: "English Mastery",
+    titleVi: "Tiếng Anh",
+    descEn: "Assess your grammar, vocabulary, and reading skills.",
+    descVi: "Đánh giá ngữ pháp, từ vựng và kỹ năng đọc hiểu.",
+    gradient: "from-blue-500/20 to-blue-600/10",
+    border: "hover:border-blue-400/50",
+    iconColor: "text-blue-500",
+  },
+  {
+    key: "chinese" as Subject,
+    icon: Globe,
+    titleEn: "Chinese Proficiency",
+    titleVi: "Tiếng Trung",
+    descEn: "Check your HSK level, Pinyin, and Hanzi recognition.",
+    descVi: "Kiểm tra trình độ HSK, Pinyin và nhận biết Hán tự.",
+    gradient: "from-red-500/20 to-red-600/10",
+    border: "hover:border-red-400/50",
+    iconColor: "text-red-500",
+  },
+  {
+    key: "programming" as Subject,
+    icon: Code2,
+    titleEn: "Programming Logic",
+    titleVi: "Lập Trình",
+    descEn: "Test your syntax, logic, and problem-solving (Python/SQL).",
+    descVi: "Kiểm tra cú pháp, logic và giải quyết vấn đề (Python/SQL).",
+    gradient: "from-emerald-500/20 to-emerald-600/10",
+    border: "hover:border-emerald-400/50",
+    iconColor: "text-emerald-500",
+  },
+];
+
+// Adaptive difficulty: if first 3 correct, boost next 2 to hard
+function getAdaptiveQuestions(
+  bank: AssessmentQuestion[],
+  answers: number[]
+): AssessmentQuestion[] {
+  if (answers.length < 3) return bank;
+
+  const firstThreeCorrect = answers
+    .slice(0, 3)
+    .every((a, i) => a === bank[i].correct);
+
+  if (firstThreeCorrect) {
+    // Swap questions 4-5 with hard questions if not already hard
+    const hardQs = bank.filter((q) => q.difficulty === "hard");
+    const result = [...bank];
+    if (hardQs.length >= 2) {
+      result[3] = hardQs[0];
+      result[4] = hardQs[1];
+    }
+    return result;
+  }
+  return bank;
 }
-
-const englishQuestions: QuizQ[] = [
-  { questionVi: "Choose the correct form: She ___ to the office every day.", questionEn: "Choose the correct form: She ___ to the office every day.", options: ["go", "goes", "going", "gone"], correct: 1 },
-  { questionVi: "Which word is a synonym of 'significant'?", questionEn: "Which word is a synonym of 'significant'?", options: ["trivial", "notable", "ordinary", "minor"], correct: 1 },
-  { questionVi: "Complete: If I ___ rich, I would travel the world.", questionEn: "Complete: If I ___ rich, I would travel the world.", options: ["am", "was", "were", "be"], correct: 2 },
-  { questionVi: "Choose the correct spelling:", questionEn: "Choose the correct spelling:", options: ["accomodation", "accommodation", "acomodation", "acommodation"], correct: 1 },
-  { questionVi: "Which sentence is grammatically correct?", questionEn: "Which sentence is grammatically correct?", options: ["He don't like coffee.", "He doesn't likes coffee.", "He doesn't like coffee.", "He not like coffee."], correct: 2 },
-];
-
-const logicQuestions: QuizQ[] = [
-  { questionVi: "What is the output of: print(type([1,2,3]))", questionEn: "What is the output of: print(type([1,2,3]))", options: ["<class 'tuple'>", "<class 'list'>", "<class 'dict'>", "<class 'set'>"], correct: 1 },
-  { questionVi: "In SQL, which clause filters grouped results?", questionEn: "In SQL, which clause filters grouped results?", options: ["WHERE", "HAVING", "GROUP BY", "ORDER BY"], correct: 1 },
-  { questionVi: "What does ETL stand for?", questionEn: "What does ETL stand for?", options: ["Extract, Test, Load", "Extract, Transform, Load", "Export, Transform, Link", "Extract, Transfer, Log"], correct: 1 },
-];
-
-type Phase = "intro" | "english" | "logic" | "result" | "leadgen";
 
 const AssessmentTool = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [phase, setPhase] = useState<Phase>("intro");
+  const [subject, setSubject] = useState<Subject | null>(null);
   const [currentQ, setCurrentQ] = useState(0);
-  const [engScore, setEngScore] = useState(0);
-  const [logicScore, setLogicScore] = useState(0);
+  const [score, setScore] = useState(0);
+  const [answers, setAnswers] = useState<number[]>([]);
   const [email, setEmail] = useState("");
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [profile, setProfile] = useState<SkillProfile | null>(null);
+  const [startTime, setStartTime] = useState<number>(0);
+
+  // Get question bank based on selected subject
+  const getQuestionBank = useCallback((): AssessmentQuestion[] => {
+    switch (subject) {
+      case "english":
+        return englishQuestions;
+      case "chinese":
+        return chineseQuestions;
+      case "programming":
+        return programmingQuestions;
+      default:
+        return [];
+    }
+  }, [subject]);
+
+  // Timer countdown during quiz
+  useEffect(() => {
+    if (phase !== "quiz" || timeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          // Time's up — go to results
+          clearInterval(timer);
+          finishQuiz();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, timeLeft]);
 
   const reset = () => {
     setPhase("intro");
+    setSubject(null);
     setCurrentQ(0);
-    setEngScore(0);
-    setLogicScore(0);
+    setScore(0);
+    setAnswers([]);
     setEmail("");
+    setTimeLeft(300);
+    setProfile(null);
   };
 
-  const handleOpen = () => { reset(); setOpen(true); };
+  const handleOpen = () => {
+    reset();
+    setOpen(true);
+  };
+
+  const selectSubject = (s: Subject) => {
+    setSubject(s);
+    setPhase("quiz");
+    setCurrentQ(0);
+    setScore(0);
+    setAnswers([]);
+    setTimeLeft(300);
+    setStartTime(Date.now());
+  };
+
+  const finishQuiz = useCallback(() => {
+    if (!subject) return;
+
+    // Calculate profile
+    const getProfile =
+      subject === "english"
+        ? getEnglishProfile
+        : subject === "chinese"
+        ? getChineseProfile
+        : getProgrammingProfile;
+
+    setProfile(getProfile(score));
+
+    // Log activity for RL pipeline
+    const elapsed = Math.round((Date.now() - startTime) / 1000);
+    const domain =
+      subject === "english"
+        ? "english"
+        : subject === "chinese"
+        ? "chinese"
+        : "programming";
+
+    logStudentActivity({
+      activityType: `${subject}_assessment`,
+      score,
+      maxScore: 10,
+      timeSpentSeconds: elapsed,
+      domain,
+      metadata: {
+        answers,
+        subject,
+        isBaseline: true,
+      },
+    });
+
+    setPhase("result");
+  }, [subject, score, startTime, answers]);
 
   const handleAnswer = (selected: number) => {
-    if (phase === "english") {
-      if (selected === englishQuestions[currentQ].correct) setEngScore((s) => s + 1);
-      if (currentQ + 1 < englishQuestions.length) {
-        setCurrentQ((q) => q + 1);
-      } else {
-        setCurrentQ(0);
-        setPhase("logic");
-      }
-    } else if (phase === "logic") {
-      if (selected === logicQuestions[currentQ].correct) setLogicScore((s) => s + 1);
-      if (currentQ + 1 < logicQuestions.length) {
-        setCurrentQ((q) => q + 1);
-      } else {
-        setPhase("result");
-      }
+    const bank = getAdaptiveQuestions(getQuestionBank(), answers);
+    const newAnswers = [...answers, selected];
+    setAnswers(newAnswers);
+
+    if (selected === bank[currentQ].correct) {
+      setScore((s) => s + 1);
+    }
+
+    if (currentQ + 1 < bank.length) {
+      setCurrentQ((q) => q + 1);
+    } else {
+      // Use updated score for profile calculation
+      const finalScore =
+        selected === bank[currentQ].correct ? score + 1 : score;
+      setScore(finalScore);
+
+      // Defer finish to next tick so state updates
+      setTimeout(() => finishQuiz(), 50);
     }
   };
 
-  const getLevel = () => {
-    const total = engScore + logicScore;
-    if (total >= 7) return { levelVi: "Upper-Intermediate", levelEn: "Upper-Intermediate", monthsVi: "2 tháng", monthsEn: "2 months" };
-    if (total >= 5) return { levelVi: "Intermediate", levelEn: "Intermediate", monthsVi: "3 tháng", monthsEn: "3 months" };
-    if (total >= 3) return { levelVi: "Pre-Intermediate", levelEn: "Pre-Intermediate", monthsVi: "4 tháng", monthsEn: "4 months" };
-    return { levelVi: "Elementary", levelEn: "Elementary", monthsVi: "6 tháng", monthsEn: "6 months" };
-  };
-
   const handleLeadSubmit = () => {
-    if (!email.trim()) { toast.error(t("Vui lòng nhập email", "Please enter your email")); return; }
-    toast.success(t("Đã gửi! Chúng tôi sẽ liên hệ sớm.", "Submitted! We'll contact you soon."));
+    if (!email.trim()) {
+      toast.error(t("Vui lòng nhập email", "Please enter your email"));
+      return;
+    }
+    toast.success(
+      t("Đã gửi! Thầy Hải sẽ liên hệ sớm.", "Submitted! Teacher Hai will contact you soon.")
+    );
     setPhase("leadgen");
   };
 
-  const questions = phase === "english" ? englishQuestions : logicQuestions;
-  const totalQ = phase === "english" ? englishQuestions.length : logicQuestions.length;
-  const progress = phase === "english"
-    ? ((currentQ + 1) / englishQuestions.length) * 50
-    : 50 + ((currentQ + 1) / logicQuestions.length) * 50;
+  const questions = getAdaptiveQuestions(getQuestionBank(), answers);
+  const totalQ = questions.length;
+  const progress = totalQ > 0 ? ((currentQ + 1) / totalQ) * 100 : 0;
+
+  // Format timer
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s.toString().padStart(2, "0")}`;
+  };
+
+  // Render skill level stars
+  const renderStars = (level: number) => (
+    <div className="flex gap-1">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <Star
+          key={i}
+          className={`h-5 w-5 ${
+            i <= level
+              ? "fill-primary text-primary"
+              : "text-muted-foreground/30"
+          }`}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <>
@@ -107,12 +290,14 @@ const AssessmentTool = () => {
             </div>
             <h2 className="mb-4 font-display text-2xl font-bold sm:text-3xl md:text-4xl">
               {t("Đánh Giá Năng Lực ", "Free Skill ")}
-              <span className="text-gradient">{t("Miễn Phí", "Assessment")}</span>
+              <span className="text-gradient">
+                {t("Miễn Phí", "Assessment")}
+              </span>
             </h2>
             <p className="mx-auto mb-8 max-w-lg text-sm leading-7 text-muted-foreground sm:text-base">
               {t(
-                "Làm bài kiểm tra nhanh 3 phút để biết trình độ hiện tại và nhận lộ trình học tập cá nhân hóa",
-                "Take a quick 3-minute test to discover your current level and receive a personalized learning roadmap"
+                "Chọn môn học và làm bài kiểm tra 5 phút để biết trình độ hiện tại — nhận lộ trình cá nhân hóa từ hệ thống RL",
+                "Choose your subject and take a 5-minute test to discover your level — get a personalized roadmap from our RL Engine"
               )}
             </p>
             <Button
@@ -121,96 +306,218 @@ const AssessmentTool = () => {
               className="gap-2 rounded-xl bg-gradient-to-r from-primary to-emerald-500 px-8 py-6 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:brightness-110"
             >
               <Zap className="h-5 w-5" />
-              {t("Thử thách năng lực ngay", "Take the Challenge Now")}
+              {t("Bắt Đầu Đánh Giá", "Start Assessment")}
             </Button>
           </motion.div>
         </div>
       </section>
 
-      {/* Quiz Modal */}
+      {/* Assessment Modal */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-lg sm:max-w-xl">
+        <DialogContent className="max-w-lg sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle className="font-display text-xl">
-              {phase === "intro" && t("Đánh giá năng lực", "Skill Assessment")}
-              {phase === "english" && t("Phần 1: Tiếng Anh", "Part 1: English")}
-              {phase === "logic" && t("Phần 2: Data & Logic", "Part 2: Data & Logic")}
-              {phase === "result" && t("Kết quả của bạn", "Your Results")}
+              {phase === "intro" &&
+                t("Đánh giá năng lực", "Skill Assessment")}
+              {phase === "select" &&
+                t("Chọn môn đánh giá", "Choose Your Subject")}
+              {phase === "quiz" &&
+                subject &&
+                t(
+                  `Đánh giá: ${SUBJECTS.find((s) => s.key === subject)?.titleVi}`,
+                  `Assessment: ${SUBJECTS.find((s) => s.key === subject)?.titleEn}`
+                )}
+              {phase === "result" &&
+                t("Hồ sơ năng lực của bạn", "Your Skill Profile")}
               {phase === "leadgen" && t("Cảm ơn bạn!", "Thank You!")}
             </DialogTitle>
           </DialogHeader>
 
-          {/* Progress bar (during quiz) */}
-          {(phase === "english" || phase === "logic") && (
-            <Progress value={progress} className="mb-4 h-2" />
+          {/* Timer + Progress (during quiz) */}
+          {phase === "quiz" && (
+            <div className="flex items-center gap-3 mb-2">
+              <Progress value={progress} className="flex-1 h-2" />
+              <div
+                className={`flex items-center gap-1 text-sm font-mono font-semibold ${
+                  timeLeft < 60 ? "text-destructive" : "text-muted-foreground"
+                }`}
+              >
+                <Timer className="h-4 w-4" />
+                {formatTime(timeLeft)}
+              </div>
+            </div>
           )}
 
           <AnimatePresence mode="wait">
-            {/* Intro */}
+            {/* INTRO */}
             {phase === "intro" && (
-              <motion.div key="intro" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4 py-2">
+              <motion.div
+                key="intro"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="space-y-4 py-2"
+              >
                 <p className="text-sm leading-7 text-muted-foreground">
                   {t(
-                    "Bài kiểm tra gồm 2 phần: 5 câu Tiếng Anh và 3 câu Logic/Data. Hoàn thành trong khoảng 3 phút.",
-                    "The test consists of 2 parts: 5 English questions and 3 Logic/Data questions. Takes about 3 minutes."
+                    "Chọn 1 trong 3 môn: Tiếng Anh, Tiếng Trung hoặc Lập trình. Mỗi bài gồm 10 câu trong 5 phút. Kết quả sẽ được phân tích bởi hệ thống RL để tạo lộ trình cá nhân.",
+                    "Choose from 3 subjects: English, Chinese, or Programming. Each test has 10 questions in 5 minutes. Results are analyzed by our RL system for a personalized roadmap."
                   )}
                 </p>
-                <Button onClick={() => { setPhase("english"); setCurrentQ(0); }} className="w-full gap-2">
-                  {t("Bắt đầu", "Start")} <ArrowRight className="h-4 w-4" />
+                <Button
+                  onClick={() => setPhase("select")}
+                  className="w-full gap-2"
+                >
+                  {t("Chọn Môn Học", "Choose Subject")}{" "}
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </motion.div>
             )}
 
-            {/* Quiz questions */}
-            {(phase === "english" || phase === "logic") && (
-              <motion.div key={`${phase}-${currentQ}`} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4 py-2">
-                <p className="text-xs text-muted-foreground">
-                  {t("Câu", "Question")} {currentQ + 1} / {totalQ}
-                </p>
-                <p className="font-medium text-foreground">
-                  {t(questions[currentQ].questionVi, questions[currentQ].questionEn)}
+            {/* SUBJECT SELECTION */}
+            {phase === "select" && (
+              <motion.div
+                key="select"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="grid gap-4 py-2 sm:grid-cols-3"
+              >
+                {SUBJECTS.map((s) => (
+                  <motion.button
+                    key={s.key}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => selectSubject(s.key)}
+                    className={`flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-5 text-center transition-all ${s.border} hover:shadow-lg`}
+                  >
+                    <div
+                      className={`flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br ${s.gradient}`}
+                    >
+                      <s.icon className={`h-7 w-7 ${s.iconColor}`} />
+                    </div>
+                    <h3 className="font-display text-sm font-bold text-foreground">
+                      {t(s.titleVi, s.titleEn)}
+                    </h3>
+                    <p className="text-xs leading-relaxed text-muted-foreground">
+                      {t(s.descVi, s.descEn)}
+                    </p>
+                  </motion.button>
+                ))}
+              </motion.div>
+            )}
+
+            {/* QUIZ QUESTIONS */}
+            {phase === "quiz" && questions.length > 0 && (
+              <motion.div
+                key={`quiz-${currentQ}`}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="space-y-4 py-2"
+              >
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-muted-foreground">
+                    {t("Câu", "Question")} {currentQ + 1} / {totalQ}
+                  </p>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                      questions[currentQ].difficulty === "easy"
+                        ? "bg-emerald-500/10 text-emerald-600"
+                        : questions[currentQ].difficulty === "medium"
+                        ? "bg-amber-500/10 text-amber-600"
+                        : "bg-red-500/10 text-red-600"
+                    }`}
+                  >
+                    {questions[currentQ].difficulty.toUpperCase()}
+                  </span>
+                </div>
+                <p className="font-medium text-foreground leading-relaxed">
+                  {t(
+                    questions[currentQ].questionVi,
+                    questions[currentQ].questionEn
+                  )}
                 </p>
                 <div className="grid gap-2">
                   {questions[currentQ].options.map((opt, i) => (
-                    <button
+                    <motion.button
                       key={i}
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
                       onClick={() => handleAnswer(i)}
                       className="w-full rounded-lg border border-border px-4 py-3 text-left text-sm transition-all hover:border-primary/50 hover:bg-primary/5"
                     >
+                      <span className="mr-2 font-semibold text-muted-foreground">
+                        {String.fromCharCode(65 + i)}.
+                      </span>
                       {opt}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </motion.div>
             )}
 
-            {/* Results */}
-            {phase === "result" && (
-              <motion.div key="result" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-5 py-2">
+            {/* RESULTS */}
+            {phase === "result" && profile && (
+              <motion.div
+                key="result"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="space-y-5 py-2"
+              >
+                {/* Score card */}
                 <div className="rounded-xl border border-primary/20 bg-primary/5 p-5 text-center">
-                  <CheckCircle className="mx-auto mb-3 h-10 w-10 text-primary" />
-                  <div className="mb-1 text-sm text-muted-foreground">
-                    {t("Trình độ hiện tại", "Current Level")}
+                  <Trophy className="mx-auto mb-3 h-10 w-10 text-primary" />
+                  <div className="mb-2">
+                    {renderStars(profile.level)}
                   </div>
                   <div className="font-display text-2xl font-bold text-primary">
-                    {t(getLevel().levelVi, getLevel().levelEn)}
+                    {t(profile.labelVi, profile.labelEn)}
                   </div>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    {t("Tiếng Anh", "English")}: {engScore}/{englishQuestions.length} • {t("Logic", "Logic")}: {logicScore}/{logicQuestions.length}
+                    {t("Điểm", "Score")}: {score}/{totalQ} •{" "}
+                    {t("Thời gian", "Time")}:{" "}
+                    {formatTime(300 - timeLeft)}
                   </p>
                 </div>
 
+                {/* Profile description */}
                 <p className="text-center text-sm leading-relaxed text-foreground">
-                  {t(
-                    `Hệ thống RL gợi ý lộ trình ${getLevel().monthsVi} để đạt Target của bạn.`,
-                    `Our RL Engine recommends a ${getLevel().monthsEn} roadmap to reach your Target.`
-                  )}
+                  {t(profile.descriptionVi, profile.descriptionEn)}
                 </p>
 
-                {/* Lead gen form */}
-                <div className="space-y-3">
-                  <p className="text-sm font-medium text-foreground">
-                    {t("Nhận lộ trình chi tiết qua email:", "Get your detailed roadmap via email:")}
+                {/* Course recommendation */}
+                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600 mb-2">
+                    {t("Gợi ý khóa học", "Recommended Course")}
+                  </p>
+                  <p className="text-sm font-medium text-foreground mb-3">
+                    {t(
+                      profile.recommendedCourseVi,
+                      profile.recommendedCourseEn
+                    )}
+                  </p>
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      setOpen(false);
+                      navigate(profile.recommendedPath);
+                    }}
+                    className="gap-1 bg-emerald-600 hover:bg-emerald-700"
+                  >
+                    {t("Bắt đầu học ngay", "Start Learning Now")}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+
+                {/* Consultation CTA */}
+                <div className="space-y-3 border-t border-border pt-4">
+                  <p className="text-sm font-medium text-foreground flex items-center gap-2">
+                    <MessageCircle className="h-4 w-4 text-primary" />
+                    {t(
+                      "Chia sẻ kết quả với thầy Hải để tư vấn 1-1:",
+                      "Share results with Teacher Hai for 1-on-1 consultation:"
+                    )}
                   </p>
                   <div className="flex gap-2">
                     <Input
@@ -220,7 +527,10 @@ const AssessmentTool = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       className="flex-1"
                     />
-                    <Button onClick={handleLeadSubmit} className="gap-1.5 shrink-0">
+                    <Button
+                      onClick={handleLeadSubmit}
+                      className="gap-1.5 shrink-0"
+                    >
                       <Send className="h-4 w-4" />
                       {t("Gửi", "Send")}
                     </Button>
@@ -229,17 +539,32 @@ const AssessmentTool = () => {
               </motion.div>
             )}
 
-            {/* Thank you */}
+            {/* THANK YOU */}
             {phase === "leadgen" && (
-              <motion.div key="thanks" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-6 text-center">
+              <motion.div
+                key="thanks"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="py-6 text-center"
+              >
                 <CheckCircle className="mx-auto mb-4 h-12 w-12 text-primary" />
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground mb-1">
                   {t(
-                    "Chúng tôi sẽ gửi lộ trình chi tiết trong 24 giờ.",
-                    "We'll send your detailed roadmap within 24 hours."
+                    "Thầy Hải sẽ liên hệ bạn trong 24 giờ với lộ trình chi tiết.",
+                    "Teacher Hai will contact you within 24 hours with a detailed roadmap."
                   )}
                 </p>
-                <Button variant="outline" onClick={() => setOpen(false)} className="mt-4">
+                <p className="text-xs text-muted-foreground">
+                  {t(
+                    `Hồ sơ: ${profile?.labelVi} • Điểm: ${score}/${totalQ}`,
+                    `Profile: ${profile?.labelEn} • Score: ${score}/${totalQ}`
+                  )}
+                </p>
+                <Button
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                  className="mt-4"
+                >
                   {t("Đóng", "Close")}
                 </Button>
               </motion.div>
