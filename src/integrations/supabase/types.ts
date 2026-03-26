@@ -414,6 +414,33 @@ export type Database = {
         }
         Relationships: []
       }
+      moderation_logs: {
+        Row: {
+          blocked_content: string
+          created_at: string
+          id: string
+          reason: string
+          user_id: string
+          warning_count: number
+        }
+        Insert: {
+          blocked_content: string
+          created_at?: string
+          id?: string
+          reason?: string
+          user_id: string
+          warning_count?: number
+        }
+        Update: {
+          blocked_content?: string
+          created_at?: string
+          id?: string
+          reason?: string
+          user_id?: string
+          warning_count?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw,
-  AlertTriangle, TrendingUp, Clock, Zap, ExternalLink
+  AlertTriangle, TrendingUp, Clock, Zap, ExternalLink, ShieldAlert
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -56,10 +56,19 @@ interface BalanceRecord {
   note: string | null;
 }
 
+interface ModerationLog {
+  id: string;
+  user_id: string;
+  created_at: string;
+  blocked_content: string;
+  reason: string;
+}
+
 const SystemStatusTab = () => {
   const { t } = useLanguage();
   const [usageLogs, setUsageLogs] = useState<UsageLog[]>([]);
   const [balance, setBalance] = useState<BalanceRecord | null>(null);
+  const [moderationLogs, setModerationLogs] = useState<ModerationLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [newBalance, setNewBalance] = useState("");
   const [balanceNote, setBalanceNote] = useState("");
@@ -71,7 +80,7 @@ const SystemStatusTab = () => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     
-    const [logsRes, balanceRes] = await Promise.all([
+    const [logsRes, balanceRes, modRes] = await Promise.all([
       supabase
         .from("api_usage_log")
         .select("*")
@@ -83,11 +92,17 @@ const SystemStatusTab = () => {
         .select("*")
         .order("updated_at", { ascending: false })
         .limit(1),
+      supabase
+        .from("moderation_logs")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(100),
     ]);
 
     setUsageLogs((logsRes.data || []) as unknown as UsageLog[]);
     const balData = balanceRes.data as unknown as BalanceRecord[];
     setBalance(balData?.[0] || null);
+    setModerationLogs((modRes.data || []) as unknown as ModerationLog[]);
     setLoading(false);
   }, []);
 
@@ -449,8 +464,48 @@ const SystemStatusTab = () => {
           </CardContent>
         </Card>
       )}
+      {/* Moderation Logs */}
+      {moderationLogs.length > 0 && (
+        <Card className="border-destructive/30">
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-destructive" />
+              {t("Nhật ký kiểm duyệt", "Content Moderation Logs")}
+              <Badge variant="destructive" className="ml-2">{moderationLogs.length}</Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="max-h-64">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{t("Thời gian", "Time")}</TableHead>
+                    <TableHead>{t("User ID", "User ID")}</TableHead>
+                    <TableHead>{t("Nội dung bị chặn", "Blocked Content")}</TableHead>
+                    <TableHead>{t("Lý do", "Reason")}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {moderationLogs.slice(0, 20).map((log) => (
+                    <TableRow key={log.id}>
+                      <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
+                        {new Date(log.created_at).toLocaleString()}
+                      </TableCell>
+                      <TableCell className="text-xs font-mono">{log.user_id.slice(0, 8)}...</TableCell>
+                      <TableCell className="text-xs max-w-[200px] truncate text-destructive">{log.blocked_content}</TableCell>
+                      <TableCell>
+                        <Badge variant="destructive" className="text-xs">{log.reason}</Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+      )}
 
-      {/* All Functions Registry */}
+
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
