@@ -19,7 +19,7 @@ export interface ChineseKeySituation {
   descriptionVi: string;
   culturalNote?: string;
   culturalNoteVi?: string;
-  sampleDialogue: { speaker: string; line: string; pinyin: string }[];
+  sampleDialogue: { speaker: string; line: string; pinyin: string; translationVi: string }[];
 }
 
 export interface ChineseListeningChallenge {
