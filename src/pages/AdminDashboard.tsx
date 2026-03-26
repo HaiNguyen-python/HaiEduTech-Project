@@ -31,6 +31,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TeacherAdmin from "@/pages/TeacherAdmin";
 import CourseAccessManager from "@/components/CourseAccessManager";
+import SystemStatusTab from "@/components/SystemStatusTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
