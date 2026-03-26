@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { Play, Loader2, RotateCcw, Database } from "lucide-react";
@@ -192,4 +192,4 @@ const SqlEditor = ({ initialCode = "SELECT * FROM students;", expectedOutput }: 
   );
 };
 
-export default SqlEditor;
+export default React.memo(SqlEditor);

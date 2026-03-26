@@ -78,7 +78,7 @@ const ProgrammingLessonPage = () => {
   const [challengeActive, setChallengeActive] = useState(false);
   const [challengeAnswer, setChallengeAnswer] = useState<number | null>(null);
   const [showChallengeResult, setShowChallengeResult] = useState(false);
-  const [showIDE, setShowIDE] = useState(true);
+  const [showIDE, setShowIDE] = useState(false);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
@@ -197,12 +197,16 @@ const ProgrammingLessonPage = () => {
                 <span className="text-foreground font-medium">{mod.titleEn}</span>
               </div>
               {!isMobile && (
-                <button
+              <button
                   onClick={() => setShowIDE(!showIDE)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border border-border hover:bg-secondary transition-colors active:scale-[0.97]"
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-[0.97] shadow-sm ${
+                    showIDE
+                      ? "border border-border bg-secondary text-foreground hover:bg-muted"
+                      : "bg-primary text-primary-foreground hover:brightness-110 shadow-primary/20"
+                  }`}
                 >
-                  {showIDE ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
-                  {showIDE ? "Hide IDE" : "Show IDE"}
+                  {showIDE ? <PanelRightClose className="w-4 h-4" /> : <Code2 className="w-4 h-4" />}
+                  {showIDE ? "Hide IDE" : "Open Interactive IDE"}
                 </button>
               )}
             </div>
@@ -589,29 +593,58 @@ const ProgrammingLessonPage = () => {
               </div>
             </div>
 
-              {/* Right side: IDE Panel */}
-              {showIDE && !isMobile && (
-                <div className="w-1/2 xl:w-2/5 shrink-0 min-w-0">
-                  <div className="sticky top-28 rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "calc(100vh - 140px)" }}>
-                    {isSQL ? (
-                      <SqlEditor />
-                    ) : (
-                      <PythonIDEPanel initialCode={lesson.code} />
-                    )}
-                  </div>
-                </div>
-              )}
+              {/* Right side: IDE Panel with smooth animation */}
+              <AnimatePresence>
+                {showIDE && !isMobile && (
+                  <motion.div
+                    initial={{ width: 0, opacity: 0 }}
+                    animate={{ width: "50%", opacity: 1 }}
+                    exit={{ width: 0, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="xl:w-2/5 shrink-0 min-w-0 overflow-hidden"
+                  >
+                    <div className="sticky top-28 rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "calc(100vh - 140px)" }}>
+                      {isSQL ? (
+                        <SqlEditor />
+                      ) : (
+                        <PythonIDEPanel initialCode={lesson.code} />
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-              {/* Mobile IDE */}
+              {/* Mobile IDE with toggle */}
               {isMobile && (
                 <div className="w-full mt-6">
-                  <div className="rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "400px" }}>
-                    {isSQL ? (
-                      <SqlEditor />
-                    ) : (
-                      <PythonIDEPanel initialCode={lesson.code} />
+                  <button
+                    onClick={() => setShowIDE(!showIDE)}
+                    className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all mb-4 ${
+                      showIDE
+                        ? "border border-border bg-secondary text-foreground"
+                        : "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                    }`}
+                  >
+                    {showIDE ? <PanelRightClose className="w-4 h-4" /> : <Code2 className="w-4 h-4" />}
+                    {showIDE ? "Hide IDE" : "Open Interactive IDE"}
+                  </button>
+                  <AnimatePresence>
+                    {showIDE && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 400, opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        className="rounded-xl overflow-hidden border border-border shadow-md"
+                      >
+                        {isSQL ? (
+                          <SqlEditor />
+                        ) : (
+                          <PythonIDEPanel initialCode={lesson.code} />
+                        )}
+                      </motion.div>
                     )}
-                  </div>
+                  </AnimatePresence>
                 </div>
               )}
             </div>
