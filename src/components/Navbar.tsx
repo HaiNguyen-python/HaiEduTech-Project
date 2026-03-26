@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
-  FileText, PenTool, Map, MessageSquare, Award, School
+  FileText, PenTool, Map, MessageSquare, Award, School, Swords
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -56,6 +56,7 @@ const Navbar = () => {
    const ieltsChildren: SubItem[] = [
     { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
     { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), icon: BookOpen },
+    { to: "/vocab-arena", label: t("⚔️ Vocab Arena", "⚔️ Vocab Arena"), icon: Swords },
     { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
     { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
     { to: "/ielts-speaking-practice", label: t("Luyện nói", "Speaking Practice"), icon: MessageSquare },

@@ -31,6 +31,7 @@ import IeltsSampleEssays from "./pages/IeltsSampleEssays.tsx";
 import IeltsSampleEssayDetail from "./pages/IeltsSampleEssayDetail.tsx";
 import SpeakingPractice from "./pages/SpeakingPractice.tsx";
 import IeltsVocabulary from "./pages/IeltsVocabulary.tsx";
+import VocabArena from "./pages/VocabArena.tsx";
 import NationalExamPrep from "./pages/NationalExamPrep.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import LanguageLessonView from "./pages/LanguageLessonView.tsx";
@@ -73,6 +74,7 @@ const App = () => (
             <Route path="/ielts-sample-essays/:essayId" element={<IeltsSampleEssayDetail />} />
             <Route path="/ielts-speaking-practice" element={<SpeakingPractice />} />
             <Route path="/ielts-vocabulary" element={<IeltsVocabulary />} />
+            <Route path="/vocab-arena" element={<VocabArena />} />
             <Route path="/national-exam" element={<NationalExamPrep />} />
             <Route path="/national-exam/:examId" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div>}><NationalExamRoom /></Suspense>} />
             <Route path="/dashboard" element={<Dashboard />} />

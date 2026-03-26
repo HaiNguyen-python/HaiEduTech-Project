@@ -68,6 +68,92 @@ export type Database = {
         }
         Relationships: []
       }
+      game_participants: {
+        Row: {
+          answers_correct: number
+          answers_total: number
+          created_at: string
+          display_name: string | null
+          finished_at: string | null
+          id: string
+          lives: number
+          room_id: string | null
+          score: number
+          streak: number
+          user_id: string
+          word_results: Json
+        }
+        Insert: {
+          answers_correct?: number
+          answers_total?: number
+          created_at?: string
+          display_name?: string | null
+          finished_at?: string | null
+          id?: string
+          lives?: number
+          room_id?: string | null
+          score?: number
+          streak?: number
+          user_id: string
+          word_results?: Json
+        }
+        Update: {
+          answers_correct?: number
+          answers_total?: number
+          created_at?: string
+          display_name?: string | null
+          finished_at?: string | null
+          id?: string
+          lives?: number
+          room_id?: string | null
+          score?: number
+          streak?: number
+          user_id?: string
+          word_results?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_participants_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "game_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_rooms: {
+        Row: {
+          created_at: string
+          created_by: string
+          ended_at: string | null
+          id: string
+          room_code: string
+          settings: Json
+          started_at: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          ended_at?: string | null
+          id?: string
+          room_code: string
+          settings?: Json
+          started_at?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          ended_at?: string | null
+          id?: string
+          room_code?: string
+          settings?: Json
+          started_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       generated_lessons: {
         Row: {
           category: string
