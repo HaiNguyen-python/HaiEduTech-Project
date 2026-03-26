@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import FloatingParticles from "@/components/FloatingParticles";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
@@ -371,14 +372,19 @@ const Dashboard = () => {
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto">
-            {/* Header with greeting */}
-            <h1 className="text-4xl font-display font-bold mb-1 text-foreground">
-              {t(`Xin chào, `, `Hello, `)}
-              <span className="text-gradient">{displayName}</span> 👋
-            </h1>
-            <p className="text-muted-foreground mb-8">
-              {t("Dữ liệu học tập thực tế của bạn", "Your real learning analytics")}
-            </p>
+            {/* Welcome header with floating background particles */}
+            <div className="relative mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-primary/5 via-background to-accent/5 p-8">
+              <FloatingParticles count={20} />
+              <div className="relative z-10">
+                <h1 className="text-4xl font-display font-bold mb-1 text-foreground">
+                  {t(`Xin chào, `, `Hello, `)}
+                  <span className="text-gradient">{displayName}</span> 👋
+                </h1>
+                <p className="text-muted-foreground">
+                  {t("Dữ liệu học tập thực tế của bạn", "Your real learning analytics")}
+                </p>
+              </div>
+            </div>
 
             {dataLoading ? (
               <div className="text-center py-20 text-muted-foreground">
