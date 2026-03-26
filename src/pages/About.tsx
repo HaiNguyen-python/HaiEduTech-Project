@@ -1,9 +1,21 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users } from "lucide-react";
+import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
+import { useState } from "react";
+
+import classroom1 from "@/assets/classroom-1.jpg";
+import classroom2 from "@/assets/classroom-2.jpg";
+import classroom3 from "@/assets/classroom-3.jpg";
+import classroom4 from "@/assets/classroom-4.jpg";
+import classroom5 from "@/assets/classroom-5.jpg";
+import classroom6 from "@/assets/classroom-6.jpg";
+import classroom7 from "@/assets/classroom-7.jpg";
+import classroom8 from "@/assets/classroom-8.jpg";
+import classroom9 from "@/assets/classroom-9.jpg";
+import classroom10 from "@/assets/classroom-10.jpg";
 
 const About = () => {
   const { t } = useLanguage();
