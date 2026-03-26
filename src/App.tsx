@@ -37,6 +37,8 @@ import NotFound from "./pages/NotFound.tsx";
 import LanguageLessonView from "./pages/LanguageLessonView.tsx";
 import ConversationalDashboard from "./pages/ConversationalDashboard.tsx";
 import ConversationalLessonView from "./pages/ConversationalLessonView.tsx";
+import ChineseConversationalDashboard from "./pages/ChineseConversationalDashboard.tsx";
+import ChineseConversationalLessonView from "./pages/ChineseConversationalLessonView.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 
 // Lazy-load heavy components to keep main bundle small
@@ -62,6 +64,8 @@ const App = () => (
             <Route path="/english/learn/:moduleId" element={<LanguageLessonView />} />
             <Route path="/english/learn/:moduleId/:lessonId" element={<LanguageLessonView />} />
             <Route path="/chinese" element={<Chinese />} />
+            <Route path="/chinese/conversational/curriculum" element={<ChineseConversationalDashboard />} />
+            <Route path="/chinese/conversational/learn/:lessonId" element={<ChineseConversationalLessonView />} />
             <Route path="/chinese/:courseId" element={<ChineseCourse />} />
             <Route path="/chinese/learn/:moduleId" element={<LanguageLessonView />} />
             <Route path="/chinese/learn/:moduleId/:lessonId" element={<LanguageLessonView />} />
