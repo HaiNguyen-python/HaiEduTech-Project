@@ -331,10 +331,15 @@ serve(async (req) => {
 
       const data = await response.json();
       const raw = data.choices?.[0]?.message?.content || "";
+      const tokensUsed = data.usage?.total_tokens || Math.ceil(raw.length / 4);
       const jsonMatch = raw.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error("Could not parse lesson content");
+      if (!jsonMatch) {
+        await logUsage("generate-and-store-lesson", "sonar", subject, tokensUsed, "parse_error");
+        throw new Error("Could not parse lesson content");
+      }
 
       content = JSON.parse(jsonMatch[0]);
+      await logUsage("generate-and-store-lesson", "sonar", subject, tokensUsed, "success");
 
       // Check similarity with existing titles
       const newTitle = content.title || "";
