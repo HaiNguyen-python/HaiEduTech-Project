@@ -221,6 +221,31 @@ const ChineseCourse = () => {
               </div>
             </div>
 
+            {/* Interactive Curriculum - only for conversational */}
+            {courseId === "conversational" && (
+              <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5 text-red-500" /> {t("Chương trình Tương tác", "Interactive Curriculum")}
+                </h2>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {t("Học qua các bài học tương tác với hội thoại, từ vựng và bài tập thực hành.", "Learn through interactive lessons with dialogues, vocabulary and practice exercises.")}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {allChineseModules.map((mod) => (
+                    <Link key={mod.id} to={`/chinese/learn/${mod.id}`}
+                      className={cn("rounded-xl p-4 bg-gradient-to-br transition-all cursor-pointer group hover:shadow-md hover:scale-[1.01] flex items-center gap-3", mod.color)}>
+                      <span className="text-2xl">{mod.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <h5 className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors truncate">{t(mod.title, mod.titleEn)}</h5>
+                        <span className="text-xs text-muted-foreground">{mod.lessons.length} {t("bài học", "lessons")}</span>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary shrink-0" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Audience */}
             <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
               <h2 className="text-xl font-display font-bold text-foreground mb-4 flex items-center gap-2">
