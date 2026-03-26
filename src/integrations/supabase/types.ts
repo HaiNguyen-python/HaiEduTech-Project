@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      api_balance: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          note: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          note?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          note?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      api_usage_log: {
+        Row: {
+          created_at: string
+          domain: string | null
+          error_message: string | null
+          estimated_cost: number | null
+          function_name: string
+          id: string
+          model: string
+          status: string | null
+          tokens_used: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          domain?: string | null
+          error_message?: string | null
+          estimated_cost?: number | null
+          function_name: string
+          id?: string
+          model?: string
+          status?: string | null
+          tokens_used?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          domain?: string | null
+          error_message?: string | null
+          estimated_cost?: number | null
+          function_name?: string
+          id?: string
+          model?: string
+          status?: string | null
+          tokens_used?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       article_interests: {
         Row: {
           article_id: string | null
