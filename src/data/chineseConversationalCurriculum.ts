@@ -629,6 +629,85 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         ],
       },
 
+      // ──── Lesson 7: Weather & Seasons ────
+      {
+        id: "cn-dl-07-weather",
+        title: "Weather & Seasons",
+        titleVi: "Thời tiết & Mùa",
+        titleZh: "天气季节",
+        icon: "CloudSun",
+        description: "Discuss weather, seasons, and climate in everyday conversation",
+        descriptionVi: "Thảo luận về thời tiết, mùa và khí hậu trong giao tiếp hàng ngày",
+        hskLevel: 2,
+        badge: "气象通",
+        badgeVi: "Thông thạo Thời tiết",
+        keySituations: [
+          {
+            title: "Talking About Today's Weather",
+            titleVi: "Nói về thời tiết hôm nay",
+            description: "Common phrases for discussing current weather",
+            descriptionVi: "Cụm từ phổ biến để nói về thời tiết hiện tại",
+            culturalNote: "Weather is a universal conversation starter in China too. Northern China (北方 běifāng) has extreme winters while Southern China (南方 nánfāng) is humid and warm. The 梅雨季节 (méiyǔ jìjié — plum rain season) in June-July is a major seasonal event.",
+            culturalNoteVi: "Thời tiết là chủ đề mở đầu cuộc trò chuyện phổ biến ở Trung Quốc. Miền Bắc 北方 có mùa đông khắc nghiệt, miền Nam 南方 ẩm ướt và ấm áp. Mùa mưa ngâu 梅雨季节 vào tháng 6-7 là sự kiện theo mùa quan trọng.",
+            sampleDialogue: [
+              { speaker: "A", line: "今天天气怎么样？", pinyin: "Jīntiān tiānqì zěnmeyàng?", translationVi: "Hôm nay thời tiết thế nào?" },
+              { speaker: "B", line: "今天很热，有三十五度。", pinyin: "Jīntiān hěn rè, yǒu sānshíwǔ dù.", translationVi: "Hôm nay rất nóng, 35 độ." },
+              { speaker: "A", line: "下午好像要下雨。", pinyin: "Xiàwǔ hǎoxiàng yào xià yǔ.", translationVi: "Chiều hình như sẽ mưa." },
+              { speaker: "B", line: "那我带把伞出门。", pinyin: "Nà wǒ dài bǎ sǎn chūmén.", translationVi: "Vậy tôi mang ô đi." },
+            ],
+          },
+          {
+            title: "Discussing Seasons",
+            titleVi: "Thảo luận về các mùa",
+            description: "Talk about your favorite season and seasonal activities",
+            descriptionVi: "Nói về mùa yêu thích và hoạt động theo mùa",
+            sampleDialogue: [
+              { speaker: "A", line: "你最喜欢什么季节？", pinyin: "Nǐ zuì xǐhuan shénme jìjié?", translationVi: "Bạn thích mùa nào nhất?" },
+              { speaker: "B", line: "我最喜欢秋天，天气很凉快。", pinyin: "Wǒ zuì xǐhuan qiūtiān, tiānqì hěn liángkuai.", translationVi: "Tôi thích nhất mùa thu, thời tiết mát mẻ." },
+              { speaker: "A", line: "秋天的风景也很美，树叶变红了。", pinyin: "Qiūtiān de fēngjǐng yě hěn měi, shùyè biàn hóng le.", translationVi: "Phong cảnh mùa thu cũng rất đẹp, lá cây chuyển đỏ." },
+              { speaker: "B", line: "对，我们可以去爬山赏红叶！", pinyin: "Duì, wǒmen kěyǐ qù pá shān shǎng hóngyè!", translationVi: "Đúng, chúng ta có thể đi leo núi ngắm lá đỏ!" },
+            ],
+          },
+        ],
+        vocabulary: [
+          { hanzi: "天气", pinyin: "tiānqì", meaning: "Thời tiết", meaningEn: "Weather", type: "phrase", example: "今天天气很好。", examplePinyin: "Jīntiān tiānqì hěn hǎo.", exampleVi: "Hôm nay thời tiết tốt." },
+          { hanzi: "下雨", pinyin: "xià yǔ", meaning: "Mưa", meaningEn: "To rain", type: "phrase", example: "明天要下雨。", examplePinyin: "Míngtiān yào xià yǔ.", exampleVi: "Ngày mai sẽ mưa." },
+          { hanzi: "凉快", pinyin: "liángkuai", meaning: "Mát mẻ", meaningEn: "Cool (weather)", type: "phrase", example: "秋天很凉快。", examplePinyin: "Qiūtiān hěn liángkuai.", exampleVi: "Mùa thu rất mát mẻ." },
+          { hanzi: "温度", pinyin: "wēndù", meaning: "Nhiệt độ", meaningEn: "Temperature", type: "phrase", example: "今天温度很高。", examplePinyin: "Jīntiān wēndù hěn gāo.", exampleVi: "Hôm nay nhiệt độ rất cao." },
+          { hanzi: "季节", pinyin: "jìjié", meaning: "Mùa", meaningEn: "Season", type: "phrase", example: "中国有四个季节。", examplePinyin: "Zhōngguó yǒu sì gè jìjié.", exampleVi: "Trung Quốc có bốn mùa." },
+          { hanzi: "雪", pinyin: "xuě", meaning: "Tuyết", meaningEn: "Snow", type: "phrase", example: "冬天下雪了。", examplePinyin: "Dōngtiān xià xuě le.", exampleVi: "Mùa đông có tuyết rơi." },
+        ],
+        commonStructures: [
+          {
+            pattern: "好像要 + Verb",
+            patternPinyin: "Hǎoxiàng yào + Verb",
+            explanation: "It seems like it's going to...",
+            explanationVi: "Hình như sắp...",
+            examples: [
+              { zh: "好像要下雨了。", pinyin: "Hǎoxiàng yào xià yǔ le.", vi: "Hình như sắp mưa rồi." },
+              { zh: "好像要降温了。", pinyin: "Hǎoxiàng yào jiàngwēn le.", vi: "Hình như sắp hạ nhiệt độ rồi." },
+            ],
+          },
+        ],
+        listeningChallenge: {
+          title: "Listening: Weather Forecast",
+          titleVi: "Nghe: Dự báo thời tiết",
+          transcript: "各位听众好，今天北京天气晴朗，最高温度32度。明天开始有大雨，温度会下降到25度。请大家出门记得带伞。周末天气转晴，适合户外活动。",
+          transcriptPinyin: "Gèwèi tīngzhòng hǎo, jīntiān Běijīng tiānqì qínglǎng, zuìgāo wēndù sānshí'èr dù. Míngtiān kāishǐ yǒu dà yǔ, wēndù huì xiàjiàng dào èrshíwǔ dù. Qǐng dàjiā chūmén jìde dài sǎn. Zhōumò tiānqì zhuǎn qíng, shìhé hùwài huódòng.",
+          questions: [
+            { q: "What is today's weather?", qVi: "Thời tiết hôm nay thế nào?", options: ["下雨", "阴天", "晴朗", "多云"], answer: 2 },
+            { q: "What is tomorrow's high temperature?", qVi: "Nhiệt độ ngày mai là bao nhiêu?", options: ["20度", "25度", "30度", "32度"], answer: 1 },
+            { q: "When will the weather clear up?", qVi: "Khi nào thời tiết hửng nắng?", options: ["明天", "后天", "周末", "下周"], answer: 2 },
+          ],
+        },
+        speakingTopics: [
+          "Describe the weather in your city today",
+          "Talk about your favorite season and why",
+          "Compare the climate of Vietnam and China",
+          "Discuss how weather affects your daily routine",
+        ],
+      },
+
       // ──── Lesson 6: Renting & Housing ────
       {
         id: "cn-dl-06-housing",
@@ -1015,6 +1094,72 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Request time off from your manager",
           "Give a status update on your project",
           "Write and discuss a work email",
+        ],
+      },
+
+      // ──── Lesson 5: Business Trip ────
+      {
+        id: "cn-bz-05-trip",
+        title: "Business Trip",
+        titleVi: "Chuyến Công tác",
+        titleZh: "出差",
+        icon: "Plane",
+        description: "Handle business travel: booking, hotel check-in, and reporting back",
+        descriptionVi: "Xử lý công tác: đặt vé, nhận phòng khách sạn và báo cáo khi về",
+        hskLevel: 3,
+        badge: "出差能手",
+        badgeVi: "Chuyên gia Công tác",
+        keySituations: [
+          {
+            title: "Booking a Business Trip",
+            titleVi: "Đặt chuyến công tác",
+            description: "Arrange travel and accommodation for work",
+            descriptionVi: "Sắp xếp di chuyển và chỗ ở cho công việc",
+            culturalNote: "In Chinese business culture, 出差 (chūchāi — business trip) is very common. Many companies use 钉钉 (DīngDīng) or 飞书 (Fēishū) for travel requests. '差旅报销' (chāilǚ bàoxiāo) — travel expense reimbursement — is a key phrase to know.",
+            culturalNoteVi: "Trong văn hóa kinh doanh Trung Quốc, 出差 rất phổ biến. Nhiều công ty dùng 钉钉 hoặc 飞书 để yêu cầu đi công tác. '差旅报销' (hoàn trả chi phí công tác) là cụm từ quan trọng cần biết.",
+            sampleDialogue: [
+              { speaker: "A", line: "下周我要去上海出差。", pinyin: "Xià zhōu wǒ yào qù Shànghǎi chūchāi.", translationVi: "Tuần sau tôi phải đi công tác ở Thượng Hải." },
+              { speaker: "B", line: "出差几天？需要我帮你订酒店吗？", pinyin: "Chūchāi jǐ tiān? Xūyào wǒ bāng nǐ dìng jiǔdiàn ma?", translationVi: "Đi mấy ngày? Cần tôi đặt khách sạn giúp không?" },
+              { speaker: "A", line: "三天两晚，订一个离客户公司近的酒店。", pinyin: "Sān tiān liǎng wǎn, dìng yī gè lí kèhù gōngsī jìn de jiǔdiàn.", translationVi: "Ba ngày hai đêm, đặt khách sạn gần công ty khách hàng." },
+              { speaker: "B", line: "好的，机票也帮你订好了。", pinyin: "Hǎo de, jīpiào yě bāng nǐ dìng hǎo le.", translationVi: "Được, vé máy bay cũng đặt cho bạn rồi." },
+            ],
+          },
+        ],
+        vocabulary: [
+          { hanzi: "出差", pinyin: "chūchāi", meaning: "Đi công tác", meaningEn: "Business trip", type: "phrase", example: "他经常出差。", examplePinyin: "Tā jīngcháng chūchāi.", exampleVi: "Anh ấy thường đi công tác." },
+          { hanzi: "机票", pinyin: "jīpiào", meaning: "Vé máy bay", meaningEn: "Plane ticket", type: "phrase", example: "帮我订一张机票。", examplePinyin: "Bāng wǒ dìng yī zhāng jīpiào.", exampleVi: "Đặt giúp tôi một vé máy bay." },
+          { hanzi: "酒店", pinyin: "jiǔdiàn", meaning: "Khách sạn", meaningEn: "Hotel", type: "phrase", example: "酒店在哪里？", examplePinyin: "Jiǔdiàn zài nǎlǐ?", exampleVi: "Khách sạn ở đâu?" },
+          { hanzi: "报销", pinyin: "bàoxiāo", meaning: "Hoàn trả chi phí", meaningEn: "Reimbursement", type: "phrase", example: "这个可以报销吗？", examplePinyin: "Zhège kěyǐ bàoxiāo ma?", exampleVi: "Cái này có thể hoàn trả không?" },
+          { hanzi: "行程", pinyin: "xíngchéng", meaning: "Lịch trình", meaningEn: "Itinerary", type: "phrase", example: "发一下你的行程。", examplePinyin: "Fā yīxià nǐ de xíngchéng.", exampleVi: "Gửi lịch trình của bạn đi." },
+        ],
+        commonStructures: [
+          {
+            pattern: "帮 + Someone + Verb",
+            patternPinyin: "Bāng + Someone + Verb",
+            explanation: "Help someone do something",
+            explanationVi: "Giúp ai đó làm gì",
+            examples: [
+              { zh: "帮我订一间房。", pinyin: "Bāng wǒ dìng yī jiān fáng.", vi: "Đặt giúp tôi một phòng." },
+              { zh: "帮他买一张火车票。", pinyin: "Bāng tā mǎi yī zhāng huǒchē piào.", vi: "Mua giúp anh ấy một vé tàu." },
+            ],
+          },
+        ],
+        listeningChallenge: {
+          title: "Listening: Business Trip Report",
+          titleVi: "Nghe: Báo cáo chuyến công tác",
+          transcript: "这次去上海出差三天，拜访了两个客户。第一个客户对我们的产品很感兴趣，准备签合同。第二个客户需要再考虑一下。我住的酒店不错，离地铁站很近。",
+          transcriptPinyin: "Zhè cì qù Shànghǎi chūchāi sān tiān, bàifǎng le liǎng gè kèhù. Dì yī gè kèhù duì wǒmen de chǎnpǐn hěn gǎn xìngqù, zhǔnbèi qiān hétong. Dì èr gè kèhù xūyào zài kǎolǜ yīxià. Wǒ zhù de jiǔdiàn búcuò, lí dìtiě zhàn hěn jìn.",
+          questions: [
+            { q: "How many days was the trip?", qVi: "Chuyến đi bao nhiêu ngày?", options: ["两天", "三天", "四天", "五天"], answer: 1 },
+            { q: "How many clients were visited?", qVi: "Bao nhiêu khách hàng được thăm?", options: ["一个", "两个", "三个", "四个"], answer: 1 },
+            { q: "What was the hotel like?", qVi: "Khách sạn thế nào?", options: ["很贵", "不错", "很远", "很小"], answer: 1 },
+          ],
+        },
+        speakingTopics: [
+          "Describe a business trip experience",
+          "Plan a work trip itinerary in Chinese",
+          "Discuss hotel preferences when traveling for work",
+          "Report on a client meeting",
         ],
       },
 
@@ -1492,6 +1637,165 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Describe your favorite festival and traditions",
           "Explain the meaning of giving red envelopes",
           "Plan a festival celebration with friends",
+        ],
+      },
+
+      // ──── Lesson 5: Dating & Relationships ────
+      {
+        id: "cn-sc-05-dating",
+        title: "Dating & Relationships",
+        titleVi: "Hẹn hò & Mối quan hệ",
+        titleZh: "约会恋爱",
+        icon: "Heart",
+        description: "Talk about dating, relationships, and expressing feelings in Chinese",
+        descriptionVi: "Nói về hẹn hò, mối quan hệ và bày tỏ tình cảm bằng tiếng Trung",
+        hskLevel: 3,
+        badge: "恋爱高手",
+        badgeVi: "Cao thủ Tình yêu",
+        keySituations: [
+          {
+            title: "Asking Someone Out",
+            titleVi: "Rủ ai đi chơi",
+            description: "How to ask someone on a date in Chinese",
+            descriptionVi: "Cách rủ ai đó đi hẹn hò bằng tiếng Trung",
+            culturalNote: "In China, dating culture has evolved rapidly. Apps like 探探 (Tàntàn) are popular. The term '约会' (yuēhuì) is the standard word for a date. '暧昧' (àimèi) describes the flirty, ambiguous stage before officially dating.",
+            culturalNoteVi: "Văn hóa hẹn hò ở Trung Quốc phát triển nhanh chóng. Ứng dụng như 探探 rất phổ biến. '约会' là từ chuẩn cho buổi hẹn hò. '暧昧' mô tả giai đoạn tình cảm mập mờ trước khi chính thức hẹn hò.",
+            sampleDialogue: [
+              { speaker: "A", line: "这周末你有空吗？", pinyin: "Zhè zhōumò nǐ yǒu kòng ma?", translationVi: "Cuối tuần này bạn rảnh không?" },
+              { speaker: "B", line: "有啊，怎么了？", pinyin: "Yǒu a, zěnme le?", translationVi: "Rảnh, sao vậy?" },
+              { speaker: "A", line: "我想请你一起去看电影，你愿意吗？", pinyin: "Wǒ xiǎng qǐng nǐ yīqǐ qù kàn diànyǐng, nǐ yuànyì ma?", translationVi: "Tôi muốn mời bạn đi xem phim, bạn có muốn không?" },
+              { speaker: "B", line: "好啊！看什么电影？", pinyin: "Hǎo a! Kàn shénme diànyǐng?", translationVi: "Được! Xem phim gì?" },
+              { speaker: "A", line: "有一部新的爱情片，评分很高。", pinyin: "Yǒu yī bù xīn de àiqíng piàn, píngfēn hěn gāo.", translationVi: "Có bộ phim tình cảm mới, điểm rất cao." },
+            ],
+          },
+          {
+            title: "Expressing Feelings",
+            titleVi: "Bày tỏ tình cảm",
+            description: "How to express romantic interest and emotions",
+            descriptionVi: "Cách bày tỏ sự quan tâm và tình cảm",
+            sampleDialogue: [
+              { speaker: "A", line: "我觉得我们在一起很开心。", pinyin: "Wǒ juéde wǒmen zài yīqǐ hěn kāixīn.", translationVi: "Tôi thấy chúng ta ở bên nhau rất vui." },
+              { speaker: "B", line: "我也是，你对我很重要。", pinyin: "Wǒ yě shì, nǐ duì wǒ hěn zhòngyào.", translationVi: "Tôi cũng vậy, bạn rất quan trọng với tôi." },
+              { speaker: "A", line: "我喜欢你，你愿意做我的女朋友吗？", pinyin: "Wǒ xǐhuan nǐ, nǐ yuànyì zuò wǒ de nǚ péngyǒu ma?", translationVi: "Tôi thích bạn, bạn có muốn làm bạn gái tôi không?" },
+              { speaker: "B", line: "我也喜欢你，我愿意。", pinyin: "Wǒ yě xǐhuan nǐ, wǒ yuànyì.", translationVi: "Tôi cũng thích bạn, tôi đồng ý." },
+            ],
+          },
+        ],
+        vocabulary: [
+          { hanzi: "约会", pinyin: "yuēhuì", meaning: "Hẹn hò", meaningEn: "Date", type: "phrase", example: "我们去约会吧。", examplePinyin: "Wǒmen qù yuēhuì ba.", exampleVi: "Chúng ta đi hẹn hò đi." },
+          { hanzi: "喜欢", pinyin: "xǐhuan", meaning: "Thích", meaningEn: "To like", type: "phrase", example: "我很喜欢你。", examplePinyin: "Wǒ hěn xǐhuan nǐ.", exampleVi: "Tôi rất thích bạn." },
+          { hanzi: "暧昧", pinyin: "àimèi", meaning: "Mập mờ (tình cảm)", meaningEn: "Ambiguous (romantic)", type: "expression", example: "他们的关系很暧昧。", examplePinyin: "Tāmen de guānxi hěn àimèi.", exampleVi: "Mối quan hệ của họ rất mập mờ." },
+          { hanzi: "表白", pinyin: "biǎobái", meaning: "Tỏ tình", meaningEn: "To confess love", type: "phrase", example: "他向她表白了。", examplePinyin: "Tā xiàng tā biǎobái le.", exampleVi: "Anh ấy tỏ tình với cô ấy rồi." },
+          { hanzi: "浪漫", pinyin: "làngmàn", meaning: "Lãng mạn", meaningEn: "Romantic", type: "phrase", example: "这个餐厅很浪漫。", examplePinyin: "Zhège cāntīng hěn làngmàn.", exampleVi: "Nhà hàng này rất lãng mạn." },
+          { hanzi: "分手", pinyin: "fēnshǒu", meaning: "Chia tay", meaningEn: "To break up", type: "phrase", example: "他们分手了。", examplePinyin: "Tāmen fēnshǒu le.", exampleVi: "Họ chia tay rồi." },
+        ],
+        commonStructures: [
+          {
+            pattern: "愿意 + Verb + 吗？",
+            patternPinyin: "Yuànyì + Verb + ma?",
+            explanation: "Are you willing to...?",
+            explanationVi: "Bạn có sẵn lòng...?",
+            examples: [
+              { zh: "你愿意和我一起去吗？", pinyin: "Nǐ yuànyì hé wǒ yīqǐ qù ma?", vi: "Bạn có sẵn lòng đi cùng tôi không?" },
+              { zh: "你愿意做我的男朋友吗？", pinyin: "Nǐ yuànyì zuò wǒ de nán péngyǒu ma?", vi: "Bạn có muốn làm bạn trai tôi không?" },
+            ],
+          },
+        ],
+        listeningChallenge: {
+          title: "Listening: A First Date",
+          titleVi: "Nghe: Buổi hẹn đầu tiên",
+          transcript: "昨天我和小王第一次约会。我们先去了一家很浪漫的咖啡馆，聊了很多。她喜欢看书和旅行，跟我一样。后来我们去公园散步，看了日落。她说她玩得很开心，希望下次还能见面。",
+          transcriptPinyin: "Zuótiān wǒ hé Xiǎo Wáng dì yī cì yuēhuì. Wǒmen xiān qù le yī jiā hěn làngmàn de kāfēi guǎn, liáo le hěn duō. Tā xǐhuan kàn shū hé lǚxíng, gēn wǒ yīyàng. Hòulái wǒmen qù gōngyuán sànbù, kàn le rìluò. Tā shuō tā wán de hěn kāixīn, xīwàng xià cì hái néng jiànmiàn.",
+          questions: [
+            { q: "Where did they go first?", qVi: "Họ đi đâu đầu tiên?", options: ["餐厅", "咖啡馆", "电影院", "公园"], answer: 1 },
+            { q: "What hobby do they share?", qVi: "Họ có sở thích chung gì?", options: ["唱歌", "看书", "做饭", "游泳"], answer: 1 },
+            { q: "What did they see in the park?", qVi: "Họ ngắm gì ở công viên?", options: ["月亮", "星星", "日落", "花"], answer: 2 },
+          ],
+        },
+        speakingTopics: [
+          "Describe your ideal date in Chinese",
+          "Talk about what qualities you value in a partner",
+          "Discuss dating culture differences between China and Vietnam",
+          "Share a memorable love story",
+        ],
+      },
+
+      // ──── Lesson 6: Sports & Fitness ────
+      {
+        id: "cn-sc-06-sports",
+        title: "Sports & Fitness",
+        titleVi: "Thể thao & Sức khỏe",
+        titleZh: "体育健身",
+        icon: "Dumbbell",
+        description: "Discuss sports, exercise routines, and staying healthy",
+        descriptionVi: "Thảo luận về thể thao, tập luyện và giữ gìn sức khỏe",
+        hskLevel: 2,
+        badge: "运动达人",
+        badgeVi: "Người yêu Thể thao",
+        keySituations: [
+          {
+            title: "At the Gym",
+            titleVi: "Ở phòng tập",
+            description: "Communicate at a gym or fitness center",
+            descriptionVi: "Giao tiếp tại phòng tập gym",
+            culturalNote: "Fitness culture is booming in China. 健身房 (jiànshēn fáng) gyms and 瑜伽 (yújiā) yoga studios are very popular in cities. The concept of 打卡 (dǎkǎ — check-in) motivates people to post their workouts on social media.",
+            culturalNoteVi: "Văn hóa tập luyện đang bùng nổ ở Trung Quốc. Phòng gym 健身房 và studio yoga 瑜伽 rất phổ biến ở thành phố. Khái niệm '打卡' (check-in) thúc đẩy mọi người đăng bài tập lên mạng xã hội.",
+            sampleDialogue: [
+              { speaker: "A", line: "你今天练什么？", pinyin: "Nǐ jīntiān liàn shénme?", translationVi: "Hôm nay bạn tập gì?" },
+              { speaker: "B", line: "我今天练腿，你呢？", pinyin: "Wǒ jīntiān liàn tuǐ, nǐ ne?", translationVi: "Hôm nay tôi tập chân, còn bạn?" },
+              { speaker: "A", line: "我跑步半小时，然后做力量训练。", pinyin: "Wǒ pǎobù bàn xiǎoshí, ránhòu zuò lìliàng xùnliàn.", translationVi: "Tôi chạy bộ nửa tiếng, sau đó tập sức mạnh." },
+              { speaker: "B", line: "不错！运动完了一起喝杯蛋白粉吧。", pinyin: "Búcuò! Yùndòng wán le yīqǐ hē bēi dànbái fěn ba.", translationVi: "Tốt! Tập xong cùng uống ly protein nhé." },
+            ],
+          },
+          {
+            title: "Talking About Sports",
+            titleVi: "Nói về thể thao",
+            description: "Discuss your favorite sports and teams",
+            descriptionVi: "Thảo luận về môn thể thao và đội bóng yêu thích",
+            sampleDialogue: [
+              { speaker: "A", line: "你喜欢什么运动？", pinyin: "Nǐ xǐhuan shénme yùndòng?", translationVi: "Bạn thích môn thể thao nào?" },
+              { speaker: "B", line: "我最喜欢打篮球，我是NBA球迷。", pinyin: "Wǒ zuì xǐhuan dǎ lánqiú, wǒ shì NBA qiúmí.", translationVi: "Tôi thích nhất chơi bóng rổ, tôi là fan NBA." },
+              { speaker: "A", line: "你支持哪个队？", pinyin: "Nǐ zhīchí nǎge duì?", translationVi: "Bạn ủng hộ đội nào?" },
+              { speaker: "B", line: "湖人队！勒布朗是我的偶像。", pinyin: "Húrén Duì! Lèbùlǎng shì wǒ de ǒuxiàng.", translationVi: "Đội Lakers! LeBron là thần tượng của tôi." },
+            ],
+          },
+        ],
+        vocabulary: [
+          { hanzi: "运动", pinyin: "yùndòng", meaning: "Thể thao / Vận động", meaningEn: "Sport / Exercise", type: "phrase", example: "我每天运动一小时。", examplePinyin: "Wǒ měitiān yùndòng yī xiǎoshí.", exampleVi: "Tôi tập thể dục mỗi ngày một giờ." },
+          { hanzi: "健身", pinyin: "jiànshēn", meaning: "Tập gym", meaningEn: "Fitness / Work out", type: "phrase", example: "他每天去健身。", examplePinyin: "Tā měitiān qù jiànshēn.", exampleVi: "Anh ấy đi tập gym mỗi ngày." },
+          { hanzi: "跑步", pinyin: "pǎobù", meaning: "Chạy bộ", meaningEn: "Running", type: "phrase", example: "早上跑步很舒服。", examplePinyin: "Zǎoshang pǎobù hěn shūfu.", exampleVi: "Chạy bộ buổi sáng rất thoải mái." },
+          { hanzi: "篮球", pinyin: "lánqiú", meaning: "Bóng rổ", meaningEn: "Basketball", type: "phrase", example: "我们去打篮球吧！", examplePinyin: "Wǒmen qù dǎ lánqiú ba!", exampleVi: "Chúng ta đi chơi bóng rổ đi!" },
+          { hanzi: "足球", pinyin: "zúqiú", meaning: "Bóng đá", meaningEn: "Football / Soccer", type: "phrase", example: "世界杯足球赛很精彩。", examplePinyin: "Shìjiè Bēi zúqiú sài hěn jīngcǎi.", exampleVi: "World Cup bóng đá rất hấp dẫn." },
+          { hanzi: "游泳", pinyin: "yóuyǒng", meaning: "Bơi lội", meaningEn: "Swimming", type: "phrase", example: "夏天我喜欢游泳。", examplePinyin: "Xiàtiān wǒ xǐhuan yóuyǒng.", exampleVi: "Mùa hè tôi thích bơi." },
+        ],
+        commonStructures: [
+          {
+            pattern: "每天 + Time + Verb",
+            patternPinyin: "Měitiān + Time + Verb",
+            explanation: "Every day at... do...",
+            explanationVi: "Mỗi ngày lúc... làm...",
+            examples: [
+              { zh: "我每天早上六点跑步。", pinyin: "Wǒ měitiān zǎoshang liù diǎn pǎobù.", vi: "Tôi chạy bộ lúc 6 giờ sáng mỗi ngày." },
+              { zh: "他每天晚上去健身房。", pinyin: "Tā měitiān wǎnshang qù jiànshēn fáng.", vi: "Anh ấy đi gym mỗi tối." },
+            ],
+          },
+        ],
+        listeningChallenge: {
+          title: "Listening: Morning Exercise Routine",
+          titleVi: "Nghe: Thói quen tập buổi sáng",
+          transcript: "我每天早上五点半起床，先喝一杯水，然后去公园跑步。跑完步以后做二十分钟的拉伸。周末我会去健身房练力量。我觉得运动让我的身体越来越好，精神也很好。",
+          transcriptPinyin: "Wǒ měitiān zǎoshang wǔ diǎn bàn qǐchuáng, xiān hē yī bēi shuǐ, ránhòu qù gōngyuán pǎobù. Pǎo wán bù yǐhòu zuò èrshí fēnzhōng de lāshēn. Zhōumò wǒ huì qù jiànshēn fáng liàn lìliàng. Wǒ juéde yùndòng ràng wǒ de shēntǐ yuè lái yuè hǎo, jīngshén yě hěn hǎo.",
+          questions: [
+            { q: "What time does the speaker wake up?", qVi: "Người nói dậy lúc mấy giờ?", options: ["五点", "五点半", "六点", "六点半"], answer: 1 },
+            { q: "How long is the stretching?", qVi: "Kéo giãn bao lâu?", options: ["十分钟", "二十分钟", "三十分钟", "一小时"], answer: 1 },
+            { q: "When does the speaker go to the gym?", qVi: "Khi nào người nói đi gym?", options: ["每天", "周末", "晚上", "下午"], answer: 1 },
+          ],
+        },
+        speakingTopics: [
+          "Describe your exercise routine in Chinese",
+          "Talk about your favorite sport and why you like it",
+          "Discuss the benefits of regular exercise",
+          "Compare sports culture in China and your country",
         ],
       },
     ],
