@@ -187,7 +187,7 @@ const ChatBot = () => {
 
     const recognition: ISpeechRecognition = new SpeechRecognition();
     // Set language based on current app language, default to Vietnamese
-    recognition.lang = language === "en" ? "en-US" : "vi-VN";
+    recognition.lang = lang === "en" ? "en-US" : "vi-VN";
     recognition.interimResults = true;
     recognition.continuous = false;
     recognitionRef.current = recognition;
@@ -210,7 +210,7 @@ const ChatBot = () => {
 
     recognition.start();
     setIsRecording(true);
-  }, [isRecording, language, t]);
+  }, [isRecording, lang, t]);
 
   /**
    * Log a profanity warning to moderation_logs table.
