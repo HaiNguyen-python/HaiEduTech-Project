@@ -147,6 +147,26 @@ const Chinese = () => {
               ))}
             </div>
 
+            {/* HSK Vocabulary Bank CTA */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="mb-10">
+              <Link to="/chinese/hsk/vocabulary" className="block glass-card rounded-2xl p-6 hover:border-primary/40 transition-all group">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center text-2xl">📚</div>
+                    <div>
+                      <h3 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                        HSK Vocabulary Bank
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {t("300+ từ vựng HSK 1-6 — Flashcard, bài tập, phát âm TTS", "300+ HSK 1-6 words — Flashcard, exercises, TTS pronunciation")}
+                      </p>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
+              </Link>
+            </motion.div>
+
             {/* Word of the Day */}
             <WordOfTheDay type="chinese" />
 
