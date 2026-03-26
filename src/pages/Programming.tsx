@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
+import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot } from "lucide-react";
@@ -275,6 +276,11 @@ const Programming = () => {
 
             {/* Python Review */}
             <PythonReview />
+
+            {/* Skill Assessment */}
+            <div className="mb-10">
+              <AssessmentTool preSelectedSubject="programming" inline />
+            </div>
 
             {/* IT Certifications */}
             <div className="mt-12">
