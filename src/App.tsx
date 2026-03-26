@@ -45,6 +45,7 @@ const ConversationalLessonView = lazy(() => import("./pages/ConversationalLesson
 const ChineseConversationalDashboard = lazy(() => import("./pages/ChineseConversationalDashboard.tsx"));
 const ChineseConversationalLessonView = lazy(() => import("./pages/ChineseConversationalLessonView.tsx"));
 const HskVocabulary = lazy(() => import("./pages/HskVocabulary.tsx"));
+const KnowledgeHubPage = lazy(() => import("./pages/KnowledgeHubPage.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -104,6 +105,7 @@ const App = () => (
             <Route path="/login" element={<LazyRoute><Login /></LazyRoute>} />
             <Route path="/signup" element={<LazyRoute><Signup /></LazyRoute>} />
             <Route path="/ai-library" element={<LazyRoute><AILibrary /></LazyRoute>} />
+            <Route path="/knowledge-hub" element={<LazyRoute><KnowledgeHubPage /></LazyRoute>} />
             {/* Redirects for old routes */}
             <Route path="/smart-resources" element={<Navigate to="/ai-library" replace />} />
             <Route path="/lesson-library" element={<Navigate to="/ai-library" replace />} />

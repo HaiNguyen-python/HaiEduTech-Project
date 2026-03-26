@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
-  FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard
+  FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -120,6 +120,7 @@ const Navbar = () => {
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/ai-library", label: t("Thư Viện", "Library"), icon: Library },
+    { to: "/knowledge-hub", label: "Knowledge Hub", icon: Newspaper },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
 
