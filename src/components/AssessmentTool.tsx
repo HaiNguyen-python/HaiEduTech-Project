@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Zap,
   CheckCircle,
+  XCircle,
   ArrowRight,
   Send,
   Languages,
@@ -77,7 +78,11 @@ const SUBJECTS = [
   },
 ];
 
-// Adaptive difficulty: if first 3 correct, boost next 2 to hard
+/**
+ * Adaptive difficulty: if first 3 correct, replace questions at index 3 & 4
+ * with hard-difficulty questions NOT already in the first 3 positions.
+ * Uses a Set of IDs to guarantee no duplicates.
+ */
 function getAdaptiveQuestions(
   bank: AssessmentQuestion[],
   answers: number[]
@@ -88,20 +93,54 @@ function getAdaptiveQuestions(
     .slice(0, 3)
     .every((a, i) => a === bank[i].correct);
 
-  if (firstThreeCorrect) {
-    // Swap questions 4-5 with hard questions if not already hard
-    const hardQs = bank.filter((q) => q.difficulty === "hard");
-    const result = [...bank];
-    if (hardQs.length >= 2) {
-      result[3] = hardQs[0];
-      result[4] = hardQs[1];
+  if (!firstThreeCorrect) return bank;
+
+  // IDs already used in the first 3 positions
+  const usedIds = new Set(bank.slice(0, 3).map((q) => q.id));
+  // Also include IDs at positions 3 and 4 so we skip them when finding replacements
+  const currentIds = new Set(bank.map((q) => q.id));
+
+  // Find hard questions not already in the bank selection
+  const hardCandidates = bank
+    .filter((q) => q.difficulty === "hard" && !usedIds.has(q.id));
+
+  if (hardCandidates.length < 2) return bank;
+
+  const result = [...bank];
+  // Track what we're replacing to avoid putting the same question twice
+  const replacementIds = new Set<string>();
+
+  let replacementIdx = 0;
+  for (let pos = 3; pos <= 4 && replacementIdx < hardCandidates.length; pos++) {
+    const candidate = hardCandidates[replacementIdx];
+    // Only replace if the candidate isn't already at this position
+    if (result[pos].id !== candidate.id) {
+      result[pos] = candidate;
     }
-    return result;
+    replacementIdx++;
   }
-  return bank;
+
+  // Final deduplication pass: ensure all 10 questions have unique IDs
+  const seen = new Set<string>();
+  const deduplicated: AssessmentQuestion[] = [];
+  for (const q of result) {
+    if (!seen.has(q.id)) {
+      seen.add(q.id);
+      deduplicated.push(q);
+    }
+  }
+
+  return deduplicated;
 }
 
-const AssessmentTool = () => {
+interface AssessmentToolProps {
+  /** Pre-select a subject and skip the selection screen */
+  preSelectedSubject?: Subject;
+  /** Hide the CTA section and only render the button + modal */
+  inline?: boolean;
+}
+
+const AssessmentTool = ({ preSelectedSubject, inline }: AssessmentToolProps) => {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -111,19 +150,21 @@ const AssessmentTool = () => {
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [email, setEmail] = useState("");
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(300);
   const [profile, setProfile] = useState<SkillProfile | null>(null);
   const [startTime, setStartTime] = useState<number>(0);
+  // Store the finalized question list used during the quiz for review
+  const [finalQuestions, setFinalQuestions] = useState<AssessmentQuestion[]>([]);
 
   // Get question bank based on selected subject
   const getQuestionBank = useCallback((): AssessmentQuestion[] => {
     switch (subject) {
       case "english":
-        return englishQuestions;
+        return [...englishQuestions];
       case "chinese":
-        return chineseQuestions;
+        return [...chineseQuestions];
       case "programming":
-        return programmingQuestions;
+        return [...programmingQuestions];
       default:
         return [];
     }
@@ -136,7 +177,6 @@ const AssessmentTool = () => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          // Time's up — go to results
           clearInterval(timer);
           finishQuiz();
           return 0;
@@ -158,11 +198,19 @@ const AssessmentTool = () => {
     setEmail("");
     setTimeLeft(300);
     setProfile(null);
+    setFinalQuestions([]);
   };
 
   const handleOpen = () => {
     reset();
     setOpen(true);
+    // If a subject is pre-selected, go straight to quiz
+    if (preSelectedSubject) {
+      setSubject(preSelectedSubject);
+      setPhase("quiz");
+      setTimeLeft(300);
+      setStartTime(Date.now());
+    }
   };
 
   const selectSubject = (s: Subject) => {
@@ -178,7 +226,6 @@ const AssessmentTool = () => {
   const finishQuiz = useCallback(() => {
     if (!subject) return;
 
-    // Calculate profile
     const getProfile =
       subject === "english"
         ? getEnglishProfile
@@ -188,7 +235,10 @@ const AssessmentTool = () => {
 
     setProfile(getProfile(score));
 
-    // Log activity for RL pipeline
+    // Save the final questions for review
+    const bank = getQuestionBank();
+    setFinalQuestions(getAdaptiveQuestions(bank, answers));
+
     const elapsed = Math.round((Date.now() - startTime) / 1000);
     const domain =
       subject === "english"
@@ -203,15 +253,11 @@ const AssessmentTool = () => {
       maxScore: 10,
       timeSpentSeconds: elapsed,
       domain,
-      metadata: {
-        answers,
-        subject,
-        isBaseline: true,
-      },
+      metadata: { answers, subject, isBaseline: true },
     });
 
     setPhase("result");
-  }, [subject, score, startTime, answers]);
+  }, [subject, score, startTime, answers, getQuestionBank]);
 
   const handleAnswer = (selected: number) => {
     const bank = getAdaptiveQuestions(getQuestionBank(), answers);
@@ -225,12 +271,9 @@ const AssessmentTool = () => {
     if (currentQ + 1 < bank.length) {
       setCurrentQ((q) => q + 1);
     } else {
-      // Use updated score for profile calculation
       const finalScore =
         selected === bank[currentQ].correct ? score + 1 : score;
       setScore(finalScore);
-
-      // Defer finish to next tick so state updates
       setTimeout(() => finishQuiz(), 50);
     }
   };
@@ -250,16 +293,14 @@ const AssessmentTool = () => {
   const totalQ = questions.length;
   const progress = totalQ > 0 ? ((currentQ + 1) / totalQ) * 100 : 0;
 
-  // Format timer
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
-  // Render skill level stars
   const renderStars = (level: number) => (
-    <div className="flex gap-1">
+    <div className="flex gap-1 justify-center">
       {[1, 2, 3, 4, 5].map((i) => (
         <Star
           key={i}
@@ -273,48 +314,79 @@ const AssessmentTool = () => {
     </div>
   );
 
+  // Inline button for embedding in course pages
+  const renderButton = () => (
+    <Button
+      onClick={handleOpen}
+      size="lg"
+      className="gap-2 rounded-xl bg-gradient-to-r from-primary to-emerald-500 px-8 py-6 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:brightness-110"
+    >
+      <Zap className="h-5 w-5" />
+      {t("Bắt Đầu Đánh Giá", "Start Assessment")}
+    </Button>
+  );
+
   return (
     <>
-      {/* CTA Section */}
-      <section className="relative py-20 sm:py-24">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
-        <div className="container relative mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mx-auto max-w-2xl text-center"
-          >
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-emerald-500 shadow-lg shadow-primary/20">
-              <Zap className="h-8 w-8 text-white" />
-            </div>
-            <h2 className="mb-4 font-display text-2xl font-bold sm:text-3xl md:text-4xl">
-              {t("Đánh Giá Năng Lực ", "Free Skill ")}
-              <span className="text-gradient">
-                {t("Miễn Phí", "Assessment")}
-              </span>
-            </h2>
-            <p className="mx-auto mb-8 max-w-lg text-sm leading-7 text-muted-foreground sm:text-base">
-              {t(
-                "Chọn môn học và làm bài kiểm tra 5 phút để biết trình độ hiện tại — nhận lộ trình cá nhân hóa từ hệ thống RL",
-                "Choose your subject and take a 5-minute test to discover your level — get a personalized roadmap from our RL Engine"
-              )}
-            </p>
-            <Button
-              onClick={handleOpen}
-              size="lg"
-              className="gap-2 rounded-xl bg-gradient-to-r from-primary to-emerald-500 px-8 py-6 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:brightness-110"
+      {/* CTA Section — hidden when inline */}
+      {!inline && (
+        <section className="relative py-20 sm:py-24">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+          <div className="container relative mx-auto px-4 sm:px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mx-auto max-w-2xl text-center"
             >
-              <Zap className="h-5 w-5" />
-              {t("Bắt Đầu Đánh Giá", "Start Assessment")}
-            </Button>
-          </motion.div>
-        </div>
-      </section>
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-emerald-500 shadow-lg shadow-primary/20">
+                <Zap className="h-8 w-8 text-white" />
+              </div>
+              <h2 className="mb-4 font-display text-2xl font-bold sm:text-3xl md:text-4xl">
+                {t("Đánh Giá Năng Lực ", "Free Skill ")}
+                <span className="text-gradient">
+                  {t("Miễn Phí", "Assessment")}
+                </span>
+              </h2>
+              <p className="mx-auto mb-8 max-w-lg text-sm leading-7 text-muted-foreground sm:text-base">
+                {t(
+                  "Chọn môn học và làm bài kiểm tra 5 phút để biết trình độ hiện tại — nhận lộ trình cá nhân hóa từ hệ thống RL",
+                  "Choose your subject and take a 5-minute test to discover your level — get a personalized roadmap from our RL Engine"
+                )}
+              </p>
+              {renderButton()}
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Inline mode: just a styled card with button */}
+      {inline && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card rounded-2xl p-8 text-center"
+        >
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-emerald-500 shadow-lg shadow-primary/20">
+            <Zap className="h-7 w-7 text-white" />
+          </div>
+          <h3 className="mb-2 font-display text-xl font-bold text-foreground">
+            {t("Kiểm Tra Năng Lực", "Skill Assessment")}
+          </h3>
+          <p className="mx-auto mb-6 max-w-md text-sm text-muted-foreground">
+            {t(
+              "Làm bài test 5 phút để biết trình độ hiện tại và nhận gợi ý khóa học phù hợp.",
+              "Take a 5-minute test to discover your level and get course recommendations."
+            )}
+          </p>
+          {renderButton()}
+        </motion.div>
+      )}
 
       {/* Assessment Modal */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-lg sm:max-w-2xl">
+        <DialogContent className="max-w-lg sm:max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-display text-xl">
               {phase === "intro" &&
@@ -350,7 +422,7 @@ const AssessmentTool = () => {
 
           <AnimatePresence mode="wait">
             {/* INTRO */}
-            {phase === "intro" && (
+            {phase === "intro" && !preSelectedSubject && (
               <motion.div
                 key="intro"
                 initial={{ opacity: 0 }}
@@ -475,7 +547,7 @@ const AssessmentTool = () => {
                     {t(profile.labelVi, profile.labelEn)}
                   </div>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    {t("Điểm", "Score")}: {score}/{totalQ} •{" "}
+                    {t("Điểm", "Score")}: {score}/{finalQuestions.length || totalQ} •{" "}
                     {t("Thời gian", "Time")}:{" "}
                     {formatTime(300 - timeLeft)}
                   </p>
@@ -485,6 +557,50 @@ const AssessmentTool = () => {
                 <p className="text-center text-sm leading-relaxed text-foreground">
                   {t(profile.descriptionVi, profile.descriptionEn)}
                 </p>
+
+                {/* Detailed Answer Review */}
+                <div className="rounded-xl border border-border bg-card p-4">
+                  <h4 className="font-display font-bold text-sm text-foreground mb-3 flex items-center gap-2">
+                    📋 {t("Chi tiết đáp án", "Detailed Answers")}
+                  </h4>
+                  <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+                    {finalQuestions.map((q, idx) => {
+                      const userAnswer = answers[idx];
+                      const isCorrect = userAnswer === q.correct;
+                      return (
+                        <div
+                          key={q.id}
+                          className={`rounded-lg p-3 text-sm border ${
+                            isCorrect
+                              ? "border-emerald-500/30 bg-emerald-500/5"
+                              : "border-red-500/30 bg-red-500/5"
+                          }`}
+                        >
+                          <div className="flex items-start gap-2 mb-1">
+                            {isCorrect ? (
+                              <CheckCircle className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                            ) : (
+                              <XCircle className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
+                            )}
+                            <span className="font-medium text-foreground">
+                              {t("Câu", "Q")} {idx + 1}: {t(q.questionVi, q.questionEn)}
+                            </span>
+                          </div>
+                          <div className="ml-6 space-y-0.5">
+                            {userAnswer !== undefined && !isCorrect && (
+                              <p className="text-red-600 text-xs">
+                                {t("Bạn chọn", "Your answer")}: <span className="font-medium">{q.options[userAnswer]}</span>
+                              </p>
+                            )}
+                            <p className="text-emerald-600 text-xs">
+                              {t("Đáp án đúng", "Correct answer")}: <span className="font-medium">{q.options[q.correct]}</span>
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
 
                 {/* Course recommendation */}
                 <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
@@ -556,8 +672,8 @@ const AssessmentTool = () => {
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {t(
-                    `Hồ sơ: ${profile?.labelVi} • Điểm: ${score}/${totalQ}`,
-                    `Profile: ${profile?.labelEn} • Score: ${score}/${totalQ}`
+                    `Hồ sơ: ${profile?.labelVi} • Điểm: ${score}/${finalQuestions.length || totalQ}`,
+                    `Profile: ${profile?.labelEn} • Score: ${score}/${finalQuestions.length || totalQ}`
                   )}
                 </p>
                 <Button
