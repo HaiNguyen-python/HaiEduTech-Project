@@ -157,7 +157,6 @@ const IeltsWritingPractice = () => {
             result: data,
             overall_score: data.overall,
           });
-        }
           // Log activity for admin analytics
           logStudentActivity({
             activityType: "ielts_writing",

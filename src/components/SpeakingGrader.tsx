@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Square, RotateCcw, ChevronDown, ChevronUp, Volume2, Play, Shuffle, BookOpen } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { part1Questions, part2Questions, part3Questions, type SpeakingQuestion } from "@/data/speakingQuestions";
 
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
