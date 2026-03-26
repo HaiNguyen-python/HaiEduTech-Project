@@ -1,8 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw } from "lucide-react";
+import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, IELTS_CATEGORIES, CEFR_LEVELS, type IeltsWord } from "@/data/ieltsVocabData";
 import { Badge } from "@/components/ui/badge";
@@ -32,14 +32,21 @@ const speak = (text: string) => {
   }
 };
 
+// Shuffle helper
+const shuffle = <T,>(arr: T[]): T[] => {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+
 // Flashcard component
-const Flashcard = ({ word, isVi }: { word: IeltsWord; isVi: boolean }) => {
+const Flashcard = ({ word }: { word: IeltsWord }) => {
   const [flipped, setFlipped] = useState(false);
   return (
-    <div
-      className="cursor-pointer perspective-1000 h-56"
-      onClick={() => setFlipped(!flipped)}
-    >
+    <div className="cursor-pointer perspective-1000 h-56" onClick={() => setFlipped(!flipped)}>
       <motion.div
         className="relative w-full h-full"
         animate={{ rotateY: flipped ? 180 : 0 }}
@@ -51,24 +58,136 @@ const Flashcard = ({ word, isVi }: { word: IeltsWord; isVi: boolean }) => {
           <h3 className="text-2xl font-bold text-foreground">{word.word}</h3>
           <p className="text-sm text-muted-foreground font-mono">{word.ipa}</p>
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
-          <button
-            onClick={(e) => { e.stopPropagation(); speak(word.word); }}
-            className="mt-2 p-2 rounded-full hover:bg-primary/10 transition-colors"
-          >
+          <button onClick={(e) => { e.stopPropagation(); speak(word.word); }} className="mt-2 p-2 rounded-full hover:bg-primary/10 transition-colors">
             <Volume2 className="w-5 h-5 text-primary" />
           </button>
         </div>
         {/* Back */}
-        <div
-          className="absolute inset-0 backface-hidden rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2"
-          style={{ transform: "rotateY(180deg)" }}
-        >
+        <div className="absolute inset-0 backface-hidden rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2" style={{ transform: "rotateY(180deg)" }}>
           <p className="text-sm font-semibold text-foreground">{word.definition.en}</p>
           <p className="text-sm text-primary">{word.definition.vi}</p>
-          <p className="text-xs text-muted-foreground italic mt-2">"{word.example}"</p>
+          <p className="text-sm text-foreground font-semibold italic mt-2">"{word.example}"</p>
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </div>
       </motion.div>
+    </div>
+  );
+};
+
+// Exercise component — MCQ quiz from vocabulary
+const VocabExercise = ({ words, t }: { words: IeltsWord[]; t: (vi: string, en: string) => string }) => {
+  const [questions, setQuestions] = useState<{ word: IeltsWord; options: string[]; correct: number }[]>([]);
+  const [current, setCurrent] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const QUIZ_SIZE = 10;
+
+  const generateQuiz = useCallback(() => {
+    const pool = words.length >= 4 ? words : ieltsVocabData;
+    const picked = shuffle(pool).slice(0, QUIZ_SIZE);
+    const qs = picked.map(w => {
+      // Pick 3 wrong answers from pool
+      const wrongs = shuffle(pool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
+      const allOpts = shuffle([w.definition.en, ...wrongs]);
+      return { word: w, options: allOpts, correct: allOpts.indexOf(w.definition.en) };
+    });
+    setQuestions(qs);
+    setCurrent(0);
+    setSelected(null);
+    setScore(0);
+    setFinished(false);
+  }, [words]);
+
+  useEffect(() => { generateQuiz(); }, [generateQuiz]);
+
+  const handleSelect = (idx: number) => {
+    if (selected !== null) return;
+    setSelected(idx);
+    if (idx === questions[current]?.correct) setScore(s => s + 1);
+  };
+
+  const handleNext = () => {
+    if (current + 1 >= questions.length) {
+      setFinished(true);
+    } else {
+      setCurrent(c => c + 1);
+      setSelected(null);
+    }
+  };
+
+  if (questions.length === 0) return <p className="text-muted-foreground text-center py-12">{t("Cần ít nhất 4 từ để tạo bài tập", "Need at least 4 words to generate exercises")}</p>;
+
+  if (finished) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="text-6xl mb-4">{score >= 8 ? "🏆" : score >= 5 ? "👍" : "💪"}</div>
+        <h3 className="text-2xl font-bold text-foreground mb-2">{score}/{questions.length}</h3>
+        <p className="text-muted-foreground mb-6">
+          {score >= 8 ? t("Xuất sắc! Bạn nắm vững từ vựng rất tốt!", "Excellent! You've mastered these words!") :
+           score >= 5 ? t("Khá tốt! Hãy tiếp tục ôn luyện.", "Good job! Keep practicing.") :
+           t("Cần ôn thêm. Hãy thử lại nhé!", "Needs more review. Try again!")}
+        </p>
+        <Button onClick={generateQuiz} className="gap-2">
+          <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try Again")}
+        </Button>
+      </div>
+    );
+  }
+
+  const q = questions[current];
+  if (!q) return null;
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <div className="flex items-center justify-between mb-6">
+        <span className="text-sm text-muted-foreground">{t("Câu", "Question")} {current + 1}/{questions.length}</span>
+        <span className="text-sm font-semibold text-primary">{t("Điểm", "Score")}: {score}</span>
+      </div>
+      <div className="rounded-xl border border-border bg-card p-8 mb-6">
+        <div className="flex items-center gap-3 mb-2">
+          <h3 className="text-3xl font-bold text-foreground">{q.word.word}</h3>
+          <button onClick={() => speak(q.word.word)} className="p-2 rounded-full hover:bg-primary/10">
+            <Volume2 className="w-5 h-5 text-primary" />
+          </button>
+        </div>
+        <p className="text-sm text-muted-foreground font-mono mb-1">{q.word.ipa}</p>
+        <p className="text-sm font-semibold text-foreground italic">"{q.word.example}"</p>
+        <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
+      </div>
+      <div className="space-y-3">
+        {q.options.map((opt, idx) => {
+          let cls = "rounded-xl border p-4 cursor-pointer transition-all text-sm text-foreground ";
+          if (selected !== null) {
+            if (idx === q.correct) cls += "border-green-500 bg-green-500/10 ";
+            else if (idx === selected) cls += "border-red-500 bg-red-500/10 ";
+            else cls += "border-border bg-card opacity-50 ";
+          } else {
+            cls += "border-border bg-card hover:border-primary/40 ";
+          }
+          return (
+            <div key={idx} onClick={() => handleSelect(idx)} className={cls}>
+              <div className="flex items-center gap-3">
+                <span className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center text-xs font-bold shrink-0">
+                  {String.fromCharCode(65 + idx)}
+                </span>
+                <span>{opt}</span>
+                {selected !== null && idx === q.correct && <CheckCircle className="w-5 h-5 text-green-500 ml-auto shrink-0" />}
+                {selected !== null && idx === selected && idx !== q.correct && <XCircle className="w-5 h-5 text-red-500 ml-auto shrink-0" />}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {selected !== null && (
+        <div className="flex justify-between items-center mt-6">
+          <p className="text-sm text-muted-foreground italic">{q.word.definition.vi}</p>
+          <Button onClick={handleNext}>
+            {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
@@ -79,7 +198,7 @@ const IeltsVocabulary = () => {
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const [viewMode, setViewMode] = useState<"list" | "flashcard">("list");
+  const [viewMode, setViewMode] = useState<"list" | "flashcard" | "exercise">("list");
   const [mastered, setMastered] = useState<Set<string>>(() => {
     try {
       const saved = localStorage.getItem("ielts_mastered");
@@ -117,7 +236,7 @@ const IeltsVocabulary = () => {
   const paginated = filtered.slice((page - 1) * WORDS_PER_PAGE, page * WORDS_PER_PAGE);
 
   // Reset page when filters change
-  useMemo(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
+  useEffect(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -132,8 +251,8 @@ const IeltsVocabulary = () => {
               </h1>
               <p className="text-muted-foreground">
                 {t(
-                  `${ieltsVocabData.length} từ vựng thiết yếu — Lọc, học flashcard, nghe phát âm`,
-                  `${ieltsVocabData.length} essential words — Filter, flashcard mode, pronunciation`
+                  `${ieltsVocabData.length} từ vựng thiết yếu — Lọc, học flashcard, luyện tập, nghe phát âm`,
+                  `${ieltsVocabData.length} essential words — Filter, flashcard, exercises, pronunciation`
                 )}
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-3 text-sm">
@@ -178,23 +297,26 @@ const IeltsVocabulary = () => {
                 <RotateCcw className="w-4 h-4" />
                 {t("Cần ôn", "Need Review")}
               </Button>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as any)} className="ml-auto">
+              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise")} className="ml-auto">
                 <TabsList>
                   <TabsTrigger value="list"><List className="w-4 h-4" /></TabsTrigger>
                   <TabsTrigger value="flashcard"><Layers className="w-4 h-4" /></TabsTrigger>
+                  <TabsTrigger value="exercise"><BookOpen className="w-4 h-4" /></TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
 
             <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
 
-            {/* Word grid */}
-            {viewMode === "flashcard" ? (
+            {/* Content based on mode */}
+            {viewMode === "exercise" ? (
+              <VocabExercise words={filtered} t={t} />
+            ) : viewMode === "flashcard" ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <AnimatePresence mode="popLayout">
                   {paginated.map(w => (
                     <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-                      <Flashcard word={w} isVi={true} />
+                      <Flashcard word={w} />
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -223,14 +345,14 @@ const IeltsVocabulary = () => {
                     </div>
                     <p className="text-sm text-foreground">{w.definition.en}</p>
                     <p className="text-sm text-primary">{w.definition.vi}</p>
-                    <p className="text-xs text-muted-foreground italic mt-2 line-clamp-2">"{w.example}"</p>
+                    <p className="text-[13px] text-foreground font-semibold italic mt-2 leading-relaxed">"{w.example}"</p>
                   </div>
                 ))}
               </div>
             )}
 
-            {/* Pagination */}
-            {totalPages > 1 && (
+            {/* Pagination (hide in exercise mode) */}
+            {viewMode !== "exercise" && totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
                   <ChevronLeft className="w-4 h-4" />
