@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 
 // Subject-related floating symbols
 const SYMBOLS = [
-  // English
-  "A", "B", "C", "📖", "🔤",
-  // Chinese
-  "汉", "语", "中", "国", "拼",
-  // Programming
-  "{}", "</>", "=>", "🐍", "SQL",
+  // English words & letters
+  "Hello", "Thank you", "Welcome", "English", "A", "B", "C", "📖",
+  // Chinese (fewer)
+  "汉", "中", "拼",
+  // Programming symbols & keywords
+  "{}", "</>", "=>", "( )", "[ ]", "def", "SQL", "print", "if", "//",
 ];
 
 // Brand colors with low opacity
