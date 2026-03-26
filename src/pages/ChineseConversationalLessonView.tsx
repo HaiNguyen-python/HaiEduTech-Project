@@ -205,6 +205,9 @@ const ChineseConversationalLessonView = () => {
                                 <p className="text-xs font-bold opacity-80 mb-1">{line.speaker}</p>
                                 <p className="text-lg font-bold leading-relaxed">{line.line}</p>
                                 <p className="text-sm opacity-80 mt-1 italic">{line.pinyin}</p>
+                                {line.translationVi && (
+                                  <p className="text-sm mt-1 font-medium opacity-90 border-t border-white/20 pt-1">🇻🇳 {line.translationVi}</p>
+                                )}
                                 <button
                                   onClick={() => speakChinese(line.line)}
                                   className="mt-2 opacity-70 hover:opacity-100 transition-opacity"
