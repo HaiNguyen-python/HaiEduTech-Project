@@ -104,9 +104,23 @@ Make scores VARIED and REALISTIC. Not all criteria should have the same score. D
 
     let parsed;
     try {
-      const jsonStr = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
-      parsed = JSON.parse(jsonStr);
-    } catch {
+      let cleaned = content.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+      const jsonStart = cleaned.search(/[\{\[]/);
+      const jsonEnd = cleaned.lastIndexOf(jsonStart !== -1 && cleaned[jsonStart] === "[" ? "]" : "}");
+      if (jsonStart === -1 || jsonEnd === -1) throw new Error("No JSON found");
+      cleaned = cleaned.substring(jsonStart, jsonEnd + 1);
+      try {
+        parsed = JSON.parse(cleaned);
+      } catch {
+        cleaned = cleaned
+          .replace(/,\s*}/g, "}")
+          .replace(/,\s*]/g, "]")
+          .replace(/[\x00-\x1F\x7F]/g, "")
+          .replace(/(["\d\]\}])\s*\n\s*(")/g, "$1,$2")
+          .replace(/\}\s*\]/g, "}]");
+        parsed = JSON.parse(cleaned);
+      }
+    } catch (e) {
       console.error("Parse error:", content);
       throw new Error("Failed to parse speaking result");
     }
