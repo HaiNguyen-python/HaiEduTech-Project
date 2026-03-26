@@ -3,22 +3,23 @@ import { motion } from "framer-motion";
 
 // Subject-related floating symbols
 const SYMBOLS = [
-  // English words & letters
-  "Hello", "Thanks", "Welcome", "English", "A", "B", "C", "📖",
-  // Chinese (fewer)
+  // English words
+  "Hello", "Thanks", "Welcome", "English", "Chinese", "Programming",
+  // Tech & AI keywords
+  "AI", "Data", "Python", "SQL", "Machine Learning",
+  // Programming symbols
+  "{}", "</>", "=>", "def", "print", "if",
+  // Chinese
   "汉", "中", "拼",
-  // Programming & tech keywords
-  "{}", "</>", "=>", "( )", "[ ]", "def", "SQL", "print", "if", "//",
-  "AI", "Data", "Python",
 ];
 
-// Brand colors with low opacity
+// Brand colors with subtle opacity
 const COLORS = [
-  "hsl(var(--primary) / 0.15)",
-  "hsl(var(--primary) / 0.10)",
-  "hsl(var(--accent) / 0.13)",
-  "hsl(var(--accent) / 0.09)",
-  "hsl(var(--foreground) / 0.07)",
+  "hsl(var(--primary) / 0.20)",
+  "hsl(var(--primary) / 0.14)",
+  "hsl(var(--accent) / 0.18)",
+  "hsl(var(--accent) / 0.12)",
+  "hsl(var(--foreground) / 0.10)",
 ];
 
 interface Particle {
