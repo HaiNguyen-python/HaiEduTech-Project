@@ -71,9 +71,10 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
     titleZh: "生活常用",
     icon: "Coffee",
     color: "from-red-500 to-orange-500",
-    description: "Practical Chinese for everyday situations — greetings, food, shopping, transport",
-    descriptionVi: "Tiếng Trung thực tế cho các tình huống hàng ngày — chào hỏi, ăn uống, mua sắm, di chuyển",
+    description: "Practical Chinese for everyday situations — greetings, food, shopping, transport, health",
+    descriptionVi: "Tiếng Trung thực tế cho các tình huống hàng ngày — chào hỏi, ăn uống, mua sắm, di chuyển, sức khỏe",
     lessons: [
+      // ──── Lesson 1: Greetings ────
       {
         id: "cn-dl-01-greetings",
         title: "Greetings & Self-Introduction",
@@ -113,14 +114,30 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { speaker: "B", line: "我还没吃。一会儿去食堂吃。", pinyin: "Wǒ hái méi chī. Yīhuìr qù shítáng chī." },
             ],
           },
+          {
+            title: "Formal Introduction at a Business Event",
+            titleVi: "Giới thiệu trang trọng tại sự kiện",
+            description: "Introduce yourself and your company formally",
+            descriptionVi: "Giới thiệu bản thân và công ty một cách trang trọng",
+            culturalNote: "At formal events, always state your company name before your personal name. Use 您 (nín) instead of 你 (nǐ) to show extra respect.",
+            culturalNoteVi: "Tại các sự kiện trang trọng, luôn nêu tên công ty trước tên cá nhân. Dùng 您 thay vì 你 để thể hiện sự tôn trọng hơn.",
+            sampleDialogue: [
+              { speaker: "A", line: "您好！我是华为公司的张经理。", pinyin: "Nín hǎo! Wǒ shì Huáwéi gōngsī de Zhāng jīnglǐ." },
+              { speaker: "B", line: "您好，张经理！我是越南ABC公司的阿明。", pinyin: "Nín hǎo, Zhāng jīnglǐ! Wǒ shì Yuènán ABC gōngsī de Ā Míng." },
+              { speaker: "A", line: "很高兴认识您。这是我的名片。", pinyin: "Hěn gāoxìng rènshi nín. Zhè shì wǒ de míngpiàn." },
+              { speaker: "B", line: "谢谢！这是我的。希望以后多多合作。", pinyin: "Xièxie! Zhè shì wǒ de. Xīwàng yǐhòu duōduō hézuò." },
+            ],
+          },
         ],
         vocabulary: [
           { hanzi: "你好", pinyin: "nǐ hǎo", meaning: "Xin chào", meaningEn: "Hello", type: "phrase", example: "你好，很高兴认识你！", examplePinyin: "Nǐ hǎo, hěn gāoxìng rènshi nǐ!", exampleVi: "Xin chào, rất vui được gặp bạn!" },
+          { hanzi: "您好", pinyin: "nín hǎo", meaning: "Xin chào (trang trọng)", meaningEn: "Hello (formal)", type: "phrase", example: "您好，请问您贵姓？", examplePinyin: "Nín hǎo, qǐng wèn nín guì xìng?", exampleVi: "Xin chào, xin hỏi quý tính?" },
           { hanzi: "请问", pinyin: "qǐng wèn", meaning: "Xin hỏi", meaningEn: "Excuse me / May I ask", type: "expression", example: "请问，你叫什么名字？", examplePinyin: "Qǐng wèn, nǐ jiào shénme míngzi?", exampleVi: "Xin hỏi, bạn tên gì?" },
           { hanzi: "认识", pinyin: "rènshi", meaning: "Quen biết", meaningEn: "To know / meet", type: "phrase", example: "很高兴认识你。", examplePinyin: "Hěn gāoxìng rènshi nǐ.", exampleVi: "Rất vui được quen bạn." },
           { hanzi: "交换", pinyin: "jiāohuàn", meaning: "Trao đổi", meaningEn: "To exchange", type: "phrase", example: "我们交换微信号吧。", examplePinyin: "Wǒmen jiāohuàn Wēixìn hào ba.", exampleVi: "Chúng ta trao đổi số WeChat nhé." },
           { hanzi: "哪里人", pinyin: "nǎlǐ rén", meaning: "Người ở đâu", meaningEn: "Where are you from", type: "expression", example: "你是哪里人？", examplePinyin: "Nǐ shì nǎlǐ rén?", exampleVi: "Bạn là người ở đâu?" },
           { hanzi: "名片", pinyin: "míngpiàn", meaning: "Danh thiếp", meaningEn: "Business card", type: "phrase", example: "这是我的名片。", examplePinyin: "Zhè shì wǒ de míngpiàn.", exampleVi: "Đây là danh thiếp của tôi." },
+          { hanzi: "贵姓", pinyin: "guì xìng", meaning: "Quý tính (hỏi họ trang trọng)", meaningEn: "May I know your surname (formal)", type: "expression", example: "请问您贵姓？", examplePinyin: "Qǐng wèn nín guì xìng?", exampleVi: "Xin hỏi quý tính?" },
         ],
         commonStructures: [
           {
@@ -143,6 +160,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { zh: "他在公司上班。", pinyin: "Tā zài gōngsī shàngbān.", vi: "Anh ấy làm việc ở công ty." },
             ],
           },
+          {
+            pattern: "希望以后多多 + Verb",
+            patternPinyin: "Xīwàng yǐhòu duōduō + Verb",
+            explanation: "Hoping to do more of something in the future (polite)",
+            explanationVi: "Hy vọng trong tương lai sẽ làm nhiều hơn (lịch sự)",
+            examples: [
+              { zh: "希望以后多多合作。", pinyin: "Xīwàng yǐhòu duōduō hézuò.", vi: "Hy vọng sau này hợp tác nhiều hơn." },
+              { zh: "希望以后多多交流。", pinyin: "Xīwàng yǐhòu duōduō jiāoliú.", vi: "Hy vọng sau này giao lưu nhiều hơn." },
+            ],
+          },
         ],
         listeningChallenge: {
           title: "Listening: A New Classmate",
@@ -158,9 +185,11 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         speakingTopics: [
           "Introduce yourself to a new Chinese friend",
           "Ask about someone's hometown and family",
-          "Exchange contact information",
+          "Exchange contact information at a formal event",
         ],
       },
+
+      // ──── Lesson 2: Food & Dining ────
       {
         id: "cn-dl-02-food",
         title: "Food & Dining",
@@ -201,6 +230,21 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { speaker: "B", line: "好主意！我请客。", pinyin: "Hǎo zhǔyi! Wǒ qǐngkè." },
             ],
           },
+          {
+            title: "Paying the Bill",
+            titleVi: "Thanh toán hóa đơn",
+            description: "Handle payments, split bills, and tip etiquette",
+            descriptionVi: "Xử lý thanh toán, chia tiền và quy tắc tip",
+            culturalNote: "In China, 'fighting' to pay the bill (抢着买单 qiǎng zhe mǎi dān) is a common social ritual. Tipping is NOT expected in mainland China restaurants.",
+            culturalNoteVi: "Ở Trung Quốc, 'tranh' trả tiền (抢着买单) là nghi thức xã hội phổ biến. KHÔNG cần tip ở nhà hàng Trung Quốc đại lục.",
+            sampleDialogue: [
+              { speaker: "A", line: "服务员，买单！", pinyin: "Fúwùyuán, mǎi dān!" },
+              { speaker: "B", line: "今天我请客，别跟我抢！", pinyin: "Jīntiān wǒ qǐngkè, bié gēn wǒ qiǎng!" },
+              { speaker: "A", line: "不行不行，上次你请的，这次该我了。", pinyin: "Bù xíng bù xíng, shàng cì nǐ qǐng de, zhè cì gāi wǒ le." },
+              { speaker: "服务员", line: "一共两百三十八块。可以扫码支付。", pinyin: "Yígòng liǎng bǎi sānshí bā kuài. Kěyǐ sǎo mǎ zhīfù." },
+              { speaker: "A", line: "好，我扫。", pinyin: "Hǎo, wǒ sǎo." },
+            ],
+          },
         ],
         vocabulary: [
           { hanzi: "菜单", pinyin: "càidān", meaning: "Thực đơn", meaningEn: "Menu", type: "phrase", example: "请给我菜单。", examplePinyin: "Qǐng gěi wǒ càidān.", exampleVi: "Xin cho tôi thực đơn." },
@@ -209,6 +253,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           { hanzi: "买单", pinyin: "mǎi dān", meaning: "Thanh toán / Tính tiền", meaningEn: "To pay the bill", type: "expression", example: "服务员，买单！", examplePinyin: "Fúwùyuán, mǎi dān!", exampleVi: "Phục vụ ơi, tính tiền!" },
           { hanzi: "辣", pinyin: "là", meaning: "Cay", meaningEn: "Spicy", type: "phrase", example: "我不能吃辣的。", examplePinyin: "Wǒ bù néng chī là de.", exampleVi: "Tôi không ăn được đồ cay." },
           { hanzi: "请客", pinyin: "qǐngkè", meaning: "Mời/đãi khách", meaningEn: "To treat (pay for someone)", type: "expression", example: "今天我请客！", examplePinyin: "Jīntiān wǒ qǐngkè!", exampleVi: "Hôm nay tôi đãi!" },
+          { hanzi: "扫码", pinyin: "sǎo mǎ", meaning: "Quét mã QR", meaningEn: "Scan QR code", type: "expression", example: "你可以扫码支付。", examplePinyin: "Nǐ kěyǐ sǎo mǎ zhīfù.", exampleVi: "Bạn có thể quét mã để thanh toán." },
+          { hanzi: "外卖", pinyin: "wàimài", meaning: "Đồ ăn giao tận nơi", meaningEn: "Food delivery", type: "phrase", example: "今天不想做饭，点个外卖吧。", examplePinyin: "Jīntiān bù xiǎng zuò fàn, diǎn ge wàimài ba.", exampleVi: "Hôm nay không muốn nấu, đặt ship đồ ăn đi." },
         ],
         commonStructures: [
           {
@@ -231,6 +277,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { zh: "太辣了！", pinyin: "Tài là le!", vi: "Cay quá!" },
             ],
           },
+          {
+            pattern: "要不要 + Verb？",
+            patternPinyin: "Yào bu yào + Verb?",
+            explanation: "Would you like to...? (offering)",
+            explanationVi: "Bạn có muốn...? (mời)",
+            examples: [
+              { zh: "要不要来杯茶？", pinyin: "Yào bu yào lái bēi chá?", vi: "Uống trà không?" },
+              { zh: "要不要加点辣椒？", pinyin: "Yào bu yào jiā diǎn làjiāo?", vi: "Thêm ớt không?" },
+            ],
+          },
         ],
         listeningChallenge: {
           title: "Listening: At a Hot Pot Restaurant",
@@ -247,8 +303,11 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Order food at a Chinese restaurant",
           "Discuss your favorite Chinese dishes",
           "Recommend a restaurant to a friend",
+          "Handle paying the bill in a group setting",
         ],
       },
+
+      // ──── Lesson 3: Shopping & Bargaining ────
       {
         id: "cn-dl-03-shopping",
         title: "Shopping & Bargaining",
@@ -278,6 +337,33 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { speaker: "You", line: "好，成交！", pinyin: "Hǎo, chéngjiāo!" },
             ],
           },
+          {
+            title: "Shopping for Clothes",
+            titleVi: "Mua quần áo",
+            description: "Try on clothes, ask for sizes and colors",
+            descriptionVi: "Thử đồ, hỏi kích cỡ và màu sắc",
+            sampleDialogue: [
+              { speaker: "You", line: "这件衣服有没有大号的？", pinyin: "Zhè jiàn yīfu yǒu méi yǒu dà hào de?" },
+              { speaker: "店员", line: "有的，这个颜色有大号。你要试试吗？", pinyin: "Yǒu de, zhège yánsè yǒu dà hào. Nǐ yào shìshi ma?" },
+              { speaker: "You", line: "好的。试衣间在哪里？", pinyin: "Hǎo de. Shìyī jiān zài nǎlǐ?" },
+              { speaker: "店员", line: "在那边，右手边第二间。", pinyin: "Zài nàbiān, yòu shǒu biān dì èr jiān." },
+              { speaker: "You", line: "这件太紧了，有没有再大一号的？", pinyin: "Zhè jiàn tài jǐn le, yǒu méi yǒu zài dà yī hào de?" },
+            ],
+          },
+          {
+            title: "Online Shopping",
+            titleVi: "Mua sắm trực tuyến",
+            description: "Navigate Taobao/JD.com and handle delivery",
+            descriptionVi: "Mua hàng trên Taobao/JD và nhận hàng giao",
+            culturalNote: "Online shopping in China is dominated by 淘宝 (Táobǎo), 京东 (Jīngdōng/JD), and 拼多多 (Pīnduōduō). Double 11 (11/11) is the biggest shopping day — bigger than Black Friday!",
+            culturalNoteVi: "Mua sắm online ở Trung Quốc chủ yếu trên 淘宝, 京东 và 拼多多. Ngày 11/11 là ngày mua sắm lớn nhất — lớn hơn cả Black Friday!",
+            sampleDialogue: [
+              { speaker: "A", line: "你在淘宝买过东西吗？", pinyin: "Nǐ zài Táobǎo mǎi guò dōngxi ma?" },
+              { speaker: "B", line: "买过啊，经常买。双十一的时候打折特别多。", pinyin: "Mǎi guò a, jīngcháng mǎi. Shuāng shíyī de shíhou dǎzhé tèbié duō." },
+              { speaker: "A", line: "快递一般几天到？", pinyin: "Kuàidì yībān jǐ tiān dào?" },
+              { speaker: "B", line: "一般两三天。你可以在APP上查物流。", pinyin: "Yībān liǎng sān tiān. Nǐ kěyǐ zài APP shàng chá wùliú." },
+            ],
+          },
         ],
         vocabulary: [
           { hanzi: "多少钱", pinyin: "duōshao qián", meaning: "Bao nhiêu tiền", meaningEn: "How much", type: "expression", example: "这个多少钱？", examplePinyin: "Zhège duōshao qián?", exampleVi: "Cái này bao nhiêu tiền?" },
@@ -286,6 +372,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           { hanzi: "砍价", pinyin: "kǎnjià", meaning: "Trả giá", meaningEn: "To bargain", type: "expression", example: "在中国市场可以砍价。", examplePinyin: "Zài Zhōngguó shìchǎng kěyǐ kǎnjià.", exampleVi: "Ở chợ Trung Quốc có thể trả giá." },
           { hanzi: "打折", pinyin: "dǎ zhé", meaning: "Giảm giá", meaningEn: "Discount", type: "phrase", example: "现在打八折。", examplePinyin: "Xiànzài dǎ bā zhé.", exampleVi: "Hiện giảm 20%." },
           { hanzi: "试试", pinyin: "shìshi", meaning: "Thử", meaningEn: "To try", type: "expression", example: "我可以试试吗？", examplePinyin: "Wǒ kěyǐ shìshi ma?", exampleVi: "Tôi có thể thử không?" },
+          { hanzi: "快递", pinyin: "kuàidì", meaning: "Chuyển phát nhanh", meaningEn: "Express delivery", type: "phrase", example: "你的快递到了。", examplePinyin: "Nǐ de kuàidì dào le.", exampleVi: "Đồ ship của bạn đến rồi." },
+          { hanzi: "退货", pinyin: "tuìhuò", meaning: "Trả hàng", meaningEn: "Return goods", type: "phrase", example: "不满意可以退货。", examplePinyin: "Bù mǎnyì kěyǐ tuìhuò.", exampleVi: "Không hài lòng có thể trả hàng." },
         ],
         commonStructures: [
           {
@@ -296,6 +384,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             examples: [
               { zh: "能不能便宜一点？", pinyin: "Néng bu néng piányi yīdiǎn?", vi: "Có thể rẻ hơn không?" },
               { zh: "能不能用微信付款？", pinyin: "Néng bu néng yòng Wēixìn fùkuǎn?", vi: "Có thể trả bằng WeChat không?" },
+            ],
+          },
+          {
+            pattern: "有没有 + Noun/Adj + 的？",
+            patternPinyin: "Yǒu méi yǒu + Noun/Adj + de?",
+            explanation: "Do you have... (asking about availability)",
+            explanationVi: "Có... không? (hỏi về sự có sẵn)",
+            examples: [
+              { zh: "有没有大号的？", pinyin: "Yǒu méi yǒu dà hào de?", vi: "Có size lớn không?" },
+              { zh: "有没有红色的？", pinyin: "Yǒu méi yǒu hóngsè de?", vi: "Có màu đỏ không?" },
             ],
           },
         ],
@@ -314,8 +412,11 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Bargain for a souvenir at a Chinese market",
           "Ask about sizes and colors when shopping for clothes",
           "Compare prices between online and offline shopping",
+          "Describe your experience with Taobao or JD",
         ],
       },
+
+      // ──── Lesson 4: Transportation & Travel ────
       {
         id: "cn-dl-04-transport",
         title: "Transportation & Travel",
@@ -333,7 +434,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Đi Taxi",
             description: "Give directions, negotiate fares, and handle payment",
             descriptionVi: "Chỉ đường, thương lượng giá và thanh toán",
-            culturalNote: "In China, use DiDi (滴滴 Dīdī) app instead of hailing taxis. If you take a regular taxi, make sure they use the meter (打表 dǎ biǎo). Mobile payments (WeChat Pay, Alipay) are ubiquitous.",
+            culturalNote: "In China, use DiDi (滴滴 Dīdī) app instead of hailing taxis. If you take a regular taxi, make sure they use the meter (打表 dǎ biǎo). Mobile payments are ubiquitous.",
             culturalNoteVi: "Ở Trung Quốc, dùng app DiDi (滴滴) thay vì vẫy taxi. Nếu đi taxi thường, nhớ yêu cầu bật đồng hồ (打表). Thanh toán di động rất phổ biến.",
             sampleDialogue: [
               { speaker: "You", line: "师傅，去天安门，请打表。", pinyin: "Shīfu, qù Tiān'ānmén, qǐng dǎ biǎo." },
@@ -354,14 +455,31 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { speaker: "路人", line: "五分钟左右。", pinyin: "Wǔ fēnzhōng zuǒyòu." },
             ],
           },
+          {
+            title: "Booking Train Tickets",
+            titleVi: "Đặt vé tàu",
+            description: "Buy tickets and navigate the train system",
+            descriptionVi: "Mua vé và sử dụng hệ thống tàu hỏa",
+            culturalNote: "China's high-speed rail (高铁 gāotiě) network is the world's largest. Use 12306 app to buy tickets. During holidays like Spring Festival (春节), tickets sell out weeks in advance!",
+            culturalNoteVi: "Hệ thống tàu cao tốc (高铁) Trung Quốc là lớn nhất thế giới. Dùng app 12306 để mua vé. Vào dịp Tết (春节), vé hết trước hàng tuần!",
+            sampleDialogue: [
+              { speaker: "You", line: "你好，我想买一张去上海的高铁票。", pinyin: "Nǐ hǎo, wǒ xiǎng mǎi yī zhāng qù Shànghǎi de gāotiě piào." },
+              { speaker: "售票员", line: "什么时候走？要一等座还是二等座？", pinyin: "Shénme shíhou zǒu? Yào yī děng zuò háishi èr děng zuò?" },
+              { speaker: "You", line: "明天上午的，二等座。", pinyin: "Míngtiān shàngwǔ de, èr děng zuò." },
+              { speaker: "售票员", line: "有一趟八点半的，票价五百五十三块。", pinyin: "Yǒu yī tàng bā diǎn bàn de, piàojià wǔ bǎi wǔshí sān kuài." },
+              { speaker: "You", line: "好的，就这趟。", pinyin: "Hǎo de, jiù zhè tàng." },
+            ],
+          },
         ],
         vocabulary: [
           { hanzi: "地铁", pinyin: "dìtiě", meaning: "Tàu điện ngầm", meaningEn: "Subway / Metro", type: "phrase", example: "我坐地铁去上班。", examplePinyin: "Wǒ zuò dìtiě qù shàngbān.", exampleVi: "Tôi đi tàu điện ngầm đi làm." },
           { hanzi: "出租车", pinyin: "chūzū chē", meaning: "Taxi", meaningEn: "Taxi", type: "phrase", example: "我们打个出租车吧。", examplePinyin: "Wǒmen dǎ ge chūzū chē ba.", exampleVi: "Chúng ta bắt taxi đi." },
+          { hanzi: "高铁", pinyin: "gāotiě", meaning: "Tàu cao tốc", meaningEn: "High-speed rail", type: "phrase", example: "坐高铁只要四个小时。", examplePinyin: "Zuò gāotiě zhǐ yào sì ge xiǎoshí.", exampleVi: "Đi tàu cao tốc chỉ mất 4 tiếng." },
           { hanzi: "左转", pinyin: "zuǒ zhuǎn", meaning: "Rẽ trái", meaningEn: "Turn left", type: "phrase", example: "到路口左转。", examplePinyin: "Dào lùkǒu zuǒ zhuǎn.", exampleVi: "Đến ngã tư rẽ trái." },
           { hanzi: "右转", pinyin: "yòu zhuǎn", meaning: "Rẽ phải", meaningEn: "Turn right", type: "phrase", example: "前面右转就是。", examplePinyin: "Qiánmiàn yòu zhuǎn jiù shì.", exampleVi: "Phía trước rẽ phải là tới." },
           { hanzi: "一直走", pinyin: "yīzhí zǒu", meaning: "Đi thẳng", meaningEn: "Go straight", type: "expression", example: "一直走，不要转弯。", examplePinyin: "Yīzhí zǒu, bú yào zhuǎn wān.", exampleVi: "Đi thẳng, không rẽ." },
           { hanzi: "到了", pinyin: "dào le", meaning: "Đã đến", meaningEn: "Arrived", type: "expression", example: "我们到了！", examplePinyin: "Wǒmen dào le!", exampleVi: "Chúng ta đến rồi!" },
+          { hanzi: "导航", pinyin: "dǎoháng", meaning: "Dẫn đường/GPS", meaningEn: "Navigation/GPS", type: "phrase", example: "你可以用手机导航。", examplePinyin: "Nǐ kěyǐ yòng shǒujī dǎoháng.", exampleVi: "Bạn có thể dùng GPS điện thoại." },
         ],
         commonStructures: [
           {
@@ -372,6 +490,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             examples: [
               { zh: "从这里到火车站怎么走？", pinyin: "Cóng zhèlǐ dào huǒchē zhàn zěnme zǒu?", vi: "Từ đây đến nhà ga đi như thế nào?" },
               { zh: "从酒店到机场怎么走？", pinyin: "Cóng jiǔdiàn dào jīchǎng zěnme zǒu?", vi: "Từ khách sạn đến sân bay đi thế nào?" },
+            ],
+          },
+          {
+            pattern: "坐...去...",
+            patternPinyin: "Zuò... qù...",
+            explanation: "Take [transport] to go to [place]",
+            explanationVi: "Đi [phương tiện] đến [nơi]",
+            examples: [
+              { zh: "坐地铁去公司。", pinyin: "Zuò dìtiě qù gōngsī.", vi: "Đi tàu điện ngầm đến công ty." },
+              { zh: "坐高铁去北京。", pinyin: "Zuò gāotiě qù Běijīng.", vi: "Đi tàu cao tốc đến Bắc Kinh." },
             ],
           },
         ],
@@ -390,6 +518,203 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Give directions to a tourist in Chinese",
           "Describe your daily commute",
           "Plan a trip to Beijing or Shanghai",
+          "Compare transportation in China vs your country",
+        ],
+      },
+
+      // ──── Lesson 5: Health & Emergencies ────
+      {
+        id: "cn-dl-05-health",
+        title: "Health & Emergencies",
+        titleVi: "Sức khỏe & Tình huống Khẩn cấp",
+        titleZh: "健康急救",
+        icon: "HeartPulse",
+        description: "Describe symptoms, visit a doctor, and handle emergencies",
+        descriptionVi: "Mô tả triệu chứng, đi khám bác sĩ và xử lý tình huống khẩn cấp",
+        hskLevel: 2,
+        badge: "健康卫士",
+        badgeVi: "Chiến sĩ Sức khỏe",
+        keySituations: [
+          {
+            title: "Visiting a Doctor",
+            titleVi: "Đi khám bác sĩ",
+            description: "Describe your symptoms and understand medical advice",
+            descriptionVi: "Mô tả triệu chứng và hiểu lời khuyên y tế",
+            culturalNote: "In China, hospitals are the primary place for healthcare — even for minor issues. You need to register (挂号 guàhào) first. Traditional Chinese Medicine (中医 zhōngyī) is also popular alongside Western medicine.",
+            culturalNoteVi: "Ở Trung Quốc, bệnh viện là nơi chính để khám bệnh — ngay cả bệnh nhẹ. Bạn cần đăng ký (挂号) trước. Đông y (中医) cũng rất phổ biến bên cạnh Tây y.",
+            sampleDialogue: [
+              { speaker: "You", line: "医生，我头疼，还有点发烧。", pinyin: "Yīshēng, wǒ tóu téng, hái yǒudiǎn fā shāo." },
+              { speaker: "医生", line: "发烧多少度？", pinyin: "Fā shāo duōshao dù?" },
+              { speaker: "You", line: "三十八度五。", pinyin: "Sānshí bā dù wǔ." },
+              { speaker: "医生", line: "你可能感冒了。我给你开点药，多喝水，好好休息。", pinyin: "Nǐ kěnéng gǎnmào le. Wǒ gěi nǐ kāi diǎn yào, duō hē shuǐ, hǎohǎo xiūxi." },
+              { speaker: "You", line: "好的，谢谢医生。药怎么吃？", pinyin: "Hǎo de, xièxie yīshēng. Yào zěnme chī?" },
+              { speaker: "医生", line: "一天三次，每次两片，饭后吃。", pinyin: "Yī tiān sān cì, měi cì liǎng piàn, fàn hòu chī." },
+            ],
+          },
+          {
+            title: "Pharmacy Conversation",
+            titleVi: "Mua thuốc tại nhà thuốc",
+            description: "Buy medicine and understand instructions",
+            descriptionVi: "Mua thuốc và hiểu hướng dẫn sử dụng",
+            sampleDialogue: [
+              { speaker: "You", line: "你好，我想买感冒药。", pinyin: "Nǐ hǎo, wǒ xiǎng mǎi gǎnmào yào." },
+              { speaker: "药剂师", line: "你有什么症状？流鼻涕还是咳嗽？", pinyin: "Nǐ yǒu shénme zhèngzhuàng? Liú bítì háishi késou?" },
+              { speaker: "You", line: "咳嗽比较严重，还有一点头疼。", pinyin: "Késou bǐjiào yánzhòng, hái yǒu yīdiǎn tóu téng." },
+              { speaker: "药剂师", line: "这个药可以止咳，这个是退烧药。一天吃三次。", pinyin: "Zhège yào kěyǐ zhǐ ké, zhège shì tuì shāo yào. Yī tiān chī sān cì." },
+            ],
+          },
+          {
+            title: "Emergency Situation",
+            titleVi: "Tình huống khẩn cấp",
+            description: "Call for help and communicate in emergencies",
+            descriptionVi: "Gọi cứu trợ và giao tiếp trong tình huống khẩn cấp",
+            culturalNote: "Emergency numbers in China: 110 (Police), 120 (Ambulance), 119 (Fire). Unlike many countries, these are separate numbers, not a single 911-style number.",
+            culturalNoteVi: "Số khẩn cấp Trung Quốc: 110 (Cảnh sát), 120 (Cấp cứu), 119 (Cứu hỏa). Khác với nhiều nước, đây là các số riêng biệt.",
+            sampleDialogue: [
+              { speaker: "You", line: "快打120！有人受伤了！", pinyin: "Kuài dǎ yāo èr líng! Yǒu rén shòushāng le!" },
+              { speaker: "接线员", line: "您好，请问在哪里？", pinyin: "Nín hǎo, qǐng wèn zài nǎlǐ?" },
+              { speaker: "You", line: "在人民路和中山路的路口，有人摔倒了。", pinyin: "Zài Rénmín Lù hé Zhōngshān Lù de lùkǒu, yǒu rén shuāi dǎo le." },
+              { speaker: "接线员", line: "好的，救护车马上到。", pinyin: "Hǎo de, jiùhù chē mǎshàng dào." },
+            ],
+          },
+        ],
+        vocabulary: [
+          { hanzi: "头疼", pinyin: "tóu téng", meaning: "Đau đầu", meaningEn: "Headache", type: "phrase", example: "我头疼得很厉害。", examplePinyin: "Wǒ tóu téng de hěn lìhai.", exampleVi: "Tôi đau đầu rất nặng." },
+          { hanzi: "发烧", pinyin: "fā shāo", meaning: "Sốt", meaningEn: "Fever", type: "phrase", example: "孩子发烧了。", examplePinyin: "Háizi fā shāo le.", exampleVi: "Con bé bị sốt." },
+          { hanzi: "感冒", pinyin: "gǎnmào", meaning: "Cảm cúm", meaningEn: "Cold / Flu", type: "phrase", example: "我感冒了。", examplePinyin: "Wǒ gǎnmào le.", exampleVi: "Tôi bị cảm." },
+          { hanzi: "药", pinyin: "yào", meaning: "Thuốc", meaningEn: "Medicine", type: "phrase", example: "你吃药了吗？", examplePinyin: "Nǐ chī yào le ma?", exampleVi: "Bạn uống thuốc chưa?" },
+          { hanzi: "医院", pinyin: "yīyuàn", meaning: "Bệnh viện", meaningEn: "Hospital", type: "phrase", example: "我们去医院吧。", examplePinyin: "Wǒmen qù yīyuàn ba.", exampleVi: "Chúng ta đi bệnh viện đi." },
+          { hanzi: "挂号", pinyin: "guàhào", meaning: "Đăng ký khám bệnh", meaningEn: "Register (at hospital)", type: "phrase", example: "请先去挂号。", examplePinyin: "Qǐng xiān qù guàhào.", exampleVi: "Xin đi đăng ký trước." },
+          { hanzi: "咳嗽", pinyin: "késou", meaning: "Ho", meaningEn: "Cough", type: "phrase", example: "我咳嗽了一个星期了。", examplePinyin: "Wǒ késou le yī ge xīngqī le.", exampleVi: "Tôi ho một tuần rồi." },
+          { hanzi: "过敏", pinyin: "guòmǐn", meaning: "Dị ứng", meaningEn: "Allergy", type: "phrase", example: "我对花生过敏。", examplePinyin: "Wǒ duì huāshēng guòmǐn.", exampleVi: "Tôi bị dị ứng đậu phộng." },
+        ],
+        commonStructures: [
+          {
+            pattern: "我...疼/痛",
+            patternPinyin: "Wǒ... téng/tòng",
+            explanation: "My [body part] hurts",
+            explanationVi: "Tôi bị đau [bộ phận]",
+            examples: [
+              { zh: "我肚子疼。", pinyin: "Wǒ dùzi téng.", vi: "Tôi đau bụng." },
+              { zh: "我嗓子疼。", pinyin: "Wǒ sǎngzi téng.", vi: "Tôi đau họng." },
+            ],
+          },
+          {
+            pattern: "一天...次，每次...片/粒",
+            patternPinyin: "Yī tiān... cì, měi cì... piàn/lì",
+            explanation: "Dosage instructions: X times a day, Y tablets each",
+            explanationVi: "Hướng dẫn liều lượng: X lần/ngày, mỗi lần Y viên",
+            examples: [
+              { zh: "一天三次，每次两片。", pinyin: "Yī tiān sān cì, měi cì liǎng piàn.", vi: "Ngày 3 lần, mỗi lần 2 viên." },
+              { zh: "一天两次，每次一粒。", pinyin: "Yī tiān liǎng cì, měi cì yī lì.", vi: "Ngày 2 lần, mỗi lần 1 viên." },
+            ],
+          },
+        ],
+        listeningChallenge: {
+          title: "Listening: At the Hospital",
+          titleVi: "Nghe: Tại bệnh viện",
+          transcript: "病人说他已经咳嗽三天了，还有点发烧。医生检查以后说他得了轻微的肺炎，需要吃药，而且要多休息，不能吃辛辣的食物。如果三天后还没有好转，就要再来复查。",
+          transcriptPinyin: "Bìngrén shuō tā yǐjīng késou sān tiān le, hái yǒudiǎn fā shāo. Yīshēng jiǎnchá yǐhòu shuō tā dé le qīngwéi de fèiyán, xūyào chī yào, érqiě yào duō xiūxi, bù néng chī xīnlà de shíwù. Rúguǒ sān tiān hòu hái méiyǒu hǎo zhuǎn, jiù yào zài lái fùchá.",
+          questions: [
+            { q: "How long has the patient been coughing?", qVi: "Bệnh nhân ho bao lâu rồi?", options: ["1天", "2天", "3天", "5天"], answer: 2 },
+            { q: "What did the doctor diagnose?", qVi: "Bác sĩ chẩn đoán gì?", options: ["感冒", "肺炎", "过敏", "胃病"], answer: 1 },
+            { q: "When to return for follow-up?", qVi: "Khi nào tái khám?", options: ["1天后", "2天后", "3天后", "一周后"], answer: 2 },
+          ],
+        },
+        speakingTopics: [
+          "Describe symptoms to a doctor in Chinese",
+          "Buy medicine at a pharmacy",
+          "Explain your medical history",
+          "Handle an emergency situation",
+        ],
+      },
+
+      // ──── Lesson 6: Renting & Housing ────
+      {
+        id: "cn-dl-06-housing",
+        title: "Renting & Housing",
+        titleVi: "Thuê nhà & Nhà ở",
+        titleZh: "租房住宿",
+        icon: "Home",
+        description: "Find apartments, communicate with landlords, handle housing issues",
+        descriptionVi: "Tìm căn hộ, giao tiếp với chủ nhà, xử lý vấn đề nhà ở",
+        hskLevel: 3,
+        badge: "安家达人",
+        badgeVi: "Chuyên gia Thuê nhà",
+        keySituations: [
+          {
+            title: "Apartment Viewing",
+            titleVi: "Xem nhà",
+            description: "Visit an apartment and ask about details",
+            descriptionVi: "Đi xem nhà và hỏi chi tiết",
+            culturalNote: "In China, rent is usually paid monthly or quarterly (季付 jì fù). Deposits are typically '押一付三' — one month deposit + three months rent upfront. Apps like 贝壳 (Bèiké) and 自如 (Zìrú) are popular for finding rentals.",
+            culturalNoteVi: "Ở Trung Quốc, tiền thuê thường trả theo tháng hoặc quý (季付). Tiền cọc thường '押一付三' — cọc 1 tháng + trả trước 3 tháng. App 贝壳 và 自如 rất phổ biến để tìm nhà.",
+            sampleDialogue: [
+              { speaker: "中介", line: "这套房子两室一厅，月租四千块。", pinyin: "Zhè tào fángzi liǎng shì yī tīng, yuè zū sì qiān kuài." },
+              { speaker: "You", line: "包不包水电费？", pinyin: "Bāo bu bāo shuǐdiàn fèi?" },
+              { speaker: "中介", line: "不包，水电费自己交。网费包了。", pinyin: "Bù bāo, shuǐdiàn fèi zìjǐ jiāo. Wǎngfèi bāo le." },
+              { speaker: "You", line: "押金怎么算？", pinyin: "Yājīn zěnme suàn?" },
+              { speaker: "中介", line: "押一付三，一共一万六。", pinyin: "Yā yī fù sān, yígòng yī wàn liù." },
+            ],
+          },
+          {
+            title: "Reporting a Problem",
+            titleVi: "Báo cáo sự cố",
+            description: "Tell your landlord about broken things",
+            descriptionVi: "Thông báo cho chủ nhà về đồ hỏng",
+            sampleDialogue: [
+              { speaker: "You", line: "房东您好，空调坏了，不制冷了。", pinyin: "Fángdōng nín hǎo, kōngtiáo huài le, bù zhìlěng le." },
+              { speaker: "房东", line: "好的，我明天找人来修。你在家吗？", pinyin: "Hǎo de, wǒ míngtiān zhǎo rén lái xiū. Nǐ zài jiā ma?" },
+              { speaker: "You", line: "下午在。上午我要上班。", pinyin: "Xiàwǔ zài. Shàngwǔ wǒ yào shàngbān." },
+              { speaker: "房东", line: "好，我让师傅下午两点过去。", pinyin: "Hǎo, wǒ ràng shīfu xiàwǔ liǎng diǎn guòqù." },
+            ],
+          },
+        ],
+        vocabulary: [
+          { hanzi: "租房", pinyin: "zū fáng", meaning: "Thuê nhà", meaningEn: "Rent a house/apartment", type: "phrase", example: "我想在市中心租房。", examplePinyin: "Wǒ xiǎng zài shì zhōngxīn zū fáng.", exampleVi: "Tôi muốn thuê nhà ở trung tâm." },
+          { hanzi: "房东", pinyin: "fángdōng", meaning: "Chủ nhà", meaningEn: "Landlord", type: "phrase", example: "房东人很好。", examplePinyin: "Fángdōng rén hěn hǎo.", exampleVi: "Chủ nhà rất tốt." },
+          { hanzi: "押金", pinyin: "yājīn", meaning: "Tiền cọc", meaningEn: "Deposit", type: "phrase", example: "退房的时候退押金。", examplePinyin: "Tuì fáng de shíhou tuì yājīn.", exampleVi: "Khi trả nhà sẽ hoàn cọc." },
+          { hanzi: "水电费", pinyin: "shuǐdiàn fèi", meaning: "Tiền điện nước", meaningEn: "Utilities (water + electricity)", type: "phrase", example: "水电费一个月多少？", examplePinyin: "Shuǐdiàn fèi yī ge yuè duōshao?", exampleVi: "Tiền điện nước mỗi tháng bao nhiêu?" },
+          { hanzi: "空调", pinyin: "kōngtiáo", meaning: "Máy lạnh", meaningEn: "Air conditioning", type: "phrase", example: "房间里有空调吗？", examplePinyin: "Fángjiān lǐ yǒu kōngtiáo ma?", exampleVi: "Trong phòng có máy lạnh không?" },
+          { hanzi: "中介", pinyin: "zhōngjiè", meaning: "Môi giới", meaningEn: "Agent / Broker", type: "phrase", example: "找中介帮忙租房。", examplePinyin: "Zhǎo zhōngjiè bāngmáng zū fáng.", exampleVi: "Tìm môi giới giúp thuê nhà." },
+        ],
+        commonStructures: [
+          {
+            pattern: "包不包...？",
+            patternPinyin: "Bāo bu bāo...?",
+            explanation: "Does it include...? (for rent/fees)",
+            explanationVi: "Có bao gồm... không? (cho thuê/phí)",
+            examples: [
+              { zh: "包不包水电费？", pinyin: "Bāo bu bāo shuǐdiàn fèi?", vi: "Có bao tiền điện nước không?" },
+              { zh: "包不包网费？", pinyin: "Bāo bu bāo wǎngfèi?", vi: "Có bao tiền mạng không?" },
+            ],
+          },
+          {
+            pattern: "...坏了，能不能修一下？",
+            patternPinyin: "... huài le, néng bu néng xiū yíxià?",
+            explanation: "[thing] is broken, can you fix it?",
+            explanationVi: "[đồ] bị hỏng, sửa được không?",
+            examples: [
+              { zh: "热水器坏了，能不能修一下？", pinyin: "Rèshuǐqì huài le, néng bu néng xiū yíxià?", vi: "Máy nước nóng hỏng, sửa được không?" },
+              { zh: "洗衣机坏了，能不能修一下？", pinyin: "Xǐyījī huài le, néng bu néng xiū yíxià?", vi: "Máy giặt hỏng, sửa được không?" },
+            ],
+          },
+        ],
+        listeningChallenge: {
+          title: "Listening: Finding an Apartment",
+          titleVi: "Nghe: Tìm thuê căn hộ",
+          transcript: "这套公寓在地铁站旁边，走路五分钟。一室一厅一卫，面积四十平米。月租三千五百块，押一付三。房间里有空调、洗衣机和冰箱。可以养宠物。",
+          transcriptPinyin: "Zhè tào gōngyù zài dìtiě zhàn pángbiān, zǒu lù wǔ fēnzhōng. Yī shì yī tīng yī wèi, miànjī sìshí píngmǐ. Yuè zū sān qiān wǔ bǎi kuài, yā yī fù sān. Fángjiān lǐ yǒu kōngtiáo, xǐyījī hé bīngxiāng. Kěyǐ yǎng chǒngwù.",
+          questions: [
+            { q: "How far from the metro?", qVi: "Cách ga tàu bao xa?", options: ["3分钟", "5分钟", "10分钟", "15分钟"], answer: 1 },
+            { q: "Monthly rent?", qVi: "Tiền thuê hàng tháng?", options: ["3000块", "3500块", "4000块", "4500块"], answer: 1 },
+            { q: "Can you have pets?", qVi: "Có được nuôi thú cưng không?", options: ["可以", "不可以", "要加钱", "不确定"], answer: 0 },
+          ],
+        },
+        speakingTopics: [
+          "Describe your ideal apartment in Chinese",
+          "Negotiate rent with a landlord",
+          "Report a maintenance issue to your landlord",
         ],
       },
     ],
@@ -408,6 +733,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
     description: "Professional Chinese for meetings, negotiations, and office communication",
     descriptionVi: "Tiếng Trung chuyên nghiệp cho họp, đàm phán và giao tiếp văn phòng",
     lessons: [
+      // ──── Lesson 1: Business Meetings ────
       {
         id: "cn-bz-01-meetings",
         title: "Business Meetings",
@@ -426,12 +752,24 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             description: "Opening phrases and setting the agenda",
             descriptionVi: "Cụm từ mở đầu và thiết lập chương trình họp",
             culturalNote: "In Chinese business culture, building relationships (关系 guānxi) is more important than the deal itself. Small talk before meetings is expected. Never refuse tea when offered — it shows trust.",
-            culturalNoteVi: "Trong văn hóa kinh doanh Trung Quốc, xây dựng mối quan hệ (关系) quan trọng hơn thương vụ. Nói chuyện phiếm trước cuộc họp là bình thường. Đừng bao giờ từ chối trà — thể hiện sự tin tưởng.",
+            culturalNoteVi: "Trong văn hóa kinh doanh Trung Quốc, xây dựng mối quan hệ (关系) quan trọng hơn thương vụ. Nói chuyện phiếm trước cuộc họp là bình thường.",
             sampleDialogue: [
               { speaker: "主持", line: "各位，会议现在开始。今天我们讨论第三季度的销售报告。", pinyin: "Gè wèi, huìyì xiànzài kāishǐ. Jīntiān wǒmen tǎolùn dì sān jìdù de xiāoshòu bàogào." },
               { speaker: "You", line: "好的。我先汇报一下我们部门的情况。", pinyin: "Hǎo de. Wǒ xiān huìbào yíxià wǒmen bùmén de qíngkuàng." },
               { speaker: "经理", line: "好，请说。", pinyin: "Hǎo, qǐng shuō." },
               { speaker: "You", line: "第三季度我们的销售额增长了百分之十五。", pinyin: "Dì sān jìdù wǒmen de xiāoshòu é zēngzhǎng le bǎi fēn zhī shíwǔ." },
+            ],
+          },
+          {
+            title: "Proposing an Idea",
+            titleVi: "Đề xuất ý kiến",
+            description: "Present your suggestion and handle feedback",
+            descriptionVi: "Trình bày đề xuất và xử lý phản hồi",
+            sampleDialogue: [
+              { speaker: "You", line: "我有一个建议。我们可以通过社交媒体来推广我们的产品。", pinyin: "Wǒ yǒu yí ge jiànyì. Wǒmen kěyǐ tōngguò shèjiāo méitǐ lái tuīguǎng wǒmen de chǎnpǐn." },
+              { speaker: "同事", line: "这个主意不错。但是预算够吗？", pinyin: "Zhège zhǔyi búcuò. Dànshì yùsuàn gòu ma?" },
+              { speaker: "You", line: "我已经做了一个预算方案，可以发给大家看看。", pinyin: "Wǒ yǐjīng zuò le yí ge yùsuàn fāng'àn, kěyǐ fā gěi dàjiā kànkan." },
+              { speaker: "经理", line: "好的，会后发给我。我们下周一再讨论。", pinyin: "Hǎo de, huì hòu fā gěi wǒ. Wǒmen xià zhōuyī zài tǎolùn." },
             ],
           },
         ],
@@ -442,6 +780,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           { hanzi: "同意", pinyin: "tóngyì", meaning: "Đồng ý", meaningEn: "To agree", type: "phrase", example: "我同意你的看法。", examplePinyin: "Wǒ tóngyì nǐ de kànfǎ.", exampleVi: "Tôi đồng ý quan điểm của bạn." },
           { hanzi: "建议", pinyin: "jiànyì", meaning: "Đề xuất", meaningEn: "Suggestion / to suggest", type: "phrase", example: "我有一个建议。", examplePinyin: "Wǒ yǒu yí ge jiànyì.", exampleVi: "Tôi có một đề xuất." },
           { hanzi: "关系", pinyin: "guānxi", meaning: "Mối quan hệ", meaningEn: "Relationship / connections", type: "expression", example: "在中国做生意，关系很重要。", examplePinyin: "Zài Zhōngguó zuò shēngyì, guānxi hěn zhòngyào.", exampleVi: "Kinh doanh ở Trung Quốc, mối quan hệ rất quan trọng." },
+          { hanzi: "预算", pinyin: "yùsuàn", meaning: "Ngân sách", meaningEn: "Budget", type: "phrase", example: "这个项目的预算是多少？", examplePinyin: "Zhège xiàngmù de yùsuàn shì duōshao?", exampleVi: "Ngân sách dự án này là bao nhiêu?" },
+          { hanzi: "推广", pinyin: "tuīguǎng", meaning: "Quảng bá", meaningEn: "To promote / marketing", type: "phrase", example: "我们要推广新产品。", examplePinyin: "Wǒmen yào tuīguǎng xīn chǎnpǐn.", exampleVi: "Chúng ta cần quảng bá sản phẩm mới." },
         ],
         commonStructures: [
           {
@@ -451,6 +791,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             explanationVi: "Về vấn đề..., tôi muốn nói...",
             examples: [
               { zh: "关于这个项目，我想说几点。", pinyin: "Guānyú zhège xiàngmù, wǒ xiǎng shuō jǐ diǎn.", vi: "Về dự án này, tôi muốn nói vài điểm." },
+            ],
+          },
+          {
+            pattern: "我已经...了，可以...",
+            patternPinyin: "Wǒ yǐjīng... le, kěyǐ...",
+            explanation: "I've already..., so we can...",
+            explanationVi: "Tôi đã... rồi, có thể...",
+            examples: [
+              { zh: "我已经准备好了，可以开始了。", pinyin: "Wǒ yǐjīng zhǔnbèi hǎo le, kěyǐ kāishǐ le.", vi: "Tôi đã chuẩn bị xong, có thể bắt đầu." },
+              { zh: "我已经写好报告了，可以发给大家。", pinyin: "Wǒ yǐjīng xiě hǎo bàogào le, kěyǐ fā gěi dàjiā.", vi: "Tôi đã viết xong báo cáo, có thể gửi cho mọi người." },
             ],
           },
         ],
@@ -468,9 +818,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         speakingTopics: [
           "Present a quarterly report in Chinese",
           "Discuss project challenges with your team",
+          "Propose a new marketing strategy",
           "Schedule and confirm a meeting",
         ],
       },
+
+      // ──── Lesson 2: Negotiating & Deals ────
       {
         id: "cn-bz-02-negotiate",
         title: "Negotiating & Deals",
@@ -489,13 +842,26 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             description: "Discussing pricing and payment terms",
             descriptionVi: "Thảo luận giá cả và điều khoản thanh toán",
             culturalNote: "'面子' (miànzi / face) is crucial in negotiations. Never publicly disagree harshly. Use indirect language like '我们再考虑一下' (let's think about it) instead of a direct 'No'.",
-            culturalNoteVi: "'面子' (thể diện) rất quan trọng trong đàm phán. Không bao giờ phản đối gay gắt trước mặt mọi người. Dùng ngôn ngữ gián tiếp thay vì nói 'Không' trực tiếp.",
+            culturalNoteVi: "'面子' (thể diện) rất quan trọng trong đàm phán. Không bao giờ phản đối gay gắt. Dùng ngôn ngữ gián tiếp thay vì nói 'Không' trực tiếp.",
             sampleDialogue: [
               { speaker: "You", line: "关于价格，我们觉得可以再商量一下。", pinyin: "Guānyú jiàgé, wǒmen juéde kěyǐ zài shāngliáng yíxià." },
               { speaker: "对方", line: "我们的价格已经很优惠了。", pinyin: "Wǒmen de jiàgé yǐjīng hěn yōuhuì le." },
               { speaker: "You", line: "如果订单量大的话，能不能再给我们一个折扣？", pinyin: "Rúguǒ dìngdān liàng dà de huà, néng bu néng zài gěi wǒmen yí ge zhékòu?" },
               { speaker: "对方", line: "如果订单超过一千件，我可以给你打九折。", pinyin: "Rúguǒ dìngdān chāoguò yī qiān jiàn, wǒ kěyǐ gěi nǐ dǎ jiǔ zhé." },
               { speaker: "You", line: "好的，我们回去考虑一下，明天给你答复。", pinyin: "Hǎo de, wǒmen huíqù kǎolǜ yíxià, míngtiān gěi nǐ dáfù." },
+            ],
+          },
+          {
+            title: "Signing a Contract",
+            titleVi: "Ký hợp đồng",
+            description: "Review terms and sign agreements",
+            descriptionVi: "Xem xét điều khoản và ký thỏa thuận",
+            sampleDialogue: [
+              { speaker: "You", line: "合同我看了，有两个地方想确认一下。", pinyin: "Hétong wǒ kàn le, yǒu liǎng ge dìfang xiǎng quèrèn yíxià." },
+              { speaker: "对方", line: "请说。", pinyin: "Qǐng shuō." },
+              { speaker: "You", line: "交货日期是三月十五号，对吗？付款方式是什么？", pinyin: "Jiāo huò rìqī shì sān yuè shíwǔ hào, duì ma? Fùkuǎn fāngshì shì shénme?" },
+              { speaker: "对方", line: "对的。付款方式是预付百分之三十，交货后付百分之七十。", pinyin: "Duì de. Fùkuǎn fāngshì shì yù fù bǎi fēn zhī sānshí, jiāo huò hòu fù bǎi fēn zhī qīshí." },
+              { speaker: "You", line: "好的，没问题。我们可以签了。", pinyin: "Hǎo de, méi wèntí. Wǒmen kěyǐ qiān le." },
             ],
           },
         ],
@@ -506,6 +872,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           { hanzi: "面子", pinyin: "miànzi", meaning: "Thể diện", meaningEn: "Face (social reputation)", type: "expression", example: "给他留点面子。", examplePinyin: "Gěi tā liú diǎn miànzi.", exampleVi: "Để lại chút thể diện cho anh ấy." },
           { hanzi: "合作", pinyin: "hézuò", meaning: "Hợp tác", meaningEn: "Cooperation / to cooperate", type: "phrase", example: "希望我们能长期合作。", examplePinyin: "Xīwàng wǒmen néng chángqī hézuò.", exampleVi: "Hy vọng chúng ta có thể hợp tác lâu dài." },
           { hanzi: "考虑", pinyin: "kǎolǜ", meaning: "Cân nhắc", meaningEn: "To consider", type: "phrase", example: "我需要考虑一下。", examplePinyin: "Wǒ xūyào kǎolǜ yíxià.", exampleVi: "Tôi cần cân nhắc." },
+          { hanzi: "交货", pinyin: "jiāo huò", meaning: "Giao hàng", meaningEn: "To deliver goods", type: "phrase", example: "交货日期是什么时候？", examplePinyin: "Jiāo huò rìqī shì shénme shíhou?", exampleVi: "Ngày giao hàng là khi nào?" },
+          { hanzi: "付款", pinyin: "fùkuǎn", meaning: "Thanh toán", meaningEn: "Payment", type: "phrase", example: "付款方式可以商量。", examplePinyin: "Fùkuǎn fāngshì kěyǐ shāngliáng.", exampleVi: "Phương thức thanh toán có thể thương lượng." },
         ],
         commonStructures: [
           {
@@ -515,6 +883,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             explanationVi: "Nếu... thì... (câu điều kiện)",
             examples: [
               { zh: "如果价格合适的话，我们就签合同。", pinyin: "Rúguǒ jiàgé héshì de huà, wǒmen jiù qiān hétong.", vi: "Nếu giá hợp lý thì chúng tôi ký hợp đồng." },
+            ],
+          },
+          {
+            pattern: "...再...一下",
+            patternPinyin: "...zài... yíxià",
+            explanation: "Let's [verb] again / one more time (softening tone)",
+            explanationVi: "Hãy [động từ] thêm lần nữa (giọng nhẹ nhàng)",
+            examples: [
+              { zh: "我们再商量一下。", pinyin: "Wǒmen zài shāngliáng yíxià.", vi: "Chúng ta thương lượng thêm một chút." },
+              { zh: "让我再想一下。", pinyin: "Ràng wǒ zài xiǎng yíxià.", vi: "Để tôi nghĩ thêm một chút." },
             ],
           },
         ],
@@ -533,8 +911,11 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Negotiate a supply contract in Chinese",
           "Discuss delivery terms and payment schedule",
           "Handle a complaint about product quality",
+          "Present a counter-offer in a negotiation",
         ],
       },
+
+      // ──── Lesson 3: Office Communication ────
       {
         id: "cn-bz-03-office",
         title: "Office Communication",
@@ -559,6 +940,32 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { speaker: "同事", line: "可以，我一会儿就看。", pinyin: "Kěyǐ, wǒ yīhuìr jiù kàn." },
             ],
           },
+          {
+            title: "Writing a Work Email",
+            titleVi: "Viết email công việc",
+            description: "Common email phrases and formats",
+            descriptionVi: "Các cụm từ và định dạng email phổ biến",
+            culturalNote: "Chinese business emails often start with 尊敬的 (zūnjìng de — Dear/Respected) for formal contacts. End with 此致敬礼 (cǐzhì jìnglǐ — Best regards). WeChat is increasingly used alongside email for quick work communication.",
+            culturalNoteVi: "Email công việc Trung Quốc thường bắt đầu bằng 尊敬的 (Kính gửi). Kết thúc bằng 此致敬礼 (Trân trọng). WeChat ngày càng được dùng song song với email.",
+            sampleDialogue: [
+              { speaker: "You", line: "我给客户发邮件了，但是还没收到回复。", pinyin: "Wǒ gěi kèhù fā yóujiàn le, dànshì hái méi shōu dào huífù." },
+              { speaker: "同事", line: "你发了多久了？", pinyin: "Nǐ fā le duō jiǔ le?" },
+              { speaker: "You", line: "已经三天了。要不要再发一封催一下？", pinyin: "Yǐjīng sān tiān le. Yào bu yào zài fā yī fēng cuī yíxià?" },
+              { speaker: "同事", line: "你可以在微信上先跟他说一声。", pinyin: "Nǐ kěyǐ zài Wēixìn shàng xiān gēn tā shuō yī shēng." },
+            ],
+          },
+          {
+            title: "Requesting Time Off",
+            titleVi: "Xin nghỉ phép",
+            description: "Ask your manager for leave",
+            descriptionVi: "Xin phép sếp cho nghỉ",
+            sampleDialogue: [
+              { speaker: "You", line: "经理，我想请两天假，下周一和周二。", pinyin: "Jīnglǐ, wǒ xiǎng qǐng liǎng tiān jià, xià zhōuyī hé zhōu'èr." },
+              { speaker: "经理", line: "什么原因？", pinyin: "Shénme yuányīn?" },
+              { speaker: "You", line: "我家人从越南来，我想陪他们玩两天。", pinyin: "Wǒ jiārén cóng Yuènán lái, wǒ xiǎng péi tāmen wán liǎng tiān." },
+              { speaker: "经理", line: "好的，你把手上的工作先交接一下。", pinyin: "Hǎo de, nǐ bǎ shǒu shàng de gōngzuò xiān jiāojiē yíxià." },
+            ],
+          },
         ],
         vocabulary: [
           { hanzi: "加班", pinyin: "jiā bān", meaning: "Làm thêm giờ", meaningEn: "Overtime", type: "phrase", example: "今天晚上我要加班。", examplePinyin: "Jīntiān wǎnshang wǒ yào jiā bān.", exampleVi: "Tối nay tôi phải làm thêm giờ." },
@@ -567,6 +974,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           { hanzi: "同事", pinyin: "tóngshì", meaning: "Đồng nghiệp", meaningEn: "Colleague", type: "phrase", example: "我的同事们都很友好。", examplePinyin: "Wǒ de tóngshìmen dōu hěn yǒuhǎo.", exampleVi: "Đồng nghiệp của tôi đều rất thân thiện." },
           { hanzi: "打扰", pinyin: "dǎrǎo", meaning: "Làm phiền", meaningEn: "To disturb", type: "expression", example: "不好意思，打扰你了。", examplePinyin: "Bù hǎo yìsi, dǎrǎo nǐ le.", exampleVi: "Xin lỗi, làm phiền bạn rồi." },
           { hanzi: "邮件", pinyin: "yóujiàn", meaning: "Email", meaningEn: "Email", type: "phrase", example: "我给你发了一封邮件。", examplePinyin: "Wǒ gěi nǐ fā le yī fēng yóujiàn.", exampleVi: "Tôi đã gửi cho bạn một email." },
+          { hanzi: "交接", pinyin: "jiāojiē", meaning: "Bàn giao", meaningEn: "Handover", type: "phrase", example: "离职前要做好工作交接。", examplePinyin: "Lí zhí qián yào zuò hǎo gōngzuò jiāojiē.", exampleVi: "Trước khi nghỉ việc cần bàn giao công việc." },
+          { hanzi: "催", pinyin: "cuī", meaning: "Giục/Nhắc", meaningEn: "To urge / follow up", type: "phrase", example: "客户在催我们了。", examplePinyin: "Kèhù zài cuī wǒmen le.", exampleVi: "Khách hàng đang giục chúng ta." },
         ],
         commonStructures: [
           {
@@ -577,6 +986,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             examples: [
               { zh: "你能帮我翻译一下吗？", pinyin: "Nǐ néng bāng wǒ fānyì yíxià ma?", vi: "Bạn có thể giúp tôi dịch không?" },
               { zh: "你能帮我打印这份文件吗？", pinyin: "Nǐ néng bāng wǒ dǎyìn zhè fèn wénjiàn ma?", vi: "Bạn có thể giúp tôi in tài liệu này không?" },
+            ],
+          },
+          {
+            pattern: "把 + Object + Verb",
+            patternPinyin: "Bǎ + Object + Verb",
+            explanation: "把-sentence: place the object before the verb to emphasize action on it",
+            explanationVi: "Câu 把: đặt tân ngữ trước động từ để nhấn mạnh hành động lên nó",
+            examples: [
+              { zh: "把报告发给我。", pinyin: "Bǎ bàogào fā gěi wǒ.", vi: "Gửi báo cáo cho tôi." },
+              { zh: "把工作交接好。", pinyin: "Bǎ gōngzuò jiāojiē hǎo.", vi: "Bàn giao công việc cho tốt." },
             ],
           },
         ],
@@ -595,6 +1014,94 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Ask your colleague for help with a task",
           "Request time off from your manager",
           "Give a status update on your project",
+          "Write and discuss a work email",
+        ],
+      },
+
+      // ──── Lesson 4: Job Interview ────
+      {
+        id: "cn-bz-04-interview",
+        title: "Job Interview",
+        titleVi: "Phỏng vấn Xin việc",
+        titleZh: "求职面试",
+        icon: "GraduationCap",
+        description: "Prepare for Chinese job interviews: questions, answers, and etiquette",
+        descriptionVi: "Chuẩn bị phỏng vấn xin việc bằng tiếng Trung: câu hỏi, trả lời và phép tắc",
+        hskLevel: 4,
+        badge: "面试达人",
+        badgeVi: "Cao thủ Phỏng vấn",
+        keySituations: [
+          {
+            title: "Self-Introduction in Interview",
+            titleVi: "Tự giới thiệu trong phỏng vấn",
+            description: "Impress with a structured self-introduction",
+            descriptionVi: "Gây ấn tượng với phần tự giới thiệu có cấu trúc",
+            culturalNote: "Chinese interviewers often ask about your 稳定性 (wěndìng xìng — stability). They value loyalty and long-term commitment. Hopping between jobs too frequently is viewed negatively.",
+            culturalNoteVi: "Nhà tuyển dụng Trung Quốc thường hỏi về 稳定性 (sự ổn định). Họ đánh giá cao sự trung thành và cam kết lâu dài. Nhảy việc quá nhiều bị đánh giá tiêu cực.",
+            sampleDialogue: [
+              { speaker: "面试官", line: "请先自我介绍一下。", pinyin: "Qǐng xiān zìwǒ jièshào yíxià." },
+              { speaker: "You", line: "您好！我叫阿明，越南人。我在北京大学读了MBA，之前在一家外贸公司工作了三年。", pinyin: "Nín hǎo! Wǒ jiào Ā Míng, Yuènán rén. Wǒ zài Běijīng Dàxué dú le MBA, zhīqián zài yī jiā wàimào gōngsī gōngzuò le sān nián." },
+              { speaker: "面试官", line: "你为什么想来我们公司？", pinyin: "Nǐ wèi shénme xiǎng lái wǒmen gōngsī?" },
+              { speaker: "You", line: "因为贵公司在行业里很有影响力，我希望能在这里学到更多。", pinyin: "Yīnwèi guì gōngsī zài hángyè lǐ hěn yǒu yǐngxiǎng lì, wǒ xīwàng néng zài zhèlǐ xué dào gèng duō." },
+            ],
+          },
+          {
+            title: "Discussing Salary & Benefits",
+            titleVi: "Thảo luận lương và phúc lợi",
+            description: "Navigate salary negotiation professionally",
+            descriptionVi: "Thương lượng lương một cách chuyên nghiệp",
+            sampleDialogue: [
+              { speaker: "面试官", line: "你的期望薪资是多少？", pinyin: "Nǐ de qīwàng xīnzī shì duōshao?" },
+              { speaker: "You", line: "根据我的经验和能力，我期望月薪在一万五到两万之间。", pinyin: "Gēnjù wǒ de jīngyàn hé nénglì, wǒ qīwàng yuè xīn zài yī wàn wǔ dào liǎng wàn zhījiān." },
+              { speaker: "面试官", line: "我们公司有五险一金，还有年终奖。", pinyin: "Wǒmen gōngsī yǒu wǔ xiǎn yī jīn, hái yǒu niánzhōng jiǎng." },
+              { speaker: "You", line: "好的，请问有没有其他福利？", pinyin: "Hǎo de, qǐng wèn yǒu méi yǒu qítā fúlì?" },
+            ],
+          },
+        ],
+        vocabulary: [
+          { hanzi: "面试", pinyin: "miànshì", meaning: "Phỏng vấn", meaningEn: "Interview", type: "phrase", example: "我明天有一个面试。", examplePinyin: "Wǒ míngtiān yǒu yí ge miànshì.", exampleVi: "Ngày mai tôi có một cuộc phỏng vấn." },
+          { hanzi: "简历", pinyin: "jiǎnlì", meaning: "Hồ sơ xin việc/CV", meaningEn: "Resume / CV", type: "phrase", example: "请把简历发给我。", examplePinyin: "Qǐng bǎ jiǎnlì fā gěi wǒ.", exampleVi: "Xin gửi CV cho tôi." },
+          { hanzi: "薪资", pinyin: "xīnzī", meaning: "Lương", meaningEn: "Salary", type: "phrase", example: "薪资面议。", examplePinyin: "Xīnzī miàn yì.", exampleVi: "Lương trao đổi khi phỏng vấn." },
+          { hanzi: "五险一金", pinyin: "wǔ xiǎn yī jīn", meaning: "Bảo hiểm XH & Quỹ nhà ở", meaningEn: "Five insurances + housing fund", type: "expression", example: "公司交五险一金。", examplePinyin: "Gōngsī jiāo wǔ xiǎn yī jīn.", exampleVi: "Công ty đóng bảo hiểm xã hội và quỹ nhà ở." },
+          { hanzi: "经验", pinyin: "jīngyàn", meaning: "Kinh nghiệm", meaningEn: "Experience", type: "phrase", example: "你有几年工作经验？", examplePinyin: "Nǐ yǒu jǐ nián gōngzuò jīngyàn?", exampleVi: "Bạn có mấy năm kinh nghiệm?" },
+          { hanzi: "优势", pinyin: "yōushì", meaning: "Ưu thế/Điểm mạnh", meaningEn: "Advantage / Strength", type: "phrase", example: "你的优势是什么？", examplePinyin: "Nǐ de yōushì shì shénme?", exampleVi: "Điểm mạnh của bạn là gì?" },
+        ],
+        commonStructures: [
+          {
+            pattern: "根据..., 我...",
+            patternPinyin: "Gēnjù..., wǒ...",
+            explanation: "Based on..., I...",
+            explanationVi: "Dựa trên..., tôi...",
+            examples: [
+              { zh: "根据市场行情，我期望月薪两万。", pinyin: "Gēnjù shìchǎng hángqíng, wǒ qīwàng yuè xīn liǎng wàn.", vi: "Dựa trên thị trường, tôi mong lương tháng 20 ngàn." },
+            ],
+          },
+          {
+            pattern: "因为...，所以...",
+            patternPinyin: "Yīnwèi..., suǒyǐ...",
+            explanation: "Because..., therefore...",
+            explanationVi: "Vì..., cho nên...",
+            examples: [
+              { zh: "因为我有三年经验，所以我对这个职位很有信心。", pinyin: "Yīnwèi wǒ yǒu sān nián jīngyàn, suǒyǐ wǒ duì zhège zhíwèi hěn yǒu xìnxīn.", vi: "Vì tôi có 3 năm kinh nghiệm, nên tôi rất tự tin với vị trí này." },
+            ],
+          },
+        ],
+        listeningChallenge: {
+          title: "Listening: Job Interview",
+          titleVi: "Nghe: Phỏng vấn xin việc",
+          transcript: "面试官问他有几年经验。他说有五年，之前在一家互联网公司做产品经理。面试官又问他的优势是什么。他说他很擅长团队合作，而且会说三种语言。最后面试官说下周通知结果。",
+          transcriptPinyin: "Miànshì guān wèn tā yǒu jǐ nián jīngyàn. Tā shuō yǒu wǔ nián, zhīqián zài yī jiā hùliánwǎng gōngsī zuò chǎnpǐn jīnglǐ. Miànshì guān yòu wèn tā de yōushì shì shénme. Tā shuō tā hěn shàncháng tuánduì hézuò, érqiě huì shuō sān zhǒng yǔyán. Zuìhòu miànshì guān shuō xià zhōu tōngzhī jiéguǒ.",
+          questions: [
+            { q: "How many years of experience?", qVi: "Bao nhiêu năm kinh nghiệm?", options: ["3年", "4年", "5年", "6年"], answer: 2 },
+            { q: "Previous job role?", qVi: "Vị trí công việc trước?", options: ["销售经理", "产品经理", "人事经理", "技术总监"], answer: 1 },
+            { q: "When will results be announced?", qVi: "Khi nào thông báo kết quả?", options: ["明天", "这周", "下周", "下个月"], answer: 2 },
+          ],
+        },
+        speakingTopics: [
+          "Introduce yourself for a job interview in Chinese",
+          "Discuss your strengths and weaknesses",
+          "Negotiate salary and benefits",
+          "Ask questions about company culture",
         ],
       },
     ],
@@ -613,6 +1120,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
     description: "Express opinions, discuss hobbies, and use modern slang naturally",
     descriptionVi: "Bày tỏ quan điểm, thảo luận sở thích và sử dụng tiếng lóng hiện đại",
     lessons: [
+      // ──── Lesson 1: Hobbies & Interests ────
       {
         id: "cn-sc-01-hobbies",
         title: "Hobbies & Interests",
@@ -637,6 +1145,19 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { speaker: "B", line: "太酷了！下次一起去爬山吧！", pinyin: "Tài kù le! Xià cì yīqǐ qù pá shān ba!" },
             ],
           },
+          {
+            title: "Making Plans with Friends",
+            titleVi: "Lên kế hoạch với bạn bè",
+            description: "Invite friends and make weekend plans",
+            descriptionVi: "Rủ bạn bè và lên kế hoạch cuối tuần",
+            sampleDialogue: [
+              { speaker: "A", line: "这个周末有空吗？想不想一起去看电影？", pinyin: "Zhège zhōumò yǒu kòng ma? Xiǎng bu xiǎng yīqǐ qù kàn diànyǐng?" },
+              { speaker: "B", line: "周六可以。看什么电影？", pinyin: "Zhōu liù kěyǐ. Kàn shénme diànyǐng?" },
+              { speaker: "A", line: "听说新出的那部科幻片很好看。下午两点的场次怎么样？", pinyin: "Tīng shuō xīn chū de nà bù kēhuàn piān hěn hǎokàn. Xiàwǔ liǎng diǎn de chǎng cì zěnmeyàng?" },
+              { speaker: "B", line: "没问题！看完电影我们去吃火锅吧。", pinyin: "Méi wèntí! Kàn wán diànyǐng wǒmen qù chī huǒguō ba." },
+              { speaker: "A", line: "好主意！那我先买票。", pinyin: "Hǎo zhǔyi! Nà wǒ xiān mǎi piào." },
+            ],
+          },
         ],
         vocabulary: [
           { hanzi: "爱好", pinyin: "àihào", meaning: "Sở thích", meaningEn: "Hobby", type: "phrase", example: "你的爱好是什么？", examplePinyin: "Nǐ de àihào shì shénme?", exampleVi: "Sở thích của bạn là gì?" },
@@ -645,6 +1166,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           { hanzi: "刷手机", pinyin: "shuā shǒujī", meaning: "Lướt điện thoại", meaningEn: "Scroll through phone", type: "slang", example: "别一直刷手机了！", examplePinyin: "Bié yīzhí shuā shǒujī le!", exampleVi: "Đừng lướt điện thoại nữa!" },
           { hanzi: "旅游", pinyin: "lǚyóu", meaning: "Du lịch", meaningEn: "To travel / tourism", type: "phrase", example: "我很喜欢旅游。", examplePinyin: "Wǒ hěn xǐhuan lǚyóu.", exampleVi: "Tôi rất thích du lịch." },
           { hanzi: "打卡", pinyin: "dǎ kǎ", meaning: "Check-in (mạng xã hội)", meaningEn: "Check in (social media)", type: "slang", example: "我去网红店打卡了。", examplePinyin: "Wǒ qù wǎnghóng diàn dǎ kǎ le.", exampleVi: "Tôi đi check-in quán nổi tiếng rồi." },
+          { hanzi: "有空", pinyin: "yǒu kòng", meaning: "Có rảnh", meaningEn: "Free / Available", type: "phrase", example: "你明天有空吗？", examplePinyin: "Nǐ míngtiān yǒu kòng ma?", exampleVi: "Ngày mai bạn rảnh không?" },
+          { hanzi: "约", pinyin: "yuē", meaning: "Hẹn/Rủ", meaningEn: "To make plans / meet up", type: "phrase", example: "周末约出来玩吧。", examplePinyin: "Zhōumò yuē chūlái wán ba.", exampleVi: "Cuối tuần hẹn ra chơi nhé." },
         ],
         commonStructures: [
           {
@@ -654,6 +1177,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             explanationVi: "Tôi thích... và cũng thích...",
             examples: [
               { zh: "我喜欢游泳，也喜欢跑步。", pinyin: "Wǒ xǐhuan yóuyǒng, yě xǐhuan pǎobù.", vi: "Tôi thích bơi và cũng thích chạy bộ." },
+            ],
+          },
+          {
+            pattern: "想不想 + Verb？",
+            patternPinyin: "Xiǎng bu xiǎng + Verb?",
+            explanation: "Would you like to...? (casual invitation)",
+            explanationVi: "Bạn có muốn... không? (mời rủ nhẹ nhàng)",
+            examples: [
+              { zh: "想不想一起去吃饭？", pinyin: "Xiǎng bu xiǎng yīqǐ qù chī fàn?", vi: "Có muốn đi ăn cùng không?" },
+              { zh: "想不想下周去爬山？", pinyin: "Xiǎng bu xiǎng xià zhōu qù pá shān?", vi: "Có muốn tuần sau đi leo núi không?" },
             ],
           },
         ],
@@ -672,8 +1205,11 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Describe your weekend hobbies",
           "Invite a friend to do an activity together",
           "Compare hobbies in your country vs China",
+          "Plan a fun day out with friends",
         ],
       },
+
+      // ──── Lesson 2: Expressing Opinions ────
       {
         id: "cn-sc-02-opinions",
         title: "Expressing Opinions",
@@ -700,6 +1236,18 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { speaker: "B", line: "你说的也有道理。每个人的感觉不一样。", pinyin: "Nǐ shuō de yě yǒu dàolǐ. Měi ge rén de gǎnjué bù yīyàng." },
             ],
           },
+          {
+            title: "Debating a Topic",
+            titleVi: "Tranh luận một chủ đề",
+            description: "Discuss pros and cons of a topic",
+            descriptionVi: "Thảo luận ưu nhược điểm của một chủ đề",
+            sampleDialogue: [
+              { speaker: "A", line: "你觉得住在大城市好还是小城市好？", pinyin: "Nǐ juéde zhù zài dà chéngshì hǎo háishi xiǎo chéngshì hǎo?" },
+              { speaker: "B", line: "我觉得大城市好。工作机会多，生活丰富。", pinyin: "Wǒ juéde dà chéngshì hǎo. Gōngzuò jīhuì duō, shēnghuó fēngfù." },
+              { speaker: "A", line: "但是大城市房价太高了，而且压力很大。", pinyin: "Dànshì dà chéngshì fángjià tài gāo le, érqiě yālì hěn dà." },
+              { speaker: "B", line: "这倒是。不过年轻的时候在大城市闯一闯还是值得的。", pinyin: "Zhè dào shì. Búguò niánqīng de shíhou zài dà chéngshì chuǎng yī chuǎng háishi zhídé de." },
+            ],
+          },
         ],
         vocabulary: [
           { hanzi: "觉得", pinyin: "juéde", meaning: "Cho rằng/Cảm thấy", meaningEn: "To think / feel", type: "phrase", example: "我觉得这个主意很好。", examplePinyin: "Wǒ juéde zhège zhǔyi hěn hǎo.", exampleVi: "Tôi cho rằng ý kiến này rất hay." },
@@ -708,6 +1256,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           { hanzi: "其实", pinyin: "qíshí", meaning: "Thực ra", meaningEn: "Actually / in fact", type: "expression", example: "其实我不太喜欢吃辣。", examplePinyin: "Qíshí wǒ bú tài xǐhuan chī là.", exampleVi: "Thực ra tôi không thích ăn cay lắm." },
           { hanzi: "不好意思", pinyin: "bù hǎo yìsi", meaning: "Ngại quá / Xin lỗi", meaningEn: "Embarrassed / Sorry", type: "expression", example: "不好意思，我迟到了。", examplePinyin: "Bù hǎo yìsi, wǒ chí dào le.", exampleVi: "Xin lỗi, tôi đến trễ." },
           { hanzi: "和谐", pinyin: "héxié", meaning: "Hài hòa", meaningEn: "Harmony / harmonious", type: "phrase", example: "中国文化很重视和谐。", examplePinyin: "Zhōngguó wénhuà hěn zhòngshì héxié.", exampleVi: "Văn hóa Trung Quốc rất coi trọng sự hài hòa." },
+          { hanzi: "压力", pinyin: "yālì", meaning: "Áp lực", meaningEn: "Pressure / Stress", type: "phrase", example: "工作压力很大。", examplePinyin: "Gōngzuò yālì hěn dà.", exampleVi: "Áp lực công việc rất lớn." },
+          { hanzi: "值得", pinyin: "zhídé", meaning: "Đáng giá", meaningEn: "Worth it", type: "phrase", example: "这趟旅行很值得。", examplePinyin: "Zhè tàng lǚxíng hěn zhídé.", exampleVi: "Chuyến đi này rất đáng giá." },
         ],
         commonStructures: [
           {
@@ -717,6 +1267,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             explanationVi: "Tôi cho rằng..., nhưng...",
             examples: [
               { zh: "我觉得学中文很有趣，但是汉字很难写。", pinyin: "Wǒ juéde xué Zhōngwén hěn yǒuqù, dànshì Hànzì hěn nán xiě.", vi: "Tôi cho rằng học tiếng Trung rất thú vị, nhưng chữ Hán rất khó viết." },
+            ],
+          },
+          {
+            pattern: "...还是...(好)？",
+            patternPinyin: "...háishi...(hǎo)?",
+            explanation: "...or...? (choosing between two options)",
+            explanationVi: "...hay...? (chọn giữa hai phương án)",
+            examples: [
+              { zh: "吃中餐还是西餐好？", pinyin: "Chī Zhōngcān háishi xīcān hǎo?", vi: "Ăn đồ Trung hay đồ Tây?" },
+              { zh: "住城市还是住农村好？", pinyin: "Zhù chéngshì háishi zhù nóngcūn hǎo?", vi: "Sống ở thành phố hay nông thôn?" },
             ],
           },
         ],
@@ -735,8 +1295,11 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Debate: Is learning Chinese harder than English?",
           "Share your opinion on social media culture",
           "Discuss advantages of city vs countryside living",
+          "Express your views on work-life balance",
         ],
       },
+
+      // ──── Lesson 3: Modern Slang & Internet Expressions ────
       {
         id: "cn-sc-03-slang",
         title: "Modern Slang & Internet Expressions",
@@ -764,6 +1327,32 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
               { speaker: "A", line: "冲！88～", pinyin: "Chōng! Bā bā~" },
             ],
           },
+          {
+            title: "Understanding Douyin/Weibo Trends",
+            titleVi: "Hiểu xu hướng Douyin/Weibo",
+            description: "Discuss trending topics and viral content",
+            descriptionVi: "Thảo luận chủ đề thịnh hành và nội dung viral",
+            sampleDialogue: [
+              { speaker: "A", line: "你看了昨天抖音上那个视频吗？太搞笑了！", pinyin: "Nǐ kàn le zuótiān Dǒuyīn shàng nàge shìpín ma? Tài gǎoxiào le!" },
+              { speaker: "B", line: "哪个？发给我看看。", pinyin: "Nǎ ge? Fā gěi wǒ kànkan." },
+              { speaker: "A", line: "就是那个'挖呀挖'的。已经被转发了几百万次。", pinyin: "Jiù shì nàge 'wā ya wā' de. Yǐjīng bèi zhuǎn fā le jǐ bǎi wàn cì." },
+              { speaker: "B", line: "哈哈，我看到了！评论区太好笑了，全是造梗的。", pinyin: "Hāhā, wǒ kàn dào le! Pínglùn qū tài hǎo xiào le, quán shì zào gěng de." },
+            ],
+          },
+          {
+            title: "Dating App Conversation",
+            titleVi: "Chat trên app hẹn hò",
+            description: "Modern dating vocabulary and expressions",
+            descriptionVi: "Từ vựng và cách nói hẹn hò hiện đại",
+            culturalNote: "Popular dating apps in China: 探探 (Tàntàn, like Tinder), 陌陌 (Mòmò). Chinese dating culture often involves parents' approval. '相亲' (xiāngqīn — arranged dating) is still common for adults over 25.",
+            culturalNoteVi: "App hẹn hò phổ biến ở Trung Quốc: 探探 (như Tinder), 陌陌. Văn hóa hẹn hò Trung Quốc thường cần sự đồng ý của bố mẹ. '相亲' (mai mối) vẫn phổ biến cho người trên 25 tuổi.",
+            sampleDialogue: [
+              { speaker: "A", line: "你是做什么工作的？看你的照片，好像很喜欢旅游。", pinyin: "Nǐ shì zuò shénme gōngzuò de? Kàn nǐ de zhàopiàn, hǎoxiàng hěn xǐhuan lǚyóu." },
+              { speaker: "B", line: "我是程序员。对，我超喜欢旅游！你呢？", pinyin: "Wǒ shì chéngxùyuán. Duì, wǒ chāo xǐhuan lǚyóu! Nǐ ne?" },
+              { speaker: "A", line: "我也是！那我们有空一起出去玩吧？", pinyin: "Wǒ yě shì! Nà wǒmen yǒu kòng yīqǐ chūqù wán ba?" },
+              { speaker: "B", line: "好啊！加个微信吧。", pinyin: "Hǎo a! Jiā ge Wēixìn ba." },
+            ],
+          },
         ],
         vocabulary: [
           { hanzi: "666", pinyin: "liù liù liù", meaning: "Tuyệt vời / Quá đỉnh", meaningEn: "Awesome / Amazing", type: "slang", example: "你打游戏太666了！", examplePinyin: "Nǐ dǎ yóuxì tài liù liù liù le!", exampleVi: "Bạn chơi game đỉnh quá!" },
@@ -772,6 +1361,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           { hanzi: "凉凉", pinyin: "liáng liáng", meaning: "Xong đời / Tiêu rồi", meaningEn: "It's over / doomed", type: "slang", example: "我的手机掉水里了，凉凉。", examplePinyin: "Wǒ de shǒujī diào shuǐ lǐ le, liáng liáng.", exampleVi: "Điện thoại rơi xuống nước, xong đời." },
           { hanzi: "冲", pinyin: "chōng", meaning: "Xông / Lên thôi!", meaningEn: "Let's go! / Charge!", type: "slang", example: "明天考试，冲！", examplePinyin: "Míngtiān kǎoshì, chōng!", exampleVi: "Ngày mai thi, xông lên!" },
           { hanzi: "吃鸡", pinyin: "chī jī", meaning: "Chơi game sinh tồn", meaningEn: "Play battle royale (PUBG)", type: "slang", example: "今晚一起吃鸡吗？", examplePinyin: "Jīn wǎn yīqǐ chī jī ma?", exampleVi: "Tối nay cùng chơi PUBG không?" },
+          { hanzi: "造梗", pinyin: "zào gěng", meaning: "Tạo meme/nói dí dỏm", meaningEn: "Create memes / make jokes", type: "slang", example: "他很会造梗。", examplePinyin: "Tā hěn huì zào gěng.", exampleVi: "Anh ấy rất giỏi tạo meme." },
+          { hanzi: "转发", pinyin: "zhuǎn fā", meaning: "Chia sẻ/Repost", meaningEn: "Repost / Share", type: "phrase", example: "这个视频被转发了一百万次。", examplePinyin: "Zhège shìpín bèi zhuǎn fā le yī bǎi wàn cì.", exampleVi: "Video này được chia sẻ 1 triệu lần." },
         ],
         commonStructures: [
           {
@@ -782,6 +1373,16 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             examples: [
               { zh: "这也太好看了吧！", pinyin: "Zhè yě tài hǎokàn le ba!", vi: "Cái này cũng đẹp quá đi!" },
               { zh: "你也太强了吧！", pinyin: "Nǐ yě tài qiáng le ba!", vi: "Bạn cũng giỏi quá đi!" },
+            ],
+          },
+          {
+            pattern: "好像 + Verb/Adj",
+            patternPinyin: "Hǎoxiàng + Verb/Adj",
+            explanation: "It seems like... / looks like...",
+            explanationVi: "Có vẻ như... / trông giống...",
+            examples: [
+              { zh: "你好像很喜欢旅游。", pinyin: "Nǐ hǎoxiàng hěn xǐhuan lǚyóu.", vi: "Trông bạn có vẻ rất thích du lịch." },
+              { zh: "好像要下雨了。", pinyin: "Hǎoxiàng yào xià yǔ le.", vi: "Có vẻ sắp mưa." },
             ],
           },
         ],
@@ -800,6 +1401,97 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Explain popular Chinese internet slang to a foreigner",
           "Discuss your favorite social media platform in Chinese",
           "Talk about the 内卷 (rat race) culture",
+          "Describe a viral trend you saw recently",
+        ],
+      },
+
+      // ──── Lesson 4: Chinese Festivals & Traditions ────
+      {
+        id: "cn-sc-04-festivals",
+        title: "Festivals & Traditions",
+        titleVi: "Lễ hội & Phong tục",
+        titleZh: "节日文化",
+        icon: "PartyPopper",
+        description: "Talk about Chinese holidays, festivals, and cultural traditions",
+        descriptionVi: "Nói về ngày lễ, lễ hội và phong tục văn hóa Trung Quốc",
+        hskLevel: 3,
+        badge: "文化通",
+        badgeVi: "Thông thạo Văn hóa",
+        keySituations: [
+          {
+            title: "Celebrating Spring Festival",
+            titleVi: "Đón Tết Nguyên đán",
+            description: "Discuss Chinese New Year customs and greetings",
+            descriptionVi: "Thảo luận phong tục và lời chúc Tết Nguyên đán",
+            culturalNote: "春节 (Chūnjié — Spring Festival) is the most important holiday. Families gather for 年夜饭 (niányè fàn — New Year's Eve dinner). Red envelopes (红包 hóngbāo) with money are given to children and unmarried adults.",
+            culturalNoteVi: "春节 (Tết Nguyên đán) là ngày lễ quan trọng nhất. Gia đình sum họp ăn 年夜饭 (bữa cơm tất niên). 红包 (lì xì) được tặng cho trẻ em và người chưa kết hôn.",
+            sampleDialogue: [
+              { speaker: "A", line: "新年快乐！恭喜发财！", pinyin: "Xīn nián kuài lè! Gōngxǐ fā cái!" },
+              { speaker: "B", line: "新年快乐！你回家过年吗？", pinyin: "Xīn nián kuài lè! Nǐ huí jiā guò nián ma?" },
+              { speaker: "A", line: "回，我已经买好火车票了。你呢？", pinyin: "Huí, wǒ yǐjīng mǎi hǎo huǒchē piào le. Nǐ ne?" },
+              { speaker: "B", line: "我今年不回去了，太远了。和朋友一起吃年夜饭。", pinyin: "Wǒ jīnnián bú huíqù le, tài yuǎn le. Hé péngyǒu yīqǐ chī niányè fàn." },
+              { speaker: "A", line: "那也不错！别忘了看春晚！", pinyin: "Nà yě búcuò! Bié wàng le kàn Chūn Wǎn!" },
+            ],
+          },
+          {
+            title: "Mid-Autumn Festival",
+            titleVi: "Tết Trung thu",
+            description: "Mooncakes, family gatherings, and moon gazing",
+            descriptionVi: "Bánh trung thu, sum họp gia đình và ngắm trăng",
+            sampleDialogue: [
+              { speaker: "A", line: "中秋节快乐！你吃月饼了吗？", pinyin: "Zhōngqiū Jié kuài lè! Nǐ chī yuèbǐng le ma?" },
+              { speaker: "B", line: "吃了！我最喜欢吃五仁的。你喜欢什么馅的？", pinyin: "Chī le! Wǒ zuì xǐhuan chī wǔ rén de. Nǐ xǐhuan shénme xiàn de?" },
+              { speaker: "A", line: "我喜欢蛋黄莲蓉的。今晚一起去赏月吧！", pinyin: "Wǒ xǐhuan dàn huáng lián róng de. Jīn wǎn yīqǐ qù shǎng yuè ba!" },
+              { speaker: "B", line: "好啊！月亮应该很圆很亮。", pinyin: "Hǎo a! Yuèliang yīnggāi hěn yuán hěn liàng." },
+            ],
+          },
+        ],
+        vocabulary: [
+          { hanzi: "春节", pinyin: "Chūnjié", meaning: "Tết Nguyên đán", meaningEn: "Spring Festival / Chinese New Year", type: "phrase", example: "春节是中国最重要的节日。", examplePinyin: "Chūnjié shì Zhōngguó zuì zhòngyào de jiérì.", exampleVi: "Tết Nguyên đán là ngày lễ quan trọng nhất ở Trung Quốc." },
+          { hanzi: "红包", pinyin: "hóngbāo", meaning: "Lì xì / Bao lì xì", meaningEn: "Red envelope (with money)", type: "phrase", example: "过年要发红包。", examplePinyin: "Guò nián yào fā hóngbāo.", exampleVi: "Tết phải phát lì xì." },
+          { hanzi: "月饼", pinyin: "yuèbǐng", meaning: "Bánh trung thu", meaningEn: "Mooncake", type: "phrase", example: "中秋节要吃月饼。", examplePinyin: "Zhōngqiū Jié yào chī yuèbǐng.", exampleVi: "Tết Trung thu phải ăn bánh trung thu." },
+          { hanzi: "团圆", pinyin: "tuányuán", meaning: "Đoàn tụ", meaningEn: "Reunion", type: "phrase", example: "中秋节是团圆的日子。", examplePinyin: "Zhōngqiū Jié shì tuányuán de rìzi.", exampleVi: "Tết Trung thu là ngày đoàn tụ." },
+          { hanzi: "放假", pinyin: "fàng jià", meaning: "Nghỉ lễ", meaningEn: "Holiday / vacation", type: "phrase", example: "国庆节放假七天。", examplePinyin: "Guóqìng Jié fàng jià qī tiān.", exampleVi: "Quốc khánh nghỉ 7 ngày." },
+          { hanzi: "传统", pinyin: "chuántǒng", meaning: "Truyền thống", meaningEn: "Traditional / tradition", type: "phrase", example: "这是中国的传统文化。", examplePinyin: "Zhè shì Zhōngguó de chuántǒng wénhuà.", exampleVi: "Đây là văn hóa truyền thống Trung Quốc." },
+        ],
+        commonStructures: [
+          {
+            pattern: "别忘了 + Verb",
+            patternPinyin: "Bié wàng le + Verb",
+            explanation: "Don't forget to...",
+            explanationVi: "Đừng quên...",
+            examples: [
+              { zh: "别忘了给爸妈打电话。", pinyin: "Bié wàng le gěi bà mā dǎ diànhuà.", vi: "Đừng quên gọi điện cho bố mẹ." },
+              { zh: "别忘了买月饼。", pinyin: "Bié wàng le mǎi yuèbǐng.", vi: "Đừng quên mua bánh trung thu." },
+            ],
+          },
+          {
+            pattern: "...的时候 + Sentence",
+            patternPinyin: "...de shíhou + Sentence",
+            explanation: "When... (time clause)",
+            explanationVi: "Khi... (mệnh đề thời gian)",
+            examples: [
+              { zh: "过年的时候，家家户户都贴春联。", pinyin: "Guò nián de shíhou, jiā jiā hù hù dōu tiē chūnlián.", vi: "Khi đón Tết, nhà nhà đều dán câu đối." },
+              { zh: "中秋节的时候，我们一起赏月。", pinyin: "Zhōngqiū Jié de shíhou, wǒmen yīqǐ shǎng yuè.", vi: "Khi Trung thu, chúng ta cùng ngắm trăng." },
+            ],
+          },
+        ],
+        listeningChallenge: {
+          title: "Listening: Spring Festival Preparations",
+          titleVi: "Nghe: Chuẩn bị đón Tết",
+          transcript: "今年春节我打算回老家过年。妈妈已经开始准备年夜饭了，有鱼、饺子、还有我最爱吃的红烧肉。除夕晚上我们全家一起看春晚，十二点放鞭炮。初一早上要给长辈拜年，发红包。",
+          transcriptPinyin: "Jīnnián Chūnjié wǒ dǎsuàn huí lǎojiā guò nián. Māma yǐjīng kāishǐ zhǔnbèi niányè fàn le, yǒu yú, jiǎozi, háiyǒu wǒ zuì ài chī de hóng shāo ròu. Chúxī wǎnshang wǒmen quán jiā yīqǐ kàn Chūn Wǎn, shí'èr diǎn fàng biānpào. Chūyī zǎoshang yào gěi zhǎngbèi bài nián, fā hóngbāo.",
+          questions: [
+            { q: "What food is NOT mentioned for dinner?", qVi: "Món nào KHÔNG được nhắc đến?", options: ["鱼", "饺子", "火锅", "红烧肉"], answer: 2 },
+            { q: "What do they watch on New Year's Eve?", qVi: "Đêm giao thừa xem gì?", options: ["电影", "春晚", "比赛", "综艺"], answer: 1 },
+            { q: "What happens on 初一 morning?", qVi: "Sáng mồng 1 làm gì?", options: ["放鞭炮", "吃饺子", "拜年", "看春晚"], answer: 2 },
+          ],
+        },
+        speakingTopics: [
+          "Compare Chinese New Year with Vietnamese Tet or your country's holidays",
+          "Describe your favorite festival and traditions",
+          "Explain the meaning of giving red envelopes",
+          "Plan a festival celebration with friends",
         ],
       },
     ],
