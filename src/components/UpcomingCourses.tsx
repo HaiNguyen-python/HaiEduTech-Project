@@ -26,26 +26,14 @@ const CourseCard = ({ course, index }: { course: UpcomingCourse; index: number }
     >
       {/* Status badge */}
       <Badge
-        variant={course.status === "ongoing" ? "default" : "secondary"}
-        className={
-          course.status === "ongoing"
-            ? "mb-3 bg-primary/10 text-primary hover:bg-primary/20"
-            : "mb-3 bg-accent/10 text-accent-foreground hover:bg-accent/20"
-        }
+        className="mb-3 bg-primary/10 text-primary hover:bg-primary/20"
       >
-        {course.status === "ongoing"
-          ? t("Khai giảng liên tục", "Enrolling Now")
-          : `${t("Sắp khai giảng", "Starting")}: ${course.startDate}`}
+        {t("Khai giảng liên tục", "Enrolling Now")}
       </Badge>
 
       <h4 className="mb-2 font-display text-lg font-semibold text-foreground">
         {t(course.name, course.nameEn)}
       </h4>
-
-      <div className="mb-1 flex items-center gap-2 text-sm text-muted-foreground">
-        <CalendarDays className="h-4 w-4 shrink-0 text-primary" />
-        <span>{t(course.schedule, course.scheduleEn)}</span>
-      </div>
 
       <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
         <Clock className="h-4 w-4 shrink-0 text-primary" />
