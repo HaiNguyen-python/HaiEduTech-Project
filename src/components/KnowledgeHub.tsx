@@ -320,8 +320,8 @@ const KnowledgeHub = () => {
             posts.length > PAGE_SIZE && (
               <p className="text-sm text-muted-foreground">
                 {t(
-                  "Đã hiển thị tất cả bài viết trong 60 ngày qua",
-                  "Showing all articles from the past 60 days"
+                  "Đã hiển thị tất cả bài viết trong 15 ngày qua",
+                  "Showing all articles from the past 15 days"
                 )}
               </p>
             )
