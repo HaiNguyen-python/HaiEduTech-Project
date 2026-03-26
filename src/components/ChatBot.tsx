@@ -85,7 +85,7 @@ interface ISpeechRecognition extends EventTarget {
 }
 
 const ChatBot = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
