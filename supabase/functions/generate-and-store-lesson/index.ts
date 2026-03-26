@@ -325,6 +325,7 @@ serve(async (req) => {
       if (!response.ok) {
         const errText = await response.text();
         console.error("Perplexity error:", response.status, errText);
+        await logUsage("generate-and-store-lesson", "sonar", subject, 0, "error", `HTTP ${response.status}`);
         throw new Error(`Perplexity API error: ${response.status}`);
       }
 
