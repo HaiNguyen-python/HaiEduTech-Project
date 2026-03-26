@@ -138,6 +138,30 @@ const Chinese = () => {
                       </li>
                     ))}
                   </ul>
+
+                  {/* Interactive Curriculum inside Conversational card */}
+                  {i === 2 && (
+                    <div className="mb-5">
+                      <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                        <GraduationCap className="w-4 h-4 text-primary" />
+                        {t("Chương trình tương tác", "Interactive Curriculum")}
+                      </h4>
+                      <div className="grid grid-cols-1 gap-2">
+                        {allChineseModules.map((mod) => (
+                          <Link key={mod.id} to={`/chinese/learn/${mod.id}`}
+                            className={cn("rounded-lg p-3 bg-gradient-to-br transition-all cursor-pointer group hover:shadow-md hover:scale-[1.01] flex items-center gap-3", mod.color)}>
+                            <span className="text-xl">{mod.icon}</span>
+                            <div className="flex-1 min-w-0">
+                              <h5 className="font-medium text-foreground text-sm group-hover:text-primary transition-colors truncate">{t(mod.title, mod.titleEn)}</h5>
+                              <span className="text-[10px] text-muted-foreground">{mod.lessons.length} {t("bài", "lessons")}</span>
+                            </div>
+                            <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-primary shrink-0" />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="flex gap-3">
                     <Link to={`/chinese/${["foundation", "hsk", "conversational"][i]}`} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
                       {t("Xem chi tiết", "View details")} <ArrowRight className="w-4 h-4" />
