@@ -411,12 +411,36 @@ const Navbar = () => {
             {scrolled && (
               <div className="flex items-center gap-1.5 ml-4 pl-4 border-l border-border/50">
                 {user ? (
-                  <>
-                    <Link to="/dashboard" className="px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary">Dashboard</Link>
-                    <button onClick={handleLogout} className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary">
-                      <LogOut className="w-3.5 h-3.5" />
+                  <div className="relative" ref={userMenuRef}>
+                    <button
+                      onClick={() => setUserMenuOpen(!userMenuOpen)}
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary"
+                    >
+                      <User className="w-3.5 h-3.5" />
+                      Hello, {displayName.split(" ")[0]}
+                      <ChevronDown className={`w-3 h-3 transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
                     </button>
-                  </>
+                    <AnimatePresence>
+                      {userMenuOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          className="absolute right-0 top-full mt-1 w-44 bg-card border border-border rounded-xl shadow-lg z-50 py-1 overflow-hidden"
+                        >
+                          <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
+                            className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+                            <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
+                          </Link>
+                          <div className="border-t border-border my-1" />
+                          <button onClick={() => { handleLogout(); setUserMenuOpen(false); }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors">
+                            <LogOut className="w-3.5 h-3.5" /> {t("Đăng Xuất", "Logout")}
+                          </button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 ) : (
                   <>
                     <Link to="/login" className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground hover:brightness-110">
