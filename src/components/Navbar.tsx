@@ -81,6 +81,7 @@ const Navbar = () => {
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/chinese/foundation", label: t("🏗️ Nền tảng", "🏗️ Foundation") },
     { to: "/chinese/hsk", label: "📊 HSK 1-6" },
+    { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
     { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
   ];
