@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { icons, ArrowLeft, Award, CheckCircle, BookOpen, Mic, ChevronDown, ChevronRight, Lock } from "lucide-react";
+import { icons, ArrowLeft, Award, CheckCircle, BookOpen, Mic, ChevronDown, ChevronRight, Lock, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { conversationalPillars, type ConvPillar, type ConvLesson } from "@/data/conversationalCurriculum";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -10,6 +10,8 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useCourseAccess } from "@/hooks/useCourseAccess";
+import AccessDeniedModal from "@/components/AccessDeniedModal";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -29,6 +31,8 @@ const ConversationalDashboard = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [completed, setCompleted] = useState<string[]>(getCompletedLessons);
+  const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-english");
+  const [showAccessModal, setShowAccessModal] = useState(false);
 
   useEffect(() => {
     const handler = () => setCompleted(getCompletedLessons());
@@ -36,12 +40,43 @@ const ConversationalDashboard = () => {
     return () => window.removeEventListener("storage", handler);
   }, []);
 
+  // Redirect unauthorized users after loading
+  useEffect(() => {
+    if (!accessLoading && !hasAccess) {
+      setShowAccessModal(true);
+    }
+  }, [accessLoading, hasAccess]);
+
   const totalLessons = conversationalPillars.reduce((s, p) => s + p.lessons.length, 0);
   const overallProgress = totalLessons > 0 ? Math.round((completed.length / totalLessons) * 100) : 0;
 
+  // Show loading while checking access
+  if (accessLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Show access denied modal overlay
+  if (!hasAccess) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 py-20 text-center">
+          <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-40" />
+          <h1 className="text-2xl font-bold mb-2">{t("Nội dung bị khóa", "Content Locked")}</h1>
+          <p className="text-muted-foreground mb-4">{t("Bạn chưa có quyền truy cập chương trình này.", "You don't have access to this curriculum.")}</p>
+          <Button onClick={() => setShowAccessModal(true)}>{t("Xem hướng dẫn đăng ký", "Learn how to enroll")}</Button>
+          <AccessDeniedModal open={showAccessModal} onOpenChange={(open) => { setShowAccessModal(open); if (!open) navigate("/english/conversational"); }} />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
 
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         {/* Back link */}
