@@ -12,6 +12,8 @@ import confetti from "canvas-confetti";
 import TechTeacherIcon from "@/components/TechTeacherIcon";
 import type { ThptExam } from "@/data/thptExamData";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { arrangementSentences } from "@/data/arrangementSentences";
+import SuperDictionary from "@/components/SuperDictionary";
 
 type ExamPhase = "loading" | "taking" | "result" | "review";
 
@@ -267,6 +269,24 @@ const NationalExamRoom = () => {
                       {isCorrect ? <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" /> : <XCircle className="w-5 h-5 text-destructive flex-shrink-0" />}
                     </div>
 
+                    {/* Show arrangement sentences in review */}
+                    {(() => {
+                      const arrKey = `${examId}-${q.id}`;
+                      const arrData = arrangementSentences[arrKey];
+                      if (!arrData) return null;
+                      return (
+                        <div className="ml-11 mb-3 bg-muted/40 rounded-lg p-3 space-y-1.5 border border-border">
+                          <p className="text-xs font-semibold text-primary">{arrData.instruction}</p>
+                          {Object.entries(arrData.sentences).map(([letter, sentence]) => (
+                            <div key={letter} className="flex gap-2 text-xs leading-relaxed">
+                              <span className="font-bold text-primary flex-shrink-0">{letter}.</span>
+                              <span className="text-foreground">{sentence}</span>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })()}
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-11">
                       {q.options.map((opt, oi) => {
                         const isSelected = userAnswer === oi;
@@ -358,12 +378,29 @@ const NationalExamRoom = () => {
               )}
 
               {/* Question */}
-              {currentQuestion && (
+              {currentQuestion && (() => {
+                const arrKey = `${examId}-${currentQuestion.id}`;
+                const arrData = arrangementSentences[arrKey];
+                return (
                 <div className="glass-card rounded-xl p-6">
                   <div className="flex items-start gap-3 mb-5">
                     <span className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">{currentQuestion.id}</span>
                     <p className="text-foreground text-lg md:text-xl font-medium pt-1.5">{currentQuestion.text}</p>
                   </div>
+
+                  {/* Arrangement question sentences */}
+                  {arrData && (
+                    <div className="ml-13 mb-4 bg-muted/40 rounded-xl p-4 space-y-2.5 border border-border">
+                      <p className="text-sm font-semibold text-primary mb-2">{arrData.instruction}</p>
+                      {Object.entries(arrData.sentences).map(([letter, sentence]) => (
+                        <div key={letter} className="flex gap-2 text-sm leading-relaxed">
+                          <span className="font-bold text-primary flex-shrink-0 w-5">{letter}.</span>
+                          <span className="text-foreground">{sentence}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="space-y-3 ml-13">
                     {currentQuestion.options.map((opt, oi) => {
                       const isSelected = answers[currentQuestion.id] === oi;
@@ -394,7 +431,8 @@ const NationalExamRoom = () => {
                     </Button>
                   </div>
                 </div>
-              )}
+                );
+              })()}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -432,6 +470,8 @@ const NationalExamRoom = () => {
           </div>
         </div>
       </div>
+      {/* Super Dictionary floating button */}
+      <SuperDictionary />
     </div>
   );
 };
