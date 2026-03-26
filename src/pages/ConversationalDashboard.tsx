@@ -77,7 +77,8 @@ const ConversationalDashboard = () => {
   }
 
   return (
-
+    <div className="min-h-screen bg-background">
+      <Navbar />
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         {/* Back link */}
         <Link to="/english/conversational" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-6">
