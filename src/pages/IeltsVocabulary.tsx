@@ -63,7 +63,7 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
           </button>
         </div>
         {/* Back */}
-        <div className="absolute inset-0 backface-hidden rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2" style={{ transform: "rotateY(180deg)" }}>
+        <div className="absolute inset-0 rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
           <p className="text-sm font-semibold text-foreground">{word.definition.en}</p>
           <p className="text-sm text-primary">{word.definition.vi}</p>
           <p className="text-sm text-foreground font-semibold italic mt-2">"{word.example}"</p>
