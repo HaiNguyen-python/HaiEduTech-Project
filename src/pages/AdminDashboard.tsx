@@ -887,6 +887,11 @@ const AdminDashboard = () => {
               <TabsContent value="access">
                 <CourseAccessManager />
               </TabsContent>
+
+              {/* ===== SYSTEM STATUS & API MONITORING TAB ===== */}
+              <TabsContent value="system">
+                <SystemStatusTab />
+              </TabsContent>
             </Tabs>
           </motion.div>
         </div>
