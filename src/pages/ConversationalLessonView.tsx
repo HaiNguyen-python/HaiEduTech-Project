@@ -307,20 +307,7 @@ const ConversationalLessonView = () => {
               keySituationTitles={lesson.keySituations.map(s => s.title)}
             />
           </TabsContent>
-                        >
-                          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
-                            {i + 1}
-                          </div>
-                          <span className="text-sm flex-1">{topic}</span>
-                          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
+
         </Tabs>
 
         {/* Complete & Navigate */}
