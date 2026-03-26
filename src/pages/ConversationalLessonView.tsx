@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SuperDictionary from "@/components/SuperDictionary";
+import ConversationalRoleplay from "@/components/ConversationalRoleplay";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 const getIcon = (name: string) => (icons as Record<string, any>)[name] ?? BookOpen;
