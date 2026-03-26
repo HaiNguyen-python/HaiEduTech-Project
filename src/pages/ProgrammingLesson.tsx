@@ -78,7 +78,7 @@ const ProgrammingLessonPage = () => {
   const [challengeActive, setChallengeActive] = useState(false);
   const [challengeAnswer, setChallengeAnswer] = useState<number | null>(null);
   const [showChallengeResult, setShowChallengeResult] = useState(false);
-  const [showIDE, setShowIDE] = useState(true);
+  const [showIDE, setShowIDE] = useState(false);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
