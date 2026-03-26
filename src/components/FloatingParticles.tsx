@@ -13,11 +13,11 @@ const SYMBOLS = [
 
 // Brand colors with low opacity
 const COLORS = [
-  "rgba(59, 130, 246, 0.12)",  // Blue
-  "rgba(16, 185, 129, 0.12)",  // Emerald
-  "rgba(59, 130, 246, 0.08)",
-  "rgba(16, 185, 129, 0.08)",
-  "rgba(99, 102, 241, 0.10)",  // Indigo accent
+  "hsl(var(--primary) / 0.28)",
+  "hsl(var(--primary) / 0.18)",
+  "hsl(var(--accent) / 0.24)",
+  "hsl(var(--accent) / 0.16)",
+  "hsl(var(--foreground) / 0.12)",
 ];
 
 interface Particle {
@@ -46,7 +46,7 @@ function generateParticles(count: number): Particle[] {
       symbol: SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: 14 + Math.random() * 18, // 14–32px
+      size: 18 + Math.random() * 22, // 18–40px
       duration: 12 + Math.random() * 16, // 12–28s
       delay: Math.random() * -20, // stagger start
       color: COLORS[Math.floor(Math.random() * COLORS.length)],

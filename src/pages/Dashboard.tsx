@@ -374,7 +374,7 @@ const Dashboard = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto">
             {/* Welcome header with floating background particles */}
             <div className="relative mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-primary/5 via-background to-accent/5 p-8">
-              <FloatingParticles count={20} />
+              <FloatingParticles count={30} />
               <div className="relative z-10">
                 <h1 className="text-4xl font-display font-bold mb-1 text-foreground">
                   {t(`Xin chào, `, `Hello, `)}
