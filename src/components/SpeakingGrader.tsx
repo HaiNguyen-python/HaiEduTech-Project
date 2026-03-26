@@ -108,14 +108,22 @@ const SpeakingGrader = () => {
       });
 
       if (error) throw error;
-      setResult(data as SpeakingResult);
+      const graded = data as SpeakingResult;
+      setResult(graded);
+      logStudentActivity({
+        activityType: "ielts_speaking",
+        score: graded.overall,
+        maxScore: 9,
+        domain: "english",
+        metadata: { part: selectedPart, duration: timer },
+      });
     } catch (e) {
       console.error("Grading error:", e);
       // Fallback mock
       const base = 5.0 + Math.min(timer / 120, 1) * 2;
       const gs = (b: number, r: number) => Math.max(4, Math.min(9, Math.round((b + (Math.random() - 0.5) * r) * 2) / 2));
       const f = gs(base, 2), l = gs(base - 0.3, 1.5), g = gs(base - 0.2, 1.5), p = gs(base + 0.2, 1.5);
-      setResult({
+      const mockResult: SpeakingResult = {
         overall: Math.round(((f + l + g + p) / 4) * 2) / 2,
         criteria: [
           { label: "Fluency & Coherence", score: f, feedback: t("Cần cải thiện sự trôi chảy. Hãy luyện nói liên tục hơn và sử dụng các từ nối.", "Improve fluency. Practice speaking continuously and use linking words.") },
@@ -128,14 +136,11 @@ const SpeakingGrader = () => {
           t("Luyện nói 2 phút không ngừng mỗi ngày", "Practice 2-minute non-stop speaking daily"),
           t("Ghi âm và nghe lại để tự phát hiện lỗi", "Record and listen back to spot errors"),
         ],
-      });
-    }
-    // Log activity for admin analytics
-    const finalResult = result || (data as SpeakingResult);
-    if (finalResult) {
+      };
+      setResult(mockResult);
       logStudentActivity({
         activityType: "ielts_speaking",
-        score: finalResult.overall,
+        score: mockResult.overall,
         maxScore: 9,
         domain: "english",
         metadata: { part: selectedPart, duration: timer },
