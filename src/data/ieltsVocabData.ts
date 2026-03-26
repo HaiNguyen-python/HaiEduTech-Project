@@ -472,7 +472,7 @@ export const ieltsVocabData: IeltsWord[] = [
   { word: "genetically modified", ipa: "/dʒəˌnet.ɪ.kli ˈmɒd.ɪ.faɪd/", level: "B2", definition: { en: "having had its DNA altered", vi: "biến đổi gen" }, example: "Genetically modified crops are controversial.", category: "Food & Agriculture" },
   { word: "commodity", ipa: "/kəˈmɒd.ə.ti/", level: "B2", definition: { en: "a raw material that can be bought and sold", vi: "hàng hóa nông sản" }, example: "Coffee is one of the most traded agricultural commodities.", category: "Food & Agriculture" },
   { word: "subsistence", ipa: "/səbˈsɪs.təns/", level: "C1", definition: { en: "the minimum needed to stay alive", vi: "tự cung tự cấp" }, example: "Subsistence farming provides food but little profit.", category: "Food & Agriculture" },
-  { word: "arable", ipa:   { word: "altruism", ipa: "/ˈæl.tru.ɪ.zəm/", level: "C1", definition: { en: "selfless concern for others", vi: "lòng vị tha" }, example: "Altruism is considered a noble virtue.", category: "Philosophy & Ethics" },
+  { word: "arable", ipa: "/ˈær.ə.bəl/", level: "C1", definition: { en: "suitable for growing crops", vi: "có thể canh tác" }, example: "Arable land is becoming scarce due to urbanization.", category: "Food & Agriculture" },
   { word: "autonomy", ipa: "/ɔːˈtɒn.ə.mi/", level: "C1", definition: { en: "the right of self-governance", vi: "quyền tự chủ" }, example: "Patient autonomy is central to medical ethics.", category: "Philosophy & Ethics" },
   { word: "conscience", ipa: "/ˈkɒn.ʃəns/", level: "B2", definition: { en: "an inner sense of right and wrong", vi: "lương tâm" }, example: "His conscience prevented him from lying.", category: "Philosophy & Ethics" },
   { word: "dilemma", ipa: "/dɪˈlem.ə/", level: "B2", definition: { en: "a situation requiring a difficult choice", vi: "tình thế tiến thoái lưỡng nan" }, example: "The ethical dilemma had no easy answer.", category: "Philosophy & Ethics" },
@@ -632,5 +632,4 @@ export const ieltsVocabData: IeltsWord[] = [
   { word: "supplement", ipa: "/ˈsʌp.lɪ.mənt/", level: "B2", definition: { en: "a thing added to complete or enhance", vi: "bổ sung" }, example: "Reading supplements classroom learning.", category: "General Academic" },
   { word: "undergo", ipa: "/ˌʌn.dəˈɡəʊ/", level: "B2", definition: { en: "to experience or be subjected to", vi: "trải qua" }, example: "The building will undergo major renovations.", category: "General Academic" },
   { word: "widespread", ipa: "/ˈwaɪd.spred/", level: "B2", definition: { en: "found or distributed over a large area", vi: "phổ biến rộng rãi" }, example: "Smartphone use is widespread across all age groups.", category: "General Academic" },
-"/ˈær.ə.bəl/", level: "C1", definition: { en: "suitable for growing crops", vi: "có thể canh tác" }, example: "Arable land is becoming scarce due to urbanization.", category: "Food & Agriculture" },
 ];
