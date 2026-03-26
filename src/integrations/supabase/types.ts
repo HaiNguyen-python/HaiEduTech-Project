@@ -14,6 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_interests: {
+        Row: {
+          article_id: string | null
+          category: string
+          clicked_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          article_id?: string | null
+          category: string
+          clicked_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          article_id?: string | null
+          category?: string
+          clicked_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_interests_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_hub_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -193,6 +225,54 @@ export type Database = {
           tags?: string[] | null
           title?: string
           title_en?: string | null
+        }
+        Relationships: []
+      }
+      knowledge_hub_posts: {
+        Row: {
+          category: string
+          created_at: string
+          engagement_score: number
+          expires_at: string
+          id: string
+          is_featured: boolean
+          source_name: string | null
+          source_url: string | null
+          summary: string
+          summary_vi: string | null
+          thumbnail_url: string | null
+          title: string
+          title_vi: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          engagement_score?: number
+          expires_at?: string
+          id?: string
+          is_featured?: boolean
+          source_name?: string | null
+          source_url?: string | null
+          summary: string
+          summary_vi?: string | null
+          thumbnail_url?: string | null
+          title: string
+          title_vi?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          engagement_score?: number
+          expires_at?: string
+          id?: string
+          is_featured?: boolean
+          source_name?: string | null
+          source_url?: string | null
+          summary?: string
+          summary_vi?: string | null
+          thumbnail_url?: string | null
+          title?: string
+          title_vi?: string | null
         }
         Relationships: []
       }
