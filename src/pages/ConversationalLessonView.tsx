@@ -229,19 +229,54 @@ const ConversationalLessonView = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Transcript (hidden initially) */}
+                {/* Audio playback + transcript */}
                 <div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setListeningRevealed(!listeningRevealed)}
-                    className="mb-3"
-                  >
-                    <Play className="h-4 w-4 mr-1" />
-                    {listeningRevealed
-                      ? t("Ẩn lời thoại", "Hide Transcript")
-                      : t("Xem lời thoại", "Show Transcript")}
-                  </Button>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => {
+                        speechSynthesis.cancel();
+                        const utt = new SpeechSynthesisUtterance(lesson.listeningChallenge.transcript);
+                        utt.lang = "en-US";
+                        utt.rate = 0.85;
+                        speechSynthesis.speak(utt);
+                      }}
+                      className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white"
+                    >
+                      <Play className="h-4 w-4 mr-1" />
+                      {t("▶ Nghe bài", "▶ Play Audio")}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        speechSynthesis.cancel();
+                        const utt = new SpeechSynthesisUtterance(lesson.listeningChallenge.transcript);
+                        utt.lang = "en-US";
+                        utt.rate = 0.65;
+                        speechSynthesis.speak(utt);
+                      }}
+                    >
+                      🐢 {t("Nghe chậm", "Slow")}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => speechSynthesis.cancel()}
+                    >
+                      ⏹ {t("Dừng", "Stop")}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setListeningRevealed(!listeningRevealed)}
+                    >
+                      {listeningRevealed
+                        ? t("👁 Ẩn lời thoại", "👁 Hide Transcript")
+                        : t("📝 Xem lời thoại", "📝 Show Transcript")}
+                    </Button>
+                  </div>
                   <AnimatePresence>
                     {listeningRevealed && (
                       <motion.div
