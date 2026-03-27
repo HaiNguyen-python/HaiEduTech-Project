@@ -645,6 +645,48 @@ export type Database = {
         }
         Relationships: []
       }
+      tuition_records: {
+        Row: {
+          amount: number
+          course: string
+          created_at: string
+          entered_by: string
+          id: string
+          note: string | null
+          payment_method: string
+          payment_month: number
+          payment_year: number
+          student_name: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          course?: string
+          created_at?: string
+          entered_by: string
+          id?: string
+          note?: string | null
+          payment_method?: string
+          payment_month: number
+          payment_year: number
+          student_name: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          course?: string
+          created_at?: string
+          entered_by?: string
+          id?: string
+          note?: string | null
+          payment_method?: string
+          payment_month?: number
+          payment_year?: number
+          student_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
