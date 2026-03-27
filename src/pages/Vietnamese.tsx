@@ -136,7 +136,7 @@ const Vietnamese = () => {
       <main className="pt-6 pb-16">
         {/* Hero with illustration banner */}
         {/* Banner with overlaid title */}
-        <section className="w-full mb-10">
+        <section className="w-full mb-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -167,30 +167,29 @@ const Vietnamese = () => {
                 </p>
               </motion.div>
             </div>
+            {/* Tabs overlay at bottom of banner */}
+            <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 pointer-events-auto z-10">
+              <TabsList className="grid grid-cols-4 bg-white/80 backdrop-blur-sm shadow-lg rounded-xl">
+                <TabsTrigger value="language" className="flex items-center gap-1.5 text-xs sm:text-sm">
+                  <BookOpen className="w-4 h-4" />
+                  {t("Ngôn ngữ", "Language")}
+                </TabsTrigger>
+                <TabsTrigger value="history" className="flex items-center gap-1.5 text-xs sm:text-sm">
+                  <Scroll className="w-4 h-4" />
+                  {t("Lịch sử", "History")}
+                </TabsTrigger>
+                <TabsTrigger value="folklore" className="flex items-center gap-1.5 text-xs sm:text-sm">
+                  <Sparkles className="w-4 h-4" />
+                  {t("Ca Dao", "Folklore")}
+                </TabsTrigger>
+                <TabsTrigger value="game" className="flex items-center gap-1.5 text-xs sm:text-sm">
+                  <Gamepad2 className="w-4 h-4" />
+                  {t("Trò chơi", "Game")}
+                </TabsTrigger>
+              </TabsList>
+            </div>
           </motion.div>
         </section>
-
-        {/* Main Tabs */}
-        <div ref={tabsRef} className="container mx-auto px-6">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-10">
-              <TabsTrigger value="language" className="flex items-center gap-1.5 text-xs sm:text-sm">
-                <BookOpen className="w-4 h-4" />
-                {t("Ngôn ngữ", "Language")}
-              </TabsTrigger>
-              <TabsTrigger value="history" className="flex items-center gap-1.5 text-xs sm:text-sm">
-                <Scroll className="w-4 h-4" />
-                {t("Lịch sử", "History")}
-              </TabsTrigger>
-              <TabsTrigger value="folklore" className="flex items-center gap-1.5 text-xs sm:text-sm">
-                <Sparkles className="w-4 h-4" />
-                {t("Ca Dao", "Folklore")}
-              </TabsTrigger>
-              <TabsTrigger value="game" className="flex items-center gap-1.5 text-xs sm:text-sm">
-                <Gamepad2 className="w-4 h-4" />
-                {t("Trò chơi", "Game")}
-              </TabsTrigger>
-            </TabsList>
 
             {/* =================== LANGUAGE TAB =================== */}
             <TabsContent value="language">
