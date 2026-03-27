@@ -280,45 +280,7 @@ const Vietnamese = () => {
 
             {/* =================== FOLKLORE TAB =================== */}
             <TabsContent value="folklore">
-              <div className="max-w-3xl mx-auto">
-                <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-                  🌾 {t("Ca Dao, Tục Ngữ & Truyện Cổ", "Folk Songs, Proverbs & Fairy Tales")}
-                </h2>
-                <div className="space-y-6">
-                  {folkloreItems.map((item, idx) => (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.08 }}
-                      className="bg-card border border-border rounded-xl p-6"
-                    >
-                      <div className="flex items-center gap-2 mb-3">
-                        <Badge variant="outline" className="text-xs capitalize">
-                          {item.type === "ca-dao"
-                            ? t("Ca Dao", "Folk Song")
-                            : item.type === "tuc-ngu"
-                            ? t("Tục Ngữ", "Proverb")
-                            : t("Truyện Cổ", "Fairy Tale")}
-                        </Badge>
-                        <h3 className="font-bold text-foreground">
-                          {t(item.title, item.titleEn)}
-                        </h3>
-                      </div>
-                      <div className="bg-muted/50 rounded-lg p-4 mb-3 italic text-foreground whitespace-pre-line leading-relaxed text-lg md:text-xl" style={{ fontFamily: "'Noto Serif', 'Inter', sans-serif" }}>
-                        {t(item.content, item.contentEn)}
-                      </div>
-                      <p className="text-base md:text-lg text-muted-foreground mb-3">
-                        <strong>{t("Ý nghĩa", "Meaning")}:</strong>{" "}
-                        {t(item.meaning, item.meaningEn)}
-                      </p>
-                      <div className="text-sm md:text-base bg-primary/10 text-primary rounded-md px-3 py-2 inline-block">
-                        📝 {t(item.grammarNote, item.grammarNoteEn)}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
+              <FolkloreCardGrid items={folkloreItems} />
             </TabsContent>
 
             {/* =================== GAME TAB =================== */}
