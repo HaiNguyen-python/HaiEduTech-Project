@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import HistoryTimeline from "@/components/HistoryTimeline";
 import FactOrMythGame from "@/components/FactOrMythGame";
-import AssessmentTool from "@/components/AssessmentTool";
 import {
   vietnameseLanguageModules,
   historyMonths,
