@@ -63,7 +63,7 @@ const vocabItems = [
 
 // Working YouTube video IDs for Vietnamese National Anthem
 const KARAOKE_VIDEO_ID = "PLP3mR4SOt0";
-const INSTRUMENTAL_VIDEO_ID = "aOFaHkVOojQ";
+const INSTRUMENTAL_VIDEO_ID = "_fCSp8Dr2DQ";
 
 const NationalAnthem = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -242,12 +242,21 @@ const NationalAnthem = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <img
+              <motion.img
                 src={flagLandmark}
                 alt="Quốc kỳ Việt Nam tung bay trên Quảng trường Ba Đình"
                 className="w-full rounded-xl shadow-lg object-cover max-h-[360px]"
                 width={1280}
                 height={720}
+                animate={{
+                  scale: [1, 1.015, 1],
+                  y: [0, -3, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
               />
             </motion.div>
 
