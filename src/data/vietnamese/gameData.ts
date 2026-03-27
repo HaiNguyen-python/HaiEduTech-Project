@@ -49,7 +49,7 @@ export const folkloreItems: FolkloreItem[] = [
     content: "Công cha như núi Thái Sơn,\nNghĩa mẹ như nước trong nguồn chảy ra.\nMột lòng thờ mẹ kính cha,\nCho tròn chữ hiếu mới là đạo con.", contentEn: "Father's merit is like Mount Thai Son,\nMother's love like water from the source.\nWholeheartedly respect your parents,\nFilial piety is the child's way.",
     grammarNote: "So sánh 'như': A như B", grammarNoteEn: "Comparison 'như': A như B",
     meaning: "Ca ngợi công lao cha mẹ.", meaningEn: "Praises parents' contributions." },
-  { id: "folk-2", title: "Không thầy đố mày", titleEn: "About Teachers", type: "tuc-ngu",
+  { id: "folk-2", title: "Không thầy đố mày làm nên", titleEn: "About Teachers", type: "tuc-ngu",
     content: "Không thầy đố mày làm nên.", contentEn: "Without a teacher, try to succeed.",
     grammarNote: "Phủ định + thách thức: 'Không...đố...làm nên'", grammarNoteEn: "Negation + challenge structure",
     meaning: "Vai trò quan trọng của thầy cô.", meaningEn: "Teachers are crucial." },
