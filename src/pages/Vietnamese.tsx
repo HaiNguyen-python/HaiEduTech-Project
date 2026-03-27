@@ -238,7 +238,7 @@ const Vietnamese = () => {
 
               <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
                 <GraduationCap className="w-5 h-5 text-primary" />
-                {t("Lộ trình 4 tháng", "4-Month Roadmap")}
+                {t("Các thời kỳ lịch sử", "Historical Periods")}
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {historyMonths.map((month, idx) => (
