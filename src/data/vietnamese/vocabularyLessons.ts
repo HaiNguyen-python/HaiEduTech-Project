@@ -40,6 +40,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Ông nội' là ai?", questionEn: "Who is 'ông nội'?", options: ["Bố của mẹ", "Bố của bố", "Anh của bố", "Chú"], answer: 1, explanation: "Ông nội = bố của bố.", explanationEn: "Paternal grandfather." },
+          { question: "'Chú' là ai trong gia đình?", questionEn: "Who is 'chú' in the family?", options: ["Anh trai bố", "Em trai bố", "Anh trai mẹ", "Bố"], answer: 1, explanation: "Chú = em trai của bố.", explanationEn: "Father's younger brother." },
         ],
       },
       {
@@ -54,6 +55,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Xanh lá' là màu gì?", questionEn: "What color?", options: ["Blue", "Green", "Yellow", "Red"], answer: 1, explanation: "'Xanh lá' = green.", explanationEn: "'Xanh lá' = green." },
+          { question: "'Vàng' là màu gì?", questionEn: "What color is 'vàng'?", options: ["Red", "Blue", "Yellow", "White"], answer: 2, explanation: "'Vàng' = yellow/gold.", explanationEn: "'Vàng' = yellow/gold." },
         ],
       },
       {
@@ -67,6 +69,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Mũi' là gì?", questionEn: "What is 'mũi'?", options: ["Mouth", "Nose", "Eyes", "Ears"], answer: 1, explanation: "'Mũi' = nose.", explanationEn: "'Mũi' = nose." },
+          { question: "'Tay' là bộ phận nào?", questionEn: "What body part is 'tay'?", options: ["Leg", "Head", "Arm/Hand", "Back"], answer: 2, explanation: "'Tay' = arm/hand.", explanationEn: "'Tay' = arm/hand." },
         ],
       },
       {
@@ -80,6 +83,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Hai mươi' là số mấy?", questionEn: "What number?", options: ["12", "20", "22", "200"], answer: 1, explanation: "Hai mươi = 20.", explanationEn: "Hai mươi = 20." },
+          { question: "'Giờ' nghĩa là gì?", questionEn: "What does 'giờ' mean?", options: ["Day", "Week", "Hour/O'clock", "Month"], answer: 2, explanation: "'Giờ' = hour/o'clock.", explanationEn: "'Giờ' = hour/o'clock." },
         ],
       },
       // NEW lessons for basic vocabulary
@@ -94,6 +98,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Rất vui được gặp bạn' nghĩa gì?", questionEn: "What does it mean?", options: ["Goodbye", "Nice to meet you", "How are you", "Thank you"], answer: 1, explanation: "Nice to meet you.", explanationEn: "Nice to meet you." },
+          { question: "'Tạm biệt' nghĩa gì?", questionEn: "What does 'tạm biệt' mean?", options: ["Hello", "Thank you", "Goodbye", "Sorry"], answer: 2, explanation: "'Tạm biệt' = goodbye.", explanationEn: "'Tạm biệt' = goodbye." },
         ],
       },
       {
@@ -107,6 +112,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Đi thẳng' nghĩa gì?", questionEn: "What does 'đi thẳng' mean?", options: ["Turn left", "Go straight", "Turn right", "Go back"], answer: 1, explanation: "Đi thẳng = go straight.", explanationEn: "Go straight." },
+          { question: "'Gần' nghĩa là gì?", questionEn: "What does 'gần' mean?", options: ["Far", "Near", "Left", "Right"], answer: 1, explanation: "'Gần' = near/close.", explanationEn: "'Gần' = near/close." },
         ],
       },
       {
@@ -120,6 +126,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Phòng ngủ' là gì?", questionEn: "What is 'phòng ngủ'?", options: ["Kitchen", "Bedroom", "Bathroom", "Living room"], answer: 1, explanation: "Phòng ngủ = bedroom.", explanationEn: "Phòng ngủ = bedroom." },
+          { question: "'Nhà bếp' dùng để làm gì?", questionEn: "What is 'nhà bếp' for?", options: ["Sleeping", "Cooking", "Bathing", "Studying"], answer: 1, explanation: "Nhà bếp = kitchen (nơi nấu ăn).", explanationEn: "Kitchen = place for cooking." },
         ],
       },
       {
@@ -133,6 +140,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Môn thể thao phổ biến nhất VN?", questionEn: "Most popular sport in VN?", options: ["Bóng rổ", "Bóng đá", "Tennis", "Golf"], answer: 1, explanation: "Bóng đá rất phổ biến.", explanationEn: "Soccer is very popular." },
+          { question: "'Bơi' nghĩa là gì?", questionEn: "What does 'bơi' mean?", options: ["Run", "Swim", "Jump", "Fly"], answer: 1, explanation: "'Bơi' = to swim.", explanationEn: "'Bơi' = to swim." },
         ],
       },
       {
@@ -146,6 +154,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Áo thun' là gì?", questionEn: "What is 'áo thun'?", options: ["Jacket", "T-shirt", "Dress", "Hat"], answer: 1, explanation: "Áo thun = T-shirt.", explanationEn: "Áo thun = T-shirt." },
+          { question: "'Giày' là gì?", questionEn: "What are 'giày'?", options: ["Sandals", "Socks", "Shoes", "Pants"], answer: 2, explanation: "'Giày' = shoes.", explanationEn: "'Giày' = shoes." },
         ],
       },
     ],
@@ -175,6 +184,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Bao nhiêu tiền?' hỏi gì?", questionEn: "What does it ask?", options: ["Time", "Price", "Place", "Quantity"], answer: 1, explanation: "Hỏi giá tiền.", explanationEn: "Asks price." },
+          { question: "'Mặc cả' nghĩa là gì?", questionEn: "What does 'mặc cả' mean?", options: ["To buy", "To sell", "To bargain", "To pay"], answer: 2, explanation: "'Mặc cả' = thương lượng giá.", explanationEn: "'Mặc cả' = to bargain." },
         ],
       },
       {
@@ -188,6 +198,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Phương tiện phổ biến nhất VN?", questionEn: "Most common transport?", options: ["Ô tô", "Xe máy", "Xe buýt", "Tàu"], answer: 1, explanation: "Xe máy phổ biến nhất.", explanationEn: "Motorbikes most common." },
+          { question: "'Máy bay' là gì?", questionEn: "What is 'máy bay'?", options: ["Car", "Train", "Airplane", "Bus"], answer: 2, explanation: "'Máy bay' = airplane.", explanationEn: "'Máy bay' = airplane." },
         ],
       },
       {
@@ -201,6 +212,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Sinh viên' khác 'học sinh'?", questionEn: "Difference?", options: ["Giống nhau", "Sinh viên = đại học", "Học sinh = đại học", "Không có"], answer: 1, explanation: "Sinh viên = university student.", explanationEn: "Sinh viên = university." },
+          { question: "'Bài tập' nghĩa là gì?", questionEn: "What does 'bài tập' mean?", options: ["Exam", "Homework", "Class", "Teacher"], answer: 1, explanation: "'Bài tập' = homework.", explanationEn: "'Bài tập' = homework." },
         ],
       },
       {
@@ -214,6 +226,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Miền Nam có mấy mùa?", questionEn: "Seasons in South?", options: ["4", "3", "2", "1"], answer: 2, explanation: "2 mùa: mưa và khô.", explanationEn: "2 seasons." },
+          { question: "'Nóng' nghĩa là gì?", questionEn: "What does 'nóng' mean?", options: ["Cold", "Hot", "Rainy", "Windy"], answer: 1, explanation: "'Nóng' = hot.", explanationEn: "'Nóng' = hot." },
         ],
       },
       {
@@ -227,6 +240,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Xấu hổ' nghĩa gì?", questionEn: "What does it mean?", options: ["Angry", "Embarrassed", "Happy", "Scared"], answer: 1, explanation: "'Xấu hổ' = embarrassed.", explanationEn: "'Xấu hổ' = embarrassed." },
+          { question: "'Vui' là cảm xúc gì?", questionEn: "What emotion is 'vui'?", options: ["Sad", "Angry", "Happy", "Scared"], answer: 2, explanation: "'Vui' = happy.", explanationEn: "'Vui' = happy." },
         ],
       },
       // NEW daily life lessons
@@ -241,6 +255,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Tính tiền' nghĩa gì?", questionEn: "What does it mean?", options: ["Order food", "Check please", "Menu", "Tip"], answer: 1, explanation: "Tính tiền = pay the bill.", explanationEn: "Pay the bill." },
+          { question: "'Thực đơn' là gì?", questionEn: "What is 'thực đơn'?", options: ["Bill", "Menu", "Dessert", "Appetizer"], answer: 1, explanation: "'Thực đơn' = menu.", explanationEn: "'Thực đơn' = menu." },
         ],
       },
       {
@@ -254,6 +269,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Phòng khám' là gì?", questionEn: "What is it?", options: ["Hospital", "Clinic", "Pharmacy", "Lab"], answer: 1, explanation: "Phòng khám = clinic.", explanationEn: "Clinic." },
+          { question: "'Đơn thuốc' là gì?", questionEn: "What is 'đơn thuốc'?", options: ["Medicine", "Prescription", "Doctor", "Hospital"], answer: 1, explanation: "'Đơn thuốc' = prescription.", explanationEn: "'Đơn thuốc' = prescription." },
         ],
       },
       {
@@ -267,6 +283,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Chuyển khoản' là gì?", questionEn: "What is it?", options: ["Cash", "Bank transfer", "Loan", "Savings"], answer: 1, explanation: "Chuyển khoản = bank transfer.", explanationEn: "Bank transfer." },
+          { question: "'Rút tiền' nghĩa là gì?", questionEn: "What does 'rút tiền' mean?", options: ["Deposit", "Transfer", "Withdraw", "Save"], answer: 2, explanation: "'Rút tiền' = withdraw money.", explanationEn: "'Rút tiền' = withdraw money." },
         ],
       },
       {
@@ -280,6 +297,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "App nhắn tin phổ biến nhất VN?", questionEn: "Most popular messaging app?", options: ["WhatsApp", "Zalo", "Line", "WeChat"], answer: 1, explanation: "Zalo phổ biến nhất.", explanationEn: "Zalo is most popular." },
+          { question: "'Nhắn tin' nghĩa là gì?", questionEn: "What does 'nhắn tin' mean?", options: ["Call", "Text", "Email", "Video call"], answer: 1, explanation: "'Nhắn tin' = to text.", explanationEn: "'Nhắn tin' = to text." },
         ],
       },
       {
@@ -293,6 +311,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Bưu kiện' là gì?", questionEn: "What is it?", options: ["Letter", "Package", "Stamp", "Envelope"], answer: 1, explanation: "Bưu kiện = package.", explanationEn: "Package." },
+          { question: "'Giao hàng' nghĩa là gì?", questionEn: "What does 'giao hàng' mean?", options: ["Send letter", "Delivery", "Post office", "Stamp"], answer: 1, explanation: "'Giao hàng' = delivery.", explanationEn: "'Giao hàng' = delivery." },
         ],
       },
     ],
@@ -318,6 +337,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Trí tuệ nhân tạo' là gì?", questionEn: "What is it?", options: ["Cloud", "AI", "Database", "Software"], answer: 1, explanation: "AI.", explanationEn: "AI." },
+          { question: "'Mật khẩu' nghĩa là gì?", questionEn: "What does 'mật khẩu' mean?", options: ["Username", "Password", "Email", "Account"], answer: 1, explanation: "'Mật khẩu' = password.", explanationEn: "'Mật khẩu' = password." },
         ],
       },
       {
@@ -331,6 +351,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Ốm' nghĩa gì?", questionEn: "What does 'ốm' mean?", options: ["Healthy", "Sick", "Fat", "Thin"], answer: 1, explanation: "'Ốm' = sick (North) / thin (South).", explanationEn: "'Ốm' = sick/thin." },
+          { question: "'Thuốc' là gì?", questionEn: "What is 'thuốc'?", options: ["Doctor", "Hospital", "Medicine", "Pain"], answer: 2, explanation: "'Thuốc' = medicine.", explanationEn: "'Thuốc' = medicine." },
         ],
       },
       {
@@ -344,6 +365,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Lập trình viên' làm gì?", questionEn: "What do they do?", options: ["Teach", "Code", "Heal", "Write"], answer: 1, explanation: "Programmer = viết code.", explanationEn: "Programmer." },
+          { question: "'Lương' nghĩa là gì?", questionEn: "What does 'lương' mean?", options: ["Job", "Salary", "Office", "Boss"], answer: 1, explanation: "'Lương' = salary.", explanationEn: "'Lương' = salary." },
         ],
       },
       {
@@ -357,6 +379,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Quốc hoa VN?", questionEn: "National flower?", options: ["Hồng", "Sen", "Mai", "Đào"], answer: 1, explanation: "Hoa sen.", explanationEn: "Lotus." },
+          { question: "'Trâu' là con gì?", questionEn: "What animal is 'trâu'?", options: ["Cow", "Water buffalo", "Horse", "Elephant"], answer: 1, explanation: "'Trâu' = water buffalo.", explanationEn: "'Trâu' = water buffalo." },
         ],
       },
       {
@@ -370,6 +393,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Vịnh Hạ Long thuộc tổ chức nào?", questionEn: "Recognized by?", options: ["ASEAN", "UNESCO", "WHO", "WTO"], answer: 1, explanation: "UNESCO.", explanationEn: "UNESCO heritage." },
+          { question: "'Khách sạn' là gì?", questionEn: "What is 'khách sạn'?", options: ["Restaurant", "Hotel", "Airport", "Museum"], answer: 1, explanation: "'Khách sạn' = hotel.", explanationEn: "'Khách sạn' = hotel." },
         ],
       },
       // NEW advanced vocabulary lessons
@@ -384,6 +408,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Quốc hội' là gì?", questionEn: "What is it?", options: ["Court", "National Assembly", "Government", "Army"], answer: 1, explanation: "Quốc hội = National Assembly.", explanationEn: "National Assembly." },
+          { question: "'Hiến pháp' là gì?", questionEn: "What is 'hiến pháp'?", options: ["Law", "Constitution", "Court", "Election"], answer: 1, explanation: "'Hiến pháp' = constitution.", explanationEn: "'Hiến pháp' = constitution." },
         ],
       },
       {
@@ -397,6 +422,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Biến đổi khí hậu' là gì?", questionEn: "What is it?", options: ["Weather", "Climate change", "Season", "Temperature"], answer: 1, explanation: "Climate change.", explanationEn: "Climate change." },
+          { question: "'Tái chế' nghĩa là gì?", questionEn: "What does 'tái chế' mean?", options: ["Reduce", "Recycle", "Reuse", "Refuse"], answer: 1, explanation: "'Tái chế' = recycle.", explanationEn: "'Tái chế' = recycle." },
         ],
       },
       {
@@ -410,6 +436,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Lạm phát' nghĩa gì?", questionEn: "What does it mean?", options: ["Profit", "Inflation", "Tax", "Debt"], answer: 1, explanation: "Lạm phát = inflation.", explanationEn: "Inflation." },
+          { question: "'Xuất khẩu' là gì?", questionEn: "What is 'xuất khẩu'?", options: ["Import", "Export", "Invest", "Trade"], answer: 1, explanation: "'Xuất khẩu' = export.", explanationEn: "'Xuất khẩu' = export." },
         ],
       },
       {
@@ -423,6 +450,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Truyền hình' là gì?", questionEn: "What is it?", options: ["Radio", "Television", "Newspaper", "Internet"], answer: 1, explanation: "Truyền hình = television.", explanationEn: "Television." },
+          { question: "'Phóng viên' là ai?", questionEn: "Who is a 'phóng viên'?", options: ["Editor", "Reporter", "Singer", "Actor"], answer: 1, explanation: "'Phóng viên' = reporter.", explanationEn: "'Phóng viên' = reporter." },
         ],
       },
       {
@@ -436,6 +464,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Sinh học' là gì?", questionEn: "What is it?", options: ["Physics", "Chemistry", "Biology", "Math"], answer: 2, explanation: "Sinh học = biology.", explanationEn: "Biology." },
+          { question: "'Thí nghiệm' là gì?", questionEn: "What is 'thí nghiệm'?", options: ["Research", "Experiment", "Invention", "Discovery"], answer: 1, explanation: "'Thí nghiệm' = experiment.", explanationEn: "'Thí nghiệm' = experiment." },
         ],
       },
     ],
@@ -461,6 +490,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Lễ hội lớn nhất VN?", questionEn: "Biggest festival?", options: ["Trung Thu", "Tết Nguyên Đán", "Vu Lan", "Giỗ Tổ"], answer: 1, explanation: "Tết Nguyên Đán.", explanationEn: "Lunar New Year." },
+          { question: "'Lì xì' là gì?", questionEn: "What is 'lì xì'?", options: ["Gift", "Red envelope", "Cake", "Flower"], answer: 1, explanation: "'Lì xì' = red envelope / lucky money.", explanationEn: "'Lì xì' = red envelope." },
         ],
       },
       {
@@ -473,6 +503,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Trang phục truyền thống VN?", questionEn: "Traditional dress?", options: ["Kimono", "Áo dài", "Hanbok", "Sari"], answer: 1, explanation: "Áo dài.", explanationEn: "Áo dài." },
+          { question: "'Nón lá' là gì?", questionEn: "What is 'nón lá'?", options: ["Helmet", "Conical hat", "Cap", "Scarf"], answer: 1, explanation: "'Nón lá' = conical hat.", explanationEn: "'Nón lá' = conical hat." },
         ],
       },
       {
@@ -486,6 +517,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Nước mắm' từ gì?", questionEn: "Made from?", options: ["Đậu", "Cá", "Thịt", "Rau"], answer: 1, explanation: "Cá lên men.", explanationEn: "Fermented fish." },
+          { question: "'Xào' là cách chế biến gì?", questionEn: "What cooking method is 'xào'?", options: ["Boil", "Stir-fry", "Steam", "Grill"], answer: 1, explanation: "'Xào' = stir-fry.", explanationEn: "'Xào' = stir-fry." },
         ],
       },
       // NEW cultural vocabulary lessons
@@ -500,6 +532,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Đàn bầu' là nhạc cụ gì?", questionEn: "What instrument?", options: ["Drum", "Monochord", "Flute", "Guitar"], answer: 1, explanation: "Nhạc cụ một dây độc đáo.", explanationEn: "Unique one-string instrument." },
+          { question: "'Ca sĩ' là ai?", questionEn: "Who is a 'ca sĩ'?", options: ["Dancer", "Singer", "Musician", "Actor"], answer: 1, explanation: "'Ca sĩ' = singer.", explanationEn: "'Ca sĩ' = singer." },
         ],
       },
       {
@@ -513,6 +546,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Tôn giáo lớn nhất VN?", questionEn: "Largest religion?", options: ["Thiên Chúa", "Phật giáo", "Hồi giáo", "Hindu"], answer: 1, explanation: "Phật giáo.", explanationEn: "Buddhism." },
+          { question: "'Chùa' là nơi nào?", questionEn: "What is a 'chùa'?", options: ["Church", "Pagoda", "Mosque", "School"], answer: 1, explanation: "'Chùa' = pagoda/temple.", explanationEn: "'Chùa' = pagoda." },
         ],
       },
       {
@@ -526,6 +560,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Múa rối nước' đặc trưng ở đâu?", questionEn: "Where is it from?", options: ["Huế", "Hà Nội", "Sài Gòn", "Đà Nẵng"], answer: 1, explanation: "Đặc trưng Hà Nội.", explanationEn: "Hanoi specialty." },
+          { question: "'Gốm sứ' là gì?", questionEn: "What is 'gốm sứ'?", options: ["Painting", "Ceramics", "Embroidery", "Sculpture"], answer: 1, explanation: "'Gốm sứ' = ceramics/pottery.", explanationEn: "'Gốm sứ' = ceramics." },
         ],
       },
       {
@@ -539,6 +574,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Vovinam là gì?", questionEn: "What is Vovinam?", options: ["Dance", "Vietnamese martial art", "Game", "Sport"], answer: 1, explanation: "Võ thuật Việt Nam.", explanationEn: "Vietnamese martial art." },
+          { question: "'Đá cầu' là trò chơi gì?", questionEn: "What game is 'đá cầu'?", options: ["Tug of war", "Shuttlecock kicking", "Jump rope", "Chess"], answer: 1, explanation: "'Đá cầu' = shuttlecock kicking.", explanationEn: "'Đá cầu' = shuttlecock kicking." },
         ],
       },
       {
@@ -552,6 +588,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Giỗ' là gì?", questionEn: "What is 'giỗ'?", options: ["Birthday", "Death anniversary", "Wedding", "Festival"], answer: 1, explanation: "Ngày tưởng nhớ người mất.", explanationEn: "Death anniversary." },
+          { question: "'Biếu' khác 'tặng' như thế nào?", questionEn: "How is 'biếu' different from 'tặng'?", options: ["Same meaning", "More respectful", "Less formal", "Only for children"], answer: 1, explanation: "'Biếu' mang tính kính trọng hơn.", explanationEn: "'Biếu' is more respectful than 'tặng'." },
         ],
       },
       {
@@ -565,6 +602,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Toang' nghĩa gì?", questionEn: "What does 'toang' mean?", options: ["Great", "Ruined", "Happy", "Tired"], answer: 1, explanation: "Toang = hỏng, thất bại.", explanationEn: "Ruined / failed." },
+          { question: "'Đỉnh' trong tiếng lóng nghĩa gì?", questionEn: "What does 'đỉnh' mean in slang?", options: ["Mountain top", "Awesome", "Boring", "Old"], answer: 1, explanation: "'Đỉnh' = awesome/peak.", explanationEn: "'Đỉnh' = awesome." },
         ],
       },
     ],
