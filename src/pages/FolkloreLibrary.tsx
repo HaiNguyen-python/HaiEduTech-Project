@@ -154,7 +154,7 @@ const FolkloreLibrary = () => {
               transition={{ delay: 0.2 }}
               className="bg-card border border-border rounded-xl p-6 md:p-8 mb-8"
             >
-              <div className="prose prose-lg dark:prose-invert max-w-none font-serif leading-relaxed whitespace-pre-line text-foreground text-base md:text-lg">
+              <div className="prose prose-lg dark:prose-invert max-w-none leading-relaxed whitespace-pre-line text-foreground text-base md:text-lg" style={{ fontFamily: "'Noto Serif', 'Inter', sans-serif" }}>
                 {!showEnglish
                   ? renderStoryWithGlossary(selectedStory.story, selectedStory.vocabulary)
                   : selectedStory.storyEn
