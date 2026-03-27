@@ -226,14 +226,6 @@ const Vietnamese = () => {
                 </Link>
               </div>
             </div>
-                    </h3>
-                    <Button size="sm" className="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-xs">
-                      {t("Học qua trò chơi", "Learn through games")}
-                    </Button>
-                  </motion.div>
-                </Link>
-              </div>
-            </div>
           </motion.div>
         </section>
 
