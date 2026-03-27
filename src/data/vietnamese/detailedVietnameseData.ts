@@ -402,6 +402,66 @@ export const detailedVFFModules: DetailedModule[] = [
           ],
         },
       },
+      // Lesson 2: Bánh Mì
+      {
+        id: "vff-food-banhmi",
+        title: "Bánh Mì — Sandwich Quốc dân",
+        titleEn: "Bánh Mì — Vietnam's National Sandwich",
+        icon: "🥖",
+        scenario: "Bạn mua bánh mì ở xe đẩy trên vỉa hè.",
+        scenarioEn: "You buy bánh mì from a street cart on the sidewalk.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cô ơi, cho con một ổ bánh mì thịt!", en: "Ma'am, one bánh mì with meat please!", literal: "Aunt hey, give child one loaf bread meat!", keyWords: [{ word: "ổ", pronunciation: "ổ", meaning: "classifier for bread/baguette", tone: "hoi" }, { word: "con", pronunciation: "con", meaning: "I (to older woman, very polite)", tone: "ngang" }] },
+          { speaker: "Seller", speakerLabel: "Cô bán", vi: "Bánh mì thịt có thịt nguội, chả lụa, pate. Con muốn loại nào?", en: "Meat bánh mì has cold cuts, pork roll, and pâté. Which type?", literal: "Bread meat have meat cold, sausage silk, pate. Child want type which?", keyWords: [{ word: "chả lụa", pronunciation: "chả lụa", meaning: "Vietnamese pork sausage", tone: "hoi" }, { word: "pate", pronunciation: "pa-tê", meaning: "liver pâté", tone: "ngang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cho con đầy đủ hết luôn! Thêm ớt nữa nhé cô.", en: "Give me everything! Extra chili too, please.", literal: "Give child full complete all immediately! Add chili more ok aunt." },
+          { speaker: "Seller", speakerLabel: "Cô bán", vi: "Con ăn cay được hả? Cô cho nhiều ớt nhé!", en: "You can handle spicy? I'll add lots of chili!", literal: "Child eat spicy receive question? Aunt give much chili ok!", keyWords: [{ word: "hả", pronunciation: "hả", meaning: "right? (casual question particle)", tone: "hoi" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ được ạ! Bao nhiêu tiền hả cô?", en: "Yes! How much is it, ma'am?", literal: "Polite-yes receive polite! Wrap how-much money question aunt?" },
+          { speaker: "Seller", speakerLabel: "Cô bán", vi: "Hai mươi lăm nghìn thôi con!", en: "Only twenty-five thousand, dear!", literal: "Two ten five thousand only child!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "(Ăn) Ngon quá cô ơi! Mai con lại mua nhé!", en: "(Eating) So delicious! I'll buy again tomorrow!", literal: "(Eat) Delicious too-much aunt hey! Tomorrow child again buy ok!" },
+          { speaker: "Seller", speakerLabel: "Cô bán", vi: "Cô bán từ 6 giờ sáng tới 10 giờ tối. Lúc nào đến cũng được con!", en: "I sell from 6 AM to 10 PM. Come anytime, dear!", literal: "Aunt sell from 6 hour morning arrive 10 hour night. Moment which arrive also receive child!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Bao nhiêu + tiền?",
+            patternEn: "'Bao nhiêu tiền?' — Asking the price",
+            explanation: "'Bao nhiêu?' = 'How much/many?'. Dùng cho số lượng không xác định.",
+            explanationEn: "'Bao nhiêu?' = 'How much/many?'. Used for unspecified quantities.",
+            examples: [
+              { vi: "Bao nhiêu tiền?", en: "How much?", literal: "Wrap how-much money?" },
+              { vi: "Cô bán bao nhiêu một ổ?", en: "How much for one loaf?", literal: "Aunt sell wrap how-much one loaf?" },
+              { vi: "Bao nhiêu tuổi?", en: "How old?", literal: "Wrap how-much age?" },
+            ],
+          },
+          {
+            pattern: "Con / Cô / Chú (Market pronouns)",
+            patternEn: "Street vendor pronouns: Con / Cô / Chú",
+            explanation: "Khi mua hàng ở vỉa hè, gọi người bán lớn tuổi là 'Cô' (nữ) hoặc 'Chú' (nam), tự xưng 'Con'. Đây là cách thể hiện sự tôn trọng.",
+            explanationEn: "When buying from street vendors, call older sellers 'Cô' (female) or 'Chú' (male), refer to yourself as 'Con'. This shows respect.",
+            examples: [
+              { vi: "Cô ơi, cho con hỏi giá.", en: "Ma'am, may I ask the price.", literal: "Aunt hey, give child ask price." },
+              { vi: "Chú ơi, bán cho con một ly nước mía.", en: "Sir, sell me a glass of sugarcane juice.", literal: "Uncle hey, sell give child one glass water sugarcane." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Bánh mì — Di sản ẩm thực thế giới",
+            titleEn: "Bánh Mì — A world culinary heritage",
+            content: "Bánh mì Việt Nam là sự kết hợp Pháp-Việt: vỏ giòn kiểu baguette Pháp, nhân là đồ Việt (pate, chả lụa, rau mùi, đồ chua). Năm 2012, 'Bánh mì' được thêm vào từ điển Oxford English Dictionary. Giá trung bình chỉ 15.000–30.000 VNĐ (~$0.60–$1.20).",
+            contentEn: "Vietnamese bánh mì is a French-Vietnamese fusion: crispy French baguette outside, Vietnamese fillings inside (pâté, pork roll, cilantro, pickled veggies). In 2012, 'Bánh mì' was added to the Oxford English Dictionary. Average price: only 15,000–30,000 VND (~$0.60–$1.20).",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Hoàn thành câu mua bánh mì.",
+          instructionEn: "Complete the bánh mì ordering sentences.",
+          items: [
+            { question: "_____ ơi, cho _____ một ổ bánh mì! (ma'am / me)", answer: "Cô / con", explanationEn: "Call the seller 'Cô' and yourself 'Con'." },
+            { question: "_____ _____ tiền hả cô? (how much)", answer: "Bao nhiêu", explanationEn: "'Bao nhiêu tiền?' = How much?" },
+            { question: "Cho con đầy đủ hết _____! (everything immediately)", answer: "luôn", explanationEn: "'Luôn' = immediately / right away" },
+          ],
+        },
+      },
     ],
   },
 
