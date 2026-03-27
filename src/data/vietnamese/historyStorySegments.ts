@@ -357,6 +357,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "💰 A Reformer Ahead of His Time",
       text: "**Hồ Quý Ly** (*1336-1407*) – nhân vật gây tranh cãi nhất lịch sử Việt Nam. Dù **cướp ngôi** nhà Trần (*năm 1400*), ông lại thực hiện những cải cách cách mạng: phát hành **tiền giấy** (đầu tiên ở Đông Nam Á!), hạn chế ruộng đất quý tộc, cải cách giáo dục sang **chữ Nôm**, xây **thành nhà Hồ** bằng đá khổng lồ (nay là Di sản UNESCO).",
       textEn: "**Ho Quy Ly** (*1336-1407*) – Vietnam's most controversial figure. Despite **usurping** the Tran throne (*1400*), he implemented revolutionary reforms: issuing **paper currency** (first in Southeast Asia!), limiting aristocratic land, reforming education to **Nom script**, and building the massive **Ho Citadel** (now UNESCO World Heritage).",
+      imageUrl: hoQuyLy,
     },
     {
       title: "⚡ Thất bại và bài học",
