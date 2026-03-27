@@ -309,7 +309,7 @@ const Vietnamese = () => {
                           {t(item.title, item.titleEn)}
                         </h3>
                       </div>
-                      <div className="bg-muted/50 rounded-lg p-4 mb-3 font-serif italic text-foreground whitespace-pre-line leading-relaxed">
+                      <div className="bg-muted/50 rounded-lg p-4 mb-3 italic text-foreground whitespace-pre-line leading-relaxed" style={{ fontFamily: "'Noto Serif', 'Inter', sans-serif" }}>
                         {t(item.content, item.contentEn)}
                       </div>
                       <p className="text-sm text-muted-foreground mb-2">
