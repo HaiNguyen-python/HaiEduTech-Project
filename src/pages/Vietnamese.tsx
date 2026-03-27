@@ -4,7 +4,12 @@ import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   BookOpen, GraduationCap, Clock, Scroll, Sparkles,
-  ChevronRight, Flower2, Star, Globe, Gamepad2, BookMarked
+  ChevronRight, Flower2, Star, Globe, Gamepad2, BookMarked,
+  Crown, Swords, Shield, Mountain, Landmark, Flag, Scale,
+  BookText, Users, Drum, Flame, Castle, Pen, Ship, Anchor,
+  Heart, MapPin, Trophy, Rocket, Wifi, HandshakeIcon,
+  Lightbulb, TrendingUp, Activity, GraduationCap as GradCap,
+  Utensils, Target, type LucideIcon,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
