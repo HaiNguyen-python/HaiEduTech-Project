@@ -154,7 +154,7 @@ const FolkloreLibrary = () => {
               transition={{ delay: 0.2 }}
               className="bg-card border border-border rounded-xl p-6 md:p-8 mb-8"
             >
-              <div className="prose prose-lg dark:prose-invert max-w-none font-serif leading-relaxed whitespace-pre-line text-foreground text-base md:text-lg">
+              <div className="prose prose-lg dark:prose-invert max-w-none leading-relaxed whitespace-pre-line text-foreground text-base md:text-lg" style={{ fontFamily: "'Noto Serif', 'Inter', sans-serif" }}>
                 {!showEnglish
                   ? renderStoryWithGlossary(selectedStory.story, selectedStory.vocabulary)
                   : selectedStory.storyEn
@@ -264,7 +264,7 @@ const FolkloreLibrary = () => {
                   {/* Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white text-center">
                     <span className="text-4xl mb-3 drop-shadow-lg">{story.coverIcon}</span>
-                    <h3 className="font-serif font-bold text-sm md:text-base leading-tight drop-shadow">
+                    <h3 className="font-display font-bold text-sm md:text-base leading-tight drop-shadow">
                       {t(story.title, story.titleEn)}
                     </h3>
                     <Badge className="mt-2 bg-white/20 text-white border-white/30 text-[10px]">
