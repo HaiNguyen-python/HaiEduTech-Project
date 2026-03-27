@@ -93,13 +93,10 @@ const SmartVocabCard = ({ vocab, index }: SmartVocabCardProps) => {
       {/* Example sentence */}
       <div className="mt-3 pt-3 border-t border-border/60">
         <p className="text-foreground font-medium leading-relaxed" style={{ fontSize: "1.05rem" }}>
-          {t(vocab.example, vocab.example)}
-        </p>
-        <p className="text-foreground font-medium leading-relaxed" style={{ fontSize: "1.05rem" }}>
-          {t(vocab.example, vocab.example)}
+          {vocab.example}
         </p>
         <p className="text-sm text-muted-foreground italic mt-1">
-          {t(vocab.exampleEn, vocab.exampleEn)}
+          {vocab.exampleEn}
         </p>
       </div>
     </motion.div>
