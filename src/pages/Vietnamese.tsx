@@ -303,8 +303,8 @@ const Vietnamese = () => {
             <TabsContent value="game">
               <GameHub />
             </TabsContent>
-          </Tabs>
         </div>
+        </Tabs>
       </main>
       <Footer />
     </div>
