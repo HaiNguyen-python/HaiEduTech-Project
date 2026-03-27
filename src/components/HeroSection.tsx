@@ -63,7 +63,7 @@ const HeroSection = () => {
 
               <p className="mx-auto mb-6 max-w-md px-1 text-[15px] leading-7 text-muted-foreground sm:mb-8 sm:max-w-xl sm:px-0 sm:text-base md:text-lg lg:mx-0">
                 {t(
-                  "Chinh phục Tiếng Anh, Tiếng Trung và Lập trình cùng thầy Hải – Thạc sỹ Ngôn ngữ & Văn hóa Anh, Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
+                  "Chinh phục Tiếng Anh, Tiếng Trung và Lập trình cùng thầy Hải – Thạc sĩ Ngôn ngữ & Văn hóa Anh, Kỹ sư Dữ Liệu & Trí tuệ nhân tạo tại Phần Lan.",
                   "Master English, Chinese and Programming with Teacher Hai – M.A. in English Language & Culture and a Data & AI Engineer in Finland."
                 )}
               </p>
@@ -105,7 +105,7 @@ const HeroSection = () => {
           >
             <div className="glass-card grid grid-cols-1 gap-4 rounded-2xl px-5 py-5 sm:grid-cols-3 sm:gap-8 sm:px-8 sm:py-6">
               {[
-                { icon: GraduationCap, value: t("Thạc sỹ", "M.A."), label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
+                { icon: GraduationCap, value: t("Thạc sĩ", "M.A."), label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
                 { icon: BookOpen, value: "15+", label: t("Năm kinh nghiệm giảng dạy các cấp", "Years Teaching Experience") },
                 { icon: Code2, value: t("Kỹ sư", "Engineer"), label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & Artificial Intelligence") },
               ].map((s, i) => (
