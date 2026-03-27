@@ -6,6 +6,7 @@ export interface FolkloreStory {
   titleEn: string;
   coverColor: string; // gradient for vintage book cover
   coverIcon: string;
+  illustrationUrl?: string;
   category: "than-thoai" | "co-tich" | "truyen-thuyet" | "ngu-ngon";
   categoryLabel: string;
   categoryLabelEn: string;
