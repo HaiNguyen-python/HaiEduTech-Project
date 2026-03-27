@@ -1,6 +1,7 @@
 // Learn Vietnamese main page with language, history, folklore, and game sections
 import { useState, useEffect, useRef } from "react";
 import vietnameseCultureBanner from "@/assets/vietnamese-culture-banner.jpg";
+import vietnamFlag from "@/assets/vietnam-flag.png";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -183,9 +184,12 @@ const Vietnamese = () => {
               transition={{ delay: 0.3, type: "spring", stiffness: 150, damping: 12 }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
             >
-              <div className="text-6xl md:text-8xl lg:text-9xl drop-shadow-2xl select-none" style={{ animation: "float 4s ease-in-out infinite" }}>
-                🇻🇳
-              </div>
+              <img
+                src={vietnamFlag}
+                alt="Vietnamese flag"
+                className="w-28 md:w-40 lg:w-52 h-auto drop-shadow-2xl select-none"
+                style={{ animation: "float 4s ease-in-out infinite" }}
+              />
             </motion.div>
 
             {/* Bottom CTA - text links instead of cards */}
