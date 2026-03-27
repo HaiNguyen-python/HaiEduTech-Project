@@ -2,7 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, BookOpen, Clock, ChevronRight } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, ChevronRight, Sword, MapPin, Crown, Shield, Flame, Scroll, Mountain, Ship, Flag, Star, Landmark, GraduationCap, Globe, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
