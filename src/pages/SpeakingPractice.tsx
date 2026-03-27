@@ -865,16 +865,16 @@ const SpeakingPractice = () => {
 
                       {/* Pronunciation Focus */}
                       {result.pronunciationFocus && result.pronunciationFocus.length > 0 && (
-                        <div className="bg-secondary rounded-xl p-4">
-                          <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
-                            <Volume2 className="w-4 h-4 text-primary" /> Pronunciation Focus
+                        <div className="bg-secondary rounded-xl p-5">
+                          <h4 className="text-base font-bold text-foreground mb-3 flex items-center gap-2">
+                            <Volume2 className="w-4 h-4 text-primary" /> {t("Trọng tâm phát âm", "Pronunciation Focus")}
                           </h4>
                           <div className="space-y-2">
                             {result.pronunciationFocus.map((p, i) => (
                               <div key={i} className="bg-background rounded-lg p-3">
-                                <p className="text-xs font-bold text-primary mb-1">{p.sound}</p>
-                                <p className="text-xs text-foreground">Words: {p.words.join(", ")}</p>
-                                <p className="text-[11px] text-muted-foreground">{p.tip}</p>
+                                <p className="text-sm font-bold text-primary mb-1">{p.sound}</p>
+                                <p className="text-sm text-foreground">Words: {p.words.join(", ")}</p>
+                                <p className="text-xs text-muted-foreground">{p.tip}</p>
                               </div>
                             ))}
                           </div>
@@ -882,13 +882,13 @@ const SpeakingPractice = () => {
                       )}
 
                       {/* Suggestions */}
-                      <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
-                        <h4 className="text-sm font-bold text-primary mb-3">
+                      <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
+                        <h4 className="text-base font-bold text-primary mb-3">
                           {t("Gợi ý cải thiện", "Improvement Tips")}
                         </h4>
                         <div className="space-y-2">
                           {result.suggestions.map((s, i) => (
-                            <p key={i} className="text-sm text-foreground flex items-start gap-2">
+                            <p key={i} className="text-base text-foreground flex items-start gap-2">
                               <span className="text-primary font-bold mt-0.5">✓</span> {s}
                             </p>
                           ))}
