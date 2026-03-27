@@ -79,6 +79,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Nước Văn Lang trải qua **18 đời vua Hùng**, chia thành 15 bộ, lấy Phong Châu làm kinh đô. Người dân **trồng lúa nước** trên cánh đồng phì nhiêu, **đúc trống đồng** tinh xảo với hoa văn tuyệt đẹp, và tổ chức những lễ hội tưng bừng. Đây chính là lý do người Việt tự hào gọi mình là **'con Rồng cháu Tiên'** – nhắc nhở rằng dòng máu thiêng liêng của Rồng và Tiên chảy trong huyết quản mỗi người. Ngày **Giỗ Tổ Hùng Vương** (*10/3 âm lịch*) trở thành ngày lễ quốc gia thiêng liêng.",
       textEn: "Van Lang spanned **18 generations** of Hung Kings, divided into 15 regions with Phong Chau as the capital. The people **cultivated wet rice** on fertile plains, **cast exquisite bronze drums** with magnificent patterns, and held grand festivals. This is why Vietnamese proudly call themselves **'Children of the Dragon, Grandchildren of the Fairy'** – a reminder of the sacred bloodline flowing through every Vietnamese. **Hung Kings' Commemoration Day** (*10th of March, lunar calendar*) became a sacred national holiday.",
     },
+    {
+      title: "🏛️ Di sản sống mãi",
+      titleEn: "🏛️ An Enduring Legacy",
+      text: "Dù bao thế kỷ đã qua đi, di sản của các **Vua Hùng** vẫn sống động trong huyết quản mỗi người Việt. Hàng năm, vào ngày *mùng 10 tháng 3 âm lịch*, hàng triệu con dân lại nô nức hành hương về **Đền Hùng**, tham dự **Giỗ Tổ Hùng Vương** để tưởng nhớ công lao dựng nước. Niềm tự hào *\"Con Rồng cháu Tiên\"* không chỉ là một huyền thoại mà trở thành sợi dây tinh thần, gắn kết dân tộc thành một khối bền chặt, nhắc nhở về cội nguồn và lòng biết ơn sâu sắc.",
+      textEn: "Though centuries have passed, the legacy of the **Hung Kings** lives vibrantly in the veins of every Vietnamese person. Annually, on the *10th day of the 3rd lunar month*, millions of pilgrims eagerly journey to **Hung Temple** to attend the **Hung Kings' Commemoration Day**, honoring their nation-founding merits. The pride of being *\"Children of the Dragon, Grandchildren of the Immortal\"* is not merely a myth but a spiritual thread, binding the nation into a steadfast unity, reminding all of their origins and profound gratitude.",
+    },
+  
   ],
 
   "hist-1-2": [
@@ -103,6 +110,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       textEn: "**Trieu Da** from the north dared not attack directly, so he used cunning: sending his son **Trong Thuy** as a son-in-law. The innocent princess **My Chau**, deeply in love, unwittingly revealed the crossbow's secret. Trong Thuy secretly swapped the trigger. When Trieu Da attacked, the crossbow was useless. The Golden Turtle roared: *'The one behind you is the enemy!'* My Chau's blood fell into the sea, turning into gleaming **pearls**. This tragic tale forever reminds us: **never trust blindly**.",
       imageUrl: myChauTragedy,
     },
+    {
+      title: "🎯 Bài học muôn đời",
+      titleEn: "🎯 An Eternal Lesson",
+      text: "Bi kịch **An Dương Vương** và **Mỵ Châu – Trọng Thủy** mãi là một bài học đắt giá cho muôn đời con cháu. Nó nhắc nhở chúng ta về tầm quan trọng của cảnh giác, về sự hiểm nguy của lòng tin đặt nhầm chỗ, và hậu quả khôn lường của sự chủ quan, mất cảnh giác trước kẻ thù. Câu chuyện về mất nước vì sơ hở đã trở thành lời răn dạy thấm thía, khắc sâu vào tâm trí người Việt về ý chí độc lập và tinh thần tự cường để bảo vệ non sông, gấm vóc.",
+      textEn: "The tragedy of **An Duong Vuong** and **My Chau – Trong Thuy** remains a costly lesson for generations to come. It reminds us of the importance of vigilance, the peril of misplaced trust, and the unpredictable consequences of complacency and lack of caution against enemies. This story of losing a nation due to oversight has become a profound admonition, deeply etched into the Vietnamese psyche, urging self-reliance and the will for independence to protect their homeland.",
+    },
+  
   ],
 
   "hist-1-3": [
@@ -125,9 +139,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Ba năm sau (*43 SCN*), nhà Hán cử **Mã Viện** đem đại quân sang đàn áp. Dù chiến đấu như những nữ thần chiến trận, Hai Bà Trưng cuối cùng bị áp đảo bởi lực lượng gấp nhiều lần. Thay vì đầu hàng, hai chị em **gieo mình xuống sông Hát Giang** – chọn cái chết vinh quang hơn sống nhục. Ngày nay, đền thờ Hai Bà Trưng tọa lạc khắp nơi trên đất Việt, và mỗi năm vào ngày **mùng 6 tháng 2 âm lịch**, cả dân tộc cùng tưởng nhớ hai vị nữ anh hùng đầu tiên.",
       textEn: "Three years later (*43 CE*), General **Ma Yuan** invaded with an overwhelming army. Though they fought like warrior goddesses, the Trung Sisters were finally outnumbered. Rather than surrender, they **threw themselves into the Hat Giang River** – choosing glorious death over disgrace. Today, temples honoring them stand across Vietnam, and every year on the **6th day of the 2nd lunar month**, the entire nation remembers its first heroines.",
     },
+    {
+      title: "🏛️ Di sản và biểu tượng",
+      titleEn: "🏛️ Legacy and Symbol",
+      text: "Khởi nghĩa **Hai Bà Trưng** và sự hy sinh lẫm liệt của họ không chỉ in sâu vào lịch sử mà còn trở thành biểu tượng vĩ đại cho tinh thần bất khuất của người phụ nữ Việt Nam. Nhiều đền thờ **Hai Bà Trưng** được dựng khắp nơi, đặc biệt là **Đền Đồng Nhân** ở Hà Nội, nơi người dân tưởng nhớ công ơn của họ. Sự kiện này là minh chứng hùng hồn cho vai trò và khả năng lãnh đạo của phụ nữ Việt, truyền cảm hứng cho nhiều thế hệ về lòng yêu nước và ý chí tự cường dân tộc.",
+      textEn: "The **Trung Sisters'** uprising and their heroic sacrifice are not only deeply etched in history but have also become a magnificent symbol of the indomitable spirit of Vietnamese women. Numerous temples dedicated to the **Trung Sisters** have been erected throughout the country, especially **Dong Nhan Temple** in Hanoi, where people commemorate their contributions. This event stands as a powerful testament to the role and leadership capabilities of Vietnamese women, inspiring many generations with patriotism and the will for national self-reliance.",
+    },
+  
   ],
 
   "hist-1-4": [
+    {
+      title: "🏔️ Bối cảnh - Đêm trường Bắc thuộc",
+      titleEn: "🏔️ Context - The Dark Age of Northern Domination",
+      text: "Vào thế kỷ thứ 3, xứ **Giao Châu** (tên gọi Việt Nam dưới thời Bắc thuộc) đang chìm trong đêm trường đô hộ tàn khốc của nhà **Đông Ngô**. Nhân dân oằn mình dưới ách thống trị khắc nghiệt, sưu thuế nặng nề và những chính sách đồng hóa dã man. Cuộc sống nô lệ đầy bi thương khơi dậy trong lòng mỗi người Việt khát vọng cháy bỏng về độc lập, tự do. Chính trong bối cảnh ấy, một nữ anh hùng đã đứng lên, châm ngọn lửa hy vọng, đó chính là **Bà Triệu**.",
+      textEn: "In the 3rd century, **Giao Chau** (the name for Vietnam under Northern domination) was engulfed in the brutal night of rule by the **Eastern Wu** dynasty. The people groaned under harsh tyranny, heavy taxes, and savage assimilation policies. A sorrowful life of slavery ignited a fervent desire for independence and freedom in every Vietnamese heart. It was in this context that a heroine rose, kindling a flame of hope – **Lady Trieu**.",
+    },
+
     {
       title: "🗡️ Tuyên ngôn bất hủ",
       titleEn: "🗡️ An Immortal Declaration",
@@ -141,6 +169,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Hình ảnh Bà Triệu cưỡi **voi trắng** xông trận, mặc **giáp vàng** rực rỡ, tóc dài bay phấp phới, đã khiến quân Ngô khiếp đảm đến mức gọi bà là **'Nhụy Kiều Tướng Quân'** – Vị nữ tướng xinh đẹp. Hàng chục trận đánh, bà luôn ở tuyến đầu, khiến kẻ thù run sợ. Cuộc khởi nghĩa kéo dài nhiều tháng nhưng cuối cùng sụp đổ trước lực lượng áp đảo. Bà Triệu hy sinh trên **núi Tùng** (Thanh Hóa) khi tuổi đời còn quá trẻ. Nhưng hình ảnh người con gái cưỡi voi xông trận đã mãi mãi trở thành **biểu tượng bất khuất** của phụ nữ Việt Nam.",
       textEn: "The image of Lady Trieu riding a **white elephant** into battle, clad in **gleaming golden armor**, her long hair streaming behind – it terrified the Wu army so much they called her **'Lady General of Graceful Beauty.'** In dozens of battles, she always led from the front. The uprising lasted months but ultimately fell. Lady Trieu perished on **Tung Mountain** (Thanh Hoa), still so young. Yet the image of a girl charging on an elephant became an **eternal symbol** of Vietnamese women's indomitable spirit.",
     },
+    {
+      title: "🏛️ Di sản - Biểu tượng nữ quyền",
+      titleEn: "🏛️ Legacy - A Symbol of Female Power",
+      text: "**Bà Triệu** không chỉ là một nữ tướng tài ba mà còn là biểu tượng kiêu hãnh của ý chí và sức mạnh phụ nữ Việt Nam xuyên suốt lịch sử. Tuyên ngôn bất hủ của bà đã truyền cảm hứng mạnh mẽ cho nhiều thế hệ. Sự ra đi bi tráng của bà không phải là dấu chấm hết, mà nó càng khẳng định tinh thần bất khuất, không cam chịu làm nô lệ. Đến ngày nay, bà vẫn được tôn thờ tại nhiều đền miếu, là nguồn cảm hứng vĩnh cửu về lòng yêu nước và tinh thần đấu tranh vì tự do.",
+      textEn: "**Lady Trieu** was not merely a talented female general but also a proud symbol of the will and strength of Vietnamese women throughout history. Her immortal declaration powerfully inspired many generations. Her tragic death was not an end but rather an affirmation of an indomitable spirit, unwilling to live in servitude. To this day, she is revered in many temples, serving as an eternal source of inspiration for patriotism and the spirit of fighting for freedom.",
+    },
+  
   ],
 
   "hist-1-5": [
@@ -165,6 +200,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       textEn: "As the tide fell, thousands of sharp stakes surged upward like a **massive field of spikes** – piercing, trapping, and capsizing the entire enemy fleet. Commander **Liu Hongcao** was killed on the river. Ngo Quyen turned and annihilated the invaders. The **Bach Dang 938** victory shook heaven and earth: **ending over 1,000 years of Chinese domination**, opening an era of lasting independence. After the longest night, dawn finally broke.",
       imageUrl: ngoQuyenVictory,
     },
+    {
+      title: "🏛️ Di sản - Cha đẻ độc lập",
+      titleEn: "🏛️ Legacy - Father of Independence",
+      text: "Chiến thắng **Bạch Đằng** năm *938* đã đưa **Ngô Quyền** trở thành người đặt nền móng vĩ đại cho nền độc lập lâu dài của dân tộc Việt Nam, có thể gọi ông là vị *Cha đẻ của nền độc lập dân tộc*. Triều đại **Ngô** tuy ngắn ngủi nhưng đã khẳng định chủ quyền quốc gia sau hơn nghìn năm Bắc thuộc. Chiến công này không chỉ chấm dứt sự đô hộ mà còn khơi dậy mạnh mẽ ý thức tự chủ, tự cường, là bước đệm vững chắc cho sự phát triển của các triều đại **Đinh, Lê, Lý** sau này, mở ra một kỷ nguyên huy hoàng cho **Đại Việt**.",
+      textEn: "The **Bach Dang** victory in *938* established **Ngo Quyen** as the great founder of Vietnam's long-lasting independence, truly the *Father of National Independence*. The **Ngo** dynasty, though short-lived, affirmed national sovereignty after over a millennium of Northern domination. This triumph not only ended foreign rule but also powerfully awakened the spirit of self-reliance, serving as a firm stepping stone for the development of later **Dinh, Le, Ly** dynasties, inaugurating a glorious era for **Dai Viet**.",
+    },
+  
   ],
 
   "hist-1-6": [
@@ -181,6 +223,19 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Điều **chưa từng có tiền lệ**: Lý Nam Đế dám xưng **'Đế'** (Hoàng đế) thay vì chỉ xưng **'Vương'** (Vua) – ngang hàng với hoàng đế Trung Hoa! Ở thời đại mà thiên triều Trung Hoa được coi là trung tâm thiên hạ, hành động này vô cùng **táo bạo và đầy kiêu hãnh**. Ông đặt niên hiệu **Thiên Đức**, xây dựng triều đình, mang lại hy vọng cho nhân dân. Dù nước Vạn Xuân chỉ tồn tại ngắn ngủi trước sức ép nhà Lương, nhưng nó đã **khẳng định mạnh mẽ**: người Việt xứng đáng có đất nước riêng, hoàng đế riêng.",
       textEn: "Something **unprecedented**: Ly Nam De dared to claim the title **'Emperor'** rather than merely **'King'** – placing himself equal to the Chinese emperor! In an era when the Chinese court was considered the center of the world, this was **extraordinarily bold and proud**. He adopted the reign name **Thien Duc**, built a court, and brought hope. Though Van Xuan was short-lived, it **powerfully declared**: the Vietnamese deserve their own country and their own emperor.",
     },
+    {
+      title: "⚔️ Cuộc chiến bảo vệ Vạn Xuân",
+      titleEn: "⚔️ The War to Defend Van Xuan",
+      text: "Niềm vui độc lập chỉ kéo dài trong chớp nhoáng. Năm *545*, nhà **Lương** (Trung Quốc) đem quân xâm lược, buộc **Lý Nam Đế** phải rút lui và sau đó ông lâm bệnh mất. Tuy nhiên, ngọn lửa Vạn Xuân không bao giờ tắt. Cháu của ông là **Lý Thiên Bảo** và đặc biệt là con nuôi **Triệu Quang Phục** (tức **Triệu Việt Vương**) đã tiếp tục cuộc kháng chiến bền bỉ, anh dũng. **Triệu Quang Phục** đã xây dựng căn cứ đầm lầy **Đa Trạch** hiểm yếu, dùng kế sách du kích để đánh bại quân Lương, giữ vững nền độc lập cho **Vạn Xuân**.",
+      textEn: "The joy of independence was fleeting. In *545*, the **Liang** dynasty (China) invaded, forcing **Ly Nam De** to retreat, and he later died of illness. However, the flame of Van Xuan never extinguished. His nephew, **Ly Thien Bao**, and especially his adopted son, **Trieu Quang Phuc** (later **Trieu Viet Vuong**), continued the tenacious and courageous resistance. **Trieu Quang Phuc** established the strategically perilous **Da Trach** swamp base, employing guerrilla tactics to defeat the Liang army, thus maintaining **Van Xuan's** independence.",
+    },
+    {
+      title: "🏛️ Di sản - Ý nghĩa Vạn Xuân",
+      titleEn: "🏛️ Legacy - The Meaning of Van Xuan",
+      text: "Nước **Vạn Xuân** của **Lý Nam Đế** là nhà nước độc lập đầu tiên sau thời kỳ Bắc thuộc kéo dài. Việc đặt quốc hiệu này mang ý nghĩa sâu sắc, thể hiện khát vọng vĩnh cửu, trường tồn của dân tộc Việt Nam trước giông bão của thời cuộc. Dù triều đại này không kéo dài được bao lâu, nhưng nó đã khẳng định mạnh mẽ chủ quyền, tiếp nối ý chí độc lập từ thời **An Dương Vương** và là lời tuyên ngôn đanh thép về bản lĩnh, sức sống mãnh liệt của một dân tộc kiên cường, không bao giờ chấp nhận làm nô lệ.",
+      textEn: "**Ly Nam De's** state of **Van Xuan** was the first independent state after a prolonged period of Northern domination. The choice of this national name carried profound meaning, expressing the Vietnamese people's eternal aspiration for permanence amidst the storms of history. Although this dynasty did not last long, it strongly affirmed sovereignty, continued the will for independence from the time of **An Duong Vuong**, and served as a powerful declaration of the resilience and vibrant vitality of a steadfast nation, never accepting enslavement.",
+    },
+  
   ],
 
   "hist-1-7": [
@@ -197,6 +252,19 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Con ông – **Khúc Hạo** – tiếp nối sự nghiệp với tầm nhìn xa. Ông thực hiện nhiều **cải cách tiến bộ**: đơn giản hóa bộ máy hành chính, giảm thuế cho nông dân, lập sổ hộ khẩu để quản lý dân – những chính sách mà nhiều nước phương Tây mãi hàng trăm năm sau mới áp dụng. Cháu ông – **Khúc Thừa Mỹ** – tiếp tục giữ nền tự chủ. Ba đời họ Khúc tuy chưa xưng vương, nhưng đã **đặt viên gạch đầu tiên** cho nền độc lập hoàn toàn.",
       textEn: "His son **Khuc Hao** continued with visionary reforms: simplifying administration, reducing taxes, establishing household registration – policies many Western nations wouldn't adopt for centuries. His grandson **Khuc Thua My** maintained autonomy. Three generations of the Khuc family, though never claiming royal titles, **laid the first bricks** for complete independence.",
     },
+    {
+      title: "🌱 Cải cách tiến bộ",
+      titleEn: "🌱 Progressive Reforms",
+      text: "Sau khi **Khúc Thừa Dụ** đặt nền móng, con trai ông là **Khúc Hạo** đã kế tục sự nghiệp với những cải cách sâu rộng, đặt nền tảng vững chắc cho nền tự chủ. Ông tiến hành *\"bình quân thuế ruộng, tha bỏ lực dịch, lập sổ hộ khẩu, rõ ràng thôn xã\"*. Những chính sách này không chỉ giảm bớt gánh nặng cho nhân dân mà còn củng cố quyền lực của chính quyền tự chủ, tạo sự gắn kết lòng dân. Đây là những bước đi chiến lược, thể hiện tầm nhìn xa trông rộng, hướng tới xây dựng một quốc gia độc lập và thịnh vượng.",
+      textEn: "After **Khúc Thừa Dụ** laid the foundation, his son **Khúc Hạo** continued the work with extensive reforms, establishing a firm base for autonomy. He implemented *\"equal land taxes, abolished forced labor, created household registers, and clarified village administration\"*. These policies not only eased the burden on the people but also strengthened the autonomous government's authority, fostering popular unity. These strategic steps demonstrated foresight, aiming to build an independent and prosperous nation.",
+    },
+    {
+      title: "🏛️ Di sản - Nền móng độc lập",
+      titleEn: "🏛️ Legacy - Foundation of Independence",
+      text: "Ba đời họ **Khúc** (Khúc Thừa Dụ, Khúc Hạo, Khúc Thừa Mỹ) đã có công lớn trong việc duy trì và củng cố quyền tự chủ dân tộc trong bối cảnh Bắc thuộc đầy biến động. Dù không xưng đế, nhưng những gì họ làm được đã tạo ra một khoảng trống chính trị quan trọng, từng bước đưa đất nước thoát khỏi sự lệ thuộc. Họ chính là những người đặt nền móng vững chắc, là tiền đề quan trọng để **Ngô Quyền** có thể thực hiện chiến thắng **Bạch Đằng** lừng lẫy, chính thức khôi phục nền độc lập hoàn toàn cho dân tộc Việt Nam.",
+      textEn: "Three generations of the **Khúc** family (Khúc Thừa Dụ, Khúc Hạo, Khúc Thừa Mỹ) made significant contributions to maintaining and strengthening national autonomy amidst the turbulent Northern domination. Although they did not claim emperorship, their achievements created a crucial political vacuum, gradually freeing the country from dependency. They were the ones who laid the firm foundation, serving as an important premise for **Ngo Quyen** to achieve the glorious **Bach Dang** victory, officially restoring complete independence for the Vietnamese nation.",
+    },
+  
   ],
 
   "hist-1-8": [
@@ -213,6 +281,19 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Lớn lên, Đinh Bộ Lĩnh rèn luyện binh mã, thu phục từng sứ quân bằng cả tài thao lược và ý chí sắt đá. **Năm 968**, sau khi dẹp yên tất cả 12 sứ quân, ông lên ngôi **Đinh Tiên Hoàng**, đặt quốc hiệu **Đại Cồ Việt**, đóng đô ở Hoa Lư. Ông xây dựng bộ máy nhà nước hoàn chỉnh, tổ chức quân đội **10 đạo**. Hoa Lư được chọn nhờ địa thế hiểm trở – núi đá vôi bao quanh như pháo đài thiên nhiên. Cậu bé chăn trâu ngày nào giờ đã là hoàng đế khai quốc.",
       textEn: "As he grew, Dinh Bo Linh trained soldiers and subdued each warlord through genius and iron will. In **968**, having pacified all 12 warlords, he ascended as **Emperor Dinh Tien Hoang**, naming the nation **Dai Co Viet** with its capital at Hoa Lu. He built a complete state apparatus and organized the military into **10 corps**. The buffalo boy had become a founding emperor.",
     },
+    {
+      title: "⚔️ Chiến thuật thu phục",
+      titleEn: "⚔️ Tactics of Subjugation",
+      text: "**Đinh Bộ Lĩnh** không chỉ là một dũng tướng mà còn là một nhà chính trị sắc sảo. Ông khéo léo dùng cả sức mạnh quân sự và tài ngoại giao để thu phục 12 sứ quân loạn lạc. Bằng việc đánh chiếm các vị trí hiểm yếu, bao vây cô lập đối phương, và đặc biệt là dùng uy thế quân sự áp đảo để thuyết phục các sứ quân quy thuận, **Đinh Bộ Lĩnh** đã lần lượt dẹp yên các thế lực cát cứ. Chỉ trong một thời gian ngắn, ông đã thống nhất giang sơn về một mối, lập công lớn cho đất nước.",
+      textEn: "**Dinh Bo Linh** was not only a brave general but also a shrewd politician. He skillfully employed both military might and diplomatic prowess to subjugate the 12 unruly warlords. By seizing strategic positions, isolating adversaries, and especially by using overwhelming military prestige to persuade warlords to submit, **Dinh Bo Linh** successively pacified the splintered forces. In a short period, he unified the nation, making a great contribution to the country.",
+    },
+    {
+      title: "🏛️ Di sản - Đại Cồ Việt vững bền",
+      titleEn: "🏛️ Legacy - A Steadfast Dai Co Viet",
+      text: "Sau khi thống nhất đất nước, **Đinh Bộ Lĩnh** lên ngôi Hoàng đế, hiệu là **Đinh Tiên Hoàng**, lập nên nhà **Đinh** vào năm *968*, đặt quốc hiệu là **Đại Cồ Việt**, đóng đô tại **Hoa Lư**. Đây là sự kiện lịch sử trọng đại, khẳng định nền độc lập tự chủ hoàn toàn của dân tộc sau nghìn năm Bắc thuộc. Ông đã xây dựng một nền móng quốc gia vững chắc, tạo tiền đề quan trọng cho sự phát triển hưng thịnh của các triều đại **Tiền Lê** và đặc biệt là **nhà Lý** sau này, mở ra một kỷ nguyên huy hoàng cho văn hóa và quyền lực của **Đại Việt**.",
+      textEn: "After unifying the country, **Dinh Bo Linh** ascended the throne as Emperor, with the title **Dinh Tien Hoang**, establishing the **Dinh** dynasty in *968*, naming the nation **Dai Co Viet**, and setting the capital at **Hoa Lu**. This was a momentous historical event, affirming the complete independence and self-mastery of the nation after a millennium of Northern domination. He built a firm national foundation, creating an important premise for the prosperous development of the subsequent **Early Le** dynasty and especially the **Ly dynasty**, ushering in a glorious era for the culture and power of **Dai Viet**.",
+    },
+  
   ],
 
   "hist-1-9": [
@@ -229,9 +310,29 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "**Trống đồng Ngọc Lũ** – chiếc trống đẹp nhất được tìm thấy – có đường kính mặt trống **79cm**, được trang trí vô cùng tinh xảo: chính giữa là **ngôi sao nhiều cánh** tượng trưng cho mặt trời, xung quanh là hình ảnh cuộc sống người Việt cổ: lễ hội, giã gạo, chèo thuyền, **chim Lạc** bay lượn. Hàng trăm trống đồng Đông Sơn được tìm thấy khắp Đông Nam Á – từ Indonesia đến Trung Quốc – chứng tỏ sức ảnh hưởng rộng lớn. **UNESCO** đã công nhận đây là **di sản văn hóa quý giá** của nhân loại.",
       textEn: "The **Ngoc Lu drum** – the finest ever found – has a **79cm** surface diameter, elaborately decorated: at the center a **multi-pointed star** representing the sun, surrounded by scenes of ancient life: festivals, rice pounding, boat racing, and **Lac birds** in flight. Hundreds of Dong Son drums found across Southeast Asia proved this culture's vast influence. **UNESCO** recognized them as **precious cultural heritage** of humanity.",
     },
+    {
+      title: "🌱 Đời sống người Đông Sơn",
+      titleEn: "🌱 Life of the Dong Son People",
+      text: "Cuộc sống của người **Đông Sơn** gắn liền với nền văn minh lúa nước, họ là những bậc thầy trong việc trồng lúa, chăn nuôi gia súc. Họ sống trong những làng mạc trù phú ven sông, giỏi nghề rèn đúc đồng, chế tác ra những công cụ, vũ khí và đồ trang sức tinh xảo. Các nhà khảo cổ cũng tìm thấy nhiều bằng chứng về hoạt động giao thương sôi động, thậm chí là giao lưu hàng hải, cho thấy một xã hội phát triển rực rỡ, năng động và có sự kết nối với các nền văn hóa khác trong khu vực.",
+      textEn: "The life of the **Dong Son** people was intrinsically linked to wet rice civilization; they were masters of rice cultivation and animal husbandry. They lived in fertile villages along rivers, skilled in bronze casting, crafting exquisite tools, weapons, and jewelry. Archaeologists have also found much evidence of vibrant trading activities, even maritime exchanges, revealing a brilliant, dynamic society actively connected with other cultures in the region.",
+    },
+    {
+      title: "🏛️ Di sản và biểu tượng",
+      titleEn: "🏛️ Legacy and Symbol",
+      text: "Văn hóa **Đông Sơn** không chỉ là niềm tự hào của Việt Nam mà còn có ảnh hưởng sâu rộng sang nhiều quốc gia láng giềng ở Đông Nam Á. Ngày nay, chiếc **trống đồng Đông Sơn** đã trở thành biểu tượng quốc gia, được công nhận là Di sản văn hóa thế giới bởi **UNESCO**, là minh chứng sống động cho cội nguồn văn hóa lâu đời và rực rỡ của dân tộc Việt. Nó nhắc nhở mỗi người con đất Việt về một quá khứ hào hùng, về sự sáng tạo độc đáo của cha ông và ý chí dựng nước, giữ nước kiên cường.",
+      textEn: "The **Dong Son** culture is not only a source of pride for Vietnam but also has a profound influence on many neighboring countries in Southeast Asia. Today, the **Dong Son bronze drum** has become a national symbol, recognized as a World Cultural Heritage by **UNESCO**, serving as a vivid testament to the ancient and brilliant cultural origins of the Vietnamese people. It reminds every Vietnamese descendent of a heroic past, the unique creativity of their ancestors, and the resilient will to build and defend the nation.",
+    },
+  
   ],
 
   "hist-1-10": [
+    {
+      title: "🏔️ Bối cảnh Bắc thuộc",
+      titleEn: "🏔️ Context of Northern Domination",
+      text: "Vào thế kỷ thứ 8, nước ta chìm dưới ách đô hộ tàn bạo của nhà **Đường**. Nhân dân **An Nam** phải gánh chịu sưu thuế nặng nề, lao dịch khổ sai triền miên. Các quan lại nhà Đường với sự tham lam và hà khắc đã bóc lột đến tận xương tủy, gây nên cuộc sống cùng cực cho người dân. Cuộc sống nô lệ đầy tủi nhục và sự áp bức chồng chất đã nung nấu trong lòng người Việt ngọn lửa căm thù, khát vọng tự do. Chính trong bối cảnh ấy, hai người anh hùng là **Mai Thúc Loan** và **Phùng Hưng** đã đứng lên phất cờ khởi nghĩa.",
+      textEn: "In the 8th century, our country was submerged under the brutal rule of the **Tang** dynasty. The people of **An Nam** suffered heavy taxes and endless forced labor. Tang officials, with their greed and harshness, exploited the people to the bone, causing extreme hardship. This humiliating life of slavery and accumulated oppression ignited a fire of hatred and a longing for freedom in the hearts of the Vietnamese. It was in this context that two heroes, **Mai Thuc Loan** and **Phung Hung**, rose up to lead rebellions.",
+    },
+
     {
       title: "⚔️ Mai Hắc Đế – Hoàng đế Đen",
       titleEn: "⚔️ The Black Emperor",
@@ -245,6 +346,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Sau đó, **năm 791**, **Phùng Hưng** – hào trưởng giàu có, võ nghệ cao cường ở Đường Lâm – nổi dậy chống nhà Đường. Truyền thuyết kể ông có **sức mạnh phi thường**, từng đánh chết hổ bằng tay không! Phùng Hưng chiếm **phủ Tống Bình** (Hà Nội), cai trị 7 năm với lòng nhân từ. Khi mất, nhân dân tôn ông là **Bố Cái Đại Vương** – *'Vua Cha Mẹ'* – vì ông cai trị như cha mẹ yêu thương con cái.",
       textEn: "Later, in **791**, **Phung Hung** – a wealthy chieftain and martial arts master from Duong Lam – revolted against the Tang. Legend says he had **superhuman strength**, once killing a tiger with bare hands! He captured **Tong Binh** (Hanoi) and ruled for 7 years with benevolence. After death, the people honored him as **Bo Cai Dai Vuong** – *'Father-Mother King'* – for ruling like a loving parent.",
     },
+    {
+      title: "🏛️ Di sản - Ngọn lửa không tắt",
+      titleEn: "🏛️ Legacy - An Unquenchable Flame",
+      text: "Dù các cuộc khởi nghĩa của **Mai Thúc Loan** và **Phùng Hưng** không thể chấm dứt hoàn toàn ách đô hộ của nhà Đường, nhưng tinh thần quật cường của họ đã gieo mầm hy vọng, khẳng định ý chí độc lập bất diệt của dân tộc Việt. Các cuộc nổi dậy này chứng minh rằng dù bị áp bức đến đâu, ngọn lửa yêu nước luôn âm ỉ cháy và bùng lên mạnh mẽ khi có cơ hội. Hình ảnh **Mai Hắc Đế** và **Bố Cái Đại Vương** đã trở thành biểu tượng của lòng dũng cảm, truyền cảm hứng cho nhiều thế hệ sau tiếp tục đấu tranh giành lại chủ quyền.",
+      textEn: "Although the uprisings of **Mai Thuc Loan** and **Phung Hung** could not completely end the Tang dynasty's domination, their resilient spirit sowed seeds of hope, affirming the indomitable will for freedom of the Vietnamese people. These revolts proved that no matter how oppressed, the flame of patriotism always smolders and ignites fiercely when given a chance. The images of **Mai Hac De** and **Bo Cai Dai Vuong** have become symbols of courage, inspiring many subsequent generations to continue fighting for sovereignty.",
+    },
+  
   ],
 
   // ==================== MONTH 2: GOLDEN DYNASTIES ====================
