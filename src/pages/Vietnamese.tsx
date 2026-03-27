@@ -163,7 +163,7 @@ const Vietnamese = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="absolute -left-16 bottom-4 w-[120px] h-auto z-10 hidden lg:block drop-shadow-lg"
+              className="absolute -left-10 bottom-4 w-[110px] h-auto z-10 hidden lg:block drop-shadow-lg"
               style={{ animation: "float 3s ease-in-out infinite" }}
             />
             {/* Folklore Library Card */}
