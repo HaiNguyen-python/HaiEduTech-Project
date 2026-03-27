@@ -78,19 +78,22 @@ const NationalAnthem = () => {
     (line) => currentTime >= line.start && currentTime < line.end
   );
 
-  // Simulate play/pause with timer for karaoke highlighting
+  // Karaoke highlighting timer
   const handlePlay = useCallback(() => {
+    // Clear any existing timer first
+    if (timerRef.current) clearInterval(timerRef.current);
     setIsPlaying(true);
-    timerRef.current = setInterval(() => {
+    const interval = setInterval(() => {
       setCurrentTime((prev) => {
         if (prev >= 50) {
-          clearInterval(timerRef.current!);
+          clearInterval(interval);
           setIsPlaying(false);
           return 0;
         }
         return prev + 0.5;
       });
     }, 500);
+    timerRef.current = interval;
   }, []);
 
   const handlePause = useCallback(() => {
