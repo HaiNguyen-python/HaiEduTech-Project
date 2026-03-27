@@ -137,16 +137,16 @@ const Vietnamese = () => {
         {/* Hero with illustration banner */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* Banner with overlaid title and tabs */}
-        <section className="w-full mb-6">
+        <section className="w-full mb-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
             className="relative w-full max-w-[1600px] mx-auto rounded-3xl overflow-hidden shadow-xl"
           >
-            <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-auto object-cover" />
+            <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-[180px] sm:h-[220px] md:h-[280px] lg:h-[340px] object-cover object-bottom" />
             {/* Text overlay on cloud area */}
-            <div className="absolute inset-0 flex flex-col items-center justify-start pt-[4%] md:pt-[3%] pointer-events-none">
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ const Vietnamese = () => {
               </motion.div>
             </div>
             {/* Tabs overlay at bottom of banner */}
-            <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-10">
+            <div className="absolute -bottom-5 md:-bottom-6 left-1/2 -translate-x-1/2 z-10">
               <TabsList className="grid grid-cols-4 bg-white/80 backdrop-blur-sm shadow-lg rounded-xl">
                 <TabsTrigger value="language" className="flex items-center gap-1.5 text-xs sm:text-sm">
                   <BookOpen className="w-4 h-4" />
