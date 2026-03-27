@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useUserRole } from "./useUserRole";
 
 /**
@@ -5,7 +6,15 @@ import { useUserRole } from "./useUserRole";
  * Currently: all content is unlocked for everyone.
  */
 export const useCourseAccess = (_courseId: string) => {
-  const { user, isTeacher, loading: roleLoading } = useUserRole();
+  const { user, isTeacher, isAdmin, loading: roleLoading } = useUserRole();
+  const [hasAccess] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  return { hasAccess: true, loading: roleLoading, user, isTeacher };
+  useEffect(() => {
+    if (!roleLoading) {
+      setLoading(false);
+    }
+  }, [roleLoading]);
+
+  return { hasAccess, loading, user, isTeacher };
 };
