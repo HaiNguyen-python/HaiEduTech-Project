@@ -13,17 +13,17 @@ import flagLandmark from "@/assets/vietnam-flag-landmark.jpg";
 
 // Lyrics data with timestamps (approximate seconds for karaoke highlighting)
 const lyricsLines = [
-  { text: "Đoàn quân Việt Nam đi", start: 0, end: 4 },
-  { text: "Chung lòng cứu quốc", start: 4, end: 7 },
-  { text: "Bước chân dồn vang trên đường gập ghềnh xa", start: 7, end: 12 },
-  { text: "Cờ in máu chiến thắng mang hồn nước", start: 12, end: 17 },
-  { text: "Súng ngoài xa chen khúc quân hành ca", start: 17, end: 22 },
-  { text: "Đường vinh quang xây xác quân thù", start: 22, end: 27 },
-  { text: "Thắng gian lao cùng nhau lập chiến khu", start: 27, end: 32 },
-  { text: "Vì nhân dân chiến đấu không ngừng", start: 32, end: 37 },
-  { text: "Tiến mau ra sa trường", start: 37, end: 40 },
-  { text: "Tiến lên! Cùng tiến lên!", start: 40, end: 44 },
-  { text: "Nước non Việt Nam ta vững bền.", start: 44, end: 50 },
+  { text: "Đoàn quân Việt Nam đi", start: 0, end: 4, icon: "⚔️" },
+  { text: "Chung lòng cứu quốc", start: 4, end: 7, icon: "🛡️" },
+  { text: "Bước chân dồn vang trên đường gập ghềnh xa", start: 7, end: 12, icon: "🥾" },
+  { text: "Cờ in máu chiến thắng mang hồn nước", start: 12, end: 17, icon: "🚩" },
+  { text: "Súng ngoài xa chen khúc quân hành ca", start: 17, end: 22, icon: "🎵" },
+  { text: "Đường vinh quang xây xác quân thù", start: 22, end: 27, icon: "🏆" },
+  { text: "Thắng gian lao cùng nhau lập chiến khu", start: 27, end: 32, icon: "⛰️" },
+  { text: "Vì nhân dân chiến đấu không ngừng", start: 32, end: 37, icon: "✊" },
+  { text: "Tiến mau ra sa trường", start: 37, end: 40, icon: "🔥" },
+  { text: "Tiến lên! Cùng tiến lên!", start: 40, end: 44, icon: "🎺" },
+  { text: "Nước non Việt Nam ta vững bền.", start: 44, end: 50, icon: "⭐" },
 ];
 
 // Key vocabulary from the anthem
@@ -277,12 +277,12 @@ const NationalAnthem = () => {
             </Card>
 
             {/* Context box */}
-            <Card className="p-5 border-amber-200 bg-amber-50/50">
-              <div className="flex items-start gap-3">
-                <Info className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+            <Card className="p-6 border-amber-200 bg-amber-50/50">
+              <div className="flex items-start gap-4">
+                <Info className="w-6 h-6 text-amber-600 mt-0.5 shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Bối cảnh lịch sử</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <h3 className="font-bold text-foreground text-lg mb-2">📜 Bối cảnh lịch sử</h3>
+                  <p className="text-base text-foreground/90 leading-relaxed">
                     "Tiến Quân Ca" được nhạc sĩ <strong>Văn Cao</strong> sáng tác vào năm <strong>1944</strong>,
                     trong thời kỳ kháng chiến chống Pháp. Bài hát lần đầu được công bố trên báo
                     Độc Lập và sau đó được chọn làm Quốc ca của nước Việt Nam Dân chủ Cộng hòa
@@ -327,7 +327,7 @@ const NationalAnthem = () => {
                           lineHeight: 1.6,
                         }}
                       >
-                        {line.text}
+                        <span className="mr-1.5">{line.icon}</span>{line.text}
                       </motion.p>
                     );
                   })}
