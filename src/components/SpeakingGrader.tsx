@@ -19,6 +19,7 @@ interface SpeakingResult {
   vocabularyUpgrades?: VocabUpgrade[];
   pronunciationFocus?: PronFocus[];
   highlightedErrors?: HighlightedError[];
+  upgradedAnswer?: string;
 }
 
 // Web Speech API type declarations
@@ -525,7 +526,7 @@ const SpeakingGrader = () => {
               {result.transcript && (
                 <div className="bg-secondary rounded-2xl p-6">
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-base font-bold text-foreground">
+                  <h4 className="text-lg font-bold text-foreground">
                       {t("Phiên âm của bạn", "Your Transcription")}
                     </h4>
                     {audioUrl && (
@@ -561,18 +562,35 @@ const SpeakingGrader = () => {
                 </div>
               )}
 
+              {/* Upgraded Answer - based on student's actual response */}
+              {result.upgradedAnswer && (
+                <div className="bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-200/40 rounded-2xl p-6">
+                  <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-emerald-600" />
+                    {t("Bài nói của bạn – Phiên bản Band 7.5+", "Your Answer – Band 7.5+ Version")}
+                  </h4>
+                  <p className="text-base text-foreground leading-8">
+                    {result.upgradedAnswer.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+                      part.startsWith("**") && part.endsWith("**")
+                        ? <strong key={i} className="text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 px-1 rounded font-bold">{part.slice(2, -2)}</strong>
+                        : <span key={i}>{part}</span>
+                    )}
+                  </p>
+                </div>
+              )}
+
               {/* Criteria */}
               <div className="space-y-4">
                 {result.criteria.map((c) => (
                   <div key={c.label} className="bg-secondary rounded-2xl p-5">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-base font-semibold text-foreground">{c.label}</span>
-                      <span className={`text-xl font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
+                      <span className="text-lg font-semibold text-foreground">{c.label}</span>
+                      <span className={`text-2xl font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
                     </div>
                     <div className="w-full h-3 bg-border rounded-full mb-3">
                       <motion.div className="h-full bg-primary rounded-full" initial={{ width: 0 }} animate={{ width: `${(c.score / 9) * 100}%` }} transition={{ duration: 0.8 }} />
                     </div>
-                    <p className="text-sm text-foreground leading-relaxed">{c.feedback}</p>
+                    <p className="text-base text-foreground leading-relaxed">{c.feedback}</p>
                   </div>
                 ))}
               </div>

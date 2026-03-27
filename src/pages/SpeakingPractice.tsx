@@ -36,6 +36,7 @@ interface SpeakingResult {
   vocabularyUpgrades?: VocabUpgrade[];
   pronunciationFocus?: PronFocus[];
   highlightedErrors?: HighlightedError[];
+  upgradedAnswer?: string;
 }
 
 // Web Speech API type declarations
