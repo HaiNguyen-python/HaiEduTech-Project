@@ -104,10 +104,14 @@ const SpeakingPractice = () => {
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [showModelAnswer, setShowModelAnswer] = useState(false);
   const [showQuestionList, setShowQuestionList] = useState(true);
+  // Live transcription state
+  const [liveTranscript, setLiveTranscript] = useState("");
+  const [interimTranscript, setInterimTranscript] = useState("");
 
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const recognitionRef = useRef<ISpeechRecognition | null>(null);
 
   // Get questions for current part
   const allQuestions = useMemo(() => {
