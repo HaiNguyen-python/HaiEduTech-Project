@@ -144,7 +144,7 @@ const Vietnamese = () => {
             transition={{ duration: 0.6 }}
             className="relative w-full max-w-[1600px] mx-auto rounded-3xl overflow-hidden shadow-xl"
           >
-            <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-[280px] md:h-[400px] lg:h-[480px] object-cover object-bottom" />
+            <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-auto object-cover" />
             {/* Text overlay on cloud area */}
             <div className="absolute inset-0 flex flex-col items-center justify-start pt-[4%] md:pt-[3%] pointer-events-none">
               <motion.div
