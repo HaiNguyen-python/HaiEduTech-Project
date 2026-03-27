@@ -359,6 +359,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
 
   "hist-2-1": [
     {
+      title: "🏔️ Bối cảnh - Từ Hoa Lư đến Thăng Long",
+      titleEn: "🏔️ Context - From Hoa Lư to Thăng Long",
+      text: "Trước khi **Lý Công Uẩn** dời đô, kinh đô **Hoa Lư** (*Ninh Bình*) đã hoàn thành sứ mệnh lịch sử sau triều đại **Đinh** và **Tiền Lê**. Tuy nhiên, kinh thành này với địa thế hiểm trở, chật hẹp, không còn phù hợp để phát triển một quốc gia vững mạnh, mở rộng giao thương. Vị vua khai quốc của nhà **Lý** với tầm nhìn xa trông rộng, nhận thấy sự cấp thiết phải tìm một vị trí đắc địa hơn, nơi hội tụ linh khí đất trời, thuận lợi cho sự phồn vinh của muôn dân. Nỗi trăn trở về một kinh đô xứng tầm đã thôi thúc ông đưa ra quyết định lịch sử: rời đô về **Đại La**.",
+      textEn: "Before **Lý Công Uẩn** moved the capital, **Hoa Lư** (*Ninh Bình*) had fulfilled its historical mission after the **Đinh** and **Early Lê** dynasties. However, with its rugged, narrow terrain, this capital was no longer suitable for developing a strong nation or expanding trade. The founding emperor of the **Lý** dynasty, with his far-sighted vision, recognized the urgent need for a more auspicious location, a place where the spiritual energy of heaven and earth converged, favorable for the prosperity of the people. The concern for a worthy capital spurred him to make the historic decision: to move the capital to **Đại La**.",
+    },
+
+    {
       title: "🐉 Chiếu dời đô",
       titleEn: "🐉 The Edict to Move the Capital",
       text: "**Năm 1009**, **Lý Công Uẩn** – một vị tướng tài năng xuất thân từ chùa – được triều thần tôn lên ngôi, lập ra nhà Lý. Một năm sau, ông ban **Chiếu dời đô** – bài văn nổi tiếng nhất trong lịch sử chính trị Việt Nam – quyết định rời kinh đô từ Hoa Lư (Ninh Bình) ra thành Đại La.",
@@ -371,9 +378,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Truyền thuyết kể rằng khi thuyền rồng cập bến Đại La, bỗng **rồng vàng** hiện lên bay lượn trên trời cao – điềm lành vĩ đại! Vua liền đổi tên thành **Thăng Long** – *'Rồng bay lên'*. Nhà Lý trị vì **216 năm** (1009-1225), để lại di sản huy hoàng: **Văn Miếu** (1070) thờ Khổng Tử, **Quốc Tử Giám** (1076) – trường đại học đầu tiên của Việt Nam. Thăng Long từ đó trở thành trung tâm nghìn năm văn hiến – chính là **Hà Nội** ngày nay.",
       textEn: "Legend says that when the dragon boat arrived, a **golden dragon** appeared soaring across the sky – a magnificent omen! The king renamed the city **Thang Long** – *'Rising Dragon.'* The Ly Dynasty ruled for **216 years** (1009-1225), leaving magnificent legacies: the **Temple of Literature** (1070) and the **Imperial Academy** (1076) – Vietnam's first university. Thang Long became the millennial capital – today's **Hanoi**.",
     },
+    {
+      title: "🏛️ Di sản - Nghìn năm văn hiến",
+      titleEn: "🏛️ Legacy - A Thousand Years of Civilization",
+      text: "**Thăng Long** không chỉ là kinh đô mà còn là trái tim của nền văn minh Đại Việt suốt *hơn 1000 năm*. Từ đây, những công trình kiến trúc vĩ đại như **Văn Miếu – Quốc Tử Giám**, trường đại học đầu tiên của Việt Nam, được xây dựng, khẳng định tầm quan trọng của giáo dục. Ngày nay, **Hà Nội** vẫn giữ trọn vẹn hồn cốt của **Thăng Long**, là minh chứng sống động cho lịch sử vàng son, nơi lưu giữ bao giá trị văn hóa, tinh thần của dân tộc Việt. Mỗi con phố, dải đất đều thấm đẫm câu chuyện nghìn năm văn hiến không ngừng được bồi đắp.",
+      textEn: "**Thăng Long** was not merely a capital but the very heart of Đại Việt civilization for *over 1000 years*. From here, grand architectural works like **Văn Miếu – Quốc Tử Giám**, Vietnam's first university, were built, affirming the importance of education. Today, **Hà Nội** fully retains the soul of **Thăng Long**, serving as a vivid testament to its golden history, preserving countless cultural and spiritual values of the Vietnamese people. Every street and piece of land is imbued with stories of a thousand years of continuously nurtured civilization.",
+    },
+  
   ],
 
   "hist-2-2": [
+    {
+      title: "🏔️ Bối cảnh - Mối đe dọa từ phương Bắc",
+      titleEn: "🏔️ Context - The Threat from the North",
+      text: "Dưới thời nhà **Lý**, đế quốc **Tống** phương Bắc luôn rình rập, gây hấn, muốn nuốt chửng Đại Việt. Các cuộc quấy nhiễu biên giới, động binh, cùng với những chính sách hà khắc đối với đất đai, tài nguyên ở vùng biên đã tạo nên một áp lực khủng khiếp. Tình hình căng thẳng đến mức **Lý Thường Kiệt** và triều đình nhận thức được rằng một cuộc xâm lược quy mô lớn chỉ còn là vấn đề thời gian. Chủ động ra tay để ngăn chặn họa xâm lăng đang cận kề là giải pháp duy nhất để bảo vệ chủ quyền và sự bình yên cho bờ cõi.",
+      textEn: "Under the **Lý** dynasty, the northern **Song** empire constantly lurked and provoked, aiming to swallow Đại Việt. Border skirmishes, troop movements, and harsh policies regarding land and resources in border regions created immense pressure. The situation was so tense that **Lý Thường Kiệt** and the court realized a large-scale invasion was only a matter of time. Taking proactive action to prevent the imminent invasion was the only solution to protect sovereignty and peace for the nation.",
+    },
+
     {
       title: "⚔️ Tiên phát chế nhân",
       titleEn: "⚔️ The Preemptive Strike",
@@ -387,6 +408,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "**Năm 1077**, **30 vạn quân Tống** tràn sang trả thù. Lý Thường Kiệt xây phòng tuyến trên sông **Như Nguyệt**. Trong đêm khuya căng thẳng, từ đền thờ bên sông bỗng vang lên bài thơ bất hủ: *'Nam quốc sơn hà Nam đế cư, Tiệt nhiên định phận tại Thiên thư'* – **Tuyên ngôn Độc lập đầu tiên** của Việt Nam! Quân Tống nghe xong hồn bay phách lạc. Lý Thường Kiệt phản công, đại thắng, rồi **chủ động giảng hòa** – thể hiện tầm nhìn ngoại giao khôn khéo.",
       textEn: "In **1077**, **300,000 Song troops** invaded in retaliation. Ly Thuong Kiet fortified the **Nhu Nguyet River**. In a tense midnight, from a riverside temple rang out the immortal poem: *'Over mountains and rivers of the South, the Southern Emperor reigns'* – Vietnam's **first Declaration of Independence**! The Song troops panicked. Ly Thuong Kiet counterattacked, won decisively, then **proactively negotiated peace** – demonstrating brilliant diplomatic vision.",
     },
+    {
+      title: "🎯 Di sản - Bài học ngoại giao",
+      titleEn: "🎯 Legacy - A Diplomatic Lesson",
+      text: "Chiến công của **Lý Thường Kiệt** không chỉ là thắng lợi quân sự mà còn là một bài học ngoại giao sâu sắc, thể hiện trí tuệ linh hoạt của người Việt. Phương châm *'tiên phát chế nhân'* – chủ động tấn công để phòng ngự – đã được kết hợp nhuần nhuyễn với chính sách *'khoan thư sức dân, hòa hiếu với lân bang'*. Thay vì truy cùng diệt tận, ông đã chủ động gửi thư giảng hòa, mở ra con đường đàm phán, giữ gìn mối quan hệ hòa bình lâu dài. Đây là nền tảng cho nhiều sách lược đối ngoại sau này, khẳng định Việt Nam luôn ưa chuộng hòa bình nhưng sẵn sàng chiến đấu để bảo vệ độc lập.",
+      textEn: "**Lý Thường Kiệt**'s victory was not just a military triumph but also a profound diplomatic lesson, demonstrating the flexible wisdom of the Vietnamese people. The strategy of *'tiên phát chế nhân'* – preemptive attack for defense – was subtly combined with the policy of *'recovering the people's strength and maintaining harmonious relations with neighbors'*. Instead of total annihilation, he proactively sent peace proposals, opening the path for negotiations and preserving long-term peaceful relations. This laid the foundation for many later foreign policy strategies, affirming that Vietnam always prefers peace but is ready to fight to protect its independence.",
+    },
+  
   ],
 
   "hist-2-3": [
@@ -409,9 +437,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Lần thứ ba (*1288*), Trần Hưng Đạo lặp lại chiến thuật **cọc nhọn trên sông Bạch Đằng** – giống Ngô Quyền 350 năm trước. Hạm đội Mông Cổ bị tiêu diệt hoàn toàn, tướng **Ô Mã Nhi** bị bắt sống. Chiến thắng vang dội khiến Nguyên Mông **không bao giờ dám quay lại** – một kỳ tích mà cả thế giới phải thán phục.",
       textEn: "The third time (*1288*), Tran Hung Dao repeated the **iron-tipped stakes on the Bach Dang River** – mirroring Ngo Quyen 350 years earlier. The Mongol fleet was completely destroyed, general **Omar** captured alive. This resounding victory ensured the Mongols **never dared return** – a feat the entire world admires.",
     },
+    {
+      title: "🏛️ Di sản - Tinh thần Đông A",
+      titleEn: "🏛️ Legacy - The Đông A Spirit",
+      text: "Tinh thần **Đông A** – biểu tượng của nhà **Trần** – đã trở thành nguồn sức mạnh vô tận giúp Đại Việt ba lần đánh bại đế quốc Nguyên Mông hùng mạnh. Đó là tinh thần đoàn kết từ mọi tầng lớp nhân dân, từ **Hội nghị Diên Hồng** *năm 1284* với câu hỏi 'nên đánh hay nên hòa' vang vọng, đến kế sách 'vườn không nhà trống', tất cả tạo nên thế trận lòng dân vững chắc. Tinh thần này đã biến mỗi người dân thành một chiến binh, mỗi xóm làng thành một pháo đài, khắc sâu vào tâm trí người Việt bài học về sức mạnh của đại đoàn kết dân tộc trong mọi hoàn cảnh khó khăn.",
+      textEn: "The **Đông A** spirit – the symbol of the **Trần** dynasty – became an endless source of strength that helped Đại Việt defeat the mighty Mongol Yuan empire three times. It was the spirit of unity from all strata of society, from the resounding question of 'fight or make peace' at the **Diên Hồng Conference** in *1284*, to the 'empty-field, empty-house' strategy, all creating a solid defense rooted in the people's hearts. This spirit transformed every citizen into a warrior, every village into a fortress, deeply imprinting on the Vietnamese mind the lesson of the power of national unity in all challenging circumstances.",
+    },
+  
   ],
 
   "hist-2-4": [
+    {
+      title: "💔 Bối cảnh - Đêm dài Minh thuộc",
+      titleEn: "💔 Context - The Long Night of Ming Domination",
+      text: "Sau sự sụp đổ của nhà **Hồ**, Đại Việt chìm trong *hai thập kỷ* đen tối dưới ách đô hộ của nhà **Minh** (*1407-1427*). Đây không chỉ là nỗi đau mất nước mà còn là sự tàn phá về văn hóa, tinh thần. Giặc **Minh** thực hiện chính sách 'diệt chủng văn hóa', đốt sách, cướp đoạt cổ vật, cấm đoán tiếng Việt, ép buộc phong tục tập quán Trung Quốc. Nhân dân bị bóc lột cùng cực, sống trong cảnh lầm than, oán hận chồng chất. Nỗi đau ấy trở thành ngọn lửa âm ỉ, thôi thúc những người con yêu nước đứng lên, mà tiêu biểu là khởi nghĩa **Lam Sơn** do **Lê Lợi** lãnh đạo.",
+      textEn: "After the fall of the **Hồ** dynasty, Đại Việt plunged into *two decades* of darkness under **Ming** domination (*1407-1427*). This was not just the pain of losing the country, but also cultural and spiritual devastation. The **Ming** invaders carried out a policy of 'cultural genocide', burning books, looting artifacts, banning the Vietnamese language, and imposing Chinese customs. The people were exploited to the extreme, living in extreme suffering, with accumulated resentment. This pain became a smoldering fire, urging patriotic people to rise up, most notably the **Lam Sơn** uprising led by **Lê Lợi**.",
+    },
+
     {
       title: "🔥 10 năm Lam Sơn",
       titleEn: "🔥 Ten Years at Lam Son",
@@ -425,9 +467,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Mưu sĩ **Nguyễn Trãi** – thiên tài chính trị và quân sự – giúp Lê Lợi hoạch định chiến lược **'tâm công'** (đánh vào lòng người). Sau **10 năm** chiến đấu, nghĩa quân đại thắng trận **Chi Lăng – Xương Giang** (*1427*), tiêu diệt 10 vạn viện binh Minh. Lê Lợi lên ngôi, lập nhà Hậu Lê. Nguyễn Trãi viết **'Bình Ngô Đại Cáo'** – bản tuyên ngôn hùng hồn: *'Như nước Đại Việt ta từ trước, vốn xưng nền văn hiến đã lâu…'* – **Tuyên ngôn Độc lập thứ hai** của Việt Nam.",
       textEn: "Strategist **Nguyen Trai** – a political and military genius – devised the **'tam cong'** strategy (winning hearts and minds). After **10 years**, rebels won the decisive **Chi Lang – Xuong Giang** battles (*1427*). Le Loi founded the Later Le Dynasty. Nguyen Trai wrote the **'Great Proclamation'**: *'Our Dai Viet has long been a land of ancient civilization…'* – Vietnam's **second Declaration of Independence**.",
     },
+    {
+      title: "🏛️ Di sản - Nhà Hậu Lê và Nguyễn Trãi",
+      titleEn: "🏛️ Legacy - The Later Lê Dynasty and Nguyễn Trãi",
+      text: "Thắng lợi của khởi nghĩa giải phóng mở ra triều đại **Hậu Lê**, một trong những kỷ nguyên rực rỡ nhất trong lịch sử Việt Nam. Bên cạnh **Lê Lợi**, không thể không nhắc đến công lao to lớn của **Nguyễn Trãi**. Là một bậc đại anh hùng dân tộc, ông đã đóng góp không chỉ về mặt quân sự mà còn là người đề ra chiến lược ngoại giao, văn học vang dội. Tuy nhiên, cuộc đời **Nguyễn Trãi** khép lại bi thảm trong vụ án **Lệ Chi Viên** (*năm 1442*), để lại một vết thương lòng sâu sắc cho hậu thế, mãi mãi là uẩn khúc trong lịch sử, nhưng tài đức của ông vẫn sáng mãi.",
+      textEn: "The victory of the liberation uprising inaugurated the **Later Lê** dynasty, one of the most brilliant eras in Vietnamese history. Besides **Lê Lợi**, the immense contributions of **Nguyễn Trãi** cannot be overlooked. As a great national hero, he contributed not only militarily but also devised brilliant diplomatic and literary strategies. However, **Nguyễn Trãi**'s life ended tragically in the **Lệ Chi Viên** incident (*1442*), leaving a deep wound for posterity, forever a historical enigma, yet his talent and virtue shine eternally.",
+    },
+  
   ],
 
   "hist-2-5": [
+    {
+      title: "👑 Bối cảnh - Vị vua anh minh",
+      titleEn: "👑 Context - The Enlightened Monarch",
+      text: "Lên ngôi sau những sóng gió của triều đình, **Lê Thánh Tông** (*trị vì 1460-1497*) đã tiếp nhận một nền tảng vững chắc từ các bậc tiền bối nhưng cũng đứng trước nhiều thách thức. Ông là một vị vua thông minh, uyên bác, thấu hiểu lòng dân và ôm ấp hoài bão xây dựng một quốc gia cường thịnh. Với tầm nhìn kiệt xuất, **Lê Thánh Tông** đã quyết tâm củng cố quyền lực tập trung, chấn chỉnh bộ máy hành chính, và thúc đẩy các cải cách toàn diện trên mọi lĩnh vực, từ pháp luật, giáo dục đến quân sự, tạo tiền đề cho một thời đại vàng son.",
+      textEn: "Ascending the throne after court turbulence, **Lê Thánh Tông** (*reigned 1460-1497*) inherited a strong foundation from his predecessors but also faced many challenges. He was an intelligent, learned monarch, understanding the people's will and harboring ambitions to build a prosperous nation. With outstanding vision, **Lê Thánh Tông** was determined to consolidate centralized power, rectify the administrative apparatus, and promote comprehensive reforms in all areas, from law and education to military, setting the stage for a golden age.",
+    },
+
     {
       title: "⚖️ Bộ luật Hồng Đức",
       titleEn: "⚖️ The Hong Duc Legal Code",
@@ -441,9 +497,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Lê Thánh Tông còn là **nhà thơ tài hoa**, sáng lập hội thơ **Tao Đàn** với 28 thành viên. Dưới triều ông, Đại Việt **mở rộng lãnh thổ** về phía nam, kinh tế phồn thịnh, văn hóa rực rỡ như ánh mặt trời giữa trưa. Đây được xem là **thời kỳ hoàng kim nhất** trong lịch sử phong kiến Việt Nam – khi công lý, văn hóa và thịnh vượng hòa quyện.",
       textEn: "Le Thanh Tong was also a **gifted poet**, founding the **Tao Dan** poetry society with 28 members. Under his reign, Dai Viet **expanded southward**, the economy prospered, and culture flourished like the noonday sun. This is regarded as the **absolute golden age** of feudal Vietnamese history – when justice, culture, and prosperity harmonized.",
     },
+    {
+      title: "⚖️ Di sản - Ảnh hưởng lâu dài",
+      titleEn: "⚖️ Legacy - Lasting Impact",
+      text: "**Bộ luật Hồng Đức** không chỉ là một đỉnh cao pháp quyền mà còn là biểu tượng của tinh thần thượng tôn pháp luật thời **Lê Thánh Tông**. Những điều khoản tiến bộ về quyền phụ nữ, bảo vệ tài sản, và sự minh bạch trong xét xử đã vượt xa nhiều hệ thống pháp luật đương thời. Ảnh hưởng của nó kéo dài đến các triều đại sau, đặt nền móng cho nền pháp chế Việt Nam. Cùng với mở rộng lãnh thổ về phía Nam, các cải cách của ông đã định hình một Đại Việt hùng cường, để lại dấu ấn sâu đậm trong lịch sử dân tộc và kiến tạo một di sản pháp lý trường tồn.",
+      textEn: "The **Hồng Đức Code** was not only a legal pinnacle but also a symbol of the rule of law during **Lê Thánh Tông**'s era. Its progressive provisions on women's rights, property protection, and judicial transparency far surpassed many contemporary legal systems. Its influence extended to later dynasties, laying the foundation for Vietnamese jurisprudence. Along with territorial expansion southward, his reforms shaped a powerful Đại Việt, leaving a deep mark on national history and creating an enduring legal legacy.",
+    },
+  
   ],
 
   "hist-2-6": [
+    {
+      title: "👑 Bối cảnh - Con người Trần Quốc Tuấn",
+      titleEn: "👑 Context - The Man Trần Quốc Tuấn",
+      text: "**Trần Quốc Tuấn**, hay **Hưng Đạo Đại Vương**, sinh ra trong hoàng tộc, là cháu nội của **Trần Thái Tổ**. Ông từng đối mặt với mối thù gia tộc sâu sắc với Thượng hoàng **Trần Thánh Tông** và vua **Trần Nhân Tông**. Thế nhưng, vượt lên trên mọi hiềm khích cá nhân, ông đã đặt lợi ích của quốc gia lên trên hết, sẵn sàng cống hiến tài năng và trí lực cho sự nghiệp giữ nước. Tình yêu nước và ý chí phụng sự dân tộc đã khiến ông trở thành một tấm gương sáng ngời về lòng đại nghĩa, sự hy sinh vì đại cục, được muôn đời ngưỡng vọng.",
+      textEn: "**Trần Quốc Tuấn**, also known as **Prince Hưng Đạo**, was born into the royal family, a grandson of **Trần Thái Tổ**. He once faced a deep family feud with Emperor Emeritus **Trần Thánh Tông** and King **Trần Nhân Tông**. However, rising above all personal grudges, he prioritized the national interest, ready to dedicate his talent and intellect to the cause of defending the country. His patriotism and will to serve the nation made him a shining example of great righteousness, self-sacrifice for the greater good, revered for generations.",
+    },
+
     {
       title: "📜 Hịch tướng sĩ",
       titleEn: "📜 The Proclamation to Officers",
@@ -457,9 +527,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Chiến lược của ông vô cùng **linh hoạt**: khi giặc mạnh thì rút lui bảo toàn, khi giặc kiệt sức thì phản công dữ dội. Ông tiên phong áp dụng **chiến tranh nhân dân** – toàn dân đánh giặc. Trước khi qua đời, khi vua hỏi kế giữ nước, ông để lại lời dặn bất hủ: *'Khoan thư sức dân để làm kế sâu rễ bền gốc – đó là thượng sách giữ nước.'* Lời dặn ấy vẫn còn nguyên giá trị cho đến ngày nay.",
       textEn: "His strategy was **remarkably flexible**: retreating when the enemy was strong, counterattacking when they weakened. He pioneered **people's warfare**. Before death, when the king asked for national defense advice, he left immortal words: *'Be lenient with the people to build deep roots and strong foundations – that is the supreme strategy.'* These words remain relevant today.",
     },
+    {
+      title: "🌟 Di sản - Vị thánh trong lòng dân",
+      titleEn: "🌟 Legacy - A Saint in the People's Hearts",
+      text: "**Trần Hưng Đạo** không chỉ là một vị tướng lỗi lạc mà còn được nhân dân suy tôn là Đức Thánh Trần, một vị thánh hộ quốc an dân. Hàng trăm đền thờ, miếu mạo trên khắp đất nước, đặc biệt là **Kiếp Bạc** (*Hải Dương*), là minh chứng sống động cho lòng thành kính của người Việt. Tên tuổi và công lao của ông đã vượt ra khỏi biên giới, được thế giới công nhận là một trong 10 danh tướng vĩ đại nhất mọi thời đại. Mỗi khi đất nước lâm nguy, hình ảnh đức **Thánh Trần** lại hiện lên như một nguồn động lực, là niềm tin bất diệt trong tâm hồn dân tộc.",
+      textEn: "**Trần Hưng Đạo** was not only a brilliant general but also venerated by the people as Saint Trần, a guardian saint of the nation. Hundreds of temples and shrines across the country, especially **Kiếp Bạc** (*Hải Dương*), are vivid testaments to the reverence of the Vietnamese people. His name and contributions have transcended borders, recognized worldwide as one of the 10 greatest generals of all time. Whenever the nation faces peril, the image of Saint Trần resurfaces as a source of motivation, an eternal faith in the national soul.",
+    },
+  
   ],
 
   "hist-2-7": [
+    {
+      title: "💔 Bối cảnh - Nhà Trần suy vong",
+      titleEn: "💔 Context - The Decline of the Trần Dynasty",
+      text: "Cuối thế kỷ *XIV*, nhà **Trần** chìm sâu trong khủng hoảng. Vua yếu, quan tham, quyền thần thao túng triều chính, khiến lòng dân ly tán, quốc khố cạn kiệt. Những cuộc khởi nghĩa nông dân nổ ra khắp nơi, báo hiệu sự suy yếu không thể cứu vãn. Trong bối cảnh ấy, **Hồ Quý Ly**, với tài năng và tham vọng lớn, đã từng bước thâu tóm quyền lực. Ông nhận thấy sự cần thiết phải cải cách triệt để để vực dậy đất nước, dù điều đó có nghĩa là phải đoạn tuyệt với một triều đại đã suy tàn, mở đường cho những thay đổi đầy kịch tính.",
+      textEn: "By the late *14th century*, the **Trần** dynasty was deeply mired in crisis. Weak kings, corrupt officials, and powerful regents manipulated the court, leading to widespread popular discontent and a depleted national treasury. Peasant uprisings erupted everywhere, signaling an irreversible decline. In this context, **Hồ Quý Ly**, with great talent and ambition, gradually seized power. He recognized the urgent need for comprehensive reforms to revive the nation, even if it meant breaking with a decaying dynasty, paving the way for dramatic changes.",
+    },
+
     {
       title: "💰 Nhà cải cách đi trước thời đại",
       titleEn: "💰 A Reformer Ahead of His Time",
@@ -473,9 +557,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Nhiều cải cách **quá vội vàng** khiến lòng dân chưa thuận. Nhà Minh lấy cớ *'phù Trần diệt Hồ'* kéo quân sang. Hồ Quý Ly thua trận, bị bắt đưa về Trung Quốc (*1407*). Lịch sử đánh giá ông vừa là **kẻ cướp ngôi** vừa là **nhà cải cách tiên phong** – một bài học muôn đời: ý tưởng hay chưa đủ, còn cần **lòng dân** ủng hộ.",
       textEn: "Many reforms were **too hasty**, failing to win popular support. The Ming used the pretext of *'supporting the Tran'* to invade. Ho Quy Ly was captured (*1407*). History judges him as both **usurper** and **visionary reformer** – an eternal lesson: good ideas aren't enough, you also need **the people's hearts**.",
     },
+    {
+      title: "🏛️ Di sản - Thành nhà Hồ UNESCO",
+      titleEn: "🏛️ Legacy - Hồ Citadel UNESCO",
+      text: "Bất chấp những tranh cãi về vai trò và số phận của ông, **Hồ Quý Ly** đã để lại một di sản kiến trúc độc đáo – **Thành nhà Hồ** ở **Thanh Hóa**. Công trình này, với kỹ thuật xây dựng đá khổng lồ, đã được **UNESCO** công nhận là Di sản Văn hóa Thế giới *năm 2011*, minh chứng cho trình độ và sự sáng tạo đỉnh cao của kiến trúc Việt Nam thời bấy giờ. Ngày nay, các nhà sử học nhìn nhận lại vai trò của ông như một nhà cải cách táo bạo, dù thất bại nhưng đã để lại nhiều bài học quý giá và dấu ấn không thể phủ nhận trong dòng chảy lịch sử dân tộc.",
+      textEn: "Despite controversies surrounding his role and fate, **Hồ Quý Ly** left a unique architectural legacy – the **Hồ Citadel** in **Thanh Hóa**. This structure, built with massive stone techniques, was recognized by **UNESCO** as a World Cultural Heritage site in *2011*, demonstrating the peak of Vietnamese architectural skill and creativity at the time. Today, historians re-evaluate his role as a bold reformer who, despite his failure, left behind valuable lessons and an undeniable mark on the nation's historical trajectory.",
+    },
+  
   ],
 
   "hist-2-8": [
+    {
+      title: "🌱 Bối cảnh - Khát vọng giáo dục",
+      titleEn: "🌱 Context - Aspiration for Education",
+      text: "Ngay từ những ngày đầu dựng nước, các vị vua nhà **Lý** đã sớm nhận ra tầm quan trọng của việc bồi dưỡng nhân tài để xây dựng và quản lý đất nước. Khát vọng phát triển giáo dục không chỉ hướng đến việc đào tạo quan lại mà còn là nâng cao dân trí, hình thành một xã hội văn minh. Việc thành lập **Văn Miếu** (*năm 1070*) và sau đó là **Quốc Tử Giám** (*năm 1076*) chính là minh chứng hùng hồn cho tầm nhìn ấy. Đây là nơi hội tụ tinh hoa tri thức, sản sinh ra những bậc hiền tài, làm rường cột cho quốc gia Đại Việt phồn vinh.",
+      textEn: "From the earliest days of nation-building, the **Lý** dynasty emperors quickly recognized the importance of nurturing talented individuals to build and administer the country. The aspiration for educational development was not just about training officials but also about enlightening the populace and forming a civilized society. The establishment of **Văn Miếu** (*1070*) and later **Quốc Tử Giám** (*1076*) is a powerful testament to this vision. This was a place where intellectual elites gathered, producing brilliant scholars who served as pillars for the prosperous Đại Việt nation.",
+    },
+
     {
       title: "🏛️ Nơi thờ Khổng Tử",
       titleEn: "🏛️ Honoring Confucius",
@@ -489,9 +587,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "**82 tấm bia tiến sĩ** dựng từ *1442 đến 1779*, ghi danh **1.307 vị tiến sĩ** qua 82 kỳ thi. Mỗi tấm bia đặt trên lưng **rùa đá** – tượng trưng cho sự trường tồn của tri thức. **Năm 2010**, UNESCO công nhận 82 bia tiến sĩ là **Di sản Tư liệu Thế giới**. Ngày nay, mỗi mùa thi, hàng ngàn học sinh đến đây sờ đầu rùa đá để **lấy hên** – truyền thống hiếu học nghìn năm vẫn sống mãi.",
       textEn: "**82 doctoral stelae** erected from *1442 to 1779* record **1,307 scholars** from 82 examinations. Each stele stands on a **stone turtle** symbolizing knowledge's permanence. In **2010**, UNESCO recognized them as **Memory of the World**. Today, each exam season, thousands of students rub the turtles' heads for **good luck** – a thousand-year scholarly tradition lives on.",
     },
+    {
+      title: "🐘 Di sản - Biểu tượng giáo dục Việt Nam",
+      titleEn: "🐘 Legacy - Symbol of Vietnamese Education",
+      text: "Ngày nay, **Văn Miếu – Quốc Tử Giám** không chỉ là một di tích lịch sử mà còn là biểu tượng sống động của truyền thống hiếu học, tôn sư trọng đạo của dân tộc Việt Nam. Hàng năm, nơi đây đón hàng triệu lượt du khách và học sinh, sinh viên đến chiêm ngưỡng, tìm hiểu và cầu may mắn trong học tập. Hình ảnh các bia tiến sĩ uy nghi, cùng với kiến trúc cổ kính, đã trở thành dấu ấn đặc trưng của **Hà Nội**, nhắc nhở mỗi thế hệ về giá trị vĩnh cửu của tri thức và sự cống hiến cho đất nước, là ngọn đuốc soi đường cho khát vọng học tập không ngừng.",
+      textEn: "Today, **Văn Miếu – Quốc Tử Giám** is not only a historical relic but also a living symbol of the Vietnamese people's tradition of valuing learning and respecting teachers. Annually, it welcomes millions of tourists and students who come to admire, learn, and seek good fortune in their studies. The majestic steles celebrating doctorate holders, alongside the ancient architecture, have become a distinctive hallmark of **Hà Nội**, reminding every generation of the eternal value of knowledge and dedication to the nation, acting as a guiding light for unceasing educational aspirations.",
+    },
+  
   ],
 
   "hist-2-9": [
+    {
+      title: "💔 Bối cảnh - Nỗi đau chia cắt",
+      titleEn: "💔 Context - The Pain of Division",
+      text: "Hơn *hai thế kỷ* **Trịnh-Nguyễn phân tranh** (*thế kỷ 17 - 18*) là một vết thương sâu sắc trong lịch sử dân tộc. Đất nước bị chia cắt thành **Đàng Ngoài** (do chúa **Trịnh** cai quản) và **Đàng Trong** (chúa **Nguyễn** cai quản), ngăn cách bởi sông **Gianh**. Những cuộc chiến nồi da xáo thịt kéo dài đã gieo rắc bao đau thương, mất mát cho người dân, đình trệ sự phát triển của quốc gia. Các thế lực ngoại bang, đặc biệt là thương nhân và giáo sĩ phương Tây, lợi dụng tình hình chia cắt để thâm nhập, càng làm phức tạp thêm cục diện chính trị và xã hội Đại Việt.",
+      textEn: "Over *two centuries* of **Trịnh-Nguyễn conflict** (*17th - 18th centuries*) was a deep wound in national history. The country was divided into **Đàng Ngoài** (ruled by the **Trịnh** lords) and **Đàng Trong** (ruled by the **Nguyễn** lords), separated by the **Gianh** River. Prolonged internecine wars inflicted immense suffering and loss on the people, hindering national development. Foreign powers, particularly Western merchants and missionaries, exploited the division to penetrate, further complicating Đại Việt's political and social landscape.",
+    },
+
     {
       title: "🗡️ Đất nước chia đôi",
       titleEn: "🗡️ A Nation Divided",
@@ -505,9 +617,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       textEn: "Despite constant war, each region developed uniquely. Dang Trong expanded south, trading with **Japan, Portugal, and the Netherlands**. **Hoi An** became a thriving international port where merchants from across Asia and Europe gathered. The civil war only ended when the **Tay Son** movement swept in, overthrowing both lords and the Le king.",
       imageUrl: hoiAnTrade,
     },
+    {
+      title: "🏛️ Di sản - Hội An ngày nay",
+      titleEn: "🏛️ Legacy - Hội An Today",
+      text: "**Hội An**, ngày nay là Di sản Thế giới được **UNESCO** công nhận, là minh chứng sống động cho một giai đoạn lịch sử đầy biến động nhưng cũng rất huy hoàng. Nơi đây từng là thương cảng quốc tế sầm uất nhất **Đàng Trong**, hội tụ nền văn hóa đa dạng từ Nhật Bản, Trung Quốc và phương Tây. Với những ngôi nhà cổ, phố phường rêu phong và kiến trúc độc đáo, **Hội An** còn là bài học về sự giao thoa văn hóa, vượt qua mọi chia cắt chính trị để trở thành điểm đến hòa bình, nơi quá khứ và hiện tại hòa quyện, kể câu chuyện về sự bền bỉ và sáng tạo của con người.",
+      textEn: "**Hội An**, now a **UNESCO** World Heritage site, is a vivid testament to a tumultuous yet glorious historical period. It was once the busiest international trading port in **Đàng Trong**, where diverse cultures from Japan, China, and the West converged. With its ancient houses, moss-covered streets, and unique architecture, **Hội An** also serves as a lesson in cultural exchange, overcoming political divisions to become a peaceful destination where past and present blend, telling a story of human resilience and creativity.",
+    },
+  
   ],
 
   "hist-2-10": [
+    {
+      title: "🏔️ Bối cảnh - Cuộc kháng chiến chống Minh",
+      titleEn: "🏔️ Context - The Resistance against the Ming",
+      text: "Câu chuyện **Hồ Gươm** gắn liền với khởi nghĩa **Lam Sơn**, diễn ra trong bối cảnh toàn dân đang oằn mình dưới ách đô hộ của nhà **Minh**. Quân **Minh** cai trị hà khắc, bóc lột cạn kiệt tài nguyên, đàn áp văn hóa, khiến lòng dân sục sôi căm hờn. Trong tình cảnh 'ngàn cân treo sợi tóc', khi lực lượng nghĩa quân còn non yếu, **Lê Lợi** cùng tướng sĩ đã phải vượt qua muôn vàn gian khó tại **Lam Sơn** (*Thanh Hóa*). Thanh gươm thần huyền thoại xuất hiện như một lời hiệu triệu, củng cố ý chí chiến đấu, khẳng định ý chí quật cường của dân tộc trong cuộc chiến giành lại độc lập.",
+      textEn: "The **Hồ Gươm** story is closely tied to the **Lam Sơn** uprising, taking place as the entire nation groaned under **Ming** occupation. The **Ming** army ruled harshly, depleting resources, and suppressing culture, igniting intense hatred among the people. In this 'hanging by a thread' situation, with the rebel forces still weak, **Lê Lợi** and his generals had to overcome countless hardships in **Lam Sơn** (*Thanh Hóa*). The legendary magical sword appeared as a rallying cry, strengthening the will to fight and affirming the nation's indomitable spirit in the struggle for independence.",
+    },
+
     {
       title: "⚔️ Thanh gươm Thuận Thiên",
       titleEn: "⚔️ The Sword of Heaven's Will",
@@ -521,6 +647,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Sau khi lên ngôi, Lê Lợi dạo thuyền trên **hồ Lục Thủy** giữa lòng Thăng Long. Bỗng một **con rùa vàng khổng lồ** nổi lên mặt nước: *'Xin bệ hạ trả gươm lại cho Long Vương!'* Thanh gươm bay khỏi tay vua, Rùa Vàng ngậm gươm lặn xuống đáy hồ biến mất. Từ đó, hồ mang tên **Hồ Hoàn Kiếm** (*Hồ trả gươm*). Ngày nay, **Tháp Rùa** cổ kính giữa hồ là **biểu tượng thiêng liêng nhất** của thủ đô Hà Nội.",
       textEn: "After coronation, Le Loi took a boat ride on **Luc Thuy Lake** in Thang Long's heart. Suddenly, a **giant golden turtle** surfaced: *'Your Majesty, please return the sword!'* The sword flew from his hand; the turtle caught it and vanished into the depths. The lake was renamed **Hoan Kiem** (*Returned Sword Lake*). Today, the ancient **Turtle Tower** at its center is **Hanoi's most sacred symbol**.",
     },
+    {
+      title: "🐘 Di sản - Biểu tượng Hà Nội",
+      titleEn: "🐘 Legacy - Symbol of Hà Nội",
+      text: "**Hồ Hoàn Kiếm** và **Tháp Rùa** ngày nay không chỉ là thắng cảnh du lịch mà còn là trái tim, là biểu tượng linh thiêng của thủ đô **Hà Nội**. Truyền thuyết **Trả gươm** đã gieo vào lòng người Việt niềm tin mãnh liệt vào chính nghĩa, vào sự phù hộ của thần linh cho những ai biết đoàn kết, chiến đấu vì độc lập, hòa bình. Hồ Gươm trở thành không gian văn hóa, nơi mỗi con người Hà Nội tìm thấy sự bình yên và tự hào về lịch sử. Hình ảnh rùa vàng và thanh gươm thần mãi mãi là biểu tượng cho khát vọng hòa bình và công lý của dân tộc Việt Nam.",
+      textEn: "**Hoàn Kiếm Lake** and **Turtle Tower** are not merely tourist attractions today, but also the heart and sacred symbol of the capital **Hà Nội**. The legend of **Returning the Sword** has instilled in the Vietnamese people a strong belief in righteousness, and in divine blessings for those who unite and fight for independence and peace. **Hoàn Kiếm Lake** has become a cultural space where every Hà Nội resident finds peace and pride in their history. The image of the golden turtle and the magical sword will forever symbolize the Vietnamese people's aspiration for peace and justice.",
+    },
+  
   ],
 
   // ==================== MONTH 3: MODERN HISTORY ====================
