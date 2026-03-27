@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import HistoryTimeline from "@/components/HistoryTimeline";
 import GameHub from "@/components/games/GameHub";
+import FolkloreCardGrid from "@/components/FolkloreCardGrid";
 import {
   vietnameseLanguageModules,
   historyMonths,
