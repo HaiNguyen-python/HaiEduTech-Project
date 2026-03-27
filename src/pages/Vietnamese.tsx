@@ -312,11 +312,11 @@ const Vietnamese = () => {
                       <div className="bg-muted/50 rounded-lg p-4 mb-3 italic text-foreground whitespace-pre-line leading-relaxed text-lg md:text-xl" style={{ fontFamily: "'Noto Serif', 'Inter', sans-serif" }}>
                         {t(item.content, item.contentEn)}
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2">
+                      <p className="text-base md:text-lg text-muted-foreground mb-3">
                         <strong>{t("Ý nghĩa", "Meaning")}:</strong>{" "}
                         {t(item.meaning, item.meaningEn)}
                       </p>
-                      <div className="text-xs bg-primary/10 text-primary rounded-md px-3 py-2 inline-block">
+                      <div className="text-sm md:text-base bg-primary/10 text-primary rounded-md px-3 py-2 inline-block">
                         📝 {t(item.grammarNote, item.grammarNoteEn)}
                       </div>
                     </motion.div>
