@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   DollarSign, TrendingUp, TrendingDown, Search, Calendar,
-  BookOpen, Users, ArrowUpRight, Download
+  BookOpen, Users, ArrowUpRight, Download, Brain, Target, Lightbulb
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -17,8 +17,9 @@ import {
 } from "@/components/ui/select";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, Legend, PieChart, Pie, Cell
+  Tooltip, Legend, PieChart, Pie, Cell, ComposedChart, Line
 } from "recharts";
+import { motion } from "framer-motion";
 
 // Revenue log row type
 interface RevenueLog {
@@ -77,6 +78,70 @@ const IncomeManagement = () => {
     const prev = revenueByYear[i - 1].amount;
     return { ...item, growth: prev > 0 ? ((item.amount - prev) / prev) * 100 : null };
   });
+
+  // Revenue forecast calculation using average growth rate with linear regression fallback
+  const forecast = useMemo(() => {
+    if (revenueByYear.length < 2) return null;
+
+    // Calculate YoY growth rates
+    const yoyRates: number[] = [];
+    for (let i = 1; i < revenueByYear.length; i++) {
+      const prev = revenueByYear[i - 1].amount;
+      if (prev > 0) {
+        yoyRates.push((revenueByYear[i].amount - prev) / prev);
+      }
+    }
+
+    if (yoyRates.length === 0) return null;
+
+    // Check growth consistency (standard deviation)
+    const avgGrowth = yoyRates.reduce((s, r) => s + r, 0) / yoyRates.length;
+    const variance = yoyRates.reduce((s, r) => s + (r - avgGrowth) ** 2, 0) / yoyRates.length;
+    const stdDev = Math.sqrt(variance);
+    const isConsistent = stdDev < Math.abs(avgGrowth) * 0.5;
+
+    let forecastAmount: number;
+    const lastYearAmount = revenueByYear[revenueByYear.length - 1].amount;
+
+    if (isConsistent) {
+      // Use average growth rate
+      forecastAmount = lastYearAmount * (1 + avgGrowth);
+    } else {
+      // Conservative linear regression
+      const n = revenueByYear.length;
+      const xValues = revenueByYear.map((_, i) => i);
+      const yValues = revenueByYear.map((d) => d.amount);
+      const sumX = xValues.reduce((s, x) => s + x, 0);
+      const sumY = yValues.reduce((s, y) => s + y, 0);
+      const sumXY = xValues.reduce((s, x, i) => s + x * yValues[i], 0);
+      const sumX2 = xValues.reduce((s, x) => s + x * x, 0);
+      const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+      const intercept = (sumY - slope * sumX) / n;
+      forecastAmount = intercept + slope * n;
+    }
+
+    // Build composed chart data
+    const chartData = revenueByYear.map((d) => ({
+      year: d.year,
+      actual: d.amount,
+      forecast: null as number | null,
+      trend: d.amount,
+    }));
+
+    chartData.push({
+      year: "2026",
+      actual: null as number | null,
+      forecast: Math.round(forecastAmount),
+      trend: Math.round(forecastAmount),
+    });
+
+    return {
+      amount: Math.round(forecastAmount),
+      avgGrowthRate: avgGrowth * 100,
+      method: isConsistent ? "average" : "regression",
+      chartData,
+    };
+  }, [revenueByYear]);
 
   // Pie chart: revenue by course
   const revenueByCourse = courses.map((c) => ({
@@ -255,6 +320,114 @@ const IncomeManagement = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Revenue Forecast 2026 */}
+      {forecast && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="grid lg:grid-cols-3 gap-6"
+        >
+          <Card className="lg:col-span-2 border-t-4 border-t-amber-500">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-amber-500" />
+                {t("Dự báo doanh thu 2026", "Revenue Forecast 2026")}
+                <Badge variant="outline" className="ml-2 text-xs font-normal">
+                  {forecast.method === "average"
+                    ? t("Tăng trưởng trung bình", "Avg Growth Rate")
+                    : t("Hồi quy tuyến tính", "Linear Regression")}
+                </Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={320}>
+                <ComposedChart data={forecast.chartData}>
+                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                  <XAxis dataKey="year" />
+                  <YAxis tickFormatter={(v) => `${(v / 1000000).toFixed(0)}M`} />
+                  <Tooltip
+                    content={({ active, payload, label }) => {
+                      if (!active || !payload?.length) return null;
+                      const isForecast = label === "2026";
+                      const value = payload[0]?.value as number;
+                      return (
+                        <div className="rounded-lg border bg-background px-3 py-2 shadow-xl text-xs">
+                          <p className="font-semibold mb-1">{label}</p>
+                          <p className="text-emerald-600 font-mono font-medium">
+                            {formatCurrency(value)}
+                          </p>
+                          {isForecast && (
+                            <p className="text-muted-foreground mt-1 text-[11px] max-w-[200px]">
+                              {t(
+                                `Dự báo dựa trên tốc độ tăng trưởng trung bình ${forecast.avgGrowthRate.toFixed(1)}%`,
+                                `Forecast based on avg growth rate of ${forecast.avgGrowthRate.toFixed(1)}%`
+                              )}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    }}
+                  />
+                  <Legend />
+                  <Bar dataKey="actual" name={t("Thực tế", "Actual")} fill="#10b981" radius={[6, 6, 0, 0]} barSize={40} />
+                  <Bar dataKey="forecast" name={t("Dự báo", "Forecast")} fill="#f59e0b" radius={[6, 6, 0, 0]} barSize={40} opacity={0.7} strokeDasharray="5 5" stroke="#f59e0b" />
+                  <Line dataKey="trend" name={t("Xu hướng", "Trend")} type="monotone" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4, fill: "#3b82f6" }} activeDot={{ r: 6 }} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
+            <Card className="h-full border-t-4 border-t-violet-500">
+              <CardHeader>
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Brain className="w-4 h-4 text-violet-500" />
+                  {t("Phân tích AI", "AI Insights")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-5">
+                <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 p-4 space-y-1">
+                  <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                    <Target className="w-4 h-4" />
+                    <span className="text-xs font-semibold uppercase tracking-wider">{t("Mục tiêu 2026", "Target 2026")}</span>
+                  </div>
+                  <p className="text-xl font-bold text-amber-700 dark:text-amber-300">{formatCurrency(forecast.amount)}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {t(`Tăng trưởng TB: ${forecast.avgGrowthRate >= 0 ? "+" : ""}${forecast.avgGrowthRate.toFixed(1)}%/năm`, `Avg growth: ${forecast.avgGrowthRate >= 0 ? "+" : ""}${forecast.avgGrowthRate.toFixed(1)}%/year`)}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-emerald-50 dark:bg-emerald-900/20 p-4 space-y-1">
+                  <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                    <TrendingUp className="w-4 h-4" />
+                    <span className="text-xs font-semibold uppercase tracking-wider">{t("Phân tích xu hướng", "Trend Analysis")}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {forecast.avgGrowthRate >= 0
+                      ? t("Doanh thu có xu hướng tăng ổn định. Tiếp tục duy trì chiến lược tuyển sinh hiện tại.", "Revenue shows a steady upward trend. Continue current enrollment strategy.")
+                      : t("Doanh thu có xu hướng giảm. Cần đánh giá lại chiến lược giá và chương trình học.", "Revenue declining. Re-evaluate pricing and course offerings.")}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-violet-50 dark:bg-violet-900/20 p-4 space-y-1">
+                  <div className="flex items-center gap-2 text-violet-700 dark:text-violet-400">
+                    <Lightbulb className="w-4 h-4" />
+                    <span className="text-xs font-semibold uppercase tracking-wider">{t("Khuyến nghị", "Recommendation")}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {t("Để đạt mục tiêu này, cần tăng tỷ lệ chuyển đổi học viên IELTS thêm 5% và mở thêm ít nhất 2 lớp TOEIC mới trong Q1-Q2.", "To hit this target, increase IELTS conversion by 5% and open 2+ new TOEIC classes in Q1-Q2.")}
+                  </p>
+                </div>
+                <p className="text-[10px] text-muted-foreground/70 italic">
+                  {forecast.method === "average"
+                    ? t("* Dự báo sử dụng tốc độ tăng trưởng trung bình (YoY)", "* Forecast uses average YoY growth rate")
+                    : t("* Dự báo sử dụng mô hình hồi quy tuyến tính (bảo thủ)", "* Forecast uses conservative linear regression")}
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* Filters & Table */}
       <Card>
