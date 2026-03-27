@@ -787,11 +787,11 @@ const SpeakingPractice = () => {
                             )}
                           </div>
                           {audioUrl && <audio id="sp-playback" src={audioUrl} className="hidden" />}
-                          <p className="text-sm text-foreground leading-relaxed">{result.transcript}</p>
+                          <p className="text-base text-foreground leading-relaxed">{result.transcript}</p>
                           {result.highlightedErrors && result.highlightedErrors.length > 0 && (
                             <div className="mt-3 pt-3 border-t border-border space-y-2">
                               {result.highlightedErrors.map((err, i) => (
-                                <div key={i} className="text-xs flex items-start gap-2">
+                                <div key={i} className="text-sm flex items-start gap-2">
                                   <Badge variant="outline" className="text-[10px] shrink-0 capitalize">{err.type}</Badge>
                                   <span>
                                     <span className="text-destructive line-through">{err.text}</span>
