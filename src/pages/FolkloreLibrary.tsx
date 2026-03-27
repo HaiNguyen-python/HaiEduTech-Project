@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, ArrowLeft, ChevronRight, Volume2, Lightbulb, X, BookMarked } from "lucide-react";
+import { BookOpen, ArrowLeft, ChevronRight, Volume2, Lightbulb, BookMarked, Eye, EyeOff, Pause, Play, Square, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { folkloreStories, folkloreCategories, type FolkloreStory } from "@/data/vietnamese/folkloreStories";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
@@ -20,6 +22,8 @@ const FolkloreLibrary = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const { hasAccess, loading, user } = useCourseAccess("vietnamese-folklore");
   const [showAccessDenied, setShowAccessDenied] = useState(false);
+  const [showEnglish, setShowEnglish] = useState(true);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const filtered = activeCategory === "all"
     ? folkloreStories
@@ -27,12 +31,22 @@ const FolkloreLibrary = () => {
 
   const selectedStory = storyId ? folkloreStories.find(s => s.id === storyId) : null;
 
-  const speakVietnamese = (text: string) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "vi-VN";
-    utterance.rate = 0.85;
-    speechSynthesis.speak(utterance);
-  };
+  // Speak Vietnamese text with natural pacing
+  const speakVietnamese = useCallback((text: string) => {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "vi-VN";
+    u.rate = 0.85;
+    u.onstart = () => setIsSpeaking(true);
+    u.onend = () => setIsSpeaking(false);
+    u.onerror = () => setIsSpeaking(false);
+    speechSynthesis.speak(u);
+  }, []);
+
+  const stopSpeech = useCallback(() => {
+    speechSynthesis.cancel();
+    setIsSpeaking(false);
+  }, []);
 
   const handleStoryClick = (story: FolkloreStory) => {
     if (!hasAccess && !loading) {
@@ -42,8 +56,55 @@ const FolkloreLibrary = () => {
     navigate(`/learn-vietnamese/folklore/${story.id}`);
   };
 
+  // Render story text with glossary words highlighted
+  const renderStoryWithGlossary = (text: string, vocabulary: FolkloreStory["vocabulary"]) => {
+    if (!vocabulary || vocabulary.length === 0) return <span>{text}</span>;
+
+    const parts: React.ReactNode[] = [];
+    let remaining = text;
+    let keyIdx = 0;
+
+    // Sort by position in text
+    const sorted = [...vocabulary].sort((a, b) => text.indexOf(a.word) - text.indexOf(b.word));
+
+    for (const v of sorted) {
+      const idx = remaining.indexOf(v.word);
+      if (idx === -1) continue;
+
+      if (idx > 0) {
+        parts.push(<span key={`t-${keyIdx}`}>{remaining.slice(0, idx)}</span>);
+      }
+      parts.push(
+        <Tooltip key={`g-${keyIdx}`}>
+          <TooltipTrigger asChild>
+            <span className="underline decoration-dotted decoration-primary/50 cursor-help text-primary font-semibold">
+              {v.word}
+            </span>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="max-w-xs">
+            <div className="text-sm">
+              <p className="font-bold text-foreground">{v.word}</p>
+              <p className="text-primary">{v.meaningEn}</p>
+              <p className="text-xs text-muted-foreground italic">({v.meaning})</p>
+            </div>
+          </TooltipContent>
+        </Tooltip>
+      );
+      remaining = remaining.slice(idx + v.word.length);
+      keyIdx++;
+    }
+
+    if (remaining) {
+      parts.push(<span key="rest">{remaining}</span>);
+    }
+
+    return <>{parts}</>;
+  };
+
   // Reading mode for a selected story
   if (selectedStory) {
+    const storyText = showEnglish ? selectedStory.storyEn : selectedStory.story;
+
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
@@ -63,29 +124,45 @@ const FolkloreLibrary = () => {
               <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-1">
                 {t(selectedStory.title, selectedStory.titleEn)}
               </h1>
-              <p className="text-muted-foreground mb-6">{t(selectedStory.summary, selectedStory.summaryEn)}</p>
+              <p className="text-muted-foreground mb-4">{t(selectedStory.summary, selectedStory.summaryEn)}</p>
             </motion.div>
 
-            {/* Storyteller audio button */}
-            <div className="flex justify-end mb-4">
-              <Button variant="outline" size="sm" onClick={() => speakVietnamese(selectedStory.story)} className="gap-2">
-                <Volume2 className="w-4 h-4" /> {t("Nghe kể chuyện", "Listen to Story")}
-              </Button>
+            {/* Controls bar: bilingual toggle + audio */}
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{showEnglish ? "🇬🇧 English" : "🇻🇳 Tiếng Việt"}</span>
+                <Switch checked={showEnglish} onCheckedChange={setShowEnglish} />
+                {showEnglish ? <Eye className="w-4 h-4 text-muted-foreground" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
+              </div>
+              <div className="flex gap-2">
+                {!isSpeaking ? (
+                  <Button variant="outline" size="sm" onClick={() => speakVietnamese(selectedStory.story)} className="gap-2">
+                    <Play className="w-4 h-4" /> {t("Nghe kể chuyện", "Listen to Story")}
+                  </Button>
+                ) : (
+                  <Button variant="destructive" size="sm" onClick={stopSpeech} className="gap-2">
+                    <Square className="w-4 h-4" /> {t("Dừng", "Stop")}
+                  </Button>
+                )}
+              </div>
             </div>
 
-            {/* Story text */}
+            {/* Story text with glossary highlights */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
               className="bg-card border border-border rounded-xl p-6 md:p-8 mb-8"
             >
-              <div className="prose prose-lg dark:prose-invert max-w-none font-serif leading-relaxed whitespace-pre-line text-foreground">
-                {t(selectedStory.story, selectedStory.storyEn)}
+              <div className="prose prose-lg dark:prose-invert max-w-none font-serif leading-relaxed whitespace-pre-line text-foreground text-base md:text-lg">
+                {!showEnglish
+                  ? renderStoryWithGlossary(selectedStory.story, selectedStory.vocabulary)
+                  : selectedStory.storyEn
+                }
               </div>
             </motion.div>
 
-            {/* Vocabulary */}
+            {/* Vocabulary / Glossary */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mb-8">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" /> {t("Từ vựng", "Vocabulary")}
@@ -97,7 +174,7 @@ const FolkloreLibrary = () => {
                       <Volume2 className="w-4 h-4" />
                     </Button>
                     <div>
-                      <p className="font-bold text-foreground">{v.word}</p>
+                      <p className="font-bold text-foreground text-base">{v.word}</p>
                       <p className="text-sm text-muted-foreground">{v.meaningEn}</p>
                       <p className="text-xs text-muted-foreground italic">({v.meaning})</p>
                     </div>
@@ -115,7 +192,7 @@ const FolkloreLibrary = () => {
                 {selectedStory.lessonsLearned.map((lesson, i) => (
                   <div key={i} className="bg-primary/5 border border-primary/20 rounded-lg p-4 flex items-start gap-3">
                     <span className="text-primary font-bold mt-0.5">{i + 1}.</span>
-                    <p className="text-foreground">{lang === "vi" ? lesson.vi : lesson.en}</p>
+                    <p className="text-foreground">{showEnglish ? lesson.en : lesson.vi}</p>
                   </div>
                 ))}
               </div>
@@ -147,6 +224,9 @@ const FolkloreLibrary = () => {
             </div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               {t("Khám phá văn hóa Việt Nam qua những câu chuyện cổ tích bất hủ", "Explore Vietnamese culture through timeless fairy tales and legends")}
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              📚 {folkloreStories.length} {t("truyện", "stories")}
             </p>
           </motion.div>
 

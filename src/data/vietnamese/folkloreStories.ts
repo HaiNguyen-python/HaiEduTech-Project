@@ -431,6 +431,53 @@ From then on, the lake was renamed Hoàn Kiếm Lake (Sword Lake) — meaning "L
       { word: "bệ hạ", meaning: "cách gọi vua", meaningEn: "Your Majesty" },
     ],
   },
+  {
+    id: "cay-tre-tram-dot",
+    title: "Cây Tre Trăm Đốt",
+    titleEn: "The Hundred-Knot Bamboo",
+    coverColor: "from-emerald-600 to-green-900",
+    coverIcon: "🎋",
+    category: "co-tich",
+    categoryLabel: "Cổ tích",
+    categoryLabelEn: "Fairy Tale",
+    summary: "Chàng trai hiền lành bị lừa, nhưng nhờ phép thần mà chiến thắng kẻ gian.",
+    summaryEn: "An honest young man is deceived but triumphs over the trickster with divine magic.",
+    difficulty: "easy",
+    story: `Ngày xưa, có một anh nông dân hiền lành tên là Khoai. Anh đi ở cho nhà phú ông. Phú ông hứa: "Nếu con làm giỏi ba năm, ta sẽ gả con gái cho con."
+
+Khoai siêng năng, chăm chỉ suốt ba năm. Đến ngày hẹn, phú ông nuốt lời, bảo: "Con hãy vào rừng tìm cho ta một cây tre đúng trăm đốt, ta mới gả con gái."
+
+Khoai buồn bã vào rừng. Chàng tìm mãi không được cây tre nào đủ trăm đốt. Chàng ngồi khóc. Bỗng, ông Bụt hiện ra hỏi: "Con khóc vì sao?" Khoai kể sự tình. Bụt bảo: "Con hãy chặt đủ trăm đốt tre rời, rồi đọc câu thần chú: 'Khắc nhập, khắc nhập!' thì các đốt sẽ dính lại thành một cây."
+
+Khoai làm theo. Chàng chặt đủ trăm đốt, đọc "Khắc nhập!" — lập tức các đốt tre nối liền thành cây tre trăm đốt. Khoai vác cây tre về.
+
+Phú ông sững sờ, nhưng vẫn cố chối. Khoai đọc: "Khắc nhập!" — phú ông bị dính chặt vào cây tre, không gỡ ra được. Phú ông van xin, hứa gả con gái. Khoai đọc: "Khắc xuất!" — phú ông được thả ra.
+
+Từ đó, Khoai cưới được vợ, sống hạnh phúc. Câu chuyện dạy rằng: kẻ tham lam, bội ước sẽ bị trừng phạt.`,
+    storyEn: `Long ago, there was a kind farmer named Khoai. He worked as a servant for a wealthy landlord. The landlord promised: "If you work hard for three years, I will let you marry my daughter."
+
+Khoai was diligent and hardworking for three years. When the time came, the landlord broke his promise and said: "Go into the forest and find me a single bamboo stalk with exactly one hundred knots, then you may marry my daughter."
+
+Khoai went sadly into the forest. He searched everywhere but could not find a bamboo with a hundred knots. He sat down and cried. Suddenly, the fairy Bụt appeared and asked: "Why do you cry?" Khoai told his story. Bụt said: "Cut one hundred separate bamboo knots, then say the magic words: 'Khắc nhập, khắc nhập!' and they will join together."
+
+Khoai did as told. He cut a hundred knots and chanted "Khắc nhập!" — instantly, the knots fused into a single bamboo with a hundred segments. Khoai carried it home.
+
+The landlord was stunned but still refused. Khoai chanted "Khắc nhập!" — the landlord was stuck to the bamboo and couldn't break free. He begged and promised to honor his word. Khoai chanted "Khắc xuất!" — and the landlord was released.
+
+From then on, Khoai married the daughter and lived happily. The story teaches that the greedy and deceitful will be punished.`,
+    lessonsLearned: [
+      { vi: "Kẻ bội ước sẽ bị trừng phạt — hãy giữ lời hứa.", en: "Those who break promises will be punished — keep your word." },
+      { vi: "Người hiền lành, chăm chỉ sẽ được giúp đỡ.", en: "The kind and hardworking will receive help." },
+      { vi: "Công bằng luôn chiến thắng sự gian xảo.", en: "Justice always triumphs over deceit." },
+    ],
+    vocabulary: [
+      { word: "phú ông", meaning: "người giàu có", meaningEn: "wealthy landlord" },
+      { word: "nuốt lời", meaning: "không giữ lời hứa", meaningEn: "to break a promise" },
+      { word: "thần chú", meaning: "câu nói có phép thuật", meaningEn: "magic spell/incantation" },
+      { word: "bội ước", meaning: "phản bội lời hứa", meaningEn: "to betray a promise" },
+      { word: "khắc nhập", meaning: "dính vào nhau", meaningEn: "join together (magic word)" },
+    ],
+  },
 ];
 
 export const folkloreCategories = [
