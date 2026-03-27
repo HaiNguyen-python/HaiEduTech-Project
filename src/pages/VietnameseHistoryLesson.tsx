@@ -18,7 +18,7 @@ const segmentIcons = [Scroll, Sword, Crown, Shield, Flame, MapPin, Mountain, Shi
 
 const getSegmentIcon = (index: number) => {
   const Icon = segmentIcons[index % segmentIcons.length];
-  return <Icon className="w-5 h-5 text-emerald-500/70 shrink-0" />;
+  return <Icon className="w-5 h-5 text-primary/70 shrink-0" />;
 };
 
 const VietnameseHistoryLesson = () => {
