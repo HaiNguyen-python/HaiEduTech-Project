@@ -32,6 +32,8 @@ export interface VietnameseLesson {
   quiz: VietnameseQuizQuestion[];
   proTips?: string[];
   proTipsEn?: string[];
+  teacherInsight?: string;
+  teacherInsightEn?: string;
 }
 
 export interface VietnameseModule {
