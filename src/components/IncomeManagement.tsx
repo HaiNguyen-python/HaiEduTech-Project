@@ -1,14 +1,18 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { toast } from "sonner";
 import {
   DollarSign, TrendingUp, TrendingDown, Search, Calendar,
-  BookOpen, Users, ArrowUpRight, Download, Brain, Target, Lightbulb
+  BookOpen, Users, ArrowUpRight, Download, Brain, Target, Lightbulb,
+  RefreshCw, Plus, CreditCard, CheckCircle2
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow
 } from "@/components/ui/table";
@@ -16,10 +20,13 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from "@/components/ui/select";
 import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose
+} from "@/components/ui/dialog";
+import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, PieChart, Pie, Cell, ComposedChart, Line
 } from "recharts";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Revenue log row type
 interface RevenueLog {
@@ -30,31 +37,84 @@ interface RevenueLog {
   amount: number;
   status: string;
   kpi_met: boolean;
+  notes: string | null;
+  created_at: string;
+}
+
+// Tuition record type
+interface TuitionRecord {
+  id: string;
+  student_name: string;
+  course: string;
+  payment_month: number;
+  payment_year: number;
+  amount: number;
+  payment_method: string;
+  note: string | null;
+  entered_by: string;
   created_at: string;
 }
 
 // Color palette for charts
-const CHART_COLORS = ["#10b981", "#3b82f6", "#f59e0b", "#8b5cf6", "#ef4444"];
+const CHART_COLORS = ["#10b981", "#3b82f6", "#f59e0b", "#8b5cf6", "#ef4444", "#06b6d4"];
+
+// Course categories
+const COURSE_OPTIONS = ["IELTS", "TOEIC", "Chinese", "Programming", "Rental", "Investment", "Other"];
+
+// Payment methods
+const PAYMENT_METHODS = [
+  { value: "bank_transfer", label: "Chuyển khoản", labelEn: "Bank Transfer" },
+  { value: "cash", label: "Tiền mặt", labelEn: "Cash" },
+  { value: "momo", label: "MoMo", labelEn: "MoMo" },
+  { value: "other", label: "Khác", labelEn: "Other" },
+];
 
 // Format Vietnamese currency
 const formatCurrency = (val: number) =>
   new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(val);
 
+// Student list from spreadsheet for dropdown
+const STUDENT_LIST = [
+  "Minh Thư", "Nguyễn Quang", "Huy Hoàng", "Khánh Trân", "Huỳnh Như",
+  "Long Giang", "Nhật Minh", "Quỳnh Anh", "Phương Anh", "Thanh Quyên",
+  "Khánh Hà", "Uyễn Vy", "Thành Phúc", "Xuân Nguyên", "Bảo Nghi",
+  "Thanh Phương", "Thới Hòa", "Minh Huy", "Đông Phương", "Nghi Ân (Cherry)",
+  "Võ Thành Lộc", "Minh Khang", "Thanh Mai", "Thanh Tùng", "Đăng Khôi",
+  "Minh Kiệt", "Anh Đức", "Thảo Trúc", "Thanh Trúc", "Anh Dũng"
+].sort();
+
 const IncomeManagement = () => {
   const { t } = useLanguage();
   const [logs, setLogs] = useState<RevenueLog[]>([]);
+  const [tuitionRecords, setTuitionRecords] = useState<TuitionRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
   const [search, setSearch] = useState("");
   const [yearFilter, setYearFilter] = useState("all");
   const [courseFilter, setCourseFilter] = useState("all");
+  const [showEntryForm, setShowEntryForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
+  // Form state
+  const [formStudentName, setFormStudentName] = useState("");
+  const [formStudentSearch, setFormStudentSearch] = useState("");
+  const [formCourse, setFormCourse] = useState("IELTS");
+  const [formMonth, setFormMonth] = useState(String(new Date().getMonth() + 1));
+  const [formYear, setFormYear] = useState(String(new Date().getFullYear()));
+  const [formAmount, setFormAmount] = useState("");
+  const [formMethod, setFormMethod] = useState("bank_transfer");
+  const [formNote, setFormNote] = useState("");
+
+  // Fetch revenue logs
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const { data } = await supabase
-      .from("revenue_logs")
-      .select("*")
-      .order("payment_year", { ascending: false });
-    setLogs((data as RevenueLog[]) || []);
+    const [{ data: revData }, { data: tuiData }] = await Promise.all([
+      supabase.from("revenue_logs").select("*").order("payment_year", { ascending: false }),
+      supabase.from("tuition_records").select("*").order("created_at", { ascending: false }),
+    ]);
+    setLogs((revData as RevenueLog[]) || []);
+    setTuitionRecords((tuiData as TuitionRecord[]) || []);
     setLoading(false);
   }, []);
 
@@ -62,14 +122,47 @@ const IncomeManagement = () => {
     fetchData();
   }, [fetchData]);
 
+  // Realtime subscription for tuition_records
+  useEffect(() => {
+    const channel = supabase
+      .channel("tuition_records_realtime")
+      .on("postgres_changes", { event: "*", schema: "public", table: "tuition_records" }, () => {
+        // Re-fetch all data when tuition records change
+        fetchData();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [fetchData]);
+
+  // Sync handler (re-fetch from DB)
+  const handleSync = async () => {
+    setSyncing(true);
+    await fetchData();
+    setSyncing(false);
+    toast.success(t("Đồng bộ thành công!", "Data synced successfully!"));
+  };
+
+  // Combine revenue_logs + tuition_records for total calculations
+  const allRevenue = useMemo(() => {
+    // Add tuition records as additional revenue entries
+    const tuitionByYear: Record<number, number> = {};
+    tuitionRecords.forEach((r) => {
+      tuitionByYear[r.payment_year] = (tuitionByYear[r.payment_year] || 0) + Number(r.amount);
+    });
+    return { tuitionByYear };
+  }, [tuitionRecords]);
+
   // Derived data
-  const totalRevenue = logs.reduce((s, l) => s + Number(l.amount), 0);
-  const years = [...new Set(logs.map((l) => l.payment_year))].sort();
-  const courses = [...new Set(logs.map((l) => l.course))];
+  const totalRevenue = logs.reduce((s, l) => s + Number(l.amount), 0) +
+    tuitionRecords.reduce((s, r) => s + Number(r.amount), 0);
+  const years = [...new Set([...logs.map((l) => l.payment_year), ...tuitionRecords.map(r => r.payment_year)])].sort();
+  const courses = [...new Set([...logs.map((l) => l.course), ...tuitionRecords.map(r => r.course)])];
 
   const revenueByYear = years.map((y) => ({
     year: String(y),
-    amount: logs.filter((l) => l.payment_year === y).reduce((s, l) => s + Number(l.amount), 0),
+    amount: logs.filter((l) => l.payment_year === y).reduce((s, l) => s + Number(l.amount), 0) +
+      (allRevenue.tuitionByYear[y] || 0),
   }));
 
   // Growth rates between consecutive years
@@ -79,11 +172,10 @@ const IncomeManagement = () => {
     return { ...item, growth: prev > 0 ? ((item.amount - prev) / prev) * 100 : null };
   });
 
-  // Revenue forecast calculation using average growth rate with linear regression fallback
+  // Revenue forecast calculation
   const forecast = useMemo(() => {
     if (revenueByYear.length < 2) return null;
 
-    // Calculate YoY growth rates
     const yoyRates: number[] = [];
     for (let i = 1; i < revenueByYear.length; i++) {
       const prev = revenueByYear[i - 1].amount;
@@ -91,10 +183,8 @@ const IncomeManagement = () => {
         yoyRates.push((revenueByYear[i].amount - prev) / prev);
       }
     }
-
     if (yoyRates.length === 0) return null;
 
-    // Check growth consistency (standard deviation)
     const avgGrowth = yoyRates.reduce((s, r) => s + r, 0) / yoyRates.length;
     const variance = yoyRates.reduce((s, r) => s + (r - avgGrowth) ** 2, 0) / yoyRates.length;
     const stdDev = Math.sqrt(variance);
@@ -104,10 +194,8 @@ const IncomeManagement = () => {
     const lastYearAmount = revenueByYear[revenueByYear.length - 1].amount;
 
     if (isConsistent) {
-      // Use average growth rate
       forecastAmount = lastYearAmount * (1 + avgGrowth);
     } else {
-      // Conservative linear regression
       const n = revenueByYear.length;
       const xValues = revenueByYear.map((_, i) => i);
       const yValues = revenueByYear.map((d) => d.amount);
@@ -120,23 +208,31 @@ const IncomeManagement = () => {
       forecastAmount = intercept + slope * n;
     }
 
-    // Build composed chart data
-    const chartData = revenueByYear.map((d) => ({
-      year: d.year,
-      actual: d.amount,
-      forecast: null as number | null,
-      trend: d.amount,
-    }));
+    // Check if 2026 already exists in data - if so, show both actual and forecast
+    const has2026 = revenueByYear.some(d => d.year === "2026");
+    const actual2026 = has2026 ? revenueByYear.find(d => d.year === "2026")!.amount : null;
+
+    const chartData = revenueByYear
+      .filter(d => d.year !== "2026") // Exclude 2026 from actuals for chart
+      .map((d) => ({
+        year: d.year,
+        actual: d.amount,
+        forecast: null as number | null,
+        current2026: null as number | null,
+        trend: d.amount,
+      }));
 
     chartData.push({
       year: "2026",
-      actual: null as number | null,
+      actual: null,
       forecast: Math.round(forecastAmount),
+      current2026: actual2026,
       trend: Math.round(forecastAmount),
     });
 
     return {
       amount: Math.round(forecastAmount),
+      current2026: actual2026,
       avgGrowthRate: avgGrowth * 100,
       method: isConsistent ? "average" : "regression",
       chartData,
@@ -146,8 +242,9 @@ const IncomeManagement = () => {
   // Pie chart: revenue by course
   const revenueByCourse = courses.map((c) => ({
     name: c,
-    value: logs.filter((l) => l.course === c).reduce((s, l) => s + Number(l.amount), 0),
-  }));
+    value: logs.filter((l) => l.course === c).reduce((s, l) => s + Number(l.amount), 0) +
+      tuitionRecords.filter((r) => r.course === c).reduce((s, r) => s + Number(r.amount), 0),
+  })).sort((a, b) => b.value - a.value);
 
   // Filtered table data
   const filtered = logs.filter((l) => {
@@ -176,6 +273,67 @@ const IncomeManagement = () => {
     URL.revokeObjectURL(url);
   };
 
+  // Submit tuition payment
+  const handleSubmitPayment = async () => {
+    if (!formStudentName || !formAmount || Number(formAmount) <= 0) {
+      toast.error(t("Vui lòng điền đầy đủ thông tin", "Please fill all required fields"));
+      return;
+    }
+
+    setSubmitting(true);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast.error(t("Bạn cần đăng nhập", "Please login first"));
+      setSubmitting(false);
+      return;
+    }
+
+    const { error } = await supabase.from("tuition_records").insert({
+      student_name: formStudentName,
+      course: formCourse,
+      payment_month: Number(formMonth),
+      payment_year: Number(formYear),
+      amount: Number(formAmount),
+      payment_method: formMethod,
+      note: formNote || null,
+      entered_by: user.id,
+    });
+
+    if (error) {
+      if (error.code === "23505") {
+        toast.error(t(
+          "Bản ghi trùng lặp! Học viên này đã có thanh toán trong tháng/năm này.",
+          "Duplicate entry! This student already has a payment for this month/year."
+        ));
+      } else {
+        toast.error(error.message);
+      }
+      setSubmitting(false);
+      return;
+    }
+
+    // Show success animation
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 2000);
+
+    toast.success(t("Ghi nhận thanh toán thành công!", "Payment recorded successfully!"));
+
+    // Reset form
+    setFormStudentName("");
+    setFormAmount("");
+    setFormNote("");
+    setSubmitting(false);
+    setShowEntryForm(false);
+
+    // Refresh data
+    fetchData();
+  };
+
+  // Filtered student list for dropdown search
+  const filteredStudents = STUDENT_LIST.filter(s =>
+    s.toLowerCase().includes(formStudentSearch.toLowerCase())
+  );
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -186,6 +344,200 @@ const IncomeManagement = () => {
 
   return (
     <div className="space-y-6">
+      {/* Success animation overlay */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/30"
+          >
+            <motion.div
+              initial={{ y: 20 }}
+              animate={{ y: 0 }}
+              className="bg-background rounded-2xl p-8 shadow-2xl flex flex-col items-center gap-3"
+            >
+              <CheckCircle2 className="w-16 h-16 text-emerald-500" />
+              <p className="text-lg font-bold text-emerald-600">
+                {t("Thành công!", "Success!")}
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Action Bar: Sync + Add Payment */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-bold text-foreground">
+          {t("Quản lý Thu nhập", "Income Management")}
+        </h2>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleSync}
+            disabled={syncing}
+            className="gap-1.5"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${syncing ? "animate-spin" : ""}`} />
+            {t("Đồng bộ", "Sync Now")}
+          </Button>
+          <Dialog open={showEntryForm} onOpenChange={setShowEntryForm}>
+            <DialogTrigger asChild>
+              <Button size="sm" className="gap-1.5 bg-emerald-600 hover:bg-emerald-700">
+                <Plus className="w-3.5 h-3.5" />
+                {t("Nhập học phí", "Add Payment")}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2">
+                  <CreditCard className="w-5 h-5 text-emerald-500" />
+                  {t("Nhập thanh toán học phí", "Record Tuition Payment")}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 py-2">
+                {/* Student Name */}
+                <div className="space-y-1.5">
+                  <Label>{t("Tên học viên", "Student Name")} *</Label>
+                  <Input
+                    placeholder={t("Tìm tên học viên...", "Search student name...")}
+                    value={formStudentSearch}
+                    onChange={(e) => {
+                      setFormStudentSearch(e.target.value);
+                      setFormStudentName(e.target.value);
+                    }}
+                  />
+                  {formStudentSearch && !STUDENT_LIST.includes(formStudentName) && (
+                    <div className="max-h-32 overflow-auto border rounded-md bg-background">
+                      {filteredStudents.map((s) => (
+                        <button
+                          key={s}
+                          className="w-full text-left px-3 py-1.5 text-sm hover:bg-muted transition-colors"
+                          onClick={() => {
+                            setFormStudentName(s);
+                            setFormStudentSearch(s);
+                          }}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                      {filteredStudents.length === 0 && (
+                        <p className="px-3 py-2 text-xs text-muted-foreground">
+                          {t("Tên mới - sẽ tạo bản ghi mới", "New name - will create new record")}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Course */}
+                <div className="space-y-1.5">
+                  <Label>{t("Chương trình", "Course")} *</Label>
+                  <Select value={formCourse} onValueChange={setFormCourse}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {COURSE_OPTIONS.map((c) => (
+                        <SelectItem key={c} value={c}>{c}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Month/Year */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <Label>{t("Tháng", "Month")} *</Label>
+                    <Select value={formMonth} onValueChange={setFormMonth}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {Array.from({ length: 12 }, (_, i) => (
+                          <SelectItem key={i + 1} value={String(i + 1)}>
+                            {t(`Tháng ${i + 1}`, `Month ${i + 1}`)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>{t("Năm", "Year")} *</Label>
+                    <Select value={formYear} onValueChange={setFormYear}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {[2024, 2025, 2026, 2027].map((y) => (
+                          <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* Amount */}
+                <div className="space-y-1.5">
+                  <Label>{t("Số tiền (VNĐ)", "Amount (VNĐ)")} *</Label>
+                  <Input
+                    type="number"
+                    placeholder="e.g. 3000000"
+                    value={formAmount}
+                    onChange={(e) => setFormAmount(e.target.value)}
+                    min={0}
+                  />
+                  {formAmount && Number(formAmount) > 0 && (
+                    <p className="text-xs text-emerald-600 font-mono">
+                      = {formatCurrency(Number(formAmount))}
+                    </p>
+                  )}
+                </div>
+
+                {/* Payment Method */}
+                <div className="space-y-1.5">
+                  <Label>{t("Phương thức", "Payment Method")}</Label>
+                  <Select value={formMethod} onValueChange={setFormMethod}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {PAYMENT_METHODS.map((m) => (
+                        <SelectItem key={m.value} value={m.value}>
+                          {t(m.label, m.labelEn)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Note */}
+                <div className="space-y-1.5">
+                  <Label>{t("Ghi chú", "Note")}</Label>
+                  <Textarea
+                    placeholder={t("Ghi chú thêm...", "Additional notes...")}
+                    value={formNote}
+                    onChange={(e) => setFormNote(e.target.value)}
+                    rows={2}
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">{t("Hủy", "Cancel")}</Button>
+                </DialogClose>
+                <Button
+                  onClick={handleSubmitPayment}
+                  disabled={submitting || !formStudentName || !formAmount}
+                  className="bg-emerald-600 hover:bg-emerald-700 gap-1.5"
+                >
+                  {submitting ? (
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  )}
+                  {t("Ghi nhận", "Submit")}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
+
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="border-l-4 border-l-emerald-500">
@@ -358,6 +710,11 @@ const IncomeManagement = () => {
                           <p className="text-emerald-600 font-mono font-medium">
                             {formatCurrency(value)}
                           </p>
+                          {isForecast && forecast.current2026 && (
+                            <p className="text-blue-500 font-mono text-[11px]">
+                              {t("Hiện tại", "Current")}: {formatCurrency(forecast.current2026)}
+                            </p>
+                          )}
                           {isForecast && (
                             <p className="text-muted-foreground mt-1 text-[11px] max-w-[200px]">
                               {t(
@@ -372,6 +729,7 @@ const IncomeManagement = () => {
                   />
                   <Legend />
                   <Bar dataKey="actual" name={t("Thực tế", "Actual")} fill="#10b981" radius={[6, 6, 0, 0]} barSize={40} />
+                  <Bar dataKey="current2026" name={t("Hiện tại 2026", "Current 2026")} fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} />
                   <Bar dataKey="forecast" name={t("Dự báo", "Forecast")} fill="#f59e0b" radius={[6, 6, 0, 0]} barSize={40} opacity={0.7} strokeDasharray="5 5" stroke="#f59e0b" />
                   <Line dataKey="trend" name={t("Xu hướng", "Trend")} type="monotone" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4, fill: "#3b82f6" }} activeDot={{ r: 6 }} />
                 </ComposedChart>
@@ -394,6 +752,16 @@ const IncomeManagement = () => {
                     <span className="text-xs font-semibold uppercase tracking-wider">{t("Mục tiêu 2026", "Target 2026")}</span>
                   </div>
                   <p className="text-xl font-bold text-amber-700 dark:text-amber-300">{formatCurrency(forecast.amount)}</p>
+                  {forecast.current2026 && (
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs text-blue-600 font-medium">
+                        {t("Hiện tại", "Current")}: {formatCurrency(forecast.current2026)}
+                      </p>
+                      <Badge variant="outline" className="text-[10px]">
+                        {((forecast.current2026 / forecast.amount) * 100).toFixed(0)}%
+                      </Badge>
+                    </div>
+                  )}
                   <p className="text-xs text-muted-foreground">
                     {t(`Tăng trưởng TB: ${forecast.avgGrowthRate >= 0 ? "+" : ""}${forecast.avgGrowthRate.toFixed(1)}%/năm`, `Avg growth: ${forecast.avgGrowthRate >= 0 ? "+" : ""}${forecast.avgGrowthRate.toFixed(1)}%/year`)}
                   </p>
@@ -427,6 +795,53 @@ const IncomeManagement = () => {
             </Card>
           </motion.div>
         </motion.div>
+      )}
+
+      {/* Recent Tuition Records */}
+      {tuitionRecords.length > 0 && (
+        <Card className="border-t-4 border-t-emerald-500">
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <CreditCard className="w-4 h-4 text-emerald-500" />
+              {t("Thanh toán gần đây", "Recent Payments")}
+              <Badge variant="secondary" className="ml-1">{tuitionRecords.length}</Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="overflow-auto max-h-[300px]">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{t("Học viên", "Student")}</TableHead>
+                    <TableHead>{t("Chương trình", "Course")}</TableHead>
+                    <TableHead className="text-center">{t("Tháng/Năm", "Month/Year")}</TableHead>
+                    <TableHead className="text-right">{t("Số tiền", "Amount")}</TableHead>
+                    <TableHead>{t("Phương thức", "Method")}</TableHead>
+                    <TableHead>{t("Thời gian", "Date")}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {tuitionRecords.slice(0, 10).map((r) => (
+                    <TableRow key={r.id}>
+                      <TableCell className="font-medium">{r.student_name}</TableCell>
+                      <TableCell><Badge variant="secondary" className="text-xs">{r.course}</Badge></TableCell>
+                      <TableCell className="text-center">{r.payment_month}/{r.payment_year}</TableCell>
+                      <TableCell className="text-right font-mono font-semibold text-emerald-600">
+                        {formatCurrency(Number(r.amount))}
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {PAYMENT_METHODS.find(m => m.value === r.payment_method)?.label || r.payment_method}
+                      </TableCell>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {new Date(r.created_at).toLocaleDateString("vi-VN")}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Filters & Table */}
