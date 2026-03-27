@@ -698,6 +698,45 @@ const SpeakingPractice = () => {
               </CardContent>
             </Card>
 
+            {/* Live Transcription Panel */}
+            {(isRecording || liveTranscript) && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <Card>
+                  <CardContent className="pt-4 pb-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className={`w-2.5 h-2.5 rounded-full ${isRecording ? "bg-red-500 animate-pulse" : "bg-green-500"}`} />
+                      <h4 className="text-sm font-bold text-foreground">
+                        {t("Phiên âm trực tiếp", "Live Transcription")}
+                      </h4>
+                      {isRecording && (
+                        <span className="text-xs text-muted-foreground ml-auto">{t("Đang lắng nghe...", "Listening...")}</span>
+                      )}
+                    </div>
+                    <div className="bg-secondary/50 rounded-xl p-4 min-h-[60px]">
+                      {(liveTranscript || interimTranscript) ? (
+                        <p className="text-sm text-foreground leading-relaxed">
+                          {liveTranscript}
+                          {interimTranscript && <span className="text-muted-foreground italic"> {interimTranscript}</span>}
+                        </p>
+                      ) : (
+                        <p className="text-sm text-muted-foreground italic">{t("Bắt đầu nói để xem phiên âm...", "Start speaking to see transcription...")}</p>
+                      )}
+                    </div>
+                    {!isRecording && liveTranscript && (
+                      <p className="text-xs text-muted-foreground mt-2">{t("Số từ:", "Word count:")} {liveTranscript.split(/\s+/).filter(Boolean).length}</p>
+                    )}
+                    {typeof window !== "undefined" && !window.SpeechRecognition && !window.webkitSpeechRecognition && (
+                      <div className="flex items-center gap-2 mt-3 p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
+                        <AlertTriangle className="w-4 h-4 text-yellow-600 shrink-0" />
+                        <p className="text-xs text-yellow-700 dark:text-yellow-400">
+                          {t("Trình duyệt không hỗ trợ nhận dạng giọng nói. Hãy dùng Chrome.", "Speech recognition not supported. Please use Chrome.")}
+                        </p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
             {/* Results */}
             <Card>
               <CardContent className="pt-6">
