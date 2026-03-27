@@ -15,8 +15,83 @@ export const dataEngModules: ExtendedProgrammingModule[] = [
       {
         id: "de-pd-1", title: "DataFrame & Series", titleEn: "DataFrame & Series",
         level: 1, difficulty: "beginner",
-        theory: "**Pandas** — thư viện xử lý dữ liệu số 1 của Python.\n\n**Series:** Mảng 1 chiều có label\n**DataFrame:** Bảng 2 chiều (rows × columns)\n\n**Tạo DataFrame:**\n- Từ dict: `pd.DataFrame({'col': [values]})`\n- Từ CSV: `pd.read_csv('file.csv')`\n\n**Thao tác cơ bản:**\n- `df.head()`, `df.tail()`, `df.shape`\n- `df.describe()` — thống kê nhanh\n- `df['col']` — chọn cột\n- `df.iloc[0]` — chọn dòng theo index",
-        theoryEn: "**Pandas** — Python's #1 data processing library.\n\n**Series:** 1D labeled array\n**DataFrame:** 2D table (rows × columns)\n\n**Basic operations:** head(), describe(), column selection, iloc",
+        theory: `**Pandas** is Python's most popular data manipulation library, used by data engineers, data scientists, and analysts worldwide. It provides two core data structures that make working with structured data intuitive and powerful.
+
+**Series — The 1D Building Block:**
+A Series is a one-dimensional labeled array. Think of it as a single column in a spreadsheet with row labels (called an *index*).
+\`\`\`python
+import pandas as pd
+ages = pd.Series([22, 25, 23], index=['An', 'Binh', 'Chi'])
+# An      22
+# Binh    25
+# Chi     23
+\`\`\`
+Key properties: \`ages.values\` (the data), \`ages.index\` (the labels), \`ages.dtype\` (data type).
+
+**DataFrame — The 2D Powerhouse:**
+A DataFrame is a two-dimensional table — essentially a dictionary of Series that share the same index. It is the primary Pandas data structure.
+\`\`\`python
+df = pd.DataFrame({
+    'name': ['An', 'Binh', 'Chi'],
+    'age': [22, 25, 23],
+    'score': [85, 92, 78]
+})
+\`\`\`
+
+**Creating DataFrames:**
+| Source | Method |
+|--------|--------|
+| Dictionary | \`pd.DataFrame({'col': [values]})\` |
+| CSV file | \`pd.read_csv('data.csv')\` |
+| JSON | \`pd.read_json('data.json')\` |
+| Excel | \`pd.read_excel('data.xlsx')\` |
+| SQL query | \`pd.read_sql('SELECT * FROM table', connection)\` |
+| List of dicts | \`pd.DataFrame([{'a': 1}, {'a': 2}])\` |
+
+**Essential Exploration Commands:**
+- \`df.head(n)\` / \`df.tail(n)\` — first/last n rows (default 5)
+- \`df.shape\` — (rows, columns) tuple
+- \`df.dtypes\` — data type of each column
+- \`df.info()\` — concise summary including memory usage
+- \`df.describe()\` — statistical summary (count, mean, std, min, quartiles, max)
+- \`df.columns\` — list of column names
+- \`df.index\` — the row labels
+
+**Selecting Data:**
+- **Single column:** \`df['name']\` or \`df.name\` → returns a Series
+- **Multiple columns:** \`df[['name', 'age']]\` → returns a DataFrame
+- **By position:** \`df.iloc[0]\` (first row), \`df.iloc[0:3]\` (rows 0-2)
+- **By label:** \`df.loc[0]\` (row with index 0), \`df.loc[0:2, 'name':'age']\`
+- **Boolean filtering:** \`df[df['age'] > 22]\` → rows where age > 22
+
+**Adding & Modifying Columns:**
+\`\`\`python
+df['grade'] = df['score'].apply(lambda x: 'A' if x >= 90 else 'B')
+df['passed'] = df['score'] >= 70  # Boolean column
+df['score_pct'] = (df['score'] / 100 * 100).round(1)
+\`\`\`
+
+**Common Aggregations:**
+\`\`\`python
+df.groupby('city')['score'].mean()       # average score per city
+df.groupby('city').agg({'score': ['mean', 'max'], 'age': 'count'})
+\`\`\`
+
+**Sorting:**
+\`\`\`python
+df.sort_values('score', ascending=False)          # by score descending
+df.sort_values(['city', 'score'], ascending=[True, False])  # multi-column
+\`\`\``,
+        theoryEn: `**Pandas** — Python's #1 data processing library.
+
+**Series:** 1D labeled array (single column with index).
+**DataFrame:** 2D table (dictionary of Series sharing an index).
+
+**Creating:** From dict, CSV, JSON, Excel, SQL, list of dicts.
+**Exploration:** head(), shape, dtypes, info(), describe().
+**Selecting:** df['col'], df[['col1','col2']], iloc (position), loc (label), boolean filtering.
+**Modifying:** df['new'] = expression, apply(), assign().
+**Aggregating:** groupby().agg(), sort_values().`,
         code: `import pandas as pd
 import numpy as np
 
@@ -44,10 +119,14 @@ df['grade'] = df['score'].apply(lambda x: 'A' if x >= 90 else 'B' if x >= 80 els
 print(f"\\n🎓 With grades:")
 print(df[['name', 'score', 'grade']])`,
         codeLanguage: "python",
-        exercise: "Tạo DataFrame với 10 sinh viên, tính trung bình score theo city, tìm sinh viên có điểm cao nhất.",
+        exercise: "Create a DataFrame with 10 students, calculate average score by city, find the highest scorer.",
         exerciseEn: "Create a DataFrame with 10 students, calculate average score by city, find the highest scorer.",
         quiz: [
-          { question: "DataFrame khác Series ở điểm nào?", options: ["Giống nhau", "DataFrame 2D, Series 1D", "Series nhanh hơn", "DataFrame chỉ chứa số"], answer: 1, explanation: "Series là mảng 1 chiều (1 cột), DataFrame là bảng 2 chiều (nhiều cột, mỗi cột là 1 Series)." }
+          { question: "How does a DataFrame differ from a Series?", options: ["They are the same", "DataFrame is 2D (table), Series is 1D (column)", "Series is faster", "DataFrame can only hold numbers"], answer: 1, explanation: "A Series is a 1D labeled array (one column). A DataFrame is a 2D table made up of multiple Series sharing an index." },
+          { question: "What does df.describe() show?", options: ["Column names only", "Statistical summary: count, mean, std, min, quartiles, max", "The first 5 rows", "Data types"], answer: 1, explanation: "describe() provides a statistical summary of numeric columns including count, mean, standard deviation, min, 25/50/75 percentiles, and max." },
+          { question: "What is the difference between iloc and loc?", options: ["No difference", "iloc uses integer position, loc uses labels/names", "loc is faster", "iloc only works with columns"], answer: 1, explanation: "iloc selects by integer position (0, 1, 2...). loc selects by label/index name and column name." },
+          { question: "How do you filter rows where score > 80?", options: ["df.filter(score > 80)", "df[df['score'] > 80]", "df.where('score', 80)", "df.select(score > 80)"], answer: 1, explanation: "Boolean indexing: df['score'] > 80 creates a True/False Series, and df[...] returns only the True rows." },
+          { question: "What does groupby('city')['score'].mean() return?", options: ["A single number", "The average score for each unique city", "All scores sorted by city", "An error"], answer: 1, explanation: "groupby splits data by city, then .mean() calculates the average score within each city group." }
         ]
       }
     ]
@@ -65,8 +144,94 @@ print(df[['name', 'score', 'grade']])`,
       {
         id: "de-clean-1", title: "Missing Values & Duplicates", titleEn: "Missing Values & Duplicates",
         level: 2, difficulty: "beginner",
-        theory: "**Data Cleaning** — bước quan trọng nhất trong pipeline dữ liệu.\n\n**Missing Values:**\n- `df.isnull().sum()` — đếm NULL mỗi cột\n- `df.dropna()` — xóa dòng có NULL\n- `df.fillna(value)` — thay NULL bằng giá trị\n- `df.interpolate()` — nội suy\n\n**Duplicates:**\n- `df.duplicated().sum()` — đếm trùng\n- `df.drop_duplicates()` — xóa trùng\n\n**Outliers:**\n- IQR method: Q1 - 1.5×IQR < x < Q3 + 1.5×IQR\n- Z-score: |z| > 3 là outlier",
-        theoryEn: "**Data Cleaning** — the most important step in a data pipeline.\n\n**Missing Values:** isnull(), dropna(), fillna(), interpolate()\n**Duplicates:** duplicated(), drop_duplicates()\n**Outliers:** IQR method, Z-score",
+        theory: `**Data Cleaning** is often called the most important (and most time-consuming) step in any data pipeline. Industry surveys consistently show that data professionals spend 60-80% of their time cleaning data. Dirty data leads to wrong analyses, broken models, and bad business decisions.
+
+**Types of "Dirty" Data:**
+1. **Missing values** (NaN, None, empty strings)
+2. **Duplicates** (same record appearing multiple times)
+3. **Outliers** (values far outside the expected range)
+4. **Inconsistent formatting** ("New York" vs "new york" vs "NY")
+5. **Wrong data types** (dates stored as strings, numbers as text)
+6. **Invalid values** (negative ages, future birth dates)
+
+**Handling Missing Values:**
+
+**Detection:**
+\`\`\`python
+df.isnull().sum()           # count NULLs per column
+df.isnull().sum() / len(df) # percentage missing per column
+df[df['email'].isnull()]    # view rows with missing emails
+\`\`\`
+
+**Strategy Decision Tree:**
+- **< 5% missing → Drop rows:** \`df.dropna(subset=['email'])\`
+- **5-30% missing → Impute (fill):**
+  - Numeric: \`df['age'].fillna(df['age'].median())\` — median is robust to outliers
+  - Categorical: \`df['city'].fillna(df['city'].mode()[0])\` — most frequent value
+  - Time series: \`df['temp'].interpolate(method='linear')\` — estimate between known points
+- **> 30% missing → Consider dropping the column** or using advanced imputation (KNN, regression)
+
+**Important:** Never fill NULLs blindly! Understand *why* data is missing:
+- **MCAR (Missing Completely At Random):** Safe to drop or impute
+- **MAR (Missing At Random):** Missing depends on other observed columns → impute using those columns
+- **MNAR (Missing Not At Random):** Missingness depends on the missing value itself → requires domain knowledge
+
+**Handling Duplicates:**
+
+\`\`\`python
+df.duplicated().sum()                           # count duplicates
+df.duplicated(subset=['email']).sum()            # duplicates by specific columns
+df.drop_duplicates()                             # remove exact duplicates
+df.drop_duplicates(subset=['email'], keep='last') # keep last occurrence
+\`\`\`
+
+**Detecting Outliers:**
+
+**IQR Method (Interquartile Range):**
+\`\`\`python
+Q1 = df['score'].quantile(0.25)
+Q3 = df['score'].quantile(0.75)
+IQR = Q3 - Q1
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+outliers = df[(df['score'] < lower) | (df['score'] > upper)]
+\`\`\`
+
+**Z-Score Method:**
+\`\`\`python
+from scipy import stats
+z_scores = stats.zscore(df['score'])
+outliers = df[abs(z_scores) > 3]  # values more than 3 std devs from mean
+\`\`\`
+
+**Handling Outliers:**
+- **Remove:** If they are errors (e.g., age = -5)
+- **Cap (Winsorize):** Replace with boundary values
+- **Log transform:** Reduce skew for naturally skewed data (income, prices)
+- **Keep:** If they are legitimate data points (e.g., Elon Musk's income in a salary dataset)
+
+**Data Validation Pipeline:**
+\`\`\`python
+def clean_dataframe(df):
+    # 1. Fix types
+    df['age'] = pd.to_numeric(df['age'], errors='coerce')
+    # 2. Remove duplicates
+    df = df.drop_duplicates()
+    # 3. Handle missing
+    df['age'] = df['age'].fillna(df['age'].median())
+    # 4. Fix outliers
+    df['age'] = df['age'].clip(0, 120)
+    # 5. Standardize text
+    df['name'] = df['name'].str.strip().str.title()
+    return df
+\`\`\``,
+        theoryEn: `**Data Cleaning** — the most time-consuming step in data pipelines (60-80% of work).
+
+**Dirty data types:** Missing values, duplicates, outliers, inconsistent formatting, wrong types.
+**Missing values:** Detect with isnull(). Strategy: <5% drop, 5-30% impute, >30% drop column.
+**Missing types:** MCAR, MAR, MNAR — understand WHY data is missing.
+**Duplicates:** duplicated(), drop_duplicates() with subset and keep options.
+**Outliers:** IQR method or Z-score. Options: remove, cap, transform, or keep.`,
         code: `import pandas as pd
 import numpy as np
 
@@ -74,7 +239,7 @@ import numpy as np
 df = pd.DataFrame({
     'name': ['An', 'Binh', None, 'An', 'Chi', 'Dung'],
     'age': [22, np.nan, 23, 22, 25, np.nan],
-    'score': [85, 92, 78, 85, 150, 88],  # 150 is outlier
+    'score': [85, 92, 78, 85, 150, 88],
 })
 
 print("🔴 Raw Data:")
@@ -82,7 +247,7 @@ print(df)
 print(f"\\nMissing values:\\n{df.isnull().sum()}")
 print(f"Duplicates: {df.duplicated().sum()}")
 
-# Clean: fill missing, remove duplicates
+# Clean
 df_clean = df.copy()
 df_clean['name'] = df_clean['name'].fillna('Unknown')
 df_clean['age'] = df_clean['age'].fillna(df_clean['age'].median())
@@ -94,17 +259,19 @@ Q3 = df_clean['score'].quantile(0.75)
 IQR = Q3 - Q1
 outliers = df_clean[(df_clean['score'] < Q1 - 1.5*IQR) | (df_clean['score'] > Q3 + 1.5*IQR)]
 print(f"\\n⚠️ Outliers detected: {len(outliers)}")
-print(outliers)
 
-# Remove outliers
 df_clean = df_clean[~df_clean.index.isin(outliers.index)]
 print(f"\\n✅ Clean Data ({len(df_clean)} rows):")
 print(df_clean)`,
         codeLanguage: "python",
-        exercise: "Tạo dataset 100 dòng với 15% missing values và 5% outliers. Clean hoàn toàn và báo cáo thay đổi.",
-        exerciseEn: "Create a 100-row dataset with 15% missing and 5% outliers. Clean it and report changes.",
+        exercise: "Create a 100-row dataset with 15% missing values and 5% outliers. Clean it and report changes.",
+        exerciseEn: "Create a 100-row dataset with 15% missing values and 5% outliers. Clean it and report changes.",
         quiz: [
-          { question: "Khi nào dùng fillna() thay vì dropna()?", options: ["Luôn dùng fillna", "Khi ít missing values và muốn giữ data", "Khi có nhiều missing", "Không bao giờ"], answer: 1, explanation: "fillna() giữ được dòng dữ liệu, phù hợp khi ít missing và các cột khác vẫn có giá trị. dropna() mất dữ liệu." }
+          { question: "When should you use fillna() instead of dropna()?", options: ["Always use fillna", "When there are few missing values and you want to preserve data", "When there are many missing values", "Never"], answer: 1, explanation: "fillna() preserves rows, which is important when other columns have useful data. dropna() permanently removes entire rows." },
+          { question: "What does the IQR method consider an outlier?", options: ["Any value above the mean", "Values below Q1-1.5×IQR or above Q3+1.5×IQR", "Values more than 2 standard deviations from mean", "The top and bottom 5%"], answer: 1, explanation: "The IQR method defines outliers as values falling below Q1 - 1.5×IQR or above Q3 + 1.5×IQR." },
+          { question: "What is MNAR (Missing Not At Random)?", options: ["Data missing randomly", "Missingness depends on the missing value itself", "Missingness depends on other columns", "No missing data"], answer: 1, explanation: "MNAR means the probability of being missing depends on the unobserved value. E.g., high-income people refusing to report income." },
+          { question: "Why use median instead of mean for filling missing numeric values?", options: ["Median is easier to calculate", "Median is robust to outliers, mean is heavily affected by them", "They are always the same", "Mean is better"], answer: 1, explanation: "Median is not affected by extreme values. If your data has outliers, the mean can be misleading." },
+          { question: "What does df.drop_duplicates(subset=['email'], keep='last') do?", options: ["Removes all rows with duplicate emails", "Keeps only the last occurrence of each duplicate email, removes earlier ones", "Removes the last duplicate", "Keeps all duplicates"], answer: 1, explanation: "It identifies duplicates by the email column and keeps only the last occurrence, removing all earlier duplicates." }
         ]
       }
     ]
@@ -122,8 +289,99 @@ print(df_clean)`,
       {
         id: "de-ingest-1", title: "Đọc nhiều nguồn dữ liệu", titleEn: "Reading Multiple Data Sources",
         level: 2, difficulty: "beginner",
-        theory: "**Data Ingestion** — thu thập dữ liệu từ nhiều nguồn.\n\n**Formats:**\n- CSV: `pd.read_csv()` — phổ biến nhất\n- JSON: `pd.read_json()` hoặc `json.loads()`\n- Excel: `pd.read_excel()`\n- SQL: `pd.read_sql()`\n- API: `requests.get()` → parse JSON\n\n**Best Practices:**\n- Validate schema sau khi đọc\n- Log metadata (rows, columns, types)\n- Handle encoding issues (UTF-8)\n- Incremental loading (chỉ load dữ liệu mới)",
-        theoryEn: "**Data Ingestion** — collecting data from multiple sources.\n\n**Formats:** CSV, JSON, Excel, SQL, API\n\n**Best Practices:** Schema validation, metadata logging, encoding handling, incremental loading",
+        theory: `**Data Ingestion** is the process of collecting data from various sources and bringing it into your data platform. It is the "Extract" part of ETL/ELT and the starting point of every data pipeline.
+
+**Common Data Sources:**
+
+| Source Type | Format | Tool |
+|------------|--------|------|
+| Flat files | CSV, TSV, fixed-width | pd.read_csv(), csv module |
+| Semi-structured | JSON, XML, YAML | pd.read_json(), json module |
+| Spreadsheets | Excel, Google Sheets | pd.read_excel(), gspread |
+| Databases | PostgreSQL, MySQL, etc. | pd.read_sql(), SQLAlchemy |
+| APIs | REST, GraphQL | requests library |
+| Streaming | Kafka, Kinesis, Pub/Sub | kafka-python, boto3 |
+| Cloud storage | S3, GCS, Azure Blob | boto3, google-cloud-storage |
+
+**Reading CSV Files (the most common format):**
+\`\`\`python
+# Basic read
+df = pd.read_csv('data.csv')
+
+# With options for real-world messiness
+df = pd.read_csv('data.csv',
+    encoding='utf-8',          # handle special characters
+    sep=',',                   # delimiter (use '\\t' for TSV)
+    header=0,                  # row number for column names
+    skiprows=2,                # skip first 2 rows
+    na_values=['', 'N/A', '-'],# treat these as NaN
+    dtype={'id': str},         # force column types
+    parse_dates=['created_at'],# auto-parse date columns
+    chunksize=10000            # read in chunks for large files
+)
+\`\`\`
+
+**Reading JSON:**
+\`\`\`python
+# Simple flat JSON
+df = pd.read_json('data.json')
+
+# Nested JSON (common from APIs)
+import json
+with open('data.json') as f:
+    raw = json.load(f)
+df = pd.json_normalize(raw, record_path='items', meta=['page', 'total'])
+\`\`\`
+
+**Reading from APIs:**
+\`\`\`python
+import requests
+
+response = requests.get('https://api.example.com/data',
+    headers={'Authorization': 'Bearer TOKEN'},
+    params={'page': 1, 'per_page': 100}
+)
+response.raise_for_status()  # raise exception on HTTP error
+data = response.json()
+\`\`\`
+
+**Handling Large Files:**
+- **Chunked reading:** Process the file in pieces instead of loading everything into memory
+\`\`\`python
+chunks = pd.read_csv('huge_file.csv', chunksize=50000)
+for chunk in chunks:
+    process(chunk)  # process each 50K-row piece
+\`\`\`
+
+**Schema Validation — Trust But Verify:**
+Always validate incoming data against expected schemas:
+\`\`\`python
+EXPECTED_COLUMNS = {'id', 'name', 'email', 'age'}
+EXPECTED_TYPES = {'id': int, 'age': int, 'email': str}
+
+def validate(df):
+    missing_cols = EXPECTED_COLUMNS - set(df.columns)
+    if missing_cols:
+        raise ValueError(f"Missing columns: {missing_cols}")
+    for col, dtype in EXPECTED_TYPES.items():
+        if not pd.api.types.is_dtype_equal(df[col].dtype, dtype):
+            print(f"Warning: {col} expected {dtype}, got {df[col].dtype}")
+\`\`\`
+
+**Best Practices:**
+1. **Log metadata** — record row counts, column counts, file sizes after each ingestion
+2. **Idempotent loads** — re-running the same ingestion should not create duplicates
+3. **Incremental loading** — only ingest new or changed records (using timestamps or change tracking)
+4. **Error handling** — wrap ingestion in try/except, send alerts on failure
+5. **Data lineage** — track where each record came from (source, timestamp, pipeline version)`,
+        theoryEn: `**Data Ingestion** — collecting data from various sources into your platform.
+
+**Sources:** CSV, JSON, Excel, databases, APIs, streaming, cloud storage.
+**CSV tricks:** encoding, sep, na_values, dtype, parse_dates, chunksize.
+**JSON:** json_normalize for nested structures.
+**Large files:** Chunked reading to avoid memory issues.
+**Schema validation:** Always verify columns and types.
+**Best practices:** Log metadata, idempotent loads, incremental loading, error handling, data lineage.`,
         code: `import json
 import csv
 from io import StringIO
@@ -165,10 +423,14 @@ def validate_schema(data, required_fields, field_types):
 errors = validate_schema(csv_rows, ['name', 'age'], {'age': int, 'score': int})
 print(f"\\n✅ Validation: {len(errors)} errors" if errors else "\\n✅ Schema valid!")`,
         codeLanguage: "python",
-        exercise: "Xây dựng DataIngester class đọc CSV và JSON, tự động detect schema và báo cáo quality.",
+        exercise: "Build a DataIngester class that reads CSV and JSON, auto-detects schema and reports quality.",
         exerciseEn: "Build a DataIngester class that reads CSV and JSON, auto-detects schema and reports quality.",
         quiz: [
-          { question: "Incremental loading là gì?", options: ["Load tất cả dữ liệu", "Chỉ load dữ liệu mới/thay đổi", "Load ngẫu nhiên", "Load song song"], answer: 1, explanation: "Incremental loading chỉ nạp dữ liệu mới hoặc đã thay đổi, tiết kiệm thời gian và tài nguyên." }
+          { question: "What is incremental loading?", options: ["Loading all data every time", "Only loading new or changed data since the last run", "Loading data randomly", "Loading data in parallel"], answer: 1, explanation: "Incremental loading only ingests new or modified records, saving time and compute resources." },
+          { question: "Why use chunksize when reading large CSVs?", options: ["It makes reading faster", "It prevents running out of memory by processing in smaller pieces", "It's required for CSV files", "It improves data quality"], answer: 1, explanation: "chunksize reads the file in manageable pieces instead of loading millions of rows into memory at once." },
+          { question: "What does pd.json_normalize do?", options: ["Validates JSON", "Flattens nested JSON structures into a flat DataFrame", "Converts DataFrame to JSON", "Normalizes numeric values"], answer: 1, explanation: "json_normalize takes nested JSON (common from APIs) and flattens it into a tabular DataFrame format." },
+          { question: "What is data lineage?", options: ["Data type information", "Tracking where each record came from and how it was transformed", "The age of the data", "Data backup history"], answer: 1, explanation: "Data lineage records the origin, transformations, and movement of data through your pipeline — essential for debugging and compliance." },
+          { question: "Why should data loads be idempotent?", options: ["For faster performance", "So re-running the same load doesn't create duplicates", "It's not important", "For security"], answer: 1, explanation: "Idempotent loads produce the same result regardless of how many times they run — critical for reliable pipelines that may need to retry." }
         ]
       }
     ]
@@ -186,8 +448,73 @@ print(f"\\n✅ Validation: {len(errors)} errors" if errors else "\\n✅ Schema v
       {
         id: "de-etl-1", title: "ETL vs ELT", titleEn: "ETL vs ELT",
         level: 3, difficulty: "intermediate",
-        theory: "**ETL (Extract → Transform → Load):**\n- Transform trước khi load vào warehouse\n- Phù hợp: On-premise, structured data\n\n**ELT (Extract → Load → Transform):**\n- Load raw data trước, transform trong warehouse\n- Phù hợp: Cloud (BigQuery, Snowflake)\n\n**Pipeline Components:**\n- Source connectors: đọc từ DB, API, files\n- Transformations: clean, aggregate, join\n- Sink: ghi vào destination\n- Scheduling: cron, event-driven\n- Monitoring: alerts, data quality checks",
-        theoryEn: "**ETL:** Transform before loading\n**ELT:** Load raw, transform in warehouse\n\n**Components:** Source connectors, Transformations, Sink, Scheduling, Monitoring",
+        theory: `**ETL and ELT** are two fundamental approaches to moving data from source systems to analytical destinations. Understanding when to use each is a core data engineering skill.
+
+**ETL (Extract → Transform → Load):**
+Data is transformed **before** it is loaded into the destination.
+\`\`\`
+Source DB → [Extract] → Raw Data → [Transform] → Clean Data → [Load] → Data Warehouse
+\`\`\`
+
+**When to use ETL:**
+- Legacy on-premise data warehouses with limited compute
+- Sensitive data that must be masked/anonymized before storage
+- Small-to-medium data volumes
+- Well-defined, stable schemas
+
+**ELT (Extract → Load → Transform):**
+Raw data is loaded **first**, then transformed inside the destination warehouse.
+\`\`\`
+Source DB → [Extract] → Raw Data → [Load] → Data Warehouse → [Transform] → Mart Tables
+\`\`\`
+
+**When to use ELT:**
+- Cloud warehouses (BigQuery, Snowflake, Redshift) with massive compute power
+- Large data volumes where transformation benefits from warehouse's distributed processing
+- Exploratory analytics where you want raw data available
+- Schema-on-read scenarios
+
+| Aspect | ETL | ELT |
+|--------|-----|-----|
+| Transform location | Separate server | Inside the warehouse |
+| Speed | Slower (compute constrained) | Faster (warehouse compute) |
+| Flexibility | Less (transforms fixed before load) | More (raw data always available) |
+| Cost | Server costs | Warehouse compute costs |
+| Tools | Informatica, Talend, custom scripts | dbt, Dataform, Snowflake SQL |
+
+**Pipeline Architecture Components:**
+
+**1. Source Connectors (Extract):**
+- Database connectors: CDC (Change Data Capture), full dumps, incremental queries
+- API connectors: REST polling, webhooks
+- File watchers: monitor S3/GCS for new files
+
+**2. Transformations:**
+- **Cleaning:** handle nulls, duplicates, type casting
+- **Enrichment:** join with reference data (geocoding, currency conversion)
+- **Aggregation:** pre-compute summaries for dashboards
+- **Conforming:** standardize formats across sources (date formats, naming conventions)
+
+**3. Loading Strategies:**
+- **Full refresh:** delete all + reload (simple but slow, okay for small tables)
+- **Incremental append:** add new rows only (fast but doesn't handle updates)
+- **Upsert (merge):** insert new, update existing (best for changing data)
+- **SCD Type 2:** Keep historical versions (track changes over time)
+
+**4. Scheduling & Orchestration:**
+- **Time-based:** cron schedules (every hour, daily at 2 AM)
+- **Event-driven:** triggered by file arrival or API webhook
+- **Dependency-based:** job B runs only after job A succeeds
+
+**5. Monitoring & Alerting:**
+- Row count validation (did we get the expected number of records?)
+- Schema drift detection (did columns change?)
+- Freshness checks (is data up to date?)
+- Runtime monitoring (did the pipeline take longer than expected?)`,
+        theoryEn: `**ETL:** Transform before loading (for on-premise, sensitive data, stable schemas).
+**ELT:** Load raw, transform in warehouse (for cloud, large volumes, flexibility).
+
+**Components:** Source connectors (Extract), Transformations (Clean/Enrich/Aggregate), Loading strategies (Full/Incremental/Upsert/SCD), Scheduling (cron/event/dependency), Monitoring (counts/schema/freshness).`,
         code: `import json
 from datetime import datetime
 
@@ -242,10 +569,14 @@ transforms = [
 pipeline = ETLPipeline("Student Scores")
 pipeline.run(source_data, transforms, "data_warehouse.students")`,
         codeLanguage: "python",
-        exercise: "Mở rộng ETLPipeline: thêm error handling, retry logic, và data quality report.",
+        exercise: "Extend ETLPipeline: add error handling, retry logic, and data quality report.",
         exerciseEn: "Extend ETLPipeline: add error handling, retry logic, and data quality report.",
         quiz: [
-          { question: "ELT khác ETL ở điểm nào?", options: ["Giống nhau", "ELT transform trong warehouse sau khi load", "ETL nhanh hơn", "ELT không cần transform"], answer: 1, explanation: "ELT load raw data vào warehouse trước, rồi dùng sức mạnh compute của warehouse để transform." }
+          { question: "How does ELT differ from ETL?", options: ["They are the same", "ELT transforms inside the warehouse after loading raw data", "ETL is faster", "ELT doesn't need transformation"], answer: 1, explanation: "ELT loads raw data first, then uses the warehouse's compute power to transform. ETL transforms before loading." },
+          { question: "What is an Upsert loading strategy?", options: ["Delete everything and reload", "Insert new rows and update existing ones", "Only insert, never update", "Create a new table each time"], answer: 1, explanation: "Upsert (merge) inserts new records and updates existing ones based on a key, handling both new and changed data." },
+          { question: "What is CDC (Change Data Capture)?", options: ["A data format", "A technique to detect and capture only changed data from sources", "A type of database", "A scheduling tool"], answer: 1, explanation: "CDC captures only the changes (inserts, updates, deletes) from source systems, enabling efficient incremental data pipelines." },
+          { question: "When should you use dbt instead of custom Python ETL?", options: ["For data extraction", "For SQL-based transformations inside a cloud warehouse (ELT pattern)", "For streaming data", "For file processing"], answer: 1, explanation: "dbt is designed for the T in ELT — it transforms data inside the warehouse using SQL, with built-in testing and documentation." },
+          { question: "What is schema drift?", options: ["When tables move to a different database", "When source data columns are added, removed, or change types unexpectedly", "When queries become slower", "A type of data loss"], answer: 1, explanation: "Schema drift occurs when the structure of source data changes without notice — a common cause of pipeline failures." }
         ]
       }
     ]
@@ -263,8 +594,82 @@ pipeline.run(source_data, transforms, "data_warehouse.students")`,
       {
         id: "de-model-1", title: "Star & Snowflake Schema", titleEn: "Star & Snowflake Schema",
         level: 3, difficulty: "intermediate",
-        theory: "**Dimensional Modeling** — thiết kế warehouse cho analytics.\n\n**Fact Table:** Chứa metrics (số lượng, doanh thu)\n- Thường rất lớn\n- Foreign keys đến Dimensions\n\n**Dimension Table:** Chứa mô tả (sản phẩm, thời gian, khách hàng)\n- Thường nhỏ hơn\n- Attributes dùng để filter/group\n\n**Star Schema:**\n- Fact ở trung tâm, Dimensions xung quanh\n- Đơn giản, queries nhanh\n\n**Snowflake Schema:**\n- Dimensions được normalize thêm\n- Tiết kiệm storage nhưng queries phức tạp hơn",
-        theoryEn: "**Dimensional Modeling** — warehouse design for analytics.\n\n**Fact Table:** Metrics (quantities, revenue)\n**Dimension Table:** Descriptions (product, time, customer)\n\n**Star Schema:** Fact in center, Dimensions around — simple, fast queries\n**Snowflake Schema:** Normalized dimensions — saves storage, complex queries",
+        theory: `**Dimensional Modeling** is the standard approach for designing data warehouses. Created by Ralph Kimball, it organizes data into **facts** (what happened) and **dimensions** (the context around what happened).
+
+**Fact Tables — The "What":**
+- Contain **quantitative measures** (revenue, quantity, duration, cost)
+- Typically the largest tables in the warehouse (billions of rows)
+- Each row represents a business event (a sale, a click, a shipment)
+- Contains foreign keys to dimension tables
+- Two types of facts:
+  - **Additive:** Can be summed across all dimensions (revenue, quantity)
+  - **Semi-additive:** Can only be summed across some dimensions (account balance — can sum across accounts but not across time)
+  - **Non-additive:** Cannot be summed (ratios, percentages — must recalculate)
+
+**Dimension Tables — The "Context":**
+- Contain **descriptive attributes** (product name, customer city, date month)
+- Usually smaller than fact tables
+- Provide the "who, what, where, when, how" context for analysis
+- Enable filtering, grouping, and labeling in reports
+
+**Star Schema:**
+The simplest dimensional model — one central fact table connected to multiple dimension tables, forming a star shape.
+
+\`\`\`
+         dim_product
+              |
+dim_date — fact_sales — dim_customer
+              |
+         dim_store
+\`\`\`
+
+**Advantages:** Simple to understand, fast queries (fewer JOINs), most BI tools optimize for it.
+**Disadvantage:** Some data redundancy in dimensions.
+
+**Snowflake Schema:**
+Dimensions are **normalized** (broken into sub-tables):
+\`\`\`
+dim_date — fact_sales — dim_product → dim_category → dim_department
+                     ↘ dim_customer → dim_city → dim_country
+\`\`\`
+
+**Advantages:** Less storage, no redundancy.
+**Disadvantages:** More JOINs = slower queries, harder to understand.
+
+**Star vs Snowflake:**
+| Aspect | Star | Snowflake |
+|--------|------|-----------|
+| Query speed | Faster (fewer JOINs) | Slower (more JOINs) |
+| Storage | More (denormalized dims) | Less (normalized) |
+| Complexity | Simple | Complex |
+| BI tool support | Excellent | Good |
+| Recommendation | **Default choice** | Use when storage is critical |
+
+**Slowly Changing Dimensions (SCD):**
+How to handle dimension changes (e.g., a customer moves to a new city):
+
+- **Type 0:** Never update (keep original value forever)
+- **Type 1:** Overwrite the old value (no history)
+- **Type 2:** Add a new row with version tracking (full history — most common)
+  \`\`\`
+  customer_key | name  | city   | valid_from | valid_to   | is_current
+  1001         | An    | Hanoi  | 2023-01-01 | 2024-06-30 | false
+  1002         | An    | HCMC   | 2024-07-01 | NULL       | true
+  \`\`\`
+- **Type 3:** Add a column for the previous value (limited history)
+
+**Data Vault (advanced alternative):**
+A modeling methodology for enterprise data warehouses. Uses three entity types:
+- **Hubs:** Business keys (customer ID, product SKU)
+- **Links:** Relationships between hubs
+- **Satellites:** Descriptive data with history
+Best for: highly complex environments with many source systems.`,
+        theoryEn: `**Dimensional Modeling** organizes warehouses into Facts (measures/events) and Dimensions (context).
+
+**Star Schema:** Fact table in center, denormalized dimensions around it. Simple, fast, recommended default.
+**Snowflake Schema:** Normalized dimensions. Saves storage but slower queries.
+**SCD Types:** Type 0 (never change), Type 1 (overwrite), Type 2 (versioned history), Type 3 (previous value column).
+**Data Vault:** Advanced methodology with Hubs, Links, Satellites for complex enterprise environments.`,
         code: `# Star Schema Design
 print("⭐ Star Schema: E-Commerce")
 print("=" * 50)
@@ -302,7 +707,6 @@ for table, info in schema.items():
         is_metric = "📈" if info.get("metrics") and col in info["metrics"] else "  "
         print(f"  {marker}{is_metric} {col}")
 
-# Sample query
 print("\\n🔍 Sample Query: Monthly revenue by category")
 print("""
 SELECT d.month, d.year, p.category,
@@ -315,10 +719,14 @@ GROUP BY d.month, d.year, p.category
 ORDER BY d.year, d.month;
 """)`,
         codeLanguage: "python",
-        exercise: "Thiết kế Star Schema cho hệ thống giáo dục: fact_enrollments với dim_student, dim_course, dim_date.",
+        exercise: "Design a Star Schema for an education system: fact_enrollments with dim_student, dim_course, dim_date.",
         exerciseEn: "Design a Star Schema for an education system: fact_enrollments with dim_student, dim_course, dim_date.",
         quiz: [
-          { question: "Fact table chứa gì?", options: ["Mô tả chi tiết", "Metrics đo lường (doanh thu, số lượng)", "Chỉ primary keys", "Dữ liệu cũ"], answer: 1, explanation: "Fact table chứa các số liệu đo lường (measures) như doanh thu, số lượng, cùng foreign keys đến dimensions." }
+          { question: "What does a Fact table contain?", options: ["Descriptive attributes", "Quantitative measures like revenue and quantities", "Only primary keys", "Historical data"], answer: 1, explanation: "Fact tables contain measurable business metrics (revenue, quantity, cost) along with foreign keys to dimension tables." },
+          { question: "Why is Star Schema preferred over Snowflake in most cases?", options: ["It uses less storage", "Simpler to understand, fewer JOINs, faster queries, better BI tool support", "It's more normalized", "It handles changes better"], answer: 1, explanation: "Star Schema's simplicity (fewer JOINs) makes queries faster and the model easier to understand. Most BI tools optimize for it." },
+          { question: "What is SCD Type 2?", options: ["Overwriting old values", "Adding a new row with version dates to track full history", "Adding a column for the previous value", "Never updating dimensions"], answer: 1, explanation: "SCD Type 2 creates a new row for each change with valid_from/valid_to dates, preserving complete history." },
+          { question: "What is a semi-additive fact?", options: ["A fact that can be summed across all dimensions", "A fact that can be summed across some dimensions but not all", "A fact that cannot be summed", "A fact with missing values"], answer: 1, explanation: "Semi-additive facts (like account balance) can be summed across some dimensions (accounts) but not others (time — you'd average instead)." },
+          { question: "What is the difference between a surrogate key and a natural key in dimensional modeling?", options: ["They are the same", "Surrogate is auto-generated (no meaning); natural is a real-world identifier", "Natural keys are faster", "Surrogate keys come from source systems"], answer: 1, explanation: "Surrogate keys are warehouse-generated integers with no business meaning. Natural keys (like product SKU) come from source systems." }
         ]
       }
     ]
@@ -336,12 +744,92 @@ ORDER BY d.year, d.month;
       {
         id: "de-wh-1", title: "OLAP & Warehouse Concepts", titleEn: "OLAP & Warehouse Concepts",
         level: 3, difficulty: "intermediate",
-        theory: "**OLTP vs OLAP:**\n- OLTP: Online Transaction Processing — ngân hàng, e-commerce\n- OLAP: Online Analytical Processing — reporting, BI\n\n**Data Warehouse:**\n- Lưu trữ dữ liệu lịch sử, tối ưu cho đọc\n- Columnar storage: lưu theo cột (nhanh cho analytics)\n- Partitioning: chia bảng lớn thành phần nhỏ\n- Clustering: sắp xếp dữ liệu trong partition\n\n**Modern Cloud DW:**\n- BigQuery (Google): Serverless, pay-per-query\n- Snowflake: Separate compute & storage\n- Redshift (AWS): Columnar, parallel processing",
-        theoryEn: "**OLTP vs OLAP:** Transactions vs Analytics\n\n**Warehouse features:** Columnar storage, Partitioning, Clustering\n\n**Cloud DW:** BigQuery, Snowflake, Redshift",
+        theory: `**Data Warehousing** is the practice of collecting, storing, and managing data specifically for analytical queries and business intelligence. It is fundamentally different from the transactional databases that power your applications.
+
+**OLTP vs OLAP — Two Different Worlds:**
+
+| Aspect | OLTP | OLAP |
+|--------|------|------|
+| Purpose | Run the business | Analyze the business |
+| Operations | INSERT, UPDATE, DELETE | SELECT (mostly reads) |
+| Data freshness | Real-time | Periodic (hourly/daily) |
+| Query complexity | Simple (one row) | Complex (aggregations, JOINs) |
+| Users | Application users | Analysts, managers |
+| Row count per query | 1-100 | Millions |
+| Normalization | Highly normalized (3NF) | Denormalized (Star/Snowflake) |
+| Examples | PostgreSQL, MySQL | BigQuery, Snowflake, Redshift |
+
+**Columnar Storage — The Secret Behind Fast Analytics:**
+Traditional databases store data **row by row** (good for OLTP — read/write entire records). Analytical databases store data **column by column** (good for OLAP — aggregate specific columns).
+
+\`\`\`
+Row-oriented:   [An, 22, 85] [Binh, 25, 92] [Chi, 23, 78]
+Column-oriented: [An, Binh, Chi] [22, 25, 23] [85, 92, 78]
+\`\`\`
+
+**Why columnar is faster for analytics:**
+- Query \`SELECT AVG(score) FROM students\` only reads the score column (not name, age)
+- Better compression (similar values stored together)
+- SIMD (CPU vector) operations on homogeneous data
+
+**Partitioning — Divide and Conquer:**
+Splitting a large table into smaller, manageable pieces based on a column value.
+\`\`\`sql
+-- BigQuery partitioned table
+CREATE TABLE sales
+PARTITION BY DATE(created_at)  -- one partition per day
+AS SELECT * FROM raw_sales;
+
+-- Query only scans relevant partitions
+SELECT SUM(amount) FROM sales
+WHERE created_at BETWEEN '2024-01-01' AND '2024-01-31';
+-- Only scans January data, not the entire table!
+\`\`\`
+
+**Clustering — Sorting Within Partitions:**
+Physically orders data within partitions by specified columns. Improves filter performance.
+\`\`\`sql
+-- BigQuery: cluster by customer_id within date partitions
+CREATE TABLE sales
+PARTITION BY DATE(created_at)
+CLUSTER BY customer_id, product_id;
+\`\`\`
+
+**Modern Cloud Data Warehouses:**
+
+**BigQuery (Google Cloud):**
+- Serverless — no infrastructure to manage
+- Pay-per-query (on-demand) or flat-rate pricing
+- Automatic scaling, built-in ML (BQML)
+- Best for: Teams wanting zero-ops, Google Cloud users
+
+**Snowflake:**
+- Separate compute and storage (scale independently)
+- Multi-cloud (AWS, GCP, Azure)
+- Time Travel (query historical data up to 90 days)
+- Data Sharing (share data across organizations without copying)
+- Best for: Multi-cloud environments, data sharing needs
+
+**Amazon Redshift:**
+- Columnar storage with massively parallel processing (MPP)
+- Redshift Spectrum queries S3 directly
+- Best for: AWS-heavy organizations
+
+**OLAP Operations:**
+- **Roll-up:** Aggregate from detailed to summary (day → month → year)
+- **Drill-down:** Go from summary to detail (year → quarter → month)
+- **Slice:** Filter on one dimension (only Q1 data)
+- **Dice:** Filter on multiple dimensions (Q1 + Region North + Product A)
+- **Pivot:** Rotate dimensions (rows ↔ columns)`,
+        theoryEn: `**OLTP** (transactions) vs **OLAP** (analytics) — different purposes, different architectures.
+**Columnar storage:** Stores data by column, fast for analytics, good compression.
+**Partitioning:** Splits tables by a column (date) so queries only scan relevant data.
+**Clustering:** Sorts data within partitions for faster filtering.
+**Cloud warehouses:** BigQuery (serverless), Snowflake (multi-cloud, data sharing), Redshift (MPP).
+**OLAP operations:** Roll-up, Drill-down, Slice, Dice, Pivot.`,
         code: `# OLAP Operations Simulation
 import numpy as np
 
-# Simulated sales cube
 sales_data = []
 products = ["Laptop", "Phone", "Tablet"]
 regions = ["North", "South", "East"]
@@ -381,10 +869,14 @@ q1 = [s for s in sales_data if s["quarter"] == "Q1"]
 for s in q1:
     print(f"  {s['product']:>8} | {s['region']:>6} | \${s['revenue']:>8,}")`,
         codeLanguage: "python",
-        exercise: "Implement PIVOT operation: chuyển đổi dữ liệu từ dạng dài (rows) sang dạng rộng (columns).",
+        exercise: "Implement PIVOT: transform data from long format (rows) to wide format (columns).",
         exerciseEn: "Implement PIVOT: transform data from long format (rows) to wide format (columns).",
         quiz: [
-          { question: "Columnar storage nhanh hơn row-based khi nào?", options: ["INSERT nhiều", "SELECT tất cả cột", "Aggregate trên ít cột (SUM, AVG)", "UPDATE thường xuyên"], answer: 2, explanation: "Columnar storage chỉ đọc các cột cần thiết, rất nhanh cho queries analytics chỉ cần vài cột." }
+          { question: "When is columnar storage faster than row-based?", options: ["For INSERT operations", "For SELECT * (all columns)", "For aggregations on a few columns (SUM, AVG)", "For UPDATE operations"], answer: 2, explanation: "Columnar storage only reads the columns needed for the query, making aggregations on a few columns much faster." },
+          { question: "What does table partitioning do?", options: ["Creates backup copies", "Splits a table into smaller pieces so queries only scan relevant data", "Encrypts data", "Compresses data"], answer: 1, explanation: "Partitioning divides a table (usually by date) so that queries with partition filters only scan the relevant subset." },
+          { question: "What makes Snowflake unique compared to BigQuery?", options: ["It's open source", "It separates compute and storage, supports multi-cloud, and offers data sharing", "It's faster", "It's free"], answer: 1, explanation: "Snowflake's key differentiators: separate compute/storage scaling, multi-cloud support, Time Travel, and cross-org data sharing." },
+          { question: "What is the OLAP 'drill-down' operation?", options: ["Aggregating to a higher level", "Going from summary to detail (year → month → day)", "Filtering one dimension", "Rotating axes"], answer: 1, explanation: "Drill-down moves from summary to detail — e.g., clicking on a year total to see monthly breakdowns." },
+          { question: "Why is BigQuery called 'serverless'?", options: ["It doesn't use servers", "Users don't manage infrastructure — Google handles scaling and maintenance", "It runs on the client", "It uses edge computing"], answer: 1, explanation: "Serverless means you don't provision, manage, or scale servers. Google handles all infrastructure; you just run queries." }
         ]
       }
     ]
@@ -402,8 +894,86 @@ for s in q1:
       {
         id: "de-bs-1", title: "Batch & Streaming", titleEn: "Batch & Streaming",
         level: 4, difficulty: "advanced",
-        theory: "**Batch Processing:**\n- Xử lý dữ liệu theo lô (hourly, daily)\n- Tools: Spark, Pandas, dbt\n- Ưu: Throughput cao, dễ debug\n\n**Stream Processing:**\n- Xử lý real-time từng event\n- Tools: Kafka, Flink, Spark Streaming\n- Ưu: Latency thấp, phản hồi nhanh\n\n**Micro-batch:**\n- Hybrid: xử lý batch nhỏ (giây)\n- Spark Structured Streaming\n\n**Lambda Architecture:** Batch + Speed layer\n**Kappa Architecture:** Chỉ streaming",
-        theoryEn: "**Batch:** Process data in bulk (hourly/daily)\n**Stream:** Process events in real-time\n**Micro-batch:** Hybrid — small batches (seconds)\n\n**Lambda:** Batch + Speed layers\n**Kappa:** Streaming only",
+        theory: `**Batch Processing** and **Stream Processing** are two fundamentally different paradigms for processing data. Choosing the right one depends on your latency requirements, data volume, and use case.
+
+**Batch Processing — Process Data in Bulk:**
+Data is collected over a period (minutes, hours, days) and processed all at once.
+
+**Characteristics:**
+- High throughput (process millions of records efficiently)
+- Higher latency (results are not immediate)
+- Easier to debug and test (deterministic, repeatable)
+- Cost-effective for large volumes
+
+**Tools:** Apache Spark, Pandas, dbt, Hive, MapReduce
+**Use cases:** Daily reports, data warehouse loads, ML model training, monthly billing
+
+**Stream Processing — Process Events in Real-Time:**
+Each event is processed as soon as it arrives, with latency in milliseconds to seconds.
+
+**Characteristics:**
+- Low latency (near real-time results)
+- Lower throughput per event (but continuous)
+- Harder to debug (non-deterministic, ordering issues)
+- More complex infrastructure
+
+**Tools:** Apache Kafka, Apache Flink, Spark Structured Streaming, Amazon Kinesis
+**Use cases:** Fraud detection, live dashboards, IoT sensor monitoring, real-time recommendations
+
+**Micro-Batch — The Middle Ground:**
+Processes data in very small batches (every few seconds). Offers a balance between latency and simplicity.
+- Spark Structured Streaming uses this approach
+- Simpler than true streaming but lower latency than traditional batch
+
+**Processing Architectures:**
+
+**Lambda Architecture (Batch + Speed):**
+\`\`\`
+                    ┌──→ Batch Layer (accurate, slow) ──→ Serving Layer
+Raw Data ──→ Queue ─┤
+                    └──→ Speed Layer (approximate, fast) ──→ Serving Layer
+\`\`\`
+- Batch layer: complete, accurate view (runs periodically)
+- Speed layer: real-time approximation (fills the gap)
+- Downside: maintaining two codebases
+
+**Kappa Architecture (Streaming Only):**
+\`\`\`
+Raw Data ──→ Stream Processing ──→ Serving Layer
+            (Kafka + Flink)
+\`\`\`
+- Everything goes through the streaming layer
+- Replay events for corrections (Kafka log retention)
+- Simpler than Lambda but requires robust streaming infrastructure
+
+**Key Streaming Concepts:**
+
+**Event Time vs Processing Time:**
+- Event time: when the event actually occurred
+- Processing time: when the system processes it
+- Late arrivals: events arriving after their window has closed
+
+**Windowing:**
+- **Tumbling window:** Fixed, non-overlapping windows (every 5 minutes)
+- **Sliding window:** Overlapping windows (5-minute window, slides every 1 minute)
+- **Session window:** Dynamic, based on activity gaps (group events with < 30s gap)
+
+**Watermarks:**
+A mechanism to handle late events — "I believe all events up to time T have arrived." Events arriving after the watermark may be dropped or sent to a side output.
+
+**Exactly-Once vs At-Least-Once:**
+- **At-most-once:** Fire and forget (may lose data)
+- **At-least-once:** Retry on failure (may produce duplicates)
+- **Exactly-once:** The gold standard (complex, uses transactions + idempotency)`,
+        theoryEn: `**Batch:** Process data in bulk periodically. High throughput, higher latency. Tools: Spark, Pandas, dbt.
+**Streaming:** Process events in real-time. Low latency, complex infrastructure. Tools: Kafka, Flink.
+**Micro-batch:** Small batches every few seconds. Middle ground.
+
+**Lambda Architecture:** Batch + Speed layers (accurate + real-time).
+**Kappa Architecture:** Streaming only (simpler).
+
+**Windowing:** Tumbling (fixed), Sliding (overlapping), Session (activity-based).
+**Delivery guarantees:** At-most-once, At-least-once, Exactly-once.`,
         code: `import time
 from collections import deque
 
@@ -444,10 +1014,14 @@ for event in data[:10]:
     print(f"  Event {event['id']}: value={event['value']}, "
           f"window_avg={result['window_avg']}, total={result['count']}")`,
         codeLanguage: "python",
-        exercise: "Implement tumbling window (5 events) và sliding window (5 events, slide 2) cho stream processor.",
+        exercise: "Implement tumbling window (5 events) and sliding window (5 events, slide 2) for stream processor.",
         exerciseEn: "Implement tumbling window (5 events) and sliding window (5 events, slide 2) for stream processor.",
         quiz: [
-          { question: "Khi nào nên dùng Stream Processing?", options: ["Report hàng tháng", "Real-time fraud detection", "Data migration", "Backup"], answer: 1, explanation: "Stream processing phù hợp khi cần xử lý real-time: fraud detection, live monitoring, alerts." }
+          { question: "When should you use Stream Processing?", options: ["Monthly reports", "Real-time fraud detection", "Data migration", "Backups"], answer: 1, explanation: "Stream processing is for real-time needs: fraud detection, live monitoring, instant alerts, real-time dashboards." },
+          { question: "What is a tumbling window?", options: ["A window that moves with each event", "A fixed-size, non-overlapping time window", "A window based on user sessions", "A window that grows over time"], answer: 1, explanation: "Tumbling windows are fixed-size and non-overlapping — e.g., every 5 minutes is a separate, complete window." },
+          { question: "What problem does the Lambda Architecture solve?", options: ["Data storage", "Providing both accurate batch results and real-time approximations", "Data compression", "Security"], answer: 1, explanation: "Lambda Architecture combines a batch layer (accurate but slow) with a speed layer (fast but approximate) to serve both needs." },
+          { question: "What is the difference between event time and processing time?", options: ["They are the same", "Event time is when it happened; processing time is when the system processes it", "Processing time is always first", "Event time is for streaming only"], answer: 1, explanation: "Events may arrive late (network delays). Event time reflects reality; processing time reflects when your system saw it." },
+          { question: "What does 'exactly-once' delivery guarantee mean?", options: ["Messages are sent exactly once", "Each event is processed exactly once, even with retries — no duplicates, no losses", "Events arrive in order", "Processing takes exactly one second"], answer: 1, explanation: "Exactly-once ensures each event affects the final result once — achieved through transactions and idempotent operations." }
         ]
       }
     ]
@@ -465,8 +1039,84 @@ for event in data[:10]:
       {
         id: "de-dq-1", title: "Data Quality Framework", titleEn: "Data Quality Framework",
         level: 3, difficulty: "intermediate",
-        theory: "**Data Quality Dimensions:**\n- Completeness: % dữ liệu không NULL\n- Accuracy: Dữ liệu đúng thực tế\n- Consistency: Dữ liệu nhất quán giữa các hệ thống\n- Timeliness: Dữ liệu cập nhật đúng thời gian\n- Uniqueness: Không trùng lặp\n\n**Data Contracts:**\n- Schema: định nghĩa cấu trúc dữ liệu\n- SLA: cam kết chất lượng (99.9% completeness)\n- Ownership: ai chịu trách nhiệm\n\n**Tools:** Great Expectations, dbt tests, Monte Carlo",
-        theoryEn: "**Data Quality Dimensions:** Completeness, Accuracy, Consistency, Timeliness, Uniqueness\n\n**Data Contracts:** Schema, SLA, Ownership\n\n**Tools:** Great Expectations, dbt tests, Monte Carlo",
+        theory: `**Data Quality** determines whether your data is fit for its intended use. Poor data quality costs organizations an estimated $12.9 million per year (Gartner). A data engineer's primary job is ensuring data is reliable, accurate, and timely.
+
+**The Six Dimensions of Data Quality:**
+
+| Dimension | Definition | Example Check |
+|-----------|-----------|---------------|
+| **Completeness** | No missing values where expected | email NOT NULL for all users |
+| **Accuracy** | Data reflects reality | age between 0 and 120 |
+| **Consistency** | Same data = same format across systems | "USA" vs "US" vs "United States" |
+| **Timeliness** | Data arrives when expected | Orders table updated by 6 AM daily |
+| **Uniqueness** | No unintended duplicates | user_id is unique |
+| **Validity** | Data conforms to defined rules | email matches regex pattern |
+
+**Data Contracts — Formal Agreements:**
+A data contract is a formal agreement between a data producer and consumer that specifies:
+1. **Schema:** Column names, types, nullable constraints
+2. **SLAs:** Quality guarantees (99.9% completeness, < 1 hour latency)
+3. **Ownership:** Who is responsible when things break
+4. **Semantics:** What each field actually means (is "revenue" pre-tax or post-tax?)
+5. **Evolution policy:** How schema changes are communicated
+
+**Why Data Contracts Matter:**
+Without contracts, upstream teams can change their data format without warning, breaking all downstream pipelines. Data contracts formalize these expectations.
+
+**Data Quality Testing Tools:**
+
+**Great Expectations (Python):**
+\`\`\`python
+import great_expectations as gx
+validator = gx.read_csv("data.csv")
+validator.expect_column_values_to_not_be_null("email")
+validator.expect_column_values_to_be_between("age", 0, 120)
+validator.expect_column_values_to_be_unique("user_id")
+validator.expect_column_values_to_match_regex("email", r"^[\\w.]+@[\\w]+\\.[\\w]+$")
+\`\`\`
+
+**dbt tests:**
+\`\`\`yaml
+# schema.yml
+models:
+  - name: users
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+      - name: email
+        tests: [not_null, unique]
+      - name: age
+        tests:
+          - accepted_values: {values: [18, 19, 20, ...]}
+\`\`\`
+
+**Building a Quality Pipeline:**
+\`\`\`
+Source → Ingest → [Quality Gate] → Transform → [Quality Gate] → Load → [Quality Gate] → Serve
+\`\`\`
+
+**Quality Gate Strategies:**
+- **Hard fail:** Pipeline stops if quality check fails (critical data)
+- **Soft fail:** Pipeline continues but logs a warning (non-critical)
+- **Quarantine:** Bad records are routed to a separate table for review
+
+**Monitoring & Alerting:**
+- Set up automated checks that run after each pipeline execution
+- Alert channels: Slack, PagerDuty, email
+- Dashboard showing quality metrics over time (trend analysis)
+- **Anomaly detection:** automatically flag when metrics deviate from historical norms
+
+**Data Observability Platforms:**
+- Monte Carlo: automated anomaly detection
+- Soda: data quality checks as code
+- Elementary: dbt-native data observability
+- Great Expectations: open-source expectation framework`,
+        theoryEn: `**Data Quality Dimensions:** Completeness, Accuracy, Consistency, Timeliness, Uniqueness, Validity.
+
+**Data Contracts:** Formal agreements on schema, SLAs, ownership, semantics, evolution policy.
+**Tools:** Great Expectations, dbt tests, Monte Carlo, Soda.
+**Quality Gates:** Hard fail (stop), soft fail (warn), quarantine (isolate bad records).
+**Monitoring:** Automated checks, alerts, dashboards, anomaly detection.`,
         code: `# Data Quality Framework
 class DataQualityChecker:
     def __init__(self, data, schema):
@@ -519,10 +1169,14 @@ dq.check_uniqueness("id")
 dq.check_range("age", 0, 120)
 dq.report()`,
         codeLanguage: "python",
-        exercise: "Thêm check_pattern (regex validation cho email) và check_referential_integrity cho DataQualityChecker.",
+        exercise: "Add check_pattern (regex for email) and check_referential_integrity to DataQualityChecker.",
         exerciseEn: "Add check_pattern (regex for email) and check_referential_integrity to DataQualityChecker.",
         quiz: [
-          { question: "Data Contract bao gồm gì?", options: ["Chỉ schema", "Schema + SLA + Ownership", "Chỉ code", "Chỉ documentation"], answer: 1, explanation: "Data Contract gồm: Schema (cấu trúc), SLA (cam kết chất lượng/thời gian), và Ownership (ai chịu trách nhiệm)." }
+          { question: "What does a Data Contract include?", options: ["Only schema", "Schema + SLA + Ownership + Semantics + Evolution policy", "Only code", "Only documentation"], answer: 1, explanation: "Data Contracts formalize expectations between producers and consumers: schema, quality SLAs, ownership, field semantics, and change policies." },
+          { question: "What is a 'hard fail' quality gate?", options: ["A test that always passes", "Pipeline stops completely if a quality check fails", "A warning is logged", "Bad records are quarantined"], answer: 1, explanation: "Hard fail stops the pipeline immediately when a critical quality check fails, preventing bad data from reaching consumers." },
+          { question: "What is data observability?", options: ["Watching data move", "Automatically monitoring data quality, freshness, and volume with alerting on anomalies", "Manual data review", "Data visualization"], answer: 1, explanation: "Data observability provides automated monitoring of data health — detecting quality issues, freshness problems, and volume anomalies." },
+          { question: "Why is the 'consistency' dimension important?", options: ["For performance", "To ensure the same data is formatted the same way across all systems", "For security", "For storage savings"], answer: 1, explanation: "Inconsistent formatting (USA vs US vs United States) leads to incorrect JOINs, wrong aggregations, and broken reports." },
+          { question: "What is data quarantine?", options: ["Deleting bad data", "Routing bad records to a separate table for manual review while the pipeline continues", "Ignoring bad data", "Encrypting sensitive data"], answer: 1, explanation: "Quarantine isolates problematic records so the pipeline can continue processing good data while bad records are reviewed." }
         ]
       }
     ]
@@ -540,8 +1194,97 @@ dq.report()`,
       {
         id: "de-orch-1", title: "DAGs & Task Dependencies", titleEn: "DAGs & Task Dependencies",
         level: 4, difficulty: "advanced",
-        theory: "**Orchestration** — quản lý và lên lịch data pipelines.\n\n**Apache Airflow:**\n- DAG (Directed Acyclic Graph): workflow dạng đồ thị\n- Tasks: đơn vị công việc\n- Operators: PythonOperator, BashOperator, SQLOperator\n- Schedule: cron expressions\n\n**Concepts:**\n- Dependencies: task A >> task B (B chạy sau A)\n- Retry: tự động thử lại khi fail\n- SLA: cảnh báo nếu quá thời gian\n- XCom: truyền data giữa tasks\n\n**Alternatives:** Prefect, Dagster, dbt Cloud",
-        theoryEn: "**Orchestration** — manage and schedule data pipelines.\n\n**Airflow:** DAGs, Tasks, Operators, Scheduling\n\n**Concepts:** Dependencies, Retry, SLA, XCom\n\n**Alternatives:** Prefect, Dagster, dbt Cloud",
+        theory: `**Pipeline Orchestration** is the practice of scheduling, coordinating, and monitoring data pipelines. In production, you rarely run a single script — you run dozens of interconnected tasks that must execute in the right order, retry on failure, and alert when something goes wrong.
+
+**Apache Airflow — The Industry Standard:**
+Airflow is the most widely-used open-source orchestration tool, created at Airbnb in 2014. It defines workflows as code using Python.
+
+**Core Concepts:**
+
+**DAG (Directed Acyclic Graph):**
+A DAG defines a workflow — a collection of tasks with dependencies. "Directed" means dependencies flow one way. "Acyclic" means no circular dependencies.
+\`\`\`
+extract_csv → clean_data → load_warehouse → send_report
+                  ↗
+extract_api ──┘
+\`\`\`
+
+**Tasks:** Individual units of work (run a Python function, execute SQL, call an API).
+
+**Operators:** Templates for tasks:
+- \`PythonOperator\` — run a Python function
+- \`BashOperator\` — run a shell command
+- \`SQLExecuteQueryOperator\` — run SQL
+- \`S3ToGCSOperator\` — transfer between cloud services
+- \`EmailOperator\` — send notifications
+
+**Dependencies:** Define execution order:
+\`\`\`python
+task_a >> task_b  # B runs after A
+task_a >> [task_b, task_c]  # B and C run in parallel after A
+[task_a, task_b] >> task_c  # C runs after both A and B
+\`\`\`
+
+**Scheduling:**
+Uses cron expressions:
+- \`0 2 * * *\` — daily at 2:00 AM
+- \`0 */6 * * *\` — every 6 hours
+- \`0 0 1 * *\` — first day of each month
+- \`@daily\`, \`@hourly\`, \`@weekly\` — Airflow shortcuts
+
+**Error Handling:**
+\`\`\`python
+default_args = {
+    'retries': 3,                    # retry up to 3 times
+    'retry_delay': timedelta(minutes=5),  # wait 5 min between retries
+    'email_on_failure': True,        # send email on failure
+    'email': ['team@company.com'],
+    'sla': timedelta(hours=2),       # alert if task takes > 2 hours
+}
+\`\`\`
+
+**XCom — Passing Data Between Tasks:**
+\`\`\`python
+# Task A pushes data
+def extract(**context):
+    data = fetch_from_api()
+    context['ti'].xcom_push(key='raw_data', value=data)
+
+# Task B pulls data
+def transform(**context):
+    data = context['ti'].xcom_pull(task_ids='extract', key='raw_data')
+    return clean(data)
+\`\`\`
+**Important:** XCom is for **small** metadata (file paths, row counts). Never pass large datasets through XCom — use cloud storage instead.
+
+**Sensors — Waiting for Conditions:**
+\`\`\`python
+# Wait for a file to appear before processing
+file_sensor = S3KeySensor(
+    task_id='wait_for_file',
+    bucket_name='data-bucket',
+    bucket_key='incoming/daily_*.csv',
+    poke_interval=300,  # check every 5 minutes
+    timeout=3600,       # give up after 1 hour
+)
+\`\`\`
+
+**Modern Alternatives:**
+| Tool | Key Differentiator |
+|------|-------------------|
+| **Prefect** | Pythonic, easier to learn than Airflow |
+| **Dagster** | Software-defined assets, strong typing |
+| **dbt Cloud** | SQL-only, built for analytics transforms |
+| **Mage** | Modern UI, notebook-style pipeline building |
+| **Cloud native** | GCP Workflows, AWS Step Functions, Azure Logic Apps |`,
+        theoryEn: `**Orchestration** schedules, coordinates, and monitors data pipelines.
+
+**Airflow concepts:** DAGs (workflow graph), Tasks (work units), Operators (templates), Dependencies (>> syntax).
+**Scheduling:** Cron expressions or Airflow shortcuts (@daily, @hourly).
+**Error handling:** Retries, retry_delay, email_on_failure, SLAs.
+**XCom:** Pass small metadata between tasks (not large data).
+**Sensors:** Wait for conditions (file arrival, API availability).
+**Alternatives:** Prefect, Dagster, dbt Cloud, Mage.`,
         code: `# DAG Simulator (Airflow-like)
 from datetime import datetime
 
@@ -606,10 +1349,14 @@ dag.add_task(Task("notify", lambda: "email sent"), depends_on=["load_warehouse"]
 
 dag.run()`,
         codeLanguage: "python",
-        exercise: "Thêm parallel execution, timeout, và SLA monitoring vào DAG simulator.",
+        exercise: "Add parallel execution, timeout, and SLA monitoring to the DAG simulator.",
         exerciseEn: "Add parallel execution, timeout, and SLA monitoring to the DAG simulator.",
         quiz: [
-          { question: "DAG trong Airflow là gì?", options: ["Database", "Đồ thị có hướng không chu trình — workflow", "Data Access Gateway", "Dashboard"], answer: 1, explanation: "DAG = Directed Acyclic Graph — mô hình hóa workflow trong đó tasks có thứ tự và không có vòng lặp." }
+          { question: "What is a DAG in Airflow?", options: ["A database", "A Directed Acyclic Graph — a workflow without circular dependencies", "A Data Access Gateway", "A Dashboard"], answer: 1, explanation: "DAG = Directed Acyclic Graph — tasks connected by one-way dependencies with no cycles/loops." },
+          { question: "What is XCom used for in Airflow?", options: ["Executing commands", "Passing small metadata (file paths, counts) between tasks", "Storing large datasets", "Scheduling tasks"], answer: 1, explanation: "XCom passes small metadata between tasks. For large data, use cloud storage (S3, GCS) and pass the file path." },
+          { question: "What does a Sensor do in Airflow?", options: ["Monitors CPU usage", "Waits for a condition (file arrival, API availability) before proceeding", "Sends notifications", "Cleans up old runs"], answer: 1, explanation: "Sensors poll for a condition (e.g., file exists in S3) and block execution until the condition is met or timeout occurs." },
+          { question: "What does the cron expression '0 2 * * *' mean?", options: ["Every 2 minutes", "Every day at 2:00 AM", "Every 2 hours", "Every Monday at 2 AM"], answer: 1, explanation: "0 2 * * * = minute 0, hour 2, any day of month, any month, any day of week = daily at 2:00 AM." },
+          { question: "Why should you NOT pass large data through XCom?", options: ["XCom is slow", "XCom stores data in the Airflow metadata database which has limited storage", "XCom doesn't support large data", "There's no reason not to"], answer: 1, explanation: "XCom data is stored in Airflow's metadata database (PostgreSQL/MySQL) which is not designed for large datasets. Use cloud storage." }
         ]
       }
     ]
@@ -627,8 +1374,85 @@ dag.run()`,
       {
         id: "de-cloud-1", title: "Cloud Services Overview", titleEn: "Cloud Services Overview",
         level: 4, difficulty: "advanced",
-        theory: "**Cloud Data Services:**\n\n**Storage:**\n- GCS / S3 / Azure Blob: Object storage\n- BigQuery / Redshift / Synapse: Data Warehouse\n\n**Processing:**\n- Dataflow / EMR / HDInsight: Batch/Stream\n- Cloud Functions / Lambda: Serverless compute\n\n**Orchestration:**\n- Cloud Composer / MWAA: Managed Airflow\n- Step Functions / Cloud Workflows\n\n**ML:**\n- Vertex AI / SageMaker / Azure ML\n\n**Best Practices:**\n- Infrastructure as Code (Terraform)\n- Cost optimization: spot instances, auto-scaling\n- Security: IAM, encryption at rest/transit",
-        theoryEn: "**Cloud Data Services:**\n\n**Storage:** GCS/S3, BigQuery/Redshift\n**Processing:** Dataflow/EMR, Serverless\n**Orchestration:** Managed Airflow\n**ML:** Vertex AI, SageMaker\n\n**Best Practices:** IaC, Cost optimization, Security",
+        theory: `**Cloud Data Platforms** provide managed infrastructure for building data pipelines at scale. Understanding the major cloud providers and their data services is essential for modern data engineers.
+
+**The Big Three Cloud Providers:**
+
+**Google Cloud Platform (GCP):**
+Best known for: BigQuery, data analytics
+- **Storage:** Cloud Storage (object), BigQuery (warehouse), Bigtable (NoSQL), Firestore (document)
+- **Processing:** Dataflow (stream/batch), Dataproc (managed Spark), Cloud Functions (serverless)
+- **Orchestration:** Cloud Composer (managed Airflow), Workflows (simple)
+- **ML/AI:** Vertex AI, AutoML, BigQuery ML
+- **Key advantage:** BigQuery's serverless architecture and ease of use
+
+**Amazon Web Services (AWS):**
+Most market share, broadest service catalog
+- **Storage:** S3 (object), Redshift (warehouse), DynamoDB (NoSQL), RDS (relational)
+- **Processing:** EMR (managed Spark/Hadoop), Glue (serverless ETL), Lambda (serverless compute)
+- **Orchestration:** MWAA (managed Airflow), Step Functions (state machines), EventBridge
+- **ML/AI:** SageMaker, Comprehend, Rekognition
+- **Key advantage:** Largest ecosystem, most third-party integrations
+
+**Microsoft Azure:**
+Strong enterprise integration, especially with Microsoft products
+- **Storage:** Blob Storage (object), Synapse Analytics (warehouse), Cosmos DB (multi-model)
+- **Processing:** HDInsight (managed Hadoop), Data Factory (ETL), Azure Functions
+- **Orchestration:** Data Factory (built-in), Logic Apps
+- **ML/AI:** Azure ML, Cognitive Services
+- **Key advantage:** Seamless integration with Microsoft 365, Active Directory
+
+**Cloud Data Architecture Patterns:**
+
+**The Modern Data Stack:**
+\`\`\`
+Sources → Ingestion (Fivetran/Airbyte) → Warehouse (Snowflake/BigQuery)
+       → Transform (dbt) → BI (Looker/Tableau) → Reverse ETL (Census/Hightouch)
+\`\`\`
+
+**Data Lakehouse:**
+Combines the flexibility of a data lake with the structure and performance of a warehouse.
+- Technologies: Delta Lake (Databricks), Apache Iceberg, Apache Hudi
+- Benefits: ACID transactions on file storage, schema enforcement, time travel
+
+**Data Mesh:**
+A decentralized approach where each business domain owns and manages its own data products.
+- Domain ownership: Marketing team owns marketing data
+- Data as a product: Published with quality guarantees
+- Self-serve infrastructure: Central platform team provides tools
+- Federated governance: Shared standards, local execution
+
+**Cost Optimization Strategies:**
+1. **Right-sizing compute:** Don't over-provision; use auto-scaling
+2. **Spot/Preemptible instances:** 60-90% cheaper for fault-tolerant workloads
+3. **Storage tiering:** Move cold data to cheaper storage classes
+4. **Reservation discounts:** Commit to 1-3 year usage for 30-60% savings
+5. **Query optimization:** Partition, cluster, and write efficient queries
+6. **Data lifecycle policies:** Auto-delete/archive old data
+
+**Infrastructure as Code (IaC):**
+\`\`\`hcl
+# Terraform example: BigQuery dataset
+resource "google_bigquery_dataset" "analytics" {
+  dataset_id = "analytics"
+  location   = "US"
+  labels     = { env = "production" }
+}
+\`\`\`
+Tools: Terraform, Pulumi, CloudFormation, CDK
+
+**Security Best Practices:**
+- **IAM:** Principle of least privilege — grant only necessary permissions
+- **Encryption:** At rest (storage) and in transit (network)
+- **VPC/Private networking:** Keep data services off the public internet
+- **Audit logging:** Track who accessed what and when
+- **Data masking:** Hide PII in non-production environments`,
+        theoryEn: `**Cloud providers:** GCP (BigQuery-focused), AWS (broadest), Azure (Microsoft integration).
+
+**Architecture patterns:** Modern Data Stack, Data Lakehouse (Delta Lake/Iceberg), Data Mesh (domain ownership).
+**Cost optimization:** Right-sizing, spot instances, storage tiering, reservations, query efficiency.
+**IaC:** Terraform, Pulumi, CloudFormation.
+**Security:** IAM (least privilege), encryption, private networking, audit logs, data masking.`,
         code: `# Cloud Architecture Decision Framework
 services = {
     "Storage": {
@@ -670,10 +1494,14 @@ def estimate_cost(storage_gb, queries_tb, compute_hours):
 
 estimate_cost(1000, 10, 200)`,
         codeLanguage: "python",
-        exercise: "Thiết kế kiến trúc data platform cho startup e-commerce: chọn services, ước tính chi phí.",
+        exercise: "Design a data platform architecture for an e-commerce startup: choose services, estimate costs.",
         exerciseEn: "Design a data platform architecture for an e-commerce startup: choose services, estimate costs.",
         quiz: [
-          { question: "BigQuery tính phí dựa trên gì?", options: ["Số bảng", "Lượng dữ liệu query scans (TB)", "Số users", "Thời gian uptime"], answer: 1, explanation: "BigQuery (on-demand) tính phí dựa trên lượng dữ liệu scanned bởi queries, ~$5/TB." }
+          { question: "What pricing model does BigQuery use?", options: ["Number of tables", "Data scanned per query (TB) for on-demand pricing", "Number of users", "Uptime hours"], answer: 1, explanation: "BigQuery on-demand charges ~$5/TB of data scanned. You can also use flat-rate pricing for predictable costs." },
+          { question: "What is a Data Lakehouse?", options: ["A data lake + house", "A system combining data lake flexibility with warehouse ACID transactions and performance", "A type of database", "A visualization tool"], answer: 1, explanation: "Data Lakehouse (Delta Lake, Iceberg) adds warehouse features (ACID, schema, performance) to data lake file storage." },
+          { question: "What is the Data Mesh approach?", options: ["A networking technology", "Decentralized data ownership where each domain manages its own data products", "A type of database", "A data pipeline tool"], answer: 1, explanation: "Data Mesh decentralizes data ownership to domain teams who publish data as products with quality guarantees." },
+          { question: "What are spot/preemptible instances?", options: ["Always-on servers", "Discounted compute that can be terminated when the cloud provider needs capacity back", "Free trial servers", "Premium high-performance servers"], answer: 1, explanation: "Spot instances use spare cloud capacity at 60-90% discount but can be interrupted. Great for fault-tolerant batch workloads." },
+          { question: "What is the principle of least privilege in IAM?", options: ["Give everyone admin access", "Grant only the minimum permissions needed to perform a task", "Remove all permissions", "Use shared accounts"], answer: 1, explanation: "Least privilege means each user/service gets only the exact permissions needed — reducing the impact of compromised credentials." }
         ]
       }
     ]
@@ -691,8 +1519,123 @@ estimate_cost(1000, 10, 200)`,
       {
         id: "de-prod-1", title: "Production Best Practices", titleEn: "Production Best Practices",
         level: 5, difficulty: "advanced",
-        theory: "**Production Pipeline Requirements:**\n\n**Reliability:**\n- Idempotency: chạy lại không tạo duplicate\n- Retry logic: tự động thử lại khi fail\n- Dead letter queue: lưu records lỗi\n\n**Observability:**\n- Logging: structured logs (JSON)\n- Metrics: latency, throughput, error rate\n- Alerting: PagerDuty, Slack notifications\n- Dashboards: Grafana, DataDog\n\n**CI/CD:**\n- Unit tests cho transformations\n- Integration tests cho pipeline\n- Staging environment\n- Blue/green deployments",
-        theoryEn: "**Production Requirements:**\n\n**Reliability:** Idempotency, Retry, Dead letter queue\n**Observability:** Logging, Metrics, Alerting, Dashboards\n**CI/CD:** Unit tests, Integration tests, Staging, Blue/green",
+        theory: `**Production Pipelines** require a fundamentally different mindset from development. A pipeline that works on your laptop with 100 rows must also work at 3 AM with 100 million rows, handle failures gracefully, and alert you when something goes wrong.
+
+**The Three Pillars of Production Data Engineering:**
+
+**1. Reliability — "It Works Even When Things Break"**
+
+**Idempotency:** Running a pipeline multiple times with the same input always produces the same result, without creating duplicates.
+\`\`\`python
+# Bad: appends every run → duplicates!
+INSERT INTO target SELECT * FROM source WHERE date = '2024-01-15';
+
+# Good: delete-then-insert (idempotent)
+DELETE FROM target WHERE date = '2024-01-15';
+INSERT INTO target SELECT * FROM source WHERE date = '2024-01-15';
+
+# Even better: MERGE/UPSERT
+MERGE INTO target USING source ON target.id = source.id
+WHEN MATCHED THEN UPDATE SET ...
+WHEN NOT MATCHED THEN INSERT ...;
+\`\`\`
+
+**Retry Logic:** Transient failures (network timeout, rate limit) should not kill the pipeline.
+\`\`\`python
+from tenacity import retry, stop_after_attempt, wait_exponential
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, max=60))
+def call_api(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+\`\`\`
+
+**Dead Letter Queue (DLQ):** Records that fail processing are routed to a separate queue/table for investigation, while the rest of the pipeline continues.
+
+**Circuit Breaker:** If errors exceed a threshold, stop calling the failing service to avoid cascading failures.
+
+**2. Observability — "You Know What's Happening"**
+
+**Structured Logging:** Use JSON logs with consistent fields for easy searching and aggregation.
+\`\`\`python
+import logging, json
+
+logger = logging.getLogger(__name__)
+logger.info(json.dumps({
+    "event": "pipeline_complete",
+    "pipeline": "daily_etl",
+    "rows_processed": 150000,
+    "duration_seconds": 45.2,
+    "status": "success"
+}))
+\`\`\`
+
+**Metrics to Track:**
+| Metric | What It Tells You |
+|--------|------------------|
+| Rows processed | Volume consistency (sudden drops = upstream issue) |
+| Duration | Performance trends (gradual increase = growing data or degradation) |
+| Error rate | Reliability (should be < 0.1%) |
+| Data freshness | When was the last successful update? |
+| Resource usage | CPU, memory, disk — approaching limits? |
+
+**Alerting Best Practices:**
+- **Page** (wake someone up): pipeline critical failure, data SLA breach
+- **Warn** (check next business day): performance degradation, approaching limits
+- **Info** (dashboard): routine metrics, successful completions
+- Avoid alert fatigue — too many alerts = people ignore them
+
+**Dashboards:** Grafana, DataDog, or CloudWatch dashboards showing pipeline health at a glance.
+
+**3. DevOps — "Changes Are Safe and Automated"**
+
+**CI/CD for Data Pipelines:**
+\`\`\`yaml
+# GitHub Actions example
+name: Data Pipeline CI/CD
+on: [push]
+jobs:
+  test:
+    steps:
+      - run: pytest tests/unit/         # unit tests for transformations
+      - run: pytest tests/integration/  # test against staging data
+  deploy:
+    needs: test
+    steps:
+      - run: dbt run --target production
+      - run: python deploy_airflow_dags.py
+\`\`\`
+
+**Testing Strategy:**
+- **Unit tests:** Test individual transformation functions
+- **Integration tests:** Test pipeline against a staging database
+- **Data tests:** Validate output data quality (dbt tests, Great Expectations)
+- **Contract tests:** Verify upstream data matches expected schema
+
+**Environments:**
+\`\`\`
+Development → Staging → Production
+   (local)    (test data)  (real data)
+\`\`\`
+
+**Blue/Green Deployments:** Run the new pipeline version alongside the old one, compare outputs, then switch traffic. Zero-downtime deployments.
+
+**Versioning:** Version your data, code, and configurations. If something breaks, you need to know exactly what changed.
+
+**Incident Response:**
+1. **Detect:** Automated alerts catch the issue
+2. **Triage:** Determine severity and impact
+3. **Fix:** Apply immediate fix (revert if necessary)
+4. **Recover:** Re-process affected data
+5. **Postmortem:** Document what happened, why, and how to prevent it`,
+        theoryEn: `**Production requirements — three pillars:**
+
+**1. Reliability:** Idempotency (same result on re-run), retry logic (exponential backoff), dead letter queues, circuit breakers.
+**2. Observability:** Structured logging (JSON), metrics (rows, duration, errors, freshness), alerting (page/warn/info), dashboards.
+**3. DevOps:** CI/CD (test → deploy), testing strategy (unit/integration/data/contract), environments (dev → staging → prod), blue/green deployments.
+
+**Incident Response:** Detect → Triage → Fix → Recover → Postmortem.`,
         code: `import json
 import time
 from datetime import datetime
@@ -752,7 +1695,7 @@ import numpy as np
 np.random.seed(42)
 
 def transform(record):
-    if np.random.random() < 0.15:  # 15% failure rate
+    if np.random.random() < 0.15:
         raise ValueError("Transform failed")
     return {**record, "score": record["value"] * 2}
 
@@ -760,10 +1703,14 @@ data = [{"id": i, "value": i * 10} for i in range(20)]
 pipeline = ProductionPipeline("daily_etl")
 results = pipeline.run(data, transform)`,
         codeLanguage: "python",
-        exercise: "Thêm idempotency check (dựa trên record ID) và checkpoint/resume vào ProductionPipeline.",
+        exercise: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",
         exerciseEn: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",
         quiz: [
-          { question: "Idempotency trong pipeline nghĩa là gì?", options: ["Chạy nhanh hơn", "Chạy lại nhiều lần cho cùng kết quả, không duplicate", "Không bao giờ lỗi", "Tự động scale"], answer: 1, explanation: "Idempotent pipeline: dù chạy 1 hay 10 lần với cùng input, kết quả luôn giống nhau, không tạo duplicate." }
+          { question: "What does idempotency mean in a data pipeline?", options: ["Runs faster", "Running multiple times with the same input produces the same result without duplicates", "Never fails", "Automatically scales"], answer: 1, explanation: "An idempotent pipeline produces identical results regardless of how many times it runs with the same input — no duplicate records." },
+          { question: "What is a Dead Letter Queue?", options: ["A queue for deleted messages", "A separate storage for records that failed processing, allowing the pipeline to continue", "A backup queue", "A priority queue"], answer: 1, explanation: "DLQ captures failed records so the pipeline can continue processing good data. Failed records are reviewed separately." },
+          { question: "What is the purpose of a postmortem?", options: ["Blame someone", "Document what happened, root cause, and preventive actions for future incidents", "Delete failed data", "Restart the pipeline"], answer: 1, explanation: "Postmortems are blameless reviews that document incidents, identify root causes, and create action items to prevent recurrence." },
+          { question: "What is a circuit breaker pattern?", options: ["A physical switch", "Stopping calls to a failing service after a threshold to prevent cascading failures", "A type of encryption", "A retry mechanism"], answer: 1, explanation: "Circuit breakers detect when a service is failing and temporarily stop sending requests, giving it time to recover." },
+          { question: "Why use exponential backoff for retries instead of fixed intervals?", options: ["It's simpler", "It gradually increases wait time, reducing load on the failing service and improving recovery chances", "It's faster", "It uses less memory"], answer: 1, explanation: "Exponential backoff (1s, 2s, 4s, 8s...) gives the failing service increasing recovery time and prevents overwhelming it with rapid retries." }
         ]
       }
     ]
