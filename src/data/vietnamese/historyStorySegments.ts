@@ -237,6 +237,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "⚔️ The Black Emperor",
       text: "**Năm 722**, **Mai Thúc Loan** – xuất thân nghèo khó ở Hà Tĩnh, từng đi phu cống vải cho nhà Đường – đứng lên khởi nghĩa. Ông tập hợp hàng vạn người, **liên kết với Chăm Pa và Chân Lạp**, tự xưng **Mai Hắc Đế** (Hoàng đế Đen) vì nước da ngăm đen. Kinh đô đặt tại Vạn An (Nghệ An), nghĩa quân làm chủ đất nước trước khi nhà Đường cử **10 vạn quân** đàn áp.",
       textEn: "In **722**, **Mai Thuc Loan** – born poor in Ha Tinh, having toiled as a tribute laborer – rose in revolt. He rallied tens of thousands, **allied with Champa and Chenla**, and declared himself **Mai Hac De** (the Black Emperor) due to his dark complexion. His forces controlled the land before the Tang sent **100,000 troops** to suppress them.",
+      imageUrl: maiThucLoan,
     },
     {
       title: "🐅 Phùng Hưng – Bố Cái Đại Vương",
