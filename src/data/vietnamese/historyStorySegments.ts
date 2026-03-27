@@ -26,14 +26,33 @@ import hoGuomLegend from "@/assets/history/ho-guom-legend.jpg";
 import hoiAnTrade from "@/assets/history/hoi-an-trade.jpg";
 import vanMieu from "@/assets/history/van-mieu.jpg";
 
+// Month 1 extra images
+import khucThuaDu from "@/assets/history/khuc-thua-du.jpg";
+import maiThucLoan from "@/assets/history/mai-thuc-loan.jpg";
+
+// Month 2 extra images
+import leThanhTong from "@/assets/history/le-thanh-tong.jpg";
+import hoQuyLy from "@/assets/history/ho-quy-ly.jpg";
+
 // Month 3 images
 import quangTrung from "@/assets/history/quang-trung.jpg";
+import hueCitadel from "@/assets/history/hue-citadel.jpg";
 import hoChiMinhDeclaration from "@/assets/history/ho-chi-minh-declaration.jpg";
 import dienBienPhu from "@/assets/history/dien-bien-phu.jpg";
 import reunification1975 from "@/assets/history/reunification-1975.jpg";
+import canVuong from "@/assets/history/can-vuong.jpg";
+import phanBoiChau from "@/assets/history/phan-boi-chau.jpg";
+import xoVietNgheTinh from "@/assets/history/xo-viet-nghe-tinh.jpg";
+import augustRevolution from "@/assets/history/august-revolution.jpg";
 
 // Month 4 images
 import doiMoi from "@/assets/history/doi-moi.jpg";
+import vietnamAsean from "@/assets/history/vietnam-asean.jpg";
+import vietnamDigital from "@/assets/history/vietnam-digital.jpg";
+import vietnamCuisine from "@/assets/history/vietnam-cuisine.jpg";
+import vietnamEducation from "@/assets/history/vietnam-education.jpg";
+import vietnamEconomy from "@/assets/history/vietnam-economy.jpg";
+import vietnamFuture from "@/assets/history/vietnam-future.jpg";
 
 // Map lesson IDs to their story segments
 export const historyStorySegments: Record<string, StorySegment[]> = {
@@ -170,6 +189,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🔔 Seizing the Moment",
       text: "**Năm 905**, nhà Đường – đế chế hùng mạnh nhất châu Á – đang sụp đổ trong hỗn loạn. Hàng nghìn dặm xa, tại Hồng Châu (Hải Dương), một hào trưởng uy tín tên **Khúc Thừa Dụ** nhìn ra cơ hội ngàn năm có một. Ông tự xưng **Tiết độ sứ** – giành quyền cai trị An Nam từ tay người Trung Quốc mà không cần đổ máu. Bước ngoặt này **mở đầu thời kỳ tự chủ** của dân tộc Việt.",
       textEn: "In **905**, the mighty Tang Dynasty was collapsing into chaos. Thousands of miles away, in Hong Chau (Hai Duong), a respected chieftain named **Khuc Thua Du** saw a once-in-a-millennium opportunity. He declared himself **Governor**, wresting control of An Nam from Chinese hands without bloodshed. This turning point **began Vietnam's era of autonomy**.",
+      imageUrl: khucThuaDu,
     },
     {
       title: "🌱 Ba đời xây nền tự chủ",
@@ -217,6 +237,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "⚔️ The Black Emperor",
       text: "**Năm 722**, **Mai Thúc Loan** – xuất thân nghèo khó ở Hà Tĩnh, từng đi phu cống vải cho nhà Đường – đứng lên khởi nghĩa. Ông tập hợp hàng vạn người, **liên kết với Chăm Pa và Chân Lạp**, tự xưng **Mai Hắc Đế** (Hoàng đế Đen) vì nước da ngăm đen. Kinh đô đặt tại Vạn An (Nghệ An), nghĩa quân làm chủ đất nước trước khi nhà Đường cử **10 vạn quân** đàn áp.",
       textEn: "In **722**, **Mai Thuc Loan** – born poor in Ha Tinh, having toiled as a tribute laborer – rose in revolt. He rallied tens of thousands, **allied with Champa and Chenla**, and declared himself **Mai Hac De** (the Black Emperor) due to his dark complexion. His forces controlled the land before the Tang sent **100,000 troops** to suppress them.",
+      imageUrl: maiThucLoan,
     },
     {
       title: "🐅 Phùng Hưng – Bố Cái Đại Vương",
@@ -304,6 +325,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "⚖️ The Hong Duc Legal Code",
       text: "**Lê Thánh Tông** (trị vì *1460-1497*) – vị vua anh minh nhất nhà Hậu Lê – ban hành **Bộ luật Hồng Đức**, bộ luật hoàn chỉnh và tiến bộ nhất thời phong kiến. Điều đặc biệt: luật có nhiều điều khoản **bảo vệ quyền phụ nữ, trẻ em và người yếu thế** – tiến bộ hơn nhiều so với luật pháp phương Tây cùng thời. Ông chia cả nước thành **13 đạo**, tổ chức thi cử đều đặn để tuyển chọn nhân tài.",
       textEn: "**Le Thanh Tong** (reigned *1460-1497*) – the most enlightened Later Le king – issued the **Hong Duc Legal Code**, the most complete and progressive feudal code. Remarkably, it included provisions **protecting women's rights, children, and the vulnerable** – far more advanced than contemporary Western law. He divided the country into **13 regions** and organized regular examinations to select talent.",
+      imageUrl: leThanhTong,
     },
     {
       title: "🌟 Thời kỳ hoàng kim",
@@ -335,6 +357,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "💰 A Reformer Ahead of His Time",
       text: "**Hồ Quý Ly** (*1336-1407*) – nhân vật gây tranh cãi nhất lịch sử Việt Nam. Dù **cướp ngôi** nhà Trần (*năm 1400*), ông lại thực hiện những cải cách cách mạng: phát hành **tiền giấy** (đầu tiên ở Đông Nam Á!), hạn chế ruộng đất quý tộc, cải cách giáo dục sang **chữ Nôm**, xây **thành nhà Hồ** bằng đá khổng lồ (nay là Di sản UNESCO).",
       textEn: "**Ho Quy Ly** (*1336-1407*) – Vietnam's most controversial figure. Despite **usurping** the Tran throne (*1400*), he implemented revolutionary reforms: issuing **paper currency** (first in Southeast Asia!), limiting aristocratic land, reforming education to **Nom script**, and building the massive **Ho Citadel** (now UNESCO World Heritage).",
+      imageUrl: hoQuyLy,
     },
     {
       title: "⚡ Thất bại và bài học",
@@ -416,6 +439,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🏯 The Last Dynasty",
       text: "**Năm 1802**, **Nguyễn Ánh** thống nhất đất nước, lên ngôi **Gia Long**, lập nhà Nguyễn – triều đại phong kiến cuối cùng, đóng đô ở **Phú Xuân** (Huế). Ông xây dựng **Kinh thành Huế** nguy nga (nay là Di sản UNESCO). Tuy nhiên, các vua sau thực hiện chính sách **'bế quan tỏa cảng'**, cấm đạo, từ chối hiện đại hóa.",
       textEn: "In **1802**, **Nguyen Anh** unified the country as Emperor **Gia Long**, founding the Nguyen Dynasty – the last feudal dynasty, capital at **Phu Xuan** (Hue). He built the magnificent **Hue Imperial Citadel** (now UNESCO Heritage). However, later kings pursued **isolationism**, banning Christianity and refusing modernization.",
+      imageUrl: hueCitadel,
     },
     {
       title: "🇫🇷 80 năm đô hộ",
@@ -479,6 +503,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "👑 The 13-Year-Old King in Exile",
       text: "Sau khi Pháp hoàn tất chiếm đóng (*1884*), vua **Hàm Nghi** – khi đó mới **13 tuổi** – dưới sự phò tá của **Tôn Thất Thuyết**, bí mật rời Huế sau cuộc phản công thất bại. Từ vùng rừng núi Quảng Bình, vua ban **chiếu Cần Vương** kêu gọi toàn dân kháng chiến – tiếng gọi non sông vang vọng khắp nước.",
       textEn: "After France completed its conquest (*1884*), 13-year-old King **Ham Nghi**, under **Ton That Thuyet's** protection, secretly fled Hue after a failed counterattack. From the mountains of Quang Binh, he issued the **Can Vuong Edict** calling for national resistance – a clarion call echoing across the land.",
+      imageUrl: canVuong,
     },
     {
       title: "🏔️ 30 năm kháng chiến",
@@ -494,6 +519,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🇯🇵 The Eastward Movement",
       text: "**Phan Bội Châu** (*1867-1940*) – nhà cách mạng tiêu biểu nhất đầu thế kỷ 20. **Năm 1905**, ông sang **Nhật Bản** – đất nước châu Á duy nhất canh tân thành công – lập phong trào **Đông Du**, bí mật đưa khoảng **200 thanh niên** VN sang Nhật du học về kỹ thuật, quân sự. Ông viết **'Việt Nam vong quốc sử'** để thức tỉnh lòng yêu nước.",
       textEn: "**Phan Boi Chau** (*1867-1940*) – the most prominent revolutionary of early 20th century. In **1905**, he traveled to **Japan** and founded the **Dong Du** movement, secretly sending about **200 Vietnamese youth** to study technology and military there. He wrote **'History of Vietnam's Loss'** to awaken patriotism.",
+      imageUrl: phanBoiChau,
     },
     {
       title: "💡 Gieo mầm cách mạng",
@@ -509,6 +535,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "✊ The General Rehearsal",
       text: "**Năm 1930**, Đảng Cộng sản VN vừa thành lập, cách mạng bùng nổ mạnh nhất tại **Nghệ An và Hà Tĩnh**. Công nhân đình công, nông dân biểu tình. Ở nhiều huyện, chính quyền thực dân sụp đổ, nhân dân tự lập **chính quyền Xô Viết**: chia ruộng, xóa nợ, mở trường – lần đầu tiên ở Đông Dương có chính quyền cách mạng do **nông dân tự quản lý**.",
       textEn: "In **1930**, the Communist Party had just been founded, and revolution erupted in **Nghe An and Ha Tinh**. Workers struck, peasants demonstrated. In many districts, colonial authority collapsed and people established **Soviet-style councils**: redistributing land, canceling debts, opening schools – the first **self-governing revolutionary government** in Indochina.",
+      imageUrl: xoVietNgheTinh,
     },
     {
       title: "🔥 Bài học cho tương lai",
@@ -524,6 +551,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "⚡ The General Uprising",
       text: "**Tháng 8/1945**, Nhật đầu hàng Đồng Minh sau bom nguyên tử. Thời cơ ngàn năm có một đã đến! Ngày **19/8**, hàng chục vạn nhân dân Hà Nội chiếm các cơ quan chính quyền – **không đổ máu**. Các tỉnh nhanh chóng theo sau: **Huế** (23/8), **Sài Gòn** (25/8).",
       textEn: "In **August 1945**, Japan surrendered after the atomic bombs. The once-in-a-millennium moment had arrived! On **August 19**, hundreds of thousands seized power in Hanoi – **without bloodshed**. Provinces followed swiftly: **Hue** (23/8), **Saigon** (25/8).",
+      imageUrl: augustRevolution,
     },
     {
       title: "👑 Vua cuối cùng thoái vị",
@@ -573,6 +601,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🤝 Normalization and ASEAN",
       text: "**Năm 1995** là bước ngoặt: VN gia nhập **ASEAN** và **bình thường hóa quan hệ với Mỹ** – chấm dứt hai thập kỷ thù địch. Tổng thống **Bill Clinton** thăm VN năm 2000 – hình ảnh cựu thù trở thành bạn bè khiến cả thế giới cảm phục.",
       textEn: "**1995** was a watershed: Vietnam joined **ASEAN** and **normalized US relations** – ending two decades of hostility. President **Bill Clinton** visited in 2000 – former enemies becoming friends inspired the world.",
+      imageUrl: vietnamAsean,
     },
     {
       title: "🌐 Hội nhập toàn cầu",
@@ -588,6 +617,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "💻 Connecting to the Internet",
       text: "**19/11/1997**, VN chính thức kết nối **Internet**. Từ vài trăm người dùng, nay hơn **77 triệu người** (78% dân số). **FPT** trở thành tập đoàn công nghệ lớn nhất, xuất khẩu phần mềm ra 30+ quốc gia. **VNG** phát triển Zalo (75 triệu người dùng). **Viettel** đầu tư viễn thông ở 10 nước.",
       textEn: "On **November 19, 1997**, Vietnam connected to the **Internet**. From a few hundred users, now over **77 million** (78% of population). **FPT** became the largest tech corporation. **VNG** developed Zalo (75 million users). **Viettel** invested in telecoms across 10 countries.",
+      imageUrl: vietnamDigital,
     },
     {
       title: "📱 Quốc gia số hóa",
@@ -633,6 +663,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "📈 The Economic Miracle",
       text: "Đổi Mới tạo **phép màu**: GDP tăng **6-7%/năm** suốt hàng thập kỷ. GDP đầu người từ **~100 USD** (*1986*) lên **~4.200 USD** (*2023*). Tỷ lệ nghèo giảm từ **58%** (*1993*) xuống dưới **5%** – Ngân hàng Thế giới gọi là **'câu chuyện phát triển thần kỳ'**.",
       textEn: "Doi Moi created a **miracle**: GDP grew **6-7%/year** for decades. Per capita GDP rose from **~$100** (*1986*) to **~$4,200** (*2023*). Poverty dropped from **58%** (*1993*) to under **5%** – the World Bank called it a **'development miracle.'**",
+      imageUrl: vietnamEconomy,
     },
     {
       title: "🏭 Cơ sở sản xuất toàn cầu",
@@ -663,6 +694,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "📊 Stunning the World at PISA",
       text: "**Năm 2012**, VN lần đầu tham gia **PISA** – kỳ thi đánh giá học sinh quốc tế của OECD. Kết quả gây **chấn động**: học sinh 15 tuổi xếp thứ **17 về Toán** (trên Mỹ, Anh, Pháp!), thứ **8 về Khoa học**. Với GDP chỉ bằng **1/20 Mỹ**, thành tích này khiến giới giáo dục thế giới **kinh ngạc**.",
       textEn: "In **2012**, Vietnam first joined **PISA** – the OECD international assessment. Results were **stunning**: 15-year-olds ranked **17th in Math** (above the US, UK, France!), **8th in Science**. With GDP just **1/20th** of the US, this **astonished** the global education community.",
+      imageUrl: vietnamEducation,
     },
     {
       title: "📚 Bí quyết và thách thức",
@@ -678,6 +710,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🍜 Cuisine Conquering the World",
       text: "Trong thế kỷ 21, văn hóa VN ngày càng được thế giới yêu mến. **Phở** có mặt ở hầu hết thành phố lớn từ New York đến Tokyo. **Năm 2011**, bánh mì vào **từ điển Oxford**; **2020**, Google tôn vinh bằng **Google Doodle**. **Cà phê VN** (đặc biệt cà phê sữa đá, cà phê trứng) trở thành **hiện tượng toàn cầu**.",
       textEn: "In the 21st century, Vietnamese culture has gained worldwide love. **Pho** can be found in virtually every major city. **Banh mi** entered the **Oxford Dictionary** (2011); Google honored it with a **Doodle** (2020). **Vietnamese coffee** (especially iced milk coffee and egg coffee) became a **global phenomenon**.",
+      imageUrl: vietnamCuisine,
     },
     {
       title: "🌏 Văn hóa Việt toàn cầu",
@@ -693,6 +726,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🎯 Strategy for 2045",
       text: "**Năm 2045** đánh dấu **100 năm** Quốc khánh (2/9/1945). VN đặt mục tiêu đầy tham vọng: nước **phát triển, thu nhập cao**. Chiến lược: chuyển đổi số (kinh tế số **30% GDP** vào 2030), năng lượng sạch (**net-zero 2050** cam kết tại COP26), cải cách giáo dục (**STEM**), xây dựng **đường sắt tốc độ cao** Bắc-Nam.",
       textEn: "**2045** marks **100 years** of National Day (Sep 2, 1945). Vietnam aims ambitiously: a **developed, high-income nation**. Strategies: digital transformation (digital economy **30% of GDP** by 2030), clean energy (**net-zero 2050** pledged at COP26), education reform (**STEM**), **high-speed railway** from North to South.",
+      imageUrl: vietnamFuture,
     },
     {
       title: "🌟 Câu chuyện truyền cảm hứng",
