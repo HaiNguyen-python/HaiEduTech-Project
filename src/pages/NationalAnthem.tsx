@@ -10,6 +10,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import flagLandmark from "@/assets/vietnam-flag-landmark.jpg";
+import soldierFlag from "@/assets/soldier-flag.png";
 
 // Lyrics data with timestamps (approximate seconds for karaoke highlighting)
 const lyricsLines = [
@@ -201,12 +202,24 @@ const NationalAnthem = () => {
             <Badge className="mb-4 bg-red-600/10 text-red-700 border-red-200 text-sm">
               <Flag className="w-3.5 h-3.5 mr-1" /> Quốc ca Việt Nam
             </Badge>
-            <h1
-              className="text-3xl md:text-5xl font-bold text-foreground mb-3"
-              style={{ fontFamily: "'Playfair Display', 'Noto Serif', serif" }}
-            >
-              Tiến Quân Ca
-            </h1>
+            <div className="flex items-center justify-center gap-4">
+              <h1
+                className="text-3xl md:text-5xl font-bold text-foreground"
+                style={{ fontFamily: "'Playfair Display', 'Noto Serif', serif" }}
+              >
+                Tiến Quân Ca
+              </h1>
+              <motion.img
+                src={soldierFlag}
+                alt="Chú bộ đội cầm cờ Việt Nam"
+                className="w-20 h-20 md:w-28 md:h-28 object-contain"
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                width={112}
+                height={112}
+              />
+            </div>
             <p className="text-muted-foreground text-lg md:text-xl">
               Quốc ca nước Cộng hòa Xã hội Chủ nghĩa Việt Nam
             </p>
