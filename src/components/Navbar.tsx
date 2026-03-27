@@ -187,13 +187,26 @@ const Navbar = () => {
               </Link>
 
               {/* Slogan centered between logo and auth */}
-              <div className="hidden md:flex items-center justify-center flex-1 min-w-0 mx-3">
-                <span className="text-sm lg:text-base text-foreground font-display font-extrabold tracking-[0.08em] truncate" style={{ fontVariant: "small-caps" }}>
-                  The Unique Intersection of{" "}
-                  <span className="bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(160,84%,39%)] bg-clip-text text-transparent font-display font-extrabold" style={{ fontFamily: "'Dancing Script', cursive", fontSize: "inherit" }}>Language</span>
-                  {" & "}
-                  <span className="bg-gradient-to-r from-[hsl(160,84%,39%)] to-[hsl(var(--primary))] bg-clip-text text-transparent font-display font-extrabold" style={{ fontFamily: "'Dancing Script', cursive", fontSize: "inherit" }}>Technology</span>
-                </span>
+              <div className="hidden md:flex items-center justify-center flex-1 min-w-0 mx-3 relative group/slogan">
+                <div className="flex flex-col items-center">
+                  <span
+                    className="text-[11px] lg:text-xs uppercase font-semibold tracking-[0.18em] truncate"
+                    style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 600 }}
+                  >
+                    <span style={{ color: "#1A1A1A" }}>THE UNIQUE INTERSECTION OF </span>
+                    <span style={{ color: "#10B981" }}>LANGUAGE</span>
+                    <span style={{ color: "#1A1A1A" }}> & </span>
+                    <span style={{ color: "#10B981" }}>TECHNOLOGY</span>
+                  </span>
+                  {/* Elegant underline */}
+                  <div className="w-full h-[1px] mt-1 bg-gradient-to-r from-transparent via-[#10B981]/40 to-transparent" />
+                </div>
+                {/* Mascot speech bubble on hover */}
+                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/slogan:opacity-100 transition-opacity duration-300 pointer-events-none z-[100]">
+                  <div className="bg-card border border-border rounded-lg px-3 py-1 shadow-lg text-[10px] font-medium text-foreground whitespace-nowrap">
+                    🎓 The core foundation of your learning!
+                  </div>
+                </div>
               </div>
 
               {/* Auth + Lang on branding row (desktop only) */}
@@ -261,8 +274,14 @@ const Navbar = () => {
 
             {/* Row 1b: Slogan on mobile — separate row, smaller text, centered */}
             <div className="md:hidden text-center pb-1.5 -mt-1">
-              <span className="text-[11px] text-muted-foreground/70 italic font-light tracking-wide">
-                Học thông minh • Dẫn đầu kỷ nguyên số
+              <span
+                className="text-[8px] uppercase font-semibold tracking-[0.15em]"
+                style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 600 }}
+              >
+                <span style={{ color: "#1A1A1A" }}>THE UNIQUE INTERSECTION OF </span>
+                <span style={{ color: "#10B981" }}>LANGUAGE</span>
+                <span style={{ color: "#1A1A1A" }}> & </span>
+                <span style={{ color: "#10B981" }}>TECHNOLOGY</span>
               </span>
             </div>
           </div>
