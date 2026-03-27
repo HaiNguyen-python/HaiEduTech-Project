@@ -169,7 +169,7 @@ const Vietnamese = () => {
               </motion.div>
             </div>
             {/* Tabs overlay at bottom of banner */}
-            <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-10">
+            <div className="absolute -bottom-5 md:-bottom-6 left-1/2 -translate-x-1/2 z-10">
               <TabsList className="grid grid-cols-4 bg-white/80 backdrop-blur-sm shadow-lg rounded-xl">
                 <TabsTrigger value="language" className="flex items-center gap-1.5 text-xs sm:text-sm">
                   <BookOpen className="w-4 h-4" />
