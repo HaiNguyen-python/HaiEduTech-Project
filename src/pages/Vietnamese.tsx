@@ -1,5 +1,5 @@
 // Learn Vietnamese main page with language, history, folklore, and game sections
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -83,7 +83,7 @@ const Vietnamese = () => {
   const [activeTab, setActiveTab] = useState(
     tabFromUrl && validTabs.includes(tabFromUrl) ? tabFromUrl : "language"
   );
-  const tabsRef = React.useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
 
   // Sync tab when URL query param changes and scroll to tabs
   useEffect(() => {
