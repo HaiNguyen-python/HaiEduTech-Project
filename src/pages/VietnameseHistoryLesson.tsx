@@ -164,7 +164,7 @@ const VietnameseHistoryLesson = () => {
 
           {/* Key Dates */}
           <section className="mb-12">
-            <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
               {t("Mốc thời gian quan trọng", "Key Dates")}
             </h2>
@@ -176,14 +176,14 @@ const VietnameseHistoryLesson = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex items-start gap-4 bg-card border border-border rounded-lg p-4"
+                  className="flex items-start gap-4 bg-card border border-border rounded-lg p-5"
                 >
-                  <span className="text-sm font-bold text-primary whitespace-nowrap min-w-[80px]">
+                  <span className="text-base font-bold text-primary whitespace-nowrap min-w-[80px]">
                     {d.year}
                   </span>
                   <div>
-                    <p className="font-semibold text-foreground">{t(d.title, d.titleEn)}</p>
-                    <p className="text-sm text-muted-foreground">{t(d.description, d.descriptionEn)}</p>
+                    <p className="font-semibold text-foreground text-lg">{t(d.title, d.titleEn)}</p>
+                    <p className="text-base text-muted-foreground">{t(d.description, d.descriptionEn)}</p>
                   </div>
                 </motion.div>
               ))}
@@ -194,13 +194,13 @@ const VietnameseHistoryLesson = () => {
 
           {/* Quiz */}
           <section className="mb-10">
-            <h2 className="text-lg font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-foreground mb-4">
               📝 {t("Kiểm tra kiến thức", "Knowledge Check")}
             </h2>
             <div className="space-y-6">
               {lesson.quiz.map((q, qi) => (
                 <div key={qi} className="bg-card border border-border rounded-xl p-5">
-                  <p className="font-semibold text-foreground mb-3">
+                  <p className="font-semibold text-foreground mb-3 text-lg">
                     {qi + 1}. {t(q.question, q.questionEn)}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -212,7 +212,7 @@ const VietnameseHistoryLesson = () => {
                         <button
                           key={oi}
                           onClick={() => !submitted && setAnswers((p) => ({ ...p, [qi]: oi }))}
-                          className={`text-left p-3 rounded-lg border transition-colors text-sm ${
+                          className={`text-left p-3.5 rounded-lg border transition-colors text-base ${
                             isCorrect
                               ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-950/30 dark:border-emerald-700"
                               : isWrong
@@ -228,7 +228,7 @@ const VietnameseHistoryLesson = () => {
                     })}
                   </div>
                   {submitted && (
-                    <p className="text-xs text-muted-foreground mt-2">
+                    <p className="text-sm text-muted-foreground mt-2">
                       💡 {t(q.explanation, q.explanationEn)}
                     </p>
                   )}
