@@ -70,7 +70,7 @@ const VietnameseHistoryLesson = () => {
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <Badge className={`bg-gradient-to-r ${month.color} text-white mb-3`}>
-              {month.icon} {t(`Tháng ${month.month}`, `Month ${month.month}`)}
+              {month.icon} {t(month.title, month.titleEn)}
             </Badge>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
               {t(lesson.title, lesson.titleEn)}
@@ -100,7 +100,7 @@ const VietnameseHistoryLesson = () => {
                     >
                       {/* Segment Title */}
                       <div className="px-5 pt-5 pb-2">
-                        <h3 className="text-base font-bold text-foreground">
+                        <h3 className="text-lg font-bold text-foreground">
                           {t(seg.title, seg.titleEn)}
                         </h3>
                       </div>
@@ -123,7 +123,7 @@ const VietnameseHistoryLesson = () => {
 
                         {/* Text */}
                         <div className={`${seg.imageUrl ? 'md:w-[60%]' : 'w-full'} p-5 pt-2 flex items-center`}>
-                          <div className="prose prose-sm dark:prose-invert max-w-none text-foreground leading-relaxed">
+                          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground leading-loose text-[1.2rem]" style={{ lineHeight: '1.9' }}>
                             <ReactMarkdown
                               components={{
                                 strong: ({ children }) => (
