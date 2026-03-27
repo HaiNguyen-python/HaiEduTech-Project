@@ -97,7 +97,7 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
                 </Badge>
                 <h3
                   className="font-extrabold text-foreground text-xl leading-relaxed"
-                  style={{ fontFamily: "'Noto Serif', 'Playfair Display', serif" }}
+                  style={{ fontFamily: "'Playfair Display', 'Noto Serif', serif" }}
                 >
                   {displayTitle}
                 </h3>
