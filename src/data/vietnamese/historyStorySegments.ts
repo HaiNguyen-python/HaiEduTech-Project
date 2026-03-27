@@ -503,6 +503,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "👑 The 13-Year-Old King in Exile",
       text: "Sau khi Pháp hoàn tất chiếm đóng (*1884*), vua **Hàm Nghi** – khi đó mới **13 tuổi** – dưới sự phò tá của **Tôn Thất Thuyết**, bí mật rời Huế sau cuộc phản công thất bại. Từ vùng rừng núi Quảng Bình, vua ban **chiếu Cần Vương** kêu gọi toàn dân kháng chiến – tiếng gọi non sông vang vọng khắp nước.",
       textEn: "After France completed its conquest (*1884*), 13-year-old King **Ham Nghi**, under **Ton That Thuyet's** protection, secretly fled Hue after a failed counterattack. From the mountains of Quang Binh, he issued the **Can Vuong Edict** calling for national resistance – a clarion call echoing across the land.",
+      imageUrl: canVuong,
     },
     {
       title: "🏔️ 30 năm kháng chiến",
@@ -518,6 +519,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🇯🇵 The Eastward Movement",
       text: "**Phan Bội Châu** (*1867-1940*) – nhà cách mạng tiêu biểu nhất đầu thế kỷ 20. **Năm 1905**, ông sang **Nhật Bản** – đất nước châu Á duy nhất canh tân thành công – lập phong trào **Đông Du**, bí mật đưa khoảng **200 thanh niên** VN sang Nhật du học về kỹ thuật, quân sự. Ông viết **'Việt Nam vong quốc sử'** để thức tỉnh lòng yêu nước.",
       textEn: "**Phan Boi Chau** (*1867-1940*) – the most prominent revolutionary of early 20th century. In **1905**, he traveled to **Japan** and founded the **Dong Du** movement, secretly sending about **200 Vietnamese youth** to study technology and military there. He wrote **'History of Vietnam's Loss'** to awaken patriotism.",
+      imageUrl: phanBoiChau,
     },
     {
       title: "💡 Gieo mầm cách mạng",
@@ -533,6 +535,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "✊ The General Rehearsal",
       text: "**Năm 1930**, Đảng Cộng sản VN vừa thành lập, cách mạng bùng nổ mạnh nhất tại **Nghệ An và Hà Tĩnh**. Công nhân đình công, nông dân biểu tình. Ở nhiều huyện, chính quyền thực dân sụp đổ, nhân dân tự lập **chính quyền Xô Viết**: chia ruộng, xóa nợ, mở trường – lần đầu tiên ở Đông Dương có chính quyền cách mạng do **nông dân tự quản lý**.",
       textEn: "In **1930**, the Communist Party had just been founded, and revolution erupted in **Nghe An and Ha Tinh**. Workers struck, peasants demonstrated. In many districts, colonial authority collapsed and people established **Soviet-style councils**: redistributing land, canceling debts, opening schools – the first **self-governing revolutionary government** in Indochina.",
+      imageUrl: xoVietNgheTinh,
     },
     {
       title: "🔥 Bài học cho tương lai",
@@ -548,6 +551,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "⚡ The General Uprising",
       text: "**Tháng 8/1945**, Nhật đầu hàng Đồng Minh sau bom nguyên tử. Thời cơ ngàn năm có một đã đến! Ngày **19/8**, hàng chục vạn nhân dân Hà Nội chiếm các cơ quan chính quyền – **không đổ máu**. Các tỉnh nhanh chóng theo sau: **Huế** (23/8), **Sài Gòn** (25/8).",
       textEn: "In **August 1945**, Japan surrendered after the atomic bombs. The once-in-a-millennium moment had arrived! On **August 19**, hundreds of thousands seized power in Hanoi – **without bloodshed**. Provinces followed swiftly: **Hue** (23/8), **Saigon** (25/8).",
+      imageUrl: augustRevolution,
     },
     {
       title: "👑 Vua cuối cùng thoái vị",
@@ -597,6 +601,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🤝 Normalization and ASEAN",
       text: "**Năm 1995** là bước ngoặt: VN gia nhập **ASEAN** và **bình thường hóa quan hệ với Mỹ** – chấm dứt hai thập kỷ thù địch. Tổng thống **Bill Clinton** thăm VN năm 2000 – hình ảnh cựu thù trở thành bạn bè khiến cả thế giới cảm phục.",
       textEn: "**1995** was a watershed: Vietnam joined **ASEAN** and **normalized US relations** – ending two decades of hostility. President **Bill Clinton** visited in 2000 – former enemies becoming friends inspired the world.",
+      imageUrl: vietnamAsean,
     },
     {
       title: "🌐 Hội nhập toàn cầu",
