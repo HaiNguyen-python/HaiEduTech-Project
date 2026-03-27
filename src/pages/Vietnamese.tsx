@@ -137,7 +137,7 @@ const Vietnamese = () => {
         {/* Hero with illustration banner */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* Banner with overlaid title and tabs */}
-        <section className="w-full mb-6">
+        <section className="w-full mb-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
