@@ -83,11 +83,16 @@ const Vietnamese = () => {
   const [activeTab, setActiveTab] = useState(
     tabFromUrl && validTabs.includes(tabFromUrl) ? tabFromUrl : "language"
   );
+  const tabsRef = React.useRef<HTMLDivElement>(null);
 
-  // Sync tab when URL query param changes
+  // Sync tab when URL query param changes and scroll to tabs
   useEffect(() => {
     if (tabFromUrl && validTabs.includes(tabFromUrl)) {
       setActiveTab(tabFromUrl);
+      // Scroll to tabs section when navigating via URL
+      setTimeout(() => {
+        tabsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     }
   }, [tabFromUrl]);
 
