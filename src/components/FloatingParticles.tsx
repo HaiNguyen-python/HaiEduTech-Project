@@ -43,23 +43,23 @@ interface Particle {
  * Uses useMemo to prevent re-generating on every render.
  */
 function generateParticles(count: number): Particle[] {
-  const particles: Particle[] = [];
-  for (let i = 0; i < count; i++) {
-    particles.push({
-      id: i,
-      symbol: SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: 13 + Math.random() * 15, // 13–28px
-      duration: 12 + Math.random() * 16, // 12–28s
-      delay: Math.random() * -20, // stagger start
-      color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      rotate: Math.random() * 360,
-      driftX: (Math.random() - 0.5) * 80, // -40 to 40px
-      driftY: (Math.random() - 0.5) * 60, // -30 to 30px
-    });
-  }
-  return particles;
+  // Shuffle symbols and pick unique ones (no repeats)
+  const shuffled = [...SYMBOLS].sort(() => Math.random() - 0.5);
+  const available = shuffled.slice(0, Math.min(count, shuffled.length));
+
+  return available.map((symbol, i) => ({
+    id: i,
+    symbol,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: 13 + Math.random() * 15,
+    duration: 12 + Math.random() * 16,
+    delay: Math.random() * -20,
+    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+    rotate: Math.random() * 360,
+    driftX: (Math.random() - 0.5) * 80,
+    driftY: (Math.random() - 0.5) * 60,
+  }));
 }
 
 interface FloatingParticlesProps {
