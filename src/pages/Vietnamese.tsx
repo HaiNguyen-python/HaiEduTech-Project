@@ -313,18 +313,24 @@ const Vietnamese = () => {
                       <p className="text-sm text-muted-foreground mb-3">
                         {t(month.description, month.descriptionEn)}
                       </p>
-                      {month.lessons.map((lesson) => (
-                        <Link
-                          key={lesson.id}
-                          to={`/learn-vietnamese/history/${lesson.id}`}
-                          className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
-                        >
-                          <span className="text-sm font-medium text-foreground">
-                            {t(lesson.title, lesson.titleEn)}
-                          </span>
-                          <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                        </Link>
-                      ))}
+                      {month.lessons.map((lesson) => {
+                        const LessonIcon = lessonIconMap[lesson.id] || BookOpen;
+                        return (
+                          <Link
+                            key={lesson.id}
+                            to={`/learn-vietnamese/history/${lesson.id}`}
+                            className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <LessonIcon className="w-4 h-4 text-primary shrink-0" />
+                              <span className="text-sm font-medium text-foreground">
+                                {t(lesson.title, lesson.titleEn)}
+                              </span>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                          </Link>
+                        );
+                      })}
                     </div>
                   </motion.div>
                 ))}
