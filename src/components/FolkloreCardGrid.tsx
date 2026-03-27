@@ -122,7 +122,7 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
 
             {/* Meaning */}
             <div className="px-4 py-3">
-              <p className="text-[0.95rem] text-muted-foreground leading-relaxed">
+              <p className="text-base text-foreground leading-relaxed">
                 <span className="font-bold text-foreground">{t("Ý nghĩa:", "Meaning:")}</span>{" "}
                 {t(item.meaning, item.meaningEn)}
               </p>
