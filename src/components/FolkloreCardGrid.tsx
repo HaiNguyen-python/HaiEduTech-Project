@@ -108,17 +108,15 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
               </div>
             )}
 
-            {/* Content (for ca-dao with multi-line poetry) */}
-            {item.type === "ca-dao" && (
-              <div className="px-4 pt-3">
-                <p
-                  className="text-base font-semibold text-foreground italic leading-relaxed whitespace-pre-line"
-                  style={{ fontFamily: "'Noto Serif', serif" }}
-                >
-                  {t(item.content, item.contentEn)}
-                </p>
-              </div>
-            )}
+            {/* Content (poetry/proverb text) */}
+            <div className="px-4 pt-3">
+              <p
+                className="text-base font-semibold text-foreground italic leading-relaxed whitespace-pre-line"
+                style={{ fontFamily: "'Noto Serif', serif" }}
+              >
+                {t(item.content, item.contentEn)}
+              </p>
+            </div>
 
             {/* Meaning */}
             <div className="px-4 py-3">
