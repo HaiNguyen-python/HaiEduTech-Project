@@ -1,8 +1,8 @@
-// IELTS Speaking Practice page with vocabulary support, preparation mode, and recording mode
-import { useState, useRef, useEffect, useMemo } from "react";
+// IELTS Speaking Practice page with real-time speech-to-text and AI grading
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp,
+  Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp, AlertTriangle,
   BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
   Users, MapPin, Package, Calendar, Sparkles
 } from "lucide-react";
@@ -27,6 +27,7 @@ import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresId
 // Grading result interfaces
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
 interface PronFocus { sound: string; words: string[]; tip: string; }
+interface HighlightedError { text: string; type: "grammar" | "vocabulary" | "pronunciation"; correction: string; explanation: string; }
 interface SpeakingResult {
   overall: number;
   criteria: { label: string; score: number; feedback: string }[];
@@ -34,6 +35,30 @@ interface SpeakingResult {
   suggestions: string[];
   vocabularyUpgrades?: VocabUpgrade[];
   pronunciationFocus?: PronFocus[];
+  highlightedErrors?: HighlightedError[];
+}
+
+// Web Speech API type declarations
+interface ISpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start: () => void;
+  stop: () => void;
+  abort: () => void;
+  onresult: ((event: ISpeechRecognitionEvent) => void) | null;
+  onerror: ((event: { error: string }) => void) | null;
+  onend: (() => void) | null;
+}
+interface ISpeechRecognitionEvent {
+  resultIndex: number;
+  results: { [key: number]: { [key: number]: { transcript: string }; isFinal: boolean }; length: number };
+}
+declare global {
+  interface Window {
+    SpeechRecognition: new () => ISpeechRecognition;
+    webkitSpeechRecognition: new () => ISpeechRecognition;
+  }
 }
 
 // Part 2 category grouping
