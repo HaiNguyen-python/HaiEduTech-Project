@@ -111,8 +111,8 @@ const Navbar = () => {
     { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
     { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử Việt Nam", "📜 Vietnamese History") },
     { to: "/learn-vietnamese?tab=folklore", label: t("🌾 Ca Dao & Tục Ngữ", "🌾 Folklore & Proverbs") },
-    { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi vui nhộn", "🎮 Fun Games") },
     { to: "/learn-vietnamese/national-anthem", label: t("🇻🇳 Quốc ca Việt Nam", "🇻🇳 National Anthem") },
+    { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi vui nhộn", "🎮 Fun Games") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
