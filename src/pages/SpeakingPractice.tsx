@@ -36,6 +36,7 @@ interface SpeakingResult {
   vocabularyUpgrades?: VocabUpgrade[];
   pronunciationFocus?: PronFocus[];
   highlightedErrors?: HighlightedError[];
+  upgradedAnswer?: string;
 }
 
 // Web Speech API type declarations
@@ -786,11 +787,11 @@ const SpeakingPractice = () => {
                             )}
                           </div>
                           {audioUrl && <audio id="sp-playback" src={audioUrl} className="hidden" />}
-                          <p className="text-sm text-foreground leading-relaxed">{result.transcript}</p>
+                          <p className="text-base text-foreground leading-relaxed">{result.transcript}</p>
                           {result.highlightedErrors && result.highlightedErrors.length > 0 && (
                             <div className="mt-3 pt-3 border-t border-border space-y-2">
                               {result.highlightedErrors.map((err, i) => (
-                                <div key={i} className="text-xs flex items-start gap-2">
+                                <div key={i} className="text-sm flex items-start gap-2">
                                   <Badge variant="outline" className="text-[10px] shrink-0 capitalize">{err.type}</Badge>
                                   <span>
                                     <span className="text-destructive line-through">{err.text}</span>
@@ -805,10 +806,28 @@ const SpeakingPractice = () => {
                         </div>
                       )}
 
+                      {/* Upgraded Answer */}
+                      {result.upgradedAnswer && (
+                        <div className="bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-200/40 rounded-xl p-5">
+                          <h4 className="text-base font-bold text-foreground mb-3 flex items-center gap-2">
+                            <BookOpen className="w-5 h-5 text-emerald-600" />
+                            {t("Bài nói của bạn – Phiên bản Band 7.5+", "Your Answer – Band 7.5+ Version")}
+                          </h4>
+                          <p className="text-base text-foreground leading-8">
+                            {result.upgradedAnswer.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+                              part.startsWith("**") && part.endsWith("**")
+                                ? <strong key={i} className="text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 px-1 rounded font-bold">{part.slice(2, -2)}</strong>
+                                : <span key={i}>{part}</span>
+                            )}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Criteria */}
                       {result.criteria.map((c) => (
                         <div key={c.label} className="bg-secondary rounded-xl p-5">
                           <div className="flex items-center justify-between mb-3">
-                            <span className="text-base font-semibold text-foreground">{c.label}</span>
+                            <span className="text-lg font-semibold text-foreground">{c.label}</span>
                             <span className={`text-2xl font-mono font-bold ${getScoreColor(c.score)}`}>{c.score.toFixed(1)}</span>
                           </div>
                           <div className="w-full h-3 bg-border rounded-full mb-3">
@@ -825,19 +844,19 @@ const SpeakingPractice = () => {
 
                       {/* Vocabulary Upgrades */}
                       {result.vocabularyUpgrades && result.vocabularyUpgrades.length > 0 && (
-                        <div className="bg-secondary rounded-xl p-4">
-                          <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
-                            <BookOpen className="w-4 h-4 text-primary" /> Vocabulary Upgrades
+                        <div className="bg-secondary rounded-xl p-5">
+                          <h4 className="text-base font-bold text-foreground mb-3 flex items-center gap-2">
+                            <BookOpen className="w-4 h-4 text-primary" /> {t("Nâng cấp từ vựng", "Vocabulary Upgrades")}
                           </h4>
                           <div className="space-y-2">
                             {result.vocabularyUpgrades.map((v, i) => (
                               <div key={i} className="bg-background rounded-lg p-3">
                                 <div className="flex items-center gap-2 mb-1">
-                                  <span className="text-xs text-destructive line-through">{v.basic}</span>
-                                  <span className="text-muted-foreground text-xs">→</span>
-                                  <span className="text-xs text-green-600 font-bold">{v.advanced}</span>
+                                  <span className="text-sm text-destructive line-through">{v.basic}</span>
+                                  <span className="text-muted-foreground text-sm">→</span>
+                                  <span className="text-sm text-green-600 font-bold">{v.advanced}</span>
                                 </div>
-                                <p className="text-[11px] text-muted-foreground italic">"{v.example}"</p>
+                                <p className="text-xs text-muted-foreground italic">"{v.example}"</p>
                               </div>
                             ))}
                           </div>
@@ -846,16 +865,16 @@ const SpeakingPractice = () => {
 
                       {/* Pronunciation Focus */}
                       {result.pronunciationFocus && result.pronunciationFocus.length > 0 && (
-                        <div className="bg-secondary rounded-xl p-4">
-                          <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
-                            <Volume2 className="w-4 h-4 text-primary" /> Pronunciation Focus
+                        <div className="bg-secondary rounded-xl p-5">
+                          <h4 className="text-base font-bold text-foreground mb-3 flex items-center gap-2">
+                            <Volume2 className="w-4 h-4 text-primary" /> {t("Trọng tâm phát âm", "Pronunciation Focus")}
                           </h4>
                           <div className="space-y-2">
                             {result.pronunciationFocus.map((p, i) => (
                               <div key={i} className="bg-background rounded-lg p-3">
-                                <p className="text-xs font-bold text-primary mb-1">{p.sound}</p>
-                                <p className="text-xs text-foreground">Words: {p.words.join(", ")}</p>
-                                <p className="text-[11px] text-muted-foreground">{p.tip}</p>
+                                <p className="text-sm font-bold text-primary mb-1">{p.sound}</p>
+                                <p className="text-sm text-foreground">Words: {p.words.join(", ")}</p>
+                                <p className="text-xs text-muted-foreground">{p.tip}</p>
                               </div>
                             ))}
                           </div>
@@ -863,13 +882,13 @@ const SpeakingPractice = () => {
                       )}
 
                       {/* Suggestions */}
-                      <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
-                        <h4 className="text-sm font-bold text-primary mb-3">
+                      <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
+                        <h4 className="text-base font-bold text-primary mb-3">
                           {t("Gợi ý cải thiện", "Improvement Tips")}
                         </h4>
                         <div className="space-y-2">
                           {result.suggestions.map((s, i) => (
-                            <p key={i} className="text-sm text-foreground flex items-start gap-2">
+                            <p key={i} className="text-base text-foreground flex items-start gap-2">
                               <span className="text-primary font-bold mt-0.5">✓</span> {s}
                             </p>
                           ))}
