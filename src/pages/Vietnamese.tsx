@@ -157,95 +157,121 @@ const Vietnamese = () => {
         </section>
 
         {/* Illustrated banner with floating labels and CTA overlays */}
-        <section className="container mx-auto px-6 mb-10">
+        <section className="w-full mb-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="relative max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-xl"
+            className="relative w-full max-w-[1600px] mx-auto rounded-3xl overflow-hidden shadow-xl"
           >
-            {/* Banner image */}
+            {/* Banner image - full width, taller */}
             <img
               src={vietnameseCultureBanner}
               alt="Vietnamese culture illustration"
               width={1920}
               height={1080}
-              className="w-full h-[340px] md:h-[420px] lg:h-[480px] object-cover"
+              className="w-full h-[50vh] md:h-[65vh] lg:h-[75vh] object-cover"
             />
 
             {/* Gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
 
-            {/* Floating topic bubbles */}
-            <div className="absolute top-3 right-4 md:top-5 md:right-8 flex flex-wrap gap-2 max-w-[280px] justify-end">
+            {/* Floating topic bubbles - top right with bounce animation */}
+            <div className="absolute top-4 right-4 md:top-8 md:right-10 flex flex-wrap gap-2.5 max-w-[320px] justify-end">
               {[
-                { label: t("Phát âm", "Pronunciation"), delay: 0.2 },
-                { label: t("Giao tiếp", "Communication"), delay: 0.3 },
-                { label: t("Văn hóa", "Culture"), delay: 0.4 },
-                { label: t("Thanh điệu", "Tones"), delay: 0.5 },
+                { label: t("Phát âm", "Pronunciation"), delay: 0.2, y: 3 },
+                { label: t("Giao tiếp", "Communication"), delay: 0.35, y: -2 },
+                { label: t("Văn hóa", "Culture"), delay: 0.5, y: 4 },
+                { label: t("Thanh điệu", "Tones"), delay: 0.65, y: -3 },
+                { label: t("Phát tiếp", "Fluency"), delay: 0.8, y: 2 },
               ].map((item) => (
                 <motion.span
                   key={item.label}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: item.delay }}
-                  className="bg-white/90 dark:bg-slate-800/90 text-foreground text-xs font-medium px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm"
+                  initial={{ opacity: 0, y: -20, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: item.delay, type: "spring", stiffness: 200, damping: 15 }}
+                  whileHover={{ scale: 1.1, y: -4 }}
+                  className="bg-white/90 dark:bg-slate-800/90 text-foreground text-xs md:text-sm font-medium px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-lg backdrop-blur-sm cursor-default"
+                  style={{ animation: `float ${3 + item.delay * 2}s ease-in-out ${item.delay}s infinite` }}
                 >
                   {item.label}
                 </motion.span>
               ))}
             </div>
 
-            {/* Floating labels - left side */}
-            <div className="absolute top-4 left-4 md:top-6 md:left-8 flex flex-col gap-2">
+            {/* Floating labels - left side with slide-in */}
+            <div className="absolute top-6 left-4 md:top-10 md:left-10 flex flex-col gap-3">
               {[
-                { label: t("Thánh Gióng", "Saint Giong"), delay: 0.3 },
-                { label: t("Tấm Cám", "Tam Cam"), delay: 0.4 },
+                { label: t("Thánh Gióng", "Saint Giong"), delay: 0.3, icon: "⚔️" },
+                { label: t("Tấm Cám", "Tam Cam"), delay: 0.5, icon: "👸" },
+                { label: t("Chữ & Dấu Việt", "Vietnamese Script"), delay: 0.7, icon: "✍️" },
               ].map((item) => (
                 <motion.span
                   key={item.label}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: item.delay }}
-                  className="bg-white/90 dark:bg-slate-800/90 text-foreground text-xs font-medium px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm w-fit"
+                  initial={{ opacity: 0, x: -30, scale: 0.8 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  transition={{ delay: item.delay, type: "spring", stiffness: 180, damping: 14 }}
+                  whileHover={{ scale: 1.1, x: 5 }}
+                  className="bg-white/90 dark:bg-slate-800/90 text-foreground text-xs md:text-sm font-medium px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-lg backdrop-blur-sm w-fit cursor-default flex items-center gap-1.5"
+                  style={{ animation: `float ${3.5 + item.delay}s ease-in-out ${item.delay + 0.5}s infinite` }}
                 >
-                  {item.label}
+                  <span>{item.icon}</span> {item.label}
                 </motion.span>
               ))}
             </div>
 
-            {/* Right side floating labels */}
-            <div className="absolute top-1/3 right-4 md:right-8 flex flex-col gap-2 items-end">
+            {/* Right side floating labels with slide-in */}
+            <div className="absolute top-1/4 right-4 md:right-10 flex flex-col gap-3 items-end">
               {[
-                { label: t("Lịch Sử & Ca Dao", "History & Folk Songs"), delay: 0.4 },
-                { label: t("Văn học dân gian", "Folk Literature"), delay: 0.5 },
-                { label: t("Cờ tướng", "Chinese Chess"), delay: 0.6 },
+                { label: t("Lịch Sử & Ca Dao", "History & Folk Songs"), delay: 0.4, icon: "📜" },
+                { label: t("Văn học dân gian", "Folk Literature"), delay: 0.6, icon: "📚" },
+                { label: t("Cờ tướng", "Chinese Chess"), delay: 0.8, icon: "♟️" },
+                { label: t("Áo dài", "Ao Dai"), delay: 1.0, icon: "👘" },
               ].map((item) => (
                 <motion.span
                   key={item.label}
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: item.delay }}
-                  className="bg-white/90 dark:bg-slate-800/90 text-foreground text-xs font-medium px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm"
+                  initial={{ opacity: 0, x: 30, scale: 0.8 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  transition={{ delay: item.delay, type: "spring", stiffness: 180, damping: 14 }}
+                  whileHover={{ scale: 1.1, x: -5 }}
+                  className="bg-white/90 dark:bg-slate-800/90 text-foreground text-xs md:text-sm font-medium px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-lg backdrop-blur-sm cursor-default flex items-center gap-1.5"
+                  style={{ animation: `float ${4 + item.delay}s ease-in-out ${item.delay + 0.3}s infinite` }}
                 >
-                  {item.label}
+                  <span>{item.icon}</span> {item.label}
+                </motion.span>
+              ))}
+            </div>
+
+            {/* Center floating Vietnamese characters */}
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 flex gap-4 md:gap-6 pointer-events-none">
+              {["ơ", "ư", "ê", "ô", "ă", "đ"].map((char, i) => (
+                <motion.span
+                  key={char}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 0.6, y: 0 }}
+                  transition={{ delay: 0.3 + i * 0.15, type: "spring", stiffness: 120 }}
+                  className="text-white/70 text-2xl md:text-4xl lg:text-5xl font-display font-bold drop-shadow-lg select-none"
+                  style={{ animation: `float ${3 + i * 0.5}s ease-in-out ${i * 0.3}s infinite` }}
+                >
+                  {char}
                 </motion.span>
               ))}
             </div>
 
             {/* Bottom CTA cards overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
-              <div className="grid md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
+              <div className="grid md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
                 {/* Folklore Treasury Card */}
                 <Link to="/learn-vietnamese/folklore" className="block">
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all hover:scale-[1.02] group"
+                    transition={{ delay: 0.4, type: "spring", stiffness: 150 }}
+                    whileHover={{ scale: 1.04, y: -4 }}
+                    className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-shadow group"
                   >
-                    <h3 className="font-bold text-foreground text-base mb-1">
-                      {t("Kho tàng Truyện cổ tích", "Folklore Treasury")}
+                    <h3 className="font-bold text-foreground text-base md:text-lg mb-1">
+                      📖 {t("Kho tàng Truyện cổ tích", "Folklore Treasury")}
                     </h3>
                     <Button size="sm" className="mt-2 bg-amber-600 hover:bg-amber-700 text-white text-xs">
                       {t("Khám phá ngay", "Explore now")}
@@ -256,13 +282,14 @@ const Vietnamese = () => {
                 {/* Language & Vocabulary Card */}
                 <Link to="/learn-vietnamese/for-foreigners" className="block">
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all hover:scale-[1.02] group"
+                    transition={{ delay: 0.55, type: "spring", stiffness: 150 }}
+                    whileHover={{ scale: 1.04, y: -4 }}
+                    className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-shadow group"
                   >
-                    <h3 className="font-bold text-foreground text-base mb-1">
-                      {t("Ngôn ngữ & Từ vựng", "Language & Vocabulary")}
+                    <h3 className="font-bold text-foreground text-base md:text-lg mb-1">
+                      🌏 {t("Ngôn ngữ & Từ vựng", "Language & Vocabulary")}
                     </h3>
                     <Button size="sm" className="mt-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs">
                       {t("Bắt đầu học", "Start learning")}
@@ -273,13 +300,14 @@ const Vietnamese = () => {
                 {/* History & Folk Songs Card */}
                 <Link to="/learn-vietnamese?tab=history" className="block">
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all hover:scale-[1.02] group"
+                    transition={{ delay: 0.7, type: "spring", stiffness: 150 }}
+                    whileHover={{ scale: 1.04, y: -4 }}
+                    className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-shadow group"
                   >
-                    <h3 className="font-bold text-foreground text-base mb-1">
-                      {t("Lịch Sử & Ca Dao", "History & Folk Songs")}
+                    <h3 className="font-bold text-foreground text-base md:text-lg mb-1">
+                      📜 {t("Lịch Sử & Ca Dao", "History & Folk Songs")}
                     </h3>
                     <Button size="sm" className="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-xs">
                       {t("Học qua trò chơi", "Learn through games")}
