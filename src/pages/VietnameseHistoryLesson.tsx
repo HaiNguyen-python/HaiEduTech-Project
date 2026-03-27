@@ -87,7 +87,7 @@ const VietnameseHistoryLesson = () => {
 
           {/* Story Section */}
           <section className="mb-12">
-            <h2 className="text-lg font-bold text-foreground mb-5 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-foreground mb-5 flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-primary" />
               {t("Câu chuyện", "Story")}
             </h2>
