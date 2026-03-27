@@ -95,6 +95,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const [isRecording, setIsRecording] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -103,7 +104,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const allTopics = [...new Set([...keySituationTitles, ...speakingTopics])];
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
   }, [messages]);
 
   // Start conversation with AI initiating the scene
@@ -292,7 +295,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.map((msg, i) => (
           <motion.div
             key={i}
