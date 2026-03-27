@@ -462,6 +462,55 @@ export const detailedVFFModules: DetailedModule[] = [
           ],
         },
       },
+      // Lesson 2: Asking for directions
+      {
+        id: "vff-commute-directions",
+        title: "Hỏi đường ở Việt Nam",
+        titleEn: "Asking for Directions in Vietnam",
+        icon: "🗺️",
+        scenario: "Bạn đi bộ và bị lạc ở trung tâm Hà Nội.",
+        scenarioEn: "You're walking and get lost in central Hanoi.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Anh ơi, cho em hỏi. Hồ Hoàn Kiếm đi đường nào ạ?", en: "Excuse me sir, how do I get to Hoàn Kiếm Lake?", literal: "Older-brother hey, give younger ask. Lake Hoàn Kiếm go road which polite?", keyWords: [{ word: "Hồ Hoàn Kiếm", pronunciation: "hồ hoàn kiếm", meaning: "Hoàn Kiếm Lake (Sword Lake)", tone: "huyen" }] },
+          { speaker: "Local", speakerLabel: "Người dân", vi: "À, em đi thẳng đường này khoảng 500 mét, rồi rẽ trái.", en: "Go straight this road about 500 meters, then turn left.", literal: "Ah, younger go straight road this about 500 meter, then turn left.", keyWords: [{ word: "đi thẳng", pronunciation: "đi thẳng", meaning: "go straight", tone: "hoi" }, { word: "rẽ trái", pronunciation: "rẽ trái", meaning: "turn left", tone: "hoi" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Rẽ trái ở ngã tư hay ngã ba ạ?", en: "Turn left at the intersection or the T-junction?", literal: "Turn left at crossroads four or crossroads three polite?", keyWords: [{ word: "ngã tư", pronunciation: "ngã tư", meaning: "intersection (4-way)", tone: "nga" }, { word: "ngã ba", pronunciation: "ngã ba", meaning: "T-junction (3-way)", tone: "nga" }] },
+          { speaker: "Local", speakerLabel: "Người dân", vi: "Ngã tư có đèn đỏ. Rẽ trái xong đi thêm 200 mét là tới.", en: "At the intersection with traffic lights. Turn left then 200 more meters and you're there.", literal: "Crossroads four have light red. Turn left finish go add 200 meter is arrive." },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Gần đây có quán cà phê nào không anh?", en: "Are there any coffee shops nearby?", literal: "Near here have shop coffee which not older-brother?", keyWords: [{ word: "gần đây", pronunciation: "gần đây", meaning: "nearby / around here", tone: "huyen" }] },
+          { speaker: "Local", speakerLabel: "Người dân", vi: "Có! Cạnh Hồ Hoàn Kiếm có quán Cộng, rất nổi tiếng!", en: "Yes! Next to the lake there's Cộng Café, very famous!", literal: "Have! Beside Lake Hoàn Kiếm have shop Cộng, very famous!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cảm ơn anh nhiều! Anh chỉ đường rõ ràng quá!", en: "Thank you so much! Your directions are very clear!", literal: "Feel-grace older-brother much! Older-brother point road clear too-much!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Đi thẳng / Rẽ trái / Rẽ phải",
+            patternEn: "Direction words: Straight / Left / Right",
+            explanation: "Các từ chỉ hướng cơ bản khi hỏi/chỉ đường.",
+            explanationEn: "Basic direction words for asking and giving directions.",
+            examples: [
+              { vi: "Đi thẳng 100 mét.", en: "Go straight 100 meters.", literal: "Go straight 100 meter." },
+              { vi: "Rẽ phải ở ngã tư.", en: "Turn right at the intersection.", literal: "Turn right at crossroads four." },
+              { vi: "Quay lại, đi ngược chiều.", en: "Go back, opposite direction.", literal: "Turn back, go reverse direction." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Chỉ đường kiểu Việt Nam",
+            titleEn: "Vietnamese-style directions",
+            content: "Người Việt thường chỉ đường bằng địa danh thay vì số nhà: 'Đi qua cái chùa, rẽ phải ở quán phở, đi thêm chút là tới'. Đôi khi họ chỉ sai nhưng rất nhiệt tình! Luôn hỏi 2-3 người để chắc chắn.",
+            contentEn: "Vietnamese often give directions using landmarks instead of addresses: 'Pass the temple, turn right at the phở shop, go a bit further and you're there.' Sometimes directions are wrong but given enthusiastically! Always ask 2-3 people to be sure.",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Hoàn thành câu hỏi đường.",
+          instructionEn: "Complete the direction-asking sentences.",
+          items: [
+            { question: "_____ _____ đường này khoảng 500 mét. (go straight)", answer: "Đi thẳng", explanationEn: "'Đi thẳng' = go straight" },
+            { question: "_____ trái ở _____ tư. (turn / intersection)", answer: "Rẽ / ngã", explanationEn: "'Rẽ trái' = turn left, 'ngã tư' = intersection" },
+            { question: "_____ đây có quán cà phê không? (nearby)", answer: "Gần", explanationEn: "'Gần đây' = nearby" },
+          ],
+        },
+      },
     ],
   },
 
