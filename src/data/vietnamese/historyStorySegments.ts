@@ -26,14 +26,33 @@ import hoGuomLegend from "@/assets/history/ho-guom-legend.jpg";
 import hoiAnTrade from "@/assets/history/hoi-an-trade.jpg";
 import vanMieu from "@/assets/history/van-mieu.jpg";
 
+// Month 1 extra images
+import khucThuaDu from "@/assets/history/khuc-thua-du.jpg";
+import maiThucLoan from "@/assets/history/mai-thuc-loan.jpg";
+
+// Month 2 extra images
+import leThanhTong from "@/assets/history/le-thanh-tong.jpg";
+import hoQuyLy from "@/assets/history/ho-quy-ly.jpg";
+
 // Month 3 images
 import quangTrung from "@/assets/history/quang-trung.jpg";
+import hueCitadel from "@/assets/history/hue-citadel.jpg";
 import hoChiMinhDeclaration from "@/assets/history/ho-chi-minh-declaration.jpg";
 import dienBienPhu from "@/assets/history/dien-bien-phu.jpg";
 import reunification1975 from "@/assets/history/reunification-1975.jpg";
+import canVuong from "@/assets/history/can-vuong.jpg";
+import phanBoiChau from "@/assets/history/phan-boi-chau.jpg";
+import xoVietNgheTinh from "@/assets/history/xo-viet-nghe-tinh.jpg";
+import augustRevolution from "@/assets/history/august-revolution.jpg";
 
 // Month 4 images
 import doiMoi from "@/assets/history/doi-moi.jpg";
+import vietnamAsean from "@/assets/history/vietnam-asean.jpg";
+import vietnamDigital from "@/assets/history/vietnam-digital.jpg";
+import vietnamCuisine from "@/assets/history/vietnam-cuisine.jpg";
+import vietnamEducation from "@/assets/history/vietnam-education.jpg";
+import vietnamEconomy from "@/assets/history/vietnam-economy.jpg";
+import vietnamFuture from "@/assets/history/vietnam-future.jpg";
 
 // Map lesson IDs to their story segments
 export const historyStorySegments: Record<string, StorySegment[]> = {
