@@ -157,7 +157,7 @@ const Vietnamese = () => {
           </motion.div>
         </section>
 
-        {/* Illustrated banner - matching reference design */}
+        {/* Illustrated banner - clean, no overlays */}
         <section className="w-full mb-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
@@ -165,63 +165,7 @@ const Vietnamese = () => {
             transition={{ duration: 0.6 }}
             className="relative w-full max-w-[1600px] mx-auto rounded-3xl overflow-hidden shadow-xl"
           >
-            <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-[50vh] md:h-[60vh] lg:h-[70vh] object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-
-            {/* Top-right cluster */}
-            <motion.span initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, type: "spring" }} className="absolute top-[8%] right-[30%] bg-white/90 text-foreground text-xs md:text-sm font-bold px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 3.5s ease-in-out infinite" }}>{t("Phát âm", "Pronunciation")}</motion.span>
-            <motion.span initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, type: "spring" }} className="absolute top-[6%] right-[22%] bg-white/90 text-foreground text-sm md:text-base font-bold px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 4s ease-in-out 0.3s infinite" }}>{t("Giao tiếp", "Communication")}</motion.span>
-            <motion.span initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, type: "spring" }} className="absolute top-[4%] right-[15%] bg-white/90 text-foreground text-[10px] md:text-xs px-2.5 py-1 rounded-full shadow-md" style={{ animation: "float 3s ease-in-out 0.5s infinite" }}>{t("Văn hóa", "Culture")}</motion.span>
-            <motion.span initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, type: "spring" }} className="absolute top-[12%] right-[26%] bg-white/90 text-foreground text-[10px] md:text-xs px-2.5 py-1 rounded-full shadow-md" style={{ animation: "float 3.8s ease-in-out 0.2s infinite" }}>{t("Phát tiếp", "Fluency")}</motion.span>
-            <motion.span initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, type: "spring" }} className="absolute top-[10%] right-[18%] bg-white/90 text-foreground text-[10px] md:text-xs px-2.5 py-1 rounded-full shadow-md" style={{ animation: "float 4.2s ease-in-out 0.4s infinite" }}>{t("Giao triệp", "Interaction")}</motion.span>
-            <motion.span initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, type: "spring" }} className="absolute top-[5%] right-[10%] bg-white/90 text-foreground text-[10px] md:text-xs px-2.5 py-1 rounded-full shadow-md" style={{ animation: "float 3.6s ease-in-out 0.7s infinite" }}>{t("Tiết kiệm", "Efficient")}</motion.span>
-
-            {/* Left side */}
-            <motion.span initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, type: "spring" }} className="absolute top-[38%] left-[2%] bg-white/90 text-foreground text-xs md:text-sm font-medium px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 4s ease-in-out 0.2s infinite" }}>{t("Thánh Gióng", "Saint Giong")}</motion.span>
-            <motion.span initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.45, type: "spring" }} className="absolute top-[55%] left-[8%] bg-white/90 text-foreground text-xs md:text-sm font-medium px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 3.5s ease-in-out 0.4s infinite" }}>{t("Tấm Cám", "Tam Cam")}</motion.span>
-
-            {/* Center labels */}
-            <motion.span initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, type: "spring" }} className="absolute top-[42%] left-[28%] bg-white/90 text-foreground text-xs md:text-sm font-medium px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 3.8s ease-in-out 0.3s infinite" }}>{t("Chữ & Dấu Việt", "Vietnamese Script")}</motion.span>
-            <motion.span initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, type: "spring" }} className="absolute top-[35%] left-[50%] bg-white/90 text-foreground text-xs md:text-sm font-medium px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 4.2s ease-in-out 0.5s infinite" }}>{t("Học qua mùa rồi", "Seasonal learning")}</motion.span>
-
-            {/* Right side */}
-            <motion.span initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35, type: "spring" }} className="absolute top-[30%] right-[20%] bg-white/90 text-foreground text-xs md:text-sm font-medium px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 3.5s ease-in-out 0.2s infinite" }}>{t("Rồng", "Dragon")}</motion.span>
-            <motion.span initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4, type: "spring" }} className="absolute top-[28%] right-[3%] text-foreground text-base md:text-xl font-bold drop-shadow-lg" style={{ animation: "float 4s ease-in-out infinite" }}>{t("Lịch Sử & Ca Dao", "History & Folk Songs")}</motion.span>
-            <motion.span initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, type: "spring" }} className="absolute top-[35%] right-[2%] bg-white/90 text-foreground text-[10px] md:text-xs font-medium px-2.5 py-1 rounded-full shadow-md" style={{ animation: "float 3.2s ease-in-out 0.4s infinite" }}>{t("Khuê Văn Các", "Temple of Literature")}</motion.span>
-            <motion.span initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.55, type: "spring" }} className="absolute top-[40%] right-[5%] bg-white/90 text-foreground text-[10px] md:text-xs font-medium px-2.5 py-1 rounded-full shadow-md" style={{ animation: "float 3.8s ease-in-out 0.6s infinite" }}>{t("Trò chơi", "Games")}</motion.span>
-            <motion.span initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6, type: "spring" }} className="absolute top-[40%] right-[0%] bg-white/90 text-foreground text-[10px] md:text-xs font-medium px-2.5 py-1 rounded-full shadow-md" style={{ animation: "float 4.5s ease-in-out 0.3s infinite" }}>{t("Áo dài", "Ao Dai")}</motion.span>
-
-            {/* Right text cluster */}
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, type: "spring" }} className="absolute top-[48%] right-[2%] text-right space-y-0.5 pointer-events-none" style={{ animation: "float 4s ease-in-out 0.5s infinite" }}>
-              <p className="text-foreground/80 text-[9px] md:text-[11px] italic">{t("Văn Hóa cổn", "Ancient culture")}</p>
-              <p className="text-foreground/80 text-[9px] md:text-[11px]">{t("Chu Hương trẻ", "Young heritage")}</p>
-              <p className="text-foreground/90 text-[10px] md:text-xs font-medium">{t("Ca Dao & Tục Ngữ", "Folk Songs & Proverbs")}</p>
-              <p className="text-foreground/80 text-[9px] md:text-[11px]">{t("Học pháp dân gian", "Folk pedagogy")}</p>
-              <p className="text-foreground/80 text-[9px] md:text-[11px]">{t("Văn học dân gian", "Folk literature")}</p>
-            </motion.div>
-
-            {/* Bottom-right labels */}
-            <motion.span initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, type: "spring" }} className="absolute bottom-[28%] right-[8%] bg-white/90 text-foreground text-xs md:text-sm font-medium px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 3.6s ease-in-out 0.7s infinite" }}>{t("Cờ tướng", "Chinese Chess")}</motion.span>
-            <motion.span initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, type: "spring" }} className="absolute bottom-[22%] right-[15%] bg-white/90 text-foreground text-xs md:text-sm font-medium px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 4s ease-in-out 0.5s infinite" }}>{t("Văn học dân gian", "Folk Literature")}</motion.span>
-            <motion.span initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, type: "spring" }} className="absolute bottom-[18%] right-[2%] bg-white/90 text-foreground text-xs md:text-sm font-medium px-3 py-1.5 rounded-full shadow-md" style={{ animation: "float 3.4s ease-in-out 0.8s infinite" }}>{t("Học qua trò chơi", "Learn through games")}</motion.span>
-
-            {/* Bottom CTA cards */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
-              <div className="flex flex-wrap gap-4 md:gap-6 max-w-4xl">
-                <Link to="/learn-vietnamese/folklore" className="block">
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, type: "spring" }} whileHover={{ scale: 1.03, y: -3 }} className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl px-5 py-4 shadow-lg">
-                    <h3 className="font-bold text-foreground text-sm md:text-base mb-2">{t("Kho tàng Truyện cổ tích", "Folklore Treasury")}</h3>
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs rounded-full px-4">{t("Khám phá ngay", "Explore now")}</Button>
-                  </motion.div>
-                </Link>
-                <Link to="/learn-vietnamese/for-foreigners" className="block">
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, type: "spring" }} whileHover={{ scale: 1.03, y: -3 }} className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl px-5 py-4 shadow-lg">
-                    <h3 className="font-bold text-foreground text-sm md:text-base mb-2">{t("Ngôn ngữ & Từ vựng", "Language & Vocabulary")}</h3>
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs rounded-full px-4">{t("Bắt đầu học", "Start learning")}</Button>
-                  </motion.div>
-                </Link>
-              </div>
-            </div>
+            <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-auto object-cover" />
           </motion.div>
         </section>
 
