@@ -25,6 +25,7 @@ import {
   historyMonths,
   folkloreItems,
 } from "@/data/vietnameseCurriculumData";
+import teacherAodai from "@/assets/teacher-aodai.png";
 
 // Icon mapping for each history lesson
 const lessonIconMap: Record<string, LucideIcon> = {
@@ -151,7 +152,20 @@ const Vietnamese = () => {
 
         {/* Two featured module entry cards */}
         <section className="container mx-auto px-6 mb-10">
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto relative">
+            {/* Teacher áo dài illustration */}
+            <motion.img
+              src={teacherAodai}
+              alt="Cô giáo áo dài"
+              loading="lazy"
+              width={120}
+              height={180}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="absolute -left-16 bottom-4 w-[120px] h-auto z-10 hidden lg:block drop-shadow-lg"
+              style={{ animation: "float 3s ease-in-out infinite" }}
+            />
             {/* Folklore Library Card */}
             <Link to="/learn-vietnamese/folklore">
               <motion.div
