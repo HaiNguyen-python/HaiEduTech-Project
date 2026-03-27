@@ -78,19 +78,22 @@ const NationalAnthem = () => {
     (line) => currentTime >= line.start && currentTime < line.end
   );
 
-  // Simulate play/pause with timer for karaoke highlighting
+  // Karaoke highlighting timer
   const handlePlay = useCallback(() => {
+    // Clear any existing timer first
+    if (timerRef.current) clearInterval(timerRef.current);
     setIsPlaying(true);
-    timerRef.current = setInterval(() => {
+    const interval = setInterval(() => {
       setCurrentTime((prev) => {
         if (prev >= 50) {
-          clearInterval(timerRef.current!);
+          clearInterval(interval);
           setIsPlaying(false);
           return 0;
         }
         return prev + 0.5;
       });
     }, 500);
+    timerRef.current = interval;
   }, []);
 
   const handlePause = useCallback(() => {
@@ -316,13 +319,21 @@ const NationalAnthem = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <Card className="p-6 border-red-100">
-                <h2
-                  className="text-xl font-bold text-foreground mb-5 flex items-center gap-2"
-                  style={{ fontFamily: "'Playfair Display', 'Noto Serif', serif" }}
-                >
-                  <Music className="w-5 h-5 text-red-600" />
-                  Lời bài hát
-                </h2>
+                <div className="flex items-center justify-between mb-5">
+                  <h2
+                    className="text-xl font-bold text-foreground flex items-center gap-2"
+                    style={{ fontFamily: "'Playfair Display', 'Noto Serif', serif" }}
+                  >
+                    <Music className="w-5 h-5 text-red-600" />
+                    Lời bài hát
+                  </h2>
+                  {isPlaying && (
+                    <span className="flex items-center gap-1.5 text-sm text-red-600 font-medium">
+                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                      Đang phát
+                    </span>
+                  )}
+                </div>
                 <div className="space-y-2">
                   {lyricsLines.map((line, i) => {
                     const isActive = i === activeLineIndex;
