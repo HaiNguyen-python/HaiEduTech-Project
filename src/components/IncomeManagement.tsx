@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   DollarSign, TrendingUp, TrendingDown, Search, Calendar,
-  BookOpen, Users, ArrowUpRight, Download
+  BookOpen, Users, ArrowUpRight, Download, Brain, Target, Lightbulb
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -17,8 +17,9 @@ import {
 } from "@/components/ui/select";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, Legend, PieChart, Pie, Cell
+  Tooltip, Legend, PieChart, Pie, Cell, ComposedChart, Line
 } from "recharts";
+import { motion } from "framer-motion";
 
 // Revenue log row type
 interface RevenueLog {
