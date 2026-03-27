@@ -7,6 +7,9 @@ export interface VietnameseVocabEntry {
   example: string;
   exampleEn: string;
   partOfSpeech?: string;
+  ipa?: string;
+  literalMeaning?: string;
+  literalMeaningEn?: string;
 }
 
 export interface VietnameseQuizQuestion {

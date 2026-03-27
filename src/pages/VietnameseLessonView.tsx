@@ -2,14 +2,74 @@
 import { useParams, Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronRight, Zap, Package, Sparkles, Lightbulb } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import SmartVocabCard from "@/components/SmartVocabCard";
 import { vietnameseLanguageModules } from "@/data/vietnameseCurriculumData";
+import type { VietnameseVocabEntry } from "@/data/vietnamese/types";
+
+// Teacher Hai tips per lesson (keyed by lesson ID)
+const teacherTips: Record<string, { vi: string; en: string }> = {
+  "vn-vocab-shopping": {
+    vi: "Bạn có biết? Ở Việt Nam, 'mặc cả' là một trải nghiệm văn hóa. Hãy bắt đầu bằng cách xin giảm 30%!",
+    en: "Did you know? In Vietnam, 'mặc cả' (bargaining) is a cultural experience. Start by asking for 30% off!",
+  },
+  "vn-vocab-food": {
+    vi: "Mẹo: Khi gọi phở, hãy nói 'Cho tôi một tô phở bò tái chín' – đó là combo phổ biến nhất!",
+    en: "Tip: When ordering phở, say 'Cho tôi một tô phở bò tái chín' – that's the most popular combo!",
+  },
+  "vn-vocab-family": {
+    vi: "Hệ thống xưng hô Việt Nam rất phức tạp – nhưng người Việt sẽ rất vui nếu bạn thử gọi đúng!",
+    en: "Vietnamese pronouns are complex – but locals love it when you try to use them correctly!",
+  },
+  "vn-vocab-transport": {
+    vi: "90% người Việt dùng xe máy. Nếu muốn hòa nhập, hãy học nói: 'Grab ơi, đến đây!'",
+    en: "90% of Vietnamese use motorbikes. To blend in, learn to say: 'Grab ơi, đến đây!' (Hey Grab, come here!)",
+  },
+  "vn-vocab-greetings": {
+    vi: "Luôn thêm 'anh/chị/em' sau 'Chào' – nó thể hiện sự tôn trọng và thân thiện.",
+    en: "Always add 'anh/chị/em' after 'Chào' – it shows respect and friendliness.",
+  },
+};
+
+// Group vocabulary by part of speech into semantic categories
+interface VocabGroup {
+  label: string;
+  labelEn: string;
+  icon: React.ReactNode;
+  items: VietnameseVocabEntry[];
+}
+
+const groupVocabulary = (vocabulary: VietnameseVocabEntry[]): VocabGroup[] => {
+  const actions: VietnameseVocabEntry[] = [];
+  const objects: VietnameseVocabEntry[] = [];
+  const descriptors: VietnameseVocabEntry[] = [];
+
+  vocabulary.forEach((v) => {
+    const pos = v.partOfSpeech?.toLowerCase() || "";
+    if (pos.includes("verb") || pos === "phrase") {
+      actions.push(v);
+    } else if (pos === "adjective" || pos === "number") {
+      descriptors.push(v);
+    } else {
+      objects.push(v);
+    }
+  });
+
+  const groups: VocabGroup[] = [];
+  if (actions.length > 0) groups.push({ label: "Hành động", labelEn: "Actions", icon: <Zap className="w-4 h-4" />, items: actions });
+  if (objects.length > 0) groups.push({ label: "Danh từ", labelEn: "Objects", icon: <Package className="w-4 h-4" />, items: objects });
+  if (descriptors.length > 0) groups.push({ label: "Mô tả", labelEn: "Descriptors", icon: <Sparkles className="w-4 h-4" />, items: descriptors });
+
+  // If only one group, return flat
+  if (groups.length <= 1) return [{ label: "Tất cả", labelEn: "All Words", icon: <Sparkles className="w-4 h-4" />, items: vocabulary }];
+  return groups;
+};
 
 const VietnameseLessonView = () => {
   const { moduleId, lessonId } = useParams();
@@ -52,6 +112,9 @@ const VietnameseLessonView = () => {
     intermediate: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
     advanced: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
   };
+
+  const tip = teacherTips[lesson.id];
+  const vocabGroups = groupVocabulary(lesson.vocabulary);
 
   return (
     <div className="min-h-screen bg-background">
@@ -98,6 +161,25 @@ const VietnameseLessonView = () => {
                   </h1>
                 </div>
 
+                {/* Teacher Hai's Tip */}
+                {tip && (
+                  <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <Lightbulb className="w-4 h-4 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-foreground mb-1">
+                          🎓 Teacher Hai's Tip
+                        </p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {t(tip.vi, tip.en)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Theory */}
                 <section className="prose prose-sm dark:prose-invert max-w-none mb-8">
                   <ReactMarkdown>{t(lesson.theory, lesson.theoryEn)}</ReactMarkdown>
@@ -118,24 +200,34 @@ const VietnameseLessonView = () => {
                   </section>
                 )}
 
-                {/* Vocabulary */}
+                {/* Smart Vocabulary Cards */}
                 {lesson.vocabulary.length > 0 && (
                   <section className="mb-8">
-                    <h2 className="text-lg font-bold text-foreground mb-3">📖 {t("Từ vựng", "Vocabulary")}</h2>
-                    <div className="grid sm:grid-cols-2 gap-3">
-                      {lesson.vocabulary.map((v, i) => (
-                        <div key={i} className="bg-card border border-border rounded-lg p-4">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-bold text-foreground">{v.word}</span>
-                            {v.partOfSpeech && (
-                              <Badge variant="outline" className="text-xs">{v.partOfSpeech}</Badge>
-                            )}
+                    <h2 className="text-xl font-bold text-foreground mb-5">📖 {t("Từ vựng", "Vocabulary")}</h2>
+
+                    {vocabGroups.map((group, gi) => (
+                      <div key={gi} className="mb-6">
+                        {/* Group header */}
+                        {vocabGroups.length > 1 && (
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center text-primary">
+                              {group.icon}
+                            </div>
+                            <h3 className="text-base font-semibold text-foreground">
+                              {t(group.label, group.labelEn)}
+                            </h3>
+                            <Badge variant="outline" className="text-xs">{group.items.length}</Badge>
                           </div>
-                          <p className="text-sm text-primary mb-1">{t(v.meaning, v.meaningEn)}</p>
-                          <p className="text-xs text-muted-foreground italic">{t(v.example, v.exampleEn)}</p>
+                        )}
+
+                        {/* Cards grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                          {group.items.map((v, vi) => (
+                            <SmartVocabCard key={`${gi}-${vi}`} vocab={v} index={vi} />
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </section>
                 )}
 
