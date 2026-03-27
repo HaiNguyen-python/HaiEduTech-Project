@@ -214,6 +214,56 @@ export const detailedVFFModules: DetailedModule[] = [
           ],
         },
       },
+      // Lesson 3: Workplace Titles
+      {
+        id: "vff-pron-3",
+        title: "Thầy, Cô, Bác sĩ — Đại từ nghề nghiệp",
+        titleEn: "Thầy, Cô, Doctor — Professional Title Pronouns",
+        icon: "🎓",
+        scenario: "Bạn đi khám bệnh và gặp bác sĩ, y tá.",
+        scenarioEn: "You visit a hospital and interact with a doctor and nurse.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Em chào bác sĩ ạ! Em bị đau bụng hai ngày rồi.", en: "Hello, doctor! I've had a stomachache for two days.", literal: "Younger greet doctor polite! Younger receive pain belly two day already.", keyWords: [{ word: "bác sĩ", pronunciation: "bác sĩ", meaning: "doctor", tone: "sac" }, { word: "đau bụng", pronunciation: "đau bụng", meaning: "stomachache", tone: "nang" }] },
+          { speaker: "Doctor", speakerLabel: "Bác sĩ", vi: "Chào em! Em ngồi đây nhé. Để bác sĩ khám cho em.", en: "Hello! Sit here please. Let me examine you.", literal: "Greet younger! Younger sit here ok. Let doctor examine for younger." },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ, em cảm ơn bác sĩ ạ.", en: "Thank you, doctor.", literal: "Polite-yes, younger feel-grace doctor polite." },
+          { speaker: "Doctor", speakerLabel: "Bác sĩ", vi: "Em có bị sốt không? Ăn uống có bình thường không?", en: "Do you have a fever? Is your eating normal?", literal: "Younger have receive fever not? Eat drink have normal not?", keyWords: [{ word: "sốt", pronunciation: "sốt", meaning: "fever", tone: "sac" }, { word: "bình thường", pronunciation: "bình thường", meaning: "normal", tone: "huyen" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ em không sốt, nhưng hôm qua em ăn hải sản, sau đó bị đau.", en: "No fever, but yesterday I ate seafood and then had pain.", literal: "Polite-yes younger not fever, but day yesterday younger eat sea-product, after that receive pain." },
+          { speaker: "Doctor", speakerLabel: "Bác sĩ", vi: "Có thể em bị ngộ độc thực phẩm. Bác sĩ kê thuốc cho em nhé.", en: "You might have food poisoning. I'll prescribe medicine for you.", literal: "Have can younger receive mistake poison food-product. Doctor write medicine for younger ok.", keyWords: [{ word: "ngộ độc", pronunciation: "ngộ độc", meaning: "poisoning", tone: "nang" }, { word: "kê thuốc", pronunciation: "kê thuốc", meaning: "prescribe medicine", tone: "sac" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ em cảm ơn bác sĩ! Em lấy thuốc ở đâu ạ?", en: "Thank you doctor! Where do I pick up the medicine?", literal: "Polite-yes younger feel-grace doctor! Younger take medicine at where polite?" },
+          { speaker: "Doctor", speakerLabel: "Bác sĩ", vi: "Em ra quầy thuốc tầng 1. Nhớ uống thuốc đúng giờ nhé!", en: "Go to the pharmacy on floor 1. Remember to take medicine on time!", literal: "Younger go-out counter medicine floor 1. Remember drink medicine correct hour ok!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Bác sĩ / Thầy / Cô (Title as pronoun)",
+            patternEn: "Using professional titles as pronouns",
+            explanation: "Ở Việt Nam, chức danh nghề nghiệp được dùng thay cho đại từ: Bác sĩ, Thầy (thầy giáo), Cô (cô giáo), Luật sư...",
+            explanationEn: "In Vietnam, professional titles replace pronouns: Bác sĩ (Doctor), Thầy (male teacher), Cô (female teacher), Luật sư (Lawyer)...",
+            examples: [
+              { vi: "Em chào thầy ạ!", en: "Hello, teacher! (male)", literal: "Younger greet teacher polite!" },
+              { vi: "Cô ơi, cho em hỏi bài.", en: "Teacher (female), may I ask about the lesson?", literal: "Teacher hey, give younger ask lesson." },
+              { vi: "Bác sĩ kê thuốc cho em.", en: "Doctor prescribes medicine for me.", literal: "Doctor write medicine for younger." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Văn hóa 'Tôn sư trọng đạo'",
+            titleEn: "'Respect teachers, value education' culture",
+            content: "Người Việt rất kính trọng giáo viên và bác sĩ. Ngày 20/11 hàng năm là 'Ngày Nhà giáo Việt Nam' — học sinh tặng hoa và quà cho thầy cô. Khi gặp bác sĩ, luôn dùng 'Dạ/Vâng' và 'ạ' để thể hiện sự tôn trọng.",
+            contentEn: "Vietnamese deeply respect teachers and doctors. November 20th is 'Vietnamese Teachers' Day' — students give flowers and gifts to teachers. When meeting doctors, always use 'Dạ/Vâng' and 'ạ' to show respect.",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Điền đại từ/chức danh phù hợp.",
+          instructionEn: "Fill in the correct title/pronoun.",
+          items: [
+            { question: "Ở bệnh viện, bạn nói: 'Em chào _____ ạ!'", answer: "bác sĩ", explanationEn: "Use the professional title 'bác sĩ' (doctor) as a pronoun." },
+            { question: "Ở trường học, bạn nói: '_____ ơi, cho em hỏi bài!'", answer: "Thầy/Cô", explanationEn: "Use 'Thầy' for male teacher, 'Cô' for female teacher." },
+            { question: "Bác sĩ nói: 'Nhớ uống thuốc _____ giờ nhé!' (on time)", answer: "đúng", explanationEn: "'Đúng giờ' = on time" },
+          ],
+        },
+      },
     ],
   },
 
