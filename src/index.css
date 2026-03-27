@@ -135,3 +135,18 @@
   will-change: transform;
   border-radius: 4px;
 }
+
+/* =================== GAME NEON THEME =================== */
+.neon-text {
+  text-shadow: 0 0 10px hsl(var(--primary) / 0.4), 0 0 30px hsl(var(--primary) / 0.15);
+}
+
+.neon-btn {
+  @apply bg-primary text-primary-foreground font-bold;
+  box-shadow: 0 0 15px hsl(var(--primary) / 0.3), 0 0 40px hsl(var(--primary) / 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.neon-btn:hover {
+  box-shadow: 0 0 20px hsl(var(--primary) / 0.5), 0 0 60px hsl(var(--primary) / 0.2);
+}

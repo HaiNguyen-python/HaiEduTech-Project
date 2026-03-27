@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import HistoryTimeline from "@/components/HistoryTimeline";
-import FactOrMythGame from "@/components/FactOrMythGame";
+import GameHub from "@/components/games/GameHub";
 import {
   vietnameseLanguageModules,
   historyMonths,
@@ -327,19 +327,7 @@ const Vietnamese = () => {
 
             {/* =================== GAME TAB =================== */}
             <TabsContent value="game">
-              <div className="max-w-lg mx-auto text-center mb-8">
-                <h2 className="text-xl font-bold text-foreground mb-2 flex items-center justify-center gap-2">
-                  <Gamepad2 className="w-5 h-5 text-primary" />
-                  {t("Sự thật hay Huyền thoại?", "Fact or Myth?")}
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  {t(
-                    "Kiểm tra kiến thức của bạn về lịch sử và văn hóa Việt Nam!",
-                    "Test your knowledge about Vietnamese history and culture!"
-                  )}
-                </p>
-              </div>
-              <FactOrMythGame />
+              <GameHub />
             </TabsContent>
           </Tabs>
         </div>
