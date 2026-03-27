@@ -427,7 +427,7 @@ const ChatBot = () => {
                 tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
               }}
               className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground/20 bg-primary shadow-2xl transition-all hover:brightness-110 sm:h-16 sm:w-16"
-              title={t("Alo, thầy Hải nghe", "Chat with Teacher Hai")}
+              title="Chat with Teacher Hai"
             >
               <img src={chatbotIcon} alt="Thầy Hải" className="h-12 w-12 object-cover sm:h-14 sm:w-14" />
             </motion.button>
@@ -448,8 +448,8 @@ const ChatBot = () => {
             <div className="flex items-center gap-3 border-b border-border bg-primary/5 p-4">
               <img src={chatbotIcon} alt="Thầy Hải" className="h-10 w-10 rounded-full" />
               <div className="flex-1">
-                <h3 className="text-base font-bold text-foreground">{t("📞 Alo, thầy Hải nghe", "📞 Teacher Hai is here")}</h3>
-                <p className="text-xs text-muted-foreground">{t("Trợ lý học tập AI", "AI Learning Assistant")}</p>
+                <h3 className="text-base font-bold text-foreground">📞 Teacher Hai is here</h3>
+                <p className="text-xs text-muted-foreground">AI Learning Assistant</p>
               </div>
               <button onClick={() => setOpen(false)} className="rounded-lg p-1.5 transition-colors hover:bg-secondary">
                 <X className="h-5 w-5 text-muted-foreground" />
@@ -474,9 +474,9 @@ const ChatBot = () => {
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
                     {[
-                      t("Giải thích thì hiện tại hoàn thành", "Explain present perfect tense"),
-                      t("你好 nghĩa là gì?", "What does 你好 mean?"),
-                      t("Python là gì?", "What is Python?"),
+                      "Explain present perfect tense",
+                      "What does 你好 mean?",
+                      "What is Python?",
                     ].map((suggestion) => (
                       <button
                         key={suggestion}
