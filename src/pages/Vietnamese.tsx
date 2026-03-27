@@ -4,7 +4,12 @@ import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   BookOpen, GraduationCap, Clock, Scroll, Sparkles,
-  ChevronRight, Flower2, Star, Globe, Gamepad2, BookMarked
+  ChevronRight, Flower2, Star, Globe, Gamepad2, BookMarked,
+  Crown, Swords, Shield, Mountain, Landmark, Flag, Scale,
+  BookText, Users, Drum, Flame, Castle, Pen, Ship, Anchor,
+  Heart, MapPin, Trophy, Rocket, Wifi, HandshakeIcon,
+  Lightbulb, TrendingUp, Activity, GraduationCap as GradCap,
+  Utensils, Target, type LucideIcon,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -20,6 +25,54 @@ import {
   historyMonths,
   folkloreItems,
 } from "@/data/vietnameseCurriculumData";
+
+// Icon mapping for each history lesson
+const lessonIconMap: Record<string, LucideIcon> = {
+  // Month 1: Early Kingdoms
+  "hist-1-1": Crown,        // Hung Kings legend
+  "hist-1-2": Castle,       // Co Loa citadel
+  "hist-1-3": Shield,       // Trung Sisters
+  "hist-1-4": Shield,       // Lady Trieu
+  "hist-1-5": Anchor,       // Bach Dang battle
+  "hist-1-6": Flag,         // Van Xuan
+  "hist-1-7": Flame,        // Khuc Thua Du autonomy
+  "hist-1-8": Swords,       // Dinh Bo Linh unification
+  "hist-1-9": Drum,         // Dong Son bronze drums
+  "hist-1-10": Flame,       // Mai Thuc Loan & Phung Hung
+  // Month 2: Golden Dynasties
+  "hist-2-1": Landmark,     // Ly - Thang Long
+  "hist-2-2": Pen,          // Ly Thuong Kiet - poem
+  "hist-2-3": Swords,       // Tran vs Mongols
+  "hist-2-4": Mountain,     // Le Loi - Lam Son
+  "hist-2-5": Scale,        // Le Thanh Tong - laws
+  "hist-2-6": Trophy,       // Tran Hung Dao
+  "hist-2-7": Lightbulb,    // Ho Quy Ly reforms
+  "hist-2-8": GraduationCap, // Van Mieu
+  "hist-2-9": Ship,         // Trinh-Nguyen division
+  "hist-2-10": BookText,    // Ho Guom legend
+  // Month 3: Modern History
+  "hist-3-1": Swords,       // Quang Trung
+  "hist-3-2": Castle,       // Nguyen & France
+  "hist-3-3": Flag,         // Ho Chi Minh independence
+  "hist-3-4": Mountain,     // Dien Bien Phu
+  "hist-3-5": Flag,         // Reunification 1975
+  "hist-3-6": Shield,       // Can Vuong
+  "hist-3-7": Ship,         // Phan Boi Chau Dong Du
+  "hist-3-8": Flame,        // Phong trao Xo Viet Nghe Tinh
+  "hist-3-9": Star,         // Cach mang Thang Tam
+  "hist-3-10": Swords,      // Chien dich HCM 1975
+  // Month 4: Contemporary Vietnam
+  "hist-4-1": TrendingUp,   // Doi Moi 1986
+  "hist-4-2": Globe,        // ASEAN & WTO
+  "hist-4-3": Wifi,         // Digital era
+  "hist-4-4": HandshakeIcon, // VN on world stage
+  "hist-4-5": Target,       // Challenges & future
+  "hist-4-6": TrendingUp,   // Post-Doi Moi economy
+  "hist-4-7": Activity,     // COVID response
+  "hist-4-8": GraduationCap, // Education & PISA
+  "hist-4-9": Utensils,     // Vietnamese culture global
+  "hist-4-10": Rocket,      // Vision 2045
+};
 
 const Vietnamese = () => {
   const { t } = useLanguage();
@@ -260,18 +313,24 @@ const Vietnamese = () => {
                       <p className="text-sm text-muted-foreground mb-3">
                         {t(month.description, month.descriptionEn)}
                       </p>
-                      {month.lessons.map((lesson) => (
-                        <Link
-                          key={lesson.id}
-                          to={`/learn-vietnamese/history/${lesson.id}`}
-                          className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
-                        >
-                          <span className="text-sm font-medium text-foreground">
-                            {t(lesson.title, lesson.titleEn)}
-                          </span>
-                          <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                        </Link>
-                      ))}
+                      {month.lessons.map((lesson) => {
+                        const LessonIcon = lessonIconMap[lesson.id] || BookOpen;
+                        return (
+                          <Link
+                            key={lesson.id}
+                            to={`/learn-vietnamese/history/${lesson.id}`}
+                            className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <LessonIcon className="w-4 h-4 text-primary shrink-0" />
+                              <span className="text-sm font-medium text-foreground">
+                                {t(lesson.title, lesson.titleEn)}
+                              </span>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                          </Link>
+                        );
+                      })}
                     </div>
                   </motion.div>
                 ))}
