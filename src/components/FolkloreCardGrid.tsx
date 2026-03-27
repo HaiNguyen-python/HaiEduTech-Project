@@ -103,12 +103,11 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
               {/* Main verse text — artistic Dancing Script font */}
               <div className="px-5 pb-3">
                 <h3
-                  className="text-foreground leading-relaxed italic"
+                  className="text-foreground leading-relaxed font-bold"
                   style={{
-                    fontFamily: "'Dancing Script', 'Playfair Display', 'Noto Serif', serif",
-                    fontSize: "26px",
-                    lineHeight: 1.5,
-                    fontWeight: 700,
+                    fontFamily: "'Inter', 'Noto Serif', sans-serif",
+                    fontSize: "20px",
+                    lineHeight: 1.6,
                   }}
                 >
                   {displayTitle}
@@ -136,12 +135,11 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
               {!isProverb && (
                 <div className="px-5 pt-3">
                   <p
-                  className="text-foreground italic leading-relaxed whitespace-pre-line"
+                    className="text-foreground leading-relaxed whitespace-pre-line font-semibold"
                     style={{
-                      fontFamily: "'Dancing Script', 'Playfair Display', 'Noto Serif', serif",
-                      fontSize: "24px",
-                      lineHeight: 1.5,
-                      fontWeight: 700,
+                      fontFamily: "'Inter', 'Noto Serif', sans-serif",
+                      fontSize: "18px",
+                      lineHeight: 1.7,
                     }}
                   >
                     {t(item.content, item.contentEn)}
