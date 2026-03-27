@@ -409,7 +409,7 @@ const ChatBot = () => {
                   transition={{ duration: 0.3 }}
                   className="relative max-w-[220px] rounded-xl border border-border bg-card px-4 py-2.5 text-center text-sm text-foreground shadow-lg"
                 >
-                  <span>👋 Hi there, I'm Mr. Hai.</span>
+                  <span>👋 Hi there! I'm Mr.Hai.</span>
                   <div className="absolute -bottom-1.5 right-6 h-3 w-3 rotate-45 border-b border-r border-border bg-card" />
                 </motion.div>
               )}
@@ -448,7 +448,7 @@ const ChatBot = () => {
             <div className="flex items-center gap-3 border-b border-border bg-primary/5 p-4">
               <img src={chatbotIcon} alt="Thầy Hải" className="h-10 w-10 rounded-full" />
               <div className="flex-1">
-                <h3 className="text-base font-bold text-foreground">📞 Hi there, I'm Mr. Hai.</h3>
+                <h3 className="text-base font-bold text-foreground">📞 Hi there! I'm Mr.Hai.</h3>
                 <p className="text-xs text-muted-foreground">AI Learning Assistant</p>
               </div>
               <button onClick={() => setOpen(false)} className="rounded-lg p-1.5 transition-colors hover:bg-secondary">
@@ -470,7 +470,7 @@ const ChatBot = () => {
                 <div className="py-8 text-center">
                   <img src={chatbotIcon} alt="Thầy Hải" className="mx-auto mb-4 h-20 w-20 opacity-50" />
                   <p className="mb-4 text-sm text-muted-foreground">
-                    {"Hi there, I'm Mr. Hai 👋\nAsk me about English, Chinese or Programming!"}
+                    {"Hi there! I'm Mr.Hai. Ready to explore English, Chinese, or Coding with me today? 👋"}
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
                     {[
