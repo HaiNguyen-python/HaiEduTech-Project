@@ -32,6 +32,7 @@ import Footer from "@/components/Footer";
 import TeacherAdmin from "@/pages/TeacherAdmin";
 import CourseAccessManager from "@/components/CourseAccessManager";
 import SystemStatusTab from "@/components/SystemStatusTab";
+import IncomeManagement from "@/components/IncomeManagement";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -401,6 +402,9 @@ const AdminDashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger value="access" className="gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5" /> {t("Quyền truy cập", "Access")}
+                </TabsTrigger>
+                <TabsTrigger value="income" className="gap-1.5">
+                  <DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}
                 </TabsTrigger>
                 <TabsTrigger value="system" className="gap-1.5">
                   <Activity className="w-3.5 h-3.5" /> {t("Hệ thống API", "System Status")}
@@ -887,6 +891,11 @@ const AdminDashboard = () => {
               {/* ===== ACCESS MANAGEMENT TAB ===== */}
               <TabsContent value="access">
                 <CourseAccessManager />
+              </TabsContent>
+
+              {/* ===== INCOME MANAGEMENT TAB ===== */}
+              <TabsContent value="income">
+                <IncomeManagement />
               </TabsContent>
 
               {/* ===== SYSTEM STATUS & API MONITORING TAB ===== */}
