@@ -3,10 +3,12 @@ import { motion } from "framer-motion";
 
 // Subject-related floating symbols
 const SYMBOLS = [
-  // English words
+  // English
   "Hello", "Thanks", "Welcome", "English", "Chinese", "Programming",
-  // Tech & AI keywords
-  "AI", "Data", "Python", "SQL", "Machine Learning",
+  // Vietnamese
+  "Vietnamese", "Xin chào", "Cảm ơn",
+  // Tech & AI
+  "AI", "Data", "Python", "SQL", "ML",
   // Programming symbols
   "{}", "</>", "=>", "def", "print", "if",
   // Chinese
