@@ -60,9 +60,9 @@ const vocabItems = [
   },
 ];
 
-// YouTube video IDs
-const KARAOKE_VIDEO_ID = "2yZ4MS2WSQY";
-const INSTRUMENTAL_VIDEO_ID = "LbdTnrcfjbo";
+// Working YouTube video IDs for Vietnamese National Anthem
+const KARAOKE_VIDEO_ID = "PLP3mR4SOt0";
+const INSTRUMENTAL_VIDEO_ID = "aOFaHkVOojQ";
 
 const NationalAnthem = () => {
   const [isPlaying, setIsPlaying] = useState(false);
