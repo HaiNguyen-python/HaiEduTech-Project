@@ -264,7 +264,7 @@ const FolkloreLibrary = () => {
                   {/* Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white text-center">
                     <span className="text-4xl mb-3 drop-shadow-lg">{story.coverIcon}</span>
-                    <h3 className="font-serif font-bold text-sm md:text-base leading-tight drop-shadow">
+                    <h3 className="font-display font-bold text-sm md:text-base leading-tight drop-shadow">
                       {t(story.title, story.titleEn)}
                     </h3>
                     <Badge className="mt-2 bg-white/20 text-white border-white/30 text-[10px]">
