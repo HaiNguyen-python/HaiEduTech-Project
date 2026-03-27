@@ -108,10 +108,10 @@ const Navbar = () => {
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/learn-vietnamese/folklore", label: t("📖 Truyện cổ tích", "📖 Folklore Treasury") },
     { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Tiếng Việt cho Người Nước Ngoài", "🌏 Vietnamese for Foreigners") },
-    { to: "/learn-vietnamese", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
-    { to: "/learn-vietnamese", label: t("📜 Lịch sử Việt Nam", "📜 Vietnamese History") },
-    { to: "/learn-vietnamese", label: t("🌾 Ca Dao & Tục Ngữ", "🌾 Folklore & Proverbs") },
-    { to: "/learn-vietnamese", label: t("🎮 Trò chơi vui nhộn", "🎮 Fun Games") },
+    { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
+    { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử Việt Nam", "📜 Vietnamese History") },
+    { to: "/learn-vietnamese?tab=folklore", label: t("🌾 Ca Dao & Tục Ngữ", "🌾 Folklore & Proverbs") },
+    { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi vui nhộn", "🎮 Fun Games") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },

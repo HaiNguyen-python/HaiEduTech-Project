@@ -1,6 +1,6 @@
 // Learn Vietnamese main page with language, history, folklore, and game sections
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   BookOpen, GraduationCap, Clock, Scroll, Sparkles,
@@ -22,7 +22,19 @@ import {
 
 const Vietnamese = () => {
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState("language");
+  const [searchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get("tab");
+  const validTabs = ["language", "history", "folklore", "game"];
+  const [activeTab, setActiveTab] = useState(
+    tabFromUrl && validTabs.includes(tabFromUrl) ? tabFromUrl : "language"
+  );
+
+  // Sync tab when URL query param changes
+  useEffect(() => {
+    if (tabFromUrl && validTabs.includes(tabFromUrl)) {
+      setActiveTab(tabFromUrl);
+    }
+  }, [tabFromUrl]);
 
   // Language programs summary
   const programs = [
