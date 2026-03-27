@@ -104,7 +104,9 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const allTopics = [...new Set([...keySituationTitles, ...speakingTopics])];
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
   }, [messages]);
 
   // Start conversation with AI initiating the scene
