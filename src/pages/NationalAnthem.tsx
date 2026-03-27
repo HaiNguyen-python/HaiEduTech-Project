@@ -243,7 +243,7 @@ const NationalAnthem = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <motion.img
-                src={flagLandmark}
+                src={flagWaving}
                 alt="Quốc kỳ Việt Nam tung bay trên Quảng trường Ba Đình"
                 className="w-full rounded-xl shadow-lg object-cover max-h-[360px]"
                 width={1280}
