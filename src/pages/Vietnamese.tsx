@@ -133,11 +133,11 @@ const Vietnamese = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-2 pb-16">
+      <main className="pt-0 pb-16">
         {/* Hero with illustration banner */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* Banner with overlaid title and tabs */}
-        <section className="w-full mb-2">
+        <section className="w-full mb-0">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
