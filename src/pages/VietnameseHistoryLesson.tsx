@@ -132,7 +132,7 @@ const VietnameseHistoryLesson = () => {
 
                         {/* Text */}
                         <div className={`${seg.imageUrl ? 'md:w-[60%]' : 'w-full'} p-5 pt-2 flex items-center`}>
-                          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground leading-loose text-[1.2rem]" style={{ lineHeight: '1.9' }}>
+                          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground leading-loose text-[1.35rem]" style={{ lineHeight: '1.8' }}>
                             <ReactMarkdown
                               components={{
                                 strong: ({ children }) => (
