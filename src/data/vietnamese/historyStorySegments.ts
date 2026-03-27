@@ -660,6 +660,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
 
   "hist-3-1": [
     {
+      title: "Bối cảnh - Tây Sơn Tam Kiệt",
+      titleEn: "Context - The Tây Sơn Triad",
+      text: "Trên dải đất miền Trung khô cằn, ba anh em **Nguyễn Nhạc**, **Nguyễn Huệ** và **Nguyễn Lữ** đã dấy lên ngọn cờ khởi nghĩa áo vải, thắp sáng hy vọng cho muôn dân. Từ một cuộc nổi dậy của nông dân ở ấp Tây Sơn, họ đã viết nên những trang sử chói lọi, thách thức cả hai thế lực **Lê – Trịnh** ở Đàng Ngoài và **Nguyễn** ở Đàng Trong, mở ra một kỷ nguyên mới đầy biến động cho **Đại Việt** vào khoảng *những năm 1770*.",
+      textEn: "In the arid central region, the three brothers **Nguyễn Nhạc**, **Nguyễn Huệ**, and **Nguyễn Lữ** raised the banner of the peasant uprising, igniting hope for the populace. From a farmer's rebellion in Tây Sơn hamlet, they penned glorious historical chapters, challenging both the **Lê – Trịnh** power in the North and **Nguyễn** in the South, ushering in a tumultuous new era for **Đại Việt** around *the 1770s*.",
+    },
+
+    {
       title: "🐘 Hoàng đế áo vải",
       titleEn: "🐘 The Peasant Emperor",
       text: "Cuối năm **1788**, vua Lê Chiêu Thống cầu cứu nhà Thanh. Tôn Sĩ Nghị dẫn **29 vạn quân** tràn vào chiếm Thăng Long. Giữa cơn nguy, **Nguyễn Huệ** – vị anh hùng áo vải đất **Tây Sơn** (Bình Định) – lập tức lên ngôi Hoàng đế, lấy hiệu **Quang Trung**, rồi **thần tốc hành quân** hơn 600km từ Phú Xuân ra Bắc chỉ trong khoảng 40 ngày, vừa đi vừa tuyển quân.",
@@ -672,9 +679,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "**Đêm 30 Tết** Kỷ Dậu (*1789*), khi quân Thanh đang mở tiệc ăn Tết, Quang Trung bất ngờ **tổng tấn công**. Ông chia quân 5 đạo, đánh đồng loạt Hà Hồi, Ngọc Hồi, Đống Đa. Tại Ngọc Hồi, Quang Trung đích thân **cưỡi voi chỉ huy**, cho quân lấy rơm cuốn quanh ván gỗ làm khiên. Tướng giặc **Sầm Nghi Đống** tự vẫn, **Tôn Sĩ Nghị** bỏ chạy không kịp mặc giáp. Chỉ trong **5 ngày**, 29 vạn quân Thanh bị đánh tan – một trong những **chiến thắng chớp nhoáng vĩ đại nhất** lịch sử quân sự thế giới.",
       textEn: "On **Tet Eve** (*1789*), while Qing troops feasted, Quang Trung launched a **total surprise assault** in 5 columns. He personally **rode an elephant** into battle at Ngoc Hoi. Qing general **Sam Nghi Dong** hanged himself; **Sun Shiyi** fled without armor. In just **5 days**, 290,000 Qing troops were annihilated – one of the **greatest blitzkrieg victories** in world military history.",
     },
+    {
+      title: "Di sản - Vị Hoàng đế vĩ đại nhất",
+      titleEn: "Legacy - The Greatest Emperor",
+      text: "**Quang Trung – Nguyễn Huệ** được mệnh danh là một trong những vị hoàng đế vĩ đại nhất lịch sử Việt Nam. Ông không chỉ tài ba trên chiến trường mà còn ôm ấp tầm nhìn cải cách sâu rộng về kinh tế, giáo dục. Cái chết đột ngột của ông ở tuổi *40* vào năm *1792* là một bi kịch lớn của dân tộc, khiến bao kế hoạch dang dở. Người đời mãi tiếc nuối về một tương lai xán lạn đã không thành hiện thực, nếu như ông có thêm thời gian để thực hiện hoài bão của mình.",
+      textEn: "**Quang Trung – Nguyễn Huệ** is hailed as one of Vietnam's greatest emperors. He was not only brilliant on the battlefield but also harbored a profound vision for economic and educational reforms. His sudden death at the age of *40* in *1792* was a great national tragedy, leaving many plans unfinished. People forever rue the bright future that never materialized, had he only had more time to fulfill his ambitions.",
+    },
+  
   ],
 
   "hist-3-2": [
+    {
+      title: "Bối cảnh - Thống nhất giang sơn",
+      titleEn: "Context - Unifying the Nation",
+      text: "Sau gần ba thập kỷ chiến tranh tiêu hao, **Nguyễn Ánh** với sự kiên trì phi thường đã chiến thắng và thống nhất giang sơn, lập nên nhà **Nguyễn** vào năm *1802*. Cuộc trường chinh đầy gian khổ kéo dài *hơn 25 năm* của ông, có lúc phải cầu viện đến sự hỗ trợ quân sự và kỹ thuật từ người **Pháp**, đã đặt dấu chấm hết cho thời kỳ chia cắt **Lê – Trịnh – Nguyễn**. Tuy nhiên, chính sự 'giúp đỡ' này đã gieo mầm cho những rắc rối sau này, khi Pháp dần bộc lộ dã tâm xâm lược.",
+      textEn: "After nearly three decades of attrition warfare, **Nguyễn Ánh**, with extraordinary perseverance, triumphed and unified the nation, establishing the **Nguyễn** Dynasty in *1802*. His arduous *25-year* campaign, at times requiring military and technical aid from the **French**, ended the **Lê – Trịnh – Nguyễn** divided era. However, this 'assistance' inadvertently sowed the seeds for future troubles as France gradually revealed its expansionist ambitions.",
+    },
+
     {
       title: "🏯 Triều đại cuối cùng",
       titleEn: "🏯 The Last Dynasty",
@@ -688,9 +709,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "**Năm 1858**, liên quân Pháp-Tây Ban Nha tấn công Đà Nẵng. Các triều vua yếu đuối lần lượt **ký hiệp ước nhượng đất** cho đến khi VN trở thành thuộc địa hoàn toàn (*1884*). Pháp chia VN thành **3 kỳ**: Bắc Kỳ, Trung Kỳ, Nam Kỳ. Gần 80 năm đô hộ là thời kỳ đau thương nhưng cũng mang lại biến chuyển: **đường sắt, trường học, chữ Quốc ngữ** được phổ biến.",
       textEn: "In **1858**, French-Spanish forces attacked Da Nang. Weak kings signed away territory until Vietnam became a full colony (*1884*). France divided it into **3 regions**. Nearly 80 years of rule brought pain but also change: **railways, schools**, and the **romanized Vietnamese script** spread widely.",
     },
+    {
+      title: "Di sản - Nỗi đau và bài học",
+      titleEn: "Legacy - Pain and Lessons",
+      text: "Di sản của nhà **Nguyễn** là một bức tranh đa chiều. Từ **kinh thành Huế** tráng lệ – nay là **Di sản Thế giới UNESCO**, đến những nỗi đau sâu sắc từ chính sách bế quan tỏa cảng, đẩy đất nước vào thế yếu trước tham vọng của phương Tây. Bài học về sự tự mãn và thiếu tầm nhìn chiến lược vẫn còn nguyên giá trị. Nó nhắc nhở chúng ta về tầm quan trọng của việc hội nhập quốc tế để không bao giờ lặp lại bi kịch của *một thế kỷ mất nước* vì sự chậm trễ trong canh tân và thích nghi.",
+      textEn: "The **Nguyễn** Dynasty's legacy is a multifaceted tapestry. From the magnificent **Hue Citadel** – now a **UNESCO World Heritage site** – to the profound pain stemming from isolationist policies that left the nation vulnerable to Western ambitions. The lesson of complacency and lack of strategic foresight remains pertinent. It reminds us of the crucial importance of international integration, ensuring we never repeat the tragedy of *a century of lost sovereignty* due to delayed reform and adaptation.",
+    },
+  
   ],
 
   "hist-3-3": [
+    {
+      title: "Bối cảnh - Chàng thanh niên yêu nước",
+      titleEn: "Context - The Young Patriot",
+      text: "Từ thuở ấu thơ ở làng **Kim Liên**, cậu bé **Nguyễn Sinh Cung**, sau này là **Hồ Chí Minh**, đã chứng kiến cảnh nước nhà lầm than dưới ách đô hộ. Nỗi đau mất nước và hình ảnh những cuộc khởi nghĩa thất bại đã nung nấu trong tâm khảm cậu một hoài bão lớn lao. Với ý chí mạnh mẽ và khát vọng cháy bỏng tìm đường cứu dân tộc, vào *ngày 5 tháng 6 năm 1911*, người thanh niên trẻ tuổi đã rời bến **Nhà Rồng**, bắt đầu cuộc hành trình lênh đênh khắp năm châu, tìm kiếm ánh sáng chân lý.",
+      textEn: "From his childhood in **Kim Liên** village, young **Nguyễn Sinh Cung**, later **Ho Chi Minh**, witnessed his nation's suffering under foreign rule. The agony of national subjugation and the sight of failed uprisings forged within him a great ambition. With strong will and a burning desire to find a path to save his people, on *June 5, 1911*, the young man departed from **Nhà Rồng** harbor, embarking on an arduous journey across continents, in search of truth and liberation.",
+    },
+
     {
       title: "🚢 30 năm tìm đường cứu nước",
       titleEn: "🚢 30 Years Seeking National Salvation",
@@ -704,9 +739,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Ngày **2/9/1945**, tại **Quảng trường Ba Đình** (Hà Nội), trước hàng vạn đồng bào, Chủ tịch Hồ Chí Minh đọc **Tuyên ngôn Độc lập**, khai sinh nước Việt Nam Dân chủ Cộng hòa. Bản tuyên ngôn mở đầu bằng trích dẫn Tuyên ngôn Độc lập của Mỹ: *'Tất cả mọi người đều sinh ra có quyền bình đẳng.'* Ngày **2/9** trở thành **Ngày Quốc khánh** – ngày thiêng liêng nhất của dân tộc.",
       textEn: "On **September 2, 1945**, at **Ba Dinh Square** (Hanoi), before tens of thousands, Ho Chi Minh read the **Declaration of Independence**, founding the Democratic Republic of Vietnam. It opened with the American Declaration: *'All men are created equal.'* **September 2** became **National Day** – the nation's most sacred date.",
     },
+    {
+      title: "Di sản - Di sản của Bác Hồ",
+      titleEn: "Legacy - Uncle Ho's Heritage",
+      text: "Di sản của **Chủ tịch Hồ Chí Minh** là vô giá, không chỉ cho riêng Việt Nam mà còn cho cả các dân tộc bị áp bức trên thế giới. Tư tưởng của Người về độc lập dân tộc gắn liền với chủ nghĩa xã hội, về đại đoàn kết dân tộc vẫn còn nguyên giá trị. Bản **Di chúc** thiêng liêng của Người là kim chỉ nam cho sự nghiệp xây dựng đất nước. Hình ảnh **Bác Hồ** đã trở thành biểu tượng cho lòng yêu nước, ý chí tự lực tự cường và khát vọng hòa bình, được bạn bè quốc tế ngưỡng mộ và vinh danh.",
+      textEn: "The legacy of **President Ho Chi Minh** is invaluable, not only for Vietnam but also for all oppressed nations worldwide. His ideology of national independence associated with socialism, and of national unity, remains profoundly relevant. His sacred **Testament** serves as a guiding star for the nation-building endeavor. The image of **Uncle Ho** has become a symbol of patriotism, self-reliance, and the aspiration for peace, admired and honored by international friends.",
+    },
+  
   ],
 
   "hist-3-4": [
+    {
+      title: "Bối cảnh - Chín năm kháng chiến",
+      titleEn: "Context - Nine Years of Resistance",
+      text: "Sau *Tuyên ngôn Độc lập năm 1945*, dân tộc ta tưởng chừng đã giành được hòa bình. Nhưng thực dân **Pháp** với dã tâm tái chiếm đã quay trở lại, buộc nhân dân ta phải tiếp tục cuộc kháng chiến trường kỳ. Từ *năm 1946 đến 1954*, cả nước đã đồng lòng đứng lên, ‘thà hy sinh tất cả chứ nhất định không chịu mất nước, nhất định không chịu làm nô lệ’. Mỗi tấc đất, mỗi con người đều trở thành chiến sĩ, quyết tâm bảo vệ nền độc lập non trẻ của Tổ quốc.",
+      textEn: "After the *1945 Declaration of Independence*, our nation seemingly achieved peace. However, the colonial **French**, with their intent to re-occupy, returned, forcing our people into a prolonged resistance war. From *1946 to 1954*, the entire country united, 'preferring to sacrifice everything rather than lose our country, determined not to be slaves'. Every inch of land, every person became a soldier, resolute in defending the young independence of the Fatherland.",
+    },
+
     {
       title: "🏔️ Pháo đài bất khả xâm phạm?",
       titleEn: "🏔️ An Impregnable Fortress?",
@@ -720,9 +769,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Hàng vạn dân công dùng **sức người** kéo pháo nặng hàng tấn qua núi cao, đào hàng trăm km hào. Từ **13/3 đến 7/5/1954**, suốt **56 ngày đêm**, 3 đợt tấn công ác liệt. Chiều **7/5**, lá cờ **Quyết chiến Quyết thắng** tung bay trên nóc hầm De Castries. Toàn bộ quân Pháp đầu hàng. Chiến thắng *'lừng lẫy năm châu, chấn động địa cầu'* dẫn đến **Hiệp định Genève**, chấm dứt đô hộ Pháp tại Đông Dương.",
       textEn: "Tens of thousands of porters **hauled multi-ton cannons** over mountains and dug hundreds of km of trenches. Over **56 days** (March 13 to May 7, 1954), three fierce assault waves. On **May 7**, the Victory flag flew atop De Castries' bunker. All French forces surrendered. This victory *'resounded across five continents'* and led to the **Geneva Accords**, ending French colonial rule.",
     },
+    {
+      title: "Di sản - Chấn động địa cầu",
+      titleEn: "Legacy - Earth-shattering Impact",
+      text: "Chiến thắng **Điện Biên Phủ** vang dội *năm 1954* không chỉ kết thúc cuộc kháng chiến chống Pháp của Việt Nam mà còn ‘chấn động địa cầu’. Nó giáng một đòn chí mạng vào chủ nghĩa thực dân cũ, thức tỉnh các dân tộc bị áp bức đứng lên đấu tranh giành độc lập. Từ châu Á đến châu Phi, hàng loạt quốc gia đã noi gương Việt Nam. Hiệp định **Giơ-ne-vơ** sau đó đã công nhận độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ của Việt Nam, mở ra một trang sử mới cho thế giới.",
+      textEn: "The resounding victory at **Dien Bien Phu** in *1954* not only ended Vietnam's resistance against France but also 'shook the world'. It delivered a fatal blow to old colonialism, awakening oppressed nations to rise and fight for independence. From Asia to Africa, numerous countries followed Vietnam's example. The subsequent **Geneva Accords** recognized Vietnam's independence, sovereignty, unity, and territorial integrity, ushering in a new chapter in world history.",
+    },
+  
   ],
 
   "hist-3-5": [
+    {
+      title: "Bối cảnh - Đất nước bị chia cắt",
+      titleEn: "Context - A Divided Nation",
+      text: "Sau thắng lợi **Điện Biên Phủ** và **Hiệp định Giơ-ne-vơ** *năm 1954*, mong ước hòa bình chưa trọn vẹn, đất nước ta lại rơi vào cảnh chia cắt. Vĩ tuyến *17* không chỉ là một đường ranh giới địa lý mà còn là vết cắt sâu hoắm trong lòng dân tộc, chia lìa bao gia đình, xóm làng. *Hơn hai thập kỷ* ròng rã, nỗi đau chia cắt và tiếng súng không ngừng đã hằn sâu vào ký ức của biết bao thế hệ người Việt, tạo nên một chương bi tráng trong lịch sử dân tộc.",
+      textEn: "After the **Dien Bien Phu** victory and the *1954* **Geneva Accords**, the aspiration for complete peace was unfulfilled as our nation fell into division. The *17th parallel* was not merely a geographical boundary but a deep wound in the heart of the nation, separating countless families and villages. For *over two decades*, the pain of division and incessant gunfire deeply scarred the memories of generations of Vietnamese people, creating a tragic and heroic chapter in national history.",
+    },
+
     {
       title: "🔥 21 năm chia cắt",
       titleEn: "🔥 21 Years of Division",
@@ -736,9 +799,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       textEn: "Spring **1975**, the Ho Chi Minh Campaign swept like a storm: **March 10** liberated Buon Ma Thuot, **March 26** Hue, **March 29** Da Nang. At **10:45 AM on April 30**, Tank **#843** crashed through Independence Palace gates. At **11:30 AM**, President Duong Van Minh surrendered unconditionally. The country was **reunified** after 21 years. Saigon became **Ho Chi Minh City** – named after the leader who died in 1969 without seeing this day.",
       imageUrl: reunification1975,
     },
+    {
+      title: "Di sản - Hòa bình và thống nhất",
+      titleEn: "Legacy - Peace and Reunification",
+      text: "*Ngày 30 tháng 4 năm 1975* không chỉ đánh dấu chiến thắng quân sự vĩ đại mà còn là ngày đất nước Việt Nam vĩnh viễn xóa bỏ vết thương chia cắt. Từ nay, non sông liền một dải, Bắc – Nam sum họp một nhà. Việc đặt tên **Sài Gòn** thành **Thành phố Hồ Chí Minh** là biểu tượng của ý chí thống nhất, hòa giải dân tộc. Di sản của ngày này là niềm tự hào về hòa bình, độc lập, và nghị lực phi thường của nhân dân Việt Nam trong hành trình hàn gắn vết thương chiến tranh, xây dựng tương lai.",
+      textEn: "*April 30, 1975*, not only marked a great military victory but also the day Vietnam forever healed the wounds of division. From then on, the country was reunified, North and South united. The naming of **Saigon** as **Ho Chi Minh City** symbolizes the will for national unity and reconciliation. The legacy of this day is the pride in peace, independence, and the extraordinary resilience of the Vietnamese people in the journey of healing war wounds and building a future.",
+    },
+  
   ],
 
   "hist-3-6": [
+    {
+      title: "Bối cảnh - Mất nước",
+      titleEn: "Context - Losing the Country",
+      text: "Từ *năm 1858*, tiếng súng xâm lược của thực dân **Pháp** bắt đầu nổ ra ở **Đà Nẵng**, mở màn cho một bi kịch kéo dài. Từng bước một, với ưu thế vũ khí vượt trội, quân Pháp đã chiếm đóng các tỉnh Nam Kỳ, rồi tiến ra Bắc Kỳ. Các hiệp ước bất bình đẳng, từ **Giáp Tuất** *1874* đến **Quý Mùi** *1883* và **Patenôtre** *1884*, đã biến Việt Nam thành thuộc địa và nửa bảo hộ. Nỗi đau mất nước dần dần bao trùm lên toàn cõi, khiến trái tim mỗi người con đất Việt quặn thắt.",
+      textEn: "From *1858*, the invasion cannons of colonial **France** first fired in **Da Nang**, initiating a prolonged tragedy. Step by step, with superior weaponry, French forces occupied the southern provinces, then advanced north. Unequal treaties, from **Giáp Tuất** *1874* to **Quý Mùi** *1883* and **Patenôtre** *1884*, transformed Vietnam into a colony and a protectorate. The agony of losing the country gradually enveloped the entire realm, deeply affecting every Vietnamese heart.",
+    },
+
     {
       title: "👑 Vua 13 tuổi xuất bôn",
       titleEn: "👑 The 13-Year-Old King in Exile",
@@ -752,9 +829,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Phong trào bùng nổ khắp nơi: **Phan Đình Phùng** ở Hà Tĩnh suốt 10 năm; **Hoàng Hoa Thám** (Đề Thám) ở Yên Thế kéo dài gần **30 năm** (*1884-1913*). Vua Hàm Nghi bị bắt năm 1888 và bị đày sang **Algeria**. Phong trào tuy thất bại trước hỏa lực áp đảo, nhưng đã thắp lên ngọn lửa **bất khuất** không bao giờ tắt.",
       textEn: "The movement erupted everywhere: **Phan Dinh Phung** fought for 10 years; **Hoang Hoa Tham** led a nearly **30-year** uprising (*1884-1913*). King Ham Nghi was captured in 1888 and exiled to **Algeria**. Though the movement failed against overwhelming firepower, it lit an **inextinguishable flame** of resistance.",
     },
+    {
+      title: "Di sản - Tinh thần bất khuất",
+      titleEn: "Legacy - Indomitable Spirit",
+      text: "Phong trào **Cần Vương** dưới sự lãnh đạo của **Tôn Thất Thuyết** và chiếu dụ của *Vua Hàm Nghi* đã thổi bùng lên ngọn lửa yêu nước trong dân chúng, dù cuối cùng không thành công. Nó chứng minh cho tinh thần quật cường, không cam chịu làm nô lệ của dân tộc Việt Nam. Dù **Vua Hàm Nghi** phải chịu cảnh lưu đày sang **Algeria**, tinh thần 'phù vua cứu nước' của cuộc khởi nghĩa vẫn là nguồn cảm hứng lớn lao cho các phong trào yêu nước sau này, hun đúc nên ý chí đấu tranh bất khuất suốt những thập kỷ tiếp theo.",
+      textEn: "The **Cần Vương** movement, led by **Tôn Thất Thuyết** and spurred by *King Hàm Nghi's* decree, ignited a patriotic fire among the people, though ultimately unsuccessful. It demonstrated the resilient spirit of the Vietnamese nation, refusing to be enslaved. Although **King Hàm Nghi** was exiled to **Algeria**, the 'aid the king, save the country' spirit of the uprising remained a great source of inspiration for later patriotic movements, fostering an indomitable fighting will throughout subsequent decades.",
+    },
+  
   ],
 
   "hist-3-7": [
+    {
+      title: "Bối cảnh - Tìm con đường mới",
+      titleEn: "Context - Finding a New Path",
+      text: "Trước sự thất bại của các cuộc khởi nghĩa vũ trang truyền thống, giới sĩ phu yêu nước nhận ra cần phải có một lối đi khác. Cuối thế kỷ *19*, đầu thế kỷ *20*, khi Nhật Bản trỗi dậy mạnh mẽ sau công cuộc Duy tân, nhiều người Việt đã xem đây là tấm gương để học hỏi. Các nhà nho tiến bộ như **Phan Bội Châu** đã từ bỏ con đường cũ, quyết tâm tìm kiếm một con đường mới. Họ tin rằng phải thay đổi tư duy, học hỏi văn minh phương Đông đã canh tân để cứu nước, thay vì chỉ trông chờ vào vũ lực đơn thuần.",
+      textEn: "Confronted with the failure of traditional armed uprisings, patriotic scholars recognized the need for an alternative path. In the late *19th* and early *20th* centuries, as Japan vigorously rose after the Meiji Restoration, many Vietnamese looked to it as a model. Progressive Confucian scholars like **Phan Bội Châu** abandoned old ways, determined to seek a new path. They believed a change in mindset was essential, learning from modernized Eastern civilizations to save the country, rather than solely relying on brute force.",
+    },
+
     {
       title: "🇯🇵 Phong trào Đông Du",
       titleEn: "🇯🇵 The Eastward Movement",
@@ -768,9 +859,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "**Năm 1909**, Nhật hợp tác với Pháp trục xuất du học sinh. Phong trào tan rã, Phan Bội Châu bị Pháp bắt và quản thúc tại Huế. Nhưng tư tưởng **duy tân** đã **gieo mầm** cho các phong trào sau – chứng minh rằng muốn cứu nước, phải **học hỏi thế giới** và hiện đại hóa.",
       textEn: "In **1909**, Japan cooperated with France and expelled the students. The movement dissolved, and Phan Boi Chau was arrested. But the **modernization ideals** had **planted seeds** for later movements – proving that saving a nation requires **learning from the world** and modernizing.",
     },
+    {
+      title: "Di sản - Thức tỉnh dân tộc",
+      titleEn: "Legacy - National Awakening",
+      text: "Phong trào **Đông Du** của **Phan Bội Châu** cùng với các tư tưởng canh tân của **Phan Chu Trinh** đã tạo nên một làn sóng thức tỉnh mạnh mẽ trong lòng dân tộc. Dù hai nhà cách mạng có những quan điểm khác nhau về phương pháp cứu nước – *bạo động* hay *cải cách* – nhưng họ đều hướng đến một mục tiêu chung: giành lại độc lập, khai sáng dân trí. Di sản lớn nhất là việc họ đã gieo mầm cho tinh thần tự cường, độc lập suy nghĩ và khát khao canh tân, định hình nên ý thức dân tộc Việt trong những thập kỷ sau đó.",
+      textEn: "**Phan Bội Châu's** **Đông Du** movement, alongside **Phan Chu Trinh's** reformist ideas, created a powerful wave of national awakening. Although the two revolutionaries held differing views on the method of national salvation – *armed struggle* or *reform* – they shared a common goal: regaining independence and enlightening the populace. Their greatest legacy is having sowed the seeds of self-reliance, independent thought, and the desire for modernization, shaping Vietnamese national consciousness in subsequent decades.",
+    },
+  
   ],
 
   "hist-3-8": [
+    {
+      title: "Bối cảnh - Đảng ra đời",
+      titleEn: "Context - The Party's Birth",
+      text: "Trong bối cảnh nền kinh tế thế giới chìm trong **đại suy thoái** *những năm 1929-1933*, Việt Nam dưới ách đô hộ của thực dân Pháp cũng oằn mình chịu đựng. Nông dân, công nhân lâm vào cảnh bần cùng, bị áp bức bóc lột đến tận xương tủy. Chính trong hoàn cảnh ấy, nhu cầu về một tổ chức chính trị đủ mạnh để lãnh đạo phong trào đấu tranh đã trở nên cấp thiết. *Đầu năm 1930*, **Đảng Cộng sản Việt Nam** ra đời, một sự kiện lịch sử trọng đại, thống nhất các tổ chức cộng sản, châm ngòi cho ngọn lửa cách mạng bùng cháy mạnh mẽ hơn.",
+      textEn: "Amidst the **Great Depression** *of 1929-1933*, Vietnam, under French colonial rule, suffered immensely. Farmers and workers plunged into destitution, brutally exploited to the core. In this context, the need for a strong political organization to lead the struggle became urgent. In *early 1930*, the **Communist Party of Vietnam** was founded, a pivotal historical event that unified communist organizations and ignited a more powerful revolutionary flame.",
+    },
+
     {
       title: "✊ Tổng diễn tập",
       titleEn: "✊ The General Rehearsal",
@@ -784,9 +889,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Pháp đàn áp **dã man** nhưng phong trào đã chứng minh sức mạnh quần chúng. Hàng nghìn người bị bắt, nhiều lãnh đạo hy sinh. Nhưng như một hạt giống gieo xuống đất, phong trào Xô Viết Nghệ Tĩnh trở thành **'tổng diễn tập'** cho Cách mạng Tháng Tám 1945 – chứng minh rằng khi nhân dân đoàn kết, không sức mạnh nào ngăn cản được.",
       textEn: "France suppressed it **brutally**, but the movement proved the people's power. Thousands were arrested, many leaders sacrificed. But like a seed planted in soil, the Nghe Tinh Soviets became the **'general rehearsal'** for the 1945 August Revolution – proving that when the people unite, nothing can stop them.",
     },
+    {
+      title: "Di sản - Hạt giống cách mạng",
+      titleEn: "Legacy - Seeds of Revolution",
+      text: "Phong trào **Xô Viết Nghệ Tĩnh** như một luồng gió mạnh, chứng tỏ sức mạnh đoàn kết của công nông và khả năng lãnh đạo của Đảng Cộng sản Việt Nam. Dù bị đàn áp dã man, nhưng tinh thần quật cường, lòng yêu nước sục sôi của nhân dân Nghệ Tĩnh đã trở thành biểu tượng, là 'hạt giống cách mạng' cho sự nghiệp giải phóng dân tộc. Thắng lợi của *Cách mạng tháng Tám 1945* sau này mang đậm dấu ấn và bài học quý giá từ cuộc tổng diễn tập lịch sử này, khắc sâu vào tâm trí mỗi người con **Nghệ Tĩnh** về một ý chí sắt đá.",
+      textEn: "The **Soviet Nghệ Tĩnh** movement, like a strong gust of wind, demonstrated the united strength of workers and peasants and the leadership capability of the Communist Party of Vietnam. Despite brutal suppression, the resilient spirit and fervent patriotism of the Nghệ Tĩnh people became a symbol, 'seeds of revolution' for national liberation. The later success of the *August Revolution 1945* bore strong imprints of and drew valuable lessons from this historic dress rehearsal, deeply embedding an iron will in the minds of every **Nghệ Tĩnh** descendant.",
+    },
+  
   ],
 
   "hist-3-9": [
+    {
+      title: "Bối cảnh - Thời cơ ngàn năm có một",
+      titleEn: "Context - A Once-in-a-Millennium Opportunity",
+      text: "Sau *năm 1940*, Việt Nam rơi vào cảnh 'một cổ hai tròng', vừa chịu sự thống trị của thực dân Pháp, vừa bị phát xít Nhật chèn ép. Tuy nhiên, sự kiện **Nhật Bản đầu hàng Đồng minh** *ngày 15 tháng 8 năm 1945* đã tạo ra một khoảng trống quyền lực vô cùng quý giá. **Hồ Chí Minh** và **Việt Minh** đã nhanh chóng nắm bắt 'thời cơ ngàn năm có một' này. Với sự chuẩn bị chu đáo và lòng dân đồng thuận, cuộc Tổng khởi nghĩa đã diễn ra thần tốc, lan rộng khắp cả nước, đưa dân tộc Việt Nam đến một bước ngoặt lịch sử.",
+      textEn: "After *1940*, Vietnam found itself under a 'dual yoke', subjugated by both French colonialism and Japanese fascism. However, Japan's surrender to the Allies on *August 15, 1945*, created an invaluable power vacuum. **Ho Chi Minh** and the **Việt Minh** swiftly seized this 'once-in-a-millennium opportunity'. With meticulous preparation and popular consensus, the General Uprising unfolded rapidly, spreading nationwide, bringing the Vietnamese people to a historical turning point.",
+    },
+
     {
       title: "⚡ Tổng khởi nghĩa",
       titleEn: "⚡ The General Uprising",
@@ -800,9 +919,23 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       text: "Ngày **25/8**, vua **Bảo Đại** – hoàng đế cuối cùng của Việt Nam – tuyên bố thoái vị với câu nói bất hủ: *'Thà làm dân một nước tự do còn hơn làm vua một nước nô lệ!'* Chế độ phong kiến tồn tại **hàng ngàn năm** chấm dứt. Cách mạng Tháng Tám thành công là kết quả **15 năm** chuẩn bị và đấu tranh kiên cường.",
       textEn: "On **August 25**, Emperor **Bao Dai** – Vietnam's last emperor – abdicated with immortal words: *'I would rather be a citizen of a free nation than the king of an enslaved one!'* The feudal system spanning **thousands of years** ended. The August Revolution's success was the fruit of **15 years** of preparation and struggle.",
     },
+    {
+      title: "Di sản - Khai sinh nước mới",
+      titleEn: "Legacy - Birth of a New Nation",
+      text: "*Cách mạng Tháng Tám năm 1945* là sự kiện khai sinh ra nước **Việt Nam Dân chủ Cộng hòa**, chấm dứt chế độ phong kiến ngàn năm và đạp đổ ách thống trị của thực dân. Nó không chỉ mang lại độc lập, tự do cho dân tộc mà còn mở ra một kỷ nguyên mới – kỷ nguyên dân chủ, cộng hòa. Di sản của nó là niềm tự hào về khả năng tự vùng dậy của một dân tộc, khẳng định chủ quyền và vị thế của Việt Nam trên bản đồ thế giới, đặt nền móng vững chắc cho các cuộc kháng chiến bảo vệ Tổ quốc sau này.",
+      textEn: "The *August Revolution of 1945* marked the birth of the **Democratic Republic of Vietnam**, ending a millennium of feudalism and overthrowing colonial rule. It not only brought independence and freedom to the nation but also ushered in a new era – an era of democracy and republicanism. Its legacy is the pride in a nation's ability to rise up, affirming Vietnam's sovereignty and position on the world map, laying a solid foundation for subsequent wars of national defense.",
+    },
+  
   ],
 
   "hist-3-10": [
+    {
+      title: "Bối cảnh - Hiệp định Paris và vi phạm",
+      titleEn: "Context - Paris Accords and Violations",
+      text: "Sau nhiều năm đàm phán, **Hiệp định Paris** được ký kết *tháng 1 năm 1973*, hứa hẹn chấm dứt chiến tranh và lập lại hòa bình ở Việt Nam. Quân đội Hoa Kỳ rút khỏi miền Nam, nhưng hòa bình vẫn còn xa. Chính quyền **Sài Gòn** liên tiếp vi phạm các điều khoản, khước từ hòa hợp dân tộc, đẩy tình hình vào nguy cơ bùng nổ trở lại. Trước tình hình đó, quân và dân ta buộc phải có những kế hoạch táo bạo, nhằm chấm dứt hoàn toàn cuộc chiến tranh dai dẳng, thống nhất đất nước bằng vũ lực.",
+      textEn: "After years of negotiation, the **Paris Accords** were signed in *January 1973*, promising an end to the war and restoration of peace in Vietnam. US troops withdrew from the South, yet peace remained elusive. The **Saigon** government continuously violated the terms, refusing national reconciliation, pushing the situation back to the brink of eruption. Faced with this, our military and people were compelled to formulate daring plans to definitively end the protracted war and unify the nation by force.",
+    },
+
     {
       title: "⚡ Chiến dịch như cơn bão",
       titleEn: "⚡ A Campaign Like a Storm",
@@ -816,6 +949,13 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       textEn: "Five army columns advanced on Saigon. On **April 30**, Tank **T-54 #843** crashed through **Independence Palace** gates. Captain **Bui Quang Than** planted the flag on the rooftop. At **11:30 AM**, President **Duong Van Minh** surrendered unconditionally. Saigon became **Ho Chi Minh City** – after the leader who died in **1969** without seeing reunification.",
       imageUrl: reunification1975,
     },
+    {
+      title: "Di sản - Ý nghĩa thống nhất",
+      titleEn: "Legacy - The Meaning of Reunification",
+      text: "**Chiến dịch Hồ Chí Minh** là đỉnh cao của cuộc kháng chiến chống Mỹ, cứu nước, mang lại hòa bình và sự toàn vẹn lãnh thổ cho Việt Nam. Di sản lớn nhất là ý nghĩa thống nhất: kết thúc nỗi đau chia cắt kéo dài *hơn hai thập kỷ*, hàn gắn vết thương chiến tranh và mở ra kỷ nguyên độc lập, tự chủ. Từ một đất nước bị xé nát bởi chiến tranh, Việt Nam đã vươn mình đứng dậy, khẳng định khát vọng hòa bình, phát triển, trở thành một bài học về lòng kiên cường và ý chí vươn lên mãnh liệt trong lịch sử nhân loại.",
+      textEn: "**Ho Chi Minh Campaign** was the pinnacle of the anti-American resistance war for national salvation, bringing peace and territorial integrity to Vietnam. Its greatest legacy is the meaning of reunification: ending the pain of division that lasted for *over two decades*, healing war wounds, and ushering in an era of independence and self-reliance. From a nation torn by war, Vietnam rose, asserting its aspirations for peace and development, becoming a lesson in resilience and strong will to overcome in human history.",
+    },
+  
   ],
 
   // ==================== MONTH 4: CONTEMPORARY VIETNAM ====================
