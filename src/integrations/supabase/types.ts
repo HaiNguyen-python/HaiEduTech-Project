@@ -531,6 +531,42 @@ export type Database = {
         }
         Relationships: []
       }
+      revenue_logs: {
+        Row: {
+          amount: number
+          course: string
+          created_at: string
+          id: string
+          kpi_met: boolean | null
+          notes: string | null
+          payment_year: number
+          status: string
+          student_name: string
+        }
+        Insert: {
+          amount?: number
+          course?: string
+          created_at?: string
+          id?: string
+          kpi_met?: boolean | null
+          notes?: string | null
+          payment_year: number
+          status?: string
+          student_name: string
+        }
+        Update: {
+          amount?: number
+          course?: string
+          created_at?: string
+          id?: string
+          kpi_met?: boolean | null
+          notes?: string | null
+          payment_year?: number
+          status?: string
+          student_name?: string
+        }
+        Relationships: []
+      }
       rl_interventions: {
         Row: {
           action: string
