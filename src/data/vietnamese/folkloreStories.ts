@@ -1,4 +1,15 @@
 // Vietnamese Folklore Stories Collection - "Kho tàng Truyện cổ tích Việt Nam"
+import sonTinhImg from "@/assets/folklore/son-tinh-thuy-tinh.jpg";
+import thanhGiongImg from "@/assets/folklore/thanh-giong.jpg";
+import trauCauImg from "@/assets/folklore/su-tich-trau-cau.jpg";
+import thachSanhImg from "@/assets/folklore/thach-sanh.jpg";
+import tamCamImg from "@/assets/folklore/tam-cam.jpg";
+import chuCuoiImg from "@/assets/folklore/chu-cuoi.jpg";
+import lacLongQuanImg from "@/assets/folklore/lac-long-quan-au-co.jpg";
+import banhChungImg from "@/assets/folklore/su-tich-banh-chung.jpg";
+import cayKheImg from "@/assets/folklore/cay-khe.jpg";
+import hoGuomImg from "@/assets/folklore/su-tich-ho-guom.jpg";
+import cayTreImg from "@/assets/folklore/cay-tre-tram-dot.jpg";
 
 export interface FolkloreStory {
   id: string;
