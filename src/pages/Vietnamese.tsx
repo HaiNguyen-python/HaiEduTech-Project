@@ -146,7 +146,7 @@ const Vietnamese = () => {
           >
             <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-[180px] sm:h-[220px] md:h-[280px] lg:h-[340px] object-cover object-bottom" />
             {/* Text overlay on cloud area */}
-            <div className="absolute inset-0 flex flex-col items-center justify-start pt-[4%] md:pt-[3%] pointer-events-none">
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
