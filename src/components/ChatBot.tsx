@@ -409,7 +409,7 @@ const ChatBot = () => {
                   transition={{ duration: 0.3 }}
                   className="relative max-w-[220px] rounded-xl border border-border bg-card px-4 py-2.5 text-center text-sm text-foreground shadow-lg"
                 >
-                  <span>{t("👋 Xin chào, thầy Hải đây!", "👋 Hi there! I'm Teacher Hai!")}</span>
+                  <span>👋 Hi there! I'm Teacher Hai!</span>
                   <div className="absolute -bottom-1.5 right-6 h-3 w-3 rotate-45 border-b border-r border-border bg-card" />
                 </motion.div>
               )}
@@ -470,7 +470,7 @@ const ChatBot = () => {
                 <div className="py-8 text-center">
                   <img src={chatbotIcon} alt="Thầy Hải" className="mx-auto mb-4 h-20 w-20 opacity-50" />
                   <p className="mb-4 text-sm text-muted-foreground">
-                    {t("Xin chào em! Thầy là thầy Hải 👋\nEm cứ hỏi thầy về Tiếng Anh, Tiếng Trung hoặc Lập trình nhé!", "Hello! I'm Teacher Hai 👋\nAsk me about English, Chinese or Programming!")}
+                    {"Hello! I'm Teacher Hai 👋\nAsk me about English, Chinese or Programming!"}
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
                     {[
