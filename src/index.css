@@ -107,7 +107,7 @@
 /* ── Slogan ripple: visible light glimmer sweeping left→right every 10s ── */
 @keyframes slogan-ripple {
   0%   { transform: translate3d(-100%, 0, 0); }
-  20%  { transform: translate3d(100%, 0, 0); }
+  7%   { transform: translate3d(100%, 0, 0); }
   100% { transform: translate3d(100%, 0, 0); }
 }
 
@@ -127,7 +127,7 @@
     rgba(16, 185, 129, 0.35) 60%,
     transparent 80%
   );
-  animation: slogan-ripple 10s ease-in-out infinite;
+  animation: slogan-ripple 30s ease-in-out infinite;
   will-change: transform;
   border-radius: 4px;
 }
