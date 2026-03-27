@@ -14,7 +14,8 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { detailedVFFModules, vietnameseTones, type DetailedModule, type DetailedLesson, type AnnotatedWord } from "@/data/vietnamese/detailedVietnameseData";
+import { detailedVFFModules, type DetailedModule, type DetailedLesson, type AnnotatedWord } from "@/data/vietnamese/detailedVietnameseData";
+import { vietnameseTones } from "@/data/vietnamese/vietnameseForForeignersData";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
 
