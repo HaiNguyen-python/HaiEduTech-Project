@@ -190,9 +190,9 @@ const Navbar = () => {
               <div className="hidden md:flex items-center justify-center flex-1 min-w-0 mx-3">
                 <span className="text-sm lg:text-base text-foreground font-display font-extrabold tracking-[0.08em] truncate" style={{ fontVariant: "small-caps" }}>
                   The Unique Intersection of{" "}
-                  <span className="bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(160,84%,39%)] bg-clip-text text-transparent" style={{ fontFamily: "'Dancing Script', cursive" }}>Language</span>
+                  <span className="bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(160,84%,39%)] bg-clip-text text-transparent font-display font-extrabold" style={{ fontFamily: "'Dancing Script', cursive", fontSize: "inherit" }}>Language</span>
                   {" & "}
-                  <span className="bg-gradient-to-r from-[hsl(160,84%,39%)] to-[hsl(var(--primary))] bg-clip-text text-transparent" style={{ fontFamily: "'Dancing Script', cursive" }}>Technology</span>
+                  <span className="bg-gradient-to-r from-[hsl(160,84%,39%)] to-[hsl(var(--primary))] bg-clip-text text-transparent font-display font-extrabold" style={{ fontFamily: "'Dancing Script', cursive", fontSize: "inherit" }}>Technology</span>
                 </span>
               </div>
 
