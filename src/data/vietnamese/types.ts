@@ -51,12 +51,22 @@ export interface HistoryEvent {
   descriptionEn: string;
 }
 
+// Segment for illustrated story cards
+export interface StorySegment {
+  title: string;
+  titleEn: string;
+  text: string;
+  textEn: string;
+  imageUrl?: string;
+}
+
 export interface HistoryLesson {
   id: string;
   title: string;
   titleEn: string;
   story: string;
   storyEn: string;
+  storySegments?: StorySegment[];
   keyDates: HistoryEvent[];
   quiz: VietnameseQuizQuestion[];
 }

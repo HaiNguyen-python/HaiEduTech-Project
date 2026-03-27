@@ -1,14 +1,17 @@
-// Vietnamese History Lesson detail page with storytelling, key dates, and quiz
+// Vietnamese History Lesson detail page with illustrated story cards, key dates, and quiz
 import { useParams, Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, BookOpen, Clock, ChevronRight } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { historyMonths } from "@/data/vietnameseCurriculumData";
+import { historyStorySegments } from "@/data/vietnamese/historyStorySegments";
 
 const VietnameseHistoryLesson = () => {
   const { lessonId } = useParams();
@@ -27,6 +30,9 @@ const VietnameseHistoryLesson = () => {
     }
     return { lesson: null, month: null, nextLesson: null };
   }, [lessonId]);
+
+  // Get story segments for this lesson (if available)
+  const segments = lessonId ? historyStorySegments[lessonId] : undefined;
 
   if (!lesson || !month) {
     return (
@@ -51,7 +57,7 @@ const VietnameseHistoryLesson = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-6 pb-16">
-        <div className="container mx-auto px-6 max-w-3xl">
+        <div className="container mx-auto px-6 max-w-4xl">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
             <Link to="/learn-vietnamese" className="hover:text-foreground">{t("Tiếng Việt", "Vietnamese")}</Link>
@@ -66,25 +72,90 @@ const VietnameseHistoryLesson = () => {
             <Badge className={`bg-gradient-to-r ${month.color} text-white mb-3`}>
               {month.icon} {t(`Tháng ${month.month}`, `Month ${month.month}`)}
             </Badge>
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
               {t(lesson.title, lesson.titleEn)}
             </h1>
           </motion.div>
 
-          {/* Storytelling */}
-          <section className="mb-10">
-            <h2 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
+          {/* Story Section */}
+          <section className="mb-12">
+            <h2 className="text-lg font-bold text-foreground mb-5 flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-primary" />
               {t("Câu chuyện", "Story")}
             </h2>
-            <div className="bg-card border border-border rounded-xl p-6 leading-relaxed text-foreground">
-              {t(lesson.story, lesson.storyEn)}
-            </div>
+
+            {segments ? (
+              /* Illustrated Story Cards */
+              <div className="space-y-8">
+                {segments.map((seg, i) => {
+                  const isEven = i % 2 === 0;
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.5, delay: i * 0.1 }}
+                      className="bg-card border border-border rounded-xl shadow-sm overflow-hidden"
+                    >
+                      {/* Segment Title */}
+                      <div className="px-5 pt-5 pb-2">
+                        <h3 className="text-base font-bold text-foreground">
+                          {t(seg.title, seg.titleEn)}
+                        </h3>
+                      </div>
+
+                      {/* Content: side-by-side on desktop, stacked on mobile */}
+                      <div className={`flex flex-col ${seg.imageUrl ? (isEven ? 'md:flex-row' : 'md:flex-row-reverse') : ''}`}>
+                        {/* Image */}
+                        {seg.imageUrl && (
+                          <div className="md:w-[40%] shrink-0 p-4">
+                            <img
+                              src={seg.imageUrl}
+                              alt={t(seg.title, seg.titleEn)}
+                              loading="lazy"
+                              width={768}
+                              height={512}
+                              className="w-full h-48 md:h-full object-cover rounded-xl transition-transform duration-300 hover:scale-105"
+                            />
+                          </div>
+                        )}
+
+                        {/* Text */}
+                        <div className={`${seg.imageUrl ? 'md:w-[60%]' : 'w-full'} p-5 pt-2 flex items-center`}>
+                          <div className="prose prose-sm dark:prose-invert max-w-none text-foreground leading-relaxed">
+                            <ReactMarkdown
+                              components={{
+                                strong: ({ children }) => (
+                                  <strong className="text-primary font-bold">{children}</strong>
+                                ),
+                                em: ({ children }) => (
+                                  <em className="text-muted-foreground not-italic text-xs bg-muted px-1 py-0.5 rounded">{children}</em>
+                                ),
+                              }}
+                            >
+                              {t(seg.text, seg.textEn)}
+                            </ReactMarkdown>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            ) : (
+              /* Fallback: single text block for lessons without segments */
+              <div className="bg-card border border-border rounded-xl p-6 leading-relaxed text-foreground">
+                {t(lesson.story, lesson.storyEn)}
+              </div>
+            )}
           </section>
 
+          <Separator className="my-10" />
+
           {/* Key Dates */}
-          <section className="mb-10">
-            <h2 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
+          <section className="mb-12">
+            <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
               {t("Mốc thời gian quan trọng", "Key Dates")}
             </h2>
@@ -93,7 +164,8 @@ const VietnameseHistoryLesson = () => {
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
                   className="flex items-start gap-4 bg-card border border-border rounded-lg p-4"
                 >
@@ -108,6 +180,8 @@ const VietnameseHistoryLesson = () => {
               ))}
             </div>
           </section>
+
+          <Separator className="my-10" />
 
           {/* Quiz */}
           <section className="mb-10">
