@@ -79,6 +79,70 @@ const IncomeManagement = () => {
     return { ...item, growth: prev > 0 ? ((item.amount - prev) / prev) * 100 : null };
   });
 
+  // Revenue forecast calculation using average growth rate with linear regression fallback
+  const forecast = useMemo(() => {
+    if (revenueByYear.length < 2) return null;
+
+    // Calculate YoY growth rates
+    const yoyRates: number[] = [];
+    for (let i = 1; i < revenueByYear.length; i++) {
+      const prev = revenueByYear[i - 1].amount;
+      if (prev > 0) {
+        yoyRates.push((revenueByYear[i].amount - prev) / prev);
+      }
+    }
+
+    if (yoyRates.length === 0) return null;
+
+    // Check growth consistency (standard deviation)
+    const avgGrowth = yoyRates.reduce((s, r) => s + r, 0) / yoyRates.length;
+    const variance = yoyRates.reduce((s, r) => s + (r - avgGrowth) ** 2, 0) / yoyRates.length;
+    const stdDev = Math.sqrt(variance);
+    const isConsistent = stdDev < Math.abs(avgGrowth) * 0.5;
+
+    let forecastAmount: number;
+    const lastYearAmount = revenueByYear[revenueByYear.length - 1].amount;
+
+    if (isConsistent) {
+      // Use average growth rate
+      forecastAmount = lastYearAmount * (1 + avgGrowth);
+    } else {
+      // Conservative linear regression
+      const n = revenueByYear.length;
+      const xValues = revenueByYear.map((_, i) => i);
+      const yValues = revenueByYear.map((d) => d.amount);
+      const sumX = xValues.reduce((s, x) => s + x, 0);
+      const sumY = yValues.reduce((s, y) => s + y, 0);
+      const sumXY = xValues.reduce((s, x, i) => s + x * yValues[i], 0);
+      const sumX2 = xValues.reduce((s, x) => s + x * x, 0);
+      const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+      const intercept = (sumY - slope * sumX) / n;
+      forecastAmount = intercept + slope * n;
+    }
+
+    // Build composed chart data
+    const chartData = revenueByYear.map((d) => ({
+      year: d.year,
+      actual: d.amount,
+      forecast: null as number | null,
+      trend: d.amount,
+    }));
+
+    chartData.push({
+      year: "2026",
+      actual: null as number | null,
+      forecast: Math.round(forecastAmount),
+      trend: Math.round(forecastAmount),
+    });
+
+    return {
+      amount: Math.round(forecastAmount),
+      avgGrowthRate: avgGrowth * 100,
+      method: isConsistent ? "average" : "regression",
+      chartData,
+    };
+  }, [revenueByYear]);
+
   // Pie chart: revenue by course
   const revenueByCourse = courses.map((c) => ({
     name: c,
