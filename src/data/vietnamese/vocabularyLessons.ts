@@ -490,6 +490,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Lễ hội lớn nhất VN?", questionEn: "Biggest festival?", options: ["Trung Thu", "Tết Nguyên Đán", "Vu Lan", "Giỗ Tổ"], answer: 1, explanation: "Tết Nguyên Đán.", explanationEn: "Lunar New Year." },
+          { question: "'Lì xì' là gì?", questionEn: "What is 'lì xì'?", options: ["Gift", "Red envelope", "Cake", "Flower"], answer: 1, explanation: "'Lì xì' = red envelope / lucky money.", explanationEn: "'Lì xì' = red envelope." },
         ],
       },
       {
@@ -502,6 +503,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Trang phục truyền thống VN?", questionEn: "Traditional dress?", options: ["Kimono", "Áo dài", "Hanbok", "Sari"], answer: 1, explanation: "Áo dài.", explanationEn: "Áo dài." },
+          { question: "'Nón lá' là gì?", questionEn: "What is 'nón lá'?", options: ["Helmet", "Conical hat", "Cap", "Scarf"], answer: 1, explanation: "'Nón lá' = conical hat.", explanationEn: "'Nón lá' = conical hat." },
         ],
       },
       {
@@ -515,6 +517,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Nước mắm' từ gì?", questionEn: "Made from?", options: ["Đậu", "Cá", "Thịt", "Rau"], answer: 1, explanation: "Cá lên men.", explanationEn: "Fermented fish." },
+          { question: "'Xào' là cách chế biến gì?", questionEn: "What cooking method is 'xào'?", options: ["Boil", "Stir-fry", "Steam", "Grill"], answer: 1, explanation: "'Xào' = stir-fry.", explanationEn: "'Xào' = stir-fry." },
         ],
       },
       // NEW cultural vocabulary lessons
@@ -529,6 +532,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Đàn bầu' là nhạc cụ gì?", questionEn: "What instrument?", options: ["Drum", "Monochord", "Flute", "Guitar"], answer: 1, explanation: "Nhạc cụ một dây độc đáo.", explanationEn: "Unique one-string instrument." },
+          { question: "'Ca sĩ' là ai?", questionEn: "Who is a 'ca sĩ'?", options: ["Dancer", "Singer", "Musician", "Actor"], answer: 1, explanation: "'Ca sĩ' = singer.", explanationEn: "'Ca sĩ' = singer." },
         ],
       },
       {
@@ -542,6 +546,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Tôn giáo lớn nhất VN?", questionEn: "Largest religion?", options: ["Thiên Chúa", "Phật giáo", "Hồi giáo", "Hindu"], answer: 1, explanation: "Phật giáo.", explanationEn: "Buddhism." },
+          { question: "'Chùa' là nơi nào?", questionEn: "What is a 'chùa'?", options: ["Church", "Pagoda", "Mosque", "School"], answer: 1, explanation: "'Chùa' = pagoda/temple.", explanationEn: "'Chùa' = pagoda." },
         ],
       },
       {
@@ -555,6 +560,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Múa rối nước' đặc trưng ở đâu?", questionEn: "Where is it from?", options: ["Huế", "Hà Nội", "Sài Gòn", "Đà Nẵng"], answer: 1, explanation: "Đặc trưng Hà Nội.", explanationEn: "Hanoi specialty." },
+          { question: "'Gốm sứ' là gì?", questionEn: "What is 'gốm sứ'?", options: ["Painting", "Ceramics", "Embroidery", "Sculpture"], answer: 1, explanation: "'Gốm sứ' = ceramics/pottery.", explanationEn: "'Gốm sứ' = ceramics." },
         ],
       },
       {
@@ -568,6 +574,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Vovinam là gì?", questionEn: "What is Vovinam?", options: ["Dance", "Vietnamese martial art", "Game", "Sport"], answer: 1, explanation: "Võ thuật Việt Nam.", explanationEn: "Vietnamese martial art." },
+          { question: "'Đá cầu' là trò chơi gì?", questionEn: "What game is 'đá cầu'?", options: ["Tug of war", "Shuttlecock kicking", "Jump rope", "Chess"], answer: 1, explanation: "'Đá cầu' = shuttlecock kicking.", explanationEn: "'Đá cầu' = shuttlecock kicking." },
         ],
       },
       {
@@ -581,6 +588,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Giỗ' là gì?", questionEn: "What is 'giỗ'?", options: ["Birthday", "Death anniversary", "Wedding", "Festival"], answer: 1, explanation: "Ngày tưởng nhớ người mất.", explanationEn: "Death anniversary." },
+          { question: "'Biếu' khác 'tặng' như thế nào?", questionEn: "How is 'biếu' different from 'tặng'?", options: ["Same meaning", "More respectful", "Less formal", "Only for children"], answer: 1, explanation: "'Biếu' mang tính kính trọng hơn.", explanationEn: "'Biếu' is more respectful than 'tặng'." },
         ],
       },
       {
@@ -594,6 +602,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Toang' nghĩa gì?", questionEn: "What does 'toang' mean?", options: ["Great", "Ruined", "Happy", "Tired"], answer: 1, explanation: "Toang = hỏng, thất bại.", explanationEn: "Ruined / failed." },
+          { question: "'Đỉnh' trong tiếng lóng nghĩa gì?", questionEn: "What does 'đỉnh' mean in slang?", options: ["Mountain top", "Awesome", "Boring", "Old"], answer: 1, explanation: "'Đỉnh' = awesome/peak.", explanationEn: "'Đỉnh' = awesome." },
         ],
       },
     ],
