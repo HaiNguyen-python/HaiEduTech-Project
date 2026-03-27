@@ -161,6 +161,36 @@ const SpeakingPractice = () => {
     setShowModelAnswer(false);
   };
 
+  // Initialize speech recognition
+  const initSpeechRecognition = useCallback(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return null;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+    recognition.onresult = (event: ISpeechRecognitionEvent) => {
+      let interim = "";
+      let final = "";
+      for (let i = 0; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          final += event.results[i][0].transcript + " ";
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+      setLiveTranscript(final.trim());
+      setInterimTranscript(interim);
+    };
+    recognition.onerror = (event) => { console.error("Speech recognition error:", event.error); };
+    recognition.onend = () => {
+      if (mediaRecorder.current?.state === "recording") {
+        try { recognition.start(); } catch { /* already started */ }
+      }
+    };
+    return recognition;
+  }, []);
+
   // Recording functions
   const startRecording = async () => {
     try {
@@ -175,12 +205,21 @@ const SpeakingPractice = () => {
         if (audioUrl) URL.revokeObjectURL(audioUrl);
         setAudioUrl(URL.createObjectURL(blob));
         stream.getTracks().forEach((t) => t.stop());
+        chunksRef.current = [];
       };
       recorder.start();
       setIsRecording(true);
       setResult(null);
       setTimer(0);
       setShowSuggestions(false);
+      setLiveTranscript("");
+      setInterimTranscript("");
+      // Start speech recognition
+      const recognition = initSpeechRecognition();
+      if (recognition) {
+        recognitionRef.current = recognition;
+        try { recognition.start(); } catch { /* ignore */ }
+      }
       timerRef.current = setInterval(() => setTimer((t) => t + 1), 1000);
     } catch {
       alert(t("Vui lòng cho phép truy cập microphone", "Please allow microphone access"));
@@ -191,6 +230,12 @@ const SpeakingPractice = () => {
     mediaRecorder.current?.stop();
     setIsRecording(false);
     if (timerRef.current) clearInterval(timerRef.current);
+    if (recognitionRef.current) {
+      recognitionRef.current.onend = null;
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
+    setInterimTranscript("");
   };
 
   const resetRecording = () => {
@@ -200,17 +245,20 @@ const SpeakingPractice = () => {
     setTimer(0);
     setResult(null);
     setShowSuggestions(true);
+    setLiveTranscript("");
+    setInterimTranscript("");
+    chunksRef.current = [];
   };
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
-  // Grading
+  // Grading - sends actual transcript to AI
   const handleGrade = async () => {
     if (!audioBlob) return;
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("grade-speaking", {
-        body: { question: currentQ.question, part: selectedPart, duration: timer },
+        body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: liveTranscript },
       });
       if (error) throw error;
       setResult(data as SpeakingResult);
@@ -227,7 +275,7 @@ const SpeakingPractice = () => {
           { label: "Grammatical Range & Accuracy", score: g, feedback: "Use complex sentences: conditionals, relative clauses, passive voice." },
           { label: "Pronunciation", score: p, feedback: "Focus on word stress patterns and final consonant sounds." },
         ],
-        transcript: "(Connect AI service for auto transcription)",
+        transcript: liveTranscript || "(Speech recognition unavailable)",
         suggestions: [
           "Practice 2-minute non-stop speaking daily",
           "Record and listen back to spot errors",
