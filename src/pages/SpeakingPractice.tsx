@@ -771,7 +771,40 @@ const SpeakingPractice = () => {
                         </div>
                       </div>
 
-                      {/* Criteria */}
+                      {/* Transcript with playback and error highlighting */}
+                      {result.transcript && (
+                        <div className="bg-secondary rounded-xl p-5">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="text-sm font-bold text-foreground">{t("Phiên âm của bạn", "Your Transcription")}</h4>
+                            {audioUrl && (
+                              <button
+                                onClick={() => { const a = document.getElementById("sp-playback") as HTMLAudioElement; if (a) a.play(); }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold hover:bg-primary/20 transition-colors"
+                              >
+                                <Play className="w-3.5 h-3.5 fill-current" /> {t("Nghe lại", "Playback")}
+                              </button>
+                            )}
+                          </div>
+                          {audioUrl && <audio id="sp-playback" src={audioUrl} className="hidden" />}
+                          <p className="text-sm text-foreground leading-relaxed">{result.transcript}</p>
+                          {result.highlightedErrors && result.highlightedErrors.length > 0 && (
+                            <div className="mt-3 pt-3 border-t border-border space-y-2">
+                              {result.highlightedErrors.map((err, i) => (
+                                <div key={i} className="text-xs flex items-start gap-2">
+                                  <Badge variant="outline" className="text-[10px] shrink-0 capitalize">{err.type}</Badge>
+                                  <span>
+                                    <span className="text-destructive line-through">{err.text}</span>
+                                    {" → "}
+                                    <span className="text-green-600 font-semibold">{err.correction}</span>
+                                    <span className="text-muted-foreground ml-1">({err.explanation})</span>
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
                       {result.criteria.map((c) => (
                         <div key={c.label} className="bg-secondary rounded-xl p-5">
                           <div className="flex items-center justify-between mb-3">
