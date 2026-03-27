@@ -189,6 +189,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🔔 Seizing the Moment",
       text: "**Năm 905**, nhà Đường – đế chế hùng mạnh nhất châu Á – đang sụp đổ trong hỗn loạn. Hàng nghìn dặm xa, tại Hồng Châu (Hải Dương), một hào trưởng uy tín tên **Khúc Thừa Dụ** nhìn ra cơ hội ngàn năm có một. Ông tự xưng **Tiết độ sứ** – giành quyền cai trị An Nam từ tay người Trung Quốc mà không cần đổ máu. Bước ngoặt này **mở đầu thời kỳ tự chủ** của dân tộc Việt.",
       textEn: "In **905**, the mighty Tang Dynasty was collapsing into chaos. Thousands of miles away, in Hong Chau (Hai Duong), a respected chieftain named **Khuc Thua Du** saw a once-in-a-millennium opportunity. He declared himself **Governor**, wresting control of An Nam from Chinese hands without bloodshed. This turning point **began Vietnam's era of autonomy**.",
+      imageUrl: khucThuaDu,
     },
     {
       title: "🌱 Ba đời xây nền tự chủ",
