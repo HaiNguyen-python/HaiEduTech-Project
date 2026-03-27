@@ -24,6 +24,9 @@ const Contact = lazy(() => import("./pages/Contact.tsx"));
 const Login = lazy(() => import("./pages/Login.tsx"));
 const Signup = lazy(() => import("./pages/Signup.tsx"));
 const AILibrary = lazy(() => import("./pages/AILibrary.tsx"));
+const Vietnamese = lazy(() => import("./pages/Vietnamese.tsx"));
+const VietnameseLessonView = lazy(() => import("./pages/VietnameseLessonView.tsx"));
+const VietnameseHistoryLesson = lazy(() => import("./pages/VietnameseHistoryLesson.tsx"));
 const LessonDetail = lazy(() => import("./pages/LessonDetail.tsx"));
 const TeacherAdmin = lazy(() => import("./pages/TeacherAdmin.tsx"));
 const TeacherDashboard = lazy(() => import("./pages/TeacherDashboard.tsx"));
@@ -105,6 +108,10 @@ const App = () => (
             <Route path="/login" element={<LazyRoute><Login /></LazyRoute>} />
             <Route path="/signup" element={<LazyRoute><Signup /></LazyRoute>} />
             <Route path="/ai-library" element={<LazyRoute><AILibrary /></LazyRoute>} />
+            <Route path="/learn-vietnamese" element={<LazyRoute><Vietnamese /></LazyRoute>} />
+            <Route path="/learn-vietnamese/module/:moduleId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />
+            <Route path="/learn-vietnamese/module/:moduleId/:lessonId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />
+            <Route path="/learn-vietnamese/history/:lessonId" element={<LazyRoute><VietnameseHistoryLesson /></LazyRoute>} />
             <Route path="/knowledge-hub" element={<LazyRoute><KnowledgeHubPage /></LazyRoute>} />
             {/* Redirects for old routes */}
             <Route path="/smart-resources" element={<Navigate to="/ai-library" replace />} />
