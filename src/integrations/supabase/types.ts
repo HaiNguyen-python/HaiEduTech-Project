@@ -252,6 +252,45 @@ export type Database = {
         }
         Relationships: []
       }
+      game_scores: {
+        Row: {
+          accuracy: number | null
+          created_at: string
+          difficulty: string | null
+          game_type: string
+          id: string
+          max_streak: number
+          metadata: Json | null
+          score: number
+          time_spent_seconds: number | null
+          user_id: string
+        }
+        Insert: {
+          accuracy?: number | null
+          created_at?: string
+          difficulty?: string | null
+          game_type: string
+          id?: string
+          max_streak?: number
+          metadata?: Json | null
+          score?: number
+          time_spent_seconds?: number | null
+          user_id: string
+        }
+        Update: {
+          accuracy?: number | null
+          created_at?: string
+          difficulty?: string | null
+          game_type?: string
+          id?: string
+          max_streak?: number
+          metadata?: Json | null
+          score?: number
+          time_spent_seconds?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       generated_lessons: {
         Row: {
           category: string
@@ -438,6 +477,33 @@ export type Database = {
           reason?: string
           user_id?: string
           warning_count?: number
+        }
+        Relationships: []
+      }
+      player_badges: {
+        Row: {
+          badge_icon: string
+          badge_id: string
+          badge_name: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          badge_icon?: string
+          badge_id: string
+          badge_name: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          badge_icon?: string
+          badge_id?: string
+          badge_name?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
         }
         Relationships: []
       }
