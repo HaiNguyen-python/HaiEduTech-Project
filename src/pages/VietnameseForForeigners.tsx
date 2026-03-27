@@ -293,7 +293,7 @@ const VietnameseForForeigners = () => {
                               <span className="text-[10px] text-muted-foreground font-medium max-w-[56px] text-center leading-tight">{line.speakerLabel}</span>
                             </div>
                           )}
-                          <div className={`max-w-[75%] rounded-2xl p-4 ${isYou ? "bg-muted/60" : "bg-primary/10"}`}>
+                          <div className={`max-w-[75%] rounded-2xl p-4 ${isYou ? "bg-muted/60" : "bg-primary/10"} ${speakingLineIndex === i ? "ring-2 ring-primary/50 animate-pulse" : ""}`}>
                             {/* Vietnamese text with annotated keywords */}
                             <p className="text-foreground font-semibold text-base leading-relaxed">
                               {line.keyWords ? renderAnnotatedText(line.vi, line.keyWords, showEnglish) : line.vi}
@@ -306,8 +306,17 @@ const VietnameseForForeigners = () => {
                             {showEnglish && line.literal && (
                               <p className="text-sm text-muted-foreground/60 italic mt-1">💡 {line.literal}</p>
                             )}
-                            <Button variant="ghost" size="sm" className="h-6 text-xs mt-2 px-1.5" onClick={() => speakVietnamese(line.vi)}>
-                              <Volume2 className="w-3.5 h-3.5 mr-1" /> Nghe
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 text-xs mt-2 px-1.5"
+                              onClick={() => speakVietnamese(line.vi, speedRate === 0.75, i, isYou)}
+                            >
+                              {speakingLineIndex === i ? (
+                                <><Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" /> Speaking...</>
+                              ) : (
+                                <><Volume2 className="w-3.5 h-3.5 mr-1" /> Nghe</>
+                              )}
                             </Button>
                           </div>
                           {isYou && (
