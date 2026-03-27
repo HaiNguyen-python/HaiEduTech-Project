@@ -135,7 +135,8 @@ const Vietnamese = () => {
       <Navbar />
       <main className="pt-6 pb-16">
         {/* Hero with illustration banner */}
-        {/* Banner with overlaid title */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        {/* Banner with overlaid title and tabs */}
         <section className="w-full mb-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
@@ -168,7 +169,7 @@ const Vietnamese = () => {
               </motion.div>
             </div>
             {/* Tabs overlay at bottom of banner */}
-            <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 pointer-events-auto z-10">
+            <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-10">
               <TabsList className="grid grid-cols-4 bg-white/80 backdrop-blur-sm shadow-lg rounded-xl">
                 <TabsTrigger value="language" className="flex items-center gap-1.5 text-xs sm:text-sm">
                   <BookOpen className="w-4 h-4" />
@@ -191,6 +192,7 @@ const Vietnamese = () => {
           </motion.div>
         </section>
 
+        <div ref={tabsRef} className="container mx-auto px-6">
             {/* =================== LANGUAGE TAB =================== */}
             <TabsContent value="language">
               <div className="grid md:grid-cols-2 gap-6 mb-10">
