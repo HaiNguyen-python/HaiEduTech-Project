@@ -135,29 +135,7 @@ const Vietnamese = () => {
       <Navbar />
       <main className="pt-6 pb-16">
         {/* Hero with illustration banner */}
-        <section className="container mx-auto px-6 text-center mb-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-3xl mx-auto"
-          >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Flower2 className="w-8 h-8 text-red-500" />
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground">
-                {t("Học Tiếng Việt", "Learn Vietnamese")}
-              </h1>
-              <Star className="w-8 h-8 text-yellow-500" />
-            </div>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              {t(
-                "Khám phá ngôn ngữ, lịch sử và văn hóa Việt Nam qua chương trình học tương tác",
-                "Explore Vietnamese language, history, and culture through an interactive curriculum"
-              )}
-            </p>
-          </motion.div>
-        </section>
-
-        {/* Illustrated banner - clean, no overlays */}
+        {/* Banner with overlaid title */}
         <section className="w-full mb-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
@@ -166,6 +144,29 @@ const Vietnamese = () => {
             className="relative w-full max-w-[1600px] mx-auto rounded-3xl overflow-hidden shadow-xl"
           >
             <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-auto object-cover" />
+            {/* Text overlay on cloud area */}
+            <div className="absolute inset-0 flex flex-col items-center justify-start pt-[4%] md:pt-[3%] pointer-events-none">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-center"
+              >
+                <div className="flex items-center justify-center gap-2 md:gap-3 mb-2 md:mb-3">
+                  <Flower2 className="w-6 h-6 md:w-8 md:h-8 text-red-500 drop-shadow" />
+                  <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 drop-shadow-sm">
+                    {t("Học Tiếng Việt", "Learn Vietnamese")}
+                  </h1>
+                  <Star className="w-6 h-6 md:w-8 md:h-8 text-yellow-500 drop-shadow" />
+                </div>
+                <p className="text-slate-600 text-sm md:text-base lg:text-lg max-w-md md:max-w-2xl mx-auto px-4 drop-shadow-sm">
+                  {t(
+                    "Khám phá ngôn ngữ, lịch sử và văn hóa Việt Nam qua chương trình học tương tác",
+                    "Explore Vietnamese language, history, and culture through an interactive curriculum"
+                  )}
+                </p>
+              </motion.div>
+            </div>
           </motion.div>
         </section>
 
