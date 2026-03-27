@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   BookOpen, GraduationCap, Clock, Scroll, Sparkles,
-  ChevronRight, Flower2, Star, Globe, Gamepad2
+  ChevronRight, Flower2, Star, Globe, Gamepad2, BookMarked
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -62,7 +62,7 @@ const Vietnamese = () => {
       <Navbar />
       <main className="pt-6 pb-16">
         {/* Hero */}
-        <section className="container mx-auto px-6 text-center mb-12">
+        <section className="container mx-auto px-6 text-center mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,6 +82,71 @@ const Vietnamese = () => {
               )}
             </p>
           </motion.div>
+        </section>
+
+        {/* Two featured module entry cards */}
+        <section className="container mx-auto px-6 mb-10">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {/* Folklore Library Card */}
+            <Link to="/learn-vietnamese/folklore">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+                className="group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-amber-900/20 to-red-900/20 p-6 hover:shadow-2xl transition-all hover:scale-[1.02] min-h-[200px] flex flex-col justify-between"
+              >
+                <div className="absolute top-4 right-4 text-5xl opacity-30 group-hover:opacity-50 transition-opacity">📖</div>
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <BookMarked className="w-6 h-6 text-amber-500" />
+                    <Badge variant="outline" className="text-amber-500 border-amber-500/50">{t("Mới", "New")}</Badge>
+                  </div>
+                  <h2 className="text-xl font-bold text-foreground mb-2">
+                    {t("Kho tàng Truyện cổ tích Việt Nam", "Vietnamese Folklore Treasury")}
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    {t(
+                      "Sơn Tinh Thủy Tinh, Thánh Gióng, Tấm Cám... Đọc truyện, nghe kể chuyện và học bài học cuộc sống.",
+                      "Son Tinh Thuy Tinh, Saint Giong, Tam Cam... Read stories, listen to narration, and learn life lessons."
+                    )}
+                  </p>
+                </div>
+                <div className="flex items-center gap-1 text-sm text-primary font-medium mt-4">
+                  {t("Khám phá ngay", "Explore now")} <ChevronRight className="w-4 h-4" />
+                </div>
+              </motion.div>
+            </Link>
+
+            {/* Vietnamese for Foreigners Card */}
+            <Link to="/learn-vietnamese/for-foreigners">
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-blue-900/20 to-cyan-900/20 p-6 hover:shadow-2xl transition-all hover:scale-[1.02] min-h-[200px] flex flex-col justify-between"
+              >
+                <div className="absolute top-4 right-4 text-5xl opacity-30 group-hover:opacity-50 transition-opacity">🌏</div>
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Globe className="w-6 h-6 text-blue-500" />
+                    <Badge variant="outline" className="text-blue-500 border-blue-500/50">{t("Mới", "New")}</Badge>
+                  </div>
+                  <h2 className="text-xl font-bold text-foreground mb-2">
+                    {t("Tiếng Việt cho Người Nước Ngoài", "Vietnamese for Foreigners")}
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    {t(
+                      "Chương trình song ngữ Việt-Anh dành cho người nước ngoài bắt đầu từ con số 0. Giao tiếp, thanh điệu, ẩm thực.",
+                      "A bilingual Vietnamese-English course for international learners starting from zero. Communication, tones, cuisine."
+                    )}
+                  </p>
+                </div>
+                <div className="flex items-center gap-1 text-sm text-primary font-medium mt-4">
+                  {t("Bắt đầu học", "Start learning")} <ChevronRight className="w-4 h-4" />
+                </div>
+              </motion.div>
+            </Link>
+          </div>
         </section>
 
         {/* Main Tabs */}
@@ -122,7 +187,6 @@ const Vietnamese = () => {
                       <h3 className="text-lg font-bold text-foreground">{prog.title}</h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-4">{prog.desc}</p>
-                    {/* Module list */}
                     {prog.modules.map((mod) => (
                       <Link
                         key={mod.id}
@@ -150,7 +214,6 @@ const Vietnamese = () => {
 
             {/* =================== HISTORY TAB =================== */}
             <TabsContent value="history">
-              {/* Timeline */}
               <div className="mb-10">
                 <h2 className="text-xl font-bold text-foreground mb-2 flex items-center gap-2">
                   <Clock className="w-5 h-5 text-primary" />
@@ -162,7 +225,6 @@ const Vietnamese = () => {
                 <HistoryTimeline />
               </div>
 
-              {/* 4-Month Roadmap */}
               <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
                 <GraduationCap className="w-5 h-5 text-primary" />
                 {t("Lộ trình 4 tháng", "4-Month Roadmap")}
@@ -236,16 +298,13 @@ const Vietnamese = () => {
                           {t(item.title, item.titleEn)}
                         </h3>
                       </div>
-                      {/* Content */}
                       <div className="bg-muted/50 rounded-lg p-4 mb-3 font-serif italic text-foreground whitespace-pre-line leading-relaxed">
                         {t(item.content, item.contentEn)}
                       </div>
-                      {/* Meaning */}
                       <p className="text-sm text-muted-foreground mb-2">
                         <strong>{t("Ý nghĩa", "Meaning")}:</strong>{" "}
                         {t(item.meaning, item.meaningEn)}
                       </p>
-                      {/* Grammar note */}
                       <div className="text-xs bg-primary/10 text-primary rounded-md px-3 py-2 inline-block">
                         📝 {t(item.grammarNote, item.grammarNoteEn)}
                       </div>
