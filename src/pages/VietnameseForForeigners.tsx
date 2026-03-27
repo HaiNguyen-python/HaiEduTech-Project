@@ -1,9 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, BookOpen, ChevronRight, Globe, Volume2, Pause,
-  GraduationCap, MessageCircle, Music, Eye, EyeOff, Lightbulb
+  GraduationCap, MessageCircle, Music, Eye, EyeOff, Lightbulb,
+  Play, Square, Loader2
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -67,6 +68,27 @@ const AnnotatedWordSpan = ({ word, showEnglish }: { word: AnnotatedWord; showEng
   );
 };
 
+// Helper to pick a voice by gender preference for Vietnamese
+function pickVietnameseVoice(preferFemale: boolean): SpeechSynthesisVoice | null {
+  const voices = speechSynthesis.getVoices();
+  const viVoices = voices.filter(v => v.lang.startsWith("vi"));
+  if (viVoices.length === 0) return null;
+
+  // Try to find matching gender by name heuristics
+  const femaleHints = ["female", "woman", "Standard-A", "nữ"];
+  const maleHints = ["male", "man", "Standard-B", "nam"];
+  const hints = preferFemale ? femaleHints : maleHints;
+
+  const matched = viVoices.find(v => hints.some(h => v.name.toLowerCase().includes(h.toLowerCase())));
+  if (matched) return matched;
+
+  // Fallback: if multiple voices, use first for female, second for male
+  if (viVoices.length >= 2) {
+    return preferFemale ? viVoices[0] : viVoices[1];
+  }
+  return viVoices[0];
+}
+
 const VietnameseForForeigners = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
@@ -76,21 +98,89 @@ const VietnameseForForeigners = () => {
   const { hasAccess, loading } = useCourseAccess("vietnamese-for-foreigners");
 
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speakingLineIndex, setSpeakingLineIndex] = useState<number | null>(null);
+  const [isPlayingFull, setIsPlayingFull] = useState(false);
+  const [speedRate, setSpeedRate] = useState<number>(1.0);
+  const fullDialogueAbortRef = useRef(false);
 
-  const speakVietnamese = useCallback((text: string, slow = false) => {
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "vi-VN";
-    u.rate = slow ? 0.5 : 0.8;
-    u.onstart = () => setIsSpeaking(true);
-    u.onend = () => setIsSpeaking(false);
-    u.onerror = () => setIsSpeaking(false);
-    speechSynthesis.speak(u);
+  // Ensure voices are loaded
+  useEffect(() => {
+    speechSynthesis.getVoices();
+    const handleVoicesChanged = () => speechSynthesis.getVoices();
+    speechSynthesis.addEventListener?.("voiceschanged", handleVoicesChanged);
+    return () => speechSynthesis.removeEventListener?.("voiceschanged", handleVoicesChanged);
   }, []);
 
-  const pauseSpeech = useCallback(() => {
+  // Speak a single line with character-appropriate voice
+  const speakLine = useCallback((text: string, isStudent: boolean, slow = false): Promise<void> => {
+    return new Promise((resolve) => {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "vi-VN";
+      u.rate = slow ? 0.55 : (speedRate === 0.75 ? 0.6 : 0.85);
+      u.pitch = isStudent ? 1.1 : 0.9; // Slightly higher pitch for student, lower for local
+      const voice = pickVietnameseVoice(isStudent);
+      if (voice) u.voice = voice;
+      u.onend = () => resolve();
+      u.onerror = () => resolve();
+      speechSynthesis.speak(u);
+    });
+  }, [speedRate]);
+
+  // Speak single line (for individual "Nghe" buttons)
+  const speakVietnamese = useCallback((text: string, slow = false, lineIndex?: number, isStudent = true) => {
     speechSynthesis.cancel();
+    fullDialogueAbortRef.current = true;
+    setIsPlayingFull(false);
+    setSpeakingLineIndex(lineIndex ?? null);
+    setIsSpeaking(true);
+
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "vi-VN";
+    u.rate = slow ? 0.55 : (speedRate === 0.75 ? 0.6 : 0.85);
+    u.pitch = isStudent ? 1.1 : 0.9;
+    const voice = pickVietnameseVoice(isStudent);
+    if (voice) u.voice = voice;
+    u.onstart = () => setIsSpeaking(true);
+    u.onend = () => { setIsSpeaking(false); setSpeakingLineIndex(null); };
+    u.onerror = () => { setIsSpeaking(false); setSpeakingLineIndex(null); };
+    speechSynthesis.speak(u);
+  }, [speedRate]);
+
+  // Play full dialogue with pauses between turns
+  const playFullDialogue = useCallback(async (dialogue: Array<{ vi: string; speaker: string }>) => {
+    speechSynthesis.cancel();
+    fullDialogueAbortRef.current = false;
+    setIsPlayingFull(true);
+    setIsSpeaking(true);
+
+    for (let i = 0; i < dialogue.length; i++) {
+      if (fullDialogueAbortRef.current) break;
+
+      const line = dialogue[i];
+      const isStudent = line.speaker === "You" || line.speaker === "You (phone)";
+      setSpeakingLineIndex(i);
+
+      await speakLine(line.vi, isStudent);
+
+      if (fullDialogueAbortRef.current) break;
+
+      // Natural pause between speaker turns (600ms)
+      if (i < dialogue.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 600));
+      }
+    }
+
+    setIsPlayingFull(false);
     setIsSpeaking(false);
+    setSpeakingLineIndex(null);
+  }, [speakLine]);
+
+  const stopSpeech = useCallback(() => {
+    speechSynthesis.cancel();
+    fullDialogueAbortRef.current = true;
+    setIsSpeaking(false);
+    setIsPlayingFull(false);
+    setSpeakingLineIndex(null);
   }, []);
 
   // Find current module and lesson
@@ -154,18 +244,35 @@ const VietnameseForForeigners = () => {
                 <TabsContent value="dialogue">
                   <div className="space-y-1 mb-6">
                     {/* Audio controls */}
-                    <div className="flex gap-2 mb-4">
-                      <Button size="sm" variant="outline" onClick={() => speakVietnamese(currentLesson.dialogue.map(d => d.vi).join(". "))} className="gap-1">
-                        <Volume2 className="w-3 h-3" /> Normal Speed
-                      </Button>
-                      <Button size="sm" variant="outline" onClick={() => speakVietnamese(currentLesson.dialogue.map(d => d.vi).join(". "), true)} className="gap-1">
-                        <Volume2 className="w-3 h-3" /> 🐢 Slow Speed
-                      </Button>
-                      {isSpeaking && (
-                        <Button size="sm" variant="destructive" onClick={pauseSpeech} className="gap-1">
+                    <div className="flex flex-wrap gap-2 mb-4 items-center">
+                      {!isPlayingFull ? (
+                        <Button size="sm" variant="default" onClick={() => playFullDialogue(currentLesson.dialogue)} className="gap-1.5">
+                          <Play className="w-3.5 h-3.5" /> ▶ Play Full Dialogue
+                        </Button>
+                      ) : (
+                        <Button size="sm" variant="destructive" onClick={stopSpeech} className="gap-1.5">
+                          <Square className="w-3.5 h-3.5" /> Stop
+                        </Button>
+                      )}
+                      {isSpeaking && !isPlayingFull && (
+                        <Button size="sm" variant="destructive" onClick={stopSpeech} className="gap-1">
                           <Pause className="w-3 h-3" /> Pause
                         </Button>
                       )}
+                      <div className="flex items-center gap-1 ml-auto">
+                        <span className="text-xs text-muted-foreground">Speed:</span>
+                        {[1.0, 0.75].map(rate => (
+                          <Button
+                            key={rate}
+                            size="sm"
+                            variant={speedRate === rate ? "default" : "outline"}
+                            className="h-7 px-2 text-xs"
+                            onClick={() => setSpeedRate(rate)}
+                          >
+                            {rate === 1.0 ? "Normal" : "🐢 Slow"}
+                          </Button>
+                        ))}
+                      </div>
                     </div>
 
                     {currentLesson.dialogue.map((line, i) => {
@@ -186,7 +293,7 @@ const VietnameseForForeigners = () => {
                               <span className="text-[10px] text-muted-foreground font-medium max-w-[56px] text-center leading-tight">{line.speakerLabel}</span>
                             </div>
                           )}
-                          <div className={`max-w-[75%] rounded-2xl p-4 ${isYou ? "bg-muted/60" : "bg-primary/10"}`}>
+                          <div className={`max-w-[75%] rounded-2xl p-4 ${isYou ? "bg-muted/60" : "bg-primary/10"} ${speakingLineIndex === i ? "ring-2 ring-primary/50 animate-pulse" : ""}`}>
                             {/* Vietnamese text with annotated keywords */}
                             <p className="text-foreground font-semibold text-base leading-relaxed">
                               {line.keyWords ? renderAnnotatedText(line.vi, line.keyWords, showEnglish) : line.vi}
@@ -199,8 +306,17 @@ const VietnameseForForeigners = () => {
                             {showEnglish && line.literal && (
                               <p className="text-sm text-muted-foreground/60 italic mt-1">💡 {line.literal}</p>
                             )}
-                            <Button variant="ghost" size="sm" className="h-6 text-xs mt-2 px-1.5" onClick={() => speakVietnamese(line.vi)}>
-                              <Volume2 className="w-3.5 h-3.5 mr-1" /> Nghe
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 text-xs mt-2 px-1.5"
+                              onClick={() => speakVietnamese(line.vi, speedRate === 0.75, i, isYou)}
+                            >
+                              {speakingLineIndex === i ? (
+                                <><Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" /> Speaking...</>
+                              ) : (
+                                <><Volume2 className="w-3.5 h-3.5 mr-1" /> Nghe</>
+                              )}
                             </Button>
                           </div>
                           {isYou && (
