@@ -133,7 +133,7 @@ const Vietnamese = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-12 pb-16">
+      <main className="pt-20 pb-16">
         {/* Hero with illustration banner */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* Banner with overlaid title and tabs */}
