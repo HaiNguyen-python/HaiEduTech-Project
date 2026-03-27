@@ -176,11 +176,14 @@ const VietnameseForForeigners = () => {
                           initial={{ opacity: 0, x: isYou ? 20 : -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.08 }}
-                          className={`flex gap-3 mb-4 ${isYou ? "justify-end" : "justify-start"}`}
+                          className={`flex gap-3 mb-5 ${isYou ? "justify-end" : "justify-start"}`}
                         >
                           {!isYou && (
-                            <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white bg-primary">
-                              {line.speakerLabel.slice(0, 2)}
+                            <div className="shrink-0 flex flex-col items-center gap-1">
+                              <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white bg-primary">
+                                {line.speakerLabel.charAt(0)}
+                              </div>
+                              <span className="text-[10px] text-muted-foreground font-medium max-w-[56px] text-center leading-tight">{line.speakerLabel}</span>
                             </div>
                           )}
                           <div className={`max-w-[75%] rounded-2xl p-4 ${isYou ? "bg-muted/60" : "bg-primary/10"}`}>
@@ -201,8 +204,11 @@ const VietnameseForForeigners = () => {
                             </Button>
                           </div>
                           {isYou && (
-                            <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white bg-muted-foreground">
-                              {line.speakerLabel.slice(0, 2)}
+                            <div className="shrink-0 flex flex-col items-center gap-1">
+                              <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white bg-muted-foreground">
+                                {line.speakerLabel.charAt(0)}
+                              </div>
+                              <span className="text-[10px] text-muted-foreground font-medium max-w-[56px] text-center leading-tight">{line.speakerLabel}</span>
                             </div>
                           )}
                         </motion.div>
