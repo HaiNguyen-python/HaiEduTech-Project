@@ -9,7 +9,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import flagLandmark from "@/assets/vietnam-flag-landmark.jpg";
+import flagWaving from "@/assets/vietnam-flag-waving.jpg";
 import soldierFlag from "@/assets/soldier-flag.png";
 
 // Lyrics data with timestamps (approximate seconds for karaoke highlighting)
@@ -243,7 +243,7 @@ const NationalAnthem = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <motion.img
-                src={flagLandmark}
+                src={flagWaving}
                 alt="Quốc kỳ Việt Nam tung bay trên Quảng trường Ba Đình"
                 className="w-full rounded-xl shadow-lg object-cover max-h-[360px]"
                 width={1280}
