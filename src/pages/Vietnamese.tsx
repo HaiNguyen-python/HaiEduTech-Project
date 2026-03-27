@@ -133,8 +133,8 @@ const Vietnamese = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-6 pb-16">
-        {/* Hero */}
-        <section className="container mx-auto px-6 text-center mb-8">
+        {/* Hero with illustration banner */}
+        <section className="container mx-auto px-6 text-center mb-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -156,69 +156,139 @@ const Vietnamese = () => {
           </motion.div>
         </section>
 
-        {/* Two featured module entry cards */}
+        {/* Illustrated banner with floating labels and CTA overlays */}
         <section className="container mx-auto px-6 mb-10">
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {/* Folklore Library Card */}
-            <Link to="/learn-vietnamese/folklore">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 }}
-                className="group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-amber-900/20 to-red-900/20 p-6 hover:shadow-2xl transition-all hover:scale-[1.02] min-h-[200px] flex flex-col justify-between"
-              >
-                <div className="absolute top-4 right-4 text-5xl opacity-30 group-hover:opacity-50 transition-opacity">📖</div>
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <BookMarked className="w-6 h-6 text-amber-500" />
-                    <Badge variant="outline" className="text-amber-500 border-amber-500/50">{t("Mới", "New")}</Badge>
-                  </div>
-                  <h2 className="text-xl font-bold text-foreground mb-2">
-                    {t("Kho tàng Truyện cổ tích Việt Nam", "Vietnamese Folklore Treasury")}
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    {t(
-                      "Sơn Tinh Thủy Tinh, Thánh Gióng, Tấm Cám... Đọc truyện, nghe kể chuyện và học bài học cuộc sống.",
-                      "Son Tinh Thuy Tinh, Saint Giong, Tam Cam... Read stories, listen to narration, and learn life lessons."
-                    )}
-                  </p>
-                </div>
-                <div className="flex items-center gap-1 text-sm text-primary font-medium mt-4">
-                  {t("Khám phá ngay", "Explore now")} <ChevronRight className="w-4 h-4" />
-                </div>
-              </motion.div>
-            </Link>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="relative max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-xl"
+          >
+            {/* Banner image */}
+            <img
+              src={vietnameseCultureBanner}
+              alt="Vietnamese culture illustration"
+              width={1920}
+              height={1080}
+              className="w-full h-[340px] md:h-[420px] lg:h-[480px] object-cover"
+            />
 
-            {/* Vietnamese for Foreigners Card */}
-            <Link to="/learn-vietnamese/for-foreigners">
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-blue-900/20 to-cyan-900/20 p-6 hover:shadow-2xl transition-all hover:scale-[1.02] min-h-[200px] flex flex-col justify-between"
-              >
-                <div className="absolute top-4 right-4 text-5xl opacity-30 group-hover:opacity-50 transition-opacity">🌏</div>
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Globe className="w-6 h-6 text-blue-500" />
-                    <Badge variant="outline" className="text-blue-500 border-blue-500/50">{t("Mới", "New")}</Badge>
-                  </div>
-                  <h2 className="text-xl font-bold text-foreground mb-2">
-                    {t("Tiếng Việt cho Người Nước Ngoài", "Vietnamese for Foreigners")}
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    {t(
-                      "Chương trình song ngữ Việt-Anh dành cho người nước ngoài bắt đầu từ con số 0. Giao tiếp, thanh điệu, ẩm thực.",
-                      "A bilingual Vietnamese-English course for international learners starting from zero. Communication, tones, cuisine."
-                    )}
-                  </p>
-                </div>
-                <div className="flex items-center gap-1 text-sm text-primary font-medium mt-4">
-                  {t("Bắt đầu học", "Start learning")} <ChevronRight className="w-4 h-4" />
-                </div>
-              </motion.div>
-            </Link>
-          </div>
+            {/* Gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+
+            {/* Floating topic bubbles */}
+            <div className="absolute top-3 right-4 md:top-5 md:right-8 flex flex-wrap gap-2 max-w-[280px] justify-end">
+              {[
+                { label: t("Phát âm", "Pronunciation"), delay: 0.2 },
+                { label: t("Giao tiếp", "Communication"), delay: 0.3 },
+                { label: t("Văn hóa", "Culture"), delay: 0.4 },
+                { label: t("Thanh điệu", "Tones"), delay: 0.5 },
+              ].map((item) => (
+                <motion.span
+                  key={item.label}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: item.delay }}
+                  className="bg-white/90 dark:bg-slate-800/90 text-foreground text-xs font-medium px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm"
+                >
+                  {item.label}
+                </motion.span>
+              ))}
+            </div>
+
+            {/* Floating labels - left side */}
+            <div className="absolute top-4 left-4 md:top-6 md:left-8 flex flex-col gap-2">
+              {[
+                { label: t("Thánh Gióng", "Saint Giong"), delay: 0.3 },
+                { label: t("Tấm Cám", "Tam Cam"), delay: 0.4 },
+              ].map((item) => (
+                <motion.span
+                  key={item.label}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: item.delay }}
+                  className="bg-white/90 dark:bg-slate-800/90 text-foreground text-xs font-medium px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm w-fit"
+                >
+                  {item.label}
+                </motion.span>
+              ))}
+            </div>
+
+            {/* Right side floating labels */}
+            <div className="absolute top-1/3 right-4 md:right-8 flex flex-col gap-2 items-end">
+              {[
+                { label: t("Lịch Sử & Ca Dao", "History & Folk Songs"), delay: 0.4 },
+                { label: t("Văn học dân gian", "Folk Literature"), delay: 0.5 },
+                { label: t("Cờ tướng", "Chinese Chess"), delay: 0.6 },
+              ].map((item) => (
+                <motion.span
+                  key={item.label}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: item.delay }}
+                  className="bg-white/90 dark:bg-slate-800/90 text-foreground text-xs font-medium px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm"
+                >
+                  {item.label}
+                </motion.span>
+              ))}
+            </div>
+
+            {/* Bottom CTA cards overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+              <div className="grid md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+                {/* Folklore Treasury Card */}
+                <Link to="/learn-vietnamese/folklore" className="block">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all hover:scale-[1.02] group"
+                  >
+                    <h3 className="font-bold text-foreground text-base mb-1">
+                      {t("Kho tàng Truyện cổ tích", "Folklore Treasury")}
+                    </h3>
+                    <Button size="sm" className="mt-2 bg-amber-600 hover:bg-amber-700 text-white text-xs">
+                      {t("Khám phá ngay", "Explore now")}
+                    </Button>
+                  </motion.div>
+                </Link>
+
+                {/* Language & Vocabulary Card */}
+                <Link to="/learn-vietnamese/for-foreigners" className="block">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all hover:scale-[1.02] group"
+                  >
+                    <h3 className="font-bold text-foreground text-base mb-1">
+                      {t("Ngôn ngữ & Từ vựng", "Language & Vocabulary")}
+                    </h3>
+                    <Button size="sm" className="mt-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs">
+                      {t("Bắt đầu học", "Start learning")}
+                    </Button>
+                  </motion.div>
+                </Link>
+
+                {/* History & Folk Songs Card */}
+                <Link to="/learn-vietnamese?tab=history" className="block">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all hover:scale-[1.02] group"
+                  >
+                    <h3 className="font-bold text-foreground text-base mb-1">
+                      {t("Lịch Sử & Ca Dao", "History & Folk Songs")}
+                    </h3>
+                    <Button size="sm" className="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-xs">
+                      {t("Học qua trò chơi", "Learn through games")}
+                    </Button>
+                  </motion.div>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </section>
 
         {/* Main Tabs */}
