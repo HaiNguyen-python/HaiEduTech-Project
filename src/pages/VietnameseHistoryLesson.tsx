@@ -13,6 +13,14 @@ import { Separator } from "@/components/ui/separator";
 import { historyMonths } from "@/data/vietnameseCurriculumData";
 import { historyStorySegments } from "@/data/vietnamese/historyStorySegments";
 
+// Rotating icons for story segments to keep visual flow fresh
+const segmentIcons = [Scroll, Sword, Crown, Shield, Flame, MapPin, Mountain, Ship, Flag, Star, Landmark, GraduationCap, Globe, Sparkles, BookOpen];
+
+const getSegmentIcon = (index: number) => {
+  const Icon = segmentIcons[index % segmentIcons.length];
+  return <Icon className="w-5 h-5 text-emerald-500/70 shrink-0" />;
+};
+
 const VietnameseHistoryLesson = () => {
   const { lessonId } = useParams();
   const { t } = useLanguage();
