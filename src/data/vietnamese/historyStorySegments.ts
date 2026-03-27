@@ -617,6 +617,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "💻 Connecting to the Internet",
       text: "**19/11/1997**, VN chính thức kết nối **Internet**. Từ vài trăm người dùng, nay hơn **77 triệu người** (78% dân số). **FPT** trở thành tập đoàn công nghệ lớn nhất, xuất khẩu phần mềm ra 30+ quốc gia. **VNG** phát triển Zalo (75 triệu người dùng). **Viettel** đầu tư viễn thông ở 10 nước.",
       textEn: "On **November 19, 1997**, Vietnam connected to the **Internet**. From a few hundred users, now over **77 million** (78% of population). **FPT** became the largest tech corporation. **VNG** developed Zalo (75 million users). **Viettel** invested in telecoms across 10 countries.",
+      imageUrl: vietnamDigital,
     },
     {
       title: "📱 Quốc gia số hóa",
@@ -662,6 +663,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "📈 The Economic Miracle",
       text: "Đổi Mới tạo **phép màu**: GDP tăng **6-7%/năm** suốt hàng thập kỷ. GDP đầu người từ **~100 USD** (*1986*) lên **~4.200 USD** (*2023*). Tỷ lệ nghèo giảm từ **58%** (*1993*) xuống dưới **5%** – Ngân hàng Thế giới gọi là **'câu chuyện phát triển thần kỳ'**.",
       textEn: "Doi Moi created a **miracle**: GDP grew **6-7%/year** for decades. Per capita GDP rose from **~$100** (*1986*) to **~$4,200** (*2023*). Poverty dropped from **58%** (*1993*) to under **5%** – the World Bank called it a **'development miracle.'**",
+      imageUrl: vietnamEconomy,
     },
     {
       title: "🏭 Cơ sở sản xuất toàn cầu",
@@ -692,6 +694,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "📊 Stunning the World at PISA",
       text: "**Năm 2012**, VN lần đầu tham gia **PISA** – kỳ thi đánh giá học sinh quốc tế của OECD. Kết quả gây **chấn động**: học sinh 15 tuổi xếp thứ **17 về Toán** (trên Mỹ, Anh, Pháp!), thứ **8 về Khoa học**. Với GDP chỉ bằng **1/20 Mỹ**, thành tích này khiến giới giáo dục thế giới **kinh ngạc**.",
       textEn: "In **2012**, Vietnam first joined **PISA** – the OECD international assessment. Results were **stunning**: 15-year-olds ranked **17th in Math** (above the US, UK, France!), **8th in Science**. With GDP just **1/20th** of the US, this **astonished** the global education community.",
+      imageUrl: vietnamEducation,
     },
     {
       title: "📚 Bí quyết và thách thức",
@@ -707,6 +710,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🍜 Cuisine Conquering the World",
       text: "Trong thế kỷ 21, văn hóa VN ngày càng được thế giới yêu mến. **Phở** có mặt ở hầu hết thành phố lớn từ New York đến Tokyo. **Năm 2011**, bánh mì vào **từ điển Oxford**; **2020**, Google tôn vinh bằng **Google Doodle**. **Cà phê VN** (đặc biệt cà phê sữa đá, cà phê trứng) trở thành **hiện tượng toàn cầu**.",
       textEn: "In the 21st century, Vietnamese culture has gained worldwide love. **Pho** can be found in virtually every major city. **Banh mi** entered the **Oxford Dictionary** (2011); Google honored it with a **Doodle** (2020). **Vietnamese coffee** (especially iced milk coffee and egg coffee) became a **global phenomenon**.",
+      imageUrl: vietnamCuisine,
     },
     {
       title: "🌏 Văn hóa Việt toàn cầu",
@@ -722,6 +726,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🎯 Strategy for 2045",
       text: "**Năm 2045** đánh dấu **100 năm** Quốc khánh (2/9/1945). VN đặt mục tiêu đầy tham vọng: nước **phát triển, thu nhập cao**. Chiến lược: chuyển đổi số (kinh tế số **30% GDP** vào 2030), năng lượng sạch (**net-zero 2050** cam kết tại COP26), cải cách giáo dục (**STEM**), xây dựng **đường sắt tốc độ cao** Bắc-Nam.",
       textEn: "**2045** marks **100 years** of National Day (Sep 2, 1945). Vietnam aims ambitiously: a **developed, high-income nation**. Strategies: digital transformation (digital economy **30% of GDP** by 2030), clean energy (**net-zero 2050** pledged at COP26), education reform (**STEM**), **high-speed railway** from North to South.",
+      imageUrl: vietnamFuture,
     },
     {
       title: "🌟 Câu chuyện truyền cảm hứng",
