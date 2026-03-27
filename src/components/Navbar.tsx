@@ -111,7 +111,7 @@ const Navbar = () => {
     { to: "/learn-vietnamese", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
     { to: "/learn-vietnamese", label: t("📜 Lịch sử Việt Nam", "📜 Vietnamese History") },
     { to: "/learn-vietnamese", label: t("🌾 Ca Dao & Tục Ngữ", "🌾 Folklore & Proverbs") },
-    { to: "/learn-vietnamese", label: t("🎮 Sự thật hay Huyền thoại", "🎮 Fact or Myth Game") },
+    { to: "/learn-vietnamese", label: t("🎮 Trò chơi vui nhộn", "🎮 Fun Games") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
