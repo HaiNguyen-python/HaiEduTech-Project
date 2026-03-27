@@ -654,6 +654,57 @@ export const detailedVFFModules: DetailedModule[] = [
           ],
         },
       },
+      // Lesson 2: Weekend plans
+      {
+        id: "vff-social-weekend",
+        title: "Kế hoạch cuối tuần — Đi đâu chơi?",
+        titleEn: "Weekend Plans — Where to go?",
+        icon: "🎭",
+        scenario: "Bạn và bạn bè lên kế hoạch đi chơi cuối tuần.",
+        scenarioEn: "You and friends plan a weekend outing.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cuối tuần này mọi người có kế hoạch gì chưa?", en: "Does everyone have plans this weekend?", literal: "End week this every person have plan what yet?", keyWords: [{ word: "cuối tuần", pronunciation: "cuối tuần", meaning: "weekend", tone: "sac" }, { word: "kế hoạch", pronunciation: "kế hoạch", meaning: "plan", tone: "sac" }] },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Chưa! Đi đâu chơi không? Mình muốn đi biển quá!", en: "Not yet! Want to go somewhere? I really want to go to the beach!", literal: "Not-yet! Go where play not? Self want go sea too-much!", keyWords: [{ word: "đi biển", pronunciation: "đi biển", meaning: "go to the beach", tone: "hoi" }] },
+          { speaker: "Tuấn", speakerLabel: "Tuấn", vi: "Đi biển thì xa quá. Hay mình đi Đà Lạt? Cuối tuần này trời mát.", en: "Beach is too far. How about Đà Lạt? The weather is cool this weekend.", literal: "Go sea then far too-much. Or self go Đà Lạt? End week this sky cool.", keyWords: [{ word: "mát", pronunciation: "mát", meaning: "cool (weather)", tone: "sac" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Đà Lạt hay đó! Mình đi xe máy hay đặt xe khách?", en: "Đà Lạt sounds great! Shall we ride motorcycles or book a bus?", literal: "Đà Lạt interesting that! Self go vehicle engine or book vehicle guest?" },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Đặt xe khách đi, cho khỏe. Mình book trên Vexere nhé!", en: "Let's book a bus, less tiring. I'll book on Vexere!", literal: "Book vehicle guest go, for healthy. Self book on Vexere ok!", keyWords: [{ word: "cho khỏe", pronunciation: "cho khỏe", meaning: "to be easier / less tiring", tone: "hoi" }] },
+          { speaker: "Tuấn", speakerLabel: "Tuấn", vi: "Ở đó mình thuê homestay hay khách sạn?", en: "Should we rent a homestay or hotel there?", literal: "At there self rent homestay or hotel?", keyWords: [{ word: "thuê", pronunciation: "thuê", meaning: "to rent", tone: "ngang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Homestay đi, rẻ mà lại vui! Chia ba người, mỗi người khoảng 200k một đêm.", en: "Homestay, cheap and fun! Split three ways, about 200k per person per night.", literal: "Homestay go, cheap but again fun! Divide three person, each person about 200k one night." },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Chốt luôn! Mình đi thứ bảy sáng, về chủ nhật tối.", en: "Done! Leave Saturday morning, come back Sunday night.", literal: "Lock immediately! Self go weekday seven morning, return master day night.", keyWords: [{ word: "thứ bảy", pronunciation: "thứ bảy", meaning: "Saturday", tone: "hoi" }, { word: "chủ nhật", pronunciation: "chủ nhật", meaning: "Sunday", tone: "nang" }] },
+          { speaker: "Tuấn", speakerLabel: "Tuấn", vi: "Nhớ mang áo ấm nhé, Đà Lạt lạnh lắm!", en: "Remember to bring warm clothes, Đà Lạt is very cold!", literal: "Remember carry shirt warm ok, Đà Lạt cold very!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Hay + [suggestion]? (Or/How about?)",
+            patternEn: "'Hay' — Suggesting alternatives",
+            explanation: "'Hay' dùng để đề xuất lựa chọn khác. 'Hay mình đi X?' = 'How about we go to X?'",
+            explanationEn: "'Hay' is used to suggest alternatives. 'Hay mình đi X?' = 'How about we go to X?'",
+            examples: [
+              { vi: "Hay mình đi Đà Lạt?", en: "How about we go to Đà Lạt?", literal: "Or self go Đà Lạt?" },
+              { vi: "Hay ăn pizza?", en: "Or eat pizza?", literal: "Or eat pizza?" },
+              { vi: "Hay đổi ngày khác?", en: "Or change to another day?", literal: "Or change day other?" },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Văn hóa đi phượt của giới trẻ Việt",
+            titleEn: "Vietnamese youth backpacking culture",
+            content: "'Đi phượt' là xu hướng du lịch bụi của giới trẻ Việt Nam — tự lái xe máy, mang lều cắm trại, khám phá vùng núi. Đà Lạt, Sapa, Hà Giang là những điểm đến phượt nổi tiếng. Chi phí thường rất rẻ vì chia sẻ phòng và ăn quán bình dân.",
+            contentEn: "'Đi phượt' (backpacking by motorcycle) is a popular trend among Vietnamese youth — riding motorcycles, camping, exploring mountains. Đà Lạt, Sapa, Hà Giang are famous destinations. Costs are usually very low because of room-sharing and eating at local stalls.",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Hoàn thành câu lên kế hoạch cuối tuần.",
+          instructionEn: "Complete the weekend planning sentences.",
+          items: [
+            { question: "_____ tuần này mọi người có kế hoạch gì? (weekend)", answer: "Cuối", explanationEn: "'Cuối tuần' = weekend" },
+            { question: "_____ mình đi Đà Lạt? (How about)", answer: "Hay", explanationEn: "'Hay' = or / how about" },
+            { question: "Mình đi _____ bảy sáng, về _____ nhật tối. (Saturday/Sunday)", answer: "thứ / chủ", explanationEn: "'Thứ bảy' = Saturday, 'Chủ nhật' = Sunday" },
+          ],
+        },
+      },
     ],
   },
 
