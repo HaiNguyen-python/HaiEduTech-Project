@@ -118,6 +118,7 @@ const App = () => (
             <Route path="/learn-vietnamese/folklore" element={<LazyRoute><FolkloreLibrary /></LazyRoute>} />
             <Route path="/learn-vietnamese/folklore/:storyId" element={<LazyRoute><FolkloreLibrary /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
+            <Route path="/learn-vietnamese/national-anthem" element={<LazyRoute><NationalAnthem /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/:moduleId/:lessonId" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
             <Route path="/knowledge-hub" element={<LazyRoute><KnowledgeHubPage /></LazyRoute>} />
             {/* Redirects for old routes */}
