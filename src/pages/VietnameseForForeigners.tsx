@@ -244,18 +244,35 @@ const VietnameseForForeigners = () => {
                 <TabsContent value="dialogue">
                   <div className="space-y-1 mb-6">
                     {/* Audio controls */}
-                    <div className="flex gap-2 mb-4">
-                      <Button size="sm" variant="outline" onClick={() => speakVietnamese(currentLesson.dialogue.map(d => d.vi).join(". "))} className="gap-1">
-                        <Volume2 className="w-3 h-3" /> Normal Speed
-                      </Button>
-                      <Button size="sm" variant="outline" onClick={() => speakVietnamese(currentLesson.dialogue.map(d => d.vi).join(". "), true)} className="gap-1">
-                        <Volume2 className="w-3 h-3" /> 🐢 Slow Speed
-                      </Button>
-                      {isSpeaking && (
-                        <Button size="sm" variant="destructive" onClick={pauseSpeech} className="gap-1">
+                    <div className="flex flex-wrap gap-2 mb-4 items-center">
+                      {!isPlayingFull ? (
+                        <Button size="sm" variant="default" onClick={() => playFullDialogue(currentLesson.dialogue)} className="gap-1.5">
+                          <Play className="w-3.5 h-3.5" /> ▶ Play Full Dialogue
+                        </Button>
+                      ) : (
+                        <Button size="sm" variant="destructive" onClick={stopSpeech} className="gap-1.5">
+                          <Square className="w-3.5 h-3.5" /> Stop
+                        </Button>
+                      )}
+                      {isSpeaking && !isPlayingFull && (
+                        <Button size="sm" variant="destructive" onClick={stopSpeech} className="gap-1">
                           <Pause className="w-3 h-3" /> Pause
                         </Button>
                       )}
+                      <div className="flex items-center gap-1 ml-auto">
+                        <span className="text-xs text-muted-foreground">Speed:</span>
+                        {[1.0, 0.75].map(rate => (
+                          <Button
+                            key={rate}
+                            size="sm"
+                            variant={speedRate === rate ? "default" : "outline"}
+                            className="h-7 px-2 text-xs"
+                            onClick={() => setSpeedRate(rate)}
+                          >
+                            {rate === 1.0 ? "Normal" : "🐢 Slow"}
+                          </Button>
+                        ))}
+                      </div>
                     </div>
 
                     {currentLesson.dialogue.map((line, i) => {
