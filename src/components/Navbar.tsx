@@ -104,6 +104,13 @@ const Navbar = () => {
     { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
   ];
+  const vietnameseSubs: SubItem[] = [
+    { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
+    { to: "/learn-vietnamese", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
+    { to: "/learn-vietnamese", label: t("📜 Lịch sử Việt Nam", "📜 Vietnamese History") },
+    { to: "/learn-vietnamese", label: t("🌾 Ca Dao & Tục Ngữ", "🌾 Folklore & Proverbs") },
+    { to: "/learn-vietnamese", label: t("🎮 Sự thật hay Huyền thoại", "🎮 Fact or Myth Game") },
+  ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/python-challenges", label: t("🏆 150 Thử thách Python", "🏆 150 Python Challenges") },
@@ -118,8 +125,8 @@ const Navbar = () => {
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
     { to: "/english", label: t("Học Tiếng Anh", "Learn English"), icon: BookOpen, subs: englishSubs, key: "en" },
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
+    { to: "/learn-vietnamese", label: t("Học Tiếng Việt", "Learn Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
-    { to: "/ai-library", label: t("Thư Viện", "Library"), icon: Library },
     { to: "/knowledge-hub", label: "Knowledge Hub", icon: Newspaper },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
