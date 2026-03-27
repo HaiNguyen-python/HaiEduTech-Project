@@ -325,6 +325,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "⚖️ The Hong Duc Legal Code",
       text: "**Lê Thánh Tông** (trị vì *1460-1497*) – vị vua anh minh nhất nhà Hậu Lê – ban hành **Bộ luật Hồng Đức**, bộ luật hoàn chỉnh và tiến bộ nhất thời phong kiến. Điều đặc biệt: luật có nhiều điều khoản **bảo vệ quyền phụ nữ, trẻ em và người yếu thế** – tiến bộ hơn nhiều so với luật pháp phương Tây cùng thời. Ông chia cả nước thành **13 đạo**, tổ chức thi cử đều đặn để tuyển chọn nhân tài.",
       textEn: "**Le Thanh Tong** (reigned *1460-1497*) – the most enlightened Later Le king – issued the **Hong Duc Legal Code**, the most complete and progressive feudal code. Remarkably, it included provisions **protecting women's rights, children, and the vulnerable** – far more advanced than contemporary Western law. He divided the country into **13 regions** and organized regular examinations to select talent.",
+      imageUrl: leThanhTong,
     },
     {
       title: "🌟 Thời kỳ hoàng kim",
