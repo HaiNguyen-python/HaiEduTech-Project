@@ -169,35 +169,42 @@ const VietnameseForForeigners = () => {
                     </div>
 
                     {currentLesson.dialogue.map((line, i) => {
-                      const isRight = ["B", "Colleague", "Server", "Driver", "Linh", "Father", "Mother", "Friend", "Hùng", "HR", "Boss", "Team"].some(s => line.speaker.includes(s) || line.speakerLabel.includes(s));
+                      const isYou = line.speaker === "You" || line.speaker === "You (phone)";
                       return (
                         <motion.div
                           key={i}
-                          initial={{ opacity: 0, x: isRight ? 20 : -20 }}
+                          initial={{ opacity: 0, x: isYou ? 20 : -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.08 }}
-                          className={`flex gap-3 mb-3 ${isRight ? "flex-row-reverse" : ""}`}
+                          className={`flex gap-3 mb-4 ${isYou ? "justify-end" : "justify-start"}`}
                         >
-                          <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${isRight ? "bg-primary" : "bg-muted-foreground"}`}>
-                            {line.speakerLabel.slice(0, 2)}
-                          </div>
-                          <div className={`max-w-[80%] rounded-xl p-3 ${isRight ? "bg-primary/10" : "bg-muted/50"}`}>
+                          {!isYou && (
+                            <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white bg-primary">
+                              {line.speakerLabel.slice(0, 2)}
+                            </div>
+                          )}
+                          <div className={`max-w-[75%] rounded-2xl p-4 ${isYou ? "bg-muted/60" : "bg-primary/10"}`}>
                             {/* Vietnamese text with annotated keywords */}
-                            <p className="text-foreground font-medium text-sm leading-relaxed">
+                            <p className="text-foreground font-semibold text-base leading-relaxed">
                               {line.keyWords ? renderAnnotatedText(line.vi, line.keyWords, showEnglish) : line.vi}
                             </p>
                             {/* English translation */}
                             {showEnglish && (
-                              <p className="text-muted-foreground text-xs mt-1">{line.en}</p>
+                              <p className="text-muted-foreground text-sm mt-1.5">{line.en}</p>
                             )}
                             {/* Literal translation */}
                             {showEnglish && line.literal && (
-                              <p className="text-xs text-muted-foreground/60 italic mt-0.5">💡 {line.literal}</p>
+                              <p className="text-sm text-muted-foreground/60 italic mt-1">💡 {line.literal}</p>
                             )}
-                            <Button variant="ghost" size="sm" className="h-5 text-[10px] mt-1 px-1" onClick={() => speakVietnamese(line.vi)}>
-                              <Volume2 className="w-3 h-3 mr-0.5" /> Nghe
+                            <Button variant="ghost" size="sm" className="h-6 text-xs mt-2 px-1.5" onClick={() => speakVietnamese(line.vi)}>
+                              <Volume2 className="w-3.5 h-3.5 mr-1" /> Nghe
                             </Button>
                           </div>
+                          {isYou && (
+                            <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white bg-muted-foreground">
+                              {line.speakerLabel.slice(0, 2)}
+                            </div>
+                          )}
                         </motion.div>
                       );
                     })}
