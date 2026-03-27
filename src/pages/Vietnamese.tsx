@@ -1,5 +1,5 @@
 // Learn Vietnamese main page with language, history, folklore, and game sections
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -83,11 +83,16 @@ const Vietnamese = () => {
   const [activeTab, setActiveTab] = useState(
     tabFromUrl && validTabs.includes(tabFromUrl) ? tabFromUrl : "language"
   );
+  const tabsRef = useRef<HTMLDivElement>(null);
 
-  // Sync tab when URL query param changes
+  // Sync tab when URL query param changes and scroll to tabs
   useEffect(() => {
     if (tabFromUrl && validTabs.includes(tabFromUrl)) {
       setActiveTab(tabFromUrl);
+      // Scroll to tabs section when navigating via URL
+      setTimeout(() => {
+        tabsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     }
   }, [tabFromUrl]);
 
@@ -216,7 +221,7 @@ const Vietnamese = () => {
         </section>
 
         {/* Main Tabs */}
-        <div className="container mx-auto px-6">
+        <div ref={tabsRef} className="container mx-auto px-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-10">
               <TabsTrigger value="language" className="flex items-center gap-1.5 text-xs sm:text-sm">
