@@ -58,6 +58,7 @@ export interface StorySegment {
   text: string;
   textEn: string;
   imageUrl?: string;
+  icon?: string; // Lucide icon name for visual variety per segment
 }
 
 export interface HistoryLesson {

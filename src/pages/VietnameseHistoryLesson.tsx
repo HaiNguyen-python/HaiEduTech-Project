@@ -2,7 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, BookOpen, Clock, ChevronRight } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, ChevronRight, Sword, MapPin, Crown, Shield, Flame, Scroll, Mountain, Ship, Flag, Star, Landmark, GraduationCap, Globe, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -12,6 +12,14 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { historyMonths } from "@/data/vietnameseCurriculumData";
 import { historyStorySegments } from "@/data/vietnamese/historyStorySegments";
+
+// Rotating icons for story segments to keep visual flow fresh
+const segmentIcons = [Scroll, Sword, Crown, Shield, Flame, MapPin, Mountain, Ship, Flag, Star, Landmark, GraduationCap, Globe, Sparkles, BookOpen];
+
+const getSegmentIcon = (index: number) => {
+  const Icon = segmentIcons[index % segmentIcons.length];
+  return <Icon className="w-5 h-5 text-primary/70 shrink-0" />;
+};
 
 const VietnameseHistoryLesson = () => {
   const { lessonId } = useParams();
@@ -70,7 +78,7 @@ const VietnameseHistoryLesson = () => {
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <Badge className={`bg-gradient-to-r ${month.color} text-white mb-3`}>
-              {month.icon} {t(`Tháng ${month.month}`, `Month ${month.month}`)}
+              {month.icon} {t(month.title, month.titleEn)}
             </Badge>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
               {t(lesson.title, lesson.titleEn)}
@@ -98,9 +106,10 @@ const VietnameseHistoryLesson = () => {
                       transition={{ duration: 0.5, delay: i * 0.1 }}
                       className="bg-card border border-border rounded-xl shadow-sm overflow-hidden"
                     >
-                      {/* Segment Title */}
-                      <div className="px-5 pt-5 pb-2">
-                        <h3 className="text-base font-bold text-foreground">
+                      {/* Segment Title with rotating icon */}
+                      <div className="px-5 pt-5 pb-2 flex items-center gap-2.5">
+                        {getSegmentIcon(i)}
+                        <h3 className="text-lg font-bold text-foreground">
                           {t(seg.title, seg.titleEn)}
                         </h3>
                       </div>
@@ -123,14 +132,14 @@ const VietnameseHistoryLesson = () => {
 
                         {/* Text */}
                         <div className={`${seg.imageUrl ? 'md:w-[60%]' : 'w-full'} p-5 pt-2 flex items-center`}>
-                          <div className="prose prose-sm dark:prose-invert max-w-none text-foreground leading-relaxed">
+                          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground leading-loose text-[1.2rem]" style={{ lineHeight: '1.9' }}>
                             <ReactMarkdown
                               components={{
                                 strong: ({ children }) => (
                                   <strong className="text-primary font-bold">{children}</strong>
                                 ),
                                 em: ({ children }) => (
-                                  <em className="text-muted-foreground not-italic text-xs bg-muted px-1 py-0.5 rounded">{children}</em>
+                                  <em className="text-muted-foreground not-italic text-sm bg-muted px-1.5 py-0.5 rounded">{children}</em>
                                 ),
                               }}
                             >
@@ -145,7 +154,7 @@ const VietnameseHistoryLesson = () => {
               </div>
             ) : (
               /* Fallback: single text block for lessons without segments */
-              <div className="bg-card border border-border rounded-xl p-6 leading-relaxed text-foreground">
+              <div className="bg-card border border-border rounded-xl p-6 text-[1.2rem] text-foreground" style={{ lineHeight: '1.9' }}>
                 {t(lesson.story, lesson.storyEn)}
               </div>
             )}
