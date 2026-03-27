@@ -51,6 +51,7 @@ const HskVocabulary = lazy(() => import("./pages/HskVocabulary.tsx"));
 const KnowledgeHubPage = lazy(() => import("./pages/KnowledgeHubPage.tsx"));
 const FolkloreLibrary = lazy(() => import("./pages/FolkloreLibrary.tsx"));
 const VietnameseForForeigners = lazy(() => import("./pages/VietnameseForForeigners.tsx"));
+const NationalAnthem = lazy(() => import("./pages/NationalAnthem.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
