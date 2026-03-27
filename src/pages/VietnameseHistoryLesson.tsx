@@ -106,8 +106,9 @@ const VietnameseHistoryLesson = () => {
                       transition={{ duration: 0.5, delay: i * 0.1 }}
                       className="bg-card border border-border rounded-xl shadow-sm overflow-hidden"
                     >
-                      {/* Segment Title */}
-                      <div className="px-5 pt-5 pb-2">
+                      {/* Segment Title with rotating icon */}
+                      <div className="px-5 pt-5 pb-2 flex items-center gap-2.5">
+                        {getSegmentIcon(i)}
                         <h3 className="text-lg font-bold text-foreground">
                           {t(seg.title, seg.titleEn)}
                         </h3>
