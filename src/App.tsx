@@ -51,6 +51,7 @@ const HskVocabulary = lazy(() => import("./pages/HskVocabulary.tsx"));
 const KnowledgeHubPage = lazy(() => import("./pages/KnowledgeHubPage.tsx"));
 const FolkloreLibrary = lazy(() => import("./pages/FolkloreLibrary.tsx"));
 const VietnameseForForeigners = lazy(() => import("./pages/VietnameseForForeigners.tsx"));
+const NationalAnthem = lazy(() => import("./pages/NationalAnthem.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -117,6 +118,7 @@ const App = () => (
             <Route path="/learn-vietnamese/folklore" element={<LazyRoute><FolkloreLibrary /></LazyRoute>} />
             <Route path="/learn-vietnamese/folklore/:storyId" element={<LazyRoute><FolkloreLibrary /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
+            <Route path="/learn-vietnamese/national-anthem" element={<LazyRoute><NationalAnthem /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/:moduleId/:lessonId" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
             <Route path="/knowledge-hub" element={<LazyRoute><KnowledgeHubPage /></LazyRoute>} />
             {/* Redirects for old routes */}
