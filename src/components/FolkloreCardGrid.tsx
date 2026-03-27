@@ -89,7 +89,7 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
               >
                 {item.type === "ca-dao" ? t("Ca Dao", "Folk Song") : t("Tục Ngữ", "Proverb")}
               </Badge>
-              <h3 className="font-bold text-foreground text-sm leading-tight">
+              <h3 className="font-extrabold text-foreground text-base leading-tight">
                 {t(item.title, item.titleEn)}
               </h3>
             </div>
@@ -112,7 +112,7 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
             {item.type === "ca-dao" && (
               <div className="px-4 pt-3">
                 <p
-                  className="text-sm text-foreground italic leading-relaxed whitespace-pre-line"
+                  className="text-base font-semibold text-foreground italic leading-relaxed whitespace-pre-line"
                   style={{ fontFamily: "'Noto Serif', serif" }}
                 >
                   {t(item.content, item.contentEn)}
@@ -122,8 +122,8 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
 
             {/* Meaning */}
             <div className="px-4 py-3">
-              <p className="text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">{t("Ý nghĩa:", "Meaning:")}</span>{" "}
+              <p className="text-[0.95rem] text-muted-foreground leading-relaxed">
+                <span className="font-bold text-foreground">{t("Ý nghĩa:", "Meaning:")}</span>{" "}
                 {t(item.meaning, item.meaningEn)}
               </p>
             </div>
