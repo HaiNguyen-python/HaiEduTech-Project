@@ -136,11 +136,12 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
               {!isProverb && (
                 <div className="px-5 pt-3">
                   <p
-                    className="text-foreground italic leading-relaxed whitespace-pre-line"
+                  className="text-foreground italic leading-relaxed whitespace-pre-line"
                     style={{
                       fontFamily: "'Dancing Script', 'Playfair Display', 'Noto Serif', serif",
                       fontSize: "24px",
                       lineHeight: 1.5,
+                      fontWeight: 700,
                     }}
                   >
                     {t(item.content, item.contentEn)}
