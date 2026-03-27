@@ -73,62 +73,69 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
         🌾 {t("Ca Dao & Tục Ngữ", "Folk Songs & Proverbs")}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filtered.map((item, idx) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.05 }}
-            className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
-          >
-            {/* Header: Badge + Title */}
-            <div className="px-4 pt-4 pb-2 flex items-center gap-2">
-              <Badge
-                variant="outline"
-                className="text-xs shrink-0 border-primary/40 text-primary"
-              >
-                {item.type === "ca-dao" ? t("Ca Dao", "Folk Song") : t("Tục Ngữ", "Proverb")}
-              </Badge>
-              <h3 className="font-extrabold text-foreground text-base leading-tight">
-                {t(item.title, item.titleEn)}
-              </h3>
-            </div>
+        {filtered.map((item, idx) => {
+          const displayTitle = item.type === "tuc-ngu"
+            ? t(item.content, item.contentEn)
+            : t(item.title, item.titleEn);
+          const showPoemContent = item.type === "ca-dao";
 
-            {/* Watercolor Illustration */}
-            {imageMap[item.id] && (
-              <div className="px-4">
-                <img
-                  src={imageMap[item.id]}
-                  alt={t(item.title, item.titleEn)}
-                  loading="lazy"
-                  width={512}
-                  height={512}
-                  className="w-full h-auto rounded-lg object-cover aspect-square"
-                />
-              </div>
-            )}
-
-            {/* Content - only show if different from title */}
-            {item.content.replace(/[.。]/g, '').trim() !== item.title.trim() && (
-              <div className="px-4 pt-3">
-                <p
-                  className="text-base font-semibold text-foreground italic leading-relaxed whitespace-pre-line"
-                  style={{ fontFamily: "'Noto Serif', serif" }}
+          return (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.05 }}
+              className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+            >
+              {/* Header: Badge + Title */}
+              <div className="px-4 pt-4 pb-2 flex items-start gap-2">
+                <Badge
+                  variant="outline"
+                  className="text-xs shrink-0 border-primary/40 text-primary"
                 >
-                  {t(item.content, item.contentEn)}
+                  {item.type === "ca-dao" ? t("Ca Dao", "Folk Song") : t("Tục Ngữ", "Proverb")}
+                </Badge>
+                <h3 className="font-extrabold text-foreground text-base leading-relaxed">
+                  {displayTitle}
+                </h3>
+              </div>
+
+              {/* Watercolor Illustration */}
+              {imageMap[item.id] && (
+                <div className="px-4">
+                  <img
+                    src={imageMap[item.id]}
+                    alt={t(item.title, item.titleEn)}
+                    loading="lazy"
+                    width={512}
+                    height={512}
+                    className="w-full h-auto rounded-lg object-cover aspect-square"
+                  />
+                </div>
+              )}
+
+              {/* Content for folk poetry only */}
+              {showPoemContent && (
+                <div className="px-4 pt-3">
+                  <p
+                    className="text-base font-semibold text-foreground italic leading-relaxed whitespace-pre-line"
+                    style={{ fontFamily: "'Noto Serif', serif" }}
+                  >
+                    {t(item.content, item.contentEn)}
+                  </p>
+                </div>
+              )}
+
+              {/* Meaning */}
+              <div className="px-4 py-3">
+                <p className="text-base text-foreground leading-relaxed">
+                  <span className="font-bold text-foreground">{t("Ý nghĩa:", "Meaning:")}</span>{" "}
+                  {t(item.meaning, item.meaningEn)}
                 </p>
               </div>
-            )}
-
-            {/* Meaning */}
-            <div className="px-4 py-3">
-              <p className="text-base text-foreground leading-relaxed">
-                <span className="font-bold text-foreground">{t("Ý nghĩa:", "Meaning:")}</span>{" "}
-                {t(item.meaning, item.meaningEn)}
-              </p>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );
