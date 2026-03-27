@@ -1,9 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, BookOpen, ChevronRight, Globe, Volume2, Pause,
-  GraduationCap, MessageCircle, Music, Eye, EyeOff, Lightbulb
+  GraduationCap, MessageCircle, Music, Eye, EyeOff, Lightbulb,
+  Play, Square, Loader2
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -67,6 +68,27 @@ const AnnotatedWordSpan = ({ word, showEnglish }: { word: AnnotatedWord; showEng
   );
 };
 
+// Helper to pick a voice by gender preference for Vietnamese
+function pickVietnameseVoice(preferFemale: boolean): SpeechSynthesisVoice | null {
+  const voices = speechSynthesis.getVoices();
+  const viVoices = voices.filter(v => v.lang.startsWith("vi"));
+  if (viVoices.length === 0) return null;
+
+  // Try to find matching gender by name heuristics
+  const femaleHints = ["female", "woman", "Standard-A", "nữ"];
+  const maleHints = ["male", "man", "Standard-B", "nam"];
+  const hints = preferFemale ? femaleHints : maleHints;
+
+  const matched = viVoices.find(v => hints.some(h => v.name.toLowerCase().includes(h.toLowerCase())));
+  if (matched) return matched;
+
+  // Fallback: if multiple voices, use first for female, second for male
+  if (viVoices.length >= 2) {
+    return preferFemale ? viVoices[0] : viVoices[1];
+  }
+  return viVoices[0];
+}
+
 const VietnameseForForeigners = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
@@ -76,21 +98,89 @@ const VietnameseForForeigners = () => {
   const { hasAccess, loading } = useCourseAccess("vietnamese-for-foreigners");
 
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speakingLineIndex, setSpeakingLineIndex] = useState<number | null>(null);
+  const [isPlayingFull, setIsPlayingFull] = useState(false);
+  const [speedRate, setSpeedRate] = useState<number>(1.0);
+  const fullDialogueAbortRef = useRef(false);
 
-  const speakVietnamese = useCallback((text: string, slow = false) => {
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "vi-VN";
-    u.rate = slow ? 0.5 : 0.8;
-    u.onstart = () => setIsSpeaking(true);
-    u.onend = () => setIsSpeaking(false);
-    u.onerror = () => setIsSpeaking(false);
-    speechSynthesis.speak(u);
+  // Ensure voices are loaded
+  useEffect(() => {
+    speechSynthesis.getVoices();
+    const handleVoicesChanged = () => speechSynthesis.getVoices();
+    speechSynthesis.addEventListener?.("voiceschanged", handleVoicesChanged);
+    return () => speechSynthesis.removeEventListener?.("voiceschanged", handleVoicesChanged);
   }, []);
 
-  const pauseSpeech = useCallback(() => {
+  // Speak a single line with character-appropriate voice
+  const speakLine = useCallback((text: string, isStudent: boolean, slow = false): Promise<void> => {
+    return new Promise((resolve) => {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "vi-VN";
+      u.rate = slow ? 0.55 : (speedRate === 0.75 ? 0.6 : 0.85);
+      u.pitch = isStudent ? 1.1 : 0.9; // Slightly higher pitch for student, lower for local
+      const voice = pickVietnameseVoice(isStudent);
+      if (voice) u.voice = voice;
+      u.onend = () => resolve();
+      u.onerror = () => resolve();
+      speechSynthesis.speak(u);
+    });
+  }, [speedRate]);
+
+  // Speak single line (for individual "Nghe" buttons)
+  const speakVietnamese = useCallback((text: string, slow = false, lineIndex?: number, isStudent = true) => {
     speechSynthesis.cancel();
+    fullDialogueAbortRef.current = true;
+    setIsPlayingFull(false);
+    setSpeakingLineIndex(lineIndex ?? null);
+    setIsSpeaking(true);
+
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "vi-VN";
+    u.rate = slow ? 0.55 : (speedRate === 0.75 ? 0.6 : 0.85);
+    u.pitch = isStudent ? 1.1 : 0.9;
+    const voice = pickVietnameseVoice(isStudent);
+    if (voice) u.voice = voice;
+    u.onstart = () => setIsSpeaking(true);
+    u.onend = () => { setIsSpeaking(false); setSpeakingLineIndex(null); };
+    u.onerror = () => { setIsSpeaking(false); setSpeakingLineIndex(null); };
+    speechSynthesis.speak(u);
+  }, [speedRate]);
+
+  // Play full dialogue with pauses between turns
+  const playFullDialogue = useCallback(async (dialogue: Array<{ vi: string; speaker: string }>) => {
+    speechSynthesis.cancel();
+    fullDialogueAbortRef.current = false;
+    setIsPlayingFull(true);
+    setIsSpeaking(true);
+
+    for (let i = 0; i < dialogue.length; i++) {
+      if (fullDialogueAbortRef.current) break;
+
+      const line = dialogue[i];
+      const isStudent = line.speaker === "You" || line.speaker === "You (phone)";
+      setSpeakingLineIndex(i);
+
+      await speakLine(line.vi, isStudent);
+
+      if (fullDialogueAbortRef.current) break;
+
+      // Natural pause between speaker turns (600ms)
+      if (i < dialogue.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 600));
+      }
+    }
+
+    setIsPlayingFull(false);
     setIsSpeaking(false);
+    setSpeakingLineIndex(null);
+  }, [speakLine]);
+
+  const stopSpeech = useCallback(() => {
+    speechSynthesis.cancel();
+    fullDialogueAbortRef.current = true;
+    setIsSpeaking(false);
+    setIsPlayingFull(false);
+    setSpeakingLineIndex(null);
   }, []);
 
   // Find current module and lesson
