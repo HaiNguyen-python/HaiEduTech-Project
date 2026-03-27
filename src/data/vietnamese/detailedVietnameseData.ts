@@ -1,0 +1,575 @@
+// Detailed Vietnamese for Foreigners – Advanced curriculum data
+// 5 core modules with deep bilingual dialogues, grammar breakdowns, and cultural notes
+
+export interface GrammarPoint {
+  pattern: string;
+  patternEn: string;
+  explanation: string;
+  explanationEn: string;
+  examples: { vi: string; en: string; literal?: string }[];
+}
+
+export interface AnnotatedWord {
+  word: string;
+  pronunciation: string;
+  meaning: string;
+  literal?: string;
+  tone?: "ngang" | "huyen" | "sac" | "hoi" | "nga" | "nang";
+}
+
+export interface DetailedDialogueLine {
+  speaker: string;
+  speakerLabel: string;
+  vi: string;
+  en: string;
+  literal?: string;
+  keyWords?: AnnotatedWord[];
+}
+
+export interface PracticeExercise {
+  type: "fill-blank" | "reorder" | "match";
+  instruction: string;
+  instructionEn: string;
+  items: PracticeItem[];
+}
+
+export interface PracticeItem {
+  question: string;
+  questionEn?: string;
+  options?: string[];
+  answer: string | number;
+  explanation?: string;
+  explanationEn?: string;
+}
+
+export interface DetailedLesson {
+  id: string;
+  title: string;
+  titleEn: string;
+  icon: string;
+  scenario: string;
+  scenarioEn: string;
+  dialogue: DetailedDialogueLine[];
+  grammarPoints: GrammarPoint[];
+  culturalNotes: { title: string; titleEn: string; content: string; contentEn: string }[];
+  practice: PracticeExercise;
+  toneHighlights?: AnnotatedWord[];
+}
+
+export interface DetailedModule {
+  id: string;
+  title: string;
+  titleEn: string;
+  icon: string;
+  color: string;
+  description: string;
+  descriptionEn: string;
+  lessons: DetailedLesson[];
+}
+
+export const detailedVFFModules: DetailedModule[] = [
+  // ═══════════════════════════════════════════════════════════
+  // MODULE 1: The Art of Pronouns
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "vff-pronouns",
+    title: "Nghệ thuật Xưng hô",
+    titleEn: "The Art of Pronouns",
+    icon: "👥",
+    color: "from-violet-500 to-purple-600",
+    description: "Làm chủ hệ thống đại từ phức tạp nhất thế giới.",
+    descriptionEn: "Master the world's most complex pronoun system.",
+    lessons: [
+      {
+        id: "vff-pron-1",
+        title: "Anh, Chị, Em — Nền tảng giao tiếp",
+        titleEn: "Anh, Chị, Em — Foundation of Communication",
+        icon: "🗣️",
+        scenario: "Bạn gặp đồng nghiệp mới tại công ty.",
+        scenarioEn: "You meet a new colleague at the office.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Xin chào! Tôi là David. Rất vui được gặp bạn.", en: "Hello! I'm David. Very happy to meet you.", literal: "Beg hello! I am David. Very happy receive meet you.", keyWords: [{ word: "Xin chào", pronunciation: "sin jào", meaning: "Hello (formal)", tone: "ngang" }, { word: "Rất vui", pronunciation: "rất vui", meaning: "Very happy", tone: "sac" }] },
+          { speaker: "Colleague", speakerLabel: "Đồng nghiệp", vi: "Chào anh David! Em là Linh. Em làm ở phòng Marketing.", en: "Hello David! I'm Linh. I work in the Marketing department.", literal: "Greet older-brother David! Younger-one is Linh. Younger-one work at room Marketing.", keyWords: [{ word: "anh", pronunciation: "anh", meaning: "older brother / you (male, older)", tone: "ngang" }, { word: "Em", pronunciation: "em", meaning: "I (younger person speaking to older)", tone: "ngang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Linh bao nhiêu tuổi?", en: "How old are you, Linh?", literal: "Linh how-many age?" },
+          { speaker: "Colleague", speakerLabel: "Đồng nghiệp", vi: "Dạ, em 25 tuổi. Còn anh?", en: "I'm 25. And you?", literal: "Polite-yes, younger-one 25 age. Remain older-brother?", keyWords: [{ word: "Dạ", pronunciation: "dạ", meaning: "Yes (polite, Southern)", tone: "nang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Anh 30 tuổi. Vậy em gọi anh là 'anh' nhé?", en: "I'm 30. So you can call me 'anh', right?", literal: "Older-brother 30 age. So younger-one call older-brother is 'anh' ok?" },
+          { speaker: "Colleague", speakerLabel: "Đồng nghiệp", vi: "Dạ vâng! Anh làm ở phòng nào ạ?", en: "Yes! Which department do you work in?", literal: "Polite-yes agree! Older-brother work at room which polite?", keyWords: [{ word: "ạ", pronunciation: "ạ", meaning: "polite particle (added to show respect)", tone: "nang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Anh làm ở phòng IT. Em có cần giúp gì không?", en: "I work in IT. Do you need any help?", literal: "Older-brother work at room IT. Younger-one have need help what not?" },
+          { speaker: "Colleague", speakerLabel: "Đồng nghiệp", vi: "Dạ có! Máy tính em bị lỗi. Anh giúp em được không ạ?", en: "Yes! My computer has an error. Can you help me?", literal: "Polite-yes have! Machine-calculate younger-one receive error. Older-brother help younger-one receive not polite?" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Được chứ! Để anh xem nhé.", en: "Of course! Let me take a look.", literal: "Receive certainly! Let older-brother see ok." },
+          { speaker: "Colleague", speakerLabel: "Đồng nghiệp", vi: "Cảm ơn anh nhiều! Anh tốt quá!", en: "Thank you so much! You're so kind!", literal: "Feel-grace older-brother much! Older-brother good too-much!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Anh / Chị / Em",
+            patternEn: "Anh / Chị / Em pronoun system",
+            explanation: "Tiếng Việt không có 'I' hay 'You' cố định. Đại từ thay đổi theo tuổi, giới tính và mối quan hệ.",
+            explanationEn: "Vietnamese has no fixed 'I' or 'You'. Pronouns change based on age, gender, and relationship.",
+            examples: [
+              { vi: "Em chào anh.", en: "I (younger) greet you (older male).", literal: "Younger-one greet older-brother." },
+              { vi: "Chị ơi, cho em hỏi.", en: "Excuse me, ma'am, may I ask.", literal: "Older-sister hey, give younger-one ask." },
+              { vi: "Anh là sinh viên.", en: "I (older male) am a student.", literal: "Older-brother is student." },
+            ],
+          },
+          {
+            pattern: "Dạ / Vâng + ạ",
+            patternEn: "Polite particles: Dạ / Vâng + ạ",
+            explanation: "'Dạ' (miền Nam) và 'Vâng' (miền Bắc) = 'Yes' lịch sự. 'Ạ' thêm vào cuối câu để tôn trọng.",
+            explanationEn: "'Dạ' (South) and 'Vâng' (North) = polite 'Yes'. 'Ạ' is added at the end of sentences to show respect.",
+            examples: [
+              { vi: "Dạ, em hiểu rồi ạ.", en: "Yes, I understand (politely).", literal: "Polite-yes, younger-one understand already polite." },
+              { vi: "Vâng, cháu chào bác ạ.", en: "Yes, hello uncle/aunt (very politely).", literal: "Polite-yes, grandchild greet uncle polite." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Tại sao phải hỏi tuổi?",
+            titleEn: "Why do Vietnamese ask your age?",
+            content: "Hỏi tuổi KHÔNG phải là bất lịch sự ở Việt Nam. Đó là cách để xác định đại từ xưng hô phù hợp. Nếu không biết tuổi, người Việt không biết nên gọi bạn là 'anh', 'chị', hay 'em'.",
+            contentEn: "Asking age is NOT rude in Vietnam. It's how people determine the correct pronouns to use. Without knowing your age, Vietnamese people can't decide whether to call you 'anh' (older brother), 'chị' (older sister), or 'em' (younger sibling).",
+          },
+          {
+            title: "Gọi 'Em' cho phục vụ nhà hàng",
+            titleEn: "Calling a waitress 'Em'",
+            content: "Ở nhà hàng, bạn gọi nhân viên phục vụ là 'Em' (kể cả khi họ lớn tuổi hơn bạn) vì đó là cách thể hiện sự lịch sự của khách hàng. Ngược lại, họ sẽ gọi bạn là 'Anh/Chị'.",
+            contentEn: "At restaurants, you call the server 'Em' (even if they're older than you) because it's the polite customer role. In return, they'll call you 'Anh/Chị' (sir/ma'am).",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Điền đại từ phù hợp vào chỗ trống.",
+          instructionEn: "Fill in the correct pronoun.",
+          items: [
+            { question: "Bạn 25 tuổi, đồng nghiệp 30 tuổi (nam). Bạn nói: '_____ ơi, giúp _____ với!'", questionEn: "You're 25, your male colleague is 30. You say:", answer: "Anh ơi, giúp em với!", explanation: "Người nhỏ tuổi gọi người lớn tuổi hơn (nam) là 'Anh', tự xưng 'Em'.", explanationEn: "A younger person calls an older male 'Anh' and refers to themselves as 'Em'." },
+            { question: "Bạn vào nhà hàng, gọi nhân viên phục vụ: '_____ ơi, cho _____ xem menu!'", questionEn: "At a restaurant, you call the server:", answer: "Em ơi, cho anh/chị xem menu!", explanation: "Khách hàng gọi phục vụ là 'Em', tự xưng 'Anh/Chị'.", explanationEn: "Customers call servers 'Em' and refer to themselves as 'Anh/Chị'." },
+            { question: "Bạn gặp bà ngoại của bạn bè. Bạn nói: '_____ chào _____ ạ!'", questionEn: "You meet your friend's grandmother. You say:", answer: "Cháu chào bà ạ!", explanation: "'Cháu' = tự xưng khi nói với người lớn tuổi, 'Bà' = bà/bà ngoại.", explanationEn: "'Cháu' = I (to elders), 'Bà' = grandmother/elderly woman." },
+          ],
+        },
+        toneHighlights: [
+          { word: "Dạ", pronunciation: "dạ", meaning: "Yes (polite)", tone: "nang" },
+          { word: "ạ", pronunciation: "ạ", meaning: "polite particle", tone: "nang" },
+          { word: "chào", pronunciation: "jào", meaning: "greet", tone: "huyen" },
+          { word: "tuổi", pronunciation: "tuổi", meaning: "age", tone: "hoi" },
+        ],
+      },
+      {
+        id: "vff-pron-2",
+        title: "Cô, Chú, Bác — Đại từ gia đình mở rộng",
+        titleEn: "Cô, Chú, Bác — Extended Family Pronouns",
+        icon: "👨‍👩‍👧‍👦",
+        scenario: "Bạn đến nhà bạn bè Việt Nam chơi và gặp gia đình họ.",
+        scenarioEn: "You visit a Vietnamese friend's home and meet their family.",
+        dialogue: [
+          { speaker: "Friend", speakerLabel: "Bạn bè", vi: "David ơi, vào nhà đi! Để mình giới thiệu gia đình.", en: "David, come in! Let me introduce my family.", literal: "David hey, enter house go! Let self introduce family." },
+          { speaker: "Friend", speakerLabel: "Bạn bè", vi: "Đây là ba mình. Ba ơi, đây là David, bạn con.", en: "This is my dad. Dad, this is David, my friend.", literal: "Here is father self. Father hey, here is David, friend child." },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cháu chào bác ạ! Cháu là David.", en: "Hello, sir! I'm David.", literal: "Grandchild greet uncle polite! Grandchild is David.", keyWords: [{ word: "bác", pronunciation: "bác", meaning: "uncle/aunt (parent's older sibling or polite for older adults)", tone: "sac" }, { word: "Cháu", pronunciation: "cháu", meaning: "I (speaking to elders)", tone: "sac" }] },
+          { speaker: "Father", speakerLabel: "Ba bạn", vi: "Chào cháu! Cháu nói tiếng Việt giỏi quá!", en: "Hello! You speak Vietnamese so well!", literal: "Greet grandchild! Grandchild speak language Vietnamese skilled too-much!" },
+          { speaker: "Friend", speakerLabel: "Bạn bè", vi: "Còn đây là mẹ mình. Mẹ ơi!", en: "And this is my mom. Mom!", literal: "Remain here is mother self. Mother hey!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cháu chào bác gái ạ! Rất vui được gặp bác.", en: "Hello, auntie! Very happy to meet you.", literal: "Grandchild greet uncle female polite! Very happy receive meet uncle.", keyWords: [{ word: "bác gái", pronunciation: "bác gái", meaning: "aunt (wife of father's older brother, or polite)", tone: "sac" }] },
+          { speaker: "Mother", speakerLabel: "Mẹ bạn", vi: "Chào cháu! Cháu ăn cơm chưa? Bác nấu phở, cháu ăn nhé!", en: "Hello dear! Have you eaten yet? I made phở, please eat!", literal: "Greet grandchild! Grandchild eat rice yet? Uncle cook phở, grandchild eat ok!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ cháu cảm ơn bác! Phở bác nấu chắc ngon lắm.", en: "Thank you, auntie! Your phở must be very delicious.", literal: "Polite-yes grandchild feel-grace uncle! Phở uncle cook surely delicious very." },
+          { speaker: "Friend", speakerLabel: "Bạn bè", vi: "Và đây là em gái mình, Hương. Năm nay nó 15 tuổi.", en: "And this is my younger sister, Hương. She's 15 this year.", literal: "And here is younger-sister self, Hương. Year this it 15 age." },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Chào em Hương! Em học lớp mấy rồi?", en: "Hi Hương! What grade are you in?", literal: "Greet younger Hương! Younger study class how-many already?", keyWords: [{ word: "lớp mấy", pronunciation: "lớp mấy", meaning: "what grade/class", tone: "sac" }] },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Bác / Cô / Chú / Dì",
+            patternEn: "Uncle/Aunt pronouns in Vietnamese",
+            explanation: "Bác = anh/chị của bố hoặc mẹ (lớn hơn bố/mẹ). Chú = em trai của bố. Cô = em gái của bố. Dì = em gái của mẹ. Cậu = em trai của mẹ.",
+            explanationEn: "Bác = parent's older sibling. Chú = father's younger brother. Cô = father's younger sister. Dì = mother's younger sister. Cậu = mother's younger brother.",
+            examples: [
+              { vi: "Cháu chào chú ạ!", en: "Hello, uncle! (to father's younger brother)", literal: "Grandchild greet father's-younger-brother polite!" },
+              { vi: "Cô ơi, cô khỏe không ạ?", en: "Auntie, how are you? (to father's younger sister)", literal: "Father's-younger-sister hey, father's-younger-sister healthy not polite?" },
+            ],
+          },
+          {
+            pattern: "Ơi — Hô ngữ (Vocative particle)",
+            patternEn: "'Ơi' — The calling particle",
+            explanation: "'Ơi' dùng sau tên hoặc đại từ để gọi ai đó, giống 'Hey' nhưng lịch sự hơn.",
+            explanationEn: "'Ơi' is placed after a name or pronoun to call someone — like 'Hey' but more polite.",
+            examples: [
+              { vi: "Mẹ ơi!", en: "Mom!", literal: "Mother hey!" },
+              { vi: "Em ơi, cho anh hỏi.", en: "Excuse me, may I ask.", literal: "Younger hey, give older-brother ask." },
+              { vi: "David ơi, lại đây!", en: "David, come here!", literal: "David hey, come here!" },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "'Ăn cơm chưa?' — Lời chào bằng thức ăn",
+            titleEn: "'Have you eaten yet?' — Greeting with food",
+            content: "Khi người Việt hỏi 'Ăn cơm chưa?', họ KHÔNG thật sự hỏi bạn đã ăn chưa. Đó là cách chào thể hiện sự quan tâm, giống như 'How are you?' trong tiếng Anh. Câu trả lời đúng là 'Dạ, cháu ăn rồi ạ' (vâng, cháu đã ăn) hoặc 'Dạ, chưa ạ' (chưa).",
+            contentEn: "When Vietnamese ask 'Have you eaten yet?', they DON'T literally want to know. It's a caring greeting, like 'How are you?' in English. The correct answer is 'Dạ, cháu ăn rồi ạ' (yes, I've eaten) or 'Dạ, chưa ạ' (not yet).",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Điền đại từ phù hợp khi gặp các thành viên gia đình bạn bè.",
+          instructionEn: "Fill in the correct pronoun when meeting your friend's family members.",
+          items: [
+            { question: "Gặp bố của bạn (lớn tuổi hơn bố bạn): '_____ chào _____ ạ!'", answer: "Cháu chào bác ạ!", explanationEn: "Use 'Cháu' for yourself and 'Bác' for your friend's father." },
+            { question: "Gặp em gái 10 tuổi của bạn: 'Chào _____ ! _____ tên gì?'", answer: "Chào em! Em tên gì?", explanationEn: "Use 'Em' for a younger person." },
+            { question: "Bạn muốn gọi bạn bè: '_____ ơi, đi ăn phở không?'", answer: "Ê/Mình ơi, đi ăn phở không?", explanationEn: "Use friend's name + ơi, or 'Mình ơi' between close friends." },
+          ],
+        },
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // MODULE 2: Street Food Culture
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "vff-streetfood",
+    title: "Ẩm thực Đường phố",
+    titleEn: "Street Food Culture",
+    icon: "🍜",
+    color: "from-red-500 to-orange-600",
+    description: "Gọi phở, ăn bánh mì, và trải nghiệm vỉa hè Việt Nam.",
+    descriptionEn: "Order phở, eat bánh mì, and experience Vietnamese sidewalk dining.",
+    lessons: [
+      {
+        id: "vff-food-pho",
+        title: "Gọi Phở như người Việt",
+        titleEn: "Ordering Phở Like a Local",
+        icon: "🍲",
+        scenario: "Bạn vào một quán phở bình dân ở Hà Nội.",
+        scenarioEn: "You enter a popular phở shop in Hanoi.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Em ơi, cho anh xem thực đơn!", en: "Excuse me, can I see the menu?", literal: "Younger hey, give older-brother see food-list!" },
+          { speaker: "Server", speakerLabel: "Phục vụ", vi: "Dạ, quán em có phở bò và phở gà. Anh dùng gì ạ?", en: "We have beef phở and chicken phở. What would you like?", literal: "Polite-yes, shop younger have phở cow and phở chicken. Older-brother use what polite?", keyWords: [{ word: "phở bò", pronunciation: "fuh bò", meaning: "beef phở", tone: "huyen" }, { word: "phở gà", pronunciation: "fuh gà", meaning: "chicken phở", tone: "huyen" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cho anh một tô phở bò chín. Không hành, thêm nhiều giá nhé.", en: "Give me a bowl of well-done beef phở. No onions, extra bean sprouts please.", literal: "Give older-brother one bowl phở cow well-done. Not onion, add much bean-sprouts ok.", keyWords: [{ word: "chín", pronunciation: "chín", meaning: "well-done (cooked)", tone: "sac" }, { word: "giá", pronunciation: "giá", meaning: "bean sprouts", tone: "sac" }] },
+          { speaker: "Server", speakerLabel: "Phục vụ", vi: "Dạ được. Anh ăn cay không ạ?", en: "Sure. Do you want it spicy?", literal: "Polite-yes receive. Older-brother eat spicy not polite?" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cay vừa thôi. À, cho thêm quẩy nữa nhé!", en: "Medium spicy. Oh, add some fried dough sticks too!", literal: "Spicy moderate only. Ah, give add fried-dough more ok!", keyWords: [{ word: "quẩy", pronunciation: "quẩy", meaning: "fried dough sticks (eaten with phở)", tone: "hoi" }, { word: "vừa", pronunciation: "vừa", meaning: "moderate/just right", tone: "huyen" }] },
+          { speaker: "Server", speakerLabel: "Phục vụ", vi: "Dạ, anh đợi 5 phút ạ!", en: "Please wait 5 minutes!", literal: "Polite-yes, older-brother wait 5 minute polite!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "(Sau khi ăn) Ngon quá! Tính tiền cho anh nhé.", en: "(After eating) So delicious! Can I have the bill?", literal: "(After eating) Delicious too-much! Calculate money for older-brother ok.", keyWords: [{ word: "tính tiền", pronunciation: "tính tiền", meaning: "calculate money / get the bill", tone: "sac" }] },
+          { speaker: "Server", speakerLabel: "Phục vụ", vi: "Dạ, tổng cộng là sáu mươi lăm nghìn đồng ạ.", en: "The total is sixty-five thousand dong.", literal: "Polite-yes, total is six-ten five thousand copper polite." },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Đây ạ. Cảm ơn em! Phở ngon lắm!", en: "Here you go. Thank you! The phở was really good!", literal: "Here polite. Feel-grace younger! Phở delicious very!" },
+          { speaker: "Server", speakerLabel: "Phục vụ", vi: "Dạ cảm ơn anh! Hẹn anh quay lại ạ!", en: "Thank you! Hope to see you again!", literal: "Polite-yes feel-grace older-brother! Promise older-brother turn-back polite!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Cho + [người] + [món]",
+            patternEn: "'Cho' — The ordering pattern",
+            explanation: "'Cho' = 'Give me' — cách gọi món phổ biến nhất ở Việt Nam.",
+            explanationEn: "'Cho' literally means 'give' — it's the most common way to order food in Vietnam.",
+            examples: [
+              { vi: "Cho anh một ly cà phê.", en: "Give me a cup of coffee.", literal: "Give older-brother one glass coffee." },
+              { vi: "Cho em hai tô phở gà.", en: "Give me two bowls of chicken phở.", literal: "Give younger two bowl phở chicken." },
+              { vi: "Cho tôi xem cái này.", en: "Let me see this.", literal: "Give I see thing this." },
+            ],
+          },
+          {
+            pattern: "Không + [noun] / Thêm + [noun]",
+            patternEn: "Customizing orders: No X / Extra X",
+            explanation: "'Không' = không có (bỏ đi). 'Thêm' = cho thêm. Đặt trước danh từ.",
+            explanationEn: "'Không' = without/no (remove). 'Thêm' = extra/add more. Place before the noun.",
+            examples: [
+              { vi: "Không hành, thêm giá.", en: "No onions, extra bean sprouts.", literal: "Not onion, add bean-sprouts." },
+              { vi: "Không đường, thêm đá.", en: "No sugar, extra ice.", literal: "Not sugar, add ice." },
+              { vi: "Không cay, thêm rau.", en: "Not spicy, extra vegetables.", literal: "Not spicy, add vegetables." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Phở — Nghệ thuật ăn đúng cách",
+            titleEn: "Phở — The art of eating it right",
+            content: "Phở được phục vụ kèm đĩa rau sống (giá, húng quế, ngò gai) và gia vị (tương ớt, tương đen, chanh). Bạn tự thêm theo khẩu vị. Xé lá húng quế bằng tay, vắt chanh, và thêm ớt từ từ. ĐỪNG đổ tất cả vào một lúc!",
+            contentEn: "Phở is served with a plate of fresh herbs (bean sprouts, basil, sawtooth herb) and condiments (chili sauce, hoisin, lime). You customize it yourself. Tear basil by hand, squeeze lime, and add chili gradually. DON'T dump everything in at once!",
+          },
+          {
+            title: "'Tô' hay 'Bát'?",
+            titleEn: "'Tô' vs 'Bát' — Regional bowl names",
+            content: "Miền Nam gọi là 'tô phở'. Miền Bắc gọi là 'bát phở'. Cùng một thứ, khác tên gọi. Khi ở Hà Nội, nói 'bát'. Khi ở Sài Gòn, nói 'tô'.",
+            contentEn: "Southerners say 'tô phở' (bowl of phở). Northerners say 'bát phở'. Same thing, different words. In Hanoi, use 'bát'. In Saigon, use 'tô'.",
+          },
+        ],
+        practice: {
+          type: "reorder",
+          instruction: "Sắp xếp lại câu để gọi món phở.",
+          instructionEn: "Reorder the words to place a phở order.",
+          items: [
+            { question: "phở / cho / bò / một / anh / tô / chín", answer: "Cho anh một tô phở bò chín", explanationEn: "Pattern: Cho + [person] + [quantity] + [classifier] + [dish]" },
+            { question: "không / hành / thêm / giá / nhé", answer: "Không hành thêm giá nhé", explanationEn: "No onion, extra bean sprouts please" },
+            { question: "tiền / tính / cho / anh / nhé", answer: "Tính tiền cho anh nhé", explanationEn: "Give me the bill please" },
+          ],
+        },
+        toneHighlights: [
+          { word: "phở", pronunciation: "fuh", meaning: "Vietnamese noodle soup", tone: "hoi" },
+          { word: "bò", pronunciation: "bò", meaning: "beef/cow", tone: "huyen" },
+          { word: "chín", pronunciation: "chín", meaning: "well-done", tone: "sac" },
+          { word: "ngon", pronunciation: "ngon", meaning: "delicious", tone: "ngang" },
+        ],
+      },
+      {
+        id: "vff-food-cafe",
+        title: "Cà phê Việt Nam — Văn hóa cà phê",
+        titleEn: "Vietnamese Coffee Culture",
+        icon: "☕",
+        scenario: "Bạn vào một quán cà phê vỉa hè ở Sài Gòn.",
+        scenarioEn: "You enter a sidewalk café in Saigon.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Em ơi, cho anh một cà phê sữa đá.", en: "Excuse me, one iced milk coffee please.", literal: "Younger hey, give older-brother one coffee milk ice." },
+          { speaker: "Server", speakerLabel: "Phục vụ", vi: "Dạ được. Anh muốn ngọt hay ít ngọt ạ?", en: "Sure. Sweet or less sweet?", literal: "Polite-yes receive. Older-brother want sweet or little sweet polite?", keyWords: [{ word: "ngọt", pronunciation: "ngọt", meaning: "sweet", tone: "nang" }, { word: "ít", pronunciation: "ít", meaning: "less/few", tone: "sac" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Ít ngọt thôi. Cho thêm nhiều đá nhé!", en: "Less sweet. Extra ice please!", literal: "Little sweet only. Give add much ice ok!" },
+          { speaker: "Server", speakerLabel: "Phục vụ", vi: "Dạ. Anh ngồi đây hay mang đi ạ?", en: "Sure. Sit here or take away?", literal: "Polite-yes. Older-brother sit here or carry go polite?", keyWords: [{ word: "mang đi", pronunciation: "mang đi", meaning: "take away/to go", tone: "ngang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Ngồi đây. À, cho thêm một bạc xỉu nữa cho bạn anh.", en: "Sit here. Oh, one more bạc xỉu for my friend.", literal: "Sit here. Ah, give add one white-small more for friend older-brother.", keyWords: [{ word: "bạc xỉu", pronunciation: "bạc xỉu", meaning: "coffee with lots of milk (Cantonese origin)", tone: "sac" }] },
+          { speaker: "Server", speakerLabel: "Phục vụ", vi: "Dạ, một cà phê sữa đá ít ngọt và một bạc xỉu. Anh đợi chút ạ!", en: "One iced milk coffee less sweet and one bạc xỉu. One moment please!", literal: "Polite-yes, one coffee milk ice little sweet and one white-small. Older-brother wait moment polite!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "(Uống xong) Ngon quá! Tính tiền nhé em.", en: "(After drinking) So good! Bill please.", literal: "(Drink finish) Delicious too-much! Calculate money ok younger." },
+          { speaker: "Server", speakerLabel: "Phục vụ", vi: "Dạ, tổng 55 nghìn ạ. Anh có chuyển khoản không?", en: "55 thousand total. Can you do bank transfer?", literal: "Polite-yes, total 55 thousand polite. Older-brother have transfer account not?", keyWords: [{ word: "chuyển khoản", pronunciation: "chuyển khoản", meaning: "bank transfer (very common in Vietnam)", tone: "hoi" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Được! Cho anh mã QR nhé.", en: "Sure! Give me the QR code.", literal: "Receive! Give older-brother code QR ok." },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Ngồi đây / Mang đi",
+            patternEn: "Dine in / Take away",
+            explanation: "'Ngồi đây' = ngồi tại quán. 'Mang đi' = mang về nhà. Hai cụm từ quan trọng nhất khi đi ăn/uống.",
+            explanationEn: "'Ngồi đây' = dine in (sit here). 'Mang đi' = take away (carry go). The two most important phrases when eating out.",
+            examples: [
+              { vi: "Mang đi giúp em.", en: "Take away please.", literal: "Carry go help younger." },
+              { vi: "Ngồi đây được không?", en: "Can I sit here?", literal: "Sit here receive not?" },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Chuyển khoản — Thanh toán kiểu Việt",
+            titleEn: "Bank Transfer — Vietnamese payment style",
+            content: "Ở Việt Nam, 'chuyển khoản' (bank transfer via QR code) phổ biến hơn tiền mặt ở thành phố. Hầu hết quán ăn đều có mã QR. Bạn chỉ cần mở app ngân hàng, quét mã và thanh toán.",
+            contentEn: "In Vietnam, bank transfer via QR code is more popular than cash in cities. Most food stalls have a QR code. Just open your banking app, scan the code, and pay.",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Hoàn thành câu gọi đồ uống.",
+          instructionEn: "Complete the drink order.",
+          items: [
+            { question: "Cho anh một _____ _____ đá. (iced milk coffee)", answer: "cà phê sữa", explanationEn: "Cà phê sữa đá = iced milk coffee" },
+            { question: "Anh muốn _____ hay mang đi? (dine in)", answer: "ngồi đây", explanationEn: "Ngồi đây = sit here / dine in" },
+            { question: "Anh có _____ _____ không? (bank transfer)", answer: "chuyển khoản", explanationEn: "Chuyển khoản = bank transfer" },
+          ],
+        },
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // MODULE 3: Commuting & Navigation
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "vff-commuting",
+    title: "Di chuyển & Giao thông",
+    titleEn: "Commuting & Navigation",
+    icon: "🛵",
+    color: "from-green-500 to-teal-600",
+    description: "Đi Grab, hỏi đường, và sống sót qua giờ cao điểm.",
+    descriptionEn: "Ride Grab, ask for directions, and survive rush hour.",
+    lessons: [
+      {
+        id: "vff-commute-grab",
+        title: "Đi Grab tại Việt Nam",
+        titleEn: "Taking a Grab in Vietnam",
+        icon: "🚗",
+        scenario: "Bạn đặt Grab từ khách sạn đến chợ Bến Thành.",
+        scenarioEn: "You book a Grab from your hotel to Bến Thành Market.",
+        dialogue: [
+          { speaker: "You (phone)", speakerLabel: "Bạn (điện thoại)", vi: "(Gọi tài xế) Anh ơi, em đang đứng ở cổng khách sạn. Anh thấy em không?", en: "(Calling driver) Hello, I'm standing at the hotel gate. Can you see me?", literal: "(Call driver) Older-brother hey, younger standing at gate hotel. Older-brother see younger not?" },
+          { speaker: "Driver", speakerLabel: "Tài xế", vi: "Dạ, anh đang đến. Em mặc áo gì để anh nhận ra?", en: "I'm coming. What are you wearing so I can recognize you?", literal: "Polite-yes, older-brother is coming. Younger wear shirt what so-that older-brother recognize?", keyWords: [{ word: "mặc", pronunciation: "mặc", meaning: "to wear", tone: "nang" }, { word: "nhận ra", pronunciation: "nhận ra", meaning: "to recognize", tone: "nang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Em mặc áo xanh, đội mũ đen. Đứng cạnh cây ATM.", en: "I'm wearing a blue shirt, black hat. Standing next to the ATM.", literal: "Younger wear shirt blue, wear hat black. Standing beside tree ATM." },
+          { speaker: "Driver", speakerLabel: "Tài xế", vi: "OK em, anh thấy rồi! Xe Honda màu đỏ nhé.", en: "OK, I see you! Red Honda motorcycle.", literal: "OK younger, older-brother see already! Vehicle Honda color red ok." },
+          { speaker: "You", speakerLabel: "Bạn", vi: "(Lên xe) Anh ơi, đi chợ Bến Thành. Đường nào nhanh nhất ạ?", en: "(Getting on) To Bến Thành Market. What's the fastest route?", literal: "(Get-on vehicle) Older-brother hey, go market Bến Thành. Road which fast most polite?", keyWords: [{ word: "nhanh nhất", pronunciation: "nhanh nhất", meaning: "fastest", tone: "sac" }] },
+          { speaker: "Driver", speakerLabel: "Tài xế", vi: "Giờ đang cao điểm nên hơi kẹt xe. Anh đi đường vòng được không em?", en: "It's rush hour so there's some traffic. Can I take a detour?", literal: "Hour is high-point so slightly stuck vehicle. Older-brother go road round receive not younger?", keyWords: [{ word: "cao điểm", pronunciation: "cao điểm", meaning: "rush hour/peak", tone: "hoi" }, { word: "kẹt xe", pronunciation: "kẹt xe", meaning: "traffic jam", tone: "nang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Được anh! Đi đường nào cũng được, miễn không kẹt quá.", en: "Sure! Any route is fine, as long as there's not too much traffic.", literal: "Receive older-brother! Go road which also receive, exempt not stuck too-much." },
+          { speaker: "Driver", speakerLabel: "Tài xế", vi: "(Đến nơi) Tới rồi em! Chợ Bến Thành đây.", en: "(Arriving) We're here! This is Bến Thành Market.", literal: "(Arrive already) Arrive already younger! Market Bến Thành here." },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cảm ơn anh! Em cho anh 5 sao nhé!", en: "Thank you! I'll give you 5 stars!", literal: "Feel-grace older-brother! Younger give older-brother 5 star ok!" },
+          { speaker: "Driver", speakerLabel: "Tài xế", vi: "Cảm ơn em! Chúc em vui nhé!", en: "Thanks! Have fun!", literal: "Feel-grace younger! Wish younger happy ok!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Đang + Verb (Progressive tense)",
+            patternEn: "'Đang' — Present continuous",
+            explanation: "'Đang' = đang làm (hiện tại tiếp diễn). Đặt trước động từ.",
+            explanationEn: "'Đang' marks the present continuous tense. Place before the verb.",
+            examples: [
+              { vi: "Anh đang đến.", en: "I'm coming.", literal: "Older-brother is-in-progress come." },
+              { vi: "Em đang đứng ở cổng.", en: "I'm standing at the gate.", literal: "Younger is-in-progress stand at gate." },
+              { vi: "Trời đang mưa.", en: "It's raining.", literal: "Sky is-in-progress rain." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Grab — Ứng dụng 'bất ly thân' ở Việt Nam",
+            titleEn: "Grab — The must-have app in Vietnam",
+            content: "Grab là ứng dụng gọi xe phổ biến nhất Việt Nam (không phải Uber). Có GrabBike (xe máy), GrabCar (ô tô), GrabFood (đặt đồ ăn). Hầu hết người Việt thanh toán qua MoMo hoặc ZaloPay trên Grab.",
+            contentEn: "Grab is the most popular ride-hailing app in Vietnam (not Uber). It includes GrabBike (motorcycle), GrabCar (car), and GrabFood (food delivery). Most Vietnamese pay via MoMo or ZaloPay on Grab.",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Hoàn thành đoạn hội thoại với tài xế Grab.",
+          instructionEn: "Complete the dialogue with the Grab driver.",
+          items: [
+            { question: "Em _____ đứng ở cổng khách sạn. (am currently)", answer: "đang", explanationEn: "'Đang' = currently/in progress" },
+            { question: "Giờ đang _____ _____ nên kẹt xe. (rush hour)", answer: "cao điểm", explanationEn: "'Cao điểm' = peak/rush hour" },
+            { question: "Cảm ơn anh! Em cho anh 5 _____ nhé! (stars)", answer: "sao", explanationEn: "'Sao' = stars" },
+          ],
+        },
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // MODULE 4: Socializing & Friends
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "vff-socializing",
+    title: "Kết bạn & Giao lưu",
+    titleEn: "Socializing & Friends",
+    icon: "🎉",
+    color: "from-pink-500 to-rose-600",
+    description: "Đi café, rủ bạn đi chơi, và hiểu tiếng lóng Việt Nam.",
+    descriptionEn: "Hang out at cafés, invite friends, and understand Vietnamese slang.",
+    lessons: [
+      {
+        id: "vff-social-cafe",
+        title: "'Đi café không?' — Nghệ thuật rủ bạn",
+        titleEn: "'Want to get coffee?' — The art of inviting friends",
+        icon: "☕",
+        scenario: "Bạn muốn rủ đồng nghiệp đi uống cà phê sau giờ làm.",
+        scenarioEn: "You want to invite a colleague for coffee after work.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Linh ơi, chiều nay rảnh không? Đi café không?", en: "Hey Linh, are you free this afternoon? Want to get coffee?", literal: "Linh hey, afternoon this free not? Go café not?", keyWords: [{ word: "rảnh", pronunciation: "rảnh", meaning: "free/available", tone: "hoi" }] },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Ô, được luôn! Mấy giờ?", en: "Oh, definitely! What time?", literal: "Oh, receive immediately! How-many hour?", keyWords: [{ word: "được luôn", pronunciation: "được luôn", meaning: "absolutely / right away", tone: "ngang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "5 giờ chiều nhé? Quán Highland ở Nguyễn Huệ được không?", en: "5 PM? The Highlands at Nguyễn Huệ, OK?", literal: "5 hour afternoon ok? Shop Highland at Nguyễn Huệ receive not?" },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "OK! Mà rủ thêm Tuấn đi nha. Mấy hôm nay nó buồn lắm.", en: "OK! But invite Tuấn too. He's been down lately.", literal: "OK! But invite add Tuấn go ok. Several day this it sad very.", keyWords: [{ word: "rủ", pronunciation: "rủ", meaning: "to invite/ask someone to join", tone: "hoi" }, { word: "nha", pronunciation: "nha", meaning: "ok/right (casual, Southern)", tone: "ngang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Ừ, để mình nhắn nó. Ai trả tiền đây?", en: "Yeah, I'll text him. Who's paying?", literal: "Yeah, let self text it. Who pay money here?" },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Hôm nay mình bao! Nhưng lần sau bạn trả nhé, haha!", en: "My treat today! But you pay next time, haha!", literal: "Day this self treat! But time next you pay ok, haha!", keyWords: [{ word: "bao", pronunciation: "bao", meaning: "to treat (pay for everyone)", tone: "ngang" }, { word: "lần sau", pronunciation: "lần sau", meaning: "next time", tone: "ngang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Quá dữ! Deal nhé!", en: "Awesome! Deal!", literal: "Too fierce! Deal ok!", keyWords: [{ word: "Quá dữ", pronunciation: "quá dữ", meaning: "awesome/amazing (slang)", tone: "sac" }] },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Chốt! Gặp nhau lúc 5h!", en: "Done! See you at 5!", literal: "Lock! Meet each-other moment 5h!", keyWords: [{ word: "Chốt", pronunciation: "chốt", meaning: "confirmed/locked in (slang)", tone: "sac" }] },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Verb + không? (Yes/No questions)",
+            patternEn: "'Không' at the end — Yes/No question pattern",
+            explanation: "Thêm 'không?' vào cuối câu để tạo câu hỏi Yes/No. Trả lời: 'Có' (Yes) hoặc 'Không' (No).",
+            explanationEn: "Add 'không?' at the end of any statement to make a Yes/No question. Answer: 'Có' (Yes) or 'Không' (No).",
+            examples: [
+              { vi: "Đi café không?", en: "Want to get coffee?", literal: "Go café not?" },
+              { vi: "Rảnh không?", en: "Are you free?", literal: "Free not?" },
+              { vi: "Anh thích phở không?", en: "Do you like phở?", literal: "Older-brother like phở not?" },
+            ],
+          },
+          {
+            pattern: "Tiếng lóng phổ biến (Slang)",
+            patternEn: "Popular Vietnamese slang",
+            explanation: "Giới trẻ Việt Nam dùng nhiều tiếng lóng trong giao tiếp hằng ngày.",
+            explanationEn: "Young Vietnamese use lots of slang in daily conversation.",
+            examples: [
+              { vi: "Chốt đơn!", en: "Confirmed! / Done deal!", literal: "Lock order!" },
+              { vi: "Quá dữ!", en: "Awesome! / Amazing!", literal: "Too fierce!" },
+              { vi: "Chill thôi!", en: "Just chill!", literal: "Chill only!" },
+              { vi: "Xỉu!", en: "I'm dead! (laughing so hard)", literal: "Faint!" },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "'Bao' — Văn hóa trả tiền ở Việt Nam",
+            titleEn: "'Bao' — Vietnamese paying culture",
+            content: "Ở Việt Nam, khi ai đó nói 'Hôm nay mình bao', nghĩa là họ sẽ trả tiền cho tất cả. Đây là cách thể hiện tình bạn và sự hào phóng. Thường thì mọi người luân phiên 'bao' nhau. Đừng cố giành trả tiền — hãy chấp nhận và hứa 'lần sau mình trả'.",
+            contentEn: "In Vietnam, when someone says 'Today I bao', they'll pay for everyone. This shows friendship and generosity. People usually take turns treating each other. Don't fight to pay — accept graciously and promise 'next time I'll pay'.",
+          },
+        ],
+        practice: {
+          type: "match",
+          instruction: "Ghép tiếng lóng với nghĩa đúng.",
+          instructionEn: "Match the slang with its correct meaning.",
+          items: [
+            { question: "Chốt đơn", answer: "Confirmed / Done deal", explanationEn: "From e-commerce: 'lock the order' = confirmed" },
+            { question: "Quá dữ", answer: "Awesome / Amazing", explanationEn: "Literally 'too fierce' = amazing" },
+            { question: "Bao", answer: "To treat / Pay for everyone", explanationEn: "'Bao' = to cover/treat everyone" },
+            { question: "Xỉu", answer: "I'm dead (laughing)", explanationEn: "Literally 'faint' = laughing so hard" },
+          ],
+        },
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // MODULE 5: Workplace Vietnamese
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "vff-workplace",
+    title: "Tiếng Việt Công sở",
+    titleEn: "Workplace Vietnamese",
+    icon: "💼",
+    color: "from-slate-600 to-zinc-700",
+    description: "Giới thiệu bản thân, email, họp hành và giao tiếp công việc.",
+    descriptionEn: "Self-introduction, emails, meetings, and professional communication.",
+    lessons: [
+      {
+        id: "vff-work-intro",
+        title: "Ngày đầu đi làm tại Việt Nam",
+        titleEn: "Your First Day at a Vietnamese Office",
+        icon: "🏢",
+        scenario: "Bạn bắt đầu công việc mới tại một công ty Việt Nam.",
+        scenarioEn: "You start a new job at a Vietnamese company.",
+        dialogue: [
+          { speaker: "HR", speakerLabel: "Nhân sự", vi: "Chào mừng anh David đến với công ty! Em là Thu, phòng Nhân sự.", en: "Welcome to the company, David! I'm Thu from HR.", literal: "Greet welcome older-brother David arrive with company! Younger is Thu, room Human-resources.", keyWords: [{ word: "chào mừng", pronunciation: "jào mừng", meaning: "welcome", tone: "huyen" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cảm ơn em Thu! Rất vui được làm việc ở đây.", en: "Thank you, Thu! Very happy to work here.", literal: "Feel-grace younger Thu! Very happy receive work at here." },
+          { speaker: "HR", speakerLabel: "Nhân sự", vi: "Để em dẫn anh giới thiệu với team nhé. Mọi người ơi, đây là anh David, đồng nghiệp mới!", en: "Let me introduce you to the team. Everyone, this is David, our new colleague!", literal: "Let younger lead older-brother introduce with team ok. Every person hey, here is older-brother David, colleague new!" },
+          { speaker: "Team", speakerLabel: "Team", vi: "Chào anh David! Anh ngồi cạnh Hùng nhé. Hùng ơi, hướng dẫn anh David!", en: "Hello David! Sit next to Hùng. Hùng, show David around!", literal: "Greet older-brother David! Older-brother sit beside Hùng ok. Hùng hey, guide older-brother David!" },
+          { speaker: "Hùng", speakerLabel: "Hùng", vi: "Chào anh! Em là Hùng, cùng team với anh. Cần gì cứ hỏi em nhé!", en: "Hello! I'm Hùng, same team as you. Just ask me if you need anything!", literal: "Greet older-brother! Younger is Hùng, same team with older-brother. Need what just ask younger ok!", keyWords: [{ word: "cứ", pronunciation: "cứ", meaning: "just/go ahead (encouraging)", tone: "sac" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cảm ơn Hùng! Cho anh hỏi, WiFi ở đây mật khẩu gì?", en: "Thanks Hùng! Can I ask, what's the WiFi password here?", literal: "Feel-grace Hùng! Give older-brother ask, WiFi at here secret code what?" },
+          { speaker: "Hùng", speakerLabel: "Hùng", vi: "Mật khẩu là 'company2024'. Anh cần em giúp cài phần mềm gì không?", en: "Password is 'company2024'. Do you need me to help install any software?", literal: "Secret code is 'company2024'. Older-brother need younger help install part soft what not?" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ, giúp anh cài Slack và Zoom nhé. Cảm ơn em nhiều!", en: "Yes, help me install Slack and Zoom please. Thank you so much!", literal: "Polite-yes, help older-brother install Slack and Zoom ok. Feel-grace younger much!" },
+          { speaker: "Boss", speakerLabel: "Sếp", vi: "(Đi ngang) Chào David! Tôi là Minh, Giám đốc bộ phận. Hẹn gặp anh trong cuộc họp lúc 2 giờ nhé!", en: "(Walking by) Hello David! I'm Minh, Department Director. See you at the 2 PM meeting!", literal: "(Walk across) Greet David! I is Minh, Director department part. Promise meet older-brother in session meeting moment 2 hour ok!", keyWords: [{ word: "Giám đốc", pronunciation: "giám đốc", meaning: "Director/Manager", tone: "sac" }, { word: "cuộc họp", pronunciation: "cuộc họp", meaning: "meeting", tone: "nang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ, cảm ơn anh Minh! Em sẽ có mặt đúng giờ ạ.", en: "Thank you, Mr. Minh! I'll be there on time.", literal: "Polite-yes, feel-grace older-brother Minh! Younger will have face correct hour polite.", keyWords: [{ word: "đúng giờ", pronunciation: "đúng giờ", meaning: "on time/punctual", tone: "sac" }] },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Cho + [person] + hỏi",
+            patternEn: "'Cho... hỏi' — Polite way to ask",
+            explanation: "'Cho anh hỏi' = 'Xin phép hỏi' — cách hỏi lịch sự, dùng ở mọi tình huống.",
+            explanationEn: "'Cho anh hỏi' = 'May I ask' — a polite way to ask anything, used in all situations.",
+            examples: [
+              { vi: "Cho em hỏi, phòng họp ở đâu ạ?", en: "May I ask, where is the meeting room?", literal: "Give younger ask, room meeting at where polite?" },
+              { vi: "Cho anh hỏi, deadline dự án là khi nào?", en: "May I ask, when is the project deadline?", literal: "Give older-brother ask, deadline project is when?" },
+            ],
+          },
+          {
+            pattern: "Cần gì cứ + Verb",
+            patternEn: "'Cần gì cứ...' — Just go ahead and...",
+            explanation: "'Cứ' = 'just go ahead'. Dùng để khuyến khích ai đó thoải mái làm việc gì.",
+            explanationEn: "'Cứ' = 'just/feel free to'. Used to encourage someone to do something without hesitation.",
+            examples: [
+              { vi: "Cần gì cứ hỏi.", en: "If you need anything, just ask.", literal: "Need what just ask." },
+              { vi: "Cứ thoải mái!", en: "Just relax! / Make yourself comfortable!", literal: "Just comfortable!" },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Gọi Sếp như thế nào?",
+            titleEn: "How to address your boss?",
+            content: "Ở Việt Nam, bạn gọi sếp bằng đại từ phù hợp (Anh/Chị nếu chênh lệch tuổi ít, hoặc 'Sếp' như biệt danh thân mật). Không nên gọi sếp bằng tên trực tiếp mà không có đại từ. Ví dụ: 'Anh Minh' chứ không phải chỉ 'Minh'.",
+            contentEn: "In Vietnam, address your boss with the appropriate pronoun (Anh/Chị for small age gaps, or 'Sếp' as a friendly nickname). Never use just their name without a pronoun. Say 'Anh Minh', not just 'Minh'.",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Hoàn thành câu giao tiếp công sở.",
+          instructionEn: "Complete the workplace phrases.",
+          items: [
+            { question: "Cho _____ hỏi, WiFi mật khẩu gì ạ? (may I ask)", answer: "anh/em", explanationEn: "Use your appropriate pronoun" },
+            { question: "Cần gì _____ hỏi em nhé! (just go ahead)", answer: "cứ", explanationEn: "'Cứ' = just/feel free to" },
+            { question: "Em sẽ có mặt _____ giờ ạ. (on time)", answer: "đúng", explanationEn: "'Đúng giờ' = on time/punctual" },
+          ],
+        },
+      },
+    ],
+  },
+];

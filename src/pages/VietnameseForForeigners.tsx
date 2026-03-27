@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, BookOpen, ChevronRight, Globe, Volume2,
-  GraduationCap, MessageCircle, Music, Users
+  GraduationCap, MessageCircle, Music, Eye, EyeOff, Lightbulb
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -12,137 +12,256 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { vffModules, vietnameseTones, type VFFModule, type VFFLesson } from "@/data/vietnamese/vietnameseForForeignersData";
+import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { detailedVFFModules, type DetailedModule, type DetailedLesson, type AnnotatedWord } from "@/data/vietnamese/detailedVietnameseData";
+import { vietnameseTones } from "@/data/vietnamese/vietnameseForForeignersData";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
+
+// Tone color mapping for the tone wave visualizer
+const toneColors: Record<string, string> = {
+  ngang: "text-blue-500",
+  huyen: "text-green-600",
+  sac: "text-red-500",
+  hoi: "text-amber-500",
+  nga: "text-purple-500",
+  nang: "text-rose-600",
+};
+
+const toneSymbols: Record<string, string> = {
+  ngang: "—",
+  huyen: "↘",
+  sac: "↗",
+  hoi: "↘↗",
+  nga: "↗̃",
+  nang: "↓",
+};
+
+// Annotated word component with hover tooltip
+const AnnotatedWordSpan = ({ word, showEnglish }: { word: AnnotatedWord; showEnglish: boolean }) => {
+  const toneClass = word.tone ? toneColors[word.tone] : "";
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span className={`underline decoration-dotted decoration-primary/40 cursor-help ${toneClass} font-medium`}>
+          {word.word}
+          {word.tone && (
+            <span className="text-[10px] ml-0.5 opacity-60">{toneSymbols[word.tone]}</span>
+          )}
+        </span>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="max-w-xs">
+        <div className="text-sm">
+          <p className="font-bold">{word.word} <span className="font-normal text-muted-foreground">/{word.pronunciation}/</span></p>
+          <p className="text-primary">{word.meaning}</p>
+          {word.literal && <p className="text-xs text-muted-foreground italic">Literal: {word.literal}</p>}
+          {word.tone && (
+            <p className="text-xs mt-1">
+              Tone: <span className={toneClass}>{word.tone} {toneSymbols[word.tone]}</span>
+            </p>
+          )}
+        </div>
+      </TooltipContent>
+    </Tooltip>
+  );
+};
 
 const VietnameseForForeigners = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
   const { moduleId, lessonId } = useParams();
   const [showAccessDenied, setShowAccessDenied] = useState(false);
+  const [showEnglish, setShowEnglish] = useState(true);
   const { hasAccess, loading } = useCourseAccess("vietnamese-for-foreigners");
 
-  const speakVietnamese = (text: string) => {
+  const speakVietnamese = useCallback((text: string, slow = false) => {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "vi-VN";
-    u.rate = 0.8;
+    u.rate = slow ? 0.5 : 0.8;
     speechSynthesis.speak(u);
-  };
+  }, []);
 
-  // Lesson detail view
-  const currentModule = moduleId ? vffModules.find(m => m.id === moduleId) : null;
+  // Find current module and lesson
+  const currentModule = moduleId ? detailedVFFModules.find(m => m.id === moduleId) : null;
   const currentLesson = currentModule && lessonId ? currentModule.lessons.find(l => l.id === lessonId) : null;
 
+  // ═══════════════════════════════════════════════
+  // LESSON DETAIL VIEW
+  // ═══════════════════════════════════════════════
   if (currentLesson && currentModule) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
         <main className="pt-6 pb-16">
           <div className="container mx-auto px-6 max-w-4xl">
-            <Link to={`/learn-vietnamese/for-foreigners`} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
-              <ArrowLeft className="w-4 h-4" /> {t("Quay lại", "Back to Dashboard")}
-            </Link>
+            {/* Back & bilingual toggle header */}
+            <div className="flex items-center justify-between mb-6">
+              <Link to="/learn-vietnamese/for-foreigners" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+                <ArrowLeft className="w-4 h-4" /> {t("Quay lại", "Back to Dashboard")}
+              </Link>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{showEnglish ? "🇬🇧 EN visible" : "🇻🇳 Immersion"}</span>
+                <Switch checked={showEnglish} onCheckedChange={setShowEnglish} />
+                {showEnglish ? <Eye className="w-4 h-4 text-muted-foreground" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
+              </div>
+            </div>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-2xl">{currentLesson.icon}</span>
-                <h1 className="text-2xl font-bold text-foreground">{currentLesson.titleEn}</h1>
+              {/* Lesson header */}
+              <div className="flex items-center gap-3 mb-1">
+                <span className="text-3xl">{currentLesson.icon}</span>
+                <div>
+                  <h1 className="text-2xl font-bold text-foreground">{currentLesson.titleEn}</h1>
+                  <p className="text-muted-foreground italic text-sm">{currentLesson.title}</p>
+                </div>
               </div>
-              <p className="text-muted-foreground italic mb-6">{currentLesson.title}</p>
-
-              {/* Objectives */}
-              <Card className="p-5 mb-6">
-                <h2 className="font-bold text-foreground mb-3 flex items-center gap-2">
-                  <GraduationCap className="w-5 h-5 text-primary" />
-                  {t("Mục tiêu bài học", "Learning Objectives")}
-                </h2>
-                <ul className="space-y-1">
-                  {(lang === "vi" ? currentLesson.objectives : currentLesson.objectivesEn).map((obj, i) => (
-                    <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                      <span className="text-primary">•</span> {obj}
-                    </li>
-                  ))}
-                </ul>
+              <Card className="p-3 bg-muted/30 mb-6 mt-3">
+                <p className="text-sm text-foreground">
+                  📍 <strong>Scenario:</strong> {showEnglish ? currentLesson.scenarioEn : currentLesson.scenario}
+                </p>
               </Card>
 
-              <Tabs defaultValue="vocabulary" className="w-full">
+              {/* 4-Step Tabbed View */}
+              <Tabs defaultValue="dialogue" className="w-full">
                 <TabsList className="grid w-full grid-cols-4 mb-6">
-                  <TabsTrigger value="vocabulary" className="text-xs sm:text-sm">📝 {t("Từ vựng", "Vocabulary")}</TabsTrigger>
-                  <TabsTrigger value="dialogue" className="text-xs sm:text-sm">💬 {t("Hội thoại", "Dialogue")}</TabsTrigger>
-                  <TabsTrigger value="culture" className="text-xs sm:text-sm">🎭 {t("Văn hóa", "Culture")}</TabsTrigger>
-                  <TabsTrigger value="quiz" className="text-xs sm:text-sm">✅ {t("Bài tập", "Quiz")}</TabsTrigger>
+                  <TabsTrigger value="dialogue" className="text-xs sm:text-sm gap-1">
+                    💬 {t("Hội thoại", "Dialogue")}
+                  </TabsTrigger>
+                  <TabsTrigger value="grammar" className="text-xs sm:text-sm gap-1">
+                    📝 {t("Ngữ pháp", "Grammar")}
+                  </TabsTrigger>
+                  <TabsTrigger value="culture" className="text-xs sm:text-sm gap-1">
+                    🎭 {t("Văn hóa", "Culture")}
+                  </TabsTrigger>
+                  <TabsTrigger value="practice" className="text-xs sm:text-sm gap-1">
+                    ✅ {t("Luyện tập", "Practice")}
+                  </TabsTrigger>
                 </TabsList>
 
-                {/* Vocabulary */}
-                <TabsContent value="vocabulary">
-                  <div className="space-y-3">
-                    {currentLesson.vocabulary.map((v, i) => (
-                      <Card key={i} className="p-4 flex items-start gap-4">
-                        <Button variant="ghost" size="icon" className="shrink-0" onClick={() => speakVietnamese(v.word)}>
-                          <Volume2 className="w-4 h-4" />
-                        </Button>
-                        <div className="flex-1">
-                          <div className="flex items-baseline gap-2">
-                            <span className="font-bold text-foreground text-lg">{v.word}</span>
-                            <span className="text-xs text-muted-foreground">/{v.pronunciation}/</span>
+                {/* STEP 1: Dialogue */}
+                <TabsContent value="dialogue">
+                  <div className="space-y-1 mb-6">
+                    {/* Audio controls */}
+                    <div className="flex gap-2 mb-4">
+                      <Button size="sm" variant="outline" onClick={() => speakVietnamese(currentLesson.dialogue.map(d => d.vi).join(". "))} className="gap-1">
+                        <Volume2 className="w-3 h-3" /> Normal Speed
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => speakVietnamese(currentLesson.dialogue.map(d => d.vi).join(". "), true)} className="gap-1">
+                        <Volume2 className="w-3 h-3" /> 🐢 Slow Speed
+                      </Button>
+                    </div>
+
+                    {currentLesson.dialogue.map((line, i) => {
+                      const isRight = ["B", "Colleague", "Server", "Driver", "Linh", "Father", "Mother", "Friend", "Hùng", "HR", "Boss", "Team"].some(s => line.speaker.includes(s) || line.speakerLabel.includes(s));
+                      return (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, x: isRight ? 20 : -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.08 }}
+                          className={`flex gap-3 mb-3 ${isRight ? "flex-row-reverse" : ""}`}
+                        >
+                          <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${isRight ? "bg-primary" : "bg-muted-foreground"}`}>
+                            {line.speakerLabel.slice(0, 2)}
                           </div>
-                          <p className="text-sm text-primary font-medium">{v.meaning}</p>
-                          <div className="mt-1 text-sm text-muted-foreground grid grid-cols-1 sm:grid-cols-2 gap-1">
-                            <span>🇻🇳 {v.example}</span>
-                            <span>🇬🇧 {v.exampleEn}</span>
+                          <div className={`max-w-[80%] rounded-xl p-3 ${isRight ? "bg-primary/10 text-right" : "bg-muted/50"}`}>
+                            {/* Vietnamese text with annotated keywords */}
+                            <p className="text-foreground font-medium text-sm leading-relaxed">
+                              {line.keyWords ? renderAnnotatedText(line.vi, line.keyWords, showEnglish) : line.vi}
+                            </p>
+                            {/* English translation */}
+                            {showEnglish && (
+                              <p className="text-muted-foreground text-xs mt-1">{line.en}</p>
+                            )}
+                            {/* Literal translation */}
+                            {showEnglish && line.literal && (
+                              <p className="text-xs text-muted-foreground/60 italic mt-0.5">💡 {line.literal}</p>
+                            )}
+                            <Button variant="ghost" size="sm" className="h-5 text-[10px] mt-1 px-1" onClick={() => speakVietnamese(line.vi)}>
+                              <Volume2 className="w-3 h-3 mr-0.5" /> Nghe
+                            </Button>
                           </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Tone Highlights */}
+                  {currentLesson.toneHighlights && currentLesson.toneHighlights.length > 0 && (
+                    <Card className="p-4 mt-4">
+                      <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
+                        <Music className="w-4 h-4 text-primary" /> Tone Highlights in This Dialogue
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {currentLesson.toneHighlights.map((th, i) => (
+                          <div
+                            key={i}
+                            className="bg-muted/50 rounded-lg px-3 py-1.5 flex items-center gap-2 cursor-pointer hover:bg-muted transition-colors"
+                            onClick={() => speakVietnamese(th.word)}
+                          >
+                            <span className={`font-bold ${th.tone ? toneColors[th.tone] : ""}`}>
+                              {th.word} {th.tone ? toneSymbols[th.tone] : ""}
+                            </span>
+                            <span className="text-xs text-muted-foreground">= {th.meaning}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+                </TabsContent>
+
+                {/* STEP 2: Grammar */}
+                <TabsContent value="grammar">
+                  <div className="space-y-6">
+                    {currentLesson.grammarPoints.map((gp, i) => (
+                      <Card key={i} className="p-5">
+                        <h3 className="font-bold text-foreground mb-1">📐 {gp.patternEn}</h3>
+                        <p className="text-sm text-primary italic mb-3">{gp.pattern}</p>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          {showEnglish ? gp.explanationEn : gp.explanation}
+                        </p>
+                        <div className="space-y-2">
+                          {gp.examples.map((ex, j) => (
+                            <div key={j} className="bg-muted/30 rounded-lg p-3 flex items-start gap-3">
+                              <Button variant="ghost" size="icon" className="shrink-0 h-7 w-7" onClick={() => speakVietnamese(ex.vi)}>
+                                <Volume2 className="w-3 h-3" />
+                              </Button>
+                              <div>
+                                <p className="text-sm font-medium text-foreground">{ex.vi}</p>
+                                {showEnglish && <p className="text-xs text-muted-foreground">{ex.en}</p>}
+                                {showEnglish && ex.literal && <p className="text-xs text-muted-foreground/60 italic">💡 {ex.literal}</p>}
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </Card>
                     ))}
                   </div>
                 </TabsContent>
 
-                {/* Dialogue */}
-                <TabsContent value="dialogue">
-                  <Card className="p-6">
-                    <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
-                      <MessageCircle className="w-5 h-5 text-primary" />
-                      {t("Hội thoại mẫu", "Sample Dialogue")}
-                    </h3>
-                    <div className="space-y-4">
-                      {currentLesson.dialogues.map((line, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, x: line.speaker === "A" || line.speaker === "Student" || line.speaker === "Tourist" || line.speaker === "Customer" ? -20 : 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.15 }}
-                          className={`flex gap-3 ${["B", "Teacher", "Local", "Vendor", "Waiter"].includes(line.speaker) ? "flex-row-reverse text-right" : ""}`}
-                        >
-                          <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white ${["B", "Teacher", "Local", "Vendor", "Waiter"].includes(line.speaker) ? "bg-primary" : "bg-muted-foreground"}`}>
-                            {line.speaker[0]}
-                          </div>
-                          <div className="bg-muted/50 rounded-lg p-3 max-w-[80%]">
-                            <p className="text-foreground font-medium">{line.vi}</p>
-                            <p className="text-sm text-muted-foreground mt-1">{line.en}</p>
-                            <Button variant="ghost" size="sm" className="mt-1 h-6 text-xs" onClick={() => speakVietnamese(line.vi)}>
-                              <Volume2 className="w-3 h-3 mr-1" /> {t("Nghe", "Listen")}
-                            </Button>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </Card>
-                </TabsContent>
-
-                {/* Culture note */}
+                {/* STEP 3: Culture */}
                 <TabsContent value="culture">
-                  <Card className="p-6">
-                    <h3 className="font-bold text-foreground mb-3">🎭 {t("Ghi chú văn hóa", "Cultural Note")}</h3>
-                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-                      <p className="text-foreground">{t(currentLesson.culturalNote, currentLesson.culturalNoteEn)}</p>
-                    </div>
-                  </Card>
+                  <div className="space-y-4">
+                    {currentLesson.culturalNotes.map((cn, i) => (
+                      <Card key={i} className="p-5">
+                        <h3 className="font-bold text-foreground mb-2 flex items-center gap-2">
+                          <Lightbulb className="w-4 h-4 text-yellow-500" />
+                          {showEnglish ? cn.titleEn : cn.title}
+                        </h3>
+                        <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                          <p className="text-sm text-foreground leading-relaxed">
+                            {showEnglish ? cn.contentEn : cn.content}
+                          </p>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
                 </TabsContent>
 
-                {/* Quiz */}
-                <TabsContent value="quiz">
-                  <QuizSection questions={currentLesson.quiz} />
+                {/* STEP 4: Practice */}
+                <TabsContent value="practice">
+                  <PracticeSection practice={currentLesson.practice} showEnglish={showEnglish} />
                 </TabsContent>
               </Tabs>
             </motion.div>
@@ -153,7 +272,9 @@ const VietnameseForForeigners = () => {
     );
   }
 
-  // Dashboard view
+  // ═══════════════════════════════════════════════
+  // DASHBOARD VIEW
+  // ═══════════════════════════════════════════════
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -171,11 +292,11 @@ const VietnameseForForeigners = () => {
               </h1>
             </div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              {t("Chương trình học tiếng Việt dành cho người nước ngoài — từ con số 0", "A complete Vietnamese course for international learners — starting from zero")}
+              {t("Chương trình song ngữ Việt-Anh — từ con số 0 đến giao tiếp thành thạo", "A bilingual Vietnamese-English course — from zero to confident communication")}
             </p>
           </motion.div>
 
-          {/* Tone Guide Card */}
+          {/* Tone Guide */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-10">
             <Card className="p-6">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
@@ -192,8 +313,9 @@ const VietnameseForForeigners = () => {
                     className="bg-muted/50 rounded-lg p-3 flex items-center gap-3 hover:bg-muted transition-colors cursor-pointer"
                     onClick={() => speakVietnamese(tone.example.split(" ")[0])}
                   >
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-2xl font-bold text-primary">
-                      {tone.mark}
+                    <div className={`w-12 h-12 bg-primary/10 rounded-lg flex flex-col items-center justify-center`}>
+                      <span className="text-xl font-bold text-primary">{tone.mark}</span>
+                      <span className={`text-[10px] ${toneColors[tone.id] || "text-primary"}`}>{toneSymbols[tone.id]}</span>
                     </div>
                     <div>
                       <p className="font-bold text-foreground text-sm">{tone.nameEn}</p>
@@ -206,14 +328,14 @@ const VietnameseForForeigners = () => {
             </Card>
           </motion.div>
 
-          {/* Course modules */}
+          {/* Course modules grid */}
           <div className="grid md:grid-cols-2 gap-6">
-            {vffModules.map((mod, idx) => (
+            {detailedVFFModules.map((mod, idx) => (
               <motion.div
                 key={mod.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
+                transition={{ delay: 0.1 + idx * 0.08 }}
               >
                 <Card className="overflow-hidden hover:shadow-lg transition-shadow">
                   <div className={`bg-gradient-to-r ${mod.color} p-4`}>
@@ -231,10 +353,7 @@ const VietnameseForForeigners = () => {
                       <div
                         key={lesson.id}
                         onClick={() => {
-                          if (!hasAccess && !loading) {
-                            setShowAccessDenied(true);
-                            return;
-                          }
+                          if (!hasAccess && !loading) { setShowAccessDenied(true); return; }
                           navigate(`/learn-vietnamese/for-foreigners/${mod.id}/${lesson.id}`);
                         }}
                         className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2 cursor-pointer"
@@ -262,46 +381,110 @@ const VietnameseForForeigners = () => {
   );
 };
 
-// Simple quiz component
-const QuizSection = ({ questions }: { questions: { question: string; questionEn: string; options: string[]; answer: number }[] }) => {
-  const { lang } = useLanguage();
-  const [answers, setAnswers] = useState<Record<number, number>>({});
+// Helper: render Vietnamese text with annotated keywords as hoverable spans
+function renderAnnotatedText(text: string, keyWords: AnnotatedWord[], showEnglish: boolean) {
+  if (!keyWords || keyWords.length === 0) return text;
+
+  const parts: React.ReactNode[] = [];
+  let remaining = text;
+  let keyIndex = 0;
+
+  // Sort keywords by position in text (first occurrence)
+  const sorted = [...keyWords].sort((a, b) => text.indexOf(a.word) - text.indexOf(b.word));
+
+  for (const kw of sorted) {
+    const idx = remaining.indexOf(kw.word);
+    if (idx === -1) continue;
+
+    if (idx > 0) {
+      parts.push(<span key={`t-${keyIndex}`}>{remaining.slice(0, idx)}</span>);
+    }
+    parts.push(<AnnotatedWordSpan key={`k-${keyIndex}`} word={kw} showEnglish={showEnglish} />);
+    remaining = remaining.slice(idx + kw.word.length);
+    keyIndex++;
+  }
+
+  if (remaining) {
+    parts.push(<span key="rest">{remaining}</span>);
+  }
+
+  return <>{parts}</>;
+}
+
+// Practice section component
+const PracticeSection = ({ practice, showEnglish }: { practice: any; showEnglish: boolean }) => {
+  const [answers, setAnswers] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
-  const score = submitted ? questions.filter((q, i) => answers[i] === q.answer).length : 0;
+  const handleSubmit = () => setSubmitted(true);
+  const handleReset = () => { setAnswers({}); setSubmitted(false); };
 
   return (
-    <div className="space-y-4">
-      {questions.map((q, qi) => (
-        <Card key={qi} className="p-4">
-          <p className="font-medium text-foreground mb-3">{qi + 1}. {lang === "vi" ? q.question : q.questionEn}</p>
-          <div className="grid grid-cols-2 gap-2">
-            {q.options.map((opt, oi) => (
-              <Button
-                key={oi}
-                variant={answers[qi] === oi ? (submitted ? (oi === q.answer ? "default" : "destructive") : "default") : "outline"}
-                size="sm"
-                className="justify-start"
-                onClick={() => !submitted && setAnswers(prev => ({ ...prev, [qi]: oi }))}
-              >
-                {opt}
-              </Button>
-            ))}
-          </div>
-        </Card>
-      ))}
-      {!submitted ? (
-        <Button onClick={() => setSubmitted(true)} disabled={Object.keys(answers).length < questions.length}>
-          ✅ Submit
-        </Button>
-      ) : (
-        <Card className="p-4 text-center">
-          <p className="font-bold text-foreground">Score: {score}/{questions.length}</p>
-          <Button variant="outline" size="sm" className="mt-2" onClick={() => { setAnswers({}); setSubmitted(false); }}>
-            🔄 Try again
+    <div>
+      <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
+        ✏️ {showEnglish ? practice.instructionEn : practice.instruction}
+      </h3>
+      <div className="space-y-4">
+        {practice.items.map((item: any, i: number) => (
+          <Card key={i} className="p-4">
+            <p className="text-sm font-medium text-foreground mb-2">
+              {i + 1}. {showEnglish && item.questionEn ? item.questionEn : item.question}
+            </p>
+            {practice.type === "fill-blank" && (
+              <input
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 outline-none"
+                placeholder={showEnglish ? "Type your answer..." : "Nhập câu trả lời..."}
+                value={answers[i] || ""}
+                onChange={(e) => !submitted && setAnswers(prev => ({ ...prev, [i]: e.target.value }))}
+                disabled={submitted}
+              />
+            )}
+            {practice.type === "reorder" && (
+              <input
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 outline-none"
+                placeholder={showEnglish ? "Reorder the words..." : "Sắp xếp lại..."}
+                value={answers[i] || ""}
+                onChange={(e) => !submitted && setAnswers(prev => ({ ...prev, [i]: e.target.value }))}
+                disabled={submitted}
+              />
+            )}
+            {practice.type === "match" && (
+              <input
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 outline-none"
+                placeholder={showEnglish ? "Type the meaning..." : "Nhập nghĩa..."}
+                value={answers[i] || ""}
+                onChange={(e) => !submitted && setAnswers(prev => ({ ...prev, [i]: e.target.value }))}
+                disabled={submitted}
+              />
+            )}
+            {submitted && (
+              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="mt-2">
+                <p className="text-sm">
+                  ✅ <strong>Answer:</strong>{" "}
+                  <span className="text-primary font-medium">{typeof item.answer === "string" ? item.answer : item.options?.[item.answer]}</span>
+                </p>
+                {item.explanationEn && showEnglish && (
+                  <p className="text-xs text-muted-foreground mt-1">💡 {item.explanationEn}</p>
+                )}
+                {item.explanation && !showEnglish && (
+                  <p className="text-xs text-muted-foreground mt-1">💡 {item.explanation}</p>
+                )}
+              </motion.div>
+            )}
+          </Card>
+        ))}
+      </div>
+      <div className="flex gap-2 mt-4">
+        {!submitted ? (
+          <Button onClick={handleSubmit} disabled={Object.keys(answers).length === 0}>
+            ✅ {showEnglish ? "Check Answers" : "Kiểm tra"}
           </Button>
-        </Card>
-      )}
+        ) : (
+          <Button variant="outline" onClick={handleReset}>
+            🔄 {showEnglish ? "Try Again" : "Thử lại"}
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
