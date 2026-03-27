@@ -337,6 +337,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Trí tuệ nhân tạo' là gì?", questionEn: "What is it?", options: ["Cloud", "AI", "Database", "Software"], answer: 1, explanation: "AI.", explanationEn: "AI." },
+          { question: "'Mật khẩu' nghĩa là gì?", questionEn: "What does 'mật khẩu' mean?", options: ["Username", "Password", "Email", "Account"], answer: 1, explanation: "'Mật khẩu' = password.", explanationEn: "'Mật khẩu' = password." },
         ],
       },
       {
@@ -350,6 +351,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Ốm' nghĩa gì?", questionEn: "What does 'ốm' mean?", options: ["Healthy", "Sick", "Fat", "Thin"], answer: 1, explanation: "'Ốm' = sick (North) / thin (South).", explanationEn: "'Ốm' = sick/thin." },
+          { question: "'Thuốc' là gì?", questionEn: "What is 'thuốc'?", options: ["Doctor", "Hospital", "Medicine", "Pain"], answer: 2, explanation: "'Thuốc' = medicine.", explanationEn: "'Thuốc' = medicine." },
         ],
       },
       {
@@ -363,6 +365,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Lập trình viên' làm gì?", questionEn: "What do they do?", options: ["Teach", "Code", "Heal", "Write"], answer: 1, explanation: "Programmer = viết code.", explanationEn: "Programmer." },
+          { question: "'Lương' nghĩa là gì?", questionEn: "What does 'lương' mean?", options: ["Job", "Salary", "Office", "Boss"], answer: 1, explanation: "'Lương' = salary.", explanationEn: "'Lương' = salary." },
         ],
       },
       {
@@ -376,6 +379,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Quốc hoa VN?", questionEn: "National flower?", options: ["Hồng", "Sen", "Mai", "Đào"], answer: 1, explanation: "Hoa sen.", explanationEn: "Lotus." },
+          { question: "'Trâu' là con gì?", questionEn: "What animal is 'trâu'?", options: ["Cow", "Water buffalo", "Horse", "Elephant"], answer: 1, explanation: "'Trâu' = water buffalo.", explanationEn: "'Trâu' = water buffalo." },
         ],
       },
       {
@@ -389,6 +393,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Vịnh Hạ Long thuộc tổ chức nào?", questionEn: "Recognized by?", options: ["ASEAN", "UNESCO", "WHO", "WTO"], answer: 1, explanation: "UNESCO.", explanationEn: "UNESCO heritage." },
+          { question: "'Khách sạn' là gì?", questionEn: "What is 'khách sạn'?", options: ["Restaurant", "Hotel", "Airport", "Museum"], answer: 1, explanation: "'Khách sạn' = hotel.", explanationEn: "'Khách sạn' = hotel." },
         ],
       },
       // NEW advanced vocabulary lessons
@@ -403,6 +408,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Quốc hội' là gì?", questionEn: "What is it?", options: ["Court", "National Assembly", "Government", "Army"], answer: 1, explanation: "Quốc hội = National Assembly.", explanationEn: "National Assembly." },
+          { question: "'Hiến pháp' là gì?", questionEn: "What is 'hiến pháp'?", options: ["Law", "Constitution", "Court", "Election"], answer: 1, explanation: "'Hiến pháp' = constitution.", explanationEn: "'Hiến pháp' = constitution." },
         ],
       },
       {
@@ -416,6 +422,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Biến đổi khí hậu' là gì?", questionEn: "What is it?", options: ["Weather", "Climate change", "Season", "Temperature"], answer: 1, explanation: "Climate change.", explanationEn: "Climate change." },
+          { question: "'Tái chế' nghĩa là gì?", questionEn: "What does 'tái chế' mean?", options: ["Reduce", "Recycle", "Reuse", "Refuse"], answer: 1, explanation: "'Tái chế' = recycle.", explanationEn: "'Tái chế' = recycle." },
         ],
       },
       {
@@ -429,6 +436,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Lạm phát' nghĩa gì?", questionEn: "What does it mean?", options: ["Profit", "Inflation", "Tax", "Debt"], answer: 1, explanation: "Lạm phát = inflation.", explanationEn: "Inflation." },
+          { question: "'Xuất khẩu' là gì?", questionEn: "What is 'xuất khẩu'?", options: ["Import", "Export", "Invest", "Trade"], answer: 1, explanation: "'Xuất khẩu' = export.", explanationEn: "'Xuất khẩu' = export." },
         ],
       },
       {
@@ -442,6 +450,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Truyền hình' là gì?", questionEn: "What is it?", options: ["Radio", "Television", "Newspaper", "Internet"], answer: 1, explanation: "Truyền hình = television.", explanationEn: "Television." },
+          { question: "'Phóng viên' là ai?", questionEn: "Who is a 'phóng viên'?", options: ["Editor", "Reporter", "Singer", "Actor"], answer: 1, explanation: "'Phóng viên' = reporter.", explanationEn: "'Phóng viên' = reporter." },
         ],
       },
       {
@@ -455,6 +464,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Sinh học' là gì?", questionEn: "What is it?", options: ["Physics", "Chemistry", "Biology", "Math"], answer: 2, explanation: "Sinh học = biology.", explanationEn: "Biology." },
+          { question: "'Thí nghiệm' là gì?", questionEn: "What is 'thí nghiệm'?", options: ["Research", "Experiment", "Invention", "Discovery"], answer: 1, explanation: "'Thí nghiệm' = experiment.", explanationEn: "'Thí nghiệm' = experiment." },
         ],
       },
     ],
