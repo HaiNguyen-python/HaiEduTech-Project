@@ -159,7 +159,7 @@ const Vietnamese = () => {
                   </h1>
                   <Star className="w-6 h-6 md:w-8 md:h-8 text-yellow-500 drop-shadow" />
                 </div>
-                <p className="text-slate-600 text-sm md:text-base lg:text-lg max-w-md md:max-w-2xl mx-auto px-4 drop-shadow-sm">
+                <p className="text-slate-600 text-sm md:text-base lg:text-lg font-semibold max-w-md md:max-w-2xl mx-auto px-4 drop-shadow-sm">
                   {t(
                     "Khám phá ngôn ngữ, lịch sử và văn hóa Việt Nam qua chương trình học tương tác",
                     "Explore Vietnamese language, history, and culture through an interactive curriculum"
