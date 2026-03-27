@@ -184,6 +184,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Bao nhiêu tiền?' hỏi gì?", questionEn: "What does it ask?", options: ["Time", "Price", "Place", "Quantity"], answer: 1, explanation: "Hỏi giá tiền.", explanationEn: "Asks price." },
+          { question: "'Mặc cả' nghĩa là gì?", questionEn: "What does 'mặc cả' mean?", options: ["To buy", "To sell", "To bargain", "To pay"], answer: 2, explanation: "'Mặc cả' = thương lượng giá.", explanationEn: "'Mặc cả' = to bargain." },
         ],
       },
       {
@@ -197,6 +198,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Phương tiện phổ biến nhất VN?", questionEn: "Most common transport?", options: ["Ô tô", "Xe máy", "Xe buýt", "Tàu"], answer: 1, explanation: "Xe máy phổ biến nhất.", explanationEn: "Motorbikes most common." },
+          { question: "'Máy bay' là gì?", questionEn: "What is 'máy bay'?", options: ["Car", "Train", "Airplane", "Bus"], answer: 2, explanation: "'Máy bay' = airplane.", explanationEn: "'Máy bay' = airplane." },
         ],
       },
       {
@@ -210,6 +212,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Sinh viên' khác 'học sinh'?", questionEn: "Difference?", options: ["Giống nhau", "Sinh viên = đại học", "Học sinh = đại học", "Không có"], answer: 1, explanation: "Sinh viên = university student.", explanationEn: "Sinh viên = university." },
+          { question: "'Bài tập' nghĩa là gì?", questionEn: "What does 'bài tập' mean?", options: ["Exam", "Homework", "Class", "Teacher"], answer: 1, explanation: "'Bài tập' = homework.", explanationEn: "'Bài tập' = homework." },
         ],
       },
       {
@@ -223,6 +226,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "Miền Nam có mấy mùa?", questionEn: "Seasons in South?", options: ["4", "3", "2", "1"], answer: 2, explanation: "2 mùa: mưa và khô.", explanationEn: "2 seasons." },
+          { question: "'Nóng' nghĩa là gì?", questionEn: "What does 'nóng' mean?", options: ["Cold", "Hot", "Rainy", "Windy"], answer: 1, explanation: "'Nóng' = hot.", explanationEn: "'Nóng' = hot." },
         ],
       },
       {
@@ -236,6 +240,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Xấu hổ' nghĩa gì?", questionEn: "What does it mean?", options: ["Angry", "Embarrassed", "Happy", "Scared"], answer: 1, explanation: "'Xấu hổ' = embarrassed.", explanationEn: "'Xấu hổ' = embarrassed." },
+          { question: "'Vui' là cảm xúc gì?", questionEn: "What emotion is 'vui'?", options: ["Sad", "Angry", "Happy", "Scared"], answer: 2, explanation: "'Vui' = happy.", explanationEn: "'Vui' = happy." },
         ],
       },
       // NEW daily life lessons
@@ -250,6 +255,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Tính tiền' nghĩa gì?", questionEn: "What does it mean?", options: ["Order food", "Check please", "Menu", "Tip"], answer: 1, explanation: "Tính tiền = pay the bill.", explanationEn: "Pay the bill." },
+          { question: "'Thực đơn' là gì?", questionEn: "What is 'thực đơn'?", options: ["Bill", "Menu", "Dessert", "Appetizer"], answer: 1, explanation: "'Thực đơn' = menu.", explanationEn: "'Thực đơn' = menu." },
         ],
       },
       {
@@ -263,6 +269,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Phòng khám' là gì?", questionEn: "What is it?", options: ["Hospital", "Clinic", "Pharmacy", "Lab"], answer: 1, explanation: "Phòng khám = clinic.", explanationEn: "Clinic." },
+          { question: "'Đơn thuốc' là gì?", questionEn: "What is 'đơn thuốc'?", options: ["Medicine", "Prescription", "Doctor", "Hospital"], answer: 1, explanation: "'Đơn thuốc' = prescription.", explanationEn: "'Đơn thuốc' = prescription." },
         ],
       },
       {
@@ -276,6 +283,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Chuyển khoản' là gì?", questionEn: "What is it?", options: ["Cash", "Bank transfer", "Loan", "Savings"], answer: 1, explanation: "Chuyển khoản = bank transfer.", explanationEn: "Bank transfer." },
+          { question: "'Rút tiền' nghĩa là gì?", questionEn: "What does 'rút tiền' mean?", options: ["Deposit", "Transfer", "Withdraw", "Save"], answer: 2, explanation: "'Rút tiền' = withdraw money.", explanationEn: "'Rút tiền' = withdraw money." },
         ],
       },
       {
@@ -289,6 +297,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "App nhắn tin phổ biến nhất VN?", questionEn: "Most popular messaging app?", options: ["WhatsApp", "Zalo", "Line", "WeChat"], answer: 1, explanation: "Zalo phổ biến nhất.", explanationEn: "Zalo is most popular." },
+          { question: "'Nhắn tin' nghĩa là gì?", questionEn: "What does 'nhắn tin' mean?", options: ["Call", "Text", "Email", "Video call"], answer: 1, explanation: "'Nhắn tin' = to text.", explanationEn: "'Nhắn tin' = to text." },
         ],
       },
       {
@@ -302,6 +311,7 @@ export const vocabularyModules: VietnameseModule[] = [
         ],
         quiz: [
           { question: "'Bưu kiện' là gì?", questionEn: "What is it?", options: ["Letter", "Package", "Stamp", "Envelope"], answer: 1, explanation: "Bưu kiện = package.", explanationEn: "Package." },
+          { question: "'Giao hàng' nghĩa là gì?", questionEn: "What does 'giao hàng' mean?", options: ["Send letter", "Delivery", "Post office", "Stamp"], answer: 1, explanation: "'Giao hàng' = delivery.", explanationEn: "'Giao hàng' = delivery." },
         ],
       },
     ],
