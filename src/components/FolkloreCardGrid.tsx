@@ -1,10 +1,10 @@
-// Folklore card grid component matching watercolor illustration design
+// Folklore card grid component with artistic typography and masonry layout
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import type { FolkloreItem } from "@/data/vietnamese/types";
 
-// Image map for folklore items
+// Image imports for folklore illustrations
 import congCha from "@/assets/folklore/cong-cha-nghia-me.jpg";
 import khongThay from "@/assets/folklore/khong-thay-do-may.jpg";
 import coCong from "@/assets/folklore/co-cong-mai-sat.jpg";
@@ -72,67 +72,95 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
       <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
         🌾 {t("Ca Dao & Tục Ngữ", "Folk Songs & Proverbs")}
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      {/* Responsive 3-column grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((item, idx) => {
-          const displayTitle = item.type === "tuc-ngu"
+          const isProverb = item.type === "tuc-ngu";
+          // For proverbs, show full content as main title; for folk songs, show the title
+          const displayTitle = isProverb
             ? t(item.content, item.contentEn)
             : t(item.title, item.titleEn);
-          const showPoemContent = item.type === "ca-dao";
 
           return (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.05 }}
-              className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+              transition={{ delay: idx * 0.04 }}
+              className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg transition-all group"
             >
-              {/* Header: Badge + Title */}
-              <div className="px-4 pt-4 pb-2 flex items-start gap-2">
+              {/* Header: Badge + Main verse */}
+              <div className="px-5 pt-5 pb-2 flex items-start gap-2">
                 <Badge
                   variant="outline"
-                  className="text-xs shrink-0 border-primary/40 text-primary"
+                  className="text-xs shrink-0 border-primary/40 text-primary mt-1"
                 >
-                  {item.type === "ca-dao" ? t("Ca Dao", "Folk Song") : t("Tục Ngữ", "Proverb")}
+                  {isProverb ? t("Tục Ngữ", "Proverb") : t("Ca Dao", "Folk Song")}
                 </Badge>
+              </div>
+
+              {/* Main verse text — artistic Dancing Script font */}
+              <div className="px-5 pb-3">
                 <h3
-                  className="font-extrabold text-foreground text-xl leading-relaxed"
-                  style={{ fontFamily: "'Noto Serif', 'Playfair Display', serif" }}
+                  className={`text-foreground leading-relaxed ${
+                    isProverb ? "font-bold" : "italic"
+                  }`}
+                  style={{
+                    fontFamily: "'Dancing Script', 'Playfair Display', 'Noto Serif', serif",
+                    fontSize: "26px",
+                    lineHeight: 1.5,
+                  }}
                 >
                   {displayTitle}
                 </h3>
               </div>
 
-              {/* Watercolor Illustration */}
+              {/* Watercolor illustration with soft border and glow */}
               {imageMap[item.id] && (
                 <div className="px-4">
-                  <img
-                    src={imageMap[item.id]}
-                    alt={t(item.title, item.titleEn)}
-                    loading="lazy"
-                    width={512}
-                    height={512}
-                    className="w-full h-auto rounded-lg object-cover aspect-square"
-                  />
+                  <div className="rounded-lg overflow-hidden border border-border/50 shadow-sm ring-1 ring-primary/10">
+                    <img
+                      src={imageMap[item.id]}
+                      alt={t(item.title, item.titleEn)}
+                      loading="lazy"
+                      width={512}
+                      height={320}
+                      className="w-full object-cover"
+                      style={{ maxHeight: "280px" }}
+                    />
+                  </div>
                 </div>
               )}
 
-              {/* Content for folk poetry only */}
-              {showPoemContent && (
-                <div className="px-4 pt-3">
+              {/* Folk song content (only for ca-dao, distinct from title) */}
+              {!isProverb && (
+                <div className="px-5 pt-3">
                   <p
-                    className="text-xl font-semibold text-foreground italic leading-relaxed whitespace-pre-line"
-                    style={{ fontFamily: "'Playfair Display', 'Noto Serif', serif" }}
+                    className="text-foreground italic leading-relaxed whitespace-pre-line"
+                    style={{
+                      fontFamily: "'Dancing Script', 'Playfair Display', 'Noto Serif', serif",
+                      fontSize: "24px",
+                      lineHeight: 1.5,
+                    }}
                   >
                     {t(item.content, item.contentEn)}
                   </p>
                 </div>
               )}
 
-              {/* Meaning */}
-              <div className="px-4 py-3">
-                <p className="text-base text-foreground leading-relaxed">
-                  <span className="font-bold text-foreground">{t("Ý nghĩa:", "Meaning:")}</span>{" "}
+              {/* Meaning — clean Inter font, smaller size */}
+              <div className="px-5 py-4">
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "14px",
+                  }}
+                >
+                  <span className="font-semibold text-foreground">
+                    {t("Ý nghĩa:", "Meaning:")}
+                  </span>{" "}
                   {t(item.meaning, item.meaningEn)}
                 </p>
               </div>
