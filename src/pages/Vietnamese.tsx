@@ -252,12 +252,7 @@ const Vietnamese = () => {
                     <div className={`bg-gradient-to-r ${month.color} p-4`}>
                       <div className="flex items-center gap-2 text-white">
                         <span className="text-2xl">{month.icon}</span>
-                        <div>
-                          <p className="text-xs font-medium opacity-80">
-                            {t(`Tháng ${month.month}`, `Month ${month.month}`)}
-                          </p>
-                          <h3 className="font-bold">{t(month.title, month.titleEn)}</h3>
-                        </div>
+                        <h3 className="font-bold text-white">{t(month.title, month.titleEn)}</h3>
                       </div>
                     </div>
                     <div className="p-4">
