@@ -130,7 +130,7 @@ const VietnameseHistoryLesson = () => {
                                   <strong className="text-primary font-bold">{children}</strong>
                                 ),
                                 em: ({ children }) => (
-                                  <em className="text-muted-foreground not-italic text-xs bg-muted px-1 py-0.5 rounded">{children}</em>
+                                  <em className="text-muted-foreground not-italic text-sm bg-muted px-1.5 py-0.5 rounded">{children}</em>
                                 ),
                               }}
                             >
@@ -145,7 +145,7 @@ const VietnameseHistoryLesson = () => {
               </div>
             ) : (
               /* Fallback: single text block for lessons without segments */
-              <div className="bg-card border border-border rounded-xl p-6 leading-relaxed text-foreground">
+              <div className="bg-card border border-border rounded-xl p-6 text-[1.2rem] text-foreground" style={{ lineHeight: '1.9' }}>
                 {t(lesson.story, lesson.storyEn)}
               </div>
             )}
