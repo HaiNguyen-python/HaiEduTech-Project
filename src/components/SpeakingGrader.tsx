@@ -259,7 +259,7 @@ const SpeakingGrader = () => {
   // Render transcript with highlighted errors
   const renderTranscriptWithErrors = (transcript: string, errors?: HighlightedError[]) => {
     if (!errors || errors.length === 0) {
-      return <p className="text-sm text-foreground leading-relaxed">{transcript}</p>;
+      return <p className="text-base text-foreground leading-relaxed">{transcript}</p>;
     }
 
     // Sort errors by position in transcript (longest matches first for proper highlighting)
@@ -300,7 +300,7 @@ const SpeakingGrader = () => {
     };
 
     return (
-      <div className="text-sm text-foreground leading-relaxed">
+      <div className="text-base text-foreground leading-relaxed">
         {segments.map((seg, i) =>
           seg.error ? (
             <span
