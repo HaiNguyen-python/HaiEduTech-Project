@@ -104,12 +104,11 @@
   80% { transform: translateX(4px); }
 }
 
-/* ── Slogan ripple: a faint light glimmer sweeping left→right every 30s ── */
-/* To debug, change animation-delay or duration below (e.g. 5s instead of 30s) */
+/* ── Slogan ripple: visible light glimmer sweeping left→right every 10s ── */
 @keyframes slogan-ripple {
   0%   { transform: translate3d(-100%, 0, 0); }
-  6%   { transform: translate3d(100%, 0, 0); }   /* ~2s sweep across at 30s total */
-  100% { transform: translate3d(100%, 0, 0); }   /* idle for remaining 28s */
+  20%  { transform: translate3d(100%, 0, 0); }
+  100% { transform: translate3d(100%, 0, 0); }
 }
 
 .slogan-text {
@@ -118,17 +117,17 @@
 
 .slogan-ripple {
   position: absolute;
-  inset: 0;
+  inset: -4px -8px;
   pointer-events: none;
-  overflow: hidden;
   background: linear-gradient(
     105deg,
-    transparent 30%,
-    rgba(16, 185, 129, 0.15) 45%,
-    rgba(255, 255, 255, 0.18) 50%,
-    rgba(16, 185, 129, 0.15) 55%,
-    transparent 70%
+    transparent 20%,
+    rgba(16, 185, 129, 0.35) 40%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(16, 185, 129, 0.35) 60%,
+    transparent 80%
   );
-  animation: slogan-ripple 30s ease-in-out infinite;
+  animation: slogan-ripple 10s ease-in-out infinite;
   will-change: transform;
+  border-radius: 4px;
 }
