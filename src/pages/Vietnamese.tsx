@@ -171,20 +171,20 @@ const Vietnamese = () => {
             {/* Tabs overlay at bottom of banner */}
             <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-10">
               <TabsList className="grid grid-cols-4 bg-white/80 backdrop-blur-sm shadow-lg rounded-xl">
-                <TabsTrigger value="language" className="flex items-center gap-1.5 text-xs sm:text-sm">
-                  <BookOpen className="w-4 h-4" />
+                <TabsTrigger value="language" className="flex items-center gap-2 text-sm sm:text-base font-medium">
+                  <BookOpen className="w-5 h-5" />
                   {t("Ngôn ngữ", "Language")}
                 </TabsTrigger>
-                <TabsTrigger value="history" className="flex items-center gap-1.5 text-xs sm:text-sm">
-                  <Scroll className="w-4 h-4" />
+                <TabsTrigger value="history" className="flex items-center gap-2 text-sm sm:text-base font-medium">
+                  <Scroll className="w-5 h-5" />
                   {t("Lịch sử", "History")}
                 </TabsTrigger>
-                <TabsTrigger value="folklore" className="flex items-center gap-1.5 text-xs sm:text-sm">
-                  <Sparkles className="w-4 h-4" />
+                <TabsTrigger value="folklore" className="flex items-center gap-2 text-sm sm:text-base font-medium">
+                  <Sparkles className="w-5 h-5" />
                   {t("Ca Dao", "Folklore")}
                 </TabsTrigger>
-                <TabsTrigger value="game" className="flex items-center gap-1.5 text-xs sm:text-sm">
-                  <Gamepad2 className="w-4 h-4" />
+                <TabsTrigger value="game" className="flex items-center gap-2 text-sm sm:text-base font-medium">
+                  <Gamepad2 className="w-5 h-5" />
                   {t("Trò chơi", "Game")}
                 </TabsTrigger>
               </TabsList>
