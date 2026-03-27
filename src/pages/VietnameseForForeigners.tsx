@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  ArrowLeft, BookOpen, ChevronRight, Globe, Volume2,
+  ArrowLeft, BookOpen, ChevronRight, Globe, Volume2, Pause,
   GraduationCap, MessageCircle, Music, Eye, EyeOff, Lightbulb
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -75,11 +75,22 @@ const VietnameseForForeigners = () => {
   const [showEnglish, setShowEnglish] = useState(true);
   const { hasAccess, loading } = useCourseAccess("vietnamese-for-foreigners");
 
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
   const speakVietnamese = useCallback((text: string, slow = false) => {
+    speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "vi-VN";
     u.rate = slow ? 0.5 : 0.8;
+    u.onstart = () => setIsSpeaking(true);
+    u.onend = () => setIsSpeaking(false);
+    u.onerror = () => setIsSpeaking(false);
     speechSynthesis.speak(u);
+  }, []);
+
+  const pauseSpeech = useCallback(() => {
+    speechSynthesis.cancel();
+    setIsSpeaking(false);
   }, []);
 
   // Find current module and lesson
@@ -150,6 +161,11 @@ const VietnameseForForeigners = () => {
                       <Button size="sm" variant="outline" onClick={() => speakVietnamese(currentLesson.dialogue.map(d => d.vi).join(". "), true)} className="gap-1">
                         <Volume2 className="w-3 h-3" /> 🐢 Slow Speed
                       </Button>
+                      {isSpeaking && (
+                        <Button size="sm" variant="destructive" onClick={pauseSpeech} className="gap-1">
+                          <Pause className="w-3 h-3" /> Pause
+                        </Button>
+                      )}
                     </div>
 
                     {currentLesson.dialogue.map((line, i) => {
@@ -165,7 +181,7 @@ const VietnameseForForeigners = () => {
                           <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${isRight ? "bg-primary" : "bg-muted-foreground"}`}>
                             {line.speakerLabel.slice(0, 2)}
                           </div>
-                          <div className={`max-w-[80%] rounded-xl p-3 ${isRight ? "bg-primary/10 text-right" : "bg-muted/50"}`}>
+                          <div className={`max-w-[80%] rounded-xl p-3 ${isRight ? "bg-primary/10" : "bg-muted/50"}`}>
                             {/* Vietnamese text with annotated keywords */}
                             <p className="text-foreground font-medium text-sm leading-relaxed">
                               {line.keyWords ? renderAnnotatedText(line.vi, line.keyWords, showEnglish) : line.vi}

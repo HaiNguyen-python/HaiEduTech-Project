@@ -214,6 +214,56 @@ export const detailedVFFModules: DetailedModule[] = [
           ],
         },
       },
+      // Lesson 3: Workplace Titles
+      {
+        id: "vff-pron-3",
+        title: "Thầy, Cô, Bác sĩ — Đại từ nghề nghiệp",
+        titleEn: "Thầy, Cô, Doctor — Professional Title Pronouns",
+        icon: "🎓",
+        scenario: "Bạn đi khám bệnh và gặp bác sĩ, y tá.",
+        scenarioEn: "You visit a hospital and interact with a doctor and nurse.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Em chào bác sĩ ạ! Em bị đau bụng hai ngày rồi.", en: "Hello, doctor! I've had a stomachache for two days.", literal: "Younger greet doctor polite! Younger receive pain belly two day already.", keyWords: [{ word: "bác sĩ", pronunciation: "bác sĩ", meaning: "doctor", tone: "sac" }, { word: "đau bụng", pronunciation: "đau bụng", meaning: "stomachache", tone: "nang" }] },
+          { speaker: "Doctor", speakerLabel: "Bác sĩ", vi: "Chào em! Em ngồi đây nhé. Để bác sĩ khám cho em.", en: "Hello! Sit here please. Let me examine you.", literal: "Greet younger! Younger sit here ok. Let doctor examine for younger." },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ, em cảm ơn bác sĩ ạ.", en: "Thank you, doctor.", literal: "Polite-yes, younger feel-grace doctor polite." },
+          { speaker: "Doctor", speakerLabel: "Bác sĩ", vi: "Em có bị sốt không? Ăn uống có bình thường không?", en: "Do you have a fever? Is your eating normal?", literal: "Younger have receive fever not? Eat drink have normal not?", keyWords: [{ word: "sốt", pronunciation: "sốt", meaning: "fever", tone: "sac" }, { word: "bình thường", pronunciation: "bình thường", meaning: "normal", tone: "huyen" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ em không sốt, nhưng hôm qua em ăn hải sản, sau đó bị đau.", en: "No fever, but yesterday I ate seafood and then had pain.", literal: "Polite-yes younger not fever, but day yesterday younger eat sea-product, after that receive pain." },
+          { speaker: "Doctor", speakerLabel: "Bác sĩ", vi: "Có thể em bị ngộ độc thực phẩm. Bác sĩ kê thuốc cho em nhé.", en: "You might have food poisoning. I'll prescribe medicine for you.", literal: "Have can younger receive mistake poison food-product. Doctor write medicine for younger ok.", keyWords: [{ word: "ngộ độc", pronunciation: "ngộ độc", meaning: "poisoning", tone: "nang" }, { word: "kê thuốc", pronunciation: "kê thuốc", meaning: "prescribe medicine", tone: "sac" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ em cảm ơn bác sĩ! Em lấy thuốc ở đâu ạ?", en: "Thank you doctor! Where do I pick up the medicine?", literal: "Polite-yes younger feel-grace doctor! Younger take medicine at where polite?" },
+          { speaker: "Doctor", speakerLabel: "Bác sĩ", vi: "Em ra quầy thuốc tầng 1. Nhớ uống thuốc đúng giờ nhé!", en: "Go to the pharmacy on floor 1. Remember to take medicine on time!", literal: "Younger go-out counter medicine floor 1. Remember drink medicine correct hour ok!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Bác sĩ / Thầy / Cô (Title as pronoun)",
+            patternEn: "Using professional titles as pronouns",
+            explanation: "Ở Việt Nam, chức danh nghề nghiệp được dùng thay cho đại từ: Bác sĩ, Thầy (thầy giáo), Cô (cô giáo), Luật sư...",
+            explanationEn: "In Vietnam, professional titles replace pronouns: Bác sĩ (Doctor), Thầy (male teacher), Cô (female teacher), Luật sư (Lawyer)...",
+            examples: [
+              { vi: "Em chào thầy ạ!", en: "Hello, teacher! (male)", literal: "Younger greet teacher polite!" },
+              { vi: "Cô ơi, cho em hỏi bài.", en: "Teacher (female), may I ask about the lesson?", literal: "Teacher hey, give younger ask lesson." },
+              { vi: "Bác sĩ kê thuốc cho em.", en: "Doctor prescribes medicine for me.", literal: "Doctor write medicine for younger." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Văn hóa 'Tôn sư trọng đạo'",
+            titleEn: "'Respect teachers, value education' culture",
+            content: "Người Việt rất kính trọng giáo viên và bác sĩ. Ngày 20/11 hàng năm là 'Ngày Nhà giáo Việt Nam' — học sinh tặng hoa và quà cho thầy cô. Khi gặp bác sĩ, luôn dùng 'Dạ/Vâng' và 'ạ' để thể hiện sự tôn trọng.",
+            contentEn: "Vietnamese deeply respect teachers and doctors. November 20th is 'Vietnamese Teachers' Day' — students give flowers and gifts to teachers. When meeting doctors, always use 'Dạ/Vâng' and 'ạ' to show respect.",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Điền đại từ/chức danh phù hợp.",
+          instructionEn: "Fill in the correct title/pronoun.",
+          items: [
+            { question: "Ở bệnh viện, bạn nói: 'Em chào _____ ạ!'", answer: "bác sĩ", explanationEn: "Use the professional title 'bác sĩ' (doctor) as a pronoun." },
+            { question: "Ở trường học, bạn nói: '_____ ơi, cho em hỏi bài!'", answer: "Thầy/Cô", explanationEn: "Use 'Thầy' for male teacher, 'Cô' for female teacher." },
+            { question: "Bác sĩ nói: 'Nhớ uống thuốc _____ giờ nhé!' (on time)", answer: "đúng", explanationEn: "'Đúng giờ' = on time" },
+          ],
+        },
+      },
     ],
   },
 
@@ -349,6 +399,115 @@ export const detailedVFFModules: DetailedModule[] = [
             { question: "Cho anh một _____ _____ đá. (iced milk coffee)", answer: "cà phê sữa", explanationEn: "Cà phê sữa đá = iced milk coffee" },
             { question: "Anh muốn _____ hay mang đi? (dine in)", answer: "ngồi đây", explanationEn: "Ngồi đây = sit here / dine in" },
             { question: "Anh có _____ _____ không? (bank transfer)", answer: "chuyển khoản", explanationEn: "Chuyển khoản = bank transfer" },
+          ],
+        },
+      },
+      // Lesson 2: Bánh Mì
+      {
+        id: "vff-food-banhmi",
+        title: "Bánh Mì — Sandwich Quốc dân",
+        titleEn: "Bánh Mì — Vietnam's National Sandwich",
+        icon: "🥖",
+        scenario: "Bạn mua bánh mì ở xe đẩy trên vỉa hè.",
+        scenarioEn: "You buy bánh mì from a street cart on the sidewalk.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cô ơi, cho con một ổ bánh mì thịt!", en: "Ma'am, one bánh mì with meat please!", literal: "Aunt hey, give child one loaf bread meat!", keyWords: [{ word: "ổ", pronunciation: "ổ", meaning: "classifier for bread/baguette", tone: "hoi" }, { word: "con", pronunciation: "con", meaning: "I (to older woman, very polite)", tone: "ngang" }] },
+          { speaker: "Seller", speakerLabel: "Cô bán", vi: "Bánh mì thịt có thịt nguội, chả lụa, pate. Con muốn loại nào?", en: "Meat bánh mì has cold cuts, pork roll, and pâté. Which type?", literal: "Bread meat have meat cold, sausage silk, pate. Child want type which?", keyWords: [{ word: "chả lụa", pronunciation: "chả lụa", meaning: "Vietnamese pork sausage", tone: "hoi" }, { word: "pate", pronunciation: "pa-tê", meaning: "liver pâté", tone: "ngang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cho con đầy đủ hết luôn! Thêm ớt nữa nhé cô.", en: "Give me everything! Extra chili too, please.", literal: "Give child full complete all immediately! Add chili more ok aunt." },
+          { speaker: "Seller", speakerLabel: "Cô bán", vi: "Con ăn cay được hả? Cô cho nhiều ớt nhé!", en: "You can handle spicy? I'll add lots of chili!", literal: "Child eat spicy receive question? Aunt give much chili ok!", keyWords: [{ word: "hả", pronunciation: "hả", meaning: "right? (casual question particle)", tone: "hoi" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ được ạ! Bao nhiêu tiền hả cô?", en: "Yes! How much is it, ma'am?", literal: "Polite-yes receive polite! Wrap how-much money question aunt?" },
+          { speaker: "Seller", speakerLabel: "Cô bán", vi: "Hai mươi lăm nghìn thôi con!", en: "Only twenty-five thousand, dear!", literal: "Two ten five thousand only child!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "(Ăn) Ngon quá cô ơi! Mai con lại mua nhé!", en: "(Eating) So delicious! I'll buy again tomorrow!", literal: "(Eat) Delicious too-much aunt hey! Tomorrow child again buy ok!" },
+          { speaker: "Seller", speakerLabel: "Cô bán", vi: "Cô bán từ 6 giờ sáng tới 10 giờ tối. Lúc nào đến cũng được con!", en: "I sell from 6 AM to 10 PM. Come anytime, dear!", literal: "Aunt sell from 6 hour morning arrive 10 hour night. Moment which arrive also receive child!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Bao nhiêu + tiền?",
+            patternEn: "'Bao nhiêu tiền?' — Asking the price",
+            explanation: "'Bao nhiêu?' = 'How much/many?'. Dùng cho số lượng không xác định.",
+            explanationEn: "'Bao nhiêu?' = 'How much/many?'. Used for unspecified quantities.",
+            examples: [
+              { vi: "Bao nhiêu tiền?", en: "How much?", literal: "Wrap how-much money?" },
+              { vi: "Cô bán bao nhiêu một ổ?", en: "How much for one loaf?", literal: "Aunt sell wrap how-much one loaf?" },
+              { vi: "Bao nhiêu tuổi?", en: "How old?", literal: "Wrap how-much age?" },
+            ],
+          },
+          {
+            pattern: "Con / Cô / Chú (Market pronouns)",
+            patternEn: "Street vendor pronouns: Con / Cô / Chú",
+            explanation: "Khi mua hàng ở vỉa hè, gọi người bán lớn tuổi là 'Cô' (nữ) hoặc 'Chú' (nam), tự xưng 'Con'. Đây là cách thể hiện sự tôn trọng.",
+            explanationEn: "When buying from street vendors, call older sellers 'Cô' (female) or 'Chú' (male), refer to yourself as 'Con'. This shows respect.",
+            examples: [
+              { vi: "Cô ơi, cho con hỏi giá.", en: "Ma'am, may I ask the price.", literal: "Aunt hey, give child ask price." },
+              { vi: "Chú ơi, bán cho con một ly nước mía.", en: "Sir, sell me a glass of sugarcane juice.", literal: "Uncle hey, sell give child one glass water sugarcane." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Bánh mì — Di sản ẩm thực thế giới",
+            titleEn: "Bánh Mì — A world culinary heritage",
+            content: "Bánh mì Việt Nam là sự kết hợp Pháp-Việt: vỏ giòn kiểu baguette Pháp, nhân là đồ Việt (pate, chả lụa, rau mùi, đồ chua). Năm 2012, 'Bánh mì' được thêm vào từ điển Oxford English Dictionary. Giá trung bình chỉ 15.000–30.000 VNĐ (~$0.60–$1.20).",
+            contentEn: "Vietnamese bánh mì is a French-Vietnamese fusion: crispy French baguette outside, Vietnamese fillings inside (pâté, pork roll, cilantro, pickled veggies). In 2012, 'Bánh mì' was added to the Oxford English Dictionary. Average price: only 15,000–30,000 VND (~$0.60–$1.20).",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Hoàn thành câu mua bánh mì.",
+          instructionEn: "Complete the bánh mì ordering sentences.",
+          items: [
+            { question: "_____ ơi, cho _____ một ổ bánh mì! (ma'am / me)", answer: "Cô / con", explanationEn: "Call the seller 'Cô' and yourself 'Con'." },
+            { question: "_____ _____ tiền hả cô? (how much)", answer: "Bao nhiêu", explanationEn: "'Bao nhiêu tiền?' = How much?" },
+            { question: "Cho con đầy đủ hết _____! (everything immediately)", answer: "luôn", explanationEn: "'Luôn' = immediately / right away" },
+          ],
+        },
+      },
+      // Lesson 2: Asking for directions
+      {
+        id: "vff-commute-directions",
+        title: "Hỏi đường ở Việt Nam",
+        titleEn: "Asking for Directions in Vietnam",
+        icon: "🗺️",
+        scenario: "Bạn đi bộ và bị lạc ở trung tâm Hà Nội.",
+        scenarioEn: "You're walking and get lost in central Hanoi.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Anh ơi, cho em hỏi. Hồ Hoàn Kiếm đi đường nào ạ?", en: "Excuse me sir, how do I get to Hoàn Kiếm Lake?", literal: "Older-brother hey, give younger ask. Lake Hoàn Kiếm go road which polite?", keyWords: [{ word: "Hồ Hoàn Kiếm", pronunciation: "hồ hoàn kiếm", meaning: "Hoàn Kiếm Lake (Sword Lake)", tone: "huyen" }] },
+          { speaker: "Local", speakerLabel: "Người dân", vi: "À, em đi thẳng đường này khoảng 500 mét, rồi rẽ trái.", en: "Go straight this road about 500 meters, then turn left.", literal: "Ah, younger go straight road this about 500 meter, then turn left.", keyWords: [{ word: "đi thẳng", pronunciation: "đi thẳng", meaning: "go straight", tone: "hoi" }, { word: "rẽ trái", pronunciation: "rẽ trái", meaning: "turn left", tone: "hoi" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Rẽ trái ở ngã tư hay ngã ba ạ?", en: "Turn left at the intersection or the T-junction?", literal: "Turn left at crossroads four or crossroads three polite?", keyWords: [{ word: "ngã tư", pronunciation: "ngã tư", meaning: "intersection (4-way)", tone: "nga" }, { word: "ngã ba", pronunciation: "ngã ba", meaning: "T-junction (3-way)", tone: "nga" }] },
+          { speaker: "Local", speakerLabel: "Người dân", vi: "Ngã tư có đèn đỏ. Rẽ trái xong đi thêm 200 mét là tới.", en: "At the intersection with traffic lights. Turn left then 200 more meters and you're there.", literal: "Crossroads four have light red. Turn left finish go add 200 meter is arrive." },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Gần đây có quán cà phê nào không anh?", en: "Are there any coffee shops nearby?", literal: "Near here have shop coffee which not older-brother?", keyWords: [{ word: "gần đây", pronunciation: "gần đây", meaning: "nearby / around here", tone: "huyen" }] },
+          { speaker: "Local", speakerLabel: "Người dân", vi: "Có! Cạnh Hồ Hoàn Kiếm có quán Cộng, rất nổi tiếng!", en: "Yes! Next to the lake there's Cộng Café, very famous!", literal: "Have! Beside Lake Hoàn Kiếm have shop Cộng, very famous!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cảm ơn anh nhiều! Anh chỉ đường rõ ràng quá!", en: "Thank you so much! Your directions are very clear!", literal: "Feel-grace older-brother much! Older-brother point road clear too-much!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Đi thẳng / Rẽ trái / Rẽ phải",
+            patternEn: "Direction words: Straight / Left / Right",
+            explanation: "Các từ chỉ hướng cơ bản khi hỏi/chỉ đường.",
+            explanationEn: "Basic direction words for asking and giving directions.",
+            examples: [
+              { vi: "Đi thẳng 100 mét.", en: "Go straight 100 meters.", literal: "Go straight 100 meter." },
+              { vi: "Rẽ phải ở ngã tư.", en: "Turn right at the intersection.", literal: "Turn right at crossroads four." },
+              { vi: "Quay lại, đi ngược chiều.", en: "Go back, opposite direction.", literal: "Turn back, go reverse direction." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Chỉ đường kiểu Việt Nam",
+            titleEn: "Vietnamese-style directions",
+            content: "Người Việt thường chỉ đường bằng địa danh thay vì số nhà: 'Đi qua cái chùa, rẽ phải ở quán phở, đi thêm chút là tới'. Đôi khi họ chỉ sai nhưng rất nhiệt tình! Luôn hỏi 2-3 người để chắc chắn.",
+            contentEn: "Vietnamese often give directions using landmarks instead of addresses: 'Pass the temple, turn right at the phở shop, go a bit further and you're there.' Sometimes directions are wrong but given enthusiastically! Always ask 2-3 people to be sure.",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Hoàn thành câu hỏi đường.",
+          instructionEn: "Complete the direction-asking sentences.",
+          items: [
+            { question: "_____ _____ đường này khoảng 500 mét. (go straight)", answer: "Đi thẳng", explanationEn: "'Đi thẳng' = go straight" },
+            { question: "_____ trái ở _____ tư. (turn / intersection)", answer: "Rẽ / ngã", explanationEn: "'Rẽ trái' = turn left, 'ngã tư' = intersection" },
+            { question: "_____ đây có quán cà phê không? (nearby)", answer: "Gần", explanationEn: "'Gần đây' = nearby" },
           ],
         },
       },
@@ -495,6 +654,57 @@ export const detailedVFFModules: DetailedModule[] = [
           ],
         },
       },
+      // Lesson 2: Weekend plans
+      {
+        id: "vff-social-weekend",
+        title: "Kế hoạch cuối tuần — Đi đâu chơi?",
+        titleEn: "Weekend Plans — Where to go?",
+        icon: "🎭",
+        scenario: "Bạn và bạn bè lên kế hoạch đi chơi cuối tuần.",
+        scenarioEn: "You and friends plan a weekend outing.",
+        dialogue: [
+          { speaker: "You", speakerLabel: "Bạn", vi: "Cuối tuần này mọi người có kế hoạch gì chưa?", en: "Does everyone have plans this weekend?", literal: "End week this every person have plan what yet?", keyWords: [{ word: "cuối tuần", pronunciation: "cuối tuần", meaning: "weekend", tone: "sac" }, { word: "kế hoạch", pronunciation: "kế hoạch", meaning: "plan", tone: "sac" }] },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Chưa! Đi đâu chơi không? Mình muốn đi biển quá!", en: "Not yet! Want to go somewhere? I really want to go to the beach!", literal: "Not-yet! Go where play not? Self want go sea too-much!", keyWords: [{ word: "đi biển", pronunciation: "đi biển", meaning: "go to the beach", tone: "hoi" }] },
+          { speaker: "Tuấn", speakerLabel: "Tuấn", vi: "Đi biển thì xa quá. Hay mình đi Đà Lạt? Cuối tuần này trời mát.", en: "Beach is too far. How about Đà Lạt? The weather is cool this weekend.", literal: "Go sea then far too-much. Or self go Đà Lạt? End week this sky cool.", keyWords: [{ word: "mát", pronunciation: "mát", meaning: "cool (weather)", tone: "sac" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Đà Lạt hay đó! Mình đi xe máy hay đặt xe khách?", en: "Đà Lạt sounds great! Shall we ride motorcycles or book a bus?", literal: "Đà Lạt interesting that! Self go vehicle engine or book vehicle guest?" },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Đặt xe khách đi, cho khỏe. Mình book trên Vexere nhé!", en: "Let's book a bus, less tiring. I'll book on Vexere!", literal: "Book vehicle guest go, for healthy. Self book on Vexere ok!", keyWords: [{ word: "cho khỏe", pronunciation: "cho khỏe", meaning: "to be easier / less tiring", tone: "hoi" }] },
+          { speaker: "Tuấn", speakerLabel: "Tuấn", vi: "Ở đó mình thuê homestay hay khách sạn?", en: "Should we rent a homestay or hotel there?", literal: "At there self rent homestay or hotel?", keyWords: [{ word: "thuê", pronunciation: "thuê", meaning: "to rent", tone: "ngang" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Homestay đi, rẻ mà lại vui! Chia ba người, mỗi người khoảng 200k một đêm.", en: "Homestay, cheap and fun! Split three ways, about 200k per person per night.", literal: "Homestay go, cheap but again fun! Divide three person, each person about 200k one night." },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Chốt luôn! Mình đi thứ bảy sáng, về chủ nhật tối.", en: "Done! Leave Saturday morning, come back Sunday night.", literal: "Lock immediately! Self go weekday seven morning, return master day night.", keyWords: [{ word: "thứ bảy", pronunciation: "thứ bảy", meaning: "Saturday", tone: "hoi" }, { word: "chủ nhật", pronunciation: "chủ nhật", meaning: "Sunday", tone: "nang" }] },
+          { speaker: "Tuấn", speakerLabel: "Tuấn", vi: "Nhớ mang áo ấm nhé, Đà Lạt lạnh lắm!", en: "Remember to bring warm clothes, Đà Lạt is very cold!", literal: "Remember carry shirt warm ok, Đà Lạt cold very!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Hay + [suggestion]? (Or/How about?)",
+            patternEn: "'Hay' — Suggesting alternatives",
+            explanation: "'Hay' dùng để đề xuất lựa chọn khác. 'Hay mình đi X?' = 'How about we go to X?'",
+            explanationEn: "'Hay' is used to suggest alternatives. 'Hay mình đi X?' = 'How about we go to X?'",
+            examples: [
+              { vi: "Hay mình đi Đà Lạt?", en: "How about we go to Đà Lạt?", literal: "Or self go Đà Lạt?" },
+              { vi: "Hay ăn pizza?", en: "Or eat pizza?", literal: "Or eat pizza?" },
+              { vi: "Hay đổi ngày khác?", en: "Or change to another day?", literal: "Or change day other?" },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Văn hóa đi phượt của giới trẻ Việt",
+            titleEn: "Vietnamese youth backpacking culture",
+            content: "'Đi phượt' là xu hướng du lịch bụi của giới trẻ Việt Nam — tự lái xe máy, mang lều cắm trại, khám phá vùng núi. Đà Lạt, Sapa, Hà Giang là những điểm đến phượt nổi tiếng. Chi phí thường rất rẻ vì chia sẻ phòng và ăn quán bình dân.",
+            contentEn: "'Đi phượt' (backpacking by motorcycle) is a popular trend among Vietnamese youth — riding motorcycles, camping, exploring mountains. Đà Lạt, Sapa, Hà Giang are famous destinations. Costs are usually very low because of room-sharing and eating at local stalls.",
+          },
+        ],
+        practice: {
+          type: "fill-blank",
+          instruction: "Hoàn thành câu lên kế hoạch cuối tuần.",
+          instructionEn: "Complete the weekend planning sentences.",
+          items: [
+            { question: "_____ tuần này mọi người có kế hoạch gì? (weekend)", answer: "Cuối", explanationEn: "'Cuối tuần' = weekend" },
+            { question: "_____ mình đi Đà Lạt? (How about)", answer: "Hay", explanationEn: "'Hay' = or / how about" },
+            { question: "Mình đi _____ bảy sáng, về _____ nhật tối. (Saturday/Sunday)", answer: "thứ / chủ", explanationEn: "'Thứ bảy' = Saturday, 'Chủ nhật' = Sunday" },
+          ],
+        },
+      },
     ],
   },
 
@@ -567,6 +777,56 @@ export const detailedVFFModules: DetailedModule[] = [
             { question: "Cho _____ hỏi, WiFi mật khẩu gì ạ? (may I ask)", answer: "anh/em", explanationEn: "Use your appropriate pronoun" },
             { question: "Cần gì _____ hỏi em nhé! (just go ahead)", answer: "cứ", explanationEn: "'Cứ' = just/feel free to" },
             { question: "Em sẽ có mặt _____ giờ ạ. (on time)", answer: "đúng", explanationEn: "'Đúng giờ' = on time/punctual" },
+          ],
+        },
+      },
+      // Lesson 2: Email & Meetings
+      {
+        id: "vff-work-email",
+        title: "Viết email và họp hành",
+        titleEn: "Writing Emails & Attending Meetings",
+        icon: "📧",
+        scenario: "Bạn cần gửi email cho sếp và tham dự cuộc họp đầu tiên.",
+        scenarioEn: "You need to email your boss and attend your first meeting.",
+        dialogue: [
+          { speaker: "Hùng", speakerLabel: "Hùng", vi: "Anh David, sếp Minh vừa gửi email bảo 2 giờ họp nhé.", en: "David, boss Minh just emailed saying meeting at 2.", literal: "Older-brother David, boss Minh just send email tell 2 hour meeting ok.", keyWords: [{ word: "vừa", pronunciation: "vừa", meaning: "just (recently)", tone: "huyen" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "OK! Mình reply email thế nào cho lịch sự?", en: "OK! How do I reply politely to the email?", literal: "OK! Self reply email how for polite?" },
+          { speaker: "Hùng", speakerLabel: "Hùng", vi: "Viết: 'Dạ anh, em nhận được email. Em sẽ có mặt đúng giờ ạ.' Nhớ có 'Dạ' đầu và 'ạ' cuối!", en: "Write: 'Yes sir, I received the email. I'll be there on time.' Remember 'Dạ' at start and 'ạ' at end!", literal: "Write: 'Polite-yes older-brother, younger receive email. Younger will have face correct hour polite.' Remember have 'Dạ' start and 'ạ' end!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "(Trong cuộc họp) Dạ anh Minh, cho em trình bày về dự án ạ.", en: "(In the meeting) Sir, allow me to present about the project.", literal: "(In session meeting) Polite-yes older-brother Minh, give younger present about project polite.", keyWords: [{ word: "trình bày", pronunciation: "trình bày", meaning: "to present/report", tone: "huyen" }, { word: "dự án", pronunciation: "dự án", meaning: "project", tone: "sac" }] },
+          { speaker: "Boss", speakerLabel: "Sếp", vi: "Được, David trình bày đi. Mọi người chú ý nhé!", en: "Go ahead David. Everyone, pay attention!", literal: "Receive, David present go. Every person pay-attention ok!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ, theo em thấy, chúng ta nên hoàn thành trước thứ Sáu.", en: "In my view, we should finish before Friday.", literal: "Polite-yes, according younger see, we should complete before weekday Six.", keyWords: [{ word: "theo em thấy", pronunciation: "theo em thấy", meaning: "in my opinion/view", tone: "ngang" }] },
+          { speaker: "Boss", speakerLabel: "Sếp", vi: "Ý kiến hay! Ai có ý kiến gì thêm không?", en: "Good idea! Anyone have additional thoughts?", literal: "Opinion interesting! Who have opinion what add not?", keyWords: [{ word: "ý kiến", pronunciation: "ý kiến", meaning: "opinion/idea", tone: "sac" }] },
+          { speaker: "Hùng", speakerLabel: "Hùng", vi: "Em đồng ý với anh David. Mình cần thêm 2 ngày nữa.", en: "I agree with David. We need 2 more days.", literal: "Younger agree with older-brother David. Self need add 2 day more.", keyWords: [{ word: "đồng ý", pronunciation: "đồng ý", meaning: "agree", tone: "huyen" }] },
+          { speaker: "Boss", speakerLabel: "Sếp", vi: "OK, vậy deadline là thứ Sáu tuần sau. Mọi người cố gắng nhé!", en: "OK, deadline is next Friday. Everyone do your best!", literal: "OK, so deadline is weekday Six week after. Every person try ok!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Theo + [person] + thấy",
+            patternEn: "'Theo... thấy' — Expressing opinions politely",
+            explanation: "'Theo em thấy' = 'Theo ý kiến của em' — cách đưa ra ý kiến nhẹ nhàng, không áp đặt.",
+            explanationEn: "'Theo em thấy' = 'In my view/opinion' — a gentle, non-imposing way to share opinions.",
+            examples: [
+              { vi: "Theo em thấy, cách này tốt hơn.", en: "In my opinion, this approach is better.", literal: "According younger see, way this good more." },
+              { vi: "Theo anh, mình nên họp sớm.", en: "In my view, we should meet earlier.", literal: "According older-brother, self should meeting early." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Email công sở Việt Nam — Luôn có 'Dạ' và 'ạ'",
+            titleEn: "Vietnamese work emails — Always include 'Dạ' and 'ạ'",
+            content: "Email công sở Việt Nam luôn bắt đầu bằng 'Dạ anh/chị' và kết thúc bằng 'ạ' hoặc 'Trân trọng' (Respectfully). Không bao giờ viết email ngắn gọn kiểu 'OK' hay 'Noted' cho sếp — đó bị coi là thiếu tôn trọng. Luôn viết đầy đủ: 'Dạ anh, em nhận được ạ. Em sẽ xử lý ngay.'",
+            contentEn: "Vietnamese work emails always start with 'Dạ anh/chị' and end with 'ạ' or 'Trân trọng' (Respectfully). Never send short replies like 'OK' or 'Noted' to your boss — that's considered disrespectful. Always write fully: 'Yes sir, I received it. I'll handle it right away.'",
+          },
+        ],
+        practice: {
+          type: "reorder",
+          instruction: "Sắp xếp câu email công sở.",
+          instructionEn: "Reorder to form a polite work email reply.",
+          items: [
+            { question: "em / Dạ / nhận / anh / được / email / ạ", answer: "Dạ anh em nhận được email ạ", explanationEn: "'Dạ anh, em nhận được email ạ' = Yes sir, I received the email" },
+            { question: "mặt / em / có / sẽ / đúng / giờ / ạ", answer: "Em sẽ có mặt đúng giờ ạ", explanationEn: "'Em sẽ có mặt đúng giờ ạ' = I'll be there on time" },
+            { question: "thấy / theo / nên / em / hoàn thành / mình / sớm", answer: "Theo em thấy mình nên hoàn thành sớm", explanationEn: "'In my view, we should finish early'" },
           ],
         },
       },
