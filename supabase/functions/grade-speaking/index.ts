@@ -90,11 +90,13 @@ Return ONLY valid JSON with this structure:
   "pronunciationFocus": [
     {"sound": "<IPA sound>", "words": ["<word from transcript>", "<word>"], "tip": "<how to practice>"},
     {"sound": "<IPA sound>", "words": ["<word from transcript>", "<word>"], "tip": "<how to practice>"}
-  ]
+  ],
+  "upgradedAnswer": "<IMPORTANT: Take the student's ACTUAL answer and upgrade it to Band 7.5-8.0 level. Keep the same ideas, structure, and flow as the student's original answer. Fix all grammar errors, replace basic vocabulary with advanced alternatives, add appropriate linking words, and improve sentence structure. Do NOT create a completely new answer - this must clearly be the student's own answer but polished and elevated. Bold the upgraded words/phrases using **word** markdown.>"
 }
 
 IMPORTANT: The "highlightedErrors" array must contain errors found IN the actual transcript only. Each "text" field must be an exact substring from the transcript.
 The "transcript" field must return the student's original transcription exactly as provided, do not modify it.
+The "upgradedAnswer" must be based on the student's actual answer - same ideas and flow, just upgraded language. Bold upgraded parts with **word** markdown.
 Make scores REALISTIC and VARIED based on the actual language quality in the transcript.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
