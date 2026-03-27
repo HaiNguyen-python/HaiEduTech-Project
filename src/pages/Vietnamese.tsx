@@ -25,6 +25,7 @@ import {
   historyMonths,
   folkloreItems,
 } from "@/data/vietnameseCurriculumData";
+import teacherAodai from "@/assets/teacher-aodai.png";
 
 // Icon mapping for each history lesson
 const lessonIconMap: Record<string, LucideIcon> = {
