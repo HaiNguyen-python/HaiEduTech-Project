@@ -186,17 +186,19 @@ const Navbar = () => {
                 </motion.span>
               </Link>
 
-              {/* Slogan centered between logo and auth */}
+              {/* Slogan centered between logo and auth — with periodic ripple */}
               <div className="hidden md:flex items-center justify-center flex-1 min-w-0 mx-3 relative group/slogan">
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center relative overflow-hidden">
                   <span
-                    className="text-[11px] lg:text-xs uppercase font-semibold tracking-[0.18em] truncate"
+                    className="slogan-text relative text-[11px] lg:text-xs uppercase font-semibold tracking-[0.18em] truncate"
                     style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 600 }}
                   >
                     <span style={{ color: "#1A1A1A" }}>THE UNIQUE INTERSECTION OF </span>
                     <span style={{ color: "#10B981" }}>LANGUAGE</span>
                     <span style={{ color: "#1A1A1A" }}> & </span>
                     <span style={{ color: "#10B981" }}>TECHNOLOGY</span>
+                    {/* Ripple overlay — CSS-only, hardware-accelerated */}
+                    <span className="slogan-ripple" aria-hidden="true" />
                   </span>
                   {/* Elegant underline */}
                   <div className="w-full h-[1px] mt-1 bg-gradient-to-r from-transparent via-[#10B981]/40 to-transparent" />
