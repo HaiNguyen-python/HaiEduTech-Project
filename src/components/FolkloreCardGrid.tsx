@@ -149,21 +149,6 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
                 </div>
               )}
 
-              {/* Meaning — clean Inter font, smaller size */}
-              <div className="px-5 py-4">
-                <p
-                  className="text-muted-foreground leading-relaxed"
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: "14px",
-                  }}
-                >
-                  <span className="font-semibold text-foreground">
-                    {t("Ý nghĩa:", "Meaning:")}
-                  </span>{" "}
-                  {t(item.meaning, item.meaningEn)}
-                </p>
-              </div>
             </motion.div>
           );
         })}
