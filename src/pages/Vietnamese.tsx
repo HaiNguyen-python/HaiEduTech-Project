@@ -221,7 +221,7 @@ const Vietnamese = () => {
         </section>
 
         {/* Main Tabs */}
-        <div className="container mx-auto px-6">
+        <div ref={tabsRef} className="container mx-auto px-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-10">
               <TabsTrigger value="language" className="flex items-center gap-1.5 text-xs sm:text-sm">
