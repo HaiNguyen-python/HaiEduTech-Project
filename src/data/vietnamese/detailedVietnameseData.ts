@@ -780,6 +780,56 @@ export const detailedVFFModules: DetailedModule[] = [
           ],
         },
       },
+      // Lesson 2: Email & Meetings
+      {
+        id: "vff-work-email",
+        title: "Viết email và họp hành",
+        titleEn: "Writing Emails & Attending Meetings",
+        icon: "📧",
+        scenario: "Bạn cần gửi email cho sếp và tham dự cuộc họp đầu tiên.",
+        scenarioEn: "You need to email your boss and attend your first meeting.",
+        dialogue: [
+          { speaker: "Hùng", speakerLabel: "Hùng", vi: "Anh David, sếp Minh vừa gửi email bảo 2 giờ họp nhé.", en: "David, boss Minh just emailed saying meeting at 2.", literal: "Older-brother David, boss Minh just send email tell 2 hour meeting ok.", keyWords: [{ word: "vừa", pronunciation: "vừa", meaning: "just (recently)", tone: "huyen" }] },
+          { speaker: "You", speakerLabel: "Bạn", vi: "OK! Mình reply email thế nào cho lịch sự?", en: "OK! How do I reply politely to the email?", literal: "OK! Self reply email how for polite?" },
+          { speaker: "Hùng", speakerLabel: "Hùng", vi: "Viết: 'Dạ anh, em nhận được email. Em sẽ có mặt đúng giờ ạ.' Nhớ có 'Dạ' đầu và 'ạ' cuối!", en: "Write: 'Yes sir, I received the email. I'll be there on time.' Remember 'Dạ' at start and 'ạ' at end!", literal: "Write: 'Polite-yes older-brother, younger receive email. Younger will have face correct hour polite.' Remember have 'Dạ' start and 'ạ' end!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "(Trong cuộc họp) Dạ anh Minh, cho em trình bày về dự án ạ.", en: "(In the meeting) Sir, allow me to present about the project.", literal: "(In session meeting) Polite-yes older-brother Minh, give younger present about project polite.", keyWords: [{ word: "trình bày", pronunciation: "trình bày", meaning: "to present/report", tone: "huyen" }, { word: "dự án", pronunciation: "dự án", meaning: "project", tone: "sac" }] },
+          { speaker: "Boss", speakerLabel: "Sếp", vi: "Được, David trình bày đi. Mọi người chú ý nhé!", en: "Go ahead David. Everyone, pay attention!", literal: "Receive, David present go. Every person pay-attention ok!" },
+          { speaker: "You", speakerLabel: "Bạn", vi: "Dạ, theo em thấy, chúng ta nên hoàn thành trước thứ Sáu.", en: "In my view, we should finish before Friday.", literal: "Polite-yes, according younger see, we should complete before weekday Six.", keyWords: [{ word: "theo em thấy", pronunciation: "theo em thấy", meaning: "in my opinion/view", tone: "ngang" }] },
+          { speaker: "Boss", speakerLabel: "Sếp", vi: "Ý kiến hay! Ai có ý kiến gì thêm không?", en: "Good idea! Anyone have additional thoughts?", literal: "Opinion interesting! Who have opinion what add not?", keyWords: [{ word: "ý kiến", pronunciation: "ý kiến", meaning: "opinion/idea", tone: "sac" }] },
+          { speaker: "Hùng", speakerLabel: "Hùng", vi: "Em đồng ý với anh David. Mình cần thêm 2 ngày nữa.", en: "I agree with David. We need 2 more days.", literal: "Younger agree with older-brother David. Self need add 2 day more.", keyWords: [{ word: "đồng ý", pronunciation: "đồng ý", meaning: "agree", tone: "huyen" }] },
+          { speaker: "Boss", speakerLabel: "Sếp", vi: "OK, vậy deadline là thứ Sáu tuần sau. Mọi người cố gắng nhé!", en: "OK, deadline is next Friday. Everyone do your best!", literal: "OK, so deadline is weekday Six week after. Every person try ok!" },
+        ],
+        grammarPoints: [
+          {
+            pattern: "Theo + [person] + thấy",
+            patternEn: "'Theo... thấy' — Expressing opinions politely",
+            explanation: "'Theo em thấy' = 'Theo ý kiến của em' — cách đưa ra ý kiến nhẹ nhàng, không áp đặt.",
+            explanationEn: "'Theo em thấy' = 'In my view/opinion' — a gentle, non-imposing way to share opinions.",
+            examples: [
+              { vi: "Theo em thấy, cách này tốt hơn.", en: "In my opinion, this approach is better.", literal: "According younger see, way this good more." },
+              { vi: "Theo anh, mình nên họp sớm.", en: "In my view, we should meet earlier.", literal: "According older-brother, self should meeting early." },
+            ],
+          },
+        ],
+        culturalNotes: [
+          {
+            title: "Email công sở Việt Nam — Luôn có 'Dạ' và 'ạ'",
+            titleEn: "Vietnamese work emails — Always include 'Dạ' and 'ạ'",
+            content: "Email công sở Việt Nam luôn bắt đầu bằng 'Dạ anh/chị' và kết thúc bằng 'ạ' hoặc 'Trân trọng' (Respectfully). Không bao giờ viết email ngắn gọn kiểu 'OK' hay 'Noted' cho sếp — đó bị coi là thiếu tôn trọng. Luôn viết đầy đủ: 'Dạ anh, em nhận được ạ. Em sẽ xử lý ngay.'",
+            contentEn: "Vietnamese work emails always start with 'Dạ anh/chị' and end with 'ạ' or 'Trân trọng' (Respectfully). Never send short replies like 'OK' or 'Noted' to your boss — that's considered disrespectful. Always write fully: 'Yes sir, I received it. I'll handle it right away.'",
+          },
+        ],
+        practice: {
+          type: "reorder",
+          instruction: "Sắp xếp câu email công sở.",
+          instructionEn: "Reorder to form a polite work email reply.",
+          items: [
+            { question: "em / Dạ / nhận / anh / được / email / ạ", answer: "Dạ anh em nhận được email ạ", explanationEn: "'Dạ anh, em nhận được email ạ' = Yes sir, I received the email" },
+            { question: "mặt / em / có / sẽ / đúng / giờ / ạ", answer: "Em sẽ có mặt đúng giờ ạ", explanationEn: "'Em sẽ có mặt đúng giờ ạ' = I'll be there on time" },
+            { question: "thấy / theo / nên / em / hoàn thành / mình / sớm", answer: "Theo em thấy mình nên hoàn thành sớm", explanationEn: "'In my view, we should finish early'" },
+          ],
+        },
+      },
     ],
   },
 ];
