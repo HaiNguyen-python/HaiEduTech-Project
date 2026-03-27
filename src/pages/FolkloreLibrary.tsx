@@ -125,6 +125,20 @@ const FolkloreLibrary = () => {
                 {t(selectedStory.title, selectedStory.titleEn)}
               </h1>
               <p className="text-muted-foreground mb-4">{t(selectedStory.summary, selectedStory.summaryEn)}</p>
+
+              {/* Story illustration */}
+              {selectedStory.illustrationUrl && (
+                <div className="mb-6 overflow-hidden rounded-xl border border-border shadow-lg">
+                  <img
+                    src={selectedStory.illustrationUrl}
+                    alt={t(selectedStory.title, selectedStory.titleEn)}
+                    className="w-full h-auto object-cover"
+                    loading="lazy"
+                    width={1024}
+                    height={640}
+                  />
+                </div>
+              )}
             </motion.div>
 
             {/* Controls bar: bilingual toggle + audio */}

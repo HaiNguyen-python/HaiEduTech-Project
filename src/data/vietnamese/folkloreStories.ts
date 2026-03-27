@@ -1,4 +1,15 @@
 // Vietnamese Folklore Stories Collection - "Kho tàng Truyện cổ tích Việt Nam"
+import sonTinhImg from "@/assets/folklore/son-tinh-thuy-tinh.jpg";
+import thanhGiongImg from "@/assets/folklore/thanh-giong.jpg";
+import trauCauImg from "@/assets/folklore/su-tich-trau-cau.jpg";
+import thachSanhImg from "@/assets/folklore/thach-sanh.jpg";
+import tamCamImg from "@/assets/folklore/tam-cam.jpg";
+import chuCuoiImg from "@/assets/folklore/chu-cuoi.jpg";
+import lacLongQuanImg from "@/assets/folklore/lac-long-quan-au-co.jpg";
+import banhChungImg from "@/assets/folklore/su-tich-banh-chung.jpg";
+import cayKheImg from "@/assets/folklore/cay-khe.jpg";
+import hoGuomImg from "@/assets/folklore/su-tich-ho-guom.jpg";
+import cayTreImg from "@/assets/folklore/cay-tre-tram-dot.jpg";
 
 export interface FolkloreStory {
   id: string;
@@ -6,6 +17,7 @@ export interface FolkloreStory {
   titleEn: string;
   coverColor: string; // gradient for vintage book cover
   coverIcon: string;
+  illustrationUrl?: string;
   category: "than-thoai" | "co-tich" | "truyen-thuyet" | "ngu-ngon";
   categoryLabel: string;
   categoryLabelEn: string;
@@ -25,6 +37,7 @@ export const folkloreStories: FolkloreStory[] = [
     titleEn: "The Mountain God & The Water God",
     coverColor: "from-emerald-700 to-cyan-800",
     coverIcon: "🏔️",
+    illustrationUrl: sonTinhImg,
     category: "truyen-thuyet",
     categoryLabel: "Truyền thuyết",
     categoryLabelEn: "Legend",
@@ -67,6 +80,7 @@ Since then, every year Thủy Tinh raises the waters to fight Sơn Tinh, causing
     titleEn: "Saint Gióng – The Giant Hero",
     coverColor: "from-red-700 to-amber-800",
     coverIcon: "🐴",
+    illustrationUrl: thanhGiongImg,
     category: "truyen-thuyet",
     categoryLabel: "Truyền thuyết",
     categoryLabelEn: "Legend",
@@ -109,6 +123,7 @@ The king honored him as Phù Đổng Thiên Vương. Today, the golden bamboo in
     titleEn: "The Legend of Betel & Areca",
     coverColor: "from-green-800 to-lime-700",
     coverIcon: "🌿",
+    illustrationUrl: trauCauImg,
     category: "truyen-thuyet",
     categoryLabel: "Truyền thuyết",
     categoryLabelEn: "Legend",
@@ -151,6 +166,7 @@ King Hùng passed by, heard the story, and chewed betel leaf, areca nut, and lim
     titleEn: "Thạch Sanh – The Brave Woodcutter",
     coverColor: "from-amber-700 to-orange-800",
     coverIcon: "🪓",
+    illustrationUrl: thachSanhImg,
     category: "co-tich",
     categoryLabel: "Cổ tích",
     categoryLabelEn: "Fairy Tale",
@@ -193,6 +209,7 @@ The king discovered the truth, punished Lý Thông, and married the princess to 
     titleEn: "Tấm Cám – The Vietnamese Cinderella",
     coverColor: "from-pink-700 to-rose-800",
     coverIcon: "👸",
+    illustrationUrl: tamCamImg,
     category: "co-tich",
     categoryLabel: "Cổ tích",
     categoryLabelEn: "Fairy Tale",
@@ -231,6 +248,7 @@ But the stepmother wouldn't stop. She killed Tấm multiple times. Tấm was reb
     titleEn: "Cuội on the Moon",
     coverColor: "from-indigo-700 to-purple-800",
     coverIcon: "🌕",
+    illustrationUrl: chuCuoiImg,
     category: "co-tich",
     categoryLabel: "Cổ tích",
     categoryLabelEn: "Fairy Tale",
@@ -273,6 +291,7 @@ During the Mid-Autumn Festival, Vietnamese children carry lanterns, share moonca
     titleEn: "The Dragon Lord & The Fairy – Origin of Vietnam",
     coverColor: "from-yellow-700 to-red-700",
     coverIcon: "🐉",
+    illustrationUrl: lacLongQuanImg,
     category: "than-thoai",
     categoryLabel: "Thần thoại",
     categoryLabelEn: "Mythology",
@@ -315,6 +334,7 @@ This is why Vietnamese people proudly call themselves "Con Rồng Cháu Tiên" �
     titleEn: "The Legend of Bánh Chưng & Bánh Dày",
     coverColor: "from-green-700 to-teal-800",
     coverIcon: "🍚",
+    illustrationUrl: banhChungImg,
     category: "truyen-thuyet",
     categoryLabel: "Truyền thuyết",
     categoryLabelEn: "Legend",
@@ -357,6 +377,7 @@ Since then, every Lunar New Year, Vietnamese people make bánh chưng (square) a
     titleEn: "The Star Fruit Tree",
     coverColor: "from-lime-600 to-yellow-700",
     coverIcon: "⭐",
+    illustrationUrl: cayKheImg,
     category: "co-tich",
     categoryLabel: "Cổ tích",
     categoryLabelEn: "Fairy Tale",
@@ -395,6 +416,7 @@ The elder brother heard this and traded all his wealth for the star fruit tree. 
     titleEn: "The Legend of the Sword Lake",
     coverColor: "from-teal-700 to-blue-800",
     coverIcon: "⚔️",
+    illustrationUrl: hoGuomImg,
     category: "truyen-thuyet",
     categoryLabel: "Truyền thuyết",
     categoryLabelEn: "Legend",
@@ -437,6 +459,7 @@ From then on, the lake was renamed Hoàn Kiếm Lake (Sword Lake) — meaning "L
     titleEn: "The Hundred-Knot Bamboo",
     coverColor: "from-emerald-600 to-green-900",
     coverIcon: "🎋",
+    illustrationUrl: cayTreImg,
     category: "co-tich",
     categoryLabel: "Cổ tích",
     categoryLabelEn: "Fairy Tale",
