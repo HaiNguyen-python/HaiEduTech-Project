@@ -439,6 +439,7 @@ export const historyStorySegments: Record<string, StorySegment[]> = {
       titleEn: "🏯 The Last Dynasty",
       text: "**Năm 1802**, **Nguyễn Ánh** thống nhất đất nước, lên ngôi **Gia Long**, lập nhà Nguyễn – triều đại phong kiến cuối cùng, đóng đô ở **Phú Xuân** (Huế). Ông xây dựng **Kinh thành Huế** nguy nga (nay là Di sản UNESCO). Tuy nhiên, các vua sau thực hiện chính sách **'bế quan tỏa cảng'**, cấm đạo, từ chối hiện đại hóa.",
       textEn: "In **1802**, **Nguyen Anh** unified the country as Emperor **Gia Long**, founding the Nguyen Dynasty – the last feudal dynasty, capital at **Phu Xuan** (Hue). He built the magnificent **Hue Imperial Citadel** (now UNESCO Heritage). However, later kings pursued **isolationism**, banning Christianity and refusing modernization.",
+      imageUrl: hueCitadel,
     },
     {
       title: "🇫🇷 80 năm đô hộ",
