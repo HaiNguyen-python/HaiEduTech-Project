@@ -1,8 +1,8 @@
-// IELTS Speaking Practice page with vocabulary support, preparation mode, and recording mode
-import { useState, useRef, useEffect, useMemo } from "react";
+// IELTS Speaking Practice page with real-time speech-to-text and AI grading
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp,
+  Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp, AlertTriangle,
   BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
   Users, MapPin, Package, Calendar, Sparkles
 } from "lucide-react";
@@ -27,6 +27,7 @@ import { getMergedStructures, getMergedIdeas } from "@/data/speakingStructuresId
 // Grading result interfaces
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
 interface PronFocus { sound: string; words: string[]; tip: string; }
+interface HighlightedError { text: string; type: "grammar" | "vocabulary" | "pronunciation"; correction: string; explanation: string; }
 interface SpeakingResult {
   overall: number;
   criteria: { label: string; score: number; feedback: string }[];
@@ -34,6 +35,30 @@ interface SpeakingResult {
   suggestions: string[];
   vocabularyUpgrades?: VocabUpgrade[];
   pronunciationFocus?: PronFocus[];
+  highlightedErrors?: HighlightedError[];
+}
+
+// Web Speech API type declarations
+interface ISpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start: () => void;
+  stop: () => void;
+  abort: () => void;
+  onresult: ((event: ISpeechRecognitionEvent) => void) | null;
+  onerror: ((event: { error: string }) => void) | null;
+  onend: (() => void) | null;
+}
+interface ISpeechRecognitionEvent {
+  resultIndex: number;
+  results: { [key: number]: { [key: number]: { transcript: string }; isFinal: boolean }; length: number };
+}
+declare global {
+  interface Window {
+    SpeechRecognition: new () => ISpeechRecognition;
+    webkitSpeechRecognition: new () => ISpeechRecognition;
+  }
 }
 
 // Part 2 category grouping
@@ -79,10 +104,14 @@ const SpeakingPractice = () => {
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [showModelAnswer, setShowModelAnswer] = useState(false);
   const [showQuestionList, setShowQuestionList] = useState(true);
+  // Live transcription state
+  const [liveTranscript, setLiveTranscript] = useState("");
+  const [interimTranscript, setInterimTranscript] = useState("");
 
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const recognitionRef = useRef<ISpeechRecognition | null>(null);
 
   // Get questions for current part
   const allQuestions = useMemo(() => {
@@ -132,6 +161,36 @@ const SpeakingPractice = () => {
     setShowModelAnswer(false);
   };
 
+  // Initialize speech recognition
+  const initSpeechRecognition = useCallback(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return null;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+    recognition.onresult = (event: ISpeechRecognitionEvent) => {
+      let interim = "";
+      let final = "";
+      for (let i = 0; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          final += event.results[i][0].transcript + " ";
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+      setLiveTranscript(final.trim());
+      setInterimTranscript(interim);
+    };
+    recognition.onerror = (event) => { console.error("Speech recognition error:", event.error); };
+    recognition.onend = () => {
+      if (mediaRecorder.current?.state === "recording") {
+        try { recognition.start(); } catch { /* already started */ }
+      }
+    };
+    return recognition;
+  }, []);
+
   // Recording functions
   const startRecording = async () => {
     try {
@@ -146,12 +205,21 @@ const SpeakingPractice = () => {
         if (audioUrl) URL.revokeObjectURL(audioUrl);
         setAudioUrl(URL.createObjectURL(blob));
         stream.getTracks().forEach((t) => t.stop());
+        chunksRef.current = [];
       };
       recorder.start();
       setIsRecording(true);
       setResult(null);
       setTimer(0);
       setShowSuggestions(false);
+      setLiveTranscript("");
+      setInterimTranscript("");
+      // Start speech recognition
+      const recognition = initSpeechRecognition();
+      if (recognition) {
+        recognitionRef.current = recognition;
+        try { recognition.start(); } catch { /* ignore */ }
+      }
       timerRef.current = setInterval(() => setTimer((t) => t + 1), 1000);
     } catch {
       alert(t("Vui lòng cho phép truy cập microphone", "Please allow microphone access"));
@@ -162,6 +230,12 @@ const SpeakingPractice = () => {
     mediaRecorder.current?.stop();
     setIsRecording(false);
     if (timerRef.current) clearInterval(timerRef.current);
+    if (recognitionRef.current) {
+      recognitionRef.current.onend = null;
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
+    setInterimTranscript("");
   };
 
   const resetRecording = () => {
@@ -171,17 +245,20 @@ const SpeakingPractice = () => {
     setTimer(0);
     setResult(null);
     setShowSuggestions(true);
+    setLiveTranscript("");
+    setInterimTranscript("");
+    chunksRef.current = [];
   };
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
-  // Grading
+  // Grading - sends actual transcript to AI
   const handleGrade = async () => {
     if (!audioBlob) return;
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("grade-speaking", {
-        body: { question: currentQ.question, part: selectedPart, duration: timer },
+        body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: liveTranscript },
       });
       if (error) throw error;
       setResult(data as SpeakingResult);
@@ -198,7 +275,7 @@ const SpeakingPractice = () => {
           { label: "Grammatical Range & Accuracy", score: g, feedback: "Use complex sentences: conditionals, relative clauses, passive voice." },
           { label: "Pronunciation", score: p, feedback: "Focus on word stress patterns and final consonant sounds." },
         ],
-        transcript: "(Connect AI service for auto transcription)",
+        transcript: liveTranscript || "(Speech recognition unavailable)",
         suggestions: [
           "Practice 2-minute non-stop speaking daily",
           "Record and listen back to spot errors",
@@ -621,6 +698,45 @@ const SpeakingPractice = () => {
               </CardContent>
             </Card>
 
+            {/* Live Transcription Panel */}
+            {(isRecording || liveTranscript) && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <Card>
+                  <CardContent className="pt-4 pb-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className={`w-2.5 h-2.5 rounded-full ${isRecording ? "bg-red-500 animate-pulse" : "bg-green-500"}`} />
+                      <h4 className="text-sm font-bold text-foreground">
+                        {t("Phiên âm trực tiếp", "Live Transcription")}
+                      </h4>
+                      {isRecording && (
+                        <span className="text-xs text-muted-foreground ml-auto">{t("Đang lắng nghe...", "Listening...")}</span>
+                      )}
+                    </div>
+                    <div className="bg-secondary/50 rounded-xl p-4 min-h-[60px]">
+                      {(liveTranscript || interimTranscript) ? (
+                        <p className="text-sm text-foreground leading-relaxed">
+                          {liveTranscript}
+                          {interimTranscript && <span className="text-muted-foreground italic"> {interimTranscript}</span>}
+                        </p>
+                      ) : (
+                        <p className="text-sm text-muted-foreground italic">{t("Bắt đầu nói để xem phiên âm...", "Start speaking to see transcription...")}</p>
+                      )}
+                    </div>
+                    {!isRecording && liveTranscript && (
+                      <p className="text-xs text-muted-foreground mt-2">{t("Số từ:", "Word count:")} {liveTranscript.split(/\s+/).filter(Boolean).length}</p>
+                    )}
+                    {typeof window !== "undefined" && !window.SpeechRecognition && !window.webkitSpeechRecognition && (
+                      <div className="flex items-center gap-2 mt-3 p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
+                        <AlertTriangle className="w-4 h-4 text-yellow-600 shrink-0" />
+                        <p className="text-xs text-yellow-700 dark:text-yellow-400">
+                          {t("Trình duyệt không hỗ trợ nhận dạng giọng nói. Hãy dùng Chrome.", "Speech recognition not supported. Please use Chrome.")}
+                        </p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
             {/* Results */}
             <Card>
               <CardContent className="pt-6">
@@ -655,7 +771,40 @@ const SpeakingPractice = () => {
                         </div>
                       </div>
 
-                      {/* Criteria */}
+                      {/* Transcript with playback and error highlighting */}
+                      {result.transcript && (
+                        <div className="bg-secondary rounded-xl p-5">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="text-sm font-bold text-foreground">{t("Phiên âm của bạn", "Your Transcription")}</h4>
+                            {audioUrl && (
+                              <button
+                                onClick={() => { const a = document.getElementById("sp-playback") as HTMLAudioElement; if (a) a.play(); }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold hover:bg-primary/20 transition-colors"
+                              >
+                                <Play className="w-3.5 h-3.5 fill-current" /> {t("Nghe lại", "Playback")}
+                              </button>
+                            )}
+                          </div>
+                          {audioUrl && <audio id="sp-playback" src={audioUrl} className="hidden" />}
+                          <p className="text-sm text-foreground leading-relaxed">{result.transcript}</p>
+                          {result.highlightedErrors && result.highlightedErrors.length > 0 && (
+                            <div className="mt-3 pt-3 border-t border-border space-y-2">
+                              {result.highlightedErrors.map((err, i) => (
+                                <div key={i} className="text-xs flex items-start gap-2">
+                                  <Badge variant="outline" className="text-[10px] shrink-0 capitalize">{err.type}</Badge>
+                                  <span>
+                                    <span className="text-destructive line-through">{err.text}</span>
+                                    {" → "}
+                                    <span className="text-green-600 font-semibold">{err.correction}</span>
+                                    <span className="text-muted-foreground ml-1">({err.explanation})</span>
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
                       {result.criteria.map((c) => (
                         <div key={c.label} className="bg-secondary rounded-xl p-5">
                           <div className="flex items-center justify-between mb-3">

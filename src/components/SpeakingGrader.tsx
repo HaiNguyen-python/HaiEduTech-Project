@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+// IELTS Speaking Grader with real-time speech-to-text transcription
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, Square, RotateCcw, ChevronDown, ChevronUp, Volume2, Play, Shuffle, BookOpen } from "lucide-react";
+import { Mic, Square, RotateCcw, ChevronDown, ChevronUp, Volume2, Play, Shuffle, BookOpen, AlertTriangle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
@@ -8,6 +9,7 @@ import { part1Questions, part2Questions, part3Questions, type SpeakingQuestion }
 
 interface VocabUpgrade { basic: string; advanced: string; example: string; }
 interface PronFocus { sound: string; words: string[]; tip: string; }
+interface HighlightedError { text: string; type: "grammar" | "vocabulary" | "pronunciation"; correction: string; explanation: string; }
 
 interface SpeakingResult {
   overall: number;
@@ -16,6 +18,32 @@ interface SpeakingResult {
   suggestions: string[];
   vocabularyUpgrades?: VocabUpgrade[];
   pronunciationFocus?: PronFocus[];
+  highlightedErrors?: HighlightedError[];
+}
+
+// Web Speech API type declarations
+interface ISpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start: () => void;
+  stop: () => void;
+  abort: () => void;
+  onresult: ((event: ISpeechRecognitionEvent) => void) | null;
+  onerror: ((event: { error: string }) => void) | null;
+  onend: (() => void) | null;
+}
+
+interface ISpeechRecognitionEvent {
+  resultIndex: number;
+  results: { [key: number]: { [key: number]: { transcript: string }; isFinal: boolean }; length: number };
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition: new () => ISpeechRecognition;
+    webkitSpeechRecognition: new () => ISpeechRecognition;
+  }
 }
 
 const SpeakingGrader = () => {
@@ -30,10 +58,14 @@ const SpeakingGrader = () => {
   const [result, setResult] = useState<SpeakingResult | null>(null);
   const [showQuestions, setShowQuestions] = useState(true);
   const [shuffledQuestions, setShuffledQuestions] = useState<SpeakingQuestion[]>([]);
+  // Live transcription state
+  const [liveTranscript, setLiveTranscript] = useState("");
+  const [interimTranscript, setInterimTranscript] = useState("");
 
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const recognitionRef = useRef<ISpeechRecognition | null>(null);
 
   const baseQuestions = useMemo(() =>
     selectedPart === 1 ? part1Questions : selectedPart === 2 ? part2Questions : part3Questions,
@@ -58,6 +90,46 @@ const SpeakingGrader = () => {
     return () => { if (audioUrl) URL.revokeObjectURL(audioUrl); };
   }, [audioUrl]);
 
+  // Initialize speech recognition
+  const initSpeechRecognition = useCallback(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return null;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+
+    recognition.onresult = (event: ISpeechRecognitionEvent) => {
+      let interim = "";
+      let final = "";
+      for (let i = 0; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          final += event.results[i][0].transcript + " ";
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+      setLiveTranscript(final.trim());
+      setInterimTranscript(interim);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error:", event.error);
+      if (event.error === "not-allowed") {
+        console.warn("Microphone permission denied for speech recognition");
+      }
+    };
+
+    recognition.onend = () => {
+      // Auto-restart if still recording
+      if (mediaRecorder.current?.state === "recording") {
+        try { recognition.start(); } catch { /* already started */ }
+      }
+    };
+
+    return recognition;
+  }, []);
+
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -71,11 +143,23 @@ const SpeakingGrader = () => {
         if (audioUrl) URL.revokeObjectURL(audioUrl);
         setAudioUrl(URL.createObjectURL(blob));
         stream.getTracks().forEach((t) => t.stop());
+        // Clear chunks to prevent ghost data
+        chunksRef.current = [];
       };
       recorder.start();
       setIsRecording(true);
       setResult(null);
       setTimer(0);
+      setLiveTranscript("");
+      setInterimTranscript("");
+
+      // Start speech recognition
+      const recognition = initSpeechRecognition();
+      if (recognition) {
+        recognitionRef.current = recognition;
+        try { recognition.start(); } catch { /* ignore */ }
+      }
+
       timerRef.current = setInterval(() => setTimer((t) => t + 1), 1000);
     } catch {
       alert(t("Vui lòng cho phép truy cập microphone", "Please allow microphone access"));
@@ -86,6 +170,13 @@ const SpeakingGrader = () => {
     mediaRecorder.current?.stop();
     setIsRecording(false);
     if (timerRef.current) clearInterval(timerRef.current);
+    // Stop speech recognition
+    if (recognitionRef.current) {
+      recognitionRef.current.onend = null;
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
+    setInterimTranscript("");
   };
 
   const resetRecording = () => {
@@ -94,6 +185,9 @@ const SpeakingGrader = () => {
     setAudioUrl(null);
     setTimer(0);
     setResult(null);
+    setLiveTranscript("");
+    setInterimTranscript("");
+    chunksRef.current = [];
   };
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
@@ -104,7 +198,12 @@ const SpeakingGrader = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke("grade-speaking", {
-        body: { question: currentQ.q, part: selectedPart, duration: timer },
+        body: {
+          question: currentQ.q,
+          part: selectedPart,
+          duration: timer,
+          transcript: liveTranscript,
+        },
       });
 
       if (error) throw error;
@@ -115,11 +214,11 @@ const SpeakingGrader = () => {
         score: graded.overall,
         maxScore: 9,
         domain: "english",
-        metadata: { part: selectedPart, duration: timer },
+        metadata: { part: selectedPart, duration: timer, wordCount: liveTranscript.split(/\s+/).filter(Boolean).length },
       });
     } catch (e) {
       console.error("Grading error:", e);
-      // Fallback mock
+      // Fallback mock with transcript
       const base = 5.0 + Math.min(timer / 120, 1) * 2;
       const gs = (b: number, r: number) => Math.max(4, Math.min(9, Math.round((b + (Math.random() - 0.5) * r) * 2) / 2));
       const f = gs(base, 2), l = gs(base - 0.3, 1.5), g = gs(base - 0.2, 1.5), p = gs(base + 0.2, 1.5);
@@ -131,7 +230,7 @@ const SpeakingGrader = () => {
           { label: "Grammatical Range & Accuracy", score: g, feedback: t("Luyện câu phức: If..., Although..., Despite... Kiểm tra thì quá khứ.", "Practice complex sentences: If..., Although..., Despite... Check past tenses.") },
           { label: "Pronunciation", score: p, feedback: t("Chú ý âm /θ/ (think), /ð/ (this), trọng âm từ: edu-CA-tion.", "Focus on /θ/ (think), /ð/ (this), word stress: edu-CA-tion.") },
         ],
-        transcript: t("(Kết nối AI để xem phiên âm tự động)", "(Connect AI for auto transcription)"),
+        transcript: liveTranscript || t("(Không thể nhận dạng giọng nói)", "(Speech recognition unavailable)"),
         suggestions: [
           t("Luyện nói 2 phút không ngừng mỗi ngày", "Practice 2-minute non-stop speaking daily"),
           t("Ghi âm và nghe lại để tự phát hiện lỗi", "Record and listen back to spot errors"),
@@ -155,6 +254,79 @@ const SpeakingGrader = () => {
     if (score >= 5.5) return "text-yellow-600";
     return "text-destructive";
   };
+
+  // Render transcript with highlighted errors
+  const renderTranscriptWithErrors = (transcript: string, errors?: HighlightedError[]) => {
+    if (!errors || errors.length === 0) {
+      return <p className="text-sm text-foreground leading-relaxed">{transcript}</p>;
+    }
+
+    // Sort errors by position in transcript (longest matches first for proper highlighting)
+    const sortedErrors = [...errors].sort((a, b) => b.text.length - a.text.length);
+
+    // Build segments with error marking
+    let remaining = transcript;
+    const segments: { text: string; error?: HighlightedError }[] = [];
+
+    // Simple approach: find and mark each error occurrence
+    const errorMap = new Map<number, HighlightedError>();
+    for (const err of sortedErrors) {
+      const idx = remaining.toLowerCase().indexOf(err.text.toLowerCase());
+      if (idx !== -1) {
+        errorMap.set(idx, err);
+      }
+    }
+
+    // Reconstruct with highlights
+    let pos = 0;
+    const positions = [...errorMap.keys()].sort((a, b) => a - b);
+    for (const errPos of positions) {
+      const err = errorMap.get(errPos)!;
+      if (errPos > pos) {
+        segments.push({ text: transcript.slice(pos, errPos) });
+      }
+      segments.push({ text: transcript.slice(errPos, errPos + err.text.length), error: err });
+      pos = errPos + err.text.length;
+    }
+    if (pos < transcript.length) {
+      segments.push({ text: transcript.slice(pos) });
+    }
+
+    const errorColors: Record<string, string> = {
+      grammar: "bg-red-100 dark:bg-red-950/30 border-b-2 border-red-400",
+      vocabulary: "bg-yellow-100 dark:bg-yellow-950/30 border-b-2 border-yellow-400",
+      pronunciation: "bg-blue-100 dark:bg-blue-950/30 border-b-2 border-blue-400",
+    };
+
+    return (
+      <div className="text-sm text-foreground leading-relaxed">
+        {segments.map((seg, i) =>
+          seg.error ? (
+            <span
+              key={i}
+              className={`${errorColors[seg.error.type] || "bg-muted"} px-0.5 rounded cursor-help relative group`}
+              title={`${seg.error.type}: ${seg.error.correction} — ${seg.error.explanation}`}
+            >
+              {seg.text}
+              <span className="hidden group-hover:block absolute bottom-full left-0 bg-popover text-popover-foreground text-xs p-2 rounded-lg shadow-lg border border-border z-10 min-w-[200px] max-w-[300px]">
+                <span className="font-bold capitalize text-primary">{seg.error.type}</span>
+                <br />
+                <span className="text-destructive line-through">{seg.text}</span>
+                {" → "}
+                <span className="text-green-600 font-semibold">{seg.error.correction}</span>
+                <br />
+                <span className="text-muted-foreground">{seg.error.explanation}</span>
+              </span>
+            </span>
+          ) : (
+            <span key={i}>{seg.text}</span>
+          )
+        )}
+      </div>
+    );
+  };
+
+  const fullTranscript = liveTranscript + (interimTranscript ? " " + interimTranscript : "");
 
   return (
     <div className="space-y-8">
@@ -273,6 +445,57 @@ const SpeakingGrader = () => {
               )}
             </div>
           </div>
+
+          {/* Live Transcription Panel */}
+          {(isRecording || fullTranscript) && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="glass-card rounded-2xl p-6"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <div className={`w-2.5 h-2.5 rounded-full ${isRecording ? "bg-red-500 animate-pulse" : "bg-green-500"}`} />
+                <h4 className="text-sm font-bold text-foreground">
+                  {t("Phiên âm trực tiếp", "Live Transcription")}
+                </h4>
+                {isRecording && (
+                  <span className="text-xs text-muted-foreground ml-auto">
+                    {t("Đang lắng nghe...", "Listening...")}
+                  </span>
+                )}
+              </div>
+              <div className="bg-secondary/50 rounded-xl p-4 min-h-[60px]">
+                {fullTranscript ? (
+                  <p className="text-sm text-foreground leading-relaxed">
+                    {liveTranscript}
+                    {interimTranscript && (
+                      <span className="text-muted-foreground italic"> {interimTranscript}</span>
+                    )}
+                  </p>
+                ) : (
+                  <p className="text-sm text-muted-foreground italic">
+                    {t("Bắt đầu nói để xem phiên âm...", "Start speaking to see transcription...")}
+                  </p>
+                )}
+              </div>
+              {!isRecording && liveTranscript && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  {t("Số từ:", "Word count:")} {liveTranscript.split(/\s+/).filter(Boolean).length}
+                </p>
+              )}
+              {!window.SpeechRecognition && !window.webkitSpeechRecognition && (
+                <div className="flex items-center gap-2 mt-3 p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
+                  <AlertTriangle className="w-4 h-4 text-yellow-600 shrink-0" />
+                  <p className="text-xs text-yellow-700 dark:text-yellow-400">
+                    {t(
+                      "Trình duyệt không hỗ trợ nhận dạng giọng nói. Hãy dùng Chrome để có trải nghiệm tốt nhất.",
+                      "Speech recognition not supported. Please use Chrome for the best experience."
+                    )}
+                  </p>
+                </div>
+              )}
+            </motion.div>
+          )}
         </div>
 
         {/* Right: Result */}
@@ -297,6 +520,46 @@ const SpeakingGrader = () => {
                 <span className="text-lg text-muted-foreground">{t("Điểm Speaking", "Speaking Score")}</span>
                 <div className={`text-6xl font-display font-bold mt-2 ${getScoreColor(result.overall)}`}>{result.overall.toFixed(1)}</div>
               </div>
+
+              {/* Transcript with error highlighting */}
+              {result.transcript && (
+                <div className="bg-secondary rounded-2xl p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-base font-bold text-foreground">
+                      {t("Phiên âm của bạn", "Your Transcription")}
+                    </h4>
+                    {audioUrl && (
+                      <button
+                        onClick={() => {
+                          const audio = document.getElementById("playback-audio") as HTMLAudioElement;
+                          if (audio) audio.play();
+                        }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold hover:bg-primary/20 transition-colors"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        {t("Nghe lại", "Playback")}
+                      </button>
+                    )}
+                  </div>
+                  {audioUrl && (
+                    <audio id="playback-audio" src={audioUrl} className="hidden" />
+                  )}
+                  {renderTranscriptWithErrors(result.transcript, result.highlightedErrors)}
+                  {result.highlightedErrors && result.highlightedErrors.length > 0 && (
+                    <div className="flex flex-wrap gap-3 mt-3 pt-3 border-t border-border">
+                      <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                        <span className="w-3 h-1.5 bg-red-300 rounded" /> {t("Ngữ pháp", "Grammar")}
+                      </span>
+                      <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                        <span className="w-3 h-1.5 bg-yellow-300 rounded" /> {t("Từ vựng", "Vocabulary")}
+                      </span>
+                      <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                        <span className="w-3 h-1.5 bg-blue-300 rounded" /> {t("Phát âm", "Pronunciation")}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Criteria */}
               <div className="space-y-4">
