@@ -316,10 +316,10 @@ const NationalAnthem = () => {
                     return (
                       <motion.p
                         key={i}
-                        className={`transition-all duration-300 rounded-md px-3 py-1.5 ${
+                        className={`transition-all duration-300 rounded-md px-3 py-1.5 font-semibold ${
                           isActive
                             ? "bg-red-600 text-white font-bold scale-[1.02] shadow-md"
-                            : "text-foreground/80"
+                            : "text-foreground"
                         }`}
                         style={{
                           fontFamily: "'Playfair Display', 'Noto Serif', serif",
