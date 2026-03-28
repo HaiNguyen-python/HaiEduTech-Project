@@ -54,6 +54,8 @@ const VietnameseForForeigners = lazy(() => import("./pages/VietnameseForForeigne
 const NationalAnthem = lazy(() => import("./pages/NationalAnthem.tsx"));
 const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
+const ToeicLectures = lazy(() => import("./pages/ToeicLectures.tsx"));
+const ToeicLectureView = lazy(() => import("./pages/ToeicLectureView.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
