@@ -35,7 +35,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
 const levelColors: Record<string, string> = {
   basic: "bg-sky-500/20 text-sky-300 border-sky-500/30",
   intermediate: "bg-blue-500/20 text-blue-300 border-blue-500/30",
-  advanced: "bg-indigo-500/20 text-indigo-300 border-indigo-500/30",
+  advanced: "bg-purple-600/25 text-purple-300 border-purple-500/40",
 };
 
 const levelLabels: Record<string, string> = {
@@ -260,7 +260,7 @@ const ToeicVocabulary = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0F172A]">
+    <div className="min-h-screen bg-[#0a0f18]">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
         {/* Header */}
@@ -378,25 +378,25 @@ const ToeicVocabulary = () => {
                   <p className="text-slate-400 text-lg">{t("Không tìm thấy từ vựng nào", "No vocabulary found")}</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {paged.map((w, i) => (
                     <motion.div
                       key={w.word + w.category}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.03 }}
-                      className="group rounded-xl border border-slate-700/50 bg-[#1E293B]/60 p-5 hover:border-blue-500/40 hover:scale-[1.02] transition-all"
+                      className="group rounded-xl border border-slate-600/40 bg-[#1e293b] p-6 shadow-lg shadow-black/20 hover:border-blue-400/50 hover:scale-[1.03] hover:shadow-blue-500/10 hover:shadow-xl backdrop-blur-sm transition-all duration-300"
                     >
                       {/* Word header */}
                       <div className="flex items-start justify-between mb-3">
                         <div>
                           <h3 className="text-xl font-bold text-white">{w.word}</h3>
-                          <p className="text-sm text-slate-500 font-mono">{w.ipa}</p>
+                          <p className="text-sm text-blue-200/60 font-mono">{w.ipa}</p>
                         </div>
                         <div className="flex items-center gap-2">
                           <Badge className={`${wordClassColors[w.wordClass]} border text-xs font-bold uppercase`}>{w.wordClass}</Badge>
-                          <button onClick={() => speak(w.word)} className="p-1.5 rounded-full hover:bg-blue-500/10 transition-colors">
-                            <Volume2 className="w-4 h-4 text-blue-400" />
+                          <button onClick={() => speak(w.word)} className="p-2 rounded-full hover:bg-blue-500/15 transition-colors">
+                            <Volume2 className="w-5 h-5 text-blue-300" />
                           </button>
                         </div>
                       </div>
@@ -404,32 +404,32 @@ const ToeicVocabulary = () => {
                       {/* Level & category */}
                       <div className="flex items-center gap-2 mb-3">
                         <Badge className={`${levelColors[w.level]} border text-xs`}>{levelLabels[w.level]}</Badge>
-                        <span className="text-xs text-slate-500 flex items-center gap-1">
+                        <span className="text-xs text-slate-400 flex items-center gap-1">
                           {categoryIcons[w.category]}
                           {w.category}
                         </span>
                       </div>
 
                       {/* Definition */}
-                      <p className="text-base text-white font-medium mb-1">{w.definition.en}</p>
-                      <p className="text-base text-blue-300 mb-3">{w.definition.vi}</p>
+                      <p className="text-base text-[#f8fafc] font-medium mb-1">{w.definition.en}</p>
+                      <p className="text-base text-[#93c5fd] mb-3">{w.definition.vi}</p>
 
                       {/* Example */}
-                      <p className="text-sm text-slate-400 italic mb-3">"{w.example}"</p>
+                      <p className="text-sm text-[#cbd5e1] italic mb-3">"{w.example}"</p>
 
                       {/* Synonyms */}
                       {w.synonyms.length > 0 && (
                         <div className="mb-2">
-                          <span className="text-xs text-slate-500 uppercase font-bold">Synonyms: </span>
-                          <span className="text-sm text-slate-300">{w.synonyms.join(", ")}</span>
+                          <span className="text-xs text-slate-400 uppercase font-bold">Synonyms: </span>
+                          <span className="text-sm text-[#cbd5e1]">{w.synonyms.join(", ")}</span>
                         </div>
                       )}
 
                       {/* Collocations */}
                       {w.collocations.length > 0 && (
                         <div>
-                          <span className="text-xs text-slate-500 uppercase font-bold">Collocations: </span>
-                          <span className="text-sm text-blue-300/80">{w.collocations.join(" · ")}</span>
+                          <span className="text-xs text-slate-400 uppercase font-bold">Collocations: </span>
+                          <span className="text-sm text-[#93c5fd]">{w.collocations.join(" · ")}</span>
                         </div>
                       )}
                     </motion.div>
