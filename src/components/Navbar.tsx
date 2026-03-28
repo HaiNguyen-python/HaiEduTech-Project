@@ -122,6 +122,10 @@ const Navbar = () => {
     { to: "/learn-vietnamese/national-anthem", label: t("⭐ Quốc ca Việt Nam", "⭐ National Anthem") },
     { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi vui nhộn", "🎮 Fun Games") },
   ];
+  const finnishSubs: SubItem[] = [
+    { to: "/finnish", label: "📚 Overview" },
+    { to: "/finnish/yki-dashboard", label: "🇫🇮 YKI A2 Dashboard" },
+  ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/python-challenges", label: t("🏆 150 Thử thách Python", "🏆 150 Python Challenges") },
@@ -137,6 +141,7 @@ const Navbar = () => {
     { to: "/english", label: t("Học Tiếng Anh", "Learn English"), icon: BookOpen, subs: englishSubs, key: "en" },
     { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
     { to: "/learn-vietnamese", label: t("Học Tiếng Việt", "Learn Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
+    { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), icon: Languages, subs: finnishSubs, key: "fi" },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/knowledge-hub", label: "Knowledge Hub", icon: Newspaper },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
