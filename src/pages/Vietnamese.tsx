@@ -146,12 +146,12 @@ const Vietnamese = () => {
           >
             <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-[280px] sm:h-[320px] md:h-auto object-cover object-center" />
             {/* Text overlay on cloud area */}
-            <div className="absolute inset-0 flex flex-col items-center justify-start pt-[12%] sm:pt-[6%] md:pt-[3%] pointer-events-none">
+            <div className="absolute inset-0 flex flex-col items-center justify-start pt-[8%] sm:pt-[6%] md:pt-[3%] pointer-events-none">
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-center"
+                className="text-center bg-white/70 backdrop-blur-sm rounded-2xl px-5 py-3 sm:bg-transparent sm:backdrop-blur-none sm:rounded-none sm:px-0 sm:py-0 mx-4 sm:mx-0"
               >
                 <div className="flex items-center justify-center gap-2 md:gap-3 mb-1 md:mb-3">
                   <Flower2 className="w-5 h-5 md:w-8 md:h-8 text-red-500 drop-shadow" />
@@ -160,7 +160,7 @@ const Vietnamese = () => {
                   </h1>
                   <Star className="w-5 h-5 md:w-8 md:h-8 text-yellow-500 drop-shadow" />
                 </div>
-                <p className="text-slate-500 text-xs sm:text-sm md:text-base lg:text-lg font-medium italic max-w-[280px] sm:max-w-md md:max-w-2xl mx-auto px-4 drop-shadow-sm leading-snug">
+                <p className="text-slate-600 sm:text-slate-500 text-xs sm:text-sm md:text-base lg:text-lg font-medium italic max-w-[280px] sm:max-w-md md:max-w-2xl mx-auto drop-shadow-sm leading-snug">
                   {t(
                     "Khám phá ngôn ngữ, lịch sử và văn hóa Việt Nam qua chương trình học tương tác",
                     "Explore Vietnamese language, history, and culture through an interactive curriculum"
