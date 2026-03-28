@@ -58,6 +58,7 @@ const ToeicLectures = lazy(() => import("./pages/ToeicLectures.tsx"));
 const ToeicLectureView = lazy(() => import("./pages/ToeicLectureView.tsx"));
 const CambridgeLectures = lazy(() => import("./pages/CambridgeLectures.tsx"));
 const CambridgeLectureView = lazy(() => import("./pages/CambridgeLectureView.tsx"));
+const ToeicVocabulary = lazy(() => import("./pages/ToeicVocabulary.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (

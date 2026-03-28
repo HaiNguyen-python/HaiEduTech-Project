@@ -99,6 +99,7 @@ const Navbar = () => {
     { to: "#toeic-group", label: "💼 TOEIC", groupLabel: "toeic", children: [
       { to: "/english/toeic", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
       { to: "/toeic-lectures", label: t("Bài giảng TOEIC", "TOEIC Lectures"), icon: BookOpen },
+      { to: "/toeic-vocabulary", label: t("Từ vựng TOEIC", "TOEIC Vocabulary"), icon: Library },
     ] },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
