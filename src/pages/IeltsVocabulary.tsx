@@ -6,6 +6,7 @@ import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateC
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, IELTS_CATEGORIES, CEFR_LEVELS, type IeltsWord } from "@/data/ieltsVocabData";
+import MountainClimber from "@/components/MountainClimber";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -278,6 +279,9 @@ const IeltsVocabulary = () => {
                 <span className="text-muted-foreground">{t("Cần ôn", "Need Review")}: <strong className="text-orange-400">{ieltsVocabData.length - mastered.size}</strong></span>
               </div>
             </div>
+
+            {/* Mountain Climber progress visualization */}
+            <MountainClimber mastered={mastered.size} total={ieltsVocabData.length} />
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-3 mb-6">
