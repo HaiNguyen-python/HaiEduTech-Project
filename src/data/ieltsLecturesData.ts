@@ -694,6 +694,254 @@ const skillBasedLectures: IeltsLecture[] = [
       "Group stages into 2-3 body paragraphs logically"
     ]
   },
+  // --- Listening Section 3-4 Strategies ---
+  {
+    id: "listening-section-3-4",
+    title: "Listening Sections 3 & 4: Academic Mastery",
+    titleVi: "Listening Phần 3 & 4: Chinh phục phần học thuật",
+    pillar: "skill-based",
+    skill: "listening",
+    icon: "🎧",
+    duration: "25 min",
+    level: "advanced",
+    description: "Conquer the hardest Listening sections with strategies for academic discussions (S3) and lectures (S4).",
+    descriptionVi: "Chinh phục phần Listening khó nhất với chiến lược cho thảo luận học thuật (S3) và bài giảng (S4).",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Read Ahead Aggressively",
+        titleVi: "Đọc trước thật nhanh",
+        description: "Use every second of reading time. Underline keywords in questions. For Section 4, you get 30 seconds — predict content from headings and blanks.",
+        descriptionVi: "Tận dụng mọi giây đọc trước. Gạch chân từ khóa trong câu hỏi. Phần 4 có 30 giây — dự đoán nội dung từ tiêu đề và chỗ trống.",
+        example: "Q: The professor argues that urban farming can reduce ___. → Predict: pollution / costs / food miles"
+      },
+      {
+        step: 2,
+        title: "Track Speaker Roles (Section 3)",
+        titleVi: "Theo dõi vai trò người nói (Phần 3)",
+        description: "Section 3 has 2-4 speakers in a discussion. Identify WHO says WHAT. Questions often test whether you can distinguish opinions between speakers.",
+        descriptionVi: "Phần 3 có 2-4 người nói trong thảo luận. Xác định AI nói CÁI GÌ. Câu hỏi thường kiểm tra bạn phân biệt ý kiến giữa các người nói.",
+        example: "Student A: 'I think surveys are best.' Student B: 'Actually, interviews give richer data.' → Q asks about Student B's preference."
+      },
+      {
+        step: 3,
+        title: "Listen for Signpost Language",
+        titleVi: "Nghe từ chỉ dẫn (signpost)",
+        description: "Academic speakers use signpost phrases to structure their talk: 'Moving on to...', 'What's particularly interesting is...', 'The key finding was...' These signal that the answer is coming.",
+        descriptionVi: "Người nói học thuật dùng cụm từ chỉ dẫn: 'Moving on to...', 'What's particularly interesting is...', 'The key finding was...' Chúng báo hiệu đáp án sắp đến.",
+        example: "'The most significant result was...' → The next phrase is likely the answer."
+      },
+      {
+        step: 4,
+        title: "Handle Distractors in Discussions",
+        titleVi: "Xử lý bẫy trong thảo luận",
+        description: "Speakers often mention an idea then REJECT it. Listen for: 'Well, actually...', 'On second thought...', 'That's not quite right...'. The FINAL opinion is the answer.",
+        descriptionVi: "Người nói thường đề cập ý rồi BÁC BỎ. Nghe: 'Well, actually...', 'On second thought...', 'That's not quite right...'. Ý kiến CUỐI CÙNG mới là đáp án.",
+        example: "'I was going to use questionnaires, but actually interviews would be more effective.' → Answer: interviews"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Section 3 — Multiple Choice",
+        contextVi: "Phần 3 — Trắc nghiệm",
+        example: "Q: What does Sarah think about the research method?\nA) It's too time-consuming  B) It produces reliable data  C) It needs more participants\nAudio: 'I know some people say surveys take too long, but I actually found them quite efficient and the data was really reliable.'\n→ Answer: B",
+        explanation: "Sarah rejects 'too time-consuming' (distractor) and confirms 'reliable data'."
+      },
+      {
+        context: "Section 4 — Note Completion",
+        contextVi: "Phần 4 — Hoàn thành ghi chú",
+        example: "Notes: Urban farming benefits:\n- Reduces food ___\n- Creates community ___\nAudio: 'One major advantage is reducing food miles... and it builds a real sense of community cohesion.'\n→ Answers: miles, cohesion",
+        explanation: "Section 4 answers are heard in order — follow the notes sequentially."
+      },
+      {
+        context: "Section 3 — Matching",
+        contextVi: "Phần 3 — Nối",
+        example: "Match each student with their research topic:\nStudents: Tom, Lisa, Ahmed\nTopics: A) Climate, B) Migration, C) Technology\nListen for each student's final confirmed choice, not initial suggestions.",
+        explanation: "Students may discuss multiple topics but confirm only one each."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Writing the first thing you hear",
+        mistakeVi: "Viết điều đầu tiên bạn nghe",
+        why: "Section 3-4 speakers often self-correct or change opinions. Wait for the final answer.",
+        whyVi: "Người nói Phần 3-4 thường tự sửa hoặc đổi ý. Đợi đáp án cuối cùng."
+      },
+      {
+        mistake: "Losing your place in Section 4",
+        mistakeVi: "Bị lạc vị trí trong Phần 4",
+        why: "Section 4 has no pause in the middle. If you miss one answer, skip it immediately and move to the next question.",
+        whyVi: "Phần 4 không có khoảng dừng giữa chừng. Nếu lỡ một đáp án, bỏ qua ngay và chuyển câu tiếp."
+      },
+      {
+        mistake: "Ignoring word limit",
+        mistakeVi: "Bỏ qua giới hạn từ",
+        why: "'No more than TWO words' means exactly that. 'Community cohesion' ✓ but 'strong community cohesion' ✗ (3 words).",
+        whyVi: "'Không quá HAI từ' nghĩa là đúng vậy. 'Community cohesion' ✓ nhưng 'strong community cohesion' ✗ (3 từ)."
+      }
+    ],
+    goldenSecret: "In Section 4, the speaker ALWAYS follows the order of the questions. If you're on Q35, the answer comes AFTER Q34's answer. Never jump ahead — trust the sequence!",
+    goldenSecretVi: "Trong Phần 4, người nói LUÔN theo thứ tự câu hỏi. Nếu bạn ở Q35, đáp án đến SAU đáp án Q34. Đừng nhảy cóc — tin vào trình tự!",
+    vocabHighlights: [
+      { word: "cohesion", definition: "The action of forming a united whole", definitionVi: "Sự gắn kết, liên kết thành một thể thống nhất", example: "Social cohesion is vital for community development.", band: "7.0+" },
+      { word: "methodology", definition: "A system of methods used in a particular area", definitionVi: "Phương pháp luận, hệ thống phương pháp", example: "The research methodology needs to be clearly explained.", band: "7.0+" },
+      { word: "correlation", definition: "A mutual relationship between two things", definitionVi: "Mối tương quan giữa hai sự vật", example: "There is a strong correlation between diet and health.", band: "7.5+" },
+      { word: "implications", definition: "The possible effects or results of an action", definitionVi: "Hàm ý, tác động có thể xảy ra", example: "The findings have significant implications for policy.", band: "7.0+" }
+    ],
+    quiz: [
+      {
+        question: "In Section 3, when a speaker says 'Well, actually...' after stating an opinion, you should:",
+        options: ["Write the first opinion as the answer", "Wait for the corrected/final opinion", "Choose neither opinion", "Ask for clarification"],
+        answer: 1,
+        explanation: "'Well, actually...' signals a correction. The opinion AFTER this phrase is the real answer."
+      },
+      {
+        question: "What is unique about Section 4 compared to other sections?",
+        options: ["It has two speakers", "There is no pause in the middle", "Questions are easier", "You hear it twice"],
+        answer: 1,
+        explanation: "Section 4 plays straight through with no break. You must follow along without stopping."
+      },
+      {
+        question: "If the instruction says 'Write NO MORE THAN TWO WORDS', which answer is correct?",
+        options: ["'very high temperature'", "'high temperature'", "'the high temperature'", "'temperatures are high'"],
+        answer: 1,
+        explanation: "'high temperature' is exactly 2 words. The others exceed the word limit or include articles."
+      }
+    ],
+    cheatSheetPoints: [
+      "S3: Track WHO says WHAT — multiple speakers = opinion traps",
+      "S4: No pause — if you miss one, MOVE ON immediately",
+      "Signpost phrases signal answers: 'The key point is...', 'What matters most...'",
+      "Self-corrections: 'Actually...' / 'On second thought...' = real answer follows",
+      "ALWAYS check word limit before writing",
+      "Answers in S4 come in ORDER — trust the sequence"
+    ]
+  },
+
+  // --- Speaking Part 3 Discussion Techniques ---
+  {
+    id: "speaking-part3-discussion",
+    title: "Speaking Part 3: Discussion & Abstract Thinking",
+    titleVi: "Speaking Phần 3: Thảo luận & Tư duy trừu tượng",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "🗣️",
+    duration: "22 min",
+    level: "advanced",
+    description: "Master the most challenging part of IELTS Speaking: giving extended, well-structured answers on abstract topics.",
+    descriptionVi: "Thành thạo phần khó nhất của IELTS Speaking: đưa ra câu trả lời mở rộng, có cấu trúc về chủ đề trừu tượng.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Use the PEEL Framework",
+        titleVi: "Dùng khung PEEL",
+        description: "Point → Explain → Example → Link back. State your opinion clearly, explain WHY, give a real-world example, then connect back to the question.",
+        descriptionVi: "Point (Luận điểm) → Explain (Giải thích) → Example (Ví dụ) → Link (Liên kết). Nêu ý kiến rõ ràng, giải thích TẠI SAO, cho ví dụ thực tế, rồi liên hệ lại câu hỏi.",
+        example: "Q: Do you think technology has changed education?\nP: Absolutely, technology has revolutionized how we learn.\nE: Students now have access to unlimited resources online.\nEx: For instance, platforms like Coursera offer university-level courses for free.\nL: So yes, the impact on education has been transformative."
+      },
+      {
+        step: 2,
+        title: "Show Both Sides (Even If You Agree)",
+        titleVi: "Trình bày hai mặt (dù bạn đồng ý)",
+        description: "Examiners reward balanced thinking. Use: 'On one hand... on the other hand...', 'While some argue... others believe...', 'It's a double-edged sword because...'",
+        descriptionVi: "Giám khảo đánh giá cao tư duy cân bằng. Dùng: 'On one hand... on the other hand...', 'While some argue... others believe...', 'It's a double-edged sword because...'",
+        example: "'While technology has made education more accessible, there's also a concern that it reduces face-to-face interaction between students and teachers.'"
+      },
+      {
+        step: 3,
+        title: "Speculate and Hypothesize",
+        titleVi: "Suy đoán và giả định",
+        description: "Part 3 often asks about the future or hypothetical situations. Use: 'I would imagine that...', 'It's quite likely that...', 'If current trends continue...', 'There's a possibility that...'",
+        descriptionVi: "Phần 3 thường hỏi về tương lai hoặc tình huống giả định. Dùng: 'I would imagine that...', 'It's quite likely that...', 'If current trends continue...', 'There's a possibility that...'",
+        example: "'If current trends continue, I would imagine that most traditional classrooms will be replaced by hybrid learning environments within the next decade.'"
+      },
+      {
+        step: 4,
+        title: "Upgrade Your Vocabulary Live",
+        titleVi: "Nâng cấp từ vựng ngay lúc nói",
+        description: "Self-correct to show range: 'It's important — or rather, it's absolutely crucial...'. Use topic-specific collocations instead of basic words.",
+        descriptionVi: "Tự sửa để thể hiện vốn từ: 'It's important — or rather, it's absolutely crucial...'. Dùng collocation theo chủ đề thay vì từ cơ bản.",
+        example: "Instead of 'People should help the environment' → 'Citizens have a collective responsibility to mitigate environmental degradation.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Abstract Question — Society",
+        contextVi: "Câu hỏi trừu tượng — Xã hội",
+        example: "Q: 'Why do some people prefer to live in cities rather than rural areas?'\n\nWeak: 'Because cities have more jobs and things to do.'\n\nStrong: 'I think the primary draw of urban living is the abundance of professional opportunities. Cities tend to be economic hubs where industries cluster, offering a wider range of career prospects. Additionally, the cultural amenities — museums, theatres, diverse cuisine — provide a lifestyle that many find appealing. Having said that, there's a growing counter-trend of people seeking the tranquility of rural life, especially after the pandemic normalized remote work.'",
+        explanation: "The strong answer uses PEEL, shows both sides, and includes advanced vocabulary."
+      },
+      {
+        context: "Future Prediction Question",
+        contextVi: "Câu hỏi dự đoán tương lai",
+        example: "Q: 'How do you think education will change in the future?'\n\n'That's an interesting question. I would imagine that education will become increasingly personalized through AI-driven platforms. It's quite likely that traditional one-size-fits-all curricula will give way to adaptive learning paths. For instance, students might have AI tutors that identify their weak areas and tailor content accordingly. However, I think the human element — the mentor-student relationship — will remain irreplaceable.'",
+        explanation: "Uses speculation language, gives a concrete example, and adds a balanced counterpoint."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Giving one-sentence answers",
+        mistakeVi: "Trả lời chỉ một câu",
+        why: "Part 3 requires extended responses (4-6 sentences). Short answers cap your score at Band 5.0.",
+        whyVi: "Phần 3 yêu cầu trả lời mở rộng (4-6 câu). Trả lời ngắn giới hạn điểm ở Band 5.0."
+      },
+      {
+        mistake: "Using only personal examples",
+        mistakeVi: "Chỉ dùng ví dụ cá nhân",
+        why: "Part 3 tests abstract thinking. Mix personal anecdotes with societal observations and data references.",
+        whyVi: "Phần 3 kiểm tra tư duy trừu tượng. Kết hợp chuyện cá nhân với quan sát xã hội và tham chiếu dữ liệu."
+      },
+      {
+        mistake: "Repeating the question words in your answer",
+        mistakeVi: "Lặp lại từ trong câu hỏi",
+        why: "Paraphrase the question: 'Why is education important?' → 'The significance of learning cannot be overstated...'",
+        whyVi: "Diễn đạt lại câu hỏi: 'Why is education important?' → 'The significance of learning cannot be overstated...'"
+      }
+    ],
+    goldenSecret: "When you don't know what to say, use the TIME TRAVEL technique: talk about the PAST ('Traditionally...'), the PRESENT ('Nowadays...'), and the FUTURE ('Going forward...'). This instantly gives you a 3-part structure for ANY topic!",
+    goldenSecretVi: "Khi không biết nói gì, dùng kỹ thuật DU HÀNH THỜI GIAN: nói về QUÁ KHỨ ('Traditionally...'), HIỆN TẠI ('Nowadays...'), và TƯƠNG LAI ('Going forward...'). Điều này ngay lập tức cho bạn cấu trúc 3 phần cho BẤT KỲ chủ đề nào!",
+    vocabHighlights: [
+      { word: "double-edged sword", definition: "Something that has both advantages and disadvantages", definitionVi: "Con dao hai lưỡi — có cả ưu và nhược điểm", example: "Social media is a double-edged sword for teenagers.", band: "7.0+" },
+      { word: "paradigm shift", definition: "A fundamental change in approach or thinking", definitionVi: "Sự thay đổi mô hình tư duy căn bản", example: "Remote work has caused a paradigm shift in business culture.", band: "8.0+" },
+      { word: "mitigate", definition: "To make something less severe or serious", definitionVi: "Giảm thiểu, làm giảm mức độ nghiêm trọng", example: "Governments must mitigate the effects of climate change.", band: "7.5+" },
+      { word: "collective responsibility", definition: "Shared duty among all members of a group", definitionVi: "Trách nhiệm chung của tất cả thành viên", example: "Environmental protection is a collective responsibility.", band: "7.0+" },
+      { word: "counter-trend", definition: "A trend that moves in the opposite direction", definitionVi: "Xu hướng ngược lại", example: "There's a counter-trend of people leaving cities for rural areas.", band: "7.5+" }
+    ],
+    quiz: [
+      {
+        question: "What does the PEEL framework stand for?",
+        options: ["Point, Explain, Example, Link", "Practice, Evaluate, Examine, Learn", "Present, Elaborate, Evidence, Logic", "Plan, Execute, Edit, Launch"],
+        answer: 0,
+        explanation: "PEEL = Point (state opinion) → Explain (give reason) → Example (real-world) → Link (connect back to question)."
+      },
+      {
+        question: "Which phrase best shows balanced thinking in Part 3?",
+        options: ["'I totally agree because...'", "'It's a double-edged sword because...'", "'I don't know much about this...'", "'My friend told me that...'"],
+        answer: 1,
+        explanation: "'Double-edged sword' shows you can see both advantages and disadvantages — exactly what examiners want."
+      },
+      {
+        question: "What is the TIME TRAVEL technique?",
+        options: ["Talking about your childhood memories", "Discussing past, present, and future of a topic", "Asking the examiner to repeat the question", "Speaking as fast as possible"],
+        answer: 1,
+        explanation: "Past ('Traditionally...') → Present ('Nowadays...') → Future ('Going forward...') gives instant structure for any abstract topic."
+      },
+      {
+        question: "In Part 3, how long should your answers typically be?",
+        options: ["1 sentence", "2-3 sentences", "4-6 sentences", "10+ sentences"],
+        answer: 2,
+        explanation: "4-6 sentences is the sweet spot — enough to demonstrate depth without rambling."
+      }
+    ],
+    cheatSheetPoints: [
+      "PEEL: Point → Explain → Example → Link back",
+      "Show BOTH sides: 'On one hand... on the other hand...'",
+      "Speculate: 'I would imagine...', 'It's quite likely that...'",
+      "TIME TRAVEL: Past → Present → Future for any topic",
+      "Self-correct to show range: 'important — or rather, crucial'",
+      "4-6 sentences per answer — never just one sentence"
+    ]
+  },
 ];
 
 // === PILLAR 2: IELTS TIPS & HACKS ===
@@ -1335,6 +1583,130 @@ const thematicVocab: IeltsLecture[] = [
       "commit an offence (NOT do/make a crime)",
       "rehabilitation > punishment (common IELTS argument)",
       "Power phrase: 'address the root causes of criminal behaviour'"
+    ]
+  },
+  // --- Health & Society Vocabulary ---
+  {
+    id: "vocab-health-society",
+    title: "Health & Society",
+    titleVi: "Sức khỏe & Xã hội",
+    pillar: "thematic-vocab",
+    icon: "🏥",
+    duration: "22 min",
+    level: "intermediate",
+    description: "Essential Band 7.0+ vocabulary for Health, Well-being, and Social Issues — two of the most frequent IELTS topics.",
+    descriptionVi: "Từ vựng Band 7.0+ thiết yếu cho Sức khỏe, Hạnh phúc và Vấn đề Xã hội — hai chủ đề IELTS phổ biến nhất.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Learn Collocations, Not Isolated Words",
+        titleVi: "Học cụm từ, không phải từ đơn lẻ",
+        description: "Don't just learn 'health' — learn 'public health crisis', 'mental health awareness', 'preventive healthcare'. Collocations score higher than individual words.",
+        descriptionVi: "Đừng chỉ học 'health' — học 'public health crisis', 'mental health awareness', 'preventive healthcare'. Cụm từ cho điểm cao hơn từ đơn lẻ.",
+        example: "'The government should invest in preventive healthcare rather than reactive treatment.'"
+      },
+      {
+        step: 2,
+        title: "Master Cause-Effect Language",
+        titleVi: "Thành thạo ngôn ngữ nhân-quả",
+        description: "Health & Society topics often require discussing causes and effects. Use: 'stem from', 'give rise to', 'be attributed to', 'result in', 'be exacerbated by'.",
+        descriptionVi: "Chủ đề Sức khỏe & Xã hội thường yêu cầu thảo luận nguyên nhân-kết quả. Dùng: 'stem from', 'give rise to', 'be attributed to', 'result in', 'be exacerbated by'.",
+        example: "'Obesity often stems from sedentary lifestyles and is exacerbated by the prevalence of processed food.'"
+      },
+      {
+        step: 3,
+        title: "Use Formal Register for Social Issues",
+        titleVi: "Dùng ngôn ngữ trang trọng cho vấn đề xã hội",
+        description: "Replace basic words: 'poor people' → 'disadvantaged communities', 'old people' → 'the elderly/aging population', 'help' → 'alleviate/address/tackle'.",
+        descriptionVi: "Thay từ cơ bản: 'poor people' → 'disadvantaged communities', 'old people' → 'the elderly/aging population', 'help' → 'alleviate/address/tackle'.",
+        example: "'Governments should address socioeconomic disparities to improve public health outcomes.'"
+      },
+      {
+        step: 4,
+        title: "Build Topic-Specific Sentence Templates",
+        titleVi: "Xây dựng mẫu câu theo chủ đề",
+        description: "Prepare flexible templates: 'The prevalence of [issue] can be attributed to [cause], which in turn leads to [effect].' Fill in with any health/society topic.",
+        descriptionVi: "Chuẩn bị mẫu linh hoạt: 'The prevalence of [vấn đề] can be attributed to [nguyên nhân], which in turn leads to [hệ quả].' Điền bất kỳ chủ đề sức khỏe/xã hội nào.",
+        example: "'The prevalence of mental health disorders can be attributed to increasing work pressure, which in turn leads to reduced productivity.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Writing Task 2 — Health Topic",
+        contextVi: "Writing Task 2 — Chủ đề Sức khỏe",
+        example: "Prompt: 'Some people think that governments should ban junk food. To what extent do you agree?'\n\nSample: 'The proliferation of fast food outlets has contributed to a public health crisis, with obesity rates reaching epidemic proportions in many developed nations. While an outright ban may seem draconian, implementing stringent regulations — such as mandatory nutritional labelling and restricting advertising to minors — could be a more pragmatic approach to tackling this issue.'",
+        explanation: "Uses 'proliferation', 'epidemic proportions', 'draconian', 'stringent regulations' — all Band 7.5+ vocabulary."
+      },
+      {
+        context: "Speaking Part 3 — Society",
+        contextVi: "Speaking Phần 3 — Xã hội",
+        example: "Q: 'What are the biggest challenges facing society today?'\n\n'I think one of the most pressing issues is the widening wealth gap between the affluent and the underprivileged. This socioeconomic disparity manifests in unequal access to healthcare, education, and housing. If left unaddressed, it could undermine social cohesion and lead to civil unrest.'",
+        explanation: "Demonstrates abstract thinking with precise vocabulary: 'wealth gap', 'underprivileged', 'socioeconomic disparity', 'social cohesion'."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Using informal language for serious topics",
+        mistakeVi: "Dùng ngôn ngữ thân mật cho chủ đề nghiêm túc",
+        why: "'Lots of people get sick' → 'A significant proportion of the population suffers from chronic illnesses.' Academic register is essential.",
+        whyVi: "'Lots of people get sick' → 'A significant proportion of the population suffers from chronic illnesses.' Ngôn ngữ học thuật là bắt buộc."
+      },
+      {
+        mistake: "Confusing 'health' vocabulary with 'medicine' vocabulary",
+        mistakeVi: "Nhầm lẫn từ vựng 'sức khỏe' với 'y học'",
+        why: "IELTS tests public health and lifestyle vocabulary, not medical terminology. Focus on 'well-being', 'lifestyle diseases', 'preventive care' — not 'stethoscope' or 'MRI'.",
+        whyVi: "IELTS kiểm tra từ vựng sức khỏe cộng đồng và lối sống, không phải thuật ngữ y khoa. Tập trung 'well-being', 'lifestyle diseases', 'preventive care'."
+      },
+      {
+        mistake: "Overgeneralizing social issues",
+        mistakeVi: "Khái quát hóa quá mức vấn đề xã hội",
+        why: "'All poor people are unhealthy' is too broad. Use hedging: 'tend to', 'are more likely to', 'disproportionately affects'.",
+        whyVi: "'All poor people are unhealthy' quá rộng. Dùng từ giảm nhẹ: 'tend to', 'are more likely to', 'disproportionately affects'."
+      }
+    ],
+    goldenSecret: "The IELTS loves the word 'well-being' — it covers physical, mental, and social health in one elegant term. Use it as your anchor word and build collocations around it: 'psychological well-being', 'overall well-being', 'a sense of well-being'. It's Band 7.0+ every time!",
+    goldenSecretVi: "IELTS rất thích từ 'well-being' — nó bao gồm sức khỏe thể chất, tinh thần và xã hội trong một từ thanh lịch. Dùng nó làm từ neo và xây cụm từ: 'psychological well-being', 'overall well-being', 'a sense of well-being'. Luôn đạt Band 7.0+!",
+    vocabHighlights: [
+      { word: "sedentary lifestyle", definition: "A way of living with little physical activity", definitionVi: "Lối sống ít vận động", example: "A sedentary lifestyle increases the risk of cardiovascular disease.", band: "7.0+" },
+      { word: "epidemic proportions", definition: "Affecting a very large number of people", definitionVi: "Đạt mức độ dịch bệnh, lan rộng", example: "Diabetes has reached epidemic proportions in developed countries.", band: "7.5+" },
+      { word: "socioeconomic disparity", definition: "Differences in wealth, income, and social status", definitionVi: "Chênh lệch kinh tế-xã hội", example: "Socioeconomic disparity leads to unequal access to healthcare.", band: "8.0+" },
+      { word: "preventive healthcare", definition: "Medical care focused on preventing illness rather than treating it", definitionVi: "Chăm sóc sức khỏe phòng ngừa", example: "Investing in preventive healthcare reduces long-term medical costs.", band: "7.0+" },
+      { word: "well-being", definition: "The state of being comfortable, healthy, and happy", definitionVi: "Sự khỏe mạnh, hạnh phúc toàn diện", example: "Exercise contributes significantly to psychological well-being.", band: "7.0+" },
+      { word: "alleviate", definition: "To make suffering or a problem less severe", definitionVi: "Giảm bớt, làm dịu", example: "The charity aims to alleviate poverty in rural communities.", band: "7.5+" }
+    ],
+    quiz: [
+      {
+        question: "Which phrase is the most academic way to say 'help poor people'?",
+        options: ["'give money to poor people'", "'alleviate poverty among disadvantaged communities'", "'help people who don't have money'", "'make poor people less poor'"],
+        answer: 1,
+        explanation: "'Alleviate poverty among disadvantaged communities' uses Band 7.5+ vocabulary with proper academic register."
+      },
+      {
+        question: "What does 'sedentary lifestyle' mean?",
+        options: ["An active, sporty way of living", "A lifestyle with little physical activity", "Living alone without social contact", "A temporary way of living"],
+        answer: 1,
+        explanation: "'Sedentary' means sitting/inactive. A sedentary lifestyle involves minimal physical movement."
+      },
+      {
+        question: "Which cause-effect phrase is most appropriate for academic writing?",
+        options: ["'because of'", "'stems from'", "'is caused by the fact that'", "'happens when'"],
+        answer: 1,
+        explanation: "'Stems from' is a sophisticated cause-effect phrase that scores higher than basic alternatives."
+      },
+      {
+        question: "What is Teacher Hai's 'anchor word' for Health topics?",
+        options: ["'healthcare'", "'well-being'", "'disease'", "'fitness'"],
+        answer: 1,
+        explanation: "'Well-being' covers physical, mental, and social health — versatile and always Band 7.0+."
+      }
+    ],
+    cheatSheetPoints: [
+      "Learn COLLOCATIONS: 'public health crisis', 'mental health awareness', 'preventive healthcare'",
+      "Cause-effect: 'stem from', 'give rise to', 'be exacerbated by', 'result in'",
+      "Formal upgrades: 'poor people' → 'disadvantaged communities', 'help' → 'alleviate/address'",
+      "Anchor word: 'well-being' (psychological/overall/a sense of)",
+      "Hedging: 'tend to', 'are more likely to', 'disproportionately affects'",
+      "Template: 'The prevalence of [X] can be attributed to [Y], which leads to [Z]'"
     ]
   },
 ];
