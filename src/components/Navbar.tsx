@@ -160,10 +160,10 @@ const Navbar = () => {
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6">
-          {/* Mobile: flex-col layout; Desktop: single row */}
-          <div className="flex flex-col md:flex-row md:items-center md:h-12">
-            {/* Row 1a: Logo + hamburger (mobile) or Logo + slogan + auth (desktop) */}
-            <div className="flex items-center justify-between h-12 md:flex-1 min-w-0">
+          {/* Mobile/tablet: flex-col layout; Desktop: single row */}
+          <div className="flex flex-col lg:flex-row lg:items-center lg:h-12">
+            {/* Row 1a: Logo + hamburger (mobile/tablet) or Logo + slogan + auth (desktop) */}
+            <div className="flex items-center justify-between h-12 lg:flex-1 min-w-0">
               <Link to="/" className="flex items-center gap-2 shrink-0 group">
                 {/* Smiling teacher waving hello with gentle rocking animation */}
                 <motion.img
