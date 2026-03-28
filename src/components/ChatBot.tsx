@@ -91,7 +91,6 @@ const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [greetingShown, setGreetingShown] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [shake, setShake] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
