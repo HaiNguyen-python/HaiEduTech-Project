@@ -91,7 +91,10 @@ const Navbar = () => {
 
   const englishSubs: SubItem[] = [
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/english/cambridge", label: "🌟 Cambridge Starters–PET" },
+    { to: "/english/cambridge", label: "🌟 Cambridge Starters–PET", children: [
+      { to: "/english/cambridge", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
+      { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
+    ] },
     { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
     { to: "#toeic-group", label: "💼 TOEIC", groupLabel: "toeic", children: [
       { to: "/english/toeic", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
