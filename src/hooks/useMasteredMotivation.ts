@@ -54,11 +54,13 @@ export const useMasteredMotivation = (
       // Only show motivation when marking as mastered (not un-marking)
       if (!isCurrentlyMastered) {
         toast.success(getRandomPhrase(), {
-          duration: 2500,
+          duration: 3500,
           style: {
-            fontSize: "15px",
-            fontWeight: 600,
-            lineHeight: 1.5,
+            fontSize: "20px",
+            fontWeight: 700,
+            lineHeight: 1.6,
+            padding: "16px 24px",
+            maxWidth: "420px",
           },
         });
         fireMiniConfetti();
