@@ -1,8 +1,9 @@
 // IELTS Lectures Dashboard — Advanced filtering, search, sort, bookmarks, and responsive grid
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useIeltsLectureProgress } from "@/hooks/useIeltsLectureProgress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Progress } from "@/components/ui/progress";
@@ -39,28 +40,7 @@ import {
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META, PillarKey } from "@/data/ieltsLecturesData";
 
-// Storage keys
-const COMPLETED_KEY = "ielts-lectures-completed";
-const BOOKMARKS_KEY = "ielts-lectures-bookmarks";
-
-const getCompletedIds = (): string[] => {
-  try { return JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]"); }
-  catch { return []; }
-};
-
-const getBookmarkedIds = (): string[] => {
-  try { return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || "[]"); }
-  catch { return []; }
-};
-
-const toggleBookmark = (id: string): string[] => {
-  const current = getBookmarkedIds();
-  const updated = current.includes(id)
-    ? current.filter(b => b !== id)
-    : [...current, id];
-  localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(updated));
-  return updated;
-};
+// Storage is now handled by useIeltsLectureProgress hook (database + localStorage fallback)
 
 // Skill filter categories with icons
 const SKILL_FILTERS = [
@@ -109,28 +89,18 @@ const NEW_LECTURE_IDS = new Set(
 
 const IeltsLectures = () => {
   const { t } = useLanguage();
+  const { completedIds, bookmarkedIds, toggleBookmark } = useIeltsLectureProgress();
   const [activeSkill, setActiveSkill] = useState<SkillFilterKey>("all");
   const [levelFilter, setLevelFilter] = useState<LevelFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortKey>("newest");
-  const [completedIds, setCompletedIds] = useState<string[]>(getCompletedIds());
-  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(getBookmarkedIds());
   const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
-
-  useEffect(() => {
-    const handler = () => {
-      setCompletedIds(getCompletedIds());
-      setBookmarkedIds(getBookmarkedIds());
-    };
-    window.addEventListener("storage", handler);
-    return () => window.removeEventListener("storage", handler);
-  }, []);
 
   const handleBookmark = useCallback((e: React.MouseEvent, id: string) => {
     e.preventDefault();
     e.stopPropagation();
-    setBookmarkedIds(toggleBookmark(id));
-  }, []);
+    toggleBookmark(id);
+  }, [toggleBookmark]);
 
   const filtered = useMemo(() => {
     let results = [...allIeltsLectures];

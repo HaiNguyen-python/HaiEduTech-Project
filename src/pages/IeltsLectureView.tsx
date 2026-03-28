@@ -1,8 +1,9 @@
 // IELTS Lecture Detail View — Rich content with strategy steps, vocab highlighter, quiz, cheat sheet
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useIeltsLectureProgress } from "@/hooks/useIeltsLectureProgress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -16,19 +17,6 @@ import {
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META } from "@/data/ieltsLecturesData";
 import type { VocabHighlight } from "@/data/ieltsLecturesData";
-
-const COMPLETED_KEY = "ielts-lectures-completed";
-
-const getCompletedIds = (): string[] => {
-  try { return JSON.parse(localStorage.getItem(COMPLETED_KEY) || "[]"); } catch { return []; }
-};
-
-const markComplete = (id: string) => {
-  const ids = getCompletedIds();
-  if (!ids.includes(id)) {
-    localStorage.setItem(COMPLETED_KEY, JSON.stringify([...ids, id]));
-  }
-};
 
 // Vocab Highlighter component — inline word with click-to-see definition
 const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
@@ -66,16 +54,12 @@ const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
 const IeltsLectureView = () => {
   const { lectureId } = useParams();
   const { t } = useLanguage();
+  const { completedIds, markCompleted } = useIeltsLectureProgress();
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
 
   const lecture = useMemo(() => allIeltsLectures.find(l => l.id === lectureId), [lectureId]);
-
-  // Check completion status when lecture changes
-  useEffect(() => {
-    if (lecture) setIsCompleted(getCompletedIds().includes(lecture.id));
-  }, [lecture]);
+  const isCompleted = lecture ? completedIds.includes(lecture.id) : false;
 
   if (!lecture) {
     return (
@@ -98,8 +82,7 @@ const IeltsLectureView = () => {
   const quizScore = lecture.quiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
 
   const handleComplete = () => {
-    markComplete(lecture.id);
-    setIsCompleted(true);
+    if (lecture) markCompleted(lecture.id);
   };
 
   const handleQuizSubmit = () => setQuizSubmitted(true);
