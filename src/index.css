@@ -64,6 +64,14 @@
     @apply border-border;
   }
 
+  /* ── Global responsive typography enforcement ── */
+  html {
+    /* Fluid base: 16px on mobile → 18px on desktop */
+    font-size: clamp(16px, 0.875rem + 0.25vw, 18px);
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+  }
+
   body {
     @apply bg-background text-foreground font-body antialiased;
     text-rendering: optimizeLegibility;
@@ -74,6 +82,36 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
+    line-height: 1.25;
+  }
+
+  /* Fluid heading scale */
+  h1 { font-size: clamp(1.75rem, 1.5rem + 1.5vw, 3rem); }
+  h2 { font-size: clamp(1.5rem, 1.25rem + 1.25vw, 2.25rem); }
+  h3 { font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.75rem); }
+
+  /* Prevent iOS auto-zoom on inputs */
+  input, select, textarea, button {
+    font-size: max(16px, 1em);
+  }
+
+  /* Enforce minimum readable sizes for small utility text */
+  small, .text-xs {
+    font-size: max(0.75rem, 12px) !important;
+  }
+
+  .text-sm {
+    font-size: max(0.875rem, 14px) !important;
+  }
+
+  /* Long-form content line height */
+  p, li, td, th, dd, dt, blockquote, label {
+    line-height: 1.7;
+  }
+
+  /* Table readability on mobile: allow horizontal scroll */
+  .overflow-x-auto table {
+    min-width: 600px;
   }
 }
 
