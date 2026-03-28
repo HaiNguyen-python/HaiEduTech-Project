@@ -1,11 +1,11 @@
 // YKI Finnish Prep Dashboard — Vocabulary, Grammar, Mock Exams with progress tracking
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import {
   BookOpen, ChevronRight, ChevronLeft, Volume2, VolumeX,
-  Clock, CheckCircle, Timer, Snowflake,
+  Clock, CheckCircle, Timer, Snowflake, Star, Mic, Square,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -16,6 +16,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { toast } from "sonner";
+import FinnishSkier from "@/components/FinnishSkier";
 import {
   finnishVocabModules,
   finnishLessonModules,
