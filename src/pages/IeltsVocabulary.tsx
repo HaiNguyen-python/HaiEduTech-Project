@@ -317,7 +317,7 @@ const IeltsVocabulary = () => {
             {viewMode === "exercise" ? (
               <VocabExercise words={filtered} t={t} />
             ) : viewMode === "flashcard" ? (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 <AnimatePresence mode="popLayout">
                   {paginated.map(w => (
                     <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
@@ -327,26 +327,27 @@ const IeltsVocabulary = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {paginated.map(w => (
                   <motion.div
                     key={w.word + w.category}
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="group rounded-xl border border-border bg-card p-5 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 hover:scale-[1.02] transition-all duration-300"
+                    className="group rounded-xl bg-white dark:bg-card shadow-sm hover:shadow-md border dark:border-border transition-all duration-300 hover:scale-[1.02]"
+                    style={{ borderColor: "#e2e8f0", padding: "1.75rem" }}
                   >
                     {/* Header: Word + Audio + Star */}
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div>
-                        <h3 className="font-bold text-foreground" style={{ fontSize: "1.35rem" }}>{w.word}</h3>
-                        <p className="text-sm text-muted-foreground font-mono">{w.ipa}</p>
+                        <h3 className="font-bold" style={{ fontSize: "1.5rem", color: "#0f172a", lineHeight: 1.6 }}>{w.word}</h3>
+                        <p className="font-mono" style={{ fontSize: "0.875rem", color: "#64748b" }}>{w.ipa}</p>
                       </div>
                       <div className="flex items-center gap-1">
                         <button onClick={() => speak(w.word)} className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
-                          <Volume2 className="w-5 h-5 text-primary" />
+                          <Volume2 size={18} className="text-primary" />
                         </button>
                         <button onClick={() => toggleMastered(w.word)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
-                          <Star className={`w-5 h-5 ${mastered.has(w.word) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+                          <Star className={`w-[18px] h-[18px] ${mastered.has(w.word) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
                         </button>
                       </div>
                     </div>
@@ -357,31 +358,41 @@ const IeltsVocabulary = () => {
                       <Badge variant="outline" className="text-xs">{w.category}</Badge>
                     </div>
 
-                    {/* Definition */}
-                    <p className="text-sm font-semibold text-foreground leading-relaxed">{w.definition.en}</p>
-                    <p className="text-sm font-medium mt-1" style={{ color: "#93c5fd" }}>{w.definition.vi}</p>
+                    {/* Definition — clear hierarchy */}
+                    <p className="font-semibold leading-relaxed" style={{ fontSize: "1rem", color: "#475569", lineHeight: 1.6 }}>{w.definition.en}</p>
+                    <p className="font-semibold mt-1" style={{ fontSize: "1.125rem", color: "#2563eb", lineHeight: 1.6 }}>{w.definition.vi}</p>
 
-                    {/* Example */}
-                    <p className="text-sm italic mt-2 leading-relaxed" style={{ color: "#cbd5e1" }}>"{w.example}"</p>
+                    {/* Example sentence */}
+                    <p className="italic mt-3 leading-relaxed" style={{ fontSize: "0.9375rem", color: "#64748b", lineHeight: 1.6 }}>"{w.example}"</p>
 
-                    {/* Synonyms & Collocations */}
+                    {/* Synonyms & Collocations — subtle tinted sub-container */}
                     {(w.synonyms?.length || w.collocations?.length) ? (
-                      <div className="mt-3 pt-3 border-t border-border/50 space-y-2">
+                      <div className="mt-4 rounded-lg space-y-2" style={{ backgroundColor: "#f8fafc", padding: "0.875rem 1rem", border: "1px solid #e2e8f0" }}>
                         {w.synonyms && w.synonyms.length > 0 && (
                           <div className="flex items-start gap-2">
-                            <Copy className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: "#93c5fd" }} />
-                            <p className="text-sm" style={{ color: "#cbd5e1" }}>
-                              <span className="font-semibold" style={{ color: "#93c5fd" }}>Synonyms: </span>
-                              {w.synonyms.join(", ")}
+                            <Layers size={18} className="mt-0.5 shrink-0" style={{ color: "#0d9488" }} />
+                            <p style={{ fontSize: "0.875rem", color: "#475569", lineHeight: 1.6 }}>
+                              <span className="font-semibold" style={{ color: "#0d9488" }}>Synonyms: </span>
+                              {w.synonyms.map((s, i) => (
+                                <span key={i}>
+                                  {i > 0 && <span style={{ color: "#0d9488", margin: "0 0.35rem" }}>•</span>}
+                                  {s}
+                                </span>
+                              ))}
                             </p>
                           </div>
                         )}
                         {w.collocations && w.collocations.length > 0 && (
                           <div className="flex items-start gap-2">
-                            <Link className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: "#93c5fd" }} />
-                            <p className="text-sm" style={{ color: "#cbd5e1" }}>
-                              <span className="font-semibold" style={{ color: "#93c5fd" }}>Collocations: </span>
-                              {w.collocations.join(" • ")}
+                            <Link size={18} className="mt-0.5 shrink-0" style={{ color: "#4f46e5" }} />
+                            <p style={{ fontSize: "0.875rem", color: "#475569", lineHeight: 1.6 }}>
+                              <span className="font-semibold" style={{ color: "#4f46e5" }}>Collocations: </span>
+                              {w.collocations.map((c, i) => (
+                                <span key={i}>
+                                  {i > 0 && <span style={{ color: "#4f46e5", margin: "0 0.35rem" }}>•</span>}
+                                  {c}
+                                </span>
+                              ))}
                             </p>
                           </div>
                         )}
