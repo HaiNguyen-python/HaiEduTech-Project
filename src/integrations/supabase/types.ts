@@ -333,6 +333,39 @@ export type Database = {
         }
         Relationships: []
       }
+      ielts_lecture_progress: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          is_bookmarked: boolean
+          is_completed: boolean
+          lecture_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          is_bookmarked?: boolean
+          is_completed?: boolean
+          lecture_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          is_bookmarked?: boolean
+          is_completed?: boolean
+          lecture_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       knowledge_hub_posts: {
         Row: {
           category: string
