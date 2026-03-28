@@ -91,6 +91,7 @@ const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [greetingShown, setGreetingShown] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [shake, setShake] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -108,6 +109,22 @@ const ChatBot = () => {
   useEffect(() => {
     checkLockout();
   }, []);
+
+  // Show greeting message with typing delay when chatbot is first opened
+  useEffect(() => {
+    if (open && !greetingShown && messages.length === 0) {
+      setIsLoading(true);
+      const timer = setTimeout(() => {
+        setMessages([{
+          role: "assistant",
+          content: "Hi! I'm Mr.Hai. Ask me something? 😊"
+        }]);
+        setIsLoading(false);
+        setGreetingShown(true);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [open, greetingShown, messages.length]);
 
   /**
    * Check if the user has 3+ warnings in the last 24 hours → lock chat for 1 hour.

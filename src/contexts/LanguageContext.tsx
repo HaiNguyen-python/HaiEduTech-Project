@@ -9,17 +9,11 @@ interface LanguageContextType {
 }
 
 const detectDefaultLang = (): Lang => {
-  // Check localStorage first
+  // Check localStorage first — respect user's saved preference
   const saved = localStorage.getItem("app-lang");
   if (saved === "vi" || saved === "en") return saved;
 
-  // Check browser language/timezone for Vietnam
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  if (tz === "Asia/Ho_Chi_Minh" || tz === "Asia/Saigon") return "vi";
-
-  const browserLang = navigator.language || (navigator as any).userLanguage || "";
-  if (browserLang.startsWith("vi")) return "vi";
-
+  // Default to English for all new visitors
   return "en";
 };
 
