@@ -231,6 +231,9 @@ const IeltsVocabulary = () => {
     });
   }, []);
 
+  // Wrap toggleMastered with motivational toast + confetti
+  const handleMasteredWithMotivation = useMasteredMotivation(mastered, toggleMastered);
+
   const filtered = useMemo(() => {
     let words = ieltsVocabData;
     if (search) {
