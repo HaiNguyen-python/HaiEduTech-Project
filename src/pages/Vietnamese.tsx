@@ -1,6 +1,7 @@
 // Learn Vietnamese main page with language, history, folklore, and game sections
 import { useState, useEffect, useRef } from "react";
 import vietnameseCultureBanner from "@/assets/vietnamese-culture-banner.jpg";
+import vietnameseLanguageBg from "@/assets/vietnamese-language-bg.jpg";
 import vietnamFlag from "@/assets/vietnam-flag.png";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -199,42 +200,56 @@ const Vietnamese = () => {
         <div ref={tabsRef} className="container mx-auto px-6">
             {/* =================== LANGUAGE TAB =================== */}
             <TabsContent value="language">
-              <div className="grid md:grid-cols-2 gap-6 mb-10">
-                {programs.map((prog, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-shadow"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="text-2xl">{prog.icon}</span>
-                      <h3 className="text-lg font-bold text-foreground">{prog.title}</h3>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-4">{prog.desc}</p>
-                    {prog.modules.map((mod) => (
-                      <Link
-                        key={mod.id}
-                        to={`/learn-vietnamese/module/${mod.id}`}
-                        className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span>{mod.icon}</span>
-                          <span className="text-sm font-medium text-foreground">
-                            {t(mod.title, mod.titleEn)}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Badge variant="secondary" className="text-xs">
-                            {mod.lessons.length} {t("bài", "lessons")}
-                          </Badge>
-                          <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                        </div>
-                      </Link>
-                    ))}
-                  </motion.div>
-                ))}
+              <div className="relative rounded-2xl overflow-hidden mb-10">
+                {/* Background image */}
+                <img
+                  src={vietnameseLanguageBg}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover"
+                  loading="lazy"
+                  width={1920}
+                  height={1080}
+                />
+                {/* Overlay for readability */}
+                <div className="absolute inset-0 bg-background/20" />
+                {/* Cards grid */}
+                <div className="relative z-10 grid md:grid-cols-2 gap-5 p-5 md:p-8">
+                  {programs.map((prog, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="bg-white/75 dark:bg-card/80 backdrop-blur-sm border border-white/40 dark:border-border rounded-xl p-5 hover:shadow-xl transition-shadow"
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="text-2xl">{prog.icon}</span>
+                        <h3 className="text-lg font-bold text-slate-800 dark:text-foreground">{prog.title}</h3>
+                      </div>
+                      <p className="text-sm text-slate-600 dark:text-muted-foreground mb-4">{prog.desc}</p>
+                      {prog.modules.map((mod) => (
+                        <Link
+                          key={mod.id}
+                          to={`/learn-vietnamese/module/${mod.id}`}
+                          className="flex items-center justify-between p-3 rounded-lg bg-white/50 dark:bg-muted/50 hover:bg-white/70 dark:hover:bg-muted transition-colors mb-2"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span>{mod.icon}</span>
+                            <span className="text-sm font-medium text-slate-800 dark:text-foreground">
+                              {t(mod.title, mod.titleEn)}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="secondary" className="text-xs bg-white/60 dark:bg-secondary">
+                              {mod.lessons.length} {t("bài", "lessons")}
+                            </Badge>
+                            <ChevronRight className="w-4 h-4 text-slate-500 dark:text-muted-foreground" />
+                          </div>
+                        </Link>
+                      ))}
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </TabsContent>
 
