@@ -1,11 +1,11 @@
 // YKI Finnish Prep Dashboard — Vocabulary, Grammar, Mock Exams with progress tracking
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import {
   BookOpen, ChevronRight, ChevronLeft, Volume2, VolumeX,
-  Clock, CheckCircle, Timer, Snowflake,
+  Clock, CheckCircle, Timer, Snowflake, Star, Mic, Square,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -16,6 +16,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { toast } from "sonner";
+import FinnishSkier from "@/components/FinnishSkier";
 import {
   finnishVocabModules,
   finnishLessonModules,
@@ -60,7 +62,7 @@ const speakFinnish = (text: string) => {
 };
 
 // Vocabulary Card Component
-const VocabCard = ({ vocab, index }: { vocab: FinnishVocabEntry; index: number }) => {
+const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocabEntry; index: number; isMastered?: boolean; onMaster?: (word: string, e: React.MouseEvent) => void }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playAudio = () => {
@@ -146,6 +148,17 @@ const VocabCard = ({ vocab, index }: { vocab: FinnishVocabEntry; index: number }
             </div>
           </PopoverContent>
         </Popover>
+      )}
+
+      {/* Mastered star button */}
+      {onMaster && (
+        <button
+          onClick={(e) => onMaster(vocab.word, e)}
+          className={`mt-3 flex items-center gap-1.5 text-xs font-semibold transition-colors ${isMastered ? "text-amber-500" : "text-muted-foreground hover:text-amber-500"}`}
+        >
+          <Star className={`w-4 h-4 ${isMastered ? "fill-amber-500" : ""}`} />
+          {isMastered ? "Mastered!" : "Mark as Mastered"}
+        </button>
       )}
     </motion.div>
   );
@@ -258,6 +271,81 @@ const QuizSection = ({ quiz, timerEnabled = false }: { quiz: { question: string;
   );
 };
 
+// Speaking Recorder Component for mock exams
+const SpeakingRecorder = () => {
+  const [recording, setRecording] = useState(false);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState(40);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      chunksRef.current = [];
+      recorder.ondataavailable = (e) => { if (e.data.size > 0) chunksRef.current.push(e.data); };
+      recorder.onstop = () => {
+        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
+        setAudioUrl(URL.createObjectURL(blob));
+        stream.getTracks().forEach((t) => t.stop());
+      };
+      mediaRecorderRef.current = recorder;
+      recorder.start();
+      setRecording(true);
+      setTimeLeft(40);
+      timerRef.current = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            recorder.stop();
+            setRecording(false);
+            if (timerRef.current) clearInterval(timerRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch { toast.error("Microphone access denied."); }
+  };
+
+  const stopRecording = () => {
+    mediaRecorderRef.current?.stop();
+    setRecording(false);
+    if (timerRef.current) clearInterval(timerRef.current);
+  };
+
+  return (
+    <Card className="border-[#003580]/15 mt-4">
+      <CardContent className="p-4">
+        <h4 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
+          <Mic className="w-4 h-4 text-rose-500" /> Record Your Answer
+        </h4>
+        <div className="flex items-center gap-3">
+          {!recording ? (
+            <Button size="sm" onClick={startRecording} className="gap-1 bg-rose-500 hover:bg-rose-600">
+              <Mic className="w-4 h-4" /> Start Recording (40s)
+            </Button>
+          ) : (
+            <Button size="sm" variant="destructive" onClick={stopRecording} className="gap-1">
+              <Square className="w-4 h-4" /> Stop ({timeLeft}s)
+            </Button>
+          )}
+          {audioUrl && (
+            <audio controls src={audioUrl} className="h-8" />
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+// Finnish motivational quotes for mastered words
+const FINNISH_QUOTES = [
+  "Hienoa työtä! 🎿", "Jatka samaan malliin! ❄️", "Olet todella taitava! 🌟",
+  "Mahtavaa! 🏔️", "Loistavaa! 🇫🇮", "Sisu! 💪", "Upea suoritus! ✨",
+];
+
 // Main Dashboard Component
 const YkiDashboard = () => {
   const { t } = useLanguage();
@@ -267,6 +355,43 @@ const YkiDashboard = () => {
   const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams">("vocabulary");
   const [selectedModule, setSelectedModule] = useState<FinnishModule | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<FinnishLesson | null>(null);
+
+  // Mastered words state for Skier gamification
+  const getMasteredWords = (): string[] => {
+    try { return JSON.parse(localStorage.getItem("yki-mastered-words") || "[]"); } catch { return []; }
+  };
+  const [masteredWords, setMasteredWords] = useState<string[]>(getMasteredWords());
+  const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
+  const skierContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const allVocabWords = useMemo(() =>
+    finnishVocabModules.flatMap(m => m.lessons.flatMap(l => l.vocabulary || [])),
+  []);
+
+  const handleMasterWord = (word: string, event: React.MouseEvent) => {
+    if (masteredWords.includes(word)) return;
+    const newMastered = [...masteredWords, word];
+    setMasteredWords(newMastered);
+    localStorage.setItem("yki-mastered-words", JSON.stringify(newMastered));
+
+    // Flying star animation
+    const rect = skierContainerRef.current?.getBoundingClientRect();
+    if (rect) {
+      setFlyingStars((prev) => [...prev, {
+        id: Date.now(),
+        startX: event.clientX - rect.left,
+        startY: event.clientY - rect.top,
+      }]);
+    }
+
+    // Motivational toast
+    const quote = FINNISH_QUOTES[Math.floor(Math.random() * FINNISH_QUOTES.length)];
+    toast.success(quote, { style: { fontSize: "18px", fontWeight: "bold" } });
+  };
+
+  const handleStarLanded = (id: number) => {
+    setFlyingStars((prev) => prev.filter((s) => s.id !== id));
+  };
 
   // Initialize from URL param
   useMemo(() => {
@@ -302,9 +427,7 @@ const YkiDashboard = () => {
 
   // Progress checklist (stored in localStorage)
   const getProgress = () => {
-    try {
-      return JSON.parse(localStorage.getItem("yki-progress") || "{}");
-    } catch { return {}; }
+    try { return JSON.parse(localStorage.getItem("yki-progress") || "{}"); } catch { return {}; }
   };
 
   const progress = getProgress();
@@ -370,6 +493,17 @@ const YkiDashboard = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Finnish Skier Progress */}
+            <div className="mt-4">
+              <FinnishSkier
+                mastered={masteredWords.length}
+                total={allVocabWords.length}
+                flyingStars={flyingStars}
+                onStarLanded={handleStarLanded}
+                containerRef={skierContainerRef}
+              />
+            </div>
           </div>
 
           {/* Pillar Tabs */}
