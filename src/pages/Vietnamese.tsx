@@ -151,7 +151,7 @@ const Vietnamese = () => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-center bg-white/70 backdrop-blur-sm rounded-2xl px-5 py-3 sm:bg-transparent sm:backdrop-blur-none sm:rounded-none sm:px-0 sm:py-0 mx-4 sm:mx-0"
+                className="text-center bg-white/50 backdrop-blur-sm rounded-2xl px-5 py-3 mx-4 sm:mx-6 md:mx-auto md:max-w-2xl lg:max-w-3xl"
               >
                 <div className="flex items-center justify-center gap-2 md:gap-3 mb-1 md:mb-3">
                   <Flower2 className="w-5 h-5 md:w-8 md:h-8 text-red-500 drop-shadow" />
