@@ -74,6 +74,19 @@ const MountainClimber = ({ mastered, total, flyingStars, onStarLanded, container
   const mountainRef = useRef<HTMLDivElement>(null);
   const progress = useMemo(() => Math.min(mastered / Math.max(total, 1), 1), [mastered, total]);
   const climberPos = useMemo(() => getPositionOnPath(progress), [progress]);
+  const [speechBubble, setSpeechBubble] = useState<string | null>(null);
+  const prevMastered = useRef(mastered);
+
+  // Show a random speech bubble when mastered count increases
+  useEffect(() => {
+    if (mastered > prevMastered.current) {
+      const quote = CLIMBER_QUOTES[Math.floor(Math.random() * CLIMBER_QUOTES.length)];
+      setSpeechBubble(quote);
+      const timer = setTimeout(() => setSpeechBubble(null), 3000);
+      return () => clearTimeout(timer);
+    }
+    prevMastered.current = mastered;
+  }, [mastered]);
 
   // Current milestone
   const currentMilestone = useMemo(() => {
