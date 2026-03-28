@@ -3,6 +3,7 @@ import { useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flag, Mountain } from "lucide-react";
 import mountainBg from "@/assets/mountain-climber-bg.png";
+import climberImg from "@/assets/climber-character.png";
 
 interface FlyingStar {
   id: number;
@@ -96,13 +97,16 @@ const MountainClimber = ({ mastered, total, flyingStars, onStarLanded, container
       >
         <div className="flex flex-col items-center">
           {/* Climber with gentle bobbing */}
-          <motion.div
-            className="text-4xl select-none drop-shadow-lg"
+          {/* Climber character image */}
+          <motion.img
+            src={climberImg}
+            alt="Climber"
+            className="select-none drop-shadow-lg"
+            style={{ width: "64px", height: "64px", objectFit: "contain" }}
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          >
-            🧗
-          </motion.div>
+            draggable={false}
+          />
           {/* Progress counter badge */}
           <motion.div
             className="mt-1 rounded-full px-3 py-1 text-xs font-extrabold whitespace-nowrap"
