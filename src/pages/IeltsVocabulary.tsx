@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy } from "lucide-react";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
@@ -222,6 +222,9 @@ const IeltsVocabulary = () => {
     } catch { return new Set<string>(); }
   });
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
+  const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
+  const pageContainerRef = useRef<HTMLDivElement>(null);
+  const starIdCounter = useRef(0);
 
   const toggleMastered = useCallback((word: string) => {
     setMastered(prev => {
@@ -234,6 +237,28 @@ const IeltsVocabulary = () => {
 
   // Wrap toggleMastered with motivational toast + confetti
   const handleMasteredWithMotivation = useMasteredMotivation(mastered, toggleMastered);
+
+  // Launch a flying star from a click event position
+  const handleStarClick = useCallback((word: string, e: React.MouseEvent) => {
+    const isCurrentlyMastered = mastered.has(word);
+    handleMasteredWithMotivation(word);
+
+    // Only fly star when marking as mastered (not un-marking)
+    if (!isCurrentlyMastered) {
+      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+      const id = ++starIdCounter.current;
+      setFlyingStars(prev => [...prev, {
+        id,
+        startX: rect.left + rect.width / 2,
+        startY: rect.top + rect.height / 2,
+      }]);
+    }
+  }, [mastered, handleMasteredWithMotivation]);
+
+  // Remove a flying star after it lands
+  const handleStarLanded = useCallback((id: number) => {
+    setFlyingStars(prev => prev.filter(s => s.id !== id));
+  }, []);
 
   const filtered = useMemo(() => {
     let words = ieltsVocabData;
@@ -258,7 +283,7 @@ const IeltsVocabulary = () => {
   useEffect(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div ref={pageContainerRef} className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
@@ -281,7 +306,7 @@ const IeltsVocabulary = () => {
             </div>
 
             {/* Mountain Climber progress visualization */}
-            <MountainClimber mastered={mastered.size} total={ieltsVocabData.length} />
+            <MountainClimber mastered={mastered.size} total={ieltsVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -366,7 +391,7 @@ const IeltsVocabulary = () => {
                           <Volume2 size={20} style={{ color: "#4b5563" }} />
                         </button>
                         <motion.button
-                          onClick={() => handleMasteredWithMotivation(w.word)}
+                          onClick={(e) => handleStarClick(w.word, e)}
                           className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors"
                           whileTap={{ scale: 1.4 }}
                           transition={{ type: "spring", stiffness: 400, damping: 10 }}
