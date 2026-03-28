@@ -101,7 +101,7 @@ const MountainClimber = ({ mastered, total, flyingStars, onStarLanded, container
     <div
       ref={mountainRef}
       className="relative w-full rounded-2xl overflow-hidden mb-8 select-none"
-      style={{ height: "280px" }}
+      style={{ height: "340px" }}
     >
       {/* Illustrated mountain background */}
       <img
