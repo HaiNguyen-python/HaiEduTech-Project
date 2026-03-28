@@ -1968,6 +1968,181 @@ const tipsAndHacks: IeltsLecture[] = [
       "Watch for grammar changes: active ↔ passive, noun ↔ verb"
     ]
   },
+  // --- Writing Task 2: PEEL Method ---
+  {
+    id: "tips-peel-method",
+    title: "Writing Task 2: The PEEL Method for Body Paragraphs",
+    titleVi: "Writing Task 2: Phương pháp PEEL cho đoạn thân bài",
+    pillar: "tips-hacks",
+    skill: "writing",
+    icon: "📐",
+    duration: "15 min",
+    level: "intermediate",
+    description: "Generate and structure ideas instantly with PEEL: Point, Example, Explanation, Link. Never face a blank page again.",
+    descriptionVi: "Tạo và cấu trúc ý tưởng ngay lập tức với PEEL: Point, Example, Explanation, Link. Không bao giờ đối mặt trang trắng nữa.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "P - Point: State Your Main Argument",
+        titleVi: "P - Point: Nêu luận điểm chính",
+        description: "Start with ONE clear topic sentence that states your argument for this paragraph. It should directly answer part of the essay question.",
+        descriptionVi: "Bắt đầu với MỘT câu chủ đề rõ ràng nêu luận điểm cho đoạn này. Nó phải trả lời trực tiếp một phần câu hỏi.",
+        example: "'One significant advantage of remote work is the increased productivity it offers.'"
+      },
+      {
+        step: 2,
+        title: "E - Example: Give a Real-World Example",
+        titleVi: "E - Example: Cho ví dụ thực tế",
+        description: "Support your point with a concrete example: a study, a country, a company, or a personal observation. Use: 'For instance,...', 'A case in point is...'",
+        descriptionVi: "Hỗ trợ luận điểm bằng ví dụ cụ thể: một nghiên cứu, một quốc gia, một công ty, hoặc quan sát cá nhân.",
+        example: "'For instance, a Stanford study found that remote employees were 13% more productive than their office counterparts.'"
+      },
+      {
+        step: 3,
+        title: "E - Explanation: Explain WHY",
+        titleVi: "E - Explanation: Giải thích TẠI SAO",
+        description: "Explain the logic behind your example. Why does this happen? What is the cause-effect relationship? This is where you show critical thinking.",
+        descriptionVi: "Giải thích logic đằng sau ví dụ. Tại sao điều này xảy ra? Mối quan hệ nhân-quả là gì? Đây là nơi bạn thể hiện tư duy phản biện.",
+        example: "'This can be attributed to fewer distractions and the ability to work during peak personal productivity hours.'"
+      },
+      {
+        step: 4,
+        title: "L - Link: Connect Back to the Question",
+        titleVi: "L - Link: Liên kết lại với câu hỏi",
+        description: "End with a sentence that ties your paragraph back to the main question or thesis. Use: 'Therefore,...', 'Consequently,...', 'This demonstrates that...'",
+        descriptionVi: "Kết thúc với câu liên kết đoạn văn lại với câu hỏi chính hoặc luận đề. Dùng: 'Therefore,...', 'Consequently,...', 'This demonstrates that...'",
+        example: "'Therefore, it is evident that flexible working arrangements can significantly enhance overall workforce efficiency.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Complete PEEL Paragraph",
+        contextVi: "Đoạn PEEL hoàn chỉnh",
+        example: "(P) One compelling reason to invest in public transport is its environmental benefit. (E) For instance, cities like Copenhagen and Tokyo have reduced carbon emissions by over 30% through extensive metro and bus networks. (E) This is primarily because mass transit systems can carry hundreds of passengers per trip, drastically reducing the per-capita carbon footprint compared to private vehicles. (L) Consequently, expanding public transport infrastructure is arguably the most effective strategy for combating urban pollution.",
+        explanation: "4 sentences, each serving a clear purpose. This scores Band 7.0+ for coherence and cohesion."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Writing a point without any supporting example",
+        mistakeVi: "Viết luận điểm mà không có ví dụ hỗ trợ",
+        why: "Unsupported claims score Band 5.0. Every argument needs evidence.",
+        whyVi: "Luận điểm không được hỗ trợ chỉ đạt Band 5.0. Mọi lập luận cần bằng chứng."
+      },
+      {
+        mistake: "Giving an example but not explaining it",
+        mistakeVi: "Cho ví dụ nhưng không giải thích",
+        why: "Examples without explanation are anecdotes, not arguments. The Explanation shows your analytical ability.",
+        whyVi: "Ví dụ không giải thích chỉ là giai thoại, không phải lập luận. Giải thích thể hiện năng lực phân tích."
+      }
+    ],
+    goldenSecret: "If you cannot think of a real example, INVENT a plausible one: 'According to recent research conducted by the University of Oxford,...' or 'In many Scandinavian countries,...'. IELTS does not fact-check your examples - they assess your LANGUAGE!",
+    goldenSecretVi: "Nếu không nghĩ ra ví dụ thực, HÃY BỊA một ví dụ hợp lý: 'According to recent research conducted by the University of Oxford,...' hoặc 'In many Scandinavian countries,...'. IELTS không kiểm tra sự thật - họ đánh giá NGÔN NGỮ!",
+    vocabHighlights: [
+      { word: "compelling", definition: "Convincing and persuasive", definitionVi: "Thuyết phục, hấp dẫn", example: "There are compelling reasons to invest in education.", band: "7.5+" },
+      { word: "per-capita", definition: "Per person, for each individual", definitionVi: "Bình quân đầu người", example: "The per-capita income has risen significantly.", band: "7.0+" },
+      { word: "arguably", definition: "It can be argued that; possibly", definitionVi: "Có thể nói rằng, có thể lập luận", example: "This is arguably the most important issue of our time.", band: "7.0+" }
+    ],
+    quiz: [
+      {
+        question: "What does PEEL stand for?",
+        options: ["Point, Evidence, Evaluate, Link", "Point, Example, Explanation, Link", "Practice, Examine, Edit, Learn", "Plan, Execute, Evaluate, List"],
+        answer: 1,
+        explanation: "Point (topic sentence) + Example (evidence) + Explanation (why/how) + Link (connect to question)."
+      },
+      {
+        question: "Is it acceptable to invent examples in IELTS Writing?",
+        options: ["Never - all facts must be true", "Yes - IELTS assesses language, not factual accuracy", "Only for Task 1", "Only with permission"],
+        answer: 1,
+        explanation: "IELTS examiners assess your language ability, not your factual knowledge. Plausible examples are perfectly acceptable."
+      }
+    ],
+    cheatSheetPoints: [
+      "P = Point (topic sentence with your argument)",
+      "E = Example (real or plausible evidence)",
+      "E = Explanation (WHY does this happen? cause-effect)",
+      "L = Link (connect back to the essay question)",
+      "4 sentences per body paragraph = ideal length",
+      "You CAN invent plausible examples - IELTS tests language, not facts"
+    ]
+  },
+
+  // --- Speaking Part 3: General to Specific ---
+  {
+    id: "tips-speaking-general-specific",
+    title: "Speaking Part 3: From General to Specific",
+    titleVi: "Speaking Phần 3: Từ tổng quát đến cụ thể",
+    pillar: "tips-hacks",
+    skill: "speaking",
+    icon: "🎯",
+    duration: "12 min",
+    level: "advanced",
+    description: "Structure abstract arguments by moving from broad statements to specific evidence - the hallmark of a Band 7.0+ speaker.",
+    descriptionVi: "Cấu trúc lập luận trừu tượng từ nhận định rộng đến bằng chứng cụ thể - dấu hiệu của người nói Band 7.0+.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Start Broad: Give a General Statement",
+        titleVi: "Bắt đầu rộng: Đưa nhận định tổng quát",
+        description: "Open with a general opinion: 'Generally speaking,...', 'By and large,...', 'It is widely acknowledged that...'",
+        descriptionVi: "Mở đầu với ý kiến tổng quát: 'Generally speaking,...', 'By and large,...', 'It is widely acknowledged that...'",
+        example: "'Generally speaking, I believe technology has had a largely positive impact on education.'"
+      },
+      {
+        step: 2,
+        title: "Narrow Down: Provide a Specific Example",
+        titleVi: "Thu hẹp: Đưa ví dụ cụ thể",
+        description: "Move from the general to a specific case: 'Take X for example,...', 'A prime example would be...'",
+        descriptionVi: "Chuyển từ tổng quát đến trường hợp cụ thể: 'Take X for example,...', 'A prime example would be...'",
+        example: "'Take online learning platforms for example - Coursera alone has provided free university courses to over 100 million learners worldwide.'"
+      },
+      {
+        step: 3,
+        title: "Zoom Out: Return to a Broader Conclusion",
+        titleVi: "Phóng ra: Trở lại kết luận rộng hơn",
+        description: "End by connecting your example back to the bigger picture: 'So in that sense,...', 'This just goes to show that...'",
+        descriptionVi: "Kết bằng liên kết ví dụ với bức tranh lớn hơn: 'So in that sense,...', 'This just goes to show that...'",
+        example: "'So in that sense, technology has democratized access to education on an unprecedented scale.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Part 3: Abstract Question",
+        contextVi: "Phần 3: Câu hỏi trừu tượng",
+        example: "Q: 'Do you think traditional cultures are disappearing?'\n\n'By and large, I would say that globalization has put immense pressure on traditional cultures. Take indigenous languages, for example - UNESCO reports that one language dies every two weeks. In my own country, Vietnam, many young people in cities no longer practice traditional folk songs or wear ao dai regularly. So in that sense, yes, there is a genuine risk of cultural erosion unless proactive preservation efforts are made.'",
+        explanation: "General statement -> specific examples (UNESCO, Vietnam) -> broader conclusion. Perfect General-to-Specific flow."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Staying too general without specifics",
+        mistakeVi: "Nói quá chung mà không có cụ thể",
+        why: "'I think culture is important because it is our identity.' This is too vague. Add a concrete example to anchor your argument.",
+        whyVi: "'I think culture is important because it is our identity.' Quá mơ hồ. Thêm ví dụ cụ thể để neo lập luận."
+      }
+    ],
+    goldenSecret: "Always have 3 'go-to' countries ready for examples: one Asian (Vietnam/Japan), one European (Sweden/Germany), and one global reference (USA/UK). This lets you give specific examples for ANY topic on the spot!",
+    goldenSecretVi: "Luôn có 3 quốc gia 'sẵn sàng' cho ví dụ: một châu Á (Việt Nam/Nhật), một châu Âu (Thụy Điển/Đức), và một tham chiếu toàn cầu (Mỹ/Anh). Điều này cho phép đưa ví dụ cụ thể cho BẤT KỲ chủ đề nào!",
+    vocabHighlights: [
+      { word: "by and large", definition: "On the whole; generally", definitionVi: "Nhìn chung, nói chung", example: "By and large, the policy has been successful.", band: "7.0+" },
+      { word: "democratize", definition: "Make accessible to everyone", definitionVi: "Dân chủ hóa, làm cho mọi người tiếp cận được", example: "The internet has democratized access to information.", band: "8.0+" }
+    ],
+    quiz: [
+      {
+        question: "What is the correct order for the General-to-Specific technique?",
+        options: ["Specific -> General -> Specific", "General statement -> Specific example -> Broader conclusion", "Example -> Opinion -> Example", "Conclusion -> Evidence -> Introduction"],
+        answer: 1,
+        explanation: "Start broad, narrow to a specific example, then zoom back out to a broader conclusion."
+      }
+    ],
+    cheatSheetPoints: [
+      "Start BROAD: 'Generally speaking,...', 'By and large,...'",
+      "Narrow to SPECIFIC: 'Take X for example,...', 'A prime example...'",
+      "Zoom OUT: 'So in that sense,...', 'This goes to show that...'",
+      "Have 3 go-to countries ready: 1 Asian, 1 European, 1 global",
+      "Never stay purely general - always anchor with a concrete example"
+    ]
+  },
 ];
 
 // === PILLAR 3: THEMATIC VOCABULARY ===
