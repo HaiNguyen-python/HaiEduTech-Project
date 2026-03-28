@@ -63,10 +63,15 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
           </button>
         </div>
         {/* Back */}
-        <div className="absolute inset-0 rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+        <div className="absolute inset-0 rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2 overflow-y-auto" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
           <p className="text-sm font-semibold text-foreground">{word.definition.en}</p>
-          <p className="text-sm text-primary">{word.definition.vi}</p>
-          <p className="text-sm text-foreground font-semibold italic mt-2">"{word.example}"</p>
+          <p className="text-sm" style={{ color: "#93c5fd" }}>{word.definition.vi}</p>
+          <p className="text-sm italic mt-1" style={{ color: "#cbd5e1" }}>"{word.example}"</p>
+          {word.synonyms && word.synonyms.length > 0 && (
+            <p className="text-xs mt-1" style={{ color: "#cbd5e1" }}>
+              <span style={{ color: "#93c5fd" }}>Syn: </span>{word.synonyms.join(", ")}
+            </p>
+          )}
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </div>
       </motion.div>
