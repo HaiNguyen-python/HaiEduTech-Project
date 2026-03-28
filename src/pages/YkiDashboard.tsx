@@ -1,11 +1,12 @@
 // YKI Finnish Prep Dashboard — Vocabulary, Grammar, Mock Exams with progress tracking
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import {
   BookOpen, ChevronRight, ChevronLeft, Volume2, VolumeX,
   Clock, CheckCircle, Timer, Snowflake, Star, Mic, Square,
+  Languages, Trophy, Flag,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -16,6 +17,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import FinnishSkier from "@/components/FinnishSkier";
 import {
@@ -164,19 +167,31 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
   );
 };
 
-// Quiz Component with Timer
-const QuizSection = ({ quiz, timerEnabled = false }: { quiz: { question: string; options: string[]; answer: number; explanation: string }[]; timerEnabled?: boolean }) => {
+// Quiz Component with 15-minute skill timer and Finnish-first display
+const QuizSection = ({
+  quiz,
+  timerEnabled = false,
+  showFinnishOnly = false,
+  onExamComplete,
+}: {
+  quiz: { question: string; options: string[]; answer: number; explanation: string }[];
+  timerEnabled?: boolean;
+  showFinnishOnly?: boolean;
+  onExamComplete?: (score: number, total: number) => void;
+}) => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(timerEnabled ? quiz.length * 30 : 0); // 30s per question
+  const [timeLeft, setTimeLeft] = useState(timerEnabled ? 15 * 60 : 0); // 15 minutes per skill
   const [timerActive, setTimerActive] = useState(false);
+  const [showTranslation, setShowTranslation] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const startTimer = useCallback(() => {
     setTimerActive(true);
-    const interval = setInterval(() => {
+    timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          clearInterval(interval);
+          if (timerRef.current) clearInterval(timerRef.current);
           setSubmitted(true);
           setTimerActive(false);
           return 0;
@@ -184,64 +199,99 @@ const QuizSection = ({ quiz, timerEnabled = false }: { quiz: { question: string;
         return prev - 1;
       });
     }, 1000);
-    return () => clearInterval(interval);
+  }, []);
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
   const score = Object.entries(answers).filter(([i, a]) => quiz[Number(i)].answer === a).length;
 
+  const handleSubmit = () => {
+    setSubmitted(true);
+    setTimerActive(false);
+    if (timerRef.current) clearInterval(timerRef.current);
+    onExamComplete?.(score, quiz.length);
+  };
+
   const handleReset = () => {
     setAnswers({});
     setSubmitted(false);
-    setTimeLeft(timerEnabled ? quiz.length * 30 : 0);
+    setTimeLeft(timerEnabled ? 15 * 60 : 0);
     setTimerActive(false);
+    setShowTranslation(false);
   };
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-          <CheckCircle className="w-5 h-5 text-primary" /> Quiz
+          <CheckCircle className="w-5 h-5 text-primary" />
+          {showFinnishOnly ? "Valitse oikea vaihtoehto" : "Quiz"}
         </h3>
-        {timerEnabled && (
-          <div className="flex items-center gap-2">
-            {!timerActive && !submitted && (
-              <Button size="sm" variant="outline" onClick={startTimer} className="gap-1">
-                <Timer className="w-4 h-4" /> Start Timer
-              </Button>
-            )}
-            {timerActive && (
-              <Badge variant="destructive" className="text-sm gap-1">
-                <Clock className="w-3.5 h-3.5" />
-                {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, "0")}
-              </Badge>
-            )}
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {showFinnishOnly && (
+            <Button
+              size="sm"
+              variant={showTranslation ? "default" : "outline"}
+              onClick={() => setShowTranslation(!showTranslation)}
+              className="gap-1 text-xs"
+            >
+              <Languages className="w-3.5 h-3.5" />
+              {showTranslation ? "Piilota käännös" : "Näytä käännös"}
+            </Button>
+          )}
+          {timerEnabled && (
+            <>
+              {!timerActive && !submitted && (
+                <Button size="sm" variant="outline" onClick={startTimer} className="gap-1">
+                  <Timer className="w-4 h-4" /> Aloita (15 min)
+                </Button>
+              )}
+              {timerActive && (
+                <Badge variant="destructive" className="text-sm gap-1 px-3 py-1">
+                  <Clock className="w-3.5 h-3.5" />
+                  {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, "0")}
+                </Badge>
+              )}
+            </>
+          )}
+        </div>
       </div>
 
       {submitted && (
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-primary/10 border border-primary/20">
-          <span className="text-2xl font-bold text-primary">{score}/{quiz.length}</span>
-          <span className="text-sm text-muted-foreground">correct</span>
-          <Button size="sm" variant="ghost" onClick={handleReset} className="ml-auto">Retry</Button>
+        <div className="flex items-center gap-3 p-4 rounded-lg bg-primary/10 border border-primary/20">
+          <span className="text-3xl font-bold text-primary">{score}/{quiz.length}</span>
+          <div>
+            <span className="text-sm text-foreground font-medium">
+              {score >= quiz.length * 0.8 ? "Erinomainen! 🌟" : score >= quiz.length * 0.6 ? "Hyvä työ! 👍" : "Harjoittele lisää! 💪"}
+            </span>
+            {showTranslation && (
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {score >= quiz.length * 0.8 ? "Excellent!" : score >= quiz.length * 0.6 ? "Good job!" : "Keep practicing!"}
+              </p>
+            )}
+          </div>
+          <Button size="sm" variant="ghost" onClick={handleReset} className="ml-auto">Yritä uudelleen</Button>
         </div>
       )}
 
       {quiz.map((q, qi) => (
         <div key={qi} className="p-4 rounded-lg bg-muted/50 border border-border">
-          <p className="font-medium text-foreground mb-3">{qi + 1}. {q.question}</p>
+          <p className="font-medium text-foreground mb-3 text-[20px] leading-relaxed">{qi + 1}. {q.question}</p>
           <div className="grid gap-2">
             {q.options.map((opt, oi) => {
               const isSelected = answers[qi] === oi;
               const isCorrect = q.answer === oi;
-              let cls = "p-2.5 rounded-lg border text-sm cursor-pointer transition-all text-left w-full ";
+              let cls = "p-3 rounded-lg border text-[18px] cursor-pointer transition-all text-left w-full ";
               if (submitted) {
-                if (isCorrect) cls += "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700";
+                if (isCorrect) cls += "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700 font-semibold";
                 else if (isSelected) cls += "bg-rose-50 border-rose-300 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300 dark:border-rose-700";
                 else cls += "bg-card border-border text-muted-foreground";
               } else {
                 cls += isSelected
-                  ? "bg-primary/10 border-primary text-foreground"
+                  ? "bg-primary/10 border-primary text-foreground font-medium"
                   : "bg-card border-border text-foreground hover:border-primary/40";
               }
               return (
@@ -257,25 +307,141 @@ const QuizSection = ({ quiz, timerEnabled = false }: { quiz: { question: string;
             })}
           </div>
           {submitted && (
-            <p className="mt-2 text-xs text-muted-foreground italic">💡 {q.explanation}</p>
+            <p className="mt-2 text-sm text-muted-foreground italic">
+              💡 {q.explanation}
+              {showTranslation && q.explanation && (
+                <span className="block mt-1 text-xs text-muted-foreground/70">
+                  (Translation available)
+                </span>
+              )}
+            </p>
           )}
         </div>
       ))}
 
       {!submitted && Object.keys(answers).length > 0 && (
-        <Button onClick={() => setSubmitted(true)} className="w-full">
-          Submit Answers
+        <Button onClick={handleSubmit} className="w-full text-lg py-6 font-bold">
+          Lähetä vastaukset ✓
         </Button>
       )}
     </div>
   );
 };
 
-// Speaking Recorder Component for mock exams
-const SpeakingRecorder = () => {
+// Writing Section with word counter
+const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
+  const [text, setText] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [showTranslation, setShowTranslation] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(15 * 60);
+  const [timerActive, setTimerActive] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+
+  const startTimer = () => {
+    setTimerActive(true);
+    timerRef.current = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          if (timerRef.current) clearInterval(timerRef.current);
+          setTimerActive(false);
+          setSubmitted(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, []);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+          ✍️ Kirjoitustehtävä
+        </h3>
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant={showTranslation ? "default" : "outline"}
+            onClick={() => setShowTranslation(!showTranslation)}
+            className="gap-1 text-xs"
+          >
+            <Languages className="w-3.5 h-3.5" />
+            {showTranslation ? "Piilota käännös" : "Näytä käännös"}
+          </Button>
+          {!timerActive && !submitted && (
+            <Button size="sm" variant="outline" onClick={startTimer} className="gap-1">
+              <Timer className="w-4 h-4" /> Aloita (15 min)
+            </Button>
+          )}
+          {timerActive && (
+            <Badge variant="destructive" className="text-sm gap-1 px-3 py-1">
+              <Clock className="w-3.5 h-3.5" />
+              {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, "0")}
+            </Badge>
+          )}
+        </div>
+      </div>
+
+      {/* Task instructions in Finnish */}
+      <Card className="border-[#003580]/10">
+        <CardContent className="p-5 prose prose-sm dark:prose-invert max-w-none">
+          <ReactMarkdown>{lesson.theory || ""}</ReactMarkdown>
+          {showTranslation && lesson.theoryEn && (
+            <div className="mt-4 pt-4 border-t border-border">
+              <Badge variant="outline" className="mb-2 text-xs">🌐 Translation</Badge>
+              <ReactMarkdown>{lesson.theoryEn}</ReactMarkdown>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Writing area */}
+      <div className="space-y-2">
+        <Textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Kirjoita vastauksesi tähän..."
+          className="min-h-[200px] text-[18px] leading-relaxed border-[#003580]/15 focus:border-[#003580]/30"
+          disabled={submitted}
+        />
+        <div className="flex items-center justify-between text-sm">
+          <span className={`font-medium ${wordCount > 80 ? "text-rose-500" : wordCount >= 20 ? "text-emerald-600" : "text-muted-foreground"}`}>
+            📝 Sanamäärä: {wordCount} / 50–80 sanaa
+          </span>
+          {!submitted && text.trim().length > 0 && (
+            <Button onClick={() => { setSubmitted(true); if (timerRef.current) clearInterval(timerRef.current); setTimerActive(false); }} className="text-lg px-8 py-3 font-bold">
+              Lähetä ✓
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {submitted && (
+        <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
+          <CardContent className="p-4">
+            <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ Vastauksesi on lähetetty!</p>
+            <p className="text-sm text-muted-foreground">Sanamäärä: {wordCount}. Tarkista vastauksesi ja vertaa tehtävänantoon.</p>
+            <Button variant="ghost" size="sm" className="mt-2" onClick={() => { setSubmitted(false); setText(""); setTimeLeft(15 * 60); }}>
+              Kirjoita uudelleen
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
+
+// Speaking Recorder Component for mock exams with situation prompt
+const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
   const [recording, setRecording] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(40);
+  const [showTranslation, setShowTranslation] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -316,27 +482,67 @@ const SpeakingRecorder = () => {
   };
 
   return (
-    <Card className="border-[#003580]/15 mt-4">
-      <CardContent className="p-4">
-        <h4 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
-          <Mic className="w-4 h-4 text-rose-500" /> Record Your Answer
-        </h4>
-        <div className="flex items-center gap-3">
-          {!recording ? (
-            <Button size="sm" onClick={startRecording} className="gap-1 bg-rose-500 hover:bg-rose-600">
-              <Mic className="w-4 h-4" /> Start Recording (40s)
-            </Button>
-          ) : (
-            <Button size="sm" variant="destructive" onClick={stopRecording} className="gap-1">
-              <Square className="w-4 h-4" /> Stop ({timeLeft}s)
-            </Button>
-          )}
+    <div className="space-y-4">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+          🎤 Puhumistehtävä
+        </h3>
+        {lesson && (
+          <Button
+            size="sm"
+            variant={showTranslation ? "default" : "outline"}
+            onClick={() => setShowTranslation(!showTranslation)}
+            className="gap-1 text-xs"
+          >
+            <Languages className="w-3.5 h-3.5" />
+            {showTranslation ? "Piilota käännös" : "Näytä käännös"}
+          </Button>
+        )}
+      </div>
+
+      {/* Situation prompt in Finnish */}
+      {lesson?.theory && (
+        <Card className="border-[#003580]/10">
+          <CardContent className="p-5 prose prose-sm dark:prose-invert max-w-none">
+            <ReactMarkdown>{lesson.theory}</ReactMarkdown>
+            {showTranslation && lesson.theoryEn && (
+              <div className="mt-4 pt-4 border-t border-border">
+                <Badge variant="outline" className="mb-2 text-xs">🌐 Translation</Badge>
+                <ReactMarkdown>{lesson.theoryEn}</ReactMarkdown>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Recording controls */}
+      <Card className="border-[#003580]/15">
+        <CardContent className="p-4">
+          <h4 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
+            <Mic className="w-4 h-4 text-rose-500" /> Nauhoita vastauksesi (40 sekuntia)
+          </h4>
+          <div className="flex items-center gap-3">
+            {!recording ? (
+              <Button size="lg" onClick={startRecording} className="gap-2 bg-rose-500 hover:bg-rose-600 text-lg px-6 font-bold">
+                <Mic className="w-5 h-5" /> Aloita nauhoitus
+              </Button>
+            ) : (
+              <Button size="lg" variant="destructive" onClick={stopRecording} className="gap-2 text-lg px-6 font-bold">
+                <Square className="w-5 h-5" /> Lopeta ({timeLeft}s)
+              </Button>
+            )}
+          </div>
           {audioUrl && (
-            <audio controls src={audioUrl} className="h-8" />
+            <div className="mt-4 flex items-center gap-3">
+              <audio controls src={audioUrl} className="h-10 flex-1" />
+              <Button variant="outline" size="sm" onClick={() => { setAudioUrl(null); }}>
+                Nauhoita uudelleen
+              </Button>
+            </div>
           )}
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
@@ -345,6 +551,29 @@ const FINNISH_QUOTES = [
   "Hienoa työtä! 🎿", "Jatka samaan malliin! ❄️", "Olet todella taitava! 🌟",
   "Mahtavaa! 🏔️", "Loistavaa! 🇫🇮", "Sisu! 💪", "Upea suoritus! ✨",
 ];
+
+// YKI A2 Ready Badge Dialog
+const YkiReadyBadge = ({ show, onClose }: { show: boolean; onClose: () => void }) => (
+  <Dialog open={show} onOpenChange={onClose}>
+    <DialogContent className="text-center max-w-sm">
+      <DialogHeader>
+        <DialogTitle className="text-2xl text-center">🇫🇮 YKI A2 Ready!</DialogTitle>
+      </DialogHeader>
+      <div className="py-6 space-y-4">
+        <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-[#003580] to-[#0066cc] flex items-center justify-center shadow-xl">
+          <Trophy className="w-12 h-12 text-white" />
+        </div>
+        <p className="text-lg font-bold text-foreground">Onneksi olkoon! 🎉</p>
+        <p className="text-sm text-muted-foreground">
+          Olet suorittanut kaikki neljä YKI-taitoaluetta! Olet valmis Perustaso-kokeeseen.
+        </p>
+        <Badge className="text-sm px-4 py-2 bg-[#003580]">
+          <Flag className="w-4 h-4 mr-1 inline" /> YKI A2 Certified Ready
+        </Badge>
+      </div>
+    </DialogContent>
+  </Dialog>
+);
 
 // Main Dashboard Component
 const YkiDashboard = () => {
@@ -355,6 +584,7 @@ const YkiDashboard = () => {
   const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams">("vocabulary");
   const [selectedModule, setSelectedModule] = useState<FinnishModule | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<FinnishLesson | null>(null);
+  const [showBadge, setShowBadge] = useState(false);
 
   // Mastered words state for Skier gamification
   const getMasteredWords = (): string[] => {
@@ -363,6 +593,12 @@ const YkiDashboard = () => {
   const [masteredWords, setMasteredWords] = useState<string[]>(getMasteredWords());
   const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
   const skierContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // Exam scores for skier integration
+  const getExamScores = (): Record<string, { score: number; total: number }> => {
+    try { return JSON.parse(localStorage.getItem("yki-exam-scores") || "{}"); } catch { return {}; }
+  };
+  const [examScores, setExamScores] = useState<Record<string, { score: number; total: number }>>(getExamScores());
 
   const allVocabWords = useMemo(() =>
     finnishVocabModules.flatMap(m => m.lessons.flatMap(l => l.vocabulary || [])),
@@ -391,6 +627,33 @@ const YkiDashboard = () => {
 
   const handleStarLanded = (id: number) => {
     setFlyingStars((prev) => prev.filter((s) => s.id !== id));
+  };
+
+  // Handle exam completion — link to skier progress
+  const handleExamComplete = (lessonId: string, score: number, total: number) => {
+    const newScores = { ...examScores, [lessonId]: { score, total } };
+    setExamScores(newScores);
+    localStorage.setItem("yki-exam-scores", JSON.stringify(newScores));
+
+    // If score >= 80%, move skier up by adding "exam words"
+    if (score >= total * 0.8) {
+      toast.success("Erinomainen tulos! Hiihtäjäsi etenee vuorella! ⛷️🏔️");
+    }
+
+    // Check if all 4 skill modules are completed
+    const skillModuleIds = ["yki-mock-reading", "yki-mock-listening", "yki-mock-writing", "yki-mock-speaking"];
+    const allSkillsDone = skillModuleIds.every(moduleId => {
+      const mod = finnishMockExamModules.find(m => m.id === moduleId);
+      if (!mod) return false;
+      return mod.lessons.some(l => {
+        const s = newScores[l.id];
+        return s && s.score >= s.total * 0.8;
+      });
+    });
+
+    if (allSkillsDone) {
+      setTimeout(() => setShowBadge(true), 1000);
+    }
   };
 
   // Initialize from URL param
@@ -446,6 +709,11 @@ const YkiDashboard = () => {
     p[lessonId] = true;
     localStorage.setItem("yki-progress", JSON.stringify(p));
   };
+
+  // Determine if current lesson is a writing or speaking exam
+  const isWritingExam = selectedModule?.id === "yki-mock-writing";
+  const isSpeakingExam = selectedModule?.id === "yki-mock-speaking";
+  const isMockExam = selectedModule?.pillar === "mock-exams";
 
   return (
     <div className="min-h-screen bg-background">
@@ -509,9 +777,9 @@ const YkiDashboard = () => {
           {/* Pillar Tabs */}
           <Tabs value={activePillar} onValueChange={(v) => { setActivePillar(v as any); setSelectedModule(null); setSelectedLesson(null); }}>
             <TabsList className="w-full max-w-lg grid grid-cols-3 h-11 mb-6">
-              <TabsTrigger value="vocabulary" className="text-xs sm:text-sm">📖 Vocabulary</TabsTrigger>
-              <TabsTrigger value="lessons" className="text-xs sm:text-sm">🎓 Lessons</TabsTrigger>
-              <TabsTrigger value="mock-exams" className="text-xs sm:text-sm">📝 Mock Exams</TabsTrigger>
+              <TabsTrigger value="vocabulary" className="text-xs sm:text-sm">📖 Sanasto</TabsTrigger>
+              <TabsTrigger value="lessons" className="text-xs sm:text-sm">🎓 Oppitunnit</TabsTrigger>
+              <TabsTrigger value="mock-exams" className="text-xs sm:text-sm">📝 Kokeet</TabsTrigger>
             </TabsList>
 
             <TabsContent value={activePillar}>
@@ -519,14 +787,19 @@ const YkiDashboard = () => {
               {selectedModule && selectedLesson ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <Button variant="ghost" size="sm" onClick={handleBack} className="mb-4 gap-1">
-                    <ChevronLeft className="w-4 h-4" /> Back
+                    <ChevronLeft className="w-4 h-4" /> Takaisin
                   </Button>
 
                   <div className="flex items-center gap-3 mb-6">
                     <span className="text-3xl">{selectedLesson.icon}</span>
                     <div>
-                      <h2 className="text-xl font-bold text-foreground">{selectedLesson.titleEn}</h2>
-                      <p className="text-sm text-muted-foreground">{selectedLesson.title}</p>
+                      {/* Show Finnish title first for mock exams */}
+                      <h2 className="text-xl font-bold text-foreground">
+                        {isMockExam ? selectedLesson.title : selectedLesson.titleEn}
+                      </h2>
+                      <p className="text-sm text-muted-foreground">
+                        {isMockExam ? selectedLesson.titleEn : selectedLesson.title}
+                      </p>
                     </div>
                     <Badge className="ml-auto" variant="outline">{selectedLesson.level}</Badge>
                   </div>
@@ -542,96 +815,123 @@ const YkiDashboard = () => {
                           onClick={() => setSelectedLesson(l)}
                           className="text-xs"
                         >
-                          {l.icon} {l.titleEn}
+                          {l.icon} {isMockExam ? l.title : l.titleEn}
                         </Button>
                       ))}
                     </div>
                   )}
 
-                  {/* Theory/Grammar */}
-                  {selectedLesson.theory && (
-                    <Card className="mb-6 border-[#003580]/10">
-                      <CardContent className="p-6 prose prose-sm dark:prose-invert max-w-none">
-                        <ReactMarkdown>{selectedLesson.theoryEn || selectedLesson.theory}</ReactMarkdown>
-                      </CardContent>
-                    </Card>
-                  )}
-
-                  {/* Grammar Points */}
-                  {selectedLesson.grammar && selectedLesson.grammar.length > 0 && (
-                    <div className="space-y-4 mb-6">
-                      <h3 className="text-lg font-bold text-foreground">📐 Grammar Points</h3>
-                      {selectedLesson.grammar.map((gp, i) => (
-                        <Card key={i} className="border-[#003580]/10">
-                          <CardHeader className="pb-2">
-                            <CardTitle className="text-base">{gp.titleEn || gp.title}</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <p className="text-sm text-muted-foreground mb-3">{gp.explanationEn || gp.explanation}</p>
-                            <div className="space-y-1.5">
-                              {gp.examples.map((ex, j) => (
-                                <div key={j} className="flex items-start gap-2 text-sm">
-                                  <button onClick={() => speakFinnish(ex.finnish)} className="shrink-0 mt-0.5">
-                                    <Volume2 className="w-3.5 h-3.5 text-[#003580]" />
-                                  </button>
-                                  <span className="font-medium text-foreground">{ex.finnish}</span>
-                                  <span className="text-muted-foreground">— {ex.english}</span>
-                                </div>
-                              ))}
-                            </div>
+                  {/* Writing Exam — show writing section */}
+                  {isWritingExam ? (
+                    <WritingSection lesson={selectedLesson} />
+                  ) : isSpeakingExam ? (
+                    /* Speaking Exam — show speaking recorder */
+                    <SpeakingRecorder lesson={selectedLesson} />
+                  ) : (
+                    <>
+                      {/* Theory/Grammar — show Finnish for exams */}
+                      {selectedLesson.theory && !isWritingExam && !isSpeakingExam && (
+                        <Card className="mb-6 border-[#003580]/10">
+                          <CardContent className="p-6 prose prose-sm dark:prose-invert max-w-none text-[18px]">
+                            <ReactMarkdown>
+                              {isMockExam ? selectedLesson.theory : (selectedLesson.theoryEn || selectedLesson.theory)}
+                            </ReactMarkdown>
                           </CardContent>
                         </Card>
-                      ))}
-                    </div>
-                  )}
+                      )}
 
-                  {/* Dialogues */}
-                  {selectedLesson.dialogues && selectedLesson.dialogues.length > 0 && (
-                    <div className="space-y-4 mb-6">
-                      <h3 className="text-lg font-bold text-foreground">💬 Dialogues</h3>
-                      {selectedLesson.dialogues.map((d, i) => (
-                        <Card key={i} className="border-[#003580]/10">
-                          <CardHeader className="pb-2">
-                            <CardTitle className="text-base">{d.situationEn}</CardTitle>
-                          </CardHeader>
-                          <CardContent className="space-y-2">
-                            {d.lines.map((line, j) => (
-                              <div key={j} className={`flex items-start gap-2 text-sm p-2 rounded-lg ${line.speaker === "Sinä" ? "bg-primary/5" : "bg-muted/50"}`}>
-                                <Badge variant="outline" className="text-xs shrink-0">{line.speaker}</Badge>
-                                <div>
-                                  <button onClick={() => speakFinnish(line.finnish)} className="inline mr-1">
-                                    <Volume2 className="w-3 h-3 text-[#003580] inline" />
-                                  </button>
-                                  <span className="font-medium text-foreground">{line.finnish}</span>
-                                  <p className="text-xs text-muted-foreground italic">{line.english}</p>
+                      {/* Grammar Points */}
+                      {selectedLesson.grammar && selectedLesson.grammar.length > 0 && (
+                        <div className="space-y-4 mb-6">
+                          <h3 className="text-lg font-bold text-foreground">📐 Grammar Points</h3>
+                          {selectedLesson.grammar.map((gp, i) => (
+                            <Card key={i} className="border-[#003580]/10">
+                              <CardHeader className="pb-2">
+                                <CardTitle className="text-base">{gp.titleEn || gp.title}</CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                <p className="text-sm text-muted-foreground mb-3">{gp.explanationEn || gp.explanation}</p>
+                                <div className="space-y-1.5">
+                                  {gp.examples.map((ex, j) => (
+                                    <div key={j} className="flex items-start gap-2 text-sm">
+                                      <button onClick={() => speakFinnish(ex.finnish)} className="shrink-0 mt-0.5">
+                                        <Volume2 className="w-3.5 h-3.5 text-[#003580]" />
+                                      </button>
+                                      <span className="font-medium text-foreground">{ex.finnish}</span>
+                                      <span className="text-muted-foreground">— {ex.english}</span>
+                                    </div>
+                                  ))}
                                 </div>
-                              </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Dialogues */}
+                      {selectedLesson.dialogues && selectedLesson.dialogues.length > 0 && (
+                        <div className="space-y-4 mb-6">
+                          <h3 className="text-lg font-bold text-foreground">💬 Dialogues</h3>
+                          {selectedLesson.dialogues.map((d, i) => (
+                            <Card key={i} className="border-[#003580]/10">
+                              <CardHeader className="pb-2">
+                                <CardTitle className="text-base">{d.situationEn}</CardTitle>
+                              </CardHeader>
+                              <CardContent className="space-y-2">
+                                {d.lines.map((line, j) => (
+                                  <div key={j} className={`flex items-start gap-2 text-sm p-2 rounded-lg ${line.speaker === "Sinä" ? "bg-primary/5" : "bg-muted/50"}`}>
+                                    <Badge variant="outline" className="text-xs shrink-0">{line.speaker}</Badge>
+                                    <div>
+                                      <button onClick={() => speakFinnish(line.finnish)} className="inline mr-1">
+                                        <Volume2 className="w-3 h-3 text-[#003580] inline" />
+                                      </button>
+                                      <span className="font-medium text-foreground">{line.finnish}</span>
+                                      <p className="text-xs text-muted-foreground italic">{line.english}</p>
+                                    </div>
+                                  </div>
+                                ))}
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Vocabulary */}
+                      {selectedLesson.vocabulary && selectedLesson.vocabulary.length > 0 && (
+                        <div className="mb-6">
+                          <h3 className="text-lg font-bold text-foreground mb-4">📖 Sanasto</h3>
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            {selectedLesson.vocabulary.map((v, i) => (
+                              <VocabCard
+                                key={v.word}
+                                vocab={v}
+                                index={i}
+                                isMastered={masteredWords.includes(v.word)}
+                                onMaster={handleMasterWord}
+                              />
                             ))}
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Quiz — Finnish-first for mock exams */}
+                      {selectedLesson.quiz && selectedLesson.quiz.length > 0 && (
+                        <div className="mb-6">
+                          <QuizSection
+                            quiz={selectedLesson.quiz}
+                            timerEnabled={isMockExam}
+                            showFinnishOnly={isMockExam}
+                            onExamComplete={(score, total) => handleExamComplete(selectedLesson.id, score, total)}
+                          />
+                        </div>
+                      )}
+                    </>
                   )}
 
-                  {/* Vocabulary */}
-                  {selectedLesson.vocabulary && selectedLesson.vocabulary.length > 0 && (
-                    <div className="mb-6">
-                      <h3 className="text-lg font-bold text-foreground mb-4">📖 Vocabulary</h3>
-                      <div className="grid sm:grid-cols-2 gap-4">
-                        {selectedLesson.vocabulary.map((v, i) => (
-                          <VocabCard key={v.word} vocab={v} index={i} />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Quiz */}
-                  {selectedLesson.quiz && selectedLesson.quiz.length > 0 && (
-                    <div className="mb-6">
-                      <QuizSection
-                        quiz={selectedLesson.quiz}
-                        timerEnabled={selectedModule.pillar === "mock-exams"}
-                      />
+                  {/* Speaking recorder for reading/listening exams */}
+                  {isMockExam && !isWritingExam && !isSpeakingExam && (
+                    <div className="mt-6">
+                      <SpeakingRecorder />
                     </div>
                   )}
 
@@ -639,7 +939,7 @@ const YkiDashboard = () => {
                   <div className="text-center mt-8">
                     {progress[selectedLesson.id] ? (
                       <Badge className="bg-emerald-100 text-emerald-800 text-sm py-2 px-4">
-                        ✅ Completed
+                        ✅ Suoritettu
                       </Badge>
                     ) : (
                       <Button
@@ -647,10 +947,10 @@ const YkiDashboard = () => {
                           markComplete(selectedLesson.id);
                           window.location.reload();
                         }}
-                        className="gap-2"
+                        className="gap-2 text-lg px-8 py-3 font-bold"
                       >
-                        <CheckCircle className="w-4 h-4" />
-                        Mark as Complete
+                        <CheckCircle className="w-5 h-5" />
+                        Merkitse valmiiksi
                       </Button>
                     )}
                   </div>
@@ -659,7 +959,7 @@ const YkiDashboard = () => {
                 // Module lesson list
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <Button variant="ghost" size="sm" onClick={handleBack} className="mb-4 gap-1">
-                    <ChevronLeft className="w-4 h-4" /> Back to Modules
+                    <ChevronLeft className="w-4 h-4" /> Takaisin
                   </Button>
                   <div className="flex items-center gap-3 mb-6">
                     <span className="text-3xl">{selectedModule.icon}</span>
@@ -683,15 +983,19 @@ const YkiDashboard = () => {
                           <div className="flex items-center gap-3 mb-2">
                             <span className="text-2xl">{lesson.icon}</span>
                             <div className="min-w-0">
-                              <h3 className="font-semibold text-foreground truncate">{lesson.titleEn}</h3>
-                              <p className="text-xs text-muted-foreground">{lesson.title}</p>
+                              <h3 className="font-semibold text-foreground truncate">
+                                {isMockExam ? lesson.title : lesson.titleEn}
+                              </h3>
+                              <p className="text-xs text-muted-foreground">
+                                {isMockExam ? lesson.titleEn : lesson.title}
+                              </p>
                             </div>
                             {progress[lesson.id] && <CheckCircle className="w-4 h-4 text-emerald-500 ml-auto shrink-0" />}
                           </div>
                           <div className="flex gap-2">
                             <Badge variant="outline" className="text-xs">{lesson.level}</Badge>
-                            {lesson.vocabulary && <Badge variant="secondary" className="text-xs">{lesson.vocabulary.length} words</Badge>}
-                            {lesson.quiz && <Badge variant="secondary" className="text-xs">{lesson.quiz.length} quiz</Badge>}
+                            {lesson.vocabulary && <Badge variant="secondary" className="text-xs">{lesson.vocabulary.length} sanaa</Badge>}
+                            {lesson.quiz && <Badge variant="secondary" className="text-xs">{lesson.quiz.length} kysymystä</Badge>}
                           </div>
                         </button>
                       </motion.div>
@@ -736,6 +1040,9 @@ const YkiDashboard = () => {
         </div>
       </main>
       <Footer />
+
+      {/* YKI A2 Ready Badge */}
+      <YkiReadyBadge show={showBadge} onClose={() => setShowBadge(false)} />
     </div>
   );
 };
