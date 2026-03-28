@@ -81,43 +81,8 @@ const MountainClimber = ({ mastered, total, flyingStars, onStarLanded, container
         draggable={false}
       />
 
-      {/* Subtle gradient overlay for label readability */}
+      {/* Subtle gradient overlay for readability */}
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 100%)" }} />
-
-      {/* Milestone markers along the path */}
-      {MILESTONES.map((m, i) => {
-        const isReached = mastered >= m.words;
-        return (
-          <motion.div
-            key={m.label}
-            className="absolute flex items-center gap-1.5"
-            style={{ left: `${m.x}%`, top: `${m.y}%`, transform: "translate(-50%, -50%)" }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: i * 0.12 }}
-          >
-            {/* Glowing waypoint dot */}
-            <div className="rounded-full shrink-0" style={{
-              width: i === MILESTONES.length - 1 ? 16 : 12,
-              height: i === MILESTONES.length - 1 ? 16 : 12,
-              backgroundColor: isReached ? "#22c55e" : "rgba(255,255,255,0.7)",
-              boxShadow: isReached
-                ? "0 0 12px rgba(34,197,94,0.7), 0 0 4px rgba(34,197,94,0.4)"
-                : "0 0 6px rgba(255,255,255,0.4)",
-              border: isReached ? "2px solid #16a34a" : "2px solid rgba(200,200,200,0.5)",
-            }} />
-            {/* Label badge */}
-            <div className="rounded-lg px-2.5 py-1 text-xs font-bold whitespace-nowrap" style={{
-              backgroundColor: isReached ? "rgba(34,197,94,0.9)" : "rgba(30,41,59,0.8)",
-              color: "#ffffff",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
-              backdropFilter: "blur(4px)",
-            }}>
-              {m.words > 0 ? `${m.words} words` : m.label} ({m.band})
-            </div>
-          </motion.div>
-        );
-      })}
 
       {/* Climber — follows the winding path */}
       <motion.div
