@@ -124,7 +124,44 @@ const MountainClimber = ({ mastered, total, flyingStars, onStarLanded, container
         transition={{ type: "spring", stiffness: 50, damping: 16, mass: 1.5 }}
         style={{ transform: "translate(-50%, -50%)" }}
       >
-        <div className="flex flex-col items-center">
+        <div className="flex items-end gap-1">
+          {/* Speech bubble from climber boy */}
+          <AnimatePresence>
+            {speechBubble && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5, x: 10 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.5, x: 10 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="relative rounded-xl whitespace-nowrap"
+                style={{
+                  backgroundColor: "#ffffff",
+                  color: "#1e293b",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  padding: "6px 12px",
+                  boxShadow: "0 4px 14px rgba(0,0,0,0.15)",
+                  border: "2px solid #e2e8f0",
+                  marginBottom: "8px",
+                }}
+              >
+                {speechBubble}
+                {/* Triangle pointer toward the climber */}
+                <div style={{
+                  position: "absolute",
+                  right: "-6px",
+                  bottom: "10px",
+                  width: 0,
+                  height: 0,
+                  borderTop: "6px solid transparent",
+                  borderBottom: "6px solid transparent",
+                  borderLeft: "6px solid #ffffff",
+                }} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="flex flex-col items-center">
           {/* Climber with gentle bobbing */}
           {/* Climber character image */}
           <motion.img
