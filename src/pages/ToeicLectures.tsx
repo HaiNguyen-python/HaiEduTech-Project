@@ -1,5 +1,5 @@
 // TOEIC Lectures Dashboard — Professional Business English Training Hub
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -14,6 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useToeicLectureProgress } from "@/hooks/useToeicLectureProgress";
 import { allToeicLectures, type ToeicLecture } from "@/data/toeicLecturesData";
 
 // Category filter configuration
@@ -45,28 +46,11 @@ const ToeicLectures = () => {
   const [activeLevel, setActiveLevel] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("default");
-  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("toeic-bookmarked");
-      return saved ? new Set(JSON.parse(saved)) : new Set();
-    } catch { return new Set(); }
-  });
-  const [completedIds, setCompletedIds] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("toeic-completed");
-      return saved ? new Set(JSON.parse(saved)) : new Set();
-    } catch { return new Set(); }
-  });
+  const { completedIds, bookmarkedIds, toggleBookmark, markCompleted } = useToeicLectureProgress();
   const [showBookmarked, setShowBookmarked] = useState(false);
 
-  const toggleBookmark = useCallback((id: string) => {
-    setBookmarkedIds(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
-      localStorage.setItem("toeic-bookmarked", JSON.stringify([...next]));
-      return next;
-    });
-  }, []);
+  const bookmarkedSet = useMemo(() => new Set(bookmarkedIds), [bookmarkedIds]);
+  const completedSet = useMemo(() => new Set(completedIds), [completedIds]);
 
   // Filtered and sorted lectures
   const filtered = useMemo(() => {
