@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy } from "lucide-react";
+import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, IELTS_CATEGORIES, CEFR_LEVELS, type IeltsWord } from "@/data/ieltsVocabData";
 import { Badge } from "@/components/ui/badge";
@@ -230,6 +231,9 @@ const IeltsVocabulary = () => {
     });
   }, []);
 
+  // Wrap toggleMastered with motivational toast + confetti
+  const handleMasteredWithMotivation = useMasteredMotivation(mastered, toggleMastered);
+
   const filtered = useMemo(() => {
     let words = ieltsVocabData;
     if (search) {
@@ -357,9 +361,18 @@ const IeltsVocabulary = () => {
                         <button onClick={() => speak(w.word)} className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
                           <Volume2 size={20} style={{ color: "#4b5563" }} />
                         </button>
-                        <button onClick={() => toggleMastered(w.word)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
-                          <Star size={20} className={mastered.has(w.word) ? "text-yellow-400 fill-yellow-400" : ""} style={mastered.has(w.word) ? {} : { color: "#4b5563" }} />
-                        </button>
+                        <motion.button
+                          onClick={() => handleMasteredWithMotivation(w.word)}
+                          className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors"
+                          whileTap={{ scale: 1.4 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        >
+                          <Star
+                            size={20}
+                            className={mastered.has(w.word) ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]" : ""}
+                            style={mastered.has(w.word) ? {} : { color: "#4b5563" }}
+                          />
+                        </motion.button>
                       </div>
                     </div>
 
