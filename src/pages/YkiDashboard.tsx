@@ -62,7 +62,7 @@ const speakFinnish = (text: string) => {
 };
 
 // Vocabulary Card Component
-const VocabCard = ({ vocab, index }: { vocab: FinnishVocabEntry; index: number }) => {
+const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocabEntry; index: number; isMastered?: boolean; onMaster?: (word: string, e: React.MouseEvent) => void }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playAudio = () => {
@@ -148,6 +148,17 @@ const VocabCard = ({ vocab, index }: { vocab: FinnishVocabEntry; index: number }
             </div>
           </PopoverContent>
         </Popover>
+      )}
+
+      {/* Mastered star button */}
+      {onMaster && (
+        <button
+          onClick={(e) => onMaster(vocab.word, e)}
+          className={`mt-3 flex items-center gap-1.5 text-xs font-semibold transition-colors ${isMastered ? "text-amber-500" : "text-muted-foreground hover:text-amber-500"}`}
+        >
+          <Star className={`w-4 h-4 ${isMastered ? "fill-amber-500" : ""}`} />
+          {isMastered ? "Mastered!" : "Mark as Mastered"}
+        </button>
       )}
     </motion.div>
   );
