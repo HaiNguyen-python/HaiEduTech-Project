@@ -287,7 +287,7 @@ const Navbar = () => {
             {/* Row 1b: Slogan on mobile — separate row, smaller text, centered */}
             <div className="lg:hidden text-center pb-1.5 -mt-1">
               <span
-                className="text-[8px] uppercase font-semibold tracking-[0.15em]"
+                className="text-[8px] sm:text-[10px] uppercase font-semibold tracking-[0.15em]"
                 style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 600 }}
               >
                 <span style={{ color: "#1A1A1A" }}>THE UNIQUE INTERSECTION OF </span>
