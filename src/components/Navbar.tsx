@@ -197,7 +197,7 @@ const Navbar = () => {
               </Link>
 
               {/* Slogan centered between logo and auth — with periodic ripple */}
-              <div className="hidden md:flex items-center justify-center flex-1 min-w-0 mx-3 relative group/slogan">
+              <div className="hidden lg:flex items-center justify-center flex-1 min-w-0 mx-3 relative group/slogan">
                 <div className="flex flex-col items-center relative overflow-hidden">
                   <span
                     className="slogan-text relative text-[11px] lg:text-xs uppercase font-semibold tracking-[0.18em] truncate"
@@ -274,7 +274,7 @@ const Navbar = () => {
               </div>
 
               {/* Mobile: lang + hamburger — same row as logo */}
-              <div className="flex items-center gap-1 md:hidden">
+              <div className="flex items-center gap-1 lg:hidden">
                 <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
                   <Globe className="w-4 h-4" />
                 </button>
@@ -285,7 +285,7 @@ const Navbar = () => {
             </div>
 
             {/* Row 1b: Slogan on mobile — separate row, smaller text, centered */}
-            <div className="md:hidden text-center pb-1.5 -mt-1">
+            <div className="lg:hidden text-center pb-1.5 -mt-1">
               <span
                 className="text-[8px] uppercase font-semibold tracking-[0.15em]"
                 style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 600 }}
@@ -500,7 +500,7 @@ const Navbar = () => {
               animate={{ opacity: 0.3 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden fixed inset-0 z-[60] bg-foreground/30"
+              className="lg:hidden fixed inset-0 z-[60] bg-foreground/30"
               onClick={() => setOpen(false)}
             />
             <motion.div
@@ -508,7 +508,7 @@ const Navbar = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
               transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-              className="md:hidden fixed inset-y-0 right-0 z-[70] w-[88%] max-w-sm bg-white shadow-2xl overflow-y-auto flex flex-col"
+              className="lg:hidden fixed inset-y-0 right-0 z-[70] w-[88%] max-w-sm bg-white shadow-2xl overflow-y-auto flex flex-col"
             >
               {/* Close button header */}
               <div className="flex items-center justify-between px-5 py-5 border-b border-gray-200">
@@ -679,7 +679,7 @@ const Navbar = () => {
 
       {/* Spacer: mobile = branding only (48px), desktop = branding + nav (92px) */}
       {/* Spacer: mobile = branding+slogan (~60px), desktop = branding+nav (92px) */}
-      <div className="h-[60px] md:h-12 lg:h-[92px]" aria-hidden="true" />
+      <div className="h-[60px] lg:h-[92px]" aria-hidden="true" />
     </header>
   );
 };
