@@ -142,25 +142,25 @@ const Vietnamese = () => {
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="relative w-full max-w-[1600px] mx-auto rounded-3xl overflow-hidden shadow-xl"
+            className="relative w-full max-w-[1600px] mx-auto sm:rounded-3xl overflow-hidden shadow-xl"
           >
-            <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-auto object-cover" />
+            <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-[280px] sm:h-[320px] md:h-auto object-cover object-center" />
             {/* Text overlay on cloud area */}
-            <div className="absolute inset-0 flex flex-col items-center justify-start pt-[4%] md:pt-[3%] pointer-events-none">
+            <div className="absolute inset-0 flex flex-col items-center justify-start pt-[12%] sm:pt-[6%] md:pt-[3%] pointer-events-none">
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="text-center"
               >
-                <div className="flex items-center justify-center gap-2 md:gap-3 mb-2 md:mb-3">
-                  <Flower2 className="w-6 h-6 md:w-8 md:h-8 text-red-500 drop-shadow" />
-                  <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 drop-shadow-sm">
+                <div className="flex items-center justify-center gap-2 md:gap-3 mb-1 md:mb-3">
+                  <Flower2 className="w-5 h-5 md:w-8 md:h-8 text-red-500 drop-shadow" />
+                  <h1 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 drop-shadow-sm">
                     {t("Học Tiếng Việt", "Learn Vietnamese")}
                   </h1>
-                  <Star className="w-6 h-6 md:w-8 md:h-8 text-yellow-500 drop-shadow" />
+                  <Star className="w-5 h-5 md:w-8 md:h-8 text-yellow-500 drop-shadow" />
                 </div>
-                <p className="text-slate-500 text-sm md:text-base lg:text-lg font-medium italic max-w-md md:max-w-2xl mx-auto px-4 drop-shadow-sm">
+                <p className="text-slate-500 text-xs sm:text-sm md:text-base lg:text-lg font-medium italic max-w-[280px] sm:max-w-md md:max-w-2xl mx-auto px-4 drop-shadow-sm leading-snug">
                   {t(
                     "Khám phá ngôn ngữ, lịch sử và văn hóa Việt Nam qua chương trình học tương tác",
                     "Explore Vietnamese language, history, and culture through an interactive curriculum"
@@ -169,23 +169,23 @@ const Vietnamese = () => {
               </motion.div>
             </div>
             {/* Tabs overlay at bottom of banner */}
-            <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-10">
+            <div className="absolute bottom-2 sm:bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-10 w-[calc(100%-1rem)] sm:w-auto">
               <TabsList className="grid grid-cols-4 bg-white/80 backdrop-blur-sm shadow-lg rounded-xl">
-                <TabsTrigger value="language" className="flex items-center gap-2 text-sm sm:text-base font-medium">
-                  <BookOpen className="w-5 h-5" />
-                  {t("Ngôn ngữ", "Language")}
+                <TabsTrigger value="language" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-3">
+                  <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                  <span className="truncate">{t("Ngôn ngữ", "Language")}</span>
                 </TabsTrigger>
-                <TabsTrigger value="history" className="flex items-center gap-2 text-sm sm:text-base font-medium">
-                  <Scroll className="w-5 h-5" />
-                  {t("Lịch sử", "History")}
+                <TabsTrigger value="history" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-3">
+                  <Scroll className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                  <span className="truncate">{t("Lịch sử", "History")}</span>
                 </TabsTrigger>
-                <TabsTrigger value="folklore" className="flex items-center gap-2 text-sm sm:text-base font-medium">
-                  <Sparkles className="w-5 h-5" />
-                  {t("Ca Dao", "Folklore")}
+                <TabsTrigger value="folklore" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-3">
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                  <span className="truncate">{t("Ca Dao", "Folklore")}</span>
                 </TabsTrigger>
-                <TabsTrigger value="game" className="flex items-center gap-2 text-sm sm:text-base font-medium">
-                  <Gamepad2 className="w-5 h-5" />
-                  {t("Trò chơi", "Game")}
+                <TabsTrigger value="game" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-3">
+                  <Gamepad2 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                  <span className="truncate">{t("Trò chơi", "Game")}</span>
                 </TabsTrigger>
               </TabsList>
             </div>
