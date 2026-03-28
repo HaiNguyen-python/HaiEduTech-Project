@@ -109,21 +109,20 @@ const ChatBot = () => {
     checkLockout();
   }, []);
 
-  // Show greeting message with typing delay when chatbot is first opened
+  // Show tooltip popup every 15 seconds when chat is closed
   useEffect(() => {
-    if (open && !greetingShown && messages.length === 0) {
-      setIsLoading(true);
-      const timer = setTimeout(() => {
-        setMessages([{
-          role: "assistant",
-          content: "Hi! I'm Mr.Hai. Ask me something? 😊"
-        }]);
-        setIsLoading(false);
-        setGreetingShown(true);
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [open, greetingShown, messages.length]);
+    if (open) return;
+    const interval = setInterval(() => {
+      setShowTooltip(true);
+      setTimeout(() => setShowTooltip(false), 5000);
+    }, 15000);
+    // Show immediately on mount after a short delay
+    const initial = setTimeout(() => {
+      setShowTooltip(true);
+      setTimeout(() => setShowTooltip(false), 5000);
+    }, 3000);
+    return () => { clearInterval(interval); clearTimeout(initial); };
+  }, [open]);
 
   /**
    * Check if the user has 3+ warnings in the last 24 hours → lock chat for 1 hour.
@@ -425,7 +424,7 @@ const ChatBot = () => {
                   transition={{ duration: 0.3 }}
                   className="relative max-w-[220px] rounded-xl border border-border bg-card px-4 py-2.5 text-center text-sm text-foreground shadow-lg"
                 >
-                  <span>👋 Hi there!</span>
+                  <span>Hi! I'm Mr.Hai. Ask me something? 😊</span>
                   <div className="absolute -bottom-1.5 right-6 h-3 w-3 rotate-45 border-b border-r border-border bg-card" />
                 </motion.div>
               )}
