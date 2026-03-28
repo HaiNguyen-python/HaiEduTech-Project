@@ -93,7 +93,10 @@ const Navbar = () => {
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
     { to: "/english/cambridge", label: "🌟 Cambridge Starters–PET" },
     { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
-    { to: "/english/toeic", label: "💼 TOEIC" },
+    { to: "#toeic-group", label: "💼 TOEIC", groupLabel: "toeic", children: [
+      { to: "/english/toeic", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
+      { to: "/toeic-lectures", label: t("Bài giảng TOEIC", "TOEIC Lectures"), icon: BookOpen },
+    ] },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
   ];
