@@ -484,6 +484,216 @@ const skillBasedLectures: IeltsLecture[] = [
       "End with a strong concluding statement about why it matters"
     ]
   },
+  {
+    id: "reading-matching-headings",
+    title: "Reading: Matching Headings Strategy",
+    titleVi: "Reading: Chiến lược nối tiêu đề",
+    pillar: "skill-based",
+    skill: "reading",
+    icon: "🧩",
+    duration: "25 min",
+    level: "advanced",
+    description: "Crack the hardest IELTS Reading question type — Matching Headings — with a bulletproof 3-pass technique.",
+    descriptionVi: "Giải mã dạng câu hỏi khó nhất IELTS Reading — Matching Headings — với kỹ thuật 3 lượt không thể sai.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Read ALL Headings First (The Menu Scan)",
+        titleVi: "Đọc TẤT CẢ tiêu đề trước (Quét menu)",
+        description: "Read every heading option BEFORE looking at the paragraphs. Underline the KEY CONCEPT in each heading — usually 2-3 words that capture the main idea.",
+        descriptionVi: "Đọc mọi lựa chọn tiêu đề TRƯỚC KHI nhìn đoạn văn. Gạch chân Ý CHÍNH trong mỗi tiêu đề — thường 2-3 từ nắm bắt ý chính.",
+        example: "Heading: 'The unexpected__(benefits)__ of __urban__(farming)__' → Key concept = unexpected benefits + urban farming"
+      },
+      {
+        step: 2,
+        title: "Read ONLY the First & Last Sentence of Each Paragraph",
+        titleVi: "Chỉ đọc câu ĐẦU & CUỐI mỗi đoạn",
+        description: "80% of the time, the main idea is in the FIRST sentence (topic sentence) or the LAST sentence (concluding thought). Don't read the middle yet!",
+        descriptionVi: "80% trường hợp, ý chính nằm ở câu ĐẦU (câu chủ đề) hoặc câu CUỐI (kết luận). Chưa cần đọc phần giữa!",
+      },
+      {
+        step: 3,
+        title: "Match Easy Ones First, Then Eliminate",
+        titleVi: "Nối cái dễ trước, rồi loại trừ",
+        description: "Some paragraphs clearly match ONE heading. Do those first, cross out used headings, then tackle the tricky ones with fewer options.",
+        descriptionVi: "Một số đoạn rõ ràng khớp MỘT tiêu đề. Làm trước, gạch bỏ tiêu đề đã dùng, rồi xử lý cái khó với ít lựa chọn hơn.",
+      },
+      {
+        step: 4,
+        title: "Beware of 'Detail Traps'",
+        titleVi: "Cẩn thận 'Bẫy chi tiết'",
+        description: "A heading that matches ONE detail but not the WHOLE paragraph is WRONG. The heading must capture the OVERALL theme, not a single example.",
+        descriptionVi: "Tiêu đề khớp MỘT chi tiết nhưng không khớp CẢ đoạn là SAI. Tiêu đề phải nắm TOÀN BỘ chủ đề, không phải một ví dụ đơn lẻ.",
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Paragraph starts: 'While traditional farming has long been associated with rural areas, a growing movement is bringing agriculture into the heart of cities. Community gardens, rooftop farms, and vertical growing systems are transforming unused urban spaces...'",
+        contextVi: "Đoạn bắt đầu: 'Trong khi nông nghiệp truyền thống từ lâu gắn liền với vùng nông thôn, một phong trào đang mang nông nghiệp vào trung tâm thành phố...'",
+        example: "Available headings:\nA. The decline of traditional farming\nB. Urban agriculture: A growing trend\nC. The nutritional value of organic food\n→ Answer: B (The paragraph's OVERALL theme is urban farming as a trend, not decline or nutrition)",
+        answer: "B",
+        explanation: "The first sentence introduces the key idea: farming moving into cities = 'urban agriculture: a growing trend'. Heading A is a detail trap — decline is mentioned but is NOT the main point."
+      },
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Reading every paragraph word by word",
+        mistakeVi: "Đọc từng từ trong mỗi đoạn",
+        why: "This wastes 15+ minutes. First & last sentences give you the main idea 80% of the time.",
+        whyVi: "Điều này lãng phí 15+ phút. Câu đầu & cuối cho bạn ý chính 80% trường hợp."
+      },
+      {
+        mistake: "Choosing a heading because ONE word matches",
+        mistakeVi: "Chọn tiêu đề vì MỘT từ trùng khớp",
+        why: "The heading must match the OVERALL idea, not just a single keyword. This is the most common trap!",
+        whyVi: "Tiêu đề phải khớp Ý TỔNG THỂ, không chỉ một từ khóa đơn lẻ. Đây là bẫy phổ biến nhất!"
+      },
+      {
+        mistake: "Not eliminating used headings",
+        mistakeVi: "Không loại bỏ tiêu đề đã dùng",
+        why: "Each heading is used ONCE (unless stated otherwise). Cross out matched headings to narrow down options.",
+        whyVi: "Mỗi tiêu đề dùng MỘT LẦN (trừ khi đề nói khác). Gạch bỏ tiêu đề đã nối để thu hẹp lựa chọn."
+      }
+    ],
+    goldenSecret: "There are ALWAYS more headings than paragraphs — usually 2-3 extra 'distractor' headings. These distractors often contain words that appear in the passage but DON'T represent the main idea of any paragraph. If a heading sounds too specific (focusing on one example rather than the theme), it's probably a distractor!",
+    goldenSecretVi: "LUÔN có nhiều tiêu đề hơn đoạn văn — thường 2-3 tiêu đề 'bẫy' thừa. Các bẫy này thường chứa từ xuất hiện trong bài đọc nhưng KHÔNG đại diện cho ý chính đoạn nào. Nếu tiêu đề nghe quá cụ thể (tập trung vào một ví dụ thay vì chủ đề), nó có thể là bẫy!",
+    vocabHighlights: [
+      { word: "overarching", definition: "Comprehensive; covering everything", definitionVi: "Bao quát; bao trùm tất cả", example: "The overarching theme of the passage is climate change.", band: "8.0+" },
+      { word: "nuance", definition: "A subtle difference in meaning", definitionVi: "Sắc thái; sự khác biệt tinh tế", example: "Understanding nuance is key to matching headings correctly.", band: "7.5+" },
+      { word: "encapsulate", definition: "To express the essential features of", definitionVi: "Tóm gọn các đặc điểm thiết yếu", example: "The heading should encapsulate the paragraph's main idea.", band: "8.0+" },
+    ],
+    quiz: [
+      {
+        question: "What should you read FIRST in a Matching Headings question?",
+        options: ["The paragraphs", "All the headings", "The introduction only", "The last paragraph"],
+        answer: 1,
+        explanation: "Read ALL headings first and underline key concepts before looking at any paragraph."
+      },
+      {
+        question: "Which parts of a paragraph reveal the main idea 80% of the time?",
+        options: ["The middle sentences", "The first and last sentences", "Only the first sentence", "Random sentences"],
+        answer: 1,
+        explanation: "The first (topic) and last (concluding) sentences usually contain the paragraph's main idea."
+      },
+      {
+        question: "Why are there more headings than paragraphs?",
+        options: ["It's a mistake", "Extra headings are distractors", "You need to use some twice", "They're for another section"],
+        answer: 1,
+        explanation: "Extra headings are deliberate distractors — they contain passage words but don't match any paragraph's MAIN idea."
+      },
+      {
+        question: "A heading matches ONE detail in a paragraph but not the overall theme. You should:",
+        options: ["Choose it — any match counts", "Reject it — it must match the overall theme", "Ask the examiner", "Skip the question"],
+        answer: 1,
+        explanation: "The heading must capture the OVERALL theme of the paragraph, not just one detail or example."
+      }
+    ],
+    cheatSheetPoints: [
+      "Step 1: Read ALL headings first → underline key concepts",
+      "Step 2: Read ONLY first & last sentence of each paragraph",
+      "Step 3: Match easy ones first → cross out used headings",
+      "Step 4: Detail trap = heading matches ONE detail, not the whole paragraph",
+      "There are always 2-3 extra distractor headings",
+      "Heading must match OVERALL theme, not a single keyword"
+    ]
+  },
+  {
+    id: "writing-task1-describe-process",
+    title: "Writing Task 1: Describing a Process",
+    titleVi: "Writing Task 1: Mô tả quy trình",
+    pillar: "skill-based",
+    skill: "writing",
+    icon: "🔄",
+    duration: "22 min",
+    level: "intermediate",
+    description: "Master the art of describing processes, diagrams, and flow charts — the most overlooked Task 1 question type.",
+    descriptionVi: "Thành thạo nghệ thuật mô tả quy trình, sơ đồ và lưu đồ — dạng Task 1 bị xem nhẹ nhất.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Identify the Type: Natural vs Man-Made",
+        titleVi: "Xác định loại: Tự nhiên vs Nhân tạo",
+        description: "Natural processes (water cycle, butterfly lifecycle) use PASSIVE voice. Man-made processes (manufacturing, recycling) can use ACTIVE or PASSIVE.",
+        descriptionVi: "Quy trình tự nhiên (vòng tuần hoàn nước, vòng đời bướm) dùng CÂU BỊ ĐỘNG. Quy trình nhân tạo (sản xuất, tái chế) có thể dùng CHỦ ĐỘNG hoặc BỊ ĐỘNG.",
+      },
+      {
+        step: 2,
+        title: "Count the Stages & Group Them",
+        titleVi: "Đếm các giai đoạn & Nhóm lại",
+        description: "Count total stages. Group into 2-3 body paragraphs: Beginning stages, Middle stages, Final stages.",
+        descriptionVi: "Đếm tổng số giai đoạn. Nhóm thành 2-3 đoạn thân bài: Giai đoạn đầu, Giai đoạn giữa, Giai đoạn cuối.",
+        example: "8-stage process → Body 1: stages 1-3 (initial phase), Body 2: stages 4-6 (processing), Body 3: stages 7-8 (final output)"
+      },
+      {
+        step: 3,
+        title: "Use Sequencing Language",
+        titleVi: "Dùng ngôn ngữ trình tự",
+        description: "Link stages with: 'Initially,...', 'Subsequently,...', 'Following this,...', 'At the final stage,...'. NEVER use 'firstly, secondly, thirdly' — that's for essays, not processes.",
+        descriptionVi: "Liên kết giai đoạn bằng: 'Initially,...', 'Subsequently,...', 'Following this,...', 'At the final stage,...'. KHÔNG dùng 'firstly, secondly, thirdly' — đó dành cho bài luận, không phải quy trình.",
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Band 8.0 overview for a process diagram",
+        contextVi: "Tổng quan Band 8.0 cho sơ đồ quy trình",
+        example: "'Overall, the production of chocolate involves a multi-stage process, beginning with the harvesting of cocoa beans and culminating in the packaging of the finished product. The entire process comprises approximately eight distinct stages.'",
+      },
+      {
+        context: "Sequencing language in action",
+        contextVi: "Ngôn ngữ trình tự trong thực tế",
+        example: "'Initially, cocoa pods are harvested from trees. Once collected, the beans are extracted and left to ferment for several days. Subsequently, they are dried in the sun before being transported to the factory, where they undergo roasting at high temperatures.'",
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Forgetting the overview paragraph",
+        mistakeVi: "Quên đoạn tổng quan",
+        why: "The overview is worth up to 25% of your Task Achievement score. State: how many stages, what the process begins and ends with.",
+        whyVi: "Tổng quan chiếm đến 25% điểm Task Achievement. Nêu: bao nhiêu giai đoạn, quy trình bắt đầu và kết thúc bằng gì."
+      },
+      {
+        mistake: "Adding your opinion about the process",
+        mistakeVi: "Thêm ý kiến cá nhân về quy trình",
+        why: "Task 1 is OBJECTIVE. Never say 'I think this process is interesting' or 'This is an efficient method.'",
+        whyVi: "Task 1 mang tính KHÁCH QUAN. Không bao giờ nói 'Tôi nghĩ quy trình này thú vị' hoặc 'Đây là phương pháp hiệu quả.'"
+      }
+    ],
+    goldenSecret: "The passive voice is your BEST FRIEND in process descriptions. Instead of 'Workers harvest the cocoa beans', write 'The cocoa beans are harvested.' This sounds more academic AND you don't need to know WHO does each step!",
+    goldenSecretVi: "Câu bị động là BẠN THÂN NHẤT trong mô tả quy trình. Thay vì 'Workers harvest the cocoa beans', viết 'The cocoa beans are harvested.' Nghe học thuật hơn VÀ bạn không cần biết AI làm mỗi bước!",
+    vocabHighlights: [
+      { word: "culminating", definition: "Reaching the highest point or final stage", definitionVi: "Đạt đến điểm cao nhất hoặc giai đoạn cuối", example: "The process culminates in the final inspection.", band: "8.0+" },
+      { word: "subsequently", definition: "After that; next in sequence", definitionVi: "Sau đó; tiếp theo", example: "The beans are dried. Subsequently, they are roasted.", band: "7.0+" },
+      { word: "comprises", definition: "Consists of; is made up of", definitionVi: "Bao gồm; được tạo thành từ", example: "The process comprises six main stages.", band: "7.5+" },
+    ],
+    quiz: [
+      {
+        question: "What voice should you primarily use when describing a natural process?",
+        options: ["Active voice", "Passive voice", "Imperative", "First person"],
+        answer: 1,
+        explanation: "Natural processes use passive voice because we don't know or need to state WHO performs the action."
+      },
+      {
+        question: "What must you include that many students forget?",
+        options: ["Your opinion", "An overview paragraph", "A conclusion with recommendation", "Personal experience"],
+        answer: 1,
+        explanation: "The overview paragraph states the total stages and what the process begins/ends with — worth 25% of Task Achievement."
+      },
+      {
+        question: "Which sequencing phrase is WRONG for a process description?",
+        options: ["Subsequently", "Following this", "Firstly, secondly, thirdly", "At the final stage"],
+        answer: 2,
+        explanation: "'Firstly, secondly, thirdly' is for essay arguments, not process descriptions. Use 'initially', 'subsequently', etc."
+      }
+    ],
+    cheatSheetPoints: [
+      "Natural process = passive voice | Man-made = active or passive",
+      "Always include an OVERVIEW: stages count + start/end summary",
+      "Sequencing: Initially → Subsequently → Following this → Finally",
+      "NEVER use firstly/secondly/thirdly for processes",
+      "NEVER add opinions in Task 1",
+      "Group stages into 2-3 body paragraphs logically"
+    ]
+  },
 ];
 
 // === PILLAR 2: IELTS TIPS & HACKS ===
@@ -922,6 +1132,211 @@ const thematicVocab: IeltsLecture[] = [
       "Power phrase: 'has fundamentally transformed the... landscape'"
     ]
   },
+  {
+    id: "vocab-education",
+    title: "Education & Learning",
+    titleVi: "Giáo dục & Học tập",
+    pillar: "thematic-vocab",
+    icon: "🎓",
+    duration: "20 min",
+    level: "intermediate",
+    description: "Master 25+ essential Band 7.0+ vocabulary for the most frequently tested IELTS topic: Education.",
+    descriptionVi: "Thành thạo 25+ từ vựng Band 7.0+ thiết yếu cho chủ đề IELTS được thi nhiều nhất: Giáo dục.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Group by Sub-Theme",
+        titleVi: "Phân nhóm theo chủ đề phụ",
+        description: "Education vocabulary falls into: School Systems, Higher Education, Teaching Methods, Skills & Development, Educational Policy.",
+        descriptionVi: "Từ vựng giáo dục chia thành: Hệ thống trường học, Giáo dục đại học, Phương pháp giảng dạy, Kỹ năng & Phát triển, Chính sách giáo dục.",
+      },
+      {
+        step: 2,
+        title: "Learn Debate Vocabulary",
+        titleVi: "Học từ vựng tranh luận",
+        description: "Education essays often ask you to debate: 'Some believe university should be free...' You need words for BOTH sides.",
+        descriptionVi: "Bài luận giáo dục thường yêu cầu tranh luận: 'Một số người tin đại học nên miễn phí...' Bạn cần từ cho CẢ HAI bên.",
+      },
+      {
+        step: 3,
+        title: "Master Collocations",
+        titleVi: "Thành thạo Collocation",
+        description: "Learn which words go TOGETHER: 'acquire knowledge' (not 'get knowledge'), 'foster creativity' (not 'make creativity').",
+        descriptionVi: "Học các từ đi CÙNG NHAU: 'acquire knowledge' (không phải 'get knowledge'), 'foster creativity' (không phải 'make creativity').",
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Using education vocabulary in a Writing Task 2 essay about university funding",
+        contextVi: "Dùng từ vựng giáo dục trong bài Writing Task 2 về tài trợ đại học",
+        example: "'The pursuit of higher education should be accessible to all, regardless of socioeconomic background. When tuition fees are prohibitively high, they inadvertently perpetuate inequality by denying underprivileged students the opportunity to acquire the qualifications necessary for upward social mobility.'",
+      },
+      {
+        context: "Discussing teaching methods",
+        contextVi: "Thảo luận phương pháp giảng dạy",
+        example: "'Progressive educators advocate for a student-centred pedagogy that fosters critical thinking and nurtures intellectual curiosity, rather than relying on rote memorization and didactic instruction.'",
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Using 'learn' and 'study' for everything",
+        mistakeVi: "Dùng 'learn' và 'study' cho mọi thứ",
+        why: "Use alternatives: 'acquire knowledge', 'develop competencies', 'hone skills', 'cultivate understanding'.",
+        whyVi: "Dùng thay thế: 'acquire knowledge', 'develop competencies', 'hone skills', 'cultivate understanding'."
+      },
+      {
+        mistake: "Confusing 'education' with 'training'",
+        mistakeVi: "Nhầm lẫn 'education' với 'training'",
+        why: "'Education' = broad intellectual development. 'Training' = specific practical skills. Using them interchangeably loses marks.",
+        whyVi: "'Education' = phát triển trí tuệ rộng. 'Training' = kỹ năng thực hành cụ thể. Dùng thay thế nhau bị trừ điểm."
+      }
+    ],
+    goldenSecret: "For ANY education essay, these 3 power collocations work in almost every paragraph: (1) 'foster critical thinking' (2) 'equip students with practical skills' (3) 'bridge the gap between academia and the job market'. Memorize them and you'll never run out of ideas!",
+    goldenSecretVi: "Cho BẤT KỲ bài luận giáo dục nào, 3 collocation quyền lực này hoạt động trong hầu hết mọi đoạn: (1) 'foster critical thinking' (2) 'equip students with practical skills' (3) 'bridge the gap between academia and the job market'. Ghi nhớ và bạn sẽ không bao giờ hết ý!",
+    vocabHighlights: [
+      { word: "pedagogy", definition: "The method and practice of teaching", definitionVi: "Phương pháp và thực hành giảng dạy", example: "Modern pedagogy emphasizes active learning.", band: "8.0+" },
+      { word: "curriculum", definition: "The subjects and content taught in a school", definitionVi: "Các môn học và nội dung giảng dạy trong trường", example: "The national curriculum should include financial literacy.", band: "7.0+" },
+      { word: "rote memorization", definition: "Learning by repetition without understanding", definitionVi: "Học thuộc lòng bằng lặp lại mà không hiểu", example: "Rote memorization fails to develop critical thinking.", band: "7.5+" },
+      { word: "socioeconomic", definition: "Related to social and economic factors", definitionVi: "Liên quan đến yếu tố xã hội và kinh tế", example: "Socioeconomic background should not limit educational access.", band: "7.5+" },
+      { word: "foster", definition: "To encourage the development of", definitionVi: "Khuyến khích sự phát triển", example: "Schools should foster creativity and innovation.", band: "7.0+" },
+      { word: "vocational", definition: "Related to a specific career or trade", definitionVi: "Liên quan đến nghề nghiệp hoặc ngành cụ thể", example: "Vocational training prepares students for the workforce.", band: "7.0+" },
+      { word: "tuition fees", definition: "Money paid for instruction at school/university", definitionVi: "Học phí", example: "Rising tuition fees discourage students from pursuing higher education.", band: "6.5+" },
+      { word: "intellectual curiosity", definition: "A desire to learn and understand new things", definitionVi: "Sự tò mò tri thức", example: "Great teachers nurture intellectual curiosity.", band: "7.5+" },
+    ],
+    quiz: [
+      {
+        question: "What is the correct collocation?",
+        options: ["Make creativity", "Foster creativity", "Do creativity", "Give creativity"],
+        answer: 1,
+        explanation: "'Foster creativity' is the correct collocation — meaning to encourage its development."
+      },
+      {
+        question: "What does 'pedagogy' mean?",
+        options: ["A type of school", "The method of teaching", "A student's grade", "A textbook"],
+        answer: 1,
+        explanation: "'Pedagogy' refers to the method and practice of teaching — a Band 8.0 word."
+      },
+      {
+        question: "Which sentence uses 'rote memorization' correctly?",
+        options: [
+          "Students enjoy rote memorization because it's creative.",
+          "Rote memorization develops critical thinking effectively.",
+          "Over-reliance on rote memorization hinders deeper understanding.",
+          "Rote memorization is the best teaching method."
+        ],
+        answer: 2,
+        explanation: "Rote memorization = learning by repetition without understanding — it HINDERS (not helps) deeper comprehension."
+      }
+    ],
+    cheatSheetPoints: [
+      "foster creativity | acquire knowledge | cultivate understanding",
+      "equip students with | bridge the gap between | hone skills",
+      "pedagogy = teaching method | curriculum = subjects taught",
+      "rote memorization (negative) vs. critical thinking (positive)",
+      "vocational = career-specific | academic = theoretical",
+      "Power phrase: 'bridge the gap between academia and the job market'"
+    ]
+  },
+  {
+    id: "vocab-crime-justice",
+    title: "Crime & Justice",
+    titleVi: "Tội phạm & Công lý",
+    pillar: "thematic-vocab",
+    icon: "⚖️",
+    duration: "20 min",
+    level: "intermediate",
+    description: "Essential Band 7.0+ vocabulary for Crime & Punishment — one of the trickiest IELTS topics to write about.",
+    descriptionVi: "Từ vựng Band 7.0+ thiết yếu cho Tội phạm & Hình phạt — một trong những chủ đề IELTS khó viết nhất.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Categorize Crime Vocabulary",
+        titleVi: "Phân loại từ vựng tội phạm",
+        description: "Group into: Types of Crime, Causes of Crime, Punishment & Rehabilitation, Law Enforcement, Prevention.",
+        descriptionVi: "Phân nhóm: Các loại tội phạm, Nguyên nhân, Hình phạt & Tái hòa nhập, Thực thi pháp luật, Phòng ngừa.",
+      },
+      {
+        step: 2,
+        title: "Learn the Debate Framework",
+        titleVi: "Học khung tranh luận",
+        description: "Crime essays often ask: punishment vs rehabilitation, causes of crime, how to reduce crime. Prepare vocabulary for BOTH sides of each debate.",
+        descriptionVi: "Bài luận tội phạm thường hỏi: trừng phạt vs tái hòa nhập, nguyên nhân tội phạm, cách giảm tội phạm. Chuẩn bị từ vựng cho CẢ HAI phía.",
+      },
+      {
+        step: 3,
+        title: "Avoid Emotional Language",
+        titleVi: "Tránh ngôn ngữ cảm tính",
+        description: "'Bad people should go to jail' → 'Offenders should face incarceration.' Academic tone is crucial for this sensitive topic.",
+        descriptionVi: "'Người xấu nên vào tù' → 'Offenders should face incarceration.' Giọng văn học thuật rất quan trọng cho chủ đề nhạy cảm này.",
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Writing about causes of crime",
+        contextVi: "Viết về nguyên nhân tội phạm",
+        example: "'Socioeconomic deprivation is widely regarded as a primary catalyst for criminal behaviour. When individuals lack access to education and employment opportunities, they may resort to illicit activities as a means of survival. Furthermore, the erosion of community cohesion in urban areas has been shown to correlate with rising crime rates.'",
+      },
+      {
+        context: "Arguing for rehabilitation over punishment",
+        contextVi: "Lập luận tái hòa nhập thay vì trừng phạt",
+        example: "'Rather than merely imposing punitive measures, governments should invest in comprehensive rehabilitation programmes that address the root causes of criminal behaviour. Recidivism rates demonstrate that incarceration alone fails to deter reoffending.'",
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Using 'crime' and 'criminal' too often",
+        mistakeVi: "Dùng 'crime' và 'criminal' quá nhiều",
+        why: "Alternatives: 'offence/offender', 'illicit activity', 'transgression', 'wrongdoing', 'perpetrator', 'delinquent'.",
+        whyVi: "Thay thế: 'offence/offender', 'illicit activity', 'transgression', 'wrongdoing', 'perpetrator', 'delinquent'."
+      },
+      {
+        mistake: "Being too emotional or opinionated",
+        mistakeVi: "Quá cảm xúc hoặc thiên kiến",
+        why: "'Criminals deserve to suffer' is subjective. 'The justice system should balance deterrence with rehabilitation' is academic.",
+        whyVi: "'Criminals deserve to suffer' mang tính chủ quan. 'The justice system should balance deterrence with rehabilitation' mang tính học thuật."
+      }
+    ],
+    goldenSecret: "The word 'recidivism' (tái phạm) is the ultimate Band 8.0 weapon for ANY crime essay. 'High recidivism rates suggest that current punitive approaches are ineffective at preventing reoffending.' — This one sentence alone shows lexical range and critical thinking!",
+    goldenSecretVi: "Từ 'recidivism' (tái phạm) là vũ khí Band 8.0 tối thượng cho BẤT KỲ bài luận tội phạm nào. 'High recidivism rates suggest that current punitive approaches are ineffective at preventing reoffending.' — Riêng câu này đã thể hiện vốn từ và tư duy phản biện!",
+    vocabHighlights: [
+      { word: "recidivism", definition: "The tendency to reoffend after punishment", definitionVi: "Xu hướng tái phạm sau hình phạt", example: "High recidivism rates prove prison alone doesn't work.", band: "8.0+" },
+      { word: "rehabilitation", definition: "The process of reintegrating offenders into society", definitionVi: "Quá trình tái hòa nhập người phạm tội vào xã hội", example: "Rehabilitation reduces long-term crime rates.", band: "7.0+" },
+      { word: "deterrent", definition: "Something that discourages someone from acting", definitionVi: "Điều ngăn cản ai đó hành động", example: "Harsh sentences serve as a deterrent to potential offenders.", band: "7.5+" },
+      { word: "incarceration", definition: "Imprisonment", definitionVi: "Giam giữ; bỏ tù", example: "Mass incarceration has failed to reduce crime significantly.", band: "7.5+" },
+      { word: "perpetrator", definition: "A person who commits a crime", definitionVi: "Người thực hiện tội phạm", example: "The perpetrator was apprehended within hours.", band: "7.5+" },
+      { word: "punitive", definition: "Relating to punishment", definitionVi: "Liên quan đến hình phạt", example: "Punitive measures alone are insufficient to address crime.", band: "8.0+" },
+      { word: "illicit", definition: "Illegal; not permitted by law", definitionVi: "Bất hợp pháp", example: "The trade in illicit drugs fuels organized crime.", band: "7.5+" },
+      { word: "socioeconomic deprivation", definition: "Lack of basic resources and opportunities", definitionVi: "Thiếu thốn tài nguyên và cơ hội cơ bản", example: "Socioeconomic deprivation is a root cause of crime.", band: "8.0+" },
+    ],
+    quiz: [
+      {
+        question: "What does 'recidivism' mean?",
+        options: ["First-time offending", "The tendency to reoffend", "Rehabilitation", "Crime prevention"],
+        answer: 1,
+        explanation: "'Recidivism' = the tendency to reoffend after serving a sentence — a powerful Band 8.0 word."
+      },
+      {
+        question: "Which is the more academic way to express 'put bad people in jail'?",
+        options: ["Lock up criminals", "Incarcerate offenders", "Punish the bad guys", "Jail the wrongdoers"],
+        answer: 1,
+        explanation: "'Incarcerate offenders' uses formal, academic language appropriate for IELTS."
+      },
+      {
+        question: "Which collocation is CORRECT?",
+        options: ["Do a crime", "Make a crime", "Commit an offence", "Take a crime"],
+        answer: 2,
+        explanation: "'Commit an offence' is the correct academic collocation — never 'do' or 'make' a crime."
+      }
+    ],
+    cheatSheetPoints: [
+      "recidivism = reoffending | incarceration = imprisonment",
+      "deterrent = discourages crime | punitive = relating to punishment",
+      "perpetrator = criminal | offence = crime (formal)",
+      "commit an offence (NOT do/make a crime)",
+      "rehabilitation > punishment (common IELTS argument)",
+      "Power phrase: 'address the root causes of criminal behaviour'"
+    ]
+  },
 ];
 
 // === PILLAR 4: APPLIED GRAMMAR ===
@@ -1104,6 +1519,239 @@ const appliedGrammar: IeltsLecture[] = [
       "Use 1 mixed/inverted conditional per essay for Band 7.5+",
       "Template: Had [past]..., [present]. Unless [future]..., [negative].",
       "Don't mix up tenses within one conditional clause"
+    ]
+  },
+  {
+    id: "grammar-relative-clauses",
+    title: "Relative Clauses for Band 7.0+",
+    titleVi: "Mệnh đề quan hệ cho Band 7.0+",
+    pillar: "applied-grammar",
+    icon: "🔗",
+    duration: "20 min",
+    level: "intermediate",
+    description: "Master defining and non-defining relative clauses — the most reliable way to boost your Grammatical Range score.",
+    descriptionVi: "Thành thạo mệnh đề quan hệ xác định và không xác định — cách đáng tin cậy nhất để tăng điểm Grammatical Range.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Defining vs Non-Defining: Know the Difference",
+        titleVi: "Xác định vs Không xác định: Biết sự khác biệt",
+        description: "DEFINING: identifies which one (no commas). 'Students who study hard get better grades.' NON-DEFINING: adds extra info (with commas). 'My teacher, who is from England, speaks three languages.'",
+        descriptionVi: "XÁC ĐỊNH: xác định cái nào (không có dấu phẩy). 'Students who study hard get better grades.' KHÔNG XÁC ĐỊNH: thêm thông tin (có dấu phẩy). 'My teacher, who is from England, speaks three languages.'",
+        example: "Defining: 'The book that I read last week was fascinating.' (Which book? The one I read.)\nNon-defining: 'The book, which was published in 2020, has become a bestseller.' (Extra info — remove it and the sentence still makes sense.)"
+      },
+      {
+        step: 2,
+        title: "Choose the Right Pronoun",
+        titleVi: "Chọn đại từ đúng",
+        description: "WHO = people | WHICH = things | WHERE = places | WHOSE = possession | WHEN = time. In defining clauses, THAT can replace WHO/WHICH.",
+        descriptionVi: "WHO = người | WHICH = vật | WHERE = nơi chốn | WHOSE = sở hữu | WHEN = thời gian. Trong mệnh đề xác định, THAT thay thế WHO/WHICH.",
+      },
+      {
+        step: 3,
+        title: "Use Non-Defining Clauses to Add Academic Detail",
+        titleVi: "Dùng mệnh đề không xác định để thêm chi tiết học thuật",
+        description: "Non-defining relative clauses let you pack MORE information into a single complex sentence — this is exactly what examiners want to see for Band 7.0+.",
+        descriptionVi: "Mệnh đề quan hệ không xác định cho phép bạn nhồi NHIỀU thông tin hơn vào một câu phức — đây chính xác là điều giám khảo muốn thấy cho Band 7.0+.",
+        example: "'Social media, which has become an integral part of modern life, presents both opportunities and challenges for young people.'"
+      },
+      {
+        step: 4,
+        title: "Reduced Relative Clauses (Band 7.5+ Bonus)",
+        titleVi: "Mệnh đề quan hệ rút gọn (Bonus Band 7.5+)",
+        description: "Remove who/which + be: 'Students (who are) struggling with grammar...' → 'Students struggling with grammar...' This shows advanced grammar range.",
+        descriptionVi: "Bỏ who/which + be: 'Students (who are) struggling with grammar...' → 'Students struggling with grammar...' Điều này thể hiện ngữ pháp nâng cao.",
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Using relative clauses in IELTS Writing",
+        contextVi: "Dùng mệnh đề quan hệ trong IELTS Writing",
+        example: "1. Defining: 'People who live in urban areas tend to have higher stress levels.'\n2. Non-defining: 'Air pollution, which has reached alarming levels in many cities, poses a significant threat to respiratory health.'\n3. Reduced: 'Countries investing heavily in renewable energy are seeing economic growth.'\n4. Whose: 'Students whose parents are supportive tend to perform better academically.'",
+      },
+      {
+        context: "Combining multiple clause types in one paragraph",
+        contextVi: "Kết hợp nhiều loại mệnh đề trong một đoạn",
+        example: "'Young people who grow up in disadvantaged communities, where educational opportunities are limited, often face significant barriers to social mobility. These individuals, whose potential remains untapped, could benefit enormously from targeted government programmes designed to level the playing field.'",
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Using 'that' in non-defining clauses",
+        mistakeVi: "Dùng 'that' trong mệnh đề không xác định",
+        why: "'My teacher, that is from England...' is WRONG. Use 'who' or 'which' in non-defining clauses — NEVER 'that'.",
+        whyVi: "'My teacher, that is from England...' là SAI. Dùng 'who' hoặc 'which' trong mệnh đề không xác định — KHÔNG BAO GIỜ dùng 'that'."
+      },
+      {
+        mistake: "Forgetting commas in non-defining clauses",
+        mistakeVi: "Quên dấu phẩy trong mệnh đề không xác định",
+        why: "Without commas, a non-defining clause becomes a defining one — completely changing the meaning!",
+        whyVi: "Không có dấu phẩy, mệnh đề không xác định trở thành xác định — hoàn toàn thay đổi nghĩa!"
+      },
+      {
+        mistake: "Only using 'who' and 'which'",
+        mistakeVi: "Chỉ dùng 'who' và 'which'",
+        why: "Show range! Use 'where', 'whose', 'when', and reduced clauses too. Variety impresses examiners.",
+        whyVi: "Thể hiện đa dạng! Dùng cả 'where', 'whose', 'when', và mệnh đề rút gọn. Sự đa dạng gây ấn tượng giám khảo."
+      }
+    ],
+    goldenSecret: "The easiest way to use a non-defining relative clause in ANY essay: take your topic and add a 'which' clause after it. 'Social media → Social media, which has transformed modern communication, ...' 'Education → Education, which is widely regarded as the foundation of social progress, ...' — instant grammatical complexity!",
+    goldenSecretVi: "Cách dễ nhất dùng mệnh đề quan hệ không xác định trong BẤT KỲ bài luận nào: lấy chủ đề và thêm mệnh đề 'which' sau nó. 'Social media → Social media, which has transformed modern communication, ...' 'Education → Education, which is widely regarded as the foundation of social progress, ...' — phức tạp ngữ pháp ngay lập tức!",
+    vocabHighlights: [
+      { word: "integral", definition: "Essential; necessary for completeness", definitionVi: "Thiết yếu; cần thiết cho sự hoàn chỉnh", example: "Technology has become an integral part of education.", band: "7.5+" },
+      { word: "untapped", definition: "Not yet used or exploited", definitionVi: "Chưa được khai thác", example: "Many students have untapped potential.", band: "7.5+" },
+      { word: "targeted", definition: "Aimed at a specific group", definitionVi: "Nhắm vào một nhóm cụ thể", example: "Targeted interventions can reduce crime.", band: "7.0+" },
+    ],
+    quiz: [
+      {
+        question: "Which sentence has CORRECT non-defining clause usage?",
+        options: [
+          "My brother, that lives in London, is a doctor.",
+          "My brother, who lives in London, is a doctor.",
+          "My brother who lives in London is a doctor.",
+          "My brother where lives in London is a doctor."
+        ],
+        answer: 1,
+        explanation: "Non-defining clauses use WHO (not THAT) and require commas before and after."
+      },
+      {
+        question: "What is a 'reduced relative clause'?",
+        options: [
+          "A very short sentence",
+          "Removing who/which + be from the clause",
+          "Using 'that' instead of 'who'",
+          "A clause without a verb"
+        ],
+        answer: 1,
+        explanation: "Reduced = remove who/which + be: 'People (who are) living in cities...' → 'People living in cities...'"
+      },
+      {
+        question: "Can you use 'that' in a non-defining relative clause?",
+        options: ["Yes, always", "No, never", "Only with things", "Only with people"],
+        answer: 1,
+        explanation: "NEVER use 'that' in non-defining clauses. Always use 'who' (people) or 'which' (things)."
+      },
+      {
+        question: "'Students ___ work part-time often develop better time management.' Choose the best option:",
+        options: ["which", "where", "who", "whose"],
+        answer: 2,
+        explanation: "'Who' is correct because it refers to 'students' (people) in a defining clause."
+      }
+    ],
+    cheatSheetPoints: [
+      "Defining: no commas, identifies WHICH one (who/which/that)",
+      "Non-defining: WITH commas, adds extra info (who/which — NEVER 'that')",
+      "Reduced: remove who/which + be (Band 7.5+ technique)",
+      "WHO = people | WHICH = things | WHERE = places | WHOSE = possession",
+      "Trick: add a 'which' clause after your essay topic for instant complexity",
+      "Use at least 2 relative clauses per essay for grammar range"
+    ]
+  },
+  {
+    id: "grammar-passive-voice",
+    title: "Passive Voice Mastery",
+    titleVi: "Thành thạo câu bị động",
+    pillar: "applied-grammar",
+    icon: "🔀",
+    duration: "18 min",
+    level: "intermediate",
+    description: "Learn when and how to use passive voice effectively — essential for both Writing Task 1 and Task 2.",
+    descriptionVi: "Học khi nào và cách dùng câu bị động hiệu quả — thiết yếu cho cả Writing Task 1 và Task 2.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Understand When Passive is Better",
+        titleVi: "Hiểu khi nào bị động tốt hơn",
+        description: "Use passive when: (1) the action is more important than who does it, (2) the doer is unknown, (3) you want to sound more formal/academic.",
+        descriptionVi: "Dùng bị động khi: (1) hành động quan trọng hơn người thực hiện, (2) không biết ai làm, (3) muốn nghe trang trọng/học thuật hơn.",
+        example: "Active: 'The government built a new hospital.' → Passive: 'A new hospital was built (by the government).' — Focus shifts to the hospital."
+      },
+      {
+        step: 2,
+        title: "Master All Tenses in Passive",
+        titleVi: "Thành thạo mọi thì ở bị động",
+        description: "Present Simple: 'is/are done' | Past Simple: 'was/were done' | Present Perfect: 'has/have been done' | Future: 'will be done' | Modal: 'can/should be done'.",
+        descriptionVi: "Hiện tại đơn: 'is/are done' | Quá khứ đơn: 'was/were done' | Hiện tại hoàn thành: 'has/have been done' | Tương lai: 'will be done' | Modal: 'can/should be done'.",
+      },
+      {
+        step: 3,
+        title: "Use 'It is + Past Participle' for Academic Writing",
+        titleVi: "Dùng 'It is + Phân từ quá khứ' cho văn học thuật",
+        description: "This impersonal structure is pure gold for IELTS: 'It is widely believed that...', 'It has been suggested that...', 'It can be argued that...'",
+        descriptionVi: "Cấu trúc phi cá nhân này là vàng ròng cho IELTS: 'It is widely believed that...', 'It has been suggested that...', 'It can be argued that...'",
+        example: "'It is generally acknowledged that education plays a pivotal role in economic development.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Passive in Task 1 (describing a chart)",
+        contextVi: "Bị động trong Task 1 (mô tả biểu đồ)",
+        example: "'As can be seen from the chart, the percentage of renewable energy usage was approximately 15% in 2010. By 2020, this figure had been doubled, reaching 30%. It is predicted that this trend will be maintained over the next decade.'",
+      },
+      {
+        context: "Passive in Task 2 (opinion essay)",
+        contextVi: "Bị động trong Task 2 (bài luận quan điểm)",
+        example: "'It is often argued that traditional teaching methods should be replaced by technology-based approaches. However, it must be acknowledged that the effectiveness of digital learning has not been conclusively demonstrated in all contexts.'",
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Overusing passive voice (every sentence)",
+        mistakeVi: "Lạm dụng bị động (mọi câu)",
+        why: "Mix active and passive. All-passive writing sounds unnatural. Aim for 30-40% passive in Task 1, 20-30% in Task 2.",
+        whyVi: "Trộn chủ động và bị động. Viết toàn bị động nghe không tự nhiên. Mục tiêu 30-40% bị động trong Task 1, 20-30% trong Task 2."
+      },
+      {
+        mistake: "Using passive when active is clearer",
+        mistakeVi: "Dùng bị động khi chủ động rõ ràng hơn",
+        why: "'The ball was kicked by the boy' is weaker than 'The boy kicked the ball' when the doer matters.",
+        whyVi: "'The ball was kicked by the boy' yếu hơn 'The boy kicked the ball' khi người thực hiện quan trọng."
+      }
+    ],
+    goldenSecret: "Memorize these 5 academic passive starters and you can begin ANY body paragraph: 'It is widely acknowledged that...', 'It has been demonstrated that...', 'It is often contended that...', 'It should be noted that...', 'It can be observed that...' — examiners LOVE this structure!",
+    goldenSecretVi: "Ghi nhớ 5 mẫu mở đầu bị động học thuật và bạn có thể bắt đầu BẤT KỲ đoạn thân bài nào: 'It is widely acknowledged that...', 'It has been demonstrated that...', 'It is often contended that...', 'It should be noted that...', 'It can be observed that...' — giám khảo RẤT THÍCH cấu trúc này!",
+    vocabHighlights: [
+      { word: "acknowledged", definition: "Recognized or accepted as true", definitionVi: "Được thừa nhận hoặc chấp nhận là đúng", example: "It is widely acknowledged that exercise improves health.", band: "7.0+" },
+      { word: "demonstrated", definition: "Shown or proven clearly", definitionVi: "Được chỉ ra hoặc chứng minh rõ ràng", example: "Research has demonstrated the benefits of early education.", band: "7.0+" },
+      { word: "pivotal", definition: "Of crucial importance", definitionVi: "Có tầm quan trọng then chốt", example: "Technology plays a pivotal role in modern education.", band: "7.5+" },
+    ],
+    quiz: [
+      {
+        question: "Which sentence uses the correct academic passive structure?",
+        options: [
+          "People believe that education is important.",
+          "It is widely believed that education is important.",
+          "Education is important people believe.",
+          "Believing education is important."
+        ],
+        answer: 1,
+        explanation: "'It is widely believed that...' is the correct impersonal passive structure for academic writing."
+      },
+      {
+        question: "What percentage of passive voice is ideal for Task 2?",
+        options: ["100%", "0%", "20-30%", "80-90%"],
+        answer: 2,
+        explanation: "20-30% passive in Task 2 provides good variety. Too much sounds unnatural."
+      },
+      {
+        question: "Convert to passive: 'Researchers conducted the study in 2023.'",
+        options: [
+          "The study was conducted in 2023.",
+          "The study is conducted in 2023.",
+          "The study has been conducted in 2023.",
+          "The study will be conducted in 2023."
+        ],
+        answer: 0,
+        explanation: "Past simple active → Past simple passive: 'was conducted' (matching the original tense)."
+      }
+    ],
+    cheatSheetPoints: [
+      "Use passive when the ACTION matters more than the DOER",
+      "Task 1: 30-40% passive | Task 2: 20-30% passive",
+      "'It is + PP + that...' = gold for academic writing",
+      "acknowledged / believed / argued / demonstrated / noted",
+      "Don't overuse — mix with active for natural flow",
+      "All tenses work: is done, was done, has been done, will be done"
     ]
   },
 ];
