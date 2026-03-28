@@ -52,6 +52,8 @@ const KnowledgeHubPage = lazy(() => import("./pages/KnowledgeHubPage.tsx"));
 const FolkloreLibrary = lazy(() => import("./pages/FolkloreLibrary.tsx"));
 const VietnameseForForeigners = lazy(() => import("./pages/VietnameseForForeigners.tsx"));
 const NationalAnthem = lazy(() => import("./pages/NationalAnthem.tsx"));
+const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
+const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -102,6 +104,8 @@ const App = () => (
             <Route path="/ielts-sample-essays/:essayId" element={<LazyRoute><IeltsSampleEssayDetail /></LazyRoute>} />
             <Route path="/ielts-speaking-practice" element={<LazyRoute><SpeakingPractice /></LazyRoute>} />
             <Route path="/ielts-vocabulary" element={<LazyRoute><IeltsVocabulary /></LazyRoute>} />
+            <Route path="/ielts-lectures" element={<LazyRoute><IeltsLectures /></LazyRoute>} />
+            <Route path="/ielts-lectures/:lectureId" element={<LazyRoute><IeltsLectureView /></LazyRoute>} />
             <Route path="/vocab-arena" element={<LazyRoute><VocabArena /></LazyRoute>} />
             <Route path="/national-exam" element={<LazyRoute><NationalExamPrep /></LazyRoute>} />
             <Route path="/national-exam/:examId" element={<LazyRoute><NationalExamRoom /></LazyRoute>} />

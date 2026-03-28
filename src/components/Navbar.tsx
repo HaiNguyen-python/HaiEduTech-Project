@@ -74,6 +74,7 @@ const Navbar = () => {
   // IELTS nested sub-items with dedicated icons
    const ieltsChildren: SubItem[] = [
     { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
+    { to: "/ielts-lectures", label: t("Bài giảng IELTS", "IELTS Lectures"), icon: BookOpen },
     { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), icon: BookOpen },
     { to: "/vocab-arena", label: t("Vocab Arena", "Vocab Arena"), icon: Swords },
     { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
