@@ -1703,9 +1703,253 @@ const skillBasedLectures: IeltsLecture[] = [
       "Don't over-extend - Part 1 is NOT a monologue"
     ]
   },
+  // --- Listening Section 1-2 Basics ---
+  {
+    id: "listening-section-1-2-basics",
+    title: "Listening Section 1-2: Essential Survival Strategies",
+    titleVi: "Listening Section 1-2: Chiến lược sống còn cơ bản",
+    pillar: "skill-based",
+    skill: "listening",
+    icon: "🎧",
+    duration: "20 min",
+    level: "foundation",
+    description: "Master the most scoreable sections of the Listening test — everyday conversations and monologues about social situations.",
+    descriptionVi: "Làm chủ phần dễ ghi điểm nhất của bài Listening — hội thoại hàng ngày và độc thoại về tình huống xã hội.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Read Questions BEFORE Audio Plays",
+        titleVi: "Đọc câu hỏi TRƯỚC khi nghe",
+        description: "Use the 30-second preview time to underline keywords, predict answer types (name? number? date?), and identify question flow. This is your biggest advantage in Section 1-2.",
+        descriptionVi: "Sử dụng 30 giây xem trước để gạch chân từ khóa, dự đoán loại đáp án (tên? số? ngày?), và xác định trình tự câu hỏi. Đây là lợi thế lớn nhất của bạn ở Section 1-2.",
+        example: "Q: Name: _______ → Predict: proper noun, likely spelled out. Q: Date: _______ → Predict: day + month format."
+      },
+      {
+        step: 2,
+        title: "Listen for Spelling Traps",
+        titleVi: "Nghe ra bẫy chính tả",
+        description: "Section 1 frequently tests spelling of names, addresses, and email addresses. Common traps: similar-sounding letters (B/P, M/N, A/E), double letters, and unusual place names.",
+        descriptionVi: "Section 1 thường kiểm tra chính tả tên, địa chỉ, email. Bẫy phổ biến: chữ cái phát âm giống nhau (B/P, M/N, A/E), chữ đôi, và tên địa danh lạ.",
+        example: "'My name is Phoebe — that's P-H-O-E-B-E.' If you don't catch the spelling, you lose the mark even if you understood the conversation."
+      },
+      {
+        step: 3,
+        title: "Watch for Number & Price Corrections",
+        titleVi: "Chú ý sửa số và giá",
+        description: "Speakers often say a number then correct themselves: 'It's $45... no wait, $54.' The SECOND number is always the answer. Also watch for phone numbers given in groups.",
+        descriptionVi: "Người nói thường nêu 1 số rồi sửa lại: 'Giá $45... à không, $54.' Số THỨ HAI luôn là đáp án. Cũng chú ý số điện thoại đọc theo nhóm.",
+        example: "'The membership fee is fifteen — oh sorry, I meant fifty pounds.' Answer: 50 (not 15)."
+      },
+      {
+        step: 4,
+        title: "Section 2: Follow the Monologue Structure",
+        titleVi: "Section 2: Theo cấu trúc bài độc thoại",
+        description: "Section 2 is a monologue (tour guide, public announcement, facility description). It follows a logical sequence. Track the speaker's flow: introduction → main points → conclusion. Use signpost words: 'firstly', 'moving on', 'finally'.",
+        descriptionVi: "Section 2 là độc thoại (hướng dẫn viên, thông báo, mô tả cơ sở). Nó theo trình tự logic. Theo dõi: giới thiệu → điểm chính → kết luận. Dùng từ chỉ dẫn: 'firstly', 'moving on', 'finally'.",
+        example: "'Now let me tell you about our opening hours...' → signals the next set of answers is about schedules."
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Section 1: Form Completion — Hotel Booking",
+        contextVi: "Section 1: Điền mẫu — Đặt phòng khách sạn",
+        example: "Receptionist: 'Can I take your name please?'\nGuest: 'Yes, it's Harrison — H-A-R-R-I-S-O-N.'\nReceptionist: 'And what date would you like to check in?'\nGuest: 'The 14th of March... actually, make that the 15th.'",
+        answer: "Name: Harrison | Date: 15th March",
+        explanation: "The name is spelled out (always write exactly as spelled). The date was corrected — use the SECOND date mentioned."
+      },
+      {
+        context: "Section 2: Multiple Choice — Museum Tour",
+        contextVi: "Section 2: Trắc nghiệm — Tham quan bảo tàng",
+        example: "Guide: 'The museum was originally built as a private residence in 1850. It was converted into a public gallery in 1920, and underwent major renovations in 2005.'\n\nQ: When did the building become a museum?\nA) 1850  B) 1920  C) 2005",
+        answer: "B) 1920",
+        explanation: "'Converted into a public gallery' = became a museum. 1850 is a distractor (when it was built). 2005 is a distractor (renovations, not conversion)."
+      },
+      {
+        context: "Section 1: Phone Number Dictation",
+        contextVi: "Section 1: Đọc số điện thoại",
+        example: "Speaker: 'You can reach us on 0-7-7-double 4-9-3-8-1.'\n\nQ: Contact number: ___________",
+        answer: "07744 9381",
+        explanation: "'Double 4' = 44. Always write numbers as digits, not words. Group phone numbers correctly."
+      }
+    ],
+    vocabHighlights: [
+      { word: "accommodation", definition: "A place to stay (hotel, hostel, flat)", definitionVi: "Nơi ở (khách sạn, nhà trọ, căn hộ)", example: "The accommodation includes breakfast.", band: "5.0+" },
+      { word: "deposit", definition: "An initial payment to secure a booking", definitionVi: "Tiền đặt cọc để đảm bảo đặt chỗ", example: "A $200 deposit is required.", band: "5.0+" },
+      { word: "reference number", definition: "A unique code for a booking or application", definitionVi: "Mã số tham chiếu cho đặt chỗ hoặc đơn", example: "Your reference number is BK4521.", band: "5.0+" },
+      { word: "amenities", definition: "Facilities or services provided", definitionVi: "Tiện ích hoặc dịch vụ được cung cấp", example: "The gym and pool are among the amenities.", band: "6.0+" },
+      { word: "itinerary", definition: "A planned route or schedule of a trip", definitionVi: "Lịch trình chuyến đi", example: "The tour itinerary includes three stops.", band: "6.0+" },
+      { word: "concession", definition: "A reduced price for certain groups (students, seniors)", definitionVi: "Giá ưu đãi cho nhóm đặc biệt (sinh viên, người cao tuổi)", example: "Concession tickets are half price.", band: "6.5+" }
+    ],
+    mistakesToAvoid: [
+      { mistake: "Writing a word when a number is needed", mistakeVi: "Viết chữ khi cần số", why: "If the instruction says 'NO MORE THAN TWO WORDS AND/OR A NUMBER', writing 'fifteen' instead of '15' may be marked wrong.", whyVi: "Nếu hướng dẫn nói 'KHÔNG QUÁ HAI TỪ VÀ/HOẶC MỘT SỐ', viết 'fifteen' thay vì '15' có thể bị sai." },
+      { mistake: "Missing the correction and writing the first answer", mistakeVi: "Bỏ lỡ phần sửa và viết đáp án đầu tiên", why: "Speakers ALWAYS correct themselves in Section 1. Train yourself to wait for the final confirmed answer.", whyVi: "Người nói LUÔN tự sửa ở Section 1. Luyện tập chờ đáp án cuối cùng được xác nhận." },
+      { mistake: "Not checking the word limit", mistakeVi: "Không kiểm tra giới hạn từ", why: "'No more than ONE word' means writing 'bus stop' loses the mark. You need 'bus' or 'stop' only.", whyVi: "'Không quá MỘT từ' nghĩa là viết 'bus stop' sẽ mất điểm. Bạn chỉ cần 'bus' hoặc 'stop'." }
+    ],
+    goldenSecret: "Section 1-2 are your EASIEST 20 marks. The secret? Don't overthink. The answers come in ORDER, the vocabulary is everyday English, and there are NO trick questions — only distractor information. If you miss one answer, MOVE ON immediately to the next question. Never get stuck!",
+    goldenSecretVi: "Section 1-2 là 20 điểm DỄ NHẤT của bạn. Bí quyết? Đừng suy nghĩ quá nhiều. Đáp án đến theo THỨ TỰ, từ vựng là tiếng Anh hàng ngày, và KHÔNG CÓ câu hỏi bẫy — chỉ có thông tin nhiễu. Nếu bỏ lỡ 1 đáp án, CHUYỂN NGAY sang câu tiếp theo. Đừng bao giờ bị kẹt!",
+    quiz: [
+      {
+        question: "In Section 1, when a speaker corrects a number ('It's $30... no, $35'), which is the answer?",
+        options: ["The first number ($30)", "The second number ($35)", "Both numbers", "Neither — it depends on context"],
+        answer: 1,
+        explanation: "Always use the CORRECTED (second) number. This is a classic IELTS listening trap."
+      },
+      {
+        question: "What does 'double 4' mean when a speaker dictates a phone number?",
+        options: ["The number 4 repeated: 44", "The number 8 (4+4)", "Two separate fours with a pause", "It depends on the accent"],
+        answer: 0,
+        explanation: "'Double 4' = 44. Similarly, 'triple 6' = 666. This is standard British English phone number dictation."
+      },
+      {
+        question: "The instruction says 'Write NO MORE THAN TWO WORDS.' The answer is 'swimming pool'. What do you write?",
+        options: ["swimming pool", "swimming-pool", "pool", "a swimming pool"],
+        answer: 0,
+        explanation: "'Swimming pool' is two words — within the limit. 'A swimming pool' would be three words (over the limit)."
+      },
+      {
+        question: "In Section 2, what type of audio do you hear?",
+        options: ["A conversation between two people", "A monologue by one speaker", "An interview with questions", "A group discussion"],
+        answer: 1,
+        explanation: "Section 2 is always a monologue — one person speaking about a social or everyday topic (tour guide, announcement, etc.)."
+      }
+    ],
+    cheatSheetPoints: [
+      "Section 1: Form/note completion — answers in ORDER, usually names/numbers/dates",
+      "Section 2: Monologue — follow signpost words (firstly, next, finally)",
+      "ALWAYS use the corrected/second answer when speakers self-correct",
+      "'Double' = repeat the letter/number (double 5 = 55)",
+      "Check word limit BEFORE writing — 'no more than ONE word' is strict",
+      "If you miss an answer, SKIP IT and catch the next one — don't freeze"
+    ]
+  },
+  // --- Writing Task 2: Agree/Disagree Essays ---
+  {
+    id: "writing-task2-agree-disagree",
+    title: "Writing Task 2: Agree/Disagree Essays Masterclass",
+    titleVi: "Writing Task 2: Thành thạo dạng bài Agree/Disagree",
+    pillar: "skill-based",
+    skill: "writing",
+    icon: "✍️",
+    duration: "25 min",
+    level: "intermediate",
+    description: "The most common Task 2 question type — learn the exact structure, idea generation, and Band 7.0+ language for 'To what extent do you agree or disagree?' essays.",
+    descriptionVi: "Dạng câu hỏi Task 2 phổ biến nhất — học cấu trúc chính xác, phát triển ý tưởng, và ngôn ngữ Band 7.0+ cho bài 'Bạn đồng ý hay không đồng ý ở mức độ nào?'",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Decide Your Position IMMEDIATELY",
+        titleVi: "Quyết định lập trường NGAY LẬP TỨC",
+        description: "You have 3 options: Fully Agree, Fully Disagree, or Partially Agree. Pick ONE and stick to it. A clear, consistent position scores higher than a confused, fence-sitting response.",
+        descriptionVi: "Bạn có 3 lựa chọn: Hoàn toàn đồng ý, Hoàn toàn không đồng ý, hoặc Đồng ý một phần. Chọn MỘT và giữ nguyên. Lập trường rõ ràng, nhất quán được điểm cao hơn lập trường lưỡng lự.",
+        example: "Prompt: 'University education should be free. To what extent do you agree?'\n→ Decide: 'I partially agree — free for some, not all.' Now every paragraph supports THIS position."
+      },
+      {
+        step: 2,
+        title: "The Band 7.0+ Introduction Formula",
+        titleVi: "Công thức mở bài Band 7.0+",
+        description: "Sentence 1: Paraphrase the topic (DON'T copy the question). Sentence 2: State your clear position using 'I strongly believe...', 'I am of the opinion that...', or 'While I acknowledge..., I firmly believe...'",
+        descriptionVi: "Câu 1: Diễn đạt lại chủ đề (KHÔNG sao chép câu hỏi). Câu 2: Nêu lập trường rõ ràng dùng 'I strongly believe...', 'I am of the opinion that...', hoặc 'While I acknowledge..., I firmly believe...'",
+        example: "Topic: 'Some people think homework is essential.'\n→ 'The role of home assignments in academic development has long been debated. I firmly believe that while moderate homework is beneficial, excessive workload can be counterproductive.'"
+      },
+      {
+        step: 3,
+        title: "Body Paragraphs: The PEEL Structure",
+        titleVi: "Thân bài: Cấu trúc PEEL",
+        description: "Each body paragraph follows PEEL: Point (topic sentence), Explain (elaborate the idea), Example (real-world evidence), Link (connect back to your thesis). This ensures coherent, well-developed paragraphs.",
+        descriptionVi: "Mỗi đoạn thân bài theo PEEL: Point (câu chủ đề), Explain (giải thích ý), Example (dẫn chứng thực tế), Link (liên kết về luận điểm). Đảm bảo đoạn văn mạch lạc, phát triển tốt.",
+        example: "P: One compelling reason to support free education is social equality.\nE: When tuition fees are removed, students from disadvantaged backgrounds gain equal access.\nE: In Scandinavian countries, free universities have led to higher social mobility.\nL: This demonstrates that removing financial barriers is essential for a fair society."
+      },
+      {
+        step: 4,
+        title: "Conclusion: Mirror + Predict",
+        titleVi: "Kết bài: Phản chiếu + Dự đoán",
+        description: "Restate your position (DO NOT introduce new ideas). Then add a forward-looking sentence: what should happen next or what the implications are. This elevates your conclusion beyond a simple summary.",
+        descriptionVi: "Nhắc lại lập trường (KHÔNG đưa ý mới). Sau đó thêm câu hướng về tương lai: điều gì nên xảy ra hoặc hệ quả là gì. Điều này nâng kết bài lên trên mức tóm tắt đơn giản.",
+        example: "'In conclusion, while free education presents challenges in terms of government funding, the long-term benefits to society far outweigh the costs. Governments should therefore prioritize education spending as an investment in future prosperity.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Full Agree Example — Introduction",
+        contextVi: "Ví dụ Đồng ý hoàn toàn — Mở bài",
+        example: "Topic: 'Children should start learning a foreign language from primary school.'\n\nIntro: 'Early language acquisition has become a topic of considerable discussion in educational circles. I strongly agree that introducing foreign languages at the primary level is highly beneficial, as young children possess a natural aptitude for absorbing new linguistic patterns.'",
+        explanation: "Notice: topic is paraphrased (not copied), position is crystal clear ('I strongly agree'), and a reason preview is given."
+      },
+      {
+        context: "Partial Agree Example — Body Paragraph 2 (Counter-argument)",
+        contextVi: "Ví dụ Đồng ý một phần — Thân bài 2 (Phản biện)",
+        example: "Body 2: 'However, it would be naive to overlook the potential drawbacks. Implementing free education nationwide would place an enormous financial burden on taxpayers. For instance, Germany's free tuition model has resulted in overcrowded lecture halls and stretched resources, arguably diminishing the quality of education. Therefore, a balanced approach — such as means-tested tuition — may be more sustainable.'",
+        explanation: "This paragraph shows the OTHER side while still supporting the partial-agree thesis. Using 'However' signals a counter-argument. The example (Germany) adds credibility."
+      },
+      {
+        context: "Band 8.0 Conclusion Template",
+        contextVi: "Mẫu kết bài Band 8.0",
+        example: "'In conclusion, I am convinced that [restate position]. Although [acknowledge the other side briefly], the evidence overwhelmingly suggests that [your main argument]. Moving forward, [recommendation or prediction].'",
+        explanation: "This template works for ANY agree/disagree topic. Fill in the blanks with your essay's specific arguments."
+      }
+    ],
+    vocabHighlights: [
+      { word: "I am of the opinion that", definition: "A formal way to state your view", definitionVi: "Cách trang trọng để nêu quan điểm", example: "I am of the opinion that education should be accessible to all.", band: "7.0+" },
+      { word: "it would be naive to overlook", definition: "It would be foolish to ignore", definitionVi: "Sẽ là ngây thơ nếu bỏ qua", example: "It would be naive to overlook the environmental costs.", band: "7.5+" },
+      { word: "the evidence overwhelmingly suggests", definition: "The proof strongly indicates", definitionVi: "Bằng chứng cho thấy rõ ràng", example: "The evidence overwhelmingly suggests that exercise improves mental health.", band: "7.0+" },
+      { word: "a balanced approach", definition: "A strategy that considers multiple sides", definitionVi: "Cách tiếp cận cân bằng", example: "A balanced approach to urban development is needed.", band: "6.5+" },
+      { word: "counterproductive", definition: "Having the opposite of the desired effect", definitionVi: "Phản tác dụng", example: "Excessive testing can be counterproductive to learning.", band: "7.0+" },
+      { word: "means-tested", definition: "Based on income level or financial need", definitionVi: "Dựa trên mức thu nhập hoặc nhu cầu tài chính", example: "Means-tested scholarships target those who need them most.", band: "7.5+" }
+    ],
+    mistakesToAvoid: [
+      { mistake: "Sitting on the fence without a clear position", mistakeVi: "Lưỡng lự không có lập trường rõ ràng", why: "The examiner needs to see a clear opinion from the FIRST paragraph. 'There are advantages and disadvantages' without a position = Band 5.5.", whyVi: "Giám khảo cần thấy ý kiến rõ ràng từ đoạn ĐẦU TIÊN. 'Có ưu và nhược điểm' mà không có lập trường = Band 5.5." },
+      { mistake: "Introducing new ideas in the conclusion", mistakeVi: "Đưa ý mới vào kết bài", why: "The conclusion should ONLY summarize and restate. New arguments here show poor planning and hurt your Coherence score.", whyVi: "Kết bài chỉ nên tóm tắt và nhắc lại. Luận điểm mới ở đây cho thấy kế hoạch kém và làm giảm điểm Coherence." },
+      { mistake: "Using memorized phrases that don't fit", mistakeVi: "Dùng cụm từ học thuộc không phù hợp", why: "Examiners easily spot template language. 'In this day and age' and 'Since time immemorial' are red flags for Band 6.0.", whyVi: "Giám khảo dễ dàng phát hiện ngôn ngữ mẫu. 'In this day and age' và 'Since time immemorial' là dấu hiệu Band 6.0." }
+    ],
+    goldenSecret: "Here's the BIGGEST secret for Agree/Disagree essays: You DON'T need to believe your position! Choose the side you have MORE IDEAS for, not the one you personally agree with. If 'disagree' gives you 3 strong ideas but 'agree' only gives 1, DISAGREE! The examiner doesn't care about your real opinion — only your English ability.",
+    goldenSecretVi: "Đây là BÍ MẬT LỚN NHẤT cho bài Agree/Disagree: Bạn KHÔNG CẦN tin vào lập trường của mình! Chọn phía bạn có NHIỀU Ý TƯỞNG hơn, không phải phía bạn thực sự đồng ý. Nếu 'không đồng ý' cho bạn 3 ý hay nhưng 'đồng ý' chỉ cho 1, hãy KHÔNG ĐỒNG Ý! Giám khảo không quan tâm ý kiến thật của bạn — chỉ quan tâm khả năng tiếng Anh.",
+    quiz: [
+      {
+        question: "What is the FIRST thing you should do after reading an Agree/Disagree prompt?",
+        options: ["Start writing the introduction", "Brainstorm vocabulary", "Decide your clear position", "Plan your conclusion"],
+        answer: 2,
+        explanation: "Always decide your position FIRST (fully agree, fully disagree, or partially agree), then plan your paragraphs around it."
+      },
+      {
+        question: "Which introduction is better for Band 7.0+?",
+        options: [
+          "'In this essay, I will discuss the advantages and disadvantages.'",
+          "'I strongly believe that education reform is essential for societal progress.'",
+          "'Since time immemorial, people have debated this topic.'",
+          "'There are many opinions about this topic.'"
+        ],
+        answer: 1,
+        explanation: "Option B shows a clear position with sophisticated language. Options A, C, and D are vague, clichéd, or lack a clear stance."
+      },
+      {
+        question: "In a Partial Agree essay, how should you structure the body paragraphs?",
+        options: [
+          "Both paragraphs agree with the statement",
+          "Body 1: Why you agree on one aspect. Body 2: Why you disagree on another aspect.",
+          "Body 1: Other people's opinions. Body 2: Your opinion.",
+          "Body 1: Advantages. Body 2: Disadvantages."
+        ],
+        answer: 1,
+        explanation: "Partial agree requires showing BOTH sides — one paragraph for what you agree with, another for what you disagree with, both connected to your thesis."
+      },
+      {
+        question: "What should you NEVER do in the conclusion?",
+        options: ["Restate your opinion", "Summarize main arguments", "Introduce a new idea or argument", "Make a prediction about the future"],
+        answer: 2,
+        explanation: "The conclusion must ONLY summarize and restate. New ideas here show poor planning and damage your Coherence & Cohesion score."
+      }
+    ],
+    cheatSheetPoints: [
+      "Decide position in 1 minute: Fully Agree, Fully Disagree, or Partially Agree",
+      "Intro = Paraphrase + Clear Position (2 sentences max)",
+      "Each body paragraph follows PEEL: Point, Explain, Example, Link",
+      "Use 'I firmly believe' / 'I am of the opinion that' — NOT 'I think'",
+      "Choose the side with MORE ideas — not your real opinion",
+      "Conclusion: Restate + Future prediction — NEVER add new ideas"
+    ]
+  },
 ];
 
-// === PILLAR 2: IELTS TIPS & HACKS ===
 
 const tipsAndHacks: IeltsLecture[] = [
   {
@@ -3277,9 +3521,122 @@ const appliedGrammar: IeltsLecture[] = [
       "Use 2-3 conditionals per essay — quality over quantity"
     ]
   },
+  // --- Grammar: Articles (a/an/the) for Band 7.0+ ---
+  {
+    id: "grammar-articles-band7",
+    title: "Mastering Articles (a/an/the): The Hidden Band 7.0+ Skill",
+    titleVi: "Làm chủ mạo từ (a/an/the): Kỹ năng ẩn cho Band 7.0+",
+    pillar: "applied-grammar",
+    icon: "📐",
+    duration: "22 min",
+    level: "advanced",
+    description: "Articles are the #1 grammar mistake among Vietnamese IELTS candidates. Master the rules that separate Band 6.5 from Band 7.0+ writing.",
+    descriptionVi: "Mạo từ là lỗi ngữ pháp #1 của thí sinh IELTS Việt Nam. Nắm vững quy tắc phân biệt bài viết Band 6.5 và Band 7.0+.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "The 3 Core Rules of Articles",
+        titleVi: "3 Quy tắc cốt lõi của mạo từ",
+        description: "Rule 1: Use 'a/an' for first mention of countable singular nouns. Rule 2: Use 'the' when the noun is specific/already mentioned/unique. Rule 3: Use NO article (Ø) for uncountable nouns and plurals used in a general sense.",
+        descriptionVi: "Quy tắc 1: Dùng 'a/an' cho danh từ đếm được số ít lần đầu nhắc đến. Quy tắc 2: Dùng 'the' khi danh từ cụ thể/đã nhắc/duy nhất. Quy tắc 3: KHÔNG dùng mạo từ (Ø) cho danh từ không đếm được và số nhiều nghĩa chung.",
+        example: "'A student asked a question. The question was about grammar.' (a = first mention, the = already mentioned)"
+      },
+      {
+        step: 2,
+        title: "Zero Article: The Vietnamese Speaker's Biggest Trap",
+        titleVi: "Không mạo từ: Bẫy lớn nhất của người Việt",
+        description: "Vietnamese has no articles, so Vietnamese speakers tend to ADD 'the' everywhere or OMIT articles entirely. Key zero-article contexts: general concepts (Ø Education is important), meals (Ø lunch), sports (Ø football), academic subjects (Ø Mathematics).",
+        descriptionVi: "Tiếng Việt không có mạo từ, nên người Việt hay THÊM 'the' khắp nơi hoặc BỎ mạo từ hoàn toàn. Ngữ cảnh không mạo từ: khái niệm chung (Ø Education is important), bữa ăn (Ø lunch), thể thao (Ø football), môn học (Ø Mathematics).",
+        example: "❌ 'The education is important for the society.' ✅ 'Education is important for society.' (Both are general concepts = no 'the')"
+      },
+      {
+        step: 3,
+        title: "'The' with Superlatives, Unique Nouns, and Institutions",
+        titleVi: "'The' với so sánh nhất, danh từ duy nhất, và tổ chức",
+        description: "Always use 'the' with: superlatives (the best, the most important), unique things (the sun, the Internet, the environment), specific institutions (the government, the WHO). But NOT with: proper nouns of countries (Ø Vietnam), cities (Ø London), or languages (Ø English).",
+        descriptionVi: "Luôn dùng 'the' với: so sánh nhất (the best, the most important), vật duy nhất (the sun, the Internet, the environment), tổ chức cụ thể (the government, the WHO). Nhưng KHÔNG với: tên riêng quốc gia (Ø Vietnam), thành phố (Ø London), hoặc ngôn ngữ (Ø English).",
+        example: "'The government should invest in the environment.' BUT 'Vietnam is a developing country.' (NOT 'The Vietnam')"
+      },
+      {
+        step: 4,
+        title: "Article Patterns in IELTS Writing Task 2",
+        titleVi: "Mẫu mạo từ trong IELTS Writing Task 2",
+        description: "Common Task 2 patterns: 'In THE modern world...' (specific era), 'A growing number of people...' (indefinite), 'THE advantages outweigh THE disadvantages' (specific comparison). Master these collocations and your grammar score jumps instantly.",
+        descriptionVi: "Mẫu phổ biến Task 2: 'In THE modern world...' (thời đại cụ thể), 'A growing number of people...' (không xác định), 'THE advantages outweigh THE disadvantages' (so sánh cụ thể). Nắm vững các kết hợp này và điểm ngữ pháp tăng ngay.",
+        example: "'In the modern world, a significant proportion of the population relies on the Internet for education.'\n(the modern world = specific, a significant proportion = indefinite, the population = specific, the Internet = unique)"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Common Vietnamese Speaker Errors — Fixed",
+        contextVi: "Lỗi phổ biến của người Việt — Đã sửa",
+        example: "❌ 'The life is short.' → ✅ 'Life is short.' (general concept)\n❌ 'I like the music.' → ✅ 'I like music.' (general)\n❌ 'She goes to the school every day.' → ✅ 'She goes to school every day.' (institution as concept)\n❌ 'He is teacher.' → ✅ 'He is a teacher.' (countable singular needs article)",
+        explanation: "Pattern: General/abstract nouns = no article. Countable singular nouns ALWAYS need an article (a/an/the)."
+      },
+      {
+        context: "Task 2 Opening Sentences — Article Mastery",
+        contextVi: "Câu mở đầu Task 2 — Sử dụng mạo từ chuẩn",
+        example: "✅ 'In the contemporary era, the issue of environmental degradation has become a matter of global concern.'\n✅ 'A growing body of evidence suggests that the benefits of exercise extend beyond physical health.'\n✅ 'The government has a responsibility to ensure that education remains accessible to all citizens.'",
+        explanation: "Notice how 'the' is used for specific/unique nouns (the contemporary era, the issue, the government) and 'a' for first-mention indefinites (a matter, a growing body, a responsibility)."
+      },
+      {
+        context: "Tricky Exception: 'The' with Country Names",
+        contextVi: "Ngoại lệ khó: 'The' với tên quốc gia",
+        example: "No 'the': Vietnam, Japan, France, Brazil\nWith 'the': the United States, the United Kingdom, the Netherlands, the Philippines\n\nRule: Use 'the' when the country name includes a political word (United, Republic) or is plural (Netherlands, Philippines).",
+        explanation: "This pattern extends to other geographical names: 'the Sahara Desert', 'the Pacific Ocean', 'the Alps' (mountain ranges) BUT 'Mount Everest' (individual mountains)."
+      }
+    ],
+    vocabHighlights: [
+      { word: "a growing number of", definition: "An increasing amount of (indefinite article pattern)", definitionVi: "Số lượng ngày càng tăng (mẫu mạo từ không xác định)", example: "A growing number of students are studying abroad.", band: "6.5+" },
+      { word: "the vast majority of", definition: "Most of (definite article + quantifier)", definitionVi: "Đại đa số (mạo từ xác định + lượng từ)", example: "The vast majority of respondents supported the policy.", band: "7.0+" },
+      { word: "in the long run", definition: "Over a long period of time", definitionVi: "Về lâu dài", example: "In the long run, renewable energy will be cheaper.", band: "6.5+" },
+      { word: "on the whole", definition: "Generally; considering everything", definitionVi: "Nhìn chung; xét tổng thể", example: "On the whole, the experiment was a success.", band: "7.0+" },
+      { word: "a case in point", definition: "A good example that proves the argument", definitionVi: "Ví dụ điển hình chứng minh luận điểm", example: "A case in point is the success of Finland's education system.", band: "7.5+" },
+      { word: "the crux of the matter", definition: "The most important point of an issue", definitionVi: "Điểm mấu chốt của vấn đề", example: "The crux of the matter is funding, not policy.", band: "7.5+" }
+    ],
+    mistakesToAvoid: [
+      { mistake: "Adding 'the' before abstract/general nouns", mistakeVi: "Thêm 'the' trước danh từ trừu tượng/chung", why: "'The education', 'the society', 'the technology' in general sense are WRONG. Drop 'the' when speaking generally.", whyVi: "'The education', 'the society', 'the technology' nghĩa chung là SAI. Bỏ 'the' khi nói chung." },
+      { mistake: "Forgetting articles with countable singular nouns", mistakeVi: "Quên mạo từ với danh từ đếm được số ít", why: "'He is doctor' or 'She bought car' are grammatically wrong. Every countable singular noun needs a/an/the.", whyVi: "'He is doctor' hoặc 'She bought car' sai ngữ pháp. Mọi danh từ đếm được số ít cần a/an/the." },
+      { mistake: "Using 'the' before country/city names", mistakeVi: "Dùng 'the' trước tên quốc gia/thành phố", why: "'The Vietnam', 'the Hanoi', 'the Japan' are all wrong. Only use 'the' for countries with political words (the UK, the US).", whyVi: "'The Vietnam', 'the Hanoi', 'the Japan' đều sai. Chỉ dùng 'the' cho quốc gia có từ chính trị (the UK, the US)." }
+    ],
+    goldenSecret: "Here's how to INSTANTLY fix 80% of your article errors: Before you submit your essay, read EVERY noun and ask 2 questions: (1) Is it countable singular? → It NEEDS an article. (2) Am I talking about it GENERALLY or SPECIFICALLY? → General = no 'the', Specific = 'the'. This 30-second check can boost your Grammar score by 0.5 bands!",
+    goldenSecretVi: "Đây là cách SỬA NGAY 80% lỗi mạo từ: Trước khi nộp bài, đọc MỖI danh từ và hỏi 2 câu: (1) Nó có đếm được số ít không? → Nó CẦN mạo từ. (2) Mình nói CHUNG hay CỤ THỂ? → Chung = không 'the', Cụ thể = 'the'. Kiểm tra 30 giây này có thể tăng điểm Grammar 0.5 band!",
+    quiz: [
+      {
+        question: "Which sentence is grammatically correct?",
+        options: ["The education is important for society.", "Education is important for the society.", "Education is important for society.", "The education is important for the society."],
+        answer: 2,
+        explanation: "Both 'education' and 'society' are used in a GENERAL sense here, so neither takes 'the'."
+      },
+      {
+        question: "Fill in: '___ government should invest more in ___ environment.'",
+        options: ["A / an", "The / the", "Ø / the", "The / Ø"],
+        answer: 1,
+        explanation: "'The government' = specific (the one governing the country). 'The environment' = unique concept (there's only one). Both need 'the'."
+      },
+      {
+        question: "Which country name requires 'the'?",
+        options: ["Vietnam", "Japan", "United Kingdom", "France"],
+        answer: 2,
+        explanation: "'The United Kingdom' — because it contains a political word ('United'). Vietnam, Japan, and France are simple proper nouns = no 'the'."
+      },
+      {
+        question: "What's wrong with: 'He is teacher at university'?",
+        options: ["Missing 'the' before 'teacher'", "Missing 'a' before 'teacher' and 'a' before 'university'", "Should be 'the university'", "Nothing — it's correct"],
+        answer: 1,
+        explanation: "'Teacher' is a countable singular noun = needs 'a'. 'University' as a general concept = 'a university'. Correct: 'He is a teacher at a university.'"
+      }
+    ],
+    cheatSheetPoints: [
+      "Countable singular ALWAYS needs an article: a/an (first mention) or the (specific)",
+      "General concepts = NO article: 'Education is key' not 'The education is key'",
+      "Unique things always take 'the': the sun, the Internet, the environment",
+      "'The' + superlatives: the best, the most important, the largest",
+      "Country names: NO 'the' for simple names (Vietnam), YES for political (the UK, the US)",
+      "30-second essay check: Read every noun → countable singular? needs article. General? drop 'the'."
+    ]
+  },
 ];
-
-// === EXPORT ALL LECTURES ===
 
 export const allIeltsLectures: IeltsLecture[] = [
   ...skillBasedLectures,
