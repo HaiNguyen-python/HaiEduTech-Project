@@ -1,5 +1,5 @@
 // IELTS Lecture Detail View — Rich content with strategy steps, vocab highlighter, quiz, cheat sheet
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
