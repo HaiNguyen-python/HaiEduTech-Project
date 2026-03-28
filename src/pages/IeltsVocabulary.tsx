@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy } from "lucide-react";
+import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, IELTS_CATEGORIES, CEFR_LEVELS, type IeltsWord } from "@/data/ieltsVocabData";
 import { Badge } from "@/components/ui/badge";
