@@ -197,7 +197,7 @@ const Navbar = () => {
               </Link>
 
               {/* Slogan centered between logo and auth — with periodic ripple */}
-              <div className="hidden md:flex items-center justify-center flex-1 min-w-0 mx-3 relative group/slogan">
+              <div className="hidden lg:flex items-center justify-center flex-1 min-w-0 mx-3 relative group/slogan">
                 <div className="flex flex-col items-center relative overflow-hidden">
                   <span
                     className="slogan-text relative text-[11px] lg:text-xs uppercase font-semibold tracking-[0.18em] truncate"
