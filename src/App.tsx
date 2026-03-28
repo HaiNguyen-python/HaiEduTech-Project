@@ -56,6 +56,8 @@ const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
 const ToeicLectures = lazy(() => import("./pages/ToeicLectures.tsx"));
 const ToeicLectureView = lazy(() => import("./pages/ToeicLectureView.tsx"));
+const CambridgeLectures = lazy(() => import("./pages/CambridgeLectures.tsx"));
+const CambridgeLectureView = lazy(() => import("./pages/CambridgeLectureView.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -110,6 +112,8 @@ const App = () => (
             <Route path="/ielts-lectures/:lectureId" element={<LazyRoute><IeltsLectureView /></LazyRoute>} />
             <Route path="/toeic-lectures" element={<LazyRoute><ToeicLectures /></LazyRoute>} />
             <Route path="/toeic-lectures/:lectureId" element={<LazyRoute><ToeicLectureView /></LazyRoute>} />
+            <Route path="/cambridge-lectures" element={<LazyRoute><CambridgeLectures /></LazyRoute>} />
+            <Route path="/cambridge-lectures/:lectureId" element={<LazyRoute><CambridgeLectureView /></LazyRoute>} />
             <Route path="/vocab-arena" element={<LazyRoute><VocabArena /></LazyRoute>} />
             <Route path="/national-exam" element={<LazyRoute><NationalExamPrep /></LazyRoute>} />
             <Route path="/national-exam/:examId" element={<LazyRoute><NationalExamRoom /></LazyRoute>} />
