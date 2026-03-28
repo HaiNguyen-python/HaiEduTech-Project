@@ -2645,6 +2645,97 @@ const thematicVocab: IeltsLecture[] = [
       "Template: 'The prevalence of [X] can be attributed to [Y], which leads to [Z]'"
     ]
   },
+  // --- Sustainable Development & Environment (Advanced) ---
+  {
+    id: "vocab-sustainable-development",
+    title: "Sustainable Development & Environment (Advanced)",
+    titleVi: "Phát triển bền vững & Môi trường (Nâng cao)",
+    pillar: "thematic-vocab",
+    icon: "🌱",
+    duration: "22 min",
+    level: "advanced",
+    description: "Advanced collocations and academic phrases for the most tested IELTS topic: sustainability and environmental policy.",
+    descriptionVi: "Cụm từ nâng cao và cách diễn đạt học thuật cho chủ đề IELTS được kiểm tra nhiều nhất: phát triển bền vững và chính sách môi trường.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Master 3-Word Collocations",
+        titleVi: "Thành thạo cụm 3 từ",
+        description: "Band 8.0 vocabulary is not about rare words - it is about natural COLLOCATIONS: 'sustainable development goals', 'carbon-neutral economy', 'renewable energy sources', 'environmental impact assessment'.",
+        descriptionVi: "Từ vựng Band 8.0 không phải về từ hiếm - mà về COLLOCATIONS tự nhiên: 'sustainable development goals', 'carbon-neutral economy', 'renewable energy sources', 'environmental impact assessment'.",
+        example: "'Governments must conduct comprehensive environmental impact assessments before approving large-scale infrastructure projects.'"
+      },
+      {
+        step: 2,
+        title: "Use Cause-Effect Chains",
+        titleVi: "Dùng chuỗi nhân-quả",
+        description: "Environment essays require linking causes to effects: 'Deforestation leads to soil erosion, which in turn causes flooding, ultimately threatening food security.'",
+        descriptionVi: "Bài môi trường yêu cầu liên kết nguyên nhân-hệ quả: 'Deforestation leads to soil erosion, which in turn causes flooding, ultimately threatening food security.'",
+      },
+      {
+        step: 3,
+        title: "Balance Problem + Solution Vocabulary",
+        titleVi: "Cân bằng từ vựng Vấn đề + Giải pháp",
+        description: "Problems: degradation, depletion, contamination, exploitation. Solutions: conservation, preservation, mitigation, restoration, rehabilitation.",
+        descriptionVi: "Vấn đề: degradation, depletion, contamination, exploitation. Giải pháp: conservation, preservation, mitigation, restoration, rehabilitation.",
+        example: "Problem: 'the degradation of marine ecosystems' => Solution: 'the restoration of coral reefs through marine conservation programs'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Writing Task 2 - Environment Essay",
+        contextVi: "Writing Task 2 - Bài luận Môi trường",
+        example: "Weak: 'We should protect the environment because pollution is bad.'\n\nStrong: 'It is imperative that governments implement stringent regulations to curb industrial emissions, which are the primary drivers of atmospheric degradation. Furthermore, incentivizing the transition to a carbon-neutral economy through subsidies for renewable energy would represent a pragmatic step towards achieving long-term environmental sustainability.'",
+        explanation: "Uses: 'stringent regulations', 'curb emissions', 'atmospheric degradation', 'carbon-neutral economy', 'environmental sustainability' - all Band 8.0+ collocations."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Using 'protect the environment' in every sentence",
+        mistakeVi: "Dùng 'protect the environment' trong mọi câu",
+        why: "This is Band 5.0 vocabulary. Vary with: 'preserve biodiversity', 'mitigate ecological damage', 'safeguard natural habitats', 'promote environmental stewardship'.",
+        whyVi: "Đây là từ vựng Band 5.0. Thay bằng: 'preserve biodiversity', 'mitigate ecological damage', 'safeguard natural habitats', 'promote environmental stewardship'."
+      },
+      {
+        mistake: "Confusing 'climate change' vocabulary with 'weather' vocabulary",
+        mistakeVi: "Nhầm từ vựng 'biến đổi khí hậu' với 'thời tiết'",
+        why: "Climate = long-term patterns. Weather = daily conditions. 'Global warming causes extreme weather events' is correct. 'Global warming causes rain today' is wrong.",
+        whyVi: "Khí hậu = mô hình dài hạn. Thời tiết = điều kiện hàng ngày. 'Global warming causes extreme weather events' đúng. 'Global warming causes rain today' sai."
+      }
+    ],
+    goldenSecret: "The phrase 'strike a balance between economic development and environmental preservation' is a Band 8.0 sentence that works for almost EVERY environment question. Memorize it and adapt it: 'strike a balance between X and Y' is endlessly versatile!",
+    goldenSecretVi: "Cụm từ 'strike a balance between economic development and environmental preservation' là câu Band 8.0 hoạt động cho gần như MỌI câu hỏi môi trường. Ghi nhớ và điều chỉnh: 'strike a balance between X and Y' linh hoạt vô tận!",
+    vocabHighlights: [
+      { word: "carbon-neutral", definition: "Achieving net zero carbon emissions", definitionVi: "Trung hòa carbon, phát thải ròng bằng không", example: "Sweden aims to become carbon-neutral by 2045.", band: "8.0+" },
+      { word: "biodiversity", definition: "The variety of plant and animal life", definitionVi: "Đa dạng sinh học", example: "Deforestation threatens biodiversity in tropical regions.", band: "7.0+" },
+      { word: "stewardship", definition: "Responsible management of resources", definitionVi: "Sự quản lý có trách nhiệm", example: "Environmental stewardship is everyone's responsibility.", band: "8.0+" },
+      { word: "degradation", definition: "The process of becoming worse or damaged", definitionVi: "Sự suy thoái, xuống cấp", example: "Soil degradation has reduced agricultural productivity.", band: "7.5+" },
+      { word: "incentivize", definition: "To motivate with rewards or benefits", definitionVi: "Khuyến khích bằng phần thưởng", example: "Governments should incentivize the use of electric vehicles.", band: "7.5+" },
+      { word: "stringent", definition: "Strict, precise, demanding", definitionVi: "Nghiêm ngặt, chặt chẽ", example: "Stringent environmental regulations are needed to curb pollution.", band: "7.5+" }
+    ],
+    quiz: [
+      {
+        question: "Which phrase is Band 8.0+ for 'protect the environment'?",
+        options: ["'save the planet'", "'promote environmental stewardship'", "'help nature'", "'be green'"],
+        answer: 1,
+        explanation: "'Promote environmental stewardship' uses formal, academic vocabulary that signals Band 8.0+."
+      },
+      {
+        question: "What is Teacher Hai's versatile Band 8.0 phrase for environment topics?",
+        options: ["'Save the Earth'", "'Go green'", "'Strike a balance between X and Y'", "'Climate change is bad'"],
+        answer: 2,
+        explanation: "'Strike a balance between economic development and environmental preservation' works for nearly every environment question."
+      }
+    ],
+    cheatSheetPoints: [
+      "3-word collocations: 'sustainable development goals', 'carbon-neutral economy'",
+      "Problem words: degradation, depletion, contamination, exploitation",
+      "Solution words: conservation, preservation, mitigation, restoration",
+      "Replace 'protect the environment' with 'promote environmental stewardship'",
+      "Key phrase: 'strike a balance between X and Y'",
+      "Cause-effect chains: A leads to B, which in turn causes C"
+    ]
+  },
 ];
 
 // === PILLAR 4: APPLIED GRAMMAR ===
