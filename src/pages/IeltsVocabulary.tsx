@@ -283,7 +283,7 @@ const IeltsVocabulary = () => {
   useEffect(() => setPage(1), [search, levelFilter, categoryFilter, showMasteredOnly]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div ref={pageContainerRef} className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
@@ -306,7 +306,7 @@ const IeltsVocabulary = () => {
             </div>
 
             {/* Mountain Climber progress visualization */}
-            <MountainClimber mastered={mastered.size} total={ieltsVocabData.length} />
+            <MountainClimber mastered={mastered.size} total={ieltsVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -391,7 +391,7 @@ const IeltsVocabulary = () => {
                           <Volume2 size={20} style={{ color: "#4b5563" }} />
                         </button>
                         <motion.button
-                          onClick={() => handleMasteredWithMotivation(w.word)}
+                          onClick={(e) => handleStarClick(w.word, e)}
                           className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors"
                           whileTap={{ scale: 1.4 }}
                           transition={{ type: "spring", stiffness: 400, damping: 10 }}
