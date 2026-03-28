@@ -1078,6 +1078,509 @@ const paraphrasingSecrets: ToeicLecture = {
   isNew: true,
 };
 
+// === LESSON 11: Part 2 — Indirect Answers ===
+const part2Indirect: ToeicLecture = {
+  id: "toeic-part2-indirect",
+  title: "Indirect Answers: The Most Difficult Trap in Q&A",
+  titleVi: "Câu trả lời gián tiếp: Bẫy khó nhất Part 2",
+  category: "listening",
+  parts: ["Part 2"],
+  icon: "🔀",
+  duration: "20 min",
+  level: "advanced",
+  targetScore: "750+",
+  description: "Master indirect responses — the #1 reason high-level students lose points in Part 2.",
+  descriptionVi: "Làm chủ câu trả lời gián tiếp — lý do #1 khiến học viên trình độ cao mất điểm Part 2.",
+  trapAlerts: [
+    { trap: "Expecting a direct answer when TOEIC gives an indirect one", trapVi: "Kỳ vọng câu trả lời trực tiếp khi TOEIC cho gián tiếp", why: "At 750+ level, 40% of Part 2 answers are indirect.", whyVi: "Ở mức 750+, 40% đáp án Part 2 là gián tiếp." },
+    { trap: "Choosing the answer that SOUNDS most logical", trapVi: "Chọn đáp án NGHE có vẻ logic nhất", why: "Indirect answers sound unrelated but are contextually appropriate.", whyVi: "Đáp án gián tiếp nghe không liên quan nhưng phù hợp ngữ cảnh." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Recognize Indirect Patterns", titleVi: "Nhận diện mẫu gián tiếp", description: "3 types: Redirect ('Ask Ms. Kim'), Conditional ('It depends on the budget'), Counter-question ('Why do you ask?').", descriptionVi: "3 dạng: Chuyển hướng ('Hỏi chị Kim'), Điều kiện ('Tùy ngân sách'), Hỏi ngược ('Sao bạn hỏi?')." },
+    { step: 2, title: "Don't Eliminate Too Fast", titleVi: "Đừng loại trừ quá nhanh", description: "If no answer sounds 'perfect', the indirect one is likely correct.", descriptionVi: "Nếu không đáp án nào nghe 'hoàn hảo', đáp án gián tiếp có thể đúng." },
+    { step: 3, title: "Think Conversation, Not Grammar", titleVi: "Nghĩ như hội thoại, không phải ngữ pháp", description: "Would this response make sense in a real office conversation?", descriptionVi: "Câu trả lời này có hợp lý trong hội thoại văn phòng thực tế không?" },
+  ],
+  practiceSet: [
+    { context: "Office", contextVi: "Văn phòng", question: "When will the new software be installed?", options: ["The IT department hasn't confirmed yet.", "Yes, it's new software.", "I installed it yesterday."], answer: 0, explanation: "Redirect — the speaker doesn't know and points to IT.", explanationVi: "Chuyển hướng — người nói không biết và chỉ sang bộ phận IT." },
+    { context: "Meeting", contextVi: "Cuộc họp", question: "Who's leading the presentation tomorrow?", options: ["It was a great presentation.", "Hasn't the schedule been sent out?", "Tomorrow at 3 PM."], answer: 1, explanation: "Counter-question — implies 'check the schedule yourself'.", explanationVi: "Hỏi ngược — ngụ ý 'tự kiểm tra lịch đi'." },
+    { context: "Email", contextVi: "Email", question: "Should we order more supplies?", options: ["Let me check the inventory first.", "The supplies arrived yesterday.", "Yes, we should order."], answer: 0, explanation: "Conditional — needs to verify before deciding.", explanationVi: "Điều kiện — cần kiểm tra trước khi quyết định." },
+  ],
+  businessContext: "Indirect communication is standard in professional settings — especially in hierarchical workplaces where people defer to managers or redirect to the right department.",
+  businessContextVi: "Giao tiếp gián tiếp là chuẩn mực trong môi trường chuyên nghiệp — đặc biệt nơi nhân viên chuyển hướng lên quản lý hoặc sang bộ phận phù hợp.",
+  proSpeedTip: "If you hear 'I'm not sure', 'Let me check', or 'You should ask...' — that's likely the correct indirect answer.",
+  proSpeedTipVi: "Nếu nghe 'I'm not sure', 'Let me check', hoặc 'You should ask...' — đó có thể là đáp án gián tiếp đúng.",
+  vocabHighlights: [
+    { word: "defer to", definition: "to let someone else decide", definitionVi: "nhường quyết định cho", example: "I'll defer to the manager on this.", businessContext: "Decision-making" },
+    { word: "get back to you", definition: "to respond later", definitionVi: "phản hồi sau", example: "Let me get back to you on that.", businessContext: "Communication" },
+  ],
+  quiz: [
+    { question: "What percentage of Part 2 answers at 750+ level are indirect?", options: ["10%", "25%", "40%", "60%"], answer: 2, explanation: "About 40% of high-difficulty Part 2 questions use indirect answers." },
+    { question: "'Hasn't the memo been sent?' is what type of indirect answer?", options: ["Redirect", "Counter-question", "Conditional", "Direct"], answer: 1, explanation: "It's a counter-question — answering a question with a question." },
+    { question: "Which is an indirect answer to 'Where's the report?'", options: ["On my desk.", "Ms. Lee was working on it.", "It's 10 pages.", "Yes, there is a report."], answer: 1, explanation: "'Ms. Lee was working on it' redirects — ask her." },
+    { question: "Indirect answers work because they:", options: ["Avoid the question", "Are contextually appropriate in conversation", "Use big vocabulary", "Repeat question words"], answer: 1, explanation: "They're natural conversational responses, just not direct ones." },
+  ],
+  cheatSheetPoints: [
+    "40% of 750+ Part 2 = indirect answers",
+    "3 types: Redirect, Conditional, Counter-question",
+    "'I'm not sure / Let me check / Ask Mr. X' = likely correct",
+    "If no answer sounds perfect → indirect is the one",
+    "Think conversation, not grammar test",
+  ],
+  isNew: true,
+};
+
+// === LESSON 12: Part 3 — Pre-reading Questions ===
+const part3PreRead: ToeicLecture = {
+  id: "toeic-part3-preread",
+  title: "Pre-reading Questions: The 5-Second Golden Window",
+  titleVi: "Đọc trước câu hỏi: 5 giây vàng quyết định điểm số",
+  category: "listening",
+  parts: ["Part 3"],
+  icon: "⏱️",
+  duration: "18 min",
+  level: "intermediate",
+  targetScore: "600+",
+  description: "Use the 5-second pause to pre-read questions and predict answers before the audio plays.",
+  descriptionVi: "Tận dụng 5 giây nghỉ để đọc trước câu hỏi và dự đoán đáp án trước khi nghe.",
+  trapAlerts: [
+    { trap: "Spending too long on previous questions", trapVi: "Dành quá lâu cho câu trước", why: "If you're still thinking about Q1, you'll miss the 5-second window for Q2-Q4.", whyVi: "Nếu còn nghĩ Q1, bạn sẽ lỡ 5 giây vàng cho Q2-Q4." },
+    { trap: "Reading all 4 answer choices instead of just the question stem", trapVi: "Đọc cả 4 đáp án thay vì chỉ đọc câu hỏi", why: "You only have time to scan questions, not answers.", whyVi: "Chỉ đủ thời gian quét câu hỏi, không phải đáp án." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Read Questions 1-3 During Direction Time", titleVi: "Đọc câu hỏi 1-3 khi nghe hướng dẫn", description: "The 30-second direction intro is FREE TIME — use it to pre-read the first set.", descriptionVi: "30 giây hướng dẫn là THỜI GIAN MIỄN PHÍ — dùng để đọc trước bộ đầu tiên." },
+    { step: 2, title: "Focus on WHO, WHAT, WHERE Keywords", titleVi: "Tập trung vào từ khóa AI, CÁI GÌ, Ở ĐÂU", description: "Underline keywords mentally: 'What does the man suggest?' → listen for the MAN's SUGGESTION.", descriptionVi: "Gạch chân từ khóa trong đầu: 'What does the man suggest?' → nghe GỢI Ý của NGƯỜI ĐÀN ÔNG." },
+    { step: 3, title: "Mark and Move — Never Look Back", titleVi: "Đánh dấu và đi tiếp — Không bao giờ quay lại", description: "Answer immediately, move to pre-read the NEXT set. Going back wastes the golden window.", descriptionVi: "Trả lời ngay, chuyển sang đọc trước bộ TIẾP THEO. Quay lại sẽ lãng phí 5 giây vàng." },
+  ],
+  practiceSet: [
+    { context: "Conversation between 2 colleagues", contextVi: "Hội thoại giữa 2 đồng nghiệp", question: "What does the woman suggest?", options: ["Hiring more staff", "Postponing the meeting", "Ordering new equipment", "Changing the deadline"], answer: 1, explanation: "Pre-reading tells you to listen for the WOMAN's SUGGESTION specifically.", explanationVi: "Đọc trước cho biết phải nghe GỢI Ý của NGƯỜI PHỤ NỮ cụ thể." },
+    { context: "Phone call", contextVi: "Cuộc gọi điện thoại", question: "Where does the man most likely work?", options: ["A hospital", "A bank", "A restaurant", "A school"], answer: 1, explanation: "WHERE + MAN = listen for location clues from the male speaker.", explanationVi: "Ở ĐÂU + NAM = nghe manh mối địa điểm từ người nam." },
+  ],
+  businessContext: "Pre-reading is a real-world skill used in meetings (scanning agendas before discussion) and email management (reading subject lines to prioritize).",
+  businessContextVi: "Đọc trước là kỹ năng thực tế: xem nhanh chương trình họp trước buổi họp, đọc tiêu đề email để ưu tiên.",
+  proSpeedTip: "Never read answer choices during the 5-second window. Questions only. You'll hear the answers in the audio.",
+  proSpeedTipVi: "Không bao giờ đọc đáp án trong 5 giây vàng. Chỉ đọc câu hỏi. Bạn sẽ nghe đáp án trong audio.",
+  vocabHighlights: [
+    { word: "imply", definition: "to suggest indirectly", definitionVi: "ngụ ý", example: "What does the speaker imply?", businessContext: "Inference questions" },
+    { word: "intend", definition: "to plan to do", definitionVi: "có ý định", example: "What does the woman intend to do?", businessContext: "Action questions" },
+  ],
+  quiz: [
+    { question: "How long is the 'golden window' between sets?", options: ["3 seconds", "5 seconds", "10 seconds", "15 seconds"], answer: 1, explanation: "About 5 seconds between sets — enough to scan 3 question stems." },
+    { question: "During the 30-second direction time, you should:", options: ["Relax", "Pre-read the first question set", "Read all answers", "Close your eyes"], answer: 1, explanation: "The direction audio is free time to get ahead." },
+    { question: "If you're unsure about an answer, you should:", options: ["Go back and re-read", "Mark your best guess and move on", "Skip it entirely", "Wait for the next audio"], answer: 1, explanation: "Mark and move — going back wastes the golden window for the next set." },
+    { question: "Pre-reading questions helps because:", options: ["You can guess the audio topic", "You know WHAT to listen for", "The answers are in the questions", "It saves reading time later"], answer: 1, explanation: "Knowing what to listen for makes you a targeted listener, not a passive one." },
+  ],
+  cheatSheetPoints: [
+    "30-second intro = FREE pre-reading time for Set 1",
+    "5-second golden window: read QUESTIONS only, not answers",
+    "Focus on WHO + WHAT + WHERE keywords",
+    "Mark best guess immediately → move to next set",
+    "Never look back — forward momentum is key",
+  ],
+  isNew: true,
+};
+
+// === LESSON 13: Part 5 — Relative Clauses ===
+const part5RelativeClauses: ToeicLecture = {
+  id: "toeic-part5-relative-clauses",
+  title: "Mastering Relative Clauses: Who, Whom, Which, and That",
+  titleVi: "Làm chủ Mệnh đề Quan hệ: Who, Whom, Which, That",
+  category: "grammar",
+  parts: ["Part 5"],
+  icon: "🔗",
+  duration: "22 min",
+  level: "intermediate",
+  targetScore: "600+",
+  description: "Solve relative pronoun questions in under 10 seconds with the Subject/Object rule.",
+  descriptionVi: "Giải câu hỏi đại từ quan hệ dưới 10 giây với quy tắc Chủ ngữ/Tân ngữ.",
+  trapAlerts: [
+    { trap: "Confusing WHO (subject) with WHOM (object)", trapVi: "Nhầm WHO (chủ ngữ) với WHOM (tân ngữ)", why: "'The manager who leads...' (subject) vs 'The manager whom we hired...' (object after verb).", whyVi: "'Manager who leads...' (chủ ngữ) vs 'Manager whom we hired...' (tân ngữ sau động từ)." },
+    { trap: "Using WHICH for people", trapVi: "Dùng WHICH cho người", why: "WHICH = things only. WHO/WHOM = people. THAT = both but not after commas.", whyVi: "WHICH = vật. WHO/WHOM = người. THAT = cả hai nhưng không dùng sau dấu phẩy." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Check: Person or Thing?", titleVi: "Kiểm tra: Người hay Vật?", description: "Person → who/whom/that. Thing → which/that. This eliminates 50% of options instantly.", descriptionVi: "Người → who/whom/that. Vật → which/that. Loại ngay 50% đáp án." },
+    { step: 2, title: "Check: Subject or Object?", titleVi: "Kiểm tra: Chủ ngữ hay Tân ngữ?", description: "If the relative pronoun is followed by a VERB → Subject (who). If followed by Subject+Verb → Object (whom).", descriptionVi: "Nếu đại từ QH theo sau là ĐỘNG TỪ → Chủ ngữ (who). Nếu theo sau là Chủ ngữ+ĐT → Tân ngữ (whom)." },
+    { step: 3, title: "Comma Rule: No THAT after commas", titleVi: "Quy tắc dấu phẩy: Không THAT sau dấu phẩy", description: "Non-restrictive clauses (with commas) use WHICH or WHO, never THAT.", descriptionVi: "Mệnh đề không giới hạn (có dấu phẩy) dùng WHICH hoặc WHO, không bao giờ dùng THAT." },
+  ],
+  practiceSet: [
+    { context: "Part 5", contextVi: "Part 5", question: "The employee _____ was promoted has been with the company for 10 years.", options: ["who", "whom", "which", "whose"], answer: 0, explanation: "'who' is subject of 'was promoted' — a person doing an action.", explanationVi: "'who' là chủ ngữ của 'was promoted' — người thực hiện hành động." },
+    { context: "Part 5", contextVi: "Part 5", question: "The report, _____ was submitted yesterday, contains errors.", options: ["that", "which", "who", "whom"], answer: 1, explanation: "After a comma → WHICH (not THAT). Report = thing.", explanationVi: "Sau dấu phẩy → WHICH (không THAT). Report = vật." },
+    { context: "Part 5", contextVi: "Part 5", question: "The client _____ we met last week has signed the contract.", options: ["who", "whom", "which", "whose"], answer: 1, explanation: "'whom' is the object — 'we met whom'. Client = person in object position.", explanationVi: "'whom' là tân ngữ — 'we met whom'. Client = người ở vị trí tân ngữ." },
+  ],
+  businessContext: "Relative clauses are essential in business writing: job descriptions, contracts, and reports frequently use who/which/that to define roles and specifications.",
+  businessContextVi: "Mệnh đề quan hệ thiết yếu trong văn bản kinh doanh: mô tả công việc, hợp đồng, báo cáo thường xuyên dùng who/which/that.",
+  proSpeedTip: "Person + verb after blank → WHO. Person + subject after blank → WHOM. Thing after comma → WHICH. Done in 5 seconds.",
+  proSpeedTipVi: "Người + ĐT sau chỗ trống → WHO. Người + CN sau chỗ trống → WHOM. Vật sau dấu phẩy → WHICH. Xong trong 5 giây.",
+  vocabHighlights: [
+    { word: "restrictive clause", definition: "essential info, no commas", definitionVi: "mệnh đề giới hạn, không dấu phẩy", example: "The man who called is here.", businessContext: "Grammar terminology" },
+    { word: "non-restrictive clause", definition: "extra info, with commas", definitionVi: "mệnh đề không giới hạn, có dấu phẩy", example: "Mr. Kim, who is our CEO, will attend.", businessContext: "Grammar terminology" },
+  ],
+  quiz: [
+    { question: "'The package _____ arrived today is damaged.' Fill in:", options: ["whom", "which", "who", "whose"], answer: 1, explanation: "Package = thing → which/that. Subject position (arrived) → which." },
+    { question: "After a comma, you should NEVER use:", options: ["which", "who", "that", "whom"], answer: 2, explanation: "THAT cannot be used in non-restrictive (comma) clauses." },
+    { question: "'The candidate whom we interviewed...' — 'whom' is:", options: ["Subject", "Object", "Possessive", "Adjective"], answer: 1, explanation: "'we interviewed whom' — whom is the object of 'interviewed'." },
+    { question: "Quick rule: Person + verb after blank =", options: ["whom", "which", "who", "that"], answer: 2, explanation: "Person + verb = subject position = WHO." },
+  ],
+  cheatSheetPoints: [
+    "Person → who/whom. Thing → which. Both → that (no comma)",
+    "Blank + VERB = Subject → WHO",
+    "Blank + Subject+Verb = Object → WHOM",
+    "After comma → WHICH or WHO, never THAT",
+    "5-second solve: check Person/Thing → Subject/Object",
+  ],
+  isNew: true,
+};
+
+// === LESSON 14: Part 5 — Subjunctive Mood ===
+const part5Subjunctive: ToeicLecture = {
+  id: "toeic-part5-subjunctive",
+  title: "Subjunctive Mood in Business English",
+  titleVi: "Câu giả định trong Tiếng Anh thương mại",
+  category: "grammar",
+  parts: ["Part 5"],
+  icon: "📜",
+  duration: "20 min",
+  level: "advanced",
+  targetScore: "750+",
+  description: "Master the subjunctive mood — a high-frequency grammar point that appears 1-2 times per TOEIC test.",
+  descriptionVi: "Làm chủ câu giả định — điểm ngữ pháp xuất hiện 1-2 lần mỗi đề TOEIC.",
+  trapAlerts: [
+    { trap: "Using 'should' or conjugated forms after demand/require/suggest", trapVi: "Dùng 'should' hoặc chia động từ sau demand/require/suggest", why: "Subjunctive uses BASE FORM: 'suggest that he GO' not 'goes' or 'should go'.", whyVi: "Câu giả định dùng NGUYÊN THỂ: 'suggest that he GO' không phải 'goes' hay 'should go'." },
+    { trap: "Not recognizing subjunctive trigger words", trapVi: "Không nhận ra từ kích hoạt giả định", why: "Key triggers: recommend, suggest, insist, demand, require, request, propose, essential, vital, important.", whyVi: "Từ kích hoạt: recommend, suggest, insist, demand, require, request, propose, essential, vital, important." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Spot the Trigger Word", titleVi: "Phát hiện từ kích hoạt", description: "See: recommend/suggest/insist/demand/require/request + that → SUBJUNCTIVE.", descriptionVi: "Thấy: recommend/suggest/insist/demand/require/request + that → CÂU GIẢ ĐỊNH." },
+    { step: 2, title: "Use BASE FORM (no -s, no -ed)", titleVi: "Dùng NGUYÊN THỂ (không -s, không -ed)", description: "'It is essential that every employee ATTEND the meeting' (not attends).", descriptionVi: "'It is essential that every employee ATTEND the meeting' (không phải attends)." },
+    { step: 3, title: "Adjective Triggers: It is + adj + that", titleVi: "Tính từ kích hoạt: It is + adj + that", description: "essential/vital/important/necessary/imperative + that + S + BASE FORM.", descriptionVi: "essential/vital/important/necessary/imperative + that + S + NGUYÊN THỂ." },
+  ],
+  practiceSet: [
+    { context: "Part 5", contextVi: "Part 5", question: "The manager recommended that the report _____ submitted by Friday.", options: ["is", "be", "was", "will be"], answer: 1, explanation: "Subjunctive: recommend + that + S + BASE FORM. 'be' is the base form of 'to be'.", explanationVi: "Giả định: recommend + that + S + NGUYÊN THỂ. 'be' là nguyên thể của 'to be'." },
+    { context: "Part 5", contextVi: "Part 5", question: "It is essential that all staff _____ the safety training.", options: ["complete", "completes", "completed", "completing"], answer: 0, explanation: "'Essential that' triggers subjunctive → base form 'complete'.", explanationVi: "'Essential that' kích hoạt giả định → nguyên thể 'complete'." },
+    { context: "Part 5", contextVi: "Part 5", question: "The board insisted that the CEO _____ the decision.", options: ["reconsiders", "reconsider", "reconsidered", "will reconsider"], answer: 1, explanation: "'Insisted that' → subjunctive → base form 'reconsider'.", explanationVi: "'Insisted that' → giả định → nguyên thể 'reconsider'." },
+  ],
+  businessContext: "The subjunctive is used extensively in formal business communication: board resolutions, legal requirements, company policies, and official recommendations.",
+  businessContextVi: "Câu giả định dùng nhiều trong giao tiếp kinh doanh chính thức: nghị quyết hội đồng, yêu cầu pháp lý, chính sách công ty.",
+  proSpeedTip: "See trigger word + 'that'? → Pick the BASE FORM answer. It's always the uninflected verb (no -s, no -ed, no -ing).",
+  proSpeedTipVi: "Thấy từ kích hoạt + 'that'? → Chọn NGUYÊN THỂ. Luôn là động từ không chia (không -s, -ed, -ing).",
+  vocabHighlights: [
+    { word: "mandate", definition: "to officially require", definitionVi: "bắt buộc chính thức", example: "The policy mandates that all employees undergo training.", businessContext: "Company policies" },
+    { word: "imperative", definition: "absolutely necessary", definitionVi: "bắt buộc, cấp thiết", example: "It is imperative that the deadline be met.", businessContext: "Urgent business decisions" },
+  ],
+  quiz: [
+    { question: "After 'suggest that', the verb should be in:", options: ["Present tense", "Base form (subjunctive)", "Past tense", "Future tense"], answer: 1, explanation: "Subjunctive: suggest/recommend/insist + that + S + base form." },
+    { question: "'It is vital that he ___ on time.' Choose:", options: ["arrives", "arrive", "arrived", "arriving"], answer: 1, explanation: "'Vital that' triggers subjunctive → base form 'arrive'." },
+    { question: "Which is NOT a subjunctive trigger?", options: ["recommend", "suggest", "hope", "insist"], answer: 2, explanation: "'Hope' does NOT trigger subjunctive. 'I hope he comes' uses normal tense." },
+    { question: "The subjunctive appears in TOEIC approximately:", options: ["Never", "1-2 times per test", "5-10 times", "Every question"], answer: 1, explanation: "It's a high-value grammar point appearing 1-2 times per test." },
+  ],
+  cheatSheetPoints: [
+    "Trigger words: recommend, suggest, insist, demand, require, request",
+    "Adjective triggers: essential, vital, important, necessary, imperative",
+    "Rule: trigger + that + S + BASE FORM (no -s, -ed, -ing)",
+    "'be' is the base form of 'to be' in subjunctive",
+    "Appears 1-2 times per TOEIC test — high-value points",
+  ],
+  isNew: true,
+};
+
+// === LESSON 15: Part 6 — Text Completion ===
+const part6TextCompletion: ToeicLecture = {
+  id: "toeic-part6-text-completion",
+  title: "Text Completion: Choosing the Right Sentence in Context",
+  titleVi: "Hoàn thành đoạn văn: Chọn câu phù hợp ngữ cảnh",
+  category: "reading",
+  parts: ["Part 6"],
+  icon: "📝",
+  duration: "22 min",
+  level: "intermediate",
+  targetScore: "600+",
+  description: "Master Part 6's unique 'sentence insertion' questions — the question type most students struggle with.",
+  descriptionVi: "Làm chủ câu hỏi 'chèn câu' đặc trưng Part 6 — dạng câu hỏi đa số học viên gặp khó.",
+  trapAlerts: [
+    { trap: "Choosing a grammatically correct sentence that doesn't fit the context", trapVi: "Chọn câu đúng ngữ pháp nhưng không khớp ngữ cảnh", why: "All 4 options are grammatically correct. The key is LOGICAL FLOW.", whyVi: "Cả 4 đáp án đều đúng ngữ pháp. Chìa khóa là LOGIC MẠCH VĂN." },
+    { trap: "Ignoring the sentences BEFORE and AFTER the blank", trapVi: "Bỏ qua câu TRƯỚC và SAU chỗ trống", why: "The inserted sentence must connect to both — it's a bridge.", whyVi: "Câu chèn phải nối với cả hai — nó là cầu nối." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Read the Full Passage First", titleVi: "Đọc toàn bộ đoạn văn trước", description: "Unlike Part 5, Part 6 requires context. Skim the entire passage to understand the topic and tone.", descriptionVi: "Khác Part 5, Part 6 cần ngữ cảnh. Đọc lướt toàn bộ đoạn để hiểu chủ đề và giọng văn." },
+    { step: 2, title: "Check the Bridge: Before ↔ Blank ↔ After", titleVi: "Kiểm tra cầu nối: Trước ↔ Trống ↔ Sau", description: "The correct sentence must logically flow FROM the previous sentence and INTO the next one.", descriptionVi: "Câu đúng phải chảy logic TỪ câu trước VÀO câu sau." },
+    { step: 3, title: "Look for Transition Signals", titleVi: "Tìm tín hiệu chuyển tiếp", description: "However, Therefore, In addition, For example — these words in the answer choices hint at the relationship.", descriptionVi: "However, Therefore, In addition, For example — các từ này trong đáp án gợi ý mối quan hệ." },
+  ],
+  practiceSet: [
+    { context: "Business email about office renovation", contextVi: "Email kinh doanh về sửa chữa văn phòng", question: "Which sentence best fits in the blank?", options: ["However, the renovation will be completed ahead of schedule.", "The company was founded in 2010.", "We appreciate your patience during this time.", "The new printer has been installed."], answer: 2, explanation: "Email about renovation → acknowledging inconvenience → 'appreciate patience' fits the context.", explanationVi: "Email về sửa chữa → nhận biết bất tiện → 'appreciate patience' phù hợp ngữ cảnh." },
+  ],
+  businessContext: "Part 6 simulates real business documents: emails, memos, notices, and advertisements. The skill of inserting appropriate sentences is used daily in drafting professional communications.",
+  businessContextVi: "Part 6 mô phỏng tài liệu kinh doanh thực: email, bản ghi nhớ, thông báo, quảng cáo. Kỹ năng chèn câu phù hợp dùng hàng ngày trong soạn thảo văn bản.",
+  proSpeedTip: "For sentence insertion questions, read the sentence AFTER the blank first — it often contains the biggest clue.",
+  proSpeedTipVi: "Với câu chèn câu, đọc câu SAU chỗ trống trước — thường chứa manh mối lớn nhất.",
+  vocabHighlights: [
+    { word: "transition signal", definition: "word/phrase connecting ideas", definitionVi: "tín hiệu chuyển tiếp", example: "However, the meeting has been postponed.", businessContext: "Writing flow" },
+    { word: "coherence", definition: "logical connection between sentences", definitionVi: "sự mạch lạc", example: "The paragraph lacks coherence.", businessContext: "Document review" },
+  ],
+  quiz: [
+    { question: "Part 6 'sentence insertion' questions require you to:", options: ["Find grammar errors", "Choose a sentence that fits the context", "Fill in a single word", "Correct spelling"], answer: 1, explanation: "Sentence insertion = choosing a full sentence that logically fits the passage." },
+    { question: "The BEST strategy for Part 6 is:", options: ["Read only the blank line", "Read the full passage first", "Guess and move on", "Read only answer choices"], answer: 1, explanation: "Part 6 needs context — always read the full passage first." },
+    { question: "'However' in an answer choice signals:", options: ["Addition", "Contrast", "Example", "Conclusion"], answer: 1, explanation: "'However' = contrast/opposition to the previous idea." },
+    { question: "All 4 answer choices in Part 6 sentence insertion are:", options: ["Grammatically incorrect", "Grammatically correct", "Incomplete sentences", "Questions"], answer: 1, explanation: "All options are valid sentences — the difference is contextual fit." },
+  ],
+  cheatSheetPoints: [
+    "Read FULL passage first — context is king in Part 6",
+    "Check bridge: Previous sentence → Blank → Next sentence",
+    "Transition signals: However(contrast), Therefore(result), In addition(extra)",
+    "Read sentence AFTER blank first for biggest clue",
+    "All options are grammatically correct — choose by LOGIC",
+  ],
+  isNew: true,
+};
+
+// === LESSON 16: Part 7 — Inference Questions ===
+const part7Inference: ToeicLecture = {
+  id: "toeic-part7-inference",
+  title: "Inference Questions: Reading Between the Lines",
+  titleVi: "Câu hỏi suy luận: Đọc giữa hai dòng chữ",
+  category: "reading",
+  parts: ["Part 7"],
+  icon: "🔍",
+  duration: "25 min",
+  level: "advanced",
+  targetScore: "750+",
+  description: "Crack the hardest Part 7 question type — inference questions that ask 'What is implied/suggested?'",
+  descriptionVi: "Giải mã dạng câu hỏi khó nhất Part 7 — câu hỏi suy luận 'What is implied/suggested?'",
+  trapAlerts: [
+    { trap: "Choosing an answer stated directly in the text", trapVi: "Chọn đáp án ghi trực tiếp trong bài", why: "Inference = NOT directly stated. If you can point to the exact sentence, it's NOT an inference.", whyVi: "Suy luận = KHÔNG ghi trực tiếp. Nếu chỉ được đúng câu, đó KHÔNG phải suy luận." },
+    { trap: "Over-inferring beyond what the text supports", trapVi: "Suy luận quá xa so với bài", why: "The correct inference is supported by evidence in the text, just not stated explicitly.", whyVi: "Suy luận đúng được hỗ trợ bởi bằng chứng trong bài, chỉ không nêu rõ ràng." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Identify Inference Keywords", titleVi: "Nhận diện từ khóa suy luận", description: "'What is implied?', 'What is suggested?', 'What can be inferred?', 'What is most likely true?'", descriptionVi: "'What is implied?', 'What is suggested?', 'What can be inferred?', 'What is most likely true?'" },
+    { step: 2, title: "Find the Evidence, Then Go One Step Further", titleVi: "Tìm bằng chứng, rồi tiến thêm một bước", description: "Text says 'The store will close at 6 PM on December 24' → Inference: It's near Christmas.", descriptionVi: "Bài nói 'Cửa hàng đóng lúc 6 PM ngày 24/12' → Suy luận: Gần Giáng sinh." },
+    { step: 3, title: "Eliminate Direct Statements", titleVi: "Loại đáp án trực tiếp", description: "If the answer is a copy-paste from the text, it's NOT an inference. Look for the paraphrased logical conclusion.", descriptionVi: "Nếu đáp án copy từ bài, đó KHÔNG phải suy luận. Tìm kết luận logic được diễn đạt lại." },
+  ],
+  practiceSet: [
+    { context: "Email: 'We are currently experiencing higher than usual call volumes. Please try our online chat support for faster service.'", contextVi: "Email: 'Chúng tôi đang nhận nhiều cuộc gọi hơn bình thường. Vui lòng thử chat online để được phục vụ nhanh hơn.'", question: "What can be inferred about the company?", options: ["They are closing their call center.", "They are understaffed or very busy.", "They don't offer phone support.", "They prefer email communication."], answer: 1, explanation: "'Higher than usual call volumes' implies they're very busy/understaffed, not that they're closing.", explanationVi: "'Nhiều cuộc gọi hơn bình thường' ngụ ý rất bận/thiếu nhân viên, không phải đóng cửa." },
+  ],
+  businessContext: "Inference skills are critical in business: reading between the lines of competitor announcements, client emails, and market reports to understand unstated implications.",
+  businessContextVi: "Kỹ năng suy luận quan trọng trong kinh doanh: đọc giữa dòng thông báo đối thủ, email khách hàng, báo cáo thị trường để hiểu ẩn ý.",
+  proSpeedTip: "For inference questions, eliminate the 2 extreme answers first (too obvious or too wild), then choose between the remaining 2.",
+  proSpeedTipVi: "Với câu suy luận, loại 2 đáp án cực đoan trước (quá rõ ràng hoặc quá xa), rồi chọn giữa 2 còn lại.",
+  vocabHighlights: [
+    { word: "imply", definition: "to suggest without stating directly", definitionVi: "ngụ ý", example: "The memo implies budget cuts are coming.", businessContext: "Corporate communication" },
+    { word: "infer", definition: "to conclude from evidence", definitionVi: "suy luận", example: "We can infer from the data that sales declined.", businessContext: "Data analysis" },
+  ],
+  quiz: [
+    { question: "An inference question asks you to:", options: ["Find exact words in the text", "Draw a logical conclusion not directly stated", "Guess randomly", "Translate the passage"], answer: 1, explanation: "Inference = logical conclusion supported by text evidence but not explicitly stated." },
+    { question: "If an answer is copy-pasted from the text, it's:", options: ["Always correct", "NOT an inference", "The best choice", "Partially correct"], answer: 1, explanation: "Inferences are conclusions BEYOND what's directly written." },
+    { question: "'Higher than usual call volumes' implies:", options: ["The company is closing", "The company is very busy", "Calls are free", "The company is new"], answer: 1, explanation: "More calls than usual = busy/high demand." },
+    { question: "The best elimination strategy for inference is:", options: ["Remove longest answers", "Remove extreme answers (too obvious/too wild)", "Always pick C", "Skip the question"], answer: 1, explanation: "Extreme answers are easy to eliminate, narrowing to 2 reasonable options." },
+  ],
+  cheatSheetPoints: [
+    "Inference = NOT directly stated, but supported by evidence",
+    "Keywords: implied, suggested, inferred, most likely true",
+    "Find evidence → go ONE step further logically",
+    "If you can point to the exact sentence → NOT an inference",
+    "Eliminate extremes first, then choose between remaining 2",
+  ],
+  isNew: true,
+};
+
+// === LESSON 17: Part 7 — Online Chat Discussions ===
+const part7OnlineChat: ToeicLecture = {
+  id: "toeic-part7-online-chat",
+  title: "Online Chat Discussions: Tracking Multiple Speakers",
+  titleVi: "Thảo luận chat online: Theo dõi nhiều người nói",
+  category: "reading",
+  parts: ["Part 7"],
+  icon: "💬",
+  duration: "20 min",
+  level: "intermediate",
+  targetScore: "600+",
+  description: "Navigate multi-speaker online chat passages — a newer TOEIC format that confuses many test-takers.",
+  descriptionVi: "Xử lý đoạn chat online nhiều người nói — định dạng TOEIC mới khiến nhiều thí sinh bối rối.",
+  trapAlerts: [
+    { trap: "Mixing up who said what", trapVi: "Nhầm ai nói gì", why: "With 3-4 speakers, it's easy to attribute a statement to the wrong person.", whyVi: "Với 3-4 người nói, dễ gán phát biểu cho sai người." },
+    { trap: "Missing time stamps that indicate sequence", trapVi: "Bỏ qua mốc thời gian chỉ thứ tự", why: "Chat messages have timestamps — they show the ORDER of events.", whyVi: "Tin nhắn chat có mốc thời gian — chúng cho biết THỨ TỰ sự kiện." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Note the Speaker Names", titleVi: "Ghi nhận tên người nói", description: "Before reading content, note how many speakers and their names. Usually 3-4 people.", descriptionVi: "Trước khi đọc nội dung, ghi nhận bao nhiêu người và tên họ. Thường 3-4 người." },
+    { step: 2, title: "Track Who Responds to Whom", titleVi: "Theo dõi ai trả lời ai", description: "In chat, people respond to the message above. Follow the conversation thread.", descriptionVi: "Trong chat, mọi người trả lời tin nhắn phía trên. Theo dõi luồng hội thoại." },
+    { step: 3, title: "Use Timestamps for Sequence Questions", titleVi: "Dùng mốc thời gian cho câu hỏi thứ tự", description: "'At 2:15 PM, what does Ms. Park mean?' → find the 2:15 PM message by Ms. Park.", descriptionVi: "'Lúc 2:15 PM, Ms. Park có ý gì?' → tìm tin nhắn 2:15 PM của Ms. Park." },
+  ],
+  practiceSet: [
+    { context: "Online chat between 3 colleagues about a project deadline", contextVi: "Chat online giữa 3 đồng nghiệp về deadline dự án", question: "What does Ms. Kim suggest at 3:30 PM?", options: ["Canceling the project", "Extending the deadline by one week", "Hiring a freelancer", "Having a meeting"], answer: 1, explanation: "Find Ms. Kim's message at 3:30 PM specifically — don't confuse with other speakers.", explanationVi: "Tìm tin nhắn của Ms. Kim lúc 3:30 PM cụ thể — đừng nhầm với người khác." },
+  ],
+  businessContext: "Online chat (Slack, Teams, etc.) is now the primary communication tool in modern offices. TOEIC reflects this real-world shift in its Part 7 passages.",
+  businessContextVi: "Chat online (Slack, Teams, v.v.) là công cụ giao tiếp chính trong văn phòng hiện đại. TOEIC phản ánh xu hướng thực tế này trong Part 7.",
+  proSpeedTip: "For 'What does X mean when writing Y?' questions — read the message BEFORE and AFTER to understand context, not just the quoted message.",
+  proSpeedTipVi: "Với câu 'X có ý gì khi viết Y?' — đọc tin nhắn TRƯỚC và SAU để hiểu ngữ cảnh, không chỉ tin nhắn được trích.",
+  vocabHighlights: [
+    { word: "thread", definition: "a chain of related messages", definitionVi: "chuỗi tin nhắn liên quan", example: "Check the email thread for context.", businessContext: "Digital communication" },
+    { word: "follow up", definition: "to continue or check on something", definitionVi: "theo dõi tiếp", example: "I'll follow up with the client tomorrow.", businessContext: "Project management" },
+  ],
+  quiz: [
+    { question: "In online chat passages, the first thing to note is:", options: ["The chat platform name", "Speaker names and count", "Message length", "Emoji usage"], answer: 1, explanation: "Knowing WHO is speaking is the foundation for tracking the conversation." },
+    { question: "Timestamps in chat passages help with:", options: ["Grammar questions", "Sequence/timing questions", "Vocabulary questions", "Spelling checks"], answer: 1, explanation: "Timestamps show the ORDER of events — critical for 'When did X happen?' questions." },
+    { question: "'What does X mean when writing Y?' requires reading:", options: ["Only the quoted message", "Messages before AND after", "The first message only", "The last message only"], answer: 1, explanation: "Context from surrounding messages is needed to interpret meaning." },
+    { question: "Online chat passages typically have:", options: ["1 speaker", "2 speakers", "3-4 speakers", "10+ speakers"], answer: 2, explanation: "TOEIC chat passages usually feature 3-4 speakers in a group discussion." },
+  ],
+  cheatSheetPoints: [
+    "Note speaker names FIRST before reading content",
+    "Track who responds to whom in the thread",
+    "Timestamps = key for sequence questions",
+    "'What does X mean?' → read messages BEFORE and AFTER",
+    "3-4 speakers is standard — don't mix up attributions",
+  ],
+  isNew: true,
+};
+
+// === LESSON 18: Vocabulary — Common Synonyms ===
+const vocabSynonyms: ToeicLecture = {
+  id: "toeic-vocab-synonyms",
+  title: "Common Synonyms in TOEIC (Paraphrasing Power-up)",
+  titleVi: "Từ đồng nghĩa thường gặp (Nâng cấp kỹ năng Paraphrasing)",
+  category: "business-vocab",
+  parts: ["All Parts"],
+  icon: "🔄",
+  duration: "25 min",
+  level: "intermediate",
+  targetScore: "600+",
+  description: "Build your synonym bank — the single most important skill for scoring high across ALL TOEIC parts.",
+  descriptionVi: "Xây dựng ngân hàng từ đồng nghĩa — kỹ năng quan trọng nhất để đạt điểm cao TẤT CẢ parts.",
+  trapAlerts: [
+    { trap: "Thinking synonyms are always interchangeable", trapVi: "Nghĩ từ đồng nghĩa luôn thay thế được", why: "'Big' and 'large' are synonyms, but you say 'big sister' not 'large sister'.", whyVi: "'Big' và 'large' đồng nghĩa, nhưng nói 'big sister' không phải 'large sister'." },
+    { trap: "Only knowing one synonym per word", trapVi: "Chỉ biết một từ đồng nghĩa cho mỗi từ", why: "TOEIC uses CHAINS: purchase → buy → acquire → obtain → get.", whyVi: "TOEIC dùng CHUỖI: purchase → buy → acquire → obtain → get." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Learn Synonym Chains, Not Pairs", titleVi: "Học chuỗi đồng nghĩa, không phải cặp", description: "Instead of just 'big=large', learn: substantial, considerable, significant, sizeable.", descriptionVi: "Thay vì chỉ 'big=large', học: substantial, considerable, significant, sizeable." },
+    { step: 2, title: "Group by Business Theme", titleVi: "Nhóm theo chủ đề kinh doanh", description: "Money: cost/price/fee/charge/rate. Meeting: discuss/address/review/go over.", descriptionVi: "Tiền: cost/price/fee/charge/rate. Họp: discuss/address/review/go over." },
+    { step: 3, title: "Practice Reverse Paraphrasing", titleVi: "Luyện paraphrasing ngược", description: "Read a sentence, then rewrite it using ALL synonyms. This builds active recall.", descriptionVi: "Đọc một câu, rồi viết lại dùng TẤT CẢ từ đồng nghĩa. Xây dựng trí nhớ chủ động." },
+  ],
+  practiceSet: [
+    { context: "Part 7 passage", contextVi: "Đoạn văn Part 7", question: "'The company will ACQUIRE a new subsidiary.' Which is closest in meaning?", options: ["sell", "purchase", "lose", "donate"], answer: 1, explanation: "acquire = purchase = buy. In business context, acquiring a company means buying it.", explanationVi: "acquire = purchase = buy. Trong kinh doanh, acquire a company nghĩa là mua công ty." },
+    { context: "Part 5", contextVi: "Part 5", question: "'Employees must _____ to the new policy.' Which fits?", options: ["comply", "agree", "accept", "follow"], answer: 0, explanation: "'Comply with' is the correct collocation for policies/regulations.", explanationVi: "'Comply with' là kết hợp đúng cho policies/regulations." },
+  ],
+  businessContext: "Synonym knowledge is the foundation of professional communication: drafting emails without repetition, understanding legal contracts with formal language, and interpreting reports.",
+  businessContextVi: "Kiến thức từ đồng nghĩa là nền tảng giao tiếp chuyên nghiệp: viết email không lặp từ, hiểu hợp đồng pháp lý, diễn giải báo cáo.",
+  proSpeedTip: "In Part 7, if the answer uses the EXACT same word as the passage, it's usually wrong. The correct answer paraphrases.",
+  proSpeedTipVi: "Trong Part 7, nếu đáp án dùng ĐÚNG từ trong bài, thường sai. Đáp án đúng paraphrase.",
+  vocabHighlights: [
+    { word: "obtain → get → acquire → procure", definition: "all mean 'to receive/get'", definitionVi: "đều nghĩa 'nhận/lấy'", example: "Please obtain approval before proceeding.", businessContext: "Procurement" },
+    { word: "postpone → delay → defer → put off", definition: "all mean 'to do later'", definitionVi: "đều nghĩa 'làm sau'", example: "The meeting has been postponed.", businessContext: "Scheduling" },
+    { word: "notify → inform → advise → let know", definition: "all mean 'to tell'", definitionVi: "đều nghĩa 'thông báo'", example: "Please notify all staff of the change.", businessContext: "Communication" },
+    { word: "sufficient → enough → adequate → ample", definition: "all mean 'enough quantity'", definitionVi: "đều nghĩa 'đủ'", example: "We have sufficient inventory.", businessContext: "Supply chain" },
+  ],
+  quiz: [
+    { question: "'Acquire' in business most commonly means:", options: ["To lose", "To purchase/obtain", "To sell", "To destroy"], answer: 1, explanation: "Acquire = purchase/obtain, especially for companies or assets." },
+    { question: "Which synonym chain is correct?", options: ["big → small → medium", "postpone → delay → defer", "buy → sell → return", "open → close → lock"], answer: 1, explanation: "Postpone/delay/defer all mean 'to do later'." },
+    { question: "In TOEIC, correct answers usually:", options: ["Copy exact words from the passage", "Paraphrase using synonyms", "Add new information", "Contradict the passage"], answer: 1, explanation: "TOEIC correct answers paraphrase — this is why synonyms are crucial." },
+    { question: "'Comply with' is used with:", options: ["People", "Policies and regulations", "Food", "Weather"], answer: 1, explanation: "'Comply with' collocates with rules, policies, regulations, requirements." },
+  ],
+  cheatSheetPoints: [
+    "Learn synonym CHAINS not pairs: obtain→get→acquire→procure",
+    "Group by theme: Money, Meetings, Communication, Time",
+    "TOEIC correct answers = paraphrased, not copied",
+    "Know collocations: comply WITH, adhere TO, abide BY",
+    "Practice reverse paraphrasing for active recall",
+  ],
+  isNew: true,
+};
+
+// === LESSON 19: Vocabulary — Office Equipment & Supply Chain ===
+const vocabOfficeSupply: ToeicLecture = {
+  id: "toeic-vocab-office-supply",
+  title: "Office Equipment & Supply Chain Vocabulary",
+  titleVi: "Từ vựng Thiết bị Văn phòng & Chuỗi Cung ứng",
+  category: "business-vocab",
+  parts: ["Part 1", "Part 3", "Part 7"],
+  icon: "🏢",
+  duration: "20 min",
+  level: "foundation",
+  targetScore: "450+",
+  description: "Essential vocabulary for TOEIC's most common setting: the modern office and supply chain operations.",
+  descriptionVi: "Từ vựng thiết yếu cho bối cảnh phổ biến nhất TOEIC: văn phòng hiện đại và vận hành chuỗi cung ứng.",
+  trapAlerts: [
+    { trap: "Confusing 'stationery' (office supplies) with 'stationary' (not moving)", trapVi: "Nhầm 'stationery' (văn phòng phẩm) với 'stationary' (đứng yên)", why: "These homophones are classic TOEIC traps, especially in Part 1.", whyVi: "Từ đồng âm này là bẫy TOEIC kinh điển, đặc biệt Part 1." },
+    { trap: "Not knowing supply chain verbs: dispatch, warehouse, invoice", trapVi: "Không biết động từ chuỗi cung ứng: dispatch, warehouse, invoice", why: "Supply chain vocab appears in Part 3/4 conversations and Part 7 passages.", whyVi: "Từ vựng chuỗi cung ứng xuất hiện trong hội thoại Part 3/4 và bài đọc Part 7." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Learn by Zone: Office → Warehouse → Delivery", titleVi: "Học theo khu vực: Văn phòng → Kho → Giao hàng", description: "Office: copier, filing cabinet, cubicle. Warehouse: forklift, pallet, loading dock. Delivery: shipment, courier, tracking number.", descriptionVi: "VP: máy photocopy, tủ hồ sơ, ngăn làm việc. Kho: xe nâng, pallet, bến xếp hàng. Giao hàng: lô hàng, chuyển phát, mã theo dõi." },
+    { step: 2, title: "Learn Verbs + Nouns Together", titleVi: "Học Động từ + Danh từ cùng nhau", description: "place an ORDER, process a SHIPMENT, issue an INVOICE, file a REPORT.", descriptionVi: "đặt ĐƠN HÀNG, xử lý LÔ HÀNG, xuất HÓA ĐƠN, nộp BÁO CÁO." },
+    { step: 3, title: "Visualize the Supply Chain Flow", titleVi: "Hình dung dòng chảy chuỗi cung ứng", description: "Order → Manufacture → Warehouse → Ship → Deliver → Invoice → Payment.", descriptionVi: "Đặt hàng → Sản xuất → Lưu kho → Vận chuyển → Giao hàng → Hóa đơn → Thanh toán." },
+  ],
+  practiceSet: [
+    { context: "Part 1 photo", contextVi: "Hình Part 1", question: "A woman is organizing _____ in the supply room.", options: ["stationery", "stationary", "machinery", "furniture"], answer: 0, explanation: "Stationery (with -ery) = office supplies. Stationary (with -ary) = not moving.", explanationVi: "Stationery (với -ery) = văn phòng phẩm. Stationary (với -ary) = đứng yên." },
+    { context: "Part 7 email", contextVi: "Email Part 7", question: "The shipment was _____ due to customs delays.", options: ["placed", "held up", "invoiced", "manufactured"], answer: 1, explanation: "'Held up' = delayed. Shipments are commonly held up at customs.", explanationVi: "'Held up' = bị trì hoãn. Lô hàng thường bị giữ lại ở hải quan." },
+  ],
+  businessContext: "Office and supply chain vocabulary is the backbone of TOEIC — these words appear in every section because they reflect daily business operations globally.",
+  businessContextVi: "Từ vựng văn phòng và chuỗi cung ứng là xương sống TOEIC — xuất hiện mọi phần vì phản ánh hoạt động kinh doanh hàng ngày toàn cầu.",
+  proSpeedTip: "In Part 1, if you see a photo of shelves/boxes/equipment — immediately think supply chain vocabulary.",
+  proSpeedTipVi: "Trong Part 1, nếu thấy hình kệ/hộp/thiết bị — nghĩ ngay từ vựng chuỗi cung ứng.",
+  vocabHighlights: [
+    { word: "inventory", definition: "stock of goods", definitionVi: "hàng tồn kho", example: "We need to check the inventory.", businessContext: "Warehouse management" },
+    { word: "invoice", definition: "a bill for goods/services", definitionVi: "hóa đơn", example: "The invoice was sent to the client.", businessContext: "Accounting" },
+    { word: "dispatch", definition: "to send out", definitionVi: "gửi đi, điều phối", example: "The order was dispatched yesterday.", businessContext: "Logistics" },
+    { word: "procurement", definition: "the process of buying supplies", definitionVi: "mua sắm, thu mua", example: "The procurement department handles all purchases.", businessContext: "Purchasing" },
+  ],
+  quiz: [
+    { question: "'Stationery' refers to:", options: ["Not moving", "Office supplies (pens, paper)", "A train station", "A standing desk"], answer: 1, explanation: "Stationery (-ery) = office supplies. Stationary (-ary) = not moving." },
+    { question: "The correct order in supply chain is:", options: ["Ship→Order→Invoice", "Order→Ship→Invoice", "Invoice→Order→Ship", "Ship→Invoice→Order"], answer: 1, explanation: "Order first, then ship the goods, then send the invoice for payment." },
+    { question: "'Held up at customs' means:", options: ["Celebrated", "Delayed", "Lost", "Returned"], answer: 1, explanation: "'Held up' = delayed/stopped. Common in international shipping." },
+    { question: "'Procurement' is related to:", options: ["Selling", "Buying/purchasing", "Marketing", "Hiring"], answer: 1, explanation: "Procurement = the process of acquiring/purchasing goods and services." },
+  ],
+  cheatSheetPoints: [
+    "stationERY = supplies, stationARY = not moving",
+    "Supply chain flow: Order→Manufacture→Warehouse→Ship→Deliver→Invoice→Pay",
+    "Key verbs: place(order), process(shipment), issue(invoice), file(report)",
+    "3 zones: Office(copier,cubicle) + Warehouse(forklift,pallet) + Delivery(courier,tracking)",
+    "Part 1 shelves/boxes photo = supply chain vocab alert",
+  ],
+  isNew: true,
+};
+
+// === LESSON 20: Exam Strategy — The No-Wait Method ===
+const noWaitMethod: ToeicLecture = {
+  id: "toeic-no-wait-method",
+  title: "The 'No-Wait' Method: Part 4 to Part 5 Seamless Transition",
+  titleVi: "Phương pháp 'Không Chờ': Chuyển từ Part 4 sang Part 5 mượt mà",
+  category: "speed-hacks",
+  parts: ["Part 4", "Part 5"],
+  icon: "⚡",
+  duration: "15 min",
+  level: "intermediate",
+  targetScore: "600+",
+  description: "The critical 30-second transition from Listening to Reading that determines your final score.",
+  descriptionVi: "30 giây chuyển tiếp quan trọng từ Nghe sang Đọc quyết định điểm số cuối cùng.",
+  trapAlerts: [
+    { trap: "Spending time reviewing Listening answers after Part 4 ends", trapVi: "Dành thời gian xem lại đáp án Listening sau khi Part 4 kết thúc", why: "You CANNOT change Listening answers. Every second spent reviewing is stolen from Reading.", whyVi: "KHÔNG THỂ đổi đáp án Listening. Mỗi giây xem lại là mất từ Reading." },
+    { trap: "Starting Part 5 slowly because you're mentally tired", trapVi: "Bắt đầu Part 5 chậm vì mệt tinh thần", why: "Part 5 is your FASTEST section — aim for 30 questions in 10 minutes.", whyVi: "Part 5 là phần NHANH NHẤT — mục tiêu 30 câu trong 10 phút." },
+  ],
+  coreTechnique: [
+    { step: 1, title: "Pre-fill Part 5 Answer Sheet During Part 4", titleVi: "Điền sẵn phiếu trả lời Part 5 trong Part 4", description: "During the last Part 4 audio, already turn to Part 5 and start scanning the first questions.", descriptionVi: "Trong audio Part 4 cuối, đã lật sang Part 5 và bắt đầu quét câu hỏi đầu tiên." },
+    { step: 2, title: "The 20-Second Rule for Part 5", titleVi: "Quy tắc 20 giây cho Part 5", description: "Each Part 5 question should take max 20 seconds. If stuck, mark C and move on.", descriptionVi: "Mỗi câu Part 5 tối đa 20 giây. Nếu kẹt, đánh C và đi tiếp." },
+    { step: 3, title: "Save 35+ Minutes for Part 7", titleVi: "Dành 35+ phút cho Part 7", description: "Part 5: 10 min. Part 6: 10 min. Part 7: 55 min. This is the winning distribution.", descriptionVi: "Part 5: 10 phút. Part 6: 10 phút. Part 7: 55 phút. Đây là phân bổ chiến thắng." },
+  ],
+  practiceSet: [
+    { context: "Time management", contextVi: "Quản lý thời gian", question: "If Part 4 ends at minute 45 and Reading starts, how should you allocate 75 minutes?", options: ["Part 5: 25min, Part 6: 25min, Part 7: 25min", "Part 5: 10min, Part 6: 10min, Part 7: 55min", "Part 5: 5min, Part 6: 5min, Part 7: 65min", "Spend equal time on each question"], answer: 1, explanation: "10-10-55 is optimal: Part 5 is fast grammar, Part 7 needs the most time for reading.", explanationVi: "10-10-55 là tối ưu: Part 5 là ngữ pháp nhanh, Part 7 cần nhiều thời gian nhất để đọc." },
+  ],
+  businessContext: "Time management and seamless transitions are essential business skills — moving between tasks efficiently, prioritizing high-value work, and not dwelling on past decisions.",
+  businessContextVi: "Quản lý thời gian và chuyển tiếp mượt mà là kỹ năng kinh doanh thiết yếu — chuyển giữa công việc hiệu quả, ưu tiên việc giá trị cao.",
+  proSpeedTip: "The moment Part 4 audio ends, IMMEDIATELY flip to Part 5. Don't look back. Your Listening answers are locked.",
+  proSpeedTipVi: "Ngay khi audio Part 4 kết thúc, LẬP TỨC lật sang Part 5. Đừng nhìn lại. Đáp án Listening đã khóa.",
+  vocabHighlights: [
+    { word: "allocate", definition: "to distribute/assign", definitionVi: "phân bổ", example: "Allocate more time to Part 7.", businessContext: "Resource management" },
+    { word: "prioritize", definition: "to rank by importance", definitionVi: "ưu tiên", example: "Prioritize difficult questions.", businessContext: "Time management" },
+  ],
+  quiz: [
+    { question: "After Part 4 ends, you should:", options: ["Review Listening answers", "Immediately start Part 5", "Take a break", "Read the instructions"], answer: 1, explanation: "Listening answers are locked. Every second counts for Reading." },
+    { question: "Optimal Reading time distribution:", options: ["Equal across parts", "Part 5: 10, Part 6: 10, Part 7: 55", "All time on Part 7", "Part 5: 30, Part 6: 30, Part 7: 15"], answer: 1, explanation: "10-10-55 gives Part 7 the most time since it has the most passages." },
+    { question: "Max time per Part 5 question:", options: ["5 seconds", "20 seconds", "1 minute", "2 minutes"], answer: 1, explanation: "20 seconds max. Part 5 is grammar — you either know it or you don't." },
+    { question: "If stuck on a Part 5 question:", options: ["Spend 2 minutes thinking", "Mark best guess and move on", "Skip entirely", "Ask the proctor"], answer: 1, explanation: "Mark and move — time saved goes to Part 7 where it's more valuable." },
+  ],
+  cheatSheetPoints: [
+    "Part 4 ends → IMMEDIATELY flip to Part 5. No looking back.",
+    "Time budget: Part 5 (10min) + Part 6 (10min) + Part 7 (55min)",
+    "Part 5: max 20 seconds per question",
+    "If stuck → mark C → move on (time = points in Part 7)",
+    "Pre-scan Part 5 during last Part 4 audio",
+  ],
+  isNew: true,
+};
+
 // Export all TOEIC lectures
 export const allToeicLectures: ToeicLecture[] = [
   part1Photos,
@@ -1090,4 +1593,14 @@ export const allToeicLectures: ToeicLecture[] = [
   businessVerbs,
   timeManagement,
   paraphrasingSecrets,
+  part2Indirect,
+  part3PreRead,
+  part5RelativeClauses,
+  part5Subjunctive,
+  part6TextCompletion,
+  part7Inference,
+  part7OnlineChat,
+  vocabSynonyms,
+  vocabOfficeSupply,
+  noWaitMethod,
 ];
