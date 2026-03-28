@@ -1,5 +1,5 @@
 // TOEIC Lectures Dashboard — Professional Business English Training Hub
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -14,6 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useToeicLectureProgress } from "@/hooks/useToeicLectureProgress";
 import { allToeicLectures, type ToeicLecture } from "@/data/toeicLecturesData";
 
 // Category filter configuration
@@ -45,28 +46,11 @@ const ToeicLectures = () => {
   const [activeLevel, setActiveLevel] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("default");
-  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("toeic-bookmarked");
-      return saved ? new Set(JSON.parse(saved)) : new Set();
-    } catch { return new Set(); }
-  });
-  const [completedIds, setCompletedIds] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("toeic-completed");
-      return saved ? new Set(JSON.parse(saved)) : new Set();
-    } catch { return new Set(); }
-  });
+  const { completedIds, bookmarkedIds, toggleBookmark, markCompleted } = useToeicLectureProgress();
   const [showBookmarked, setShowBookmarked] = useState(false);
 
-  const toggleBookmark = useCallback((id: string) => {
-    setBookmarkedIds(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
-      localStorage.setItem("toeic-bookmarked", JSON.stringify([...next]));
-      return next;
-    });
-  }, []);
+  const bookmarkedSet = useMemo(() => new Set(bookmarkedIds), [bookmarkedIds]);
+  const completedSet = useMemo(() => new Set(completedIds), [completedIds]);
 
   // Filtered and sorted lectures
   const filtered = useMemo(() => {
@@ -74,7 +58,7 @@ const ToeicLectures = () => {
 
     if (activeCategory !== "all") result = result.filter(l => l.category === activeCategory);
     if (activeLevel !== "all") result = result.filter(l => l.level === activeLevel);
-    if (showBookmarked) result = result.filter(l => bookmarkedIds.has(l.id));
+    if (showBookmarked) result = result.filter(l => bookmarkedSet.has(l.id));
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(l =>
@@ -95,9 +79,9 @@ const ToeicLectures = () => {
       result.sort((a, b) => order[a.level] - order[b.level]);
     }
     return result;
-  }, [activeCategory, activeLevel, searchQuery, sortOrder, showBookmarked, bookmarkedIds]);
+  }, [activeCategory, activeLevel, searchQuery, sortOrder, showBookmarked, bookmarkedSet]);
 
-  const progress = allToeicLectures.length > 0 ? Math.round((completedIds.size / allToeicLectures.length) * 100) : 0;
+  const progress = allToeicLectures.length > 0 ? Math.round((completedSet.size / allToeicLectures.length) * 100) : 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -129,7 +113,7 @@ const ToeicLectures = () => {
               <div className="bg-white/5 rounded-xl p-4 border border-white/10 max-w-md">
                 <div className="flex justify-between text-sm mb-2">
                   <span className="text-blue-300">{t("Tiến độ học", "Learning Progress")}</span>
-                  <span className="text-white font-semibold">{completedIds.size}/{allToeicLectures.length} {t("bài", "lessons")}</span>
+                  <span className="text-white font-semibold">{completedSet.size}/{allToeicLectures.length} {t("bài", "lessons")}</span>
                 </div>
                 <Progress value={progress} className="h-2.5 bg-white/10" />
               </div>
@@ -206,7 +190,7 @@ const ToeicLectures = () => {
               className={showBookmarked ? "bg-rose-500/20 text-rose-300 border-rose-500/30" : "border-white/10 text-muted-foreground"}
             >
               <Heart className={`w-4 h-4 mr-1.5 ${showBookmarked ? "fill-rose-400" : ""}`} />
-              {t("Đã lưu", "Saved")} ({bookmarkedIds.size})
+              {t("Đã lưu", "Saved")} ({bookmarkedSet.size})
             </Button>
           </div>
         </section>
@@ -229,8 +213,8 @@ const ToeicLectures = () => {
                     key={lecture.id}
                     lecture={lecture}
                     index={i}
-                    isBookmarked={bookmarkedIds.has(lecture.id)}
-                    isCompleted={completedIds.has(lecture.id)}
+                    isBookmarked={bookmarkedSet.has(lecture.id)}
+                    isCompleted={completedSet.has(lecture.id)}
                     onToggleBookmark={() => toggleBookmark(lecture.id)}
                     t={t}
                   />
