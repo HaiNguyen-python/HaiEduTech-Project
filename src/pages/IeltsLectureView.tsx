@@ -72,10 +72,10 @@ const IeltsLectureView = () => {
 
   const lecture = useMemo(() => allIeltsLectures.find(l => l.id === lectureId), [lectureId]);
 
-  // Check completion status on mount
-  useState(() => {
+  // Check completion status when lecture changes
+  useMemo(() => {
     if (lecture) setIsCompleted(getCompletedIds().includes(lecture.id));
-  });
+  }, [lecture]);
 
   if (!lecture) {
     return (
