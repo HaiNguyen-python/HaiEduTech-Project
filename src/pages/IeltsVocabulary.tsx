@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle } from "lucide-react";
+import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, IELTS_CATEGORIES, CEFR_LEVELS, type IeltsWord } from "@/data/ieltsVocabData";
 import { Badge } from "@/components/ui/badge";
@@ -63,10 +63,15 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
           </button>
         </div>
         {/* Back */}
-        <div className="absolute inset-0 rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+        <div className="absolute inset-0 rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2 overflow-y-auto" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
           <p className="text-sm font-semibold text-foreground">{word.definition.en}</p>
-          <p className="text-sm text-primary">{word.definition.vi}</p>
-          <p className="text-sm text-foreground font-semibold italic mt-2">"{word.example}"</p>
+          <p className="text-sm" style={{ color: "#93c5fd" }}>{word.definition.vi}</p>
+          <p className="text-sm italic mt-1" style={{ color: "#cbd5e1" }}>"{word.example}"</p>
+          {word.synonyms && word.synonyms.length > 0 && (
+            <p className="text-xs mt-1" style={{ color: "#cbd5e1" }}>
+              <span style={{ color: "#93c5fd" }}>Syn: </span>{word.synonyms.join(", ")}
+            </p>
+          )}
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </div>
       </motion.div>
@@ -322,31 +327,67 @@ const IeltsVocabulary = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {paginated.map(w => (
-                  <div key={w.word + w.category} className="rounded-xl border border-border bg-card p-4 hover:border-primary/30 transition-colors">
+                  <motion.div
+                    key={w.word + w.category}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="group rounded-xl border border-border bg-card p-5 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 hover:scale-[1.02] transition-all duration-300"
+                  >
+                    {/* Header: Word + Audio + Star */}
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div>
-                        <h3 className="font-bold text-foreground text-lg">{w.word}</h3>
-                        <p className="text-xs text-muted-foreground font-mono">{w.ipa}</p>
+                        <h3 className="font-bold text-foreground" style={{ fontSize: "1.35rem" }}>{w.word}</h3>
+                        <p className="text-sm text-muted-foreground font-mono">{w.ipa}</p>
                       </div>
                       <div className="flex items-center gap-1">
                         <button onClick={() => speak(w.word)} className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
-                          <Volume2 className="w-4 h-4 text-primary" />
+                          <Volume2 className="w-5 h-5 text-primary" />
                         </button>
                         <button onClick={() => toggleMastered(w.word)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
-                          <Star className={`w-4 h-4 ${mastered.has(w.word) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+                          <Star className={`w-5 h-5 ${mastered.has(w.word) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
                         </button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 mb-2">
+
+                    {/* Badges */}
+                    <div className="flex items-center gap-2 mb-3">
                       <Badge className={levelColors[w.level] + " text-xs"}>{w.level}</Badge>
                       <Badge variant="outline" className="text-xs">{w.category}</Badge>
                     </div>
-                    <p className="text-sm text-foreground">{w.definition.en}</p>
-                    <p className="text-sm text-primary">{w.definition.vi}</p>
-                    <p className="text-[13px] text-foreground font-semibold italic mt-2 leading-relaxed">"{w.example}"</p>
-                  </div>
+
+                    {/* Definition */}
+                    <p className="text-sm font-semibold text-foreground leading-relaxed">{w.definition.en}</p>
+                    <p className="text-sm font-medium mt-1" style={{ color: "#93c5fd" }}>{w.definition.vi}</p>
+
+                    {/* Example */}
+                    <p className="text-sm italic mt-2 leading-relaxed" style={{ color: "#cbd5e1" }}>"{w.example}"</p>
+
+                    {/* Synonyms & Collocations */}
+                    {(w.synonyms?.length || w.collocations?.length) ? (
+                      <div className="mt-3 pt-3 border-t border-border/50 space-y-2">
+                        {w.synonyms && w.synonyms.length > 0 && (
+                          <div className="flex items-start gap-2">
+                            <Copy className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: "#93c5fd" }} />
+                            <p className="text-sm" style={{ color: "#cbd5e1" }}>
+                              <span className="font-semibold" style={{ color: "#93c5fd" }}>Synonyms: </span>
+                              {w.synonyms.join(", ")}
+                            </p>
+                          </div>
+                        )}
+                        {w.collocations && w.collocations.length > 0 && (
+                          <div className="flex items-start gap-2">
+                            <Link className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: "#93c5fd" }} />
+                            <p className="text-sm" style={{ color: "#cbd5e1" }}>
+                              <span className="font-semibold" style={{ color: "#93c5fd" }}>Collocations: </span>
+                              {w.collocations.join(" • ")}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ) : null}
+                  </motion.div>
                 ))}
               </div>
             )}
