@@ -222,6 +222,9 @@ const IeltsVocabulary = () => {
     } catch { return new Set<string>(); }
   });
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
+  const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
+  const pageContainerRef = useRef<HTMLDivElement>(null);
+  const starIdCounter = useRef(0);
 
   const toggleMastered = useCallback((word: string) => {
     setMastered(prev => {
@@ -234,6 +237,28 @@ const IeltsVocabulary = () => {
 
   // Wrap toggleMastered with motivational toast + confetti
   const handleMasteredWithMotivation = useMasteredMotivation(mastered, toggleMastered);
+
+  // Launch a flying star from a click event position
+  const handleStarClick = useCallback((word: string, e: React.MouseEvent) => {
+    const isCurrentlyMastered = mastered.has(word);
+    handleMasteredWithMotivation(word);
+
+    // Only fly star when marking as mastered (not un-marking)
+    if (!isCurrentlyMastered) {
+      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+      const id = ++starIdCounter.current;
+      setFlyingStars(prev => [...prev, {
+        id,
+        startX: rect.left + rect.width / 2,
+        startY: rect.top + rect.height / 2,
+      }]);
+    }
+  }, [mastered, handleMasteredWithMotivation]);
+
+  // Remove a flying star after it lands
+  const handleStarLanded = useCallback((id: number) => {
+    setFlyingStars(prev => prev.filter(s => s.id !== id));
+  }, []);
 
   const filtered = useMemo(() => {
     let words = ieltsVocabData;
