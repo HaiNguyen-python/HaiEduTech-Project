@@ -1,5 +1,5 @@
 // Mountain Climber progress visualization — uses illustrated background image
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flag, Mountain } from "lucide-react";
 import mountainBg from "@/assets/mountain-climber-bg.png";
