@@ -942,6 +942,1821 @@ const skillBasedLectures: IeltsLecture[] = [
       "4-6 sentences per answer — never just one sentence"
     ]
   },
+
+  // --- Reading Matching Information ---
+  {
+    id: "reading-matching-information",
+    title: "Reading: Matching Information to Paragraphs",
+    titleVi: "Reading: Nối thông tin với đoạn văn",
+    pillar: "skill-based",
+    skill: "reading",
+    icon: "📖",
+    duration: "20 min",
+    level: "advanced",
+    description: "Master the trickiest Reading question type: finding which paragraph contains specific information.",
+    descriptionVi: "Thành thạo dạng câu hỏi Reading khó nhất: tìm đoạn văn chứa thông tin cụ thể.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Understand the Difference: Matching Headings vs. Matching Information",
+        titleVi: "Phân biệt: Matching Headings vs. Matching Information",
+        description: "Matching Headings = find the MAIN IDEA of each paragraph. Matching Information = find a SPECIFIC DETAIL mentioned somewhere in a paragraph. They test completely different skills.",
+        descriptionVi: "Matching Headings = tìm Ý CHÍNH mỗi đoạn. Matching Information = tìm CHI TIẾT CỤ THỂ trong một đoạn. Hai kỹ năng hoàn toàn khác nhau.",
+        example: "Heading: 'The economic impact of tourism' (main idea)\nInformation: 'a reference to the
+
+
+ 
+
+
+
+
+
+cost of maintaining heritage sites' (specific detail within a paragraph)"
+      },
+      {
+        step: 2,
+        title: "Analyze the Statements First",
+        titleVi: "Phân tích câu hỏi trước",
+        description: "Read ALL statements before scanning the text. Underline the key content words (nouns, verbs, adjectives). These are your 'search terms'.",
+        descriptionVi: "Đọc TẤT CẢ câu hỏi trước khi quét bài đọc. Gạch chân từ khóa nội dung (danh từ, động từ, tính từ). Đây là 'từ tìm kiếm' của bạn.",
+        example: "Statement: 'a
+
+
+ 
+
+
+
+
+
+
+
+
+comparison between
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+two
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+methods of
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+transport'\nKey words: comparison, two methods, transport → scan for paragraphs discussing TWO transport types"
+      },
+      {
+        step: 3,
+        title: "Scan for Paraphrases, Not Exact Words",
+        titleVi: "Quét tìm cách diễn đạt khác, không phải từ giống hệt",
+        description: "The text will NEVER use the exact same words as the statement. Look for synonyms and paraphrases: 'a
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+negative
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+effect' = 'detrimental impact', 'drawback', 'downside'.",
+        descriptionVi: "Bài đọc SẼ KHÔNG BAO GIỜ dùng đúng từ trong câu hỏi. Tìm từ đồng nghĩa: 'a negative effect' = 'detrimental impact', 'drawback', 'downside'.",
+        example: "Statement: 'an
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+explanation of
+
+
+ 
+
+
+
+
+
+why
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+particular
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+approach
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+was
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+unsuccessful'\nText: 'This strategy ultimately failed due to insufficient funding.' → Match!"
+      },
+      {
+        step: 4,
+        title: "Accept That Paragraphs Can Be Used More Than Once",
+        titleVi: "Chấp nhận rằng đoạn văn có thể dùng nhiều lần",
+        description: "Unlike Matching Headings, the SAME paragraph can match MULTIPLE statements. Don't eliminate a paragraph after using it once.",
+        descriptionVi: "Khác Matching Headings, CÙNG MỘT đoạn có thể khớp NHIỀU câu hỏi. Đừng loại bỏ đoạn sau khi dùng một lần.",
+        example: "Paragraph C might contain both 'a
+
+
+ 
+
+
+reference to
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cost
+
+
+ 
+
+
+savings' AND 'an
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+example
+
+
+ 
+
+
+
+
+
+of
+
+
+ 
+
+
+
+
+
+
+
+
+international
+
+
+ 
+
+
+
+
+
+cooperation'."
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Matching Information — Science Passage",
+        contextVi: "Matching Information — Bài đọc Khoa học",
+        example: "Statements:\n1. 'a
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+reference to
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+the
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+speed
+
+
+ 
+
+
+at
+
+
+ 
+
+
+which
+
+
+ 
+
+
+results
+
+
+ 
+
+
+were
+
+
+ 
+
+
+obtained'\n2. 'an
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+unexpected
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+finding'\n\nParagraph D: 'The data was collected remarkably quickly, within just three weeks. Surprisingly, the control group showed higher improvement than the test group.'\n→ Statement 1 matches 'remarkably quickly' | Statement 2 matches 'Surprisingly'",
+        explanation: "Both statements match Paragraph D — the same paragraph can appear twice."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Looking for exact word matches",
+        mistakeVi: "Tìm từ giống hệt nhau",
+        why: "IELTS always paraphrases. 'Cost' might appear as 'expenditure', 'financial burden', or 'expense'. Train your synonym recognition.",
+        whyVi: "IELTS luôn diễn đạt khác. 'Cost' có thể xuất hiện là 'expenditure', 'financial burden', hoặc 'expense'. Rèn nhận diện từ đồng nghĩa."
+      },
+      {
+        mistake: "Reading the entire passage word by word",
+        mistakeVi: "Đọc cả bài từng từ một",
+        why: "This wastes time. Scan for your keywords and their synonyms. Focus on the first and last sentences of each paragraph first.",
+        whyVi: "Điều này lãng phí thời gian. Quét tìm từ khóa và từ đồng nghĩa. Tập trung câu đầu và câu cuối mỗi đoạn trước."
+      },
+      {
+        mistake: "Assuming each paragraph matches only one statement",
+        mistakeVi: "Giả định mỗi đoạn chỉ khớp một câu hỏi",
+        why: "One paragraph can match 2-3 statements. Some paragraphs may not match any. Read the instructions carefully.",
+        whyVi: "Một đoạn có thể khớp 2-3 câu. Một số đoạn có thể không khớp câu nào. Đọc kỹ hướng dẫn."
+      }
+    ],
+    goldenSecret: "Start with the MOST SPECIFIC statement — the one with names, numbers, dates, or unique terms. These are easiest to locate because they're harder to paraphrase. Save vague statements like 'a
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+reference to
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a
+
+
+ 
+
+
+
+
+
+change
+
+
+ 
+
+
+in
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+attitude' for last!",
+    goldenSecretVi: "Bắt đầu với câu CỤ THỂ NHẤT — câu có tên riêng, con số, ngày tháng, hoặc thuật ngữ đặc biệt. Chúng dễ tìm nhất vì khó diễn đạt lại. Để câu mơ hồ như 'sự thay đổi thái độ' sau cùng!",
+    vocabHighlights: [
+      { word: "paraphrase", definition: "Express the same meaning using different words", definitionVi: "Diễn đạt lại cùng ý nghĩa bằng từ khác", example: "IELTS questions always paraphrase the passage text.", band: "7.0+" },
+      { word: "detrimental", definition: "Causing harm or damage", definitionVi: "Gây hại, có tác hại", example: "Pollution has a detrimental effect on public health.", band: "7.5+" },
+      { word: "expenditure", definition: "The amount of money spent", definitionVi: "Chi tiêu, khoản chi", example: "Government expenditure on education has increased.", band: "7.0+" },
+      { word: "unprecedented", definition: "Never done or known before", definitionVi: "Chưa từng có tiền lệ", example: "The pandemic caused unprecedented disruption to education.", band: "7.5+" }
+    ],
+    quiz: [
+      {
+        question: "How is Matching Information different from Matching Headings?",
+        options: ["They are the same thing", "Matching Information finds specific details, Matching Headings finds main ideas", "Matching Information is easier", "Matching Headings allows repeated paragraphs"],
+        answer: 1,
+        explanation: "Matching Headings = main idea per paragraph. Matching Information = locating specific details within paragraphs."
+      },
+      {
+        question: "Can the same paragraph match more than one statement?",
+        options: ["Never", "Yes, frequently", "Only in Academic IELTS", "Only if the instructions say so"],
+        answer: 1,
+        explanation: "Unlike Matching Headings, the same paragraph CAN be the answer for multiple statements."
+      },
+      {
+        question: "What should you do FIRST when approaching Matching Information?",
+        options: ["Read the full passage carefully", "Underline key content words in the statements", "Answer other question types first", "Count the paragraphs"],
+        answer: 1,
+        explanation: "Analyze all statements first, underline keywords, then scan the passage for synonyms of those keywords."
+      }
+    ],
+    cheatSheetPoints: [
+      "Matching Information ≠ Matching Headings (details vs. main ideas)",
+      "Read ALL statements first, underline key content words",
+      "Look for PARAPHRASES — never exact word matches",
+      "Same paragraph CAN match multiple statements",
+      "Start with the MOST SPECIFIC statement (names, numbers, dates)",
+      "First + last sentences of paragraphs = quickest scan targets"
+    ]
+  },
+
+  // --- Writing Task 1: Maps & Diagrams ---
+  {
+    id: "writing-task1-maps-diagrams",
+    title: "Writing Task 1: Maps & Diagrams",
+    titleVi: "Writing Task 1: Bản đồ & Sơ đồ",
+    pillar: "skill-based",
+    skill: "writing",
+    icon: "✍️",
+    duration: "22 min",
+    level: "intermediate",
+    description: "Conquer the least practiced Task 1 type: describing changes on maps and spatial diagrams with confidence.",
+    descriptionVi: "Chinh phục dạng Task 1 ít được luyện nhất: mô tả thay đổi trên bản đồ và sơ đồ không gian.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Identify the Map Type",
+        titleVi: "Xác định loại bản đồ",
+        description: "There are 2 types: (A) Before-and-After maps showing changes over time, (B) A single map showing a planned development. Your language changes depending on the type.",
+        descriptionVi: "Có 2 loại: (A) Bản đồ Trước-và-Sau thể hiện thay đổi theo thời gian, (B) Bản đồ đơn thể hiện kế hoạch phát triển. Ngôn ngữ thay đổi tùy loại.",
+        example: "Type A (past changes): 'was replaced by', 'was converted into'\nType B (future plans): 'is proposed to be', 'will be constructed'"
+      },
+      {
+        step: 2,
+        title: "Use Directional & Positional Language",
+        titleVi: "Dùng ngôn ngữ chỉ hướng & vị trí",
+        description: "Master spatial vocabulary: 'to the north/south/east/west of', 'in the north-eastern corner', 'adjacent to', 'in the vicinity of', 'in close proximity to', 'on the outskirts of'.",
+        descriptionVi: "Thành thạo từ vựng không gian: 'to the north/south/east/west of', 'in the north-eastern corner', 'adjacent to', 'in the vicinity of', 'in close proximity to', 'on the outskirts of'.",
+        example: "'A new shopping centre was constructed to the south of the river, adjacent to the existing residential area.'"
+      },
+      {
+        step: 3,
+        title: "Describe Changes with Transformation Verbs",
+        titleVi: "Mô tả thay đổi bằng động từ chuyển đổi",
+        description: "Use precise verbs: 'was demolished/removed/knocked down', 'was replaced by/converted into/transformed into', 'was extended/expanded/relocated', 'was newly constructed/erected/established'.",
+        descriptionVi: "Dùng động từ chính xác: 'was demolished/removed', 'was replaced by/converted into', 'was extended/expanded', 'was newly constructed/erected'.",
+        example: "'The farmland in the south was converted into a residential development, while the old factory was demolished and replaced by a modern sports complex.'"
+      },
+      {
+        step: 4,
+        title: "Structure Your Essay: Overview is KING",
+        titleVi: "Cấu trúc bài viết: Overview là VUA",
+        description: "Paragraph 1: Paraphrase the question. Paragraph 2: OVERVIEW — state the 2 most significant changes. Paragraphs 3-4: Detailed descriptions organized by area or time period.",
+        descriptionVi: "Đoạn 1: Viết lại đề bài. Đoạn 2: TỔNG QUAN — nêu 2 thay đổi đáng kể nhất. Đoạn 3-4: Mô tả chi tiết theo khu vực hoặc giai đoạn.",
+        example: "Overview: 'Overall, the town underwent significant urbanization between 1990 and 2020, with agricultural land being replaced by residential and commercial developments, particularly in the southern and eastern areas.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Before-and-After Map",
+        contextVi: "Bản đồ Trước-và-Sau",
+        example: "The maps show a coastal town in 1980 and 2020.\n\nSample paragraph: 'The most striking change was the transformation of the northern farmland into a large housing estate comprising approximately 200 units. The original fishing port, which occupied the eastern shoreline, was demolished and replaced by a marina and tourist facilities. Meanwhile, the town centre was pedestrianized, with the main road being diverted to the west.'",
+        explanation: "Uses transformation verbs (demolished, replaced, diverted), positional language (northern, eastern shoreline), and passive voice throughout."
+      },
+      {
+        context: "Planned Development Map",
+        contextVi: "Bản đồ Kế hoạch Phát triển",
+        example: "The map shows proposed changes to a university campus.\n\nSample: 'According to the plan, a new science building is to be erected in the north-eastern corner of the campus, adjacent to the existing library. The current car park will be relocated to the southern perimeter to make way for a landscaped garden. Additionally, a pedestrian pathway is proposed to connect the main entrance to the new student accommodation block.'",
+        explanation: "Uses future/proposed language: 'is to be erected', 'will be relocated', 'is proposed to connect'."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Describing every single detail on the map",
+        mistakeVi: "Mô tả mọi chi tiết trên bản đồ",
+        why: "Select the most significant changes. Minor details (like a bench being moved) waste words. Focus on major transformations.",
+        whyVi: "Chọn thay đổi đáng kể nhất. Chi tiết nhỏ (như ghế bị di chuyển) lãng phí từ. Tập trung vào biến đổi lớn."
+      },
+      {
+        mistake: "Using 'left/right' instead of compass directions",
+        mistakeVi: "Dùng 'trái/phải' thay vì hướng la bàn",
+        why: "'Left' and 'right' are informal and ambiguous. Always use 'north/south/east/west' or 'north-eastern corner'.",
+        whyVi: "'Left' và 'right' không trang trọng và mơ hồ. Luôn dùng 'north/south/east/west' hoặc 'north-eastern corner'."
+      },
+      {
+        mistake: "Forgetting the overview paragraph",
+        mistakeVi: "Quên đoạn tổng quan",
+        why: "Without an overview, you CANNOT score above Band 5.0 for Task Achievement. It's the most important paragraph.",
+        whyVi: "Không có tổng quan, bạn KHÔNG THỂ được trên Band 5.0 cho Task Achievement. Đây là đoạn quan trọng nhất."
+      }
+    ],
+    goldenSecret: "For maps, the Overview almost writes itself. Just answer: 'What GREW?' and 'What SHRANK or DISAPPEARED?' Those two observations are your entire overview!",
+    goldenSecretVi: "Với bản đồ, Tổng quan gần như tự viết. Chỉ cần trả lời: 'Cái gì MỞ RỘNG?' và 'Cái gì THU HẸP hoặc BIẾN MẤT?' Hai nhận xét đó là toàn bộ tổng quan!",
+    vocabHighlights: [
+      { word: "adjacent to", definition: "Next to or very close to something", definitionVi: "Kề bên, liền kề", example: "The park is adjacent to the school.", band: "7.0+" },
+      { word: "in the vicinity of", definition: "In the area near a particular place", definitionVi: "Trong khu vực lân cận", example: "Several restaurants are located in the vicinity of the station.", band: "7.5+" },
+      { word: "underwent", definition: "Experienced or was subjected to (a change)", definitionVi: "Trải qua (sự thay đổi)", example: "The area underwent significant redevelopment.", band: "7.0+" },
+      { word: "pedestrianized", definition: "Converted to an area for walking only, with no vehicles", definitionVi: "Chuyển thành khu vực chỉ dành cho người đi bộ", example: "The main street was pedestrianized in 2015.", band: "7.5+" },
+      { word: "on the outskirts of", definition: "On the outer edges of a town or city", definitionVi: "Ở ngoại ô, rìa thành phố", example: "New housing was built on the outskirts of the town.", band: "7.0+" }
+    ],
+    quiz: [
+      {
+        question: "What are the two main types of IELTS map questions?",
+        options: ["World maps and city maps", "Before-and-After maps and Planned Development maps", "Political maps and physical maps", "Indoor maps and outdoor maps"],
+        answer: 1,
+        explanation: "Type A shows changes over time (past tense). Type B shows proposed changes (future/passive constructions)."
+      },
+      {
+        question: "Which spatial phrase should you AVOID in formal map descriptions?",
+        options: ["'to the north of'", "'adjacent to'", "'on the left side'", "'in the north-eastern corner'"],
+        answer: 2,
+        explanation: "'Left' and 'right' are informal. Use compass directions: north, south, east, west."
+      },
+      {
+        question: "What is Teacher Hai's shortcut for writing the Overview?",
+        options: ["Describe every building", "Answer: What GREW? What SHRANK/DISAPPEARED?", "Copy the question", "Write about colors on the map"],
+        answer: 1,
+        explanation: "The overview = What expanded + What was removed/reduced. Two observations, done!"
+      }
+    ],
+    cheatSheetPoints: [
+      "2 types: Before-After (past tense) vs. Planned (future/proposed)",
+      "Compass directions ONLY — never 'left/right'",
+      "Transformation verbs: demolished, replaced by, converted into, relocated",
+      "Positional: adjacent to, in the vicinity of, on the outskirts of",
+      "OVERVIEW is mandatory: What GREW? What SHRANK/DISAPPEARED?",
+      "Don't describe every detail — select the most significant changes"
+    ]
+  },
 ];
 
 // === PILLAR 2: IELTS TIPS & HACKS ===
@@ -2124,6 +3939,130 @@ const appliedGrammar: IeltsLecture[] = [
       "acknowledged / believed / argued / demonstrated / noted",
       "Don't overuse — mix with active for natural flow",
       "All tenses work: is done, was done, has been done, will be done"
+    ]
+  },
+
+  // --- Conditionals for Band 7.0+ ---
+  {
+    id: "grammar-conditionals",
+    title: "Conditionals for Band 7.0+",
+    titleVi: "Câu điều kiện cho Band 7.0+",
+    pillar: "applied-grammar",
+    icon: "🔗",
+    duration: "20 min",
+    level: "intermediate",
+    description: "Go beyond basic if-clauses: master mixed conditionals, inverted conditionals, and alternative conditional structures for top band scores.",
+    descriptionVi: "Vượt qua câu điều kiện cơ bản: thành thạo điều kiện hỗn hợp, đảo ngữ điều kiện, và cấu trúc điều kiện thay thế để đạt Band cao.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Know ALL Conditional Types",
+        titleVi: "Nắm TẤT CẢ các loại điều kiện",
+        description: "Zero (general truth), First (real future), Second (unreal present), Third (unreal past). Most students stop at First Conditional — Band 7.0+ requires Second and Third.",
+        descriptionVi: "Zero (sự thật chung), First (tương lai thực), Second (hiện tại không thực), Third (quá khứ không thực). Hầu hết học sinh dừng ở First — Band 7.0+ cần Second và Third.",
+        example: "Zero: 'If you heat water to 100°C, it boils.'\nFirst: 'If the government invests more, education will improve.'\nSecond: 'If I were the president, I would prioritize healthcare.'\nThird: 'If they had acted sooner, the crisis could have been averted.'"
+      },
+      {
+        step: 2,
+        title: "Master Mixed Conditionals",
+        titleVi: "Thành thạo điều kiện hỗn hợp",
+        description: "Mix Second + Third conditionals to show past cause with present result (or vice versa). This is a Band 8.0 power move that very few candidates use.",
+        descriptionVi: "Kết hợp điều kiện 2 + 3 để thể hiện nguyên nhân quá khứ với kết quả hiện tại (hoặc ngược lại). Đây là chiêu Band 8.0 rất ít thí sinh dùng.",
+        example: "Past cause → Present result: 'If the government had invested in renewable energy 20 years ago, we would not be facing this climate crisis today.'\nPresent cause → Past result: 'If she were more diligent, she would have passed the exam.'"
+      },
+      {
+        step: 3,
+        title: "Use Inverted Conditionals (No 'If')",
+        titleVi: "Dùng điều kiện đảo ngữ (không có 'If')",
+        description: "Remove 'if' and invert the subject-verb order. This creates a formal, sophisticated tone perfect for Writing Task 2.",
+        descriptionVi: "Bỏ 'if' và đảo trật tự chủ-vị. Điều này tạo giọng trang trọng, tinh tế hoàn hảo cho Writing Task 2.",
+        example: "'If the government had acted...' → 'Had the government acted...'\n'If this trend should continue...' → 'Should this trend continue...'\n'If it were not for education...' → 'Were it not for education...'"
+      },
+      {
+        step: 4,
+        title: "Alternative Conditional Structures",
+        titleVi: "Cấu trúc điều kiện thay thế",
+        description: "Replace 'if' with: 'provided that', 'on condition that', 'assuming that', 'as long as', 'unless'. These show lexical range and boost your Grammatical Range score.",
+        descriptionVi: "Thay 'if' bằng: 'provided that', 'on condition that', 'assuming that', 'as long as', 'unless'. Chúng thể hiện vốn từ phong phú và tăng điểm Grammatical Range.",
+        example: "'Provided that governments allocate sufficient funds, universal healthcare is achievable.'\n'Unless immediate action is taken, environmental degradation will accelerate.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Writing Task 2 — Using Mixed Conditional",
+        contextVi: "Writing Task 2 — Dùng điều kiện hỗn hợp",
+        example: "Topic: Environmental problems\n\n'Had industrialized nations prioritized sustainable development decades ago, we would not be witnessing the devastating effects of climate change today. This mixed conditional highlights how past inaction has led to present consequences — a powerful argument structure.'",
+        explanation: "Mixed conditional (Third → Second) connects past decisions to current problems — very impressive for examiners."
+      },
+      {
+        context: "Speaking Part 3 — Hypothetical",
+        contextVi: "Speaking Phần 3 — Giả định",
+        example: "Q: 'What would happen if all education became online?'\n\n'Were all education to shift online, I believe social skills among young people would deteriorate significantly. Students would miss out on the interpersonal interactions that are crucial for personal development. Having said that, provided that schools implement hybrid models, the negative effects could be mitigated.'",
+        explanation: "Uses inverted conditional ('Were all education to shift...') + alternative conditional ('provided that') in one natural answer."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Using 'would' in the 'if' clause",
+        mistakeVi: "Dùng 'would' trong mệnh đề 'if'",
+        why: "'If I would study...' is WRONG. The correct form is 'If I studied...' (Second) or 'If I had studied...' (Third). 'Would' goes in the RESULT clause only.",
+        whyVi: "'If I would study...' SAI. Dạng đúng: 'If I studied...' (loại 2) hoặc 'If I had studied...' (loại 3). 'Would' chỉ dùng trong mệnh đề KẾT QUẢ."
+      },
+      {
+        mistake: "Only using First Conditional throughout your essay",
+        mistakeVi: "Chỉ dùng điều kiện loại 1 trong cả bài",
+        why: "First Conditional is Band 5.0-6.0 level. Mix in Second, Third, and Mixed Conditionals to demonstrate grammatical range.",
+        whyVi: "Điều kiện loại 1 ở mức Band 5.0-6.0. Kết hợp loại 2, 3, và hỗn hợp để thể hiện phạm vi ngữ pháp."
+      },
+      {
+        mistake: "Overcomplicating with too many conditionals",
+        mistakeVi: "Phức tạp hóa quá mức với quá nhiều câu điều kiện",
+        why: "Use 2-3 conditionals per essay strategically. Quality over quantity — one well-placed mixed conditional is worth more than five basic ones.",
+        whyVi: "Dùng 2-3 câu điều kiện mỗi bài một cách chiến lược. Chất lượng hơn số lượng — một câu hỗn hợp đúng chỗ giá trị hơn năm câu cơ bản."
+      }
+    ],
+    goldenSecret: "The INVERTED THIRD CONDITIONAL is the single most impressive grammar structure in IELTS Writing: 'Had the government invested in education earlier, literacy rates would be significantly higher today.' It combines inversion + mixed conditional + formal register. Use it ONCE in your conclusion for maximum impact!",
+    goldenSecretVi: "ĐIỀU KIỆN LOẠI 3 ĐẢO NGỮ là cấu trúc ngữ pháp ấn tượng nhất trong IELTS Writing: 'Had the government invested in education earlier, literacy rates would be significantly higher today.' Nó kết hợp đảo ngữ + điều kiện hỗn hợp + phong cách trang trọng. Dùng MỘT LẦN trong kết luận để đạt tác động tối đa!",
+    vocabHighlights: [
+      { word: "provided that", definition: "On the condition that; only if", definitionVi: "Với điều kiện là; chỉ nếu", example: "Provided that funding is secured, the project will proceed.", band: "7.0+" },
+      { word: "avert", definition: "To prevent or turn away something undesirable", definitionVi: "Ngăn chặn, tránh điều không mong muốn", example: "The crisis could have been averted with better planning.", band: "7.5+" },
+      { word: "deteriorate", definition: "To become progressively worse", definitionVi: "Xấu đi, suy thoái", example: "Air quality continues to deteriorate in major cities.", band: "7.0+" },
+      { word: "mitigate", definition: "To make less severe or serious", definitionVi: "Giảm thiểu, giảm bớt", example: "Steps must be taken to mitigate the impact of flooding.", band: "7.5+" },
+      { word: "on condition that", definition: "Only if a particular thing happens", definitionVi: "Với điều kiện rằng", example: "The loan was approved on condition that collateral was provided.", band: "7.0+" }
+    ],
+    quiz: [
+      {
+        question: "Which sentence uses a MIXED conditional correctly?",
+        options: ["'If I study hard, I will pass.'", "'If they had invested earlier, we would not face this crisis today.'", "'If I am rich, I will travel.'", "'If it rains, I stay home.'"],
+        answer: 1,
+        explanation: "Mixed conditional: Third (past unreal 'had invested') + Second (present result 'would not face today')."
+      },
+      {
+        question: "How do you form an INVERTED conditional?",
+        options: ["Add 'not' to the sentence", "Remove 'if' and invert subject-verb order", "Use 'would' in both clauses", "Change to passive voice"],
+        answer: 1,
+        explanation: "'If they had known' → 'Had they known' — remove 'if', put auxiliary before subject."
+      },
+      {
+        question: "Which is a correct alternative to 'if'?",
+        options: ["'because'", "'provided that'", "'therefore'", "'however'"],
+        answer: 1,
+        explanation: "'Provided that' = 'on the condition that' = formal alternative to 'if'."
+      },
+      {
+        question: "Where should 'would' appear in a conditional sentence?",
+        options: ["In the 'if' clause", "In the result clause only", "In both clauses", "It should never be used"],
+        answer: 1,
+        explanation: "'Would' belongs in the RESULT clause: 'If I studied (if-clause), I would pass (result).' Never in the if-clause."
+      }
+    ],
+    cheatSheetPoints: [
+      "Band 7.0+ needs Second & Third Conditionals — not just First",
+      "Mixed: 'Had they acted sooner, we would not be suffering today'",
+      "Inverted: Remove 'if' + invert → 'Had...', 'Were...', 'Should...'",
+      "Alternatives to 'if': provided that, on condition that, assuming that, unless",
+      "NEVER put 'would' in the 'if' clause",
+      "Use 2-3 conditionals per essay — quality over quantity"
     ]
   },
 ];
