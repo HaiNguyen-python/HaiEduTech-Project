@@ -190,6 +190,7 @@ const MountainClimber = ({ mastered, total, flyingStars, onStarLanded, container
             {mastered}/{total}
           </motion.div>
         </div>
+        </div>
       </motion.div>
 
       {/* Current milestone announcement */}
