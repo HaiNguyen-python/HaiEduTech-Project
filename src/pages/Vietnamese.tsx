@@ -220,7 +220,7 @@ const Vietnamese = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.1 }}
-                      className="bg-white/75 dark:bg-card/80 backdrop-blur-sm border border-white/40 dark:border-border rounded-xl p-5 hover:shadow-xl transition-shadow"
+                      className="bg-white/55 dark:bg-card/60 backdrop-blur-sm border border-white/30 dark:border-border rounded-xl p-5 hover:shadow-xl transition-shadow"
                     >
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-2xl">{prog.icon}</span>
