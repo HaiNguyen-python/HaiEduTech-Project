@@ -28,6 +28,22 @@ const MILESTONES = [
   { words: 800, label: "Summit", band: "Goal Band 8.0", x: 48, y: 14 },
 ];
 
+// Climber boy speech bubbles — shown randomly when a new word is mastered
+const CLIMBER_QUOTES = [
+  "Let's keep climbing! 💪",
+  "One more word, one more step! 🏔️",
+  "I can see the summit! ⛰️",
+  "This view is getting better! 🌟",
+  "We're unstoppable! 🚀",
+  "Higher and higher! ✨",
+  "Almost there, don't stop! 🔥",
+  "Every word makes me stronger! 💎",
+  "The top is waiting for us! 🏆",
+  "I love learning new words! 📚",
+  "Wow, we're so high up now! 😄",
+  "Mr. Hai would be proud! 👏",
+];
+
 // Climber path control points matching the winding trail in the image
 const PATH_POINTS = [
   { x: 42, y: 90 },  // Base camp
