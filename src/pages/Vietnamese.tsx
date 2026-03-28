@@ -171,21 +171,25 @@ const Vietnamese = () => {
             {/* Tabs overlay at bottom of banner */}
             <div className="absolute bottom-2 sm:bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-10 w-[calc(100%-1rem)] sm:w-auto">
               <TabsList className="grid grid-cols-4 bg-white/80 backdrop-blur-sm shadow-lg rounded-xl">
-                <TabsTrigger value="language" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-3">
+                <TabsTrigger value="language" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-4">
                   <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
-                  <span className="truncate">{t("Ngôn ngữ", "Language")}</span>
+                  <span className="hidden sm:inline">{t("Ngôn ngữ", "Language")}</span>
+                  <span className="sm:hidden">{t("Ngữ", "Lang")}</span>
                 </TabsTrigger>
-                <TabsTrigger value="history" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-3">
+                <TabsTrigger value="history" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-4">
                   <Scroll className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
-                  <span className="truncate">{t("Lịch sử", "History")}</span>
+                  <span className="hidden sm:inline">{t("Lịch sử", "History")}</span>
+                  <span className="sm:hidden">{t("Sử", "Hist")}</span>
                 </TabsTrigger>
-                <TabsTrigger value="folklore" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-3">
+                <TabsTrigger value="folklore" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-4">
                   <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
-                  <span className="truncate">{t("Ca Dao", "Folklore")}</span>
+                  <span className="hidden sm:inline">{t("Ca Dao", "Folklore")}</span>
+                  <span className="sm:hidden">{t("Ca", "Folk")}</span>
                 </TabsTrigger>
-                <TabsTrigger value="game" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-3">
+                <TabsTrigger value="game" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base font-medium px-2 sm:px-4">
                   <Gamepad2 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
-                  <span className="truncate">{t("Trò chơi", "Game")}</span>
+                  <span className="hidden sm:inline">{t("Trò chơi", "Game")}</span>
+                  <span className="sm:hidden">{t("Game", "Game")}</span>
                 </TabsTrigger>
               </TabsList>
             </div>
