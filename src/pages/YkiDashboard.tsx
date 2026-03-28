@@ -482,6 +482,17 @@ const YkiDashboard = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Finnish Skier Progress */}
+            <div className="mt-4">
+              <FinnishSkier
+                mastered={masteredWords.length}
+                total={allVocabWords.length}
+                flyingStars={flyingStars}
+                onStarLanded={handleStarLanded}
+                containerRef={skierContainerRef}
+              />
+            </div>
           </div>
 
           {/* Pillar Tabs */}
