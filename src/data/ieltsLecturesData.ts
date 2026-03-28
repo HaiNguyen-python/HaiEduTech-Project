@@ -1173,6 +1173,536 @@ const skillBasedLectures: IeltsLecture[] = [
       "Don't describe every detail — select the most significant changes"
     ]
   },
+
+  // --- Listening: Multiple Choice Elimination ---
+  {
+    id: "listening-mcq-elimination",
+    title: "Listening MCQ: The Elimination Method",
+    titleVi: "Listening MCQ: Phương pháp loại trừ",
+    pillar: "skill-based",
+    skill: "listening",
+    icon: "🎧",
+    duration: "18 min",
+    level: "intermediate",
+    description: "Master the art of eliminating wrong answers in Listening multiple-choice questions to dramatically increase accuracy.",
+    descriptionVi: "Thành thạo nghệ thuật loại trừ đáp án sai trong câu hỏi trắc nghiệm Listening để tăng đáng kể độ chính xác.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Pre-Read and Predict",
+        titleVi: "Đọc trước và dự đoán",
+        description: "Read all options BEFORE the audio plays. Underline key differences between options A, B, and C. This tells you exactly what to listen for.",
+        descriptionVi: "Đọc tất cả lựa chọn TRƯỚC KHI audio phát. Gạch chân điểm khác biệt chính giữa A, B, C. Điều này cho biết chính xác cần nghe gì.",
+        example: "A) 3 weeks  B) 3 months  C) 3 years => Listen for the TIME UNIT, not just the number 3."
+      },
+      {
+        step: 2,
+        title: "Cross Out as You Listen",
+        titleVi: "Gạch bỏ khi nghe",
+        description: "When you hear information that contradicts an option, cross it out immediately. By elimination, you often find the answer even if you miss part of the audio.",
+        descriptionVi: "Khi nghe thông tin mâu thuẫn với một lựa chọn, gạch bỏ ngay. Bằng loại trừ, bạn thường tìm ra đáp án ngay cả khi bỏ lỡ phần audio.",
+      },
+      {
+        step: 3,
+        title: "Beware of Distractors",
+        titleVi: "Cẩn thận với bẫy",
+        description: "IELTS will mention ALL options in the audio. The wrong ones are mentioned then rejected: 'I was going to choose A, but actually B is better.' The LAST opinion is the answer.",
+        descriptionVi: "IELTS sẽ nhắc đến TẤT CẢ lựa chọn trong audio. Đáp án sai được nhắc rồi bác bỏ: 'I was going to choose A, but actually B is better.' Ý kiến CUỐI CÙNG là đáp án.",
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "MCQ with Distractor",
+        contextVi: "MCQ có bẫy",
+        example: "Q: What time does the library close on weekends?\nA) 5pm  B) 6pm  C) 8pm\nAudio: 'The library used to close at 5 on Saturdays, but they extended it to 8pm recently. Oh wait, that's only during exam season. Normally it's 6.'\n=> Answer: B (6pm) - both A and C are mentioned but rejected.",
+        explanation: "All three times are mentioned. Only the final, confirmed time is correct."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Choosing the first option you hear mentioned",
+        mistakeVi: "Chọn lựa chọn đầu tiên nghe được",
+        why: "IELTS deliberately mentions wrong answers first to trap hasty students. Wait for the full context.",
+        whyVi: "IELTS cố tình nhắc đáp án sai trước để bẫy học sinh vội vàng. Đợi ngữ cảnh đầy đủ."
+      },
+      {
+        mistake: "Not reading options before audio starts",
+        mistakeVi: "Không đọc lựa chọn trước khi audio phát",
+        why: "Without pre-reading, you are listening blindly. Use every second of preparation time.",
+        whyVi: "Không đọc trước, bạn nghe một cách mù quáng. Tận dụng mọi giây chuẩn bị."
+      }
+    ],
+    goldenSecret: "When two options seem very similar (e.g., 'increased slightly' vs 'increased significantly'), the answer is ALWAYS one of those two. The very similar pair is the real battle - focus your listening there!",
+    goldenSecretVi: "Khi hai lựa chọn rất giống nhau (ví dụ: 'tăng nhẹ' vs 'tăng đáng kể'), đáp án LUÔN là một trong hai đó. Cặp giống nhau là trận chiến thật - tập trung nghe ở đó!",
+    vocabHighlights: [
+      { word: "eliminate", definition: "To remove or rule out", definitionVi: "Loại bỏ, loại trừ", example: "We can eliminate option A because the speaker contradicted it.", band: "7.0+" },
+      { word: "distractor", definition: "A wrong answer designed to mislead", definitionVi: "Đáp án sai được thiết kế để đánh lạc hướng", example: "The audio contains several distractors to confuse listeners.", band: "7.0+" }
+    ],
+    quiz: [
+      {
+        question: "When should you start reading the MCQ options?",
+        options: ["When the audio starts", "During preparation time, BEFORE audio", "After the audio finishes", "Never - just listen"],
+        answer: 1,
+        explanation: "Pre-reading options lets you know exactly what differences to listen for."
+      },
+      {
+        question: "If all options are mentioned in the audio, how do you find the answer?",
+        options: ["Choose the first one mentioned", "Choose the last one mentioned", "Choose the one NOT rejected by the speaker", "Choose randomly"],
+        answer: 2,
+        explanation: "Wrong options are mentioned then contradicted. The answer is the one the speaker confirms as final."
+      }
+    ],
+    cheatSheetPoints: [
+      "Pre-read ALL options and underline key differences",
+      "Cross out options as they are contradicted",
+      "All options will be mentioned - wait for the FINAL confirmed one",
+      "Similar options = the answer is one of that pair",
+      "Never choose the first thing you hear"
+    ]
+  },
+
+  // --- Listening: Map Labeling ---
+  {
+    id: "listening-map-labeling",
+    title: "Listening: Map Labeling & Directions",
+    titleVi: "Listening: Ghi nhãn bản đồ & Chỉ đường",
+    pillar: "skill-based",
+    skill: "listening",
+    icon: "🗺️",
+    duration: "20 min",
+    level: "intermediate",
+    description: "Decode map-based listening questions with essential direction vocabulary and spatial orientation strategies.",
+    descriptionVi: "Giải mã câu hỏi nghe dựa trên bản đồ với từ vựng chỉ đường và chiến lược định hướng không gian.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Identify Your Starting Point",
+        titleVi: "Xác định điểm bắt đầu",
+        description: "Before audio plays, find the 'You are here' marker, entrance, or gate. ALL directions start from this point. Mark it clearly.",
+        descriptionVi: "Trước khi audio phát, tìm điểm 'You are here', lối vào hoặc cổng. TẤT CẢ hướng dẫn bắt đầu từ điểm này. Đánh dấu rõ ràng.",
+      },
+      {
+        step: 2,
+        title: "Master Direction Vocabulary",
+        titleVi: "Thành thạo từ vựng chỉ hướng",
+        description: "Key phrases: 'on your left/right', 'straight ahead', 'at the far end', 'opposite the entrance', 'adjacent to', 'between X and Y', 'in the top right corner'.",
+        descriptionVi: "Cụm từ chính: 'on your left/right', 'straight ahead', 'at the far end', 'opposite the entrance', 'adjacent to', 'between X and Y', 'in the top right corner'.",
+        example: "'If you go through the main entrance and turn left, you will see the reception area directly ahead of you.'"
+      },
+      {
+        step: 3,
+        title: "Track Movement with Your Pencil",
+        titleVi: "Theo dõi di chuyển bằng bút chì",
+        description: "As the speaker gives directions, trace the path on the map with your pencil. This prevents getting lost and helps you pinpoint each labeled location.",
+        descriptionVi: "Khi người nói chỉ đường, vẽ đường đi trên bản đồ bằng bút chì. Điều này ngăn bạn bị lạc và giúp xác định chính xác mỗi vị trí.",
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Map Labeling - Campus Tour",
+        contextVi: "Ghi nhãn bản đồ - Tham quan khuôn viên",
+        example: "Audio: 'As you come through the main gates, the administration building is immediately on your right. If you continue along the path, you will pass the library on your left, and the science block is at the far end, directly opposite the car park.'\n=> Label: Main gates (start) -> Admin (right) -> Library (left) -> Science block (far end)",
+        explanation: "Trace the path step by step from the starting point."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Confusing 'your left' with 'map left'",
+        mistakeVi: "Nhầm 'bên trái bạn' với 'bên trái bản đồ'",
+        why: "Directions are given from the walker's perspective. If they are walking north, 'your left' is WEST on the map.",
+        whyVi: "Hướng dẫn theo góc nhìn người đi. Nếu đi về phía bắc, 'bên trái bạn' là phía TÂY trên bản đồ."
+      },
+      {
+        mistake: "Not identifying the starting point first",
+        mistakeVi: "Không xác định điểm bắt đầu trước",
+        why: "Without a clear starting point, all directions become meaningless. Always find 'entrance' or 'gate' first.",
+        whyVi: "Không có điểm bắt đầu rõ ràng, mọi hướng dẫn đều vô nghĩa. Luôn tìm 'entrance' hoặc 'gate' trước."
+      }
+    ],
+    goldenSecret: "Map questions ALWAYS follow a walking tour pattern - the speaker moves from Point A to B to C in order. If you label Point A correctly, Points B and C naturally fall into place. Get the FIRST label right and the rest follows!",
+    goldenSecretVi: "Câu hỏi bản đồ LUÔN theo mô hình đi bộ tham quan - người nói di chuyển từ A đến B đến C theo thứ tự. Nếu ghi nhãn A đúng, B và C tự nhiên đúng theo. Ghi nhãn ĐẦU TIÊN đúng và phần còn lại theo sau!",
+    vocabHighlights: [
+      { word: "adjacent to", definition: "Next to, beside", definitionVi: "Liền kề, bên cạnh", example: "The gym is adjacent to the swimming pool.", band: "7.0+" },
+      { word: "at the far end", definition: "At the opposite end from where you enter", definitionVi: "Ở phía cuối, đối diện lối vào", example: "The cafeteria is at the far end of the corridor.", band: "6.5+" },
+      { word: "in the vicinity of", definition: "Near, in the area around", definitionVi: "Trong vùng lân cận", example: "Several shops are in the vicinity of the station.", band: "7.5+" }
+    ],
+    quiz: [
+      {
+        question: "What should you do FIRST when you see a map question?",
+        options: ["Start labeling randomly", "Find the starting point (entrance/gate)", "Read all the labels", "Wait for the audio"],
+        answer: 1,
+        explanation: "Finding the starting point is essential - all directions are given relative to it."
+      },
+      {
+        question: "If the speaker walks north and says 'on your left', which direction is that on the map?",
+        options: ["North", "South", "East", "West"],
+        answer: 3,
+        explanation: "When facing north, your left is west. Always think from the walker's perspective."
+      }
+    ],
+    cheatSheetPoints: [
+      "Find the starting point (entrance/gate/You Are Here) FIRST",
+      "Trace the path with your pencil as directions are given",
+      "Direction vocab: 'on your left/right', 'straight ahead', 'at the far end'",
+      "Your left/right = WALKER's perspective, not map orientation",
+      "Questions follow a walking tour order - get #1 right and the rest follows"
+    ]
+  },
+
+  // --- Reading: Skimming vs Scanning ---
+  {
+    id: "reading-skimming-scanning",
+    title: "Reading: Skimming vs. Scanning",
+    titleVi: "Reading: Đọc lướt vs. Quét tìm",
+    pillar: "skill-based",
+    skill: "reading",
+    icon: "👁️",
+    duration: "18 min",
+    level: "foundation",
+    description: "Learn when to skim for the big picture and when to scan for specific details - the two fundamental IELTS Reading skills.",
+    descriptionVi: "Học khi nào đọc lướt để nắm bức tranh tổng thể và khi nào quét tìm chi tiết cụ thể - hai kỹ năng Reading IELTS cơ bản.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Skimming = Big Picture (30 seconds per paragraph)",
+        titleVi: "Đọc lướt = Bức tranh tổng thể (30 giây mỗi đoạn)",
+        description: "Read ONLY the first sentence and last sentence of each paragraph. This gives you the main idea without reading every word. Use for Matching Headings and general understanding.",
+        descriptionVi: "Chỉ đọc câu ĐẦU và câu CUỐI mỗi đoạn. Điều này cho bạn ý chính mà không cần đọc mọi từ. Dùng cho Matching Headings và hiểu tổng quan.",
+        example: "Paragraph: 'Solar energy has become increasingly affordable... [5 more sentences]... Therefore, solar power represents the most viable renewable option.'\nSkim: First sentence (topic) + Last sentence (conclusion) = main idea captured!"
+      },
+      {
+        step: 2,
+        title: "Scanning = Specific Details (laser focus)",
+        titleVi: "Quét tìm = Chi tiết cụ thể (tập trung laser)",
+        description: "Move your eyes quickly across the text looking for ONE specific thing: a name, number, date, or keyword. Do NOT read surrounding text. Use for Fill-in-the-Blank, Short Answer, True/False/Not Given.",
+        descriptionVi: "Di chuyển mắt nhanh qua bài tìm MỘT thứ cụ thể: tên, số, ngày, hoặc từ khóa. KHÔNG đọc văn bản xung quanh. Dùng cho Fill-in-the-Blank, Short Answer, True/False/Not Given.",
+      },
+      {
+        step: 3,
+        title: "The Decision Rule: Question Type Determines Technique",
+        titleVi: "Quy tắc quyết định: Loại câu hỏi quyết định kỹ thuật",
+        description: "Matching Headings, Author's Purpose = SKIM. True/False/Not Given, Fill-in-blank, MCQ = SCAN first, then read carefully around the located keyword.",
+        descriptionVi: "Matching Headings, Mục đích tác giả = ĐỌC LƯỚT. True/False/Not Given, Điền chỗ trống, MCQ = QUÉT trước, rồi đọc kỹ quanh từ khóa.",
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "When to Skim vs. Scan",
+        contextVi: "Khi nào đọc lướt vs. quét tìm",
+        example: "Q1: 'Which paragraph discusses the economic benefits?' => SKIM (need main idea of each paragraph)\nQ2: 'What year was the first solar panel invented?' => SCAN (look for a specific year/date)\nQ3: 'TRUE/FALSE: Solar energy is more expensive than wind energy.' => SCAN for 'solar', 'wind', 'cost/expensive', then read carefully.",
+        explanation: "Match the technique to the question type for maximum speed and accuracy."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Reading the entire passage before looking at questions",
+        mistakeVi: "Đọc cả bài trước khi xem câu hỏi",
+        why: "This wastes 5-7 minutes. Skim first (2 min), then go to questions and scan as needed.",
+        whyVi: "Điều này lãng phí 5-7 phút. Đọc lướt trước (2 phút), rồi đến câu hỏi và quét tìm khi cần."
+      },
+      {
+        mistake: "Scanning when you should skim (or vice versa)",
+        mistakeVi: "Quét khi nên đọc lướt (hoặc ngược lại)",
+        why: "Scanning for 'main idea' is impossible - you need to skim. Skimming for 'a specific date' is too slow - you need to scan.",
+        whyVi: "Quét tìm 'ý chính' là không thể - bạn cần đọc lướt. Đọc lướt tìm 'ngày cụ thể' quá chậm - bạn cần quét."
+      }
+    ],
+    goldenSecret: "The 2-Minute Rule: Spend exactly 2 minutes skimming the ENTIRE passage before touching any question. Read first + last sentence of each paragraph. This mental map saves you 5+ minutes of searching later!",
+    goldenSecretVi: "Quy tắc 2 Phút: Dành đúng 2 phút đọc lướt TOÀN BỘ bài trước khi chạm câu hỏi nào. Đọc câu đầu + cuối mỗi đoạn. Bản đồ tinh thần này tiết kiệm 5+ phút tìm kiếm sau!",
+    vocabHighlights: [
+      { word: "skim", definition: "Read quickly to get the general idea", definitionVi: "Đọc lướt để nắm ý tổng quát", example: "Skim the article first to understand the main argument.", band: "6.5+" },
+      { word: "scan", definition: "Search quickly for specific information", definitionVi: "Quét tìm nhanh thông tin cụ thể", example: "Scan the timetable for the 3pm departure.", band: "6.5+" },
+      { word: "viable", definition: "Capable of working successfully; feasible", definitionVi: "Khả thi, có thể thực hiện được", example: "Solar power is a viable alternative to fossil fuels.", band: "7.0+" }
+    ],
+    quiz: [
+      {
+        question: "For a 'Matching Headings' question, which technique should you use?",
+        options: ["Scanning", "Skimming", "Reading every word", "Guessing"],
+        answer: 1,
+        explanation: "Matching Headings needs the main idea of each paragraph - that requires skimming (first + last sentence)."
+      },
+      {
+        question: "How long should you spend skimming the entire passage?",
+        options: ["30 seconds", "2 minutes", "5 minutes", "10 minutes"],
+        answer: 1,
+        explanation: "The 2-Minute Rule: skim the whole passage in 2 minutes to build a mental map before answering questions."
+      }
+    ],
+    cheatSheetPoints: [
+      "SKIM = main idea (first + last sentence of each paragraph)",
+      "SCAN = specific detail (names, numbers, dates, keywords)",
+      "2-Minute Rule: Skim entire passage BEFORE touching questions",
+      "Matching Headings = SKIM | T/F/NG = SCAN then read carefully",
+      "Never read the entire passage word-by-word first"
+    ]
+  },
+
+  // --- Reading: Summary Completion ---
+  {
+    id: "reading-summary-completion",
+    title: "Reading: Summary Completion Strategy",
+    titleVi: "Reading: Chiến lược hoàn thành tóm tắt",
+    pillar: "skill-based",
+    skill: "reading",
+    icon: "📝",
+    duration: "18 min",
+    level: "intermediate",
+    description: "Predict word types, locate paragraphs, and fill summaries accurately with this systematic approach.",
+    descriptionVi: "Dự đoán loại từ, xác định đoạn văn, và điền tóm tắt chính xác với phương pháp có hệ thống.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Read the Summary First - Predict Word Types",
+        titleVi: "Đọc tóm tắt trước - Dự đoán loại từ",
+        description: "Look at each blank and predict what TYPE of word is needed: noun? adjective? verb? number? This narrows your search dramatically.",
+        descriptionVi: "Nhìn mỗi chỗ trống và dự đoán LOẠI từ cần: danh từ? tính từ? động từ? số? Điều này thu hẹp tìm kiếm đáng kể.",
+        example: "The ___ of carbon emissions has ___ significantly since 2010.\n=> Blank 1: NOUN (amount/level/volume) | Blank 2: VERB past participle (increased/decreased/risen)"
+      },
+      {
+        step: 2,
+        title: "Locate the Relevant Section",
+        titleVi: "Xác định phần liên quan",
+        description: "The summary usually covers 2-3 consecutive paragraphs, not the whole passage. Use keywords from the summary title or first sentence to find the right section.",
+        descriptionVi: "Tóm tắt thường bao gồm 2-3 đoạn liên tiếp, không phải cả bài. Dùng từ khóa từ tiêu đề hoặc câu đầu tóm tắt để tìm phần đúng.",
+      },
+      {
+        step: 3,
+        title: "Match Paraphrases - Answers Are Never Identical",
+        titleVi: "Nối cách diễn đạt - Đáp án không bao giờ giống hệt",
+        description: "The summary paraphrases the passage. Find where the same idea is expressed differently. The EXACT word for the blank comes from the original passage.",
+        descriptionVi: "Tóm tắt diễn đạt lại bài đọc. Tìm nơi cùng ý được diễn đạt khác. Từ CHÍNH XÁC cho chỗ trống lấy từ bài gốc.",
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Summary with Word List",
+        contextVi: "Tóm tắt có danh sách từ",
+        example: "Summary: 'The research found that ___ was the primary cause of deforestation.'\nWord list: agriculture, mining, climate, pollution, urbanization\nPassage: 'Scientists concluded that farming activities were the main driver of forest loss.'\n=> 'farming activities' = 'agriculture' => Answer: agriculture",
+        explanation: "The summary says 'primary cause', the passage says 'main driver' (paraphrase). 'Farming activities' matches 'agriculture' from the word list."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Not checking the word limit",
+        mistakeVi: "Không kiểm tra giới hạn từ",
+        why: "'ONE WORD ONLY' means exactly one word. 'Carbon emissions' would be wrong - you need either 'carbon' or 'emissions'.",
+        whyVi: "'CHỈ MỘT TỪ' nghĩa là đúng một từ. 'Carbon emissions' sẽ sai - bạn cần 'carbon' hoặc 'emissions'."
+      },
+      {
+        mistake: "Not predicting word types before searching",
+        mistakeVi: "Không dự đoán loại từ trước khi tìm",
+        why: "If you know the blank needs a NOUN, you can skip all verbs and adjectives in the passage. This saves enormous time.",
+        whyVi: "Nếu biết chỗ trống cần DANH TỪ, bạn có thể bỏ qua mọi động từ và tính từ. Điều này tiết kiệm rất nhiều thời gian."
+      }
+    ],
+    goldenSecret: "For Summary Completion with a word list, the words you DON'T use are always close synonyms of the correct answers - they are designed to confuse you. If 'agriculture' and 'farming' are both in the list, one is the answer and the other is the trap!",
+    goldenSecretVi: "Với Summary Completion có danh sách từ, những từ bạn KHÔNG dùng luôn là từ đồng nghĩa gần với đáp án đúng - chúng được thiết kế để gây nhầm lẫn. Nếu 'agriculture' và 'farming' đều trong danh sách, một là đáp án và cái kia là bẫy!",
+    vocabHighlights: [
+      { word: "consecutive", definition: "Following each other in order without gaps", definitionVi: "Liên tiếp, liền nhau", example: "The summary covers three consecutive paragraphs.", band: "7.0+" },
+      { word: "primary", definition: "Main, most important", definitionVi: "Chính, quan trọng nhất", example: "The primary cause of the problem was identified.", band: "6.5+" }
+    ],
+    quiz: [
+      {
+        question: "What should you predict BEFORE searching the passage?",
+        options: ["The exact answer", "The type of word needed (noun/verb/adjective)", "The paragraph number", "The author's opinion"],
+        answer: 1,
+        explanation: "Predicting word type (noun, verb, etc.) dramatically narrows your search in the passage."
+      },
+      {
+        question: "A summary usually covers how much of the passage?",
+        options: ["The entire passage", "2-3 consecutive paragraphs", "Only the first paragraph", "Random scattered paragraphs"],
+        answer: 1,
+        explanation: "Summaries typically cover 2-3 consecutive paragraphs, not the whole text."
+      }
+    ],
+    cheatSheetPoints: [
+      "Predict word TYPE for each blank: noun? verb? adjective? number?",
+      "Summary covers 2-3 CONSECUTIVE paragraphs - locate them first",
+      "Answers are PARAPHRASED - never identical to the summary wording",
+      "Always check word limit: ONE WORD = exactly one word",
+      "In word lists, unused words are close synonyms designed as traps"
+    ]
+  },
+
+  // --- Writing Task 1: Describing Trends ---
+  {
+    id: "writing-task1-trends",
+    title: "Writing Task 1: Describing Trends in Line Graphs",
+    titleVi: "Writing Task 1: Mô tả xu hướng biểu đồ đường",
+    pillar: "skill-based",
+    skill: "writing",
+    icon: "📈",
+    duration: "20 min",
+    level: "foundation",
+    description: "Master the essential verbs, adverbs, and sentence structures for describing upward, downward, and stable trends.",
+    descriptionVi: "Thành thạo động từ, trạng từ và cấu trúc câu cần thiết để mô tả xu hướng tăng, giảm và ổn định.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Build Your Verb Arsenal",
+        titleVi: "Xây dựng kho động từ",
+        description: "UP: increase, rise, grow, climb, surge, soar, rocket. DOWN: decrease, decline, fall, drop, plummet, plunge. STABLE: remain stable, level off, plateau, stay constant, fluctuate.",
+        descriptionVi: "TĂNG: increase, rise, grow, climb, surge, soar, rocket. GIẢM: decrease, decline, fall, drop, plummet, plunge. ỔN ĐỊNH: remain stable, level off, plateau, stay constant, fluctuate.",
+        example: "Sales surged from 100 to 500 units. | Profits plummeted by 40%. | The rate remained stable at around 5%."
+      },
+      {
+        step: 2,
+        title: "Add Adverbs for Precision",
+        titleVi: "Thêm trạng từ cho chính xác",
+        description: "Pair verbs with adverbs to show DEGREE: dramatically, significantly, substantially, moderately, slightly, marginally, steadily, gradually.",
+        descriptionVi: "Kết hợp động từ với trạng từ để thể hiện MỨC ĐỘ: dramatically, significantly, substantially, moderately, slightly, marginally, steadily, gradually.",
+        example: "Big change: 'increased dramatically' | Small change: 'rose slightly' | Steady change: 'grew steadily'"
+      },
+      {
+        step: 3,
+        title: "Use Two Sentence Structures",
+        titleVi: "Dùng hai cấu trúc câu",
+        description: "Structure 1 (Verb): 'Sales increased sharply to 500.' Structure 2 (Noun): 'There was a sharp increase in sales to 500.' Alternating between them shows grammatical range.",
+        descriptionVi: "Cấu trúc 1 (Động từ): 'Sales increased sharply to 500.' Cấu trúc 2 (Danh từ): 'There was a sharp increase in sales to 500.' Xen kẽ giữa chúng thể hiện phạm vi ngữ pháp.",
+        example: "Verb: 'Unemployment fell significantly.' => Noun: 'There was a significant fall in unemployment.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Line Graph Description",
+        contextVi: "Mô tả biểu đồ đường",
+        example: "Weak: 'The number went up from 2000 to 2010 and then went down.'\n\nStrong: 'The figure rose steadily from approximately 200 in 2000 to a peak of 450 in 2010, before declining sharply to around 300 by 2015. Subsequently, it levelled off and remained relatively stable until 2020.'",
+        explanation: "The strong version uses varied verbs (rose, declining, levelled off), adverbs (steadily, sharply, relatively), and precise language."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Using 'went up' and 'went down' repeatedly",
+        mistakeVi: "Dùng 'went up' và 'went down' lặp đi lặp lại",
+        why: "This limits your Lexical Resource score to Band 5.0. Use varied synonyms: rose, climbed, surged, soared.",
+        whyVi: "Điều này giới hạn điểm Lexical Resource ở Band 5.0. Dùng từ đồng nghĩa đa dạng: rose, climbed, surged, soared."
+      },
+      {
+        mistake: "Not specifying numbers and time periods",
+        mistakeVi: "Không nêu rõ số liệu và khoảng thời gian",
+        why: "'Sales increased' is vague. 'Sales increased from 200 to 450 between 2010 and 2015' is specific and scores higher.",
+        whyVi: "'Sales increased' mơ hồ. 'Sales increased from 200 to 450 between 2010 and 2015' cụ thể và điểm cao hơn."
+      }
+    ],
+    goldenSecret: "The NOUN form is your secret weapon for Band 7.0+. Instead of always writing 'X increased dramatically', write 'There was a dramatic increase in X'. This single trick doubles your grammatical range instantly!",
+    goldenSecretVi: "Dạng DANH TỪ là vũ khí bí mật cho Band 7.0+. Thay vì luôn viết 'X increased dramatically', hãy viết 'There was a dramatic increase in X'. Mẹo đơn giản này tăng gấp đôi phạm vi ngữ pháp ngay lập tức!",
+    vocabHighlights: [
+      { word: "surge", definition: "A sudden and great increase", definitionVi: "Tăng vọt, tăng đột ngột", example: "There was a surge in demand during the holiday season.", band: "7.0+" },
+      { word: "plummet", definition: "To fall or drop sharply", definitionVi: "Giảm mạnh, rơi tự do", example: "Share prices plummeted after the announcement.", band: "7.5+" },
+      { word: "plateau", definition: "To reach a level and stay there", definitionVi: "Đạt mức ổn định, không tăng không giảm", example: "Growth plateaued at around 8% in 2019.", band: "7.0+" },
+      { word: "fluctuate", definition: "To rise and fall irregularly", definitionVi: "Dao động, lên xuống không đều", example: "The exchange rate fluctuated throughout the year.", band: "7.0+" }
+    ],
+    quiz: [
+      {
+        question: "Which is the NOUN form of 'Sales increased dramatically'?",
+        options: ["'Sales were dramatic'", "'There was a dramatic increase in sales'", "'Sales had drama'", "'Dramatically, sales increased'"],
+        answer: 1,
+        explanation: "Verb form: 'increased dramatically' => Noun form: 'a dramatic increase'. This shows grammatical range."
+      },
+      {
+        question: "Which adverb describes a SMALL change?",
+        options: ["dramatically", "significantly", "marginally", "substantially"],
+        answer: 2,
+        explanation: "'Marginally' means by a very small amount. 'Dramatically', 'significantly', and 'substantially' all mean large changes."
+      }
+    ],
+    cheatSheetPoints: [
+      "UP verbs: increase, rise, grow, climb, surge, soar, rocket",
+      "DOWN verbs: decrease, decline, fall, drop, plummet, plunge",
+      "STABLE: remain stable, level off, plateau, fluctuate",
+      "Adverbs: dramatically > significantly > moderately > slightly > marginally",
+      "Alternate verb form ('rose sharply') with noun form ('a sharp rise')",
+      "Always include numbers and time periods for specificity"
+    ]
+  },
+
+  // --- Speaking Part 1: Expanding Answers ---
+  {
+    id: "speaking-part1-expanding",
+    title: "Speaking Part 1: Expanding Your Answers",
+    titleVi: "Speaking Phần 1: Mở rộng câu trả lời",
+    pillar: "skill-based",
+    skill: "speaking",
+    icon: "🗣️",
+    duration: "15 min",
+    level: "foundation",
+    description: "Transform short, basic answers into naturally extended responses using the Answer-Reason-Example technique.",
+    descriptionVi: "Biến câu trả lời ngắn, cơ bản thành phản hồi mở rộng tự nhiên bằng kỹ thuật Trả lời-Lý do-Ví dụ.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "The A.R.E. Formula: Answer + Reason + Example",
+        titleVi: "Công thức A.R.E.: Answer + Reason + Example",
+        description: "Every Part 1 answer should have 3 parts: (A) Direct answer, (R) Why/Because, (E) A personal example or detail. This naturally gives you 2-3 sentences.",
+        descriptionVi: "Mọi câu trả lời Phần 1 nên có 3 phần: (A) Trả lời trực tiếp, (R) Tại sao/Bởi vì, (E) Ví dụ cá nhân hoặc chi tiết. Điều này tự nhiên cho bạn 2-3 câu.",
+        example: "Q: Do you like reading?\nA: Yes, I am quite an avid reader.\nR: I find it is a wonderful way to unwind after a long day.\nE: In fact, I just finished a fascinating novel about time travel last week."
+      },
+      {
+        step: 2,
+        title: "Use Natural Fillers and Connectors",
+        titleVi: "Dùng từ đệm và liên từ tự nhiên",
+        description: "Connect your parts naturally: 'Well,...', 'To be honest,...', 'I suppose...', 'As a matter of fact,...', 'Come to think of it,...'. These sound native and buy you thinking time.",
+        descriptionVi: "Nối các phần tự nhiên: 'Well,...', 'To be honest,...', 'I suppose...', 'As a matter of fact,...', 'Come to think of it,...'. Chúng nghe bản xứ và cho bạn thời gian suy nghĩ.",
+      },
+      {
+        step: 3,
+        title: "Add Contrast for Extra Depth",
+        titleVi: "Thêm sự tương phản để có chiều sâu",
+        description: "After your A.R.E., add a contrast: 'Having said that,...', 'Although,...', 'On the flip side,...'. This shows nuance and boosts your score from 6.0 to 7.0.",
+        descriptionVi: "Sau A.R.E., thêm tương phản: 'Having said that,...', 'Although,...', 'On the flip side,...'. Điều này thể hiện sắc thái và tăng điểm từ 6.0 lên 7.0.",
+        example: "...Having said that, I have to admit I do not read as much as I used to, mainly because of my busy schedule."
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Part 1: Hobby Question",
+        contextVi: "Phần 1: Câu hỏi về sở thích",
+        example: "Q: 'Do you enjoy cooking?'\nWeak: 'Yes, I like cooking.'\nStrong: 'Well, to be perfectly honest, I would not say I am passionate about cooking, but I do enjoy experimenting with new recipes from time to time. As a matter of fact, just last weekend I tried making Thai green curry for the first time. Having said that, on busy weekdays I usually just order takeaway.'",
+        explanation: "Uses A.R.E. + natural fillers + contrast. Approximately 3-4 sentences - perfect length for Part 1."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Giving one-word or one-sentence answers",
+        mistakeVi: "Trả lời một từ hoặc một câu",
+        why: "'Yes I do' gives the examiner nothing to assess. Aim for 2-4 sentences in Part 1.",
+        whyVi: "'Yes I do' không cho giám khảo gì để đánh giá. Nhắm 2-4 câu trong Phần 1."
+      },
+      {
+        mistake: "Over-extending with memorized speeches",
+        mistakeVi: "Nói dài với bài đã thuộc lòng",
+        why: "Part 1 answers should be natural and concise (2-4 sentences). Long, rehearsed monologues sound unnatural.",
+        whyVi: "Trả lời Phần 1 nên tự nhiên và ngắn gọn (2-4 câu). Độc thoại dài, luyện sẵn nghe không tự nhiên."
+      }
+    ],
+    goldenSecret: "The word 'actually' is your best friend in Part 1. It makes any answer sound spontaneous and natural: 'Actually, I have been getting into photography recently' sounds 10x more natural than a rehearsed answer. Sprinkle it in!",
+    goldenSecretVi: "Từ 'actually' là bạn thân nhất trong Phần 1. Nó làm mọi câu trả lời nghe tự phát và tự nhiên: 'Actually, I have been getting into photography recently' nghe tự nhiên gấp 10 lần câu trả lời thuộc lòng. Rắc nó vào!",
+    vocabHighlights: [
+      { word: "avid", definition: "Having a keen interest in something", definitionVi: "Say mê, nhiệt tình", example: "She is an avid reader who finishes two books a week.", band: "7.0+" },
+      { word: "unwind", definition: "To relax after a period of stress", definitionVi: "Thư giãn sau thời gian căng thẳng", example: "I like to unwind by listening to music.", band: "7.0+" }
+    ],
+    quiz: [
+      {
+        question: "What does A.R.E. stand for?",
+        options: ["Ask, Repeat, End", "Answer, Reason, Example", "Always Respond Enthusiastically", "Argue, Rebut, Explain"],
+        answer: 1,
+        explanation: "A = Answer the question directly, R = Give a Reason why, E = Add an Example or detail."
+      },
+      {
+        question: "How many sentences should a Part 1 answer typically be?",
+        options: ["1 sentence", "2-4 sentences", "5-8 sentences", "10+ sentences"],
+        answer: 1,
+        explanation: "2-4 sentences is the sweet spot for Part 1 - enough to demonstrate ability without rambling."
+      }
+    ],
+    cheatSheetPoints: [
+      "A.R.E.: Answer + Reason + Example = 2-4 natural sentences",
+      "Natural fillers: 'Well,...', 'To be honest,...', 'Actually,...'",
+      "Add contrast: 'Having said that,...', 'On the flip side,...'",
+      "Never give one-word answers - always extend",
+      "Don't over-extend - Part 1 is NOT a monologue"
+    ]
+  },
 ];
 
 // === PILLAR 2: IELTS TIPS & HACKS ===
@@ -1436,6 +1966,181 @@ const tipsAndHacks: IeltsLecture[] = [
       "important = crucial, vital, essential, paramount",
       "difficult = challenging, demanding, arduous",
       "Watch for grammar changes: active ↔ passive, noun ↔ verb"
+    ]
+  },
+  // --- Writing Task 2: PEEL Method ---
+  {
+    id: "tips-peel-method",
+    title: "Writing Task 2: The PEEL Method for Body Paragraphs",
+    titleVi: "Writing Task 2: Phương pháp PEEL cho đoạn thân bài",
+    pillar: "tips-hacks",
+    skill: "writing",
+    icon: "📐",
+    duration: "15 min",
+    level: "intermediate",
+    description: "Generate and structure ideas instantly with PEEL: Point, Example, Explanation, Link. Never face a blank page again.",
+    descriptionVi: "Tạo và cấu trúc ý tưởng ngay lập tức với PEEL: Point, Example, Explanation, Link. Không bao giờ đối mặt trang trắng nữa.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "P - Point: State Your Main Argument",
+        titleVi: "P - Point: Nêu luận điểm chính",
+        description: "Start with ONE clear topic sentence that states your argument for this paragraph. It should directly answer part of the essay question.",
+        descriptionVi: "Bắt đầu với MỘT câu chủ đề rõ ràng nêu luận điểm cho đoạn này. Nó phải trả lời trực tiếp một phần câu hỏi.",
+        example: "'One significant advantage of remote work is the increased productivity it offers.'"
+      },
+      {
+        step: 2,
+        title: "E - Example: Give a Real-World Example",
+        titleVi: "E - Example: Cho ví dụ thực tế",
+        description: "Support your point with a concrete example: a study, a country, a company, or a personal observation. Use: 'For instance,...', 'A case in point is...'",
+        descriptionVi: "Hỗ trợ luận điểm bằng ví dụ cụ thể: một nghiên cứu, một quốc gia, một công ty, hoặc quan sát cá nhân.",
+        example: "'For instance, a Stanford study found that remote employees were 13% more productive than their office counterparts.'"
+      },
+      {
+        step: 3,
+        title: "E - Explanation: Explain WHY",
+        titleVi: "E - Explanation: Giải thích TẠI SAO",
+        description: "Explain the logic behind your example. Why does this happen? What is the cause-effect relationship? This is where you show critical thinking.",
+        descriptionVi: "Giải thích logic đằng sau ví dụ. Tại sao điều này xảy ra? Mối quan hệ nhân-quả là gì? Đây là nơi bạn thể hiện tư duy phản biện.",
+        example: "'This can be attributed to fewer distractions and the ability to work during peak personal productivity hours.'"
+      },
+      {
+        step: 4,
+        title: "L - Link: Connect Back to the Question",
+        titleVi: "L - Link: Liên kết lại với câu hỏi",
+        description: "End with a sentence that ties your paragraph back to the main question or thesis. Use: 'Therefore,...', 'Consequently,...', 'This demonstrates that...'",
+        descriptionVi: "Kết thúc với câu liên kết đoạn văn lại với câu hỏi chính hoặc luận đề. Dùng: 'Therefore,...', 'Consequently,...', 'This demonstrates that...'",
+        example: "'Therefore, it is evident that flexible working arrangements can significantly enhance overall workforce efficiency.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Complete PEEL Paragraph",
+        contextVi: "Đoạn PEEL hoàn chỉnh",
+        example: "(P) One compelling reason to invest in public transport is its environmental benefit. (E) For instance, cities like Copenhagen and Tokyo have reduced carbon emissions by over 30% through extensive metro and bus networks. (E) This is primarily because mass transit systems can carry hundreds of passengers per trip, drastically reducing the per-capita carbon footprint compared to private vehicles. (L) Consequently, expanding public transport infrastructure is arguably the most effective strategy for combating urban pollution.",
+        explanation: "4 sentences, each serving a clear purpose. This scores Band 7.0+ for coherence and cohesion."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Writing a point without any supporting example",
+        mistakeVi: "Viết luận điểm mà không có ví dụ hỗ trợ",
+        why: "Unsupported claims score Band 5.0. Every argument needs evidence.",
+        whyVi: "Luận điểm không được hỗ trợ chỉ đạt Band 5.0. Mọi lập luận cần bằng chứng."
+      },
+      {
+        mistake: "Giving an example but not explaining it",
+        mistakeVi: "Cho ví dụ nhưng không giải thích",
+        why: "Examples without explanation are anecdotes, not arguments. The Explanation shows your analytical ability.",
+        whyVi: "Ví dụ không giải thích chỉ là giai thoại, không phải lập luận. Giải thích thể hiện năng lực phân tích."
+      }
+    ],
+    goldenSecret: "If you cannot think of a real example, INVENT a plausible one: 'According to recent research conducted by the University of Oxford,...' or 'In many Scandinavian countries,...'. IELTS does not fact-check your examples - they assess your LANGUAGE!",
+    goldenSecretVi: "Nếu không nghĩ ra ví dụ thực, HÃY BỊA một ví dụ hợp lý: 'According to recent research conducted by the University of Oxford,...' hoặc 'In many Scandinavian countries,...'. IELTS không kiểm tra sự thật - họ đánh giá NGÔN NGỮ!",
+    vocabHighlights: [
+      { word: "compelling", definition: "Convincing and persuasive", definitionVi: "Thuyết phục, hấp dẫn", example: "There are compelling reasons to invest in education.", band: "7.5+" },
+      { word: "per-capita", definition: "Per person, for each individual", definitionVi: "Bình quân đầu người", example: "The per-capita income has risen significantly.", band: "7.0+" },
+      { word: "arguably", definition: "It can be argued that; possibly", definitionVi: "Có thể nói rằng, có thể lập luận", example: "This is arguably the most important issue of our time.", band: "7.0+" }
+    ],
+    quiz: [
+      {
+        question: "What does PEEL stand for?",
+        options: ["Point, Evidence, Evaluate, Link", "Point, Example, Explanation, Link", "Practice, Examine, Edit, Learn", "Plan, Execute, Evaluate, List"],
+        answer: 1,
+        explanation: "Point (topic sentence) + Example (evidence) + Explanation (why/how) + Link (connect to question)."
+      },
+      {
+        question: "Is it acceptable to invent examples in IELTS Writing?",
+        options: ["Never - all facts must be true", "Yes - IELTS assesses language, not factual accuracy", "Only for Task 1", "Only with permission"],
+        answer: 1,
+        explanation: "IELTS examiners assess your language ability, not your factual knowledge. Plausible examples are perfectly acceptable."
+      }
+    ],
+    cheatSheetPoints: [
+      "P = Point (topic sentence with your argument)",
+      "E = Example (real or plausible evidence)",
+      "E = Explanation (WHY does this happen? cause-effect)",
+      "L = Link (connect back to the essay question)",
+      "4 sentences per body paragraph = ideal length",
+      "You CAN invent plausible examples - IELTS tests language, not facts"
+    ]
+  },
+
+  // --- Speaking Part 3: General to Specific ---
+  {
+    id: "tips-speaking-general-specific",
+    title: "Speaking Part 3: From General to Specific",
+    titleVi: "Speaking Phần 3: Từ tổng quát đến cụ thể",
+    pillar: "tips-hacks",
+    skill: "speaking",
+    icon: "🎯",
+    duration: "12 min",
+    level: "advanced",
+    description: "Structure abstract arguments by moving from broad statements to specific evidence - the hallmark of a Band 7.0+ speaker.",
+    descriptionVi: "Cấu trúc lập luận trừu tượng từ nhận định rộng đến bằng chứng cụ thể - dấu hiệu của người nói Band 7.0+.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Start Broad: Give a General Statement",
+        titleVi: "Bắt đầu rộng: Đưa nhận định tổng quát",
+        description: "Open with a general opinion: 'Generally speaking,...', 'By and large,...', 'It is widely acknowledged that...'",
+        descriptionVi: "Mở đầu với ý kiến tổng quát: 'Generally speaking,...', 'By and large,...', 'It is widely acknowledged that...'",
+        example: "'Generally speaking, I believe technology has had a largely positive impact on education.'"
+      },
+      {
+        step: 2,
+        title: "Narrow Down: Provide a Specific Example",
+        titleVi: "Thu hẹp: Đưa ví dụ cụ thể",
+        description: "Move from the general to a specific case: 'Take X for example,...', 'A prime example would be...'",
+        descriptionVi: "Chuyển từ tổng quát đến trường hợp cụ thể: 'Take X for example,...', 'A prime example would be...'",
+        example: "'Take online learning platforms for example - Coursera alone has provided free university courses to over 100 million learners worldwide.'"
+      },
+      {
+        step: 3,
+        title: "Zoom Out: Return to a Broader Conclusion",
+        titleVi: "Phóng ra: Trở lại kết luận rộng hơn",
+        description: "End by connecting your example back to the bigger picture: 'So in that sense,...', 'This just goes to show that...'",
+        descriptionVi: "Kết bằng liên kết ví dụ với bức tranh lớn hơn: 'So in that sense,...', 'This just goes to show that...'",
+        example: "'So in that sense, technology has democratized access to education on an unprecedented scale.'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Part 3: Abstract Question",
+        contextVi: "Phần 3: Câu hỏi trừu tượng",
+        example: "Q: 'Do you think traditional cultures are disappearing?'\n\n'By and large, I would say that globalization has put immense pressure on traditional cultures. Take indigenous languages, for example - UNESCO reports that one language dies every two weeks. In my own country, Vietnam, many young people in cities no longer practice traditional folk songs or wear ao dai regularly. So in that sense, yes, there is a genuine risk of cultural erosion unless proactive preservation efforts are made.'",
+        explanation: "General statement -> specific examples (UNESCO, Vietnam) -> broader conclusion. Perfect General-to-Specific flow."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Staying too general without specifics",
+        mistakeVi: "Nói quá chung mà không có cụ thể",
+        why: "'I think culture is important because it is our identity.' This is too vague. Add a concrete example to anchor your argument.",
+        whyVi: "'I think culture is important because it is our identity.' Quá mơ hồ. Thêm ví dụ cụ thể để neo lập luận."
+      }
+    ],
+    goldenSecret: "Always have 3 'go-to' countries ready for examples: one Asian (Vietnam/Japan), one European (Sweden/Germany), and one global reference (USA/UK). This lets you give specific examples for ANY topic on the spot!",
+    goldenSecretVi: "Luôn có 3 quốc gia 'sẵn sàng' cho ví dụ: một châu Á (Việt Nam/Nhật), một châu Âu (Thụy Điển/Đức), và một tham chiếu toàn cầu (Mỹ/Anh). Điều này cho phép đưa ví dụ cụ thể cho BẤT KỲ chủ đề nào!",
+    vocabHighlights: [
+      { word: "by and large", definition: "On the whole; generally", definitionVi: "Nhìn chung, nói chung", example: "By and large, the policy has been successful.", band: "7.0+" },
+      { word: "democratize", definition: "Make accessible to everyone", definitionVi: "Dân chủ hóa, làm cho mọi người tiếp cận được", example: "The internet has democratized access to information.", band: "8.0+" }
+    ],
+    quiz: [
+      {
+        question: "What is the correct order for the General-to-Specific technique?",
+        options: ["Specific -> General -> Specific", "General statement -> Specific example -> Broader conclusion", "Example -> Opinion -> Example", "Conclusion -> Evidence -> Introduction"],
+        answer: 1,
+        explanation: "Start broad, narrow to a specific example, then zoom back out to a broader conclusion."
+      }
+    ],
+    cheatSheetPoints: [
+      "Start BROAD: 'Generally speaking,...', 'By and large,...'",
+      "Narrow to SPECIFIC: 'Take X for example,...', 'A prime example...'",
+      "Zoom OUT: 'So in that sense,...', 'This goes to show that...'",
+      "Have 3 go-to countries ready: 1 Asian, 1 European, 1 global",
+      "Never stay purely general - always anchor with a concrete example"
     ]
   },
 ];
@@ -1938,6 +2643,97 @@ const thematicVocab: IeltsLecture[] = [
       "Anchor word: 'well-being' (psychological/overall/a sense of)",
       "Hedging: 'tend to', 'are more likely to', 'disproportionately affects'",
       "Template: 'The prevalence of [X] can be attributed to [Y], which leads to [Z]'"
+    ]
+  },
+  // --- Sustainable Development & Environment (Advanced) ---
+  {
+    id: "vocab-sustainable-development",
+    title: "Sustainable Development & Environment (Advanced)",
+    titleVi: "Phát triển bền vững & Môi trường (Nâng cao)",
+    pillar: "thematic-vocab",
+    icon: "🌱",
+    duration: "22 min",
+    level: "advanced",
+    description: "Advanced collocations and academic phrases for the most tested IELTS topic: sustainability and environmental policy.",
+    descriptionVi: "Cụm từ nâng cao và cách diễn đạt học thuật cho chủ đề IELTS được kiểm tra nhiều nhất: phát triển bền vững và chính sách môi trường.",
+    strategySteps: [
+      {
+        step: 1,
+        title: "Master 3-Word Collocations",
+        titleVi: "Thành thạo cụm 3 từ",
+        description: "Band 8.0 vocabulary is not about rare words - it is about natural COLLOCATIONS: 'sustainable development goals', 'carbon-neutral economy', 'renewable energy sources', 'environmental impact assessment'.",
+        descriptionVi: "Từ vựng Band 8.0 không phải về từ hiếm - mà về COLLOCATIONS tự nhiên: 'sustainable development goals', 'carbon-neutral economy', 'renewable energy sources', 'environmental impact assessment'.",
+        example: "'Governments must conduct comprehensive environmental impact assessments before approving large-scale infrastructure projects.'"
+      },
+      {
+        step: 2,
+        title: "Use Cause-Effect Chains",
+        titleVi: "Dùng chuỗi nhân-quả",
+        description: "Environment essays require linking causes to effects: 'Deforestation leads to soil erosion, which in turn causes flooding, ultimately threatening food security.'",
+        descriptionVi: "Bài môi trường yêu cầu liên kết nguyên nhân-hệ quả: 'Deforestation leads to soil erosion, which in turn causes flooding, ultimately threatening food security.'",
+      },
+      {
+        step: 3,
+        title: "Balance Problem + Solution Vocabulary",
+        titleVi: "Cân bằng từ vựng Vấn đề + Giải pháp",
+        description: "Problems: degradation, depletion, contamination, exploitation. Solutions: conservation, preservation, mitigation, restoration, rehabilitation.",
+        descriptionVi: "Vấn đề: degradation, depletion, contamination, exploitation. Giải pháp: conservation, preservation, mitigation, restoration, rehabilitation.",
+        example: "Problem: 'the degradation of marine ecosystems' => Solution: 'the restoration of coral reefs through marine conservation programs'"
+      }
+    ],
+    practicalExamples: [
+      {
+        context: "Writing Task 2 - Environment Essay",
+        contextVi: "Writing Task 2 - Bài luận Môi trường",
+        example: "Weak: 'We should protect the environment because pollution is bad.'\n\nStrong: 'It is imperative that governments implement stringent regulations to curb industrial emissions, which are the primary drivers of atmospheric degradation. Furthermore, incentivizing the transition to a carbon-neutral economy through subsidies for renewable energy would represent a pragmatic step towards achieving long-term environmental sustainability.'",
+        explanation: "Uses: 'stringent regulations', 'curb emissions', 'atmospheric degradation', 'carbon-neutral economy', 'environmental sustainability' - all Band 8.0+ collocations."
+      }
+    ],
+    mistakesToAvoid: [
+      {
+        mistake: "Using 'protect the environment' in every sentence",
+        mistakeVi: "Dùng 'protect the environment' trong mọi câu",
+        why: "This is Band 5.0 vocabulary. Vary with: 'preserve biodiversity', 'mitigate ecological damage', 'safeguard natural habitats', 'promote environmental stewardship'.",
+        whyVi: "Đây là từ vựng Band 5.0. Thay bằng: 'preserve biodiversity', 'mitigate ecological damage', 'safeguard natural habitats', 'promote environmental stewardship'."
+      },
+      {
+        mistake: "Confusing 'climate change' vocabulary with 'weather' vocabulary",
+        mistakeVi: "Nhầm từ vựng 'biến đổi khí hậu' với 'thời tiết'",
+        why: "Climate = long-term patterns. Weather = daily conditions. 'Global warming causes extreme weather events' is correct. 'Global warming causes rain today' is wrong.",
+        whyVi: "Khí hậu = mô hình dài hạn. Thời tiết = điều kiện hàng ngày. 'Global warming causes extreme weather events' đúng. 'Global warming causes rain today' sai."
+      }
+    ],
+    goldenSecret: "The phrase 'strike a balance between economic development and environmental preservation' is a Band 8.0 sentence that works for almost EVERY environment question. Memorize it and adapt it: 'strike a balance between X and Y' is endlessly versatile!",
+    goldenSecretVi: "Cụm từ 'strike a balance between economic development and environmental preservation' là câu Band 8.0 hoạt động cho gần như MỌI câu hỏi môi trường. Ghi nhớ và điều chỉnh: 'strike a balance between X and Y' linh hoạt vô tận!",
+    vocabHighlights: [
+      { word: "carbon-neutral", definition: "Achieving net zero carbon emissions", definitionVi: "Trung hòa carbon, phát thải ròng bằng không", example: "Sweden aims to become carbon-neutral by 2045.", band: "8.0+" },
+      { word: "biodiversity", definition: "The variety of plant and animal life", definitionVi: "Đa dạng sinh học", example: "Deforestation threatens biodiversity in tropical regions.", band: "7.0+" },
+      { word: "stewardship", definition: "Responsible management of resources", definitionVi: "Sự quản lý có trách nhiệm", example: "Environmental stewardship is everyone's responsibility.", band: "8.0+" },
+      { word: "degradation", definition: "The process of becoming worse or damaged", definitionVi: "Sự suy thoái, xuống cấp", example: "Soil degradation has reduced agricultural productivity.", band: "7.5+" },
+      { word: "incentivize", definition: "To motivate with rewards or benefits", definitionVi: "Khuyến khích bằng phần thưởng", example: "Governments should incentivize the use of electric vehicles.", band: "7.5+" },
+      { word: "stringent", definition: "Strict, precise, demanding", definitionVi: "Nghiêm ngặt, chặt chẽ", example: "Stringent environmental regulations are needed to curb pollution.", band: "7.5+" }
+    ],
+    quiz: [
+      {
+        question: "Which phrase is Band 8.0+ for 'protect the environment'?",
+        options: ["'save the planet'", "'promote environmental stewardship'", "'help nature'", "'be green'"],
+        answer: 1,
+        explanation: "'Promote environmental stewardship' uses formal, academic vocabulary that signals Band 8.0+."
+      },
+      {
+        question: "What is Teacher Hai's versatile Band 8.0 phrase for environment topics?",
+        options: ["'Save the Earth'", "'Go green'", "'Strike a balance between X and Y'", "'Climate change is bad'"],
+        answer: 2,
+        explanation: "'Strike a balance between economic development and environmental preservation' works for nearly every environment question."
+      }
+    ],
+    cheatSheetPoints: [
+      "3-word collocations: 'sustainable development goals', 'carbon-neutral economy'",
+      "Problem words: degradation, depletion, contamination, exploitation",
+      "Solution words: conservation, preservation, mitigation, restoration",
+      "Replace 'protect the environment' with 'promote environmental stewardship'",
+      "Key phrase: 'strike a balance between X and Y'",
+      "Cause-effect chains: A leads to B, which in turn causes C"
     ]
   },
 ];
