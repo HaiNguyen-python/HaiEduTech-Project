@@ -109,13 +109,13 @@ const ChatBot = () => {
     checkLockout();
   }, []);
 
-  // Show tooltip popup every 60 seconds when chat is closed
+   // Show tooltip popup every 5 minutes when chat is closed
   useEffect(() => {
     if (open) return;
     const interval = setInterval(() => {
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 5000);
-    }, 60000);
+    }, 300000);
     // Show immediately on mount after a short delay
     const initial = setTimeout(() => {
       setShowTooltip(true);
