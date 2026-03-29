@@ -224,6 +224,11 @@ const HskVocabulary = () => {
   });
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
 
+  // Flying stars state for Great Wall Climber
+  const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
+  const starIdRef = useRef(0);
+  const climberContainerRef = useRef<HTMLDivElement>(null);
+
   const toggleMastered = useCallback((word: string) => {
     setMastered(prev => {
       const next = new Set(prev);
@@ -231,6 +236,23 @@ const HskVocabulary = () => {
       localStorage.setItem("hsk_mastered", JSON.stringify([...next]));
       return next;
     });
+  }, []);
+
+  // Wrap toggleMastered with motivation and flying star effect
+  const handleToggleWithMotivation = useMasteredMotivation(mastered, toggleMastered);
+
+  const handleStarClick = useCallback((word: string, event: React.MouseEvent) => {
+    const wasNotMastered = !mastered.has(word);
+    handleToggleWithMotivation(word);
+    if (wasNotMastered) {
+      const rect = (event.target as HTMLElement).getBoundingClientRect();
+      const id = ++starIdRef.current;
+      setFlyingStars(prev => [...prev, { id, startX: rect.left + rect.width / 2, startY: rect.top + rect.height / 2 }]);
+    }
+  }, [mastered, handleToggleWithMotivation]);
+
+  const handleStarLanded = useCallback((id: number) => {
+    setFlyingStars(prev => prev.filter(s => s.id !== id));
   }, []);
 
   const filtered = useMemo(() => {
