@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -8,6 +8,8 @@ import { hskVocabData, HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/h
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import GreatWallClimber from "@/components/GreatWallClimber";
+import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 
 const WORDS_PER_PAGE = 24;
 
