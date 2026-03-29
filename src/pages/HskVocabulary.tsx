@@ -405,7 +405,7 @@ const HskVocabulary = () => {
                         <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
                           <Volume2 className="w-4 h-4 text-primary" />
                         </button>
-                        <button onClick={() => toggleMastered(w.character)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
+                        <button onClick={(e) => handleStarClick(w.character, e)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
                           <Star className={`w-4 h-4 ${mastered.has(w.character) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
                         </button>
                       </div>
