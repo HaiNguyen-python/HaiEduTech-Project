@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -8,6 +8,8 @@ import { hskVocabData, HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/h
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import GreatWallClimber from "@/components/GreatWallClimber";
+import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 
 const WORDS_PER_PAGE = 24;
 
@@ -222,6 +224,11 @@ const HskVocabulary = () => {
   });
   const [showMasteredOnly, setShowMasteredOnly] = useState(false);
 
+  // Flying stars state for Great Wall Climber
+  const [flyingStars, setFlyingStars] = useState<{ id: number; startX: number; startY: number }[]>([]);
+  const starIdRef = useRef(0);
+  const climberContainerRef = useRef<HTMLDivElement>(null);
+
   const toggleMastered = useCallback((word: string) => {
     setMastered(prev => {
       const next = new Set(prev);
@@ -229,6 +236,23 @@ const HskVocabulary = () => {
       localStorage.setItem("hsk_mastered", JSON.stringify([...next]));
       return next;
     });
+  }, []);
+
+  // Wrap toggleMastered with motivation and flying star effect
+  const handleToggleWithMotivation = useMasteredMotivation(mastered, toggleMastered);
+
+  const handleStarClick = useCallback((word: string, event: React.MouseEvent) => {
+    const wasNotMastered = !mastered.has(word);
+    handleToggleWithMotivation(word);
+    if (wasNotMastered) {
+      const rect = (event.target as HTMLElement).getBoundingClientRect();
+      const id = ++starIdRef.current;
+      setFlyingStars(prev => [...prev, { id, startX: rect.left + rect.width / 2, startY: rect.top + rect.height / 2 }]);
+    }
+  }, [mastered, handleToggleWithMotivation]);
+
+  const handleStarLanded = useCallback((id: number) => {
+    setFlyingStars(prev => prev.filter(s => s.id !== id));
   }, []);
 
   const filtered = useMemo(() => {
@@ -271,6 +295,15 @@ const HskVocabulary = () => {
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            {/* Great Wall Climber Progress Visualization */}
+            <GreatWallClimber
+              mastered={mastered.size}
+              total={hskVocabData.length}
+              flyingStars={flyingStars}
+              onStarLanded={handleStarLanded}
+              containerRef={climberContainerRef}
+            />
+
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2">
@@ -372,7 +405,7 @@ const HskVocabulary = () => {
                         <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
                           <Volume2 className="w-4 h-4 text-primary" />
                         </button>
-                        <button onClick={() => toggleMastered(w.character)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
+                        <button onClick={(e) => handleStarClick(w.character, e)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
                           <Star className={`w-4 h-4 ${mastered.has(w.character) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
                         </button>
                       </div>
