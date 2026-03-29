@@ -1041,6 +1041,9 @@ const YkiDashboard = () => {
       </main>
       <Footer />
 
+      {/* Floating Finnish Dictionary */}
+      <FloatingFinnishDictionary />
+
       {/* YKI A2 Ready Badge */}
       <YkiReadyBadge show={showBadge} onClose={() => setShowBadge(false)} />
     </div>

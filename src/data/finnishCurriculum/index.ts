@@ -3,3 +3,4 @@ export type { FinnishVocabEntry, FinnishModule, FinnishLesson, FinnishGrammarPoi
 export { finnishVocabModules } from "./vocabularyData";
 export { finnishLessonModules } from "./lessonsData";
 export { finnishMockExamModules } from "./mockExamData";
+export { finnishDictionary } from "./finnishDictData";
