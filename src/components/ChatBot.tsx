@@ -14,13 +14,51 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 // ── Profanity filter (Vietnamese + English common toxic words) ──
 const PROFANITY_LIST = [
   // Vietnamese profanity
-  "đụ", "địt", "đéo", "đ.m", "dm", "dcm", "đcm", "vãi", "vl", "vcl",
-  "clgt", "cặc", "buồi", "lồn", "đĩ", "cave", "dâm", "súc vật",
-  "ngu", "đần", "khốn", "chó", "con chó", "thằng chó", "con đĩ",
+  "đụ",
+  "địt",
+  "đéo",
+  "đ.m",
+  "dm",
+  "dcm",
+  "đcm",
+  "vãi",
+  "vl",
+  "vcl",
+  "clgt",
+  "cặc",
+  "buồi",
+  "lồn",
+  "đĩ",
+  "cave",
+  "dâm",
+  "súc vật",
+  "ngu",
+  "đần",
+  "khốn",
+  "chó",
+  "con chó",
+  "thằng chó",
+  "con đĩ",
   // English profanity
-  "fuck", "shit", "bitch", "asshole", "damn", "dick", "pussy",
-  "bastard", "cunt", "wtf", "stfu", "fck", "f*ck", "sh*t",
-  "motherfucker", "mf", "retard", "idiot", "stupid",
+  "fuck",
+  "shit",
+  "bitch",
+  "asshole",
+  "damn",
+  "dick",
+  "pussy",
+  "bastard",
+  "cunt",
+  "wtf",
+  "stfu",
+  "fck",
+  "f*ck",
+  "sh*t",
+  "motherfucker",
+  "mf",
+  "retard",
+  "idiot",
+  "stupid",
 ];
 
 /**
@@ -32,7 +70,10 @@ function containsProfanity(text: string): boolean {
   return PROFANITY_LIST.some((word) => {
     // For short words (<=3 chars), exact or bounded match
     if (word.length <= 3) {
-      const regex = new RegExp(`(^|\\s|[^a-zA-ZÀ-ỹ])${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}($|\\s|[^a-zA-ZÀ-ỹ])`, "i");
+      const regex = new RegExp(
+        `(^|\\s|[^a-zA-ZÀ-ỹ])${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}($|\\s|[^a-zA-ZÀ-ỹ])`,
+        "i",
+      );
       return regex.test(` ${lower} `);
     }
     return lower.includes(word);
@@ -42,28 +83,118 @@ function containsProfanity(text: string): boolean {
 // ── Keyword filter (on-topic check) ──
 const ALLOWED_KEYWORDS = [
   // English
-  "english", "ielts", "toeic", "cambridge", "grammar", "vocabulary", "vocab",
-  "writing", "reading", "listening", "speaking", "essay", "tense", "verb",
-  "noun", "adjective", "adverb", "pronunciation", "phonetic", "band",
-  "starters", "movers", "flyers", "ket", "pet", "thpt", "thi",
+  "english",
+  "ielts",
+  "toeic",
+  "cambridge",
+  "grammar",
+  "vocabulary",
+  "vocab",
+  "writing",
+  "reading",
+  "listening",
+  "speaking",
+  "essay",
+  "tense",
+  "verb",
+  "noun",
+  "adjective",
+  "adverb",
+  "pronunciation",
+  "phonetic",
+  "band",
+  "starters",
+  "movers",
+  "flyers",
+  "ket",
+  "pet",
+  "thpt",
+  "thi",
   // Vietnamese English terms
-  "tiếng anh", "ngữ pháp", "từ vựng", "phát âm", "luyện thi", "bài viết",
-  "đọc hiểu", "nghe", "nói", "viết", "câu", "chủ ngữ", "động từ",
+  "tiếng anh",
+  "ngữ pháp",
+  "từ vựng",
+  "phát âm",
+  "luyện thi",
+  "bài viết",
+  "đọc hiểu",
+  "nghe",
+  "nói",
+  "viết",
+  "câu",
+  "chủ ngữ",
+  "động từ",
   // Chinese
-  "chinese", "中文", "汉语", "hsk", "pinyin", "hanzi", "tone", "thanh điệu",
-  "tiếng trung", "chữ hán", "拼音", "声调", "语法", "词汇", "你好", "学中文",
-  "giao tiếp", "hội thoại",
+  "chinese",
+  "中文",
+  "汉语",
+  "hsk",
+  "pinyin",
+  "hanzi",
+  "tone",
+  "thanh điệu",
+  "tiếng trung",
+  "chữ hán",
+  "拼音",
+  "声调",
+  "语法",
+  "词汇",
+  "你好",
+  "学中文",
+  "giao tiếp",
+  "hội thoại",
   // Programming
-  "python", "javascript", "sql", "code", "coding", "programming", "lập trình",
-  "data", "algorithm", "function", "variable", "loop", "array", "database",
-  "api", "html", "css", "react", "web", "debug", "error", "machine learning",
-  "ai", "ml", "artificial intelligence",
+  "python",
+  "javascript",
+  "sql",
+  "code",
+  "coding",
+  "programming",
+  "lập trình",
+  "data",
+  "algorithm",
+  "function",
+  "variable",
+  "loop",
+  "array",
+  "database",
+  "api",
+  "html",
+  "css",
+  "react",
+  "web",
+  "debug",
+  "error",
+  "machine learning",
+  "ai",
+  "ml",
+  "artificial intelligence",
   // Platform
-  "haiedu", "course", "khóa học", "lesson", "bài học", "vocab arena",
-  "thầy hải", "teacher hai", "học", "learn", "study", "practice", "luyện",
+  "haiedu",
+  "course",
+  "khóa học",
+  "lesson",
+  "bài học",
+  "vocab arena",
+  "thầy hải",
+  "teacher hai",
+  "học",
+  "learn",
+  "study",
+  "practice",
+  "luyện",
   // Greetings
-  "hello", "hi", "xin chào", "chào", "hey", "help", "giúp", "hỏi",
-  "thanks", "cảm ơn", "thank",
+  "hello",
+  "hi",
+  "xin chào",
+  "chào",
+  "hey",
+  "help",
+  "giúp",
+  "hỏi",
+  "thanks",
+  "cảm ơn",
+  "thank",
 ];
 
 function isOnTopic(text: string): boolean {
@@ -109,7 +240,7 @@ const ChatBot = () => {
     checkLockout();
   }, []);
 
-   // Show tooltip popup every 5 minutes when chat is closed
+  // Show tooltip popup every 5 minutes when chat is closed
   useEffect(() => {
     if (open) return;
     const interval = setInterval(() => {
@@ -121,14 +252,19 @@ const ChatBot = () => {
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 5000);
     }, 3000);
-    return () => { clearInterval(interval); clearTimeout(initial); };
+    return () => {
+      clearInterval(interval);
+      clearTimeout(initial);
+    };
   }, [open]);
 
   /**
    * Check if the user has 3+ warnings in the last 24 hours → lock chat for 1 hour.
    */
   const checkLockout = useCallback(async () => {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return;
 
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -161,7 +297,7 @@ const ChatBot = () => {
         setShowTooltip(true);
         tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
       }, 600);
-    }, 12000);
+    }, 300000);
 
     const initialTimer = setTimeout(() => {
       if (!open) {
@@ -195,7 +331,13 @@ const ChatBot = () => {
     if (!SpeechRecognition) {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: t("⚠️ Trình duyệt không hỗ trợ nhận diện giọng nói. Hãy dùng Chrome hoặc Edge.", "⚠️ Your browser doesn't support voice recognition. Please use Chrome or Edge.") },
+        {
+          role: "assistant",
+          content: t(
+            "⚠️ Trình duyệt không hỗ trợ nhận diện giọng nói. Hãy dùng Chrome hoặc Edge.",
+            "⚠️ Your browser doesn't support voice recognition. Please use Chrome or Edge.",
+          ),
+        },
       ]);
       return;
     }
@@ -230,19 +372,24 @@ const ChatBot = () => {
   /**
    * Log a profanity warning to moderation_logs table.
    */
-  const logModerationEvent = useCallback(async (content: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+  const logModerationEvent = useCallback(
+    async (content: string) => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) return;
 
-    await supabase.from("moderation_logs").insert({
-      user_id: user.id,
-      blocked_content: content,
-      reason: "profanity",
-    });
+      await supabase.from("moderation_logs").insert({
+        user_id: user.id,
+        blocked_content: content,
+        reason: "profanity",
+      });
 
-    // Re-check lockout after logging
-    checkLockout();
-  }, [checkLockout]);
+      // Re-check lockout after logging
+      checkLockout();
+    },
+    [checkLockout],
+  );
 
   // ── Send Message ──
   const sendMessage = async () => {
@@ -269,7 +416,7 @@ const ChatBot = () => {
           role: "assistant",
           content: t(
             "Xin lỗi em, thầy chuyên về **Tiếng Anh**, **Tiếng Trung** và **Lập trình** tại HaiEduTech. Để tiết kiệm tài nguyên AI cho việc học, em hãy hỏi thầy về 3 môn này nhé! 💪",
-            "I'm sorry, I specialize in **English**, **Chinese**, and **Programming** at HaiEduTech. To save AI resources for your learning, please ask me questions related to these three subjects! 💪"
+            "I'm sorry, I specialize in **English**, **Chinese**, and **Programming** at HaiEduTech. To save AI resources for your learning, please ask me questions related to these three subjects! 💪",
           ),
         },
       ]);
@@ -296,11 +443,35 @@ const ChatBot = () => {
 
       if (!resp.ok || !resp.body) {
         if (resp.status === 429) {
-          setMessages((prev) => [...prev, { role: "assistant", content: t("⚠️ Quá nhiều yêu cầu. Vui lòng thử lại sau.", "⚠️ Too many requests. Please try again later.") }]);
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "assistant",
+              content: t(
+                "⚠️ Quá nhiều yêu cầu. Vui lòng thử lại sau.",
+                "⚠️ Too many requests. Please try again later.",
+              ),
+            },
+          ]);
         } else if (resp.status === 402) {
-          setMessages((prev) => [...prev, { role: "assistant", content: t("⚠️ Hết hạn mức sử dụng. Vui lòng liên hệ quản trị.", "⚠️ Usage limit reached. Please contact admin.") }]);
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "assistant",
+              content: t(
+                "⚠️ Hết hạn mức sử dụng. Vui lòng liên hệ quản trị.",
+                "⚠️ Usage limit reached. Please contact admin.",
+              ),
+            },
+          ]);
         } else {
-          setMessages((prev) => [...prev, { role: "assistant", content: t("⚠️ Lỗi kết nối. Vui lòng thử lại.", "⚠️ Connection error. Please try again.") }]);
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "assistant",
+              content: t("⚠️ Lỗi kết nối. Vui lòng thử lại.", "⚠️ Connection error. Please try again."),
+            },
+          ]);
         }
         setIsLoading(false);
         return;
@@ -342,7 +513,13 @@ const ChatBot = () => {
         }
       }
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: t("⚠️ Lỗi kết nối. Vui lòng thử lại.", "⚠️ Connection error. Please try again.") }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: t("⚠️ Lỗi kết nối. Vui lòng thử lại.", "⚠️ Connection error. Please try again."),
+        },
+      ]);
     }
     setIsLoading(false);
   };
@@ -381,9 +558,7 @@ const ChatBot = () => {
                     <AlertTriangle className="h-7 w-7 text-destructive" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-destructive">
-                      {t("⚠️ CẢNH BÁO!", "⚠️ WARNING!")}
-                    </h3>
+                    <h3 className="text-lg font-bold text-destructive">{t("⚠️ CẢNH BÁO!", "⚠️ WARNING!")}</h3>
                     <p className="text-xs text-muted-foreground">Teacher Hai</p>
                   </div>
                 </div>
@@ -391,7 +566,7 @@ const ChatBot = () => {
                 <p className="text-sm leading-relaxed text-foreground">
                   {t(
                     "Hệ thống ghi nhận bạn đã sử dụng ngôn từ không chuẩn mực. Để đảm bảo môi trường học tập, nội dung này cùng với tài khoản của bạn sẽ được tự động gửi báo cáo trực tiếp đến Giáo viên quản lý và Phụ huynh nếu còn tái phạm.",
-                    "The system has detected inappropriate language. To maintain a safe learning environment, this content along with your account will be automatically reported to the managing Teacher and Parents if repeated."
+                    "The system has detected inappropriate language. To maintain a safe learning environment, this content along with your account will be automatically reported to the managing Teacher and Parents if repeated.",
                   )}
                 </p>
 
@@ -475,7 +650,12 @@ const ChatBot = () => {
             {chatLocked && (
               <div className="flex items-center gap-2 bg-destructive/10 px-4 py-2 text-sm text-destructive">
                 <AlertTriangle className="h-4 w-4" />
-                <span>{t("🔒 Chat đã bị khóa 1 giờ do vi phạm liên tục.", "🔒 Chat locked for 1 hour due to repeated violations.")}</span>
+                <span>
+                  {t(
+                    "🔒 Chat đã bị khóa 1 giờ do vi phạm liên tục.",
+                    "🔒 Chat locked for 1 hour due to repeated violations.",
+                  )}
+                </span>
               </div>
             )}
 
@@ -488,11 +668,7 @@ const ChatBot = () => {
                     {"Hi there! 👋\nAsk me about English, Chinese or Programming!"}
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
-                    {[
-                      "Explain present perfect tense",
-                      "What does 你好 mean?",
-                      "What is Python?",
-                    ].map((suggestion) => (
+                    {["Explain present perfect tense", "What does 你好 mean?", "What is Python?"].map((suggestion) => (
                       <button
                         key={suggestion}
                         onClick={() => setInput(suggestion)}
@@ -509,7 +685,9 @@ const ChatBot = () => {
                 <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                   <div
                     className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
-                      msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
+                      msg.role === "user"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-secondary-foreground"
                     }`}
                   >
                     {msg.role === "assistant" ? (
@@ -555,7 +733,11 @@ const ChatBot = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
-                  placeholder={chatLocked ? t("Chat đã bị khóa...", "Chat is locked...") : t("Hỏi thầy Hải...", "Ask Teacher Hai...")}
+                  placeholder={
+                    chatLocked
+                      ? t("Chat đã bị khóa...", "Chat is locked...")
+                      : t("Hỏi thầy Hải...", "Ask Teacher Hai...")
+                  }
                   className="flex-1 rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none disabled:opacity-50"
                   disabled={isLoading || chatLocked}
                 />
