@@ -21,6 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import FinnishSkier from "@/components/FinnishSkier";
+import FloatingFinnishDictionary from "@/components/FloatingFinnishDictionary";
 import {
   finnishVocabModules,
   finnishLessonModules,
@@ -1040,6 +1041,9 @@ const YkiDashboard = () => {
         </div>
       </main>
       <Footer />
+
+      {/* Floating Finnish Dictionary */}
+      <FloatingFinnishDictionary />
 
       {/* YKI A2 Ready Badge */}
       <YkiReadyBadge show={showBadge} onClose={() => setShowBadge(false)} />
