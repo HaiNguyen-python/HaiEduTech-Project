@@ -115,7 +115,7 @@ const ChatBot = () => {
     const interval = setInterval(() => {
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 5000);
-    }, 45000);
+    }, 60000);
     // Show immediately on mount after a short delay
     const initial = setTimeout(() => {
       setShowTooltip(true);
