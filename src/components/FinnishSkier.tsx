@@ -172,7 +172,7 @@ const FinnishSkier = ({ mastered, total, flyingStars, onStarLanded, containerRef
       </AnimatePresence>
 
       {/* Progress overlay */}
-      <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow border border-[#003580]/10">
+      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow border border-[#003580]/10">
         <p className="text-xs font-bold text-[#003580]">
           ⛷️ {mastered} / {total} words mastered
         </p>
