@@ -109,7 +109,7 @@ const ChatBot = () => {
     checkLockout();
   }, []);
 
-  // Show tooltip popup every 15 seconds when chat is closed
+  // Show tooltip popup every 60 seconds when chat is closed
   useEffect(() => {
     if (open) return;
     const interval = setInterval(() => {
