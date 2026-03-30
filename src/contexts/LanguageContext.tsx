@@ -1,3 +1,10 @@
+/**
+ * @file LanguageContext.tsx
+ * @description Language switching context for HaiEduTech Platform.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ * @license Private / Proprietary - No unauthorized copying or distribution.
+ */
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type Lang = "vi" | "en";

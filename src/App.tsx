@@ -1,3 +1,10 @@
+/**
+ * @file App.tsx
+ * @description Root application component with routing for HaiEduTech Platform.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ * @license Private / Proprietary - No unauthorized copying or distribution.
+ */
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";

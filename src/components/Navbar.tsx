@@ -1,4 +1,10 @@
-// HaiEduTech Navigation Bar with nested mega-menu for IELTS
+/**
+ * @file Navbar.tsx
+ * @description Main navigation bar for HaiEduTech Platform.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ * @license Private / Proprietary - No unauthorized copying or distribution.
+ */
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";

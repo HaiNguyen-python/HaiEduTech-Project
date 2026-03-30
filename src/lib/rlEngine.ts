@@ -1,5 +1,10 @@
-// RL (Reinforcement Learning) Intervention Engine
-// Analyzes student activity data and generates personalized recommendations
+/**
+ * @file rlEngine.ts
+ * @description RL (Reinforcement Learning) Intervention Engine for HaiEduTech Platform.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ * @license Private / Proprietary - No unauthorized copying or distribution.
+ */
 
 export type LearningDomain = "english" | "chinese" | "programming";
 

@@ -1,4 +1,10 @@
-// IELTS Speaking Practice page with real-time speech-to-text and AI grading
+/**
+ * @file SpeakingPractice.tsx
+ * @description IELTS Speaking Practice with live transcription and AI grading.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ * @license Private / Proprietary - No unauthorized copying or distribution.
+ */
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {

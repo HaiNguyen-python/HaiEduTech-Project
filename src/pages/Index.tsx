@@ -1,3 +1,10 @@
+/**
+ * @file Index.tsx
+ * @description Home page for HaiEduTech Platform.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ * @license Private / Proprietary - No unauthorized copying or distribution.
+ */
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CoursesOverview from "@/components/CoursesOverview";
