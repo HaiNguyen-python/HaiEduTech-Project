@@ -155,7 +155,30 @@ const SpeakingPractice = () => {
     setSelectedQuestionIdx(0);
     resetRecording();
     setShowModelAnswer(false);
+    setGrammarCheckResult(null);
   }, [selectedPart, selectedTopic]);
+
+  // Auto-save notes to localStorage
+  useEffect(() => {
+    const key = `speaking-notes-${selectedPart}-${currentQ?.id || selectedQuestionIdx}`;
+    const saved = localStorage.getItem(key);
+    if (saved) setCandidateNotes(saved);
+    else setCandidateNotes("");
+    setGrammarCheckResult(null);
+  }, [selectedPart, selectedQuestionIdx, currentQ?.id]);
+
+  useEffect(() => {
+    if (!currentQ) return;
+    const key = `speaking-notes-${selectedPart}-${currentQ.id || selectedQuestionIdx}`;
+    const timeout = setTimeout(() => {
+      localStorage.setItem(key, candidateNotes);
+      if (candidateNotes) {
+        setNotesSaved(true);
+        setTimeout(() => setNotesSaved(false), 1500);
+      }
+    }, 800);
+    return () => clearTimeout(timeout);
+  }, [candidateNotes, selectedPart, selectedQuestionIdx, currentQ]);
 
   useEffect(() => {
     return () => { if (audioUrl) URL.revokeObjectURL(audioUrl); };
