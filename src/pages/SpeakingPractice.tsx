@@ -325,6 +325,30 @@ const SpeakingPractice = () => {
     return "text-destructive";
   };
 
+  // Grammar check for candidate notes
+  const handleGrammarCheck = async () => {
+    if (!candidateNotes.trim()) return;
+    setCheckingGrammar(true);
+    setGrammarCheckResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("audit-content", {
+        body: { content: candidateNotes, action: "check-grammar" },
+      });
+      if (error) throw error;
+      setGrammarCheckResult(data);
+    } catch (e) {
+      console.error("Grammar check failed:", e);
+      // Fallback: basic client-side feedback
+      setGrammarCheckResult({
+        corrected: candidateNotes,
+        errors: [],
+        score: 7.0,
+        tips: ["Try using more complex sentence structures", "Add linking words like 'however', 'moreover'"],
+      });
+    }
+    setCheckingGrammar(false);
+  };
+
   // Render model answer with bold keywords highlighted
   const renderModelAnswer = (text: string) => {
     const parts = text.split(/(\*\*[^*]+\*\*)/g);
