@@ -36,6 +36,19 @@ export default function LessonLibraryContent() {
   const [filterCategory, setFilterCategory] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [newTodayCount, setNewTodayCount] = useState(0);
+
+  useEffect(() => {
+    // Count lessons created today
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    supabase
+      .from("generated_lessons")
+      .select("*", { count: "exact", head: true })
+      .eq("is_published", true)
+      .gte("created_at", todayStart.toISOString())
+      .then(({ count }) => setNewTodayCount(count || 0));
+  }, []);
 
   useEffect(() => {
     fetchLessonsPage(0);
@@ -78,10 +91,18 @@ export default function LessonLibraryContent() {
   return (
     <div className="max-w-5xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <p className="text-muted-foreground mb-6">
-          {t("Chọn bộ lọc để tìm nhanh bài học phù hợp với bạn.", "Use filters to find what fits.")}
-          {total > 0 && <span className="ml-2 text-primary font-semibold">({total} {t("bài", "lessons")})</span>}
-        </p>
+        <div className="flex items-center gap-3 mb-6">
+          <p className="text-muted-foreground">
+            {t("Chọn bộ lọc để tìm nhanh bài học phù hợp với bạn.", "Use filters to find what fits.")}
+            {total > 0 && <span className="ml-2 text-primary font-semibold">({total} {t("bài", "lessons")})</span>}
+          </p>
+          {newTodayCount > 0 && (
+            <Badge className="bg-green-500 text-white border-0 text-xs px-2.5 py-1 flex items-center gap-1 animate-pulse">
+              <Sparkles className="w-3 h-3" />
+              {newTodayCount} {t("bài mới hôm nay", "new today")}
+            </Badge>
+          )}
+        </div>
 
         {/* Filters */}
         <div className="glass-card rounded-xl p-4 mb-8">
