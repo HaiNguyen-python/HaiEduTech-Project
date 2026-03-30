@@ -753,6 +753,128 @@ const SpeakingPractice = () => {
               </CardContent>
             </Card>
 
+            {/* Candidate Notes - Sticky Note style */}
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+              <Card className={`border-2 ${selectedPart === 2 ? "border-amber-300 dark:border-amber-600 bg-amber-50/50 dark:bg-amber-950/20" : "border-dashed border-muted-foreground/20 bg-yellow-50/30 dark:bg-yellow-950/10"}`}>
+                <CardContent className="pt-4 pb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <StickyNote className={`w-4 h-4 ${selectedPart === 2 ? "text-amber-600" : "text-yellow-600"}`} />
+                      <h4 className="text-sm font-bold text-foreground">
+                        {selectedPart === 2
+                          ? t("📝 Ghi chú chuẩn bị (1 phút)", "📝 Preparation Notes (1 minute)")
+                          : t("📝 Ghi chú nhanh", "📝 Quick Notes")}
+                      </h4>
+                      {notesSaved && (
+                        <span className="flex items-center gap-1 text-[10px] text-green-600">
+                          <CheckCircle2 className="w-3 h-3" /> {t("Đã lưu", "Saved")}
+                        </span>
+                      )}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleGrammarCheck}
+                      disabled={checkingGrammar || !candidateNotes.trim()}
+                      className="text-xs gap-1.5 h-7"
+                    >
+                      {checkingGrammar ? (
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      ) : (
+                        <PenLine className="w-3 h-3" />
+                      )}
+                      {t("Kiểm tra ngữ pháp", "Check Grammar")}
+                    </Button>
+                  </div>
+
+                  {selectedPart === 2 && (
+                    <p className="text-xs text-amber-700 dark:text-amber-400 mb-2 italic">
+                      {t(
+                        "💡 Bạn có 1 phút chuẩn bị. Ghi nhanh ý tưởng, từ khóa và cấu trúc muốn dùng.",
+                        "💡 You have 1 minute to prepare. Jot down ideas, keywords, and structures."
+                      )}
+                    </p>
+                  )}
+
+                  <textarea
+                    value={candidateNotes}
+                    onChange={(e) => setCandidateNotes(e.target.value)}
+                    placeholder={selectedPart === 2
+                      ? t(
+                          "Ghi nhanh ý tưởng cho Part 2:\n• Chủ đề chính: ...\n• Từ vựng muốn dùng: ...\n• Cấu trúc câu: ...\n• Kết luận: ...",
+                          "Jot down your Part 2 ideas:\n• Main topic: ...\n• Key vocabulary: ...\n• Sentence structures: ...\n• Conclusion: ..."
+                        )
+                      : t(
+                          "Ghi chú nhanh ý tưởng và từ vựng...",
+                          "Quick notes — ideas & vocabulary..."
+                        )
+                    }
+                    className={`w-full rounded-lg border-0 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-0 resize-none ${
+                      selectedPart === 2 ? "min-h-[160px]" : "min-h-[80px]"
+                    }`}
+                    style={{
+                      backgroundImage: "repeating-linear-gradient(transparent, transparent 27px, hsl(var(--border) / 0.3) 27px, hsl(var(--border) / 0.3) 28px)",
+                      backgroundPositionY: "4px",
+                      lineHeight: "28px",
+                      paddingTop: "4px",
+                    }}
+                  />
+
+                  {/* Grammar Check Results */}
+                  <AnimatePresence>
+                    {grammarCheckResult && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="mt-3 pt-3 border-t border-border"
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <CheckCircle2 className={`w-4 h-4 ${grammarCheckResult.errors?.length === 0 ? "text-green-600" : "text-amber-600"}`} />
+                          <span className="text-sm font-semibold text-foreground">
+                            {t("Kết quả kiểm tra", "Grammar Check Result")}
+                          </span>
+                          <Badge variant="outline" className="text-[10px]">
+                            {grammarCheckResult.score?.toFixed(1) || "N/A"}/9.0
+                          </Badge>
+                        </div>
+
+                        {grammarCheckResult.errors?.length > 0 && (
+                          <div className="space-y-1.5 mb-2">
+                            {grammarCheckResult.errors.map((err: any, i: number) => (
+                              <div key={i} className="text-xs flex items-start gap-2 p-2 rounded-lg bg-destructive/5">
+                                <span className="text-destructive line-through shrink-0">{err.original}</span>
+                                <span className="text-muted-foreground">→</span>
+                                <span className="text-green-600 font-semibold shrink-0">{err.correction}</span>
+                                <span className="text-muted-foreground ml-1">({err.rule})</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {grammarCheckResult.corrected && grammarCheckResult.errors?.length > 0 && (
+                          <div className="p-2 rounded-lg bg-green-50 dark:bg-green-950/20 mb-2">
+                            <p className="text-xs font-semibold text-green-700 dark:text-green-400 mb-1">{t("Bản sửa:", "Corrected:")}</p>
+                            <p className="text-xs text-foreground">{grammarCheckResult.corrected}</p>
+                          </div>
+                        )}
+
+                        {grammarCheckResult.tips?.length > 0 && (
+                          <div className="space-y-1">
+                            {grammarCheckResult.tips.map((tip: string, i: number) => (
+                              <p key={i} className="text-xs text-muted-foreground flex items-start gap-1">
+                                <span className="text-primary">💡</span> {tip}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </CardContent>
+              </Card>
+            </motion.div>
+
             {/* Live Transcription Panel */}
             {(isRecording || liveTranscript) && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
