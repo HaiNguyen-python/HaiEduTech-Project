@@ -1,3 +1,10 @@
+/**
+ * @file HeroSection.tsx
+ * @description Landing page hero section for HaiEduTech Platform.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ * @license Private / Proprietary - No unauthorized copying or distribution.
+ */
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, GraduationCap, BookOpen, Languages, Code2 } from "lucide-react";
 import { Link } from "react-router-dom";
