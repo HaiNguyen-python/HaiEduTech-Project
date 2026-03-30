@@ -1,3 +1,10 @@
+/**
+ * @file Footer.tsx
+ * @description Global footer component for HaiEduTech Platform.
+ * @author Teacher Hai (HaiEduTech)
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
+ * @license Private / Proprietary - No unauthorized copying or distribution.
+ */
 import { Brain, Mail, Github, Linkedin, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
