@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp, AlertTriangle,
   BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
-  Users, MapPin, Package, Calendar, Sparkles
+  Users, MapPin, Package, Calendar, Sparkles, StickyNote, CheckCircle2, Loader2,
+  PenLine
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -109,6 +110,11 @@ const SpeakingPractice = () => {
   // Live transcription state
   const [liveTranscript, setLiveTranscript] = useState("");
   const [interimTranscript, setInterimTranscript] = useState("");
+  // Candidate notes state
+  const [candidateNotes, setCandidateNotes] = useState("");
+  const [grammarCheckResult, setGrammarCheckResult] = useState<any>(null);
+  const [checkingGrammar, setCheckingGrammar] = useState(false);
+  const [notesSaved, setNotesSaved] = useState(false);
 
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
