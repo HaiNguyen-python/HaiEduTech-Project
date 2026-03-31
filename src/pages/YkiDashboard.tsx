@@ -608,7 +608,7 @@ const YkiDashboard = () => {
   const [examScores, setExamScores] = useState<Record<string, { score: number; total: number }>>(getExamScores());
 
   const allVocabWords = useMemo(() =>
-    finnishVocabModules.flatMap(m => m.lessons.flatMap(l => l.vocabulary || [])),
+    allVocabModules.flatMap(m => m.lessons.flatMap(l => l.vocabulary || [])),
   []);
 
   const handleMasterWord = (word: string, event: React.MouseEvent) => {
