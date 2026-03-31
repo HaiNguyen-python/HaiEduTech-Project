@@ -650,7 +650,7 @@ const YkiDashboard = () => {
     // Check if all 4 skill modules are completed
     const skillModuleIds = ["yki-mock-reading", "yki-mock-listening", "yki-mock-writing", "yki-mock-speaking"];
     const allSkillsDone = skillModuleIds.every(moduleId => {
-      const mod = finnishMockExamModules.find(m => m.id === moduleId);
+      const mod = allMockExamModules.find(m => m.id === moduleId);
       if (!mod) return false;
       return mod.lessons.some(l => {
         const s = newScores[l.id];
