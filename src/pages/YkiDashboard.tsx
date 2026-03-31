@@ -24,12 +24,18 @@ import FinnishSkier from "@/components/FinnishSkier";
 import FloatingFinnishDictionary from "@/components/FloatingFinnishDictionary";
 import {
   finnishVocabModules,
+  finnishVocabExpansionModules,
   finnishLessonModules,
   finnishMockExamModules,
+  finnishMockExamExpansionModules,
   type FinnishModule,
   type FinnishLesson,
   type FinnishVocabEntry,
 } from "@/data/finnishCurriculum";
+
+// Merge original + expansion data
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules];
+const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules];
 
 // Verb conjugation helper data
 const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> = {
