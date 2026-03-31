@@ -666,7 +666,7 @@ const YkiDashboard = () => {
   // Initialize from URL param
   useMemo(() => {
     if (initialModule) {
-      const allMods = [...finnishVocabModules, ...finnishLessonModules, ...finnishMockExamModules];
+      const allMods = [...allVocabModules, ...finnishLessonModules, ...allMockExamModules];
       const found = allMods.find((m) => m.id === initialModule);
       if (found) {
         setActivePillar(found.pillar);
