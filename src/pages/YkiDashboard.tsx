@@ -24,12 +24,18 @@ import FinnishSkier from "@/components/FinnishSkier";
 import FloatingFinnishDictionary from "@/components/FloatingFinnishDictionary";
 import {
   finnishVocabModules,
+  finnishVocabExpansionModules,
   finnishLessonModules,
   finnishMockExamModules,
+  finnishMockExamExpansionModules,
   type FinnishModule,
   type FinnishLesson,
   type FinnishVocabEntry,
 } from "@/data/finnishCurriculum";
+
+// Merge original + expansion data
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules];
+const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules];
 
 // Verb conjugation helper data
 const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> = {
@@ -602,7 +608,7 @@ const YkiDashboard = () => {
   const [examScores, setExamScores] = useState<Record<string, { score: number; total: number }>>(getExamScores());
 
   const allVocabWords = useMemo(() =>
-    finnishVocabModules.flatMap(m => m.lessons.flatMap(l => l.vocabulary || [])),
+    allVocabModules.flatMap(m => m.lessons.flatMap(l => l.vocabulary || [])),
   []);
 
   const handleMasterWord = (word: string, event: React.MouseEvent) => {
@@ -644,7 +650,7 @@ const YkiDashboard = () => {
     // Check if all 4 skill modules are completed
     const skillModuleIds = ["yki-mock-reading", "yki-mock-listening", "yki-mock-writing", "yki-mock-speaking"];
     const allSkillsDone = skillModuleIds.every(moduleId => {
-      const mod = finnishMockExamModules.find(m => m.id === moduleId);
+      const mod = allMockExamModules.find(m => m.id === moduleId);
       if (!mod) return false;
       return mod.lessons.some(l => {
         const s = newScores[l.id];
@@ -660,7 +666,7 @@ const YkiDashboard = () => {
   // Initialize from URL param
   useMemo(() => {
     if (initialModule) {
-      const allMods = [...finnishVocabModules, ...finnishLessonModules, ...finnishMockExamModules];
+      const allMods = [...allVocabModules, ...finnishLessonModules, ...allMockExamModules];
       const found = allMods.find((m) => m.id === initialModule);
       if (found) {
         setActivePillar(found.pillar);
@@ -671,10 +677,10 @@ const YkiDashboard = () => {
   }, [initialModule]);
 
   const currentModules = activePillar === "vocabulary"
-    ? finnishVocabModules
+    ? allVocabModules
     : activePillar === "lessons"
     ? finnishLessonModules
-    : finnishMockExamModules;
+    : allMockExamModules;
 
   const handleSelectModule = (mod: FinnishModule) => {
     setSelectedModule(mod);
@@ -695,15 +701,15 @@ const YkiDashboard = () => {
   };
 
   const progress = getProgress();
-  const totalLessons = [...finnishVocabModules, ...finnishLessonModules, ...finnishMockExamModules]
+  const totalLessons = [...allVocabModules, ...finnishLessonModules, ...allMockExamModules]
     .reduce((sum, m) => sum + m.lessons.length, 0);
   const completedLessons = Object.keys(progress).filter((k) => progress[k]).length;
-  const vocabCompleted = finnishVocabModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
-  const vocabTotal = finnishVocabModules.flatMap(m => m.lessons).length;
+  const vocabCompleted = allVocabModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
+  const vocabTotal = allVocabModules.flatMap(m => m.lessons).length;
   const grammarCompleted = finnishLessonModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
   const grammarTotal = finnishLessonModules.flatMap(m => m.lessons).length;
-  const mockCompleted = finnishMockExamModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
-  const mockTotal = finnishMockExamModules.flatMap(m => m.lessons).length;
+  const mockCompleted = allMockExamModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
+  const mockTotal = allMockExamModules.flatMap(m => m.lessons).length;
 
   const markComplete = (lessonId: string) => {
     const p = getProgress();
