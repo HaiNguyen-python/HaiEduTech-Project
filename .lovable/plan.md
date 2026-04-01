@@ -1,58 +1,51 @@
 
 
-# Plan: Flashcard Mode + More Vocabulary + More Mock Exams
+# Plan: Fix Mismatched Vocabulary Images
 
-## Overview
-Three additions: (1) a Flashcard study mode for vocabulary, (2) more vocabulary words per module, (3) additional mock exam sets for all 4 skills.
+## Problem
+Many words share the same generic image instead of showing word-specific illustrations. From the screenshot and code analysis:
 
----
+- **Home category**: `lattia` (floor), `seinä` (wall), `lamppu` (lamp), `ovi` (door), `ikkuna` (window), `avain` (key), `parveke` (balcony), `sähkö` (electricity) — ALL show the same red house photo (`photo-1518780664697`)
+- **Body parts**: `pää` (head), `silmä` (eye), `korva` (ear), `nenä` (nose), `suu` (mouth) — ALL show same doctor photo (`photo-1612349317150`)
+- **Emotions**: `surullinen`, `väsynyt`, `vihainen`, `huolestunut`, `pelokas`, `ujo`, `laiska`, `stressaantunut` — ALL same sad photo (`photo-1541199249251`)
+- **Happy emotions**: `iloinen`, `innostunut`, `tyytyväinen`, `yllättynyt`, `jännittävä`, `ylpeä`, `kiitollinen` — ALL same happy photo (`photo-1492681290082`)
+- **Walking/Direction**: `mennä`, `kävellä`, `lähteä`, `palata`, `suoraan`, `vasemmalle`, `oikealle` — ALL same road photo
+- **Celebrations**: `juhla`, `syntymäpäivä`, `onnitella`, `kutsua`, `pääsiäinen`, `vappu` — ALL same party photo
+- **Several more duplicates** across emergency, services, food categories
 
-## 1. Flashcard Component (`src/pages/YkiDashboard.tsx`)
+## Solution
+Replace ~80 duplicated/generic Unsplash photo IDs with **word-specific** images. Each word gets a unique, semantically accurate photo.
 
-Add a **Flashcard mode** toggle alongside the existing vocabulary grid view. When active:
-- Cards display one at a time, flip on click (front: Finnish word + image, back: meanings + example)
-- Navigation: Previous / Next buttons + card counter (e.g., "3/15")
-- Audio play button on front
-- Mark as Mastered star on each card
-- Keyboard support: Left/Right arrows, Space to flip
-- Smooth flip animation using Framer Motion `rotateY`
+### Key Replacements
 
-**UI**: A toggle button group at the top of the vocabulary section: `📖 Cards` | `🃏 Flashcards`
+| Word | Meaning | Current Issue | New Image |
+|------|---------|--------------|-----------|
+| `lattia` | floor | red house | wooden floor close-up |
+| `seinä` | wall | red house | brick/painted wall |
+| `lamppu` | lamp | red house | table lamp |
+| `ovi` | door | red house | wooden door |
+| `ikkuna` | window | red house | window with light |
+| `avain` | key | red house | metal keys |
+| `parveke` | balcony | red house | balcony view |
+| `sähkö` | electricity | red house | power lines/outlet |
+| `pää` | head | doctor | person's head portrait |
+| `silmä` | eye | doctor | close-up eye |
+| `korva` | ear | doctor | ear close-up |
+| `nenä` | nose | doctor | nose close-up |
+| `suu` | mouth | doctor | smile/mouth |
+| `surullinen` | sad | generic | sad person |
+| `väsynyt` | tired | generic | tired person |
+| `vihainen` | angry | generic | angry expression |
+| `huolestunut` | worried | generic | worried person |
+| `iloinen` | happy | generic | joyful person |
+| `innostunut` | excited | generic | excited person |
+| `mennä`/`kävellä` | go/walk | same road | walking person |
+| `lähteä`/`palata` | leave/return | same road | travel scenes |
+| + ~50 more fixes | | | |
 
-## 2. Expand Vocabulary (`src/data/finnishCurriculum/vocabularyExpansion3.ts` — NEW)
+### File Modified
 
-Create a new expansion file with **4 new vocabulary modules** (~60 words total):
-- **Tunteet ja luonne** (Emotions & Personality) — 15 words
-- **Teknologia** (Technology) — 15 words  
-- **Matkailu** (Travel & Tourism) — 15 words
-- **Yhteiskunta** (Society & Media) — 15 words
-
-Each module has 1 lesson with vocabulary entries (word, IPA, meanings, examples, category) + 5 quiz questions.
-
-## 3. More Mock Exams (`src/data/finnishCurriculum/mockExamExpansion2.ts` — NEW)
-
-Create a second expansion file with **4 new mock exam modules** (one per skill):
-- **Reading** — 3 new sets (news article, rental ad, recipe)
-- **Listening** — 3 new sets (phone call, radio, store)
-- **Writing** — 3 new sets (complaint letter, job application, invitation)
-- **Speaking** — 3 new sets (doctor visit, job interview, apartment viewing)
-
-Each set includes Finnish-only content with theory/transcript + 5 quiz questions.
-
-## 4. Wire Up (`src/data/finnishCurriculum/index.ts` + `src/pages/YkiDashboard.tsx`)
-
-- Export new modules from index.ts
-- Import and merge into `allVocabModules` and `allMockExamModules`
-- Add VOCAB_IMAGES entries for new words
-
----
-
-## Files
-
-| Action | File |
-|--------|------|
-| EDIT | `src/pages/YkiDashboard.tsx` — Add Flashcard mode + import new data |
-| CREATE | `src/data/finnishCurriculum/vocabularyExpansion3.ts` — 4 new vocab modules |
-| CREATE | `src/data/finnishCurriculum/mockExamExpansion2.ts` — 4 new exam modules |
-| EDIT | `src/data/finnishCurriculum/index.ts` — Export new modules |
+| File | Change |
+|------|--------|
+| `src/pages/YkiDashboard.tsx` | Replace ~80 duplicated Unsplash photo IDs in `VOCAB_IMAGES` with unique, word-accurate images |
 
