@@ -609,7 +609,142 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
   );
 };
 
-// Quiz Component with 15-minute skill timer and Finnish-first display
+// Flashcard View Component
+const FlashcardView = ({
+  vocabulary,
+  currentIndex,
+  isFlipped,
+  onFlip,
+  onNext,
+  onPrev,
+  isMastered,
+  onMaster,
+}: {
+  vocabulary: FinnishVocabEntry[];
+  currentIndex: number;
+  isFlipped: boolean;
+  onFlip: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+  isMastered: (word: string) => boolean;
+  onMaster: (word: string, e: React.MouseEvent) => void;
+}) => {
+  const vocab = vocabulary[currentIndex];
+  if (!vocab) return null;
+
+  const imageUrl = getVocabImageUrl(vocab.meaningEn, vocab.word, vocab.category);
+  const illustration = getWordIllustration(vocab.word);
+  const gradient = getCategoryGradient(vocab.category);
+  const mastered = isMastered(vocab.word);
+
+  // Keyboard support
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.code === "Space") { e.preventDefault(); onFlip(); }
+      if (e.code === "ArrowRight") onNext();
+      if (e.code === "ArrowLeft") onPrev();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onFlip, onNext, onPrev]);
+
+  return (
+    <div className="flex flex-col items-center gap-6">
+      {/* Counter */}
+      <div className="flex items-center gap-3">
+        <Badge variant="outline" className="text-sm px-3 py-1">
+          {currentIndex + 1} / {vocabulary.length}
+        </Badge>
+        {mastered && (
+          <Badge className="bg-amber-500 text-white text-sm gap-1">
+            <Star className="w-3 h-3 fill-white" /> Mastered
+          </Badge>
+        )}
+      </div>
+
+      {/* Flashcard */}
+      <div
+        className="w-full max-w-lg cursor-pointer"
+        style={{ perspective: "1000px" }}
+        onClick={onFlip}
+      >
+        <motion.div
+          animate={{ rotateY: isFlipped ? 180 : 0 }}
+          transition={{ duration: 0.5, type: "spring", stiffness: 260, damping: 20 }}
+          style={{ transformStyle: "preserve-3d" }}
+          className="relative w-full min-h-[320px]"
+        >
+          {/* Front */}
+          <div
+            className="absolute inset-0 bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden"
+            style={{ backfaceVisibility: "hidden" }}
+          >
+            {/* Image */}
+            <div className="h-40 relative overflow-hidden">
+              {imageUrl ? (
+                <img src={imageUrl} alt={vocab.meaningEn} className="w-full h-full object-cover" loading="lazy" />
+              ) : (
+                <div className={`w-full h-full bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+                  <span className="text-5xl">{illustration}</span>
+                </div>
+              )}
+            </div>
+            <div className="p-6 text-center">
+              <h2 className="text-3xl font-extrabold text-foreground mb-2">{vocab.word}</h2>
+              {vocab.ipa && <p className="text-sm text-muted-foreground font-mono mb-3">{vocab.ipa}</p>}
+              <p className="text-sm text-muted-foreground">Klikkaa kääntääksesi • Click to flip</p>
+              <button
+                onClick={(e) => { e.stopPropagation(); speakFinnish(vocab.word); }}
+                className="mt-3 w-10 h-10 rounded-full bg-muted hover:bg-muted/80 flex items-center justify-center mx-auto transition-colors"
+              >
+                <Volume2 className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </div>
+          </div>
+
+          {/* Back */}
+          <div
+            className="absolute inset-0 bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden p-6"
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+          >
+            <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
+              <p className="text-xl font-bold text-blue-700">{vocab.meaningEn}</p>
+              <p className="text-lg text-gray-600">{vocab.meaningVi}</p>
+              {vocab.puhekieli && vocab.puhekieli !== vocab.word && (
+                <Badge variant="outline" className="text-xs border-orange-400 text-orange-600">
+                  🗣️ Puhekieli: {vocab.puhekieli}
+                </Badge>
+              )}
+              <div className="mt-3 pt-3 border-t border-gray-200 w-full">
+                <p className="text-sm text-gray-800 font-medium">{vocab.example}</p>
+                <p className="text-xs text-gray-500 italic mt-1">{vocab.exampleEn}</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Navigation */}
+      <div className="flex items-center gap-4">
+        <Button variant="outline" size="sm" onClick={onPrev} disabled={currentIndex === 0} className="gap-1">
+          <ChevronLeft className="w-4 h-4" /> Edellinen
+        </Button>
+        <button
+          onClick={(e) => onMaster(vocab.word, e)}
+          className="w-10 h-10 rounded-full bg-muted hover:bg-amber-100 flex items-center justify-center transition-colors"
+        >
+          <Star className={`w-5 h-5 ${mastered ? "fill-amber-400 text-amber-400" : "text-gray-400"}`} />
+        </button>
+        <Button variant="outline" size="sm" onClick={onNext} disabled={currentIndex === vocabulary.length - 1} className="gap-1">
+          Seuraava <ChevronRight className="w-4 h-4" />
+        </Button>
+      </div>
+
+      <p className="text-xs text-muted-foreground">⌨️ Space = flip, ← → = navigate</p>
+    </div>
+  );
+};
+
 const QuizSection = ({
   quiz,
   timerEnabled = false,
