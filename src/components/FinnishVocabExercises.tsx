@@ -2,6 +2,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Check, X, Clock, Shuffle, ArrowRight, RotateCcw, Zap } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,25 +10,19 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { FinnishVocabEntry } from "@/data/finnishCurriculum/types";
+import { playFinnishTts } from "@/lib/finnishTts";
 
 interface FinnishVocabExercisesProps {
   vocabulary: FinnishVocabEntry[];
   onExerciseComplete?: (score: number, total: number) => void;
 }
 
-// Enhanced Finnish TTS — select best available Finnish voice
 const speakFinnish = (text: string) => {
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "fi-FI";
-  u.rate = 0.75;
-  u.pitch = 1.0;
-  const voices = window.speechSynthesis.getVoices();
-  const finnishVoice = voices.find(v => v.lang === "fi-FI")
-    || voices.find(v => v.lang.startsWith("fi"))
-    || voices.find(v => v.name.toLowerCase().includes("finnish"));
-  if (finnishVoice) u.voice = finnishVoice;
-  window.speechSynthesis.speak(u);
+  void playFinnishTts(text).then((played) => {
+    if (!played) {
+      toast.error("Không thể phát âm chuẩn tiếng Phần Lan trên thiết bị này.");
+    }
+  });
 };
 
 // Shuffle utility
