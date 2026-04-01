@@ -1406,16 +1406,16 @@ const YkiDashboard = () => {
 
   // Extract Finnish dialogue text from theory markdown for listening TTS
   const [isPlayingListening, setIsPlayingListening] = useState(false);
+  const listeningCancelRef = useRef(false);
+
   const extractFinnishDialogue = (theory: string): string[] => {
     const lines: string[] = [];
     for (const line of theory.split("\n")) {
-      // Match blockquote dialogue lines like "> **Speaker:** Finnish text"
       const dialogueMatch = line.match(/^>\s*\*\*(.+?)\*\*\s*(.+)/);
       if (dialogueMatch) {
         lines.push(`${dialogueMatch[1]} ${dialogueMatch[2]}`);
         continue;
       }
-      // Match quoted announcements like "> "Finnish text""
       const quoteMatch = line.match(/^>\s*"(.+)"?\s*$/);
       if (quoteMatch) {
         lines.push(quoteMatch[1].replace(/"$/, ""));
@@ -1425,22 +1425,30 @@ const YkiDashboard = () => {
   };
 
   const playListeningAudio = async () => {
-    if (!selectedLesson?.theory || isPlayingListening) return;
+    if (!selectedLesson?.theory) return;
+
+    // Toggle stop if already playing
+    if (isPlayingListening) {
+      listeningCancelRef.current = true;
+      return;
+    }
+
+    listeningCancelRef.current = false;
     setIsPlayingListening(true);
     try {
       const dialogueLines = extractFinnishDialogue(selectedLesson.theory);
       if (dialogueLines.length === 0) {
-        // Fallback: speak the whole theory
-        await speakFinnish(selectedLesson.theory.replace(/[#*>_\[\]()]/g, "").substring(0, 500));
+        await playFinnishTts(selectedLesson.theory.replace(/[#*>_\[\]()]/g, "").substring(0, 500));
       } else {
         for (const line of dialogueLines) {
-          await speakFinnish(line);
-          // Small pause between lines
-          await new Promise(r => setTimeout(r, 600));
+          if (listeningCancelRef.current) break;
+          await playFinnishTts(line);
+          if (listeningCancelRef.current) break;
+          await new Promise(r => setTimeout(r, 800));
         }
       }
     } catch {
-      // handled by speakFinnish
+      // handled
     } finally {
       setIsPlayingListening(false);
     }
