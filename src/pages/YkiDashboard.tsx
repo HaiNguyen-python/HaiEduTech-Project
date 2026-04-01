@@ -25,17 +25,21 @@ import FloatingFinnishDictionary from "@/components/FloatingFinnishDictionary";
 import {
   finnishVocabModules,
   finnishVocabExpansionModules,
+  finnishVocabExpansion2Modules,
   finnishLessonModules,
+  finnishLessonExpansionModules,
   finnishMockExamModules,
   finnishMockExamExpansionModules,
   type FinnishModule,
   type FinnishLesson,
   type FinnishVocabEntry,
 } from "@/data/finnishCurriculum";
+import FinnishVocabExercises from "@/components/FinnishVocabExercises";
 
 // Merge original + expansion data
-const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules];
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules];
 const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules];
+const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules];
 
 // Verb conjugation helper data
 const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> = {
@@ -666,7 +670,7 @@ const YkiDashboard = () => {
   // Initialize from URL param
   useMemo(() => {
     if (initialModule) {
-      const allMods = [...allVocabModules, ...finnishLessonModules, ...allMockExamModules];
+      const allMods = [...allVocabModules, ...allLessonModules, ...allMockExamModules];
       const found = allMods.find((m) => m.id === initialModule);
       if (found) {
         setActivePillar(found.pillar);
@@ -679,7 +683,7 @@ const YkiDashboard = () => {
   const currentModules = activePillar === "vocabulary"
     ? allVocabModules
     : activePillar === "lessons"
-    ? finnishLessonModules
+    ? allLessonModules
     : allMockExamModules;
 
   const handleSelectModule = (mod: FinnishModule) => {
@@ -701,13 +705,13 @@ const YkiDashboard = () => {
   };
 
   const progress = getProgress();
-  const totalLessons = [...allVocabModules, ...finnishLessonModules, ...allMockExamModules]
+  const totalLessons = [...allVocabModules, ...allLessonModules, ...allMockExamModules]
     .reduce((sum, m) => sum + m.lessons.length, 0);
   const completedLessons = Object.keys(progress).filter((k) => progress[k]).length;
   const vocabCompleted = allVocabModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
   const vocabTotal = allVocabModules.flatMap(m => m.lessons).length;
-  const grammarCompleted = finnishLessonModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
-  const grammarTotal = finnishLessonModules.flatMap(m => m.lessons).length;
+  const grammarCompleted = allLessonModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
+  const grammarTotal = allLessonModules.flatMap(m => m.lessons).length;
   const mockCompleted = allMockExamModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
   const mockTotal = allMockExamModules.flatMap(m => m.lessons).length;
 
@@ -918,6 +922,20 @@ const YkiDashboard = () => {
                               />
                             ))}
                           </div>
+                        </div>
+                      )}
+
+                      {/* Interactive Exercises for vocabulary modules */}
+                      {selectedLesson.vocabulary && selectedLesson.vocabulary.length >= 4 && selectedModule.pillar === "vocabulary" && (
+                        <div className="mb-6">
+                          <FinnishVocabExercises
+                            vocabulary={selectedLesson.vocabulary}
+                            onExerciseComplete={(score, total) => {
+                              if (score >= total * 0.7) {
+                                toast.success("Hienoa työtä! Harjoitukset suoritettu! ⛷️");
+                              }
+                            }}
+                          />
                         </div>
                       )}
 
