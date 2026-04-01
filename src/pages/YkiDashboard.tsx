@@ -181,11 +181,235 @@ const getCategoryGradient = (category?: string): string => {
   return CATEGORY_GRADIENTS.default;
 };
 
-// Generate Unsplash image URL from English meaning keyword
-const getVocabImageUrl = (meaningEn: string, word: string): string => {
-  // Use English meaning as keyword for relevant illustration
-  const keyword = encodeURIComponent(meaningEn.split(/[,;(]/)[0].trim().toLowerCase());
-  return `https://source.unsplash.com/400x300/?${keyword}`;
+// Curated word-to-Unsplash-photo mapping for vivid, real-world illustrations
+const VOCAB_IMAGES: Record<string, string> = {
+  // Work & Professions
+  lääkäri: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=400&h=300&q=80",
+  opettaja: "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=400&h=300&q=80",
+  insinööri: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=400&h=300&q=80",
+  sairaanhoitaja: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&h=300&q=80",
+  myyjä: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=400&h=300&q=80",
+  kokki: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=400&h=300&q=80",
+  palkka: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&h=300&q=80",
+  työsopimus: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=400&h=300&q=80",
+  työhaastattelu: "https://images.unsplash.com/photo-1565688534245-05d6b5be184a?auto=format&fit=crop&w=400&h=300&q=80",
+  ansioluettelo: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=400&h=300&q=80",
+  työtoveri: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&h=300&q=80",
+  esimies: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&h=300&q=80",
+  lomake: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=400&h=300&q=80",
+  hakea: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=400&h=300&q=80",
+  palkkio: "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=400&h=300&q=80",
+  // Transport
+  bussi: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&h=300&q=80",
+  juna: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=400&h=300&q=80",
+  raitiovaunu: "https://images.unsplash.com/photo-1581262177000-8139a463e531?auto=format&fit=crop&w=400&h=300&q=80",
+  lentokone: "https://images.unsplash.com/photo-1436491865332-7a61a109db05?auto=format&fit=crop&w=400&h=300&q=80",
+  lippu: "https://images.unsplash.com/photo-1459257831348-f0cdd359235f?auto=format&fit=crop&w=400&h=300&q=80",
+  asema: "https://images.unsplash.com/photo-1515965885361-f1e0ff4add39?auto=format&fit=crop&w=400&h=300&q=80",
+  pysäkki: "https://images.unsplash.com/photo-1567443024551-f3e3cc2be870?auto=format&fit=crop&w=400&h=300&q=80",
+  aikataulu: "https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&w=400&h=300&q=80",
+  matka: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&h=300&q=80",
+  lentokenttä: "https://images.unsplash.com/photo-1436491865332-7a61a109db05?auto=format&fit=crop&w=400&h=300&q=80",
+  vaihtaa: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=400&h=300&q=80",
+  myöhässä: "https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=400&h=300&q=80",
+  // Food & Restaurant
+  leipä: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&h=300&q=80",
+  maito: "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=400&h=300&q=80",
+  juusto: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=400&h=300&q=80",
+  liha: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=400&h=300&q=80",
+  kala: "https://images.unsplash.com/photo-1510130387422-82bed34b37e9?auto=format&fit=crop&w=400&h=300&q=80",
+  peruna: "https://images.unsplash.com/photo-1518977676601-b53f82ber640?auto=format&fit=crop&w=400&h=300&q=80",
+  salaatti: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&h=300&q=80",
+  keitto: "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=400&h=300&q=80",
+  jälkiruoka: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=400&h=300&q=80",
+  tilata: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=400&h=300&q=80",
+  lasku: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&h=300&q=80",
+  tarjoilija: "https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=400&h=300&q=80",
+  ruokalista: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&h=300&q=80",
+  hedelmä: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=400&h=300&q=80",
+  vihannes: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&h=300&q=80",
+  ruoka: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&h=300&q=80",
+  kahvi: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=400&h=300&q=80",
+  tee: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=400&h=300&q=80",
+  vesi: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=400&h=300&q=80",
+  // Health
+  terveys: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&h=300&q=80",
+  sairas: "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=400&h=300&q=80",
+  kipu: "https://images.unsplash.com/photo-1616012480717-fd5588de26bc?auto=format&fit=crop&w=400&h=300&q=80",
+  kuume: "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=400&h=300&q=80",
+  flunssa: "https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&w=400&h=300&q=80",
+  apteekki: "https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=400&h=300&q=80",
+  lääke: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=400&h=300&q=80",
+  resepti: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=400&h=300&q=80",
+  terveysasema: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=400&h=300&q=80",
+  sairaala: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=400&h=300&q=80",
+  ajanvaraus: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=400&h=300&q=80",
+  hammaslääkäri: "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=400&h=300&q=80",
+  allerginen: "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=400&h=300&q=80",
+  liikunta: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=300&q=80",
+  uni: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=400&h=300&q=80",
+  hyvinvointi: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=300&q=80",
+  // Nature & Weather
+  aurinko: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=400&h=300&q=80",
+  sade: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=400&h=300&q=80",
+  lumi: "https://images.unsplash.com/photo-1491002052546-bf38f186af56?auto=format&fit=crop&w=400&h=300&q=80",
+  tuuli: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=400&h=300&q=80",
+  pilvi: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=400&h=300&q=80",
+  puu: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&h=300&q=80",
+  kukka: "https://images.unsplash.com/photo-1490750967868-88aa4f44baee?auto=format&fit=crop&w=400&h=300&q=80",
+  eläin: "https://images.unsplash.com/photo-1474511320723-9a56873571b7?auto=format&fit=crop&w=400&h=300&q=80",
+  lintu: "https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=400&h=300&q=80",
+  kevät: "https://images.unsplash.com/photo-1462275646964-a0e3c11f18a6?auto=format&fit=crop&w=400&h=300&q=80",
+  kesä: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&h=300&q=80",
+  syksy: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=300&q=80",
+  talvi: "https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?auto=format&fit=crop&w=400&h=300&q=80",
+  lämpötila: "https://images.unsplash.com/photo-1561484930-998b6a7b22e8?auto=format&fit=crop&w=400&h=300&q=80",
+  myrsky: "https://images.unsplash.com/photo-1527482937786-6c94a3550836?auto=format&fit=crop&w=400&h=300&q=80",
+  metsä: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&h=300&q=80",
+  järvi: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&h=300&q=80",
+  joki: "https://images.unsplash.com/photo-1432405972618-c6b0cfba8673?auto=format&fit=crop&w=400&h=300&q=80",
+  meri: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&h=300&q=80",
+  vuori: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=400&h=300&q=80",
+  // Leisure
+  harrastus: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&h=300&q=80",
+  urheilu: "https://images.unsplash.com/photo-1461896836934-bd45ba7b5e93?auto=format&fit=crop&w=400&h=300&q=80",
+  lukeminen: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&h=300&q=80",
+  musiikki: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=400&h=300&q=80",
+  elokuva: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&h=300&q=80",
+  uida: "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=400&h=300&q=80",
+  juosta: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=400&h=300&q=80",
+  hiihtää: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=400&h=300&q=80",
+  valokuvata: "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?auto=format&fit=crop&w=400&h=300&q=80",
+  maalata: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&h=300&q=80",
+  soittaa: "https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&w=400&h=300&q=80",
+  kirjasto: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=400&h=300&q=80",
+  teatteri: "https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=400&h=300&q=80",
+  konsertti: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=400&h=300&q=80",
+  näyttely: "https://images.unsplash.com/photo-1531243269054-5ebf6f34081e?auto=format&fit=crop&w=400&h=300&q=80",
+  // Education
+  koulu: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=400&h=300&q=80",
+  yliopisto: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=400&h=300&q=80",
+  kurssi: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=400&h=300&q=80",
+  luokka: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=400&h=300&q=80",
+  koe: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=400&h=300&q=80",
+  tehtävä: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=400&h=300&q=80",
+  kirja: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&h=300&q=80",
+  opiskelija: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=400&h=300&q=80",
+  oppilas: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&h=300&q=80",
+  todistus: "https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=400&h=300&q=80",
+  arvosana: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=400&h=300&q=80",
+  luento: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=400&h=300&q=80",
+  oppitunti: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=400&h=300&q=80",
+  valmistua: "https://images.unsplash.com/photo-1523050854058-8df90110c476?auto=format&fit=crop&w=400&h=300&q=80",
+  läksy: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&h=300&q=80",
+  // Shopping
+  kauppa: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=400&h=300&q=80",
+  hinta: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=400&h=300&q=80",
+  alennus: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=400&h=300&q=80",
+  kassa: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=400&h=300&q=80",
+  kuitti: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&h=300&q=80",
+  käteinen: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&h=300&q=80",
+  kortti: "https://images.unsplash.com/photo-1556742111-a301076d9d18?auto=format&fit=crop&w=400&h=300&q=80",
+  tarjous: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=400&h=300&q=80",
+  pussi: "https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?auto=format&fit=crop&w=400&h=300&q=80",
+  // Public Services
+  asumistuki: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&h=300&q=80",
+  toimeentulotuki: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&h=300&q=80",
+  henkilötunnus: "https://images.unsplash.com/photo-1633265486064-086b219458ec?auto=format&fit=crop&w=400&h=300&q=80",
+  lapsilisä: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=400&h=300&q=80",
+  opintotuki: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=400&h=300&q=80",
+  viranomainen: "https://images.unsplash.com/photo-1575505586569-646b2ca898fc?auto=format&fit=crop&w=400&h=300&q=80",
+  paketti: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=400&h=300&q=80",
+  osoite: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=400&h=300&q=80",
+  lähettää: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=400&h=300&q=80",
+  allekirjoitus: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=400&h=300&q=80",
+  oleskelulupa: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=400&h=300&q=80",
+  työlupa: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=400&h=300&q=80",
+  // Emergency
+  hätänumero: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=400&h=300&q=80",
+  ambulanssi: "https://images.unsplash.com/photo-1587745416684-47953f16f02f?auto=format&fit=crop&w=400&h=300&q=80",
+  palokunta: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=400&h=300&q=80",
+  tulipalo: "https://images.unsplash.com/photo-1486551937199-baf066858de7?auto=format&fit=crop&w=400&h=300&q=80",
+  onnettomuus: "https://images.unsplash.com/photo-1541968249-b5b4e2aa0b13?auto=format&fit=crop&w=400&h=300&q=80",
+  ensiapu: "https://images.unsplash.com/photo-1603398938378-e54eab446dde?auto=format&fit=crop&w=400&h=300&q=80",
+  vaara: "https://images.unsplash.com/photo-1599707367812-045c6006776e?auto=format&fit=crop&w=400&h=300&q=80",
+  palovaroitin: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=400&h=300&q=80",
+  vakuutus: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=400&h=300&q=80",
+  pelastaa: "https://images.unsplash.com/photo-1587745416684-47953f16f02f?auto=format&fit=crop&w=400&h=300&q=80",
+  // Social & Feelings
+  lahja: "https://images.unsplash.com/photo-1549465220-1a8b9238f760?auto=format&fit=crop&w=400&h=300&q=80",
+  juhla: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&h=300&q=80",
+  mielipide: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=400&h=300&q=80",
+  iloinen: "https://images.unsplash.com/photo-1492681290082-e932832941e6?auto=format&fit=crop&w=400&h=300&q=80",
+  surullinen: "https://images.unsplash.com/photo-1541199249251-f713e6145474?auto=format&fit=crop&w=400&h=300&q=80",
+  väsynyt: "https://images.unsplash.com/photo-1541199249251-f713e6145474?auto=format&fit=crop&w=400&h=300&q=80",
+  // Culture & Finland
+  itsenäisyyspäivä: "https://images.unsplash.com/photo-1535498730771-e735b998cd64?auto=format&fit=crop&w=400&h=300&q=80",
+  juhannus: "https://images.unsplash.com/photo-1498855926480-d98e83099315?auto=format&fit=crop&w=400&h=300&q=80",
+  sisu: "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=400&h=300&q=80",
+  joulupukki: "https://images.unsplash.com/photo-1545622783-b3e021430fee?auto=format&fit=crop&w=400&h=300&q=80",
+  revontulet: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=400&h=300&q=80",
+  mökki: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=400&h=300&q=80",
+  jokamiehenoikeus: "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=400&h=300&q=80",
+  kaamos: "https://images.unsplash.com/photo-1477601263568-180e2c6d046e?auto=format&fit=crop&w=400&h=300&q=80",
+  sauna: "https://images.unsplash.com/photo-1554223090-7e11e3dce5e1?auto=format&fit=crop&w=400&h=300&q=80",
+  // Common verbs
+  puhua: "https://images.unsplash.com/photo-1573497019418-b400bb3ab074?auto=format&fit=crop&w=400&h=300&q=80",
+  syödä: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&h=300&q=80",
+  juoda: "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=400&h=300&q=80",
+  mennä: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400&h=300&q=80",
+  tulla: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=400&h=300&q=80",
+  tehdä: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&h=300&q=80",
+  lukea: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&h=300&q=80",
+  kirjoittaa: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=400&h=300&q=80",
+  asua: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&h=300&q=80",
+  opiskella: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=400&h=300&q=80",
+  työskennellä: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=400&h=300&q=80",
+  ostaa: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=400&h=300&q=80",
+  maksaa: "https://images.unsplash.com/photo-1556742111-a301076d9d18?auto=format&fit=crop&w=400&h=300&q=80",
+  odottaa: "https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&w=400&h=300&q=80",
+  auttaa: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=400&h=300&q=80",
+  // Common nouns
+  koti: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=400&h=300&q=80",
+  auto: "https://images.unsplash.com/photo-1549317661-bd32c8ce0afa?auto=format&fit=crop&w=400&h=300&q=80",
+  ihminen: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&h=300&q=80",
+  lapsi: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=400&h=300&q=80",
+  raha: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&h=300&q=80",
+  kaupunki: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=400&h=300&q=80",
+  sää: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=400&h=300&q=80",
+  perhe: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=400&h=300&q=80",
+  ystävä: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&h=300&q=80",
+  työ: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=400&h=300&q=80",
+};
+
+// Category-level fallback images when no exact word match exists
+const CATEGORY_IMAGES: Record<string, string> = {
+  work: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=400&h=300&q=80",
+  transport: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&h=300&q=80",
+  food: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&h=300&q=80",
+  health: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&h=300&q=80",
+  nature: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&h=300&q=80",
+  weather: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=400&h=300&q=80",
+  leisure: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=400&h=300&q=80",
+  education: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=400&h=300&q=80",
+  shopping: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=400&h=300&q=80",
+  services: "https://images.unsplash.com/photo-1575505586569-646b2ca898fc?auto=format&fit=crop&w=400&h=300&q=80",
+  emergency: "https://images.unsplash.com/photo-1587745416684-47953f16f02f?auto=format&fit=crop&w=400&h=300&q=80",
+  social: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&h=300&q=80",
+  culture: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=400&h=300&q=80",
+};
+
+// Three-tier fallback: exact word → category → null (triggers gradient+emoji)
+const getVocabImageUrl = (meaningEn: string, word: string, category?: string): string | null => {
+  const key = word.toLowerCase();
+  if (VOCAB_IMAGES[key]) return VOCAB_IMAGES[key];
+  if (category) {
+    const catKey = category.toLowerCase();
+    for (const [k, v] of Object.entries(CATEGORY_IMAGES)) {
+      if (catKey.includes(k)) return v;
+    }
+  }
+  return null;
 };
 
 // Vocabulary Card Component with two-column layout (text left, image right)
@@ -222,7 +446,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
 
   const illustration = getWordIllustration(vocab.word);
   const gradient = getCategoryGradient(vocab.category);
-  const imageUrl = getVocabImageUrl(vocab.meaningEn, vocab.word);
+  const imageUrl = getVocabImageUrl(vocab.meaningEn, vocab.word, vocab.category);
 
   return (
     <motion.div
@@ -330,7 +554,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
         <div className="sm:w-[38%] shrink-0 relative">
           {/* Mobile: image on top; Desktop: image on right */}
           <div className="w-full h-48 sm:h-full sm:min-h-[220px] relative overflow-hidden">
-            {!imgError ? (
+            {imageUrl && !imgError ? (
               <img
                 src={imageUrl}
                 alt={`Illustration for ${vocab.meaningEn}`}
