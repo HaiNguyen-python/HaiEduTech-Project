@@ -195,21 +195,28 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
       transition={{ delay: index * 0.04 }}
       className="bg-card/80 backdrop-blur-sm border border-[#003580]/10 rounded-xl p-5 hover:shadow-md hover:border-[#003580]/25 transition-all"
     >
-      <div className="flex items-center gap-2 mb-2">
-        <h3 className="text-xl font-bold text-foreground">{vocab.word}</h3>
-        <Badge className={`text-xs ${posColors[vocab.partOfSpeech] || posColors.noun}`}>
-          {vocab.partOfSpeech}
-        </Badge>
+      {/* Illustration + Word header */}
+      <div className="flex items-start gap-3 mb-3">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#003580]/10 to-[#003580]/5 flex items-center justify-center text-2xl shrink-0 border border-[#003580]/10">
+          {illustration}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="text-xl font-bold text-foreground truncate">{vocab.word}</h3>
+            <Badge className={`text-xs shrink-0 ${posColors[vocab.partOfSpeech] || posColors.noun}`}>
+              {vocab.partOfSpeech}
+            </Badge>
+          </div>
+          {vocab.ipa && <p className="text-xs text-muted-foreground">{vocab.ipa}</p>}
+        </div>
         <button
           onClick={playAudio}
-          className="ml-auto w-7 h-7 rounded-full bg-[#003580]/10 hover:bg-[#003580]/20 flex items-center justify-center transition-colors shrink-0"
+          className="w-8 h-8 rounded-full bg-[#003580]/10 hover:bg-[#003580]/20 flex items-center justify-center transition-colors shrink-0"
           aria-label={`Play pronunciation for ${vocab.word}`}
         >
-          {isPlaying ? <VolumeX className="w-3.5 h-3.5 text-[#003580]" /> : <Volume2 className="w-3.5 h-3.5 text-[#003580]" />}
+          {isPlaying ? <VolumeX className="w-4 h-4 text-[#003580]" /> : <Volume2 className="w-4 h-4 text-[#003580]" />}
         </button>
       </div>
-
-      {vocab.ipa && <p className="text-xs text-muted-foreground mb-1">{vocab.ipa}</p>}
 
       <p className="text-primary font-semibold mb-1">{vocab.meaningEn}</p>
       <p className="text-sm text-muted-foreground mb-2">{vocab.meaningVi}</p>
