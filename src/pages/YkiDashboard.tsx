@@ -431,6 +431,10 @@ const CATEGORY_IMAGES: Record<string, string> = {
   emergency: "https://images.unsplash.com/photo-1587745416684-47953f16f02f?auto=format&fit=crop&w=400&h=300&q=80",
   social: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&h=300&q=80",
   culture: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=400&h=300&q=80",
+  emotions: "https://images.unsplash.com/photo-1492681290082-e932832941e6?auto=format&fit=crop&w=400&h=300&q=80",
+  technology: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=400&h=300&q=80",
+  travel: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&h=300&q=80",
+  society: "https://images.unsplash.com/photo-1504711434969-e33886168d0c?auto=format&fit=crop&w=400&h=300&q=80",
 };
 
 // Three-tier fallback: exact word → category → null (triggers gradient+emoji)
