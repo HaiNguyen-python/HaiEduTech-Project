@@ -1,5 +1,6 @@
 // YKI Finnish Prep Dashboard — Vocabulary, Grammar, Mock Exams with progress tracking
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import finnishFlagImg from "@/assets/finnish-flag.png";
 import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
