@@ -22,10 +22,10 @@ interface FinnishSkierProps {
 // Milestone checkpoints on the ski slope
 const MILESTONES = [
   { words: 0, label: "Base Camp", band: "Aloitetaan!", x: 15, y: 88 },
-  { words: 40, label: "Ledge 1", band: "A1 Start", x: 30, y: 72 },
-  { words: 80, label: "Ledge 2", band: "A1 Mid", x: 45, y: 58 },
-  { words: 150, label: "Ledge 3", band: "A1 Ready", x: 55, y: 44 },
-  { words: 250, label: "Summit", band: "YKI A2 ⛷️", x: 68, y: 22 },
+  { words: 80, label: "Ledge 1", band: "A1 Start", x: 30, y: 72 },
+  { words: 180, label: "Ledge 2", band: "A1 Mid", x: 45, y: 58 },
+  { words: 300, label: "Ledge 3", band: "A1 Ready", x: 55, y: 44 },
+  { words: 450, label: "Summit", band: "YKI A2 ⛷️", x: 68, y: 22 },
 ];
 
 // Finnish motivational quotes
