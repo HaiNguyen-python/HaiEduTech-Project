@@ -15,10 +15,18 @@ interface FinnishVocabExercisesProps {
   onExerciseComplete?: (score: number, total: number) => void;
 }
 
+// Enhanced Finnish TTS — select best available Finnish voice
 const speakFinnish = (text: string) => {
+  window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "fi-FI";
-  u.rate = 0.85;
+  u.rate = 0.75;
+  u.pitch = 1.0;
+  const voices = window.speechSynthesis.getVoices();
+  const finnishVoice = voices.find(v => v.lang === "fi-FI")
+    || voices.find(v => v.lang.startsWith("fi"))
+    || voices.find(v => v.name.toLowerCase().includes("finnish"));
+  if (finnishVoice) u.voice = finnishVoice;
   window.speechSynthesis.speak(u);
 };
 
