@@ -683,7 +683,7 @@ const YkiDashboard = () => {
   const currentModules = activePillar === "vocabulary"
     ? allVocabModules
     : activePillar === "lessons"
-    ? finnishLessonModules
+    ? allLessonModules
     : allMockExamModules;
 
   const handleSelectModule = (mod: FinnishModule) => {
