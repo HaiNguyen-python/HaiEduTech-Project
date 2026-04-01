@@ -1606,16 +1606,11 @@ const YkiDashboard = () => {
 
                       {selectedLesson.vocabulary && selectedLesson.vocabulary.length > 0 && (
                         <div className="mb-6">
-                          <div className="flex items-center gap-3 mb-4">
+                          <div className="flex items-center gap-3 mb-4 flex-wrap">
                             <h3 className="text-lg font-bold text-foreground">📖 Sanasto</h3>
                             <div className="ml-auto flex gap-1 bg-muted rounded-lg p-0.5">
                               <button
-                                onClick={() => {
-                                  const el = document.getElementById('vocab-view-mode');
-                                  if (el) el.dataset.mode = 'grid';
-                                  // Force re-render via state
-                                  setVocabViewMode('grid');
-                                }}
+                                onClick={() => setVocabViewMode('grid')}
                                 className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${vocabViewMode === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
                               >
                                 📖 Cards
@@ -1629,6 +1624,16 @@ const YkiDashboard = () => {
                                 className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${vocabViewMode === 'flashcard' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
                               >
                                 🃏 Flashcards
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setVocabViewMode('spaced');
+                                  setFlashcardIndex(0);
+                                  setFlashcardFlipped(false);
+                                }}
+                                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${vocabViewMode === 'spaced' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                              >
+                                🔄 Spaced
                               </button>
                             </div>
                           </div>
@@ -1646,9 +1651,8 @@ const YkiDashboard = () => {
                               ))}
                             </div>
                           ) : (
-                            /* Flashcard Mode */
                             <FlashcardView
-                              vocabulary={selectedLesson.vocabulary}
+                              vocabulary={vocabViewMode === 'spaced' ? sortBySR(selectedLesson.vocabulary) : selectedLesson.vocabulary}
                               currentIndex={flashcardIndex}
                               isFlipped={flashcardFlipped}
                               onFlip={() => setFlashcardFlipped(f => !f)}
@@ -1656,6 +1660,15 @@ const YkiDashboard = () => {
                               onPrev={() => { setFlashcardFlipped(false); setFlashcardIndex(i => Math.max(i - 1, 0)); }}
                               isMastered={(w) => masteredWords.includes(w)}
                               onMaster={handleMasterWord}
+                              srMode={vocabViewMode === 'spaced'}
+                              onSRAnswer={(word, correct) => {
+                                const result = updateSRData(word, correct);
+                                if (correct) {
+                                  toast.success(`✅ "${word}" → Box ${result.box} (${SR_BOX_LABELS[result.box]})`, { style: { fontSize: "14px" } });
+                                } else {
+                                  toast.info(`🔁 "${word}" → Box ${result.box} — yritetään uudelleen!`, { style: { fontSize: "14px" } });
+                                }
+                              }}
                             />
                           )}
                         </div>
