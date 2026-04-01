@@ -1521,7 +1521,7 @@ const YkiDashboard = () => {
               <TabsTrigger value="mock-exams" className="text-xs sm:text-sm">📝 Kokeet</TabsTrigger>
             </TabsList>
 
-            <TabsContent value={activePillar}>
+            <div className="mt-2">
               {/* Module detail view */}
               {selectedModule && selectedLesson ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
