@@ -1,1 +1,4 @@
 project_id = "ldbrjxtqcnrbdimexrif"
+
+[functions.finnish-tts]
+verify_jwt = false
