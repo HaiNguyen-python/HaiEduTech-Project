@@ -336,9 +336,9 @@ const VOCAB_IMAGES: Record<string, string> = {
   revontulet: U("photo-1531366936337-7c912a4589a7"), mökki: U("photo-1510798831971-661eb04b3739"),
   jokamiehenoikeus: U("photo-1501854140801-50d01698950b"), kaamos: U("photo-1477601263568-180e2c6d046e"),
   sauna: U("photo-1554223090-7e11e3dce5e1"), joulu: U("photo-1545622783-b3e021430fee"),
-  pääsiäinen: U("photo-1530103862676-de8c9debad1d"), vappu: U("photo-1530103862676-de8c9debad1d"),
-  kokko: U("photo-1498855926480-d98e83099315"), perinne: U("photo-1535498730771-e735b998cd64"),
-  runeberginpäivä: U("photo-1535498730771-e735b998cd64"), kansallislaulu: U("photo-1535498730771-e735b998cd64"),
+  pääsiäinen: U("photo-1457301353672-324d6d14f471"), vappu: U("photo-1504196606672-aef5c9cefc92"),
+  kokko: U("photo-1475552113915-6fcb52652ba2"), perinne: U("photo-1535498730771-e735b998cd64"),
+  runeberginpäivä: U("photo-1558961363-fa8fdf82db35"), kansallislaulu: U("photo-1507676184212-d03ab07a01bf"),
   Kalevala: U("photo-1501854140801-50d01698950b"), Lappi: U("photo-1464822759023-fed622ff2c3b"),
   // Home & Housing
   koti: U("photo-1518780664697-55e3ad937233"), huone: U("photo-1518780664697-55e3ad937233"),
