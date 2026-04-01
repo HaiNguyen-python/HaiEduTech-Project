@@ -1,51 +1,58 @@
 
 
-# Plan: Complete Vocab Images + Light Theme + Remove "Việt Nam" Label
+# Plan: Flashcard Mode + More Vocabulary + More Mock Exams
 
-## Changes (single file: `src/pages/YkiDashboard.tsx`)
+## Overview
+Three additions: (1) a Flashcard study mode for vocabulary, (2) more vocabulary words per module, (3) additional mock exam sets for all 4 skills.
 
-### 1. Expand VOCAB_IMAGES to cover all remaining words
+---
 
-Add ~200+ new entries to the `VOCAB_IMAGES` mapping to cover words from `vocabularyExpansion.ts` and `vocabularyExpansion2.ts` that are currently missing. Words like: `päätös`, `hakemus`, `etuus`, `sairauspäiväraha`, `posti`, `kirje`, `postimaksu`, `postilaatikko`, `hätänumero`, `ambulanssi`, `palokunta`, etc.
+## 1. Flashcard Component (`src/pages/YkiDashboard.tsx`)
 
-Each word gets a curated Unsplash photo ID URL matching its meaning. Any remaining unmapped words still fall back to `CATEGORY_IMAGES` (which covers all categories).
+Add a **Flashcard mode** toggle alongside the existing vocabulary grid view. When active:
+- Cards display one at a time, flip on click (front: Finnish word + image, back: meanings + example)
+- Navigation: Previous / Next buttons + card counter (e.g., "3/15")
+- Audio play button on front
+- Mark as Mastered star on each card
+- Keyboard support: Left/Right arrows, Space to flip
+- Smooth flip animation using Framer Motion `rotateY`
 
-### 2. Switch VocabCard to bright/light theme
+**UI**: A toggle button group at the top of the vocabulary section: `📖 Cards` | `🃏 Flashcards`
 
-**Current**: Dark slate background (`bg-slate-900`, `text-white`, `text-slate-300/400`, `border-slate-700`)
+## 2. Expand Vocabulary (`src/data/finnishCurriculum/vocabularyExpansion3.ts` — NEW)
 
-**New**: Bright white background with clean shadows:
-- Card: `bg-white border-gray-200 shadow-sm hover:shadow-lg`
-- Word: `text-gray-900` (deep charcoal)
-- English meaning: `text-blue-700` (vibrant royal blue)
-- Vietnamese meaning: `text-gray-700`
-- Example text: `text-gray-800`
-- Example translation: `text-gray-500`
-- IPA: `text-gray-500`
-- Badges: keep colorful but remove dark-mode variants
-- Audio/Star buttons: `bg-gray-100 hover:bg-gray-200`, icons `text-gray-600`
-- Inner shadow overlay: adjust to white-based gradient
-- Conjugation popover: `bg-white border-gray-200`
+Create a new expansion file with **4 new vocabulary modules** (~60 words total):
+- **Tunteet ja luonne** (Emotions & Personality) — 15 words
+- **Teknologia** (Technology) — 15 words  
+- **Matkailu** (Travel & Tourism) — 15 words
+- **Yhteiskunta** (Society & Media) — 15 words
 
-### 3. Remove "Việt nam:" label
+Each module has 1 lesson with vocabulary entries (word, IPA, meanings, examples, category) + 5 quiz questions.
 
-**Current** (line ~504-506):
-```
-<p className="text-[17px] font-bold text-blue-400 mb-1">{vocab.meaningEn}</p>
-<p className="text-[15px] text-slate-300 mb-3">
-  <span className="text-slate-500 text-[13px]">Việt nam:</span> {vocab.meaningVi}
-</p>
-```
+## 3. More Mock Exams (`src/data/finnishCurriculum/mockExamExpansion2.ts` — NEW)
 
-**New**: Just show the Vietnamese meaning directly without any prefix label:
-```
-<p className="text-[17px] font-bold text-blue-700 mb-1">{vocab.meaningEn}</p>
-<p className="text-[15px] text-gray-600 mb-3">{vocab.meaningVi}</p>
-```
+Create a second expansion file with **4 new mock exam modules** (one per skill):
+- **Reading** — 3 new sets (news article, rental ad, recipe)
+- **Listening** — 3 new sets (phone call, radio, store)
+- **Writing** — 3 new sets (complaint letter, job application, invitation)
+- **Speaking** — 3 new sets (doctor visit, job interview, apartment viewing)
 
-### Files Modified
+Each set includes Finnish-only content with theory/transcript + 5 quiz questions.
 
-| File | Change |
-|------|--------|
-| `src/pages/YkiDashboard.tsx` | Add ~200 VOCAB_IMAGES entries; switch card to white/bright theme; remove "Việt nam:" label |
+## 4. Wire Up (`src/data/finnishCurriculum/index.ts` + `src/pages/YkiDashboard.tsx`)
+
+- Export new modules from index.ts
+- Import and merge into `allVocabModules` and `allMockExamModules`
+- Add VOCAB_IMAGES entries for new words
+
+---
+
+## Files
+
+| Action | File |
+|--------|------|
+| EDIT | `src/pages/YkiDashboard.tsx` — Add Flashcard mode + import new data |
+| CREATE | `src/data/finnishCurriculum/vocabularyExpansion3.ts` — 4 new vocab modules |
+| CREATE | `src/data/finnishCurriculum/mockExamExpansion2.ts` — 4 new exam modules |
+| EDIT | `src/data/finnishCurriculum/index.ts` — Export new modules |
 
