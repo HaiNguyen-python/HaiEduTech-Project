@@ -1514,14 +1514,26 @@ const YkiDashboard = () => {
           </div>
 
           {/* Pillar Tabs */}
-          <Tabs value={activePillar} onValueChange={(v) => { setActivePillar(v as any); setSelectedModule(null); setSelectedLesson(null); }}>
-            <TabsList className="w-full max-w-lg grid grid-cols-3 h-11 mb-6">
-              <TabsTrigger value="vocabulary" className="text-xs sm:text-sm">📖 Sanasto</TabsTrigger>
-              <TabsTrigger value="lessons" className="text-xs sm:text-sm">🎓 Oppitunnit</TabsTrigger>
-              <TabsTrigger value="mock-exams" className="text-xs sm:text-sm">📝 Kokeet</TabsTrigger>
-            </TabsList>
-
-            <div className="mt-2">
+          <div className="w-full max-w-lg grid grid-cols-3 h-11 mb-6 rounded-lg bg-muted p-1">
+            {([
+              { value: "vocabulary" as const, label: "📖 Sanasto" },
+              { value: "lessons" as const, label: "🎓 Oppitunnit" },
+              { value: "mock-exams" as const, label: "📝 Kokeet" },
+            ]).map((tab) => (
+              <button
+                key={tab.value}
+                onClick={() => { setActivePillar(tab.value); setSelectedModule(null); setSelectedLesson(null); }}
+                className={`text-xs sm:text-sm font-medium rounded-md transition-all ${
+                  activePillar === tab.value
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          <div>
               {/* Module detail view */}
               {selectedModule && selectedLesson ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
