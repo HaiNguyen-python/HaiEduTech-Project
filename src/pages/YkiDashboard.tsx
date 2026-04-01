@@ -379,6 +379,41 @@ const VOCAB_IMAGES: Record<string, string> = {
   hei: U("photo-1529156069898-49953e39b3ac"), terve: U("photo-1529156069898-49953e39b3ac"),
   tervetuloa: U("photo-1529156069898-49953e39b3ac"), kiitos: U("photo-1529156069898-49953e39b3ac"),
   anteeksi: U("photo-1529156069898-49953e39b3ac"),
+  // Emotions & Personality
+  onnellinen: U("photo-1492681290082-e932832941e6"), vihainen: U("photo-1541199249251-f713e6145474"),
+  pelokas: U("photo-1541199249251-f713e6145474"), yllättynyt: U("photo-1492681290082-e932832941e6"),
+  ylpeä: U("photo-1492681290082-e932832941e6"), huolestunut: U("photo-1541199249251-f713e6145474"),
+  rohkea: U("photo-1483721310020-03333e577078"), ujo: U("photo-1541199249251-f713e6145474"),
+  ahkera: U("photo-1504384308090-c894fdcc538d"), laiska: U("photo-1541199249251-f713e6145474"),
+  kärsivällinen: U("photo-1573497019418-b400bb3ab074"), ystävällinen: U("photo-1529156069898-49953e39b3ac"),
+  rehellinen: U("photo-1529156069898-49953e39b3ac"), kiitollinen: U("photo-1492681290082-e932832941e6"),
+  stressaantunut: U("photo-1541199249251-f713e6145474"),
+  // Technology
+  tietokone: U("photo-1496181133206-80ce9b88a853"), puhelin: U("photo-1511707171634-5f897ff02aa9"),
+  sähköposti: U("photo-1596526131083-e8c633c948d2"), salasana: U("photo-1555949963-ff9fe0c870eb"),
+  sovellus: U("photo-1512941937669-90a1b58e7e9c"), verkko: U("photo-1544197150-b99a580bb7a8"),
+  tulostin: U("photo-1612815154858-60aa4c59eaa6"), näppäimistö: U("photo-1587829741301-dc798b83add3"),
+  näyttö: U("photo-1527443224154-c4a3942d3acf"), ladata: U("photo-1511707171634-5f897ff02aa9"),
+  tallentaa: U("photo-1496181133206-80ce9b88a853"), verkkosivusto: U("photo-1460925895917-afdab827c52f"),
+  hakukone: U("photo-1555949963-ff9fe0c870eb"), tabletti: U("photo-1544244015-0df4b3ffc6b0"),
+  päivittää: U("photo-1512941937669-90a1b58e7e9c"),
+  // Travel & Tourism
+  hotelli: U("photo-1566073771259-6a8506099945"), majoitus: U("photo-1566073771259-6a8506099945"),
+  varaus: U("photo-1506784983877-45594efa4cbe"), passi: U("photo-1569154941061-e231b4725ef1"),
+  viisumi: U("photo-1569154941061-e231b4725ef1"), matkatoimisto: U("photo-1488646953014-85cb44e25828"),
+  opas: U("photo-1488646953014-85cb44e25828"), nähtävyys: U("photo-1467269204594-9661b134dd2b"),
+  loma: U("photo-1507525428034-b723cf961d3e"), retki: U("photo-1501785888041-af3ef285b470"),
+  varata: U("photo-1506784983877-45594efa4cbe"), muistomerkki: U("photo-1467269204594-9661b134dd2b"),
+  museo: U("photo-1531243269054-5ebf6f34081e"), ranta: U("photo-1507525428034-b723cf961d3e"),
+  vuokrata: U("photo-1549317661-bd32c8ce0afa"),
+  // Society & Media
+  uutiset: U("photo-1504711434969-e33886168d0c"), sanomalehti: U("photo-1504711434969-e33886168d0c"),
+  vaalit: U("photo-1540910419892-4a36d2c3266c"), äänestää: U("photo-1540910419892-4a36d2c3266c"),
+  laki: U("photo-1589829545856-d10d557cf95f"), oikeus: U("photo-1589829545856-d10d557cf95f"),
+  verotus: U("photo-1554224155-6726b3ff858f"), kansalainen: U("photo-1529156069898-49953e39b3ac"),
+  mainos: U("photo-1504711434969-e33886168d0c"), toimittaja: U("photo-1504711434969-e33886168d0c"),
+  ohjelma: U("photo-1489599849927-2ee91cede3ba"), artikkeli: U("photo-1504711434969-e33886168d0c"),
+  yhteiskunta: U("photo-1449824913935-59a10b8d2000"),
 };
 
 // Category-level fallback images when no exact word match exists
