@@ -554,7 +554,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
         <div className="sm:w-[38%] shrink-0 relative">
           {/* Mobile: image on top; Desktop: image on right */}
           <div className="w-full h-48 sm:h-full sm:min-h-[220px] relative overflow-hidden">
-            {!imgError ? (
+            {imageUrl && !imgError ? (
               <img
                 src={imageUrl}
                 alt={`Illustration for ${vocab.meaningEn}`}
