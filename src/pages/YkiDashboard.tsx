@@ -1401,7 +1401,50 @@ const YkiDashboard = () => {
   // Determine if current lesson is a writing or speaking exam
   const isWritingExam = selectedModule?.id === "yki-mock-writing";
   const isSpeakingExam = selectedModule?.id === "yki-mock-speaking";
+  const isListeningExam = selectedModule?.id?.includes("listening") ?? false;
   const isMockExam = selectedModule?.pillar === "mock-exams";
+
+  // Extract Finnish dialogue text from theory markdown for listening TTS
+  const [isPlayingListening, setIsPlayingListening] = useState(false);
+  const extractFinnishDialogue = (theory: string): string[] => {
+    const lines: string[] = [];
+    for (const line of theory.split("\n")) {
+      // Match blockquote dialogue lines like "> **Speaker:** Finnish text"
+      const dialogueMatch = line.match(/^>\s*\*\*(.+?)\*\*\s*(.+)/);
+      if (dialogueMatch) {
+        lines.push(`${dialogueMatch[1]} ${dialogueMatch[2]}`);
+        continue;
+      }
+      // Match quoted announcements like "> "Finnish text""
+      const quoteMatch = line.match(/^>\s*"(.+)"?\s*$/);
+      if (quoteMatch) {
+        lines.push(quoteMatch[1].replace(/"$/, ""));
+      }
+    }
+    return lines;
+  };
+
+  const playListeningAudio = async () => {
+    if (!selectedLesson?.theory || isPlayingListening) return;
+    setIsPlayingListening(true);
+    try {
+      const dialogueLines = extractFinnishDialogue(selectedLesson.theory);
+      if (dialogueLines.length === 0) {
+        // Fallback: speak the whole theory
+        await speakFinnish(selectedLesson.theory.replace(/[#*>_\[\]()]/g, "").substring(0, 500));
+      } else {
+        for (const line of dialogueLines) {
+          await speakFinnish(line);
+          // Small pause between lines
+          await new Promise(r => setTimeout(r, 600));
+        }
+      }
+    } catch {
+      // handled by speakFinnish
+    } finally {
+      setIsPlayingListening(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
