@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import {
   BookOpen, ChevronRight, ChevronLeft, Volume2, VolumeX,
   Clock, CheckCircle, Timer, Snowflake, Star, Mic, Square,
-  Languages, Trophy, Flag,
+  Languages, Trophy, Flag, Loader2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -1401,7 +1401,50 @@ const YkiDashboard = () => {
   // Determine if current lesson is a writing or speaking exam
   const isWritingExam = selectedModule?.id === "yki-mock-writing";
   const isSpeakingExam = selectedModule?.id === "yki-mock-speaking";
+  const isListeningExam = selectedModule?.id?.includes("listening") ?? false;
   const isMockExam = selectedModule?.pillar === "mock-exams";
+
+  // Extract Finnish dialogue text from theory markdown for listening TTS
+  const [isPlayingListening, setIsPlayingListening] = useState(false);
+  const extractFinnishDialogue = (theory: string): string[] => {
+    const lines: string[] = [];
+    for (const line of theory.split("\n")) {
+      // Match blockquote dialogue lines like "> **Speaker:** Finnish text"
+      const dialogueMatch = line.match(/^>\s*\*\*(.+?)\*\*\s*(.+)/);
+      if (dialogueMatch) {
+        lines.push(`${dialogueMatch[1]} ${dialogueMatch[2]}`);
+        continue;
+      }
+      // Match quoted announcements like "> "Finnish text""
+      const quoteMatch = line.match(/^>\s*"(.+)"?\s*$/);
+      if (quoteMatch) {
+        lines.push(quoteMatch[1].replace(/"$/, ""));
+      }
+    }
+    return lines;
+  };
+
+  const playListeningAudio = async () => {
+    if (!selectedLesson?.theory || isPlayingListening) return;
+    setIsPlayingListening(true);
+    try {
+      const dialogueLines = extractFinnishDialogue(selectedLesson.theory);
+      if (dialogueLines.length === 0) {
+        // Fallback: speak the whole theory
+        await speakFinnish(selectedLesson.theory.replace(/[#*>_\[\]()]/g, "").substring(0, 500));
+      } else {
+        for (const line of dialogueLines) {
+          await speakFinnish(line);
+          // Small pause between lines
+          await new Promise(r => setTimeout(r, 600));
+        }
+      }
+    } catch {
+      // handled by speakFinnish
+    } finally {
+      setIsPlayingListening(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -1517,6 +1560,36 @@ const YkiDashboard = () => {
                     <SpeakingRecorder lesson={selectedLesson} />
                   ) : (
                     <>
+                      {/* Listening Audio Player */}
+                      {isListeningExam && selectedLesson.theory && (
+                        <Card className="mb-4 border-primary/20 bg-primary/5">
+                          <CardContent className="p-4 flex items-center gap-4">
+                            <Button
+                              onClick={playListeningAudio}
+                              disabled={isPlayingListening}
+                              size="lg"
+                              className="gap-2 font-bold text-base"
+                            >
+                              {isPlayingListening ? (
+                                <>
+                                  <Loader2 className="w-5 h-5 animate-spin" />
+                                  Toistetaan...
+                                </>
+                              ) : (
+                                <>
+                                  <Volume2 className="w-5 h-5" />
+                                  🎧 Kuuntele
+                                </>
+                              )}
+                            </Button>
+                            <div className="text-sm text-muted-foreground">
+                              <p className="font-medium text-foreground">Kuuntele keskustelu ensin</p>
+                              <p className="text-xs">Paina kuuntele-nappia ja vastaa sitten kysymyksiin</p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+
                       {/* Theory/Grammar — show Finnish for exams */}
                       {selectedLesson.theory && !isWritingExam && !isSpeakingExam && (
                         <Card className="mb-6 border-[#003580]/10">
