@@ -154,7 +154,34 @@ const getWordIllustration = (word: string): string => {
   return WORD_ILLUSTRATIONS[word.toLowerCase()] || "📝";
 };
 
-// Vocabulary Card Component
+// Category-to-gradient mapping for visual vocab card headers
+const CATEGORY_GRADIENTS: Record<string, string> = {
+  work: "from-blue-500 to-indigo-600",
+  transport: "from-indigo-500 to-violet-600",
+  food: "from-orange-400 to-red-500",
+  health: "from-teal-400 to-emerald-600",
+  nature: "from-emerald-400 to-sky-500",
+  weather: "from-sky-400 to-blue-500",
+  leisure: "from-pink-400 to-rose-500",
+  education: "from-purple-500 to-fuchsia-600",
+  shopping: "from-amber-400 to-orange-500",
+  services: "from-cyan-500 to-blue-600",
+  emergency: "from-red-500 to-rose-700",
+  social: "from-pink-400 to-purple-500",
+  culture: "from-blue-600 to-indigo-700",
+  default: "from-slate-500 to-slate-700",
+};
+
+const getCategoryGradient = (category?: string): string => {
+  if (!category) return CATEGORY_GRADIENTS.default;
+  const key = category.toLowerCase();
+  for (const [k, v] of Object.entries(CATEGORY_GRADIENTS)) {
+    if (key.includes(k)) return v;
+  }
+  return CATEGORY_GRADIENTS.default;
+};
+
+// Vocabulary Card Component with full-width visual header
 const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocabEntry; index: number; isMastered?: boolean; onMaster?: (word: string, e: React.MouseEvent) => void }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -166,7 +193,6 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
     u.lang = "fi-FI";
     u.rate = 0.75;
     u.pitch = 1.0;
-    // Select best Finnish voice
     const voices = window.speechSynthesis.getVoices();
     const finnishVoice = voices.find(v => v.lang === "fi-FI")
       || voices.find(v => v.lang.startsWith("fi"))
@@ -187,92 +213,102 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
   };
 
   const illustration = getWordIllustration(vocab.word);
+  const gradient = getCategoryGradient(vocab.category);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
-      className="bg-card/80 backdrop-blur-sm border border-[#003580]/10 rounded-xl p-5 hover:shadow-md hover:border-[#003580]/25 transition-all"
+      className="bg-card/80 backdrop-blur-sm border border-border/60 rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/25 transition-all group"
     >
-      {/* Illustration + Word header */}
-      <div className="flex items-start gap-3 mb-3">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#003580]/10 to-[#003580]/5 flex items-center justify-center text-2xl shrink-0 border border-[#003580]/10">
+      {/* Full-width gradient visual header */}
+      <div className={`relative w-full h-24 bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+        <span className="text-5xl drop-shadow-lg select-none" role="img" aria-label={vocab.word}>
           {illustration}
+        </span>
+        {vocab.category && (
+          <span className="absolute top-2 right-2 text-[10px] font-bold uppercase tracking-wider text-white/80 bg-white/15 backdrop-blur-sm rounded-full px-2 py-0.5">
+            {vocab.category}
+          </span>
+        )}
+        {isMastered && (
+          <span className="absolute top-2 left-2 text-xs font-bold text-white bg-amber-500/90 rounded-full px-2 py-0.5 flex items-center gap-1">
+            <Star className="w-3 h-3 fill-white" /> Mastered
+          </span>
+        )}
+      </div>
+
+      <div className="p-4">
+        {/* Word + POS + Audio */}
+        <div className="flex items-center gap-2 mb-2">
+          <h3 className="text-xl font-bold text-foreground truncate">{vocab.word}</h3>
+          <Badge className={`text-xs shrink-0 ${posColors[vocab.partOfSpeech] || posColors.noun}`}>
+            {vocab.partOfSpeech}
+          </Badge>
+          <button
+            onClick={playAudio}
+            className="ml-auto w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors shrink-0"
+            aria-label={`Play pronunciation for ${vocab.word}`}
+          >
+            {isPlaying ? <VolumeX className="w-4 h-4 text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
+          </button>
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h3 className="text-xl font-bold text-foreground truncate">{vocab.word}</h3>
-            <Badge className={`text-xs shrink-0 ${posColors[vocab.partOfSpeech] || posColors.noun}`}>
-              {vocab.partOfSpeech}
+        {vocab.ipa && <p className="text-xs text-muted-foreground mb-1">{vocab.ipa}</p>}
+
+        <p className="text-primary font-semibold mb-0.5">{vocab.meaningEn}</p>
+        <p className="text-sm text-muted-foreground mb-2">{vocab.meaningVi}</p>
+
+        {vocab.puhekieli && vocab.puhekieli !== vocab.word && (
+          <div className="flex items-center gap-2 mb-2">
+            <Badge variant="outline" className="text-xs border-orange-300 text-orange-700 dark:text-orange-300">
+              🗣️ Puhekieli: {vocab.puhekieli}
             </Badge>
           </div>
-          {vocab.ipa && <p className="text-xs text-muted-foreground">{vocab.ipa}</p>}
+        )}
+
+        <div className="mt-2 pt-2 border-t border-border/60">
+          <p className="text-foreground font-medium text-sm">{vocab.example}</p>
+          <p className="text-xs text-muted-foreground italic mt-1">{vocab.exampleEn}</p>
         </div>
-        <button
-          onClick={playAudio}
-          className="w-8 h-8 rounded-full bg-[#003580]/10 hover:bg-[#003580]/20 flex items-center justify-center transition-colors shrink-0"
-          aria-label={`Play pronunciation for ${vocab.word}`}
-        >
-          {isPlaying ? <VolumeX className="w-4 h-4 text-[#003580]" /> : <Volume2 className="w-4 h-4 text-[#003580]" />}
-        </button>
-      </div>
 
-      <p className="text-primary font-semibold mb-1">{vocab.meaningEn}</p>
-      <p className="text-sm text-muted-foreground mb-2">{vocab.meaningVi}</p>
-
-      {/* Puhekieli vs Kirjakieli */}
-      {vocab.puhekieli && vocab.puhekieli !== vocab.word && (
-        <div className="flex items-center gap-2 mb-2">
-          <Badge variant="outline" className="text-xs border-orange-300 text-orange-700 dark:text-orange-300">
-            🗣️ Puhekieli: {vocab.puhekieli}
-          </Badge>
-        </div>
-      )}
-
-      <div className="mt-3 pt-3 border-t border-border/60">
-        <p className="text-foreground font-medium text-sm">{vocab.example}</p>
-        <p className="text-xs text-muted-foreground italic mt-1">{vocab.exampleEn}</p>
-      </div>
-
-      {/* Conjugation pop-up for verbs */}
-      {vocab.partOfSpeech === "verb" && VERB_CONJUGATIONS[vocab.word] && (
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="mt-3 text-xs gap-1 border-[#003580]/20 text-[#003580]">
-              🔄 Check Conjugation
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-72">
-            <h4 className="font-bold mb-2 text-sm">Conjugation: {vocab.word}</h4>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div>
-                <p className="font-semibold text-primary mb-1">Present</p>
-                {VERB_CONJUGATIONS[vocab.word].present.map((form, i) => (
-                  <p key={i} className="text-muted-foreground">{PERSONS[i]}: <span className="text-foreground font-medium">{form}</span></p>
-                ))}
+        {vocab.partOfSpeech === "verb" && VERB_CONJUGATIONS[vocab.word] && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm" className="mt-3 text-xs gap-1 border-primary/20 text-primary">
+                🔄 Check Conjugation
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-72">
+              <h4 className="font-bold mb-2 text-sm">Conjugation: {vocab.word}</h4>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <p className="font-semibold text-primary mb-1">Present</p>
+                  {VERB_CONJUGATIONS[vocab.word].present.map((form, i) => (
+                    <p key={i} className="text-muted-foreground">{PERSONS[i]}: <span className="text-foreground font-medium">{form}</span></p>
+                  ))}
+                </div>
+                <div>
+                  <p className="font-semibold text-primary mb-1">Past</p>
+                  {VERB_CONJUGATIONS[vocab.word].past.map((form, i) => (
+                    <p key={i} className="text-muted-foreground">{PERSONS[i]}: <span className="text-foreground font-medium">{form}</span></p>
+                  ))}
+                </div>
               </div>
-              <div>
-                <p className="font-semibold text-primary mb-1">Past</p>
-                {VERB_CONJUGATIONS[vocab.word].past.map((form, i) => (
-                  <p key={i} className="text-muted-foreground">{PERSONS[i]}: <span className="text-foreground font-medium">{form}</span></p>
-                ))}
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
-      )}
+            </PopoverContent>
+          </Popover>
+        )}
 
-      {/* Mastered star button */}
-      {onMaster && (
-        <button
-          onClick={(e) => onMaster(vocab.word, e)}
-          className={`mt-3 flex items-center gap-1.5 text-xs font-semibold transition-colors ${isMastered ? "text-amber-500" : "text-muted-foreground hover:text-amber-500"}`}
-        >
-          <Star className={`w-4 h-4 ${isMastered ? "fill-amber-500" : ""}`} />
-          {isMastered ? "Mastered!" : "Mark as Mastered"}
-        </button>
-      )}
+        {onMaster && (
+          <button
+            onClick={(e) => onMaster(vocab.word, e)}
+            className={`mt-3 flex items-center gap-1.5 text-xs font-semibold transition-colors ${isMastered ? "text-amber-500 hover:text-muted-foreground" : "text-muted-foreground hover:text-amber-500"}`}
+          >
+            <Star className={`w-4 h-4 ${isMastered ? "fill-amber-500" : ""}`} />
+            {isMastered ? "Unmark Mastered" : "Mark as Mastered"}
+          </button>
+        )}
+      </div>
     </motion.div>
   );
 };
