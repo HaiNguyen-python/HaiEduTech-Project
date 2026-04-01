@@ -380,9 +380,9 @@ const VOCAB_IMAGES: Record<string, string> = {
   tervetuloa: U("photo-1529156069898-49953e39b3ac"), kiitos: U("photo-1529156069898-49953e39b3ac"),
   anteeksi: U("photo-1529156069898-49953e39b3ac"),
   // Emotions & Personality
-  onnellinen: U("photo-1492681290082-e932832941e6"), vihainen: U("photo-1541199249251-f713e6145474"),
-  pelokas: U("photo-1541199249251-f713e6145474"), yllättynyt: U("photo-1492681290082-e932832941e6"),
-  ylpeä: U("photo-1492681290082-e932832941e6"), huolestunut: U("photo-1541199249251-f713e6145474"),
+  onnellinen: U("photo-1492681290082-e932832941e6"),
+  pelokas: U("photo-1541199249251-f713e6145474"),
+  ylpeä: U("photo-1492681290082-e932832941e6"),
   rohkea: U("photo-1483721310020-03333e577078"), ujo: U("photo-1541199249251-f713e6145474"),
   ahkera: U("photo-1504384308090-c894fdcc538d"), laiska: U("photo-1541199249251-f713e6145474"),
   kärsivällinen: U("photo-1573497019418-b400bb3ab074"), ystävällinen: U("photo-1529156069898-49953e39b3ac"),
@@ -402,8 +402,8 @@ const VOCAB_IMAGES: Record<string, string> = {
   varaus: U("photo-1506784983877-45594efa4cbe"), passi: U("photo-1569154941061-e231b4725ef1"),
   viisumi: U("photo-1569154941061-e231b4725ef1"), matkatoimisto: U("photo-1488646953014-85cb44e25828"),
   opas: U("photo-1488646953014-85cb44e25828"), nähtävyys: U("photo-1467269204594-9661b134dd2b"),
-  loma: U("photo-1507525428034-b723cf961d3e"), retki: U("photo-1501785888041-af3ef285b470"),
-  varata: U("photo-1506784983877-45594efa4cbe"), muistomerkki: U("photo-1467269204594-9661b134dd2b"),
+  retki: U("photo-1501785888041-af3ef285b470"),
+  muistomerkki: U("photo-1467269204594-9661b134dd2b"),
   museo: U("photo-1531243269054-5ebf6f34081e"), ranta: U("photo-1507525428034-b723cf961d3e"),
   vuokrata: U("photo-1549317661-bd32c8ce0afa"),
   // Society & Media
