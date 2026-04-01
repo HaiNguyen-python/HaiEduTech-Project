@@ -705,13 +705,13 @@ const YkiDashboard = () => {
   };
 
   const progress = getProgress();
-  const totalLessons = [...allVocabModules, ...finnishLessonModules, ...allMockExamModules]
+  const totalLessons = [...allVocabModules, ...allLessonModules, ...allMockExamModules]
     .reduce((sum, m) => sum + m.lessons.length, 0);
   const completedLessons = Object.keys(progress).filter((k) => progress[k]).length;
   const vocabCompleted = allVocabModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
   const vocabTotal = allVocabModules.flatMap(m => m.lessons).length;
-  const grammarCompleted = finnishLessonModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
-  const grammarTotal = finnishLessonModules.flatMap(m => m.lessons).length;
+  const grammarCompleted = allLessonModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
+  const grammarTotal = allLessonModules.flatMap(m => m.lessons).length;
   const mockCompleted = allMockExamModules.flatMap(m => m.lessons).filter(l => progress[l.id]).length;
   const mockTotal = allMockExamModules.flatMap(m => m.lessons).length;
 
