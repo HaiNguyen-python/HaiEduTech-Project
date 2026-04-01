@@ -1,41 +1,37 @@
 
 
-# Plan: Visual Vocab Cards + Toggle Mastered
+# Plan: Real Illustrative Images for Finnish Vocabulary Cards
+
+## Problem
+The current `getVocabImageUrl` uses `https://source.unsplash.com/400x300/?keyword` which is **deprecated** and returns generic placeholder icons instead of real photos.
+
+## Solution
+Replace the broken Unsplash source URL approach with a **curated static mapping** of Finnish words to specific, high-quality Unsplash photo URLs (using direct photo IDs). This guarantees every word gets a vivid, relevant, real-world image.
 
 ## Changes
 
-### 1. Enhanced Visual Illustrations for Vocab Cards (`src/pages/YkiDashboard.tsx`)
+### File: `src/pages/YkiDashboard.tsx` (EDIT)
 
-**Current**: Small 48x48 emoji box in corner of each card.
+1. **Replace `getVocabImageUrl` function** with a new `VOCAB_IMAGES` mapping object containing ~150+ entries mapping Finnish words to specific Unsplash photo URLs with relevant real images:
+   - `koti` → photo of a cozy home
+   - `koulu` → photo of a school
+   - `auto` → photo of a car
+   - `ruoka` → photo of food
+   - `sairaala` → photo of a hospital
+   - etc.
 
-**New**: Full-width visual header section at top of each card featuring:
-- Large gradient banner (category-specific colors: blue for work, green for nature, red for health, etc.)
-- Oversized emoji (3rem+) centered in the banner
-- Category label overlay on the banner
-- This creates a visually rich, magazine-style card layout
+2. **Fallback chain**: word → category keyword search → gradient+emoji
+   - Primary: exact word match in `VOCAB_IMAGES`
+   - Secondary: category-based default image (e.g., all "Food" words get a food photo if no specific match)
+   - Tertiary: existing gradient + emoji fallback
 
-Category-to-gradient mapping:
-- Work → blue gradient
-- Food → warm orange/red gradient  
-- Health → green/teal gradient
-- Nature → emerald/sky gradient
-- Transport → indigo gradient
-- Education → purple gradient
-- etc.
+3. Use format `https://images.unsplash.com/photo-{ID}?auto=format&fit=crop&w=400&h=300&q=80` for optimized, cropped images that load fast.
 
-### 2. Toggle "Mark as Mastered" / "Unmark" (`src/pages/YkiDashboard.tsx`)
-
-**Current**: `handleMasterWord` has `if (masteredWords.includes(word)) return;` — prevents unmastering.
-
-**Fix**: Remove the early return. Toggle logic:
-- If word is mastered → remove from array, show "Unmarked" toast
-- If word is not mastered → add to array, show motivational toast + confetti star
-
-Update button text: `"Mastered! ✓"` → clicking again shows `"Unmarked"` toast and reverts to `"Mark as Mastered"`.
-
-### Files Modified
+### Coverage
+- All vocabulary from `vocabularyData.ts`, `vocabularyExpansion.ts`, `vocabularyExpansion2.ts` (~400+ words)
+- Category-level fallback images ensure 100% coverage even for unmapped words
 
 | File | Change |
 |------|--------|
-| `src/pages/YkiDashboard.tsx` | Redesign VocabCard visual header with category gradients + large emoji; fix toggle mastered logic |
+| `src/pages/YkiDashboard.tsx` | Replace `getVocabImageUrl` with curated image mapping + category fallbacks |
 
