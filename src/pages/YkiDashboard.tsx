@@ -1883,7 +1883,7 @@ const YkiDashboard = () => {
                 </div>
               )}
             </div>
-          </Tabs>
+          </div>
         </div>
       </main>
       <Footer />
