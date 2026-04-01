@@ -67,12 +67,91 @@ const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> =
 
 const PERSONS = ["minä", "sinä", "hän", "me", "te", "he"];
 
-// Speak Finnish using SpeechSynthesis
+// Enhanced Finnish TTS — select best available Finnish voice
 const speakFinnish = (text: string) => {
+  window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "fi-FI";
-  u.rate = 0.85;
+  u.rate = 0.8;
+  u.pitch = 1.0;
+  // Try to find a proper Finnish voice
+  const voices = window.speechSynthesis.getVoices();
+  const finnishVoice = voices.find(v => v.lang === "fi-FI") 
+    || voices.find(v => v.lang.startsWith("fi"))
+    || voices.find(v => v.name.toLowerCase().includes("finnish"));
+  if (finnishVoice) u.voice = finnishVoice;
   window.speechSynthesis.speak(u);
+};
+
+// Ensure voices are loaded for TTS
+if (typeof window !== "undefined" && window.speechSynthesis) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+
+// Word-to-illustration emoji mapping for visual vocabulary cards
+const WORD_ILLUSTRATIONS: Record<string, string> = {
+  // Work & Professions
+  lääkäri: "👨‍⚕️", opettaja: "👩‍🏫", insinööri: "👷", sairaanhoitaja: "👩‍⚕️", myyjä: "🛒", kokki: "👨‍🍳",
+  palkka: "💰", työsopimus: "📝", työhaastattelu: "🤝", ansioluettelo: "📄", työtoveri: "🤝", esimies: "👔",
+  lomake: "📋", hakea: "🔍", palkkio: "🏆",
+  // Transport
+  bussi: "🚌", juna: "🚂", raitiovaunu: "🚋", lentokone: "✈️", lippu: "🎫", asema: "🏢",
+  pysäkki: "🚏", aikataulu: "📅", matka: "🧳", lentokenttä: "🛫", vaihtaa: "🔄",
+  myöhässä: "⏰", suoraan: "⬆️", vasemmalle: "⬅️", oikealle: "➡️",
+  // Food & Restaurant
+  leipä: "🍞", maito: "🥛", juusto: "🧀", liha: "🥩", kala: "🐟", peruna: "🥔",
+  salaatti: "🥗", keitto: "🍲", jälkiruoka: "🍰", tilata: "📋", lasku: "🧾",
+  tarjoilija: "🧑‍🍳", ruokalista: "📜", hedelmä: "🍎", vihannes: "🥕",
+  // Health
+  terveys: "❤️", sairas: "🤒", kipu: "😣", kuume: "🤧", flunssa: "🤧", apteekki: "💊",
+  lääke: "💊", resepti: "📋", terveysasema: "🏥", ajanvaraus: "📆", hammaslääkäri: "🦷",
+  allerginen: "⚠️", liikunta: "🏃", uni: "😴", hyvinvointi: "🧘",
+  // Nature & Weather
+  aurinko: "☀️", sade: "🌧️", lumi: "❄️", tuuli: "💨", pilvi: "☁️", puu: "🌳",
+  kukka: "🌸", eläin: "🐾", lintu: "🐦", kevät: "🌱", kesä: "🌞", syksy: "🍂",
+  talvi: "⛄", lämpötila: "🌡️", myrsky: "⛈️",
+  // Leisure
+  harrastus: "🎯", urheilu: "⚽", lukeminen: "📖", musiikki: "🎵", elokuva: "🎬",
+  uida: "🏊", juosta: "🏃", hiihtää: "⛷️", valokuvata: "📸", maalata: "🎨",
+  soittaa: "🎸", kirjasto: "📚", teatteri: "🎭", konsertti: "🎶", näyttely: "🖼️",
+  // Education
+  koulu: "🏫", yliopisto: "🎓", kurssi: "📝", luokka: "🏫", koe: "📝",
+  tehtävä: "✏️", kirja: "📕", opiskelija: "👨‍🎓", oppilas: "👧", todistus: "📜",
+  arvosana: "💯", luento: "🎤", oppitunti: "📐", valmistua: "🎓", läksy: "📓",
+  // Shopping
+  kauppa: "🏪", hinta: "🏷️", alennus: "🔖", kassa: "💳", kuitti: "🧾",
+  käteinen: "💵", kortti: "💳", tarjous: "🎁", pussi: "🛍️", kokonaishinta: "💰",
+  // Public Services
+  asumistuki: "🏠", toimeentulotuki: "📃", henkilötunnus: "🆔", lapsilisä: "👶",
+  opintotuki: "🎓", viranomainen: "🏛️", paketti: "📦", osoite: "📍", lähettää: "📤",
+  allekirjoitus: "✍️", oleskelulupa: "🛂", työlupa: "📄",
+  // Emergency
+  hätänumero: "📞", ambulanssi: "🚑", palokunta: "🚒", tulipalo: "🔥",
+  onnettomuus: "⚠️", ensiapu: "🩹", vaara: "⛔", palovaroitin: "🔔",
+  vakuutus: "🛡️", pelastaa: "🦸",
+  // Social
+  lahja: "🎁", juhla: "🎉", mielipide: "💭", iloinen: "😊", surullinen: "😢", väsynyt: "😩",
+  // Culture
+  itsenäisyyspäivä: "🇫🇮", juhannus: "🌅", sisu: "💪", joulupukki: "🎅",
+  järvi: "🏞️", metsä: "🌲", revontulet: "🌌", mökki: "🏡",
+  jokamiehenoikeus: "🌿", kaamos: "🌑",
+  // Common verbs/nouns/adjectives
+  puhua: "🗣️", syödä: "🍽️", juoda: "🥤", mennä: "🚶", tulla: "🏠", tehdä: "🔨",
+  sanoa: "💬", tietää: "🧠", haluta: "💫", voida: "✅", pitää: "👍", antaa: "🤲",
+  ottaa: "✋", lukea: "📖", kirjoittaa: "✍️", asua: "🏠", opiskella: "📚",
+  työskennellä: "💼", ostaa: "🛒", maksaa: "💳", odottaa: "⏳", auttaa: "🤝",
+  kysyä: "❓", vastata: "💡",
+  ihminen: "👤", mies: "👨", nainen: "👩", lapsi: "👶", aika: "⏰",
+  päivä: "📆", vuosi: "📅", raha: "💰", paikka: "📍", kaupunki: "🏙️",
+  maa: "🌍", kieli: "🗣️", numero: "🔢", sää: "🌤️",
+  hyvä: "👍", huono: "👎", iso: "🔵", pieni: "🔹", uusi: "✨", vanha: "🏚️",
+  kaunis: "🌹", kylmä: "🥶", lämmin: "🔥", helppo: "😌", vaikea: "😰",
+  nopea: "⚡", hidas: "🐢", kallis: "💎", halpa: "🪙",
+};
+
+const getWordIllustration = (word: string): string => {
+  return WORD_ILLUSTRATIONS[word.toLowerCase()] || "📝";
 };
 
 // Vocabulary Card Component
@@ -82,9 +161,17 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
   const playAudio = () => {
     if (isPlaying) return;
     setIsPlaying(true);
+    window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(vocab.word);
     u.lang = "fi-FI";
-    u.rate = 0.8;
+    u.rate = 0.75;
+    u.pitch = 1.0;
+    // Select best Finnish voice
+    const voices = window.speechSynthesis.getVoices();
+    const finnishVoice = voices.find(v => v.lang === "fi-FI")
+      || voices.find(v => v.lang.startsWith("fi"))
+      || voices.find(v => v.name.toLowerCase().includes("finnish"));
+    if (finnishVoice) u.voice = finnishVoice;
     u.onend = () => setIsPlaying(false);
     u.onerror = () => setIsPlaying(false);
     window.speechSynthesis.speak(u);
@@ -94,7 +181,12 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
     noun: "bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300",
     verb: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300",
     adjective: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
+    adverb: "bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300",
+    numeral: "bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300",
+    phrase: "bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300",
   };
+
+  const illustration = getWordIllustration(vocab.word);
 
   return (
     <motion.div
@@ -103,21 +195,28 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
       transition={{ delay: index * 0.04 }}
       className="bg-card/80 backdrop-blur-sm border border-[#003580]/10 rounded-xl p-5 hover:shadow-md hover:border-[#003580]/25 transition-all"
     >
-      <div className="flex items-center gap-2 mb-2">
-        <h3 className="text-xl font-bold text-foreground">{vocab.word}</h3>
-        <Badge className={`text-xs ${posColors[vocab.partOfSpeech] || posColors.noun}`}>
-          {vocab.partOfSpeech}
-        </Badge>
+      {/* Illustration + Word header */}
+      <div className="flex items-start gap-3 mb-3">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#003580]/10 to-[#003580]/5 flex items-center justify-center text-2xl shrink-0 border border-[#003580]/10">
+          {illustration}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="text-xl font-bold text-foreground truncate">{vocab.word}</h3>
+            <Badge className={`text-xs shrink-0 ${posColors[vocab.partOfSpeech] || posColors.noun}`}>
+              {vocab.partOfSpeech}
+            </Badge>
+          </div>
+          {vocab.ipa && <p className="text-xs text-muted-foreground">{vocab.ipa}</p>}
+        </div>
         <button
           onClick={playAudio}
-          className="ml-auto w-7 h-7 rounded-full bg-[#003580]/10 hover:bg-[#003580]/20 flex items-center justify-center transition-colors shrink-0"
+          className="w-8 h-8 rounded-full bg-[#003580]/10 hover:bg-[#003580]/20 flex items-center justify-center transition-colors shrink-0"
           aria-label={`Play pronunciation for ${vocab.word}`}
         >
-          {isPlaying ? <VolumeX className="w-3.5 h-3.5 text-[#003580]" /> : <Volume2 className="w-3.5 h-3.5 text-[#003580]" />}
+          {isPlaying ? <VolumeX className="w-4 h-4 text-[#003580]" /> : <Volume2 className="w-4 h-4 text-[#003580]" />}
         </button>
       </div>
-
-      {vocab.ipa && <p className="text-xs text-muted-foreground mb-1">{vocab.ipa}</p>}
 
       <p className="text-primary font-semibold mb-1">{vocab.meaningEn}</p>
       <p className="text-sm text-muted-foreground mb-2">{vocab.meaningVi}</p>
