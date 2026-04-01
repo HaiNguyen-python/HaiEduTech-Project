@@ -925,6 +925,20 @@ const YkiDashboard = () => {
                         </div>
                       )}
 
+                      {/* Interactive Exercises for vocabulary modules */}
+                      {selectedLesson.vocabulary && selectedLesson.vocabulary.length >= 4 && selectedModule.pillar === "vocabulary" && (
+                        <div className="mb-6">
+                          <FinnishVocabExercises
+                            vocabulary={selectedLesson.vocabulary}
+                            onExerciseComplete={(score, total) => {
+                              if (score >= total * 0.7) {
+                                toast.success("Hienoa työtä! Harjoitukset suoritettu! ⛷️");
+                              }
+                            }}
+                          />
+                        </div>
+                      )}
+
                       {/* Quiz — Finnish-first for mock exams */}
                       {selectedLesson.quiz && selectedLesson.quiz.length > 0 && (
                         <div className="mb-6">
