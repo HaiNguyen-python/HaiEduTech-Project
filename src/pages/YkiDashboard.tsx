@@ -1574,14 +1574,14 @@ const YkiDashboard = () => {
                           <CardContent className="p-4 flex items-center gap-4">
                             <Button
                               onClick={playListeningAudio}
-                              disabled={isPlayingListening}
                               size="lg"
                               className="gap-2 font-bold text-base"
+                              variant={isPlayingListening ? "destructive" : "default"}
                             >
                               {isPlayingListening ? (
                                 <>
-                                  <Loader2 className="w-5 h-5 animate-spin" />
-                                  Toistetaan...
+                                  <Square className="w-4 h-4" />
+                                  Pysäytä
                                 </>
                               ) : (
                                 <>
