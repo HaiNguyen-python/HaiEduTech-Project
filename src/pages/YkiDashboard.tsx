@@ -250,10 +250,10 @@ const VOCAB_IMAGES: Record<string, string> = {
   tajuton: U("photo-1516574187841-cb9cc2ca948b"), myrkytys: U("photo-1587854692152-cbe660dbde88"),
   elvyttää: U("photo-1576091160399-112ba8d25d1d"),
   // Body parts
-  pää: U("photo-1612349317150-e413f6a5b16d"), käsi: U("photo-1582213782179-e0d53f98f2ca"),
-  jalka: U("photo-1571019613454-1cb2f99b2d8b"), selkä: U("photo-1571019613454-1cb2f99b2d8b"),
-  silmä: U("photo-1612349317150-e413f6a5b16d"), korva: U("photo-1612349317150-e413f6a5b16d"),
-  nenä: U("photo-1612349317150-e413f6a5b16d"), suu: U("photo-1612349317150-e413f6a5b16d"),
+  pää: U("photo-1544348817-5f2cf14b88c8"), käsi: U("photo-1582213782179-e0d53f98f2ca"),
+  jalka: U("photo-1515886657613-9f3515b0c78f"), selkä: U("photo-1544367567-0f2fcb009e0b"),
+  silmä: U("photo-1494869042583-f6c911f04b4c"), korva: U("photo-1576091160550-2173dba999ef"),
+  nenä: U("photo-1588776814546-1ffcf47267a5"), suu: U("photo-1581803118522-7b72a50f7e9f"),
   // Nature & Weather
   aurinko: U("photo-1506748686214-e9df14d4d9d0"), sade: U("photo-1515694346937-94d85e41e6f0"),
   lumi: U("photo-1491002052546-bf38f186af56"), tuuli: U("photo-1527482797697-8795b05a13fe"),
