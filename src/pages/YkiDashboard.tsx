@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import {
   BookOpen, ChevronRight, ChevronLeft, Volume2, VolumeX,
   Clock, CheckCircle, Timer, Snowflake, Star, Mic, Square,
-  Languages, Trophy, Flag,
+  Languages, Trophy, Flag, Loader2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
