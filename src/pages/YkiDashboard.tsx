@@ -323,12 +323,12 @@ const VOCAB_IMAGES: Record<string, string> = {
   // Social & Feelings
   lahja: U("photo-1549465220-1a8b9238f760"), juhla: U("photo-1530103862676-de8c9debad1d"),
   mielipide: U("photo-1557804506-669a67965ba0"), iloinen: U("photo-1492681290082-e932832941e6"),
-  surullinen: U("photo-1541199249251-f713e6145474"), väsynyt: U("photo-1541199249251-f713e6145474"),
-  vihainen: U("photo-1541199249251-f713e6145474"), huolestunut: U("photo-1541199249251-f713e6145474"),
-  innostunut: U("photo-1492681290082-e932832941e6"), pelottava: U("photo-1541199249251-f713e6145474"),
-  tyytyväinen: U("photo-1492681290082-e932832941e6"), yllättynyt: U("photo-1492681290082-e932832941e6"),
-  jännittävä: U("photo-1492681290082-e932832941e6"), syntymäpäivä: U("photo-1530103862676-de8c9debad1d"),
-  onnitella: U("photo-1530103862676-de8c9debad1d"), kutsua: U("photo-1530103862676-de8c9debad1d"),
+  surullinen: U("photo-1541199249251-f713e6145474"), väsynyt: U("photo-1509868918831-6e8c5c4efaa4"),
+  vihainen: U("photo-1509248961158-e54f6934749c"), huolestunut: U("photo-1516302752625-fcc3c50ae61f"),
+  innostunut: U("photo-1533227268428-f9ed0900fb3b"), pelottava: U("photo-1509099836639-18ba1795216d"),
+  tyytyväinen: U("photo-1489278353717-f64c6ee8a4d2"), yllättynyt: U("photo-1504257432389-52343af06ae3"),
+  jännittävä: U("photo-1506836467174-27f1042aa48c"), syntymäpäivä: U("photo-1558618666-fcd25c85f82e"),
+  onnitella: U("photo-1513151233558-d860c5398176"), kutsua: U("photo-1529543544282-ea99407407c2"),
   vierailla: U("photo-1529156069898-49953e39b3ac"), jutella: U("photo-1573497019418-b400bb3ab074"),
   // Culture & Finland
   itsenäisyyspäivä: U("photo-1535498730771-e735b998cd64"), juhannus: U("photo-1498855926480-d98e83099315"),
