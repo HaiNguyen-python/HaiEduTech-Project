@@ -37,8 +37,9 @@ import {
 import FinnishVocabExercises from "@/components/FinnishVocabExercises";
 
 // Merge original + expansion data
-const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules];
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules];
 const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules];
+const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules];
 
 // Verb conjugation helper data
 const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> = {
