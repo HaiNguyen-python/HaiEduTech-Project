@@ -1851,7 +1851,7 @@ const YkiDashboard = () => {
                 </motion.div>
               ) : (
                 // Module grid
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div key={activePillar} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                   {currentModules.map((mod, i) => (
                     <motion.div
                       key={mod.id}
