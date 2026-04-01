@@ -26,10 +26,12 @@ import {
   finnishVocabModules,
   finnishVocabExpansionModules,
   finnishVocabExpansion2Modules,
+  finnishVocabExpansion3Modules,
   finnishLessonModules,
   finnishLessonExpansionModules,
   finnishMockExamModules,
   finnishMockExamExpansionModules,
+  finnishMockExamExpansion2Modules,
   type FinnishModule,
   type FinnishLesson,
   type FinnishVocabEntry,
@@ -37,8 +39,8 @@ import {
 import FinnishVocabExercises from "@/components/FinnishVocabExercises";
 
 // Merge original + expansion data
-const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules];
-const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules];
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules];
+const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules];
 const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules];
 
 // Verb conjugation helper data
