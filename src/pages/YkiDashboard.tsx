@@ -450,7 +450,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
-      className="bg-slate-900 border border-slate-700/60 rounded-xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all group"
+      className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all group shadow-sm"
     >
       {/* Two-column layout: text left, image right */}
       <div className="flex flex-col sm:flex-row">
@@ -458,7 +458,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
         <div className="flex-1 p-5 sm:p-6 min-w-0">
           {/* Top row: Word + POS + Category badges */}
           <div className="flex items-start gap-2 mb-3 flex-wrap">
-            <h3 className="text-[20px] font-extrabold text-white leading-tight">{vocab.word}</h3>
+            <h3 className="text-[20px] font-extrabold text-gray-900 leading-tight">{vocab.word}</h3>
             <Badge className={`text-[10px] shrink-0 ${posColors[vocab.partOfSpeech] || posColors.noun}`}>
               {vocab.partOfSpeech.charAt(0).toUpperCase()}
             </Badge>
@@ -468,7 +468,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
               </Badge>
             )}
             {isMastered && (
-              <Badge className="text-[10px] bg-amber-500/90 text-white shrink-0 gap-0.5">
+              <Badge className="text-[10px] bg-amber-500 text-white shrink-0 gap-0.5">
                 <Star className="w-2.5 h-2.5 fill-white" /> Mastered
               </Badge>
             )}
@@ -476,69 +476,67 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
             <div className="ml-auto flex items-center gap-1.5 shrink-0">
               <button
                 onClick={playAudio}
-                className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                 aria-label={`Play pronunciation for ${vocab.word}`}
               >
-                {isPlaying ? <VolumeX className="w-3.5 h-3.5 text-white/80" /> : <Volume2 className="w-3.5 h-3.5 text-white/80" />}
+                {isPlaying ? <VolumeX className="w-3.5 h-3.5 text-gray-600" /> : <Volume2 className="w-3.5 h-3.5 text-gray-600" />}
               </button>
               {onMaster && (
                 <button
                   onClick={(e) => onMaster(vocab.word, e)}
-                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-amber-500/30 flex items-center justify-center transition-colors"
+                  className="w-7 h-7 rounded-full bg-gray-100 hover:bg-amber-100 flex items-center justify-center transition-colors"
                   aria-label={isMastered ? "Unmark mastered" : "Mark as mastered"}
                 >
-                  <Star className={`w-3.5 h-3.5 ${isMastered ? "fill-amber-400 text-amber-400" : "text-white/60"}`} />
+                  <Star className={`w-3.5 h-3.5 ${isMastered ? "fill-amber-400 text-amber-400" : "text-gray-400"}`} />
                 </button>
               )}
             </div>
           </div>
 
           {/* Pronunciation */}
-          {vocab.ipa && <p className="text-[13px] text-slate-400 mb-2 font-mono">{vocab.ipa}</p>}
+          {vocab.ipa && <p className="text-[13px] text-gray-500 mb-2 font-mono">{vocab.ipa}</p>}
 
           {/* Meanings */}
-          <p className="text-[17px] font-bold text-blue-400 mb-1">{vocab.meaningEn}</p>
-          <p className="text-[15px] text-slate-300 mb-3">
-            <span className="text-slate-500 text-[13px]">Việt nam:</span> {vocab.meaningVi}
-          </p>
+          <p className="text-[17px] font-bold text-blue-700 mb-1">{vocab.meaningEn}</p>
+          <p className="text-[15px] text-gray-600 mb-3">{vocab.meaningVi}</p>
 
           {vocab.puhekieli && vocab.puhekieli !== vocab.word && (
             <div className="mb-3">
-              <Badge variant="outline" className="text-[11px] border-orange-400/50 text-orange-300">
+              <Badge variant="outline" className="text-[11px] border-orange-400 text-orange-600">
                 🗣️ Puhekieli: {vocab.puhekieli}
               </Badge>
             </div>
           )}
 
           {/* Example sentence */}
-          <div className="pt-2 border-t border-slate-700/60 space-y-1">
-            <p className="text-[15px] text-slate-200 font-medium leading-relaxed">
-              <span className="text-slate-500 text-[13px]">Example:</span> {vocab.example}
+          <div className="pt-2 border-t border-gray-200 space-y-1">
+            <p className="text-[15px] text-gray-800 font-medium leading-relaxed">
+              <span className="text-gray-400 text-[13px]">Example:</span> {vocab.example}
             </p>
-            <p className="text-[13px] text-slate-400 italic">{vocab.exampleEn}</p>
+            <p className="text-[13px] text-gray-500 italic">{vocab.exampleEn}</p>
           </div>
 
           {/* Conjugation popover for verbs */}
           {vocab.partOfSpeech === "verb" && VERB_CONJUGATIONS[vocab.word] && (
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="mt-3 text-xs gap-1 border-slate-600 text-slate-300 hover:bg-slate-800">
+                <Button variant="outline" size="sm" className="mt-3 text-xs gap-1 border-gray-300 text-gray-600 hover:bg-gray-50">
                   🔄 Conjugation
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-72 bg-slate-800 border-slate-700">
-                <h4 className="font-bold mb-2 text-sm text-white">Conjugation: {vocab.word}</h4>
+              <PopoverContent className="w-72 bg-white border-gray-200">
+                <h4 className="font-bold mb-2 text-sm text-gray-900">Conjugation: {vocab.word}</h4>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div>
                     <p className="font-semibold text-primary mb-1">Present</p>
                     {VERB_CONJUGATIONS[vocab.word].present.map((form, i) => (
-                      <p key={i} className="text-slate-400">{PERSONS[i]}: <span className="text-white font-medium">{form}</span></p>
+                      <p key={i} className="text-gray-500">{PERSONS[i]}: <span className="text-gray-900 font-medium">{form}</span></p>
                     ))}
                   </div>
                   <div>
                     <p className="font-semibold text-primary mb-1">Past</p>
                     {VERB_CONJUGATIONS[vocab.word].past.map((form, i) => (
-                      <p key={i} className="text-slate-400">{PERSONS[i]}: <span className="text-white font-medium">{form}</span></p>
+                      <p key={i} className="text-gray-500">{PERSONS[i]}: <span className="text-gray-900 font-medium">{form}</span></p>
                     ))}
                   </div>
                 </div>
@@ -566,8 +564,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
               </div>
             )}
             {/* Subtle inner shadow overlay */}
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-slate-900/30 pointer-events-none" />
-            <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-none pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/20 pointer-events-none" />
           </div>
         </div>
       </div>
