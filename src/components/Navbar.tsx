@@ -130,7 +130,7 @@ const Navbar = () => {
   ];
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: "📚 Overview" },
-    { to: "/finnish/yki-dashboard", label: "🏔️ YKI A2 Dashboard" },
+    { to: "/finnish/yki-dashboard", label: "❄️ YKI A2 Dashboard" },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
