@@ -1560,6 +1560,36 @@ const YkiDashboard = () => {
                     <SpeakingRecorder lesson={selectedLesson} />
                   ) : (
                     <>
+                      {/* Listening Audio Player */}
+                      {isListeningExam && selectedLesson.theory && (
+                        <Card className="mb-4 border-primary/20 bg-primary/5">
+                          <CardContent className="p-4 flex items-center gap-4">
+                            <Button
+                              onClick={playListeningAudio}
+                              disabled={isPlayingListening}
+                              size="lg"
+                              className="gap-2 font-bold text-base"
+                            >
+                              {isPlayingListening ? (
+                                <>
+                                  <Loader2 className="w-5 h-5 animate-spin" />
+                                  Toistetaan...
+                                </>
+                              ) : (
+                                <>
+                                  <Volume2 className="w-5 h-5" />
+                                  🎧 Kuuntele
+                                </>
+                              )}
+                            </Button>
+                            <div className="text-sm text-muted-foreground">
+                              <p className="font-medium text-foreground">Kuuntele keskustelu ensin</p>
+                              <p className="text-xs">Paina kuuntele-nappia ja vastaa sitten kysymyksiin</p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+
                       {/* Theory/Grammar — show Finnish for exams */}
                       {selectedLesson.theory && !isWritingExam && !isSpeakingExam && (
                         <Card className="mb-6 border-[#003580]/10">
