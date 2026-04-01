@@ -69,20 +69,23 @@ const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> =
 
 const PERSONS = ["minä", "sinä", "hän", "me", "te", "he"];
 
-// Enhanced Finnish TTS — select best available Finnish voice
+// Finnish TTS via Google Translate — reliable Finnish pronunciation
 const speakFinnish = (text: string) => {
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "fi-FI";
-  u.rate = 0.8;
-  u.pitch = 1.0;
-  // Try to find a proper Finnish voice
-  const voices = window.speechSynthesis.getVoices();
-  const finnishVoice = voices.find(v => v.lang === "fi-FI") 
-    || voices.find(v => v.lang.startsWith("fi"))
-    || voices.find(v => v.name.toLowerCase().includes("finnish"));
-  if (finnishVoice) u.voice = finnishVoice;
-  window.speechSynthesis.speak(u);
+  const audio = new Audio(
+    `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=fi&client=tw-ob`
+  );
+  audio.playbackRate = 0.85;
+  audio.play().catch(() => {
+    // Fallback to SpeechSynthesis if Google TTS is blocked
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "fi-FI";
+    u.rate = 0.8;
+    const voices = window.speechSynthesis.getVoices();
+    const fi = voices.find(v => v.lang === "fi-FI") || voices.find(v => v.lang.startsWith("fi"));
+    if (fi) u.voice = fi;
+    window.speechSynthesis.speak(u);
+  });
 };
 
 // Ensure voices are loaded for TTS
