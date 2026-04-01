@@ -215,8 +215,8 @@ const VOCAB_IMAGES: Record<string, string> = {
   vaihtaa: U("photo-1554224154-26032ffc0d07"), myöhässä: U("photo-1508962914676-134849a727f0"),
   matkalaukku: U("photo-1553062407-98eeb64c6a62"), matkustaa: U("photo-1488646953014-85cb44e25828"),
   saapua: U("photo-1515965885361-f1e0ff4add39"), nousta: U("photo-1544620347-c4fd4a3d5957"),
-  suoraan: U("photo-1476480862126-209bfaa8edc8"), vasemmalle: U("photo-1476480862126-209bfaa8edc8"),
-  oikealle: U("photo-1476480862126-209bfaa8edc8"), suunta: U("photo-1476480862126-209bfaa8edc8"),
+  suoraan: U("photo-1476480862126-209bfaa8edc8"), vasemmalle: U("photo-1519500099198-fd81846b8f03"),
+  oikealle: U("photo-1527427337751-fdca2f128ce5"), suunta: U("photo-1553708881-764a53878413"),
   kartta: U("photo-1524661135-423995f22d0b"),
   // Food & Restaurant
   leipä: U("photo-1509440159596-0249088772ff"), maito: U("photo-1563636619-e9143da7973b"),
