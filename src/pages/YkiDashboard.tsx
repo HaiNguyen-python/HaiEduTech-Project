@@ -1348,21 +1348,60 @@ const YkiDashboard = () => {
                         </div>
                       )}
 
-                      {/* Vocabulary */}
                       {selectedLesson.vocabulary && selectedLesson.vocabulary.length > 0 && (
                         <div className="mb-6">
-                          <h3 className="text-lg font-bold text-foreground mb-4">📖 Sanasto</h3>
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                            {selectedLesson.vocabulary.map((v, i) => (
-                              <VocabCard
-                                key={v.word}
-                                vocab={v}
-                                index={i}
-                                isMastered={masteredWords.includes(v.word)}
-                                onMaster={handleMasterWord}
-                              />
-                            ))}
+                          <div className="flex items-center gap-3 mb-4">
+                            <h3 className="text-lg font-bold text-foreground">📖 Sanasto</h3>
+                            <div className="ml-auto flex gap-1 bg-muted rounded-lg p-0.5">
+                              <button
+                                onClick={() => {
+                                  const el = document.getElementById('vocab-view-mode');
+                                  if (el) el.dataset.mode = 'grid';
+                                  // Force re-render via state
+                                  setVocabViewMode('grid');
+                                }}
+                                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${vocabViewMode === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                              >
+                                📖 Cards
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setVocabViewMode('flashcard');
+                                  setFlashcardIndex(0);
+                                  setFlashcardFlipped(false);
+                                }}
+                                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${vocabViewMode === 'flashcard' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                              >
+                                🃏 Flashcards
+                              </button>
+                            </div>
                           </div>
+
+                          {vocabViewMode === 'grid' ? (
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                              {selectedLesson.vocabulary.map((v, i) => (
+                                <VocabCard
+                                  key={v.word}
+                                  vocab={v}
+                                  index={i}
+                                  isMastered={masteredWords.includes(v.word)}
+                                  onMaster={handleMasterWord}
+                                />
+                              ))}
+                            </div>
+                          ) : (
+                            /* Flashcard Mode */
+                            <FlashcardView
+                              vocabulary={selectedLesson.vocabulary}
+                              currentIndex={flashcardIndex}
+                              isFlipped={flashcardFlipped}
+                              onFlip={() => setFlashcardFlipped(f => !f)}
+                              onNext={() => { setFlashcardFlipped(false); setFlashcardIndex(i => Math.min(i + 1, (selectedLesson.vocabulary?.length || 1) - 1)); }}
+                              onPrev={() => { setFlashcardFlipped(false); setFlashcardIndex(i => Math.max(i - 1, 0)); }}
+                              isMastered={(w) => masteredWords.includes(w)}
+                              onMaster={handleMasterWord}
+                            />
+                          )}
                         </div>
                       )}
 
