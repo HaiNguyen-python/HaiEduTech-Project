@@ -751,7 +751,18 @@ const YkiDashboard = () => {
   []);
 
   const handleMasterWord = (word: string, event: React.MouseEvent) => {
-    if (masteredWords.includes(word)) return;
+    const isCurrentlyMastered = masteredWords.includes(word);
+
+    if (isCurrentlyMastered) {
+      // Unmark mastered
+      const newMastered = masteredWords.filter(w => w !== word);
+      setMasteredWords(newMastered);
+      localStorage.setItem("yki-mastered-words", JSON.stringify(newMastered));
+      toast.info(`"${word}" unmarked from mastery`);
+      return;
+    }
+
+    // Mark as mastered
     const newMastered = [...masteredWords, word];
     setMasteredWords(newMastered);
     localStorage.setItem("yki-mastered-words", JSON.stringify(newMastered));
@@ -766,7 +777,6 @@ const YkiDashboard = () => {
       }]);
     }
 
-    // Motivational toast
     const quote = FINNISH_QUOTES[Math.floor(Math.random() * FINNISH_QUOTES.length)];
     toast.success(quote, { style: { fontSize: "18px", fontWeight: "bold" } });
   };
