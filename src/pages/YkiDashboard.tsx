@@ -37,6 +37,7 @@ import {
   type FinnishVocabEntry,
 } from "@/data/finnishCurriculum";
 import FinnishVocabExercises from "@/components/FinnishVocabExercises";
+import { playFinnishTts } from "@/lib/finnishTts";
 
 // Merge original + expansion data
 const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules];
@@ -69,30 +70,13 @@ const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> =
 
 const PERSONS = ["minä", "sinä", "hän", "me", "te", "he"];
 
-// Finnish TTS via Google Translate — reliable Finnish pronunciation
 const speakFinnish = (text: string) => {
-  const audio = new Audio(
-    `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=fi&client=tw-ob`
-  );
-  audio.playbackRate = 0.85;
-  audio.play().catch(() => {
-    // Fallback to SpeechSynthesis if Google TTS is blocked
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "fi-FI";
-    u.rate = 0.8;
-    const voices = window.speechSynthesis.getVoices();
-    const fi = voices.find(v => v.lang === "fi-FI") || voices.find(v => v.lang.startsWith("fi"));
-    if (fi) u.voice = fi;
-    window.speechSynthesis.speak(u);
+  void playFinnishTts(text).then((played) => {
+    if (!played) {
+      toast.error("Không thể phát âm chuẩn tiếng Phần Lan trên thiết bị này.");
+    }
   });
 };
-
-// Ensure voices are loaded for TTS
-if (typeof window !== "undefined" && window.speechSynthesis) {
-  window.speechSynthesis.getVoices();
-  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-}
 
 // Word-to-illustration emoji mapping for visual vocabulary cards
 const WORD_ILLUSTRATIONS: Record<string, string> = {
@@ -461,21 +445,10 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
   const playAudio = () => {
     if (isPlaying) return;
     setIsPlaying(true);
-    const audio = new Audio(
-      `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(vocab.word)}&tl=fi&client=tw-ob`
-    );
-    audio.playbackRate = 0.85;
-    audio.onended = () => setIsPlaying(false);
-    audio.onerror = () => {
-      // Fallback to SpeechSynthesis
-      const u = new SpeechSynthesisUtterance(vocab.word);
-      u.lang = "fi-FI";
-      u.rate = 0.8;
-      u.onend = () => setIsPlaying(false);
-      u.onerror = () => setIsPlaying(false);
-      window.speechSynthesis.speak(u);
-    };
-    audio.play().catch(() => {
+    void playFinnishTts(vocab.word, { playbackRate: 0.85, speechRate: 0.8 }).then((played) => {
+      if (!played) {
+        toast.error("Không thể phát âm chuẩn tiếng Phần Lan trên thiết bị này.");
+      }
       setIsPlaying(false);
     });
   };

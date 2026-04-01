@@ -2,9 +2,11 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, X, Search, Volume2 } from "lucide-react";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { finnishDictionary, type FinnishDictEntry } from "@/data/finnishCurriculum/finnishDictData";
+import { playFinnishTts } from "@/lib/finnishTts";
 
 const posColors: Record<string, string> = {
   verb: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300",
@@ -18,15 +20,10 @@ const posColors: Record<string, string> = {
 };
 
 const speakFinnish = (text: string) => {
-  const audio = new Audio(
-    `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=fi&client=tw-ob`
-  );
-  audio.playbackRate = 0.85;
-  audio.play().catch(() => {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "fi-FI";
-    u.rate = 0.8;
-    window.speechSynthesis.speak(u);
+  void playFinnishTts(text).then((played) => {
+    if (!played) {
+      toast.error("Không thể phát âm chuẩn tiếng Phần Lan trên thiết bị này.");
+    }
   });
 };
 
