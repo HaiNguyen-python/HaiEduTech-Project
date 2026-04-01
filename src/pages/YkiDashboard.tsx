@@ -1463,7 +1463,7 @@ const YkiDashboard = () => {
           {/* Header */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-3xl">🇫🇮</span>
+              <img src={finnishFlagImg} alt="Finnish flag" className="w-10 h-10 object-contain" />
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-foreground">
                   YKI Finnish Prep Dashboard
