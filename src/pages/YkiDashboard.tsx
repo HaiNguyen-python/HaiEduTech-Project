@@ -26,10 +26,12 @@ import {
   finnishVocabModules,
   finnishVocabExpansionModules,
   finnishVocabExpansion2Modules,
+  finnishVocabExpansion3Modules,
   finnishLessonModules,
   finnishLessonExpansionModules,
   finnishMockExamModules,
   finnishMockExamExpansionModules,
+  finnishMockExamExpansion2Modules,
   type FinnishModule,
   type FinnishLesson,
   type FinnishVocabEntry,
@@ -37,8 +39,8 @@ import {
 import FinnishVocabExercises from "@/components/FinnishVocabExercises";
 
 // Merge original + expansion data
-const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules];
-const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules];
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules];
+const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules];
 const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules];
 
 // Verb conjugation helper data
@@ -377,6 +379,41 @@ const VOCAB_IMAGES: Record<string, string> = {
   hei: U("photo-1529156069898-49953e39b3ac"), terve: U("photo-1529156069898-49953e39b3ac"),
   tervetuloa: U("photo-1529156069898-49953e39b3ac"), kiitos: U("photo-1529156069898-49953e39b3ac"),
   anteeksi: U("photo-1529156069898-49953e39b3ac"),
+  // Emotions & Personality
+  onnellinen: U("photo-1492681290082-e932832941e6"),
+  pelokas: U("photo-1541199249251-f713e6145474"),
+  ylpeä: U("photo-1492681290082-e932832941e6"),
+  rohkea: U("photo-1483721310020-03333e577078"), ujo: U("photo-1541199249251-f713e6145474"),
+  ahkera: U("photo-1504384308090-c894fdcc538d"), laiska: U("photo-1541199249251-f713e6145474"),
+  kärsivällinen: U("photo-1573497019418-b400bb3ab074"), ystävällinen: U("photo-1529156069898-49953e39b3ac"),
+  rehellinen: U("photo-1529156069898-49953e39b3ac"), kiitollinen: U("photo-1492681290082-e932832941e6"),
+  stressaantunut: U("photo-1541199249251-f713e6145474"),
+  // Technology
+  tietokone: U("photo-1496181133206-80ce9b88a853"), puhelin: U("photo-1511707171634-5f897ff02aa9"),
+  sähköposti: U("photo-1596526131083-e8c633c948d2"), salasana: U("photo-1555949963-ff9fe0c870eb"),
+  sovellus: U("photo-1512941937669-90a1b58e7e9c"), verkko: U("photo-1544197150-b99a580bb7a8"),
+  tulostin: U("photo-1612815154858-60aa4c59eaa6"), näppäimistö: U("photo-1587829741301-dc798b83add3"),
+  näyttö: U("photo-1527443224154-c4a3942d3acf"), ladata: U("photo-1511707171634-5f897ff02aa9"),
+  tallentaa: U("photo-1496181133206-80ce9b88a853"), verkkosivusto: U("photo-1460925895917-afdab827c52f"),
+  hakukone: U("photo-1555949963-ff9fe0c870eb"), tabletti: U("photo-1544244015-0df4b3ffc6b0"),
+  päivittää: U("photo-1512941937669-90a1b58e7e9c"),
+  // Travel & Tourism
+  hotelli: U("photo-1566073771259-6a8506099945"), majoitus: U("photo-1566073771259-6a8506099945"),
+  varaus: U("photo-1506784983877-45594efa4cbe"), passi: U("photo-1569154941061-e231b4725ef1"),
+  viisumi: U("photo-1569154941061-e231b4725ef1"), matkatoimisto: U("photo-1488646953014-85cb44e25828"),
+  opas: U("photo-1488646953014-85cb44e25828"), nähtävyys: U("photo-1467269204594-9661b134dd2b"),
+  retki: U("photo-1501785888041-af3ef285b470"),
+  muistomerkki: U("photo-1467269204594-9661b134dd2b"),
+  museo: U("photo-1531243269054-5ebf6f34081e"), ranta: U("photo-1507525428034-b723cf961d3e"),
+  vuokrata: U("photo-1549317661-bd32c8ce0afa"),
+  // Society & Media
+  uutiset: U("photo-1504711434969-e33886168d0c"), sanomalehti: U("photo-1504711434969-e33886168d0c"),
+  vaalit: U("photo-1540910419892-4a36d2c3266c"), äänestää: U("photo-1540910419892-4a36d2c3266c"),
+  laki: U("photo-1589829545856-d10d557cf95f"), oikeus: U("photo-1589829545856-d10d557cf95f"),
+  verotus: U("photo-1554224155-6726b3ff858f"), kansalainen: U("photo-1529156069898-49953e39b3ac"),
+  mainos: U("photo-1504711434969-e33886168d0c"), toimittaja: U("photo-1504711434969-e33886168d0c"),
+  ohjelma: U("photo-1489599849927-2ee91cede3ba"), artikkeli: U("photo-1504711434969-e33886168d0c"),
+  yhteiskunta: U("photo-1449824913935-59a10b8d2000"),
 };
 
 // Category-level fallback images when no exact word match exists
@@ -394,6 +431,10 @@ const CATEGORY_IMAGES: Record<string, string> = {
   emergency: "https://images.unsplash.com/photo-1587745416684-47953f16f02f?auto=format&fit=crop&w=400&h=300&q=80",
   social: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&h=300&q=80",
   culture: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=400&h=300&q=80",
+  emotions: "https://images.unsplash.com/photo-1492681290082-e932832941e6?auto=format&fit=crop&w=400&h=300&q=80",
+  technology: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=400&h=300&q=80",
+  travel: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&h=300&q=80",
+  society: "https://images.unsplash.com/photo-1504711434969-e33886168d0c?auto=format&fit=crop&w=400&h=300&q=80",
 };
 
 // Three-tier fallback: exact word → category → null (triggers gradient+emoji)
@@ -572,7 +613,142 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
   );
 };
 
-// Quiz Component with 15-minute skill timer and Finnish-first display
+// Flashcard View Component
+const FlashcardView = ({
+  vocabulary,
+  currentIndex,
+  isFlipped,
+  onFlip,
+  onNext,
+  onPrev,
+  isMastered,
+  onMaster,
+}: {
+  vocabulary: FinnishVocabEntry[];
+  currentIndex: number;
+  isFlipped: boolean;
+  onFlip: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+  isMastered: (word: string) => boolean;
+  onMaster: (word: string, e: React.MouseEvent) => void;
+}) => {
+  const vocab = vocabulary[currentIndex];
+  if (!vocab) return null;
+
+  const imageUrl = getVocabImageUrl(vocab.meaningEn, vocab.word, vocab.category);
+  const illustration = getWordIllustration(vocab.word);
+  const gradient = getCategoryGradient(vocab.category);
+  const mastered = isMastered(vocab.word);
+
+  // Keyboard support
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.code === "Space") { e.preventDefault(); onFlip(); }
+      if (e.code === "ArrowRight") onNext();
+      if (e.code === "ArrowLeft") onPrev();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onFlip, onNext, onPrev]);
+
+  return (
+    <div className="flex flex-col items-center gap-6">
+      {/* Counter */}
+      <div className="flex items-center gap-3">
+        <Badge variant="outline" className="text-sm px-3 py-1">
+          {currentIndex + 1} / {vocabulary.length}
+        </Badge>
+        {mastered && (
+          <Badge className="bg-amber-500 text-white text-sm gap-1">
+            <Star className="w-3 h-3 fill-white" /> Mastered
+          </Badge>
+        )}
+      </div>
+
+      {/* Flashcard */}
+      <div
+        className="w-full max-w-lg cursor-pointer"
+        style={{ perspective: "1000px" }}
+        onClick={onFlip}
+      >
+        <motion.div
+          animate={{ rotateY: isFlipped ? 180 : 0 }}
+          transition={{ duration: 0.5, type: "spring", stiffness: 260, damping: 20 }}
+          style={{ transformStyle: "preserve-3d" }}
+          className="relative w-full min-h-[320px]"
+        >
+          {/* Front */}
+          <div
+            className="absolute inset-0 bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden"
+            style={{ backfaceVisibility: "hidden" }}
+          >
+            {/* Image */}
+            <div className="h-40 relative overflow-hidden">
+              {imageUrl ? (
+                <img src={imageUrl} alt={vocab.meaningEn} className="w-full h-full object-cover" loading="lazy" />
+              ) : (
+                <div className={`w-full h-full bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+                  <span className="text-5xl">{illustration}</span>
+                </div>
+              )}
+            </div>
+            <div className="p-6 text-center">
+              <h2 className="text-3xl font-extrabold text-foreground mb-2">{vocab.word}</h2>
+              {vocab.ipa && <p className="text-sm text-muted-foreground font-mono mb-3">{vocab.ipa}</p>}
+              <p className="text-sm text-muted-foreground">Klikkaa kääntääksesi • Click to flip</p>
+              <button
+                onClick={(e) => { e.stopPropagation(); speakFinnish(vocab.word); }}
+                className="mt-3 w-10 h-10 rounded-full bg-muted hover:bg-muted/80 flex items-center justify-center mx-auto transition-colors"
+              >
+                <Volume2 className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </div>
+          </div>
+
+          {/* Back */}
+          <div
+            className="absolute inset-0 bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden p-6"
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+          >
+            <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
+              <p className="text-xl font-bold text-blue-700">{vocab.meaningEn}</p>
+              <p className="text-lg text-gray-600">{vocab.meaningVi}</p>
+              {vocab.puhekieli && vocab.puhekieli !== vocab.word && (
+                <Badge variant="outline" className="text-xs border-orange-400 text-orange-600">
+                  🗣️ Puhekieli: {vocab.puhekieli}
+                </Badge>
+              )}
+              <div className="mt-3 pt-3 border-t border-gray-200 w-full">
+                <p className="text-sm text-gray-800 font-medium">{vocab.example}</p>
+                <p className="text-xs text-gray-500 italic mt-1">{vocab.exampleEn}</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Navigation */}
+      <div className="flex items-center gap-4">
+        <Button variant="outline" size="sm" onClick={onPrev} disabled={currentIndex === 0} className="gap-1">
+          <ChevronLeft className="w-4 h-4" /> Edellinen
+        </Button>
+        <button
+          onClick={(e) => onMaster(vocab.word, e)}
+          className="w-10 h-10 rounded-full bg-muted hover:bg-amber-100 flex items-center justify-center transition-colors"
+        >
+          <Star className={`w-5 h-5 ${mastered ? "fill-amber-400 text-amber-400" : "text-gray-400"}`} />
+        </button>
+        <Button variant="outline" size="sm" onClick={onNext} disabled={currentIndex === vocabulary.length - 1} className="gap-1">
+          Seuraava <ChevronRight className="w-4 h-4" />
+        </Button>
+      </div>
+
+      <p className="text-xs text-muted-foreground">⌨️ Space = flip, ← → = navigate</p>
+    </div>
+  );
+};
+
 const QuizSection = ({
   quiz,
   timerEnabled = false,
@@ -990,6 +1166,9 @@ const YkiDashboard = () => {
   const [selectedModule, setSelectedModule] = useState<FinnishModule | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<FinnishLesson | null>(null);
   const [showBadge, setShowBadge] = useState(false);
+  const [vocabViewMode, setVocabViewMode] = useState<'grid' | 'flashcard'>('grid');
+  const [flashcardIndex, setFlashcardIndex] = useState(0);
+  const [flashcardFlipped, setFlashcardFlipped] = useState(false);
 
   // Mastered words state for Skier gamification
   const getMasteredWords = (): string[] => {
@@ -1311,21 +1490,60 @@ const YkiDashboard = () => {
                         </div>
                       )}
 
-                      {/* Vocabulary */}
                       {selectedLesson.vocabulary && selectedLesson.vocabulary.length > 0 && (
                         <div className="mb-6">
-                          <h3 className="text-lg font-bold text-foreground mb-4">📖 Sanasto</h3>
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                            {selectedLesson.vocabulary.map((v, i) => (
-                              <VocabCard
-                                key={v.word}
-                                vocab={v}
-                                index={i}
-                                isMastered={masteredWords.includes(v.word)}
-                                onMaster={handleMasterWord}
-                              />
-                            ))}
+                          <div className="flex items-center gap-3 mb-4">
+                            <h3 className="text-lg font-bold text-foreground">📖 Sanasto</h3>
+                            <div className="ml-auto flex gap-1 bg-muted rounded-lg p-0.5">
+                              <button
+                                onClick={() => {
+                                  const el = document.getElementById('vocab-view-mode');
+                                  if (el) el.dataset.mode = 'grid';
+                                  // Force re-render via state
+                                  setVocabViewMode('grid');
+                                }}
+                                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${vocabViewMode === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                              >
+                                📖 Cards
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setVocabViewMode('flashcard');
+                                  setFlashcardIndex(0);
+                                  setFlashcardFlipped(false);
+                                }}
+                                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${vocabViewMode === 'flashcard' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                              >
+                                🃏 Flashcards
+                              </button>
+                            </div>
                           </div>
+
+                          {vocabViewMode === 'grid' ? (
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                              {selectedLesson.vocabulary.map((v, i) => (
+                                <VocabCard
+                                  key={v.word}
+                                  vocab={v}
+                                  index={i}
+                                  isMastered={masteredWords.includes(v.word)}
+                                  onMaster={handleMasterWord}
+                                />
+                              ))}
+                            </div>
+                          ) : (
+                            /* Flashcard Mode */
+                            <FlashcardView
+                              vocabulary={selectedLesson.vocabulary}
+                              currentIndex={flashcardIndex}
+                              isFlipped={flashcardFlipped}
+                              onFlip={() => setFlashcardFlipped(f => !f)}
+                              onNext={() => { setFlashcardFlipped(false); setFlashcardIndex(i => Math.min(i + 1, (selectedLesson.vocabulary?.length || 1) - 1)); }}
+                              onPrev={() => { setFlashcardFlipped(false); setFlashcardIndex(i => Math.max(i - 1, 0)); }}
+                              isMastered={(w) => masteredWords.includes(w)}
+                              onMaster={handleMasterWord}
+                            />
+                          )}
                         </div>
                       )}
 
