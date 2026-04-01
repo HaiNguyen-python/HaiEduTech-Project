@@ -18,10 +18,16 @@ const posColors: Record<string, string> = {
 };
 
 const speakFinnish = (text: string) => {
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "fi-FI";
-  u.rate = 0.8;
-  window.speechSynthesis.speak(u);
+  const audio = new Audio(
+    `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=fi&client=tw-ob`
+  );
+  audio.playbackRate = 0.85;
+  audio.play().catch(() => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "fi-FI";
+    u.rate = 0.8;
+    window.speechSynthesis.speak(u);
+  });
 };
 
 const FloatingFinnishDictionary = () => {
