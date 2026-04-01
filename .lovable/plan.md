@@ -1,45 +1,54 @@
 
 
-# Plan: Fix Finnish Audio Pronunciation
+# Plan: Fix Listening Audio Overlapping
 
-## Problem
-The current `speakFinnish` function uses the browser's `SpeechSynthesis` API with `lang: "fi-FI"`. Most browsers **do not have a Finnish voice installed**, so it falls back to the default English voice — producing incorrect pronunciation.
+## Root Cause
 
-## Solution
-Replace `SpeechSynthesis` with **Google Translate TTS** audio, which reliably supports Finnish pronunciation without any API key.
+The `speakFinnish` function in `YkiDashboard.tsx` is **fire-and-forget**:
 
-### How it works
-Play audio from URL: `https://translate.google.com/translate_tts?ie=UTF-8&q=TEXT&tl=fi&client=tw-ob`
-
-This produces native-quality Finnish pronunciation for any word or sentence.
-
-### Changes in `src/pages/YkiDashboard.tsx`
-
-1. **Replace the global `speakFinnish` function** (line 73-86):
 ```typescript
 const speakFinnish = (text: string) => {
-  const audio = new Audio(
-    `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=fi&client=tw-ob`
-  );
-  audio.playbackRate = 0.85;
-  audio.play().catch(() => {
-    // Fallback to SpeechSynthesis if blocked
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "fi-FI";
-    u.rate = 0.8;
-    window.speechSynthesis.speak(u);
-  });
+  void playFinnishTts(text).then(...); // void = no awaitable promise returned
 };
 ```
 
-2. **Update the `VocabCard` inline audio** (line 459-474) to use the same Google TTS approach with `isPlaying` state management.
+When `playListeningAudio` does `await speakFinnish(line)`, the `await` resolves **immediately** because `speakFinnish` returns `undefined`. All dialogue lines fire simultaneously, causing overlap.
 
-3. **Update `FlashcardView` audio** buttons to use the same function.
+Additionally, `playFromUrl` in `finnishTts.ts` calls `stopActiveAudio()` at the start — so each new line **kills** the previous one mid-playback.
 
-### Fallback
-If Google TTS is blocked (e.g., CORS in some environments), it gracefully falls back to the existing `SpeechSynthesis` method.
+## Fix
+
+### 1. `src/pages/YkiDashboard.tsx` — Fix `playListeningAudio`
+
+Replace `await speakFinnish(line)` with `await playFinnishTts(line)` directly, so the promise is properly awaited:
+
+```typescript
+const playListeningAudio = async () => {
+  if (!selectedLesson?.theory || isPlayingListening) return;
+  setIsPlayingListening(true);
+  try {
+    const dialogueLines = extractFinnishDialogue(selectedLesson.theory);
+    if (dialogueLines.length === 0) {
+      await playFinnishTts(selectedLesson.theory.replace(/[#*>_\[\]()]/g, "").substring(0, 500));
+    } else {
+      for (const line of dialogueLines) {
+        await playFinnishTts(line);  // ← properly awaits each line
+        await new Promise(r => setTimeout(r, 800));
+      }
+    }
+  } catch {
+    // handled
+  } finally {
+    setIsPlayingListening(false);
+  }
+};
+```
+
+### 2. Add stop/cancel support
+
+Add a `listeningCancelRef` to allow stopping playback mid-dialogue, and check it between lines so the loop can exit early if the user clicks stop.
 
 | File | Change |
 |------|--------|
-| `src/pages/YkiDashboard.tsx` | Replace 3 TTS implementations with Google Translate TTS + SpeechSynthesis fallback |
+| `src/pages/YkiDashboard.tsx` | Use `await playFinnishTts()` instead of `await speakFinnish()` in listening loop; add cancel ref for stop button |
 
