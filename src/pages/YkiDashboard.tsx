@@ -181,9 +181,17 @@ const getCategoryGradient = (category?: string): string => {
   return CATEGORY_GRADIENTS.default;
 };
 
-// Vocabulary Card Component with full-width visual header
+// Generate Unsplash image URL from English meaning keyword
+const getVocabImageUrl = (meaningEn: string, word: string): string => {
+  // Use English meaning as keyword for relevant illustration
+  const keyword = encodeURIComponent(meaningEn.split(/[,;(]/)[0].trim().toLowerCase());
+  return `https://source.unsplash.com/400x300/?${keyword}`;
+};
+
+// Vocabulary Card Component with two-column layout (text left, image right)
 const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocabEntry; index: number; isMastered?: boolean; onMaster?: (word: string, e: React.MouseEvent) => void }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const playAudio = () => {
     if (isPlaying) return;
@@ -214,100 +222,133 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
 
   const illustration = getWordIllustration(vocab.word);
   const gradient = getCategoryGradient(vocab.category);
+  const imageUrl = getVocabImageUrl(vocab.meaningEn, vocab.word);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
-      className="bg-card/80 backdrop-blur-sm border border-border/60 rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/25 transition-all group"
+      className="bg-slate-900 border border-slate-700/60 rounded-xl overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all group"
     >
-      {/* Full-width gradient visual header */}
-      <div className={`relative w-full h-24 bg-gradient-to-br ${gradient} flex items-center justify-center`}>
-        <span className="text-5xl drop-shadow-lg select-none" role="img" aria-label={vocab.word}>
-          {illustration}
-        </span>
-        {vocab.category && (
-          <span className="absolute top-2 right-2 text-[10px] font-bold uppercase tracking-wider text-white/80 bg-white/15 backdrop-blur-sm rounded-full px-2 py-0.5">
-            {vocab.category}
-          </span>
-        )}
-        {isMastered && (
-          <span className="absolute top-2 left-2 text-xs font-bold text-white bg-amber-500/90 rounded-full px-2 py-0.5 flex items-center gap-1">
-            <Star className="w-3 h-3 fill-white" /> Mastered
-          </span>
-        )}
-      </div>
-
-      <div className="p-4">
-        {/* Word + POS + Audio */}
-        <div className="flex items-center gap-2 mb-2">
-          <h3 className="text-xl font-bold text-foreground truncate">{vocab.word}</h3>
-          <Badge className={`text-xs shrink-0 ${posColors[vocab.partOfSpeech] || posColors.noun}`}>
-            {vocab.partOfSpeech}
-          </Badge>
-          <button
-            onClick={playAudio}
-            className="ml-auto w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors shrink-0"
-            aria-label={`Play pronunciation for ${vocab.word}`}
-          >
-            {isPlaying ? <VolumeX className="w-4 h-4 text-primary" /> : <Volume2 className="w-4 h-4 text-primary" />}
-          </button>
-        </div>
-        {vocab.ipa && <p className="text-xs text-muted-foreground mb-1">{vocab.ipa}</p>}
-
-        <p className="text-primary font-semibold mb-0.5">{vocab.meaningEn}</p>
-        <p className="text-sm text-muted-foreground mb-2">{vocab.meaningVi}</p>
-
-        {vocab.puhekieli && vocab.puhekieli !== vocab.word && (
-          <div className="flex items-center gap-2 mb-2">
-            <Badge variant="outline" className="text-xs border-orange-300 text-orange-700 dark:text-orange-300">
-              🗣️ Puhekieli: {vocab.puhekieli}
+      {/* Two-column layout: text left, image right */}
+      <div className="flex flex-col sm:flex-row">
+        {/* Left column — text content (60%) */}
+        <div className="flex-1 p-5 sm:p-6 min-w-0">
+          {/* Top row: Word + POS + Category badges */}
+          <div className="flex items-start gap-2 mb-3 flex-wrap">
+            <h3 className="text-[20px] font-extrabold text-white leading-tight">{vocab.word}</h3>
+            <Badge className={`text-[10px] shrink-0 ${posColors[vocab.partOfSpeech] || posColors.noun}`}>
+              {vocab.partOfSpeech.charAt(0).toUpperCase()}
             </Badge>
+            {vocab.category && (
+              <Badge className="text-[10px] bg-primary/80 text-white shrink-0">
+                {vocab.category}
+              </Badge>
+            )}
+            {isMastered && (
+              <Badge className="text-[10px] bg-amber-500/90 text-white shrink-0 gap-0.5">
+                <Star className="w-2.5 h-2.5 fill-white" /> Mastered
+              </Badge>
+            )}
+            {/* Audio + Star icons */}
+            <div className="ml-auto flex items-center gap-1.5 shrink-0">
+              <button
+                onClick={playAudio}
+                className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                aria-label={`Play pronunciation for ${vocab.word}`}
+              >
+                {isPlaying ? <VolumeX className="w-3.5 h-3.5 text-white/80" /> : <Volume2 className="w-3.5 h-3.5 text-white/80" />}
+              </button>
+              {onMaster && (
+                <button
+                  onClick={(e) => onMaster(vocab.word, e)}
+                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-amber-500/30 flex items-center justify-center transition-colors"
+                  aria-label={isMastered ? "Unmark mastered" : "Mark as mastered"}
+                >
+                  <Star className={`w-3.5 h-3.5 ${isMastered ? "fill-amber-400 text-amber-400" : "text-white/60"}`} />
+                </button>
+              )}
+            </div>
           </div>
-        )}
 
-        <div className="mt-2 pt-2 border-t border-border/60">
-          <p className="text-foreground font-medium text-sm">{vocab.example}</p>
-          <p className="text-xs text-muted-foreground italic mt-1">{vocab.exampleEn}</p>
+          {/* Pronunciation */}
+          {vocab.ipa && <p className="text-[13px] text-slate-400 mb-2 font-mono">{vocab.ipa}</p>}
+
+          {/* Meanings */}
+          <p className="text-[17px] font-bold text-blue-400 mb-1">{vocab.meaningEn}</p>
+          <p className="text-[15px] text-slate-300 mb-3">
+            <span className="text-slate-500 text-[13px]">Việt nam:</span> {vocab.meaningVi}
+          </p>
+
+          {vocab.puhekieli && vocab.puhekieli !== vocab.word && (
+            <div className="mb-3">
+              <Badge variant="outline" className="text-[11px] border-orange-400/50 text-orange-300">
+                🗣️ Puhekieli: {vocab.puhekieli}
+              </Badge>
+            </div>
+          )}
+
+          {/* Example sentence */}
+          <div className="pt-2 border-t border-slate-700/60 space-y-1">
+            <p className="text-[15px] text-slate-200 font-medium leading-relaxed">
+              <span className="text-slate-500 text-[13px]">Example:</span> {vocab.example}
+            </p>
+            <p className="text-[13px] text-slate-400 italic">{vocab.exampleEn}</p>
+          </div>
+
+          {/* Conjugation popover for verbs */}
+          {vocab.partOfSpeech === "verb" && VERB_CONJUGATIONS[vocab.word] && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="sm" className="mt-3 text-xs gap-1 border-slate-600 text-slate-300 hover:bg-slate-800">
+                  🔄 Conjugation
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-72 bg-slate-800 border-slate-700">
+                <h4 className="font-bold mb-2 text-sm text-white">Conjugation: {vocab.word}</h4>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <p className="font-semibold text-primary mb-1">Present</p>
+                    {VERB_CONJUGATIONS[vocab.word].present.map((form, i) => (
+                      <p key={i} className="text-slate-400">{PERSONS[i]}: <span className="text-white font-medium">{form}</span></p>
+                    ))}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-primary mb-1">Past</p>
+                    {VERB_CONJUGATIONS[vocab.word].past.map((form, i) => (
+                      <p key={i} className="text-slate-400">{PERSONS[i]}: <span className="text-white font-medium">{form}</span></p>
+                    ))}
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          )}
         </div>
 
-        {vocab.partOfSpeech === "verb" && VERB_CONJUGATIONS[vocab.word] && (
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="mt-3 text-xs gap-1 border-primary/20 text-primary">
-                🔄 Check Conjugation
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-72">
-              <h4 className="font-bold mb-2 text-sm">Conjugation: {vocab.word}</h4>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div>
-                  <p className="font-semibold text-primary mb-1">Present</p>
-                  {VERB_CONJUGATIONS[vocab.word].present.map((form, i) => (
-                    <p key={i} className="text-muted-foreground">{PERSONS[i]}: <span className="text-foreground font-medium">{form}</span></p>
-                  ))}
-                </div>
-                <div>
-                  <p className="font-semibold text-primary mb-1">Past</p>
-                  {VERB_CONJUGATIONS[vocab.word].past.map((form, i) => (
-                    <p key={i} className="text-muted-foreground">{PERSONS[i]}: <span className="text-foreground font-medium">{form}</span></p>
-                  ))}
-                </div>
+        {/* Right column — illustration image (35-40%) */}
+        <div className="sm:w-[38%] shrink-0 relative">
+          {/* Mobile: image on top; Desktop: image on right */}
+          <div className="w-full h-48 sm:h-full sm:min-h-[220px] relative overflow-hidden">
+            {!imgError ? (
+              <img
+                src={imageUrl}
+                alt={`Illustration for ${vocab.meaningEn}`}
+                className="w-full h-full object-cover"
+                loading="lazy"
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              // Fallback: gradient + large emoji
+              <div className={`w-full h-full bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+                <span className="text-6xl drop-shadow-lg select-none">{illustration}</span>
               </div>
-            </PopoverContent>
-          </Popover>
-        )}
-
-        {onMaster && (
-          <button
-            onClick={(e) => onMaster(vocab.word, e)}
-            className={`mt-3 flex items-center gap-1.5 text-xs font-semibold transition-colors ${isMastered ? "text-amber-500 hover:text-muted-foreground" : "text-muted-foreground hover:text-amber-500"}`}
-          >
-            <Star className={`w-4 h-4 ${isMastered ? "fill-amber-500" : ""}`} />
-            {isMastered ? "Unmark Mastered" : "Mark as Mastered"}
-          </button>
-        )}
+            )}
+            {/* Subtle inner shadow overlay */}
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-slate-900/30 pointer-events-none" />
+            <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-none pointer-events-none" />
+          </div>
+        </div>
       </div>
     </motion.div>
   );
