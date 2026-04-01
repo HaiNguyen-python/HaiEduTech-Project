@@ -1027,6 +1027,9 @@ const YkiDashboard = () => {
   const [selectedModule, setSelectedModule] = useState<FinnishModule | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<FinnishLesson | null>(null);
   const [showBadge, setShowBadge] = useState(false);
+  const [vocabViewMode, setVocabViewMode] = useState<'grid' | 'flashcard'>('grid');
+  const [flashcardIndex, setFlashcardIndex] = useState(0);
+  const [flashcardFlipped, setFlashcardFlipped] = useState(false);
 
   // Mastered words state for Skier gamification
   const getMasteredWords = (): string[] => {
