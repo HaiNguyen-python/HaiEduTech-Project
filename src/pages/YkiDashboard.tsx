@@ -446,7 +446,7 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
 
   const illustration = getWordIllustration(vocab.word);
   const gradient = getCategoryGradient(vocab.category);
-  const imageUrl = getVocabImageUrl(vocab.meaningEn, vocab.word);
+  const imageUrl = getVocabImageUrl(vocab.meaningEn, vocab.word, vocab.category);
 
   return (
     <motion.div
