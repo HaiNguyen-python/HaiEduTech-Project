@@ -613,6 +613,75 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
   );
 };
 
+// Spaced Repetition Engine (Leitner system with localStorage)
+interface SRData {
+  box: number; // 1-5 (1=new/hard, 5=well-known)
+  nextReview: number; // timestamp
+  lastReview: number;
+  correctStreak: number;
+}
+
+const SR_KEY = "yki-spaced-repetition";
+const BOX_INTERVALS = [0, 1, 3, 7, 14, 30]; // days per box level
+
+const getSRStore = (): Record<string, SRData> => {
+  try { return JSON.parse(localStorage.getItem(SR_KEY) || "{}"); } catch { return {}; }
+};
+
+const saveSRStore = (store: Record<string, SRData>) => {
+  localStorage.setItem(SR_KEY, JSON.stringify(store));
+};
+
+const getSRData = (word: string): SRData => {
+  const store = getSRStore();
+  return store[word] || { box: 1, nextReview: 0, lastReview: 0, correctStreak: 0 };
+};
+
+const updateSRData = (word: string, correct: boolean) => {
+  const store = getSRStore();
+  const current = store[word] || { box: 1, nextReview: 0, lastReview: 0, correctStreak: 0 };
+  const now = Date.now();
+  
+  if (correct) {
+    current.box = Math.min(current.box + 1, 5);
+    current.correctStreak += 1;
+  } else {
+    current.box = Math.max(current.box - 1, 1);
+    current.correctStreak = 0;
+  }
+  
+  current.lastReview = now;
+  current.nextReview = now + BOX_INTERVALS[current.box] * 24 * 60 * 60 * 1000;
+  store[word] = current;
+  saveSRStore(store);
+  return current;
+};
+
+const sortBySR = (vocabulary: FinnishVocabEntry[]): FinnishVocabEntry[] => {
+  const now = Date.now();
+  return [...vocabulary].sort((a, b) => {
+    const srA = getSRData(a.word);
+    const srB = getSRData(b.word);
+    // Priority: due for review first, then lower box first, then never-reviewed first
+    const dueA = srA.nextReview <= now ? 0 : 1;
+    const dueB = srB.nextReview <= now ? 0 : 1;
+    if (dueA !== dueB) return dueA - dueB;
+    return srA.box - srB.box;
+  });
+};
+
+// SR confidence level colors
+const SR_BOX_COLORS = [
+  "", // unused index 0
+  "bg-red-100 text-red-700 border-red-200",      // box 1 - new/hard
+  "bg-orange-100 text-orange-700 border-orange-200", // box 2
+  "bg-yellow-100 text-yellow-700 border-yellow-200", // box 3
+  "bg-emerald-100 text-emerald-700 border-emerald-200", // box 4
+  "bg-blue-100 text-blue-700 border-blue-200",    // box 5 - mastered
+];
+
+const SR_BOX_LABELS = ["", "Uusi", "Oppimassa", "Tuttu", "Hyvin tuttu", "Osattu"];
+
 // Flashcard View Component
 const FlashcardView = ({
   vocabulary,
@@ -623,6 +692,8 @@ const FlashcardView = ({
   onPrev,
   isMastered,
   onMaster,
+  srMode = false,
+  onSRAnswer,
 }: {
   vocabulary: FinnishVocabEntry[];
   currentIndex: number;
@@ -632,6 +703,8 @@ const FlashcardView = ({
   onPrev: () => void;
   isMastered: (word: string) => boolean;
   onMaster: (word: string, e: React.MouseEvent) => void;
+  srMode?: boolean;
+  onSRAnswer?: (word: string, correct: boolean) => void;
 }) => {
   const vocab = vocabulary[currentIndex];
   if (!vocab) return null;
@@ -640,6 +713,7 @@ const FlashcardView = ({
   const illustration = getWordIllustration(vocab.word);
   const gradient = getCategoryGradient(vocab.category);
   const mastered = isMastered(vocab.word);
+  const srData = srMode ? getSRData(vocab.word) : null;
 
   // Keyboard support
   useEffect(() => {
@@ -652,13 +726,27 @@ const FlashcardView = ({
     return () => window.removeEventListener("keydown", handler);
   }, [onFlip, onNext, onPrev]);
 
+  // Count due words
+  const now = Date.now();
+  const dueCount = vocabulary.filter(v => getSRData(v.word).nextReview <= now).length;
+
   return (
     <div className="flex flex-col items-center gap-6">
-      {/* Counter */}
-      <div className="flex items-center gap-3">
+      {/* Counter + SR info */}
+      <div className="flex items-center gap-3 flex-wrap justify-center">
         <Badge variant="outline" className="text-sm px-3 py-1">
           {currentIndex + 1} / {vocabulary.length}
         </Badge>
+        {srMode && (
+          <Badge className="bg-primary/10 text-primary text-sm gap-1">
+            🔄 {dueCount} due
+          </Badge>
+        )}
+        {srMode && srData && (
+          <Badge className={`text-xs border ${SR_BOX_COLORS[srData.box]}`}>
+            📦 Box {srData.box}: {SR_BOX_LABELS[srData.box]}
+          </Badge>
+        )}
         {mastered && (
           <Badge className="bg-amber-500 text-white text-sm gap-1">
             <Star className="w-3 h-3 fill-white" /> Mastered
@@ -723,6 +811,31 @@ const FlashcardView = ({
                 <p className="text-sm text-gray-800 font-medium">{vocab.example}</p>
                 <p className="text-xs text-gray-500 italic mt-1">{vocab.exampleEn}</p>
               </div>
+
+              {/* SR Answer Buttons — shown on back of card */}
+              {srMode && isFlipped && onSRAnswer && (
+                <div className="mt-4 pt-3 border-t border-gray-200 w-full">
+                  <p className="text-xs text-muted-foreground mb-2">Muistitko tämän sanan?</p>
+                  <div className="flex gap-3 justify-center">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="gap-1 border-red-300 text-red-600 hover:bg-red-50"
+                      onClick={(e) => { e.stopPropagation(); onSRAnswer(vocab.word, false); onNext(); }}
+                    >
+                      ❌ Ei
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="gap-1 border-emerald-300 text-emerald-600 hover:bg-emerald-50"
+                      onClick={(e) => { e.stopPropagation(); onSRAnswer(vocab.word, true); onNext(); }}
+                    >
+                      ✅ Kyllä
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </motion.div>
@@ -748,6 +861,7 @@ const FlashcardView = ({
     </div>
   );
 };
+
 
 const QuizSection = ({
   quiz,
