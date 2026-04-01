@@ -445,21 +445,10 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
   const playAudio = () => {
     if (isPlaying) return;
     setIsPlaying(true);
-    const audio = new Audio(
-      `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(vocab.word)}&tl=fi&client=tw-ob`
-    );
-    audio.playbackRate = 0.85;
-    audio.onended = () => setIsPlaying(false);
-    audio.onerror = () => {
-      // Fallback to SpeechSynthesis
-      const u = new SpeechSynthesisUtterance(vocab.word);
-      u.lang = "fi-FI";
-      u.rate = 0.8;
-      u.onend = () => setIsPlaying(false);
-      u.onerror = () => setIsPlaying(false);
-      window.speechSynthesis.speak(u);
-    };
-    audio.play().catch(() => {
+    void playFinnishTts(vocab.word, { playbackRate: 0.85, speechRate: 0.8 }).then((played) => {
+      if (!played) {
+        toast.error("Không thể phát âm chuẩn tiếng Phần Lan trên thiết bị này.");
+      }
       setIsPlaying(false);
     });
   };
