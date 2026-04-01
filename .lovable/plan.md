@@ -1,37 +1,51 @@
 
 
-# Plan: Real Illustrative Images for Finnish Vocabulary Cards
+# Plan: Complete Vocab Images + Light Theme + Remove "Việt Nam" Label
 
-## Problem
-The current `getVocabImageUrl` uses `https://source.unsplash.com/400x300/?keyword` which is **deprecated** and returns generic placeholder icons instead of real photos.
+## Changes (single file: `src/pages/YkiDashboard.tsx`)
 
-## Solution
-Replace the broken Unsplash source URL approach with a **curated static mapping** of Finnish words to specific, high-quality Unsplash photo URLs (using direct photo IDs). This guarantees every word gets a vivid, relevant, real-world image.
+### 1. Expand VOCAB_IMAGES to cover all remaining words
 
-## Changes
+Add ~200+ new entries to the `VOCAB_IMAGES` mapping to cover words from `vocabularyExpansion.ts` and `vocabularyExpansion2.ts` that are currently missing. Words like: `päätös`, `hakemus`, `etuus`, `sairauspäiväraha`, `posti`, `kirje`, `postimaksu`, `postilaatikko`, `hätänumero`, `ambulanssi`, `palokunta`, etc.
 
-### File: `src/pages/YkiDashboard.tsx` (EDIT)
+Each word gets a curated Unsplash photo ID URL matching its meaning. Any remaining unmapped words still fall back to `CATEGORY_IMAGES` (which covers all categories).
 
-1. **Replace `getVocabImageUrl` function** with a new `VOCAB_IMAGES` mapping object containing ~150+ entries mapping Finnish words to specific Unsplash photo URLs with relevant real images:
-   - `koti` → photo of a cozy home
-   - `koulu` → photo of a school
-   - `auto` → photo of a car
-   - `ruoka` → photo of food
-   - `sairaala` → photo of a hospital
-   - etc.
+### 2. Switch VocabCard to bright/light theme
 
-2. **Fallback chain**: word → category keyword search → gradient+emoji
-   - Primary: exact word match in `VOCAB_IMAGES`
-   - Secondary: category-based default image (e.g., all "Food" words get a food photo if no specific match)
-   - Tertiary: existing gradient + emoji fallback
+**Current**: Dark slate background (`bg-slate-900`, `text-white`, `text-slate-300/400`, `border-slate-700`)
 
-3. Use format `https://images.unsplash.com/photo-{ID}?auto=format&fit=crop&w=400&h=300&q=80` for optimized, cropped images that load fast.
+**New**: Bright white background with clean shadows:
+- Card: `bg-white border-gray-200 shadow-sm hover:shadow-lg`
+- Word: `text-gray-900` (deep charcoal)
+- English meaning: `text-blue-700` (vibrant royal blue)
+- Vietnamese meaning: `text-gray-700`
+- Example text: `text-gray-800`
+- Example translation: `text-gray-500`
+- IPA: `text-gray-500`
+- Badges: keep colorful but remove dark-mode variants
+- Audio/Star buttons: `bg-gray-100 hover:bg-gray-200`, icons `text-gray-600`
+- Inner shadow overlay: adjust to white-based gradient
+- Conjugation popover: `bg-white border-gray-200`
 
-### Coverage
-- All vocabulary from `vocabularyData.ts`, `vocabularyExpansion.ts`, `vocabularyExpansion2.ts` (~400+ words)
-- Category-level fallback images ensure 100% coverage even for unmapped words
+### 3. Remove "Việt nam:" label
+
+**Current** (line ~504-506):
+```
+<p className="text-[17px] font-bold text-blue-400 mb-1">{vocab.meaningEn}</p>
+<p className="text-[15px] text-slate-300 mb-3">
+  <span className="text-slate-500 text-[13px]">Việt nam:</span> {vocab.meaningVi}
+</p>
+```
+
+**New**: Just show the Vietnamese meaning directly without any prefix label:
+```
+<p className="text-[17px] font-bold text-blue-700 mb-1">{vocab.meaningEn}</p>
+<p className="text-[15px] text-gray-600 mb-3">{vocab.meaningVi}</p>
+```
+
+### Files Modified
 
 | File | Change |
 |------|--------|
-| `src/pages/YkiDashboard.tsx` | Replace `getVocabImageUrl` with curated image mapping + category fallbacks |
+| `src/pages/YkiDashboard.tsx` | Add ~200 VOCAB_IMAGES entries; switch card to white/bright theme; remove "Việt nam:" label |
 
