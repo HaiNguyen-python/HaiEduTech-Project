@@ -461,19 +461,23 @@ const VocabCard = ({ vocab, index, isMastered, onMaster }: { vocab: FinnishVocab
   const playAudio = () => {
     if (isPlaying) return;
     setIsPlaying(true);
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(vocab.word);
-    u.lang = "fi-FI";
-    u.rate = 0.75;
-    u.pitch = 1.0;
-    const voices = window.speechSynthesis.getVoices();
-    const finnishVoice = voices.find(v => v.lang === "fi-FI")
-      || voices.find(v => v.lang.startsWith("fi"))
-      || voices.find(v => v.name.toLowerCase().includes("finnish"));
-    if (finnishVoice) u.voice = finnishVoice;
-    u.onend = () => setIsPlaying(false);
-    u.onerror = () => setIsPlaying(false);
-    window.speechSynthesis.speak(u);
+    const audio = new Audio(
+      `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(vocab.word)}&tl=fi&client=tw-ob`
+    );
+    audio.playbackRate = 0.85;
+    audio.onended = () => setIsPlaying(false);
+    audio.onerror = () => {
+      // Fallback to SpeechSynthesis
+      const u = new SpeechSynthesisUtterance(vocab.word);
+      u.lang = "fi-FI";
+      u.rate = 0.8;
+      u.onend = () => setIsPlaying(false);
+      u.onerror = () => setIsPlaying(false);
+      window.speechSynthesis.speak(u);
+    };
+    audio.play().catch(() => {
+      setIsPlaying(false);
+    });
   };
 
   const posColors: Record<string, string> = {
