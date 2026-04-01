@@ -25,13 +25,16 @@ import FloatingFinnishDictionary from "@/components/FloatingFinnishDictionary";
 import {
   finnishVocabModules,
   finnishVocabExpansionModules,
+  finnishVocabExpansion2Modules,
   finnishLessonModules,
+  finnishLessonExpansionModules,
   finnishMockExamModules,
   finnishMockExamExpansionModules,
   type FinnishModule,
   type FinnishLesson,
   type FinnishVocabEntry,
 } from "@/data/finnishCurriculum";
+import FinnishVocabExercises from "@/components/FinnishVocabExercises";
 
 // Merge original + expansion data
 const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules];
