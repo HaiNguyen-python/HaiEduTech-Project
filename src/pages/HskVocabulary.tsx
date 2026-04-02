@@ -58,7 +58,7 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
       >
         {/* Front - Show Hanzi + Pinyin */}
         <div className="absolute inset-0 rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center gap-2" style={{ backfaceVisibility: "hidden" }}>
-          <VocabImage character={word.character} pinyin={word.pinyin} definition={word.definition.en} size="md" autoGenerate autoDelay={500} />
+          <VocabImage character={word.character} pinyin={word.pinyin} definition={word.definition.en} size="md" />
           <h3 className="text-4xl font-bold text-foreground">{word.character}</h3>
           <p className="text-base text-primary font-medium">{word.pinyin}</p>
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
@@ -400,7 +400,7 @@ const HskVocabulary = () => {
                   <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
                     {/* Large image area */}
                     <div className="bg-secondary/30 flex items-center justify-center p-2">
-                      <VocabImage character={w.character} pinyin={w.pinyin} definition={w.definition.en} size="xl" autoGenerate autoDelay={idx * 1000} />
+                      <VocabImage character={w.character} pinyin={w.pinyin} definition={w.definition.en} size="xl" />
                     </div>
                     <div className="p-4">
                       <div className="flex items-start justify-between gap-2 mb-2">

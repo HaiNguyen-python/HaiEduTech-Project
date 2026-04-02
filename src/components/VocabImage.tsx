@@ -1,14 +1,10 @@
-import { useState, useEffect, useRef } from "react";
-import { useVocabImage } from "@/hooks/useVocabImage";
-import { ImageIcon, Loader2 } from "lucide-react";
+import { BookOpen } from "lucide-react";
 
 interface VocabImageProps {
   character: string;
   pinyin: string;
   definition: string;
   size?: "sm" | "md" | "lg" | "xl";
-  autoGenerate?: boolean;
-  autoDelay?: number;
 }
 
 const sizeClasses = {
@@ -18,47 +14,20 @@ const sizeClasses = {
   xl: "w-full h-32",
 };
 
-const VocabImage = ({ character, pinyin, definition, size = "sm", autoGenerate = false, autoDelay = 0 }: VocabImageProps) => {
-  const { imageUrl, isLoading, error, generateImage } = useVocabImage(character, pinyin, definition);
-  const [imgError, setImgError] = useState(false);
-  const triggered = useRef(false);
+const textSizes = {
+  sm: "text-2xl",
+  md: "text-3xl",
+  lg: "text-4xl",
+  xl: "text-5xl",
+};
 
-  useEffect(() => {
-    if (autoGenerate && !imageUrl && !isLoading && !triggered.current) {
-      triggered.current = true;
-      const timer = setTimeout(() => generateImage(), autoDelay);
-      return () => clearTimeout(timer);
-    }
-  }, [autoGenerate, imageUrl, isLoading, autoDelay, generateImage]);
-
-  if (imageUrl && !imgError) {
-    return (
-      <img
-        src={imageUrl}
-        alt={`${character} illustration`}
-        className={`${sizeClasses[size]} rounded-lg object-cover border border-border`}
-        onError={() => setImgError(true)}
-        loading="lazy"
-      />
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className={`${sizeClasses[size]} rounded-lg border border-border bg-secondary/50 flex items-center justify-center`}>
-        <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
-
+const VocabImage = ({ character, size = "sm" }: VocabImageProps) => {
   return (
-    <button
-      onClick={(e) => { e.stopPropagation(); generateImage(); }}
-      className={`${sizeClasses[size]} rounded-lg border border-dashed border-border bg-secondary/30 flex items-center justify-center hover:border-primary/50 hover:bg-primary/5 transition-colors group`}
-      title={`Generate illustration for ${character}`}
+    <div
+      className={`${sizeClasses[size]} rounded-lg border border-border bg-secondary/30 flex items-center justify-center`}
     >
-      <ImageIcon className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-    </button>
+      <span className={`${textSizes[size]} select-none`}>{character}</span>
+    </div>
   );
 };
 
