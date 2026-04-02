@@ -397,33 +397,36 @@ const HskVocabulary = () => {
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                 {paginated.map(w => (
-                  <div key={w.character + w.category} className="rounded-xl border border-border bg-card p-4 hover:border-primary/30 transition-colors">
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <div className="flex items-start gap-3">
-                        <VocabImage character={w.character} pinyin={w.pinyin} definition={w.definition.en} size="sm" />
+                  <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
+                    {/* Large image area */}
+                    <div className="bg-secondary/30 flex items-center justify-center p-2">
+                      <VocabImage character={w.character} pinyin={w.pinyin} definition={w.definition.en} size="xl" />
+                    </div>
+                    <div className="p-4">
+                      <div className="flex items-start justify-between gap-2 mb-2">
                         <div>
                           <h3 className="font-bold text-foreground text-2xl">{w.character}</h3>
                           <p className="text-sm text-primary font-medium">{w.pinyin}</p>
                         </div>
+                        <div className="flex items-center gap-1">
+                          <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
+                            <Volume2 className="w-4 h-4 text-primary" />
+                          </button>
+                          <button onClick={(e) => handleStarClick(w.character, e)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
+                            <Star className={`w-4 h-4 ${mastered.has(w.character) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
-                          <Volume2 className="w-4 h-4 text-primary" />
-                        </button>
-                        <button onClick={(e) => handleStarClick(w.character, e)} className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors">
-                          <Star className={`w-4 h-4 ${mastered.has(w.character) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
-                        </button>
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge className={levelColors[w.level] + " text-xs"}>{w.level}</Badge>
+                        <Badge variant="outline" className="text-xs">{w.category}</Badge>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge className={levelColors[w.level] + " text-xs"}>{w.level}</Badge>
-                      <Badge variant="outline" className="text-xs">{w.category}</Badge>
-                    </div>
-                    <p className="text-sm text-foreground font-medium">{w.definition.en}</p>
-                    <p className="text-sm text-primary">{w.definition.vi}</p>
-                    <div className="mt-2 p-2.5 rounded-lg bg-secondary/50">
-                      <p className="text-base font-bold text-foreground leading-relaxed">{w.example}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{w.examplePinyin}</p>
+                      <p className="text-sm text-foreground font-medium">{w.definition.en}</p>
+                      <p className="text-sm text-primary">{w.definition.vi}</p>
+                      <div className="mt-2 p-2.5 rounded-lg bg-secondary/50">
+                        <p className="text-base font-bold text-foreground leading-relaxed">{w.example}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">{w.examplePinyin}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
