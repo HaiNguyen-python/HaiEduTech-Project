@@ -132,6 +132,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       situation: topic,
       lessonTitle,
       pillar,
+      language,
       onDelta: upsert,
       onDone: () => setIsLoading(false),
       onError: (err) => {
