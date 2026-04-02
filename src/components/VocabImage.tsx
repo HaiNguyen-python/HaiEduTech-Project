@@ -13,6 +13,7 @@ const sizeClasses = {
   sm: "w-12 h-12",
   md: "w-16 h-16",
   lg: "w-24 h-24",
+  xl: "w-full h-32",
 };
 
 const VocabImage = ({ character, pinyin, definition, size = "sm" }: VocabImageProps) => {
