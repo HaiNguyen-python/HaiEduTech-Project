@@ -34,8 +34,10 @@ export function useVocabImage(character: string, pinyin: string, definition: str
       try {
         // First check if image already exists in storage
         const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-        const safeKey = encodeURIComponent(character);
-        const publicUrl = `${supabaseUrl}/storage/v1/object/public/vocab-images/hsk/${safeKey}.png`;
+        const encoder = new TextEncoder();
+        const bytes = encoder.encode(character);
+        const hexKey = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+        const publicUrl = `${supabaseUrl}/storage/v1/object/public/vocab-images/hsk/${hexKey}.png`;
         
         // Try to fetch existing image
         const checkResp = await fetch(publicUrl, { method: "HEAD" });
