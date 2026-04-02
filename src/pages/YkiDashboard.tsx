@@ -39,6 +39,7 @@ import {
 } from "@/data/finnishCurriculum";
 import FinnishVocabExercises from "@/components/FinnishVocabExercises";
 import { playFinnishTts } from "@/lib/finnishTts";
+import AISpeakingCoach from "@/components/AISpeakingCoach";
 
 // Merge original + expansion data
 const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules];
