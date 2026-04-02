@@ -588,6 +588,16 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
               </motion.div>
             );
           })}
+          </div>
+
+          {/* Leaderboard sidebar */}
+          <div className="lg:col-span-1">
+            <Card className="sticky top-4">
+              <CardContent className="pt-4">
+                <GameLeaderboard gameType={`speaking_${language}`} currentScore={sessionScore} />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     );
