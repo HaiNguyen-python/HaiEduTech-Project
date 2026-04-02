@@ -26,6 +26,7 @@ async function streamRoleplay({
   situation,
   lessonTitle,
   pillar,
+  language,
   onDelta,
   onDone,
   onError,
@@ -35,6 +36,7 @@ async function streamRoleplay({
   situation: string;
   lessonTitle: string;
   pillar: string;
+  language: string;
   onDelta: (text: string) => void;
   onDone: () => void;
   onError: (err: string) => void;
@@ -45,7 +47,7 @@ async function streamRoleplay({
       "Content-Type": "application/json",
       Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
     },
-    body: JSON.stringify({ messages, topic, situation, lessonTitle, pillar, language: (globalThis as any).__roleplayLang || "english" }),
+    body: JSON.stringify({ messages, topic, situation, lessonTitle, pillar, language }),
   });
 
   if (!resp.ok) {
