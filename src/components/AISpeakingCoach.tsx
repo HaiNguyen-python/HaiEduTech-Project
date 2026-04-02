@@ -78,6 +78,7 @@ interface WordResult {
 interface AISpeakingCoachProps {
   language: "english" | "finnish" | "chinese";
   onScoreUpdate?: (score: number) => void;
+  onPerfectScore?: () => void; // callback for gamification integration (flying stars etc.)
 }
 
 // Normalize text for comparison — strip punctuation & lowercase
