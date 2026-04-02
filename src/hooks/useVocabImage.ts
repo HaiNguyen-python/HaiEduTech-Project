@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 // In-memory cache to avoid re-fetching during the same session
 const imageCache = new Map<string, string>();
 const pendingRequests = new Map<string, Promise<string | null>>();
+let creditsExhausted = false;
 
 export function useVocabImage(character: string, pinyin: string, definition: string) {
   const [imageUrl, setImageUrl] = useState<string | null>(() => imageCache.get(character) || null);
@@ -11,6 +12,11 @@ export function useVocabImage(character: string, pinyin: string, definition: str
   const [error, setError] = useState<string | null>(null);
 
   const generateImage = useCallback(async () => {
+    if (creditsExhausted) {
+      setError("Credits exhausted");
+      return;
+    }
+
     if (imageCache.has(character)) {
       setImageUrl(imageCache.get(character)!);
       return;
@@ -48,12 +54,35 @@ export function useVocabImage(character: string, pinyin: string, definition: str
           return publicUrl;
         }
 
+        if (creditsExhausted) {
+          setError("Credits exhausted");
+          setIsLoading(false);
+          return null;
+        }
+
         // Generate via edge function
         const { data, error: fnError } = await supabase.functions.invoke("generate-vocab-image", {
           body: { character, pinyin, definition },
         });
 
-        if (fnError) throw new Error(fnError.message);
+        if (fnError) {
+          // Check for 402 credits exhausted
+          if (fnError.message?.includes("402") || fnError.message?.includes("Credits exhausted")) {
+            creditsExhausted = true;
+            setError("Credits exhausted");
+            setIsLoading(false);
+            return null;
+          }
+          throw new Error(fnError.message);
+        }
+        
+        if (data?.error === "Credits exhausted") {
+          creditsExhausted = true;
+          setError("Credits exhausted");
+          setIsLoading(false);
+          return null;
+        }
+
         if (data?.imageUrl) {
           imageCache.set(character, data.imageUrl);
           setImageUrl(data.imageUrl);
