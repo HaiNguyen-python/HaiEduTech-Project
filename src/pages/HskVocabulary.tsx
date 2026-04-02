@@ -57,11 +57,12 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Front - Show Hanzi + Pinyin */}
-        <div className="absolute inset-0 rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center gap-3" style={{ backfaceVisibility: "hidden" }}>
+        <div className="absolute inset-0 rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center gap-2" style={{ backfaceVisibility: "hidden" }}>
+          <VocabImage character={word.character} pinyin={word.pinyin} definition={word.definition.en} size="md" />
           <h3 className="text-4xl font-bold text-foreground">{word.character}</h3>
           <p className="text-base text-primary font-medium">{word.pinyin}</p>
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
-          <button onClick={(e) => { e.stopPropagation(); speakChinese(word.character); }} className="mt-2 p-2 rounded-full hover:bg-primary/10 transition-colors">
+          <button onClick={(e) => { e.stopPropagation(); speakChinese(word.character); }} className="mt-1 p-2 rounded-full hover:bg-primary/10 transition-colors">
             <Volume2 className="w-5 h-5 text-primary" />
           </button>
         </div>
