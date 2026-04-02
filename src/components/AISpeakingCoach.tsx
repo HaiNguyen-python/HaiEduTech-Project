@@ -12,6 +12,8 @@ import confetti from "canvas-confetti";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
 import { playFinnishTts } from "@/lib/finnishTts";
+import { supabase } from "@/integrations/supabase/client";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
 
 // Badge definitions for Speaking Coach gamification
 interface SpeakingBadge {
