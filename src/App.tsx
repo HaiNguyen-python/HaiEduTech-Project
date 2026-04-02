@@ -68,6 +68,7 @@ const CambridgeLectureView = lazy(() => import("./pages/CambridgeLectureView.tsx
 const ToeicVocabulary = lazy(() => import("./pages/ToeicVocabulary.tsx"));
 const Finnish = lazy(() => import("./pages/Finnish.tsx"));
 const YkiDashboard = lazy(() => import("./pages/YkiDashboard.tsx"));
+const SpeakingCoachPage = lazy(() => import("./pages/SpeakingCoachPage.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
