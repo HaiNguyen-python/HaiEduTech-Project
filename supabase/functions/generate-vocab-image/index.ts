@@ -105,7 +105,7 @@ serve(async (req) => {
     // Upload to storage
     const { error: uploadError } = await supabase.storage
       .from("vocab-images")
-      .upload(filePath, bytes, {
+      .upload(filePath, imageBytes, {
         contentType: mimeType,
         upsert: true,
       });
