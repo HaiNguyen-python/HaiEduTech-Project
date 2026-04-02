@@ -1257,7 +1257,7 @@ const YkiDashboard = () => {
   const [searchParams] = useSearchParams();
   const initialModule = searchParams.get("module");
 
-  const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams">("vocabulary");
+  const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams" | "speaking-coach">("vocabulary");
   const [selectedModule, setSelectedModule] = useState<FinnishModule | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<FinnishLesson | null>(null);
   const [showBadge, setShowBadge] = useState(false);
