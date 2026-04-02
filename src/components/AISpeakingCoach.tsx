@@ -160,6 +160,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   const [themeScores, setThemeScores] = useState<Record<string, Record<string, number>>>(() => loadThemeScores(language));
   const [showBadgePanel, setShowBadgePanel] = useState(false);
   const [newBadge, setNewBadge] = useState<SpeakingBadge | null>(null);
+  const [sessionScore, setSessionScore] = useState(0);
 
   const recognitionRef = useRef<any>(null);
   const audioVisualizerRef = useRef<number>(0);
