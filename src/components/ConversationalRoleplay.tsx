@@ -14,6 +14,7 @@ interface ConversationalRoleplayProps {
   pillar: string;
   speakingTopics: string[];
   keySituationTitles: string[];
+  language?: "english" | "chinese" | "finnish";
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/roleplay-chat`;
