@@ -6,7 +6,7 @@ interface VocabImageProps {
   character: string;
   pinyin: string;
   definition: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
 }
 
 const sizeClasses = {
