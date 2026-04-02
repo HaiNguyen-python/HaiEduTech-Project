@@ -147,6 +147,7 @@ const App = () => (
             <Route path="/knowledge-hub" element={<LazyRoute><KnowledgeHubPage /></LazyRoute>} />
             <Route path="/finnish" element={<LazyRoute><Finnish /></LazyRoute>} />
             <Route path="/finnish/yki-dashboard" element={<LazyRoute><YkiDashboard /></LazyRoute>} />
+            <Route path="/speaking-coach/:language" element={<LazyRoute><SpeakingCoachPage /></LazyRoute>} />
             {/* Redirects for old routes */}
             <Route path="/smart-resources" element={<Navigate to="/ai-library" replace />} />
             <Route path="/lesson-library" element={<Navigate to="/ai-library" replace />} />
