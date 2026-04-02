@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle, Star, GraduationCap } from "lucide-react";
+import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle, Star, GraduationCap, Mic } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
@@ -243,6 +243,27 @@ const English = () => {
                   </Link>
                 ))}
               </div>
+            </motion.div>
+
+            {/* AI Speaking Coach */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.48 }}>
+              <Link to="/speaking-coach/english" className="glass-card rounded-2xl p-8 mb-10 flex items-center gap-6 group hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer block">
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                  <Mic className="w-8 h-8 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                    🎙️ AI Speaking Coach
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(
+                      "Luyện phát âm tiếng Anh với AI — phản hồi màu sắc theo thời gian thực, IPA chi tiết và hệ thống thử lại thông minh",
+                      "Practice English pronunciation with AI — real-time color-coded feedback, detailed IPA, and smart retry system"
+                    )}
+                  </p>
+                </div>
+                <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
+              </Link>
             </motion.div>
 
             {/* Learning resources */}

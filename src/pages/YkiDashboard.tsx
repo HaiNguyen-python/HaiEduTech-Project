@@ -39,6 +39,7 @@ import {
 } from "@/data/finnishCurriculum";
 import FinnishVocabExercises from "@/components/FinnishVocabExercises";
 import { playFinnishTts } from "@/lib/finnishTts";
+import AISpeakingCoach from "@/components/AISpeakingCoach";
 
 // Merge original + expansion data
 const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules];
@@ -1257,7 +1258,7 @@ const YkiDashboard = () => {
   const [searchParams] = useSearchParams();
   const initialModule = searchParams.get("module");
 
-  const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams">("vocabulary");
+  const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams" | "speaking-coach">("vocabulary");
   const [selectedModule, setSelectedModule] = useState<FinnishModule | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<FinnishLesson | null>(null);
   const [showBadge, setShowBadge] = useState(false);
@@ -1515,11 +1516,12 @@ const YkiDashboard = () => {
           </div>
 
           {/* Pillar Tabs */}
-          <div className="w-full max-w-lg grid grid-cols-3 h-11 mb-6 rounded-lg bg-muted p-1">
+          <div className="w-full max-w-2xl grid grid-cols-4 h-11 mb-6 rounded-lg bg-muted p-1">
             {([
               { value: "vocabulary" as const, label: "📖 Sanasto" },
               { value: "lessons" as const, label: "🎓 Oppitunnit" },
               { value: "mock-exams" as const, label: "📝 Kokeet" },
+              { value: "speaking-coach" as const, label: "🎙️ Puhevalmennus" },
             ]).map((tab) => (
               <button
                 key={tab.value}
@@ -1535,6 +1537,29 @@ const YkiDashboard = () => {
             ))}
           </div>
           <div>
+            {/* Speaking Coach tab content */}
+            {activePillar === "speaking-coach" ? (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <div className="mb-6">
+                  <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+                    🎙️ AI Puhevalmennus
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Harjoittele suomen kielen ääntämistä tekoälyn avulla
+                  </p>
+                </div>
+                <AISpeakingCoach
+                  language="finnish"
+                  onScoreUpdate={(score) => {
+                    if (score >= 90) {
+                      const quote = FINNISH_QUOTES[Math.floor(Math.random() * FINNISH_QUOTES.length)];
+                      toast.success(`⛷️ ${quote}`, { style: { fontSize: "18px", fontWeight: "bold" } });
+                    }
+                  }}
+                />
+              </motion.div>
+            ) : (
+              <>
               {/* Module detail view */}
               {selectedModule && selectedLesson ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -1883,6 +1908,8 @@ const YkiDashboard = () => {
                   ))}
                 </div>
               )}
+              </>
+            )}
             </div>
         </div>
       </main>

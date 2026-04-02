@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { Languages, CheckCircle, ArrowRight, Search, GraduationCap } from "lucide-react";
+import { Languages, CheckCircle, ArrowRight, Search, GraduationCap, Mic } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
@@ -172,7 +172,27 @@ const Chinese = () => {
               ))}
             </div>
 
-            {/* HSK Vocabulary Bank — Dedicated Section */}
+            {/* AI Speaking Coach */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }}>
+              <Link to="/speaking-coach/chinese" className="glass-card rounded-2xl p-8 mb-10 flex items-center gap-6 group hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer block">
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                  <Mic className="w-8 h-8 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                    🎙️ AI Speaking Coach — 中文
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(
+                      "Luyện phát âm tiếng Trung với AI — phản hồi màu sắc theo thời gian thực, Pinyin chi tiết và hệ thống thử lại thông minh",
+                      "Practice Chinese pronunciation with AI — real-time color-coded feedback, detailed Pinyin, and smart retry system"
+                    )}
+                  </p>
+                </div>
+                <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
+              </Link>
+            </motion.div>
+
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="glass-card rounded-2xl p-8 mb-10 border-red-500/20">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-2xl">📚</div>
