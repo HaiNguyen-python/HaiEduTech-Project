@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { Languages, CheckCircle, ArrowRight, Search, GraduationCap } from "lucide-react";
+import { Languages, CheckCircle, ArrowRight, Search, GraduationCap, Mic } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
