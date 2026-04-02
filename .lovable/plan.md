@@ -1,34 +1,34 @@
 
 
-## Plan: Add Leaderboard and Sentence Count to Speaking Coach
+## Plan: Fix Chinese Roleplay to Use Chinese Language
 
-### What we're building
-1. A leaderboard sidebar in the Speaking Coach that shows top performers, using the existing `game_scores` table with a new game type (e.g., `speaking_english`, `speaking_finnish`, `speaking_chinese`)
-2. Display total sentence count prominently in the theme selection view
+### Problem
+The `ConversationalRoleplay` component and `roleplay-chat` edge function are hardcoded for English conversation practice. When used in the Chinese lesson view, the AI still responds in English instead of Chinese.
 
 ### Changes
 
-**1. Save speaking scores to database**
-- In `src/components/AISpeakingCoach.tsx`, after computing accuracy and updating local stats, insert a record into `game_scores` table for authenticated users
-- Use `game_type` = `speaking_{language}` (e.g., `speaking_english`)
-- Store cumulative session score and max streak
+**1. Add `language` prop to `ConversationalRoleplay` component**
+- File: `src/components/ConversationalRoleplay.tsx`
+- Add optional `language` prop (default: `"english"`)
+- Pass it to the edge function in the request body
 
-**2. Add Leaderboard to Speaking Coach UI**
-- Import and render `GameLeaderboard` component in `src/components/AISpeakingCoach.tsx`
-- Place it in the theme selection view (right side or below stats bar)
-- Pass `gameType="speaking_{language}"` and `currentScore` from current session stats
-- The existing `GameLeaderboard` already handles realtime updates, profile name fetching, and ranking display
+**2. Update the `roleplay-chat` edge function to handle language**
+- File: `supabase/functions/roleplay-chat/index.ts`
+- Accept a `language` parameter from the request body
+- Switch the system prompt based on language:
+  - `"chinese"`: Instruct AI to roleplay in Chinese (using Hanzi + Pinyin), correct Chinese grammar, and give tips in parentheses with Vietnamese translations
+  - `"english"` (default): Keep current English behavior
+  - `"finnish"`: Roleplay in Finnish with corrections and Vietnamese tips
 
-**3. Display total sentence count**
-- In the theme selection view of `AISpeakingCoach.tsx`, add a summary badge/card showing total available sentences across all themes (e.g., "100 sentences available")
-- Calculate by summing `theme.sentences.length` across all themes in `config.themes`
+**3. Pass `language="chinese"` from Chinese lesson view**
+- File: `src/pages/ChineseConversationalLessonView.tsx`
+- Add `language="chinese"` to the `<ConversationalRoleplay>` component at line 365
 
-### Files to modify
-- `src/components/AISpeakingCoach.tsx` — add score saving to DB, import GameLeaderboard, add sentence count display
+**4. Pass `language="english"` from English lesson view (if applicable)**
+- File: `src/pages/ConversationalLessonView.tsx` (verify and add if missing)
 
 ### Technical details
-- Score insertion uses `supabase.from("game_scores").insert(...)` with `user_id`, `score`, `max_streak`, `game_type`, `accuracy`, and `metadata`
-- Only authenticated users get their scores saved (check `supabase.auth.getUser()`)
-- The `game_scores` table already has appropriate RLS policies (users can insert own, all authenticated can view)
-- No database migration needed — reuses existing `game_scores` table
+- The system prompt for Chinese will instruct the AI to respond primarily in Chinese characters with Pinyin in brackets, provide Vietnamese translations for key phrases, and correct Chinese tones/grammar
+- Speech recognition in the component should also switch `lang` to `"zh-CN"` when language is Chinese, and `"fi-FI"` for Finnish
+- TTS `speakText` function should use the appropriate `lang` code based on the language prop
 
