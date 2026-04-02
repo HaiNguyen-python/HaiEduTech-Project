@@ -197,7 +197,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       if (SpeechRecognition) {
         const recognition = new SpeechRecognition();
-        recognition.lang = "en-US";
+        recognition.lang = langCode;
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
