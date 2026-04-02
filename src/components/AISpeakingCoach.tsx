@@ -526,8 +526,10 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           )}
         </AnimatePresence>
 
-        {/* Theme cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Leaderboard + Theme cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Theme cards */}
+          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {config.themes.map((theme) => {
             const scores = themeScores[theme.id] || {};
             const completedCount = theme.sentences.filter((s) => (scores[s.id] || 0) >= 90).length;
