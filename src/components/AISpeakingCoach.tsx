@@ -409,62 +409,153 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   if (!selectedTheme) {
     return (
       <div className="space-y-6">
-        {/* Stats bar */}
-        <div className="flex items-center gap-4 flex-wrap">
+        {/* Stats & Badges bar */}
+        <div className="flex items-center gap-3 flex-wrap">
           <Badge variant="outline" className="text-sm px-3 py-1.5">
             <Trophy className="w-3.5 h-3.5 mr-1.5" />
-            {t("Đã luyện", "Practiced")}: {totalPracticed}
+            {t("Đã luyện", "Practiced")}: {stats.totalPracticed}
           </Badge>
-          {perfectStreak >= 3 && (
+          <Badge variant="outline" className="text-sm px-3 py-1.5">
+            <Target className="w-3.5 h-3.5 mr-1.5" />
+            {t("Hoàn hảo", "Perfect")}: {stats.perfectCount}
+          </Badge>
+          {stats.maxStreak >= 3 && (
             <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 text-sm px-3 py-1.5">
-              <Star className="w-3.5 h-3.5 mr-1.5" />
-              🔥 {t("Chuỗi hoàn hảo", "Perfect streak")}: {perfectStreak}
+              <Flame className="w-3.5 h-3.5 mr-1.5" />
+              🔥 {t("Kỷ lục chuỗi", "Best streak")}: {stats.maxStreak}
             </Badge>
           )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowBadgePanel(!showBadgePanel)}
+            className="gap-1.5 ml-auto"
+          >
+            <Award className="w-4 h-4" />
+            {t("Huy hiệu", "Badges")} ({earnedBadges.length}/{SPEAKING_BADGES.length})
+          </Button>
         </div>
 
-        {/* Theme cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {config.themes.map((theme) => (
+        {/* Badge Panel */}
+        <AnimatePresence>
+          {showBadgePanel && (
             <motion.div
-              key={theme.id}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden"
             >
-              <Card
-                className="cursor-pointer hover:shadow-md hover:border-primary/30 transition-all h-full"
-                onClick={() => {
-                  setSelectedTheme(theme);
-                  setCurrentIndex(0);
-                  resetState();
-                }}
-              >
+              <Card className="border-2 border-primary/20">
                 <CardHeader className="pb-2">
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <span className="text-xl">{theme.icon}</span>
-                    {theme.name}
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Award className="w-5 h-5 text-primary" />
+                    {t("Bộ sưu tập huy hiệu", "Badge Collection")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">{theme.nameVi}</p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {theme.sentences.length} {t("câu luyện tập", "sentences")}
-                  </p>
-                  <div className="flex gap-1 mt-2">
-                    {["easy", "medium", "hard"].map((d) => {
-                      const count = theme.sentences.filter((s) => s.difficulty === d).length;
-                      if (!count) return null;
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                    {SPEAKING_BADGES.map((badge) => {
+                      const earned = earnedBadges.includes(badge.id);
                       return (
-                        <Badge key={d} variant="outline" className="text-xs">
-                          {d === "easy" ? "🟢" : d === "medium" ? "🟡" : "🔴"} {count}
-                        </Badge>
+                        <div
+                          key={badge.id}
+                          className={`flex flex-col items-center gap-1 p-3 rounded-xl border text-center transition-all ${
+                            earned
+                              ? "bg-primary/5 border-primary/20 shadow-sm"
+                              : "bg-muted/30 border-muted opacity-50 grayscale"
+                          }`}
+                        >
+                          <span className="text-2xl">{badge.icon}</span>
+                          <span className="text-xs font-bold">{t(badge.nameVi, badge.name)}</span>
+                          <span className="text-[10px] text-muted-foreground leading-tight">{t(badge.descriptionVi, badge.description)}</span>
+                          {earned && <span className="text-[10px] text-emerald-600 font-medium">✓ {t("Đã đạt", "Earned")}</span>}
+                        </div>
                       );
                     })}
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
-          ))}
+          )}
+        </AnimatePresence>
+
+        {/* New badge popup */}
+        <AnimatePresence>
+          {newBadge && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: -20 }}
+              className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/80 dark:to-orange-950/80 border-2 border-amber-300 dark:border-amber-700 rounded-2xl p-6 shadow-2xl text-center max-w-xs"
+            >
+              <span className="text-5xl block mb-2">{newBadge.icon}</span>
+              <p className="text-lg font-bold text-foreground">{t("Huy hiệu mới!", "New Badge!")}</p>
+              <p className="text-base font-semibold text-primary">{t(newBadge.nameVi, newBadge.name)}</p>
+              <p className="text-sm text-muted-foreground mt-1">{t(newBadge.descriptionVi, newBadge.description)}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Theme cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {config.themes.map((theme) => {
+            const scores = themeScores[theme.id] || {};
+            const completedCount = theme.sentences.filter((s) => (scores[s.id] || 0) >= 90).length;
+            const themeProgress = theme.sentences.length > 0 ? Math.round((completedCount / theme.sentences.length) * 100) : 0;
+            return (
+              <motion.div
+                key={theme.id}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Card
+                  className="cursor-pointer hover:shadow-md hover:border-primary/30 transition-all h-full"
+                  onClick={() => {
+                    setSelectedTheme(theme);
+                    setCurrentIndex(0);
+                    resetState();
+                  }}
+                >
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <span className="text-xl">{theme.icon}</span>
+                      {theme.name}
+                      {themeProgress === 100 && <span className="text-emerald-500 text-sm">✓</span>}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{theme.nameVi}</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {theme.sentences.length} {t("câu luyện tập", "sentences")}
+                    </p>
+                    {/* Theme progress bar */}
+                    {completedCount > 0 && (
+                      <div className="mt-2 space-y-1">
+                        <div className="flex justify-between text-[10px] text-muted-foreground">
+                          <span>{completedCount}/{theme.sentences.length} {t("xuất sắc", "excellent")}</span>
+                          <span>{themeProgress}%</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
+                          <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${themeProgress}%` }} />
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex gap-1 mt-2">
+                      {["easy", "medium", "hard"].map((d) => {
+                        const count = theme.sentences.filter((s) => s.difficulty === d).length;
+                        if (!count) return null;
+                        return (
+                          <Badge key={d} variant="outline" className="text-xs">
+                            {d === "easy" ? "🟢" : d === "medium" ? "🟡" : "🔴"} {count}
+                          </Badge>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     );
