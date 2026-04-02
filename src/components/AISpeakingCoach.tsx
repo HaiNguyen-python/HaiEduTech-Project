@@ -429,12 +429,18 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     return "bg-red-500";
   };
 
+  // Total sentence count
+  const totalSentences = useMemo(() => config.themes.reduce((sum, th) => sum + th.sentences.length, 0), [config.themes]);
+
   // Theme selection view
   if (!selectedTheme) {
     return (
       <div className="space-y-6">
-        {/* Stats & Badges bar */}
+        {/* Sentence count & Stats bar */}
         <div className="flex items-center gap-3 flex-wrap">
+          <Badge className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-0 text-sm px-3 py-1.5">
+            📝 {totalSentences} {t("câu luyện tập", "sentences available")}
+          </Badge>
           <Badge variant="outline" className="text-sm px-3 py-1.5">
             <Trophy className="w-3.5 h-3.5 mr-1.5" />
             {t("Đã luyện", "Practiced")}: {stats.totalPracticed}
