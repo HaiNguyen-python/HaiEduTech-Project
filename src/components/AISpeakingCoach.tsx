@@ -135,7 +135,7 @@ const calcAccuracy = (results: WordResult[]): number => {
   return Math.round((score / results.length) * 100);
 };
 
-const AISpeakingCoach = ({ language, onScoreUpdate }: AISpeakingCoachProps) => {
+const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeakingCoachProps) => {
   const { t } = useLanguage();
   const config = speakingCoachLanguages[language];
 
@@ -151,6 +151,13 @@ const AISpeakingCoach = ({ language, onScoreUpdate }: AISpeakingCoachProps) => {
   const [perfectStreak, setPerfectStreak] = useState(0);
   const [totalPracticed, setTotalPracticed] = useState(0);
   const [isPlayingDemo, setIsPlayingDemo] = useState(false);
+  
+  // Gamification state
+  const [stats, setStats] = useState<SpeakingStats>(() => loadStats(language));
+  const [earnedBadges, setEarnedBadges] = useState<string[]>(() => loadBadges(language));
+  const [themeScores, setThemeScores] = useState<Record<string, Record<string, number>>>(() => loadThemeScores(language));
+  const [showBadgePanel, setShowBadgePanel] = useState(false);
+  const [newBadge, setNewBadge] = useState<SpeakingBadge | null>(null);
 
   const recognitionRef = useRef<any>(null);
   const audioVisualizerRef = useRef<number>(0);
