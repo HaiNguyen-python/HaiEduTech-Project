@@ -1,16 +1,72 @@
 // AI Speaking Coach — pronunciation practice with Web Speech API and real-time color-coded feedback
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, Volume2, RotateCcw, ChevronRight, ChevronLeft, CheckCircle, XCircle, AlertTriangle, Info, Trophy, Star } from "lucide-react";
+import { Mic, MicOff, Volume2, RotateCcw, ChevronRight, ChevronLeft, CheckCircle, XCircle, AlertTriangle, Info, Trophy, Star, Award, Flame, Target, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
+import confetti from "canvas-confetti";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
 import { playFinnishTts } from "@/lib/finnishTts";
+
+// Badge definitions for Speaking Coach gamification
+interface SpeakingBadge {
+  id: string;
+  name: string;
+  nameVi: string;
+  icon: string;
+  description: string;
+  descriptionVi: string;
+  condition: (stats: SpeakingStats) => boolean;
+}
+
+interface SpeakingStats {
+  totalPracticed: number;
+  perfectCount: number; // accuracy >= 95%
+  excellentCount: number; // accuracy >= 90%
+  maxStreak: number;
+  themesCompleted: number;
+  perfectThemes: number; // themes with all sentences >= 90%
+}
+
+const SPEAKING_BADGES: SpeakingBadge[] = [
+  { id: "first-word", name: "First Steps", nameVi: "Bước đầu tiên", icon: "🎤", description: "Complete your first sentence", descriptionVi: "Hoàn thành câu đầu tiên", condition: (s) => s.totalPracticed >= 1 },
+  { id: "perfect-pitch", name: "Perfect Pitch", nameVi: "Phát âm hoàn hảo", icon: "🎯", description: "Get 100% accuracy on a sentence", descriptionVi: "Đạt 100% chính xác", condition: (s) => s.perfectCount >= 1 },
+  { id: "streak-3", name: "Hat Trick", nameVi: "Chuỗi 3", icon: "🔥", description: "3 excellent scores in a row", descriptionVi: "3 lần xuất sắc liên tiếp", condition: (s) => s.maxStreak >= 3 },
+  { id: "streak-5", name: "On Fire", nameVi: "Đang cháy", icon: "⚡", description: "5 excellent scores in a row", descriptionVi: "5 lần xuất sắc liên tiếp", condition: (s) => s.maxStreak >= 5 },
+  { id: "practice-10", name: "Dedicated", nameVi: "Tận tâm", icon: "📚", description: "Practice 10 sentences", descriptionVi: "Luyện 10 câu", condition: (s) => s.totalPracticed >= 10 },
+  { id: "practice-25", name: "Committed", nameVi: "Cam kết", icon: "💪", description: "Practice 25 sentences", descriptionVi: "Luyện 25 câu", condition: (s) => s.totalPracticed >= 25 },
+  { id: "practice-50", name: "Speaking Master", nameVi: "Bậc thầy nói", icon: "🏆", description: "Practice 50 sentences", descriptionVi: "Luyện 50 câu", condition: (s) => s.totalPracticed >= 50 },
+  { id: "perfect-5", name: "Precision Pro", nameVi: "Chính xác tuyệt đối", icon: "💎", description: "Get 5 perfect scores", descriptionVi: "Đạt 5 lần điểm tuyệt đối", condition: (s) => s.perfectCount >= 5 },
+  { id: "streak-10", name: "Unstoppable", nameVi: "Không thể ngăn cản", icon: "🌟", description: "10 excellent scores in a row", descriptionVi: "10 lần xuất sắc liên tiếp", condition: (s) => s.maxStreak >= 10 },
+  { id: "theme-master", name: "Theme Master", nameVi: "Bậc thầy chủ đề", icon: "👑", description: "Complete all sentences in a theme with 90%+", descriptionVi: "Hoàn thành tất cả câu trong chủ đề với 90%+", condition: (s) => s.perfectThemes >= 1 },
+];
+
+const SPEAKING_STATS_KEY = "speaking-coach-stats";
+const SPEAKING_BADGES_KEY = "speaking-coach-badges";
+const SPEAKING_THEME_SCORES_KEY = "speaking-coach-theme-scores";
+
+const loadStats = (lang: string): SpeakingStats => {
+  try {
+    const raw = localStorage.getItem(`${SPEAKING_STATS_KEY}-${lang}`);
+    return raw ? JSON.parse(raw) : { totalPracticed: 0, perfectCount: 0, excellentCount: 0, maxStreak: 0, themesCompleted: 0, perfectThemes: 0 };
+  } catch { return { totalPracticed: 0, perfectCount: 0, excellentCount: 0, maxStreak: 0, themesCompleted: 0, perfectThemes: 0 }; }
+};
+const saveStats = (lang: string, stats: SpeakingStats) => localStorage.setItem(`${SPEAKING_STATS_KEY}-${lang}`, JSON.stringify(stats));
+
+const loadBadges = (lang: string): string[] => {
+  try { const raw = localStorage.getItem(`${SPEAKING_BADGES_KEY}-${lang}`); return raw ? JSON.parse(raw) : []; } catch { return []; }
+};
+const saveBadges = (lang: string, badges: string[]) => localStorage.setItem(`${SPEAKING_BADGES_KEY}-${lang}`, JSON.stringify(badges));
+
+const loadThemeScores = (lang: string): Record<string, Record<string, number>> => {
+  try { const raw = localStorage.getItem(`${SPEAKING_THEME_SCORES_KEY}-${lang}`); return raw ? JSON.parse(raw) : {}; } catch { return {}; }
+};
+const saveThemeScores = (lang: string, scores: Record<string, Record<string, number>>) => localStorage.setItem(`${SPEAKING_THEME_SCORES_KEY}-${lang}`, JSON.stringify(scores));
 
 // Word comparison result
 interface WordResult {
