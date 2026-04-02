@@ -1,16 +1,72 @@
 // AI Speaking Coach — pronunciation practice with Web Speech API and real-time color-coded feedback
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, MicOff, Volume2, RotateCcw, ChevronRight, ChevronLeft, CheckCircle, XCircle, AlertTriangle, Info, Trophy, Star } from "lucide-react";
+import { Mic, MicOff, Volume2, RotateCcw, ChevronRight, ChevronLeft, CheckCircle, XCircle, AlertTriangle, Info, Trophy, Star, Award, Flame, Target, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
+import confetti from "canvas-confetti";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
 import { playFinnishTts } from "@/lib/finnishTts";
+
+// Badge definitions for Speaking Coach gamification
+interface SpeakingBadge {
+  id: string;
+  name: string;
+  nameVi: string;
+  icon: string;
+  description: string;
+  descriptionVi: string;
+  condition: (stats: SpeakingStats) => boolean;
+}
+
+interface SpeakingStats {
+  totalPracticed: number;
+  perfectCount: number; // accuracy >= 95%
+  excellentCount: number; // accuracy >= 90%
+  maxStreak: number;
+  themesCompleted: number;
+  perfectThemes: number; // themes with all sentences >= 90%
+}
+
+const SPEAKING_BADGES: SpeakingBadge[] = [
+  { id: "first-word", name: "First Steps", nameVi: "Bước đầu tiên", icon: "🎤", description: "Complete your first sentence", descriptionVi: "Hoàn thành câu đầu tiên", condition: (s) => s.totalPracticed >= 1 },
+  { id: "perfect-pitch", name: "Perfect Pitch", nameVi: "Phát âm hoàn hảo", icon: "🎯", description: "Get 100% accuracy on a sentence", descriptionVi: "Đạt 100% chính xác", condition: (s) => s.perfectCount >= 1 },
+  { id: "streak-3", name: "Hat Trick", nameVi: "Chuỗi 3", icon: "🔥", description: "3 excellent scores in a row", descriptionVi: "3 lần xuất sắc liên tiếp", condition: (s) => s.maxStreak >= 3 },
+  { id: "streak-5", name: "On Fire", nameVi: "Đang cháy", icon: "⚡", description: "5 excellent scores in a row", descriptionVi: "5 lần xuất sắc liên tiếp", condition: (s) => s.maxStreak >= 5 },
+  { id: "practice-10", name: "Dedicated", nameVi: "Tận tâm", icon: "📚", description: "Practice 10 sentences", descriptionVi: "Luyện 10 câu", condition: (s) => s.totalPracticed >= 10 },
+  { id: "practice-25", name: "Committed", nameVi: "Cam kết", icon: "💪", description: "Practice 25 sentences", descriptionVi: "Luyện 25 câu", condition: (s) => s.totalPracticed >= 25 },
+  { id: "practice-50", name: "Speaking Master", nameVi: "Bậc thầy nói", icon: "🏆", description: "Practice 50 sentences", descriptionVi: "Luyện 50 câu", condition: (s) => s.totalPracticed >= 50 },
+  { id: "perfect-5", name: "Precision Pro", nameVi: "Chính xác tuyệt đối", icon: "💎", description: "Get 5 perfect scores", descriptionVi: "Đạt 5 lần điểm tuyệt đối", condition: (s) => s.perfectCount >= 5 },
+  { id: "streak-10", name: "Unstoppable", nameVi: "Không thể ngăn cản", icon: "🌟", description: "10 excellent scores in a row", descriptionVi: "10 lần xuất sắc liên tiếp", condition: (s) => s.maxStreak >= 10 },
+  { id: "theme-master", name: "Theme Master", nameVi: "Bậc thầy chủ đề", icon: "👑", description: "Complete all sentences in a theme with 90%+", descriptionVi: "Hoàn thành tất cả câu trong chủ đề với 90%+", condition: (s) => s.perfectThemes >= 1 },
+];
+
+const SPEAKING_STATS_KEY = "speaking-coach-stats";
+const SPEAKING_BADGES_KEY = "speaking-coach-badges";
+const SPEAKING_THEME_SCORES_KEY = "speaking-coach-theme-scores";
+
+const loadStats = (lang: string): SpeakingStats => {
+  try {
+    const raw = localStorage.getItem(`${SPEAKING_STATS_KEY}-${lang}`);
+    return raw ? JSON.parse(raw) : { totalPracticed: 0, perfectCount: 0, excellentCount: 0, maxStreak: 0, themesCompleted: 0, perfectThemes: 0 };
+  } catch { return { totalPracticed: 0, perfectCount: 0, excellentCount: 0, maxStreak: 0, themesCompleted: 0, perfectThemes: 0 }; }
+};
+const saveStats = (lang: string, stats: SpeakingStats) => localStorage.setItem(`${SPEAKING_STATS_KEY}-${lang}`, JSON.stringify(stats));
+
+const loadBadges = (lang: string): string[] => {
+  try { const raw = localStorage.getItem(`${SPEAKING_BADGES_KEY}-${lang}`); return raw ? JSON.parse(raw) : []; } catch { return []; }
+};
+const saveBadges = (lang: string, badges: string[]) => localStorage.setItem(`${SPEAKING_BADGES_KEY}-${lang}`, JSON.stringify(badges));
+
+const loadThemeScores = (lang: string): Record<string, Record<string, number>> => {
+  try { const raw = localStorage.getItem(`${SPEAKING_THEME_SCORES_KEY}-${lang}`); return raw ? JSON.parse(raw) : {}; } catch { return {}; }
+};
+const saveThemeScores = (lang: string, scores: Record<string, Record<string, number>>) => localStorage.setItem(`${SPEAKING_THEME_SCORES_KEY}-${lang}`, JSON.stringify(scores));
 
 // Word comparison result
 interface WordResult {
@@ -22,6 +78,7 @@ interface WordResult {
 interface AISpeakingCoachProps {
   language: "english" | "finnish" | "chinese";
   onScoreUpdate?: (score: number) => void;
+  onPerfectScore?: () => void; // callback for gamification integration (flying stars etc.)
 }
 
 // Normalize text for comparison — strip punctuation & lowercase
@@ -78,7 +135,7 @@ const calcAccuracy = (results: WordResult[]): number => {
   return Math.round((score / results.length) * 100);
 };
 
-const AISpeakingCoach = ({ language, onScoreUpdate }: AISpeakingCoachProps) => {
+const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeakingCoachProps) => {
   const { t } = useLanguage();
   const config = speakingCoachLanguages[language];
 
@@ -94,6 +151,13 @@ const AISpeakingCoach = ({ language, onScoreUpdate }: AISpeakingCoachProps) => {
   const [perfectStreak, setPerfectStreak] = useState(0);
   const [totalPracticed, setTotalPracticed] = useState(0);
   const [isPlayingDemo, setIsPlayingDemo] = useState(false);
+  
+  // Gamification state
+  const [stats, setStats] = useState<SpeakingStats>(() => loadStats(language));
+  const [earnedBadges, setEarnedBadges] = useState<string[]>(() => loadBadges(language));
+  const [themeScores, setThemeScores] = useState<Record<string, Record<string, number>>>(() => loadThemeScores(language));
+  const [showBadgePanel, setShowBadgePanel] = useState(false);
+  const [newBadge, setNewBadge] = useState<SpeakingBadge | null>(null);
 
   const recognitionRef = useRef<any>(null);
   const audioVisualizerRef = useRef<number>(0);
@@ -175,18 +239,67 @@ const AISpeakingCoach = ({ language, onScoreUpdate }: AISpeakingCoachProps) => {
     setIsListening(false);
   }, []);
 
+  // Check and award new badges
+  const checkBadges = useCallback((newStats: SpeakingStats) => {
+    const currentBadges = loadBadges(language);
+    for (const badge of SPEAKING_BADGES) {
+      if (!currentBadges.includes(badge.id) && badge.condition(newStats)) {
+        currentBadges.push(badge.id);
+        setNewBadge(badge);
+        // Celebration confetti for new badge
+        confetti({ particleCount: 60, spread: 80, origin: { x: 0.5, y: 0.4 }, colors: ["#facc15", "#f59e0b", "#8b5cf6", "#06b6d4"], disableForReducedMotion: true });
+        toast.success(`${badge.icon} ${t(badge.nameVi, badge.name)}!`, {
+          description: t(badge.descriptionVi, badge.description),
+          duration: 5000,
+          style: { fontSize: "18px", fontWeight: 700, padding: "16px 20px" },
+        });
+        setTimeout(() => setNewBadge(null), 5000);
+      }
+    }
+    saveBadges(language, currentBadges);
+    setEarnedBadges(currentBadges);
+  }, [language, t]);
+
   // Process transcript when recording stops
   useEffect(() => {
-    if (!isRecording && transcript && currentSentence) {
+    if (!isRecording && transcript && currentSentence && selectedTheme) {
       const wordResults = compareWords(currentSentence.text, transcript);
       const acc = calcAccuracy(wordResults);
       setResults(wordResults);
       setAccuracy(acc);
       setTotalPracticed((p) => p + 1);
 
+      // Update theme scores
+      const newThemeScores = { ...themeScores };
+      if (!newThemeScores[selectedTheme.id]) newThemeScores[selectedTheme.id] = {};
+      const prevBest = newThemeScores[selectedTheme.id][currentSentence.id] || 0;
+      if (acc > prevBest) newThemeScores[selectedTheme.id][currentSentence.id] = acc;
+      setThemeScores(newThemeScores);
+      saveThemeScores(language, newThemeScores);
+
+      // Check if theme is fully completed with 90%+
+      const themeComplete = selectedTheme.sentences.every(
+        (s) => (newThemeScores[selectedTheme.id]?.[s.id] || 0) >= 90
+      );
+
+      // Update stats
+      const newStats = { ...stats };
+      newStats.totalPracticed += 1;
+      if (acc >= 95) newStats.perfectCount += 1;
+      if (acc >= 90) newStats.excellentCount += 1;
+      
       if (acc >= 90) {
-        setPerfectStreak((s) => s + 1);
+        const newStreak = perfectStreak + 1;
+        setPerfectStreak(newStreak);
+        if (newStreak > newStats.maxStreak) newStats.maxStreak = newStreak;
         onScoreUpdate?.(acc);
+        
+        // Trigger flying star for gamification
+        if (acc >= 90) onPerfectScore?.();
+        
+        // Mini confetti for excellent scores
+        confetti({ particleCount: 25, spread: 50, startVelocity: 18, gravity: 1.3, scalar: 0.6, origin: { x: 0.5, y: 0.5 }, colors: ["#10b981", "#34d399", "#6ee7b7"], ticks: 60, disableForReducedMotion: true });
+        
         toast.success(
           acc === 100
             ? t("🎯 Hoàn hảo! Phát âm chuẩn tuyệt đối!", "🎯 Perfect! Flawless pronunciation!")
@@ -200,8 +313,19 @@ const AISpeakingCoach = ({ language, onScoreUpdate }: AISpeakingCoachProps) => {
         setPerfectStreak(0);
         toast.warning(t("💪 Cần luyện thêm. Nghe mẫu và thử lại!", "💪 Keep practicing. Listen to the demo and try again!"), { duration: 3000 });
       }
+
+      if (themeComplete) newStats.perfectThemes = Object.keys(newThemeScores).filter(
+        (tid) => {
+          const theme = config.themes.find((th) => th.id === tid);
+          return theme && theme.sentences.every((s) => (newThemeScores[tid]?.[s.id] || 0) >= 90);
+        }
+      ).length;
+
+      setStats(newStats);
+      saveStats(language, newStats);
+      checkBadges(newStats);
     }
-  }, [isRecording, transcript, currentSentence, onScoreUpdate, t]);
+  }, [isRecording, transcript, currentSentence, selectedTheme, onScoreUpdate, onPerfectScore, t, language, stats, perfectStreak, themeScores, config.themes, checkBadges]);
 
   // Play demo audio (TTS)
   const playDemo = useCallback(async () => {
@@ -285,62 +409,153 @@ const AISpeakingCoach = ({ language, onScoreUpdate }: AISpeakingCoachProps) => {
   if (!selectedTheme) {
     return (
       <div className="space-y-6">
-        {/* Stats bar */}
-        <div className="flex items-center gap-4 flex-wrap">
+        {/* Stats & Badges bar */}
+        <div className="flex items-center gap-3 flex-wrap">
           <Badge variant="outline" className="text-sm px-3 py-1.5">
             <Trophy className="w-3.5 h-3.5 mr-1.5" />
-            {t("Đã luyện", "Practiced")}: {totalPracticed}
+            {t("Đã luyện", "Practiced")}: {stats.totalPracticed}
           </Badge>
-          {perfectStreak >= 3 && (
+          <Badge variant="outline" className="text-sm px-3 py-1.5">
+            <Target className="w-3.5 h-3.5 mr-1.5" />
+            {t("Hoàn hảo", "Perfect")}: {stats.perfectCount}
+          </Badge>
+          {stats.maxStreak >= 3 && (
             <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 text-sm px-3 py-1.5">
-              <Star className="w-3.5 h-3.5 mr-1.5" />
-              🔥 {t("Chuỗi hoàn hảo", "Perfect streak")}: {perfectStreak}
+              <Flame className="w-3.5 h-3.5 mr-1.5" />
+              🔥 {t("Kỷ lục chuỗi", "Best streak")}: {stats.maxStreak}
             </Badge>
           )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowBadgePanel(!showBadgePanel)}
+            className="gap-1.5 ml-auto"
+          >
+            <Award className="w-4 h-4" />
+            {t("Huy hiệu", "Badges")} ({earnedBadges.length}/{SPEAKING_BADGES.length})
+          </Button>
         </div>
 
-        {/* Theme cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {config.themes.map((theme) => (
+        {/* Badge Panel */}
+        <AnimatePresence>
+          {showBadgePanel && (
             <motion.div
-              key={theme.id}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden"
             >
-              <Card
-                className="cursor-pointer hover:shadow-md hover:border-primary/30 transition-all h-full"
-                onClick={() => {
-                  setSelectedTheme(theme);
-                  setCurrentIndex(0);
-                  resetState();
-                }}
-              >
+              <Card className="border-2 border-primary/20">
                 <CardHeader className="pb-2">
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <span className="text-xl">{theme.icon}</span>
-                    {theme.name}
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Award className="w-5 h-5 text-primary" />
+                    {t("Bộ sưu tập huy hiệu", "Badge Collection")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">{theme.nameVi}</p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {theme.sentences.length} {t("câu luyện tập", "sentences")}
-                  </p>
-                  <div className="flex gap-1 mt-2">
-                    {["easy", "medium", "hard"].map((d) => {
-                      const count = theme.sentences.filter((s) => s.difficulty === d).length;
-                      if (!count) return null;
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                    {SPEAKING_BADGES.map((badge) => {
+                      const earned = earnedBadges.includes(badge.id);
                       return (
-                        <Badge key={d} variant="outline" className="text-xs">
-                          {d === "easy" ? "🟢" : d === "medium" ? "🟡" : "🔴"} {count}
-                        </Badge>
+                        <div
+                          key={badge.id}
+                          className={`flex flex-col items-center gap-1 p-3 rounded-xl border text-center transition-all ${
+                            earned
+                              ? "bg-primary/5 border-primary/20 shadow-sm"
+                              : "bg-muted/30 border-muted opacity-50 grayscale"
+                          }`}
+                        >
+                          <span className="text-2xl">{badge.icon}</span>
+                          <span className="text-xs font-bold">{t(badge.nameVi, badge.name)}</span>
+                          <span className="text-[10px] text-muted-foreground leading-tight">{t(badge.descriptionVi, badge.description)}</span>
+                          {earned && <span className="text-[10px] text-emerald-600 font-medium">✓ {t("Đã đạt", "Earned")}</span>}
+                        </div>
                       );
                     })}
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
-          ))}
+          )}
+        </AnimatePresence>
+
+        {/* New badge popup */}
+        <AnimatePresence>
+          {newBadge && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: -20 }}
+              className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/80 dark:to-orange-950/80 border-2 border-amber-300 dark:border-amber-700 rounded-2xl p-6 shadow-2xl text-center max-w-xs"
+            >
+              <span className="text-5xl block mb-2">{newBadge.icon}</span>
+              <p className="text-lg font-bold text-foreground">{t("Huy hiệu mới!", "New Badge!")}</p>
+              <p className="text-base font-semibold text-primary">{t(newBadge.nameVi, newBadge.name)}</p>
+              <p className="text-sm text-muted-foreground mt-1">{t(newBadge.descriptionVi, newBadge.description)}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Theme cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {config.themes.map((theme) => {
+            const scores = themeScores[theme.id] || {};
+            const completedCount = theme.sentences.filter((s) => (scores[s.id] || 0) >= 90).length;
+            const themeProgress = theme.sentences.length > 0 ? Math.round((completedCount / theme.sentences.length) * 100) : 0;
+            return (
+              <motion.div
+                key={theme.id}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Card
+                  className="cursor-pointer hover:shadow-md hover:border-primary/30 transition-all h-full"
+                  onClick={() => {
+                    setSelectedTheme(theme);
+                    setCurrentIndex(0);
+                    resetState();
+                  }}
+                >
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <span className="text-xl">{theme.icon}</span>
+                      {theme.name}
+                      {themeProgress === 100 && <span className="text-emerald-500 text-sm">✓</span>}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{theme.nameVi}</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {theme.sentences.length} {t("câu luyện tập", "sentences")}
+                    </p>
+                    {/* Theme progress bar */}
+                    {completedCount > 0 && (
+                      <div className="mt-2 space-y-1">
+                        <div className="flex justify-between text-[10px] text-muted-foreground">
+                          <span>{completedCount}/{theme.sentences.length} {t("xuất sắc", "excellent")}</span>
+                          <span>{themeProgress}%</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
+                          <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${themeProgress}%` }} />
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex gap-1 mt-2">
+                      {["easy", "medium", "hard"].map((d) => {
+                        const count = theme.sentences.filter((s) => s.difficulty === d).length;
+                        if (!count) return null;
+                        return (
+                          <Badge key={d} variant="outline" className="text-xs">
+                            {d === "easy" ? "🟢" : d === "medium" ? "🟡" : "🔴"} {count}
+                          </Badge>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     );
