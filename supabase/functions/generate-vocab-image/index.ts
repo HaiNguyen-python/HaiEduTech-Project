@@ -97,9 +97,9 @@ serve(async (req) => {
 
     // Decode base64 to Uint8Array
     const binaryString = atob(base64Data);
-    const bytes = new Uint8Array(binaryString.length);
+    const imageBytes = new Uint8Array(binaryString.length);
     for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
+      imageBytes[i] = binaryString.charCodeAt(i);
     }
 
     // Upload to storage
