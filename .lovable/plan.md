@@ -1,34 +1,37 @@
 
 
-## Plan: Fix Chinese Roleplay to Use Chinese Language
+## Plan: Chuyển toàn bộ AI sang Perplexity API & Tắt sinh hình
 
-### Problem
-The `ConversationalRoleplay` component and `roleplay-chat` edge function are hardcoded for English conversation practice. When used in the Chinese lesson view, the AI still responds in English instead of Chinese.
+### Tổng quan
+Chuyển 4 Edge Functions đang dùng Lovable AI Gateway sang Perplexity API (`sonar` model), và tắt tính năng sinh hình AI cho từ vựng tiếng Trung.
 
-### Changes
+### Các thay đổi
 
-**1. Add `language` prop to `ConversationalRoleplay` component**
-- File: `src/components/ConversationalRoleplay.tsx`
-- Add optional `language` prop (default: `"english"`)
-- Pass it to the edge function in the request body
+**1. `supabase/functions/roleplay-chat/index.ts`**
+- Thay `LOVABLE_API_KEY` → `PERPLEXITY_API_KEY`
+- Thay URL `ai.gateway.lovable.dev` → `api.perplexity.ai`
+- Thay model `google/gemini-3-flash-preview` → `sonar`
+- Giữ nguyên streaming logic (Perplexity hỗ trợ stream tương tự)
 
-**2. Update the `roleplay-chat` edge function to handle language**
-- File: `supabase/functions/roleplay-chat/index.ts`
-- Accept a `language` parameter from the request body
-- Switch the system prompt based on language:
-  - `"chinese"`: Instruct AI to roleplay in Chinese (using Hanzi + Pinyin), correct Chinese grammar, and give tips in parentheses with Vietnamese translations
-  - `"english"` (default): Keep current English behavior
-  - `"finnish"`: Roleplay in Finnish with corrections and Vietnamese tips
+**2. `supabase/functions/grade-speaking/index.ts`**
+- Thay `LOVABLE_API_KEY` → `PERPLEXITY_API_KEY`
+- Thay URL → `api.perplexity.ai`
+- Thay model `google/gemini-2.5-flash` → `sonar`
+- Cập nhật logUsage model name
 
-**3. Pass `language="chinese"` from Chinese lesson view**
-- File: `src/pages/ChineseConversationalLessonView.tsx`
-- Add `language="chinese"` to the `<ConversationalRoleplay>` component at line 365
+**3. `supabase/functions/audit-content/index.ts`**
+- Thay `LOVABLE_API_KEY` → `PERPLEXITY_API_KEY` (2 chỗ gọi AI)
+- Thay URL → `api.perplexity.ai` (2 chỗ)
+- Thay model → `sonar`
 
-**4. Pass `language="english"` from English lesson view (if applicable)**
-- File: `src/pages/ConversationalLessonView.tsx` (verify and add if missing)
+**4. Tắt tính năng sinh hình AI**
+- Xóa Edge Function `generate-vocab-image` (cả file + deployed function)
+- Cập nhật `src/components/VocabImage.tsx`: hiển thị emoji/placeholder icon thay vì gọi AI sinh hình
+- Cập nhật `src/hooks/useVocabImage.ts`: loại bỏ logic gọi Edge Function
+- Cập nhật `src/pages/HskVocabulary.tsx`: bỏ `autoGenerate`/`autoDelay` props, hiển thị placeholder tĩnh
 
-### Technical details
-- The system prompt for Chinese will instruct the AI to respond primarily in Chinese characters with Pinyin in brackets, provide Vietnamese translations for key phrases, and correct Chinese tones/grammar
-- Speech recognition in the component should also switch `lang` to `"zh-CN"` when language is Chinese, and `"fi-FI"` for Finnish
-- TTS `speakText` function should use the appropriate `lang` code based on the language prop
+### Chi tiết kỹ thuật
+- Perplexity API header: `Authorization: Bearer ${PERPLEXITY_API_KEY}` (đã có secret)
+- Perplexity streaming format tương thích SSE giống OpenAI → roleplay-chat không cần thay đổi logic parse
+- Model `sonar` phù hợp cho tất cả use case: chat, grading, auditing
 
