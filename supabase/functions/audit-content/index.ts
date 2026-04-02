@@ -1,5 +1,5 @@
 // Content Quality Audit Edge Function
-// Validates grammar, factual accuracy, and tone of generated lessons using LLM
+// Validates grammar, factual accuracy, and tone of generated lessons using Perplexity API
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -13,8 +13,8 @@ serve(async (req) => {
 
   try {
     const { lessonId, content, action } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -25,14 +25,14 @@ serve(async (req) => {
       const { text } = await req.json().catch(() => ({ text: content }));
       const textToCheck = text || content;
       
-      const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const response = await fetch("https://api.perplexity.ai/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-3-flash-preview",
+          model: "sonar",
           messages: [
             {
               role: "system",
@@ -57,7 +57,7 @@ If the text is perfect, return empty errors array and score 9.0. Be encouraging 
         const errText = await response.text();
         if (status === 429) return new Response(JSON.stringify({ error: "Rate limited, please try again later." }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
         if (status === 402) return new Response(JSON.stringify({ error: "Credits exhausted. Please add funds." }), { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-        throw new Error(`AI gateway error: ${status} ${errText}`);
+        throw new Error(`Perplexity API error: ${status} ${errText}`);
       }
 
       const data = await response.json();
@@ -83,14 +83,14 @@ If the text is perfect, return empty errors array and score 9.0. Be encouraging 
 
       const contentStr = JSON.stringify(lesson.content).substring(0, 3000);
 
-      const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const response = await fetch("https://api.perplexity.ai/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-3-flash-preview",
+          model: "sonar",
           messages: [
             {
               role: "system",

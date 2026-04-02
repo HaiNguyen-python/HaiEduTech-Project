@@ -23,8 +23,8 @@ serve(async (req) => {
   try {
     const { question, part, duration, transcript } = await req.json();
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
 
     // Validate that we have a real transcript
     const hasTranscript = transcript && transcript.trim().length > 0;
@@ -99,14 +99,14 @@ The "transcript" field must return the student's original transcription exactly 
 The "upgradedAnswer" must be based on the student's actual answer - same ideas and flow, just upgraded language. Bold upgraded parts with **word** markdown.
 Make scores REALISTIC and VARIED based on the actual language quality in the transcript.`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "sonar",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Grade this IELTS Speaking Part ${part} response to the question: "${question}"\n\nStudent's transcription:\n"${transcriptText}"\n\nDuration: ${duration} seconds, Word count: ${wordCount}` },
@@ -116,7 +116,7 @@ Make scores REALISTIC and VARIED based on the actual language quality in the tra
 
     if (!response.ok) {
       const status = response.status;
-      await logUsage("grade-speaking", "gemini-2.5-flash", "english", 0, "error", `HTTP ${status}`);
+      await logUsage("grade-speaking", "sonar", "english", 0, "error", `HTTP ${status}`);
       if (status === 429) {
         return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -128,7 +128,7 @@ Make scores REALISTIC and VARIED based on the actual language quality in the tra
         });
       }
       const t = await response.text();
-      console.error("AI Gateway error:", status, t);
+      console.error("Perplexity API error:", status, t);
       throw new Error("AI API error");
     }
 
@@ -149,7 +149,7 @@ Make scores REALISTIC and VARIED based on the actual language quality in the tra
       }
     } catch (e) {
       console.error("Parse error:", content);
-      await logUsage("grade-speaking", "gemini-2.5-flash", "english", tokensUsed, "parse_error");
+      await logUsage("grade-speaking", "sonar", "english", tokensUsed, "parse_error");
       throw new Error("Failed to parse speaking result");
     }
 
@@ -158,7 +158,7 @@ Make scores REALISTIC and VARIED based on the actual language quality in the tra
       parsed.transcript = transcriptText;
     }
 
-    await logUsage("grade-speaking", "gemini-2.5-flash", "english", tokensUsed, "success");
+    await logUsage("grade-speaking", "sonar", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
