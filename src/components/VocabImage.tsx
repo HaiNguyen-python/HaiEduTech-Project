@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useVocabImage } from "@/hooks/useVocabImage";
 import { ImageIcon, Loader2 } from "lucide-react";
 
@@ -7,6 +7,8 @@ interface VocabImageProps {
   pinyin: string;
   definition: string;
   size?: "sm" | "md" | "lg" | "xl";
+  autoGenerate?: boolean;
+  autoDelay?: number;
 }
 
 const sizeClasses = {
@@ -16,9 +18,18 @@ const sizeClasses = {
   xl: "w-full h-32",
 };
 
-const VocabImage = ({ character, pinyin, definition, size = "sm" }: VocabImageProps) => {
+const VocabImage = ({ character, pinyin, definition, size = "sm", autoGenerate = false, autoDelay = 0 }: VocabImageProps) => {
   const { imageUrl, isLoading, error, generateImage } = useVocabImage(character, pinyin, definition);
   const [imgError, setImgError] = useState(false);
+  const triggered = useRef(false);
+
+  useEffect(() => {
+    if (autoGenerate && !imageUrl && !isLoading && !triggered.current) {
+      triggered.current = true;
+      const timer = setTimeout(() => generateImage(), autoDelay);
+      return () => clearTimeout(timer);
+    }
+  }, [autoGenerate, imageUrl, isLoading, autoDelay, generateImage]);
 
   if (imageUrl && !imgError) {
     return (
