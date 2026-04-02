@@ -327,8 +327,29 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       setStats(newStats);
       saveStats(language, newStats);
       checkBadges(newStats);
+
+      // Save score to database for leaderboard
+      const newSessionScore = sessionScore + (acc >= 90 ? 10 : acc >= 70 ? 5 : 1);
+      setSessionScore(newSessionScore);
+      (async () => {
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            await (supabase as any).from("game_scores").insert({
+              user_id: user.id,
+              game_type: `speaking_${language}`,
+              score: newSessionScore,
+              max_streak: newStats.maxStreak,
+              accuracy: acc,
+              metadata: { totalPracticed: newStats.totalPracticed, perfectCount: newStats.perfectCount },
+            });
+          }
+        } catch (e) {
+          console.error("Failed to save speaking score:", e);
+        }
+      })();
     }
-  }, [isRecording, transcript, currentSentence, selectedTheme, onScoreUpdate, onPerfectScore, t, language, stats, perfectStreak, themeScores, config.themes, checkBadges]);
+  }, [isRecording, transcript, currentSentence, selectedTheme, onScoreUpdate, onPerfectScore, t, language, stats, perfectStreak, themeScores, config.themes, checkBadges, sessionScore]);
 
   // Play demo audio (TTS)
   const playDemo = useCallback(async () => {
