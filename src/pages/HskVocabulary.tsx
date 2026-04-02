@@ -398,9 +398,12 @@ const HskVocabulary = () => {
                 {paginated.map(w => (
                   <div key={w.character + w.category} className="rounded-xl border border-border bg-card p-4 hover:border-primary/30 transition-colors">
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <div>
-                        <h3 className="font-bold text-foreground text-2xl">{w.character}</h3>
-                        <p className="text-sm text-primary font-medium">{w.pinyin}</p>
+                      <div className="flex items-start gap-3">
+                        <VocabImage character={w.character} pinyin={w.pinyin} definition={w.definition.en} size="sm" />
+                        <div>
+                          <h3 className="font-bold text-foreground text-2xl">{w.character}</h3>
+                          <p className="text-sm text-primary font-medium">{w.pinyin}</p>
+                        </div>
                       </div>
                       <div className="flex items-center gap-1">
                         <button onClick={() => speakChinese(w.character)} className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
