@@ -90,9 +90,6 @@ async function streamRoleplay({
 }
 
 const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituationTitles, language = "english" }: ConversationalRoleplayProps) => {
-  // Store language in a way the streamRoleplay function can access
-  (globalThis as any).__roleplayLang = language;
-
   const langCode = language === "chinese" ? "zh-CN" : language === "finnish" ? "fi-FI" : "en-US";
   const { t } = useLanguage();
   const [messages, setMessages] = useState<Msg[]>([]);
