@@ -12,6 +12,8 @@ import confetti from "canvas-confetti";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
 import { playFinnishTts } from "@/lib/finnishTts";
+import { supabase } from "@/integrations/supabase/client";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
 
 // Badge definitions for Speaking Coach gamification
 interface SpeakingBadge {
@@ -158,6 +160,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   const [themeScores, setThemeScores] = useState<Record<string, Record<string, number>>>(() => loadThemeScores(language));
   const [showBadgePanel, setShowBadgePanel] = useState(false);
   const [newBadge, setNewBadge] = useState<SpeakingBadge | null>(null);
+  const [sessionScore, setSessionScore] = useState(0);
 
   const recognitionRef = useRef<any>(null);
   const audioVisualizerRef = useRef<number>(0);
@@ -324,8 +327,29 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       setStats(newStats);
       saveStats(language, newStats);
       checkBadges(newStats);
+
+      // Save score to database for leaderboard
+      const newSessionScore = sessionScore + (acc >= 90 ? 10 : acc >= 70 ? 5 : 1);
+      setSessionScore(newSessionScore);
+      (async () => {
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            await (supabase as any).from("game_scores").insert({
+              user_id: user.id,
+              game_type: `speaking_${language}`,
+              score: newSessionScore,
+              max_streak: newStats.maxStreak,
+              accuracy: acc,
+              metadata: { totalPracticed: newStats.totalPracticed, perfectCount: newStats.perfectCount },
+            });
+          }
+        } catch (e) {
+          console.error("Failed to save speaking score:", e);
+        }
+      })();
     }
-  }, [isRecording, transcript, currentSentence, selectedTheme, onScoreUpdate, onPerfectScore, t, language, stats, perfectStreak, themeScores, config.themes, checkBadges]);
+  }, [isRecording, transcript, currentSentence, selectedTheme, onScoreUpdate, onPerfectScore, t, language, stats, perfectStreak, themeScores, config.themes, checkBadges, sessionScore]);
 
   // Play demo audio (TTS)
   const playDemo = useCallback(async () => {
@@ -405,12 +429,18 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     return "bg-red-500";
   };
 
+  // Total sentence count
+  const totalSentences = useMemo(() => config.themes.reduce((sum, th) => sum + th.sentences.length, 0), [config.themes]);
+
   // Theme selection view
   if (!selectedTheme) {
     return (
       <div className="space-y-6">
-        {/* Stats & Badges bar */}
+        {/* Sentence count & Stats bar */}
         <div className="flex items-center gap-3 flex-wrap">
+          <Badge className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-0 text-sm px-3 py-1.5">
+            📝 {totalSentences} {t("câu luyện tập", "sentences available")}
+          </Badge>
           <Badge variant="outline" className="text-sm px-3 py-1.5">
             <Trophy className="w-3.5 h-3.5 mr-1.5" />
             {t("Đã luyện", "Practiced")}: {stats.totalPracticed}
@@ -496,8 +526,10 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           )}
         </AnimatePresence>
 
-        {/* Theme cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Leaderboard + Theme cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Theme cards */}
+          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {config.themes.map((theme) => {
             const scores = themeScores[theme.id] || {};
             const completedCount = theme.sentences.filter((s) => (scores[s.id] || 0) >= 90).length;
@@ -556,6 +588,16 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
               </motion.div>
             );
           })}
+          </div>
+
+          {/* Leaderboard sidebar */}
+          <div className="lg:col-span-1">
+            <Card className="sticky top-4">
+              <CardContent className="pt-4">
+                <GameLeaderboard gameType={`speaking_${language}`} currentScore={sessionScore} />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     );
