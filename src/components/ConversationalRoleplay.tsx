@@ -14,6 +14,7 @@ interface ConversationalRoleplayProps {
   pillar: string;
   speakingTopics: string[];
   keySituationTitles: string[];
+  language?: "english" | "chinese" | "finnish";
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/roleplay-chat`;
@@ -25,6 +26,7 @@ async function streamRoleplay({
   situation,
   lessonTitle,
   pillar,
+  language,
   onDelta,
   onDone,
   onError,
@@ -34,6 +36,7 @@ async function streamRoleplay({
   situation: string;
   lessonTitle: string;
   pillar: string;
+  language: string;
   onDelta: (text: string) => void;
   onDone: () => void;
   onError: (err: string) => void;
@@ -44,7 +47,7 @@ async function streamRoleplay({
       "Content-Type": "application/json",
       Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
     },
-    body: JSON.stringify({ messages, topic, situation, lessonTitle, pillar }),
+    body: JSON.stringify({ messages, topic, situation, lessonTitle, pillar, language }),
   });
 
   if (!resp.ok) {
@@ -86,7 +89,8 @@ async function streamRoleplay({
   onDone();
 }
 
-const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituationTitles }: ConversationalRoleplayProps) => {
+const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituationTitles, language = "english" }: ConversationalRoleplayProps) => {
+  const langCode = language === "chinese" ? "zh-CN" : language === "finnish" ? "fi-FI" : "en-US";
   const { t } = useLanguage();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -128,6 +132,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       situation: topic,
       lessonTitle,
       pillar,
+      language,
       onDelta: upsert,
       onDone: () => setIsLoading(false),
       onError: (err) => {
@@ -169,6 +174,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       situation: selectedTopic,
       lessonTitle,
       pillar,
+      language,
       onDelta: upsert,
       onDone: () => setIsLoading(false),
       onError: (err) => {
@@ -191,7 +197,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       if (SpeechRecognition) {
         const recognition = new SpeechRecognition();
-        recognition.lang = "en-US";
+        recognition.lang = langCode;
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
@@ -218,7 +224,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const speakText = (text: string) => {
     const clean = text.replace(/[*#_`~\[\]()]/g, "").replace(/💡.*$/gm, "");
     const utterance = new SpeechSynthesisUtterance(clean);
-    utterance.lang = "en-US";
+    utterance.lang = langCode;
     utterance.rate = 0.9;
     speechSynthesis.speak(utterance);
   };
