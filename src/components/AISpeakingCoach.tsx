@@ -239,18 +239,67 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     setIsListening(false);
   }, []);
 
+  // Check and award new badges
+  const checkBadges = useCallback((newStats: SpeakingStats) => {
+    const currentBadges = loadBadges(language);
+    for (const badge of SPEAKING_BADGES) {
+      if (!currentBadges.includes(badge.id) && badge.condition(newStats)) {
+        currentBadges.push(badge.id);
+        setNewBadge(badge);
+        // Celebration confetti for new badge
+        confetti({ particleCount: 60, spread: 80, origin: { x: 0.5, y: 0.4 }, colors: ["#facc15", "#f59e0b", "#8b5cf6", "#06b6d4"], disableForReducedMotion: true });
+        toast.success(`${badge.icon} ${t(badge.nameVi, badge.name)}!`, {
+          description: t(badge.descriptionVi, badge.description),
+          duration: 5000,
+          style: { fontSize: "18px", fontWeight: 700, padding: "16px 20px" },
+        });
+        setTimeout(() => setNewBadge(null), 5000);
+      }
+    }
+    saveBadges(language, currentBadges);
+    setEarnedBadges(currentBadges);
+  }, [language, t]);
+
   // Process transcript when recording stops
   useEffect(() => {
-    if (!isRecording && transcript && currentSentence) {
+    if (!isRecording && transcript && currentSentence && selectedTheme) {
       const wordResults = compareWords(currentSentence.text, transcript);
       const acc = calcAccuracy(wordResults);
       setResults(wordResults);
       setAccuracy(acc);
       setTotalPracticed((p) => p + 1);
 
+      // Update theme scores
+      const newThemeScores = { ...themeScores };
+      if (!newThemeScores[selectedTheme.id]) newThemeScores[selectedTheme.id] = {};
+      const prevBest = newThemeScores[selectedTheme.id][currentSentence.id] || 0;
+      if (acc > prevBest) newThemeScores[selectedTheme.id][currentSentence.id] = acc;
+      setThemeScores(newThemeScores);
+      saveThemeScores(language, newThemeScores);
+
+      // Check if theme is fully completed with 90%+
+      const themeComplete = selectedTheme.sentences.every(
+        (s) => (newThemeScores[selectedTheme.id]?.[s.id] || 0) >= 90
+      );
+
+      // Update stats
+      const newStats = { ...stats };
+      newStats.totalPracticed += 1;
+      if (acc >= 95) newStats.perfectCount += 1;
+      if (acc >= 90) newStats.excellentCount += 1;
+      
       if (acc >= 90) {
-        setPerfectStreak((s) => s + 1);
+        const newStreak = perfectStreak + 1;
+        setPerfectStreak(newStreak);
+        if (newStreak > newStats.maxStreak) newStats.maxStreak = newStreak;
         onScoreUpdate?.(acc);
+        
+        // Trigger flying star for gamification
+        if (acc >= 90) onPerfectScore?.();
+        
+        // Mini confetti for excellent scores
+        confetti({ particleCount: 25, spread: 50, startVelocity: 18, gravity: 1.3, scalar: 0.6, origin: { x: 0.5, y: 0.5 }, colors: ["#10b981", "#34d399", "#6ee7b7"], ticks: 60, disableForReducedMotion: true });
+        
         toast.success(
           acc === 100
             ? t("🎯 Hoàn hảo! Phát âm chuẩn tuyệt đối!", "🎯 Perfect! Flawless pronunciation!")
@@ -264,8 +313,19 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         setPerfectStreak(0);
         toast.warning(t("💪 Cần luyện thêm. Nghe mẫu và thử lại!", "💪 Keep practicing. Listen to the demo and try again!"), { duration: 3000 });
       }
+
+      if (themeComplete) newStats.perfectThemes = Object.keys(newThemeScores).filter(
+        (tid) => {
+          const theme = config.themes.find((th) => th.id === tid);
+          return theme && theme.sentences.every((s) => (newThemeScores[tid]?.[s.id] || 0) >= 90);
+        }
+      ).length;
+
+      setStats(newStats);
+      saveStats(language, newStats);
+      checkBadges(newStats);
     }
-  }, [isRecording, transcript, currentSentence, onScoreUpdate, t]);
+  }, [isRecording, transcript, currentSentence, selectedTheme, onScoreUpdate, onPerfectScore, t, language, stats, perfectStreak, themeScores, config.themes, checkBadges]);
 
   // Play demo audio (TTS)
   const playDemo = useCallback(async () => {
