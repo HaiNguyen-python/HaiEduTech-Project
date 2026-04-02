@@ -1,54 +1,34 @@
 
 
-# Plan: Fix Listening Audio Overlapping
+## Plan: Add Leaderboard and Sentence Count to Speaking Coach
 
-## Root Cause
+### What we're building
+1. A leaderboard sidebar in the Speaking Coach that shows top performers, using the existing `game_scores` table with a new game type (e.g., `speaking_english`, `speaking_finnish`, `speaking_chinese`)
+2. Display total sentence count prominently in the theme selection view
 
-The `speakFinnish` function in `YkiDashboard.tsx` is **fire-and-forget**:
+### Changes
 
-```typescript
-const speakFinnish = (text: string) => {
-  void playFinnishTts(text).then(...); // void = no awaitable promise returned
-};
-```
+**1. Save speaking scores to database**
+- In `src/components/AISpeakingCoach.tsx`, after computing accuracy and updating local stats, insert a record into `game_scores` table for authenticated users
+- Use `game_type` = `speaking_{language}` (e.g., `speaking_english`)
+- Store cumulative session score and max streak
 
-When `playListeningAudio` does `await speakFinnish(line)`, the `await` resolves **immediately** because `speakFinnish` returns `undefined`. All dialogue lines fire simultaneously, causing overlap.
+**2. Add Leaderboard to Speaking Coach UI**
+- Import and render `GameLeaderboard` component in `src/components/AISpeakingCoach.tsx`
+- Place it in the theme selection view (right side or below stats bar)
+- Pass `gameType="speaking_{language}"` and `currentScore` from current session stats
+- The existing `GameLeaderboard` already handles realtime updates, profile name fetching, and ranking display
 
-Additionally, `playFromUrl` in `finnishTts.ts` calls `stopActiveAudio()` at the start — so each new line **kills** the previous one mid-playback.
+**3. Display total sentence count**
+- In the theme selection view of `AISpeakingCoach.tsx`, add a summary badge/card showing total available sentences across all themes (e.g., "100 sentences available")
+- Calculate by summing `theme.sentences.length` across all themes in `config.themes`
 
-## Fix
+### Files to modify
+- `src/components/AISpeakingCoach.tsx` — add score saving to DB, import GameLeaderboard, add sentence count display
 
-### 1. `src/pages/YkiDashboard.tsx` — Fix `playListeningAudio`
-
-Replace `await speakFinnish(line)` with `await playFinnishTts(line)` directly, so the promise is properly awaited:
-
-```typescript
-const playListeningAudio = async () => {
-  if (!selectedLesson?.theory || isPlayingListening) return;
-  setIsPlayingListening(true);
-  try {
-    const dialogueLines = extractFinnishDialogue(selectedLesson.theory);
-    if (dialogueLines.length === 0) {
-      await playFinnishTts(selectedLesson.theory.replace(/[#*>_\[\]()]/g, "").substring(0, 500));
-    } else {
-      for (const line of dialogueLines) {
-        await playFinnishTts(line);  // ← properly awaits each line
-        await new Promise(r => setTimeout(r, 800));
-      }
-    }
-  } catch {
-    // handled
-  } finally {
-    setIsPlayingListening(false);
-  }
-};
-```
-
-### 2. Add stop/cancel support
-
-Add a `listeningCancelRef` to allow stopping playback mid-dialogue, and check it between lines so the loop can exit early if the user clicks stop.
-
-| File | Change |
-|------|--------|
-| `src/pages/YkiDashboard.tsx` | Use `await playFinnishTts()` instead of `await speakFinnish()` in listening loop; add cancel ref for stop button |
+### Technical details
+- Score insertion uses `supabase.from("game_scores").insert(...)` with `user_id`, `score`, `max_streak`, `game_type`, `accuracy`, and `metadata`
+- Only authenticated users get their scores saved (check `supabase.auth.getUser()`)
+- The `game_scores` table already has appropriate RLS policies (users can insert own, all authenticated can view)
+- No database migration needed — reuses existing `game_scores` table
 
