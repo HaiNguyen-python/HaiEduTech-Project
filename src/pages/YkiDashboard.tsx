@@ -1516,11 +1516,12 @@ const YkiDashboard = () => {
           </div>
 
           {/* Pillar Tabs */}
-          <div className="w-full max-w-lg grid grid-cols-3 h-11 mb-6 rounded-lg bg-muted p-1">
+          <div className="w-full max-w-2xl grid grid-cols-4 h-11 mb-6 rounded-lg bg-muted p-1">
             {([
               { value: "vocabulary" as const, label: "📖 Sanasto" },
               { value: "lessons" as const, label: "🎓 Oppitunnit" },
               { value: "mock-exams" as const, label: "📝 Kokeet" },
+              { value: "speaking-coach" as const, label: "🎙️ Puhevalmennus" },
             ]).map((tab) => (
               <button
                 key={tab.value}
