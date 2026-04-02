@@ -1537,6 +1537,28 @@ const YkiDashboard = () => {
             ))}
           </div>
           <div>
+            {/* Speaking Coach tab content */}
+            {activePillar === "speaking-coach" ? (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <div className="mb-6">
+                  <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+                    🎙️ AI Puhevalmennus
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Harjoittele suomen kielen ääntämistä tekoälyn avulla
+                  </p>
+                </div>
+                <AISpeakingCoach
+                  language="finnish"
+                  onScoreUpdate={(score) => {
+                    if (score >= 90) {
+                      const quote = FINNISH_QUOTES[Math.floor(Math.random() * FINNISH_QUOTES.length)];
+                      toast.success(`⛷️ ${quote}`, { style: { fontSize: "18px", fontWeight: "bold" } });
+                    }
+                  }}
+                />
+              </motion.div>
+            ) : (
               {/* Module detail view */}
               {selectedModule && selectedLesson ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
