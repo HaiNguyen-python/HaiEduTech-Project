@@ -109,6 +109,7 @@ const Navbar = () => {
     ] },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
+    { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -117,6 +118,7 @@ const Navbar = () => {
     { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
     { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
+    { to: "/speaking-coach/chinese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -131,6 +133,7 @@ const Navbar = () => {
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: "📚 Overview" },
     { to: "/finnish/yki-dashboard", label: "❄️ YKI A2 Dashboard" },
+    { to: "/speaking-coach/finnish", label: "🎙️ AI Speaking Coach" },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
