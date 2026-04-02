@@ -21,9 +21,11 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    // Sanitize filename
-    const safeKey = encodeURIComponent(character);
-    const filePath = `hsk/${safeKey}.png`;
+    // Create a safe ASCII filename using hex encoding of character bytes
+    const encoder = new TextEncoder();
+    const bytes = encoder.encode(character);
+    const hexKey = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+    const filePath = `hsk/${hexKey}.png`;
 
     // Check if image already exists in storage
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
