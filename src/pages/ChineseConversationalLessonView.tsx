@@ -367,6 +367,7 @@ const ChineseConversationalLessonView = () => {
               pillar={pillar.title}
               speakingTopics={lesson.speakingTopics}
               keySituationTitles={lesson.keySituations.map(s => s.title)}
+              language="chinese"
             />
           </TabsContent>
         </Tabs>

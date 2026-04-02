@@ -224,7 +224,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const speakText = (text: string) => {
     const clean = text.replace(/[*#_`~\[\]()]/g, "").replace(/💡.*$/gm, "");
     const utterance = new SpeechSynthesisUtterance(clean);
-    utterance.lang = "en-US";
+    utterance.lang = langCode;
     utterance.rate = 0.9;
     speechSynthesis.speak(utterance);
   };
