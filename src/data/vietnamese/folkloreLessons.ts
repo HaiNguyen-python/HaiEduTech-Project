@@ -313,6 +313,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "mài sắt", meaning: "mài thanh sắt", meaningEn: "grind iron", example: "Mài sắt nên kim.", exampleEn: "Grind iron into needle.", partOfSpeech: "verb phrase" },
           { word: "khôn", meaning: "khéo léo, giỏi", meaningEn: "clever / wise", example: "Cái khó ló cái khôn.", exampleEn: "Necessity breeds invention.", partOfSpeech: "adjective" },
+          { word: "mực", meaning: "chất đen dùng viết", meaningEn: "ink (metaphor: bad influence)", example: "Gần mực thì đen.", exampleEn: "Near ink, you turn black.", partOfSpeech: "noun" },
+          { word: "đèn", meaning: "nguồn ánh sáng", meaningEn: "lamp (metaphor: good influence)", example: "Gần đèn thì sáng.", exampleEn: "Near lamp, you become bright.", partOfSpeech: "noun" },
+          { word: "kim", meaning: "vật nhỏ nhọn để may", meaningEn: "needle", example: "Mài sắt thành kim.", exampleEn: "Grind iron into a needle.", partOfSpeech: "noun" },
+          { word: "ló", meaning: "xuất hiện", meaningEn: "to emerge / appear", example: "Cái khó ló cái khôn.", exampleEn: "Wisdom emerges from difficulty.", partOfSpeech: "verb" },
+          { word: "trồng cây", meaning: "trồng, gieo trồng", meaningEn: "to plant trees", example: "Ăn quả nhớ kẻ trồng cây.", exampleEn: "Eating fruit, remember who planted the tree.", partOfSpeech: "verb phrase" },
+          { word: "môi trường", meaning: "hoàn cảnh xung quanh", meaningEn: "environment", example: "Môi trường ảnh hưởng con người.", exampleEn: "Environment influences people.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "'Có công mài sắt' dạy gì?", questionEn: "What does it teach?", options: ["Bỏ cuộc", "Kiên trì", "Thông minh", "May mắn"], answer: 1, explanation: "Kiên trì sẽ thành công.", explanationEn: "Persistence succeeds." },
