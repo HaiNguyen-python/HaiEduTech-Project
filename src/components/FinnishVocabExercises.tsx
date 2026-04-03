@@ -1,5 +1,5 @@
 // Finnish Vocabulary Exercise System — 4 interactive modes for YKI A2 prep
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Check, X, Clock, Shuffle, ArrowRight, RotateCcw, Zap } from "lucide-react";
 import { toast } from "sonner";
@@ -11,6 +11,8 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { FinnishVocabEntry } from "@/data/finnishCurriculum/types";
 import { playFinnishTts } from "@/lib/finnishTts";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FinnishVocabExercisesProps {
   vocabulary: FinnishVocabEntry[];
