@@ -381,6 +381,7 @@ Weaving garlands for seventy-nine springs.`,
   },
   {
     id: "trang-giang",
+    imageUrl: trangGiangImg,
     title: "Tràng Giang",
     titleEn: "The Long River",
     author: "Huy Cận",
