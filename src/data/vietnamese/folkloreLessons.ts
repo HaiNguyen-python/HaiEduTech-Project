@@ -59,6 +59,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thuyền", meaning: "phương tiện nước", meaningEn: "boat (metaphor: man)", example: "Thuyền đi, bến đợi.", exampleEn: "Boat goes, dock waits.", partOfSpeech: "noun" },
           { word: "bến", meaning: "nơi thuyền đỗ", meaningEn: "dock (metaphor: woman)", example: "Bến chờ thuyền.", exampleEn: "Dock waits for boat.", partOfSpeech: "noun" },
+          { word: "ẩn dụ", meaning: "cách nói gián tiếp", meaningEn: "metaphor", example: "Ca dao dùng nhiều ẩn dụ.", exampleEn: "Folk songs use many metaphors.", partOfSpeech: "noun" },
+          { word: "khăng khăng", meaning: "kiên quyết, không thay đổi", meaningEn: "steadfast / insistent", example: "Bến một dạ khăng khăng.", exampleEn: "The dock steadfastly waits.", partOfSpeech: "adjective" },
+          { word: "một dạ", meaning: "một lòng, trung thành", meaningEn: "single-hearted / faithful", example: "Một dạ đợi chờ.", exampleEn: "Faithfully waiting.", partOfSpeech: "phrase" },
+          { word: "nhớ", meaning: "tưởng nhớ, thương nhớ", meaningEn: "to miss / remember", example: "Thuyền ơi có nhớ bến chăng?", exampleEn: "Oh boat, do you remember the dock?", partOfSpeech: "verb" },
+          { word: "chờ đợi", meaning: "đợi ai đó", meaningEn: "to wait for", example: "Nàng chờ đợi chàng trở về.", exampleEn: "She waits for him to return.", partOfSpeech: "verb" },
+          { word: "chung thủy", meaning: "trung thành trong tình yêu", meaningEn: "faithful / loyal in love", example: "Tình yêu chung thủy.", exampleEn: "Faithful love.", partOfSpeech: "adjective" },
+          { word: "duyên", meaning: "duyên phận, số phận tình yêu", meaningEn: "fate / destined love", example: "Đôi ta có duyên.", exampleEn: "We are destined for each other.", partOfSpeech: "noun" },
+          { word: "tương tư", meaning: "nhớ nhung người yêu", meaningEn: "lovesick / yearning", example: "Chàng tương tư nàng.", exampleEn: "He yearns for her.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "'Thuyền' ẩn dụ cho?", questionEn: "Boat metaphor for?", options: ["Cô gái", "Chàng trai", "Bố mẹ", "Con cái"], answer: 1, explanation: "Chàng trai.", explanationEn: "The man." },
