@@ -423,6 +423,7 @@ Long river, vast sky, a lonely pier.`,
   },
   {
     id: "con-co",
+    imageUrl: conCoImg,
     title: "Con cò",
     titleEn: "The Stork",
     author: "Chế Lan Viên",
