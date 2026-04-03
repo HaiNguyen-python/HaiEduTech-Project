@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
+import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 24;
 
