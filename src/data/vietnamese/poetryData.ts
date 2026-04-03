@@ -47,6 +47,7 @@ export interface VietnamesePoem {
 export const vietnamesePoems: VietnamesePoem[] = [
   {
     id: "nam-quoc-son-ha",
+    imageUrl: namQuocSonHaImg,
     title: "Nam Quốc Sơn Hà",
     titleEn: "Mountains and Rivers of the Southern Land",
     author: "Lý Thường Kiệt",
