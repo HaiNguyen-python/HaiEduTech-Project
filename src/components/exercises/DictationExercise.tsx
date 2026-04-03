@@ -34,7 +34,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
       speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(sentences[idx].text);
       utterance.lang = 'vi-VN';
-      utterance.rate = slow ? 0.25 : 0.4;
+      utterance.rate = slow ? 0.35 : 0.55;
       utterance.pitch = 1.1;
       window.speechSynthesis.speak(utterance);
     }
