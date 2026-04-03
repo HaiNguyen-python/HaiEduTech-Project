@@ -120,6 +120,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "quê nhà", meaning: "quê hương", meaningEn: "hometown", example: "Nhớ quê nhà.", exampleEn: "Miss hometown.", partOfSpeech: "noun" },
           { word: "rau muống", meaning: "rau phổ biến", meaningEn: "water spinach", example: "Rau muống xào tỏi.", exampleEn: "Stir-fried water spinach.", partOfSpeech: "noun" },
+          { word: "xứ", meaning: "vùng đất, miền", meaningEn: "land / region", example: "Xứ Huế thơ mộng.", exampleEn: "The land of Hue is poetic.", partOfSpeech: "noun" },
+          { word: "canh", meaning: "món nước nấu rau", meaningEn: "soup / broth", example: "Canh rau muống mát.", exampleEn: "Water spinach soup is refreshing.", partOfSpeech: "noun" },
+          { word: "dầm tương", meaning: "ngâm trong nước tương", meaningEn: "pickled in soy sauce", example: "Cà dầm tương.", exampleEn: "Eggplant pickled in soy sauce.", partOfSpeech: "verb phrase" },
+          { word: "họa đồ", meaning: "bức tranh vẽ", meaningEn: "painting / drawing", example: "Non xanh nước biếc như tranh họa đồ.", exampleEn: "Green mountains and blue waters like a painting.", partOfSpeech: "noun" },
+          { word: "biếc", meaning: "xanh đậm", meaningEn: "deep blue / verdant", example: "Nước biếc sông Hương.", exampleEn: "The verdant Perfume River.", partOfSpeech: "adjective" },
+          { word: "hoài niệm", meaning: "nhớ về quá khứ", meaningEn: "nostalgia", example: "Hoài niệm tuổi thơ.", exampleEn: "Childhood nostalgia.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "Nhớ quê qua gì?", questionEn: "Homesickness through?", options: ["Tiền", "Món ăn giản dị", "Xe cộ", "Công nghệ"], answer: 1, explanation: "Qua món ăn.", explanationEn: "Through simple foods." },
