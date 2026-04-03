@@ -268,3 +268,165 @@ export const folkloreLanguageModules: VietnameseModule[] = [
     ],
   },
 ];
+
+// Module: Nghệ thuật truyền thống Việt Nam
+export const traditionalArtsModule: VietnameseModule = {
+  id: "vn-folk-arts",
+  title: "Nghệ thuật truyền thống",
+  titleEn: "Traditional Vietnamese Arts",
+  icon: "🎭",
+  color: "from-rose-500 to-pink-600",
+  description: "Hát then, múa rối nước, nhạc cụ dân tộc",
+  descriptionEn: "Then singing, water puppetry, traditional instruments",
+  category: "folklore",
+  lessons: [
+    {
+      id: "vn-folk-art-1",
+      title: "Hát Then – Âm nhạc tâm linh",
+      titleEn: "Then Singing – Spiritual Music",
+      level: "intermediate",
+      theory: `## Hát Then – Cầu nối trời và đất 🎶
+
+**Hát Then** là loại hình nghệ thuật dân gian của các dân tộc Tày, Nùng, Thái ở vùng Đông Bắc Việt Nam, được UNESCO công nhận là **di sản văn hóa phi vật thể** năm 2019.
+
+### Nguồn gốc
+"Then" có nghĩa là "trời" trong tiếng Tày. Hát Then ban đầu là nghi lễ tâm linh, trong đó **thầy Then** (người hát) đóng vai trò cầu nối giữa thế giới người sống và thần linh. Qua lời hát, thầy Then kể lại hành trình lên trời để cầu xin sức khỏe, mùa màng tốt tươi.
+
+### Nhạc cụ
+Nhạc cụ chính đi kèm hát Then là **đàn tính** (còn gọi tính tẩu) – loại đàn 2-3 dây với thùng đàn làm từ quả bầu khô. Âm thanh đàn tính trong trẻo, nhẹ nhàng, hòa quyện với giọng hát mềm mại tạo nên giai điệu vừa huyền bí vừa gần gũi.
+
+### Hát Then ngày nay
+Ngày nay, hát Then không chỉ trong nghi lễ mà còn trên sân khấu hiện đại. Các nghệ sĩ trẻ sáng tạo phong cách mới, kết hợp Then với nhạc cụ phương Tây, giữ gìn bản sắc trong thời đại hội nhập.`,
+      theoryEn: `## Then Singing – Bridge between Heaven and Earth 🎶
+
+**Then singing** is folk art of the Tày, Nùng, and Thái ethnic groups in Northeast Vietnam, recognized by UNESCO as **intangible cultural heritage** in 2019.
+
+"Then" means "heaven" in Tày language. Originally a spiritual ritual where the **Then master** serves as a bridge between the living and spirits. The key instrument is the **tính lute** – a 2-3 string instrument with a dried gourd body.
+
+Today, Then singing has moved beyond rituals onto modern stages, with young artists blending traditional and contemporary styles.`,
+      vocabulary: [
+        { word: "tâm linh", meaning: "thuộc về tinh thần, linh hồn", meaningEn: "spiritual", example: "Nghi lễ tâm linh truyền thống.", exampleEn: "Traditional spiritual ritual.", partOfSpeech: "adjective" },
+        { word: "đàn tính", meaning: "nhạc cụ dây truyền thống", meaningEn: "tính lute", example: "Đàn tính có âm thanh trong trẻo.", exampleEn: "The tính lute has a clear sound.", partOfSpeech: "noun" },
+        { word: "thầy Then", meaning: "người thực hiện nghi lễ Then", meaningEn: "Then master / shaman", example: "Thầy Then hát suốt đêm.", exampleEn: "The Then master sang all night.", partOfSpeech: "noun" },
+        { word: "huyền bí", meaning: "bí ẩn, khó hiểu", meaningEn: "mystical, mysterious", example: "Giai điệu huyền bí.", exampleEn: "A mystical melody.", partOfSpeech: "adjective" },
+        { word: "dân tộc", meaning: "nhóm người có chung văn hóa", meaningEn: "ethnic group", example: "54 dân tộc Việt Nam.", exampleEn: "54 ethnic groups of Vietnam.", partOfSpeech: "noun" },
+        { word: "nghi lễ", meaning: "buổi lễ trang trọng", meaningEn: "ritual / ceremony", example: "Nghi lễ cầu mùa.", exampleEn: "Harvest prayer ritual.", partOfSpeech: "noun" },
+        { word: "bản sắc", meaning: "đặc trưng riêng", meaningEn: "identity / character", example: "Giữ gìn bản sắc văn hóa.", exampleEn: "Preserving cultural identity.", partOfSpeech: "noun" },
+        { word: "hội nhập", meaning: "tham gia vào cộng đồng lớn hơn", meaningEn: "integration", example: "Hội nhập quốc tế.", exampleEn: "International integration.", partOfSpeech: "noun" },
+        { word: "quả bầu", meaning: "loại quả dùng làm nhạc cụ", meaningEn: "gourd", example: "Thùng đàn làm từ quả bầu khô.", exampleEn: "The body is made from a dried gourd.", partOfSpeech: "noun" },
+        { word: "mùa màng", meaning: "vụ trồng trọt", meaningEn: "harvest / crops", example: "Cầu mùa màng tốt tươi.", exampleEn: "Praying for a good harvest.", partOfSpeech: "noun" },
+      ],
+      quiz: [
+        { question: "Hát Then được UNESCO công nhận năm nào?", questionEn: "When was Then singing UNESCO-recognized?", options: ["2016", "2017", "2019", "2021"], answer: 2, explanation: "UNESCO công nhận năm 2019.", explanationEn: "UNESCO recognized it in 2019." },
+        { question: "'Then' có nghĩa gì trong tiếng Tày?", questionEn: "What does 'Then' mean in Tày?", options: ["Đất", "Trời", "Nước", "Rừng"], answer: 1, explanation: "'Then' = trời.", explanationEn: "'Then' = heaven." },
+        { question: "Nhạc cụ chính của hát Then là gì?", questionEn: "Main instrument of Then singing?", options: ["Sáo", "Đàn tính", "Trống", "Đàn bầu"], answer: 1, explanation: "Đàn tính (tính tẩu).", explanationEn: "Tính lute." },
+        { question: "'Huyền bí' nghĩa gì?", questionEn: "What does 'huyền bí' mean?", options: ["Vui vẻ", "Bí ẩn, khó hiểu", "Đơn giản", "Buồn"], answer: 1, explanation: "'Huyền bí' = mystical.", explanationEn: "'Huyền bí' = mystical." },
+        { question: "Thầy Then đóng vai trò gì?", questionEn: "What role does the Then master play?", options: ["Nấu ăn", "Cầu nối trời và đất", "Dạy học", "Buôn bán"], answer: 1, explanation: "Thầy Then cầu nối giữa người sống và thần linh.", explanationEn: "Bridge between the living and spirits." },
+      ],
+    },
+    {
+      id: "vn-folk-art-2",
+      title: "Múa Rối Nước – Sân khấu trên mặt nước",
+      titleEn: "Water Puppetry – Theater on Water",
+      level: "intermediate",
+      theory: `## Múa Rối Nước – Nghệ thuật độc nhất vô nhị 🎭💧
+
+**Múa rối nước** là loại hình nghệ thuật dân gian **chỉ có ở Việt Nam**, ra đời từ vùng đồng bằng sông Hồng cách đây hơn 1.000 năm. Khi cánh đồng ngập nước, nông dân biến ao làng thành sân khấu, điều khiển những con rối gỗ nhảy múa trên mặt nước.
+
+### Cấu trúc sân khấu
+Sân khấu là **ao nước** hoặc bể nước nhân tạo. Phía sau là **nhà thủy đình** – nơi nghệ sĩ đứng giấu mình sau tấm mành tre, điều khiển rối bằng hệ thống **sào, dây** phức tạp dưới mặt nước.
+
+### Con rối
+Mỗi con rối nặng 5-15 kg, được chạm khắc từ gỗ sung (nhẹ, không thấm nước), sơn đỏ vàng rực rỡ. Nhân vật phổ biến: **chú Tễu** (nhân vật hài hước dẫn chuyện), rồng, phượng, trâu, cá chép.
+
+### Các tích trò nổi tiếng
+- **Đánh cá**: Ngư dân bắt cá trên sông
+- **Lê Lợi trả gươm**: Rùa vàng ngoi lên nhận gươm thần
+- **Múa rồng**: Rồng phun nước, bay lượn trên mặt ao
+- **Trâu đi cày**: Cảnh nông thôn bình dị
+
+### Ngày nay
+Nhà hát Múa Rối Thăng Long (Hà Nội) biểu diễn hàng ngày cho du khách quốc tế, trở thành trải nghiệm văn hóa không thể bỏ qua khi đến Việt Nam.`,
+      theoryEn: `## Water Puppetry – A Uniquely Vietnamese Art 🎭💧
+
+**Water puppetry** is a folk art **unique to Vietnam**, born in the Red River Delta over 1,000 years ago. Puppets are controlled by artists hidden behind bamboo screens using underwater **poles and strings**.
+
+Each puppet (5-15 kg) is carved from fig wood and painted in vibrant red and gold. Famous character: **Tễu** – the comedic narrator. Popular scenes include fishing, Lê Lợi returning the sword, dragon dances, and buffalo plowing.
+
+The Thang Long Water Puppet Theatre in Hanoi performs daily for international visitors.`,
+      vocabulary: [
+        { word: "rối nước", meaning: "con rối biểu diễn trên nước", meaningEn: "water puppet", example: "Xem múa rối nước ở Hà Nội.", exampleEn: "Watch water puppetry in Hanoi.", partOfSpeech: "noun" },
+        { word: "thủy đình", meaning: "nhà trên mặt nước", meaningEn: "water pavilion", example: "Nhà thủy đình là sân khấu chính.", exampleEn: "The water pavilion is the main stage.", partOfSpeech: "noun" },
+        { word: "chạm khắc", meaning: "tạo hình trên gỗ", meaningEn: "to carve", example: "Chạm khắc con rối bằng gỗ.", exampleEn: "Carving puppets from wood.", partOfSpeech: "verb" },
+        { word: "mành tre", meaning: "rèm tre", meaningEn: "bamboo screen", example: "Nghệ sĩ đứng sau mành tre.", exampleEn: "Artists stand behind bamboo screens.", partOfSpeech: "noun" },
+        { word: "chú Tễu", meaning: "nhân vật hài hước dẫn chuyện", meaningEn: "Tễu – comedic narrator puppet", example: "Chú Tễu luôn mở màn.", exampleEn: "Tễu always opens the show.", partOfSpeech: "noun" },
+        { word: "tích trò", meaning: "câu chuyện biểu diễn", meaningEn: "performance story / act", example: "Nhiều tích trò dân gian.", exampleEn: "Many folk performance stories.", partOfSpeech: "noun" },
+        { word: "điều khiển", meaning: "kiểm soát, vận hành", meaningEn: "to control / operate", example: "Điều khiển rối dưới nước.", exampleEn: "Controlling puppets underwater.", partOfSpeech: "verb" },
+        { word: "gỗ sung", meaning: "loại gỗ nhẹ, không thấm nước", meaningEn: "fig wood", example: "Rối làm từ gỗ sung.", exampleEn: "Puppets made from fig wood.", partOfSpeech: "noun" },
+        { word: "biểu diễn", meaning: "trình diễn nghệ thuật", meaningEn: "to perform", example: "Biểu diễn mỗi tối.", exampleEn: "Performing every evening.", partOfSpeech: "verb" },
+        { word: "nông thôn", meaning: "vùng quê", meaningEn: "countryside / rural", example: "Cảnh nông thôn bình dị.", exampleEn: "Peaceful countryside scene.", partOfSpeech: "noun" },
+      ],
+      quiz: [
+        { question: "Múa rối nước có nguồn gốc từ vùng nào?", questionEn: "Where did water puppetry originate?", options: ["Tây Nguyên", "Đồng bằng sông Hồng", "Miền Trung", "Miền Tây"], answer: 1, explanation: "Ra đời từ đồng bằng sông Hồng.", explanationEn: "Originated from the Red River Delta." },
+        { question: "Chú Tễu đóng vai trò gì?", questionEn: "What role does Tễu play?", options: ["Vua", "Hài hước dẫn chuyện", "Chiến binh", "Nông dân"], answer: 1, explanation: "Chú Tễu là nhân vật hài hước mở màn.", explanationEn: "Tễu is the comedic opening narrator." },
+        { question: "Rối nước làm từ gỗ gì?", questionEn: "Water puppets are made from?", options: ["Gỗ lim", "Gỗ sung", "Gỗ sến", "Gỗ trắc"], answer: 1, explanation: "Gỗ sung nhẹ, không thấm nước.", explanationEn: "Fig wood – light, waterproof." },
+        { question: "Nghệ sĩ đứng ở đâu?", questionEn: "Where do artists stand?", options: ["Trên bờ", "Sau mành tre trong nhà thủy đình", "Trong nước", "Trên mái nhà"], answer: 1, explanation: "Nghệ sĩ giấu mình sau mành tre.", explanationEn: "Artists hide behind bamboo screens." },
+        { question: "'Tích trò' là gì?", questionEn: "What is 'tích trò'?", options: ["Nhạc cụ", "Câu chuyện biểu diễn", "Trang phục", "Sân khấu"], answer: 1, explanation: "'Tích trò' = performance story.", explanationEn: "'Tích trò' = performance story." },
+      ],
+    },
+    {
+      id: "vn-folk-art-3",
+      title: "Nhạc cụ dân tộc Việt Nam",
+      titleEn: "Vietnamese Traditional Instruments",
+      level: "intermediate",
+      theory: `## Nhạc cụ dân tộc – Âm thanh của hồn Việt 🎵
+
+Việt Nam có hệ thống nhạc cụ dân tộc phong phú, phản ánh đời sống văn hóa đa dạng của 54 dân tộc.
+
+### Bộ dây (Chordophones)
+- **Đàn bầu** (monochord): Nhạc cụ một dây độc đáo chỉ có ở Việt Nam. Âm thanh du dương, mênh mang như tiếng lòng. Nghệ sĩ uốn cần đàn để thay đổi cao độ.
+- **Đàn tranh**: 16-17 dây, tương tự zither, âm thanh trong sáng. Thường dùng trong nhạc cung đình Huế.
+- **Đàn nguyệt**: Đàn hình mặt trăng, 2 dây, âm thanh vang, trầm ấm. Phổ biến trong hát chầu văn.
+
+### Bộ hơi (Aerophones)
+- **Sáo trúc**: Sáo ngang làm từ tre, âm thanh trong trẻo, vui tươi. Gắn liền với hình ảnh trẻ chăn trâu.
+- **Khèn**: Nhạc cụ đặc trưng của người H'Mông, gồm 6 ống tre. Tiếng khèn vang giữa núi rừng Tây Bắc.
+
+### Bộ gõ (Percussion)
+- **Trống đồng**: Biểu tượng văn hóa Đông Sơn (2.000+ năm tuổi). Dùng trong lễ hội, nghi lễ.
+- **Đàn đá**: Bộ đàn bằng đá tự nhiên, phát hiện ở Tây Nguyên, có tuổi đời hàng nghìn năm.
+- **Phách**: Thanh gõ bằng tre/gỗ, giữ nhịp trong ca trù.
+
+### Giá trị văn hóa
+Nhạc cụ dân tộc không chỉ để giải trí mà gắn liền với **nghi lễ, lao động, và đời sống tinh thần** của người Việt. Nhiều loại đã được UNESCO công nhận gắn liền với di sản phi vật thể (ca trù, nhã nhạc cung đình Huế, then).`,
+      theoryEn: `## Traditional Instruments – The Sound of Vietnam 🎵
+
+Vietnam has a rich system of traditional instruments reflecting the diverse cultural life of 54 ethnic groups.
+
+**String:** Đàn bầu (unique monochord), Đàn tranh (16-17 string zither), Đàn nguyệt (moon lute). **Wind:** Sáo trúc (bamboo flute), Khèn (H'Mông mouth organ). **Percussion:** Bronze drums (2,000+ years old), Đàn đá (stone lithophone), Phách (bamboo clappers for Ca trù).
+
+These instruments are tied to **rituals, labor, and spiritual life**, many linked to UNESCO-recognized heritage.`,
+      vocabulary: [
+        { word: "đàn bầu", meaning: "nhạc cụ một dây", meaningEn: "monochord", example: "Đàn bầu có âm thanh da diết.", exampleEn: "The monochord has a haunting sound.", partOfSpeech: "noun" },
+        { word: "đàn tranh", meaning: "đàn nhiều dây kiểu zither", meaningEn: "16-string zither", example: "Đàn tranh trong nhạc cung đình.", exampleEn: "Đàn tranh in court music.", partOfSpeech: "noun" },
+        { word: "sáo trúc", meaning: "sáo làm từ tre", meaningEn: "bamboo flute", example: "Tiếng sáo trúc giữa cánh đồng.", exampleEn: "Bamboo flute across the fields.", partOfSpeech: "noun" },
+        { word: "khèn", meaning: "nhạc cụ hơi của người H'Mông", meaningEn: "mouth organ (H'Mông)", example: "Tiếng khèn vang giữa núi rừng.", exampleEn: "Khèn echoing through the mountains.", partOfSpeech: "noun" },
+        { word: "trống đồng", meaning: "trống bằng đồng cổ đại", meaningEn: "bronze drum", example: "Trống đồng Đông Sơn.", exampleEn: "Đông Sơn bronze drum.", partOfSpeech: "noun" },
+        { word: "du dương", meaning: "êm ái, ngọt ngào", meaningEn: "melodious", example: "Giai điệu du dương.", exampleEn: "A melodious tune.", partOfSpeech: "adjective" },
+        { word: "cung đình", meaning: "thuộc hoàng cung", meaningEn: "royal court", example: "Nhạc cung đình Huế.", exampleEn: "Huế royal court music.", partOfSpeech: "adjective" },
+        { word: "cao độ", meaning: "âm trầm hay cao", meaningEn: "pitch (music)", example: "Thay đổi cao độ bằng cần đàn.", exampleEn: "Changing pitch with the stem.", partOfSpeech: "noun" },
+        { word: "đàn đá", meaning: "nhạc cụ bằng đá cổ xưa", meaningEn: "stone lithophone", example: "Đàn đá Tây Nguyên.", exampleEn: "Central Highlands stone lithophone.", partOfSpeech: "noun" },
+        { word: "da diết", meaning: "sâu lắng, thiết tha", meaningEn: "haunting, poignant", example: "Âm thanh da diết.", exampleEn: "A haunting sound.", partOfSpeech: "adjective" },
+      ],
+      quiz: [
+        { question: "Đàn bầu có bao nhiêu dây?", questionEn: "How many strings does đàn bầu have?", options: ["2", "1", "3", "4"], answer: 1, explanation: "Đàn bầu là nhạc cụ MỘT dây.", explanationEn: "Đàn bầu is a monochord (1 string)." },
+        { question: "Khèn là nhạc cụ của dân tộc nào?", questionEn: "Whose instrument is khèn?", options: ["Kinh", "Tày", "H'Mông", "Chăm"], answer: 2, explanation: "Khèn là nhạc cụ đặc trưng của người H'Mông.", explanationEn: "Khèn is characteristic of the H'Mông people." },
+        { question: "Trống đồng Đông Sơn có tuổi đời bao lâu?", questionEn: "How old are Đông Sơn bronze drums?", options: ["500 năm", "1.000 năm", "2.000+ năm", "100 năm"], answer: 2, explanation: "Hơn 2.000 năm tuổi.", explanationEn: "Over 2,000 years old." },
+        { question: "'Du dương' nghĩa gì?", questionEn: "What does 'du dương' mean?", options: ["Ồn ào", "Êm ái, ngọt ngào", "Im lặng", "Đáng sợ"], answer: 1, explanation: "'Du dương' = melodious.", explanationEn: "'Du dương' = melodious." },
+        { question: "Đàn tranh thường dùng trong loại nhạc nào?", questionEn: "What music uses đàn tranh?", options: ["Rock", "Nhạc cung đình Huế", "Pop", "EDM"], answer: 1, explanation: "Đàn tranh phổ biến trong nhạc cung đình.", explanationEn: "Đàn tranh is common in royal court music." },
+      ],
+    },
+  ],
+};
+
+folkloreLanguageModules.push(traditionalArtsModule);
