@@ -269,6 +269,10 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   // Process transcript when recording stops
   useEffect(() => {
     if (!isRecording && transcript && currentSentence && selectedTheme) {
+      // Guard: skip if we already processed this exact transcript
+      if (lastProcessedTranscriptRef.current === transcript) return;
+      lastProcessedTranscriptRef.current = transcript;
+
       const wordResults = compareWords(currentSentence.text, transcript);
       const acc = calcAccuracy(wordResults);
       setResults(wordResults);
@@ -276,83 +280,83 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       setTotalPracticed((p) => p + 1);
 
       // Update theme scores
-      const newThemeScores = { ...themeScores };
-      if (!newThemeScores[selectedTheme.id]) newThemeScores[selectedTheme.id] = {};
-      const prevBest = newThemeScores[selectedTheme.id][currentSentence.id] || 0;
-      if (acc > prevBest) newThemeScores[selectedTheme.id][currentSentence.id] = acc;
-      setThemeScores(newThemeScores);
-      saveThemeScores(language, newThemeScores);
+      setThemeScores(prev => {
+        const newThemeScores = { ...prev };
+        if (!newThemeScores[selectedTheme.id]) newThemeScores[selectedTheme.id] = {};
+        const prevBest = newThemeScores[selectedTheme.id][currentSentence.id] || 0;
+        if (acc > prevBest) newThemeScores[selectedTheme.id][currentSentence.id] = acc;
+        saveThemeScores(language, newThemeScores);
 
-      // Check if theme is fully completed with 90%+
-      const themeComplete = selectedTheme.sentences.every(
-        (s) => (newThemeScores[selectedTheme.id]?.[s.id] || 0) >= 90
-      );
+        // Check theme completion & update stats
+        setStats(prevStats => {
+          const newStats = { ...prevStats };
+          newStats.totalPracticed += 1;
+          if (acc >= 95) newStats.perfectCount += 1;
+          if (acc >= 90) newStats.excellentCount += 1;
 
-      // Update stats
-      const newStats = { ...stats };
-      newStats.totalPracticed += 1;
-      if (acc >= 95) newStats.perfectCount += 1;
-      if (acc >= 90) newStats.excellentCount += 1;
-      
-      if (acc >= 90) {
-        const newStreak = perfectStreak + 1;
-        setPerfectStreak(newStreak);
-        if (newStreak > newStats.maxStreak) newStats.maxStreak = newStreak;
-        onScoreUpdate?.(acc);
-        
-        // Trigger flying star for gamification
-        if (acc >= 90) onPerfectScore?.();
-        
-        // Mini confetti for excellent scores
-        confetti({ particleCount: 25, spread: 50, startVelocity: 18, gravity: 1.3, scalar: 0.6, origin: { x: 0.5, y: 0.5 }, colors: ["#10b981", "#34d399", "#6ee7b7"], ticks: 60, disableForReducedMotion: true });
-        
-        toast.success(
-          acc === 100
-            ? t("🎯 Hoàn hảo! Phát âm chuẩn tuyệt đối!", "🎯 Perfect! Flawless pronunciation!")
-            : t("🌟 Tuyệt vời! Phát âm rất tốt!", "🌟 Excellent pronunciation!"),
-          { duration: 3000 }
-        );
-      } else if (acc >= 70) {
-        setPerfectStreak(0);
-        toast.info(t("👍 Khá tốt! Hãy thử lại để cải thiện.", "👍 Good! Try again to improve."), { duration: 3000 });
-      } else {
-        setPerfectStreak(0);
-        toast.warning(t("💪 Cần luyện thêm. Nghe mẫu và thử lại!", "💪 Keep practicing. Listen to the demo and try again!"), { duration: 3000 });
-      }
+          if (acc >= 90) {
+            setPerfectStreak(ps => {
+              const newStreak = ps + 1;
+              if (newStreak > newStats.maxStreak) newStats.maxStreak = newStreak;
+              return newStreak;
+            });
+            onScoreUpdate?.(acc);
+            onPerfectScore?.();
+            confetti({ particleCount: 25, spread: 50, startVelocity: 18, gravity: 1.3, scalar: 0.6, origin: { x: 0.5, y: 0.5 }, colors: ["#10b981", "#34d399", "#6ee7b7"], ticks: 60, disableForReducedMotion: true });
+            toast.success(
+              acc === 100
+                ? t("🎯 Hoàn hảo! Phát âm chuẩn tuyệt đối!", "🎯 Perfect! Flawless pronunciation!")
+                : t("🌟 Tuyệt vời! Phát âm rất tốt!", "🌟 Excellent pronunciation!"),
+              { duration: 3000 }
+            );
+          } else if (acc >= 70) {
+            setPerfectStreak(0);
+            toast.info(t("👍 Khá tốt! Hãy thử lại để cải thiện.", "👍 Good! Try again to improve."), { duration: 3000 });
+          } else {
+            setPerfectStreak(0);
+            toast.warning(t("💪 Cần luyện thêm. Nghe mẫu và thử lại!", "💪 Keep practicing. Listen to the demo and try again!"), { duration: 3000 });
+          }
 
-      if (themeComplete) newStats.perfectThemes = Object.keys(newThemeScores).filter(
-        (tid) => {
-          const theme = config.themes.find((th) => th.id === tid);
-          return theme && theme.sentences.every((s) => (newThemeScores[tid]?.[s.id] || 0) >= 90);
-        }
-      ).length;
+          newStats.perfectThemes = Object.keys(newThemeScores).filter(
+            (tid) => {
+              const theme = config.themes.find((th) => th.id === tid);
+              return theme && theme.sentences.every((s) => (newThemeScores[tid]?.[s.id] || 0) >= 90);
+            }
+          ).length;
 
-      setStats(newStats);
-      saveStats(language, newStats);
-      checkBadges(newStats);
+          saveStats(language, newStats);
+          checkBadges(newStats);
+          return newStats;
+        });
+
+        return newThemeScores;
+      });
 
       // Save score to database for leaderboard
-      const newSessionScore = sessionScore + (acc >= 90 ? 10 : acc >= 70 ? 5 : 1);
-      setSessionScore(newSessionScore);
-      (async () => {
-        try {
-          const { data: { user } } = await supabase.auth.getUser();
-          if (user) {
-            await (supabase as any).from("game_scores").insert({
-              user_id: user.id,
-              game_type: `speaking_${language}`,
-              score: newSessionScore,
-              max_streak: newStats.maxStreak,
-              accuracy: acc,
-              metadata: { totalPracticed: newStats.totalPracticed, perfectCount: newStats.perfectCount },
-            });
+      setSessionScore(prev => {
+        const newSessionScore = prev + (acc >= 90 ? 10 : acc >= 70 ? 5 : 1);
+        (async () => {
+          try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+              await (supabase as any).from("game_scores").insert({
+                user_id: user.id,
+                game_type: `speaking_${language}`,
+                score: newSessionScore,
+                max_streak: 0,
+                accuracy: acc,
+                metadata: {},
+              });
+            }
+          } catch (e) {
+            console.error("Failed to save speaking score:", e);
           }
-        } catch (e) {
-          console.error("Failed to save speaking score:", e);
-        }
-      })();
+        })();
+        return newSessionScore;
+      });
     }
-  }, [isRecording, transcript, currentSentence, selectedTheme, onScoreUpdate, onPerfectScore, t, language, stats, perfectStreak, themeScores, config.themes, checkBadges, sessionScore]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRecording, transcript, currentSentence, selectedTheme]);
 
   // Play demo audio (TTS)
   const playDemo = useCallback(async () => {

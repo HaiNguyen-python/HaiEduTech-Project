@@ -42,7 +42,8 @@ import { playFinnishTts } from "@/lib/finnishTts";
 import AISpeakingCoach from "@/components/AISpeakingCoach";
 
 // Merge original + expansion data
-const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules];
+import { finnishVocabExpansion4Modules } from "@/data/finnishCurriculum/vocabularyExpansion4";
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules];
 const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules];
 const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules];
 

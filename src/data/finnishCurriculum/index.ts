@@ -4,6 +4,7 @@ export { finnishVocabModules } from "./vocabularyData";
 export { finnishVocabExpansionModules } from "./vocabularyExpansion";
 export { finnishVocabExpansion2Modules } from "./vocabularyExpansion2";
 export { finnishVocabExpansion3Modules } from "./vocabularyExpansion3";
+export { finnishVocabExpansion4Modules } from "./vocabularyExpansion4";
 export { finnishLessonModules } from "./lessonsData";
 export { finnishLessonExpansionModules } from "./lessonsExpansion";
 export { finnishMockExamModules } from "./mockExamData";
