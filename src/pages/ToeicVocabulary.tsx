@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, Volume2, ChevronLeft, ChevronRight, Layers, List,
@@ -14,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
+import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 24;
 
@@ -135,6 +137,7 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const scoreSavedRef = useRef(false);
 
   const generate = useCallback(() => {
     const pool = shuffle(words).slice(0, 10);
@@ -148,7 +151,22 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
     setSelected(null);
     setScore(0);
     setFinished(false);
+    scoreSavedRef.current = false;
   }, [words]);
+
+  useEffect(() => {
+    if (!finished || scoreSavedRef.current) return;
+    scoreSavedRef.current = true;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await (supabase as any).from("game_scores").insert({
+          user_id: user.id, score, game_type: "vocab-toeic", max_streak: 0,
+          accuracy: questions.length > 0 ? Math.round((score / questions.length) * 100) : 0,
+        });
+      }
+    })();
+  }, [finished]);
 
   if (questions.length === 0) {
     return (
@@ -170,7 +188,10 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
             score >= 5 ? t("Khá tốt! Tiếp tục luyện tập nhé!", "Good job! Keep practicing!") :
               t("Cần ôn lại thêm. Đừng bỏ cuộc!", "Need more review. Don't give up!")}
         </p>
-        <Button onClick={generate} className="bg-blue-600 hover:bg-blue-700 text-white">{t("Làm lại", "Retry")}</Button>
+        <Button onClick={generate} className="bg-blue-600 hover:bg-blue-700 text-white mb-6">{t("Làm lại", "Retry")}</Button>
+        <div className="max-w-sm mx-auto">
+          <GameLeaderboard gameType="vocab-toeic" currentScore={score} />
+        </div>
       </div>
     );
   }

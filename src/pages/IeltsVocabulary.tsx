@@ -10,6 +10,8 @@ import MountainClimber from "@/components/MountainClimber";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import GameLeaderboard from "@/components/games/GameLeaderboard";
+import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 24;
 
@@ -97,13 +99,13 @@ const VocabExercise = ({ words, t }: { words: IeltsWord[]; t: (vi: string, en: s
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const scoreSavedRef = useRef(false);
   const QUIZ_SIZE = 10;
 
   const generateQuiz = useCallback(() => {
     const pool = words.length >= 4 ? words : ieltsVocabData;
     const picked = shuffle(pool).slice(0, QUIZ_SIZE);
     const qs = picked.map(w => {
-      // Pick 3 wrong answers from pool
       const wrongs = shuffle(pool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
       const allOpts = shuffle([w.definition.en, ...wrongs]);
       return { word: w, options: allOpts, correct: allOpts.indexOf(w.definition.en) };
@@ -113,7 +115,22 @@ const VocabExercise = ({ words, t }: { words: IeltsWord[]; t: (vi: string, en: s
     setSelected(null);
     setScore(0);
     setFinished(false);
+    scoreSavedRef.current = false;
   }, [words]);
+
+  useEffect(() => {
+    if (!finished || scoreSavedRef.current) return;
+    scoreSavedRef.current = true;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await (supabase as any).from("game_scores").insert({
+          user_id: user.id, score, game_type: "vocab-ielts", max_streak: 0,
+          accuracy: questions.length > 0 ? Math.round((score / questions.length) * 100) : 0,
+        });
+      }
+    })();
+  }, [finished]);
 
   useEffect(() => { generateQuiz(); }, [generateQuiz]);
 
@@ -144,9 +161,12 @@ const VocabExercise = ({ words, t }: { words: IeltsWord[]; t: (vi: string, en: s
            score >= 5 ? t("Khá tốt! Hãy tiếp tục ôn luyện.", "Good job! Keep practicing.") :
            t("Cần ôn thêm. Hãy thử lại nhé!", "Needs more review. Try again!")}
         </p>
-        <Button onClick={generateQuiz} className="gap-2">
+        <Button onClick={generateQuiz} className="gap-2 mb-6">
           <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try Again")}
         </Button>
+        <div className="w-full max-w-sm">
+          <GameLeaderboard gameType="vocab-ielts" currentScore={score} />
+        </div>
       </div>
     );
   }
