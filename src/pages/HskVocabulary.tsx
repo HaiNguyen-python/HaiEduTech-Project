@@ -90,6 +90,7 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const scoreSavedRef = useRef(false);
   const QUIZ_SIZE = 10;
 
   const generateQuiz = useCallback(() => {
@@ -105,7 +106,22 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
     setSelected(null);
     setScore(0);
     setFinished(false);
+    scoreSavedRef.current = false;
   }, [words]);
+
+  useEffect(() => {
+    if (!finished || scoreSavedRef.current) return;
+    scoreSavedRef.current = true;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await (supabase as any).from("game_scores").insert({
+          user_id: user.id, score, game_type: "vocab-hsk", max_streak: 0,
+          accuracy: questions.length > 0 ? Math.round((score / questions.length) * 100) : 0,
+        });
+      }
+    })();
+  }, [finished]);
 
   useEffect(() => { generateQuiz(); }, [generateQuiz]);
 
