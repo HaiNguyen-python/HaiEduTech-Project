@@ -67,6 +67,12 @@ const VietnamesePoetry = () => {
             </button>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              {/* Hero image */}
+              {selectedPoem.imageUrl && (
+                <div className="aspect-video w-full mb-6 rounded-2xl overflow-hidden shadow-lg">
+                  <img src={selectedPoem.imageUrl} alt={t(selectedPoem.title, selectedPoem.titleEn)} className="w-full h-full object-cover" loading="lazy" width={800} height={512} />
+                </div>
+              )}
               <div className="flex items-center gap-2 mb-1">
                 <Badge variant="outline">{t(selectedPoem.period, selectedPoem.periodEn)}</Badge>
                 <Badge className="bg-primary/10 text-primary border-primary/20">{t(selectedPoem.author, selectedPoem.authorEn)}</Badge>
