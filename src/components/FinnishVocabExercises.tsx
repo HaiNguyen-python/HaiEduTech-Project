@@ -125,7 +125,9 @@ const WordMatching = ({ vocabulary, onComplete }: { vocabulary: FinnishVocabEntr
 // ============ SENTENCE GAP FILL ============
 const SentenceGapFill = ({ vocabulary, onComplete }: { vocabulary: FinnishVocabEntry[]; onComplete?: (s: number, t: number) => void }) => {
   const sentences = useMemo(() => {
-    return shuffle(vocabulary.filter(v => v.example))
+    return shuffle(
+      vocabulary.filter(v => v.example && new RegExp(v.word, "i").test(v.example))
+    )
       .slice(0, 6)
       .map(v => ({
         word: v.word,

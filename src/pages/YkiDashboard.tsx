@@ -42,7 +42,8 @@ import { playFinnishTts } from "@/lib/finnishTts";
 import AISpeakingCoach from "@/components/AISpeakingCoach";
 
 // Merge original + expansion data
-const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules];
+import { finnishVocabExpansion4Modules } from "@/data/finnishCurriculum/vocabularyExpansion4";
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules];
 const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules];
 const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules];
 
@@ -1440,7 +1441,14 @@ const YkiDashboard = () => {
     try {
       const dialogueLines = extractFinnishDialogue(selectedLesson.theory);
       if (dialogueLines.length === 0) {
-        await playFinnishTts(selectedLesson.theory.replace(/[#*>_\[\]()]/g, "").substring(0, 500));
+        const cleanText = selectedLesson.theory.replace(/[#*>_\[\]()]/g, "");
+        const sentences = cleanText.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 2);
+        for (const sentence of sentences) {
+          if (listeningCancelRef.current) break;
+          await playFinnishTts(sentence.trim());
+          if (listeningCancelRef.current) break;
+          await new Promise(r => setTimeout(r, 800));
+        }
       } else {
         for (const line of dialogueLines) {
           if (listeningCancelRef.current) break;
