@@ -1,5 +1,21 @@
 // Vietnamese Poetry Collection
 
+import namQuocSonHaImg from "@/assets/poetry/nam-quoc-son-ha.jpg";
+import truyenKieuImg from "@/assets/poetry/truyen-kieu.jpg";
+import quaDeoNgangImg from "@/assets/poetry/qua-deo-ngang.jpg";
+import dayThonViDaImg from "@/assets/poetry/tinh-da.jpg";
+import songImg from "@/assets/poetry/song.jpg";
+import muaXuanNhoNhoImg from "@/assets/poetry/mua-xuan-nho-nho.jpg";
+import sangThuImg from "@/assets/poetry/thu-dieu.jpg";
+import viengLangBacImg from "@/assets/poetry/dat-nuoc.jpg";
+import trangGiangImg from "@/assets/poetry/chieu-hom-nho-nha.jpg";
+import conCoImg from "@/assets/poetry/ben-khong-chong.jpg";
+import tayTienImg from "@/assets/poetry/tay-tien.jpg";
+import vietBacImg from "@/assets/poetry/viet-bac.jpg";
+import dongChiImg from "@/assets/poetry/dong-chi.jpg";
+import tuTinhImg from "@/assets/poetry/tu-tinh.jpg";
+import nhoRungImg from "@/assets/poetry/nho-rung.jpg";
+
 export interface PoemExercise {
   question: string;
   questionEn: string;
@@ -25,11 +41,13 @@ export interface VietnamesePoem {
   culturalNoteEn: string;
   vocabulary: { word: string; meaning: string; meaningEn: string }[];
   exercises?: PoemExercise[];
+  imageUrl?: string;
 }
 
 export const vietnamesePoems: VietnamesePoem[] = [
   {
     id: "nam-quoc-son-ha",
+    imageUrl: namQuocSonHaImg,
     title: "Nam Quốc Sơn Hà",
     titleEn: "Mountains and Rivers of the Southern Land",
     author: "Lý Thường Kiệt",
@@ -62,6 +80,7 @@ You shall see yourselves utterly defeated.`,
   },
   {
     id: "truyen-kieu-mo-dau",
+    imageUrl: truyenKieuImg,
     title: "Truyện Kiều (Mở đầu)",
     titleEn: "The Tale of Kiều (Opening)",
     author: "Nguyễn Du",
@@ -97,6 +116,7 @@ Even Heaven is jealous of rosy cheeks.`,
   },
   {
     id: "qua-deo-ngang",
+    imageUrl: quaDeoNgangImg,
     title: "Qua Đèo Ngang",
     titleEn: "Crossing Đèo Ngang Pass",
     author: "Bà Huyện Thanh Quan",
@@ -136,6 +156,7 @@ A lonely heart, just me with me.`,
   },
   {
     id: "day-thon-vi-da",
+    imageUrl: dayThonViDaImg,
     title: "Đây thôn Vĩ Dạ",
     titleEn: "This is Vĩ Dạ Village",
     author: "Hàn Mặc Tử",
@@ -177,6 +198,7 @@ Will it carry the moon home in time tonight?`,
   },
   {
     id: "song",
+    imageUrl: songImg,
     title: "Sóng",
     titleEn: "Waves",
     author: "Xuân Quỳnh",
@@ -228,6 +250,7 @@ Day and night, unable to sleep.`,
   },
   {
     id: "mua-xuan-nho-nho",
+    imageUrl: muaXuanNhoNhoImg,
     title: "Mùa xuân nho nhỏ",
     titleEn: "A Tiny Spring",
     author: "Thanh Hải",
@@ -273,6 +296,7 @@ A deep note, full of emotion.`,
   },
   {
     id: "sang-thu",
+    imageUrl: sangThuImg,
     title: "Sang thu",
     titleEn: "Arriving Autumn",
     author: "Hữu Thỉnh",
@@ -315,6 +339,7 @@ Half of itself into autumn.`,
   },
   {
     id: "vieng-lang-bac",
+    imageUrl: viengLangBacImg,
     title: "Viếng lăng Bác",
     titleEn: "Visiting Uncle Hồ's Mausoleum",
     author: "Viễn Phương",
@@ -356,6 +381,7 @@ Weaving garlands for seventy-nine springs.`,
   },
   {
     id: "trang-giang",
+    imageUrl: trangGiangImg,
     title: "Tràng Giang",
     titleEn: "The Long River",
     author: "Huy Cận",
@@ -397,6 +423,7 @@ Long river, vast sky, a lonely pier.`,
   },
   {
     id: "con-co",
+    imageUrl: conCoImg,
     title: "Con cò",
     titleEn: "The Stork",
     author: "Chế Lan Viên",
@@ -434,6 +461,228 @@ Flying tirelessly through the vast world.`,
       { question: "Hình ảnh 'con cò' trong bài thơ tượng trưng cho ai?", questionEn: "Who does the 'stork' symbolize in the poem?", options: ["Người cha", "Người mẹ", "Đứa trẻ", "Người bà"], correctIndex: 1, explanation: "Con cò tượng trưng cho người mẹ — bay hoài không mỏi để che chở con.", explanationEn: "The stork symbolizes the mother — flying tirelessly to shelter her child." },
       { question: "Bài thơ lấy cảm hứng từ thể loại văn học dân gian nào?", questionEn: "What folk literature genre inspired this poem?", options: ["Truyện cổ tích", "Ca dao, lời ru", "Tục ngữ", "Truyện thần thoại"], correctIndex: 1, explanation: "Bài thơ lấy cảm hứng từ ca dao và lời ru của mẹ về con cò.", explanationEn: "The poem is inspired by folk songs and mother's lullabies about the stork." },
       { question: "'Bay hoài không mỏi' thể hiện phẩm chất gì của người mẹ?", questionEn: "What quality of the mother does 'flying tirelessly' express?", options: ["Sự giàu có", "Sự hy sinh, tận tụy không ngừng", "Sự thông minh", "Sự nghiêm khắc"], correctIndex: 1, explanation: "'Bay hoài không mỏi' thể hiện sự hy sinh, tận tụy không ngừng nghỉ của mẹ.", explanationEn: "'Flying tirelessly' expresses the mother's ceaseless sacrifice and dedication." },
+    ],
+  },
+  {
+    id: "tay-tien",
+    imageUrl: tayTienImg,
+    title: "Tây Tiến",
+    titleEn: "Westward March",
+    author: "Quang Dũng",
+    authorEn: "Quang Dũng",
+    period: "1948",
+    periodEn: "1948",
+    text: `Sông Mã xa rồi Tây Tiến ơi!
+Nhớ về rừng núi nhớ chơi vơi.
+Sài Khao sương lấp đoàn quân mỏi,
+Mường Lát hoa về trong đêm hơi.
+
+Dốc lên khúc khuỷu dốc thăm thẳm,
+Heo hút cồn mây, súng ngửi trời.
+Ngàn thước lên cao, ngàn thước xuống,
+Nhà ai Pha Luông mưa xa khơi.`,
+    textEn: `The Mã River is far now, oh Tây Tiến!
+Memories of mountains and forests, dizzying heights.
+Sài Khao fog swallows the weary troops,
+Mường Lát flowers bloom in the misty night.
+
+Slopes winding up, slopes plunging deep,
+Lonely cloud ridges, rifles touching the sky.
+A thousand meters up, a thousand meters down,
+Whose house in Pha Luông, rain drifting far.`,
+    analysis: "Bài thơ tái hiện cuộc hành quân gian khổ của đoàn binh Tây Tiến qua núi rừng Tây Bắc, vừa bi tráng vừa lãng mạn.",
+    analysisEn: "The poem recreates the arduous march of the Tây Tiến regiment through Northwestern mountains, both heroic and romantic.",
+    culturalNote: "Đoàn quân Tây Tiến (1947) gồm chủ yếu sinh viên, học sinh Hà Nội tình nguyện lên Tây Bắc chiến đấu.",
+    culturalNoteEn: "The Tây Tiến regiment (1947) consisted mainly of Hanoi students who volunteered to fight in the Northwest.",
+    vocabulary: [
+      { word: "chơi vơi", meaning: "lơ lửng, bồng bềnh", meaningEn: "dizzying, floating" },
+      { word: "khúc khuỷu", meaning: "quanh co, gập ghềnh", meaningEn: "winding, twisting" },
+      { word: "heo hút", meaning: "xa xôi, hẻo lánh", meaningEn: "remote, desolate" },
+      { word: "thăm thẳm", meaning: "rất sâu", meaningEn: "very deep, abysmal" },
+    ],
+    exercises: [
+      { question: "Đoàn quân Tây Tiến chủ yếu gồm những ai?", questionEn: "Who mainly composed the Tây Tiến regiment?", options: ["Nông dân", "Sinh viên, học sinh Hà Nội", "Quân đội chính quy", "Thợ thủ công"], correctIndex: 1, explanation: "Đoàn Tây Tiến chủ yếu là sinh viên, học sinh Hà Nội tình nguyện chiến đấu.", explanationEn: "The Tây Tiến regiment mainly consisted of volunteer Hanoi students." },
+      { question: "'Súng ngửi trời' sử dụng biện pháp tu từ nào?", questionEn: "What literary device is used in 'rifles touching the sky'?", options: ["So sánh", "Nhân hóa", "Hoán dụ", "Điệp ngữ"], correctIndex: 1, explanation: "Súng được nhân hóa 'ngửi trời' — diễn tả đoàn quân leo lên đỉnh núi cao chót vót.", explanationEn: "The rifle is personified as 'sniffing the sky' — depicting troops climbing to towering peaks." },
+      { question: "Sông Mã chảy qua vùng nào?", questionEn: "Which region does the Mã River flow through?", options: ["Đồng bằng sông Cửu Long", "Tây Bắc Việt Nam", "Đồng bằng Bắc Bộ", "Tây Nguyên"], correctIndex: 1, explanation: "Sông Mã chảy qua vùng Tây Bắc (Sơn La, Thanh Hóa).", explanationEn: "The Mã River flows through the Northwest region (Sơn La, Thanh Hóa)." },
+    ],
+  },
+  {
+    id: "viet-bac",
+    imageUrl: vietBacImg,
+    title: "Việt Bắc",
+    titleEn: "Việt Bắc",
+    author: "Tố Hữu",
+    authorEn: "Tố Hữu",
+    period: "1954",
+    periodEn: "1954",
+    text: `Mình về mình có nhớ ta,
+Mười lăm năm ấy thiết tha mặn nồng.
+Mình về mình có nhớ không,
+Nhìn cây nhớ núi, nhìn sông nhớ nguồn?
+
+Ta về, mình có nhớ ta,
+Ta về, ta nhớ những hoa cùng người.
+Rừng xanh hoa chuối đỏ tươi,
+Đèo cao nắng ánh dao gài thắt lưng.`,
+    textEn: `When you leave, will you remember us,
+Fifteen years of passionate devotion?
+When you leave, will you remember,
+Seeing trees, remembering mountains; seeing rivers, remembering the source?
+
+When I return, will you remember me?
+I return, remembering flowers and people.
+Green forests, bright red banana blossoms,
+High passes, sunlight glinting on belt-sheathed knives.`,
+    analysis: "Bài thơ thể hiện tình cảm gắn bó sâu nặng giữa người cán bộ cách mạng và đồng bào Việt Bắc trong kháng chiến.",
+    analysisEn: "The poem expresses the deep bond between revolutionary cadres and the Việt Bắc people during the resistance.",
+    culturalNote: "Việt Bắc là căn cứ địa cách mạng trong kháng chiến chống Pháp (1946-1954), nơi Chính phủ kháng chiến đặt trụ sở.",
+    culturalNoteEn: "Việt Bắc was the revolutionary base during the anti-French resistance (1946-1954), where the resistance government was headquartered.",
+    vocabulary: [
+      { word: "thiết tha", meaning: "tha thiết, chân thành", meaningEn: "passionate, earnest" },
+      { word: "mặn nồng", meaning: "đậm đà, sâu sắc", meaningEn: "intense, deeply felt" },
+      { word: "nguồn", meaning: "cội nguồn, gốc rễ", meaningEn: "source, origin" },
+      { word: "dao gài", meaning: "dao cài ở thắt lưng", meaningEn: "knife tucked in belt" },
+    ],
+    exercises: [
+      { question: "Bài thơ Việt Bắc ra đời trong bối cảnh lịch sử nào?", questionEn: "In what historical context was Việt Bắc written?", options: ["Sau kháng chiến chống Mỹ", "Sau chiến thắng Điện Biên Phủ 1954", "Trước Cách mạng tháng 8", "Trong thời Pháp thuộc"], correctIndex: 1, explanation: "Bài thơ ra đời năm 1954, khi cán bộ rời Việt Bắc về xuôi sau chiến thắng Điện Biên Phủ.", explanationEn: "The poem was written in 1954 when cadres left Việt Bắc after the victory at Điện Biên Phủ." },
+      { question: "Cách xưng hô 'mình — ta' thể hiện điều gì?", questionEn: "What does the 'mình — ta' address express?", options: ["Quan hệ thầy trò", "Tình cảm thân thiết như vợ chồng", "Quan hệ cấp trên cấp dưới", "Sự xa lạ"], correctIndex: 1, explanation: "Cách xưng hô 'mình — ta' như đôi lứa yêu nhau, thể hiện tình gắn bó sâu nặng.", explanationEn: "The 'mình — ta' address resembles lovers' speech, expressing deep attachment." },
+      { question: "Bài thơ được viết theo thể thơ nào?", questionEn: "What poetic form is Việt Bắc written in?", options: ["Thất ngôn bát cú", "Lục bát", "Tự do", "Năm chữ"], correctIndex: 1, explanation: "Việt Bắc viết theo thể lục bát — thể thơ truyền thống Việt Nam.", explanationEn: "Việt Bắc is written in lục bát — Vietnam's traditional poetic form." },
+    ],
+  },
+  {
+    id: "dong-chi",
+    imageUrl: dongChiImg,
+    title: "Đồng chí",
+    titleEn: "Comrades",
+    author: "Chính Hữu",
+    authorEn: "Chính Hữu",
+    period: "1948",
+    periodEn: "1948",
+    text: `Quê hương anh nước mặn đồng chua,
+Làng tôi nghèo đất cày lên sỏi đá.
+Anh với tôi đôi người xa lạ,
+Tự phương trời chẳng hẹn quen nhau.
+
+Súng bên súng, đầu sát bên đầu,
+Đêm rét chung chăn thành đôi tri kỷ.
+Đồng chí!
+
+Đêm nay rừng hoang sương muối,
+Đứng cạnh bên nhau chờ giặc tới.
+Đầu súng trăng treo.`,
+    textEn: `Your homeland: salt marshes and sour soil,
+My village: poor, plowing up rocks and stones.
+You and I, two strangers,
+From different corners, meeting by chance.
+
+Rifle beside rifle, heads close together,
+Cold nights sharing blankets, becoming soulmates.
+Comrades!
+
+Tonight in the wild forest of salt-frost,
+Standing side by side, waiting for the enemy.
+On the rifle tip, the moon hangs.`,
+    analysis: "Bài thơ ca ngợi tình đồng đội thiêng liêng — từ những người xa lạ trở thành tri kỷ qua gian khổ chiến tranh.",
+    analysisEn: "The poem celebrates sacred comradeship — strangers becoming soulmates through the hardships of war.",
+    culturalNote: "Hình ảnh 'đầu súng trăng treo' là một trong những câu thơ đẹp nhất văn học Việt Nam, kết hợp giữa chiến tranh và lãng mạn.",
+    culturalNoteEn: "'On the rifle tip, the moon hangs' is one of the most beautiful lines in Vietnamese literature, blending war and romance.",
+    vocabulary: [
+      { word: "đồng chua", meaning: "đất chua, khó canh tác", meaningEn: "sour soil, hard to cultivate" },
+      { word: "tri kỷ", meaning: "bạn thân hiểu nhau sâu sắc", meaningEn: "soulmate, close confidant" },
+      { word: "sương muối", meaning: "sương đọng thành băng", meaningEn: "hoarfrost" },
+    ],
+    exercises: [
+      { question: "'Đầu súng trăng treo' kết hợp hai hình ảnh gì?", questionEn: "What two images does 'on the rifle tip, the moon hangs' combine?", options: ["Chiến tranh và hòa bình", "Chiến tranh và lãng mạn", "Ngày và đêm", "Nóng và lạnh"], correctIndex: 1, explanation: "Câu thơ kết hợp hình ảnh chiến tranh (súng) với lãng mạn (trăng), tạo vẻ đẹp bi tráng.", explanationEn: "The line combines war (rifle) with romance (moon), creating heroic beauty." },
+      { question: "Cơ sở hình thành tình đồng chí là gì?", questionEn: "What forms the basis of comradeship?", options: ["Cùng giàu có", "Cùng hoàn cảnh xuất thân nghèo khó", "Cùng trường học", "Cùng gia đình"], correctIndex: 1, explanation: "Cùng hoàn cảnh nghèo khó ('nước mặn đồng chua', 'đất cày lên sỏi đá') là cơ sở tình đồng chí.", explanationEn: "Shared poverty is the basis of their comradeship." },
+      { question: "Câu thơ 'Đồng chí!' đứng riêng một dòng có tác dụng gì?", questionEn: "What effect does the standalone line 'Comrades!' create?", options: ["Không có tác dụng gì", "Nhấn mạnh, là bản lề của bài thơ", "Chỉ để ngắt nhịp", "Kết thúc bài thơ"], correctIndex: 1, explanation: "Câu thơ đứng riêng như tiếng gọi thiêng liêng, là bản lề kết nối hai phần của bài thơ.", explanationEn: "The standalone line is a sacred call, serving as the pivot connecting the two halves of the poem." },
+    ],
+  },
+  {
+    id: "tu-tinh-ii",
+    imageUrl: tuTinhImg,
+    title: "Tự tình (II)",
+    titleEn: "Self-Lament (II)",
+    author: "Hồ Xuân Hương",
+    authorEn: "Hồ Xuân Hương",
+    period: "Thế kỷ 18-19",
+    periodEn: "18th-19th Century",
+    text: `Đêm khuya văng vẳng trống canh dồn,
+Trơ cái hồng nhan với nước non.
+Chén rượu hương đưa say lại tỉnh,
+Vầng trăng bóng xế khuyết chưa tròn.
+
+Xiên ngang mặt đất, rêu từng đám,
+Đâm toạc chân mây, đá mấy hòn.
+Ngán nỗi xuân đi xuân lại lại,
+Mảnh tình san sẻ tí con con!`,
+    textEn: `Late at night, the watch drums echo urgently,
+A faded beauty stands alone before the land.
+Wine fragrance carries me, drunk then sober again,
+The moon tilts its shadow, never quite full.
+
+Piercing the earth's face, patches of moss,
+Stabbing through cloud feet, several stones.
+Weary of spring going, spring coming again,
+A scrap of love, shared into tiny pieces!`,
+    analysis: "Bài thơ bộc lộ nỗi đau thân phận người phụ nữ tài sắc nhưng bất hạnh trong xã hội phong kiến, khao khát tình yêu trọn vẹn.",
+    analysisEn: "The poem reveals the pain of a talented, beautiful woman's unhappy fate in feudal society, yearning for complete love.",
+    culturalNote: "Hồ Xuân Hương được mệnh danh là 'Bà chúa thơ Nôm', nổi tiếng với thơ táo bạo, đa nghĩa và tinh thần nữ quyền.",
+    culturalNoteEn: "Hồ Xuân Hương is called 'The Queen of Nôm Poetry', famous for bold, multilayered verses and feminist spirit.",
+    vocabulary: [
+      { word: "hồng nhan", meaning: "nhan sắc phụ nữ", meaningEn: "feminine beauty / a woman" },
+      { word: "canh", meaning: "đơn vị thời gian đêm xưa", meaningEn: "night watch (time unit)" },
+      { word: "san sẻ", meaning: "chia sẻ, phân chia", meaningEn: "to share, divide" },
+      { word: "ngán", meaning: "chán nản, mệt mỏi", meaningEn: "weary, tired of" },
+    ],
+    exercises: [
+      { question: "Hồ Xuân Hương được mệnh danh là gì?", questionEn: "What is Hồ Xuân Hương known as?", options: ["Nữ hoàng thơ tình", "Bà chúa thơ Nôm", "Thi tiên", "Nữ sĩ đất Bắc"], correctIndex: 1, explanation: "Hồ Xuân Hương được mệnh danh là 'Bà chúa thơ Nôm'.", explanationEn: "Hồ Xuân Hương is known as 'The Queen of Nôm Poetry'." },
+      { question: "'Vầng trăng bóng xế khuyết chưa tròn' ẩn dụ cho điều gì?", questionEn: "What does 'the moon never quite full' symbolize?", options: ["Thời tiết xấu", "Hạnh phúc chưa bao giờ trọn vẹn", "Mùa thu", "Sự giàu có"], correctIndex: 1, explanation: "Trăng khuyết chưa tròn ẩn dụ cho cuộc đời và tình duyên chưa bao giờ viên mãn.", explanationEn: "The waning moon symbolizes a life and love that were never fulfilled." },
+      { question: "'Mảnh tình san sẻ tí con con' phản ánh thân phận gì?", questionEn: "What fate does 'a scrap of love shared into tiny pieces' reflect?", options: ["Người giàu có", "Người phụ nữ làm lẽ trong xã hội phong kiến", "Người chiến sĩ", "Trẻ em mồ côi"], correctIndex: 1, explanation: "Câu thơ phản ánh thân phận người phụ nữ làm lẽ, tình yêu bị chia sẻ.", explanationEn: "The line reflects the fate of a concubine, love divided into tiny fragments." },
+    ],
+  },
+  {
+    id: "nho-rung",
+    imageUrl: nhoRungImg,
+    title: "Nhớ rừng",
+    titleEn: "Nostalgia for the Forest",
+    author: "Thế Lữ",
+    authorEn: "Thế Lữ",
+    period: "1934",
+    periodEn: "1934",
+    text: `Gặm một khối căm hờn trong cũi sắt,
+Ta nằm dài, trông ngày tháng dần qua.
+Khinh lũ người kia ngạo mạn, ngẩn ngơ,
+Giương mắt bé giễu oai linh rừng thẳm.
+
+Nay ta ôm niềm uất hận ngàn thâu,
+Ghét những cảnh không đời nào thay đổi,
+Những cảnh sửa sang, tầm thường, giả dối.
+Ta nhớ cảnh sơn lâm, bóng cả, cây già,
+Với tiếng gió gào ngàn, với giọng nguồn hét núi.`,
+    textEn: `Gnawing a block of rage within iron bars,
+I lie stretched out, watching days slowly pass.
+Scorning those arrogant, foolish humans,
+Who open tiny eyes to mock the forest's sacred might.
+
+Now I embrace endless resentment,
+Hating scenes that never change,
+Artificial, mediocre, dishonest landscapes.
+I miss the forest: great shadows, ancient trees,
+With wind howling through the thousand, streams roaring in the mountains.`,
+    analysis: "Bài thơ mượn lời con hổ bị nhốt trong vườn bách thú để bộc lộ khát vọng tự do và nỗi nhớ quá khứ huy hoàng.",
+    analysisEn: "The poem borrows the voice of a caged tiger in a zoo to express the longing for freedom and nostalgia for a glorious past.",
+    culturalNote: "Bài thơ ra đời trong phong trào Thơ Mới (1932-1945), phản ánh tâm trạng uất ức của người Việt dưới ách thực dân Pháp.",
+    culturalNoteEn: "Written during the New Poetry movement (1932-1945), reflecting Vietnamese frustration under French colonial rule.",
+    vocabulary: [
+      { word: "căm hờn", meaning: "tức giận, oán hận", meaningEn: "rage, resentment" },
+      { word: "oai linh", meaning: "uy nghiêm, thiêng liêng", meaningEn: "majestic, sacred" },
+      { word: "sơn lâm", meaning: "rừng núi", meaningEn: "mountain forest" },
+      { word: "uất hận", meaning: "phẫn uất, căm giận", meaningEn: "indignation, bitter resentment" },
+    ],
+    exercises: [
+      { question: "Con hổ trong bài thơ là ẩn dụ cho ai?", questionEn: "Who does the tiger in the poem represent?", options: ["Người lính", "Người Việt Nam dưới ách thực dân", "Một nghệ sĩ", "Một nhà vua"], correctIndex: 1, explanation: "Con hổ bị nhốt là ẩn dụ cho người Việt mất tự do dưới ách thực dân Pháp.", explanationEn: "The caged tiger is a metaphor for Vietnamese people who lost freedom under French colonial rule." },
+      { question: "Bài thơ thuộc phong trào văn học nào?", questionEn: "Which literary movement does this poem belong to?", options: ["Văn học trung đại", "Thơ Mới (1932-1945)", "Văn học cách mạng", "Văn học đổi mới"], correctIndex: 1, explanation: "Nhớ rừng thuộc phong trào Thơ Mới (1932-1945).", explanationEn: "Nhớ rừng belongs to the New Poetry movement (1932-1945)." },
+      { question: "'Gặm một khối căm hờn' sử dụng biện pháp tu từ nào?", questionEn: "What literary device is used in 'gnawing a block of rage'?", options: ["So sánh", "Ẩn dụ", "Nhân hóa", "Điệp ngữ"], correctIndex: 1, explanation: "Căm hờn được ẩn dụ thành 'khối' — vật thể hóa cảm xúc trừu tượng.", explanationEn: "Rage is metaphorized as a 'block' — making abstract emotion into a tangible object." },
     ],
   },
 ];
