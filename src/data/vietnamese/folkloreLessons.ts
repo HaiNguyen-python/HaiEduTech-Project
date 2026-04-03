@@ -192,6 +192,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thân", meaning: "cuộc đời, bản thân", meaningEn: "fate / self", example: "Thân em như...", exampleEn: "My fate is like...", partOfSpeech: "noun" },
           { word: "lụa", meaning: "vải mịn quý", meaningEn: "silk", example: "Lụa đào mềm mại.", exampleEn: "Pink silk is soft.", partOfSpeech: "noun" },
+          { word: "phất phơ", meaning: "bay nhẹ theo gió", meaningEn: "fluttering", example: "Phất phơ giữa chợ.", exampleEn: "Fluttering in the market.", partOfSpeech: "verb" },
+          { word: "bến nước", meaning: "nơi lấy nước, ẩn dụ cho số phận", meaningEn: "water landing (metaphor: fate)", example: "Mười hai bến nước.", exampleEn: "Twelve landings of water (12 fates).", partOfSpeech: "noun" },
+          { word: "phong kiến", meaning: "chế độ xã hội cũ", meaningEn: "feudal", example: "Xã hội phong kiến.", exampleEn: "Feudal society.", partOfSpeech: "adjective" },
+          { word: "số phận", meaning: "vận mệnh, định mệnh", meaningEn: "fate / destiny", example: "Số phận éo le.", exampleEn: "A cruel fate.", partOfSpeech: "noun" },
+          { word: "may rủi", meaning: "hên xui, may mắn hay xui xẻo", meaningEn: "fortune / luck", example: "Cuộc đời phụ thuộc may rủi.", exampleEn: "Life depends on fortune.", partOfSpeech: "noun" },
+          { word: "cam chịu", meaning: "chấp nhận chịu đựng", meaningEn: "to endure / accept", example: "Phụ nữ phải cam chịu.", exampleEn: "Women had to endure.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "Ca dao 'Thân em' nói về gì?", questionEn: "What is it about?", options: ["Thiên nhiên", "Số phận phụ nữ", "Ẩm thực", "Lao động"], answer: 1, explanation: "Số phận phụ nữ trong xã hội cũ.", explanationEn: "Women's fate in old society." },
