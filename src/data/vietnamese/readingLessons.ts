@@ -57,6 +57,9 @@ At night, the pedestrian streets around Hoan Kiem Lake light up. Street musician
           { word: "hoàng hôn", meaning: "lúc mặt trời lặn", meaningEn: "dusk / sunset", example: "Hoàng hôn buông xuống hồ Tây.", exampleEn: "Dusk falls over West Lake.", partOfSpeech: "noun" },
           { word: "thanh tịnh", meaning: "yên bình, trong sạch", meaningEn: "serene / peaceful", example: "Sự thanh tịnh ngàn xưa.", exampleEn: "Ancient serenity.", partOfSpeech: "adjective" },
           { word: "khoa cử", meaning: "hệ thống thi tuyển quan lại ngày xưa", meaningEn: "imperial examination system", example: "Hơn 700 năm khoa cử.", exampleEn: "Over 700 years of imperial examinations.", partOfSpeech: "noun" },
+          { word: "len lỏi", meaning: "đi qua khe hẹp", meaningEn: "to thread through / sneak", example: "Nắng len lỏi qua tán cây.", exampleEn: "Sunlight threads through the canopy.", partOfSpeech: "verb" },
+          { word: "phố phường", meaning: "khu phố, phường xá", meaningEn: "streets / wards", example: "36 phố phường Hà Nội.", exampleEn: "36 guild streets of Hanoi.", partOfSpeech: "noun" },
+          { word: "thơ mộng", meaning: "đẹp lãng mạn", meaningEn: "poetic / romantic", example: "Hà Nội rất thơ mộng.", exampleEn: "Hanoi is very poetic.", partOfSpeech: "adjective" },
         ],
         quiz: [
           { question: "Phố cổ Hà Nội có bao nhiêu phố phường?", questionEn: "How many guild streets in Hanoi's Old Quarter?", options: ["18 phố", "36 phố", "54 phố", "72 phố"], answer: 1, explanation: "Phố cổ có 36 phố phường, mỗi phố mang tên một nghề thủ công.", explanationEn: "The Old Quarter has 36 guild streets, each named after a craft." },
