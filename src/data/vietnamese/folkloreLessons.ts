@@ -349,6 +349,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "dân ca", meaning: "bài hát dân gian", meaningEn: "folk song", example: "Dân ca Bắc Ninh.", exampleEn: "Bac Ninh folk songs.", partOfSpeech: "noun" },
           { word: "đối đáp", meaning: "hát trả lời nhau", meaningEn: "call-and-response", example: "Hát đối đáp.", exampleEn: "Call-and-response singing.", partOfSpeech: "verb" },
+          { word: "liền anh", meaning: "nam hát quan họ", meaningEn: "male Quan Ho singer", example: "Liền anh mời liền chị.", exampleEn: "Male singers invite female singers.", partOfSpeech: "noun" },
+          { word: "liền chị", meaning: "nữ hát quan họ", meaningEn: "female Quan Ho singer", example: "Liền chị hát đáp.", exampleEn: "Female singers respond.", partOfSpeech: "noun" },
+          { word: "truyền thống", meaning: "phong tục lâu đời", meaningEn: "tradition", example: "Truyền thống hát quan họ.", exampleEn: "Quan Ho singing tradition.", partOfSpeech: "noun" },
+          { word: "giai điệu", meaning: "melody, nhạc điệu", meaningEn: "melody / tune", example: "Giai điệu êm ái.", exampleEn: "A gentle melody.", partOfSpeech: "noun" },
+          { word: "mời", meaning: "yêu cầu ai đến", meaningEn: "to invite", example: "Mời bạn hát.", exampleEn: "Invite you to sing.", partOfSpeech: "verb" },
+          { word: "tình cảm", meaning: "cảm xúc yêu thương", meaningEn: "affection / sentiment", example: "Bài hát đầy tình cảm.", exampleEn: "A song full of affection.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "Quan họ từ đâu?", questionEn: "Where is Quan Ho from?", options: ["Huế", "Bắc Ninh", "Hà Nội", "Sài Gòn"], answer: 1, explanation: "Bắc Ninh.", explanationEn: "Bac Ninh." },
