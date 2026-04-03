@@ -156,6 +156,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "lao động", meaning: "làm việc", meaningEn: "labor", example: "Lao động là vinh quang.", exampleEn: "Labor is glory.", partOfSpeech: "noun" },
           { word: "mồ hôi", meaning: "nước tiết ra", meaningEn: "sweat", example: "Mồ hôi nông dân.", exampleEn: "Farmer's sweat.", partOfSpeech: "noun" },
+          { word: "hạt", meaning: "hạt gạo, hạt thóc", meaningEn: "grain", example: "Mỗi hạt cơm đều quý.", exampleEn: "Every grain of rice is precious.", partOfSpeech: "noun" },
+          { word: "đắng cay", meaning: "khổ cực, vất vả", meaningEn: "bitter / hardship", example: "Đắng cay muôn phần.", exampleEn: "A thousand parts bitter.", partOfSpeech: "adjective" },
+          { word: "dẻo thơm", meaning: "mềm và có mùi thơm", meaningEn: "soft and fragrant", example: "Cơm dẻo thơm.", exampleEn: "Soft, fragrant rice.", partOfSpeech: "adjective" },
+          { word: "nông dân", meaning: "người làm nông", meaningEn: "farmer", example: "Nông dân cần cù.", exampleEn: "Farmers are hardworking.", partOfSpeech: "noun" },
+          { word: "cần cù", meaning: "chăm chỉ", meaningEn: "diligent / hardworking", example: "Cần cù bù thông minh.", exampleEn: "Diligence compensates for talent.", partOfSpeech: "adjective" },
+          { word: "vinh quang", meaning: "được tôn vinh", meaningEn: "glory / honor", example: "Lao động là vinh quang.", exampleEn: "Labor is glory.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "'Tay làm hàm nhai' nghĩa gì?", questionEn: "What does it mean?", options: ["Ăn nhiều", "Phải làm mới có ăn", "Tay khỏe", "Ăn ngon"], answer: 1, explanation: "Phải lao động mới có ăn.", explanationEn: "Must work to eat." },
