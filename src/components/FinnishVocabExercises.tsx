@@ -412,8 +412,41 @@ const FlashcardRapidFire = ({ vocabulary, onComplete }: { vocabulary: FinnishVoc
   );
 };
 
+// Helper: save Finnish vocab score
+const saveFinnishScore = async (score: number, total: number) => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      await (supabase as any).from("game_scores").insert({
+        user_id: user.id, score, game_type: "vocab-finnish", max_streak: 0,
+        accuracy: total > 0 ? Math.round((score / total) * 100) : 0,
+      });
+    }
+  } catch (e) {
+    console.error("Failed to save Finnish vocab score:", e);
+  }
+};
+
 // ============ MAIN EXERCISES COMPONENT ============
 const FinnishVocabExercises = ({ vocabulary, onExerciseComplete }: FinnishVocabExercisesProps) => {
+  const [lastScore, setLastScore] = useState<number | null>(null);
+  const scoreSavedRef = useRef(false);
+
+  const handleComplete = (score: number, total: number) => {
+    setLastScore(score);
+    if (!scoreSavedRef.current) {
+      scoreSavedRef.current = true;
+      saveFinnishScore(score, total);
+    }
+    onExerciseComplete?.(score, total);
+  };
+
+  // Reset saved flag when tab changes
+  const handleTabChange = () => {
+    setLastScore(null);
+    scoreSavedRef.current = false;
+  };
+
   if (!vocabulary || vocabulary.length < 4) {
     return (
       <Card className="border-[#003580]/10">
@@ -429,7 +462,7 @@ const FinnishVocabExercises = ({ vocabulary, onExerciseComplete }: FinnishVocabE
       <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
         <Shuffle className="w-5 h-5 text-[#003580]" /> Harjoitukset (Exercises)
       </h3>
-      <Tabs defaultValue="matching">
+      <Tabs defaultValue="matching" onValueChange={handleTabChange}>
         <TabsList className="grid grid-cols-4 w-full max-w-xl h-10 mb-4">
           <TabsTrigger value="matching" className="text-xs">🔗 Match</TabsTrigger>
           <TabsTrigger value="gapfill" className="text-xs">📝 Gap Fill</TabsTrigger>
@@ -440,20 +473,26 @@ const FinnishVocabExercises = ({ vocabulary, onExerciseComplete }: FinnishVocabE
         <Card className="border-[#003580]/10">
           <CardContent className="p-5">
             <TabsContent value="matching">
-              <WordMatching vocabulary={vocabulary} onComplete={onExerciseComplete} />
+              <WordMatching vocabulary={vocabulary} onComplete={handleComplete} />
             </TabsContent>
             <TabsContent value="gapfill">
-              <SentenceGapFill vocabulary={vocabulary} onComplete={onExerciseComplete} />
+              <SentenceGapFill vocabulary={vocabulary} onComplete={handleComplete} />
             </TabsContent>
             <TabsContent value="translate">
-              <TranslationChallenge vocabulary={vocabulary} onComplete={onExerciseComplete} />
+              <TranslationChallenge vocabulary={vocabulary} onComplete={handleComplete} />
             </TabsContent>
             <TabsContent value="rapid">
-              <FlashcardRapidFire vocabulary={vocabulary} onComplete={onExerciseComplete} />
+              <FlashcardRapidFire vocabulary={vocabulary} onComplete={handleComplete} />
             </TabsContent>
           </CardContent>
         </Card>
       </Tabs>
+
+      {lastScore !== null && (
+        <div className="mt-4 max-w-sm mx-auto">
+          <GameLeaderboard gameType="vocab-finnish" currentScore={lastScore} />
+        </div>
+      )}
     </div>
   );
 };
