@@ -250,6 +250,7 @@ Day and night, unable to sleep.`,
   },
   {
     id: "mua-xuan-nho-nho",
+    imageUrl: muaXuanNhoNhoImg,
     title: "Mùa xuân nho nhỏ",
     titleEn: "A Tiny Spring",
     author: "Thanh Hải",
