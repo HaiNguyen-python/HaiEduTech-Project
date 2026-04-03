@@ -160,12 +160,19 @@ const VietnameseHistoryLesson = () => {
                       transition={{ duration: 0.5, delay: i * 0.1 }}
                       className="bg-card border border-border rounded-xl shadow-sm overflow-hidden"
                     >
-                      {/* Segment Title with rotating icon */}
+                      {/* Segment Title with rotating icon + audio button */}
                       <div className="px-5 pt-5 pb-2 flex items-center gap-2.5">
                         {getSegmentIcon(i)}
-                        <h3 className="text-lg font-bold text-foreground">
+                        <h3 className="text-lg font-bold text-foreground flex-1">
                           {t(seg.title, seg.titleEn)}
                         </h3>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); speakText(seg.text); }}
+                          className="shrink-0 p-1.5 rounded-md text-primary hover:bg-primary/10 transition-colors"
+                          title={t("Nghe đoạn này", "Listen to this section")}
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
                       </div>
 
                       {/* Content: side-by-side on desktop, stacked on mobile */}
