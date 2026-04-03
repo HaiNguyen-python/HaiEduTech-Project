@@ -239,15 +239,22 @@ const VietnamesePoetry = () => {
                 transition={{ delay: idx * 0.05 }}
               >
                 <Card
-                  className="p-5 cursor-pointer hover:shadow-lg hover:border-primary/30 transition-all h-full"
+                  className="p-0 cursor-pointer hover:shadow-lg hover:border-primary/30 transition-all h-full overflow-hidden"
                   onClick={() => setSelectedPoemId(poem.id)}
                 >
+                  {poem.imageUrl && (
+                    <div className="aspect-[3/2] w-full overflow-hidden">
+                      <img src={poem.imageUrl} alt={t(poem.title, poem.titleEn)} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width={800} height={512} />
+                    </div>
+                  )}
+                  <div className="p-5">
                   <div className="flex items-center gap-2 mb-2">
                     <Badge variant="outline" className="text-xs">{t(poem.period, poem.periodEn)}</Badge>
                   </div>
                   <h3 className="font-bold text-foreground mb-1">{t(poem.title, poem.titleEn)}</h3>
                   <p className="text-sm text-primary font-medium mb-2">{t(poem.author, poem.authorEn)}</p>
                   <p className="text-xs text-muted-foreground line-clamp-3 italic">{poem.text.split("\n").slice(0, 2).join(" / ")}</p>
+                  </div>
                 </Card>
               </motion.div>
             ))}
