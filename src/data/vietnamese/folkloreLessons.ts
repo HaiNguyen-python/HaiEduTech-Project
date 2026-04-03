@@ -79,6 +79,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "chuồn chuồn", meaning: "côn trùng cánh mỏng", meaningEn: "dragonfly", example: "Chuồn chuồn bay thấp.", exampleEn: "Dragonflies fly low.", partOfSpeech: "noun" },
           { word: "lũ lụt", meaning: "nước dâng cao", meaningEn: "flood", example: "Miền Trung hay lũ.", exampleEn: "Central VN floods often.", partOfSpeech: "noun" },
+          { word: "ráng", meaning: "ánh sáng đỏ vàng trên trời", meaningEn: "glow / sunset glow", example: "Ráng mỡ gà, có nhà thì giữ.", exampleEn: "Yellow glow means storms coming.", partOfSpeech: "noun" },
+          { word: "mỡ gà", meaning: "màu vàng nhạt như mỡ gà", meaningEn: "chicken-fat color (yellowish)", example: "Ráng mỡ gà báo bão.", exampleEn: "Chicken-fat glow warns of storms.", partOfSpeech: "noun" },
+          { word: "râm", meaning: "trời có mây che, không nắng", meaningEn: "overcast / shady", example: "Trời hôm nay râm mát.", exampleEn: "Today is overcast and cool.", partOfSpeech: "adjective" },
+          { word: "dự báo", meaning: "đoán trước thời tiết", meaningEn: "to forecast", example: "Ông bà dự báo thời tiết qua tục ngữ.", exampleEn: "Elders forecast weather through proverbs.", partOfSpeech: "verb" },
+          { word: "kinh nghiệm", meaning: "hiểu biết từ thực tế", meaningEn: "experience / wisdom", example: "Kinh nghiệm dân gian rất quý.", exampleEn: "Folk experience is precious.", partOfSpeech: "noun" },
+          { word: "bão", meaning: "gió rất mạnh kèm mưa", meaningEn: "storm / typhoon", example: "Mùa bão thường vào tháng 9.", exampleEn: "Storm season is usually in September.", partOfSpeech: "noun" },
+          { word: "mùa", meaning: "thời kỳ trong năm", meaningEn: "season", example: "Mùa mưa kéo dài.", exampleEn: "The rainy season is long.", partOfSpeech: "noun" },
+          { word: "dân gian", meaning: "thuộc về nhân dân", meaningEn: "folk / popular", example: "Tục ngữ dân gian.", exampleEn: "Folk proverbs.", partOfSpeech: "adjective" },
         ],
         quiz: [
           { question: "Chuồn chuồn bay thấp = ?", questionEn: "What does it mean?", options: ["Nắng", "Mưa", "Gió", "Tuyết"], answer: 1, explanation: "Sắp mưa.", explanationEn: "Rain coming." },
