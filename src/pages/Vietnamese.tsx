@@ -250,6 +250,23 @@ const Vietnamese = () => {
                     </motion.div>
                   ))}
                 </div>
+
+                {/* Speaking Coach link */}
+                <Link
+                  to="/speaking-coach/vietnamese"
+                  className="block mt-6 bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <Mic className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-foreground">{t("AI Speaking Coach", "AI Speaking Coach")}</h3>
+                      <p className="text-sm text-muted-foreground">{t("Luyện phát âm tiếng Việt với trí tuệ nhân tạo", "Practice Vietnamese pronunciation with AI")}</p>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground ml-auto" />
+                  </div>
+                </Link>
               </div>
             </TabsContent>
 
