@@ -122,6 +122,31 @@ const VietnameseHistoryLesson = () => {
             </h1>
           </motion.div>
 
+          {/* Video Section */}
+          {lesson.videoUrl && (
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mb-10"
+            >
+              <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                <Video className="w-5 h-5 text-primary" />
+                {t("📹 Video minh họa", "📹 Illustrative Video")}
+              </h2>
+              <div className="aspect-video w-full rounded-xl overflow-hidden border border-border shadow-sm">
+                <iframe
+                  src={lesson.videoUrl}
+                  title={t(lesson.title, lesson.titleEn)}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              </div>
+            </motion.section>
+          )}
+
           {/* Story Section */}
           <section className="mb-12">
             <div className="flex items-center justify-between mb-5">
