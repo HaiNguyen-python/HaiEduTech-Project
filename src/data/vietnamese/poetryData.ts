@@ -198,6 +198,7 @@ Will it carry the moon home in time tonight?`,
   },
   {
     id: "song",
+    imageUrl: songImg,
     title: "Sóng",
     titleEn: "Waves",
     author: "Xuân Quỳnh",
