@@ -33,8 +33,8 @@ const VietnameseHistoryLesson = () => {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "vi-VN";
-    u.rate = 0.4;
-    u.pitch = 1.1;
+    u.rate = 0.6;
+    u.pitch = 1.15;
     u.onstart = () => setIsSpeaking(true);
     u.onend = () => setIsSpeaking(false);
     u.onerror = () => setIsSpeaking(false);
@@ -50,8 +50,8 @@ const VietnameseHistoryLesson = () => {
       if (i >= segs.length) { setIsSpeaking(false); return; }
       const u = new SpeechSynthesisUtterance(segs[i].text);
       u.lang = "vi-VN";
-      u.rate = 0.4;
-      u.pitch = 1.1 + (i % 2 === 0 ? 0.05 : -0.05);
+      u.rate = 0.6;
+      u.pitch = 1.15 + (i % 2 === 0 ? 0.08 : -0.08);
       u.onend = () => { i++; setTimeout(speakNext, 700); };
       u.onerror = () => setIsSpeaking(false);
       speechSynthesis.speak(u);

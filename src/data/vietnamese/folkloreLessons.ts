@@ -19,6 +19,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "công", meaning: "công lao", meaningEn: "merit", example: "Công cha rất lớn.", exampleEn: "Father's merit is great.", partOfSpeech: "noun" },
           { word: "hiếu", meaning: "kính trọng cha mẹ", meaningEn: "filial piety", example: "Chữ hiếu quan trọng.", exampleEn: "Filial piety is important.", partOfSpeech: "noun" },
+          { word: "nghĩa", meaning: "tình nghĩa, ân nghĩa", meaningEn: "gratitude / bond", example: "Nghĩa mẹ như nước trong nguồn.", exampleEn: "Mother's bond is like spring water.", partOfSpeech: "noun" },
+          { word: "nguồn", meaning: "nơi bắt đầu của dòng nước", meaningEn: "source / spring", example: "Nước từ nguồn chảy ra.", exampleEn: "Water flows from the source.", partOfSpeech: "noun" },
+          { word: "Thái Sơn", meaning: "ngọn núi cao, biểu tượng vĩ đại", meaningEn: "Mount Thai Son (symbol of greatness)", example: "Công cha như núi Thái Sơn.", exampleEn: "Father's merit is like Mount Thai Son.", partOfSpeech: "noun" },
+          { word: "một lòng", meaning: "tận tâm, chung thủy", meaningEn: "wholeheartedly", example: "Con một lòng thờ mẹ kính cha.", exampleEn: "The child wholeheartedly honors parents.", partOfSpeech: "phrase" },
+          { word: "ví", meaning: "so sánh", meaningEn: "to compare / liken", example: "Ông ví cuộc đời như giấc mơ.", exampleEn: "He compared life to a dream.", partOfSpeech: "verb" },
+          { word: "đạo", meaning: "con đường, lẽ phải", meaningEn: "way / moral path", example: "Đạo làm con phải hiếu thảo.", exampleEn: "The way of a child is filial piety.", partOfSpeech: "noun" },
+          { word: "hiếu thảo", meaning: "biết ơn và kính trọng cha mẹ", meaningEn: "filial / dutiful", example: "Cô ấy rất hiếu thảo.", exampleEn: "She is very dutiful to her parents.", partOfSpeech: "adjective" },
+          { word: "thờ", meaning: "tôn kính, thờ phụng", meaningEn: "to worship / honor", example: "Thờ mẹ kính cha.", exampleEn: "Honor mother, respect father.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "'Công cha' ví như gì?", questionEn: "Father's merit compared to?", options: ["Biển", "Núi Thái Sơn", "Sông", "Trời"], answer: 1, explanation: "Núi Thái Sơn.", explanationEn: "Mount Thai Son." },
@@ -31,6 +39,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thầy", meaning: "giáo viên", meaningEn: "teacher", example: "Tôn sư trọng đạo.", exampleEn: "Respect the teacher.", partOfSpeech: "noun" },
           { word: "khôn", meaning: "thông minh", meaningEn: "wise", example: "Học cho khôn.", exampleEn: "Study to be wise.", partOfSpeech: "adjective" },
+          { word: "sàng", meaning: "dụng cụ lọc gạo", meaningEn: "sieve / winnowing basket", example: "Học một sàng khôn.", exampleEn: "Learn a sieve of wisdom.", partOfSpeech: "noun" },
+          { word: "đàng", meaning: "đường đi (cổ ngữ)", meaningEn: "road / way (archaic)", example: "Đi một ngày đàng.", exampleEn: "Travel a day's road.", partOfSpeech: "noun" },
+          { word: "tôn sư", meaning: "kính trọng thầy cô", meaningEn: "to respect teachers", example: "Tôn sư trọng đạo là truyền thống.", exampleEn: "Respecting teachers is tradition.", partOfSpeech: "verb phrase" },
+          { word: "trọng đạo", meaning: "coi trọng đạo lý", meaningEn: "to value moral principles", example: "Người Việt trọng đạo.", exampleEn: "Vietnamese value morality.", partOfSpeech: "verb phrase" },
+          { word: "làm nên", meaning: "thành công", meaningEn: "to succeed / accomplish", example: "Không thầy đố mày làm nên.", exampleEn: "Without a teacher, try to succeed.", partOfSpeech: "verb phrase" },
+          { word: "trải nghiệm", meaning: "kinh nghiệm thực tế", meaningEn: "experience", example: "Trải nghiệm giúp ta trưởng thành.", exampleEn: "Experience helps us grow.", partOfSpeech: "noun" },
+          { word: "gói", meaning: "bọc lại", meaningEn: "to wrap", example: "Học gói, học mở.", exampleEn: "Learn to wrap, learn to unwrap.", partOfSpeech: "verb" },
+          { word: "đố", meaning: "thách thức", meaningEn: "to challenge / dare", example: "Đố mày làm nên!", exampleEn: "I dare you to succeed!", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "'Đi một ngày đàng' dạy gì?", questionEn: "What does it teach?", options: ["Ở nhà", "Đi nhiều học nhiều", "Đừng đi", "Học ở trường"], answer: 1, explanation: "Trải nghiệm giúp học hỏi.", explanationEn: "Experience helps learning." },
@@ -43,6 +59,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thuyền", meaning: "phương tiện nước", meaningEn: "boat (metaphor: man)", example: "Thuyền đi, bến đợi.", exampleEn: "Boat goes, dock waits.", partOfSpeech: "noun" },
           { word: "bến", meaning: "nơi thuyền đỗ", meaningEn: "dock (metaphor: woman)", example: "Bến chờ thuyền.", exampleEn: "Dock waits for boat.", partOfSpeech: "noun" },
+          { word: "ẩn dụ", meaning: "cách nói gián tiếp", meaningEn: "metaphor", example: "Ca dao dùng nhiều ẩn dụ.", exampleEn: "Folk songs use many metaphors.", partOfSpeech: "noun" },
+          { word: "khăng khăng", meaning: "kiên quyết, không thay đổi", meaningEn: "steadfast / insistent", example: "Bến một dạ khăng khăng.", exampleEn: "The dock steadfastly waits.", partOfSpeech: "adjective" },
+          { word: "một dạ", meaning: "một lòng, trung thành", meaningEn: "single-hearted / faithful", example: "Một dạ đợi chờ.", exampleEn: "Faithfully waiting.", partOfSpeech: "phrase" },
+          { word: "nhớ", meaning: "tưởng nhớ, thương nhớ", meaningEn: "to miss / remember", example: "Thuyền ơi có nhớ bến chăng?", exampleEn: "Oh boat, do you remember the dock?", partOfSpeech: "verb" },
+          { word: "chờ đợi", meaning: "đợi ai đó", meaningEn: "to wait for", example: "Nàng chờ đợi chàng trở về.", exampleEn: "She waits for him to return.", partOfSpeech: "verb" },
+          { word: "chung thủy", meaning: "trung thành trong tình yêu", meaningEn: "faithful / loyal in love", example: "Tình yêu chung thủy.", exampleEn: "Faithful love.", partOfSpeech: "adjective" },
+          { word: "duyên", meaning: "duyên phận, số phận tình yêu", meaningEn: "fate / destined love", example: "Đôi ta có duyên.", exampleEn: "We are destined for each other.", partOfSpeech: "noun" },
+          { word: "tương tư", meaning: "nhớ nhung người yêu", meaningEn: "lovesick / yearning", example: "Chàng tương tư nàng.", exampleEn: "He yearns for her.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "'Thuyền' ẩn dụ cho?", questionEn: "Boat metaphor for?", options: ["Cô gái", "Chàng trai", "Bố mẹ", "Con cái"], answer: 1, explanation: "Chàng trai.", explanationEn: "The man." },
@@ -55,6 +79,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "chuồn chuồn", meaning: "côn trùng cánh mỏng", meaningEn: "dragonfly", example: "Chuồn chuồn bay thấp.", exampleEn: "Dragonflies fly low.", partOfSpeech: "noun" },
           { word: "lũ lụt", meaning: "nước dâng cao", meaningEn: "flood", example: "Miền Trung hay lũ.", exampleEn: "Central VN floods often.", partOfSpeech: "noun" },
+          { word: "ráng", meaning: "ánh sáng đỏ vàng trên trời", meaningEn: "glow / sunset glow", example: "Ráng mỡ gà, có nhà thì giữ.", exampleEn: "Yellow glow means storms coming.", partOfSpeech: "noun" },
+          { word: "mỡ gà", meaning: "màu vàng nhạt như mỡ gà", meaningEn: "chicken-fat color (yellowish)", example: "Ráng mỡ gà báo bão.", exampleEn: "Chicken-fat glow warns of storms.", partOfSpeech: "noun" },
+          { word: "râm", meaning: "trời có mây che, không nắng", meaningEn: "overcast / shady", example: "Trời hôm nay râm mát.", exampleEn: "Today is overcast and cool.", partOfSpeech: "adjective" },
+          { word: "dự báo", meaning: "đoán trước thời tiết", meaningEn: "to forecast", example: "Ông bà dự báo thời tiết qua tục ngữ.", exampleEn: "Elders forecast weather through proverbs.", partOfSpeech: "verb" },
+          { word: "kinh nghiệm", meaning: "hiểu biết từ thực tế", meaningEn: "experience / wisdom", example: "Kinh nghiệm dân gian rất quý.", exampleEn: "Folk experience is precious.", partOfSpeech: "noun" },
+          { word: "bão", meaning: "gió rất mạnh kèm mưa", meaningEn: "storm / typhoon", example: "Mùa bão thường vào tháng 9.", exampleEn: "Storm season is usually in September.", partOfSpeech: "noun" },
+          { word: "mùa", meaning: "thời kỳ trong năm", meaningEn: "season", example: "Mùa mưa kéo dài.", exampleEn: "The rainy season is long.", partOfSpeech: "noun" },
+          { word: "dân gian", meaning: "thuộc về nhân dân", meaningEn: "folk / popular", example: "Tục ngữ dân gian.", exampleEn: "Folk proverbs.", partOfSpeech: "adjective" },
         ],
         quiz: [
           { question: "Chuồn chuồn bay thấp = ?", questionEn: "What does it mean?", options: ["Nắng", "Mưa", "Gió", "Tuyết"], answer: 1, explanation: "Sắp mưa.", explanationEn: "Rain coming." },
@@ -67,6 +99,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "cổ tích", meaning: "truyện xưa", meaningEn: "fairy tale", example: "Kể truyện cổ tích.", exampleEn: "Tell a fairy tale.", partOfSpeech: "noun" },
           { word: "thiện", meaning: "tốt", meaningEn: "good / virtuous", example: "Thiện thắng ác.", exampleEn: "Good triumphs evil.", partOfSpeech: "noun/adj" },
+          { word: "ác", meaning: "xấu, tàn nhẫn", meaningEn: "evil / wicked", example: "Kẻ ác bị trừng phạt.", exampleEn: "The wicked are punished.", partOfSpeech: "adjective" },
+          { word: "truyền thuyết", meaning: "câu chuyện lịch sử dân gian", meaningEn: "legend", example: "Truyền thuyết Hồ Gươm rất nổi tiếng.", exampleEn: "The Sword Lake legend is famous.", partOfSpeech: "noun" },
+          { word: "phép thuật", meaning: "sức mạnh siêu nhiên", meaningEn: "magic", example: "Bụt có phép thuật giúp Tấm.", exampleEn: "Buddha uses magic to help Tam.", partOfSpeech: "noun" },
+          { word: "bài học", meaning: "điều rút ra được", meaningEn: "lesson / moral", example: "Mỗi truyện có một bài học.", exampleEn: "Each story has a moral.", partOfSpeech: "noun" },
+          { word: "nhân vật", meaning: "người trong truyện", meaningEn: "character", example: "Thạch Sanh là nhân vật dũng cảm.", exampleEn: "Thach Sanh is a brave character.", partOfSpeech: "noun" },
+          { word: "trừng phạt", meaning: "phạt nặng", meaningEn: "to punish", example: "Kẻ ác bị trừng phạt.", exampleEn: "The villain is punished.", partOfSpeech: "verb" },
+          { word: "Bụt", meaning: "Phật, vị thần trong cổ tích", meaningEn: "Buddha (in fairy tales)", example: "Bụt hiện lên giúp Tấm.", exampleEn: "Buddha appears to help Tam.", partOfSpeech: "noun" },
+          { word: "dũng cảm", meaning: "can đảm, không sợ hãi", meaningEn: "brave / courageous", example: "Thạch Sanh rất dũng cảm.", exampleEn: "Thach Sanh is very brave.", partOfSpeech: "adjective" },
         ],
         quiz: [
           { question: "'Tấm Cám' giống truyện nào?", questionEn: "Similar to?", options: ["Snow White", "Cinderella", "Rapunzel", "Sleeping Beauty"], answer: 1, explanation: "Cinderella.", explanationEn: "Cinderella." },
@@ -80,6 +120,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "quê nhà", meaning: "quê hương", meaningEn: "hometown", example: "Nhớ quê nhà.", exampleEn: "Miss hometown.", partOfSpeech: "noun" },
           { word: "rau muống", meaning: "rau phổ biến", meaningEn: "water spinach", example: "Rau muống xào tỏi.", exampleEn: "Stir-fried water spinach.", partOfSpeech: "noun" },
+          { word: "xứ", meaning: "vùng đất, miền", meaningEn: "land / region", example: "Xứ Huế thơ mộng.", exampleEn: "The land of Hue is poetic.", partOfSpeech: "noun" },
+          { word: "canh", meaning: "món nước nấu rau", meaningEn: "soup / broth", example: "Canh rau muống mát.", exampleEn: "Water spinach soup is refreshing.", partOfSpeech: "noun" },
+          { word: "dầm tương", meaning: "ngâm trong nước tương", meaningEn: "pickled in soy sauce", example: "Cà dầm tương.", exampleEn: "Eggplant pickled in soy sauce.", partOfSpeech: "verb phrase" },
+          { word: "họa đồ", meaning: "bức tranh vẽ", meaningEn: "painting / drawing", example: "Non xanh nước biếc như tranh họa đồ.", exampleEn: "Green mountains and blue waters like a painting.", partOfSpeech: "noun" },
+          { word: "biếc", meaning: "xanh đậm", meaningEn: "deep blue / verdant", example: "Nước biếc sông Hương.", exampleEn: "The verdant Perfume River.", partOfSpeech: "adjective" },
+          { word: "hoài niệm", meaning: "nhớ về quá khứ", meaningEn: "nostalgia", example: "Hoài niệm tuổi thơ.", exampleEn: "Childhood nostalgia.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "Nhớ quê qua gì?", questionEn: "Homesickness through?", options: ["Tiền", "Món ăn giản dị", "Xe cộ", "Công nghệ"], answer: 1, explanation: "Qua món ăn.", explanationEn: "Through simple foods." },
@@ -92,6 +138,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "nguồn", meaning: "nơi phát sinh", meaningEn: "source", example: "Nhớ nguồn gốc.", exampleEn: "Remember origins.", partOfSpeech: "noun" },
           { word: "đoàn kết", meaning: "hợp tác", meaningEn: "unity", example: "Đoàn kết là sức mạnh.", exampleEn: "Unity is strength.", partOfSpeech: "noun" },
+          { word: "lá lành", meaning: "lá tốt, nguyên vẹn", meaningEn: "whole leaf (metaphor: fortunate)", example: "Lá lành đùm lá rách.", exampleEn: "Whole leaves wrap torn leaves.", partOfSpeech: "noun" },
+          { word: "đùm", meaning: "che chở, bao bọc", meaningEn: "to wrap / protect", example: "Đùm bọc nhau.", exampleEn: "Protect each other.", partOfSpeech: "verb" },
+          { word: "thương", meaning: "yêu thương, cảm thông", meaningEn: "to love / empathize", example: "Thương người như thương thân.", exampleEn: "Love others as yourself.", partOfSpeech: "verb" },
+          { word: "biết ơn", meaning: "cảm ơn sâu sắc", meaningEn: "grateful", example: "Uống nước nhớ nguồn là biết ơn.", exampleEn: "Drinking water, remembering the source means gratitude.", partOfSpeech: "verb" },
+          { word: "chia sẻ", meaning: "cho người khác phần của mình", meaningEn: "to share", example: "Chia sẻ với người khó khăn.", exampleEn: "Share with those in need.", partOfSpeech: "verb" },
+          { word: "sức mạnh", meaning: "năng lực, lực lượng", meaningEn: "strength / power", example: "Đoàn kết là sức mạnh.", exampleEn: "Unity is strength.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "'Lá lành đùm lá rách' dạy gì?", questionEn: "What does it teach?", options: ["Cạnh tranh", "Giúp đỡ", "Tiết kiệm", "Học hành"], answer: 1, explanation: "Giúp đỡ nhau.", explanationEn: "Help each other." },
@@ -104,6 +156,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "lao động", meaning: "làm việc", meaningEn: "labor", example: "Lao động là vinh quang.", exampleEn: "Labor is glory.", partOfSpeech: "noun" },
           { word: "mồ hôi", meaning: "nước tiết ra", meaningEn: "sweat", example: "Mồ hôi nông dân.", exampleEn: "Farmer's sweat.", partOfSpeech: "noun" },
+          { word: "hạt", meaning: "hạt gạo, hạt thóc", meaningEn: "grain", example: "Mỗi hạt cơm đều quý.", exampleEn: "Every grain of rice is precious.", partOfSpeech: "noun" },
+          { word: "đắng cay", meaning: "khổ cực, vất vả", meaningEn: "bitter / hardship", example: "Đắng cay muôn phần.", exampleEn: "A thousand parts bitter.", partOfSpeech: "adjective" },
+          { word: "dẻo thơm", meaning: "mềm và có mùi thơm", meaningEn: "soft and fragrant", example: "Cơm dẻo thơm.", exampleEn: "Soft, fragrant rice.", partOfSpeech: "adjective" },
+          { word: "nông dân", meaning: "người làm nông", meaningEn: "farmer", example: "Nông dân cần cù.", exampleEn: "Farmers are hardworking.", partOfSpeech: "noun" },
+          { word: "cần cù", meaning: "chăm chỉ", meaningEn: "diligent / hardworking", example: "Cần cù bù thông minh.", exampleEn: "Diligence compensates for talent.", partOfSpeech: "adjective" },
+          { word: "vinh quang", meaning: "được tôn vinh", meaningEn: "glory / honor", example: "Lao động là vinh quang.", exampleEn: "Labor is glory.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "'Tay làm hàm nhai' nghĩa gì?", questionEn: "What does it mean?", options: ["Ăn nhiều", "Phải làm mới có ăn", "Tay khỏe", "Ăn ngon"], answer: 1, explanation: "Phải lao động mới có ăn.", explanationEn: "Must work to eat." },
@@ -116,6 +174,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thời gian", meaning: "khoảng thời gian", meaningEn: "time", example: "Thời gian là vàng.", exampleEn: "Time is gold.", partOfSpeech: "noun" },
           { word: "cơ hội", meaning: "dịp tốt", meaningEn: "opportunity", example: "Nắm bắt cơ hội.", exampleEn: "Seize the opportunity.", partOfSpeech: "noun" },
+          { word: "nắm bắt", meaning: "tận dụng, chớp lấy", meaningEn: "to seize / grasp", example: "Nắm bắt cơ hội ngay.", exampleEn: "Seize the opportunity now.", partOfSpeech: "verb" },
+          { word: "chần chừ", meaning: "do dự, không quyết đoán", meaningEn: "hesitant / to hesitate", example: "Đừng chần chừ.", exampleEn: "Don't hesitate.", partOfSpeech: "verb" },
+          { word: "phút cuối", meaning: "thời điểm cuối cùng", meaningEn: "last minute", example: "Đợi đến phút cuối.", exampleEn: "Wait until the last minute.", partOfSpeech: "noun" },
+          { word: "quyết đoán", meaning: "quyết định nhanh", meaningEn: "decisive", example: "Người quyết đoán thành công.", exampleEn: "Decisive people succeed.", partOfSpeech: "adjective" },
+          { word: "kiên nhẫn", meaning: "nhẫn nại, chịu đựng", meaningEn: "patient", example: "Kiên nhẫn sẽ được đền đáp.", exampleEn: "Patience will be rewarded.", partOfSpeech: "adjective" },
+          { word: "đền đáp", meaning: "trả ơn, bù đắp", meaningEn: "to reward / repay", example: "Sự kiên trì được đền đáp.", exampleEn: "Persistence is rewarded.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "'Nước đến chân mới nhảy' nghĩa gì?", questionEn: "What does it mean?", options: ["Chủ động", "Chờ đến phút cuối", "Bơi giỏi", "Nhảy xa"], answer: 1, explanation: "Chờ đến phút cuối mới hành động.", explanationEn: "Wait until the last minute." },
@@ -128,6 +192,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thân", meaning: "cuộc đời, bản thân", meaningEn: "fate / self", example: "Thân em như...", exampleEn: "My fate is like...", partOfSpeech: "noun" },
           { word: "lụa", meaning: "vải mịn quý", meaningEn: "silk", example: "Lụa đào mềm mại.", exampleEn: "Pink silk is soft.", partOfSpeech: "noun" },
+          { word: "phất phơ", meaning: "bay nhẹ theo gió", meaningEn: "fluttering", example: "Phất phơ giữa chợ.", exampleEn: "Fluttering in the market.", partOfSpeech: "verb" },
+          { word: "bến nước", meaning: "nơi lấy nước, ẩn dụ cho số phận", meaningEn: "water landing (metaphor: fate)", example: "Mười hai bến nước.", exampleEn: "Twelve landings of water (12 fates).", partOfSpeech: "noun" },
+          { word: "phong kiến", meaning: "chế độ xã hội cũ", meaningEn: "feudal", example: "Xã hội phong kiến.", exampleEn: "Feudal society.", partOfSpeech: "adjective" },
+          { word: "số phận", meaning: "vận mệnh, định mệnh", meaningEn: "fate / destiny", example: "Số phận éo le.", exampleEn: "A cruel fate.", partOfSpeech: "noun" },
+          { word: "may rủi", meaning: "hên xui, may mắn hay xui xẻo", meaningEn: "fortune / luck", example: "Cuộc đời phụ thuộc may rủi.", exampleEn: "Life depends on fortune.", partOfSpeech: "noun" },
+          { word: "cam chịu", meaning: "chấp nhận chịu đựng", meaningEn: "to endure / accept", example: "Phụ nữ phải cam chịu.", exampleEn: "Women had to endure.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "Ca dao 'Thân em' nói về gì?", questionEn: "What is it about?", options: ["Thiên nhiên", "Số phận phụ nữ", "Ẩm thực", "Lao động"], answer: 1, explanation: "Số phận phụ nữ trong xã hội cũ.", explanationEn: "Women's fate in old society." },
@@ -151,6 +221,13 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         theoryEn: `## Conversational Idioms for daily use.`,
         vocabulary: [
           { word: "chứng", meaning: "bằng chứng", meaningEn: "evidence", example: "Nói có chứng.", exampleEn: "Speak with evidence.", partOfSpeech: "noun" },
+          { word: "thành ngữ", meaning: "cụm từ cố định", meaningEn: "idiom", example: "Thành ngữ rất hay.", exampleEn: "Idioms are interesting.", partOfSpeech: "noun" },
+          { word: "giao tiếp", meaning: "trao đổi, nói chuyện", meaningEn: "communication", example: "Giao tiếp tốt.", exampleEn: "Good communication.", partOfSpeech: "noun" },
+          { word: "ăn nhập", meaning: "phù hợp, liên quan", meaningEn: "relevant / matching", example: "Nói không ăn nhập.", exampleEn: "Irrelevant talk.", partOfSpeech: "adjective" },
+          { word: "mâu thuẫn", meaning: "trái ngược nhau", meaningEn: "contradiction", example: "Hai ý kiến mâu thuẫn.", exampleEn: "Two contradicting opinions.", partOfSpeech: "noun" },
+          { word: "hình ảnh", meaning: "biểu tượng trong ngôn ngữ", meaningEn: "imagery", example: "Thành ngữ dùng nhiều hình ảnh.", exampleEn: "Idioms use vivid imagery.", partOfSpeech: "noun" },
+          { word: "xuôi", meaning: "theo chiều thuận", meaningEn: "downstream / aligned", example: "Trống đánh xuôi.", exampleEn: "Drum beats one way.", partOfSpeech: "adverb" },
+          { word: "ngược", meaning: "theo chiều trái", meaningEn: "opposite / upstream", example: "Kèn thổi ngược.", exampleEn: "Horn blows the opposite way.", partOfSpeech: "adverb" },
         ],
         quiz: [
           { question: "'Ông nói gà, bà nói vịt'?", questionEn: "What does it mean?", options: ["Đồng ý", "Nói không ăn nhập", "Nói hay", "Nói dối"], answer: 1, explanation: "Nói lệch ý nhau.", explanationEn: "Talking past each other." },
@@ -163,6 +240,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "ngụ ngôn", meaning: "truyện có bài học", meaningEn: "fable", example: "Truyện ngụ ngôn hay.", exampleEn: "A good fable.", partOfSpeech: "noun" },
           { word: "kiên trì", meaning: "không bỏ cuộc", meaningEn: "persistent", example: "Kiên trì thành công.", exampleEn: "Persistence succeeds.", partOfSpeech: "adjective" },
+          { word: "tự cao", meaning: "tự kiêu, nghĩ mình giỏi", meaningEn: "arrogant / conceited", example: "Đừng tự cao tự đại.", exampleEn: "Don't be arrogant.", partOfSpeech: "adjective" },
+          { word: "phồng", meaning: "căng lên, to ra", meaningEn: "to swell / inflate", example: "Ếch phồng bụng.", exampleEn: "The frog inflated its belly.", partOfSpeech: "verb" },
+          { word: "chính kiến", meaning: "ý kiến riêng, lập trường", meaningEn: "own opinion / conviction", example: "Phải có chính kiến.", exampleEn: "Must have your own conviction.", partOfSpeech: "noun" },
+          { word: "bài học", meaning: "điều rút ra", meaningEn: "moral / lesson", example: "Bài học quý giá.", exampleEn: "A valuable lesson.", partOfSpeech: "noun" },
+          { word: "khiêm tốn", meaning: "không khoe khoang", meaningEn: "humble / modest", example: "Người khiêm tốn được yêu mến.", exampleEn: "Humble people are loved.", partOfSpeech: "adjective" },
+          { word: "đẽo", meaning: "cắt gọt gỗ", meaningEn: "to whittle / carve", example: "Đẽo cày giữa đường.", exampleEn: "Whittle a plow in the middle of the road.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "Bài học Thỏ và Rùa?", questionEn: "Lesson?", options: ["Tài năng nhất", "Kiên trì hơn tài năng", "Chạy nhanh", "Đừng đua"], answer: 1, explanation: "Kiên trì quan trọng hơn.", explanationEn: "Persistence matters more." },
@@ -175,6 +258,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thần", meaning: "vị thần linh", meaningEn: "god / spirit", example: "Thần Núi.", exampleEn: "Mountain Spirit.", partOfSpeech: "noun" },
           { word: "lũ lụt", meaning: "nước dâng", meaningEn: "flood", example: "Lũ lụt hàng năm.", exampleEn: "Annual floods.", partOfSpeech: "noun" },
+          { word: "lễ vật", meaning: "quà tặng trong nghi lễ", meaningEn: "offerings / gifts", example: "Mang lễ vật đến trước.", exampleEn: "Bring offerings first.", partOfSpeech: "noun" },
+          { word: "tức giận", meaning: "nổi giận", meaningEn: "angry / furious", example: "Thủy Tinh tức giận.", exampleEn: "Water Spirit was furious.", partOfSpeech: "adjective" },
+          { word: "dâng", meaning: "nâng lên, tặng", meaningEn: "to rise / offer", example: "Nước dâng lên.", exampleEn: "Water rises.", partOfSpeech: "verb" },
+          { word: "gả", meaning: "cho con gái lấy chồng", meaningEn: "to give in marriage", example: "Vua Hùng gả con gái.", exampleEn: "King Hung gave his daughter in marriage.", partOfSpeech: "verb" },
+          { word: "hiện tượng", meaning: "sự việc xảy ra", meaningEn: "phenomenon", example: "Giải thích hiện tượng tự nhiên.", exampleEn: "Explaining natural phenomena.", partOfSpeech: "noun" },
+          { word: "trả thù", meaning: "đánh trả", meaningEn: "revenge", example: "Thủy Tinh trả thù.", exampleEn: "Water Spirit takes revenge.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "Truyện giải thích hiện tượng gì?", questionEn: "What does it explain?", options: ["Hạn hán", "Lũ lụt", "Động đất", "Sấm sét"], answer: 1, explanation: "Lũ lụt hàng năm.", explanationEn: "Annual flooding." },
@@ -187,6 +276,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "anh hùng", meaning: "người dũng cảm", meaningEn: "hero", example: "Thạch Sanh là anh hùng.", exampleEn: "Thach Sanh is a hero.", partOfSpeech: "noun" },
           { word: "phản bội", meaning: "lừa dối", meaningEn: "betray", example: "Lý Thông phản bội.", exampleEn: "Ly Thong betrayed.", partOfSpeech: "verb" },
+          { word: "tiều phu", meaning: "người đốn củi", meaningEn: "woodcutter", example: "Thạch Sanh là tiều phu nghèo.", exampleEn: "Thach Sanh was a poor woodcutter.", partOfSpeech: "noun" },
+          { word: "chằn tinh", meaning: "quái vật trong truyện cổ", meaningEn: "demon / monster", example: "Chém chằn tinh.", exampleEn: "Slaying the demon.", partOfSpeech: "noun" },
+          { word: "công chúa", meaning: "con gái vua", meaningEn: "princess", example: "Cứu công chúa.", exampleEn: "Rescue the princess.", partOfSpeech: "noun" },
+          { word: "niêu cơm", meaning: "nồi cơm nhỏ", meaningEn: "rice pot", example: "Niêu cơm ăn không hết.", exampleEn: "Bottomless rice pot.", partOfSpeech: "noun" },
+          { word: "đàn thần", meaning: "cây đàn có phép thuật", meaningEn: "magic lute", example: "Đàn thần hát hay.", exampleEn: "The magic lute plays beautifully.", partOfSpeech: "noun" },
+          { word: "đền đáp", meaning: "trả ơn", meaningEn: "to repay / reward", example: "Người tốt được đền đáp.", exampleEn: "Good people are rewarded.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "Thạch Sanh có vật gì thần kỳ?", questionEn: "Magic items?", options: ["Gươm", "Đàn thần và niêu cơm", "Áo tàng hình", "Giày bay"], answer: 1, explanation: "Đàn thần và niêu cơm.", explanationEn: "Magic lute and rice pot." },
@@ -199,6 +294,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "trầu cau", meaning: "lá trầu và quả cau", meaningEn: "betel leaf and areca nut", example: "Ăn trầu cau.", exampleEn: "Chew betel.", partOfSpeech: "noun" },
           { word: "thủy chung", meaning: "trung thành", meaningEn: "faithful / loyal", example: "Tình yêu thủy chung.", exampleEn: "Faithful love.", partOfSpeech: "adjective" },
+          { word: "sự tích", meaning: "câu chuyện giải thích nguồn gốc", meaningEn: "origin story / legend", example: "Sự tích trầu cau.", exampleEn: "The legend of betel and areca.", partOfSpeech: "noun" },
+          { word: "hóa", meaning: "biến thành", meaningEn: "to transform into", example: "Lang hóa thành cây cau.", exampleEn: "Lang transformed into areca palm.", partOfSpeech: "verb" },
+          { word: "quấn", meaning: "cuốn quanh", meaningEn: "to wrap around", example: "Dây trầu quấn quanh cau.", exampleEn: "Betel vine wraps around areca.", partOfSpeech: "verb" },
+          { word: "phong tục", meaning: "tập quán truyền thống", meaningEn: "custom / tradition", example: "Phong tục ăn trầu.", exampleEn: "Betel-chewing custom.", partOfSpeech: "noun" },
+          { word: "vôi", meaning: "chất bite trắng", meaningEn: "limestone / lime", example: "Vợ hóa tảng đá vôi.", exampleEn: "Wife transformed into limestone.", partOfSpeech: "noun" },
+          { word: "mồ côi", meaning: "không có cha mẹ", meaningEn: "orphan", example: "Hai anh em sớm mồ côi.", exampleEn: "The brothers were orphaned early.", partOfSpeech: "adjective" },
         ],
         quiz: [
           { question: "Truyện giải thích phong tục gì?", questionEn: "What custom?", options: ["Uống trà", "Ăn trầu cau", "Gói bánh", "Thả đèn"], answer: 1, explanation: "Phong tục ăn trầu.", explanationEn: "Betel chewing custom." },
@@ -212,6 +313,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "mài sắt", meaning: "mài thanh sắt", meaningEn: "grind iron", example: "Mài sắt nên kim.", exampleEn: "Grind iron into needle.", partOfSpeech: "verb phrase" },
           { word: "khôn", meaning: "khéo léo, giỏi", meaningEn: "clever / wise", example: "Cái khó ló cái khôn.", exampleEn: "Necessity breeds invention.", partOfSpeech: "adjective" },
+          { word: "mực", meaning: "chất đen dùng viết", meaningEn: "ink (metaphor: bad influence)", example: "Gần mực thì đen.", exampleEn: "Near ink, you turn black.", partOfSpeech: "noun" },
+          { word: "đèn", meaning: "nguồn ánh sáng", meaningEn: "lamp (metaphor: good influence)", example: "Gần đèn thì sáng.", exampleEn: "Near lamp, you become bright.", partOfSpeech: "noun" },
+          { word: "kim", meaning: "vật nhỏ nhọn để may", meaningEn: "needle", example: "Mài sắt thành kim.", exampleEn: "Grind iron into a needle.", partOfSpeech: "noun" },
+          { word: "ló", meaning: "xuất hiện", meaningEn: "to emerge / appear", example: "Cái khó ló cái khôn.", exampleEn: "Wisdom emerges from difficulty.", partOfSpeech: "verb" },
+          { word: "trồng cây", meaning: "trồng, gieo trồng", meaningEn: "to plant trees", example: "Ăn quả nhớ kẻ trồng cây.", exampleEn: "Eating fruit, remember who planted the tree.", partOfSpeech: "verb phrase" },
+          { word: "môi trường", meaning: "hoàn cảnh xung quanh", meaningEn: "environment", example: "Môi trường ảnh hưởng con người.", exampleEn: "Environment influences people.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "'Có công mài sắt' dạy gì?", questionEn: "What does it teach?", options: ["Bỏ cuộc", "Kiên trì", "Thông minh", "May mắn"], answer: 1, explanation: "Kiên trì sẽ thành công.", explanationEn: "Persistence succeeds." },
@@ -224,6 +331,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "mồ côi", meaning: "không có cha mẹ", meaningEn: "orphan", example: "Tấm mồ côi mẹ.", exampleEn: "Tam was motherless.", partOfSpeech: "adjective" },
           { word: "Bụt", meaning: "tiên ông giúp đỡ", meaningEn: "fairy godfather (VN)", example: "Bụt hiện ra.", exampleEn: "The fairy appeared.", partOfSpeech: "noun" },
+          { word: "mẹ kế", meaning: "vợ sau của bố", meaningEn: "stepmother", example: "Mẹ kế đối xử tệ.", exampleEn: "The stepmother treated her badly.", partOfSpeech: "noun" },
+          { word: "bắt nạt", meaning: "ức hiếp", meaningEn: "to bully", example: "Cám bắt nạt Tấm.", exampleEn: "Cam bullied Tam.", partOfSpeech: "verb" },
+          { word: "tái sinh", meaning: "sống lại", meaningEn: "rebirth / reincarnation", example: "Tấm tái sinh nhiều lần.", exampleEn: "Tam was reborn many times.", partOfSpeech: "noun" },
+          { word: "hóa thân", meaning: "biến đổi hình dáng", meaningEn: "to transform / metamorphose", example: "Tấm hóa thân thành chim.", exampleEn: "Tam transformed into a bird.", partOfSpeech: "verb" },
+          { word: "hiền lành", meaning: "tốt bụng, nhẹ nhàng", meaningEn: "gentle / kind", example: "Tấm hiền lành.", exampleEn: "Tam is gentle.", partOfSpeech: "adjective" },
+          { word: "ích kỷ", meaning: "chỉ nghĩ đến mình", meaningEn: "selfish", example: "Cám rất ích kỷ.", exampleEn: "Cam is very selfish.", partOfSpeech: "adjective" },
         ],
         quiz: [
           { question: "Ai giúp đỡ Tấm?", questionEn: "Who helps Tam?", options: ["Vua", "Bụt", "Cám", "Mẹ kế"], answer: 1, explanation: "Bụt (ông Bụt).", explanationEn: "The fairy (But)." },
@@ -236,6 +349,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "dân ca", meaning: "bài hát dân gian", meaningEn: "folk song", example: "Dân ca Bắc Ninh.", exampleEn: "Bac Ninh folk songs.", partOfSpeech: "noun" },
           { word: "đối đáp", meaning: "hát trả lời nhau", meaningEn: "call-and-response", example: "Hát đối đáp.", exampleEn: "Call-and-response singing.", partOfSpeech: "verb" },
+          { word: "liền anh", meaning: "nam hát quan họ", meaningEn: "male Quan Ho singer", example: "Liền anh mời liền chị.", exampleEn: "Male singers invite female singers.", partOfSpeech: "noun" },
+          { word: "liền chị", meaning: "nữ hát quan họ", meaningEn: "female Quan Ho singer", example: "Liền chị hát đáp.", exampleEn: "Female singers respond.", partOfSpeech: "noun" },
+          { word: "truyền thống", meaning: "phong tục lâu đời", meaningEn: "tradition", example: "Truyền thống hát quan họ.", exampleEn: "Quan Ho singing tradition.", partOfSpeech: "noun" },
+          { word: "giai điệu", meaning: "melody, nhạc điệu", meaningEn: "melody / tune", example: "Giai điệu êm ái.", exampleEn: "A gentle melody.", partOfSpeech: "noun" },
+          { word: "mời", meaning: "yêu cầu ai đến", meaningEn: "to invite", example: "Mời bạn hát.", exampleEn: "Invite you to sing.", partOfSpeech: "verb" },
+          { word: "tình cảm", meaning: "cảm xúc yêu thương", meaningEn: "affection / sentiment", example: "Bài hát đầy tình cảm.", exampleEn: "A song full of affection.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "Quan họ từ đâu?", questionEn: "Where is Quan Ho from?", options: ["Huế", "Bắc Ninh", "Hà Nội", "Sài Gòn"], answer: 1, explanation: "Bắc Ninh.", explanationEn: "Bac Ninh." },
@@ -248,6 +367,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "sân khấu", meaning: "nơi biểu diễn", meaningEn: "stage / theater", example: "Nghệ thuật sân khấu.", exampleEn: "Performing arts.", partOfSpeech: "noun" },
           { word: "châm biếm", meaning: "chế giễu", meaningEn: "satirical", example: "Chèo hay châm biếm.", exampleEn: "Cheo is often satirical.", partOfSpeech: "adjective" },
+          { word: "hài hước", meaning: "buồn cười, vui", meaningEn: "humorous / funny", example: "Chèo rất hài hước.", exampleEn: "Cheo is very humorous.", partOfSpeech: "adjective" },
+          { word: "bình dân", meaning: "dành cho người dân", meaningEn: "popular / common", example: "Ngôn ngữ bình dân.", exampleEn: "Common language.", partOfSpeech: "adjective" },
+          { word: "kịch", meaning: "loại hình diễn xuất", meaningEn: "drama / play", example: "Kịch dân gian.", exampleEn: "Folk drama.", partOfSpeech: "noun" },
+          { word: "múa", meaning: "chuyển động cơ thể nghệ thuật", meaningEn: "to dance", example: "Múa trong chèo.", exampleEn: "Dancing in Cheo.", partOfSpeech: "verb" },
+          { word: "nghệ sĩ", meaning: "người biểu diễn", meaningEn: "artist / performer", example: "Nghệ sĩ chèo tài năng.", exampleEn: "Talented Cheo performer.", partOfSpeech: "noun" },
+          { word: "vở diễn", meaning: "bài biểu diễn hoàn chỉnh", meaningEn: "play / performance", example: "Vở diễn nổi tiếng.", exampleEn: "A famous play.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "Chèo bắt nguồn từ vùng nào?", questionEn: "Which region?", options: ["Bắc Bộ", "Trung Bộ", "Nam Bộ", "Tây Nguyên"], answer: 0, explanation: "Bắc Bộ (miền Bắc).", explanationEn: "Northern Vietnam." },
@@ -260,6 +385,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "tín ngưỡng", meaning: "niềm tin", meaningEn: "belief / worship", example: "Tín ngưỡng thờ Mẫu.", exampleEn: "Mother Goddess worship.", partOfSpeech: "noun" },
           { word: "nghi lễ", meaning: "buổi lễ chính thức", meaningEn: "ritual / ceremony", example: "Nghi lễ trang trọng.", exampleEn: "Solemn ritual.", partOfSpeech: "noun" },
+          { word: "hầu đồng", meaning: "nghi thức lên đồng", meaningEn: "trance ritual", example: "Hầu đồng là nghi lễ đặc sắc.", exampleEn: "Trance ritual is a unique ceremony.", partOfSpeech: "noun" },
+          { word: "Thánh Mẫu", meaning: "nữ thần được thờ", meaningEn: "Holy Mother / Goddess", example: "Thờ Thánh Mẫu.", exampleEn: "Worship the Holy Mother.", partOfSpeech: "noun" },
+          { word: "trang phục", meaning: "quần áo", meaningEn: "costume / attire", example: "Trang phục hầu đồng rực rỡ.", exampleEn: "Trance ritual costumes are vibrant.", partOfSpeech: "noun" },
+          { word: "thiên nhiên", meaning: "tự nhiên, thế giới xung quanh", meaningEn: "nature", example: "Gắn liền với thiên nhiên.", exampleEn: "Connected to nature.", partOfSpeech: "noun" },
+          { word: "linh thiêng", meaning: "thiêng liêng, cao quý", meaningEn: "sacred / holy", example: "Nơi linh thiêng.", exampleEn: "A sacred place.", partOfSpeech: "adjective" },
+          { word: "di sản", meaning: "tài sản văn hóa", meaningEn: "heritage", example: "Di sản phi vật thể.", exampleEn: "Intangible heritage.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "Thờ Mẫu UNESCO công nhận năm?", questionEn: "UNESCO year?", options: ["2010", "2013", "2016", "2020"], answer: 2, explanation: "2016.", explanationEn: "2016." },

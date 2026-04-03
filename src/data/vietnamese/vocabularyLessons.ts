@@ -28,6 +28,9 @@ export const vocabularyModules: VietnameseModule[] = [
           { word: "nấu", meaning: "chế biến thức ăn", meaningEn: "to cook", example: "Mẹ nấu cơm ngon lắm.", exampleEn: "Mom cooks very well.", partOfSpeech: "verb" },
           { word: "ăn", meaning: "đưa thức ăn vào miệng", meaningEn: "to eat", example: "Ăn cơm chưa? – câu chào phổ biến.", exampleEn: "'Have you eaten?' – a common greeting.", partOfSpeech: "verb" },
           { word: "uống", meaning: "đưa nước vào miệng", meaningEn: "to drink", example: "Uống trà đá đi cho mát.", exampleEn: "Drink iced tea to cool down.", partOfSpeech: "verb" },
+          { word: "thơm", meaning: "có mùi hương tốt", meaningEn: "fragrant / aromatic", example: "Phở thơm lắm!", exampleEn: "The pho smells amazing!", partOfSpeech: "adjective" },
+          { word: "đặc sản", meaning: "món ăn nổi tiếng của vùng", meaningEn: "specialty / local dish", example: "Bún bò Huế là đặc sản.", exampleEn: "Bun bo Hue is a specialty.", partOfSpeech: "noun" },
+          { word: "gia vị", meaning: "hành, tỏi, tiêu, ớt", meaningEn: "spices / seasoning", example: "Gia vị Việt Nam rất đa dạng.", exampleEn: "Vietnamese spices are very diverse.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "'Phở' là món gì?", questionEn: "What is 'phở'?", options: ["Bánh", "Soup bún", "Xôi", "Cơm"], answer: 1, explanation: "Soup bún truyền thống.", explanationEn: "Traditional noodle soup." },

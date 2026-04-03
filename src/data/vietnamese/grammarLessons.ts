@@ -30,6 +30,9 @@ export const grammarModules: VietnameseModule[] = [
           { word: "học", meaning: "tiếp thu kiến thức", meaningEn: "to study / to learn", example: "Chúng tôi đi học mỗi ngày.", exampleEn: "We go to school every day.", partOfSpeech: "verb" },
           { word: "viết", meaning: "ghi chữ trên giấy", meaningEn: "to write", example: "Em viết bài tập.", exampleEn: "She writes homework.", partOfSpeech: "verb" },
           { word: "nhà", meaning: "nơi ở", meaningEn: "house / home", example: "Nhà tôi ở Hà Nội.", exampleEn: "My house is in Hanoi.", partOfSpeech: "noun" },
+          { word: "làm", meaning: "thực hiện công việc", meaningEn: "to do / to work", example: "Tôi làm bài tập.", exampleEn: "I do homework.", partOfSpeech: "verb" },
+          { word: "nói", meaning: "phát ra lời", meaningEn: "to speak / to say", example: "Cô ấy nói tiếng Việt.", exampleEn: "She speaks Vietnamese.", partOfSpeech: "verb" },
+          { word: "nghe", meaning: "tiếp nhận âm thanh", meaningEn: "to listen / to hear", example: "Nghe nhạc mỗi tối.", exampleEn: "Listen to music every evening.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "Cấu trúc câu cơ bản của tiếng Việt là gì?", questionEn: "What is the basic sentence structure?", options: ["SOV", "SVO", "VSO", "OVS"], answer: 1, explanation: "Tiếng Việt theo cấu trúc SVO.", explanationEn: "Vietnamese follows SVO order." },

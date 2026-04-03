@@ -33,8 +33,8 @@ const SmartVocabCard = ({ vocab, index }: SmartVocabCardProps) => {
     setIsPlaying(true);
     const utterance = new SpeechSynthesisUtterance(vocab.word);
     utterance.lang = "vi-VN";
-    utterance.rate = 0.4;
-    utterance.pitch = 1.1;
+    utterance.rate = 0.55;
+    utterance.pitch = 1.12;
     utterance.onend = () => setIsPlaying(false);
     utterance.onerror = () => setIsPlaying(false);
     window.speechSynthesis.speak(utterance);
