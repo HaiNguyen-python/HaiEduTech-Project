@@ -1054,3 +1054,162 @@ Vietnamese Gen Z isn't a "rootless" generation. They are the "rooted but flying"
     ],
   },
 ];
+
+// Module: Đọc hiểu nâng cao — Văn hóa đương đại
+export const advancedReadingModule: VietnameseModule = {
+  id: "vn-reading-adv",
+  title: "Đọc hiểu nâng cao",
+  titleEn: "Advanced Reading",
+  icon: "📖",
+  color: "from-indigo-500 to-violet-500",
+  description: "Khám phá văn hóa Việt Nam qua bài đọc chuyên sâu",
+  descriptionEn: "Explore Vietnamese culture through in-depth reading",
+  category: "reading",
+  lessons: [
+    {
+      id: "vn-read-adv-1",
+      title: "Văn hóa Cà phê Việt Nam",
+      titleEn: "Vietnamese Coffee Culture",
+      level: "advanced",
+      teacherInsight: "Việt Nam là nước xuất khẩu cà phê lớn thứ 2 thế giới, chỉ sau Brazil. Cà phê không chỉ là đồ uống mà là lối sống.",
+      teacherInsightEn: "Vietnam is the world's second-largest coffee exporter after Brazil. Coffee is not just a drink but a lifestyle.",
+      theory: `## Cà phê – Linh hồn buổi sáng Việt 🌅☕
+
+Từ thuở Pháp thuộc mang hạt cà phê arabica lên Tây Nguyên, Việt Nam đã viết nên câu chuyện cà phê hoàn toàn riêng biệt. Không như espresso Ý hay pour-over Nhật, cà phê Việt được pha bằng **phin** – một chiếc lọc kim loại nhỏ xinh đặt trên cốc thủy tinh, nhẫn nại nhỏ từng giọt đen sánh xuống lớp sữa đặc trắng ngần bên dưới.
+
+Buổi sáng ở bất kỳ thành phố nào, từ Hà Nội đến Sài Gòn, bạn sẽ thấy những quán cà phê vỉa hè với **ghế nhựa thấp** và những bàn kim loại bé xíu. Người Việt ngồi đó, chậm rãi nhấp từng ngụm **cà phê sữa đá**, đọc báo, lướt điện thoại, hoặc đơn giản là ngắm dòng người đi qua. Thời gian dường như chậm lại trong khoảnh khắc ấy.
+
+**Cà phê trứng** (egg coffee), sáng tạo của Hà Nội từ thập niên 1940 khi sữa tươi khan hiếm, đã trở thành biểu tượng ẩm thực. Lòng đỏ trứng được đánh bông cùng sữa đặc tạo thành lớp kem mịn màng phủ trên cà phê đen nóng – vừa béo ngậy vừa đắng nhẹ, hòa quyện hoàn hảo.
+
+Tây Nguyên – vùng đất đỏ bazan – là thủ phủ cà phê robusta với **Buôn Ma Thuột** là kinh đô. Mỗi mùa thu hoạch, những quả cà phê chín đỏ rực phủ kín sườn đồi, mang theo hương thơm nồng nàn lan tỏa khắp buôn làng. Lễ hội Cà phê Buôn Ma Thuột thu hút du khách từ khắp nơi trên thế giới.
+
+Ngày nay, **cà phê specialty** (đặc sản) đang nổi lên mạnh mẽ. Các barista trẻ Việt Nam thắng giải quốc tế, mang hương vị Việt ra toàn cầu. Từ quán vỉa hè đến specialty shop, cà phê vẫn là sợi dây kết nối con người, là nơi bạn bè hẹn hò, đối tác bàn việc, và người xa xứ tìm về hương vị quê nhà.`,
+      theoryEn: `## Coffee – The Soul of Vietnamese Mornings 🌅☕
+
+Since the French colonial era brought arabica beans to the Central Highlands, Vietnam has written its own unique coffee story. Unlike Italian espresso or Japanese pour-over, Vietnamese coffee is brewed with a **phin** – a small metal drip filter placed on a glass, patiently dripping dark, rich drops onto a layer of white condensed milk below.
+
+Every morning in any city, from Hanoi to Saigon, you'll find sidewalk cafés with **low plastic chairs** and tiny metal tables. Vietnamese people sit there, slowly sipping **iced milk coffee**, reading newspapers, scrolling phones, or simply watching passersby. Time seems to slow in those moments.
+
+**Egg coffee**, a Hanoi invention from the 1940s when fresh milk was scarce, has become a culinary icon. Whipped egg yolk with condensed milk creates a smooth cream layer atop hot black coffee – rich yet subtly bitter, perfectly harmonized.
+
+The Central Highlands – with its red basalt soil – is the robusta capital, with **Buôn Ma Thuột** as its crown jewel. Each harvest season, ripe red coffee cherries blanket the hillsides, spreading their intense aroma through villages.
+
+Today, **specialty coffee** is rising strongly. Young Vietnamese baristas win international awards, bringing Vietnamese flavors to the world.`,
+      vocabulary: [
+        { word: "phin", meaning: "dụng cụ pha cà phê", meaningEn: "Vietnamese drip filter", example: "Cà phê phin truyền thống.", exampleEn: "Traditional phin coffee.", partOfSpeech: "noun" },
+        { word: "sữa đặc", meaning: "sữa cô đặc ngọt", meaningEn: "condensed milk", example: "Cho thêm sữa đặc.", exampleEn: "Add more condensed milk.", partOfSpeech: "noun" },
+        { word: "vỉa hè", meaning: "lề đường dành cho người đi bộ", meaningEn: "sidewalk", example: "Quán cà phê vỉa hè.", exampleEn: "Sidewalk café.", partOfSpeech: "noun" },
+        { word: "nhấp", meaning: "uống từng ngụm nhỏ", meaningEn: "to sip", example: "Nhấp từng ngụm cà phê.", exampleEn: "Sipping each mouthful.", partOfSpeech: "verb" },
+        { word: "béo ngậy", meaning: "mùi vị béo thơm", meaningEn: "creamy / rich", example: "Cà phê trứng béo ngậy.", exampleEn: "Egg coffee is rich and creamy.", partOfSpeech: "adjective" },
+        { word: "robusta", meaning: "loại cà phê phổ biến ở VN", meaningEn: "robusta coffee variety", example: "Việt Nam trồng nhiều robusta.", exampleEn: "Vietnam grows a lot of robusta.", partOfSpeech: "noun" },
+        { word: "thu hoạch", meaning: "hái, gặt sản phẩm", meaningEn: "harvest", example: "Mùa thu hoạch cà phê.", exampleEn: "Coffee harvest season.", partOfSpeech: "noun" },
+        { word: "nồng nàn", meaning: "mạnh mẽ, đậm đà", meaningEn: "intense / passionate", example: "Hương thơm nồng nàn.", exampleEn: "Intense fragrance.", partOfSpeech: "adjective" },
+        { word: "đặc sản", meaning: "sản phẩm đặc biệt", meaningEn: "specialty", example: "Cà phê đặc sản Việt Nam.", exampleEn: "Vietnamese specialty coffee.", partOfSpeech: "noun" },
+        { word: "hương vị", meaning: "mùi và vị", meaningEn: "flavor", example: "Hương vị quê nhà.", exampleEn: "The flavor of home.", partOfSpeech: "noun" },
+      ],
+      quiz: [
+        { question: "Cà phê phin là gì?", questionEn: "What is phin coffee?", options: ["Cà phê máy", "Cà phê pha lọc kim loại nhỏ giọt", "Cà phê hòa tan", "Cà phê espresso"], answer: 1, explanation: "Phin là dụng cụ lọc kim loại truyền thống Việt Nam.", explanationEn: "Phin is a traditional Vietnamese metal drip filter." },
+        { question: "Cà phê trứng ra đời ở đâu?", questionEn: "Where was egg coffee invented?", options: ["Sài Gòn", "Hà Nội", "Đà Nẵng", "Huế"], answer: 1, explanation: "Cà phê trứng ra đời ở Hà Nội thập niên 1940.", explanationEn: "Egg coffee was invented in Hanoi in the 1940s." },
+        { question: "Vùng nào là thủ phủ cà phê Việt Nam?", questionEn: "Which region is Vietnam's coffee capital?", options: ["Đồng bằng sông Hồng", "Tây Nguyên", "Miền Tây Nam Bộ", "Duyên hải miền Trung"], answer: 1, explanation: "Tây Nguyên, đặc biệt Buôn Ma Thuột.", explanationEn: "Central Highlands, especially Buôn Ma Thuột." },
+        { question: "'Nồng nàn' có nghĩa gì?", questionEn: "What does 'nồng nàn' mean?", options: ["Nhạt nhẽo", "Mạnh mẽ, đậm đà", "Chua", "Ngọt"], answer: 1, explanation: "'Nồng nàn' = intense, passionate.", explanationEn: "'Nồng nàn' = intense." },
+        { question: "Việt Nam xuất khẩu cà phê đứng thứ mấy?", questionEn: "Vietnam's coffee export ranking?", options: ["Thứ 1", "Thứ 2", "Thứ 5", "Thứ 10"], answer: 1, explanation: "Thứ 2 thế giới, sau Brazil.", explanationEn: "2nd in the world, after Brazil." },
+      ],
+    },
+    {
+      id: "vn-read-adv-2",
+      title: "Áo Dài – Di sản thời trang",
+      titleEn: "Áo Dài – Fashion Heritage",
+      level: "advanced",
+      teacherInsight: "Áo dài không chỉ là trang phục mà là biểu tượng văn hóa, được mặc trong lễ cưới, lễ tốt nghiệp, và ngày Tết.",
+      teacherInsightEn: "Áo dài is not just clothing but a cultural symbol, worn at weddings, graduations, and Tết celebrations.",
+      theory: `## Áo Dài – Dòng chảy ngàn năm 👗
+
+Áo dài – hai tiếng ấy vang lên, và trước mắt ta hiện ra hình ảnh một tà áo thướt tha bay trong gió, ôm lấy đường cong duyên dáng của người phụ nữ Việt. Nhưng áo dài không phải lúc nào cũng có dáng hình như ngày nay.
+
+**Thế kỷ 18**, dưới thời chúa Nguyễn Phúc Khoát, áo ngũ thân được quy định làm quốc phục để phân biệt với trang phục miền Bắc. Đó là tiền thân của áo dài hiện đại. Áo có năm thân (5 mảnh vải), cài cúc bên phải, kết hợp với quần rộng ống – giản dị mà trang nhã.
+
+**Năm 1930**, họa sĩ **Cát Tường** (tên Pháp: Lemur) cách mạng hóa áo dài bằng cách giảm từ năm thân xuống hai thân, ôm sát cơ thể hơn, thêm vai raglan theo phong cách phương Tây. "Áo dài Le Mur" gây sốt Sài Gòn nhưng cũng vấp phải nhiều chỉ trích từ những người bảo thủ.
+
+Thập niên **1960-70**, bà **Trần Lệ Xuân** (Madame Nhu) thiết kế áo dài cổ thuyền gây tranh cãi. Cùng lúc, các nữ sinh Sài Gòn mặc áo dài trắng tinh khôi đến trường – hình ảnh đã trở thành biểu tượng vĩnh cửu của tuổi thanh xuân Việt Nam.
+
+Ngày nay, áo dài hiện đại có muôn vàn biến tấu: áo dài cách tân với vạt ngắn, áo dài nam với chất liệu linen, áo dài cưới thêu tay tinh xảo. Các nhà thiết kế như **Minh Hạnh**, **Sĩ Hoàng** mang áo dài lên sàn diễn quốc tế. Áo dài đang được xem xét để trở thành **di sản văn hóa phi vật thể** của nhân loại.`,
+      theoryEn: `## Áo Dài – A Thousand-Year Flow 👗
+
+Áo dài – those two words evoke the image of a flowing gown dancing in the wind. But the áo dài hasn't always looked as it does today.
+
+In the **18th century**, Lord Nguyễn Phúc Khoát established the five-panel dress as national attire. In **1930**, artist **Cát Tường** revolutionized it with a two-panel, body-hugging Western-influenced design. The **1960s-70s** saw schoolgirls in pristine white áo dài become an eternal symbol of Vietnamese youth.
+
+Today, modern áo dài comes in countless variations – from short-hemmed contemporary styles to hand-embroidered wedding gowns. Designers bring áo dài to international runways, and it is being considered for **UNESCO intangible heritage** status.`,
+      vocabulary: [
+        { word: "thướt tha", meaning: "mềm mại, duyên dáng", meaningEn: "graceful, flowing", example: "Tà áo thướt tha trong gió.", exampleEn: "The flowing hem in the wind.", partOfSpeech: "adjective" },
+        { word: "quốc phục", meaning: "trang phục quốc gia", meaningEn: "national costume", example: "Áo dài là quốc phục Việt Nam.", exampleEn: "Áo dài is Vietnam's national costume.", partOfSpeech: "noun" },
+        { word: "cách tân", meaning: "đổi mới, hiện đại hóa", meaningEn: "modernized / innovated", example: "Áo dài cách tân rất thời trang.", exampleEn: "Modernized áo dài is very fashionable.", partOfSpeech: "adjective" },
+        { word: "tinh khôi", meaning: "trắng sạch, thuần khiết", meaningEn: "pristine, pure", example: "Áo dài trắng tinh khôi.", exampleEn: "Pristine white áo dài.", partOfSpeech: "adjective" },
+        { word: "biến tấu", meaning: "thay đổi sáng tạo", meaningEn: "variation", example: "Nhiều biến tấu hiện đại.", exampleEn: "Many modern variations.", partOfSpeech: "noun" },
+        { word: "thêu tay", meaning: "trang trí bằng kim chỉ", meaningEn: "hand-embroidered", example: "Áo dài thêu tay tinh xảo.", exampleEn: "Exquisitely hand-embroidered áo dài.", partOfSpeech: "noun" },
+        { word: "sàn diễn", meaning: "sân khấu trình diễn thời trang", meaningEn: "runway / catwalk", example: "Áo dài trên sàn diễn quốc tế.", exampleEn: "Áo dài on international runways.", partOfSpeech: "noun" },
+        { word: "di sản", meaning: "tài sản văn hóa", meaningEn: "heritage", example: "Di sản văn hóa phi vật thể.", exampleEn: "Intangible cultural heritage.", partOfSpeech: "noun" },
+        { word: "duyên dáng", meaning: "đẹp một cách nhẹ nhàng", meaningEn: "graceful, charming", example: "Phụ nữ Việt Nam duyên dáng.", exampleEn: "Vietnamese women are graceful.", partOfSpeech: "adjective" },
+        { word: "tiền thân", meaning: "hình thức ban đầu", meaningEn: "predecessor / prototype", example: "Áo ngũ thân là tiền thân của áo dài.", exampleEn: "The five-panel dress is the predecessor of áo dài.", partOfSpeech: "noun" },
+      ],
+      quiz: [
+        { question: "Áo dài hiện đại bắt đầu từ ai?", questionEn: "Who started modern áo dài?", options: ["Trần Lệ Xuân", "Cát Tường", "Minh Hạnh", "Sĩ Hoàng"], answer: 1, explanation: "Họa sĩ Cát Tường năm 1930.", explanationEn: "Artist Cát Tường in 1930." },
+        { question: "'Cách tân' nghĩa gì?", questionEn: "What does 'cách tân' mean?", options: ["Cổ điển", "Đổi mới, hiện đại hóa", "Phá hủy", "Sao chép"], answer: 1, explanation: "'Cách tân' = modernized.", explanationEn: "'Cách tân' = modernized." },
+        { question: "Áo ngũ thân có bao nhiêu mảnh vải?", questionEn: "How many panels in áo ngũ thân?", options: ["3", "4", "5", "6"], answer: 2, explanation: "Ngũ = 5, năm mảnh vải.", explanationEn: "Ngũ = 5, five panels." },
+        { question: "'Tinh khôi' dùng để miêu tả gì?", questionEn: "What does 'tinh khôi' describe?", options: ["Bẩn", "Trắng sạch, thuần khiết", "Đen", "Cũ"], answer: 1, explanation: "'Tinh khôi' = pristine, pure white.", explanationEn: "'Tinh khôi' = pristine." },
+        { question: "Hình ảnh biểu tượng nhất của áo dài là gì?", questionEn: "Most iconic áo dài image?", options: ["Áo dài đỏ cưới", "Nữ sinh áo dài trắng", "Áo dài nam", "Áo dài cách tân"], answer: 1, explanation: "Nữ sinh áo dài trắng – biểu tượng tuổi thanh xuân.", explanationEn: "Schoolgirls in white áo dài – symbol of youth." },
+      ],
+    },
+    {
+      id: "vn-read-adv-3",
+      title: "Tết Nguyên Đán – Hồn Việt",
+      titleEn: "Tết – The Soul of Vietnam",
+      level: "advanced",
+      teacherInsight: "Tết là dịp quan trọng nhất trong năm. Dù ở đâu, người Việt luôn cố gắng về nhà đón Tết với gia đình.",
+      teacherInsightEn: "Tết is the most important occasion of the year. Wherever they are, Vietnamese always try to return home for Tết.",
+      theory: `## Tết Nguyên Đán – Khi hồn Việt thức giấc 🧧🌸
+
+Mỗi năm, khi gió mùa đông bắc mang hơi lạnh cuối cùng tràn về, khi hoa đào Hà Nội bắt đầu hé nụ và hoa mai Sài Gòn nở vàng rực, cả đất nước Việt Nam chìm trong một nhịp thở chung: **Tết đang đến**.
+
+**Tuần cuối năm** là cuộc chạy đua với thời gian. Chợ hoa Tết rực rỡ sắc màu, xe máy chở cành đào cành mai len lỏi giữa dòng người đông đúc. Các bà, các mẹ tất bật gói **bánh chưng** – chiếc bánh vuông gói bằng lá dong, nhân đậu xanh thịt lợn, luộc suốt 12 tiếng – biểu tượng của đất trời vuông tròn.
+
+**Đêm giao thừa**, cả gia đình quây quần bên nhau. Tiếng pháo hoa nổ rền trên bầu trời. Khoảnh khắc kim đồng hồ điểm 12, mọi người chúc nhau: "Năm mới an khang thịnh vượng!", "Phát tài phát lộc!" Trẻ con háo hức nhận **lì xì** – phong bao đỏ đựng tiền mừng tuổi.
+
+**Mùng Một Tết**, người ta kiêng quét nhà (sợ quét hết tài lộc), kiêng nói điều xui, kiêng cho vay mượn. Ai đến nhà đầu tiên gọi là **xông đất** – người xông đất hợp tuổi mang lại may mắn cả năm. Bữa cơm Tết đầy đủ: **thịt kho hột vịt**, **canh khổ qua nhồi thịt** (ăn cho hết khổ), **mứt Tết** đủ loại.
+
+Ba ngày Tết, người Việt đi **chùa cầu an**, thăm họ hàng, bạn bè. Trẻ con mặc quần áo mới, chơi bầu cua tôm cá. Người lớn ngồi uống trà, ăn mứt, kể chuyện năm cũ và mơ ước năm mới.
+
+Tết ngày nay có nhiều thay đổi – ít gói bánh chưng hơn, nhiều nhà đi du lịch, nhưng tinh thần Tết vẫn nguyên vẹn: **sum họp, biết ơn, và hy vọng**. Dù thế giới đổi thay, Tết vẫn là lúc người Việt trở về – về với gia đình, về với cội nguồn, về với chính mình.`,
+      theoryEn: `## Tết – When the Vietnamese Soul Awakens 🧧🌸
+
+Each year, when peach blossoms open in Hanoi and apricot flowers bloom golden in Saigon, all of Vietnam breathes as one: **Tết is coming**.
+
+The **last week** is a race against time. Flower markets blaze with color. Families wrap **bánh chưng** – square sticky rice cakes with mung bean and pork, boiled for 12 hours.
+
+On **New Year's Eve**, families gather together. Fireworks fill the sky. Children eagerly receive **lì xì** – red envelopes with lucky money. On **the first day**, traditions abound: no sweeping (sweeping away luck), the first visitor (**xông đất**) brings fortune.
+
+Despite modern changes, Tết's spirit remains: **reunion, gratitude, and hope**.`,
+      vocabulary: [
+        { word: "giao thừa", meaning: "đêm cuối năm cũ", meaningEn: "New Year's Eve", example: "Đêm giao thừa rất vui.", exampleEn: "New Year's Eve is very joyful.", partOfSpeech: "noun" },
+        { word: "bánh chưng", meaning: "bánh Tết hình vuông", meaningEn: "square sticky rice cake", example: "Gói bánh chưng ngày Tết.", exampleEn: "Wrapping bánh chưng for Tết.", partOfSpeech: "noun" },
+        { word: "lì xì", meaning: "tiền mừng tuổi", meaningEn: "lucky money envelope", example: "Trẻ con nhận lì xì.", exampleEn: "Children receive lucky money.", partOfSpeech: "noun" },
+        { word: "xông đất", meaning: "người đến nhà đầu tiên", meaningEn: "first visitor of the year", example: "Anh ấy xông đất cho nhà tôi.", exampleEn: "He was the first visitor to our home.", partOfSpeech: "verb" },
+        { word: "sum họp", meaning: "đoàn tụ gia đình", meaningEn: "family reunion", example: "Tết là dịp sum họp.", exampleEn: "Tết is a time for reunion.", partOfSpeech: "noun" },
+        { word: "an khang", meaning: "bình an, khỏe mạnh", meaningEn: "peace and health", example: "Chúc an khang thịnh vượng.", exampleEn: "Wishing peace and prosperity.", partOfSpeech: "adjective" },
+        { word: "tài lộc", meaning: "tiền bạc, may mắn", meaningEn: "fortune, luck", example: "Cầu tài lộc năm mới.", exampleEn: "Praying for fortune in the new year.", partOfSpeech: "noun" },
+        { word: "háo hức", meaning: "nóng lòng chờ đợi", meaningEn: "excited, eager", example: "Trẻ con háo hức đón Tết.", exampleEn: "Children are excited for Tết.", partOfSpeech: "adjective" },
+        { word: "kiêng", meaning: "tránh không làm", meaningEn: "to abstain / taboo", example: "Kiêng quét nhà ngày Tết.", exampleEn: "Abstaining from sweeping on Tết.", partOfSpeech: "verb" },
+        { word: "cội nguồn", meaning: "gốc gác, nguồn gốc", meaningEn: "roots, origin", example: "Trở về cội nguồn.", exampleEn: "Returning to one's roots.", partOfSpeech: "noun" },
+      ],
+      quiz: [
+        { question: "'Xông đất' là gì?", questionEn: "What is 'xông đất'?", options: ["Dọn nhà", "Người đến nhà đầu tiên ngày Tết", "Nấu ăn", "Đi chùa"], answer: 1, explanation: "'Xông đất' = first visitor of the new year.", explanationEn: "'Xông đất' = first visitor." },
+        { question: "Bánh chưng luộc bao lâu?", questionEn: "How long is bánh chưng boiled?", options: ["2 giờ", "6 giờ", "12 giờ", "24 giờ"], answer: 2, explanation: "Bánh chưng luộc khoảng 12 giờ.", explanationEn: "Bánh chưng is boiled about 12 hours." },
+        { question: "'Lì xì' dùng để làm gì?", questionEn: "What is 'lì xì' used for?", options: ["Mua hoa", "Mừng tuổi trẻ con", "Trả nợ", "Mua bánh"], answer: 1, explanation: "'Lì xì' = lucky money for children.", explanationEn: "'Lì xì' = lucky money for children." },
+        { question: "Ngày Tết kiêng gì?", questionEn: "What is taboo on Tết?", options: ["Ăn nhiều", "Quét nhà", "Mặc đẹp", "Chúc Tết"], answer: 1, explanation: "Kiêng quét nhà sợ quét đi tài lộc.", explanationEn: "Sweeping is taboo – it sweeps away luck." },
+        { question: "'Cội nguồn' nghĩa gì?", questionEn: "What does 'cội nguồn' mean?", options: ["Tương lai", "Gốc gác, nguồn gốc", "Con đường", "Trường học"], answer: 1, explanation: "'Cội nguồn' = roots, origin.", explanationEn: "'Cội nguồn' = roots." },
+      ],
+    },
+  ],
+};
+
+readingModules.push(advancedReadingModule);
