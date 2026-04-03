@@ -954,46 +954,6 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         </AnimatePresence>
       )}
 
-      {/* Navigation */}
-      <div className="flex items-center justify-between">
-        <Button
-          variant="outline"
-          onClick={goPrev}
-          disabled={currentIndex === 0}
-          className="gap-1"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          {t("Trước", "Prev")}
-        </Button>
-
-        {/* Sentence dots */}
-        <div className="flex gap-1.5">
-          {selectedTheme.sentences.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setCurrentIndex(i);
-                resetState();
-              }}
-              className={`w-2.5 h-2.5 rounded-full transition-all ${
-                i === currentIndex
-                  ? "bg-primary scale-125"
-                  : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              }`}
-            />
-          ))}
-        </div>
-
-        <Button
-          variant="outline"
-          onClick={goNext}
-          disabled={selectedTheme && currentIndex >= selectedTheme.sentences.length - 1}
-          className="gap-1"
-        >
-          {t("Tiếp", "Next")}
-          <ChevronRight className="w-4 h-4" />
-        </Button>
-      </div>
     </div>
   );
 };
