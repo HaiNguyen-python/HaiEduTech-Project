@@ -39,6 +39,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thầy", meaning: "giáo viên", meaningEn: "teacher", example: "Tôn sư trọng đạo.", exampleEn: "Respect the teacher.", partOfSpeech: "noun" },
           { word: "khôn", meaning: "thông minh", meaningEn: "wise", example: "Học cho khôn.", exampleEn: "Study to be wise.", partOfSpeech: "adjective" },
+          { word: "sàng", meaning: "dụng cụ lọc gạo", meaningEn: "sieve / winnowing basket", example: "Học một sàng khôn.", exampleEn: "Learn a sieve of wisdom.", partOfSpeech: "noun" },
+          { word: "đàng", meaning: "đường đi (cổ ngữ)", meaningEn: "road / way (archaic)", example: "Đi một ngày đàng.", exampleEn: "Travel a day's road.", partOfSpeech: "noun" },
+          { word: "tôn sư", meaning: "kính trọng thầy cô", meaningEn: "to respect teachers", example: "Tôn sư trọng đạo là truyền thống.", exampleEn: "Respecting teachers is tradition.", partOfSpeech: "verb phrase" },
+          { word: "trọng đạo", meaning: "coi trọng đạo lý", meaningEn: "to value moral principles", example: "Người Việt trọng đạo.", exampleEn: "Vietnamese value morality.", partOfSpeech: "verb phrase" },
+          { word: "làm nên", meaning: "thành công", meaningEn: "to succeed / accomplish", example: "Không thầy đố mày làm nên.", exampleEn: "Without a teacher, try to succeed.", partOfSpeech: "verb phrase" },
+          { word: "trải nghiệm", meaning: "kinh nghiệm thực tế", meaningEn: "experience", example: "Trải nghiệm giúp ta trưởng thành.", exampleEn: "Experience helps us grow.", partOfSpeech: "noun" },
+          { word: "gói", meaning: "bọc lại", meaningEn: "to wrap", example: "Học gói, học mở.", exampleEn: "Learn to wrap, learn to unwrap.", partOfSpeech: "verb" },
+          { word: "đố", meaning: "thách thức", meaningEn: "to challenge / dare", example: "Đố mày làm nên!", exampleEn: "I dare you to succeed!", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "'Đi một ngày đàng' dạy gì?", questionEn: "What does it teach?", options: ["Ở nhà", "Đi nhiều học nhiều", "Đừng đi", "Học ở trường"], answer: 1, explanation: "Trải nghiệm giúp học hỏi.", explanationEn: "Experience helps learning." },
