@@ -385,6 +385,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "tín ngưỡng", meaning: "niềm tin", meaningEn: "belief / worship", example: "Tín ngưỡng thờ Mẫu.", exampleEn: "Mother Goddess worship.", partOfSpeech: "noun" },
           { word: "nghi lễ", meaning: "buổi lễ chính thức", meaningEn: "ritual / ceremony", example: "Nghi lễ trang trọng.", exampleEn: "Solemn ritual.", partOfSpeech: "noun" },
+          { word: "hầu đồng", meaning: "nghi thức lên đồng", meaningEn: "trance ritual", example: "Hầu đồng là nghi lễ đặc sắc.", exampleEn: "Trance ritual is a unique ceremony.", partOfSpeech: "noun" },
+          { word: "Thánh Mẫu", meaning: "nữ thần được thờ", meaningEn: "Holy Mother / Goddess", example: "Thờ Thánh Mẫu.", exampleEn: "Worship the Holy Mother.", partOfSpeech: "noun" },
+          { word: "trang phục", meaning: "quần áo", meaningEn: "costume / attire", example: "Trang phục hầu đồng rực rỡ.", exampleEn: "Trance ritual costumes are vibrant.", partOfSpeech: "noun" },
+          { word: "thiên nhiên", meaning: "tự nhiên, thế giới xung quanh", meaningEn: "nature", example: "Gắn liền với thiên nhiên.", exampleEn: "Connected to nature.", partOfSpeech: "noun" },
+          { word: "linh thiêng", meaning: "thiêng liêng, cao quý", meaningEn: "sacred / holy", example: "Nơi linh thiêng.", exampleEn: "A sacred place.", partOfSpeech: "adjective" },
+          { word: "di sản", meaning: "tài sản văn hóa", meaningEn: "heritage", example: "Di sản phi vật thể.", exampleEn: "Intangible heritage.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "Thờ Mẫu UNESCO công nhận năm?", questionEn: "UNESCO year?", options: ["2010", "2013", "2016", "2020"], answer: 2, explanation: "2016.", explanationEn: "2016." },
