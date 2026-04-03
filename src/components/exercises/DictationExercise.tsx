@@ -28,14 +28,14 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
     setAnswers(prev => ({ ...prev, [idx]: value }));
   };
 
-  const handlePlayAudio = (idx: number) => {
-    // Placeholder: simulate audio playback
+  const handlePlayAudio = (idx: number, slow = false) => {
     setPlayedAudio(prev => ({ ...prev, [idx]: true }));
-    // Use Web Speech API as audio placeholder
     if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(sentences[idx].text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.85;
+      utterance.lang = 'vi-VN';
+      utterance.rate = slow ? 0.35 : 0.5;
+      utterance.pitch = 1.1;
       window.speechSynthesis.speak(utterance);
     }
   };

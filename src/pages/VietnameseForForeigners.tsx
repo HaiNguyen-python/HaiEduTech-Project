@@ -116,8 +116,8 @@ const VietnameseForForeigners = () => {
     return new Promise((resolve) => {
       const u = new SpeechSynthesisUtterance(text);
       u.lang = "vi-VN";
-      u.rate = slow ? 0.55 : (speedRate === 0.75 ? 0.55 : 0.7);
-      u.pitch = 1.05;
+      u.rate = slow ? 0.4 : (speedRate === 0.75 ? 0.45 : 0.55);
+      u.pitch = 1.1;
       u.pitch = isStudent ? 1.1 : 0.9; // Slightly higher pitch for student, lower for local
       const voice = pickVietnameseVoice(isStudent);
       if (voice) u.voice = voice;
