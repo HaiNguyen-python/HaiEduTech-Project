@@ -1009,6 +1009,46 @@ const QuizSection = ({
 };
 
 // Writing Section with word counter
+// Sample A2 model answers for writing tasks
+const SAMPLE_ANSWERS: Record<string, string> = {
+  "yki-mock-writing-1": `Hei Mikka!
+
+Miten menee? Minulla on hyviä uutisia! Aloitin uuden suomen kielen kurssin viime viikolla. Kurssi on Helsingin kansalaisopistossa maanantaisin ja keskiviikkoisin kello 18–20. Opettaja on todella mukava ja tunnit ovat hauskoja. Opimme paljon uusia sanoja ja puhumme paljon suomea tunnilla. Haluaisitko tulla mukaan? Kurssilla on vielä tilaa!
+
+Nähdään pian!
+Terveisin, [Nimi]`,
+  "yki-mock-writing-2": `Hei opettaja!
+
+En valitettavasti pääse huomisen tunnille. Lapseni on sairas ja minun täytyy olla kotona hänen kanssaan. Voisitteko ystävällisesti kertoa, mitä tunnilla tehdään? Jos on läksyjä, voisitteko lähettää ne minulle sähköpostilla?
+
+Kiitos ymmärryksestä!
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-3": `Hyvä ravintolan johtaja,
+
+Haluan valittaa palvelusta ravintolassanne viime lauantaina. Ensinnäkin odotimme ruokaa 45 minuuttia, mikä on liian pitkä aika. Kun ruoka vihdoin tuli, se oli kylmää. Lisäksi tarjoilija oli epäystävällinen eikä pyytänyt anteeksi. Olen pettynyt palveluun, koska ravintolanne on yleensä hyvä. Toivoisin hyvitystä tai anteeksipyyntöä.
+
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-4": `Hei ystävät!
+
+Tervetuloa juhlimaan kanssani! Täytän 30 vuotta lauantaina 15. maaliskuuta. Juhlat ovat kotonani osoitteessa Mannerheimintie 10 kello 18 alkaen. Tarjolla on ruokaa, kakkua ja juomia. Illalla on myös musiikkia ja pelejä. Ilmoitathan tulostasi 10. maaliskuuta mennessä!
+
+Nähdään juhlissa!
+[Nimi]`,
+  "yki-mock-writing-5": `Hyvä isännöitsijä,
+
+Haluan ilmoittaa viasta asunnossani. Kylpyhuoneen hana on vuotanut viikon ajan. Vesi tippuu koko ajan, vaikka hana on kiinni. Pyydän korjausta mahdollisimman pian, koska tilanne pahenee. Olen kotona arkisin kello 16 jälkeen ja viikonloppuisin koko päivän. Voitte soittaa minulle numeroon 040-1234567.
+
+Ystävällisin terveisin, [Nimi]`,
+};
+
+const getSampleAnswer = (lessonId: string): string => {
+  return SAMPLE_ANSWERS[lessonId] || `Hei!
+
+Tässä on esimerkkivastaus A2-tasolla. Muista käyttää yksinkertaisia lauseita, vastata kaikkiin kysymyksiin ja tarkistaa oikeinkirjoitus. Hyvä vastaus on 50–80 sanaa pitkä.
+
+Onnea harjoitteluun!`;
+};
+
 const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
   const [text, setText] = useState("");
   const [submitted, setSubmitted] = useState(false);
