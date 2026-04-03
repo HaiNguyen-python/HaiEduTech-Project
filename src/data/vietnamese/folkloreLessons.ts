@@ -258,6 +258,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thần", meaning: "vị thần linh", meaningEn: "god / spirit", example: "Thần Núi.", exampleEn: "Mountain Spirit.", partOfSpeech: "noun" },
           { word: "lũ lụt", meaning: "nước dâng", meaningEn: "flood", example: "Lũ lụt hàng năm.", exampleEn: "Annual floods.", partOfSpeech: "noun" },
+          { word: "lễ vật", meaning: "quà tặng trong nghi lễ", meaningEn: "offerings / gifts", example: "Mang lễ vật đến trước.", exampleEn: "Bring offerings first.", partOfSpeech: "noun" },
+          { word: "tức giận", meaning: "nổi giận", meaningEn: "angry / furious", example: "Thủy Tinh tức giận.", exampleEn: "Water Spirit was furious.", partOfSpeech: "adjective" },
+          { word: "dâng", meaning: "nâng lên, tặng", meaningEn: "to rise / offer", example: "Nước dâng lên.", exampleEn: "Water rises.", partOfSpeech: "verb" },
+          { word: "gả", meaning: "cho con gái lấy chồng", meaningEn: "to give in marriage", example: "Vua Hùng gả con gái.", exampleEn: "King Hung gave his daughter in marriage.", partOfSpeech: "verb" },
+          { word: "hiện tượng", meaning: "sự việc xảy ra", meaningEn: "phenomenon", example: "Giải thích hiện tượng tự nhiên.", exampleEn: "Explaining natural phenomena.", partOfSpeech: "noun" },
+          { word: "trả thù", meaning: "đánh trả", meaningEn: "revenge", example: "Thủy Tinh trả thù.", exampleEn: "Water Spirit takes revenge.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "Truyện giải thích hiện tượng gì?", questionEn: "What does it explain?", options: ["Hạn hán", "Lũ lụt", "Động đất", "Sấm sét"], answer: 1, explanation: "Lũ lụt hàng năm.", explanationEn: "Annual flooding." },
