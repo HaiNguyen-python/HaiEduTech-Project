@@ -1,5 +1,21 @@
 // Vietnamese Poetry Collection
 
+import namQuocSonHaImg from "@/assets/poetry/nam-quoc-son-ha.jpg";
+import truyenKieuImg from "@/assets/poetry/truyen-kieu.jpg";
+import quaDeoNgangImg from "@/assets/poetry/qua-deo-ngang.jpg";
+import dayThonViDaImg from "@/assets/poetry/tinh-da.jpg";
+import songImg from "@/assets/poetry/song.jpg";
+import muaXuanNhoNhoImg from "@/assets/poetry/mua-xuan-nho-nho.jpg";
+import sangThuImg from "@/assets/poetry/thu-dieu.jpg";
+import viengLangBacImg from "@/assets/poetry/dat-nuoc.jpg";
+import trangGiangImg from "@/assets/poetry/chieu-hom-nho-nha.jpg";
+import conCoImg from "@/assets/poetry/ben-khong-chong.jpg";
+import tayTienImg from "@/assets/poetry/tay-tien.jpg";
+import vietBacImg from "@/assets/poetry/viet-bac.jpg";
+import dongChiImg from "@/assets/poetry/dong-chi.jpg";
+import tuTinhImg from "@/assets/poetry/tu-tinh.jpg";
+import nhoRungImg from "@/assets/poetry/nho-rung.jpg";
+
 export interface PoemExercise {
   question: string;
   questionEn: string;
@@ -25,6 +41,7 @@ export interface VietnamesePoem {
   culturalNoteEn: string;
   vocabulary: { word: string; meaning: string; meaningEn: string }[];
   exercises?: PoemExercise[];
+  imageUrl?: string;
 }
 
 export const vietnamesePoems: VietnamesePoem[] = [
