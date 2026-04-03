@@ -1102,15 +1102,40 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
       </div>
 
       {submitted && (
-        <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
-          <CardContent className="p-4">
-            <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ Vastauksesi on lähetetty!</p>
-            <p className="text-sm text-muted-foreground">Sanamäärä: {wordCount}. Tarkista vastauksesi ja vertaa tehtävänantoon.</p>
-            <Button variant="ghost" size="sm" className="mt-2" onClick={() => { setSubmitted(false); setText(""); setTimeLeft(15 * 60); }}>
-              Kirjoita uudelleen
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="space-y-4">
+          <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
+            <CardContent className="p-4">
+              <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ Vastauksesi on lähetetty!</p>
+              <p className="text-sm text-muted-foreground">Sanamäärä: {wordCount}. Tarkista vastauksesi ja vertaa tehtävänantoon.</p>
+              <Button variant="ghost" size="sm" className="mt-2" onClick={() => { setSubmitted(false); setText(""); setTimeLeft(15 * 60); }}>
+                Kirjoita uudelleen
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Writing hints */}
+          <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-900/20 dark:border-blue-800">
+            <CardContent className="p-4">
+              <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2">💡 Vinkkejä kirjoittamiseen</h4>
+              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                <li>Aloita tervehdyksellä ja lopeta lopputoivotuksella.</li>
+                <li>Käytä yksinkertaisia lauseita ja tuttuja sanoja.</li>
+                <li>Vastaa kaikkiin tehtävänannon kysymyksiin.</li>
+                <li>Tarkista oikeinkirjoitus ennen lähettämistä.</li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          {/* Model A2 answer */}
+          <Card className="border-amber-200 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800">
+            <CardContent className="p-4">
+              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">📝 Mallivastaus (A2-taso)</h4>
+              <div className="text-sm text-foreground leading-relaxed whitespace-pre-line">
+                {getSampleAnswer(lesson.id)}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );
