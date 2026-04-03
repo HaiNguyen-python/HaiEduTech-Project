@@ -1,52 +1,43 @@
 
 
-## Plan: Audio cho bài lịch sử, giảm tốc độ TTS, mở rộng Chatbot
+## Plan: Tăng tốc độ TTS & Mở rộng từ vựng tiếng Việt
 
-### 1. Thêm audio đọc truyền cảm trong bài học Lịch sử Việt Nam
+### 1. Điều chỉnh tốc độ TTS — nhanh hơn & truyền cảm hơn
 
-**File:** `src/pages/VietnameseHistoryLesson.tsx`
-
-- Import `Volume2, Pause` icons và thêm state `isSpeaking`
-- Thêm hàm `speakStory(text)` dùng Web Speech API với `lang: "vi-VN"`, `rate: 0.4`, `pitch: 1.1`
-- Hàm `speakSegments(segments)`: đọc lần lượt từng segment với pitch variation (±0.05) giữa các đoạn, tạo hiệu ứng kể chuyện
-- Thêm nút "🔊 Nghe đọc" ở đầu Story section (bên cạnh tiêu đề "Câu chuyện") — click sẽ đọc toàn bộ story
-- Thêm nút "🔊" nhỏ trên mỗi story segment card để đọc riêng từng đoạn
-- Fallback text cho lessons không có segments: đọc `lesson.story` trực tiếp
-
-### 2. Tiếp tục hạ tốc độ đọc tiếng Việt
-
-Giảm `rate` thêm ~0.1 trên tất cả files dùng TTS tiếng Việt:
+Hiện tại rate 0.4 quá chậm. Tăng lên **0.6** cho storytelling và **0.55** cho vocab, tăng pitch variation để truyền cảm hơn.
 
 | File | Hiện tại | Mới |
 |------|----------|-----|
-| `FolkloreLibrary.tsx` | rate 0.5 | **0.4** |
-| `SmartVocabCard.tsx` | rate 0.5 | **0.4** |
-| `VietnameseForForeigners.tsx` normal | rate 0.55 | **0.45** |
-| `VietnameseForForeigners.tsx` slow | rate 0.4 | **0.3** |
-| `DictationExercise.tsx` normal | rate 0.5 | **0.4** |
-| `DictationExercise.tsx` slow | rate 0.35 | **0.25** |
-| `VietnamesePoetry.tsx` | rate 0.45 | **0.35** |
+| `VietnameseHistoryLesson.tsx` (speakText) | rate 0.4, pitch 1.1 | **rate 0.6, pitch 1.15** |
+| `VietnameseHistoryLesson.tsx` (segments) | rate 0.4, pitch ±0.05 | **rate 0.6, pitch 1.15 ±0.08** |
+| `FolkloreLibrary.tsx` | rate 0.4, pitch 1.1 | **rate 0.6, pitch 1.15** |
+| `SmartVocabCard.tsx` | rate 0.4, pitch 1.1 | **rate 0.55, pitch 1.12** |
+| `VietnamesePoetry.tsx` | rate 0.35, pitch ±0.05 | **rate 0.5, pitch 1.15 ±0.08** |
+| `DictationExercise.tsx` | slow 0.25 / normal 0.4 | **slow 0.35 / normal 0.55** |
 
-### 3. Mở rộng Chatbot — cho hỏi bất kỳ câu hỏi liên quan
+### 2. Tăng cường từ vựng cho các bài học
 
-**File:** `src/components/ChatBot.tsx`
+Folklore modules hiện chỉ có trung bình **3 từ/bài** (tổng 69 từ cho 23 bài). Cần nâng lên **8-10 từ/bài**.
 
-Hiện tại `ALLOWED_KEYWORDS` thiếu nhiều từ khóa quan trọng (Finnish, Vietnamese culture, history, folklore, poetry, dictation...). Cần mở rộng:
+**Files thay đổi:**
 
-- Thêm keywords Finnish: `"finnish"`, `"suomi"`, `"yki"`, `"tiếng phần lan"`, `"kielioppi"`, `"sanasto"`
-- Thêm keywords Vietnamese content: `"tiếng việt"`, `"lịch sử"`, `"history"`, `"folklore"`, `"truyện cổ"`, `"ca dao"`, `"tục ngữ"`, `"thơ"`, `"poetry"`, `"chính tả"`, `"dictation"`, `"văn học"`, `"literature"`, `"hùng vương"`, `"lạc long quân"`, `"âu cơ"`, `"văn hóa"`, `"culture"`
-- Thêm keywords EdTech: `"edtech"`, `"công nghệ giáo dục"`, `"spaced repetition"`, `"gamification"`
-- Thêm keywords general learning: `"exam"`, `"test"`, `"quiz"`, `"exercise"`, `"bài tập"`, `"đề thi"`, `"điểm"`, `"score"`, `"leaderboard"`
+- **`src/data/vietnamese/folkloreLessons.ts`** — Mở rộng vocabulary từ 2-3 từ lên 8-10 từ cho mỗi bài (23 bài × thêm ~6 từ = ~138 từ mới). Mỗi bài folklore sẽ có từ vựng liên quan đến ca dao/tục ngữ đó (ẩn dụ, từ cổ, từ văn học).
 
-Ngoài ra, **nới lỏng** logic `isOnTopic`: tăng ngưỡng word count từ 3 → 5 (tin nhắn ≤5 từ luôn cho qua) để chatbot thân thiện hơn.
+- **`src/data/vietnamese/grammarLessons.ts`** — Thêm 2-3 từ vựng bổ sung cho các bài có đúng 10 từ, nâng lên 12-13 từ (~45 bài × 2 từ = ~90 từ mới). Ưu tiên: từ đồng nghĩa, phản nghĩa, từ ghép liên quan.
 
-### Files thay đổi
+- **`src/data/vietnamese/readingLessons.ts`** — Tương tự, thêm 2-3 từ cho mỗi bài (~46 từ mới), tập trung vào từ vựng văn hóa & đọc hiểu.
 
-1. `src/pages/VietnameseHistoryLesson.tsx` — Thêm audio buttons + TTS storytelling
-2. `src/pages/FolkloreLibrary.tsx` — rate 0.5 → 0.4
-3. `src/components/SmartVocabCard.tsx` — rate 0.5 → 0.4
-4. `src/pages/VietnameseForForeigners.tsx` — rate adjustments
-5. `src/components/exercises/DictationExercise.tsx` — rate adjustments
-6. `src/pages/VietnamesePoetry.tsx` — rate 0.45 → 0.35
-7. `src/components/ChatBot.tsx` — Mở rộng ALLOWED_KEYWORDS + nới lỏng isOnTopic
+- **`src/data/vietnamese/vocabularyLessons.ts`** — Thêm 2-3 từ cho mỗi bài (~90 từ mới), bổ sung idioms và colloquial expressions.
+
+### Tổng hợp files
+
+1. `src/pages/VietnameseHistoryLesson.tsx` — TTS rate 0.4→0.6
+2. `src/pages/FolkloreLibrary.tsx` — TTS rate 0.4→0.6
+3. `src/components/SmartVocabCard.tsx` — TTS rate 0.4→0.55
+4. `src/pages/VietnamesePoetry.tsx` — TTS rate 0.35→0.5
+5. `src/components/exercises/DictationExercise.tsx` — TTS rates up
+6. `src/data/vietnamese/folkloreLessons.ts` — +138 vocab entries
+7. `src/data/vietnamese/grammarLessons.ts` — +90 vocab entries
+8. `src/data/vietnamese/vocabularyLessons.ts` — +90 vocab entries
+9. `src/data/vietnamese/readingLessons.ts` — +46 vocab entries
 
