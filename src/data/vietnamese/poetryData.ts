@@ -80,6 +80,7 @@ You shall see yourselves utterly defeated.`,
   },
   {
     id: "truyen-kieu-mo-dau",
+    imageUrl: truyenKieuImg,
     title: "Truyện Kiều (Mở đầu)",
     titleEn: "The Tale of Kiều (Opening)",
     author: "Nguyễn Du",
