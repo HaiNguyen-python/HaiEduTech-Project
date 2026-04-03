@@ -99,6 +99,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "cổ tích", meaning: "truyện xưa", meaningEn: "fairy tale", example: "Kể truyện cổ tích.", exampleEn: "Tell a fairy tale.", partOfSpeech: "noun" },
           { word: "thiện", meaning: "tốt", meaningEn: "good / virtuous", example: "Thiện thắng ác.", exampleEn: "Good triumphs evil.", partOfSpeech: "noun/adj" },
+          { word: "ác", meaning: "xấu, tàn nhẫn", meaningEn: "evil / wicked", example: "Kẻ ác bị trừng phạt.", exampleEn: "The wicked are punished.", partOfSpeech: "adjective" },
+          { word: "truyền thuyết", meaning: "câu chuyện lịch sử dân gian", meaningEn: "legend", example: "Truyền thuyết Hồ Gươm rất nổi tiếng.", exampleEn: "The Sword Lake legend is famous.", partOfSpeech: "noun" },
+          { word: "phép thuật", meaning: "sức mạnh siêu nhiên", meaningEn: "magic", example: "Bụt có phép thuật giúp Tấm.", exampleEn: "Buddha uses magic to help Tam.", partOfSpeech: "noun" },
+          { word: "bài học", meaning: "điều rút ra được", meaningEn: "lesson / moral", example: "Mỗi truyện có một bài học.", exampleEn: "Each story has a moral.", partOfSpeech: "noun" },
+          { word: "nhân vật", meaning: "người trong truyện", meaningEn: "character", example: "Thạch Sanh là nhân vật dũng cảm.", exampleEn: "Thach Sanh is a brave character.", partOfSpeech: "noun" },
+          { word: "trừng phạt", meaning: "phạt nặng", meaningEn: "to punish", example: "Kẻ ác bị trừng phạt.", exampleEn: "The villain is punished.", partOfSpeech: "verb" },
+          { word: "Bụt", meaning: "Phật, vị thần trong cổ tích", meaningEn: "Buddha (in fairy tales)", example: "Bụt hiện lên giúp Tấm.", exampleEn: "Buddha appears to help Tam.", partOfSpeech: "noun" },
+          { word: "dũng cảm", meaning: "can đảm, không sợ hãi", meaningEn: "brave / courageous", example: "Thạch Sanh rất dũng cảm.", exampleEn: "Thach Sanh is very brave.", partOfSpeech: "adjective" },
         ],
         quiz: [
           { question: "'Tấm Cám' giống truyện nào?", questionEn: "Similar to?", options: ["Snow White", "Cinderella", "Rapunzel", "Sleeping Beauty"], answer: 1, explanation: "Cinderella.", explanationEn: "Cinderella." },
