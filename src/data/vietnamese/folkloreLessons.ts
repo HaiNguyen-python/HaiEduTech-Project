@@ -138,6 +138,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "nguồn", meaning: "nơi phát sinh", meaningEn: "source", example: "Nhớ nguồn gốc.", exampleEn: "Remember origins.", partOfSpeech: "noun" },
           { word: "đoàn kết", meaning: "hợp tác", meaningEn: "unity", example: "Đoàn kết là sức mạnh.", exampleEn: "Unity is strength.", partOfSpeech: "noun" },
+          { word: "lá lành", meaning: "lá tốt, nguyên vẹn", meaningEn: "whole leaf (metaphor: fortunate)", example: "Lá lành đùm lá rách.", exampleEn: "Whole leaves wrap torn leaves.", partOfSpeech: "noun" },
+          { word: "đùm", meaning: "che chở, bao bọc", meaningEn: "to wrap / protect", example: "Đùm bọc nhau.", exampleEn: "Protect each other.", partOfSpeech: "verb" },
+          { word: "thương", meaning: "yêu thương, cảm thông", meaningEn: "to love / empathize", example: "Thương người như thương thân.", exampleEn: "Love others as yourself.", partOfSpeech: "verb" },
+          { word: "biết ơn", meaning: "cảm ơn sâu sắc", meaningEn: "grateful", example: "Uống nước nhớ nguồn là biết ơn.", exampleEn: "Drinking water, remembering the source means gratitude.", partOfSpeech: "verb" },
+          { word: "chia sẻ", meaning: "cho người khác phần của mình", meaningEn: "to share", example: "Chia sẻ với người khó khăn.", exampleEn: "Share with those in need.", partOfSpeech: "verb" },
+          { word: "sức mạnh", meaning: "năng lực, lực lượng", meaningEn: "strength / power", example: "Đoàn kết là sức mạnh.", exampleEn: "Unity is strength.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "'Lá lành đùm lá rách' dạy gì?", questionEn: "What does it teach?", options: ["Cạnh tranh", "Giúp đỡ", "Tiết kiệm", "Học hành"], answer: 1, explanation: "Giúp đỡ nhau.", explanationEn: "Help each other." },
