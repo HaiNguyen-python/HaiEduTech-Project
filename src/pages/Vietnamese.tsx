@@ -259,21 +259,50 @@ const Vietnamese = () => {
                 </div>
 
                 {/* Speaking Coach link */}
-                <Link
-                  to="/speaking-coach/vietnamese"
-                  className="block mt-6 bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-xl p-5 hover:shadow-lg transition-all group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                      <Mic className="w-6 h-6 text-primary" />
+                <div className="grid sm:grid-cols-3 gap-4 mt-6">
+                  <Link
+                    to="/speaking-coach/vietnamese"
+                    className="block bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Mic className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-foreground">{t("AI Speaking Coach", "AI Speaking Coach")}</h3>
+                        <p className="text-xs text-muted-foreground">{t("Luyện phát âm với AI", "Practice pronunciation with AI")}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-foreground">{t("AI Speaking Coach", "AI Speaking Coach")}</h3>
-                      <p className="text-sm text-muted-foreground">{t("Luyện phát âm tiếng Việt với trí tuệ nhân tạo", "Practice Vietnamese pronunciation with AI")}</p>
+                  </Link>
+                  <Link
+                    to="/learn-vietnamese/dictation"
+                    className="block bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+                        <Headphones className="w-5 h-5 text-amber-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-foreground">{t("Nghe chép chính tả", "Dictation")}</h3>
+                        <p className="text-xs text-muted-foreground">{t("Luyện nghe viết tiếng Việt", "Listen & write Vietnamese")}</p>
+                      </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground ml-auto" />
-                  </div>
-                </Link>
+                  </Link>
+                  <Link
+                    to="/learn-vietnamese/poetry"
+                    className="block bg-gradient-to-r from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                        <ScrollText className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-foreground">{t("Thơ Việt Nam", "Vietnamese Poetry")}</h3>
+                        <p className="text-xs text-muted-foreground">{t("Khám phá thơ ca kinh điển", "Explore classic poems")}</p>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
               </div>
             </TabsContent>
 

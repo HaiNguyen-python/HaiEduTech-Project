@@ -91,7 +91,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
               <button
                 onClick={() => handlePlayAudio(idx)}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
+                  "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all",
                   playedAudio[idx]
                     ? "bg-primary/10 text-primary border border-primary/20"
                     : "bg-primary text-primary-foreground hover:brightness-110"
@@ -99,6 +99,12 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
               >
                 <Volume2 className="w-4 h-4" />
                 {playedAudio[idx] ? t("Nghe lại", "Play again") : t("Nghe", "Listen")}
+              </button>
+              <button
+                onClick={() => handlePlayAudio(idx, true)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-muted text-muted-foreground hover:bg-muted/80 transition-all border border-border"
+              >
+                🐢 {t("Nghe chậm", "Slow")}
               </button>
               {s.hint && (
                 <span className="text-xs text-muted-foreground italic">💡 {s.hint}</span>
