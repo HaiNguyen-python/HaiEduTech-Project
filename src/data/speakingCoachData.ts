@@ -674,6 +674,12 @@ export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
     speechLang: "zh-CN",
     themes: chineseThemes,
   },
+  vietnamese: {
+    lang: "Tiếng Việt",
+    langCode: "vi",
+    speechLang: "vi-VN",
+    themes: vietnameseThemes,
+  },
 };
 
 // IPA pronunciation tips for common problem sounds

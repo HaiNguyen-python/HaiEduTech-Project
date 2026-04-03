@@ -133,6 +133,15 @@ const SpeakingCoachPage = () => {
                 containerRef={containerRef}
               />
             )}
+            {lang === "vietnamese" && (
+              <MountainClimber
+                mastered={excellentCount}
+                total={totalTarget}
+                flyingStars={flyingStars}
+                onStarLanded={handleStarLanded}
+                containerRef={containerRef}
+              />
+            )}
           </motion.div>
         )}
 
