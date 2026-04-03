@@ -221,6 +221,13 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         theoryEn: `## Conversational Idioms for daily use.`,
         vocabulary: [
           { word: "chứng", meaning: "bằng chứng", meaningEn: "evidence", example: "Nói có chứng.", exampleEn: "Speak with evidence.", partOfSpeech: "noun" },
+          { word: "thành ngữ", meaning: "cụm từ cố định", meaningEn: "idiom", example: "Thành ngữ rất hay.", exampleEn: "Idioms are interesting.", partOfSpeech: "noun" },
+          { word: "giao tiếp", meaning: "trao đổi, nói chuyện", meaningEn: "communication", example: "Giao tiếp tốt.", exampleEn: "Good communication.", partOfSpeech: "noun" },
+          { word: "ăn nhập", meaning: "phù hợp, liên quan", meaningEn: "relevant / matching", example: "Nói không ăn nhập.", exampleEn: "Irrelevant talk.", partOfSpeech: "adjective" },
+          { word: "mâu thuẫn", meaning: "trái ngược nhau", meaningEn: "contradiction", example: "Hai ý kiến mâu thuẫn.", exampleEn: "Two contradicting opinions.", partOfSpeech: "noun" },
+          { word: "hình ảnh", meaning: "biểu tượng trong ngôn ngữ", meaningEn: "imagery", example: "Thành ngữ dùng nhiều hình ảnh.", exampleEn: "Idioms use vivid imagery.", partOfSpeech: "noun" },
+          { word: "xuôi", meaning: "theo chiều thuận", meaningEn: "downstream / aligned", example: "Trống đánh xuôi.", exampleEn: "Drum beats one way.", partOfSpeech: "adverb" },
+          { word: "ngược", meaning: "theo chiều trái", meaningEn: "opposite / upstream", example: "Kèn thổi ngược.", exampleEn: "Horn blows the opposite way.", partOfSpeech: "adverb" },
         ],
         quiz: [
           { question: "'Ông nói gà, bà nói vịt'?", questionEn: "What does it mean?", options: ["Đồng ý", "Nói không ăn nhập", "Nói hay", "Nói dối"], answer: 1, explanation: "Nói lệch ý nhau.", explanationEn: "Talking past each other." },
