@@ -1,8 +1,8 @@
 // Vietnamese History Lesson detail page with illustrated story cards, key dates, and quiz
 import { useParams, Link } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, BookOpen, Clock, ChevronRight, Sword, MapPin, Crown, Shield, Flame, Scroll, Mountain, Ship, Flag, Star, Landmark, GraduationCap, Globe, Sparkles } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, ChevronRight, Sword, MapPin, Crown, Shield, Flame, Scroll, Mountain, Ship, Flag, Star, Landmark, GraduationCap, Globe, Sparkles, Volume2, Square } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -26,6 +26,43 @@ const VietnameseHistoryLesson = () => {
   const { t } = useLanguage();
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
+  // Speak a single text block expressively
+  const speakText = useCallback((text: string) => {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "vi-VN";
+    u.rate = 0.4;
+    u.pitch = 1.1;
+    u.onstart = () => setIsSpeaking(true);
+    u.onend = () => setIsSpeaking(false);
+    u.onerror = () => setIsSpeaking(false);
+    speechSynthesis.speak(u);
+  }, []);
+
+  // Speak all segments sequentially with pitch variation for storytelling effect
+  const speakAllSegments = useCallback((segs: { text: string; textEn: string }[]) => {
+    speechSynthesis.cancel();
+    setIsSpeaking(true);
+    let i = 0;
+    const speakNext = () => {
+      if (i >= segs.length) { setIsSpeaking(false); return; }
+      const u = new SpeechSynthesisUtterance(segs[i].text);
+      u.lang = "vi-VN";
+      u.rate = 0.4;
+      u.pitch = 1.1 + (i % 2 === 0 ? 0.05 : -0.05);
+      u.onend = () => { i++; setTimeout(speakNext, 700); };
+      u.onerror = () => setIsSpeaking(false);
+      speechSynthesis.speak(u);
+    };
+    speakNext();
+  }, []);
+
+  const stopSpeech = useCallback(() => {
+    speechSynthesis.cancel();
+    setIsSpeaking(false);
+  }, []);
 
   // Find lesson across all months
   const { lesson, month, nextLesson } = useMemo(() => {
@@ -87,10 +124,27 @@ const VietnameseHistoryLesson = () => {
 
           {/* Story Section */}
           <section className="mb-12">
-            <h2 className="text-xl font-bold text-foreground mb-5 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-primary" />
-              {t("Câu chuyện", "Story")}
-            </h2>
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-primary" />
+                {t("Câu chuyện", "Story")}
+              </h2>
+              <button
+                onClick={() => {
+                  if (isSpeaking) { stopSpeech(); return; }
+                  if (segments) { speakAllSegments(segments); }
+                  else if (lesson) { speakText(lesson.story); }
+                }}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  isSpeaking
+                    ? "bg-destructive/10 text-destructive border border-destructive/20"
+                    : "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20"
+                }`}
+              >
+                {isSpeaking ? <Square className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                {isSpeaking ? t("Dừng đọc", "Stop") : t("🔊 Nghe đọc", "🔊 Listen")}
+              </button>
+            </div>
 
             {segments ? (
               /* Illustrated Story Cards */
@@ -106,12 +160,19 @@ const VietnameseHistoryLesson = () => {
                       transition={{ duration: 0.5, delay: i * 0.1 }}
                       className="bg-card border border-border rounded-xl shadow-sm overflow-hidden"
                     >
-                      {/* Segment Title with rotating icon */}
+                      {/* Segment Title with rotating icon + audio button */}
                       <div className="px-5 pt-5 pb-2 flex items-center gap-2.5">
                         {getSegmentIcon(i)}
-                        <h3 className="text-lg font-bold text-foreground">
+                        <h3 className="text-lg font-bold text-foreground flex-1">
                           {t(seg.title, seg.titleEn)}
                         </h3>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); speakText(seg.text); }}
+                          className="shrink-0 p-1.5 rounded-md text-primary hover:bg-primary/10 transition-colors"
+                          title={t("Nghe đoạn này", "Listen to this section")}
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
                       </div>
 
                       {/* Content: side-by-side on desktop, stacked on mobile */}

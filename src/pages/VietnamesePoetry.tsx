@@ -24,7 +24,7 @@ const VietnamesePoetry = () => {
       if (i >= paragraphs.length) { setIsSpeaking(false); return; }
       const u = new SpeechSynthesisUtterance(paragraphs[i]);
       u.lang = "vi-VN";
-      u.rate = 0.45;
+      u.rate = 0.35;
       u.pitch = 1.1 + (i % 2 === 0 ? 0.05 : -0.05);
       u.onend = () => { i++; setTimeout(speakNext, 600); };
       u.onerror = () => setIsSpeaking(false);
