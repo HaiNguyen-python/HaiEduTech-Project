@@ -174,6 +174,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "thời gian", meaning: "khoảng thời gian", meaningEn: "time", example: "Thời gian là vàng.", exampleEn: "Time is gold.", partOfSpeech: "noun" },
           { word: "cơ hội", meaning: "dịp tốt", meaningEn: "opportunity", example: "Nắm bắt cơ hội.", exampleEn: "Seize the opportunity.", partOfSpeech: "noun" },
+          { word: "nắm bắt", meaning: "tận dụng, chớp lấy", meaningEn: "to seize / grasp", example: "Nắm bắt cơ hội ngay.", exampleEn: "Seize the opportunity now.", partOfSpeech: "verb" },
+          { word: "chần chừ", meaning: "do dự, không quyết đoán", meaningEn: "hesitant / to hesitate", example: "Đừng chần chừ.", exampleEn: "Don't hesitate.", partOfSpeech: "verb" },
+          { word: "phút cuối", meaning: "thời điểm cuối cùng", meaningEn: "last minute", example: "Đợi đến phút cuối.", exampleEn: "Wait until the last minute.", partOfSpeech: "noun" },
+          { word: "quyết đoán", meaning: "quyết định nhanh", meaningEn: "decisive", example: "Người quyết đoán thành công.", exampleEn: "Decisive people succeed.", partOfSpeech: "adjective" },
+          { word: "kiên nhẫn", meaning: "nhẫn nại, chịu đựng", meaningEn: "patient", example: "Kiên nhẫn sẽ được đền đáp.", exampleEn: "Patience will be rewarded.", partOfSpeech: "adjective" },
+          { word: "đền đáp", meaning: "trả ơn, bù đắp", meaningEn: "to reward / repay", example: "Sự kiên trì được đền đáp.", exampleEn: "Persistence is rewarded.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "'Nước đến chân mới nhảy' nghĩa gì?", questionEn: "What does it mean?", options: ["Chủ động", "Chờ đến phút cuối", "Bơi giỏi", "Nhảy xa"], answer: 1, explanation: "Chờ đến phút cuối mới hành động.", explanationEn: "Wait until the last minute." },
