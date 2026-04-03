@@ -73,6 +73,7 @@ export interface HistoryLesson {
   story: string;
   storyEn: string;
   storySegments?: StorySegment[];
+  videoUrl?: string;
   keyDates: HistoryEvent[];
   quiz: VietnameseQuizQuestion[];
 }

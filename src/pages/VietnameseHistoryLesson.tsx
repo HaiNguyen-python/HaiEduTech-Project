@@ -2,7 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useMemo, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, BookOpen, Clock, ChevronRight, Sword, MapPin, Crown, Shield, Flame, Scroll, Mountain, Ship, Flag, Star, Landmark, GraduationCap, Globe, Sparkles, Volume2, Square } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, ChevronRight, Sword, MapPin, Crown, Shield, Flame, Scroll, Mountain, Ship, Flag, Star, Landmark, GraduationCap, Globe, Sparkles, Volume2, Square, Video } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -121,6 +121,31 @@ const VietnameseHistoryLesson = () => {
               {t(lesson.title, lesson.titleEn)}
             </h1>
           </motion.div>
+
+          {/* Video Section */}
+          {lesson.videoUrl && (
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mb-10"
+            >
+              <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                <Video className="w-5 h-5 text-primary" />
+                {t("📹 Video minh họa", "📹 Illustrative Video")}
+              </h2>
+              <div className="aspect-video w-full rounded-xl overflow-hidden border border-border shadow-sm">
+                <iframe
+                  src={lesson.videoUrl}
+                  title={t(lesson.title, lesson.titleEn)}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              </div>
+            </motion.section>
+          )}
 
           {/* Story Section */}
           <section className="mb-12">
