@@ -12,7 +12,7 @@ import {
   BookText, Users, Drum, Flame, Castle, Pen, Ship, Anchor,
   Heart, MapPin, Trophy, Rocket, Wifi, HandshakeIcon,
   Lightbulb, TrendingUp, Activity, GraduationCap as GradCap,
-  Utensils, Target, type LucideIcon,
+  Utensils, Target, Mic, type LucideIcon,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
