@@ -116,6 +116,7 @@ Even Heaven is jealous of rosy cheeks.`,
   },
   {
     id: "qua-deo-ngang",
+    imageUrl: quaDeoNgangImg,
     title: "Qua Đèo Ngang",
     titleEn: "Crossing Đèo Ngang Pass",
     author: "Bà Huyện Thanh Quan",
