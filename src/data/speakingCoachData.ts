@@ -175,6 +175,36 @@ const englishThemes: SpeakingTheme[] = [
       { id: "en-culture10", text: "Understanding the intricate interplay between historical contexts, societal norms, and individual creativity is fundamental to appreciating the depth and evolution of cultural phenomena worldwide.", translation: "Hiểu được sự tương tác phức tạp giữa bối cảnh lịch sử, chuẩn mực xã hội và sự sáng tạo cá nhân là điều cơ bản để đánh giá chiều sâu và sự phát triển của các hiện tượng văn hóa trên toàn thế giới.", ipa: "/ˌʌndərˈstændɪŋ ði ˈɪntrɪkət ˈɪntərˌpleɪ bɪˈtwiːn hɪˈstɒrɪkəl ˈkɒntɛksts, səˈsaɪətl nɔːrmz, ænd ˌɪndɪˈvɪdʒuəl kriːeɪˈtɪvɪti ɪz ˌfʌndəˈmɛntl tu əˈpriːʃiˌeɪtɪŋ ðə dɛpθ ænd ˌiːvəˈluːʃən əv ˈkʌltʃərəl fɪˈnɒmɪnə ˌwɜːrldˈwaɪd/", difficulty: "hard", theme: "culture" },
     ],
   },
+  {
+    id: "en-technology", name: "Technology", nameVi: "Công nghệ", icon: "💻",
+    sentences: [
+      { id: "en-tech1", text: "Technology has transformed the way we communicate with each other.", translation: "Công nghệ đã thay đổi cách chúng ta giao tiếp với nhau.", difficulty: "easy", theme: "technology" },
+      { id: "en-tech2", text: "I use my smartphone for almost everything, from banking to shopping.", translation: "Tôi dùng điện thoại thông minh cho hầu hết mọi thứ, từ ngân hàng đến mua sắm.", difficulty: "easy", theme: "technology" },
+      { id: "en-tech3", text: "Artificial intelligence is becoming increasingly important in everyday life.", translation: "Trí tuệ nhân tạo ngày càng trở nên quan trọng trong cuộc sống hàng ngày.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech4", text: "Social media platforms have changed the way people share information.", translation: "Các nền tảng mạng xã hội đã thay đổi cách mọi người chia sẻ thông tin.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech5", text: "Online learning has made education accessible to people around the world.", translation: "Học trực tuyến đã giúp giáo dục tiếp cận được với mọi người trên thế giới.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech6", text: "Cybersecurity is a growing concern as more data is stored online.", translation: "An ninh mạng là mối lo ngại ngày càng tăng khi nhiều dữ liệu được lưu trữ trực tuyến.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech7", text: "Electric vehicles are expected to replace traditional cars in the near future.", translation: "Xe điện được kỳ vọng sẽ thay thế ô tô truyền thống trong tương lai gần.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech8", text: "The rapid advancement of technology presents both opportunities and challenges for society.", translation: "Sự phát triển nhanh chóng của công nghệ mang lại cả cơ hội lẫn thách thức cho xã hội.", difficulty: "hard", theme: "technology" },
+      { id: "en-tech9", text: "Cloud computing allows businesses to store and access data remotely without physical servers.", translation: "Điện toán đám mây cho phép doanh nghiệp lưu trữ và truy cập dữ liệu từ xa mà không cần máy chủ vật lý.", difficulty: "hard", theme: "technology" },
+      { id: "en-tech10", text: "The ethical implications of artificial intelligence require careful consideration by policymakers and technologists alike.", translation: "Những hệ quả đạo đức của trí tuệ nhân tạo đòi hỏi sự cân nhắc cẩn thận từ cả các nhà hoạch định chính sách và nhà công nghệ.", difficulty: "hard", theme: "technology" },
+    ],
+  },
+  {
+    id: "en-environment", name: "Environment", nameVi: "Môi trường", icon: "🌍",
+    sentences: [
+      { id: "en-env1", text: "We should recycle more to protect the environment.", translation: "Chúng ta nên tái chế nhiều hơn để bảo vệ môi trường.", difficulty: "easy", theme: "environment" },
+      { id: "en-env2", text: "Climate change is one of the biggest challenges facing our planet.", translation: "Biến đổi khí hậu là một trong những thách thức lớn nhất mà hành tinh chúng ta đang đối mặt.", difficulty: "easy", theme: "environment" },
+      { id: "en-env3", text: "Renewable energy sources like solar and wind power are becoming more affordable.", translation: "Các nguồn năng lượng tái tạo như năng lượng mặt trời và gió ngày càng trở nên hợp lý hơn.", difficulty: "medium", theme: "environment" },
+      { id: "en-env4", text: "Deforestation has a devastating impact on biodiversity and local communities.", translation: "Phá rừng có tác động tàn khốc đến đa dạng sinh học và cộng đồng địa phương.", difficulty: "medium", theme: "environment" },
+      { id: "en-env5", text: "Reducing plastic waste is essential for protecting marine ecosystems.", translation: "Giảm thiểu rác thải nhựa là điều cần thiết để bảo vệ hệ sinh thái biển.", difficulty: "medium", theme: "environment" },
+      { id: "en-env6", text: "Many countries are investing in green technology to reduce carbon emissions.", translation: "Nhiều quốc gia đang đầu tư vào công nghệ xanh để giảm lượng khí thải carbon.", difficulty: "medium", theme: "environment" },
+      { id: "en-env7", text: "Sustainable agriculture practices help preserve soil quality and water resources.", translation: "Các phương pháp nông nghiệp bền vững giúp bảo tồn chất lượng đất và tài nguyên nước.", difficulty: "medium", theme: "environment" },
+      { id: "en-env8", text: "The Paris Agreement aims to limit global warming to well below two degrees Celsius.", translation: "Hiệp định Paris nhằm hạn chế sự nóng lên toàn cầu dưới hai độ C.", difficulty: "hard", theme: "environment" },
+      { id: "en-env9", text: "Urban planning that prioritizes green spaces and public transportation can significantly reduce pollution.", translation: "Quy hoạch đô thị ưu tiên không gian xanh và giao thông công cộng có thể giảm đáng kể ô nhiễm.", difficulty: "hard", theme: "environment" },
+      { id: "en-env10", text: "The interconnected nature of environmental challenges necessitates a collaborative, multi-disciplinary approach to developing effective and equitable solutions.", translation: "Bản chất liên kết của các thách thức môi trường đòi hỏi một cách tiếp cận hợp tác, đa ngành để phát triển các giải pháp hiệu quả và công bằng.", difficulty: "hard", theme: "environment" },
+    ],
+  },
 ];
 
 // ---- FINNISH ----
