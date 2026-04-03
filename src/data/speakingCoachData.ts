@@ -543,6 +543,36 @@ const chineseThemes: SpeakingTheme[] = [
       { id: "zh-culture10", text: "随着全球化的深入，文化融合现象日益普遍，不同文明之间的交流与碰撞为新的艺术形式和思想观念提供了肥沃的土壤，同时也带来了文化认同的挑战。", translation: "Với sự hội nhập sâu sắc của toàn cầu hóa, hiện tượng hòa nhập văn hóa ngày càng trở nên phổ biến, giao lưu và va chạm giữa các nền văn minh khác nhau đã cung cấp mảnh đất màu mỡ cho các hình thức nghệ thuật và ý tưởng mới, đồng thời cũng mang lại những thách thức về bản sắc văn hóa.", ipa: "suí zhe quán qiú huà de shēn rù, wén huà róng hé xiàn xiàng rì yì pǔ biàn, bù tóng wén míng zhī jiān de jiāo liú yǔ pèng zhuàng wèi xīn de yì shù xíng shì hé sī xiǎng guān niàn tí gōng le féi wò de tǔ rǎng, tóng shí yě dài lái le wén huà rèn tóng de tiǎo zhàn.", difficulty: "hard", theme: "culture" },
     ],
   },
+  {
+    id: "zh-technology", name: "科技", nameVi: "Công nghệ", icon: "💻",
+    sentences: [
+      { id: "zh-tech1", text: "我每天都用手机上网和聊天。", translation: "Tôi dùng điện thoại lên mạng và nhắn tin mỗi ngày.", ipa: "wǒ měi tiān dōu yòng shǒu jī shàng wǎng hé liáo tiān.", difficulty: "easy", theme: "technology" },
+      { id: "zh-tech2", text: "现在很多人用电子支付代替现金。", translation: "Bây giờ nhiều người dùng thanh toán điện tử thay cho tiền mặt.", ipa: "xiàn zài hěn duō rén yòng diàn zǐ zhī fù dài tì xiàn jīn.", difficulty: "easy", theme: "technology" },
+      { id: "zh-tech3", text: "人工智能正在改变我们的生活和工作方式。", translation: "Trí tuệ nhân tạo đang thay đổi cách sống và làm việc của chúng ta.", ipa: "rén gōng zhì néng zhèng zài gǎi biàn wǒ men de shēng huó hé gōng zuò fāng shì.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech4", text: "网络安全越来越重要，每个人都应该保护好自己的个人信息。", translation: "An ninh mạng ngày càng quan trọng, mỗi người đều nên bảo vệ tốt thông tin cá nhân.", ipa: "wǎng luò ān quán yuè lái yuè zhòng yào, měi gè rén dōu yīng gāi bǎo hù hǎo zì jǐ de gè rén xìn xī.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech5", text: "在线教育让世界各地的学生都能获得优质的学习资源。", translation: "Giáo dục trực tuyến giúp học sinh trên khắp thế giới tiếp cận tài nguyên học tập chất lượng.", ipa: "zài xiàn jiào yù ràng shì jiè gè dì de xué shēng dōu néng huò dé yōu zhì de xué xí zī yuán.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech6", text: "5G技术的普及将大大提高网络速度和连接稳定性。", translation: "Sự phổ biến của công nghệ 5G sẽ tăng đáng kể tốc độ mạng và tính ổn định kết nối.", ipa: "wǔ jī jì shù de pǔ jí jiāng dà dà tí gāo wǎng luò sù dù hé lián jiē wěn dìng xìng.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech7", text: "电动汽车的发展有助于减少空气污染。", translation: "Sự phát triển xe điện giúp giảm ô nhiễm không khí.", ipa: "diàn dòng qì chē de fā zhǎn yǒu zhù yú jiǎn shǎo kōng qì wū rǎn.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech8", text: "大数据分析帮助企业更好地了解消费者需求和市场趋势。", translation: "Phân tích dữ liệu lớn giúp doanh nghiệp hiểu rõ hơn nhu cầu người tiêu dùng và xu hướng thị trường.", ipa: "dà shù jù fēn xī bāng zhù qǐ yè gèng hǎo dì liǎo jiě xiāo fèi zhě xū qiú hé shì chǎng qū shì.", difficulty: "hard", theme: "technology" },
+      { id: "zh-tech9", text: "区块链技术为金融交易提供了更高的安全性和透明度。", translation: "Công nghệ blockchain cung cấp tính bảo mật và minh bạch cao hơn cho các giao dịch tài chính.", ipa: "qū kuài liàn jì shù wèi jīn róng jiāo yì tí gōng le gèng gāo de ān quán xìng hé tòu míng dù.", difficulty: "hard", theme: "technology" },
+      { id: "zh-tech10", text: "随着量子计算技术的突破，未来的信息处理能力将实现质的飞跃，从而深刻影响科学研究和产业发展的方向。", translation: "Với bước đột phá trong công nghệ tính toán lượng tử, khả năng xử lý thông tin trong tương lai sẽ có bước nhảy chất lượng, từ đó ảnh hưởng sâu sắc đến hướng nghiên cứu khoa học và phát triển công nghiệp.", ipa: "suí zhe liàng zǐ jì suàn jì shù de tū pò, wèi lái de xìn xī chǔ lǐ néng lì jiāng shí xiàn zhì de fēi yuè, cóng ér shēn kè yǐng xiǎng kē xué yán jiū hé chǎn yè fā zhǎn de fāng xiàng.", difficulty: "hard", theme: "technology" },
+    ],
+  },
+  {
+    id: "zh-environment", name: "环境", nameVi: "Môi trường", icon: "🌍",
+    sentences: [
+      { id: "zh-env1", text: "我们应该多回收垃圾来保护环境。", translation: "Chúng ta nên tái chế rác nhiều hơn để bảo vệ môi trường.", ipa: "wǒ men yīng gāi duō huí shōu lā jī lái bǎo hù huán jìng.", difficulty: "easy", theme: "environment" },
+      { id: "zh-env2", text: "节约用水和用电是每个人的责任。", translation: "Tiết kiệm nước và điện là trách nhiệm của mỗi người.", ipa: "jié yuē yòng shuǐ hé yòng diàn shì měi gè rén de zé rèn.", difficulty: "easy", theme: "environment" },
+      { id: "zh-env3", text: "太阳能和风能是清洁的可再生能源。", translation: "Năng lượng mặt trời và gió là năng lượng tái tạo sạch.", ipa: "tài yáng néng hé fēng néng shì qīng jié de kě zài shēng néng yuán.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env4", text: "全球变暖导致冰川融化和海平面上升。", translation: "Nóng lên toàn cầu dẫn đến băng tan và mực nước biển dâng.", ipa: "quán qiú biàn nuǎn dǎo zhì bīng chuān róng huà hé hǎi píng miàn shàng shēng.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env5", text: "减少使用一次性塑料制品对保护海洋生态系统至关重要。", translation: "Giảm sử dụng đồ nhựa dùng một lần rất quan trọng để bảo vệ hệ sinh thái biển.", ipa: "jiǎn shǎo shǐ yòng yī cì xìng sù liào zhì pǐn duì bǎo hù hǎi yáng shēng tài xì tǒng zhì guān zhòng yào.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env6", text: "许多城市正在推广绿色出行方式，如骑自行车和坐公共交通。", translation: "Nhiều thành phố đang thúc đẩy phương thức di chuyển xanh, như đi xe đạp và phương tiện công cộng.", ipa: "xǔ duō chéng shì zhèng zài tuī guǎng lǜ sè chū xíng fāng shì, rú qí zì xíng chē hé zuò gōng gòng jiāo tōng.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env7", text: "植树造林是应对气候变化的有效措施之一。", translation: "Trồng cây là một trong những biện pháp hiệu quả để ứng phó biến đổi khí hậu.", ipa: "zhí shù zào lín shì yìng duì qì hòu biàn huà de yǒu xiào cuò shī zhī yī.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env8", text: "可持续发展要求我们在经济增长和环境保护之间找到平衡。", translation: "Phát triển bền vững đòi hỏi chúng ta tìm được sự cân bằng giữa tăng trưởng kinh tế và bảo vệ môi trường.", ipa: "kě chí xù fā zhǎn yāo qiú wǒ men zài jīng jì zēng zhǎng hé huán jìng bǎo hù zhī jiān zhǎo dào píng héng.", difficulty: "hard", theme: "environment" },
+      { id: "zh-env9", text: "生物多样性的丧失不仅影响生态平衡，还可能对人类的食物安全和医药发展产生深远影响。", translation: "Mất đa dạng sinh học không chỉ ảnh hưởng đến cân bằng sinh thái, mà còn có thể tác động sâu sắc đến an ninh lương thực và phát triển y dược của con người.", ipa: "shēng wù duō yàng xìng de sàng shī bù jǐn yǐng xiǎng shēng tài píng héng, hái kě néng duì rén lèi de shí wù ān quán hé yī yào fā zhǎn chǎn shēng shēn yuǎn yǐng xiǎng.", difficulty: "hard", theme: "environment" },
+      { id: "zh-env10", text: "面对日益严峻的环境危机，国际社会需要加强合作，共同制定并执行更加严格的环保政策和标准。", translation: "Đối mặt với khủng hoảng môi trường ngày càng nghiêm trọng, cộng đồng quốc tế cần tăng cường hợp tác, cùng xây dựng và thực thi các chính sách và tiêu chuẩn bảo vệ môi trường nghiêm ngặt hơn.", ipa: "miàn duì rì yì yán jùn de huán jìng wēi jī, guó jì shè huì xū yào jiā qiáng hé zuò, gòng tóng zhì dìng bìng zhí xíng gèng jiā yán gé de huán bǎo zhèng cè hé biāo zhǔn.", difficulty: "hard", theme: "environment" },
+    ],
+  },
 ];
 
 // Language configurations
