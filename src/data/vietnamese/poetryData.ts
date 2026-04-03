@@ -156,6 +156,7 @@ A lonely heart, just me with me.`,
   },
   {
     id: "day-thon-vi-da",
+    imageUrl: dayThonViDaImg,
     title: "Đây thôn Vĩ Dạ",
     titleEn: "This is Vĩ Dạ Village",
     author: "Hàn Mặc Tử",
