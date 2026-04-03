@@ -240,6 +240,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "ngụ ngôn", meaning: "truyện có bài học", meaningEn: "fable", example: "Truyện ngụ ngôn hay.", exampleEn: "A good fable.", partOfSpeech: "noun" },
           { word: "kiên trì", meaning: "không bỏ cuộc", meaningEn: "persistent", example: "Kiên trì thành công.", exampleEn: "Persistence succeeds.", partOfSpeech: "adjective" },
+          { word: "tự cao", meaning: "tự kiêu, nghĩ mình giỏi", meaningEn: "arrogant / conceited", example: "Đừng tự cao tự đại.", exampleEn: "Don't be arrogant.", partOfSpeech: "adjective" },
+          { word: "phồng", meaning: "căng lên, to ra", meaningEn: "to swell / inflate", example: "Ếch phồng bụng.", exampleEn: "The frog inflated its belly.", partOfSpeech: "verb" },
+          { word: "chính kiến", meaning: "ý kiến riêng, lập trường", meaningEn: "own opinion / conviction", example: "Phải có chính kiến.", exampleEn: "Must have your own conviction.", partOfSpeech: "noun" },
+          { word: "bài học", meaning: "điều rút ra", meaningEn: "moral / lesson", example: "Bài học quý giá.", exampleEn: "A valuable lesson.", partOfSpeech: "noun" },
+          { word: "khiêm tốn", meaning: "không khoe khoang", meaningEn: "humble / modest", example: "Người khiêm tốn được yêu mến.", exampleEn: "Humble people are loved.", partOfSpeech: "adjective" },
+          { word: "đẽo", meaning: "cắt gọt gỗ", meaningEn: "to whittle / carve", example: "Đẽo cày giữa đường.", exampleEn: "Whittle a plow in the middle of the road.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "Bài học Thỏ và Rùa?", questionEn: "Lesson?", options: ["Tài năng nhất", "Kiên trì hơn tài năng", "Chạy nhanh", "Đừng đua"], answer: 1, explanation: "Kiên trì quan trọng hơn.", explanationEn: "Persistence matters more." },
