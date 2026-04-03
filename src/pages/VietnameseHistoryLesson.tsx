@@ -26,6 +26,43 @@ const VietnameseHistoryLesson = () => {
   const { t } = useLanguage();
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
+  // Speak a single text block expressively
+  const speakText = useCallback((text: string) => {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "vi-VN";
+    u.rate = 0.4;
+    u.pitch = 1.1;
+    u.onstart = () => setIsSpeaking(true);
+    u.onend = () => setIsSpeaking(false);
+    u.onerror = () => setIsSpeaking(false);
+    speechSynthesis.speak(u);
+  }, []);
+
+  // Speak all segments sequentially with pitch variation for storytelling effect
+  const speakAllSegments = useCallback((segs: { text: string; textEn: string }[]) => {
+    speechSynthesis.cancel();
+    setIsSpeaking(true);
+    let i = 0;
+    const speakNext = () => {
+      if (i >= segs.length) { setIsSpeaking(false); return; }
+      const u = new SpeechSynthesisUtterance(segs[i].text);
+      u.lang = "vi-VN";
+      u.rate = 0.4;
+      u.pitch = 1.1 + (i % 2 === 0 ? 0.05 : -0.05);
+      u.onend = () => { i++; setTimeout(speakNext, 700); };
+      u.onerror = () => setIsSpeaking(false);
+      speechSynthesis.speak(u);
+    };
+    speakNext();
+  }, []);
+
+  const stopSpeech = useCallback(() => {
+    speechSynthesis.cancel();
+    setIsSpeaking(false);
+  }, []);
 
   // Find lesson across all months
   const { lesson, month, nextLesson } = useMemo(() => {
