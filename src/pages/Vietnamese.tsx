@@ -309,28 +309,39 @@ const Vietnamese = () => {
                         <h3 className="font-bold text-white">{t(month.title, month.titleEn)}</h3>
                       </div>
                     </div>
-                    <div className="p-4">
-                      <p className="text-sm text-muted-foreground mb-3">
-                        {t(month.description, month.descriptionEn)}
-                      </p>
-                      {month.lessons.map((lesson) => {
-                        const LessonIcon = lessonIconMap[lesson.id] || BookOpen;
-                        return (
-                          <Link
-                            key={lesson.id}
-                            to={`/learn-vietnamese/history/${lesson.id}`}
-                            className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <LessonIcon className="w-4 h-4 text-primary shrink-0" />
-                              <span className="text-sm font-medium text-foreground">
-                                {t(lesson.title, lesson.titleEn)}
-                              </span>
-                            </div>
-                            <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                          </Link>
-                        );
-                      })}
+                    <div className="p-4 relative overflow-hidden">
+                      {/* Blurred background image */}
+                      {historyBackgrounds[month.id] && (
+                        <img
+                          src={historyBackgrounds[month.id]}
+                          alt=""
+                          className="absolute inset-0 w-full h-full object-cover opacity-[0.08] dark:opacity-[0.12] pointer-events-none"
+                          loading="lazy"
+                        />
+                      )}
+                      <div className="relative z-10">
+                        <p className="text-sm text-muted-foreground mb-3">
+                          {t(month.description, month.descriptionEn)}
+                        </p>
+                        {month.lessons.map((lesson) => {
+                          const LessonIcon = lessonIconMap[lesson.id] || BookOpen;
+                          return (
+                            <Link
+                              key={lesson.id}
+                              to={`/learn-vietnamese/history/${lesson.id}`}
+                              className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <LessonIcon className="w-4 h-4 text-primary shrink-0" />
+                                <span className="text-sm font-medium text-foreground">
+                                  {t(lesson.title, lesson.titleEn)}
+                                </span>
+                              </div>
+                              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                            </Link>
+                          );
+                        })}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
