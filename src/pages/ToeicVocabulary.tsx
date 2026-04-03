@@ -137,6 +137,7 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const scoreSavedRef = useRef(false);
 
   const generate = useCallback(() => {
     const pool = shuffle(words).slice(0, 10);
@@ -150,7 +151,22 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
     setSelected(null);
     setScore(0);
     setFinished(false);
+    scoreSavedRef.current = false;
   }, [words]);
+
+  useEffect(() => {
+    if (!finished || scoreSavedRef.current) return;
+    scoreSavedRef.current = true;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await (supabase as any).from("game_scores").insert({
+          user_id: user.id, score, game_type: "vocab-toeic", max_streak: 0,
+          accuracy: questions.length > 0 ? Math.round((score / questions.length) * 100) : 0,
+        });
+      }
+    })();
+  }, [finished]);
 
   if (questions.length === 0) {
     return (
