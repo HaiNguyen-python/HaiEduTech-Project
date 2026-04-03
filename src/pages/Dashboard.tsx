@@ -613,6 +613,9 @@ const Dashboard = () => {
                   </div>
                 )}
 
+                {/* Overall Leaderboard */}
+                <OverallLeaderboard />
+
                 {/* Quick links */}
                 <div className="grid grid-cols-3 gap-3 mt-6">
                   <Link to="/english" className="glass-card rounded-xl p-4 text-center hover:border-primary/30 transition-all group">
