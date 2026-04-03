@@ -12,7 +12,7 @@ import {
   BookText, Users, Drum, Flame, Castle, Pen, Ship, Anchor,
   Heart, MapPin, Trophy, Rocket, Wifi, HandshakeIcon,
   Lightbulb, TrendingUp, Activity, GraduationCap as GradCap,
-  Utensils, Target, type LucideIcon,
+  Utensils, Target, Mic, type LucideIcon,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -29,6 +29,13 @@ import {
   folkloreItems,
 } from "@/data/vietnameseCurriculumData";
 
+// Background images for history period cards
+const historyBackgrounds: Record<string, string> = {
+  "month-1": "https://images.unsplash.com/photo-1600002415506-990974a7b2e3?w=800&q=60", // ancient Vietnamese bronze drum
+  "month-2": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800&q=60", // Temple of Literature Hanoi
+  "month-3": "https://images.unsplash.com/photo-1557750255-c76072572add?w=800&q=60", // Vietnam historic
+  "month-4": "https://images.unsplash.com/photo-1583417267826-aebc4d1542e1?w=800&q=60", // modern Ho Chi Minh City skyline
+};
 
 // Icon mapping for each history lesson
 const lessonIconMap: Record<string, LucideIcon> = {
@@ -250,6 +257,23 @@ const Vietnamese = () => {
                     </motion.div>
                   ))}
                 </div>
+
+                {/* Speaking Coach link */}
+                <Link
+                  to="/speaking-coach/vietnamese"
+                  className="block mt-6 bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <Mic className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-foreground">{t("AI Speaking Coach", "AI Speaking Coach")}</h3>
+                      <p className="text-sm text-muted-foreground">{t("Luyện phát âm tiếng Việt với trí tuệ nhân tạo", "Practice Vietnamese pronunciation with AI")}</p>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground ml-auto" />
+                  </div>
+                </Link>
               </div>
             </TabsContent>
 
@@ -285,28 +309,39 @@ const Vietnamese = () => {
                         <h3 className="font-bold text-white">{t(month.title, month.titleEn)}</h3>
                       </div>
                     </div>
-                    <div className="p-4">
-                      <p className="text-sm text-muted-foreground mb-3">
-                        {t(month.description, month.descriptionEn)}
-                      </p>
-                      {month.lessons.map((lesson) => {
-                        const LessonIcon = lessonIconMap[lesson.id] || BookOpen;
-                        return (
-                          <Link
-                            key={lesson.id}
-                            to={`/learn-vietnamese/history/${lesson.id}`}
-                            className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <LessonIcon className="w-4 h-4 text-primary shrink-0" />
-                              <span className="text-sm font-medium text-foreground">
-                                {t(lesson.title, lesson.titleEn)}
-                              </span>
-                            </div>
-                            <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                          </Link>
-                        );
-                      })}
+                    <div className="p-4 relative overflow-hidden">
+                      {/* Blurred background image */}
+                      {historyBackgrounds[month.id] && (
+                        <img
+                          src={historyBackgrounds[month.id]}
+                          alt=""
+                          className="absolute inset-0 w-full h-full object-cover opacity-[0.08] dark:opacity-[0.12] pointer-events-none"
+                          loading="lazy"
+                        />
+                      )}
+                      <div className="relative z-10">
+                        <p className="text-sm text-muted-foreground mb-3">
+                          {t(month.description, month.descriptionEn)}
+                        </p>
+                        {month.lessons.map((lesson) => {
+                          const LessonIcon = lessonIconMap[lesson.id] || BookOpen;
+                          return (
+                            <Link
+                              key={lesson.id}
+                              to={`/learn-vietnamese/history/${lesson.id}`}
+                              className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <LessonIcon className="w-4 h-4 text-primary shrink-0" />
+                                <span className="text-sm font-medium text-foreground">
+                                  {t(lesson.title, lesson.titleEn)}
+                                </span>
+                              </div>
+                              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                            </Link>
+                          );
+                        })}
+                      </div>
                     </div>
                   </motion.div>
                 ))}

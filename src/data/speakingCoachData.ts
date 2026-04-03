@@ -575,6 +575,85 @@ const chineseThemes: SpeakingTheme[] = [
   },
 ];
 
+// ---- VIETNAMESE ----
+const vietnameseThemes: SpeakingTheme[] = [
+  {
+    id: "vi-greetings", name: "Chào hỏi & Giới thiệu", nameVi: "Chào hỏi & Giới thiệu", icon: "👋",
+    sentences: [
+      { id: "vi-g1", text: "Xin chào, tôi tên là Hải.", translation: "Hello, my name is Hai.", difficulty: "easy", theme: "greetings" },
+      { id: "vi-g2", text: "Rất vui được gặp bạn.", translation: "Nice to meet you.", difficulty: "easy", theme: "greetings" },
+      { id: "vi-g3", text: "Bạn có khỏe không?", translation: "How are you?", difficulty: "easy", theme: "greetings" },
+      { id: "vi-g4", text: "Tôi đến từ Việt Nam.", translation: "I come from Vietnam.", difficulty: "easy", theme: "greetings" },
+      { id: "vi-g5", text: "Bạn bao nhiêu tuổi?", translation: "How old are you?", difficulty: "easy", theme: "greetings" },
+      { id: "vi-g6", text: "Tôi là sinh viên năm thứ hai.", translation: "I am a second-year student.", difficulty: "medium", theme: "greetings" },
+      { id: "vi-g7", text: "Bạn làm nghề gì?", translation: "What do you do for a living?", difficulty: "easy", theme: "greetings" },
+      { id: "vi-g8", text: "Tôi sống ở thành phố Hồ Chí Minh.", translation: "I live in Ho Chi Minh City.", difficulty: "medium", theme: "greetings" },
+      { id: "vi-g9", text: "Xin tự giới thiệu, tôi là giáo viên tiếng Anh.", translation: "Let me introduce myself, I am an English teacher.", difficulty: "medium", theme: "greetings" },
+      { id: "vi-g10", text: "Tôi rất vui được làm quen với mọi người ở đây.", translation: "I am very happy to meet everyone here.", difficulty: "hard", theme: "greetings" },
+    ],
+  },
+  {
+    id: "vi-family", name: "Gia đình", nameVi: "Gia đình", icon: "👨‍👩‍👧‍👦",
+    sentences: [
+      { id: "vi-f1", text: "Gia đình tôi có bốn người.", translation: "My family has four people.", difficulty: "easy", theme: "family" },
+      { id: "vi-f2", text: "Bố tôi là kỹ sư.", translation: "My father is an engineer.", difficulty: "easy", theme: "family" },
+      { id: "vi-f3", text: "Mẹ tôi nấu ăn rất ngon.", translation: "My mother cooks very well.", difficulty: "easy", theme: "family" },
+      { id: "vi-f4", text: "Tôi có một em gái.", translation: "I have a younger sister.", difficulty: "easy", theme: "family" },
+      { id: "vi-f5", text: "Ông bà tôi sống ở quê.", translation: "My grandparents live in the countryside.", difficulty: "medium", theme: "family" },
+      { id: "vi-f6", text: "Cuối tuần, cả nhà thường đi ăn cùng nhau.", translation: "On weekends, the whole family usually eats together.", difficulty: "medium", theme: "family" },
+      { id: "vi-f7", text: "Anh trai tôi đang học đại học ở Hà Nội.", translation: "My older brother is studying at a university in Hanoi.", difficulty: "medium", theme: "family" },
+      { id: "vi-f8", text: "Chúng tôi thường tổ chức tiệc sinh nhật cho các thành viên trong gia đình.", translation: "We often organize birthday parties for family members.", difficulty: "hard", theme: "family" },
+      { id: "vi-f9", text: "Gia đình là điều quan trọng nhất trong cuộc sống của tôi.", translation: "Family is the most important thing in my life.", difficulty: "medium", theme: "family" },
+      { id: "vi-f10", text: "Mỗi dịp Tết, cả gia đình tôi đều về quê để sum họp.", translation: "Every Tet holiday, my whole family returns to the hometown for reunion.", difficulty: "hard", theme: "family" },
+    ],
+  },
+  {
+    id: "vi-food", name: "Ẩm thực", nameVi: "Ẩm thực", icon: "🍜",
+    sentences: [
+      { id: "vi-fd1", text: "Phở là món ăn nổi tiếng nhất Việt Nam.", translation: "Pho is the most famous Vietnamese dish.", difficulty: "easy", theme: "food" },
+      { id: "vi-fd2", text: "Tôi thích ăn bánh mì.", translation: "I like eating banh mi.", difficulty: "easy", theme: "food" },
+      { id: "vi-fd3", text: "Cà phê sữa đá rất ngon.", translation: "Iced milk coffee is very delicious.", difficulty: "easy", theme: "food" },
+      { id: "vi-fd4", text: "Bạn đã bao giờ ăn bún chả chưa?", translation: "Have you ever eaten bun cha?", difficulty: "medium", theme: "food" },
+      { id: "vi-fd5", text: "Ẩm thực Việt Nam rất đa dạng và phong phú.", translation: "Vietnamese cuisine is very diverse and rich.", difficulty: "medium", theme: "food" },
+      { id: "vi-fd6", text: "Món gỏi cuốn tươi ngon và tốt cho sức khỏe.", translation: "Fresh spring rolls are delicious and healthy.", difficulty: "medium", theme: "food" },
+      { id: "vi-fd7", text: "Mỗi vùng miền có những món ăn đặc trưng riêng.", translation: "Each region has its own specialty dishes.", difficulty: "medium", theme: "food" },
+      { id: "vi-fd8", text: "Tôi muốn học cách nấu phở bò truyền thống.", translation: "I want to learn how to cook traditional beef pho.", difficulty: "hard", theme: "food" },
+      { id: "vi-fd9", text: "Chợ Bến Thành là nơi tuyệt vời để thưởng thức ẩm thực đường phố.", translation: "Ben Thanh Market is a wonderful place to enjoy street food.", difficulty: "hard", theme: "food" },
+      { id: "vi-fd10", text: "Nghệ thuật ẩm thực Việt Nam chú trọng sự cân bằng giữa các vị chua, cay, mặn, ngọt.", translation: "Vietnamese culinary art emphasizes the balance between sour, spicy, salty, and sweet flavors.", difficulty: "hard", theme: "food" },
+    ],
+  },
+  {
+    id: "vi-travel", name: "Du lịch", nameVi: "Du lịch", icon: "✈️",
+    sentences: [
+      { id: "vi-t1", text: "Tôi muốn đi du lịch Đà Nẵng.", translation: "I want to travel to Da Nang.", difficulty: "easy", theme: "travel" },
+      { id: "vi-t2", text: "Hạ Long là di sản thiên nhiên thế giới.", translation: "Ha Long is a world natural heritage site.", difficulty: "medium", theme: "travel" },
+      { id: "vi-t3", text: "Bạn có thể giới thiệu cho tôi một khách sạn tốt không?", translation: "Can you recommend a good hotel for me?", difficulty: "medium", theme: "travel" },
+      { id: "vi-t4", text: "Hội An rất đẹp vào buổi tối.", translation: "Hoi An is very beautiful in the evening.", difficulty: "easy", theme: "travel" },
+      { id: "vi-t5", text: "Tôi thích khám phá văn hóa địa phương khi đi du lịch.", translation: "I like exploring local culture when traveling.", difficulty: "medium", theme: "travel" },
+      { id: "vi-t6", text: "Sapa có phong cảnh núi non hùng vĩ.", translation: "Sapa has majestic mountain scenery.", difficulty: "medium", theme: "travel" },
+      { id: "vi-t7", text: "Từ Hà Nội đến Ninh Bình mất khoảng hai giờ.", translation: "It takes about two hours from Hanoi to Ninh Binh.", difficulty: "medium", theme: "travel" },
+      { id: "vi-t8", text: "Du lịch sinh thái đang phát triển mạnh ở Việt Nam.", translation: "Ecotourism is developing strongly in Vietnam.", difficulty: "hard", theme: "travel" },
+      { id: "vi-t9", text: "Phú Quốc là điểm đến lý tưởng cho kỳ nghỉ biển.", translation: "Phu Quoc is an ideal destination for a beach holiday.", difficulty: "medium", theme: "travel" },
+      { id: "vi-t10", text: "Việt Nam có rất nhiều địa danh lịch sử và danh lam thắng cảnh đáng để tham quan.", translation: "Vietnam has many historical sites and scenic spots worth visiting.", difficulty: "hard", theme: "travel" },
+    ],
+  },
+  {
+    id: "vi-work", name: "Công việc", nameVi: "Công việc", icon: "💼",
+    sentences: [
+      { id: "vi-w1", text: "Tôi đang tìm việc làm.", translation: "I am looking for a job.", difficulty: "easy", theme: "work" },
+      { id: "vi-w2", text: "Bạn làm việc ở đâu?", translation: "Where do you work?", difficulty: "easy", theme: "work" },
+      { id: "vi-w3", text: "Tôi là lập trình viên.", translation: "I am a programmer.", difficulty: "easy", theme: "work" },
+      { id: "vi-w4", text: "Giờ làm việc của tôi từ tám giờ sáng đến năm giờ chiều.", translation: "My working hours are from 8 AM to 5 PM.", difficulty: "medium", theme: "work" },
+      { id: "vi-w5", text: "Công ty tôi có môi trường làm việc rất tốt.", translation: "My company has a very good working environment.", difficulty: "medium", theme: "work" },
+      { id: "vi-w6", text: "Tôi muốn nộp đơn xin việc ở vị trí quản lý.", translation: "I want to apply for a management position.", difficulty: "medium", theme: "work" },
+      { id: "vi-w7", text: "Làm việc nhóm rất quan trọng trong công việc hiện đại.", translation: "Teamwork is very important in modern work.", difficulty: "medium", theme: "work" },
+      { id: "vi-w8", text: "Tôi cần chuẩn bị bài thuyết trình cho cuộc họp ngày mai.", translation: "I need to prepare a presentation for tomorrow's meeting.", difficulty: "hard", theme: "work" },
+      { id: "vi-w9", text: "Kỹ năng giao tiếp tốt giúp bạn thành công trong sự nghiệp.", translation: "Good communication skills help you succeed in your career.", difficulty: "hard", theme: "work" },
+      { id: "vi-w10", text: "Thị trường lao động Việt Nam đang có nhiều cơ hội cho ngành công nghệ thông tin.", translation: "The Vietnamese labor market has many opportunities in the IT sector.", difficulty: "hard", theme: "work" },
+    ],
+  },
+];
+
 // Language configurations
 export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
   english: {
@@ -594,6 +673,12 @@ export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
     langCode: "zh",
     speechLang: "zh-CN",
     themes: chineseThemes,
+  },
+  vietnamese: {
+    lang: "Tiếng Việt",
+    langCode: "vi",
+    speechLang: "vi-VN",
+    themes: vietnameseThemes,
   },
 };
 

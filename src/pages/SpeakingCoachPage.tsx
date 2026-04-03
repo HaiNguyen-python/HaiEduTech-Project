@@ -23,7 +23,7 @@ const SpeakingCoachPage = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const lang = (language === "chinese" ? "chinese" : language === "finnish" ? "finnish" : "english") as "english" | "finnish" | "chinese";
+  const lang = (language === "chinese" ? "chinese" : language === "finnish" ? "finnish" : language === "vietnamese" ? "vietnamese" : "english") as "english" | "finnish" | "chinese" | "vietnamese";
 
   // Gamification state
   const [excellentCount, setExcellentCount] = useState(0);
@@ -46,6 +46,11 @@ const SpeakingCoachPage = () => {
       title: "AI Speaking Coach — Suomi",
       subtitle: t("Luyện phát âm tiếng Phần Lan với trí tuệ nhân tạo", "Practice Finnish pronunciation with AI"),
       back: "/finnish/yki-dashboard",
+    },
+    vietnamese: {
+      title: "AI Speaking Coach — Tiếng Việt",
+      subtitle: t("Luyện phát âm tiếng Việt với trí tuệ nhân tạo", "Practice Vietnamese pronunciation with AI"),
+      back: "/learn-vietnamese",
     },
   };
 
@@ -121,6 +126,15 @@ const SpeakingCoachPage = () => {
             )}
             {lang === "chinese" && (
               <GreatWallClimber
+                mastered={excellentCount}
+                total={totalTarget}
+                flyingStars={flyingStars}
+                onStarLanded={handleStarLanded}
+                containerRef={containerRef}
+              />
+            )}
+            {lang === "vietnamese" && (
+              <MountainClimber
                 mastered={excellentCount}
                 total={totalTarget}
                 flyingStars={flyingStars}

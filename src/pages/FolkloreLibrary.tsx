@@ -36,7 +36,8 @@ const FolkloreLibrary = () => {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "vi-VN";
-    u.rate = 0.85;
+    u.rate = 0.7;
+    u.pitch = 1.05;
     u.onstart = () => setIsSpeaking(true);
     u.onend = () => setIsSpeaking(false);
     u.onerror = () => setIsSpeaking(false);
