@@ -124,10 +124,27 @@ const VietnameseHistoryLesson = () => {
 
           {/* Story Section */}
           <section className="mb-12">
-            <h2 className="text-xl font-bold text-foreground mb-5 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-primary" />
-              {t("Câu chuyện", "Story")}
-            </h2>
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-primary" />
+                {t("Câu chuyện", "Story")}
+              </h2>
+              <button
+                onClick={() => {
+                  if (isSpeaking) { stopSpeech(); return; }
+                  if (segments) { speakAllSegments(segments); }
+                  else if (lesson) { speakText(lesson.story); }
+                }}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  isSpeaking
+                    ? "bg-destructive/10 text-destructive border border-destructive/20"
+                    : "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20"
+                }`}
+              >
+                {isSpeaking ? <Square className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                {isSpeaking ? t("Dừng đọc", "Stop") : t("🔊 Nghe đọc", "🔊 Listen")}
+              </button>
+            </div>
 
             {segments ? (
               /* Illustrated Story Cards */
