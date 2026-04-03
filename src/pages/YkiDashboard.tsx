@@ -33,6 +33,8 @@ import {
   finnishMockExamModules,
   finnishMockExamExpansionModules,
   finnishMockExamExpansion2Modules,
+  finnishMockExamExpansion3Modules,
+  finnishLessonExpansion2Modules,
   type FinnishModule,
   type FinnishLesson,
   type FinnishVocabEntry,
@@ -44,8 +46,8 @@ import AISpeakingCoach from "@/components/AISpeakingCoach";
 // Merge original + expansion data
 import { finnishVocabExpansion4Modules } from "@/data/finnishCurriculum/vocabularyExpansion4";
 const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules];
-const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules];
-const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules];
+const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules, ...finnishMockExamExpansion3Modules];
+const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules, ...finnishLessonExpansion2Modules];
 
 // Verb conjugation helper data
 const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> = {
@@ -1007,6 +1009,46 @@ const QuizSection = ({
 };
 
 // Writing Section with word counter
+// Sample A2 model answers for writing tasks
+const SAMPLE_ANSWERS: Record<string, string> = {
+  "yki-mock-writing-1": `Hei Mikka!
+
+Miten menee? Minulla on hyviä uutisia! Aloitin uuden suomen kielen kurssin viime viikolla. Kurssi on Helsingin kansalaisopistossa maanantaisin ja keskiviikkoisin kello 18–20. Opettaja on todella mukava ja tunnit ovat hauskoja. Opimme paljon uusia sanoja ja puhumme paljon suomea tunnilla. Haluaisitko tulla mukaan? Kurssilla on vielä tilaa!
+
+Nähdään pian!
+Terveisin, [Nimi]`,
+  "yki-mock-writing-2": `Hei opettaja!
+
+En valitettavasti pääse huomisen tunnille. Lapseni on sairas ja minun täytyy olla kotona hänen kanssaan. Voisitteko ystävällisesti kertoa, mitä tunnilla tehdään? Jos on läksyjä, voisitteko lähettää ne minulle sähköpostilla?
+
+Kiitos ymmärryksestä!
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-3": `Hyvä ravintolan johtaja,
+
+Haluan valittaa palvelusta ravintolassanne viime lauantaina. Ensinnäkin odotimme ruokaa 45 minuuttia, mikä on liian pitkä aika. Kun ruoka vihdoin tuli, se oli kylmää. Lisäksi tarjoilija oli epäystävällinen eikä pyytänyt anteeksi. Olen pettynyt palveluun, koska ravintolanne on yleensä hyvä. Toivoisin hyvitystä tai anteeksipyyntöä.
+
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-4": `Hei ystävät!
+
+Tervetuloa juhlimaan kanssani! Täytän 30 vuotta lauantaina 15. maaliskuuta. Juhlat ovat kotonani osoitteessa Mannerheimintie 10 kello 18 alkaen. Tarjolla on ruokaa, kakkua ja juomia. Illalla on myös musiikkia ja pelejä. Ilmoitathan tulostasi 10. maaliskuuta mennessä!
+
+Nähdään juhlissa!
+[Nimi]`,
+  "yki-mock-writing-5": `Hyvä isännöitsijä,
+
+Haluan ilmoittaa viasta asunnossani. Kylpyhuoneen hana on vuotanut viikon ajan. Vesi tippuu koko ajan, vaikka hana on kiinni. Pyydän korjausta mahdollisimman pian, koska tilanne pahenee. Olen kotona arkisin kello 16 jälkeen ja viikonloppuisin koko päivän. Voitte soittaa minulle numeroon 040-1234567.
+
+Ystävällisin terveisin, [Nimi]`,
+};
+
+const getSampleAnswer = (lessonId: string): string => {
+  return SAMPLE_ANSWERS[lessonId] || `Hei!
+
+Tässä on esimerkkivastaus A2-tasolla. Muista käyttää yksinkertaisia lauseita, vastata kaikkiin kysymyksiin ja tarkistaa oikeinkirjoitus. Hyvä vastaus on 50–80 sanaa pitkä.
+
+Onnea harjoitteluun!`;
+};
+
 const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
   const [text, setText] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -1100,15 +1142,40 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
       </div>
 
       {submitted && (
-        <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
-          <CardContent className="p-4">
-            <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ Vastauksesi on lähetetty!</p>
-            <p className="text-sm text-muted-foreground">Sanamäärä: {wordCount}. Tarkista vastauksesi ja vertaa tehtävänantoon.</p>
-            <Button variant="ghost" size="sm" className="mt-2" onClick={() => { setSubmitted(false); setText(""); setTimeLeft(15 * 60); }}>
-              Kirjoita uudelleen
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="space-y-4">
+          <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
+            <CardContent className="p-4">
+              <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ Vastauksesi on lähetetty!</p>
+              <p className="text-sm text-muted-foreground">Sanamäärä: {wordCount}. Tarkista vastauksesi ja vertaa tehtävänantoon.</p>
+              <Button variant="ghost" size="sm" className="mt-2" onClick={() => { setSubmitted(false); setText(""); setTimeLeft(15 * 60); }}>
+                Kirjoita uudelleen
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Writing hints */}
+          <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-900/20 dark:border-blue-800">
+            <CardContent className="p-4">
+              <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2">💡 Vinkkejä kirjoittamiseen</h4>
+              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                <li>Aloita tervehdyksellä ja lopeta lopputoivotuksella.</li>
+                <li>Käytä yksinkertaisia lauseita ja tuttuja sanoja.</li>
+                <li>Vastaa kaikkiin tehtävänannon kysymyksiin.</li>
+                <li>Tarkista oikeinkirjoitus ennen lähettämistä.</li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          {/* Model A2 answer */}
+          <Card className="border-amber-200 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800">
+            <CardContent className="p-4">
+              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">📝 Mallivastaus (A2-taso)</h4>
+              <div className="text-sm text-foreground leading-relaxed whitespace-pre-line">
+                {getSampleAnswer(lesson.id)}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );

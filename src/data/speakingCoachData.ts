@@ -175,6 +175,36 @@ const englishThemes: SpeakingTheme[] = [
       { id: "en-culture10", text: "Understanding the intricate interplay between historical contexts, societal norms, and individual creativity is fundamental to appreciating the depth and evolution of cultural phenomena worldwide.", translation: "Hiểu được sự tương tác phức tạp giữa bối cảnh lịch sử, chuẩn mực xã hội và sự sáng tạo cá nhân là điều cơ bản để đánh giá chiều sâu và sự phát triển của các hiện tượng văn hóa trên toàn thế giới.", ipa: "/ˌʌndərˈstændɪŋ ði ˈɪntrɪkət ˈɪntərˌpleɪ bɪˈtwiːn hɪˈstɒrɪkəl ˈkɒntɛksts, səˈsaɪətl nɔːrmz, ænd ˌɪndɪˈvɪdʒuəl kriːeɪˈtɪvɪti ɪz ˌfʌndəˈmɛntl tu əˈpriːʃiˌeɪtɪŋ ðə dɛpθ ænd ˌiːvəˈluːʃən əv ˈkʌltʃərəl fɪˈnɒmɪnə ˌwɜːrldˈwaɪd/", difficulty: "hard", theme: "culture" },
     ],
   },
+  {
+    id: "en-technology", name: "Technology", nameVi: "Công nghệ", icon: "💻",
+    sentences: [
+      { id: "en-tech1", text: "Technology has transformed the way we communicate with each other.", translation: "Công nghệ đã thay đổi cách chúng ta giao tiếp với nhau.", difficulty: "easy", theme: "technology" },
+      { id: "en-tech2", text: "I use my smartphone for almost everything, from banking to shopping.", translation: "Tôi dùng điện thoại thông minh cho hầu hết mọi thứ, từ ngân hàng đến mua sắm.", difficulty: "easy", theme: "technology" },
+      { id: "en-tech3", text: "Artificial intelligence is becoming increasingly important in everyday life.", translation: "Trí tuệ nhân tạo ngày càng trở nên quan trọng trong cuộc sống hàng ngày.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech4", text: "Social media platforms have changed the way people share information.", translation: "Các nền tảng mạng xã hội đã thay đổi cách mọi người chia sẻ thông tin.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech5", text: "Online learning has made education accessible to people around the world.", translation: "Học trực tuyến đã giúp giáo dục tiếp cận được với mọi người trên thế giới.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech6", text: "Cybersecurity is a growing concern as more data is stored online.", translation: "An ninh mạng là mối lo ngại ngày càng tăng khi nhiều dữ liệu được lưu trữ trực tuyến.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech7", text: "Electric vehicles are expected to replace traditional cars in the near future.", translation: "Xe điện được kỳ vọng sẽ thay thế ô tô truyền thống trong tương lai gần.", difficulty: "medium", theme: "technology" },
+      { id: "en-tech8", text: "The rapid advancement of technology presents both opportunities and challenges for society.", translation: "Sự phát triển nhanh chóng của công nghệ mang lại cả cơ hội lẫn thách thức cho xã hội.", difficulty: "hard", theme: "technology" },
+      { id: "en-tech9", text: "Cloud computing allows businesses to store and access data remotely without physical servers.", translation: "Điện toán đám mây cho phép doanh nghiệp lưu trữ và truy cập dữ liệu từ xa mà không cần máy chủ vật lý.", difficulty: "hard", theme: "technology" },
+      { id: "en-tech10", text: "The ethical implications of artificial intelligence require careful consideration by policymakers and technologists alike.", translation: "Những hệ quả đạo đức của trí tuệ nhân tạo đòi hỏi sự cân nhắc cẩn thận từ cả các nhà hoạch định chính sách và nhà công nghệ.", difficulty: "hard", theme: "technology" },
+    ],
+  },
+  {
+    id: "en-environment", name: "Environment", nameVi: "Môi trường", icon: "🌍",
+    sentences: [
+      { id: "en-env1", text: "We should recycle more to protect the environment.", translation: "Chúng ta nên tái chế nhiều hơn để bảo vệ môi trường.", difficulty: "easy", theme: "environment" },
+      { id: "en-env2", text: "Climate change is one of the biggest challenges facing our planet.", translation: "Biến đổi khí hậu là một trong những thách thức lớn nhất mà hành tinh chúng ta đang đối mặt.", difficulty: "easy", theme: "environment" },
+      { id: "en-env3", text: "Renewable energy sources like solar and wind power are becoming more affordable.", translation: "Các nguồn năng lượng tái tạo như năng lượng mặt trời và gió ngày càng trở nên hợp lý hơn.", difficulty: "medium", theme: "environment" },
+      { id: "en-env4", text: "Deforestation has a devastating impact on biodiversity and local communities.", translation: "Phá rừng có tác động tàn khốc đến đa dạng sinh học và cộng đồng địa phương.", difficulty: "medium", theme: "environment" },
+      { id: "en-env5", text: "Reducing plastic waste is essential for protecting marine ecosystems.", translation: "Giảm thiểu rác thải nhựa là điều cần thiết để bảo vệ hệ sinh thái biển.", difficulty: "medium", theme: "environment" },
+      { id: "en-env6", text: "Many countries are investing in green technology to reduce carbon emissions.", translation: "Nhiều quốc gia đang đầu tư vào công nghệ xanh để giảm lượng khí thải carbon.", difficulty: "medium", theme: "environment" },
+      { id: "en-env7", text: "Sustainable agriculture practices help preserve soil quality and water resources.", translation: "Các phương pháp nông nghiệp bền vững giúp bảo tồn chất lượng đất và tài nguyên nước.", difficulty: "medium", theme: "environment" },
+      { id: "en-env8", text: "The Paris Agreement aims to limit global warming to well below two degrees Celsius.", translation: "Hiệp định Paris nhằm hạn chế sự nóng lên toàn cầu dưới hai độ C.", difficulty: "hard", theme: "environment" },
+      { id: "en-env9", text: "Urban planning that prioritizes green spaces and public transportation can significantly reduce pollution.", translation: "Quy hoạch đô thị ưu tiên không gian xanh và giao thông công cộng có thể giảm đáng kể ô nhiễm.", difficulty: "hard", theme: "environment" },
+      { id: "en-env10", text: "The interconnected nature of environmental challenges necessitates a collaborative, multi-disciplinary approach to developing effective and equitable solutions.", translation: "Bản chất liên kết của các thách thức môi trường đòi hỏi một cách tiếp cận hợp tác, đa ngành để phát triển các giải pháp hiệu quả và công bằng.", difficulty: "hard", theme: "environment" },
+    ],
+  },
 ];
 
 // ---- FINNISH ----
@@ -329,6 +359,36 @@ const finnishThemes: SpeakingTheme[] = [
       { id: "fi-kulttuuri10", text: "Globaalistuvassa maailmassa paikallisten kulttuuriperinteiden vaaliminen ja niiden esittely matkailijoille luo ainutlaatuisia kokemuksia ja edistää ymmärrystä eri kansojen välillä.", translation: "Trong một thế giới toàn cầu hóa, việc trân trọng các truyền thống văn hóa địa phương và giới thiệu chúng cho du khách tạo ra những trải nghiệm độc đáo và thúc đẩy sự hiểu biết giữa các dân tộc khác nhau.", difficulty: "hard", theme: "kulttuuri" },
     ],
   },
+  {
+    id: "fi-asuminen", name: "Asuminen", nameVi: "Nhà ở", icon: "🏠",
+    sentences: [
+      { id: "fi-asu1", text: "Asun kerrostalossa kaupungin keskustassa.", translation: "Tôi sống trong chung cư ở trung tâm thành phố.", ipa: "/ɑsun kerːostɑlosːɑ kɑupuŋin keskustɑsːɑ/", difficulty: "easy", theme: "asuminen" },
+      { id: "fi-asu2", text: "Asunnossani on kaksi huonetta ja keittiö.", translation: "Căn hộ của tôi có hai phòng và bếp.", ipa: "/ɑsunːosːɑni on kɑksi huonetːɑ jɑ keitːiø/", difficulty: "easy", theme: "asuminen" },
+      { id: "fi-asu3", text: "Vuokra on kuusisataa euroa kuukaudessa.", translation: "Tiền thuê là sáu trăm euro mỗi tháng.", difficulty: "easy", theme: "asuminen" },
+      { id: "fi-asu4", text: "Haluaisin muuttaa isompaan asuntoon lähellä puistoa.", translation: "Tôi muốn chuyển đến căn hộ lớn hơn gần công viên.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu5", text: "Taloyhtiön saunavuoro on torstaisin kello kuudesta kahdeksaan.", translation: "Lượt sauna của tòa nhà là vào thứ Năm từ sáu đến tám giờ.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu6", text: "Naapurini ovat ystävällisiä ja tervehtivät aina rappukäytävässä.", translation: "Hàng xóm của tôi rất thân thiện và luôn chào ở cầu thang.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu7", text: "Pyykinpesukoneen käyttövuoro pitää varata etukäteen.", translation: "Lượt dùng máy giặt phải đặt trước.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu8", text: "Isännöitsijälle täytyy ilmoittaa, jos jokin menee rikki asunnossa.", translation: "Phải thông báo cho quản lý tòa nhà nếu có gì hỏng trong căn hộ.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu9", text: "Suomessa vuokrasopimus on yleensä toistaiseksi voimassa oleva tai määräaikainen.", translation: "Ở Phần Lan, hợp đồng thuê thường là vô thời hạn hoặc có thời hạn.", difficulty: "hard", theme: "asuminen" },
+      { id: "fi-asu10", text: "Asumistukea voi hakea Kelasta, jos tulot ovat pienet ja vuokra on kohtuullinen.", translation: "Có thể xin trợ cấp nhà ở từ Kela nếu thu nhập thấp và tiền thuê hợp lý.", difficulty: "hard", theme: "asuminen" },
+    ],
+  },
+  {
+    id: "fi-tyo", name: "Työ", nameVi: "Công việc", icon: "💼",
+    sentences: [
+      { id: "fi-tyo1", text: "Olen töissä ravintolassa kokkina.", translation: "Tôi làm việc ở nhà hàng với vai trò đầu bếp.", difficulty: "easy", theme: "tyo" },
+      { id: "fi-tyo2", text: "Työaikani on maanantaista perjantaihin.", translation: "Giờ làm việc của tôi từ thứ Hai đến thứ Sáu.", difficulty: "easy", theme: "tyo" },
+      { id: "fi-tyo3", text: "Haen uutta työpaikkaa, koska haluan kehittyä ammatillisesti.", translation: "Tôi tìm việc mới vì muốn phát triển chuyên môn.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo4", text: "Työhaastattelussa on tärkeää kertoa vahvuuksistaan.", translation: "Trong phỏng vấn việc làm, điều quan trọng là nói về điểm mạnh của mình.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo5", text: "Ansioluettelossa pitää olla yhteystiedot, koulutus ja työkokemus.", translation: "Trong CV phải có thông tin liên lạc, học vấn và kinh nghiệm làm việc.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo6", text: "Työkaverit ovat mukavia ja työilmapiiri on hyvä.", translation: "Đồng nghiệp rất dễ thương và bầu không khí làm việc tốt.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo7", text: "Suomessa työntekijällä on oikeus neljän viikon lomaan vuodessa.", translation: "Ở Phần Lan, người lao động có quyền nghỉ phép bốn tuần mỗi năm.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo8", text: "Etätyö on yleistynyt paljon viime vuosina.", translation: "Làm việc từ xa đã trở nên phổ biến hơn trong những năm gần đây.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo9", text: "Ammattiliiton jäsenyys on suositeltavaa, koska se tarjoaa turvaa työsuhteessa.", translation: "Nên tham gia công đoàn vì nó cung cấp sự bảo vệ trong quan hệ lao động.", difficulty: "hard", theme: "tyo" },
+      { id: "fi-tyo10", text: "Työvoimapula on haaste monilla aloilla, ja maahanmuuttajien työpanos on yhä tärkeämpää Suomen taloudelle.", translation: "Thiếu hụt lao động là thách thức ở nhiều ngành, và đóng góp lao động của người nhập cư ngày càng quan trọng cho nền kinh tế Phần Lan.", difficulty: "hard", theme: "tyo" },
+    ],
+  },
 ];
 
 // ---- CHINESE ----
@@ -481,6 +541,36 @@ const chineseThemes: SpeakingTheme[] = [
       { id: "zh-culture8", text: "通过了解不同国家的文化，我们可以更好地理解世界和促进国际交流。", translation: "Thông qua việc tìm hiểu văn hóa của các quốc gia khác nhau, chúng ta có thể hiểu rõ hơn về thế giới và thúc đẩy giao lưu quốc tế.", ipa: "tōng guò liǎo jiě bù tóng guó jiā de wén huà, wǒ men kě yǐ gèng hǎo dì lǐ jiě shì jiè hé cù jìn guó jì jiāo liú.", difficulty: "medium", theme: "culture" },
       { id: "zh-culture9", text: "中国传统器乐，如古琴和琵琶，不仅拥有丰富的历史底蕴，其独特的音色和演奏技巧也吸引着全球范围内的音乐爱好者。", translation: "Nhạc cụ truyền thống Trung Quốc, như đàn tranh và đàn tỳ bà, không chỉ có nền tảng lịch sử phong phú, mà còn thu hút những người yêu âm nhạc trên toàn cầu bởi âm sắc và kỹ thuật biểu diễn độc đáo của chúng.", ipa: "zhōng guó chuán tǒng qì yuè, rú gǔ qín hé pí pá, bù jǐn yōng yǒu fēng fù de lì shǐ dǐ yùn, qí dú tè de yīn sè hé yǎn zòu jì qiǎo yě xī yǐn zhe quán qiú fàn wéi nèi de yīn yuè ài hào zhě.", difficulty: "hard", theme: "culture" },
       { id: "zh-culture10", text: "随着全球化的深入，文化融合现象日益普遍，不同文明之间的交流与碰撞为新的艺术形式和思想观念提供了肥沃的土壤，同时也带来了文化认同的挑战。", translation: "Với sự hội nhập sâu sắc của toàn cầu hóa, hiện tượng hòa nhập văn hóa ngày càng trở nên phổ biến, giao lưu và va chạm giữa các nền văn minh khác nhau đã cung cấp mảnh đất màu mỡ cho các hình thức nghệ thuật và ý tưởng mới, đồng thời cũng mang lại những thách thức về bản sắc văn hóa.", ipa: "suí zhe quán qiú huà de shēn rù, wén huà róng hé xiàn xiàng rì yì pǔ biàn, bù tóng wén míng zhī jiān de jiāo liú yǔ pèng zhuàng wèi xīn de yì shù xíng shì hé sī xiǎng guān niàn tí gōng le féi wò de tǔ rǎng, tóng shí yě dài lái le wén huà rèn tóng de tiǎo zhàn.", difficulty: "hard", theme: "culture" },
+    ],
+  },
+  {
+    id: "zh-technology", name: "科技", nameVi: "Công nghệ", icon: "💻",
+    sentences: [
+      { id: "zh-tech1", text: "我每天都用手机上网和聊天。", translation: "Tôi dùng điện thoại lên mạng và nhắn tin mỗi ngày.", ipa: "wǒ měi tiān dōu yòng shǒu jī shàng wǎng hé liáo tiān.", difficulty: "easy", theme: "technology" },
+      { id: "zh-tech2", text: "现在很多人用电子支付代替现金。", translation: "Bây giờ nhiều người dùng thanh toán điện tử thay cho tiền mặt.", ipa: "xiàn zài hěn duō rén yòng diàn zǐ zhī fù dài tì xiàn jīn.", difficulty: "easy", theme: "technology" },
+      { id: "zh-tech3", text: "人工智能正在改变我们的生活和工作方式。", translation: "Trí tuệ nhân tạo đang thay đổi cách sống và làm việc của chúng ta.", ipa: "rén gōng zhì néng zhèng zài gǎi biàn wǒ men de shēng huó hé gōng zuò fāng shì.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech4", text: "网络安全越来越重要，每个人都应该保护好自己的个人信息。", translation: "An ninh mạng ngày càng quan trọng, mỗi người đều nên bảo vệ tốt thông tin cá nhân.", ipa: "wǎng luò ān quán yuè lái yuè zhòng yào, měi gè rén dōu yīng gāi bǎo hù hǎo zì jǐ de gè rén xìn xī.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech5", text: "在线教育让世界各地的学生都能获得优质的学习资源。", translation: "Giáo dục trực tuyến giúp học sinh trên khắp thế giới tiếp cận tài nguyên học tập chất lượng.", ipa: "zài xiàn jiào yù ràng shì jiè gè dì de xué shēng dōu néng huò dé yōu zhì de xué xí zī yuán.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech6", text: "5G技术的普及将大大提高网络速度和连接稳定性。", translation: "Sự phổ biến của công nghệ 5G sẽ tăng đáng kể tốc độ mạng và tính ổn định kết nối.", ipa: "wǔ jī jì shù de pǔ jí jiāng dà dà tí gāo wǎng luò sù dù hé lián jiē wěn dìng xìng.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech7", text: "电动汽车的发展有助于减少空气污染。", translation: "Sự phát triển xe điện giúp giảm ô nhiễm không khí.", ipa: "diàn dòng qì chē de fā zhǎn yǒu zhù yú jiǎn shǎo kōng qì wū rǎn.", difficulty: "medium", theme: "technology" },
+      { id: "zh-tech8", text: "大数据分析帮助企业更好地了解消费者需求和市场趋势。", translation: "Phân tích dữ liệu lớn giúp doanh nghiệp hiểu rõ hơn nhu cầu người tiêu dùng và xu hướng thị trường.", ipa: "dà shù jù fēn xī bāng zhù qǐ yè gèng hǎo dì liǎo jiě xiāo fèi zhě xū qiú hé shì chǎng qū shì.", difficulty: "hard", theme: "technology" },
+      { id: "zh-tech9", text: "区块链技术为金融交易提供了更高的安全性和透明度。", translation: "Công nghệ blockchain cung cấp tính bảo mật và minh bạch cao hơn cho các giao dịch tài chính.", ipa: "qū kuài liàn jì shù wèi jīn róng jiāo yì tí gōng le gèng gāo de ān quán xìng hé tòu míng dù.", difficulty: "hard", theme: "technology" },
+      { id: "zh-tech10", text: "随着量子计算技术的突破，未来的信息处理能力将实现质的飞跃，从而深刻影响科学研究和产业发展的方向。", translation: "Với bước đột phá trong công nghệ tính toán lượng tử, khả năng xử lý thông tin trong tương lai sẽ có bước nhảy chất lượng, từ đó ảnh hưởng sâu sắc đến hướng nghiên cứu khoa học và phát triển công nghiệp.", ipa: "suí zhe liàng zǐ jì suàn jì shù de tū pò, wèi lái de xìn xī chǔ lǐ néng lì jiāng shí xiàn zhì de fēi yuè, cóng ér shēn kè yǐng xiǎng kē xué yán jiū hé chǎn yè fā zhǎn de fāng xiàng.", difficulty: "hard", theme: "technology" },
+    ],
+  },
+  {
+    id: "zh-environment", name: "环境", nameVi: "Môi trường", icon: "🌍",
+    sentences: [
+      { id: "zh-env1", text: "我们应该多回收垃圾来保护环境。", translation: "Chúng ta nên tái chế rác nhiều hơn để bảo vệ môi trường.", ipa: "wǒ men yīng gāi duō huí shōu lā jī lái bǎo hù huán jìng.", difficulty: "easy", theme: "environment" },
+      { id: "zh-env2", text: "节约用水和用电是每个人的责任。", translation: "Tiết kiệm nước và điện là trách nhiệm của mỗi người.", ipa: "jié yuē yòng shuǐ hé yòng diàn shì měi gè rén de zé rèn.", difficulty: "easy", theme: "environment" },
+      { id: "zh-env3", text: "太阳能和风能是清洁的可再生能源。", translation: "Năng lượng mặt trời và gió là năng lượng tái tạo sạch.", ipa: "tài yáng néng hé fēng néng shì qīng jié de kě zài shēng néng yuán.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env4", text: "全球变暖导致冰川融化和海平面上升。", translation: "Nóng lên toàn cầu dẫn đến băng tan và mực nước biển dâng.", ipa: "quán qiú biàn nuǎn dǎo zhì bīng chuān róng huà hé hǎi píng miàn shàng shēng.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env5", text: "减少使用一次性塑料制品对保护海洋生态系统至关重要。", translation: "Giảm sử dụng đồ nhựa dùng một lần rất quan trọng để bảo vệ hệ sinh thái biển.", ipa: "jiǎn shǎo shǐ yòng yī cì xìng sù liào zhì pǐn duì bǎo hù hǎi yáng shēng tài xì tǒng zhì guān zhòng yào.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env6", text: "许多城市正在推广绿色出行方式，如骑自行车和坐公共交通。", translation: "Nhiều thành phố đang thúc đẩy phương thức di chuyển xanh, như đi xe đạp và phương tiện công cộng.", ipa: "xǔ duō chéng shì zhèng zài tuī guǎng lǜ sè chū xíng fāng shì, rú qí zì xíng chē hé zuò gōng gòng jiāo tōng.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env7", text: "植树造林是应对气候变化的有效措施之一。", translation: "Trồng cây là một trong những biện pháp hiệu quả để ứng phó biến đổi khí hậu.", ipa: "zhí shù zào lín shì yìng duì qì hòu biàn huà de yǒu xiào cuò shī zhī yī.", difficulty: "medium", theme: "environment" },
+      { id: "zh-env8", text: "可持续发展要求我们在经济增长和环境保护之间找到平衡。", translation: "Phát triển bền vững đòi hỏi chúng ta tìm được sự cân bằng giữa tăng trưởng kinh tế và bảo vệ môi trường.", ipa: "kě chí xù fā zhǎn yāo qiú wǒ men zài jīng jì zēng zhǎng hé huán jìng bǎo hù zhī jiān zhǎo dào píng héng.", difficulty: "hard", theme: "environment" },
+      { id: "zh-env9", text: "生物多样性的丧失不仅影响生态平衡，还可能对人类的食物安全和医药发展产生深远影响。", translation: "Mất đa dạng sinh học không chỉ ảnh hưởng đến cân bằng sinh thái, mà còn có thể tác động sâu sắc đến an ninh lương thực và phát triển y dược của con người.", ipa: "shēng wù duō yàng xìng de sàng shī bù jǐn yǐng xiǎng shēng tài píng héng, hái kě néng duì rén lèi de shí wù ān quán hé yī yào fā zhǎn chǎn shēng shēn yuǎn yǐng xiǎng.", difficulty: "hard", theme: "environment" },
+      { id: "zh-env10", text: "面对日益严峻的环境危机，国际社会需要加强合作，共同制定并执行更加严格的环保政策和标准。", translation: "Đối mặt với khủng hoảng môi trường ngày càng nghiêm trọng, cộng đồng quốc tế cần tăng cường hợp tác, cùng xây dựng và thực thi các chính sách và tiêu chuẩn bảo vệ môi trường nghiêm ngặt hơn.", ipa: "miàn duì rì yì yán jùn de huán jìng wēi jī, guó jì shè huì xū yào jiā qiáng hé zuò, gòng tóng zhì dìng bìng zhí xíng gèng jiā yán gé de huán bǎo zhèng cè hé biāo zhǔn.", difficulty: "hard", theme: "environment" },
     ],
   },
 ];
