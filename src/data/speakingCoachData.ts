@@ -359,6 +359,36 @@ const finnishThemes: SpeakingTheme[] = [
       { id: "fi-kulttuuri10", text: "Globaalistuvassa maailmassa paikallisten kulttuuriperinteiden vaaliminen ja niiden esittely matkailijoille luo ainutlaatuisia kokemuksia ja edistää ymmärrystä eri kansojen välillä.", translation: "Trong một thế giới toàn cầu hóa, việc trân trọng các truyền thống văn hóa địa phương và giới thiệu chúng cho du khách tạo ra những trải nghiệm độc đáo và thúc đẩy sự hiểu biết giữa các dân tộc khác nhau.", difficulty: "hard", theme: "kulttuuri" },
     ],
   },
+  {
+    id: "fi-asuminen", name: "Asuminen", nameVi: "Nhà ở", icon: "🏠",
+    sentences: [
+      { id: "fi-asu1", text: "Asun kerrostalossa kaupungin keskustassa.", translation: "Tôi sống trong chung cư ở trung tâm thành phố.", ipa: "/ɑsun kerːostɑlosːɑ kɑupuŋin keskustɑsːɑ/", difficulty: "easy", theme: "asuminen" },
+      { id: "fi-asu2", text: "Asunnossani on kaksi huonetta ja keittiö.", translation: "Căn hộ của tôi có hai phòng và bếp.", ipa: "/ɑsunːosːɑni on kɑksi huonetːɑ jɑ keitːiø/", difficulty: "easy", theme: "asuminen" },
+      { id: "fi-asu3", text: "Vuokra on kuusisataa euroa kuukaudessa.", translation: "Tiền thuê là sáu trăm euro mỗi tháng.", difficulty: "easy", theme: "asuminen" },
+      { id: "fi-asu4", text: "Haluaisin muuttaa isompaan asuntoon lähellä puistoa.", translation: "Tôi muốn chuyển đến căn hộ lớn hơn gần công viên.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu5", text: "Taloyhtiön saunavuoro on torstaisin kello kuudesta kahdeksaan.", translation: "Lượt sauna của tòa nhà là vào thứ Năm từ sáu đến tám giờ.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu6", text: "Naapurini ovat ystävällisiä ja tervehtivät aina rappukäytävässä.", translation: "Hàng xóm của tôi rất thân thiện và luôn chào ở cầu thang.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu7", text: "Pyykinpesukoneen käyttövuoro pitää varata etukäteen.", translation: "Lượt dùng máy giặt phải đặt trước.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu8", text: "Isännöitsijälle täytyy ilmoittaa, jos jokin menee rikki asunnossa.", translation: "Phải thông báo cho quản lý tòa nhà nếu có gì hỏng trong căn hộ.", difficulty: "medium", theme: "asuminen" },
+      { id: "fi-asu9", text: "Suomessa vuokrasopimus on yleensä toistaiseksi voimassa oleva tai määräaikainen.", translation: "Ở Phần Lan, hợp đồng thuê thường là vô thời hạn hoặc có thời hạn.", difficulty: "hard", theme: "asuminen" },
+      { id: "fi-asu10", text: "Asumistukea voi hakea Kelasta, jos tulot ovat pienet ja vuokra on kohtuullinen.", translation: "Có thể xin trợ cấp nhà ở từ Kela nếu thu nhập thấp và tiền thuê hợp lý.", difficulty: "hard", theme: "asuminen" },
+    ],
+  },
+  {
+    id: "fi-tyo", name: "Työ", nameVi: "Công việc", icon: "💼",
+    sentences: [
+      { id: "fi-tyo1", text: "Olen töissä ravintolassa kokkina.", translation: "Tôi làm việc ở nhà hàng với vai trò đầu bếp.", difficulty: "easy", theme: "tyo" },
+      { id: "fi-tyo2", text: "Työaikani on maanantaista perjantaihin.", translation: "Giờ làm việc của tôi từ thứ Hai đến thứ Sáu.", difficulty: "easy", theme: "tyo" },
+      { id: "fi-tyo3", text: "Haen uutta työpaikkaa, koska haluan kehittyä ammatillisesti.", translation: "Tôi tìm việc mới vì muốn phát triển chuyên môn.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo4", text: "Työhaastattelussa on tärkeää kertoa vahvuuksistaan.", translation: "Trong phỏng vấn việc làm, điều quan trọng là nói về điểm mạnh của mình.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo5", text: "Ansioluettelossa pitää olla yhteystiedot, koulutus ja työkokemus.", translation: "Trong CV phải có thông tin liên lạc, học vấn và kinh nghiệm làm việc.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo6", text: "Työkaverit ovat mukavia ja työilmapiiri on hyvä.", translation: "Đồng nghiệp rất dễ thương và bầu không khí làm việc tốt.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo7", text: "Suomessa työntekijällä on oikeus neljän viikon lomaan vuodessa.", translation: "Ở Phần Lan, người lao động có quyền nghỉ phép bốn tuần mỗi năm.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo8", text: "Etätyö on yleistynyt paljon viime vuosina.", translation: "Làm việc từ xa đã trở nên phổ biến hơn trong những năm gần đây.", difficulty: "medium", theme: "tyo" },
+      { id: "fi-tyo9", text: "Ammattiliiton jäsenyys on suositeltavaa, koska se tarjoaa turvaa työsuhteessa.", translation: "Nên tham gia công đoàn vì nó cung cấp sự bảo vệ trong quan hệ lao động.", difficulty: "hard", theme: "tyo" },
+      { id: "fi-tyo10", text: "Työvoimapula on haaste monilla aloilla, ja maahanmuuttajien työpanos on yhä tärkeämpää Suomen taloudelle.", translation: "Thiếu hụt lao động là thách thức ở nhiều ngành, và đóng góp lao động của người nhập cư ngày càng quan trọng cho nền kinh tế Phần Lan.", difficulty: "hard", theme: "tyo" },
+    ],
+  },
 ];
 
 // ---- CHINESE ----
