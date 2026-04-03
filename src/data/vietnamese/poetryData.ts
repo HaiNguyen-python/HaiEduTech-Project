@@ -339,6 +339,7 @@ Half of itself into autumn.`,
   },
   {
     id: "vieng-lang-bac",
+    imageUrl: viengLangBacImg,
     title: "Viếng lăng Bác",
     titleEn: "Visiting Uncle Hồ's Mausoleum",
     author: "Viễn Phương",
