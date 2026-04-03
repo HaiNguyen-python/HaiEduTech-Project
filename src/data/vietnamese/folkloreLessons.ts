@@ -276,6 +276,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "anh hùng", meaning: "người dũng cảm", meaningEn: "hero", example: "Thạch Sanh là anh hùng.", exampleEn: "Thach Sanh is a hero.", partOfSpeech: "noun" },
           { word: "phản bội", meaning: "lừa dối", meaningEn: "betray", example: "Lý Thông phản bội.", exampleEn: "Ly Thong betrayed.", partOfSpeech: "verb" },
+          { word: "tiều phu", meaning: "người đốn củi", meaningEn: "woodcutter", example: "Thạch Sanh là tiều phu nghèo.", exampleEn: "Thach Sanh was a poor woodcutter.", partOfSpeech: "noun" },
+          { word: "chằn tinh", meaning: "quái vật trong truyện cổ", meaningEn: "demon / monster", example: "Chém chằn tinh.", exampleEn: "Slaying the demon.", partOfSpeech: "noun" },
+          { word: "công chúa", meaning: "con gái vua", meaningEn: "princess", example: "Cứu công chúa.", exampleEn: "Rescue the princess.", partOfSpeech: "noun" },
+          { word: "niêu cơm", meaning: "nồi cơm nhỏ", meaningEn: "rice pot", example: "Niêu cơm ăn không hết.", exampleEn: "Bottomless rice pot.", partOfSpeech: "noun" },
+          { word: "đàn thần", meaning: "cây đàn có phép thuật", meaningEn: "magic lute", example: "Đàn thần hát hay.", exampleEn: "The magic lute plays beautifully.", partOfSpeech: "noun" },
+          { word: "đền đáp", meaning: "trả ơn", meaningEn: "to repay / reward", example: "Người tốt được đền đáp.", exampleEn: "Good people are rewarded.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "Thạch Sanh có vật gì thần kỳ?", questionEn: "Magic items?", options: ["Gươm", "Đàn thần và niêu cơm", "Áo tàng hình", "Giày bay"], answer: 1, explanation: "Đàn thần và niêu cơm.", explanationEn: "Magic lute and rice pot." },
