@@ -51,6 +51,81 @@ const SKILL_MAP: Record<string, string[]> = {
 
 const heatColors = ["bg-secondary", "bg-primary/20", "bg-primary/40", "bg-primary/60", "bg-primary"];
 
+// Overall Leaderboard component
+const OverallLeaderboard = () => {
+  const { t } = useLanguage();
+  const [entries, setEntries] = useState<{ user_id: string; total: number; name: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const { data } = await supabase
+          .from("game_scores")
+          .select("user_id, score")
+          .order("created_at", { ascending: false })
+          .limit(500);
+
+        if (data && data.length > 0) {
+          const totals = new Map<string, number>();
+          for (const row of data) {
+            totals.set(row.user_id, (totals.get(row.user_id) || 0) + row.score);
+          }
+
+          const userIds = [...totals.keys()];
+          const { data: profiles } = await supabase
+            .from("profiles")
+            .select("id, full_name")
+            .in("id", userIds);
+
+          const nameMap = new Map(profiles?.map((p) => [p.id, p.full_name]) || []);
+
+          const sorted = [...totals.entries()]
+            .map(([uid, total]) => ({ user_id: uid, total, name: nameMap.get(uid) || "Student" }))
+            .sort((a, b) => b.total - a.total)
+            .slice(0, 10);
+
+          setEntries(sorted);
+        }
+      } catch (e) {
+        console.error("Leaderboard error:", e);
+      }
+      setLoading(false);
+    };
+    fetch();
+  }, []);
+
+  if (loading) return null;
+  if (entries.length === 0) return null;
+
+  const medals = ["🥇", "🥈", "🥉"];
+
+  return (
+    <div className="glass-card rounded-xl p-4 mt-6">
+      <h3 className="text-sm font-bold text-foreground flex items-center gap-2 mb-3">
+        <Trophy className="w-4 h-4 text-amber-400" />
+        {t("Bảng xếp hạng tổng hợp", "Overall Leaderboard")}
+      </h3>
+      <div className="space-y-2">
+        {entries.map((entry, i) => (
+          <div
+            key={entry.user_id}
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs ${
+              i === 0 ? "bg-amber-500/10 border border-amber-500/30" : "bg-card/50 border border-border/50"
+            }`}
+          >
+            <span className="w-6 flex-shrink-0 text-center">
+              {i < 3 ? medals[i] : <span className="text-muted-foreground font-mono">#{i + 1}</span>}
+            </span>
+            <span className="flex-1 truncate font-medium text-foreground">{entry.name}</span>
+            <span className="font-bold text-primary">{entry.total}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Dashboard = () => {
   const { t } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
