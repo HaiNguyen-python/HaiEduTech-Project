@@ -331,6 +331,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "mồ côi", meaning: "không có cha mẹ", meaningEn: "orphan", example: "Tấm mồ côi mẹ.", exampleEn: "Tam was motherless.", partOfSpeech: "adjective" },
           { word: "Bụt", meaning: "tiên ông giúp đỡ", meaningEn: "fairy godfather (VN)", example: "Bụt hiện ra.", exampleEn: "The fairy appeared.", partOfSpeech: "noun" },
+          { word: "mẹ kế", meaning: "vợ sau của bố", meaningEn: "stepmother", example: "Mẹ kế đối xử tệ.", exampleEn: "The stepmother treated her badly.", partOfSpeech: "noun" },
+          { word: "bắt nạt", meaning: "ức hiếp", meaningEn: "to bully", example: "Cám bắt nạt Tấm.", exampleEn: "Cam bullied Tam.", partOfSpeech: "verb" },
+          { word: "tái sinh", meaning: "sống lại", meaningEn: "rebirth / reincarnation", example: "Tấm tái sinh nhiều lần.", exampleEn: "Tam was reborn many times.", partOfSpeech: "noun" },
+          { word: "hóa thân", meaning: "biến đổi hình dáng", meaningEn: "to transform / metamorphose", example: "Tấm hóa thân thành chim.", exampleEn: "Tam transformed into a bird.", partOfSpeech: "verb" },
+          { word: "hiền lành", meaning: "tốt bụng, nhẹ nhàng", meaningEn: "gentle / kind", example: "Tấm hiền lành.", exampleEn: "Tam is gentle.", partOfSpeech: "adjective" },
+          { word: "ích kỷ", meaning: "chỉ nghĩ đến mình", meaningEn: "selfish", example: "Cám rất ích kỷ.", exampleEn: "Cam is very selfish.", partOfSpeech: "adjective" },
         ],
         quiz: [
           { question: "Ai giúp đỡ Tấm?", questionEn: "Who helps Tam?", options: ["Vua", "Bụt", "Cám", "Mẹ kế"], answer: 1, explanation: "Bụt (ông Bụt).", explanationEn: "The fairy (But)." },
