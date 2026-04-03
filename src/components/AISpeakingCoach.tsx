@@ -141,6 +141,9 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   const { t } = useLanguage();
   const config = speakingCoachLanguages[language];
 
+  // Guard ref to prevent processing same transcript twice (infinite loop fix)
+  const lastProcessedTranscriptRef = useRef<string>("");
+
   // State
   const [selectedTheme, setSelectedTheme] = useState<SpeakingTheme | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
