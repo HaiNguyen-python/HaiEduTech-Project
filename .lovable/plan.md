@@ -1,40 +1,47 @@
-## Plan: Thêm mục Thơ vào Navbar + Video minh họa lịch sử
 
-### 1. Thêm "Thơ Việt Nam" và "Nghe chép chính tả" vào dropdown Navbar
 
-**File:** `src/components/Navbar.tsx`
+## Plan: Sửa font/dấu thơ Việt Nam & Thêm bài tập sau mỗi bài thơ
 
-Hiện tại `vietnameseSubs` thiếu 3 mục quan trọng. Thêm:
+### 1. Sửa lỗi nhảy dấu / sai font
 
-- `{ to: "/learn-vietnamese/poetry", label: "📜 Thơ Việt Nam / Vietnamese Poetry" }`
-- `{ to: "/learn-vietnamese/dictation", label: "✍️ Nghe chép chính tả / Dictation" }`
-- `{ to: "/speaking-coach/vietnamese", label: "🎙️ AI Speaking Coach" }`
+**Nguyên nhân:** Thẻ `<pre>` kết hợp `font-serif` khiến trình duyệt render sai dấu tiếng Việt (combining diacritics bị tách rời). 
 
-### 2. Thêm video minh họa ngắn cho các câu chuyện lịch sử
+**Giải pháp:** Thay `<pre className="font-serif">` bằng `<p>` hoặc `<div>` với `whitespace-pre-wrap` và font hỗ trợ Vietnamese tốt hơn (system font stack hoặc `font-sans`).
 
-**File:** `src/data/vietnamese/historyData.ts` — Thêm trường `videoUrl` vào interface `HistoryLesson` (trong `types.ts`) và gán video YouTube embed cho các bài học lịch sử chính. Sử dụng các video ngắn miễn phí từ YouTube về lịch sử Việt Nam (embed format).
+**File:** `src/pages/VietnamesePoetry.tsx`
+- Dòng 72: `<pre className="whitespace-pre-wrap font-serif ...">` → `<div className="whitespace-pre-wrap font-sans text-lg ...">`
+- Dòng 74: Tương tự cho phần dịch tiếng Anh
 
-**File:** `src/data/vietnamese/types.ts` — Thêm `videoUrl?: string` vào `HistoryLesson` interface.
+### 2. Sửa lỗi chính tả trong data
 
-**File:** `src/pages/VietnameseHistoryLesson.tsx` — Hiển thị video embed (iframe YouTube) ở đầu bài học, trước phần Story, với responsive aspect ratio 16:9, rounded corners, và label "📹 Video minh họa".
+**File:** `src/data/vietnamese/poetryData.ts`
+- Dòng 358: `Maimai` → `Mai mai`
 
-### Danh sách video minh họa (YouTube embed, nội dung giáo dục):
+### 3. Thêm bài tập (quiz) sau mỗi bài thơ
 
-Mỗi bài lịch sử sẽ có 1 video ngắn liên quan (2-5 phút) từ các kênh giáo dục uy tín về lịch sử Việt Nam. Ví dụ:
+**File:** `src/data/vietnamese/poetryData.ts`
+- Thêm trường `exercises` vào interface `VietnamesePoem`:
+  ```
+  exercises: {
+    question: string;
+    questionEn: string;
+    options: string[];
+    correctIndex: number;
+    explanation: string;
+    explanationEn: string;
+  }[]
+  ```
+- Mỗi bài thơ thêm 3-4 câu hỏi trắc nghiệm về nội dung, nghệ thuật, từ vựng
 
-- Hùng Vương: video về truyền thuyết Lạc Long Quân - Âu Cơ
-- Hai Bà Trưng: video về cuộc khởi nghĩa
-- Trận Bạch Đằng: video về chiến thuật cọc nhọn
-- Thăng Long: video về kinh đô Hà Nội
-
-Đảm bảo link các video vẫn hoạt động bình thường 
+**File:** `src/pages/VietnamesePoetry.tsx`
+- Thêm section "📝 Bài tập" sau phần Vocabulary
+- UI: Hiển thị câu hỏi trắc nghiệm, click chọn đáp án, feedback đúng/sai với giải thích
+- State: `answers` object, `showResults` boolean
 
 ### Files thay đổi
 
+| File | Action |
+|------|--------|
+| `src/pages/VietnamesePoetry.tsx` | Sửa `<pre>` → `<div>`, thêm quiz section |
+| `src/data/vietnamese/poetryData.ts` | Sửa typo "Maimai", thêm exercises cho 10 bài thơ |
 
-| File                                    | Action                             |
-| --------------------------------------- | ---------------------------------- |
-| `src/components/Navbar.tsx`             | Thêm 3 links vào vietnameseSubs    |
-| `src/data/vietnamese/types.ts`          | Thêm `videoUrl?` vào HistoryLesson |
-| `src/data/vietnamese/historyData.ts`    | Gán videoUrl cho các bài học       |
-| `src/pages/VietnameseHistoryLesson.tsx` | Hiển thị video embed section       |
