@@ -1,43 +1,40 @@
+## Plan: Thêm mục Thơ vào Navbar + Video minh họa lịch sử
+
+### 1. Thêm "Thơ Việt Nam" và "Nghe chép chính tả" vào dropdown Navbar
+
+**File:** `src/components/Navbar.tsx`
+
+Hiện tại `vietnameseSubs` thiếu 3 mục quan trọng. Thêm:
+
+- `{ to: "/learn-vietnamese/poetry", label: "📜 Thơ Việt Nam / Vietnamese Poetry" }`
+- `{ to: "/learn-vietnamese/dictation", label: "✍️ Nghe chép chính tả / Dictation" }`
+- `{ to: "/speaking-coach/vietnamese", label: "🎙️ AI Speaking Coach" }`
+
+### 2. Thêm video minh họa ngắn cho các câu chuyện lịch sử
+
+**File:** `src/data/vietnamese/historyData.ts` — Thêm trường `videoUrl` vào interface `HistoryLesson` (trong `types.ts`) và gán video YouTube embed cho các bài học lịch sử chính. Sử dụng các video ngắn miễn phí từ YouTube về lịch sử Việt Nam (embed format).
+
+**File:** `src/data/vietnamese/types.ts` — Thêm `videoUrl?: string` vào `HistoryLesson` interface.
+
+**File:** `src/pages/VietnameseHistoryLesson.tsx` — Hiển thị video embed (iframe YouTube) ở đầu bài học, trước phần Story, với responsive aspect ratio 16:9, rounded corners, và label "📹 Video minh họa".
+
+### Danh sách video minh họa (YouTube embed, nội dung giáo dục):
+
+Mỗi bài lịch sử sẽ có 1 video ngắn liên quan (2-5 phút) từ các kênh giáo dục uy tín về lịch sử Việt Nam. Ví dụ:
+
+- Hùng Vương: video về truyền thuyết Lạc Long Quân - Âu Cơ
+- Hai Bà Trưng: video về cuộc khởi nghĩa
+- Trận Bạch Đằng: video về chiến thuật cọc nhọn
+- Thăng Long: video về kinh đô Hà Nội
+
+Đảm bảo link các video vẫn hoạt động bình thường 
+
+### Files thay đổi
 
 
-## Plan: Tăng tốc độ TTS & Mở rộng từ vựng tiếng Việt
-
-### 1. Điều chỉnh tốc độ TTS — nhanh hơn & truyền cảm hơn
-
-Hiện tại rate 0.4 quá chậm. Tăng lên **0.6** cho storytelling và **0.55** cho vocab, tăng pitch variation để truyền cảm hơn.
-
-| File | Hiện tại | Mới |
-|------|----------|-----|
-| `VietnameseHistoryLesson.tsx` (speakText) | rate 0.4, pitch 1.1 | **rate 0.6, pitch 1.15** |
-| `VietnameseHistoryLesson.tsx` (segments) | rate 0.4, pitch ±0.05 | **rate 0.6, pitch 1.15 ±0.08** |
-| `FolkloreLibrary.tsx` | rate 0.4, pitch 1.1 | **rate 0.6, pitch 1.15** |
-| `SmartVocabCard.tsx` | rate 0.4, pitch 1.1 | **rate 0.55, pitch 1.12** |
-| `VietnamesePoetry.tsx` | rate 0.35, pitch ±0.05 | **rate 0.5, pitch 1.15 ±0.08** |
-| `DictationExercise.tsx` | slow 0.25 / normal 0.4 | **slow 0.35 / normal 0.55** |
-
-### 2. Tăng cường từ vựng cho các bài học
-
-Folklore modules hiện chỉ có trung bình **3 từ/bài** (tổng 69 từ cho 23 bài). Cần nâng lên **8-10 từ/bài**.
-
-**Files thay đổi:**
-
-- **`src/data/vietnamese/folkloreLessons.ts`** — Mở rộng vocabulary từ 2-3 từ lên 8-10 từ cho mỗi bài (23 bài × thêm ~6 từ = ~138 từ mới). Mỗi bài folklore sẽ có từ vựng liên quan đến ca dao/tục ngữ đó (ẩn dụ, từ cổ, từ văn học).
-
-- **`src/data/vietnamese/grammarLessons.ts`** — Thêm 2-3 từ vựng bổ sung cho các bài có đúng 10 từ, nâng lên 12-13 từ (~45 bài × 2 từ = ~90 từ mới). Ưu tiên: từ đồng nghĩa, phản nghĩa, từ ghép liên quan.
-
-- **`src/data/vietnamese/readingLessons.ts`** — Tương tự, thêm 2-3 từ cho mỗi bài (~46 từ mới), tập trung vào từ vựng văn hóa & đọc hiểu.
-
-- **`src/data/vietnamese/vocabularyLessons.ts`** — Thêm 2-3 từ cho mỗi bài (~90 từ mới), bổ sung idioms và colloquial expressions.
-
-### Tổng hợp files
-
-1. `src/pages/VietnameseHistoryLesson.tsx` — TTS rate 0.4→0.6
-2. `src/pages/FolkloreLibrary.tsx` — TTS rate 0.4→0.6
-3. `src/components/SmartVocabCard.tsx` — TTS rate 0.4→0.55
-4. `src/pages/VietnamesePoetry.tsx` — TTS rate 0.35→0.5
-5. `src/components/exercises/DictationExercise.tsx` — TTS rates up
-6. `src/data/vietnamese/folkloreLessons.ts` — +138 vocab entries
-7. `src/data/vietnamese/grammarLessons.ts` — +90 vocab entries
-8. `src/data/vietnamese/vocabularyLessons.ts` — +90 vocab entries
-9. `src/data/vietnamese/readingLessons.ts` — +46 vocab entries
-
+| File                                    | Action                             |
+| --------------------------------------- | ---------------------------------- |
+| `src/components/Navbar.tsx`             | Thêm 3 links vào vietnameseSubs    |
+| `src/data/vietnamese/types.ts`          | Thêm `videoUrl?` vào HistoryLesson |
+| `src/data/vietnamese/historyData.ts`    | Gán videoUrl cho các bài học       |
+| `src/pages/VietnameseHistoryLesson.tsx` | Hiển thị video embed section       |
