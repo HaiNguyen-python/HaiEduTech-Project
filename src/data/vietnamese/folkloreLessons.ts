@@ -19,6 +19,14 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "công", meaning: "công lao", meaningEn: "merit", example: "Công cha rất lớn.", exampleEn: "Father's merit is great.", partOfSpeech: "noun" },
           { word: "hiếu", meaning: "kính trọng cha mẹ", meaningEn: "filial piety", example: "Chữ hiếu quan trọng.", exampleEn: "Filial piety is important.", partOfSpeech: "noun" },
+          { word: "nghĩa", meaning: "tình nghĩa, ân nghĩa", meaningEn: "gratitude / bond", example: "Nghĩa mẹ như nước trong nguồn.", exampleEn: "Mother's bond is like spring water.", partOfSpeech: "noun" },
+          { word: "nguồn", meaning: "nơi bắt đầu của dòng nước", meaningEn: "source / spring", example: "Nước từ nguồn chảy ra.", exampleEn: "Water flows from the source.", partOfSpeech: "noun" },
+          { word: "Thái Sơn", meaning: "ngọn núi cao, biểu tượng vĩ đại", meaningEn: "Mount Thai Son (symbol of greatness)", example: "Công cha như núi Thái Sơn.", exampleEn: "Father's merit is like Mount Thai Son.", partOfSpeech: "noun" },
+          { word: "một lòng", meaning: "tận tâm, chung thủy", meaningEn: "wholeheartedly", example: "Con một lòng thờ mẹ kính cha.", exampleEn: "The child wholeheartedly honors parents.", partOfSpeech: "phrase" },
+          { word: "ví", meaning: "so sánh", meaningEn: "to compare / liken", example: "Ông ví cuộc đời như giấc mơ.", exampleEn: "He compared life to a dream.", partOfSpeech: "verb" },
+          { word: "đạo", meaning: "con đường, lẽ phải", meaningEn: "way / moral path", example: "Đạo làm con phải hiếu thảo.", exampleEn: "The way of a child is filial piety.", partOfSpeech: "noun" },
+          { word: "hiếu thảo", meaning: "biết ơn và kính trọng cha mẹ", meaningEn: "filial / dutiful", example: "Cô ấy rất hiếu thảo.", exampleEn: "She is very dutiful to her parents.", partOfSpeech: "adjective" },
+          { word: "thờ", meaning: "tôn kính, thờ phụng", meaningEn: "to worship / honor", example: "Thờ mẹ kính cha.", exampleEn: "Honor mother, respect father.", partOfSpeech: "verb" },
         ],
         quiz: [
           { question: "'Công cha' ví như gì?", questionEn: "Father's merit compared to?", options: ["Biển", "Núi Thái Sơn", "Sông", "Trời"], answer: 1, explanation: "Núi Thái Sơn.", explanationEn: "Mount Thai Son." },
