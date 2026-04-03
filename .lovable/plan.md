@@ -1,47 +1,45 @@
 
 
-## Plan: Sửa font/dấu thơ Việt Nam & Thêm bài tập sau mỗi bài thơ
+## Plan: Thêm hình minh họa & bài thơ mới vào module Thơ Việt Nam
 
-### 1. Sửa lỗi nhảy dấu / sai font
+### 1. Thêm hình minh họa cho các bài thơ
 
-**Nguyên nhân:** Thẻ `<pre>` kết hợp `font-serif` khiến trình duyệt render sai dấu tiếng Việt (combining diacritics bị tách rời). 
-
-**Giải pháp:** Thay `<pre className="font-serif">` bằng `<p>` hoặc `<div>` với `whitespace-pre-wrap` và font hỗ trợ Vietnamese tốt hơn (system font stack hoặc `font-sans`).
-
-**File:** `src/pages/VietnamesePoetry.tsx`
-- Dòng 72: `<pre className="whitespace-pre-wrap font-serif ...">` → `<div className="whitespace-pre-wrap font-sans text-lg ...">`
-- Dòng 74: Tương tự cho phần dịch tiếng Anh
-
-### 2. Sửa lỗi chính tả trong data
+**Cách tiếp cận:** Sử dụng AI image generation (Nano banana) để tạo hình minh họa watercolor cho mỗi bài thơ, lưu vào Lovable Cloud storage. Thêm trường `imageUrl` vào interface `VietnamesePoem`.
 
 **File:** `src/data/vietnamese/poetryData.ts`
-- Dòng 358: `Maimai` → `Mai mai`
-
-### 3. Thêm bài tập (quiz) sau mỗi bài thơ
-
-**File:** `src/data/vietnamese/poetryData.ts`
-- Thêm trường `exercises` vào interface `VietnamesePoem`:
-  ```
-  exercises: {
-    question: string;
-    questionEn: string;
-    options: string[];
-    correctIndex: number;
-    explanation: string;
-    explanationEn: string;
-  }[]
-  ```
-- Mỗi bài thơ thêm 3-4 câu hỏi trắc nghiệm về nội dung, nghệ thuật, từ vựng
+- Thêm `imageUrl?: string` vào interface `VietnamesePoem`
+- Gán URL hình cho mỗi bài thơ sau khi generate
 
 **File:** `src/pages/VietnamesePoetry.tsx`
-- Thêm section "📝 Bài tập" sau phần Vocabulary
-- UI: Hiển thị câu hỏi trắc nghiệm, click chọn đáp án, feedback đúng/sai với giải thích
-- State: `answers` object, `showResults` boolean
+- Hiển thị hình minh họa ở đầu bài thơ (trong poem detail view) với rounded corners, aspect-ratio 16:9
+- Hiển thị thumbnail nhỏ trong card danh sách bài thơ
+
+**Phong cách hình:** Watercolor Vietnamese art — phù hợp với chủ đề từng bài (sông núi cho Nam Quốc Sơn Hà, đèo núi cho Qua Đèo Ngang, sóng biển cho Sóng, v.v.)
+
+### 2. Thêm 5 bài thơ Việt Nam mới
+
+Các bài thơ kinh điển còn thiếu:
+
+| Bài thơ | Tác giả | Thời kỳ |
+|---------|---------|---------|
+| Tây Tiến | Quang Dũng | 1948 |
+| Việt Bắc | Tố Hữu | 1954 |
+| Đồng chí | Chính Hữu | 1948 |
+| Tự tình (II) | Hồ Xuân Hương | TK 18-19 |
+| Nhớ rừng | Thế Lữ | 1934 |
+
+Mỗi bài gồm đầy đủ: text, translation, analysis, cultural note, vocabulary (4+ từ), exercises (3 câu hỏi), và imageUrl.
+
+### 3. Cập nhật UI hiển thị
+
+**File:** `src/pages/VietnamesePoetry.tsx`
+- **Card danh sách:** Thêm thumbnail hình minh họa phía trên mỗi card (aspect-ratio 3:2, object-cover)
+- **Chi tiết bài thơ:** Hình minh họa lớn ở đầu trang, trước tiêu đề, với gradient overlay nhẹ
 
 ### Files thay đổi
 
 | File | Action |
 |------|--------|
-| `src/pages/VietnamesePoetry.tsx` | Sửa `<pre>` → `<div>`, thêm quiz section |
-| `src/data/vietnamese/poetryData.ts` | Sửa typo "Maimai", thêm exercises cho 10 bài thơ |
+| `src/data/vietnamese/poetryData.ts` | Thêm `imageUrl` field, thêm 5 bài thơ mới |
+| `src/pages/VietnamesePoetry.tsx` | Hiển thị hình minh họa trong card + detail view |
 
