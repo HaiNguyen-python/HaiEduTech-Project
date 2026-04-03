@@ -29,6 +29,13 @@ import {
   folkloreItems,
 } from "@/data/vietnameseCurriculumData";
 
+// Background images for history period cards
+const historyBackgrounds: Record<string, string> = {
+  "month-1": "https://images.unsplash.com/photo-1600002415506-990974a7b2e3?w=800&q=60", // ancient Vietnamese bronze drum
+  "month-2": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800&q=60", // Temple of Literature Hanoi
+  "month-3": "https://images.unsplash.com/photo-1557750255-c76072572add?w=800&q=60", // Vietnam historic
+  "month-4": "https://images.unsplash.com/photo-1583417267826-aebc4d1542e1?w=800&q=60", // modern Ho Chi Minh City skyline
+};
 
 // Icon mapping for each history lesson
 const lessonIconMap: Record<string, LucideIcon> = {
