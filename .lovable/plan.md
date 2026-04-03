@@ -1,61 +1,57 @@
 
 
-## Plan: Cải thiện tổng thể — Leaderboard, Finnish Writing, Speaking Coach, Content & UI
+## Plan: Vietnamese Speaking Coach, TTS improvements & History background images
 
-### 1. Reset bảng xếp hạng
-- Dùng SQL DELETE xóa tất cả dữ liệu trong bảng `game_scores` (4575 records hiện tại, chủ yếu speaking_finnish spam do bug loop trước đó)
-- Leaderboard bắt đầu tính lại từ thời điểm này
+### 1. Thêm AI Speaking Coach cho tiếng Việt
 
-### 2. Leaderboard tổng hợp trên Dashboard
-- Thêm component `OverallLeaderboard` vào `src/pages/Dashboard.tsx`
-- Query `game_scores` tổng hợp tất cả `game_type`, group by `user_id`, sum `score`
-- Hiển thị top 10 người dùng có tổng điểm cao nhất across all games
+**Thay đổi:**
 
-### 3. Finnish Writing — Bài mẫu A2 + gợi ý viết
-- Cập nhật `WritingSection` trong `src/pages/YkiDashboard.tsx`
-- Sau khi submit: hiển thị bài mẫu A2 (lưu trong data field mới `sampleAnswer` trong mock exam data)
-- Thêm panel "Vinkkejä kirjoittamiseen" (Writing tips) với 3-4 câu gợi ý cho mỗi bài
-- Cập nhật `src/data/finnishCurriculum/mockExamData.ts` và các expansion files để thêm `sampleAnswer` và `writingHints` cho mỗi bài writing
+- **`src/data/speakingCoachData.ts`**: Thêm `vietnameseThemes` với 5 themes × 10 câu:
+  - Chào hỏi & Giới thiệu (Greetings)
+  - Gia đình (Family)
+  - Ẩm thực (Food & Cuisine)
+  - Du lịch (Travel)
+  - Công việc (Work)
+  - Thêm `vietnamese` vào object `speakingCoachLanguages` với `speechLang: "vi-VN"`
 
-### 4. Finnish vocab images — sửa hình ảnh
-- Cập nhật `VOCAB_IMAGES` và `CATEGORY_IMAGES` trong `src/pages/YkiDashboard.tsx`
-- Thay các URL Unsplash không đúng nghĩa bằng URL phù hợp hơn
-- Thêm hình cho các từ mới (expansion modules)
+- **`src/components/AISpeakingCoach.tsx`**: Mở rộng type `language` từ `"english" | "finnish" | "chinese"` thành bao gồm `"vietnamese"`. Vietnamese sử dụng Web Speech API trực tiếp (vi-VN) thay vì Finnish TTS proxy.
 
-### 5. Thêm câu luyện tập Speaking Coach
-- Mở rộng `src/data/speakingCoachData.ts`: thêm 2-3 theme mới cho mỗi ngôn ngữ (English, Finnish, Chinese), mỗi theme 10 câu
-- Themes mới: English (Technology, Environment), Finnish (Asuminen/Housing, Työ/Work), Chinese (科技/Technology, 环境/Environment)
+- **`src/pages/SpeakingCoachPage.tsx`**: Thêm case `vietnamese` với title/subtitle/back route phù hợp. Sử dụng `MountainClimber` (hoặc component phù hợp) cho gamification.
 
-### 6. Di chuyển nút Next/Prev trong Speaking Coach
-- Trong `src/components/AISpeakingCoach.tsx` (line 917-956): di chuyển navigation block lên trên, ngay dưới header (trước main practice card), thay vì ở cuối trang
+- **`src/App.tsx`**: Route `/speaking-coach/vietnamese` đã được handle tự động qua `:language` param, không cần thay đổi.
 
-### 7. Font consistency trong Kokeet & Oppitunnit
-- Đồng bộ `text-[18px]` cho tất cả theory/content cards trong `YkiDashboard.tsx`
-- Đảm bảo grammar points, dialogues, quiz sections dùng cùng font size base
-- Thêm `prose-lg` class cho markdown content
+- **`src/pages/Vietnamese.tsx`**: Thêm link/card dẫn đến `/speaking-coach/vietnamese` trong tab Language.
 
-### 8. Thêm bài học Oppitunnit
-- Tạo `src/data/finnishCurriculum/lessonsExpansion2.ts` với 3 module mới:
-  - **Possessiivisuffiksit** (Possessive suffixes) — A2
-  - **Rektio** (Verb rection/prepositions) — A2  
-  - **Sanajärjestys** (Word order) — A2
-- Mỗi module có 1-2 lessons với theory, grammar, quiz
+### 2. Cải thiện giọng đọc tiếng Việt (TTS)
 
-### 9. Thêm đề thi Kokeet
-- Tạo `src/data/finnishCurriculum/mockExamExpansion3.ts` với thêm bộ đề cho Reading, Listening, Writing, Speaking
-- Mỗi skill thêm 3-5 bài mới
-- Import và merge vào `allMockExamModules`
+Giọng đọc `vi-VN` qua Web Speech API hiện quá nhanh và đơn điệu.
+
+**Thay đổi trên tất cả các file dùng TTS tiếng Việt:**
+
+- **`src/pages/FolkloreLibrary.tsx`**: Giảm `rate` từ 0.85 → 0.7, thêm `pitch: 1.05` để giọng tự nhiên hơn
+- **`src/components/SmartVocabCard.tsx`**: Giảm `rate` từ 0.8 → 0.65, thêm `pitch: 1.05`
+- **`src/pages/VietnameseForForeigners.tsx`**: Giảm rate tương ứng (normal mode 0.85 → 0.7, slow mode giữ nguyên 0.55)
+
+### 3. Thêm hình nền mờ cho các ô lịch sử
+
+Dựa trên screenshot, 4 ô "Historical Periods" (Early Kingdoms, Golden Dynasties, Modern History, Contemporary Vietnam) hiện chỉ có gradient header + list trắng.
+
+**Thay đổi:**
+
+- **`src/pages/Vietnamese.tsx`** (lines 273-312): Thêm background image mờ cho mỗi history card. Sử dụng Unsplash images phù hợp với chủ đề:
+  - Early Kingdoms: Trống đồng Đông Sơn / Co Loa citadel
+  - Golden Dynasties: Văn Miếu / Thăng Long
+  - Modern History: Điện Biên Phủ / Ba Đình
+  - Contemporary Vietnam: Skyline hiện đại / đô thị
+
+- Cấu trúc: Thêm `<img>` với `absolute inset-0 opacity-10` hoặc `opacity-15` làm background mờ cho phần body (dưới gradient header), giữ text dễ đọc.
 
 ### Files thay đổi
-1. `game_scores` table — DELETE all data (via insert tool)
-2. `src/pages/Dashboard.tsx` — Thêm OverallLeaderboard
-3. `src/pages/YkiDashboard.tsx` — WritingSection upgrade, font fixes, image fixes, import new data
-4. `src/data/finnishCurriculum/mockExamData.ts` — Thêm sampleAnswer/writingHints
-5. `src/data/finnishCurriculum/mockExamExpansion.ts` — Thêm sampleAnswer/writingHints
-6. `src/data/finnishCurriculum/mockExamExpansion2.ts` — Thêm sampleAnswer/writingHints
-7. `src/components/AISpeakingCoach.tsx` — Move nav buttons up
-8. `src/data/speakingCoachData.ts` — Thêm themes mới
-9. NEW: `src/data/finnishCurriculum/lessonsExpansion2.ts` — 3 grammar modules
-10. NEW: `src/data/finnishCurriculum/mockExamExpansion3.ts` — Extra exam sets
-11. `src/data/finnishCurriculum/index.ts` — Export new modules
+1. `src/data/speakingCoachData.ts` — Thêm 50 câu Vietnamese + config
+2. `src/components/AISpeakingCoach.tsx` — Hỗ trợ language "vietnamese"
+3. `src/pages/SpeakingCoachPage.tsx` — Thêm Vietnamese config
+4. `src/pages/Vietnamese.tsx` — Link Speaking Coach + background images cho history cards
+5. `src/pages/FolkloreLibrary.tsx` — TTS rate/pitch adjustment
+6. `src/components/SmartVocabCard.tsx` — TTS rate/pitch adjustment
+7. `src/pages/VietnameseForForeigners.tsx` — TTS rate adjustment
 
