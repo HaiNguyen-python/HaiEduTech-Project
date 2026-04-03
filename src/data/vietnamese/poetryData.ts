@@ -296,6 +296,7 @@ A deep note, full of emotion.`,
   },
   {
     id: "sang-thu",
+    imageUrl: sangThuImg,
     title: "Sang thu",
     titleEn: "Arriving Autumn",
     author: "Hữu Thỉnh",
