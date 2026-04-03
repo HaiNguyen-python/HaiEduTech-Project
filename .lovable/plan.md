@@ -1,47 +1,61 @@
 
 
-## Plan: Thêm Bảng xếp hạng cho Vocabulary Exercises
+## Plan: Cải thiện tổng thể — Leaderboard, Finnish Writing, Speaking Coach, Content & UI
 
-### Tổng quan
-Tích hợp component `GameLeaderboard` (đã có sẵn, dùng bảng `game_scores`) vào phần bài tập trắc nghiệm (Exercise) của 4 trang từ vựng: IELTS, TOEIC, HSK, và Finnish.
+### 1. Reset bảng xếp hạng
+- Dùng SQL DELETE xóa tất cả dữ liệu trong bảng `game_scores` (4575 records hiện tại, chủ yếu speaking_finnish spam do bug loop trước đó)
+- Leaderboard bắt đầu tính lại từ thời điểm này
 
-### Các thay đổi
+### 2. Leaderboard tổng hợp trên Dashboard
+- Thêm component `OverallLeaderboard` vào `src/pages/Dashboard.tsx`
+- Query `game_scores` tổng hợp tất cả `game_type`, group by `user_id`, sum `score`
+- Hiển thị top 10 người dùng có tổng điểm cao nhất across all games
 
-**1. `src/pages/IeltsVocabulary.tsx` — VocabExercise component**
-- Import `GameLeaderboard` và `supabase`
-- Khi quiz kết thúc (`finished = true`): gọi `supabase.from("game_scores").insert(...)` với `game_type: "vocab-ielts"`, lưu `score`, `max_streak: 0`
-- Hiển thị `<GameLeaderboard gameType="vocab-ielts" currentScore={score} />` bên cạnh kết quả quiz
+### 3. Finnish Writing — Bài mẫu A2 + gợi ý viết
+- Cập nhật `WritingSection` trong `src/pages/YkiDashboard.tsx`
+- Sau khi submit: hiển thị bài mẫu A2 (lưu trong data field mới `sampleAnswer` trong mock exam data)
+- Thêm panel "Vinkkejä kirjoittamiseen" (Writing tips) với 3-4 câu gợi ý cho mỗi bài
+- Cập nhật `src/data/finnishCurriculum/mockExamData.ts` và các expansion files để thêm `sampleAnswer` và `writingHints` cho mỗi bài writing
 
-**2. `src/pages/ToeicVocabulary.tsx` — VocabExercise component**
-- Tương tự, `game_type: "vocab-toeic"`
+### 4. Finnish vocab images — sửa hình ảnh
+- Cập nhật `VOCAB_IMAGES` và `CATEGORY_IMAGES` trong `src/pages/YkiDashboard.tsx`
+- Thay các URL Unsplash không đúng nghĩa bằng URL phù hợp hơn
+- Thêm hình cho các từ mới (expansion modules)
 
-**3. `src/pages/HskVocabulary.tsx` — HskExercise component**
-- Tương tự, `game_type: "vocab-hsk"`
+### 5. Thêm câu luyện tập Speaking Coach
+- Mở rộng `src/data/speakingCoachData.ts`: thêm 2-3 theme mới cho mỗi ngôn ngữ (English, Finnish, Chinese), mỗi theme 10 câu
+- Themes mới: English (Technology, Environment), Finnish (Asuminen/Housing, Työ/Work), Chinese (科技/Technology, 环境/Environment)
 
-**4. `src/components/FinnishVocabExercises.tsx`**
-- Thêm leaderboard vào mỗi exercise mode (WordMatching, GapFill, SpeedQuiz, MCQ) khi hoàn thành
-- `game_type: "vocab-finnish"`
+### 6. Di chuyển nút Next/Prev trong Speaking Coach
+- Trong `src/components/AISpeakingCoach.tsx` (line 917-956): di chuyển navigation block lên trên, ngay dưới header (trước main practice card), thay vì ở cuối trang
 
-### Chi tiết kỹ thuật
-- Dùng bảng `game_scores` hiện có (đã có RLS cho insert/select)
-- Chỉ lưu điểm khi user đã đăng nhập (`auth.uid()`)
-- Dùng `useRef` để tránh insert trùng lặp khi component re-render
-- Leaderboard hiển thị dưới phần kết quả quiz, trong card riêng biệt
-- Không cần migration — bảng `game_scores` đã hỗ trợ `game_type` text tự do
+### 7. Font consistency trong Kokeet & Oppitunnit
+- Đồng bộ `text-[18px]` cho tất cả theory/content cards trong `YkiDashboard.tsx`
+- Đảm bảo grammar points, dialogues, quiz sections dùng cùng font size base
+- Thêm `prose-lg` class cho markdown content
 
-### Cấu trúc UI khi hoàn thành quiz
+### 8. Thêm bài học Oppitunnit
+- Tạo `src/data/finnishCurriculum/lessonsExpansion2.ts` với 3 module mới:
+  - **Possessiivisuffiksit** (Possessive suffixes) — A2
+  - **Rektio** (Verb rection/prepositions) — A2  
+  - **Sanajärjestys** (Word order) — A2
+- Mỗi module có 1-2 lessons với theory, grammar, quiz
 
-```text
-┌─────────────────────────────┐
-│  🏆 Score: 8/10             │
-│  Teacher feedback            │
-│  [Try Again]                 │
-├─────────────────────────────┤
-│  🏆 Leaderboard             │
-│  #1 Student A ─── 10        │
-│  #2 Student B ─── 9         │
-│  #3 Student C ─── 8         │
-│  Your score: 8              │
-└─────────────────────────────┘
-```
+### 9. Thêm đề thi Kokeet
+- Tạo `src/data/finnishCurriculum/mockExamExpansion3.ts` với thêm bộ đề cho Reading, Listening, Writing, Speaking
+- Mỗi skill thêm 3-5 bài mới
+- Import và merge vào `allMockExamModules`
+
+### Files thay đổi
+1. `game_scores` table — DELETE all data (via insert tool)
+2. `src/pages/Dashboard.tsx` — Thêm OverallLeaderboard
+3. `src/pages/YkiDashboard.tsx` — WritingSection upgrade, font fixes, image fixes, import new data
+4. `src/data/finnishCurriculum/mockExamData.ts` — Thêm sampleAnswer/writingHints
+5. `src/data/finnishCurriculum/mockExamExpansion.ts` — Thêm sampleAnswer/writingHints
+6. `src/data/finnishCurriculum/mockExamExpansion2.ts` — Thêm sampleAnswer/writingHints
+7. `src/components/AISpeakingCoach.tsx` — Move nav buttons up
+8. `src/data/speakingCoachData.ts` — Thêm themes mới
+9. NEW: `src/data/finnishCurriculum/lessonsExpansion2.ts` — 3 grammar modules
+10. NEW: `src/data/finnishCurriculum/mockExamExpansion3.ts` — Extra exam sets
+11. `src/data/finnishCurriculum/index.ts` — Export new modules
 
