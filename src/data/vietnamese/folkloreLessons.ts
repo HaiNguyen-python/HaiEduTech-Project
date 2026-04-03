@@ -367,6 +367,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "sân khấu", meaning: "nơi biểu diễn", meaningEn: "stage / theater", example: "Nghệ thuật sân khấu.", exampleEn: "Performing arts.", partOfSpeech: "noun" },
           { word: "châm biếm", meaning: "chế giễu", meaningEn: "satirical", example: "Chèo hay châm biếm.", exampleEn: "Cheo is often satirical.", partOfSpeech: "adjective" },
+          { word: "hài hước", meaning: "buồn cười, vui", meaningEn: "humorous / funny", example: "Chèo rất hài hước.", exampleEn: "Cheo is very humorous.", partOfSpeech: "adjective" },
+          { word: "bình dân", meaning: "dành cho người dân", meaningEn: "popular / common", example: "Ngôn ngữ bình dân.", exampleEn: "Common language.", partOfSpeech: "adjective" },
+          { word: "kịch", meaning: "loại hình diễn xuất", meaningEn: "drama / play", example: "Kịch dân gian.", exampleEn: "Folk drama.", partOfSpeech: "noun" },
+          { word: "múa", meaning: "chuyển động cơ thể nghệ thuật", meaningEn: "to dance", example: "Múa trong chèo.", exampleEn: "Dancing in Cheo.", partOfSpeech: "verb" },
+          { word: "nghệ sĩ", meaning: "người biểu diễn", meaningEn: "artist / performer", example: "Nghệ sĩ chèo tài năng.", exampleEn: "Talented Cheo performer.", partOfSpeech: "noun" },
+          { word: "vở diễn", meaning: "bài biểu diễn hoàn chỉnh", meaningEn: "play / performance", example: "Vở diễn nổi tiếng.", exampleEn: "A famous play.", partOfSpeech: "noun" },
         ],
         quiz: [
           { question: "Chèo bắt nguồn từ vùng nào?", questionEn: "Which region?", options: ["Bắc Bộ", "Trung Bộ", "Nam Bộ", "Tây Nguyên"], answer: 0, explanation: "Bắc Bộ (miền Bắc).", explanationEn: "Northern Vietnam." },
