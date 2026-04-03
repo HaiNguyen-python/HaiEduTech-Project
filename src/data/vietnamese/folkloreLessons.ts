@@ -294,6 +294,12 @@ export const folkloreLanguageModules: VietnameseModule[] = [
         vocabulary: [
           { word: "trầu cau", meaning: "lá trầu và quả cau", meaningEn: "betel leaf and areca nut", example: "Ăn trầu cau.", exampleEn: "Chew betel.", partOfSpeech: "noun" },
           { word: "thủy chung", meaning: "trung thành", meaningEn: "faithful / loyal", example: "Tình yêu thủy chung.", exampleEn: "Faithful love.", partOfSpeech: "adjective" },
+          { word: "sự tích", meaning: "câu chuyện giải thích nguồn gốc", meaningEn: "origin story / legend", example: "Sự tích trầu cau.", exampleEn: "The legend of betel and areca.", partOfSpeech: "noun" },
+          { word: "hóa", meaning: "biến thành", meaningEn: "to transform into", example: "Lang hóa thành cây cau.", exampleEn: "Lang transformed into areca palm.", partOfSpeech: "verb" },
+          { word: "quấn", meaning: "cuốn quanh", meaningEn: "to wrap around", example: "Dây trầu quấn quanh cau.", exampleEn: "Betel vine wraps around areca.", partOfSpeech: "verb" },
+          { word: "phong tục", meaning: "tập quán truyền thống", meaningEn: "custom / tradition", example: "Phong tục ăn trầu.", exampleEn: "Betel-chewing custom.", partOfSpeech: "noun" },
+          { word: "vôi", meaning: "chất bite trắng", meaningEn: "limestone / lime", example: "Vợ hóa tảng đá vôi.", exampleEn: "Wife transformed into limestone.", partOfSpeech: "noun" },
+          { word: "mồ côi", meaning: "không có cha mẹ", meaningEn: "orphan", example: "Hai anh em sớm mồ côi.", exampleEn: "The brothers were orphaned early.", partOfSpeech: "adjective" },
         ],
         quiz: [
           { question: "Truyện giải thích phong tục gì?", questionEn: "What custom?", options: ["Uống trà", "Ăn trầu cau", "Gói bánh", "Thả đèn"], answer: 1, explanation: "Phong tục ăn trầu.", explanationEn: "Betel chewing custom." },
