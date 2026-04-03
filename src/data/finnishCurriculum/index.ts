@@ -10,4 +10,6 @@ export { finnishLessonExpansionModules } from "./lessonsExpansion";
 export { finnishMockExamModules } from "./mockExamData";
 export { finnishMockExamExpansionModules } from "./mockExamExpansion";
 export { finnishMockExamExpansion2Modules } from "./mockExamExpansion2";
+export { finnishMockExamExpansion3Modules } from "./mockExamExpansion3";
+export { finnishLessonExpansion2Modules } from "./lessonsExpansion2";
 export { finnishDictionary } from "./finnishDictData";
