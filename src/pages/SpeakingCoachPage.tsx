@@ -47,6 +47,11 @@ const SpeakingCoachPage = () => {
       subtitle: t("Luyện phát âm tiếng Phần Lan với trí tuệ nhân tạo", "Practice Finnish pronunciation with AI"),
       back: "/finnish/yki-dashboard",
     },
+    vietnamese: {
+      title: "AI Speaking Coach — Tiếng Việt",
+      subtitle: t("Luyện phát âm tiếng Việt với trí tuệ nhân tạo", "Practice Vietnamese pronunciation with AI"),
+      back: "/learn-vietnamese",
+    },
   };
 
   const config = titles[lang] || titles.english;
