@@ -23,7 +23,7 @@ const SpeakingCoachPage = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const lang = (language === "chinese" ? "chinese" : language === "finnish" ? "finnish" : "english") as "english" | "finnish" | "chinese";
+  const lang = (language === "chinese" ? "chinese" : language === "finnish" ? "finnish" : language === "vietnamese" ? "vietnamese" : "english") as "english" | "finnish" | "chinese" | "vietnamese";
 
   // Gamification state
   const [excellentCount, setExcellentCount] = useState(0);
