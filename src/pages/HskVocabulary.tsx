@@ -156,15 +156,17 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
         <div className="text-6xl mb-4">{msg.emoji}</div>
         <h3 className="text-2xl font-bold text-foreground mb-2">{score}/{questions.length}</h3>
         <p className="text-muted-foreground mb-2">{t(msg.vi, msg.en)}</p>
-        {/* Teacher Hai mascot feedback */}
         <div className="mt-2 mb-6 p-4 rounded-xl bg-primary/10 border border-primary/20 max-w-sm">
           <p className="text-sm font-medium text-primary">
             🎓 Teacher Hai: {score >= 8 ? "你真厉害！继续保持！" : score >= 5 ? "还不错，再加把劲！" : "别灰心，多练习就会进步的！"}
           </p>
         </div>
-        <Button onClick={generateQuiz} className="gap-2">
+        <Button onClick={generateQuiz} className="gap-2 mb-6">
           <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try Again")}
         </Button>
+        <div className="w-full max-w-sm">
+          <GameLeaderboard gameType="vocab-hsk" currentScore={score} />
+        </div>
       </div>
     );
   }

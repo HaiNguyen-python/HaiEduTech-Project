@@ -161,9 +161,12 @@ const VocabExercise = ({ words, t }: { words: IeltsWord[]; t: (vi: string, en: s
            score >= 5 ? t("Khá tốt! Hãy tiếp tục ôn luyện.", "Good job! Keep practicing.") :
            t("Cần ôn thêm. Hãy thử lại nhé!", "Needs more review. Try again!")}
         </p>
-        <Button onClick={generateQuiz} className="gap-2">
+        <Button onClick={generateQuiz} className="gap-2 mb-6">
           <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Try Again")}
         </Button>
+        <div className="w-full max-w-sm">
+          <GameLeaderboard gameType="vocab-ielts" currentScore={score} />
+        </div>
       </div>
     );
   }

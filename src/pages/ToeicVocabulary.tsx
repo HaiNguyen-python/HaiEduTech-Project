@@ -188,7 +188,10 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
             score >= 5 ? t("Khá tốt! Tiếp tục luyện tập nhé!", "Good job! Keep practicing!") :
               t("Cần ôn lại thêm. Đừng bỏ cuộc!", "Need more review. Don't give up!")}
         </p>
-        <Button onClick={generate} className="bg-blue-600 hover:bg-blue-700 text-white">{t("Làm lại", "Retry")}</Button>
+        <Button onClick={generate} className="bg-blue-600 hover:bg-blue-700 text-white mb-6">{t("Làm lại", "Retry")}</Button>
+        <div className="max-w-sm mx-auto">
+          <GameLeaderboard gameType="vocab-toeic" currentScore={score} />
+        </div>
       </div>
     );
   }
