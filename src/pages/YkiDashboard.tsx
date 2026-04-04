@@ -966,7 +966,7 @@ const QuizSection = ({
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
           <CheckCircle className="w-5 h-5 text-primary" />
-          {showFinnishOnly ? "Valitse oikea vaihtoehto" : "Quiz"}
+          {showFinnishOnly ? (showTranslation ? "Select the correct answer" : "Valitse oikea vaihtoehto") : "Quiz"}
         </h3>
         <div className="flex items-center gap-2">
           {showFinnishOnly && (
@@ -984,7 +984,7 @@ const QuizSection = ({
             <>
               {!timerActive && !submitted && (
                 <Button size="sm" variant="outline" onClick={startTimer} className="gap-1">
-                  <Timer className="w-4 h-4" /> Aloita (15 min)
+                  <Timer className="w-4 h-4" /> {showTranslation ? "Start (15 min)" : "Aloita (15 min)"}
                 </Button>
               )}
               {timerActive && (
@@ -1003,15 +1003,10 @@ const QuizSection = ({
           <span className="text-3xl font-bold text-primary">{score}/{quiz.length}</span>
           <div>
             <span className="text-sm text-foreground font-medium">
-              {score >= quiz.length * 0.8 ? "Erinomainen! 🌟" : score >= quiz.length * 0.6 ? "Hyvä työ! 👍" : "Harjoittele lisää! 💪"}
+              {score >= quiz.length * 0.8 ? (showTranslation ? "Excellent! 🌟" : "Erinomainen! 🌟") : score >= quiz.length * 0.6 ? (showTranslation ? "Good job! 👍" : "Hyvä työ! 👍") : (showTranslation ? "Keep practicing! 💪" : "Harjoittele lisää! 💪")}
             </span>
-            {showTranslation && (
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {score >= quiz.length * 0.8 ? "Excellent!" : score >= quiz.length * 0.6 ? "Good job!" : "Keep practicing!"}
-              </p>
-            )}
           </div>
-          <Button size="sm" variant="ghost" onClick={handleReset} className="ml-auto">Yritä uudelleen</Button>
+          <Button size="sm" variant="ghost" onClick={handleReset} className="ml-auto">{showTranslation ? "Try again" : "Yritä uudelleen"}</Button>
         </div>
       )}
 
@@ -1047,11 +1042,6 @@ const QuizSection = ({
           {submitted && (
             <p className="mt-2 text-sm text-muted-foreground italic">
               💡 {q.explanation}
-              {showTranslation && q.explanation && (
-                <span className="block mt-1 text-xs text-muted-foreground/70">
-                  (Translation available)
-                </span>
-              )}
             </p>
           )}
         </div>
@@ -1059,7 +1049,7 @@ const QuizSection = ({
 
       {!submitted && Object.keys(answers).length > 0 && (
         <Button onClick={handleSubmit} className="w-full text-lg py-6 font-bold">
-          Lähetä vastaukset ✓
+          {showTranslation ? "Submit answers ✓" : "Lähetä vastaukset ✓"}
         </Button>
       )}
     </div>
@@ -1138,8 +1128,8 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-          ✍️ Kirjoitustehtävä
+         <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+          ✍️ {showTranslation ? "Writing Task" : "Kirjoitustehtävä"}
         </h3>
         <div className="flex items-center gap-2">
           <Button
@@ -1152,8 +1142,8 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
             {showTranslation ? "Piilota käännös" : "Näytä käännös"}
           </Button>
           {!timerActive && !submitted && (
-            <Button size="sm" variant="outline" onClick={startTimer} className="gap-1">
-              <Timer className="w-4 h-4" /> Aloita (15 min)
+             <Button size="sm" variant="outline" onClick={startTimer} className="gap-1">
+              <Timer className="w-4 h-4" /> {showTranslation ? "Start (15 min)" : "Aloita (15 min)"}
             </Button>
           )}
           {timerActive && (
@@ -1183,17 +1173,17 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
         <Textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Kirjoita vastauksesi tähän..."
+          placeholder={showTranslation ? "Write your answer here..." : "Kirjoita vastauksesi tähän..."}
           className="min-h-[200px] text-[18px] leading-relaxed border-[#003580]/15 focus:border-[#003580]/30"
           disabled={submitted}
         />
         <div className="flex items-center justify-between text-sm">
           <span className={`font-medium ${wordCount > 80 ? "text-rose-500" : wordCount >= 20 ? "text-emerald-600" : "text-muted-foreground"}`}>
-            📝 Sanamäärä: {wordCount} / 50–80 sanaa
+            📝 {showTranslation ? "Word count" : "Sanamäärä"}: {wordCount} / 50–80 {showTranslation ? "words" : "sanaa"}
           </span>
           {!submitted && text.trim().length > 0 && (
             <Button onClick={() => { setSubmitted(true); if (timerRef.current) clearInterval(timerRef.current); setTimerActive(false); }} className="text-lg px-8 py-3 font-bold">
-              Lähetä ✓
+              {showTranslation ? "Submit ✓" : "Lähetä ✓"}
             </Button>
           )}
         </div>
@@ -1203,10 +1193,10 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
         <div className="space-y-4">
           <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
             <CardContent className="p-4">
-              <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ Vastauksesi on lähetetty!</p>
-              <p className="text-sm text-muted-foreground">Sanamäärä: {wordCount}. Tarkista vastauksesi ja vertaa tehtävänantoon.</p>
+              <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ {showTranslation ? "Your answer has been submitted!" : "Vastauksesi on lähetetty!"}</p>
+              <p className="text-sm text-muted-foreground">{showTranslation ? "Word count" : "Sanamäärä"}: {wordCount}. {showTranslation ? "Check your answer and compare it with the task." : "Tarkista vastauksesi ja vertaa tehtävänantoon."}</p>
               <Button variant="ghost" size="sm" className="mt-2" onClick={() => { setSubmitted(false); setText(""); setTimeLeft(15 * 60); }}>
-                Kirjoita uudelleen
+                {showTranslation ? "Write again" : "Kirjoita uudelleen"}
               </Button>
             </CardContent>
           </Card>
@@ -1214,12 +1204,12 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
           {/* Writing hints */}
           <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-900/20 dark:border-blue-800">
             <CardContent className="p-4">
-              <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2">💡 Vinkkejä kirjoittamiseen</h4>
+              <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2">💡 {showTranslation ? "Writing Tips" : "Vinkkejä kirjoittamiseen"}</h4>
               <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                <li>Aloita tervehdyksellä ja lopeta lopputoivotuksella.</li>
-                <li>Käytä yksinkertaisia lauseita ja tuttuja sanoja.</li>
-                <li>Vastaa kaikkiin tehtävänannon kysymyksiin.</li>
-                <li>Tarkista oikeinkirjoitus ennen lähettämistä.</li>
+                <li>{showTranslation ? "Start with a greeting and end with a closing wish." : "Aloita tervehdyksellä ja lopeta lopputoivotuksella."}</li>
+                <li>{showTranslation ? "Use simple sentences and familiar words." : "Käytä yksinkertaisia lauseita ja tuttuja sanoja."}</li>
+                <li>{showTranslation ? "Answer all questions in the task prompt." : "Vastaa kaikkiin tehtävänannon kysymyksiin."}</li>
+                <li>{showTranslation ? "Check spelling before submitting." : "Tarkista oikeinkirjoitus ennen lähettämistä."}</li>
               </ul>
             </CardContent>
           </Card>
@@ -1227,7 +1217,7 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
           {/* Model A2 answer */}
           <Card className="border-amber-200 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800">
             <CardContent className="p-4">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">📝 Mallivastaus (A2-taso)</h4>
+              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">📝 {showTranslation ? "Model Answer (A2 level)" : "Mallivastaus (A2-taso)"}</h4>
               <div className="text-sm text-foreground leading-relaxed whitespace-pre-line">
                 {getSampleAnswer(lesson.id)}
               </div>
@@ -1397,7 +1387,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-          🎤 Puhumistehtävä
+          🎤 {showTranslation ? "Speaking Task" : "Puhumistehtävä"}
         </h3>
         <div className="flex items-center gap-2">
           {lesson && (
@@ -1435,7 +1425,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
               <h4 className="font-bold text-amber-800 dark:text-amber-300 text-sm flex items-center gap-2">
-                🎧 Mallivastaus (Bài nói mẫu)
+                🎧 {showTranslation ? "Model Answer" : "Mallivastaus"}
               </h4>
               <div className="flex gap-2">
                 <Button
@@ -1446,7 +1436,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
                   className="gap-1 text-xs border-amber-300 text-amber-700 hover:bg-amber-100"
                 >
                   {isPlayingModel ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Volume2 className="w-3.5 h-3.5" />}
-                  {isPlayingModel ? "Toistetaan..." : "Kuuntele"}
+                  {isPlayingModel ? (showTranslation ? "Playing..." : "Toistetaan...") : (showTranslation ? "Listen" : "Kuuntele")}
                 </Button>
                 <Button
                   size="sm"
@@ -1454,7 +1444,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
                   onClick={() => setShowSampleAnswer(!showSampleAnswer)}
                   className="text-xs text-amber-700"
                 >
-                  {showSampleAnswer ? "Piilota teksti" : "Näytä teksti"}
+                  {showSampleAnswer ? (showTranslation ? "Hide text" : "Piilota teksti") : (showTranslation ? "Show text" : "Näytä teksti")}
                 </Button>
               </div>
             </div>
@@ -1471,16 +1461,16 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
       <Card className="border-[#003580]/15">
         <CardContent className="p-4">
           <h4 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
-            <Mic className="w-4 h-4 text-rose-500" /> Nauhoita vastauksesi (40 sekuntia)
+            <Mic className="w-4 h-4 text-rose-500" /> {showTranslation ? "Record your answer (40 seconds)" : "Nauhoita vastauksesi (40 sekuntia)"}
           </h4>
           <div className="flex items-center gap-3">
             {!recording ? (
               <Button size="lg" onClick={startRecording} className="gap-2 bg-rose-500 hover:bg-rose-600 text-lg px-6 font-bold">
-                <Mic className="w-5 h-5" /> Aloita nauhoitus
+                <Mic className="w-5 h-5" /> {showTranslation ? "Start recording" : "Aloita nauhoitus"}
               </Button>
             ) : (
               <Button size="lg" variant="destructive" onClick={stopRecording} className="gap-2 text-lg px-6 font-bold">
-                <Square className="w-5 h-5" /> Lopeta ({timeLeft}s)
+                <Square className="w-5 h-5" /> {showTranslation ? "Stop" : "Lopeta"} ({timeLeft}s)
               </Button>
             )}
           </div>
@@ -1488,9 +1478,9 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
           {/* Live transcript */}
           {(recording || transcript) && (
             <div className="mt-4 p-3 bg-muted/50 rounded-lg">
-              <p className="text-xs font-medium text-muted-foreground mb-1">📝 Transkriptio:</p>
+              <p className="text-xs font-medium text-muted-foreground mb-1">📝 {showTranslation ? "Transcription:" : "Transkriptio:"}</p>
               <p className="text-sm text-foreground min-h-[40px]">
-                {transcript || <span className="text-muted-foreground italic">Puhu nyt...</span>}
+                {transcript || <span className="text-muted-foreground italic">{showTranslation ? "Speak now..." : "Puhu nyt..."}</span>}
               </p>
             </div>
           )}
@@ -1499,7 +1489,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
             <div className="mt-4 flex items-center gap-3">
               <audio controls src={audioUrl} className="h-10 flex-1" />
               <Button variant="outline" size="sm" onClick={() => { setAudioUrl(null); setTranscript(""); setGraded(false); setWordResults([]); }}>
-                Nauhoita uudelleen
+                {showTranslation ? "Record again" : "Nauhoita uudelleen"}
               </Button>
             </div>
           )}
@@ -1511,7 +1501,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
         <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
           <CardContent className="p-4 space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="font-bold text-emerald-800 dark:text-emerald-300 text-sm">📊 Arviointi (Đánh giá)</h4>
+              <h4 className="font-bold text-emerald-800 dark:text-emerald-300 text-sm">📊 {showTranslation ? "Evaluation" : "Arviointi"}</h4>
               <Badge className={`text-lg px-4 py-1 ${accuracy >= 80 ? "bg-emerald-500" : accuracy >= 50 ? "bg-amber-500" : "bg-rose-500"} text-white`}>
                 {accuracy}%
               </Badge>
@@ -1519,7 +1509,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
 
             {/* Word-by-word results */}
             <div>
-              <p className="text-xs font-medium text-muted-foreground mb-2">Sanavertailu (So sánh từ):</p>
+              <p className="text-xs font-medium text-muted-foreground mb-2">{showTranslation ? "Word comparison:" : "Sanavertailu:"}</p>
               <div className="flex flex-wrap gap-1.5">
                 {wordResults.map((wr, i) => (
                   <span
@@ -1535,20 +1525,20 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
                 ))}
               </div>
               <div className="flex gap-4 mt-2 text-xs text-muted-foreground">
-                <span>✓ Oikein (Đúng)</span>
-                <span>✗ Puuttuu (Thiếu)</span>
-                <span>? Ylimääräinen (Thừa)</span>
+                <span>✓ {showTranslation ? "Correct" : "Oikein"}</span>
+                <span>✗ {showTranslation ? "Missing" : "Puuttuu"}</span>
+                <span>? {showTranslation ? "Extra" : "Ylimääräinen"}</span>
               </div>
             </div>
 
             {/* Improvement tips */}
             <div className="pt-3 border-t border-emerald-200 dark:border-emerald-800">
-              <h5 className="font-semibold text-sm text-foreground mb-2">💡 Parannusehdotuksia (Gợi ý cải thiện):</h5>
+              <h5 className="font-semibold text-sm text-foreground mb-2">💡 {showTranslation ? "Improvement suggestions:" : "Parannusehdotuksia:"}</h5>
               <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                {accuracy < 50 && <li>Kuuntele mallivastaus uudelleen ja toista perässä.</li>}
-                {accuracy < 80 && <li>Keskity puuttuviin sanoihin (keltaisella merkityt).</li>}
-                {accuracy >= 80 && <li>Erinomainen! Yritä käyttää lisää omia lauseita.</li>}
-                <li>Harjoittele ääntämistä AI Puhevalmennus -osiossa.</li>
+                {accuracy < 50 && <li>{showTranslation ? "Listen to the model answer again and repeat after it." : "Kuuntele mallivastaus uudelleen ja toista perässä."}</li>}
+                {accuracy < 80 && <li>{showTranslation ? "Focus on missing words (highlighted in yellow)." : "Keskity puuttuviin sanoihin (keltaisella merkityt)."}</li>}
+                {accuracy >= 80 && <li>{showTranslation ? "Excellent! Try using more of your own sentences." : "Erinomainen! Yritä käyttää lisää omia lauseita."}</li>}
+                <li>{showTranslation ? "Practice pronunciation in the AI Speaking Coach section." : "Harjoittele ääntämistä AI Puhevalmennus -osiossa."}</li>
               </ul>
             </div>
 
@@ -1561,7 +1551,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
               className="gap-1 text-xs"
             >
               <Volume2 className="w-3.5 h-3.5" />
-              Kuuntele mallivastaus uudelleen
+              {showTranslation ? "Listen to model answer again" : "Kuuntele mallivastaus uudelleen"}
             </Button>
           </CardContent>
         </Card>
