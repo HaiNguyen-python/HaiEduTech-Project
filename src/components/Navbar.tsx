@@ -80,13 +80,20 @@ const Navbar = () => {
 
   // IELTS nested sub-items with dedicated icons
    const ieltsChildren: SubItem[] = [
+    // Học & Ôn
     { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
     { to: "/ielts-lectures", label: t("Bài giảng IELTS", "IELTS Lectures"), icon: BookOpen },
+    // Divider
+    { to: "#div1", label: "", divider: true },
+    // Từ vựng
     { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), icon: BookOpen },
     { to: "/vocab-arena", label: t("Vocab Arena", "Vocab Arena"), icon: Swords },
-    { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
+    // Divider
+    { to: "#div2", label: "", divider: true },
+    // Luyện tập & Chấm điểm
     { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
     { to: "/ielts-speaking-practice", label: t("Luyện nói", "Speaking Practice"), icon: MessageSquare },
+    { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
     { to: "/ai-grading", label: t("Chấm điểm", "Grading Portal"), icon: Cpu },
   ];
 
