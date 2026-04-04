@@ -500,6 +500,7 @@ Time: 20 minutes | Word count: 50–80 words`,
         titleEn: "Tell About Yourself",
         icon: "👤",
         level: "A2",
+        sampleAnswer: "Nimeni on Maria ja olen kotoisin Vietnamista. Asun nyt Helsingissä perheeni kanssa. Opiskelen suomea ja työskentelen ravintolassa tarjoilijana. Vapaa-ajallani tykkään lukea kirjoja ja kävellä luonnossa. Opiskelen suomea, koska haluan asua Suomessa pysyvästi ja saada hyvän työpaikan.",
         theory: `### Puhumistehtävä 1: Kerro itsestäsi
 
 **Ohje:** Sinulla on **40 sekuntia** aikaa vastata. Kerro:
