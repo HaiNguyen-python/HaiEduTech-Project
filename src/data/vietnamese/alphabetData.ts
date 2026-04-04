@@ -171,7 +171,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeCount: 2,
     strokePaths: [
       "M20,24 L20,52",   // short stem
-      "M19,16 L21,16"    // dot (rendered as tiny stroke)
+      "M18,16 L22,16"    // dot (wider for visibility)
     ]
   },
   // ── k ──
