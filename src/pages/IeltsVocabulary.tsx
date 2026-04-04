@@ -400,7 +400,7 @@ const IeltsVocabulary = () => {
                     key={w.word + w.category}
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="group rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden"
+                    className="group rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
                     style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
                   >
                     {/* Header: Word + Audio + Star */}
@@ -443,7 +443,7 @@ const IeltsVocabulary = () => {
 
                     {/* Synonyms & Collocations — mint tinted sub-container */}
                     {(w.synonyms?.length || w.collocations?.length) ? (
-                      <div className="mt-4 rounded-lg space-y-2 overflow-hidden min-w-0" style={{ backgroundColor: "#ecfdf5", padding: "1rem 1.25rem", border: "1px solid #d1fae5" }}>
+                      <div className="mt-4 rounded-lg space-y-2 min-w-0" style={{ backgroundColor: "#ecfdf5", padding: "1rem 1.25rem", border: "1px solid #d1fae5" }}>
                         {w.synonyms && w.synonyms.length > 0 && (
                           <div className="flex items-start gap-2">
                             <Layers size={20} className="mt-0.5 shrink-0" style={{ color: "#065f46" }} />
