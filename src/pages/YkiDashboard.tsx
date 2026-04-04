@@ -1525,9 +1525,9 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
                 ))}
               </div>
               <div className="flex gap-4 mt-2 text-xs text-muted-foreground">
-                <span>✓ Oikein (Đúng)</span>
-                <span>✗ Puuttuu (Thiếu)</span>
-                <span>? Ylimääräinen (Thừa)</span>
+                <span>✓ {showTranslation ? "Correct" : "Oikein"}</span>
+                <span>✗ {showTranslation ? "Missing" : "Puuttuu"}</span>
+                <span>? {showTranslation ? "Extra" : "Ylimääräinen"}</span>
               </div>
             </div>
 
