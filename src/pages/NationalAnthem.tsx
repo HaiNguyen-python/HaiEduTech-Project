@@ -22,8 +22,8 @@ const lyricsLines = [
   { text: "Thắng gian lao cùng nhau lập chiến khu", start: 25, end: 30, icon: "⛰️" },
   { text: "Vì nhân dân chiến đấu không ngừng", start: 30, end: 35, icon: "✊" },
   { text: "Tiến mau ra sa trường", start: 35, end: 38, icon: "🔥" },
-  { text: "Tiến lên! Cùng tiến lên!", start: 38, end: 43, icon: "🎺" },
-  { text: "Nước non Việt Nam ta vững bền.", start: 43, end: 50, icon: "⭐" },
+  { text: "Tiến lên! Cùng tiến lên!", start: 38.5, end: 43.5, icon: "🎺" },
+  { text: "Nước non Việt Nam ta vững bền.", start: 43.5, end: 50.5, icon: "⭐" },
 ];
 
 // Key vocabulary from the anthem
@@ -124,7 +124,7 @@ const NationalAnthem = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     const interval = setInterval(() => {
       setCurrentTime((prev) => {
-        if (prev >= 50) {
+        if (prev >= 51) {
           clearInterval(interval);
           setIsPlaying(false);
           return 0;
