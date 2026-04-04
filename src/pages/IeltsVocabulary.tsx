@@ -443,7 +443,7 @@ const IeltsVocabulary = () => {
 
                     {/* Synonyms & Collocations — compact wrap layout */}
                     {(w.synonyms?.length || w.collocations?.length) ? (
-                      <div className="mt-4 min-w-0 space-y-3 rounded-xl border border-border/60 bg-secondary/40 p-4">
+                     <div className="mt-4 min-w-0 space-y-3 rounded-xl p-4" style={{ backgroundColor: "#ecfdf5", border: "1.5px solid #6ee7b7" }}>
                         {w.synonyms && w.synonyms.length > 0 && (
                           <div className="flex min-w-0 items-start gap-3">
                             <Layers size={20} className="mt-1 shrink-0 text-primary" />
