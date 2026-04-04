@@ -1489,7 +1489,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
             <div className="mt-4 flex items-center gap-3">
               <audio controls src={audioUrl} className="h-10 flex-1" />
               <Button variant="outline" size="sm" onClick={() => { setAudioUrl(null); setTranscript(""); setGraded(false); setWordResults([]); }}>
-                Nauhoita uudelleen
+                {showTranslation ? "Record again" : "Nauhoita uudelleen"}
               </Button>
             </div>
           )}
