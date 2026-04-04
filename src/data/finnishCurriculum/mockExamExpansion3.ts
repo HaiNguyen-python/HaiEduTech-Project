@@ -173,6 +173,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-3", title: "Harrastuksista kertominen", titleEn: "Talking About Hobbies", icon: "🎨", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Kerro harrastuksistasi.\n- Mitä harrastat?\n- Kuinka usein?\n- Miksi pidät siitä?\n- Suosittele harrastusta toiselle\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Harrastan... / Käyn ... kerran viikossa / Pidän siitä, koska... / Suosittelen, koska...\n\n**Arviointikriteerit:**\n- Verbien oikea käyttö (harrastaa + partitiivi)\n- Ajan ilmaisut\n- Perustelutaito`,
         theoryEn: "Talk about your hobbies.",
+        sampleAnswer: "Harrastan uimista ja lukemista. Käyn uimassa kaksi kertaa viikossa uimahallissa. Pidän uimisesta, koska se on hyvää liikuntaa ja rentouttavaa. Suosittelen uimista kaikille, koska se on hauskaa ja terveellistä!",
         quiz: [
           { question: "'Harrastan uimista' — mikä sijamuoto?", options: ["partitiivi", "genetiivi", "illatiivi", "inessiivi"], answer: 0, explanation: "Harrastaa + partitiivi → uimista." },
         ],
