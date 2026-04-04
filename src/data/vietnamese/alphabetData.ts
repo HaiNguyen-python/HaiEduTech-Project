@@ -51,7 +51,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokePaths: [
       "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",
       "M32,24 L32,52",
-      "M13,16 Q20,8 27,16"  // breve ˘ — open upward arc
+      "M12,14 Q20,22 28,14"  // breve ˘ — concave down arc
     ]
   },
   // ── â ──
@@ -147,7 +147,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeCount: 2,
     strokePaths: [
       "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",  // symmetrical oval
-      "M32,38 L32,62 C32,68 16,68 16,62"  // descender from right side with hook
+      "M32,42 L32,60 C32,68 12,68 12,60"  // descender from baseline, hook left
     ]
   },
   // ── h ──
@@ -171,7 +171,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeCount: 2,
     strokePaths: [
       "M20,24 L20,52",   // short stem
-      "M19,16 L21,16"    // dot (rendered as tiny stroke)
+      "M18,16 L22,16"    // dot (wider for visibility)
     ]
   },
   // ── k ──
@@ -255,7 +255,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeCount: 2,
     strokePaths: [
       "M20,24 C10,24 4,30 4,38 C4,46 10,52 20,52 C30,52 36,46 36,38 C36,30 30,24 20,24",
-      "M34,22 C36,14 42,14 40,24"  // horn — a small curved hook at top-right
+      "M33,24 C35,16 39,18 37,24"  // horn — inside viewBox
     ]
   },
   // ── p ──
@@ -339,7 +339,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokePaths: [
       "M10,24 L10,42 C10,52 30,52 30,42",
       "M30,24 L30,52",
-      "M30,18 C33,10 39,12 37,22"  // horn mark
+      "M30,20 C32,12 38,14 36,22"  // horn mark — inside viewBox
     ]
   },
   // ── v ──
