@@ -533,10 +533,12 @@ const CATEGORY_IMAGES: Record<string, string> = {
   home: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=400&h=300&q=80",
 };
 
-// Three-tier fallback: exact word → category → null (triggers gradient+emoji)
+// Three-tier fallback: exact word → base word → last word → category → null (triggers gradient+emoji)
 const getVocabImageUrl = (meaningEn: string, word: string, category?: string): string | null => {
-  const key = word.toLowerCase();
-  if (VOCAB_IMAGES[key]) return VOCAB_IMAGES[key];
+  // Try all candidate forms (full → base → last word)
+  for (const candidate of extractBaseWord(word)) {
+    if (VOCAB_IMAGES[candidate]) return VOCAB_IMAGES[candidate];
+  }
   if (category) {
     const catKey = category.toLowerCase();
     for (const [k, v] of Object.entries(CATEGORY_IMAGES)) {
