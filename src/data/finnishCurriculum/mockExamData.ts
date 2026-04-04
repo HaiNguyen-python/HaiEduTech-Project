@@ -586,6 +586,7 @@ Describe a family in a park — activities, weather, season.`,
         titleEn: "Job Interview",
         icon: "👔",
         level: "A2",
+        sampleAnswer: "Nimeni on Anna ja olen kotoisin Vietnamista. Minulla on kokemusta myyjän työstä kaksi vuotta. Hain tätä työpaikkaa, koska pidän asiakaspalvelusta ja haluan kehittyä. Olen ahkera, luotettava ja ystävällinen. Kyllä, voin työskennellä viikonloppuisin.",
         theory: `### Puhumistehtävä 4: Reagoi tilanteeseen — Työhaastattelu
 
 **Ohje:** Olet työhaastattelussa. Vastaa kysymyksiin. **30 sekuntia** per kysymys.
