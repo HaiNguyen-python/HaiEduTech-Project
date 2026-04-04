@@ -137,36 +137,37 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
         </p>
       ) : (
         <div className="max-h-[400px] overflow-y-auto space-y-2 pr-1">
-        entries.map((entry, i) => {
-          const isCurrentUser = entry.user_id === currentUserId;
-          return (
-            <motion.div
-              key={entry.user_id}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs ${
-                isCurrentUser
-                  ? "bg-primary/10 border border-primary/30 ring-1 ring-primary/20"
-                  : i === 0
-                  ? "bg-amber-500/10 border border-amber-500/30"
-                  : "bg-card/50 border border-border/50"
-              }`}
-            >
-              <span className="w-5 flex-shrink-0">
-                {i < 3 ? rankIcons[i] : <span className="text-muted-foreground font-mono">#{i + 1}</span>}
-              </span>
-              <span className="flex-1 truncate font-medium text-foreground">
-                {entry.display_name}
-                {isCurrentUser && <span className="ml-1 text-primary">(you)</span>}
-              </span>
-              <span className="font-bold text-primary flex items-center gap-1">
-                <Star className="w-3 h-3" />
-                {entry.score}
-              </span>
-            </motion.div>
-          );
-        })
+          {entries.map((entry, i) => {
+            const isCurrentUser = entry.user_id === currentUserId;
+            return (
+              <motion.div
+                key={entry.user_id}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs ${
+                  isCurrentUser
+                    ? "bg-primary/10 border border-primary/30 ring-1 ring-primary/20"
+                    : i === 0
+                    ? "bg-amber-500/10 border border-amber-500/30"
+                    : "bg-card/50 border border-border/50"
+                }`}
+              >
+                <span className="w-5 flex-shrink-0">
+                  {i < 3 ? rankIcons[i] : <span className="text-muted-foreground font-mono">#{i + 1}</span>}
+                </span>
+                <span className="flex-1 truncate font-medium text-foreground">
+                  {entry.display_name}
+                  {isCurrentUser && <span className="ml-1 text-primary">(you)</span>}
+                </span>
+                <span className="font-bold text-primary flex items-center gap-1">
+                  <Star className="w-3 h-3" />
+                  {entry.score}
+                </span>
+              </motion.div>
+            );
+          })}
+        </div>
       )}
 
       {currentCount > 0 && (
