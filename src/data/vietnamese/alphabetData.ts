@@ -51,7 +51,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokePaths: [
       "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",
       "M32,24 L32,52",
-      "M13,16 Q20,8 27,16"  // breve ˘ — open upward arc
+      "M12,14 Q20,22 28,14"  // breve ˘ — concave down arc
     ]
   },
   // ── â ──
