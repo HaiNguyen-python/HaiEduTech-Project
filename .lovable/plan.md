@@ -1,38 +1,34 @@
 
 
-## Plan: Thêm audio và mở rộng ca dao tục ngữ
+## Plan: Thêm câu hỏi Knowledge Check cho mục Học Lập Trình
 
 ### Hiện trạng
-- `FolkloreCardGrid.tsx` hiển thị 24 ca dao/tục ngữ (lọc bỏ truyện cổ) từ `folkloreItems` trong `gameData.ts` (30 items, 5 là truyện cổ = 25 còn lại)
-- Chưa có nút nghe audio cho từng câu
-- Dữ liệu hiện có 30 items, cần thêm nhiều hơn
+- File `src/data/programmingLessonData.ts` chứa **37 bài học** với trung bình chỉ **1.9 câu hỏi/bài** (nhiều bài chỉ có 1-2 câu)
+- Các file mở rộng (`aiFoundationLessons.ts`, `mlLessons.ts`, `sqlLessons.ts`, `dataEngLessons.ts`) đã có 5 câu/bài — đạt chuẩn
+- Cần nâng mỗi bài trong `programmingLessonData.ts` lên **5 câu hỏi** có giải thích chi tiết
 
 ### Thay đổi
 
-**1. Thêm nút audio vào mỗi card (file: `src/components/FolkloreCardGrid.tsx`)**
-- Thêm nút `Volume2` (lucide icon) ở góc trên phải mỗi card
-- Sử dụng Web Speech API (`SpeechSynthesisUtterance` với `lang: "vi-VN"`, rate 0.6) giống pattern đã dùng trong `FolkloreLibrary.tsx`
-- Thêm state `isSpeaking` + `speakingId` để highlight card đang phát
-- Thêm nút "Nghe tất cả" ở header để phát tuần tự tất cả các câu
+**File: `src/data/programmingLessonData.ts`**
 
-**2. Thêm 10 ca dao tục ngữ mới (file: `src/data/vietnamese/gameData.ts`)**
-- Thêm các câu ca dao tục ngữ phổ biến chưa có:
-  - "Có đức mặc sức mà ăn" (tục ngữ)
-  - "Tay làm hàm nhai, tay quai miệng trễ" (tục ngữ)
-  - "Kiến tha lâu cũng đầy tổ" (tục ngữ)
-  - "Ai ơi bưng bát cơm đầy" (ca dao)
-  - "Nhiễu điều phủ lấy giá gương" (ca dao)
-  - "Con người có tổ có tông" (tục ngữ)
-  - "Cái nết đánh chết cái đẹp" (tục ngữ)
-  - "Đất lành chim đậu" (tục ngữ)
-  - "Trăm hay không bằng tay quen" (tục ngữ)
-  - "Bầu ơi thương lấy bí cùng" (ca dao)
+Bổ sung câu hỏi cho tất cả 37 bài học, mỗi bài đạt tối thiểu 5 câu. Ước tính thêm khoảng **110+ câu hỏi mới**.
 
-**3. Cập nhật imageMap** — các item mới sẽ không có ảnh minh họa, card vẫn hiển thị bình thường chỉ với text (đã có logic `{imageMap[item.id] && ...}`)
+Mỗi câu hỏi mới sẽ:
+- Có 4 đáp án lựa chọn
+- Có explanation giải thích chi tiết tại sao đáp án đúng
+- Phủ đều các khía cạnh: lý thuyết, cú pháp, ứng dụng thực tế, debug lỗi
+- Viết bằng tiếng Việt (theo format hiện tại)
 
-### Chi tiết kỹ thuật
-- Pattern audio: copy từ `FolkloreLibrary.tsx` — `useCallback`, `speechSynthesis.cancel()`, state tracking
-- Nút audio nhỏ gọn (icon button) không chiếm nhiều không gian
-- ID mới: `folk-31` đến `folk-40`
-- Không cần thay đổi `FolkloreItem` type — dữ liệu mới sử dụng cùng cấu trúc
+**Ví dụ bài Scratch-1 (hiện có 3 câu → thêm 2):**
+```
+{ question: "Sân khấu (Stage) trong Scratch có kích thước bao nhiêu pixel?",
+  options: ["320x240", "480x360", "640x480", "800x600"],
+  answer: 1,
+  explanation: "Sân khấu Scratch có kích thước 480x360 pixel..." }
+```
+
+### Phạm vi
+- Chỉ sửa 1 file: `programmingLessonData.ts`
+- Không thay đổi UI hay logic rendering (component đã hỗ trợ hiển thị nhiều câu hỏi)
+- Không ảnh hưởng các file curriculum mở rộng (đã đủ 5 câu)
 
