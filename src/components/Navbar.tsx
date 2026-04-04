@@ -133,6 +133,7 @@ const Navbar = () => {
     { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Tiếng Việt cho Người Nước Ngoài", "🌏 Vietnamese for Foreigners") },
     { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
     { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử & Văn hóa", "📜 History & Culture") },
+    { to: "/learn-vietnamese/national-anthem", label: t("⭐ Quốc ca Việt Nam", "⭐ National Anthem") },
     { to: "/speaking-coach/vietnamese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
     { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
   ];
