@@ -1900,6 +1900,7 @@ const YkiDashboard = () => {
       const newMastered = masteredWords.filter(w => w !== word);
       setMasteredWords(newMastered);
       localStorage.setItem("yki-mastered-words", JSON.stringify(newMastered));
+      syncMasteredCount("finnish", newMastered.length);
       toast.info(`"${word}" unmarked from mastery`);
       return;
     }
