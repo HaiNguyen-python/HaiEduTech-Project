@@ -61,7 +61,7 @@ const vocabItems = [
 ];
 
 const VIDEO_ID = "SK6rHXlKC0A";
-const LYRICS_DELAY_MS = 3000;
+const LYRICS_DELAY_MS = 5500;
 
 declare global {
   interface Window {
