@@ -15,7 +15,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
+import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
+import { Star } from "lucide-react";
 
 const WORDS_PER_PAGE = 24;
 
