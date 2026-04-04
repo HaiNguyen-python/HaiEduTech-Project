@@ -37,8 +37,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Draw a round curve from right to left, then a vertical stroke on the right",
     strokeCount: 2,
     strokePaths: [
-      "M28,35 C28,24 12,24 12,35 C12,48 28,48 28,35",  // oval body
-      "M28,24 L28,52"                                     // short stem (NOT above body)
+      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",  // symmetrical oval
+      "M32,24 L32,52"  // short stem on right
     ]
   },
   // ── ă ──
@@ -49,9 +49,9 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'a' then add a breve (˘) mark on top",
     strokeCount: 3,
     strokePaths: [
-      "M28,35 C28,24 12,24 12,35 C12,48 28,48 28,35",
-      "M28,24 L28,52",
-      "M14,16 Q20,10 26,16"  // breve mark
+      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",
+      "M32,24 L32,52",
+      "M12,14 Q20,6 28,14"  // breve mark (larger)
     ]
   },
   // ── â ──
@@ -62,9 +62,9 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'a' then add a circumflex (^) on top",
     strokeCount: 3,
     strokePaths: [
-      "M28,35 C28,24 12,24 12,35 C12,48 28,48 28,35",
-      "M28,24 L28,52",
-      "M14,16 L20,8 L26,16"  // circumflex
+      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",
+      "M32,24 L32,52",
+      "M12,16 L20,6 L28,16"  // circumflex (larger)
     ]
   },
   // ── b ──
@@ -98,8 +98,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write a round curve, then a tall vertical stroke on the right",
     strokeCount: 2,
     strokePaths: [
-      "M28,35 C28,24 12,24 12,35 C12,48 28,48 28,35",  // oval body
-      "M28,8 L28,52"                                      // tall stem (ascender)
+      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",  // symmetrical oval
+      "M32,8 L32,52"  // tall stem (ascender)
     ]
   },
   // ── đ ──
@@ -110,9 +110,9 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'd' then add a horizontal stroke through the stem",
     strokeCount: 3,
     strokePaths: [
-      "M28,35 C28,24 12,24 12,35 C12,48 28,48 28,35",
-      "M28,8 L28,52",
-      "M22,16 L34,16"  // horizontal bar through ascender
+      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",
+      "M32,8 L32,52",
+      "M24,18 L40,18"  // horizontal bar through ascender (longer, repositioned)
     ]
   },
   // ── e ──
@@ -231,7 +231,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Draw a closed oval",
     strokeCount: 1,
     strokePaths: [
-      "M20,24 C10,24 8,36 8,38 C8,50 14,52 20,52 C26,52 32,50 32,38 C32,36 30,24 20,24"  // oval
+      "M20,24 C10,24 4,30 4,38 C4,46 10,52 20,52 C30,52 36,46 36,38 C36,30 30,24 20,24"  // symmetrical oval
     ]
   },
   // ── ô ──
@@ -242,8 +242,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'o' then add a circumflex (^) on top",
     strokeCount: 2,
     strokePaths: [
-      "M20,24 C10,24 8,36 8,38 C8,50 14,52 20,52 C26,52 32,50 32,38 C32,36 30,24 20,24",
-      "M14,16 L20,8 L26,16"
+      "M20,24 C10,24 4,30 4,38 C4,46 10,52 20,52 C30,52 36,46 36,38 C36,30 30,24 20,24",
+      "M12,16 L20,6 L28,16"  // circumflex (larger)
     ]
   },
   // ── ơ ──
@@ -254,8 +254,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'o' then add a small horn mark on upper right",
     strokeCount: 2,
     strokePaths: [
-      "M20,24 C10,24 8,36 8,38 C8,50 14,52 20,52 C26,52 32,50 32,38 C32,36 30,24 20,24",
-      "M31,22 C34,16 38,18 36,24"  // horn mark
+      "M20,24 C10,24 4,30 4,38 C4,46 10,52 20,52 C30,52 36,46 36,38 C36,30 30,24 20,24",
+      "M34,20 C38,12 44,15 41,24"  // horn mark (larger, more visible)
     ]
   },
   // ── p ──
@@ -339,7 +339,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokePaths: [
       "M12,24 L12,42 C12,52 28,52 28,42",
       "M28,24 L28,52",
-      "M28,18 C31,13 35,15 33,21"  // horn mark
+      "M28,16 C32,8 38,11 35,20"  // horn mark (larger, more visible)
     ]
   },
   // ── v ──
