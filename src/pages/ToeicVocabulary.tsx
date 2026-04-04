@@ -303,6 +303,7 @@ const ToeicVocabulary = () => {
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
         <div className="flex gap-6">
+        <div className="flex-1 min-w-0">
         {/* Header */}
         <div className="mb-8">
           <Link to="/english" className="inline-flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors mb-4 text-base">
