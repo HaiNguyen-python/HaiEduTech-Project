@@ -400,7 +400,7 @@ const IeltsVocabulary = () => {
                     key={w.word + w.category}
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="group rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+                    className="group rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden"
                     style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
                   >
                     {/* Header: Word + Audio + Star */}
@@ -435,19 +435,19 @@ const IeltsVocabulary = () => {
                     </div>
 
                     {/* Definition — high contrast */}
-                    <p className="font-semibold leading-relaxed" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{w.definition.en}</p>
-                    <p className="font-bold mt-1" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{w.definition.vi}</p>
+                    <p className="font-semibold leading-relaxed break-words" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word" }}>{w.definition.en}</p>
+                    <p className="font-bold mt-1 break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6, overflowWrap: "break-word" }}>{w.definition.vi}</p>
 
                     {/* Example sentence */}
-                    <p className="italic mt-3 leading-relaxed" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>"{w.example}"</p>
+                    <p className="italic mt-3 leading-relaxed break-words" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word" }}>"{w.example}"</p>
 
                     {/* Synonyms & Collocations — mint tinted sub-container */}
                     {(w.synonyms?.length || w.collocations?.length) ? (
-                      <div className="mt-4 rounded-lg space-y-2" style={{ backgroundColor: "#ecfdf5", padding: "1rem 1.25rem", border: "1px solid #d1fae5" }}>
+                      <div className="mt-4 rounded-lg space-y-2 overflow-hidden min-w-0" style={{ backgroundColor: "#ecfdf5", padding: "1rem 1.25rem", border: "1px solid #d1fae5" }}>
                         {w.synonyms && w.synonyms.length > 0 && (
                           <div className="flex items-start gap-2">
                             <Layers size={20} className="mt-0.5 shrink-0" style={{ color: "#065f46" }} />
-                            <p style={{ fontSize: "0.9375rem", color: "#065f46", lineHeight: 1.6 }}>
+                            <p className="break-words" style={{ fontSize: "0.9375rem", color: "#065f46", lineHeight: 1.6, overflowWrap: "break-word" }}>
                               <span className="font-bold">Synonyms: </span>
                               {w.synonyms.map((s, i) => (
                                 <span key={i}>
@@ -461,7 +461,7 @@ const IeltsVocabulary = () => {
                         {w.collocations && w.collocations.length > 0 && (
                           <div className="flex items-start gap-2">
                             <Link size={20} className="mt-0.5 shrink-0" style={{ color: "#065f46" }} />
-                            <p style={{ fontSize: "0.9375rem", color: "#065f46", lineHeight: 1.6 }}>
+                            <p className="break-words" style={{ fontSize: "0.9375rem", color: "#065f46", lineHeight: 1.6, overflowWrap: "break-word" }}>
                               <span className="font-bold">Collocations: </span>
                               {w.collocations.map((c, i) => (
                                 <span key={i}>
