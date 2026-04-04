@@ -2499,7 +2499,8 @@ const YkiDashboard = () => {
                 </motion.div>
               ) : (
                 // Module grid
-                <div>
+                <div className="flex gap-6">
+                <div className="flex-1 min-w-0">
                   {/* Skill filter tabs for mock exams */}
                   {activePillar === "mock-exams" && (
                     <div className="flex flex-wrap gap-2 mb-6">
