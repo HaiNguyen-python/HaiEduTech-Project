@@ -435,11 +435,11 @@ const IeltsVocabulary = () => {
                     </div>
 
                     {/* Definition — high contrast */}
-                    <p className="font-semibold leading-relaxed" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{w.definition.en}</p>
-                    <p className="font-bold mt-1" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{w.definition.vi}</p>
+                    <p className="font-semibold leading-relaxed break-words" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word" }}>{w.definition.en}</p>
+                    <p className="font-bold mt-1 break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6, overflowWrap: "break-word" }}>{w.definition.vi}</p>
 
                     {/* Example sentence */}
-                    <p className="italic mt-3 leading-relaxed" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>"{w.example}"</p>
+                    <p className="italic mt-3 leading-relaxed break-words" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word" }}>"{w.example}"</p>
 
                     {/* Synonyms & Collocations — mint tinted sub-container */}
                     {(w.synonyms?.length || w.collocations?.length) ? (
