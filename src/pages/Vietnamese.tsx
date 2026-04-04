@@ -349,7 +349,7 @@ const Vietnamese = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+                    className="border border-border rounded-xl overflow-hidden hover:shadow-lg transition-shadow bg-background/80"
                   >
                     <div className={`bg-gradient-to-r ${month.color} p-4`}>
                       <div className="flex items-center gap-2 text-white">
