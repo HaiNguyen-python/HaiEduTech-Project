@@ -3,35 +3,29 @@
 ## Plan: Eliminate Duplicate Images in Finnish Vocabulary Cards
 
 ### Problem
-There are **50+ duplicate Unsplash photo IDs** shared across different words in `VOCAB_IMAGES`. For example, one photo (`photo-1529156069898`) is used for 9 different words (kutsua, ihminen, hei, kansalainen, serkku, näkemiin, sinä, te, kuka). This causes many vocabulary cards to display identical images.
+Many photo IDs in `VOCAB_IMAGES` (lines 221–505) are reused across multiple words, causing identical images on different vocabulary cards. For example:
+- `photo-1529156069898` → used by `kutsua`, `ihminen`, `hei`, `kansalainen`, `serkku`, `näkemiin`, `sinä`, `kuka` (8 words!)
+- `photo-1573497019418` → used by `puhua`, `jutella`, `pyytää`, `että`, `koska` (5 words)
+- `photo-1557804506` → used by `mielipide`, `mikä`, `mutta`, `tai`, `jos` (5 words)
+- `photo-1501139083538` → used by `odottaa`, `nyt`, `sitten`, `kun` (4 words)
+- `photo-1506784983877` → used by `tulla`, `ajanvaraus`, `varata`, `olla` (4 words)
+- Plus ~40 more duplicate groups
 
 ### Solution
-Replace all duplicate photo IDs with unique Unsplash photos so that **every word gets a visually distinct image**. Each word will keep the first occurrence of a photo ID, and all subsequent uses of the same photo will be swapped to a new, contextually relevant Unsplash image.
-
-### Scope of changes
-Approximately **120 duplicate entries** need new unique photo IDs across these categories:
-
-| Category | Duplicates to fix |
-|----------|------------------|
-| Pronouns & function words (sinä, te, kuka, me, ja, he...) | ~15 |
-| Emotions & social (kiitos, mielipide, mutta, tai, jos...) | ~12 |
-| Verbs (puhua, pyytää, että, koska, tulla, varata...) | ~15 |
-| Work & services (vakuutus, valitus, lasku, lomake...) | ~12 |
-| Health & body (yskä, nuha, polvi, vatsa...) | ~8 |
-| Emergency (onnettomuus, loukkaantua, verenvuoto...) | ~6 |
-| Time & abstract (nyt, sitten, kun, odottaa...) | ~8 |
-| Family (lapsi, poika, sisarus, he...) | ~6 |
-| All other categories | ~38 |
+Replace all duplicate photo IDs with unique Unsplash alternatives. For each duplicate group, keep the first/most fitting word and swap all others to new, contextually relevant photos.
 
 ### Technical approach
-1. For each duplicate group, keep the **first/most fitting** word-photo pairing
-2. Replace all other entries with new, semantically appropriate Unsplash photo IDs
-3. Ensure zero photo ID appears more than once across the entire `VOCAB_IMAGES` object
+1. Scan all entries in `VOCAB_IMAGES` to identify every photo ID used more than once
+2. For each duplicate group, keep the first occurrence and replace all subsequent uses with unique Unsplash photo IDs chosen for semantic relevance to each word
+3. Verify zero photo ID appears more than once in the final object
+
+### Estimated scope
+~120 entries need new unique photo IDs across pronouns, function words, emotions, verbs, services, health, emergency, family, and abstract concepts.
 
 ### File to modify
-- `src/pages/YkiDashboard.tsx` — replace ~120 duplicate photo IDs in `VOCAB_IMAGES` with unique alternatives
+- `src/pages/YkiDashboard.tsx` — replace duplicate photo IDs in `VOCAB_IMAGES` (lines 221–505)
 
 ### What stays the same
-- The `extractBaseWord` logic, `getVocabImageUrl` fallback chain, `WORD_ILLUSTRATIONS`, and `CATEGORY_IMAGES` all remain unchanged
-- No structural changes to the VocabCard component
+- `extractBaseWord`, `getVocabImageUrl`, `getWordIllustration`, `WORD_ILLUSTRATIONS`, `CATEGORY_IMAGES` — all unchanged
+- No structural or component changes
 
