@@ -221,6 +221,7 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
         titleEn: "Job Interview",
         icon: "🤝",
         level: "A2",
+        sampleAnswer: "Olen Linh ja olen kolmekymmentävuotias. Olen kiinnostunut tästä työstä, koska pidän ihmisten kanssa työskentelystä. Olen työskennellyt kaupassa myyjänä kaksi vuotta. Olen ahkera, luotettava ja opin nopeasti uusia asioita.",
         theory: `## Puhetehtävä: Työhaastattelu\n\n**Tilanne:** Olet työhaastattelussa. Vastaa haastattelijan kysymyksiin.\n\nPuhu näistä asioista:\n- Kerro itsestäsi\n- Miksi haet tätä työtä?\n- Mitä työkokemusta sinulla on?\n- Mitkä ovat vahvuutesi?\n\n**Hyödyllisiä ilmauksia:**\n- Olen [nimi] ja olen [ikä]-vuotias.\n- Olen kiinnostunut tästä työstä, koska…\n- Olen työskennellyt [paikassa] [aika].\n- Olen ahkera, luotettava ja oppiin nopeasti.\n\n⏱️ Aika: 3 minuuttia`,
         theoryEn: "Answer interview questions about yourself and your experience.",
         quiz: [
