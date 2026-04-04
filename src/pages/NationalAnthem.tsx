@@ -124,7 +124,7 @@ const NationalAnthem = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     const interval = setInterval(() => {
       setCurrentTime((prev) => {
-        if (prev >= 50) {
+        if (prev >= 51) {
           clearInterval(interval);
           setIsPlaying(false);
           return 0;
