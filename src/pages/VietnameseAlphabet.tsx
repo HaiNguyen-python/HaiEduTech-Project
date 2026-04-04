@@ -454,19 +454,45 @@ const VietnameseAlphabet = () => {
           </Card>
         </section>
 
-        {/* ══════ ILLUSTRATION ══════ */}
+        {/* ══════ VIETNAM BEAUTY GALLERY ══════ */}
         <section className="mb-8">
-          <div className="rounded-2xl overflow-hidden shadow-lg">
-            <img
-              src="/vietnamese-calligraphy.png"
-              alt="Nét đẹp giản dị của Việt Nam"
-              className="w-full h-auto object-cover"
-              loading="lazy"
-            />
-          </div>
-          <p className="text-center text-sm text-muted-foreground mt-3 italic">
-            {t("Nét đẹp giản dị của Việt Nam", "The simple beauty of Vietnam")}
+          <h2 className="text-xl font-bold text-foreground mb-2 text-center">
+            {t("Những nét đẹp của Việt Nam", "The Beauty of Vietnam")}
+          </h2>
+          <p className="text-center text-sm text-muted-foreground mb-6 italic">
+            {t("Đất nước con người — từ đồng quê đến thành phố", "Land and people — from countryside to city")}
           </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              { src: "/vietnam-beauty-1.png", alt: "Trẻ em chăn trâu trên đồng lúa" },
+              { src: "/vietnam-beauty-2.png", alt: "Ruộng bậc thang Mù Cang Chải" },
+              { src: "/vietnam-beauty-4.png", alt: "Vịnh Hạ Long" },
+              { src: "/vietnam-beauty-5.png", alt: "Bắc Sơn bình minh" },
+              { src: "/vietnam-beauty-7.png", alt: "Khinh khí cầu trên Kinh thành Huế" },
+              { src: "/vietnam-beauty-9.png", alt: "Ngư dân quăng lưới" },
+              { src: "/vietnam-beauty-3.png", alt: "Thành phố Nha Trang về đêm" },
+              { src: "/vietnam-beauty-6.png", alt: "Landmark 81 Sài Gòn" },
+              { src: "/vietnam-beauty-8.png", alt: "Quốc kỳ Việt Nam" },
+            ].map((img, idx) => (
+              <motion.div
+                key={img.src}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.05 }}
+                className={`rounded-xl overflow-hidden shadow-md ${
+                  idx === 0 || idx === 8 ? "col-span-2 md:col-span-1" : ""
+                }`}
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="w-full h-40 md:h-48 object-cover hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </motion.div>
+            ))}
+          </div>
         </section>
       </main>
       <Footer />
