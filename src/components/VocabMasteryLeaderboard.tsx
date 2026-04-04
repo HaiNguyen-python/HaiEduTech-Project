@@ -56,43 +56,36 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
       const { data: { user } } = await supabase.auth.getUser();
       setCurrentUserId(user?.id || null);
 
-      const { data } = await (supabase as any)
-        .from("game_scores")
-        .select("user_id, score")
-        .eq("game_type", `mastery-${subject}`)
-        .order("score", { ascending: false })
-        .limit(50);
+      // Fetch all profiles and scores in parallel
+      const [profilesRes, scoresRes] = await Promise.all([
+        supabase.from("profiles").select("id, full_name"),
+        (supabase as any)
+          .from("game_scores")
+          .select("user_id, score")
+          .eq("game_type", `mastery-${subject}`)
+          .order("score", { ascending: false }),
+      ]);
 
-      if (data) {
-        // Get best score per user
-        const bestScores = new Map<string, number>();
-        for (const row of data) {
-          const existing = bestScores.get(row.user_id);
-          if (!existing || row.score > existing) {
-            bestScores.set(row.user_id, row.score);
-          }
+      const allProfiles = profilesRes.data || [];
+      const scoreData = scoresRes.data || [];
+
+      // Build best-score map
+      const bestScores = new Map<string, number>();
+      for (const row of scoreData) {
+        const existing = bestScores.get(row.user_id);
+        if (!existing || row.score > existing) {
+          bestScores.set(row.user_id, row.score);
         }
-
-        // Fetch display names
-        const userIds = [...bestScores.keys()];
-        const { data: profiles } = await supabase
-          .from("profiles")
-          .select("id, full_name")
-          .in("id", userIds);
-
-        const nameMap = new Map(profiles?.map(p => [p.id, p.full_name]) || []);
-
-        const sorted = Array.from(bestScores.entries())
-          .map(([user_id, score]) => ({
-            user_id,
-            score,
-            display_name: nameMap.get(user_id) || t("Học viên", "Student"),
-          }))
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 10);
-
-        setEntries(sorted);
       }
+
+      // Merge all profiles with scores (default 0)
+      const merged = allProfiles.map((p: any) => ({
+        user_id: p.id,
+        score: bestScores.get(p.id) || 0,
+        display_name: p.full_name || t("Học viên", "Student"),
+      })).sort((a: any, b: any) => b.score - a.score);
+
+      setEntries(merged);
     } catch (e) {
       console.error("Failed to fetch mastery leaderboard:", e);
     }
@@ -143,36 +136,38 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
           {t("Chưa có ai. Hãy là người đầu tiên!", "No one yet. Be the first!")}
         </p>
       ) : (
-        entries.map((entry, i) => {
-          const isCurrentUser = entry.user_id === currentUserId;
-          return (
-            <motion.div
-              key={entry.user_id}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs ${
-                isCurrentUser
-                  ? "bg-primary/10 border border-primary/30 ring-1 ring-primary/20"
-                  : i === 0
-                  ? "bg-amber-500/10 border border-amber-500/30"
-                  : "bg-card/50 border border-border/50"
-              }`}
-            >
-              <span className="w-5 flex-shrink-0">
-                {i < 3 ? rankIcons[i] : <span className="text-muted-foreground font-mono">#{i + 1}</span>}
-              </span>
-              <span className="flex-1 truncate font-medium text-foreground">
-                {entry.display_name}
-                {isCurrentUser && <span className="ml-1 text-primary">(you)</span>}
-              </span>
-              <span className="font-bold text-primary flex items-center gap-1">
-                <Star className="w-3 h-3" />
-                {entry.score}
-              </span>
-            </motion.div>
-          );
-        })
+        <div className="max-h-[400px] overflow-y-auto space-y-2 pr-1">
+          {entries.map((entry, i) => {
+            const isCurrentUser = entry.user_id === currentUserId;
+            return (
+              <motion.div
+                key={entry.user_id}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs ${
+                  isCurrentUser
+                    ? "bg-primary/10 border border-primary/30 ring-1 ring-primary/20"
+                    : i === 0
+                    ? "bg-amber-500/10 border border-amber-500/30"
+                    : "bg-card/50 border border-border/50"
+                }`}
+              >
+                <span className="w-5 flex-shrink-0">
+                  {i < 3 ? rankIcons[i] : <span className="text-muted-foreground font-mono">#{i + 1}</span>}
+                </span>
+                <span className="flex-1 truncate font-medium text-foreground">
+                  {entry.display_name}
+                  {isCurrentUser && <span className="ml-1 text-primary">(you)</span>}
+                </span>
+                <span className="font-bold text-primary flex items-center gap-1">
+                  <Star className="w-3 h-3" />
+                  {entry.score}
+                </span>
+              </motion.div>
+            );
+          })}
+        </div>
       )}
 
       {currentCount > 0 && (
