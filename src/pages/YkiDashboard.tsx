@@ -454,12 +454,8 @@ const VOCAB_IMAGES: Record<string, string> = {
   // Missing greetings & social
   näkemiin: U("photo-1529156069898-49953e39b3ac"), kyllä: U("photo-1489278353717-f64c6ee8a4d2"),
   ei: U("photo-1509248961158-e54f6934749c"),
-  // Missing verbs
-  nousta: U("photo-1517400508447-f8dd041b476b"),
   // Missing travel
-  loma: U("photo-1507525428034-b723cf961d3e"), opas: U("photo-1469854523086-cc02fe5d8800"),
-  // Missing nature/weather
-  saaristo: U("photo-1559128010-7c1ad6e1b6a7"), tunturi: U("photo-1520769945061-0a448c463865"),
+  loma: U("photo-1507525428034-b723cf961d3e"),
 };
 
 // Category-level fallback images when no exact word match exists
