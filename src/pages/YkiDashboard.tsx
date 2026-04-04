@@ -2588,7 +2588,7 @@ const YkiDashboard = () => {
                 </>
               )}
               </>
-            )
+            )}
             </div>
         </div>
       </main>
