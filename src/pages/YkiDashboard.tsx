@@ -2497,35 +2497,78 @@ const YkiDashboard = () => {
                 </motion.div>
               ) : (
                 // Module grid
-                <div key={activePillar} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {currentModules.map((mod, i) => (
-                    <motion.div
-                      key={mod.id}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.06 }}
-                    >
-                      <button
-                        onClick={() => handleSelectModule(mod)}
-                        className="w-full text-left rounded-2xl border-2 border-[#003580]/15 bg-card p-6 hover:shadow-lg hover:border-[#003580]/30 transition-all group"
-                      >
-                        <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${mod.color} flex items-center justify-center text-white text-2xl mb-4`}>
-                          {mod.icon}
-                        </div>
-                        <h3 className="text-lg font-bold text-foreground group-hover:text-[#003580] transition-colors mb-1">
-                          {mod.titleEn}
-                        </h3>
-                        <p className="text-xs text-muted-foreground mb-2">{mod.title}</p>
-                        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{mod.descriptionEn}</p>
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-xs border-[#003580]/20">
-                            {mod.lessons.length} {mod.lessons.length === 1 ? "lesson" : "lessons"}
-                          </Badge>
-                          <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto group-hover:text-[#003580] transition-colors" />
-                        </div>
-                      </button>
-                    </motion.div>
-                  ))}
+                <div>
+                  {/* Skill filter tabs for mock exams */}
+                  {activePillar === "mock-exams" && (
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {([
+                        { value: "all" as const, label: "📋 Kaikki", labelEn: "All" },
+                        { value: "reading" as const, label: "📖 Lukeminen", labelEn: "Reading" },
+                        { value: "listening" as const, label: "🎧 Kuunteleminen", labelEn: "Listening" },
+                        { value: "writing" as const, label: "✍️ Kirjoittaminen", labelEn: "Writing" },
+                        { value: "speaking" as const, label: "🎙️ Puhuminen", labelEn: "Speaking" },
+                      ]).map((tab) => (
+                        <Button
+                          key={tab.value}
+                          size="sm"
+                          variant={mockSkillFilter === tab.value ? "default" : "outline"}
+                          onClick={() => setMockSkillFilter(tab.value)}
+                          className="text-xs sm:text-sm"
+                        >
+                          {tab.label}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
+
+                  <div key={`${activePillar}-${mockSkillFilter}`} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {currentModules.map((mod, i) => {
+                      const modCompletedCount = mod.lessons.filter(l => progress[l.id]).length;
+                      const modTotalCount = mod.lessons.length;
+                      const isModComplete = modCompletedCount === modTotalCount && modTotalCount > 0;
+                      return (
+                        <motion.div
+                          key={mod.id}
+                          initial={{ opacity: 0, y: 16 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.06 }}
+                        >
+                          <button
+                            onClick={() => handleSelectModule(mod)}
+                            className={`w-full text-left rounded-2xl border-2 bg-card p-6 hover:shadow-lg transition-all group relative ${isModComplete ? "border-emerald-400/50" : "border-[#003580]/15 hover:border-[#003580]/30"}`}
+                          >
+                            {isModComplete && (
+                              <div className="absolute top-3 right-3">
+                                <CheckCircle className="w-6 h-6 text-emerald-500" />
+                              </div>
+                            )}
+                            <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${mod.color} flex items-center justify-center text-white text-2xl mb-4`}>
+                              {mod.icon}
+                            </div>
+                            <h3 className="text-lg font-bold text-foreground group-hover:text-[#003580] transition-colors mb-1">
+                              {mod.titleEn}
+                            </h3>
+                            <p className="text-xs text-muted-foreground mb-2">{mod.title}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{mod.descriptionEn}</p>
+                            <div className="flex items-center gap-2">
+                              <Badge variant="outline" className="text-xs border-[#003580]/20">
+                                {mod.lessons.length} {mod.lessons.length === 1 ? "lesson" : "lessons"}
+                              </Badge>
+                              {activePillar === "mock-exams" && (
+                                <Badge
+                                  variant={isModComplete ? "default" : "secondary"}
+                                  className={`text-xs ${isModComplete ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300" : ""}`}
+                                >
+                                  {modCompletedCount}/{modTotalCount} ✓
+                                </Badge>
+                              )}
+                              <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto group-hover:text-[#003580] transition-colors" />
+                            </div>
+                          </button>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
               </>
