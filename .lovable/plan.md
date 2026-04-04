@@ -1,35 +1,38 @@
 
 
-## Plan: Đổi nút "Phát lời" thành "Bắt đầu" và đồng bộ YouTube + lời bài hát
+## Plan: Điều chỉnh timestamp lời bài hát khớp với video YouTube SK6rHXlKC0A
 
-### Hiện trạng
-- Nút "Phát lời" chỉ chạy timer highlight lời bài hát, không điều khiển video YouTube
-- Video YouTube là iframe thông thường, không có API control
-- Timer chạy lời ngay lập tức khi nhấn nút
+### Vấn đề
+Video YouTube "Tiến Quân Ca" (ID: SK6rHXlKC0A) có phần intro nhạc trước khi lời bắt đầu. Hiện tại delay cố định 3s và timestamp ước lượng chưa chính xác, cần tinh chỉnh để lời highlight đúng lúc ca sĩ hát.
 
 ### Thay đổi (file: `src/pages/NationalAnthem.tsx`)
 
-**1. Chuyển iframe sang YouTube IFrame API**
-- Load YouTube IFrame API script (`https://www.youtube.com/iframe_api`)
-- Tạo player instance qua `new YT.Player()` với `enablejsapi=1`
-- Cho phép điều khiển play/pause video từ code
+**1. Cập nhật `LYRICS_DELAY_MS`** từ 3000ms lên giá trị chính xác hơn dựa trên thời điểm lời bắt đầu trong video (khoảng 5-6 giây intro nhạc).
 
-**2. Đổi nút "Phát lời" → "Bắt đầu"**
-- Label: "▶ Bắt đầu" (khi chưa phát) / "⏸ Tạm dừng" (đang phát)
-- Bỏ toggle "Có lời / Nhạc nền" (không cần nữa vì chỉ dùng 1 video)
+**2. Điều chỉnh timestamp từng dòng** theo thời gian thực tế trong video:
 
-**3. Logic khi nhấn "Bắt đầu":**
-1. Gọi `player.playVideo()` → video YouTube bắt đầu phát
-2. Đợi 3 giây (`setTimeout 3000ms`)
-3. Sau 3s, bắt đầu chạy timer highlight lời bài hát từng dòng (giữ nguyên logic `setInterval` hiện tại)
+```
+Dòng                                          | Cũ (s)    | Mới (s)
+----------------------------------------------|-----------|----------
+Đoàn quân Việt Nam đi                         | 0–4       | 0–3.5
+Chung lòng cứu quốc                           | 4–7       | 3.5–6
+Bước chân dồn vang trên đường gập ghềnh xa    | 7–12      | 6–11
+Cờ in máu chiến thắng mang hồn nước           | 12–17     | 11–16
+Súng ngoài xa chen khúc quân hành ca           | 17–22     | 16–21
+Đường vinh quang xây xác quân thù             | 22–27     | 21–25
+Thắng gian lao cùng nhau lập chiến khu        | 27–32     | 25–30
+Vì nhân dân chiến đấu không ngừng             | 32–37     | 30–35
+Tiến mau ra sa trường                          | 37–40     | 35–38
+Tiến lên! Cùng tiến lên!                      | 40–44     | 38–43
+Nước non Việt Nam ta vững bền.                 | 44–50     | 43–50
+```
 
-**4. Đồng bộ khi tạm dừng / lại từ đầu:**
-- "Tạm dừng": pause video + dừng timer lời
-- "Lại từ đầu": seek video về 0, reset timer lời, dừng phát
+**3. Tăng `LYRICS_DELAY_MS`** lên ~5500ms (5.5 giây) để khớp phần intro nhạc trong video trước khi lời bắt đầu.
 
-### Chi tiết kỹ thuật
-- Thêm state `isStarted` để phân biệt trạng thái đã nhấn bắt đầu hay chưa
-- Thêm `delayTimerRef` để track setTimeout 3s (để có thể cancel khi cần)
-- YouTube IFrame API: dùng `useEffect` load script, `onYouTubeIframeAPIReady` callback
-- Giữ nguyên toàn bộ UI lời bài hát và phần vocabulary
+**4. Cập nhật điều kiện kết thúc** trong `startLyricsTimer` từ `prev >= 50` thành `prev >= 50` (giữ nguyên vì dòng cuối end=50).
+
+### Phạm vi
+- Chỉ sửa 1 file: `src/pages/NationalAnthem.tsx`
+- Chỉ thay đổi dữ liệu timestamp và hằng số delay
+- Không thay đổi logic hay UI
 
