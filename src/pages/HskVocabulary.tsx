@@ -257,6 +257,7 @@ const HskVocabulary = () => {
       const next = new Set(prev);
       if (next.has(word)) next.delete(word); else next.add(word);
       localStorage.setItem("hsk_mastered", JSON.stringify([...next]));
+      syncMasteredCount("hsk", next.size);
       return next;
     });
   }, []);
