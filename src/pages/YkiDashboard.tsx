@@ -449,9 +449,8 @@ const VOCAB_IMAGES: Record<string, string> = {
   valokuvaus: U("photo-1452587925148-ce544e77e70d"), hiihtäminen: U("photo-1551698618-1dfe5d97d256"),
   luistelu: U("photo-1551632436-cbf8dd35adfa"), puutarha: U("photo-1416879595882-3373a0480b5b"),
   lautapeli: U("photo-1610890716171-6b1bb98ffd09"), käsityö: U("photo-1452587925148-ce544e77e70d"),
-  // Health expansion
-  nenä: U("photo-1588776814546-1ffcf47267a5"), selkä: U("photo-1544367567-0f2fcb009e0b"),
-  vatsa: U("photo-1571019613454-1cb2f99b2d8b"), flunssa: U("photo-1578307985320-34b61a66c195"),
+  // Health expansion (new words only)
+  nuha: U("photo-1578307985320-34b61a66c195"), polvi: U("photo-1571019613454-1cb2f99b2d8b"),
   nuha: U("photo-1578307985320-34b61a66c195"), polvi: U("photo-1571019613454-1cb2f99b2d8b"),
 };
 
