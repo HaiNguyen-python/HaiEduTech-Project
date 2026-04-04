@@ -1042,11 +1042,6 @@ const QuizSection = ({
           {submitted && (
             <p className="mt-2 text-sm text-muted-foreground italic">
               💡 {q.explanation}
-              {showTranslation && q.explanation && (
-                <span className="block mt-1 text-xs text-muted-foreground/70">
-                  (Translation available)
-                </span>
-              )}
             </p>
           )}
         </div>
