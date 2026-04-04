@@ -1,53 +1,26 @@
 
 
-## Plan: Gộp chữ cái & dấu thanh, bỏ Writing Guide, thêm ảnh minh họa & hiệu ứng chúc mừng
+## Plan: Thay 4 hình nền lịch sử bằng hình phù hợp hơn
 
-### Thay đổi chính (file: `src/pages/VietnameseAlphabet.tsx`)
+### Hiện trạng
+Code đã có sẵn hệ thống `historyBackgrounds` với 4 ảnh Unsplash hiển thị mờ (opacity 8%) phía sau các ô bài học. Tuy nhiên các ảnh hiện tại có thể không load được hoặc không đủ liên quan đến nội dung.
 
-**1. Bỏ Tabs — gộp Letters và Tones vào 1 màn hình**
-- Xóa component `Tabs`/`TabsList`/`TabsContent`
-- Hiển thị lần lượt: grid 29 chữ cái → panel chi tiết → phần 6 dấu thanh (tone cards + tone comparison) trên cùng 1 trang cuộn
+### Thay đổi (file: `src/pages/Vietnamese.tsx`)
 
-**2. Bỏ phần Writing Guide (DashedGuide)**
-- Xóa component `DashedGuide` hoàn toàn
-- Trong detail panel của letter, xóa block "Hướng dẫn nét viết" (lines 291-305)
-- Giữ nguyên: tên chữ, IPA, nút phát âm, ví dụ từ, và nút "Luyện viết" + WritingCanvas
+**Thay 4 URL ảnh Unsplash** bằng các ảnh phù hợp hơn với từng giai đoạn:
 
-**3. Thêm ảnh minh họa cuối trang**
-- Đặt ảnh user upload (image-118.png) vào cuối trang, trước Footer
-- Hiển thị dạng full-width với rounded corners, caption mô tả "Nét đẹp giản dị của Việt Nam"
+| Card | Giai đoạn | Ảnh mới |
+|------|-----------|---------|
+| month-1 | Early Kingdoms (Hùng Vương, Âu Lạc, Đông Sơn) | Trống đồng Đông Sơn — biểu tượng văn minh cổ đại |
+| month-2 | Golden Dynasties (Lý, Trần, Lê) | Văn Miếu Quốc Tử Giám — biểu tượng thời kỳ hoàng kim |
+| month-3 | Modern History (Tây Sơn, Pháp thuộc, Hồ Chí Minh) | Lăng Chủ tịch / cờ đỏ sao vàng — biểu tượng độc lập |
+| month-4 | Contemporary Vietnam (Đổi Mới, hội nhập) | Skyline TP.HCM hiện đại — biểu tượng phát triển |
 
-**4. Hiệu ứng chúc mừng khi viết đúng**
-- Trong `WritingCanvas`, sau khi người dùng dừng vẽ (stopDraw), so sánh canvas pixel coverage với vùng ghost letter để đánh giá mức độ khớp (tỷ lệ % pixel trùng)
-- Nếu coverage vượt ngưỡng (~40-50% pixel của ghost letter được tô), trigger:
-  - `canvas-confetti` effect (đã có trong project qua `useMasteredMotivation`)
-  - Dialog/popup chúc mừng với message ngẫu nhiên kiểu "Tuyệt vời! 🎉", "Giỏi lắm!", "Viết đẹp quá!"
-- Thêm nút "Kiểm tra" trong WritingCanvas để trigger đánh giá thay vì tự động
-
-### Layout mới (1 trang cuộn)
-
-```text
-┌─────────────────────────────────┐
-│ Header + Breadcrumb             │
-├─────────────────────────────────┤
-│ Letter Grid (29)  │ Detail Panel│
-│                   │ (no guide)  │
-│                   │ + Practice  │
-├─────────────────────────────────┤
-│ Tones Section (6 cards)         │
-│ Tone Comparison ("ma" grid)     │
-├─────────────────────────────────┤
-│ Illustration Image              │
-│ "Nét đẹp giản dị của Việt Nam"  │
-├─────────────────────────────────┤
-│ Footer                          │
-└─────────────────────────────────┘
-```
+**Tăng opacity nhẹ** từ `0.08` lên `0.12` (dark: `0.15`) để hình nền rõ hơn một chút nhưng vẫn không ảnh hưởng đến text.
 
 ### Chi tiết kỹ thuật
-
-- Dùng `canvas-confetti` (đã có) cho hiệu ứng pháo hoa
-- Đánh giá viết đúng: lấy pixel data từ canvas, tính overlap với ghost letter region — đây là heuristic đơn giản, không cần AI
-- Ảnh minh họa sẽ được copy vào `public/` và reference bằng thẻ `<img>`
-- Xóa import `Tabs`, `DashedGuide`, `Badge` nếu không còn dùng
+- Chỉ thay 4 URL trong object `historyBackgrounds` (dòng 33-38)
+- Sử dụng ảnh Unsplash với keyword chính xác hơn, đảm bảo load được
+- Cập nhật class opacity trên thẻ `<img>` (dòng 361)
+- Không thay đổi layout hay logic khác
 
