@@ -238,6 +238,7 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
         titleEn: "Apartment Viewing",
         icon: "🏢",
         level: "A2",
+        sampleAnswer: "Hei, haluaisin kysyä asunnosta. Paljonko vuokra on kuukaudessa? Kuuluuko vuokraan vesi ja sähkö? Onko asunnossa pesukone ja astianpesukone? Saako asunnossa pitää kissaa? Milloin asunto on vapaana? Kiitos paljon tiedoista!",
         theory: `## Puhetehtävä: Asuntonäyttö\n\n**Tilanne:** Olet asuntonäytössä. Kysy vuokranantajalta asunnosta.\n\nKysy näistä asioista:\n- Paljonko vuokra on?\n- Onko asunnossa pesukone?\n- Saako asuntoon ottaa lemmikin?\n- Milloin asunto on vapaana?\n\n**Hyödyllisiä ilmauksia:**\n- Paljonko vuokra on kuukaudessa?\n- Kuuluuko vuokraan vesi ja sähkö?\n- Onko asunnossa [laite/asia]?\n- Saako asunnossa pitää [lemmikkiä]?\n\n⏱️ Aika: 2 minuuttia`,
         theoryEn: "Ask questions about an apartment during a viewing.",
         quiz: [
