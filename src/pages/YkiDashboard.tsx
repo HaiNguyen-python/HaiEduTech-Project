@@ -1128,8 +1128,8 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-          ✍️ Kirjoitustehtävä
+         <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+          ✍️ {showTranslation ? "Writing Task" : "Kirjoitustehtävä"}
         </h3>
         <div className="flex items-center gap-2">
           <Button
