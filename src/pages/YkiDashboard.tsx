@@ -966,7 +966,7 @@ const QuizSection = ({
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
           <CheckCircle className="w-5 h-5 text-primary" />
-          {showFinnishOnly ? "Valitse oikea vaihtoehto" : "Quiz"}
+          {showFinnishOnly ? (showTranslation ? "Select the correct answer" : "Valitse oikea vaihtoehto") : "Quiz"}
         </h3>
         <div className="flex items-center gap-2">
           {showFinnishOnly && (
