@@ -1230,6 +1230,11 @@ const WRITING_KEYWORDS: Record<string, string[]> = {
   "yki-mock-writing-exp3-3": ["myydään", "pyörä", "hinta", "katsomaan", "yhteyttä"],
   "yki-mock-writing-exp3-4": ["vuokranantaja", "hana", "vuotaa", "korjaamaan", "terveisin"],
   "yki-mock-writing-exp3-5": ["tervetuloa", "syntymäpäivä", "juhlat", "kello", "vastaa"],
+  "yki-mock-writing-16": ["isännöitsijä", "valittaa", "melu", "naapuri", "hiljaisuusaika", "puuttumaan"],
+  "yki-mock-writing-17": ["haen", "tarjoilija", "kokemus", "aloittaa", "terveisin"],
+  "yki-mock-writing-18": ["opettaja", "lapsi", "sairas", "kuumetta", "läksyt", "poissa"],
+  "yki-mock-writing-19": ["vahvistaa", "varaus", "mökki", "henkilöä", "lemmikki"],
+  "yki-mock-writing-20": ["palaute", "pidin", "suosittelen", "arvosana", "kurssi"],
 };
 
 const getSampleAnswer = (lessonId: string): string => {
