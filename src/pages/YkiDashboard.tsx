@@ -1179,7 +1179,7 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
         />
         <div className="flex items-center justify-between text-sm">
           <span className={`font-medium ${wordCount > 80 ? "text-rose-500" : wordCount >= 20 ? "text-emerald-600" : "text-muted-foreground"}`}>
-            📝 Sanamäärä: {wordCount} / 50–80 sanaa
+            📝 {showTranslation ? "Word count" : "Sanamäärä"}: {wordCount} / 50–80 {showTranslation ? "words" : "sanaa"}
           </span>
           {!submitted && text.trim().length > 0 && (
             <Button onClick={() => { setSubmitted(true); if (timerRef.current) clearInterval(timerRef.current); setTimerActive(false); }} className="text-lg px-8 py-3 font-bold">
