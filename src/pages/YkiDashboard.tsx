@@ -2573,6 +2573,17 @@ const YkiDashboard = () => {
                     })}
                   </div>
                 </div>
+                {activePillar === "vocabulary" && (
+                  <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start">
+                    <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto — BXH" />
+                  </div>
+                )}
+                </div>
+                {activePillar === "vocabulary" && (
+                  <div className="lg:hidden mt-6">
+                    <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto — BXH" />
+                  </div>
+                )}
               )}
               </>
             )}
