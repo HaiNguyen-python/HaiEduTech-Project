@@ -1444,7 +1444,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
                   onClick={() => setShowSampleAnswer(!showSampleAnswer)}
                   className="text-xs text-amber-700"
                 >
-                  {showSampleAnswer ? "Piilota teksti" : "Näytä teksti"}
+                  {showSampleAnswer ? (showTranslation ? "Hide text" : "Piilota teksti") : (showTranslation ? "Show text" : "Näytä teksti")}
                 </Button>
               </div>
             </div>
