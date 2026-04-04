@@ -204,6 +204,7 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
         titleEn: "At the Doctor",
         icon: "🏥",
         level: "A2",
+        sampleAnswer: "Hei, minulla on kova kurkkukipu ja nuhaa. Oireet alkoivat kolme päivää sitten. Kyllä, minulla on myös vähän kuumetta, lämpöni on kolmekymmentäseitsemän ja puoli astetta. En ole ottanut vielä mitään lääkettä. Voisitteko kirjoittaa reseptin?",
         theory: `## Puhetehtävä: Lääkärissä\n\n**Tilanne:** Olet lääkärissä. Kerro lääkärille oireistasi.\n\nPuhu näistä asioista:\n- Mikä vaivasi on?\n- Milloin oireet alkoivat?\n- Onko sinulla kuumetta?\n- Oletko ottanut lääkettä?\n\n**Hyödyllisiä ilmauksia:**\n- Minulla on [oire].\n- Oireet alkoivat [aika].\n- Lämpöni on [luku] astetta.\n- Olen ottanut / En ole ottanut lääkettä.\n\n⏱️ Aika: 2 minuuttia`,
         theoryEn: "Describe your symptoms to a doctor.",
         quiz: [
@@ -220,6 +221,7 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
         titleEn: "Job Interview",
         icon: "🤝",
         level: "A2",
+        sampleAnswer: "Olen Linh ja olen kolmekymmentävuotias. Olen kiinnostunut tästä työstä, koska pidän ihmisten kanssa työskentelystä. Olen työskennellyt kaupassa myyjänä kaksi vuotta. Olen ahkera, luotettava ja opin nopeasti uusia asioita.",
         theory: `## Puhetehtävä: Työhaastattelu\n\n**Tilanne:** Olet työhaastattelussa. Vastaa haastattelijan kysymyksiin.\n\nPuhu näistä asioista:\n- Kerro itsestäsi\n- Miksi haet tätä työtä?\n- Mitä työkokemusta sinulla on?\n- Mitkä ovat vahvuutesi?\n\n**Hyödyllisiä ilmauksia:**\n- Olen [nimi] ja olen [ikä]-vuotias.\n- Olen kiinnostunut tästä työstä, koska…\n- Olen työskennellyt [paikassa] [aika].\n- Olen ahkera, luotettava ja oppiin nopeasti.\n\n⏱️ Aika: 3 minuuttia`,
         theoryEn: "Answer interview questions about yourself and your experience.",
         quiz: [
@@ -236,6 +238,7 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
         titleEn: "Apartment Viewing",
         icon: "🏢",
         level: "A2",
+        sampleAnswer: "Hei, haluaisin kysyä asunnosta. Paljonko vuokra on kuukaudessa? Kuuluuko vuokraan vesi ja sähkö? Onko asunnossa pesukone ja astianpesukone? Saako asunnossa pitää kissaa? Milloin asunto on vapaana? Kiitos paljon tiedoista!",
         theory: `## Puhetehtävä: Asuntonäyttö\n\n**Tilanne:** Olet asuntonäytössä. Kysy vuokranantajalta asunnosta.\n\nKysy näistä asioista:\n- Paljonko vuokra on?\n- Onko asunnossa pesukone?\n- Saako asuntoon ottaa lemmikin?\n- Milloin asunto on vapaana?\n\n**Hyödyllisiä ilmauksia:**\n- Paljonko vuokra on kuukaudessa?\n- Kuuluuko vuokraan vesi ja sähkö?\n- Onko asunnossa [laite/asia]?\n- Saako asunnossa pitää [lemmikkiä]?\n\n⏱️ Aika: 2 minuuttia`,
         theoryEn: "Ask questions about an apartment during a viewing.",
         quiz: [

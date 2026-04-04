@@ -500,6 +500,7 @@ Time: 20 minutes | Word count: 50–80 words`,
         titleEn: "Tell About Yourself",
         icon: "👤",
         level: "A2",
+        sampleAnswer: "Nimeni on Maria ja olen kotoisin Vietnamista. Asun nyt Helsingissä perheeni kanssa. Opiskelen suomea ja työskentelen ravintolassa tarjoilijana. Vapaa-ajallani tykkään lukea kirjoja ja kävellä luonnossa. Opiskelen suomea, koska haluan asua Suomessa pysyvästi ja saada hyvän työpaikan.",
         theory: `### Puhumistehtävä 1: Kerro itsestäsi
 
 **Ohje:** Sinulla on **40 sekuntia** aikaa vastata. Kerro:
@@ -526,6 +527,7 @@ Time: 20 minutes | Word count: 50–80 words`,
         titleEn: "At the Pharmacy",
         icon: "💊",
         level: "A2",
+        sampleAnswer: "Hei, minulla on kovaa päänsärkyä ja tarvitsen särkylääkettä. Mitä lääkettä suosittelette? Ei, minulla ei ole allergioita. Paljonko tämä lääke maksaa? Kahdeksan euroa viisikymmentä senttiä, selvä. Otan sen, kiitos paljon!",
         theory: `### Puhumistehtävä 2: Reagoi tilanteeseen — Apteekissa
 
 **Ohje:** Olet apteekissa. Sinulla on **30 sekuntia** aikaa vastata jokaiseen kohtaan.
@@ -553,6 +555,7 @@ Time: 20 minutes | Word count: 50–80 words`,
         titleEn: "Describe an Image",
         icon: "🖼️",
         level: "A2",
+        sampleAnswer: "Kuvassa on perhe puistossa. Isä pelaa jalkapalloa pojan kanssa nurmikolla. Äiti istuu penkillä ja lukee kirjaa. Pieni tyttö leikkii koiran kanssa. Sää on aurinkoinen ja lämmin. Mielestäni vuodenaika on kesä, koska puut ovat vihreitä ja ihmiset ovat ulkona.",
         theory: `### Puhumistehtävä 3: Kuvaile kuvaa
 
 **Ohje:** Sinulla on **40 sekuntia** aikaa kuvailla kuvaa.
@@ -583,6 +586,7 @@ Describe a family in a park — activities, weather, season.`,
         titleEn: "Job Interview",
         icon: "👔",
         level: "A2",
+        sampleAnswer: "Nimeni on Anna ja olen kotoisin Vietnamista. Minulla on kokemusta myyjän työstä kaksi vuotta. Hain tätä työpaikkaa, koska pidän asiakaspalvelusta ja haluan kehittyä. Olen ahkera, luotettava ja ystävällinen. Kyllä, voin työskennellä viikonloppuisin.",
         theory: `### Puhumistehtävä 4: Reagoi tilanteeseen — Työhaastattelu
 
 **Ohje:** Olet työhaastattelussa. Vastaa kysymyksiin. **30 sekuntia** per kysymys.
@@ -611,6 +615,7 @@ Describe a family in a park — activities, weather, season.`,
         titleEn: "With Your Neighbor",
         icon: "🏘️",
         level: "A2",
+        sampleAnswer: "Hei! Mitä kuuluu? Kiitos hyvää! Viikonloppuna kävin perheen kanssa Nuuksiossa. Kävimme kävelemässä ja grillasimme makkaraa. Oli todella mukavaa! Entäs sinulla, mitä teit viikonloppuna? Onpa kylmä tänään, eikö? Mukava jutella! Hyvää päivän jatkoa!",
         theory: `### Puhumistehtävä 5: Reagoi tilanteeseen — Naapurin kanssa
 
 **Ohje:** Tapaat naapurisi rappukäytävässä. **40 sekuntia.**
