@@ -186,7 +186,6 @@ const WritingCanvas = ({ letter, onClose }: { letter: string; onClose: () => voi
 const VietnameseAlphabet = () => {
   const { t } = useLanguage();
   const [selectedLetter, setSelectedLetter] = useState<AlphabetLetter | null>(null);
-  const [animateStroke, setAnimateStroke] = useState(false);
   const [showCanvas, setShowCanvas] = useState(false);
 
   const playSound = (text: string) => {
@@ -198,14 +197,7 @@ const VietnameseAlphabet = () => {
 
   const selectLetter = (letter: AlphabetLetter) => {
     setSelectedLetter(letter);
-    setAnimateStroke(false);
     setShowCanvas(false);
-    setTimeout(() => setAnimateStroke(true), 100);
-  };
-
-  const replayStroke = () => {
-    setAnimateStroke(false);
-    setTimeout(() => setAnimateStroke(true), 50);
   };
 
   return (
