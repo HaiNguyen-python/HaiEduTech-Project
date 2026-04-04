@@ -1049,7 +1049,7 @@ const QuizSection = ({
 
       {!submitted && Object.keys(answers).length > 0 && (
         <Button onClick={handleSubmit} className="w-full text-lg py-6 font-bold">
-          Lähetä vastaukset ✓
+          {showTranslation ? "Submit answers ✓" : "Lähetä vastaukset ✓"}
         </Button>
       )}
     </div>
