@@ -2499,6 +2499,7 @@ const YkiDashboard = () => {
                 </motion.div>
               ) : (
                 // Module grid
+                <>
                 <div className="flex gap-6">
                 <div className="flex-1 min-w-0">
                   {/* Skill filter tabs for mock exams */}
@@ -2584,7 +2585,7 @@ const YkiDashboard = () => {
                     <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto — BXH" />
                   </div>
                 )}
-              )
+                </>
               </>
             )}
             </div>
