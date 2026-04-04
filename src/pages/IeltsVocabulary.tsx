@@ -52,17 +52,15 @@ const shuffle = <T,>(arr: T[]): T[] => {
 const Flashcard = ({ word }: { word: IeltsWord }) => {
   const [flipped, setFlipped] = useState(false);
   return (
-    <div className="cursor-pointer perspective-1000" onClick={() => setFlipped(!flipped)}>
-      <motion.div
-        className="relative w-full"
-        style={{ transformStyle: "preserve-3d", minHeight: "16rem" }}
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {/* Front */}
-        <div
-          className="absolute inset-0 rounded-xl bg-white dark:bg-card flex flex-col items-center justify-center gap-3"
-          style={{ backfaceVisibility: "hidden", padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
+    <div className="cursor-pointer" onClick={() => setFlipped(!flipped)}>
+      {!flipped ? (
+        <motion.div
+          key="front"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="rounded-xl bg-white dark:bg-card flex flex-col items-center justify-center gap-3"
+          style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
         >
           <h3 className="font-extrabold" style={{ fontSize: "1.5rem", color: "#111827" }}>{word.word}</h3>
           <p className="font-mono" style={{ fontSize: "0.875rem", color: "#4b5563" }}>{word.ipa}</p>
@@ -70,25 +68,29 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
           <button onClick={(e) => { e.stopPropagation(); speak(word.word); }} className="mt-2 p-2 rounded-full hover:bg-primary/10 transition-colors">
             <Volume2 size={20} style={{ color: "#4b5563" }} />
           </button>
-        </div>
-        {/* Back — NO overflow scroll, auto height */}
-        <div
-          className="absolute inset-0 rounded-xl bg-white dark:bg-card flex flex-col justify-center gap-2"
-          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
+        </motion.div>
+      ) : (
+        <motion.div
+          key="back"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="rounded-xl bg-white dark:bg-card flex flex-col justify-center gap-2"
+          style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
         >
-          <p className="font-semibold" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{word.definition.en}</p>
-          <p className="font-bold" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{word.definition.vi}</p>
-          <p className="italic mt-1" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}>"{word.example}"</p>
+          <p className="font-semibold break-words" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{word.definition.en}</p>
+          <p className="font-bold break-words" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{word.definition.vi}</p>
+          <p className="italic mt-1 break-words" style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.6 }}>"{word.example}"</p>
           {word.synonyms && word.synonyms.length > 0 && (
             <div className="mt-2 rounded-md" style={{ backgroundColor: "#ecfdf5", padding: "0.5rem 0.75rem" }}>
-              <p style={{ fontSize: "0.875rem", color: "#065f46", lineHeight: 1.6 }}>
+              <p className="break-words" style={{ fontSize: "0.875rem", color: "#065f46", lineHeight: 1.6 }}>
                 <span className="font-semibold">Syn: </span>{word.synonyms.join(" • ")}
               </p>
             </div>
           )}
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
-        </div>
-      </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 };
