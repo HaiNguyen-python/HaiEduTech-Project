@@ -1509,7 +1509,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
 
             {/* Word-by-word results */}
             <div>
-              <p className="text-xs font-medium text-muted-foreground mb-2">Sanavertailu (So sánh từ):</p>
+              <p className="text-xs font-medium text-muted-foreground mb-2">{showTranslation ? "Word comparison:" : "Sanavertailu:"}</p>
               <div className="flex flex-wrap gap-1.5">
                 {wordResults.map((wr, i) => (
                   <span
