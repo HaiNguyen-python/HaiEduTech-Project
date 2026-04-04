@@ -255,7 +255,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeCount: 2,
     strokePaths: [
       "M20,24 C10,24 4,30 4,38 C4,46 10,52 20,52 C30,52 36,46 36,38 C36,30 30,24 20,24",
-      "M34,26 L36,18 L38,24"  // horn — small tick attached to top-right of oval
+      "M32,26 C32,22 34,18 38,16 C36,20 36,24 34,26"  // horn — smooth curve from oval top-right, curling outward then back
     ]
   },
   // ── p ──
