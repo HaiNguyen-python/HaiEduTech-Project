@@ -1193,10 +1193,10 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
         <div className="space-y-4">
           <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
             <CardContent className="p-4">
-              <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ Vastauksesi on lähetetty!</p>
-              <p className="text-sm text-muted-foreground">Sanamäärä: {wordCount}. Tarkista vastauksesi ja vertaa tehtävänantoon.</p>
+              <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ {showTranslation ? "Your answer has been submitted!" : "Vastauksesi on lähetetty!"}</p>
+              <p className="text-sm text-muted-foreground">{showTranslation ? "Word count" : "Sanamäärä"}: {wordCount}. {showTranslation ? "Check your answer and compare it with the task." : "Tarkista vastauksesi ja vertaa tehtävänantoon."}</p>
               <Button variant="ghost" size="sm" className="mt-2" onClick={() => { setSubmitted(false); setText(""); setTimeLeft(15 * 60); }}>
-                Kirjoita uudelleen
+                {showTranslation ? "Write again" : "Kirjoita uudelleen"}
               </Button>
             </CardContent>
           </Card>
