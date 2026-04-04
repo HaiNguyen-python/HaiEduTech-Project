@@ -258,8 +258,8 @@ const Vietnamese = () => {
                   ))}
                 </div>
 
-                {/* Speaking Coach link */}
-                <div className="grid sm:grid-cols-3 gap-4 mt-6">
+                {/* Extra feature links */}
+                <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <Link
                     to="/speaking-coach/vietnamese"
                     className="block bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-xl p-5 hover:shadow-lg transition-all group"
