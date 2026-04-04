@@ -142,12 +142,12 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
   {
     letter: "g", uppercase: "G", name: "giê", nameEn: "zheh", ipa: "/ɣ/",
     exampleWord: "gà", exampleMeaning: "con gà", exampleMeaningEn: "chicken",
-    strokeDescription: "Viết nét cong tròn rồi kéo đuôi xuống dưới đường kẻ (descender)",
-    strokeDescriptionEn: "Write a round curve then extend the tail below baseline (descender)",
+    strokeDescription: "Viết nét cong tròn nhỏ rồi kéo đuôi xuống dưới, lượn móc và đá lên",
+    strokeDescriptionEn: "Write a small round curve then sweep the tail down, hook and kick up",
     strokeCount: 2,
     strokePaths: [
-      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",  // symmetrical oval
-      "M32,42 L32,60 C32,68 12,68 12,60"  // descender from baseline, hook left
+      "M22,24 C14,24 10,28 10,34 C10,42 14,46 22,46 C28,46 32,42 32,34 C32,28 28,24 22,24",  // smaller oval (narrower, shorter)
+      "M32,34 L32,56 C32,64 14,64 14,56 L18,50"  // descender: down, hook left, kick up
     ]
   },
   // ── h ──
