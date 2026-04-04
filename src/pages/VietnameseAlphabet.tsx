@@ -288,21 +288,16 @@ const VietnameseAlphabet = () => {
                           </Button>
                         </div>
 
-                        {/* Stroke animation */}
+                        {/* Dashed writing guide */}
                         <div className="bg-muted/50 rounded-lg p-4 mb-4">
                           <div className="flex items-center justify-between mb-2">
                             <h3 className="text-sm font-semibold text-foreground">
-                              {t("Hướng dẫn viết", "Stroke Guide")}
+                              {t("Hướng dẫn nét viết", "Writing Guide")}
                             </h3>
-                            <div className="flex items-center gap-2">
-                              <Badge variant="secondary">{selectedLetter.strokeCount} {t("nét", "strokes")}</Badge>
-                              <Button size="icon" variant="ghost" className="h-7 w-7" onClick={replayStroke}>
-                                <RotateCcw className="w-3.5 h-3.5" />
-                              </Button>
-                            </div>
+                            <Badge variant="secondary">{selectedLetter.strokeCount} {t("nét", "strokes")}</Badge>
                           </div>
                           <div className="w-24 h-32 mx-auto">
-                            <StrokeAnimation paths={selectedLetter.strokePaths} animate={animateStroke} />
+                            <DashedGuide paths={selectedLetter.strokePaths} />
                           </div>
                           <p className="text-xs text-muted-foreground mt-2 text-center">
                             {t(selectedLetter.strokeDescription, selectedLetter.strokeDescriptionEn)}
