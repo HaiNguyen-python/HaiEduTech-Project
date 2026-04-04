@@ -2145,7 +2145,7 @@ const YkiDashboard = () => {
             ]).map((tab) => (
               <button
                 key={tab.value}
-                onClick={() => { setActivePillar(tab.value); setSelectedModule(null); setSelectedLesson(null); }}
+                onClick={() => { setActivePillar(tab.value); setSelectedModule(null); setSelectedLesson(null); setMockSkillFilter("all"); }}
                 className={`text-xs sm:text-sm font-medium rounded-md transition-all ${
                   activePillar === tab.value
                     ? "bg-background text-foreground shadow-sm"
