@@ -302,6 +302,20 @@ const Vietnamese = () => {
                       </div>
                     </div>
                   </Link>
+                  <Link
+                    to="/learn-vietnamese/alphabet"
+                    className="block bg-gradient-to-r from-rose-500/10 to-rose-500/5 border border-rose-500/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center group-hover:bg-rose-500/20 transition-colors">
+                        <Pen className="w-5 h-5 text-rose-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-foreground">{t("Bảng chữ cái", "Vietnamese Alphabet")}</h3>
+                        <p className="text-xs text-muted-foreground">{t("29 chữ cái & cách viết nét", "29 letters & stroke guide")}</p>
+                      </div>
+                    </div>
+                  </Link>
                 </div>
               </div>
             </TabsContent>
