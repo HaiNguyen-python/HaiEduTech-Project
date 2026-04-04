@@ -262,7 +262,7 @@ const Vietnamese = () => {
                 <div className="relative z-10 grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-2 px-5 md:px-8 pb-5">
                   <Link
                     to="/speaking-coach/vietnamese"
-                    className="block bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-primary/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
@@ -276,7 +276,7 @@ const Vietnamese = () => {
                   </Link>
                   <Link
                     to="/learn-vietnamese/dictation"
-                    className="block bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-amber-500/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
@@ -290,7 +290,7 @@ const Vietnamese = () => {
                   </Link>
                   <Link
                     to="/learn-vietnamese/poetry"
-                    className="block bg-gradient-to-r from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-purple-500/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
@@ -304,7 +304,7 @@ const Vietnamese = () => {
                   </Link>
                   <Link
                     to="/learn-vietnamese/alphabet"
-                    className="block bg-gradient-to-r from-rose-500/10 to-rose-500/5 border border-rose-500/20 rounded-xl p-5 hover:shadow-lg transition-all group"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-rose-500/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center group-hover:bg-rose-500/20 transition-colors">
