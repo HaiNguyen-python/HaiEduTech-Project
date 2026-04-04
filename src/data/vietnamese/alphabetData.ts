@@ -37,8 +37,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Draw a round curve from right to left, then a vertical stroke on the right",
     strokeCount: 2,
     strokePaths: [
-      "M28,35 C28,24 12,24 12,35 C12,48 28,48 28,35",  // oval body
-      "M28,24 L28,52"                                     // short stem (NOT above body)
+      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",  // symmetrical oval
+      "M32,24 L32,52"  // short stem on right
     ]
   },
   // ── ă ──
