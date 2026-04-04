@@ -1,31 +1,46 @@
 
 
-## Plan: Eliminate Duplicate Images in Finnish Vocabulary Cards
+## Plan: Expand & Reorganize Finnish Mock Exams by Skill
 
-### Problem
-Many photo IDs in `VOCAB_IMAGES` (lines 221–505) are reused across multiple words, causing identical images on different vocabulary cards. For example:
-- `photo-1529156069898` → used by `kutsua`, `ihminen`, `hei`, `kansalainen`, `serkku`, `näkemiin`, `sinä`, `kuka` (8 words!)
-- `photo-1573497019418` → used by `puhua`, `jutella`, `pyytää`, `että`, `koska` (5 words)
-- `photo-1557804506` → used by `mielipide`, `mikä`, `mutta`, `tai`, `jos` (5 words)
-- `photo-1501139083538` → used by `odottaa`, `nyt`, `sitten`, `kun` (4 words)
-- `photo-1506784983877` → used by `tulla`, `ajanvaraus`, `varata`, `olla` (4 words)
-- Plus ~40 more duplicate groups
+### What changes
 
-### Solution
-Replace all duplicate photo IDs with unique Unsplash alternatives. For each duplicate group, keep the first/most fitting word and swap all others to new, contextually relevant photos.
+**1. Add skill filter tabs in the Kokeet section**
 
-### Technical approach
-1. Scan all entries in `VOCAB_IMAGES` to identify every photo ID used more than once
-2. For each duplicate group, keep the first occurrence and replace all subsequent uses with unique Unsplash photo IDs chosen for semantic relevance to each word
-3. Verify zero photo ID appears more than once in the final object
+Replace the current flat grid of 16 modules with a filtered view organized by skill:
+- 📖 Lukeminen (Reading) — 4 modules, 16 lessons
+- 🎧 Kuunteleminen (Listening) — 4 modules, 16 lessons  
+- ✍️ Kirjoittaminen (Writing) — 4 modules, 18 lessons
+- 🎙️ Puhuminen (Speaking) — 4 modules, 18 lessons
+- 📋 Kaikki (All) — show everything (default)
 
-### Estimated scope
-~120 entries need new unique photo IDs across pronouns, function words, emotions, verbs, services, health, emergency, family, and abstract concepts.
+Each module card shows a completion badge (e.g., "3/5 ✓") and a green checkmark if all lessons are done.
 
-### File to modify
-- `src/pages/YkiDashboard.tsx` — replace duplicate photo IDs in `VOCAB_IMAGES` (lines 221–505)
+**2. Add new mock exam content (Expansion 4)**
 
-### What stays the same
-- `extractBaseWord`, `getVocabImageUrl`, `getWordIllustration`, `WORD_ILLUSTRATIONS`, `CATEGORY_IMAGES` — all unchanged
-- No structural or component changes
+Create `src/data/finnishCurriculum/mockExamExpansion4.ts` with 5 new lessons per skill (20 total), all closely modeled on real YKI A2 exam format:
+
+- **Reading (5)**: Official notices (Kela letter, library rules), classified ads, event programs, medicine instructions — each with 4-5 comprehension questions
+- **Listening (5)**: Supermarket announcements, phone calls to services (Kela, doctor), radio traffic updates, neighbor conversations — each with 3-4 questions
+- **Writing (5)**: Formal complaint to housing company, response to job ad, message to child's teacher, booking confirmation email, feedback form — each with sample answer and keyword evaluation
+- **Speaking (5)**: Pharmacy visit, describing daily routine, asking for directions, phone call to cancel appointment, introducing family — each with sample answer and quiz
+
+**3. Show completion status on module cards**
+
+On the Kokeet module grid, each card displays:
+- Progress indicator: "3/5 completed"
+- Green checkmark overlay when all lessons in that module are done
+
+### Files to modify/create
+
+1. **`src/data/finnishCurriculum/mockExamExpansion4.ts`** — new file with 4 modules × 5 lessons = 20 new exam tasks
+2. **`src/data/finnishCurriculum/index.ts`** — export the new expansion
+3. **`src/pages/YkiDashboard.tsx`** — add skill filter sub-tabs in Kokeet view, import new data, show per-module completion progress on cards
+
+### Technical details
+
+In `YkiDashboard.tsx`:
+- Add state `mockSkillFilter` with values `"all" | "reading" | "listening" | "writing" | "speaking"`
+- Filter `allMockExamModules` by checking if module `id` contains the skill keyword
+- On each module card, compute `completedCount / totalCount` from `progress` state and display it
+- The sub-tabs render only when `activePillar === "mock-exams"` and no module is selected
 
