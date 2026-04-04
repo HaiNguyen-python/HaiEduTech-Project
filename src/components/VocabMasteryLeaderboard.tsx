@@ -136,6 +136,7 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
           {t("Chưa có ai. Hãy là người đầu tiên!", "No one yet. Be the first!")}
         </p>
       ) : (
+        <div className="max-h-[400px] overflow-y-auto space-y-2 pr-1">
         entries.map((entry, i) => {
           const isCurrentUser = entry.user_id === currentUserId;
           return (
