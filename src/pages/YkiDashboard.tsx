@@ -164,8 +164,29 @@ const WORD_ILLUSTRATIONS: Record<string, string> = {
   hotelli: "🏨", passi: "🛂", nähtävyys: "🗼", museo: "🏛️",
 };
 
+const extractBaseWord = (word: string): string[] => {
+  const lower = word.toLowerCase().trim();
+  const candidates: string[] = [lower];
+  // Strip arrow part: "minä → mä/mää" → "minä"
+  if (lower.includes("→")) {
+    const base = lower.split("→")[0].trim();
+    if (base && !candidates.includes(base)) candidates.push(base);
+  }
+  // If multi-word, try the last word: "me menemme" → "menemme"
+  const lastCandidate = candidates[candidates.length - 1];
+  const parts = lastCandidate.split(/\s+/);
+  if (parts.length > 1) {
+    const lastWord = parts[parts.length - 1];
+    if (!candidates.includes(lastWord)) candidates.push(lastWord);
+  }
+  return candidates;
+};
+
 const getWordIllustration = (word: string): string => {
-  return WORD_ILLUSTRATIONS[word.toLowerCase()] || "📝";
+  for (const candidate of extractBaseWord(word)) {
+    if (WORD_ILLUSTRATIONS[candidate]) return WORD_ILLUSTRATIONS[candidate];
+  }
+  return "📝";
 };
 
 // Category-to-gradient mapping for visual vocab card headers
@@ -456,6 +477,31 @@ const VOCAB_IMAGES: Record<string, string> = {
   ei: U("photo-1509248961158-e54f6934749c"),
   // Missing travel
   loma: U("photo-1507525428034-b723cf961d3e"),
+  // Pronouns & Puhekieli base words
+  minä: U("photo-1507003211169-0a1dd7228f2d"),
+  sinä: U("photo-1529156069898-49953e39b3ac"),
+  hän: U("photo-1544005313-94ddf0286df2"),
+  me: U("photo-1522071820081-009f0129c71c"),
+  te: U("photo-1529156069898-49953e39b3ac"),
+  he: U("photo-1511895426328-dc8714191300"),
+  tämä: U("photo-1453227588063-bb302b62f50b"),
+  tuo: U("photo-1476480862126-209bfaa8edc8"),
+  nyt: U("photo-1501139083538-0139583c060f"),
+  sitten: U("photo-1501139083538-0139583c060f"),
+  että: U("photo-1573497019418-b400bb3ab074"),
+  olla: U("photo-1506784983877-45594efa4cbe"),
+  se: U("photo-1453227588063-bb302b62f50b"),
+  mikä: U("photo-1557804506-669a67965ba0"),
+  kuka: U("photo-1529156069898-49953e39b3ac"),
+  missä: U("photo-1524661135-423995f22d0b"),
+  mutta: U("photo-1557804506-669a67965ba0"),
+  ja: U("photo-1522071820081-009f0129c71c"),
+  tai: U("photo-1557804506-669a67965ba0"),
+  jos: U("photo-1557804506-669a67965ba0"),
+  kun: U("photo-1501139083538-0139583c060f"),
+  koska: U("photo-1573497019418-b400bb3ab074"),
+  paljon: U("photo-1553729459-afe8f2e2882d"),
+  vähän: U("photo-1553729459-afe8f2e2882d"),
 };
 
 // Category-level fallback images when no exact word match exists
@@ -487,10 +533,12 @@ const CATEGORY_IMAGES: Record<string, string> = {
   home: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=400&h=300&q=80",
 };
 
-// Three-tier fallback: exact word → category → null (triggers gradient+emoji)
+// Three-tier fallback: exact word → base word → last word → category → null (triggers gradient+emoji)
 const getVocabImageUrl = (meaningEn: string, word: string, category?: string): string | null => {
-  const key = word.toLowerCase();
-  if (VOCAB_IMAGES[key]) return VOCAB_IMAGES[key];
+  // Try all candidate forms (full → base → last word)
+  for (const candidate of extractBaseWord(word)) {
+    if (VOCAB_IMAGES[candidate]) return VOCAB_IMAGES[candidate];
+  }
   if (category) {
     const catKey = category.toLowerCase();
     for (const [k, v] of Object.entries(CATEGORY_IMAGES)) {
