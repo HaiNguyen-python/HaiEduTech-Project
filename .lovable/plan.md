@@ -1,40 +1,22 @@
 
 
-## Plan: Sửa lỗi "Failed to connect to AI" trong Roleplay
+## Plan: Fix Listening Answer Persistence & Speaking Coach Early Grading
 
-### Nguyên nhân gốc
+### Issue 1: Listening answers auto-filled on new topic
+**Root cause**: When navigating between lessons, the `listeningAnswers` state is never reset. The state from the previous lesson carries over because only `isCompleted` and `listeningRevealed` persist — but `listeningAnswers` keeps old values.
 
-Perplexity API yêu cầu messages phải xen kẽ đúng thứ tự: `user → assistant → user → assistant...`. Hiện tại:
+**Fix** in `src/pages/ConversationalLessonView.tsx`:
+- Add a `useEffect` that resets `listeningAnswers` to `{}` and `listeningRevealed` to `false` whenever `lessonId` changes.
 
-1. `startConversation` gửi 1 user message (prompt khởi tạo) nhưng chỉ lưu response assistant vào state
-2. Khi user gửi tin tiếp theo, mảng messages gửi đi là: `[assistant, user]` — bắt đầu bằng assistant → Perplexity trả lỗi 400
+### Issue 2: Speaking Coach grades before user finishes speaking
+**Root cause**: In `AISpeakingCoach.tsx`, speech recognition uses `continuous = false`. This means the browser's speech recognition automatically stops after detecting a brief silence — which triggers `recognition.onend`, sets `isRecording = false`, and the scoring `useEffect` fires immediately.
 
-### Thay đổi (file: `src/components/ConversationalRoleplay.tsx`)
+**Fix** in `src/components/AISpeakingCoach.tsx`:
+- Change `recognition.continuous = false` → `recognition.continuous = true` so recognition keeps listening until the user explicitly presses the Stop button.
+- Update `recognition.onresult` to accumulate final transcripts properly across multiple result events (since continuous mode emits multiple final results).
+- Ensure grading only happens when the user explicitly clicks Stop — not when recognition auto-ends. Add a `manualStopRef` flag: set it `true` in `stopRecognition`, check it in the scoring `useEffect`, and reset it after processing.
 
-**Sửa `startConversation`**: Lưu cả user message khởi tạo vào state, không chỉ assistant response.
-
-Thay đổi dòng ~126:
-```tsx
-// Trước (chỉ lưu assistant)
-setMessages([{ role: "assistant", content: assistantSoFar }]);
-
-// Sau (lưu cả user prompt ban đầu + assistant)  
-const initUserMsg: Msg = { role: "user", content: `Start the roleplay...` };
-setMessages([initUserMsg, { role: "assistant", content: assistantSoFar }]);
-```
-
-**Sửa `sendMessage`**: Đảm bảo mảng messages gửi đi luôn bắt đầu bằng user message. Thêm logic sanitize trước khi gửi:
-
-```tsx
-// Đảm bảo messages xen kẽ đúng user/assistant
-const sanitized = visibleMessages.filter((m, i) => {
-  if (i === 0) return m.role === "user";
-  return m.role !== visibleMessages[i - 1].role;
-});
-```
-
-### Phạm vi
-- 1 file: `src/components/ConversationalRoleplay.tsx`
-- Không thay đổi edge function `roleplay-chat` (vẫn dùng Perplexity API)
-- Không ảnh hưởng UI
+### Files to modify
+1. `src/pages/ConversationalLessonView.tsx` — reset listening state on lesson change
+2. `src/components/AISpeakingCoach.tsx` — continuous mode + manual stop guard
 
