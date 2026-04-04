@@ -1,21 +1,38 @@
 
 
-## Plan: Thêm câu trả lời mẫu cho tất cả bài Speaking tiếng Phần Lan còn thiếu
+## Plan: Thêm mục "Bảng chữ cái tiếng Việt" vào chương trình Học tiếng Việt
 
-Hiện tại chỉ có `mockExamExpansion.ts` (5 bài) và `mockExamExpansion3.ts` (5 bài) đã có `sampleAnswer`. Còn **8 bài Speaking** trong 2 file khác chưa có — đó là lý do bạn không thấy phần bài mẫu.
+### Tổng quan
 
-### File thay đổi
+Tạo trang mới `/learn-vietnamese/alphabet` hiển thị bảng chữ cái tiếng Việt đầy đủ (29 chữ cái + dấu thanh) với hình minh họa cách viết nét, phát âm TTS, và bài tập tương tác. Thêm link vào tab Language của trang Vietnamese.
+
+### Files thay đổi
 
 | File | Nội dung |
 |------|----------|
-| `src/data/finnishCurriculum/mockExamData.ts` | Thêm `sampleAnswer` cho 5 bài: Kerro itsestäsi, Apteekissa, Kuvaile kuvaa, Työhaastattelu, Naapurin kanssa |
-| `src/data/finnishCurriculum/mockExamExpansion2.ts` | Thêm `sampleAnswer` cho 3 bài: Lääkärissä, Työhaastattelu, Asuntonäyttö |
+| `src/pages/VietnameseAlphabet.tsx` | **Tạo mới** — Trang bảng chữ cái với grid 29 chữ, hướng dẫn viết nét, phát âm |
+| `src/data/vietnamese/alphabetData.ts` | **Tạo mới** — Data cho 29 chữ cái + 6 dấu thanh + hướng dẫn nét viết |
+| `src/pages/Vietnamese.tsx` | Thêm link card đến `/learn-vietnamese/alphabet` trong grid dưới tab Language |
+| `src/App.tsx` | Thêm route `/learn-vietnamese/alphabet` |
 
-### Ví dụ sampleAnswer sẽ thêm
+### Chi tiết kỹ thuật
 
-- **Kerro itsestäsi:** "Nimeni on Maria ja olen kotoisin Vietnamista. Asun nyt Helsingissä perheeni kanssa. Opiskelen suomea ja työskentelen ravintolassa. Vapaa-ajallani tykkään lukea ja kävellä luonnossa. Opiskelen suomea, koska haluan asua Suomessa pysyvästi."
-- **Työhaastattelu (mockExamData):** "Nimeni on Anna. Minulla on kokemusta myyjän työstä kaksi vuotta. Hain tätä työpaikkaa, koska pidän asiakaspalvelusta. Olen ahkera ja luotettava. Kyllä, voin työskennellä viikonloppuisin."
-- **Apteekissa:** "Hei, minulla on kovaa päänsärkyä. Tarvitsen särkylääkettä. Mitä suosittelette? Ei, minulla ei ole allergioita. Paljonko lääke maksaa? Kiitos, otan sen!"
+**1. Data (`alphabetData.ts`):**
+- 29 chữ cái tiếng Việt: A, Ă, Â, B, C, D, Đ, E, Ê, G, H, I, K, L, M, N, O, Ô, Ơ, P, Q, R, S, T, U, Ư, V, X, Y
+- Mỗi chữ gồm: `letter`, `name` (tên chữ), `ipa` (phiên âm), `exampleWord`, `exampleMeaning`, `strokeDescription` (mô tả nét viết), `strokeOrder` (số nét)
+- 6 dấu thanh: sắc, huyền, hỏi, ngã, nặng, ngang — với mô tả cách viết và ví dụ
 
-Giao diện `SpeakingRecorder` đã sẵn sàng hiển thị `sampleAnswer` — chỉ cần bổ sung data là phần bài mẫu + nút nghe + đánh giá sẽ tự xuất hiện.
+**2. Trang chính (`VietnameseAlphabet.tsx`):**
+- Grid chữ cái dạng thẻ (card grid 4-6 cột), click vào để xem chi tiết
+- Mỗi thẻ hiển thị: chữ cái lớn (font 4xl), tên, IPA, nút nghe phát âm (Web Speech API `vi-VN`)
+- Panel chi tiết khi click: hướng dẫn nét viết bằng SVG animation (mũi tên chỉ thứ tự nét), từ ví dụ, hình minh họa Unsplash
+- Section riêng cho 6 dấu thanh với biểu đồ pitch contour đơn giản (SVG)
+- Nút "Luyện viết" mở canvas vẽ tay (HTML5 Canvas) để người dùng tập viết chữ
+
+**3. Hình minh họa nét viết:**
+- Sử dụng SVG inline vẽ các nét cơ bản (nét sổ, nét ngang, nét cong, nét móc) với animation `stroke-dasharray` + `stroke-dashoffset` để tạo hiệu ứng viết từng nét
+- Mỗi chữ có mô tả text kèm SVG minh họa hướng viết (mũi tên nhỏ)
+
+**4. Link từ trang Vietnamese.tsx:**
+- Thêm 1 card mới vào grid 3 cột (cùng hàng với Speaking Coach, Dictation, Poetry) với icon `Pen` và gradient `from-rose-500/10`
 
