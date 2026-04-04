@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import {
   BookOpen, ChevronRight, ChevronLeft, Volume2, VolumeX,
-  Clock, CheckCircle, Timer, Snowflake, Star, Mic, Square,
-  Languages, Trophy, Flag, Loader2,
+  Clock, CheckCircle, CheckCircle2, Timer, Snowflake, Star, Mic, Square,
+  Languages, Trophy, Flag, Loader2, XCircle, AlertTriangle,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
