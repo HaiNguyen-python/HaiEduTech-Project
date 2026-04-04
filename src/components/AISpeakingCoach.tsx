@@ -247,8 +247,19 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     };
 
     recognition.onend = () => {
-      setIsRecording(false);
       setIsListening(false);
+      // Only grade if user manually stopped
+      if (manualStopRef.current) {
+        // Use accumulated transcript if current transcript is interim
+        if (accumulatedTranscriptRef.current) {
+          setTranscript(accumulatedTranscriptRef.current);
+        }
+        setIsRecording(false);
+      } else {
+        // Auto-ended (e.g. silence) - restart if still recording
+        // This keeps listening until user clicks Stop
+        try { recognition.start(); } catch {}
+      }
     };
 
     recognition.onerror = (event: any) => {
