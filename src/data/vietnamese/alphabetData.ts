@@ -110,9 +110,9 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'd' then add a horizontal stroke through the stem",
     strokeCount: 3,
     strokePaths: [
-      "M28,35 C28,24 12,24 12,35 C12,48 28,48 28,35",
-      "M28,8 L28,52",
-      "M22,16 L34,16"  // horizontal bar through ascender
+      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",
+      "M32,8 L32,52",
+      "M24,18 L40,18"  // horizontal bar through ascender (longer, repositioned)
     ]
   },
   // ── e ──
