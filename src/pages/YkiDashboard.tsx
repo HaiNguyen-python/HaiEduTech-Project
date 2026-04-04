@@ -1478,9 +1478,9 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
           {/* Live transcript */}
           {(recording || transcript) && (
             <div className="mt-4 p-3 bg-muted/50 rounded-lg">
-              <p className="text-xs font-medium text-muted-foreground mb-1">📝 Transkriptio:</p>
+              <p className="text-xs font-medium text-muted-foreground mb-1">📝 {showTranslation ? "Transcription:" : "Transkriptio:"}</p>
               <p className="text-sm text-foreground min-h-[40px]">
-                {transcript || <span className="text-muted-foreground italic">Puhu nyt...</span>}
+                {transcript || <span className="text-muted-foreground italic">{showTranslation ? "Speak now..." : "Puhu nyt..."}</span>}
               </p>
             </div>
           )}
