@@ -1909,6 +1909,7 @@ const YkiDashboard = () => {
     const newMastered = [...masteredWords, word];
     setMasteredWords(newMastered);
     localStorage.setItem("yki-mastered-words", JSON.stringify(newMastered));
+    syncMasteredCount("finnish", newMastered.length);
 
     // Flying star animation
     const rect = skierContainerRef.current?.getBoundingClientRect();
