@@ -615,6 +615,7 @@ Describe a family in a park — activities, weather, season.`,
         titleEn: "With Your Neighbor",
         icon: "🏘️",
         level: "A2",
+        sampleAnswer: "Hei! Mitä kuuluu? Kiitos hyvää! Viikonloppuna kävin perheen kanssa Nuuksiossa. Kävimme kävelemässä ja grillasimme makkaraa. Oli todella mukavaa! Entäs sinulla, mitä teit viikonloppuna? Onpa kylmä tänään, eikö? Mukava jutella! Hyvää päivän jatkoa!",
         theory: `### Puhumistehtävä 5: Reagoi tilanteeseen — Naapurin kanssa
 
 **Ohje:** Tapaat naapurisi rappukäytävässä. **40 sekuntia.**
