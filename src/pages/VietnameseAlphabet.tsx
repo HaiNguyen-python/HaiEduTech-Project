@@ -11,29 +11,43 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// ── Stroke Animation SVG ──
-const StrokeAnimation = ({ paths, animate }: { paths: string[]; animate: boolean }) => {
+// ── Dashed Guide SVG ──
+const DashedGuide = ({ paths }: { paths: string[] }) => {
   return (
     <svg viewBox="0 0 40 70" className="w-full h-full" fill="none">
-      {/* guide lines: x-height, baseline, ascender, descender */}
+      {/* guide lines */}
       <line x1="0" y1="24" x2="40" y2="24" stroke="hsl(var(--muted-foreground))" strokeWidth={0.3} strokeDasharray="1.5,1.5" opacity={0.4} />
       <line x1="0" y1="52" x2="40" y2="52" stroke="hsl(var(--muted-foreground))" strokeWidth={0.4} opacity={0.5} />
       <line x1="0" y1="8" x2="40" y2="8" stroke="hsl(var(--muted-foreground))" strokeWidth={0.2} strokeDasharray="1,2" opacity={0.25} />
       <line x1="0" y1="65" x2="40" y2="65" stroke="hsl(var(--muted-foreground))" strokeWidth={0.2} strokeDasharray="1,2" opacity={0.25} />
       {paths.map((d, i) => (
-        <motion.path
+        <path
           key={i}
           d={d}
           stroke="hsl(var(--primary))"
-          strokeWidth={3}
+          strokeWidth={2.5}
           strokeLinecap="round"
           strokeLinejoin="round"
+          strokeDasharray="2,2"
           fill="none"
-          initial={{ pathLength: 0, opacity: 0.2 }}
-          animate={animate ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0.2 }}
-          transition={{ duration: 1.8, delay: i * 1.2, ease: "easeInOut" }}
+          opacity={0.6}
         />
       ))}
+      {/* Stroke number labels */}
+      {paths.length > 1 && paths.map((d, i) => {
+        const match = d.match(/M\s*([\d.]+)[,\s]+([\d.]+)/);
+        if (!match) return null;
+        const x = parseFloat(match[1]);
+        const y = parseFloat(match[2]);
+        return (
+          <g key={`num-${i}`}>
+            <circle cx={x} cy={y} r={3.5} fill="hsl(var(--primary))" opacity={0.8} />
+            <text x={x} y={y + 1.2} textAnchor="middle" fontSize="4" fill="white" fontWeight="bold">
+              {i + 1}
+            </text>
+          </g>
+        );
+      })}
     </svg>
   );
 };
