@@ -174,7 +174,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     });
 
     await streamRoleplay({
-      messages: visibleMessages,
+      messages: sanitized,
       topic: selectedTopic,
       situation: selectedTopic,
       lessonTitle,
