@@ -52,11 +52,13 @@ const HistoryTimeline = () => {
                 className="flex flex-col items-center cursor-pointer group"
               >
                 {/* Year badge */}
-                <span className="text-xs font-bold text-primary mb-2 whitespace-nowrap">
+                <span className="text-xs font-bold text-primary mb-1 whitespace-nowrap">
                   {event.year}
                 </span>
-                {/* Dot */}
-                <div className="w-5 h-5 rounded-full bg-primary border-4 border-background shadow-md group-hover:shadow-primary/40 transition-shadow" />
+                {/* Icon */}
+                <div className="w-10 h-10 rounded-full bg-primary/10 border-2 border-primary shadow-md group-hover:shadow-primary/40 transition-shadow flex items-center justify-center text-lg">
+                  {event.icon || "📌"}
+                </div>
                 {/* Title */}
                 <span className="text-xs text-center mt-2 max-w-[120px] leading-tight text-muted-foreground group-hover:text-foreground transition-colors">
                   {t(event.title, event.titleEn)}
@@ -87,10 +89,15 @@ const HistoryTimeline = () => {
             >
               <X className="w-4 h-4" />
             </button>
-            <span className="text-sm font-bold text-primary">{selected.year}</span>
-            <h3 className="text-lg font-bold text-foreground mt-1">
-              {t(selected.title, selected.titleEn)}
-            </h3>
+            <div className="flex items-center gap-3 mb-2">
+              {selected.icon && <span className="text-3xl">{selected.icon}</span>}
+              <div>
+                <span className="text-sm font-bold text-primary">{selected.year}</span>
+                <h3 className="text-lg font-bold text-foreground">
+                  {t(selected.title, selected.titleEn)}
+                </h3>
+              </div>
+            </div>
             <p className="text-muted-foreground mt-2 leading-relaxed">
               {t(selected.description, selected.descriptionEn)}
             </p>

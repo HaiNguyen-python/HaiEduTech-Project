@@ -54,6 +54,7 @@ export interface HistoryEvent {
   titleEn: string;
   description: string;
   descriptionEn: string;
+  icon?: string;
 }
 
 // Segment for illustrated story cards
