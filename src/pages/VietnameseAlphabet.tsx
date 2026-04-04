@@ -15,22 +15,25 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const StrokeAnimation = ({ paths, animate }: { paths: string[]; animate: boolean }) => {
   return (
     <svg viewBox="0 0 40 70" className="w-full h-full" fill="none">
+      {/* guide lines: x-height, baseline, ascender, descender */}
+      <line x1="0" y1="24" x2="40" y2="24" stroke="hsl(var(--muted-foreground))" strokeWidth={0.3} strokeDasharray="1.5,1.5" opacity={0.4} />
+      <line x1="0" y1="52" x2="40" y2="52" stroke="hsl(var(--muted-foreground))" strokeWidth={0.4} opacity={0.5} />
+      <line x1="0" y1="8" x2="40" y2="8" stroke="hsl(var(--muted-foreground))" strokeWidth={0.2} strokeDasharray="1,2" opacity={0.25} />
+      <line x1="0" y1="65" x2="40" y2="65" stroke="hsl(var(--muted-foreground))" strokeWidth={0.2} strokeDasharray="1,2" opacity={0.25} />
       {paths.map((d, i) => (
         <motion.path
           key={i}
           d={d}
           stroke="hsl(var(--primary))"
-          strokeWidth={2.5}
+          strokeWidth={3}
           strokeLinecap="round"
+          strokeLinejoin="round"
           fill="none"
-          initial={{ pathLength: 0, opacity: 0.3 }}
-          animate={animate ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0.3 }}
-          transition={{ duration: 0.8, delay: i * 0.6, ease: "easeInOut" }}
+          initial={{ pathLength: 0, opacity: 0.2 }}
+          animate={animate ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0.2 }}
+          transition={{ duration: 0.9, delay: i * 0.7, ease: "easeInOut" }}
         />
       ))}
-      {/* guide grid */}
-      <line x1="0" y1="38" x2="40" y2="38" stroke="hsl(var(--muted-foreground))" strokeWidth={0.3} strokeDasharray="2,2" />
-      <line x1="0" y1="55" x2="40" y2="55" stroke="hsl(var(--muted-foreground))" strokeWidth={0.3} />
     </svg>
   );
 };
