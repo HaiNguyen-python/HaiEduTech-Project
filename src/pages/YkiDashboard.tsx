@@ -164,8 +164,29 @@ const WORD_ILLUSTRATIONS: Record<string, string> = {
   hotelli: "🏨", passi: "🛂", nähtävyys: "🗼", museo: "🏛️",
 };
 
+const extractBaseWord = (word: string): string[] => {
+  const lower = word.toLowerCase().trim();
+  const candidates: string[] = [lower];
+  // Strip arrow part: "minä → mä/mää" → "minä"
+  if (lower.includes("→")) {
+    const base = lower.split("→")[0].trim();
+    if (base && !candidates.includes(base)) candidates.push(base);
+  }
+  // If multi-word, try the last word: "me menemme" → "menemme"
+  const lastCandidate = candidates[candidates.length - 1];
+  const parts = lastCandidate.split(/\s+/);
+  if (parts.length > 1) {
+    const lastWord = parts[parts.length - 1];
+    if (!candidates.includes(lastWord)) candidates.push(lastWord);
+  }
+  return candidates;
+};
+
 const getWordIllustration = (word: string): string => {
-  return WORD_ILLUSTRATIONS[word.toLowerCase()] || "📝";
+  for (const candidate of extractBaseWord(word)) {
+    if (WORD_ILLUSTRATIONS[candidate]) return WORD_ILLUSTRATIONS[candidate];
+  }
+  return "📝";
 };
 
 // Category-to-gradient mapping for visual vocab card headers
