@@ -167,9 +167,10 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     };
 
     // Sanitize: ensure alternating user/assistant starting with user
-    const sanitized = visibleMessages.filter((m, i) => {
+    const allMsgs = updated.map(m => ({ role: m.role, content: m.content }));
+    const sanitized = allMsgs.filter((m, i) => {
       if (i === 0) return m.role === "user";
-      return m.role !== visibleMessages[i - 1].role;
+      return m.role !== allMsgs[i - 1].role;
     });
 
     await streamRoleplay({
