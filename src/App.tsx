@@ -60,6 +60,7 @@ const FolkloreLibrary = lazy(() => import("./pages/FolkloreLibrary.tsx"));
 const VietnameseForForeigners = lazy(() => import("./pages/VietnameseForForeigners.tsx"));
 const VietnameseDictation = lazy(() => import("./pages/VietnameseDictation.tsx"));
 const VietnamesePoetry = lazy(() => import("./pages/VietnamesePoetry.tsx"));
+const VietnameseAlphabet = lazy(() => import("./pages/VietnameseAlphabet.tsx"));
 const NationalAnthem = lazy(() => import("./pages/NationalAnthem.tsx"));
 const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
