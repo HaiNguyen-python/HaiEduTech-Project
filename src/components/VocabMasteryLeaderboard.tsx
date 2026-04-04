@@ -56,43 +56,36 @@ const VocabMasteryLeaderboard = ({ subject, currentCount, label }: VocabMasteryL
       const { data: { user } } = await supabase.auth.getUser();
       setCurrentUserId(user?.id || null);
 
-      const { data } = await (supabase as any)
-        .from("game_scores")
-        .select("user_id, score")
-        .eq("game_type", `mastery-${subject}`)
-        .order("score", { ascending: false })
-        .limit(50);
+      // Fetch all profiles and scores in parallel
+      const [profilesRes, scoresRes] = await Promise.all([
+        supabase.from("profiles").select("id, full_name"),
+        (supabase as any)
+          .from("game_scores")
+          .select("user_id, score")
+          .eq("game_type", `mastery-${subject}`)
+          .order("score", { ascending: false }),
+      ]);
 
-      if (data) {
-        // Get best score per user
-        const bestScores = new Map<string, number>();
-        for (const row of data) {
-          const existing = bestScores.get(row.user_id);
-          if (!existing || row.score > existing) {
-            bestScores.set(row.user_id, row.score);
-          }
+      const allProfiles = profilesRes.data || [];
+      const scoreData = scoresRes.data || [];
+
+      // Build best-score map
+      const bestScores = new Map<string, number>();
+      for (const row of scoreData) {
+        const existing = bestScores.get(row.user_id);
+        if (!existing || row.score > existing) {
+          bestScores.set(row.user_id, row.score);
         }
-
-        // Fetch display names
-        const userIds = [...bestScores.keys()];
-        const { data: profiles } = await supabase
-          .from("profiles")
-          .select("id, full_name")
-          .in("id", userIds);
-
-        const nameMap = new Map(profiles?.map(p => [p.id, p.full_name]) || []);
-
-        const sorted = Array.from(bestScores.entries())
-          .map(([user_id, score]) => ({
-            user_id,
-            score,
-            display_name: nameMap.get(user_id) || t("Học viên", "Student"),
-          }))
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 10);
-
-        setEntries(sorted);
       }
+
+      // Merge all profiles with scores (default 0)
+      const merged = allProfiles.map((p: any) => ({
+        user_id: p.id,
+        score: bestScores.get(p.id) || 0,
+        display_name: p.full_name || t("Học viên", "Student"),
+      })).sort((a: any, b: any) => b.score - a.score);
+
+      setEntries(merged);
     } catch (e) {
       console.error("Failed to fetch mastery leaderboard:", e);
     }
