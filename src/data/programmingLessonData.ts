@@ -76,6 +76,8 @@ for i in range(4):
           { question: "Scratch được phát triển bởi tổ chức nào?", options: ["Google", "MIT", "Microsoft", "Apple"], answer: 1, explanation: "Scratch được phát triển bởi nhóm Lifelong Kindergarten tại MIT Media Lab." },
           { question: "Khối lệnh 'Khi bấm cờ xanh' thuộc loại nào?", options: ["Motion", "Events", "Looks", "Sound"], answer: 1, explanation: "Khối 'Khi bấm cờ xanh' là một khối Sự kiện (Events) - đánh dấu điểm bắt đầu chương trình." },
           { question: "Để nhân vật nói một câu, ta dùng khối thuộc nhóm nào?", options: ["Motion", "Sound", "Looks", "Events"], answer: 2, explanation: "Khối 'Nói...' và 'Nghĩ...' thuộc nhóm Ngoại hình (Looks)." },
+          { question: "Sân khấu (Stage) trong Scratch có kích thước bao nhiêu pixel?", options: ["320×240", "480×360", "640×480", "800×600"], answer: 1, explanation: "Sân khấu Scratch có kích thước cố định 480×360 pixel, tọa độ gốc (0,0) nằm ở chính giữa." },
+          { question: "Trong Scratch, muốn nhân vật di chuyển liên tục ta dùng khối nào?", options: ["Lặp lại 1 lần", "Lặp mãi mãi + Di chuyển", "Chỉ dùng khối Motion", "Dùng khối Sound"], answer: 1, explanation: "Để nhân vật di chuyển liên tục, ta cần đặt khối Di chuyển bên trong khối Lặp mãi mãi (forever loop)." },
         ],
       },
       {
@@ -109,6 +111,9 @@ else:
         quiz: [
           { question: "Vòng lặp 'Lặp mãi mãi' trong Python tương đương lệnh gì?", options: ["for i in range()", "while True:", "repeat:", "loop:"], answer: 1, explanation: "while True: tạo vòng lặp vô hạn, tương tự 'Lặp mãi mãi' trong Scratch." },
           { question: "Câu lệnh nào kiểm tra điều kiện trong Python?", options: ["for", "while", "if", "def"], answer: 2, explanation: "Lệnh if dùng để kiểm tra điều kiện, tương tự khối 'Nếu...thì' trong Scratch." },
+          { question: "Trong Scratch, vòng lặp 'Lặp lại cho đến khi' dừng khi nào?", options: ["Sau 10 lần", "Khi điều kiện bên trong trở thành ĐÚNG", "Khi nhấn phím Space", "Không bao giờ dừng"], answer: 1, explanation: "Vòng lặp 'Lặp lại cho đến khi' (repeat until) sẽ dừng khi điều kiện kiểm tra trở thành True." },
+          { question: "Câu lệnh elif trong Python dùng khi nào?", options: ["Thay thế hoàn toàn if", "Kiểm tra thêm điều kiện sau if", "Kết thúc chương trình", "Tạo vòng lặp"], answer: 1, explanation: "elif (else if) dùng để kiểm tra thêm điều kiện khi điều kiện if đầu tiên sai, cho phép nhiều nhánh rẽ." },
+          { question: "Đoạn code: for i in range(3): print(i) sẽ in ra gì?", options: ["1 2 3", "0 1 2", "0 1 2 3", "1 2"], answer: 1, explanation: "range(3) tạo dãy 0, 1, 2 (3 phần tử bắt đầu từ 0). Python luôn đếm từ 0." },
         ],
       },
       {
@@ -142,6 +147,9 @@ print(f"🏆 Tổng điểm: {diem}")`,
         quiz: [
           { question: "Biến trong Python được khai báo bằng cách nào?", options: ["var x = 5", "int x = 5", "x = 5", "let x = 5"], answer: 2, explanation: "Python khai báo biến đơn giản bằng tên_biến = giá_trị, không cần từ khóa đặc biệt." },
           { question: "Thêm phần tử vào cuối list dùng lệnh gì?", options: [".add()", ".append()", ".insert()", ".push()"], answer: 1, explanation: "list.append(x) thêm x vào cuối danh sách." },
+          { question: "Lệnh len([1, 2, 3]) trả về giá trị gì?", options: ["2", "3", "4", "Lỗi"], answer: 1, explanation: "len() đếm số phần tử trong list. List [1, 2, 3] có 3 phần tử nên trả về 3." },
+          { question: "Muốn xóa phần tử ở vị trí thứ 2 trong list, dùng lệnh gì?", options: ["list.remove(2)", "list.pop(1)", "list.delete(2)", "del list(1)"], answer: 1, explanation: "list.pop(1) xóa phần tử ở index 1 (vị trí thứ 2, vì index bắt đầu từ 0). list.remove() xóa theo giá trị." },
+          { question: "Biến x = 10, sau khi chạy x = x + 5 thì x bằng bao nhiêu?", options: ["10", "5", "15", "Lỗi"], answer: 2, explanation: "x = x + 5 nghĩa là lấy giá trị hiện tại (10) cộng 5, rồi gán lại kết quả (15) vào x." },
         ],
       },
     ],
@@ -188,6 +196,8 @@ so = int("42")         # str → int`,
           { question: "Kiểu dữ liệu của 3.14 là gì?", options: ["int", "str", "float", "bool"], answer: 2, explanation: "3.14 là số thực (có phần thập phân) nên kiểu là float." },
           { question: "Lệnh type('Hello') trả về gì?", options: ["<class 'int'>", "<class 'str'>", "<class 'list'>", "<class 'bool'>"], answer: 1, explanation: "'Hello' là chuỗi ký tự nên type() trả về <class 'str'>." },
           { question: "Tên biến nào hợp lệ trong Python?", options: ["my-var", "2name", "_score", "class"], answer: 2, explanation: "_score hợp lệ vì bắt đầu bằng _ . 'class' là từ khóa, '2name' bắt đầu bằng số, 'my-var' có dấu gạch ngang." },
+          { question: "int('3.14') sẽ cho kết quả gì?", options: ["3", "3.14", "Lỗi ValueError", "'3'"], answer: 2, explanation: "int() không thể chuyển chuỗi có dấu chấm thập phân trực tiếp. Cần dùng int(float('3.14')) = 3." },
+          { question: "f-string trong Python dùng cú pháp nào?", options: ["format('...')", "f'...{biến}...'", "str.format(biến)", "print(biến)"], answer: 1, explanation: "f-string dùng cú pháp f'text {biến}' — cách nhanh và đọc được nhất để chèn biến vào chuỗi từ Python 3.6+." },
         ],
       },
       {
@@ -225,6 +235,9 @@ print(chao("John", "en"))         # Hello, John!`,
         quiz: [
           { question: "Từ khóa nào dùng để khai báo hàm?", options: ["func", "function", "def", "method"], answer: 2, explanation: "Python dùng 'def' (viết tắt của define) để khai báo hàm." },
           { question: "Lệnh 'return' trong hàm có tác dụng gì?", options: ["In ra màn hình", "Trả về giá trị và kết thúc hàm", "Lặp lại hàm", "Xóa hàm"], answer: 1, explanation: "return trả về giá trị cho nơi gọi hàm và kết thúc hàm ngay lập tức." },
+          { question: "Hàm không có lệnh return sẽ trả về gì?", options: ["0", "False", "None", "Lỗi"], answer: 2, explanation: "Trong Python, hàm không có return sẽ tự động trả về None — giá trị đặc biệt nghĩa là 'không có gì'." },
+          { question: "Tham số *args trong hàm Python dùng để làm gì?", options: ["Nhận đúng 1 đối số", "Nhận số lượng đối số tùy ý", "Khai báo biến toàn cục", "Tạo list rỗng"], answer: 1, explanation: "args cho phép hàm nhận số lượng đối số vị trí (positional arguments) không giới hạn, gom vào tuple." },
+          { question: "Lambda function là gì?", options: ["Hàm có tên đặc biệt", "Hàm ẩn danh viết trên 1 dòng", "Hàm chỉ dùng 1 lần rồi tự xóa", "Hàm import từ thư viện"], answer: 1, explanation: "Lambda là hàm ẩn danh (anonymous function) viết gọn trên 1 dòng: lambda x: x * 2. Thường dùng với map(), filter()." },
         ],
       },
       {
@@ -260,6 +273,9 @@ while True:
         quiz: [
           { question: "range(1, 5) tạo ra dãy số nào?", options: ["1,2,3,4,5", "0,1,2,3,4", "1,2,3,4", "1,2,3,4,5,6"], answer: 2, explanation: "range(1,5) tạo dãy từ 1 đến 4 (không bao gồm 5)." },
           { question: "Lệnh nào thoát khỏi vòng lặp ngay lập tức?", options: ["exit", "stop", "break", "return"], answer: 2, explanation: "break thoát khỏi vòng lặp gần nhất ngay lập tức." },
+          { question: "Vòng lặp while True sẽ dừng khi nào?", options: ["Sau 100 lần lặp", "Khi gặp lệnh break", "Khi biến = False", "Không bao giờ dừng"], answer: 1, explanation: "while True tạo vòng lặp vô hạn. Cách duy nhất thoát là dùng break bên trong vòng lặp." },
+          { question: "Lệnh continue trong vòng lặp có tác dụng gì?", options: ["Thoát vòng lặp", "Bỏ qua phần còn lại và chạy lần lặp tiếp", "Tạm dừng 1 giây", "Quay lại đầu chương trình"], answer: 1, explanation: "continue bỏ qua các lệnh phía dưới trong lần lặp hiện tại và nhảy sang lần lặp tiếp theo." },
+          { question: "for i in range(10, 0, -2) sẽ tạo dãy số nào?", options: ["10, 8, 6, 4, 2", "10, 8, 6, 4, 2, 0", "0, 2, 4, 6, 8, 10", "10, 9, 8, ..., 1"], answer: 0, explanation: "range(10, 0, -2) đếm ngược từ 10, bước -2, dừng trước 0: 10, 8, 6, 4, 2." },
         ],
       },
     ],
@@ -305,6 +321,9 @@ for ten, mon in diem.items():
         quiz: [
           { question: "Kiểu dữ liệu nào không thể thay đổi sau khi tạo?", options: ["List", "Dictionary", "Tuple", "Set"], answer: 2, explanation: "Tuple là kiểu dữ liệu bất biến (immutable) - không thể thêm, xóa hay sửa phần tử." },
           { question: "Truy xuất giá trị trong dict dùng cú pháp nào?", options: ["dict(key)", "dict[key]", "dict.key", "dict->key"], answer: 1, explanation: "Python dùng dict[key] hoặc dict.get(key) để truy xuất giá trị." },
+          { question: "Set trong Python khác List ở điểm nào?", options: ["Set có thứ tự", "Set không chứa phần tử trùng lặp", "Set nhanh hơn khi append", "Set dùng ngoặc vuông"], answer: 1, explanation: "Set {} không cho phép phần tử trùng lặp và không có thứ tự. List [] cho phép trùng và có thứ tự." },
+          { question: "dict.get('key', 'default') khác dict['key'] ở điểm nào?", options: ["Nhanh hơn", "Trả về giá trị mặc định nếu key không tồn tại thay vì lỗi", "Chỉ dùng cho số", "Không khác gì"], answer: 1, explanation: "dict.get() trả về giá trị default nếu key không tồn tại, trong khi dict[key] sẽ raise KeyError." },
+          { question: "List comprehension [x**2 for x in range(5)] tạo ra gì?", options: ["[0, 1, 4, 9, 16]", "[1, 4, 9, 16, 25]", "[0, 2, 4, 6, 8]", "[0, 1, 2, 3, 4]"], answer: 0, explanation: "List comprehension tính x² cho x từ 0 đến 4: 0²=0, 1²=1, 2²=4, 3²=9, 4²=16." },
         ],
       },
       {
@@ -344,6 +363,9 @@ print(f"Selection: {selection_sort(diem.copy())}")`,
         quiz: [
           { question: "Bubble Sort có độ phức tạp thời gian trung bình là?", options: ["O(n)", "O(n log n)", "O(n²)", "O(2^n)"], answer: 2, explanation: "Bubble Sort có 2 vòng lặp lồng nhau nên độ phức tạp là O(n²)." },
           { question: "Thuật toán nào tốt nhất cho mảng gần như đã sắp xếp?", options: ["Bubble Sort", "Selection Sort", "Insertion Sort", "Tất cả như nhau"], answer: 2, explanation: "Insertion Sort đạt O(n) trong trường hợp tốt nhất (mảng đã sắp xếp gần đúng)." },
+          { question: "Thuật toán nào nhanh nhất khi mảng gần như đã sắp xếp?", options: ["Selection Sort", "Bubble Sort", "Insertion Sort", "Cả 3 như nhau"], answer: 2, explanation: "Insertion Sort đạt O(n) khi mảng gần sắp xếp — mỗi phần tử chỉ cần dịch 0-1 vị trí." },
+          { question: "Merge Sort có độ phức tạp thời gian trung bình là bao nhiêu?", options: ["O(n)", "O(n log n)", "O(n²)", "O(log n)"], answer: 1, explanation: "Merge Sort luôn đạt O(n log n) nhờ chia đôi mảng (log n lần) và merge (n phép so sánh mỗi lần)." },
+          { question: "Stable sort nghĩa là gì?", options: ["Chạy nhanh và ổn định", "Giữ nguyên thứ tự các phần tử bằng nhau", "Không tốn thêm bộ nhớ", "Luôn sắp xếp tăng dần"], answer: 1, explanation: "Stable sort giữ nguyên vị trí tương đối của các phần tử có giá trị bằng nhau trong mảng gốc." },
         ],
       },
       {
@@ -385,6 +407,9 @@ print(f"  Vị trí: {result}")`,
         quiz: [
           { question: "Binary Search yêu cầu gì?", options: ["Mảng rỗng", "Mảng đã sắp xếp", "Mảng có số chẵn phần tử", "Mảng số nguyên"], answer: 1, explanation: "Binary Search chỉ hoạt động trên mảng đã được sắp xếp vì nó dựa vào thứ tự để loại nửa mảng." },
           { question: "Tìm 1 số trong mảng 1024 phần tử, Binary Search cần tối đa bao nhiêu bước?", options: ["1024", "512", "10", "32"], answer: 2, explanation: "log₂(1024) = 10. Binary Search cần tối đa 10 bước cho 1024 phần tử." },
+          { question: "Binary Search yêu cầu điều kiện gì cho mảng?", options: ["Mảng phải có ít nhất 100 phần tử", "Mảng phải được sắp xếp trước", "Mảng chỉ chứa số nguyên", "Mảng không có phần tử trùng"], answer: 1, explanation: "Binary Search chỉ hoạt động trên mảng đã sắp xếp vì thuật toán chia đôi dựa vào thứ tự phần tử." },
+          { question: "Tìm kiếm tuyến tính có độ phức tạp bao nhiêu?", options: ["O(1)", "O(log n)", "O(n)", "O(n²)"], answer: 2, explanation: "Tìm kiếm tuyến tính duyệt từng phần tử một, trường hợp xấu nhất phải duyệt hết n phần tử → O(n)." },
+          { question: "Hash Table tra cứu trung bình có độ phức tạp bao nhiêu?", options: ["O(n)", "O(log n)", "O(1)", "O(n²)"], answer: 2, explanation: "Hash Table sử dụng hàm băm để tính trực tiếp vị trí lưu trữ, nên tra cứu trung bình chỉ O(1)." },
         ],
       },
     ],
@@ -449,6 +474,9 @@ pygame.quit()`,
         quiz: [
           { question: "Vòng lặp game chạy bao nhiêu lần mỗi giây nếu clock.tick(60)?", options: ["30", "60", "120", "Không giới hạn"], answer: 1, explanation: "clock.tick(60) giới hạn tốc độ khung hình ở 60 FPS (frames per second)." },
           { question: "Lệnh nào dùng để kiểm tra phím đang được nhấn?", options: ["pygame.event.get()", "pygame.key.get_pressed()", "pygame.mouse.get_pos()", "pygame.key.name()"], answer: 1, explanation: "pygame.key.get_pressed() trả về trạng thái tất cả phím bàn phím (đang nhấn hay không)." },
+          { question: "HTTP status code 404 có nghĩa gì?", options: ["Server lỗi", "Trang không tìm thấy", "Chuyển hướng", "Thành công"], answer: 1, explanation: "404 Not Found nghĩa là server không tìm thấy tài nguyên được yêu cầu. 200=OK, 500=Server Error, 301=Redirect." },
+          { question: "API RESTful thường dùng phương thức HTTP nào để tạo dữ liệu mới?", options: ["GET", "POST", "PUT", "DELETE"], answer: 1, explanation: "POST dùng để tạo (Create) tài nguyên mới. GET=đọc, PUT=cập nhật, DELETE=xóa." },
+          { question: "JSON viết tắt của gì?", options: ["Java Standard Object Notation", "JavaScript Object Notation", "JSON Script Object Network", "Java Serialized Object Name"], answer: 1, explanation: "JSON = JavaScript Object Notation — định dạng trao đổi dữ liệu nhẹ, dễ đọc, được dùng rộng rãi trong API." },
         ],
       },
       {
@@ -505,6 +533,9 @@ pygame.quit()`,
         quiz: [
           { question: "Thẻ nào dùng để tạo liên kết trong HTML?", options: ["<link>", "<a>", "<href>", "<url>"], answer: 1, explanation: "Thẻ <a href='...'>Text</a> tạo liên kết (anchor) trong HTML." },
           { question: "CSS viết ở đâu trong file HTML?", options: ["Trong <body>", "Trong <style> hoặc file .css riêng", "Trong <head> bắt buộc", "Trong <script>"], answer: 1, explanation: "CSS có thể viết trong thẻ <style> hoặc file .css riêng, liên kết qua <link>." },
+          { question: "Thẻ HTML nào dùng để tạo danh sách có thứ tự?", options: ["<ul>", "<ol>", "<li>", "<dl>"], answer: 1, explanation: "<ol> (ordered list) tạo danh sách đánh số 1, 2, 3... <ul> tạo danh sách không thứ tự (bullet points)." },
+          { question: "CSS property 'display: flex' dùng để làm gì?", options: ["Ẩn phần tử", "Tạo layout linh hoạt theo hàng/cột", "Làm phần tử trong suốt", "Tạo animation"], answer: 1, explanation: "Flexbox (display: flex) cho phép sắp xếp các phần tử con theo hàng hoặc cột một cách linh hoạt." },
+          { question: "Responsive design dùng CSS gì để điều chỉnh theo kích thước màn hình?", options: ["@font-face", "@media queries", "@import", "@keyframes"], answer: 1, explanation: "@media queries cho phép áp dụng CSS khác nhau tùy kích thước viewport, tạo giao diện responsive." },
         ],
       },
     ],
@@ -559,6 +590,9 @@ ORDER BY tb_toan DESC;`,
         quiz: [
           { question: "Lệnh nào dùng để lọc dữ liệu theo điều kiện?", options: ["SELECT", "WHERE", "ORDER BY", "GROUP BY"], answer: 1, explanation: "WHERE dùng để lọc các hàng thỏa mãn điều kiện trước khi trả về kết quả." },
           { question: "AVG() là hàm tính gì?", options: ["Tổng", "Đếm", "Trung bình", "Giá trị lớn nhất"], answer: 2, explanation: "AVG() (Average) tính giá trị trung bình của một cột số." },
+          { question: "Thứ tự thực thi các mệnh đề SQL đúng là gì?", options: ["SELECT → FROM → WHERE", "FROM → WHERE → SELECT", "WHERE → SELECT → FROM", "SELECT → WHERE → FROM"], answer: 1, explanation: "SQL thực thi: FROM (xác định bảng) → WHERE (lọc) → GROUP BY → HAVING → SELECT (chọn cột) → ORDER BY → LIMIT." },
+          { question: "DISTINCT trong SELECT dùng để làm gì?", options: ["Sắp xếp kết quả", "Loại bỏ các hàng trùng lặp", "Đếm số hàng", "Giới hạn kết quả"], answer: 1, explanation: "SELECT DISTINCT loại bỏ các hàng có giá trị giống nhau, chỉ giữ lại các giá trị duy nhất." },
+          { question: "NULL trong SQL có nghĩa gì?", options: ["Số 0", "Chuỗi rỗng ''", "Giá trị không xác định/thiếu dữ liệu", "False"], answer: 2, explanation: "NULL đại diện cho giá trị chưa biết hoặc thiếu. NULL khác 0, khác chuỗi rỗng, và NULL = NULL cũng trả về NULL!" },
         ],
       },
       {
@@ -602,6 +636,9 @@ WHERE id = (
         quiz: [
           { question: "LEFT JOIN trả về gì?", options: ["Chỉ dòng khớp", "Tất cả từ bảng trái + khớp từ phải", "Tất cả từ bảng phải", "Không dòng nào"], answer: 1, explanation: "LEFT JOIN trả về TẤT CẢ dòng từ bảng bên trái, và dòng khớp từ bảng bên phải (NULL nếu không khớp)." },
           { question: "Foreign Key dùng để làm gì?", options: ["Mã hóa dữ liệu", "Liên kết giữa 2 bảng", "Tạo index", "Xóa dữ liệu"], answer: 1, explanation: "Foreign Key (khóa ngoại) tạo mối quan hệ ràng buộc giữa 2 bảng, đảm bảo tính toàn vẹn dữ liệu." },
+          { question: "INNER JOIN trả về những dòng nào?", options: ["Tất cả từ bảng trái", "Tất cả từ cả hai bảng", "Chỉ các dòng khớp ở cả hai bảng", "Chỉ từ bảng phải"], answer: 2, explanation: "INNER JOIN chỉ trả về các dòng có giá trị khớp nhau ở cả hai bảng. Dòng không khớp bị loại bỏ." },
+          { question: "Self JOIN là gì?", options: ["JOIN bảng với chính nó", "JOIN không cần ON", "JOIN 3 bảng trở lên", "JOIN tự động"], answer: 0, explanation: "Self JOIN là khi một bảng JOIN với chính nó, thường dùng alias khác nhau. Ví dụ: tìm nhân viên và quản lý cùng bảng." },
+          { question: "CROSS JOIN tạo ra kết quả gì?", options: ["Chỉ dòng khớp", "Tích Descartes — mỗi dòng bảng A ghép với mỗi dòng bảng B", "Hợp hai bảng", "Giao hai bảng"], answer: 1, explanation: "CROSS JOIN tạo tích Descartes: nếu bảng A có m dòng, bảng B có n dòng thì kết quả có m×n dòng." },
         ],
       },
       {
@@ -639,6 +676,9 @@ ORDER BY tb_toan DESC;`,
         quiz: [
           { question: "HAVING khác WHERE ở điểm nào?", options: ["Không khác nhau", "HAVING lọc sau GROUP BY", "HAVING nhanh hơn", "WHERE không dùng với SELECT"], answer: 1, explanation: "WHERE lọc dữ liệu TRƯỚC khi nhóm, HAVING lọc SAU khi GROUP BY đã thực thi." },
           { question: "COUNT(*) đếm gì?", options: ["Chỉ giá trị khác NULL", "Tất cả các hàng kể cả NULL", "Chỉ giá trị duy nhất", "Chỉ số cột"], answer: 1, explanation: "COUNT(*) đếm TẤT CẢ các hàng bao gồm cả NULL. COUNT(column) chỉ đếm giá trị NOT NULL." },
+          { question: "SUM(NULL) trả về gì?", options: ["0", "NULL", "Lỗi", "False"], answer: 1, explanation: "Các hàm tổng hợp bỏ qua NULL. Nếu tất cả giá trị đều NULL, SUM trả về NULL, không phải 0." },
+          { question: "Có thể dùng alias (AS) trong WHERE không?", options: ["Có, luôn được", "Không, vì WHERE thực thi trước SELECT", "Chỉ với số", "Chỉ trong subquery"], answer: 1, explanation: "WHERE thực thi TRƯỚC SELECT nên chưa biết alias. Phải dùng HAVING hoặc viết lại biểu thức gốc." },
+          { question: "GROUP BY nhiều cột có nghĩa gì?", options: ["Nhóm theo cột đầu tiên", "Tạo nhóm dựa trên tổ hợp giá trị của tất cả các cột", "Lỗi cú pháp", "Chỉ nhóm theo cột cuối"], answer: 1, explanation: "GROUP BY col1, col2 tạo nhóm cho mỗi tổ hợp duy nhất của (col1, col2), ví dụ: (lớp, giới tính)." },
         ],
       },
       {
@@ -677,6 +717,9 @@ SELECT d AS ngay_trong_tuan FROM ngay;`,
         quiz: [
           { question: "CTE được khai báo bằng từ khóa nào?", options: ["CREATE TEMP", "WITH", "DECLARE", "DEFINE"], answer: 1, explanation: "CTE sử dụng từ khóa WITH để định nghĩa bảng tạm, dễ đọc hơn subquery." },
           { question: "Window Function RANK() dùng để làm gì?", options: ["Xóa dữ liệu trùng", "Xếp hạng các hàng", "Tạo index", "Nối bảng"], answer: 1, explanation: "RANK() xếp hạng các hàng dựa trên ORDER BY, cho phép tìm top N mà không cần GROUP BY." },
+          { question: "Correlated subquery khác subquery thông thường ở điểm nào?", options: ["Nhanh hơn", "Tham chiếu cột từ truy vấn ngoài", "Chỉ dùng trong INSERT", "Không cần WHERE"], answer: 1, explanation: "Correlated subquery tham chiếu cột từ bảng trong truy vấn ngoài, nên được chạy lại cho mỗi dòng của truy vấn ngoài." },
+          { question: "Recursive CTE cần thành phần nào?", options: ["Chỉ cần UNION", "Base case + UNION ALL + recursive step", "Chỉ cần SELECT", "JOIN bắt buộc"], answer: 1, explanation: "Recursive CTE gồm: base case (điểm bắt đầu) + UNION ALL + phần đệ quy tham chiếu chính CTE đó." },
+          { question: "CTE có lưu kết quả vĩnh viễn trong database không?", options: ["Có, giống tạo bảng", "Không, chỉ tồn tại trong phạm vi truy vấn đó", "Có, đến khi restart", "Tùy database"], answer: 1, explanation: "CTE chỉ là bảng tạm tồn tại trong phạm vi của câu truy vấn chứa nó, không lưu vào database." },
         ],
       },
       {
@@ -719,6 +762,9 @@ SELECT * FROM hoc_sinh hs WHERE EXISTS (
         quiz: [
           { question: "Tại sao không nên tạo index trên mọi cột?", options: ["Hết dung lượng", "Làm chậm INSERT/UPDATE", "Không có lý do", "Index không tốt"], answer: 1, explanation: "Index tăng tốc đọc nhưng làm CHẬM ghi (INSERT/UPDATE/DELETE) vì phải cập nhật index." },
           { question: "EXPLAIN ANALYZE dùng để làm gì?", options: ["Xóa dữ liệu", "Tạo bảng mới", "Phân tích hiệu suất truy vấn", "Backup database"], answer: 2, explanation: "EXPLAIN ANALYZE chạy truy vấn thật và hiển thị kế hoạch thực thi + thời gian, giúp tối ưu hóa." },
+          { question: "Composite index trên (A, B) có hỗ trợ truy vấn WHERE B = ? không?", options: ["Có, luôn luôn", "Không, chỉ hỗ trợ khi có cột A trước", "Chỉ khi B là số", "Tùy database engine"], answer: 1, explanation: "Composite index theo thứ tự leftmost prefix. Index (A,B) hỗ trợ WHERE A=? và WHERE A=? AND B=? nhưng KHÔNG hỗ trợ riêng WHERE B=?." },
+          { question: "Covering index là gì?", options: ["Index chứa đủ cột để trả lời query mà không cần đọc bảng gốc", "Index trên tất cả cột", "Index tự động tạo", "Index cho bảng lớn"], answer: 0, explanation: "Covering index chứa tất cả cột cần thiết cho query, database chỉ cần đọc index mà không cần quay lại bảng (Index-Only Scan)." },
+          { question: "Partial index (WHERE trong CREATE INDEX) hữu ích khi nào?", options: ["Luôn luôn", "Khi chỉ query một phần nhỏ dữ liệu thỏa điều kiện", "Khi bảng nhỏ", "Khi dùng LIKE"], answer: 1, explanation: "Partial index chỉ index các hàng thỏa điều kiện, giúp index nhỏ hơn và nhanh hơn cho các query lọc theo điều kiện đó." },
         ],
       },
       {
@@ -759,6 +805,9 @@ CREATE POLICY "Users create own notes" ON notes
         quiz: [
           { question: "ACID trong Transaction, chữ A nghĩa là gì?", options: ["Accuracy", "Atomicity", "Authorization", "Availability"], answer: 1, explanation: "Atomicity = tính nguyên tử: transaction phải hoàn thành TOÀN BỘ hoặc ROLLBACK toàn bộ, không có trạng thái giữa chừng." },
           { question: "SQL Injection là gì?", options: ["Cách tối ưu SQL", "Lỗi bảo mật khi nhúng input trực tiếp vào SQL", "Kiểu index đặc biệt", "Hàm tổng hợp"], answer: 1, explanation: "SQL Injection xảy ra khi attacker chèn mã SQL độc hại qua input. Phòng tránh bằng parameterized queries." },
+          { question: "try...except...finally, khối finally thực thi khi nào?", options: ["Chỉ khi có lỗi", "Chỉ khi không lỗi", "Luôn luôn, dù có lỗi hay không", "Chỉ khi dùng return"], answer: 2, explanation: "finally LUÔN thực thi dù có exception hay không, thường dùng để dọn dẹp tài nguyên (đóng file, database)." },
+          { question: "with open('file.txt') as f: có lợi ích gì?", options: ["Đọc nhanh hơn", "Tự động đóng file khi xong, kể cả khi có lỗi", "Mã hóa file", "Tạo file mới"], answer: 1, explanation: "Context manager (with) đảm bảo file được đóng tự động khi thoát khối with, ngay cả khi xảy ra exception." },
+          { question: "Decorator @staticmethod khác @classmethod ở điểm nào?", options: ["Không khác gì", "staticmethod không nhận self hay cls, classmethod nhận cls", "staticmethod nhanh hơn", "classmethod chỉ dùng cho inheritance"], answer: 1, explanation: "@staticmethod không truy cập instance hay class. @classmethod nhận cls làm đối số đầu, có thể truy cập class attributes." },
         ],
       },
     ],
@@ -813,6 +862,9 @@ print("\\n✅ Đã lưu file ket_qua.csv")`,
         quiz: [
           { question: "ETL viết tắt của gì?", options: ["Edit-Transfer-Link", "Extract-Transform-Load", "Export-Test-Log", "Enter-Track-List"], answer: 1, explanation: "ETL = Extract (trích xuất) - Transform (chuyển đổi) - Load (nạp dữ liệu)." },
           { question: "Pandas DataFrame giống gì nhất?", options: ["Mảng 1 chiều", "Bảng tính Excel", "File JSON", "Cây nhị phân"], answer: 1, explanation: "DataFrame là bảng dữ liệu 2 chiều có hàng và cột, giống bảng tính Excel." },
+          { question: "Đa kế thừa (multiple inheritance) trong Python dùng cú pháp nào?", options: ["class C extends A, B", "class C(A, B):", "class C inherits A, B", "class C = A + B"], answer: 1, explanation: "Python hỗ trợ đa kế thừa bằng cú pháp class Con(Cha1, Cha2): — theo thứ tự MRO (Method Resolution Order)." },
+          { question: "Magic method __str__ dùng để làm gì?", options: ["Chuyển object thành số", "Định nghĩa cách object hiển thị khi print()", "Xóa object", "So sánh 2 object"], answer: 1, explanation: "__str__ trả về chuỗi đại diện cho object, được gọi tự động khi dùng print() hoặc str()." },
+          { question: "Property decorator @property dùng để làm gì?", options: ["Tạo biến static", "Truy cập method như attribute (không cần ())", "Bảo vệ biến khỏi bị xóa", "Tạo constructor"], answer: 1, explanation: "@property cho phép gọi method như attribute: obj.name thay vì obj.get_name(), giúp kiểm soát getter/setter." },
         ],
       },
       {
@@ -845,6 +897,10 @@ print(f"Nội dung: {soup.p.text}")`,
         exerciseEn: "Call weather API (OpenWeatherMap) for 5 cities' temperatures, save to DataFrame and export CSV.",
         quiz: [
           { question: "HTTP GET dùng để làm gì?", options: ["Xóa dữ liệu", "Gửi dữ liệu mới", "Lấy dữ liệu", "Cập nhật dữ liệu"], answer: 2, explanation: "GET request dùng để lấy/đọc dữ liệu từ server." },
+          { question: "Thư viện nào thường dùng để đọc/ghi file CSV trong Python?", options: ["numpy", "pandas", "matplotlib", "flask"], answer: 1, explanation: "pandas cung cấp pd.read_csv() và df.to_csv() — công cụ mạnh mẽ nhất để xử lý file CSV với DataFrame." },
+          { question: "DataFrame.head(3) trả về gì?", options: ["3 cột đầu", "3 hàng đầu tiên", "3 giá trị lớn nhất", "3 hàng cuối"], answer: 1, explanation: "head(n) trả về n hàng đầu tiên của DataFrame. Mặc định n=5 nếu không truyền tham số." },
+          { question: "Muốn lọc DataFrame theo điều kiện, dùng cú pháp nào?", options: ["df.filter(col > 5)", "df[df['col'] > 5]", "df.where(col, 5)", "df.select(col > 5)"], answer: 1, explanation: "Boolean indexing df[df['col'] > 5] tạo mask True/False và lọc các hàng thỏa điều kiện." },
+          { question: "df.groupby('city').mean() làm gì?", options: ["Sắp xếp theo city", "Tính trung bình tất cả cột số theo từng city", "Đếm số city", "Xóa cột city"], answer: 1, explanation: "groupby().mean() nhóm dữ liệu theo cột 'city' rồi tính giá trị trung bình cho mỗi cột số trong từng nhóm." },
         ],
       },
       {
@@ -881,6 +937,10 @@ print(pivot)`,
         exerciseEn: "Load Titanic dataset, clean data, create pivot table by Pclass and Sex, calculate survival rate.",
         quiz: [
           { question: "merge() trong Pandas giống lệnh SQL nào?", options: ["SELECT", "WHERE", "JOIN", "GROUP BY"], answer: 2, explanation: "pd.merge() kết nối 2 DataFrame dựa trên cột chung, giống JOIN trong SQL." },
+          { question: "df.dropna() làm gì?", options: ["Xóa cột có NULL", "Xóa các hàng chứa giá trị NaN", "Thay NULL bằng 0", "Đếm số NULL"], answer: 1, explanation: "dropna() xóa các hàng có ít nhất 1 giá trị NaN. Dùng dropna(axis=1) để xóa cột, fillna() để thay thế." },
+          { question: "Outlier (giá trị ngoại lai) thường được phát hiện bằng phương pháp nào?", options: ["Đếm NULL", "IQR (khoảng tứ phân vị) hoặc Z-score", "Sắp xếp alphabet", "Kiểm tra kiểu dữ liệu"], answer: 1, explanation: "IQR: outlier nằm ngoài Q1-1.5*IQR và Q3+1.5*IQR. Z-score: outlier có |z| > 3 (cách trung bình > 3 độ lệch chuẩn)." },
+          { question: "df.duplicated() trả về gì?", options: ["Số lượng trùng", "Series Boolean đánh dấu hàng trùng lặp", "DataFrame không trùng", "Lỗi nếu có trùng"], answer: 1, explanation: "duplicated() trả về Series True/False, True cho các hàng trùng lặp. Dùng drop_duplicates() để xóa chúng." },
+          { question: "df.fillna(method='ffill') nghĩa là gì?", options: ["Điền 0 vào NaN", "Điền giá trị từ hàng trước (forward fill)", "Điền trung bình", "Xóa NaN"], answer: 1, explanation: "ffill (forward fill) điền giá trị NaN bằng giá trị hợp lệ gần nhất phía trước — hữu ích cho dữ liệu chuỗi thời gian." },
         ],
       },
       {
@@ -922,6 +982,10 @@ t1 >> t2 >> t3  # Extract → Transform → Load`,
         exerciseEn: "Design a DAG to collect daily stock prices, calculate 7-day average, save to database.",
         quiz: [
           { question: "DAG viết tắt của gì?", options: ["Data Analysis Graph", "Directed Acyclic Graph", "Database Access Gateway", "Dynamic API Generator"], answer: 1, explanation: "DAG = Directed Acyclic Graph - đồ thị có hướng không chu trình, mô tả luồng công việc." },
+          { question: "ETL viết tắt của gì?", options: ["Extract, Transfer, Load", "Extract, Transform, Load", "Execute, Test, Launch", "Export, Transform, Link"], answer: 1, explanation: "ETL = Extract (trích xuất) → Transform (biến đổi) → Load (nạp) — quy trình chuẩn để di chuyển và xử lý dữ liệu." },
+          { question: "Airflow dùng DAG để mô tả gì?", options: ["Cấu trúc database", "Luồng công việc và phụ thuộc giữa các task", "Giao diện người dùng", "Mã nguồn Python"], answer: 1, explanation: "DAG (Directed Acyclic Graph) trong Airflow mô tả các task và thứ tự thực thi." },
+          { question: "Toán tử >> trong Airflow DAG có nghĩa gì?", options: ["Dịch bit phải", "Task bên trái chạy TRƯỚC task bên phải", "So sánh lớn hơn", "Nối chuỗi"], answer: 1, explanation: "t1 >> t2 nghĩa là t1 phải hoàn thành trước khi t2 bắt đầu — định nghĩa dependency giữa các task." },
+          { question: "Schedule '@daily' trong Airflow chạy lúc nào?", options: ["Mỗi giờ", "Mỗi ngày lúc 00:00 UTC", "Mỗi tuần", "Mỗi phút"], answer: 1, explanation: "@daily = chạy 1 lần mỗi ngày vào lúc nửa đêm UTC. Các preset khác: @hourly, @weekly, @monthly." },
         ],
       },
       {
@@ -959,6 +1023,10 @@ for store, rev in store_revenue.items():
         exerciseEn: "Design a Star Schema for e-commerce with 1 Fact and 4 Dimension tables. Write analytical queries.",
         quiz: [
           { question: "Data Lake khác Data Warehouse ở điểm nào?", options: ["Chỉ lưu SQL", "Lưu dữ liệu thô mọi định dạng", "Chỉ lưu hình ảnh", "Nhanh hơn"], answer: 1, explanation: "Data Lake lưu trữ dữ liệu thô (raw) ở mọi định dạng, trong khi Data Warehouse chỉ lưu dữ liệu đã cấu trúc." },
+          { question: "Star Schema có mấy loại bảng chính?", options: ["1 loại", "2 loại: Fact và Dimension", "3 loại", "4 loại"], answer: 1, explanation: "Star Schema gồm bảng Fact (chứa metric/measure) ở giữa và các bảng Dimension (mô tả context) xung quanh." },
+          { question: "Schema-on-write khác schema-on-read ở điểm nào?", options: ["Không khác", "Schema-on-write định nghĩa cấu trúc TRƯỚC khi ghi", "Schema-on-read nhanh hơn khi ghi", "Chỉ dùng cho CSV"], answer: 1, explanation: "Data Warehouse dùng schema-on-write (cấu trúc trước). Data Lake dùng schema-on-read (lưu thô, cấu trúc khi phân tích)." },
+          { question: "Parquet format có ưu điểm gì so với CSV?", options: ["Dễ đọc bằng mắt hơn", "Lưu trữ cột (columnar), nén tốt, query nhanh", "Tương thích mọi phần mềm", "Luôn nhỏ hơn"], answer: 1, explanation: "Parquet lưu trữ theo cột (columnar), nén hiệu quả hơn CSV và cho phép đọc chỉ các cột cần thiết." },
+          { question: "Data Lakehouse kết hợp gì?", options: ["SQL và NoSQL", "Tính linh hoạt của Data Lake + quản trị của Data Warehouse", "Python và Java", "Cloud và On-premise"], answer: 1, explanation: "Data Lakehouse (Delta Lake, Apache Iceberg) kết hợp lưu trữ mở của Lake với ACID transactions của Warehouse." },
         ],
       },
     ],
@@ -1010,6 +1078,9 @@ print(f"\\n📊 R² Score: {r2:.4f} ({'Tốt' if r2 > 0.9 else 'Trung bình'})")
         quiz: [
           { question: "Linear Regression thuộc loại ML nào?", options: ["Unsupervised", "Reinforcement", "Supervised - Classification", "Supervised - Regression"], answer: 3, explanation: "Linear Regression là Supervised Learning (có nhãn/đáp án) loại Regression (dự đoán giá trị liên tục)." },
           { question: "R² Score = 0.95 có nghĩa gì?", options: ["Mô hình sai 95%", "Mô hình giải thích 95% biến thiên dữ liệu", "Có 95 mẫu dữ liệu", "Tốc độ xử lý 95%"], answer: 1, explanation: "R² = 0.95 nghĩa là mô hình giải thích được 95% sự biến thiên trong dữ liệu - rất tốt!" },
+          { question: "Hệ số góc (slope) trong y = ax + b cho biết gì?", options: ["Điểm cắt trục y", "Mức thay đổi của y khi x tăng 1 đơn vị", "Số lượng dữ liệu", "Độ chính xác mô hình"], answer: 1, explanation: "Hệ số a (slope) cho biết khi x tăng 1 đơn vị thì y thay đổi bao nhiêu." },
+          { question: "MSE (Mean Squared Error) đo gì?", options: ["Tốc độ huấn luyện", "Trung bình bình phương sai số giữa dự đoán và thực tế", "Số features", "Kích thước dataset"], answer: 1, explanation: "MSE = trung bình của (y_thực - y_dự_đoán)². Giá trị càng nhỏ thì mô hình càng chính xác." },
+          { question: "Regularization dùng để làm gì?", options: ["Tăng tốc xử lý", "Giảm overfitting bằng cách phạt hệ số lớn", "Tăng số features", "Thay đổi hàm loss"], answer: 1, explanation: "Regularization (Ridge/Lasso) thêm penalty vào loss function, buộc hệ số nhỏ lại để giảm overfitting." },
         ],
       },
       {
@@ -1052,6 +1123,9 @@ print(f"\\n📊 Accuracy: {accuracy:.1%}")`,
         quiz: [
           { question: "Overfitting là gì?", options: ["Mô hình quá đơn giản", "Mô hình học thuộc dữ liệu train, dự đoán kém dữ liệu mới", "Mô hình chạy quá chậm", "Thiếu dữ liệu"], answer: 1, explanation: "Overfitting = mô hình quá khớp, 'học thuộc' dữ liệu huấn luyện nhưng không khái quát hóa được cho dữ liệu mới." },
           { question: "train_test_split chia dữ liệu để làm gì?", options: ["Tăng tốc xử lý", "Đánh giá mô hình trên dữ liệu chưa thấy", "Giảm dung lượng", "Mã hóa dữ liệu"], answer: 1, explanation: "Chia train/test giúp đánh giá mô hình trên dữ liệu mới (test) mà nó chưa được học, tránh đánh giá sai lệch." },
+          { question: "Pruning Decision Tree nhằm mục đích gì?", options: ["Tăng độ sâu cây", "Giảm overfitting bằng cách bỏ nhánh không quan trọng", "Tăng tốc 100 lần", "Thêm features"], answer: 1, explanation: "Pruning cắt bỏ các nhánh ít ảnh hưởng, giúp cây đơn giản hơn và khái quát tốt hơn cho dữ liệu mới." },
+          { question: "Gini Impurity = 0 có nghĩa gì?", options: ["Dữ liệu hoàn toàn hỗn loạn", "Tất cả mẫu thuộc cùng 1 class (pure)", "Mô hình bị lỗi", "Cần thêm dữ liệu"], answer: 1, explanation: "Gini = 0 nghĩa là node hoàn toàn thuần (pure) — tất cả mẫu thuộc 1 class duy nhất." },
+          { question: "Confusion Matrix có 4 thành phần nào?", options: ["Mean, Median, Mode, Range", "TP, FP, TN, FN", "Accuracy, Precision, Recall, F1", "Train, Valid, Test, Predict"], answer: 1, explanation: "Confusion Matrix gồm: True Positive, False Positive, True Negative, False Negative — cơ sở tính các metrics." },
         ],
       },
       {
@@ -1089,6 +1163,10 @@ print(f"Accuracy: {knn.score(X_test, y_test):.1%}")`,
         exerciseEn: "Use KNN to classify Iris flowers (sklearn.datasets). Try K=1,3,5,7 and plot accuracy.",
         quiz: [
           { question: "KNN là thuật toán gì?", options: ["Unsupervised", "Supervised", "Reinforcement", "Semi-supervised"], answer: 1, explanation: "KNN là Supervised Learning vì cần dữ liệu đã gán nhãn để phân loại." },
+          { question: "K quá lớn trong KNN gây ra vấn đề gì?", options: ["Overfitting", "Underfitting — ranh giới phân loại quá mượt", "Chạy nhanh hơn", "Không ảnh hưởng"], answer: 1, explanation: "K quá lớn khiến mô hình xem xét quá nhiều láng giềng, ranh giới quyết định quá đơn giản → underfitting." },
+          { question: "Tại sao cần chuẩn hóa dữ liệu trước khi dùng KNN?", options: ["Để chạy nhanh hơn", "Vì KNN dùng khoảng cách — feature có scale lớn sẽ chi phối", "Để giảm số chiều", "KNN không cần chuẩn hóa"], answer: 1, explanation: "KNN dựa trên khoảng cách. Nếu feature A (0-1000) và feature B (0-1), A sẽ chi phối. Chuẩn hóa giúp các feature đóng góp đều." },
+          { question: "Khoảng cách Euclidean giữa (0,0) và (3,4) bằng bao nhiêu?", options: ["7", "5", "12", "3.5"], answer: 1, explanation: "Euclidean = √(3² + 4²) = √(9+16) = √25 = 5. Đây là tam giác vuông 3-4-5 nổi tiếng!" },
+          { question: "KNN có cần giai đoạn huấn luyện (training) không?", options: ["Có, rất lâu", "Không — KNN là lazy learner, chỉ tính khi dự đoán", "Có, nhưng nhanh", "Tùy dataset"], answer: 1, explanation: "KNN là lazy learner — không có giai đoạn training thực sự. Nó lưu toàn bộ dữ liệu và tính khoảng cách khi predict." },
         ],
       },
       {
@@ -1122,6 +1200,10 @@ print(f"\\nTâm cụm: {kmeans.cluster_centers_}")`,
         exerciseEn: "Cluster student exam data into 3 groups (Excellent, Good, Average). Draw scatter plot.",
         quiz: [
           { question: "K-Means thuộc loại ML nào?", options: ["Supervised", "Unsupervised", "Reinforcement", "Semi-supervised"], answer: 1, explanation: "K-Means là Unsupervised Learning vì không cần dữ liệu gán nhãn." },
+          { question: "Elbow Method xác định K tối ưu bằng cách nào?", options: ["Chọn K lớn nhất", "Tìm điểm mà Inertia giảm chậm lại đột ngột", "Chọn K = số features", "Random K"], answer: 1, explanation: "Vẽ đồ thị Inertia theo K, tìm điểm 'khuỷu tay' — nơi tăng K thêm không giảm Inertia đáng kể nữa." },
+          { question: "Inertia trong K-Means đo gì?", options: ["Số cluster", "Tổng khoảng cách bình phương từ mỗi điểm đến tâm cụm", "Thời gian chạy", "Số lần lặp"], answer: 1, explanation: "Inertia = tổng ||xi - μk||² cho tất cả điểm thuộc cụm k. Inertia càng nhỏ → các điểm càng gần tâm cụm." },
+          { question: "K-Means++ cải thiện K-Means ở điểm nào?", options: ["Chạy nhanh hơn 10 lần", "Khởi tạo tâm cụm thông minh hơn, tránh hội tụ kém", "Tự động chọn K", "Dùng cho text"], answer: 1, explanation: "K-Means++ chọn tâm ban đầu xa nhau, tránh trường hợp các tâm gần nhau dẫn đến clustering kém." },
+          { question: "Silhouette Score nằm trong khoảng nào?", options: ["0 đến 1", "-1 đến 1", "0 đến 100", "-∞ đến +∞"], answer: 1, explanation: "Silhouette Score từ -1 (clustering sai) đến 1 (clustering tốt). Gần 0 = điểm nằm trên ranh giới 2 cụm." },
         ],
       },
       {
@@ -1163,6 +1245,10 @@ print("✅ Mô hình đã lưu!")`,
         exerciseEn: "Train 3 models (KNN, Decision Tree, Random Forest) on the same dataset, compare metrics.",
         quiz: [
           { question: "Precision cao khi nào?", options: ["Nhiều True Positive", "Ít False Positive", "Nhiều False Negative", "Ít True Negative"], answer: 1, explanation: "Precision = TP / (TP + FP). Precision cao khi ít False Positive (ít dự đoán sai là dương)." },
+          { question: "F1-Score là gì?", options: ["Trung bình cộng Precision và Recall", "Trung bình điều hòa của Precision và Recall", "Precision × Recall", "Accuracy trên test set"], answer: 1, explanation: "F1 = 2 × (P × R) / (P + R) — trung bình điều hòa, cân bằng Precision và Recall." },
+          { question: "Cross-validation 5-fold chia dữ liệu thành mấy phần?", options: ["2 phần", "5 phần bằng nhau", "10 phần", "Tùy ý"], answer: 1, explanation: "5-fold CV chia data thành 5 phần. Mỗi lần 1 phần làm test, 4 phần làm train. Lặp 5 lần → trung bình." },
+          { question: "joblib.dump(model, 'model.pkl') dùng để làm gì?", options: ["Xóa mô hình", "Lưu mô hình đã train ra file để dùng lại sau", "Tải mô hình từ internet", "Nén dữ liệu"], answer: 1, explanation: "joblib.dump() serialize mô hình ra file. Sau đó dùng joblib.load() để nạp lại mà không cần train lại." },
+          { question: "Recall quan trọng hơn Precision trong trường hợp nào?", options: ["Phát hiện spam email", "Chẩn đoán ung thư — không muốn bỏ sót bệnh nhân", "Gợi ý sản phẩm", "Phân loại ảnh mèo/chó"], answer: 1, explanation: "Trong y tế, bỏ sót bệnh nhân (False Negative) nguy hiểm hơn chẩn đoán nhầm, nên Recall ưu tiên." },
         ],
       },
     ],
@@ -1226,6 +1312,8 @@ for branch, subs in branches.items():
           { question: "AI được đặt tên chính thức năm nào?", options: ["1943", "1950", "1956", "1997"], answer: 2, explanation: "Thuật ngữ 'Artificial Intelligence' được đặt tên tại hội nghị Dartmouth năm 1956." },
           { question: "ChatGPT thuộc nhánh AI nào?", options: ["Computer Vision", "Robotics", "NLP", "Reinforcement Learning"], answer: 2, explanation: "ChatGPT là mô hình NLP (Natural Language Processing) - xử lý ngôn ngữ tự nhiên." },
           { question: "Deep Blue nổi tiếng vì điều gì?", options: ["Dịch thuật", "Đánh bại nhà vô địch cờ vua", "Nhận dạng khuôn mặt", "Lái xe tự động"], answer: 1, explanation: "Deep Blue của IBM đánh bại nhà vô địch cờ vua Garry Kasparov năm 1997." },
+          { question: "Deep Learning khác Machine Learning truyền thống ở điểm nào?", options: ["Không cần dữ liệu", "Tự trích xuất đặc trưng từ dữ liệu thô nhờ nhiều lớp ẩn", "Luôn chính xác hơn", "Chỉ dùng cho ảnh"], answer: 1, explanation: "Deep Learning dùng nhiều hidden layers để tự động học đặc trưng, không cần thiết kế thủ công." },
+          { question: "NLP là viết tắt của gì?", options: ["Neural Language Processing", "Natural Language Processing", "Network Learning Protocol", "Numeric Logic Programming"], answer: 1, explanation: "NLP = Natural Language Processing (Xử lý ngôn ngữ tự nhiên) — nhánh AI giúp máy hiểu ngôn ngữ con người." },
         ],
       },
       {
@@ -1279,6 +1367,9 @@ for i in range(4):
         quiz: [
           { question: "Activation function dùng để làm gì?", options: ["Tăng tốc tính toán", "Thêm tính phi tuyến cho mạng", "Giảm dữ liệu", "Mã hóa dữ liệu"], answer: 1, explanation: "Activation function thêm tính phi tuyến (non-linearity), giúp mạng học được các mối quan hệ phức tạp." },
           { question: "Deep Learning khác ML thông thường ở điểm nào?", options: ["Không cần dữ liệu", "Nhiều hidden layers hơn", "Chỉ dùng cho ảnh", "Nhanh hơn"], answer: 1, explanation: "Deep Learning có nhiều hidden layers hơn, cho phép học đặc trưng phức tạp và trừu tượng hơn." },
+          { question: "Epoch trong training neural network nghĩa là gì?", options: ["Một batch dữ liệu", "Một lần duyệt toàn bộ dataset", "Một neuron kích hoạt", "Thời gian chạy 1 giây"], answer: 1, explanation: "1 epoch = mô hình đã xem qua TOÀN BỘ dữ liệu huấn luyện 1 lần. Thường cần nhiều epoch để hội tụ." },
+          { question: "Gradient Descent dùng để làm gì?", options: ["Tăng loss function", "Tìm giá trị weights tối ưu bằng cách giảm loss", "Tạo dữ liệu mới", "Chia dữ liệu train/test"], answer: 1, explanation: "Gradient Descent điều chỉnh weights theo hướng giảm loss function, giống đi xuống dốc tìm điểm thấp nhất." },
+          { question: "Learning rate quá lớn gây ra vấn đề gì?", options: ["Hội tụ quá chậm", "Nhảy qua điểm tối ưu, không hội tụ được", "Tốn nhiều bộ nhớ", "Không ảnh hưởng"], answer: 1, explanation: "Learning rate lớn khiến bước nhảy quá lớn, mô hình dao động qua lại quanh điểm tối ưu mà không đến được." },
         ],
       },
       {
@@ -1324,6 +1415,9 @@ for i, score in top_attention:
         quiz: [
           { question: "Transformer khác RNN ở điểm chính nào?", options: ["Dùng ít dữ liệu hơn", "Xử lý song song thay vì tuần tự", "Chỉ dùng cho ảnh", "Không cần GPU"], answer: 1, explanation: "Transformer xử lý tất cả tokens cùng lúc (song song) nhờ Self-Attention, trong khi RNN phải xử lý tuần tự." },
           { question: "Token trong LLM là gì?", options: ["Một câu", "Một đoạn văn", "Đơn vị nhỏ nhất của văn bản mà mô hình xử lý", "Một file"], answer: 2, explanation: "Token là đơn vị nhỏ nhất (có thể là từ, sub-word, hoặc ký tự) mà LLM sử dụng để xử lý văn bản." },
+          { question: "Self-Attention cho phép mô hình làm gì?", options: ["Chỉ xem từ liền kề", "Xem xét mối quan hệ giữa TẤT CẢ các từ cùng lúc", "Bỏ qua ngữ cảnh", "Chỉ xem từ đầu tiên"], answer: 1, explanation: "Self-Attention tính trọng số giữa mọi cặp từ, cho phép mô hình hiểu ngữ cảnh xa mà RNN khó làm được." },
+          { question: "Positional Encoding dùng để làm gì?", options: ["Mã hóa bảo mật", "Cung cấp thông tin vị trí vì Transformer không xử lý tuần tự", "Giảm kích thước input", "Tăng tốc training"], answer: 1, explanation: "Vì Transformer xử lý song song, nó không biết thứ tự từ. Positional Encoding thêm thông tin vị trí vào embedding." },
+          { question: "BERT và GPT khác nhau chính ở điều gì?", options: ["BERT dùng encoder (bidirectional), GPT dùng decoder (left-to-right)", "BERT nhanh hơn", "GPT cũ hơn", "Không khác nhau"], answer: 0, explanation: "BERT dùng encoder, đọc cả 2 chiều → tốt cho hiểu ngữ cảnh. GPT dùng decoder, sinh text từ trái sang phải." },
         ],
       },
       {
@@ -1388,6 +1482,8 @@ print(few_shot)`,
           { question: "Chain-of-Thought prompting là gì?", options: ["Viết prompt ngắn nhất", "Yêu cầu AI suy luận từng bước", "Cho AI nhiều vai trò", "Viết bằng nhiều ngôn ngữ"], answer: 1, explanation: "Chain-of-Thought yêu cầu AI trình bày quá trình suy luận từng bước, giúp cải thiện độ chính xác cho các bài toán phức tạp." },
           { question: "Few-shot learning cần gì?", options: ["Hàng triệu ví dụ", "2-5 ví dụ mẫu trong prompt", "Không cần ví dụ", "Chỉ dùng cho ảnh"], answer: 1, explanation: "Few-shot learning cho AI 2-5 ví dụ mẫu ngay trong prompt để AI hiểu pattern và áp dụng cho dữ liệu mới." },
           { question: "Prompt nào tốt hơn?", options: ["'Viết code cho tôi'", "'Viết hàm Python tính giai thừa bằng đệ quy, kèm docstring và 3 test cases'", "'Code something'", "'Help me'"], answer: 1, explanation: "Prompt cụ thể (ngôn ngữ, nhiệm vụ, yêu cầu chi tiết) cho kết quả chính xác hơn prompt mơ hồ." },
+          { question: "System prompt khác user prompt ở điểm nào?", options: ["System prompt dài hơn", "System prompt thiết lập hành vi/persona mặc định cho AI", "User prompt quan trọng hơn", "Không khác nhau"], answer: 1, explanation: "System prompt đặt luật chơi cho AI (vai trò, phong cách, giới hạn). User prompt là câu hỏi từ người dùng." },
+          { question: "Khi AI bịa thông tin (hallucinate), nên dùng kỹ thuật nào?", options: ["Tăng temperature", "Yêu cầu trích dẫn nguồn + dùng RAG", "Viết prompt ngắn hơn", "Đổi mô hình nhỏ hơn"], answer: 1, explanation: "Yêu cầu AI trích dẫn nguồn và sử dụng RAG (cung cấp tài liệu thực) giúp giảm hallucination đáng kể." },
         ],
       },
       {
@@ -1447,6 +1543,9 @@ for q in questions:
         quiz: [
           { question: "Temperature = 0 trong AI API có nghĩa gì?", options: ["AI ngừng hoạt động", "Output chính xác và nhất quán nhất", "Output sáng tạo nhất", "Tốc độ nhanh nhất"], answer: 1, explanation: "Temperature = 0 cho output deterministic (cùng input luôn cho cùng output), phù hợp cho các tác vụ cần chính xác." },
           { question: "Tại sao không nên để API key trong frontend?", options: ["Chạy chậm hơn", "Ai cũng có thể thấy và dùng key của bạn", "API không hoạt động", "Bị lỗi CORS"], answer: 1, explanation: "Code frontend ai cũng xem được (Inspect). Nếu để API key, người khác sẽ lấy key và dùng, gây thiệt hại tài chính." },
+          { question: "max_tokens trong AI API giới hạn gì?", options: ["Thời gian xử lý", "Độ dài tối đa của output (tính bằng tokens)", "Số lần gọi API", "Kích thước file upload"], answer: 1, explanation: "max_tokens giới hạn số tokens trong response. 1 token khoảng 4 ký tự tiếng Anh hoặc 1-2 ký tự tiếng Việt." },
+          { question: "Streaming response trong AI API có lợi ích gì?", options: ["Chính xác hơn", "Người dùng thấy kết quả ngay từng phần", "Rẻ hơn", "An toàn hơn"], answer: 1, explanation: "Streaming hiển thị từng token khi được sinh ra, giúp UX tốt hơn vì không phải chờ toàn bộ response." },
+          { question: "Environment variable dùng để lưu API key vì sao?", options: ["Nhanh hơn hardcode", "Không bị commit vào git, bảo mật hơn", "Tự động refresh key", "Bắt buộc bởi OpenAI"], answer: 1, explanation: "Environment variables không nằm trong source code, không bị push lên git. File .env nên thêm vào .gitignore." },
         ],
       },
       {
@@ -1509,6 +1608,9 @@ print(f"  {prompt[:200]}...")`,
         quiz: [
           { question: "RAG giải quyết vấn đề gì của LLM?", options: ["Tốc độ chậm", "Hallucination và kiến thức lỗi thời", "Giao diện xấu", "Chi phí cao"], answer: 1, explanation: "RAG cung cấp thông tin thực tế từ tài liệu, giúp LLM không bịa (hallucinate) và có thể truy cập dữ liệu mới nhất." },
           { question: "Vector embedding dùng để làm gì trong RAG?", options: ["Mã hóa bảo mật", "So sánh độ tương đồng ngữ nghĩa", "Nén file", "Tạo hình ảnh"], answer: 1, explanation: "Vector embeddings biến văn bản thành vectors số, cho phép tính toán độ tương đồng ngữ nghĩa giữa câu hỏi và tài liệu." },
+          { question: "Chunking trong RAG là gì?", options: ["Nén file", "Chia tài liệu thành đoạn nhỏ để embedding và tìm kiếm", "Mã hóa dữ liệu", "Xóa dữ liệu trùng"], answer: 1, explanation: "Chunking chia tài liệu dài thành các đoạn nhỏ (chunks) phù hợp để tạo embedding và tra cứu hiệu quả." },
+          { question: "Cosine similarity đo gì giữa 2 vectors?", options: ["Khoảng cách Euclidean", "Góc giữa 2 vectors — cùng hướng = similarity cao", "Tổng 2 vectors", "Chiều dài vectors"], answer: 1, explanation: "Cosine similarity = cos(θ). Giá trị 1 = cùng hướng (rất giống), 0 = vuông góc (không liên quan)." },
+          { question: "Vector database khác SQL database ở điểm nào?", options: ["Lưu nhiều hơn", "Tối ưu cho tìm kiếm theo độ tương đồng vector", "Miễn phí", "Dùng SQL"], answer: 1, explanation: "Vector DB tối ưu cho approximate nearest neighbor search — nhanh hơn SQL rất nhiều cho semantic search." },
         ],
       },
       {
@@ -1592,6 +1694,9 @@ for q in queries:
         quiz: [
           { question: "Function Calling cho phép AI làm gì?", options: ["Viết code", "Gọi các công cụ/API bên ngoài", "Tự huấn luyện", "Tạo hình ảnh"], answer: 1, explanation: "Function Calling cho AI khả năng gọi các hàm/API bên ngoài (thời tiết, database, tìm kiếm...) để lấy dữ liệu thực tế." },
           { question: "AI Agent khác chatbot thông thường ở điểm nào?", options: ["Nói nhiều hơn", "Có thể tự lập kế hoạch và thực hiện hành động", "Dùng giọng nói", "Miễn phí"], answer: 1, explanation: "AI Agent có thể tự phân tích nhiệm vụ, lập kế hoạch, chọn tools phù hợp và thực thi - không chỉ trả lời text." },
+          { question: "ReAct pattern trong AI Agent là gì?", options: ["Reactive programming", "Reasoning + Acting — suy luận rồi hành động luân phiên", "Real-time action", "Recursive action"], answer: 1, explanation: "ReAct = Reason + Act. Agent suy luận → quyết định action → quan sát kết quả → suy luận tiếp, lặp lại." },
+          { question: "Multi-step task trong AI Agent nghĩa là gì?", options: ["Chạy nhiều mô hình", "Nhiệm vụ phức tạp cần chia thành nhiều bước", "Dùng nhiều API key", "Training nhiều epoch"], answer: 1, explanation: "Multi-step task: Agent phải lập kế hoạch, thực hiện nhiều bước tuần tự." },
+          { question: "Tool description trong Agent dùng để làm gì?", options: ["Trang trí giao diện", "Giúp AI hiểu khi nào và cách sử dụng từng tool", "Bảo mật API", "Logging"], answer: 1, explanation: "Description giúp LLM quyết định tool nào phù hợp cho yêu cầu hiện tại và truyền tham số đúng." },
         ],
       },
       {
@@ -1658,6 +1763,9 @@ for row in pooled:
         quiz: [
           { question: "CNN dùng Convolution Layer để làm gì?", options: ["Phóng to ảnh", "Phát hiện đặc trưng (cạnh, góc...)", "Xóa nền ảnh", "Nén ảnh"], answer: 1, explanation: "Convolutional Layer sử dụng kernel/filter để phát hiện các đặc trưng trực quan như cạnh, góc, và textures." },
           { question: "Transfer Learning hữu ích khi nào?", options: ["Có rất nhiều dữ liệu", "Có ít dữ liệu cho bài toán mới", "Không cần GPU", "Chỉ dùng cho text"], answer: 1, explanation: "Transfer Learning đặc biệt hữu ích khi bạn có ít dữ liệu - dùng kiến thức từ mô hình lớn đã huấn luyện sẵn." },
+          { question: "Pooling layer trong CNN có tác dụng gì?", options: ["Tăng kích thước ảnh", "Giảm kích thước feature map, giữ đặc trưng quan trọng", "Thêm màu cho ảnh", "Tạo ảnh mới"], answer: 1, explanation: "Pooling giảm chiều dữ liệu, giúp mô hình nhỏ hơn, nhanh hơn, và có tính bất biến vị trí." },
+          { question: "Data Augmentation trong Computer Vision là gì?", options: ["Thu thập thêm dữ liệu", "Tạo thêm ảnh bằng xoay, lật, cắt, đổi màu", "Tăng resolution ảnh", "Xóa ảnh xấu"], answer: 1, explanation: "Data Augmentation tạo thêm training data bằng biến đổi ảnh — giúp giảm overfitting." },
+          { question: "Object Detection khác Image Classification ở điểm nào?", options: ["Nhanh hơn", "Vừa xác định loại VÀ vị trí (bounding box)", "Chỉ dùng cho video", "Cần GPU mạnh hơn"], answer: 1, explanation: "Classification: ảnh này là gì? Detection: ảnh có gì VÀ ở đâu? Detection trả về cả class và bounding box." },
         ],
       },
       {
@@ -1711,6 +1819,9 @@ for model_name, scorer in [("Biased", biased_score), ("Fair", fair_score)]:
         quiz: [
           { question: "Bias trong AI gây ra vấn đề gì?", options: ["Tốn điện", "Phân biệt đối xử không công bằng", "Chạy chậm", "Giao diện xấu"], answer: 1, explanation: "Bias khiến AI đưa ra quyết định thiên lệch, có thể phân biệt đối xử dựa trên giới tính, chủng tộc, tuổi tác..." },
           { question: "Nguyên tắc nào yêu cầu AI giải thích được quyết định?", options: ["Fairness", "Transparency", "Privacy", "Safety"], answer: 1, explanation: "Transparency (Minh bạch) yêu cầu hệ thống AI có thể giải thích cách và tại sao nó đưa ra quyết định." },
+          { question: "Explainable AI (XAI) quan trọng vì sao?", options: ["Chạy nhanh hơn", "Giúp con người hiểu TẠI SAO AI đưa ra quyết định", "Giảm chi phí", "Tăng accuracy"], answer: 1, explanation: "XAI giúp giải thích quyết định của AI, đặc biệt quan trọng trong y tế, tài chính, pháp luật." },
+          { question: "GDPR yêu cầu gì liên quan đến AI?", options: ["AI phải miễn phí", "Quyền được giải thích và quyền bị quên", "AI phải open-source", "Chỉ áp dụng ở Mỹ"], answer: 1, explanation: "GDPR (EU) yêu cầu: người dùng có quyền biết AI dùng dữ liệu của họ thế nào, quyền yêu cầu xóa dữ liệu." },
+          { question: "AI bias thường đến từ đâu?", options: ["GPU không đủ mạnh", "Dữ liệu huấn luyện không đại diện hoặc có thiên lệch", "Thuật toán quá phức tạp", "Người dùng nhập sai"], answer: 1, explanation: "Bias chủ yếu từ training data: nếu dữ liệu thiếu đại diện, AI sẽ học và khuếch đại bias đó." },
         ],
       },
       {
@@ -1816,6 +1927,9 @@ print(f"\\n📊 Stats: {bot.get_stats()}")`,
         quiz: [
           { question: "Rate limiting trong chatbot dùng để làm gì?", options: ["Tăng tốc xử lý", "Giới hạn số request để tránh lạm dụng", "Cải thiện chất lượng", "Lưu dữ liệu"], answer: 1, explanation: "Rate limiting giới hạn số request/phút để tránh abuse, bảo vệ API key và quản lý chi phí." },
           { question: "Tại sao cần lưu conversation history?", options: ["Tiết kiệm bộ nhớ", "Để AI hiểu ngữ cảnh cuộc trò chuyện", "Tăng bảo mật", "Giảm chi phí"], answer: 1, explanation: "Conversation history giúp AI hiểu ngữ cảnh, tham chiếu các tin nhắn trước và trả lời mạch lạc hơn." },
+          { question: "Input validation trong chatbot quan trọng vì sao?", options: ["Tăng tốc xử lý", "Ngăn chặn prompt injection và nội dung độc hại", "Giảm chi phí API", "Cải thiện giao diện"], answer: 1, explanation: "Input validation lọc nội dung nguy hiểm trước khi gửi đến AI API." },
+          { question: "Token counting quan trọng cho quản lý chi phí vì sao?", options: ["Tokens quyết định chất lượng", "API tính phí theo số tokens sử dụng", "Tokens ảnh hưởng bảo mật", "Không quan trọng"], answer: 1, explanation: "API AI tính phí dựa trên tokens (input + output). Theo dõi token usage giúp kiểm soát chi phí." },
+          { question: "Streaming response cần kỹ thuật gì ở backend?", options: ["WebSocket hoặc Server-Sent Events (SSE)", "Chỉ cần REST API", "GraphQL subscription", "Polling mỗi giây"], answer: 0, explanation: "Streaming dùng SSE hoặc WebSocket để server gửi từng phần response liên tục." },
         ],
       },
     ],
