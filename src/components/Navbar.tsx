@@ -26,6 +26,7 @@ interface SubItem {
   icon?: React.ComponentType<{ className?: string }>;
   children?: SubItem[];
   groupLabel?: string;
+  divider?: boolean;
 }
 
 const Navbar = () => {
