@@ -1501,7 +1501,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
         <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
           <CardContent className="p-4 space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="font-bold text-emerald-800 dark:text-emerald-300 text-sm">📊 Arviointi (Đánh giá)</h4>
+              <h4 className="font-bold text-emerald-800 dark:text-emerald-300 text-sm">📊 {showTranslation ? "Evaluation" : "Arviointi"}</h4>
               <Badge className={`text-lg px-4 py-1 ${accuracy >= 80 ? "bg-emerald-500" : accuracy >= 50 ? "bg-amber-500" : "bg-rose-500"} text-white`}>
                 {accuracy}%
               </Badge>
