@@ -527,6 +527,7 @@ Time: 20 minutes | Word count: 50–80 words`,
         titleEn: "At the Pharmacy",
         icon: "💊",
         level: "A2",
+        sampleAnswer: "Hei, minulla on kovaa päänsärkyä ja tarvitsen särkylääkettä. Mitä lääkettä suosittelette? Ei, minulla ei ole allergioita. Paljonko tämä lääke maksaa? Kahdeksan euroa viisikymmentä senttiä, selvä. Otan sen, kiitos paljon!",
         theory: `### Puhumistehtävä 2: Reagoi tilanteeseen — Apteekissa
 
 **Ohje:** Olet apteekissa. Sinulla on **30 sekuntia** aikaa vastata jokaiseen kohtaan.
