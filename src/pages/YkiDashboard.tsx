@@ -1531,8 +1531,8 @@ const YkiDashboard = () => {
   };
 
   // Determine if current lesson is a writing or speaking exam
-  const isWritingExam = selectedModule?.id === "yki-mock-writing";
-  const isSpeakingExam = selectedModule?.id === "yki-mock-speaking";
+  const isWritingExam = selectedModule?.id?.includes("writing") ?? false;
+  const isSpeakingExam = selectedModule?.id?.includes("speaking") ?? false;
   const isListeningExam = selectedModule?.id?.includes("listening") ?? false;
   const isMockExam = selectedModule?.pillar === "mock-exams";
 
