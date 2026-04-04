@@ -252,6 +252,7 @@ const IeltsVocabulary = () => {
       const next = new Set(prev);
       if (next.has(word)) next.delete(word); else next.add(word);
       localStorage.setItem("ielts_mastered", JSON.stringify([...next]));
+      syncMasteredCount("ielts", next.size);
       return next;
     });
   }, []);
