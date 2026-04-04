@@ -1,53 +1,37 @@
 
 
-## Plan: Fix Finnish Vocabulary Cards Showing Same Image
+## Plan: Eliminate Duplicate Images in Finnish Vocabulary Cards
 
 ### Problem
-When a vocabulary word contains compound forms like "minä → mä/mää", the image lookup in `getVocabImageUrl` searches for the full string "minä → mä/mää" in `VOCAB_IMAGES`, which has no match. All words in the same category (e.g. "Puhekieli") then fall back to the **same single category image** — resulting in identical photos on every card.
+There are **50+ duplicate Unsplash photo IDs** shared across different words in `VOCAB_IMAGES`. For example, one photo (`photo-1529156069898`) is used for 9 different words (kutsua, ihminen, hei, kansalainen, serkku, näkemiin, sinä, te, kuka). This causes many vocabulary cards to display identical images.
 
 ### Solution
-Improve `getVocabImageUrl` to extract the **base word** before looking up the image. For example:
-- "minä → mä/mää" → try "minä" first
-- "me menemme → me mennään" → try "me menemme", then "menemme"
-- "ei ole → ei oo" → try "ei ole", then "ole"
+Replace all duplicate photo IDs with unique Unsplash photos so that **every word gets a visually distinct image**. Each word will keep the first occurrence of a photo ID, and all subsequent uses of the same photo will be swapped to a new, contextually relevant Unsplash image.
 
-This way, existing entries in `VOCAB_IMAGES` (which already has `minä`, `mennä`, etc.) will be matched correctly instead of falling back to a generic category photo.
+### Scope of changes
+Approximately **120 duplicate entries** need new unique photo IDs across these categories:
 
-### Changes
+| Category | Duplicates to fix |
+|----------|------------------|
+| Pronouns & function words (sinä, te, kuka, me, ja, he...) | ~15 |
+| Emotions & social (kiitos, mielipide, mutta, tai, jos...) | ~12 |
+| Verbs (puhua, pyytää, että, koska, tulla, varata...) | ~15 |
+| Work & services (vakuutus, valitus, lasku, lomake...) | ~12 |
+| Health & body (yskä, nuha, polvi, vatsa...) | ~8 |
+| Emergency (onnettomuus, loukkaantua, verenvuoto...) | ~6 |
+| Time & abstract (nyt, sitten, kun, odottaa...) | ~8 |
+| Family (lapsi, poika, sisarus, he...) | ~6 |
+| All other categories | ~38 |
 
-**File: `src/pages/YkiDashboard.tsx`**
+### Technical approach
+1. For each duplicate group, keep the **first/most fitting** word-photo pairing
+2. Replace all other entries with new, semantically appropriate Unsplash photo IDs
+3. Ensure zero photo ID appears more than once across the entire `VOCAB_IMAGES` object
 
-1. **Update `getVocabImageUrl`** — add logic to:
-   - Strip the arrow part: `word.split("→")[0].trim()` to get the base form
-   - Try the base form as a lookup key
-   - If multi-word (e.g. "me menemme"), also try the last word alone
-   - Keep existing fallback chain: exact word → base word → last word → category → null (gradient+emoji)
+### File to modify
+- `src/pages/YkiDashboard.tsx` — replace ~120 duplicate photo IDs in `VOCAB_IMAGES` with unique alternatives
 
-2. **Update `getWordIllustration`** with the same base-word extraction so emoji fallbacks also vary per word instead of all showing "📝"
-
-### Example
-```
-"minä → mä/mää" 
-  → try "minä → mä/mää" (miss)
-  → try "minä" (miss in VOCAB_IMAGES... but wait, there's no "minä" either)
-```
-
-Since pronouns like "minä", "sinä" aren't in VOCAB_IMAGES, we also need to **add specific image entries** for common pronouns and verb phrases that appear in the Puhekieli module. These include:
-- minä, sinä, hän, tämä, tuo — mapped to distinct people/gesture photos
-- mennä (already exists), olla (missing) — add if missing
-
-3. **Add missing VOCAB_IMAGES entries** for Puhekieli base words:
-   - `minä` → person/portrait photo
-   - `sinä` → people interacting photo  
-   - `hän` → single person photo
-   - `tämä` → pointing gesture photo
-   - `tuo` → different pointing/showing photo
-   - `nyt` → clock/urgency photo
-   - `sitten` → timeline/sequence photo
-   - `että` → speech/conversation photo
-
-This ensures every card in the Puhekieli lesson gets a **unique, relevant image** instead of all sharing the same fallback.
-
-### Files to modify
-- `src/pages/YkiDashboard.tsx` — update `getVocabImageUrl`, `getWordIllustration`, and add missing `VOCAB_IMAGES` entries
+### What stays the same
+- The `extractBaseWord` logic, `getVocabImageUrl` fallback chain, `WORD_ILLUSTRATIONS`, and `CATEGORY_IMAGES` all remain unchanged
+- No structural changes to the VocabCard component
 
