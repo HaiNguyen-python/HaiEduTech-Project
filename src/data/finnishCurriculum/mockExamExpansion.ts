@@ -505,6 +505,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 **Kohta C:** Lääkäri sanoo: "Kirjoitan reseptin. Lepää muutama päivä."
 - Kiitä ja kysy saatko sairauslomatodistuksen`,
         theoryEn: `### Speaking Task 6: At the doctor's office — describe symptoms and ask about treatment (30s per part)`,
+        sampleAnswer: "Minulla on kuumetta ja kovaa yskää. Oireet ovat kestäneet kolme päivää. En käytä mitään lääkkeitä. Mitä lääkettä suosittelette? Kiitos paljon, saanko sairauslomatodistuksen?",
         quiz: [
           { question: "'Sairauslomatodistus' tarkoittaa...", options: ["Prescription", "Sick leave certificate", "Health insurance card", "Medical report"], answer: 1, explanation: "'Sairauslomatodistus' = sick leave certificate." },
         ],
