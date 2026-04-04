@@ -531,6 +531,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 **Kohta C:** Myyjä tarjoaa vaihdon.
 - Kiitä ja kysy takuusta`,
         theoryEn: `### Speaking Task 7: Making a complaint at a store about broken shoes (30s per part)`,
+        sampleAnswer: "Hei, ostin nämä kengät viime viikolla, mutta ne menivät rikki kahdessa päivässä. Haluaisin vaihtaa ne tai saada rahat takaisin. Tässä on kuitti. Kiitos! Kuinka pitkä takuu on?",
         quiz: [
           { question: "'Haluan vaihtaa' tarkoittaa...", options: ["I want to buy", "I want to exchange", "I want to return", "I want to sell"], answer: 1, explanation: "'Haluan vaihtaa' = I want to exchange." },
         ],
