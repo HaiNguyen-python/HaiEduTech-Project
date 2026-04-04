@@ -89,10 +89,15 @@ const HistoryTimeline = () => {
             >
               <X className="w-4 h-4" />
             </button>
-            <span className="text-sm font-bold text-primary">{selected.year}</span>
-            <h3 className="text-lg font-bold text-foreground mt-1">
-              {t(selected.title, selected.titleEn)}
-            </h3>
+            <div className="flex items-center gap-3 mb-2">
+              {selected.icon && <span className="text-3xl">{selected.icon}</span>}
+              <div>
+                <span className="text-sm font-bold text-primary">{selected.year}</span>
+                <h3 className="text-lg font-bold text-foreground">
+                  {t(selected.title, selected.titleEn)}
+                </h3>
+              </div>
+            </div>
             <p className="text-muted-foreground mt-2 leading-relaxed">
               {t(selected.description, selected.descriptionEn)}
             </p>
