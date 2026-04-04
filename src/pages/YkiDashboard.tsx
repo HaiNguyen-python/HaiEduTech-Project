@@ -1183,7 +1183,7 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
           </span>
           {!submitted && text.trim().length > 0 && (
             <Button onClick={() => { setSubmitted(true); if (timerRef.current) clearInterval(timerRef.current); setTimerActive(false); }} className="text-lg px-8 py-3 font-bold">
-              Lähetä ✓
+              {showTranslation ? "Submit ✓" : "Lähetä ✓"}
             </Button>
           )}
         </div>
