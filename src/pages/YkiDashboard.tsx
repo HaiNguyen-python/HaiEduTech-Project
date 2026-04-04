@@ -984,7 +984,7 @@ const QuizSection = ({
             <>
               {!timerActive && !submitted && (
                 <Button size="sm" variant="outline" onClick={startTimer} className="gap-1">
-                  <Timer className="w-4 h-4" /> Aloita (15 min)
+                  <Timer className="w-4 h-4" /> {showTranslation ? "Start (15 min)" : "Aloita (15 min)"}
                 </Button>
               )}
               {timerActive && (
