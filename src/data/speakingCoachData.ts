@@ -663,6 +663,36 @@ const chineseThemes: SpeakingTheme[] = [
       { id: "zh-env10", text: "面对日益严峻的环境危机，国际社会需要加强合作，共同制定并执行更加严格的环保政策和标准。", translation: "Đối mặt với khủng hoảng môi trường ngày càng nghiêm trọng, cộng đồng quốc tế cần tăng cường hợp tác, cùng xây dựng và thực thi các chính sách và tiêu chuẩn bảo vệ môi trường nghiêm ngặt hơn.", ipa: "miàn duì rì yì yán jùn de huán jìng wēi jī, guó jì shè huì xū yào jiā qiáng hé zuò, gòng tóng zhì dìng bìng zhí xíng gèng jiā yán gé de huán bǎo zhèng cè hé biāo zhǔn.", difficulty: "hard", theme: "environment" },
     ],
   },
+  {
+    id: "zh-housing", name: "住房", nameVi: "Nhà ở", icon: "🏠",
+    sentences: [
+      { id: "zh-hou1", text: "我住在公寓里。", translation: "Tôi sống trong căn hộ.", ipa: "wǒ zhù zài gōngyù lǐ.", difficulty: "easy", theme: "housing" },
+      { id: "zh-hou2", text: "房租一个月多少钱？", translation: "Tiền thuê nhà một tháng bao nhiêu?", ipa: "fángzū yī gè yuè duōshǎo qián?", difficulty: "easy", theme: "housing" },
+      { id: "zh-hou3", text: "我的房间有一个大窗户。", translation: "Phòng tôi có một cửa sổ lớn.", ipa: "wǒ de fángjiān yǒu yī gè dà chuānghù.", difficulty: "easy", theme: "housing" },
+      { id: "zh-hou4", text: "我想租一套两室一厅的房子。", translation: "Tôi muốn thuê một căn nhà hai phòng ngủ một phòng khách.", ipa: "wǒ xiǎng zū yī tào liǎng shì yī tīng de fángzi.", difficulty: "medium", theme: "housing" },
+      { id: "zh-hou5", text: "这个小区的环境很好，很安静。", translation: "Môi trường khu chung cư này rất tốt, rất yên tĩnh.", ipa: "zhège xiǎoqū de huánjìng hěn hǎo, hěn ānjìng.", difficulty: "medium", theme: "housing" },
+      { id: "zh-hou6", text: "空调坏了，需要请人来修理。", translation: "Máy lạnh hỏng rồi, cần gọi người đến sửa.", ipa: "kōngtiáo huài le, xūyào qǐng rén lái xiūlǐ.", difficulty: "medium", theme: "housing" },
+      { id: "zh-hou7", text: "签租房合同的时候要仔细看条款。", translation: "Khi ký hợp đồng thuê nhà phải đọc kỹ các điều khoản.", ipa: "qiān zūfáng hétong de shíhòu yào zǐxì kàn tiáokuǎn.", difficulty: "medium", theme: "housing" },
+      { id: "zh-hou8", text: "邻居之间互相尊重和理解是和谐社区的基础。", translation: "Sự tôn trọng và thấu hiểu lẫn nhau giữa hàng xóm là nền tảng của cộng đồng hài hòa.", ipa: "línjū zhījiān hùxiāng zūnzhòng hé lǐjiě shì héxié shèqū de jīchǔ.", difficulty: "hard", theme: "housing" },
+      { id: "zh-hou9", text: "随着城市化进程加快，住房问题成为许多大城市面临的主要挑战之一。", translation: "Với quá trình đô thị hóa tăng nhanh, vấn đề nhà ở đã trở thành một trong những thách thức chính mà nhiều thành phố lớn phải đối mặt.", ipa: "suízhe chéngshìhuà jìnchéng jiākuài, zhùfáng wèntí chéngwéi xǔduō dà chéngshì miànlín de zhǔyào tiǎozhàn zhī yī.", difficulty: "hard", theme: "housing" },
+      { id: "zh-hou10", text: "绿色建筑和智能家居技术正在改变人们对理想居住空间的期待和标准。", translation: "Kiến trúc xanh và công nghệ nhà thông minh đang thay đổi kỳ vọng và tiêu chuẩn của mọi người về không gian sống lý tưởng.", ipa: "lǜsè jiànzhù hé zhìnéng jiājū jìshù zhèngzài gǎibiàn rénmen duì lǐxiǎng jūzhù kōngjiān de qīdài hé biāozhǔn.", difficulty: "hard", theme: "housing" },
+    ],
+  },
+  {
+    id: "zh-leisure", name: "休闲", nameVi: "Giải trí & Sở thích", icon: "🎉",
+    sentences: [
+      { id: "zh-lei1", text: "我喜欢看电影。", translation: "Tôi thích xem phim.", ipa: "wǒ xǐhuān kàn diànyǐng.", difficulty: "easy", theme: "leisure" },
+      { id: "zh-lei2", text: "周末我常去跑步。", translation: "Cuối tuần tôi thường đi chạy bộ.", ipa: "zhōumò wǒ cháng qù pǎobù.", difficulty: "easy", theme: "leisure" },
+      { id: "zh-lei3", text: "你有什么兴趣爱好？", translation: "Bạn có sở thích gì?", ipa: "nǐ yǒu shénme xìngqù àihào?", difficulty: "easy", theme: "leisure" },
+      { id: "zh-lei4", text: "我最近迷上了下棋和弹吉他。", translation: "Gần đây tôi mê chơi cờ và đàn guitar.", ipa: "wǒ zuìjìn mí shàng le xiàqí hé tán jítā.", difficulty: "medium", theme: "leisure" },
+      { id: "zh-lei5", text: "假期的时候我喜欢去爬山和野营。", translation: "Khi nghỉ lễ tôi thích đi leo núi và cắm trại.", ipa: "jiàqī de shíhòu wǒ xǐhuān qù páshān hé yěyíng.", difficulty: "medium", theme: "leisure" },
+      { id: "zh-lei6", text: "运动不仅能锻炼身体，还能让心情变好。", translation: "Vận động không chỉ rèn luyện thân thể mà còn giúp tâm trạng tốt hơn.", ipa: "yùndòng bùjǐn néng duànliàn shēntǐ, hái néng ràng xīnqíng biàn hǎo.", difficulty: "medium", theme: "leisure" },
+      { id: "zh-lei7", text: "中国的太极拳是一种既能强身健体又能放松心灵的运动。", translation: "Thái Cực Quyền của Trung Quốc là một môn vận động vừa rèn luyện sức khỏe vừa thư giãn tâm hồn.", ipa: "zhōngguó de tàijíquán shì yī zhǒng jì néng qiángshēn jiàntǐ yòu néng fàngsōng xīnlíng de yùndòng.", difficulty: "medium", theme: "leisure" },
+      { id: "zh-lei8", text: "书法和国画是中国传统文化中非常重要的艺术形式。", translation: "Thư pháp và tranh Trung Quốc là những hình thức nghệ thuật rất quan trọng trong văn hóa truyền thống Trung Quốc.", ipa: "shūfǎ hé guóhuà shì zhōngguó chuántǒng wénhuà zhōng fēicháng zhòngyào de yìshù xíngshì.", difficulty: "hard", theme: "leisure" },
+      { id: "zh-lei9", text: "现代人越来越重视工作与生活的平衡，寻找适合自己的休闲方式来缓解压力。", translation: "Người hiện đại ngày càng coi trọng sự cân bằng giữa công việc và cuộc sống, tìm kiếm cách giải trí phù hợp để giảm căng thẳng.", ipa: "xiàndài rén yuè lái yuè zhòngshì gōngzuò yǔ shēnghuó de pínghéng, xúnzhǎo shìhé zìjǐ de xiūxián fāngshì lái huǎnjiě yālì.", difficulty: "hard", theme: "leisure" },
+      { id: "zh-lei10", text: "社区文化活动和体育赛事不仅丰富了居民的业余生活，还增进了邻里之间的友谊和团结。", translation: "Các hoạt động văn hóa cộng đồng và sự kiện thể thao không chỉ làm phong phú cuộc sống giải trí của cư dân mà còn tăng cường tình bạn và đoàn kết giữa hàng xóm.", ipa: "shèqū wénhuà huódòng hé tǐyù sàishì bùjǐn fēngfù le jūmín de yèyú shēnghuó, hái zēngjìn le línlǐ zhījiān de yǒuyì hé tuánjié.", difficulty: "hard", theme: "leisure" },
+    ],
+  },
 ];
 
 // ---- VIETNAMESE ----
