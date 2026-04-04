@@ -1425,7 +1425,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
               <h4 className="font-bold text-amber-800 dark:text-amber-300 text-sm flex items-center gap-2">
-                🎧 Mallivastaus (Bài nói mẫu)
+                🎧 {showTranslation ? "Model Answer" : "Mallivastaus"}
               </h4>
               <div className="flex gap-2">
                 <Button
