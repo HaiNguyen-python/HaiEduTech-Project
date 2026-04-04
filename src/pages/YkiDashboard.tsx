@@ -1217,7 +1217,7 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
           {/* Model A2 answer */}
           <Card className="border-amber-200 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800">
             <CardContent className="p-4">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">📝 Mallivastaus (A2-taso)</h4>
+              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">📝 {showTranslation ? "Model Answer (A2 level)" : "Mallivastaus (A2-taso)"}</h4>
               <div className="text-sm text-foreground leading-relaxed whitespace-pre-line">
                 {getSampleAnswer(lesson.id)}
               </div>
