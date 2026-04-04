@@ -12,6 +12,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
+import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 24;
@@ -256,6 +257,7 @@ const HskVocabulary = () => {
       const next = new Set(prev);
       if (next.has(word)) next.delete(word); else next.add(word);
       localStorage.setItem("hsk_mastered", JSON.stringify([...next]));
+      syncMasteredCount("hsk", next.size);
       return next;
     });
   }, []);
@@ -316,7 +318,8 @@ const HskVocabulary = () => {
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <div className="flex gap-6">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-1 min-w-0">
             {/* Great Wall Climber Progress Visualization */}
             <GreatWallClimber
               mastered={mastered.size}
@@ -466,6 +469,13 @@ const HskVocabulary = () => {
               </div>
             )}
           </motion.div>
+          <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start">
+            <VocabMasteryLeaderboard subject="hsk" currentCount={mastered.size} />
+          </div>
+          </div>
+          <div className="lg:hidden mt-6">
+            <VocabMasteryLeaderboard subject="hsk" currentCount={mastered.size} />
+          </div>
         </div>
       </div>
       <Footer />

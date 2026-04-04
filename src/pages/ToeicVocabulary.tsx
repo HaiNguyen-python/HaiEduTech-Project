@@ -15,7 +15,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
+import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
+import { Star } from "lucide-react";
 
 const WORDS_PER_PAGE = 24;
 
@@ -248,6 +250,22 @@ const ToeicVocabulary = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeLevel, setActiveLevel] = useState("All");
   const [page, setPage] = useState(1);
+  const [mastered, setMastered] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("toeic_mastered");
+      return saved ? new Set(JSON.parse(saved)) : new Set<string>();
+    } catch { return new Set<string>(); }
+  });
+
+  const toggleMastered = useCallback((word: string) => {
+    setMastered(prev => {
+      const next = new Set(prev);
+      if (next.has(word)) next.delete(word); else next.add(word);
+      localStorage.setItem("toeic_mastered", JSON.stringify([...next]));
+      syncMasteredCount("toeic", next.size);
+      return next;
+    });
+  }, []);
 
   // Filtered words
   const filtered = useMemo(() => {
@@ -284,6 +302,8 @@ const ToeicVocabulary = () => {
     <div className="min-h-screen bg-[#0a0f18]">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
+        <div className="flex gap-6">
+        <div className="flex-1 min-w-0">
         {/* Header */}
         <div className="mb-8">
           <Link to="/english" className="inline-flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors mb-4 text-base">
@@ -518,6 +538,14 @@ const ToeicVocabulary = () => {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
+        <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start">
+          <VocabMasteryLeaderboard subject="toeic" currentCount={mastered.size} />
+        </div>
+        </div>
+        <div className="lg:hidden mt-6 px-4">
+          <VocabMasteryLeaderboard subject="toeic" currentCount={mastered.size} />
+        </div>
       </main>
       <Footer />
     </div>

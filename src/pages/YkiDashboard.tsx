@@ -43,7 +43,7 @@ import {
 import FinnishVocabExercises from "@/components/FinnishVocabExercises";
 import { playFinnishTts } from "@/lib/finnishTts";
 import AISpeakingCoach from "@/components/AISpeakingCoach";
-
+import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 // Merge original + expansion data
 import { finnishVocabExpansion4Modules } from "@/data/finnishCurriculum/vocabularyExpansion4";
 const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules];
@@ -1900,6 +1900,7 @@ const YkiDashboard = () => {
       const newMastered = masteredWords.filter(w => w !== word);
       setMasteredWords(newMastered);
       localStorage.setItem("yki-mastered-words", JSON.stringify(newMastered));
+      syncMasteredCount("finnish", newMastered.length);
       toast.info(`"${word}" unmarked from mastery`);
       return;
     }
@@ -1908,6 +1909,7 @@ const YkiDashboard = () => {
     const newMastered = [...masteredWords, word];
     setMasteredWords(newMastered);
     localStorage.setItem("yki-mastered-words", JSON.stringify(newMastered));
+    syncMasteredCount("finnish", newMastered.length);
 
     // Flying star animation
     const rect = skierContainerRef.current?.getBoundingClientRect();
@@ -2497,7 +2499,9 @@ const YkiDashboard = () => {
                 </motion.div>
               ) : (
                 // Module grid
-                <div>
+                <>
+                <div className="flex gap-6">
+                <div className="flex-1 min-w-0">
                   {/* Skill filter tabs for mock exams */}
                   {activePillar === "mock-exams" && (
                     <div className="flex flex-wrap gap-2 mb-6">
@@ -2570,6 +2574,18 @@ const YkiDashboard = () => {
                     })}
                   </div>
                 </div>
+                {activePillar === "vocabulary" && (
+                  <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start">
+                    <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto — BXH" />
+                  </div>
+                )}
+                </div>
+                {activePillar === "vocabulary" && (
+                  <div className="lg:hidden mt-6">
+                    <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto — BXH" />
+                  </div>
+                )}
+                </>
               )}
               </>
             )}
