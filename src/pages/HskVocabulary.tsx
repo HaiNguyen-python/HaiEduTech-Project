@@ -418,7 +418,7 @@ const HskVocabulary = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {paginated.map((w, idx) => (
                   <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
                     {/* Large image area */}
