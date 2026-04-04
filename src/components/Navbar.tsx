@@ -412,6 +412,9 @@ const Navbar = () => {
                                           </span>
                                         </div>
                                         {sub.children.map((child, ci) => {
+                                          if (child.divider) {
+                                            return <div key={child.to} className="my-1.5 mx-3 h-px bg-border" />;
+                                          }
                                           const ChildIcon = child.icon;
                                           return (
                                             <motion.div
