@@ -204,6 +204,7 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
         titleEn: "At the Doctor",
         icon: "🏥",
         level: "A2",
+        sampleAnswer: "Hei, minulla on kova kurkkukipu ja nuhaa. Oireet alkoivat kolme päivää sitten. Kyllä, minulla on myös vähän kuumetta, lämpöni on kolmekymmentäseitsemän ja puoli astetta. En ole ottanut vielä mitään lääkettä. Voisitteko kirjoittaa reseptin?",
         theory: `## Puhetehtävä: Lääkärissä\n\n**Tilanne:** Olet lääkärissä. Kerro lääkärille oireistasi.\n\nPuhu näistä asioista:\n- Mikä vaivasi on?\n- Milloin oireet alkoivat?\n- Onko sinulla kuumetta?\n- Oletko ottanut lääkettä?\n\n**Hyödyllisiä ilmauksia:**\n- Minulla on [oire].\n- Oireet alkoivat [aika].\n- Lämpöni on [luku] astetta.\n- Olen ottanut / En ole ottanut lääkettä.\n\n⏱️ Aika: 2 minuuttia`,
         theoryEn: "Describe your symptoms to a doctor.",
         quiz: [
