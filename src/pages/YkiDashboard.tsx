@@ -477,6 +477,31 @@ const VOCAB_IMAGES: Record<string, string> = {
   ei: U("photo-1509248961158-e54f6934749c"),
   // Missing travel
   loma: U("photo-1507525428034-b723cf961d3e"),
+  // Pronouns & Puhekieli base words
+  minä: U("photo-1507003211169-0a1dd7228f2d"),
+  sinä: U("photo-1529156069898-49953e39b3ac"),
+  hän: U("photo-1544005313-94ddf0286df2"),
+  me: U("photo-1522071820081-009f0129c71c"),
+  te: U("photo-1529156069898-49953e39b3ac"),
+  he: U("photo-1511895426328-dc8714191300"),
+  tämä: U("photo-1453227588063-bb302b62f50b"),
+  tuo: U("photo-1476480862126-209bfaa8edc8"),
+  nyt: U("photo-1501139083538-0139583c060f"),
+  sitten: U("photo-1501139083538-0139583c060f"),
+  että: U("photo-1573497019418-b400bb3ab074"),
+  olla: U("photo-1506784983877-45594efa4cbe"),
+  se: U("photo-1453227588063-bb302b62f50b"),
+  mikä: U("photo-1557804506-669a67965ba0"),
+  kuka: U("photo-1529156069898-49953e39b3ac"),
+  missä: U("photo-1524661135-423995f22d0b"),
+  mutta: U("photo-1557804506-669a67965ba0"),
+  ja: U("photo-1522071820081-009f0129c71c"),
+  tai: U("photo-1557804506-669a67965ba0"),
+  jos: U("photo-1557804506-669a67965ba0"),
+  kun: U("photo-1501139083538-0139583c060f"),
+  koska: U("photo-1573497019418-b400bb3ab074"),
+  paljon: U("photo-1553729459-afe8f2e2882d"),
+  vähän: U("photo-1553729459-afe8f2e2882d"),
 };
 
 // Category-level fallback images when no exact word match exists
