@@ -1387,7 +1387,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-          🎤 Puhumistehtävä
+          🎤 {showTranslation ? "Speaking Task" : "Puhumistehtävä"}
         </h3>
         <div className="flex items-center gap-2">
           {lesson && (
