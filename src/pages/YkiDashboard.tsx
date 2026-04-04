@@ -1003,15 +1003,10 @@ const QuizSection = ({
           <span className="text-3xl font-bold text-primary">{score}/{quiz.length}</span>
           <div>
             <span className="text-sm text-foreground font-medium">
-              {score >= quiz.length * 0.8 ? "Erinomainen! 🌟" : score >= quiz.length * 0.6 ? "Hyvä työ! 👍" : "Harjoittele lisää! 💪"}
+              {score >= quiz.length * 0.8 ? (showTranslation ? "Excellent! 🌟" : "Erinomainen! 🌟") : score >= quiz.length * 0.6 ? (showTranslation ? "Good job! 👍" : "Hyvä työ! 👍") : (showTranslation ? "Keep practicing! 💪" : "Harjoittele lisää! 💪")}
             </span>
-            {showTranslation && (
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {score >= quiz.length * 0.8 ? "Excellent!" : score >= quiz.length * 0.6 ? "Good job!" : "Keep practicing!"}
-              </p>
-            )}
           </div>
-          <Button size="sm" variant="ghost" onClick={handleReset} className="ml-auto">Yritä uudelleen</Button>
+          <Button size="sm" variant="ghost" onClick={handleReset} className="ml-auto">{showTranslation ? "Try again" : "Yritä uudelleen"}</Button>
         </div>
       )}
 
