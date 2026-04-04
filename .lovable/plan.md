@@ -1,27 +1,40 @@
 
 
-## Plan: Chỉnh timestamp 4 câu đầu cho lời chạy sớm hơn (trước nhạc)
+## Plan: Sửa lỗi "Failed to connect to AI" trong Roleplay
 
-### Vấn đề
-4 dòng đầu tiên hiện highlight **chậm hơn** so với nhạc — chữ đi sau tiếng hát. Cần đẩy timestamp sớm hơn khoảng 1-2 giây để lời xuất hiện đúng lúc hoặc hơi trước khi ca sĩ hát.
+### Nguyên nhân gốc
 
-### Thay đổi (file: `src/pages/NationalAnthem.tsx`)
+Perplexity API yêu cầu messages phải xen kẽ đúng thứ tự: `user → assistant → user → assistant...`. Hiện tại:
 
-Chỉ cập nhật timestamp 4 dòng đầu trong mảng `lyricsLines`:
+1. `startConversation` gửi 1 user message (prompt khởi tạo) nhưng chỉ lưu response assistant vào state
+2. Khi user gửi tin tiếp theo, mảng messages gửi đi là: `[assistant, user]` — bắt đầu bằng assistant → Perplexity trả lỗi 400
 
-| Dòng | Cũ (s) | Mới (s) |
-|------|--------|---------|
-| Đoàn quân Việt Nam đi | 0–3.5 | 0–2.5 |
-| Chung lòng cứu quốc | 3.5–6 | 2.5–4.5 |
-| Bước chân dồn vang trên đường gập ghềnh xa | 6–11 | 4.5–9 |
-| Cờ in máu chiến thắng mang hồn nước | 11–16 | 9–14 |
+### Thay đổi (file: `src/components/ConversationalRoleplay.tsx`)
 
-Đồng thời điều chỉnh dòng 5 để nối tiếp mượt: start từ 14 thay vì 16.
+**Sửa `startConversation`**: Lưu cả user message khởi tạo vào state, không chỉ assistant response.
 
-Các dòng 6-11 giữ nguyên hoặc dịch nhẹ tương ứng.
+Thay đổi dòng ~126:
+```tsx
+// Trước (chỉ lưu assistant)
+setMessages([{ role: "assistant", content: assistantSoFar }]);
+
+// Sau (lưu cả user prompt ban đầu + assistant)  
+const initUserMsg: Msg = { role: "user", content: `Start the roleplay...` };
+setMessages([initUserMsg, { role: "assistant", content: assistantSoFar }]);
+```
+
+**Sửa `sendMessage`**: Đảm bảo mảng messages gửi đi luôn bắt đầu bằng user message. Thêm logic sanitize trước khi gửi:
+
+```tsx
+// Đảm bảo messages xen kẽ đúng user/assistant
+const sanitized = visibleMessages.filter((m, i) => {
+  if (i === 0) return m.role === "user";
+  return m.role !== visibleMessages[i - 1].role;
+});
+```
 
 ### Phạm vi
-- 1 file duy nhất: `src/pages/NationalAnthem.tsx`
-- Chỉ thay đổi giá trị `start`/`end` trong mảng `lyricsLines`
-- Không thay đổi `LYRICS_DELAY_MS` hay logic khác
+- 1 file: `src/components/ConversationalRoleplay.tsx`
+- Không thay đổi edge function `roleplay-chat` (vẫn dùng Perplexity API)
+- Không ảnh hưởng UI
 
