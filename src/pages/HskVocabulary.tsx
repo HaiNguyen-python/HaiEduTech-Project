@@ -61,7 +61,7 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
       >
         {/* Front - Show Hanzi + Pinyin */}
         <div className="absolute inset-0 rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center gap-2" style={{ backfaceVisibility: "hidden" }}>
-          <VocabImage character={word.character} pinyin={word.pinyin} definition={word.definition.en} size="md" />
+          <HanziStrokeOrder character={word.character} size={80} />
           <h3 className="text-4xl font-bold text-foreground">{word.character}</h3>
           <p className="text-base text-primary font-medium">{word.pinyin}</p>
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
