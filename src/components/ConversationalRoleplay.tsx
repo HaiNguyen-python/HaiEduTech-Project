@@ -120,14 +120,15 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     setMessages([]);
     setIsLoading(true);
 
+    const initUserMsg: Msg = { role: "user", content: `Start the roleplay scenario. The topic/situation is: "${topic}". Set the scene and ask me the first question in character.` };
     let assistantSoFar = "";
     const upsert = (chunk: string) => {
       assistantSoFar += chunk;
-      setMessages([{ role: "assistant", content: assistantSoFar }]);
+      setMessages([initUserMsg, { role: "assistant", content: assistantSoFar }]);
     };
 
     await streamRoleplay({
-      messages: [{ role: "user", content: `Start the roleplay scenario. The topic/situation is: "${topic}". Set the scene and ask me the first question in character.` }],
+      messages: [initUserMsg],
       topic,
       situation: topic,
       lessonTitle,
@@ -165,11 +166,15 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       });
     };
 
-    // Filter out the initial "start" prompt — only send visible messages
-    const visibleMessages = updated.map(m => ({ role: m.role, content: m.content }));
+    // Sanitize: ensure alternating user/assistant starting with user
+    const allMsgs = updated.map(m => ({ role: m.role, content: m.content }));
+    const sanitized = allMsgs.filter((m, i) => {
+      if (i === 0) return m.role === "user";
+      return m.role !== allMsgs[i - 1].role;
+    });
 
     await streamRoleplay({
-      messages: visibleMessages,
+      messages: sanitized,
       topic: selectedTopic,
       situation: selectedTopic,
       lessonTitle,
