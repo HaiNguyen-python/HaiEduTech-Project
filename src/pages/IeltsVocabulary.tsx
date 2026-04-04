@@ -447,7 +447,7 @@ const IeltsVocabulary = () => {
                         {w.synonyms && w.synonyms.length > 0 && (
                           <div className="flex items-start gap-2">
                             <Layers size={20} className="mt-0.5 shrink-0" style={{ color: "#065f46" }} />
-                            <p style={{ fontSize: "0.9375rem", color: "#065f46", lineHeight: 1.6 }}>
+                            <p className="break-words" style={{ fontSize: "0.9375rem", color: "#065f46", lineHeight: 1.6, overflowWrap: "break-word" }}>
                               <span className="font-bold">Synonyms: </span>
                               {w.synonyms.map((s, i) => (
                                 <span key={i}>
