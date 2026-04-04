@@ -461,7 +461,7 @@ const IeltsVocabulary = () => {
                         {w.collocations && w.collocations.length > 0 && (
                           <div className="flex items-start gap-2">
                             <Link size={20} className="mt-0.5 shrink-0" style={{ color: "#065f46" }} />
-                            <p style={{ fontSize: "0.9375rem", color: "#065f46", lineHeight: 1.6 }}>
+                            <p className="break-words" style={{ fontSize: "0.9375rem", color: "#065f46", lineHeight: 1.6, overflowWrap: "break-word" }}>
                               <span className="font-bold">Collocations: </span>
                               {w.collocations.map((c, i) => (
                                 <span key={i}>
