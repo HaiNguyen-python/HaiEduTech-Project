@@ -1204,12 +1204,12 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
           {/* Writing hints */}
           <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-900/20 dark:border-blue-800">
             <CardContent className="p-4">
-              <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2">💡 Vinkkejä kirjoittamiseen</h4>
+              <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2">💡 {showTranslation ? "Writing Tips" : "Vinkkejä kirjoittamiseen"}</h4>
               <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                <li>Aloita tervehdyksellä ja lopeta lopputoivotuksella.</li>
-                <li>Käytä yksinkertaisia lauseita ja tuttuja sanoja.</li>
-                <li>Vastaa kaikkiin tehtävänannon kysymyksiin.</li>
-                <li>Tarkista oikeinkirjoitus ennen lähettämistä.</li>
+                <li>{showTranslation ? "Start with a greeting and end with a closing wish." : "Aloita tervehdyksellä ja lopeta lopputoivotuksella."}</li>
+                <li>{showTranslation ? "Use simple sentences and familiar words." : "Käytä yksinkertaisia lauseita ja tuttuja sanoja."}</li>
+                <li>{showTranslation ? "Answer all questions in the task prompt." : "Vastaa kaikkiin tehtävänannon kysymyksiin."}</li>
+                <li>{showTranslation ? "Check spelling before submitting." : "Tarkista oikeinkirjoitus ennen lähettämistä."}</li>
               </ul>
             </CardContent>
           </Card>
