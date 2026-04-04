@@ -62,9 +62,9 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'a' then add a circumflex (^) on top",
     strokeCount: 3,
     strokePaths: [
-      "M28,35 C28,24 12,24 12,35 C12,48 28,48 28,35",
-      "M28,24 L28,52",
-      "M14,16 L20,8 L26,16"  // circumflex
+      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",
+      "M32,24 L32,52",
+      "M12,16 L20,6 L28,16"  // circumflex (larger)
     ]
   },
   // ── b ──
