@@ -309,7 +309,8 @@ const IeltsVocabulary = () => {
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <div className="flex gap-6">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-1 min-w-0">
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2">
