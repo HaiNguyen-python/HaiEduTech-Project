@@ -142,12 +142,12 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
   {
     letter: "g", uppercase: "G", name: "giê", nameEn: "zheh", ipa: "/ɣ/",
     exampleWord: "gà", exampleMeaning: "con gà", exampleMeaningEn: "chicken",
-    strokeDescription: "Viết nét cong tròn nhỏ rồi kéo đuôi xuống dưới, lượn móc và đá lên",
-    strokeDescriptionEn: "Write a small round curve then sweep the tail down, hook and kick up",
+    strokeDescription: "Viết nét cong tròn rồi kéo đuôi xuống dưới, lượn vòng ngược lên",
+    strokeDescriptionEn: "Write a round curve then sweep tail down, loop back up",
     strokeCount: 2,
     strokePaths: [
-      "M22,24 C14,24 10,28 10,34 C10,42 14,46 22,46 C28,46 32,42 32,34 C32,28 28,24 22,24",  // smaller oval (narrower, shorter)
-      "M32,34 L32,56 C32,64 14,64 14,56 L18,50"  // descender: down, hook left, kick up
+      "M28,26 C28,24 14,24 14,34 C14,44 28,44 28,34",  // compact oval body
+      "M28,34 L28,56 C28,64 10,64 10,54 C10,48 16,46 20,48"  // descender: down, loop left, kick up
     ]
   },
   // ── h ──
@@ -255,7 +255,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeCount: 2,
     strokePaths: [
       "M20,24 C10,24 4,30 4,38 C4,46 10,52 20,52 C30,52 36,46 36,38 C36,30 30,24 20,24",
-      "M34,26 L36,18 L38,24"  // horn — small tick attached to top-right of oval
+      "M32,26 C32,22 34,18 38,16 C36,20 36,24 34,26"  // horn — smooth curve from oval top-right, curling outward then back
     ]
   },
   // ── p ──
@@ -339,7 +339,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokePaths: [
       "M10,24 L10,42 C10,52 30,52 30,42",
       "M30,24 L30,52",
-      "M30,22 L32,14 L34,22"  // horn — small tick attached to top of right stem
+      "M30,24 C30,20 32,16 36,14 C34,18 34,22 32,24"  // horn — smooth curve from stem top, curling outward then back
     ]
   },
   // ── v ──
