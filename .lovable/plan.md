@@ -1,38 +1,27 @@
 
 
-## Plan: Điều chỉnh timestamp lời bài hát khớp với video YouTube SK6rHXlKC0A
+## Plan: Chỉnh timestamp 4 câu đầu cho lời chạy sớm hơn (trước nhạc)
 
 ### Vấn đề
-Video YouTube "Tiến Quân Ca" (ID: SK6rHXlKC0A) có phần intro nhạc trước khi lời bắt đầu. Hiện tại delay cố định 3s và timestamp ước lượng chưa chính xác, cần tinh chỉnh để lời highlight đúng lúc ca sĩ hát.
+4 dòng đầu tiên hiện highlight **chậm hơn** so với nhạc — chữ đi sau tiếng hát. Cần đẩy timestamp sớm hơn khoảng 1-2 giây để lời xuất hiện đúng lúc hoặc hơi trước khi ca sĩ hát.
 
 ### Thay đổi (file: `src/pages/NationalAnthem.tsx`)
 
-**1. Cập nhật `LYRICS_DELAY_MS`** từ 3000ms lên giá trị chính xác hơn dựa trên thời điểm lời bắt đầu trong video (khoảng 5-6 giây intro nhạc).
+Chỉ cập nhật timestamp 4 dòng đầu trong mảng `lyricsLines`:
 
-**2. Điều chỉnh timestamp từng dòng** theo thời gian thực tế trong video:
+| Dòng | Cũ (s) | Mới (s) |
+|------|--------|---------|
+| Đoàn quân Việt Nam đi | 0–3.5 | 0–2.5 |
+| Chung lòng cứu quốc | 3.5–6 | 2.5–4.5 |
+| Bước chân dồn vang trên đường gập ghềnh xa | 6–11 | 4.5–9 |
+| Cờ in máu chiến thắng mang hồn nước | 11–16 | 9–14 |
 
-```
-Dòng                                          | Cũ (s)    | Mới (s)
-----------------------------------------------|-----------|----------
-Đoàn quân Việt Nam đi                         | 0–4       | 0–3.5
-Chung lòng cứu quốc                           | 4–7       | 3.5–6
-Bước chân dồn vang trên đường gập ghềnh xa    | 7–12      | 6–11
-Cờ in máu chiến thắng mang hồn nước           | 12–17     | 11–16
-Súng ngoài xa chen khúc quân hành ca           | 17–22     | 16–21
-Đường vinh quang xây xác quân thù             | 22–27     | 21–25
-Thắng gian lao cùng nhau lập chiến khu        | 27–32     | 25–30
-Vì nhân dân chiến đấu không ngừng             | 32–37     | 30–35
-Tiến mau ra sa trường                          | 37–40     | 35–38
-Tiến lên! Cùng tiến lên!                      | 40–44     | 38–43
-Nước non Việt Nam ta vững bền.                 | 44–50     | 43–50
-```
+Đồng thời điều chỉnh dòng 5 để nối tiếp mượt: start từ 14 thay vì 16.
 
-**3. Tăng `LYRICS_DELAY_MS`** lên ~5500ms (5.5 giây) để khớp phần intro nhạc trong video trước khi lời bắt đầu.
-
-**4. Cập nhật điều kiện kết thúc** trong `startLyricsTimer` từ `prev >= 50` thành `prev >= 50` (giữ nguyên vì dòng cuối end=50).
+Các dòng 6-11 giữ nguyên hoặc dịch nhẹ tương ứng.
 
 ### Phạm vi
-- Chỉ sửa 1 file: `src/pages/NationalAnthem.tsx`
-- Chỉ thay đổi dữ liệu timestamp và hằng số delay
-- Không thay đổi logic hay UI
+- 1 file duy nhất: `src/pages/NationalAnthem.tsx`
+- Chỉ thay đổi giá trị `start`/`end` trong mảng `lyricsLines`
+- Không thay đổi `LYRICS_DELAY_MS` hay logic khác
 
