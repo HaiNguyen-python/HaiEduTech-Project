@@ -1551,7 +1551,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
               className="gap-1 text-xs"
             >
               <Volume2 className="w-3.5 h-3.5" />
-              Kuuntele mallivastaus uudelleen
+              {showTranslation ? "Listen to model answer again" : "Kuuntele mallivastaus uudelleen"}
             </Button>
           </CardContent>
         </Card>
