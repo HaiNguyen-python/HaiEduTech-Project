@@ -1466,7 +1466,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
           <div className="flex items-center gap-3">
             {!recording ? (
               <Button size="lg" onClick={startRecording} className="gap-2 bg-rose-500 hover:bg-rose-600 text-lg px-6 font-bold">
-                <Mic className="w-5 h-5" /> Aloita nauhoitus
+                <Mic className="w-5 h-5" /> {showTranslation ? "Start recording" : "Aloita nauhoitus"}
               </Button>
             ) : (
               <Button size="lg" variant="destructive" onClick={stopRecording} className="gap-2 text-lg px-6 font-bold">
