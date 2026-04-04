@@ -120,14 +120,15 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
     setMessages([]);
     setIsLoading(true);
 
+    const initUserMsg: Msg = { role: "user", content: `Start the roleplay scenario. The topic/situation is: "${topic}". Set the scene and ask me the first question in character.` };
     let assistantSoFar = "";
     const upsert = (chunk: string) => {
       assistantSoFar += chunk;
-      setMessages([{ role: "assistant", content: assistantSoFar }]);
+      setMessages([initUserMsg, { role: "assistant", content: assistantSoFar }]);
     };
 
     await streamRoleplay({
-      messages: [{ role: "user", content: `Start the roleplay scenario. The topic/situation is: "${topic}". Set the scene and ask me the first question in character.` }],
+      messages: [initUserMsg],
       topic,
       situation: topic,
       lessonTitle,
