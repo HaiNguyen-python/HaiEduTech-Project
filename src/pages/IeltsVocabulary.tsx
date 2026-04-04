@@ -443,7 +443,7 @@ const IeltsVocabulary = () => {
 
                     {/* Synonyms & Collocations — mint tinted sub-container */}
                     {(w.synonyms?.length || w.collocations?.length) ? (
-                      <div <div className="mt-4 rounded-lg space-y-2 min-w-0" style={{ backgroundColor: "#ecfdf5", padding: "1rem 1.25rem", border: "1px solid #d1fae5" }}> style={{ backgroundColor: "#ecfdf5", padding: "1rem 1.25rem", border: "1px solid #d1fae5" }}>
+                      <div className="mt-4 rounded-lg space-y-2 min-w-0" style={{ backgroundColor: "#ecfdf5", padding: "1rem 1.25rem", border: "1px solid #d1fae5" }}>
                         {w.synonyms && w.synonyms.length > 0 && (
                           <div className="flex items-start gap-2">
                             <Layers size={20} className="mt-0.5 shrink-0" style={{ color: "#065f46" }} />
