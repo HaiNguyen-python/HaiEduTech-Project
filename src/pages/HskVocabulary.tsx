@@ -15,7 +15,7 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
 
-const WORDS_PER_PAGE = 24;
+const WORDS_PER_PAGE = 12;
 
 // Level color mapping for HSK levels
 const levelColors: Record<string, string> = {
@@ -408,7 +408,7 @@ const HskVocabulary = () => {
             {viewMode === "exercise" ? (
               <HskExercise words={filtered} t={t} />
             ) : viewMode === "flashcard" ? (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <AnimatePresence mode="popLayout">
                   {paginated.map(w => (
                     <motion.div key={w.character + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
@@ -418,7 +418,7 @@ const HskVocabulary = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {paginated.map((w, idx) => (
                   <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
                     {/* Large image area */}
