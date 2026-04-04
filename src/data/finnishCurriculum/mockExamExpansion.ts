@@ -556,6 +556,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 **Kohta C:** Virkailija sanoo: "Täytä lomake ja tuo tulotodistus."
 - Kysy mistä saat tulotodistuksen ja milloin päätös tulee`,
         theoryEn: `### Speaking Task 8: Applying for housing benefit at Kela (30s per part)`,
+        sampleAnswer: "Päivää! Haluaisin hakea asumistukea. Asun Helsingissä, osoitteessa Mannerheimintie 5. Vuokra on 650 euroa kuukaudessa. Olen opiskelija. Mistä saan tulotodistuksen ja milloin päätös tulee?",
         quiz: [
           { question: "'Tulotodistus' tarkoittaa...", options: ["Tax return", "Income certificate", "Bank statement", "Employment contract"], answer: 1, explanation: "'Tulotodistus' = income certificate." },
         ],
