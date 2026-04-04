@@ -421,9 +421,9 @@ const HskVocabulary = () => {
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {paginated.map((w, idx) => (
                   <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
-                    {/* Large image area */}
-                    <div className="bg-secondary/30 flex items-center justify-center p-2">
-                      <VocabImage character={w.character} pinyin={w.pinyin} definition={w.definition.en} size="xl" />
+                    {/* Stroke order area */}
+                    <div className="bg-secondary/30 flex items-center justify-center p-4">
+                      <HanziStrokeOrder character={w.character} size={100} />
                     </div>
                     <div className="p-4">
                       <div className="flex items-start justify-between gap-2 mb-2">
