@@ -1135,6 +1135,94 @@ Nähdään juhlissa!
 Haluan ilmoittaa viasta asunnossani. Kylpyhuoneen hana on vuotanut viikon ajan. Vesi tippuu koko ajan, vaikka hana on kiinni. Pyydän korjausta mahdollisimman pian, koska tilanne pahenee. Olen kotona arkisin kello 16 jälkeen ja viikonloppuisin koko päivän. Voitte soittaa minulle numeroon 040-1234567.
 
 Ystävällisin terveisin, [Nimi]`,
+  // Expansion writing tasks 6-10
+  "yki-mock-writing-6": `Hyvä isännöitsijä,
+
+Ilmoitan, että muutan pois asunnosta 1.6. Pyydän ystävällisesti vuokratakuun palautusta tililleni FI12 3456 7890 1234 56. Voin palauttaa avaimet viimeistään 31.5. Voisitteko kertoa, onko loppusiivoukselle erityisiä ohjeita? Haluan jättää asunnon hyvään kuntoon.
+
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-7": `Hyvä terveysasema,
+
+Tarvitsen reseptin uusimista. Lääke on Burana 400 mg, ja otan sitä kaksi kertaa päivässä tarvittaessa. Lääkärin nimi on tohtori Virtanen. Onko mahdollista saada e-resepti suoraan apteekkiin? Puhelinnumeroni on 040-9876543.
+
+Kiitos avustanne!
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-8": `Hei!
+
+Kurssi oli mielestäni todella hyödyllinen. Pidin erityisesti kuunteluharjoituksista ja ryhmäkeskusteluista. Opettaja selitti kielioppisäännöt selvästi ja kärsivällisesti. Vaikeinta oli kirjoitustehtävät, koska en osaa vielä pitkiä lauseita. Ehdottaisin, että kurssilla olisi enemmän kirjoitusharjoituksia. Suosittelen kurssia kaikille, jotka haluavat oppia suomea!
+
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-9": `Hyvä vuokranantaja,
+
+Haluan ilmoittaa meluongelmasta. Yläkerran naapuri soittaa kovaa musiikkia joka ilta kello 22 jälkeen. Tilanne on jatkunut jo kaksi kuukautta. Olen yrittänyt puhua naapurille, mutta tilanne ei ole parantunut. Pyydän teitä ystävällisesti puuttumaan asiaan, koska en pysty nukkumaan kunnolla.
+
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-10": `Hei opettaja!
+
+Kiitos paljon hyvästä opetuksesta! Kurssi oli todella mukava ja hyödyllinen. Opin paljon uutta sanastoa ja kielioppia. Erityisesti pidin puheharjoituksista, koska nyt uskallan puhua suomea rohkeammin. Jatkan suomen kielen opiskelua ylemmällä kurssilla syksyllä. Toivotan teille kaikkea hyvää ja aurinkoista kesää!
+
+Lämpimin terveisin, [Nimi]`,
+  // Expansion 2 writing tasks
+  "yki-mock-writing-exp2-1": `Hyvä asiakaspalvelu,
+
+Ostin verkkokaupastanne kuulokkeet 15.3. Tilaukseni numero on 12345. Valitettavasti kuulokkeet eivät toimi. Oikea kuuloke ei tuota ääntä ollenkaan. Tuote on siis viallinen. Haluaisin saada uudet kuulokkeet tai rahat takaisin. Toivon pikaista vastausta.
+
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-exp2-2": `Hei!
+
+Olen [Nimi] ja haen kahvilan myyjän työpaikkaa. Olen kiinnostunut tästä työpaikasta, koska pidän asiakaspalvelusta ja kahvista. Minulla on kahden vuoden kokemus ravintola-alalta. Osaan tehdä erikoiskahveja ja palvella asiakkaita ystävällisesti. Puhun suomea, englantia ja vietnamia. Voin aloittaa heti.
+
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-exp2-3": `Hei ystävät!
+
+Tervetuloa syntymäpäiväjuhliini! Täytän 25 vuotta ensi lauantaina 20.4. Juhlat ovat kotonani osoitteessa Hämeentie 5 kello 17 alkaen. Tarjolla on ruokaa, kakkua ja juomia. Illalla kuuntelemme musiikkia ja pelaamme pelejä. Ilmoita, pääsetkö tulemaan, viimeistään keskiviikkona!
+
+Nähdään juhlissa!
+[Nimi]`,
+  // Expansion 3 writing tasks
+  "yki-mock-writing-exp3-1": `Hei Liisa!
+
+Kiitos todella paljon, että hoidit Misse-kissaani! Lomani meni hyvin. Kävin Tukholmassa ja näin paljon kauniita paikkoja. Haluaisitko tulla kahville ensi lauantaina? Voin tuoda sinulle pienen lahjan matkalta. Kiitos vielä kerran!
+
+Terveisin, Anna`,
+  "yki-mock-writing-exp3-2": `Hei!
+
+Pidin kurssista paljon. Opettaja oli ystävällinen ja selitti asiat selvästi. Erityisesti pidin ryhmätehtävistä. Toivoisin kuitenkin enemmän puheharjoituksia. Kirjoitusharjoituksia oli riittävästi. Suosittelen kurssia kaikille, jotka haluavat oppia suomea!
+
+Ystävällisin terveisin, Minh`,
+  "yki-mock-writing-exp3-3": `Myydään punainen naisten polkupyörä. Pyörä on hyväkuntoinen, 3 vuotta vanha. Koko 26 tuumaa. Hinta 80 euroa. Voit tulla katsomaan pyörää Tampereen keskustaan arkisin klo 17 jälkeen. Ota yhteyttä: 040-1234567. Tervetuloa katsomaan!`,
+  "yki-mock-writing-exp3-4": `Hyvä vuokranantaja,
+
+Haluaisin ilmoittaa, että keittiön vesihana vuotaa. Ongelma alkoi viime maanantaina. Vesi tippuu hitaasti, mutta jatkuvasti. Voisitteko lähettää putkimiehen korjaamaan hanan? Olen kotona iltaisin kello 17 jälkeen.
+
+Ystävällisin terveisin, [Nimi]`,
+  "yki-mock-writing-exp3-5": `Hei ystävät!
+
+Tervetuloa juhlimaan kanssani! Täytän 28 vuotta perjantaina 10.5. Juhlat ovat kotonani Kalevankatu 12 kello 18 alkaen. Tarjolla on pizzaa, kakkua ja juomia. Ohjelmassa on karaokea ja lautapelejä. Vastaa viimeistään maanantaina 6.5.!
+
+Nähdään! [Nimi]`,
+};
+
+// Keywords expected per writing task type for feedback
+const WRITING_KEYWORDS: Record<string, string[]> = {
+  "yki-mock-writing-1": ["hei", "kurssi", "opettaja", "terveisin", "suomea", "tunnilla"],
+  "yki-mock-writing-2": ["opettaja", "sairas", "tunnille", "läksyjä", "terveisin", "sähköposti"],
+  "yki-mock-writing-3": ["valittaa", "ruoka", "tarjoilija", "terveisin", "pettynyt", "hyvitys"],
+  "yki-mock-writing-4": ["tervetuloa", "juhlat", "kello", "osoite", "ruokaa", "musiikki"],
+  "yki-mock-writing-5": ["isännöitsijä", "hana", "vuotaa", "korjaus", "terveisin"],
+  "yki-mock-writing-6": ["isännöitsijä", "muutan", "vuokratakuu", "avaimet", "siivous"],
+  "yki-mock-writing-7": ["resepti", "lääke", "terveysasema", "e-resepti", "terveisin"],
+  "yki-mock-writing-8": ["kurssi", "pidin", "vaikea", "ehdottaisin", "suosittelen"],
+  "yki-mock-writing-9": ["vuokranantaja", "melu", "naapuri", "puhua", "puuttumaan"],
+  "yki-mock-writing-10": ["opettaja", "kiitos", "opin", "kurssi", "terveisin"],
+  "yki-mock-writing-exp2-1": ["kuulokkeet", "viallinen", "tilaus", "takaisin", "terveisin"],
+  "yki-mock-writing-exp2-2": ["haen", "kokemus", "kahvila", "aloittaa", "terveisin"],
+  "yki-mock-writing-exp2-3": ["tervetuloa", "syntymäpäivä", "juhlat", "kello", "ilmoita"],
+  "yki-mock-writing-exp3-1": ["kiitos", "kissa", "loma", "kahville", "terveisin"],
+  "yki-mock-writing-exp3-2": ["kurssi", "pidin", "opettaja", "suosittelen", "puheharjoituksia"],
+  "yki-mock-writing-exp3-3": ["myydään", "pyörä", "hinta", "katsomaan", "yhteyttä"],
+  "yki-mock-writing-exp3-4": ["vuokranantaja", "hana", "vuotaa", "korjaamaan", "terveisin"],
+  "yki-mock-writing-exp3-5": ["tervetuloa", "syntymäpäivä", "juhlat", "kello", "vastaa"],
 };
 
 const getSampleAnswer = (lessonId: string): string => {
@@ -1143,6 +1231,62 @@ const getSampleAnswer = (lessonId: string): string => {
 Tässä on esimerkkivastaus A2-tasolla. Muista käyttää yksinkertaisia lauseita, vastata kaikkiin kysymyksiin ja tarkistaa oikeinkirjoitus. Hyvä vastaus on 50–80 sanaa pitkä.
 
 Onnea harjoitteluun!`;
+};
+
+// Analyze writing and provide structured feedback
+const analyzeWriting = (text: string, lessonId: string, showTranslation: boolean) => {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  const wordCount = words.length;
+  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+  const avgSentenceLen = sentences.length > 0 ? Math.round(wordCount / sentences.length) : 0;
+  
+  // Check greeting & closing
+  const lowerText = text.toLowerCase();
+  const hasGreeting = /^(hei|hyvä|terve|moi|arvoisa)/i.test(text.trim());
+  const hasClosing = /(terveisin|ystävällisin|nähdään|kiitos)/i.test(lowerText);
+  
+  // Keyword matching
+  const keywords = WRITING_KEYWORDS[lessonId] || [];
+  const foundKeywords = keywords.filter(kw => lowerText.includes(kw.toLowerCase()));
+  const missingKeywords = keywords.filter(kw => !lowerText.includes(kw.toLowerCase()));
+  const keywordScore = keywords.length > 0 ? Math.round((foundKeywords.length / keywords.length) * 100) : 0;
+  
+  // Word count score
+  let lengthScore: "good" | "short" | "long" = "good";
+  if (wordCount < 30) lengthScore = "short";
+  else if (wordCount > 100) lengthScore = "long";
+  
+  // Overall score (simple heuristic)
+  let totalPoints = 0;
+  const maxPoints = 5;
+  if (hasGreeting) totalPoints += 1;
+  if (hasClosing) totalPoints += 1;
+  if (wordCount >= 40 && wordCount <= 90) totalPoints += 1;
+  if (keywordScore >= 60) totalPoints += 1;
+  if (sentences.length >= 3) totalPoints += 1;
+  
+  const overallLabel = totalPoints >= 4
+    ? (showTranslation ? "Excellent — A2+ level! 🌟" : "Erinomainen — A2+ taso! 🌟")
+    : totalPoints >= 3
+    ? (showTranslation ? "Good — A2 level 👍" : "Hyvä — A2-taso 👍")
+    : totalPoints >= 2
+    ? (showTranslation ? "Okay — Keep improving 💪" : "Ihan ok — Harjoittele lisää 💪")
+    : (showTranslation ? "Needs work — Review the model answer 📖" : "Tarvitsee harjoitusta — Katso mallivastaus 📖");
+
+  return {
+    wordCount,
+    sentences: sentences.length,
+    avgSentenceLen,
+    hasGreeting,
+    hasClosing,
+    foundKeywords,
+    missingKeywords,
+    keywordScore,
+    lengthScore,
+    totalPoints,
+    maxPoints,
+    overallLabel,
+  };
 };
 
 const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
