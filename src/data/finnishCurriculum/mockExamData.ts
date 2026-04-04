@@ -555,6 +555,7 @@ Time: 20 minutes | Word count: 50–80 words`,
         titleEn: "Describe an Image",
         icon: "🖼️",
         level: "A2",
+        sampleAnswer: "Kuvassa on perhe puistossa. Isä pelaa jalkapalloa pojan kanssa nurmikolla. Äiti istuu penkillä ja lukee kirjaa. Pieni tyttö leikkii koiran kanssa. Sää on aurinkoinen ja lämmin. Mielestäni vuodenaika on kesä, koska puut ovat vihreitä ja ihmiset ovat ulkona.",
         theory: `### Puhumistehtävä 3: Kuvaile kuvaa
 
 **Ohje:** Sinulla on **40 sekuntia** aikaa kuvailla kuvaa.
