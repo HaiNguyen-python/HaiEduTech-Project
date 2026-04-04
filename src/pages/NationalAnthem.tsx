@@ -20,7 +20,7 @@ const lyricsLines = [
   { text: "Súng ngoài xa chen khúc quân hành ca", start: 14.8, end: 19.8, icon: "🎵" },
   { text: "Đường vinh quang xây xác quân thù", start: 19.8, end: 23.8, icon: "🏆" },
   { text: "Thắng gian lao cùng nhau lập chiến khu", start: 25.3, end: 30.3, icon: "⛰️" },
-  { text: "Vì nhân dân chiến đấu không ngừng", start: 30.3, end: 35.3, icon: "✊" },
+  { text: "Vì nhân dân chiến đấu không ngừng", start: 30.5, end: 35.5, icon: "✊" },
   { text: "Tiến mau ra sa trường", start: 35, end: 38, icon: "🔥" },
   { text: "Tiến lên! Cùng tiến lên!", start: 38.5, end: 43.5, icon: "🎺" },
   { text: "Nước non Việt Nam ta vững bền.", start: 43.5, end: 50.5, icon: "⭐" },
