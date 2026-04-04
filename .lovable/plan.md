@@ -1,36 +1,34 @@
 
 
-## Plan: Sửa lại stroke guide cho 8 chữ cái a, ă, â, ô, ơ, ư, đ, d
+## Plan: Sửa stroke guide cho 5 chữ ă, g, i, ơ, ư
 
-### Vấn đề hiện tại
+### Vấn đề cụ thể
 
-Các đường SVG path hiện tại có vấn đề về hình dạng:
-- **a, ă, â**: Oval body dùng 2 đoạn cubic bezier tạo hình trứng méo, không giống chữ 'a' viết tay thực tế. Cần vẽ oval tròn đều hơn dùng 4 đoạn bezier (tiêu chuẩn vẽ ellipse bằng SVG).
-- **d**: Cùng oval như 'a' nên cũng bị méo. Stem ascender cần kết nối tự nhiên hơn với oval.
-- **đ**: Kế thừa lỗi từ 'd', thêm nét gạch ngang vị trí hợp lý hơn.
-- **ô**: Oval dùng quá nhiều control point tạo hình bất đối xứng. Cần vẽ lại bằng ellipse chuẩn.
-- **ơ**: Kế thừa lỗi từ 'ô', dấu móc (horn) cần rõ hơn.
-- **ư**: Dấu móc (horn) quá nhỏ, khó thấy.
+Dựa trên code hiện tại (viewBox `0 0 40 70`):
 
-### Cách sửa
+1. **ă**: Dấu breve `M13,16 Q20,8 27,16` — cong **lên** (concave up) giống circumflex. Breve (˘) phải cong **xuống** (concave down) → cần đổi thành `Q20,22` thay vì `Q20,8`.
 
-**File thay đổi:** `src/data/vietnamese/alphabetData.ts`
+2. **g**: Oval body dùng chung template 4-bezier nhưng descender `M32,38 L32,62 C32,68 16,68 16,62` bắt đầu từ giữa oval (y=38) thay vì từ cạnh phải dưới. Chữ 'g' viết tay có descender bắt đầu từ bên phải oval tại baseline, uốn cong sang trái tạo móc. Cần vẽ lại descender tự nhiên hơn.
 
-Vẽ lại strokePaths cho 8 chữ:
+3. **i**: Chấm `M19,16 L21,16` chỉ dài 2px — quá nhỏ, gần như không thấy. Cần thay bằng hình tròn nhỏ (circle path) hoặc đường dài hơn với stroke-linecap round.
 
-1. **Oval chuẩn cho a/ă/â/d/đ**: Dùng 4 đoạn cubic bezier tạo ellipse đều — `M20,24 C9,24 4,32 4,38 C4,44 9,52 20,52 C31,52 36,44 36,38 C36,32 31,24 20,24` rồi dịch sang trái cho khớp stem bên phải.
+4. **ơ**: Horn `M34,22 C36,14 42,14 40,24` — nằm ngoài viewBox (x=42 > 40). Cần dịch horn vào trong viewBox và vẽ rõ hơn, dạng nét cong ngắn nhô lên từ góc trên phải oval.
 
-2. **Oval chuẩn cho o/ô/ơ**: Dùng cùng kỹ thuật 4-bezier ellipse, căn giữa viewBox.
+5. **ư**: Horn `M30,18 C33,10 39,12 37,22` — tương tự ơ, vượt ra ngoài viewBox. Cần điều chỉnh vào bên trong và phóng to.
 
-3. **Dấu phụ (diacritics)**: Phóng to dấu breve (˘), circumflex (^), horn (ơ/ư) — tăng kích thước khoảng 30% và điều chỉnh vị trí y để không bị quá gần thân chữ.
+### Thay đổi cụ thể
 
-4. **Chữ d vs a**: Phân biệt rõ — 'a' stem từ y=24→52, 'd' stem từ y=8→52. Oval của 'd' nằm ở nửa dưới stem.
+**File:** `src/data/vietnamese/alphabetData.ts`
 
-5. **Chữ đ**: Nét gạch ngang dịch lên vị trí y=18-20 (giữa ascender), dài hơn để dễ thấy.
+| Chữ | Nét sửa | Path mới |
+|-----|---------|----------|
+| ă | Breve phải cong xuống (˘) thay vì cong lên (^) | `M12,14 Q20,22 28,14` |
+| g | Descender bắt đầu từ baseline bên phải, uốn cong sang trái có móc | `M32,42 L32,60 C32,68 12,68 12,60` |
+| i | Chấm tròn rõ hơn — dùng circle path | `M20,16 A1.5,1.5 0 1,1 20,15.99 Z` hoặc tăng độ dài `M18,16 L22,16` |
+| ơ | Horn dịch vào trong viewBox, rõ hơn | `M33,24 C35,16 39,18 37,24` (giữ x < 40) |
+| ư | Horn dịch vào trong viewBox, phóng to | `M30,20 C32,12 38,14 36,22` |
 
-6. **Dấu horn cho ơ, ư**: Tăng kích thước curve, dùng stroke dày hơn để rõ ràng.
+### Không thay đổi file khác
 
-### Chi tiết kỹ thuật
-
-Chỉ thay đổi mảng `strokePaths` trong `alphabetData.ts` cho 8 entries. Không thay đổi component render hay file khác.
+Chỉ sửa `strokePaths` cho 5 entry trong `alphabetData.ts`.
 
