@@ -36,10 +36,10 @@ import historyBg3 from "@/assets/history-bg-3.jpg";
 import historyBg4 from "@/assets/history-bg-4.jpg";
 
 const historyBackgrounds: Record<string, string> = {
-  "month-1": historyBg1, // Trống đồng Đông Sơn
-  "month-2": historyBg2, // Văn Miếu Quốc Tử Giám
-  "month-3": historyBg3, // Lăng Chủ tịch & cờ đỏ sao vàng
-  "month-4": historyBg4, // Skyline TP.HCM hiện đại
+  "hist-month-1": historyBg1, // Trống đồng Đông Sơn
+  "hist-month-2": historyBg2, // Văn Miếu Quốc Tử Giám
+  "hist-month-3": historyBg3, // Lăng Chủ tịch & cờ đỏ sao vàng
+  "hist-month-4": historyBg4, // Skyline TP.HCM hiện đại
 };
 
 // Icon mapping for each history lesson
@@ -349,7 +349,7 @@ const Vietnamese = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+                    className="border border-border rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
                   >
                     <div className={`bg-gradient-to-r ${month.color} p-4`}>
                       <div className="flex items-center gap-2 text-white">
@@ -357,14 +357,13 @@ const Vietnamese = () => {
                         <h3 className="font-bold text-white">{t(month.title, month.titleEn)}</h3>
                       </div>
                     </div>
-                    <div className="p-4 relative overflow-hidden">
-                      {/* Blurred background image */}
+                    <div className="p-4 relative overflow-hidden min-h-[120px]">
+                      {/* Background image for historical period */}
                       {historyBackgrounds[month.id] && (
-                        <img
-                          src={historyBackgrounds[month.id]}
-                          alt=""
-                          className="absolute inset-0 w-full h-full object-cover opacity-[0.12] dark:opacity-[0.15] pointer-events-none"
-                          loading="lazy"
+                        <div
+                          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-[0.25] dark:opacity-[0.20] pointer-events-none z-0"
+                          style={{ backgroundImage: `url(${historyBackgrounds[month.id]})` }}
+                          aria-hidden="true"
                         />
                       )}
                       <div className="relative z-10">
@@ -377,7 +376,7 @@ const Vietnamese = () => {
                             <Link
                               key={lesson.id}
                               to={`/learn-vietnamese/history/${lesson.id}`}
-                              className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors mb-2"
+                              className="flex items-center justify-between p-3 rounded-lg bg-background/40 backdrop-blur-sm hover:bg-background/60 transition-colors mb-2 border border-border/30"
                             >
                               <div className="flex items-center gap-2.5">
                                 <LessonIcon className="w-4 h-4 text-primary shrink-0" />
