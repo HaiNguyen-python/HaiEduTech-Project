@@ -1,34 +1,41 @@
 
+Mục tiêu
+- Sửa lại riêng 3 chữ `ơ`, `ư`, `g` trong stroke guide để nhìn tự nhiên hơn, bám sát nét viết tay phổ thông, không còn cảm giác rời rạc hoặc méo form.
 
-## Plan: Sửa stroke guide cho 5 chữ ă, g, i, ơ, ư
+Phạm vi thay đổi
+- File chính: `src/data/vietnamese/alphabetData.ts`
+- Không đổi UI/component render, không đổi tốc độ animation ở bước này.
 
-### Vấn đề cụ thể
+Cách triển khai
+1. Sửa `ơ`
+   - Vẽ lại nét móc để bắt đầu sát mép trên-phải của thân `o`, không còn “bay” ra ngoài.
+   - Thu gọn độ cong của móc và đặt lại điểm neo để móc nhìn liền mạch với thân chữ.
 
-Dựa trên code hiện tại (viewBox `0 0 40 70`):
+2. Sửa `ư`
+   - Giữ form `u` hiện có, nhưng dời nét móc bám sát đầu nét sổ phải.
+   - Làm móc gọn, rõ, ngắn hơn và ôm sát thân chữ thay vì tách rời.
 
-1. **ă**: Dấu breve `M13,16 Q20,8 27,16` — cong **lên** (concave up) giống circumflex. Breve (˘) phải cong **xuống** (concave down) → cần đổi thành `Q20,22` thay vì `Q20,8`.
+3. Sửa `g`
+   - Không dùng bụng to kiểu oval chung như hiện tại.
+   - Thu nhỏ bụng để chữ `g` rõ form hơn.
+   - Vẽ lại nét thứ hai: đi xuống dưới baseline, lượn thành đuôi rồi đá ngược lên trên ở điểm kết thúc, tránh cảm giác bỏ lửng phía dưới.
 
-2. **g**: Oval body dùng chung template 4-bezier nhưng descender `M32,38 L32,62 C32,68 16,68 16,62` bắt đầu từ giữa oval (y=38) thay vì từ cạnh phải dưới. Chữ 'g' viết tay có descender bắt đầu từ bên phải oval tại baseline, uốn cong sang trái tạo móc. Cần vẽ lại descender tự nhiên hơn.
+4. Rà soát lại mô tả nét viết
+   - Nếu cần, chỉnh nhẹ `strokeDescription` của `g` để khớp với nét kết thúc mới.
 
-3. **i**: Chấm `M19,16 L21,16` chỉ dài 2px — quá nhỏ, gần như không thấy. Cần thay bằng hình tròn nhỏ (circle path) hoặc đường dài hơn với stroke-linecap round.
+Chi tiết kỹ thuật
+- Giữ nguyên hệ tọa độ `viewBox 0 0 40 70`.
+- Chỉ sửa `strokePaths` cho 3 entry: `g`, `ơ`, `ư`.
+- Các path mới sẽ bám theo các guide line hiện có:
+  - x-height khoảng `y=24`
+  - baseline khoảng `y=52`
+  - descender không vượt quá vùng dưới `y=65`
+- Ưu tiên form chữ viết tay 1 tầng, đặc biệt với `g`.
 
-4. **ơ**: Horn `M34,22 C36,14 42,14 40,24` — nằm ngoài viewBox (x=42 > 40). Cần dịch horn vào trong viewBox và vẽ rõ hơn, dạng nét cong ngắn nhô lên từ góc trên phải oval.
-
-5. **ư**: Horn `M30,18 C33,10 39,12 37,22` — tương tự ơ, vượt ra ngoài viewBox. Cần điều chỉnh vào bên trong và phóng to.
-
-### Thay đổi cụ thể
-
-**File:** `src/data/vietnamese/alphabetData.ts`
-
-| Chữ | Nét sửa | Path mới |
-|-----|---------|----------|
-| ă | Breve phải cong xuống (˘) thay vì cong lên (^) | `M12,14 Q20,22 28,14` |
-| g | Descender bắt đầu từ baseline bên phải, uốn cong sang trái có móc | `M32,42 L32,60 C32,68 12,68 12,60` |
-| i | Chấm tròn rõ hơn — dùng circle path | `M20,16 A1.5,1.5 0 1,1 20,15.99 Z` hoặc tăng độ dài `M18,16 L22,16` |
-| ơ | Horn dịch vào trong viewBox, rõ hơn | `M33,24 C35,16 39,18 37,24` (giữ x < 40) |
-| ư | Horn dịch vào trong viewBox, phóng to | `M30,20 C32,12 38,14 36,22` |
-
-### Không thay đổi file khác
-
-Chỉ sửa `strokePaths` cho 5 entry trong `alphabetData.ts`.
-
+Kiểm tra sau khi sửa
+- Mở `/learn-vietnamese/alphabet` và replay từng chữ `ơ`, `ư`, `g`.
+- Xác nhận:
+  1. nét móc của `ơ` và `ư` bám sát thân chữ;
+  2. `g` có bụng nhỏ hơn, nhìn rõ là chữ `g`;
+  3. nét cuối của `g` kết thúc hướng lên trên, không dừng lửng ở phía dưới;
+  4. không có nét nào bị lệch khỏi khung hoặc chạm mép viewBox.
