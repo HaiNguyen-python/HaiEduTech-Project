@@ -134,8 +134,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'e' then add a circumflex (^) on top",
     strokeCount: 2,
     strokePaths: [
-      "M10,36 L28,36 C28,24 12,24 12,36 C12,50 28,52 28,46",
-      "M14,16 L20,8 L26,16"
+      "M8,38 L30,38 C30,28 20,24 14,24 C8,24 4,30 4,38 C4,48 10,52 20,52 C26,52 30,50 30,46",
+      "M12,18 L20,8 L28,18"  // circumflex ^
     ]
   },
   // ── g ──
