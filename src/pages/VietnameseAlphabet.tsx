@@ -294,7 +294,7 @@ const VietnameseAlphabet = () => {
                       {l.uppercase}
                     </span>
                     <span className="text-lg text-muted-foreground">{l.letter}</span>
-                    <span className="text-[10px] text-muted-foreground mt-0.5">{l.ipa}</span>
+                    
                   </motion.button>
                 ))}
               </div>
