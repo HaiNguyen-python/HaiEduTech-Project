@@ -2584,7 +2584,7 @@ const YkiDashboard = () => {
                     <VocabMasteryLeaderboard subject="finnish" currentCount={masteredWords.length} label="🏆 Sanasto — BXH" />
                   </div>
                 )}
-              )}
+              )
               </>
             )}
             </div>
