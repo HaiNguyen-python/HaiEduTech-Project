@@ -60,6 +60,12 @@ const ConversationalLessonView = () => {
   const lesson = lessonId ? getConvLessonById(lessonId) : null;
   const pillar = lessonId ? getPillarByLessonId(lessonId) : null;
 
+  // Reset listening state when switching lessons
+  useEffect(() => {
+    setListeningAnswers({});
+    setListeningRevealed(false);
+  }, [lessonId]);
+
   useEffect(() => {
     if (lesson && pillar && hasAccess) {
       logTopicChoice(lesson.id, pillar.id);

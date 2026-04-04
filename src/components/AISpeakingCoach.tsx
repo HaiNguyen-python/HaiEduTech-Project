@@ -167,6 +167,8 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
 
   const recognitionRef = useRef<any>(null);
   const audioVisualizerRef = useRef<number>(0);
+  const manualStopRef = useRef(false);
+  const accumulatedTranscriptRef = useRef("");
 
   // Reset all state when language changes
   useEffect(() => {
