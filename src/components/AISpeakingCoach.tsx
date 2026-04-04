@@ -167,6 +167,8 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
 
   const recognitionRef = useRef<any>(null);
   const audioVisualizerRef = useRef<number>(0);
+  const manualStopRef = useRef(false);
+  const accumulatedTranscriptRef = useRef("");
 
   // Reset all state when language changes
   useEffect(() => {
@@ -186,6 +188,8 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     setEarnedBadges(loadBadges(language));
     setThemeScores(loadThemeScores(language));
     lastProcessedTranscriptRef.current = "";
+    manualStopRef.current = false;
+    accumulatedTranscriptRef.current = "";
     // Stop any active recognition
     if (recognitionRef.current) {
       try { recognitionRef.current.abort(); } catch {}
@@ -216,9 +220,12 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     const recognition = new SpeechRecognition();
 
     recognition.lang = config.speechLang;
-    recognition.continuous = false;
+    recognition.continuous = true;
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
+
+    accumulatedTranscriptRef.current = "";
+    manualStopRef.current = false;
 
     recognition.onstart = () => {
       setIsRecording(true);
@@ -237,12 +244,24 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         }
       }
 
+      accumulatedTranscriptRef.current = finalTranscript;
       setTranscript(finalTranscript || interimTranscript);
     };
 
     recognition.onend = () => {
-      setIsRecording(false);
       setIsListening(false);
+      // Only grade if user manually stopped
+      if (manualStopRef.current) {
+        // Use accumulated transcript if current transcript is interim
+        if (accumulatedTranscriptRef.current) {
+          setTranscript(accumulatedTranscriptRef.current);
+        }
+        setIsRecording(false);
+      } else {
+        // Auto-ended (e.g. silence) - restart if still recording
+        // This keeps listening until user clicks Stop
+        try { recognition.start(); } catch {}
+      }
     };
 
     recognition.onerror = (event: any) => {
@@ -263,6 +282,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
 
   // Stop recording and process results
   const stopRecognition = useCallback(() => {
+    manualStopRef.current = true;
     if (recognitionRef.current) {
       recognitionRef.current.stop();
     }
