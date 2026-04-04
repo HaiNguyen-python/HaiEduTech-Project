@@ -1,26 +1,38 @@
 
 
-## Plan: Thay 4 hình nền lịch sử bằng hình phù hợp hơn
+## Plan: Thêm audio và mở rộng ca dao tục ngữ
 
 ### Hiện trạng
-Code đã có sẵn hệ thống `historyBackgrounds` với 4 ảnh Unsplash hiển thị mờ (opacity 8%) phía sau các ô bài học. Tuy nhiên các ảnh hiện tại có thể không load được hoặc không đủ liên quan đến nội dung.
+- `FolkloreCardGrid.tsx` hiển thị 24 ca dao/tục ngữ (lọc bỏ truyện cổ) từ `folkloreItems` trong `gameData.ts` (30 items, 5 là truyện cổ = 25 còn lại)
+- Chưa có nút nghe audio cho từng câu
+- Dữ liệu hiện có 30 items, cần thêm nhiều hơn
 
-### Thay đổi (file: `src/pages/Vietnamese.tsx`)
+### Thay đổi
 
-**Thay 4 URL ảnh Unsplash** bằng các ảnh phù hợp hơn với từng giai đoạn:
+**1. Thêm nút audio vào mỗi card (file: `src/components/FolkloreCardGrid.tsx`)**
+- Thêm nút `Volume2` (lucide icon) ở góc trên phải mỗi card
+- Sử dụng Web Speech API (`SpeechSynthesisUtterance` với `lang: "vi-VN"`, rate 0.6) giống pattern đã dùng trong `FolkloreLibrary.tsx`
+- Thêm state `isSpeaking` + `speakingId` để highlight card đang phát
+- Thêm nút "Nghe tất cả" ở header để phát tuần tự tất cả các câu
 
-| Card | Giai đoạn | Ảnh mới |
-|------|-----------|---------|
-| month-1 | Early Kingdoms (Hùng Vương, Âu Lạc, Đông Sơn) | Trống đồng Đông Sơn — biểu tượng văn minh cổ đại |
-| month-2 | Golden Dynasties (Lý, Trần, Lê) | Văn Miếu Quốc Tử Giám — biểu tượng thời kỳ hoàng kim |
-| month-3 | Modern History (Tây Sơn, Pháp thuộc, Hồ Chí Minh) | Lăng Chủ tịch / cờ đỏ sao vàng — biểu tượng độc lập |
-| month-4 | Contemporary Vietnam (Đổi Mới, hội nhập) | Skyline TP.HCM hiện đại — biểu tượng phát triển |
+**2. Thêm 10 ca dao tục ngữ mới (file: `src/data/vietnamese/gameData.ts`)**
+- Thêm các câu ca dao tục ngữ phổ biến chưa có:
+  - "Có đức mặc sức mà ăn" (tục ngữ)
+  - "Tay làm hàm nhai, tay quai miệng trễ" (tục ngữ)
+  - "Kiến tha lâu cũng đầy tổ" (tục ngữ)
+  - "Ai ơi bưng bát cơm đầy" (ca dao)
+  - "Nhiễu điều phủ lấy giá gương" (ca dao)
+  - "Con người có tổ có tông" (tục ngữ)
+  - "Cái nết đánh chết cái đẹp" (tục ngữ)
+  - "Đất lành chim đậu" (tục ngữ)
+  - "Trăm hay không bằng tay quen" (tục ngữ)
+  - "Bầu ơi thương lấy bí cùng" (ca dao)
 
-**Tăng opacity nhẹ** từ `0.08` lên `0.12` (dark: `0.15`) để hình nền rõ hơn một chút nhưng vẫn không ảnh hưởng đến text.
+**3. Cập nhật imageMap** — các item mới sẽ không có ảnh minh họa, card vẫn hiển thị bình thường chỉ với text (đã có logic `{imageMap[item.id] && ...}`)
 
 ### Chi tiết kỹ thuật
-- Chỉ thay 4 URL trong object `historyBackgrounds` (dòng 33-38)
-- Sử dụng ảnh Unsplash với keyword chính xác hơn, đảm bảo load được
-- Cập nhật class opacity trên thẻ `<img>` (dòng 361)
-- Không thay đổi layout hay logic khác
+- Pattern audio: copy từ `FolkloreLibrary.tsx` — `useCallback`, `speechSynthesis.cancel()`, state tracking
+- Nút audio nhỏ gọn (icon button) không chiếm nhiều không gian
+- ID mới: `folk-31` đến `folk-40`
+- Không cần thay đổi `FolkloreItem` type — dữ liệu mới sử dụng cùng cấu trúc
 
