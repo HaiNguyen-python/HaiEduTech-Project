@@ -449,6 +449,36 @@ const finnishThemes: SpeakingTheme[] = [
       { id: "fi-tyo10", text: "Työvoimapula on haaste monilla aloilla, ja maahanmuuttajien työpanos on yhä tärkeämpää Suomen taloudelle.", translation: "Thiếu hụt lao động là thách thức ở nhiều ngành, và đóng góp lao động của người nhập cư ngày càng quan trọng cho nền kinh tế Phần Lan.", difficulty: "hard", theme: "tyo" },
     ],
   },
+  {
+    id: "fi-opiskelu", name: "Opiskelu", nameVi: "Học tập & Giáo dục", icon: "🎓",
+    sentences: [
+      { id: "fi-op1", text: "Opiskelen suomea kielikurssilla.", translation: "Tôi học tiếng Phần Lan ở khóa học ngôn ngữ.", difficulty: "easy", theme: "opiskelu" },
+      { id: "fi-op2", text: "Milloin tentit alkavat?", translation: "Khi nào kỳ thi bắt đầu?", difficulty: "easy", theme: "opiskelu" },
+      { id: "fi-op3", text: "Tarvitsen lisää aikaa tämän tehtävän tekemiseen.", translation: "Tôi cần thêm thời gian để làm bài tập này.", difficulty: "easy", theme: "opiskelu" },
+      { id: "fi-op4", text: "Kirjastossa on hiljaista ja siellä voi keskittyä hyvin.", translation: "Thư viện yên tĩnh và có thể tập trung tốt ở đó.", difficulty: "medium", theme: "opiskelu" },
+      { id: "fi-op5", text: "Opettaja selittää kieliopin selkeästi ja kärsivällisesti.", translation: "Giáo viên giải thích ngữ pháp rõ ràng và kiên nhẫn.", difficulty: "medium", theme: "opiskelu" },
+      { id: "fi-op6", text: "Haluaisin ilmoittautua jatkokurssille ensi lukukaudeksi.", translation: "Tôi muốn đăng ký khóa nâng cao cho học kỳ sau.", difficulty: "medium", theme: "opiskelu" },
+      { id: "fi-op7", text: "Ryhmätyöskentely auttaa oppimaan uusia näkökulmia muilta opiskelijoilta.", translation: "Làm việc nhóm giúp học các góc nhìn mới từ sinh viên khác.", difficulty: "medium", theme: "opiskelu" },
+      { id: "fi-op8", text: "Kotouttamiskoulutus tarjoaa maahanmuuttajille kieliopintoja ja yhteiskuntatietoutta.", translation: "Đào tạo hội nhập cung cấp cho người nhập cư các khóa học ngôn ngữ và kiến thức xã hội.", difficulty: "hard", theme: "opiskelu" },
+      { id: "fi-op9", text: "Suomen koulutusjärjestelmä on tunnettu maailmanlaajuisesti tasa-arvoisuudestaan ja korkeasta laadustaan.", translation: "Hệ thống giáo dục Phần Lan nổi tiếng toàn cầu về sự bình đẳng và chất lượng cao.", difficulty: "hard", theme: "opiskelu" },
+      { id: "fi-op10", text: "Elinikäinen oppiminen ja ammatillinen kehittyminen ovat välttämättömiä nopeasti muuttuvassa yhteiskunnassa ja työelämässä.", translation: "Học tập suốt đời và phát triển chuyên môn là điều cần thiết trong xã hội và môi trường làm việc thay đổi nhanh chóng.", difficulty: "hard", theme: "opiskelu" },
+    ],
+  },
+  {
+    id: "fi-vapaa-aika", name: "Vapaa-aika", nameVi: "Giải trí & Sở thích", icon: "🎉",
+    sentences: [
+      { id: "fi-va1", text: "Tykkään pelata jalkapalloa.", translation: "Tôi thích chơi bóng đá.", difficulty: "easy", theme: "vapaa-aika" },
+      { id: "fi-va2", text: "Käyn uimassa kerran viikossa.", translation: "Tôi đi bơi một lần mỗi tuần.", difficulty: "easy", theme: "vapaa-aika" },
+      { id: "fi-va3", text: "Luen mielelläni romaaneja iltaisin.", translation: "Tôi thích đọc tiểu thuyết vào buổi tối.", difficulty: "easy", theme: "vapaa-aika" },
+      { id: "fi-va4", text: "Viikonloppuisin käymme usein mökillä järven rannalla.", translation: "Cuối tuần chúng tôi thường đi nhà nghỉ bên hồ.", difficulty: "medium", theme: "vapaa-aika" },
+      { id: "fi-va5", text: "Pidän valokuvaamisesta ja matkustamisesta uusiin paikkoihin.", translation: "Tôi thích chụp ảnh và du lịch đến những nơi mới.", difficulty: "medium", theme: "vapaa-aika" },
+      { id: "fi-va6", text: "Harrastatko jotain urheilulajia tai liikuntaa säännöllisesti?", translation: "Bạn có chơi môn thể thao hay tập thể dục thường xuyên không?", difficulty: "medium", theme: "vapaa-aika" },
+      { id: "fi-va7", text: "Kesällä tykkään grillailla ja viettää aikaa ulkona ystävien kanssa.", translation: "Vào mùa hè tôi thích nướng thịt và dành thời gian ngoài trời với bạn bè.", difficulty: "medium", theme: "vapaa-aika" },
+      { id: "fi-va8", text: "Suomalaiset harrastavat paljon luontoliikuntaa kuten hiihtoa, retkeilyä ja marjastusta.", translation: "Người Phần Lan rất thích các hoạt động ngoài trời như trượt tuyết, đi bộ đường dài và hái quả.", difficulty: "hard", theme: "vapaa-aika" },
+      { id: "fi-va9", text: "Musiikkifestivaalit keräävät joka kesä tuhansia kävijöitä eri puolilta Suomea ja ulkomailta.", translation: "Các lễ hội âm nhạc thu hút hàng nghìn khách mỗi mùa hè từ khắp Phần Lan và nước ngoài.", difficulty: "hard", theme: "vapaa-aika" },
+      { id: "fi-va10", text: "Vapaa-ajan viettäminen monipuolisesti edistää henkistä hyvinvointia ja auttaa palautumaan työn aiheuttamasta stressistä.", translation: "Dành thời gian rảnh đa dạng thúc đẩy sức khỏe tinh thần và giúp phục hồi từ căng thẳng do công việc.", difficulty: "hard", theme: "vapaa-aika" },
+    ],
+  },
 ];
 
 // ---- CHINESE ----
