@@ -1470,7 +1470,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
               </Button>
             ) : (
               <Button size="lg" variant="destructive" onClick={stopRecording} className="gap-2 text-lg px-6 font-bold">
-                <Square className="w-5 h-5" /> Lopeta ({timeLeft}s)
+                <Square className="w-5 h-5" /> {showTranslation ? "Stop" : "Lopeta"} ({timeLeft}s)
               </Button>
             )}
           </div>
