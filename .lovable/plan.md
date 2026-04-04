@@ -1,41 +1,28 @@
 
-Mục tiêu
-- Sửa lại riêng 3 chữ `ơ`, `ư`, `g` trong stroke guide để nhìn tự nhiên hơn, bám sát nét viết tay phổ thông, không còn cảm giác rời rạc hoặc méo form.
 
-Phạm vi thay đổi
-- File chính: `src/data/vietnamese/alphabetData.ts`
-- Không đổi UI/component render, không đổi tốc độ animation ở bước này.
+## Plan: Thay Stroke Guide animation bằng nét đứt hướng dẫn viết
 
-Cách triển khai
-1. Sửa `ơ`
-   - Vẽ lại nét móc để bắt đầu sát mép trên-phải của thân `o`, không còn “bay” ra ngoài.
-   - Thu gọn độ cong của móc và đặt lại điểm neo để móc nhìn liền mạch với thân chữ.
+### Thay đổi
 
-2. Sửa `ư`
-   - Giữ form `u` hiện có, nhưng dời nét móc bám sát đầu nét sổ phải.
-   - Làm móc gọn, rõ, ngắn hơn và ôm sát thân chữ thay vì tách rời.
+Thay thế component `StrokeAnimation` (dùng `motion.path` animate pathLength) bằng một component mới hiển thị chữ cái dưới dạng **nét đứt (dashed lines)** tĩnh — giống như vở tập viết, người học nhìn thấy hình dạng chữ bằng nét đứt và có thể tô theo.
 
-3. Sửa `g`
-   - Không dùng bụng to kiểu oval chung như hiện tại.
-   - Thu nhỏ bụng để chữ `g` rõ form hơn.
-   - Vẽ lại nét thứ hai: đi xuống dưới baseline, lượn thành đuôi rồi đá ngược lên trên ở điểm kết thúc, tránh cảm giác bỏ lửng phía dưới.
+### Chi tiết
 
-4. Rà soát lại mô tả nét viết
-   - Nếu cần, chỉnh nhẹ `strokeDescription` của `g` để khớp với nét kết thúc mới.
+**File: `src/pages/VietnameseAlphabet.tsx`**
 
-Chi tiết kỹ thuật
-- Giữ nguyên hệ tọa độ `viewBox 0 0 40 70`.
-- Chỉ sửa `strokePaths` cho 3 entry: `g`, `ơ`, `ư`.
-- Các path mới sẽ bám theo các guide line hiện có:
-  - x-height khoảng `y=24`
-  - baseline khoảng `y=52`
-  - descender không vượt quá vùng dưới `y=65`
-- Ưu tiên form chữ viết tay 1 tầng, đặc biệt với `g`.
+1. **Thay component `StrokeAnimation`** bằng component `DashedGuide`:
+   - Vẫn dùng SVG viewBox `0 0 40 70` với các guide line (x-height, baseline)
+   - Các path từ `strokePaths` được render với `strokeDasharray="2,2"` (nét đứt) thay vì animation
+   - Màu nhạt hơn (muted) để người học dễ nhận biết đây là hướng dẫn, không phải nét đã viết
+   - Thêm các mũi tên nhỏ hoặc số thứ tự nét để chỉ hướng viết
 
-Kiểm tra sau khi sửa
-- Mở `/learn-vietnamese/alphabet` và replay từng chữ `ơ`, `ư`, `g`.
-- Xác nhận:
-  1. nét móc của `ơ` và `ư` bám sát thân chữ;
-  2. `g` có bụng nhỏ hơn, nhìn rõ là chữ `g`;
-  3. nét cuối của `g` kết thúc hướng lên trên, không dừng lửng ở phía dưới;
-  4. không có nét nào bị lệch khỏi khung hoặc chạm mép viewBox.
+2. **Bỏ logic animation**: Xóa state `animateStroke`, hàm `replayStroke`, và nút replay (RotateCcw) vì không còn animation.
+
+3. **Đổi label** từ "Stroke Guide" thành "Hướng dẫn nét viết" và bỏ badge số nét nếu không còn cần thiết (hoặc giữ lại để tham khảo).
+
+4. **Giữ nguyên** phần WritingCanvas, ví dụ từ, phát âm — không đổi.
+
+### Không thay đổi
+- `alphabetData.ts` — vẫn dùng `strokePaths` hiện có, chỉ render khác
+- Các component khác, routing, data
+
