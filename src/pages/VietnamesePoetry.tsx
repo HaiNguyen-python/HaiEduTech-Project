@@ -25,11 +25,24 @@ const VietnamesePoetry = () => {
     let i = 0;
     const speakNext = () => {
       if (i >= paragraphs.length) { setIsSpeaking(false); return; }
-      const u = new SpeechSynthesisUtterance(paragraphs[i]);
+      const line = paragraphs[i];
+      const u = new SpeechSynthesisUtterance(line);
       u.lang = "vi-VN";
-      u.rate = 0.5;
-      u.pitch = 1.15 + (i % 2 === 0 ? 0.05 : -0.05);
-      u.onend = () => { i++; setTimeout(speakNext, 600); };
+      // Slower, more expressive reading with dynamic pitch
+      u.rate = 0.38;
+      // Vary pitch for poetic rhythm: rise on odd lines, fall on even
+      const basePitch = 1.15;
+      const variation = i % 4 === 0 ? 0.1 : i % 4 === 1 ? 0.0 : i % 4 === 2 ? 0.08 : -0.05;
+      u.pitch = basePitch + variation;
+      // Slightly higher volume for emphasis
+      u.volume = 1.0;
+      u.onend = () => {
+        i++;
+        // Longer pauses between stanzas (empty lines) vs regular lines
+        const nextLine = paragraphs[i];
+        const pauseMs = (!nextLine || nextLine.trim() === "") ? 1200 : 900;
+        setTimeout(speakNext, pauseMs);
+      };
       u.onerror = () => setIsSpeaking(false);
       speechSynthesis.speak(u);
     };

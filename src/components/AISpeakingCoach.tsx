@@ -168,6 +168,31 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   const recognitionRef = useRef<any>(null);
   const audioVisualizerRef = useRef<number>(0);
 
+  // Reset all state when language changes
+  useEffect(() => {
+    setSelectedTheme(null);
+    setCurrentIndex(0);
+    setTranscript("");
+    setResults(null);
+    setAccuracy(null);
+    setIsRecording(false);
+    setIsListening(false);
+    setMicError(null);
+    setPerfectStreak(0);
+    setTotalPracticed(0);
+    setIsPlayingDemo(false);
+    setSessionScore(0);
+    setStats(loadStats(language));
+    setEarnedBadges(loadBadges(language));
+    setThemeScores(loadThemeScores(language));
+    lastProcessedTranscriptRef.current = "";
+    // Stop any active recognition
+    if (recognitionRef.current) {
+      try { recognitionRef.current.abort(); } catch {}
+      recognitionRef.current = null;
+    }
+  }, [language]);
+
   const currentSentence = useMemo(
     () => selectedTheme?.sentences[currentIndex] ?? null,
     [selectedTheme, currentIndex]
