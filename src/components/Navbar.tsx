@@ -622,6 +622,9 @@ const Navbar = () => {
                                             >
                                               <div className="ml-3 pl-3 border-l-[3px] border-accent/40 space-y-0.5 py-2">
                                                 {sub.children.map((child) => {
+                                                  if (child.divider) {
+                                                    return <div key={child.to} className="my-1.5 mx-3 h-px bg-border" />;
+                                                  }
                                                   const ChildIcon = child.icon;
                                                   const childActive = location.pathname === child.to;
                                                   return (
@@ -632,7 +635,7 @@ const Navbar = () => {
                                                       className={`flex items-center gap-3 px-4 py-3.5 text-[15px] rounded-xl transition-all ${
                                                         childActive
                                                           ? "text-primary bg-primary/10 font-bold"
-                                                          : "text-[#4B5563] font-medium hover:text-primary hover:bg-gray-50"
+                                                          : "text-muted-foreground font-medium hover:text-primary hover:bg-secondary/50"
                                                       }`}
                                                     >
                                                       {ChildIcon && <ChildIcon className={`w-5 h-5 ${childActive ? "text-primary" : "text-primary/60"}`} />}
