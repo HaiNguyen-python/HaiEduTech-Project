@@ -1374,49 +1374,115 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
             📝 {showTranslation ? "Word count" : "Sanamäärä"}: {wordCount} / 50–80 {showTranslation ? "words" : "sanaa"}
           </span>
           {!submitted && text.trim().length > 0 && (
-            <Button onClick={() => { setSubmitted(true); if (timerRef.current) clearInterval(timerRef.current); setTimerActive(false); }} className="text-lg px-8 py-3 font-bold">
-              {showTranslation ? "Submit ✓" : "Lähetä ✓"}
+            <Button onClick={() => { setSubmitted(true); if (timerRef.current) clearInterval(timerRef.current); setTimerActive(false); }} className="text-lg px-8 py-3 font-bold bg-primary hover:bg-primary/90">
+              ✅ {showTranslation ? "Submit & Get Feedback" : "Merkitse valmiiksi"}
             </Button>
           )}
         </div>
       </div>
 
-      {submitted && (
-        <div className="space-y-4">
-          <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
-            <CardContent className="p-4">
-              <p className="font-bold text-emerald-800 dark:text-emerald-300 mb-2">✅ {showTranslation ? "Your answer has been submitted!" : "Vastauksesi on lähetetty!"}</p>
-              <p className="text-sm text-muted-foreground">{showTranslation ? "Word count" : "Sanamäärä"}: {wordCount}. {showTranslation ? "Check your answer and compare it with the task." : "Tarkista vastauksesi ja vertaa tehtävänantoon."}</p>
-              <Button variant="ghost" size="sm" className="mt-2" onClick={() => { setSubmitted(false); setText(""); setTimeLeft(15 * 60); }}>
-                {showTranslation ? "Write again" : "Kirjoita uudelleen"}
+      {submitted && (() => {
+        const analysis = analyzeWriting(text, lesson.id, showTranslation);
+        return (
+          <div className="space-y-4">
+            {/* Overall Score Card */}
+            <Card className="border-primary/20 bg-primary/5">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-lg font-bold text-foreground flex items-center gap-2">
+                    📊 {showTranslation ? "Writing Feedback" : "Kirjoituspalaute"}
+                  </h4>
+                  <Badge className={`text-sm px-3 py-1 ${analysis.totalPoints >= 4 ? "bg-emerald-500" : analysis.totalPoints >= 3 ? "bg-blue-500" : analysis.totalPoints >= 2 ? "bg-amber-500" : "bg-rose-500"} text-white`}>
+                    {analysis.totalPoints}/{analysis.maxPoints}
+                  </Badge>
+                </div>
+                <p className="text-base font-semibold text-foreground mb-4">{analysis.overallLabel}</p>
+
+                {/* Criteria checklist */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className={`flex items-center gap-2 p-3 rounded-lg border ${analysis.hasGreeting ? "bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800" : "bg-rose-50 border-rose-200 dark:bg-rose-900/20 dark:border-rose-800"}`}>
+                    {analysis.hasGreeting ? <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" /> : <XCircle className="w-5 h-5 text-rose-500 shrink-0" />}
+                    <span className="text-sm font-medium">{showTranslation ? "Greeting" : "Tervehdys"}</span>
+                  </div>
+                  <div className={`flex items-center gap-2 p-3 rounded-lg border ${analysis.hasClosing ? "bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800" : "bg-rose-50 border-rose-200 dark:bg-rose-900/20 dark:border-rose-800"}`}>
+                    {analysis.hasClosing ? <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" /> : <XCircle className="w-5 h-5 text-rose-500 shrink-0" />}
+                    <span className="text-sm font-medium">{showTranslation ? "Closing" : "Lopetus"}</span>
+                  </div>
+                  <div className={`flex items-center gap-2 p-3 rounded-lg border ${analysis.lengthScore === "good" ? "bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800" : "bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800"}`}>
+                    {analysis.lengthScore === "good" ? <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" /> : <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0" />}
+                    <span className="text-sm font-medium">
+                      {showTranslation ? `Length: ${analysis.wordCount} words` : `Pituus: ${analysis.wordCount} sanaa`}
+                      {analysis.lengthScore === "short" && ` (${showTranslation ? "too short" : "liian lyhyt"})`}
+                      {analysis.lengthScore === "long" && ` (${showTranslation ? "too long" : "liian pitkä"})`}
+                    </span>
+                  </div>
+                  <div className={`flex items-center gap-2 p-3 rounded-lg border ${analysis.sentences >= 3 ? "bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800" : "bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800"}`}>
+                    {analysis.sentences >= 3 ? <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" /> : <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0" />}
+                    <span className="text-sm font-medium">
+                      {showTranslation ? `${analysis.sentences} sentences (avg ${analysis.avgSentenceLen} words)` : `${analysis.sentences} lausetta (keskim. ${analysis.avgSentenceLen} sanaa)`}
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Keyword Analysis */}
+            {(WRITING_KEYWORDS[lesson.id] || []).length > 0 && (
+              <Card className="border-indigo-200 bg-indigo-50/50 dark:bg-indigo-900/20 dark:border-indigo-800">
+                <CardContent className="p-4">
+                  <h4 className="font-bold text-indigo-800 dark:text-indigo-300 mb-3 flex items-center gap-2">
+                    🔑 {showTranslation ? `Key Words (${analysis.keywordScore}% found)` : `Avainsanat (${analysis.keywordScore}% löydetty)`}
+                  </h4>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {analysis.foundKeywords.map(kw => (
+                      <Badge key={kw} className="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">✓ {kw}</Badge>
+                    ))}
+                    {analysis.missingKeywords.map(kw => (
+                      <Badge key={kw} variant="outline" className="border-rose-300 text-rose-600 dark:border-rose-700 dark:text-rose-400">✗ {kw}</Badge>
+                    ))}
+                  </div>
+                  {analysis.missingKeywords.length > 0 && (
+                    <p className="text-xs text-muted-foreground mt-2">
+                      💡 {showTranslation ? "Try including these words in your next attempt." : "Yritä lisätä nämä sanat seuraavaan vastaukseen."}
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Writing hints */}
+            <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-900/20 dark:border-blue-800">
+              <CardContent className="p-4">
+                <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2">💡 {showTranslation ? "Writing Tips" : "Vinkkejä kirjoittamiseen"}</h4>
+                <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                  {!analysis.hasGreeting && <li className="text-rose-600 font-medium">{showTranslation ? "⚠️ Add a greeting (Hei, Hyvä...)" : "⚠️ Lisää tervehdys (Hei, Hyvä...)"}</li>}
+                  {!analysis.hasClosing && <li className="text-rose-600 font-medium">{showTranslation ? "⚠️ Add a closing (Terveisin, Ystävällisin terveisin...)" : "⚠️ Lisää lopetus (Terveisin, Ystävällisin terveisin...)"}</li>}
+                  <li>{showTranslation ? "Use simple sentences and familiar words." : "Käytä yksinkertaisia lauseita ja tuttuja sanoja."}</li>
+                  <li>{showTranslation ? "Answer all questions in the task prompt." : "Vastaa kaikkiin tehtävänannon kysymyksiin."}</li>
+                  <li>{showTranslation ? "Check spelling before submitting." : "Tarkista oikeinkirjoitus ennen lähettämistä."}</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* Model A2 answer */}
+            <Card className="border-amber-200 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800">
+              <CardContent className="p-4">
+                <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">📝 {showTranslation ? "Model Answer (A2 level)" : "Mallivastaus (A2-taso)"}</h4>
+                <div className="text-sm text-foreground leading-relaxed whitespace-pre-line">
+                  {getSampleAnswer(lesson.id)}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Try again button */}
+            <div className="flex justify-center">
+              <Button variant="outline" size="lg" onClick={() => { setSubmitted(false); setText(""); setTimeLeft(15 * 60); }} className="gap-2">
+                🔄 {showTranslation ? "Write again" : "Kirjoita uudelleen"}
               </Button>
-            </CardContent>
-          </Card>
-
-          {/* Writing hints */}
-          <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-900/20 dark:border-blue-800">
-            <CardContent className="p-4">
-              <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2">💡 {showTranslation ? "Writing Tips" : "Vinkkejä kirjoittamiseen"}</h4>
-              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                <li>{showTranslation ? "Start with a greeting and end with a closing wish." : "Aloita tervehdyksellä ja lopeta lopputoivotuksella."}</li>
-                <li>{showTranslation ? "Use simple sentences and familiar words." : "Käytä yksinkertaisia lauseita ja tuttuja sanoja."}</li>
-                <li>{showTranslation ? "Answer all questions in the task prompt." : "Vastaa kaikkiin tehtävänannon kysymyksiin."}</li>
-                <li>{showTranslation ? "Check spelling before submitting." : "Tarkista oikeinkirjoitus ennen lähettämistä."}</li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          {/* Model A2 answer */}
-          <Card className="border-amber-200 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800">
-            <CardContent className="p-4">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">📝 {showTranslation ? "Model Answer (A2 level)" : "Mallivastaus (A2-taso)"}</h4>
-              <div className="text-sm text-foreground leading-relaxed whitespace-pre-line">
-                {getSampleAnswer(lesson.id)}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 };
