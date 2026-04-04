@@ -100,7 +100,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
     lessons: [
       {
         id: "yki-mock-writing-exp3-1", title: "Kiitosviesti naapurille", titleEn: "Thank You Note to Neighbor", icon: "🏘️", level: "A2",
-        theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Naapurisi hoiti kissaasi lomasi aikana. Kirjoita kiitosviesti:\n- Kiitä häntä\n- Kerro, miten loma meni\n- Ehdota yhteistä kahvihetkeä\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa`,
+        theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Naapurisi hoiti kissaasi lomasi aikana. Kirjoita kiitosviesti:\n- Kiitä häntä\n- Kerro, miten loma meni\n- Ehdota yhteistä kahvihetkeä\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa\n\n**Mallivastaus:**\nHei Liisa! Kiitos todella paljon, että hoidit Misse-kissaani! Lomani meni hyvin. Kävin Tukholmassa ja näin paljon kauniita paikkoja. Haluaisitko tulla kahville ensi lauantaina? Voin tuoda sinulle pienen lahjan matkalta. Kiitos vielä kerran! Terveisin, Anna`,
         theoryEn: "Write a thank-you note to your neighbor who took care of your cat.",
         quiz: [
           { question: "Miten kiität naapuria?", options: ["Kiitos paljon avustasi!", "Tervetuloa!", "Anteeksi!", "Hei hei!"], answer: 0, explanation: "'Kiitos paljon avustasi!' is an appropriate thank-you." },
@@ -108,7 +108,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
       },
       {
         id: "yki-mock-writing-exp3-2", title: "Palautetta kurssista", titleEn: "Course Feedback", icon: "📋", level: "A2",
-        theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Olet käynyt suomen kielen kurssin. Kirjoita palaute:\n- Mistä pidit kurssilla?\n- Mitä voisi parantaa?\n- Suosittelisitko kurssia muille?\n\n**Aika:** 20 min | **Sanamäärä:** 50–80 sanaa`,
+        theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Olet käynyt suomen kielen kurssin. Kirjoita palaute:\n- Mistä pidit kurssilla?\n- Mitä voisi parantaa?\n- Suosittelisitko kurssia muille?\n\n**Aika:** 20 min | **Sanamäärä:** 50–80 sanaa\n\n**Mallivastaus:**\nHei! Pidin kurssista paljon. Opettaja oli ystävällinen ja selitti asiat selvästi. Erityisesti pidin ryhmätehtävistä. Toivoisin kuitenkin enemmän puheharjoituksia. Kirjoitusharjoituksia oli riittävästi. Suosittelen kurssia kaikille, jotka haluavat oppia suomea! Ystävällisin terveisin, Minh`,
         theoryEn: "Write feedback about a Finnish course you attended.",
         quiz: [
           { question: "'Suosittelisitko' on...", options: ["imperatiivi", "konditionaali", "passiiivi", "imperfekti"], answer: 1, explanation: "Suosittelisitko = conditional mood of 'suositella'." },
@@ -116,10 +116,26 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
       },
       {
         id: "yki-mock-writing-exp3-3", title: "Ilmoitus myyntitavarasta", titleEn: "For-Sale Ad", icon: "🏷️", level: "A2",
-        theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Myyt vanhaa polkupyörääsi. Kirjoita myynti-ilmoitus:\n- Kuvaile pyörää (väri, koko, kunto)\n- Kerro hinta\n- Kerro yhteystiedot ja milloin voi tulla katsomaan\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa`,
+        theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Myyt vanhaa polkupyörääsi. Kirjoita myynti-ilmoitus:\n- Kuvaile pyörää (väri, koko, kunto)\n- Kerro hinta\n- Kerro yhteystiedot ja milloin voi tulla katsomaan\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa\n\n**Mallivastaus:**\nMyydään punainen naisten polkupyörä. Pyörä on hyväkuntoinen, 3 vuotta vanha. Koko 26 tuumaa. Hinta 80 euroa. Voit tulla katsomaan pyörää Tampereen keskustaan arkisin klo 17 jälkeen. Ota yhteyttä: 040-1234567. Tervetuloa katsomaan!`,
         theoryEn: "Write a for-sale ad for your old bicycle.",
         quiz: [
           { question: "'Hyväkuntoinen' tarkoittaa...", options: ["brand new", "in good condition", "broken", "expensive"], answer: 1, explanation: "'Hyväkuntoinen' = in good condition." },
+        ],
+      },
+      {
+        id: "yki-mock-writing-exp3-4", title: "Sähköposti vuokranantajalle", titleEn: "Email to Landlord", icon: "🏠", level: "A2",
+        theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Asunnossasi on ongelma. Kirjoita sähköposti vuokranantajalle:\n- Kerro, mikä on vialla\n- Kerro, milloin ongelma alkoi\n- Pyydä korjaamaan\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa\n\n**Hyödyllisiä ilmaisuja:** Hyvä vuokranantaja / Haluaisin ilmoittaa, että... / Ongelma alkoi... / Voisitteko korjata...? / Ystävällisin terveisin`,
+        theoryEn: "Write an email to your landlord about a problem in your apartment.",
+        quiz: [
+          { question: "'Vuokranantaja' tarkoittaa...", options: ["tenant", "landlord", "neighbor", "repairman"], answer: 1, explanation: "'Vuokranantaja' = landlord." },
+        ],
+      },
+      {
+        id: "yki-mock-writing-exp3-5", title: "Kutsu juhliin", titleEn: "Party Invitation", icon: "🎉", level: "A2",
+        theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Järjestät syntymäpäiväjuhlat. Kirjoita kutsu ystävällesi:\n- Kerro, milloin ja missä juhlat ovat\n- Kerro, mitä juhlissa tapahtuu\n- Pyydä vastaamaan kutsuun\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa\n\n**Hyödyllisiä ilmaisuja:** Tervetuloa juhlimaan! / Juhlat ovat... / Tarjolla on... / Vastaa viimeistään... / Nähdään!`,
+        theoryEn: "Write a birthday party invitation to your friend.",
+        quiz: [
+          { question: "'Syntymäpäiväjuhlat' tarkoittaa...", options: ["wedding party", "birthday party", "Christmas party", "graduation party"], answer: 1, explanation: "'Syntymäpäiväjuhlat' = birthday party." },
         ],
       },
     ],
@@ -137,7 +153,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
     lessons: [
       {
         id: "yki-mock-speaking-exp3-1", title: "Kaupassa asioiminen", titleEn: "Shopping", icon: "🛒", level: "A2",
-        theory: `### Puhetehtävä\n\n**Tilanne:** Olet vaatekaupassa. Haluat ostaa takin.\n- Kysy, onko takkia koossa M\n- Kysy hintaa\n- Kysy, voitko sovittaa\n- Kysy, voiko maksaa kortilla\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Anteeksi, onko teillä...? / Paljonko tämä maksaa? / Voinko sovittaa? / Käykö kortti?`,
+        theory: `### Puhetehtävä\n\n**Tilanne:** Olet vaatekaupassa. Haluat ostaa takin.\n- Kysy, onko takkia koossa M\n- Kysy hintaa\n- Kysy, voitko sovittaa\n- Kysy, voiko maksaa kortilla\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Anteeksi, onko teillä...? / Paljonko tämä maksaa? / Voinko sovittaa? / Käykö kortti?\n\n**Arviointikriteerit:**\n- Sujuvuus ja ääntäminen\n- Sanavalinnat ja ilmaisut\n- Tilanteen hoitaminen loppuun`,
         theoryEn: "Role-play: Shopping for a jacket.",
         quiz: [
           { question: "'Voinko sovittaa?' tarkoittaa...", options: ["Can I pay?", "Can I try it on?", "Can I return it?", "Can I see it?"], answer: 1, explanation: "'Sovittaa' = to try on." },
@@ -145,7 +161,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
       },
       {
         id: "yki-mock-speaking-exp3-2", title: "Naapurin kanssa jutteleminen", titleEn: "Chatting with Neighbor", icon: "🏠", level: "A2",
-        theory: `### Puhetehtävä\n\n**Tilanne:** Tapaat uuden naapurin rappukäytävässä.\n- Esittele itsesi\n- Kysy, mistä hän on kotoisin\n- Kerro, kuinka kauan olet asunut talossa\n- Ehdota kahville tulemista\n\n**Aika:** 3 min`,
+        theory: `### Puhetehtävä\n\n**Tilanne:** Tapaat uuden naapurin rappukäytävässä.\n- Esittele itsesi\n- Kysy, mistä hän on kotoisin\n- Kerro, kuinka kauan olet asunut talossa\n- Ehdota kahville tulemista\n\n**Aika:** 3 min\n\n**Arviointikriteerit:**\n- Kohtelias esittäytyminen\n- Kysymysten muodostaminen\n- Luonteva keskustelu`,
         theoryEn: "Role-play: Chatting with a new neighbor.",
         quiz: [
           { question: "'Mistä olet kotoisin?' tarkoittaa...", options: ["Where do you work?", "Where are you from?", "Where do you live?", "Where are you going?"], answer: 1, explanation: "'Kotoisin' = originally from." },
@@ -153,10 +169,26 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
       },
       {
         id: "yki-mock-speaking-exp3-3", title: "Harrastuksista kertominen", titleEn: "Talking About Hobbies", icon: "🎨", level: "A2",
-        theory: `### Puhetehtävä\n\n**Tilanne:** Kerro harrastuksistasi.\n- Mitä harrastat?\n- Kuinka usein?\n- Miksi pidät siitä?\n- Suosittele harrastusta toiselle\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Harrastan... / Käyn ... kerran viikossa / Pidän siitä, koska... / Suosittelen, koska...`,
+        theory: `### Puhetehtävä\n\n**Tilanne:** Kerro harrastuksistasi.\n- Mitä harrastat?\n- Kuinka usein?\n- Miksi pidät siitä?\n- Suosittele harrastusta toiselle\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Harrastan... / Käyn ... kerran viikossa / Pidän siitä, koska... / Suosittelen, koska...\n\n**Arviointikriteerit:**\n- Verbien oikea käyttö (harrastaa + partitiivi)\n- Ajan ilmaisut\n- Perustelutaito`,
         theoryEn: "Talk about your hobbies.",
         quiz: [
           { question: "'Harrastan uimista' — mikä sijamuoto?", options: ["partitiivi", "genetiivi", "illatiivi", "inessiivi"], answer: 0, explanation: "Harrastaa + partitiivi → uimista." },
+        ],
+      },
+      {
+        id: "yki-mock-speaking-exp3-4", title: "Ravintolassa tilaaminen", titleEn: "Ordering at a Restaurant", icon: "🍽️", level: "A2",
+        theory: `### Puhetehtävä\n\n**Tilanne:** Olet ravintolassa. Tilaa ruokaa ja juomaa.\n- Kysy ruokalistaa\n- Tilaa alkuruoka ja pääruoka\n- Kysy, onko jälkiruokaa\n- Pyydä lasku\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Saisinko ruokalistan? / Haluaisin tilata... / Onko teillä...? / Saisinko laskun?\n\n**Arviointikriteerit:**\n- Kohtelias pyyntö (konditionaali)\n- Ruokasanasto\n- Luonteva vuorovaikutus`,
+        theoryEn: "Role-play: Ordering food at a restaurant.",
+        quiz: [
+          { question: "'Saisinko laskun?' on...", options: ["käsky", "kohtelias pyyntö", "kysymys hinnasta", "valitus"], answer: 1, explanation: "'Saisinko' on konditionaali — kohtelias pyyntö." },
+        ],
+      },
+      {
+        id: "yki-mock-speaking-exp3-5", title: "Terveyskeskuksessa", titleEn: "At the Health Center", icon: "🏥", level: "A2",
+        theory: `### Puhetehtävä\n\n**Tilanne:** Olet terveyskeskuksessa. Kerro lääkärille oireistasi.\n- Kerro, mikä on vialla\n- Kerro, milloin oireet alkoivat\n- Vastaa lääkärin kysymyksiin\n- Kysy ohjeita\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Minulla on... / Oireet alkoivat... / Onko minun otettava lääkettä? / Milloin tulen uudelleen?\n\n**Arviointikriteerit:**\n- Oiresanasto\n- Ajan ilmaisut (eilen, viime viikolla)\n- Kysymysten muodostaminen`,
+        theoryEn: "Role-play: Describing symptoms at the health center.",
+        quiz: [
+          { question: "'Minulla on kuumetta' — mitä verbiä käytetään?", options: ["olen", "minulla on", "tulen", "menen"], answer: 1, explanation: "'Minulla on' — omistusrakenne tuntemuksille." },
         ],
       },
     ],
