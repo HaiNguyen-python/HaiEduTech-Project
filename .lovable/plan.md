@@ -1,52 +1,35 @@
 
 
-## Plan: Sắp xếp lại menu IELTS Program cho gọn gàng hơn
+## Plan: Đổi nút "Phát lời" thành "Bắt đầu" và đồng bộ YouTube + lời bài hát
 
 ### Hiện trạng
-Menu IELTS Program hiện có **8 mục** liệt kê dạng phẳng, gây cảm giác lộn xộn:
-1. Overview & Roadmap
-2. IELTS Lectures
-3. IELTS Vocabulary
-4. Vocab Arena
-5. Sample Essays 8.0+
-6. Writing Practice
-7. Speaking Practice
-8. Grading Portal
+- Nút "Phát lời" chỉ chạy timer highlight lời bài hát, không điều khiển video YouTube
+- Video YouTube là iframe thông thường, không có API control
+- Timer chạy lời ngay lập tức khi nhấn nút
 
-### Thay đổi (file: `src/components/Navbar.tsx`)
+### Thay đổi (file: `src/pages/NationalAnthem.tsx`)
 
-**Nhóm lại thành 3 cụm logic, dùng divider/label phân tách:**
+**1. Chuyển iframe sang YouTube IFrame API**
+- Load YouTube IFrame API script (`https://www.youtube.com/iframe_api`)
+- Tạo player instance qua `new YT.Player()` với `enablejsapi=1`
+- Cho phép điều khiển play/pause video từ code
 
-| Nhóm | Mục | Ghi chú |
-|------|-----|---------|
-| **Học & Ôn** | Overview & Roadmap, IELTS Lectures | Lý thuyết + bài giảng |
-| **Từ vựng** | IELTS Vocabulary, Vocab Arena | Gộp 2 mục từ vựng lại gần nhau |
-| **Luyện tập & Chấm điểm** | Writing Practice, Speaking Practice, Sample Essays 8.0+, Grading Portal | Thực hành + đánh giá |
+**2. Đổi nút "Phát lời" → "Bắt đầu"**
+- Label: "▶ Bắt đầu" (khi chưa phát) / "⏸ Tạm dừng" (đang phát)
+- Bỏ toggle "Có lời / Nhạc nền" (không cần nữa vì chỉ dùng 1 video)
 
-**Cách triển khai:**
-- Sắp xếp lại thứ tự mảng `ieltsChildren` theo nhóm logic
-- Thêm **divider items** (separator) giữa các nhóm — dùng item đặc biệt có `label: "---"` hoặc thêm thuộc tính `divider: true`
-- Render divider trong dropdown bằng `<Separator />` khi gặp item có flag divider
-- Giảm từ 8 mục rời rạc xuống 3 nhóm rõ ràng
+**3. Logic khi nhấn "Bắt đầu":**
+1. Gọi `player.playVideo()` → video YouTube bắt đầu phát
+2. Đợi 3 giây (`setTimeout 3000ms`)
+3. Sau 3s, bắt đầu chạy timer highlight lời bài hát từng dòng (giữ nguyên logic `setInterval` hiện tại)
 
-**Thứ tự mới:**
-```
-── Học & Ôn ──
-  Overview & Roadmap
-  IELTS Lectures
-──────────────
-  IELTS Vocabulary
-  Vocab Arena
-──────────────
-  Writing Practice
-  Speaking Practice
-  Sample Essays 8.0+
-  Grading Portal
-```
+**4. Đồng bộ khi tạm dừng / lại từ đầu:**
+- "Tạm dừng": pause video + dừng timer lời
+- "Lại từ đầu": seek video về 0, reset timer lời, dừng phát
 
 ### Chi tiết kỹ thuật
-- Thêm thuộc tính `divider?: boolean` vào interface `SubItem`
-- Thêm 2 divider items vào mảng `ieltsChildren`
-- Cập nhật logic render dropdown (khoảng dòng 400-430) để render `<Separator>` khi gặp divider item
-- Không thay đổi routes hay trang nào khác
+- Thêm state `isStarted` để phân biệt trạng thái đã nhấn bắt đầu hay chưa
+- Thêm `delayTimerRef` để track setTimeout 3s (để có thể cancel khi cần)
+- YouTube IFrame API: dùng `useEffect` load script, `onYouTubeIframeAPIReady` callback
+- Giữ nguyên toàn bộ UI lời bài hát và phần vocabulary
 
