@@ -492,6 +492,13 @@ const IeltsVocabulary = () => {
               </div>
             )}
           </motion.div>
+          <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start">
+            <VocabMasteryLeaderboard subject="ielts" currentCount={mastered.size} />
+          </div>
+          </div>
+          <div className="lg:hidden mt-6">
+            <VocabMasteryLeaderboard subject="ielts" currentCount={mastered.size} />
+          </div>
         </div>
       </div>
       <Footer />
