@@ -35,6 +35,7 @@ import {
   finnishMockExamExpansion2Modules,
   finnishMockExamExpansion3Modules,
   finnishLessonExpansion2Modules,
+  finnishMockExamExpansion4Modules,
   type FinnishModule,
   type FinnishLesson,
   type FinnishVocabEntry,
@@ -46,7 +47,7 @@ import AISpeakingCoach from "@/components/AISpeakingCoach";
 // Merge original + expansion data
 import { finnishVocabExpansion4Modules } from "@/data/finnishCurriculum/vocabularyExpansion4";
 const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules];
-const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules, ...finnishMockExamExpansion3Modules];
+const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules, ...finnishMockExamExpansion3Modules, ...finnishMockExamExpansion4Modules];
 const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules, ...finnishLessonExpansion2Modules];
 
 // Verb conjugation helper data
@@ -1201,6 +1202,12 @@ Ystävällisin terveisin, [Nimi]`,
 Tervetuloa juhlimaan kanssani! Täytän 28 vuotta perjantaina 10.5. Juhlat ovat kotonani Kalevankatu 12 kello 18 alkaen. Tarjolla on pizzaa, kakkua ja juomia. Ohjelmassa on karaokea ja lautapelejä. Vastaa viimeistään maanantaina 6.5.!
 
 Nähdään! [Nimi]`,
+  // Expansion 4 writing tasks
+  "yki-mock-writing-16": `Hyvä isännöitsijä,\n\nKirjoitan asunnosta B 14, osoitteessa Mannerheimintie 45. Haluan valittaa yläkerran naapurin meluamisesta. Naapuri soittaa kovaa musiikkia lähes joka ilta kello 23 jälkeen. Ongelma on jatkunut jo kuukauden ajan.\n\nHiljaisuusaika alkaa kello 22, mutta naapuri ei noudata sitä. Olen yrittänyt puhua naapurille, mutta tilanne ei ole parantunut. Pyydän teitä ystävällisesti puuttumaan asiaan ja muistuttamaan asukkaita järjestyssäännöistä.\n\nYstävällisin terveisin,\n[Nimi]`,
+  "yki-mock-writing-17": `Hei,\n\nHaen tarjoilijan paikkaa ravintolassanne. Olen 25-vuotias opiskelija ja etsin osa-aikatyötä. Minulla on vuoden kokemus kahvilatyöstä. Puhun suomea, englantia ja viroa. Olen ahkera, iloinen ja pidän asiakaspalvelusta.\n\nVoin työskennellä iltaisin ja viikonloppuisin. Voin aloittaa heti 1. maaliskuuta. Puhelinnumeroni on 045-9876543 ja sähköpostini anna@email.fi.\n\nYstävällisin terveisin,\nAnna Kivi`,
+  "yki-mock-writing-18": `Hei opettaja Virtanen,\n\nLapseni Ella (luokka 3B) ei voi tulla kouluun tänään. Hänellä on kuumetta ja vatsatauti. Lääkäri sanoi, että Ellan pitää levätä ainakin kaksi päivää. Hän on todennäköisesti poissa tiistaihin asti.\n\nVoisitteko ystävällisesti lähettää Wilman kautta tiedot läksyistä ja kokeista? Ella haluaa tehdä ne kotona, kun voi paremmin.\n\nKiitos!\nYstävällisin terveisin,\n[Nimi]`,
+  "yki-mock-writing-19": `Hei,\n\nHaluaisin vahvistaa mökkivaraukseni. Tulemme 5.–12. heinäkuuta, eli viikoksi. Meitä on neljä henkilöä: kaksi aikuista ja kaksi lasta (5 v. ja 8 v.). Saavumme perjantaina noin kello 16.\n\nVoisitteko kertoa, ovatko liinavaatteet ja pyyhkeet hinnassa mukana? Onko lemmikkieläimet sallittu? Meillä on pieni koira.\n\nKiitos vastauksesta etukäteen!\nYstävällisin terveisin,\n[Nimi]`,
+  "yki-mock-writing-20": `Kurssin palaute:\n\nPidin erityisesti ryhmäkeskusteluista ja käytännön harjoituksista. Opettaja oli innostava ja selitti asiat selkeästi. Uusia sanoja oppi paljon, koska teimme monipuolisia tehtäviä.\n\nOlisi ollut hyvä, jos kurssilla olisi ollut enemmän kuunteluharjoituksia. Myös kotiläksyjä olisi voinut olla enemmän.\n\nAnnan arvosanan 4/5. Suosittelen kurssia kaikille, jotka haluavat oppia suomea hauskalla tavalla!\n\n[Nimi]`,
 };
 
 // Keywords expected per writing task type for feedback
@@ -1223,6 +1230,11 @@ const WRITING_KEYWORDS: Record<string, string[]> = {
   "yki-mock-writing-exp3-3": ["myydään", "pyörä", "hinta", "katsomaan", "yhteyttä"],
   "yki-mock-writing-exp3-4": ["vuokranantaja", "hana", "vuotaa", "korjaamaan", "terveisin"],
   "yki-mock-writing-exp3-5": ["tervetuloa", "syntymäpäivä", "juhlat", "kello", "vastaa"],
+  "yki-mock-writing-16": ["isännöitsijä", "valittaa", "melu", "naapuri", "hiljaisuusaika", "puuttumaan"],
+  "yki-mock-writing-17": ["haen", "tarjoilija", "kokemus", "aloittaa", "terveisin"],
+  "yki-mock-writing-18": ["opettaja", "lapsi", "sairas", "kuumetta", "läksyt", "poissa"],
+  "yki-mock-writing-19": ["vahvistaa", "varaus", "mökki", "henkilöä", "lemmikki"],
+  "yki-mock-writing-20": ["palaute", "pidin", "suosittelen", "arvosana", "kurssi"],
 };
 
 const getSampleAnswer = (lessonId: string): string => {
@@ -1856,6 +1868,7 @@ const YkiDashboard = () => {
   const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams" | "speaking-coach">("vocabulary");
   const [selectedModule, setSelectedModule] = useState<FinnishModule | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<FinnishLesson | null>(null);
+  const [mockSkillFilter, setMockSkillFilter] = useState<"all" | "reading" | "listening" | "writing" | "speaking">("all");
   const [showBadge, setShowBadge] = useState(false);
   const [vocabViewMode, setVocabViewMode] = useState<'grid' | 'flashcard' | 'spaced'>('grid');
   const [flashcardIndex, setFlashcardIndex] = useState(0);
@@ -1954,11 +1967,16 @@ const YkiDashboard = () => {
     }
   }, [initialModule]);
 
+  const filteredMockModules = useMemo(() => {
+    if (mockSkillFilter === "all") return allMockExamModules;
+    return allMockExamModules.filter(m => m.id.includes(mockSkillFilter));
+  }, [mockSkillFilter]);
+
   const currentModules = activePillar === "vocabulary"
     ? allVocabModules
     : activePillar === "lessons"
     ? allLessonModules
-    : allMockExamModules;
+    : filteredMockModules;
 
   const handleSelectModule = (mod: FinnishModule) => {
     setSelectedModule(mod);
@@ -2127,7 +2145,7 @@ const YkiDashboard = () => {
             ]).map((tab) => (
               <button
                 key={tab.value}
-                onClick={() => { setActivePillar(tab.value); setSelectedModule(null); setSelectedLesson(null); }}
+                onClick={() => { setActivePillar(tab.value); setSelectedModule(null); setSelectedLesson(null); setMockSkillFilter("all"); }}
                 className={`text-xs sm:text-sm font-medium rounded-md transition-all ${
                   activePillar === tab.value
                     ? "bg-background text-foreground shadow-sm"
@@ -2479,35 +2497,78 @@ const YkiDashboard = () => {
                 </motion.div>
               ) : (
                 // Module grid
-                <div key={activePillar} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {currentModules.map((mod, i) => (
-                    <motion.div
-                      key={mod.id}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.06 }}
-                    >
-                      <button
-                        onClick={() => handleSelectModule(mod)}
-                        className="w-full text-left rounded-2xl border-2 border-[#003580]/15 bg-card p-6 hover:shadow-lg hover:border-[#003580]/30 transition-all group"
-                      >
-                        <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${mod.color} flex items-center justify-center text-white text-2xl mb-4`}>
-                          {mod.icon}
-                        </div>
-                        <h3 className="text-lg font-bold text-foreground group-hover:text-[#003580] transition-colors mb-1">
-                          {mod.titleEn}
-                        </h3>
-                        <p className="text-xs text-muted-foreground mb-2">{mod.title}</p>
-                        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{mod.descriptionEn}</p>
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-xs border-[#003580]/20">
-                            {mod.lessons.length} {mod.lessons.length === 1 ? "lesson" : "lessons"}
-                          </Badge>
-                          <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto group-hover:text-[#003580] transition-colors" />
-                        </div>
-                      </button>
-                    </motion.div>
-                  ))}
+                <div>
+                  {/* Skill filter tabs for mock exams */}
+                  {activePillar === "mock-exams" && (
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {([
+                        { value: "all" as const, label: "📋 Kaikki", labelEn: "All" },
+                        { value: "reading" as const, label: "📖 Lukeminen", labelEn: "Reading" },
+                        { value: "listening" as const, label: "🎧 Kuunteleminen", labelEn: "Listening" },
+                        { value: "writing" as const, label: "✍️ Kirjoittaminen", labelEn: "Writing" },
+                        { value: "speaking" as const, label: "🎙️ Puhuminen", labelEn: "Speaking" },
+                      ]).map((tab) => (
+                        <Button
+                          key={tab.value}
+                          size="sm"
+                          variant={mockSkillFilter === tab.value ? "default" : "outline"}
+                          onClick={() => setMockSkillFilter(tab.value)}
+                          className="text-xs sm:text-sm"
+                        >
+                          {tab.label}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
+
+                  <div key={`${activePillar}-${mockSkillFilter}`} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {currentModules.map((mod, i) => {
+                      const modCompletedCount = mod.lessons.filter(l => progress[l.id]).length;
+                      const modTotalCount = mod.lessons.length;
+                      const isModComplete = modCompletedCount === modTotalCount && modTotalCount > 0;
+                      return (
+                        <motion.div
+                          key={mod.id}
+                          initial={{ opacity: 0, y: 16 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.06 }}
+                        >
+                          <button
+                            onClick={() => handleSelectModule(mod)}
+                            className={`w-full text-left rounded-2xl border-2 bg-card p-6 hover:shadow-lg transition-all group relative ${isModComplete ? "border-emerald-400/50" : "border-[#003580]/15 hover:border-[#003580]/30"}`}
+                          >
+                            {isModComplete && (
+                              <div className="absolute top-3 right-3">
+                                <CheckCircle className="w-6 h-6 text-emerald-500" />
+                              </div>
+                            )}
+                            <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${mod.color} flex items-center justify-center text-white text-2xl mb-4`}>
+                              {mod.icon}
+                            </div>
+                            <h3 className="text-lg font-bold text-foreground group-hover:text-[#003580] transition-colors mb-1">
+                              {mod.titleEn}
+                            </h3>
+                            <p className="text-xs text-muted-foreground mb-2">{mod.title}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{mod.descriptionEn}</p>
+                            <div className="flex items-center gap-2">
+                              <Badge variant="outline" className="text-xs border-[#003580]/20">
+                                {mod.lessons.length} {mod.lessons.length === 1 ? "lesson" : "lessons"}
+                              </Badge>
+                              {activePillar === "mock-exams" && (
+                                <Badge
+                                  variant={isModComplete ? "default" : "secondary"}
+                                  className={`text-xs ${isModComplete ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300" : ""}`}
+                                >
+                                  {modCompletedCount}/{modTotalCount} ✓
+                                </Badge>
+                              )}
+                              <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto group-hover:text-[#003580] transition-colors" />
+                            </div>
+                          </button>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
               </>
