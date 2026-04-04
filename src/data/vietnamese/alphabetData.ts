@@ -337,9 +337,9 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'u' then add a horn mark on upper right",
     strokeCount: 3,
     strokePaths: [
-      "M12,24 L12,42 C12,52 28,52 28,42",
-      "M28,24 L28,52",
-      "M28,16 C32,8 38,11 35,20"  // horn mark (larger, more visible)
+      "M10,24 L10,42 C10,52 30,52 30,42",
+      "M30,24 L30,52",
+      "M30,18 C33,10 39,12 37,22"  // horn mark
     ]
   },
   // ── v ──
