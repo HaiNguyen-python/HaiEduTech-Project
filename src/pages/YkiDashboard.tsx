@@ -97,10 +97,14 @@ const WORD_ILLUSTRATIONS: Record<string, string> = {
   leipä: "🍞", maito: "🥛", juusto: "🧀", liha: "🥩", kala: "🐟", peruna: "🥔",
   salaatti: "🥗", keitto: "🍲", jälkiruoka: "🍰", tilata: "📋", lasku: "🧾",
   tarjoilija: "🧑‍🍳", ruokalista: "📜", hedelmä: "🍎", vihannes: "🥕",
+  kahvi: "☕", tee: "🍵", vesi: "💧", mehu: "🧃", sokeri: "🍬", suola: "🧂",
+  omena: "🍎", riisi: "🍚", voileipä: "🥪", jäätelö: "🍦", kana: "🍗", pasta: "🍝",
+  jogurtti: "🥛", olut: "🍺",
   // Health
   terveys: "❤️", sairas: "🤒", kipu: "😣", kuume: "🤧", flunssa: "🤧", apteekki: "💊",
   lääke: "💊", resepti: "📋", terveysasema: "🏥", ajanvaraus: "📆", hammaslääkäri: "🦷",
   allerginen: "⚠️", liikunta: "🏃", uni: "😴", hyvinvointi: "🧘",
+  hammas: "🦷", yskä: "🤧", nenä: "👃", selkä: "🔙", vatsa: "🤢", nuha: "🤧", polvi: "🦵",
   // Nature & Weather
   aurinko: "☀️", sade: "🌧️", lumi: "❄️", tuuli: "💨", pilvi: "☁️", puu: "🌳",
   kukka: "🌸", eläin: "🐾", lintu: "🐦", kevät: "🌱", kesä: "🌞", syksy: "🍂",
@@ -109,6 +113,9 @@ const WORD_ILLUSTRATIONS: Record<string, string> = {
   harrastus: "🎯", urheilu: "⚽", lukeminen: "📖", musiikki: "🎵", elokuva: "🎬",
   uida: "🏊", juosta: "🏃", hiihtää: "⛷️", valokuvata: "📸", maalata: "🎨",
   soittaa: "🎸", kirjasto: "📚", teatteri: "🎭", konsertti: "🎶", näyttely: "🖼️",
+  lenkkeily: "🏃", uinti: "🏊", maalaus: "🎨", peli: "🎮", kalastus: "🎣", pyöräily: "🚴",
+  valokuvaus: "📸", hiihtäminen: "⛷️", luistelu: "⛸️", puutarha: "🌻", lautapeli: "🎲", käsityö: "🧶",
+  retki: "🥾",
   // Education
   koulu: "🏫", yliopisto: "🎓", kurssi: "📝", luokka: "🏫", koe: "📝",
   tehtävä: "✏️", kirja: "📕", opiskelija: "👨‍🎓", oppilas: "👧", todistus: "📜",
@@ -130,18 +137,31 @@ const WORD_ILLUSTRATIONS: Record<string, string> = {
   itsenäisyyspäivä: "🇫🇮", juhannus: "🌅", sisu: "💪", joulupukki: "🎅",
   järvi: "🏞️", metsä: "🌲", revontulet: "🌌", mökki: "🏡",
   jokamiehenoikeus: "🌿", kaamos: "🌑",
+  // Family
+  äiti: "👩", isä: "👨", veli: "👦", sisko: "👧", lapsi: "👶", vaimo: "👰",
+  mies: "👨", mummo: "👵", ukki: "👴", perhe: "👨‍👩‍👧‍👦", vauva: "🍼",
+  ystävä: "🤝", naapuri: "🏘️", serkku: "👫", täti: "👩", setä: "👨",
+  anoppi: "👩‍🦳", sisarus: "👨‍👩‍👧", tytär: "👧", poika: "👦", puoliso: "💑",
   // Common verbs/nouns/adjectives
   puhua: "🗣️", syödä: "🍽️", juoda: "🥤", mennä: "🚶", tulla: "🏠", tehdä: "🔨",
   sanoa: "💬", tietää: "🧠", haluta: "💫", voida: "✅", pitää: "👍", antaa: "🤲",
   ottaa: "✋", lukea: "📖", kirjoittaa: "✍️", asua: "🏠", opiskella: "📚",
   työskennellä: "💼", ostaa: "🛒", maksaa: "💳", odottaa: "⏳", auttaa: "🤝",
   kysyä: "❓", vastata: "💡",
-  ihminen: "👤", mies: "👨", nainen: "👩", lapsi: "👶", aika: "⏰",
+  ihminen: "👤", nainen: "👩", aika: "⏰",
   päivä: "📆", vuosi: "📅", raha: "💰", paikka: "📍", kaupunki: "🏙️",
   maa: "🌍", kieli: "🗣️", numero: "🔢", sää: "🌤️",
   hyvä: "👍", huono: "👎", iso: "🔵", pieni: "🔹", uusi: "✨", vanha: "🏚️",
   kaunis: "🌹", kylmä: "🥶", lämmin: "🔥", helppo: "😌", vaikea: "😰",
   nopea: "⚡", hidas: "🐢", kallis: "💎", halpa: "🪙",
+  // Emotions & Personality
+  onnellinen: "😊", vihainen: "😠", rohkea: "🦁", ujo: "🙈",
+  ahkera: "💪", laiska: "😴", kärsivällinen: "🧘", ystävällinen: "🤗",
+  // Technology
+  tietokone: "💻", puhelin: "📱", sähköposti: "📧", salasana: "🔒",
+  sovellus: "📲", verkko: "🌐", tulostin: "🖨️", näppäimistö: "⌨️",
+  // Travel
+  hotelli: "🏨", passi: "🛂", nähtävyys: "🗼", museo: "🏛️",
 };
 
 const getWordIllustration = (word: string): string => {

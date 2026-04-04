@@ -225,4 +225,140 @@ Basic word order is **SVO** (Subject – Verb – Object), but flexible.
       },
     ],
   },
+  {
+    id: "yki-reading-exercises",
+    title: "Lukuharjoitukset",
+    titleEn: "Reading Exercises",
+    icon: "📖",
+    color: "from-blue-500 to-cyan-600",
+    description: "A2-tason luetunymmärtämisharjoituksia",
+    descriptionEn: "A2-level reading comprehension exercises",
+    pillar: "lessons",
+    lessons: [
+      {
+        id: "reading-exercise-1",
+        title: "Kirjastoilmoitus",
+        titleEn: "Library Notice",
+        icon: "📚",
+        level: "A2",
+        theory: `### Lue teksti ja vastaa kysymyksiin.
+
+**Kirjaston tiedote**
+
+Hyvät asiakkaat! Kirjastomme on suljettu remontin vuoksi 15.–30.6. Remontin aikana palautetut kirjat voi jättää ulko-ovella olevaan palautuslaatikkoon. Varauksia voi tehdä verkkokirjastossa osoitteessa kirjasto.fi. Kirjasto avautuu jälleen 1.7. uusilla aukioloajoilla: ma–pe 9–19, la 10–16. Tervetuloa!
+
+**Sanasto:**
+- suljettu = closed
+- remontti = renovation
+- palautuslaatikko = return box
+- varaus = reservation
+- aukioloajat = opening hours`,
+        theoryEn: `Read the library notice and answer the questions.`,
+        quiz: [
+          { question: "Miksi kirjasto on suljettu?", options: ["Kesäloma", "Remontti", "Henkilökunnan puute", "Tulipalo"], answer: 1, explanation: "Kirjasto on suljettu remontin vuoksi." },
+          { question: "Minne kirjat voi palauttaa remontin aikana?", options: ["Naapurikirjastoon", "Sähköpostilla", "Palautuslaatikkoon", "Ei minnekään"], answer: 2, explanation: "Ulko-ovella olevaan palautuslaatikkoon." },
+          { question: "Milloin kirjasto avautuu?", options: ["15.6.", "30.6.", "1.7.", "1.8."], answer: 2, explanation: "Kirjasto avautuu jälleen 1.7." },
+          { question: "Mihin aikaan kirjasto sulkeutuu arkisin?", options: ["17:00", "18:00", "19:00", "20:00"], answer: 2, explanation: "Ma–pe 9–19, eli sulkeutuu klo 19." },
+        ],
+      },
+      {
+        id: "reading-exercise-2",
+        title: "Sähköpostiviesti",
+        titleEn: "Email Message",
+        icon: "📧",
+        level: "A2",
+        theory: `### Lue sähköposti ja vastaa kysymyksiin.
+
+**Aihe:** Tervetuloa suomen kielen kurssille!
+
+Hei!
+
+Tervetuloa suomen kielen kurssille! Kurssi alkaa maanantaina 5.9. klo 17.00. Paikka on Kansalaisopisto, luokka 204. Kurssi kestää 10 viikkoa ja se on joka maanantai ja keskiviikko klo 17–19.
+
+Tarvitset muistikirjan ja kynän. Oppikirjan saat ensimmäisellä tunnilla. Kurssi maksaa 50 euroa.
+
+Jos sinulla on kysymyksiä, ota yhteyttä: opettaja@kansalaisopisto.fi
+
+Ystävällisin terveisin,
+Maria Korhonen
+Suomen kielen opettaja`,
+        theoryEn: `Read the email and answer the questions.`,
+        quiz: [
+          { question: "Milloin kurssi alkaa?", options: ["1.9.", "5.9.", "10.9.", "15.9."], answer: 1, explanation: "Kurssi alkaa maanantaina 5.9." },
+          { question: "Kuinka pitkä kurssi on?", options: ["5 viikkoa", "8 viikkoa", "10 viikkoa", "12 viikkoa"], answer: 2, explanation: "Kurssi kestää 10 viikkoa." },
+          { question: "Paljonko kurssi maksaa?", options: ["30 €", "40 €", "50 €", "60 €"], answer: 2, explanation: "Kurssi maksaa 50 euroa." },
+          { question: "Mitä tarvitset mukaan?", options: ["Tietokone", "Muistikirja ja kynä", "Oppikirja", "Sanakirja"], answer: 1, explanation: "Tarvitset muistikirjan ja kynän." },
+        ],
+      },
+    ],
+  },
+  {
+    id: "yki-listening-exercises",
+    title: "Kuunteluharjoitukset",
+    titleEn: "Listening Exercises",
+    icon: "🎧",
+    color: "from-purple-500 to-indigo-600",
+    description: "A2-tason kuullunymmärtämisharjoituksia",
+    descriptionEn: "A2-level listening comprehension exercises",
+    pillar: "lessons",
+    lessons: [
+      {
+        id: "listening-exercise-1",
+        title: "Säätiedotus",
+        titleEn: "Weather Report",
+        icon: "🌤️",
+        level: "A2",
+        theory: `### Kuuntele säätiedotus ja vastaa kysymyksiin.
+
+"Huomenta! Tässä on tämän päivän sää. Etelä-Suomessa on aurinkoista ja lämpötila on 18 astetta. Keski-Suomessa sataa ajoittain ja lämpötila on 14 astetta. Pohjois-Suomessa on pilvistä ja tuulista, lämpötila on 10 astetta. Huomenna on koko maassa aurinkoisempaa."
+
+**Sanasto:**
+- säätiedotus = weather report
+- aurinkoista = sunny
+- sataa = it rains
+- pilvistä = cloudy
+- tuulista = windy
+- astetta = degrees`,
+        theoryEn: `Listen to the weather report and answer the questions.`,
+        quiz: [
+          { question: "Millainen sää on Etelä-Suomessa?", options: ["Pilvistä", "Aurinkoista", "Sateista", "Myrskyistä"], answer: 1, explanation: "Etelä-Suomessa on aurinkoista." },
+          { question: "Paljonko on lämpötila Keski-Suomessa?", options: ["10 astetta", "14 astetta", "18 astetta", "20 astetta"], answer: 1, explanation: "Keski-Suomessa lämpötila on 14 astetta." },
+          { question: "Millainen sää on Pohjois-Suomessa?", options: ["Aurinkoista", "Sateista", "Pilvistä ja tuulista", "Lumista"], answer: 2, explanation: "Pohjois-Suomessa on pilvistä ja tuulista." },
+          { question: "Millainen sää on huomenna?", options: ["Sateista", "Aurinkoisempaa", "Myrskyisää", "Lumista"], answer: 1, explanation: "Huomenna on aurinkoisempaa." },
+        ],
+      },
+      {
+        id: "listening-exercise-2",
+        title: "Lääkärin vastaanotolla",
+        titleEn: "At the Doctor's Office",
+        icon: "🏥",
+        level: "A2",
+        theory: `### Kuuntele dialogi ja vastaa kysymyksiin.
+
+— Hyvää päivää. Mikä vaivaa?
+— Päivää. Minulla on kova päänsärky ja kuumetta.
+— Kuinka kauan oireet ovat kestäneet?
+— Kolme päivää.
+— Onko sinulla yskää tai nuhaa?
+— Kyllä, yskää on vähän.
+— Selvä. Kirjoitan sinulle reseptin. Ota lääkettä kaksi kertaa päivässä. Ja lepää hyvin.
+— Kiitos, lääkäri.
+— Ole hyvä. Jos kuume ei laske viikossa, tule uudelleen.
+
+**Sanasto:**
+- vaivaa = ails / is wrong
+- päänsärky = headache
+- oireet = symptoms
+- resepti = prescription
+- lepää = rest`,
+        theoryEn: `Listen to the doctor's office dialogue and answer the questions.`,
+        quiz: [
+          { question: "Mikä potilaalla on?", options: ["Vatsakipu", "Päänsärky ja kuume", "Jalka kipeä", "Korvasärky"], answer: 1, explanation: "Potilaalla on kova päänsärky ja kuumetta." },
+          { question: "Kuinka kauan oireet ovat kestäneet?", options: ["1 päivä", "2 päivää", "3 päivää", "1 viikko"], answer: 2, explanation: "Oireet ovat kestäneet kolme päivää." },
+          { question: "Kuinka usein lääkettä pitää ottaa?", options: ["Kerran päivässä", "Kaksi kertaa päivässä", "Kolme kertaa päivässä", "Neljä kertaa päivässä"], answer: 1, explanation: "Ota lääkettä kaksi kertaa päivässä." },
+          { question: "Milloin pitää tulla uudelleen?", options: ["Huomenna", "3 päivän päästä", "Jos kuume ei laske viikossa", "Ensi kuussa"], answer: 2, explanation: "Jos kuume ei laske viikossa, tule uudelleen." },
+        ],
+      },
+    ],
+  },
 ];
