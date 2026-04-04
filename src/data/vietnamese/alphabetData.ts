@@ -255,7 +255,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeCount: 2,
     strokePaths: [
       "M20,24 C10,24 4,30 4,38 C4,46 10,52 20,52 C30,52 36,46 36,38 C36,30 30,24 20,24",
-      "M34,22 C36,14 42,14 40,24"  // horn — a small curved hook at top-right
+      "M33,24 C35,16 39,18 37,24"  // horn — inside viewBox
     ]
   },
   // ── p ──
