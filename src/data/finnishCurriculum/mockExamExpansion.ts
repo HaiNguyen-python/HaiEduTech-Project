@@ -609,6 +609,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 - Matkustan [ystävän / perheen] kanssa
 - Olen kuullut, että siellä on [kaunista / mielenkiintoista]`,
         theoryEn: `### Speaking Task 10: Talk about your travel plans in Finland (40 seconds)`,
+        sampleAnswer: "Haluaisin matkustaa Lappiin ensi kesänä. Matkustan junalla perheeni kanssa. Siellä haluamme nähdä revontulia ja käydä saunassa. Olen kuullut, että Lappi on todella kaunis. Haluamme myös hiihtää ja patikoida.",
         quiz: [
           { question: "'Haluaisin matkustaa Lappiin' tarkoittaa...", options: ["I traveled to Lapland", "I would like to travel to Lapland", "I must travel to Lapland", "I don't want to travel"], answer: 1, explanation: "'Haluaisin' = I would like to." },
         ],
