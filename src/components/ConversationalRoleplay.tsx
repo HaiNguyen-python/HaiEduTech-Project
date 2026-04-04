@@ -166,8 +166,11 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       });
     };
 
-    // Filter out the initial "start" prompt — only send visible messages
-    const visibleMessages = updated.map(m => ({ role: m.role, content: m.content }));
+    // Sanitize: ensure alternating user/assistant starting with user
+    const sanitized = visibleMessages.filter((m, i) => {
+      if (i === 0) return m.role === "user";
+      return m.role !== visibleMessages[i - 1].role;
+    });
 
     await streamRoleplay({
       messages: visibleMessages,
