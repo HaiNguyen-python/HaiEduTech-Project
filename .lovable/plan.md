@@ -1,46 +1,55 @@
 
 
-## Plan: Expand & Reorganize Finnish Mock Exams by Skill
+## Plan: Expand AI Speaking Coach Content for All Languages
 
-### What changes
+### Current state
+| Language | Themes | Sentences |
+|----------|--------|-----------|
+| English | 11 (greetings, daily, travel, work, food, health, tech, culture, education, environment) | ~130 |
+| Finnish | 12 (greetings, daily, food, shopping, services, transport, health, work, nature, culture, housing) | ~130 |
+| Chinese | 12 (greetings, daily, travel, work, food, shopping, health, weather, culture, education, technology, environment) | ~130 |
+| Vietnamese | **5** (greetings, family, food, travel, work) | **55** |
 
-**1. Add skill filter tabs in the Kokeet section**
+Vietnamese is severely lacking. All languages could benefit from more themes.
 
-Replace the current flat grid of 16 modules with a filtered view organized by skill:
-- 📖 Lukeminen (Reading) — 4 modules, 16 lessons
-- 🎧 Kuunteleminen (Listening) — 4 modules, 16 lessons  
-- ✍️ Kirjoittaminen (Writing) — 4 modules, 18 lessons
-- 🎙️ Puhuminen (Speaking) — 4 modules, 18 lessons
-- 📋 Kaikki (All) — show everything (default)
+### What to add
 
-Each module card shows a completion badge (e.g., "3/5 ✓") and a green checkmark if all lessons are done.
+**Vietnamese — add 7 new themes (70 sentences):**
+- 🏫 Giáo dục (Education) — 10 sentences
+- 🏥 Sức khỏe (Health) — 10 sentences
+- 🛒 Mua sắm (Shopping) — 10 sentences
+- 🏠 Nhà cửa (Housing) — 10 sentences
+- 🌿 Thiên nhiên (Nature & Environment) — 10 sentences
+- 🎭 Văn hóa (Culture) — 10 sentences
+- 💻 Công nghệ (Technology) — 10 sentences
 
-**2. Add new mock exam content (Expansion 4)**
+**English — add 4 new themes (40 sentences):**
+- 🏠 Housing & Home — 10 sentences
+- 🛒 Shopping & Services — 10 sentences
+- 🎓 Academic English — 10 sentences
+- 📱 Social Media & Digital — 10 sentences
 
-Create `src/data/finnishCurriculum/mockExamExpansion4.ts` with 5 new lessons per skill (20 total), all closely modeled on real YKI A2 exam format:
+**Finnish — add 2 new themes (20 sentences):**
+- 🎓 Opiskelu (Study & Education) — 10 sentences
+- 🎉 Vapaa-aika (Leisure & Hobbies) — 10 sentences
 
-- **Reading (5)**: Official notices (Kela letter, library rules), classified ads, event programs, medicine instructions — each with 4-5 comprehension questions
-- **Listening (5)**: Supermarket announcements, phone calls to services (Kela, doctor), radio traffic updates, neighbor conversations — each with 3-4 questions
-- **Writing (5)**: Formal complaint to housing company, response to job ad, message to child's teacher, booking confirmation email, feedback form — each with sample answer and keyword evaluation
-- **Speaking (5)**: Pharmacy visit, describing daily routine, asking for directions, phone call to cancel appointment, introducing family — each with sample answer and quiz
+**Chinese — add 2 new themes (20 sentences):**
+- 🏠 住房 (Housing) — 10 sentences
+- 🎉 休闲 (Leisure & Hobbies) — 10 sentences
 
-**3. Show completion status on module cards**
+### Total after expansion
+| Language | Themes | Sentences |
+|----------|--------|-----------|
+| English | 15 | ~170 |
+| Finnish | 14 | ~150 |
+| Chinese | 14 | ~150 |
+| Vietnamese | 12 | ~125 |
 
-On the Kokeet module grid, each card displays:
-- Progress indicator: "3/5 completed"
-- Green checkmark overlay when all lessons in that module are done
+### File to modify
+- `src/data/speakingCoachData.ts` — add new theme arrays to each language section
 
-### Files to modify/create
-
-1. **`src/data/finnishCurriculum/mockExamExpansion4.ts`** — new file with 4 modules × 5 lessons = 20 new exam tasks
-2. **`src/data/finnishCurriculum/index.ts`** — export the new expansion
-3. **`src/pages/YkiDashboard.tsx`** — add skill filter sub-tabs in Kokeet view, import new data, show per-module completion progress on cards
-
-### Technical details
-
-In `YkiDashboard.tsx`:
-- Add state `mockSkillFilter` with values `"all" | "reading" | "listening" | "writing" | "speaking"`
-- Filter `allMockExamModules` by checking if module `id` contains the skill keyword
-- On each module card, compute `completedCount / totalCount` from `progress` state and display it
-- The sub-tabs render only when `activePillar === "mock-exams"` and no module is selected
+### What stays the same
+- `AISpeakingCoach` component logic — no changes needed (themes render dynamically)
+- `SpeakingCoachPage` — no changes
+- All gamification, badges, leaderboard logic — unchanged
 
