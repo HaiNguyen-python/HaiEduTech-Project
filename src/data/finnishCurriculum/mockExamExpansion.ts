@@ -580,6 +580,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 - Kysy tarvitseeko hän muuta apua
 - Ehdota muutakin apua (esim. lainata työkaluja)`,
         theoryEn: `### Speaking Task 9: Help your neighbor who has a broken fridge (40 seconds)`,
+        sampleAnswer: "Tottakai, ei hätää! Voit laittaa ruokasi meidän jääkaappiin. Siellä on tilaa. Tarvitsetko muuta apua? Voin lainata sinulle myös työkaluja jos tarvitset. Tervetuloa!",
         quiz: [
           { question: "'Jääkaappi meni rikki' tarkoittaa...", options: ["The fridge is new", "The fridge broke down", "The fridge is empty", "The fridge is full"], answer: 1, explanation: "'Meni rikki' = broke down." },
         ],
