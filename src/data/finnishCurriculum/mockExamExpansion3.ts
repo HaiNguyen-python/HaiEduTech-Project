@@ -164,6 +164,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-2", title: "Naapurin kanssa jutteleminen", titleEn: "Chatting with Neighbor", icon: "🏠", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Tapaat uuden naapurin rappukäytävässä.\n- Esittele itsesi\n- Kysy, mistä hän on kotoisin\n- Kerro, kuinka kauan olet asunut talossa\n- Ehdota kahville tulemista\n\n**Aika:** 3 min\n\n**Arviointikriteerit:**\n- Kohtelias esittäytyminen\n- Kysymysten muodostaminen\n- Luonteva keskustelu`,
         theoryEn: "Role-play: Chatting with a new neighbor.",
+        sampleAnswer: "Hei! Minä olen Anna. Olen asunut tässä talossa kaksi vuotta. Mistä sinä olet kotoisin? Hauska tavata! Haluaisitko tulla meille kahville joskus? Voisimme jutella lisää!",
         quiz: [
           { question: "'Mistä olet kotoisin?' tarkoittaa...", options: ["Where do you work?", "Where are you from?", "Where do you live?", "Where are you going?"], answer: 1, explanation: "'Kotoisin' = originally from." },
         ],
