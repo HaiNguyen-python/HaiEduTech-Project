@@ -1436,7 +1436,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
                   className="gap-1 text-xs border-amber-300 text-amber-700 hover:bg-amber-100"
                 >
                   {isPlayingModel ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Volume2 className="w-3.5 h-3.5" />}
-                  {isPlayingModel ? "Toistetaan..." : "Kuuntele"}
+                  {isPlayingModel ? (showTranslation ? "Playing..." : "Toistetaan...") : (showTranslation ? "Listen" : "Kuuntele")}
                 </Button>
                 <Button
                   size="sm"
