@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
+import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 24;
