@@ -14,7 +14,7 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
 
-const WORDS_PER_PAGE = 24;
+const WORDS_PER_PAGE = 10;
 
 // Level color mapping
 const levelColors: Record<string, string> = {
