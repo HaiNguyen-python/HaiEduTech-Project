@@ -155,6 +155,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-1", title: "Kaupassa asioiminen", titleEn: "Shopping", icon: "🛒", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Olet vaatekaupassa. Haluat ostaa takin.\n- Kysy, onko takkia koossa M\n- Kysy hintaa\n- Kysy, voitko sovittaa\n- Kysy, voiko maksaa kortilla\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Anteeksi, onko teillä...? / Paljonko tämä maksaa? / Voinko sovittaa? / Käykö kortti?\n\n**Arviointikriteerit:**\n- Sujuvuus ja ääntäminen\n- Sanavalinnat ja ilmaisut\n- Tilanteen hoitaminen loppuun`,
         theoryEn: "Role-play: Shopping for a jacket.",
+        sampleAnswer: "Hei! Haluaisin ostaa takin. Onko teillä takkia koossa M? Paljonko tämä maksaa? Voinko sovittaa tätä? Käykö kortti? Kiitos paljon!",
         quiz: [
           { question: "'Voinko sovittaa?' tarkoittaa...", options: ["Can I pay?", "Can I try it on?", "Can I return it?", "Can I see it?"], answer: 1, explanation: "'Sovittaa' = to try on." },
         ],
