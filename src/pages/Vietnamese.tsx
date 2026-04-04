@@ -357,14 +357,16 @@ const Vietnamese = () => {
                         <h3 className="font-bold text-white">{t(month.title, month.titleEn)}</h3>
                       </div>
                     </div>
-                    <div className="p-4 relative overflow-hidden">
-                      {/* Blurred background image */}
+                    <div className="p-4 relative overflow-hidden min-h-[120px]">
+                      {/* Background image for historical period */}
                       {historyBackgrounds[month.id] && (
                         <img
                           src={historyBackgrounds[month.id]}
                           alt=""
-                          className="absolute inset-0 w-full h-full object-cover opacity-[0.12] dark:opacity-[0.15] pointer-events-none"
+                          className="absolute inset-0 w-full h-full object-cover opacity-[0.18] dark:opacity-[0.22] pointer-events-none z-0"
                           loading="lazy"
+                          width={1024}
+                          height={640}
                         />
                       )}
                       <div className="relative z-10">
