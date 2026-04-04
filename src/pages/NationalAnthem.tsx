@@ -13,8 +13,8 @@ import soldierFlag from "@/assets/soldier-flag.png";
 
 // Lyrics data with timestamps (approximate seconds for karaoke highlighting)
 const lyricsLines = [
-  { text: "Đoàn quân Việt Nam đi", start: 0, end: 2.5, icon: "⚔️" },
-  { text: "Chung lòng cứu quốc", start: 2.5, end: 4.5, icon: "🛡️" },
+  { text: "Đoàn quân Việt Nam đi", start: 0, end: 2.2, icon: "⚔️" },
+  { text: "Chung lòng cứu quốc", start: 2.2, end: 4.2, icon: "🛡️" },
   { text: "Bước chân dồn vang trên đường gập ghềnh xa", start: 4.5, end: 9, icon: "🥾" },
   { text: "Cờ in máu chiến thắng mang hồn nước", start: 8.5, end: 13.5, icon: "🚩" },
   { text: "Súng ngoài xa chen khúc quân hành ca", start: 14.5, end: 19.5, icon: "🎵" },
