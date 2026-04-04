@@ -339,7 +339,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokePaths: [
       "M10,24 L10,42 C10,52 30,52 30,42",
       "M30,24 L30,52",
-      "M30,20 C32,12 38,14 36,22"  // horn mark — inside viewBox
+      "M30,22 L32,14 L34,22"  // horn — small tick attached to top of right stem
     ]
   },
   // ── v ──
