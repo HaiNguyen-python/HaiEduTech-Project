@@ -363,7 +363,7 @@ const Vietnamese = () => {
                         <img
                           src={historyBackgrounds[month.id]}
                           alt=""
-                          className="absolute inset-0 w-full h-full object-cover opacity-[0.18] dark:opacity-[0.22] pointer-events-none z-0"
+                          className="absolute inset-0 w-full h-full object-cover opacity-[0.25] dark:opacity-[0.20] pointer-events-none z-0"
                           loading="lazy"
                           width={1024}
                           height={640}
