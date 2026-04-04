@@ -451,7 +451,6 @@ const VOCAB_IMAGES: Record<string, string> = {
   lautapeli: U("photo-1610890716171-6b1bb98ffd09"), käsityö: U("photo-1452587925148-ce544e77e70d"),
   // Health expansion (new words only)
   nuha: U("photo-1578307985320-34b61a66c195"), polvi: U("photo-1571019613454-1cb2f99b2d8b"),
-  nuha: U("photo-1578307985320-34b61a66c195"), polvi: U("photo-1571019613454-1cb2f99b2d8b"),
 };
 
 // Category-level fallback images when no exact word match exists
