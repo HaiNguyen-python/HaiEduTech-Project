@@ -11,19 +11,19 @@ import Footer from "@/components/Footer";
 import flagWaving from "@/assets/vietnam-flag-waving.jpg";
 import soldierFlag from "@/assets/soldier-flag.png";
 
-// Lyrics data with timestamps (approximate seconds for karaoke highlighting)
+// Lyrics data (static display only)
 const lyricsLines = [
-  { text: "Đoàn quân Việt Nam đi", start: 0, end: 2.2, icon: "⚔️" },
-  { text: "Chung lòng cứu quốc", start: 2.2, end: 4.2, icon: "🛡️" },
-  { text: "Bước chân dồn vang trên đường gập ghềnh xa", start: 4.8, end: 9.3, icon: "🥾" },
-  { text: "Cờ in máu chiến thắng mang hồn nước", start: 8.8, end: 13.8, icon: "🚩" },
-  { text: "Súng ngoài xa chen khúc quân hành ca", start: 14.8, end: 19.8, icon: "🎵" },
-  { text: "Đường vinh quang xây xác quân thù", start: 19.8, end: 23.8, icon: "🏆" },
-  { text: "Thắng gian lao cùng nhau lập chiến khu", start: 25.3, end: 30.3, icon: "⛰️" },
-  { text: "Vì nhân dân chiến đấu không ngừng", start: 30.5, end: 35.5, icon: "✊" },
-  { text: "Tiến mau ra sa trường", start: 35, end: 38, icon: "🔥" },
-  { text: "Tiến lên! Cùng tiến lên!", start: 38.5, end: 43.5, icon: "🎺" },
-  { text: "Nước non Việt Nam ta vững bền.", start: 43.5, end: 50.5, icon: "⭐" },
+  { text: "Đoàn quân Việt Nam đi", icon: "⚔️" },
+  { text: "Chung lòng cứu quốc", icon: "🛡️" },
+  { text: "Bước chân dồn vang trên đường gập ghềnh xa", icon: "🥾" },
+  { text: "Cờ in máu chiến thắng mang hồn nước", icon: "🚩" },
+  { text: "Súng ngoài xa chen khúc quân hành ca", icon: "🎵" },
+  { text: "Đường vinh quang xây xác quân thù", icon: "🏆" },
+  { text: "Thắng gian lao cùng nhau lập chiến khu", icon: "⛰️" },
+  { text: "Vì nhân dân chiến đấu không ngừng", icon: "✊" },
+  { text: "Tiến mau ra sa trường", icon: "🔥" },
+  { text: "Tiến lên! Cùng tiến lên!", icon: "🎺" },
+  { text: "Nước non Việt Nam ta vững bền.", icon: "⭐" },
 ];
 
 // Key vocabulary from the anthem
@@ -61,7 +61,6 @@ const vocabItems = [
 ];
 
 const VIDEO_ID = "SK6rHXlKC0A";
-const LYRICS_DELAY_MS = 5500;
 
 declare global {
   interface Window {
@@ -72,14 +71,11 @@ declare global {
 
 const NationalAnthem = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
   const [showSalute, setShowSalute] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
 
   const playerRef = useRef<any>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const delayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Load YouTube IFrame API
   useEffect(() => {
@@ -115,66 +111,23 @@ const NationalAnthem = () => {
     });
   };
 
-  // Determine which lyric line is active
-  const activeLineIndex = lyricsLines.findIndex(
-    (line) => currentTime >= line.start && currentTime < line.end
-  );
-
-  const startLyricsTimer = useCallback(() => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    const interval = setInterval(() => {
-      setCurrentTime((prev) => {
-        if (prev >= 51) {
-          clearInterval(interval);
-          setIsPlaying(false);
-          return 0;
-        }
-        return prev + 0.5;
-      });
-    }, 500);
-    timerRef.current = interval;
-  }, []);
-
   const handleStart = useCallback(() => {
     if (!playerRef.current) return;
-    // Play YouTube video immediately
     playerRef.current.playVideo();
     setIsPlaying(true);
-    setCurrentTime(0);
-
-    // Clear any existing timers
-    if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
-    if (timerRef.current) clearInterval(timerRef.current);
-
-    // Start lyrics after 3s delay
-    delayTimerRef.current = setTimeout(() => {
-      startLyricsTimer();
-    }, LYRICS_DELAY_MS);
-  }, [startLyricsTimer]);
+  }, []);
 
   const handlePause = useCallback(() => {
     setIsPlaying(false);
     if (playerRef.current) playerRef.current.pauseVideo();
-    if (timerRef.current) clearInterval(timerRef.current);
-    if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
   }, []);
 
   const handleReplay = useCallback(() => {
-    setCurrentTime(0);
     setIsPlaying(false);
     if (playerRef.current) {
       playerRef.current.seekTo(0);
       playerRef.current.pauseVideo();
     }
-    if (timerRef.current) clearInterval(timerRef.current);
-    if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-      if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
-    };
   }, []);
 
   // Salute animation with trumpet sound
@@ -364,42 +317,27 @@ const NationalAnthem = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <Card className="p-6 border-red-100">
-                <div className="flex items-center justify-between mb-5">
-                  <h2
-                    className="text-xl font-bold text-foreground flex items-center gap-2"
-                    style={{ fontFamily: "'Playfair Display', 'Noto Serif', serif" }}
-                  >
-                    <Music className="w-5 h-5 text-red-600" />
-                    Lời bài hát
-                  </h2>
-                  {isPlaying && (
-                    <span className="flex items-center gap-1.5 text-sm text-red-600 font-medium">
-                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                      Đang phát
-                    </span>
-                  )}
-                </div>
+                <h2
+                  className="text-xl font-bold text-foreground flex items-center gap-2 mb-5"
+                  style={{ fontFamily: "'Playfair Display', 'Noto Serif', serif" }}
+                >
+                  <Music className="w-5 h-5 text-red-600" />
+                  Lời bài hát
+                </h2>
                 <div className="space-y-2">
-                  {lyricsLines.map((line, i) => {
-                    const isActive = i === activeLineIndex;
-                    return (
-                      <motion.p
-                        key={i}
-                        className={`transition-all duration-300 rounded-md px-3 py-1.5 font-semibold ${
-                          isActive
-                            ? "bg-red-600 text-white font-bold scale-[1.02] shadow-md"
-                            : "text-foreground"
-                        }`}
-                        style={{
-                          fontFamily: "'Playfair Display', 'Noto Serif', serif",
-                          fontSize: isActive ? "22px" : "20px",
-                          lineHeight: 1.6,
-                        }}
-                      >
-                        <span className="mr-1.5">{line.icon}</span>{line.text}
-                      </motion.p>
-                    );
-                  })}
+                  {lyricsLines.map((line, i) => (
+                    <p
+                      key={i}
+                      className="rounded-md px-3 py-1.5 font-semibold text-foreground"
+                      style={{
+                        fontFamily: "'Playfair Display', 'Noto Serif', serif",
+                        fontSize: "20px",
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      <span className="mr-1.5">{line.icon}</span>{line.text}
+                    </p>
+                  ))}
                 </div>
               </Card>
             </motion.div>
