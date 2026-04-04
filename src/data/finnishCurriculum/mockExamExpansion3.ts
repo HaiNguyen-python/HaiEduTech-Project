@@ -191,6 +191,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-5", title: "Terveyskeskuksessa", titleEn: "At the Health Center", icon: "🏥", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Olet terveyskeskuksessa. Kerro lääkärille oireistasi.\n- Kerro, mikä on vialla\n- Kerro, milloin oireet alkoivat\n- Vastaa lääkärin kysymyksiin\n- Kysy ohjeita\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Minulla on... / Oireet alkoivat... / Onko minun otettava lääkettä? / Milloin tulen uudelleen?\n\n**Arviointikriteerit:**\n- Oiresanasto\n- Ajan ilmaisut (eilen, viime viikolla)\n- Kysymysten muodostaminen`,
         theoryEn: "Role-play: Describing symptoms at the health center.",
+        sampleAnswer: "Päivää! Minulla on kuumetta ja yskää. Oireet alkoivat kolme päivää sitten. En käytä mitään lääkkeitä. Onko minun otettava jotain lääkettä? Milloin tulen uudelleen vastaanotolle? Kiitos!",
         quiz: [
           { question: "'Minulla on kuumetta' — mitä verbiä käytetään?", options: ["olen", "minulla on", "tulen", "menen"], answer: 1, explanation: "'Minulla on' — omistusrakenne tuntemuksille." },
         ],
