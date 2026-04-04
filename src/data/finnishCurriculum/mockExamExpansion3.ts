@@ -182,6 +182,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-4", title: "Ravintolassa tilaaminen", titleEn: "Ordering at a Restaurant", icon: "🍽️", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Olet ravintolassa. Tilaa ruokaa ja juomaa.\n- Kysy ruokalistaa\n- Tilaa alkuruoka ja pääruoka\n- Kysy, onko jälkiruokaa\n- Pyydä lasku\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Saisinko ruokalistan? / Haluaisin tilata... / Onko teillä...? / Saisinko laskun?\n\n**Arviointikriteerit:**\n- Kohtelias pyyntö (konditionaali)\n- Ruokasanasto\n- Luonteva vuorovaikutus`,
         theoryEn: "Role-play: Ordering food at a restaurant.",
+        sampleAnswer: "Saisinko ruokalistan, kiitos? Haluaisin tilata alkuruoaksi keittoa ja pääruoaksi lohta perunoiden kanssa. Onko teillä jälkiruokaa? Haluaisin kahvia myös. Saisinko laskun, kiitos!",
         quiz: [
           { question: "'Saisinko laskun?' on...", options: ["käsky", "kohtelias pyyntö", "kysymys hinnasta", "valitus"], answer: 1, explanation: "'Saisinko' on konditionaali — kohtelias pyyntö." },
         ],
