@@ -404,12 +404,12 @@ const IeltsVocabulary = () => {
                     style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
                   >
                     {/* Header: Word + Audio + Star */}
-                    <div className="mb-2 flex min-w-0 items-start justify-between gap-3">
-                      <div className="min-w-0 flex-1">
-                        <h3 className="break-words font-extrabold [overflow-wrap:anywhere]" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.6 }}>{w.word}</h3>
-                        <p className="break-words font-mono [overflow-wrap:anywhere]" style={{ fontSize: "0.875rem", color: "#4b5563" }}>{w.ipa}</p>
+                    <div className="mb-2 min-w-0">
+                      <div className="min-w-0">
+                        <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35, overflowWrap: "break-word", wordBreak: "normal" }}>{w.word}</h3>
+                        <p className="break-words font-mono" style={{ fontSize: "0.875rem", color: "#4b5563", overflowWrap: "break-word", wordBreak: "normal" }}>{w.ipa}</p>
                       </div>
-                      <div className="flex shrink-0 items-center gap-1">
+                      <div className="mt-2 flex items-center justify-end gap-1">
                         <button onClick={() => speak(w.word)} className="rounded-lg p-1.5 transition-colors hover:bg-primary/10">
                           <Volume2 size={20} style={{ color: "#4b5563" }} />
                         </button>
@@ -435,11 +435,11 @@ const IeltsVocabulary = () => {
                     </div>
 
                     {/* Definition — high contrast */}
-                    <p className="min-w-0 break-words font-semibold leading-relaxed whitespace-normal [overflow-wrap:anywhere]" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>{w.definition.en}</p>
-                    <p className="mt-1 min-w-0 break-words font-bold whitespace-normal [overflow-wrap:anywhere]" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6 }}>{w.definition.vi}</p>
+                    <p className="min-w-0 break-words font-semibold leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.en}</p>
+                    <p className="mt-1 min-w-0 break-words font-bold whitespace-normal" style={{ fontSize: "1.1875rem", color: "#1d4ed8", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>{w.definition.vi}</p>
 
                     {/* Example sentence */}
-                    <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal [overflow-wrap:anywhere]" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6 }}>&quot;{w.example}&quot;</p>
+                    <p className="mt-3 min-w-0 break-words italic leading-relaxed whitespace-normal" style={{ fontSize: "1rem", color: "#374151", lineHeight: 1.6, overflowWrap: "break-word", wordBreak: "normal" }}>&quot;{w.example}&quot;</p>
 
                     {/* Synonyms & Collocations — compact wrap layout */}
                     {(w.synonyms?.length || w.collocations?.length) ? (
@@ -453,7 +453,7 @@ const IeltsVocabulary = () => {
                                 {w.synonyms.map((s, i) => (
                                   <span
                                     key={`${w.word}-syn-${i}`}
-                                    className="max-w-full break-words rounded-full border border-border/70 bg-background px-2.5 py-1 text-sm text-foreground [overflow-wrap:anywhere]"
+                                    className="max-w-full break-words rounded-full border border-border/70 bg-background px-2.5 py-1 text-sm text-foreground" style={{ overflowWrap: "break-word", wordBreak: "normal" }}
                                   >
                                     {s}
                                   </span>
@@ -471,7 +471,7 @@ const IeltsVocabulary = () => {
                                 {w.collocations.map((c, i) => (
                                   <span
                                     key={`${w.word}-col-${i}`}
-                                    className="max-w-full break-words rounded-full border border-border/70 bg-background px-2.5 py-1 text-sm text-foreground [overflow-wrap:anywhere]"
+                                    className="max-w-full break-words rounded-full border border-border/70 bg-background px-2.5 py-1 text-sm text-foreground" style={{ overflowWrap: "break-word", wordBreak: "normal" }}
                                   >
                                     {c}
                                   </span>
