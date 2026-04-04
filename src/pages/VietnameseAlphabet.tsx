@@ -31,7 +31,7 @@ const StrokeAnimation = ({ paths, animate }: { paths: string[]; animate: boolean
           fill="none"
           initial={{ pathLength: 0, opacity: 0.2 }}
           animate={animate ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0.2 }}
-          transition={{ duration: 0.9, delay: i * 0.7, ease: "easeInOut" }}
+          transition={{ duration: 1.8, delay: i * 1.2, ease: "easeInOut" }}
         />
       ))}
     </svg>

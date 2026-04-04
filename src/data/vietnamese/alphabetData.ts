@@ -374,8 +374,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 2 diagonals meeting in the middle, then extend tail below baseline",
     strokeCount: 2,
     strokePaths: [
-      "M10,24 L20,40",                         // left diagonal
-      "M30,24 L20,40 L16,65 C14,68 10,66 12,62"  // right diagonal + descender with hook
+      "M8,24 L20,42",                          // left diagonal down to center
+      "M32,24 L20,42 L14,65 C12,70 8,68 10,62"  // right diagonal + descender curve
     ]
   },
 ];
