@@ -1533,12 +1533,12 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
 
             {/* Improvement tips */}
             <div className="pt-3 border-t border-emerald-200 dark:border-emerald-800">
-              <h5 className="font-semibold text-sm text-foreground mb-2">💡 Parannusehdotuksia (Gợi ý cải thiện):</h5>
+              <h5 className="font-semibold text-sm text-foreground mb-2">💡 {showTranslation ? "Improvement suggestions:" : "Parannusehdotuksia:"}</h5>
               <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                {accuracy < 50 && <li>Kuuntele mallivastaus uudelleen ja toista perässä.</li>}
-                {accuracy < 80 && <li>Keskity puuttuviin sanoihin (keltaisella merkityt).</li>}
-                {accuracy >= 80 && <li>Erinomainen! Yritä käyttää lisää omia lauseita.</li>}
-                <li>Harjoittele ääntämistä AI Puhevalmennus -osiossa.</li>
+                {accuracy < 50 && <li>{showTranslation ? "Listen to the model answer again and repeat after it." : "Kuuntele mallivastaus uudelleen ja toista perässä."}</li>}
+                {accuracy < 80 && <li>{showTranslation ? "Focus on missing words (highlighted in yellow)." : "Keskity puuttuviin sanoihin (keltaisella merkityt)."}</li>}
+                {accuracy >= 80 && <li>{showTranslation ? "Excellent! Try using more of your own sentences." : "Erinomainen! Yritä käyttää lisää omia lauseita."}</li>}
+                <li>{showTranslation ? "Practice pronunciation in the AI Speaking Coach section." : "Harjoittele ääntämistä AI Puhevalmennus -osiossa."}</li>
               </ul>
             </div>
 
