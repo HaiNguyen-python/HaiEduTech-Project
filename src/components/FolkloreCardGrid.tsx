@@ -1,7 +1,10 @@
-// Folklore card grid component with artistic typography and masonry layout
+// Folklore card grid component with artistic typography, masonry layout, and audio
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
+import { Volume2, Square, PlayCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { FolkloreItem } from "@/data/vietnamese/types";
 
 // Image imports for folklore illustrations
@@ -63,24 +66,77 @@ interface FolkloreCardGridProps {
 
 const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
   const { t } = useLanguage();
+  const [speakingId, setSpeakingId] = useState<string | null>(null);
 
   // Filter out truyen-co (fairy tales), keep only ca-dao and tuc-ngu
   const filtered = items.filter((item) => item.type !== "truyen-co");
 
+  const speakVietnamese = useCallback((text: string, itemId: string) => {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "vi-VN";
+    u.rate = 0.6;
+    u.pitch = 1.15;
+    u.onstart = () => setSpeakingId(itemId);
+    u.onend = () => setSpeakingId(null);
+    u.onerror = () => setSpeakingId(null);
+    speechSynthesis.speak(u);
+  }, []);
+
+  const stopSpeech = useCallback(() => {
+    speechSynthesis.cancel();
+    setSpeakingId(null);
+  }, []);
+
   return (
     <div>
-      <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-        🌾 {t("Ca Dao & Tục Ngữ", "Folk Songs & Proverbs")}
-      </h2>
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+          🌾 {t("Ca Dao & Tục Ngữ", "Folk Songs & Proverbs")}
+          <span className="text-sm font-normal text-muted-foreground">({filtered.length})</span>
+        </h2>
+        {speakingId ? (
+          <Button variant="destructive" size="sm" onClick={stopSpeech} className="gap-2">
+            <Square className="w-4 h-4" /> {t("Dừng", "Stop")}
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={() => {
+              // Speak all items sequentially
+              const texts = filtered.map(item => item.content);
+              let idx = 0;
+              const speakNext = () => {
+                if (idx >= texts.length) { setSpeakingId(null); return; }
+                const item = filtered[idx];
+                const u = new SpeechSynthesisUtterance(item.content);
+                u.lang = "vi-VN";
+                u.rate = 0.6;
+                u.pitch = 1.15;
+                u.onstart = () => setSpeakingId(item.id);
+                u.onend = () => { idx++; setTimeout(speakNext, 400); };
+                u.onerror = () => setSpeakingId(null);
+                speechSynthesis.speak(u);
+              };
+              speechSynthesis.cancel();
+              speakNext();
+            }}
+          >
+            <PlayCircle className="w-4 h-4" /> {t("Nghe tất cả", "Listen All")}
+          </Button>
+        )}
+      </div>
 
       {/* Responsive 3-column grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((item, idx) => {
           const isProverb = item.type === "tuc-ngu";
-          // For proverbs, show full content as main title; for folk songs, show the title
           const displayTitle = isProverb
             ? t(item.content, item.contentEn)
             : t(item.title, item.titleEn);
+          const isCurrent = speakingId === item.id;
 
           return (
             <motion.div
@@ -88,19 +144,29 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.04 }}
-              className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg transition-all group"
+              className={`bg-card border rounded-xl overflow-hidden hover:shadow-lg transition-all group ${
+                isCurrent ? "border-primary ring-2 ring-primary/30" : "border-border"
+              }`}
             >
-              {/* Header: Badge + Main verse */}
-              <div className="px-5 pt-5 pb-2 flex items-start gap-2">
+              {/* Header: Badge + Audio button */}
+              <div className="px-5 pt-5 pb-2 flex items-center justify-between">
                 <Badge
                   variant="outline"
-                  className="text-xs shrink-0 border-primary/40 text-primary mt-1"
+                  className="text-xs shrink-0 border-primary/40 text-primary"
                 >
                   {isProverb ? t("Tục Ngữ", "Proverb") : t("Ca Dao", "Folk Song")}
                 </Badge>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`h-8 w-8 shrink-0 ${isCurrent ? "text-primary animate-pulse" : "text-muted-foreground hover:text-primary"}`}
+                  onClick={() => isCurrent ? stopSpeech() : speakVietnamese(item.content, item.id)}
+                >
+                  {isCurrent ? <Square className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                </Button>
               </div>
 
-              {/* Main verse text — artistic Dancing Script font */}
+              {/* Main verse text */}
               <div className="px-5 pb-3">
                 <h3
                   className="text-foreground leading-relaxed font-bold"
@@ -114,7 +180,7 @@ const FolkloreCardGrid = ({ items }: FolkloreCardGridProps) => {
                 </h3>
               </div>
 
-              {/* Watercolor illustration with soft border and glow */}
+              {/* Watercolor illustration */}
               {imageMap[item.id] && (
                 <div className="px-4">
                   <div className="rounded-lg overflow-hidden border border-border/50 shadow-sm ring-1 ring-primary/10">
