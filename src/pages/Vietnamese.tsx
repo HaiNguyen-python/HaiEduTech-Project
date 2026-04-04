@@ -360,13 +360,10 @@ const Vietnamese = () => {
                     <div className="p-4 relative overflow-hidden min-h-[120px]">
                       {/* Background image for historical period */}
                       {historyBackgrounds[month.id] && (
-                        <img
-                          src={historyBackgrounds[month.id]}
-                          alt=""
-                          className="absolute inset-0 w-full h-full object-cover opacity-[0.25] dark:opacity-[0.20] pointer-events-none z-0"
-                          loading="lazy"
-                          width={1024}
-                          height={640}
+                        <div
+                          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-[0.25] dark:opacity-[0.20] pointer-events-none z-0"
+                          style={{ backgroundImage: `url(${historyBackgrounds[month.id]})` }}
+                          aria-hidden="true"
                         />
                       )}
                       <div className="relative z-10">
