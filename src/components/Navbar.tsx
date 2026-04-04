@@ -122,16 +122,11 @@ const Navbar = () => {
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/learn-vietnamese/folklore", label: t("📖 Truyện cổ tích", "📖 Folklore Treasury") },
     { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Tiếng Việt cho Người Nước Ngoài", "🌏 Vietnamese for Foreigners") },
     { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
-    { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử Việt Nam", "📜 Vietnamese History") },
-    { to: "/learn-vietnamese?tab=folklore", label: t("🌾 Ca Dao & Tục Ngữ", "🌾 Folklore & Proverbs") },
-    { to: "/learn-vietnamese/poetry", label: t("📜 Thơ Việt Nam", "📜 Vietnamese Poetry") },
-    { to: "/learn-vietnamese/dictation", label: t("✍️ Nghe chép chính tả", "✍️ Dictation") },
+    { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử & Văn hóa", "📜 History & Culture") },
     { to: "/speaking-coach/vietnamese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
-    { to: "/learn-vietnamese/national-anthem", label: t("⭐ Quốc ca Việt Nam", "⭐ National Anthem") },
-    { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi vui nhộn", "🎮 Fun Games") },
+    { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
   ];
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: "📚 Overview" },
