@@ -188,6 +188,8 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     setEarnedBadges(loadBadges(language));
     setThemeScores(loadThemeScores(language));
     lastProcessedTranscriptRef.current = "";
+    manualStopRef.current = false;
+    accumulatedTranscriptRef.current = "";
     // Stop any active recognition
     if (recognitionRef.current) {
       try { recognitionRef.current.abort(); } catch {}
