@@ -325,8 +325,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write a U-curve then a vertical stroke on the right",
     strokeCount: 2,
     strokePaths: [
-      "M12,24 L12,42 C12,52 28,52 28,42",  // U shape
-      "M28,24 L28,52"                        // right stem
+      "M10,24 L10,42 C10,52 30,52 30,42",  // wider U shape
+      "M30,24 L30,52"                        // right stem
     ]
   },
   // ── ư ──
