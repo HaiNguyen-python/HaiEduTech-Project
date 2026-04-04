@@ -218,9 +218,12 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     const recognition = new SpeechRecognition();
 
     recognition.lang = config.speechLang;
-    recognition.continuous = false;
+    recognition.continuous = true;
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
+
+    accumulatedTranscriptRef.current = "";
+    manualStopRef.current = false;
 
     recognition.onstart = () => {
       setIsRecording(true);
@@ -239,6 +242,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         }
       }
 
+      accumulatedTranscriptRef.current = finalTranscript;
       setTranscript(finalTranscript || interimTranscript);
     };
 
