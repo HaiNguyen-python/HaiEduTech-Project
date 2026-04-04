@@ -426,6 +426,33 @@ const VOCAB_IMAGES: Record<string, string> = {
   mainos: U("photo-1557838923-2985c318be48"), toimittaja: U("photo-1504711331083-9c895941bf81"),
   ohjelma: U("photo-1485846234645-a62644f84728"), artikkeli: U("photo-1495020689067-958852a7765e"),
   yhteiskunta: U("photo-1449824913935-59a10b8d2000"),
+  // Family (expansion4)
+  äiti: U("photo-1596464716127-f2a82984de30"), isä: U("photo-1540569014015-19a7be504e3a"),
+  veli: U("photo-1529333166437-7750a6dd5a70"), sisko: U("photo-1516627145497-ae6968895b74"),
+  vaimo: U("photo-1519741497674-611481863552"), mummo: U("photo-1581579438747-104c53d7fbc4"),
+  ukki: U("photo-1566753323558-f4e0952af115"), vauva: U("photo-1522771739844-6a9f6d5f14af"),
+  serkku: U("photo-1529156069898-49953e39b3ac"), täti: U("photo-1544005313-94ddf0286df2"),
+  setä: U("photo-1507003211169-0a1dd7228f2d"), anoppi: U("photo-1581579438747-104c53d7fbc4"),
+  sisarus: U("photo-1511895426328-dc8714191300"), tytär: U("photo-1516627145497-ae6968895b74"),
+  poika: U("photo-1503454537195-1dcabb73ffb9"), puoliso: U("photo-1519741497674-611481863552"),
+  // Food expansion
+  voileipä: U("photo-1528735602780-2552fd46c7af"), jäätelö: U("photo-1497034825429-c343d7c6a68f"),
+  kana: U("photo-1587593810167-a84920ea0781"), pasta: U("photo-1551462147-37885acc36f1"),
+  jogurtti: U("photo-1488477181946-6428a0291777"), olut: U("photo-1535958636474-b021ee887b13"),
+  omena: U("photo-1570913149827-d2ac84ab3f9a"), riisi: U("photo-1516684732162-798a0062be99"),
+  mehu: U("photo-1600271886742-f049cd451bba"), sokeri: U("photo-1558642452-9d2a7deb7f62"),
+  suola: U("photo-1518110925495-5fe2c8cf4caa"),
+  // Hobbies expansion
+  lenkkeily: U("photo-1476480862126-209bfaa8edc8"), uinti: U("photo-1530549387789-4c1017266635"),
+  maalaus: U("photo-1460661419201-fd4cecdf8a8b"), peli: U("photo-1511512578047-dfb367046420"),
+  kalastus: U("photo-1504309092620-4d0ec726efa4"), pyöräily: U("photo-1541625602330-2277a4c46182"),
+  valokuvaus: U("photo-1452587925148-ce544e77e70d"), hiihtäminen: U("photo-1551698618-1dfe5d97d256"),
+  luistelu: U("photo-1551632436-cbf8dd35adfa"), puutarha: U("photo-1416879595882-3373a0480b5b"),
+  lautapeli: U("photo-1610890716171-6b1bb98ffd09"), käsityö: U("photo-1452587925148-ce544e77e70d"),
+  // Health expansion
+  nenä: U("photo-1588776814546-1ffcf47267a5"), selkä: U("photo-1544367567-0f2fcb009e0b"),
+  vatsa: U("photo-1571019613454-1cb2f99b2d8b"), flunssa: U("photo-1578307985320-34b61a66c195"),
+  nuha: U("photo-1578307985320-34b61a66c195"), polvi: U("photo-1571019613454-1cb2f99b2d8b"),
 };
 
 // Category-level fallback images when no exact word match exists
@@ -447,6 +474,11 @@ const CATEGORY_IMAGES: Record<string, string> = {
   technology: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=400&h=300&q=80",
   travel: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&h=300&q=80",
   society: "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=400&h=300&q=80",
+  family: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=400&h=300&q=80",
+  relationships: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&h=300&q=80",
+  body: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=300&q=80",
+  hobbies: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&h=300&q=80",
+  drinks: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=400&h=300&q=80",
 };
 
 // Three-tier fallback: exact word → category → null (triggers gradient+emoji)
