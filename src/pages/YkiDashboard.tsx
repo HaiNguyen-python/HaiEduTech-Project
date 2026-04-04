@@ -1461,7 +1461,7 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
       <Card className="border-[#003580]/15">
         <CardContent className="p-4">
           <h4 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
-            <Mic className="w-4 h-4 text-rose-500" /> Nauhoita vastauksesi (40 sekuntia)
+            <Mic className="w-4 h-4 text-rose-500" /> {showTranslation ? "Record your answer (40 seconds)" : "Nauhoita vastauksesi (40 sekuntia)"}
           </h4>
           <div className="flex items-center gap-3">
             {!recording ? (
