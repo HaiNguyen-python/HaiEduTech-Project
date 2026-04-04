@@ -30,11 +30,16 @@ import {
 } from "@/data/vietnameseCurriculumData";
 
 // Background images for history period cards
+import historyBg1 from "@/assets/history-bg-1.jpg";
+import historyBg2 from "@/assets/history-bg-2.jpg";
+import historyBg3 from "@/assets/history-bg-3.jpg";
+import historyBg4 from "@/assets/history-bg-4.jpg";
+
 const historyBackgrounds: Record<string, string> = {
-  "month-1": "https://images.unsplash.com/photo-1600002415506-990974a7b2e3?w=800&q=60", // ancient Vietnamese bronze drum
-  "month-2": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800&q=60", // Temple of Literature Hanoi
-  "month-3": "https://images.unsplash.com/photo-1557750255-c76072572add?w=800&q=60", // Vietnam historic
-  "month-4": "https://images.unsplash.com/photo-1583417267826-aebc4d1542e1?w=800&q=60", // modern Ho Chi Minh City skyline
+  "month-1": historyBg1, // Trống đồng Đông Sơn
+  "month-2": historyBg2, // Văn Miếu Quốc Tử Giám
+  "month-3": historyBg3, // Lăng Chủ tịch & cờ đỏ sao vàng
+  "month-4": historyBg4, // Skyline TP.HCM hiện đại
 };
 
 // Icon mapping for each history lesson
