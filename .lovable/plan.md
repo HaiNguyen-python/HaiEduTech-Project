@@ -1,34 +1,52 @@
 
 
-## Plan: Thêm câu hỏi Knowledge Check cho mục Học Lập Trình
+## Plan: Sắp xếp lại menu IELTS Program cho gọn gàng hơn
 
 ### Hiện trạng
-- File `src/data/programmingLessonData.ts` chứa **37 bài học** với trung bình chỉ **1.9 câu hỏi/bài** (nhiều bài chỉ có 1-2 câu)
-- Các file mở rộng (`aiFoundationLessons.ts`, `mlLessons.ts`, `sqlLessons.ts`, `dataEngLessons.ts`) đã có 5 câu/bài — đạt chuẩn
-- Cần nâng mỗi bài trong `programmingLessonData.ts` lên **5 câu hỏi** có giải thích chi tiết
+Menu IELTS Program hiện có **8 mục** liệt kê dạng phẳng, gây cảm giác lộn xộn:
+1. Overview & Roadmap
+2. IELTS Lectures
+3. IELTS Vocabulary
+4. Vocab Arena
+5. Sample Essays 8.0+
+6. Writing Practice
+7. Speaking Practice
+8. Grading Portal
 
-### Thay đổi
+### Thay đổi (file: `src/components/Navbar.tsx`)
 
-**File: `src/data/programmingLessonData.ts`**
+**Nhóm lại thành 3 cụm logic, dùng divider/label phân tách:**
 
-Bổ sung câu hỏi cho tất cả 37 bài học, mỗi bài đạt tối thiểu 5 câu. Ước tính thêm khoảng **110+ câu hỏi mới**.
+| Nhóm | Mục | Ghi chú |
+|------|-----|---------|
+| **Học & Ôn** | Overview & Roadmap, IELTS Lectures | Lý thuyết + bài giảng |
+| **Từ vựng** | IELTS Vocabulary, Vocab Arena | Gộp 2 mục từ vựng lại gần nhau |
+| **Luyện tập & Chấm điểm** | Writing Practice, Speaking Practice, Sample Essays 8.0+, Grading Portal | Thực hành + đánh giá |
 
-Mỗi câu hỏi mới sẽ:
-- Có 4 đáp án lựa chọn
-- Có explanation giải thích chi tiết tại sao đáp án đúng
-- Phủ đều các khía cạnh: lý thuyết, cú pháp, ứng dụng thực tế, debug lỗi
-- Viết bằng tiếng Việt (theo format hiện tại)
+**Cách triển khai:**
+- Sắp xếp lại thứ tự mảng `ieltsChildren` theo nhóm logic
+- Thêm **divider items** (separator) giữa các nhóm — dùng item đặc biệt có `label: "---"` hoặc thêm thuộc tính `divider: true`
+- Render divider trong dropdown bằng `<Separator />` khi gặp item có flag divider
+- Giảm từ 8 mục rời rạc xuống 3 nhóm rõ ràng
 
-**Ví dụ bài Scratch-1 (hiện có 3 câu → thêm 2):**
+**Thứ tự mới:**
 ```
-{ question: "Sân khấu (Stage) trong Scratch có kích thước bao nhiêu pixel?",
-  options: ["320x240", "480x360", "640x480", "800x600"],
-  answer: 1,
-  explanation: "Sân khấu Scratch có kích thước 480x360 pixel..." }
+── Học & Ôn ──
+  Overview & Roadmap
+  IELTS Lectures
+──────────────
+  IELTS Vocabulary
+  Vocab Arena
+──────────────
+  Writing Practice
+  Speaking Practice
+  Sample Essays 8.0+
+  Grading Portal
 ```
 
-### Phạm vi
-- Chỉ sửa 1 file: `programmingLessonData.ts`
-- Không thay đổi UI hay logic rendering (component đã hỗ trợ hiển thị nhiều câu hỏi)
-- Không ảnh hưởng các file curriculum mở rộng (đã đủ 5 câu)
+### Chi tiết kỹ thuật
+- Thêm thuộc tính `divider?: boolean` vào interface `SubItem`
+- Thêm 2 divider items vào mảng `ieltsChildren`
+- Cập nhật logic render dropdown (khoảng dòng 400-430) để render `<Separator>` khi gặp divider item
+- Không thay đổi routes hay trang nào khác
 
