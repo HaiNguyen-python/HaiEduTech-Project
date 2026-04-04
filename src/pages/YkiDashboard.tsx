@@ -449,8 +449,13 @@ const VOCAB_IMAGES: Record<string, string> = {
   valokuvaus: U("photo-1452587925148-ce544e77e70d"), hiihtäminen: U("photo-1551698618-1dfe5d97d256"),
   luistelu: U("photo-1551632436-cbf8dd35adfa"), puutarha: U("photo-1416879595882-3373a0480b5b"),
   lautapeli: U("photo-1610890716171-6b1bb98ffd09"), käsityö: U("photo-1452587925148-ce544e77e70d"),
-  // Health expansion (new words only)
+  // Health expansion
   nuha: U("photo-1578307985320-34b61a66c195"), polvi: U("photo-1571019613454-1cb2f99b2d8b"),
+  // Missing greetings & social
+  näkemiin: U("photo-1529156069898-49953e39b3ac"), kyllä: U("photo-1489278353717-f64c6ee8a4d2"),
+  ei: U("photo-1509248961158-e54f6934749c"),
+  // Missing travel
+  loma: U("photo-1507525428034-b723cf961d3e"),
 };
 
 // Category-level fallback images when no exact word match exists
@@ -477,6 +482,9 @@ const CATEGORY_IMAGES: Record<string, string> = {
   body: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=300&q=80",
   hobbies: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&h=300&q=80",
   drinks: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=400&h=300&q=80",
+  daily: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&h=300&q=80",
+  puhekieli: "https://images.unsplash.com/photo-1573497019418-b400bb3ab074?auto=format&fit=crop&w=400&h=300&q=80",
+  home: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=400&h=300&q=80",
 };
 
 // Three-tier fallback: exact word → category → null (triggers gradient+emoji)
@@ -1231,15 +1239,88 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
   );
 };
 
-// Speaking Recorder Component for mock exams with situation prompt
+// Speaking Recorder Component for mock exams with model answer + grading
 const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
   const [recording, setRecording] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(40);
   const [showTranslation, setShowTranslation] = useState(false);
+  const [showSampleAnswer, setShowSampleAnswer] = useState(false);
+  const [isPlayingModel, setIsPlayingModel] = useState(false);
+  const [transcript, setTranscript] = useState("");
+  const [graded, setGraded] = useState(false);
+  const [accuracy, setAccuracy] = useState(0);
+  const [wordResults, setWordResults] = useState<{ word: string; status: "correct" | "incorrect" | "missing" }[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const recognitionRef = useRef<any>(null);
+
+  const sampleAnswer = lesson?.sampleAnswer || "";
+
+  // Normalize text for comparison
+  const normalize = (text: string) => text.toLowerCase().replace(/[^a-zäöåü\s]/g, "").trim();
+
+  // Simple Levenshtein
+  const levenshtein = (a: string, b: string): number => {
+    const m = a.length, n = b.length;
+    const dp = Array.from({ length: m + 1 }, (_, i) => {
+      const row = new Array(n + 1).fill(0);
+      row[0] = i;
+      return row;
+    });
+    for (let j = 1; j <= n; j++) dp[0][j] = j;
+    for (let i = 1; i <= m; i++)
+      for (let j = 1; j <= n; j++)
+        dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    return dp[m][n];
+  };
+
+  // Grade transcript against sample answer
+  const gradeTranscript = (spokenText: string) => {
+    if (!sampleAnswer) return;
+    const sampleWords = normalize(sampleAnswer).split(/\s+/).filter(Boolean);
+    const spokenWords = normalize(spokenText).split(/\s+/).filter(Boolean);
+    
+    const results: { word: string; status: "correct" | "incorrect" | "missing" }[] = [];
+    let correct = 0;
+    
+    for (const sw of sampleWords) {
+      const match = spokenWords.find(w => w === sw || levenshtein(w, sw) <= 1);
+      if (match) {
+        results.push({ word: sw, status: "correct" });
+        correct++;
+      } else {
+        results.push({ word: sw, status: "missing" });
+      }
+    }
+    
+    // Check for incorrect spoken words not in sample
+    for (const w of spokenWords) {
+      const inSample = sampleWords.some(sw => sw === w || levenshtein(w, sw) <= 1);
+      if (!inSample) {
+        results.push({ word: w, status: "incorrect" });
+      }
+    }
+    
+    setWordResults(results);
+    setAccuracy(sampleWords.length > 0 ? Math.round((correct / sampleWords.length) * 100) : 0);
+    setGraded(true);
+  };
+
+  // Play model answer via TTS
+  const playModelAnswer = async () => {
+    if (!sampleAnswer || isPlayingModel) return;
+    setIsPlayingModel(true);
+    try {
+      const sentences = sampleAnswer.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+      for (const sentence of sentences) {
+        await playFinnishTts(sentence.trim());
+        await new Promise(r => setTimeout(r, 600));
+      }
+    } catch { /* handled */ }
+    setIsPlayingModel(false);
+  };
 
   const startRecording = async () => {
     try {
@@ -1256,12 +1337,40 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
       recorder.start();
       setRecording(true);
       setTimeLeft(40);
+      setTranscript("");
+      setGraded(false);
+
+      // Start speech recognition
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "fi-FI";
+        let finalText = "";
+        recognition.onresult = (event: any) => {
+          let interim = "";
+          for (let i = 0; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+              finalText += event.results[i][0].transcript + " ";
+            } else {
+              interim += event.results[i][0].transcript;
+            }
+          }
+          setTranscript((finalText + interim).trim());
+        };
+        recognition.onerror = () => {};
+        recognition.start();
+        recognitionRef.current = recognition;
+      }
+
       timerRef.current = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
             recorder.stop();
             setRecording(false);
             if (timerRef.current) clearInterval(timerRef.current);
+            recognitionRef.current?.stop();
             return 0;
           }
           return prev - 1;
@@ -1274,7 +1383,15 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
     mediaRecorderRef.current?.stop();
     setRecording(false);
     if (timerRef.current) clearInterval(timerRef.current);
+    recognitionRef.current?.stop();
   };
+
+  // Auto-grade when recording stops and we have transcript + sample
+  useEffect(() => {
+    if (!recording && transcript && sampleAnswer && !graded) {
+      gradeTranscript(transcript);
+    }
+  }, [recording, transcript]);
 
   return (
     <div className="space-y-4">
@@ -1282,17 +1399,19 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
         <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
           🎤 Puhumistehtävä
         </h3>
-        {lesson && (
-          <Button
-            size="sm"
-            variant={showTranslation ? "default" : "outline"}
-            onClick={() => setShowTranslation(!showTranslation)}
-            className="gap-1 text-xs"
-          >
-            <Languages className="w-3.5 h-3.5" />
-            {showTranslation ? "Piilota käännös" : "Näytä käännös"}
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          {lesson && (
+            <Button
+              size="sm"
+              variant={showTranslation ? "default" : "outline"}
+              onClick={() => setShowTranslation(!showTranslation)}
+              className="gap-1 text-xs"
+            >
+              <Languages className="w-3.5 h-3.5" />
+              {showTranslation ? "Piilota käännös" : "Näytä käännös"}
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Situation prompt in Finnish */}
@@ -1305,6 +1424,44 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
                 <Badge variant="outline" className="mb-2 text-xs">🌐 Translation</Badge>
                 <ReactMarkdown>{lesson.theoryEn}</ReactMarkdown>
               </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Model answer section */}
+      {sampleAnswer && (
+        <Card className="border-amber-200 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="font-bold text-amber-800 dark:text-amber-300 text-sm flex items-center gap-2">
+                🎧 Mallivastaus (Bài nói mẫu)
+              </h4>
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={playModelAnswer}
+                  disabled={isPlayingModel}
+                  className="gap-1 text-xs border-amber-300 text-amber-700 hover:bg-amber-100"
+                >
+                  {isPlayingModel ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Volume2 className="w-3.5 h-3.5" />}
+                  {isPlayingModel ? "Toistetaan..." : "Kuuntele"}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setShowSampleAnswer(!showSampleAnswer)}
+                  className="text-xs text-amber-700"
+                >
+                  {showSampleAnswer ? "Piilota teksti" : "Näytä teksti"}
+                </Button>
+              </div>
+            </div>
+            {showSampleAnswer && (
+              <p className="text-sm text-foreground leading-relaxed mt-2 p-3 bg-amber-100/50 dark:bg-amber-900/30 rounded-lg">
+                {sampleAnswer}
+              </p>
             )}
           </CardContent>
         </Card>
@@ -1327,16 +1484,88 @@ const SpeakingRecorder = ({ lesson }: { lesson?: FinnishLesson }) => {
               </Button>
             )}
           </div>
+
+          {/* Live transcript */}
+          {(recording || transcript) && (
+            <div className="mt-4 p-3 bg-muted/50 rounded-lg">
+              <p className="text-xs font-medium text-muted-foreground mb-1">📝 Transkriptio:</p>
+              <p className="text-sm text-foreground min-h-[40px]">
+                {transcript || <span className="text-muted-foreground italic">Puhu nyt...</span>}
+              </p>
+            </div>
+          )}
+
           {audioUrl && (
             <div className="mt-4 flex items-center gap-3">
               <audio controls src={audioUrl} className="h-10 flex-1" />
-              <Button variant="outline" size="sm" onClick={() => { setAudioUrl(null); }}>
+              <Button variant="outline" size="sm" onClick={() => { setAudioUrl(null); setTranscript(""); setGraded(false); setWordResults([]); }}>
                 Nauhoita uudelleen
               </Button>
             </div>
           )}
         </CardContent>
       </Card>
+
+      {/* Grading results */}
+      {graded && sampleAnswer && (
+        <Card className="border-emerald-200 bg-emerald-50/50 dark:bg-emerald-900/20 dark:border-emerald-800">
+          <CardContent className="p-4 space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="font-bold text-emerald-800 dark:text-emerald-300 text-sm">📊 Arviointi (Đánh giá)</h4>
+              <Badge className={`text-lg px-4 py-1 ${accuracy >= 80 ? "bg-emerald-500" : accuracy >= 50 ? "bg-amber-500" : "bg-rose-500"} text-white`}>
+                {accuracy}%
+              </Badge>
+            </div>
+
+            {/* Word-by-word results */}
+            <div>
+              <p className="text-xs font-medium text-muted-foreground mb-2">Sanavertailu (So sánh từ):</p>
+              <div className="flex flex-wrap gap-1.5">
+                {wordResults.map((wr, i) => (
+                  <span
+                    key={i}
+                    className={`px-2 py-0.5 rounded text-xs font-medium ${
+                      wr.status === "correct" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300" :
+                      wr.status === "incorrect" ? "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300" :
+                      "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
+                    }`}
+                  >
+                    {wr.word} {wr.status === "correct" ? "✓" : wr.status === "missing" ? "✗" : "?"}
+                  </span>
+                ))}
+              </div>
+              <div className="flex gap-4 mt-2 text-xs text-muted-foreground">
+                <span>✓ Oikein (Đúng)</span>
+                <span>✗ Puuttuu (Thiếu)</span>
+                <span>? Ylimääräinen (Thừa)</span>
+              </div>
+            </div>
+
+            {/* Improvement tips */}
+            <div className="pt-3 border-t border-emerald-200 dark:border-emerald-800">
+              <h5 className="font-semibold text-sm text-foreground mb-2">💡 Parannusehdotuksia (Gợi ý cải thiện):</h5>
+              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                {accuracy < 50 && <li>Kuuntele mallivastaus uudelleen ja toista perässä.</li>}
+                {accuracy < 80 && <li>Keskity puuttuviin sanoihin (keltaisella merkityt).</li>}
+                {accuracy >= 80 && <li>Erinomainen! Yritä käyttää lisää omia lauseita.</li>}
+                <li>Harjoittele ääntämistä AI Puhevalmennus -osiossa.</li>
+              </ul>
+            </div>
+
+            {/* Re-listen model */}
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={playModelAnswer}
+              disabled={isPlayingModel}
+              className="gap-1 text-xs"
+            >
+              <Volume2 className="w-3.5 h-3.5" />
+              Kuuntele mallivastaus uudelleen
+            </Button>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
@@ -1519,8 +1748,8 @@ const YkiDashboard = () => {
   };
 
   // Determine if current lesson is a writing or speaking exam
-  const isWritingExam = selectedModule?.id === "yki-mock-writing";
-  const isSpeakingExam = selectedModule?.id === "yki-mock-speaking";
+  const isWritingExam = selectedModule?.id?.includes("writing") ?? false;
+  const isSpeakingExam = selectedModule?.id?.includes("speaking") ?? false;
   const isListeningExam = selectedModule?.id?.includes("listening") ?? false;
   const isMockExam = selectedModule?.pillar === "mock-exams";
 

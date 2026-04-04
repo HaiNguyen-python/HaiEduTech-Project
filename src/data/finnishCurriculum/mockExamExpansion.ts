@@ -505,6 +505,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 **Kohta C:** Lääkäri sanoo: "Kirjoitan reseptin. Lepää muutama päivä."
 - Kiitä ja kysy saatko sairauslomatodistuksen`,
         theoryEn: `### Speaking Task 6: At the doctor's office — describe symptoms and ask about treatment (30s per part)`,
+        sampleAnswer: "Minulla on kuumetta ja kovaa yskää. Oireet ovat kestäneet kolme päivää. En käytä mitään lääkkeitä. Mitä lääkettä suosittelette? Kiitos paljon, saanko sairauslomatodistuksen?",
         quiz: [
           { question: "'Sairauslomatodistus' tarkoittaa...", options: ["Prescription", "Sick leave certificate", "Health insurance card", "Medical report"], answer: 1, explanation: "'Sairauslomatodistus' = sick leave certificate." },
         ],
@@ -530,6 +531,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 **Kohta C:** Myyjä tarjoaa vaihdon.
 - Kiitä ja kysy takuusta`,
         theoryEn: `### Speaking Task 7: Making a complaint at a store about broken shoes (30s per part)`,
+        sampleAnswer: "Hei, ostin nämä kengät viime viikolla, mutta ne menivät rikki kahdessa päivässä. Haluaisin vaihtaa ne tai saada rahat takaisin. Tässä on kuitti. Kiitos! Kuinka pitkä takuu on?",
         quiz: [
           { question: "'Haluan vaihtaa' tarkoittaa...", options: ["I want to buy", "I want to exchange", "I want to return", "I want to sell"], answer: 1, explanation: "'Haluan vaihtaa' = I want to exchange." },
         ],
@@ -554,6 +556,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 **Kohta C:** Virkailija sanoo: "Täytä lomake ja tuo tulotodistus."
 - Kysy mistä saat tulotodistuksen ja milloin päätös tulee`,
         theoryEn: `### Speaking Task 8: Applying for housing benefit at Kela (30s per part)`,
+        sampleAnswer: "Päivää! Haluaisin hakea asumistukea. Asun Helsingissä, osoitteessa Mannerheimintie 5. Vuokra on 650 euroa kuukaudessa. Olen opiskelija. Mistä saan tulotodistuksen ja milloin päätös tulee?",
         quiz: [
           { question: "'Tulotodistus' tarkoittaa...", options: ["Tax return", "Income certificate", "Bank statement", "Employment contract"], answer: 1, explanation: "'Tulotodistus' = income certificate." },
         ],
@@ -577,6 +580,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 - Kysy tarvitseeko hän muuta apua
 - Ehdota muutakin apua (esim. lainata työkaluja)`,
         theoryEn: `### Speaking Task 9: Help your neighbor who has a broken fridge (40 seconds)`,
+        sampleAnswer: "Tottakai, ei hätää! Voit laittaa ruokasi meidän jääkaappiin. Siellä on tilaa. Tarvitsetko muuta apua? Voin lainata sinulle myös työkaluja jos tarvitset. Tervetuloa!",
         quiz: [
           { question: "'Jääkaappi meni rikki' tarkoittaa...", options: ["The fridge is new", "The fridge broke down", "The fridge is empty", "The fridge is full"], answer: 1, explanation: "'Meni rikki' = broke down." },
         ],
@@ -605,6 +609,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 - Matkustan [ystävän / perheen] kanssa
 - Olen kuullut, että siellä on [kaunista / mielenkiintoista]`,
         theoryEn: `### Speaking Task 10: Talk about your travel plans in Finland (40 seconds)`,
+        sampleAnswer: "Haluaisin matkustaa Lappiin ensi kesänä. Matkustan junalla perheeni kanssa. Siellä haluamme nähdä revontulia ja käydä saunassa. Olen kuullut, että Lappi on todella kaunis. Haluamme myös hiihtää ja patikoida.",
         quiz: [
           { question: "'Haluaisin matkustaa Lappiin' tarkoittaa...", options: ["I traveled to Lapland", "I would like to travel to Lapland", "I must travel to Lapland", "I don't want to travel"], answer: 1, explanation: "'Haluaisin' = I would like to." },
         ],

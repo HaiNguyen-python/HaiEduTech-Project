@@ -155,6 +155,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-1", title: "Kaupassa asioiminen", titleEn: "Shopping", icon: "🛒", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Olet vaatekaupassa. Haluat ostaa takin.\n- Kysy, onko takkia koossa M\n- Kysy hintaa\n- Kysy, voitko sovittaa\n- Kysy, voiko maksaa kortilla\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Anteeksi, onko teillä...? / Paljonko tämä maksaa? / Voinko sovittaa? / Käykö kortti?\n\n**Arviointikriteerit:**\n- Sujuvuus ja ääntäminen\n- Sanavalinnat ja ilmaisut\n- Tilanteen hoitaminen loppuun`,
         theoryEn: "Role-play: Shopping for a jacket.",
+        sampleAnswer: "Hei! Haluaisin ostaa takin. Onko teillä takkia koossa M? Paljonko tämä maksaa? Voinko sovittaa tätä? Käykö kortti? Kiitos paljon!",
         quiz: [
           { question: "'Voinko sovittaa?' tarkoittaa...", options: ["Can I pay?", "Can I try it on?", "Can I return it?", "Can I see it?"], answer: 1, explanation: "'Sovittaa' = to try on." },
         ],
@@ -163,6 +164,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-2", title: "Naapurin kanssa jutteleminen", titleEn: "Chatting with Neighbor", icon: "🏠", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Tapaat uuden naapurin rappukäytävässä.\n- Esittele itsesi\n- Kysy, mistä hän on kotoisin\n- Kerro, kuinka kauan olet asunut talossa\n- Ehdota kahville tulemista\n\n**Aika:** 3 min\n\n**Arviointikriteerit:**\n- Kohtelias esittäytyminen\n- Kysymysten muodostaminen\n- Luonteva keskustelu`,
         theoryEn: "Role-play: Chatting with a new neighbor.",
+        sampleAnswer: "Hei! Minä olen Anna. Olen asunut tässä talossa kaksi vuotta. Mistä sinä olet kotoisin? Hauska tavata! Haluaisitko tulla meille kahville joskus? Voisimme jutella lisää!",
         quiz: [
           { question: "'Mistä olet kotoisin?' tarkoittaa...", options: ["Where do you work?", "Where are you from?", "Where do you live?", "Where are you going?"], answer: 1, explanation: "'Kotoisin' = originally from." },
         ],
@@ -171,6 +173,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-3", title: "Harrastuksista kertominen", titleEn: "Talking About Hobbies", icon: "🎨", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Kerro harrastuksistasi.\n- Mitä harrastat?\n- Kuinka usein?\n- Miksi pidät siitä?\n- Suosittele harrastusta toiselle\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Harrastan... / Käyn ... kerran viikossa / Pidän siitä, koska... / Suosittelen, koska...\n\n**Arviointikriteerit:**\n- Verbien oikea käyttö (harrastaa + partitiivi)\n- Ajan ilmaisut\n- Perustelutaito`,
         theoryEn: "Talk about your hobbies.",
+        sampleAnswer: "Harrastan uimista ja lukemista. Käyn uimassa kaksi kertaa viikossa uimahallissa. Pidän uimisesta, koska se on hyvää liikuntaa ja rentouttavaa. Suosittelen uimista kaikille, koska se on hauskaa ja terveellistä!",
         quiz: [
           { question: "'Harrastan uimista' — mikä sijamuoto?", options: ["partitiivi", "genetiivi", "illatiivi", "inessiivi"], answer: 0, explanation: "Harrastaa + partitiivi → uimista." },
         ],
@@ -179,6 +182,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-4", title: "Ravintolassa tilaaminen", titleEn: "Ordering at a Restaurant", icon: "🍽️", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Olet ravintolassa. Tilaa ruokaa ja juomaa.\n- Kysy ruokalistaa\n- Tilaa alkuruoka ja pääruoka\n- Kysy, onko jälkiruokaa\n- Pyydä lasku\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Saisinko ruokalistan? / Haluaisin tilata... / Onko teillä...? / Saisinko laskun?\n\n**Arviointikriteerit:**\n- Kohtelias pyyntö (konditionaali)\n- Ruokasanasto\n- Luonteva vuorovaikutus`,
         theoryEn: "Role-play: Ordering food at a restaurant.",
+        sampleAnswer: "Saisinko ruokalistan, kiitos? Haluaisin tilata alkuruoaksi keittoa ja pääruoaksi lohta perunoiden kanssa. Onko teillä jälkiruokaa? Haluaisin kahvia myös. Saisinko laskun, kiitos!",
         quiz: [
           { question: "'Saisinko laskun?' on...", options: ["käsky", "kohtelias pyyntö", "kysymys hinnasta", "valitus"], answer: 1, explanation: "'Saisinko' on konditionaali — kohtelias pyyntö." },
         ],
@@ -187,6 +191,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-speaking-exp3-5", title: "Terveyskeskuksessa", titleEn: "At the Health Center", icon: "🏥", level: "A2",
         theory: `### Puhetehtävä\n\n**Tilanne:** Olet terveyskeskuksessa. Kerro lääkärille oireistasi.\n- Kerro, mikä on vialla\n- Kerro, milloin oireet alkoivat\n- Vastaa lääkärin kysymyksiin\n- Kysy ohjeita\n\n**Aika:** 3 min\n\n**Hyödyllisiä ilmaisuja:** Minulla on... / Oireet alkoivat... / Onko minun otettava lääkettä? / Milloin tulen uudelleen?\n\n**Arviointikriteerit:**\n- Oiresanasto\n- Ajan ilmaisut (eilen, viime viikolla)\n- Kysymysten muodostaminen`,
         theoryEn: "Role-play: Describing symptoms at the health center.",
+        sampleAnswer: "Päivää! Minulla on kuumetta ja yskää. Oireet alkoivat kolme päivää sitten. En käytä mitään lääkkeitä. Onko minun otettava jotain lääkettä? Milloin tulen uudelleen vastaanotolle? Kiitos!",
         quiz: [
           { question: "'Minulla on kuumetta' — mitä verbiä käytetään?", options: ["olen", "minulla on", "tulen", "menen"], answer: 1, explanation: "'Minulla on' — omistusrakenne tuntemuksille." },
         ],

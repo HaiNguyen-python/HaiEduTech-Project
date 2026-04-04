@@ -52,6 +52,7 @@ export interface FinnishLesson {
   dialogues?: FinnishDialogue[];
   exercises?: FinnishExercise[];
   quiz?: { question: string; options: string[]; answer: number; explanation: string }[];
+  sampleAnswer?: string;
 }
 
 export interface FinnishModule {
