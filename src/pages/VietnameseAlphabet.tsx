@@ -1,59 +1,29 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Volume2, Eraser, Pen } from "lucide-react";
+import { ArrowLeft, Volume2, Eraser, Pen, CheckCircle } from "lucide-react";
+import confetti from "canvas-confetti";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { vietnameseAlphabet, vietnameseTones, type AlphabetLetter, type ToneMark } from "@/data/vietnamese/alphabetData";
+import { vietnameseAlphabet, vietnameseTones, type AlphabetLetter } from "@/data/vietnamese/alphabetData";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
-// ── Dashed Guide SVG ──
-const DashedGuide = ({ paths }: { paths: string[] }) => {
-  return (
-    <svg viewBox="0 0 40 70" className="w-full h-full" fill="none">
-      {/* guide lines */}
-      <line x1="0" y1="24" x2="40" y2="24" stroke="hsl(var(--muted-foreground))" strokeWidth={0.3} strokeDasharray="1.5,1.5" opacity={0.4} />
-      <line x1="0" y1="52" x2="40" y2="52" stroke="hsl(var(--muted-foreground))" strokeWidth={0.4} opacity={0.5} />
-      <line x1="0" y1="8" x2="40" y2="8" stroke="hsl(var(--muted-foreground))" strokeWidth={0.2} strokeDasharray="1,2" opacity={0.25} />
-      <line x1="0" y1="65" x2="40" y2="65" stroke="hsl(var(--muted-foreground))" strokeWidth={0.2} strokeDasharray="1,2" opacity={0.25} />
-      {paths.map((d, i) => (
-        <path
-          key={i}
-          d={d}
-          stroke="hsl(var(--primary))"
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeDasharray="2,2"
-          fill="none"
-          opacity={0.6}
-        />
-      ))}
-      {/* Stroke number labels */}
-      {paths.length > 1 && paths.map((d, i) => {
-        const match = d.match(/M\s*([\d.]+)[,\s]+([\d.]+)/);
-        if (!match) return null;
-        const x = parseFloat(match[1]);
-        const y = parseFloat(match[2]);
-        return (
-          <g key={`num-${i}`}>
-            <circle cx={x} cy={y} r={3.5} fill="hsl(var(--primary))" opacity={0.8} />
-            <text x={x} y={y + 1.2} textAnchor="middle" fontSize="4" fill="white" fontWeight="bold">
-              {i + 1}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-};
+// ── Congrats messages ──
+const CONGRATS = [
+  "Tuyệt vời! 🎉",
+  "Giỏi lắm! ⭐",
+  "Viết đẹp quá! 🌟",
+  "Xuất sắc! 🏆",
+  "Chính xác! ✨",
+  "Rất tốt! 👏",
+  "Cố lên! 💪",
+];
 
 // ── Pitch Contour SVG for tones ──
-const PitchContour = ({ direction }: { direction: ToneMark["pitchDirection"] }) => {
+const PitchContour = ({ direction }: { direction: string }) => {
   const pathMap: Record<string, string> = {
     flat: "M10,30 L90,30",
     rising: "M10,45 L90,15",
@@ -79,17 +49,22 @@ const PitchContour = ({ direction }: { direction: ToneMark["pitchDirection"] }) 
   );
 };
 
-// ── Writing Canvas ──
+// ── Writing Canvas with check ──
 const WritingCanvas = ({ letter, onClose }: { letter: string; onClose: () => void }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [showCongrats, setShowCongrats] = useState(false);
+  const [congratsMsg, setCongratsMsg] = useState("");
 
   const getPos = (e: React.MouseEvent | React.TouchEvent) => {
     const canvas = canvasRef.current!;
     const rect = canvas.getBoundingClientRect();
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-    return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) };
+    return {
+      x: (clientX - rect.left) * (canvas.width / rect.width),
+      y: (clientY - rect.top) * (canvas.height / rect.height),
+    };
   };
 
   const startDraw = (e: React.MouseEvent | React.TouchEvent) => {
@@ -117,14 +92,6 @@ const WritingCanvas = ({ letter, onClose }: { letter: string; onClose: () => voi
 
   const stopDraw = () => setIsDrawing(false);
 
-  const clearCanvas = () => {
-    const ctx = canvasRef.current?.getContext("2d");
-    if (!ctx) return;
-    ctx.clearRect(0, 0, 300, 300);
-    // redraw guide
-    drawGuide(ctx);
-  };
-
   const drawGuide = useCallback((ctx: CanvasRenderingContext2D) => {
     ctx.strokeStyle = "hsl(var(--muted-foreground))";
     ctx.lineWidth = 0.5;
@@ -134,13 +101,71 @@ const WritingCanvas = ({ letter, onClose }: { letter: string; onClose: () => voi
     ctx.moveTo(0, 150); ctx.lineTo(300, 150);
     ctx.stroke();
     ctx.setLineDash([]);
-    // ghost letter
     ctx.font = "160px serif";
     ctx.fillStyle = "hsla(var(--muted-foreground), 0.15)";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(letter, 150, 155);
   }, [letter]);
+
+  const clearCanvas = () => {
+    const ctx = canvasRef.current?.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, 300, 300);
+    drawGuide(ctx);
+  };
+
+  const checkWriting = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Create a reference canvas with just the ghost letter
+    const refCanvas = document.createElement("canvas");
+    refCanvas.width = 300;
+    refCanvas.height = 300;
+    const refCtx = refCanvas.getContext("2d")!;
+    refCtx.font = "160px serif";
+    refCtx.fillStyle = "black";
+    refCtx.textAlign = "center";
+    refCtx.textBaseline = "middle";
+    refCtx.fillText(letter, 150, 155);
+
+    const refData = refCtx.getImageData(0, 0, 300, 300).data;
+    const userData = ctx.getImageData(0, 0, 300, 300).data;
+
+    // Count pixels where the reference letter exists
+    let letterPixels = 0;
+    let coveredPixels = 0;
+
+    for (let i = 3; i < refData.length; i += 4) {
+      if (refData[i] > 50) {
+        letterPixels++;
+        if (userData[i] > 30) {
+          coveredPixels++;
+        }
+      }
+    }
+
+    const coverage = letterPixels > 0 ? coveredPixels / letterPixels : 0;
+
+    if (coverage > 0.15) {
+      // Success!
+      setCongratsMsg(CONGRATS[Math.floor(Math.random() * CONGRATS.length)]);
+      setShowCongrats(true);
+      confetti({
+        particleCount: 80,
+        spread: 60,
+        origin: { y: 0.7 },
+        colors: ["#ff6b6b", "#ffd93d", "#6bcb77", "#4d96ff"],
+      });
+    } else {
+      // Not enough coverage - encourage retry
+      setCongratsMsg("Thử lại nhé! Hãy viết theo nét chữ mờ 💪");
+      setShowCongrats(true);
+    }
+  };
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext("2d");
@@ -161,7 +186,9 @@ const WritingCanvas = ({ letter, onClose }: { letter: string; onClose: () => voi
           <Pen className="w-4 h-4" /> Luyện viết: {letter.toUpperCase()}
         </h4>
         <div className="flex gap-2">
-          <Button size="sm" variant="outline" onClick={clearCanvas}><Eraser className="w-4 h-4 mr-1" /> Xóa</Button>
+          <Button size="sm" variant="outline" onClick={clearCanvas}>
+            <Eraser className="w-4 h-4 mr-1" /> Xóa
+          </Button>
           <Button size="sm" variant="ghost" onClick={onClose}>Đóng</Button>
         </div>
       </div>
@@ -178,6 +205,18 @@ const WritingCanvas = ({ letter, onClose }: { letter: string; onClose: () => voi
         onTouchMove={draw}
         onTouchEnd={stopDraw}
       />
+      <Button className="w-full mt-3" onClick={checkWriting}>
+        <CheckCircle className="w-4 h-4 mr-2" /> Kiểm tra
+      </Button>
+
+      <Dialog open={showCongrats} onOpenChange={setShowCongrats}>
+        <DialogContent className="text-center max-w-xs">
+          <p className="text-2xl font-bold py-4">{congratsMsg}</p>
+          <Button onClick={() => { setShowCongrats(false); clearCanvas(); }}>
+            Viết tiếp
+          </Button>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 };
@@ -224,183 +263,211 @@ const VietnameseAlphabet = () => {
             </h1>
           </div>
           <p className="text-muted-foreground ml-12">
-            {t("29 chữ cái + 6 dấu thanh — bấm vào để xem hướng dẫn viết và nghe phát âm",
-               "29 letters + 6 tone marks — click to see stroke guide and hear pronunciation")}
+            {t("29 chữ cái + 6 dấu thanh — bấm vào để nghe phát âm và luyện viết",
+               "29 letters + 6 tone marks — click to hear pronunciation and practice writing")}
           </p>
         </motion.div>
 
-        <Tabs defaultValue="letters">
-          <TabsList className="mb-6">
-            <TabsTrigger value="letters">{t("Chữ cái", "Letters")} (29)</TabsTrigger>
-            <TabsTrigger value="tones">{t("Dấu thanh", "Tones")} (6)</TabsTrigger>
-          </TabsList>
-
-          {/* ══════ LETTERS TAB ══════ */}
-          <TabsContent value="letters">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Left: letter grid */}
-              <div className="lg:col-span-2">
-                <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 gap-2">
-                  {vietnameseAlphabet.map((l, idx) => (
-                    <motion.button
-                      key={l.letter}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: idx * 0.02 }}
-                      onClick={() => selectLetter(l)}
-                      className={`relative flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all hover:shadow-md cursor-pointer ${
-                        selectedLetter?.letter === l.letter
-                          ? "border-primary bg-primary/10 shadow-lg"
-                          : "border-border bg-card hover:border-primary/50"
-                      }`}
-                    >
-                      <span className="text-3xl md:text-4xl font-bold text-foreground leading-none">
-                        {l.uppercase}
-                      </span>
-                      <span className="text-lg text-muted-foreground">{l.letter}</span>
-                      <span className="text-[10px] text-muted-foreground mt-0.5">{l.ipa}</span>
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right: detail panel */}
-              <div className="lg:col-span-1">
-                <AnimatePresence mode="wait">
-                  {selectedLetter ? (
-                    <motion.div
-                      key={selectedLetter.letter}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      className="sticky top-24"
-                    >
-                      <Card className="p-5">
-                        <div className="flex items-start justify-between mb-4">
-                          <div>
-                            <h2 className="text-5xl font-bold text-foreground">{selectedLetter.uppercase} {selectedLetter.letter}</h2>
-                            <p className="text-sm text-muted-foreground mt-1">
-                              {t(selectedLetter.name, selectedLetter.nameEn)} — {selectedLetter.ipa}
-                            </p>
-                          </div>
-                          <Button size="icon" variant="outline" onClick={() => playSound(selectedLetter.letter)}>
-                            <Volume2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-
-                        {/* Dashed writing guide */}
-                        <div className="bg-muted/50 rounded-lg p-4 mb-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <h3 className="text-sm font-semibold text-foreground">
-                              {t("Hướng dẫn nét viết", "Writing Guide")}
-                            </h3>
-                            <Badge variant="secondary">{selectedLetter.strokeCount} {t("nét", "strokes")}</Badge>
-                          </div>
-                          <div className="w-24 h-32 mx-auto">
-                            <DashedGuide paths={selectedLetter.strokePaths} />
-                          </div>
-                          <p className="text-xs text-muted-foreground mt-2 text-center">
-                            {t(selectedLetter.strokeDescription, selectedLetter.strokeDescriptionEn)}
-                          </p>
-                        </div>
-
-                        {/* Example word */}
-                        <div className="bg-primary/5 rounded-lg p-3 mb-4">
-                          <p className="text-sm font-medium text-foreground">
-                            {t("Ví dụ", "Example")}: <span className="text-primary font-bold">{selectedLetter.exampleWord}</span>
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {t(selectedLetter.exampleMeaning, selectedLetter.exampleMeaningEn)}
-                          </p>
-                          <Button size="sm" variant="ghost" className="mt-1 h-7 text-xs" onClick={() => playSound(selectedLetter.exampleWord)}>
-                            <Volume2 className="w-3 h-3 mr-1" /> {t("Nghe", "Listen")}
-                          </Button>
-                        </div>
-
-                        {/* Practice button */}
-                        <Button
-                          className="w-full"
-                          variant={showCanvas ? "secondary" : "default"}
-                          onClick={() => setShowCanvas(!showCanvas)}
-                        >
-                          <Pen className="w-4 h-4 mr-2" />
-                          {showCanvas ? t("Ẩn bảng viết", "Hide writing pad") : t("Luyện viết", "Practice writing")}
-                        </Button>
-
-                        {showCanvas && (
-                          <WritingCanvas letter={selectedLetter.letter} onClose={() => setShowCanvas(false)} />
-                        )}
-                      </Card>
-                    </motion.div>
-                  ) : (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center p-8 text-muted-foreground">
-                      <Pen className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                      <p className="text-sm">{t("Chọn một chữ cái để xem chi tiết", "Select a letter to see details")}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-          </TabsContent>
-
-          {/* ══════ TONES TAB ══════ */}
-          <TabsContent value="tones">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {vietnameseTones.map((tone, idx) => (
-                <motion.div
-                  key={tone.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.08 }}
-                >
-                  <Card className="p-5 hover:shadow-lg transition-shadow">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h3 className="font-bold text-foreground text-sm">{t(tone.name, tone.nameEn)}</h3>
-                        <Badge variant="outline" className="mt-1 text-lg font-mono">{tone.mark}</Badge>
-                      </div>
-                      <PitchContour direction={tone.pitchDirection} />
-                    </div>
-                    <p className="text-xs text-muted-foreground mb-3">
-                      {t(tone.description, tone.descriptionEn)}
-                    </p>
-                    <div className="flex items-center justify-between bg-muted/50 rounded-lg px-3 py-2">
-                      <div>
-                        <span className="text-xl font-bold text-primary">{tone.example}</span>
-                        <span className="text-xs text-muted-foreground ml-2">
-                          = {t(tone.exampleMeaning, tone.exampleMeaningEn)}
-                        </span>
-                      </div>
-                      <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => playSound(tone.example)}>
-                        <Volume2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Tone comparison */}
-            <Card className="mt-6 p-5">
-              <h3 className="font-bold text-foreground mb-4">
-                {t("So sánh 6 thanh điệu với từ \"ma\"", "Compare 6 tones with the word \"ma\"")}
-              </h3>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                {vietnameseTones.map((tone) => (
-                  <button
-                    key={tone.example}
-                    onClick={() => playSound(tone.example)}
-                    className="flex flex-col items-center p-3 rounded-lg bg-muted/50 hover:bg-primary/10 transition-colors cursor-pointer"
+        {/* ══════ LETTERS SECTION ══════ */}
+        <section className="mb-12">
+          <h2 className="text-xl font-bold text-foreground mb-4">
+            {t("Chữ cái", "Letters")} (29)
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left: letter grid */}
+            <div className="lg:col-span-2">
+              <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 gap-2">
+                {vietnameseAlphabet.map((l, idx) => (
+                  <motion.button
+                    key={l.letter}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: idx * 0.02 }}
+                    onClick={() => selectLetter(l)}
+                    className={`relative flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all hover:shadow-md cursor-pointer ${
+                      selectedLetter?.letter === l.letter
+                        ? "border-primary bg-primary/10 shadow-lg"
+                        : "border-border bg-card hover:border-primary/50"
+                    }`}
                   >
-                    <span className="text-2xl font-bold text-foreground">{tone.example}</span>
-                    <span className="text-[10px] text-muted-foreground mt-1">{t(tone.exampleMeaning, tone.exampleMeaningEn)}</span>
-                    <Volume2 className="w-3 h-3 text-primary mt-1" />
-                  </button>
+                    <span className="text-3xl md:text-4xl font-bold text-foreground leading-none">
+                      {l.uppercase}
+                    </span>
+                    <span className="text-lg text-muted-foreground">{l.letter}</span>
+                    <span className="text-[10px] text-muted-foreground mt-0.5">{l.ipa}</span>
+                  </motion.button>
                 ))}
               </div>
-            </Card>
-          </TabsContent>
-        </Tabs>
+            </div>
+
+            {/* Right: detail panel */}
+            <div className="lg:col-span-1">
+              <AnimatePresence mode="wait">
+                {selectedLetter ? (
+                  <motion.div
+                    key={selectedLetter.letter}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="sticky top-24"
+                  >
+                    <Card className="p-5">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h2 className="text-5xl font-bold text-foreground">
+                            {selectedLetter.uppercase} {selectedLetter.letter}
+                          </h2>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {t(selectedLetter.name, selectedLetter.nameEn)} — {selectedLetter.ipa}
+                          </p>
+                        </div>
+                        <Button size="icon" variant="outline" onClick={() => playSound(selectedLetter.letter)}>
+                          <Volume2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+
+                      {/* Example word */}
+                      <div className="bg-primary/5 rounded-lg p-3 mb-4">
+                        <p className="text-sm font-medium text-foreground">
+                          {t("Ví dụ", "Example")}:{" "}
+                          <span className="text-primary font-bold">{selectedLetter.exampleWord}</span>
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {t(selectedLetter.exampleMeaning, selectedLetter.exampleMeaningEn)}
+                        </p>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="mt-1 h-7 text-xs"
+                          onClick={() => playSound(selectedLetter.exampleWord)}
+                        >
+                          <Volume2 className="w-3 h-3 mr-1" /> {t("Nghe", "Listen")}
+                        </Button>
+                      </div>
+
+                      {/* Practice button */}
+                      <Button
+                        className="w-full"
+                        variant={showCanvas ? "secondary" : "default"}
+                        onClick={() => setShowCanvas(!showCanvas)}
+                      >
+                        <Pen className="w-4 h-4 mr-2" />
+                        {showCanvas
+                          ? t("Ẩn bảng viết", "Hide writing pad")
+                          : t("Luyện viết", "Practice writing")}
+                      </Button>
+
+                      {showCanvas && (
+                        <WritingCanvas
+                          letter={selectedLetter.letter}
+                          onClose={() => setShowCanvas(false)}
+                        />
+                      )}
+                    </Card>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center p-8 text-muted-foreground"
+                  >
+                    <Pen className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                    <p className="text-sm">
+                      {t("Chọn một chữ cái để xem chi tiết", "Select a letter to see details")}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </section>
+
+        {/* ══════ TONES SECTION ══════ */}
+        <section className="mb-12">
+          <h2 className="text-xl font-bold text-foreground mb-4">
+            {t("Dấu thanh", "Tones")} (6)
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {vietnameseTones.map((tone, idx) => (
+              <motion.div
+                key={tone.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.08 }}
+              >
+                <Card className="p-5 hover:shadow-lg transition-shadow">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 className="font-bold text-foreground text-sm">
+                        {t(tone.name, tone.nameEn)}
+                      </h3>
+                      <span className="inline-block mt-1 text-lg font-mono border border-border rounded px-2 py-0.5">
+                        {tone.mark}
+                      </span>
+                    </div>
+                    <PitchContour direction={tone.pitchDirection} />
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    {t(tone.description, tone.descriptionEn)}
+                  </p>
+                  <div className="flex items-center justify-between bg-muted/50 rounded-lg px-3 py-2">
+                    <div>
+                      <span className="text-xl font-bold text-primary">{tone.example}</span>
+                      <span className="text-xs text-muted-foreground ml-2">
+                        = {t(tone.exampleMeaning, tone.exampleMeaningEn)}
+                      </span>
+                    </div>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-8 w-8"
+                      onClick={() => playSound(tone.example)}
+                    >
+                      <Volume2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Tone comparison */}
+          <Card className="mt-6 p-5">
+            <h3 className="font-bold text-foreground mb-4">
+              {t('So sánh 6 thanh điệu với từ "ma"', 'Compare 6 tones with the word "ma"')}
+            </h3>
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+              {vietnameseTones.map((tone) => (
+                <button
+                  key={tone.example}
+                  onClick={() => playSound(tone.example)}
+                  className="flex flex-col items-center p-3 rounded-lg bg-muted/50 hover:bg-primary/10 transition-colors cursor-pointer"
+                >
+                  <span className="text-2xl font-bold text-foreground">{tone.example}</span>
+                  <span className="text-[10px] text-muted-foreground mt-1">
+                    {t(tone.exampleMeaning, tone.exampleMeaningEn)}
+                  </span>
+                  <Volume2 className="w-3 h-3 text-primary mt-1" />
+                </button>
+              ))}
+            </div>
+          </Card>
+        </section>
+
+        {/* ══════ ILLUSTRATION ══════ */}
+        <section className="mb-8">
+          <div className="rounded-2xl overflow-hidden shadow-lg">
+            <img
+              src="/vietnamese-calligraphy.png"
+              alt="Nét đẹp giản dị của Việt Nam"
+              className="w-full h-auto object-cover"
+              loading="lazy"
+            />
+          </div>
+          <p className="text-center text-sm text-muted-foreground mt-3 italic">
+            {t("Nét đẹp giản dị của Việt Nam", "The simple beauty of Vietnam")}
+          </p>
+        </section>
       </main>
       <Footer />
     </div>
