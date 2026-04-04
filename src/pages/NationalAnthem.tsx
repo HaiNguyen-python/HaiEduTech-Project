@@ -1,8 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, RotateCcw, Volume2, Music, Star, Flag, Info, X } from "lucide-react";
+import { Play, Pause, RotateCcw, Music, Star, Flag, Info, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
@@ -61,28 +60,68 @@ const vocabItems = [
   },
 ];
 
-// Working YouTube video IDs for Vietnamese National Anthem
-const KARAOKE_VIDEO_ID = "SK6rHXlKC0A";
-const INSTRUMENTAL_VIDEO_ID = "SK6rHXlKC0A";
+const VIDEO_ID = "SK6rHXlKC0A";
+const LYRICS_DELAY_MS = 3000;
+
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady: (() => void) | undefined;
+  }
+}
 
 const NationalAnthem = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [isVocal, setIsVocal] = useState(true);
   const [showSalute, setShowSalute] = useState(false);
-  const playerRef = useRef<HTMLIFrameElement>(null);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [playerReady, setPlayerReady] = useState(false);
 
-  // Determine which lyric line is active based on time
+  const playerRef = useRef<any>(null);
+  const playerContainerRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const delayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Load YouTube IFrame API
+  useEffect(() => {
+    if (window.YT && window.YT.Player) {
+      createPlayer();
+      return;
+    }
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = () => {
+      createPlayer();
+    };
+
+    return () => {
+      window.onYouTubeIframeAPIReady = undefined;
+    };
+  }, []);
+
+  const createPlayer = () => {
+    if (playerRef.current) return;
+    playerRef.current = new window.YT.Player("yt-player", {
+      videoId: VIDEO_ID,
+      playerVars: {
+        rel: 0,
+        modestbranding: 1,
+        enablejsapi: 1,
+      },
+      events: {
+        onReady: () => setPlayerReady(true),
+      },
+    });
+  };
+
+  // Determine which lyric line is active
   const activeLineIndex = lyricsLines.findIndex(
     (line) => currentTime >= line.start && currentTime < line.end
   );
 
-  // Karaoke highlighting timer
-  const handlePlay = useCallback(() => {
-    // Clear any existing timer first
+  const startLyricsTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
-    setIsPlaying(true);
     const interval = setInterval(() => {
       setCurrentTime((prev) => {
         if (prev >= 50) {
@@ -96,27 +135,51 @@ const NationalAnthem = () => {
     timerRef.current = interval;
   }, []);
 
+  const handleStart = useCallback(() => {
+    if (!playerRef.current) return;
+    // Play YouTube video immediately
+    playerRef.current.playVideo();
+    setIsPlaying(true);
+    setCurrentTime(0);
+
+    // Clear any existing timers
+    if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    // Start lyrics after 3s delay
+    delayTimerRef.current = setTimeout(() => {
+      startLyricsTimer();
+    }, LYRICS_DELAY_MS);
+  }, [startLyricsTimer]);
+
   const handlePause = useCallback(() => {
     setIsPlaying(false);
+    if (playerRef.current) playerRef.current.pauseVideo();
     if (timerRef.current) clearInterval(timerRef.current);
+    if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
   }, []);
 
   const handleReplay = useCallback(() => {
     setCurrentTime(0);
     setIsPlaying(false);
+    if (playerRef.current) {
+      playerRef.current.seekTo(0);
+      playerRef.current.pauseVideo();
+    }
     if (timerRef.current) clearInterval(timerRef.current);
+    if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
   }, []);
 
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
     };
   }, []);
 
   // Salute animation with trumpet sound
   const handleSalute = useCallback(() => {
     setShowSalute(true);
-    // Play trumpet fanfare using Web Audio API
     try {
       const ctx = new AudioContext();
       const notes = [523.25, 659.25, 783.99, 1046.5];
@@ -135,8 +198,6 @@ const NationalAnthem = () => {
     } catch { /* audio not available */ }
     setTimeout(() => setShowSalute(false), 4000);
   }, []);
-
-  const videoId = isVocal ? KARAOKE_VIDEO_ID : INSTRUMENTAL_VIDEO_ID;
 
   return (
     <div className="min-h-screen bg-background">
@@ -182,14 +243,11 @@ const NationalAnthem = () => {
         )}
       </AnimatePresence>
 
-      {/* Hero section with flag background */}
+      {/* Hero section */}
       <section className="relative overflow-hidden py-16 md:py-24">
-        {/* Subtle flag background */}
         <div
           className="absolute inset-0 opacity-[0.06]"
-          style={{
-            background: "linear-gradient(135deg, #da251d 0%, #da251d 100%)",
-          }}
+          style={{ background: "linear-gradient(135deg, #da251d 0%, #da251d 100%)" }}
         />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.04]">
           <Star className="w-[400px] h-[400px] text-yellow-500 fill-yellow-500" />
@@ -248,29 +306,15 @@ const NationalAnthem = () => {
                 className="w-full rounded-xl shadow-lg object-cover max-h-[360px]"
                 width={1280}
                 height={720}
-                animate={{
-                  scale: [1, 1.015, 1],
-                  y: [0, -3, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                animate={{ scale: [1, 1.015, 1], y: [0, -3, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               />
             </motion.div>
 
             {/* Video Player */}
             <Card className="overflow-hidden border-red-100">
               <div className="aspect-video">
-                <iframe
-                  ref={playerRef}
-                  src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
-                  title="Tiến Quân Ca - Quốc ca Việt Nam"
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                <div id="yt-player" ref={playerContainerRef} className="w-full h-full" />
               </div>
 
               {/* Controls bar */}
@@ -279,24 +323,16 @@ const NationalAnthem = () => {
                   <Button
                     size="sm"
                     variant={isPlaying ? "secondary" : "default"}
-                    onClick={isPlaying ? handlePause : handlePlay}
+                    onClick={isPlaying ? handlePause : handleStart}
+                    disabled={!playerReady}
                     className="gap-1.5"
                   >
                     {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                    {isPlaying ? "Tạm dừng" : "Phát lời"}
+                    {isPlaying ? "Tạm dừng" : "Bắt đầu"}
                   </Button>
                   <Button size="sm" variant="outline" onClick={handleReplay} className="gap-1.5">
                     <RotateCcw className="w-4 h-4" /> Lại từ đầu
                   </Button>
-                </div>
-
-                {/* Vocal / Instrumental toggle */}
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Music className="w-4 h-4" />
-                  <span>Nhạc nền</span>
-                  <Switch checked={isVocal} onCheckedChange={setIsVocal} />
-                  <span>Có lời</span>
-                  <Volume2 className="w-4 h-4" />
                 </div>
               </div>
             </Card>
