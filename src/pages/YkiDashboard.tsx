@@ -1967,11 +1967,16 @@ const YkiDashboard = () => {
     }
   }, [initialModule]);
 
+  const filteredMockModules = useMemo(() => {
+    if (mockSkillFilter === "all") return allMockExamModules;
+    return allMockExamModules.filter(m => m.id.includes(mockSkillFilter));
+  }, [mockSkillFilter]);
+
   const currentModules = activePillar === "vocabulary"
     ? allVocabModules
     : activePillar === "lessons"
     ? allLessonModules
-    : allMockExamModules;
+    : filteredMockModules;
 
   const handleSelectModule = (mod: FinnishModule) => {
     setSelectedModule(mod);
