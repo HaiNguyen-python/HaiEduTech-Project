@@ -51,7 +51,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokePaths: [
       "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",
       "M32,24 L32,52",
-      "M12,14 Q20,6 28,14"  // breve mark (larger)
+      "M13,16 Q20,8 27,16"  // breve ˘ — open upward arc
     ]
   },
   // ── â ──
@@ -123,7 +123,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Draw a horizontal mid-stroke, curve up then around and open at bottom",
     strokeCount: 1,
     strokePaths: [
-      "M10,36 L28,36 C28,24 12,24 12,36 C12,50 28,52 28,46"  // e shape
+      "M8,38 L30,38 C30,28 20,24 14,24 C8,24 4,30 4,38 C4,48 10,52 20,52 C26,52 30,50 30,46"  // e: horizontal bar, loop up-left, belly down-right, open tail
     ]
   },
   // ── ê ──
@@ -134,8 +134,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'e' then add a circumflex (^) on top",
     strokeCount: 2,
     strokePaths: [
-      "M10,36 L28,36 C28,24 12,24 12,36 C12,50 28,52 28,46",
-      "M14,16 L20,8 L26,16"
+      "M8,38 L30,38 C30,28 20,24 14,24 C8,24 4,30 4,38 C4,48 10,52 20,52 C26,52 30,50 30,46",
+      "M12,18 L20,8 L28,18"  // circumflex ^
     ]
   },
   // ── g ──
@@ -146,8 +146,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write a round curve then extend the tail below baseline (descender)",
     strokeCount: 2,
     strokePaths: [
-      "M28,35 C28,24 12,24 12,35 C12,48 28,48 28,35",       // oval body
-      "M28,35 L28,62 C28,68 14,68 14,62"                      // descender with hook
+      "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",  // symmetrical oval
+      "M32,38 L32,62 C32,68 16,68 16,62"  // descender from right side with hook
     ]
   },
   // ── h ──
@@ -255,7 +255,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeCount: 2,
     strokePaths: [
       "M20,24 C10,24 4,30 4,38 C4,46 10,52 20,52 C30,52 36,46 36,38 C36,30 30,24 20,24",
-      "M34,20 C38,12 44,15 41,24"  // horn mark (larger, more visible)
+      "M34,22 C36,14 42,14 40,24"  // horn — a small curved hook at top-right
     ]
   },
   // ── p ──
@@ -325,8 +325,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write a U-curve then a vertical stroke on the right",
     strokeCount: 2,
     strokePaths: [
-      "M12,24 L12,42 C12,52 28,52 28,42",  // U shape
-      "M28,24 L28,52"                        // right stem
+      "M10,24 L10,42 C10,52 30,52 30,42",  // wider U shape
+      "M30,24 L30,52"                        // right stem
     ]
   },
   // ── ư ──
@@ -337,9 +337,9 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 'u' then add a horn mark on upper right",
     strokeCount: 3,
     strokePaths: [
-      "M12,24 L12,42 C12,52 28,52 28,42",
-      "M28,24 L28,52",
-      "M28,16 C32,8 38,11 35,20"  // horn mark (larger, more visible)
+      "M10,24 L10,42 C10,52 30,52 30,42",
+      "M30,24 L30,52",
+      "M30,18 C33,10 39,12 37,22"  // horn mark
     ]
   },
   // ── v ──
@@ -374,8 +374,8 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeDescriptionEn: "Write 2 diagonals meeting in the middle, then extend tail below baseline",
     strokeCount: 2,
     strokePaths: [
-      "M10,24 L20,40",                         // left diagonal
-      "M30,24 L20,40 L16,65 C14,68 10,66 12,62"  // right diagonal + descender with hook
+      "M8,24 L20,42",                          // left diagonal down to center
+      "M32,24 L20,42 L14,65 C12,70 8,68 10,62"  // right diagonal + descender curve
     ]
   },
 ];
