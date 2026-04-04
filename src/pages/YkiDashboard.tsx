@@ -1173,7 +1173,7 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
         <Textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Kirjoita vastauksesi tähän..."
+          placeholder={showTranslation ? "Write your answer here..." : "Kirjoita vastauksesi tähän..."}
           className="min-h-[200px] text-[18px] leading-relaxed border-[#003580]/15 focus:border-[#003580]/30"
           disabled={submitted}
         />
