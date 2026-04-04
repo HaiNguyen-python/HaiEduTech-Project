@@ -280,6 +280,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
 
   // Stop recording and process results
   const stopRecognition = useCallback(() => {
+    manualStopRef.current = true;
     if (recognitionRef.current) {
       recognitionRef.current.stop();
     }
