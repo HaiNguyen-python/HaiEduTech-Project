@@ -26,6 +26,7 @@ interface SubItem {
   icon?: React.ComponentType<{ className?: string }>;
   children?: SubItem[];
   groupLabel?: string;
+  divider?: boolean;
 }
 
 const Navbar = () => {
@@ -79,13 +80,20 @@ const Navbar = () => {
 
   // IELTS nested sub-items with dedicated icons
    const ieltsChildren: SubItem[] = [
+    // Học & Ôn
     { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
     { to: "/ielts-lectures", label: t("Bài giảng IELTS", "IELTS Lectures"), icon: BookOpen },
+    // Divider
+    { to: "#div1", label: "", divider: true },
+    // Từ vựng
     { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), icon: BookOpen },
     { to: "/vocab-arena", label: t("Vocab Arena", "Vocab Arena"), icon: Swords },
-    { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
+    // Divider
+    { to: "#div2", label: "", divider: true },
+    // Luyện tập & Chấm điểm
     { to: "/ielts-writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenTool },
     { to: "/ielts-speaking-practice", label: t("Luyện nói", "Speaking Practice"), icon: MessageSquare },
+    { to: "/ielts-sample-essays", label: t("Bài mẫu 8.0+", "Sample Essays 8.0+"), icon: FileText },
     { to: "/ai-grading", label: t("Chấm điểm", "Grading Portal"), icon: Cpu },
   ];
 
@@ -404,6 +412,9 @@ const Navbar = () => {
                                           </span>
                                         </div>
                                         {sub.children.map((child, ci) => {
+                                          if (child.divider) {
+                                            return <div key={child.to} className="my-1.5 mx-3 h-px bg-border" />;
+                                          }
                                           const ChildIcon = child.icon;
                                           return (
                                             <motion.div
@@ -611,6 +622,9 @@ const Navbar = () => {
                                             >
                                               <div className="ml-3 pl-3 border-l-[3px] border-accent/40 space-y-0.5 py-2">
                                                 {sub.children.map((child) => {
+                                                  if (child.divider) {
+                                                    return <div key={child.to} className="my-1.5 mx-3 h-px bg-border" />;
+                                                  }
                                                   const ChildIcon = child.icon;
                                                   const childActive = location.pathname === child.to;
                                                   return (
@@ -621,7 +635,7 @@ const Navbar = () => {
                                                       className={`flex items-center gap-3 px-4 py-3.5 text-[15px] rounded-xl transition-all ${
                                                         childActive
                                                           ? "text-primary bg-primary/10 font-bold"
-                                                          : "text-[#4B5563] font-medium hover:text-primary hover:bg-gray-50"
+                                                          : "text-muted-foreground font-medium hover:text-primary hover:bg-secondary/50"
                                                       }`}
                                                     >
                                                       {ChildIcon && <ChildIcon className={`w-5 h-5 ${childActive ? "text-primary" : "text-primary/60"}`} />}
