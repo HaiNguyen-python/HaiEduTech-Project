@@ -52,11 +52,13 @@ const HistoryTimeline = () => {
                 className="flex flex-col items-center cursor-pointer group"
               >
                 {/* Year badge */}
-                <span className="text-xs font-bold text-primary mb-2 whitespace-nowrap">
+                <span className="text-xs font-bold text-primary mb-1 whitespace-nowrap">
                   {event.year}
                 </span>
-                {/* Dot */}
-                <div className="w-5 h-5 rounded-full bg-primary border-4 border-background shadow-md group-hover:shadow-primary/40 transition-shadow" />
+                {/* Icon */}
+                <div className="w-10 h-10 rounded-full bg-primary/10 border-2 border-primary shadow-md group-hover:shadow-primary/40 transition-shadow flex items-center justify-center text-lg">
+                  {event.icon || "📌"}
+                </div>
                 {/* Title */}
                 <span className="text-xs text-center mt-2 max-w-[120px] leading-tight text-muted-foreground group-hover:text-foreground transition-colors">
                   {t(event.title, event.titleEn)}
