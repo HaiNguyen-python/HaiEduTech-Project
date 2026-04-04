@@ -250,6 +250,22 @@ const ToeicVocabulary = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeLevel, setActiveLevel] = useState("All");
   const [page, setPage] = useState(1);
+  const [mastered, setMastered] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("toeic_mastered");
+      return saved ? new Set(JSON.parse(saved)) : new Set<string>();
+    } catch { return new Set<string>(); }
+  });
+
+  const toggleMastered = useCallback((word: string) => {
+    setMastered(prev => {
+      const next = new Set(prev);
+      if (next.has(word)) next.delete(word); else next.add(word);
+      localStorage.setItem("toeic_mastered", JSON.stringify([...next]));
+      syncMasteredCount("toeic", next.size);
+      return next;
+    });
+  }, []);
 
   // Filtered words
   const filtered = useMemo(() => {
