@@ -449,8 +449,17 @@ const VOCAB_IMAGES: Record<string, string> = {
   valokuvaus: U("photo-1452587925148-ce544e77e70d"), hiihtäminen: U("photo-1551698618-1dfe5d97d256"),
   luistelu: U("photo-1551632436-cbf8dd35adfa"), puutarha: U("photo-1416879595882-3373a0480b5b"),
   lautapeli: U("photo-1610890716171-6b1bb98ffd09"), käsityö: U("photo-1452587925148-ce544e77e70d"),
-  // Health expansion (new words only)
+  // Health expansion
   nuha: U("photo-1578307985320-34b61a66c195"), polvi: U("photo-1571019613454-1cb2f99b2d8b"),
+  // Missing greetings & social
+  näkemiin: U("photo-1529156069898-49953e39b3ac"), kyllä: U("photo-1489278353717-f64c6ee8a4d2"),
+  ei: U("photo-1509248961158-e54f6934749c"),
+  // Missing verbs
+  nousta: U("photo-1517400508447-f8dd041b476b"),
+  // Missing travel
+  loma: U("photo-1507525428034-b723cf961d3e"), opas: U("photo-1469854523086-cc02fe5d8800"),
+  // Missing nature/weather
+  saaristo: U("photo-1559128010-7c1ad6e1b6a7"), tunturi: U("photo-1520769945061-0a448c463865"),
 };
 
 // Category-level fallback images when no exact word match exists
