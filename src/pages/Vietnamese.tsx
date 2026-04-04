@@ -36,10 +36,10 @@ import historyBg3 from "@/assets/history-bg-3.jpg";
 import historyBg4 from "@/assets/history-bg-4.jpg";
 
 const historyBackgrounds: Record<string, string> = {
-  "month-1": historyBg1, // Trống đồng Đông Sơn
-  "month-2": historyBg2, // Văn Miếu Quốc Tử Giám
-  "month-3": historyBg3, // Lăng Chủ tịch & cờ đỏ sao vàng
-  "month-4": historyBg4, // Skyline TP.HCM hiện đại
+  "hist-month-1": historyBg1, // Trống đồng Đông Sơn
+  "hist-month-2": historyBg2, // Văn Miếu Quốc Tử Giám
+  "hist-month-3": historyBg3, // Lăng Chủ tịch & cờ đỏ sao vàng
+  "hist-month-4": historyBg4, // Skyline TP.HCM hiện đại
 };
 
 // Icon mapping for each history lesson
