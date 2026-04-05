@@ -1,49 +1,88 @@
 
 
-## Plan: Expand Cambridge Lectures — Add 15 New Lessons (Starters to PET)
+## Plan: IELTS Vocabulary — 2-Column Layout + Streak Leaderboard (Public)
 
-### Current State
-- 15 lectures total: 3 per level (Starters, Movers, Flyers, KET, PET) + 1 shared vocabulary lesson
-- Each lecture has ~50 lines of structured data (steps, rules, practice, vocab, quiz)
+### Changes Overview
 
-### Expansion: Add 3 new lectures per level = 15 new lectures (total: 30)
+**1. Grid layout: 2 columns instead of 3**
+- Change list grid from `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` → `grid-cols-1 lg:grid-cols-2`
+- This gives each card more horizontal space, reducing cramped appearance
+- Also update flashcard grid similarly
 
-Since `cambridgeLecturesData.ts` is already 921 lines, the new 15 lectures will be added in a new expansion file to keep things manageable.
+**2. Create Streak Leaderboard component**
+- New component: `src/components/StudyStreakLeaderboard.tsx`
+- Calculates each user's study streak from the `student_activity_log` table (consecutive days with activity counting backwards from today)
+- Shows ALL profiles (including those with 0 streak) to motivate students
+- Works for both logged-in and non-logged-in users (uses anon-safe query)
+- Displays flame icon 🔥 and streak count
 
-### New Lectures by Level
+**3. Database: Add RLS policy for public read on student_activity_log**
+- Need a new SELECT policy on `student_activity_log` allowing anon users to read (limited to date aggregation only)
+- Alternative: Create a database function `get_streak_leaderboard()` that returns user_id + streak count, avoiding exposing raw activity data
+- **Preferred approach**: Use a security-definer function that computes streaks server-side and returns only `(display_name, streak_days)` — no raw data exposed
 
-**Starters (3 new)**
-1. **Animals & Body Parts** — Reading & Writing: match words to pictures of animals and body parts
-2. **My Family & Friends** — Speaking: describe family members using simple adjectives
-3. **Numbers & Counting to 20** — Listening: number dictation and quantity matching
+**4. Update sidebar to show both leaderboards**
+- In `IeltsVocabulary.tsx`, the sidebar (w-72) will stack:
+  1. VocabMasteryLeaderboard (existing)
+  2. StudyStreakLeaderboard (new)
 
-**Movers (3 new)**
-4. **Weather & Seasons** — Vocabulary: weather words, seasons, and "What's the weather like?" patterns
-5. **Daily Routines & Time** — Listening: clock times and daily activity sequences
-6. **Adjective Adventure** — Reading & Writing: comparatives (bigger, smaller, faster)
+**5. Public visibility (unauthenticated users)**
+- Both leaderboards will be visible to everyone
+- The profiles table already has a SELECT policy for authenticated users
+- Need to add an anon SELECT policy on `profiles` for `full_name` only, OR use the security-definer function approach
 
-**Flyers (3 new)**
-7. **Past Tense Stories** — Reading & Writing: irregular past tenses in story context
-8. **Giving Directions** — Speaking: map-based directions with turn left/right, go straight
-9. **Compound Nouns & Word Building** — Vocabulary: bedroom, classroom, football, etc.
+### Technical Details
 
-**KET (3 new)**
-10. **Shopping & Money** — Speaking: role-play buying items, asking prices, making decisions
-11. **Present Perfect vs Past Simple** — Reading & Writing: "Have you ever...?" vs "I went..."
-12. **Informal Letter Writing** — Reading & Writing: 100-word letters to a friend
+**Database migration** — Create a security-definer function:
+```sql
+CREATE OR REPLACE FUNCTION public.get_streak_leaderboard()
+RETURNS TABLE(display_name text, streak_days integer)
+LANGUAGE plpgsql STABLE SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  RETURN QUERY
+  WITH user_dates AS (
+    SELECT user_id, DATE(created_at) as activity_date
+    FROM student_activity_log
+    GROUP BY user_id, DATE(created_at)
+  ),
+  streaks AS (
+    SELECT ud.user_id,
+      (SELECT COUNT(*)::integer FROM generate_series(0, 364) AS i
+       WHERE EXISTS (
+         SELECT 1 FROM user_dates ud2
+         WHERE ud2.user_id = ud.user_id
+         AND ud2.activity_date = CURRENT_DATE - i
+       )
+       AND (i = 0 OR EXISTS (
+         SELECT 1 FROM generate_series(0, i-1) AS j
+         WHERE EXISTS (
+           SELECT 1 FROM user_dates ud3
+           WHERE ud3.user_id = ud.user_id
+           AND ud3.activity_date = CURRENT_DATE - j
+         )
+       ))
+      ) as days
+    FROM (SELECT DISTINCT user_id FROM user_dates) ud
+  )
+  SELECT COALESCE(p.full_name, 'Student')::text, COALESCE(s.days, 0)
+  FROM profiles p
+  LEFT JOIN streaks s ON s.user_id = p.id
+  ORDER BY COALESCE(s.days, 0) DESC, p.full_name
+  LIMIT 50;
+END;
+$$;
+```
 
-**PET (3 new)**
-13. **Reported Speech** — Reading & Writing: "She said that..." transformations
-14. **Photo Description** — Speaking: Part 3 photo comparison and opinion giving
-15. **Sentence Transformation** — Reading & Writing: Part 1 key word transformations
+Actually, a simpler approach: compute streaks client-side by calling the function via `supabase.rpc('get_streak_leaderboard')`. This avoids complex SQL. Let me simplify the function.
 
-### Technical Approach
+### Files to modify
+- `src/pages/IeltsVocabulary.tsx` — change grid to 2 columns, add streak leaderboard in sidebar
+- `src/components/StudyStreakLeaderboard.tsx` — new component using RPC function
+- **Database migration** — create `get_streak_leaderboard()` function
+- `src/components/VocabMasteryLeaderboard.tsx` — add anon support (allow fetching without auth)
 
-1. **Create** `src/data/cambridgeLecturesExpansion.ts` — contains all 15 new `CambridgeLecture` objects
-2. **Update** `src/data/cambridgeLecturesData.ts` — import and merge the expansion into `allCambridgeLectures`
-3. Each lecture includes: 3 step-by-step guides, 3 illustrated rules, 3 watch-outs, 3 practice items, 4-6 vocabulary items, 3 quiz questions, parent info (EN + VI)
-
-### Files
-- `src/data/cambridgeLecturesExpansion.ts` (new, ~900 lines)
-- `src/data/cambridgeLecturesData.ts` (update export array)
+### Also fix
+- The `cambridgeLecturesExpansion2.ts` build errors (if they still exist) — verify and fix any `answer` fields that are strings instead of numbers
 
