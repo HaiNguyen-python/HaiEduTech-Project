@@ -1,63 +1,49 @@
 
 
-## Plan: Show All Students in Vocabulary Leaderboard
+## Plan: Expand Cambridge Lectures — Add 15 New Lessons (Starters to PET)
 
-### Problem
-The leaderboard currently only shows students who have scores in `game_scores`. Students who haven't started yet are invisible, reducing competitive motivation.
+### Current State
+- 15 lectures total: 3 per level (Starters, Movers, Flyers, KET, PET) + 1 shared vocabulary lesson
+- Each lecture has ~50 lines of structured data (steps, rules, practice, vocab, quiz)
 
-### Solution
-Fetch **all student profiles** from the `profiles` table, then merge with `game_scores` data. Students without scores appear at the bottom with score 0, so everyone sees their rank.
+### Expansion: Add 3 new lectures per level = 15 new lectures (total: 30)
 
-### Changes in `src/components/VocabMasteryLeaderboard.tsx`
+Since `cambridgeLecturesData.ts` is already 921 lines, the new 15 lectures will be added in a new expansion file to keep things manageable.
 
-1. **Fetch all profiles first** — query `profiles` table for all users (not just those with scores)
-2. **Left-join with scores** — merge profile list with best scores from `game_scores`, defaulting to 0
-3. **Remove `.slice(0, 10)` limit** — show all students (with scroll if many), or increase to 50
-4. **Add `max-h` + scroll** — add `max-h-[400px] overflow-y-auto` to the entries container so it stays manageable with many students
-5. **Highlight current user's row** — already implemented, keeps working
+### New Lectures by Level
 
-### Technical Detail
+**Starters (3 new)**
+1. **Animals & Body Parts** — Reading & Writing: match words to pictures of animals and body parts
+2. **My Family & Friends** — Speaking: describe family members using simple adjectives
+3. **Numbers & Counting to 20** — Listening: number dictation and quantity matching
 
-```typescript
-// 1. Fetch ALL profiles
-const { data: allProfiles } = await supabase
-  .from("profiles")
-  .select("id, full_name");
+**Movers (3 new)**
+4. **Weather & Seasons** — Vocabulary: weather words, seasons, and "What's the weather like?" patterns
+5. **Daily Routines & Time** — Listening: clock times and daily activity sequences
+6. **Adjective Adventure** — Reading & Writing: comparatives (bigger, smaller, faster)
 
-// 2. Fetch scores for this subject
-const { data: scoreData } = await (supabase as any)
-  .from("game_scores")
-  .select("user_id, score")
-  .eq("game_type", `mastery-${subject}`)
-  .order("score", { ascending: false });
+**Flyers (3 new)**
+7. **Past Tense Stories** — Reading & Writing: irregular past tenses in story context
+8. **Giving Directions** — Speaking: map-based directions with turn left/right, go straight
+9. **Compound Nouns & Word Building** — Vocabulary: bedroom, classroom, football, etc.
 
-// 3. Build best-score map
-const bestScores = new Map<string, number>();
-for (const row of scoreData || []) {
-  const existing = bestScores.get(row.user_id);
-  if (!existing || row.score > existing) bestScores.set(row.user_id, row.score);
-}
+**KET (3 new)**
+10. **Shopping & Money** — Speaking: role-play buying items, asking prices, making decisions
+11. **Present Perfect vs Past Simple** — Reading & Writing: "Have you ever...?" vs "I went..."
+12. **Informal Letter Writing** — Reading & Writing: 100-word letters to a friend
 
-// 4. Merge: all profiles + their scores (default 0)
-const merged = (allProfiles || []).map(p => ({
-  user_id: p.id,
-  score: bestScores.get(p.id) || 0,
-  display_name: p.full_name || "Student",
-})).sort((a, b) => b.score - a.score);
-```
+**PET (3 new)**
+13. **Reported Speech** — Reading & Writing: "She said that..." transformations
+14. **Photo Description** — Speaking: Part 3 photo comparison and opinion giving
+15. **Sentence Transformation** — Reading & Writing: Part 1 key word transformations
 
-### Note
-The `profiles` SELECT policy requires teacher/admin role OR `auth.uid() = id`. Regular students can only see their own profile. To show all names, we need to add an RLS policy allowing authenticated users to read `full_name` from all profiles. A new migration will add:
+### Technical Approach
 
-```sql
-CREATE POLICY "All authenticated can view profile names"
-ON public.profiles FOR SELECT TO authenticated
-USING (true);
-```
+1. **Create** `src/data/cambridgeLecturesExpansion.ts` — contains all 15 new `CambridgeLecture` objects
+2. **Update** `src/data/cambridgeLecturesData.ts` — import and merge the expansion into `allCambridgeLectures`
+3. Each lecture includes: 3 step-by-step guides, 3 illustrated rules, 3 watch-outs, 3 practice items, 4-6 vocabulary items, 3 quiz questions, parent info (EN + VI)
 
-This is safe since profiles only contain `full_name` and `avatar_url`.
-
-### Files to modify
-- `src/components/VocabMasteryLeaderboard.tsx` — fetch all profiles, merge with scores, add scrollable container
-- **Database migration** — add SELECT policy on `profiles` for all authenticated users
+### Files
+- `src/data/cambridgeLecturesExpansion.ts` (new, ~900 lines)
+- `src/data/cambridgeLecturesData.ts` (update export array)
 
