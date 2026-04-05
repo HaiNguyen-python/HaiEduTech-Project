@@ -397,7 +397,7 @@ const IeltsVocabulary = () => {
               </div>
             ) : (
               /* List grid — 1 col mobile, 2 tablet, 3 desktop */
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {paginated.map(w => (
                   <motion.div
                     key={w.word + w.category}
