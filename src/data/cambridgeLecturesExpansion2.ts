@@ -36,9 +36,9 @@ const startersFood: CambridgeLecture = {
     { mistake: "Forgetting 'some' with uncountable nouns", mistakeVi: "Quên 'some' với danh từ không đếm được", tip: "Say 'some water' NOT 'a water'.", tipVi: "Nói 'some water' KHÔNG phải 'a water'." },
   ],
   practiceSet: [
-    { question: "Which word means 🍎?", questionVi: "Từ nào nghĩa là 🍎?", answer: "apple", explanation: "Apple = quả táo. It's red or green and round!", explanationVi: "Apple = quả táo. Nó đỏ hoặc xanh và tròn!" },
-    { question: "Complete: I like ___ bananas. (eating / eat)", questionVi: "Hoàn thành: I like ___ bananas. (eating / eat)", answer: "eating", explanation: "After 'like' we use verb + -ing: I like eating.", explanationVi: "Sau 'like' dùng động từ + -ing: I like eating." },
-    { question: "What do you say when you want water? 'Can I have ___ water, please?'", questionVi: "Bạn nói gì khi muốn nước? 'Can I have ___ water, please?'", answer: "some", explanation: "Water is uncountable, so we use 'some'.", explanationVi: "Water không đếm được nên dùng 'some'." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Which word means 🍎?", options: ["apple", "N/A", "N/A", "N/A"], answer: 0, explanation: "Apple = quả táo. It's red or green and round!", explanationVi: "Apple = quả táo. Nó đỏ hoặc xanh và tròn!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Complete: I like ___ bananas. (eating / eat)", options: ["eating", "N/A", "N/A", "N/A"], answer: 0, explanation: "After 'like' we use verb + -ing: I like eating.", explanationVi: "Sau 'like' dùng động từ + -ing: I like eating." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "What do you say when you want water? 'Can I have ___ water, please?'", options: ["some", "N/A", "N/A", "N/A"], answer: 0, explanation: "Water is uncountable, so we use 'some'.", explanationVi: "Water không đếm được nên dùng 'some'." },
   ],
   vocabulary: [
     { word: "apple", meaning: "quả táo", meaningVi: "quả táo", example: "I eat an apple every day." },
@@ -90,9 +90,9 @@ const startersClothes: CambridgeLecture = {
     { mistake: "Wrong order: 'dress red' instead of 'red dress'", mistakeVi: "Sai thứ tự: 'dress red' thay vì 'red dress'", tip: "Color comes BEFORE the noun in English: red dress, blue hat.", tipVi: "Màu đứng TRƯỚC danh từ trong tiếng Anh: red dress, blue hat." },
   ],
   practiceSet: [
-    { question: "Describe: A girl with a yellow T-shirt and blue skirt.", questionVi: "Mô tả: Một cô bé mặc áo phông vàng và váy xanh.", answer: "She is wearing a yellow T-shirt and a blue skirt.", explanation: "Use 'She is wearing' + colour + clothes.", explanationVi: "Dùng 'She is wearing' + màu + quần áo." },
-    { question: "What are 'quần dài' in English?", questionVi: "What are 'quần dài' in English?", answer: "trousers", explanation: "Trousers = quần dài. Always plural!", explanationVi: "Trousers = quần dài. Luôn ở số nhiều!" },
-    { question: "Fill in: He ___ wearing a green jacket. (is / are)", questionVi: "Điền: He ___ wearing a green jacket. (is / are)", answer: "is", explanation: "He → is. She → is. They → are.", explanationVi: "He → is. She → is. They → are." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Describe: A girl with a yellow T-shirt and blue skirt.", options: ["She is wearing a yellow T-shirt and a blue skirt.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Use 'She is wearing' + colour + clothes.", explanationVi: "Dùng 'She is wearing' + màu + quần áo." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "What are 'quần dài' in English?", options: ["trousers", "N/A", "N/A", "N/A"], answer: 0, explanation: "Trousers = quần dài. Always plural!", explanationVi: "Trousers = quần dài. Luôn ở số nhiều!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Fill in: He ___ wearing a green jacket. (is / are)", options: ["is", "N/A", "N/A", "N/A"], answer: 0, explanation: "He → is. She → is. They → are.", explanationVi: "He → is. She → is. They → are." },
   ],
   vocabulary: [
     { word: "dress", meaning: "váy đầm", meaningVi: "váy đầm", example: "She has a beautiful red dress." },
@@ -144,9 +144,9 @@ const startersPlaces: CambridgeLecture = {
     { mistake: "Forgetting 'the': 'I go to kitchen'", mistakeVi: "Quên 'the': 'I go to kitchen'", tip: "Say 'I go to THE kitchen.'", tipVi: "Nói 'I go to THE kitchen.'" },
   ],
   practiceSet: [
-    { question: "Where do you sleep?", questionVi: "Bạn ngủ ở đâu?", answer: "bedroom", explanation: "Bedroom = phòng ngủ. The room where you sleep!", explanationVi: "Bedroom = phòng ngủ. Phòng nơi bạn ngủ!" },
-    { question: "Where do children play at school?", questionVi: "Trẻ em chơi ở đâu ở trường?", answer: "playground", explanation: "Playground = sân chơi. Play + ground = place to play!", explanationVi: "Playground = sân chơi. Play + ground = nơi để chơi!" },
-    { question: "The cat is ___ the table. (under / on / in)", questionVi: "Con mèo ở ___ bàn. (under / on / in)", answer: "under", explanation: "Under = phía dưới. The cat is hiding under the table!", explanationVi: "Under = phía dưới. Con mèo trốn dưới bàn!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Where do you sleep?", options: ["bedroom", "N/A", "N/A", "N/A"], answer: 0, explanation: "Bedroom = phòng ngủ. The room where you sleep!", explanationVi: "Bedroom = phòng ngủ. Phòng nơi bạn ngủ!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Where do children play at school?", options: ["playground", "N/A", "N/A", "N/A"], answer: 0, explanation: "Playground = sân chơi. Play + ground = place to play!", explanationVi: "Playground = sân chơi. Play + ground = nơi để chơi!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "The cat is ___ the table. (under / on / in)", options: ["under", "N/A", "N/A", "N/A"], answer: 0, explanation: "Under = phía dưới. The cat is hiding under the table!", explanationVi: "Under = phía dưới. Con mèo trốn dưới bàn!" },
   ],
   vocabulary: [
     { word: "kitchen", meaning: "nhà bếp", meaningVi: "nhà bếp", example: "Mum is cooking in the kitchen." },
@@ -200,9 +200,9 @@ const moversHealthBody: CambridgeLecture = {
     { mistake: "Saying 'He should to rest'", mistakeVi: "Nói 'He should to rest'", tip: "No 'to' after should! 'He should rest.'", tipVi: "Không có 'to' sau should! 'He should rest.'" },
   ],
   practiceSet: [
-    { question: "What's the matter? (picture: boy holding his tooth)", questionVi: "Bạn bị sao? (hình: bé trai ôm răng)", answer: "He has a toothache.", explanation: "Toothache = đau răng. He should go to the dentist!", explanationVi: "Toothache = đau răng. He should go to the dentist!" },
-    { question: "Give advice: 'I have a cold.'", questionVi: "Đưa lời khuyên: 'I have a cold.'", answer: "You should rest and drink warm water.", explanation: "Rest + warm drinks = best advice for a cold!", explanationVi: "Nghỉ ngơi + nước ấm = lời khuyên tốt nhất khi bị cảm!" },
-    { question: "Fix the mistake: 'She should to take medicine.'", questionVi: "Sửa lỗi: 'She should to take medicine.'", answer: "She should take medicine.", explanation: "No 'to' after 'should'!", explanationVi: "Không có 'to' sau 'should'!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "What's the matter? (picture: boy holding his tooth)", options: ["He has a toothache.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Toothache = đau răng. He should go to the dentist!", explanationVi: "Toothache = đau răng. He should go to the dentist!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Give advice: 'I have a cold.'", options: ["You should rest and drink warm water.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Rest + warm drinks = best advice for a cold!", explanationVi: "Nghỉ ngơi + nước ấm = lời khuyên tốt nhất khi bị cảm!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Fix the mistake: 'She should to take medicine.'", options: ["She should take medicine.", "N/A", "N/A", "N/A"], answer: 0, explanation: "No 'to' after 'should'!", explanationVi: "Không có 'to' sau 'should'!" },
   ],
   vocabulary: [
     { word: "headache", meaning: "đau đầu", meaningVi: "đau đầu", example: "I have a headache. It hurts a lot." },
@@ -254,9 +254,9 @@ const moversTransport: CambridgeLecture = {
     { mistake: "Confusing 'drive' and 'ride'", mistakeVi: "Nhầm 'drive' và 'ride'", tip: "Drive = lái xe ô tô. Ride = đi xe đạp / xe máy / ngựa.", tipVi: "Drive = lái xe ô tô. Ride = đi xe đạp / xe máy / ngựa." },
   ],
   practiceSet: [
-    { question: "How do you go to school? (picture: a yellow bus)", questionVi: "Bạn đến trường bằng gì? (hình: xe buýt vàng)", answer: "I go to school by bus.", explanation: "By bus = bằng xe buýt. No article needed!", explanationVi: "By bus = bằng xe buýt. Không cần mạo từ!" },
-    { question: "Fix: 'She goes to work by the car.'", questionVi: "Sửa: 'She goes to work by the car.'", answer: "She goes to work by car.", explanation: "Remove 'the' — by + transport has no article.", explanationVi: "Bỏ 'the' — by + phương tiện không có mạo từ." },
-    { question: "How do you say 'đi bộ' in English?", questionVi: "Nói 'đi bộ' tiếng Anh thế nào?", answer: "on foot", explanation: "On foot = đi bộ. NOT 'by foot'!", explanationVi: "On foot = đi bộ. KHÔNG phải 'by foot'!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "How do you go to school? (picture: a yellow bus)", options: ["I go to school by bus.", "N/A", "N/A", "N/A"], answer: 0, explanation: "By bus = bằng xe buýt. No article needed!", explanationVi: "By bus = bằng xe buýt. Không cần mạo từ!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Fix: 'She goes to work by the car.'", options: ["She goes to work by car.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Remove 'the' — by + transport has no article.", explanationVi: "Bỏ 'the' — by + phương tiện không có mạo từ." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "How do you say 'đi bộ' in English?", options: ["on foot", "N/A", "N/A", "N/A"], answer: 0, explanation: "On foot = đi bộ. NOT 'by foot'!", explanationVi: "On foot = đi bộ. KHÔNG phải 'by foot'!" },
   ],
   vocabulary: [
     { word: "bus", meaning: "xe buýt", meaningVi: "xe buýt", example: "The school bus is yellow." },
@@ -308,9 +308,9 @@ const moversStorytelling: CambridgeLecture = {
     { mistake: "Not using connectors between pictures", mistakeVi: "Không dùng từ nối giữa các hình", tip: "Connect pictures: 'First... Then... After that... Finally...'", tipVi: "Nối các hình: 'First... Then... After that... Finally...'" },
   ],
   practiceSet: [
-    { question: "Picture 1: A boy is at home. He picks up his bag. → Describe:", questionVi: "Hình 1: Một bé trai ở nhà. Cậu cầm cặp sách. → Mô tả:", answer: "First, the boy picked up his bag at home.", explanation: "Use 'First' + past tense 'picked up'.", explanationVi: "Dùng 'First' + thì quá khứ 'picked up'." },
-    { question: "Picture 2: He walks to school in the rain. → Describe:", questionVi: "Hình 2: Cậu đi bộ đến trường trong mưa. → Mô tả:", answer: "Then, he walked to school in the rain.", explanation: "Use 'Then' + past tense 'walked'.", explanationVi: "Dùng 'Then' + thì quá khứ 'walked'." },
-    { question: "Picture 3: He arrives at school, wet and cold. → How did he feel?", questionVi: "Hình 3: Cậu đến trường, ướt và lạnh. → Cậu cảm thấy thế nào?", answer: "He was cold and tired.", explanation: "Describe feelings: was cold, was tired, was wet.", explanationVi: "Mô tả cảm xúc: was cold, was tired, was wet." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Picture 1: A boy is at home. He picks up his bag. → Describe:", options: ["First, the boy picked up his bag at home.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Use 'First' + past tense 'picked up'.", explanationVi: "Dùng 'First' + thì quá khứ 'picked up'." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Picture 2: He walks to school in the rain. → Describe:", options: ["Then, he walked to school in the rain.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Use 'Then' + past tense 'walked'.", explanationVi: "Dùng 'Then' + thì quá khứ 'walked'." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Picture 3: He arrives at school, wet and cold. → How did he feel?", options: ["He was cold and tired.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Describe feelings: was cold, was tired, was wet.", explanationVi: "Mô tả cảm xúc: was cold, was tired, was wet." },
   ],
   vocabulary: [
     { word: "first", meaning: "đầu tiên", meaningVi: "đầu tiên", example: "First, I wake up at 7 o'clock." },
@@ -364,9 +364,9 @@ const flyersConversation: CambridgeLecture = {
     { mistake: "Using 'I want' instead of 'I'd like'", mistakeVi: "Dùng 'I want' thay vì 'I'd like'", tip: "'I'd like' is more polite than 'I want' — use it in exams!", tipVi: "'I'd like' lịch sự hơn 'I want' — dùng trong thi!" },
   ],
   practiceSet: [
-    { question: "You want to buy 2 oranges. What do you say?", questionVi: "Bạn muốn mua 2 quả cam. Bạn nói gì?", answer: "Can I have two oranges, please?", explanation: "'Can I have' + item + 'please' = perfect!", explanationVi: "'Can I have' + món + 'please' = hoàn hảo!" },
-    { question: "The shop assistant says: 'That's £3.50.' What do you say?", questionVi: "Nhân viên nói: 'That's £3.50.' Bạn nói gì?", answer: "Here you are. Thank you!", explanation: "'Here you are' when giving money, then 'Thank you!'", explanationVi: "'Here you are' khi đưa tiền, sau đó 'Thank you!'" },
-    { question: "Ask politely for the menu at a restaurant:", questionVi: "Xin menu lịch sự ở nhà hàng:", answer: "Excuse me, can I have the menu, please?", explanation: "Excuse me + Can I have + please = super polite!", explanationVi: "Excuse me + Can I have + please = siêu lịch sự!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "You want to buy 2 oranges. What do you say?", options: ["Can I have two oranges, please?", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Can I have' + item + 'please' = perfect!", explanationVi: "'Can I have' + món + 'please' = hoàn hảo!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "The shop assistant says: 'That's £3.50.' What do you say?", options: ["Here you are. Thank you!", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Here you are' when giving money, then 'Thank you!'", explanationVi: "'Here you are' khi đưa tiền, sau đó 'Thank you!'" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Ask politely for the menu at a restaurant:", options: ["Excuse me, can I have the menu, please?", "N/A", "N/A", "N/A"], answer: 0, explanation: "Excuse me + Can I have + please = super polite!", explanationVi: "Excuse me + Can I have + please = siêu lịch sự!" },
   ],
   vocabulary: [
     { word: "menu", meaning: "thực đơn", meaningVi: "thực đơn", example: "Can I see the menu, please?" },
@@ -418,9 +418,9 @@ const flyersLetterWriting: CambridgeLecture = {
     { mistake: "No capital letter at start / no full stop at end", mistakeVi: "Không viết hoa đầu câu / không dấu chấm cuối câu", tip: "Always: Capital letter at start, full stop (.) at end.", tipVi: "Luôn: Viết hoa đầu câu, dấu chấm (.) cuối câu." },
   ],
   practiceSet: [
-    { question: "Write a note to your friend Tom: invite him to your birthday party on Saturday at your house.", questionVi: "Viết ghi chú cho bạn Tom: mời đến tiệc sinh nhật thứ Bảy tại nhà bạn.", answer: "Dear Tom, Please come to my birthday party on Saturday at my house! From, [Your name]", explanation: "Includes: who + what + when + where = perfect message!", explanationVi: "Bao gồm: ai + gì + khi nào + ở đâu = tin nhắn hoàn hảo!" },
-    { question: "Write a thank-you note to your teacher for a book.", questionVi: "Viết lời cảm ơn cô giáo vì một quyển sách.", answer: "Dear Teacher, Thank you very much for the book. I really like it! From, [Your name]", explanation: "Short, polite, and includes what you're thanking for!", explanationVi: "Ngắn gọn, lịch sự, và nêu rõ cảm ơn vì điều gì!" },
-    { question: "Write to your friend: say sorry you can't come to the cinema and suggest another day.", questionVi: "Viết cho bạn: xin lỗi không đến rạp phim được và đề xuất ngày khác.", answer: "Dear [Friend], Sorry, I can't come to the cinema today. Can we go on Sunday instead? From, [Your name]", explanation: "Includes: apology + reason + alternative suggestion.", explanationVi: "Bao gồm: xin lỗi + lý do + đề xuất thay thế." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Write a note to your friend Tom: invite him to your birthday party on Saturday at your house.", options: ["Dear Tom, Please come to my birthday party on Saturday at my house! From, [Your name]", "N/A", "N/A", "N/A"], answer: 0, explanation: "Includes: who + what + when + where = perfect message!", explanationVi: "Bao gồm: ai + gì + khi nào + ở đâu = tin nhắn hoàn hảo!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Write a thank-you note to your teacher for a book.", options: ["Dear Teacher, Thank you very much for the book. I really like it! From, [Your name]", "N/A", "N/A", "N/A"], answer: 0, explanation: "Short, polite, and includes what you're thanking for!", explanationVi: "Ngắn gọn, lịch sự, và nêu rõ cảm ơn vì điều gì!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Write to your friend: say sorry you can't come to the cinema and suggest another day.", options: ["Dear [Friend], Sorry, I can't come to the cinema today. Can we go on Sunday instead? From, [Your name]", "N/A", "N/A", "N/A"], answer: 0, explanation: "Includes: apology + reason + alternative suggestion.", explanationVi: "Bao gồm: xin lỗi + lý do + đề xuất thay thế." },
   ],
   vocabulary: [
     { word: "invite", meaning: "mời", meaningVi: "mời", example: "I want to invite you to my party." },
@@ -472,9 +472,9 @@ const flyersListeningMaps: CambridgeLecture = {
     { mistake: "Misspelling place names", mistakeVi: "Viết sai chính tả tên nơi", tip: "Listen for spelling clues! They often spell out difficult names.", tipVi: "Nghe gợi ý chính tả! Họ thường đánh vần tên khó." },
   ],
   practiceSet: [
-    { question: "'The bank is ___ the supermarket.' (opposite / under)", questionVi: "'The bank is ___ the supermarket.' (opposite / under)", answer: "opposite", explanation: "Opposite = đối diện, across the street.", explanationVi: "Opposite = đối diện, bên kia đường." },
-    { question: "'The café is ___ the library and the post office.' (between / behind)", questionVi: "'The café is ___ the library and the post office.' (between / behind)", answer: "between", explanation: "Between = ở giữa hai nơi.", explanationVi: "Between = ở giữa hai nơi." },
-    { question: "Where is the hospital? 'It's on the ___ of Park Street and Green Road.'", questionVi: "Bệnh viện ở đâu? 'It's on the ___ of Park Street and Green Road.'", answer: "corner", explanation: "On the corner of = ở góc đường.", explanationVi: "On the corner of = ở góc đường." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "'The bank is ___ the supermarket.' (opposite / under)", options: ["opposite", "N/A", "N/A", "N/A"], answer: 0, explanation: "Opposite = đối diện, across the street.", explanationVi: "Opposite = đối diện, bên kia đường." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "'The café is ___ the library and the post office.' (between / behind)", options: ["between", "N/A", "N/A", "N/A"], answer: 0, explanation: "Between = ở giữa hai nơi.", explanationVi: "Between = ở giữa hai nơi." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Where is the hospital? 'It's on the ___ of Park Street and Green Road.'", options: ["corner", "N/A", "N/A", "N/A"], answer: 0, explanation: "On the corner of = ở góc đường.", explanationVi: "On the corner of = ở góc đường." },
   ],
   vocabulary: [
     { word: "opposite", meaning: "đối diện", meaningVi: "đối diện", example: "The cinema is opposite the park." },
@@ -528,9 +528,9 @@ const ketReadingMultipleChoice: CambridgeLecture = {
     { mistake: "Overthinking simple signs", mistakeVi: "Suy nghĩ quá phức tạp cho biển hiệu đơn giản", tip: "The answer is usually straightforward. Don't add meaning that isn't there!", tipVi: "Đáp án thường đơn giản. Đừng thêm nghĩa không có!" },
   ],
   practiceSet: [
-    { question: "Sign: 'Swimming pool closed on Mondays.' What does this mean?", questionVi: "Biển: 'Swimming pool closed on Mondays.' Nghĩa là gì?", answer: "You cannot swim on Mondays.", explanation: "Closed on Mondays = not open = you can't go there on Monday.", explanationVi: "Đóng cửa thứ Hai = không mở = bạn không thể đến vào thứ Hai." },
-    { question: "Notice: 'Please return library books by Friday.' What should you do?", questionVi: "Thông báo: 'Please return library books by Friday.' Bạn nên làm gì?", answer: "Bring your books back before or on Friday.", explanation: "'By Friday' = trước hoặc vào thứ Sáu.", explanationVi: "'By Friday' = trước hoặc vào thứ Sáu." },
-    { question: "Email: 'Hi Sam, Sorry I can't make it tonight. How about tomorrow instead? – Jo'", questionVi: "Email: 'Hi Sam, Sorry I can't make it tonight. How about tomorrow instead? – Jo'", answer: "Jo wants to change the meeting to tomorrow.", explanation: "Jo is suggesting a different day.", explanationVi: "Jo đang đề xuất ngày khác." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Sign: 'Swimming pool closed on Mondays.' What does this mean?", options: ["You cannot swim on Mondays.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Closed on Mondays = not open = you can't go there on Monday.", explanationVi: "Đóng cửa thứ Hai = không mở = bạn không thể đến vào thứ Hai." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Notice: 'Please return library books by Friday.' What should you do?", options: ["Bring your books back before or on Friday.", "N/A", "N/A", "N/A"], answer: 0, explanation: "'By Friday' = trước hoặc vào thứ Sáu.", explanationVi: "'By Friday' = trước hoặc vào thứ Sáu." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Email: 'Hi Sam, Sorry I can't make it tonight. How about tomorrow instead? – Jo'", options: ["Jo wants to change the meeting to tomorrow.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Jo is suggesting a different day.", explanationVi: "Jo đang đề xuất ngày khác." },
   ],
   vocabulary: [
     { word: "notice", meaning: "thông báo", meaningVi: "thông báo", example: "Read the notice on the door." },
@@ -582,9 +582,9 @@ const ketListeningGap: CambridgeLecture = {
     { mistake: "Missing the answer because you're still writing", mistakeVi: "Bỏ lỡ đáp án vì đang viết", tip: "Write quickly! Use abbreviations first, then fix them after.", tipVi: "Viết nhanh! Dùng viết tắt trước, rồi sửa sau." },
   ],
   practiceSet: [
-    { question: "You hear: 'The swimming class is at half past three on Tuesdays.' Fill in: Day: ___ Time: ___", questionVi: "Bạn nghe: 'The swimming class is at half past three on Tuesdays.' Điền: Day: ___ Time: ___", answer: "Day: Tuesday, Time: 3:30", explanation: "Half past three = 3:30. On Tuesdays = every Tuesday.", explanationVi: "Half past three = 3:30. On Tuesdays = mỗi thứ Ba." },
-    { question: "You hear: 'My name is Thompson — that's T-H-O-M-P-S-O-N.' Write the name:", questionVi: "Bạn nghe: 'My name is Thompson — that's T-H-O-M-P-S-O-N.' Viết tên:", answer: "Thompson", explanation: "The speaker spelled it out! Write exactly: Thompson.", explanationVi: "Người nói đã đánh vần! Viết chính xác: Thompson." },
-    { question: "You hear: 'Tickets cost twelve pounds fifty.' Write the price:", questionVi: "Bạn nghe: 'Tickets cost twelve pounds fifty.' Viết giá:", answer: "£12.50", explanation: "Twelve pounds fifty = £12.50", explanationVi: "Twelve pounds fifty = £12.50" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "You hear: 'The swimming class is at half past three on Tuesdays.' Fill in: Day: ___ Time: ___", options: ["Day: Tuesday, Time: 3:30", "N/A", "N/A", "N/A"], answer: 0, explanation: "Half past three = 3:30. On Tuesdays = every Tuesday.", explanationVi: "Half past three = 3:30. On Tuesdays = mỗi thứ Ba." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "You hear: 'My name is Thompson — that's T-H-O-M-P-S-O-N.' Write the name:", options: ["Thompson", "N/A", "N/A", "N/A"], answer: 0, explanation: "The speaker spelled it out! Write exactly: Thompson.", explanationVi: "Người nói đã đánh vần! Viết chính xác: Thompson." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "You hear: 'Tickets cost twelve pounds fifty.' Write the price:", options: ["£12.50", "N/A", "N/A", "N/A"], answer: 0, explanation: "Twelve pounds fifty = £12.50", explanationVi: "Twelve pounds fifty = £12.50" },
   ],
   vocabulary: [
     { word: "surname", meaning: "họ", meaningVi: "họ", example: "My surname is Nguyen." },
@@ -636,9 +636,9 @@ const ketVocabPhrases: CambridgeLecture = {
     { mistake: "Saying 'go to shopping'", mistakeVi: "Nói 'go to shopping'", tip: "No 'to'! Just 'go shopping'.", tipVi: "Không 'to'! Chỉ 'go shopping'." },
   ],
   practiceSet: [
-    { question: "I need to ___ my homework. (do / make)", questionVi: "I need to ___ my homework. (do / make)", answer: "do", explanation: "DO homework — do is for tasks and duties.", explanationVi: "DO homework — do dùng cho nhiệm vụ." },
-    { question: "She ___ a lot of friends at the new school. (made / did)", questionVi: "She ___ a lot of friends at the new school. (made / did)", answer: "made", explanation: "MAKE friends — make is for creating something new.", explanationVi: "MAKE friends — make dùng cho tạo cái mới." },
-    { question: "Let's go ___ this weekend! (shop / shopping / to shop)", questionVi: "Let's go ___ this weekend! (shop / shopping / to shop)", answer: "shopping", explanation: "Go + -ing: go shopping, go swimming, go running.", explanationVi: "Go + -ing: go shopping, go swimming, go running." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "I need to ___ my homework. (do / make)", options: ["do", "N/A", "N/A", "N/A"], answer: 0, explanation: "DO homework — do is for tasks and duties.", explanationVi: "DO homework — do dùng cho nhiệm vụ." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "She ___ a lot of friends at the new school. (made / did)", options: ["made", "N/A", "N/A", "N/A"], answer: 0, explanation: "MAKE friends — make is for creating something new.", explanationVi: "MAKE friends — make dùng cho tạo cái mới." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Let's go ___ this weekend! (shop / shopping / to shop)", options: ["shopping", "N/A", "N/A", "N/A"], answer: 0, explanation: "Go + -ing: go shopping, go swimming, go running.", explanationVi: "Go + -ing: go shopping, go swimming, go running." },
   ],
   vocabulary: [
     { word: "make friends", meaning: "kết bạn", meaningVi: "kết bạn", example: "It's easy to make friends at school." },
@@ -692,9 +692,9 @@ const petWritingEmail: CambridgeLecture = {
     { mistake: "No paragraphs — writing everything in one block", mistakeVi: "Không chia đoạn — viết tất cả trong một khối", tip: "Use 3 paragraphs! It looks organized and is easier to read.", tipVi: "Dùng 3 đoạn! Trông có tổ chức và dễ đọc hơn." },
   ],
   practiceSet: [
-    { question: "Write an opening for this email: Your friend told you about their new pet.", questionVi: "Viết mở đầu cho email: Bạn bạn kể về thú cưng mới.", answer: "Hi Tom! Thanks for your email. Wow, a new puppy — that's so exciting!", explanation: "Greet + thank + react to their news = perfect opening!", explanationVi: "Chào + cảm ơn + phản hồi tin = mở đầu hoàn hảo!" },
-    { question: "Write a closing sentence with a question back:", questionVi: "Viết câu kết với câu hỏi lại:", answer: "What name did you choose for your puppy? Write back and tell me! Love, [name]", explanation: "Question + request to write back + sign off.", explanationVi: "Câu hỏi + yêu cầu viết lại + ký tên." },
-    { question: "Connect these ideas: 'I went to the park. The weather was nice.'", questionVi: "Nối các ý: 'I went to the park. The weather was nice.'", answer: "I went to the park because the weather was nice.", explanation: "'Because' connects the reason to the action.", explanationVi: "'Because' nối lý do với hành động." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Write an opening for this email: Your friend told you about their new pet.", options: ["Hi Tom! Thanks for your email. Wow, a new puppy — that's so exciting!", "N/A", "N/A", "N/A"], answer: 0, explanation: "Greet + thank + react to their news = perfect opening!", explanationVi: "Chào + cảm ơn + phản hồi tin = mở đầu hoàn hảo!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Write a closing sentence with a question back:", options: ["What name did you choose for your puppy? Write back and tell me! Love, [name]", "N/A", "N/A", "N/A"], answer: 0, explanation: "Question + request to write back + sign off.", explanationVi: "Câu hỏi + yêu cầu viết lại + ký tên." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Connect these ideas: 'I went to the park. The weather was nice.'", options: ["I went to the park because the weather was nice.", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Because' connects the reason to the action.", explanationVi: "'Because' nối lý do với hành động." },
   ],
   vocabulary: [
     { word: "however", meaning: "tuy nhiên", meaningVi: "tuy nhiên", example: "I wanted to go. However, it was raining." },
@@ -746,9 +746,9 @@ const petListeningMC: CambridgeLecture = {
     { mistake: "Panicking when you hear all options mentioned", mistakeVi: "Hoảng khi nghe tất cả lựa chọn được nhắc", tip: "This is NORMAL in PET! They always mention all options. Stay calm and listen for the conclusion.", tipVi: "Đây là BÌNH THƯỜNG trong PET! Họ luôn nhắc tất cả lựa chọn. Bình tĩnh và nghe kết luận." },
   ],
   practiceSet: [
-    { question: "Conversation: 'Shall we take the bus?' 'It's too slow. Let's drive.' 'Actually, let's cycle — it's a nice day.' → What transport?", questionVi: "Hội thoại: 'Shall we take the bus?' 'It's too slow. Let's drive.' 'Actually, let's cycle — it's a nice day.' → Phương tiện gì?", answer: "Cycle / bicycle", explanation: "'Actually, let's cycle' = the final decision. Not bus, not car!", explanationVi: "'Actually, let's cycle' = quyết định cuối. Không phải bus, không phải car!" },
-    { question: "Conversation: 'I'll wear my blue dress.' 'But it might rain.' 'OK, I'll wear jeans and my red jacket.' → What is she wearing?", questionVi: "Hội thoại: 'I'll wear my blue dress.' 'But it might rain.' 'OK, I'll wear jeans and my red jacket.' → Cô ấy mặc gì?", answer: "Jeans and a red jacket", explanation: "She changed her mind from the blue dress to jeans + red jacket.", explanationVi: "Cô ấy đổi ý từ váy xanh sang quần jeans + áo khoác đỏ." },
-    { question: "What word signals a change of mind?", questionVi: "Từ nào báo hiệu đổi ý?", answer: "Actually", explanation: "'Actually' often introduces the REAL/FINAL answer in PET Listening.", explanationVi: "'Actually' thường giới thiệu đáp án THẬT/CUỐI CÙNG trong Nghe PET." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Conversation: 'Shall we take the bus?' 'It's too slow. Let's drive.' 'Actually, let's cycle — it's a nice day.' → What transport?", options: ["Cycle / bicycle", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Actually, let's cycle' = the final decision. Not bus, not car!", explanationVi: "'Actually, let's cycle' = quyết định cuối. Không phải bus, không phải car!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Conversation: 'I'll wear my blue dress.' 'But it might rain.' 'OK, I'll wear jeans and my red jacket.' → What is she wearing?", options: ["Jeans and a red jacket", "N/A", "N/A", "N/A"], answer: 0, explanation: "She changed her mind from the blue dress to jeans + red jacket.", explanationVi: "Cô ấy đổi ý từ váy xanh sang quần jeans + áo khoác đỏ." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "What word signals a change of mind?", options: ["Actually", "N/A", "N/A", "N/A"], answer: 0, explanation: "'Actually' often introduces the REAL/FINAL answer in PET Listening.", explanationVi: "'Actually' thường giới thiệu đáp án THẬT/CUỐI CÙNG trong Nghe PET." },
   ],
   vocabulary: [
     { word: "actually", meaning: "thực ra", meaningVi: "thực ra", example: "Actually, I prefer the green one." },
@@ -800,9 +800,9 @@ const petSpeakingDiscussion: CambridgeLecture = {
     { mistake: "Giving very short answers", mistakeVi: "Trả lời quá ngắn", tip: "Expand! Opinion + reason + example = 3 sentences minimum.", tipVi: "Mở rộng! Ý kiến + lý do + ví dụ = tối thiểu 3 câu." },
   ],
   practiceSet: [
-    { question: "Give your opinion: 'Is it better to study alone or with friends?'", questionVi: "Đưa ý kiến: 'Học một mình hay với bạn tốt hơn?'", answer: "I think studying with friends is better because you can help each other. For example, my friend explains maths to me and I help her with English.", explanation: "Opinion + because + example = perfect answer structure!", explanationVi: "Ý kiến + because + ví dụ = cấu trúc đáp án hoàn hảo!" },
-    { question: "Your partner says: 'I think dogs are the best pets.' Agree politely:", questionVi: "Bạn cặp nói: 'I think dogs are the best pets.' Đồng ý lịch sự:", answer: "I agree! Dogs are great because they're loyal and fun to play with.", explanation: "Agree + reason = good response. Add your own idea!", explanationVi: "Đồng ý + lý do = phản hồi tốt. Thêm ý kiến riêng!" },
-    { question: "Your partner says: 'Online shopping is better than going to shops.' Disagree politely:", questionVi: "Bạn cặp nói: 'Online shopping is better than going to shops.' Không đồng ý lịch sự:", answer: "I see your point, but I prefer going to shops because you can try things on before you buy them.", explanation: "'I see your point, but...' = polite way to disagree.", explanationVi: "'I see your point, but...' = cách không đồng ý lịch sự." },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Give your opinion: 'Is it better to study alone or with friends?'", options: ["I think studying with friends is better because you can help each other. For example, my friend explains maths to me and I help her with English.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Opinion + because + example = perfect answer structure!", explanationVi: "Ý kiến + because + ví dụ = cấu trúc đáp án hoàn hảo!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Your partner says: 'I think dogs are the best pets.' Agree politely:", options: ["I agree! Dogs are great because they're loyal and fun to play with.", "N/A", "N/A", "N/A"], answer: 0, explanation: "Agree + reason = good response. Add your own idea!", explanationVi: "Đồng ý + lý do = phản hồi tốt. Thêm ý kiến riêng!" },
+    { instruction: "Answer the question", instructionVi: "Trả lời câu hỏi", question: "Your partner says: 'Online shopping is better than going to shops.' Disagree politely:", options: ["I see your point, but I prefer going to shops because you can try things on before you buy them.", "N/A", "N/A", "N/A"], answer: 0, explanation: "'I see your point, but...' = polite way to disagree.", explanationVi: "'I see your point, but...' = cách không đồng ý lịch sự." },
   ],
   vocabulary: [
     { word: "in my opinion", meaning: "theo ý kiến tôi", meaningVi: "theo ý kiến tôi", example: "In my opinion, exercise is very important." },
