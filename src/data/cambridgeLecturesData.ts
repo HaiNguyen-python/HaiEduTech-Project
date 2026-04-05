@@ -901,7 +901,9 @@ const vocabCommonNouns: CambridgeLecture = {
   isNew: true,
 };
 
-// === Export all 15 lectures ===
+import { cambridgeLecturesExpansion } from "./cambridgeLecturesExpansion";
+
+// === Export all 30 lectures ===
 export const allCambridgeLectures: CambridgeLecture[] = [
   startersColors,
   startersPrepositions,
@@ -918,4 +920,5 @@ export const allCambridgeLectures: CambridgeLecture[] = [
   petArticle,
   petListeningP2,
   vocabCommonNouns,
+  ...cambridgeLecturesExpansion,
 ];
