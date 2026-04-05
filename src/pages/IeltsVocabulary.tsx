@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
+import StudyStreakLeaderboard from "@/components/StudyStreakLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 10;
@@ -385,7 +386,7 @@ const IeltsVocabulary = () => {
               <VocabExercise words={filtered} t={t} />
             ) : viewMode === "flashcard" ? (
               /* Flashcard grid — generous gap, responsive columns */
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <AnimatePresence mode="popLayout">
                   {paginated.map(w => (
                     <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
@@ -396,7 +397,7 @@ const IeltsVocabulary = () => {
               </div>
             ) : (
               /* List grid — 1 col mobile, 2 tablet, 3 desktop */
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {paginated.map(w => (
                   <motion.div
                     key={w.word + w.category}
@@ -502,12 +503,14 @@ const IeltsVocabulary = () => {
               </div>
             )}
           </motion.div>
-          <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start">
+          <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 self-start space-y-4">
             <VocabMasteryLeaderboard subject="ielts" currentCount={mastered.size} />
+            <StudyStreakLeaderboard />
           </div>
           </div>
-          <div className="lg:hidden mt-6">
+          <div className="lg:hidden mt-6 space-y-4">
             <VocabMasteryLeaderboard subject="ielts" currentCount={mastered.size} />
+            <StudyStreakLeaderboard />
           </div>
         </div>
       </div>
