@@ -386,7 +386,7 @@ const IeltsVocabulary = () => {
               <VocabExercise words={filtered} t={t} />
             ) : viewMode === "flashcard" ? (
               /* Flashcard grid — generous gap, responsive columns */
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <AnimatePresence mode="popLayout">
                   {paginated.map(w => (
                     <motion.div key={w.word + w.category} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
