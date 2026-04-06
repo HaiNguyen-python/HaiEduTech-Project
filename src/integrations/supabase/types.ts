@@ -678,6 +678,39 @@ export type Database = {
         }
         Relationships: []
       }
+      student_notebooks: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_public: boolean
+          subject: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_public?: boolean
+          subject?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_public?: boolean
+          subject?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       toeic_lecture_progress: {
         Row: {
           completed_at: string | null
