@@ -83,6 +83,8 @@ const Navbar = () => {
     // Học & Ôn
     { to: "/english/ielts", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
     { to: "/ielts-lectures", label: t("Bài giảng IELTS", "IELTS Lectures"), icon: BookOpen },
+    { to: "/english/learn/ielts-reading", label: t("Luyện đọc", "Reading Practice"), icon: BookOpen },
+    { to: "/english/learn/ielts-listening", label: t("Luyện nghe", "Listening Practice"), icon: BookOpen },
     // Divider
     { to: "#div1", label: "", divider: true },
     // Từ vựng

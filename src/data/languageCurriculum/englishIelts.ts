@@ -492,6 +492,7 @@ export const ieltsModules: LanguageModule[] = [
           { question: "Nên làm gì trong 30 giây trước khi nghe?", options: ["Nghỉ ngơi", "Đọc trước câu hỏi và predict", "Viết đáp án dự đoán", "Ôn lại bài trước"], answer: 1, explanation: "30 giây trước mỗi section phải đọc câu hỏi và predict loại thông tin sẽ nghe." },
         ],
       },
+      ...ieltsListeningExpansionLessons,
     ],
   },
   {
