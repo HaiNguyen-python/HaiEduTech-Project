@@ -76,7 +76,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     exercises: [
       {
-        type: "fillInBlank" as const,
+        type: "fill-in-blank" as const,
         instruction: "Điền thì đúng vào chỗ trống",
         instructionEn: "Fill in the correct tense",
         sentences: [
@@ -91,7 +91,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
         ]
       },
       {
-        type: "sentenceReorder" as const,
+        type: "sentence-reorder" as const,
         instruction: "Sắp xếp câu đúng",
         instructionEn: "Reorder the sentence correctly",
         items: [
@@ -163,7 +163,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     exercises: [
       {
-        type: "fillInBlank" as const,
+        type: "fill-in-blank" as const,
         instruction: "Chia động từ ở thì Future Perfect hoặc Future Perfect Continuous",
         instructionEn: "Use Future Perfect or Future Perfect Continuous",
         sentences: [
@@ -176,7 +176,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
         ]
       },
       {
-        type: "sentenceReorder" as const,
+        type: "sentence-reorder" as const,
         instruction: "Sắp xếp thành câu hoàn chỉnh",
         instructionEn: "Arrange into a complete sentence",
         items: [
@@ -258,7 +258,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     exercises: [
       {
-        type: "fillInBlank" as const,
+        type: "fill-in-blank" as const,
         instruction: "Hoàn thành câu ước",
         instructionEn: "Complete the wish sentence",
         sentences: [
@@ -272,7 +272,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
         ]
       },
       {
-        type: "sentenceReorder" as const,
+        type: "sentence-reorder" as const,
         instruction: "Sắp xếp câu ước",
         instructionEn: "Arrange the wish sentence",
         items: [
@@ -354,7 +354,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     exercises: [
       {
-        type: "fillInBlank" as const,
+        type: "fill-in-blank" as const,
         instruction: "Hoàn thành câu Causative",
         instructionEn: "Complete the causative sentence",
         sentences: [
@@ -367,7 +367,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
         ]
       },
       {
-        type: "sentenceReorder" as const,
+        type: "sentence-reorder" as const,
         instruction: "Sắp xếp câu causative",
         instructionEn: "Arrange the causative sentence",
         items: [
@@ -442,7 +442,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     exercises: [
       {
-        type: "fillInBlank" as const,
+        type: "fill-in-blank" as const,
         instruction: "Chuyển sang câu hỏi tường thuật",
         instructionEn: "Convert to reported questions",
         sentences: [
@@ -455,7 +455,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
         ]
       },
       {
-        type: "sentenceReorder" as const,
+        type: "sentence-reorder" as const,
         instruction: "Sắp xếp câu hỏi tường thuật",
         instructionEn: "Arrange the reported question",
         items: [
@@ -529,7 +529,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     exercises: [
       {
-        type: "fillInBlank" as const,
+        type: "fill-in-blank" as const,
         instruction: "Điền đại từ quan hệ + giới từ phù hợp",
         instructionEn: "Fill in the correct relative pronoun with preposition",
         sentences: [
@@ -542,7 +542,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
         ]
       },
       {
-        type: "sentenceReorder" as const,
+        type: "sentence-reorder" as const,
         instruction: "Sắp xếp câu có mệnh đề quan hệ + giới từ",
         instructionEn: "Arrange the sentence with relative clause + preposition",
         items: [
@@ -617,7 +617,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     exercises: [
       {
-        type: "fillInBlank" as const,
+        type: "fill-in-blank" as const,
         instruction: "Điền a/an/the hoặc Ø (không mạo từ)",
         instructionEn: "Fill in a/an/the or Ø (no article)",
         sentences: [
@@ -631,7 +631,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
         ]
       },
       {
-        type: "sentenceReorder" as const,
+        type: "sentence-reorder" as const,
         instruction: "Sắp xếp câu",
         instructionEn: "Arrange the sentence",
         items: [
@@ -715,7 +715,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     exercises: [
       {
-        type: "fillInBlank" as const,
+        type: "fill-in-blank" as const,
         instruction: "Điền phrasal verb hoặc giới từ phù hợp",
         instructionEn: "Fill in the correct phrasal verb or preposition",
         sentences: [
@@ -730,7 +730,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
         ]
       },
       {
-        type: "sentenceReorder" as const,
+        type: "sentence-reorder" as const,
         instruction: "Sắp xếp câu có phrasal verb",
         instructionEn: "Arrange the sentence with phrasal verb",
         items: [
@@ -826,7 +826,7 @@ export const grammarExpansionModules: LanguageModule[] = [
         ],
         exercises: [
           {
-            type: "fillInBlank" as const,
+            type: "fill-in-blank" as const,
             instruction: "Điền modal verb phù hợp",
             instructionEn: "Fill in the appropriate modal verb",
             sentences: [
@@ -841,7 +841,7 @@ export const grammarExpansionModules: LanguageModule[] = [
             ]
           },
           {
-            type: "sentenceReorder" as const,
+            type: "sentence-reorder" as const,
             instruction: "Sắp xếp câu với modal verb",
             instructionEn: "Arrange the sentence with modal verb",
             items: [
@@ -924,7 +924,7 @@ export const grammarExpansionModules: LanguageModule[] = [
         ],
         exercises: [
           {
-            type: "fillInBlank" as const,
+            type: "fill-in-blank" as const,
             instruction: "Điền modal + have V3 hoặc modal phù hợp",
             instructionEn: "Fill in the correct modal (+ have V3)",
             sentences: [
@@ -938,7 +938,7 @@ export const grammarExpansionModules: LanguageModule[] = [
             ]
           },
           {
-            type: "sentenceReorder" as const,
+            type: "sentence-reorder" as const,
             instruction: "Sắp xếp câu với modal nâng cao",
             instructionEn: "Arrange the advanced modal sentence",
             items: [
@@ -1041,7 +1041,7 @@ Purpose: *I study hard to pass the exam.*
         ],
         exercises: [
           {
-            type: "fillInBlank" as const,
+            type: "fill-in-blank" as const,
             instruction: "Điền V-ing hoặc To V",
             instructionEn: "Fill in V-ing or To V",
             sentences: [
@@ -1056,7 +1056,7 @@ Purpose: *I study hard to pass the exam.*
             ]
           },
           {
-            type: "sentenceReorder" as const,
+            type: "sentence-reorder" as const,
             instruction: "Sắp xếp câu",
             instructionEn: "Arrange the sentence",
             items: [
@@ -1139,7 +1139,7 @@ He wants to be promoted.`,
         ],
         exercises: [
           {
-            type: "fillInBlank" as const,
+            type: "fill-in-blank" as const,
             instruction: "Chọn V-ing hay To V (chú ý nghĩa)",
             instructionEn: "Choose V-ing or To V (pay attention to meaning)",
             sentences: [
@@ -1153,7 +1153,7 @@ He wants to be promoted.`,
             ]
           },
           {
-            type: "sentenceReorder" as const,
+            type: "sentence-reorder" as const,
             instruction: "Sắp xếp câu",
             instructionEn: "Arrange the sentence",
             items: [
@@ -1247,7 +1247,7 @@ He wants to be promoted.`,
         ],
         exercises: [
           {
-            type: "fillInBlank" as const,
+            type: "fill-in-blank" as const,
             instruction: "Điền dạng so sánh đúng",
             instructionEn: "Fill in the correct comparative/superlative form",
             sentences: [
@@ -1262,7 +1262,7 @@ He wants to be promoted.`,
             ]
           },
           {
-            type: "sentenceReorder" as const,
+            type: "sentence-reorder" as const,
             instruction: "Sắp xếp câu so sánh",
             instructionEn: "Arrange the comparative sentence",
             items: [
@@ -1332,7 +1332,7 @@ He wants to be promoted.`,
         ],
         exercises: [
           {
-            type: "fillInBlank" as const,
+            type: "fill-in-blank" as const,
             instruction: "Hoàn thành câu so sánh",
             instructionEn: "Complete the comparison",
             sentences: [
@@ -1345,7 +1345,7 @@ He wants to be promoted.`,
             ]
           },
           {
-            type: "sentenceReorder" as const,
+            type: "sentence-reorder" as const,
             instruction: "Sắp xếp câu so sánh kép",
             instructionEn: "Arrange the double comparison",
             items: [
@@ -1433,7 +1433,7 @@ Had I known..., Were she here..., Should he call...`,
         ],
         exercises: [
           {
-            type: "fillInBlank" as const,
+            type: "fill-in-blank" as const,
             instruction: "Hoàn thành câu đảo ngữ",
             instructionEn: "Complete the inverted sentence",
             sentences: [
@@ -1447,7 +1447,7 @@ Had I known..., Were she here..., Should he call...`,
             ]
           },
           {
-            type: "sentenceReorder" as const,
+            type: "sentence-reorder" as const,
             instruction: "Sắp xếp câu đảo ngữ",
             instructionEn: "Arrange the inverted sentence",
             items: [
