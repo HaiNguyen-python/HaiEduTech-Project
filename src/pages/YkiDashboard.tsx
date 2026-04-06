@@ -2217,9 +2217,7 @@ const YkiDashboard = () => {
                     ⭐ Kertaus — Starred Words Review
                   </h2>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {showTranslation
-                      ? `You have ${starredVocab.length} starred words. Review and practice them here.`
-                      : `Sinulla on ${starredVocab.length} tähdellä merkittyä sanaa. Kertaa ja harjoittele niitä täällä.`}
+                    {t(`Sinulla on ${starredVocab.length} tähdellä merkittyä sanaa. Kertaa ja harjoittele niitä täällä.`, `You have ${starredVocab.length} starred words. Review and practice them here.`)}
                   </p>
                 </div>
 
@@ -2227,15 +2225,16 @@ const YkiDashboard = () => {
                   <Card className="p-8 text-center border-dashed">
                     <Star className="w-12 h-12 mx-auto text-muted-foreground/40 mb-4" />
                     <h3 className="text-lg font-semibold text-foreground mb-2">
-                      {showTranslation ? "Star more words to practice!" : "Merkitse lisää sanoja harjoittelua varten!"}
+                      {t("Merkitse lisää sanoja harjoittelua varten!", "Star more words to practice!")}
                     </h3>
                     <p className="text-sm text-muted-foreground mb-4">
-                      {showTranslation
-                        ? `You need at least 4 starred words to start exercises. Currently: ${starredVocab.length}/4`
-                        : `Tarvitset vähintään 4 tähdellä merkittyä sanaa aloittaaksesi harjoitukset. Nyt: ${starredVocab.length}/4`}
+                      {t(
+                        `Tarvitset vähintään 4 tähdellä merkittyä sanaa aloittaaksesi harjoitukset. Nyt: ${starredVocab.length}/4`,
+                        `You need at least 4 starred words to start exercises. Currently: ${starredVocab.length}/4`
+                      )}
                     </p>
                     <Button variant="outline" onClick={() => { setActivePillar("vocabulary"); setSelectedModule(null); setSelectedLesson(null); }}>
-                      📖 {showTranslation ? "Go to Vocabulary" : "Siirry sanastoon"}
+                      📖 {t("Siirry sanastoon", "Go to Vocabulary")}
                     </Button>
                   </Card>
                 ) : (
@@ -2246,14 +2245,14 @@ const YkiDashboard = () => {
                         variant={starredViewMode === "list" ? "default" : "outline"}
                         onClick={() => setStarredViewMode("list")}
                       >
-                        📋 {showTranslation ? "Word List" : "Sanalista"}
+                        📋 {t("Sanalista", "Word List")}
                       </Button>
                       <Button
                         size="sm"
                         variant={starredViewMode === "exercise" ? "default" : "outline"}
                         onClick={() => setStarredViewMode("exercise")}
                       >
-                        🎯 {showTranslation ? "Practice" : "Harjoittele"}
+                        🎯 {t("Harjoittele", "Practice")}
                       </Button>
                     </div>
 
