@@ -1,45 +1,44 @@
 
 
-## Plan: Thêm mục English Grammar vào Learn English
+## Plan: Tăng cường Grammar — Thêm bài học và bài tập
 
 ### Hiện trạng
-- Ngữ pháp hiện tại nằm rải rác trong IELTS Grammar (2 bài) và National Exam Grammar (3 bài: Tenses, Conditionals, Passive Voice)
-- Chưa có mục riêng "English Grammar" trên Navbar hay trang English
+- 6 modules, 15 bài học, 984 dòng
+- Mỗi bài có 3-5 câu fill-in-blank, 2-3 câu reorder, 3 câu quiz
 
-### Thay đổi
+### Mở rộng
 
-**1. Tạo file dữ liệu ngữ pháp: `src/data/languageCurriculum/englishGrammar.ts`**
-- 6 modules, mỗi module 2-3 bài = ~15 bài grammar tổng cộng
-- Modules:
-  1. **Tenses (Các thì)** — Present Simple/Continuous/Perfect, Past Simple/Continuous/Perfect, Future Simple/Continuous (3 bài)
-  2. **Conditionals (Câu điều kiện)** — Type 0-3, Mixed conditionals (2 bài)
-  3. **Passive Voice (Câu bị động)** — Basic passive, Advanced passive, Causative (2 bài)
-  4. **Reported Speech (Câu tường thuật)** — Statements, Questions, Commands (2 bài)
-  5. **Relative Clauses (Mệnh đề quan hệ)** — Defining, Non-defining, Reduced (3 bài)
-  6. **Articles & Prepositions (Mạo từ & Giới từ)** — A/An/The, Common preposition patterns (2 bài)
-- Mỗi bài có: theory (VI+EN), exercises (fill-in-blank, sentence-reorder), quiz (3+ câu), vocabulary liên quan
+**Tạo file `src/data/languageCurriculum/englishGrammarExpansion.ts`** (~1200 dòng)
 
-**2. Cập nhật type `LanguageModule.category`**
-- File: `src/data/languageCurriculum/types.ts`
-- Thêm `"grammar"` vào union type của `category`
+Thêm bài học mới vào mỗi module hiện tại + 3 module mới:
 
-**3. Cập nhật barrel export**
-- File: `src/data/languageCurriculum/index.ts`
-- Import `grammarModules` và merge vào `allEnglishModules`
+**Bài học mới cho modules hiện tại (8 bài):**
+1. Tenses: "Present Perfect Continuous vs Past Perfect" (bài nâng cao)
+2. Tenses: "Future Perfect & Future Perfect Continuous"
+3. Conditionals: "Wish & If only"
+4. Passive: "Causative Have/Get" (chuyên sâu)
+5. Reported Speech: "Reported Questions" (câu hỏi tường thuật)
+6. Relative Clauses: "Relative Clauses with Prepositions"
+7. Articles: "Zero Article & Special Cases"
+8. Prepositions: "Phrasal Verbs & Dependent Prepositions"
 
-**4. Thêm mục trên Navbar**
-- File: `src/components/Navbar.tsx`
-- Thêm `{ to: "/english/grammar", label: "📖 English Grammar" }` vào `englishSubs`, trước mục Conversational
+**3 Module mới (7 bài):**
+1. **Modals (Động từ khuyết thiếu)** — can/could/may/might/must/should (2 bài: basic + advanced)
+2. **Gerunds & Infinitives (Danh động từ & Động từ nguyên mẫu)** — V-ing vs To V, verb patterns (2 bài)
+3. **Comparisons & Inversions (So sánh & Đảo ngữ)** — comparative/superlative, inversion patterns (3 bài)
 
-**5. Thêm route + page cho English Grammar**
-- File: `src/pages/EnglishGrammar.tsx` (mới) — trang tổng quan hiển thị tất cả grammar modules dạng grid cards, click vào link đến `/english/learn/:moduleId`
-- File: `src/App.tsx` — thêm route `/english/grammar`
+**Tăng số bài tập mỗi bài:**
+- 6-8 câu fill-in-blank (tăng từ 3-5)
+- 4-5 câu sentence reorder (tăng từ 2-3)
+- 5 câu quiz (tăng từ 3)
+
+**Tổng sau mở rộng:** 9 modules, ~30 bài học
+
+### Cập nhật file `src/data/languageCurriculum/index.ts`
+- Import `grammarExpansionModules` và `grammarExtraLessons`
+- Merge extra lessons vào modules hiện tại, thêm modules mới vào `allEnglishModules`
 
 ### Files
-- `src/data/languageCurriculum/englishGrammar.ts` — **mới**, ~800 dòng, 6 modules
-- `src/data/languageCurriculum/types.ts` — thêm `"grammar"` vào category
-- `src/data/languageCurriculum/index.ts` — import + merge
-- `src/components/Navbar.tsx` — thêm menu item
-- `src/pages/EnglishGrammar.tsx` — **mới**, trang tổng quan grammar
-- `src/App.tsx` — thêm route
+- `src/data/languageCurriculum/englishGrammarExpansion.ts` — **mới**, ~1200 dòng
+- `src/data/languageCurriculum/index.ts` — cập nhật merge logic
 
