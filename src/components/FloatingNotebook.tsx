@@ -282,7 +282,7 @@ const FloatingNotebook = () => {
 
             {/* Editor */}
             <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
-              <div className="border border-border rounded-md bg-background h-[320px] overflow-auto">
+              <div className="border border-border rounded-md bg-background h-full overflow-auto">
                 <EditorContent editor={editor} />
               </div>
             </div>
