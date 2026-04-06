@@ -34,6 +34,10 @@ const FloatingNotebook = () => {
   const dragOffset = useRef({ x: 0, y: 0 });
   const panelRef = useRef<HTMLDivElement>(null);
 
+  // Resizable state
+  const [size, setSize] = useState({ width: 460, height: 600 });
+  const resizing = useRef<null | "right" | "bottom" | "corner">(null);
+
   // Tiptap editor
   const editor = useEditor({
     extensions: [StarterKit, UnderlineExtension],
