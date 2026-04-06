@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2 } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import UnderlineExtension from "@tiptap/extension-underline";
 
 interface Notebook {
   id: string;
@@ -20,11 +23,27 @@ const FloatingNotebook = () => {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
   const [subject, setSubject] = useState("general");
   const [saving, setSaving] = useState(false);
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { toast } = useToast();
+
+  // Draggable state
+  const [position, setPosition] = useState({ x: 24, y: window.innerHeight - 640 });
+  const dragging = useRef(false);
+  const dragOffset = useRef({ x: 0, y: 0 });
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Tiptap editor
+  const editor = useEditor({
+    extensions: [StarterKit, UnderlineExtension],
+    content: "",
+    editorProps: {
+      attributes: {
+        class: "prose prose-sm max-w-none focus:outline-none min-h-[280px] px-3 py-2 text-sm text-foreground",
+      },
+    },
+  });
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -50,22 +69,29 @@ const FloatingNotebook = () => {
     if (user && open) fetchNotebooks();
   }, [user, open, fetchNotebooks]);
 
+  const getContent = useCallback(() => {
+    return editor?.getHTML() || "";
+  }, [editor]);
+
   const handleNew = () => {
     setSelectedId(null);
     setTitle("");
-    setContent("");
     setSubject("general");
+    editor?.commands.setContent("");
   };
 
   const handleSelect = (nb: Notebook) => {
     setSelectedId(nb.id);
     setTitle(nb.title);
-    setContent(nb.content);
     setSubject(nb.subject);
+    // If old plain text content (no HTML tags), wrap in <p>
+    const html = nb.content.includes("<") ? nb.content : `<p>${nb.content}</p>`;
+    editor?.commands.setContent(html);
   };
 
   const handleSave = useCallback(async () => {
     if (!user || !title.trim()) return;
+    const content = getContent();
     setSaving(true);
     try {
       if (selectedId) {
@@ -80,7 +106,7 @@ const FloatingNotebook = () => {
       toast({ title: "Lỗi khi lưu", variant: "destructive" });
     }
     setSaving(false);
-  }, [user, selectedId, title, content, subject, fetchNotebooks, toast]);
+  }, [user, selectedId, title, subject, getContent, fetchNotebooks, toast]);
 
   const handleDelete = async () => {
     if (!selectedId) return;
@@ -91,6 +117,7 @@ const FloatingNotebook = () => {
   };
 
   // Auto-save after 5s of inactivity
+  const editorContent = editor?.getHTML();
   useEffect(() => {
     if (!open || !user || !title.trim()) return;
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
@@ -98,9 +125,40 @@ const FloatingNotebook = () => {
       handleSave();
     }, 5000);
     return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
-  }, [content, title, subject, open, user, handleSave]);
+  }, [editorContent, title, subject, open, user, handleSave]);
 
-  const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
+  // Drag handlers
+  const onDragStart = useCallback((e: React.MouseEvent) => {
+    dragging.current = true;
+    dragOffset.current = {
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    };
+    e.preventDefault();
+  }, [position]);
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      if (!dragging.current) return;
+      const maxX = window.innerWidth - 460;
+      const maxY = window.innerHeight - 100;
+      setPosition({
+        x: Math.max(0, Math.min(maxX, e.clientX - dragOffset.current.x)),
+        y: Math.max(0, Math.min(maxY, e.clientY - dragOffset.current.y)),
+      });
+    };
+    const onUp = () => { dragging.current = false; };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, []);
+
+  const wordCount = editor?.state.doc.textContent.trim()
+    ? editor.state.doc.textContent.trim().split(/\s+/).length
+    : 0;
 
   if (!user) return null;
 
@@ -120,15 +178,22 @@ const FloatingNotebook = () => {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            ref={panelRef}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 left-6 z-50 w-[380px] max-h-[520px] bg-card border border-border rounded-xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed z-50 w-[460px] max-h-[600px] bg-card border border-border rounded-xl shadow-2xl flex flex-col overflow-hidden"
+            style={{ left: `${position.x}px`, top: `${position.y}px` }}
           >
-            {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/50">
+            {/* Header with drag handle */}
+            <div
+              className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/50 select-none"
+              onMouseDown={onDragStart}
+              style={{ cursor: "grab" }}
+            >
               <span className="font-semibold text-sm text-foreground flex items-center gap-2">
+                <GripVertical size={14} className="text-muted-foreground" />
                 <BookOpen size={16} /> Ghi chú nhanh
               </span>
               <div className="flex items-center gap-1">
@@ -175,14 +240,31 @@ const FloatingNotebook = () => {
               </select>
             </div>
 
-            {/* Content */}
-            <div className="px-3 pt-2 flex-1 min-h-0">
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="Viết ghi chú của bạn ở đây..."
-                className="w-full h-[240px] text-sm border border-border rounded-md px-3 py-2 bg-background text-foreground resize-none focus:outline-none focus:ring-1 focus:ring-primary"
-              />
+            {/* Rich text toolbar */}
+            <div className="px-3 pt-2 flex items-center gap-1 flex-wrap">
+              {[
+                { icon: Bold, action: () => editor?.chain().focus().toggleBold().run(), active: editor?.isActive("bold") },
+                { icon: Italic, action: () => editor?.chain().focus().toggleItalic().run(), active: editor?.isActive("italic") },
+                { icon: Underline, action: () => editor?.chain().focus().toggleUnderline().run(), active: editor?.isActive("underline") },
+                { icon: List, action: () => editor?.chain().focus().toggleBulletList().run(), active: editor?.isActive("bulletList") },
+                { icon: ListOrdered, action: () => editor?.chain().focus().toggleOrderedList().run(), active: editor?.isActive("orderedList") },
+              ].map(({ icon: Icon, action, active }, i) => (
+                <button
+                  key={i}
+                  onClick={action}
+                  className={`p-1.5 rounded-md text-xs transition-colors ${active ? "bg-primary/20 text-primary" : "hover:bg-accent text-muted-foreground"}`}
+                  type="button"
+                >
+                  <Icon size={14} />
+                </button>
+              ))}
+            </div>
+
+            {/* Editor */}
+            <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
+              <div className="border border-border rounded-md bg-background h-[320px] overflow-auto">
+                <EditorContent editor={editor} />
+              </div>
             </div>
 
             {/* Footer */}
