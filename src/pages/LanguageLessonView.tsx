@@ -1,5 +1,6 @@
 // Language Lesson Viewer — renders theory, vocabulary, exercises, and quiz inline
 import { useState, useEffect, useMemo } from "react";
+import { boldAndSanitize } from "@/lib/utils";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -249,9 +250,7 @@ const LanguageLessonView = () => {
                               )}
                             </div>
                             <p className="text-sm font-medium text-muted-foreground mb-2">{v.meaning}</p>
-                            <p className="text-xs text-secondary-foreground" dangerouslySetInnerHTML={{
-                              __html: v.example.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-primary">$1</span>')
-                            }} />
+                            <p className="text-xs text-secondary-foreground" dangerouslySetInnerHTML={boldAndSanitize(v.example)} />
                           </motion.div>
                         ))}
                       </div>
