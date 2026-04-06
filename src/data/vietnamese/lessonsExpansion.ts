@@ -93,6 +93,7 @@ Literary periods: medieval, critical realism, revolutionary, renovation (đổi 
     titleEn: "Advanced Grammar",
     icon: "✍️",
     color: "from-purple-500 to-purple-700",
+    category: "grammar",
     description: "Câu phức và văn phong học thuật",
     descriptionEn: "Complex sentences and academic style",
     lessons: [
@@ -185,6 +186,7 @@ Characteristics: objective, logical, precise. Use formal vocabulary. Research pa
     titleEn: "Vietnamese Culture",
     icon: "🎎",
     color: "from-red-500 to-red-700",
+    category: "folklore",
     description: "Lễ hội truyền thống và ẩm thực vùng miền",
     descriptionEn: "Traditional festivals and regional cuisine",
     lessons: [
