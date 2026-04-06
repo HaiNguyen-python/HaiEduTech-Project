@@ -79,7 +79,7 @@ const ForVietnameseChildren = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative py-12 overflow-hidden">
+      <section className="relative py-8 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
         <div className="container mx-auto px-6 relative">
           <motion.div
@@ -108,7 +108,7 @@ const ForVietnameseChildren = () => {
       </section>
 
       {/* Free Education Message */}
-      <section className="py-6">
+      <section className="py-3">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
