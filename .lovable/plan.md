@@ -1,28 +1,45 @@
-## Plan: Exercise chỉ dùng từ đã đánh dấu "đã học"
+
+
+## Plan: Thêm mục English Grammar vào Learn English
+
+### Hiện trạng
+- Ngữ pháp hiện tại nằm rải rác trong IELTS Grammar (2 bài) và National Exam Grammar (3 bài: Tenses, Conditionals, Passive Voice)
+- Chưa có mục riêng "English Grammar" trên Navbar hay trang English
 
 ### Thay đổi
 
-Hiện tại, `VocabExercise` nhận `words={filtered}` — tức toàn bộ từ vựng đã lọc (theo level/topic). Cần thay đổi để chỉ dùng những từ đã được đánh dấu mastered.
+**1. Tạo file dữ liệu ngữ pháp: `src/data/languageCurriculum/englishGrammar.ts`**
+- 6 modules, mỗi module 2-3 bài = ~15 bài grammar tổng cộng
+- Modules:
+  1. **Tenses (Các thì)** — Present Simple/Continuous/Perfect, Past Simple/Continuous/Perfect, Future Simple/Continuous (3 bài)
+  2. **Conditionals (Câu điều kiện)** — Type 0-3, Mixed conditionals (2 bài)
+  3. **Passive Voice (Câu bị động)** — Basic passive, Advanced passive, Causative (2 bài)
+  4. **Reported Speech (Câu tường thuật)** — Statements, Questions, Commands (2 bài)
+  5. **Relative Clauses (Mệnh đề quan hệ)** — Defining, Non-defining, Reduced (3 bài)
+  6. **Articles & Prepositions (Mạo từ & Giới từ)** — A/An/The, Common preposition patterns (2 bài)
+- Mỗi bài có: theory (VI+EN), exercises (fill-in-blank, sentence-reorder), quiz (3+ câu), vocabulary liên quan
 
-### Chi tiết kỹ thuật
+**2. Cập nhật type `LanguageModule.category`**
+- File: `src/data/languageCurriculum/types.ts`
+- Thêm `"grammar"` vào union type của `category`
 
-**File: `src/pages/IeltsVocabulary.tsx**`
+**3. Cập nhật barrel export**
+- File: `src/data/languageCurriculum/index.ts`
+- Import `grammarModules` và merge vào `allEnglishModules`
 
-1. Tạo danh sách `masteredWords` — lọc từ `ieltsVocabData` chỉ giữ những từ có trong `mastered` Set
-2. Truyền `masteredWords` vào `VocabExercise` thay vì `filtered`
-3. Cập nhật `VocabExercise` để hiển thị thông báo khi chưa đánh dấu đủ 4 từ (yêu cầu tối thiểu 4 từ mastered để tạo quiz)
-4. Giữ nguyên pool đáp án sai từ toàn bộ `ieltsVocabData` để có đủ lựa chọn nhiễu
+**4. Thêm mục trên Navbar**
+- File: `src/components/Navbar.tsx`
+- Thêm `{ to: "/english/grammar", label: "📖 English Grammar" }` vào `englishSubs`, trước mục Conversational
 
-### Thay đổi cụ thể
+**5. Thêm route + page cho English Grammar**
+- File: `src/pages/EnglishGrammar.tsx` (mới) — trang tổng quan hiển thị tất cả grammar modules dạng grid cards, click vào link đến `/english/learn/:moduleId`
+- File: `src/App.tsx` — thêm route `/english/grammar`
 
-- Line 386: `<VocabExercise words={filtered} t={t} />` → `<VocabExercise words={masteredWords} allWords={ieltsVocabData} t={t} />`
-- `VocabExercise`: nhận thêm prop `allWords` để lấy đáp án nhiễu, nhưng chỉ chọn câu hỏi từ `words` (mastered)
-- Thông báo hướng dẫn: "Hãy đánh dấu ít nhất 4 từ đã học để bắt đầu luyện tập"
+### Files
+- `src/data/languageCurriculum/englishGrammar.ts` — **mới**, ~800 dòng, 6 modules
+- `src/data/languageCurriculum/types.ts` — thêm `"grammar"` vào category
+- `src/data/languageCurriculum/index.ts` — import + merge
+- `src/components/Navbar.tsx` — thêm menu item
+- `src/pages/EnglishGrammar.tsx` — **mới**, trang tổng quan grammar
+- `src/App.tsx` — thêm route
 
-&nbsp;
-
-Phần chatbot gỡ các giới hạn về chủ đề được hỏi, cho phép học sinh hỏi thoải mái, miễn là không vi phạm quy tắc ngôn ngữ những từ tục tĩu. 
-
-Phần AI Speaking Coach tiếng Trung đảm bảo mọi câu đều có phiên âm cho các Hán tự.   
-  
-Phần Writing và Speaking của tiếng Phần đều phải có sample answer chuẩn YKI A2
