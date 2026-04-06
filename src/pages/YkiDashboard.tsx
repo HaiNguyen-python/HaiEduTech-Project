@@ -46,7 +46,8 @@ import AISpeakingCoach from "@/components/AISpeakingCoach";
 import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 // Merge original + expansion data
 import { finnishVocabExpansion4Modules } from "@/data/finnishCurriculum/vocabularyExpansion4";
-const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules];
+import { finnishVocabExpansion5Modules } from "@/data/finnishCurriculum/vocabularyExpansion5";
+const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules, ...finnishVocabExpansion5Modules];
 const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules, ...finnishMockExamExpansion3Modules, ...finnishMockExamExpansion4Modules];
 const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules, ...finnishLessonExpansion2Modules];
 
