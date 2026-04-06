@@ -10,7 +10,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
-  Globe, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
+  Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
