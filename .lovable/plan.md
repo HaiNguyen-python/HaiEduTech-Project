@@ -1,51 +1,35 @@
 
 
-## Plan: Thay Knowledge Hub thành Global Scholarship
-
-### Tổng quan
-Thay thế toàn bộ mục Knowledge Hub (trang chủ preview + trang riêng) thành **Global Scholarship** — liệt kê các học bổng Cử nhân, Thạc sỹ, Tiến sỹ tại nhiều quốc gia. Dữ liệu học bổng sẽ được hardcode trong file data (không cần API) với thông tin chi tiết về từng chương trình.
+## Plan: Nâng cấp Floating Notebook — Rich Text + Draggable + Kích cỡ lớn hơn
 
 ### Thay đổi
 
-#### 1. Tạo `src/data/globalScholarshipData.ts`
-File data chứa ~30-40 học bổng nổi tiếng, mỗi học bổng gồm:
-- Tên học bổng, quốc gia, cấp bậc (Bachelor/Master/PhD)
-- Mô tả ngắn (Vi + En), quyền lợi, điều kiện, deadline
-- Link apply, logo/flag quốc gia
+#### 1. Cài thư viện rich text editor
+- Thêm `@tiptap/react`, `@tiptap/starter-kit`, `@tiptap/extension-underline`, `@tiptap/extension-bullet-list`, `@tiptap/extension-ordered-list` vào `package.json`
+- Tiptap nhẹ, dùng JSON/HTML output, phù hợp với floating widget
 
-Các học bổng bao gồm:
-- **Mỹ**: Fulbright, Hubert Humphrey, STEM OPT scholarships
-- **Anh**: Chevening, Commonwealth, Gates Cambridge, Rhodes
-- **Úc**: Australia Awards, Endeavour, Destination Australia
-- **Đức**: DAAD, Deutschlandstipendium, Heinrich Böll
-- **Nhật**: MEXT, JASSO, ADB-JSP
-- **Hàn Quốc**: KGSP (GKS), Korean Government Scholarship
-- **Phần Lan**: Finnish Government Scholarship, EDUFI
-- **Canada**: Vanier, Trudeau, Banting
-- **EU/Châu Âu**: Erasmus Mundus, Eiffel (Pháp), Swiss Government
-- **Singapore**: ASEAN Scholarship, Nanyang, NUS
-- **Trung Quốc**: CSC (Chinese Government Scholarship)
-- **New Zealand**: NZ Scholarship, Manaaki
+#### 2. Viết lại `src/components/FloatingNotebook.tsx`
 
-#### 2. Cập nhật `src/components/KnowledgeHub.tsx` → Component hiển thị Global Scholarship trên trang chủ
-- Đổi tên section thành "Học Bổng Toàn Cầu / Global Scholarship"
-- Hiển thị 6 học bổng nổi bật dạng card (flag + tên + cấp bậc + deadline)
-- Nút "Xem tất cả" dẫn tới trang `/global-scholarship`
+**Rich text toolbar:**
+- Thanh công cụ nhỏ gọn phía trên editor: Bold (B), Italic (I), Underline (U), Bullet list, Ordered list
+- Dùng Tiptap `useEditor` hook, lưu content dạng HTML
+- Khi load ghi chú cũ (plain text), tự convert sang HTML
 
-#### 3. Cập nhật `src/pages/KnowledgeHubPage.tsx` → Trang Global Scholarship đầy đủ
-- Lọc theo quốc gia, cấp bậc (Bachelor/Master/PhD)
-- Search theo tên học bổng
-- Card hiển thị chi tiết: quyền lợi, điều kiện, link apply
-- Giữ layout đẹp tương tự KnowledgeHub cũ
+**Draggable:**
+- Thêm drag handle ở header (icon GripVertical)
+- Dùng state `position: { x, y }` + `onMouseDown/onMouseMove/onMouseUp` trên header để kéo thả panel
+- Panel dùng `style={{ top, left }}` thay vì class `fixed bottom-24 left-6`
+- Giữ panel trong viewport (clamp vị trí)
 
-#### 4. Cập nhật routing & navigation
-- `src/App.tsx`: Đổi route `/knowledge-hub` → `/global-scholarship`
-- `src/components/Navbar.tsx`: Đổi label "Knowledge Hub" → "Học Bổng / Scholarship" và link tương ứng
+**Kích cỡ lớn hơn:**
+- Tăng từ `w-[380px] max-h-[520px]` → `w-[460px] max-h-[600px]`
+- Tăng textarea height từ 240px → 320px
+
+#### 3. Giữ nguyên logic
+- Auto-save 5s, fetch/save notebooks, note selector, subject picker — không thay đổi
+- Content lưu dạng HTML vào cột `content` (text) hiện tại — tương thích ngược
 
 ### Files thay đổi
-- `src/data/globalScholarshipData.ts` — **mới** (data ~30-40 học bổng)
-- `src/components/KnowledgeHub.tsx` — viết lại thành Global Scholarship preview
-- `src/pages/KnowledgeHubPage.tsx` — viết lại thành trang scholarship đầy đủ
-- `src/App.tsx` — đổi route
-- `src/components/Navbar.tsx` — đổi label + link
+- `package.json` — thêm tiptap packages
+- `src/components/FloatingNotebook.tsx` — viết lại với rich text + drag + size lớn hơn
 
