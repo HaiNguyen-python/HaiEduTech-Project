@@ -47,9 +47,10 @@ import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMa
 // Merge original + expansion data
 import { finnishVocabExpansion4Modules } from "@/data/finnishCurriculum/vocabularyExpansion4";
 import { finnishVocabExpansion5Modules } from "@/data/finnishCurriculum/vocabularyExpansion5";
+import { finnishLessonExpansion3Modules } from "@/data/finnishCurriculum/lessonsExpansion3";
 const allVocabModules = [...finnishVocabModules, ...finnishVocabExpansionModules, ...finnishVocabExpansion2Modules, ...finnishVocabExpansion3Modules, ...finnishVocabExpansion4Modules, ...finnishVocabExpansion5Modules];
 const allMockExamModules = [...finnishMockExamModules, ...finnishMockExamExpansionModules, ...finnishMockExamExpansion2Modules, ...finnishMockExamExpansion3Modules, ...finnishMockExamExpansion4Modules];
-const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules, ...finnishLessonExpansion2Modules];
+const allLessonModules = [...finnishLessonModules, ...finnishLessonExpansionModules, ...finnishLessonExpansion2Modules, ...finnishLessonExpansion3Modules];
 
 // Verb conjugation helper data
 const VERB_CONJUGATIONS: Record<string, { present: string[]; past: string[] }> = {
