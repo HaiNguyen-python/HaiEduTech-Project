@@ -1,22 +1,35 @@
 
 
-## Plan: Hiển thị bài viết mẫu trước khi nộp bài
+## Plan: Thêm chức năng ôn tập từ vựng đã đánh dấu sao (⭐ Starred Review)
 
-### Vấn đề
-Bài viết mẫu (Mallivastaus) hiện chỉ hiển thị **sau khi** học sinh nhấn "Merkitse valmiiksi" (nộp bài). Học sinh không thể xem bài mẫu để tham khảo trước hoặc khi chưa viết bài.
+### Hiện trạng
+- Từ vựng được đánh dấu "Mastered" (⭐) lưu trong `localStorage` key `yki-mastered-words` dưới dạng mảng string (tên từ)
+- Tất cả từ vựng nằm trong `allVocabModules` (465+ từ)
+- Component `FinnishVocabExercises` nhận prop `vocabulary: FinnishVocabEntry[]` và cung cấp 4 chế độ luyện tập
+- Dashboard có 4 tab: Sanasto, Oppitunnit, Kokeet, Puhevalmennus
 
 ### Giải pháp
-Thêm nút "Näytä mallivastaus" (Xem bài mẫu) ngay dưới ô viết bài, cho phép toggle hiển thị bài viết mẫu **bất cứ lúc nào**, kể cả trước khi nộp.
+Thêm tab thứ 5 "⭐ Kertaus" (Ôn tập) vào pillar tabs. Tab này lọc tất cả từ đã đánh dấu sao từ mọi module, hiển thị danh sách + cho phép luyện tập bằng `FinnishVocabExercises`.
 
 ### Chi tiết kỹ thuật
 
 **File: `src/pages/YkiDashboard.tsx`**
 
-1. Thêm state `showModelBeforeSubmit` vào WritingSection component
-2. Thêm nút "📝 Näytä mallivastaus / Show Model Answer" giữa ô viết và nút submit (dòng ~1393)
-3. Khi nhấn, toggle hiển thị card bài mẫu A2 (dùng `getSampleAnswer(lesson.id)`) ngay dưới ô viết
-4. Giữ nguyên bài mẫu sau khi submit (logic hiện tại không thay đổi)
+1. **Thêm tab "⭐ Kertaus" vào pillar tabs** (dòng ~2166)
+   - Thêm `{ value: "starred-review", label: "⭐ Kertaus" }` vào mảng tabs
+   - Grid chuyển từ `grid-cols-4` → `grid-cols-5`
 
-### Files
-- `src/pages/YkiDashboard.tsx` — thêm ~15 dòng (state + button + conditional card)
+2. **Tính toán danh sách từ đã sao** (~15 dòng)
+   - `starredVocab = useMemo(() => allVocabWords.filter(v => masteredWords.includes(v.word)), [allVocabWords, masteredWords])`
+
+3. **Render nội dung tab "starred-review"** (~60 dòng)
+   - Hiển thị số từ đã đánh dấu sao
+   - Nếu < 4 từ: thông báo cần đánh dấu thêm để luyện tập
+   - Nếu >= 4 từ: 2 chế độ xem:
+     - **Danh sách từ**: Grid cards hiển thị từ, nghĩa, nút phát âm, nút bỏ sao
+     - **Luyện tập**: Dùng `FinnishVocabExercises` với `starredVocab`
+   - Toggle giữa 2 chế độ bằng 2 nút
+
+### Tổng thay đổi
+- `src/pages/YkiDashboard.tsx` — thêm ~80 dòng (tab + useMemo + render content)
 
