@@ -1889,7 +1889,8 @@ const YkiDashboard = () => {
   const [searchParams] = useSearchParams();
   const initialModule = searchParams.get("module");
 
-  const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams" | "speaking-coach">("vocabulary");
+  const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams" | "speaking-coach" | "starred-review">("vocabulary");
+  const [starredViewMode, setStarredViewMode] = useState<"list" | "exercise">("list");
   const [selectedModule, setSelectedModule] = useState<FinnishModule | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<FinnishLesson | null>(null);
   const [mockSkillFilter, setMockSkillFilter] = useState<"all" | "reading" | "listening" | "writing" | "speaking">("all");
@@ -1915,6 +1916,10 @@ const YkiDashboard = () => {
   const allVocabWords = useMemo(() =>
     allVocabModules.flatMap(m => m.lessons.flatMap(l => l.vocabulary || [])),
   []);
+
+  const starredVocab = useMemo(() =>
+    allVocabWords.filter(v => masteredWords.includes(v.word)),
+  [allVocabWords, masteredWords]);
 
   const handleMasterWord = (word: string, event: React.MouseEvent) => {
     const isCurrentlyMastered = masteredWords.includes(word);
@@ -2162,12 +2167,13 @@ const YkiDashboard = () => {
           </div>
 
           {/* Pillar Tabs */}
-          <div className="w-full max-w-2xl grid grid-cols-4 h-11 mb-6 rounded-lg bg-muted p-1">
+          <div className="w-full max-w-3xl grid grid-cols-5 h-11 mb-6 rounded-lg bg-muted p-1">
             {([
               { value: "vocabulary" as const, label: "📖 Sanasto" },
               { value: "lessons" as const, label: "🎓 Oppitunnit" },
               { value: "mock-exams" as const, label: "📝 Kokeet" },
               { value: "speaking-coach" as const, label: "🎙️ Puhevalmennus" },
+              { value: "starred-review" as const, label: `⭐ Kertaus (${masteredWords.length})` },
             ]).map((tab) => (
               <button
                 key={tab.value}
@@ -2203,6 +2209,97 @@ const YkiDashboard = () => {
                     }
                   }}
                 />
+              </motion.div>
+            ) : activePillar === "starred-review" ? (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <div className="mb-6">
+                  <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+                    ⭐ Kertaus — Starred Words Review
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(`Sinulla on ${starredVocab.length} tähdellä merkittyä sanaa. Kertaa ja harjoittele niitä täällä.`, `You have ${starredVocab.length} starred words. Review and practice them here.`)}
+                  </p>
+                </div>
+
+                {starredVocab.length < 4 ? (
+                  <Card className="p-8 text-center border-dashed">
+                    <Star className="w-12 h-12 mx-auto text-muted-foreground/40 mb-4" />
+                    <h3 className="text-lg font-semibold text-foreground mb-2">
+                      {t("Merkitse lisää sanoja harjoittelua varten!", "Star more words to practice!")}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {t(
+                        `Tarvitset vähintään 4 tähdellä merkittyä sanaa aloittaaksesi harjoitukset. Nyt: ${starredVocab.length}/4`,
+                        `You need at least 4 starred words to start exercises. Currently: ${starredVocab.length}/4`
+                      )}
+                    </p>
+                    <Button variant="outline" onClick={() => { setActivePillar("vocabulary"); setSelectedModule(null); setSelectedLesson(null); }}>
+                      📖 {t("Siirry sanastoon", "Go to Vocabulary")}
+                    </Button>
+                  </Card>
+                ) : (
+                  <>
+                    <div className="flex gap-2 mb-6">
+                      <Button
+                        size="sm"
+                        variant={starredViewMode === "list" ? "default" : "outline"}
+                        onClick={() => setStarredViewMode("list")}
+                      >
+                        📋 {t("Sanalista", "Word List")}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={starredViewMode === "exercise" ? "default" : "outline"}
+                        onClick={() => setStarredViewMode("exercise")}
+                      >
+                        🎯 {t("Harjoittele", "Practice")}
+                      </Button>
+                    </div>
+
+                    {starredViewMode === "list" ? (
+                      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {starredVocab.map((v, i) => (
+                          <motion.div
+                            key={v.word}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: i * 0.03 }}
+                            className="bg-card border border-border rounded-xl p-4 hover:shadow-md transition-all"
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <h3 className="font-bold text-lg text-foreground">{v.word}</h3>
+                              <div className="flex gap-1">
+                                <button
+                                  onClick={() => playFinnishTts(v.word)}
+                                  className="w-7 h-7 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center"
+                                  aria-label={`Play ${v.word}`}
+                                >
+                                  <Volume2 className="w-3.5 h-3.5 text-primary" />
+                                </button>
+                                <button
+                                  onClick={(e) => handleMasterWord(v.word, e)}
+                                  className="w-7 h-7 rounded-full bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/30 dark:hover:bg-amber-900/50 flex items-center justify-center"
+                                  aria-label={`Unstar ${v.word}`}
+                                >
+                                  <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                                </button>
+                              </div>
+                            </div>
+                            <p className="text-sm text-primary font-medium">{v.meaningEn}</p>
+                            <p className="text-xs text-muted-foreground">{v.meaningVi}</p>
+                            {v.example && (
+                              <p className="text-xs text-muted-foreground mt-2 italic border-t border-border/50 pt-2">
+                                {v.example}
+                              </p>
+                            )}
+                          </motion.div>
+                        ))}
+                      </div>
+                    ) : (
+                      <FinnishVocabExercises vocabulary={starredVocab} />
+                    )}
+                  </>
+                )}
               </motion.div>
             ) : (
               <>
