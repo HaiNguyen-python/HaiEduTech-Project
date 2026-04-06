@@ -34,6 +34,10 @@ const FloatingNotebook = () => {
   const dragOffset = useRef({ x: 0, y: 0 });
   const panelRef = useRef<HTMLDivElement>(null);
 
+  // Resizable state
+  const [size, setSize] = useState({ width: 460, height: 600 });
+  const resizing = useRef<null | "right" | "bottom" | "corner">(null);
+
   // Tiptap editor
   const editor = useEditor({
     extensions: [StarterKit, UnderlineExtension],
@@ -137,24 +141,40 @@ const FloatingNotebook = () => {
     e.preventDefault();
   }, [position]);
 
+  // Resize handlers
+  const onResizeStart = useCallback((edge: "right" | "bottom" | "corner") => (e: React.MouseEvent) => {
+    resizing.current = edge;
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
-      if (!dragging.current) return;
-      const maxX = window.innerWidth - 460;
-      const maxY = window.innerHeight - 100;
-      setPosition({
-        x: Math.max(0, Math.min(maxX, e.clientX - dragOffset.current.x)),
-        y: Math.max(0, Math.min(maxY, e.clientY - dragOffset.current.y)),
-      });
+      if (dragging.current) {
+        const maxX = window.innerWidth - size.width;
+        const maxY = window.innerHeight - 100;
+        setPosition({
+          x: Math.max(0, Math.min(maxX, e.clientX - dragOffset.current.x)),
+          y: Math.max(0, Math.min(maxY, e.clientY - dragOffset.current.y)),
+        });
+      }
+      if (resizing.current) {
+        const newWidth = resizing.current !== "bottom" ? Math.max(360, Math.min(800, e.clientX - position.x)) : size.width;
+        const newHeight = resizing.current !== "right" ? Math.max(400, Math.min(900, e.clientY - position.y)) : size.height;
+        setSize({ width: newWidth, height: newHeight });
+      }
     };
-    const onUp = () => { dragging.current = false; };
+    const onUp = () => {
+      dragging.current = false;
+      resizing.current = null;
+    };
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
     return () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
     };
-  }, []);
+  }, [position, size]);
 
   const wordCount = editor?.state.doc.textContent.trim()
     ? editor.state.doc.textContent.trim().split(/\s+/).length
@@ -183,8 +203,8 @@ const FloatingNotebook = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed z-50 w-[460px] max-h-[600px] bg-card border border-border rounded-xl shadow-2xl flex flex-col overflow-hidden"
-            style={{ left: `${position.x}px`, top: `${position.y}px` }}
+            className="fixed z-50 bg-card border border-border rounded-xl shadow-2xl flex flex-col overflow-hidden"
+            style={{ left: `${position.x}px`, top: `${position.y}px`, width: `${size.width}px`, height: `${size.height}px` }}
           >
             {/* Header with drag handle */}
             <div
@@ -262,7 +282,7 @@ const FloatingNotebook = () => {
 
             {/* Editor */}
             <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
-              <div className="border border-border rounded-md bg-background h-[320px] overflow-auto">
+              <div className="border border-border rounded-md bg-background h-full overflow-auto">
                 <EditorContent editor={editor} />
               </div>
             </div>
@@ -285,6 +305,13 @@ const FloatingNotebook = () => {
                   {saving ? "Đang lưu..." : "Lưu"}
                 </button>
               </div>
+            </div>
+
+            {/* Resize handles */}
+            <div onMouseDown={onResizeStart("right")} className="absolute top-0 right-0 w-1 h-full cursor-e-resize hover:bg-primary/20 transition-colors" />
+            <div onMouseDown={onResizeStart("bottom")} className="absolute bottom-0 left-0 h-1 w-full cursor-s-resize hover:bg-primary/20 transition-colors" />
+            <div onMouseDown={onResizeStart("corner")} className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize flex items-center justify-center text-muted-foreground hover:text-primary">
+              <svg width="8" height="8" viewBox="0 0 8 8"><path d="M7 1v6H1" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
             </div>
           </motion.div>
         )}
