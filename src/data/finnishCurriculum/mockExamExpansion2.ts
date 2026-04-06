@@ -144,6 +144,7 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
         level: "A2",
         theory: `## Kirjoitustehtävä: Valituskirje\n\n**Tilanne:** Ostit verkkokaupasta uudet kuulokkeet, mutta ne eivät toimi. Kirjoita valituskirje.\n\nKirjoita kirjeessä:\n- Milloin ostit tuotteen?\n- Mikä ongelma on?\n- Mitä haluat (uusi tuote / rahat takaisin)?\n\n**Hyödyllisiä ilmauksia:**\n- Ostin tuotteen [päivämäärä].\n- Tuote on viallinen.\n- Haluaisin uuden tuotteen / rahat takaisin.\n- Toivon pikaista vastausta.\n\n⏱️ Aika: 20 minuuttia\n📝 Pituus: 50–80 sanaa`,
         theoryEn: "Write a complaint letter about a defective product.",
+        sampleAnswer: "Hei! Ostin verkkokaupastanne kuulokkeet viime maanantaina, mutta ne eivät toimi kunnolla. Vasen kuuloke ei kuulu lainkaan. Haluaisin uudet kuulokkeet tilalle tai rahat takaisin. Tilausnumeroni on 12345. Toivon pikaista vastausta. Ystävällisin terveisin, Linh.",
         quiz: [
           { question: "Mikä on valituskirjeen tarkoitus?", options: ["Kiittää kauppaa", "Ilmoittaa ongelmasta", "Tilata uusi tuote", "Kysyä hintaa"], answer: 1, explanation: "Valituskirjeessä ilmoitetaan ongelmasta." },
           { question: "'Tuote on viallinen' tarkoittaa…", options: ["The product is expensive", "The product is defective", "The product is new", "The product is sold out"], answer: 1, explanation: "Viallinen = defective." },
@@ -160,6 +161,7 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
         level: "A2",
         theory: `## Kirjoitustehtävä: Työhakemus\n\n**Tilanne:** Näit ilmoituksen kahvilan myyjän työpaikasta. Kirjoita lyhyt työhakemus.\n\nKirjoita hakemuksessa:\n- Kuka olet?\n- Miksi haet tätä työtä?\n- Mitä kokemusta sinulla on?\n- Milloin voit aloittaa?\n\n**Hyödyllisiä ilmauksia:**\n- Olen [nimi] ja haen [työtä].\n- Olen kiinnostunut tästä työpaikasta, koska…\n- Minulla on kokemusta…\n- Voin aloittaa heti / [päivämäärä].\n\n⏱️ Aika: 25 minuuttia\n📝 Pituus: 60–100 sanaa`,
         theoryEn: "Write a short job application for a café position.",
+        sampleAnswer: "Hei! Nimeni on Linh ja haen kahvilan myyjän työpaikkaa. Olen kiinnostunut tästä työstä, koska pidän asiakaspalvelusta ja kahvista. Olen työskennellyt ravintolassa tarjoilijana vuoden. Olen iloinen, ahkera ja puhun suomea ja englantia. Voin aloittaa heti. Ystävällisin terveisin, Linh.",
         quiz: [
           { question: "Mihin työpaikkaan haetaan?", options: ["Kauppaan", "Kahvilaan", "Sairaalaan", "Kouluun"], answer: 1, explanation: "Kahvilan myyjän työpaikka." },
           { question: "'Haen tätä työtä' tarkoittaa…", options: ["I quit this job", "I apply for this job", "I hate this job", "I found this job"], answer: 1, explanation: "Haen = I apply for." },
@@ -176,6 +178,7 @@ export const finnishMockExamExpansion2Modules: FinnishModule[] = [
         level: "A2",
         theory: `## Kirjoitustehtävä: Kutsu\n\n**Tilanne:** Sinulla on syntymäpäivä ensi lauantaina. Kirjoita kutsu ystävällesi.\n\nKirjoita kutsussa:\n- Mitä juhlitaan?\n- Milloin ja missä juhlat ovat?\n- Mitä ohjelmaa on?\n- Pyydä vastausta (RSVP)\n\n**Hyödyllisiä ilmauksia:**\n- Tervetuloa syntymäpäiväjuhliini!\n- Juhlat ovat [aika] osoitteessa [paikka].\n- Ohjelmassa on ruokaa, musiikkia ja pelejä.\n- Ilmoita, pääsetkö tulemaan.\n\n⏱️ Aika: 15 minuuttia\n📝 Pituus: 40–70 sanaa`,
         theoryEn: "Write a birthday party invitation to your friend.",
+        sampleAnswer: "Hei! Tervetuloa syntymäpäiväjuhliini ensi lauantaina! Juhlat ovat klo 18 osoitteessa Mannerheimintie 10. Ohjelmassa on ruokaa, musiikkia ja pelejä. Ilmoitathan, pääsetkö tulemaan, perjantaihin mennessä. Tervetuloa! Terveisin, Linh.",
         quiz: [
           { question: "Mitä juhlitaan?", options: ["Joulua", "Uutta vuotta", "Syntymäpäivää", "Valmistumista"], answer: 2, explanation: "Syntymäpäiväjuhlat." },
           { question: "'Tervetuloa' tarkoittaa…", options: ["Goodbye", "Welcome", "Thank you", "Sorry"], answer: 1, explanation: "Tervetuloa = Welcome." },

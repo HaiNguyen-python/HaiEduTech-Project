@@ -80,50 +80,7 @@ function containsProfanity(text: string): boolean {
   });
 }
 
-// ── Keyword filter (on-topic check) ──
-const ALLOWED_KEYWORDS = [
-  // English
-  "english", "ielts", "toeic", "cambridge", "grammar", "vocabulary", "vocab",
-  "writing", "reading", "listening", "speaking", "essay", "tense", "verb",
-  "noun", "adjective", "adverb", "pronunciation", "phonetic", "band",
-  "starters", "movers", "flyers", "ket", "pet", "thpt", "thi",
-  // Vietnamese English terms
-  "tiếng anh", "ngữ pháp", "từ vựng", "phát âm", "luyện thi", "bài viết",
-  "đọc hiểu", "nghe", "nói", "viết", "câu", "chủ ngữ", "động từ",
-  // Chinese
-  "chinese", "中文", "汉语", "hsk", "pinyin", "hanzi", "tone", "thanh điệu",
-  "tiếng trung", "chữ hán", "拼音", "声调", "语法", "词汇", "你好", "学中文",
-  "giao tiếp", "hội thoại",
-  // Finnish
-  "finnish", "suomi", "yki", "tiếng phần lan", "kielioppi", "sanasto",
-  "suomen kieli", "finland", "phần lan",
-  // Vietnamese content
-  "tiếng việt", "vietnamese", "lịch sử", "history", "folklore", "truyện cổ",
-  "ca dao", "tục ngữ", "thơ", "poetry", "chính tả", "dictation", "văn học",
-  "literature", "hùng vương", "lạc long quân", "âu cơ", "văn hóa", "culture",
-  "cổ tích", "truyện kiều", "áo dài", "tết", "phở", "việt nam",
-  // Programming
-  "python", "javascript", "sql", "code", "coding", "programming", "lập trình",
-  "data", "algorithm", "function", "variable", "loop", "array", "database",
-  "api", "html", "css", "react", "web", "debug", "error",
-  "machine learning", "ai", "ml", "artificial intelligence",
-  // EdTech
-  "edtech", "công nghệ giáo dục", "spaced repetition", "gamification",
-  // Platform & General
-  "haiedu", "course", "khóa học", "lesson", "bài học", "vocab arena",
-  "thầy hải", "teacher hai", "học", "learn", "study", "practice", "luyện",
-  "exam", "test", "quiz", "exercise", "bài tập", "đề thi", "điểm",
-  "score", "leaderboard",
-  // Greetings
-  "hello", "hi", "xin chào", "chào", "hey", "help", "giúp", "hỏi",
-  "thanks", "cảm ơn", "thank",
-];
-
-function isOnTopic(text: string): boolean {
-  const lower = text.toLowerCase().trim();
-  if (lower.split(/\s+/).length <= 5) return true;
-  return ALLOWED_KEYWORDS.some((kw) => lower.includes(kw));
-}
+// Topic filter removed — students can ask freely about any subject
 
 // ── Speech Recognition type shim ──
 interface ISpeechRecognition extends EventTarget {
@@ -329,22 +286,7 @@ const ChatBot = () => {
       return;
     }
 
-    // 2. On-topic keyword filter
-    if (!isOnTopic(userMsg.content)) {
-      setMessages((prev) => [
-        ...prev,
-        userMsg,
-        {
-          role: "assistant",
-          content: t(
-            "Xin lỗi em, thầy chuyên về **Tiếng Anh**, **Tiếng Trung** và **Lập trình** tại HaiEduTech. Để tiết kiệm tài nguyên AI cho việc học, em hãy hỏi thầy về 3 môn này nhé! 💪",
-            "I'm sorry, I specialize in **English**, **Chinese**, and **Programming** at HaiEduTech. To save AI resources for your learning, please ask me questions related to these three subjects! 💪",
-          ),
-        },
-      ]);
-      setInput("");
-      return;
-    }
+    // Topic filter removed — students can ask freely
 
     const allMessages = [...messages, userMsg];
     setMessages(allMessages);
