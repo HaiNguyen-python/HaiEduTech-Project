@@ -83,6 +83,69 @@ interface AISpeakingCoachProps {
   onPerfectScore?: () => void; // callback for gamification integration (flying stars etc.)
 }
 
+// Number word ↔ digit mapping for comparison tolerance
+const numberWordMap: Record<string, string> = {
+  // English
+  zero: "0", one: "1", two: "2", three: "3", four: "4", five: "5",
+  six: "6", seven: "7", eight: "8", nine: "9", ten: "10",
+  eleven: "11", twelve: "12", thirteen: "13", fourteen: "14", fifteen: "15",
+  sixteen: "16", seventeen: "17", eighteen: "18", nineteen: "19", twenty: "20",
+  thirty: "30", forty: "40", fifty: "50", sixty: "60", seventy: "70",
+  eighty: "80", ninety: "90", hundred: "100", thousand: "1000", million: "1000000",
+  // Finnish
+  nolla: "0", yksi: "1", kaksi: "2", kolme: "3", neljä: "4", viisi: "5",
+  kuusi: "6", seitsemän: "7", kahdeksan: "8", yhdeksän: "9", kymmenen: "10",
+  // Chinese (pinyin number words spoken)
+  yī: "1", èr: "2", sān: "3", sì: "4", wǔ: "5",
+  liù: "6", qī: "7", bā: "8", jiǔ: "9", shí: "10",
+  // Vietnamese
+  không: "0", một: "1", hai: "2", ba: "3", bốn: "4", năm: "5",
+  sáu: "6", bảy: "7", tám: "8", chín: "9", mười: "10",
+};
+const digitToWords: Record<string, string[]> = {};
+Object.entries(numberWordMap).forEach(([w, d]) => {
+  if (!digitToWords[d]) digitToWords[d] = [];
+  digitToWords[d].push(w);
+});
+
+// Check if two tokens represent the same number (word vs digit)
+const isNumberEquivalent = (a: string, b: string): boolean => {
+  if (a === b) return true;
+  // a is word, b is digit (or vice versa)
+  const aDigit = numberWordMap[a] ?? a;
+  const bDigit = numberWordMap[b] ?? b;
+  if (aDigit === bDigit) return true;
+  // Also handle ordinals: "first" == "1st", "third" == "3rd" etc.
+  const ordinalMap: Record<string, string> = {
+    first: "1st", second: "2nd", third: "3rd", fourth: "4th", fifth: "5th",
+    sixth: "6th", seventh: "7th", eighth: "8th", ninth: "9th", tenth: "10th",
+  };
+  if (ordinalMap[a] === b || ordinalMap[b] === a) return true;
+  return false;
+};
+
+// Common contractions & spoken equivalents
+const spokenEquivalents: Record<string, string[]> = {
+  "i'm": ["im", "i am"], "don't": ["dont", "do not"], "doesn't": ["doesnt", "does not"],
+  "can't": ["cant", "cannot"], "won't": ["wont", "will not"], "it's": ["its", "it is"],
+  "i've": ["ive", "i have"], "i'll": ["ill", "i will"], "we're": ["were", "we are"],
+  "they're": ["theyre", "they are"], "you're": ["youre", "you are"],
+  "isn't": ["isnt", "is not"], "aren't": ["arent", "are not"],
+  "wasn't": ["wasnt", "was not"], "weren't": ["werent", "were not"],
+  "that's": ["thats", "that is"], "there's": ["theres", "there is"],
+  "what's": ["whats", "what is"], "who's": ["whos", "who is"],
+  "let's": ["lets", "let us"], "he's": ["hes", "he is"], "she's": ["shes", "she is"],
+};
+
+const isSpokenEquivalent = (a: string, b: string): boolean => {
+  if (a === b) return true;
+  for (const [key, alts] of Object.entries(spokenEquivalents)) {
+    const all = [key, ...alts];
+    if (all.includes(a) && all.includes(b)) return true;
+  }
+  return false;
+};
+
 // Normalize text for comparison — strip punctuation & lowercase
 const normalize = (text: string): string[] =>
   text
@@ -115,7 +178,14 @@ const compareWords = (target: string, spoken: string): WordResult[] => {
     const spokenWord = spokenWords[i];
     if (!spokenWord) return { word: expected, expected, status: "missing" as const };
 
+    // Exact match
     if (spokenWord === expected) return { word: spokenWord, expected, status: "correct" as const };
+
+    // Number equivalence (e.g., "three" == "3")
+    if (isNumberEquivalent(spokenWord, expected)) return { word: spokenWord, expected, status: "correct" as const };
+
+    // Contraction / spoken equivalence (e.g., "I'm" == "I am")
+    if (isSpokenEquivalent(spokenWord, expected)) return { word: spokenWord, expected, status: "correct" as const };
 
     // Fuzzy match — allow 1-2 char difference based on word length
     const dist = levenshtein(spokenWord, expected);
