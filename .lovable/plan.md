@@ -1,66 +1,61 @@
 
 
-## Plan: Tăng cường bài học Cambridge Starters → PET (+25 bài mới)
+## Plan: Tăng cường bảo mật trang web — Chống hack & Bảo vệ dữ liệu
 
-### Hiện trạng
-- 45 bài giảng (9 bài/level × 5 levels) trải đều Starters, Movers, Flyers, KET, PET
-- Dữ liệu nằm trong 3 file: `cambridgeLecturesData.ts`, `cambridgeLecturesExpansion.ts`, `cambridgeLecturesExpansion2.ts`
+### Vấn đề phát hiện (từ Security Scan)
 
-### Mở rộng: +25 bài mới (5 bài/level)
+Scan phát hiện **13 lỗ hổng bảo mật**, bao gồm 3 lỗi nghiêm trọng (error) và 10 cảnh báo (warn):
 
-**File mới: `src/data/cambridgeLecturesExpansion3.ts`** (~1200 dòng)
+1. **Badge tự trao** — Học sinh có thể tự gắn bất kỳ huy hiệu nào cho mình
+2. **Realtime rò rỉ dữ liệu tài chính** — Bảng `tuition_records` broadcast qua Realtime tới tất cả user
+3. **Realtime rò rỉ hoạt động học sinh** — Bảng `student_activity_log` broadcast cho tất cả
+4. **RLS policy `true`** — 3 chính sách INSERT quá mở (contact_messages, api_usage_log, lesson_feedback)
+5. **Profiles công khai cho anon** — Tên + avatar lộ cho người chưa đăng nhập
+6. **Game scores công khai cho anon** — User ID lộ cho anonymous
+7. **Notebook dùng role `public`** thay vì `authenticated`
+8. **API usage log** — Bất kỳ ai cũng insert log giả
+9. **Leaked password protection** bị tắt
+10. **dangerouslySetInnerHTML** dùng ở nhiều nơi không sanitize
 
-#### Starters (+5 bài → tổng 14):
-1. **Toys & Hobbies** — Listening: nghe mô tả đồ chơi yêu thích
-2. **Action Verbs** — Reading-Writing: jump, run, swim, fly — ghép hành động với hình
-3. **Classroom Objects** — Vocabulary: bút, thước, cặp sách — từ vựng trong lớp
-4. **Spelling Fun** — Reading-Writing: đánh vần tên người và đồ vật
-5. **Where Are They?** — Listening: xác định vị trí người trong hình (park, school, home)
+---
 
-#### Movers (+5 bài → tổng 14):
-1. **Must & Mustn't: School Rules** — Grammar: modal verbs cho quy tắc
-2. **Feelings & Emotions** — Vocabulary: happy, scared, excited, nervous
-3. **A Day at the Zoo** — Reading: đọc hiểu đoạn văn ngắn
-4. **Question Words: Who, What, Where, When** — Speaking: hỏi đáp
-5. **Superlatives: The Biggest, The Best!** — Grammar: so sánh nhất
+### Giải pháp (5 bước)
 
-#### Flyers (+5 bài → tổng 14):
-1. **Phrasal Verbs for Young Learners** — Vocabulary: look after, turn on, put on
-2. **Reading Long Texts** — Reading: chiến lược đọc đoạn dài (Part 4)
-3. **Conditional Sentences (If...)** — Grammar: First conditional cơ bản
-4. **Writing a Story** — Writing: kể chuyện từ tranh (Part 7)
-5. **Listening for Specific Information** — Listening: nghe lấy thông tin chi tiết
+#### 1. Database Migration — Sửa RLS policies
 
-#### KET (+5 bài → tổng 14):
-1. **Word Formation: Noun ↔ Adjective** — Vocabulary: beauty→beautiful, care→careful
-2. **Reading Signs & Notices** — Reading: hiểu biển báo, thông báo
-3. **Describing a Photo** — Speaking: Part 2 mô tả ảnh
-4. **Linking Words: because, so, but, although** — Writing: liên kết câu
-5. **Listening for Attitude & Opinion** — Listening: nghe thái độ người nói
+**Migration SQL:**
 
-#### PET (+5 bài → tổng 14):
-1. **Passive Voice in Context** — Grammar: bị động trong bài đọc PET
-2. **Reading Part 6: Gap-fill Text** — Reading: điền từ vào đoạn văn
-3. **Formal vs Informal Register** — Writing: phân biệt văn phong
-4. **Paraphrasing Skills** — Reading: nhận diện diễn đạt lại
-5. **Speaking Part 3 & 4: Collaborative Task** — Speaking: thảo luận cặp
+- **player_badges**: Chuyển INSERT policy từ `auth.uid() = user_id` sang chỉ cho `service_role` (hoặc thêm server-side validation)
+- **student_notebooks**: Chuyển tất cả policy từ role `public` → `authenticated`
+- **api_usage_log**: Thêm `WITH CHECK (auth.uid() = user_id)` cho INSERT policy authenticated
+- **profiles**: Xóa policy `Anon can view profile names`
+- **game_scores**: Xóa policy `Anon can view all scores`
+- **Realtime**: Xóa `tuition_records` và `student_activity_log` khỏi `supabase_realtime` publication
 
-#### Mỗi bài gồm đầy đủ:
-- `stepByStep` (3 bước)
-- `illustratedRules` (3 quy tắc minh họa)
-- `watchOut` (3 lỗi thường gặp)
-- `practiceSet` (3 câu hỏi thực hành)
-- `vocabulary` (4 từ vựng)
-- `quiz` (3 câu quiz)
-- `parentInfo` (thông tin cho phụ huynh)
-- Tất cả song ngữ Anh-Việt
+#### 2. Bật Leaked Password Protection
+- Dùng `cloud--configure_auth` để bật HIBP check cho mật khẩu
 
-### Cập nhật file export
-**File: `src/data/cambridgeLecturesData.ts`**
-- Import `cambridgeLecturesExpansion3`
-- Thêm `...cambridgeLecturesExpansion3` vào `allCambridgeLectures`
+#### 3. Sanitize dangerouslySetInnerHTML
+- Thêm thư viện `dompurify`
+- Tạo helper `sanitizeHtml()` trong `src/lib/utils.ts`
+- Cập nhật 4 file dùng `dangerouslySetInnerHTML`: `LanguageLessonView.tsx`, `ProgrammingLesson.tsx`, `GeneratedLessonView.tsx`, `LessonDetail.tsx`
 
-### Files
-- `src/data/cambridgeLecturesExpansion3.ts` — **mới**, ~1200 dòng (25 bài giảng)
-- `src/data/cambridgeLecturesData.ts` — thêm import + spread vào export array
+#### 4. Rate limiting phía client cho ChatBot
+- Thêm giới hạn 20 tin nhắn/phút trong `ChatBot.tsx`
+- Thêm giới hạn tương tự cho `ConversationalRoleplay.tsx`
+
+#### 5. Security headers & XSS protection
+- Thêm CSP meta tag vào `index.html`
+- Thêm `referrerPolicy: "strict-origin-when-cross-origin"` cho fetch calls
+
+---
+
+### Files thay đổi
+- `supabase/migrations/...` — Migration SQL sửa ~8 RLS policies + xóa Realtime tables
+- `src/lib/utils.ts` — Thêm `sanitizeHtml` helper
+- `src/pages/LanguageLessonView.tsx`, `ProgrammingLesson.tsx`, `GeneratedLessonView.tsx`, `LessonDetail.tsx` — Sanitize HTML
+- `src/components/ChatBot.tsx` — Rate limiting client-side
+- `src/components/ConversationalRoleplay.tsx` — Rate limiting client-side
+- `index.html` — CSP meta tag
+- `package.json` — Thêm `dompurify`
 
