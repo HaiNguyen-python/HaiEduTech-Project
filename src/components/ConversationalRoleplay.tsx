@@ -103,6 +103,16 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const messageTimestamps = useRef<number[]>([]);
+
+  // Rate limit: max 20 messages per minute
+  const isRateLimited = useCallback(() => {
+    const now = Date.now();
+    messageTimestamps.current = messageTimestamps.current.filter(ts => now - ts < 60000);
+    if (messageTimestamps.current.length >= 20) return true;
+    messageTimestamps.current.push(now);
+    return false;
+  }, []);
 
   // Combine speaking topics and situation titles for selection
   const allTopics = [...new Set([...keySituationTitles, ...speakingTopics])];
@@ -147,6 +157,14 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
   const sendMessage = useCallback(async (text?: string) => {
     const content = text || input.trim();
     if (!content || isLoading) return;
+
+    if (isRateLimited()) {
+      setMessages(prev => [...prev, {
+        role: "assistant" as const,
+        content: t("⚠️ Bạn gửi quá nhanh. Vui lòng chờ 1 phút.", "⚠️ You're sending too fast. Please wait a minute.")
+      }]);
+      return;
+    }
     setInput("");
 
     const userMsg: Msg = { role: "user", content };

@@ -109,6 +109,16 @@ const ChatBot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  const messageTimestamps = useRef<number[]>([]);
+
+  // Rate limit: max 20 messages per minute
+  const isRateLimited = useCallback(() => {
+    const now = Date.now();
+    messageTimestamps.current = messageTimestamps.current.filter(ts => now - ts < 60000);
+    if (messageTimestamps.current.length >= 20) return true;
+    messageTimestamps.current.push(now);
+    return false;
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -273,6 +283,15 @@ const ChatBot = () => {
   // ── Send Message ──
   const sendMessage = async () => {
     if (!input.trim() || isLoading || chatLocked) return;
+
+    // Rate limiting check
+    if (isRateLimited()) {
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: t("⚠️ Bạn gửi quá nhanh. Vui lòng chờ 1 phút.", "⚠️ You're sending too fast. Please wait a minute.")
+      }]);
+      return;
+    }
 
     const userMsg: Message = { role: "user", content: input.trim() };
 
