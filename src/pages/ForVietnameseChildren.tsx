@@ -50,12 +50,19 @@ const funds = [
     ],
   },
   {
-    name: "Quỹ Nhi đồng Liên Hợp Quốc (UNICEF) tại Việt Nam",
-    nameEn: "UNICEF Vietnam",
-    desc: "Tổ chức quốc tế vì quyền trẻ em",
-    descEn: "International organization for children's rights",
-    website: "https://www.unicef.org/vietnam/vi/donate",
-    accounts: [],
+    name: "Bệnh viện Nhi Đồng 1",
+    nameEn: "Children's Hospital 1 (Ho Chi Minh City)",
+    desc: "Hỗ trợ viện phí cho bệnh nhi có hoàn cảnh khó khăn",
+    descEn: "Supporting hospital fees for children from disadvantaged families",
+    website: "https://nhidong.org.vn",
+    accounts: [
+      {
+        bank: "Ngân hàng Công Thương (VietinBank) – Chi nhánh 10, Ngô Gia Tự",
+        bankEn: "VietinBank – Branch 10, Ngo Gia Tu",
+        number: "113000008065",
+        holder: "Bệnh viện Nhi Đồng 1",
+      },
+    ],
   },
 ];
 
