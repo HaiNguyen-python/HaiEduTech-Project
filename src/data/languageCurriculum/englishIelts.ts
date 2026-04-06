@@ -1,5 +1,6 @@
 // IELTS Curriculum: Academic Vocabulary, Grammar 7.0+, Writing, Reading, Listening, Speaking
 import type { LanguageModule } from "./types";
+import { ieltsReadingExpansionLessons, ieltsListeningExpansionLessons } from "./englishIeltsReadingListening";
 
 export const ieltsModules: LanguageModule[] = [
   {
@@ -380,6 +381,7 @@ export const ieltsModules: LanguageModule[] = [
           { question: "FALSE khác NOT GIVEN thế nào?", options: ["Giống nhau", "FALSE = bài nói ngược lại, NG = không đề cập", "FALSE = không đề cập, NG = ngược lại", "Tùy trường hợp"], answer: 1, explanation: "FALSE: bài viết NGƯỢC LẠI câu hỏi. NOT GIVEN: bài KHÔNG NÓI GÌ về vấn đề đó." },
         ],
       },
+      ...ieltsReadingExpansionLessons,
     ],
   },
   {
