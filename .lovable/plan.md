@@ -1,43 +1,18 @@
 
 
-## Plan: Thay "Contact" bằng "For Vietnamese Children"
-
-### Tổng quan
-Thay mục Contact trên navbar bằng "For Vietnamese Children" — trang viết lời cảm ơn, nhấn mạnh mọi bài học miễn phí, và cung cấp thông tin tài khoản các quỹ trẻ em Việt Nam để mọi người có thể đóng góp.
-
-### Thông tin quỹ (từ nguồn chính thức)
-
-1. **Quỹ Bảo trợ trẻ em Việt Nam** (thuộc Bộ LĐTBXH)
-   - STK: `001.0.00.0000355` — Sở Giao dịch Ngân hàng Nhà nước Việt Nam
-   - Website: nfvc.molisa.gov.vn
-
-2. **Làng trẻ em SOS Việt Nam**
-   - Vietcombank: `001 100 0284 889` — Sở Giao dịch NHTMCP Ngoại thương VN
-   - Techcombank: `191 345 522 840 19` — Chi nhánh Hoàng Quốc Việt
-   - Website: sosvietnam.org
+## Plan: Thay UNICEF bằng Bệnh viện Nhi Đồng 1
 
 ### Thay đổi
 
-#### 1. Tạo `src/pages/ForVietnameseChildren.tsx`
-- Lời cảm ơn song ngữ (Việt/Anh) từ thầy Hải
-- Nhấn mạnh tất cả bài học, công cụ trên HaiEduTech hoàn toàn miễn phí
-- Danh sách các quỹ trẻ em kèm thông tin tài khoản (card UI đẹp)
-- Sử dụng Navbar + Footer, motion animation
+Trong file `src/pages/ForVietnameseChildren.tsx`, thay entry UNICEF (dòng 52-59) bằng thông tin Bệnh viện Nhi Đồng 1 (nguồn chính thức từ nhidong.org.vn):
 
-#### 2. Cập nhật `src/components/Navbar.tsx`
-- Đổi `{ to: "/contact", label: "Liên hệ/Contact", icon: UserPlus }` → `{ to: "/for-vietnamese-children", label: "Vì Trẻ Em/For Children", icon: Heart }`
-
-#### 3. Cập nhật `src/App.tsx`
-- Thêm lazy import `ForVietnameseChildren`
-- Thêm route `/for-vietnamese-children`
-- Giữ route `/contact` redirect về trang mới (hoặc xóa)
-
-#### 4. Cập nhật `src/components/Footer.tsx`
-- Nếu có link Contact trong footer → đổi thành "For Vietnamese Children"
+- **Tên**: Bệnh viện Nhi Đồng 1
+- **Mô tả**: Hỗ trợ viện phí cho bệnh nhi có hoàn cảnh khó khăn
+- **STK**: `113000008065` — Ngân hàng Công Thương (VietinBank) chi nhánh 10, Ngô Gia Tự
+- **Chủ TK**: Bệnh viện Nhi Đồng 1
+- **SĐT liên hệ**: (028) 3927 4542
+- **Website**: nhidong.org.vn
 
 ### Files thay đổi
-- `src/pages/ForVietnameseChildren.tsx` — **mới**
-- `src/components/Navbar.tsx` — đổi label + link
-- `src/App.tsx` — thêm route mới
-- `src/components/Footer.tsx` — cập nhật link nếu cần
+- `src/pages/ForVietnameseChildren.tsx` — thay object UNICEF bằng Bệnh viện Nhi Đồng 1
 
