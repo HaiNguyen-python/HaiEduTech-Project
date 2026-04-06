@@ -7,6 +7,7 @@ export const vietnameseLessonsExpansionModules: VietnameseModule[] = [
     titleEn: "Advanced Reading",
     icon: "📖",
     color: "from-blue-500 to-blue-700",
+    category: "reading",
     description: "Báo chí và văn học hiện đại Việt Nam",
     descriptionEn: "Vietnamese journalism and modern literature",
     lessons: [
