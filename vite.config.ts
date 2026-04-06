@@ -38,5 +38,31 @@ export default defineConfig(({ mode }) => ({
         comments: false,
       },
     },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-ui": [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-dropdown-menu",
+            "@radix-ui/react-tabs",
+            "@radix-ui/react-select",
+            "@radix-ui/react-popover",
+            "@radix-ui/react-tooltip",
+            "@radix-ui/react-accordion",
+            "@radix-ui/react-scroll-area",
+          ],
+          "vendor-charts": ["recharts"],
+          "vendor-motion": ["framer-motion"],
+          "vendor-supabase": ["@supabase/supabase-js"],
+          "vendor-query": ["@tanstack/react-query"],
+          "vendor-codemirror": [
+            "@uiw/react-codemirror",
+            "@uiw/codemirror-theme-vscode",
+            "@codemirror/lang-python",
+          ],
+        },
+      },
+    },
   },
 }));
