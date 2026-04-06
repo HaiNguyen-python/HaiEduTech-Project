@@ -1,108 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
-  Brain, BookOpen, BarChart3, Sparkles, ExternalLink,
-  Loader2, Star, Search, Filter
+  GraduationCap, Globe, Search, Calendar, ExternalLink, ChevronDown, ChevronUp,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { scholarships, COUNTRIES, type Scholarship } from "@/data/globalScholarshipData";
 
-// Category metadata for icons and colors
-const CATEGORY_META: Record<string, { icon: any; gradient: string; labelVi: string; labelEn: string }> = {
-  ai_education: {
-    icon: Brain,
-    gradient: "from-violet-500/20 to-violet-600/5",
-    labelVi: "AI & Giáo dục",
-    labelEn: "AI & Education",
-  },
-  language_tech: {
-    icon: BookOpen,
-    gradient: "from-sky-500/20 to-sky-600/5",
-    labelVi: "Công nghệ Ngôn ngữ",
-    labelEn: "Language Tech",
-  },
-  edtech: {
-    icon: BarChart3,
-    gradient: "from-emerald-500/20 to-emerald-600/5",
-    labelVi: "EdTech",
-    labelEn: "EdTech",
-  },
-  programming: {
-    icon: Sparkles,
-    gradient: "from-amber-500/20 to-amber-600/5",
-    labelVi: "Lập trình",
-    labelEn: "Programming",
-  },
+const LEVELS = ["Bachelor", "Master", "PhD"] as const;
+
+const LEVEL_COLORS: Record<string, string> = {
+  Bachelor: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400",
+  Master: "bg-sky-500/15 text-sky-700 dark:text-sky-400",
+  PhD: "bg-violet-500/15 text-violet-700 dark:text-violet-400",
 };
-
-interface Post {
-  id: string;
-  title: string;
-  title_vi: string | null;
-  summary: string;
-  summary_vi: string | null;
-  category: string;
-  source_url: string | null;
-  source_name: string | null;
-  thumbnail_url: string | null;
-  is_featured: boolean;
-  created_at: string;
-  engagement_score: number;
-}
 
 const KnowledgeHubPage = () => {
   const { t, lang } = useLanguage();
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [activeCountry, setActiveCountry] = useState("all");
+  const [activeLevel, setActiveLevel] = useState<string>("all");
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      const { data } = await supabase
-        .from("knowledge_hub_posts")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(50);
-      setPosts((data || []) as Post[]);
-      setLoading(false);
-    };
-    fetchPosts();
-  }, []);
+  const filtered = useMemo(() => {
+    return scholarships.filter((s) => {
+      const matchesCountry = activeCountry === "all" || s.country === activeCountry;
+      const matchesLevel = activeLevel === "all" || s.levels.includes(activeLevel as any);
+      const name = lang === "vi" ? s.nameVi : s.name;
+      const summary = lang === "vi" ? s.summaryVi : s.summaryEn;
+      const matchesSearch = !search || name.toLowerCase().includes(search.toLowerCase()) || summary.toLowerCase().includes(search.toLowerCase()) || s.country.toLowerCase().includes(search.toLowerCase());
+      return matchesCountry && matchesLevel && matchesSearch;
+    });
+  }, [search, activeCountry, activeLevel, lang]);
 
-  // Track article click interest
-  const handleArticleClick = async (post: Post) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      await supabase.from("article_interests").insert({
-        user_id: user.id,
-        article_id: post.id,
-        category: post.category,
-      });
-    }
-    if (post.source_url) {
-      window.open(post.source_url, "_blank", "noopener");
-    }
+  const toggleExpand = (id: string) => {
+    setExpandedId((prev) => (prev === id ? null : id));
   };
-
-  // Filter posts
-  const filtered = posts.filter((p) => {
-    const matchesCategory = activeCategory === "all" || p.category === activeCategory;
-    const title = lang === "vi" ? (p.title_vi || p.title) : p.title;
-    const summary = lang === "vi" ? (p.summary_vi || p.summary) : p.summary;
-    const matchesSearch = !search || title.toLowerCase().includes(search.toLowerCase()) || summary.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
-  const featured = filtered.filter((p) => p.is_featured);
-  const regular = filtered.filter((p) => !p.is_featured);
-  const categories = ["all", ...Object.keys(CATEGORY_META)];
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -110,184 +47,192 @@ const KnowledgeHubPage = () => {
       <main className="flex-1 pt-28 lg:pt-32 pb-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-10"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <Brain className="w-8 h-8 text-primary" />
+              <GraduationCap className="w-8 h-8 text-primary" />
               <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
-                {t("Knowledge Hub", "Knowledge Hub")}
+                {t("Học Bổng Toàn Cầu", "Global Scholarship")}
               </h1>
             </div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               {t(
-                "Cập nhật xu hướng AI, EdTech và công nghệ học ngôn ngữ mới nhất — tự động cập nhật hàng ngày bởi AI.",
-                "Stay updated with the latest AI, EdTech, and language learning technology trends — auto-curated daily by AI."
+                "Tổng hợp các học bổng danh giá bậc Cử nhân, Thạc sỹ và Tiến sỹ tại nhiều quốc gia trên thế giới.",
+                "Curated prestigious Bachelor's, Master's and PhD scholarships from countries around the world."
               )}
             </p>
           </motion.div>
 
-          {/* Search & Filter */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-8">
-            <div className="relative flex-1">
+          {/* Search */}
+          <div className="mb-6">
+            <div className="relative max-w-md mx-auto">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder={t("Tìm bài viết...", "Search articles...")}
+                placeholder={t("Tìm học bổng...", "Search scholarships...")}
                 className="pl-10"
               />
             </div>
-            <div className="flex gap-2 flex-wrap">
-              {categories.map((cat) => {
-                const meta = CATEGORY_META[cat];
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                      activeCategory === cat
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {cat === "all" ? t("Tất cả", "All") : (lang === "vi" ? meta?.labelVi : meta?.labelEn) || cat}
-                  </button>
-                );
-              })}
+          </div>
+
+          {/* Filters */}
+          <div className="flex flex-col gap-3 mb-8">
+            {/* Level filter */}
+            <div className="flex gap-2 justify-center flex-wrap">
+              <button
+                onClick={() => setActiveLevel("all")}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeLevel === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+              >
+                {t("Tất cả bậc", "All Levels")}
+              </button>
+              {LEVELS.map((level) => (
+                <button
+                  key={level}
+                  onClick={() => setActiveLevel(level)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeLevel === level ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                >
+                  {level}
+                </button>
+              ))}
+            </div>
+            {/* Country filter */}
+            <div className="flex gap-2 justify-center flex-wrap">
+              <button
+                onClick={() => setActiveCountry("all")}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeCountry === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+              >
+                <Globe className="inline w-3 h-3 mr-1" />
+                {t("Tất cả", "All")}
+              </button>
+              {COUNTRIES.map((c) => (
+                <button
+                  key={c.value}
+                  onClick={() => setActiveCountry(c.value)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeCountry === c.value ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                >
+                  {c.flag} {lang === "vi" ? c.labelVi : c.labelEn}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Loading */}
-          {loading && (
-            <div className="flex items-center justify-center py-20">
-              <Loader2 className="w-8 h-8 animate-spin text-primary" />
-            </div>
-          )}
+          {/* Results count */}
+          <p className="text-sm text-muted-foreground mb-6 text-center">
+            {t(`Tìm thấy ${filtered.length} học bổng`, `Found ${filtered.length} scholarships`)}
+          </p>
 
           {/* Empty state */}
-          {!loading && filtered.length === 0 && (
+          {filtered.length === 0 && (
             <div className="text-center py-20">
-              <BookOpen className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
+              <GraduationCap className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
               <p className="text-muted-foreground">
-                {t("Chưa có bài viết nào. Hệ thống sẽ tự động cập nhật hàng ngày!", "No articles yet. The system auto-updates daily!")}
+                {t("Không tìm thấy học bổng phù hợp.", "No matching scholarships found.")}
               </p>
             </div>
           )}
 
-          {/* Featured articles */}
-          {featured.length > 0 && (
-            <div className="mb-10">
-              <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                <Star className="w-5 h-5 text-amber-500" />
-                {t("Nổi bật", "Featured")}
-              </h2>
-              <div className="grid gap-6 md:grid-cols-2">
-                {featured.map((post, i) => {
-                  const meta = CATEGORY_META[post.category] || CATEGORY_META.edtech;
-                  const Icon = meta.icon;
-                  const title = lang === "vi" ? (post.title_vi || post.title) : post.title;
-                  const summary = lang === "vi" ? (post.summary_vi || post.summary) : post.summary;
-                  return (
-                    <motion.div
-                      key={post.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                    >
-                      <Card
-                        className="cursor-pointer group hover:shadow-lg transition-all border-primary/20 overflow-hidden"
-                        onClick={() => handleArticleClick(post)}
-                      >
-                        <CardContent className="p-0">
-                          {post.thumbnail_url && (
-                            <div className="h-48 overflow-hidden">
-                              <img src={post.thumbnail_url} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                            </div>
+          {/* Scholarship cards */}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((s, i) => {
+              const isExpanded = expandedId === s.id;
+              return (
+                <motion.div
+                  key={s.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: Math.min(i * 0.03, 0.3) }}
+                >
+                  <Card className="group hover:shadow-md transition-all h-full flex flex-col">
+                    <CardContent className="p-5 flex flex-col h-full">
+                      {/* Header */}
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="text-3xl">{s.flag}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs text-muted-foreground font-medium">{t(s.countryVi, s.country)}</p>
+                          {s.isFeatured && (
+                            <Badge variant="outline" className="text-[10px] border-primary/30 text-primary">
+                              ⭐ {t("Nổi bật", "Featured")}
+                            </Badge>
                           )}
-                          <div className="p-5">
-                            <div className="flex items-center gap-2 mb-2">
-                              <div className={`p-1.5 rounded-lg bg-gradient-to-br ${meta.gradient}`}>
-                                <Icon className="w-4 h-4 text-foreground" />
-                              </div>
-                              <Badge variant="secondary" className="text-xs">
-                                {lang === "vi" ? meta.labelVi : meta.labelEn}
-                              </Badge>
-                              <Badge variant="outline" className="text-xs ml-auto">
-                                <Star className="w-3 h-3 mr-1 text-amber-500" /> Featured
-                              </Badge>
-                            </div>
-                            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
-                              {title}
-                            </h3>
-                            <p className="text-sm text-muted-foreground line-clamp-3 mb-3">{summary}</p>
-                            <div className="flex items-center justify-between text-xs text-muted-foreground">
-                              <span>{new Date(post.created_at).toLocaleDateString()}</span>
-                              {post.source_name && (
-                                <span className="flex items-center gap-1">
-                                  <ExternalLink className="w-3 h-3" /> {post.source_name}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+                        </div>
+                      </div>
 
-          {/* Regular articles grid */}
-          {regular.length > 0 && (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {regular.map((post, i) => {
-                const meta = CATEGORY_META[post.category] || CATEGORY_META.edtech;
-                const Icon = meta.icon;
-                const title = lang === "vi" ? (post.title_vi || post.title) : post.title;
-                const summary = lang === "vi" ? (post.summary_vi || post.summary) : post.summary;
-                return (
-                  <motion.div
-                    key={post.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                  >
-                    <Card
-                      className="cursor-pointer group hover:shadow-md transition-all h-full"
-                      onClick={() => handleArticleClick(post)}
-                    >
-                      <CardContent className="p-5 flex flex-col h-full">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className={`p-1.5 rounded-lg bg-gradient-to-br ${meta.gradient}`}>
-                            <Icon className="w-4 h-4 text-foreground" />
-                          </div>
-                          <Badge variant="secondary" className="text-xs">
-                            {lang === "vi" ? meta.labelVi : meta.labelEn}
+                      {/* Title */}
+                      <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
+                        {t(s.nameVi, s.name)}
+                      </h3>
+
+                      {/* Summary */}
+                      <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                        {t(s.summaryVi, s.summaryEn)}
+                      </p>
+
+                      {/* Levels */}
+                      <div className="flex flex-wrap gap-1.5 mb-3">
+                        {s.levels.map((level) => (
+                          <Badge key={level} variant="secondary" className={`text-xs ${LEVEL_COLORS[level]}`}>
+                            {level}
                           </Badge>
+                        ))}
+                      </div>
+
+                      {/* Deadline */}
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground mb-3">
+                        <Calendar className="h-3 w-3" />
+                        <span>{t("Hạn nộp: ", "Deadline: ")}{s.deadline}</span>
+                      </div>
+
+                      {/* Expand/Collapse details */}
+                      <button
+                        onClick={() => toggleExpand(s.id)}
+                        className="flex items-center gap-1 text-xs font-medium text-primary mb-2 hover:underline"
+                      >
+                        {isExpanded ? (
+                          <>{t("Thu gọn", "Collapse")} <ChevronUp className="h-3 w-3" /></>
+                        ) : (
+                          <>{t("Xem chi tiết", "View details")} <ChevronDown className="h-3 w-3" /></>
+                        )}
+                      </button>
+
+                      {isExpanded && (
+                        <div className="text-xs space-y-3 mb-3 animate-in fade-in slide-in-from-top-2">
+                          <div>
+                            <p className="font-semibold text-foreground mb-1">{t("Quyền lợi:", "Benefits:")}</p>
+                            <ul className="list-disc list-inside text-muted-foreground space-y-0.5">
+                              {(lang === "vi" ? s.benefitsVi : s.benefitsEn).map((b, idx) => (
+                                <li key={idx}>{b}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <p className="font-semibold text-foreground mb-1">{t("Điều kiện:", "Requirements:")}</p>
+                            <ul className="list-disc list-inside text-muted-foreground space-y-0.5">
+                              {(lang === "vi" ? s.requirementsVi : s.requirementsEn).map((r, idx) => (
+                                <li key={idx}>{r}</li>
+                              ))}
+                            </ul>
+                          </div>
                         </div>
-                        <h3 className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
-                          {title}
-                        </h3>
-                        <p className="text-xs text-muted-foreground line-clamp-3 flex-1 mb-3">{summary}</p>
-                        <div className="flex items-center justify-between text-xs text-muted-foreground mt-auto">
-                          <span>{new Date(post.created_at).toLocaleDateString()}</span>
-                          {post.source_url && (
-                            <span className="flex items-center gap-1 text-primary">
-                              {t("Đọc thêm", "Read more")} <ExternalLink className="w-3 h-3" />
-                            </span>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                );
-              })}
-            </div>
-          )}
+                      )}
+
+                      {/* Apply link */}
+                      <div className="mt-auto pt-2">
+                        <a
+                          href={s.applyUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {t("Nộp hồ sơ", "Apply Now")} <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </main>
       <Footer />
