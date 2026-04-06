@@ -1,31 +1,51 @@
 
 
-## Plan: Floating Notebook Widget — Ghi chú nổi trên mọi trang
+## Plan: Thay Knowledge Hub thành Global Scholarship
 
-### Ý tưởng
-Tạo component `FloatingNotebook` hiển thị như icon nhỏ góc trái dưới màn hình (đối diện ChatBot ở góc phải). Học sinh click để mở panel ghi chú, có thể viết/lưu bài bất cứ lúc nào mà không cần rời trang.
+### Tổng quan
+Thay thế toàn bộ mục Knowledge Hub (trang chủ preview + trang riêng) thành **Global Scholarship** — liệt kê các học bổng Cử nhân, Thạc sỹ, Tiến sỹ tại nhiều quốc gia. Dữ liệu học bổng sẽ được hardcode trong file data (không cần API) với thông tin chi tiết về từng chương trình.
 
 ### Thay đổi
 
-#### 1. Tạo `src/components/FloatingNotebook.tsx`
-- Icon nổi góc trái dưới (📒) với animation tương tự ChatBot
-- Click mở panel ~400×500px chứa:
-  - Dropdown chọn ghi chú cũ hoặc tạo mới
-  - Input tiêu đề + Select môn học
-  - Textarea viết nội dung (chiếm phần lớn panel)
-  - Đếm từ/ký tự real-time
-  - Nút Lưu + auto-save sau 5s không gõ
-- Chỉ hiện khi user đã đăng nhập
-- Dùng lại logic fetch/save từ Notebook.tsx (refactor thành shared hooks nếu cần)
+#### 1. Tạo `src/data/globalScholarshipData.ts`
+File data chứa ~30-40 học bổng nổi tiếng, mỗi học bổng gồm:
+- Tên học bổng, quốc gia, cấp bậc (Bachelor/Master/PhD)
+- Mô tả ngắn (Vi + En), quyền lợi, điều kiện, deadline
+- Link apply, logo/flag quốc gia
 
-#### 2. Cập nhật `src/App.tsx`
-- Thêm `<FloatingNotebook />` cạnh `<ChatBot />` (line 174)
+Các học bổng bao gồm:
+- **Mỹ**: Fulbright, Hubert Humphrey, STEM OPT scholarships
+- **Anh**: Chevening, Commonwealth, Gates Cambridge, Rhodes
+- **Úc**: Australia Awards, Endeavour, Destination Australia
+- **Đức**: DAAD, Deutschlandstipendium, Heinrich Böll
+- **Nhật**: MEXT, JASSO, ADB-JSP
+- **Hàn Quốc**: KGSP (GKS), Korean Government Scholarship
+- **Phần Lan**: Finnish Government Scholarship, EDUFI
+- **Canada**: Vanier, Trudeau, Banting
+- **EU/Châu Âu**: Erasmus Mundus, Eiffel (Pháp), Swiss Government
+- **Singapore**: ASEAN Scholarship, Nanyang, NUS
+- **Trung Quốc**: CSC (Chinese Government Scholarship)
+- **New Zealand**: NZ Scholarship, Manaaki
 
-#### 3. Giữ nguyên trang `/notebook`
-- Trang full Notebook vẫn hoạt động bình thường cho teacher view và quản lý đầy đủ
-- FloatingNotebook chỉ là shortcut viết nhanh cho học sinh
+#### 2. Cập nhật `src/components/KnowledgeHub.tsx` → Component hiển thị Global Scholarship trên trang chủ
+- Đổi tên section thành "Học Bổng Toàn Cầu / Global Scholarship"
+- Hiển thị 6 học bổng nổi bật dạng card (flag + tên + cấp bậc + deadline)
+- Nút "Xem tất cả" dẫn tới trang `/global-scholarship`
 
-### Files
-- `src/components/FloatingNotebook.tsx` — **mới**
-- `src/App.tsx` — thêm 1 dòng import + render
+#### 3. Cập nhật `src/pages/KnowledgeHubPage.tsx` → Trang Global Scholarship đầy đủ
+- Lọc theo quốc gia, cấp bậc (Bachelor/Master/PhD)
+- Search theo tên học bổng
+- Card hiển thị chi tiết: quyền lợi, điều kiện, link apply
+- Giữ layout đẹp tương tự KnowledgeHub cũ
+
+#### 4. Cập nhật routing & navigation
+- `src/App.tsx`: Đổi route `/knowledge-hub` → `/global-scholarship`
+- `src/components/Navbar.tsx`: Đổi label "Knowledge Hub" → "Học Bổng / Scholarship" và link tương ứng
+
+### Files thay đổi
+- `src/data/globalScholarshipData.ts` — **mới** (data ~30-40 học bổng)
+- `src/components/KnowledgeHub.tsx` — viết lại thành Global Scholarship preview
+- `src/pages/KnowledgeHubPage.tsx` — viết lại thành trang scholarship đầy đủ
+- `src/App.tsx` — đổi route
+- `src/components/Navbar.tsx` — đổi label + link
 
