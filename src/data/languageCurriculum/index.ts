@@ -4,11 +4,21 @@ import { toeicModules } from "./englishToeic";
 import { cambridgeModules, nationalExamModules } from "./englishOther";
 import { hskModules, chineseConvModules } from "./chineseLessons";
 import { grammarModules } from "./englishGrammar";
+import { grammarExtraLessons, grammarExpansionModules } from "./englishGrammarExpansion";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
 
 export type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry };
 
 export { ieltsModules, toeicModules, cambridgeModules, nationalExamModules, hskModules, chineseConvModules, grammarModules };
+
+// Merge extra lessons into existing grammar modules
+const expandedGrammarModules: LanguageModule[] = grammarModules.map(mod => {
+  const extraLessons = grammarExtraLessons
+    .filter(l => l.moduleId === mod.id)
+    .map(({ moduleId, ...lesson }) => lesson);
+  if (extraLessons.length === 0) return mod;
+  return { ...mod, lessons: [...mod.lessons, ...extraLessons] };
+});
 
 // All English modules combined
 export const allEnglishModules: LanguageModule[] = [
@@ -16,7 +26,8 @@ export const allEnglishModules: LanguageModule[] = [
   ...toeicModules,
   ...cambridgeModules,
   ...nationalExamModules,
-  ...grammarModules,
+  ...expandedGrammarModules,
+  ...grammarExpansionModules,
 ];
 
 // All Chinese modules combined
