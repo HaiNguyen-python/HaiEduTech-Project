@@ -29,6 +29,7 @@ const AIGrading = lazy(() => import("./pages/AIGrading.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const Register = lazy(() => import("./pages/Register.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
+const ForVietnameseChildren = lazy(() => import("./pages/ForVietnameseChildren.tsx"));
 const Login = lazy(() => import("./pages/Login.tsx"));
 const Signup = lazy(() => import("./pages/Signup.tsx"));
 const AILibrary = lazy(() => import("./pages/AILibrary.tsx"));
@@ -139,6 +140,7 @@ const App = () => (
             <Route path="/dashboard" element={<LazyRoute><Dashboard /></LazyRoute>} />
             <Route path="/register" element={<LazyRoute><Register /></LazyRoute>} />
             <Route path="/contact" element={<LazyRoute><Contact /></LazyRoute>} />
+            <Route path="/for-vietnamese-children" element={<LazyRoute><ForVietnameseChildren /></LazyRoute>} />
             <Route path="/login" element={<LazyRoute><Login /></LazyRoute>} />
             <Route path="/signup" element={<LazyRoute><Signup /></LazyRoute>} />
             <Route path="/ai-library" element={<LazyRoute><AILibrary /></LazyRoute>} />

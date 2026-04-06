@@ -10,7 +10,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
-  Globe, UserPlus, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
+  Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -163,7 +163,7 @@ const Navbar = () => {
     { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), icon: Languages, subs: finnishSubs, key: "fi" },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/global-scholarship", label: t("Học Bổng", "Scholarship"), icon: Newspaper },
-    { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
+    { to: "/for-vietnamese-children", label: t("Vì Trẻ Em", "For Children"), icon: Heart },
   ];
 
   const navLinks = user
