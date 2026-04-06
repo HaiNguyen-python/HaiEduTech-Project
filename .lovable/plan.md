@@ -1,26 +1,26 @@
 
 
-## Plan: Hiển thị Dashboard cho học sinh — Thêm link Dashboard vào Navbar chính
-
-### Vấn đề
-Dashboard (`/dashboard`) hiện tại **hoạt động bình thường** cho mọi user đã đăng nhập — không bị chặn bởi role. Tuy nhiên, link Dashboard chỉ nằm ẩn trong dropdown menu user (click avatar → Dashboard), khiến học sinh khó tìm thấy. Trong khi đó, teacher có link "Admin" hiển thị rõ trên thanh nav chính.
-
-### Giải pháp
-Thêm link **"Dashboard"** vào thanh navigation chính cho **tất cả user đã đăng nhập** (không chỉ teacher/admin), giúp học sinh dễ dàng truy cập bảng phân tích học tập.
+## Plan: Thêm tính năng kéo giãn (resize) cho Floating Notebook
 
 ### Thay đổi
 
-#### 1. Cập nhật `src/components/Navbar.tsx`
-- Thêm mục "Dashboard" vào `baseLinks` (hoặc thêm riêng) hiển thị khi `user` đã đăng nhập
-- Link dẫn tới `/dashboard`, icon `LayoutDashboard`
-- Hiện cho cả student lẫn teacher (teacher vẫn giữ thêm link "Admin")
-- Cập nhật cả desktop nav row lẫn mobile menu
+#### Cập nhật `src/components/FloatingNotebook.tsx`
 
-#### 2. Không thay đổi logic Dashboard page
-- Trang `/dashboard` đã hoạt động đúng cho mọi role
-- Data fetching dùng `auth.uid()` → mỗi user thấy data riêng của mình
-- Empty state hiển thị khi chưa có hoạt động, kèm link đến các module học
+**Thêm resize state + logic:**
+- Thêm state `size: { width, height }` khởi tạo `{ width: 460, height: 600 }`
+- Thêm ref `resizing` + `resizeEdge` để track hướng resize (right, bottom, bottom-right)
+- Thêm `onMouseDown` handlers trên 3 cạnh: phải, dưới, góc dưới-phải
+- Cập nhật `onMouseMove` global listener để xử lý cả drag lẫn resize
+- Clamp kích cỡ tối thiểu 360x400, tối đa 800x900
+
+**UI thay đổi:**
+- Thay `className="w-[460px] max-h-[600px]"` bằng `style={{ width: size.width, height: size.height }}`
+- Thêm 3 vùng resize handles:
+  - Cạnh phải: thanh mỏng 4px dọc bên phải, cursor `e-resize`
+  - Cạnh dưới: thanh mỏng 4px ngang dưới đáy, cursor `s-resize`
+  - Góc dưới-phải: ô 12x12px góc, cursor `se-resize`, hiện icon grip nhỏ
+- Editor area dùng `flex-1` để tự co giãn theo height của panel
 
 ### Files thay đổi
-- `src/components/Navbar.tsx` — thêm "Dashboard" link cho user đã đăng nhập vào main nav
+- `src/components/FloatingNotebook.tsx` — thêm resize logic + handles
 
