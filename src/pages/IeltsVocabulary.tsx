@@ -97,7 +97,7 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
 };
 
 // Exercise component — MCQ quiz from vocabulary
-const VocabExercise = ({ words, t }: { words: IeltsWord[]; t: (vi: string, en: string) => string }) => {
+const VocabExercise = ({ words, allWords, t }: { words: IeltsWord[]; allWords?: IeltsWord[]; t: (vi: string, en: string) => string }) => {
   const [questions, setQuestions] = useState<{ word: IeltsWord; options: string[]; correct: number }[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -107,10 +107,11 @@ const VocabExercise = ({ words, t }: { words: IeltsWord[]; t: (vi: string, en: s
   const QUIZ_SIZE = 10;
 
   const generateQuiz = useCallback(() => {
-    const pool = words.length >= 4 ? words : ieltsVocabData;
-    const picked = shuffle(pool).slice(0, QUIZ_SIZE);
+    if (words.length < 4) return;
+    const distractorPool = allWords && allWords.length > 4 ? allWords : words;
+    const picked = shuffle(words).slice(0, QUIZ_SIZE);
     const qs = picked.map(w => {
-      const wrongs = shuffle(pool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
+      const wrongs = shuffle(distractorPool.filter(x => x.word !== w.word)).slice(0, 3).map(x => x.definition.en);
       const allOpts = shuffle([w.definition.en, ...wrongs]);
       return { word: w, options: allOpts, correct: allOpts.indexOf(w.definition.en) };
     });
@@ -120,7 +121,7 @@ const VocabExercise = ({ words, t }: { words: IeltsWord[]; t: (vi: string, en: s
     setScore(0);
     setFinished(false);
     scoreSavedRef.current = false;
-  }, [words]);
+  }, [words, allWords]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;
@@ -153,7 +154,19 @@ const VocabExercise = ({ words, t }: { words: IeltsWord[]; t: (vi: string, en: s
     }
   };
 
-  if (questions.length === 0) return <p className="text-muted-foreground text-center py-12">{t("Cần ít nhất 4 từ để tạo bài tập", "Need at least 4 words to generate exercises")}</p>;
+  if (words.length < 4) return (
+    <div className="flex flex-col items-center justify-center py-16 text-center">
+      <div className="text-6xl mb-4">📚</div>
+      <h3 className="text-xl font-bold text-foreground mb-2">{t("Chưa đủ từ vựng", "Not enough words")}</h3>
+      <p className="text-muted-foreground max-w-md">
+        {t(
+          `Hãy đánh dấu ⭐ ít nhất 4 từ đã học để bắt đầu luyện tập! (Hiện tại: ${words.length}/4)`,
+          `Mark ⭐ at least 4 words as learned to start practicing! (Current: ${words.length}/4)`
+        )}
+      </p>
+    </div>
+  );
+  if (questions.length === 0) return <p className="text-muted-foreground text-center py-12">{t("Đang tạo bài tập...", "Generating exercises...")}</p>;
 
   if (finished) {
     return (
@@ -383,7 +396,7 @@ const IeltsVocabulary = () => {
 
             {/* Content based on mode */}
             {viewMode === "exercise" ? (
-              <VocabExercise words={filtered} t={t} />
+              <VocabExercise words={ieltsVocabData.filter(w => mastered.has(w.word))} allWords={ieltsVocabData} t={t} />
             ) : viewMode === "flashcard" ? (
               /* Flashcard grid — generous gap, responsive columns */
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
