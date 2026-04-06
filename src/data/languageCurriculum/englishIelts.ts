@@ -1,6 +1,7 @@
 // IELTS Curriculum: Academic Vocabulary, Grammar 7.0+, Writing, Reading, Listening, Speaking
 import type { LanguageModule } from "./types";
 import { ieltsReadingExpansionLessons, ieltsListeningExpansionLessons } from "./englishIeltsReadingListening";
+import { ieltsReadingExpansion2Lessons, ieltsListeningExpansion2Lessons } from "./englishIeltsReadingListening2";
 
 export const ieltsModules: LanguageModule[] = [
   {
