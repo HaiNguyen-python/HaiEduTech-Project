@@ -1415,7 +1415,9 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
             </CardContent>
           </Card>
         )}
+      </div>
 
+      {submitted && (() => {
         const analysis = analyzeWriting(text, lesson.id, showTranslation);
         return (
           <div className="space-y-4">
