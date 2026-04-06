@@ -1304,6 +1304,7 @@ const analyzeWriting = (text: string, lessonId: string, showTranslation: boolean
 const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
   const [text, setText] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [showModelBeforeSubmit, setShowModelBeforeSubmit] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60);
   const [timerActive, setTimerActive] = useState(false);
@@ -1391,6 +1392,29 @@ const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
             </Button>
           )}
         </div>
+
+        {/* Toggle model answer before submit */}
+        <div className="flex justify-start">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowModelBeforeSubmit(!showModelBeforeSubmit)}
+            className="gap-2 text-amber-700 border-amber-300 hover:bg-amber-50 dark:text-amber-300 dark:border-amber-700 dark:hover:bg-amber-900/30"
+          >
+            📝 {showTranslation ? (showModelBeforeSubmit ? "Hide Model Answer" : "Show Model Answer") : (showModelBeforeSubmit ? "Piilota mallivastaus" : "Näytä mallivastaus")}
+          </Button>
+        </div>
+
+        {showModelBeforeSubmit && !submitted && (
+          <Card className="border-amber-200 bg-amber-50/50 dark:bg-amber-900/20 dark:border-amber-800">
+            <CardContent className="p-4">
+              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">📝 {showTranslation ? "Model Answer (A2 level)" : "Mallivastaus (A2-taso)"}</h4>
+              <div className="text-sm text-foreground leading-relaxed whitespace-pre-line">
+                {getSampleAnswer(lesson.id)}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {submitted && (() => {
