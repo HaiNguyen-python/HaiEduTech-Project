@@ -1889,7 +1889,8 @@ const YkiDashboard = () => {
   const [searchParams] = useSearchParams();
   const initialModule = searchParams.get("module");
 
-  const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams" | "speaking-coach">("vocabulary");
+  const [activePillar, setActivePillar] = useState<"vocabulary" | "lessons" | "mock-exams" | "speaking-coach" | "starred-review">("vocabulary");
+  const [starredViewMode, setStarredViewMode] = useState<"list" | "exercise">("list");
   const [selectedModule, setSelectedModule] = useState<FinnishModule | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<FinnishLesson | null>(null);
   const [mockSkillFilter, setMockSkillFilter] = useState<"all" | "reading" | "listening" | "writing" | "speaking">("all");
@@ -1915,6 +1916,10 @@ const YkiDashboard = () => {
   const allVocabWords = useMemo(() =>
     allVocabModules.flatMap(m => m.lessons.flatMap(l => l.vocabulary || [])),
   []);
+
+  const starredVocab = useMemo(() =>
+    allVocabWords.filter(v => masteredWords.includes(v.word)),
+  [allVocabWords, masteredWords]);
 
   const handleMasterWord = (word: string, event: React.MouseEvent) => {
     const isCurrentlyMastered = masteredWords.includes(word);
@@ -2162,12 +2167,13 @@ const YkiDashboard = () => {
           </div>
 
           {/* Pillar Tabs */}
-          <div className="w-full max-w-2xl grid grid-cols-4 h-11 mb-6 rounded-lg bg-muted p-1">
+          <div className="w-full max-w-3xl grid grid-cols-5 h-11 mb-6 rounded-lg bg-muted p-1">
             {([
               { value: "vocabulary" as const, label: "📖 Sanasto" },
               { value: "lessons" as const, label: "🎓 Oppitunnit" },
               { value: "mock-exams" as const, label: "📝 Kokeet" },
               { value: "speaking-coach" as const, label: "🎙️ Puhevalmennus" },
+              { value: "starred-review" as const, label: `⭐ Kertaus (${masteredWords.length})` },
             ]).map((tab) => (
               <button
                 key={tab.value}
