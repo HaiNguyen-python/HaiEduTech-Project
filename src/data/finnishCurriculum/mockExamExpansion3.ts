@@ -102,6 +102,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-writing-exp3-1", title: "Kiitosviesti naapurille", titleEn: "Thank You Note to Neighbor", icon: "🏘️", level: "A2",
         theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Naapurisi hoiti kissaasi lomasi aikana. Kirjoita kiitosviesti:\n- Kiitä häntä\n- Kerro, miten loma meni\n- Ehdota yhteistä kahvihetkeä\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa\n\n**Mallivastaus:**\nHei Liisa! Kiitos todella paljon, että hoidit Misse-kissaani! Lomani meni hyvin. Kävin Tukholmassa ja näin paljon kauniita paikkoja. Haluaisitko tulla kahville ensi lauantaina? Voin tuoda sinulle pienen lahjan matkalta. Kiitos vielä kerran! Terveisin, Anna`,
         theoryEn: "Write a thank-you note to your neighbor who took care of your cat.",
+        sampleAnswer: "Hei Liisa! Kiitos todella paljon, että hoidit Misse-kissaani! Lomani meni hyvin. Kävin Tukholmassa ja näin paljon kauniita paikkoja. Haluaisitko tulla kahville ensi lauantaina? Voin tuoda sinulle pienen lahjan matkalta. Kiitos vielä kerran! Terveisin, Anna",
         quiz: [
           { question: "Miten kiität naapuria?", options: ["Kiitos paljon avustasi!", "Tervetuloa!", "Anteeksi!", "Hei hei!"], answer: 0, explanation: "'Kiitos paljon avustasi!' is an appropriate thank-you." },
         ],
@@ -110,6 +111,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-writing-exp3-2", title: "Palautetta kurssista", titleEn: "Course Feedback", icon: "📋", level: "A2",
         theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Olet käynyt suomen kielen kurssin. Kirjoita palaute:\n- Mistä pidit kurssilla?\n- Mitä voisi parantaa?\n- Suosittelisitko kurssia muille?\n\n**Aika:** 20 min | **Sanamäärä:** 50–80 sanaa\n\n**Mallivastaus:**\nHei! Pidin kurssista paljon. Opettaja oli ystävällinen ja selitti asiat selvästi. Erityisesti pidin ryhmätehtävistä. Toivoisin kuitenkin enemmän puheharjoituksia. Kirjoitusharjoituksia oli riittävästi. Suosittelen kurssia kaikille, jotka haluavat oppia suomea! Ystävällisin terveisin, Minh`,
         theoryEn: "Write feedback about a Finnish course you attended.",
+        sampleAnswer: "Hei! Pidin kurssista paljon. Opettaja oli ystävällinen ja selitti asiat selvästi. Erityisesti pidin ryhmätehtävistä. Toivoisin kuitenkin enemmän puheharjoituksia. Kirjoitusharjoituksia oli riittävästi. Suosittelen kurssia kaikille, jotka haluavat oppia suomea! Ystävällisin terveisin, Minh",
         quiz: [
           { question: "'Suosittelisitko' on...", options: ["imperatiivi", "konditionaali", "passiiivi", "imperfekti"], answer: 1, explanation: "Suosittelisitko = conditional mood of 'suositella'." },
         ],
@@ -118,6 +120,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-writing-exp3-3", title: "Ilmoitus myyntitavarasta", titleEn: "For-Sale Ad", icon: "🏷️", level: "A2",
         theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Myyt vanhaa polkupyörääsi. Kirjoita myynti-ilmoitus:\n- Kuvaile pyörää (väri, koko, kunto)\n- Kerro hinta\n- Kerro yhteystiedot ja milloin voi tulla katsomaan\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa\n\n**Mallivastaus:**\nMyydään punainen naisten polkupyörä. Pyörä on hyväkuntoinen, 3 vuotta vanha. Koko 26 tuumaa. Hinta 80 euroa. Voit tulla katsomaan pyörää Tampereen keskustaan arkisin klo 17 jälkeen. Ota yhteyttä: 040-1234567. Tervetuloa katsomaan!`,
         theoryEn: "Write a for-sale ad for your old bicycle.",
+        sampleAnswer: "Myydään punainen naisten polkupyörä. Pyörä on hyväkuntoinen, 3 vuotta vanha. Koko 26 tuumaa. Hinta 80 euroa. Voit tulla katsomaan pyörää Tampereen keskustaan arkisin klo 17 jälkeen. Ota yhteyttä: 040-1234567. Tervetuloa katsomaan!",
         quiz: [
           { question: "'Hyväkuntoinen' tarkoittaa...", options: ["brand new", "in good condition", "broken", "expensive"], answer: 1, explanation: "'Hyväkuntoinen' = in good condition." },
         ],
@@ -126,6 +129,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-writing-exp3-4", title: "Sähköposti vuokranantajalle", titleEn: "Email to Landlord", icon: "🏠", level: "A2",
         theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Asunnossasi on ongelma. Kirjoita sähköposti vuokranantajalle:\n- Kerro, mikä on vialla\n- Kerro, milloin ongelma alkoi\n- Pyydä korjaamaan\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa\n\n**Hyödyllisiä ilmaisuja:** Hyvä vuokranantaja / Haluaisin ilmoittaa, että... / Ongelma alkoi... / Voisitteko korjata...? / Ystävällisin terveisin`,
         theoryEn: "Write an email to your landlord about a problem in your apartment.",
+        sampleAnswer: "Hyvä vuokranantaja! Haluaisin ilmoittaa, että keittiön hana vuotaa. Ongelma alkoi viime viikolla. Vesi tippuu koko ajan ja lattia kastuu. Voisitteko korjata hanan mahdollisimman pian? Olen kotona iltaisin klo 17 jälkeen. Ystävällisin terveisin, Linh",
         quiz: [
           { question: "'Vuokranantaja' tarkoittaa...", options: ["tenant", "landlord", "neighbor", "repairman"], answer: 1, explanation: "'Vuokranantaja' = landlord." },
         ],
@@ -134,6 +138,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         id: "yki-mock-writing-exp3-5", title: "Kutsu juhliin", titleEn: "Party Invitation", icon: "🎉", level: "A2",
         theory: `### Kirjoitustehtävä\n\n**Tehtävä:** Järjestät syntymäpäiväjuhlat. Kirjoita kutsu ystävällesi:\n- Kerro, milloin ja missä juhlat ovat\n- Kerro, mitä juhlissa tapahtuu\n- Pyydä vastaamaan kutsuun\n\n**Aika:** 15 min | **Sanamäärä:** 40–60 sanaa\n\n**Hyödyllisiä ilmaisuja:** Tervetuloa juhlimaan! / Juhlat ovat... / Tarjolla on... / Vastaa viimeistään... / Nähdään!`,
         theoryEn: "Write a birthday party invitation to your friend.",
+        sampleAnswer: "Hei! Tervetuloa syntymäpäiväjuhliini ensi lauantaina 15. kesäkuuta! Juhlat alkavat klo 18 kotonani osoitteessa Hämeentie 5. Tarjolla on ruokaa, kakkua ja musiikkia. Pelataan myös pelejä! Vastaa viimeistään keskiviikkona. Nähdään juhlissa! Terveisin, Linh",
         quiz: [
           { question: "'Syntymäpäiväjuhlat' tarkoittaa...", options: ["wedding party", "birthday party", "Christmas party", "graduation party"], answer: 1, explanation: "'Syntymäpäiväjuhlat' = birthday party." },
         ],
