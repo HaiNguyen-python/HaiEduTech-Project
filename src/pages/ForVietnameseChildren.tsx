@@ -4,13 +4,31 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
-import { Heart, Copy, ExternalLink, BookOpen, Gift, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Heart, Copy, ExternalLink, BookOpen, Gift, Sparkles, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import confetti from "canvas-confetti";
+
+import childrenImg1 from "@/assets/children-vietnam-1.jpg";
+import childrenImg2 from "@/assets/children-vietnam-2.jpg";
+import childrenImg3 from "@/assets/children-vietnam-3.jpg";
+import childrenImg4 from "@/assets/children-vietnam-4.jpg";
+import childrenImg5 from "@/assets/children-vietnam-5.jpg";
+import childrenImg6 from "@/assets/children-vietnam-6.jpg";
+
+const childrenImages = [
+  { src: childrenImg1, alt: "Vietnamese children laughing together" },
+  { src: childrenImg2, alt: "Vietnamese girl in ao dai smiling" },
+  { src: childrenImg3, alt: "Children reading books together" },
+  { src: childrenImg4, alt: "Children playing in rice field" },
+  { src: childrenImg5, alt: "Vietnamese boy giving thumbs up" },
+  { src: childrenImg6, alt: "Children in traditional festival clothes" },
+];
 
 const funds = [
   {
@@ -71,8 +89,23 @@ const copyToClipboard = (text: string) => {
   toast.success("Đã sao chép số tài khoản!");
 };
 
+const fireHeartsConfetti = () => {
+  const defaults = { spread: 360, ticks: 100, gravity: 0.4, decay: 0.94, startVelocity: 20, zIndex: 9999 };
+  confetti({ ...defaults, particleCount: 50, origin: { x: 0.3, y: 0.5 }, colors: ["#ff6b6b", "#ee5a24", "#f8a5c2", "#ff4757"] });
+  confetti({ ...defaults, particleCount: 50, origin: { x: 0.7, y: 0.5 }, colors: ["#ff6b6b", "#ee5a24", "#f8a5c2", "#ff4757"] });
+  setTimeout(() => {
+    confetti({ ...defaults, particleCount: 30, origin: { x: 0.5, y: 0.3 }, colors: ["#ffd32a", "#ff6b6b", "#f8a5c2"] });
+  }, 300);
+};
+
 const ForVietnameseChildren = () => {
   const { t } = useLanguage();
+  const [showThanks, setShowThanks] = useState(false);
+
+  const handleDonated = () => {
+    setShowThanks(true);
+    fireHeartsConfetti();
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -104,6 +137,33 @@ const ForVietnameseChildren = () => {
               )}
             </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Children Gallery */}
+      <section className="py-6">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {childrenImages.map((img, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="rounded-xl overflow-hidden shadow-md"
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  width={640}
+                  height={640}
+                  className="w-full h-48 md:h-56 object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -226,6 +286,43 @@ const ForVietnameseChildren = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* Donated Button */}
+          <div className="max-w-2xl mx-auto mt-10 text-center">
+            <AnimatePresence mode="wait">
+              {!showThanks ? (
+                <motion.div key="btn" initial={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
+                  <Button
+                    size="lg"
+                    onClick={handleDonated}
+                    className="gap-2 text-base px-8 py-6"
+                  >
+                    <Heart className="w-5 h-5" />
+                    {t("Tôi đã đóng góp qua quỹ trẻ em ở trên", "I donated through above children's fund.")}
+                  </Button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="thanks"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, type: "spring" }}
+                  className="glass-card p-8"
+                >
+                  <CheckCircle className="w-12 h-12 text-primary mx-auto mb-4" />
+                  <h3 className="text-2xl font-display font-bold text-foreground mb-2">
+                    {t("Cảm ơn tấm lòng vàng của bạn! ❤️", "Thank you for your golden heart! ❤️")}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {t(
+                      "Sự đóng góp của bạn sẽ mang lại nụ cười cho trẻ em Việt Nam. Mỗi đồng bạn trao đi là một tia hy vọng cho tương lai của các em. Xin chân thành cảm ơn! 🇻🇳",
+                      "Your contribution will bring smiles to Vietnamese children. Every amount you give is a ray of hope for their future. Thank you from the bottom of our hearts! 🇻🇳"
+                    )}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </section>
 
@@ -245,7 +342,6 @@ const ForVietnameseChildren = () => {
                 '"Education is the most powerful weapon which you can use to change the world." — Nelson Mandela'
               )}
             </p>
-            <p className="mt-4 text-sm text-muted-foreground">— Teacher Hai 🇻🇳</p>
           </motion.div>
         </div>
       </section>
