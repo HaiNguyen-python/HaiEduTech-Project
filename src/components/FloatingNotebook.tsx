@@ -203,8 +203,8 @@ const FloatingNotebook = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed z-50 w-[460px] max-h-[600px] bg-card border border-border rounded-xl shadow-2xl flex flex-col overflow-hidden"
-            style={{ left: `${position.x}px`, top: `${position.y}px` }}
+            className="fixed z-50 bg-card border border-border rounded-xl shadow-2xl flex flex-col overflow-hidden"
+            style={{ left: `${position.x}px`, top: `${position.y}px`, width: `${size.width}px`, height: `${size.height}px` }}
           >
             {/* Header with drag handle */}
             <div
