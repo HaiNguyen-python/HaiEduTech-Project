@@ -1,4 +1,5 @@
 import LessonFeedback from "@/components/LessonFeedback";
+import { boldAndSanitize } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -331,7 +332,7 @@ const ProgrammingLessonPage = () => {
                         if (line.startsWith('- ')) {
                           return <p key={i} className="ml-4 flex items-start gap-2"><span className="text-primary mt-1 shrink-0">•</span>{line.substring(2)}</p>;
                         }
-                        return <p key={i} className="mb-1" dangerouslySetInnerHTML={{ __html: line.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-foreground">$1</span>') }} />;
+                        return <p key={i} className="mb-1" dangerouslySetInnerHTML={boldAndSanitize(line)} />;
                       })}
                     </div>
                   </div>

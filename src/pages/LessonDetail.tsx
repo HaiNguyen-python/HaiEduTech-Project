@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { boldAndSanitize } from "@/lib/utils";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -186,7 +187,7 @@ const LessonDetail = () => {
                           </h3>
                           <div className="space-y-2 ml-9">
                             {p.examples.map((ex, j) => (
-                              <p key={j} className="text-sm text-secondary-foreground" dangerouslySetInnerHTML={{ __html: ex.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-primary">$1</span>') }} />
+                              <p key={j} className="text-sm text-secondary-foreground" dangerouslySetInnerHTML={boldAndSanitize(ex)} />
                             ))}
                           </div>
                         </div>
@@ -206,7 +207,7 @@ const LessonDetail = () => {
                               {v.pinyin && <span className="text-primary text-sm font-medium">{v.pinyin}</span>}
                             </div>
                             <p className="text-sm font-medium text-muted-foreground mb-2">{v.meaning}</p>
-                            <p className="text-xs text-secondary-foreground" dangerouslySetInnerHTML={{ __html: v.example.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-primary">$1</span>') }} />
+                            <p className="text-xs text-secondary-foreground" dangerouslySetInnerHTML={boldAndSanitize(v.example)} />
                           </div>
                         ))}
                       </div>
@@ -343,7 +344,7 @@ const LessonDetail = () => {
                         <div key={i} className="mb-4">
                           <h4 className="font-medium text-foreground text-sm mb-2">{p.rule}</h4>
                           {p.examples?.map((ex: string, j: number) => (
-                            <p key={j} className="text-xs text-secondary-foreground ml-4" dangerouslySetInnerHTML={{ __html: ex.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-primary">$1</span>') }} />
+                            <p key={j} className="text-xs text-secondary-foreground ml-4" dangerouslySetInnerHTML={boldAndSanitize(ex)} />
                           ))}
                         </div>
                       ))}

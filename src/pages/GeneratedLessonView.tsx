@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { boldAndSanitize } from "@/lib/utils";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -168,7 +169,7 @@ const GeneratedLessonView = () => {
                       </h3>
                       <div className="space-y-1 ml-8">
                         {p.examples?.map((ex: string, j: number) => (
-                          <p key={j} className="text-sm text-secondary-foreground" dangerouslySetInnerHTML={{ __html: ex.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-primary">$1</span>') }} />
+                          <p key={j} className="text-sm text-secondary-foreground" dangerouslySetInnerHTML={boldAndSanitize(ex)} />
                         ))}
                       </div>
                     </div>
@@ -188,7 +189,7 @@ const GeneratedLessonView = () => {
                           {v.pinyin && <span className="text-primary text-sm">{v.pinyin}</span>}
                         </div>
                         <p className="text-sm text-muted-foreground mb-1">{v.meaning}</p>
-                        {v.example && <p className="text-xs text-secondary-foreground" dangerouslySetInnerHTML={{ __html: v.example.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-primary">$1</span>') }} />}
+                        {v.example && <p className="text-xs text-secondary-foreground" dangerouslySetInnerHTML={boldAndSanitize(v.example)} />}
                       </div>
                     ))}
                   </div>
