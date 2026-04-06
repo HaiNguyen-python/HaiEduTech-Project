@@ -1,44 +1,36 @@
 
 
-## Plan: Tăng cường Grammar — Thêm bài học và bài tập
+## Plan: Thêm bài viết mẫu A2 + Fix lỗi TypeScript
 
-### Hiện trạng
-- 6 modules, 15 bài học, 984 dòng
-- Mỗi bài có 3-5 câu fill-in-blank, 2-3 câu reorder, 3 câu quiz
+### 1. Fix lỗi TypeScript (ưu tiên cao)
+**File: `src/data/languageCurriculum/englishGrammarExpansion.ts`**
+- Thay tất cả `"fillInBlank"` → `"fill-in-blank"`
+- Thay tất cả `"sentenceReorder"` → `"sentence-reorder"`
 
-### Mở rộng
+### 2. Thêm `sampleAnswer` cho 10 bài Writing thiếu
 
-**Tạo file `src/data/languageCurriculum/englishGrammarExpansion.ts`** (~1200 dòng)
+**File: `src/data/finnishCurriculum/mockExamData.ts`** — 5 bài:
+1. **writing-1** (Sähköposti kaverille): Bài mẫu ~60 từ về email bạn bè kể về kurssi mới
+2. **writing-2** (Viesti opettajalle): Bài mẫu ~50 từ báo nghỉ học vì con ốm
+3. **writing-3** (Valitus ravintolalle): Bài mẫu ~70 từ khiếu nại nhà hàng
+4. **writing-4** (Kutsu syntymäpäiville): Bài mẫu ~55 từ lời mời sinh nhật
+5. **writing-5** (Ilmoitus taloyhtiölle): Bài mẫu ~60 từ báo vòi nước hỏng
 
-Thêm bài học mới vào mỗi module hiện tại + 3 module mới:
+**File: `src/data/finnishCurriculum/mockExamExpansion.ts`** — 5 bài:
+6. **writing-6** (Muuttoilmoitus): Bài mẫu ~70 từ thông báo chuyển nhà
+7. **writing-7** (Viesti lääkärille): Bài mẫu ~50 từ xin gia hạn đơn thuốc
+8. **writing-8** (Palaute kurssista): Bài mẫu ~70 từ phản hồi khóa học
+9. **writing-9** (Sähköposti vuokranantajalle): Bài mẫu ~70 từ khiếu nại tiếng ồn
+10. **writing-10** (Kiitosviesti opettajalle): Bài mẫu ~55 từ cảm ơn giáo viên
 
-**Bài học mới cho modules hiện tại (8 bài):**
-1. Tenses: "Present Perfect Continuous vs Past Perfect" (bài nâng cao)
-2. Tenses: "Future Perfect & Future Perfect Continuous"
-3. Conditionals: "Wish & If only"
-4. Passive: "Causative Have/Get" (chuyên sâu)
-5. Reported Speech: "Reported Questions" (câu hỏi tường thuật)
-6. Relative Clauses: "Relative Clauses with Prepositions"
-7. Articles: "Zero Article & Special Cases"
-8. Prepositions: "Phrasal Verbs & Dependent Prepositions"
-
-**3 Module mới (7 bài):**
-1. **Modals (Động từ khuyết thiếu)** — can/could/may/might/must/should (2 bài: basic + advanced)
-2. **Gerunds & Infinitives (Danh động từ & Động từ nguyên mẫu)** — V-ing vs To V, verb patterns (2 bài)
-3. **Comparisons & Inversions (So sánh & Đảo ngữ)** — comparative/superlative, inversion patterns (3 bài)
-
-**Tăng số bài tập mỗi bài:**
-- 6-8 câu fill-in-blank (tăng từ 3-5)
-- 4-5 câu sentence reorder (tăng từ 2-3)
-- 5 câu quiz (tăng từ 3)
-
-**Tổng sau mở rộng:** 9 modules, ~30 bài học
-
-### Cập nhật file `src/data/languageCurriculum/index.ts`
-- Import `grammarExpansionModules` và `grammarExtraLessons`
-- Merge extra lessons vào modules hiện tại, thêm modules mới vào `allEnglishModules`
+Mỗi bài viết mẫu đảm bảo:
+- Đúng chuẩn YKI A2 (ngữ pháp đơn giản, từ vựng cơ bản)
+- Đúng số từ yêu cầu trong đề
+- Bao gồm đầy đủ các điểm yêu cầu trong đề bài
+- Có lời chào và lời kết phù hợp
 
 ### Files
-- `src/data/languageCurriculum/englishGrammarExpansion.ts` — **mới**, ~1200 dòng
-- `src/data/languageCurriculum/index.ts` — cập nhật merge logic
+- `src/data/languageCurriculum/englishGrammarExpansion.ts` — fix type names
+- `src/data/finnishCurriculum/mockExamData.ts` — thêm 5 sampleAnswer
+- `src/data/finnishCurriculum/mockExamExpansion.ts` — thêm 5 sampleAnswer
 
