@@ -360,6 +360,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 
 **Aika:** 20 minuuttia | **Sanamäärä:** 60–90 sanaa`,
         theoryEn: `### Writing Task 6: Moving out notice to the property manager. Time: 20 min | 60-90 words`,
+        sampleAnswer: "Hyvä isännöitsijä,\n\nIlmoitan, että muutan pois asunnosta (Koulukatu 5 B 12) 1. kesäkuuta. Pyydän vuokratakuun palautusta tililleni FI12 3456 7890 1234 56.\n\nVoin palauttaa avaimet toimistoonne toukokuun viimeisenä päivänä. Onko loppusiivoukselle erityisiä ohjeita? Haluan jättää asunnon hyvään kuntoon.\n\nKiitos yhteistyöstä!\n\nYstävällisin terveisin,\nAnna Tran",
         quiz: [
           { question: "Miten aloitat viestin isännöitsijälle?", options: ["Hei!", "Hyvä isännöitsijä", "Moro!", "Kuule"], answer: 1, explanation: "'Hyvä isännöitsijä' is the correct semi-formal opening." },
         ],
@@ -386,6 +387,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 
 **Aika:** 15 minuuttia | **Sanamäärä:** 40–60 sanaa`,
         theoryEn: `### Writing Task 7: Message to a health center about renewing a prescription. Time: 15 min | 40-60 words`,
+        sampleAnswer: "Hyvä terveysasema,\n\nTarvitsen reseptin uusimista. Lääke on Burana 600 mg, ja otan sitä kaksi kertaa päivässä. Lääke loppuu ensi viikolla.\n\nOnko mahdollista saada e-resepti? Se olisi helpompi. Puhelinnumeroni on 040 123 4567.\n\nKiitos avusta!\n\nYstävällisin terveisin,\nMai Nguyen",
         quiz: [
           { question: "Mitä 'e-resepti' tarkoittaa?", options: ["Paperinen resepti", "Sähköinen resepti", "Lääkelista", "Lääkärintodistus"], answer: 1, explanation: "'E-resepti' = electronic prescription." },
         ],
@@ -413,6 +415,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 
 **Aika:** 20 minuuttia | **Sanamäärä:** 60–90 sanaa`,
         theoryEn: `### Writing Task 8: Write feedback about a Finnish language course. Time: 20 min | 60-90 words`,
+        sampleAnswer: "Hei!\n\nHaluaisin antaa palautetta suomen kielen kurssista. Kurssi oli mielestäni todella hyödyllinen ja mielenkiintoinen. Pidin erityisesti puheharjoituksista ja ryhmätöistä.\n\nVaikeinta oli kielioppi, erityisesti partitiivin käyttö. Ehdottaisin, että kurssilla olisi enemmän kielioppiharjoituksia ja hitaampi tahti uusien asioiden kanssa.\n\nSuosittelen kurssia kaikille, jotka haluavat oppia suomea!\n\nKiitos hyvästä kurssista!",
         quiz: [
           { question: "'Ehdottaisin' tarkoittaa...", options: ["I suggest", "I demand", "I refuse", "I accept"], answer: 0, explanation: "'Ehdottaisin' = I would suggest." },
         ],
@@ -440,6 +443,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 
 **Aika:** 20 minuuttia | **Sanamäärä:** 60–90 sanaa`,
         theoryEn: `### Writing Task 9: Email to landlord about a noise complaint. Time: 20 min | 60-90 words`,
+        sampleAnswer: "Hyvä vuokranantaja,\n\nHaluan ilmoittaa meluongelmasta asunnossani. Yläkerran naapuri soittaa kovaa musiikkia joka ilta kello 22 jälkeen. Tilanne on jatkunut jo kaksi kuukautta.\n\nOlen yrittänyt puhua naapurille, mutta tilanne ei ole parantunut. Melu häiritsee nukkumistani ja vaikuttaa työhöni.\n\nPyydän teitä ystävällisesti puuttumaan asiaan. Toivon, että tilanne ratkeaa pian.\n\nYstävällisin terveisin,\nTuyen Pham",
         quiz: [
           { question: "'Puuttua asiaan' tarkoittaa...", options: ["Ignore the issue", "Intervene", "Move out", "Call police"], answer: 1, explanation: "'Puuttua asiaan' = to intervene / address the issue." },
         ],
@@ -467,6 +471,7 @@ Asiakaspalvelu: 09-4766 4000 | hsl.fi`,
 
 **Aika:** 15 minuuttia | **Sanamäärä:** 50–70 sanaa`,
         theoryEn: `### Writing Task 10: Thank you note to your teacher at the end of a course. Time: 15 min | 50-70 words`,
+        sampleAnswer: "Hyvä opettaja,\n\nKiitos paljon hyvästä opetuksesta! Opin kurssilla todella paljon. Nyt osaan puhua suomea paremmin ja ymmärrän arkikeskusteluja. Erityisesti pidin puheharjoituksista.\n\nJatkan suomen kielen opiskelua ylemmällä kurssilla syksyllä. Toivottavasti tapaamme vielä!\n\nToivotan teille kaikkea hyvää ja mukavaa kesää!\n\nLämpimin terveisin,\nHoa Le",
         quiz: [
           { question: "'Lämpimin terveisin' tarkoittaa...", options: ["Best regards", "Warmest regards", "See you", "Yours truly"], answer: 1, explanation: "'Lämpimin terveisin' = Warmest regards." },
         ],
