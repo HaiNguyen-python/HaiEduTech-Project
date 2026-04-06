@@ -1,47 +1,66 @@
 
 
-## Plan: Mở rộng IELTS Reading & Listening — Thêm bài học và bài tập
+## Plan: Tăng cường bài học Cambridge Starters → PET (+25 bài mới)
 
 ### Hiện trạng
-- **IELTS Reading**: 2 bài (Skimming & Scanning, T/F/NG)
-- **IELTS Listening**: 1 bài (Section 1 & 2)
-- Tất cả hiển thị qua `LanguageLessonView` — không cần tạo page/route mới
+- 45 bài giảng (9 bài/level × 5 levels) trải đều Starters, Movers, Flyers, KET, PET
+- Dữ liệu nằm trong 3 file: `cambridgeLecturesData.ts`, `cambridgeLecturesExpansion.ts`, `cambridgeLecturesExpansion2.ts`
 
-### Mở rộng
+### Mở rộng: +25 bài mới (5 bài/level)
 
-**File mới: `src/data/languageCurriculum/englishIeltsReadingListening.ts`** (~1000 dòng)
+**File mới: `src/data/cambridgeLecturesExpansion3.ts`** (~1200 dòng)
 
-#### IELTS Reading — thêm 6 bài mới (tổng 8 bài):
-1. **Matching Headings** — chiến lược chọn tiêu đề cho đoạn văn
-2. **Sentence Completion** — kỹ thuật điền câu từ passage
-3. **Summary Completion** — hoàn thành tóm tắt dựa trên bài đọc
-4. **Multiple Choice** — chiến lược loại trừ đáp án sai
-5. **Matching Information** — tìm đoạn chứa thông tin cụ thể
-6. **Yes/No/Not Given** — phân biệt với T/F/NG, dành cho opinion-based
+#### Starters (+5 bài → tổng 14):
+1. **Toys & Hobbies** — Listening: nghe mô tả đồ chơi yêu thích
+2. **Action Verbs** — Reading-Writing: jump, run, swim, fly — ghép hành động với hình
+3. **Classroom Objects** — Vocabulary: bút, thước, cặp sách — từ vựng trong lớp
+4. **Spelling Fun** — Reading-Writing: đánh vần tên người và đồ vật
+5. **Where Are They?** — Listening: xác định vị trí người trong hình (park, school, home)
 
-#### IELTS Listening — thêm 5 bài mới (tổng 6 bài):
-1. **Section 3: Academic Discussion** — nghe thảo luận học thuật
-2. **Section 4: Academic Lecture** — nghe bài giảng, note completion
-3. **Map & Diagram Labelling** — chiến lược gán nhãn bản đồ/sơ đồ
-4. **Multiple Choice in Listening** — kỹ thuật xử lý distractors
-5. **Matching & Classification** — phân loại thông tin nghe được
+#### Movers (+5 bài → tổng 14):
+1. **Must & Mustn't: School Rules** — Grammar: modal verbs cho quy tắc
+2. **Feelings & Emotions** — Vocabulary: happy, scared, excited, nervous
+3. **A Day at the Zoo** — Reading: đọc hiểu đoạn văn ngắn
+4. **Question Words: Who, What, Where, When** — Speaking: hỏi đáp
+5. **Superlatives: The Biggest, The Best!** — Grammar: so sánh nhất
 
-#### Mỗi bài gồm:
-- Lý thuyết chi tiết (Việt + Anh)
-- 3 Pro Tips
-- 5-6 câu fill-in-blank (bài tập đọc/nghe mô phỏng)
-- 3-4 câu sentence-reorder
-- 5 câu quiz MCQ
+#### Flyers (+5 bài → tổng 14):
+1. **Phrasal Verbs for Young Learners** — Vocabulary: look after, turn on, put on
+2. **Reading Long Texts** — Reading: chiến lược đọc đoạn dài (Part 4)
+3. **Conditional Sentences (If...)** — Grammar: First conditional cơ bản
+4. **Writing a Story** — Writing: kể chuyện từ tranh (Part 7)
+5. **Listening for Specific Information** — Listening: nghe lấy thông tin chi tiết
 
-### Cập nhật file `src/data/languageCurriculum/englishIelts.ts`
-- Merge bài mới vào module `ielts-reading` và `ielts-listening` hiện tại
+#### KET (+5 bài → tổng 14):
+1. **Word Formation: Noun ↔ Adjective** — Vocabulary: beauty→beautiful, care→careful
+2. **Reading Signs & Notices** — Reading: hiểu biển báo, thông báo
+3. **Describing a Photo** — Speaking: Part 2 mô tả ảnh
+4. **Linking Words: because, so, but, although** — Writing: liên kết câu
+5. **Listening for Attitude & Opinion** — Listening: nghe thái độ người nói
 
-### Cập nhật Navbar (`src/components/Navbar.tsx`)
-- Thêm 2 link vào nhóm IELTS: "Luyện đọc / Reading Practice" và "Luyện nghe / Listening Practice" trỏ tới `/english/learn/ielts-reading` và `/english/learn/ielts-listening`
+#### PET (+5 bài → tổng 14):
+1. **Passive Voice in Context** — Grammar: bị động trong bài đọc PET
+2. **Reading Part 6: Gap-fill Text** — Reading: điền từ vào đoạn văn
+3. **Formal vs Informal Register** — Writing: phân biệt văn phong
+4. **Paraphrasing Skills** — Reading: nhận diện diễn đạt lại
+5. **Speaking Part 3 & 4: Collaborative Task** — Speaking: thảo luận cặp
+
+#### Mỗi bài gồm đầy đủ:
+- `stepByStep` (3 bước)
+- `illustratedRules` (3 quy tắc minh họa)
+- `watchOut` (3 lỗi thường gặp)
+- `practiceSet` (3 câu hỏi thực hành)
+- `vocabulary` (4 từ vựng)
+- `quiz` (3 câu quiz)
+- `parentInfo` (thông tin cho phụ huynh)
+- Tất cả song ngữ Anh-Việt
+
+### Cập nhật file export
+**File: `src/data/cambridgeLecturesData.ts`**
+- Import `cambridgeLecturesExpansion3`
+- Thêm `...cambridgeLecturesExpansion3` vào `allCambridgeLectures`
 
 ### Files
-- `src/data/languageCurriculum/englishIeltsReadingListening.ts` — **mới**, ~1000 dòng
-- `src/data/languageCurriculum/englishIelts.ts` — merge thêm lessons
-- `src/data/languageCurriculum/index.ts` — import file mới
-- `src/components/Navbar.tsx` — thêm 2 link IELTS Reading & Listening
+- `src/data/cambridgeLecturesExpansion3.ts` — **mới**, ~1200 dòng (25 bài giảng)
+- `src/data/cambridgeLecturesData.ts` — thêm import + spread vào export array
 
