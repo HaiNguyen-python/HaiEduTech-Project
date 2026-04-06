@@ -1304,6 +1304,7 @@ const analyzeWriting = (text: string, lessonId: string, showTranslation: boolean
 const WritingSection = ({ lesson }: { lesson: FinnishLesson }) => {
   const [text, setText] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [showModelBeforeSubmit, setShowModelBeforeSubmit] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60);
   const [timerActive, setTimerActive] = useState(false);
