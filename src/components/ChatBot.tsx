@@ -286,22 +286,7 @@ const ChatBot = () => {
       return;
     }
 
-    // 2. On-topic keyword filter
-    if (!isOnTopic(userMsg.content)) {
-      setMessages((prev) => [
-        ...prev,
-        userMsg,
-        {
-          role: "assistant",
-          content: t(
-            "Xin lỗi em, thầy chuyên về **Tiếng Anh**, **Tiếng Trung** và **Lập trình** tại HaiEduTech. Để tiết kiệm tài nguyên AI cho việc học, em hãy hỏi thầy về 3 môn này nhé! 💪",
-            "I'm sorry, I specialize in **English**, **Chinese**, and **Programming** at HaiEduTech. To save AI resources for your learning, please ask me questions related to these three subjects! 💪",
-          ),
-        },
-      ]);
-      setInput("");
-      return;
-    }
+    // Topic filter removed — students can ask freely
 
     const allMessages = [...messages, userMsg];
     setMessages(allMessages);
