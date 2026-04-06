@@ -73,6 +73,7 @@ const Finnish = lazy(() => import("./pages/Finnish.tsx"));
 const YkiDashboard = lazy(() => import("./pages/YkiDashboard.tsx"));
 const SpeakingCoachPage = lazy(() => import("./pages/SpeakingCoachPage.tsx"));
 const EnglishGrammar = lazy(() => import("./pages/EnglishGrammar.tsx"));
+const NotebookPage = lazy(() => import("./pages/Notebook.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
