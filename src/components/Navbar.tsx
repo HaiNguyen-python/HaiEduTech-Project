@@ -163,7 +163,7 @@ const Navbar = () => {
     { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), icon: Languages, subs: finnishSubs, key: "fi" },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
     { to: "/global-scholarship", label: t("Học Bổng", "Scholarship"), icon: Newspaper },
-    { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
+    { to: "/for-vietnamese-children", label: t("Vì Trẻ Em", "For Children"), icon: Heart },
   ];
 
   const navLinks = user
