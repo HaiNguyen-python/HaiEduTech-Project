@@ -141,24 +141,40 @@ const FloatingNotebook = () => {
     e.preventDefault();
   }, [position]);
 
+  // Resize handlers
+  const onResizeStart = useCallback((edge: "right" | "bottom" | "corner") => (e: React.MouseEvent) => {
+    resizing.current = edge;
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
-      if (!dragging.current) return;
-      const maxX = window.innerWidth - 460;
-      const maxY = window.innerHeight - 100;
-      setPosition({
-        x: Math.max(0, Math.min(maxX, e.clientX - dragOffset.current.x)),
-        y: Math.max(0, Math.min(maxY, e.clientY - dragOffset.current.y)),
-      });
+      if (dragging.current) {
+        const maxX = window.innerWidth - size.width;
+        const maxY = window.innerHeight - 100;
+        setPosition({
+          x: Math.max(0, Math.min(maxX, e.clientX - dragOffset.current.x)),
+          y: Math.max(0, Math.min(maxY, e.clientY - dragOffset.current.y)),
+        });
+      }
+      if (resizing.current) {
+        const newWidth = resizing.current !== "bottom" ? Math.max(360, Math.min(800, e.clientX - position.x)) : size.width;
+        const newHeight = resizing.current !== "right" ? Math.max(400, Math.min(900, e.clientY - position.y)) : size.height;
+        setSize({ width: newWidth, height: newHeight });
+      }
     };
-    const onUp = () => { dragging.current = false; };
+    const onUp = () => {
+      dragging.current = false;
+      resizing.current = null;
+    };
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
     return () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
     };
-  }, []);
+  }, [position, size]);
 
   const wordCount = editor?.state.doc.textContent.trim()
     ? editor.state.doc.textContent.trim().split(/\s+/).length
