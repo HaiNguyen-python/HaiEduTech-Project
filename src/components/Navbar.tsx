@@ -115,6 +115,7 @@ const Navbar = () => {
       { to: "/toeic-lectures", label: t("Bài giảng TOEIC", "TOEIC Lectures"), icon: BookOpen },
       { to: "/toeic-vocabulary", label: t("Từ vựng TOEIC", "TOEIC Vocabulary"), icon: Library },
     ] },
+    { to: "/english/grammar", label: t("📖 Ngữ pháp", "📖 Grammar") },
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
     { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },

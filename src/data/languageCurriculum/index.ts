@@ -3,11 +3,12 @@ import { ieltsModules } from "./englishIelts";
 import { toeicModules } from "./englishToeic";
 import { cambridgeModules, nationalExamModules } from "./englishOther";
 import { hskModules, chineseConvModules } from "./chineseLessons";
+import { grammarModules } from "./englishGrammar";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
 
 export type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry };
 
-export { ieltsModules, toeicModules, cambridgeModules, nationalExamModules, hskModules, chineseConvModules };
+export { ieltsModules, toeicModules, cambridgeModules, nationalExamModules, hskModules, chineseConvModules, grammarModules };
 
 // All English modules combined
 export const allEnglishModules: LanguageModule[] = [
@@ -15,6 +16,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...toeicModules,
   ...cambridgeModules,
   ...nationalExamModules,
+  ...grammarModules,
 ];
 
 // All Chinese modules combined

@@ -72,6 +72,7 @@ const ToeicVocabulary = lazy(() => import("./pages/ToeicVocabulary.tsx"));
 const Finnish = lazy(() => import("./pages/Finnish.tsx"));
 const YkiDashboard = lazy(() => import("./pages/YkiDashboard.tsx"));
 const SpeakingCoachPage = lazy(() => import("./pages/SpeakingCoachPage.tsx"));
+const EnglishGrammar = lazy(() => import("./pages/EnglishGrammar.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -103,6 +104,7 @@ const App = () => (
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
             <Route path="/english/conversational/curriculum" element={<LazyRoute><ConversationalDashboard /></LazyRoute>} />
             <Route path="/english/conversational/learn/:lessonId" element={<LazyRoute><ConversationalLessonView /></LazyRoute>} />
+            <Route path="/english/grammar" element={<LazyRoute><EnglishGrammar /></LazyRoute>} />
             <Route path="/english/:courseId" element={<LazyRoute><EnglishCourse /></LazyRoute>} />
             <Route path="/english/learn/:moduleId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
             <Route path="/english/learn/:moduleId/:lessonId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
