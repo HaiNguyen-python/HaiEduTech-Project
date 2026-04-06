@@ -162,7 +162,7 @@ const Navbar = () => {
     { to: "/learn-vietnamese", label: t("Học Tiếng Việt", "Learn Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
     { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), icon: Languages, subs: finnishSubs, key: "fi" },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
-    { to: "/knowledge-hub", label: "Knowledge Hub", icon: Newspaper },
+    { to: "/global-scholarship", label: t("Học Bổng", "Scholarship"), icon: Newspaper },
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
 
