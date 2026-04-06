@@ -14,7 +14,6 @@ export const vietnameseLessonsExpansionModules: VietnameseModule[] = [
         id: "vn-adv-journalism",
         title: "Đọc báo tiếng Việt",
         titleEn: "Reading Vietnamese News",
-        icon: "📰",
         level: "advanced",
         theory: `# Đọc báo tiếng Việt
 
@@ -52,7 +51,6 @@ Types: news, reportage, commentary, interview.`,
         id: "vn-adv-literature",
         title: "Văn học hiện đại Việt Nam",
         titleEn: "Modern Vietnamese Literature",
-        icon: "📚",
         level: "advanced",
         theory: `# Văn học hiện đại Việt Nam
 
@@ -101,7 +99,6 @@ Literary periods: medieval, critical realism, revolutionary, renovation (đổi 
         id: "vn-adv-complex-sent",
         title: "Câu phức trong tiếng Việt",
         titleEn: "Complex Sentences in Vietnamese",
-        icon: "🔗",
         level: "advanced",
         theory: `# Câu phức trong tiếng Việt
 
@@ -143,7 +140,6 @@ Nối bằng: **và, hoặc, nhưng, còn, hay**
         id: "vn-adv-academic",
         title: "Văn phong học thuật",
         titleEn: "Academic Writing Style",
-        icon: "🎓",
         level: "advanced",
         theory: `# Văn phong học thuật
 
@@ -195,7 +191,6 @@ Characteristics: objective, logical, precise. Use formal vocabulary. Research pa
         id: "vn-culture-festivals",
         title: "Lễ hội truyền thống",
         titleEn: "Traditional Festivals",
-        icon: "🎆",
         level: "intermediate",
         theory: `# Lễ hội truyền thống Việt Nam
 
@@ -236,7 +231,6 @@ Major festivals: Tết (Lunar New Year), Mid-Autumn, Vu Lan (Gratitude), Hùng K
         id: "vn-culture-cuisine",
         title: "Ẩm thực vùng miền",
         titleEn: "Regional Cuisine",
-        icon: "🍜",
         level: "intermediate",
         theory: `# Ẩm thực vùng miền Việt Nam
 
