@@ -16,3 +16,4 @@ export { finnishDictionary } from "./finnishDictData";
 export { finnishMockExamExpansion4Modules } from "./mockExamExpansion4";
 export { finnishVocabExpansion5Modules } from "./vocabularyExpansion5";
 export { finnishLessonExpansion3Modules } from "./lessonsExpansion3";
+export { finnishLessonExpansion4Modules } from "./lessonsExpansion4";
