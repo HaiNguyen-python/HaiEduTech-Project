@@ -166,8 +166,10 @@ const Navbar = () => {
     { to: "/contact", label: t("Liên hệ", "Contact"), icon: UserPlus },
   ];
 
-  const navLinks = isTeacher
-    ? [...baseLinks, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
+  const navLinks = user
+    ? isTeacher
+      ? [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }, { to: "/admin-dashboard", label: t("Quản trị", "Admin"), icon: Shield }]
+      : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
     : baseLinks;
 
   const handleMouseEnter = (key: string) => {
