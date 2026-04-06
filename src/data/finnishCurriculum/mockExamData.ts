@@ -362,6 +362,7 @@ Tervetuloa kirjastoon!`,
         theoryEn: `### Writing Task 1: Email to a friend about a new Finnish course.
 
 Time: 20 minutes | Word count: 50–80 words`,
+        sampleAnswer: "Moikka Mikka!\n\nMitä kuuluu? Minulla on hyvää uutista! Aloitin uuden suomen kielen kurssin viime viikolla. Kurssi on Helsingin aikuisopistossa maanantaisin ja keskiviikkoisin kello 17–19. Opettaja on todella mukava ja tunneilla puhumme paljon suomea. Opimme myös kielioppia ja uusia sanoja.\n\nHaluaisitko tulla mukaan kurssille? Siellä on vielä vapaita paikkoja. Kurssi maksaa 50 euroa. Kerro mitä mieltä olet!\n\nTerveisin,\nAnna",
         quiz: [
           { question: "Miten aloitat epävirallisen sähköpostin?", options: ["Arvoisa vastaanottaja", "Hei/Moikka + nimi", "Herra/Rouva", "Kunnioittaen"], answer: 1, explanation: "'Hei [nimi]!' or 'Moikka!' for informal emails." },
         ],
@@ -390,6 +391,7 @@ Time: 20 minutes | Word count: 50–80 words`,
         theoryEn: `### Writing Task 2: Message to your teacher about missing class.
 
 Time: 15 minutes | Word count: 40–60 words`,
+        sampleAnswer: "Hyvä opettaja,\n\nEn valitettavasti pääse tunnille huomenna, koska lapseni on sairas. Hänet pitää viedä lääkäriin aamulla.\n\nVoisitteko ystävällisesti kertoa, mitä tunnilla tehdään? Voisitteko myös lähettää läksyt sähköpostilla?\n\nKiitos ymmärryksestä!\n\nYstävällisin terveisin,\nMaria",
         quiz: [
           { question: "Miten ilmoitat opettajalle poissaolosta?", options: ["En tule huomenna", "En valitettavasti pääse tunnille", "Mä en jaksa tulla", "Mä skipaan tunnin"], answer: 1, explanation: "Polite form: 'En valitettavasti pääse tunnille.' The other options are either too blunt or too informal (slang)." },
         ],
@@ -419,6 +421,7 @@ Time: 15 minutes | Word count: 40–60 words`,
         theoryEn: `### Writing Task 3: Complaint letter to a restaurant about bad service.
 
 Time: 20 minutes | Word count: 60–90 words`,
+        sampleAnswer: "Arvoisa ravintolan johtaja,\n\nKävin ravintolassanne viime lauantaina illalla. Haluan valittaa huonosta palvelusta. Odotimme ruokaa 45 minuuttia, ja kun ruoka tuli, se oli kylmää. Lisäksi tarjoilija oli epäystävällinen eikä pyytänyt anteeksi.\n\nOlin todella pettynyt kokemukseen. Toivoisin hyvitystä tai anteeksipyyntöä. Voisitteko kertoa, miten aiotte korjata tilanteen?\n\nYstävällisin terveisin,\nAnna Nguyen",
         quiz: [
           { question: "Miten aloitat virallisen valituksen?", options: ["Hei!", "Arvoisa...", "Moro!", "Kuule!"], answer: 1, explanation: "'Arvoisa...' is the formal way to start a complaint." },
         ],
@@ -447,6 +450,7 @@ Time: 20 minutes | Word count: 60–90 words`,
         theoryEn: `### Writing Task 4: Birthday party invitation.
 
 Time: 15 minutes | Word count: 50–70 words`,
+        sampleAnswer: "Hei kaikki!\n\nTervetuloa juhlimaan kanssani! Täytän 30 vuotta lauantaina 15. maaliskuuta.\n\nJuhlat ovat kotonani osoitteessa Mannerheimintie 10 kello 18 alkaen. Tarjolla on ruokaa, kakkua ja juomaa. Illalla on musiikkia ja pelejä.\n\nIlmoitathan tulostasi perjantaihin 7. maaliskuuta mennessä. Tervetuloa!\n\nTerveisin,\nLiisa",
         quiz: [
           { question: "'Ilmoitathan tulostasi' tarkoittaa...", options: ["Tell me your name", "Please confirm your attendance", "Bring a gift", "Come early"], answer: 1, explanation: "'Ilmoitathan tulostasi' = Please confirm your attendance (RSVP)." },
         ],
@@ -476,6 +480,7 @@ Time: 15 minutes | Word count: 50–70 words`,
         theoryEn: `### Writing Task 5: Report a maintenance issue to the housing company.
 
 Time: 20 minutes | Word count: 50–80 words`,
+        sampleAnswer: "Hyvä isännöitsijä,\n\nHaluan ilmoittaa viasta asunnossani (asunto 3B, Koulukatu 5). Kylpyhuoneen hana on vuotanut noin viikon ajan. Vesi tippuu koko ajan, ja se häiritsee myös yöllä.\n\nPyydän korjausta mahdollisimman pian. Olen kotona arkisin kello 16 jälkeen ja viikonloppuisin koko päivän. Huoltomies voi tulla silloin.\n\nYstävällisin terveisin,\nNguyen Minh",
         quiz: [
           { question: "'Isännöitsijä' on englanniksi...", options: ["Landlord", "Property manager", "Neighbor", "Maintenance worker"], answer: 1, explanation: "'Isännöitsijä' = property manager / building manager." },
         ],
