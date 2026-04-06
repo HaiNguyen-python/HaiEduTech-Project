@@ -306,6 +306,13 @@ const FloatingNotebook = () => {
                 </button>
               </div>
             </div>
+
+            {/* Resize handles */}
+            <div onMouseDown={onResizeStart("right")} className="absolute top-0 right-0 w-1 h-full cursor-e-resize hover:bg-primary/20 transition-colors" />
+            <div onMouseDown={onResizeStart("bottom")} className="absolute bottom-0 left-0 h-1 w-full cursor-s-resize hover:bg-primary/20 transition-colors" />
+            <div onMouseDown={onResizeStart("corner")} className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize flex items-center justify-center text-muted-foreground hover:text-primary">
+              <svg width="8" height="8" viewBox="0 0 8 8"><path d="M7 1v6H1" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
