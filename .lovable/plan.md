@@ -1,23 +1,45 @@
+## Plan: Bổ sung học bổng ICT, EdTech, Education + các nước mới
 
+### Hiện trạng
 
-## Plan: Sửa lỗi TS + Cập nhật trang For Vietnamese Children
+- 40 học bổng hiện tại, 14 quốc gia
+- Chưa có học bổng chuyên ngành ICT/EdTech/Education
 
-### Phần 1: Sửa lỗi build `lessonsExpansion.ts`
+### Thêm ~20 học bổng mới
 
-Cả 3 module đều thiếu field `category` (bắt buộc theo type `VietnameseModule`). Thêm `category` cho mỗi module:
-- Module `vn-adv-reading` → `category: "reading"`
-- Module `vn-adv-grammar` → `category: "grammar"`
-- Module `vn-culture-expanded` → `category: "folklore"`
+**Học bổng chuyên ngành ICT/Tech:**
 
-### Phần 2: Cập nhật trang ForVietnameseChildren.tsx
+1. 🇪🇺 **Erasmus Mundus — ICT Innovation (EIT Digital)** — Master, toàn phần
+2. 🇸🇪 **Swedish Institute Scholarships** — Master (thêm Sweden vào COUNTRIES)
+3. 🇳🇱 **Holland Scholarship + Orange Knowledge** — Master/PhD (thêm Netherlands)
+4. 🇮🇪 **Government of Ireland Scholarships** — Master/PhD (thêm Ireland)
+5. 🇪🇪 **Estonia ICT Scholarship (IT Academy)** — Master (thêm Estonia)
+6. 🇮🇳 **ICCR Scholarship India** — Bachelor/Master (thêm India)
+7. 🇹🇼 **Taiwan ICDF Scholarship** — Master (thêm Taiwan)
+8. 🇰🇷 **KAIST International Student Scholarship** — Master/PhD (ICT focus)
+9. 🇯🇵 **ADB-Japan Scholarship (Asian Development Bank)** — Master
+10. 🇺🇸 **Google Generation Scholarship** — Bachelor/Master
 
-3 thay đổi:
+**Học bổng chuyên ngành Education/EdTech:**
+11. 🇬🇧 **Commonwealth Scholarship (Education focus)** — Master/PhD
+12. 🇦🇺 **Australia Awards (Education sector)** — Master
+13. 🇫🇮 **Finland Government Scholarship (Education)** — PhD
+14. 🇳🇿 **NZ-ASEAN Scholars Awards** — Master
+15. 🇩🇪 **DAAD — Digital Education & ICT** — Master
+16. 🇨🇦 **Vanier Canada Graduate Scholarships** — PhD
+17. 🇸🇬 **SUTD President's Graduate Fellowship** — PhD (tech+education)
+18. 🇨🇳 **Confucius Institute Scholarship** — Master
+19. 🇧🇪 **VLIR-UOS Scholarship** — Master (thêm Belgium)
+20. 🇳🇴 **Norwegian Partnership Programme (NORPART)** — Master (thêm Norway)
 
-1. **Thêm nút "I donated"** với hiệu ứng cảm ơn: state `showThanks`, khi bấm → hiện animation confetti/hearts + message cảm ơn bằng motion.
-2. **Thêm gallery hình trẻ em** vui cười — dùng ảnh từ Unsplash (free, no-auth URLs). Hiển thị grid 2x3 hoặc 3x2 ảnh trẻ em Việt Nam hồn nhiên.
-3. **Bỏ dòng `— Teacher Hai 🇻🇳`** (line 248).
+### Thêm quốc gia mới vào COUNTRIES
+
+- Sweden 🇸🇪, Netherlands 🇳🇱, Ireland 🇮🇪, Estonia 🇪🇪, India 🇮🇳, Taiwan 🇹🇼, Belgium 🇧🇪, Norway 🇳🇴
 
 ### Files thay đổi
-- `src/data/vietnamese/lessonsExpansion.ts` — thêm `category` cho 3 modules
-- `src/pages/ForVietnameseChildren.tsx` — thêm nút donated + gallery + bỏ Teacher Hai line
 
+- `src/data/globalScholarshipData.ts` — thêm 8 quốc gia vào COUNTRIES + 20 học bổng mới
+
+&nbsp;
+
+Thêm vào điều kiện về ngoại ngữ như IELTS
