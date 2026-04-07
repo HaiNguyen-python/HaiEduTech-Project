@@ -14,21 +14,6 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
 
-import childrenImg1 from "@/assets/children-vietnam-1.jpg";
-import childrenImg2 from "@/assets/children-vietnam-2.jpg";
-import childrenImg3 from "@/assets/children-vietnam-3.jpg";
-import childrenImg4 from "@/assets/children-vietnam-4.jpg";
-import childrenImg5 from "@/assets/children-vietnam-5.jpg";
-import childrenImg6 from "@/assets/children-vietnam-6.jpg";
-
-const childrenImages = [
-  { src: childrenImg1, alt: "Vietnamese children laughing together" },
-  { src: childrenImg2, alt: "Vietnamese girl in ao dai smiling" },
-  { src: childrenImg3, alt: "Children reading books together" },
-  { src: childrenImg4, alt: "Children playing in rice field" },
-  { src: childrenImg5, alt: "Vietnamese boy giving thumbs up" },
-  { src: childrenImg6, alt: "Children in traditional festival clothes" },
-];
 
 const funds = [
   {
@@ -36,7 +21,7 @@ const funds = [
     nameEn: "Vietnam Fund for Children's Protection",
     desc: "Thuộc Bộ Lao động – Thương binh và Xã hội",
     descEn: "Under the Ministry of Labour, Invalids and Social Affairs",
-    website: "https://nfrvc.molisa.gov.vn",
+    website: "https://quybaotrotreemvietnam.org.vn",
     accounts: [
       {
         bank: "Sở Giao dịch Ngân hàng Nhà nước Việt Nam",
