@@ -14,21 +14,6 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
 
-import childrenImg1 from "@/assets/children-vietnam-1.jpg";
-import childrenImg2 from "@/assets/children-vietnam-2.jpg";
-import childrenImg3 from "@/assets/children-vietnam-3.jpg";
-import childrenImg4 from "@/assets/children-vietnam-4.jpg";
-import childrenImg5 from "@/assets/children-vietnam-5.jpg";
-import childrenImg6 from "@/assets/children-vietnam-6.jpg";
-
-const childrenImages = [
-  { src: childrenImg1, alt: "Vietnamese children laughing together" },
-  { src: childrenImg2, alt: "Vietnamese girl in ao dai smiling" },
-  { src: childrenImg3, alt: "Children reading books together" },
-  { src: childrenImg4, alt: "Children playing in rice field" },
-  { src: childrenImg5, alt: "Vietnamese boy giving thumbs up" },
-  { src: childrenImg6, alt: "Children in traditional festival clothes" },
-];
 
 const funds = [
   {
@@ -36,7 +21,7 @@ const funds = [
     nameEn: "Vietnam Fund for Children's Protection",
     desc: "Thuộc Bộ Lao động – Thương binh và Xã hội",
     descEn: "Under the Ministry of Labour, Invalids and Social Affairs",
-    website: "https://nfrvc.molisa.gov.vn",
+    website: "https://quybaotrotreemvietnam.org.vn",
     accounts: [
       {
         bank: "Sở Giao dịch Ngân hàng Nhà nước Việt Nam",
@@ -140,32 +125,7 @@ const ForVietnameseChildren = () => {
         </div>
       </section>
 
-      {/* Children Gallery */}
-      <section className="py-6">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {childrenImages.map((img, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="rounded-xl overflow-hidden shadow-md"
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  width={640}
-                  height={640}
-                  className="w-full h-48 md:h-56 object-cover hover:scale-105 transition-transform duration-300"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Free Education Message */}
       <section className="py-3">
