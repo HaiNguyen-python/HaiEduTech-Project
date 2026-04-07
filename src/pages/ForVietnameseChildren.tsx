@@ -125,32 +125,7 @@ const ForVietnameseChildren = () => {
         </div>
       </section>
 
-      {/* Children Gallery */}
-      <section className="py-6">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {childrenImages.map((img, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="rounded-xl overflow-hidden shadow-md"
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  width={640}
-                  height={640}
-                  className="w-full h-48 md:h-56 object-cover hover:scale-105 transition-transform duration-300"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Free Education Message */}
       <section className="py-3">
