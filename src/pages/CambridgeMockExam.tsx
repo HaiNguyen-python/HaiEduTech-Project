@@ -97,7 +97,7 @@ const CambridgeMockExam = () => {
       localStorage.setItem(`cambridge-mock-best-${examId}`, String(correct));
     }
 
-    logStudentActivity("cambridge_mock_exam", examId || "", pct, 100);
+    logStudentActivity({ activityType: "cambridge_mock_exam", activityId: examId || "", score: pct, maxScore: 100 });
 
     if (pct >= 80) {
       confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });

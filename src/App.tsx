@@ -76,6 +76,7 @@ const YkiDashboard = lazy(() => import("./pages/YkiDashboard.tsx"));
 const SpeakingCoachPage = lazy(() => import("./pages/SpeakingCoachPage.tsx"));
 const EnglishGrammar = lazy(() => import("./pages/EnglishGrammar.tsx"));
 const NotebookPage = lazy(() => import("./pages/Notebook.tsx"));
+const CambridgeMockExamPage = lazy(() => import("./pages/CambridgeMockExam.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -134,6 +135,7 @@ const App = () => (
             <Route path="/toeic-vocabulary" element={<LazyRoute><ToeicVocabulary /></LazyRoute>} />
             <Route path="/cambridge-lectures" element={<LazyRoute><CambridgeLectures /></LazyRoute>} />
             <Route path="/cambridge-lectures/:lectureId" element={<LazyRoute><CambridgeLectureView /></LazyRoute>} />
+            <Route path="/cambridge-mock-exam/:examId" element={<LazyRoute><CambridgeMockExamPage /></LazyRoute>} />
             <Route path="/vocab-arena" element={<LazyRoute><VocabArena /></LazyRoute>} />
             <Route path="/national-exam" element={<LazyRoute><NationalExamPrep /></LazyRoute>} />
             <Route path="/national-exam/:examId" element={<LazyRoute><NationalExamRoom /></LazyRoute>} />
