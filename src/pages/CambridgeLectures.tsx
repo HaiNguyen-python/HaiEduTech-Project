@@ -1,6 +1,7 @@
 // Cambridge Journey Dashboard — Vibrant Dark Theme with Rainbow Glow
 import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMockExamData";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, ArrowUpDown, Heart, Clock,
@@ -273,6 +274,53 @@ const CambridgeLectures = () => {
           <div className="mt-4 flex items-center gap-5 text-sm text-[#475569]">
             <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4" /> {filtered.length} {t("bài giảng", "lectures")}</span>
             <span className="flex items-center gap-1.5"><TrendingUp className="w-4 h-4" /> {completed.size} {t("đã hoàn thành", "completed")}</span>
+          </div>
+        </section>
+
+        {/* 📝 Cambridge Test Prep Section */}
+        <section className="container mx-auto px-4 pb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#F9A826]/20 to-[#FF6B6B]/20 border border-white/10">
+              <GraduationCap className="w-6 h-6 text-[#F9A826]" />
+            </div>
+            <h2 className="text-2xl font-bold text-white">{t("Đề thi thử Cambridge", "Cambridge Test Prep")}</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+            {cambridgeMockExams.map((exam) => {
+              const lvl = CAMBRIDGE_LEVEL_LABELS[exam.level];
+              const bestRaw = localStorage.getItem(`cambridge-mock-best-${exam.id}`);
+              const best = bestRaw ? Math.round((parseInt(bestRaw) / exam.totalQuestions) * 100) : null;
+              return (
+                <div key={exam.id} className="rounded-xl border border-white/10 bg-white/[0.03] p-4 hover:bg-white/[0.06] transition-all group">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-lg">{lvl.emoji}</span>
+                    <span className="text-xs font-black uppercase tracking-wider px-2 py-0.5 rounded" style={{ background: `${lvl.color}20`, color: lvl.color }}>{lvl.label}</span>
+                  </div>
+                  <h3 className="text-sm font-semibold text-white mb-1 line-clamp-2">{t(exam.titleVi, exam.title)}</h3>
+                  <div className="flex items-center gap-3 text-xs text-[#64748B] mb-3">
+                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{exam.duration}m</span>
+                    <span>{exam.totalQuestions} {t("câu", "Qs")}</span>
+                  </div>
+                  {best !== null && (
+                    <div className={`text-xs font-bold mb-2 ${best >= 80 ? "text-emerald-400" : best >= 60 ? "text-amber-400" : "text-red-400"}`}>
+                      🏆 {t("Cao nhất", "Best")}: {best}%
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <Link to={`/cambridge-mock-exam/${exam.id}?mode=timed`} className="flex-1">
+                      <Button size="sm" className="w-full text-xs bg-gradient-to-r from-[#A78BFA] to-[#7C3AED] hover:opacity-90">
+                        <Clock className="w-3 h-3 mr-1" />{t("Có giờ", "Timed")}
+                      </Button>
+                    </Link>
+                    <Link to={`/cambridge-mock-exam/${exam.id}?mode=untimed`} className="flex-1">
+                      <Button size="sm" variant="outline" className="w-full text-xs border-white/20 text-[#94A3B8] hover:bg-white/10">
+                        {t("Tự do", "Free")}
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
