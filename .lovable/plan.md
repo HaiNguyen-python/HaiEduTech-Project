@@ -1,47 +1,56 @@
 
 
-## Plan: Thêm đề thi mẫu Cambridge (Starters → PET)
+## Plan: Thêm hình minh họa nhỏ cho từ vựng IELTS
 
-### Hiện trạng
-- Hệ thống Cambridge hiện có **70 bài giảng** (lectures) với nội dung lý thuyết, vocabulary, practice, quiz
-- **Chưa có** mục đề thi mẫu (mock test/sample exam) dạng thi thử hoàn chỉnh cho Cambridge
-- Hệ thống đã có mô hình đề thi mẫu cho THPT (`thptExamData.ts`) và YKI Finnish (`mockExamData.ts`) có thể tham khảo
+### Ý tưởng
+Sử dụng Lovable AI (model `google/gemini-2.5-flash-image`) để tạo hình minh họa nhỏ cho mỗi từ vựng ngay khi người dùng xem. Hình sẽ hiển thị ở góc phải trên mỗi card từ vựng, giúp học sinh liên tưởng trực quan.
 
-### Kế hoạch
+### Cách tiếp cận: AI sinh hình on-demand + cache
 
-#### 1. Tạo dữ liệu đề thi mẫu Cambridge
-**File mới:** `src/data/cambridgeMockExamData.ts`
+Vì có 800 từ, không thể tạo sẵn 800 ảnh tĩnh. Thay vào đó:
+1. Khi card từ vựng hiển thị → gọi AI sinh hình minh họa nhỏ (icon-style, 128x128)
+2. Cache kết quả vào `localStorage` để không phải gọi lại
+3. Hiển thị placeholder (emoji/icon) trong khi chờ load
 
-- Định nghĩa interface `CambridgeMockExam` với các field: id, title, level, duration, totalQuestions, sections (Listening, Reading & Writing, Speaking), passages, questions với đáp án + giải thích
-- Tạo **10 đề thi mẫu** (2 đề/cấp độ):
-  - Starters: 2 đề (25 câu, 20 phút)
-  - Movers: 2 đề (30 câu, 25 phút)
-  - Flyers: 2 đề (35 câu, 30 phút)
-  - KET: 2 đề (40 câu, 40 phút)
-  - PET: 2 đề (45 câu, 50 phút)
+### Thay đổi chi tiết
 
-#### 2. Tạo trang thi thử Cambridge
-**File mới:** `src/pages/CambridgeMockExam.tsx`
+#### 1. Tạo hook `useVocabIllustration.ts`
+- Nhận `word` + `definition` → gọi edge function sinh hình
+- Cache base64 vào localStorage (key: `vocab-img-{word}`)
+- Trả về `{ imageUrl, isLoading }`
 
-- Giao diện phòng thi tương tự `NationalExamRoom.tsx`: đếm ngược thời gian, chọn đáp án, nộp bài, xem kết quả, review đáp án
-- Dùng Vibrant Dark Theme nhất quán với Cambridge Lectures
-- Hiển thị điểm theo từng section (Listening, Reading & Writing)
+#### 2. Tạo edge function `generate-vocab-image`
+- Nhận word + definition
+- Gọi Lovable AI gateway với prompt: "Simple flat illustration icon of [word]: [definition]. Minimal, clean, white background, no text, suitable as vocabulary flashcard illustration. 128x128px"
+- Trả về base64 image
 
-#### 3. Thêm mục Test Prep vào trang Cambridge Lectures
-**File sửa:** `src/pages/CambridgeLectures.tsx`
+#### 3. Cập nhật `src/pages/IeltsVocabulary.tsx`
+- Trong list view: thêm hình minh họa 64x64px ở góc phải trên card (bên cạnh nút audio/star)
+- Trong flashcard view: thêm hình minh họa ở mặt trước flashcard
+- Dùng skeleton loader khi đang tải hình
 
-- Thêm section "Cambridge Test Prep" phía trên hoặc bên dưới danh sách lectures
-- Hiển thị grid các đề thi mẫu, filter theo level (Starters → PET)
-- Mỗi card hiện: tên đề, level, số câu, thời gian, trạng thái (chưa làm / đã làm / điểm cao nhất)
-
-#### 4. Thêm route mới
-**File sửa:** `src/App.tsx`
-
-- Thêm route `/cambridge-mock-exam/:examId` → `CambridgeMockExam`
+### Layout thay đổi (list card)
+```text
+┌──────────────────────────────────┐
+│  academic          [🖼️] 🔊 ⭐   │
+│  /ˌæk.əˈdem.ɪk/                │
+│  B2 | Education                  │
+│  relating to education...        │
+│  thuộc về học thuật              │
+│  "Academic research requires..." │
+│  ┌─ Synonyms ──────────────┐    │
+│  │ scholarly  educational  │    │
+│  └─────────────────────────┘    │
+└──────────────────────────────────┘
+```
 
 ### Files thay đổi
-- `src/data/cambridgeMockExamData.ts` — **mới** (10 đề thi mẫu)
-- `src/pages/CambridgeMockExam.tsx` — **mới** (phòng thi)
-- `src/pages/CambridgeLectures.tsx` — thêm section Test Prep
-- `src/App.tsx` — thêm route
+- `src/hooks/useVocabIllustration.ts` — **mới** (hook gọi AI + cache)
+- `supabase/functions/generate-vocab-image/index.ts` — **mới** (edge function)
+- `src/pages/IeltsVocabulary.tsx` — thêm hình minh họa vào card + flashcard
+
+### Lưu ý kỹ thuật
+- Hình chỉ sinh khi card hiển thị (lazy), không tải hết 800 từ cùng lúc
+- Cache localStorage giúp tránh gọi API lặp lại
+- Fallback: nếu AI không sinh được hình → hiển thị emoji liên quan đến category (📚 Education, 💻 Technology, 🌍 Environment...)
 
