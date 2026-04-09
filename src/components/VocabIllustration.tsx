@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { useVocabIllustration } from "@/hooks/useVocabIllustration";
-import { Skeleton } from "@/components/ui/skeleton";
 import { ImageIcon } from "lucide-react";
+import { useVocabIllustration } from "@/hooks/useVocabIllustration";
+import { useState } from "react";
 
 interface VocabIllustrationProps {
   word: string;
@@ -11,9 +10,10 @@ interface VocabIllustrationProps {
 }
 
 const VocabIllustration = ({ word, definition, category, size = 64 }: VocabIllustrationProps) => {
-  const { imageUrl, isLoading, fallbackEmoji, generate } = useVocabIllustration(word, definition, category);
+  const { imageUrl, fallbackEmoji } = useVocabIllustration(word, definition, category);
   const [imgError, setImgError] = useState(false);
 
+  // Show cached AI image if available from previous sessions
   if (imageUrl && !imgError) {
     return (
       <img
@@ -27,21 +27,15 @@ const VocabIllustration = ({ word, definition, category, size = 64 }: VocabIllus
     );
   }
 
-  if (isLoading) {
-    return <Skeleton className="rounded-lg shrink-0" style={{ width: size, height: size }} />;
-  }
-
-  // Clickable placeholder to generate
+  // Emoji fallback (no AI generation)
   return (
-    <button
-      onClick={(e) => { e.stopPropagation(); generate(); }}
-      className="rounded-lg border border-border bg-secondary/30 flex items-center justify-center shrink-0 hover:bg-secondary/60 transition-colors group"
+    <div
+      className="rounded-lg border border-border bg-secondary/30 flex items-center justify-center shrink-0"
       style={{ width: size, height: size }}
-      title={`Generate illustration for "${word}"`}
+      title={word}
     >
-      <span className="text-2xl group-hover:hidden">{fallbackEmoji}</span>
-      <ImageIcon className="w-5 h-5 text-muted-foreground hidden group-hover:block" />
-    </button>
+      <span className="text-2xl">{fallbackEmoji}</span>
+    </div>
   );
 };
 
