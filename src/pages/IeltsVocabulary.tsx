@@ -64,6 +64,7 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
           className="rounded-xl bg-white dark:bg-card flex flex-col items-center justify-center gap-3"
           style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
         >
+          <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} size={80} />
           <h3 className="font-extrabold" style={{ fontSize: "1.5rem", color: "#111827" }}>{word.word}</h3>
           <p className="font-mono" style={{ fontSize: "0.875rem", color: "#4b5563" }}>{word.ipa}</p>
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
