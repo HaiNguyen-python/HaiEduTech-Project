@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, ChevronLeft, ChevronRight, Layers, List, Star, RotateCcw, BookOpen, CheckCircle, XCircle, Link, Copy } from "lucide-react";
+import VocabIllustration from "@/components/VocabIllustration";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ieltsVocabData, IELTS_CATEGORIES, CEFR_LEVELS, type IeltsWord } from "@/data/ieltsVocabData";
@@ -63,6 +64,7 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
           className="rounded-xl bg-white dark:bg-card flex flex-col items-center justify-center gap-3"
           style={{ padding: "2rem", border: "2px solid #f1f5f9", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", minHeight: "14rem" }}
         >
+          <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} size={80} />
           <h3 className="font-extrabold" style={{ fontSize: "1.5rem", color: "#111827" }}>{word.word}</h3>
           <p className="font-mono" style={{ fontSize: "0.875rem", color: "#4b5563" }}>{word.ipa}</p>
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
@@ -419,29 +421,30 @@ const IeltsVocabulary = () => {
                     className="group min-w-0 h-full rounded-xl bg-white dark:bg-card hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
                     style={{ padding: "2rem", border: "2px solid #cbd5e1", boxShadow: "0 4px 12px -2px rgb(0 0 0 / 0.08), 0 0 0 1px rgb(0 0 0 / 0.04)", borderRadius: "1rem" }}
                   >
-                    {/* Header: Word + Audio + Star */}
-                    <div className="mb-2 min-w-0">
-                      <div className="min-w-0">
+                    {/* Header: Word + Illustration + Audio + Star */}
+                    <div className="mb-2 min-w-0 flex items-start gap-3">
+                      <div className="min-w-0 flex-1">
                         <h3 className="break-words font-extrabold" style={{ fontSize: "1.5rem", color: "#111827", lineHeight: 1.35, overflowWrap: "break-word", wordBreak: "normal" }}>{w.word}</h3>
                         <p className="break-words font-mono" style={{ fontSize: "0.875rem", color: "#4b5563", overflowWrap: "break-word", wordBreak: "normal" }}>{w.ipa}</p>
+                        <div className="mt-2 flex items-center gap-1">
+                          <button onClick={() => speak(w.word)} className="rounded-lg p-1.5 transition-colors hover:bg-primary/10">
+                            <Volume2 size={20} style={{ color: "#4b5563" }} />
+                          </button>
+                          <motion.button
+                            onClick={(e) => handleStarClick(w.word, e)}
+                            className="rounded-lg p-1.5 transition-colors hover:bg-yellow-500/10"
+                            whileTap={{ scale: 1.4 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                          >
+                            <Star
+                              size={20}
+                              className={mastered.has(w.word) ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]" : ""}
+                              style={mastered.has(w.word) ? {} : { color: "#4b5563" }}
+                            />
+                          </motion.button>
+                        </div>
                       </div>
-                      <div className="mt-2 flex items-center justify-end gap-1">
-                        <button onClick={() => speak(w.word)} className="rounded-lg p-1.5 transition-colors hover:bg-primary/10">
-                          <Volume2 size={20} style={{ color: "#4b5563" }} />
-                        </button>
-                        <motion.button
-                          onClick={(e) => handleStarClick(w.word, e)}
-                          className="rounded-lg p-1.5 transition-colors hover:bg-yellow-500/10"
-                          whileTap={{ scale: 1.4 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                        >
-                          <Star
-                            size={20}
-                            className={mastered.has(w.word) ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]" : ""}
-                            style={mastered.has(w.word) ? {} : { color: "#4b5563" }}
-                          />
-                        </motion.button>
-                      </div>
+                      <VocabIllustration word={w.word} definition={w.definition.en} category={w.category} size={64} />
                     </div>
 
                     {/* Badges */}
