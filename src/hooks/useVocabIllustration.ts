@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const CACHE_PREFIX = "vocab-img-";
 
@@ -48,15 +49,36 @@ export function useVocabIllustration(word: string, definition: string, category?
         body: { word, definition },
       });
 
-      if (fnError) throw fnError;
+      // Handle credit/rate limit errors from the response
+      if (fnError) {
+        const msg = fnError.message || "";
+        if (msg.includes("402") || msg.includes("Credits")) {
+          toast.error("AI credits exhausted. Illustrations use emoji fallbacks.", { id: "credits-exhausted" });
+          setError("credits_exhausted");
+          return;
+        }
+        if (msg.includes("429")) {
+          toast.warning("Rate limited — please try again shortly.", { id: "rate-limited" });
+          setError("rate_limited");
+          return;
+        }
+        throw fnError;
+      }
+
+      // Also check if data contains error field (edge function returned 200 with error)
+      if (data?.error) {
+        if (data.error === "Credits exhausted" || data.error?.includes?.("402")) {
+          toast.error("AI credits exhausted. Illustrations use emoji fallbacks.", { id: "credits-exhausted" });
+          setError("credits_exhausted");
+          return;
+        }
+        setError(data.error);
+        return;
+      }
+
       if (data?.imageUrl) {
         setImageUrl(data.imageUrl);
-        // Cache in localStorage
-        try {
-          localStorage.setItem(cacheKey, data.imageUrl);
-        } catch {
-          // localStorage full — ignore
-        }
+        try { localStorage.setItem(cacheKey, data.imageUrl); } catch {}
       } else {
         setError("No image");
       }
@@ -71,9 +93,7 @@ export function useVocabIllustration(word: string, definition: string, category?
   useEffect(() => {
     try {
       const cached = localStorage.getItem(cacheKey);
-      if (cached) {
-        setImageUrl(cached);
-      }
+      if (cached) setImageUrl(cached);
     } catch {}
   }, [cacheKey]);
 
