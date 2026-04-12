@@ -385,6 +385,7 @@ export const ieltsModules: LanguageModule[] = [
       },
       ...ieltsReadingExpansionLessons,
       ...ieltsReadingExpansion2Lessons,
+      ...ieltsReadingExpansion3Lessons,
     ],
   },
   {
@@ -497,6 +498,7 @@ export const ieltsModules: LanguageModule[] = [
       },
       ...ieltsListeningExpansionLessons,
       ...ieltsListeningExpansion2Lessons,
+      ...ieltsListeningExpansion3Lessons,
     ],
   },
   {
