@@ -1,56 +1,43 @@
+## Plan: Rà soát và sửa toàn bộ bài học IELTS Reading & Listening
 
+### Vấn đề phát hiện
 
-## Plan: Thêm hình minh họa nhỏ cho từ vựng IELTS
+1. **Bài True/False/Not Given thiếu passage hiển thị rõ ràng**: Đoạn văn được nhúng trong trường `instruction` nhưng component `FillInBlankExercise` chỉ render instruction như tiêu đề nhỏ (`h3`), không hiển thị passage riêng biệt.
+2. **Trường `textEn` trống** trong toàn bộ file `englishIeltsReadingListening3.ts` (12 bài) — người dùng chọn English sẽ thấy câu trống.
+3. **Nhiều bài Reading chỉ dạy chiến lược chung**, chưa có bài tập thực hành với passage thực tế (chỉ điền từ về "khái niệm chiến lược").
 
-### Ý tưởng
-Sử dụng Lovable AI (model `google/gemini-2.5-flash-image`) để tạo hình minh họa nhỏ cho mỗi từ vựng ngay khi người dùng xem. Hình sẽ hiển thị ở góc phải trên mỗi card từ vựng, giúp học sinh liên tưởng trực quan.
+### Giải pháp
 
-### Cách tiếp cận: AI sinh hình on-demand + cache
+#### Bước 1: Cập nhật component `FillInBlankExercise`
 
-Vì có 800 từ, không thể tạo sẵn 800 ảnh tĩnh. Thay vào đó:
-1. Khi card từ vựng hiển thị → gọi AI sinh hình minh họa nhỏ (icon-style, 128x128)
-2. Cache kết quả vào `localStorage` để không phải gọi lại
-3. Hiển thị placeholder (emoji/icon) trong khi chờ load
+- Tách phần `Passage:` khỏi `instruction` — nếu instruction chứa `\n\nPassage:`, render passage trong một block riêng với style nổi bật (background, border, italic) trước phần bài tập.
+- Giữ nguyên phần còn lại của instruction làm tiêu đề.
 
-### Thay đổi chi tiết
+#### Bước 2: Sửa `textEn` trống trong `englishIeltsReadingListening3.ts`
 
-#### 1. Tạo hook `useVocabIllustration.ts`
-- Nhận `word` + `definition` → gọi edge function sinh hình
-- Cache base64 vào localStorage (key: `vocab-img-{word}`)
-- Trả về `{ imageUrl, isLoading }`
+- Điền đầy đủ `textEn` cho tất cả 18 sentences (6 bài Reading + 6 bài Listening) trong file này.
 
-#### 2. Tạo edge function `generate-vocab-image`
-- Nhận word + definition
-- Gọi Lovable AI gateway với prompt: "Simple flat illustration icon of [word]: [definition]. Minimal, clean, white background, no text, suitable as vocabulary flashcard illustration. 128x128px"
-- Trả về base64 image
+#### Bước 3: Thêm passage thực hành cho các bài Reading quan trọng
 
-#### 3. Cập nhật `src/pages/IeltsVocabulary.tsx`
-- Trong list view: thêm hình minh họa 64x64px ở góc phải trên card (bên cạnh nút audio/star)
-- Trong flashcard view: thêm hình minh họa ở mặt trước flashcard
-- Dùng skeleton loader khi đang tải hình
+Các bài cần bổ sung passage + bài tập thực hành thực tế:
 
-### Layout thay đổi (list card)
-```text
-┌──────────────────────────────────┐
-│  academic          [🖼️] 🔊 ⭐   │
-│  /ˌæk.əˈdem.ɪk/                │
-│  B2 | Education                  │
-│  relating to education...        │
-│  thuộc về học thuật              │
-│  "Academic research requires..." │
-│  ┌─ Synonyms ──────────────┐    │
-│  │ scholarly  educational  │    │
-│  └─────────────────────────┘    │
-└──────────────────────────────────┘
-```
+- **Matching Headings** (ielts-reading-3): thêm đoạn văn mẫu + bài matching
+- **Yes/No/Not Given Advanced** (ielts-reading-16): thêm passage + bài tập Y/N/NG
+- **Short Answer Questions** (ielts-reading-17): thêm passage + bài tập
 
-### Files thay đổi
-- `src/hooks/useVocabIllustration.ts` — **mới** (hook gọi AI + cache)
-- `supabase/functions/generate-vocab-image/index.ts` — **mới** (edge function)
-- `src/pages/IeltsVocabulary.tsx` — thêm hình minh họa vào card + flashcard
+Các bài khác đã có bài tập phù hợp (vocabulary-focused exercises hợp lý cho lessons dạy strategy).
 
-### Lưu ý kỹ thuật
-- Hình chỉ sinh khi card hiển thị (lazy), không tải hết 800 từ cùng lúc
-- Cache localStorage giúp tránh gọi API lặp lại
-- Fallback: nếu AI không sinh được hình → hiển thị emoji liên quan đến category (📚 Education, 💻 Technology, 🌍 Environment...)
+#### Bước 4: Kiểm tra quiz answer index
 
+- Xác nhận tất cả `answer` index nằm trong phạm vi `options` (đã kiểm tra, chỉ có 1 chỗ dùng `answer: 0` ở classification — đúng logic).
+
+### Files cần sửa
+
+- `src/components/exercises/FillInBlankExercise.tsx` — thêm render passage block
+- `src/data/languageCurriculum/englishIeltsReadingListening3.ts` — điền textEn
+- `src/data/languageCurriculum/englishIelts.ts` — cải thiện bài T/F/NG gốc
+- `src/data/languageCurriculum/englishIeltsReadingListening.ts` — bổ sung passage cho Matching Headings
+
+&nbsp;
+
+Sổ ghi chú nhanh đang bị khuất sau icon Dictionary ở 1 số trang, hãy dời sổ ghi chú nhanh sang cạnh AI Chatbot để không bị khuất nữa. 
