@@ -112,11 +112,18 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences }: Props) =
     );
   };
 
+  // Separate passage from instruction if present
+  const hasPassage = instruction.includes("\n\nPassage:");
+  const hasPassageEn = instructionEn.includes("\n\nPassage:");
+  const rawInstruction = t(instruction, instructionEn);
+  const [titlePart, ...passageParts] = rawInstruction.split("\n\nPassage:");
+  const passage = passageParts.length > 0 ? passageParts.join("\n\nPassage:").trim() : null;
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-foreground flex items-center gap-2">
-          ✍️ {t(instruction, instructionEn)}
+          ✍️ {titlePart}
         </h3>
         {submitted && (
           <div className="flex items-center gap-3">
@@ -132,6 +139,13 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences }: Props) =
           </div>
         )}
       </div>
+
+      {passage && (
+        <div className="rounded-lg border border-border bg-muted/40 p-4 text-sm text-foreground leading-relaxed italic whitespace-pre-line">
+          <span className="font-semibold not-italic text-primary text-xs uppercase tracking-wide">Passage:</span>
+          <div className="mt-2">{passage}</div>
+        </div>
+      )}
 
       <div className="space-y-3">
         {sentences.map((s, i) => renderSentence(s, i))}
