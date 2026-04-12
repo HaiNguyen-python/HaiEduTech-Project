@@ -49,10 +49,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền từ thích hợp vào chỗ trống",
         instructionEn: "Fill in the appropriate word",
-        items: [
-          { sentence: "The author's ___ is to inform readers about climate change effects.", answer: "purpose", hint: "mục đích" },
-          { sentence: "Words like 'surprisingly' and 'remarkably' indicate the author's ___.", answer: "attitude", hint: "thái độ" },
-          { sentence: "When an author uses data and research, the purpose is usually to ___ an argument.", answer: "support", hint: "hỗ trợ" },
+        sentences: [
+          { text: "The author's ___ is to inform readers about climate change effects.", textEn: "", answer: "purpose", hint: "mục đích" },
+          { text: "Words like 'surprisingly' and 'remarkably' indicate the author's ___.", textEn: "", answer: "attitude", hint: "thái độ" },
+          { text: "When an author uses data and research, the purpose is usually to ___ an argument.", textEn: "", answer: "support", hint: "hỗ trợ" },
         ],
       },
     ],
@@ -109,10 +109,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the appropriate word",
-        items: [
-          { sentence: "In Paragraph Information Matching, a paragraph may be used ___ than once.", answer: "more", hint: "nhiều hơn" },
-          { sentence: "Instead of looking for exact words, look for ___ (synonyms).", answer: "paraphrases", hint: "cách diễn đạt khác" },
-          { sentence: "Start with questions that have the most ___ keywords.", answer: "distinctive", hint: "đặc biệt" },
+        sentences: [
+          { text: "In Paragraph Information Matching, a paragraph may be used ___ than once.", textEn: "", answer: "more", hint: "nhiều hơn" },
+          { text: "Instead of looking for exact words, look for ___ (synonyms).", textEn: "", answer: "paraphrases", hint: "cách diễn đạt khác" },
+          { text: "Start with questions that have the most ___ keywords.", textEn: "", answer: "distinctive", hint: "đặc biệt" },
         ],
       },
     ],
@@ -162,10 +162,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền YES, NO hoặc NOT GIVEN",
         instructionEn: "Fill in YES, NO or NOT GIVEN",
-        items: [
-          { sentence: "If the passage says the opposite of the statement, the answer is ___.", answer: "NO", hint: "" },
-          { sentence: "If the passage doesn't mention the topic at all, the answer is ___.", answer: "NOT GIVEN", hint: "" },
-          { sentence: "If the passage agrees with the statement, the answer is ___.", answer: "YES", hint: "" },
+        sentences: [
+          { text: "If the passage says the opposite of the statement, the answer is ___.", textEn: "", answer: "NO", hint: "" },
+          { text: "If the passage doesn't mention the topic at all, the answer is ___.", textEn: "", answer: "NOT GIVEN", hint: "" },
+          { text: "If the passage agrees with the statement, the answer is ___.", textEn: "", answer: "YES", hint: "" },
         ],
       },
     ],
@@ -216,10 +216,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the appropriate word",
-        items: [
-          { sentence: "Short answer questions require words taken ___ from the passage.", answer: "directly", hint: "trực tiếp" },
-          { sentence: "The word limit tells you the ___ number of words you can write.", answer: "maximum", hint: "tối đa" },
-          { sentence: "'What' questions usually need a ___ as the answer.", answer: "noun", hint: "danh từ" },
+        sentences: [
+          { text: "Short answer questions require words taken ___ from the passage.", textEn: "", answer: "directly", hint: "trực tiếp" },
+          { text: "The word limit tells you the ___ number of words you can write.", textEn: "", answer: "maximum", hint: "tối đa" },
+          { text: "'What' questions usually need a ___ as the answer.", textEn: "", answer: "noun", hint: "danh từ" },
         ],
       },
     ],
@@ -278,10 +278,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền Skimming hoặc Scanning",
         instructionEn: "Fill in Skimming or Scanning",
-        items: [
-          { sentence: "Reading quickly for the main idea is called ___.", answer: "skimming", hint: "" },
-          { sentence: "Looking for a specific name or number is called ___.", answer: "scanning", hint: "" },
-          { sentence: "___ is best for Matching Headings questions.", answer: "Skimming", hint: "" },
+        sentences: [
+          { text: "Reading quickly for the main idea is called ___.", textEn: "", answer: "skimming", hint: "" },
+          { text: "Looking for a specific name or number is called ___.", textEn: "", answer: "scanning", hint: "" },
+          { text: "___ is best for Matching Headings questions.", textEn: "", answer: "Skimming", hint: "" },
         ],
       },
     ],
@@ -332,10 +332,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the appropriate word",
-        items: [
-          { sentence: "Classification questions require you to ___ information into groups.", answer: "categorise", hint: "phân loại" },
-          { sentence: "Categories are often names of ___, theories, or time periods.", answer: "people", hint: "người" },
-          { sentence: "Always base your answer on the ___, not your own knowledge.", answer: "passage", hint: "đoạn văn" },
+        sentences: [
+          { text: "Classification questions require you to ___ information into groups.", textEn: "", answer: "categorise", hint: "phân loại" },
+          { text: "Categories are often names of ___, theories, or time periods.", textEn: "", answer: "people", hint: "người" },
+          { text: "Always base your answer on the ___, not your own knowledge.", textEn: "", answer: "passage", hint: "đoạn văn" },
         ],
       },
     ],
@@ -394,10 +394,10 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the appropriate word",
-        items: [
-          { sentence: "Section 1 is always a ___ between two people.", answer: "conversation", hint: "cuộc trò chuyện" },
-          { sentence: "Proper nouns are usually ___ out letter by letter.", answer: "spelled", hint: "đánh vần" },
-          { sentence: "If you miss an answer, don't ___ — move to the next question.", answer: "panic", hint: "hoảng" },
+        sentences: [
+          { text: "Section 1 is always a ___ between two people.", textEn: "", answer: "conversation", hint: "cuộc trò chuyện" },
+          { text: "Proper nouns are usually ___ out letter by letter.", textEn: "", answer: "spelled", hint: "đánh vần" },
+          { text: "If you miss an answer, don't ___ — move to the next question.", textEn: "", answer: "panic", hint: "hoảng" },
         ],
       },
     ],
@@ -450,10 +450,10 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền từ chỉ hướng phù hợp",
         instructionEn: "Fill in the appropriate direction word",
-        items: [
-          { sentence: "The café is ___ the library (= facing it across the path).", answer: "opposite", hint: "đối diện" },
-          { sentence: "The shop is ___ the bank and the post office.", answer: "between", hint: "giữa" },
-          { sentence: "Turn right and the exit is at the ___ of the corridor.", answer: "end", hint: "cuối" },
+        sentences: [
+          { text: "The café is ___ the library (= facing it across the path).", textEn: "", answer: "opposite", hint: "đối diện" },
+          { text: "The shop is ___ the bank and the post office.", textEn: "", answer: "between", hint: "giữa" },
+          { text: "Turn right and the exit is at the ___ of the corridor.", textEn: "", answer: "end", hint: "cuối" },
         ],
       },
     ],
@@ -503,10 +503,10 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the appropriate word",
-        items: [
-          { sentence: "Section 3 involves a conversation in an ___ context.", answer: "academic", hint: "học thuật" },
-          { sentence: "'I'm not sure about that' is an opinion ___ showing uncertainty.", answer: "marker", hint: "dấu hiệu" },
-          { sentence: "When speakers change their mind, focus on their ___ opinion.", answer: "final", hint: "cuối cùng" },
+        sentences: [
+          { text: "Section 3 involves a conversation in an ___ context.", textEn: "", answer: "academic", hint: "học thuật" },
+          { text: "'I'm not sure about that' is an opinion ___ showing uncertainty.", textEn: "", answer: "marker", hint: "dấu hiệu" },
+          { text: "When speakers change their mind, focus on their ___ opinion.", textEn: "", answer: "final", hint: "cuối cùng" },
         ],
       },
     ],
@@ -559,10 +559,10 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the appropriate word",
-        items: [
-          { sentence: "Section 4 is a ___ — only one speaker.", answer: "monologue", hint: "độc thoại" },
-          { sentence: "'Moving on to...' is a ___ phrase that signals a topic change.", answer: "signpost", hint: "chỉ dẫn" },
-          { sentence: "Section 4 has no ___ between questions.", answer: "break", hint: "nghỉ" },
+        sentences: [
+          { text: "Section 4 is a ___ — only one speaker.", textEn: "", answer: "monologue", hint: "độc thoại" },
+          { text: "'Moving on to...' is a ___ phrase that signals a topic change.", textEn: "", answer: "signpost", hint: "chỉ dẫn" },
+          { text: "Section 4 has no ___ between questions.", textEn: "", answer: "break", hint: "nghỉ" },
         ],
       },
     ],
@@ -615,10 +615,10 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the appropriate word",
-        items: [
-          { sentence: "A distractor is wrong information designed to ___ you.", answer: "trick", hint: "đánh lừa" },
-          { sentence: "After 'actually' or 'I mean', the ___ answer usually follows.", answer: "correct", hint: "đúng" },
-          { sentence: "Self-correction happens when a speaker ___ what they just said.", answer: "changes", hint: "thay đổi" },
+        sentences: [
+          { text: "A distractor is wrong information designed to ___ you.", textEn: "", answer: "trick", hint: "đánh lừa" },
+          { text: "After 'actually' or 'I mean', the ___ answer usually follows.", textEn: "", answer: "correct", hint: "đúng" },
+          { text: "Self-correction happens when a speaker ___ what they just said.", textEn: "", answer: "changes", hint: "thay đổi" },
         ],
       },
     ],
@@ -674,10 +674,10 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
         type: "fill-in-blank" as const,
         instruction: "Điền discourse marker phù hợp",
         instructionEn: "Fill in the appropriate discourse marker",
-        items: [
-          { sentence: "The results were positive. ___, more research is needed.", answer: "However", hint: "tuy nhiên" },
-          { sentence: "The population grew rapidly. ___, housing demand increased.", answer: "Therefore", hint: "do đó" },
-          { sentence: "There are many benefits. ___, it improves concentration.", answer: "For instance", hint: "ví dụ" },
+        sentences: [
+          { text: "The results were positive. ___, more research is needed.", textEn: "", answer: "However", hint: "tuy nhiên" },
+          { text: "The population grew rapidly. ___, housing demand increased.", textEn: "", answer: "Therefore", hint: "do đó" },
+          { text: "There are many benefits. ___, it improves concentration.", textEn: "", answer: "For instance", hint: "ví dụ" },
         ],
       },
     ],
