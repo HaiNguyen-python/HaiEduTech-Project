@@ -1,43 +1,43 @@
-## Plan: Rà soát và sửa toàn bộ bài học IELTS Reading & Listening
 
-### Vấn đề phát hiện
 
-1. **Bài True/False/Not Given thiếu passage hiển thị rõ ràng**: Đoạn văn được nhúng trong trường `instruction` nhưng component `FillInBlankExercise` chỉ render instruction như tiêu đề nhỏ (`h3`), không hiển thị passage riêng biệt.
-2. **Trường `textEn` trống** trong toàn bộ file `englishIeltsReadingListening3.ts` (12 bài) — người dùng chọn English sẽ thấy câu trống.
-3. **Nhiều bài Reading chỉ dạy chiến lược chung**, chưa có bài tập thực hành với passage thực tế (chỉ điền từ về "khái niệm chiến lược").
+## Plan: Sửa Sổ tay + Thêm từ loại IELTS Vocabulary
 
-### Giải pháp
+### Vấn đề & Giải pháp
 
-#### Bước 1: Cập nhật component `FillInBlankExercise`
+**6 vấn đề cần sửa:**
 
-- Tách phần `Passage:` khỏi `instruction` — nếu instruction chứa `\n\nPassage:`, render passage trong một block riêng với style nổi bật (background, border, italic) trước phần bài tập.
-- Giữ nguyên phần còn lại của instruction làm tiêu đề.
+1. **Sổ tay mở bên trái thay vì bên phải** — Vị trí mặc định `x: 24` (góc trái). Đổi thành `x: window.innerWidth - 500` để mở sát bên phải, gần nút bấm.
 
-#### Bước 2: Sửa `textEn` trống trong `englishIeltsReadingListening3.ts`
+2. **Ordered list không hoạt động** — StarterKit mặc định bật OrderedList, nhưng có thể bị CSS `prose` ghi đè. Thêm CSS để đảm bảo `ol` trong editor có `list-style: decimal` và `ul` có `list-style: disc`.
 
-- Điền đầy đủ `textEn` cho tất cả 18 sentences (6 bài Reading + 6 bài Listening) trong file này.
+3. **Thiếu chức năng đổi màu chữ** — Thêm extension `@tiptap/extension-color` + `@tiptap/extension-text-style`. Thêm nút chọn màu (color picker) vào toolbar với một số màu preset.
 
-#### Bước 3: Thêm passage thực hành cho các bài Reading quan trọng
+4. **iPad không kéo được** — Chỉ dùng `mousemove/mouseup`, thiếu touch events. Thêm `touchstart/touchmove/touchend` handlers song song.
 
-Các bài cần bổ sung passage + bài tập thực hành thực tế:
+5. **Sổ tay bị đẩy lên trên khuất header** — Vị trí `y` mặc định có thể âm trên màn hình nhỏ (`window.innerHeight - 640` < 0). Clamp `y` tối thiểu 60px (dưới header) để luôn thấy thanh kéo. Thêm nút "reset vị trí" nếu panel nằm ngoài viewport.
 
-- **Matching Headings** (ielts-reading-3): thêm đoạn văn mẫu + bài matching
-- **Yes/No/Not Given Advanced** (ielts-reading-16): thêm passage + bài tập Y/N/NG
-- **Short Answer Questions** (ielts-reading-17): thêm passage + bài tập
-
-Các bài khác đã có bài tập phù hợp (vocabulary-focused exercises hợp lý cho lessons dạy strategy).
-
-#### Bước 4: Kiểm tra quiz answer index
-
-- Xác nhận tất cả `answer` index nằm trong phạm vi `options` (đã kiểm tra, chỉ có 1 chỗ dùng `answer: 0` ở classification — đúng logic).
+6. **Thêm từ loại (part of speech) cho IELTS Vocabulary** — Thêm trường `partOfSpeech` vào `IeltsWord` interface và bổ sung dữ liệu cho toàn bộ 800+ từ. Hiển thị badge từ loại trên trang IeltsVocabulary.
 
 ### Files cần sửa
 
-- `src/components/exercises/FillInBlankExercise.tsx` — thêm render passage block
-- `src/data/languageCurriculum/englishIeltsReadingListening3.ts` — điền textEn
-- `src/data/languageCurriculum/englishIelts.ts` — cải thiện bài T/F/NG gốc
-- `src/data/languageCurriculum/englishIeltsReadingListening.ts` — bổ sung passage cho Matching Headings
+| File | Thay đổi |
+|------|----------|
+| `src/components/FloatingNotebook.tsx` | Sửa vị trí mặc định sang phải, thêm touch events, clamp Y, thêm color picker, fix CSS cho ordered list |
+| `src/index.css` | Thêm CSS rule cho `.ProseMirror ol { list-style: decimal }` |
+| `src/data/ieltsVocabData.ts` | Thêm `partOfSpeech` vào interface + data |
+| `src/pages/IeltsVocabulary.tsx` | Hiển thị badge từ loại |
+| `package.json` | Thêm `@tiptap/extension-color`, `@tiptap/extension-text-style` |
 
-&nbsp;
+### Chi tiết kỹ thuật
 
-Sổ ghi chú nhanh đang bị khuất sau icon Dictionary ở 1 số trang, hãy dời sổ ghi chú nhanh sang cạnh AI Chatbot để không bị khuất nữa. 
+**Touch support cho iPad:**
+```text
+onTouchStart → ghi offset, set dragging
+onTouchMove → cập nhật position (e.touches[0])  
+onTouchEnd → reset dragging
+```
+
+**Color picker:** Thêm dropdown nhỏ với 8 màu preset (đen, đỏ, xanh dương, xanh lá, cam, tím, hồng, vàng) + 1 nút reset về mặc định.
+
+**Clamp vị trí khi mở:** Đảm bảo `y >= 10` và `y + height <= window.innerHeight`, tự điều chỉnh nếu vượt viewport.
+
