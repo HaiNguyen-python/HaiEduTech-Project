@@ -67,7 +67,10 @@ const Flashcard = ({ word }: { word: IeltsWord }) => {
           <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} size={80} />
           <h3 className="font-extrabold" style={{ fontSize: "1.5rem", color: "#111827" }}>{word.word}</h3>
           <p className="font-mono" style={{ fontSize: "0.875rem", color: "#4b5563" }}>{word.ipa}</p>
-          <Badge className={levelColors[word.level]}>{word.level}</Badge>
+          <div className="flex items-center gap-1.5">
+            <Badge className={levelColors[word.level]}>{word.level}</Badge>
+            {word.partOfSpeech && <Badge variant="secondary" className="text-xs italic">{word.partOfSpeech}</Badge>}
+          </div>
           <button onClick={(e) => { e.stopPropagation(); speak(word.word); }} className="mt-2 p-2 rounded-full hover:bg-primary/10 transition-colors">
             <Volume2 size={20} style={{ color: "#4b5563" }} />
           </button>
@@ -450,6 +453,7 @@ const IeltsVocabulary = () => {
                     {/* Badges */}
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       <Badge className={levelColors[w.level] + " text-xs"}>{w.level}</Badge>
+                      {w.partOfSpeech && <Badge variant="secondary" className="text-xs italic">{w.partOfSpeech}</Badge>}
                       <Badge variant="outline" className="text-xs">{w.category}</Badge>
                     </div>
 
