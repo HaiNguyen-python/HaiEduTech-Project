@@ -8,6 +8,7 @@ export interface IeltsWord {
   definition: { en: string; vi: string };
   example: string;
   category: string;
+  partOfSpeech?: string;
   synonyms?: string[];
   collocations?: string[];
 }
