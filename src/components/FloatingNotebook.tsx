@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, Palette, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import UnderlineExtension from "@tiptap/extension-underline";
+import Color from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
 
 interface Notebook {
   id: string;
@@ -17,6 +19,24 @@ interface Notebook {
 
 const SUBJECTS = ["general", "english", "chinese", "vietnamese", "programming", "finnish", "math"];
 
+const COLOR_PRESETS = [
+  { label: "Đen", value: "#000000" },
+  { label: "Đỏ", value: "#dc2626" },
+  { label: "Xanh dương", value: "#2563eb" },
+  { label: "Xanh lá", value: "#16a34a" },
+  { label: "Cam", value: "#ea580c" },
+  { label: "Tím", value: "#9333ea" },
+  { label: "Hồng", value: "#db2777" },
+  { label: "Vàng", value: "#ca8a04" },
+];
+
+const clamp = (val: number, min: number, max: number) => Math.max(min, Math.min(max, val));
+
+const getDefaultPosition = (width: number, height: number) => ({
+  x: clamp(window.innerWidth - width - 24, 10, window.innerWidth - width),
+  y: clamp(window.innerHeight - height - 60, 60, window.innerHeight - 100),
+});
+
 const FloatingNotebook = () => {
   const [user, setUser] = useState<any>(null);
   const [open, setOpen] = useState(false);
@@ -25,26 +45,29 @@ const FloatingNotebook = () => {
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("general");
   const [saving, setSaving] = useState(false);
+  const [showColorPicker, setShowColorPicker] = useState(false);
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { toast } = useToast();
 
+  const defaultSize = { width: 460, height: 600 };
+  const [size, setSize] = useState(defaultSize);
+  const [position, setPosition] = useState(() => getDefaultPosition(defaultSize.width, defaultSize.height));
+
   // Draggable state
-  const [position, setPosition] = useState({ x: 24, y: window.innerHeight - 640 });
   const dragging = useRef(false);
   const dragOffset = useRef({ x: 0, y: 0 });
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Resizable state
-  const [size, setSize] = useState({ width: 460, height: 600 });
   const resizing = useRef<null | "right" | "bottom" | "corner">(null);
 
   // Tiptap editor
   const editor = useEditor({
-    extensions: [StarterKit, UnderlineExtension],
+    extensions: [StarterKit, UnderlineExtension, TextStyle, Color],
     content: "",
     editorProps: {
       attributes: {
-        class: "prose prose-sm max-w-none focus:outline-none min-h-[280px] px-3 py-2 text-sm text-foreground",
+        class: "prose prose-sm max-w-none focus:outline-none min-h-[280px] px-3 py-2 text-sm text-foreground notebook-editor",
       },
     },
   });
@@ -58,6 +81,16 @@ const FloatingNotebook = () => {
     });
     return () => subscription.unsubscribe();
   }, []);
+
+  // Re-clamp position when opening
+  useEffect(() => {
+    if (open) {
+      setPosition(prev => ({
+        x: clamp(prev.x, 10, window.innerWidth - size.width),
+        y: clamp(prev.y, 10, window.innerHeight - 100),
+      }));
+    }
+  }, [open, size]);
 
   const fetchNotebooks = useCallback(async () => {
     if (!user) return;
@@ -88,7 +121,6 @@ const FloatingNotebook = () => {
     setSelectedId(nb.id);
     setTitle(nb.title);
     setSubject(nb.subject);
-    // If old plain text content (no HTML tags), wrap in <p>
     const html = nb.content.includes("<") ? nb.content : `<p>${nb.content}</p>`;
     editor?.commands.setContent(html);
   };
@@ -131,7 +163,7 @@ const FloatingNotebook = () => {
     return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
   }, [editorContent, title, subject, open, user, handleSave]);
 
-  // Drag handlers
+  // Drag handlers (mouse)
   const onDragStart = useCallback((e: React.MouseEvent) => {
     dragging.current = true;
     dragOffset.current = {
@@ -141,38 +173,66 @@ const FloatingNotebook = () => {
     e.preventDefault();
   }, [position]);
 
+  // Drag handlers (touch)
+  const onTouchDragStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    dragging.current = true;
+    dragOffset.current = {
+      x: touch.clientX - position.x,
+      y: touch.clientY - position.y,
+    };
+  }, [position]);
+
   // Resize handlers
-  const onResizeStart = useCallback((edge: "right" | "bottom" | "corner") => (e: React.MouseEvent) => {
+  const onResizeStart = useCallback((edge: "right" | "bottom" | "corner") => (e: React.MouseEvent | React.TouchEvent) => {
     resizing.current = edge;
     e.preventDefault();
     e.stopPropagation();
   }, []);
 
+  // Reset position
+  const handleResetPosition = useCallback(() => {
+    setPosition(getDefaultPosition(size.width, size.height));
+  }, [size]);
+
   useEffect(() => {
-    const onMove = (e: MouseEvent) => {
+    const onMove = (clientX: number, clientY: number) => {
       if (dragging.current) {
-        const maxX = window.innerWidth - size.width;
-        const maxY = window.innerHeight - 100;
         setPosition({
-          x: Math.max(0, Math.min(maxX, e.clientX - dragOffset.current.x)),
-          y: Math.max(0, Math.min(maxY, e.clientY - dragOffset.current.y)),
+          x: clamp(clientX - dragOffset.current.x, 0, window.innerWidth - size.width),
+          y: clamp(clientY - dragOffset.current.y, 10, window.innerHeight - 100),
         });
       }
       if (resizing.current) {
-        const newWidth = resizing.current !== "bottom" ? Math.max(360, Math.min(800, e.clientX - position.x)) : size.width;
-        const newHeight = resizing.current !== "right" ? Math.max(400, Math.min(900, e.clientY - position.y)) : size.height;
+        const newWidth = resizing.current !== "bottom" ? clamp(clientX - position.x, 360, 800) : size.width;
+        const newHeight = resizing.current !== "right" ? clamp(clientY - position.y, 400, 900) : size.height;
         setSize({ width: newWidth, height: newHeight });
       }
     };
+
+    const onMouseMove = (e: MouseEvent) => onMove(e.clientX, e.clientY);
+    const onTouchMove = (e: TouchEvent) => {
+      if (dragging.current || resizing.current) {
+        e.preventDefault(); // prevent scroll while dragging
+      }
+      const touch = e.touches[0];
+      onMove(touch.clientX, touch.clientY);
+    };
+
     const onUp = () => {
       dragging.current = false;
       resizing.current = null;
     };
-    window.addEventListener("mousemove", onMove);
+
+    window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onUp);
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onUp);
     return () => {
-      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onUp);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onUp);
     };
   }, [position, size]);
 
@@ -210,13 +270,17 @@ const FloatingNotebook = () => {
             <div
               className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/50 select-none"
               onMouseDown={onDragStart}
-              style={{ cursor: "grab" }}
+              onTouchStart={onTouchDragStart}
+              style={{ cursor: "grab", touchAction: "none" }}
             >
               <span className="font-semibold text-sm text-foreground flex items-center gap-2">
                 <GripVertical size={14} className="text-muted-foreground" />
                 <BookOpen size={16} /> Ghi chú nhanh
               </span>
               <div className="flex items-center gap-1">
+                <button onClick={handleResetPosition} className="p-1.5 rounded-md hover:bg-accent text-muted-foreground" title="Reset vị trí">
+                  <RotateCcw size={14} />
+                </button>
                 <button onClick={handleNew} className="p-1.5 rounded-md hover:bg-accent text-muted-foreground" title="Tạo mới">
                   <Plus size={16} />
                 </button>
@@ -278,6 +342,38 @@ const FloatingNotebook = () => {
                   <Icon size={14} />
                 </button>
               ))}
+              {/* Color picker */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowColorPicker(!showColorPicker)}
+                  className={`p-1.5 rounded-md text-xs transition-colors ${showColorPicker ? "bg-primary/20 text-primary" : "hover:bg-accent text-muted-foreground"}`}
+                  type="button"
+                >
+                  <Palette size={14} />
+                </button>
+                {showColorPicker && (
+                  <div className="absolute top-8 left-0 z-10 bg-card border border-border rounded-lg shadow-lg p-2 flex flex-wrap gap-1.5 w-[160px]">
+                    {COLOR_PRESETS.map(c => (
+                      <button
+                        key={c.value}
+                        onClick={() => { editor?.chain().focus().setColor(c.value).run(); setShowColorPicker(false); }}
+                        className="w-6 h-6 rounded-full border border-border hover:scale-125 transition-transform"
+                        style={{ backgroundColor: c.value }}
+                        title={c.label}
+                        type="button"
+                      />
+                    ))}
+                    <button
+                      onClick={() => { editor?.chain().focus().unsetColor().run(); setShowColorPicker(false); }}
+                      className="w-6 h-6 rounded-full border border-border hover:scale-125 transition-transform flex items-center justify-center text-[8px] text-muted-foreground bg-background"
+                      title="Mặc định"
+                      type="button"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Editor */}
@@ -308,9 +404,9 @@ const FloatingNotebook = () => {
             </div>
 
             {/* Resize handles */}
-            <div onMouseDown={onResizeStart("right")} className="absolute top-0 right-0 w-1 h-full cursor-e-resize hover:bg-primary/20 transition-colors" />
-            <div onMouseDown={onResizeStart("bottom")} className="absolute bottom-0 left-0 h-1 w-full cursor-s-resize hover:bg-primary/20 transition-colors" />
-            <div onMouseDown={onResizeStart("corner")} className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize flex items-center justify-center text-muted-foreground hover:text-primary">
+            <div onMouseDown={onResizeStart("right")} onTouchStart={onResizeStart("right")} className="absolute top-0 right-0 w-1 h-full cursor-e-resize hover:bg-primary/20 transition-colors" style={{ touchAction: "none" }} />
+            <div onMouseDown={onResizeStart("bottom")} onTouchStart={onResizeStart("bottom")} className="absolute bottom-0 left-0 h-1 w-full cursor-s-resize hover:bg-primary/20 transition-colors" style={{ touchAction: "none" }} />
+            <div onMouseDown={onResizeStart("corner")} onTouchStart={onResizeStart("corner")} className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize flex items-center justify-center text-muted-foreground hover:text-primary" style={{ touchAction: "none" }}>
               <svg width="8" height="8" viewBox="0 0 8 8"><path d="M7 1v6H1" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
             </div>
           </motion.div>
