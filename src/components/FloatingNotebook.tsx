@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, Palette, RotateCcw } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, Palette, RotateCcw, Highlighter, SwatchBook } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -8,6 +8,7 @@ import StarterKit from "@tiptap/starter-kit";
 import UnderlineExtension from "@tiptap/extension-underline";
 import Color from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
+import Highlight from "@tiptap/extension-highlight";
 
 interface Notebook {
   id: string;
@@ -28,6 +29,33 @@ const COLOR_PRESETS = [
   { label: "Tím", value: "#9333ea" },
   { label: "Hồng", value: "#db2777" },
   { label: "Vàng", value: "#ca8a04" },
+];
+
+const HIGHLIGHT_PRESETS = [
+  { label: "Vàng", value: "#fef08a" },
+  { label: "Xanh lá", value: "#bbf7d0" },
+  { label: "Hồng", value: "#fecdd3" },
+  { label: "Cam", value: "#fed7aa" },
+  { label: "Xanh dương", value: "#bfdbfe" },
+  { label: "Tím", value: "#e9d5ff" },
+];
+
+interface NotebookTheme {
+  name: string;
+  bg: string;
+  headerBg: string;
+  border: string;
+  text: string;
+  editorBg: string;
+}
+
+const NOTEBOOK_THEMES: NotebookTheme[] = [
+  { name: "Mặc định", bg: "hsl(var(--card))", headerBg: "hsl(var(--muted) / 0.5)", border: "hsl(var(--border))", text: "hsl(var(--foreground))", editorBg: "hsl(var(--background))" },
+  { name: "Kem", bg: "#fdf6e3", headerBg: "#f5e6c8", border: "#d4a574", text: "#3c2a14", editorBg: "#fefbf3" },
+  { name: "Tối", bg: "#1e1e2e", headerBg: "#2a2a3e", border: "#444466", text: "#e0e0e0", editorBg: "#181825" },
+  { name: "Xanh", bg: "#ecfdf5", headerBg: "#d1fae5", border: "#6ee7b7", text: "#064e3b", editorBg: "#f0fdf4" },
+  { name: "Hồng", bg: "#fdf2f8", headerBg: "#fce7f3", border: "#f9a8d4", text: "#831843", editorBg: "#fef7fb" },
+  { name: "Xanh dương", bg: "#eff6ff", headerBg: "#dbeafe", border: "#93c5fd", text: "#1e3a5f", editorBg: "#f0f7ff" },
 ];
 
 const clamp = (val: number, min: number, max: number) => Math.max(min, Math.min(max, val));
