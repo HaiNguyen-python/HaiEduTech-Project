@@ -1,5 +1,6 @@
 // IELTS Lecture Detail View — Rich content with strategy steps, vocab highlighter, quiz, cheat sheet
 import { useState, useMemo } from "react";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -82,7 +83,16 @@ const IeltsLectureView = () => {
   const quizScore = lecture.quiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
 
   const handleComplete = () => {
-    if (lecture) markCompleted(lecture.id);
+    if (lecture) {
+      markCompleted(lecture.id);
+      logStudentActivity({
+        activityType: "ielts_lecture",
+        activityId: lecture.id,
+        score: quizSubmitted ? quizScore : 0,
+        maxScore: quizSubmitted ? lecture.quiz.length : 1,
+        domain: "english",
+      });
+    }
   };
 
   const handleQuizSubmit = () => setQuizSubmitted(true);
