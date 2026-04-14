@@ -194,6 +194,14 @@ const Dashboard = () => {
       .order("created_at", { ascending: true });
     const writingAttempts = writings || [];
 
+    // Fetch game scores
+    const { data: gameScores } = await supabase
+      .from("game_scores")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: true });
+    const games = gameScores || [];
+
     // Fetch lesson feedback count
     const { count: feedbackCount } = await supabase
       .from("lesson_feedback")
@@ -219,6 +227,15 @@ const Dashboard = () => {
         date: w.created_at,
         timeSpent: null as number | null,
         metadata: null as Record<string, any> | null,
+      })),
+      ...games.map((g) => ({
+        type: g.game_type,
+        domain: (g.game_type.includes("hsk") ? "chinese" : "english") as string,
+        score: g.score as number | null,
+        maxScore: 100 as number | null,
+        date: g.created_at,
+        timeSpent: g.time_spent_seconds as number | null,
+        metadata: g.metadata as Record<string, any> | null,
       })),
     ];
 
