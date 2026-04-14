@@ -253,7 +253,7 @@ const Dashboard = () => {
     ];
 
     // Total activities
-    const totalActivities = allEvents.length + (feedbackCount || 0);
+    const totalActivities = allEvents.length + (feedbackCount || 0) + (ieltsLectureCount || 0) + (toeicLectureCount || 0);
 
     // Total time
     const totalTimeMinutes = Math.round(
