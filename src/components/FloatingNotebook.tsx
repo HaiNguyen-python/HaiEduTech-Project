@@ -295,15 +295,15 @@ const FloatingNotebook = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed z-50 bg-card border border-border rounded-xl shadow-2xl flex flex-col overflow-hidden"
-            style={{ left: `${position.x}px`, top: `${position.y}px`, width: `${size.width}px`, height: `${size.height}px` }}
+            className="fixed z-50 rounded-xl shadow-2xl flex flex-col overflow-hidden"
+            style={{ left: `${position.x}px`, top: `${position.y}px`, width: `${size.width}px`, height: `${size.height}px`, backgroundColor: theme.bg, borderColor: theme.border, border: `1px solid ${theme.border}`, color: theme.text }}
           >
             {/* Header with drag handle */}
             <div
-              className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/50 select-none"
+              className="flex items-center justify-between px-4 py-3 select-none"
               onMouseDown={onDragStart}
               onTouchStart={onTouchDragStart}
-              style={{ cursor: "grab", touchAction: "none" }}
+              style={{ cursor: "grab", touchAction: "none", backgroundColor: theme.headerBg, borderBottom: `1px solid ${theme.border}` }}
             >
               <span className="font-semibold text-sm text-foreground flex items-center gap-2">
                 <GripVertical size={14} className="text-muted-foreground" />
