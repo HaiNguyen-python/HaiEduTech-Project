@@ -74,6 +74,10 @@ const FloatingNotebook = () => {
   const [subject, setSubject] = useState("general");
   const [saving, setSaving] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showHighlightPicker, setShowHighlightPicker] = useState(false);
+  const [showThemePicker, setShowThemePicker] = useState(false);
+  const [themeIndex, setThemeIndex] = useState(0);
+  const theme = NOTEBOOK_THEMES[themeIndex];
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { toast } = useToast();
 
@@ -91,7 +95,7 @@ const FloatingNotebook = () => {
 
   // Tiptap editor
   const editor = useEditor({
-    extensions: [StarterKit, UnderlineExtension, TextStyle, Color],
+    extensions: [StarterKit, UnderlineExtension, TextStyle, Color, Highlight.configure({ multicolor: true })],
     content: "",
     editorProps: {
       attributes: {
