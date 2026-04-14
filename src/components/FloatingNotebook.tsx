@@ -310,13 +310,33 @@ const FloatingNotebook = () => {
                 <BookOpen size={16} /> Ghi chú nhanh
               </span>
               <div className="flex items-center gap-1">
-                <button onClick={handleResetPosition} className="p-1.5 rounded-md hover:bg-accent text-muted-foreground" title="Reset vị trí">
+                {/* Theme switcher */}
+                <div className="relative">
+                  <button onClick={() => setShowThemePicker(!showThemePicker)} className="p-1.5 rounded-md hover:bg-black/10" title="Đổi giao diện" style={{ color: theme.text }}>
+                    <SwatchBook size={14} />
+                  </button>
+                  {showThemePicker && (
+                    <div className="absolute top-8 right-0 z-20 bg-white border rounded-lg shadow-lg p-2 flex flex-col gap-1 w-[130px]">
+                      {NOTEBOOK_THEMES.map((t, i) => (
+                        <button
+                          key={t.name}
+                          onClick={() => { setThemeIndex(i); setShowThemePicker(false); }}
+                          className={`text-xs px-2 py-1.5 rounded text-left flex items-center gap-2 hover:bg-gray-100 ${i === themeIndex ? "font-bold" : ""}`}
+                        >
+                          <span className="w-4 h-4 rounded-full border" style={{ backgroundColor: t.bg, borderColor: t.border }} />
+                          {t.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <button onClick={handleResetPosition} className="p-1.5 rounded-md hover:bg-black/10" title="Reset vị trí" style={{ color: theme.text }}>
                   <RotateCcw size={14} />
                 </button>
-                <button onClick={handleNew} className="p-1.5 rounded-md hover:bg-accent text-muted-foreground" title="Tạo mới">
+                <button onClick={handleNew} className="p-1.5 rounded-md hover:bg-black/10" title="Tạo mới" style={{ color: theme.text }}>
                   <Plus size={16} />
                 </button>
-                <button onClick={() => setOpen(false)} className="p-1.5 rounded-md hover:bg-accent text-muted-foreground">
+                <button onClick={() => setOpen(false)} className="p-1.5 rounded-md hover:bg-black/10" style={{ color: theme.text }}>
                   <X size={16} />
                 </button>
               </div>
@@ -406,17 +426,50 @@ const FloatingNotebook = () => {
                   </div>
                 )}
               </div>
+              {/* Highlight picker */}
+              <div className="relative">
+                <button
+                  onClick={() => { setShowHighlightPicker(!showHighlightPicker); setShowColorPicker(false); }}
+                  className={`p-1.5 rounded-md text-xs transition-colors ${showHighlightPicker || editor?.isActive("highlight") ? "bg-primary/20 text-primary" : "hover:bg-black/10"}`}
+                  type="button"
+                  style={{ color: editor?.isActive("highlight") ? undefined : theme.text }}
+                >
+                  <Highlighter size={14} />
+                </button>
+                {showHighlightPicker && (
+                  <div className="absolute top-8 left-0 z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-2 flex flex-wrap gap-1.5 w-[160px]">
+                    {HIGHLIGHT_PRESETS.map(c => (
+                      <button
+                        key={c.value}
+                        onClick={() => { editor?.chain().focus().toggleHighlight({ color: c.value }).run(); setShowHighlightPicker(false); }}
+                        className="w-6 h-6 rounded-full border border-gray-300 hover:scale-125 transition-transform"
+                        style={{ backgroundColor: c.value }}
+                        title={c.label}
+                        type="button"
+                      />
+                    ))}
+                    <button
+                      onClick={() => { editor?.chain().focus().unsetHighlight().run(); setShowHighlightPicker(false); }}
+                      className="w-6 h-6 rounded-full border border-gray-300 hover:scale-125 transition-transform flex items-center justify-center text-[8px] text-gray-500 bg-white"
+                      title="Xóa highlight"
+                      type="button"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Editor */}
             <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
-              <div className="border border-border rounded-md bg-background h-full overflow-auto">
+              <div className="rounded-md h-full overflow-auto" style={{ backgroundColor: theme.editorBg, border: `1px solid ${theme.border}` }}>
                 <EditorContent editor={editor} />
               </div>
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between px-3 py-2 border-t border-border text-xs text-muted-foreground">
+            <div className="flex items-center justify-between px-3 py-2 text-xs" style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
               <span>{wordCount} từ</span>
               <div className="flex items-center gap-2">
                 {selectedId && (
