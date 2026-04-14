@@ -202,6 +202,19 @@ const Dashboard = () => {
       .order("created_at", { ascending: true });
     const games = gameScores || [];
 
+    // Fetch lecture progress (completed lectures count as activities)
+    const { count: ieltsLectureCount } = await supabase
+      .from("ielts_lecture_progress")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .eq("is_completed", true);
+
+    const { count: toeicLectureCount } = await supabase
+      .from("toeic_lecture_progress")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .eq("is_completed", true);
+
     // Fetch lesson feedback count
     const { count: feedbackCount } = await supabase
       .from("lesson_feedback")
