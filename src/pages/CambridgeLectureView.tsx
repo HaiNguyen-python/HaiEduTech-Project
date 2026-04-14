@@ -1,5 +1,6 @@
 // Cambridge Lecture Detail View — Kid-friendly, Exam-ready with Learning Objectives
 import { useState, useMemo } from "react";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -55,7 +56,17 @@ const CambridgeLectureView = () => {
   const levelCfg = LEVEL_CONFIG[lecture.level];
   const quizScore = quizSubmitted ? Object.entries(quizAnswers).filter(([i, a]) => a === lecture.quiz[Number(i)]?.answer).length : 0;
 
-  const handleQuizSubmit = () => setQuizSubmitted(true);
+  const handleQuizSubmit = () => {
+    setQuizSubmitted(true);
+    const score = Object.entries(quizAnswers).filter(([i, a]) => a === lecture.quiz[Number(i)]?.answer).length;
+    logStudentActivity({
+      activityType: "cambridge_lecture_quiz",
+      activityId: lecture.id,
+      score,
+      maxScore: lecture.quiz.length,
+      domain: "english",
+    });
+  };
   const handleQuizReset = () => { setQuizAnswers({}); setQuizSubmitted(false); };
   const revealPractice = (idx: number) => setPracticeRevealed(prev => new Set(prev).add(idx));
 

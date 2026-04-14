@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -33,6 +34,13 @@ const PythonChallengePage = () => {
   const handlePass = () => {
     localStorage.setItem(`haiedu_challenge_${id}_passed`, "1");
     setCompletedCount(prev => prev + 1);
+    logStudentActivity({
+      activityType: "python_challenge",
+      activityId: id,
+      score: 10,
+      maxScore: 10,
+      domain: "programming",
+    });
   };
 
   if (!challenge) {
