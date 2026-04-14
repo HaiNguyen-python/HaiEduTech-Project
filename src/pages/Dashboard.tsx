@@ -194,6 +194,27 @@ const Dashboard = () => {
       .order("created_at", { ascending: true });
     const writingAttempts = writings || [];
 
+    // Fetch game scores
+    const { data: gameScores } = await supabase
+      .from("game_scores")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: true });
+    const games = gameScores || [];
+
+    // Fetch lecture progress (completed lectures count as activities)
+    const { count: ieltsLectureCount } = await supabase
+      .from("ielts_lecture_progress")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .eq("is_completed", true);
+
+    const { count: toeicLectureCount } = await supabase
+      .from("toeic_lecture_progress")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .eq("is_completed", true);
+
     // Fetch lesson feedback count
     const { count: feedbackCount } = await supabase
       .from("lesson_feedback")
@@ -220,10 +241,19 @@ const Dashboard = () => {
         timeSpent: null as number | null,
         metadata: null as Record<string, any> | null,
       })),
+      ...games.map((g) => ({
+        type: g.game_type,
+        domain: (g.game_type.includes("hsk") ? "chinese" : "english") as string,
+        score: g.score as number | null,
+        maxScore: 100 as number | null,
+        date: g.created_at,
+        timeSpent: g.time_spent_seconds as number | null,
+        metadata: g.metadata as Record<string, any> | null,
+      })),
     ];
 
     // Total activities
-    const totalActivities = allEvents.length + (feedbackCount || 0);
+    const totalActivities = allEvents.length + (feedbackCount || 0) + (ieltsLectureCount || 0) + (toeicLectureCount || 0);
 
     // Total time
     const totalTimeMinutes = Math.round(

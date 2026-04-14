@@ -1,5 +1,6 @@
 // Language Lesson Viewer — renders theory, vocabulary, exercises, and quiz inline
 import { useState, useEffect, useMemo } from "react";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { boldAndSanitize } from "@/lib/utils";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -276,7 +277,16 @@ const LanguageLessonView = () => {
                     <div className="glass-card rounded-xl p-6">
                       <QuizExercise
                         questions={lesson.quiz}
-                        onComplete={(score, total) => setQuizScore({ score, total })}
+                        onComplete={(score, total) => {
+                          setQuizScore({ score, total });
+                          logStudentActivity({
+                            activityType: "language_lesson_quiz",
+                            activityId: lesson.id,
+                            score,
+                            maxScore: total,
+                            domain: mod.language === "chinese" ? "chinese" : "english",
+                          });
+                        }}
                       />
                     </div>
                   )}
