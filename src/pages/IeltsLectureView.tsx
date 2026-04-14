@@ -95,7 +95,17 @@ const IeltsLectureView = () => {
     }
   };
 
-  const handleQuizSubmit = () => setQuizSubmitted(true);
+  const handleQuizSubmit = () => {
+    setQuizSubmitted(true);
+    const score = lecture.quiz.reduce((acc, q, i) => acc + (quizAnswers[i] === q.answer ? 1 : 0), 0);
+    logStudentActivity({
+      activityType: "ielts_lecture_quiz",
+      activityId: lecture.id,
+      score,
+      maxScore: lecture.quiz.length,
+      domain: "english",
+    });
+  };
   const handleQuizReset = () => { setQuizAnswers({}); setQuizSubmitted(false); };
 
   // Find next lecture
