@@ -277,7 +277,16 @@ const LanguageLessonView = () => {
                     <div className="glass-card rounded-xl p-6">
                       <QuizExercise
                         questions={lesson.quiz}
-                        onComplete={(score, total) => setQuizScore({ score, total })}
+                        onComplete={(score, total) => {
+                          setQuizScore({ score, total });
+                          logStudentActivity({
+                            activityType: "language_lesson_quiz",
+                            activityId: lesson.id,
+                            score,
+                            maxScore: total,
+                            domain: mod.language === "chinese" ? "chinese" : "english",
+                          });
+                        }}
                       />
                     </div>
                   )}
