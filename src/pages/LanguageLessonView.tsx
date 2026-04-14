@@ -1,5 +1,6 @@
 // Language Lesson Viewer — renders theory, vocabulary, exercises, and quiz inline
 import { useState, useEffect, useMemo } from "react";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { boldAndSanitize } from "@/lib/utils";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
