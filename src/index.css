@@ -198,3 +198,7 @@
   list-style: disc;
   padding-left: 1.5em;
 }
+.notebook-editor mark {
+  border-radius: 2px;
+  padding: 0 2px;
+}
