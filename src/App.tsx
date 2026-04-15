@@ -180,6 +180,7 @@ const App = () => (
           </Routes>
           <ChatBot />
           <FloatingNotebook />
+          <LastSessionRecap />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
