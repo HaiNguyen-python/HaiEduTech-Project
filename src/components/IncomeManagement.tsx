@@ -138,9 +138,34 @@ const IncomeManagement = () => {
   // Sync handler (re-fetch from DB)
   const handleSync = async () => {
     setSyncing(true);
-    await fetchData();
-    setSyncing(false);
-    toast.success(t("Đồng bộ thành công!", "Data synced successfully!"));
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData?.session?.access_token;
+      if (!token) {
+        toast.error(t("Vui lòng đăng nhập lại", "Please login again"));
+        setSyncing(false);
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke("sync-google-sheet", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (error) throw error;
+
+      await fetchData();
+
+      const msg = t(
+        `Đồng bộ thành công! Thêm mới: ${data.inserted}, Cập nhật: ${data.updated}, Bỏ qua: ${data.skipped}`,
+        `Synced! New: ${data.inserted}, Updated: ${data.updated}, Skipped: ${data.skipped}`
+      );
+      toast.success(msg);
+    } catch (err: any) {
+      console.error("Sync error:", err);
+      toast.error(t("Lỗi đồng bộ: " + (err.message || "Unknown"), "Sync error: " + (err.message || "Unknown")));
+    } finally {
+      setSyncing(false);
+    }
   };
 
   // Combine revenue_logs + tuition_records for total calculations
