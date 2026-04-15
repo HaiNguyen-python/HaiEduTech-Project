@@ -771,69 +771,69 @@ const IncomeManagement = () => {
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                   <XAxis dataKey="year" />
                   <YAxis tickFormatter={(v) => `${(v / 1000000).toFixed(0)}M`} />
-                  <Tooltip
-                    content={({ active, payload, label }) => {
-                      if (!active || !payload?.length) return null;
-                      const isForecast = label === "2026";
-                      const value = payload[0]?.value as number;
-                      return (
-                        <div className="rounded-lg border bg-background px-3 py-2 shadow-xl text-xs">
-                          <p className="font-semibold mb-1">{label}</p>
-                          <p className="text-emerald-600 font-mono font-medium">
-                            {formatCurrency(value)}
-                          </p>
-                          {isForecast && forecast.current2026 && (
-                            <p className="text-blue-500 font-mono text-[11px]">
-                              {t("Hiện tại", "Current")}: {formatCurrency(forecast.current2026)}
+                    <Tooltip
+                      content={({ active, payload, label }) => {
+                        if (!active || !payload?.length) return null;
+                        const isForecast = label === forecast.forecastYear;
+                        const value = payload[0]?.value as number;
+                        return (
+                          <div className="rounded-lg border bg-background px-3 py-2 shadow-xl text-xs">
+                            <p className="font-semibold mb-1">{label}</p>
+                            <p className="text-emerald-600 font-mono font-medium">
+                              {formatCurrency(value)}
                             </p>
-                          )}
-                          {isForecast && (
-                            <p className="text-muted-foreground mt-1 text-[11px] max-w-[200px]">
-                              {t(
-                                `Dự báo dựa trên tốc độ tăng trưởng trung bình ${forecast.avgGrowthRate.toFixed(1)}%`,
-                                `Forecast based on avg growth rate of ${forecast.avgGrowthRate.toFixed(1)}%`
-                              )}
-                            </p>
-                          )}
-                        </div>
-                      );
-                    }}
-                  />
-                  <Legend />
-                  <Bar dataKey="actual" name={t("Thực tế", "Actual")} fill="#10b981" radius={[6, 6, 0, 0]} barSize={40} />
-                  <Bar dataKey="current2026" name={t("Hiện tại 2026", "Current 2026")} fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} />
-                  <Bar dataKey="forecast" name={t("Dự báo", "Forecast")} fill="#f59e0b" radius={[6, 6, 0, 0]} barSize={40} opacity={0.7} strokeDasharray="5 5" stroke="#f59e0b" />
-                  <Line dataKey="trend" name={t("Xu hướng", "Trend")} type="monotone" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4, fill: "#3b82f6" }} activeDot={{ r: 6 }} />
-                </ComposedChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+                            {isForecast && forecast.currentYearAmount && (
+                              <p className="text-blue-500 font-mono text-[11px]">
+                                {t("Hiện tại", "Current")}: {formatCurrency(forecast.currentYearAmount)}
+                              </p>
+                            )}
+                            {isForecast && (
+                              <p className="text-muted-foreground mt-1 text-[11px] max-w-[200px]">
+                                {t(
+                                  `Dự báo dựa trên tốc độ tăng trưởng trung bình ${forecast.avgGrowthRate.toFixed(1)}%`,
+                                  `Forecast based on avg growth rate of ${forecast.avgGrowthRate.toFixed(1)}%`
+                                )}
+                              </p>
+                            )}
+                          </div>
+                        );
+                      }}
+                    />
+                    <Legend />
+                    <Bar dataKey="actual" name={t("Thực tế", "Actual")} fill="#10b981" radius={[6, 6, 0, 0]} barSize={40} />
+                    <Bar dataKey="currentYearAmount" name={t(`Hiện tại ${forecast.forecastYear}`, `Current ${forecast.forecastYear}`)} fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} />
+                    <Bar dataKey="forecast" name={t("Dự báo", "Forecast")} fill="#f59e0b" radius={[6, 6, 0, 0]} barSize={40} opacity={0.7} strokeDasharray="5 5" stroke="#f59e0b" />
+                    <Line dataKey="trend" name={t("Xu hướng", "Trend")} type="monotone" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4, fill: "#3b82f6" }} activeDot={{ r: 6 }} />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
 
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
-            <Card className="h-full border-t-4 border-t-violet-500">
-              <CardHeader>
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Brain className="w-4 h-4 text-violet-500" />
-                  {t("Phân tích AI", "AI Insights")}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-5">
-                <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 p-4 space-y-1">
-                  <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
-                    <Target className="w-4 h-4" />
-                    <span className="text-xs font-semibold uppercase tracking-wider">{t("Mục tiêu 2026", "Target 2026")}</span>
-                  </div>
-                  <p className="text-xl font-bold text-amber-700 dark:text-amber-300">{formatCurrency(forecast.amount)}</p>
-                  {forecast.current2026 && (
-                    <div className="flex items-center gap-2">
-                      <p className="text-xs text-blue-600 font-medium">
-                        {t("Hiện tại", "Current")}: {formatCurrency(forecast.current2026)}
-                      </p>
-                      <Badge variant="outline" className="text-[10px]">
-                        {((forecast.current2026 / forecast.amount) * 100).toFixed(0)}%
-                      </Badge>
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
+              <Card className="h-full border-t-4 border-t-violet-500">
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Brain className="w-4 h-4 text-violet-500" />
+                    {t("Phân tích AI", "AI Insights")}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-5">
+                  <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 p-4 space-y-1">
+                    <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                      <Target className="w-4 h-4" />
+                      <span className="text-xs font-semibold uppercase tracking-wider">{t("Mục tiêu 2026", "Target 2026")}</span>
                     </div>
-                  )}
+                    <p className="text-xl font-bold text-amber-700 dark:text-amber-300">{formatCurrency(forecast.amount)}</p>
+                    {forecast.currentYearAmount && (
+                      <div className="flex items-center gap-2">
+                        <p className="text-xs text-blue-600 font-medium">
+                          {t("Hiện tại", "Current")}: {formatCurrency(forecast.currentYearAmount)}
+                        </p>
+                        <Badge variant="outline" className="text-[10px]">
+                          {((forecast.currentYearAmount / forecast.amount) * 100).toFixed(0)}%
+                        </Badge>
+                      </div>
+                    )}
                   <p className="text-xs text-muted-foreground">
                     {t(`Tăng trưởng TB: ${forecast.avgGrowthRate >= 0 ? "+" : ""}${forecast.avgGrowthRate.toFixed(1)}%/năm`, `Avg growth: ${forecast.avgGrowthRate >= 0 ? "+" : ""}${forecast.avgGrowthRate.toFixed(1)}%/year`)}
                   </p>
