@@ -55,6 +55,11 @@ interface TuitionRecord {
   created_at: string;
 }
 
+interface YearlyIncomeSummary {
+  year: number;
+  amount: number;
+}
+
 // Color palette for charts
 const CHART_COLORS = ["#10b981", "#3b82f6", "#f59e0b", "#8b5cf6", "#ef4444", "#06b6d4"];
 
@@ -68,6 +73,19 @@ const PAYMENT_METHODS = [
   { value: "momo", label: "MoMo", labelEn: "MoMo" },
   { value: "other", label: "Khác", labelEn: "Other" },
 ];
+
+const normalizeYearlyIncomeSummary = (items: unknown): YearlyIncomeSummary[] => {
+  if (!Array.isArray(items)) return [];
+
+  return items
+    .filter((item): item is YearlyIncomeSummary => (
+      typeof item === "object" &&
+      item !== null &&
+      typeof (item as YearlyIncomeSummary).year === "number" &&
+      typeof (item as YearlyIncomeSummary).amount === "number"
+    ))
+    .sort((a, b) => a.year - b.year);
+};
 
 // Format Vietnamese currency
 const formatCurrency = (val: number) =>
@@ -87,6 +105,7 @@ const IncomeManagement = () => {
   const { t } = useLanguage();
   const [logs, setLogs] = useState<RevenueLog[]>([]);
   const [tuitionRecords, setTuitionRecords] = useState<TuitionRecord[]>([]);
+  const [yearlyIncomeSummary, setYearlyIncomeSummary] = useState<YearlyIncomeSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
   const [search, setSearch] = useState("");
@@ -106,7 +125,6 @@ const IncomeManagement = () => {
   const [formMethod, setFormMethod] = useState("bank_transfer");
   const [formNote, setFormNote] = useState("");
 
-  // Fetch revenue logs
   const fetchData = useCallback(async () => {
     setLoading(true);
     const [{ data: revData }, { data: tuiData }] = await Promise.all([
@@ -118,24 +136,42 @@ const IncomeManagement = () => {
     setLoading(false);
   }, []);
 
+  const fetchSheetIncomeSummary = useCallback(async () => {
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData?.session?.access_token;
+      if (!token) return;
+
+      const { data, error } = await supabase.functions.invoke("sync-google-sheet", {
+        body: { summaryOnly: true },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (error) throw error;
+      setYearlyIncomeSummary(normalizeYearlyIncomeSummary(data?.yearly_income));
+    } catch (err) {
+      console.error("Summary sync error:", err);
+    }
+  }, []);
+
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    fetchSheetIncomeSummary();
+  }, [fetchData, fetchSheetIncomeSummary]);
 
-  // Realtime subscription for tuition_records
   useEffect(() => {
     const channel = supabase
       .channel("tuition_records_realtime")
       .on("postgres_changes", { event: "*", schema: "public", table: "tuition_records" }, () => {
-        // Re-fetch all data when tuition records change
         fetchData();
       })
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchData]);
 
-  // Sync handler (re-fetch from DB)
   const handleSync = async () => {
     setSyncing(true);
     try {
@@ -154,6 +190,7 @@ const IncomeManagement = () => {
       if (error) throw error;
 
       await fetchData();
+      setYearlyIncomeSummary(normalizeYearlyIncomeSummary(data?.yearly_income));
 
       const msg = t(
         `Đồng bộ thành công! Tổng từ Sheet: ${data.total_sheet_rows}, Đã nhập: ${data.inserted}`,
@@ -168,126 +205,136 @@ const IncomeManagement = () => {
     }
   };
 
-  // Combine revenue_logs + tuition_records for total calculations
-  const allRevenue = useMemo(() => {
-    // Add tuition records as additional revenue entries
-    const tuitionByYear: Record<number, number> = {};
-    tuitionRecords.forEach((r) => {
-      tuitionByYear[r.payment_year] = (tuitionByYear[r.payment_year] || 0) + Number(r.amount);
+  const dbRevenueByYear = useMemo(() => {
+    const totals = new Map<number, number>();
+
+    logs.forEach((log) => {
+      totals.set(log.payment_year, (totals.get(log.payment_year) || 0) + Number(log.amount));
     });
-    return { tuitionByYear };
-  }, [tuitionRecords]);
 
-  // Derived data
-  const totalRevenue = logs.reduce((s, l) => s + Number(l.amount), 0) +
-    tuitionRecords.reduce((s, r) => s + Number(r.amount), 0);
-  const years = [...new Set([...logs.map((l) => l.payment_year), ...tuitionRecords.map(r => r.payment_year)])].sort();
-  const courses = [...new Set([...logs.map((l) => l.course), ...tuitionRecords.map(r => r.course)])];
+    tuitionRecords.forEach((record) => {
+      totals.set(record.payment_year, (totals.get(record.payment_year) || 0) + Number(record.amount));
+    });
 
-  const revenueByYear = years.map((y) => ({
-    year: String(y),
-    amount: logs.filter((l) => l.payment_year === y).reduce((s, l) => s + Number(l.amount), 0) +
-      (allRevenue.tuitionByYear[y] || 0),
-  }));
+    return Array.from(totals.entries())
+      .map(([year, amount]) => ({ year: String(year), amount }))
+      .sort((a, b) => Number(a.year) - Number(b.year));
+  }, [logs, tuitionRecords]);
 
-  // Growth rates between consecutive years
+  const years = [...new Set([...logs.map((l) => l.payment_year), ...tuitionRecords.map((r) => r.payment_year)])].sort((a, b) => a - b);
+  const courses = [...new Set([...logs.map((l) => l.course), ...tuitionRecords.map((r) => r.course)])].sort();
+
+  const revenueByYear = useMemo(() => {
+    if (yearlyIncomeSummary.length > 0) {
+      return yearlyIncomeSummary.map((item) => ({
+        year: String(item.year),
+        amount: Number(item.amount),
+      }));
+    }
+
+    return dbRevenueByYear;
+  }, [dbRevenueByYear, yearlyIncomeSummary]);
+
+  const totalRevenue = revenueByYear.reduce((sum, item) => sum + item.amount, 0);
+
   const growthRates = revenueByYear.map((item, i) => {
     if (i === 0) return { ...item, growth: null };
     const prev = revenueByYear[i - 1].amount;
     return { ...item, growth: prev > 0 ? ((item.amount - prev) / prev) * 100 : null };
   });
 
-  // Revenue forecast calculation
   const forecast = useMemo(() => {
     if (revenueByYear.length < 2) return null;
 
+    const hasCurrent2026 = revenueByYear.some((item) => item.year === "2026");
+    const forecastYear = hasCurrent2026
+      ? "2026"
+      : String(Number(revenueByYear[revenueByYear.length - 1].year) + 1);
+
+    const historicalSeries = revenueByYear.filter((item) => item.year !== forecastYear);
+    const baseSeries = historicalSeries.length >= 2 ? historicalSeries : revenueByYear;
+    if (baseSeries.length < 2) return null;
+
     const yoyRates: number[] = [];
-    for (let i = 1; i < revenueByYear.length; i++) {
-      const prev = revenueByYear[i - 1].amount;
+    for (let i = 1; i < baseSeries.length; i++) {
+      const prev = baseSeries[i - 1].amount;
       if (prev > 0) {
-        yoyRates.push((revenueByYear[i].amount - prev) / prev);
+        yoyRates.push((baseSeries[i].amount - prev) / prev);
       }
     }
     if (yoyRates.length === 0) return null;
 
-    const avgGrowth = yoyRates.reduce((s, r) => s + r, 0) / yoyRates.length;
-    const variance = yoyRates.reduce((s, r) => s + (r - avgGrowth) ** 2, 0) / yoyRates.length;
+    const avgGrowth = yoyRates.reduce((sum, rate) => sum + rate, 0) / yoyRates.length;
+    const variance = yoyRates.reduce((sum, rate) => sum + (rate - avgGrowth) ** 2, 0) / yoyRates.length;
     const stdDev = Math.sqrt(variance);
     const isConsistent = stdDev < Math.abs(avgGrowth) * 0.5;
 
     let forecastAmount: number;
-    const lastYearAmount = revenueByYear[revenueByYear.length - 1].amount;
+    const lastYearAmount = baseSeries[baseSeries.length - 1].amount;
 
     if (isConsistent) {
       forecastAmount = lastYearAmount * (1 + avgGrowth);
     } else {
-      const n = revenueByYear.length;
-      const xValues = revenueByYear.map((_, i) => i);
-      const yValues = revenueByYear.map((d) => d.amount);
-      const sumX = xValues.reduce((s, x) => s + x, 0);
-      const sumY = yValues.reduce((s, y) => s + y, 0);
-      const sumXY = xValues.reduce((s, x, i) => s + x * yValues[i], 0);
-      const sumX2 = xValues.reduce((s, x) => s + x * x, 0);
+      const n = baseSeries.length;
+      const xValues = baseSeries.map((_, i) => i);
+      const yValues = baseSeries.map((d) => d.amount);
+      const sumX = xValues.reduce((sum, x) => sum + x, 0);
+      const sumY = yValues.reduce((sum, y) => sum + y, 0);
+      const sumXY = xValues.reduce((sum, x, i) => sum + x * yValues[i], 0);
+      const sumX2 = xValues.reduce((sum, x) => sum + x * x, 0);
       const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
       const intercept = (sumY - slope * sumX) / n;
       forecastAmount = intercept + slope * n;
     }
 
-    // Check if 2026 already exists in data - if so, show both actual and forecast
-    const has2026 = revenueByYear.some(d => d.year === "2026");
-    const actual2026 = has2026 ? revenueByYear.find(d => d.year === "2026")!.amount : null;
+    const currentYearAmount = revenueByYear.find((item) => item.year === forecastYear)?.amount ?? null;
 
-    const chartData = revenueByYear
-      .filter(d => d.year !== "2026") // Exclude 2026 from actuals for chart
-      .map((d) => ({
-        year: d.year,
-        actual: d.amount,
-        forecast: null as number | null,
-        current2026: null as number | null,
-        trend: d.amount,
-      }));
+    const chartData = baseSeries.map((item) => ({
+      year: item.year,
+      actual: item.amount,
+      forecast: null as number | null,
+      currentYearAmount: null as number | null,
+      trend: item.amount,
+    }));
 
     chartData.push({
-      year: "2026",
+      year: forecastYear,
       actual: null,
       forecast: Math.round(forecastAmount),
-      current2026: actual2026,
+      currentYearAmount,
       trend: Math.round(forecastAmount),
     });
 
     return {
       amount: Math.round(forecastAmount),
-      current2026: actual2026,
+      currentYearAmount,
+      forecastYear,
       avgGrowthRate: avgGrowth * 100,
       method: isConsistent ? "average" : "regression",
       chartData,
     };
   }, [revenueByYear]);
 
-  // Pie chart: revenue by course
-  const revenueByCourse = courses.map((c) => ({
-    name: c,
-    value: logs.filter((l) => l.course === c).reduce((s, l) => s + Number(l.amount), 0) +
-      tuitionRecords.filter((r) => r.course === c).reduce((s, r) => s + Number(r.amount), 0),
+  const revenueByCourse = courses.map((course) => ({
+    name: course,
+    value: logs.filter((log) => log.course === course).reduce((sum, log) => sum + Number(log.amount), 0) +
+      tuitionRecords.filter((record) => record.course === course).reduce((sum, record) => sum + Number(record.amount), 0),
   })).sort((a, b) => b.value - a.value);
 
-  // Filtered table data
-  const filtered = logs.filter((l) => {
-    const matchSearch = l.student_name.toLowerCase().includes(search.toLowerCase());
-    const matchYear = yearFilter === "all" || l.payment_year === Number(yearFilter);
-    const matchCourse = courseFilter === "all" || l.course === courseFilter;
+  const filtered = logs.filter((log) => {
+    const matchSearch = log.student_name.toLowerCase().includes(search.toLowerCase());
+    const matchYear = yearFilter === "all" || log.payment_year === Number(yearFilter);
+    const matchCourse = courseFilter === "all" || log.course === courseFilter;
     return matchSearch && matchYear && matchCourse;
   });
 
-  // KPI stats
-  const kpiMetCount = new Set(logs.filter((l) => l.kpi_met).map((l) => l.student_name)).size;
-  const totalStudents = new Set(logs.map((l) => l.student_name)).size;
+  const kpiMetCount = new Set(logs.filter((log) => log.kpi_met).map((log) => log.student_name)).size;
+  const totalStudents = new Set(logs.map((log) => log.student_name)).size;
 
-  // Export CSV
   const handleExport = () => {
     const header = "Student,Course,Year,Amount,Status,KPI\n";
     const rows = filtered
-      .map((l) => `"${l.student_name}","${l.course}",${l.payment_year},${l.amount},${l.status},${l.kpi_met}`)
+      .map((log) => `"${log.student_name}","${log.course}",${log.payment_year},${log.amount},${log.status},${log.kpi_met}`)
       .join("\n");
     const blob = new Blob([header + rows], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
@@ -724,69 +771,69 @@ const IncomeManagement = () => {
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                   <XAxis dataKey="year" />
                   <YAxis tickFormatter={(v) => `${(v / 1000000).toFixed(0)}M`} />
-                  <Tooltip
-                    content={({ active, payload, label }) => {
-                      if (!active || !payload?.length) return null;
-                      const isForecast = label === "2026";
-                      const value = payload[0]?.value as number;
-                      return (
-                        <div className="rounded-lg border bg-background px-3 py-2 shadow-xl text-xs">
-                          <p className="font-semibold mb-1">{label}</p>
-                          <p className="text-emerald-600 font-mono font-medium">
-                            {formatCurrency(value)}
-                          </p>
-                          {isForecast && forecast.current2026 && (
-                            <p className="text-blue-500 font-mono text-[11px]">
-                              {t("Hiện tại", "Current")}: {formatCurrency(forecast.current2026)}
+                    <Tooltip
+                      content={({ active, payload, label }) => {
+                        if (!active || !payload?.length) return null;
+                        const isForecast = label === forecast.forecastYear;
+                        const value = payload[0]?.value as number;
+                        return (
+                          <div className="rounded-lg border bg-background px-3 py-2 shadow-xl text-xs">
+                            <p className="font-semibold mb-1">{label}</p>
+                            <p className="text-emerald-600 font-mono font-medium">
+                              {formatCurrency(value)}
                             </p>
-                          )}
-                          {isForecast && (
-                            <p className="text-muted-foreground mt-1 text-[11px] max-w-[200px]">
-                              {t(
-                                `Dự báo dựa trên tốc độ tăng trưởng trung bình ${forecast.avgGrowthRate.toFixed(1)}%`,
-                                `Forecast based on avg growth rate of ${forecast.avgGrowthRate.toFixed(1)}%`
-                              )}
-                            </p>
-                          )}
-                        </div>
-                      );
-                    }}
-                  />
-                  <Legend />
-                  <Bar dataKey="actual" name={t("Thực tế", "Actual")} fill="#10b981" radius={[6, 6, 0, 0]} barSize={40} />
-                  <Bar dataKey="current2026" name={t("Hiện tại 2026", "Current 2026")} fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} />
-                  <Bar dataKey="forecast" name={t("Dự báo", "Forecast")} fill="#f59e0b" radius={[6, 6, 0, 0]} barSize={40} opacity={0.7} strokeDasharray="5 5" stroke="#f59e0b" />
-                  <Line dataKey="trend" name={t("Xu hướng", "Trend")} type="monotone" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4, fill: "#3b82f6" }} activeDot={{ r: 6 }} />
-                </ComposedChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+                            {isForecast && forecast.currentYearAmount && (
+                              <p className="text-blue-500 font-mono text-[11px]">
+                                {t("Hiện tại", "Current")}: {formatCurrency(forecast.currentYearAmount)}
+                              </p>
+                            )}
+                            {isForecast && (
+                              <p className="text-muted-foreground mt-1 text-[11px] max-w-[200px]">
+                                {t(
+                                  `Dự báo dựa trên tốc độ tăng trưởng trung bình ${forecast.avgGrowthRate.toFixed(1)}%`,
+                                  `Forecast based on avg growth rate of ${forecast.avgGrowthRate.toFixed(1)}%`
+                                )}
+                              </p>
+                            )}
+                          </div>
+                        );
+                      }}
+                    />
+                    <Legend />
+                    <Bar dataKey="actual" name={t("Thực tế", "Actual")} fill="#10b981" radius={[6, 6, 0, 0]} barSize={40} />
+                    <Bar dataKey="currentYearAmount" name={t(`Hiện tại ${forecast.forecastYear}`, `Current ${forecast.forecastYear}`)} fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} />
+                    <Bar dataKey="forecast" name={t("Dự báo", "Forecast")} fill="#f59e0b" radius={[6, 6, 0, 0]} barSize={40} opacity={0.7} strokeDasharray="5 5" stroke="#f59e0b" />
+                    <Line dataKey="trend" name={t("Xu hướng", "Trend")} type="monotone" stroke="#3b82f6" strokeWidth={2} dot={{ r: 4, fill: "#3b82f6" }} activeDot={{ r: 6 }} />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
 
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
-            <Card className="h-full border-t-4 border-t-violet-500">
-              <CardHeader>
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Brain className="w-4 h-4 text-violet-500" />
-                  {t("Phân tích AI", "AI Insights")}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-5">
-                <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 p-4 space-y-1">
-                  <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
-                    <Target className="w-4 h-4" />
-                    <span className="text-xs font-semibold uppercase tracking-wider">{t("Mục tiêu 2026", "Target 2026")}</span>
-                  </div>
-                  <p className="text-xl font-bold text-amber-700 dark:text-amber-300">{formatCurrency(forecast.amount)}</p>
-                  {forecast.current2026 && (
-                    <div className="flex items-center gap-2">
-                      <p className="text-xs text-blue-600 font-medium">
-                        {t("Hiện tại", "Current")}: {formatCurrency(forecast.current2026)}
-                      </p>
-                      <Badge variant="outline" className="text-[10px]">
-                        {((forecast.current2026 / forecast.amount) * 100).toFixed(0)}%
-                      </Badge>
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
+              <Card className="h-full border-t-4 border-t-violet-500">
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Brain className="w-4 h-4 text-violet-500" />
+                    {t("Phân tích AI", "AI Insights")}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-5">
+                  <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 p-4 space-y-1">
+                    <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                      <Target className="w-4 h-4" />
+                      <span className="text-xs font-semibold uppercase tracking-wider">{t("Mục tiêu 2026", "Target 2026")}</span>
                     </div>
-                  )}
+                    <p className="text-xl font-bold text-amber-700 dark:text-amber-300">{formatCurrency(forecast.amount)}</p>
+                    {forecast.currentYearAmount && (
+                      <div className="flex items-center gap-2">
+                        <p className="text-xs text-blue-600 font-medium">
+                          {t("Hiện tại", "Current")}: {formatCurrency(forecast.currentYearAmount)}
+                        </p>
+                        <Badge variant="outline" className="text-[10px]">
+                          {((forecast.currentYearAmount / forecast.amount) * 100).toFixed(0)}%
+                        </Badge>
+                      </div>
+                    )}
                   <p className="text-xs text-muted-foreground">
                     {t(`Tăng trưởng TB: ${forecast.avgGrowthRate >= 0 ? "+" : ""}${forecast.avgGrowthRate.toFixed(1)}%/năm`, `Avg growth: ${forecast.avgGrowthRate >= 0 ? "+" : ""}${forecast.avgGrowthRate.toFixed(1)}%/year`)}
                   </p>
