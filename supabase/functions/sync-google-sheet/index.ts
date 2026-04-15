@@ -124,7 +124,7 @@ serve(async (req) => {
 
       // Year-amount mappings from sheet columns
       const yearAmounts: [number, string][] = [
-        [2022, cols[6] || ""],   // Tổng HP 2022 (col 6)
+        [2022, cols[5] || ""],   // Học phí đã đóng trong năm 2022 (col 5)
         [2023, cols[7] || ""],   // HP 2023 (col 7)
         [2024, cols[9] || ""],   // HP 2024 (col 9)
         [2025, cols[10] || ""],  // HP 2025 (col 10)
