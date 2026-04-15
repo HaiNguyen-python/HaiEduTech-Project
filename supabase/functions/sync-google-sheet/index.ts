@@ -7,6 +7,22 @@ const corsHeaders = {
 };
 
 const SHEET_ID = "1BpU2nN9_yqFHjXOS7hlFOpXv9-4NrRZNqbvnVzrBWBU";
+const SUMMARY_SHEET_NAME = "Tổng thu - chi";
+
+interface RevenueRecord {
+  student_name: string;
+  course: string;
+  payment_year: number;
+  amount: number;
+  status: string;
+  kpi_met: boolean;
+  notes: string | null;
+}
+
+interface YearlyIncomeSummary {
+  year: number;
+  amount: number;
+}
 
 function parseVndAmount(raw: string): number {
   if (!raw) return 0;
@@ -18,6 +34,7 @@ function parseCSVLine(line: string): string[] {
   const result: string[] = [];
   let current = "";
   let inQuotes = false;
+
   for (let i = 0; i < line.length; i++) {
     const ch = line[i];
     if (ch === '"') {
@@ -34,8 +51,47 @@ function parseCSVLine(line: string): string[] {
       current += ch;
     }
   }
+
   result.push(current.trim());
   return result;
+}
+
+function parseYearFromSectionLabel(label: string): number | null {
+  const match = label.match(/năm\s*(\d{4})/i);
+  if (!match) return null;
+  const year = parseInt(match[1], 10);
+  return Number.isFinite(year) ? year : null;
+}
+
+function parseYearlyIncomeSummary(csvText: string): YearlyIncomeSummary[] {
+  const lines = csvText.split(/\r?\n/).filter((line) => line.trim());
+  const summary = new Map<number, number>();
+  let currentYear: number | null = null;
+
+  for (const line of lines) {
+    const cols = parseCSVLine(line);
+    const label = (cols[0] || "").trim();
+    const amountText = (cols[1] || "").trim();
+
+    const detectedYear = parseYearFromSectionLabel(label);
+    if (detectedYear) {
+      currentYear = detectedYear;
+      continue;
+    }
+
+    if (!currentYear) continue;
+
+    if (label.toLowerCase() === "tổng") {
+      const amount = parseVndAmount(amountText);
+      if (amount > 0) {
+        summary.set(currentYear, amount);
+      }
+    }
+  }
+
+  return Array.from(summary.entries())
+    .map(([year, amount]) => ({ year, amount }))
+    .sort((a, b) => a.year - b.year);
 }
 
 serve(async (req) => {
@@ -48,87 +104,103 @@ serve(async (req) => {
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-    // Auth check
+    let summaryOnly = false;
+    const contentType = req.headers.get("content-type") || "";
+    if (contentType.includes("application/json")) {
+      try {
+        const body = await req.json();
+        summaryOnly = body?.summaryOnly === true;
+      } catch {
+        summaryOnly = false;
+      }
+    }
+
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
     const token = authHeader.replace("Bearer ", "");
     const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey, {
       global: { headers: { Authorization: authHeader } },
     });
+
     const { data: userData, error: userError } = await supabaseAuth.auth.getUser(token);
     if (userError || !userData?.user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
     const { data: roleCheck } = await supabaseAdmin.rpc("has_role", {
-      _user_id: userData.user.id, _role: "teacher",
+      _user_id: userData.user.id,
+      _role: "teacher",
     });
+
     if (!roleCheck) {
       const { data: adminCheck } = await supabaseAdmin.rpc("has_role", {
-        _user_id: userData.user.id, _role: "admin",
+        _user_id: userData.user.id,
+        _role: "admin",
       });
+
       if (!adminCheck) {
         return new Response(JSON.stringify({ error: "Forbidden" }), {
-          status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
     }
 
-    // Fetch FULL CSV using export endpoint (not gviz which filters)
+    const summaryCsvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SUMMARY_SHEET_NAME)}`;
+    const summaryRes = await fetch(summaryCsvUrl);
+    if (!summaryRes.ok) {
+      throw new Error(`Failed to fetch summary sheet: ${summaryRes.status}`);
+    }
+
+    const yearlyIncome = parseYearlyIncomeSummary(await summaryRes.text());
+
+    if (summaryOnly) {
+      return new Response(
+        JSON.stringify({ success: true, yearly_income: yearlyIncome }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
     const csvRes = await fetch(csvUrl);
     if (!csvRes.ok) {
       throw new Error(`Failed to fetch sheet: ${csvRes.status}`);
     }
+
     const csvText = await csvRes.text();
-    const lines = csvText.split("\n").filter((l) => l.trim());
+    const lines = csvText.split(/\r?\n/).filter((line) => line.trim());
 
-    // Header: STT, Họ & Tên, Ngày sinh, Chương trình học, Thời gian,
-    //         Học phí 2022, Tổng HP 2022, Học phí 2023, KPI,
-    //         Học phí 2024, Học phí 2025, Học phí 2026, KPI 2025, ...
-    // Columns: 0=STT, 1=Name, 2=DOB, 3=Course, 4=Timeline,
-    //          5=HP2022, 6=TotalHP2022, 7=HP2023, 8=KPI,
-    //          9=HP2024, 10=HP2025, 11=HP2026, 12=KPI2025
-
-    const records: Array<{
-      student_name: string;
-      course: string;
-      payment_year: number;
-      amount: number;
-      status: string;
-      kpi_met: boolean;
-      notes: string | null;
-    }> = [];
+    const records: RevenueRecord[] = [];
 
     for (let i = 1; i < lines.length; i++) {
       const cols = parseCSVLine(lines[i]);
       const stt = cols[0] || "";
       const name = cols[1] || "";
 
-      // Skip empty/summary rows
-      if (!name || name === "") continue;
-      // STT must be a number (skip "Tổng:", etc.)
-      if (!stt || isNaN(parseInt(stt))) continue;
+      if (!name) continue;
+      if (!stt || Number.isNaN(parseInt(stt, 10))) continue;
 
       const course = cols[3] || "IELTS FOUNDATION";
       const timeline = cols[4] || "";
       const kpi2025Str = (cols[12] || "").toLowerCase();
       const kpiMet = kpi2025Str === "yes";
 
-      // Year-amount mappings from sheet columns
       const yearAmounts: [number, string][] = [
-        [2022, cols[5] || ""],   // Học phí đã đóng trong năm 2022 (col 5)
-        [2023, cols[7] || ""],   // HP 2023 (col 7)
-        [2024, cols[9] || ""],   // HP 2024 (col 9)
-        [2025, cols[10] || ""],  // HP 2025 (col 10)
-        [2026, cols[11] || ""],  // HP 2026 (col 11)
+        [2022, cols[5] || ""],
+        [2023, cols[7] || ""],
+        [2024, cols[9] || ""],
+        [2025, cols[10] || ""],
+        [2026, cols[11] || ""],
       ];
 
       for (const [year, rawAmount] of yearAmounts) {
@@ -147,13 +219,11 @@ serve(async (req) => {
       }
     }
 
-    // Strategy: Delete ALL existing revenue_logs, then re-insert fresh data from sheet
     await supabaseAdmin
       .from("revenue_logs")
       .delete()
       .neq("id", "00000000-0000-0000-0000-000000000000");
 
-    // 3. Insert all fresh records from sheet
     let inserted = 0;
     const batchSize = 50;
     for (let i = 0; i < records.length; i += batchSize) {
@@ -171,14 +241,15 @@ serve(async (req) => {
         success: true,
         total_sheet_rows: records.length,
         inserted,
+        yearly_income: yearlyIncome,
       }),
-      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     console.error("sync-google-sheet error:", error);
     return new Response(
       JSON.stringify({ error: error.message || "Internal error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });
