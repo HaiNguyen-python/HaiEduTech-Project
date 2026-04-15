@@ -1,55 +1,47 @@
 
 
-## Plan: Highlight + Đổi màu giao diện sổ tay + Sửa Study Streak
+## Plan: Bảng tổng kết "Buổi học trước" khi đăng nhập
 
-### 1. Thêm Highlight text trong sổ tay
+### Ý tưởng
 
-- Cài thêm `@tiptap/extension-highlight` 
-- Thêm extension vào editor config
-- Thêm nút Highlight (icon `Highlighter`) vào toolbar với dropdown chọn màu highlight (vàng, xanh, hồng, cam)
-- Thêm CSS cho `.notebook-editor mark` để hiển thị đúng
+Khi học viên đăng nhập, hiển thị một Dialog/Modal tổng kết những gì đã học trong phiên trước (lần cuối hoạt động), bao gồm:
+- Từ vựng đã luyện
+- Bài học/bài giảng đã hoàn thành
+- Bài tập/quiz đã làm (kèm điểm)
+- Ghi chú gần nhất
 
-### 2. Đổi màu giao diện (theme) sổ tay
+Modal chỉ hiển thị 1 lần mỗi phiên đăng nhập.
 
-- Thêm state `notebookTheme` với 5-6 preset: Default, Cream, Dark, Blue, Green, Pink
-- Mỗi theme định nghĩa `bg`, `headerBg`, `borderColor`, `textColor`
-- Thêm nút đổi theme (icon nhỏ) cạnh nút reset vị trí trên header
-- Apply theme colors vào panel container, header, editor area thông qua inline styles
+### Cách hoạt động
 
-### 3. Sửa Study Streak Ranking
+1. Khi user đăng nhập (auth state change → `SIGNED_IN`), lưu timestamp `lastSessionRecapShown` vào `sessionStorage`
+2. Nếu chưa có `lastSessionRecapShown` trong session hiện tại → fetch dữ liệu và hiển thị modal
+3. Fetch dữ liệu từ 4 nguồn:
+   - `student_activity_log` — 10 hoạt động gần nhất (quiz, bài tập, vocab)
+   - `writing_attempts` — 3 bài viết gần nhất
+   - `student_notebooks` — 3 ghi chú gần nhất
+   - `ielts_lecture_progress` + `toeic_lecture_progress` — bài giảng đã hoàn thành gần nhất
+4. Hiển thị trong Dialog đẹp với các tab/section: Bài học, Bài tập, Từ vựng, Ghi chú
 
-**Vấn đề**: Function `get_streak_leaderboard` dùng logic `generate_series` lồng nhau rất phức tạp và không chính xác — nếu user không hoạt động hôm nay thì streak = 0 dù hôm qua vẫn hoạt động.
-
-**Giải pháp**: Viết lại function đơn giản hơn:
-- Lấy danh sách ngày hoạt động riêng biệt cho mỗi user
-- Tính streak bằng cách đếm ngược từ hôm nay (hoặc hôm qua nếu chưa hoạt động hôm nay) — mỗi ngày liên tiếp tăng streak
-- Dùng recursive CTE hoặc window function `LAG` để phát hiện gap giữa các ngày
-
-```sql
--- Tính streak: đếm ngược từ ngày gần nhất, dừng khi gặp gap > 1
-WITH user_dates AS (
-  SELECT user_id AS uid, DATE(created_at) AS d
-  FROM student_activity_log
-  GROUP BY user_id, DATE(created_at)
-),
-numbered AS (
-  SELECT uid, d, d - (ROW_NUMBER() OVER (PARTITION BY uid ORDER BY d))::int AS grp
-  FROM user_dates
-),
-streaks AS (
-  SELECT uid, grp, COUNT(*)::int AS len, MAX(d) AS last_day
-  FROM numbered GROUP BY uid, grp
-)
--- Chỉ lấy streak có last_day = today hoặc yesterday
-SELECT ... FROM streaks WHERE last_day >= CURRENT_DATE - 1
-```
-
-### Files cần sửa
+### Files cần tạo/sửa
 
 | File | Thay đổi |
 |------|----------|
-| `package.json` | Thêm `@tiptap/extension-highlight` |
-| `src/components/FloatingNotebook.tsx` | Thêm highlight extension, nút highlight, theme switcher |
-| `src/index.css` | CSS cho highlight marks |
-| Migration SQL | Viết lại `get_streak_leaderboard` function |
+| `src/components/LastSessionRecap.tsx` | **Tạo mới** — Component modal tổng kết phiên trước |
+| `src/App.tsx` | Thêm `<LastSessionRecap />` vào layout chính (cạnh ChatBot, FloatingNotebook) |
+
+### Chi tiết kỹ thuật
+
+**LastSessionRecap component:**
+- Lắng nghe `onAuthStateChange` → khi `SIGNED_IN`, kiểm tra `sessionStorage.getItem('recap_shown')`
+- Nếu chưa shown → query 4 bảng song song → hiển thị Dialog
+- Khi đóng dialog → set `sessionStorage.setItem('recap_shown', 'true')`
+- UI: Dialog với các section có icon, mỗi item hiển thị tiêu đề, điểm (nếu có), thời gian
+- Nút "Bắt đầu học!" để đóng modal
+
+**Dữ liệu hiển thị:**
+- Activities: activity_type, score/maxScore, domain, created_at
+- Writing: prompt (trích ngắn), overall_score, created_at
+- Notebooks: title, subject, updated_at (trích 1 dòng content)
+- Lectures: lecture_id, completed_at
 
