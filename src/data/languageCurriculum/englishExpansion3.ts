@@ -57,9 +57,9 @@ const toeicExpansionModules: LanguageModule[] = [
           }
         ],
         quiz: [
-          { question: "What does 'reschedule' mean?", options: ["Hủy bỏ", "Dời lịch", "Xác nhận", "Từ chối"], answer: 1, explanation: "'Reschedule' = dời lịch, sắp xếp lại thời gian." },
-          { question: "In Part 3, how many questions per conversation?", options: ["2", "3", "4", "5"], answer: 1, explanation: "Mỗi đoạn hội thoại Part 3 có 3 câu hỏi." },
-          { question: "'The deadline is approaching' means:", options: ["Hạn chót đã qua", "Hạn chót sắp đến", "Không có hạn chót", "Hạn chót bị hủy"], answer: 1, explanation: "'Approaching' = đang đến gần." }
+          { question: "What does 'reschedule' mean?", options: ["Cancel", "Reschedule", "Confirm", "Decline"], answer: 1, explanation: "'Reschedule' means to arrange a new time for something." },
+          { question: "In Part 3, how many questions per conversation?", options: ["2", "3", "4", "5"], answer: 1, explanation: "Each Part 3 conversation has 3 questions." },
+          { question: "'The deadline is approaching' means:", options: ["The deadline has passed", "The deadline is coming soon", "There is no deadline", "The deadline was cancelled"], answer: 1, explanation: "'Approaching' means getting closer." }
         ]
       },
       {
@@ -97,9 +97,9 @@ const toeicExpansionModules: LanguageModule[] = [
           }
         ],
         quiz: [
-          { question: "'Complimentary' in TOEIC usually means:", options: ["Khen ngợi", "Miễn phí", "Bắt buộc", "Đắt tiền"], answer: 1, explanation: "Trong ngữ cảnh TOEIC, 'complimentary' thường = miễn phí." },
-          { question: "Part 4 is different from Part 3 because:", options: ["Có nhiều người nói hơn", "Chỉ có một người nói", "Không có câu hỏi", "Ngắn hơn Part 3"], answer: 1, explanation: "Part 4 là monologue (một người nói), Part 3 là dialogue." },
-          { question: "What does 'warranty' mean?", options: ["Cảnh báo", "Bảo hành", "Hóa đơn", "Chiết khấu"], answer: 1, explanation: "'Warranty' = bảo hành sản phẩm." }
+          { question: "'Complimentary' in TOEIC usually means:", options: ["Praising", "Free of charge", "Mandatory", "Expensive"], answer: 1, explanation: "In TOEIC context, 'complimentary' usually means free of charge." },
+          { question: "Part 4 is different from Part 3 because:", options: ["More speakers", "Only one speaker", "No questions", "Shorter than Part 3"], answer: 1, explanation: "Part 4 is a monologue (one speaker), while Part 3 is a dialogue." },
+          { question: "What does 'warranty' mean?", options: ["Warning", "Guarantee/warranty", "Invoice", "Discount"], answer: 1, explanation: "'Warranty' means a guarantee on a product." }
         ]
       }
     ]
@@ -140,9 +140,9 @@ const toeicExpansionModules: LanguageModule[] = [
           }
         ],
         quiz: [
-          { question: "Part 6 câu 'sentence insertion' yêu cầu:", options: ["Dịch câu sang tiếng Việt", "Chèn câu phù hợp vào đoạn văn", "Viết lại câu", "Tìm lỗi sai"], answer: 1, explanation: "Sentence insertion = chọn câu phù hợp nhất để chèn vào chỗ trống trong đoạn." },
-          { question: "'Nevertheless' is closest in meaning to:", options: ["Therefore", "However", "Because", "Finally"], answer: 1, explanation: "'Nevertheless' = 'however' = tuy nhiên, mặc dù vậy." },
-          { question: "Best strategy for Part 6:", options: ["Chỉ đọc câu có chỗ trống", "Đọc toàn bộ đoạn trước", "Đọc câu hỏi trước", "Bỏ qua phần đọc"], answer: 1, explanation: "Cần đọc toàn bộ đoạn để hiểu ngữ cảnh." }
+          { question: "What does the Part 6 'sentence insertion' question require?", options: ["Translate the sentence", "Insert an appropriate sentence into the passage", "Rewrite the sentence", "Find errors"], answer: 1, explanation: "Sentence insertion = choosing the most appropriate sentence to insert into the gap." },
+          { question: "'Nevertheless' is closest in meaning to:", options: ["Therefore", "However", "Because", "Finally"], answer: 1, explanation: "'Nevertheless' is a synonym of 'however', expressing contrast." },
+          { question: "Best strategy for Part 6:", options: ["Only read the sentence with the gap", "Read the entire passage first", "Read the questions first", "Skip the reading"], answer: 1, explanation: "You need to read the entire passage to understand the context." }
         ]
       },
       {
@@ -170,9 +170,9 @@ const toeicExpansionModules: LanguageModule[] = [
           }
         ],
         quiz: [
-          { question: "'Skimming' means:", options: ["Đọc từng từ", "Đọc lướt tìm ý chính", "Đọc to lên", "Dịch sang tiếng Việt"], answer: 1, explanation: "Skimming = đọc lướt nhanh để nắm ý chính." },
-          { question: "Part 7 triple passages require:", options: ["Chỉ đọc bài đầu", "Đối chiếu thông tin giữa 3 bài", "Viết tóm tắt", "Nghe audio"], answer: 1, explanation: "Triple passages yêu cầu cross-referencing giữa 3 bài đọc." },
-          { question: "'Please see the attachment' is common in:", options: ["Quảng cáo", "Tin nhắn chat", "Email công việc", "Bài báo"], answer: 2, explanation: "Đây là cụm từ phổ biến trong email công việc." }
+          { question: "'Skimming' means:", options: ["Read word by word", "Skim for main ideas", "Read aloud", "Translate to your language"], answer: 1, explanation: "Skimming = reading quickly to get the main ideas." },
+          { question: "Part 7 triple passages require:", options: ["Only read the first passage", "Cross-reference information across 3 passages", "Write a summary", "Listen to audio"], answer: 1, explanation: "Triple passages require cross-referencing information between 3 reading texts." },
+          { question: "'Please see the attachment' is common in:", options: ["Advertisement", "Chat message", "Business email", "News article"], answer: 2, explanation: "This is a common phrase in business emails." }
         ]
       }
     ]
@@ -219,9 +219,9 @@ const ieltsExpansionModules: LanguageModule[] = [
           }
         ],
         quiz: [
-          { question: "Thời gian chuẩn bị cho Part 2:", options: ["30 giây", "1 phút", "2 phút", "Không có"], answer: 1, explanation: "Bạn có đúng 1 phút để chuẩn bị." },
-          { question: "Trong 1 phút chuẩn bị, nên:", options: ["Viết câu đầy đủ", "Ghi keywords", "Không ghi gì", "Hỏi giám khảo"], answer: 1, explanation: "Ghi keywords giúp nhớ ý mà không bị đọc." },
-          { question: "'Memorable' means:", options: ["Thường xuyên", "Đáng nhớ", "Buồn chán", "Bình thường"], answer: 1, explanation: "'Memorable' = đáng nhớ, ấn tượng." }
+          { question: "How much preparation time do you get for Part 2?", options: ["30 seconds", "1 minute", "2 minutes", "None"], answer: 1, explanation: "You have exactly 1 minute to prepare." },
+          { question: "During the 1-minute preparation, you should:", options: ["Write full sentences", "Note down keywords", "Write nothing", "Ask the examiner"], answer: 1, explanation: "Noting keywords helps you remember ideas without reading from notes." },
+          { question: "'Memorable' means:", options: ["Frequent", "Worth remembering", "Boring", "Ordinary"], answer: 1, explanation: "'Memorable' means worth remembering, impressive." }
         ]
       },
       {
@@ -249,9 +249,9 @@ const ieltsExpansionModules: LanguageModule[] = [
           }
         ],
         quiz: [
-          { question: "Part 3 khác Part 1 ở chỗ:", options: ["Câu hỏi cá nhân", "Câu hỏi trừu tượng, xã hội", "Dùng thẻ cue card", "Chỉ nói 30 giây"], answer: 1, explanation: "Part 3 hỏi về các vấn đề trừu tượng, mang tính xã hội." },
-          { question: "'Controversial' means:", options: ["Đồng ý", "Gây tranh cãi", "Đơn giản", "Rõ ràng"], answer: 1, explanation: "'Controversial' = gây tranh cãi, nhiều ý kiến khác nhau." },
-          { question: "Best way to answer Part 3:", options: ["Nói ngắn gọn Yes/No", "Opinion + Reason + Example", "Đọc thuộc lòng", "Hỏi lại giám khảo"], answer: 1, explanation: "Cấu trúc Opinion + Reason + Example giúp câu trả lời đầy đủ." }
+          { question: "How is Part 3 different from Part 1?", options: ["Personal questions", "Abstract, society-level questions", "Uses a cue card", "Only speak for 30 seconds"], answer: 1, explanation: "Part 3 asks about abstract, society-level issues." },
+          { question: "'Controversial' means:", options: ["Agreeable", "Causing disagreement", "Simple", "Clear"], answer: 1, explanation: "'Controversial' means causing disagreement or differing opinions." },
+          { question: "Best way to answer Part 3:", options: ["Give short Yes/No answers", "Opinion + Reason + Example", "Recite memorized answers", "Ask the examiner again"], answer: 1, explanation: "The Opinion + Reason + Example structure makes answers complete and well-developed." }
         ]
       }
     ]
@@ -293,8 +293,8 @@ const ieltsExpansionModules: LanguageModule[] = [
           }
         ],
         quiz: [
-          { question: "Overview trong Task 1 nên nêu:", options: ["Tất cả số liệu", "2 xu hướng chính", "Ý kiến cá nhân", "Kết luận"], answer: 1, explanation: "Overview nêu 2 xu hướng/đặc điểm nổi bật nhất." },
-          { question: "'Fluctuate' means:", options: ["Tăng mạnh", "Giảm mạnh", "Dao động lên xuống", "Ổn định"], answer: 2, explanation: "'Fluctuate' = dao động, lên xuống không đều." },
+          { question: "What should the overview in Task 1 include?", options: ["All data points", "2 main trends", "Personal opinion", "Conclusion"], answer: 1, explanation: "The overview should highlight the 2 most prominent trends or features." },
+          { question: "'Fluctuate' means:", options: ["Increase sharply", "Decrease sharply", "Go up and down", "Remain stable"], answer: 2, explanation: "'Fluctuate' means to go up and down irregularly." },
           { question: "Khi mô tả Maps, nên dùng:", options: ["Active voice", "Passive voice", "Imperative", "Question form"], answer: 1, explanation: "Maps thường dùng passive voice: A road was constructed." }
         ]
       },
