@@ -51,9 +51,9 @@ export const cambridgeModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'Elephant' nghĩa là gì?", options: ["Con mèo", "Con voi", "Con chó", "Con cá"], answer: 1, explanation: "'Elephant' = con voi 🐘" },
-          { question: "Màu nào là 'purple'?", options: ["Xanh lá", "Vàng", "Tím", "Cam"], answer: 2, explanation: "'Purple' = màu tím 🟣" },
-          { question: "'The dog is ___.' (brown)", options: ["The dog is browns.", "The dog is brown.", "The dog brown is.", "Dog is the brown."], answer: 1, explanation: "Cấu trúc: The + noun + is + adjective." },
+          { question: "What does 'elephant' mean?", options: ["Cat", "Elephant", "Dog", "Fish"], answer: 1, explanation: "'Elephant' = a large grey animal with a trunk 🐘" },
+          { question: "Which color is 'purple'?", options: ["Green", "Yellow", "Purple", "Orange"], answer: 2, explanation: "'Purple' = a color between red and blue 🟣" },
+          { question: "'The dog is ___.' (brown)", options: ["The dog is browns.", "The dog is brown.", "The dog brown is.", "Dog is the brown."], answer: 1, explanation: "Structure: The + noun + is + adjective." },
         ],
       },
       {
@@ -83,8 +83,8 @@ export const cambridgeModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'Sister' nghĩa là gì?", options: ["Anh trai", "Chị/em gái", "Mẹ", "Bà"], answer: 1, explanation: "'Sister' = chị gái hoặc em gái." },
-          { question: "Chúng ta nghe bằng?", options: ["Eyes", "Nose", "Ears", "Mouth"], answer: 2, explanation: "'Ears' = tai, dùng để nghe." },
+          { question: "What does 'sister' mean?", options: ["Brother", "Sister", "Mother", "Grandmother"], answer: 1, explanation: "'Sister' = a female sibling." },
+          { question: "We hear with our?", options: ["Eyes", "Nose", "Ears", "Mouth"], answer: 2, explanation: "'Ears' = the body parts we use for hearing." },
         ],
       },
     ],
@@ -137,8 +137,8 @@ export const cambridgeModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'Half past eight' là mấy giờ?", options: ["8:00", "8:15", "8:30", "8:45"], answer: 2, explanation: "'Half past eight' = 8:30 (nửa sau 8 giờ)." },
-          { question: "Chúng ta nói gì trước khi đi ngủ?", options: ["Good morning!", "Good night!", "Good afternoon!", "Good day!"], answer: 1, explanation: "'Good night!' = Chúc ngủ ngon, dùng trước khi đi ngủ." },
+          { question: "What time is 'half past eight'?", options: ["8:00", "8:15", "8:30", "8:45"], answer: 2, explanation: "'Half past eight' = 8:30 (thirty minutes after eight)." },
+          { question: "What do we say before going to bed?", options: ["Good morning!", "Good night!", "Good afternoon!", "Good day!"], answer: 1, explanation: "'Good night!' is used before going to sleep." },
         ],
       },
     ],
@@ -180,9 +180,9 @@ export const nationalExamModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Dấu hiệu 'since' + 'for' thuộc thì nào?", options: ["Past Simple", "Present Perfect", "Future Simple", "Present Continuous"], answer: 1, explanation: "'Since' (từ khi) và 'for' (trong bao lâu) là dấu hiệu của Present Perfect." },
-          { question: "'While' thường đi với thì nào?", options: ["Present Simple", "Present Perfect", "Past Continuous", "Future Simple"], answer: 2, explanation: "'While' = trong khi, dùng với Past Continuous để mô tả hành động đang diễn ra." },
-          { question: "Chọn câu đúng:", options: ["I have visited Hanoi yesterday.", "I visited Hanoi yesterday.", "I was visit Hanoi yesterday.", "I had visit Hanoi yesterday."], answer: 1, explanation: "'Yesterday' → Past Simple. Không dùng Present Perfect với thời gian cụ thể trong quá khứ." },
+          { question: "'Since' and 'for' are signal words for which tense?", options: ["Past Simple", "Present Perfect", "Future Simple", "Present Continuous"], answer: 1, explanation: "'Since' (from a point in time) and 'for' (duration) are signals for Present Perfect." },
+          { question: "'While' is usually used with which tense?", options: ["Present Simple", "Present Perfect", "Past Continuous", "Future Simple"], answer: 2, explanation: "'While' is used with Past Continuous to describe an action in progress." },
+          { question: "Choose the correct sentence:", options: ["I have visited Hanoi yesterday.", "I visited Hanoi yesterday.", "I was visit Hanoi yesterday.", "I had visit Hanoi yesterday."], answer: 1, explanation: "'Yesterday' → Past Simple. Don't use Present Perfect with specific past time markers." },
         ],
       },
       {
@@ -216,9 +216,9 @@ export const nationalExamModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Câu điều kiện loại 2 dùng thì nào ở mệnh đề IF?", options: ["Present Simple", "Past Simple", "Past Perfect", "Future Simple"], answer: 1, explanation: "Type 2: If + Past Simple (dùng 'were' cho mọi chủ ngữ)." },
-          { question: "'If I had known, I would have helped.' Đây là loại mấy?", options: ["Type 1", "Type 2", "Type 3", "Type 0"], answer: 2, explanation: "If + had + V3 → would have + V3 = Type 3 (không có thật ở quá khứ)." },
-          { question: "Đảo ngữ của 'If I were you' là?", options: ["Were I you", "Was I you", "If were I you", "Should I you"], answer: 0, explanation: "Đảo ngữ Type 2: Were + S → Were I you, I would..." },
+          { question: "Which tense is used in the IF clause of Type 2 conditionals?", options: ["Present Simple", "Past Simple", "Past Perfect", "Future Simple"], answer: 1, explanation: "Type 2: If + Past Simple (use 'were' for all subjects)." },
+          { question: "'If I had known, I would have helped.' What type is this?", options: ["Type 1", "Type 2", "Type 3", "Type 0"], answer: 2, explanation: "If + had + V3 → would have + V3 = Type 3 (unreal past condition)." },
+          { question: "What is the inversion of 'If I were you'?", options: ["Were I you", "Was I you", "If were I you", "Should I you"], answer: 0, explanation: "Type 2 inversion: Were + S → Were I you, I would..." },
         ],
       },
       {
@@ -243,8 +243,8 @@ export const nationalExamModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Passive của 'They have finished the project' là?", options: ["The project have been finished.", "The project has been finished.", "The project was finished.", "The project is finished."], answer: 1, explanation: "Present Perfect Passive: has/have been + V3. 'The project' (số ít) → 'has been finished'." },
-          { question: "Câu nào đúng?", options: ["My car was repaired.", "My car was repair.", "My car is repair.", "My car repaired."], answer: 0, explanation: "Passive: was + V3 (repaired). 'My car was repaired' = Xe tôi đã được sửa." },
+          { question: "What is the passive of 'They have finished the project'?", options: ["The project have been finished.", "The project has been finished.", "The project was finished.", "The project is finished."], answer: 1, explanation: "Present Perfect Passive: has/have been + V3. 'The project' (singular) → 'has been finished'." },
+          { question: "Which sentence is correct?", options: ["My car was repaired.", "My car was repair.", "My car is repair.", "My car repaired."], answer: 0, explanation: "Passive: was + V3 (repaired). 'My car was repaired' = correct passive form." },
         ],
       },
     ],
@@ -279,8 +279,8 @@ export const nationalExamModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Main idea thường nằm ở đâu trong đoạn văn?", options: ["Câu giữa", "Câu đầu (topic sentence)", "Câu cuối", "Không cố định"], answer: 1, explanation: "Main idea thường ở topic sentence — câu đầu tiên của đoạn văn." },
-          { question: "Đáp án nào nên loại trừ?", options: ["Đáp án tóm tắt cả đoạn", "Đáp án quá cụ thể (chỉ 1 chi tiết)", "Đáp án có keyword từ bài", "Đáp án paraphrase bài đọc"], answer: 1, explanation: "Đáp án quá cụ thể chỉ đề cập 1 chi tiết nhỏ, không phải main idea." },
+          { question: "Where is the main idea usually found in a paragraph?", options: ["Middle sentence", "First sentence (topic sentence)", "Last sentence", "No fixed position"], answer: 1, explanation: "The main idea is usually in the topic sentence — the first sentence of the paragraph." },
+          { question: "Which answer should be eliminated?", options: ["An answer summarizing the whole passage", "An answer too specific (only 1 detail)", "An answer with keywords from the text", "An answer paraphrasing the text"], answer: 1, explanation: "An overly specific answer only mentions one small detail, not the main idea." },
         ],
       },
     ],

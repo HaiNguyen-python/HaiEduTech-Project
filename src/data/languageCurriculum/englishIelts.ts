@@ -66,9 +66,9 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'Pedagogical' có nghĩa là gì?", options: ["Thuộc y khoa", "Thuộc sư phạm", "Thuộc kinh tế", "Thuộc chính trị"], answer: 1, explanation: "'Pedagogical' nghĩa là thuộc về phương pháp sư phạm/giảng dạy." },
-          { question: "Collocation nào đúng?", options: ["make knowledge", "acquire knowledge", "do knowledge", "take knowledge"], answer: 1, explanation: "'Acquire knowledge' là collocation chuẩn, nghĩa là thu thập kiến thức." },
-          { question: "'Foster critical thinking' nghĩa là?", options: ["Phê phán tư duy", "Nuôi dưỡng tư duy phản biện", "Loại bỏ tư duy", "Kiểm tra tư duy"], answer: 1, explanation: "'Foster' = nuôi dưỡng, thúc đẩy. 'Foster critical thinking' = nuôi dưỡng tư duy phản biện." },
+          { question: "What does 'pedagogical' mean?", options: ["Medical", "Related to teaching methods", "Economic", "Political"], answer: 1, explanation: "'Pedagogical' means relating to the methods and practice of teaching." },
+          { question: "Which collocation is correct?", options: ["make knowledge", "acquire knowledge", "do knowledge", "take knowledge"], answer: 1, explanation: "'Acquire knowledge' is a standard collocation meaning to gain knowledge." },
+          { question: "What does 'foster critical thinking' mean?", options: ["Criticize thinking", "Nurture/encourage critical thinking", "Eliminate thinking", "Test thinking"], answer: 1, explanation: "'Foster' means to encourage or promote. 'Foster critical thinking' = encourage analytical thinking." },
         ],
       },
       {
@@ -112,9 +112,9 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'Obsolete' đồng nghĩa với?", options: ["Modern", "Outdated", "Popular", "Expensive"], answer: 1, explanation: "'Obsolete' = lỗi thời, không còn sử dụng, đồng nghĩa với 'outdated'." },
-          { question: "Điền vào: 'The advent of AI has ___ traditional industries.'", options: ["disrupted", "created", "ignored", "maintained"], answer: 0, explanation: "'Disrupt' = phá vỡ, thay đổi mạnh mẽ. AI đã phá vỡ các ngành công nghiệp truyền thống." },
-          { question: "'Permeate' có nghĩa là?", options: ["Biến mất", "Lan tỏa, thẩm thấu", "Thu nhỏ", "Phản đối"], answer: 1, explanation: "'Permeate' = lan tỏa, thấm vào mọi khía cạnh." },
+          { question: "'Obsolete' is a synonym of?", options: ["Modern", "Outdated", "Popular", "Expensive"], answer: 1, explanation: "'Obsolete' means no longer in use, synonymous with 'outdated'." },
+          { question: "Fill in: 'The advent of AI has ___ traditional industries.'", options: ["disrupted", "created", "ignored", "maintained"], answer: 0, explanation: "'Disrupt' means to drastically change. AI has disrupted traditional industries." },
+          { question: "What does 'permeate' mean?", options: ["Disappear", "Spread through, pervade", "Shrink", "Oppose"], answer: 1, explanation: "'Permeate' means to spread through every part of something." },
         ],
       },
       {
@@ -145,8 +145,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'Carbon footprint' nghĩa là gì?", options: ["Dấu chân trên cát", "Lượng khí thải carbon", "Loại giày", "Hóa thạch carbon"], answer: 1, explanation: "'Carbon footprint' = tổng lượng khí thải carbon mà một cá nhân/tổ chức tạo ra." },
-          { question: "Từ nào đồng nghĩa với 'stringent'?", options: ["Relaxed", "Flexible", "Strict", "Optional"], answer: 2, explanation: "'Stringent' = nghiêm ngặt, đồng nghĩa với 'strict'." },
+          { question: "What does 'carbon footprint' mean?", options: ["Footprint in sand", "Total carbon emissions", "A type of shoe", "Carbon fossil"], answer: 1, explanation: "'Carbon footprint' = the total amount of carbon emissions produced by a person or organization." },
+          { question: "Which word is synonymous with 'stringent'?", options: ["Relaxed", "Flexible", "Strict", "Optional"], answer: 2, explanation: "'Stringent' means strict, synonymous with 'strict'." },
         ],
       },
       {
@@ -176,8 +176,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'Sedentary lifestyle' nghĩa là?", options: ["Lối sống năng động", "Lối sống ít vận động", "Lối sống xa hoa", "Lối sống giản dị"], answer: 1, explanation: "'Sedentary' = ít vận động, ngồi nhiều. 'Sedentary lifestyle' = lối sống ít vận động." },
-          { question: "Collocation nào đúng?", options: ["do awareness", "raise awareness", "make awareness", "give awareness"], answer: 1, explanation: "'Raise awareness' là collocation chuẩn, nghĩa là nâng cao nhận thức." },
+          { question: "What does 'sedentary lifestyle' mean?", options: ["Active lifestyle", "Inactive lifestyle with little exercise", "Luxurious lifestyle", "Simple lifestyle"], answer: 1, explanation: "'Sedentary' means sitting a lot with little physical activity." },
+          { question: "Which collocation is correct?", options: ["do awareness", "raise awareness", "make awareness", "give awareness"], answer: 1, explanation: "'Raise awareness' is a standard collocation meaning to increase public knowledge." },
         ],
       },
     ],
@@ -239,9 +239,9 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Introduction nên có bao nhiêu câu?", options: ["1 câu", "2-3 câu", "5-6 câu", "8-10 câu"], answer: 1, explanation: "Introduction IELTS Writing Task 2 thường có 2-3 câu: paraphrase đề và thesis statement." },
-          { question: "Từ nối nào biểu thị sự đối lập?", options: ["Furthermore", "Nevertheless", "Therefore", "For instance"], answer: 1, explanation: "'Nevertheless' = tuy nhiên, biểu thị sự đối lập/tương phản." },
-          { question: "Body paragraph nên bắt đầu bằng?", options: ["Example", "Topic sentence", "Conclusion", "Question"], answer: 1, explanation: "Mỗi body paragraph nên mở đầu bằng topic sentence nêu rõ luận điểm chính." },
+          { question: "How many sentences should the introduction have?", options: ["1 sentence", "2-3 sentences", "5-6 sentences", "8-10 sentences"], answer: 1, explanation: "IELTS Writing Task 2 introduction typically has 2-3 sentences: paraphrase + thesis statement." },
+          { question: "Which linking word shows contrast?", options: ["Furthermore", "Nevertheless", "Therefore", "For instance"], answer: 1, explanation: "'Nevertheless' expresses contrast/opposition, similar to 'however'." },
+          { question: "What should a body paragraph start with?", options: ["Example", "Topic sentence", "Conclusion", "Question"], answer: 1, explanation: "Each body paragraph should start with a topic sentence stating the main argument." },
         ],
       },
       {
@@ -281,8 +281,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Phần nào KHÔNG THỂ thiếu trong Task 1?", options: ["Conclusion", "Overview", "Personal opinion", "Prediction"], answer: 1, explanation: "Overview là phần BẮT BUỘC trong Task 1. Thiếu overview sẽ bị trừ điểm nặng ở Task Achievement." },
-          { question: "'Plummet' mô tả xu hướng gì?", options: ["Tăng nhẹ", "Giảm mạnh", "Ổn định", "Dao động"], answer: 1, explanation: "'Plummet' = giảm mạnh, giảm đột ngột (dramatic decrease)." },
+          { question: "Which part is ESSENTIAL in Task 1?", options: ["Conclusion", "Overview", "Personal opinion", "Prediction"], answer: 1, explanation: "The overview is MANDATORY in Task 1. Missing it severely affects Task Achievement score." },
+          { question: "'Plummet' describes what kind of trend?", options: ["Slight increase", "Sharp decrease", "Stable", "Fluctuating"], answer: 1, explanation: "'Plummet' means to drop sharply and suddenly (dramatic decrease)." },
         ],
       },
       {
@@ -306,8 +306,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Cohesion & Coherence chiếm bao nhiêu % điểm Writing?", options: ["10%", "25%", "50%", "75%"], answer: 1, explanation: "CC chiếm 25% — bằng với 3 tiêu chí còn lại: Task Achievement, Lexical Resource, Grammatical Range." },
-          { question: "Cách nào giúp tăng cohesion?", options: ["Viết câu dài hơn", "Dùng pronoun reference", "Dùng nhiều từ khó", "Viết nhiều đoạn hơn"], answer: 1, explanation: "Pronoun reference (this, these, such) giúp liên kết câu tự nhiên hơn là lặp lại từ." },
+          { question: "What percentage of the Writing score does Cohesion & Coherence account for?", options: ["10%", "25%", "50%", "75%"], answer: 1, explanation: "CC accounts for 25% — equal to the other 3 criteria: Task Achievement, Lexical Resource, Grammatical Range." },
+          { question: "Which technique improves cohesion?", options: ["Write longer sentences", "Use pronoun reference", "Use more difficult words", "Write more paragraphs"], answer: 1, explanation: "Pronoun reference (this, these, such) creates natural cohesion rather than repeating words." },
         ],
       },
     ],
@@ -354,8 +354,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Skimming là gì?", options: ["Đọc từng từ", "Đọc lướt nắm ý chính", "Dịch sang tiếng Việt", "Ghi chú chi tiết"], answer: 1, explanation: "Skimming = đọc nhanh để nắm ý chính, không đọc từng từ." },
-          { question: "Khi làm True/False/Not Given, nên dùng kỹ thuật nào?", options: ["Skimming", "Scanning", "Đọc toàn bài", "Đoán"], answer: 1, explanation: "Scanning giúp tìm chính xác thông tin cần kiểm tra True/False/Not Given." },
+          { question: "What is skimming?", options: ["Reading word by word", "Quick reading for main ideas", "Translating", "Taking detailed notes"], answer: 1, explanation: "Skimming = reading quickly for main ideas, not word by word." },
+          { question: "For True/False/Not Given, which technique should you use?", options: ["Skimming", "Scanning", "Reading the whole text", "Guessing"], answer: 1, explanation: "Scanning helps find the exact information needed for True/False/Not Given." },
         ],
       },
       {
@@ -379,8 +379,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Khi bài không đề cập thông tin trong câu hỏi, đáp án là?", options: ["TRUE", "FALSE", "NOT GIVEN", "Tùy ngữ cảnh"], answer: 2, explanation: "NOT GIVEN = thông tin không được đề cập trong bài. Đừng suy luận từ kiến thức cá nhân!" },
-          { question: "FALSE khác NOT GIVEN thế nào?", options: ["Giống nhau", "FALSE = bài nói ngược lại, NG = không đề cập", "FALSE = không đề cập, NG = ngược lại", "Tùy trường hợp"], answer: 1, explanation: "FALSE: bài viết NGƯỢC LẠI câu hỏi. NOT GIVEN: bài KHÔNG NÓI GÌ về vấn đề đó." },
+          { question: "When the passage doesn't mention the information in the question, the answer is?", options: ["TRUE", "FALSE", "NOT GIVEN", "Depends on context"], answer: 2, explanation: "NOT GIVEN = the information is not mentioned in the passage. Don't use personal knowledge!" },
+          { question: "How is FALSE different from NOT GIVEN?", options: ["The same", "FALSE = passage says the opposite, NG = not mentioned", "FALSE = not mentioned, NG = opposite", "Depends on the case"], answer: 1, explanation: "FALSE: the passage CONTRADICTS the statement. NOT GIVEN: the passage says NOTHING about it." },
         ],
       },
       ...ieltsReadingExpansionLessons,
@@ -429,8 +429,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Conjunction nào biểu thị 'nhượng bộ'?", options: ["Because", "Although", "If", "When"], answer: 1, explanation: "'Although' = mặc dù, biểu thị nhượng bộ (concession)." },
-          { question: "Câu nào là complex sentence?", options: ["She studies hard.", "She studies hard, and she gets good grades.", "Although she is busy, she always exercises.", "She is busy. She exercises."], answer: 2, explanation: "Complex sentence = có main clause + subordinate clause liên kết bằng conjunction (Although)." },
+          { question: "Which conjunction expresses 'concession'?", options: ["Because", "Although", "If", "When"], answer: 1, explanation: "'Although' expresses concession, meaning 'even though'." },
+          { question: "Which is a complex sentence?", options: ["She studies hard.", "She studies hard, and she gets good grades.", "Although she is busy, she always exercises.", "She is busy. She exercises."], answer: 2, explanation: "Complex sentence = main clause + subordinate clause linked by a conjunction (Although)." },
         ],
       },
       {
@@ -454,8 +454,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Cấu trúc nào đúng cho Passive nâng cao?", options: ["It is widely acknowledge", "It is widely acknowledged", "It is wide acknowledged", "It was widely acknowledge"], answer: 1, explanation: "'It is widely acknowledged that...' — acknowledged phải ở dạng past participle." },
-          { question: "Khi nào nên dùng Passive trong Task 1?", options: ["Luôn luôn", "Khi mô tả quy trình (process)", "Không bao giờ", "Chỉ trong bar chart"], answer: 1, explanation: "Passive voice đặc biệt hữu ích khi mô tả process diagram, nơi 'ai thực hiện' không quan trọng." },
+          { question: "Which structure is correct for advanced Passive?", options: ["It is widely acknowledge", "It is widely acknowledged", "It is wide acknowledged", "It was widely acknowledge"], answer: 1, explanation: "'It is widely acknowledged that...' — acknowledged must be in past participle form." },
+          { question: "When should Passive be used in Task 1?", options: ["Always", "When describing processes", "Never", "Only in bar charts"], answer: 1, explanation: "Passive voice is particularly useful for process diagrams where 'who does it' is unimportant." },
         ],
       },
     ],
@@ -492,8 +492,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Trong IELTS Listening, viết sai chính tả thì sao?", options: ["Được nửa điểm", "Vẫn đúng nếu gần đúng", "Mất điểm hoàn toàn", "Tùy giám khảo"], answer: 2, explanation: "IELTS Listening yêu cầu chính tả CHÍNH XÁC. Viết sai = 0 điểm cho câu đó." },
-          { question: "Nên làm gì trong 30 giây trước khi nghe?", options: ["Nghỉ ngơi", "Đọc trước câu hỏi và predict", "Viết đáp án dự đoán", "Ôn lại bài trước"], answer: 1, explanation: "30 giây trước mỗi section phải đọc câu hỏi và predict loại thông tin sẽ nghe." },
+          { question: "In IELTS Listening, what happens if you misspell?", options: ["Half a point", "Still correct if close", "Lose the mark completely", "Up to the examiner"], answer: 2, explanation: "IELTS Listening requires EXACT spelling. Misspelling = 0 marks for that question." },
+          { question: "What should you do in the 30 seconds before listening?", options: ["Rest", "Read questions and predict answers", "Write predicted answers", "Review previous section"], answer: 1, explanation: "Use the 30 seconds before each section to read questions and predict the type of information you'll hear." },
         ],
       },
       ...ieltsListeningExpansionLessons,
@@ -538,8 +538,8 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "AREA technique gồm những bước nào?", options: ["Answer-Reason-Example-Alternative", "Ask-Read-Explain-Answer", "Analyze-Review-Edit-Apply", "Answer-Repeat-Elaborate-Add"], answer: 0, explanation: "AREA = Answer (trả lời) → Reason (lý do) → Example (ví dụ) → Alternative (ý thêm)." },
-          { question: "Câu trả lời Part 1 nên dài bao nhiêu?", options: ["1 câu", "2-4 câu", "1 đoạn dài", "Càng dài càng tốt"], answer: 1, explanation: "Part 1 nên trả lời 2-4 câu — đủ dài để thể hiện kỹ năng nhưng không dài quá (examiner sẽ cắt)." },
+          { question: "What steps does the AREA technique include?", options: ["Answer-Reason-Example-Alternative", "Ask-Read-Explain-Answer", "Analyze-Review-Edit-Apply", "Answer-Repeat-Elaborate-Add"], answer: 0, explanation: "AREA = Answer → Reason → Example → Alternative (additional point)." },
+          { question: "How long should Part 1 answers be?", options: ["1 sentence", "2-4 sentences", "A long paragraph", "As long as possible"], answer: 1, explanation: "Part 1 answers should be 2-4 sentences — long enough to show skills but not too long (examiner will cut you off)." },
         ],
       },
     ],

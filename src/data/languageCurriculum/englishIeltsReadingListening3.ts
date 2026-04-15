@@ -57,10 +57,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "Khi câu hỏi hỏi 'What is the author's purpose?', bạn cần tìm gì?", options: ["Chủ đề chính", "Lý do tác giả viết đoạn đó", "Ý kiến của bạn", "Từ vựng khó"], answer: 1, explanation: "Author's purpose = WHY the author wrote it, not WHAT it's about." },
-      { question: "Từ 'unfortunately' trong bài cho thấy tác giả đang:", options: ["Trung lập hoàn toàn", "Thể hiện sự tiếc nuối/quan điểm tiêu cực", "Vui mừng", "Không có ý kiến"], answer: 1, explanation: "'Unfortunately' là attitude marker cho thấy tác giả có quan điểm." },
-      { question: "Tác giả dùng nhiều số liệu thống kê thường có mục đích:", options: ["Giải trí người đọc", "Thuyết phục hoặc cung cấp bằng chứng", "Kể chuyện cười", "Mô tả cảm xúc"], answer: 1, explanation: "Statistics thường dùng để support arguments hoặc inform." },
-      { question: "Phân biệt 'inform' và 'persuade' dựa vào:", options: ["Độ dài bài viết", "Tác giả có đưa ý kiến và khuyến khích hành động không", "Số từ vựng khó", "Số đoạn văn"], answer: 1, explanation: "Persuade = có ý kiến + call to action. Inform = trình bày sự thật trung lập." },
+      { question: "When a question asks 'What is the author's purpose?', what should you look for?", options: ["The main topic", "Why the author wrote that section", "Your opinion", "Difficult vocabulary"], answer: 1, explanation: "Author's purpose = WHY the author wrote it, not WHAT it's about." },
+      { question: "The word 'unfortunately' in a passage shows the author is:", options: ["Completely neutral", "Expressing regret/negative attitude", "Happy", "Having no opinion"], answer: 1, explanation: "'Unfortunately' is an attitude marker showing the author has a viewpoint." },
+      { question: "When an author uses many statistics, the purpose is usually to:", options: ["Entertain readers", "Persuade or provide evidence", "Tell jokes", "Describe emotions"], answer: 1, explanation: "Statistics thường dùng để support arguments hoặc inform." },
+      { question: "Distinguish 'inform' from 'persuade' based on:", options: ["Length of writing", "Whether the author gives opinions and encourages action", "Number of difficult words", "Number of paragraphs"], answer: 1, explanation: "Persuade = có ý kiến + call to action. Inform = trình bày sự thật trung lập." },
       { question: "Khi tác giả viết 'It is essential that...', purpose là gì?", options: ["Describing", "Persuading/recommending", "Narrating", "Defining"], answer: 1, explanation: "'It is essential that' shows the author is making a recommendation/persuading." },
     ],
   },
@@ -117,9 +117,9 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "Trong Paragraph Information Matching, mỗi đoạn có thể được dùng:", options: ["Chỉ 1 lần", "Nhiều lần hoặc không lần nào", "Chính xác 2 lần", "Luôn luôn"], answer: 1, explanation: "Paragraphs can be used more than once or not at all." },
-      { question: "Bạn nên bắt đầu từ câu hỏi nào?", options: ["Câu hỏi đầu tiên", "Câu hỏi có keywords đặc biệt nhất", "Câu hỏi cuối cùng", "Bất kỳ câu nào"], answer: 1, explanation: "Starting with distinctive keywords makes scanning easier." },
-      { question: "Nếu câu hỏi nói 'a comparison between two methods', bạn tìm:", options: ["Từ 'comparison' trong đoạn", "Đoạn nào so sánh hai phương pháp", "Từ 'method' chính xác", "Đoạn đầu tiên"], answer: 1, explanation: "Look for paraphrased comparisons, not exact words." },
+      { question: "In Paragraph Information Matching, each paragraph can be used:", options: ["Only once", "Multiple times or not at all", "Exactly twice", "Always"], answer: 1, explanation: "Paragraphs can be used more than once or not at all." },
+      { question: "Which question should you start with?", options: ["The first question", "The question with the most distinctive keywords", "The last question", "Any question"], answer: 1, explanation: "Starting with distinctive keywords makes scanning easier." },
+      { question: "If the question says 'a comparison between two methods', you look for:", options: ["The word 'comparison' in the paragraph", "Which paragraph compares two methods", "The exact word 'method'", "The first paragraph"], answer: 1, explanation: "Look for paraphrased comparisons, not exact words." },
     ],
   },
   {
@@ -172,7 +172,7 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     quiz: [
       { question: "Statement: 'All students passed the exam.' Passage: 'Most students passed.' → Answer:", options: ["YES", "NO", "NOT GIVEN"], answer: 1, explanation: "'All' vs 'Most' — the passage contradicts 'all' so it's NO." },
       { question: "Statement: 'The study was conducted in France.' Passage nói về study nhưng không đề cập location:", options: ["YES", "NO", "NOT GIVEN"], answer: 2, explanation: "Location not mentioned → NOT GIVEN." },
-      { question: "Khi nào bạn chọn NOT GIVEN?", options: ["Khi bài nói ngược lại", "Khi bài không đề cập thông tin đó", "Khi bài đồng ý", "Khi bạn không biết"], answer: 1, explanation: "NOT GIVEN = passage doesn't address the topic." },
+      { question: "When should you choose NOT GIVEN?", options: ["When the passage says the opposite", "When the passage doesn't mention that information", "When the passage agrees", "When you don't know"], answer: 1, explanation: "NOT GIVEN = passage doesn't address the topic." },
       { question: "Absolute words ('always', 'never') thường dẫn đến đáp án:", options: ["YES", "NO", "NOT GIVEN"], answer: 1, explanation: "Absolute claims are often contradicted in academic texts." },
     ],
   },
@@ -224,9 +224,9 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "'NO MORE THAN THREE WORDS' nghĩa là bạn có thể viết:", options: ["Chính xác 3 từ", "1, 2, hoặc 3 từ", "Ít nhất 3 từ", "Bao nhiêu cũng được"], answer: 1, explanation: "NO MORE THAN 3 = you can write 1, 2, or 3 words." },
-      { question: "Câu trả lời short answer lấy từ đâu?", options: ["Kiến thức riêng", "Trực tiếp từ passage", "Tưởng tượng", "Từ câu hỏi"], answer: 1, explanation: "Answers must be copied directly from the passage." },
-      { question: "Câu hỏi 'Where did the research take place?' cần đáp án loại:", options: ["Thời gian", "Địa điểm", "Người", "Số"], answer: 1, explanation: "'Where' questions need a place/location answer." },
+      { question: "'NO MORE THAN THREE WORDS' means you can write:", options: ["Exactly 3 words", "1, 2, or 3 words", "At least 3 words", "Any number of words"], answer: 1, explanation: "NO MORE THAN 3 = you can write 1, 2, or 3 words." },
+      { question: "Where do short answer responses come from?", options: ["Personal knowledge", "Directly from the passage", "Imagination", "From the question"], answer: 1, explanation: "Answers must be copied directly from the passage." },
+      { question: "The question 'Where did the research take place?' requires an answer type of:", options: ["Time", "Place/location", "Person", "Number"], answer: 1, explanation: "'Where' questions need a place/location answer." },
     ],
   },
   {
@@ -286,10 +286,10 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "Skimming dùng để:", options: ["Tìm tên riêng", "Nắm ý chính", "Tìm số liệu", "Đọc từng từ"], answer: 1, explanation: "Skimming = reading quickly for the main idea." },
-      { question: "Khi scanning, bạn tìm:", options: ["Main idea", "Keywords cụ thể", "Grammar rules", "Writing style"], answer: 1, explanation: "Scanning = looking for specific keywords." },
-      { question: "Bạn nên skim passage trong bao lâu?", options: ["10 giây", "2-3 phút", "10 phút", "Không cần skim"], answer: 1, explanation: "2-3 minutes of skimming gives you a good overview." },
-      { question: "Matching Headings cần kỹ năng nào nhất?", options: ["Scanning", "Skimming", "Cả hai bằng nhau", "Không cần kỹ năng đặc biệt"], answer: 1, explanation: "Matching Headings requires understanding main ideas = skimming." },
+      { question: "Skimming is used for:", options: ["Finding proper nouns", "Getting the main idea", "Finding statistics", "Reading word by word"], answer: 1, explanation: "Skimming = reading quickly for the main idea." },
+      { question: "When scanning, you look for:", options: ["Main idea", "Specific keywords", "Grammar rules", "Writing style"], answer: 1, explanation: "Scanning = looking for specific keywords." },
+      { question: "How long should you skim a passage?", options: ["10 seconds", "2-3 minutes", "10 minutes", "No need to skim"], answer: 1, explanation: "2-3 minutes of skimming gives you a good overview." },
+      { question: "Which skill is most needed for Matching Headings?", options: ["Scanning", "Skimming", "Both equally", "No special skill needed"], answer: 1, explanation: "Matching Headings requires understanding main ideas = skimming." },
     ],
   },
   {
@@ -340,9 +340,9 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "Classification questions thường có categories là:", options: ["Từ vựng", "Tên người, lý thuyết, hoặc giai đoạn", "Số liệu", "Câu hỏi"], answer: 1, explanation: "Categories are usually people, theories, or time periods." },
-      { question: "Khi giải classification, bạn nên:", options: ["Dùng kiến thức riêng", "Dựa hoàn toàn vào passage", "Đoán ngẫu nhiên", "Bỏ qua"], answer: 1, explanation: "Always base answers on the passage, not general knowledge." },
-      { question: "Nếu statement liên quan đến 'Dr. Smith's theory', bạn tìm:", options: ["Tên 'Dr. Smith' trong passage", "Từ 'theory' bất kỳ", "Đoạn cuối cùng", "Tiêu đề bài"], answer: 0, explanation: "Scan for the specific name 'Dr. Smith' in the passage." },
+      { question: "Classification questions typically have categories of:", options: ["Vocabulary", "Names, theories, or time periods", "Statistics", "Questions"], answer: 1, explanation: "Categories are usually people, theories, or time periods." },
+      { question: "When solving classification questions, you should:", options: ["Use personal knowledge", "Rely entirely on the passage", "Guess randomly", "Skip them"], answer: 1, explanation: "Always base answers on the passage, not general knowledge." },
+      { question: "Nếu statement liên quan đến 'Dr. Smith's theory', bạn tìm:", options: ["The name 'Dr. Smith' in the passage", "Any occurrence of 'theory'", "The last paragraph", "The title"], answer: 0, explanation: "Scan for the specific name 'Dr. Smith' in the passage." },
     ],
   },
 ];
@@ -402,10 +402,10 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "Section 1 listening thường là:", options: ["Bài giảng đại học", "Hội thoại giữa 2 người", "Monologue", "Bài phát biểu"], answer: 1, explanation: "Section 1 is always a conversation between two people." },
-      { question: "Khi nghe số điện thoại, bạn nên:", options: ["Viết toàn bộ 1 lần", "Viết từng nhóm số", "Chỉ nhớ trong đầu", "Bỏ qua"], answer: 1, explanation: "Write numbers in groups to ensure accuracy." },
+      { question: "Section 1 listening is usually:", options: ["A university lecture", "A conversation between 2 people", "A monologue", "A speech"], answer: 1, explanation: "Section 1 is always a conversation between two people." },
+      { question: "When hearing phone numbers, you should:", options: ["Write everything at once", "Write in groups of digits", "Just memorize", "Skip them"], answer: 1, explanation: "Write numbers in groups to ensure accuracy." },
       { question: "'Double 7' nghĩa là:", options: ["7", "77", "14", "27"], answer: 1, explanation: "'Double 7' means 77 — two sevens." },
-      { question: "Nếu bạn miss 1 câu trả lời, bạn nên:", options: ["Quay lại tìm", "Dừng lại suy nghĩ", "Tiếp tục câu tiếp theo", "Bỏ cuộc"], answer: 2, explanation: "Never go back — you'll miss more answers. Move forward." },
+      { question: "If you miss one answer, you should:", options: ["Go back and search", "Stop and think", "Move on to the next question", "Give up"], answer: 2, explanation: "Never go back — you'll miss more answers. Move forward." },
     ],
   },
   {
@@ -458,9 +458,9 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "Khi giải Map Labelling, điều đầu tiên cần làm:", options: ["Bắt đầu nghe ngay", "Xem map và xác định orientation", "Đọc đáp án", "Viết tên các vị trí"], answer: 1, explanation: "Always look at the map first to understand the layout." },
-      { question: "'Opposite the entrance' nghĩa là:", options: ["Bên cạnh cửa vào", "Đối diện cửa vào", "Phía sau cửa vào", "Phía trên cửa vào"], answer: 1, explanation: "'Opposite' means facing, on the other side." },
-      { question: "Bạn nên dùng gì để theo dõi trên map?", options: ["Mắt nhìn 1 điểm", "Ngón tay di chuyển theo speaker", "Không cần nhìn map", "Chỉ đọc nhãn"], answer: 1, explanation: "Moving your finger helps track the speaker's movement." },
+      { question: "When doing Map Labelling, the first thing to do is:", options: ["Start listening immediately", "Look at the map and identify orientation", "Read the answers", "Write down location names"], answer: 1, explanation: "Always look at the map first to understand the layout." },
+      { question: "'Opposite the entrance' means:", options: ["Next to the entrance", "Facing the entrance", "Behind the entrance", "Above the entrance"], answer: 1, explanation: "'Opposite' means facing, on the other side." },
+      { question: "What should you use to track on the map?", options: ["Eyes fixed on one point", "Finger moving along with the speaker", "No need to look at the map", "Just read the labels"], answer: 1, explanation: "Moving your finger helps track the speaker's movement." },
     ],
   },
   {
@@ -511,7 +511,7 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
       },
     ],
     quiz: [
-      { question: "Section 3 listening là về:", options: ["Cuộc trò chuyện xã giao", "Thảo luận học thuật", "Tin tức", "Giải trí"], answer: 1, explanation: "Section 3 is always an academic discussion." },
+      { question: "Section 3 listening is about:", options: ["Casual conversation", "Academic discussion", "News", "Entertainment"], answer: 1, explanation: "Section 3 is always an academic discussion." },
       { question: "Khi 2 speakers tranh luận, đáp án thường là:", options: ["Ý kiến đầu tiên", "Ý kiến cuối cùng/thống nhất", "Ý kiến của bạn", "Không ai đúng"], answer: 1, explanation: "The final/agreed opinion is usually the answer." },
       { question: "'I agree with you' cho thấy speaker đang:", options: ["Phản đối", "Đồng ý", "Hỏi câu hỏi", "Đổi chủ đề"], answer: 1, explanation: "'I agree' clearly shows agreement." },
     ],
