@@ -90,6 +90,21 @@ const English = () => {
         t("Chiến lược phân bổ thời gian & kỹ thuật loại trừ đáp án", "Time management strategies & answer elimination techniques"),
       ],
     },
+    {
+      title: t("Luyện thi SAT", "SAT Preparation"),
+      level: t("Trung cấp → Nâng cao", "Intermediate → Advanced"),
+      desc: t(
+        "Chương trình luyện thi SAT toàn diện với trọng tâm Reading & Writing, từ vựng nâng cao và chiến lược làm bài hiệu quả. Phù hợp cho học sinh chuẩn bị du học Mỹ.",
+        "Comprehensive SAT preparation focusing on Reading & Writing, advanced vocabulary, and effective test strategies. Ideal for students preparing to study in the US."
+      ),
+      features: [
+        t("Evidence-Based Reading: chiến lược đọc hiểu dựa trên bằng chứng", "Evidence-Based Reading: evidence-based comprehension strategies"),
+        t("Words in Context: từ đa nghĩa và sắc thái ngữ nghĩa", "Words in Context: polysemy and semantic nuance"),
+        t("Standard English Conventions: ngữ pháp, dấu câu, cấu trúc câu", "Standard English Conventions: grammar, punctuation, sentence structure"),
+        t("Rhetorical Synthesis: dạng bài mới trong Digital SAT", "Rhetorical Synthesis: new question type on the Digital SAT"),
+        t("Từ vựng SAT nâng cao với gốc từ Latin/Greek", "Advanced SAT vocabulary with Latin/Greek roots"),
+      ],
+    },
   ];
 
   const lookupWord = async () => {
@@ -164,7 +179,7 @@ const English = () => {
                     ))}
                   </ul>
                   <div className="flex gap-3">
-                    <Link to={`/english/${["cambridge", "ielts", "toeic", "conversational", "national-exam"][i]}`} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
+                    <Link to={`/english/${["cambridge", "ielts", "toeic", "conversational", "national-exam", "sat"][i]}`} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
                       {t("Xem chi tiết", "View details")} <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>

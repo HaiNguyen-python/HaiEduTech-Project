@@ -77,7 +77,7 @@ export interface LanguageModule {
   color: string;
   description: string;
   descriptionEn: string;
-  category: "ielts" | "toeic" | "cambridge" | "national-exam" | "hsk" | "chinese-conv" | "grammar";
+  category: "ielts" | "toeic" | "cambridge" | "national-exam" | "hsk" | "chinese-conv" | "grammar" | "sat";
   language: "english" | "chinese";
   lessons: LanguageLesson[];
 }

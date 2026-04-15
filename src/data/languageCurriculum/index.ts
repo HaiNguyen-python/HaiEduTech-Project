@@ -8,11 +8,12 @@ import { grammarExtraLessons, grammarExpansionModules } from "./englishGrammarEx
 import { englishExpansion3Modules } from "./englishExpansion3";
 import { englishExpansion4Modules } from "./englishExpansion4";
 import { chineseExpansionModules } from "./chineseExpansion";
+import { satModules } from "./englishSat";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
 
 export type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry };
 
-export { ieltsModules, toeicModules, cambridgeModules, nationalExamModules, hskModules, chineseConvModules, grammarModules };
+export { ieltsModules, toeicModules, cambridgeModules, nationalExamModules, hskModules, chineseConvModules, grammarModules, satModules };
 
 // Merge extra lessons into existing grammar modules
 const expandedGrammarModules: LanguageModule[] = grammarModules.map(mod => {
@@ -33,6 +34,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...grammarExpansionModules,
   ...englishExpansion3Modules,
   ...englishExpansion4Modules,
+  ...satModules,
 ];
 
 // All Chinese modules combined
