@@ -1,5 +1,4 @@
-// Content Quality Audit Edge Function
-// Validates grammar, factual accuracy, and tone of generated lessons using Perplexity API
+// Content Quality Audit Edge Function — Admin only
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -12,18 +11,36 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    // JWT Authentication + Admin role check
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+    const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey, { global: { headers: { Authorization: authHeader } } });
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await supabaseAuth.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const userId = claimsData.claims.sub;
+
+    // Check teacher/admin role
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const sb = createClient(supabaseUrl, supabaseKey);
+    const { data: roleCheck } = await sb.rpc('has_role', { _user_id: userId, _role: 'teacher' });
+    const { data: adminCheck } = await sb.rpc('has_role', { _user_id: userId, _role: 'admin' });
+    if (!roleCheck && !adminCheck) {
+      return new Response(JSON.stringify({ error: 'Forbidden: teacher/admin role required' }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     const { lessonId, content, action } = await req.json();
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const sb = createClient(supabaseUrl, supabaseKey);
-
-    // Action: "check-grammar" for student notes
     if (action === "check-grammar") {
-      const { text } = await req.json().catch(() => ({ text: content }));
-      const textToCheck = text || content;
+      const textToCheck = content;
       
       const response = await fetch("https://api.perplexity.ai/chat/completions", {
         method: "POST",
@@ -54,10 +71,9 @@ If the text is perfect, return empty errors array and score 9.0. Be encouraging 
 
       if (!response.ok) {
         const status = response.status;
-        const errText = await response.text();
         if (status === 429) return new Response(JSON.stringify({ error: "Rate limited, please try again later." }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
         if (status === 402) return new Response(JSON.stringify({ error: "Credits exhausted. Please add funds." }), { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-        throw new Error(`Perplexity API error: ${status} ${errText}`);
+        throw new Error(`Perplexity API error: ${status}`);
       }
 
       const data = await response.json();
@@ -71,7 +87,6 @@ If the text is perfect, return empty errors array and score 9.0. Be encouraging 
       });
     }
 
-    // Action: "audit-lesson" for content quality validation
     if (action === "audit-lesson" && lessonId) {
       const { data: lesson } = await sb
         .from("generated_lessons")
@@ -134,7 +149,6 @@ Return JSON:
 
       const auditResult = JSON.parse(auditMatch[0]);
 
-      // If quality is too low, unpublish the lesson
       if (!auditResult.passed || auditResult.quality_score < 50) {
         await sb
           .from("generated_lessons")

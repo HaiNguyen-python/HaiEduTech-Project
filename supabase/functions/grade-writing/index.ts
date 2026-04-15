@@ -6,32 +6,35 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// Log API usage to database (fire-and-forget)
 async function logUsage(functionName: string, model: string, domain: string, tokensUsed: number, status: string, errorMessage?: string) {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const sb = createClient(supabaseUrl, supabaseKey);
-    // Perplexity sonar pricing: ~$1 per 1M tokens (input+output combined estimate)
     const estimatedCost = tokensUsed * 0.000001;
     await sb.from("api_usage_log").insert({
-      function_name: functionName,
-      model,
-      domain,
-      tokens_used: tokensUsed,
-      estimated_cost: estimatedCost,
-      status,
-      error_message: errorMessage || null,
+      function_name: functionName, model, domain, tokens_used: tokensUsed,
+      estimated_cost: estimatedCost, status, error_message: errorMessage || null,
     });
-  } catch (e) {
-    console.error("Usage logging failed:", e);
-  }
+  } catch (e) { console.error("Usage logging failed:", e); }
 }
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    // JWT Authentication
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const supabaseAuth = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: authHeader } } });
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await supabaseAuth.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     const { essay } = await req.json();
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
@@ -141,7 +144,6 @@ CRITICAL RULES:
       throw new Error("Failed to parse grading result");
     }
 
-    // Log successful usage
     await logUsage("grade-writing", "sonar", "english", tokensUsed, "success");
 
     return new Response(JSON.stringify(parsed), {

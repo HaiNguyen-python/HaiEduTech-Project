@@ -1,5 +1,4 @@
-// Automated Daily Content Generation Edge Function
-// Generates 3-5 new lessons across subjects daily to keep content fresh
+// Automated Daily Content Generation Edge Function — Admin only
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -8,7 +7,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Daily generation plan: rotate subjects and categories
 const DAILY_PLAN = [
   { subject: "english", category: "grammar", level: "B1" },
   { subject: "english", category: "vocabulary", level: "B2" },
@@ -22,10 +20,31 @@ serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+    // JWT Authentication + Admin role check
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey, { global: { headers: { Authorization: authHeader } } });
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await supabaseAuth.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const userId = claimsData.claims.sub;
+
     const sb = createClient(supabaseUrl, supabaseKey);
 
-    // Check how many lessons were generated today
+    // Check teacher/admin role
+    const { data: roleCheck } = await sb.rpc('has_role', { _user_id: userId, _role: 'teacher' });
+    const { data: adminCheck } = await sb.rpc('has_role', { _user_id: userId, _role: 'admin' });
+    if (!roleCheck && !adminCheck) {
+      return new Response(JSON.stringify({ error: 'Forbidden: teacher/admin role required' }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);
     
@@ -34,7 +53,6 @@ serve(async (req) => {
       .select("*", { count: "exact", head: true })
       .gte("created_at", todayStart.toISOString());
 
-    // Skip if we already generated 5+ lessons today
     if ((todayCount || 0) >= 5) {
       return new Response(JSON.stringify({ 
         message: "Daily quota reached", 
@@ -47,7 +65,6 @@ serve(async (req) => {
     const remaining = 5 - (todayCount || 0);
     const plan = DAILY_PLAN.slice(0, remaining);
 
-    // Rotate categories based on day of week to ensure diversity
     const dayOfWeek = new Date().getDay();
     const categoryRotation: Record<string, string[]> = {
       english: ["grammar", "vocabulary", "reading", "fill-blank", "reorder", "dialogue"],
@@ -55,7 +72,6 @@ serve(async (req) => {
       programming: ["concept", "fix-bug", "mini-project"],
     };
 
-    // Adjust plan based on day rotation
     const adjustedPlan = plan.map((item, i) => {
       const cats = categoryRotation[item.subject];
       const rotatedIdx = (dayOfWeek + i) % cats.length;
@@ -66,11 +82,10 @@ serve(async (req) => {
 
     for (const item of adjustedPlan) {
       try {
-        // Call the existing generate-and-store-lesson function
         const response = await fetch(`${supabaseUrl}/functions/v1/generate-and-store-lesson`, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${supabaseKey}`,
+            Authorization: authHeader,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -88,7 +103,6 @@ serve(async (req) => {
           results.push({ status: "error", subject: item.subject, error: errText });
         }
 
-        // Delay between generations to avoid rate limiting
         await new Promise(r => setTimeout(r, 3000));
       } catch (e) {
         results.push({ status: "error", subject: item.subject, error: String(e) });
