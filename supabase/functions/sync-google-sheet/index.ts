@@ -157,11 +157,11 @@ serve(async (req) => {
       .delete()
       .like("student_name", "%Classes%");
 
-    // 2. Delete all per-student IELTS FOUNDATION records from sheet sync
+    // 2. Delete all per-student IELTS records from sheet sync
     await supabaseAdmin
       .from("revenue_logs")
       .delete()
-      .or("course.eq.IELTS FOUNDATION,course.eq.IELTS Foundation,course.eq.IELTS LEVEL 1,course.eq.IELTS Foundation ");
+      .or("course.eq.IELTS FOUNDATION,course.eq.IELTS Foundation,course.eq.IELTS LEVEL 1");
 
     // 3. Insert all fresh records from sheet
     let inserted = 0;
