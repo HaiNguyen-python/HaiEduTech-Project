@@ -101,9 +101,9 @@ export const grammarModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Chọn câu đúng:", options: ["She go to school every day.", "She goes to school every day.", "She going to school every day.", "She is go to school every day."], answer: 1, explanation: "Present Simple: ngôi 3 số ít thêm -s/-es" },
-          { question: "'I ___ (live) here since 2010.' — Chọn đáp án đúng:", options: ["live", "am living", "have lived", "lived"], answer: 2, explanation: "Since + mốc thời gian → Present Perfect" },
-          { question: "Động từ nào KHÔNG dùng ở thì tiếp diễn?", options: ["run", "swim", "believe", "cook"], answer: 2, explanation: "'Believe' là stative verb, không dùng ở continuous" },
+          { question: "Choose the correct sentence:", options: ["She go to school every day.", "She goes to school every day.", "She going to school every day.", "She is go to school every day."], answer: 1, explanation: "Present Simple: 3rd person singular adds -s/-es" },
+          { question: "'I ___ (live) here since 2010.' — Choose the correct answer:", options: ["live", "am living", "have lived", "lived"], answer: 2, explanation: "Since + point in time → Present Perfect" },
+          { question: "Which verb is NOT used in continuous tenses?", options: ["run", "swim", "believe", "cook"], answer: 2, explanation: "'Believe' is a stative verb, not used in continuous tenses" },
         ],
       },
       {
@@ -165,9 +165,9 @@ export const grammarModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "While I ___ (walk), it started to rain.", options: ["walked", "was walking", "had walked", "am walking"], answer: 1, explanation: "While + Past Continuous: hành động đang diễn ra bị gián đoạn" },
-          { question: "By the time she arrived, he ___.", options: ["left", "has left", "had left", "was leaving"], answer: 2, explanation: "By the time + Past Simple → Past Perfect cho hành động xảy ra trước" },
-          { question: "'Yesterday' là dấu hiệu của thì nào?", options: ["Present Perfect", "Past Simple", "Past Continuous", "Future Simple"], answer: 1, explanation: "Yesterday là dấu hiệu rõ ràng của Past Simple" },
+          { question: "While I ___ (walk), it started to rain.", options: ["walked", "was walking", "had walked", "am walking"], answer: 1, explanation: "While + Past Continuous: an ongoing action that gets interrupted" },
+          { question: "By the time she arrived, he ___.", options: ["left", "has left", "had left", "was leaving"], answer: 2, explanation: "By the time + Past Simple → Past Perfect for the earlier action" },
+          { question: "'Yesterday' is a signal word for which tense?", options: ["Present Perfect", "Past Simple", "Past Continuous", "Future Simple"], answer: 1, explanation: "'Yesterday' is a clear signal for Past Simple" },
         ],
       },
       {
@@ -235,9 +235,9 @@ export const grammarModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'I promise I ___ be late.' — Chọn đáp án đúng:", options: ["am not going to", "won't", "am not", "don't"], answer: 1, explanation: "Lời hứa → dùng will (won't = will not)" },
-          { question: "Dùng 'be going to' khi nào?", options: ["Quyết định tức thời", "Lời hứa", "Kế hoạch đã lên sẵn", "Sự thật chung"], answer: 2, explanation: "Be going to dùng cho kế hoạch đã quyết định trước" },
-          { question: "This time tomorrow, I ___ on the beach.", options: ["will lie", "will be lying", "am going to lie", "lie"], answer: 1, explanation: "Hành động đang diễn ra tại thời điểm tương lai → Future Continuous" },
+          { question: "'I promise I ___ be late.' — Choose the correct answer:", options: ["am not going to", "won't", "am not", "don't"], answer: 1, explanation: "Promises → use 'will' (won't = will not)" },
+          { question: "When do we use 'be going to'?", options: ["Instant decisions", "Promises", "Pre-planned actions", "General truths"], answer: 2, explanation: "'Be going to' is used for pre-planned actions" },
+          { question: "This time tomorrow, I ___ on the beach.", options: ["will lie", "will be lying", "am going to lie", "lie"], answer: 1, explanation: "An action in progress at a future time → Future Continuous" },
         ],
       },
     ],
@@ -304,9 +304,9 @@ export const grammarModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "If I ___ you, I would apologize.", options: ["am", "was", "were", "be"], answer: 2, explanation: "Type 2: luôn dùng 'were' cho tất cả các ngôi" },
-          { question: "Type 1 dùng thì nào ở mệnh đề IF?", options: ["Past Simple", "Present Simple", "Future Simple", "Present Perfect"], answer: 1, explanation: "If + Present Simple, S + will + V" },
-          { question: "If water reaches 0°C, it ___.", options: ["will freeze", "would freeze", "freezes", "froze"], answer: 2, explanation: "Type 0: sự thật chung → cả 2 vế dùng Present Simple" },
+          { question: "If I ___ you, I would apologize.", options: ["am", "was", "were", "be"], answer: 2, explanation: "Type 2: always use 'were' for all subjects" },
+          { question: "Which tense is used in the IF clause of Type 1?", options: ["Past Simple", "Present Simple", "Future Simple", "Present Perfect"], answer: 1, explanation: "If + Present Simple, S + will + V" },
+          { question: "If water reaches 0°C, it ___.", options: ["will freeze", "would freeze", "freezes", "froze"], answer: 2, explanation: "Type 0: general truths → both clauses use Present Simple" },
         ],
       },
       {
@@ -360,8 +360,8 @@ export const grammarModules: LanguageModule[] = [
         ],
         quiz: [
           { question: "If he had studied, he ___ the exam.", options: ["will pass", "would pass", "would have passed", "passes"], answer: 2, explanation: "Type 3: If + had V3, would have V3" },
-          { question: "Mixed conditional 'Past → Present' dùng cấu trúc gì?", options: ["If + V2, would + V", "If + had V3, would + V", "If + V1, will + V", "If + had V3, would have V3"], answer: 1, explanation: "Quá khứ (had V3) ảnh hưởng đến hiện tại (would V)" },
-          { question: "If I ___ harder last year, I would have a better job now.", options: ["worked", "had worked", "have worked", "work"], answer: 1, explanation: "Mixed: If + had V3 (quá khứ), would V (hiện tại)" },
+          { question: "What structure does 'Past → Present' mixed conditional use?", options: ["If + V2, would + V", "If + had V3, would + V", "If + V1, will + V", "If + had V3, would have V3"], answer: 1, explanation: "Past condition (had V3) affecting present result (would V)" },
+          { question: "If I ___ harder last year, I would have a better job now.", options: ["worked", "had worked", "have worked", "work"], answer: 1, explanation: "Mixed: If + had V3 (past), would V (present)" },
         ],
       },
     ],
@@ -442,9 +442,9 @@ export const grammarModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Chuyển sang bị động: 'They have repaired the car.'", options: ["The car has been repaired.", "The car have been repaired.", "The car was repaired.", "The car is repaired."], answer: 0, explanation: "Present Perfect passive: has/have been + V3" },
-          { question: "Câu nào đúng?", options: ["The cake is being make.", "The cake is being made.", "The cake is been made.", "The cake being is made."], answer: 1, explanation: "Present Continuous passive: is/are being + V3" },
-          { question: "Khi nào nên dùng câu bị động?", options: ["Khi muốn nhấn mạnh chủ ngữ", "Khi muốn nhấn mạnh đối tượng chịu tác động", "Khi câu quá ngắn", "Khi viết email thân mật"], answer: 1, explanation: "Bị động nhấn mạnh đối tượng chịu tác động" },
+          { question: "Convert to passive: 'They have repaired the car.'", options: ["The car has been repaired.", "The car have been repaired.", "The car was repaired.", "The car is repaired."], answer: 0, explanation: "Present Perfect passive: has/have been + V3" },
+          { question: "Which sentence is correct?", options: ["The cake is being make.", "The cake is being made.", "The cake is been made.", "The cake being is made."], answer: 1, explanation: "Present Continuous passive: is/are being + V3" },
+          { question: "When should you use passive voice?", options: ["To emphasize the subject", "To emphasize the object/receiver of the action", "When the sentence is too short", "When writing casual emails"], answer: 1, explanation: "Passive voice emphasizes the object/receiver of the action" },
         ],
       },
       {
@@ -495,9 +495,9 @@ export const grammarModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'It is reported that the economy is improving.' — Cấu trúc gì?", options: ["Causative", "Passive with reporting verb", "Mixed conditional", "Relative clause"], answer: 1, explanation: "It + be + V3 (reporting verb) + that clause" },
-          { question: "'I had my car washed.' nghĩa là:", options: ["Tôi rửa xe", "Tôi nhờ người rửa xe", "Xe tôi bị hỏng", "Tôi đang rửa xe"], answer: 1, explanation: "Causative: have + O + V3 = nhờ ai đó làm" },
-          { question: "Chuyển sang bị động: 'They gave her a prize.'", options: ["A prize was gave to her.", "She was given a prize.", "Her was given a prize.", "A prize given to her."], answer: 1, explanation: "Bị động với 2 tân ngữ — nhấn mạnh người nhận" },
+          { question: "'It is reported that the economy is improving.' — What structure is this?", options: ["Causative", "Passive with reporting verb", "Mixed conditional", "Relative clause"], answer: 1, explanation: "It + be + V3 (reporting verb) + that clause" },
+          { question: "'I had my car washed.' means:", options: ["I washed my car", "I had someone wash my car", "My car broke down", "I am washing my car"], answer: 1, explanation: "Causative: have + O + V3 = arrange for someone to do something" },
+          { question: "Convert to passive: 'They gave her a prize.'", options: ["A prize was gave to her.", "She was given a prize.", "Her was given a prize.", "A prize given to her."], answer: 1, explanation: "Passive with two objects — emphasizing the receiver" },
         ],
       },
     ],
@@ -717,7 +717,7 @@ Used to identify the noun before them, **no commas**.
           },
         ],
         quiz: [
-          { question: "Chọn câu đúng:", options: ["The boy who his father is rich.", "The boy whose father is rich.", "The boy who's father is rich.", "The boy whom father is rich."], answer: 1, explanation: "'Whose' dùng cho sở hữu" },
+          { question: "Choose the correct sentence:", options: ["The boy who his father is rich.", "The boy whose father is rich.", "The boy who's father is rich.", "The boy whom father is rich."], answer: 1, explanation: "'Whose' dùng cho sở hữu" },
           { question: "Khi nào có thể lược bỏ đại từ quan hệ?", options: ["Khi nó là chủ ngữ", "Khi nó là tân ngữ", "Khi dùng 'whose'", "Không bao giờ"], answer: 1, explanation: "Chỉ lược bỏ khi đại từ là tân ngữ của mệnh đề quan hệ" },
           { question: "'That' KHÔNG dùng được sau:", options: ["Danh từ chỉ người", "Danh từ chỉ vật", "Dấu phẩy (non-defining clause)", "Superlative"], answer: 2, explanation: "'That' không dùng trong mệnh đề quan hệ không xác định (có dấu phẩy)" },
         ],

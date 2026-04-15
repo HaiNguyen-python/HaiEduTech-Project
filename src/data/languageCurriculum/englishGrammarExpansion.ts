@@ -104,11 +104,11 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       }
     ],
     quiz: [
-      { question: "Chọn câu đúng:", options: ["I have been knowing him for years.", "I have known him for years.", "I had been knowing him for years.", "I am knowing him for years."], answer: 1, explanation: "'Know' là stative verb, không dùng dạng Continuous." },
-      { question: "'By the time she arrived, he ___ the report.'", options: ["has finished", "had finished", "have been finishing", "finished"], answer: 1, explanation: "Past Perfect vì hành động hoàn thành trước mốc quá khứ 'she arrived'." },
-      { question: "'We ___ for 3 hours when the bus finally came.' Chọn đáp án đúng:", options: ["have been waiting", "had been waiting", "waited", "are waiting"], answer: 1, explanation: "Past Perfect Continuous: quá trình kéo dài đến mốc quá khứ." },
-      { question: "Câu nào dùng Present Perfect Continuous đúng?", options: ["She has been reading since 2 PM.", "She has been owning this car for 5 years.", "I have been believing in you.", "They have been seeming happy."], answer: 0, explanation: "Chỉ 'read' là action verb, có thể dùng Continuous. Own, believe, seem là stative verbs." },
-      { question: "'I ___ English for 5 years.' — nhấn mạnh quá trình:", options: ["study", "have studied", "have been studying", "had studied"], answer: 2, explanation: "Present Perfect Continuous nhấn mạnh quá trình kéo dài đến hiện tại." }
+      { question: "Choose the correct sentence:", options: ["I have been knowing him for years.", "I have known him for years.", "I had been knowing him for years.", "I am knowing him for years."], answer: 1, explanation: "'Know' is a stative verb, not used in Continuous form." },
+      { question: "'By the time she arrived, he ___ the report.'", options: ["has finished", "had finished", "have been finishing", "finished"], answer: 1, explanation: "Past Perfect because the action was completed before the past moment 'she arrived'." },
+      { question: "'We ___ for 3 hours when the bus finally came.' Choose the correct answer:", options: ["have been waiting", "had been waiting", "waited", "are waiting"], answer: 1, explanation: "Past Perfect Continuous: a process continuing up to a past moment." },
+      { question: "Which sentence uses Present Perfect Continuous correctly?", options: ["She has been reading since 2 PM.", "She has been owning this car for 5 years.", "I have been believing in you.", "They have been seeming happy."], answer: 0, explanation: "Only 'read' is an action verb usable in Continuous. Own, believe, seem are stative verbs." },
+      { question: "'I ___ English for 5 years.' — emphasizing the ongoing process:", options: ["study", "have studied", "have been studying", "had studied"], answer: 2, explanation: "Present Perfect Continuous emphasizes an ongoing process up to the present." }
     ]
   },
   {
@@ -188,11 +188,11 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       }
     ],
     quiz: [
-      { question: "'By 2030, they ___ the new hospital.'", options: ["will build", "will have built", "will have been building", "are building"], answer: 1, explanation: "Future Perfect: hoàn thành trước mốc tương lai 2030." },
-      { question: "Câu nào nhấn mạnh quá trình?", options: ["I will have read 5 books.", "I will have been reading for 3 hours.", "I will read a book.", "I read books."], answer: 1, explanation: "Future Perfect Continuous nhấn mạnh thời gian/quá trình." },
-      { question: "'By the time you ___, I will have left.' Điền đúng:", options: ["will arrive", "arrive", "arrived", "have arrived"], answer: 1, explanation: "Mệnh đề phụ với 'by the time' dùng thì hiện tại đơn." },
-      { question: "Future Perfect Continuous nhấn mạnh điều gì?", options: ["Kết quả", "Thời gian/quá trình kéo dài", "Hành động lặp lại", "Sự thật"], answer: 1, explanation: "Future Perfect Continuous luôn nhấn mạnh thời gian kéo dài đến mốc tương lai." },
-      { question: "'She ___ here for 20 years by next month.'", options: ["works", "will work", "will have been working", "has worked"], answer: 2, explanation: "Quá trình kéo dài đến mốc tương lai → Future Perfect Continuous." }
+      { question: "'By 2030, they ___ the new hospital.'", options: ["will build", "will have built", "will have been building", "are building"], answer: 1, explanation: "Future Perfect: completed before the future point 2030." },
+      { question: "Which sentence emphasizes the process/duration?", options: ["I will have read 5 books.", "I will have been reading for 3 hours.", "I will read a book.", "I read books."], answer: 1, explanation: "Future Perfect Continuous emphasizes duration/process." },
+      { question: "'By the time you ___, I will have left.' Fill in correctly:", options: ["will arrive", "arrive", "arrived", "have arrived"], answer: 1, explanation: "The subordinate clause with 'by the time' uses present simple." },
+      { question: "What does Future Perfect Continuous emphasize?", options: ["Result", "Duration/ongoing process", "Repeated actions", "Facts"], answer: 1, explanation: "Future Perfect Continuous always emphasizes duration up to a future point." },
+      { question: "'She ___ here for 20 years by next month.'", options: ["works", "will work", "will have been working", "has worked"], answer: 2, explanation: "An ongoing process up to a future point → Future Perfect Continuous." }
     ]
   },
   // ===== CONDITIONALS EXTRA =====
@@ -284,11 +284,11 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       }
     ],
     quiz: [
-      { question: "'I wish I ___ taller.' (hiện tại)", options: ["am", "was", "were", "be"], answer: 2, explanation: "Wish + were (formal) cho ước hiện tại." },
-      { question: "'If only she ___ that email.' (quá khứ, hối tiếc)", options: ["didn't send", "hadn't sent", "doesn't send", "won't send"], answer: 1, explanation: "Wish about past → had + V3/ed." },
-      { question: "Câu nào SAI?", options: ["I wish I would be smarter.", "I wish I were smarter.", "If only I could fly.", "I wish it would rain."], answer: 0, explanation: "'I wish I would' là sai. Dùng 'I wish I were' hoặc 'I wish I could'." },
-      { question: "'He wishes he ___ the exam.' (hối tiếc không đỗ)", options: ["passes", "passed", "had passed", "would pass"], answer: 2, explanation: "Hối tiếc quá khứ → had + V3." },
-      { question: "'If only' khác 'I wish' như thế nào?", options: ["Giống hoàn toàn", "If only mạnh hơn, cảm xúc hơn", "If only chỉ dùng cho quá khứ", "If only dùng với will"], answer: 1, explanation: "If only = I wish nhưng thể hiện cảm xúc mạnh hơn." }
+      { question: "'I wish I ___ taller.' (present wish)", options: ["am", "was", "were", "be"], answer: 2, explanation: "Wish + were (formal) for present wishes." },
+      { question: "'If only she ___ that email.' (past regret)", options: ["didn't send", "hadn't sent", "doesn't send", "won't send"], answer: 1, explanation: "Wish about the past → had + V3/ed." },
+      { question: "Which sentence is WRONG?", options: ["I wish I would be smarter.", "I wish I were smarter.", "If only I could fly.", "I wish it would rain."], answer: 0, explanation: "'I wish I would' is incorrect. Use 'I wish I were' or 'I wish I could'." },
+      { question: "'He wishes he ___ the exam.' (regret about not passing)", options: ["passes", "passed", "had passed", "would pass"], answer: 2, explanation: "Past regret → had + V3." },
+      { question: "How is 'If only' different from 'I wish'?", options: ["Exactly the same", "If only is stronger and more emotional", "If only is used only for the past", "If only is used with will"], answer: 1, explanation: "If only = I wish but expresses stronger emotion." }
     ]
   },
   // ===== PASSIVE EXTRA =====
@@ -379,7 +379,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       }
     ],
     quiz: [
-      { question: "'I ___ my hair cut.' — Đúng:", options: ["have", "had", "got", "Tất cả đều được"], answer: 3, explanation: "Cả have, had (quá khứ), got đều đúng với causative." },
+      { question: "'I ___ my hair cut.' — Correct form:", options: ["have", "had", "got", "All are correct"], answer: 3, explanation: "Have, had (past), and got are all correct in causative structures." },
       { question: "'I had my friend ___ me.'", options: ["help", "to help", "helped", "helping"], answer: 0, explanation: "Have + sb + V(bare infinitive)." },
       { question: "'I got my friend ___ me.'", options: ["help", "to help", "helped", "helping"], answer: 1, explanation: "Get + sb + TO + V(infinitive)." },
       { question: "'I cut my hair' nghĩa là:", options: ["Tôi nhờ thợ cắt tóc", "Tôi tự cắt tóc", "Tóc tôi bị cắt", "Tôi sẽ cắt tóc"], answer: 1, explanation: "Không có causative → tự làm." },
@@ -468,7 +468,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     quiz: [
       { question: "'\"Do you speak English?\" → She asked ___'", options: ["if I speak English.", "if I spoke English.", "do I speak English.", "if did I speak English."], answer: 1, explanation: "Lùi thì: speak → spoke. Trật tự câu khẳng định." },
-      { question: "Câu nào SAI?", options: ["He asked where I lived.", "He asked where did I live.", "He asked if I was ready.", "She asked what time it was."], answer: 1, explanation: "Reported question KHÔNG đảo ngữ: 'where did I live' → sai." },
+      { question: "Which sentence is WRONG?", options: ["He asked where I lived.", "He asked where did I live.", "He asked if I was ready.", "She asked what time it was."], answer: 1, explanation: "Reported question KHÔNG đảo ngữ: 'where did I live' → sai." },
       { question: "'\"What are you doing?\" → She asked ___'", options: ["what I was doing.", "what was I doing.", "what am I doing.", "what I am doing."], answer: 0, explanation: "Lùi thì + trật tự khẳng định." },
       { question: "Yes/No question tường thuật dùng:", options: ["that", "what", "if/whether", "which"], answer: 2, explanation: "Yes/No → if hoặc whether." },
       { question: "'\"Will you help me?\" → He asked ___'", options: ["if I would help him.", "will I help him.", "if I will help him.", "would I help him."], answer: 0, explanation: "will → would, you → I, me → him." }
@@ -555,7 +555,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     ],
     quiz: [
       { question: "'The man ___ I spoke is kind.' (formal)", options: ["to who", "to that", "to whom", "whom to"], answer: 2, explanation: "Formal: preposition + whom cho người." },
-      { question: "Câu nào SAI?", options: ["The chair on which she sat.", "The chair to that she sat.", "The chair which she sat on.", "The chair that she sat on."], answer: 1, explanation: "Không dùng 'that' sau giới từ." },
+      { question: "Which sentence is WRONG?", options: ["The chair on which she sat.", "The chair to that she sat.", "The chair which she sat on.", "The chair that she sat on."], answer: 1, explanation: "Không dùng 'that' sau giới từ." },
       { question: "'The reason ___ he left is unclear.' (formal)", options: ["for which", "for that", "which for", "to which"], answer: 0, explanation: "for which = the reason." },
       { question: "Formal style đặt giới từ ở đâu?", options: ["Cuối mệnh đề", "Trước đại từ quan hệ", "Sau động từ", "Trước chủ ngữ"], answer: 1, explanation: "Formal: giới từ + whom/which." },
       { question: "'in which' tương đương:", options: ["that... in", "which... in", "where", "Tất cả đều đúng"], answer: 3, explanation: "in which = where = that...in = which...in." }

@@ -32,8 +32,8 @@ export const toeicModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Part 1 có bao nhiêu câu hỏi?", options: ["4 câu", "6 câu", "10 câu", "30 câu"], answer: 1, explanation: "TOEIC Part 1 có 6 câu hỏi mô tả hình ảnh." },
-          { question: "Bẫy phổ biến nhất trong Part 1 là gì?", options: ["Nói quá nhanh", "Dùng từ có trong hình nhưng mô tả sai", "Âm thanh nhỏ", "Quá nhiều đáp án đúng"], answer: 1, explanation: "Bẫy phổ biến nhất: dùng đúng từ liên quan đến hình nhưng mô tả SAI hành động/trạng thái." },
+          { question: "How many questions does Part 1 have?", options: ["4 questions", "6 questions", "10 questions", "30 questions"], answer: 1, explanation: "TOEIC Part 1 has 6 photo description questions." },
+          { question: "What is the most common trap in Part 1?", options: ["Speaking too fast", "Using words from the photo but describing incorrectly", "Low volume", "Too many correct answers"], answer: 1, explanation: "Most common trap: using correct words related to the photo but INCORRECTLY describing the action/state." },
         ],
       },
       {
@@ -56,8 +56,8 @@ export const toeicModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Trong Part 2, điều quan trọng nhất khi nghe là gì?", options: ["Nghe toàn bộ câu", "Nghe rõ từ ĐẦU TIÊN", "Nghe từ cuối cùng", "Đoán trước đáp án"], answer: 1, explanation: "Từ đầu tiên xác định loại câu hỏi (Where → địa điểm, When → thời gian, Who → người)." },
-          { question: "Khi đáp án lặp lại từ trong câu hỏi, nên?", options: ["Chọn ngay", "Cẩn thận — thường là bẫy", "Bỏ qua", "Chọn nếu nghe rõ"], answer: 1, explanation: "Đáp án lặp từ từ câu hỏi thường là DISTRACTOR — cần nghe kỹ ý nghĩa." },
+          { question: "In Part 2, what is the most important thing when listening?", options: ["Listen to the whole sentence", "Hear the FIRST WORD clearly", "Listen to the last word", "Predict the answer"], answer: 1, explanation: "The first word identifies the question type (Where → location, When → time, Who → person)." },
+          { question: "When an answer repeats words from the question, you should?", options: ["Choose it immediately", "Be careful — it is often a trap", "Skip it", "Choose if you hear clearly"], answer: 1, explanation: "Answers repeating words from the question are often DISTRACTORS — listen carefully to the meaning." },
         ],
       },
     ],
@@ -100,8 +100,8 @@ export const toeicModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Vị trí trước danh từ thường cần loại từ nào?", options: ["Verb", "Adverb", "Adjective", "Preposition"], answer: 2, explanation: "Trước danh từ = tính từ (adjective). Ví dụ: 'remarkable growth'." },
-          { question: "Part 5 nên dành bao nhiêu phút?", options: ["5 phút", "10 phút", "20 phút", "30 phút"], answer: 1, explanation: "Part 5 nên làm trong ~10 phút (30 giây/câu) để dành thời gian cho Part 7." },
+          { question: "What word type is usually needed before a noun?", options: ["Verb", "Adverb", "Adjective", "Preposition"], answer: 2, explanation: "Before a noun = adjective. Example: 'remarkable growth'." },
+          { question: "How many minutes should Part 5 take?", options: ["5 minutes", "10 minutes", "20 minutes", "30 minutes"], answer: 1, explanation: "Part 5 should take ~10 minutes (30 sec/question) to save time for Part 7." },
         ],
       },
     ],
@@ -146,8 +146,8 @@ export const toeicModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'Minutes' trong ngữ cảnh họp hành nghĩa là?", options: ["Phút", "Biên bản họp", "Lịch họp", "Thời gian"], answer: 1, explanation: "'Minutes' trong cuộc họp = biên bản ghi chép nội dung cuộc họp." },
-          { question: "'Be in charge of' nghĩa là?", options: ["Bị phạt", "Phụ trách", "Rời khỏi", "Tham gia"], answer: 1, explanation: "'Be in charge of' = phụ trách, chịu trách nhiệm về." },
+          { question: "What does 'minutes' mean in the context of meetings?", options: ["Units of time", "Meeting notes/records", "Meeting schedule", "Time period"], answer: 1, explanation: "'Minutes' in meetings = written record of what was discussed." },
+          { question: "What does 'be in charge of' mean?", options: ["To be fined", "To be responsible for", "To leave", "To join"], answer: 1, explanation: "'Be in charge of' = to be responsible for managing something." },
         ],
       },
       {
@@ -177,8 +177,8 @@ export const toeicModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'Revenue' khác 'profit' thế nào?", options: ["Giống nhau", "Revenue = tổng doanh thu, Profit = lợi nhuận sau chi phí", "Revenue = lợi nhuận, Profit = doanh thu", "Không liên quan"], answer: 1, explanation: "Revenue = tổng doanh thu (trước trừ chi phí). Profit = lợi nhuận (sau trừ chi phí)." },
-          { question: "'Reimbursement' nghĩa là?", options: ["Tiền lương", "Hoàn trả chi phí", "Tiền thưởng", "Tiền phạt"], answer: 1, explanation: "'Reimbursement' = hoàn trả chi phí đã bỏ ra (ví dụ: đi công tác)." },
+          { question: "How is 'revenue' different from 'profit'?", options: ["The same", "Revenue = total income, Profit = income after expenses", "Revenue = profit, Profit = income", "Unrelated"], answer: 1, explanation: "Revenue = total income (before expenses). Profit = earnings (after expenses)." },
+          { question: "What does 'reimbursement' mean?", options: ["Salary", "Repayment of expenses", "Bonus", "Fine/penalty"], answer: 1, explanation: "'Reimbursement' = repayment of money spent (e.g., business travel expenses)." },
         ],
       },
     ],
