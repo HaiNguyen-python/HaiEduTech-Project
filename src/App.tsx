@@ -16,6 +16,7 @@ import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 import FloatingNotebook from "./components/FloatingNotebook.tsx";
+import LastSessionRecap from "./components/LastSessionRecap.tsx";
 
 // Lazy-load all heavy route components for optimal code splitting
 const About = lazy(() => import("./pages/About.tsx"));
@@ -179,6 +180,7 @@ const App = () => (
           </Routes>
           <ChatBot />
           <FloatingNotebook />
+          <LastSessionRecap />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
