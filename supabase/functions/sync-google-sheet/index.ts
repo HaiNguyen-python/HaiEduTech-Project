@@ -10,7 +10,6 @@ const SHEET_ID = "1BpU2nN9_yqFHjXOS7hlFOpXv9-4NrRZNqbvnVzrBWBU";
 
 function parseVndAmount(raw: string): number {
   if (!raw) return 0;
-  // "7.980.000 đ" → 7980000
   const cleaned = raw.replace(/[^\d]/g, "");
   return cleaned ? parseInt(cleaned, 10) : 0;
 }
@@ -29,13 +28,13 @@ function parseCSVLine(line: string): string[] {
         inQuotes = !inQuotes;
       }
     } else if (ch === "," && !inQuotes) {
-      result.push(current);
+      result.push(current.trim());
       current = "";
     } else {
       current += ch;
     }
   }
-  result.push(current);
+  result.push(current.trim());
   return result;
 }
 
@@ -49,7 +48,7 @@ serve(async (req) => {
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-    // Auth check — teacher/admin only
+    // Auth check
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -67,7 +66,6 @@ serve(async (req) => {
       });
     }
 
-    // Check role
     const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
     const { data: roleCheck } = await supabaseAdmin.rpc("has_role", {
       _user_id: userData.user.id, _role: "teacher",
@@ -83,8 +81,8 @@ serve(async (req) => {
       }
     }
 
-    // Fetch CSV from Google Sheets
-    const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+    // Fetch FULL CSV using export endpoint (not gviz which filters)
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
     const csvRes = await fetch(csvUrl);
     if (!csvRes.ok) {
       throw new Error(`Failed to fetch sheet: ${csvRes.status}`);
@@ -92,8 +90,13 @@ serve(async (req) => {
     const csvText = await csvRes.text();
     const lines = csvText.split("\n").filter((l) => l.trim());
 
-    // Parse rows — skip header (line 0) and summary rows
-    // Columns: 0=STT, 1=Name, 2=DOB, 3=Course, 4=Timeline, 5=blank, 6=Total2022, 7=blank, 8=KPI, 9=Amount2024, 10=Amount2025, 11=Amount2026, 12=KPI2025
+    // Header: STT, Họ & Tên, Ngày sinh, Chương trình học, Thời gian,
+    //         Học phí 2022, Tổng HP 2022, Học phí 2023, KPI,
+    //         Học phí 2024, Học phí 2025, Học phí 2026, KPI 2025, ...
+    // Columns: 0=STT, 1=Name, 2=DOB, 3=Course, 4=Timeline,
+    //          5=HP2022, 6=TotalHP2022, 7=HP2023, 8=KPI,
+    //          9=HP2024, 10=HP2025, 11=HP2026, 12=KPI2025
+
     const records: Array<{
       student_name: string;
       course: string;
@@ -106,23 +109,26 @@ serve(async (req) => {
 
     for (let i = 1; i < lines.length; i++) {
       const cols = parseCSVLine(lines[i]);
-      const stt = cols[0]?.trim();
-      const name = cols[1]?.trim();
+      const stt = cols[0] || "";
+      const name = cols[1] || "";
 
       // Skip empty/summary rows
-      if (!stt || !name || name === "" || stt === "") continue;
-      // Skip if STT is not a number (summary row)
-      if (isNaN(parseInt(stt))) continue;
+      if (!name || name === "") continue;
+      // STT must be a number (skip "Tổng:", etc.)
+      if (!stt || isNaN(parseInt(stt))) continue;
 
-      const course = cols[3]?.trim() || "IELTS FOUNDATION";
-      const timeline = cols[4]?.trim() || "";
-      const kpi2025 = cols[12]?.trim()?.toLowerCase() === "yes";
+      const course = cols[3] || "IELTS FOUNDATION";
+      const timeline = cols[4] || "";
+      const kpi2025Str = (cols[12] || "").toLowerCase();
+      const kpiMet = kpi2025Str === "yes";
 
-      // Amount columns: 9=2024, 10=2025, 11=2026
+      // Year-amount mappings from sheet columns
       const yearAmounts: [number, string][] = [
-        [2024, cols[9] || ""],
-        [2025, cols[10] || ""],
-        [2026, cols[11] || ""],
+        [2022, cols[6] || ""],   // Tổng HP 2022 (col 6)
+        [2023, cols[7] || ""],   // HP 2023 (col 7)
+        [2024, cols[9] || ""],   // HP 2024 (col 9)
+        [2025, cols[10] || ""],  // HP 2025 (col 10)
+        [2026, cols[11] || ""],  // HP 2026 (col 11)
       ];
 
       for (const [year, rawAmount] of yearAmounts) {
@@ -130,63 +136,51 @@ serve(async (req) => {
         if (amount > 0) {
           records.push({
             student_name: name,
-            course: course,
+            course,
             payment_year: year,
             amount,
             status: "paid",
-            kpi_met: kpi2025,
+            kpi_met: kpiMet,
             notes: timeline ? `Schedule: ${timeline}` : null,
           });
         }
       }
     }
 
-    // Upsert into revenue_logs — delete existing sheet-synced data first, then insert fresh
-    // First get existing records to compare
-    const { data: existing } = await supabaseAdmin
+    // Strategy: Delete all existing records that match "IELTS" course patterns
+    // from the sheet, then re-insert fresh data.
+    // Also delete old aggregated records like "IELTS Classes 2025"
+
+    // 1. Delete old aggregated records (those with "Classes" in name)
+    await supabaseAdmin
       .from("revenue_logs")
-      .select("id, student_name, course, payment_year, amount");
+      .delete()
+      .like("student_name", "%Classes%");
 
-    // Build a lookup key for existing records
-    const existingMap = new Map<string, { id: string; amount: number }>();
-    (existing || []).forEach((r: any) => {
-      const key = `${r.student_name}|${r.course}|${r.payment_year}`;
-      existingMap.set(key, { id: r.id, amount: Number(r.amount) });
-    });
+    // 2. Delete all per-student IELTS FOUNDATION records from sheet sync
+    await supabaseAdmin
+      .from("revenue_logs")
+      .delete()
+      .or("course.eq.IELTS FOUNDATION,course.eq.IELTS Foundation,course.eq.IELTS LEVEL 1,course.eq.IELTS Foundation ");
 
+    // 3. Insert all fresh records from sheet
     let inserted = 0;
-    let updated = 0;
-    let skipped = 0;
-
-    for (const rec of records) {
-      const key = `${rec.student_name}|${rec.course}|${rec.payment_year}`;
-      const existingRec = existingMap.get(key);
-
-      if (existingRec) {
-        // Update if amount changed
-        if (existingRec.amount !== rec.amount) {
-          await supabaseAdmin
-            .from("revenue_logs")
-            .update({ amount: rec.amount, kpi_met: rec.kpi_met, notes: rec.notes })
-            .eq("id", existingRec.id);
-          updated++;
-        } else {
-          skipped++;
-        }
+    const batchSize = 50;
+    for (let i = 0; i < records.length; i += batchSize) {
+      const batch = records.slice(i, i + batchSize);
+      const { error } = await supabaseAdmin.from("revenue_logs").insert(batch);
+      if (error) {
+        console.error("Insert error:", error);
       } else {
-        // Insert new
-        await supabaseAdmin.from("revenue_logs").insert(rec);
-        inserted++;
+        inserted += batch.length;
       }
     }
 
     return new Response(
       JSON.stringify({
         success: true,
-        total_rows: records.length,
+        total_sheet_rows: records.length,
         inserted,
-        updated,
-        skipped,
       }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
