@@ -1,5 +1,5 @@
 // Edge function: Daily cleanup of expired Knowledge Hub posts (15-day TTL)
-// Designed to be called by a cron job
+// Admin-only endpoint
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -16,12 +16,33 @@ Deno.serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+    // JWT Authentication + Admin role check
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey, { global: { headers: { Authorization: authHeader } } });
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await supabaseAuth.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const userId = claimsData.claims.sub;
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Check teacher/admin role
+    const { data: roleCheck } = await supabase.rpc('has_role', { _user_id: userId, _role: 'teacher' });
+    const { data: adminCheck } = await supabase.rpc('has_role', { _user_id: userId, _role: 'admin' });
+    if (!roleCheck && !adminCheck) {
+      return new Response(JSON.stringify({ error: 'Forbidden: teacher/admin role required' }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
 
     const now = new Date().toISOString();
 
-    // Delete posts where expires_at has passed
     const { data: deleted, error } = await supabase
       .from("knowledge_hub_posts")
       .delete()

@@ -1,7 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// Log API usage to database (fire-and-forget)
 async function logUsage(fn: string, model: string, domain: string, tokens: number, status: string, err?: string) {
   try {
     const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -26,7 +25,6 @@ const LEVELS: Record<string, string[]> = {
   programming: ["beginner", "intermediate", "advanced"],
 };
 
-// Topic rotation map to diversify content
 const TOPIC_ROTATION: Record<string, Record<string, string[]>> = {
   english: {
     grammar: ["Present Simple", "Past Simple", "Present Continuous", "Past Continuous", "Present Perfect", "Future Simple", "Conditionals", "Passive Voice", "Reported Speech", "Modal Verbs", "Relative Clauses", "Articles", "Comparatives & Superlatives", "Gerunds & Infinitives", "Phrasal Verbs"],
@@ -53,70 +51,24 @@ const TOPIC_ROTATION: Record<string, Record<string, string[]>> = {
 
 function buildPrompt(subject: string, category: string, level: string, index: number, existingTitles: string[], suggestedTopic: string): string {
   const seed = `Variation seed: ${Date.now()}-${index}`;
-
-  // Build anti-duplicate instruction
   let antiDuplicateBlock = "";
   if (existingTitles.length > 0) {
     const titleList = existingTitles.slice(0, 30).map((t, i) => `${i + 1}. ${t}`).join("\n");
     antiDuplicateBlock = `\n\nIMPORTANT - DO NOT duplicate these existing lessons:\n${titleList}\n\nYou MUST create a COMPLETELY NEW and DIFFERENT lesson. Use a different topic, different examples, and different questions.\n`;
   }
-
   const topicInstruction = suggestedTopic ? `\nFocus this lesson on the topic: "${suggestedTopic}". Make sure the content is specifically about this topic.\n` : "";
 
   if (subject === "english") {
     const levelDesc = `CEFR ${level}`;
     switch (category) {
       case "fill-blank":
-        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique English fill-in-the-blank exercise for ${levelDesc} students. Return JSON:
-{
-  "title": "Exercise title in Vietnamese",
-  "title_en": "Exercise title in English",
-  "instructions": "Instructions in Vietnamese",
-  "sentences": [
-    { "text": "I ___ (go) to school yesterday.", "answer": "went", "hint": "past tense of 'go'" }
-  ],
-  "tips": ["Tip 1", "Tip 2"],
-  "quiz": [{ "question": "Question", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide 6 sentences, 2 tips, 2 quiz questions. Vietnamese explanations.`;
+        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique English fill-in-the-blank exercise for ${levelDesc} students. Return JSON:\n{\n  "title": "Exercise title in Vietnamese",\n  "title_en": "Exercise title in English",\n  "instructions": "Instructions in Vietnamese",\n  "sentences": [\n    { "text": "I ___ (go) to school yesterday.", "answer": "went", "hint": "past tense of 'go'" }\n  ],\n  "tips": ["Tip 1", "Tip 2"],\n  "quiz": [{ "question": "Question", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide 6 sentences, 2 tips, 2 quiz questions. Vietnamese explanations.`;
       case "reorder":
-        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique English sentence reordering exercise for ${levelDesc}. Return JSON:
-{
-  "title": "Title in Vietnamese",
-  "title_en": "Title in English",
-  "instructions": "Instructions in Vietnamese",
-  "sentences": [
-    { "scrambled": ["school", "to", "I", "go", "every day"], "correct": "I go to school every day", "translation": "Vietnamese translation" }
-  ],
-  "tips": ["Tip"],
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide 6 sentences, 2 tips, 2 quiz questions.`;
+        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique English sentence reordering exercise for ${levelDesc}. Return JSON:\n{\n  "title": "Title in Vietnamese",\n  "title_en": "Title in English",\n  "instructions": "Instructions in Vietnamese",\n  "sentences": [\n    { "scrambled": ["school", "to", "I", "go", "every day"], "correct": "I go to school every day", "translation": "Vietnamese translation" }\n  ],\n  "tips": ["Tip"],\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide 6 sentences, 2 tips, 2 quiz questions.`;
       case "dialogue":
-        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique English real-life dialogue exercise for ${levelDesc}. Return JSON:
-{
-  "title": "Title in Vietnamese",
-  "title_en": "Title in English",
-  "scenario": "Scenario description in Vietnamese",
-  "dialogue": [
-    { "speaker": "A", "line": "English line", "translation": "Vietnamese" }
-  ],
-  "vocabulary": [{ "word": "word", "meaning": "Vietnamese meaning", "example": "Example sentence" }],
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide 8+ dialogue lines, 4 vocab items, 3 quiz questions.`;
+        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique English real-life dialogue exercise for ${levelDesc}. Return JSON:\n{\n  "title": "Title in Vietnamese",\n  "title_en": "Title in English",\n  "scenario": "Scenario description in Vietnamese",\n  "dialogue": [\n    { "speaker": "A", "line": "English line", "translation": "Vietnamese" }\n  ],\n  "vocabulary": [{ "word": "word", "meaning": "Vietnamese meaning", "example": "Example sentence" }],\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide 8+ dialogue lines, 4 vocab items, 3 quiz questions.`;
       default:
-        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique English ${category} lesson for ${levelDesc}. Return JSON:
-{
-  "title": "Title in Vietnamese",
-  "title_en": "Title in English",
-  "passage": "Reading passage (if applicable)",
-  "points": [{ "rule": "Grammar rule", "examples": ["ex1", "ex2"] }],
-  "vocabulary": [{ "word": "w", "meaning": "m", "example": "e" }],
-  "tips": ["tip1", "tip2"],
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide rich content with 3+ quiz questions. Vietnamese explanations.`;
+        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique English ${category} lesson for ${levelDesc}. Return JSON:\n{\n  "title": "Title in Vietnamese",\n  "title_en": "Title in English",\n  "passage": "Reading passage (if applicable)",\n  "points": [{ "rule": "Grammar rule", "examples": ["ex1", "ex2"] }],\n  "vocabulary": [{ "word": "w", "meaning": "m", "example": "e" }],\n  "tips": ["tip1", "tip2"],\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide rich content with 3+ quiz questions. Vietnamese explanations.`;
     }
   }
 
@@ -124,122 +76,40 @@ Provide rich content with 3+ quiz questions. Vietnamese explanations.`;
     const levelDesc = level;
     switch (category) {
       case "fill-blank":
-        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Chinese fill-in-the-blank exercise for ${levelDesc} students. Return JSON:
-{
-  "title": "Title in Vietnamese",
-  "title_en": "Title in English",
-  "instructions": "Instructions in Vietnamese",
-  "sentences": [
-    { "text": "我___去学校。", "answer": "每天", "pinyin": "měitiān", "hint": "every day" }
-  ],
-  "tips": ["Tip"],
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide 6 sentences, 2 tips, 2 quiz questions. Vietnamese explanations.`;
+        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Chinese fill-in-the-blank exercise for ${levelDesc} students. Return JSON:\n{\n  "title": "Title in Vietnamese",\n  "title_en": "Title in English",\n  "instructions": "Instructions in Vietnamese",\n  "sentences": [\n    { "text": "我___去学校。", "answer": "每天", "pinyin": "měitiān", "hint": "every day" }\n  ],\n  "tips": ["Tip"],\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide 6 sentences, 2 tips, 2 quiz questions. Vietnamese explanations.`;
       case "reorder":
-        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Chinese sentence reordering exercise for ${levelDesc}. Return JSON:
-{
-  "title": "Title in Vietnamese",
-  "title_en": "Title in English",
-  "sentences": [
-    { "scrambled": ["学校", "去", "我", "每天"], "correct": "我每天去学校", "pinyin": "wǒ měitiān qù xuéxiào", "translation": "Vietnamese" }
-  ],
-  "tips": ["Tip"],
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide 6 sentences, 2 tips, 2 quiz.`;
+        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Chinese sentence reordering exercise for ${levelDesc}. Return JSON:\n{\n  "title": "Title in Vietnamese",\n  "title_en": "Title in English",\n  "sentences": [\n    { "scrambled": ["学校", "去", "我", "每天"], "correct": "我每天去学校", "pinyin": "wǒ měitiān qù xuéxiào", "translation": "Vietnamese" }\n  ],\n  "tips": ["Tip"],\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide 6 sentences, 2 tips, 2 quiz.`;
       case "dialogue":
-        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Chinese dialogue exercise for ${levelDesc}. Return JSON:
-{
-  "title": "Title in Vietnamese",
-  "title_en": "Title in English",
-  "scenario": "Scenario in Vietnamese",
-  "dialogue": [
-    { "speaker": "A", "line": "Chinese line", "pinyin": "pīnyīn", "translation": "Vietnamese" }
-  ],
-  "vocabulary": [{ "word": "字", "pinyin": "zì", "meaning": "Vietnamese", "example": "Example" }],
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide 8+ dialogue lines, 4 vocab, 3 quiz.`;
+        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Chinese dialogue exercise for ${levelDesc}. Return JSON:\n{\n  "title": "Title in Vietnamese",\n  "title_en": "Title in English",\n  "scenario": "Scenario in Vietnamese",\n  "dialogue": [\n    { "speaker": "A", "line": "Chinese line", "pinyin": "pīnyīn", "translation": "Vietnamese" }\n  ],\n  "vocabulary": [{ "word": "字", "pinyin": "zì", "meaning": "Vietnamese", "example": "Example" }],\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide 8+ dialogue lines, 4 vocab, 3 quiz.`;
       default:
-        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Chinese ${category} lesson for ${levelDesc}. Return JSON:
-{
-  "title": "Title in Vietnamese",
-  "title_en": "Title in English",
-  "passage": "Chinese passage with pinyin",
-  "points": [{ "rule": "Grammar rule in Vietnamese", "examples": ["ex with **bold**"] }],
-  "vocabulary": [{ "word": "字", "pinyin": "zì", "meaning": "Vietnamese", "example": "Example" }],
-  "tips": ["tip"],
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide rich content. Vietnamese explanations.`;
+        return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Chinese ${category} lesson for ${levelDesc}. Return JSON:\n{\n  "title": "Title in Vietnamese",\n  "title_en": "Title in English",\n  "passage": "Chinese passage with pinyin",\n  "points": [{ "rule": "Grammar rule in Vietnamese", "examples": ["ex with **bold**"] }],\n  "vocabulary": [{ "word": "字", "pinyin": "zì", "meaning": "Vietnamese", "example": "Example" }],\n  "tips": ["tip"],\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide rich content. Vietnamese explanations.`;
     }
   }
 
-  // Programming
   switch (category) {
     case "fix-bug":
-      return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Python bug-fixing exercise for ${level} level. Return JSON:
-{
-  "title": "Title in Vietnamese",
-  "title_en": "Title in English",
-  "description": "Context in Vietnamese",
-  "buggy_code": "Python code with 2-3 bugs",
-  "bugs": [
-    { "line": 3, "description": "Bug description in Vietnamese", "fix": "Corrected line" }
-  ],
-  "fixed_code": "Complete corrected code",
-  "explanation": "Detailed explanation in Vietnamese",
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Make bugs realistic and educational. 2 quiz questions.`;
+      return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Python bug-fixing exercise for ${level} level. Return JSON:\n{\n  "title": "Title in Vietnamese",\n  "title_en": "Title in English",\n  "description": "Context in Vietnamese",\n  "buggy_code": "Python code with 2-3 bugs",\n  "bugs": [\n    { "line": 3, "description": "Bug description in Vietnamese", "fix": "Corrected line" }\n  ],\n  "fixed_code": "Complete corrected code",\n  "explanation": "Detailed explanation in Vietnamese",\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nMake bugs realistic and educational. 2 quiz questions.`;
     case "mini-project":
-      return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Python mini-project for ${level} level. Return JSON:
-{
-  "title": "Project title in Vietnamese",
-  "title_en": "Project title in English",
-  "description": "Project description in Vietnamese",
-  "steps": [
-    { "step": 1, "title": "Step title", "description": "What to do", "code": "Code for this step" }
-  ],
-  "full_code": "Complete working code",
-  "extensions": ["Extension idea 1", "Extension idea 2"],
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide 4-5 steps.`;
+      return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Python mini-project for ${level} level. Return JSON:\n{\n  "title": "Project title in Vietnamese",\n  "title_en": "Project title in English",\n  "description": "Project description in Vietnamese",\n  "steps": [\n    { "step": 1, "title": "Step title", "description": "What to do", "code": "Code for this step" }\n  ],\n  "full_code": "Complete working code",\n  "extensions": ["Extension idea 1", "Extension idea 2"],\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide 4-5 steps.`;
     default:
-      return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Python ${category} lesson for ${level}. Return JSON:
-{
-  "title": "Title in Vietnamese",
-  "title_en": "Title in English",
-  "theory": "Theory explanation in Vietnamese",
-  "code": "Python code example",
-  "exercise": "Practice exercise in Vietnamese",
-  "tips": ["tip1", "tip2"],
-  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]
-}
-Provide rich content with 3 quiz questions.`;
+      return `${seed}${antiDuplicateBlock}${topicInstruction}\nCreate a unique Python ${category} lesson for ${level}. Return JSON:\n{\n  "title": "Title in Vietnamese",\n  "title_en": "Title in English",\n  "theory": "Theory explanation in Vietnamese",\n  "code": "Python code example",\n  "exercise": "Practice exercise in Vietnamese",\n  "tips": ["tip1", "tip2"],\n  "quiz": [{ "question": "Q", "options": ["A","B","C","D"], "answer": 0, "explanation": "Why" }]\n}\nProvide rich content with 3 quiz questions.`;
   }
 }
 
-// Simple similarity check using trigram overlap
 function similarityScore(a: string, b: string): number {
   if (!a || !b) return 0;
   const normalize = (s: string) => s.toLowerCase().replace(/[^a-zA-Z0-9\u00C0-\u024F\u1E00-\u1EFF\u4E00-\u9FFF\s]/g, "").trim();
   const na = normalize(a);
   const nb = normalize(b);
   if (na === nb) return 1;
-
   const trigrams = (s: string): Set<string> => {
     const t = new Set<string>();
     for (let i = 0; i <= s.length - 3; i++) t.add(s.substring(i, i + 3));
     return t;
   };
-
   const ta = trigrams(na);
   const tb = trigrams(nb);
   if (ta.size === 0 || tb.size === 0) return 0;
-
   let overlap = 0;
   for (const t of ta) if (tb.has(t)) overlap++;
   return (2 * overlap) / (ta.size + tb.size);
@@ -249,7 +119,20 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { subject, category, level, userId } = await req.json();
+    // JWT Authentication - get userId from token
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const supabaseAuth = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: authHeader } } });
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await supabaseAuth.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const userId = claimsData.claims.sub;
+
+    const { subject, category, level } = await req.json();
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
 
@@ -257,14 +140,12 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 
-    // Validate inputs
     const validCategories = CATEGORIES[subject];
     if (!validCategories) throw new Error(`Invalid subject: ${subject}`);
     if (!validCategories.includes(category)) throw new Error(`Invalid category: ${category}`);
     const validLevels = LEVELS[subject];
     const effectiveLevel = level && validLevels?.includes(level) ? level : validLevels?.[0] || "beginner";
 
-    // Fetch existing lesson titles for duplicate prevention
     const { data: existingLessons } = await supabaseAdmin
       .from("generated_lessons")
       .select("title, title_en")
@@ -277,11 +158,9 @@ serve(async (req) => {
 
     const existingTitles = (existingLessons || []).map(l => l.title).filter(Boolean);
 
-    // Topic rotation: pick a topic that hasn't been covered much
     const topicPool = TOPIC_ROTATION[subject]?.[category] || [];
     let suggestedTopic = "";
     if (topicPool.length > 0) {
-      // Count how many times each topic appears in existing titles
       const topicCounts = topicPool.map(topic => {
         const count = existingTitles.filter(t =>
           t.toLowerCase().includes(topic.toLowerCase()) ||
@@ -289,7 +168,6 @@ serve(async (req) => {
         ).length;
         return { topic, count };
       });
-      // Sort by least used, pick randomly from the 3 least used
       topicCounts.sort((a, b) => a.count - b.count);
       const candidates = topicCounts.slice(0, Math.min(3, topicCounts.length));
       suggestedTopic = candidates[Math.floor(Math.random() * candidates.length)].topic;
@@ -298,14 +176,12 @@ serve(async (req) => {
     const index = Math.floor(Math.random() * 10000);
     const prompt = buildPrompt(subject, category, effectiveLevel, index, existingTitles, suggestedTopic);
 
-    // Attempt up to 2 tries if similarity is too high
     let content: any = null;
     let attempts = 0;
     const MAX_ATTEMPTS = 2;
 
     while (attempts < MAX_ATTEMPTS) {
       attempts++;
-
       const response = await fetch("https://api.perplexity.ai/chat/completions", {
         method: "POST",
         headers: {
@@ -341,15 +217,12 @@ serve(async (req) => {
       content = JSON.parse(jsonMatch[0]);
       await logUsage("generate-and-store-lesson", "sonar", subject, tokensUsed, "success");
 
-      // Check similarity with existing titles
       const newTitle = content.title || "";
       const isDuplicate = existingTitles.some(t => similarityScore(t, newTitle) > 0.8);
-
       if (!isDuplicate || attempts >= MAX_ATTEMPTS) break;
       console.log(`Attempt ${attempts}: Title "${newTitle}" too similar, retrying...`);
     }
 
-    // Store in database
     const { data: inserted, error: dbError } = await supabaseAdmin
       .from("generated_lessons")
       .insert({
