@@ -1,68 +1,94 @@
 
 
-## Plan: Thêm mục SAT vào Learn English
+## Plan: Giải quyết tất cả Security Scan Issues
 
 ### Tổng quan
-Thêm chương trình SAT (Scholastic Assessment Test) vào trang Learn English với các bài học, bài tập và từ vựng phù hợp. SAT sẽ bao gồm 3 module chính: Reading & Writing, Math Vocabulary, và Advanced Vocabulary.
+Có 3 Errors và 7 Warnings cần xử lý. Plan chia thành 4 nhóm công việc chính.
 
-### 1. Cập nhật types — thêm category `"sat"`
+---
 
-**File:** `src/data/languageCurriculum/types.ts`
-- Thêm `"sat"` vào union type `category` trong `LanguageModule`
+### 1. Thêm JWT Authentication cho tất cả Edge Functions (ERROR #1)
 
-### 2. Tạo file dữ liệu SAT
+**17 edge functions** hiện không có auth check. Chia thành 2 nhóm:
 
-**File mới:** `src/data/languageCurriculum/englishSat.ts`
+**Nhóm A — User-facing functions (cần authenticated user):**
+`chat`, `grade-writing`, `grade-speaking`, `generate-lesson`, `generate-exercise`, `generate-writing-prompt`, `generate-code-challenge`, `generate-vocab-image`, `roleplay-chat`, `debug-python`, `generate-and-store-lesson`
 
-3 modules, mỗi module 3-4 bài học:
+→ Thêm đoạn auth check ở đầu mỗi handler:
+```typescript
+const authHeader = req.headers.get('Authorization');
+if (!authHeader?.startsWith('Bearer ')) {
+  return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+}
+const supabase = createClient(supabaseUrl, supabaseAnonKey, { global: { headers: { Authorization: authHeader } } });
+const { data, error } = await supabase.auth.getClaims(authHeader.replace('Bearer ', ''));
+if (error || !data?.claims) {
+  return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+}
+```
 
-**Module 1: SAT Reading & Writing** (📖, purple)
-- Lesson 1: Evidence-Based Reading (level 3, intermediate) — chiến lược đọc hiểu, từ vựng ngữ cảnh
-- Lesson 2: Command of Evidence (level 3, intermediate) — trích dẫn bằng chứng, phân tích lập luận
-- Lesson 3: Words in Context (level 4, advanced) — từ đa nghĩa, sắc thái ngữ nghĩa
-- Lesson 4: Standard English Conventions (level 3, intermediate) — ngữ pháp, dấu câu, cấu trúc câu
+Riêng `generate-and-store-lesson`: lấy `userId` từ JWT claims (`data.claims.sub`) thay vì từ request body.
 
-**Module 2: SAT Advanced Vocabulary** (🎯, indigo)
-- Lesson 1: High-Frequency SAT Words Set 1 (level 3) — 10+ từ thường gặp (ubiquitous, pragmatic, ambiguous...)
-- Lesson 2: High-Frequency SAT Words Set 2 (level 4) — 10+ từ nâng cao (ephemeral, juxtapose, paradox...)
-- Lesson 3: Roots, Prefixes & Suffixes (level 3) — Latin/Greek roots, word formation
+**Nhóm B — Admin-only functions:**
+`cleanup-knowledge-hub`, `auto-generate-daily`, `fetch-knowledge-articles`, `audit-content`
 
-**Module 3: SAT Writing & Language** (✍️, teal)
-- Lesson 1: Expression of Ideas (level 4, advanced) — tổ chức bài, phát triển ý, chuyển tiếp
-- Lesson 2: Rhetorical Synthesis (level 4) — tổng hợp thông tin, lập luận
-- Lesson 3: Transitions & Flow (level 3) — liên kết câu, đoạn
+→ Auth check + thêm kiểm tra teacher/admin role.
 
-Mỗi bài học gồm: theory (Vietnamese + English), vocabulary (10 từ), exercises (fill-in-blank + sentence-reorder), quiz (5 câu MCQ).
+**Nhóm C — Public (giữ nguyên không auth):**
+`send-contact-email` (form liên hệ public), `finnish-tts` (TTS proxy)
 
-### 3. Đăng ký vào barrel export
+→ Giữ nguyên vì cần truy cập không đăng nhập.
 
-**File:** `src/data/languageCurriculum/index.ts`
-- Import `satModules` từ `./englishSat`
-- Thêm `...satModules` vào `allEnglishModules`
+---
 
-### 4. Thêm program card trên trang English
+### 2. Database Migrations — RLS Policy Fixes (ERROR #2, #3 + Warnings)
 
-**File:** `src/pages/English.tsx`
-- Thêm 1 object SAT vào mảng `programs` (sau National Exam)
-- Cập nhật link mapping trong phần render (index → route path)
-- Thêm route `/english/sat` vào link
+Tạo 1 migration SQL xử lý tất cả:
 
-### 5. Thêm route cho trang chi tiết SAT
+| Issue | Fix |
+|-------|-----|
+| **Profiles anon readable** (ERROR) | Drop policy `Anon can view profile names` |
+| **Realtime no policies** (ERROR) | Bỏ qua — đây là cảnh báo hệ thống Supabase, ta không có bảng `realtime.messages` để thao tác |
+| **api_usage_log open INSERT** (WARN) | Drop + recreate INSERT policy with `auth.uid() = user_id` check |
+| **user_roles no INSERT restriction** (WARN) | Explicit deny — tạo restrictive INSERT policy chỉ cho admin |
+| **learning_materials open INSERT** (WARN) | Drop + recreate INSERT policy requiring teacher/admin role |
+| **RLS Policy Always True** (WARN) | Tighten `contact_messages` INSERT + `game_participants` SELECT + `api_usage_log` INSERT |
 
-**File:** `src/App.tsx`
-- Thêm route `/english/sat` trỏ tới `EnglishCourse` (dùng chung component)
+---
 
-**File:** `src/pages/EnglishCourse.tsx`
-- Thêm data cho course `sat` trong `courseData` object
+### 3. Auth Configuration (WARN)
 
-### Files cần sửa/tạo
+Sử dụng `configure_auth` tool để bật **Leaked Password Protection (HIBP)**.
+
+---
+
+### 4. Security Finding Updates
+
+- **Realtime channel** (ERROR #3): Mark as ignored — cannot add RLS to `realtime.messages` (reserved schema).
+- **Contact messages** (WARN): Already secure (no SELECT policy = no reads). Mark acknowledged.
+- **Public Bucket Allows Listing** (WARN): Tighten `vocab-images` bucket SELECT policy via migration.
+
+---
+
+### Files sẽ sửa
 
 | File | Thay đổi |
 |------|----------|
-| `src/data/languageCurriculum/types.ts` | Thêm `"sat"` vào category union |
-| `src/data/languageCurriculum/englishSat.ts` | **Tạo mới** — 3 modules, ~10 lessons |
-| `src/data/languageCurriculum/index.ts` | Import + thêm vào `allEnglishModules` |
-| `src/pages/English.tsx` | Thêm SAT program card |
-| `src/pages/EnglishCourse.tsx` | Thêm SAT course detail data |
-| `src/App.tsx` | Thêm route `/english/sat` |
+| `supabase/functions/chat/index.ts` | + JWT auth |
+| `supabase/functions/grade-writing/index.ts` | + JWT auth |
+| `supabase/functions/grade-speaking/index.ts` | + JWT auth |
+| `supabase/functions/generate-lesson/index.ts` | + JWT auth |
+| `supabase/functions/generate-exercise/index.ts` | + JWT auth |
+| `supabase/functions/generate-writing-prompt/index.ts` | + JWT auth |
+| `supabase/functions/generate-code-challenge/index.ts` | + JWT auth |
+| `supabase/functions/generate-vocab-image/index.ts` | + JWT auth |
+| `supabase/functions/roleplay-chat/index.ts` | + JWT auth |
+| `supabase/functions/debug-python/index.ts` | + JWT auth |
+| `supabase/functions/generate-and-store-lesson/index.ts` | + JWT auth + fix userId from JWT |
+| `supabase/functions/cleanup-knowledge-hub/index.ts` | + JWT auth + admin role check |
+| `supabase/functions/auto-generate-daily/index.ts` | + JWT auth + admin role check |
+| `supabase/functions/fetch-knowledge-articles/index.ts` | + JWT auth + admin role check |
+| `supabase/functions/audit-content/index.ts` | + JWT auth + admin role check |
+| **New migration** | RLS policy fixes for profiles, api_usage_log, learning_materials, user_roles, storage |
+| **Auth config** | Enable HIBP password check |
 
