@@ -88,7 +88,7 @@ export default function LastSessionRecap() {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        if (event === "SIGNED_IN" && session?.user) {
+        if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session?.user) {
           if (sessionStorage.getItem("recap_shown")) return;
           sessionStorage.setItem("recap_shown", "true");
           setLoading(true);
