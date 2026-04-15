@@ -147,21 +147,11 @@ serve(async (req) => {
       }
     }
 
-    // Strategy: Delete all existing records that match "IELTS" course patterns
-    // from the sheet, then re-insert fresh data.
-    // Also delete old aggregated records like "IELTS Classes 2025"
-
-    // 1. Delete old aggregated records (those with "Classes" in name)
+    // Strategy: Delete ALL existing revenue_logs, then re-insert fresh data from sheet
     await supabaseAdmin
       .from("revenue_logs")
       .delete()
-      .like("student_name", "%Classes%");
-
-    // 2. Delete all per-student IELTS records from sheet sync
-    await supabaseAdmin
-      .from("revenue_logs")
-      .delete()
-      .or("course.eq.IELTS FOUNDATION,course.eq.IELTS Foundation,course.eq.IELTS LEVEL 1");
+      .neq("id", "00000000-0000-0000-0000-000000000000");
 
     // 3. Insert all fresh records from sheet
     let inserted = 0;
