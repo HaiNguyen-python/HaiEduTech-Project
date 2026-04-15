@@ -156,8 +156,8 @@ const IncomeManagement = () => {
       await fetchData();
 
       const msg = t(
-        `Đồng bộ thành công! Thêm mới: ${data.inserted}, Cập nhật: ${data.updated}, Bỏ qua: ${data.skipped}`,
-        `Synced! New: ${data.inserted}, Updated: ${data.updated}, Skipped: ${data.skipped}`
+        `Đồng bộ thành công! Tổng từ Sheet: ${data.total_sheet_rows}, Đã nhập: ${data.inserted}`,
+        `Synced! Sheet rows: ${data.total_sheet_rows}, Inserted: ${data.inserted}`
       );
       toast.success(msg);
     } catch (err: any) {
