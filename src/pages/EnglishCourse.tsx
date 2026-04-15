@@ -406,6 +406,41 @@ const EnglishCourse = () => {
               </div>
             )}
 
+            {/* SAT Interactive Modules */}
+            {courseId === "sat" && (() => {
+              const satModules = allEnglishModules.filter(m => m.category === "sat");
+              return satModules.length > 0 ? (
+                <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                  <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
+                    <Layers className="w-5 h-5 text-primary" /> {t("Bài học tương tác SAT", "Interactive SAT Modules")}
+                  </h2>
+                  <p className="text-muted-foreground mb-5 text-sm">
+                    {t(`${satModules.length} module — ${satModules.reduce((s, m) => s + m.lessons.length, 0)} bài học tương tác với bài tập & quiz`, `${satModules.length} modules — ${satModules.reduce((s, m) => s + m.lessons.length, 0)} interactive lessons with exercises & quizzes`)}
+                  </p>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {satModules.map(mod => (
+                      <Link key={mod.id} to={`/english/learn/${mod.id}`}
+                        className="block p-4 rounded-xl bg-background/60 border border-border hover:border-primary/40 hover:shadow-md transition-all group">
+                        <div className="flex items-start gap-3">
+                          <span className="text-2xl">{mod.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors truncate">{mod.title}</h3>
+                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{mod.description}</p>
+                            <div className="flex items-center gap-2 mt-2">
+                              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
+                                {mod.lessons.length} {t("bài học", "lessons")}
+                              </span>
+                              <ArrowRight className="w-3.5 h-3.5 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : null;
+            })()}
+
             {/* Contact / Register */}
             <div className="glass-card rounded-2xl p-6 md:p-8 border-2 border-primary/20">
               <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
