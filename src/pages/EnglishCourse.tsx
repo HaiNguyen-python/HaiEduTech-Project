@@ -212,6 +212,44 @@ const courseData: Record<string, {
     duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
     color: "amber",
   },
+  sat: {
+    title: "Luyện thi SAT", titleEn: "SAT Preparation",
+    level: "Trung cấp → Nâng cao", levelEn: "Intermediate → Advanced",
+    image: ieltsImg,
+    heroDesc: "Chương trình luyện thi SAT toàn diện giúp học sinh Việt Nam đạt điểm cao trong kỳ thi SAT Digital. Tập trung vào Reading & Writing, từ vựng nâng cao và chiến lược làm bài thông minh — mở cổng vào các trường đại học hàng đầu tại Mỹ.",
+    heroDescEn: "Comprehensive SAT preparation helping Vietnamese students achieve high scores on the Digital SAT. Focused on Reading & Writing, advanced vocabulary, and smart test strategies — your gateway to top US universities.",
+    stats: [
+      { label: "Từ vựng nâng cao", labelEn: "Advanced vocabulary", value: "500+" },
+      { label: "Bài học tương tác", labelEn: "Interactive lessons", value: "10+" },
+      { label: "Dạng bài SAT", labelEn: "SAT question types", value: "7+" },
+      { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
+    ],
+    features: [
+      { vi: "Evidence-Based Reading: chiến lược đọc hiểu dựa trên bằng chứng văn bản", en: "Evidence-Based Reading: text-based comprehension strategies" },
+      { vi: "Words in Context: từ đa nghĩa, sắc thái ngữ nghĩa trong ngữ cảnh thực", en: "Words in Context: polysemy and semantic nuance in real contexts" },
+      { vi: "Standard English Conventions: ngữ pháp, dấu câu, parallel structure", en: "Standard English Conventions: grammar, punctuation, parallel structure" },
+      { vi: "Rhetorical Synthesis: dạng bài mới trong Digital SAT — tổng hợp thông tin", en: "Rhetorical Synthesis: new Digital SAT type — information synthesis" },
+      { vi: "500+ từ vựng SAT nâng cao với gốc từ Latin/Greek", en: "500+ advanced SAT vocabulary with Latin/Greek roots" },
+    ],
+    curriculum: [
+      { vi: "Tuần 1–2: Evidence-Based Reading & Command of Evidence", en: "Weeks 1–2: Evidence-Based Reading & Command of Evidence", detail: "Chiến lược đọc hiểu, trích dẫn bằng chứng, câu hỏi suy luận", detailEn: "Reading strategies, citing evidence, inference questions" },
+      { vi: "Tuần 3–4: Words in Context & Advanced Vocabulary Set 1", en: "Weeks 3–4: Words in Context & Advanced Vocabulary Set 1", detail: "Từ đa nghĩa, high-frequency SAT words, word families", detailEn: "Polysemy, high-frequency SAT words, word families" },
+      { vi: "Tuần 5–6: Standard English Conventions & Grammar", en: "Weeks 5–6: Standard English Conventions & Grammar", detail: "Agreement, punctuation, modifiers, parallel structure", detailEn: "Agreement, punctuation, modifiers, parallel structure" },
+      { vi: "Tuần 7–8: Writing & Language, Rhetorical Synthesis, Transitions", en: "Weeks 7–8: Writing & Language, Rhetorical Synthesis, Transitions", detail: "Expression of Ideas, tổng hợp tu từ, từ nối", detailEn: "Expression of Ideas, rhetorical synthesis, transitions" },
+      { vi: "Tuần 9–10: Roots/Prefixes/Suffixes & Vocabulary Set 2 + Thi thử", en: "Weeks 9–10: Roots/Prefixes/Suffixes & Vocabulary Set 2 + Mock Tests", detail: "Latin/Greek roots, từ vựng nâng cao, full-length practice", detailEn: "Latin/Greek roots, advanced vocabulary, full-length practice" },
+    ],
+    audience: [
+      { vi: "Học sinh lớp 10–12 chuẩn bị du học Mỹ", en: "Grade 10–12 students preparing to study in the US" },
+      { vi: "Người muốn đạt SAT 1400+ để nộp vào trường top", en: "Those targeting SAT 1400+ for top university applications" },
+      { vi: "Học sinh quốc tế muốn chứng minh năng lực tiếng Anh", en: "International students demonstrating English proficiency" },
+    ],
+    testimonials: [
+      { name: "Em Minh Anh (Học sinh lớp 11)", text: "Từ 1100 lên 1420 SAT sau 3 tháng. Phần Words in Context giúp mình hiểu từ trong ngữ cảnh rất nhanh!", textEn: "From 1100 to 1420 SAT in 3 months. Words in Context helped me understand vocabulary in context so quickly!" },
+      { name: "Anh Đức (Du học sinh)", text: "Chiến lược Evidence-Based Reading rất hiệu quả. Mình đạt 780/800 phần Reading & Writing!", textEn: "The Evidence-Based Reading strategies were highly effective. I scored 780/800 on Reading & Writing!" },
+    ],
+    duration: "Thời gian học linh hoạt", durationEn: "Flexible schedule",
+    color: "purple",
+  },
 };
 
 const EnglishCourse = () => {
