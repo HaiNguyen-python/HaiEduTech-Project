@@ -154,6 +154,7 @@ const Navbar = () => {
     { to: "/programming/prog-data-pipeline", label: "🔄 Data Engineer" },
     { to: "/programming/prog-ml", label: "🤖 Machine Learning Engineer" },
     { to: "/programming/interview-questions", label: t("💼 Câu hỏi Phỏng vấn", "💼 Interview Questions") },
+    { to: "/programming/job-opportunities", label: t("🎯 Cơ hội Việc làm 🇫🇮", "🎯 Job Opportunities 🇫🇮") },
   ];
 
   const baseLinks = [

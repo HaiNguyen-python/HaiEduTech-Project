@@ -233,27 +233,51 @@ const Programming = () => {
 
                 {/* Interview Questions Section — for AI & Data roles */}
                 {(activePillar === "ai-foundation" || activePillar === "data-eng" || activePillar === "ml") && (
-                  <Link
-                    to="/programming/interview-questions"
-                    className="group block rounded-xl p-5 mb-6 border border-primary/20 bg-gradient-to-r from-indigo-500/5 to-violet-500/5 hover:shadow-md transition-all active:scale-[0.99]"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
-                          <Briefcase className="w-5 h-5 text-white" />
+                  <>
+                    <Link
+                      to="/programming/interview-questions"
+                      className="group block rounded-xl p-5 mb-4 border border-primary/20 bg-gradient-to-r from-indigo-500/5 to-violet-500/5 hover:shadow-md transition-all active:scale-[0.99]"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
+                            <Briefcase className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <h3 className="font-display font-bold text-foreground text-sm group-hover:text-primary transition-colors">
+                              Interview Questions: AI & Data Engineer
+                            </h3>
+                            <p className="text-xs text-muted-foreground">
+                              100 real-world questions · Detailed answers · Code examples
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-display font-bold text-foreground text-sm group-hover:text-primary transition-colors">
-                            Interview Questions: AI & Data Engineer
-                          </h3>
-                          <p className="text-xs text-muted-foreground">
-                            50+ real-world questions · Detailed answers · Code examples
-                          </p>
-                        </div>
+                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                       </div>
-                      <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                    </div>
-                  </Link>
+                    </Link>
+
+                    <Link
+                      to="/programming/job-opportunities"
+                      className="group block rounded-xl p-5 mb-6 border border-emerald-500/30 bg-gradient-to-r from-emerald-500/5 to-blue-500/5 hover:shadow-md transition-all active:scale-[0.99]"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-blue-600 flex items-center justify-center text-lg">
+                            🎯
+                          </div>
+                          <div>
+                            <h3 className="font-display font-bold text-foreground text-sm group-hover:text-primary transition-colors">
+                              Job Opportunities — Find tech jobs in Finland 🇫🇮
+                            </h3>
+                            <p className="text-xs text-muted-foreground">
+                              60+ companies · Data / AI / Language Tech · Career page + Live LinkedIn jobs
+                            </p>
+                          </div>
+                        </div>
+                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                      </div>
+                    </Link>
+                  </>
                 )}
 
                 {/* Module Cards */}
