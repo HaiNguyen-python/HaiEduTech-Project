@@ -1,15 +1,14 @@
-/**
- * @file analyze-cv/index.ts
- * @description Analyzes a candidate CV against a target tech role using Lovable AI.
- *              Returns structured match score, breakdown, strengths, gaps, and Nordic tips.
- *              CV text is processed in-memory only — never persisted.
- */
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type",
+};
+
+const jsonHeaders = {
+  ...corsHeaders,
+  "Content-Type": "application/json",
 };
 
 const ALLOWED_ROLES = [
@@ -19,6 +18,11 @@ const ALLOWED_ROLES = [
   "language-tech",
   "custom",
 ] as const;
+
+type FallbackType =
+  | "ai_credits_exhausted"
+  | "rate_limited"
+  | "temporary_unavailable";
 
 const SYSTEM_PROMPT = `You are a senior technical recruiter specialised in the Nordic / Finnish tech market (Helsinki, Espoo, Tampere, Oulu) for Data Engineering, AI/ML Engineering and Language Technology roles. You evaluate CVs the way Finnish hiring managers and ATS systems do.
 
@@ -123,6 +127,28 @@ const TOOL_SCHEMA = {
   },
 };
 
+const jsonResponse = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: jsonHeaders,
+  });
+
+const fallbackResponse = (
+  type: FallbackType,
+  title: string,
+  description: string,
+) =>
+  jsonResponse(
+    {
+      fallback: {
+        type,
+        title,
+        description,
+      },
+    },
+    200,
+  );
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -131,18 +157,12 @@ serve(async (req) => {
   try {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
-      return new Response(
-        JSON.stringify({ error: "AI service not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return jsonResponse({ error: "AI service not configured" }, 500);
     }
 
     const body = await req.json().catch(() => null);
     if (!body) {
-      return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse({ error: "Invalid JSON body" }, 400);
     }
 
     const { cvText, targetRole, jobDescription } = body as {
@@ -152,28 +172,16 @@ serve(async (req) => {
     };
 
     if (typeof cvText !== "string" || cvText.trim().length < 100) {
-      return new Response(
-        JSON.stringify({ error: "CV text must be at least 100 characters" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return jsonResponse({ error: "CV text must be at least 100 characters" }, 400);
     }
     if (cvText.length > 15000) {
-      return new Response(
-        JSON.stringify({ error: "CV text too long (max 15,000 characters)" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return jsonResponse({ error: "CV text too long (max 15,000 characters)" }, 400);
     }
     if (!targetRole || !ALLOWED_ROLES.includes(targetRole as typeof ALLOWED_ROLES[number])) {
-      return new Response(JSON.stringify({ error: "Invalid targetRole" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse({ error: "Invalid targetRole" }, 400);
     }
     if (jobDescription && typeof jobDescription === "string" && jobDescription.length > 8000) {
-      return new Response(
-        JSON.stringify({ error: "Job description too long (max 8,000 characters)" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return jsonResponse({ error: "Job description too long (max 8,000 characters)" }, 400);
     }
 
     const roleLabels: Record<string, string> = {
@@ -181,7 +189,7 @@ serve(async (req) => {
       "data-engineer": "Data Engineer (pipelines, warehousing, streaming, cloud)",
       "ml-engineer": "ML Engineer (training, productionising models, feature stores)",
       "language-tech": "Language Technology Engineer (NLP, multilingual systems, speech)",
-      "custom": "Custom role described in the job description",
+      custom: "Custom role described in the job description",
     };
 
     const userPrompt = `Target role: ${roleLabels[targetRole]}
@@ -219,33 +227,40 @@ Now call return_cv_review with your structured assessment.`;
     );
 
     if (!aiResp.ok) {
-      if (aiResp.status === 429) {
-        return new Response(
-          JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }),
-          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-        );
-      }
-      if (aiResp.status === 402) {
-        return new Response(
-          JSON.stringify({ error: "AI credits exhausted. Please add funds to continue." }),
-          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-        );
-      }
       const errText = await aiResp.text();
+
+      if (aiResp.status === 402) {
+        return fallbackResponse(
+          "ai_credits_exhausted",
+          "AI review is temporarily unavailable",
+          "Your workspace AI balance is exhausted. Add funds in Settings → Cloud & AI balance, then run the analysis again.",
+        );
+      }
+
+      if (aiResp.status === 429) {
+        return fallbackResponse(
+          "rate_limited",
+          "Too many CV reviews right now",
+          "The AI review service is busy. Please wait a moment and try again.",
+        );
+      }
+
       console.error("AI gateway error:", aiResp.status, errText);
-      return new Response(JSON.stringify({ error: "AI gateway error" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return fallbackResponse(
+        "temporary_unavailable",
+        "AI review is temporarily unavailable",
+        "The analysis service could not complete your review right now. Please try again shortly.",
+      );
     }
 
     const data = await aiResp.json();
     const toolCall = data?.choices?.[0]?.message?.tool_calls?.[0];
     if (!toolCall?.function?.arguments) {
       console.error("No tool call in response", JSON.stringify(data).slice(0, 500));
-      return new Response(
-        JSON.stringify({ error: "AI did not return a structured review" }),
-        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      return fallbackResponse(
+        "temporary_unavailable",
+        "AI review is temporarily unavailable",
+        "The analysis service returned an incomplete result. Please try again shortly.",
       );
     }
 
@@ -254,23 +269,20 @@ Now call return_cv_review with your structured assessment.`;
       parsed = JSON.parse(toolCall.function.arguments);
     } catch (e) {
       console.error("Failed to parse tool args", e);
-      return new Response(JSON.stringify({ error: "Invalid AI response format" }), {
-        status: 502,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return fallbackResponse(
+        "temporary_unavailable",
+        "AI review is temporarily unavailable",
+        "The analysis service returned an invalid result. Please try again shortly.",
+      );
     }
 
-    return new Response(JSON.stringify({ review: parsed }), {
-      status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return jsonResponse({ review: parsed });
   } catch (e) {
     console.error("analyze-cv error:", e);
-    return new Response(
-      JSON.stringify({
-        error: e instanceof Error ? e.message : "Unknown error",
-      }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    return fallbackResponse(
+      "temporary_unavailable",
+      "AI review is temporarily unavailable",
+      "The CV analysis service hit an unexpected error. Please try again shortly.",
     );
   }
 });
