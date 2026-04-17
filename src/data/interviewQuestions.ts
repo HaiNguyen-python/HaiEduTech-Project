@@ -15,6 +15,9 @@ export interface InterviewQuestion {
   question: string;
   answer: string;
   keyPoints: string[];
+  tldr?: string;
+  pitfalls?: string[];
+  interviewTip?: string;
   codeExample?: { language: string; code: string };
   tags?: string[];
 }
