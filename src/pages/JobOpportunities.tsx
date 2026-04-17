@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Search, ExternalLink, Bookmark, BookmarkCheck, Briefcase, MapPin,
-  Building2, Globe2, Sparkles, ChevronDown, Linkedin,
+  Building2, Globe2, Sparkles, ChevronDown, Linkedin, Info, RefreshCw,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -160,6 +160,30 @@ const JobOpportunities = () => {
               </Card>
             </div>
           </motion.div>
+
+          {/* Live Jobs Notice */}
+          <Card className="p-4 mb-6 border-amber-500/30 bg-gradient-to-r from-amber-500/5 to-orange-500/5">
+            <div className="flex items-start gap-3">
+              <div className="shrink-0 w-8 h-8 rounded-full bg-amber-500/15 flex items-center justify-center">
+                <Info className="w-4 h-4 text-amber-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-display font-bold text-sm mb-1 flex items-center gap-2">
+                  <RefreshCw className="w-3.5 h-3.5 text-amber-600" />
+                  How job listings stay fresh
+                </h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  This hub shows a <strong>curated list of companies</strong> that consistently hire for Data, AI, and Language Tech roles in Finland.
+                  The companies don't change often, but <strong>actual job openings update every day</strong> — just click{" "}
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/10 text-primary font-semibold">
+                    <Linkedin className="w-3 h-3" /> Live Jobs
+                  </span>{" "}
+                  on any card to see today's openings (the LinkedIn search is pre-filtered by company + Finland and refreshes in real time).
+                  For broader hunting, use the <strong>Top Resources</strong> below — Duunitori and Work in Finland are updated by employers daily.
+                </p>
+              </div>
+            </div>
+          </Card>
 
           {/* Top Resources Panel */}
           <Card className="p-5 mb-8 bg-gradient-to-r from-primary/5 to-emerald-500/5 border-primary/20">
