@@ -1,27 +1,45 @@
 
 
-## Plan: Đảm bảo SAT hiển thị đầy đủ trong Learn English
+## Plan: Thêm mục "Interview Questions" vào Learn Programming
 
-### Vấn đề hiện tại
-1. **Navbar** thiếu mục SAT — không có link nào dẫn đến `/english/sat` hoặc các bài học SAT tương tác
-2. **Trang `/english/sat`** (EnglishCourse) không có section hiển thị các module bài học tương tác SAT (5 modules, ~15 bài học đã có sẵn trong data)
-3. SAT modules có trong grid "Interactive Learning Modules" trên `/english` nhưng lẫn với 20+ modules khác, khó tìm
+### Mục tiêu
+Bổ sung mục mới "Interview Questions" trong phần Learn Programming, chứa các câu hỏi phỏng vấn thực tế cho 2 vị trí: **AI Engineer** và **Data Engineer**, kèm câu trả lời chi tiết.
 
-### Giải pháp
+### Cấu trúc nội dung
 
-#### 1. Thêm SAT vào Navbar (src/components/Navbar.tsx)
-- Thêm link `{ to: "/english/sat", label: "📝 SAT" }` vào mục English trong Navbar, giữa "Luyện thi THPT" và "AI Speaking Coach"
+**AI Engineer (~25 câu hỏi)** chia 4 nhóm:
+- LLMs & Prompt Engineering (RAG, fine-tuning, hallucination, context window)
+- Machine Learning Fundamentals (overfitting, bias-variance, evaluation metrics)
+- Deep Learning & Neural Networks (transformers, attention, backprop)
+- AI System Design & Ethics (vector DB, latency, bias, deployment)
 
-#### 2. Thêm section Interactive SAT Modules vào trang EnglishCourse (src/pages/EnglishCourse.tsx)
-- Import `allEnglishModules` từ `@/data/languageCurriculum`
-- Khi `courseId === "sat"`, hiển thị thêm một section "Bài học tương tác SAT" ngay sau phần Curriculum
-- Filter `allEnglishModules` theo `category === "sat"` để hiển thị 5 modules SAT với link đến `/english/learn/{moduleId}`
-- Hiển thị số bài học, icon, và mô tả cho mỗi module
+**Data Engineer (~25 câu hỏi)** chia 4 nhóm:
+- SQL & Databases (joins, indexing, window functions, normalization)
+- Data Pipelines & ETL (Airflow, idempotency, batch vs stream, data quality)
+- Big Data & Cloud (Spark, partitioning, data lake vs warehouse, cost optimization)
+- System Design (schema design, CDC, monitoring, lineage)
 
-### Files sẽ sửa
+Mỗi câu hỏi gồm: **Question**, **Answer** (chi tiết), **Key Points** (bullet), **Code Example** (nếu có), **Difficulty** (Junior/Mid/Senior).
+
+### Files sẽ tạo/sửa
 
 | File | Thay đổi |
 |------|----------|
-| `src/components/Navbar.tsx` | + link SAT trong English menu |
-| `src/pages/EnglishCourse.tsx` | + import `allEnglishModules`, + section hiển thị SAT interactive modules khi `courseId === "sat"` |
+| `src/data/interviewQuestions.ts` (NEW) | Data 50 câu hỏi với types `InterviewQuestion`, `InterviewCategory` |
+| `src/pages/InterviewQuestions.tsx` (NEW) | Trang hiển thị: tabs role (AI/Data) → filter category & difficulty → accordion câu hỏi với syntax highlight |
+| `src/App.tsx` | + route `/programming/interview-questions` |
+| `src/pages/Programming.tsx` | + card "Interview Questions" nổi bật trong pillar AI Foundation và Data Engineering (link đến trang mới) |
+| `src/components/Navbar.tsx` | + link "💼 Interview Questions" trong dropdown Programming |
+
+### UI/UX
+- **Tabs**: AI Engineer / Data Engineer (default: AI)
+- **Filter chips**: Category + Difficulty (Junior/Mid/Senior/All)
+- **Search box**: tìm theo keyword
+- **Accordion cards**: collapse mặc định, expand để xem answer + key points + code
+- **Copy code button**, badge difficulty với màu (xanh/vàng/đỏ)
+- **Progress tracking**: localStorage đánh dấu "đã ôn" cho từng câu
+
+### Ngôn ngữ
+- Toàn bộ câu hỏi và đáp án bằng **tiếng Anh** (theo chuẩn phỏng vấn quốc tế và phù hợp memory rule "English for English/Programming quizzes")
+- UI labels song ngữ qua `useLanguage`
 
