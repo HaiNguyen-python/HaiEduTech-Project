@@ -155,8 +155,8 @@ serve(async (req) => {
   }
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
+    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    if (!PERPLEXITY_API_KEY) {
       return jsonResponse({ error: "AI service not configured" }, 500);
     }
 
@@ -201,27 +201,39 @@ Candidate CV (raw text):
 ${cvText.trim()}
 """
 
-Now call return_cv_review with your structured assessment.`;
+Now respond with ONLY a valid JSON object matching this exact shape (no markdown fences, no prose):
+{
+  "matchScore": number (0-100),
+  "verdict": "strong" | "good" | "needs-work" | "mismatch",
+  "verdictSummary": string,
+  "breakdown": {
+    "technicalSkills": number (0-20),
+    "experience": number (0-20),
+    "projectImpact": number (0-20),
+    "atsKeywords": number (0-20),
+    "structure": number (0-20)
+  },
+  "strengths": string[] (3-5 items),
+  "gaps": [{ "skill": string, "why": string, "howToFix": string }] (3-6 items),
+  "improvements": [{ "original": string, "improved": string, "reason": string }] (3-5 items),
+  "nordicTips": string[] (3-5 items)
+}`;
 
     const aiResp = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
+      "https://api.perplexity.ai/chat/completions",
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-pro",
+          model: "sonar",
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
             { role: "user", content: userPrompt },
           ],
-          tools: [TOOL_SCHEMA],
-          tool_choice: {
-            type: "function",
-            function: { name: "return_cv_review" },
-          },
+          temperature: 0.2,
         }),
       },
     );
@@ -233,7 +245,7 @@ Now call return_cv_review with your structured assessment.`;
         return fallbackResponse(
           "ai_credits_exhausted",
           "AI review is temporarily unavailable",
-          "Your workspace AI balance is exhausted. Add funds in Settings → Cloud & AI balance, then run the analysis again.",
+          "The Perplexity AI balance is exhausted. Please top up the Perplexity account to continue.",
         );
       }
 
@@ -245,7 +257,7 @@ Now call return_cv_review with your structured assessment.`;
         );
       }
 
-      console.error("AI gateway error:", aiResp.status, errText);
+      console.error("Perplexity error:", aiResp.status, errText);
       return fallbackResponse(
         "temporary_unavailable",
         "AI review is temporarily unavailable",
@@ -254,9 +266,9 @@ Now call return_cv_review with your structured assessment.`;
     }
 
     const data = await aiResp.json();
-    const toolCall = data?.choices?.[0]?.message?.tool_calls?.[0];
-    if (!toolCall?.function?.arguments) {
-      console.error("No tool call in response", JSON.stringify(data).slice(0, 500));
+    const content: string | undefined = data?.choices?.[0]?.message?.content;
+    if (!content) {
+      console.error("No content in Perplexity response", JSON.stringify(data).slice(0, 500));
       return fallbackResponse(
         "temporary_unavailable",
         "AI review is temporarily unavailable",
@@ -264,11 +276,19 @@ Now call return_cv_review with your structured assessment.`;
       );
     }
 
+    // Strip markdown fences and extract JSON
+    let cleaned = content.trim().replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "");
+    const firstBrace = cleaned.indexOf("{");
+    const lastBrace = cleaned.lastIndexOf("}");
+    if (firstBrace !== -1 && lastBrace > firstBrace) {
+      cleaned = cleaned.slice(firstBrace, lastBrace + 1);
+    }
+
     let parsed: unknown;
     try {
-      parsed = JSON.parse(toolCall.function.arguments);
+      parsed = JSON.parse(cleaned);
     } catch (e) {
-      console.error("Failed to parse tool args", e);
+      console.error("Failed to parse Perplexity JSON", e, content.slice(0, 500));
       return fallbackResponse(
         "temporary_unavailable",
         "AI review is temporarily unavailable",
