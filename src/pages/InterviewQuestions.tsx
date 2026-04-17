@@ -116,11 +116,16 @@ const InterviewQuestions = () => {
           </motion.div>
 
           {/* Role tabs */}
-          <Tabs value={role} onValueChange={(v) => { setRole(v as InterviewRole); setCategory("all"); }}>
-            <TabsList className="grid grid-cols-2 w-full max-w-md mx-auto mb-6">
+          <Tabs value={role} onValueChange={(v) => { if (v !== "cv-clinic") { setRole(v as InterviewRole); setCategory("all"); } else { setRole(v as any); } }}>
+            <TabsList className="grid grid-cols-3 w-full max-w-xl mx-auto mb-6">
               <TabsTrigger value="ai-engineer">🧠 AI Engineer</TabsTrigger>
               <TabsTrigger value="data-engineer">🔄 Data Engineer</TabsTrigger>
+              <TabsTrigger value="cv-clinic">🩺 CV Clinic</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="cv-clinic">
+              <CVClinic />
+            </TabsContent>
 
             {(["ai-engineer", "data-engineer"] as InterviewRole[]).map(r => (
               <TabsContent key={r} value={r}>
