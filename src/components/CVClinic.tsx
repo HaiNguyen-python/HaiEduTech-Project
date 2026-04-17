@@ -25,6 +25,12 @@ import { toast } from "sonner";
 
 type TargetRole = "ai-engineer" | "data-engineer" | "ml-engineer" | "language-tech" | "custom";
 
+type CVFallback = {
+  type: "ai_credits_exhausted" | "rate_limited" | "temporary_unavailable";
+  title: string;
+  description: string;
+};
+
 interface CVReview {
   matchScore: number;
   verdict: "strong" | "good" | "needs-work" | "mismatch";
@@ -59,6 +65,74 @@ const breakdownLabels: Record<keyof CVReview["breakdown"], string> = {
   structure: "Structure & Clarity",
 };
 
+const isFiniteNumber = (value: unknown): value is number =>
+  typeof value === "number" && Number.isFinite(value);
+
+const clamp = (value: unknown, max: number) =>
+  isFiniteNumber(value) ? Math.max(0, Math.min(max, Math.round(value))) : 0;
+
+const normalizeReview = (raw: unknown): CVReview | null => {
+  if (!raw || typeof raw !== "object") return null;
+
+  const candidate = raw as Partial<CVReview> & {
+    breakdown?: Partial<CVReview["breakdown"]>;
+  };
+
+  const verdict =
+    typeof candidate.verdict === "string" &&
+    Object.prototype.hasOwnProperty.call(verdictStyle, candidate.verdict)
+      ? (candidate.verdict as CVReview["verdict"])
+      : null;
+
+  if (!verdict) return null;
+
+  return {
+    matchScore: clamp(candidate.matchScore, 100),
+    verdict,
+    verdictSummary:
+      typeof candidate.verdictSummary === "string" && candidate.verdictSummary.trim()
+        ? candidate.verdictSummary.trim()
+        : "Your CV was analyzed successfully.",
+    breakdown: {
+      technicalSkills: clamp(candidate.breakdown?.technicalSkills, 20),
+      experience: clamp(candidate.breakdown?.experience, 20),
+      projectImpact: clamp(candidate.breakdown?.projectImpact, 20),
+      atsKeywords: clamp(candidate.breakdown?.atsKeywords, 20),
+      structure: clamp(candidate.breakdown?.structure, 20),
+    },
+    strengths: Array.isArray(candidate.strengths)
+      ? candidate.strengths.filter((item): item is string => typeof item === "string").slice(0, 5)
+      : [],
+    gaps: Array.isArray(candidate.gaps)
+      ? candidate.gaps
+          .filter(
+            (item): item is { skill: string; why: string; howToFix: string } =>
+              !!item &&
+              typeof item === "object" &&
+              typeof item.skill === "string" &&
+              typeof item.why === "string" &&
+              typeof item.howToFix === "string",
+          )
+          .slice(0, 6)
+      : [],
+    improvements: Array.isArray(candidate.improvements)
+      ? candidate.improvements
+          .filter(
+            (item): item is { original: string; improved: string; reason: string } =>
+              !!item &&
+              typeof item === "object" &&
+              typeof item.original === "string" &&
+              typeof item.improved === "string" &&
+              typeof item.reason === "string",
+          )
+          .slice(0, 5)
+      : [],
+    nordicTips: Array.isArray(candidate.nordicTips)
+      ? candidate.nordicTips.filter((item): item is string => typeof item === "string").slice(0, 5)
+      : [],
+  };
+};
+
 async function parsePdf(file: File): Promise<string> {
   const pdfjs: any = await import("pdfjs-dist");
   // @ts-ignore — Vite worker import
@@ -82,6 +156,24 @@ async function parseDocx(file: File): Promise<string> {
   return (result.value || "").trim();
 }
 
+const defaultFallback = {
+  ai_credits_exhausted: {
+    type: "ai_credits_exhausted",
+    title: "AI review is temporarily unavailable",
+    description: "Your workspace AI balance is exhausted. Add funds in Settings → Cloud & AI balance, then run the analysis again.",
+  },
+  rate_limited: {
+    type: "rate_limited",
+    title: "Too many CV reviews right now",
+    description: "The AI review service is busy. Please wait a moment and try again.",
+  },
+  temporary_unavailable: {
+    type: "temporary_unavailable",
+    title: "AI review is temporarily unavailable",
+    description: "The analysis service could not complete your review right now. Please try again shortly.",
+  },
+} satisfies Record<CVFallback["type"], CVFallback>;
+
 const CVClinic = () => {
   const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -92,6 +184,7 @@ const CVClinic = () => {
   const [jobDescription, setJobDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [review, setReview] = useState<CVReview | null>(null);
+  const [fallback, setFallback] = useState<CVFallback | null>(null);
   const [dragOver, setDragOver] = useState(false);
 
   const handleFile = async (file: File) => {
@@ -140,8 +233,11 @@ const CVClinic = () => {
       toast.error(t("CV cần ít nhất 100 ký tự", "CV must be at least 100 characters"));
       return;
     }
+
     setLoading(true);
     setReview(null);
+    setFallback(null);
+
     try {
       const { data, error } = await supabase.functions.invoke("analyze-cv", {
         body: {
@@ -150,21 +246,50 @@ const CVClinic = () => {
           jobDescription: jobDescription.trim() || undefined,
         },
       });
+
       if (error) {
         const ctx: any = (error as any).context;
-        if (ctx?.status === 429) toast.error(t("Quá nhiều yêu cầu, thử lại sau", "Too many requests, try again shortly"));
-        else if (ctx?.status === 402) toast.error(t("Hết credits AI", "AI credits exhausted"));
-        else toast.error(error.message || t("Lỗi phân tích CV", "Failed to analyze CV"));
+
+        if (ctx?.status === 402) {
+          setFallback(defaultFallback.ai_credits_exhausted);
+          toast.error(t("Hết credits AI", "AI credits exhausted"));
+          return;
+        }
+
+        if (ctx?.status === 429) {
+          setFallback(defaultFallback.rate_limited);
+          toast.error(t("Quá nhiều yêu cầu, thử lại sau", "Too many requests, try again shortly"));
+          return;
+        }
+
+        setFallback(defaultFallback.temporary_unavailable);
+        toast.error(error.message || t("Lỗi phân tích CV", "Failed to analyze CV"));
         return;
       }
-      if (!data?.review) {
+
+      if (data?.fallback) {
+        const safeFallback: CVFallback = {
+          type: data.fallback.type ?? "temporary_unavailable",
+          title: data.fallback.title ?? defaultFallback.temporary_unavailable.title,
+          description: data.fallback.description ?? defaultFallback.temporary_unavailable.description,
+        };
+        setFallback(safeFallback);
+        toast.error(safeFallback.title);
+        return;
+      }
+
+      const safeReview = normalizeReview(data?.review);
+      if (!safeReview) {
+        setFallback(defaultFallback.temporary_unavailable);
         toast.error(t("Phản hồi AI không hợp lệ", "Invalid AI response"));
         return;
       }
-      setReview(data.review as CVReview);
+
+      setReview(safeReview);
       toast.success(t("Phân tích hoàn tất!", "Analysis complete!"));
     } catch (e) {
       console.error(e);
+      setFallback(defaultFallback.temporary_unavailable);
       toast.error(t("Lỗi không xác định", "Unknown error"));
     } finally {
       setLoading(false);
@@ -203,6 +328,7 @@ const CVClinic = () => {
 
   const reset = () => {
     setReview(null);
+    setFallback(null);
     setCvText("");
     setFileName(null);
     setJobDescription("");
@@ -210,7 +336,6 @@ const CVClinic = () => {
 
   return (
     <div className="space-y-6">
-      {/* Intro */}
       <Card className="p-5 border-primary/30 bg-gradient-to-r from-primary/5 to-emerald-500/5">
         <div className="flex items-start gap-3">
           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center text-white shrink-0">
@@ -235,14 +360,12 @@ const CVClinic = () => {
       </Card>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* LEFT: Input */}
         <Card className="p-5 space-y-4">
           <h4 className="font-display font-semibold flex items-center gap-2">
             <FileText className="w-4 h-4 text-primary" />
             {t("Bước 1: Tải hoặc dán CV", "Step 1: Upload or paste your CV")}
           </h4>
 
-          {/* Drop zone */}
           <div
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
             onDragLeave={() => setDragOver(false)}
@@ -305,7 +428,6 @@ const CVClinic = () => {
             {cvText.length} / 15,000 {t("ký tự", "chars")}
           </div>
 
-          {/* Role */}
           <div className="space-y-2">
             <label className="text-sm font-medium">
               {t("Bước 2: Chọn vị trí mục tiêu", "Step 2: Target role")}
@@ -324,7 +446,6 @@ const CVClinic = () => {
             </Select>
           </div>
 
-          {/* Optional JD */}
           <div className="space-y-2">
             <label className="text-sm font-medium">
               {t("Bước 3 (tùy chọn): Mô tả công việc", "Step 3 (optional): Job description")}
@@ -360,9 +481,8 @@ const CVClinic = () => {
           </Button>
         </Card>
 
-        {/* RIGHT: Result */}
         <Card className="p-5">
-          {!review && !loading && (
+          {!review && !loading && !fallback && (
             <div className="h-full min-h-[400px] flex flex-col items-center justify-center text-center text-muted-foreground">
               <Stethoscope className="w-12 h-12 mb-3 opacity-30" />
               <p className="text-sm">
@@ -386,13 +506,29 @@ const CVClinic = () => {
             </div>
           )}
 
+          {fallback && !loading && (
+            <div className="h-full min-h-[400px] flex items-center justify-center">
+              <div className="w-full max-w-md rounded-xl border border-border bg-muted/30 p-5 text-center">
+                <AlertTriangle className="w-10 h-10 mx-auto mb-3 text-primary" />
+                <h5 className="font-display font-semibold text-lg mb-2">{fallback.title}</h5>
+                <p className="text-sm text-muted-foreground mb-4">{fallback.description}</p>
+                <div className="inline-flex items-center gap-2 rounded-md bg-background px-3 py-2 text-xs text-muted-foreground">
+                  <Lock className="w-3.5 h-3.5" />
+                  {t(
+                    "CV của bạn vẫn nằm ở ô nhập bên trái để bạn thử lại sau.",
+                    "Your CV text is still kept in the left panel so you can try again later.",
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           {review && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="space-y-5"
             >
-              {/* Score header */}
               <div className={`rounded-lg p-4 bg-gradient-to-br ${verdictStyle[review.verdict].bg} border`}>
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="outline" className={`${verdictStyle[review.verdict].color} bg-background/60 border-current`}>
@@ -406,7 +542,6 @@ const CVClinic = () => {
                 <p className="text-sm">{review.verdictSummary}</p>
               </div>
 
-              {/* Breakdown */}
               <div>
                 <h5 className="text-sm font-semibold mb-2">{t("Chi tiết điểm", "Score Breakdown")}</h5>
                 <div className="space-y-2">
@@ -422,7 +557,6 @@ const CVClinic = () => {
                 </div>
               </div>
 
-              {/* Strengths */}
               <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-3">
                 <h5 className="text-sm font-semibold mb-2 flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
                   <CheckCircle2 className="w-4 h-4" /> {t("Điểm mạnh", "Strengths")}
@@ -437,7 +571,6 @@ const CVClinic = () => {
                 </ul>
               </div>
 
-              {/* Gaps */}
               <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
                 <h5 className="text-sm font-semibold mb-2 flex items-center gap-1.5 text-amber-700 dark:text-amber-400">
                   <AlertTriangle className="w-4 h-4" /> {t("Khoảng trống", "Gaps & Missing Skills")}
@@ -453,7 +586,6 @@ const CVClinic = () => {
                 </div>
               </div>
 
-              {/* Improvements */}
               <div className="rounded-lg border border-blue-500/30 bg-blue-500/5 p-3">
                 <h5 className="text-sm font-semibold mb-2 flex items-center gap-1.5 text-blue-700 dark:text-blue-400">
                   <Wrench className="w-4 h-4" /> {t("Gợi ý viết lại", "Specific Improvements")}
@@ -469,7 +601,6 @@ const CVClinic = () => {
                 </div>
               </div>
 
-              {/* Nordic tips */}
               <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
                 <h5 className="text-sm font-semibold mb-2 flex items-center gap-1.5 text-primary">
                   <Globe2 className="w-4 h-4" /> {t("Mẹo CV thị trường Bắc Âu", "Nordic Market Tips")}
@@ -484,7 +615,6 @@ const CVClinic = () => {
                 </ul>
               </div>
 
-              {/* Actions */}
               <div className="flex gap-2 pt-2">
                 <Button onClick={handleCopy} variant="outline" size="sm" className="flex-1">
                   <Copy className="w-3.5 h-3.5 mr-1.5" /> {t("Sao chép báo cáo", "Copy Report")}
