@@ -43,6 +43,7 @@ const TeacherDashboard = lazy(() => import("./pages/TeacherDashboard.tsx"));
 const GeneratedLessonView = lazy(() => import("./pages/GeneratedLessonView.tsx"));
 const PythonChallengeList = lazy(() => import("./pages/PythonChallengeList.tsx"));
 const PythonChallengePage = lazy(() => import("./pages/PythonChallenge.tsx"));
+const InterviewQuestions = lazy(() => import("./pages/InterviewQuestions.tsx"));
 const IeltsWritingPractice = lazy(() => import("./pages/IeltsWritingPractice.tsx"));
 const IeltsSampleEssays = lazy(() => import("./pages/IeltsSampleEssays.tsx"));
 const IeltsSampleEssayDetail = lazy(() => import("./pages/IeltsSampleEssayDetail.tsx"));
@@ -176,6 +177,7 @@ const App = () => (
             <Route path="/lesson-library/:lessonId" element={<LazyRoute><GeneratedLessonView /></LazyRoute>} />
             <Route path="/python-challenges" element={<LazyRoute><PythonChallengeList /></LazyRoute>} />
             <Route path="/python-challenges/:challengeId" element={<LazyRoute><PythonChallengePage /></LazyRoute>} />
+            <Route path="/programming/interview-questions" element={<LazyRoute><InterviewQuestions /></LazyRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
