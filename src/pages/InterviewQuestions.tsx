@@ -78,7 +78,7 @@ const InterviewQuestions = () => {
   const juniorCount = roleQs.filter(q => q.difficulty === "Junior").length;
   const midCount = roleQs.filter(q => q.difficulty === "Mid").length;
   const seniorCount = roleQs.filter(q => q.difficulty === "Senior").length;
-  const categoriesCount = interviewCategories[role].length;
+  const categoriesCount = interviewCategories[role]?.length ?? 0;
 
   const copyCode = (code: string) => {
     navigator.clipboard.writeText(code);
