@@ -1,49 +1,93 @@
-## Trả lời: Hiện tại các job **KHÔNG** được cập nhật tự động
 
-### Tình trạng hiện tại
 
-Trang Job Opportunities đang dùng **static curated database** (`src/data/jobOpportunities.ts`) — danh sách ~80 công ty cố định, viết tay. Mỗi card có 2 nút:
+## Plan: CV Clinic — AI-powered CV Review trong Interview Questions
 
-- **Career Page** → link đến trang tuyển dụng chính thức của công ty (luôn mới vì là link trực tiếp)
-- **Live Jobs** → link LinkedIn search đã pre-filter theo công ty + Phần Lan (LinkedIn tự cập nhật realtime)
+### Mục tiêu
+Thêm tính năng **CV Clinic** trong trang `/programming/interview-questions` cho phép user:
+1. Upload CV (PDF/DOCX/TXT) hoặc paste text
+2. Chọn target role (AI Engineer / Data Engineer / Language Tech)
+3. AI phân tích → trả về **Match Score** + feedback chi tiết theo Nordic/Finland tech market standards
 
-→ Bản thân app không fetch jobs mới, nhưng **2 nút trên dẫn ra nguồn live** nên user vẫn thấy job mới khi click.
+### UX Flow
 
-### Có 3 cách để cập nhật job liên tục theo ngày
+**Vị trí**: Tab/section mới "🩺 CV Clinic" bên cạnh tabs hiện có (AI Engineer / Data Engineer) trong `InterviewQuestions.tsx`.
 
-**Option A — Live scraping qua Firecrawl (đề xuất, mạnh nhất)**
+**Layout 2 cột**:
+- **Left panel** — Input:
+  - Drag-drop upload zone (PDF/DOCX/TXT, max 5MB) + nút "Or paste text"
+  - Textarea fallback hiển thị text đã extract
+  - Dropdown: Target Role (AI Engineer / Data Engineer / ML Engineer / Language Tech / Custom)
+  - Optional: paste Job Description để match chính xác hơn
+  - Nút "🔍 Analyze CV"
 
-- Connect Firecrawl connector (đã có sẵn trong Lovable)
-- Tạo edge function `fetch-live-jobs` scrape Duunitori.fi + LinkedIn jobs theo keyword (Data Engineer, AI Engineer, Language Technology) + location Finland
-- Cron job pg_cron chạy mỗi 24h, lưu vào bảng `live_jobs` (Supabase)
-- Trang hiển thị thêm tab "🔥 Live Jobs (updated daily)" bên cạnh tab công ty
-- Mỗi job có: title, company, location, posted date, link apply
-- **Tốn**: Firecrawl credits (~50-100 credits/ngày)
+- **Right panel** — Result (sau khi analyze):
+  - **Match Score** (0-100) hiển thị bằng circular progress + verdict (Strong fit / Good fit / Needs work / Mismatch)
+  - **Score Breakdown** (5 tiêu chí, mỗi cái 0-20):
+    - Technical Skills Match
+    - Experience Relevance
+    - Project Impact & Metrics
+    - Keywords/ATS Optimization
+    - Structure & Clarity
+  - **✅ Strengths** (3-5 điểm mạnh)
+  - **⚠️ Gaps & Missing Skills** (skill thiếu so với role)
+  - **🔧 Specific Improvements** (rewrite suggestions cho 3-5 bullets cụ thể, có before/after)
+  - **🎯 Nordic Market Tips** (CV format Phần Lan: 1-2 trang, no photo, English OK, etc.)
+  - Nút **Copy Report** + **Download as PDF** + **Re-analyze**
 
-**Option B — RSS/JSON feeds miễn phí**
+### Technical Approach
 
-- Một số job board có RSS feed công khai (ví dụ: Duunitori, We Work Remotely)
-- Edge function parse RSS daily, lưu vào DB
-- **Miễn phí** nhưng coverage hạn chế (LinkedIn không có RSS công khai)
+**Frontend** (`src/components/CVClinic.tsx` mới + tích hợp vào `InterviewQuestions.tsx`):
+- File upload: dùng `<input type="file">` + parse client-side
+  - **PDF**: `pdfjs-dist` (đã quen thuộc với React/Vite)
+  - **DOCX**: `mammoth` library (DOCX → plain text)
+  - **TXT**: read as text
+- State management: `useState` cho cv text, role, loading, result
+- Display dùng cấu trúc cards có icon + colored sections (giống style hiện có của Interview Questions)
 
-**Option C — Manual refresh button (đơn giản nhất)**
+**Backend** (`supabase/functions/analyze-cv/index.ts` mới):
+- Nhận `{ cvText, targetRole, jobDescription? }`
+- Validate: cvText length 100-15000 chars, role enum
+- Gọi **Lovable AI Gateway** với `google/gemini-2.5-pro` (cần reasoning mạnh để đánh giá CV)
+- Dùng **tool calling** để extract structured output:
+  ```ts
+  {
+    matchScore: number,           // 0-100
+    verdict: "strong" | "good" | "needs-work" | "mismatch",
+    breakdown: {
+      technicalSkills: number,    // 0-20
+      experience: number,
+      projectImpact: number,
+      atsKeywords: number,
+      structure: number,
+    },
+    strengths: string[],          // 3-5 items
+    gaps: { skill: string, why: string, howToFix: string }[],
+    improvements: { 
+      original: string, 
+      improved: string, 
+      reason: string 
+    }[],
+    nordicTips: string[],         // 3-5 Finland-specific tips
+  }
+  ```
+- System prompt: chuyên gia tuyển dụng Nordic tech market, tập trung Data/AI/Language Tech, biết cả ATS optimization
+- Handle 429/402 errors, return có CORS headers
+- `verify_jwt = false` để guest cũng dùng được (giống các function hiện có)
 
-- Thêm nút "🔄 Refresh jobs from LinkedIn" trên mỗi card
-- Click → mở LinkedIn live search trong tab mới (đã có sẵn nút "Live Jobs")
-- Không cần backend, không tốn credit
-- **Đây là cách hiện tại đang dùng**
+**Privacy**: CV text **không lưu vào database** — chỉ gửi đến AI và return result. Hiển thị notice "Your CV is processed in real-time and not stored."
 
-### Đề xuất
+### Files
 
-Nếu bạn muốn **thực sự cập nhật tự động hàng ngày** → chọn **Option A (Firecrawl)**. Mình sẽ:
+| File | Thay đổi |
+|------|----------|
+| `src/components/CVClinic.tsx` (NEW) | UI component đầy đủ: upload, parse, analyze, display |
+| `src/pages/InterviewQuestions.tsx` | Thêm tab/section "🩺 CV Clinic" mount component |
+| `supabase/functions/analyze-cv/index.ts` (NEW) | Edge function gọi Lovable AI với tool calling |
+| `package.json` | + `pdfjs-dist` và `mammoth` |
 
-1. Connect Firecrawl connector
-2. Tạo bảng `live_jobs` trong Supabase
-3. Tạo edge function `fetch-live-jobs` (scrape Duunitori + LinkedIn search results)
-4. Setup pg_cron chạy mỗi ngày 6:00 AM Helsinki time
-5. Thêm tab "🔥 Live Daily Jobs" trên trang Job Opportunities với filter theo role/location/posted date
-6. Badge "NEW" cho job đăng trong 24h, "🔥 Hot" cho job <3 ngày
+### Lưu ý
+- Dùng **Lovable AI** (LOVABLE_API_KEY có sẵn) — không cần API key user
+- File parse 100% client-side → không upload binary lên server
+- Hiển thị loading state với skeleton/spinner trong khi AI xử lý (~10-20s)
+- Toast error rõ ràng khi rate limit (429) hoặc credits hết (402)
 
-**Cần bạn xác nhận**: Có muốn dùng Option A (Firecrawl, scrape thật, tốn credits) không? Hay giữ nguyên hiện tại + chỉ giải thích rõ trên UI rằng "Click Live Jobs để xem việc làm mới nhất từ LinkedIn"?
-
-tôi chọn option C 
