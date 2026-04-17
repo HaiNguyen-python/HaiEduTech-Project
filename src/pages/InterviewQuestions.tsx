@@ -6,7 +6,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Briefcase, Search, ChevronLeft, Check, Copy, BookmarkCheck, Bookmark } from "lucide-react";
+import {
+  Briefcase, Search, ChevronLeft, Check, Copy, BookmarkCheck, Bookmark,
+  BookOpen, Lightbulb, ListChecks, AlertTriangle, Code2, Target,
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -68,8 +71,13 @@ const InterviewQuestions = () => {
     );
   }, [role, category, difficulty, search]);
 
-  const totalForRole = interviewQuestions.filter(q => q.role === role).length;
-  const reviewedForRole = interviewQuestions.filter(q => q.role === role && reviewed.has(q.id)).length;
+  const roleQs = useMemo(() => interviewQuestions.filter(q => q.role === role), [role]);
+  const totalForRole = roleQs.length;
+  const reviewedForRole = roleQs.filter(q => reviewed.has(q.id)).length;
+  const juniorCount = roleQs.filter(q => q.difficulty === "Junior").length;
+  const midCount = roleQs.filter(q => q.difficulty === "Mid").length;
+  const seniorCount = roleQs.filter(q => q.difficulty === "Senior").length;
+  const categoriesCount = interviewCategories[role].length;
 
   const copyCode = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -115,6 +123,30 @@ const InterviewQuestions = () => {
 
             {(["ai-engineer", "data-engineer"] as InterviewRole[]).map(r => (
               <TabsContent key={r} value={r}>
+                {/* Quick Stats Bar */}
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-5">
+                  <div className="glass-card rounded-lg p-3 border border-primary/20 text-center">
+                    <div className="text-xl font-bold text-primary">{totalForRole}</div>
+                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{t("Tổng câu", "Total Q's")}</div>
+                  </div>
+                  <div className="glass-card rounded-lg p-3 border border-emerald-500/20 text-center">
+                    <div className="text-xl font-bold text-emerald-600">{juniorCount}</div>
+                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Junior</div>
+                  </div>
+                  <div className="glass-card rounded-lg p-3 border border-amber-500/20 text-center">
+                    <div className="text-xl font-bold text-amber-600">{midCount}</div>
+                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Mid</div>
+                  </div>
+                  <div className="glass-card rounded-lg p-3 border border-rose-500/20 text-center">
+                    <div className="text-xl font-bold text-rose-600">{seniorCount}</div>
+                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Senior</div>
+                  </div>
+                  <div className="glass-card rounded-lg p-3 border border-border text-center col-span-2 sm:col-span-1">
+                    <div className="text-xl font-bold text-foreground">{categoriesCount}</div>
+                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{t("Chủ đề", "Topics")}</div>
+                  </div>
+                </div>
+
                 {/* Progress */}
                 <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
                   <span>
@@ -213,26 +245,50 @@ const InterviewQuestions = () => {
                                 </div>
                               </div>
                             </AccordionTrigger>
-                            <AccordionContent className="pb-4">
-                              <div className="space-y-4 pt-2 border-t border-border">
+                            <AccordionContent className="pb-5">
+                              <div className="space-y-4 pt-3 border-t border-border">
+
+                                {/* TL;DR */}
+                                {q.tldr && (
+                                  <div className="rounded-lg border-l-4 border-primary bg-primary/5 p-3">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <BookOpen className="w-4 h-4 text-primary" />
+                                      <h4 className="text-xs font-bold uppercase tracking-wide text-primary">
+                                        TL;DR
+                                      </h4>
+                                    </div>
+                                    <p className="text-sm text-foreground/90 leading-relaxed font-medium">
+                                      {q.tldr}
+                                    </p>
+                                  </div>
+                                )}
+
+                                {/* Detailed Explanation */}
                                 <div>
-                                  <h4 className="text-xs font-semibold uppercase tracking-wide text-primary mb-2 mt-3">
-                                    {t("Câu trả lời", "Answer")}
-                                  </h4>
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <Lightbulb className="w-4 h-4 text-primary" />
+                                    <h4 className="text-xs font-bold uppercase tracking-wide text-primary">
+                                      {t("Giải thích chi tiết", "Detailed Explanation")}
+                                    </h4>
+                                  </div>
                                   <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap">
                                     {q.answer}
                                   </p>
                                 </div>
 
+                                {/* Key Points */}
                                 {q.keyPoints?.length > 0 && (
-                                  <div>
-                                    <h4 className="text-xs font-semibold uppercase tracking-wide text-primary mb-2">
-                                      {t("Điểm mấu chốt", "Key Points")}
-                                    </h4>
+                                  <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3">
+                                    <div className="flex items-center gap-2 mb-2">
+                                      <ListChecks className="w-4 h-4 text-emerald-600" />
+                                      <h4 className="text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-500">
+                                        {t("Điểm mấu chốt", "Key Points")}
+                                      </h4>
+                                    </div>
                                     <ul className="space-y-1.5">
                                       {q.keyPoints.map((kp, i) => (
                                         <li key={i} className="flex items-start gap-2 text-sm text-foreground/85">
-                                          <span className="text-primary mt-0.5">▸</span>
+                                          <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
                                           <span>{kp}</span>
                                         </li>
                                       ))}
@@ -240,12 +296,39 @@ const InterviewQuestions = () => {
                                   </div>
                                 )}
 
+                                {/* Pitfalls */}
+                                {q.pitfalls && q.pitfalls.length > 0 && (
+                                  <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
+                                    <div className="flex items-center gap-2 mb-2">
+                                      <AlertTriangle className="w-4 h-4 text-amber-600" />
+                                      <h4 className="text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-500">
+                                        {t("Sai lầm thường gặp", "Common Pitfalls")}
+                                      </h4>
+                                    </div>
+                                    <ul className="space-y-1.5">
+                                      {q.pitfalls.map((p, i) => (
+                                        <li key={i} className="flex items-start gap-2 text-sm text-foreground/85">
+                                          <span className="text-amber-600 mt-0.5 shrink-0">⚠</span>
+                                          <span>{p}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+
+                                {/* Code Example */}
                                 {q.codeExample && (
                                   <div>
                                     <div className="flex items-center justify-between mb-2">
-                                      <h4 className="text-xs font-semibold uppercase tracking-wide text-primary">
-                                        {t("Ví dụ code", "Code Example")} <span className="text-muted-foreground font-normal normal-case">({q.codeExample.language})</span>
-                                      </h4>
+                                      <div className="flex items-center gap-2">
+                                        <Code2 className="w-4 h-4 text-primary" />
+                                        <h4 className="text-xs font-bold uppercase tracking-wide text-primary">
+                                          {t("Ví dụ code", "Code Example")}
+                                        </h4>
+                                        <span className="text-[10px] text-muted-foreground font-mono px-1.5 py-0.5 rounded bg-muted">
+                                          {q.codeExample.language}
+                                        </span>
+                                      </div>
                                       <Button
                                         size="sm"
                                         variant="ghost"
@@ -255,11 +338,26 @@ const InterviewQuestions = () => {
                                         <Copy className="w-3 h-3 mr-1" /> {t("Sao chép", "Copy")}
                                       </Button>
                                     </div>
-                                    <div className="rounded-lg bg-muted/50 border border-border p-3 overflow-x-auto">
-                                      <code className="text-xs font-mono text-foreground whitespace-pre">
-                                        {q.codeExample.code}
-                                      </code>
+                                    <div className="rounded-lg bg-slate-950 dark:bg-slate-900 border border-border p-3 overflow-x-auto">
+                                      <pre className="text-xs font-mono text-slate-100 leading-relaxed">
+                                        <code>{q.codeExample.code}</code>
+                                      </pre>
                                     </div>
+                                  </div>
+                                )}
+
+                                {/* Interview Tip */}
+                                {q.interviewTip && (
+                                  <div className="rounded-lg border-l-4 border-emerald-500 bg-gradient-to-r from-emerald-500/10 to-transparent p-3">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <Target className="w-4 h-4 text-emerald-600" />
+                                      <h4 className="text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-500">
+                                        {t("Mẹo phỏng vấn", "Interview Tip")}
+                                      </h4>
+                                    </div>
+                                    <p className="text-sm text-foreground/90 leading-relaxed italic">
+                                      {q.interviewTip}
+                                    </p>
                                   </div>
                                 )}
 
