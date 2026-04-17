@@ -1,54 +1,57 @@
 
 
-## Plan: Cải thiện cấu trúc câu trả lời + mở rộng câu hỏi Interview
+## Plan: Job Opportunities Hub cho Data/AI/Language Technology (Phần Lan)
 
-### 1. Cải thiện cấu trúc hiển thị câu trả lời (InterviewQuestions.tsx)
+### Mục tiêu
+Thêm trang **Job Opportunities** trong mục Learn Programming, hiển thị danh sách công ty và cơ hội việc làm cho 3 chuyên ngành: **Data Engineer**, **AI Engineer**, **Language Technology** — ưu tiên thị trường **Phần Lan** (Helsinki, Espoo, Tampere, Oulu) + Nordic + Remote EU.
 
-Hiện tại câu trả lời chỉ là 1 đoạn `whitespace-pre-wrap` dài → khó scan. Sẽ tái cấu trúc thành các **section rõ ràng có icon + heading**:
+### Cách tiếp cận dữ liệu (đề xuất)
 
-- **📖 Definition / TL;DR** — câu tóm tắt 1-2 dòng (highlighted box màu primary nhạt)
-- **💡 Detailed Explanation** — phần giải thích chính, chia paragraph
-- **✅ Key Points** — bullet list (đã có, giữ nguyên + tăng visual)
-- **⚠️ Common Pitfalls / Gotchas** — mục mới (warning box màu amber)
-- **💻 Code Example** — giữ nguyên + thêm line numbers, syntax color cho keywords
-- **🎯 Interview Tip** — câu khuyên cách trả lời khi phỏng vấn (box màu emerald)
+**Static curated database** — nhanh, ổn định, không tốn API credits:
+- File `src/data/jobOpportunities.ts` chứa ~80 công ty đã được nghiên cứu kỹ
+- Mỗi công ty: tên, logo emoji, location (city, country), ngành, mô tả ngắn, tech stack, link **Career Page** chính thức + link **Live Jobs** (LinkedIn search đã pre-filter theo role + location)
+- Phân loại Finland-first:
+  - 🇫🇮 **Finland AI/ML**: Silo AI, Speechly, Lingsoft, Basemark, Curious AI, Mosi, Aiven, Smartly.io, Wolt (ML), Supercell (Data), Rovio, Reaktor, Futurice, Tietoevry, Nokia Bell Labs, F-Secure, Elisa, Kone (Industrial AI)
+  - 🏛️ **Research/Academic**: Aalto University, University of Helsinki (HIIT), VTT, FCAI (Finnish Center for AI), CSC – IT Center for Science
+  - 🗣️ **Language Technology**: Lingsoft, Lingoes, Speechly, Inscripta, AAC Global, Sanoma, YLE (data/NLP)
+  - 🇪🇺 **Nordic + EU Remote**: Spotify, Klarna, King, Northvolt, DeepL, Hugging Face, Mistral AI
+  - 🌍 **Big Tech with Finland office**: Microsoft Finland, Google (remote EU), Amazon Helsinki
 
-**Thay đổi data schema** trong `interviewQuestions.ts`:
-```ts
-interface InterviewQuestion {
-  // ... existing
-  tldr?: string;        // NEW: 1-2 line summary
-  pitfalls?: string[];  // NEW: common mistakes
-  interviewTip?: string;// NEW: how to answer in real interview
-}
-```
+### UI/UX
 
-Câu hỏi cũ vẫn render được vì các field mới đều optional.
+- **Route**: `/programming/job-opportunities`
+- **Hero**: Tiêu đề "Find Your Next Role in Tech 🇫🇮", quick stats (số công ty, số role, % Finland-based)
+- **Tabs role**: All / Data Engineer / AI Engineer / Language Technology
+- **Filter chips**: Country (🇫🇮 Finland / 🇸🇪🇳🇴🇩🇰 Nordic / 🇪🇺 EU Remote / 🌍 Global), Company size (Startup / Mid / Enterprise / Research), Work mode (Onsite / Hybrid / Remote)
+- **Search box**: theo tên công ty, tech stack, city
+- **Bookmark**: ⭐ save công ty yêu thích vào localStorage, filter "Saved only"
+- **Company cards**: logo emoji + tên + location badge + role tags + 2-3 dòng mô tả + tech stack badges + 2 buttons:
+  - 🔗 **Career Page** (official site)
+  - 🔍 **Live Jobs** (LinkedIn URL pre-filtered theo role + Finland)
+- **Top Resources panel** (sticky sidebar hoặc top section):
+  - Duunitori.fi (job board #1 Phần Lan)
+  - TE-palvelut (cổng việc làm chính phủ)
+  - Work in Finland (official)
+  - LinkedIn Finland Tech Jobs (pre-filtered link)
+  - AI Finland community, Helsinki AI Society, FCAI
+  - Relocate.me, Honeypot.io
+- **Tips section** (collapsible accordion): Visa/residence permit, có cần tiếng Phần Lan không (đa số role tech: English OK), mẹo CV cho thị trường Bắc Âu (concise, 1-2 trang, no photo), salary range tham khảo
 
-### 2. Mở rộng câu hỏi (từ 50 → 100 câu)
+### Ngôn ngữ
+Toàn bộ UI bằng tiếng Anh (theo memory rule cho mục Programming/English). Nội dung công ty bằng tiếng Anh.
 
-**AI Engineer (+25 câu, tổng 50)**:
-- LLMs: Few-shot vs Zero-shot, Temperature/Top-p, Function calling, Structured output, Token cost optimization
-- ML: Cross-validation, Feature engineering, Class imbalance, Regularization L1/L2, Gradient descent variants
-- DL: CNN vs RNN vs Transformer, Batch normalization, Dropout, Learning rate scheduling, Transfer learning
-- System: Model serving (TorchServe/Triton), A/B testing models, Drift detection, MLOps pipeline, Cost monitoring
-
-**Data Engineer (+25 câu, tổng 50)**:
-- SQL: CTEs vs subqueries, Materialized views, Query optimization, Deadlocks, ACID vs BASE
-- Pipelines: Backfill strategy, Schema evolution, DAG dependencies, SLA monitoring, Dead letter queue
-- Big Data: Shuffle vs broadcast join, Z-ordering, Delta Lake, Iceberg vs Hudi, Compaction
-- System: Star vs snowflake schema deep, SCD types, Streaming joins, Exactly-once semantics, Data contracts
-
-Toàn bộ bằng **tiếng Anh** theo memory rule. Mỗi câu mới có đầy đủ 7 fields (tldr, answer, keyPoints, pitfalls, interviewTip, codeExample khi phù hợp, difficulty).
-
-### 3. Thêm "Quick Stats" header
-
-Thêm thanh stats nhỏ trên đầu mỗi tab: tổng số câu | Junior/Mid/Senior breakdown | số categories — giúp user nắm tổng quan.
-
-### Files sẽ sửa
+### Files
 
 | File | Thay đổi |
 |------|----------|
-| `src/data/interviewQuestions.ts` | + 50 câu mới, thêm fields `tldr`, `pitfalls`, `interviewTip`, bổ sung cho 50 câu cũ |
-| `src/pages/InterviewQuestions.tsx` | Tái cấu trúc AccordionContent với 6 section có icon + colored boxes; thêm Quick Stats bar |
+| `src/data/jobOpportunities.ts` (NEW) | ~80 công ty + ~10 resources với types `JobCompany`, `JobResource` |
+| `src/pages/JobOpportunities.tsx` (NEW) | Trang đầy đủ: hero, tabs, filters, search, bookmark, cards, resources, tips |
+| `src/App.tsx` | + route `/programming/job-opportunities` (lazy-loaded) |
+| `src/pages/Programming.tsx` | + card nổi bật "🎯 Job Opportunities — Find tech jobs in Finland 🇫🇮" trong pillar AI và Data Engineering |
+| `src/components/Navbar.tsx` | + link "🎯 Job Opportunities" trong dropdown Programming |
+
+### Lưu ý
+- Tất cả links sẽ open trong tab mới (`target="_blank" rel="noopener"`)
+- Bookmark dùng localStorage key `job-bookmarks-v1` (không cần backend)
+- Có thể mở rộng sau bằng Firecrawl để scrape jobs realtime nếu bạn muốn — đây là phase 2
 
