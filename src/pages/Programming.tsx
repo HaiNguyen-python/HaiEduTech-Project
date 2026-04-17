@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -227,6 +227,31 @@ const Programming = () => {
                       <span className="text-xs font-bold text-primary whitespace-nowrap">
                         {completedChallenges}/{pythonChallenges.length}
                       </span>
+                    </div>
+                  </Link>
+                )}
+
+                {/* Interview Questions Section — for AI & Data roles */}
+                {(activePillar === "ai-foundation" || activePillar === "data-eng" || activePillar === "ml") && (
+                  <Link
+                    to="/programming/interview-questions"
+                    className="group block rounded-xl p-5 mb-6 border border-primary/20 bg-gradient-to-r from-indigo-500/5 to-violet-500/5 hover:shadow-md transition-all active:scale-[0.99]"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
+                          <Briefcase className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-display font-bold text-foreground text-sm group-hover:text-primary transition-colors">
+                            Interview Questions: AI & Data Engineer
+                          </h3>
+                          <p className="text-xs text-muted-foreground">
+                            50+ real-world questions · Detailed answers · Code examples
+                          </p>
+                        </div>
+                      </div>
+                      <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                     </div>
                   </Link>
                 )}
