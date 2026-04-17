@@ -1,57 +1,49 @@
+## Trả lời: Hiện tại các job **KHÔNG** được cập nhật tự động
 
+### Tình trạng hiện tại
 
-## Plan: Job Opportunities Hub cho Data/AI/Language Technology (Phần Lan)
+Trang Job Opportunities đang dùng **static curated database** (`src/data/jobOpportunities.ts`) — danh sách ~80 công ty cố định, viết tay. Mỗi card có 2 nút:
 
-### Mục tiêu
-Thêm trang **Job Opportunities** trong mục Learn Programming, hiển thị danh sách công ty và cơ hội việc làm cho 3 chuyên ngành: **Data Engineer**, **AI Engineer**, **Language Technology** — ưu tiên thị trường **Phần Lan** (Helsinki, Espoo, Tampere, Oulu) + Nordic + Remote EU.
+- **Career Page** → link đến trang tuyển dụng chính thức của công ty (luôn mới vì là link trực tiếp)
+- **Live Jobs** → link LinkedIn search đã pre-filter theo công ty + Phần Lan (LinkedIn tự cập nhật realtime)
 
-### Cách tiếp cận dữ liệu (đề xuất)
+→ Bản thân app không fetch jobs mới, nhưng **2 nút trên dẫn ra nguồn live** nên user vẫn thấy job mới khi click.
 
-**Static curated database** — nhanh, ổn định, không tốn API credits:
-- File `src/data/jobOpportunities.ts` chứa ~80 công ty đã được nghiên cứu kỹ
-- Mỗi công ty: tên, logo emoji, location (city, country), ngành, mô tả ngắn, tech stack, link **Career Page** chính thức + link **Live Jobs** (LinkedIn search đã pre-filter theo role + location)
-- Phân loại Finland-first:
-  - 🇫🇮 **Finland AI/ML**: Silo AI, Speechly, Lingsoft, Basemark, Curious AI, Mosi, Aiven, Smartly.io, Wolt (ML), Supercell (Data), Rovio, Reaktor, Futurice, Tietoevry, Nokia Bell Labs, F-Secure, Elisa, Kone (Industrial AI)
-  - 🏛️ **Research/Academic**: Aalto University, University of Helsinki (HIIT), VTT, FCAI (Finnish Center for AI), CSC – IT Center for Science
-  - 🗣️ **Language Technology**: Lingsoft, Lingoes, Speechly, Inscripta, AAC Global, Sanoma, YLE (data/NLP)
-  - 🇪🇺 **Nordic + EU Remote**: Spotify, Klarna, King, Northvolt, DeepL, Hugging Face, Mistral AI
-  - 🌍 **Big Tech with Finland office**: Microsoft Finland, Google (remote EU), Amazon Helsinki
+### Có 3 cách để cập nhật job liên tục theo ngày
 
-### UI/UX
+**Option A — Live scraping qua Firecrawl (đề xuất, mạnh nhất)**
 
-- **Route**: `/programming/job-opportunities`
-- **Hero**: Tiêu đề "Find Your Next Role in Tech 🇫🇮", quick stats (số công ty, số role, % Finland-based)
-- **Tabs role**: All / Data Engineer / AI Engineer / Language Technology
-- **Filter chips**: Country (🇫🇮 Finland / 🇸🇪🇳🇴🇩🇰 Nordic / 🇪🇺 EU Remote / 🌍 Global), Company size (Startup / Mid / Enterprise / Research), Work mode (Onsite / Hybrid / Remote)
-- **Search box**: theo tên công ty, tech stack, city
-- **Bookmark**: ⭐ save công ty yêu thích vào localStorage, filter "Saved only"
-- **Company cards**: logo emoji + tên + location badge + role tags + 2-3 dòng mô tả + tech stack badges + 2 buttons:
-  - 🔗 **Career Page** (official site)
-  - 🔍 **Live Jobs** (LinkedIn URL pre-filtered theo role + Finland)
-- **Top Resources panel** (sticky sidebar hoặc top section):
-  - Duunitori.fi (job board #1 Phần Lan)
-  - TE-palvelut (cổng việc làm chính phủ)
-  - Work in Finland (official)
-  - LinkedIn Finland Tech Jobs (pre-filtered link)
-  - AI Finland community, Helsinki AI Society, FCAI
-  - Relocate.me, Honeypot.io
-- **Tips section** (collapsible accordion): Visa/residence permit, có cần tiếng Phần Lan không (đa số role tech: English OK), mẹo CV cho thị trường Bắc Âu (concise, 1-2 trang, no photo), salary range tham khảo
+- Connect Firecrawl connector (đã có sẵn trong Lovable)
+- Tạo edge function `fetch-live-jobs` scrape Duunitori.fi + LinkedIn jobs theo keyword (Data Engineer, AI Engineer, Language Technology) + location Finland
+- Cron job pg_cron chạy mỗi 24h, lưu vào bảng `live_jobs` (Supabase)
+- Trang hiển thị thêm tab "🔥 Live Jobs (updated daily)" bên cạnh tab công ty
+- Mỗi job có: title, company, location, posted date, link apply
+- **Tốn**: Firecrawl credits (~50-100 credits/ngày)
 
-### Ngôn ngữ
-Toàn bộ UI bằng tiếng Anh (theo memory rule cho mục Programming/English). Nội dung công ty bằng tiếng Anh.
+**Option B — RSS/JSON feeds miễn phí**
 
-### Files
+- Một số job board có RSS feed công khai (ví dụ: Duunitori, We Work Remotely)
+- Edge function parse RSS daily, lưu vào DB
+- **Miễn phí** nhưng coverage hạn chế (LinkedIn không có RSS công khai)
 
-| File | Thay đổi |
-|------|----------|
-| `src/data/jobOpportunities.ts` (NEW) | ~80 công ty + ~10 resources với types `JobCompany`, `JobResource` |
-| `src/pages/JobOpportunities.tsx` (NEW) | Trang đầy đủ: hero, tabs, filters, search, bookmark, cards, resources, tips |
-| `src/App.tsx` | + route `/programming/job-opportunities` (lazy-loaded) |
-| `src/pages/Programming.tsx` | + card nổi bật "🎯 Job Opportunities — Find tech jobs in Finland 🇫🇮" trong pillar AI và Data Engineering |
-| `src/components/Navbar.tsx` | + link "🎯 Job Opportunities" trong dropdown Programming |
+**Option C — Manual refresh button (đơn giản nhất)**
 
-### Lưu ý
-- Tất cả links sẽ open trong tab mới (`target="_blank" rel="noopener"`)
-- Bookmark dùng localStorage key `job-bookmarks-v1` (không cần backend)
-- Có thể mở rộng sau bằng Firecrawl để scrape jobs realtime nếu bạn muốn — đây là phase 2
+- Thêm nút "🔄 Refresh jobs from LinkedIn" trên mỗi card
+- Click → mở LinkedIn live search trong tab mới (đã có sẵn nút "Live Jobs")
+- Không cần backend, không tốn credit
+- **Đây là cách hiện tại đang dùng**
 
+### Đề xuất
+
+Nếu bạn muốn **thực sự cập nhật tự động hàng ngày** → chọn **Option A (Firecrawl)**. Mình sẽ:
+
+1. Connect Firecrawl connector
+2. Tạo bảng `live_jobs` trong Supabase
+3. Tạo edge function `fetch-live-jobs` (scrape Duunitori + LinkedIn search results)
+4. Setup pg_cron chạy mỗi ngày 6:00 AM Helsinki time
+5. Thêm tab "🔥 Live Daily Jobs" trên trang Job Opportunities với filter theo role/location/posted date
+6. Badge "NEW" cho job đăng trong 24h, "🔥 Hot" cho job <3 ngày
+
+**Cần bạn xác nhận**: Có muốn dùng Option A (Firecrawl, scrape thật, tốn credits) không? Hay giữ nguyên hiện tại + chỉ giải thích rõ trên UI rằng "Click Live Jobs để xem việc làm mới nhất từ LinkedIn"?
+
+tôi chọn option C 
