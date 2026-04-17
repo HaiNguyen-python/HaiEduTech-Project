@@ -1,45 +1,54 @@
 
 
-## Plan: Thêm mục "Interview Questions" vào Learn Programming
+## Plan: Cải thiện cấu trúc câu trả lời + mở rộng câu hỏi Interview
 
-### Mục tiêu
-Bổ sung mục mới "Interview Questions" trong phần Learn Programming, chứa các câu hỏi phỏng vấn thực tế cho 2 vị trí: **AI Engineer** và **Data Engineer**, kèm câu trả lời chi tiết.
+### 1. Cải thiện cấu trúc hiển thị câu trả lời (InterviewQuestions.tsx)
 
-### Cấu trúc nội dung
+Hiện tại câu trả lời chỉ là 1 đoạn `whitespace-pre-wrap` dài → khó scan. Sẽ tái cấu trúc thành các **section rõ ràng có icon + heading**:
 
-**AI Engineer (~25 câu hỏi)** chia 4 nhóm:
-- LLMs & Prompt Engineering (RAG, fine-tuning, hallucination, context window)
-- Machine Learning Fundamentals (overfitting, bias-variance, evaluation metrics)
-- Deep Learning & Neural Networks (transformers, attention, backprop)
-- AI System Design & Ethics (vector DB, latency, bias, deployment)
+- **📖 Definition / TL;DR** — câu tóm tắt 1-2 dòng (highlighted box màu primary nhạt)
+- **💡 Detailed Explanation** — phần giải thích chính, chia paragraph
+- **✅ Key Points** — bullet list (đã có, giữ nguyên + tăng visual)
+- **⚠️ Common Pitfalls / Gotchas** — mục mới (warning box màu amber)
+- **💻 Code Example** — giữ nguyên + thêm line numbers, syntax color cho keywords
+- **🎯 Interview Tip** — câu khuyên cách trả lời khi phỏng vấn (box màu emerald)
 
-**Data Engineer (~25 câu hỏi)** chia 4 nhóm:
-- SQL & Databases (joins, indexing, window functions, normalization)
-- Data Pipelines & ETL (Airflow, idempotency, batch vs stream, data quality)
-- Big Data & Cloud (Spark, partitioning, data lake vs warehouse, cost optimization)
-- System Design (schema design, CDC, monitoring, lineage)
+**Thay đổi data schema** trong `interviewQuestions.ts`:
+```ts
+interface InterviewQuestion {
+  // ... existing
+  tldr?: string;        // NEW: 1-2 line summary
+  pitfalls?: string[];  // NEW: common mistakes
+  interviewTip?: string;// NEW: how to answer in real interview
+}
+```
 
-Mỗi câu hỏi gồm: **Question**, **Answer** (chi tiết), **Key Points** (bullet), **Code Example** (nếu có), **Difficulty** (Junior/Mid/Senior).
+Câu hỏi cũ vẫn render được vì các field mới đều optional.
 
-### Files sẽ tạo/sửa
+### 2. Mở rộng câu hỏi (từ 50 → 100 câu)
+
+**AI Engineer (+25 câu, tổng 50)**:
+- LLMs: Few-shot vs Zero-shot, Temperature/Top-p, Function calling, Structured output, Token cost optimization
+- ML: Cross-validation, Feature engineering, Class imbalance, Regularization L1/L2, Gradient descent variants
+- DL: CNN vs RNN vs Transformer, Batch normalization, Dropout, Learning rate scheduling, Transfer learning
+- System: Model serving (TorchServe/Triton), A/B testing models, Drift detection, MLOps pipeline, Cost monitoring
+
+**Data Engineer (+25 câu, tổng 50)**:
+- SQL: CTEs vs subqueries, Materialized views, Query optimization, Deadlocks, ACID vs BASE
+- Pipelines: Backfill strategy, Schema evolution, DAG dependencies, SLA monitoring, Dead letter queue
+- Big Data: Shuffle vs broadcast join, Z-ordering, Delta Lake, Iceberg vs Hudi, Compaction
+- System: Star vs snowflake schema deep, SCD types, Streaming joins, Exactly-once semantics, Data contracts
+
+Toàn bộ bằng **tiếng Anh** theo memory rule. Mỗi câu mới có đầy đủ 7 fields (tldr, answer, keyPoints, pitfalls, interviewTip, codeExample khi phù hợp, difficulty).
+
+### 3. Thêm "Quick Stats" header
+
+Thêm thanh stats nhỏ trên đầu mỗi tab: tổng số câu | Junior/Mid/Senior breakdown | số categories — giúp user nắm tổng quan.
+
+### Files sẽ sửa
 
 | File | Thay đổi |
 |------|----------|
-| `src/data/interviewQuestions.ts` (NEW) | Data 50 câu hỏi với types `InterviewQuestion`, `InterviewCategory` |
-| `src/pages/InterviewQuestions.tsx` (NEW) | Trang hiển thị: tabs role (AI/Data) → filter category & difficulty → accordion câu hỏi với syntax highlight |
-| `src/App.tsx` | + route `/programming/interview-questions` |
-| `src/pages/Programming.tsx` | + card "Interview Questions" nổi bật trong pillar AI Foundation và Data Engineering (link đến trang mới) |
-| `src/components/Navbar.tsx` | + link "💼 Interview Questions" trong dropdown Programming |
-
-### UI/UX
-- **Tabs**: AI Engineer / Data Engineer (default: AI)
-- **Filter chips**: Category + Difficulty (Junior/Mid/Senior/All)
-- **Search box**: tìm theo keyword
-- **Accordion cards**: collapse mặc định, expand để xem answer + key points + code
-- **Copy code button**, badge difficulty với màu (xanh/vàng/đỏ)
-- **Progress tracking**: localStorage đánh dấu "đã ôn" cho từng câu
-
-### Ngôn ngữ
-- Toàn bộ câu hỏi và đáp án bằng **tiếng Anh** (theo chuẩn phỏng vấn quốc tế và phù hợp memory rule "English for English/Programming quizzes")
-- UI labels song ngữ qua `useLanguage`
+| `src/data/interviewQuestions.ts` | + 50 câu mới, thêm fields `tldr`, `pitfalls`, `interviewTip`, bổ sung cho 50 câu cũ |
+| `src/pages/InterviewQuestions.tsx` | Tái cấu trúc AccordionContent với 6 section có icon + colored boxes; thêm Quick Stats bar |
 
