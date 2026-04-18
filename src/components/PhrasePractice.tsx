@@ -150,10 +150,10 @@ const PhrasePractice = ({ taskType }: Props) => {
                 {filteredPhrases.length} {t("cụm", "phrases")}
               </Badge>
             </CardTitle>
-            <div className="flex flex-wrap gap-1.5 pt-2">
+            <div className="flex gap-1.5 pt-2 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
               <button
                 onClick={() => setActiveCategory("all")}
-                className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
                   activeCategory === "all"
                     ? "bg-primary text-primary-foreground border-primary"
                     : "bg-muted/50 border-border hover:bg-muted"
@@ -165,7 +165,7 @@ const PhrasePractice = ({ taskType }: Props) => {
                 <button
                   key={c.value}
                   onClick={() => setActiveCategory(c.value)}
-                  className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                  className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
                     activeCategory === c.value
                       ? "bg-primary text-primary-foreground border-primary"
                       : "bg-muted/50 border-border hover:bg-muted"
