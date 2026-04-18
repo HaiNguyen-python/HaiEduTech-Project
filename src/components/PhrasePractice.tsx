@@ -47,6 +47,14 @@ const PhrasePractice = ({ taskType }: Props) => {
   const [userSentence, setUserSentence] = useState("");
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
+  const [rewriteText, setRewriteText] = useState("");
+  const [rewriteResult, setRewriteResult] = useState<{
+    accuracy: number;
+    diffHtml: string;
+    message: string;
+    tone: "success" | "warn" | "error";
+  } | null>(null);
+  const [showAnswer, setShowAnswer] = useState(false);
 
   const categories = taskType === 1 ? TASK1_CATEGORIES : TASK2_CATEGORIES;
 
@@ -60,6 +68,9 @@ const PhrasePractice = ({ taskType }: Props) => {
     setSelectedPhrase(phrase);
     setUserSentence("");
     setResult(null);
+    setRewriteText("");
+    setRewriteResult(null);
+    setShowAnswer(false);
   };
 
   const handleSubmit = async () => {
