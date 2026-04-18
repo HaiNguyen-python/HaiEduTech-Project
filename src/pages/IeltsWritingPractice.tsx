@@ -7,7 +7,7 @@ import {
   BookOpen, Send, Loader2, ChevronDown, ChevronUp,
   Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle
 } from "lucide-react";
-import SuperDictionary from "@/components/SuperDictionary";
+
 import WritingGuidePanel from "@/components/WritingGuidePanel";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -568,8 +568,6 @@ const IeltsWritingPractice = () => {
           </TabsContent>
         </Tabs>
 
-        {/* Super Dictionary - compact bottom panel */}
-        <SuperDictionary />
       </main>
       <Footer />
     </div>
