@@ -66,6 +66,8 @@ const SuperDictionary = () => {
   const [collocationError, setCollocationError] = useState<LookupErrorKind>(null);
 
   const [recent, setRecent] = useState<string[]>([]);
+  const [savingNotebook, setSavingNotebook] = useState(false);
+  const [savedWord, setSavedWord] = useState<string | null>(null);
   const dictInputRef = useRef<HTMLInputElement>(null);
 
   // Restore size mode + recent searches
