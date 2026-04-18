@@ -13,12 +13,6 @@ serve(async (req) => {
   try {
     const { name, email, phone, subject, message } = await req.json();
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY not configured");
-    }
-
-    // Use Lovable AI to format and send notification
     const emailBody = `
 New Contact Form Submission from HaiEdu Platform
 
