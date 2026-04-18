@@ -1,59 +1,36 @@
 
-## Plan: Tính năng "Rewrite the Upgraded Sentence"
+## Plan: Hiển thị bài học SAT trên trang /english/sat
 
-### Mục tiêu
-Sau khi AI trả về kết quả với "Band 7.5+ Upgrade", hiển thị thêm 1 phần luyện tập mới yêu cầu học sinh **gõ lại chính xác câu nâng cấp** đó để ghi nhớ cấu trúc ngữ pháp bậc cao.
+### Vấn đề hiện tại
+Trang `/english/sat` (`EnglishCourse.tsx`) chỉ hiển thị Hero + Curriculum Roadmap tĩnh. Toàn bộ **6 module + 18 bài học SAT** đã có sẵn trong `satModules` và `satExpansionModules` nhưng không xuất hiện trên trang.
 
-### Logic UX
+### Giải pháp (theo lựa chọn người dùng: cả hai)
 
-**Hiển thị**: Ngay dưới block "Band 7.5+ Upgrade" trong Result card.
+#### 1. Nút CTA ở Hero (giống Conversational English)
+Khi `courseId === "sat"`, thêm nút lớn dưới `heroDesc`:
+- **Label**: "Vào Chương trình SAT →" / "Enter SAT Curriculum →"
+- **Action**: smooth scroll tới `#sat-lessons`
+- **Style**: gradient purple-indigo (đồng bộ `color: "purple"`)
 
-**Flow**:
-1. Học sinh đọc câu upgraded
-2. Textarea trống xuất hiện với prompt: *"Viết lại câu nâng cấp ở trên để ghi nhớ cấu trúc"*
-3. Nút **"Check My Rewrite"** → so sánh client-side (không gọi AI để tiết kiệm)
-4. So sánh thông minh:
-   - Normalize: lowercase, bỏ dấu câu thừa, trim multiple spaces
-   - Tính % độ giống (word-level diff)
-   - **≥95%**: ✅ "Hoàn hảo! Bạn đã ghi nhớ cấu trúc."
-   - **80-94%**: 🟡 Hiển thị các từ sai/thiếu (highlight đỏ trong câu của HS)
-   - **<80%**: 🔴 "Hãy thử lại — đọc kỹ câu mẫu"
-5. Nút **"Show Answer"** để xem lại câu mẫu (nếu cần)
-6. Nút **"Try Again"** reset textarea
-
-### State mới trong `PhrasePractice.tsx`
-```ts
-const [rewriteText, setRewriteText] = useState("");
-const [rewriteResult, setRewriteResult] = useState<{
-  accuracy: number;
-  diffHtml: string;  // câu HS với từ sai highlight
-  message: string;
-} | null>(null);
-```
-
-### Reset khi nào
-- Khi chọn phrase mới → reset rewrite
-- Khi submit câu mới → reset rewrite
-- Khi nhấn "Try Again" → chỉ clear textarea + result
-
-### Hàm so sánh (utility nhỏ inline)
-```ts
-const compareRewrite = (original: string, attempt: string) => {
-  const normalize = (s: string) => s.toLowerCase().replace(/[.,!?;:]/g, "").replace(/\s+/g, " ").trim();
-  const o = normalize(original).split(" ");
-  const a = normalize(attempt).split(" ");
-  // Word-by-word match, trả về accuracy + HTML highlight
-}
-```
+#### 2. Section "Interactive SAT Lessons" inline
+Thêm section mới dưới phần Curriculum Roadmap, **chỉ hiển thị khi `courseId === "sat"`**:
+- Tiêu đề: "📚 Bài học SAT tương tác" / "Interactive SAT Lessons"
+- Loop qua `[...satModules, ...satExpansionModules]` (6 modules, 18 lessons)
+- Mỗi module render:
+  - Header card với icon emoji + title + description (bilingual)
+  - Grid 2-3 cột các lesson cards:
+    - Number badge, title, difficulty badge
+    - Click → `navigate('/english/learn/{moduleId}/{lessonId}')`
+- Hover effect: scale 1.02, border primary
 
 ### Files thay đổi
 | File | Thay đổi |
 |------|----------|
-| `src/components/PhrasePractice.tsx` | Thêm state + UI block "Rewrite Practice" + utility so sánh |
+| `src/pages/EnglishCourse.tsx` | Thêm import `satModules` + `satExpansionModules`, render conditional CTA button + section danh sách bài học khi `courseId === "sat"` |
 
-### Lưu ý
-- **Không gọi AI** → tiết kiệm Perplexity credit, phản hồi tức thì
-- Bilingual labels (VI/EN) theo `useLanguage`
-- Mobile-first: textarea min-h 100px, font 16px+
-- Không lưu vào Notebook (chỉ là exercise nhớ cấu trúc)
-- Khi học sinh đạt ≥95% → toast confetti nhẹ + sparkle icon
+### Lưu ý kỹ thuật
+- **Không tạo route mới** — dùng route `/english/learn/:moduleId/:lessonId` đã tồn tại
+- **Bilingual**: dùng `t()` cho mọi label
+- **Mobile-first**: grid `sm:grid-cols-2 lg:grid-cols-3`, gap 4
+- **Theme tokens**: dùng `bg-card`, `border-border`, `text-foreground`, `bg-primary` — không hard-code màu
+- **Không động đến** logic của các course khác (cambridge, ielts, toeic, conversational, national-exam)
