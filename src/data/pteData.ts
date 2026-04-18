@@ -74,6 +74,29 @@ export interface PteVocabWord {
   example: string;
 }
 
+// Describe Image — 25s prep + 40s record. Keyword-based content scoring.
+export interface PteDescribeImage {
+  id: string;
+  imageUrl: string;       // imported asset URL
+  title: string;          // short label of the visual (e.g., "Bar chart: Renewable energy")
+  chartType: "bar" | "pie" | "line" | "process" | "map";
+  prepSeconds: number;    // PTE standard: 25
+  recordSeconds: number;  // PTE standard: 40
+  keywords: string[];     // expected vocabulary for content coverage
+  modelAnswer: string;    // band-90 sample answer
+}
+
+// Retell Lecture — 10s prep + 40s record after listening.
+export interface PteRetellLecture {
+  id: string;
+  topic: string;
+  lectureText: string;    // narrated via TTS (~60-90s spoken)
+  prepSeconds: number;    // PTE standard: 10
+  recordSeconds: number;  // PTE standard: 40
+  keywords: string[];     // key concepts to mention
+  modelAnswer: string;    // band-90 sample retell
+}
+
 // ===== Read Aloud bank (10 items) =====
 export const READ_ALOUD_BANK: PteReadAloud[] = [
   { id: "ra-1", topic: "Climate", difficulty: "medium", prepSeconds: 35, recordSeconds: 40,
