@@ -127,63 +127,13 @@ const PhrasePractice = ({ taskType }: Props) => {
         localStorage.setItem(key, JSON.stringify(existing.slice(0, 50)));
       } catch {}
 
-      // Save to Notebook (student_notebooks) — append mode, 1 entry per task
-      try {
-        const { data: userData } = await supabase.auth.getUser();
-        if (userData?.user) {
-          const title = `IELTS Writing Practice Task ${taskType}`;
-          const escapeHtml = (s: string) =>
-            s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-          const timestamp = new Date().toLocaleString();
-          const newBlock =
-            `<p><strong>📝 "${escapeHtml(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em></p>` +
-            `<p><strong>My sentence:</strong> ${escapeHtml(userSentence.trim())}</p>` +
-            `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtml(result.upgradedVersion || "")}</p>`;
-
-          // Find existing entry — use limit(1) instead of maybeSingle()
-          // to avoid errors when duplicate rows exist (race conditions)
-          const { data: existingRows, error: fetchErr } = await supabase
-            .from("student_notebooks")
-            .select("id, content")
-            .eq("user_id", userData.user.id)
-            .eq("title", title)
-            .order("updated_at", { ascending: false })
-            .limit(1);
-
-          if (fetchErr) console.error("Notebook fetch failed:", fetchErr);
-
-          const existing = existingRows && existingRows.length > 0 ? existingRows[0] : null;
-
-          let saveErr: any = null;
-          if (existing) {
-            const merged = `${existing.content}<hr/>${newBlock}`;
-            const { error } = await supabase
-              .from("student_notebooks")
-              .update({ content: merged, updated_at: new Date().toISOString() })
-              .eq("id", existing.id);
-            saveErr = error;
-          } else {
-            const { error } = await supabase.from("student_notebooks").insert({
-              user_id: userData.user.id,
-              title,
-              subject: "ielts",
-              content: newBlock,
-              is_public: false,
-            });
-            saveErr = error;
-          }
-          if (saveErr) {
-            console.error("Notebook save failed:", saveErr);
-            toast.error(t(`Lưu sổ tay thất bại: ${saveErr.message}`, `Save failed: ${saveErr.message}`));
-          } else {
-            toast.success(t("Đã lưu vào Sổ tay ghi chú", "Saved to your Notebook"));
-          }
-        } else {
-          toast.message(t("Đăng nhập để lưu vào sổ tay", "Sign in to save to your notebook"));
-        }
-      } catch (e) {
-        console.error("Notebook save failed", e);
-      }
+      // Append entry to Notebook
+      const timestamp = new Date().toLocaleString();
+      const newBlock =
+        `<p><strong>📝 "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em></p>` +
+        `<p><strong>My sentence:</strong> ${escapeHtmlStr(userSentence.trim())}</p>` +
+        `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtmlStr(result.upgradedVersion || "")}</p>`;
+      await appendToNotebook(newBlock);
     } catch (e) {
       console.error(e);
       toast.error(t("Đã có lỗi xảy ra", "Something went wrong"));
