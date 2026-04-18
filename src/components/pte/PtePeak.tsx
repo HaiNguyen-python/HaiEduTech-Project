@@ -8,7 +8,7 @@ import { useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { Mountain } from "lucide-react";
 import mountainBg from "@/assets/mountain-climber-bg.png";
-import climberImg from "@/assets/climber-character.png";
+import climberImg from "@/assets/pte/pte-climber.png";
 
 interface PtePeakProps {
   // Total tasks completed across all PTE modules
@@ -70,7 +70,7 @@ const PtePeak = ({ completed, total }: PtePeakProps) => {
         <div className="flex flex-col items-center">
           <motion.img
             src={climberImg}
-            alt="PTE Climber"
+            alt="PTE Academic student climber"
             style={{ width: "60px", height: "60px", objectFit: "contain" }}
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
