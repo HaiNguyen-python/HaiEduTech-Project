@@ -9,9 +9,9 @@ import { Mic, Square, Volume2, ChevronRight, RotateCcw, Image as ImageIcon, Head
 import PteShell from "@/components/pte/PteShell";
 import PteTimer from "@/components/pte/PteTimer";
 import {
-  READ_ALOUD_BANK,
-  REPEAT_SENTENCE_BANK,
-  DESCRIBE_IMAGE_BANK,
+  READ_ALOUD_ALL as READ_ALOUD_BANK,
+  REPEAT_SENTENCE_ALL as REPEAT_SENTENCE_BANK,
+  DESCRIBE_IMAGE_ALL as DESCRIBE_IMAGE_BANK,
   RETELL_LECTURE_BANK,
 } from "@/data/pteData";
 import {
@@ -23,6 +23,7 @@ import {
 } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import { toast } from "sonner";
+import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
 
 type Mode = "read-aloud" | "repeat" | "describe-image" | "retell-lecture";
 
@@ -37,21 +38,28 @@ const PteSpeaking = () => {
   const [showModel, setShowModel] = useState(false);
   const recogRef = useRef<any>(null);
   const { recordCompletion } = usePteProgress();
+  const [filters, setFilters] = useState<PteFilterState>(DEFAULT_PTE_FILTERS);
 
-  // Resolve current bank/item based on mode
-  const item = useMemo(() => {
-    if (mode === "read-aloud") return READ_ALOUD_BANK[idx];
-    if (mode === "repeat") return REPEAT_SENTENCE_BANK[idx];
-    if (mode === "describe-image") return DESCRIBE_IMAGE_BANK[idx];
-    return RETELL_LECTURE_BANK[idx];
-  }, [mode, idx]);
+  // Resolve current filtered bank
+  const filteredBank = useMemo(() => {
+    const source =
+      mode === "read-aloud" ? READ_ALOUD_BANK :
+      mode === "repeat" ? REPEAT_SENTENCE_BANK :
+      mode === "describe-image" ? DESCRIBE_IMAGE_BANK :
+      RETELL_LECTURE_BANK;
+    const f = applyPteFilter(source as any[], filters);
+    return (f.length ? f : source) as any[];
+  }, [mode, filters]);
 
-  const bankLength = useMemo(() => {
+  const sourceBankLength = useMemo(() => {
     if (mode === "read-aloud") return READ_ALOUD_BANK.length;
     if (mode === "repeat") return REPEAT_SENTENCE_BANK.length;
     if (mode === "describe-image") return DESCRIBE_IMAGE_BANK.length;
     return RETELL_LECTURE_BANK.length;
   }, [mode]);
+
+  const item = filteredBank[Math.min(idx, filteredBank.length - 1)];
+  const bankLength = filteredBank.length;
 
   // Determine prep/record durations per mode
   const prepSeconds =
@@ -215,6 +223,7 @@ const PteSpeaking = () => {
         })}
       </div>
 
+      <PteFilterBar value={filters} onChange={(f) => { setFilters(f); setIdx(0); }} resultCount={bankLength} totalCount={sourceBankLength} />
       <div className="bg-white rounded-2xl border border-[#003580]/15 p-5 sm:p-6 shadow-sm">
         <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
           <div className="text-xs text-slate-500">

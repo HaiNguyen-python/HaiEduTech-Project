@@ -10,9 +10,10 @@ import { toast } from "sonner";
 import PteShell from "@/components/pte/PteShell";
 import PteTimer from "@/components/pte/PteTimer";
 import { Button } from "@/components/ui/button";
-import { FILL_BLANK_BANK, REORDER_BANK, type PteFillBlank, type PteReorderItem } from "@/data/pteData";
+import { FILL_BLANK_ALL as FILL_BLANK_BANK, REORDER_ALL as REORDER_BANK, type PteFillBlank, type PteReorderItem } from "@/data/pteData";
 import { similarityToBand, bandLabel } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
+import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
 
 type Mode = "fillBlank" | "reorder";
 
@@ -39,9 +40,20 @@ const PteReading = () => {
   // Reorder state: ordered indices into paragraphs array
   const [order, setOrder] = useState<number[]>([]);
   const [shuffled, setShuffled] = useState<number[]>([]);
+  const [filters, setFilters] = useState<PteFilterState>(DEFAULT_PTE_FILTERS);
 
-  const fbItem = FILL_BLANK_BANK[idx];
-  const roItem = REORDER_BANK[idx];
+  const fbSource = FILL_BLANK_BANK;
+  const roSource = REORDER_BANK;
+  const fbFiltered = useMemo(() => {
+    const f = applyPteFilter(fbSource, filters);
+    return f.length ? f : fbSource;
+  }, [fbSource, filters]);
+  const roFiltered = useMemo(() => {
+    const f = applyPteFilter(roSource, filters);
+    return f.length ? f : roSource;
+  }, [roSource, filters]);
+  const fbItem = fbFiltered[Math.min(idx, fbFiltered.length - 1)];
+  const roItem = roFiltered[Math.min(idx, roFiltered.length - 1)];
 
   // Reset on change
   useEffect(() => {
@@ -159,7 +171,7 @@ const PteReading = () => {
   };
 
   const handleNext = () => {
-    const max = mode === "fillBlank" ? FILL_BLANK_BANK.length : REORDER_BANK.length;
+    const max = mode === "fillBlank" ? fbFiltered.length : roFiltered.length;
     if (idx < max - 1) setIdx(idx + 1);
     else toast.success("🎉 You've completed all tasks in this set!");
   };
@@ -195,6 +207,8 @@ const PteReading = () => {
         ))}
       </div>
 
+      <PteFilterBar value={filters} onChange={(f) => { setFilters(f); setIdx(0); }} resultCount={mode === "fillBlank" ? fbFiltered.length : roFiltered.length} totalCount={mode === "fillBlank" ? fbSource.length : roSource.length} />
+
       <motion.div
         key={`${mode}-${idx}`}
         initial={{ opacity: 0, y: 10 }}
@@ -203,7 +217,7 @@ const PteReading = () => {
       >
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <span className="text-xs font-semibold text-[#003580] bg-[#e8eef7] px-2 py-1 rounded-full">
-            {mode === "fillBlank" ? "Fill in the Blanks" : "Re-order Paragraphs"} · {idx + 1}/{mode === "fillBlank" ? FILL_BLANK_BANK.length : REORDER_BANK.length}
+            {mode === "fillBlank" ? "Fill in the Blanks" : "Re-order Paragraphs"} · {idx + 1}/{mode === "fillBlank" ? fbFiltered.length : roFiltered.length}
           </span>
           <PteTimer
             seconds={mode === "fillBlank" ? 120 : 150}

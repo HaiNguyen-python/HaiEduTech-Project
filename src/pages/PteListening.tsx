@@ -12,9 +12,10 @@ import PteTimer from "@/components/pte/PteTimer";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { DICTATION_BANK, SUMMARIZE_SPOKEN_BANK, type PteDictation, type PteSummarizeSpoken } from "@/data/pteData";
+import { DICTATION_ALL as DICTATION_BANK, SUMMARIZE_SPOKEN_ALL as SUMMARIZE_SPOKEN_BANK, type PteDictation, type PteSummarizeSpoken } from "@/data/pteData";
 import { stringSimilarity, similarityToBand, bandLabel, diffWords, keywordCoverage } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
+import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
 
 type Mode = "dictation" | "summarize";
 
@@ -28,9 +29,20 @@ const PteListening = () => {
   const [playCount, setPlayCount] = useState(0);
   const [timerKey, setTimerKey] = useState(0);
   const utterRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const [filters, setFilters] = useState<PteFilterState>(DEFAULT_PTE_FILTERS);
 
-  const dItem = DICTATION_BANK[idx];
-  const sItem = SUMMARIZE_SPOKEN_BANK[idx];
+  const dSource = DICTATION_BANK;
+  const sSource = SUMMARIZE_SPOKEN_BANK;
+  const dFiltered = useMemo(() => {
+    const f = applyPteFilter(dSource, filters);
+    return f.length ? f : dSource;
+  }, [dSource, filters]);
+  const sFiltered = useMemo(() => {
+    const f = applyPteFilter(sSource, filters);
+    return f.length ? f : sSource;
+  }, [sSource, filters]);
+  const dItem = dFiltered[Math.min(idx, dFiltered.length - 1)];
+  const sItem = sFiltered[Math.min(idx, sFiltered.length - 1)];
   const current = mode === "dictation" ? dItem : sItem;
   const audioText = mode === "dictation" ? dItem?.audioText : sItem?.audioText;
 
@@ -99,7 +111,7 @@ const PteListening = () => {
   }, [submitted, result, current, recordCompletion]);
 
   const handleNext = () => {
-    const max = mode === "dictation" ? DICTATION_BANK.length : SUMMARIZE_SPOKEN_BANK.length;
+    const max = mode === "dictation" ? dFiltered.length : sFiltered.length;
     if (idx < max - 1) setIdx(idx + 1);
     else toast.success("🎉 You've completed all tasks!");
   };
@@ -131,6 +143,8 @@ const PteListening = () => {
         ))}
       </div>
 
+      <PteFilterBar value={filters} onChange={(f) => { setFilters(f); setIdx(0); }} resultCount={mode === "dictation" ? dFiltered.length : sFiltered.length} totalCount={mode === "dictation" ? dSource.length : sSource.length} />
+
       <motion.div
         key={`${mode}-${idx}`}
         initial={{ opacity: 0, y: 10 }}
@@ -139,7 +153,7 @@ const PteListening = () => {
       >
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <span className="text-xs font-semibold text-[#003580] bg-[#e8eef7] px-2 py-1 rounded-full">
-            {mode === "dictation" ? "Dictation" : "Summarize Spoken"} · {idx + 1}/{mode === "dictation" ? DICTATION_BANK.length : SUMMARIZE_SPOKEN_BANK.length}
+            {mode === "dictation" ? "Dictation" : "Summarize Spoken"} · {idx + 1}/{mode === "dictation" ? dFiltered.length : sFiltered.length}
           </span>
           <PteTimer
             seconds={mode === "dictation" ? 60 : 600}
