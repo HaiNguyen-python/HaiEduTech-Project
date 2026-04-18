@@ -17,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { BookOpen, Plus, Save, Trash2, Edit, Eye, Clock, User, Search } from "lucide-react";
+import { BookOpen, Plus, Save, Trash2, Edit, Eye, Clock, User, Search, FileDown } from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
 import { format } from "date-fns";
 
@@ -193,6 +193,40 @@ const Notebook = () => {
 
   const getSubjectLabel = (val: string) => SUBJECTS.find(s => s.value === val)?.label ?? val;
 
+  const handleExportPDF = (note: Notebook & { profile_name?: string }) => {
+    const safeContent = sanitize(note.content || "<p><em>Chưa có nội dung</em></p>");
+    const subjectLabel = getSubjectLabel(note.subject);
+    const updated = format(new Date(note.updated_at), "dd/MM/yyyy HH:mm");
+    const wordCount = stripHtml(note.content).split(/\s+/).filter(Boolean).length;
+    const author = note.profile_name ? `<p><strong>Học sinh:</strong> ${note.profile_name}</p>` : "";
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${note.title || "Notebook"}</title>
+<style>
+  @page { size: A4; margin: 18mm; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; line-height: 1.7; font-size: 13pt; }
+  h1 { color: #1e40af; border-bottom: 3px solid #10b981; padding-bottom: 8px; margin: 0 0 6px; }
+  .meta { font-size: 10pt; color: #555; margin-bottom: 18px; }
+  .badge { display: inline-block; background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 12px; font-size: 10pt; margin-left: 8px; }
+  hr { border: none; border-top: 2px dashed #cbd5e1; margin: 18px 0; }
+  p { margin: 8px 0; }
+  strong { color: #0f172a; }
+  .footer { margin-top: 30px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 9pt; color: #64748b; text-align: center; }
+</style></head><body>
+<h1>${note.title || "Không tiêu đề"} <span class="badge">${subjectLabel}</span></h1>
+<div class="meta">${author}<p><strong>Cập nhật:</strong> ${updated} · <strong>${wordCount}</strong> từ</p></div>
+<div>${safeContent}</div>
+<div class="footer">© ${new Date().getFullYear()} HaiEduTech · Sổ tay học tập</div>
+<script>window.addEventListener('load',()=>{setTimeout(()=>window.print(),300);});</script>
+</body></html>`;
+    const w = window.open("", "_blank");
+    if (!w) {
+      toast({ title: "Bị chặn popup", description: "Vui lòng cho phép popup để xuất PDF", variant: "destructive" });
+      return;
+    }
+    w.document.write(html);
+    w.document.close();
+    toast({ title: "Đang tạo PDF 📄", description: "Chọn 'Save as PDF' trong hộp thoại in" });
+  };
+
   const filterNotes = (notes: (Notebook & { profile_name?: string })[]) => {
     return notes.filter(n => {
       const matchSearch = !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()) || n.content.toLowerCase().includes(searchQuery.toLowerCase());
@@ -335,9 +369,10 @@ const Notebook = () => {
                           </div>
                         </div>
                         <div className="flex gap-1 shrink-0">
-                          <Button variant="ghost" size="icon" onClick={() => setViewNote(note)}><Eye className="w-4 h-4" /></Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleEdit(note)}><Edit className="w-4 h-4" /></Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDelete(note.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => setViewNote(note)} title="Xem"><Eye className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => handleExportPDF(note)} title="Xuất PDF"><FileDown className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => handleEdit(note)} title="Sửa"><Edit className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => handleDelete(note.id)} className="text-destructive hover:text-destructive" title="Xóa"><Trash2 className="w-4 h-4" /></Button>
                         </div>
                       </div>
                     </CardContent>
@@ -369,7 +404,10 @@ const Notebook = () => {
                               <span>{stripHtml(note.content).split(/\s+/).filter(Boolean).length} từ</span>
                             </div>
                           </div>
-                          <Button variant="ghost" size="icon" onClick={() => setViewNote(note)}><Eye className="w-4 h-4" /></Button>
+                          <div className="flex gap-1 shrink-0">
+                            <Button variant="ghost" size="icon" onClick={() => setViewNote(note)} title="Xem"><Eye className="w-4 h-4" /></Button>
+                            <Button variant="ghost" size="icon" onClick={() => handleExportPDF(note)} title="Xuất PDF"><FileDown className="w-4 h-4" /></Button>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -397,9 +435,14 @@ const Notebook = () => {
                   <User className="w-3 h-3" /> {(viewNote as any).profile_name}
                 </p>
               )}
-              <p className="text-xs text-muted-foreground mb-4">
-                Cập nhật: {format(new Date(viewNote.updated_at), "dd/MM/yyyy HH:mm")} · {stripHtml(viewNote.content).split(/\s+/).filter(Boolean).length} từ
-              </p>
+              <div className="flex items-center justify-between mb-4 gap-2">
+                <p className="text-xs text-muted-foreground">
+                  Cập nhật: {format(new Date(viewNote.updated_at), "dd/MM/yyyy HH:mm")} · {stripHtml(viewNote.content).split(/\s+/).filter(Boolean).length} từ
+                </p>
+                <Button size="sm" variant="outline" onClick={() => handleExportPDF(viewNote)} className="gap-2 shrink-0">
+                  <FileDown className="w-4 h-4" /> Xuất PDF
+                </Button>
+              </div>
               {viewNote.content ? (
                 <div
                   className="text-sm leading-relaxed bg-muted/30 rounded-lg p-4 min-h-[200px] prose prose-sm max-w-none dark:prose-invert [&_hr]:my-3 [&_hr]:border-border [&_p]:my-1.5"
