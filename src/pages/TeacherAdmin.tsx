@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { Sparkles, Loader2, CheckCircle, XCircle, BookOpen, Code2, Languages, Trash2, Search, AlertTriangle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
@@ -106,10 +108,19 @@ function trigramSimilarity(a: string, b: string): number {
 
 const TeacherAdmin = ({ embedded = false }: { embedded?: boolean }) => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const { isTeacher, loading: roleLoading } = useUserRole();
   const [subject, setSubject] = useState("english");
   const [category, setCategory] = useState("grammar");
   const [level, setLevel] = useState("B1");
   const [batchSize, setBatchSize] = useState(10);
+
+  // Route guard: redirect non-teachers when not embedded
+  useEffect(() => {
+    if (!embedded && !roleLoading && !isTeacher) {
+      navigate("/", { replace: true });
+    }
+  }, [embedded, roleLoading, isTeacher, navigate]);
   const [jobs, setJobs] = useState<GenerationJob[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [recentLessons, setRecentLessons] = useState<any[]>([]);
@@ -441,6 +452,16 @@ const TeacherAdmin = ({ embedded = false }: { embedded?: boolean }) => {
   );
 
   if (embedded) return <div>{content}</div>;
+
+  // Non-embedded route: enforce teacher/admin access
+  if (roleLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+  if (!isTeacher) return null;
 
   return (
     <div className="min-h-screen bg-background">
