@@ -243,8 +243,8 @@ const PhrasePractice = ({ taskType }: Props) => {
     return { accuracy, diffHtml: diffParts.join(" ") };
   };
 
-  const handleCheckRewrite = () => {
-    if (!result?.upgradedVersion) return;
+  const handleCheckRewrite = async () => {
+    if (!result?.upgradedVersion || !selectedPhrase) return;
     if (rewriteText.trim().length < 3) {
       toast.error(t("Vui lòng viết lại câu", "Please write the sentence first"));
       return;
@@ -269,6 +269,14 @@ const PhrasePractice = ({ taskType }: Props) => {
       tone = "error";
     }
     setRewriteResult({ accuracy, diffHtml, message, tone });
+
+    // Append rewrite attempt to notebook
+    const timestamp = new Date().toLocaleString();
+    const block =
+      `<p><strong>✍️ Rewrite "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em> — ${accuracy}%</p>` +
+      `<p><strong>My rewrite:</strong> ${escapeHtmlStr(rewriteText.trim())}</p>` +
+      `<p><strong>Model answer:</strong> ${escapeHtmlStr(cleanUpgraded)}</p>`;
+    await appendToNotebook(block);
   };
 
   const handleResetRewrite = () => {
