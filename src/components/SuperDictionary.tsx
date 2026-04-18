@@ -419,16 +419,6 @@ const SuperDictionary = () => {
                   >
                     <Minimize2 className="w-3.5 h-3.5 rotate-45" />
                   </Button>
-                  {/* Fullscreen */}
-                  <Button
-                    variant={sizeMode === "fullscreen" ? "secondary" : "ghost"}
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => persistSize("fullscreen")}
-                    title={t("Toàn màn hình", "Fullscreen")}
-                  >
-                    <Maximize2 className="w-3.5 h-3.5" />
-                  </Button>
                   <div className="w-px h-5 bg-border mx-1" />
                   <Button
                     variant="ghost"
