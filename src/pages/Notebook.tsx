@@ -435,9 +435,14 @@ const Notebook = () => {
                   <User className="w-3 h-3" /> {(viewNote as any).profile_name}
                 </p>
               )}
-              <p className="text-xs text-muted-foreground mb-4">
-                Cập nhật: {format(new Date(viewNote.updated_at), "dd/MM/yyyy HH:mm")} · {stripHtml(viewNote.content).split(/\s+/).filter(Boolean).length} từ
-              </p>
+              <div className="flex items-center justify-between mb-4 gap-2">
+                <p className="text-xs text-muted-foreground">
+                  Cập nhật: {format(new Date(viewNote.updated_at), "dd/MM/yyyy HH:mm")} · {stripHtml(viewNote.content).split(/\s+/).filter(Boolean).length} từ
+                </p>
+                <Button size="sm" variant="outline" onClick={() => handleExportPDF(viewNote)} className="gap-2 shrink-0">
+                  <FileDown className="w-4 h-4" /> Xuất PDF
+                </Button>
+              </div>
               {viewNote.content ? (
                 <div
                   className="text-sm leading-relaxed bg-muted/30 rounded-lg p-4 min-h-[200px] prose prose-sm max-w-none dark:prose-invert [&_hr]:my-3 [&_hr]:border-border [&_p]:my-1.5"
