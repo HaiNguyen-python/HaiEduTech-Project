@@ -84,7 +84,11 @@ const SuperDictionary = () => {
   const dragConstraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
 
-  // Restore recent searches + saved position
+  // Resize state — width + height (px). height = 0 means auto.
+  const [size, setSize] = useState<{ w: number; h: number }>({ w: DEFAULT_WIDTH, h: DEFAULT_HEIGHT });
+  const resizeStartRef = useRef<{ startX: number; startY: number; startW: number; startH: number; mode: "right" | "bottom" | "corner" } | null>(null);
+
+  // Restore recent searches + saved position + saved size
   useEffect(() => {
     try {
       const r = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
@@ -100,6 +104,17 @@ const SuperDictionary = () => {
     } catch {
       // ignore
     }
+    try {
+      const s = JSON.parse(localStorage.getItem(SIZE_KEY) || "null");
+      if (s && typeof s.w === "number" && typeof s.h === "number") {
+        setSize({
+          w: Math.min(Math.max(s.w, MIN_WIDTH), MAX_WIDTH),
+          h: s.h === 0 ? 0 : Math.max(s.h, MIN_HEIGHT),
+        });
+      }
+    } catch {
+      // ignore
+    }
   }, []);
 
   const persistPosition = useCallback((x: number, y: number) => {
@@ -109,9 +124,48 @@ const SuperDictionary = () => {
 
   const resetPosition = useCallback(() => {
     setPosition({ x: 0, y: 0 });
+    setSize({ w: DEFAULT_WIDTH, h: DEFAULT_HEIGHT });
     localStorage.removeItem(POSITION_KEY);
-    toast.success("Đã đưa từ điển về vị trí mặc định");
+    localStorage.removeItem(SIZE_KEY);
+    toast.success("Đã đưa từ điển về vị trí và kích thước mặc định");
   }, []);
+
+  const handleResizeStart = useCallback((e: React.PointerEvent, mode: "right" | "bottom" | "corner") => {
+    e.preventDefault();
+    e.stopPropagation();
+    const maxHeightPx = (window.innerHeight * MAX_HEIGHT_VH) / 100;
+    const currentH = size.h === 0 ? Math.min(window.innerHeight - 100, maxHeightPx) : size.h;
+    resizeStartRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      startW: size.w,
+      startH: currentH,
+      mode,
+    };
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }, [size]);
+
+  const handleResizeMove = useCallback((e: React.PointerEvent) => {
+    const start = resizeStartRef.current;
+    if (!start) return;
+    const maxHeightPx = (window.innerHeight * MAX_HEIGHT_VH) / 100;
+    let nextW = start.startW;
+    let nextH = start.startH;
+    if (start.mode === "right" || start.mode === "corner") {
+      nextW = Math.min(Math.max(start.startW + (e.clientX - start.startX), MIN_WIDTH), MAX_WIDTH);
+    }
+    if (start.mode === "bottom" || start.mode === "corner") {
+      nextH = Math.min(Math.max(start.startH + (e.clientY - start.startY), MIN_HEIGHT), maxHeightPx);
+    }
+    setSize({ w: nextW, h: nextH });
+  }, []);
+
+  const handleResizeEnd = useCallback((e: React.PointerEvent) => {
+    if (!resizeStartRef.current) return;
+    resizeStartRef.current = null;
+    (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
+    localStorage.setItem(SIZE_KEY, JSON.stringify(size));
+  }, [size]);
 
   const pushRecent = useCallback((word: string) => {
     const w = word.trim().toLowerCase();
