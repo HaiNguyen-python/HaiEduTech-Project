@@ -794,6 +794,39 @@ const SuperDictionary = () => {
                   </TabsContent>
                 </Tabs>
               </div>
+
+              {/* Resize handles — only on lg+ */}
+              {/* Right edge */}
+              <div
+                onPointerDown={(e) => handleResizeStart(e, "right")}
+                onPointerMove={handleResizeMove}
+                onPointerUp={handleResizeEnd}
+                onPointerCancel={handleResizeEnd}
+                className="hidden lg:block absolute top-2 bottom-6 right-0 w-1.5 cursor-ew-resize hover:bg-primary/30 transition-colors rounded-r-2xl touch-none"
+                title={t("Kéo để thay đổi chiều rộng", "Drag to resize width")}
+              />
+              {/* Bottom edge */}
+              <div
+                onPointerDown={(e) => handleResizeStart(e, "bottom")}
+                onPointerMove={handleResizeMove}
+                onPointerUp={handleResizeEnd}
+                onPointerCancel={handleResizeEnd}
+                className="hidden lg:block absolute left-2 right-6 bottom-0 h-1.5 cursor-ns-resize hover:bg-primary/30 transition-colors rounded-b-2xl touch-none"
+                title={t("Kéo để thay đổi chiều cao", "Drag to resize height")}
+              />
+              {/* Bottom-right corner */}
+              <div
+                onPointerDown={(e) => handleResizeStart(e, "corner")}
+                onPointerMove={handleResizeMove}
+                onPointerUp={handleResizeEnd}
+                onPointerCancel={handleResizeEnd}
+                className="hidden lg:flex absolute right-0 bottom-0 w-4 h-4 cursor-nwse-resize items-end justify-end p-0.5 text-muted-foreground/60 hover:text-primary touch-none"
+                title={t("Kéo để thay đổi kích thước", "Drag to resize")}
+              >
+                <svg viewBox="0 0 16 16" className="w-3 h-3 fill-current">
+                  <path d="M14 14H10L14 10V14ZM14 8L8 14H6L14 6V8Z" />
+                </svg>
+              </div>
             </motion.div>
           </>
         )}
