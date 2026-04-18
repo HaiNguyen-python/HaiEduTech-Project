@@ -1,36 +1,53 @@
 
-## Plan: Hiển thị bài học SAT trên trang /english/sat
 
-### Vấn đề hiện tại
-Trang `/english/sat` (`EnglishCourse.tsx`) chỉ hiển thị Hero + Curriculum Roadmap tĩnh. Toàn bộ **6 module + 18 bài học SAT** đã có sẵn trong `satModules` và `satExpansionModules` nhưng không xuất hiện trên trang.
+Mục tiêu: Mở rộng đáng kể nội dung SAT (bài học + từ vựng) để học sinh có nhiều tài liệu luyện tập hơn.
 
-### Giải pháp (theo lựa chọn người dùng: cả hai)
+## Hiện trạng
 
-#### 1. Nút CTA ở Hero (giống Conversational English)
-Khi `courseId === "sat"`, thêm nút lớn dưới `heroDesc`:
-- **Label**: "Vào Chương trình SAT →" / "Enter SAT Curriculum →"
-- **Action**: smooth scroll tới `#sat-lessons`
-- **Style**: gradient purple-indigo (đồng bộ `color: "purple"`)
+Đang có 2 file SAT:
+- `englishSat.ts`: 3 modules (Reading & Writing, Advanced Vocabulary, Writing & Language) — ~9 lessons
+- `englishSatExpansion.ts`: 2 modules (SAT Math Vocabulary, Advanced Reading Comprehension) — ~5 lessons
 
-#### 2. Section "Interactive SAT Lessons" inline
-Thêm section mới dưới phần Curriculum Roadmap, **chỉ hiển thị khi `courseId === "sat"`**:
-- Tiêu đề: "📚 Bài học SAT tương tác" / "Interactive SAT Lessons"
-- Loop qua `[...satModules, ...satExpansionModules]` (6 modules, 18 lessons)
-- Mỗi module render:
-  - Header card với icon emoji + title + description (bilingual)
-  - Grid 2-3 cột các lesson cards:
-    - Number badge, title, difficulty badge
-    - Click → `navigate('/english/learn/{moduleId}/{lessonId}')`
-- Hover effect: scale 1.02, border primary
+Tổng cộng: **5 modules / ~14 lessons**. Cần mở rộng thêm để phong phú.
+
+## Plan: Tạo file `englishSatExpansion2.ts` với 4 modules mới
+
+### Module 1: SAT Grammar Mastery (4 lessons)
+Tập trung sâu vào ngữ pháp xuất hiện nhiều trong SAT Writing & Language:
+1. **Subject-Verb Agreement Traps** — collective nouns, intervening phrases, indefinite pronouns
+2. **Pronoun Clarity & Agreement** — antecedent ambiguity, who/whom, that/which
+3. **Modifier Placement** — dangling modifiers, misplaced modifiers
+4. **Parallel Structure** — lists, comparisons, correlative conjunctions
+
+### Module 2: SAT High-Frequency Vocabulary Expansion (4 lessons)
+Bổ sung 80+ từ vựng SAT thường gặp:
+1. **Academic Verbs** (20 words: scrutinize, advocate, refute, corroborate, undermine...)
+2. **Descriptive Adjectives** (20 words: ambiguous, pragmatic, meticulous, ephemeral...)
+3. **Abstract Nouns** (20 words: paradigm, dichotomy, conjecture, anomaly...)
+4. **Transition & Tone Words** (20 words: notwithstanding, albeit, henceforth, ostensibly...)
+
+### Module 3: SAT Punctuation & Mechanics (3 lessons)
+1. **Commas, Semicolons & Colons** — usage rules with SAT-style examples
+2. **Apostrophes & Possessives** — singular/plural, it's vs its
+3. **Dashes & Parentheses** — non-essential information
+
+### Module 4: SAT Essay & Argument Analysis (3 lessons)
+1. **Identifying Author's Purpose & Tone**
+2. **Rhetorical Devices** (ethos, pathos, logos, analogy, repetition)
+3. **Evidence-Based Argumentation** — claim, evidence, reasoning structure
+
+**Tổng thêm**: 4 modules, 14 lessons, ~80 vocab entries, ~40 quiz questions, ~30 exercises.
 
 ### Files thay đổi
 | File | Thay đổi |
 |------|----------|
-| `src/pages/EnglishCourse.tsx` | Thêm import `satModules` + `satExpansionModules`, render conditional CTA button + section danh sách bài học khi `courseId === "sat"` |
+| `src/data/languageCurriculum/englishSatExpansion2.ts` | **Tạo mới**: 4 modules SAT chuyên sâu |
+| `src/data/languageCurriculum/index.ts` | Import + spread `satExpansionModules2` vào `allEnglishModules` |
 
 ### Lưu ý kỹ thuật
-- **Không tạo route mới** — dùng route `/english/learn/:moduleId/:lessonId` đã tồn tại
-- **Bilingual**: dùng `t()` cho mọi label
-- **Mobile-first**: grid `sm:grid-cols-2 lg:grid-cols-3`, gap 4
-- **Theme tokens**: dùng `bg-card`, `border-border`, `text-foreground`, `bg-primary` — không hard-code màu
-- **Không động đến** logic của các course khác (cambridge, ielts, toeic, conversational, national-exam)
+- Mỗi lesson có đủ: `theory`, `theoryEn`, `proTips`, `vocabulary` (≥5 entries cho lesson vocab), `exercises` (fill-in-blank/sentence-reorder), `quiz` (≥3 MCQ)
+- `category: "sat"` để tự động hiển thị trong section "Interactive SAT Lessons" trên `/english/sat`
+- `language: "english"`
+- Tuân thủ schema `LanguageModule` từ `types.ts`
+- Bilingual VI/EN cho mọi field hiển thị
+
