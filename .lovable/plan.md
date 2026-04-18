@@ -1,66 +1,43 @@
 
+Mục tiêu: sửa triệt để lỗi “đã báo lưu nhưng vẫn chỉ thấy 2 cụm từ” trong Phrase Practice.
 
-## Kế hoạch sửa 5 vấn đề
+1. Kết luận hiện trạng
+- Phần append vào database đang chạy: log mạng cho thấy notebook đã được PATCH với cụm từ thứ 3.
+- Lỗi chính nằm ở phần hiển thị/sync:
+  - `PhrasePractice.tsx` append thành công nhưng không báo cho các UI notebook refetch lại.
+  - `FloatingNotebook.tsx` chỉ fetch khi mở panel và còn có auto-save toàn bộ nội dung note, nên có thể ghi đè bằng bản cũ.
+  - `Notebook.tsx` chỉ fetch lúc vào trang, nên nếu note được append từ nơi khác thì UI vẫn cũ cho tới khi reload.
+- Có thêm vấn đề UX: nội dung note đang lưu dạng HTML block (`<p>`, `<hr/>`) nhưng `Notebook.tsx` lại render như text thường, nên rất khó nhìn ra các block append.
 
-### 1. Chinese Vocabulary — Stroke Order (HanziStrokeOrder.tsx)
+2. Cách sửa
+- Trong `src/components/PhrasePractice.tsx`
+  - Sau mỗi lần append thành công, phát event global kiểu `notebook:updated` kèm `noteId/title/updatedAt`.
+  - Chỉ hiện toast “đã lưu” sau khi update/insert thành công và event đã bắn.
+- Trong `src/components/FloatingNotebook.tsx`
+  - Lắng nghe `notebook:updated` để refetch note mới nhất ngay cả khi panel đang mở.
+  - Nếu đúng note đang được chọn, cập nhật lại editor content từ database.
+  - Thêm chặn auto-save ghi đè dữ liệu mới:
+    - theo dõi `lastSyncedUpdatedAt`
+    - bỏ qua auto-save ngay sau khi sync từ server
+    - trước khi save, kiểm tra bản remote có mới hơn bản local không; nếu có thì load bản mới thay vì overwrite mù
+- Trong `src/pages/Notebook.tsx`
+  - Lắng nghe `notebook:updated` và refetch danh sách để note mới append hiện ngay.
+  - Render nội dung note dưới dạng HTML đã sanitize để các block append, dòng ngăn cách và format dễ nhìn.
+- Trong `src/components/LastSessionRecap.tsx`
+  - Đồng bộ refetch nhẹ khi có `notebook:updated` để phần recap không giữ bản cũ.
 
-**Nguyên nhân hiện tại**: Component đã dùng jsDelivr CDN (CDN có hoạt động — đã verify trả về 200 OK cho `你.json`). Vấn đề là khi animation chạy xong hoặc khi click lại, có thể character "dính" ở trạng thái cuối, không reset, hoặc có lỗi rendering trên một số ký tự phức tạp.
+3. File sẽ cập nhật
+- `src/components/PhrasePractice.tsx`
+- `src/components/FloatingNotebook.tsx`
+- `src/pages/Notebook.tsx`
+- `src/components/LastSessionRecap.tsx`
 
-**Sửa**:
-- Thêm trạng thái loading (spinner) trong khi tải data
-- Reset character về trạng thái outline trước khi animate lại (gọi `hideCharacter()` rồi `animateCharacter()`)
-- Bắt thêm `onLoadCharDataSuccess` để xác nhận load thành công
-- Thử CDN dự phòng thứ 2 (unpkg) nếu jsDelivr fail
-- Hiển thị thông báo "Đang tải nét bút..." trong lúc fetch
+4. Lưu ý kỹ thuật
+- Không cần đổi schema database.
+- Nếu render HTML ở notebook page sẽ dùng sanitize trước khi `dangerouslySetInnerHTML` để đúng chuẩn bảo mật hiện có.
+- Auto-save của Floating Notebook sẽ được sửa theo hướng “sync-safe”, tránh việc note đang mở ghi đè các phrase mới append từ Phrase Practice.
 
-### 2. AI Roleplay không kết nối được (Conversational English)
-
-**Nguyên nhân**: `supabase/functions/roleplay-chat/index.ts` yêu cầu JWT auth bắt buộc (return 401 nếu không có Bearer token). Khi học sinh chưa login hoặc session hết hạn → 401 → "Failed to connect to AI". Đồng thời cần đảm bảo `PERPLEXITY_API_KEY` đã cấu hình.
-
-**Sửa**:
-- Đổi `roleplay-chat` thành **optional auth** giống như `chat` function (cho phép guest dùng nhưng vẫn check token nếu có)
-- Thêm error log chi tiết trong edge function để debug
-- Phía client (`ConversationalRoleplay.tsx`): hiển thị thông báo lỗi rõ ràng (toast) thay vì chỉ alert ngắn
-- Verify `PERPLEXITY_API_KEY` qua `fetch_secrets`; nếu thiếu → request user add secret
-
-### 3. Chatbot chỉ trả lời kiến thức, hướng học phí/đăng ký sang Zalo
-
-**Sửa system prompt trong** `supabase/functions/chat/index.ts`:
-- Thêm GUARDRAIL mới: nếu câu hỏi liên quan đến **học phí, đăng ký, lộ trình lớp, lịch học, ưu đãi** → trả lời chuẩn:
-  - VI: "Để được tư vấn chi tiết về khóa học và học phí, em vui lòng liên hệ Zalo thầy Hải qua số **0962.823.800** nhé! 📞"
-  - EN: "For detailed course and tuition consultation, please contact Teacher Hai on Zalo at **0962.823.800** 📞"
-- Tăng cường focus vào kiến thức: ngữ pháp, từ vựng, kỹ năng, giải thích bài tập
-- Loại bỏ phần "SALES & COURSE COUNSELING" hiện tại (đang chủ động gợi ý khóa học)
-
-### 4. Notebook Phrase Practice chỉ lưu 1-2 câu — Lỗi merge
-
-**Nguyên nhân (PhrasePractice.tsx dòng 142-170)**: Dùng `.eq("title", title).maybeSingle()` — nếu có **nhiều rows trùng title** (từ race condition hoặc lần lưu trước tạo duplicate), `.maybeSingle()` sẽ throw error, làm `saveErr` không null → toast success không hiển thị → các lần sau cũng fail luôn.
-
-**Sửa**:
-- Đổi `.maybeSingle()` → `.limit(1)` rồi lấy `data[0]` an toàn
-- Thêm `console.error(saveErr)` để log lỗi rõ ràng
-- Hiển thị toast lỗi với message cụ thể khi save fail (thay vì im lặng)
-- Đảm bảo upsert dùng `id` của row mới nhất, tránh tạo duplicate
-
-### 5. Notebook icon che ô nhập chatbot
-
-**Nguyên nhân (FloatingNotebook.tsx dòng 282)**: Notebook button ở `bottom-6 right-24` (96px từ phải). Chatbot button ở `bottom-6 right-6`. Khi mở chatbot, panel chatbot mở rộng từ phải qua trái — notebook button vẫn nổi trên đó che mất ô input.
-
-**Sửa**:
-- Khi chatbot mở (`open === true`), **ẩn notebook button** (hoặc dịch xuống dưới)
-- Cách đơn giản nhất: Lắng nghe state chatbot qua **window event** hoặc **shared context**:
-  - Tạo custom event `chatbot:toggle` trong ChatBot.tsx (`window.dispatchEvent`)
-  - FloatingNotebook lắng nghe event và toggle visibility/position
-- Hoặc giải pháp đơn giản hơn: dịch notebook button lên cao hơn (ví dụ `bottom-24`) khi chatbot mở rộng
-
-**Files thay đổi**:
-| File | Thay đổi |
-|------|----------|
-| `src/components/HanziStrokeOrder.tsx` | Loading state + reset trước animate + fallback CDN |
-| `supabase/functions/roleplay-chat/index.ts` | Optional auth, log lỗi chi tiết |
-| `src/components/ConversationalRoleplay.tsx` | Hiển thị toast lỗi rõ ràng |
-| `supabase/functions/chat/index.ts` | Cập nhật system prompt: chỉ kiến thức, redirect học phí qua Zalo |
-| `src/components/PhrasePractice.tsx` | Sửa logic save: dùng `.limit(1)` thay `.maybeSingle()`, log lỗi |
-| `src/components/FloatingNotebook.tsx` | Ẩn/dịch button khi chatbot mở (qua custom event) |
-| `src/components/ChatBot.tsx` | Dispatch `chatbot:toggle` event khi open/close |
-
+5. Kiểm tra sau khi sửa
+- Thực hành liên tiếp 4-6 cụm từ trong Phrase Practice, mỗi lần bấm Check/Rewrite đều phải append thêm block mới.
+- Giữ Floating Notebook đang mở trong lúc luyện tập để xác nhận không còn overwrite về bản cũ.
+- Mở trang `/notebook` mà không reload toàn trang, xác nhận note cập nhật ngay và hiển thị đủ tất cả cụm từ theo dạng append.
