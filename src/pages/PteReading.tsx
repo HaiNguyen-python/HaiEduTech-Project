@@ -171,7 +171,7 @@ const PteReading = () => {
   };
 
   const handleNext = () => {
-    const max = mode === "fillBlank" ? FILL_BLANK_BANK.length : REORDER_BANK.length;
+    const max = mode === "fillBlank" ? fbFiltered.length : roFiltered.length;
     if (idx < max - 1) setIdx(idx + 1);
     else toast.success("🎉 You've completed all tasks in this set!");
   };
