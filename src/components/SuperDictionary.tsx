@@ -373,6 +373,11 @@ const SuperDictionary = () => {
                       </div>
                     </div>
                   )}
+                  {!thesaurusLoading && thesaurusResult.length === 0 && renderErrorBox(
+                    thesaurusError,
+                    () => handleThesaurusLookup(thesaurusWord),
+                    t("Không tìm thấy từ đồng nghĩa.", "No synonyms found."),
+                  )}
                 </TabsContent>
               </Tabs>
             </div>
