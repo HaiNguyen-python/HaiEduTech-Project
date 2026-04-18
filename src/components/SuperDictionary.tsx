@@ -30,8 +30,17 @@ type ActiveTab = "dictionary" | "ozdic" | "thesaurus";
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
+const SIZE_KEY = "super-dict-size";
 const MAX_RECENT = 5;
 const SUGGESTIONS = ["ambiguous", "perspective", "significant"];
+
+// Size limits (px) for resizable panel on lg+
+const DEFAULT_WIDTH = 520;
+const DEFAULT_HEIGHT = 0; // 0 = auto (top-3 → bottom-3)
+const MIN_WIDTH = 360;
+const MAX_WIDTH = 900;
+const MIN_HEIGHT = 360;
+const MAX_HEIGHT_VH = 92; // % of viewport
 
 // Colored chip per part-of-speech for fast scanning
 const posChip = (pos: string): string => {
@@ -75,7 +84,11 @@ const SuperDictionary = () => {
   const dragConstraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
 
-  // Restore recent searches + saved position
+  // Resize state — width + height (px). height = 0 means auto.
+  const [size, setSize] = useState<{ w: number; h: number }>({ w: DEFAULT_WIDTH, h: DEFAULT_HEIGHT });
+  const resizeStartRef = useRef<{ startX: number; startY: number; startW: number; startH: number; mode: "right" | "bottom" | "corner" } | null>(null);
+
+  // Restore recent searches + saved position + saved size
   useEffect(() => {
     try {
       const r = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
@@ -91,6 +104,17 @@ const SuperDictionary = () => {
     } catch {
       // ignore
     }
+    try {
+      const s = JSON.parse(localStorage.getItem(SIZE_KEY) || "null");
+      if (s && typeof s.w === "number" && typeof s.h === "number") {
+        setSize({
+          w: Math.min(Math.max(s.w, MIN_WIDTH), MAX_WIDTH),
+          h: s.h === 0 ? 0 : Math.max(s.h, MIN_HEIGHT),
+        });
+      }
+    } catch {
+      // ignore
+    }
   }, []);
 
   const persistPosition = useCallback((x: number, y: number) => {
@@ -100,9 +124,48 @@ const SuperDictionary = () => {
 
   const resetPosition = useCallback(() => {
     setPosition({ x: 0, y: 0 });
+    setSize({ w: DEFAULT_WIDTH, h: DEFAULT_HEIGHT });
     localStorage.removeItem(POSITION_KEY);
-    toast.success("Đã đưa từ điển về vị trí mặc định");
+    localStorage.removeItem(SIZE_KEY);
+    toast.success("Đã đưa từ điển về vị trí và kích thước mặc định");
   }, []);
+
+  const handleResizeStart = useCallback((e: React.PointerEvent, mode: "right" | "bottom" | "corner") => {
+    e.preventDefault();
+    e.stopPropagation();
+    const maxHeightPx = (window.innerHeight * MAX_HEIGHT_VH) / 100;
+    const currentH = size.h === 0 ? Math.min(window.innerHeight - 100, maxHeightPx) : size.h;
+    resizeStartRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      startW: size.w,
+      startH: currentH,
+      mode,
+    };
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }, [size]);
+
+  const handleResizeMove = useCallback((e: React.PointerEvent) => {
+    const start = resizeStartRef.current;
+    if (!start) return;
+    const maxHeightPx = (window.innerHeight * MAX_HEIGHT_VH) / 100;
+    let nextW = start.startW;
+    let nextH = start.startH;
+    if (start.mode === "right" || start.mode === "corner") {
+      nextW = Math.min(Math.max(start.startW + (e.clientX - start.startX), MIN_WIDTH), MAX_WIDTH);
+    }
+    if (start.mode === "bottom" || start.mode === "corner") {
+      nextH = Math.min(Math.max(start.startH + (e.clientY - start.startY), MIN_HEIGHT), maxHeightPx);
+    }
+    setSize({ w: nextW, h: nextH });
+  }, []);
+
+  const handleResizeEnd = useCallback((e: React.PointerEvent) => {
+    if (!resizeStartRef.current) return;
+    resizeStartRef.current = null;
+    (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
+    localStorage.setItem(SIZE_KEY, JSON.stringify(size));
+  }, [size]);
 
   const pushRecent = useCallback((word: string) => {
     const w = word.trim().toLowerCase();
@@ -332,9 +395,18 @@ const SuperDictionary = () => {
     );
   };
 
-  // Panel sizing — desktop side panel (wide), mobile = bottom sheet (no drag on mobile)
+  // Panel sizing — desktop side panel (resizable), mobile = bottom sheet (no drag/resize on mobile)
+  // On mobile (<lg) we keep the fixed bottom-sheet sizing; on lg+ we apply width/height via inline styles.
   const panelClasses =
-    "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[520px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
+    "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-auto lg:h-auto z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
+
+  const isLg = typeof window !== "undefined" && window.matchMedia?.("(min-width: 1024px)").matches;
+  const panelStyle: React.CSSProperties = isLg
+    ? {
+        width: `${size.w}px`,
+        height: size.h === 0 ? `min(${MAX_HEIGHT_VH}vh, calc(100vh - 100px))` : `${size.h}px`,
+      }
+    : {};
 
   const motionProps = {
     initial: { opacity: 0, x: -40 + position.x, y: position.y },
@@ -391,6 +463,7 @@ const SuperDictionary = () => {
                 persistPosition(position.x + info.offset.x, position.y + info.offset.y);
               }}
               className={panelClasses}
+              style={panelStyle}
             >
               {/* Header — drag handle on lg+ */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-primary/5 to-accent/5 shrink-0 rounded-t-2xl">
@@ -720,6 +793,39 @@ const SuperDictionary = () => {
                     )}
                   </TabsContent>
                 </Tabs>
+              </div>
+
+              {/* Resize handles — only on lg+ */}
+              {/* Right edge */}
+              <div
+                onPointerDown={(e) => handleResizeStart(e, "right")}
+                onPointerMove={handleResizeMove}
+                onPointerUp={handleResizeEnd}
+                onPointerCancel={handleResizeEnd}
+                className="hidden lg:block absolute top-2 bottom-6 right-0 w-1.5 cursor-ew-resize hover:bg-primary/30 transition-colors rounded-r-2xl touch-none"
+                title={t("Kéo để thay đổi chiều rộng", "Drag to resize width")}
+              />
+              {/* Bottom edge */}
+              <div
+                onPointerDown={(e) => handleResizeStart(e, "bottom")}
+                onPointerMove={handleResizeMove}
+                onPointerUp={handleResizeEnd}
+                onPointerCancel={handleResizeEnd}
+                className="hidden lg:block absolute left-2 right-6 bottom-0 h-1.5 cursor-ns-resize hover:bg-primary/30 transition-colors rounded-b-2xl touch-none"
+                title={t("Kéo để thay đổi chiều cao", "Drag to resize height")}
+              />
+              {/* Bottom-right corner */}
+              <div
+                onPointerDown={(e) => handleResizeStart(e, "corner")}
+                onPointerMove={handleResizeMove}
+                onPointerUp={handleResizeEnd}
+                onPointerCancel={handleResizeEnd}
+                className="hidden lg:flex absolute right-0 bottom-0 w-4 h-4 cursor-nwse-resize items-end justify-end p-0.5 text-muted-foreground/60 hover:text-primary touch-none"
+                title={t("Kéo để thay đổi kích thước", "Drag to resize")}
+              >
+                <svg viewBox="0 0 16 16" className="w-3 h-3 fill-current">
+                  <path d="M14 14H10L14 10V14ZM14 8L8 14H6L14 6V8Z" />
+                </svg>
               </div>
             </motion.div>
           </>

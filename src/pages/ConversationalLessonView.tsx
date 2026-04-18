@@ -11,7 +11,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SuperDictionary from "@/components/SuperDictionary";
+
 import ConversationalRoleplay from "@/components/ConversationalRoleplay";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
@@ -409,7 +409,7 @@ const ConversationalLessonView = () => {
       </main>
 
       <Footer />
-      <SuperDictionary />
+      
     </div>
   );
 };

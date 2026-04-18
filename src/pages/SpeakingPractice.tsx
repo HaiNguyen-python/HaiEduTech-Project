@@ -23,7 +23,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import SuperDictionary from "@/components/SuperDictionary";
+
 import {
   speakingPracticeData,
   getTopicsByPart,
@@ -1084,7 +1084,7 @@ const SpeakingPractice = () => {
           </div>
         </div>
       </main>
-      <SuperDictionary />
+      
       <Footer />
     </div>
   );

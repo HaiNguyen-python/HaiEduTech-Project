@@ -13,7 +13,7 @@ import TechTeacherIcon from "@/components/TechTeacherIcon";
 import type { ThptExam } from "@/data/thptExamData";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { arrangementSentences } from "@/data/arrangementSentences";
-import SuperDictionary from "@/components/SuperDictionary";
+
 
 type ExamPhase = "loading" | "taking" | "result" | "review";
 
@@ -470,8 +470,6 @@ const NationalExamRoom = () => {
           </div>
         </div>
       </div>
-      {/* Super Dictionary floating button */}
-      <SuperDictionary />
     </div>
   );
 };
