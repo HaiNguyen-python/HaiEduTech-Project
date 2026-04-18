@@ -1,54 +1,44 @@
 
-## Plan: Mở rộng IELTS Phrase Bank lên 200+ cụm từ
+## Plan: Đổi nút + Lưu câu vào Sổ tay
 
-### Mục tiêu
-Mở rộng `src/data/ieltsPhraseBank.ts` từ 80 → **200+ cụm từ Band 7.0+**, bổ sung nhiều chủ đề và collocations chất lượng cao như user yêu cầu (visitors from all corners of the globe, dissolve the problems, conducive working atmosphere...).
+### 1. Đổi nhãn nút
+Trong `src/components/PhrasePractice.tsx`:
+- "Submit for AI Grading" → **"Submit for Grading"** (EN)
+- "Chấm điểm AI" → **"Nộp bài chấm"** (VI)
 
-### Phân bổ số lượng
+### 2. Lưu câu vào Sổ tay (Notebook)
+Sau khi AI chấm xong thành công, tự động insert 1 entry vào bảng `student_notebooks` (Supabase) với:
 
-**Task 1 (~80 cụm)** — giữ 4 categories hiện có + mở rộng:
-- Trends (20): surge exponentially, witness a steady decline, hit rock bottom, soar to unprecedented levels...
-- Comparisons (20): dwarf in comparison to, pale in significance next to, mirror the trend of...
-- Process/Map (20): undergo a radical transformation, be subjected to, the terminal stage involves...
-- Overview (20): at first glance, a cursory examination reveals, the data paints a clear picture of...
+| Field | Value |
+|-------|-------|
+| `title` | `IELTS Writing Practice Task 1` hoặc `IELTS Writing Practice Task 2` (theo `taskType` prop) |
+| `subject` | `IELTS Writing` |
+| `content` | HTML formatted: phrase, câu của học sinh, điểm số, feedback ngắn, phiên bản nâng cấp |
+| `user_id` | `auth.uid()` |
 
-**Task 2 (~120 cụm)** — mở rộng từ 5 → **10 categories**:
-- Opinion (15): I am of the firm conviction, I wholeheartedly subscribe to the view...
-- Cause-Effect (15): dissolve the problems, trigger a chain reaction, exacerbate the situation...
-- Argument (15): a compelling case can be made, this argument holds water, refute the notion...
-- Solutions (15): tackle the issue head-on, implement stringent measures, alleviate the burden...
-- Linking (10): by the same token, in stark contrast, notwithstanding this...
-- **Education** (10) NEW: foster critical thinking, cultivate a passion for learning, instill values...
-- **Workplace** (10) NEW: conducive working atmosphere, foster team cohesion, climb the corporate ladder, strike a work-life balance...
-- **Tourism/Globalization** (10) NEW: visitors from all corners of the globe, broaden one's horizons, immerse oneself in the local culture, bridge cultural gaps...
-- **Environment** (10) NEW: mitigate the impact of, leave a carbon footprint, deplete natural resources, embrace renewable energy...
-- **Technology/Society** (10) NEW: revolutionize the way we live, bridge the digital divide, fall prey to cyber threats, blur the line between...
+**Logic chi tiết** trong `handleSubmit` của `PhrasePractice.tsx`:
+- Sau khi `setResult(data)` thành công
+- Check `supabase.auth.getUser()` — nếu logged in → insert vào `student_notebooks`
+- Nếu guest (chưa login) → chỉ lưu localStorage như cũ + toast nhẹ "Đăng nhập để lưu vào sổ tay"
+- Toast success: "Đã lưu vào Sổ tay ghi chú"
 
-### Cấu trúc dữ liệu (giữ nguyên)
-```ts
-interface IELTSPhrase {
-  id: string;
-  phrase: string;
-  meaning: string;     // VI
-  example: string;     // Band 7+ sample
-  category: string;
-  level: 'B1' | 'B2' | 'C1';
-  taskType: 1 | 2;
-}
+**Content HTML template** (gọn gàng, đúng chuẩn tiptap đang dùng ở Notebook):
+```html
+<h3>"[phrase]"</h3>
+<p><em>Meaning: [meaning]</em></p>
+<p><strong>My sentence:</strong> [userSentence]</p>
+<p><strong>Score:</strong> [score]/10</p>
+<p><strong>Grammar feedback:</strong> [grammarFeedback]</p>
+<p><strong>Phrase feedback:</strong> [phraseFeedback]</p>
+<p><strong>Band 7.5+ Upgrade:</strong> [upgradedVersion]</p>
 ```
 
-### UI cập nhật
-- `PhrasePractice.tsx`: filter buttons tự động render từ `[...new Set(phrases.map(p => p.category))]` → không cần đổi code logic, chỉ thêm scroll-x cho hàng filter khi nhiều categories
-- Thêm badge level (B1/B2/C1) màu khác nhau trên card cụm từ
-
-### Files cần thay đổi
-
+### 3. Files thay đổi
 | File | Thay đổi |
-|------|----------|
-| `src/data/ieltsPhraseBank.ts` | Mở rộng lên 200+ cụm, thêm 5 categories Task 2 |
-| `src/components/PhrasePractice.tsx` | Scroll-x filter row, badge level màu sắc |
+|------|---------|
+| `src/components/PhrasePractice.tsx` | Đổi label nút + thêm logic insert vào `student_notebooks` sau khi chấm xong |
 
 ### Lưu ý
-- 100% cụm từ là collocations Band 7.0+ chuẩn IELTS examiner
-- Mỗi cụm có example sentence chất lượng cao để học viên tham khảo
-- Không cần thay đổi edge function — đã hoạt động generic với mọi phrase
+- Không cần migration mới — bảng `student_notebooks` đã tồn tại (đang dùng ở `Notebook.tsx`)
+- Subject `IELTS Writing` sẽ thêm vào `SUBJECTS` array trong `Notebook.tsx` nếu chưa có (cần xác nhận khi implement)
+- DOMPurify không cần vì content do AI sinh ra + system tự gen, không từ user HTML
