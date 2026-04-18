@@ -73,6 +73,7 @@ const SuperDictionary = () => {
   // Drag-to-move position (offset from default anchored position)
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const dragConstraintsRef = useRef<HTMLDivElement>(null);
+  const dragControls = useDragControls();
 
   // Restore recent searches + saved position
   useEffect(() => {
@@ -381,6 +382,7 @@ const SuperDictionary = () => {
             <motion.div
               {...motionProps}
               drag
+              dragControls={dragControls}
               dragListener={false}
               dragMomentum={false}
               dragElastic={0}
