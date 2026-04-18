@@ -25,7 +25,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 type LookupErrorKind = "notFound" | "busy" | null;
-type SizeMode = "compact" | "wide" | "fullscreen";
+type SizeMode = "wide";
 type ActiveTab = "dictionary" | "ozdic" | "thesaurus";
 
 const SIZE_KEY = "super-dict-size";
@@ -46,7 +46,7 @@ const posChip = (pos: string): string => {
 const SuperDictionary = () => {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [sizeMode, setSizeMode] = useState<SizeMode>("compact");
+  const sizeMode: SizeMode = "wide";
   const [activeTab, setActiveTab] = useState<ActiveTab>("dictionary");
 
   const [dictSearchWord, setDictSearchWord] = useState("");
@@ -70,12 +70,8 @@ const SuperDictionary = () => {
   const [savedWord, setSavedWord] = useState<string | null>(null);
   const dictInputRef = useRef<HTMLInputElement>(null);
 
-  // Restore size mode + recent searches
+  // Restore recent searches
   useEffect(() => {
-    const savedSize = localStorage.getItem(SIZE_KEY) as SizeMode | null;
-    if (savedSize === "compact" || savedSize === "wide" || savedSize === "fullscreen") {
-      setSizeMode(savedSize);
-    }
     try {
       const r = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
       if (Array.isArray(r)) setRecent(r.slice(0, MAX_RECENT));
@@ -83,11 +79,6 @@ const SuperDictionary = () => {
       // ignore
     }
   }, []);
-
-  const persistSize = (m: SizeMode) => {
-    setSizeMode(m);
-    localStorage.setItem(SIZE_KEY, m);
-  };
 
   const pushRecent = useCallback((word: string) => {
     const w = word.trim().toLowerCase();
@@ -317,30 +308,16 @@ const SuperDictionary = () => {
     );
   };
 
-  // Panel sizing — desktop side panel by default, mobile = bottom sheet
-  // Fullscreen = centered modal
+  // Panel sizing — desktop side panel (wide), mobile = bottom sheet
   const panelClasses =
-    sizeMode === "fullscreen"
-      ? "fixed inset-x-2 top-4 bottom-4 lg:inset-x-auto lg:left-1/2 lg:-translate-x-1/2 lg:w-[min(900px,92vw)] lg:h-[88vh] lg:top-1/2 lg:-translate-y-1/2 lg:bottom-auto z-[60] bg-card rounded-2xl border-2 border-primary/30 shadow-[0_20px_60px_rgba(0,0,0,0.25)] flex flex-col"
-      : sizeMode === "wide"
-      ? "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[520px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col"
-      : "fixed inset-x-0 bottom-0 h-[80vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[400px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
+    "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[520px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
 
-  // Slide animation: from left on desktop, from bottom on mobile / fullscreen
-  const motionProps =
-    sizeMode === "fullscreen"
-      ? {
-          initial: { opacity: 0, scale: 0.96 },
-          animate: { opacity: 1, scale: 1 },
-          exit: { opacity: 0, scale: 0.96 },
-          transition: { type: "spring" as const, damping: 24, stiffness: 280 },
-        }
-      : {
-          initial: { opacity: 0, x: -40 },
-          animate: { opacity: 1, x: 0 },
-          exit: { opacity: 0, x: -40 },
-          transition: { type: "spring" as const, damping: 26, stiffness: 280 },
-        };
+  const motionProps = {
+    initial: { opacity: 0, x: -40 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -40 },
+    transition: { type: "spring" as const, damping: 26, stiffness: 280 },
+  };
 
   return (
     <>
