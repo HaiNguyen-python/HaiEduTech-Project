@@ -1,53 +1,66 @@
 
 
-Mục tiêu: Mở rộng đáng kể nội dung SAT (bài học + từ vựng) để học sinh có nhiều tài liệu luyện tập hơn.
+## Kế hoạch sửa 5 vấn đề
 
-## Hiện trạng
+### 1. Chinese Vocabulary — Stroke Order (HanziStrokeOrder.tsx)
 
-Đang có 2 file SAT:
-- `englishSat.ts`: 3 modules (Reading & Writing, Advanced Vocabulary, Writing & Language) — ~9 lessons
-- `englishSatExpansion.ts`: 2 modules (SAT Math Vocabulary, Advanced Reading Comprehension) — ~5 lessons
+**Nguyên nhân hiện tại**: Component đã dùng jsDelivr CDN (CDN có hoạt động — đã verify trả về 200 OK cho `你.json`). Vấn đề là khi animation chạy xong hoặc khi click lại, có thể character "dính" ở trạng thái cuối, không reset, hoặc có lỗi rendering trên một số ký tự phức tạp.
 
-Tổng cộng: **5 modules / ~14 lessons**. Cần mở rộng thêm để phong phú.
+**Sửa**:
+- Thêm trạng thái loading (spinner) trong khi tải data
+- Reset character về trạng thái outline trước khi animate lại (gọi `hideCharacter()` rồi `animateCharacter()`)
+- Bắt thêm `onLoadCharDataSuccess` để xác nhận load thành công
+- Thử CDN dự phòng thứ 2 (unpkg) nếu jsDelivr fail
+- Hiển thị thông báo "Đang tải nét bút..." trong lúc fetch
 
-## Plan: Tạo file `englishSatExpansion2.ts` với 4 modules mới
+### 2. AI Roleplay không kết nối được (Conversational English)
 
-### Module 1: SAT Grammar Mastery (4 lessons)
-Tập trung sâu vào ngữ pháp xuất hiện nhiều trong SAT Writing & Language:
-1. **Subject-Verb Agreement Traps** — collective nouns, intervening phrases, indefinite pronouns
-2. **Pronoun Clarity & Agreement** — antecedent ambiguity, who/whom, that/which
-3. **Modifier Placement** — dangling modifiers, misplaced modifiers
-4. **Parallel Structure** — lists, comparisons, correlative conjunctions
+**Nguyên nhân**: `supabase/functions/roleplay-chat/index.ts` yêu cầu JWT auth bắt buộc (return 401 nếu không có Bearer token). Khi học sinh chưa login hoặc session hết hạn → 401 → "Failed to connect to AI". Đồng thời cần đảm bảo `PERPLEXITY_API_KEY` đã cấu hình.
 
-### Module 2: SAT High-Frequency Vocabulary Expansion (4 lessons)
-Bổ sung 80+ từ vựng SAT thường gặp:
-1. **Academic Verbs** (20 words: scrutinize, advocate, refute, corroborate, undermine...)
-2. **Descriptive Adjectives** (20 words: ambiguous, pragmatic, meticulous, ephemeral...)
-3. **Abstract Nouns** (20 words: paradigm, dichotomy, conjecture, anomaly...)
-4. **Transition & Tone Words** (20 words: notwithstanding, albeit, henceforth, ostensibly...)
+**Sửa**:
+- Đổi `roleplay-chat` thành **optional auth** giống như `chat` function (cho phép guest dùng nhưng vẫn check token nếu có)
+- Thêm error log chi tiết trong edge function để debug
+- Phía client (`ConversationalRoleplay.tsx`): hiển thị thông báo lỗi rõ ràng (toast) thay vì chỉ alert ngắn
+- Verify `PERPLEXITY_API_KEY` qua `fetch_secrets`; nếu thiếu → request user add secret
 
-### Module 3: SAT Punctuation & Mechanics (3 lessons)
-1. **Commas, Semicolons & Colons** — usage rules with SAT-style examples
-2. **Apostrophes & Possessives** — singular/plural, it's vs its
-3. **Dashes & Parentheses** — non-essential information
+### 3. Chatbot chỉ trả lời kiến thức, hướng học phí/đăng ký sang Zalo
 
-### Module 4: SAT Essay & Argument Analysis (3 lessons)
-1. **Identifying Author's Purpose & Tone**
-2. **Rhetorical Devices** (ethos, pathos, logos, analogy, repetition)
-3. **Evidence-Based Argumentation** — claim, evidence, reasoning structure
+**Sửa system prompt trong** `supabase/functions/chat/index.ts`:
+- Thêm GUARDRAIL mới: nếu câu hỏi liên quan đến **học phí, đăng ký, lộ trình lớp, lịch học, ưu đãi** → trả lời chuẩn:
+  - VI: "Để được tư vấn chi tiết về khóa học và học phí, em vui lòng liên hệ Zalo thầy Hải qua số **0962.823.800** nhé! 📞"
+  - EN: "For detailed course and tuition consultation, please contact Teacher Hai on Zalo at **0962.823.800** 📞"
+- Tăng cường focus vào kiến thức: ngữ pháp, từ vựng, kỹ năng, giải thích bài tập
+- Loại bỏ phần "SALES & COURSE COUNSELING" hiện tại (đang chủ động gợi ý khóa học)
 
-**Tổng thêm**: 4 modules, 14 lessons, ~80 vocab entries, ~40 quiz questions, ~30 exercises.
+### 4. Notebook Phrase Practice chỉ lưu 1-2 câu — Lỗi merge
 
-### Files thay đổi
+**Nguyên nhân (PhrasePractice.tsx dòng 142-170)**: Dùng `.eq("title", title).maybeSingle()` — nếu có **nhiều rows trùng title** (từ race condition hoặc lần lưu trước tạo duplicate), `.maybeSingle()` sẽ throw error, làm `saveErr` không null → toast success không hiển thị → các lần sau cũng fail luôn.
+
+**Sửa**:
+- Đổi `.maybeSingle()` → `.limit(1)` rồi lấy `data[0]` an toàn
+- Thêm `console.error(saveErr)` để log lỗi rõ ràng
+- Hiển thị toast lỗi với message cụ thể khi save fail (thay vì im lặng)
+- Đảm bảo upsert dùng `id` của row mới nhất, tránh tạo duplicate
+
+### 5. Notebook icon che ô nhập chatbot
+
+**Nguyên nhân (FloatingNotebook.tsx dòng 282)**: Notebook button ở `bottom-6 right-24` (96px từ phải). Chatbot button ở `bottom-6 right-6`. Khi mở chatbot, panel chatbot mở rộng từ phải qua trái — notebook button vẫn nổi trên đó che mất ô input.
+
+**Sửa**:
+- Khi chatbot mở (`open === true`), **ẩn notebook button** (hoặc dịch xuống dưới)
+- Cách đơn giản nhất: Lắng nghe state chatbot qua **window event** hoặc **shared context**:
+  - Tạo custom event `chatbot:toggle` trong ChatBot.tsx (`window.dispatchEvent`)
+  - FloatingNotebook lắng nghe event và toggle visibility/position
+- Hoặc giải pháp đơn giản hơn: dịch notebook button lên cao hơn (ví dụ `bottom-24`) khi chatbot mở rộng
+
+**Files thay đổi**:
 | File | Thay đổi |
 |------|----------|
-| `src/data/languageCurriculum/englishSatExpansion2.ts` | **Tạo mới**: 4 modules SAT chuyên sâu |
-| `src/data/languageCurriculum/index.ts` | Import + spread `satExpansionModules2` vào `allEnglishModules` |
-
-### Lưu ý kỹ thuật
-- Mỗi lesson có đủ: `theory`, `theoryEn`, `proTips`, `vocabulary` (≥5 entries cho lesson vocab), `exercises` (fill-in-blank/sentence-reorder), `quiz` (≥3 MCQ)
-- `category: "sat"` để tự động hiển thị trong section "Interactive SAT Lessons" trên `/english/sat`
-- `language: "english"`
-- Tuân thủ schema `LanguageModule` từ `types.ts`
-- Bilingual VI/EN cho mọi field hiển thị
+| `src/components/HanziStrokeOrder.tsx` | Loading state + reset trước animate + fallback CDN |
+| `supabase/functions/roleplay-chat/index.ts` | Optional auth, log lỗi chi tiết |
+| `src/components/ConversationalRoleplay.tsx` | Hiển thị toast lỗi rõ ràng |
+| `supabase/functions/chat/index.ts` | Cập nhật system prompt: chỉ kiến thức, redirect học phí qua Zalo |
+| `src/components/PhrasePractice.tsx` | Sửa logic save: dùng `.limit(1)` thay `.maybeSingle()`, log lỗi |
+| `src/components/FloatingNotebook.tsx` | Ẩn/dịch button khi chatbot mở (qua custom event) |
+| `src/components/ChatBot.tsx` | Dispatch `chatbot:toggle` event khi open/close |
 
