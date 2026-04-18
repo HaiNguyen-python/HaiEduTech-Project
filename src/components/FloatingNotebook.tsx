@@ -135,6 +135,11 @@ const FloatingNotebook = () => {
     }
   }, [open, size]);
 
+  // Track the last server-synced updated_at for the currently open note,
+  // so auto-save never overwrites newer content (e.g. appended by PhrasePractice).
+  const lastSyncedUpdatedAt = useRef<string | null>(null);
+  const skipNextAutoSave = useRef(false);
+
   const fetchNotebooks = useCallback(async () => {
     if (!user) return;
     const { data } = await supabase
@@ -158,6 +163,7 @@ const FloatingNotebook = () => {
     setTitle("");
     setSubject("general");
     editor?.commands.setContent("");
+    lastSyncedUpdatedAt.current = null;
   };
 
   const handleSelect = (nb: Notebook) => {
@@ -165,8 +171,41 @@ const FloatingNotebook = () => {
     setTitle(nb.title);
     setSubject(nb.subject);
     const html = nb.content.includes("<") ? nb.content : `<p>${nb.content}</p>`;
+    skipNextAutoSave.current = true;
     editor?.commands.setContent(html);
+    lastSyncedUpdatedAt.current = nb.updated_at;
   };
+
+  // Reload selected note from server (used when notebook:updated event fires).
+  const reloadSelectedNote = useCallback(async (noteId: string) => {
+    const { data, error } = await supabase
+      .from("student_notebooks")
+      .select("id, title, content, subject, updated_at")
+      .eq("id", noteId)
+      .maybeSingle();
+    if (error || !data) return;
+    skipNextAutoSave.current = true;
+    const html = data.content.includes("<") ? data.content : `<p>${data.content}</p>`;
+    editor?.commands.setContent(html);
+    setTitle(data.title);
+    setSubject(data.subject);
+    lastSyncedUpdatedAt.current = data.updated_at;
+  }, [editor]);
+
+  // Listen for external notebook updates (e.g. PhrasePractice append).
+  useEffect(() => {
+    const handler = async (e: Event) => {
+      const detail = (e as CustomEvent).detail || {};
+      // Always refresh the list so new notes appear in the selector.
+      await fetchNotebooks();
+      // If the updated note is the one currently open, reload its content.
+      if (selectedId && detail.noteId && detail.noteId === selectedId) {
+        await reloadSelectedNote(selectedId);
+      }
+    };
+    window.addEventListener("notebook:updated", handler as EventListener);
+    return () => window.removeEventListener("notebook:updated", handler as EventListener);
+  }, [selectedId, fetchNotebooks, reloadSelectedNote]);
 
   const handleSave = useCallback(async () => {
     if (!user || !title.trim()) return;
@@ -174,10 +213,35 @@ const FloatingNotebook = () => {
     setSaving(true);
     try {
       if (selectedId) {
-        await supabase.from("student_notebooks").update({ title, content, subject, updated_at: new Date().toISOString() }).eq("id", selectedId);
+        // Sync-safe save: refuse to overwrite if remote is newer than what we last synced.
+        const { data: remote } = await supabase
+          .from("student_notebooks")
+          .select("id, content, updated_at")
+          .eq("id", selectedId)
+          .maybeSingle();
+        if (remote && lastSyncedUpdatedAt.current && remote.updated_at && remote.updated_at > lastSyncedUpdatedAt.current) {
+          // Newer version exists on server — pull it instead of overwriting.
+          skipNextAutoSave.current = true;
+          const html = remote.content.includes("<") ? remote.content : `<p>${remote.content}</p>`;
+          editor?.commands.setContent(html);
+          lastSyncedUpdatedAt.current = remote.updated_at;
+          toast({ title: "Đã đồng bộ phiên bản mới hơn từ server" });
+        } else {
+          const nowIso = new Date().toISOString();
+          const { data: updated } = await supabase
+            .from("student_notebooks")
+            .update({ title, content, subject, updated_at: nowIso })
+            .eq("id", selectedId)
+            .select("updated_at")
+            .single();
+          lastSyncedUpdatedAt.current = updated?.updated_at ?? nowIso;
+        }
       } else {
-        const { data } = await supabase.from("student_notebooks").insert({ user_id: user.id, title, content, subject }).select("id").single();
-        if (data) setSelectedId(data.id);
+        const { data } = await supabase.from("student_notebooks").insert({ user_id: user.id, title, content, subject }).select("id, updated_at").single();
+        if (data) {
+          setSelectedId(data.id);
+          lastSyncedUpdatedAt.current = data.updated_at;
+        }
       }
       fetchNotebooks();
       toast({ title: "Đã lưu ghi chú ✓" });
@@ -185,7 +249,7 @@ const FloatingNotebook = () => {
       toast({ title: "Lỗi khi lưu", variant: "destructive" });
     }
     setSaving(false);
-  }, [user, selectedId, title, subject, getContent, fetchNotebooks, toast]);
+  }, [user, selectedId, title, subject, getContent, fetchNotebooks, toast, editor]);
 
   const handleDelete = async () => {
     if (!selectedId) return;
@@ -195,10 +259,15 @@ const FloatingNotebook = () => {
     toast({ title: "Đã xóa ghi chú" });
   };
 
-  // Auto-save after 5s of inactivity
+  // Auto-save after 5s of inactivity (sync-safe).
   const editorContent = editor?.getHTML();
   useEffect(() => {
     if (!open || !user || !title.trim()) return;
+    // Skip the auto-save tick that follows a programmatic content sync from server.
+    if (skipNextAutoSave.current) {
+      skipNextAutoSave.current = false;
+      return;
+    }
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
     autoSaveTimer.current = setTimeout(() => {
       handleSave();
