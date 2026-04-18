@@ -73,6 +73,70 @@ const PhrasePractice = ({ taskType }: Props) => {
     setShowAnswer(false);
   };
 
+  const escapeHtmlStr = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  // Append a content block to the user's IELTS Writing Practice notebook.
+  // Strategy: ALWAYS append to the most recent notebook row for this title.
+  // If no row exists yet, create one. Each call adds a new entry — never overwrites.
+  const appendToNotebook = async (newBlock: string) => {
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData?.user) {
+        toast.message(t("Đăng nhập để lưu vào sổ tay", "Sign in to save to your notebook"));
+        return;
+      }
+      const title = `IELTS Writing Practice Task ${taskType}`;
+
+      const { data: existingRows, error: fetchErr } = await supabase
+        .from("student_notebooks")
+        .select("id, content")
+        .eq("user_id", userData.user.id)
+        .eq("title", title)
+        .order("updated_at", { ascending: false })
+        .limit(1);
+
+      if (fetchErr) {
+        console.error("Notebook fetch failed:", fetchErr);
+        toast.error(t(`Lưu sổ tay thất bại: ${fetchErr.message}`, `Save failed: ${fetchErr.message}`));
+        return;
+      }
+
+      const existing = existingRows && existingRows.length > 0 ? existingRows[0] : null;
+
+      if (existing) {
+        const merged = `${existing.content || ""}<hr/>${newBlock}`;
+        const { error } = await supabase
+          .from("student_notebooks")
+          .update({ content: merged, updated_at: new Date().toISOString() })
+          .eq("id", existing.id)
+          .eq("user_id", userData.user.id);
+        if (error) {
+          console.error("Notebook update failed:", error);
+          toast.error(t(`Lưu sổ tay thất bại: ${error.message}`, `Save failed: ${error.message}`));
+          return;
+        }
+      } else {
+        const { error } = await supabase.from("student_notebooks").insert({
+          user_id: userData.user.id,
+          title,
+          subject: "ielts",
+          content: newBlock,
+          is_public: false,
+        });
+        if (error) {
+          console.error("Notebook insert failed:", error);
+          toast.error(t(`Lưu sổ tay thất bại: ${error.message}`, `Save failed: ${error.message}`));
+          return;
+        }
+      }
+      toast.success(t("Đã lưu vào Sổ tay ghi chú", "Saved to your Notebook"));
+    } catch (e: any) {
+      console.error("Notebook save error:", e);
+      toast.error(t("Không thể lưu sổ tay", "Could not save to notebook"));
+    }
+  };
+
   const handleSubmit = async () => {
     if (!selectedPhrase) {
       toast.error(t("Vui lòng chọn 1 cụm từ", "Please select a phrase first"));
