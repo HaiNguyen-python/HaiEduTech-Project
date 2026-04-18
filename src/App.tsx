@@ -80,6 +80,9 @@ const EnglishGrammar = lazy(() => import("./pages/EnglishGrammar.tsx"));
 const NotebookPage = lazy(() => import("./pages/Notebook.tsx"));
 const CambridgeMockExamPage = lazy(() => import("./pages/CambridgeMockExam.tsx"));
 const JobOpportunities = lazy(() => import("./pages/JobOpportunities.tsx"));
+const PteHub = lazy(() => import("./pages/PteHub.tsx"));
+const PteSpeaking = lazy(() => import("./pages/PteSpeaking.tsx"));
+const PtePlaceholder = lazy(() => import("./pages/PtePlaceholder.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -180,6 +183,9 @@ const App = () => (
             <Route path="/python-challenges/:challengeId" element={<LazyRoute><PythonChallengePage /></LazyRoute>} />
             <Route path="/programming/interview-questions" element={<LazyRoute><InterviewQuestions /></LazyRoute>} />
             <Route path="/programming/job-opportunities" element={<LazyRoute><JobOpportunities /></LazyRoute>} />
+            <Route path="/pte" element={<LazyRoute><PteHub /></LazyRoute>} />
+            <Route path="/pte/speaking" element={<LazyRoute><PteSpeaking /></LazyRoute>} />
+            <Route path="/pte/:skill" element={<LazyRoute><PtePlaceholder /></LazyRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
