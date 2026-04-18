@@ -13,6 +13,8 @@ import {
   RefreshCw,
   Clock,
   Sparkles,
+  BookmarkPlus,
+  Check,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -20,6 +22,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "compact" | "wide" | "fullscreen";
@@ -63,6 +66,8 @@ const SuperDictionary = () => {
   const [collocationError, setCollocationError] = useState<LookupErrorKind>(null);
 
   const [recent, setRecent] = useState<string[]>([]);
+  const [savingNotebook, setSavingNotebook] = useState(false);
+  const [savedWord, setSavedWord] = useState<string | null>(null);
   const dictInputRef = useRef<HTMLInputElement>(null);
 
   // Restore size mode + recent searches
@@ -101,6 +106,7 @@ const SuperDictionary = () => {
     setDictResult(null);
     setDictViTranslations({});
     setDictError(null);
+    setSavedWord(null);
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
         body: { type: "dictionary", word: word.trim() },
@@ -123,6 +129,60 @@ const SuperDictionary = () => {
     }
     setDictLoading(false);
   }, [pushRecent]);
+
+  // Save current dictionary entry to Student Notebook
+  const handleSaveToNotebook = async () => {
+    if (!dictResult || savingNotebook) return;
+    const word: string = dictResult.word;
+
+    // Build a readable plaintext + lightweight HTML body
+    const lines: string[] = [];
+    lines.push(`📖 ${word}${dictResult.phonetic ? `  ${dictResult.phonetic}` : ""}`);
+    lines.push("");
+    dictResult.meanings?.forEach((meaning: any, mIdx: number) => {
+      lines.push(`【 ${meaning.partOfSpeech} 】`);
+      meaning.definitions?.forEach((def: any, dIdx: number) => {
+        lines.push(`  ${dIdx + 1}. ${def.definition}`);
+        const viDef = dictViTranslations[`def-${mIdx}-${dIdx}`];
+        if (viDef) lines.push(`     🇻🇳 ${viDef}`);
+        if (def.example) {
+          lines.push(`     📝 "${def.example}"`);
+          const viEx = dictViTranslations[`ex-${mIdx}-${dIdx}`];
+          if (viEx) lines.push(`     🇻🇳 "${viEx}"`);
+        }
+      });
+      lines.push("");
+    });
+    const content = lines.join("\n");
+
+    setSavingNotebook(true);
+    try {
+      const { data: auth } = await supabase.auth.getUser();
+      if (!auth.user) {
+        toast.error(t("Vui lòng đăng nhập để lưu vào sổ tay.", "Please sign in to save to your notebook."));
+        setSavingNotebook(false);
+        return;
+      }
+
+      const { error } = await supabase.from("student_notebooks").insert({
+        user_id: auth.user.id,
+        title: `📖 ${word}`,
+        subject: "vocabulary",
+        content,
+        is_public: false,
+      });
+
+      if (error) {
+        toast.error(t("Không thể lưu, hãy thử lại.", "Could not save, please retry."));
+      } else {
+        setSavedWord(word);
+        toast.success(t(`Đã lưu "${word}" vào Sổ tay!`, `Saved "${word}" to Notebook!`));
+      }
+    } catch {
+      toast.error(t("Không thể lưu, hãy thử lại.", "Could not save, please retry."));
+    }
+    setSavingNotebook(false);
+  };
 
   // Collocation lookup
   const handleCollocationLookup = async (word: string) => {
@@ -454,20 +514,44 @@ const SuperDictionary = () => {
                     {dictResult && !dictResult.error && (
                       <div className="rounded-xl border bg-background overflow-hidden">
                         {/* Sticky word header */}
-                        <div className="sticky top-0 bg-background/95 backdrop-blur border-b border-border px-4 py-3 flex items-center gap-2 z-10">
+                        <div className="sticky top-0 bg-background/95 backdrop-blur border-b border-border px-4 py-3 flex items-center gap-2 z-10 flex-wrap">
                           <h4 className="font-bold text-foreground text-lg">{dictResult.word}</h4>
                           {dictResult.phonetic && (
                             <span className="text-sm text-muted-foreground font-mono">{dictResult.phonetic}</span>
                           )}
-                          {dictResult.phonetics?.find((p: any) => p.audio) && (
-                            <button
-                              onClick={() => { const a = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio); a.play().catch(() => {}); }}
-                              className="ml-auto p-1.5 rounded-full hover:bg-primary/10 text-primary"
-                              title={t("Nghe phát âm", "Play audio")}
+                          <div className="ml-auto flex items-center gap-1">
+                            {dictResult.phonetics?.find((p: any) => p.audio) && (
+                              <button
+                                onClick={() => { const a = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio); a.play().catch(() => {}); }}
+                                className="p-1.5 rounded-full hover:bg-primary/10 text-primary"
+                                title={t("Nghe phát âm", "Play audio")}
+                              >
+                                <Volume2 className="w-4 h-4" />
+                              </button>
+                            )}
+                            <Button
+                              size="sm"
+                              variant={savedWord === dictResult.word ? "secondary" : "default"}
+                              className="h-8 px-2.5 gap-1 text-xs"
+                              onClick={handleSaveToNotebook}
+                              disabled={savingNotebook || savedWord === dictResult.word}
+                              title={t("Lưu từ này vào Sổ tay", "Save this word to Notebook")}
                             >
-                              <Volume2 className="w-4 h-4" />
-                            </button>
-                          )}
+                              {savingNotebook ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : savedWord === dictResult.word ? (
+                                <>
+                                  <Check className="w-3.5 h-3.5" />
+                                  {t("Đã lưu", "Saved")}
+                                </>
+                              ) : (
+                                <>
+                                  <BookmarkPlus className="w-3.5 h-3.5" />
+                                  {t("Lưu vào Sổ tay", "Save to Notebook")}
+                                </>
+                              )}
+                            </Button>
+                          </div>
                         </div>
                         {/* All meanings, no cap */}
                         <div className="p-4 space-y-4">
