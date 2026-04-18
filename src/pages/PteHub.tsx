@@ -10,9 +10,8 @@ import PteShell from "@/components/pte/PteShell";
 import PtePeak from "@/components/pte/PtePeak";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import {
-  READ_ALOUD_BANK, REPEAT_SENTENCE_BANK, ESSAY_BANK, SUMMARIZE_TEXT_BANK,
-  FILL_BLANK_BANK, REORDER_BANK, DICTATION_BANK, SUMMARIZE_SPOKEN_BANK,
-  MOCK_TESTS, REPEATED_2026_IDS,
+  READ_ALOUD_ALL, REPEAT_SENTENCE_ALL, ESSAY_ALL, DICTATION_ALL,
+  MOCK_TESTS, REPEATED_2026_IDS, PTE_TOTAL_TASKS,
 } from "@/data/pteData";
 
 const SKILL_CARDS = [
@@ -52,10 +51,7 @@ const SKILL_CARDS = [
 
 const PteHub = () => {
   const { progress } = usePteProgress();
-  const totalTasks =
-    READ_ALOUD_BANK.length + REPEAT_SENTENCE_BANK.length + ESSAY_BANK.length +
-    SUMMARIZE_TEXT_BANK.length + FILL_BLANK_BANK.length + REORDER_BANK.length +
-    DICTATION_BANK.length + SUMMARIZE_SPOKEN_BANK.length;
+  const totalTasks = PTE_TOTAL_TASKS;
 
   return (
     <PteShell
@@ -90,7 +86,7 @@ const PteHub = () => {
             </div>
             <ul className="space-y-1.5">
               {REPEATED_2026_IDS.readAloud.map(id => {
-                const item = READ_ALOUD_BANK.find(x => x.id === id);
+                const item = READ_ALOUD_ALL.find(x => x.id === id);
                 if (!item) return null;
                 return (
                   <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
@@ -112,7 +108,7 @@ const PteHub = () => {
             </div>
             <ul className="space-y-1.5">
               {REPEATED_2026_IDS.repeatSentence.map(id => {
-                const item = REPEAT_SENTENCE_BANK.find(x => x.id === id);
+                const item = REPEAT_SENTENCE_ALL.find(x => x.id === id);
                 if (!item) return null;
                 return (
                   <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
@@ -134,7 +130,7 @@ const PteHub = () => {
             </div>
             <ul className="space-y-1.5">
               {REPEATED_2026_IDS.essay.map(id => {
-                const item = ESSAY_BANK.find(x => x.id === id);
+                const item = ESSAY_ALL.find(x => x.id === id);
                 if (!item) return null;
                 return (
                   <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
@@ -156,7 +152,7 @@ const PteHub = () => {
             </div>
             <ul className="space-y-1.5">
               {REPEATED_2026_IDS.dictation.map(id => {
-                const item = DICTATION_BANK.find(x => x.id === id);
+                const item = DICTATION_ALL.find(x => x.id === id);
                 if (!item) return null;
                 return (
                   <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
