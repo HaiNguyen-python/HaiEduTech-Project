@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { Sparkles, Loader2, CheckCircle, XCircle, BookOpen, Code2, Languages, Trash2, Search, AlertTriangle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
