@@ -224,6 +224,23 @@ const PteHub = () => {
           <Sparkles size={12} /> Tip: Mock Test 3 includes 2026 high-frequency predictive questions.
         </p>
       </div>
+
+      {/* PTE Vocabulary CTA */}
+      <Link
+        to="/pte/vocabulary"
+        className="mt-6 block bg-gradient-to-r from-[#003580] to-[#0052cc] text-white rounded-2xl p-5 sm:p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-white/15 grid place-items-center shrink-0">
+            <BookOpen size={26} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-xl font-bold">PTE Academic Vocabulary</h3>
+            <p className="text-white/85 text-sm">150 high-frequency words · Flashcards · Quick Quiz · Mastery tracking</p>
+          </div>
+          <ChevronRight size={24} className="shrink-0" />
+        </div>
+      </Link>
     </PteShell>
   );
 };
