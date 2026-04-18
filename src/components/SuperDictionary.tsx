@@ -649,7 +649,7 @@ const SuperDictionary = () => {
                             <div className="flex flex-wrap gap-1.5">
                               {collocationResult.left.map((w) => (
                                 <span key={w} className="rounded-lg bg-primary/10 hover:bg-primary/20 text-primary px-2.5 py-1 text-sm font-medium transition-colors cursor-default border border-primary/20">
-                                  {w} <span className="text-foreground font-semibold">{collocationWord}</span>
+                                  {renderLeftCollocation(w, collocationWord)}
                                 </span>
                               ))}
                             </div>
@@ -661,7 +661,7 @@ const SuperDictionary = () => {
                             <div className="flex flex-wrap gap-1.5">
                               {collocationResult.right.map((w) => (
                                 <span key={w} className="rounded-lg bg-accent/40 hover:bg-accent/60 text-accent-foreground px-2.5 py-1 text-sm font-medium transition-colors cursor-default border border-accent/40">
-                                  <span className="text-foreground font-semibold">{collocationWord}</span> {w}
+                                  {renderRightCollocation(w, collocationWord)}
                                 </span>
                               ))}
                             </div>
