@@ -252,7 +252,11 @@ const PteVocabulary = () => {
           />
         </div>
         <p className="text-xs text-slate-500 mt-2">
-          Tap the ⭐ on any word to mark it as mastered. Progress saves automatically.
+          {syncing
+            ? "Syncing your progress…"
+            : userId
+            ? "☁️ Synced to your account — progress follows you across devices."
+            : "💾 Saved on this device. Sign in to sync progress across devices."}
         </p>
       </div>
 
