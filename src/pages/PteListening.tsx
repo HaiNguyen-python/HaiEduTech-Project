@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { DICTATION_ALL as DICTATION_BANK, SUMMARIZE_SPOKEN_ALL as SUMMARIZE_SPOKEN_BANK, type PteDictation, type PteSummarizeSpoken } from "@/data/pteData";
 import { stringSimilarity, similarityToBand, bandLabel, diffWords, keywordCoverage } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
+import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
 
 type Mode = "dictation" | "summarize";
 
@@ -28,9 +29,20 @@ const PteListening = () => {
   const [playCount, setPlayCount] = useState(0);
   const [timerKey, setTimerKey] = useState(0);
   const utterRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const [filters, setFilters] = useState<PteFilterState>(DEFAULT_PTE_FILTERS);
 
-  const dItem = DICTATION_BANK[idx];
-  const sItem = SUMMARIZE_SPOKEN_BANK[idx];
+  const dSource = DICTATION_BANK;
+  const sSource = SUMMARIZE_SPOKEN_BANK;
+  const dFiltered = useMemo(() => {
+    const f = applyPteFilter(dSource, filters);
+    return f.length ? f : dSource;
+  }, [dSource, filters]);
+  const sFiltered = useMemo(() => {
+    const f = applyPteFilter(sSource, filters);
+    return f.length ? f : sSource;
+  }, [sSource, filters]);
+  const dItem = dFiltered[Math.min(idx, dFiltered.length - 1)];
+  const sItem = sFiltered[Math.min(idx, sFiltered.length - 1)];
   const current = mode === "dictation" ? dItem : sItem;
   const audioText = mode === "dictation" ? dItem?.audioText : sItem?.audioText;
 
