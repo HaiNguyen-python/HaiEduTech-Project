@@ -5,14 +5,14 @@
  */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles } from "lucide-react";
+import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp } from "lucide-react";
 import PteShell from "@/components/pte/PteShell";
 import PtePeak from "@/components/pte/PtePeak";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import {
   READ_ALOUD_BANK, REPEAT_SENTENCE_BANK, ESSAY_BANK, SUMMARIZE_TEXT_BANK,
   FILL_BLANK_BANK, REORDER_BANK, DICTATION_BANK, SUMMARIZE_SPOKEN_BANK,
-  MOCK_TESTS,
+  MOCK_TESTS, REPEATED_2026_IDS,
 } from "@/data/pteData";
 
 const SKILL_CARDS = [
@@ -65,6 +65,111 @@ const PteHub = () => {
       backLabel="Learn English"
     >
       <PtePeak completed={progress.completedIds.length} total={totalTasks} />
+
+      {/* Predicted Questions 2026 — high-frequency repeated tasks */}
+      <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 rounded-2xl p-5 sm:p-6 border-2 border-orange-300/60 shadow-sm mb-6 relative overflow-hidden">
+        <div className="absolute -top-6 -right-6 text-7xl opacity-10 select-none pointer-events-none">🔥</div>
+        <div className="flex items-center gap-2 mb-1 relative">
+          <Flame className="text-orange-600" size={22} />
+          <h2 className="text-lg sm:text-xl font-bold text-orange-900">Predicted Questions 2026</h2>
+          <span className="ml-auto inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-orange-600 text-white font-bold shadow-sm">
+            <TrendingUp size={11} /> HIGH FREQ
+          </span>
+        </div>
+        <p className="text-xs sm:text-sm text-orange-800/80 mb-4 relative">
+          🔥 High-frequency repeated questions based on 2026 PTE Academic trends. Master these for an exam edge.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 relative">
+          {/* Read Aloud */}
+          <div className="bg-white rounded-xl p-4 border border-orange-200 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-2 mb-2">
+              <Mic size={16} className="text-[#003580]" />
+              <h3 className="font-bold text-[#003580] text-sm">Read Aloud</h3>
+              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 font-semibold">🔥 {REPEATED_2026_IDS.readAloud.length}</span>
+            </div>
+            <ul className="space-y-1.5">
+              {REPEATED_2026_IDS.readAloud.map(id => {
+                const item = READ_ALOUD_BANK.find(x => x.id === id);
+                if (!item) return null;
+                return (
+                  <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
+                    <span className="text-orange-600 font-semibold mr-1">🔥</span>
+                    {item.text.slice(0, 110)}...
+                  </li>
+                );
+              })}
+            </ul>
+            <Link to="/pte/speaking" className="mt-3 inline-block text-xs font-semibold text-[#003580] hover:underline">Practice Speaking →</Link>
+          </div>
+
+          {/* Repeat Sentence */}
+          <div className="bg-white rounded-xl p-4 border border-orange-200 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-2 mb-2">
+              <Mic size={16} className="text-[#003580]" />
+              <h3 className="font-bold text-[#003580] text-sm">Repeat Sentence</h3>
+              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 font-semibold">🔥 {REPEATED_2026_IDS.repeatSentence.length}</span>
+            </div>
+            <ul className="space-y-1.5">
+              {REPEATED_2026_IDS.repeatSentence.map(id => {
+                const item = REPEAT_SENTENCE_BANK.find(x => x.id === id);
+                if (!item) return null;
+                return (
+                  <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
+                    <span className="text-orange-600 font-semibold mr-1">🔥</span>
+                    {item.text}
+                  </li>
+                );
+              })}
+            </ul>
+            <Link to="/pte/speaking" className="mt-3 inline-block text-xs font-semibold text-[#003580] hover:underline">Practice Speaking →</Link>
+          </div>
+
+          {/* Essay */}
+          <div className="bg-white rounded-xl p-4 border border-orange-200 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-2 mb-2">
+              <PenTool size={16} className="text-[#003580]" />
+              <h3 className="font-bold text-[#003580] text-sm">Essay Prompts</h3>
+              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 font-semibold">🔥 {REPEATED_2026_IDS.essay.length}</span>
+            </div>
+            <ul className="space-y-1.5">
+              {REPEATED_2026_IDS.essay.map(id => {
+                const item = ESSAY_BANK.find(x => x.id === id);
+                if (!item) return null;
+                return (
+                  <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
+                    <span className="text-orange-600 font-semibold mr-1">🔥</span>
+                    {item.prompt.slice(0, 120)}...
+                  </li>
+                );
+              })}
+            </ul>
+            <Link to="/pte/writing" className="mt-3 inline-block text-xs font-semibold text-[#003580] hover:underline">Practice Writing →</Link>
+          </div>
+
+          {/* Dictation */}
+          <div className="bg-white rounded-xl p-4 border border-orange-200 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-2 mb-2">
+              <Headphones size={16} className="text-[#003580]" />
+              <h3 className="font-bold text-[#003580] text-sm">Write from Dictation</h3>
+              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 font-semibold">🔥 {REPEATED_2026_IDS.dictation.length}</span>
+            </div>
+            <ul className="space-y-1.5">
+              {REPEATED_2026_IDS.dictation.map(id => {
+                const item = DICTATION_BANK.find(x => x.id === id);
+                if (!item) return null;
+                return (
+                  <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
+                    <span className="text-orange-600 font-semibold mr-1">🔥</span>
+                    {item.audioText}
+                  </li>
+                );
+              })}
+            </ul>
+            <Link to="/pte/listening" className="mt-3 inline-block text-xs font-semibold text-[#003580] hover:underline">Practice Listening →</Link>
+          </div>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         {SKILL_CARDS.map((c, i) => (
