@@ -143,6 +143,8 @@ const PteListening = () => {
         ))}
       </div>
 
+      <PteFilterBar value={filters} onChange={(f) => { setFilters(f); setIdx(0); }} resultCount={mode === "dictation" ? dFiltered.length : sFiltered.length} totalCount={mode === "dictation" ? dSource.length : sSource.length} />
+
       <motion.div
         key={`${mode}-${idx}`}
         initial={{ opacity: 0, y: 10 }}
@@ -151,7 +153,7 @@ const PteListening = () => {
       >
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <span className="text-xs font-semibold text-[#003580] bg-[#e8eef7] px-2 py-1 rounded-full">
-            {mode === "dictation" ? "Dictation" : "Summarize Spoken"} · {idx + 1}/{mode === "dictation" ? DICTATION_BANK.length : SUMMARIZE_SPOKEN_BANK.length}
+            {mode === "dictation" ? "Dictation" : "Summarize Spoken"} · {idx + 1}/{mode === "dictation" ? dFiltered.length : sFiltered.length}
           </span>
           <PteTimer
             seconds={mode === "dictation" ? 60 : 600}
