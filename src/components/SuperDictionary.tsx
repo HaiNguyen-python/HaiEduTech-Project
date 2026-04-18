@@ -365,27 +365,6 @@ const SuperDictionary = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-0.5">
-                  {/* Compact */}
-                  <Button
-                    variant={sizeMode === "compact" ? "secondary" : "ghost"}
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => persistSize("compact")}
-                    title={t("Thu gọn", "Compact")}
-                  >
-                    <PanelRight className="w-3.5 h-3.5" />
-                  </Button>
-                  {/* Wide */}
-                  <Button
-                    variant={sizeMode === "wide" ? "secondary" : "ghost"}
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => persistSize("wide")}
-                    title={t("Mở rộng", "Wide")}
-                  >
-                    <Minimize2 className="w-3.5 h-3.5 rotate-45" />
-                  </Button>
-                  <div className="w-px h-5 bg-border mx-1" />
                   <Button
                     variant="ghost"
                     size="icon"
