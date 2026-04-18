@@ -61,7 +61,7 @@ const SuperDictionary = () => {
   const [thesaurusError, setThesaurusError] = useState<LookupErrorKind>(null);
 
   const [collocationWord, setCollocationWord] = useState("");
-  const [collocationResult, setCollocationResult] = useState<{ left: string[]; right: string[] }>({ left: [], right: [] });
+  const [collocationGroups, setCollocationGroups] = useState<{ label: string; items: { phrase: string; vi: string }[] }[]>([]);
   const [collocationLoading, setCollocationLoading] = useState(false);
   const [collocationError, setCollocationError] = useState<LookupErrorKind>(null);
 
@@ -188,7 +188,7 @@ const SuperDictionary = () => {
   const handleCollocationLookup = async (word: string) => {
     if (!word.trim()) return;
     setCollocationLoading(true);
-    setCollocationResult({ left: [], right: [] });
+    setCollocationGroups([]);
     setCollocationError(null);
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
@@ -199,10 +199,9 @@ const SuperDictionary = () => {
       } else if (data.error) {
         setCollocationError("busy");
       } else {
-        const left = Array.isArray(data.left) ? data.left : [];
-        const right = Array.isArray(data.right) ? data.right : [];
-        setCollocationResult({ left, right });
-        if (left.length === 0 && right.length === 0) {
+        const groups = Array.isArray(data.groups) ? data.groups : [];
+        setCollocationGroups(groups);
+        if (groups.length === 0) {
           setCollocationError("notFound");
         }
       }
