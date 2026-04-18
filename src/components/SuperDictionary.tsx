@@ -1,11 +1,14 @@
 // Compact floating Super Dictionary - can be used while taking tests
 import { useState } from "react";
-import { BookMarked, Search, ExternalLink, Volume2, Loader2, X, ChevronUp, Minimize2 } from "lucide-react";
+import { BookMarked, Search, ExternalLink, Volume2, Loader2, X, ChevronUp, Minimize2, RefreshCw } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
+
+type LookupErrorKind = "notFound" | "busy" | null;
 
 const SuperDictionary = () => {
   const { t } = useLanguage();
@@ -15,119 +18,124 @@ const SuperDictionary = () => {
   const [dictResult, setDictResult] = useState<any>(null);
   const [dictViTranslations, setDictViTranslations] = useState<Record<string, string>>({});
   const [dictLoading, setDictLoading] = useState(false);
+  const [dictError, setDictError] = useState<LookupErrorKind>(null);
   const [thesaurusWord, setThesaurusWord] = useState("");
   const [thesaurusResult, setThesaurusResult] = useState<{ word: string; score: number }[]>([]);
   const [thesaurusLoading, setThesaurusLoading] = useState(false);
+  const [thesaurusError, setThesaurusError] = useState<LookupErrorKind>(null);
   const [collocationWord, setCollocationWord] = useState("");
   const [collocationResult, setCollocationResult] = useState<{ left: string[]; right: string[] }>({ left: [], right: [] });
   const [collocationLoading, setCollocationLoading] = useState(false);
+  const [collocationError, setCollocationError] = useState<LookupErrorKind>(null);
 
-  // Translate text to Vietnamese using MyMemory API
-  const translateToVi = async (text: string): Promise<string> => {
-    try {
-      const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|vi`);
-      if (res.ok) {
-        const data = await res.json();
-        return data.responseData?.translatedText || "";
-      }
-    } catch { /* silent */ }
-    return "";
-  };
-
-  // Dictionary lookup with Vietnamese translations
+  // Dictionary lookup via proxy edge function
   const handleDictLookup = async (word: string) => {
     if (!word.trim()) return;
     setDictLoading(true);
     setDictResult(null);
     setDictViTranslations({});
+    setDictError(null);
     try {
-      const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.trim().toLowerCase()}`);
-      if (res.ok) {
-        const data = await res.json();
-        const entry = data[0];
-        setDictResult(entry);
-        const translations: Record<string, string> = {};
-        const toTranslate: { key: string; text: string }[] = [];
-        entry.meanings?.forEach((m: any, mIdx: number) => {
-          m.definitions?.slice(0, 3).forEach((def: any, dIdx: number) => {
-            toTranslate.push({ key: `def-${mIdx}-${dIdx}`, text: def.definition });
-            if (def.example) {
-              toTranslate.push({ key: `ex-${mIdx}-${dIdx}`, text: def.example });
-            }
-          });
-        });
-        const chunks = toTranslate.slice(0, 6);
-        const results = await Promise.allSettled(
-          chunks.map(async (item) => {
-            const viText = await translateToVi(item.text);
-            return { key: item.key, vi: viText };
-          })
-        );
-        results.forEach((r) => {
-          if (r.status === "fulfilled" && r.value.vi) {
-            translations[r.value.key] = r.value.vi;
-          }
-        });
-        setDictViTranslations(translations);
+      const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
+        body: { type: "dictionary", word: word.trim() },
+      });
+      if (error || !data) {
+        setDictError("busy");
+      } else if (data.notFound) {
+        setDictError("notFound");
+      } else if (data.error) {
+        setDictError("busy");
+      } else if (data.entry) {
+        setDictResult(data.entry);
+        setDictViTranslations(data.viTranslations || {});
       } else {
-        setDictResult({ error: true });
+        setDictError("notFound");
       }
     } catch {
-      setDictResult({ error: true });
+      setDictError("busy");
     }
     setDictLoading(false);
   };
 
-  // Collocation lookup using Datamuse API
+  // Collocation lookup via proxy edge function
   const handleCollocationLookup = async (word: string) => {
     if (!word.trim()) return;
     setCollocationLoading(true);
     setCollocationResult({ left: [], right: [] });
+    setCollocationError(null);
     try {
-      const w = word.trim().toLowerCase();
-      const [followRes, precedeRes, adjRes, trigRes] = await Promise.all([
-        fetch(`https://api.datamuse.com/words?lc=${w}&max=10`),
-        fetch(`https://api.datamuse.com/words?rc=${w}&max=10`),
-        fetch(`https://api.datamuse.com/words?rel_jja=${w}&max=8`),
-        fetch(`https://api.datamuse.com/words?rel_trg=${w}&max=8`),
-      ]);
-      const followData = followRes.ok ? await followRes.json() : [];
-      const precedeData = precedeRes.ok ? await precedeRes.json() : [];
-      const adjData = adjRes.ok ? await adjRes.json() : [];
-      const trigData = trigRes.ok ? await trigRes.json() : [];
-
-      const leftWords = [...new Set([
-        ...precedeData.map((d: any) => d.word),
-        ...adjData.map((d: any) => d.word),
-      ])].slice(0, 12);
-
-      const rightWords = [...new Set([
-        ...followData.map((d: any) => d.word),
-        ...trigData.map((d: any) => d.word),
-      ])].slice(0, 12);
-
-      setCollocationResult({ left: leftWords, right: rightWords });
+      const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
+        body: { type: "collocation", word: word.trim() },
+      });
+      if (error || !data) {
+        setCollocationError("busy");
+      } else if (data.error) {
+        setCollocationError("busy");
+      } else {
+        const left = Array.isArray(data.left) ? data.left : [];
+        const right = Array.isArray(data.right) ? data.right : [];
+        setCollocationResult({ left, right });
+        if (left.length === 0 && right.length === 0) {
+          setCollocationError("notFound");
+        }
+      }
     } catch {
-      setCollocationResult({ left: [], right: [] });
+      setCollocationError("busy");
     }
     setCollocationLoading(false);
   };
 
-  // Thesaurus lookup with scores
+  // Thesaurus lookup via proxy edge function
   const handleThesaurusLookup = async (word: string) => {
     if (!word.trim()) return;
     setThesaurusLoading(true);
     setThesaurusResult([]);
+    setThesaurusError(null);
     try {
-      const res = await fetch(`https://api.datamuse.com/words?rel_syn=${word.trim().toLowerCase()}&max=20`);
-      if (res.ok) {
-        const data = await res.json();
-        setThesaurusResult(data.map((d: any) => ({ word: d.word, score: d.score || 0 })));
+      const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
+        body: { type: "thesaurus", word: word.trim() },
+      });
+      if (error || !data) {
+        setThesaurusError("busy");
+      } else if (data.error) {
+        setThesaurusError("busy");
+      } else {
+        const syns = Array.isArray(data.synonyms) ? data.synonyms : [];
+        setThesaurusResult(syns);
+        if (syns.length === 0) {
+          setThesaurusError("notFound");
+        }
       }
     } catch {
-      setThesaurusResult([]);
+      setThesaurusError("busy");
     }
     setThesaurusLoading(false);
+  };
+
+  const renderErrorBox = (
+    kind: LookupErrorKind,
+    onRetry: () => void,
+    notFoundText: string,
+  ) => {
+    if (!kind) return null;
+    if (kind === "notFound") {
+      return (
+        <div className="rounded-lg border bg-muted/50 p-2 text-xs text-muted-foreground text-center">
+          {notFoundText}
+        </div>
+      );
+    }
+    return (
+      <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-2 flex items-center justify-between gap-2">
+        <span className="text-xs text-destructive">
+          {t("Dịch vụ tra cứu đang bận, hãy thử lại.", "Lookup service is busy, please retry.")}
+        </span>
+        <Button size="sm" variant="outline" className="h-6 px-2 text-[11px]" onClick={onRetry}>
+          <RefreshCw className="w-3 h-3 mr-1" />
+          {t("Thử lại", "Retry")}
+        </Button>
+      </div>
+    );
   };
 
   const getSynonymStyle = (score: number, maxScore: number) => {
