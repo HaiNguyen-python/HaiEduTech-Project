@@ -267,10 +267,10 @@ const SuperDictionary = () => {
                       ))}
                     </div>
                   )}
-                  {dictResult?.error && (
-                    <div className="rounded-lg border bg-muted/50 p-2 text-xs text-muted-foreground text-center">
-                      {t("Không tìm thấy từ này.", "Word not found.")}
-                    </div>
+                  {!dictResult && renderErrorBox(
+                    dictError,
+                    () => handleDictLookup(dictSearchWord),
+                    t("Không tìm thấy từ này.", "Word not found."),
                   )}
                   <a href={`https://dictionary.cambridge.org/dictionary/english/${dictSearchWord.trim().toLowerCase() || ""}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-primary hover:underline">
                     <ExternalLink className="w-3 h-3" />
