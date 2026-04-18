@@ -7,9 +7,6 @@ import {
   Volume2,
   Loader2,
   X,
-  Maximize2,
-  Minimize2,
-  PanelRight,
   RefreshCw,
   Clock,
   Sparkles,
@@ -28,7 +25,7 @@ type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
 type ActiveTab = "dictionary" | "ozdic" | "thesaurus";
 
-const SIZE_KEY = "super-dict-size";
+
 const RECENT_KEY = "super-dict-recent";
 const MAX_RECENT = 5;
 const SUGGESTIONS = ["ambiguous", "perspective", "significant"];
