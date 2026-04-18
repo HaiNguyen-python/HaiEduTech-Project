@@ -30,8 +30,17 @@ type ActiveTab = "dictionary" | "ozdic" | "thesaurus";
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
+const SIZE_KEY = "super-dict-size";
 const MAX_RECENT = 5;
 const SUGGESTIONS = ["ambiguous", "perspective", "significant"];
+
+// Size limits (px) for resizable panel on lg+
+const DEFAULT_WIDTH = 520;
+const DEFAULT_HEIGHT = 0; // 0 = auto (top-3 → bottom-3)
+const MIN_WIDTH = 360;
+const MAX_WIDTH = 900;
+const MIN_HEIGHT = 360;
+const MAX_HEIGHT_VH = 92; // % of viewport
 
 // Colored chip per part-of-speech for fast scanning
 const posChip = (pos: string): string => {
