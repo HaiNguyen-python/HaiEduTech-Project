@@ -476,6 +476,78 @@ const PhrasePractice = ({ taskType }: Props) => {
                         </p>
                       </div>
 
+                      {/* Rewrite Practice */}
+                      <div className="p-4 rounded-lg border-2 border-dashed border-primary/40 bg-gradient-to-br from-primary/5 to-transparent space-y-3">
+                        <div className="flex items-center gap-2">
+                          <PenLine className="w-4 h-4 text-primary" />
+                          <p className="font-semibold text-sm text-foreground">
+                            {t("Luyện viết lại câu nâng cấp", "Rewrite the Upgraded Sentence")}
+                          </p>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {t(
+                            "Gõ lại chính xác câu Band 7.5+ ở trên để ghi nhớ cấu trúc ngữ pháp bậc cao.",
+                            "Type the Band 7.5+ sentence above to memorise the advanced grammar structure."
+                          )}
+                        </p>
+                        <Textarea
+                          value={rewriteText}
+                          onChange={(e) => setRewriteText(e.target.value)}
+                          placeholder={t("Viết lại câu nâng cấp ở đây...", "Rewrite the upgraded sentence here...")}
+                          className="min-h-[100px] text-base"
+                        />
+                        {showAnswer && (
+                          <div className="p-2 rounded bg-muted/60 border border-border text-sm text-foreground italic">
+                            {result.upgradedVersion.replace(/\*\*/g, "")}
+                          </div>
+                        )}
+                        <div className="flex gap-2 flex-wrap">
+                          <Button size="sm" onClick={handleCheckRewrite} disabled={!rewriteText.trim()}>
+                            <CheckCircle2 className="w-4 h-4 mr-1.5" />
+                            {t("Kiểm tra", "Check My Rewrite")}
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => setShowAnswer((v) => !v)}>
+                            <Eye className="w-4 h-4 mr-1.5" />
+                            {showAnswer ? t("Ẩn đáp án", "Hide Answer") : t("Xem đáp án", "Show Answer")}
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={handleResetRewrite}>
+                            <RotateCcw className="w-4 h-4 mr-1.5" />
+                            {t("Thử lại", "Try Again")}
+                          </Button>
+                        </div>
+                        {rewriteResult && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={`p-3 rounded-lg border ${
+                              rewriteResult.tone === "success"
+                                ? "bg-emerald-500/10 border-emerald-500/40"
+                                : rewriteResult.tone === "warn"
+                                  ? "bg-amber-500/10 border-amber-500/40"
+                                  : "bg-red-500/10 border-red-500/40"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                              <p className="text-sm font-medium text-foreground flex items-center gap-2">
+                                {rewriteResult.tone === "success" ? (
+                                  <Sparkles className="w-4 h-4 text-emerald-600" />
+                                ) : (
+                                  <Lightbulb className="w-4 h-4 text-amber-600" />
+                                )}
+                                {rewriteResult.message}
+                              </p>
+                              <span className="text-sm font-bold text-foreground">
+                                {rewriteResult.accuracy}%
+                              </span>
+                            </div>
+                            <div
+                              className="text-sm leading-relaxed bg-background/60 p-2 rounded"
+                              dangerouslySetInnerHTML={{ __html: rewriteResult.diffHtml }}
+                            />
+                          </motion.div>
+                        )}
+                      </div>
+
                       {/* Tips */}
                       {result.tips?.length > 0 && (
                         <div className="p-3 bg-muted/50 rounded-lg">
