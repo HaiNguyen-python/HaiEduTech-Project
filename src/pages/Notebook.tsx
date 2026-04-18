@@ -193,6 +193,40 @@ const Notebook = () => {
 
   const getSubjectLabel = (val: string) => SUBJECTS.find(s => s.value === val)?.label ?? val;
 
+  const handleExportPDF = (note: Notebook & { profile_name?: string }) => {
+    const safeContent = sanitize(note.content || "<p><em>Chưa có nội dung</em></p>");
+    const subjectLabel = getSubjectLabel(note.subject);
+    const updated = format(new Date(note.updated_at), "dd/MM/yyyy HH:mm");
+    const wordCount = stripHtml(note.content).split(/\s+/).filter(Boolean).length;
+    const author = note.profile_name ? `<p><strong>Học sinh:</strong> ${note.profile_name}</p>` : "";
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${note.title || "Notebook"}</title>
+<style>
+  @page { size: A4; margin: 18mm; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; line-height: 1.7; font-size: 13pt; }
+  h1 { color: #1e40af; border-bottom: 3px solid #10b981; padding-bottom: 8px; margin: 0 0 6px; }
+  .meta { font-size: 10pt; color: #555; margin-bottom: 18px; }
+  .badge { display: inline-block; background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 12px; font-size: 10pt; margin-left: 8px; }
+  hr { border: none; border-top: 2px dashed #cbd5e1; margin: 18px 0; }
+  p { margin: 8px 0; }
+  strong { color: #0f172a; }
+  .footer { margin-top: 30px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 9pt; color: #64748b; text-align: center; }
+</style></head><body>
+<h1>${note.title || "Không tiêu đề"} <span class="badge">${subjectLabel}</span></h1>
+<div class="meta">${author}<p><strong>Cập nhật:</strong> ${updated} · <strong>${wordCount}</strong> từ</p></div>
+<div>${safeContent}</div>
+<div class="footer">© ${new Date().getFullYear()} HaiEduTech · Sổ tay học tập</div>
+<script>window.addEventListener('load',()=>{setTimeout(()=>window.print(),300);});</script>
+</body></html>`;
+    const w = window.open("", "_blank");
+    if (!w) {
+      toast({ title: "Bị chặn popup", description: "Vui lòng cho phép popup để xuất PDF", variant: "destructive" });
+      return;
+    }
+    w.document.write(html);
+    w.document.close();
+    toast({ title: "Đang tạo PDF 📄", description: "Chọn 'Save as PDF' trong hộp thoại in" });
+  };
+
   const filterNotes = (notes: (Notebook & { profile_name?: string })[]) => {
     return notes.filter(n => {
       const matchSearch = !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()) || n.content.toLowerCase().includes(searchQuery.toLowerCase());
