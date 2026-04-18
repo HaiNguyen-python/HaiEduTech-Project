@@ -1,0 +1,372 @@
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  IELTS_PHRASES,
+  TASK1_CATEGORIES,
+  TASK2_CATEGORIES,
+  IELTSPhrase,
+} from "@/data/ieltsPhraseBank";
+
+interface GradeResult {
+  score: number;
+  phraseUsedCorrectly: boolean;
+  grammarFeedback: string;
+  phraseFeedback: string;
+  upgradedVersion: string;
+  tips: string[];
+  error?: string;
+}
+
+interface Props {
+  taskType: 1 | 2;
+}
+
+const renderBold = (text: string) => {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((p, i) =>
+    p.startsWith("**") && p.endsWith("**") ? (
+      <strong key={i} className="text-primary font-semibold">{p.slice(2, -2)}</strong>
+    ) : (
+      <span key={i}>{p}</span>
+    )
+  );
+};
+
+const PhrasePractice = ({ taskType }: Props) => {
+  const { t } = useLanguage();
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [selectedPhrase, setSelectedPhrase] = useState<IELTSPhrase | null>(null);
+  const [userSentence, setUserSentence] = useState("");
+  const [grading, setGrading] = useState(false);
+  const [result, setResult] = useState<GradeResult | null>(null);
+
+  const categories = taskType === 1 ? TASK1_CATEGORIES : TASK2_CATEGORIES;
+
+  const filteredPhrases = useMemo(() => {
+    const list = IELTS_PHRASES.filter((p) => p.taskType === taskType);
+    if (activeCategory === "all") return list;
+    return list.filter((p) => p.category === activeCategory);
+  }, [taskType, activeCategory]);
+
+  const handleSelectPhrase = (phrase: IELTSPhrase) => {
+    setSelectedPhrase(phrase);
+    setUserSentence("");
+    setResult(null);
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedPhrase) {
+      toast.error(t("Vui lòng chọn 1 cụm từ", "Please select a phrase first"));
+      return;
+    }
+    if (userSentence.trim().length < 5) {
+      toast.error(t("Câu của bạn quá ngắn", "Your sentence is too short"));
+      return;
+    }
+
+    setGrading(true);
+    setResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("grade-phrase-sentence", {
+        body: {
+          phrase: selectedPhrase.phrase,
+          phraseMeaning: selectedPhrase.meaning,
+          userSentence: userSentence.trim(),
+          taskType,
+        },
+      });
+
+      if (error) {
+        const status = (error as any)?.context?.status;
+        if (status === 429) {
+          toast.error(t("Quá nhiều yêu cầu. Vui lòng thử lại sau.", "Rate limit exceeded. Please retry shortly."));
+        } else if (status === 402) {
+          toast.error(t("Hệ thống AI đã hết tín dụng. Vui lòng liên hệ admin.", "AI credits exhausted. Please contact admin."));
+        } else {
+          toast.error(t("Không thể chấm điểm. Vui lòng thử lại.", "Grading failed. Please try again."));
+        }
+        return;
+      }
+
+      setResult(data as GradeResult);
+
+      // Save attempt to localStorage
+      try {
+        const key = "phrase-practice-attempts";
+        const existing = JSON.parse(localStorage.getItem(key) || "[]");
+        existing.unshift({
+          phrase: selectedPhrase.phrase,
+          sentence: userSentence,
+          score: (data as GradeResult).score,
+          taskType,
+          timestamp: Date.now(),
+        });
+        localStorage.setItem(key, JSON.stringify(existing.slice(0, 50)));
+      } catch {}
+    } catch (e) {
+      console.error(e);
+      toast.error(t("Đã có lỗi xảy ra", "Something went wrong"));
+    } finally {
+      setGrading(false);
+    }
+  };
+
+  const handleReset = () => {
+    setUserSentence("");
+    setResult(null);
+  };
+
+  const scoreColor = (score: number) => {
+    if (score >= 8) return "text-emerald-500";
+    if (score >= 6) return "text-blue-500";
+    if (score >= 4) return "text-amber-500";
+    return "text-red-500";
+  };
+
+  const levelColor = (lvl: string) => {
+    if (lvl === "C1") return "bg-purple-500/15 text-purple-600 dark:text-purple-300 border-purple-500/30";
+    if (lvl === "B2") return "bg-blue-500/15 text-blue-600 dark:text-blue-300 border-blue-500/30";
+    return "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border-emerald-500/30";
+  };
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      {/* LEFT: Phrase list */}
+      <div className="lg:col-span-2 space-y-4">
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-primary" />
+              {t("Ngân hàng cụm từ", "Phrase Bank")}
+              <Badge variant="secondary" className="ml-auto">
+                {filteredPhrases.length} {t("cụm", "phrases")}
+              </Badge>
+            </CardTitle>
+            <div className="flex flex-wrap gap-1.5 pt-2">
+              <button
+                onClick={() => setActiveCategory("all")}
+                className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                  activeCategory === "all"
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-muted/50 border-border hover:bg-muted"
+                }`}
+              >
+                {t("Tất cả", "All")}
+              </button>
+              {categories.map((c) => (
+                <button
+                  key={c.value}
+                  onClick={() => setActiveCategory(c.value)}
+                  className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                    activeCategory === c.value
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-muted/50 border-border hover:bg-muted"
+                  }`}
+                >
+                  {t(c.label, c.labelEn)}
+                </button>
+              ))}
+            </div>
+          </CardHeader>
+          <CardContent className="max-h-[600px] overflow-y-auto space-y-2">
+            {filteredPhrases.map((p) => {
+              const active = selectedPhrase?.id === p.id;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => handleSelectPhrase(p)}
+                  className={`w-full text-left p-3 rounded-lg border transition-all ${
+                    active
+                      ? "border-primary bg-primary/5 shadow-sm"
+                      : "border-border hover:border-primary/50 hover:bg-muted/40"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <span className="font-semibold text-foreground text-[15px] leading-tight">
+                      {p.phrase}
+                    </span>
+                    <Badge variant="outline" className={`shrink-0 text-[10px] ${levelColor(p.level)}`}>
+                      {p.level}
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground italic">{p.meaning}</p>
+                </button>
+              );
+            })}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* RIGHT: Practice area */}
+      <div className="lg:col-span-3 space-y-4">
+        {!selectedPhrase ? (
+          <Card className="border-dashed">
+            <CardContent className="py-16 text-center text-muted-foreground">
+              <Sparkles className="w-12 h-12 mx-auto mb-3 text-primary/50" />
+              <p className="text-base">
+                {t("Chọn 1 cụm từ bên trái để bắt đầu luyện tập", "Select a phrase on the left to start practising")}
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <>
+            {/* Selected phrase card */}
+            <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
+              <CardContent className="pt-6 space-y-3">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="text-xl font-bold text-foreground">"{selectedPhrase.phrase}"</h3>
+                  <Badge variant="outline" className={levelColor(selectedPhrase.level)}>
+                    {selectedPhrase.level}
+                  </Badge>
+                </div>
+                <p className="text-sm">
+                  <span className="font-medium text-muted-foreground">{t("Nghĩa:", "Meaning:")} </span>
+                  <span className="text-foreground">{selectedPhrase.meaning}</span>
+                  <span className="text-muted-foreground"> — {selectedPhrase.meaningEn}</span>
+                </p>
+                <div className="bg-muted/50 rounded-lg p-3 border-l-4 border-primary">
+                  <p className="text-xs text-muted-foreground mb-1 font-medium">
+                    {t("Ví dụ Band 7+:", "Band 7+ Example:")}
+                  </p>
+                  <p className="text-[15px] text-foreground italic leading-relaxed">
+                    {selectedPhrase.example}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Writing area */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">
+                  {t("Viết câu của bạn dùng cụm từ trên", "Write your own sentence using the phrase above")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Textarea
+                  value={userSentence}
+                  onChange={(e) => setUserSentence(e.target.value)}
+                  placeholder={t("Ví dụ: The number of...", "e.g. The number of...")}
+                  className="min-h-[120px] text-base"
+                  disabled={grading}
+                />
+                <div className="flex gap-2 flex-wrap">
+                  <Button onClick={handleSubmit} disabled={grading || !userSentence.trim()}>
+                    {grading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        {t("Đang chấm...", "Grading...")}
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        {t("Chấm điểm AI", "Submit for AI Grading")}
+                      </>
+                    )}
+                  </Button>
+                  <Button variant="outline" onClick={handleReset} disabled={grading}>
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    {t("Viết lại", "Reset")}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Result */}
+            <AnimatePresence>
+              {result && (
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <Card className="border-2">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-primary" />
+                          {t("Kết quả AI", "AI Feedback")}
+                        </CardTitle>
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm text-muted-foreground">{t("Điểm:", "Score:")}</span>
+                          <span className={`text-3xl font-bold ${scoreColor(result.score)}`}>
+                            {result.score}/10
+                          </span>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {/* Phrase usage */}
+                      <div className={`flex items-start gap-2 p-3 rounded-lg ${
+                        result.phraseUsedCorrectly ? "bg-emerald-500/10" : "bg-amber-500/10"
+                      }`}>
+                        {result.phraseUsedCorrectly ? (
+                          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                        ) : (
+                          <XCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                        )}
+                        <div>
+                          <p className="font-medium text-sm mb-1">
+                            {result.phraseUsedCorrectly
+                              ? t("Cụm từ dùng đúng cách", "Phrase used correctly")
+                              : t("Cụm từ cần điều chỉnh", "Phrase needs adjustment")}
+                          </p>
+                          <p className="text-sm text-foreground/80">{result.phraseFeedback}</p>
+                        </div>
+                      </div>
+
+                      {/* Grammar */}
+                      <div className="p-3 bg-blue-500/10 rounded-lg">
+                        <p className="font-medium text-sm mb-1 flex items-center gap-2">
+                          <Lightbulb className="w-4 h-4 text-blue-600" />
+                          {t("Phản hồi ngữ pháp", "Grammar Feedback")}
+                        </p>
+                        <p className="text-sm text-foreground/80">{result.grammarFeedback}</p>
+                      </div>
+
+                      {/* Upgraded version */}
+                      <div className="p-3 bg-primary/10 rounded-lg border border-primary/30">
+                        <p className="font-medium text-sm mb-2 flex items-center gap-2">
+                          <ArrowUp className="w-4 h-4 text-primary" />
+                          {t("Phiên bản nâng cấp Band 7.5+", "Band 7.5+ Upgrade")}
+                        </p>
+                        <p className="text-[15px] leading-relaxed text-foreground">
+                          {renderBold(result.upgradedVersion)}
+                        </p>
+                      </div>
+
+                      {/* Tips */}
+                      {result.tips?.length > 0 && (
+                        <div className="p-3 bg-muted/50 rounded-lg">
+                          <p className="font-medium text-sm mb-2">{t("Mẹo cải thiện", "Tips to improve")}</p>
+                          <ul className="space-y-1.5">
+                            {result.tips.map((tip, i) => (
+                              <li key={i} className="text-sm text-foreground/80 flex items-start gap-2">
+                                <span className="text-primary mt-1">•</span>
+                                <span>{tip}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default PhrasePractice;

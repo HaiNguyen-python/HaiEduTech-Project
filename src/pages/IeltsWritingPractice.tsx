@@ -22,6 +22,8 @@ import ReactMarkdown from "react-markdown";
 import { WritingPrompt, getRandomPrompt } from "@/data/ieltsWritingPrompts";
 import Task1Chart from "@/components/Task1Chart";
 import { useUserRole } from "@/hooks/useUserRole";
+import PhrasePractice from "@/components/PhrasePractice";
+import { Sparkles, PenLine } from "lucide-react";
 
 // Grading result types (shared with AIGrading)
 interface CriteriaDetail {
@@ -250,6 +252,34 @@ const IeltsWritingPractice = () => {
           </p>
         </motion.div>
 
+        {/* Mode Tabs: Essay Writing vs Phrase Practice */}
+        <Tabs defaultValue="essay" className="w-full">
+          <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
+            <TabsTrigger value="essay" className="gap-2">
+              <PenLine className="w-4 h-4" />
+              {t("Viết bài luận", "Essay Writing")}
+            </TabsTrigger>
+            <TabsTrigger value="phrase" className="gap-2">
+              <Sparkles className="w-4 h-4" />
+              {t("Luyện cụm từ", "Phrase Practice")}
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="phrase" className="space-y-4">
+            <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit mb-4">
+              <button onClick={() => setTaskType(1)}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 1 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                Task 1
+              </button>
+              <button onClick={() => setTaskType(2)}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === 2 ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                Task 2
+              </button>
+            </div>
+            <PhrasePractice taskType={taskType} />
+          </TabsContent>
+
+          <TabsContent value="essay">
         {/* Controls */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="flex flex-wrap items-center gap-3 mb-6 p-4 bg-muted/30 rounded-xl border">
@@ -535,6 +565,8 @@ const IeltsWritingPractice = () => {
             </motion.div>
           </div>
         )}
+          </TabsContent>
+        </Tabs>
 
         {/* Super Dictionary - compact bottom panel */}
         <SuperDictionary />
