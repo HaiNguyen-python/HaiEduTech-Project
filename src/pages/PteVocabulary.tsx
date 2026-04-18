@@ -11,8 +11,10 @@ import {
 } from "lucide-react";
 import PteShell from "@/components/pte/PteShell";
 import { PTE_VOCAB_BANK, PteVocabWord } from "@/data/pteData";
+import { supabase } from "@/integrations/supabase/client";
 
 const STORAGE_KEY = "pte-vocab-mastered";
+const MIGRATED_KEY = "pte-vocab-migrated-v1";
 
 type Mode = "list" | "flashcard" | "quiz";
 
