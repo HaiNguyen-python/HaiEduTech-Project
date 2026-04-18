@@ -13,6 +13,8 @@ import {
   RefreshCw,
   Clock,
   Sparkles,
+  BookmarkPlus,
+  Check,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -20,6 +22,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "compact" | "wide" | "fullscreen";
