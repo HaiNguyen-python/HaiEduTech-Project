@@ -111,7 +111,7 @@ const PteListening = () => {
   }, [submitted, result, current, recordCompletion]);
 
   const handleNext = () => {
-    const max = mode === "dictation" ? DICTATION_BANK.length : SUMMARIZE_SPOKEN_BANK.length;
+    const max = mode === "dictation" ? dFiltered.length : sFiltered.length;
     if (idx < max - 1) setIdx(idx + 1);
     else toast.success("🎉 You've completed all tasks!");
   };
