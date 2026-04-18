@@ -142,43 +142,35 @@ async function handleDictionary(word: string) {
 
 async function handleCollocation(word: string) {
   const w = word.trim().toLowerCase();
-  const [follow, precede, adj, trig] = await Promise.all([
-    fetchJSONWithRetry(`https://api.datamuse.com/words?lc=${encodeURIComponent(w)}&max=10`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rc=${encodeURIComponent(w)}&max=10`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(w)}&max=8`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_trg=${encodeURIComponent(w)}&max=8`),
+  // Datamuse query semantics (verified empirically against the live API):
+  // - lc=W → words that frequently appear with W on their LEFT → results FOLLOW W
+  //          e.g. lc=take → "off", "care", "place" → "take off", "take care", "take place"
+  // - rc=W → words that frequently appear with W on their RIGHT → results PRECEDE W
+  //          e.g. rc=decision → "make", "reach", "final" → "make decision", "final decision"
+  // - rel_jja=W → adjectives that often modify the noun W (PRECEDE W)
+  // - rel_jjb=W → nouns often modified by the adjective W (FOLLOW W)
+  const [followers, preceders, adjMod, nounMod] = await Promise.all([
+    fetchJSONWithRetry(`https://api.datamuse.com/words?lc=${encodeURIComponent(w)}&max=15`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rc=${encodeURIComponent(w)}&max=15`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(w)}&max=10`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(w)}&max=10`),
   ]);
 
-  // If everything failed at network level, surface a busy error
-  if (!follow.ok && !precede.ok && !adj.ok && !trig.ok) {
-    if (follow.status === 0 && precede.status === 0 && adj.status === 0 && trig.status === 0) {
+  if (!followers.ok && !preceders.ok && !adjMod.ok && !nounMod.ok) {
+    if (followers.status === 0 && preceders.status === 0 && adjMod.status === 0 && nounMod.status === 0) {
       return { error: true, message: "Lookup service is busy" };
     }
   }
 
-  const followData = follow.ok ? follow.data : [];
-  const precedeData = precede.ok ? precede.data : [];
-  const adjData = adj.ok ? adj.data : [];
-  const trigData = trig.ok ? trig.data : [];
+  const clean = (res: any) =>
+    (res.ok ? res.data : [])
+      .map((d: any) => (d.word || "").toLowerCase().trim())
+      .filter((x: string) => x && x !== w && x.length > 1 && !x.includes(" "));
 
-  // Datamuse semantics:
-  // - lc=W → results that have W as their LEFT context → results PRECEDE W (e.g., lc=take → "under" as in "undertake")
-  //   Wait, empirically lc=take returns "off", "out", "care" → words that FOLLOW "take" (take off, take care)
-  // - rc=W → results that have W as their RIGHT context → results that come BEFORE W
-  // Based on observed Datamuse behavior on this project:
-  //   followData (lc) actually returns words appearing AFTER the search word → goes RIGHT (W + ___)
-  //   precedeData (rc) actually returns words appearing BEFORE the search word → goes LEFT (___ + W)
-  // The screenshot showed followers ("off take", "care take") in the LEFT column, which means
-  // precedeData was producing followers. Swap to fix.
-  const left = [...new Set([
-    ...followData.map((d: any) => d.word),
-    ...adjData.map((d: any) => d.word),
-  ])].slice(0, 12);
-
-  const right = [...new Set([
-    ...precedeData.map((d: any) => d.word),
-    ...trigData.map((d: any) => d.word),
-  ])].slice(0, 12);
+  // LEFT column "___ + W" → words that come BEFORE the search word
+  const left = [...new Set([...clean(preceders), ...clean(adjMod)])].slice(0, 12);
+  // RIGHT column "W + ___" → words that come AFTER the search word
+  const right = [...new Set([...clean(followers), ...clean(nounMod)])].slice(0, 12);
 
   return { left, right };
 }
