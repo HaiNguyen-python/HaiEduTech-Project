@@ -188,6 +188,73 @@ const PhrasePractice = ({ taskType }: Props) => {
   const handleReset = () => {
     setUserSentence("");
     setResult(null);
+    setRewriteText("");
+    setRewriteResult(null);
+    setShowAnswer(false);
+  };
+
+  const escapeHtml = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const compareRewrite = (original: string, attempt: string) => {
+    const norm = (s: string) =>
+      s.toLowerCase().replace(/[.,!?;:"'""''()\[\]]/g, "").replace(/\s+/g, " ").trim();
+    const oWords = norm(original).split(" ").filter(Boolean);
+    const aWordsRaw = attempt.trim().split(/\s+/).filter(Boolean);
+    const aWords = norm(attempt).split(" ").filter(Boolean);
+
+    let correct = 0;
+    const diffParts: string[] = [];
+    const max = Math.max(oWords.length, aWords.length);
+    for (let i = 0; i < max; i++) {
+      const o = oWords[i];
+      const a = aWords[i];
+      const display = aWordsRaw[i];
+      if (a && o && a === o) {
+        correct++;
+        diffParts.push(`<span class="text-emerald-600 dark:text-emerald-400">${escapeHtml(display)}</span>`);
+      } else if (a) {
+        diffParts.push(`<span class="text-red-600 dark:text-red-400 underline decoration-wavy">${escapeHtml(display)}</span>`);
+      } else if (o) {
+        diffParts.push(`<span class="text-amber-600 dark:text-amber-400 italic">[${escapeHtml(o)}]</span>`);
+      }
+    }
+    const accuracy = max === 0 ? 0 : Math.round((correct / max) * 100);
+    return { accuracy, diffHtml: diffParts.join(" ") };
+  };
+
+  const handleCheckRewrite = () => {
+    if (!result?.upgradedVersion) return;
+    if (rewriteText.trim().length < 3) {
+      toast.error(t("Vui lòng viết lại câu", "Please write the sentence first"));
+      return;
+    }
+    // strip markdown bold from upgraded version for comparison
+    const cleanUpgraded = result.upgradedVersion.replace(/\*\*/g, "");
+    const { accuracy, diffHtml } = compareRewrite(cleanUpgraded, rewriteText);
+    let message = "";
+    let tone: "success" | "warn" | "error" = "error";
+    if (accuracy >= 95) {
+      message = t("Hoàn hảo! Bạn đã ghi nhớ cấu trúc.", "Perfect! You've mastered the structure.");
+      tone = "success";
+      toast.success(t("Tuyệt vời! ✨", "Excellent! ✨"));
+    } else if (accuracy >= 80) {
+      message = t(
+        "Gần đúng — kiểm tra các từ được tô đỏ.",
+        "Almost there — check the words highlighted in red."
+      );
+      tone = "warn";
+    } else {
+      message = t("Hãy thử lại — đọc kỹ câu mẫu.", "Try again — read the model sentence carefully.");
+      tone = "error";
+    }
+    setRewriteResult({ accuracy, diffHtml, message, tone });
+  };
+
+  const handleResetRewrite = () => {
+    setRewriteText("");
+    setRewriteResult(null);
+    setShowAnswer(false);
   };
 
   const scoreColor = (score: number) => {
