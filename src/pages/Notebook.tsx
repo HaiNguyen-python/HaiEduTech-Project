@@ -369,9 +369,10 @@ const Notebook = () => {
                           </div>
                         </div>
                         <div className="flex gap-1 shrink-0">
-                          <Button variant="ghost" size="icon" onClick={() => setViewNote(note)}><Eye className="w-4 h-4" /></Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleEdit(note)}><Edit className="w-4 h-4" /></Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDelete(note.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => setViewNote(note)} title="Xem"><Eye className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => handleExportPDF(note)} title="Xuất PDF"><FileDown className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => handleEdit(note)} title="Sửa"><Edit className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => handleDelete(note.id)} className="text-destructive hover:text-destructive" title="Xóa"><Trash2 className="w-4 h-4" /></Button>
                         </div>
                       </div>
                     </CardContent>
