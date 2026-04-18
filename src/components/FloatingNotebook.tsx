@@ -114,6 +114,17 @@ const FloatingNotebook = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Listen for chatbot open/close to hide notebook button (avoid overlap with chat input)
+  const [chatbotOpen, setChatbotOpen] = useState(false);
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setChatbotOpen(!!detail?.open);
+    };
+    window.addEventListener("chatbot:toggle", handler as EventListener);
+    return () => window.removeEventListener("chatbot:toggle", handler as EventListener);
+  }, []);
+
   // Re-clamp position when opening
   useEffect(() => {
     if (open) {
@@ -276,15 +287,17 @@ const FloatingNotebook = () => {
 
   return (
     <>
-      {/* Floating button */}
-      <motion.button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-24 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
-        whileTap={{ scale: 0.9 }}
-        aria-label="Open notebook"
-      >
-        <BookOpen size={24} />
-      </motion.button>
+      {/* Floating button — hidden when chatbot is open to avoid overlap */}
+      {!chatbotOpen && (
+        <motion.button
+          onClick={() => setOpen(!open)}
+          className="fixed bottom-6 right-24 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+          whileTap={{ scale: 0.9 }}
+          aria-label="Open notebook"
+        >
+          <BookOpen size={24} />
+        </motion.button>
+      )}
 
       {/* Panel */}
       <AnimatePresence>

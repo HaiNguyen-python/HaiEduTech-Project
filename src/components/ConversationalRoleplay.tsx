@@ -41,19 +41,33 @@ async function streamRoleplay({
   onDone: () => void;
   onError: (err: string) => void;
 }) {
-  const resp = await fetch(CHAT_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-    },
-    body: JSON.stringify({ messages, topic, situation, lessonTitle, pillar, language }),
-  });
+  let resp: Response;
+  try {
+    resp = await fetch(CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      },
+      body: JSON.stringify({ messages, topic, situation, lessonTitle, pillar, language }),
+    });
+  } catch (networkErr) {
+    console.error("Roleplay network error:", networkErr);
+    onError("Network error. Please check your connection and try again.");
+    return;
+  }
 
   if (!resp.ok) {
-    if (resp.status === 429) { onError("Rate limit. Please wait a moment."); return; }
-    if (resp.status === 402) { onError("Credits exhausted. Please try later."); return; }
-    onError("Failed to connect to AI."); return;
+    let errMsg = `AI service error (${resp.status})`;
+    try {
+      const data = await resp.json();
+      if (data?.error) errMsg = data.error;
+    } catch { /* ignore */ }
+    console.error("Roleplay API error:", resp.status, errMsg);
+    if (resp.status === 429) { onError(errMsg || "Rate limit. Please wait a moment."); return; }
+    if (resp.status === 402) { onError(errMsg || "AI credits exhausted."); return; }
+    onError(errMsg);
+    return;
   }
 
   if (!resp.body) { onError("No response stream"); return; }

@@ -140,15 +140,19 @@ const PhrasePractice = ({ taskType }: Props) => {
             `<p><strong>My sentence:</strong> ${escapeHtml(userSentence.trim())}</p>` +
             `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtml(result.upgradedVersion || "")}</p>`;
 
-          // Find existing entry for this task
-          const { data: existing } = await supabase
+          // Find existing entry — use limit(1) instead of maybeSingle()
+          // to avoid errors when duplicate rows exist (race conditions)
+          const { data: existingRows, error: fetchErr } = await supabase
             .from("student_notebooks")
             .select("id, content")
             .eq("user_id", userData.user.id)
             .eq("title", title)
             .order("updated_at", { ascending: false })
-            .limit(1)
-            .maybeSingle();
+            .limit(1);
+
+          if (fetchErr) console.error("Notebook fetch failed:", fetchErr);
+
+          const existing = existingRows && existingRows.length > 0 ? existingRows[0] : null;
 
           let saveErr: any = null;
           if (existing) {
@@ -168,7 +172,10 @@ const PhrasePractice = ({ taskType }: Props) => {
             });
             saveErr = error;
           }
-          if (!saveErr) {
+          if (saveErr) {
+            console.error("Notebook save failed:", saveErr);
+            toast.error(t(`Lưu sổ tay thất bại: ${saveErr.message}`, `Save failed: ${saveErr.message}`));
+          } else {
             toast.success(t("Đã lưu vào Sổ tay ghi chú", "Saved to your Notebook"));
           }
         } else {

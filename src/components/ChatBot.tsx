@@ -129,6 +129,11 @@ const ChatBot = () => {
     checkLockout();
   }, []);
 
+  // Notify other floating widgets (e.g. Notebook) when chatbot opens/closes
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("chatbot:toggle", { detail: { open } }));
+  }, [open]);
+
   // Show tooltip popup every 5 minutes when chat is closed
   useEffect(() => {
     if (open) return;
