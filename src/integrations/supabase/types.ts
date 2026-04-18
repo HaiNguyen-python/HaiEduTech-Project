@@ -564,6 +564,33 @@ export type Database = {
         }
         Relationships: []
       }
+      pte_vocab_mastery: {
+        Row: {
+          created_at: string
+          id: string
+          mastered: boolean
+          updated_at: string
+          user_id: string
+          word: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mastered?: boolean
+          updated_at?: string
+          user_id: string
+          word: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mastered?: boolean
+          updated_at?: string
+          user_id?: string
+          word?: string
+        }
+        Relationships: []
+      }
       revenue_logs: {
         Row: {
           amount: number

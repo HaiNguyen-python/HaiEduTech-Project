@@ -11,8 +11,10 @@ import {
 } from "lucide-react";
 import PteShell from "@/components/pte/PteShell";
 import { PTE_VOCAB_BANK, PteVocabWord } from "@/data/pteData";
+import { supabase } from "@/integrations/supabase/client";
 
 const STORAGE_KEY = "pte-vocab-mastered";
+const MIGRATED_KEY = "pte-vocab-migrated-v1";
 
 type Mode = "list" | "flashcard" | "quiz";
 
@@ -36,6 +38,8 @@ const PteVocabulary = () => {
   const [search, setSearch] = useState("");
   const [posFilter, setPosFilter] = useState<string>("all");
   const [mastered, setMastered] = useState<Set<string>>(new Set());
+  const [userId, setUserId] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState(false);
 
   // Flashcard state
   const [flashIdx, setFlashIdx] = useState(0);
@@ -48,30 +52,101 @@ const PteVocabulary = () => {
   const [quizPick, setQuizPick] = useState<number | null>(null);
   const [quizDone, setQuizDone] = useState(false);
 
-  // Load mastery from localStorage
-  useEffect(() => {
+  // Read localStorage mastery (guest fallback / migration source)
+  const readLocal = (): Set<string> => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setMastered(new Set(JSON.parse(raw)));
+      return raw ? new Set(JSON.parse(raw)) : new Set();
     } catch {
-      // Ignore parse errors
+      return new Set();
     }
-  }, []);
+  };
 
-  const persistMastered = (next: Set<string>) => {
-    setMastered(next);
+  const writeLocal = (set: Set<string>) => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(next)));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(set)));
     } catch {
       // Ignore quota errors
     }
   };
 
-  const toggleMastered = (word: string) => {
+  // Load mastery: Supabase if logged in (with one-time migration from localStorage), else localStorage
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadForUser = async (uid: string) => {
+      setSyncing(true);
+      try {
+        // One-time migration of any existing localStorage entries to Supabase
+        if (!localStorage.getItem(MIGRATED_KEY)) {
+          const local = readLocal();
+          if (local.size > 0) {
+            const rows = Array.from(local).map(word => ({ user_id: uid, word, mastered: true }));
+            await supabase.from("pte_vocab_mastery").upsert(rows, { onConflict: "user_id,word" });
+          }
+          localStorage.setItem(MIGRATED_KEY, "1");
+        }
+
+        const { data, error } = await supabase
+          .from("pte_vocab_mastery")
+          .select("word, mastered")
+          .eq("user_id", uid);
+
+        if (!error && data && !cancelled) {
+          const set = new Set(data.filter(r => r.mastered).map(r => r.word));
+          setMastered(set);
+          writeLocal(set); // keep local cache in sync for offline reads
+        }
+      } finally {
+        if (!cancelled) setSyncing(false);
+      }
+    };
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (cancelled) return;
+      const uid = session?.user?.id ?? null;
+      setUserId(uid);
+      if (uid) {
+        loadForUser(uid);
+      } else {
+        setMastered(readLocal());
+      }
+    });
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_evt, session) => {
+      const uid = session?.user?.id ?? null;
+      setUserId(uid);
+      if (uid) loadForUser(uid);
+      else setMastered(readLocal());
+    });
+
+    return () => {
+      cancelled = true;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
+
+  const toggleMastered = async (word: string) => {
     const next = new Set(mastered);
-    if (next.has(word)) next.delete(word);
-    else next.add(word);
-    persistMastered(next);
+    const willMaster = !next.has(word);
+    if (willMaster) next.add(word);
+    else next.delete(word);
+    setMastered(next);
+    writeLocal(next);
+
+    if (userId) {
+      if (willMaster) {
+        await supabase
+          .from("pte_vocab_mastery")
+          .upsert({ user_id: userId, word, mastered: true }, { onConflict: "user_id,word" });
+      } else {
+        await supabase
+          .from("pte_vocab_mastery")
+          .delete()
+          .eq("user_id", userId)
+          .eq("word", word);
+      }
+    }
   };
 
   // Unique parts of speech
@@ -177,7 +252,11 @@ const PteVocabulary = () => {
           />
         </div>
         <p className="text-xs text-slate-500 mt-2">
-          Tap the ⭐ on any word to mark it as mastered. Progress saves automatically.
+          {syncing
+            ? "Syncing your progress…"
+            : userId
+            ? "☁️ Synced to your account — progress follows you across devices."
+            : "💾 Saved on this device. Sign in to sync progress across devices."}
         </p>
       </div>
 
