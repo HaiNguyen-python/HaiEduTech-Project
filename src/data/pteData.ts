@@ -5,8 +5,20 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
+// ===== Shared tag types =====
+export type PteTargetBand = "50" | "65" | "79+";
+export type PteCategory = "daily" | "mock" | "prediction";
+export type PteAccent = "US" | "UK" | "AU";
+
+export interface PteTags {
+  targetBand?: PteTargetBand;
+  realExam2026?: boolean;
+  category?: PteCategory;
+  accent?: PteAccent; // mostly for listening / repeat-sentence
+}
+
 // ===== Type definitions =====
-export interface PteReadAloud {
+export interface PteReadAloud extends PteTags {
   id: string;
   text: string;
   topic: string;
@@ -15,22 +27,23 @@ export interface PteReadAloud {
   recordSeconds: number;
 }
 
-export interface PteRepeatSentence {
+export interface PteRepeatSentence extends PteTags {
   id: string;
   text: string;
   recordSeconds: number;
 }
 
-export interface PteEssayPrompt {
+export interface PteEssayPrompt extends PteTags {
   id: string;
   prompt: string;
   minWords: number;
   maxWords: number;
   timeMinutes: number;
   modelOutline?: string;
+  modelAnswer?: string;
 }
 
-export interface PteSummarizeText {
+export interface PteSummarizeText extends PteTags {
   id: string;
   passage: string;
   minWords: number;
@@ -39,27 +52,27 @@ export interface PteSummarizeText {
   keyPoints: string[];
 }
 
-export interface PteFillBlank {
+export interface PteFillBlank extends PteTags {
   id: string;
   passage: string; // tokens use {{n}} placeholder where n is index 1-based
   options: string[]; // pool, includes distractors
   answers: string[]; // ordered correct answers
 }
 
-export interface PteReorderItem {
+export interface PteReorderItem extends PteTags {
   id: string;
   paragraphs: string[]; // shown shuffled
   correctOrder: number[]; // indices into paragraphs in correct order
   topic: string;
 }
 
-export interface PteDictation {
+export interface PteDictation extends PteTags {
   id: string;
   audioText: string; // text to be spoken via TTS
   difficulty: "easy" | "medium" | "hard";
 }
 
-export interface PteSummarizeSpoken {
+export interface PteSummarizeSpoken extends PteTags {
   id: string;
   audioText: string; // narrated via TTS
   minWords: number;
@@ -75,11 +88,12 @@ export interface PteVocabWord {
 }
 
 // Describe Image — 25s prep + 40s record. Keyword-based content scoring.
-export interface PteDescribeImage {
+export interface PteDescribeImage extends PteTags {
   id: string;
-  imageUrl: string;       // imported asset URL
+  imageUrl?: string;       // imported asset URL (optional — fallback to emojiVisual)
+  emojiVisual?: string;    // fallback emoji/SVG-style ASCII visual when no image
   title: string;          // short label of the visual (e.g., "Bar chart: Renewable energy")
-  chartType: "bar" | "pie" | "line" | "process" | "map";
+  chartType: "bar" | "pie" | "line" | "process" | "map" | "table";
   prepSeconds: number;    // PTE standard: 25
   recordSeconds: number;  // PTE standard: 40
   keywords: string[];     // expected vocabulary for content coverage
@@ -87,7 +101,7 @@ export interface PteDescribeImage {
 }
 
 // Retell Lecture — 10s prep + 40s record after listening.
-export interface PteRetellLecture {
+export interface PteRetellLecture extends PteTags {
   id: string;
   topic: string;
   lectureText: string;    // narrated via TTS (~60-90s spoken)
@@ -95,6 +109,26 @@ export interface PteRetellLecture {
   recordSeconds: number;  // PTE standard: 40
   keywords: string[];     // key concepts to mention
   modelAnswer: string;    // band-90 sample retell
+}
+
+// Multiple Choice (single + multi answer) — Reading
+export interface PteMcq extends PteTags {
+  id: string;
+  passage: string;
+  question: string;
+  options: string[];
+  correctIndices: number[]; // length 1 = single, >1 = multiple
+  topic: string;
+}
+
+// Highlight Incorrect Words — Listening
+// Audio is the correct version; transcript shows altered words students must click.
+export interface PteHighlightIncorrect extends PteTags {
+  id: string;
+  audioText: string;          // what the student hears (correct)
+  displayText: string;        // what they see (with some words altered)
+  incorrectIndices: number[]; // word indices in displayText (split on whitespace) that differ from audioText
+  topic: string;
 }
 
 // ===== Read Aloud bank (10 items) =====
