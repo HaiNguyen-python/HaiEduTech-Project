@@ -121,6 +121,7 @@ const Navbar = () => {
     { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
     { to: "/english/sat", label: "📝 SAT" },
+    { to: "/pte", label: t("🎯 PTE Academic", "🎯 PTE Academic") },
     { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const chineseSubs: SubItem[] = [
