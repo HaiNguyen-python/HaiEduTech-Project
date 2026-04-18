@@ -348,17 +348,6 @@ const SuperDictionary = () => {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Dim backdrop only in fullscreen mode */}
-            {sizeMode === "fullscreen" && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-background/60 backdrop-blur-sm z-[55]"
-                onClick={() => setIsOpen(false)}
-              />
-            )}
-
             <motion.div {...motionProps} className={panelClasses}>
               {/* Header */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-primary/5 to-accent/5 shrink-0 rounded-t-2xl">
