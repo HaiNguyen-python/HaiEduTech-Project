@@ -404,7 +404,10 @@ const Notebook = () => {
                               <span>{stripHtml(note.content).split(/\s+/).filter(Boolean).length} từ</span>
                             </div>
                           </div>
-                          <Button variant="ghost" size="icon" onClick={() => setViewNote(note)}><Eye className="w-4 h-4" /></Button>
+                          <div className="flex gap-1 shrink-0">
+                            <Button variant="ghost" size="icon" onClick={() => setViewNote(note)} title="Xem"><Eye className="w-4 h-4" /></Button>
+                            <Button variant="ghost" size="icon" onClick={() => handleExportPDF(note)} title="Xuất PDF"><FileDown className="w-4 h-4" /></Button>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
