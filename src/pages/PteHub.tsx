@@ -5,7 +5,7 @@
  */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp } from "lucide-react";
+import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp, ChevronRight } from "lucide-react";
 import PteShell from "@/components/pte/PteShell";
 import PtePeak from "@/components/pte/PtePeak";
 import { usePteProgress } from "@/hooks/usePteProgress";
