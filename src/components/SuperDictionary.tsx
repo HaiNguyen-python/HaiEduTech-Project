@@ -514,20 +514,44 @@ const SuperDictionary = () => {
                     {dictResult && !dictResult.error && (
                       <div className="rounded-xl border bg-background overflow-hidden">
                         {/* Sticky word header */}
-                        <div className="sticky top-0 bg-background/95 backdrop-blur border-b border-border px-4 py-3 flex items-center gap-2 z-10">
+                        <div className="sticky top-0 bg-background/95 backdrop-blur border-b border-border px-4 py-3 flex items-center gap-2 z-10 flex-wrap">
                           <h4 className="font-bold text-foreground text-lg">{dictResult.word}</h4>
                           {dictResult.phonetic && (
                             <span className="text-sm text-muted-foreground font-mono">{dictResult.phonetic}</span>
                           )}
-                          {dictResult.phonetics?.find((p: any) => p.audio) && (
-                            <button
-                              onClick={() => { const a = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio); a.play().catch(() => {}); }}
-                              className="ml-auto p-1.5 rounded-full hover:bg-primary/10 text-primary"
-                              title={t("Nghe phát âm", "Play audio")}
+                          <div className="ml-auto flex items-center gap-1">
+                            {dictResult.phonetics?.find((p: any) => p.audio) && (
+                              <button
+                                onClick={() => { const a = new Audio(dictResult.phonetics.find((p: any) => p.audio)?.audio); a.play().catch(() => {}); }}
+                                className="p-1.5 rounded-full hover:bg-primary/10 text-primary"
+                                title={t("Nghe phát âm", "Play audio")}
+                              >
+                                <Volume2 className="w-4 h-4" />
+                              </button>
+                            )}
+                            <Button
+                              size="sm"
+                              variant={savedWord === dictResult.word ? "secondary" : "default"}
+                              className="h-8 px-2.5 gap-1 text-xs"
+                              onClick={handleSaveToNotebook}
+                              disabled={savingNotebook || savedWord === dictResult.word}
+                              title={t("Lưu từ này vào Sổ tay", "Save this word to Notebook")}
                             >
-                              <Volume2 className="w-4 h-4" />
-                            </button>
-                          )}
+                              {savingNotebook ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : savedWord === dictResult.word ? (
+                                <>
+                                  <Check className="w-3.5 h-3.5" />
+                                  {t("Đã lưu", "Saved")}
+                                </>
+                              ) : (
+                                <>
+                                  <BookmarkPlus className="w-3.5 h-3.5" />
+                                  {t("Lưu vào Sổ tay", "Save to Notebook")}
+                                </>
+                              )}
+                            </Button>
+                          </div>
                         </div>
                         {/* All meanings, no cap */}
                         <div className="p-4 space-y-4">
