@@ -1,83 +1,54 @@
 
-## Plan: Phrase Practice Module cho IELTS Writing Practice
+## Plan: Mở rộng IELTS Phrase Bank lên 200+ cụm từ
 
 ### Mục tiêu
-Thêm tab/section mới **"📝 Phrase Practice"** trong `/ielts-writing-practice` cho cả Task 1 và Task 2, cho phép học viên:
-1. Chọn 1 cụm từ cao cấp (B1+) từ danh sách phân loại
-2. Tự viết câu sử dụng cụm từ đó
-3. AI Perplexity chấm: ngữ pháp, đúng cách dùng cụm từ, gợi ý nâng cấp
-4. Hiển thị feedback chi tiết + câu mẫu Band 7.0+
+Mở rộng `src/data/ieltsPhraseBank.ts` từ 80 → **200+ cụm từ Band 7.0+**, bổ sung nhiều chủ đề và collocations chất lượng cao như user yêu cầu (visitors from all corners of the globe, dissolve the problems, conducive working atmosphere...).
 
-### Cấu trúc dữ liệu
+### Phân bổ số lượng
 
-**File mới**: `src/data/ieltsPhraseBank.ts`
-- 80+ cụm từ chia 2 nhóm: Task 1 và Task 2
-- Mỗi cụm có: `phrase`, `meaning` (VI), `example` (Band 7+ sample), `category`, `level` (B1/B2/C1)
+**Task 1 (~80 cụm)** — giữ 4 categories hiện có + mở rộng:
+- Trends (20): surge exponentially, witness a steady decline, hit rock bottom, soar to unprecedented levels...
+- Comparisons (20): dwarf in comparison to, pale in significance next to, mirror the trend of...
+- Process/Map (20): undergo a radical transformation, be subjected to, the terminal stage involves...
+- Overview (20): at first glance, a cursory examination reveals, the data paints a clear picture of...
 
-**Task 1 categories** (~40 cụm):
-- **Trends**: witnessed a sharp rise, plummeted dramatically, fluctuated wildly, reached a peak of, leveled off at
-- **Comparisons**: outnumbered by a margin of, accounted for the lion's share, was twice as high as
-- **Process/Map**: undergo a transformation, in the initial stage, subsequently followed by
-- **Overview**: it is readily apparent that, the most striking feature is
+**Task 2 (~120 cụm)** — mở rộng từ 5 → **10 categories**:
+- Opinion (15): I am of the firm conviction, I wholeheartedly subscribe to the view...
+- Cause-Effect (15): dissolve the problems, trigger a chain reaction, exacerbate the situation...
+- Argument (15): a compelling case can be made, this argument holds water, refute the notion...
+- Solutions (15): tackle the issue head-on, implement stringent measures, alleviate the burden...
+- Linking (10): by the same token, in stark contrast, notwithstanding this...
+- **Education** (10) NEW: foster critical thinking, cultivate a passion for learning, instill values...
+- **Workplace** (10) NEW: conducive working atmosphere, foster team cohesion, climb the corporate ladder, strike a work-life balance...
+- **Tourism/Globalization** (10) NEW: visitors from all corners of the globe, broaden one's horizons, immerse oneself in the local culture, bridge cultural gaps...
+- **Environment** (10) NEW: mitigate the impact of, leave a carbon footprint, deplete natural resources, embrace renewable energy...
+- **Technology/Society** (10) NEW: revolutionize the way we live, bridge the digital divide, fall prey to cyber threats, blur the line between...
 
-**Task 2 categories** (~40 cụm):
-- **Opinion**: from my perspective, I am firmly convinced that, there is little doubt that
-- **Cause-Effect**: stems primarily from, gives rise to, has far-reaching consequences
-- **Argument**: a compelling argument in favor of, opponents would contend that, this notion is reinforced by
-- **Solutions**: a viable solution would be to, governments should impose stringent regulations
-- **Linking**: notwithstanding this, by the same token, in stark contrast
-
-### UI/UX Flow
-
-```text
-┌─────────────────────────────────────────┐
-│  [Task 1] [Task 2]  ← chọn task         │
-├─────────────────────────────────────────┤
-│  Filter: [All] [Trends] [Compare] ...   │
-├─────────────────────────────────────────┤
-│  Cụm từ: "witnessed a sharp rise"       │
-│  Nghĩa: chứng kiến sự gia tăng mạnh     │
-│  Ví dụ mẫu: The graph witnessed a...    │
-│                                          │
-│  [Textarea: viết câu của bạn]           │
-│  [Submit for AI Grading]                 │
-├─────────────────────────────────────────┤
-│  ✅ Score: 8/10                          │
-│  💡 Grammar: ...                         │
-│  💡 Cụm từ dùng đúng/sai                 │
-│  ⬆️ Phiên bản nâng cấp Band 7.5+        │
-└─────────────────────────────────────────┘
-```
-
-### Backend
-**Edge function mới**: `supabase/functions/grade-phrase-sentence/index.ts`
-- Dùng Perplexity API (`sonar` model) — đồng bộ với toàn bộ AI features hiện có
-- Input: `{ phrase, userSentence, taskType }`
-- Output JSON:
-```json
-{
-  "score": 8,
-  "phraseUsedCorrectly": true,
-  "grammarFeedback": "...",
-  "phraseFeedback": "...",
-  "upgradedVersion": "Band 7.5+ rewrite với **bold** highlights",
-  "tips": ["tip 1", "tip 2"]
+### Cấu trúc dữ liệu (giữ nguyên)
+```ts
+interface IELTSPhrase {
+  id: string;
+  phrase: string;
+  meaning: string;     // VI
+  example: string;     // Band 7+ sample
+  category: string;
+  level: 'B1' | 'B2' | 'C1';
+  taskType: 1 | 2;
 }
 ```
-- Có JWT optional (giống chat function), JSON repair logic, fallback 402/429
+
+### UI cập nhật
+- `PhrasePractice.tsx`: filter buttons tự động render từ `[...new Set(phrases.map(p => p.category))]` → không cần đổi code logic, chỉ thêm scroll-x cho hàng filter khi nhiều categories
+- Thêm badge level (B1/B2/C1) màu khác nhau trên card cụm từ
 
 ### Files cần thay đổi
 
 | File | Thay đổi |
 |------|----------|
-| `src/data/ieltsPhraseBank.ts` (NEW) | 80+ cụm từ, type `IELTSPhrase` |
-| `src/components/PhrasePractice.tsx` (NEW) | UI component với filter, textarea, kết quả AI |
-| `src/pages/IeltsWritingPractice.tsx` | Thêm Tabs ở đầu: "Essay Writing" / "Phrase Practice" |
-| `supabase/functions/grade-phrase-sentence/index.ts` (NEW) | Edge function chấm câu |
+| `src/data/ieltsPhraseBank.ts` | Mở rộng lên 200+ cụm, thêm 5 categories Task 2 |
+| `src/components/PhrasePractice.tsx` | Scroll-x filter row, badge level màu sắc |
 
-### Lưu ý kỹ thuật
-- Toàn bộ dùng **Perplexity API** (`sonar`) — phù hợp với rule project
-- Lưu attempts vào `localStorage` (không cần DB table mới — gọn nhẹ)
-- Loading state với spinner, toast error rõ ràng cho 402/429
-- Mobile-first: textarea min-h 120px, font 16px+
-- Bilingual labels (VI/EN) theo LanguageContext
+### Lưu ý
+- 100% cụm từ là collocations Band 7.0+ chuẩn IELTS examiner
+- Mỗi cụm có example sentence chất lượng cao để học viên tham khảo
+- Không cần thay đổi edge function — đã hoạt động generic với mọi phrase
