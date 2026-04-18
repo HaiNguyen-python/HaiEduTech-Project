@@ -287,15 +287,17 @@ const FloatingNotebook = () => {
 
   return (
     <>
-      {/* Floating button */}
-      <motion.button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-24 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
-        whileTap={{ scale: 0.9 }}
-        aria-label="Open notebook"
-      >
-        <BookOpen size={24} />
-      </motion.button>
+      {/* Floating button — hidden when chatbot is open to avoid overlap */}
+      {!chatbotOpen && (
+        <motion.button
+          onClick={() => setOpen(!open)}
+          className="fixed bottom-6 right-24 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+          whileTap={{ scale: 0.9 }}
+          aria-label="Open notebook"
+        >
+          <BookOpen size={24} />
+        </motion.button>
+      )}
 
       {/* Panel */}
       <AnimatePresence>
