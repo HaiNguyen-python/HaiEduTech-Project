@@ -10,6 +10,8 @@ import {
   RefreshCw,
   Clock,
   Sparkles,
+  GripVertical,
+  Move,
   BookmarkPlus,
   Check,
 } from "lucide-react";
@@ -27,6 +29,7 @@ type ActiveTab = "dictionary" | "ozdic" | "thesaurus";
 
 
 const RECENT_KEY = "super-dict-recent";
+const POSITION_KEY = "super-dict-position";
 const MAX_RECENT = 5;
 const SUGGESTIONS = ["ambiguous", "perspective", "significant"];
 
