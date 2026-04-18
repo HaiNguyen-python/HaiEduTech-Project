@@ -70,7 +70,11 @@ const SuperDictionary = () => {
   const [savedWord, setSavedWord] = useState<string | null>(null);
   const dictInputRef = useRef<HTMLInputElement>(null);
 
-  // Restore recent searches
+  // Drag-to-move position (offset from default anchored position)
+  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const dragConstraintsRef = useRef<HTMLDivElement>(null);
+
+  // Restore recent searches + saved position
   useEffect(() => {
     try {
       const r = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
@@ -78,6 +82,25 @@ const SuperDictionary = () => {
     } catch {
       // ignore
     }
+    try {
+      const p = JSON.parse(localStorage.getItem(POSITION_KEY) || "null");
+      if (p && typeof p.x === "number" && typeof p.y === "number") {
+        setPosition(p);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const persistPosition = useCallback((x: number, y: number) => {
+    setPosition({ x, y });
+    localStorage.setItem(POSITION_KEY, JSON.stringify({ x, y }));
+  }, []);
+
+  const resetPosition = useCallback(() => {
+    setPosition({ x: 0, y: 0 });
+    localStorage.removeItem(POSITION_KEY);
+    toast.success("Đã đưa từ điển về vị trí mặc định");
   }, []);
 
   const pushRecent = useCallback((word: string) => {
