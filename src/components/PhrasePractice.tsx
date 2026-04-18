@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, BookOpen } from "lucide-react";
+import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, BookOpen, PenLine, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
