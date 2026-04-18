@@ -5,14 +5,14 @@
  */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles } from "lucide-react";
+import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp } from "lucide-react";
 import PteShell from "@/components/pte/PteShell";
 import PtePeak from "@/components/pte/PtePeak";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import {
   READ_ALOUD_BANK, REPEAT_SENTENCE_BANK, ESSAY_BANK, SUMMARIZE_TEXT_BANK,
   FILL_BLANK_BANK, REORDER_BANK, DICTATION_BANK, SUMMARIZE_SPOKEN_BANK,
-  MOCK_TESTS,
+  MOCK_TESTS, REPEATED_2026_IDS,
 } from "@/data/pteData";
 
 const SKILL_CARDS = [
