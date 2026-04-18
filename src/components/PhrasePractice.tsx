@@ -214,8 +214,7 @@ const PhrasePractice = ({ taskType }: Props) => {
     setShowAnswer(false);
   };
 
-  const escapeHtml = (s: string) =>
-    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const escapeHtml = escapeHtmlStr;
 
   const compareRewrite = (original: string, attempt: string) => {
     const norm = (s: string) =>
