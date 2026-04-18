@@ -304,6 +304,26 @@ const SuperDictionary = () => {
     return { opacity: 0.5 + ratio * 0.5 };
   };
 
+  const normalizeWord = (value: string) => value.trim().toLowerCase();
+
+  const renderLeftCollocation = (candidate: string, baseWord: string) => {
+    const normalizedCandidate = normalizeWord(candidate);
+    const normalizedBase = normalizeWord(baseWord);
+    if (normalizedCandidate.includes(normalizedBase)) {
+      return candidate;
+    }
+    return `${candidate} ${baseWord}`;
+  };
+
+  const renderRightCollocation = (candidate: string, baseWord: string) => {
+    const normalizedCandidate = normalizeWord(candidate);
+    const normalizedBase = normalizeWord(baseWord);
+    if (normalizedCandidate.includes(normalizedBase)) {
+      return candidate;
+    }
+    return `${baseWord} ${candidate}`;
+  };
+
   // Panel sizing — desktop side panel by default, mobile = bottom sheet
   // Fullscreen = centered modal
   const panelClasses =
