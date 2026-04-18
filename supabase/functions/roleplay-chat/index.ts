@@ -1,5 +1,6 @@
 // Edge function for Conversational AI Roleplay
 // Uses Perplexity API for interactive speaking practice
+// Optional auth: works for both guests and authenticated users
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -12,21 +13,24 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // JWT Authentication
+    // Optional JWT Authentication - roleplay is open to guests for trial
     const authHeader = req.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-    const supabaseAuth = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: authHeader } } });
-    const token = authHeader.replace('Bearer ', '');
-    const { data: claimsData, error: claimsError } = await supabaseAuth.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    if (authHeader?.startsWith('Bearer ')) {
+      try {
+        const supabaseAuth = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: authHeader } } });
+        const token = authHeader.replace('Bearer ', '');
+        await supabaseAuth.auth.getClaims(token);
+      } catch (_) { /* ignore auth errors for guest access */ }
     }
 
     const { messages, topic, situation, lessonTitle, pillar, language } = await req.json();
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY is not configured");
+    if (!PERPLEXITY_API_KEY) {
+      console.error("PERPLEXITY_API_KEY missing in roleplay-chat");
+      return new Response(JSON.stringify({ error: "AI service is not configured. Please contact the administrator." }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     let systemPrompt: string;
 
@@ -125,21 +129,27 @@ If this is the first message (no prior messages from the student), start by sett
     });
 
     if (!response.ok) {
+      const errText = await response.text().catch(() => "");
+      console.error(`Perplexity API error [${response.status}]:`, errText);
       if (response.status === 429) {
-        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later." }), {
+        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
           status: 429,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       if (response.status === 402) {
-        return new Response(JSON.stringify({ error: "Payment required. Please add credits." }), {
+        return new Response(JSON.stringify({ error: "AI credits exhausted. Please contact admin." }), {
           status: 402,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      const t = await response.text();
-      console.error("Perplexity API error:", response.status, t);
-      return new Response(JSON.stringify({ error: "AI service error" }), {
+      if (response.status === 401) {
+        return new Response(JSON.stringify({ error: "AI authentication failed. Please contact admin." }), {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      return new Response(JSON.stringify({ error: `AI service error (${response.status}). Please try again.` }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
