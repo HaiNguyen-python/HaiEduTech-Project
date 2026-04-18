@@ -17,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { BookOpen, Plus, Save, Trash2, Edit, Eye, Clock, User, Search } from "lucide-react";
+import { BookOpen, Plus, Save, Trash2, Edit, Eye, Clock, User, Search, FileDown } from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
 import { format } from "date-fns";
 
