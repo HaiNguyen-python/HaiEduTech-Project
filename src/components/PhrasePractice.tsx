@@ -85,7 +85,9 @@ const PhrasePractice = ({ taskType }: Props) => {
 
     setGrading(true);
     setResult(null);
-    try {
+    setRewriteText("");
+    setRewriteResult(null);
+    setShowAnswer(false);
       const { data, error } = await supabase.functions.invoke("grade-phrase-sentence", {
         body: {
           phrase: selectedPhrase.phrase,
