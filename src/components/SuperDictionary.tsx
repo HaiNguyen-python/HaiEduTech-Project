@@ -323,10 +323,10 @@ const SuperDictionary = () => {
                       )}
                     </div>
                   )}
-                  {!collocationLoading && collocationWord && collocationResult.left.length === 0 && collocationResult.right.length === 0 && (
-                    <div className="rounded-lg border bg-muted/50 p-2 text-xs text-muted-foreground text-center">
-                      {t("Không tìm thấy.", "No collocations found.")}
-                    </div>
+                  {!collocationLoading && collocationResult.left.length === 0 && collocationResult.right.length === 0 && renderErrorBox(
+                    collocationError,
+                    () => handleCollocationLookup(collocationWord),
+                    t("Không tìm thấy collocation.", "No collocations found."),
                   )}
                 </TabsContent>
 
