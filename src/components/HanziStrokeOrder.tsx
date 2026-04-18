@@ -17,6 +17,12 @@ const HanziStrokeOrder = ({ character, size = 120 }: HanziStrokeOrderProps) => {
     // For multi-character words, only show first character
     const char = character.charAt(0);
     
+    const showFallback = () => {
+      if (containerRef.current) {
+        containerRef.current.innerHTML = `<span style="font-size:${size * 0.6}px;color:#334155;font-weight:bold;line-height:${size}px">${char}</span>`;
+      }
+    };
+
     try {
       writerRef.current = HanziWriter.create(containerRef.current, char, {
         width: size,
@@ -28,12 +34,23 @@ const HanziStrokeOrder = ({ character, size = 120 }: HanziStrokeOrderProps) => {
         strokeColor: "#334155",
         outlineColor: "#e2e8f0",
         radicalColor: "#3b82f6",
+        charDataLoader: (charToLoad: string, onComplete: (data: any) => void) => {
+          fetch(`https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1/${charToLoad}.json`)
+            .then((res) => {
+              if (!res.ok) throw new Error("not found");
+              return res.json();
+            })
+            .then((data) => onComplete(data))
+            .catch(() => {
+              showFallback();
+            });
+        },
+        onLoadCharDataError: () => {
+          showFallback();
+        },
       });
     } catch {
-      // Character not found in hanzi-writer data
-      if (containerRef.current) {
-        containerRef.current.innerHTML = `<span style="font-size:${size * 0.6}px;color:#334155;font-weight:bold">${char}</span>`;
-      }
+      showFallback();
     }
 
     return () => {
