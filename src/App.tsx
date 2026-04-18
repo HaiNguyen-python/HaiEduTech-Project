@@ -86,6 +86,7 @@ const PteWriting = lazy(() => import("./pages/PteWriting.tsx"));
 const PteReading = lazy(() => import("./pages/PteReading.tsx"));
 const PteListening = lazy(() => import("./pages/PteListening.tsx"));
 const PtePlaceholder = lazy(() => import("./pages/PtePlaceholder.tsx"));
+const PteVocabulary = lazy(() => import("./pages/PteVocabulary.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -191,6 +192,7 @@ const App = () => (
             <Route path="/pte/writing" element={<LazyRoute><PteWriting /></LazyRoute>} />
             <Route path="/pte/reading" element={<LazyRoute><PteReading /></LazyRoute>} />
             <Route path="/pte/listening" element={<LazyRoute><PteListening /></LazyRoute>} />
+            <Route path="/pte/vocabulary" element={<LazyRoute><PteVocabulary /></LazyRoute>} />
             <Route path="/pte/:skill" element={<LazyRoute><PtePlaceholder /></LazyRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
