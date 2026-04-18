@@ -7,7 +7,7 @@
 import { useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { Mountain } from "lucide-react";
-import mountainBg from "@/assets/mountain-climber-bg.png";
+import mountainBg from "@/assets/pte/pte-mountain-bg.png";
 import climberImg from "@/assets/pte/pte-climber.png";
 
 interface PtePeakProps {
