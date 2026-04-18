@@ -113,30 +113,48 @@ const PhrasePractice = ({ taskType }: Props) => {
         localStorage.setItem(key, JSON.stringify(existing.slice(0, 50)));
       } catch {}
 
-      // Save to Notebook (student_notebooks) if logged in
+      // Save to Notebook (student_notebooks) — append mode, 1 entry per task
       try {
         const { data: userData } = await supabase.auth.getUser();
         if (userData?.user) {
           const title = `IELTS Writing Practice Task ${taskType}`;
           const escapeHtml = (s: string) =>
             s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-          const content =
-            `<h3>"${escapeHtml(selectedPhrase.phrase)}"</h3>` +
-            `<p><em>Meaning: ${escapeHtml(selectedPhrase.meaning)}</em></p>` +
+          const timestamp = new Date().toLocaleString();
+          const newBlock =
+            `<p><strong>📝 "${escapeHtml(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em></p>` +
             `<p><strong>My sentence:</strong> ${escapeHtml(userSentence.trim())}</p>` +
-            `<p><strong>Score:</strong> ${result.score}/10</p>` +
-            `<p><strong>Grammar feedback:</strong> ${escapeHtml(result.grammarFeedback || "")}</p>` +
-            `<p><strong>Phrase feedback:</strong> ${escapeHtml(result.phraseFeedback || "")}</p>` +
             `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtml(result.upgradedVersion || "")}</p>`;
 
-          const { error: insertErr } = await supabase.from("student_notebooks").insert({
-            user_id: userData.user.id,
-            title,
-            subject: "ielts",
-            content,
-            is_public: false,
-          });
-          if (!insertErr) {
+          // Find existing entry for this task
+          const { data: existing } = await supabase
+            .from("student_notebooks")
+            .select("id, content")
+            .eq("user_id", userData.user.id)
+            .eq("title", title)
+            .order("updated_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+          let saveErr: any = null;
+          if (existing) {
+            const merged = `${existing.content}<hr/>${newBlock}`;
+            const { error } = await supabase
+              .from("student_notebooks")
+              .update({ content: merged, updated_at: new Date().toISOString() })
+              .eq("id", existing.id);
+            saveErr = error;
+          } else {
+            const { error } = await supabase.from("student_notebooks").insert({
+              user_id: userData.user.id,
+              title,
+              subject: "ielts",
+              content: newBlock,
+              is_public: false,
+            });
+            saveErr = error;
+          }
+          if (!saveErr) {
             toast.success(t("Đã lưu vào Sổ tay ghi chú", "Saved to your Notebook"));
           }
         } else {
