@@ -302,7 +302,7 @@ const PhrasePractice = ({ taskType }: Props) => {
                     ) : (
                       <>
                         <Send className="w-4 h-4 mr-2" />
-                        {t("Chấm điểm AI", "Submit for AI Grading")}
+                        {t("Nộp bài chấm", "Submit for Grading")}
                       </>
                     )}
                   </Button>
