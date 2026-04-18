@@ -207,6 +207,8 @@ const PteReading = () => {
         ))}
       </div>
 
+      <PteFilterBar value={filters} onChange={(f) => { setFilters(f); setIdx(0); }} resultCount={mode === "fillBlank" ? fbFiltered.length : roFiltered.length} totalCount={mode === "fillBlank" ? fbSource.length : roSource.length} />
+
       <motion.div
         key={`${mode}-${idx}`}
         initial={{ opacity: 0, y: 10 }}
@@ -215,7 +217,7 @@ const PteReading = () => {
       >
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <span className="text-xs font-semibold text-[#003580] bg-[#e8eef7] px-2 py-1 rounded-full">
-            {mode === "fillBlank" ? "Fill in the Blanks" : "Re-order Paragraphs"} · {idx + 1}/{mode === "fillBlank" ? FILL_BLANK_BANK.length : REORDER_BANK.length}
+            {mode === "fillBlank" ? "Fill in the Blanks" : "Re-order Paragraphs"} · {idx + 1}/{mode === "fillBlank" ? fbFiltered.length : roFiltered.length}
           </span>
           <PteTimer
             seconds={mode === "fillBlank" ? 120 : 150}
