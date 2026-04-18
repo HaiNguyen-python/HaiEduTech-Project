@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { FILL_BLANK_ALL as FILL_BLANK_BANK, REORDER_ALL as REORDER_BANK, type PteFillBlank, type PteReorderItem } from "@/data/pteData";
 import { similarityToBand, bandLabel } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
+import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
 
 type Mode = "fillBlank" | "reorder";
 
@@ -39,9 +40,20 @@ const PteReading = () => {
   // Reorder state: ordered indices into paragraphs array
   const [order, setOrder] = useState<number[]>([]);
   const [shuffled, setShuffled] = useState<number[]>([]);
+  const [filters, setFilters] = useState<PteFilterState>(DEFAULT_PTE_FILTERS);
 
-  const fbItem = FILL_BLANK_BANK[idx];
-  const roItem = REORDER_BANK[idx];
+  const fbSource = FILL_BLANK_BANK;
+  const roSource = REORDER_BANK;
+  const fbFiltered = useMemo(() => {
+    const f = applyPteFilter(fbSource, filters);
+    return f.length ? f : fbSource;
+  }, [fbSource, filters]);
+  const roFiltered = useMemo(() => {
+    const f = applyPteFilter(roSource, filters);
+    return f.length ? f : roSource;
+  }, [roSource, filters]);
+  const fbItem = fbFiltered[Math.min(idx, fbFiltered.length - 1)];
+  const roItem = roFiltered[Math.min(idx, roFiltered.length - 1)];
 
   // Reset on change
   useEffect(() => {
