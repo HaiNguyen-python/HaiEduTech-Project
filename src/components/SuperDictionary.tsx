@@ -7,9 +7,6 @@ import {
   Volume2,
   Loader2,
   X,
-  Maximize2,
-  Minimize2,
-  PanelRight,
   RefreshCw,
   Clock,
   Sparkles,
@@ -25,10 +22,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 type LookupErrorKind = "notFound" | "busy" | null;
-type SizeMode = "compact" | "wide" | "fullscreen";
+type SizeMode = "wide";
 type ActiveTab = "dictionary" | "ozdic" | "thesaurus";
 
-const SIZE_KEY = "super-dict-size";
+
 const RECENT_KEY = "super-dict-recent";
 const MAX_RECENT = 5;
 const SUGGESTIONS = ["ambiguous", "perspective", "significant"];
@@ -46,7 +43,7 @@ const posChip = (pos: string): string => {
 const SuperDictionary = () => {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [sizeMode, setSizeMode] = useState<SizeMode>("compact");
+  const sizeMode: SizeMode = "wide";
   const [activeTab, setActiveTab] = useState<ActiveTab>("dictionary");
 
   const [dictSearchWord, setDictSearchWord] = useState("");
@@ -70,12 +67,8 @@ const SuperDictionary = () => {
   const [savedWord, setSavedWord] = useState<string | null>(null);
   const dictInputRef = useRef<HTMLInputElement>(null);
 
-  // Restore size mode + recent searches
+  // Restore recent searches
   useEffect(() => {
-    const savedSize = localStorage.getItem(SIZE_KEY) as SizeMode | null;
-    if (savedSize === "compact" || savedSize === "wide" || savedSize === "fullscreen") {
-      setSizeMode(savedSize);
-    }
     try {
       const r = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
       if (Array.isArray(r)) setRecent(r.slice(0, MAX_RECENT));
@@ -83,11 +76,6 @@ const SuperDictionary = () => {
       // ignore
     }
   }, []);
-
-  const persistSize = (m: SizeMode) => {
-    setSizeMode(m);
-    localStorage.setItem(SIZE_KEY, m);
-  };
 
   const pushRecent = useCallback((word: string) => {
     const w = word.trim().toLowerCase();
@@ -317,30 +305,16 @@ const SuperDictionary = () => {
     );
   };
 
-  // Panel sizing — desktop side panel by default, mobile = bottom sheet
-  // Fullscreen = centered modal
+  // Panel sizing — desktop side panel (wide), mobile = bottom sheet
   const panelClasses =
-    sizeMode === "fullscreen"
-      ? "fixed inset-x-2 top-4 bottom-4 lg:inset-x-auto lg:left-1/2 lg:-translate-x-1/2 lg:w-[min(900px,92vw)] lg:h-[88vh] lg:top-1/2 lg:-translate-y-1/2 lg:bottom-auto z-[60] bg-card rounded-2xl border-2 border-primary/30 shadow-[0_20px_60px_rgba(0,0,0,0.25)] flex flex-col"
-      : sizeMode === "wide"
-      ? "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[520px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col"
-      : "fixed inset-x-0 bottom-0 h-[80vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[400px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
+    "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[520px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
 
-  // Slide animation: from left on desktop, from bottom on mobile / fullscreen
-  const motionProps =
-    sizeMode === "fullscreen"
-      ? {
-          initial: { opacity: 0, scale: 0.96 },
-          animate: { opacity: 1, scale: 1 },
-          exit: { opacity: 0, scale: 0.96 },
-          transition: { type: "spring" as const, damping: 24, stiffness: 280 },
-        }
-      : {
-          initial: { opacity: 0, x: -40 },
-          animate: { opacity: 1, x: 0 },
-          exit: { opacity: 0, x: -40 },
-          transition: { type: "spring" as const, damping: 26, stiffness: 280 },
-        };
+  const motionProps = {
+    initial: { opacity: 0, x: -40 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -40 },
+    transition: { type: "spring" as const, damping: 26, stiffness: 280 },
+  };
 
   return (
     <>
@@ -371,17 +345,6 @@ const SuperDictionary = () => {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Dim backdrop only in fullscreen mode */}
-            {sizeMode === "fullscreen" && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-background/60 backdrop-blur-sm z-[55]"
-                onClick={() => setIsOpen(false)}
-              />
-            )}
-
             <motion.div {...motionProps} className={panelClasses}>
               {/* Header */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-primary/5 to-accent/5 shrink-0 rounded-t-2xl">
@@ -399,27 +362,6 @@ const SuperDictionary = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-0.5">
-                  {/* Compact */}
-                  <Button
-                    variant={sizeMode === "compact" ? "secondary" : "ghost"}
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => persistSize("compact")}
-                    title={t("Thu gọn", "Compact")}
-                  >
-                    <PanelRight className="w-3.5 h-3.5" />
-                  </Button>
-                  {/* Wide */}
-                  <Button
-                    variant={sizeMode === "wide" ? "secondary" : "ghost"}
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => persistSize("wide")}
-                    title={t("Mở rộng", "Wide")}
-                  >
-                    <Minimize2 className="w-3.5 h-3.5 rotate-45" />
-                  </Button>
-                  <div className="w-px h-5 bg-border mx-1" />
                   <Button
                     variant="ghost"
                     size="icon"
