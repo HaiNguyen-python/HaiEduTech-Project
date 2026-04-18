@@ -140,10 +140,11 @@ async function handleDictionary(word: string) {
   return { entry, viTranslations };
 }
 
-async function rerankCollocations(word: string, leftCandidates: string[], rightCandidates: string[]) {
+async function handleCollocation(word: string) {
+  const w = word.trim().toLowerCase();
   const apiKey = Deno.env.get("PERPLEXITY_API_KEY");
   if (!apiKey) {
-    return { left: leftCandidates.slice(0, 8), right: rightCandidates.slice(0, 8) };
+    return { groups: [], error: true, message: "Collocation service unavailable" };
   }
 
   try {
@@ -159,94 +160,110 @@ async function rerankCollocations(word: string, leftCandidates: string[], rightC
           {
             role: "system",
             content:
-              "You are a strict English collocation filter. Keep only natural, common English collocations. Remove noise, grammar words, semantically unrelated words, morphology artifacts, and awkward combinations. Return JSON only: {\"left\": string[], \"right\": string[]}. Max 8 items per side.",
+              "You are an English collocation dictionary, modeled after Oxford Collocations Dictionary. Given an English word, return the most natural and frequently used collocations grouped by grammatical pattern. Each collocation MUST be a real, common multi-word phrase that native speakers actually use (e.g. 'eat out', 'eat breakfast', 'healthy eating'). Do NOT include single words, grammar fragments, or unnatural combinations. Return ONLY valid JSON, no prose.",
           },
           {
             role: "user",
-            content: JSON.stringify({
-              word,
-              leftMeaning: "words that naturally come before the target word",
-              rightMeaning: "words that naturally come after the target word",
-              leftCandidates,
-              rightCandidates,
-            }),
+            content:
+              `Generate collocations for the word: "${w}".\n\n` +
+              `Return JSON in this exact shape:\n` +
+              `{\n` +
+              `  "groups": [\n` +
+              `    {\n` +
+              `      "label": "Verb + Noun" | "Adjective + Noun" | "Adverb + Verb" | "Verb + Adverb" | "Phrasal Verbs" | "Common Phrases" | "Noun + Verb" | "Preposition Phrases",\n` +
+              `      "items": [ { "phrase": "eat out", "vi": "đi ăn ngoài" }, ... ]\n` +
+              `    }\n` +
+              `  ]\n` +
+              `}\n\n` +
+              `Rules:\n` +
+              `- Pick 3 to 5 grammatical groups that are most relevant for this word.\n` +
+              `- 4 to 8 phrases per group.\n` +
+              `- Every phrase MUST contain the target word "${w}" (in any inflected form).\n` +
+              `- Provide a short, natural Vietnamese translation for each phrase.\n` +
+              `- Order phrases from most common to less common.\n` +
+              `- No duplicates across groups.`,
           },
         ],
-        temperature: 0.1,
+        temperature: 0.2,
+        response_format: {
+          type: "json_schema",
+          json_schema: {
+            name: "collocations",
+            schema: {
+              type: "object",
+              properties: {
+                groups: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      label: { type: "string" },
+                      items: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            phrase: { type: "string" },
+                            vi: { type: "string" },
+                          },
+                          required: ["phrase", "vi"],
+                        },
+                      },
+                    },
+                    required: ["label", "items"],
+                  },
+                },
+              },
+              required: ["groups"],
+            },
+          },
+        },
       }),
     });
 
     if (!response.ok) {
-      return { left: leftCandidates.slice(0, 8), right: rightCandidates.slice(0, 8) };
+      const text = await response.text().catch(() => "");
+      console.error("Collocation AI error", response.status, text);
+      return { groups: [], error: true, message: "Lookup service is busy" };
     }
 
     const data = await response.json();
-    const text = data?.choices?.[0]?.message?.content || "";
-    const match = text.match(/\{[\s\S]*\}/);
+    const content = data?.choices?.[0]?.message?.content || "";
+    const match = content.match(/\{[\s\S]*\}/);
     if (!match) {
-      return { left: leftCandidates.slice(0, 8), right: rightCandidates.slice(0, 8) };
+      return { groups: [] };
     }
 
-    const parsed = JSON.parse(match[0]);
-    return {
-      left: Array.isArray(parsed?.left) ? parsed.left.slice(0, 8) : leftCandidates.slice(0, 8),
-      right: Array.isArray(parsed?.right) ? parsed.right.slice(0, 8) : rightCandidates.slice(0, 8),
-    };
-  } catch {
-    return { left: leftCandidates.slice(0, 8), right: rightCandidates.slice(0, 8) };
-  }
-}
-
-async function handleCollocation(word: string) {
-  const w = word.trim().toLowerCase();
-  const [afterBigram, beforeBigram, trigger, adjBeforeNoun, nounAfterAdj] = await Promise.all([
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_bga=${encodeURIComponent(w)}&max=30`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_bgb=${encodeURIComponent(w)}&max=30`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_trg=${encodeURIComponent(w)}&max=20`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(w)}&max=20`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(w)}&max=20`),
-  ]);
-
-  if (!afterBigram.ok && !beforeBigram.ok && !trigger.ok && !adjBeforeNoun.ok && !nounAfterAdj.ok) {
-    if (
-      afterBigram.status === 0 &&
-      beforeBigram.status === 0 &&
-      trigger.status === 0 &&
-      adjBeforeNoun.status === 0 &&
-      nounAfterAdj.status === 0
-    ) {
-      return { error: true, message: "Lookup service is busy" };
+    let parsed: any;
+    try {
+      parsed = JSON.parse(match[0]);
+    } catch {
+      return { groups: [] };
     }
+
+    const groups = Array.isArray(parsed?.groups)
+      ? parsed.groups
+          .map((g: any) => ({
+            label: typeof g?.label === "string" ? g.label : "Collocations",
+            items: Array.isArray(g?.items)
+              ? g.items
+                  .filter((it: any) => it && typeof it.phrase === "string" && it.phrase.toLowerCase().includes(w))
+                  .map((it: any) => ({
+                    phrase: it.phrase.trim(),
+                    vi: typeof it.vi === "string" ? it.vi.trim() : "",
+                  }))
+                  .slice(0, 8)
+              : [],
+          }))
+          .filter((g: any) => g.items.length > 0)
+          .slice(0, 6)
+      : [];
+
+    return { groups };
+  } catch (e) {
+    console.error("handleCollocation exception", e);
+    return { groups: [], error: true, message: "Lookup service is busy" };
   }
-
-  const stopwords = new Set([
-    "the", "a", "an", "to", "of", "in", "on", "at", "by", "for", "with", "from", "as", "into",
-    "and", "or", "but", "if", "that", "this", "these", "those", "it", "its", "his", "her", "their",
-    "our", "your", "my", "me", "him", "them", "us", "we", "you", "they", "he", "she", "i",
-    "is", "am", "are", "was", "were", "be", "been", "being", "do", "does", "did", "have", "has", "had",
-    "will", "would", "shall", "should", "can", "could", "may", "might", "must", "not", "no", "yes",
-    "very", "too", "also", "just", "only", "even", "still", "ever", "never", "any", "some", "all",
-    "what", "which", "who", "when", "where", "why", "how", ".",
-  ]);
-
-  const clean = (res: { ok: boolean; data: any }) =>
-    (res.ok ? res.data : [])
-      .map((d: any) => (d.word || "").toLowerCase().trim())
-      .filter((x: string) => x && x !== w && x.length > 1 && !x.includes(" ") && /^[a-z'-]+$/.test(x) && !stopwords.has(x));
-
-  const leftCandidates = [...new Set([
-    ...clean(adjBeforeNoun),
-    ...clean(beforeBigram),
-  ])].slice(0, 16);
-
-  const rightCandidates = [...new Set([
-    ...clean(trigger),
-    ...clean(nounAfterAdj),
-    ...clean(afterBigram),
-  ])].slice(0, 20);
-
-  const reranked = await rerankCollocations(w, leftCandidates, rightCandidates);
-  return { left: reranked.left, right: reranked.right };
 }
 
 async function handleThesaurus(word: string) {
