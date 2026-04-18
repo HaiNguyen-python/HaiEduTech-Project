@@ -108,10 +108,19 @@ function trigramSimilarity(a: string, b: string): number {
 
 const TeacherAdmin = ({ embedded = false }: { embedded?: boolean }) => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const { isTeacher, loading: roleLoading } = useUserRole();
   const [subject, setSubject] = useState("english");
   const [category, setCategory] = useState("grammar");
   const [level, setLevel] = useState("B1");
   const [batchSize, setBatchSize] = useState(10);
+
+  // Route guard: redirect non-teachers when not embedded
+  useEffect(() => {
+    if (!embedded && !roleLoading && !isTeacher) {
+      navigate("/", { replace: true });
+    }
+  }, [embedded, roleLoading, isTeacher, navigate]);
   const [jobs, setJobs] = useState<GenerationJob[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [recentLessons, setRecentLessons] = useState<any[]>([]);
