@@ -10,6 +10,8 @@ import {
   RefreshCw,
   Clock,
   Sparkles,
+  GripVertical,
+  Move,
   BookmarkPlus,
   Check,
 } from "lucide-react";
@@ -17,7 +19,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -27,6 +29,7 @@ type ActiveTab = "dictionary" | "ozdic" | "thesaurus";
 
 
 const RECENT_KEY = "super-dict-recent";
+const POSITION_KEY = "super-dict-position";
 const MAX_RECENT = 5;
 const SUGGESTIONS = ["ambiguous", "perspective", "significant"];
 
@@ -67,7 +70,12 @@ const SuperDictionary = () => {
   const [savedWord, setSavedWord] = useState<string | null>(null);
   const dictInputRef = useRef<HTMLInputElement>(null);
 
-  // Restore recent searches
+  // Drag-to-move position (offset from default anchored position)
+  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const dragConstraintsRef = useRef<HTMLDivElement>(null);
+  const dragControls = useDragControls();
+
+  // Restore recent searches + saved position
   useEffect(() => {
     try {
       const r = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
@@ -75,6 +83,25 @@ const SuperDictionary = () => {
     } catch {
       // ignore
     }
+    try {
+      const p = JSON.parse(localStorage.getItem(POSITION_KEY) || "null");
+      if (p && typeof p.x === "number" && typeof p.y === "number") {
+        setPosition(p);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const persistPosition = useCallback((x: number, y: number) => {
+    setPosition({ x, y });
+    localStorage.setItem(POSITION_KEY, JSON.stringify({ x, y }));
+  }, []);
+
+  const resetPosition = useCallback(() => {
+    setPosition({ x: 0, y: 0 });
+    localStorage.removeItem(POSITION_KEY);
+    toast.success("Đã đưa từ điển về vị trí mặc định");
   }, []);
 
   const pushRecent = useCallback((word: string) => {
@@ -305,14 +332,14 @@ const SuperDictionary = () => {
     );
   };
 
-  // Panel sizing — desktop side panel (wide), mobile = bottom sheet
+  // Panel sizing — desktop side panel (wide), mobile = bottom sheet (no drag on mobile)
   const panelClasses =
     "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[520px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
 
   const motionProps = {
-    initial: { opacity: 0, x: -40 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -40 },
+    initial: { opacity: 0, x: -40 + position.x, y: position.y },
+    animate: { opacity: 1, x: position.x, y: position.y },
+    exit: { opacity: 0, x: -40 + position.x, y: position.y },
     transition: { type: "spring" as const, damping: 26, stiffness: 280 },
   };
 
@@ -341,27 +368,66 @@ const SuperDictionary = () => {
         )}
       </AnimatePresence>
 
+      {/* Drag constraints container — full viewport on lg+ only */}
+      <div
+        ref={dragConstraintsRef}
+        className="hidden lg:block fixed inset-0 z-[55] pointer-events-none"
+        aria-hidden
+      />
+
       {/* Side panel / modal */}
       <AnimatePresence>
         {isOpen && (
           <>
-            <motion.div {...motionProps} className={panelClasses}>
-              {/* Header */}
+            <motion.div
+              {...motionProps}
+              drag
+              dragControls={dragControls}
+              dragListener={false}
+              dragMomentum={false}
+              dragElastic={0}
+              dragConstraints={dragConstraintsRef}
+              onDragEnd={(_, info) => {
+                persistPosition(position.x + info.offset.x, position.y + info.offset.y);
+              }}
+              className={panelClasses}
+            >
+              {/* Header — drag handle on lg+ */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-primary/5 to-accent/5 shrink-0 rounded-t-2xl">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  {/* Drag grip — only visible/active on lg+ */}
+                  <button
+                    onPointerDown={(e) => dragControls.start(e)}
+                    className="hidden lg:flex shrink-0 w-6 h-8 items-center justify-center text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing rounded hover:bg-muted/60 transition-colors touch-none"
+                    title={t("Kéo để di chuyển", "Drag to move")}
+                    aria-label={t("Kéo để di chuyển", "Drag to move")}
+                  >
+                    <GripVertical className="w-4 h-4" />
+                  </button>
+                  <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
                     <BookMarked className="w-4 h-4 text-primary" />
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground leading-tight">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-foreground leading-tight truncate">
                       {t("Siêu từ điển", "Super Dictionary")}
                     </p>
-                    <p className="text-[10px] text-muted-foreground leading-tight">
+                    <p className="text-[10px] text-muted-foreground leading-tight truncate">
                       {t("Anh - Việt • Collocations • Synonyms", "EN-VI • Collocations • Synonyms")}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-0.5">
+                <div className="flex items-center gap-0.5 shrink-0">
+                  {(position.x !== 0 || position.y !== 0) && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hidden lg:inline-flex h-8 w-8"
+                      onClick={resetPosition}
+                      title={t("Về vị trí mặc định", "Reset position")}
+                    >
+                      <Move className="w-3.5 h-3.5" />
+                    </Button>
+                  )}
                   <Button
                     variant="ghost"
                     size="icon"
