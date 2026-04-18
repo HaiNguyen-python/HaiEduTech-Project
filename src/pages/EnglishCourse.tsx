@@ -420,35 +420,62 @@ const EnglishCourse = () => {
               </div>
             )}
 
-            {/* SAT Interactive Modules */}
+            {/* SAT Interactive Modules + Lessons */}
             {courseId === "sat" && (() => {
               const satModules = allEnglishModules.filter(m => m.category === "sat");
+              const totalLessons = satModules.reduce((s, m) => s + m.lessons.length, 0);
               return satModules.length > 0 ? (
-                <div className="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                <div id="sat-lessons" className="glass-card rounded-2xl p-6 md:p-8 mb-8 scroll-mt-24">
                   <h2 className="text-xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
-                    <Layers className="w-5 h-5 text-primary" /> {t("Bài học tương tác SAT", "Interactive SAT Modules")}
+                    <Layers className="w-5 h-5 text-primary" /> {t("📚 Bài học SAT tương tác", "📚 Interactive SAT Lessons")}
                   </h2>
-                  <p className="text-muted-foreground mb-5 text-sm">
-                    {t(`${satModules.length} module — ${satModules.reduce((s, m) => s + m.lessons.length, 0)} bài học tương tác với bài tập & quiz`, `${satModules.length} modules — ${satModules.reduce((s, m) => s + m.lessons.length, 0)} interactive lessons with exercises & quizzes`)}
+                  <p className="text-muted-foreground mb-6 text-sm">
+                    {t(
+                      `${satModules.length} module — ${totalLessons} bài học tương tác với lý thuyết, từ vựng, bài tập & quiz`,
+                      `${satModules.length} modules — ${totalLessons} interactive lessons with theory, vocabulary, exercises & quizzes`
+                    )}
                   </p>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-6">
                     {satModules.map(mod => (
-                      <Link key={mod.id} to={`/english/learn/${mod.id}`}
-                        className="block p-4 rounded-xl bg-background/60 border border-border hover:border-primary/40 hover:shadow-md transition-all group">
-                        <div className="flex items-start gap-3">
-                          <span className="text-2xl">{mod.icon}</span>
+                      <div key={mod.id} className="rounded-xl border border-border bg-background/40 p-4 md:p-5">
+                        {/* Module header */}
+                        <div className="flex items-start gap-3 mb-4 pb-3 border-b border-border">
+                          <span className="text-3xl">{mod.icon}</span>
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors truncate">{mod.title}</h3>
-                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{mod.description}</p>
-                            <div className="flex items-center gap-2 mt-2">
-                              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
-                                {mod.lessons.length} {t("bài học", "lessons")}
-                              </span>
-                              <ArrowRight className="w-3.5 h-3.5 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </div>
+                            <h3 className="font-bold text-foreground text-base md:text-lg">{mod.title}</h3>
+                            <p className="text-xs md:text-sm text-muted-foreground mt-1">{mod.description}</p>
                           </div>
+                          <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium whitespace-nowrap shrink-0">
+                            {mod.lessons.length} {t("bài", "lessons")}
+                          </span>
                         </div>
-                      </Link>
+                        {/* Lessons grid */}
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {mod.lessons.map((lesson, idx) => (
+                            <button
+                              key={lesson.id}
+                              onClick={() => navigate(`/english/learn/${mod.id}/${lesson.id}`)}
+                              className="text-left p-3 rounded-lg border border-border bg-card hover:border-primary hover:scale-[1.02] hover:shadow-md transition-all group"
+                            >
+                              <div className="flex items-start gap-2.5">
+                                <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                  <span className="text-xs font-bold text-primary group-hover:text-primary-foreground">{idx + 1}</span>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                                    {lesson.title}
+                                  </p>
+                                  {lesson.difficulty && (
+                                    <span className="inline-block mt-1.5 text-[10px] uppercase tracking-wide bg-muted text-muted-foreground px-1.5 py-0.5 rounded font-medium">
+                                      {lesson.difficulty}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
