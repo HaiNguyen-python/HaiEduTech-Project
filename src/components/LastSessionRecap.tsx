@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
@@ -152,6 +152,23 @@ export default function LastSessionRecap() {
       }
     );
     return () => subscription.unsubscribe();
+  }, []);
+
+  // Lightweight refetch of notebooks when external append happens.
+  useEffect(() => {
+    const handler = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) return;
+      const { data } = await supabase
+        .from("student_notebooks")
+        .select("title, subject, content, updated_at")
+        .eq("user_id", session.user.id)
+        .order("updated_at", { ascending: false })
+        .limit(3);
+      if (data) setNotebooks(data as Notebook[]);
+    };
+    window.addEventListener("notebook:updated", handler as EventListener);
+    return () => window.removeEventListener("notebook:updated", handler as EventListener);
   }, []);
 
   const totalItems = activities.length + writings.length + notebooks.length + lectures.length;

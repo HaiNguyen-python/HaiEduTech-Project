@@ -104,32 +104,56 @@ const PhrasePractice = ({ taskType }: Props) => {
 
       const existing = existingRows && existingRows.length > 0 ? existingRows[0] : null;
 
+      let savedId: string | null = null;
+      let savedContent = "";
+      const nowIso = new Date().toISOString();
+
       if (existing) {
         const merged = `${existing.content || ""}<hr/>${newBlock}`;
-        const { error } = await supabase
+        const { data: updated, error } = await supabase
           .from("student_notebooks")
-          .update({ content: merged, updated_at: new Date().toISOString() })
+          .update({ content: merged, updated_at: nowIso })
           .eq("id", existing.id)
-          .eq("user_id", userData.user.id);
+          .eq("user_id", userData.user.id)
+          .select("id, content, updated_at")
+          .single();
         if (error) {
           console.error("Notebook update failed:", error);
           toast.error(t(`Lưu sổ tay thất bại: ${error.message}`, `Save failed: ${error.message}`));
           return;
         }
+        savedId = updated?.id ?? existing.id;
+        savedContent = updated?.content ?? merged;
       } else {
-        const { error } = await supabase.from("student_notebooks").insert({
-          user_id: userData.user.id,
-          title,
-          subject: "ielts",
-          content: newBlock,
-          is_public: false,
-        });
+        const { data: inserted, error } = await supabase
+          .from("student_notebooks")
+          .insert({
+            user_id: userData.user.id,
+            title,
+            subject: "ielts",
+            content: newBlock,
+            is_public: false,
+          })
+          .select("id, content, updated_at")
+          .single();
         if (error) {
           console.error("Notebook insert failed:", error);
           toast.error(t(`Lưu sổ tay thất bại: ${error.message}`, `Save failed: ${error.message}`));
           return;
         }
+        savedId = inserted?.id ?? null;
+        savedContent = inserted?.content ?? newBlock;
       }
+
+      // Notify other notebook UIs (FloatingNotebook, Notebook page, Recap) to refetch.
+      try {
+        window.dispatchEvent(
+          new CustomEvent("notebook:updated", {
+            detail: { noteId: savedId, title, content: savedContent, updatedAt: nowIso },
+          })
+        );
+      } catch {}
+
       toast.success(t("Đã lưu vào Sổ tay ghi chú", "Saved to your Notebook"));
     } catch (e: any) {
       console.error("Notebook save error:", e);
