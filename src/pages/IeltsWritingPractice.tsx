@@ -565,6 +565,8 @@ const IeltsWritingPractice = () => {
             </motion.div>
           </div>
         )}
+          </TabsContent>
+        </Tabs>
 
         {/* Super Dictionary - compact bottom panel */}
         <SuperDictionary />
