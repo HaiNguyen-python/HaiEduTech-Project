@@ -155,43 +155,84 @@ const COLLOCATION_STOPWORDS = new Set([
 
 async function handleCollocation(word: string) {
   const w = word.trim().toLowerCase();
-  // Datamuse bigram queries return real co-occurrence data:
-  // - rel_bga=W → words that frequently FOLLOW W (next word in bigram)
-  // - rel_bgb=W → words that frequently PRECEDE W (previous word in bigram)
-  // - rel_jja=W → adjectives that modify the noun W (PRECEDE W when W is a noun)
-  // - rel_jjb=W → nouns often modified by the adjective W (FOLLOW W when W is an adjective)
-  const [followers, preceders, adjMod, nounMod] = await Promise.all([
+  const [posInfo, afterBigram, beforeBigram, trigger, adjBeforeNoun, nounAfterAdj] = await Promise.all([
+    fetchJSONWithRetry(`https://api.datamuse.com/words?sp=${encodeURIComponent(w)}&md=p&max=1`),
     fetchJSONWithRetry(`https://api.datamuse.com/words?rel_bga=${encodeURIComponent(w)}&max=30`),
     fetchJSONWithRetry(`https://api.datamuse.com/words?rel_bgb=${encodeURIComponent(w)}&max=30`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(w)}&max=15`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(w)}&max=15`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_trg=${encodeURIComponent(w)}&max=20`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(w)}&max=20`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(w)}&max=20`),
   ]);
 
-  if (!followers.ok && !preceders.ok && !adjMod.ok && !nounMod.ok) {
-    if (followers.status === 0 && preceders.status === 0 && adjMod.status === 0 && nounMod.status === 0) {
+  if (!posInfo.ok && !afterBigram.ok && !beforeBigram.ok && !trigger.ok && !adjBeforeNoun.ok && !nounAfterAdj.ok) {
+    if (
+      posInfo.status === 0 &&
+      afterBigram.status === 0 &&
+      beforeBigram.status === 0 &&
+      trigger.status === 0 &&
+      adjBeforeNoun.status === 0 &&
+      nounAfterAdj.status === 0
+    ) {
       return { error: true, message: "Lookup service is busy" };
     }
   }
 
-  const clean = (res: any) =>
+  const stopwords = new Set([
+    "the", "a", "an", "to", "of", "in", "on", "at", "by", "for", "with", "from", "as", "into",
+    "and", "or", "but", "if", "that", "this", "these", "those", "it", "its", "his", "her", "their",
+    "our", "your", "my", "me", "him", "them", "us", "we", "you", "they", "he", "she", "i",
+    "is", "am", "are", "was", "were", "be", "been", "being", "do", "does", "did", "have", "has", "had",
+    "will", "would", "shall", "should", "can", "could", "may", "might", "must", "not", "no", "yes",
+    "very", "too", "also", "just", "only", "even", "still", "ever", "never", "any", "some", "all",
+    "what", "which", "who", "when", "where", "why", "how", ".",
+  ]);
+
+  const clean = (res: { ok: boolean; data: any }) =>
     (res.ok ? res.data : [])
       .map((d: any) => (d.word || "").toLowerCase().trim())
-      .filter((x: string) =>
-        x &&
-        x !== w &&
-        x.length > 1 &&
-        !x.includes(" ") &&
-        /^[a-z'-]+$/.test(x) &&
-        !COLLOCATION_STOPWORDS.has(x),
-      );
+      .filter((x: string) => x && x !== w && x.length > 1 && !x.includes(" ") && /^[a-z'-]+$/.test(x) && !stopwords.has(x));
 
-  // LEFT column "___ + W" → words that come BEFORE the search word
-  // Prioritize adjective modifiers (cleanest collocations), then bigram preceders
-  const left = [...new Set([...clean(adjMod), ...clean(preceders)])].slice(0, 12);
-  // RIGHT column "W + ___" → words that come AFTER the search word
-  const right = [...new Set([...clean(followers), ...clean(nounMod)])].slice(0, 12);
+  const posTags = posInfo.ok && Array.isArray(posInfo.data) && posInfo.data[0]?.tags
+    ? posInfo.data[0].tags
+    : [];
+  const primaryPos = posTags.includes("adj")
+    ? "adj"
+    : posTags.includes("v")
+      ? "verb"
+      : posTags.includes("n")
+        ? "noun"
+        : "unknown";
 
-  return { left, right };
+  let left: string[] = [];
+  let right: string[] = [];
+
+  if (primaryPos === "verb") {
+    right = [...new Set([
+      ...clean(trigger),
+      ...clean(nounAfterAdj),
+      ...clean(afterBigram),
+    ])].filter((x) => !["different", "double", "long", "single", "annual", "average", "total"].includes(x)).slice(0, 12);
+  } else if (primaryPos === "noun") {
+    left = [...new Set([
+      ...clean(adjBeforeNoun),
+      ...clean(nounAfterAdj),
+      ...clean(beforeBigram),
+    ])].slice(0, 12);
+    right = clean(afterBigram).filter((x) => !["making", "makers", "maker"].includes(x)).slice(0, 8);
+  } else if (primaryPos === "adj") {
+    right = [...new Set([
+      ...clean(nounAfterAdj),
+      ...clean(afterBigram),
+    ])].slice(0, 12);
+  } else {
+    left = clean(beforeBigram).slice(0, 8);
+    right = [...new Set([
+      ...clean(trigger),
+      ...clean(afterBigram),
+    ])].slice(0, 8);
+  }
+
+  return { left, right, pos: primaryPos };
 }
 
 async function handleThesaurus(word: string) {
