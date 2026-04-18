@@ -2,3 +2,6 @@ project_id = "ldbrjxtqcnrbdimexrif"
 
 [functions.finnish-tts]
 verify_jwt = false
+
+[functions.dictionary-lookup]
+verify_jwt = false
