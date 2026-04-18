@@ -140,20 +140,31 @@ async function handleDictionary(word: string) {
   return { entry, viTranslations };
 }
 
+// Common English stopwords + punctuation that pollute bigram results
+const COLLOCATION_STOPWORDS = new Set([
+  "the", "a", "an", "to", "of", "in", "on", "at", "by", "for", "with", "from", "as", "into", "onto", "upon",
+  "and", "or", "but", "nor", "so", "yet", "if", "that", "this", "these", "those", "it", "its", "his", "her",
+  "their", "our", "your", "my", "me", "him", "them", "us", "we", "you", "they", "he", "she", "i",
+  "is", "am", "are", "was", "were", "be", "been", "being", "do", "does", "did", "have", "has", "had",
+  "will", "would", "shall", "should", "can", "could", "may", "might", "must", "ought",
+  "not", "no", "yes", "very", "too", "also", "just", "only", "even", "still", "ever", "never",
+  "any", "some", "all", "each", "every", "both", "few", "many", "much", "most", "more", "less",
+  "what", "which", "who", "whom", "whose", "when", "where", "why", "how",
+  "up", "down", "out", "over", "off", "back", "away", "around", "through", "across",
+]);
+
 async function handleCollocation(word: string) {
   const w = word.trim().toLowerCase();
-  // Datamuse query semantics (verified empirically against the live API):
-  // - lc=W → words that frequently appear with W on their LEFT → results FOLLOW W
-  //          e.g. lc=take → "off", "care", "place" → "take off", "take care", "take place"
-  // - rc=W → words that frequently appear with W on their RIGHT → results PRECEDE W
-  //          e.g. rc=decision → "make", "reach", "final" → "make decision", "final decision"
-  // - rel_jja=W → adjectives that often modify the noun W (PRECEDE W)
-  // - rel_jjb=W → nouns often modified by the adjective W (FOLLOW W)
+  // Datamuse bigram queries return real co-occurrence data:
+  // - rel_bga=W → words that frequently FOLLOW W (next word in bigram)
+  // - rel_bgb=W → words that frequently PRECEDE W (previous word in bigram)
+  // - rel_jja=W → adjectives that modify the noun W (PRECEDE W when W is a noun)
+  // - rel_jjb=W → nouns often modified by the adjective W (FOLLOW W when W is an adjective)
   const [followers, preceders, adjMod, nounMod] = await Promise.all([
-    fetchJSONWithRetry(`https://api.datamuse.com/words?lc=${encodeURIComponent(w)}&max=15`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rc=${encodeURIComponent(w)}&max=15`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(w)}&max=10`),
-    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(w)}&max=10`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_bga=${encodeURIComponent(w)}&max=30`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_bgb=${encodeURIComponent(w)}&max=30`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(w)}&max=15`),
+    fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(w)}&max=15`),
   ]);
 
   if (!followers.ok && !preceders.ok && !adjMod.ok && !nounMod.ok) {
@@ -165,10 +176,18 @@ async function handleCollocation(word: string) {
   const clean = (res: any) =>
     (res.ok ? res.data : [])
       .map((d: any) => (d.word || "").toLowerCase().trim())
-      .filter((x: string) => x && x !== w && x.length > 1 && !x.includes(" "));
+      .filter((x: string) =>
+        x &&
+        x !== w &&
+        x.length > 1 &&
+        !x.includes(" ") &&
+        /^[a-z'-]+$/.test(x) &&
+        !COLLOCATION_STOPWORDS.has(x),
+      );
 
   // LEFT column "___ + W" → words that come BEFORE the search word
-  const left = [...new Set([...clean(preceders), ...clean(adjMod)])].slice(0, 12);
+  // Prioritize adjective modifiers (cleanest collocations), then bigram preceders
+  const left = [...new Set([...clean(adjMod), ...clean(preceders)])].slice(0, 12);
   // RIGHT column "W + ___" → words that come AFTER the search word
   const right = [...new Set([...clean(followers), ...clean(nounMod)])].slice(0, 12);
 
