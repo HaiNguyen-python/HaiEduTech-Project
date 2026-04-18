@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import PteShell from "@/components/pte/PteShell";
 import PteTimer from "@/components/pte/PteTimer";
 import { Button } from "@/components/ui/button";
-import { FILL_BLANK_BANK, REORDER_BANK, type PteFillBlank, type PteReorderItem } from "@/data/pteData";
+import { FILL_BLANK_ALL as FILL_BLANK_BANK, REORDER_ALL as REORDER_BANK, type PteFillBlank, type PteReorderItem } from "@/data/pteData";
 import { similarityToBand, bandLabel } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
 

@@ -12,7 +12,7 @@ import PteTimer from "@/components/pte/PteTimer";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { DICTATION_BANK, SUMMARIZE_SPOKEN_BANK, type PteDictation, type PteSummarizeSpoken } from "@/data/pteData";
+import { DICTATION_ALL as DICTATION_BANK, SUMMARIZE_SPOKEN_ALL as SUMMARIZE_SPOKEN_BANK, type PteDictation, type PteSummarizeSpoken } from "@/data/pteData";
 import { stringSimilarity, similarityToBand, bandLabel, diffWords, keywordCoverage } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
 

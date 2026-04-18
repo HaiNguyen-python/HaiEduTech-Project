@@ -11,7 +11,7 @@ import PteShell from "@/components/pte/PteShell";
 import PteTimer from "@/components/pte/PteTimer";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { ESSAY_BANK, SUMMARIZE_TEXT_BANK, type PteEssayPrompt, type PteSummarizeText } from "@/data/pteData";
+import { ESSAY_ALL as ESSAY_BANK, SUMMARIZE_TEXT_ALL as SUMMARIZE_TEXT_BANK, type PteEssayPrompt, type PteSummarizeText } from "@/data/pteData";
 import { keywordCoverage, similarityToBand, bandLabel } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import { supabase } from "@/integrations/supabase/client";

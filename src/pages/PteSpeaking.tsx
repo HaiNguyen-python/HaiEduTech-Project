@@ -9,9 +9,9 @@ import { Mic, Square, Volume2, ChevronRight, RotateCcw, Image as ImageIcon, Head
 import PteShell from "@/components/pte/PteShell";
 import PteTimer from "@/components/pte/PteTimer";
 import {
-  READ_ALOUD_BANK,
-  REPEAT_SENTENCE_BANK,
-  DESCRIBE_IMAGE_BANK,
+  READ_ALOUD_ALL as READ_ALOUD_BANK,
+  REPEAT_SENTENCE_ALL as REPEAT_SENTENCE_BANK,
+  DESCRIBE_IMAGE_ALL as DESCRIBE_IMAGE_BANK,
   RETELL_LECTURE_BANK,
 } from "@/data/pteData";
 import {
