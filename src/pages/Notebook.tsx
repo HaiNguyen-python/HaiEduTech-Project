@@ -328,10 +328,10 @@ const Notebook = () => {
                             <h3 className="font-semibold truncate">{note.title || "Không tiêu đề"}</h3>
                             <Badge variant="secondary" className="text-xs shrink-0">{getSubjectLabel(note.subject)}</Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground line-clamp-2">{note.content || "Chưa có nội dung"}</p>
+                          <p className="text-sm text-muted-foreground line-clamp-2">{stripHtml(note.content) || "Chưa có nội dung"}</p>
                           <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
                             <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{format(new Date(note.updated_at), "dd/MM/yyyy HH:mm")}</span>
-                            <span>{note.content.split(/\s+/).filter(Boolean).length} từ</span>
+                            <span>{stripHtml(note.content).split(/\s+/).filter(Boolean).length} từ</span>
                           </div>
                         </div>
                         <div className="flex gap-1 shrink-0">
@@ -362,11 +362,11 @@ const Notebook = () => {
                               <h3 className="font-semibold truncate">{note.title || "Không tiêu đề"}</h3>
                               <Badge variant="secondary" className="text-xs shrink-0">{getSubjectLabel(note.subject)}</Badge>
                             </div>
-                            <p className="text-sm text-muted-foreground line-clamp-2">{note.content || "Chưa có nội dung"}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-2">{stripHtml(note.content) || "Chưa có nội dung"}</p>
                             <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
                               <span className="flex items-center gap-1"><User className="w-3 h-3" />{note.profile_name}</span>
                               <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{format(new Date(note.updated_at), "dd/MM/yyyy HH:mm")}</span>
-                              <span>{note.content.split(/\s+/).filter(Boolean).length} từ</span>
+                              <span>{stripHtml(note.content).split(/\s+/).filter(Boolean).length} từ</span>
                             </div>
                           </div>
                           <Button variant="ghost" size="icon" onClick={() => setViewNote(note)}><Eye className="w-4 h-4" /></Button>
@@ -398,11 +398,18 @@ const Notebook = () => {
                 </p>
               )}
               <p className="text-xs text-muted-foreground mb-4">
-                Cập nhật: {format(new Date(viewNote.updated_at), "dd/MM/yyyy HH:mm")} · {viewNote.content.split(/\s+/).filter(Boolean).length} từ
+                Cập nhật: {format(new Date(viewNote.updated_at), "dd/MM/yyyy HH:mm")} · {stripHtml(viewNote.content).split(/\s+/).filter(Boolean).length} từ
               </p>
-              <div className="whitespace-pre-wrap text-sm leading-relaxed bg-muted/30 rounded-lg p-4 min-h-[200px]">
-                {viewNote.content || "Chưa có nội dung"}
-              </div>
+              {viewNote.content ? (
+                <div
+                  className="text-sm leading-relaxed bg-muted/30 rounded-lg p-4 min-h-[200px] prose prose-sm max-w-none dark:prose-invert [&_hr]:my-3 [&_hr]:border-border [&_p]:my-1.5"
+                  dangerouslySetInnerHTML={{ __html: sanitize(viewNote.content) }}
+                />
+              ) : (
+                <div className="text-sm text-muted-foreground bg-muted/30 rounded-lg p-4 min-h-[200px]">
+                  Chưa có nội dung
+                </div>
+              )}
             </div>
           )}
         </DialogContent>
