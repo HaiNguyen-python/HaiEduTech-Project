@@ -341,9 +341,18 @@ const SuperDictionary = () => {
     );
   };
 
-  // Panel sizing — desktop side panel (wide), mobile = bottom sheet (no drag on mobile)
+  // Panel sizing — desktop side panel (resizable), mobile = bottom sheet (no drag/resize on mobile)
+  // On mobile (<lg) we keep the fixed bottom-sheet sizing; on lg+ we apply width/height via inline styles.
   const panelClasses =
-    "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[520px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
+    "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-auto lg:h-auto z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
+
+  const isLg = typeof window !== "undefined" && window.matchMedia?.("(min-width: 1024px)").matches;
+  const panelStyle: React.CSSProperties = isLg
+    ? {
+        width: `${size.w}px`,
+        height: size.h === 0 ? `min(${MAX_HEIGHT_VH}vh, calc(100vh - 100px))` : `${size.h}px`,
+      }
+    : {};
 
   const motionProps = {
     initial: { opacity: 0, x: -40 + position.x, y: position.y },
@@ -400,6 +409,7 @@ const SuperDictionary = () => {
                 persistPosition(position.x + info.offset.x, position.y + info.offset.y);
               }}
               className={panelClasses}
+              style={panelStyle}
             >
               {/* Header — drag handle on lg+ */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-primary/5 to-accent/5 shrink-0 rounded-t-2xl">
