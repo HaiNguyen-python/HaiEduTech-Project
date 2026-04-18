@@ -114,6 +114,17 @@ const FloatingNotebook = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Listen for chatbot open/close to hide notebook button (avoid overlap with chat input)
+  const [chatbotOpen, setChatbotOpen] = useState(false);
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setChatbotOpen(!!detail?.open);
+    };
+    window.addEventListener("chatbot:toggle", handler as EventListener);
+    return () => window.removeEventListener("chatbot:toggle", handler as EventListener);
+  }, []);
+
   // Re-clamp position when opening
   useEffect(() => {
     if (open) {
