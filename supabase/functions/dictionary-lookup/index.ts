@@ -140,23 +140,66 @@ async function handleDictionary(word: string) {
   return { entry, viTranslations };
 }
 
-// Common English stopwords + punctuation that pollute bigram results
-const COLLOCATION_STOPWORDS = new Set([
-  "the", "a", "an", "to", "of", "in", "on", "at", "by", "for", "with", "from", "as", "into", "onto", "upon",
-  "and", "or", "but", "nor", "so", "yet", "if", "that", "this", "these", "those", "it", "its", "his", "her",
-  "their", "our", "your", "my", "me", "him", "them", "us", "we", "you", "they", "he", "she", "i",
-  "is", "am", "are", "was", "were", "be", "been", "being", "do", "does", "did", "have", "has", "had",
-  "will", "would", "shall", "should", "can", "could", "may", "might", "must", "ought",
-  "not", "no", "yes", "very", "too", "also", "just", "only", "even", "still", "ever", "never",
-  "any", "some", "all", "each", "every", "both", "few", "many", "much", "most", "more", "less",
-  "what", "which", "who", "whom", "whose", "when", "where", "why", "how",
-  "up", "down", "out", "over", "off", "back", "away", "around", "through", "across",
-]);
+async function rerankCollocations(word: string, leftCandidates: string[], rightCandidates: string[]) {
+  const apiKey = Deno.env.get("PERPLEXITY_API_KEY");
+  if (!apiKey) {
+    return { left: leftCandidates.slice(0, 8), right: rightCandidates.slice(0, 8) };
+  }
+
+  try {
+    const response = await fetch("https://api.perplexity.ai/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "sonar",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a strict English collocation filter. Keep only natural, common English collocations. Remove noise, grammar words, semantically unrelated words, morphology artifacts, and awkward combinations. Return JSON only: {\"left\": string[], \"right\": string[]}. Max 8 items per side.",
+          },
+          {
+            role: "user",
+            content: JSON.stringify({
+              word,
+              leftMeaning: "words that naturally come before the target word",
+              rightMeaning: "words that naturally come after the target word",
+              leftCandidates,
+              rightCandidates,
+            }),
+          },
+        ],
+        temperature: 0.1,
+      }),
+    });
+
+    if (!response.ok) {
+      return { left: leftCandidates.slice(0, 8), right: rightCandidates.slice(0, 8) };
+    }
+
+    const data = await response.json();
+    const text = data?.choices?.[0]?.message?.content || "";
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) {
+      return { left: leftCandidates.slice(0, 8), right: rightCandidates.slice(0, 8) };
+    }
+
+    const parsed = JSON.parse(match[0]);
+    return {
+      left: Array.isArray(parsed?.left) ? parsed.left.slice(0, 8) : leftCandidates.slice(0, 8),
+      right: Array.isArray(parsed?.right) ? parsed.right.slice(0, 8) : rightCandidates.slice(0, 8),
+    };
+  } catch {
+    return { left: leftCandidates.slice(0, 8), right: rightCandidates.slice(0, 8) };
+  }
+}
 
 async function handleCollocation(word: string) {
   const w = word.trim().toLowerCase();
-  const [posInfo, afterBigram, beforeBigram, trigger, adjBeforeNoun, nounAfterAdj] = await Promise.all([
-    fetchJSONWithRetry(`https://api.datamuse.com/words?sp=${encodeURIComponent(w)}&md=p&max=1`),
+  const [afterBigram, beforeBigram, trigger, adjBeforeNoun, nounAfterAdj] = await Promise.all([
     fetchJSONWithRetry(`https://api.datamuse.com/words?rel_bga=${encodeURIComponent(w)}&max=30`),
     fetchJSONWithRetry(`https://api.datamuse.com/words?rel_bgb=${encodeURIComponent(w)}&max=30`),
     fetchJSONWithRetry(`https://api.datamuse.com/words?rel_trg=${encodeURIComponent(w)}&max=20`),
@@ -164,9 +207,8 @@ async function handleCollocation(word: string) {
     fetchJSONWithRetry(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(w)}&max=20`),
   ]);
 
-  if (!posInfo.ok && !afterBigram.ok && !beforeBigram.ok && !trigger.ok && !adjBeforeNoun.ok && !nounAfterAdj.ok) {
+  if (!afterBigram.ok && !beforeBigram.ok && !trigger.ok && !adjBeforeNoun.ok && !nounAfterAdj.ok) {
     if (
-      posInfo.status === 0 &&
       afterBigram.status === 0 &&
       beforeBigram.status === 0 &&
       trigger.status === 0 &&
@@ -192,47 +234,19 @@ async function handleCollocation(word: string) {
       .map((d: any) => (d.word || "").toLowerCase().trim())
       .filter((x: string) => x && x !== w && x.length > 1 && !x.includes(" ") && /^[a-z'-]+$/.test(x) && !stopwords.has(x));
 
-  const posTags = posInfo.ok && Array.isArray(posInfo.data) && posInfo.data[0]?.tags
-    ? posInfo.data[0].tags
-    : [];
-  const primaryPos = posTags.includes("adj")
-    ? "adj"
-    : posTags.includes("v")
-      ? "verb"
-      : posTags.includes("n")
-        ? "noun"
-        : "unknown";
+  const leftCandidates = [...new Set([
+    ...clean(adjBeforeNoun),
+    ...clean(beforeBigram),
+  ])].slice(0, 16);
 
-  let left: string[] = [];
-  let right: string[] = [];
+  const rightCandidates = [...new Set([
+    ...clean(trigger),
+    ...clean(nounAfterAdj),
+    ...clean(afterBigram),
+  ])].slice(0, 20);
 
-  if (primaryPos === "verb") {
-    right = [...new Set([
-      ...clean(trigger),
-      ...clean(nounAfterAdj),
-      ...clean(afterBigram),
-    ])].filter((x) => !["different", "double", "long", "single", "annual", "average", "total"].includes(x)).slice(0, 12);
-  } else if (primaryPos === "noun") {
-    left = [...new Set([
-      ...clean(adjBeforeNoun),
-      ...clean(nounAfterAdj),
-      ...clean(beforeBigram),
-    ])].slice(0, 12);
-    right = clean(afterBigram).filter((x) => !["making", "makers", "maker"].includes(x)).slice(0, 8);
-  } else if (primaryPos === "adj") {
-    right = [...new Set([
-      ...clean(nounAfterAdj),
-      ...clean(afterBigram),
-    ])].slice(0, 12);
-  } else {
-    left = clean(beforeBigram).slice(0, 8);
-    right = [...new Set([
-      ...clean(trigger),
-      ...clean(afterBigram),
-    ])].slice(0, 8);
-  }
-
-  return { left, right, pos: primaryPos };
+  const reranked = await rerankCollocations(w, leftCandidates, rightCandidates);
+  return { left: reranked.left, right: reranked.right };
 }
 
 async function handleThesaurus(word: string) {
