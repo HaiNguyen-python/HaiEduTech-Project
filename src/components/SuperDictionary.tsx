@@ -304,6 +304,26 @@ const SuperDictionary = () => {
     return { opacity: 0.5 + ratio * 0.5 };
   };
 
+  const normalizeWord = (value: string) => value.trim().toLowerCase();
+
+  const renderLeftCollocation = (candidate: string, baseWord: string) => {
+    const normalizedCandidate = normalizeWord(candidate);
+    const normalizedBase = normalizeWord(baseWord);
+    if (normalizedCandidate.includes(normalizedBase)) {
+      return candidate;
+    }
+    return `${candidate} ${baseWord}`;
+  };
+
+  const renderRightCollocation = (candidate: string, baseWord: string) => {
+    const normalizedCandidate = normalizeWord(candidate);
+    const normalizedBase = normalizeWord(baseWord);
+    if (normalizedCandidate.includes(normalizedBase)) {
+      return candidate;
+    }
+    return `${baseWord} ${candidate}`;
+  };
+
   // Panel sizing — desktop side panel by default, mobile = bottom sheet
   // Fullscreen = centered modal
   const panelClasses =
@@ -629,7 +649,7 @@ const SuperDictionary = () => {
                             <div className="flex flex-wrap gap-1.5">
                               {collocationResult.left.map((w) => (
                                 <span key={w} className="rounded-lg bg-primary/10 hover:bg-primary/20 text-primary px-2.5 py-1 text-sm font-medium transition-colors cursor-default border border-primary/20">
-                                  {w} <span className="text-foreground font-semibold">{collocationWord}</span>
+                                  {renderLeftCollocation(w, collocationWord)}
                                 </span>
                               ))}
                             </div>
@@ -641,7 +661,7 @@ const SuperDictionary = () => {
                             <div className="flex flex-wrap gap-1.5">
                               {collocationResult.right.map((w) => (
                                 <span key={w} className="rounded-lg bg-accent/40 hover:bg-accent/60 text-accent-foreground px-2.5 py-1 text-sm font-medium transition-colors cursor-default border border-accent/40">
-                                  <span className="text-foreground font-semibold">{collocationWord}</span> {w}
+                                  {renderRightCollocation(w, collocationWord)}
                                 </span>
                               ))}
                             </div>
