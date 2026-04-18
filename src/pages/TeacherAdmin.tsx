@@ -453,6 +453,16 @@ const TeacherAdmin = ({ embedded = false }: { embedded?: boolean }) => {
 
   if (embedded) return <div>{content}</div>;
 
+  // Non-embedded route: enforce teacher/admin access
+  if (roleLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+  if (!isTeacher) return null;
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
