@@ -391,56 +391,51 @@ const SuperDictionary = () => {
               className={panelClasses}
             >
               {/* Header — drag handle on lg+ */}
-              <DraggableHeader>
-                {(controls) => (
-                  <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-primary/5 to-accent/5 shrink-0 rounded-t-2xl">
-                    <div className="flex items-center gap-2 min-w-0 flex-1">
-                      {/* Drag grip — only visible/active on lg+ */}
-                      <button
-                        onPointerDown={(e) => controls.start(e)}
-                        className="hidden lg:flex shrink-0 w-6 h-8 items-center justify-center text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing rounded hover:bg-muted/60 transition-colors"
-                        title={t("Kéo để di chuyển", "Drag to move")}
-                        aria-label={t("Kéo để di chuyển", "Drag to move")}
-                      >
-                        <GripVertical className="w-4 h-4" />
-                      </button>
-                      <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
-                        <BookMarked className="w-4 h-4 text-primary" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-semibold text-foreground leading-tight truncate">
-                          {t("Siêu từ điển", "Super Dictionary")}
-                        </p>
-                        <p className="text-[10px] text-muted-foreground leading-tight truncate">
-                          {t("Anh - Việt • Collocations • Synonyms", "EN-VI • Collocations • Synonyms")}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-0.5 shrink-0">
-                      {(position.x !== 0 || position.y !== 0) && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="hidden lg:inline-flex h-8 w-8"
-                          onClick={resetPosition}
-                          title={t("Về vị trí mặc định", "Reset position")}
-                        >
-                          <Move className="w-3.5 h-3.5" />
-                        </Button>
-                      )}
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8"
-                        onClick={() => setIsOpen(false)}
-                        title={t("Đóng (Esc)", "Close")}
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
+              <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-primary/5 to-accent/5 shrink-0 rounded-t-2xl">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  {/* Drag grip — only visible/active on lg+ */}
+                  <button
+                    onPointerDown={(e) => dragControls.start(e)}
+                    className="hidden lg:flex shrink-0 w-6 h-8 items-center justify-center text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing rounded hover:bg-muted/60 transition-colors touch-none"
+                    title={t("Kéo để di chuyển", "Drag to move")}
+                    aria-label={t("Kéo để di chuyển", "Drag to move")}
+                  >
+                    <GripVertical className="w-4 h-4" />
+                  </button>
+                  <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
+                    <BookMarked className="w-4 h-4 text-primary" />
                   </div>
-                )}
-              </DraggableHeader>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-foreground leading-tight truncate">
+                      {t("Siêu từ điển", "Super Dictionary")}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground leading-tight truncate">
+                      {t("Anh - Việt • Collocations • Synonyms", "EN-VI • Collocations • Synonyms")}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-0.5 shrink-0">
+                  {(position.x !== 0 || position.y !== 0) && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hidden lg:inline-flex h-8 w-8"
+                      onClick={resetPosition}
+                      title={t("Về vị trí mặc định", "Reset position")}
+                    >
+                      <Move className="w-3.5 h-3.5" />
+                    </Button>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => setIsOpen(false)}
+                    title={t("Đóng (Esc)", "Close")}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
 
               {/* Content */}
