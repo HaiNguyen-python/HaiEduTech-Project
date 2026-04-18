@@ -4,6 +4,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useState, useEffect } from "react";
+import DOMPurify from "dompurify";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
@@ -19,6 +20,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { BookOpen, Plus, Save, Trash2, Edit, Eye, Clock, User, Search } from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
 import { format } from "date-fns";
+
+const stripHtml = (html: string) => (html || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+const sanitize = (html: string) =>
+  DOMPurify.sanitize(html || "", {
+    ALLOWED_TAGS: ["p", "br", "hr", "strong", "em", "u", "b", "i", "ul", "ol", "li", "span", "div", "h1", "h2", "h3", "h4", "blockquote", "code", "pre"],
+    ALLOWED_ATTR: ["class", "style"],
+  });
 
 interface Notebook {
   id: string;
@@ -79,6 +87,17 @@ const Notebook = () => {
 
   useEffect(() => {
     if (user && isTeacher) fetchAllNotebooks();
+  }, [user, isTeacher]);
+
+  // Refetch when other parts of the app append to a notebook (e.g. PhrasePractice)
+  useEffect(() => {
+    if (!user) return;
+    const handler = () => {
+      fetchNotebooks();
+      if (isTeacher) fetchAllNotebooks();
+    };
+    window.addEventListener("notebook:updated", handler as EventListener);
+    return () => window.removeEventListener("notebook:updated", handler as EventListener);
   }, [user, isTeacher]);
 
   const fetchNotebooks = async () => {
