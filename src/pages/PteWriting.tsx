@@ -15,6 +15,7 @@ import { ESSAY_ALL as ESSAY_BANK, SUMMARIZE_TEXT_ALL as SUMMARIZE_TEXT_BANK, typ
 import { keywordCoverage, similarityToBand, bandLabel } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import { supabase } from "@/integrations/supabase/client";
+import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
 
 type Mode = "essay" | "summarize";
 
@@ -26,9 +27,14 @@ const PteWriting = () => {
   const [submitted, setSubmitted] = useState(false);
   const [timerKey, setTimerKey] = useState(0);
   const [running, setRunning] = useState(true);
+  const [filters, setFilters] = useState<PteFilterState>(DEFAULT_PTE_FILTERS);
 
-  const bank: (PteEssayPrompt | PteSummarizeText)[] = mode === "essay" ? ESSAY_BANK : SUMMARIZE_TEXT_BANK;
-  const current = bank[idx];
+  const sourceBank: (PteEssayPrompt | PteSummarizeText)[] = mode === "essay" ? ESSAY_BANK : SUMMARIZE_TEXT_BANK;
+  const bank = useMemo(() => {
+    const filtered = applyPteFilter(sourceBank, filters);
+    return filtered.length ? filtered : sourceBank;
+  }, [sourceBank, filters]);
+  const current = bank[Math.min(idx, bank.length - 1)];
 
   // Word count
   const wordCount = useMemo(
@@ -138,6 +144,8 @@ const PteWriting = () => {
           </button>
         ))}
       </div>
+
+      <PteFilterBar value={filters} onChange={(f) => { setFilters(f); setIdx(0); }} resultCount={bank.length} totalCount={sourceBank.length} />
 
       <motion.div
         key={`${mode}-${idx}`}
