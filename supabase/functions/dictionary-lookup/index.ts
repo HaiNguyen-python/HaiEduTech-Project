@@ -161,13 +161,22 @@ async function handleCollocation(word: string) {
   const adjData = adj.ok ? adj.data : [];
   const trigData = trig.ok ? trig.data : [];
 
+  // Datamuse semantics:
+  // - lc=W → results that have W as their LEFT context → results PRECEDE W (e.g., lc=take → "under" as in "undertake")
+  //   Wait, empirically lc=take returns "off", "out", "care" → words that FOLLOW "take" (take off, take care)
+  // - rc=W → results that have W as their RIGHT context → results that come BEFORE W
+  // Based on observed Datamuse behavior on this project:
+  //   followData (lc) actually returns words appearing AFTER the search word → goes RIGHT (W + ___)
+  //   precedeData (rc) actually returns words appearing BEFORE the search word → goes LEFT (___ + W)
+  // The screenshot showed followers ("off take", "care take") in the LEFT column, which means
+  // precedeData was producing followers. Swap to fix.
   const left = [...new Set([
-    ...precedeData.map((d: any) => d.word),
+    ...followData.map((d: any) => d.word),
     ...adjData.map((d: any) => d.word),
   ])].slice(0, 12);
 
   const right = [...new Set([
-    ...followData.map((d: any) => d.word),
+    ...precedeData.map((d: any) => d.word),
     ...trigData.map((d: any) => d.word),
   ])].slice(0, 12);
 
