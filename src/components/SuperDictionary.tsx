@@ -310,8 +310,8 @@ const SuperDictionary = () => {
     sizeMode === "fullscreen"
       ? "fixed inset-x-2 top-4 bottom-4 lg:inset-x-auto lg:left-1/2 lg:-translate-x-1/2 lg:w-[min(900px,92vw)] lg:h-[88vh] lg:top-1/2 lg:-translate-y-1/2 lg:bottom-auto z-[60] bg-card rounded-2xl border-2 border-primary/30 shadow-[0_20px_60px_rgba(0,0,0,0.25)] flex flex-col"
       : sizeMode === "wide"
-      ? "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:right-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[520px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col"
-      : "fixed inset-x-0 bottom-0 h-[80vh] lg:inset-x-auto lg:right-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[400px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
+      ? "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[520px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col"
+      : "fixed inset-x-0 bottom-0 h-[80vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-3 lg:h-auto lg:w-[400px] z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
 
   // Slide animation: from right on desktop, from bottom on mobile / fullscreen
   const motionProps =
