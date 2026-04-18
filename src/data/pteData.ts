@@ -74,6 +74,29 @@ export interface PteVocabWord {
   example: string;
 }
 
+// Describe Image — 25s prep + 40s record. Keyword-based content scoring.
+export interface PteDescribeImage {
+  id: string;
+  imageUrl: string;       // imported asset URL
+  title: string;          // short label of the visual (e.g., "Bar chart: Renewable energy")
+  chartType: "bar" | "pie" | "line" | "process" | "map";
+  prepSeconds: number;    // PTE standard: 25
+  recordSeconds: number;  // PTE standard: 40
+  keywords: string[];     // expected vocabulary for content coverage
+  modelAnswer: string;    // band-90 sample answer
+}
+
+// Retell Lecture — 10s prep + 40s record after listening.
+export interface PteRetellLecture {
+  id: string;
+  topic: string;
+  lectureText: string;    // narrated via TTS (~60-90s spoken)
+  prepSeconds: number;    // PTE standard: 10
+  recordSeconds: number;  // PTE standard: 40
+  keywords: string[];     // key concepts to mention
+  modelAnswer: string;    // band-90 sample retell
+}
+
 // ===== Read Aloud bank (10 items) =====
 export const READ_ALOUD_BANK: PteReadAloud[] = [
   { id: "ra-1", topic: "Climate", difficulty: "medium", prepSeconds: 35, recordSeconds: 40,
@@ -470,3 +493,105 @@ export const PTE_VOCAB_BANK: PteVocabWord[] = [
   { word: "viable", partOfSpeech: "adjective", meaning: "capable of working", example: "A viable solution." },
   { word: "warrant", partOfSpeech: "verb", meaning: "justify", example: "The case warrants action." },
 ];
+
+// ===== Describe Image bank (4 items) — PTE 25s prep + 40s record =====
+import describeImg1 from "@/assets/pte/describe-image-1.jpg";
+import describeImg2 from "@/assets/pte/describe-image-2.jpg";
+import describeImg3 from "@/assets/pte/describe-image-3.jpg";
+import describeImg4 from "@/assets/pte/describe-image-4.jpg";
+
+export const DESCRIBE_IMAGE_BANK: PteDescribeImage[] = [
+  {
+    id: "di-1",
+    imageUrl: describeImg1,
+    title: "Bar chart: Global renewable energy capacity (2015–2025)",
+    chartType: "bar",
+    prepSeconds: 25,
+    recordSeconds: 40,
+    keywords: ["bar chart", "renewable energy", "increase", "solar", "wind", "2015", "2025", "growth", "capacity", "trend"],
+    modelAnswer:
+      "The bar chart illustrates global renewable energy capacity from 2015 to 2025. Overall, capacity has shown a steady upward trend across the decade. Solar and wind sources lead the expansion, while hydro remains relatively stable. The most striking feature is the sharp increase between 2020 and 2025, suggesting accelerating investment. In conclusion, renewable energy capacity has grown significantly over this ten-year period.",
+  },
+  {
+    id: "di-2",
+    imageUrl: describeImg2,
+    title: "Pie chart: World population distribution by continent",
+    chartType: "pie",
+    prepSeconds: 25,
+    recordSeconds: 40,
+    keywords: ["pie chart", "population", "distribution", "Asia", "Africa", "Europe", "largest", "smallest", "proportion", "continent"],
+    modelAnswer:
+      "The pie chart presents the distribution of the world's population by continent. Asia clearly accounts for the largest proportion, followed by Africa, while Europe and the Americas hold smaller shares. Oceania represents the smallest segment. Overall, the data highlights a heavy concentration of population in Asia and Africa, which together make up the majority of the world's inhabitants.",
+  },
+  {
+    id: "di-3",
+    imageUrl: describeImg3,
+    title: "Line graph: Global internet users (2000–2025)",
+    chartType: "line",
+    prepSeconds: 25,
+    recordSeconds: 40,
+    keywords: ["line graph", "internet users", "increase", "rise", "2000", "2025", "billion", "growth", "trend", "steady"],
+    modelAnswer:
+      "The line graph shows the number of internet users worldwide from 2000 to 2025. Overall, the figure rose dramatically across the period. Starting from a relatively low base, the number climbed steadily through the 2010s before reaching its peak in the most recent years. The upward trend reflects rapid digital adoption, with internet access now reaching a substantial portion of the global population.",
+  },
+  {
+    id: "di-4",
+    imageUrl: describeImg4,
+    title: "Process diagram: The water cycle",
+    chartType: "process",
+    prepSeconds: 25,
+    recordSeconds: 40,
+    keywords: ["water cycle", "evaporation", "condensation", "precipitation", "ocean", "clouds", "rivers", "process", "stages", "natural"],
+    modelAnswer:
+      "The diagram illustrates the natural water cycle, a continuous process consisting of four main stages. Initially, water evaporates from the ocean surface due to the sun's heat. Next, the vapour rises and condenses into clouds. Subsequently, precipitation falls as rain over land, gathering into rivers. Finally, the rivers carry the water back to the ocean, completing the cycle.",
+  },
+];
+
+// ===== Retell Lecture bank (4 items) — PTE 10s prep + 40s record =====
+export const RETELL_LECTURE_BANK: PteRetellLecture[] = [
+  {
+    id: "rl-1",
+    topic: "Climate Change Adaptation",
+    prepSeconds: 10,
+    recordSeconds: 40,
+    lectureText:
+      "Today we will look at climate change adaptation. Unlike mitigation, which aims to reduce emissions, adaptation focuses on adjusting to climate impacts that are already occurring. Coastal cities are building sea walls and restoring mangrove forests to protect against rising sea levels. Farmers are switching to drought-resistant crops, while urban planners are creating green roofs to lower city temperatures. Successful adaptation requires long-term planning, scientific data, and strong community involvement.",
+    keywords: ["climate change", "adaptation", "mitigation", "sea walls", "mangrove", "drought-resistant", "green roofs", "planning", "community"],
+    modelAnswer:
+      "The lecture discussed climate change adaptation, which differs from mitigation by focusing on adjusting to existing impacts. Examples include sea walls, mangrove restoration, drought-resistant crops, and green roofs. The speaker emphasised that effective adaptation depends on long-term planning, scientific evidence, and community participation.",
+  },
+  {
+    id: "rl-2",
+    topic: "Cognitive Benefits of Bilingualism",
+    prepSeconds: 10,
+    recordSeconds: 40,
+    lectureText:
+      "Research over the past two decades has consistently shown that bilingual individuals enjoy several cognitive advantages. Speaking two languages strengthens executive function, particularly the ability to switch between tasks and ignore distractions. Bilinguals also tend to perform better on memory tests and may experience a delay in the onset of dementia by as much as four years. These benefits arise because managing two languages constantly exercises the brain.",
+    keywords: ["bilingualism", "cognitive", "executive function", "memory", "dementia", "brain", "task switching", "advantages"],
+    modelAnswer:
+      "The lecture explained the cognitive benefits of bilingualism. Speaking two languages improves executive function, task switching, and memory. Studies also suggest bilinguals may experience dementia onset up to four years later. These advantages occur because managing two languages constantly exercises the brain.",
+  },
+  {
+    id: "rl-3",
+    topic: "The Industrial Revolution",
+    prepSeconds: 10,
+    recordSeconds: 40,
+    lectureText:
+      "The Industrial Revolution, which began in Britain in the late eighteenth century, transformed economies and societies on a global scale. The introduction of the steam engine, mechanised textile production, and railways dramatically increased output and reduced transport costs. Cities expanded rapidly as workers moved from farms to factories. While living standards eventually rose, the early decades brought difficult working conditions, child labour, and significant environmental pollution.",
+    keywords: ["Industrial Revolution", "Britain", "steam engine", "textile", "railways", "factories", "urbanisation", "working conditions", "pollution"],
+    modelAnswer:
+      "The lecture covered the Industrial Revolution, which began in Britain in the late 1700s. Innovations such as the steam engine, mechanised textiles, and railways boosted production and lowered transport costs. Workers moved from farms to factories, leading to rapid urbanisation. Although living standards eventually improved, the early period featured harsh conditions, child labour, and pollution.",
+  },
+  {
+    id: "rl-4",
+    topic: "Microplastics in the Environment",
+    prepSeconds: 10,
+    recordSeconds: 40,
+    lectureText:
+      "Microplastics are tiny plastic fragments smaller than five millimetres that have spread throughout the environment. They originate from the breakdown of larger plastics, synthetic clothing fibres, and personal care products such as exfoliating scrubs. Scientists have detected microplastics in oceans, drinking water, and even human blood. Although their long-term health effects are still being studied, governments are responding with bans on single-use plastics and microbeads in cosmetics.",
+    keywords: ["microplastics", "fragments", "synthetic", "fibres", "oceans", "drinking water", "human blood", "single-use", "regulations"],
+    modelAnswer:
+      "The lecture described microplastics — plastic fragments under five millimetres found throughout the environment. They come from broken-down plastics, synthetic clothing fibres, and personal care products. Microplastics have been detected in oceans, drinking water, and human blood. Governments are now banning single-use plastics and cosmetic microbeads while research on health effects continues.",
+  },
+];
+
