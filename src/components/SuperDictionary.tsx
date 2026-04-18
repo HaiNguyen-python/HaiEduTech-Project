@@ -106,6 +106,7 @@ const SuperDictionary = () => {
     setDictResult(null);
     setDictViTranslations({});
     setDictError(null);
+    setSavedWord(null);
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
         body: { type: "dictionary", word: word.trim() },
@@ -128,6 +129,60 @@ const SuperDictionary = () => {
     }
     setDictLoading(false);
   }, [pushRecent]);
+
+  // Save current dictionary entry to Student Notebook
+  const handleSaveToNotebook = async () => {
+    if (!dictResult || savingNotebook) return;
+    const word: string = dictResult.word;
+
+    // Build a readable plaintext + lightweight HTML body
+    const lines: string[] = [];
+    lines.push(`📖 ${word}${dictResult.phonetic ? `  ${dictResult.phonetic}` : ""}`);
+    lines.push("");
+    dictResult.meanings?.forEach((meaning: any, mIdx: number) => {
+      lines.push(`【 ${meaning.partOfSpeech} 】`);
+      meaning.definitions?.forEach((def: any, dIdx: number) => {
+        lines.push(`  ${dIdx + 1}. ${def.definition}`);
+        const viDef = dictViTranslations[`def-${mIdx}-${dIdx}`];
+        if (viDef) lines.push(`     🇻🇳 ${viDef}`);
+        if (def.example) {
+          lines.push(`     📝 "${def.example}"`);
+          const viEx = dictViTranslations[`ex-${mIdx}-${dIdx}`];
+          if (viEx) lines.push(`     🇻🇳 "${viEx}"`);
+        }
+      });
+      lines.push("");
+    });
+    const content = lines.join("\n");
+
+    setSavingNotebook(true);
+    try {
+      const { data: auth } = await supabase.auth.getUser();
+      if (!auth.user) {
+        toast.error(t("Vui lòng đăng nhập để lưu vào sổ tay.", "Please sign in to save to your notebook."));
+        setSavingNotebook(false);
+        return;
+      }
+
+      const { error } = await supabase.from("student_notebooks").insert({
+        user_id: auth.user.id,
+        title: `📖 ${word}`,
+        subject: "vocabulary",
+        content,
+        is_public: false,
+      });
+
+      if (error) {
+        toast.error(t("Không thể lưu, hãy thử lại.", "Could not save, please retry."));
+      } else {
+        setSavedWord(word);
+        toast.success(t(`Đã lưu "${word}" vào Sổ tay!`, `Saved "${word}" to Notebook!`));
+      }
+    } catch {
+      toast.error(t("Không thể lưu, hãy thử lại.", "Could not save, please retry."));
+    }
+    setSavingNotebook(false);
+  };
 
   // Collocation lookup
   const handleCollocationLookup = async (word: string) => {
