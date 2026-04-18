@@ -88,6 +88,7 @@ const PhrasePractice = ({ taskType }: Props) => {
     setRewriteText("");
     setRewriteResult(null);
     setShowAnswer(false);
+    try {
       const { data, error } = await supabase.functions.invoke("grade-phrase-sentence", {
         body: {
           phrase: selectedPhrase.phrase,
