@@ -82,6 +82,9 @@ const CambridgeMockExamPage = lazy(() => import("./pages/CambridgeMockExam.tsx")
 const JobOpportunities = lazy(() => import("./pages/JobOpportunities.tsx"));
 const PteHub = lazy(() => import("./pages/PteHub.tsx"));
 const PteSpeaking = lazy(() => import("./pages/PteSpeaking.tsx"));
+const PteWriting = lazy(() => import("./pages/PteWriting.tsx"));
+const PteReading = lazy(() => import("./pages/PteReading.tsx"));
+const PteListening = lazy(() => import("./pages/PteListening.tsx"));
 const PtePlaceholder = lazy(() => import("./pages/PtePlaceholder.tsx"));
 
 // Shared loading fallback component
@@ -185,6 +188,9 @@ const App = () => (
             <Route path="/programming/job-opportunities" element={<LazyRoute><JobOpportunities /></LazyRoute>} />
             <Route path="/pte" element={<LazyRoute><PteHub /></LazyRoute>} />
             <Route path="/pte/speaking" element={<LazyRoute><PteSpeaking /></LazyRoute>} />
+            <Route path="/pte/writing" element={<LazyRoute><PteWriting /></LazyRoute>} />
+            <Route path="/pte/reading" element={<LazyRoute><PteReading /></LazyRoute>} />
+            <Route path="/pte/listening" element={<LazyRoute><PteListening /></LazyRoute>} />
             <Route path="/pte/:skill" element={<LazyRoute><PtePlaceholder /></LazyRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
