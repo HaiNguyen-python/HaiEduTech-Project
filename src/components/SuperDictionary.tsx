@@ -61,7 +61,7 @@ const SuperDictionary = () => {
   const [thesaurusError, setThesaurusError] = useState<LookupErrorKind>(null);
 
   const [collocationWord, setCollocationWord] = useState("");
-  const [collocationResult, setCollocationResult] = useState<{ left: string[]; right: string[] }>({ left: [], right: [] });
+  const [collocationGroups, setCollocationGroups] = useState<{ label: string; items: { phrase: string; vi: string }[] }[]>([]);
   const [collocationLoading, setCollocationLoading] = useState(false);
   const [collocationError, setCollocationError] = useState<LookupErrorKind>(null);
 
@@ -188,7 +188,7 @@ const SuperDictionary = () => {
   const handleCollocationLookup = async (word: string) => {
     if (!word.trim()) return;
     setCollocationLoading(true);
-    setCollocationResult({ left: [], right: [] });
+    setCollocationGroups([]);
     setCollocationError(null);
     try {
       const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
@@ -199,10 +199,9 @@ const SuperDictionary = () => {
       } else if (data.error) {
         setCollocationError("busy");
       } else {
-        const left = Array.isArray(data.left) ? data.left : [];
-        const right = Array.isArray(data.right) ? data.right : [];
-        setCollocationResult({ left, right });
-        if (left.length === 0 && right.length === 0) {
+        const groups = Array.isArray(data.groups) ? data.groups : [];
+        setCollocationGroups(groups);
+        if (groups.length === 0) {
           setCollocationError("notFound");
         }
       }
@@ -304,24 +303,18 @@ const SuperDictionary = () => {
     return { opacity: 0.5 + ratio * 0.5 };
   };
 
-  const normalizeWord = (value: string) => value.trim().toLowerCase();
-
-  const renderLeftCollocation = (candidate: string, baseWord: string) => {
-    const normalizedCandidate = normalizeWord(candidate);
-    const normalizedBase = normalizeWord(baseWord);
-    if (normalizedCandidate.includes(normalizedBase)) {
-      return candidate;
-    }
-    return `${candidate} ${baseWord}`;
-  };
-
-  const renderRightCollocation = (candidate: string, baseWord: string) => {
-    const normalizedCandidate = normalizeWord(candidate);
-    const normalizedBase = normalizeWord(baseWord);
-    if (normalizedCandidate.includes(normalizedBase)) {
-      return candidate;
-    }
-    return `${baseWord} ${candidate}`;
+  const highlightTarget = (phrase: string, target: string) => {
+    if (!target) return phrase;
+    const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`(${escaped}\\w*)`, "ig");
+    const parts = phrase.split(regex);
+    return parts.map((part, i) =>
+      regex.test(part) ? (
+        <strong key={i} className="text-primary font-semibold">{part}</strong>
+      ) : (
+        <span key={i}>{part}</span>
+      ),
+    );
   };
 
   // Panel sizing — desktop side panel by default, mobile = bottom sheet
@@ -638,38 +631,36 @@ const SuperDictionary = () => {
                         {collocationLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                       </Button>
                     </div>
-                    {(collocationResult.left.length > 0 || collocationResult.right.length > 0) && (
-                      <div className="rounded-xl border bg-background p-4 space-y-3">
+                    {collocationGroups.length > 0 && (
+                      <div className="rounded-xl border bg-background p-4 space-y-4">
                         <p className="text-sm font-medium text-foreground">
                           {t("Collocations cho", "Collocations for")} "<strong className="text-primary">{collocationWord}</strong>":
                         </p>
-                        {collocationResult.left.length > 0 && (
-                          <div className="space-y-2">
-                            <p className="text-xs font-semibold text-primary uppercase tracking-wide">___ + {collocationWord}</p>
-                            <div className="flex flex-wrap gap-1.5">
-                              {collocationResult.left.map((w) => (
-                                <span key={w} className="rounded-lg bg-primary/10 hover:bg-primary/20 text-primary px-2.5 py-1 text-sm font-medium transition-colors cursor-default border border-primary/20">
-                                  {renderLeftCollocation(w, collocationWord)}
-                                </span>
+                        {collocationGroups.map((group) => (
+                          <div key={group.label} className="space-y-2">
+                            <p className="text-xs font-semibold text-primary uppercase tracking-wide">{group.label}</p>
+                            <div className="space-y-1.5">
+                              {group.items.map((item) => (
+                                <div
+                                  key={item.phrase}
+                                  className="rounded-lg border border-border bg-muted/40 px-3 py-2 hover:bg-muted/70 transition-colors"
+                                >
+                                  <div className="text-sm font-medium text-foreground">
+                                    {highlightTarget(item.phrase, collocationWord)}
+                                  </div>
+                                  {item.vi && (
+                                    <div className="text-xs text-muted-foreground italic mt-0.5">
+                                      {item.vi}
+                                    </div>
+                                  )}
+                                </div>
                               ))}
                             </div>
                           </div>
-                        )}
-                        {collocationResult.right.length > 0 && (
-                          <div className="space-y-2">
-                            <p className="text-xs font-semibold text-primary uppercase tracking-wide">{collocationWord} + ___</p>
-                            <div className="flex flex-wrap gap-1.5">
-                              {collocationResult.right.map((w) => (
-                                <span key={w} className="rounded-lg bg-accent/40 hover:bg-accent/60 text-accent-foreground px-2.5 py-1 text-sm font-medium transition-colors cursor-default border border-accent/40">
-                                  {renderRightCollocation(w, collocationWord)}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                        ))}
                       </div>
                     )}
-                    {!collocationLoading && collocationResult.left.length === 0 && collocationResult.right.length === 0 && renderErrorBox(
+                    {!collocationLoading && collocationGroups.length === 0 && renderErrorBox(
                       collocationError,
                       () => handleCollocationLookup(collocationWord),
                       t("Không tìm thấy collocation.", "No collocations found."),
