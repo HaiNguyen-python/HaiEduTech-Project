@@ -202,8 +202,31 @@ const LanguageLessonView = () => {
                       <GraduationCap className="w-5 h-5 text-primary" />
                       {t("Lý thuyết", "Theory")}
                     </h2>
-                    <div className="prose prose-sm max-w-none text-secondary-foreground [&_strong]:text-primary [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded">
-                      <ReactMarkdown>{t(lesson.theory, lesson.theoryEn)}</ReactMarkdown>
+                    <div className="prose prose-base max-w-none text-secondary-foreground leading-[1.85] text-[17px] space-y-3 [&_p]:my-3 [&_strong]:text-primary [&_strong]:font-semibold [&_ul]:my-3 [&_ul]:space-y-2 [&_li]:my-1 [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded">
+                      <ReactMarkdown>
+                        {(() => {
+                          const raw = t(lesson.theory, lesson.theoryEn) || "";
+                          // Split inline "**Label:**" segments onto their own bullet lines for readability
+                          // when the paragraph contains 2+ bold-labeled categories run together.
+                          return raw
+                            .split(/\n{2,}/)
+                            .map((para) => {
+                              const matches = para.match(/\*\*[^*]+:\*\*/g);
+                              if (matches && matches.length >= 2) {
+                                // Split before each "**Label:**" and convert to bullet list
+                                const parts = para
+                                  .split(/(?=\*\*[^*]+:\*\*)/)
+                                  .map((s) => s.trim())
+                                  .filter(Boolean);
+                                // First part may be intro text without a bold label
+                                const intro = parts[0].startsWith("**") ? "" : parts.shift() + "\n\n";
+                                return intro + parts.map((p) => `- ${p}`).join("\n");
+                              }
+                              return para;
+                            })
+                            .join("\n\n");
+                        })()}
+                      </ReactMarkdown>
                     </div>
                   </div>
 
