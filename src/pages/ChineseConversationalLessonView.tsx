@@ -52,6 +52,9 @@ const ChineseConversationalLessonView = () => {
   const [listeningAnswers, setListeningAnswers] = useState<Record<number, number>>({});
   const [fibAnswers, setFibAnswers] = useState<Record<number, string>>({});
   const [fibChecked, setFibChecked] = useState(false);
+  const [fibScore, setFibScore] = useState<{ correct: number; total: number; percent: number } | null>(null);
+  const [listeningSubmitted, setListeningSubmitted] = useState(false);
+  const [listeningScore, setListeningScore] = useState<{ correct: number; total: number; percent: number } | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese");
   const [showAccessModal, setShowAccessModal] = useState(false);
@@ -66,9 +69,22 @@ const ChineseConversationalLessonView = () => {
     // Reset exercise state when lesson changes
     setFibAnswers({});
     setFibChecked(false);
+    setFibScore(null);
     setListeningRevealed(false);
     setListeningAnswers({});
+    setListeningSubmitted(false);
+    setListeningScore(null);
   }, [lesson, pillar, hasAccess]);
+
+  // Load saved exercise scores for this lesson from localStorage
+  useEffect(() => {
+    if (!lesson) return;
+    try {
+      const saved = JSON.parse(localStorage.getItem(`conv-cn-ex-${lesson.id}`) || "null");
+      if (saved?.fib) setFibScore(saved.fib);
+      if (saved?.listening) setListeningScore(saved.listening);
+    } catch { /* ignore */ }
+  }, [lesson]);
 
   if (accessLoading) {
     return <div className="min-h-screen bg-background flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
@@ -117,6 +133,56 @@ const ChineseConversationalLessonView = () => {
       score: 10,
       maxScore: 10,
       metadata: { pillar: pillar.id, lessonTitle: lesson.title },
+    });
+  };
+
+  // Check fill-in-blank exercises: compute %, save to localStorage, log activity
+  const handleCheckFib = () => {
+    if (!lesson?.fillInBlankExercises) return;
+    const total = lesson.fillInBlankExercises.length;
+    const correct = lesson.fillInBlankExercises.reduce((acc, ex, idx) => {
+      const userAns = (fibAnswers[idx] || "").trim();
+      return acc + (userAns === ex.answer ? 1 : 0);
+    }, 0);
+    const percent = Math.round((correct / total) * 100);
+    const result = { correct, total, percent };
+    setFibChecked(true);
+    setFibScore(result);
+    // Save to localStorage
+    try {
+      const prev = JSON.parse(localStorage.getItem(`conv-cn-ex-${lesson.id}`) || "{}");
+      localStorage.setItem(`conv-cn-ex-${lesson.id}`, JSON.stringify({ ...prev, fib: result, updatedAt: Date.now() }));
+    } catch { /* ignore */ }
+    // Log activity for dashboard
+    logStudentActivity({
+      activityType: "conv_chinese_exercise",
+      activityId: `${lesson.id}-fib`,
+      score: correct,
+      maxScore: total,
+      metadata: { pillar: pillar.id, lessonTitle: lesson.title, exerciseType: "fill_in_blank", percent },
+    });
+  };
+
+  // Submit listening: compute %, save, log
+  const handleSubmitListening = () => {
+    if (!lesson) return;
+    const qs = lesson.listeningChallenge.questions;
+    const total = qs.length;
+    const correct = qs.reduce((acc, q, qi) => acc + (listeningAnswers[qi] === q.answer ? 1 : 0), 0);
+    const percent = Math.round((correct / total) * 100);
+    const result = { correct, total, percent };
+    setListeningSubmitted(true);
+    setListeningScore(result);
+    try {
+      const prev = JSON.parse(localStorage.getItem(`conv-cn-ex-${lesson.id}`) || "{}");
+      localStorage.setItem(`conv-cn-ex-${lesson.id}`, JSON.stringify({ ...prev, listening: result, updatedAt: Date.now() }));
+    } catch { /* ignore */ }
+    logStudentActivity({
+      activityType: "conv_chinese_exercise",
+      activityId: `${lesson.id}-listening`,
+      score: correct,
+      maxScore: total,
+      metadata: { pillar: pillar.id, lessonTitle: lesson.title, exerciseType: "listening", percent },
     });
   };
 
@@ -342,13 +408,21 @@ const ChineseConversationalLessonView = () => {
                       </div>
                     );
                   })}
+                  {fibChecked && fibScore && (
+                    <div className={`p-4 rounded-lg border-2 ${fibScore.percent >= 80 ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300" : fibScore.percent >= 50 ? "bg-amber-50 border-amber-300 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300" : "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"}`}>
+                      <p className="text-base font-bold">
+                        {fibScore.percent >= 80 ? "🎉" : fibScore.percent >= 50 ? "👍" : "💪"} {t("Kết quả", "Score")}: {fibScore.correct}/{fibScore.total} ({fibScore.percent}%)
+                      </p>
+                      <p className="text-xs opacity-80 mt-1">{t("Đã lưu vào Bảng điều khiển học sinh.", "Saved to your Student Dashboard.")}</p>
+                    </div>
+                  )}
                   <div className="flex gap-2 pt-2">
                     {!fibChecked ? (
-                      <Button onClick={() => setFibChecked(true)} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-                        {t("Kiểm tra", "Check Answers")}
+                      <Button onClick={handleCheckFib} disabled={Object.keys(fibAnswers).length === 0} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                        {t("Kiểm tra & Chấm điểm", "Check & Score")}
                       </Button>
                     ) : (
-                      <Button onClick={() => { setFibChecked(false); setFibAnswers({}); }} variant="outline">
+                      <Button onClick={() => { setFibChecked(false); setFibAnswers({}); setFibScore(null); }} variant="outline">
                         {t("Làm lại", "Try Again")}
                       </Button>
                     )}
@@ -396,33 +470,63 @@ const ChineseConversationalLessonView = () => {
                 <div className="space-y-4">
                   {lesson.listeningChallenge.questions.map((q, qi) => (
                     <div key={qi} className="p-4 bg-muted/30 rounded-xl">
-                      <p className="font-medium text-sm mb-3">{t(q.qVi, q.q)}</p>
+                      <p className="font-medium text-sm mb-3">{qi + 1}. {t(q.qVi, q.q)}</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {q.options.map((opt, oi) => {
                           const selected = listeningAnswers[qi] === oi;
                           const isCorrect = oi === q.answer;
-                          const answered = listeningAnswers[qi] !== undefined;
+                          const showResult = listeningSubmitted;
                           return (
                             <button
                               key={oi}
-                              onClick={() => !answered && setListeningAnswers(prev => ({ ...prev, [qi]: oi }))}
-                              disabled={answered}
-                              className={`p-3 rounded-lg text-left text-sm border transition-all ${answered
-                                ? isCorrect ? "bg-emerald-50 border-emerald-300 text-emerald-800"
-                                  : selected ? "bg-red-50 border-red-300 text-red-800"
-                                    : "bg-muted/30 border-border text-muted-foreground"
-                                : "bg-card border-border hover:border-red-400 hover:shadow-sm cursor-pointer"
+                              onClick={() => !listeningSubmitted && setListeningAnswers(prev => ({ ...prev, [qi]: oi }))}
+                              disabled={listeningSubmitted}
+                              className={`p-3 rounded-lg text-left text-sm border transition-all ${
+                                showResult
+                                  ? isCorrect
+                                    ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300"
+                                    : selected
+                                      ? "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"
+                                      : "bg-muted/30 border-border text-muted-foreground"
+                                  : selected
+                                    ? "bg-red-100 border-red-400 text-red-800 dark:bg-red-950/40 dark:text-red-300"
+                                    : "bg-card border-border hover:border-red-400 hover:shadow-sm cursor-pointer"
                               }`}
                             >
                               <span className="font-medium mr-2">{String.fromCharCode(65 + oi)}.</span>
                               {opt}
-                              {answered && isCorrect && <CheckCircle className="h-4 w-4 inline ml-2 text-emerald-500" />}
+                              {showResult && isCorrect && <CheckCircle className="h-4 w-4 inline ml-2 text-emerald-500" />}
                             </button>
                           );
                         })}
                       </div>
                     </div>
                   ))}
+                </div>
+
+                {listeningSubmitted && listeningScore && (
+                  <div className={`p-4 rounded-lg border-2 ${listeningScore.percent >= 80 ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300" : listeningScore.percent >= 50 ? "bg-amber-50 border-amber-300 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300" : "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"}`}>
+                    <p className="text-base font-bold">
+                      {listeningScore.percent >= 80 ? "🎉" : listeningScore.percent >= 50 ? "👍" : "💪"} {t("Kết quả Nghe", "Listening Score")}: {listeningScore.correct}/{listeningScore.total} ({listeningScore.percent}%)
+                    </p>
+                    <p className="text-xs opacity-80 mt-1">{t("Đã lưu vào Bảng điều khiển học sinh.", "Saved to your Student Dashboard.")}</p>
+                  </div>
+                )}
+
+                <div className="flex gap-2">
+                  {!listeningSubmitted ? (
+                    <Button
+                      onClick={handleSubmitListening}
+                      disabled={Object.keys(listeningAnswers).length < lesson.listeningChallenge.questions.length}
+                      className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white"
+                    >
+                      {t("Nộp bài & Chấm điểm", "Submit & Score")}
+                    </Button>
+                  ) : (
+                    <Button onClick={() => { setListeningSubmitted(false); setListeningAnswers({}); setListeningScore(null); }} variant="outline">
+                      {t("Làm lại", "Try Again")}
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>

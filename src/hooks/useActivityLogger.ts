@@ -17,8 +17,8 @@ interface ActivityPayload {
 
 // Auto-detect domain from activity type
 function inferDomain(activityType: string): LearningDomain {
-  if (["thpt_exam", "ielts_writing", "ielts_speaking", "conv_english", "ielts_vocab"].includes(activityType)) return "english";
-  if (["conv_chinese", "hsk_vocab", "pinyin_drill", "hanzi_recognition"].includes(activityType)) return "chinese";
+  if (["thpt_exam", "ielts_writing", "ielts_speaking", "conv_english", "conv_english_exercise", "ielts_vocab"].includes(activityType)) return "english";
+  if (["conv_chinese", "conv_chinese_exercise", "hsk_vocab", "pinyin_drill", "hanzi_recognition"].includes(activityType)) return "chinese";
   if (["python_challenge", "sql_exercise", "coding_quiz"].includes(activityType)) return "programming";
   return "english"; // default fallback
 }

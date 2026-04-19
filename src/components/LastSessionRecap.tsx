@@ -52,6 +52,15 @@ const ACTIVITY_LABELS: Record<string, string> = {
   vocab_mastery: "Vocab Mastery",
   writing_practice: "Writing Practice",
   speaking_practice: "Speaking Practice",
+  conv_chinese: "Hội thoại Tiếng Trung",
+  conv_chinese_exercise: "Bài tập Tiếng Trung",
+  conv_english: "Hội thoại Tiếng Anh",
+  conv_english_exercise: "Bài tập Tiếng Anh",
+  thpt_exam: "Thi thử THPT",
+  ielts_writing: "IELTS Writing",
+  ielts_speaking: "IELTS Speaking",
+  ielts_vocab: "IELTS Vocab",
+  hsk_vocab: "HSK Vocab",
 };
 
 const DOMAIN_COLORS: Record<string, string> = {
