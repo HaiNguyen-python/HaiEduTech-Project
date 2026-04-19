@@ -114,6 +114,12 @@ const HeroSection = () => {
               {[
                 {
                   icon: GraduationCap,
+                  value: t("Cử nhân", "B.A."),
+                  label: t("TEFL – Giảng dạy Tiếng Anh", "TEFL – Teaching English"),
+                  place: t("ĐH Sư phạm TP.HCM", "HCMC University of Education"),
+                },
+                {
+                  icon: GraduationCap,
                   value: t("Thạc sĩ", "M.A."),
                   label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture"),
                   place: t("ĐH Đông Phần Lan", "University of Eastern Finland"),
