@@ -1832,7 +1832,145 @@ DROP INDEX idx_students_age;`,
         titleEn: "Normalization & Keys",
         level: 3,
         difficulty: "intermediate",
-        theory: `Database design — choosing tables, keys, and relationships — is the most consequential decision in a system's life. A well-designed schema makes new features fast and bugs rare. A poorly-designed one becomes the bottleneck every team complains about for years and that no amount of indexing can save.
+        theory: `**Thiết kế database (database design)** là quyết định *quan trọng nhất* trong cả vòng đời của một hệ thống. Một schema (cấu trúc bảng) tốt giúp thêm tính năng dễ dàng, ít bug. Một schema tệ trở thành nút thắt cổ chai mà *không một index nào cứu nổi*.
+
+## 1. Vấn đề đời thường
+
+Bạn có một bảng \`orders\` (đơn hàng) lưu thông tin khách như sau:
+
+\`\`\`
+id | customer_id | customer_email   | customer_city | total
+1  | 7           | an@gmail.com     | Hà Nội        | 200
+2  | 7           | an@gmail.com     | Hà Nội        | 350
+3  | 7           | an@gmail.com     | Hà Nội        | 120
+\`\`\`
+
+Khi anh An chuyển vào Sài Gòn, bạn phải sửa **email & city ở 1000 dòng đơn hàng** chỉ vì 1 thông tin thay đổi. Đây là dấu hiệu schema đang sai. Cách giải quyết là **chuẩn hoá (normalization)**: tách thông tin khách sang bảng \`customers\` riêng.
+
+## 2. Chuẩn hoá (Normalization) — 3 cấp độ cần nhớ
+
+Chuẩn hoá là quá trình tổ chức dữ liệu để **không lặp lại** và **không mâu thuẫn**.
+
+| Cấp độ | Quy tắc dễ hiểu | Loại bỏ |
+|---|---|---|
+| **1NF** | Mỗi ô chỉ chứa 1 giá trị (không có list trong ô) | Dữ liệu kiểu "Toán, Lý, Hoá" trong 1 ô |
+| **2NF** | Mọi cột phụ thuộc vào *toàn bộ* khoá chính | Phụ thuộc một phần |
+| **3NF** | Cột không-khoá không phụ thuộc cột không-khoá khác | Dữ liệu suy ra được |
+
+90% ứng dụng web/app chỉ cần đạt **3NF** là đủ. Cao hơn (BCNF, 4NF…) chỉ dùng trong sách giáo khoa.
+
+**Ví dụ vi phạm 3NF** (như bảng \`orders\` ở mục 1): \`customer_email\` phụ thuộc vào \`customer_id\`, không phụ thuộc \`id\` của đơn hàng → tách bảng.
+
+## 3. Khoá (Keys) — hợp đồng giữa các bảng
+
+| Loại khoá | Vai trò |
+|---|---|
+| **Primary key (PK)** — khoá chính | Định danh duy nhất 1 dòng. Không NULL. Mỗi bảng có 1 PK. |
+| **Foreign key (FK)** — khoá ngoại | Trỏ tới PK của bảng khác. Đảm bảo dữ liệu liên kết hợp lệ. |
+| **Surrogate key** — khoá nhân tạo | Số tự tăng (\`SERIAL\`) hoặc \`UUID\`, *không có ý nghĩa thực tế*. |
+| **Natural key** — khoá tự nhiên | Định danh có thật ngoài đời (số CMND, email, ISBN). |
+| **Composite key** — khoá kép | PK gồm nhiều cột, ví dụ \`(order_id, line_no)\`. |
+
+**Nên dùng surrogate hay natural?** → **Mặc định luôn dùng surrogate** (số tự tăng / UUID) vì:
+- Khoá tự nhiên có thể đổi (người ta đổi email, công ty đổi mã sản phẩm).
+- Số nguyên join nhanh hơn chuỗi dài.
+- Dễ bảo trì lịch sử thay đổi.
+
+## 4. Quan hệ giữa các bảng — 4 kiểu chính
+
+| Cardinality | Cách mô hình hoá | Ví dụ |
+|---|---|---|
+| **1-1** (Một-Một) | FK kèm UNIQUE | 1 user — 1 profile |
+| **1-N** (Một-Nhiều) | FK ở bên "nhiều" | 1 customer — N orders |
+| **N-N** (Nhiều-Nhiều) | **Bảng trung gian** (junction) chứa 2 FK | students ↔ courses |
+| **Tự tham chiếu** | FK trỏ về chính bảng đó | nhân viên — quản lý |
+
+**N-N luôn cần bảng trung gian** — không có cái gọi là "cột nhiều-nhiều". Ví dụ:
+
+\`\`\`
+students --< enrollments >-- courses
+              ^
+       (student_id, course_id, grade, enrolled_at)
+\`\`\`
+
+Bảng \`enrollments\` cũng là nơi lý tưởng để lưu thuộc tính của *quan hệ* (điểm số, ngày đăng ký).
+
+## 5. Thiết kế cho App (OLTP) vs Báo cáo (OLAP)
+
+Cùng là database nhưng mục tiêu *ngược nhau hoàn toàn*:
+
+| Khía cạnh | OLTP (app web/mobile) | OLAP (data warehouse, BI) |
+|---|---|---|
+| Chuẩn hoá | Cao (3NF) | Thấp (star schema — sao) |
+| Tối ưu cho | Nhiều ghi nhỏ | Ít đọc nhưng truy vấn lớn |
+| JOIN | Thường xuyên, nhỏ | Hiếm, dùng dim đã denormalize |
+| Đổi schema | Rất tốn công | Dễ (build lại model) |
+
+Lỗi kinh điển: dùng schema OLTP cho data warehouse → dashboard join 12 bảng, chạy 30 giây, vỡ mỗi khi đổi schema.
+
+## 6. Checklist 7 bước khi tạo bảng mới
+
+1. **Grain (độ chi tiết) là gì?** — "Mỗi dòng = một ___ (đơn hàng / lượt click / lần đăng nhập)". Câu này phải trả lời được trước khi viết \`CREATE TABLE\`.
+2. **Primary key?** — Gần như luôn dùng \`SERIAL\` hoặc \`UUID\`.
+3. **Foreign key nào?** — Chọn rõ \`ON DELETE\`: \`CASCADE\` (xoá theo) / \`RESTRICT\` (chặn xoá) / \`SET NULL\`.
+4. **Cột nào NOT NULL?** — Mặc định NOT NULL, chỉ cho NULL khi *thực sự* hợp lý.
+5. **Cột nào cần index?** — Cột xuất hiện trong WHERE, JOIN, ORDER BY.
+6. **Cột audit:** \`created_at\`, \`updated_at\` — luôn có.
+7. **Soft delete vs hard delete?** — Yêu cầu pháp lý thường buộc dùng soft delete (\`deleted_at TIMESTAMP NULL\`).
+
+## 7. Ví dụ đầy đủ: thư viện sách
+
+\`\`\`sql
+-- Tác giả
+CREATE TABLE authors (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+-- Sách
+CREATE TABLE books (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  isbn VARCHAR(20) UNIQUE NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+-- N-N: 1 sách có thể nhiều tác giả → cần bảng trung gian
+CREATE TABLE book_authors (
+  book_id INTEGER REFERENCES books(id) ON DELETE CASCADE,
+  author_id INTEGER REFERENCES authors(id) ON DELETE RESTRICT,
+  PRIMARY KEY (book_id, author_id)
+);
+\`\`\`
+
+Đọc lại: mỗi quyết định đều có lý do (PK, FK, ON DELETE, NOT NULL, audit cột).
+
+## 8. Best Practices ✅ & Anti-patterns ❌
+
+**Nên:**
+- 3NF cho app, star schema cho báo cáo — *không nhầm lẫn 2 cái*.
+- Surrogate PK trừ khi có lý do mạnh dùng natural.
+- NOT NULL mặc định.
+- Luôn có \`created_at\` + \`updated_at\` (default ở DB level).
+- Đặt tên: snake_case, bảng số nhiều (\`users\`), cột số ít (\`user_id\`).
+
+**Tránh:**
+- Lưu list ngăn cách bằng dấu phẩy ("Toán,Lý,Hoá") trong 1 cột → vi phạm 1NF.
+- Dùng natural key có thể đổi (email, mã SKU).
+- Bảng EAV (Entity-Attribute-Value) tự xây "database trong database".
+- JSONB cho dữ liệu sẽ luôn truy vấn theo cấu trúc → không index hiệu quả.
+- "Nullable everything" — cho phép NULL ở mọi cột vì lười nghĩ.
+
+## Ghi chú nâng cao (đọc khi đã làm dự án thật)
+
+**Case study GitHub issues:** GitHub công khai schema bảng \`issues\` từ 2008: PK số nguyên, FK \`repository_id\`, junction table cho assignees & labels. *12 năm sau, tỉ dòng dữ liệu, schema gần như không đổi* — minh chứng thiết kế OLTP "buồn tẻ" mà chuẩn hoá lại sống lâu nhất.
+
+**Case study JSON-everything:** Một startup quyết định "linh hoạt" bằng cách lưu mọi entity dưới dạng \`data JSONB\`. 2 tháng đầu tốc độ phát triển nhanh. Khi cần truy vấn "users ở California có >5 đơn", không thể index hiệu quả — query nào cũng full-scan. Mất nguyên 1 quý migrate ngược về schema chuẩn hoá. *Schema-on-read nghe hấp dẫn, đến khi bạn cần đọc schema.*
+
+## Bài tiếp theo
+
+**Stored procedures, functions & triggers** — logic phía database, dùng đúng cách giúp tránh hàng nghìn round-trip và ngăn cả lớp bug.`,
 
 ## Why this matters
 
