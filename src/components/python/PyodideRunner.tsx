@@ -29,7 +29,9 @@ async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => 
 
   window.__haiPyodidePromise = (async () => {
     onStatus("Loading Pyodide script…");
-    if (!window.loadPyodide) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const w = window as any;
+    if (!w.loadPyodide) {
       await new Promise<void>((resolve, reject) => {
         const s = document.createElement("script");
         s.src = `${PYODIDE_BASE}pyodide.js`;
@@ -39,7 +41,7 @@ async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => 
       });
     }
     onStatus("Initialising Python runtime…");
-    const py = await window.loadPyodide!({ indexURL: PYODIDE_BASE });
+    const py: PyodideAPI = await w.loadPyodide({ indexURL: PYODIDE_BASE });
     if (needsScientific) {
       onStatus("Loading numpy + pandas (~6MB)…");
       await py.loadPackage(["numpy", "pandas"]);
