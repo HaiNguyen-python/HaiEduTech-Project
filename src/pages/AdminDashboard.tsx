@@ -407,6 +407,9 @@ const AdminDashboard = () => {
                 <TabsTrigger value="income" className="gap-1.5">
                   <DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}
                 </TabsTrigger>
+                <TabsTrigger value="schedule" className="gap-1.5">
+                  <Clock className="w-3.5 h-3.5" /> {t("Lịch học", "Schedule")}
+                </TabsTrigger>
                 <TabsTrigger value="system" className="gap-1.5">
                   <Activity className="w-3.5 h-3.5" /> {t("Hệ thống API", "System Status")}
                 </TabsTrigger>
