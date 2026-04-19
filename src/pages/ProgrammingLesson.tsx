@@ -339,20 +339,33 @@ const ProgrammingLessonPage = () => {
 
                   {/* Theory */}
                   <div className="glass-card rounded-xl p-6">
-                    <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+                    <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
                       <BookOpen className="w-5 h-5 text-primary" />
                       Theory
                     </h2>
-                    <div className="prose prose-sm max-w-none text-secondary-foreground whitespace-pre-line leading-relaxed">
-                      {(lesson.theoryEn || lesson.theory).split('\n').map((line, i) => {
-                        if (line.startsWith('**') && line.endsWith('**')) {
-                          return <p key={i} className="font-bold text-foreground mt-3 mb-1">{line.replace(/\*\*/g, '')}</p>;
-                        }
-                        if (line.startsWith('- ')) {
-                          return <p key={i} className="ml-4 flex items-start gap-2"><span className="text-primary mt-1 shrink-0">•</span>{line.substring(2)}</p>;
-                        }
-                        return <p key={i} className="mb-1" dangerouslySetInnerHTML={boldAndSanitize(line)} />;
-                      })}
+                    <div className="prose prose-sm sm:prose-base max-w-none text-secondary-foreground
+                      prose-headings:text-foreground prose-headings:font-semibold prose-headings:scroll-mt-24
+                      prose-h1:text-2xl prose-h1:mt-6 prose-h1:mb-3
+                      prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-2 prose-h2:pb-1 prose-h2:border-b prose-h2:border-border
+                      prose-h3:text-lg prose-h3:mt-5 prose-h3:mb-2 prose-h3:text-primary
+                      prose-h4:text-base prose-h4:mt-4 prose-h4:mb-1
+                      prose-p:my-2 prose-p:leading-relaxed
+                      prose-strong:text-foreground prose-strong:font-semibold
+                      prose-ul:my-2 prose-ul:pl-5 prose-ol:my-2 prose-ol:pl-5
+                      prose-li:my-1 prose-li:marker:text-primary
+                      prose-code:text-primary prose-code:bg-primary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-[0.85em] prose-code:before:content-none prose-code:after:content-none
+                      prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:rounded-lg prose-pre:overflow-x-auto
+                      prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:not-italic prose-blockquote:text-foreground/90
+                      prose-a:text-primary prose-a:underline-offset-2 hover:prose-a:underline
+                      prose-hr:my-6 prose-hr:border-border
+                      prose-table:my-4 prose-table:text-sm prose-table:block prose-table:overflow-x-auto
+                      prose-thead:bg-secondary prose-thead:border-b prose-thead:border-border
+                      prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:font-semibold prose-th:text-foreground
+                      prose-td:px-3 prose-td:py-2 prose-td:border-t prose-td:border-border/50
+                      prose-tr:hover:bg-secondary/40">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {(lesson.theoryEn || lesson.theory || "").replace(/\\\$/g, "$")}
+                      </ReactMarkdown>
                     </div>
                   </div>
 
