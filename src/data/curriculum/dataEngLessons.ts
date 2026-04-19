@@ -1,3 +1,4 @@
+// CONTENT STANDARD: every `theory` block MUST contain ≥6 `## H2` sections so TheorySections.tsx can render the per-section "Mark read" UX.
 // Data Engineering curriculum — 12 modules with progressive difficulty
 import type { ExtendedProgrammingModule } from "./types";
 
@@ -1461,26 +1462,52 @@ pipeline.run(source_data, transforms, "data_warehouse.students")`,
       {
         id: "de-model-1", title: "Star & Snowflake Schema", titleEn: "Star & Snowflake Schema",
         level: 3, difficulty: "intermediate",
-        theory: `**Dimensional Modeling** is the standard approach for designing data warehouses. Created by Ralph Kimball, it organizes data into **facts** (what happened) and **dimensions** (the context around what happened).
+        theory: `**Dimensional Modeling**, pioneered by Ralph Kimball in the 1990s, is still the dominant paradigm for designing analytical data warehouses. It separates the world into two kinds of tables: **facts** (the events that happened) and **dimensions** (the descriptive context around those events). Almost every BI dashboard you have ever used — Looker, Tableau, Power BI, Metabase — is optimized to read from a dimensional model.
 
-**Fact Tables — The "What":**
-- Contain **quantitative measures** (revenue, quantity, duration, cost)
-- Typically the largest tables in the warehouse (billions of rows)
-- Each row represents a business event (a sale, a click, a shipment)
-- Contains foreign keys to dimension tables
-- Two types of facts:
-  - **Additive:** Can be summed across all dimensions (revenue, quantity)
-  - **Semi-additive:** Can only be summed across some dimensions (account balance — can sum across accounts but not across time)
-  - **Non-additive:** Cannot be summed (ratios, percentages — must recalculate)
+## Why this matters in production
 
-**Dimension Tables — The "Context":**
-- Contain **descriptive attributes** (product name, customer city, date month)
-- Usually smaller than fact tables
-- Provide the "who, what, where, when, how" context for analysis
-- Enable filtering, grouping, and labeling in reports
+Data engineers spend more time fixing badly-modeled warehouses than building new pipelines. A poor model causes slow dashboards, conflicting metrics across teams, and impossible audit trails. A *good* model, on the other hand, lets a non-technical PM answer "what was revenue per region last quarter?" with a single drag-and-drop in the BI tool — no SQL, no engineering ticket. This is the dividing line between a data team that **scales** and one that becomes a bottleneck.
 
-**Star Schema:**
-The simplest dimensional model — one central fact table connected to multiple dimension tables, forming a star shape.
+When Spotify rebuilt its analytics layer in 2018, the single biggest investment was *not* a new query engine — it was rewriting hundreds of ad-hoc SQL queries into a clean star-schema layer the entire company could share.
+
+## Fact tables — the "what"
+
+Fact tables store the **measurable events** of the business. Each row is one occurrence:
+
+- A sale (\`fact_sales\`): one row per line item.
+- A page view (\`fact_pageviews\`): one row per impression.
+- A shipment (\`fact_shipments\`): one row per package.
+
+Key properties:
+
+- **Quantitative measures**: revenue, quantity, duration, cost, latency.
+- **Foreign keys** to dimension tables (\`product_key\`, \`customer_key\`, \`date_key\`).
+- **Very large** (often billions of rows) — they grow every minute the business runs.
+
+Three flavors of facts you must distinguish:
+
+| Type | Can be summed across | Example |
+|---|---|---|
+| **Additive** | All dimensions | revenue, quantity sold |
+| **Semi-additive** | Some dimensions | account balance (sum across accounts ✓, across time ✗) |
+| **Non-additive** | None — must recalculate | conversion rate, profit margin |
+
+Misclassifying a non-additive fact (say, summing percentages) is the #1 cause of "the dashboard says one thing but finance says another."
+
+## Dimension tables — the "context"
+
+Dimensions answer **who, what, where, when, how**. They are smaller than facts but much **wider**: a \`dim_customer\` might have 80+ columns (segment, lifetime value bucket, acquisition channel, country, signup date…). Wider dimensions = richer slicing in BI tools.
+
+Common dimensions every warehouse has:
+
+- \`dim_date\` — pre-populated calendar (every day from 2000 → 2050) with \`is_weekend\`, \`is_holiday\`, \`fiscal_quarter\`, \`week_of_year\`.
+- \`dim_customer\`, \`dim_product\`, \`dim_store\`, \`dim_employee\`.
+
+The "wide and denormalized" rule of thumb is intentional — joins are expensive at scale, so we trade a little storage for a lot of speed.
+
+## Star vs Snowflake — pick your trade-off
+
+**Star schema** keeps each dimension as one denormalized table:
 
 \`\`\`
          dim_product
@@ -1490,53 +1517,121 @@ dim_date — fact_sales — dim_customer
          dim_store
 \`\`\`
 
-**Advantages:** Simple to understand, fast queries (fewer JOINs), most BI tools optimize for it.
-**Disadvantage:** Some data redundancy in dimensions.
+**Snowflake schema** normalizes dimensions into sub-tables:
 
-**Snowflake Schema:**
-Dimensions are **normalized** (broken into sub-tables):
 \`\`\`
 dim_date — fact_sales — dim_product → dim_category → dim_department
                      ↘ dim_customer → dim_city → dim_country
 \`\`\`
 
-**Advantages:** Less storage, no redundancy.
-**Disadvantages:** More JOINs = slower queries, harder to understand.
-
-**Star vs Snowflake:**
 | Aspect | Star | Snowflake |
-|--------|------|-----------|
-| Query speed | Faster (fewer JOINs) | Slower (more JOINs) |
-| Storage | More (denormalized dims) | Less (normalized) |
-| Complexity | Simple | Complex |
-| BI tool support | Excellent | Good |
-| Recommendation | **Default choice** | Use when storage is critical |
+|---|---|---|
+| Query speed | ⚡ Faster (fewer JOINs) | 🐢 Slower (chain of JOINs) |
+| Storage | 📦 More (redundant attributes) | 💾 Less |
+| BI tool friendliness | ✅ Excellent | ⚠️ Many tools struggle |
+| Business-user clarity | ✅ Intuitive | ❌ Requires modeling knowledge |
+| Default recommendation | **Yes** | Only if storage is critical |
 
-**Slowly Changing Dimensions (SCD):**
-How to handle dimension changes (e.g., a customer moves to a new city):
+In practice **>90% of modern warehouses ship star schemas**. Storage costs on Snowflake/BigQuery are tiny compared to engineer time spent debugging seven-table JOINs.
 
-- **Type 0:** Never update (keep original value forever)
-- **Type 1:** Overwrite the old value (no history)
-- **Type 2:** Add a new row with version tracking (full history — most common)
-  \`\`\`
-  customer_key | name  | city   | valid_from | valid_to   | is_current
-  1001         | An    | Hanoi  | 2023-01-01 | 2024-06-30 | false
-  1002         | An    | HCMC   | 2024-07-01 | NULL       | true
-  \`\`\`
-- **Type 3:** Add a column for the previous value (limited history)
+## Slowly Changing Dimensions (SCD)
 
-**Data Vault (advanced alternative):**
-A modeling methodology for enterprise data warehouses. Uses three entity types:
-- **Hubs:** Business keys (customer ID, product SKU)
-- **Links:** Relationships between hubs
-- **Satellites:** Descriptive data with history
-Best for: highly complex environments with many source systems.`,
-        theoryEn: `**Dimensional Modeling** organizes warehouses into Facts (measures/events) and Dimensions (context).
+The hardest question in modeling is: *what happens when a dimension changes?* If a customer moves from Hanoi to Saigon, do historical sales still belong to Hanoi or get retroactively re-attributed to Saigon? Both answers are valid — but you must pick one and stay consistent.
 
-**Star Schema:** Fact table in center, denormalized dimensions around it. Simple, fast, recommended default.
-**Snowflake Schema:** Normalized dimensions. Saves storage but slower queries.
-**SCD Types:** Type 0 (never change), Type 1 (overwrite), Type 2 (versioned history), Type 3 (previous value column).
-**Data Vault:** Advanced methodology with Hubs, Links, Satellites for complex enterprise environments.`,
+| SCD Type | Behavior | When to use |
+|---|---|---|
+| **Type 0** | Never change | Birthdate, signup country |
+| **Type 1** | Overwrite (lose history) | Typo fixes, email updates |
+| **Type 2** | New row + valid_from / valid_to / is_current | Customer city, product price tier — **most common** |
+| **Type 3** | Add a "previous value" column | Limited history (one prior value only) |
+
+A canonical SCD Type 2 row:
+
+\`\`\`
+customer_key | name | city  | valid_from | valid_to   | is_current
+1001         | An   | Hanoi | 2023-01-01 | 2024-06-30 | false
+1002         | An   | HCMC  | 2024-07-01 | NULL       | true
+\`\`\`
+
+Notice the **surrogate key changes** while the natural ID (\`customer_id = 'C-007'\`) stays the same. This is what allows historic facts to keep pointing at the right *version* of the customer.
+
+## Case study #1 — Airbnb's "Minerva" metrics layer
+
+In 2021 Airbnb published its metrics framework "Minerva." It is essentially a giant, governed star-schema layer: ~3,000 metrics defined on top of a few hundred fact + dimension tables. Before Minerva, every team had its own definition of "active host." After Minerva, *one* SQL definition powered every dashboard, every email, every ML feature. The investment in clean dimensional modeling paid back the moment the CEO and the data scientist agreed on the same number in the same meeting.
+
+## Case study #2 — when bad modeling becomes a P0 incident
+
+A large fintech (publicly retold by an ex-employee on the *Data Engineering Podcast*) had a single fact table that mixed transaction events, refund events, and chargeback events with a "type" column. The grain was inconsistent: refunds had negative amounts, chargebacks had positive amounts but in a different currency convention. A finance dashboard summed everything naively and reported $40M of "extra" revenue. It took 3 weeks and a board-level apology to unwind. The fix was textbook Kimball: split into three fact tables, each with one consistent grain.
+
+## Best practices
+
+- **Declare the grain first.** "One row = one ___." If you can't finish that sentence, stop modeling.
+- **Use surrogate keys** on dimensions (auto-generated integers), not natural keys from source systems.
+- **Conform dimensions** across fact tables: \`dim_date\` and \`dim_customer\` should be the *same* table reused everywhere.
+- **Pre-populate \`dim_date\`** through 2050 — never derive date attributes in queries.
+- **Keep facts thin and tall**, dimensions wide and short.
+- **Document additivity** in column comments — future you will thank current you.
+
+## Anti-patterns & bridge to next lesson
+
+Avoid: a single "god" fact table with 200 columns; storing computed ratios in fact tables (compute them at query time); using natural keys as primary keys (breaks SCD Type 2); modeling a transactional system "as-is" into the warehouse.
+
+In the next lesson on **Data Warehousing & OLAP**, we will see how warehouses like Snowflake and BigQuery physically store these star schemas in a columnar format that makes scanning billions of fact-table rows fast enough for interactive dashboards.`,
+        theoryEn: `**Dimensional Modeling**, pioneered by Ralph Kimball, organizes warehouses into **facts** (measurable events) and **dimensions** (descriptive context). Almost every BI tool is optimized for it.
+
+## Why this matters in production
+
+Bad models cause slow dashboards, metric disagreements, and engineer bottlenecks. Good models let non-technical users self-serve. Spotify and Airbnb have both publicly credited dimensional modeling for scaling their analytics teams.
+
+## Fact tables — the "what"
+
+One row = one event (a sale, a page view). Contains quantitative measures + foreign keys to dimensions. Three additivity types:
+
+| Type | Summable across | Example |
+|---|---|---|
+| Additive | All dimensions | revenue |
+| Semi-additive | Some | account balance |
+| Non-additive | None | conversion rate |
+
+## Dimension tables — the "context"
+
+Wide and denormalized. Contain who/what/where/when. Common: \`dim_date\`, \`dim_customer\`, \`dim_product\`. Pre-populate \`dim_date\` so you never compute calendar attributes in queries.
+
+## Star vs Snowflake
+
+| Aspect | Star | Snowflake |
+|---|---|---|
+| Speed | Faster | Slower |
+| Storage | More | Less |
+| BI friendliness | Excellent | Often poor |
+| Default? | **Yes** | Only when storage is critical |
+
+>90% of modern warehouses ship star schemas — storage is cheap, engineer time is not.
+
+## Slowly Changing Dimensions (SCD)
+
+How dimension changes are tracked:
+
+- **Type 0** never changes (birthdate).
+- **Type 1** overwrites (typo fix).
+- **Type 2** adds a new row with \`valid_from / valid_to / is_current\` — full history, most common.
+- **Type 3** adds a "previous value" column.
+
+## Case study — Airbnb Minerva
+
+Airbnb's Minerva metrics layer is a governed star schema serving ~3,000 metrics from a few hundred tables. Before it, every team had its own "active host" definition; after it, one SQL definition powered every dashboard.
+
+## Case study — a fintech failure
+
+A fintech mixed transactions, refunds, and chargebacks in one fact table with inconsistent grain. A naive sum reported $40M of phantom revenue. Fix: split into three fact tables, one consistent grain each.
+
+## Best practices
+
+Declare the grain first; use surrogate keys; conform shared dimensions; thin tall facts, wide short dimensions; document additivity.
+
+## Anti-patterns & next lesson
+
+Avoid god-fact-tables, storing ratios in facts, and using natural keys as primary keys. Next: **Data Warehousing & OLAP** — how Snowflake/BigQuery physically store these models.`,
         code: `# Star Schema Design
 print("⭐ Star Schema: E-Commerce")
 print("=" * 50)
@@ -1611,89 +1706,137 @@ ORDER BY d.year, d.month;
       {
         id: "de-wh-1", title: "OLAP & Warehouse Concepts", titleEn: "OLAP & Warehouse Concepts",
         level: 3, difficulty: "intermediate",
-        theory: `**Data Warehousing** is the practice of collecting, storing, and managing data specifically for analytical queries and business intelligence. It is fundamentally different from the transactional databases that power your applications.
+        theory: `A **data warehouse** is a database engineered for analytical queries: large scans, aggregations, joins across billions of rows. It is fundamentally different from the OLTP databases that run your application. Confusing the two is the #1 reason analytics projects fail in their first year.
 
-**OLTP vs OLAP — Two Different Worlds:**
+## Why this matters in production
+
+When a startup hits ~50 employees, someone always asks: *"Can we just run our reports off the production Postgres?"* The answer is "yes, until the day a quarterly board report locks the orders table for 4 minutes during checkout." Warehouses exist precisely to keep analytics from breaking transactions, and to make analytics fast enough to be interactive instead of overnight batch.
+
+Every modern data team relies on at least one of: Snowflake, BigQuery, Redshift, Databricks SQL, ClickHouse, DuckDB. The architectural ideas below explain *why* they all look surprisingly similar.
+
+## OLTP vs OLAP — two different worlds
+
+| Aspect | OLTP (Postgres, MySQL) | OLAP (Snowflake, BigQuery) |
+|---|---|---|
+| Purpose | Run the business | Analyze the business |
+| Workload | Many small writes | Few large reads |
+| Query pattern | "Get user 42's last order" | "Avg order value per region per month over 3 years" |
+| Rows touched per query | 1–100 | Millions–billions |
+| Storage layout | Row-oriented | **Column-oriented** |
+| Concurrency | Thousands of users | Tens of analysts |
+| Schema | Highly normalized (3NF) | Denormalized star schema |
+
+The two-sentence summary: **OLTP optimizes for finding one needle in the haystack; OLAP optimizes for measuring the whole haystack.**
+
+## Columnar storage — the secret sauce
+
+Row-store (OLTP): all columns of one row are stored together on disk.
+Column-store (OLAP): all values of one *column* are stored together.
+
+Why columnar wins for analytics:
+
+- A query like \`SELECT AVG(amount) FROM fact_sales WHERE year = 2024\` only needs **two columns** out of 50. Columnar reads ~4% of the bytes a row store would.
+- Column data is highly compressible (often 10× — same data type, similar values, sorted).
+- Modern CPUs can vectorize operations on tightly-packed columns (SIMD).
+
+This is why Snowflake/BigQuery can scan 10 TB in 30 seconds while Postgres would take hours.
+
+## Cloud warehouse architecture
+
+All modern cloud warehouses share the same trick: **separation of storage and compute**.
+
+- Storage: cheap object storage (S3, GCS) — \`$23/TB/month\`.
+- Compute: ephemeral clusters that spin up on demand — pay only for the seconds they run.
+- Metadata service: a global catalog tracking which files belong to which table.
+
+Consequences:
+
+1. You can run **two queries on the same data with two different cluster sizes** — one for analysts, one for batch ETL — without conflict.
+2. Auto-scaling: spike to 100 nodes for a complex query, drop to zero overnight.
+3. You can clone a 10 TB table in **0 seconds** (metadata-only "zero-copy clone") — game-changing for dev/test environments.
+
+## Comparison: the four big warehouses
+
+| Warehouse | Pricing model | Strengths | Watch-outs |
+|---|---|---|---|
+| **Snowflake** | Per-second compute + storage | UX, zero-copy clone, sharing | Cost can explode without governance |
+| **BigQuery** | Per-TB scanned (or slots) | Serverless, ML built-in | Surprise bills if no \`SELECT\` discipline |
+| **Redshift** | Provisioned clusters | Tight AWS integration | Manual sizing, vacuums |
+| **Databricks SQL** | Per-DBU (cluster) | Best for lakehouse + ML | Complex pricing, learning curve |
+
+The boring truth: pick whichever your cloud provider already runs and your team can hire for. The performance differences are smaller than the operational ones.
+
+## Case study #1 — Capital One on Snowflake
+
+Capital One famously migrated from on-prem Teradata (8-figure annual contract, fixed capacity) to Snowflake. The win was not raw speed — it was *elasticity*. Quarterly stress-test workloads that used to take 3 weeks of capacity planning now ran on a temporary 2-hour cluster. They cut their analytics infrastructure cost ~40% while *increasing* throughput.
+
+## Case study #2 — the "$700 SELECT *" on BigQuery
+
+A junior analyst at an early-stage startup ran \`SELECT * FROM events\` against a 70 TB partitioned table because they wanted to "look around." BigQuery scanned the entire table at $5/TB → a single query cost $350 (run twice = $700). The lesson is structural: BigQuery's pricing makes \`SELECT *\` literally a wallet attack. Mature teams enforce table partitioning, require \`WHERE\` clauses on partition columns, and set per-user query quotas.
+
+## Best practices
+
+- **Partition large fact tables by date** (\`PARTITION BY date_trunc('day', event_ts)\`) so queries skip 99% of files.
+- **Cluster / sort by the most-filtered column** (often \`customer_id\` or \`country\`).
+- Tag every query with a \`-- team:growth, dashboard:weekly_kpis\` comment so cost can be attributed.
+- Use **materialized views** for the top 10 most-expensive recurring queries.
+- **Separate workloads onto separate warehouses/clusters** — never let a 6-hour ML training job share compute with the CEO's morning dashboard.
+- Set **resource monitors / budget alerts** in week one, not after the first surprise invoice.
+
+## Anti-patterns & bridge to next lesson
+
+Avoid: scanning unpartitioned tables; running OLTP-style point lookups in a warehouse; ignoring storage tiering; granting everyone the largest warehouse size; treating warehouse cost as "infra's problem" instead of a per-team budget.
+
+Next lesson tackles **Batch vs Streaming**: once you have a great warehouse, the next architectural decision is *how fresh* the data inside it needs to be — minutes, hours, or sub-second.`,
+        theoryEn: `A **data warehouse** is engineered for analytical queries: large scans, aggregations, joins across billions of rows. Different beast from OLTP databases.
+
+## Why this matters
+
+OLTP can't handle analytical workloads without locking your app. Warehouses exist to keep analytics fast and isolated from transactions.
+
+## OLTP vs OLAP
 
 | Aspect | OLTP | OLAP |
-|--------|------|------|
-| Purpose | Run the business | Analyze the business |
-| Operations | INSERT, UPDATE, DELETE | SELECT (mostly reads) |
-| Data freshness | Real-time | Periodic (hourly/daily) |
-| Query complexity | Simple (one row) | Complex (aggregations, JOINs) |
-| Users | Application users | Analysts, managers |
-| Row count per query | 1-100 | Millions |
-| Normalization | Highly normalized (3NF) | Denormalized (Star/Snowflake) |
-| Examples | PostgreSQL, MySQL | BigQuery, Snowflake, Redshift |
+|---|---|---|
+| Purpose | Run business | Analyze business |
+| Workload | Many small writes | Few large reads |
+| Storage | Row-oriented | **Column-oriented** |
+| Schema | Normalized | Star schema |
 
-**Columnar Storage — The Secret Behind Fast Analytics:**
-Traditional databases store data **row by row** (good for OLTP — read/write entire records). Analytical databases store data **column by column** (good for OLAP — aggregate specific columns).
+OLTP finds one needle; OLAP measures the whole haystack.
 
-\`\`\`
-Row-oriented:   [An, 22, 85] [Binh, 25, 92] [Chi, 23, 78]
-Column-oriented: [An, Binh, Chi] [22, 25, 23] [85, 92, 78]
-\`\`\`
+## Columnar storage
 
-**Why columnar is faster for analytics:**
-- Query \`SELECT AVG(score) FROM students\` only reads the score column (not name, age)
-- Better compression (similar values stored together)
-- SIMD (CPU vector) operations on homogeneous data
+Stores all values of one column together → queries reading few columns scan tiny fractions of the data + compress 10×. This is why Snowflake scans 10 TB in 30 seconds.
 
-**Partitioning — Divide and Conquer:**
-Splitting a large table into smaller, manageable pieces based on a column value.
-\`\`\`sql
--- BigQuery partitioned table
-CREATE TABLE sales
-PARTITION BY DATE(created_at)  -- one partition per day
-AS SELECT * FROM raw_sales;
+## Cloud architecture: separated storage & compute
 
--- Query only scans relevant partitions
-SELECT SUM(amount) FROM sales
-WHERE created_at BETWEEN '2024-01-01' AND '2024-01-31';
--- Only scans January data, not the entire table!
-\`\`\`
+Storage on cheap S3/GCS; ephemeral compute clusters spin up on demand. Enables auto-scaling, zero-copy clones, multi-cluster isolation.
 
-**Clustering — Sorting Within Partitions:**
-Physically orders data within partitions by specified columns. Improves filter performance.
-\`\`\`sql
--- BigQuery: cluster by customer_id within date partitions
-CREATE TABLE sales
-PARTITION BY DATE(created_at)
-CLUSTER BY customer_id, product_id;
-\`\`\`
+## Big four comparison
 
-**Modern Cloud Data Warehouses:**
+| Warehouse | Pricing | Strength | Watch-out |
+|---|---|---|---|
+| Snowflake | Per-second | UX, sharing | Cost explosion |
+| BigQuery | Per-TB scanned | Serverless | \`SELECT *\` = $$$ |
+| Redshift | Provisioned | AWS native | Manual sizing |
+| Databricks | Per-DBU | Lakehouse + ML | Complex pricing |
 
-**BigQuery (Google Cloud):**
-- Serverless — no infrastructure to manage
-- Pay-per-query (on-demand) or flat-rate pricing
-- Automatic scaling, built-in ML (BQML)
-- Best for: Teams wanting zero-ops, Google Cloud users
+## Case study — Capital One
 
-**Snowflake:**
-- Separate compute and storage (scale independently)
-- Multi-cloud (AWS, GCP, Azure)
-- Time Travel (query historical data up to 90 days)
-- Data Sharing (share data across organizations without copying)
-- Best for: Multi-cloud environments, data sharing needs
+Migrated from on-prem Teradata to Snowflake. Won on elasticity, not speed. Cut infra ~40% while throughput grew.
 
-**Amazon Redshift:**
-- Columnar storage with massively parallel processing (MPP)
-- Redshift Spectrum queries S3 directly
-- Best for: AWS-heavy organizations
+## Case study — $700 SELECT *
 
-**OLAP Operations:**
-- **Roll-up:** Aggregate from detailed to summary (day → month → year)
-- **Drill-down:** Go from summary to detail (year → quarter → month)
-- **Slice:** Filter on one dimension (only Q1 data)
-- **Dice:** Filter on multiple dimensions (Q1 + Region North + Product A)
-- **Pivot:** Rotate dimensions (rows ↔ columns)`,
-        theoryEn: `**OLTP** (transactions) vs **OLAP** (analytics) — different purposes, different architectures.
-**Columnar storage:** Stores data by column, fast for analytics, good compression.
-**Partitioning:** Splits tables by a column (date) so queries only scan relevant data.
-**Clustering:** Sorts data within partitions for faster filtering.
-**Cloud warehouses:** BigQuery (serverless), Snowflake (multi-cloud, data sharing), Redshift (MPP).
-**OLAP operations:** Roll-up, Drill-down, Slice, Dice, Pivot.`,
+A junior at a startup ran \`SELECT *\` on a 70 TB BigQuery table — twice. $700 bill. Mature teams enforce partition filters and per-user quotas.
+
+## Best practices
+
+Partition by date; cluster on common filter columns; use materialized views for top recurring queries; isolate workloads; set budget alerts in week one.
+
+## Anti-patterns & next lesson
+
+Avoid unpartitioned scans, OLTP-style point lookups, shared warehouses for ML + dashboards. Next: **Batch vs Streaming** — how fresh does the data need to be?`,
         code: `# OLAP Operations Simulation
 import numpy as np
 
@@ -1761,86 +1904,139 @@ for s in q1:
       {
         id: "de-bs-1", title: "Batch & Streaming", titleEn: "Batch & Streaming",
         level: 4, difficulty: "advanced",
-        theory: `**Batch Processing** and **Stream Processing** are two fundamentally different paradigms for processing data. Choosing the right one depends on your latency requirements, data volume, and use case.
+        theory: `Every modern data system makes one fundamental choice: **process data in batches** (every hour, every night) or **process events as they arrive** (sub-second). The choice cascades into everything — the technologies, the team skills, the cost, even the way business stakeholders think about "now."
 
-**Batch Processing — Process Data in Bulk:**
-Data is collected over a period (minutes, hours, days) and processed all at once.
+## Why this matters in production
 
-**Characteristics:**
-- High throughput (process millions of records efficiently)
-- Higher latency (results are not immediate)
-- Easier to debug and test (deterministic, repeatable)
-- Cost-effective for large volumes
+Streaming sounds sexy ("real-time data!"), but most companies do not actually *need* it. A daily revenue report does not need streaming. A fraud-detection system absolutely does. Picking streaming when batch would do is one of the most expensive over-engineering mistakes a data team can make: 5–10× the operational complexity, 24/7 on-call, and infrastructure bills that scale with throughput, not with value.
 
-**Tools:** Apache Spark, Pandas, dbt, Hive, MapReduce
-**Use cases:** Daily reports, data warehouse loads, ML model training, monthly billing
+The core question: *what is the cost of being one minute late vs one hour late vs one day late?*
 
-**Stream Processing — Process Events in Real-Time:**
-Each event is processed as soon as it arrives, with latency in milliseconds to seconds.
+## Batch processing — the workhorse
 
-**Characteristics:**
-- Low latency (near real-time results)
-- Lower throughput per event (but continuous)
-- Harder to debug (non-deterministic, ordering issues)
-- More complex infrastructure
+Batch jobs collect data over a period (an hour, a day) and process it in a single pass.
 
-**Tools:** Apache Kafka, Apache Flink, Spark Structured Streaming, Amazon Kinesis
-**Use cases:** Fraud detection, live dashboards, IoT sensor monitoring, real-time recommendations
+- Tools: Airflow + Spark, dbt, Snowflake tasks, AWS Glue, BigQuery scheduled queries.
+- Latency: minutes to hours.
+- Throughput: enormous (TBs per job).
+- Cost: low — you pay only when jobs run.
+- Recovery: easy — just re-run yesterday's job.
 
-**Micro-Batch — The Middle Ground:**
-Processes data in very small batches (every few seconds). Offers a balance between latency and simplicity.
-- Spark Structured Streaming uses this approach
-- Simpler than true streaming but lower latency than traditional batch
+90% of analytics work in the world is batch. dbt is the de-facto standard for batch transformations in 2024–2025.
 
-**Processing Architectures:**
+## Streaming processing — the live wire
 
-**Lambda Architecture (Batch + Speed):**
-\`\`\`
-                    ┌──→ Batch Layer (accurate, slow) ──→ Serving Layer
-Raw Data ──→ Queue ─┤
-                    └──→ Speed Layer (approximate, fast) ──→ Serving Layer
-\`\`\`
-- Batch layer: complete, accurate view (runs periodically)
-- Speed layer: real-time approximation (fills the gap)
-- Downside: maintaining two codebases
+Streaming systems process events one at a time (or in tiny micro-batches) as they arrive.
 
-**Kappa Architecture (Streaming Only):**
-\`\`\`
-Raw Data ──→ Stream Processing ──→ Serving Layer
-            (Kafka + Flink)
-\`\`\`
-- Everything goes through the streaming layer
-- Replay events for corrections (Kafka log retention)
-- Simpler than Lambda but requires robust streaming infrastructure
+- Tools: Kafka + Flink, Spark Structured Streaming, Kinesis, Pulsar, Materialize, RisingWave.
+- Latency: milliseconds to seconds.
+- Throughput: high but expensive per byte.
+- Cost: 24/7 running clusters even when traffic is low.
+- Recovery: hard — replaying state requires careful design.
 
-**Key Streaming Concepts:**
+## How streaming actually works — three concepts you must know
 
-**Event Time vs Processing Time:**
-- Event time: when the event actually occurred
-- Processing time: when the system processes it
-- Late arrivals: events arriving after their window has closed
+**1. Event time vs processing time.** Events have a timestamp from when they *happened*. They arrive at the processor at a different — usually later — time. A user offline for 2 hours uploads 50 events at once: event time spans 2 hours, processing time spans 1 second.
 
-**Windowing:**
-- **Tumbling window:** Fixed, non-overlapping windows (every 5 minutes)
-- **Sliding window:** Overlapping windows (5-minute window, slides every 1 minute)
-- **Session window:** Dynamic, based on activity gaps (group events with < 30s gap)
+**2. Windowing.** "Average orders per minute" needs a definition of *which minute*. Three common windows:
 
-**Watermarks:**
-A mechanism to handle late events — "I believe all events up to time T have arrived." Events arriving after the watermark may be dropped or sent to a side output.
+- **Tumbling**: fixed, non-overlapping (every 1-minute bucket).
+- **Sliding**: fixed-size but advancing every N seconds (last 1 minute, recomputed every 10 s).
+- **Session**: dynamic — closes when there's a gap in user activity.
 
-**Exactly-Once vs At-Least-Once:**
-- **At-most-once:** Fire and forget (may lose data)
-- **At-least-once:** Retry on failure (may produce duplicates)
-- **Exactly-once:** The gold standard (complex, uses transactions + idempotency)`,
-        theoryEn: `**Batch:** Process data in bulk periodically. High throughput, higher latency. Tools: Spark, Pandas, dbt.
-**Streaming:** Process events in real-time. Low latency, complex infrastructure. Tools: Kafka, Flink.
-**Micro-batch:** Small batches every few seconds. Middle ground.
+**3. Watermarks.** A promise: "I will not process any event older than X." Defines when a window is *closed* and ready to emit. Late data after the watermark is dropped or routed to a side output.
 
-**Lambda Architecture:** Batch + Speed layers (accurate + real-time).
-**Kappa Architecture:** Streaming only (simpler).
+## Trade-off table
 
-**Windowing:** Tumbling (fixed), Sliding (overlapping), Session (activity-based).
-**Delivery guarantees:** At-most-once, At-least-once, Exactly-once.`,
+| Aspect | Batch | Streaming |
+|---|---|---|
+| Latency | Hours | Sub-second |
+| Cost | $ | $$$$ |
+| Operational complexity | Low | Very high |
+| Backfill / replay | Trivial (\`re-run\`) | Hard (must replay state) |
+| Best for | Reports, ML training | Fraud, alerts, live dashboards |
+| Team skill needed | SQL / Python | Distributed systems |
+
+## Lambda vs Kappa architectures
+
+**Lambda** runs *both* a batch and a streaming pipeline in parallel. Streaming gives a fast (but approximate) view; batch gives the eventually-correct view; the serving layer reconciles them. Powerful but requires maintaining two codebases for the same logic — most teams come to hate this.
+
+**Kappa** runs a single streaming pipeline; backfills are done by replaying the event log from the start. Simpler, single source of truth, but only feasible if your event log is durable (Kafka with infinite retention) and your stream processor can replay.
+
+The 2020s consensus: prefer **Kappa-style with a streaming engine** + **dbt batch on top of the warehouse** for analytical aggregates.
+
+## Case study #1 — Uber's marketplace
+
+Uber matches riders to drivers in **<5 seconds**, computes surge pricing in **<10 seconds**, and runs financial reconciliation **once a day**. Same data, three latency tiers. Their architecture: Kafka for the event spine, Flink for streaming aggregates (surge, ETAs), and Hive/Presto for batch (financial close, A/B test reads). They publicly described this in the "uReplicator" and "Athena" blog posts (2017–2019).
+
+## Case study #2 — when streaming was the wrong choice
+
+A mid-sized e-commerce company built a streaming pipeline (Kafka + Flink) to deliver "real-time" daily sales dashboards. After 18 months of on-call pain (watermark tuning, late events, exactly-once semantics), they discovered the dashboard refreshed *once per morning anyway*. They migrated to dbt + Airflow in 2 sprints, saved $200k/year in infra, and paged the on-call engineer 80% less.
+
+The moral: **streaming for the sake of streaming is technical debt with extra steps.**
+
+## Best practices
+
+- **Default to batch.** Move to streaming only when latency directly creates business value (fraud, personalization, alerting).
+- Use a **single event log (Kafka)** as the source of truth — feeds *both* batch and streaming downstream.
+- Make pipelines **idempotent**: replaying the same event twice must produce the same result.
+- Always design **late-data handling** explicitly (drop / re-aggregate / route to dead letter).
+- Set **end-to-end latency SLOs** — "p99 from event to dashboard < 30s" — before designing.
+- Monitor **lag** (consumer offset behind log head), not just throughput.
+
+## Anti-patterns & bridge to next lesson
+
+Avoid: choosing streaming because it sounds modern; running streaming jobs without exactly-once or idempotency; using \`processing time\` when you really mean \`event time\`; building Lambda when Kappa would suffice.
+
+Next: **Data Quality** — once data is flowing (batch or stream), how do you make sure the numbers are *right*?`,
+        theoryEn: `Every data system chooses: process in **batches** or as **streams**. The choice drives tooling, cost, team skills.
+
+## Why this matters
+
+Streaming sounds great but most companies don't need it. Wrong choice = 5–10× operational pain. Ask: cost of being 1 minute late vs 1 hour vs 1 day?
+
+## Batch — the workhorse
+
+Periodic, high-throughput, cheap, easy to recover. Tools: Airflow, Spark, dbt. ~90% of analytics is batch.
+
+## Streaming — the live wire
+
+Per-event, low latency, expensive, hard to recover. Tools: Kafka + Flink, Kinesis. Always-on clusters.
+
+## Three streaming concepts
+
+1. **Event time vs processing time** — when it happened vs when we got it.
+2. **Windowing** — tumbling / sliding / session.
+3. **Watermarks** — promise that no event older than X will arrive; defines when a window closes.
+
+## Trade-off table
+
+| Aspect | Batch | Streaming |
+|---|---|---|
+| Latency | Hours | Sub-second |
+| Cost | $ | $$$$ |
+| Backfill | Trivial | Hard |
+| Best for | Reports, ML | Fraud, alerts |
+
+## Lambda vs Kappa
+
+Lambda = batch + streaming in parallel (two codebases — painful). Kappa = streaming only, replay log to backfill (modern preference).
+
+## Case study — Uber
+
+Three latency tiers from one Kafka log: <5s for matching, <10s for surge pricing, daily for financial close.
+
+## Case study — wrong-choice streaming
+
+An e-commerce shop built Kafka + Flink for dashboards that refreshed once per morning. Migrated to dbt + Airflow → saved $200k/year and on-call quieted.
+
+## Best practices
+
+Default to batch; one event log feeding both; idempotent processing; explicit late-data handling; latency SLOs; monitor lag, not throughput.
+
+## Anti-patterns & next lesson
+
+Avoid streaming for show, missing idempotency, mixing event/processing time. Next: **Data Quality** — making the numbers right.`,
         code: `import time
 from collections import deque
 
@@ -1906,84 +2102,145 @@ for event in data[:10]:
       {
         id: "de-dq-1", title: "Data Quality Framework", titleEn: "Data Quality Framework",
         level: 3, difficulty: "intermediate",
-        theory: `**Data Quality** determines whether your data is fit for its intended use. Poor data quality costs organizations an estimated $12.9 million per year (Gartner). A data engineer's primary job is ensuring data is reliable, accurate, and timely.
+        theory: `Data quality is not a tool you install — it is a **discipline** you practice every release. The question stops being "is the pipeline running?" and becomes "is the data the pipeline produced *correct, complete, fresh, and consistent*?" Companies that get this right ship trustworthy dashboards. Companies that don't end up with the dreaded "the numbers are wrong again" Slack thread every week.
 
-**The Six Dimensions of Data Quality:**
+## Why this matters in production
 
-| Dimension | Definition | Example Check |
-|-----------|-----------|---------------|
-| **Completeness** | No missing values where expected | email NOT NULL for all users |
-| **Accuracy** | Data reflects reality | age between 0 and 120 |
-| **Consistency** | Same data = same format across systems | "USA" vs "US" vs "United States" |
-| **Timeliness** | Data arrives when expected | Orders table updated by 6 AM daily |
-| **Uniqueness** | No unintended duplicates | user_id is unique |
-| **Validity** | Data conforms to defined rules | email matches regex pattern |
+A 2023 Monte Carlo / Wakefield survey found data engineers spend **40% of their time** on data-quality firefighting. Worse, downstream consumers — the ML team, the finance team, the CEO — discover bad data *before* the data team does, eroding trust faster than any marketing campaign can rebuild it.
 
-**Data Contracts — Formal Agreements:**
-A data contract is a formal agreement between a data producer and consumer that specifies:
-1. **Schema:** Column names, types, nullable constraints
-2. **SLAs:** Quality guarantees (99.9% completeness, < 1 hour latency)
-3. **Ownership:** Who is responsible when things break
-4. **Semantics:** What each field actually means (is "revenue" pre-tax or post-tax?)
-5. **Evolution policy:** How schema changes are communicated
+A famous Gartner estimate puts the average annual cost of poor data quality at **$12.9 million per company**. Even a fraction of that justifies building proper observability.
 
-**Why Data Contracts Matter:**
-Without contracts, upstream teams can change their data format without warning, breaking all downstream pipelines. Data contracts formalize these expectations.
+## The six dimensions of data quality
 
-**Data Quality Testing Tools:**
+The standard framework you should know cold:
 
-**Great Expectations (Python):**
-\`\`\`python
-import great_expectations as gx
-validator = gx.read_csv("data.csv")
-validator.expect_column_values_to_not_be_null("email")
-validator.expect_column_values_to_be_between("age", 0, 120)
-validator.expect_column_values_to_be_unique("user_id")
-validator.expect_column_values_to_match_regex("email", r"^[\\w.]+@[\\w]+\\.[\\w]+$")
+| Dimension | Question it answers | Example check |
+|---|---|---|
+| **Completeness** | Are required values present? | \`% null in customer_email\` |
+| **Accuracy** | Does the value match reality? | \`amount > 0\` for sales |
+| **Consistency** | Same value across systems? | \`order_total = sum(line_items)\` |
+| **Timeliness** | How fresh is the data? | last update < 1h ago |
+| **Uniqueness** | No unwanted duplicates? | \`count(distinct id) = count(*)\` |
+| **Validity** | Conforms to format/range? | email regex, country code in ISO list |
+
+A mature data team encodes *every* one of these as automated tests that block deployment if they fail.
+
+## Three layers of defense
+
+Production-grade quality programs operate at three layers:
+
+**Layer 1 — Schema / contract tests** (build time): typed columns, NOT NULL constraints, foreign-key checks. Caught by dbt tests, Great Expectations, Soda.
+
+**Layer 2 — Statistical anomaly detection** (run time): row-count down 50%? distribution of \`amount\` shifted? null rate doubled? Caught by tools like Monte Carlo, Bigeye, Anomalo, or hand-rolled with SQL + alerting.
+
+**Layer 3 — Business-logic assertions** (semantic): "weekend revenue should be 60–80% of weekday." "Refunds < 5% of gross." These are domain rules the warehouse cannot infer. Owned by the analytics engineer, not the platform team.
+
+## Mechanics — implementing dq tests with dbt
+
+The 2024 industry standard is **dbt tests**. Generic tests run as SQL:
+
+\`\`\`sql
+-- This becomes a test in dbt YAML:
+-- tests:
+--   - not_null
+--   - unique
+--   - relationships:
+--       to: ref('dim_customer')
+--       field: customer_id
+
+select customer_id
+from {{ ref('fact_orders') }}
+where customer_id is null
 \`\`\`
 
-**dbt tests:**
-\`\`\`yaml
-# schema.yml
-models:
-  - name: users
-    columns:
-      - name: user_id
-        tests: [unique, not_null]
-      - name: email
-        tests: [not_null, unique]
-      - name: age
-        tests:
-          - accepted_values: {values: [18, 19, 20, ...]}
-\`\`\`
+A test passes if the query returns **zero rows**. CI runs the suite on every PR; production runs it after every transformation. Failed test → pipeline halts, alert fires, downstream models don't refresh.
 
-**Building a Quality Pipeline:**
-\`\`\`
-Source → Ingest → [Quality Gate] → Transform → [Quality Gate] → Load → [Quality Gate] → Serve
-\`\`\`
+## Comparison of leading tools
 
-**Quality Gate Strategies:**
-- **Hard fail:** Pipeline stops if quality check fails (critical data)
-- **Soft fail:** Pipeline continues but logs a warning (non-critical)
-- **Quarantine:** Bad records are routed to a separate table for review
+| Tool | Strength | Best for |
+|---|---|---|
+| **dbt tests** | Built into transformations | Schema + simple business rules |
+| **Great Expectations** | Rich assertion library, docs | Python-heavy stacks, file/stream sources |
+| **Soda Core** | YAML-first, lightweight | Multi-engine, GitOps workflows |
+| **Monte Carlo** | ML-based anomaly detection | Large warehouses, lineage-heavy orgs |
+| **Anomalo** | No-code, business-user friendly | Cross-functional teams |
 
-**Monitoring & Alerting:**
-- Set up automated checks that run after each pipeline execution
-- Alert channels: Slack, PagerDuty, email
-- Dashboard showing quality metrics over time (trend analysis)
-- **Anomaly detection:** automatically flag when metrics deviate from historical norms
+For most teams the right answer is: **dbt tests for schema + business rules** + **a Monte Carlo / Anomalo-class tool for anomaly detection**. Don't try to hand-roll the second category — it never gets prioritized.
 
-**Data Observability Platforms:**
-- Monte Carlo: automated anomaly detection
-- Soda: data quality checks as code
-- Elementary: dbt-native data observability
-- Great Expectations: open-source expectation framework`,
-        theoryEn: `**Data Quality Dimensions:** Completeness, Accuracy, Consistency, Timeliness, Uniqueness, Validity.
+## Case study #1 — Netflix's "Write-Audit-Publish"
 
-**Data Contracts:** Formal agreements on schema, SLAs, ownership, semantics, evolution policy.
-**Tools:** Great Expectations, dbt tests, Monte Carlo, Soda.
-**Quality Gates:** Hard fail (stop), soft fail (warn), quarantine (isolate bad records).
-**Monitoring:** Automated checks, alerts, dashboards, anomaly detection.`,
+Netflix popularized **WAP**: every batch job first writes to a *staging* table, runs assertions, and only on success swaps the production table pointer. If assertions fail, prod is untouched and an alert fires. The pattern is now standard at Stripe, Airbnb, and most data-mature companies. Netflix wrote about it in their tech blog ("Maintaining Data Quality at Scale," 2019) and the open-source project **Apache Iceberg** ships first-class WAP support today.
+
+## Case study #2 — Unity's $110M data-quality miss
+
+In May 2022, Unity Technologies announced it would lose roughly **$110 million** in 2022 revenue because **bad data from a large customer had been fed into its ad-targeting ML model**, degrading its precision for months before anyone noticed. The stock dropped 36% in a day. The lesson is brutally clear: data quality is not a back-office concern — it is *directly* on the P&L.
+
+## Best practices
+
+- **Treat data tests like unit tests** — they run on every PR, fail the build on regression.
+- **Set SLAs per table**: freshness, completeness, schema-stability. Publish them, alert on breach.
+- **Separate critical-path tables** from "exploratory" ones — apply different rigor levels.
+- **Own quality at the producer, not the consumer.** The team that creates \`fact_orders\` owns its quality.
+- **Capture lineage** so when \`dim_product\` breaks, you immediately know which 47 dashboards are at risk.
+- **Run a weekly "data incident review"** — same discipline as software post-mortems.
+
+## Anti-patterns & bridge to next lesson
+
+Avoid: tests that "always pass" (commented out long ago); silent retries that mask quality issues; adding tests only after an incident; relying on stakeholders to find bad data; treating quality as one team's responsibility.
+
+Next: **Orchestration & DAGs** — once you have quality checks, you need a system that runs them in the right order, retries failures, and gives you a single pane of glass into pipeline health.`,
+        theoryEn: `Data quality is a discipline, not a tool. The right question shifts from "is the pipeline running?" to "is the output correct, complete, fresh, consistent?"
+
+## Why this matters
+
+Engineers spend ~40% of their time firefighting data quality. Gartner pegs the average cost of bad data at $12.9M/company/year.
+
+## Six DQ dimensions
+
+| Dimension | Example check |
+|---|---|
+| Completeness | % null in required columns |
+| Accuracy | \`amount > 0\` |
+| Consistency | \`order_total = sum(items)\` |
+| Timeliness | last update < 1h |
+| Uniqueness | no dup IDs |
+| Validity | email regex, country code |
+
+## Three layers of defense
+
+1. **Schema/contract tests** — dbt, Great Expectations.
+2. **Statistical anomaly detection** — Monte Carlo, Bigeye, Anomalo.
+3. **Business-logic assertions** — owned by analytics engineers.
+
+## dbt-style testing
+
+A test is a SQL query that *should return zero rows*. Run on every PR + after every transform. Failure halts pipelines.
+
+## Tool comparison
+
+| Tool | Best for |
+|---|---|
+| dbt tests | Schema + business rules |
+| Great Expectations | Python stacks, files/streams |
+| Soda Core | YAML/GitOps |
+| Monte Carlo | Anomaly detection at scale |
+| Anomalo | No-code, business-friendly |
+
+## Case study — Netflix WAP
+
+Netflix's Write-Audit-Publish: write to staging, run assertions, swap pointer only on success. Now standard via Apache Iceberg.
+
+## Case study — Unity $110M miss
+
+Unity lost ~$110M in 2022 from bad customer data poisoning their ad ML model. Stock −36% in a day.
+
+## Best practices
+
+Tests run on every PR; SLAs per table; quality owned by producers; capture lineage; weekly data-incident reviews.
+
+## Anti-patterns & next lesson
+
+Avoid commented-out tests, silent retries, post-incident-only testing. Next: **Orchestration & DAGs** — running these checks in the right order with retries and observability.`,
         code: `# Data Quality Framework
 class DataQualityChecker:
     def __init__(self, data, schema):
@@ -2061,97 +2318,140 @@ dq.report()`,
       {
         id: "de-orch-1", title: "DAGs & Task Dependencies", titleEn: "DAGs & Task Dependencies",
         level: 4, difficulty: "advanced",
-        theory: `**Pipeline Orchestration** is the practice of scheduling, coordinating, and monitoring data pipelines. In production, you rarely run a single script — you run dozens of interconnected tasks that must execute in the right order, retry on failure, and alert when something goes wrong.
+        theory: `An **orchestrator** is the operating system of your data platform. It decides *what runs, when, in what order, what happens on failure, and who gets paged*. Without one you have a graveyard of cron jobs and Slack messages saying "did the report run today?" With one, you get a single pane of glass over the entire pipeline.
 
-**Apache Airflow — The Industry Standard:**
-Airflow is the most widely-used open-source orchestration tool, created at Airbnb in 2014. It defines workflows as code using Python.
+## Why this matters in production
 
-**Core Concepts:**
+The number-one cause of broken dashboards on Monday morning is *not* a bad transformation — it is **task A finished before task B's data was ready**, and the report read stale data. A real orchestrator solves this by modeling pipelines as **DAGs** (directed acyclic graphs) where edges encode "B depends on A," and the engine guarantees order, retries, and observability.
 
-**DAG (Directed Acyclic Graph):**
-A DAG defines a workflow — a collection of tasks with dependencies. "Directed" means dependencies flow one way. "Acyclic" means no circular dependencies.
+In 2024–2025 the dominant choices are **Airflow** (still the de-facto standard), **Dagster** (modern, asset-aware), and **Prefect** (Pythonic, lightweight). dbt's built-in DAG handles intra-warehouse transformations and is usually triggered by one of the above.
+
+## Core concepts — task, DAG, scheduler, executor
+
+- **Task**: a single unit of work (run a SQL, call an API, copy a file).
+- **DAG**: a graph of tasks with dependency edges; "directed" = order matters; "acyclic" = no loops.
+- **Scheduler**: decides which DAG runs when (cron-like).
+- **Executor**: actually runs the tasks (locally, on Celery workers, on Kubernetes pods).
+- **Backfill**: re-run a DAG for historical dates after a bug fix or schema change.
+- **Idempotency**: re-running a task with the same inputs must produce the same output.
+
+A textbook DAG:
+
 \`\`\`
-extract_csv → clean_data → load_warehouse → send_report
-                  ↗
-extract_api ──┘
+extract_orders ──┐
+                  ├──> load_to_warehouse ──> dbt_transform ──> run_dq_tests ──> refresh_dashboard
+extract_users ───┘
 \`\`\`
 
-**Tasks:** Individual units of work (run a Python function, execute SQL, call an API).
+The orchestrator guarantees \`load_to_warehouse\` waits for both extracts; \`dbt_transform\` waits for the load; \`refresh_dashboard\` waits for the tests to pass.
 
-**Operators:** Templates for tasks:
-- \`PythonOperator\` — run a Python function
-- \`BashOperator\` — run a shell command
-- \`SQLExecuteQueryOperator\` — run SQL
-- \`S3ToGCSOperator\` — transfer between cloud services
-- \`EmailOperator\` — send notifications
+## Mechanics — Airflow's mental model
 
-**Dependencies:** Define execution order:
+In Airflow you declare a DAG in Python:
+
 \`\`\`python
-task_a >> task_b  # B runs after A
-task_a >> [task_b, task_c]  # B and C run in parallel after A
-[task_a, task_b] >> task_c  # C runs after both A and B
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime
+
+with DAG("daily_orders",
+         schedule="0 2 * * *",   # every day at 02:00
+         start_date=datetime(2024, 1, 1),
+         catchup=False) as dag:
+
+    extract = PythonOperator(task_id="extract", python_callable=do_extract)
+    load    = PythonOperator(task_id="load",    python_callable=do_load)
+    dbt     = PythonOperator(task_id="dbt",     python_callable=run_dbt)
+
+    extract >> load >> dbt
 \`\`\`
 
-**Scheduling:**
-Uses cron expressions:
-- \`0 2 * * *\` — daily at 2:00 AM
-- \`0 */6 * * *\` — every 6 hours
-- \`0 0 1 * *\` — first day of each month
-- \`@daily\`, \`@hourly\`, \`@weekly\` — Airflow shortcuts
+Key behaviors:
 
-**Error Handling:**
-\`\`\`python
-default_args = {
-    'retries': 3,                    # retry up to 3 times
-    'retry_delay': timedelta(minutes=5),  # wait 5 min between retries
-    'email_on_failure': True,        # send email on failure
-    'email': ['team@company.com'],
-    'sla': timedelta(hours=2),       # alert if task takes > 2 hours
-}
-\`\`\`
+- **Retries**: \`retries=3, retry_delay=timedelta(minutes=5)\` — transient failures recover automatically.
+- **SLA**: alert if a task takes longer than expected.
+- **XCom**: small message passing between tasks (do *not* abuse for big data — use object storage).
+- **Sensors**: tasks that wait for an external condition (file appears, table is fresh).
 
-**XCom — Passing Data Between Tasks:**
-\`\`\`python
-# Task A pushes data
-def extract(**context):
-    data = fetch_from_api()
-    context['ti'].xcom_push(key='raw_data', value=data)
+## Comparison of orchestrators
 
-# Task B pulls data
-def transform(**context):
-    data = context['ti'].xcom_pull(task_ids='extract', key='raw_data')
-    return clean(data)
-\`\`\`
-**Important:** XCom is for **small** metadata (file paths, row counts). Never pass large datasets through XCom — use cloud storage instead.
+| Tool | Paradigm | Strengths | Watch-outs |
+|---|---|---|---|
+| **Airflow** | Task-centric, Python | Huge ecosystem, hire-ability | Verbose, slow scheduler at extreme scale |
+| **Dagster** | Asset-centric (data, not tasks) | First-class data assets, types, lineage | Smaller community |
+| **Prefect** | Python-native, hybrid cloud | Clean API, dynamic mapping | Less mature ecosystem |
+| **Argo Workflows** | Kubernetes-native YAML | Tight K8s integration | Steep curve outside K8s shops |
+| **Cron + bash** | DIY | Free, simple | No observability — *don't ship to prod* |
 
-**Sensors — Waiting for Conditions:**
-\`\`\`python
-# Wait for a file to appear before processing
-file_sensor = S3KeySensor(
-    task_id='wait_for_file',
-    bucket_name='data-bucket',
-    bucket_key='incoming/daily_*.csv',
-    poke_interval=300,  # check every 5 minutes
-    timeout=3600,       # give up after 1 hour
-)
-\`\`\`
+The "asset vs task" distinction matters. Dagster says "I produce \`fact_orders\`" and the dependency graph is derived. Airflow says "I run task X after task Y" and you maintain dependencies manually.
 
-**Modern Alternatives:**
-| Tool | Key Differentiator |
-|------|-------------------|
-| **Prefect** | Pythonic, easier to learn than Airflow |
-| **Dagster** | Software-defined assets, strong typing |
-| **dbt Cloud** | SQL-only, built for analytics transforms |
-| **Mage** | Modern UI, notebook-style pipeline building |
-| **Cloud native** | GCP Workflows, AWS Step Functions, Azure Logic Apps |`,
-        theoryEn: `**Orchestration** schedules, coordinates, and monitors data pipelines.
+## Case study #1 — Airbnb (the birthplace of Airflow)
 
-**Airflow concepts:** DAGs (workflow graph), Tasks (work units), Operators (templates), Dependencies (>> syntax).
-**Scheduling:** Cron expressions or Airflow shortcuts (@daily, @hourly).
-**Error handling:** Retries, retry_delay, email_on_failure, SLAs.
-**XCom:** Pass small metadata between tasks (not large data).
-**Sensors:** Wait for conditions (file arrival, API availability).
-**Alternatives:** Prefect, Dagster, dbt Cloud, Mage.`,
+Airbnb open-sourced Airflow in 2015 specifically to replace a tangle of cron jobs that were causing nightly outages. By 2018 they were running ~10,000 DAGs per day. Their public talks identify three keys to success: **strict idempotency** (every task safe to re-run), **metadata-driven DAGs** (generate DAGs from a config table, not 10,000 hand-written files), and **clear ownership tags** so the on-call could route any failure to the right team in <60 seconds.
+
+## Case study #2 — the cron-jungle anti-pattern
+
+A FAANG-adjacent startup (story shared on the *Locally Optimistic* podcast) ran ~400 cron jobs across 5 EC2 instances. There was no DAG, no retries, no logs in one place. A daily revenue report was downstream of 9 jobs scheduled "with enough buffer" between them. When traffic doubled, the upstream jobs took longer; the buffers stopped being enough; the report silently used yesterday's data for *six weeks* before anyone noticed. The fix took 3 engineers a quarter to rebuild the same logic in Airflow with explicit dependencies.
+
+## Best practices
+
+- **Make every task idempotent** — re-runnable without side effects. This is non-negotiable.
+- **Externalize state to object storage / warehouse** — never store data inside the orchestrator.
+- **One DAG per domain**, not one mega-DAG with 500 tasks.
+- **Tag DAGs with owner + on-call rotation** — failures auto-route to the right team.
+- **Set SLAs and alert on lateness**, not just on failure (success-but-late is a real failure mode).
+- **Backfill discipline**: parameterize tasks by execution date so re-runs Just Work.
+- **Version-control DAGs** like application code; require code review.
+
+## Anti-patterns & bridge to next lesson
+
+Avoid: passing large data through XCom; using \`datetime.now()\` inside tasks (kills idempotency); long sleep loops to "wait for data" (use sensors); hand-rolling cron in production after you have an orchestrator.
+
+Next: **Cloud Platforms** — where do these orchestrators run, and how do AWS/GCP/Azure each package the data-engineering stack?`,
+        theoryEn: `An **orchestrator** is the OS of your data platform: it decides what runs, when, in what order, and who gets paged on failure.
+
+## Why this matters
+
+#1 cause of broken dashboards is "task A finished before task B's data was ready." Orchestrators model pipelines as **DAGs** with dependency edges and guarantee order, retries, observability.
+
+## Core concepts
+
+- **Task** — unit of work.
+- **DAG** — directed acyclic graph of tasks.
+- **Scheduler** — decides what runs when.
+- **Executor** — actually runs tasks (locally / Celery / K8s).
+- **Backfill** — re-run for historical dates.
+- **Idempotency** — re-runs produce the same output.
+
+## Airflow mental model
+
+Declare DAGs in Python with operators and \`>>\` for dependencies. Built-in retries, SLAs, sensors, XCom message passing.
+
+## Tool comparison
+
+| Tool | Paradigm | Strength | Watch-out |
+|---|---|---|---|
+| Airflow | Task-centric | Huge ecosystem | Verbose at scale |
+| Dagster | Asset-centric | Lineage built in | Smaller community |
+| Prefect | Python-native | Clean API | Less mature |
+| Argo | K8s YAML | K8s integration | Steep outside K8s |
+| Cron + bash | DIY | Free | No observability |
+
+## Case study — Airbnb
+
+Birthplace of Airflow (2015). At ~10k DAGs/day they relied on idempotency, metadata-driven DAG generation, and ownership tags for fast on-call routing.
+
+## Case study — cron jungle
+
+A startup ran 400 cron jobs across 5 EC2 boxes. Buffers stopped being enough as traffic grew → revenue dashboard used stale data for 6 weeks unnoticed.
+
+## Best practices
+
+Idempotency mandatory; state lives in object storage/warehouse, not orchestrator; one DAG per domain; tag owners + on-call; alert on lateness; parameterize by execution date.
+
+## Anti-patterns & next lesson
+
+Avoid huge XCom payloads, \`datetime.now()\`, sleep loops, side-by-side cron. Next: **Cloud Platforms** — where these orchestrators live.`,
         code: `# DAG Simulator (Airflow-like)
 from datetime import datetime
 
@@ -2241,85 +2541,151 @@ dag.run()`,
       {
         id: "de-cloud-1", title: "Cloud Services Overview", titleEn: "Cloud Services Overview",
         level: 4, difficulty: "advanced",
-        theory: `**Cloud Data Platforms** provide managed infrastructure for building data pipelines at scale. Understanding the major cloud providers and their data services is essential for modern data engineers.
+        theory: `Modern data engineering is a **cloud** discipline. The on-prem Hadoop cluster of 2014 has been replaced by a managed-service stack on AWS, GCP, or Azure. Knowing which service does what — and which services *don't* talk to each other well — is now table-stakes for any data engineer.
 
-**The Big Three Cloud Providers:**
+## Why this matters in production
 
-**Google Cloud Platform (GCP):**
-Best known for: BigQuery, data analytics
-- **Storage:** Cloud Storage (object), BigQuery (warehouse), Bigtable (NoSQL), Firestore (document)
-- **Processing:** Dataflow (stream/batch), Dataproc (managed Spark), Cloud Functions (serverless)
-- **Orchestration:** Cloud Composer (managed Airflow), Workflows (simple)
-- **ML/AI:** Vertex AI, AutoML, BigQuery ML
-- **Key advantage:** BigQuery's serverless architecture and ease of use
+A junior engineer asked to "build a pipeline" on AWS faces ~25 services with overlapping names (Glue, EMR, Athena, Redshift, Kinesis, MSK, Lambda, Step Functions…). Picking wrong costs the team 6 months of rewrite. Picking right gets a production pipeline shipped in 2 weeks.
 
-**Amazon Web Services (AWS):**
-Most market share, broadest service catalog
-- **Storage:** S3 (object), Redshift (warehouse), DynamoDB (NoSQL), RDS (relational)
-- **Processing:** EMR (managed Spark/Hadoop), Glue (serverless ETL), Lambda (serverless compute)
-- **Orchestration:** MWAA (managed Airflow), Step Functions (state machines), EventBridge
-- **ML/AI:** SageMaker, Comprehend, Rekognition
-- **Key advantage:** Largest ecosystem, most third-party integrations
+The good news: every cloud provides the same **six building blocks**. Once you can map them, you can navigate any cloud.
 
-**Microsoft Azure:**
-Strong enterprise integration, especially with Microsoft products
-- **Storage:** Blob Storage (object), Synapse Analytics (warehouse), Cosmos DB (multi-model)
-- **Processing:** HDInsight (managed Hadoop), Data Factory (ETL), Azure Functions
-- **Orchestration:** Data Factory (built-in), Logic Apps
-- **ML/AI:** Azure ML, Cognitive Services
-- **Key advantage:** Seamless integration with Microsoft 365, Active Directory
+## The six universal building blocks
 
-**Cloud Data Architecture Patterns:**
+| Capability | AWS | GCP | Azure |
+|---|---|---|---|
+| Object storage | S3 | GCS | Blob Storage / ADLS |
+| Warehouse | Redshift | BigQuery | Synapse |
+| Streaming bus | Kinesis / MSK | Pub/Sub | Event Hubs |
+| Batch compute | EMR / Glue | Dataproc / Dataflow | HDInsight / Databricks |
+| Orchestration | MWAA (Airflow) / Step Fn | Cloud Composer (Airflow) | Data Factory |
+| Serverless transform | Lambda | Cloud Functions | Functions |
 
-**The Modern Data Stack:**
+Memorize this table once and you can read any cloud architecture diagram on first sight.
+
+## Reference architecture — modern lakehouse
+
+The 2024 mainstream pattern, equally valid on any cloud:
+
 \`\`\`
-Sources → Ingestion (Fivetran/Airbyte) → Warehouse (Snowflake/BigQuery)
-       → Transform (dbt) → BI (Looker/Tableau) → Reverse ETL (Census/Hightouch)
+Sources ─> Streaming bus ─> Object storage (raw / bronze)
+                       │
+                       └─> Streaming compute (Flink / Spark Streaming)
+                                  │
+Object storage (raw) ─> Batch compute (Spark / Glue) ─> Object storage (silver: cleaned)
+                                                     ─> Object storage (gold: aggregated)
+                                                                  │
+                                                                  └─> Warehouse (BigQuery / Snowflake / Redshift)
+                                                                  └─> BI tool (Looker / Tableau / Metabase)
 \`\`\`
 
-**Data Lakehouse:**
-Combines the flexibility of a data lake with the structure and performance of a warehouse.
-- Technologies: Delta Lake (Databricks), Apache Iceberg, Apache Hudi
-- Benefits: ACID transactions on file storage, schema enforcement, time travel
+The "bronze / silver / gold" naming comes from Databricks' medallion architecture and is now industry-standard vocabulary.
 
-**Data Mesh:**
-A decentralized approach where each business domain owns and manages its own data products.
-- Domain ownership: Marketing team owns marketing data
-- Data as a product: Published with quality guarantees
-- Self-serve infrastructure: Central platform team provides tools
-- Federated governance: Shared standards, local execution
+## Open table formats — Iceberg, Delta, Hudi
 
-**Cost Optimization Strategies:**
-1. **Right-sizing compute:** Don't over-provision; use auto-scaling
-2. **Spot/Preemptible instances:** 60-90% cheaper for fault-tolerant workloads
-3. **Storage tiering:** Move cold data to cheaper storage classes
-4. **Reservation discounts:** Commit to 1-3 year usage for 30-60% savings
-5. **Query optimization:** Partition, cluster, and write efficient queries
-6. **Data lifecycle policies:** Auto-delete/archive old data
+A 2024 game-changer. Instead of raw Parquet files, store data as an **open table format**:
 
-**Infrastructure as Code (IaC):**
-\`\`\`hcl
-# Terraform example: BigQuery dataset
-resource "google_bigquery_dataset" "analytics" {
-  dataset_id = "analytics"
-  location   = "US"
-  labels     = { env = "production" }
-}
-\`\`\`
-Tools: Terraform, Pulumi, CloudFormation, CDK
+- **Apache Iceberg** (Netflix → Apache) — vendor-neutral, supported by Snowflake, BigQuery, Athena, Trino, Spark.
+- **Delta Lake** (Databricks → Linux Foundation) — strongest in the Databricks ecosystem.
+- **Apache Hudi** (Uber) — strong streaming/upsert workloads.
 
-**Security Best Practices:**
-- **IAM:** Principle of least privilege — grant only necessary permissions
-- **Encryption:** At rest (storage) and in transit (network)
-- **VPC/Private networking:** Keep data services off the public internet
-- **Audit logging:** Track who accessed what and when
-- **Data masking:** Hide PII in non-production environments`,
-        theoryEn: `**Cloud providers:** GCP (BigQuery-focused), AWS (broadest), Azure (Microsoft integration).
+What they give you on top of plain Parquet: ACID transactions, time travel ("query the table as it was 2 hours ago"), schema evolution, hidden partitioning, efficient updates/deletes. *This is what makes a "data lake" feel like a "data warehouse."*
 
-**Architecture patterns:** Modern Data Stack, Data Lakehouse (Delta Lake/Iceberg), Data Mesh (domain ownership).
-**Cost optimization:** Right-sizing, spot instances, storage tiering, reservations, query efficiency.
-**IaC:** Terraform, Pulumi, CloudFormation.
-**Security:** IAM (least privilege), encryption, private networking, audit logs, data masking.`,
+## Trade-offs by cloud
+
+| Cloud | Strengths | Watch-outs |
+|---|---|---|
+| **AWS** | Largest service catalog, deep enterprise adoption | Service overlap, complex IAM, every service a separate UI |
+| **GCP** | Best serverless analytics (BigQuery is best-in-class) | Smaller market share, less third-party tooling |
+| **Azure** | Best Microsoft / enterprise integration | Documentation maze, some services lag behind |
+| **Snowflake / Databricks** (multi-cloud) | Same product on any cloud, strong data sharing | Premium pricing, vendor lock-in to *them* instead of the cloud |
+
+The 2024 pattern most teams converge on: **cloud A's object storage + Snowflake or Databricks on top + dbt for transformations**.
+
+## Cost model — where the bills come from
+
+Three lines dominate every bill:
+
+1. **Compute** — warehouse credits, Spark cluster hours. Mitigation: auto-suspend, right-size, use spot instances for batch.
+2. **Storage** — pennies per GB but multiplied by years of retention. Mitigation: lifecycle policies (move >90-day data to cold tier), partition pruning.
+3. **Egress** — moving data *out* of the cloud is shockingly expensive. Mitigation: keep compute in the same region as storage; avoid cross-cloud transfers.
+
+A common pattern: *storage is cheap, compute is medium, egress will surprise you.*
+
+## Case study #1 — Shopify on GCP + BigQuery
+
+Shopify moved to GCP and standardized on BigQuery + dbt. They have publicly described running >10 PB of analytical data and >100,000 dbt models per day. Two design choices made it work: (1) **immutable raw layer** stored as Parquet on GCS — they can always replay; (2) **strict cost-attribution tags** per team so each PM team sees its own BigQuery bill weekly.
+
+## Case study #2 — the cross-region egress disaster
+
+A US-based SaaS company stored data in S3 in \`us-east-1\` but ran their Snowflake account in \`us-west-2\`. Every analytical query pulled data across regions. Their bill grew quietly until a single quarter showed **$180,000 in cross-region egress** alone. Fix: a one-time migration of the S3 buckets to the same region as the Snowflake account. Egress dropped to near zero overnight.
+
+## Best practices
+
+- **Pick one cloud as primary** — multi-cloud is rarely worth the operational tax.
+- **Use managed services aggressively** for the boring stuff (orchestration, queues, warehouses); save your custom code for true business logic.
+- **Tag every resource** with team / cost-center / environment from day one.
+- **Enable budget alerts at 50% / 80% / 100%** on every account.
+- **Region-pin storage and compute together.**
+- **Adopt an open table format (Iceberg/Delta) early** — it preserves optionality across vendors.
+
+## Anti-patterns & bridge to next lesson
+
+Avoid: building "cloud-agnostic" abstractions before you actually need them; spinning up always-on clusters for spiky workloads; storing PII in the cheapest tier without encryption; ignoring data residency / compliance requirements.
+
+Next: **Production Best Practices** — once your pipeline runs in the cloud, how do you make it reliable enough to put your name on it?`,
+        theoryEn: `Modern data engineering is a **cloud** discipline. AWS / GCP / Azure each package the same building blocks under different names.
+
+## Why this matters
+
+~25 services per cloud with overlapping names. Map the blocks once → navigate any cloud.
+
+## Six universal blocks
+
+| Capability | AWS | GCP | Azure |
+|---|---|---|---|
+| Object storage | S3 | GCS | Blob/ADLS |
+| Warehouse | Redshift | BigQuery | Synapse |
+| Streaming | Kinesis/MSK | Pub/Sub | Event Hubs |
+| Batch compute | EMR/Glue | Dataproc/Dataflow | HDInsight |
+| Orchestration | MWAA/Step Fn | Composer | Data Factory |
+| Serverless | Lambda | Cloud Functions | Functions |
+
+## Reference lakehouse
+
+Sources → streaming bus → object storage (bronze/silver/gold) → warehouse → BI. Medallion naming from Databricks is now industry-standard.
+
+## Open table formats
+
+Iceberg, Delta, Hudi: ACID + time travel + schema evolution on top of Parquet. Make a lake feel like a warehouse.
+
+## Trade-offs
+
+| Cloud | Strength | Watch-out |
+|---|---|---|
+| AWS | Catalog size | Service overlap |
+| GCP | BigQuery | Smaller ecosystem |
+| Azure | MS integration | Doc maze |
+| Snowflake/Databricks | Multi-cloud | Premium price, vendor lock |
+
+## Cost model
+
+Compute (auto-suspend), storage (lifecycle policies), egress (region-pin). Egress always surprises.
+
+## Case study — Shopify
+
+GCP + BigQuery + dbt at >10 PB. Won via immutable raw layer + per-team cost tags.
+
+## Case study — egress disaster
+
+S3 in us-east-1, Snowflake in us-west-2 → $180k/quarter in cross-region egress. Migrated buckets, egress dropped to ~zero.
+
+## Best practices
+
+One primary cloud; managed services for boring stuff; tag everything; budget alerts; region-pin; adopt Iceberg/Delta early.
+
+## Anti-patterns & next lesson
+
+Avoid premature multi-cloud; always-on clusters for spiky loads; ignoring residency. Next: **Production Best Practices**.`,
         code: `# Cloud Architecture Decision Framework
 services = {
     "Storage": {
@@ -2386,123 +2752,152 @@ estimate_cost(1000, 10, 200)`,
       {
         id: "de-prod-1", title: "Production Best Practices", titleEn: "Production Best Practices",
         level: 5, difficulty: "advanced",
-        theory: `**Production Pipelines** require a fundamentally different mindset from development. A pipeline that works on your laptop with 100 rows must also work at 3 AM with 100 million rows, handle failures gracefully, and alert you when something goes wrong.
+        theory: `Building a pipeline that runs on your laptop is easy. Building one that **runs reliably for years**, recovers from failures unattended, gets correctly-paged engineers when something is truly wrong, and never silently corrupts data — that is data engineering. This lesson is the playbook every senior data engineer eventually internalizes.
 
-**The Three Pillars of Production Data Engineering:**
+## Why this matters in production
 
-**1. Reliability — "It Works Even When Things Break"**
+Most data pipelines are not "broken" in obvious ways. They are *quietly wrong*. The dashboard shows numbers; the numbers happen to be stale by 3 days, or off by 2% because a deduplication step silently drops events. The cost of these silent failures is higher than the cost of loud failures, because trust erodes invisibly.
 
-**Idempotency:** Running a pipeline multiple times with the same input always produces the same result, without creating duplicates.
-\`\`\`python
-# Bad: appends every run → duplicates!
-INSERT INTO target SELECT * FROM source WHERE date = '2024-01-15';
+A production-grade pipeline is judged on five SLOs: **freshness, completeness, correctness, availability, and cost predictability**. The practices below directly support each of them.
 
-# Good: delete-then-insert (idempotent)
-DELETE FROM target WHERE date = '2024-01-15';
-INSERT INTO target SELECT * FROM source WHERE date = '2024-01-15';
+## Idempotency — the cornerstone
 
-# Even better: MERGE/UPSERT
-MERGE INTO target USING source ON target.id = source.id
-WHEN MATCHED THEN UPDATE SET ...
-WHEN NOT MATCHED THEN INSERT ...;
-\`\`\`
+A task is **idempotent** if running it 10 times produces the same result as running it once. This sounds obvious; it is the single most violated property in real pipelines.
 
-**Retry Logic:** Transient failures (network timeout, rate limit) should not kill the pipeline.
-\`\`\`python
-from tenacity import retry, stop_after_attempt, wait_exponential
+Idempotent patterns:
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, max=60))
-def call_api(url):
-    response = requests.get(url)
-    response.raise_for_status()
-    return response.json()
-\`\`\`
+- **MERGE / UPSERT** instead of INSERT.
+- **Partitioned overwrites**: \`OVERWRITE PARTITION (date='2024-01-15')\` instead of appending.
+- **Transactional table formats** (Iceberg / Delta) that give you snapshot isolation.
 
-**Dead Letter Queue (DLQ):** Records that fail processing are routed to a separate queue/table for investigation, while the rest of the pipeline continues.
+Non-idempotent traps:
 
-**Circuit Breaker:** If errors exceed a threshold, stop calling the failing service to avoid cascading failures.
+- Calling \`now()\` inside a task.
+- Auto-incrementing IDs assigned in the pipeline.
+- Sending an email or charging a credit card *and* writing to the warehouse in the same task — the email is not idempotent.
 
-**2. Observability — "You Know What's Happening"**
+## CI / CD for data pipelines
 
-**Structured Logging:** Use JSON logs with consistent fields for easy searching and aggregation.
-\`\`\`python
-import logging, json
+Treat your pipelines like software:
 
-logger = logging.getLogger(__name__)
-logger.info(json.dumps({
-    "event": "pipeline_complete",
-    "pipeline": "daily_etl",
-    "rows_processed": 150000,
-    "duration_seconds": 45.2,
-    "status": "success"
-}))
-\`\`\`
+- **Source control** every dbt model, Airflow DAG, Spark job.
+- **PR reviews** with at least one other data engineer.
+- **CI**: spin up a small dev warehouse, run dbt build + tests on every PR.
+- **Staging environment** that mirrors prod schema.
+- **Blue/green deploys**: build the new table next to the old one, swap pointers atomically.
 
-**Metrics to Track:**
-| Metric | What It Tells You |
-|--------|------------------|
-| Rows processed | Volume consistency (sudden drops = upstream issue) |
-| Duration | Performance trends (gradual increase = growing data or degradation) |
-| Error rate | Reliability (should be < 0.1%) |
-| Data freshness | When was the last successful update? |
-| Resource usage | CPU, memory, disk — approaching limits? |
+The 2024 standard tooling: **dbt + GitHub Actions + a dev/prod schema split** in your warehouse.
 
-**Alerting Best Practices:**
-- **Page** (wake someone up): pipeline critical failure, data SLA breach
-- **Warn** (check next business day): performance degradation, approaching limits
-- **Info** (dashboard): routine metrics, successful completions
-- Avoid alert fatigue — too many alerts = people ignore them
+## Observability — the three pillars
 
-**Dashboards:** Grafana, DataDog, or CloudWatch dashboards showing pipeline health at a glance.
+| Pillar | Question it answers | Tool category |
+|---|---|---|
+| **Logs** | What happened? | CloudWatch, Stackdriver, Datadog logs |
+| **Metrics** | How is it trending? | Prometheus, CloudWatch metrics |
+| **Lineage** | What is downstream when this breaks? | dbt docs, OpenLineage, Monte Carlo |
 
-**3. DevOps — "Changes Are Safe and Automated"**
+A pipeline without lineage is a pipeline you can't safely change. Adopt **OpenLineage** or your orchestrator's native lineage early — retrofitting it later is painful.
 
-**CI/CD for Data Pipelines:**
-\`\`\`yaml
-# GitHub Actions example
-name: Data Pipeline CI/CD
-on: [push]
-jobs:
-  test:
-    steps:
-      - run: pytest tests/unit/         # unit tests for transformations
-      - run: pytest tests/integration/  # test against staging data
-  deploy:
-    needs: test
-    steps:
-      - run: dbt run --target production
-      - run: python deploy_airflow_dags.py
-\`\`\`
+## Comparison — naive vs production pipeline
 
-**Testing Strategy:**
-- **Unit tests:** Test individual transformation functions
-- **Integration tests:** Test pipeline against a staging database
-- **Data tests:** Validate output data quality (dbt tests, Great Expectations)
-- **Contract tests:** Verify upstream data matches expected schema
+| Concern | Naive | Production |
+|---|---|---|
+| Failure handling | Crash & email | Retry → DLQ → page |
+| Re-run safety | Manual cleanup | Idempotent by design |
+| Schema change | Breaks silently | Contract tests + alerts |
+| New deploy | Push to prod | PR → CI → staging → prod |
+| Cost | Surprise quarterly bill | Per-team budget + alerts |
+| Bad data | Discovered by CEO | Caught by tests pre-publish |
+| On-call | "Whoever sees Slack first" | Owner tags + rotation |
 
-**Environments:**
-\`\`\`
-Development → Staging → Production
-   (local)    (test data)  (real data)
-\`\`\`
+If you cannot tick the right column for every row, you are running a hobby pipeline.
 
-**Blue/Green Deployments:** Run the new pipeline version alongside the old one, compare outputs, then switch traffic. Zero-downtime deployments.
+## Security & compliance — what cannot be skipped
 
-**Versioning:** Version your data, code, and configurations. If something breaks, you need to know exactly what changed.
+- **PII tagging**: classify every column (public / internal / PII / sensitive PII).
+- **Row-level access** for multi-tenant warehouses.
+- **Audit logging**: who queried which table when.
+- **Encryption** at rest *and* in transit (default-on at all major clouds, but verify).
+- **Data residency**: GDPR / CCPA require certain data to stay in certain regions.
+- **Retention policies**: delete data when you are no longer required to keep it.
 
-**Incident Response:**
-1. **Detect:** Automated alerts catch the issue
-2. **Triage:** Determine severity and impact
-3. **Fix:** Apply immediate fix (revert if necessary)
-4. **Recover:** Re-process affected data
-5. **Postmortem:** Document what happened, why, and how to prevent it`,
-        theoryEn: `**Production requirements — three pillars:**
+These are not optional in 2024 — a single GDPR fine can dwarf an annual data-platform budget.
 
-**1. Reliability:** Idempotency (same result on re-run), retry logic (exponential backoff), dead letter queues, circuit breakers.
-**2. Observability:** Structured logging (JSON), metrics (rows, duration, errors, freshness), alerting (page/warn/info), dashboards.
-**3. DevOps:** CI/CD (test → deploy), testing strategy (unit/integration/data/contract), environments (dev → staging → prod), blue/green deployments.
+## Case study #1 — Stripe's "pipeline that ships money"
 
-**Incident Response:** Detect → Triage → Fix → Recover → Postmortem.`,
+Stripe's data pipelines feed financial reports that go to regulators and to merchants' bank accounts. Their public engineering blog ("Building Reliable Data Pipelines," 2020) describes: **end-to-end checksums** on every pipeline (sum of inputs must equal sum of outputs to the cent); **dual reconciliation pipelines** running independently and compared daily; **a four-eyes rule** for production deploys touching financial logic. The result is a pipeline reliability culture that rivals their core payments product.
+
+## Case study #2 — the "Friday-night deploy" outage
+
+A growth-stage startup pushed a "small" dbt model change at 6pm Friday. The new model joined on a column that had been silently renamed upstream that afternoon. dbt build succeeded (no test caught it). The Monday-morning marketing dashboard reported zero conversions. Three days of revenue attribution data were silently dropped before anyone noticed; reconstruction took two weeks. The fix wasn't technical — it was **policy**: no production deploys after 4pm on Friday, no deploys without contract tests on join keys, mandatory rollback runbook for every PR.
+
+## Best practices
+
+- **Idempotency or it didn't ship.**
+- **Contract tests on every cross-pipeline boundary** (source schema, downstream tables).
+- **One owner, one on-call rotation, per pipeline** — visible in the orchestrator UI.
+- **Runbooks** for every alert: "If you see this page, do X, Y, Z." Reduce 3am cognitive load.
+- **Cost dashboards reviewed weekly** at the team level.
+- **Quarterly chaos drills**: pick a random pipeline, kill it, time how long until detection + recovery.
+- **Kill the dashboard if it can't be trusted** — better to show "data unavailable" than wrong numbers.
+
+## Anti-patterns & where to go next
+
+Avoid: shipping changes that have not run on staging; muting alerts because they "always go off"; storing secrets in code; hand-editing production data ("just this once"); blaming people, not systems, for incidents.
+
+Where to go next: rotate on-call, write a post-mortem after every incident (blameless), and revisit the SLOs every quarter. The mark of a senior data engineer is not the cleverness of their pipeline — it is **how boring their pipeline is to operate.**`,
+        theoryEn: `Building a pipeline that runs on your laptop is easy. Building one that runs reliably for **years**, recovers unattended, and never silently corrupts data — that is data engineering.
+
+## Why this matters
+
+Most pipelines aren't loudly broken — they're *quietly wrong* (stale by 3 days, off by 2%). Silent failures erode trust faster than crashes. Five SLOs: freshness, completeness, correctness, availability, cost predictability.
+
+## Idempotency — the cornerstone
+
+10 runs = 1 run, same result. Use MERGE/UPSERT, partitioned overwrite, transactional table formats. Avoid \`now()\` inside tasks, auto-IDs assigned in pipeline, side-effects (email + DB write).
+
+## CI/CD for pipelines
+
+Source control + PR review + CI on dev warehouse + staging + blue/green deploy. Tooling: dbt + GitHub Actions + dev/prod schema split.
+
+## Observability — three pillars
+
+| Pillar | Question | Tool |
+|---|---|---|
+| Logs | What happened? | CloudWatch, Datadog |
+| Metrics | How trending? | Prometheus |
+| Lineage | What's downstream? | dbt docs, OpenLineage |
+
+## Naive vs production
+
+| Concern | Naive | Production |
+|---|---|---|
+| Failure | Crash & email | Retry → DLQ → page |
+| Re-run | Manual cleanup | Idempotent |
+| Schema change | Breaks silently | Contract tests |
+| Deploy | Push to prod | PR → CI → staging → prod |
+
+## Security & compliance
+
+PII tagging, row-level access, audit logs, encryption, residency, retention — not optional in 2024.
+
+## Case study — Stripe
+
+Pipelines that ship money: end-to-end checksums, dual reconciliation, four-eyes rule on financial deploys.
+
+## Case study — Friday-night deploy
+
+A 6pm Friday dbt change joined on a renamed column. 3 days of conversion data silently dropped. Fix was policy: no Friday afternoon deploys, contract tests on join keys, rollback runbooks.
+
+## Best practices
+
+Idempotency or no ship; contract tests at every boundary; one owner + on-call; runbooks per alert; weekly cost reviews; quarterly chaos drills; kill untrustworthy dashboards.
+
+## Anti-patterns
+
+No staging; muted alerts; secrets in code; hand-editing prod; blaming people.
+
+The mark of seniority: how **boring** your pipeline is to operate.`,
         code: `import json
 import time
 from datetime import datetime

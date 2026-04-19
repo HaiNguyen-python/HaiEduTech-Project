@@ -226,6 +226,15 @@
   .theory-content { font-size: 15px; line-height: 1.7; }
 }
 
+/* Section card-ification — visually separate H2 blocks */
+.theory-section {
+  position: relative;
+  padding: 0.25rem 0 0.5rem;
+}
+.theory-section + .theory-section {
+  margin-top: 1.25rem;
+}
+
 /* Reset overly-large global heading scale within theory */
 .theory-content h1,
 .theory-content h2,
@@ -251,10 +260,29 @@
 
 .theory-content h2 {
   font-size: 1.15rem;          /* ~18px */
-  margin: 1.75rem 0 0.625rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid hsl(var(--border));
+  margin: 2rem 0 0.75rem;
+  padding: 0.85rem 1rem 0.55rem;
+  border-left: 4px solid hsl(var(--primary));
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(90deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--primary) / 0.02) 60%, transparent 100%);
   color: hsl(var(--primary));
+}
+
+/* First H2 in a section block keeps tighter top margin */
+.theory-section > div:first-child h2,
+.theory-content > h2:first-child {
+  margin-top: 0.75rem;
+}
+
+/* Tighten spacing for "**Bold lead-in:**" + bullet list pattern */
+.theory-content p + ul,
+.theory-content p + ol {
+  margin-top: 0.35rem;
+}
+
+/* Slightly more breathing room around inline code so it doesn't clump */
+.theory-content :not(pre) > code {
+  margin: 0 1px;
 }
 
 .theory-content h3 {
@@ -382,7 +410,8 @@
   vertical-align: top;
   color: hsl(var(--foreground) / 0.92);
 }
-.theory-content tbody tr:hover { background: hsl(var(--secondary) / 0.5); }
+.theory-content tbody tr:nth-child(even) { background: hsl(var(--secondary) / 0.35); }
+.theory-content tbody tr:hover { background: hsl(var(--primary) / 0.06); }
 
 /* Pre wrapper for CodeBlock should have no extra prose spacing */
 .theory-content pre {
