@@ -431,6 +431,9 @@ export default function AiMarketingKit() {
             <TabsTrigger value="studio">
               <Wand2 className="mr-2 h-4 w-4" /> Studio
             </TabsTrigger>
+            <TabsTrigger value="video">
+              <Clapperboard className="mr-2 h-4 w-4" /> Video Script
+            </TabsTrigger>
             <TabsTrigger value="library">
               <Save className="mr-2 h-4 w-4" /> Saved ({savedCampaigns.length})
             </TabsTrigger>
