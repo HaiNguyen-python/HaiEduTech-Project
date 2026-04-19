@@ -1,79 +1,75 @@
 
 
-## Chẩn đoán
+## Mục tiêu
+Mở rộng thêm nội dung bài học cho 3 mục:
+1. **SAT** (English)
+2. **PTE Academic**
+3. **Grammar** (English)
 
-Component `TheorySections.tsx` chỉ chia nội dung lý thuyết thành các "khối có thể đánh dấu Đã đọc" khi gặp dòng bắt đầu bằng `## ` (H2 markdown). Nếu một bài viết theory **không có H2** (chỉ dùng `**Bold:**` để giả làm tiêu đề), thì:
+## Khám phá hiện trạng
 
-1. Toàn bộ bài bị dồn vào **đúng 1 khối**, không có thanh tiến độ section, không có nút "Mark read", không có ngắt thị giác → **dính chùm**.
-2. Các "tiêu đề" `**Bold:**` chỉ là chữ đậm cùng một dòng với đoạn văn → **mắt không lướt được**.
-3. Bài thường ngắn (~2.000–3.000 ký tự) so với chuẩn các bài đã mở rộng (~6.000–10.000 ký tự, 7–9 H2).
+### SAT (đã có)
+- `englishSat.ts` (gốc) + `englishSatExpansion.ts` (Math Vocab, Reading) + `englishSatExpansion2.ts` (Grammar Mastery, Vocab, Punctuation, Essay) + `englishSatExpansion3.ts` (Geometry/Data Vocab, Advanced Reading, Essay, Math Word Problems)
+- Đã có ~14 modules. Cần thêm các góc còn thiếu.
 
-Phân tích chính xác:
+### Grammar (đã có)
+- `englishGrammar.ts` — 9 modules cốt lõi (tenses, conditionals, passive, reported speech, relative clauses, articles/prepositions...)
+- `englishGrammarExpansion.ts` — Modal verbs, Gerunds & Infinitives, Comparisons & Inversions
+- Đã có ~12 modules. Cần thêm các chủ điểm chưa phủ.
 
-| File | Bài thiếu H2 / quá ngắn |
-|---|---|
-| `dataEngLessons.ts` | **7 bài** — `de-model-1`, `de-wh-1`, `de-bs-1`, `de-dq-1`, `de-orch-1`, `de-cloud-1`, `de-prod-1` |
-| `sqlLessons.ts` | **13 bài** — toàn bộ (sql-select-1 → sql-adv-1) |
-| `aiFoundationLessons.ts` | OK |
-| `mlLessons.ts` | OK |
-| `cloudLessons.ts`, `cloudExpansion.ts`, `programmingExpansion.ts` | OK |
+### PTE
+- `src/data/pteData.ts` — kho task PTE (Read Aloud, Repeat Sentence, Essay, Dictation...) cho practice modules.
+- PTE **không** dùng cấu trúc `LanguageModule/lessons` như SAT/Grammar — nó dùng cấu trúc task riêng cho 4 kỹ năng (Speaking, Writing, Reading, Listening) hiển thị qua `PteHub` + 4 trang skill.
+- Để "tăng bài học cho PTE", cách phù hợp nhất là **tăng số lượng task** trong từng nhóm (Read Aloud, Repeat Sentence, Describe Image, Essay, Summarize, Fill in Blanks, MCQ, Dictation, Highlight...).
 
-→ **Tổng: 20 lessons cần làm lại theo chuẩn.**
+## Phạm vi mở rộng
 
-## Phương án
+### A. SAT — thêm 4 modules mới (file `englishSatExpansion4.ts`)
+1. **SAT Algebra Vocabulary & Concepts** — biến số, phương trình tuyến tính, hệ phương trình, bất phương trình (10 vocab, 1 lesson)
+2. **SAT Advanced Math (Quadratics & Functions)** — parabola, vertex, discriminant, đồ thị hàm số (10 vocab, 1 lesson)
+3. **SAT Transition Words & Logical Connectors** — chuyên trị câu hỏi "Which choice best transitions" (12 vocab, 1 lesson)
+4. **SAT Rhetorical Synthesis Mastery** — dạng câu hỏi mới của Digital SAT: chọn câu kết hợp các bullet notes (10 vocab, 1 lesson)
 
-### A. Nâng cấp content (nguồn gốc của vấn đề)
+→ ~4 lessons, 40+ vocab, 8 fill-in-blank exercises, 12 quiz questions.
 
-Viết lại trường `theory` (và `theoryEn` tương ứng) cho đúng **20 bài** trên theo chuẩn đã thiết lập:
+### B. Grammar — thêm 3 modules mới (file `englishGrammarExpansion2.ts`)
+1. **Articles, Quantifiers & Determiners (Advanced)** — a/an/the với danh từ trừu tượng, much/many/few/little/several, no vs none (1-2 lessons)
+2. **Subject-Verb Agreement (Advanced)** — collective nouns, either/neither, indefinite pronouns, "one of the..." (1-2 lessons)
+3. **Punctuation & Sentence Boundaries** — comma splice, semicolon, colon, dash, run-on sentences (1-2 lessons)
 
-- **7–9 section `## H2`** mỗi bài → kích hoạt được toàn bộ UX của `TheorySections` (progress bar, nút Mark read, gạch chân tự động, scroll-anchor theo slug).
-- **Mỗi section**: 1 đoạn mở + bullet/bảng + ví dụ code/SQL ngắn nếu cần.
-- **Bắt buộc có**: 1 trade-off table (markdown), 1–2 case study thực tế (Stripe / Airbnb / Netflix / Shopify / Uber / Google / Snowflake…), khối **Best Practices** + **Anti-Patterns**, **Bridge sang bài tiếp**.
-- **Độ dài mục tiêu**: 6.000–9.000 ký tự (gấp 2–3× hiện tại).
-- Giữ nguyên `code`, `exercise`, `quiz` — chỉ chỉnh `theory` + `theoryEn`.
+→ ~5 lessons, 30+ vocab, 10 fill-in-blank exercises, 15 quiz questions.
 
-Khung cố định 8 H2 áp dụng cho mỗi bài:
+### C. PTE — mở rộng task bank trong `src/data/pteData.ts`
+Thêm task mới (thực tế và thuộc dạng được dự đoán xuất hiện 2026):
+- **Read Aloud**: +5 prompts (nhiều chủ đề học thuật khác nhau)
+- **Repeat Sentence**: +5 câu mẫu
+- **Describe Image**: +3 prompts (charts/maps mới)
+- **Essay**: +3 đề mới
+- **Summarize Written Text**: +3 đoạn
+- **Fill in the Blanks (Reading & Writing)**: +3
+- **Multiple Choice (Reading)**: +3
+- **Highlight Correct Summary (Listening)**: +2
+- **Write from Dictation**: +5
 
-```text
-## Why this matters (real-world stake)
-## Core concepts (định nghĩa + ví dụ)
-## Mechanics / How it works (cơ chế, có code/SQL)
-## Comparison table (trade-off rõ ràng)
-## Case study #1 — <Company>
-## Case study #2 — <Company / failure story>
-## Best practices (checklist 5–7 mục)
-## Anti-patterns & Bridge to next lesson
-```
+→ ~32 task mới được phân bổ qua 4 kỹ năng.
 
-### B. Cải thiện CSS thị giác cho `.theory-content` (nâng "dễ nhìn")
+## Các file thay đổi
 
-Trong `src/index.css`:
+**Tạo mới:**
+- `src/data/languageCurriculum/englishSatExpansion4.ts`
+- `src/data/languageCurriculum/englishGrammarExpansion2.ts`
 
-1. **Tăng tách lớp giữa các H2**: thêm `padding-top` + `border-top` mảnh cho `.theory-content h2` (hiện chỉ có margin).
-2. **Card hoá section**: `.theory-section` (đã có ID) → bo nhẹ background `bg-card`, padding 12px, gap-y 24px giữa sections để chấm dứt cảm giác "dính chùm" ngay cả khi nội dung dày.
-3. **Tăng độ tương phản bullet**: marker đậm hơn (đã có), `li` line-height 1.75.
-4. **Bảng**: `min-width: 600px` (đồng bộ memory rule), zebra stripe hàng chẵn.
-5. **Code block inline**: padding rộng hơn để không "dính" chữ xung quanh.
-6. **Spacing giữa đoạn `**Bold lead-in:**` và bullet phía dưới**: `p + ul { margin-top: 0.4rem }` để gom thành cụm logic.
+**Chỉnh sửa:**
+- `src/data/languageCurriculum/index.ts` — thêm import & merge 2 expansion mới (SAT vào `allEnglishModules`, Grammar mới gộp vào `allEnglishModules`).
+- `src/data/pteData.ts` — bổ sung task vào các array `READ_ALOUD`, `REPEAT_SENTENCE`, `DESCRIBE_IMAGE`, `ESSAY`, `SUMMARIZE`, `FILL_BLANKS_RW`, `MCQ_READING`, `HIGHLIGHT_SUMMARY`, `DICTATION` (hoặc tên array thực tế trong file). Sẽ đọc file trước khi sửa để giữ đúng kiểu dữ liệu.
 
-### C. Phòng ngừa tái diễn
+## Validation áp dụng (theo curriculum-validation-standards)
+- Quiz: `answer` là index 0-3, có `explanation`.
+- Fill-in-blank: dùng `___` đúng vị trí, `answer` khớp chính xác.
+- Mỗi vocab có `meaning`, `example` (và `meaningEn`/`exampleEn` cho song ngữ).
+- Mỗi lesson có cả `theory` (VI) và `theoryEn` (EN).
+- Không tạo trùng `id` module/lesson.
 
-Thêm 1 dòng comment hướng dẫn ở đầu mỗi file curriculum:
-
-```ts
-// CONTENT STANDARD: every `theory` block MUST contain ≥6 `## H2` sections
-// so TheorySections.tsx can render the per-section "Mark read" UX.
-```
-
-## Files chỉnh sửa
-
-- `src/data/curriculum/dataEngLessons.ts` (rewrite 7 theory blocks)
-- `src/data/curriculum/sqlLessons.ts` (rewrite 13 theory blocks)
-- `src/index.css` (visual polish khối `.theory-content` + `.theory-section`)
-
-Không tạo file mới, không đổi schema, không đụng `TheorySections.tsx` (vì logic split của nó đúng — chỉ cần content đúng định dạng).
-
-## Đợt sau
-
-- Đợt kế: rà các file curriculum **ngôn ngữ** (English/Chinese/Vietnamese/Finnish lessons) bằng cùng script đếm H2 → mở rộng tương tự nếu phát hiện bài "dính chùm".
+## Không đụng tới
+- `TheorySections.tsx`, schema DB, `client.ts`, `types.ts` (Supabase generated), favicon/SEO, các module khác.
 
