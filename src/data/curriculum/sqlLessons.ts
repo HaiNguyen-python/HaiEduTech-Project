@@ -1415,220 +1415,205 @@ SELECT * FROM org ORDER BY level;`,
         titleEn: "ROW_NUMBER & RANK",
         level: 4,
         difficulty: "advanced",
-        theory: `**Window functions** are the most powerful family of operations in modern SQL. Unlike aggregates, they compute a result *per row* while still seeing the rest of the data. "Rank each order within its customer," "running 7-day average," "previous order's amount" — all are one-liners with windows, and ugly nightmares without them.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bảng \`orders\` (đơn hàng) có cột \`customer_id\` và \`amount\` (số tiền). Sếp hỏi:
+> *"Với mỗi khách, tìm đơn lớn nhất và đứng thứ mấy."*
 
-Window functions are the dividing line between "I know SQL" and "I know analytical SQL." Every senior data engineer / analytics engineer interview asks at least one. Equally important: most expensive correlated subqueries in production can be rewritten as windows for 10–100× speedups.
+Với \`GROUP BY\`, bạn tính được max của mỗi khách — nhưng **mất hết các dòng chi tiết**. Ai cũng chỉ còn 1 dòng tổng kết.
 
-## Anatomy of a window function
+→ Cần một công cụ tính theo nhóm **mà KHÔNG nén dòng** lại. Đó là **window function** (hàm cửa sổ — tính toán theo "cửa sổ" các dòng xung quanh, mỗi dòng vẫn giữ nguyên).
+
+## 2. Cú pháp tối thiểu — \`OVER (...)\`
 
 \`\`\`sql
-SELECT
-  customer_id,
-  amount,
+SELECT customer_id,
+       amount,
+       RANK() OVER (
+         PARTITION BY customer_id      -- Chia theo từng khách
+         ORDER BY amount DESC          -- Sắp đơn theo số tiền giảm dần
+       ) AS hang
+FROM   orders;
+\`\`\`
+
+- \`OVER (...)\` định nghĩa **cửa sổ** — phạm vi mà hàm "nhìn thấy".
+- \`PARTITION BY customer_id\` — chia dữ liệu thành các nhóm riêng cho từng khách (nhưng *không* gộp dòng như GROUP BY).
+- \`ORDER BY amount DESC\` — trong mỗi nhóm, sắp xếp theo số tiền.
+
+Kết quả: mỗi đơn vẫn còn nguyên, kèm thêm cột \`hang\` cho biết "đơn này đứng thứ mấy *trong khách hàng đó*".
+
+## 3. \`ROW_NUMBER\` vs \`RANK\` vs \`DENSE_RANK\` — chọn cái nào?
+
+3 đơn có cùng \`amount = 100\`. Mỗi hàm xử lý "hòa" khác nhau:
+
+| amount | ROW_NUMBER | RANK | DENSE_RANK |
+|---|---|---|---|
+| 200 | 1 | 1 | 1 |
+| 100 | 2 | 2 | 2 |
+| 100 | 3 | **2** | **2** |
+| 100 | 4 | **2** | **2** |
+| 50  | 5 | **5** | **3** |
+
+- **\`ROW_NUMBER\`** — luôn duy nhất 1, 2, 3… kể cả khi hòa (chọn ngẫu nhiên).
+- **\`RANK\`** — dòng hòa cùng số. Dòng tiếp theo **nhảy** (3 dòng hòa hạng 2 → tiếp theo là hạng 5).
+- **\`DENSE_RANK\`** — dòng hòa cùng số, dòng tiếp theo *liền kề* (không nhảy).
+
+**Mẹo chọn**:
+- Cần **đúng 1 dòng** mỗi nhóm (ví dụ "đơn mới nhất của mỗi khách") → \`ROW_NUMBER\`.
+- Cho thi đấu, "Top 3" có thể có nhiều người cùng hạng 1 → \`RANK\` hoặc \`DENSE_RANK\`.
+
+## 4. Mẫu kinh điển: lấy "1 dòng đại diện" cho mỗi nhóm
+
+Bài toán cực hay gặp: *"Lấy đơn mới nhất của mỗi khách hàng."*
+
+\`\`\`sql
+WITH t AS (
+  SELECT *,
+    ROW_NUMBER() OVER (
+      PARTITION BY customer_id
+      ORDER BY created_at DESC, id DESC    -- Mới nhất trước; id để hòa thì ổn định
+    ) AS rn
+  FROM orders
+)
+SELECT * FROM t WHERE rn = 1;     -- Chỉ giữ "đơn mới nhất" của mỗi khách
+\`\`\`
+
+Đây cũng là **mẫu khử trùng lặp** (deduplication) — mọi data warehouse production đều có dùng.
+
+## 5. \`LAG\` & \`LEAD\` — so sánh với dòng TRƯỚC / SAU
+
+Vấn đề: bảng \`daily_revenue\` (doanh thu mỗi ngày). Muốn biết *"hôm nay tăng/giảm bao nhiêu so với hôm qua?"*
+
+\`\`\`sql
+SELECT date,
+       revenue,
+       LAG(revenue) OVER (ORDER BY date)        AS hom_qua,    -- Lùi 1 dòng
+       revenue - LAG(revenue) OVER (ORDER BY date) AS chenh_lech
+FROM   daily_revenue;
+\`\`\`
+
+- \`LAG(col)\` = **lùi** 1 dòng (lấy dòng trước).
+- \`LEAD(col)\` = **tiến** 1 dòng (lấy dòng sau).
+- Dòng đầu tiên không có dòng trước → \`LAG\` trả về NULL.
+
+## 6. Tổng cộng dồn (running total) — \`SUM() OVER\`
+
+Vấn đề: muốn xem **doanh thu cộng dồn** từ đầu năm tới mỗi ngày.
+
+\`\`\`sql
+SELECT date,
+       revenue,
+       SUM(revenue) OVER (
+         ORDER BY date
+         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+       ) AS cong_don
+FROM   daily_revenue;
+\`\`\`
+
+Đoạn \`ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\` (frame — khung) nghĩa là: *"cộng từ dòng đầu tiên đến dòng hiện tại"*. Đổi thành \`ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\` → bạn có **trung bình trượt 7 ngày**.
+
+## 7. So sánh: window function vs GROUP BY
+
+| Cần gì? | Dùng |
+|---|---|
+| Gộp tất cả dòng trong nhóm thành 1 dòng tổng | **GROUP BY** |
+| Giữ nguyên các dòng + thêm 1 cột tính theo nhóm | **Window function** |
+| Cộng dồn / trung bình trượt | Window function với frame |
+| Top-N của mỗi nhóm | \`ROW_NUMBER()\` window |
+
+## 8. Tổng kết — checklist khi viết window
+
+- ✅ Luôn có \`ORDER BY\` trong \`OVER()\` cho hàm xếp hạng (nếu không kết quả không xác định).
+- ✅ \`ROW_NUMBER\` → 1 dòng duy nhất mỗi nhóm. \`RANK/DENSE_RANK\` → cho phép hòa.
+- ✅ Khi sắp xếp có khả năng hòa, thêm cột phụ trong ORDER BY (ví dụ \`, id DESC\`) để ổn định.
+- ✅ Cộng dồn / trung bình trượt → ghi rõ \`ROWS BETWEEN ... AND ...\`.
+- ✅ Bài tiếp theo: **Indexing** — sau khi viết query đúng, làm sao cho nó CHẠY NHANH?`,
+        theoryEn: `## 1. Real-world problem
+
+\`orders\` table — for each customer, find their largest order and its rank. \`GROUP BY\` collapses rows; you need a per-row calc that still sees the group → **window function**.
+
+## 2. Minimal syntax
+
+\`\`\`sql
+SELECT customer_id, amount,
   RANK() OVER (PARTITION BY customer_id ORDER BY amount DESC) AS rnk
 FROM orders;
 \`\`\`
 
-The \`OVER (...)\` clause defines the **window**:
+\`OVER()\` defines the window — \`PARTITION BY\` splits without collapsing, \`ORDER BY\` sorts within.
 
-- \`PARTITION BY\` — split rows into groups (like GROUP BY but rows are *not* collapsed).
-- \`ORDER BY\` — order within each partition (required for ranking and offset functions).
-- \`ROWS / RANGE\` — frame: which rows around the current one are visible (for running totals).
-
-Without a window function, computing "rank within customer" requires a correlated subquery or a self-join — both slow.
-
-## The four function families
-
-| Family | Functions | Use case |
-|---|---|---|
-| **Ranking** | \`ROW_NUMBER()\`, \`RANK()\`, \`DENSE_RANK()\`, \`NTILE(n)\` | Top-N per group, percentiles |
-| **Offset** | \`LAG()\`, \`LEAD()\`, \`FIRST_VALUE()\`, \`LAST_VALUE()\` | Prev/next row comparison |
-| **Aggregate-as-window** | \`SUM() OVER\`, \`AVG() OVER\`, \`COUNT() OVER\` | Running totals, moving averages |
-| **Statistical** | \`PERCENT_RANK()\`, \`CUME_DIST()\` | Distribution analysis |
-
-## Ranking — ROW_NUMBER vs RANK vs DENSE_RANK
-
-Three rows tied at amount = 100 (rest are unique):
+## 3. ROW_NUMBER vs RANK vs DENSE_RANK
 
 | amount | ROW_NUMBER | RANK | DENSE_RANK |
 |---|---|---|---|
 | 200 | 1 | 1 | 1 |
 | 100 | 2 | 2 | 2 |
 | 100 | 3 | 2 | 2 |
-| 100 | 4 | 2 | 2 |
-| 50 | 5 | 5 | 3 |
-
-- \`ROW_NUMBER\` — always unique 1..N, ties broken arbitrarily (use a tiebreaker in ORDER BY).
-- \`RANK\` — ties get the same number; *next number skips*.
-- \`DENSE_RANK\` — ties same number; *no gap*.
-
-For "give me one row per customer (their latest order)," use \`ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY created_at DESC, id DESC)\` and filter \`= 1\`.
-
-## LAG / LEAD — comparing across rows
-
-\`\`\`sql
-SELECT
-  date,
-  revenue,
-  LAG(revenue) OVER (ORDER BY date) AS prev_day,
-  revenue - LAG(revenue) OVER (ORDER BY date) AS delta
-FROM daily_revenue;
-\`\`\`
-
-\`LAG(col, n)\` looks N rows back; \`LEAD\` looks forward. Default offset is 1. Optional 3rd argument is a default value when out-of-range.
-
-## Frames — running totals & moving averages
-
-\`\`\`sql
-SELECT
-  date,
-  revenue,
-  SUM(revenue) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_total,
-  AVG(revenue) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS rolling_7d_avg
-FROM daily_revenue;
-\`\`\`
-
-The frame clause is **mandatory** for most production rolling-window work — the implicit default (\`RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\`) can give surprising results with duplicate ORDER BY values.
-
-## Comparison: window vs GROUP BY
-
-| Need | Use |
-|---|---|
-| Collapse rows into one summary per group | GROUP BY |
-| Keep every row but add a per-group calc | Window function |
-| Running total / moving average | Window function with frame |
-| Top-N per group | \`ROW_NUMBER\` window |
-
-## Case study — the 30-minute → 4-second rewrite
-
-A retention dashboard computed "days between user's first and most recent purchase" with a self-join (\`MIN\` and \`MAX\` subqueries joined back). On 200 M rows it took 30 minutes. A senior rewrote it with two windows in one pass: \`MIN(date) OVER (PARTITION BY user_id)\` and \`MAX(date) OVER (PARTITION BY user_id)\`. Runtime: **4 seconds** (450× faster). The query also became 3 lines instead of 30.
-
-## Case study — the deduplication pattern
-
-Every production warehouse needs to handle late-arriving duplicate events. The canonical fix is one window:
-
-\`\`\`sql
-WITH ranked AS (
-  SELECT *,
-    ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) AS rn
-  FROM raw_events
-)
-SELECT * FROM ranked WHERE rn = 1;
-\`\`\`
-
-This pattern appears in *every* dbt project at scale. Memorize it.
-
-## Best practices
-
-- **Always include a tiebreaker** in window ORDER BY when uniqueness matters (\`ORDER BY ts DESC, id DESC\`).
-- Use **ROW_NUMBER** when you want exactly one row per group; **RANK / DENSE_RANK** for ties.
-- **Specify the frame** explicitly for running totals — never rely on the default.
-- For "compare to group average," prefer \`AVG() OVER\` over a correlated subquery (10–100× faster).
-- Combine windows with **CTEs**: compute the window in a CTE, filter in the outer query.
-- Beware of windows + DISTINCT — they don't compose intuitively; aggregate first.
-
-## Anti-patterns & next lesson
-
-Avoid: windows without ORDER BY for ranking functions (results undefined); huge unbounded windows over billions of rows (memory pressure); using window in WHERE (not allowed — use a CTE wrapper); ignoring the difference between \`RANGE\` and \`ROWS\` frames.
-
-Next: **Indexing & EXPLAIN** — once your queries are correct, how do you make them fast?`,
-        theoryEn: `**Window functions** compute per-row results while seeing the rest of the data. The dividing line between "I know SQL" and "I know analytical SQL."
-
-## Why this matters
-
-Top interview topic + most slow correlated subqueries become 10–100× faster as windows.
-
-## Anatomy
-
-\`func() OVER (PARTITION BY … ORDER BY … ROWS …)\` — partition splits rows into groups (without collapsing), ORDER BY sorts within, frame defines visible neighbors.
-
-## Four families
-
-| Family | Functions |
-|---|---|
-| Ranking | \`ROW_NUMBER, RANK, DENSE_RANK, NTILE\` |
-| Offset | \`LAG, LEAD, FIRST_VALUE\` |
-| Aggregate-as-window | \`SUM, AVG, COUNT OVER\` |
-| Statistical | \`PERCENT_RANK, CUME_DIST\` |
-
-## Ranking differences
-
-| amount | ROW_NUMBER | RANK | DENSE_RANK |
-|---|---|---|---|
-| 200 | 1 | 1 | 1 |
-| 100 | 2 | 2 | 2 |
-| 100 | 3 | 2 | 2 |
-| 50 | 4 | 4 | 3 |
+| 50  | 4 | 4 | 3 |
 
 ROW_NUMBER unique; RANK skips after ties; DENSE_RANK doesn't.
 
-## LAG / LEAD
+## 4. "One row per group" pattern
 
-Compare to N-prev / N-next row. Use for day-over-day deltas, sequence checks.
+\`ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY created_at DESC) → WHERE rn = 1\`. Used in every dbt project for dedup / latest-per-group.
 
-## Frames
+## 5. LAG / LEAD
 
-\`ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\` for 7-day moving avg. Always specify explicitly.
+Compare to previous (LAG) or next (LEAD) row. First row has no previous → NULL.
 
-## Window vs GROUP BY
+## 6. Running totals
+
+\`SUM(x) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)\`. For 7-day rolling avg: \`6 PRECEDING\`.
+
+## 7. Window vs GROUP BY
 
 | Need | Use |
 |---|---|
-| Collapse | GROUP BY |
+| Collapse rows | GROUP BY |
 | Per-row + per-group calc | Window |
 | Running total | Window + frame |
-| Top-N per group | ROW_NUMBER window |
+| Top-N per group | ROW_NUMBER |
 
-## Case study — 30 min → 4 sec
+## 8. Checklist
 
-Self-join with MIN/MAX subqueries on 200M rows = 30 min. Two windows in one pass = 4 sec. 450× speedup.
-
-## Case study — dedup pattern
-
-\`ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) → WHERE rn=1\`. Every dbt project at scale uses it.
-
-## Best practices
-
-Tiebreaker in ORDER BY; ROW_NUMBER for unique top-1; explicit frame; windows over correlated subqueries; combine with CTEs.
-
-## Anti-patterns & next
-
-Avoid ranking without ORDER BY, huge unbounded windows, windows in WHERE. Next: **Indexing & EXPLAIN**.`,
-        code: `-- Rank students by age
+- Always ORDER BY inside OVER for ranking
+- ROW_NUMBER for unique-per-group; RANK for ties
+- Tiebreaker in ORDER BY for stability
+- Explicit frame for running totals
+- Next: **Indexing**`,
+        code: `-- Xếp hạng học viên theo tuổi (3 cách khác nhau)
 SELECT name, age,
-  ROW_NUMBER() OVER (ORDER BY age DESC) AS row_num,
-  RANK() OVER (ORDER BY age DESC) AS rank,
-  DENSE_RANK() OVER (ORDER BY age DESC) AS dense_rank
+  ROW_NUMBER() OVER (ORDER BY age DESC) AS row_num,    -- Luôn 1,2,3...
+  RANK()       OVER (ORDER BY age DESC) AS rank_,      -- Hòa cùng hạng, nhảy
+  DENSE_RANK() OVER (ORDER BY age DESC) AS dense_rank  -- Hòa cùng hạng, không nhảy
 FROM students;
 
--- Running total of orders
+-- Tổng cộng dồn đơn hàng theo từng học viên
 SELECT student_id, amount,
   SUM(amount) OVER (
-    PARTITION BY student_id
+    PARTITION BY student_id      -- Cộng dồn riêng cho từng học viên
     ORDER BY id
-  ) AS running_total
+  ) AS cong_don
 FROM orders;
 
--- Compare with previous order
+-- So sánh đơn hiện tại với đơn TRƯỚC ĐÓ của cùng 1 học viên
 SELECT student_id, amount,
   LAG(amount, 1) OVER (
     PARTITION BY student_id ORDER BY id
-  ) AS prev_amount,
+  ) AS don_truoc,
   amount - LAG(amount, 1) OVER (
     PARTITION BY student_id ORDER BY id
-  ) AS diff
+  ) AS chenh_lech
 FROM orders;`,
         codeLanguage: "sql",
-        exercise: "Rank students by total spending (SUM amount) using DENSE_RANK.",
-        exerciseEn: "Rank students by total spending (SUM amount) using DENSE_RANK.",
+        exercise: "Xếp hạng các học viên theo TỔNG số tiền họ đã chi (SUM(amount) trên bảng orders) bằng DENSE_RANK. Gợi ý: cần GROUP BY + window function trên kết quả tổng hợp (có thể dùng CTE).",
+        exerciseEn: "Rank students by their TOTAL spending (SUM amount across orders) using DENSE_RANK. Hint: GROUP BY + window over the aggregated result (use a CTE).",
         quiz: [
-          { question: "How do RANK() and DENSE_RANK() differ?", options: ["No difference", "RANK skips numbers after ties, DENSE_RANK does not", "DENSE_RANK is slower", "RANK only works with numbers"], answer: 1, explanation: "If two rows tie at rank 2, RANK gives the next row rank 4 (skips 3), DENSE_RANK gives it rank 3." },
-          { question: "What does PARTITION BY do in a window function?", options: ["Filters rows", "Divides rows into groups without collapsing them", "Sorts results", "Limits output"], answer: 1, explanation: "PARTITION BY creates groups like GROUP BY but keeps all individual rows — the window function computes within each partition." },
-          { question: "What does LAG(amount, 1) return for the first row?", options: ["0", "NULL (no previous row exists)", "The current row's value", "An error"], answer: 1, explanation: "For the first row there is no previous row, so LAG returns NULL by default. Use the third parameter for a default value." },
-          { question: "How do you calculate a 7-day moving average?", options: ["AVG(col) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)", "AVG(col) GROUP BY week", "AVG(col) WHERE date > now() - 7", "AVG(col) OVER ()"], answer: 0, explanation: "ROWS BETWEEN 6 PRECEDING AND CURRENT ROW creates a sliding window of 7 rows (current + 6 previous)." },
-          { question: "What is a common use case for ROW_NUMBER() + PARTITION BY?", options: ["Counting total rows", "Finding the top-N items per category", "Deleting duplicates", "Both B and C"], answer: 3, explanation: "ROW_NUMBER + PARTITION BY is used for top-N per group queries and deduplication (keep row_number = 1, delete the rest)." }
+          { question: "Khác nhau giữa `RANK()` và `DENSE_RANK()` là gì?", options: ["Không khác gì", "RANK nhảy số sau khi có hòa, DENSE_RANK không nhảy", "DENSE_RANK chậm hơn", "RANK chỉ dùng với số"], answer: 1, explanation: "Nếu có 2 dòng cùng hạng 2, RANK cho dòng tiếp theo hạng 4 (nhảy 3); DENSE_RANK cho hạng 3 (liền kề)." },
+          { question: "`PARTITION BY` trong window function dùng để làm gì?", options: ["Lọc dòng", "Chia dòng thành các nhóm riêng MÀ KHÔNG nén lại (khác với GROUP BY)", "Sắp xếp kết quả", "Giới hạn output"], answer: 1, explanation: "PARTITION BY tạo nhóm giống GROUP BY, NHƯNG vẫn giữ nguyên từng dòng — window function tính toán riêng trong mỗi nhóm." },
+          { question: "`LAG(amount, 1)` trả về gì cho dòng ĐẦU TIÊN?", options: ["0", "NULL (vì không có dòng trước)", "Giá trị của chính dòng đó", "Báo lỗi"], answer: 1, explanation: "Dòng đầu tiên không có dòng trước → LAG trả về NULL theo mặc định. Có thể chỉ định giá trị mặc định bằng tham số thứ 3: LAG(amount, 1, 0)." },
+          { question: "Làm sao tính trung bình trượt 7 ngày của doanh thu?", options: ["AVG(col) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)", "AVG(col) GROUP BY week", "AVG(col) WHERE date > now() - 7", "AVG(col) OVER ()"], answer: 0, explanation: "ROWS BETWEEN 6 PRECEDING AND CURRENT ROW tạo cửa sổ trượt 7 dòng (dòng hiện tại + 6 dòng trước đó)." },
+          { question: "Mẫu thường dùng nào kết hợp `ROW_NUMBER() + PARTITION BY`?", options: ["Đếm tổng số dòng", "Tìm Top-N của mỗi nhóm", "Khử trùng lặp (giữ rn = 1)", "Cả B và C"], answer: 3, explanation: "ROW_NUMBER + PARTITION BY là nền tảng cho cả Top-N của mỗi nhóm và khử trùng lặp (giữ dòng có rn = 1, bỏ phần còn lại)." }
         ]
       }
     ]
