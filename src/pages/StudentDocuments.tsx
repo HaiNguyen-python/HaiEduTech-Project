@@ -450,6 +450,34 @@ const StudentDocuments = () => {
         </DialogContent>
       </Dialog>
 
+      <Dialog open={!!expiryTarget} onOpenChange={(o) => !o && setExpiryTarget(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <CalendarClock className="w-5 h-5 text-primary" />
+              {t("Ngày hết hạn", "Expiry date")}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              {t(
+                "Đặt ngày hết hạn (vd: hộ chiếu, chứng chỉ IELTS 2 năm). Hệ thống sẽ cảnh báo khi gần hết hạn.",
+                "Set the expiry date (e.g., passport, IELTS valid 2 years). You'll be alerted as it approaches."
+              )}
+            </p>
+            <Input
+              type="date"
+              value={expiryValue}
+              onChange={(e) => setExpiryValue(e.target.value)}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setExpiryValue(""); }}>{t("Xoá ngày", "Clear date")}</Button>
+            <Button onClick={handleSaveExpiry}>{t("Lưu", "Save")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );

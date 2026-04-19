@@ -94,6 +94,8 @@ const StudentDocuments = lazy(() => import("./pages/StudentDocuments.tsx"));
 const MotivationLetterGuide = lazy(() => import("./pages/MotivationLetterGuide.tsx"));
 const SatRoadmap = lazy(() => import("./pages/SatRoadmap.tsx"));
 const PhdGlobalPathway = lazy(() => import("./pages/PhdGlobalPathway.tsx"));
+const MentorHub = lazy(() => import("./pages/MentorHub.tsx"));
+const PreDepartureChecklist = lazy(() => import("./pages/PreDepartureChecklist.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -207,6 +209,8 @@ const App = () => (
             <Route path="/study-abroad/motivation-letter" element={<LazyRoute><MotivationLetterGuide /></LazyRoute>} />
             <Route path="/study-abroad/sat" element={<LazyRoute><SatRoadmap /></LazyRoute>} />
             <Route path="/study-abroad/phd" element={<LazyRoute><PhdGlobalPathway /></LazyRoute>} />
+            <Route path="/study-abroad/mentor-hub" element={<LazyRoute><MentorHub /></LazyRoute>} />
+            <Route path="/study-abroad/checklist" element={<LazyRoute><PreDepartureChecklist /></LazyRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
