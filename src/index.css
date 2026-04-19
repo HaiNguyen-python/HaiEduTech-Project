@@ -209,3 +209,184 @@
   border-radius: 2px;
   padding: 0 2px;
 }
+
+/* =================== LEARN PROGRAMMING — THEORY TYPOGRAPHY ===================
+   Self-contained, optimized for long-form reading. Isolated from global
+   heading scale so headings never overpower body text. */
+.theory-content {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: hsl(var(--foreground));
+  letter-spacing: -0.005em;
+  max-width: 75ch;
+}
+
+@media (max-width: 640px) {
+  .theory-content { font-size: 15px; line-height: 1.7; }
+}
+
+/* Reset overly-large global heading scale within theory */
+.theory-content h1,
+.theory-content h2,
+.theory-content h3,
+.theory-content h4,
+.theory-content h5,
+.theory-content h6 {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  scroll-margin-top: 6rem;
+}
+
+.theory-content h1 {
+  font-size: 1.35rem;          /* ~22px — section banner inside theory */
+  margin: 2rem 0 0.875rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid hsl(var(--primary) / 0.25);
+  color: hsl(var(--primary));
+}
+
+.theory-content h2 {
+  font-size: 1.15rem;          /* ~18px */
+  margin: 1.75rem 0 0.625rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid hsl(var(--border));
+  color: hsl(var(--primary));
+}
+
+.theory-content h3 {
+  font-size: 1.0625rem;        /* ~17px */
+  margin: 1.4rem 0 0.5rem;
+  font-weight: 600;
+}
+
+.theory-content h4 {
+  font-size: 1rem;             /* ~16px */
+  margin: 1.1rem 0 0.4rem;
+  font-weight: 600;
+  color: hsl(var(--foreground) / 0.9);
+}
+
+.theory-content h5,
+.theory-content h6 {
+  font-size: 0.95rem;
+  margin: 1rem 0 0.35rem;
+  font-weight: 600;
+  color: hsl(var(--foreground) / 0.85);
+}
+
+/* First heading should not push content too far down */
+.theory-content > :first-child { margin-top: 0; }
+
+/* Body text */
+.theory-content p {
+  margin: 0.85rem 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: hsl(var(--foreground) / 0.92);
+}
+
+.theory-content strong { font-weight: 600; color: hsl(var(--foreground)); }
+.theory-content em { font-style: italic; color: hsl(var(--foreground) / 0.9); }
+
+/* Inline code */
+.theory-content :not(pre) > code {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 0.875em;
+  font-weight: 500;
+  color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.08);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  border: 1px solid hsl(var(--primary) / 0.12);
+}
+
+/* Lists */
+.theory-content ul,
+.theory-content ol {
+  margin: 0.85rem 0;
+  padding-left: 1.6rem;
+}
+.theory-content ul { list-style: disc; }
+.theory-content ol { list-style: decimal; }
+.theory-content li {
+  margin: 0.4rem 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: hsl(var(--foreground) / 0.92);
+}
+.theory-content li::marker { color: hsl(var(--primary)); font-weight: 600; }
+.theory-content li > ul,
+.theory-content li > ol { margin: 0.35rem 0; }
+
+/* Blockquote */
+.theory-content blockquote {
+  margin: 1.2rem 0;
+  padding: 0.6rem 1rem;
+  border-left: 3px solid hsl(var(--primary));
+  background: hsl(var(--primary) / 0.05);
+  border-radius: 0 6px 6px 0;
+  font-style: normal;
+  color: hsl(var(--foreground) / 0.9);
+}
+.theory-content blockquote p { margin: 0.3rem 0; }
+
+/* Links */
+.theory-content a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+}
+.theory-content a:hover { color: hsl(var(--primary) / 0.8); }
+
+/* Horizontal rule */
+.theory-content hr {
+  margin: 1.75rem 0;
+  border: 0;
+  border-top: 1px dashed hsl(var(--border));
+}
+
+/* Tables — clean, scannable, mobile-scrollable */
+.theory-content .theory-table-wrap {
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  background: hsl(var(--card));
+}
+.theory-content table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  margin: 0;
+}
+.theory-content thead {
+  background: hsl(var(--secondary));
+  border-bottom: 2px solid hsl(var(--border));
+}
+.theory-content th {
+  text-align: left;
+  padding: 0.65rem 0.85rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  font-size: 0.9rem;
+}
+.theory-content td {
+  padding: 0.6rem 0.85rem;
+  border-top: 1px solid hsl(var(--border) / 0.6);
+  vertical-align: top;
+  color: hsl(var(--foreground) / 0.92);
+}
+.theory-content tbody tr:hover { background: hsl(var(--secondary) / 0.5); }
+
+/* Pre wrapper for CodeBlock should have no extra prose spacing */
+.theory-content pre {
+  margin: 1rem 0;
+  padding: 0;
+  background: transparent;
+}
