@@ -19,6 +19,8 @@ interface RequestBody {
   generateImage?: boolean;
   textOnly?: boolean;
   imageOnly?: boolean;
+  videoOnly?: boolean;
+  videoFormat?: "tiktok" | "reels" | "shorts";
   customImagePrompt?: string;
 }
 
