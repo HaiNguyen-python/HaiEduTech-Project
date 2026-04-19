@@ -87,6 +87,8 @@ interface VideoScript {
   hashtags: string[];
   productionTips: string[];
 }
+
+const COURSES = [
   { value: "PTE Intensive 79+", label: "🎯 PTE Intensive 79+" },
   { value: "IELTS Foundation 6.5+", label: "📚 IELTS Foundation 6.5+" },
   { value: "IELTS Advanced 7.5+", label: "🏆 IELTS Advanced 7.5+" },
