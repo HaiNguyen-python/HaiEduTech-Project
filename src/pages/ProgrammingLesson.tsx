@@ -291,11 +291,13 @@ const ProgrammingLessonPage = () => {
                                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                                     }`}
                                   >
-                                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                                      isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
-                                    }`}>
-                                      {i + 1}
-                                    </span>
+                                    {pm.lessons.length > 1 && (
+                                      <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                                        isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                                      }`}>
+                                        {i + 1}
+                                      </span>
+                                    )}
                                     <span className="truncate">{l.titleEn}</span>
                                   </button>
                                 );
