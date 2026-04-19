@@ -348,7 +348,7 @@ In a 96-layer GPT-3 (175B total), the simple "input → linear → activation �
 
 ✅ **Start small:** Begin with 1-2 hidden layers, 32-128 neurons before scaling up
 ✅ **Normalize inputs:** Mean=0, std=1 prevents gradient issues
-✅ **Use He initialization for ReLU networks** (`std = √(2/fan_in)`)
+✅ **Use He initialization for ReLU networks** (\`std = √(2/fan_in)\`)
 ✅ **Add Batch Normalization** between layers in deep networks
 ✅ **Monitor activation distributions** — dead neurons (always 0) signal problems
 ✅ **Validate Universal Approximation needs ≥1 hidden layer** — linear models for linear problems
@@ -559,7 +559,7 @@ Without activation functions, a neural network would just be a series of linear 
 
 ## 🏢 Case Study: Why GPT-2 → GPT-3 Switched to GELU
 
-**GPT-1 (2018)** used ReLU. **GPT-2 and onwards (2019+)** switched to **GELU (Gaussian Error Linear Unit)**: `GELU(x) = x · Φ(x)` where Φ is the cumulative normal distribution.
+**GPT-1 (2018)** used ReLU. **GPT-2 and onwards (2019+)** switched to **GELU (Gaussian Error Linear Unit)**: \`GELU(x) = x · Φ(x)\` where Φ is the cumulative normal distribution.
 
 **Why the switch?**
 - ReLU's hard cutoff at 0 creates a non-smooth function — bad for gradient-based optimization at scale
@@ -568,7 +568,7 @@ Without activation functions, a neural network would just be a series of linear 
 
 **Industry adoption:**
 - BERT, GPT-2/3/4, T5: GELU
-- Llama, PaLM, Gemini: SiLU/Swish (`x · σ(x)`) — even smoother
+- Llama, PaLM, Gemini: SiLU/Swish (\`x · σ(x)\`) — even smoother
 - Mistral, modern Llama: SwiGLU (gated SiLU variant) — adds a multiplicative gate
 
 **Lesson:** At small scale (<1M params), activation choice barely matters. At billion-parameter scale, the right activation can save **millions of dollars in compute**.
