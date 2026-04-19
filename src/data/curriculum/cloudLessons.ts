@@ -161,49 +161,135 @@ print(f"On-prem hòa vốn sau: {months_to_breakeven:.1f} tháng")`,
         titleEn: "Big Three: AWS vs Azure vs GCP",
         level: 1,
         difficulty: "beginner",
-        theory: `**Ba ông lớn (Big Three)** chiếm hơn 65% thị phần Cloud toàn cầu:
+        theory: `**Ba ông lớn (Big Three)** chiếm hơn 65% thị phần Cloud toàn cầu. Hiểu sự khác biệt giúp bạn chọn đúng nhà cung cấp cho startup, doanh nghiệp, hoặc dự án ML cụ thể — và tránh "vendor lock-in" bất ngờ.
 
-**1. AWS (Amazon Web Services) — ~32% market share**
-- Ra đời sớm nhất (2006), portfolio rộng nhất với 200+ dịch vụ.
-- Mạnh về: compute (EC2), storage (S3), serverless (Lambda).
-- Cộng đồng lớn, tài liệu dồi dào.
+## Toàn cảnh thị trường (Synergy Research 2024)
+- **AWS** ~32% — số 1 từ 2006, lead về innovation và service breadth.
+- **Microsoft Azure** ~23% — tăng nhanh nhờ Office 365 + AI (OpenAI partnership).
+- **Google Cloud (GCP)** ~11% — mạnh về data/AI/Kubernetes, đang tăng trưởng nhanh nhất.
+- Còn lại (~34%): Alibaba, IBM, Oracle, Tencent, DigitalOcean…
 
-**2. Microsoft Azure — ~23% market share**
-- Tích hợp sâu với hệ sinh thái Microsoft (Windows Server, Active Directory, Office 365).
-- Mạnh về: enterprise hybrid cloud, Azure DevOps, AI services.
+## 1. AWS — vua của breadth & maturity
+- Ra đời 2006 với S3 và EC2, đi trước 4-5 năm.
+- **200+ dịch vụ** trong mọi domain: compute, storage, DB, AI/ML, IoT, satellite, robotics.
+- Cộng đồng lớn nhất: tài liệu, Stack Overflow answers, certified engineers.
+- **Mạnh nhất ở:** EC2, S3, Lambda, DynamoDB.
+- **Yếu ở:** UX console phức tạp, naming khó hiểu (Cognito, Athena…).
+- **Khách hàng tiêu biểu:** Netflix, Airbnb, Lyft, NASA, Samsung.
 
-**3. Google Cloud Platform (GCP) — ~11% market share**
-- Mạnh về: data analytics (BigQuery), AI/ML (Vertex AI), Kubernetes (GKE).
-- Hạ tầng mạng global của Google rất nhanh.
+## 2. Microsoft Azure — vua của enterprise hybrid
+- Tận dụng quan hệ doanh nghiệp 30 năm của Microsoft.
+- **Tích hợp sâu:** Active Directory, Office 365, Windows Server, Teams, SQL Server.
+- **Mạnh nhất ở:** Azure AD, Azure DevOps, Power BI, Azure OpenAI Service (độc quyền hosted GPT-4).
+- **Hybrid cloud số 1:** Azure Arc, Azure Stack — chạy Azure trên on-prem.
+- **Khách hàng tiêu biểu:** Walmart, BMW, FedEx, Coca-Cola, hầu hết ngân hàng & chính phủ.
 
-**Bảng so sánh dịch vụ tương đương:**
+## 3. Google Cloud (GCP) — vua của data & AI
+- Hạ tầng từ Google Search/YouTube — mạng global cực nhanh (private fiber).
+- **Mạnh nhất ở:** BigQuery, Vertex AI, GKE (Google phát minh K8s).
+- UX/console sạch và dev-friendly nhất.
+- **Yếu ở:** ít service hơn AWS/Azure, support enterprise yếu hơn.
+- **Khách hàng tiêu biểu:** Spotify, PayPal, HSBC, Snapchat.
+
+## Bảng so sánh dịch vụ tương đương
 | Loại | AWS | Azure | GCP |
 |------|-----|-------|-----|
 | VM | EC2 | Virtual Machines | Compute Engine |
 | Object Storage | S3 | Blob Storage | Cloud Storage |
-| Managed DB | RDS | SQL Database | Cloud SQL |
-| Serverless | Lambda | Functions | Cloud Functions |
+| Managed SQL | RDS | SQL Database | Cloud SQL |
+| NoSQL | DynamoDB | Cosmos DB | Firestore / Bigtable |
+| Serverless FaaS | Lambda | Functions | Cloud Functions |
 | Kubernetes | EKS | AKS | GKE |
+| Data Warehouse | Redshift | Synapse | BigQuery |
+| ML Platform | SageMaker | Azure ML | Vertex AI |
+| CDN | CloudFront | Front Door | Cloud CDN |
 
-**Cách chọn:** dựa vào hệ sinh thái sẵn có, kỹ năng team, giá cả cho workload cụ thể, và yêu cầu vị trí địa lý (region).`,
-        theoryEn: `**The Big Three** dominate 65%+ of the global cloud market:
+## Trade-offs khi chọn provider
+| Tiêu chí | AWS | Azure | GCP |
+|---|---|---|---|
+| Breadth of services | ★★★★★ | ★★★★ | ★★★ |
+| Enterprise sales/support | ★★★★ | ★★★★★ | ★★★ |
+| Data & AI/ML | ★★★★ | ★★★★ | ★★★★★ |
+| Documentation | ★★★★★ | ★★★★ | ★★★★ |
+| Pricing transparency | ★★★ | ★★★ | ★★★★ |
+| Hybrid cloud | ★★★ | ★★★★★ | ★★★ |
 
-**1. AWS — ~32% market share**: oldest (2006), 200+ services, strong in compute (EC2), storage (S3), serverless (Lambda).
+## Case study: Spotify chọn GCP
+Năm 2016 Spotify migrate từ on-prem sang GCP (không chọn AWS dù lớn hơn) vì BigQuery cho phép query 100TB data trong vài giây — phân tích hành vi nghe nhạc realtime; Pub/Sub + Dataflow đơn giản hơn Kinesis.
 
-**2. Azure — ~23%**: deep Microsoft integration (Windows Server, AD, O365), strong in enterprise hybrid, DevOps.
+## Case study: Coca-Cola chọn Azure
+700,000 nhân viên đã dùng Office 365 + Active Directory toàn cầu → Azure tích hợp SSO ngay, không cần build lại identity.
 
-**3. GCP — ~11%**: best for data analytics (BigQuery), AI/ML (Vertex AI), Kubernetes (GKE), fast global network.
+## Best practices khi chọn cloud
+1. **Bắt đầu từ skill team:** Windows/.NET → Azure; Linux/Python → AWS/GCP.
+2. **Region & latency:** chọn nhà cung cấp có data center gần khách hàng cuối.
+3. **Pricing cho workload cụ thể:** chạy POC tính bill thực tế, đừng tin pricing calculator 100%.
+4. **Compliance:** kiểm tra certification (HIPAA, PCI-DSS, SOC2) tại region bạn dùng.
+5. **Exit strategy:** dùng abstraction (Terraform, K8s) để có thể migrate sau này.
 
-**Service equivalence:**
+## Anti-patterns
+- ❌ Chọn cloud chỉ vì "AWS lớn nhất" mà không đánh giá use case.
+- ❌ Lock-in vào dịch vụ độc quyền (DynamoDB, BigQuery) cho dự án ngắn hạn.
+- ❌ Multi-cloud "cho vui" → tăng độ phức tạp 3x mà không có lợi ích thật.
+
+## Liên hệ bài tiếp theo
+Bài 3 sẽ giải thích **Region, AZ, Edge Location** — kiến trúc vật lý phía dưới mọi cloud.`,
+        theoryEn: `**The Big Three** dominate 65%+ of the global cloud market. Knowing the differences helps you pick the right provider — and avoid surprise vendor lock-in.
+
+## Market overview (Synergy Research 2024)
+- **AWS** ~32% — #1 since 2006.
+- **Azure** ~23% — fastest enterprise growth via Office 365 + OpenAI.
+- **GCP** ~11% — strong in data/AI/Kubernetes.
+
+## 1. AWS — king of breadth
+Born 2006, 4-5 year head start. **200+ services**. Largest community. **Strongest in:** EC2, S3, Lambda, DynamoDB. **Customers:** Netflix, Airbnb, NASA.
+
+## 2. Azure — king of enterprise hybrid
+Leverages Microsoft's 30-year enterprise relationships. **Deep integration** with AD, Office 365, Windows Server. **Strongest in:** Azure AD, Azure DevOps, Azure OpenAI. **Customers:** Walmart, BMW, FedEx.
+
+## 3. GCP — king of data & AI
+Built on Google Search/YouTube infrastructure. **Strongest in:** BigQuery, Vertex AI, GKE. Cleanest UX. **Customers:** Spotify, PayPal, Snapchat.
+
+## Service equivalence
 | Type | AWS | Azure | GCP |
 |------|-----|-------|-----|
 | VM | EC2 | VMs | Compute Engine |
 | Object Storage | S3 | Blob | Cloud Storage |
-| DB | RDS | SQL DB | Cloud SQL |
-| Serverless | Lambda | Functions | Cloud Functions |
+| SQL | RDS | SQL DB | Cloud SQL |
+| NoSQL | DynamoDB | Cosmos DB | Firestore |
+| FaaS | Lambda | Functions | Cloud Functions |
 | K8s | EKS | AKS | GKE |
+| DW | Redshift | Synapse | BigQuery |
+| ML | SageMaker | Azure ML | Vertex AI |
 
-**How to choose:** existing ecosystem, team skills, workload pricing, region requirements.`,
+## Provider trade-offs
+| Criterion | AWS | Azure | GCP |
+|---|---|---|---|
+| Breadth | ★★★★★ | ★★★★ | ★★★ |
+| Enterprise support | ★★★★ | ★★★★★ | ★★★ |
+| Data & AI/ML | ★★★★ | ★★★★ | ★★★★★ |
+| Hybrid | ★★★ | ★★★★★ | ★★★ |
+
+## Case: Spotify picked GCP (2016)
+BigQuery let them query 100TB in seconds for real-time listener analytics; Pub/Sub + Dataflow simpler than AWS Kinesis.
+
+## Case: Coca-Cola picked Azure
+700K employees already on Office 365 + AD → Azure SSO worked instantly.
+
+## Best practices
+1. Start from team skills (Windows/.NET → Azure; Linux/Python → AWS/GCP).
+2. Choose by region/latency proximity to end users.
+3. Run a real POC — don't trust pricing calculators 100%.
+4. Verify compliance certs for your region.
+5. Use abstractions (Terraform, K8s) to keep an exit option.
+
+## Anti-patterns
+- ❌ Picking AWS just because it's "biggest".
+- ❌ Locking into proprietary services for short-term projects.
+- ❌ Multi-cloud "for fun" — 3× complexity, no real benefit.
+
+## Next lesson
+Lesson 3 covers **Regions, AZs, Edge Locations** — the physical layer beneath every cloud.`,
         code: `# Bảng tra cứu dịch vụ tương đương 3 nhà cung cấp
 service_map = {
     "virtual_machine": {"aws": "EC2",      "azure": "Virtual Machines", "gcp": "Compute Engine"},
