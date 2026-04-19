@@ -38,7 +38,7 @@ export interface ChineseConvLesson {
   icon: string;
   description: string;
   descriptionVi: string;
-  hskLevel: 1 | 2 | 3 | 4;
+  hskLevel: 1 | 2 | 3 | 4 | 5 | 6;
   keySituations: ChineseKeySituation[];
   vocabulary: ChineseVocabEntry[];
   commonStructures: { pattern: string; patternPinyin: string; explanation: string; explanationVi: string; examples: { zh: string; pinyin: string; vi: string }[] }[];
