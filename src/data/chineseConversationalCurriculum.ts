@@ -2652,6 +2652,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Du lịch & Tham quan",
         titleZh: "旅游",
         icon: "Plane",
+        description: "Master conversation about du lịch & tham quan with dialogues, vocabulary, and listening practice.",
+        descriptionVi: "Thành thạo hội thoại về du lịch & tham quan qua hội thoại, từ vựng và bài nghe.",
         hskLevel: 3,
         keySituations: [
           {
@@ -2693,6 +2695,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Describe your dream trip in China", "Discuss group tour vs free travel"],
+        badge: "Du lịch & Tham quan Master",
+        badgeVi: "Bậc thầy Du lịch & Tham quan",
       },
       // ──── Lesson 8: Music, Movies & TV ────
       {
@@ -2701,6 +2705,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Âm nhạc, Phim & TV",
         titleZh: "音乐电影",
         icon: "Music",
+        description: "Master conversation about âm nhạc, phim & tv with dialogues, vocabulary, and listening practice.",
+        descriptionVi: "Thành thạo hội thoại về âm nhạc, phim & tv qua hội thoại, từ vựng và bài nghe.",
         hskLevel: 4,
         keySituations: [
           {
@@ -2742,6 +2748,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Recommend a Chinese movie", "Discuss your favorite Chinese singer"],
+        badge: "Âm nhạc, Phim & TV Master",
+        badgeVi: "Bậc thầy Âm nhạc, Phim & TV",
       },
       // ──── Lesson 9: Tech & Social Media ────
       {
@@ -2750,6 +2758,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Công nghệ & Mạng xã hội",
         titleZh: "科技社交",
         icon: "Smartphone",
+        description: "Master conversation about công nghệ & mạng xã hội with dialogues, vocabulary, and listening practice.",
+        descriptionVi: "Thành thạo hội thoại về công nghệ & mạng xã hội qua hội thoại, từ vựng và bài nghe.",
         hskLevel: 4,
         keySituations: [
           {
@@ -2791,6 +2801,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Discuss pros and cons of short videos", "Compare Chinese and Western social apps"],
+        badge: "Công nghệ & Mạng xã hội Master",
+        badgeVi: "Bậc thầy Công nghệ & Mạng xã hội",
       },
       // ──── Lesson 10: Environment & Sustainability ────
       {
@@ -2799,6 +2811,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Môi trường & Bền vững",
         titleZh: "环保",
         icon: "Leaf",
+        description: "Master conversation about môi trường & bền vững with dialogues, vocabulary, and listening practice.",
+        descriptionVi: "Thành thạo hội thoại về môi trường & bền vững qua hội thoại, từ vựng và bài nghe.",
         hskLevel: 5,
         keySituations: [
           {
@@ -2840,6 +2854,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Suggest 3 ways to live more sustainably", "Discuss China's environmental policies"],
+        badge: "Môi trường & Bền vững Master",
+        badgeVi: "Bậc thầy Môi trường & Bền vững",
       },
       // ──── Lesson 11: Philosophy & Religion ────
       {
@@ -2848,6 +2864,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Triết học & Tôn giáo",
         titleZh: "哲学宗教",
         icon: "BookOpen",
+        description: "Master conversation about triết học & tôn giáo with dialogues, vocabulary, and listening practice.",
+        descriptionVi: "Thành thạo hội thoại về triết học & tôn giáo qua hội thoại, từ vựng và bài nghe.",
         hskLevel: 5,
         keySituations: [
           {
@@ -2889,6 +2907,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Compare Confucian and Western values", "Discuss role of religion in modern China"],
+        badge: "Triết học & Tôn giáo Master",
+        badgeVi: "Bậc thầy Triết học & Tôn giáo",
       },
       // ──── Lesson 12: Debating & Argumentation ────
       {
@@ -2897,6 +2917,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Tranh luận & Lập luận",
         titleZh: "辩论",
         icon: "MessageSquare",
+        description: "Master conversation about tranh luận & lập luận with dialogues, vocabulary, and listening practice.",
+        descriptionVi: "Thành thạo hội thoại về tranh luận & lập luận qua hội thoại, từ vựng và bài nghe.",
         hskLevel: 6,
         keySituations: [
           {
@@ -2938,6 +2960,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Debate: Should social media have age limits?", "Argue for or against remote work"],
+        badge: "Tranh luận & Lập luận Master",
+        badgeVi: "Bậc thầy Tranh luận & Lập luận",
       },
       // ──── Lesson 13: Storytelling & Narration ────
       {
@@ -2946,6 +2970,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Kể chuyện & Tường thuật",
         titleZh: "讲故事",
         icon: "BookText",
+        description: "Master conversation about kể chuyện & tường thuật with dialogues, vocabulary, and listening practice.",
+        descriptionVi: "Thành thạo hội thoại về kể chuyện & tường thuật qua hội thoại, từ vựng và bài nghe.",
         hskLevel: 6,
         keySituations: [
           {
@@ -2987,6 +3013,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Tell the story of your most memorable trip", "Narrate a moment that changed your perspective"],
+        badge: "Kể chuyện & Tường thuật Master",
+        badgeVi: "Bậc thầy Kể chuyện & Tường thuật",
       },
     ],
   },
