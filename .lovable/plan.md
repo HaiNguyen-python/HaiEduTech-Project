@@ -1,75 +1,66 @@
 
 
-## Mục tiêu
-Mở rộng thêm nội dung bài học cho 3 mục:
-1. **SAT** (English)
-2. **PTE Academic**
-3. **Grammar** (English)
+## Vấn đề
+Người dùng đang ở `/programming/sql-subqueries` (Basic Subqueries). Nội dung lý thuyết hiện tại có các vấn đề:
 
-## Khám phá hiện trạng
+1. **Toàn bộ tiếng Anh, dày đặc thuật ngữ**: "non-correlated", "scalar", "derived table", "Cartesian product"… không kèm giải thích tiếng Việt rõ ràng.
+2. **Nhảy thẳng vào case study cao cấp** (vụ "30× slowdown", "NOT IN nightmare") trước khi học viên kịp hiểu cú pháp cơ bản.
+3. **Bảng so sánh dày đặc** (Subquery vs JOIN vs CTE) xuất hiện quá sớm — học viên chưa biết JOIN/CTE đã phải so sánh.
+4. **Ví dụ code rời rạc**, không có ngữ cảnh "trước–sau" để học viên thấy: "À, không có subquery thì phải viết như thế nào, có subquery thì viết gọn ra sao."
+5. Câu giới thiệu mang phong cách marketing ("paint on the walls", "30× slowdown that wasn't") gây nhiễu.
 
-### SAT (đã có)
-- `englishSat.ts` (gốc) + `englishSatExpansion.ts` (Math Vocab, Reading) + `englishSatExpansion2.ts` (Grammar Mastery, Vocab, Punctuation, Essay) + `englishSatExpansion3.ts` (Geometry/Data Vocab, Advanced Reading, Essay, Math Word Problems)
-- Đã có ~14 modules. Cần thêm các góc còn thiếu.
+Lesson **Basic Subqueries** mà người dùng đang xem là điển hình. Các bài lân cận trong cùng module SQL (CTEs, JOINs, Window Functions…) cũng theo cùng phong cách "dense English + jargon-first" → cần áp dụng cùng một chuẩn diễn đạt mới cho cả module.
 
-### Grammar (đã có)
-- `englishGrammar.ts` — 9 modules cốt lõi (tenses, conditionals, passive, reported speech, relative clauses, articles/prepositions...)
-- `englishGrammarExpansion.ts` — Modal verbs, Gerunds & Infinitives, Comparisons & Inversions
-- Đã có ~12 modules. Cần thêm các chủ điểm chưa phủ.
+## Mục tiêu viết lại
+Giữ nguyên độ phủ kiến thức (các H2 sections vẫn ≥6 để `TheorySections.tsx` chấm "Mark read"), nhưng:
 
-### PTE
-- `src/data/pteData.ts` — kho task PTE (Read Aloud, Repeat Sentence, Essay, Dictation...) cho practice modules.
-- PTE **không** dùng cấu trúc `LanguageModule/lessons` như SAT/Grammar — nó dùng cấu trúc task riêng cho 4 kỹ năng (Speaking, Writing, Reading, Listening) hiển thị qua `PteHub` + 4 trang skill.
-- Để "tăng bài học cho PTE", cách phù hợp nhất là **tăng số lượng task** trong từng nhóm (Read Aloud, Repeat Sentence, Describe Image, Essay, Summarize, Fill in Blanks, MCQ, Dictation, Highlight...).
+- **Mở đầu bằng câu hỏi đời thường** ("Làm sao tìm học viên có điểm cao hơn điểm trung bình của lớp?") trước khi đưa ra thuật ngữ.
+- **Mỗi thuật ngữ tiếng Anh xuất hiện lần đầu phải kèm giải nghĩa tiếng Việt ngắn trong ngoặc**: ví dụ *correlated subquery (truy vấn con phụ thuộc — chạy lại cho mỗi dòng của bảng ngoài)*.
+- **Nguyên tắc 3 bước cho mỗi khái niệm khó**: (1) Vấn đề thực tế, (2) Code minh họa cực ngắn (3–5 dòng), (3) Giải thích từng dòng.
+- **Loại bỏ case study quá cao cấp** ở đầu bài; dời xuống mục "Ghi chú nâng cao" cuối bài hoặc cắt bớt.
+- **Bảng so sánh chỉ giữ những gì học viên đã học** — không so với CTE/Window khi chưa học.
+- Giữ nguyên giọng song ngữ: phần `theory` (long form) viết **chủ yếu tiếng Việt + thuật ngữ tiếng Anh giữ nguyên**; phần `theoryEn` (short form) giữ tiếng Anh ngắn gọn.
 
-## Phạm vi mở rộng
+## Phạm vi cụ thể
 
-### A. SAT — thêm 4 modules mới (file `englishSatExpansion4.ts`)
-1. **SAT Algebra Vocabulary & Concepts** — biến số, phương trình tuyến tính, hệ phương trình, bất phương trình (10 vocab, 1 lesson)
-2. **SAT Advanced Math (Quadratics & Functions)** — parabola, vertex, discriminant, đồ thị hàm số (10 vocab, 1 lesson)
-3. **SAT Transition Words & Logical Connectors** — chuyên trị câu hỏi "Which choice best transitions" (12 vocab, 1 lesson)
-4. **SAT Rhetorical Synthesis Mastery** — dạng câu hỏi mới của Digital SAT: chọn câu kết hợp các bullet notes (10 vocab, 1 lesson)
+### 1. Viết lại bài đang gây hiểu lầm — `sql-sub-1` "Basic Subqueries" (file `src/data/curriculum/sqlLessons.ts`, dòng ~917–1106)
 
-→ ~4 lessons, 40+ vocab, 8 fill-in-blank exercises, 12 quiz questions.
+Cấu trúc H2 mới (8 sections, đáp ứng ràng buộc ≥6):
 
-### B. Grammar — thêm 3 modules mới (file `englishGrammarExpansion2.ts`)
-1. **Articles, Quantifiers & Determiners (Advanced)** — a/an/the với danh từ trừu tượng, much/many/few/little/several, no vs none (1-2 lessons)
-2. **Subject-Verb Agreement (Advanced)** — collective nouns, either/neither, indefinite pronouns, "one of the..." (1-2 lessons)
-3. **Punctuation & Sentence Boundaries** — comma splice, semicolon, colon, dash, run-on sentences (1-2 lessons)
+1. **Subquery là gì? (Câu chuyện 30 giây)** — Tình huống: "Tìm học viên có điểm cao hơn điểm trung bình lớp." Cho thấy không có subquery thì phải chạy 2 truy vấn riêng → tốn công. Subquery gộp lại 1 câu.
+2. **Cú pháp tối thiểu (xem 1 lần là nhớ)** — 1 ví dụ cực ngắn duy nhất, kèm chú thích từng dòng bằng tiếng Việt.
+3. **3 vị trí đặt subquery** — Bảng đơn giản: WHERE (lọc), FROM (làm bảng tạm), SELECT (lấy 1 giá trị). Mỗi dòng kèm 1 ví dụ thực tế ngắn.
+4. **Subquery trả về gì? (1 giá trị, 1 cột, hay cả bảng)** — Giải thích "scalar / multi-row / multi-column" bằng tiếng Việt: "trả 1 ô — dùng với `=`, `>`; trả 1 cột nhiều dòng — dùng với `IN`; trả cả bảng — đặt trong FROM." Mỗi loại 1 ví dụ.
+5. **`IN` vs `EXISTS` — chọn cái nào?** — Giải thích bằng phép so sánh đời thường ("EXISTS giống như hỏi 'có ai trong phòng không?' — thấy 1 người là dừng. IN giống như đếm hết tất cả mọi người rồi mới trả lời"). Bảng so sánh 3 dòng.
+6. **Bẫy `NOT IN` với NULL** — Giải thích bằng 1 ví dụ data thực: bảng churn có 1 dòng NULL → `NOT IN` trả 0 dòng. Quy tắc vàng: "Có NULL → dùng `NOT EXISTS`."
+7. **Correlated subquery — khi subquery 'nhìn ra ngoài'** — Giải thích bằng tiếng Việt: "Subquery thông thường chạy 1 lần. Correlated chạy lại cho TỪNG dòng của truy vấn ngoài → chậm hơn rất nhiều khi dữ liệu lớn." Kèm cảnh báo hiệu năng (không kể case 30× slowdown nữa).
+8. **Tổng kết & checklist khi viết subquery** — Bullet list 5 dòng dễ nhớ.
 
-→ ~5 lessons, 30+ vocab, 10 fill-in-blank exercises, 15 quiz questions.
+Cập nhật:
+- `theory` (long, tiếng Việt là chính + thuật ngữ Anh giữ nguyên).
+- `theoryEn` (short, tiếng Anh ngắn — viết lại theo cùng cấu trúc).
+- `code`: thêm comment tiếng Việt vào từng block để khớp với explanation.
+- `exercise` / `exerciseEn`: viết lại đề bài cụ thể hơn ("Tìm học viên có tổng giá trị đơn hàng lớn hơn trung bình toàn lớp — gợi ý: dùng GROUP BY ở subquery").
+- `quiz`: giữ 5 câu, viết lại các câu hỏi/giải thích bằng cấu trúc dễ hiểu hơn (vẫn `answer` 0–3, có `explanation`).
 
-### C. PTE — mở rộng task bank trong `src/data/pteData.ts`
-Thêm task mới (thực tế và thuộc dạng được dự đoán xuất hiện 2026):
-- **Read Aloud**: +5 prompts (nhiều chủ đề học thuật khác nhau)
-- **Repeat Sentence**: +5 câu mẫu
-- **Describe Image**: +3 prompts (charts/maps mới)
-- **Essay**: +3 đề mới
-- **Summarize Written Text**: +3 đoạn
-- **Fill in the Blanks (Reading & Writing)**: +3
-- **Multiple Choice (Reading)**: +3
-- **Highlight Correct Summary (Listening)**: +2
-- **Write from Dictation**: +5
+### 2. Áp dụng cùng chuẩn diễn đạt cho các bài còn lại trong module Subqueries & các module SQL kế cận có cùng vấn đề
+Sau khi mở bài `sql-sub-1`, mình sẽ rà lại các bài có theory > 800 chữ toàn tiếng Anh trong cùng file và tinh chỉnh tương tự (ưu tiên các bài người học mới sẽ chạm sớm: `sql-cte-1`, `sql-joins`, `sql-aggregate-1`). Nếu phạm vi rộng quá, sẽ chỉ làm bài `sql-sub-1` ở vòng này và liệt kê rõ bài nào còn lại để xử lý ở vòng sau — tránh viết file quá dài 1 lần.
 
-→ ~32 task mới được phân bổ qua 4 kỹ năng.
+**Phạm vi cam kết vòng này:**
+- ✅ Viết lại trọn vẹn `sql-sub-1` (theory + theoryEn + code + exercise + quiz).
+- ✅ Viết lại `sql-cte-1` "Basic WITH & CTE" theo cùng nguyên tắc (vì lesson kế tiếp, cùng cảm giác khó).
 
-## Các file thay đổi
+Các bài SQL khác (Joins, Aggregate, Window…) sẽ giữ nguyên ở vòng này; nếu user muốn tiếp, sẽ làm vòng sau.
 
-**Tạo mới:**
-- `src/data/languageCurriculum/englishSatExpansion4.ts`
-- `src/data/languageCurriculum/englishGrammarExpansion2.ts`
+## Quy tắc giữ nguyên
+- Số H2 sections ≥ 6 cho mỗi `theory` (yêu cầu của `TheorySections.tsx`).
+- `quiz`: index `answer` 0–3, có `explanation`.
+- Không đổi `id` lesson/module → không phá link đang chạy `/programming/sql-subqueries`.
+- Không đụng vào schema, components, file types.
 
-**Chỉnh sửa:**
-- `src/data/languageCurriculum/index.ts` — thêm import & merge 2 expansion mới (SAT vào `allEnglishModules`, Grammar mới gộp vào `allEnglishModules`).
-- `src/data/pteData.ts` — bổ sung task vào các array `READ_ALOUD`, `REPEAT_SENTENCE`, `DESCRIBE_IMAGE`, `ESSAY`, `SUMMARIZE`, `FILL_BLANKS_RW`, `MCQ_READING`, `HIGHLIGHT_SUMMARY`, `DICTATION` (hoặc tên array thực tế trong file). Sẽ đọc file trước khi sửa để giữ đúng kiểu dữ liệu.
-
-## Validation áp dụng (theo curriculum-validation-standards)
-- Quiz: `answer` là index 0-3, có `explanation`.
-- Fill-in-blank: dùng `___` đúng vị trí, `answer` khớp chính xác.
-- Mỗi vocab có `meaning`, `example` (và `meaningEn`/`exampleEn` cho song ngữ).
-- Mỗi lesson có cả `theory` (VI) và `theoryEn` (EN).
-- Không tạo trùng `id` module/lesson.
+## Files thay đổi
+- ✏️ `src/data/curriculum/sqlLessons.ts` — viết lại 2 lessons: `sql-sub-1` và `sql-cte-1` (theory, theoryEn, code, exercise, exerciseEn, quiz).
 
 ## Không đụng tới
-- `TheorySections.tsx`, schema DB, `client.ts`, `types.ts` (Supabase generated), favicon/SEO, các module khác.
+- `TheorySections.tsx`, `CodeBlock.tsx`, `ProgrammingLesson.tsx`, schema DB, types Supabase, các module SQL khác trong cùng file.
 
