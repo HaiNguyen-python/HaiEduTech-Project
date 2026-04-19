@@ -134,6 +134,87 @@ async function generateCopy(body: RequestBody, apiKey: string) {
   return JSON.parse(cleaned);
 }
 
+function buildVideoPrompt(b: RequestBody): string {
+  const fmt = b.videoFormat || "tiktok";
+  const platformLabel = fmt === "reels"
+    ? "Instagram Reels"
+    : fmt === "shorts"
+    ? "YouTube Shorts"
+    : "TikTok";
+  return `Generate a 30-second ${platformLabel} video script for HaiEduTech course "${b.course}".
+Audience: ${b.audience}. Goal: ${b.goal}.
+
+Structure rules:
+- Total duration: exactly 30 seconds
+- Vertical 9:16 format
+- 6 shots (≈5s each) with strong hook in first 3 seconds
+- Vietnamese voiceover (natural spoken tone, NOT formal written)
+- Each shot includes: timing range, visual description (camera + scene), on-screen text overlay (≤8 words), voiceover line, and a B-roll/SFX hint
+- End with strong CTA shot (last 3-5s)
+
+Return STRICT JSON (no markdown, no fences):
+{
+  "title": "Catchy video title (≤60 chars)",
+  "hook": "First-3-second hook line (Vietnamese, ≤15 words)",
+  "totalSeconds": 30,
+  "format": "${fmt}",
+  "aspectRatio": "9:16",
+  "musicMood": "energetic | uplifting | cinematic | chill",
+  "shots": [
+    {
+      "shotNumber": 1,
+      "timing": "0:00 - 0:05",
+      "visual": "Detailed camera angle + scene + subject (English, for video editor)",
+      "onScreenText": "Bold overlay text (Vietnamese, ≤8 words)",
+      "voiceover": "Spoken line in Vietnamese (≤20 words, natural tone)",
+      "broll": "B-roll suggestion or SFX (e.g. whoosh, ding, ambient)"
+    }
+    // ... 6 shots total
+  ],
+  "cta": "Final spoken CTA line in Vietnamese",
+  "captionForUpload": "Caption to paste when uploading the video (Vietnamese, includes 3-5 hashtags)",
+  "hashtags": ["#hashtag1", "#hashtag2", "#hashtag3", "#hashtag4", "#hashtag5"],
+  "productionTips": ["tip 1 for the editor", "tip 2", "tip 3"]
+}
+
+Quality rules:
+- Hook must stop the scroll (question, bold claim, or surprising visual)
+- Voiceover lines should sound spoken, not written. Use contractions, short sentences.
+- On-screen text must be readable in 1 second. Big, punchy.
+- Always include HaiEduTech brand mention in shot 5 or 6.
+- CTA must be specific (e.g. "Inbox 'PTE79' để nhận lộ trình miễn phí" not "Liên hệ ngay").`;
+}
+
+async function generateVideoScript(body: RequestBody, apiKey: string) {
+  const response = await fetch(
+    "https://ai.gateway.lovable.dev/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-pro",
+        messages: [
+          { role: "system", content: COPY_SYSTEM },
+          { role: "user", content: buildVideoPrompt(body) },
+        ],
+        response_format: { type: "json_object" },
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Video script gen ${response.status}: ${text}`);
+  }
+
+  const data = await response.json();
+  const raw = data.choices?.[0]?.message?.content ?? "{}";
+  const cleaned = raw.replace(/```json\n?/g, "").replace(/```/g, "").trim();
+  return JSON.parse(cleaned);
+
 async function generateImage(prompt: string, apiKey: string): Promise<string> {
   const response = await fetch(
     "https://ai.gateway.lovable.dev/v1/chat/completions",
