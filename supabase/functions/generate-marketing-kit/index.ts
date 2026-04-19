@@ -214,6 +214,7 @@ async function generateVideoScript(body: RequestBody, apiKey: string) {
   const raw = data.choices?.[0]?.message?.content ?? "{}";
   const cleaned = raw.replace(/```json\n?/g, "").replace(/```/g, "").trim();
   return JSON.parse(cleaned);
+}
 
 async function generateImage(prompt: string, apiKey: string): Promise<string> {
   const response = await fetch(
