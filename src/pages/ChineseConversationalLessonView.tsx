@@ -470,33 +470,63 @@ const ChineseConversationalLessonView = () => {
                 <div className="space-y-4">
                   {lesson.listeningChallenge.questions.map((q, qi) => (
                     <div key={qi} className="p-4 bg-muted/30 rounded-xl">
-                      <p className="font-medium text-sm mb-3">{t(q.qVi, q.q)}</p>
+                      <p className="font-medium text-sm mb-3">{qi + 1}. {t(q.qVi, q.q)}</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {q.options.map((opt, oi) => {
                           const selected = listeningAnswers[qi] === oi;
                           const isCorrect = oi === q.answer;
-                          const answered = listeningAnswers[qi] !== undefined;
+                          const showResult = listeningSubmitted;
                           return (
                             <button
                               key={oi}
-                              onClick={() => !answered && setListeningAnswers(prev => ({ ...prev, [qi]: oi }))}
-                              disabled={answered}
-                              className={`p-3 rounded-lg text-left text-sm border transition-all ${answered
-                                ? isCorrect ? "bg-emerald-50 border-emerald-300 text-emerald-800"
-                                  : selected ? "bg-red-50 border-red-300 text-red-800"
-                                    : "bg-muted/30 border-border text-muted-foreground"
-                                : "bg-card border-border hover:border-red-400 hover:shadow-sm cursor-pointer"
+                              onClick={() => !listeningSubmitted && setListeningAnswers(prev => ({ ...prev, [qi]: oi }))}
+                              disabled={listeningSubmitted}
+                              className={`p-3 rounded-lg text-left text-sm border transition-all ${
+                                showResult
+                                  ? isCorrect
+                                    ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300"
+                                    : selected
+                                      ? "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"
+                                      : "bg-muted/30 border-border text-muted-foreground"
+                                  : selected
+                                    ? "bg-red-100 border-red-400 text-red-800 dark:bg-red-950/40 dark:text-red-300"
+                                    : "bg-card border-border hover:border-red-400 hover:shadow-sm cursor-pointer"
                               }`}
                             >
                               <span className="font-medium mr-2">{String.fromCharCode(65 + oi)}.</span>
                               {opt}
-                              {answered && isCorrect && <CheckCircle className="h-4 w-4 inline ml-2 text-emerald-500" />}
+                              {showResult && isCorrect && <CheckCircle className="h-4 w-4 inline ml-2 text-emerald-500" />}
                             </button>
                           );
                         })}
                       </div>
                     </div>
                   ))}
+                </div>
+
+                {listeningSubmitted && listeningScore && (
+                  <div className={`p-4 rounded-lg border-2 ${listeningScore.percent >= 80 ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300" : listeningScore.percent >= 50 ? "bg-amber-50 border-amber-300 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300" : "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"}`}>
+                    <p className="text-base font-bold">
+                      {listeningScore.percent >= 80 ? "🎉" : listeningScore.percent >= 50 ? "👍" : "💪"} {t("Kết quả Nghe", "Listening Score")}: {listeningScore.correct}/{listeningScore.total} ({listeningScore.percent}%)
+                    </p>
+                    <p className="text-xs opacity-80 mt-1">{t("Đã lưu vào Bảng điều khiển học sinh.", "Saved to your Student Dashboard.")}</p>
+                  </div>
+                )}
+
+                <div className="flex gap-2">
+                  {!listeningSubmitted ? (
+                    <Button
+                      onClick={handleSubmitListening}
+                      disabled={Object.keys(listeningAnswers).length < lesson.listeningChallenge.questions.length}
+                      className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white"
+                    >
+                      {t("Nộp bài & Chấm điểm", "Submit & Score")}
+                    </Button>
+                  ) : (
+                    <Button onClick={() => { setListeningSubmitted(false); setListeningAnswers({}); setListeningScore(null); }} variant="outline">
+                      {t("Làm lại", "Try Again")}
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
