@@ -21,29 +21,59 @@ interface PyodideAPI {
 }
 
 const PYODIDE_VERSION = "0.26.4";
-const PYODIDE_BASE = `https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/`;
+const PYODIDE_CDNS = [
+  `https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/`,
+  `https://pyodide-cdn2.iodide.io/v${PYODIDE_VERSION}/full/`,
+];
+
+function loadScriptWithFallback(filename: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    let i = 0;
+    const tryNext = () => {
+      if (i >= PYODIDE_CDNS.length) {
+        reject(new Error("All Pyodide CDNs failed"));
+        return;
+      }
+      const base = PYODIDE_CDNS[i++];
+      const s = document.createElement("script");
+      s.src = `${base}${filename}`;
+      s.async = true;
+      s.onload = () => resolve(base);
+      s.onerror = () => {
+        s.remove();
+        tryNext();
+      };
+      document.head.appendChild(s);
+    };
+    tryNext();
+  });
+}
 
 async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => void): Promise<PyodideAPI> {
-  if (window.__haiPyodide) return window.__haiPyodide;
+  if (window.__haiPyodide) {
+    if (needsScientific) {
+      try {
+        await window.__haiPyodide.loadPackage(["numpy", "pandas"]);
+      } catch {
+        // ignore
+      }
+    }
+    return window.__haiPyodide;
+  }
   if (window.__haiPyodidePromise) return window.__haiPyodidePromise;
 
   window.__haiPyodidePromise = (async () => {
-    onStatus("Loading Pyodide script…");
+    onStatus("Downloading Python runtime (~10MB, one-time)…");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const w = window as any;
+    let baseUsed = PYODIDE_CDNS[0];
     if (!w.loadPyodide) {
-      await new Promise<void>((resolve, reject) => {
-        const s = document.createElement("script");
-        s.src = `${PYODIDE_BASE}pyodide.js`;
-        s.onload = () => resolve();
-        s.onerror = () => reject(new Error("Failed to load Pyodide CDN"));
-        document.head.appendChild(s);
-      });
+      baseUsed = await loadScriptWithFallback("pyodide.js");
     }
-    onStatus("Initialising Python runtime…");
-    const py: PyodideAPI = await w.loadPyodide({ indexURL: PYODIDE_BASE });
+    onStatus("Starting Python interpreter…");
+    const py: PyodideAPI = await w.loadPyodide({ indexURL: baseUsed });
     if (needsScientific) {
-      onStatus("Loading numpy + pandas (~6MB)…");
+      onStatus("Loading numpy + pandas (~6MB extra)…");
       await py.loadPackage(["numpy", "pandas"]);
     }
     window.__haiPyodide = py;
@@ -52,6 +82,16 @@ async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => 
   })();
 
   return window.__haiPyodidePromise;
+}
+
+/**
+ * Preload Pyodide in the background as soon as the user lands on a Python lesson.
+ * Safe to call multiple times — uses the same singleton promise.
+ */
+export function preloadPyodide() {
+  if (typeof window === "undefined") return;
+  if (window.__haiPyodide || window.__haiPyodidePromise) return;
+  void ensurePyodide(false, () => {});
 }
 
 export interface RunResult {
