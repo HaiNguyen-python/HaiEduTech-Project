@@ -1,66 +1,76 @@
 
 
 ## Vấn đề
-Người dùng đang ở `/programming/sql-subqueries` (Basic Subqueries). Nội dung lý thuyết hiện tại có các vấn đề:
+Đã rà soát toàn bộ `src/data/curriculum/`:
+- **7 file**, ~**19,432 dòng**, ~**80 lessons** thuộc 7 lộ trình: SQL, AI Foundation, Data Engineering, ML, Cloud, Cloud Expansion, Programming Expansion (Python OOP/Decorators/Generators/FileIO + Spark).
+- Bài đang đứng (`sql-select-1`) là ví dụ điển hình của vấn đề chung:
+  1. Theory **100% tiếng Anh** dù học viên Việt — không có tiếng Việt làm "neo" để hiểu khái niệm.
+  2. Mở đầu kiểu marketing ("paint on the walls", "$700 mistake") trước khi học viên biết cú pháp.
+  3. **Bảng so sánh dialect** (Postgres/MySQL/SQL Server/Oracle/Snowflake) ngay bài 1 → nhiễu.
+  4. Thuật ngữ chưa định nghĩa: *keyset pagination, deterministic, dbt, partitioned table, BigQuery* xuất hiện không kèm giải thích.
+  5. Code không có comment tiếng Việt; ví dụ rời rạc, không có ngữ cảnh "trước–sau".
+- 2 lessons SQL (`sql-sub-1`, `sql-cte-1`) đã được rewrite đúng chuẩn ở vòng trước → dùng làm **template chuẩn vàng** cho toàn bộ.
 
-1. **Toàn bộ tiếng Anh, dày đặc thuật ngữ**: "non-correlated", "scalar", "derived table", "Cartesian product"… không kèm giải thích tiếng Việt rõ ràng.
-2. **Nhảy thẳng vào case study cao cấp** (vụ "30× slowdown", "NOT IN nightmare") trước khi học viên kịp hiểu cú pháp cơ bản.
-3. **Bảng so sánh dày đặc** (Subquery vs JOIN vs CTE) xuất hiện quá sớm — học viên chưa biết JOIN/CTE đã phải so sánh.
-4. **Ví dụ code rời rạc**, không có ngữ cảnh "trước–sau" để học viên thấy: "À, không có subquery thì phải viết như thế nào, có subquery thì viết gọn ra sao."
-5. Câu giới thiệu mang phong cách marketing ("paint on the walls", "30× slowdown that wasn't") gây nhiễu.
+## Chiến lược: Nhiều vòng, ưu tiên bài học viên chạm sớm nhất
+Không thể viết lại 80 lessons trong 1 vòng (sẽ vượt token, dễ phát sinh lỗi). Chia thành **3 đợt theo độ ưu tiên dựa trên đường đi của học viên mới**.
 
-Lesson **Basic Subqueries** mà người dùng đang xem là điển hình. Các bài lân cận trong cùng module SQL (CTEs, JOINs, Window Functions…) cũng theo cùng phong cách "dense English + jargon-first" → cần áp dụng cùng một chuẩn diễn đạt mới cho cả module.
+### Chuẩn rewrite áp dụng cho mọi bài (rút từ template `sql-sub-1`)
+1. ✅ **Tiếng Việt là chính**, thuật ngữ Anh giữ nguyên + giải nghĩa ngắn trong ngoặc lần đầu xuất hiện. Ví dụ: *aggregate function (hàm tổng hợp — gom nhiều dòng thành 1 giá trị)*.
+2. ✅ **Mở đầu = câu hỏi đời thường** ("Lớp học có 30 học viên, làm sao đếm số học viên trên 18 tuổi?") trước khi đưa cú pháp.
+3. ✅ **3 bước cho mỗi khái niệm khó**: (1) vấn đề thực tế → (2) code 3–5 dòng → (3) giải thích từng dòng.
+4. ✅ Cắt **case study tài chính/kỹ thuật cao cấp** ở đầu bài; nếu giữ thì dời xuống "Ghi chú nâng cao" cuối.
+5. ✅ **Bảng so sánh dialect chỉ khi cần thiết** và đã có ngữ cảnh; bài 1–3 không nên có.
+6. ✅ Giữ **≥6 H2 sections** (yêu cầu của `TheorySections.tsx`).
+7. ✅ `code` có **comment tiếng Việt từng block** khớp với explanation.
+8. ✅ `theoryEn` (short form) viết tiếng Anh ngắn gọn cùng cấu trúc.
+9. ✅ Quiz: `answer` 0–3, có `explanation` rõ.
+10. ✅ Không đổi `id` lesson/module → không phá link/route.
 
-## Mục tiêu viết lại
-Giữ nguyên độ phủ kiến thức (các H2 sections vẫn ≥6 để `TheorySections.tsx` chấm "Mark read"), nhưng:
+### Đợt 1 — Vòng này (ưu tiên cao nhất, 8 lessons)
+**SQL còn lại trong file `sqlLessons.ts`** — đường đi tự nhiên của học viên SQL beginner:
 
-- **Mở đầu bằng câu hỏi đời thường** ("Làm sao tìm học viên có điểm cao hơn điểm trung bình của lớp?") trước khi đưa ra thuật ngữ.
-- **Mỗi thuật ngữ tiếng Anh xuất hiện lần đầu phải kèm giải nghĩa tiếng Việt ngắn trong ngoặc**: ví dụ *correlated subquery (truy vấn con phụ thuộc — chạy lại cho mỗi dòng của bảng ngoài)*.
-- **Nguyên tắc 3 bước cho mỗi khái niệm khó**: (1) Vấn đề thực tế, (2) Code minh họa cực ngắn (3–5 dòng), (3) Giải thích từng dòng.
-- **Loại bỏ case study quá cao cấp** ở đầu bài; dời xuống mục "Ghi chú nâng cao" cuối bài hoặc cắt bớt.
-- **Bảng so sánh chỉ giữ những gì học viên đã học** — không so với CTE/Window khi chưa học.
-- Giữ nguyên giọng song ngữ: phần `theory` (long form) viết **chủ yếu tiếng Việt + thuật ngữ tiếng Anh giữ nguyên**; phần `theoryEn` (short form) giữ tiếng Anh ngắn gọn.
+| Lesson ID | Tên | Lý do ưu tiên |
+|---|---|---|
+| `sql-select-1` | SELECT & FROM | **Bài đầu tiên** học viên chạm — hiện đang ở route này |
+| `sql-select-2` | AS & Alias | Bài 2 cùng module |
+| `sql-where-1` | WHERE & Lọc dữ liệu | Bài 3 — module WHERE |
+| `sql-agg-1` | Aggregate / GROUP BY | Bài 4 — bước nhảy tư duy lớn nhất với người mới |
+| `sql-join-1` | JOINs | Bài 5 — khái niệm khó nhất ở SQL beginner |
+| `sql-win-1` | Window Functions | Bài 7 — thường gây hoang mang nhất |
+| `sql-idx-1` | Indexing | Bài 8 — khái niệm vô hình, cần nhiều ví dụ đời thường |
+| `sql-design-1` | Database Design | Bài 9 — chuẩn hoá (normalization) thường viết khô khan |
 
-## Phạm vi cụ thể
+→ Sau đợt 1, **toàn bộ module SQL** (10 lessons) sẽ đồng nhất chuẩn dễ hiểu.
 
-### 1. Viết lại bài đang gây hiểu lầm — `sql-sub-1` "Basic Subqueries" (file `src/data/curriculum/sqlLessons.ts`, dòng ~917–1106)
+### Đợt 2 — Vòng tiếp (sẽ chờ user duyệt riêng)
+**Python & Programming Expansion** (~6 lessons): OOP, Decorators, Generators, File I/O — học viên Python intermediate chạm sớm.
 
-Cấu trúc H2 mới (8 sections, đáp ứng ràng buộc ≥6):
+### Đợt 3 — Vòng sau cùng
+**AI Foundation, ML, Data Engineering, Cloud** (~50 lessons) — học viên đến sau khi có nền tảng, chia thành các sub-batch 6–8 lessons/lần để tránh lỗi.
 
-1. **Subquery là gì? (Câu chuyện 30 giây)** — Tình huống: "Tìm học viên có điểm cao hơn điểm trung bình lớp." Cho thấy không có subquery thì phải chạy 2 truy vấn riêng → tốn công. Subquery gộp lại 1 câu.
-2. **Cú pháp tối thiểu (xem 1 lần là nhớ)** — 1 ví dụ cực ngắn duy nhất, kèm chú thích từng dòng bằng tiếng Việt.
-3. **3 vị trí đặt subquery** — Bảng đơn giản: WHERE (lọc), FROM (làm bảng tạm), SELECT (lấy 1 giá trị). Mỗi dòng kèm 1 ví dụ thực tế ngắn.
-4. **Subquery trả về gì? (1 giá trị, 1 cột, hay cả bảng)** — Giải thích "scalar / multi-row / multi-column" bằng tiếng Việt: "trả 1 ô — dùng với `=`, `>`; trả 1 cột nhiều dòng — dùng với `IN`; trả cả bảng — đặt trong FROM." Mỗi loại 1 ví dụ.
-5. **`IN` vs `EXISTS` — chọn cái nào?** — Giải thích bằng phép so sánh đời thường ("EXISTS giống như hỏi 'có ai trong phòng không?' — thấy 1 người là dừng. IN giống như đếm hết tất cả mọi người rồi mới trả lời"). Bảng so sánh 3 dòng.
-6. **Bẫy `NOT IN` với NULL** — Giải thích bằng 1 ví dụ data thực: bảng churn có 1 dòng NULL → `NOT IN` trả 0 dòng. Quy tắc vàng: "Có NULL → dùng `NOT EXISTS`."
-7. **Correlated subquery — khi subquery 'nhìn ra ngoài'** — Giải thích bằng tiếng Việt: "Subquery thông thường chạy 1 lần. Correlated chạy lại cho TỪNG dòng của truy vấn ngoài → chậm hơn rất nhiều khi dữ liệu lớn." Kèm cảnh báo hiệu năng (không kể case 30× slowdown nữa).
-8. **Tổng kết & checklist khi viết subquery** — Bullet list 5 dòng dễ nhớ.
+## Phạm vi cam kết VÒNG NÀY
+- ✏️ Rewrite **8 SQL lessons** trong `src/data/curriculum/sqlLessons.ts`: `sql-select-1`, `sql-select-2`, `sql-where-1`, `sql-agg-1`, `sql-join-1`, `sql-win-1`, `sql-idx-1`, `sql-design-1`.
+- Mỗi lesson: viết lại `theory` (VI), `theoryEn` (EN ngắn), `code` (thêm comment VI), `exercise`/`exerciseEn`, `quiz` (5 câu, giữ schema).
+- Cuối phản hồi sẽ liệt kê rõ **đợt 2 & 3 còn lại bao nhiêu bài** để user chủ động duyệt vòng tiếp.
 
-Cập nhật:
-- `theory` (long, tiếng Việt là chính + thuật ngữ Anh giữ nguyên).
-- `theoryEn` (short, tiếng Anh ngắn — viết lại theo cùng cấu trúc).
-- `code`: thêm comment tiếng Việt vào từng block để khớp với explanation.
-- `exercise` / `exerciseEn`: viết lại đề bài cụ thể hơn ("Tìm học viên có tổng giá trị đơn hàng lớn hơn trung bình toàn lớp — gợi ý: dùng GROUP BY ở subquery").
-- `quiz`: giữ 5 câu, viết lại các câu hỏi/giải thích bằng cấu trúc dễ hiểu hơn (vẫn `answer` 0–3, có `explanation`).
-
-### 2. Áp dụng cùng chuẩn diễn đạt cho các bài còn lại trong module Subqueries & các module SQL kế cận có cùng vấn đề
-Sau khi mở bài `sql-sub-1`, mình sẽ rà lại các bài có theory > 800 chữ toàn tiếng Anh trong cùng file và tinh chỉnh tương tự (ưu tiên các bài người học mới sẽ chạm sớm: `sql-cte-1`, `sql-joins`, `sql-aggregate-1`). Nếu phạm vi rộng quá, sẽ chỉ làm bài `sql-sub-1` ở vòng này và liệt kê rõ bài nào còn lại để xử lý ở vòng sau — tránh viết file quá dài 1 lần.
-
-**Phạm vi cam kết vòng này:**
-- ✅ Viết lại trọn vẹn `sql-sub-1` (theory + theoryEn + code + exercise + quiz).
-- ✅ Viết lại `sql-cte-1` "Basic WITH & CTE" theo cùng nguyên tắc (vì lesson kế tiếp, cùng cảm giác khó).
-
-Các bài SQL khác (Joins, Aggregate, Window…) sẽ giữ nguyên ở vòng này; nếu user muốn tiếp, sẽ làm vòng sau.
-
-## Quy tắc giữ nguyên
-- Số H2 sections ≥ 6 cho mỗi `theory` (yêu cầu của `TheorySections.tsx`).
-- `quiz`: index `answer` 0–3, có `explanation`.
-- Không đổi `id` lesson/module → không phá link đang chạy `/programming/sql-subqueries`.
-- Không đụng vào schema, components, file types.
+## Ví dụ minh hoạ (trích đoạn `sql-select-1` sau khi viết lại)
+> ## 1. Vấn đề đời thường  
+> Bạn có một bảng `students` chứa 1000 học viên. Sếp bảo: "Cho tôi xem 10 học viên có điểm cao nhất". Làm sao? → Đó là việc của `SELECT`.  
+>  
+> ## 2. Cú pháp tối thiểu  
+> ```sql  
+> SELECT name, score        -- Lấy cột nào?  
+> FROM   students            -- Từ bảng nào?  
+> ORDER BY score DESC        -- Sắp xếp giảm dần theo điểm  
+> LIMIT 10;                  -- Chỉ lấy 10 dòng đầu  
+> ```  
+> Mỗi dòng là 1 câu hỏi: "Lấy gì? Từ đâu? Sắp xếp ra sao? Bao nhiêu dòng?"  
 
 ## Files thay đổi
-- ✏️ `src/data/curriculum/sqlLessons.ts` — viết lại 2 lessons: `sql-sub-1` và `sql-cte-1` (theory, theoryEn, code, exercise, exerciseEn, quiz).
+- ✏️ `src/data/curriculum/sqlLessons.ts` — rewrite 8 lessons (giữ nguyên structure, id, schema).
 
 ## Không đụng tới
-- `TheorySections.tsx`, `CodeBlock.tsx`, `ProgrammingLesson.tsx`, schema DB, types Supabase, các module SQL khác trong cùng file.
+- `TheorySections.tsx`, `CodeBlock.tsx`, `ProgrammingLesson.tsx`, schema DB, types Supabase.
+- `aiFoundationLessons.ts`, `mlLessons.ts`, `cloudLessons.ts`, `dataEngLessons.ts`, `programmingExpansion.ts`, `cloudExpansion.ts` (để dành cho đợt 2 & 3).
+- 2 lessons SQL đã rewrite (`sql-sub-1`, `sql-cte-1`) và 2 lessons SQL nâng cao ít người chạm (`sql-proc-1`, `sql-opt-1`, `sql-adv-1`).
 
