@@ -992,7 +992,7 @@ fields @timestamp, user_id, error
 - Use case: workload ổn định (DB, web prod)
 
 ## 3. Savings Plans (mới hơn RI, linh hoạt hơn)
-- Cam kết \\$X/giờ trong 1-3 năm → giảm **66%**
+- Cam kết \\\\$X/giờ trong 1-3 năm → giảm **66%**
 - **Compute Savings Plan**: áp dụng cho EC2, Fargate, Lambda
 - **EC2 Instance Savings Plan**: chỉ EC2, discount cao hơn
 - Tự động áp dụng, không cần đổi instance khi update
@@ -1005,17 +1005,17 @@ fields @timestamp, user_id, error
 
 ## 5. Free Tier
 - AWS: 12 tháng đầu free + always-free (Lambda 1M req/month)
-- Azure: \\$200 credit + always-free
-- GCP: \\$300 credit + always-free (e2-micro)
+- Azure: \\\\$200 credit + always-free
+- GCP: \\\\$300 credit + always-free (e2-micro)
 
 ## So sánh chi phí 1 web server m5.large/24h trong 1 năm
 | Mô hình | Giá/năm | Tiết kiệm |
 |---|---|---|
-| On-Demand | \\$840 | 0% |
-| RI 1 year (No Upfront) | \\$535 | 36% |
-| RI 3 year (All Upfront) | \\$310 | 63% |
-| Savings Plan 3 year | \\$340 | 60% |
-| Spot (avg) | \\$170 | 80% |
+| On-Demand | \\\\$840 | 0% |
+| RI 1 year (No Upfront) | \\\\$535 | 36% |
+| RI 3 year (All Upfront) | \\\\$310 | 63% |
+| Savings Plan 3 year | \\\\$340 | 60% |
+| Spot (avg) | \\\\$170 | 80% |
 
 ## Hidden costs (cạm bẫy)
 1. **Egress traffic** ($0.09/GB out to Internet) — backup ra ngoài cloud có thể tốn $$$
@@ -1035,7 +1035,7 @@ fields @timestamp, user_id, error
 ## Best practices (FinOps)
 1. **Tag mọi resource** (Environment, Team, Project) → chargeback
 2. **Review weekly Cost Explorer** — bất thường = báo động
-3. **Set budget alerts** — \\$500, \\$1000, \\$5000 thresholds
+3. **Set budget alerts** — \\\\$500, \\\\$1000, \\\\$5000 thresholds
 4. **Right-size monthly** — m5.xlarge dùng 30% CPU → đổi m5.large
 5. **Delete orphaned resources** — EBS, snapshot, ELB không dùng
 6. **Use S3 Intelligent-Tiering** — auto move cold data sang Glacier
@@ -1055,34 +1055,34 @@ Pay per hour/second, no commitment. **Most expensive** but flexible. Use: dev/te
 Commit 1-3 years → **40-72% off**. Standard (cheapest, locked instance type) vs Convertible (less discount, swappable).
 
 ## 3. Savings Plans
-Commit \\$X/hour for 1-3 years → **66% off**. More flexible than RI, applies to EC2/Fargate/Lambda.
+Commit \\\\$X/hour for 1-3 years → **66% off**. More flexible than RI, applies to EC2/Fargate/Lambda.
 
 ## 4. Spot Instances
 Buy spare AWS capacity → **70-90% off**. Can be reclaimed in 2 minutes. Use: batch, ML training, CI/CD.
 
 ## 5. Free Tier
-AWS 12 months + always-free; Azure \\$200; GCP \\$300.
+AWS 12 months + always-free; Azure \\\\$200; GCP \\\\$300.
 
 ## Cost comparison (m5.large 24/7 for 1 year)
 | Model | Cost | Savings |
 |---|---|---|
-| On-Demand | \\$840 | 0% |
-| RI 1y NoUpfront | \\$535 | 36% |
-| RI 3y AllUpfront | \\$310 | 63% |
-| Savings Plan 3y | \\$340 | 60% |
-| Spot (avg) | \\$170 | 80% |
+| On-Demand | \\\\$840 | 0% |
+| RI 1y NoUpfront | \\\\$535 | 36% |
+| RI 3y AllUpfront | \\\\$310 | 63% |
+| Savings Plan 3y | \\\\$340 | 60% |
+| Spot (avg) | \\\\$170 | 80% |
 
 ## Hidden costs (traps)
-1. Egress (\\$0.09/GB to Internet)
-2. NAT Gateway (\\$0.045/GB)
+1. Egress (\\\\$0.09/GB to Internet)
+2. NAT Gateway (\\\\$0.045/GB)
 3. Cross-AZ transfer
 4. CloudWatch logs
 5. Idle resources
 6. Unattached EBS volumes
 7. S3 cross-region replication
 
-## Pinterest case (\\$190M/year)
-80% RI/Savings, 15% Spot, 5% On-Demand. Dedicated FinOps team tracking \\$/MAU.
+## Pinterest case (\\\\$190M/year)
+80% RI/Savings, 15% Spot, 5% On-Demand. Dedicated FinOps team tracking \\\\$/MAU.
 
 ## FinOps best practices
 1. Tag everything for chargeback
@@ -1115,11 +1115,11 @@ AWS 12 months + always-free; Azure \\$200; GCP \\$300.
     print("-" * 50)
     for model, cost in models.items():
         savings = (1 - cost / on_demand) * 100
-        print(f"{model:<25} \\${cost:>8.2f}   {savings:>5.1f}%")
+        print(f"{model:<25} \\\\${cost:>8.2f}   {savings:>5.1f}%")
 
     return models
 
-# m5.large at \\$0.096/hour, 24/7
+# m5.large at \\\\$0.096/hour, 24/7
 cloud_cost_calculator(hours_per_month=730, instance_hourly=0.096)
 
 # Detect orphaned EBS volumes
@@ -1129,8 +1129,8 @@ ec2 = boto3.client('ec2')
 orphaned = ec2.describe_volumes(
     Filters=[{'Name': 'status', 'Values': ['available']}]   # available = unattached
 )
-total_waste = sum(v['Size'] * 0.10 for v in orphaned['Volumes'])  # gp3 = \\$0.10/GB/month
-print(f"\\nOrphaned EBS waste: \\${total_waste:.2f}/month")
+total_waste = sum(v['Size'] * 0.10 for v in orphaned['Volumes'])  # gp3 = \\\\$0.10/GB/month
+print(f"\\nOrphaned EBS waste: \\\\${total_waste:.2f}/month")
 
 # Set budget alert
 budgets = boto3.client('budgets')
@@ -1198,7 +1198,7 @@ budgets.create_budget(
 
 **Connectivity:**
 - **VPN** — qua Internet, encrypted, latency cao (50-200ms), rẻ
-- **Direct Connect** (AWS) / ExpressRoute (Azure) — leased line riêng, latency thấp (5-20ms), \\$\\$\\$
+- **Direct Connect** (AWS) / ExpressRoute (Azure) — leased line riêng, latency thấp (5-20ms), \\\\$\\\\$\\\\$
 - **SD-WAN** — phần mềm tự chọn route tốt nhất
 
 ## Hybrid patterns
@@ -1270,7 +1270,7 @@ budgets.create_budget(
 
 **Connectivity:**
 - VPN (Internet, encrypted, 50-200ms)
-- Direct Connect/ExpressRoute (leased line, 5-20ms, \\$\\$\\$)
+- Direct Connect/ExpressRoute (leased line, 5-20ms, \\\\$\\\\$\\\\$)
 - SD-WAN (smart routing)
 
 ## Hybrid patterns
@@ -1368,10 +1368,10 @@ for name, config in clusters:
 
 # Hybrid: hybrid Cloud Connect cost calculator
 def hybrid_connection_cost(monthly_gb: int):
-    vpn = monthly_gb * 0.05         # \\$0.05/GB internet egress
-    direct_connect = 250 + monthly_gb * 0.02   # \\$250/month port + \\$0.02/GB
-    print(f"VPN:            \\${vpn:.2f}/month")
-    print(f"Direct Connect: \\${direct_connect:.2f}/month")
+    vpn = monthly_gb * 0.05         # \\\\$0.05/GB internet egress
+    direct_connect = 250 + monthly_gb * 0.02   # \\\\$250/month port + \\\\$0.02/GB
+    print(f"VPN:            \\\\${vpn:.2f}/month")
+    print(f"Direct Connect: \\\\${direct_connect:.2f}/month")
     print(f"Break-even at: {(250 / 0.03):.0f} GB/month")
 
 hybrid_connection_cost(monthly_gb=15000)`,
@@ -1411,7 +1411,7 @@ hybrid_connection_cost(monthly_gb=15000)`,
 
 **Ưu điểm:**
 - **Zero ops** — không quản lý server, scaling, patching
-- **Pay-per-use** — không request = \\$0
+- **Pay-per-use** — không request = \\\\$0
 - **Auto-scale từ 0 đến 10,000 trong giây**
 - **Tích hợp event** — S3, DynamoDB streams, EventBridge
 
@@ -1420,7 +1420,7 @@ hybrid_connection_cost(monthly_gb=15000)`,
 - **Time limit**: Lambda max 15 phút
 - **Memory limit**: max 10GB
 - **Vendor lock-in cao** — code gắn với AWS/Azure
-- **Đắt khi traffic cao** — \\$\\$\\$ vượt EC2 sau ngưỡng
+- **Đắt khi traffic cao** — \\\\$\\\\$\\\\$ vượt EC2 sau ngưỡng
 
 ## Comparison matrix
 | Tiêu chí | Containers | Serverless |
@@ -1429,7 +1429,7 @@ hybrid_connection_cost(monthly_gb=15000)`,
 | Scaling | Cần cấu hình HPA | Tự động instant |
 | Cold start | 5-30s | 100ms-2s |
 | Max execution | Vô hạn | 15 phút (Lambda) |
-| Cost (low traffic) | Cao (cluster idle) | Gần \\$0 |
+| Cost (low traffic) | Cao (cluster idle) | Gần \\\\$0 |
 | Cost (high traffic) | Thấp | Cao |
 | State | Có (volume) | Stateless (cần ext DB) |
 | Languages | Mọi ngôn ngữ | Hạn chế (Python, Node, Java, Go, .NET, Ruby) |
@@ -1472,9 +1472,9 @@ Ví dụ:
 - Web app frontend → ALB → **EKS** containers (3-tier)
 
 ## Cost example: 1M requests/month, 200ms each
-- **Lambda 512MB**: \\$0.20 + \\$8.30 compute = **\\$8.50**
-- **Fargate 0.5 vCPU/1GB always-on**: **\\$30** (nhưng có 24/7 capacity)
-- **EC2 t3.micro 24/7**: **\\$7.50** (rẻ nhất nếu request liên tục)
+- **Lambda 512MB**: \\\\$0.20 + \\\\$8.30 compute = **\\\\$8.50**
+- **Fargate 0.5 vCPU/1GB always-on**: **\\\\$30** (nhưng có 24/7 capacity)
+- **EC2 t3.micro 24/7**: **\\\\$7.50** (rẻ nhất nếu request liên tục)
 
 → Lambda thắng cho traffic thấp; EC2 thắng cho traffic ổn định cao.
 
@@ -1526,9 +1526,9 @@ Serverless for ingestion + light APIs; Containers for heavy processing.
 Example: S3 upload → Lambda resize → DynamoDB. Web → ALB → EKS containers.
 
 ## Cost example (1M requests/month, 200ms)
-- Lambda 512MB: \\$8.50
-- Fargate always-on: \\$30
-- EC2 t3.micro 24/7: \\$7.50
+- Lambda 512MB: \\\\$8.50
+- Fargate always-on: \\\\$30
+- EC2 t3.micro 24/7: \\\\$7.50
 
 ## Best practices
 1. Start serverless (MVP)
@@ -1620,9 +1620,9 @@ def recommend_compute(req_per_month: int, avg_duration_ms: int):
         ('EC2',     ec2_cost),
     ], key=lambda x: x[1])
 
-    print(f"Cheapest: {options[0][0]} at \\${options[0][1]:.2f}/month")
+    print(f"Cheapest: {options[0][0]} at \\\\${options[0][1]:.2f}/month")
     for name, cost in options:
-        print(f"  {name}: \\${cost:.2f}")
+        print(f"  {name}: \\\\${cost:.2f}")
 
 recommend_compute(req_per_month=1_000_000, avg_duration_ms=200)`,
         codeLanguage: "python",
@@ -1656,37 +1656,37 @@ recommend_compute(req_per_month=1_000_000, avg_duration_ms=200)`,
 - Backup định kỳ sang region khác (S3, snapshots)
 - Khi disaster: restore từ backup (xây lại từ đầu)
 - **RPO**: hours | **RTO**: 24+ hours
-- **Cost**: \\$ (chỉ tốn storage)
+- **Cost**: \\\\$ (chỉ tốn storage)
 - **Use**: dev, internal tools, archive
 
 ### 2. Pilot Light
 - DR region chỉ chạy core (database replica, AMI sẵn sàng)
 - Compute tắt, chỉ bật khi cần
 - **RPO**: minutes | **RTO**: 10s of minutes
-- **Cost**: \\$\\$ (storage + DB)
+- **Cost**: \\\\$\\\\$ (storage + DB)
 - **Use**: SaaS B2B medium-tier
 
 ### 3. Warm Standby
 - DR region chạy phiên bản scaled-down của full stack
 - Khi disaster: scale up + DNS failover
 - **RPO**: seconds | **RTO**: minutes
-- **Cost**: \\$\\$\\$ (≈30-50% production)
+- **Cost**: \\\\$\\\\$\\\\$ (≈30-50% production)
 - **Use**: ngân hàng, e-commerce, healthcare
 
 ### 4. Multi-Site Active-Active (mạnh nhất)
 - Cả 2 region chạy production song song
 - Traffic split (DNS, GLB)
 - **RPO**: ~0 | **RTO**: ~0 (instant failover)
-- **Cost**: \\$\\$\\$\\$ (2x production)
+- **Cost**: \\\\$\\\\$\\\\$\\\\$ (2x production)
 - **Use**: trading, payment, mission-critical
 
 ## So sánh
 | Strategy | RTO | RPO | Cost | Complexity |
 |---|---|---|---|---|
-| Backup & Restore | Hours | Hours | \\$ | Low |
-| Pilot Light | 10s min | Minutes | \\$\\$ | Medium |
-| Warm Standby | Minutes | Seconds | \\$\\$\\$ | High |
-| Active-Active | ~0 | ~0 | \\$\\$\\$\\$ | Very high |
+| Backup & Restore | Hours | Hours | \\\\$ | Low |
+| Pilot Light | 10s min | Minutes | \\\\$\\\\$ | Medium |
+| Warm Standby | Minutes | Seconds | \\\\$\\\\$\\\\$ | High |
+| Active-Active | ~0 | ~0 | \\\\$\\\\$\\\\$\\\\$ | Very high |
 
 ## Failover process (Warm Standby ví dụ)
 1. **Detect**: monitoring báo region primary down (Route 53 health check)
@@ -1711,11 +1711,11 @@ recommend_compute(req_per_month=1_000_000, avg_duration_ms=200)`,
 
 ## Real-world failures
 - **AWS us-east-1 Dec 2021**: 7h downtime, ảnh hưởng Slack, Disney+, Robinhood (đa số single-region)
-- **Facebook Oct 2021**: BGP misconfig làm down 6h, mất \\$60M
+- **Facebook Oct 2021**: BGP misconfig làm down 6h, mất \\\\$60M
 - **GitLab Jan 2017**: human error xóa production DB, mất 6h dữ liệu (không có DR proper)
 
 ## Best practices
-1. **Định nghĩa RTO/RPO trên mỗi service** — không phải tất cả đều cần \\$\\$\\$\\$
+1. **Định nghĩa RTO/RPO trên mỗi service** — không phải tất cả đều cần \\\\$\\\\$\\\\$\\\\$
 2. **Test DR quarterly** — nếu không test = không có DR
 3. **Document runbook** — đầy đủ, ai cũng làm được
 4. **Multi-region cho tier-1** — không tin 1 region
@@ -1737,18 +1737,18 @@ recommend_compute(req_per_month=1_000_000, avg_duration_ms=200)`,
 ## 4 DR Strategies
 
 ### 1. Backup & Restore — cheapest
-- Periodic backups to other region. RTO: 24h+, RPO: hours. \\$ cost.
+- Periodic backups to other region. RTO: 24h+, RPO: hours. \\\\$ cost.
 - Use: dev, internal tools
 
 ### 2. Pilot Light
-- Core (DB replica) running, compute off until needed. RTO: 10s of min, RPO: minutes. \\$\\$.
+- Core (DB replica) running, compute off until needed. RTO: 10s of min, RPO: minutes. \\\\$\\\\$.
 
 ### 3. Warm Standby
-- Scaled-down full stack in DR region. RTO: minutes, RPO: seconds. \\$\\$\\$.
+- Scaled-down full stack in DR region. RTO: minutes, RPO: seconds. \\\\$\\\\$\\\\$.
 - Use: banking, healthcare
 
 ### 4. Multi-Site Active-Active
-- Both regions running production. RTO/RPO ~0. \\$\\$\\$\\$.
+- Both regions running production. RTO/RPO ~0. \\\\$\\\\$\\\\$\\\\$.
 - Use: trading, payments
 
 ## Failover process (Warm Standby)
@@ -1771,7 +1771,7 @@ Game Days. Netflix Chaos Monkey since 2010. Test quarterly minimum for tier-1.
 
 ## Real-world failures
 - AWS us-east-1 Dec 2021: 7h, took down Slack/Disney+/Robinhood
-- Facebook Oct 2021: BGP misconfig, 6h, \\$60M loss
+- Facebook Oct 2021: BGP misconfig, 6h, \\\\$60M loss
 - GitLab Jan 2017: deleted prod DB, 6h data loss
 
 ## Best practices
@@ -1902,8 +1902,8 @@ def calculate_dr_strategy_cost(production_cost: float, strategy: str) -> dict:
 print(calculate_dr_strategy_cost(10000, 'warm_standby'))
 # {'monthly_cost': 4000.0, 'rto': '5min', 'rpo': '30s'}`,
         codeLanguage: "python",
-        exercise: "A fintech app processes \\$5M/day in transactions. Recommend a DR strategy with specific RTO/RPO targets, estimated cost, and 3 mandatory tests.",
-        exerciseEn: "A fintech app processes \\$5M/day in transactions. Recommend a DR strategy with specific RTO/RPO targets, estimated cost, and 3 mandatory tests.",
+        exercise: "A fintech app processes \\\\$5M/day in transactions. Recommend a DR strategy with specific RTO/RPO targets, estimated cost, and 3 mandatory tests.",
+        exerciseEn: "A fintech app processes \\\\$5M/day in transactions. Recommend a DR strategy with specific RTO/RPO targets, estimated cost, and 3 mandatory tests.",
         quiz: [
           { question: "What does RTO measure?", options: ["Maximum data loss allowed", "Maximum downtime allowed", "Number of backups", "Server speed"], answer: 1, explanation: "RTO (Recovery Time Objective) is the maximum acceptable downtime before service is restored." },
           { question: "Cheapest DR strategy?", options: ["Active-Active", "Backup & Restore", "Warm Standby", "Pilot Light"], answer: 1, explanation: "Backup & Restore only pays for storage — no compute running idle. RTO is hours, not seconds." },
@@ -1979,11 +1979,11 @@ print(calculate_dr_strategy_cost(10000, 'warm_standby'))
 ## Cost analysis
 | Component | Single-region | Multi-region |
 |---|---|---|
-| Compute | \\$10k | \\$20k (2x) |
-| Database | \\$5k | \\$8k (replica overhead) |
-| Cross-region transfer | \\$0 | \\$2k (data sync egress) |
-| Operations | \\$5k | \\$15k (3x complexity) |
-| **Total** | **\\$20k** | **\\$45k** (2.25x) |
+| Compute | \\\\$10k | \\\\$20k (2x) |
+| Database | \\\\$5k | \\\\$8k (replica overhead) |
+| Cross-region transfer | \\\\$0 | \\\\$2k (data sync egress) |
+| Operations | \\\\$5k | \\\\$15k (3x complexity) |
+| **Total** | **\\\\$20k** | **\\\\$45k** (2.25x) |
 
 → Justify only when downtime cost > extra spend.
 
@@ -2046,7 +2046,7 @@ Global Load Balancers, CDN edges, cross-region peering.
 Active-active with idempotency keys, CockroachDB for payments, weekly Game Days, <30s failover.
 
 ## Cost
-Single-region \\$20k → multi-region \\$45k (2.25×). Justified only when downtime > extra cost.
+Single-region \\\\$20k → multi-region \\\\$45k (2.25×). Justified only when downtime > extra cost.
 
 ## Operational complexity
 - Coordinated deploys (canary per region)
