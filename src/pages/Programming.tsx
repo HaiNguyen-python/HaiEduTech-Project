@@ -17,8 +17,8 @@ import { Progress } from "@/components/ui/progress";
 const pillars = [
   {
     id: "python-pathway",
-    icon: Sparkles,
-    emoji: "🐍",
+    icon: Code2,
+    emoji: "💻",
     color: "from-fuchsia-500 to-purple-600",
     bgColor: "bg-fuchsia-500/8",
     borderColor: "border-fuchsia-500/20",
@@ -108,9 +108,9 @@ const Programming = () => {
     isPathway?: boolean;
   }> = {
     "python-pathway": {
-      title: "Python Pathway", titleEn: "Python Pathway",
-      desc: "Lộ trình Python từ Beginner → Mastery: 6 module, ~25 bài, có Pyodide playground chạy thật trong trình duyệt, quiz và badge 'Python Certified'.",
-      descEn: "Python from Beginner → Mastery: 6 modules, ~25 lessons, real in-browser Pyodide playground, quizzes, and 'Python Certified' badges.",
+      title: "Introduction to Programming", titleEn: "Introduction to Programming",
+      desc: "Lộ trình lập trình từ cơ bản đến nâng cao bằng Python: 6 module, ~47 bài, có Pyodide playground chạy thật trong trình duyệt, quiz và badge 'Programming Certified'.",
+      descEn: "Programming from Beginner → Mastery with Python: 6 modules, ~47 lessons, real in-browser Pyodide playground, quizzes, and 'Programming Certified' badges.",
       modules: [],
       isPathway: true,
     },
@@ -206,7 +206,7 @@ const Programming = () => {
                     {data.titleEn}
                   </h3>
                   <p className="text-[11px] text-muted-foreground line-clamp-2">
-                    {data.isPathway ? "6 modules · ~25 lessons · Pyodide" : `${data.modules.length} modules · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} lessons`}
+                    {data.isPathway ? "6 modules · ~47 lessons · Pyodide" : `${data.modules.length} modules · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} lessons`}
                   </p>
                   {isActive && (
                     <motion.div

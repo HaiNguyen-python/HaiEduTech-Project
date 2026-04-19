@@ -149,7 +149,7 @@ const Navbar = () => {
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/programming?pillar=python-pathway", label: t("🐍 Python Pathway", "🐍 Python Pathway") },
+    { to: "/programming?pillar=python-pathway", label: t("💻 Introduction to Programming", "💻 Introduction to Programming") },
     { to: "/python-challenges", label: t("🏆 150 Thử thách Python", "🏆 150 Python Challenges") },
     { to: "/programming/prog-ai-foundation", label: "🧠 AI Foundation" },
     { to: "/programming/prog-sql", label: "🗄️ SQL & Database" },

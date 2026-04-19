@@ -55,12 +55,12 @@ const PythonPathwayHub = () => {
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
             <h2 className="text-2xl font-display font-bold text-foreground mb-1">
-              🐍 Python Pathway: Beginner → Mastery
+              💻 Introduction to Programming: Beginner → Mastery
             </h2>
             <p className="text-sm text-muted-foreground max-w-2xl">
               {language === "vi"
-                ? "Lộ trình 6 module (~25 bài) chạy Python thật trong trình duyệt — quiz, dự án nhỏ, badge và AI giải thích code."
-                : "6 modules (~25 lessons) with real in-browser Python — quizzes, mini-projects, badges, and AI code explainer."}
+                ? "Lộ trình lập trình 6 module (~47 bài) bằng Python chạy thật trong trình duyệt — quiz, dự án nhỏ, badge và AI giải thích code."
+                : "Programming pathway with 6 modules (~47 lessons) running real Python in your browser — quizzes, mini-projects, badges, and AI code explainer."}
             </p>
           </div>
           <div className="text-right">

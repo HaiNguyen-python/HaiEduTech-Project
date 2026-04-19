@@ -48,7 +48,7 @@ export const pythonModules: PythonModule[] = [
     description: "Cài đặt môi trường, biến, kiểu dữ liệu, toán tử, nhập/xuất.",
     descriptionEn: "Setup, variables, data types, operators, input/output.",
     level: "Beginner",
-    emoji: "🐣",
+    emoji: "💻",
     color: "from-emerald-400 to-green-600",
   },
   {
