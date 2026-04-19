@@ -27,12 +27,13 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
 
   const fetchLeaderboard = async () => {
     try {
+      // Fetch a wider window so dedup-by-user still yields up to 10 distinct players
       const { data } = await (supabase as any)
         .from("game_scores")
         .select("user_id, score, max_streak, created_at")
         .eq("game_type", gameType)
         .order("score", { ascending: false })
-        .limit(10);
+        .limit(500);
 
       if (data) {
         // Fetch display names for unique user IDs
