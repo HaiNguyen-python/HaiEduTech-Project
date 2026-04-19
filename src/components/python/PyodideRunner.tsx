@@ -6,7 +6,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 declare global {
   interface Window {
-    loadPyodide?: (config: { indexURL: string }) => Promise<PyodideAPI>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    loadPyodide?: any;
     __haiPyodide?: PyodideAPI;
     __haiPyodidePromise?: Promise<PyodideAPI>;
   }
