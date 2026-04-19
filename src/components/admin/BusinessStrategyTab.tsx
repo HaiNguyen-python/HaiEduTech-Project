@@ -22,6 +22,7 @@ import {
   getRecruitmentRecommendation, formatVnd,
 } from "@/data/marketIntelligenceData";
 import { exportStrategyToPdf, exportStrategyToExcel } from "@/lib/strategyExport";
+import AiStrategyOptimizer from "./AiStrategyOptimizer";
 
 interface AiInsight {
   expansionOpportunity?: { title: string; rationale: string; estimatedRevenue: string };
@@ -483,6 +484,11 @@ export default function BusinessStrategyTab() {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Strategy Optimizer — Perplexity-powered consultant */}
+      <AiStrategyOptimizer
+        metrics={{ studentCounts, revenueByCategory }}
+      />
     </div>
   );
 }
