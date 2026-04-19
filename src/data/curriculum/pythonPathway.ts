@@ -96,7 +96,7 @@ export const pythonModules: PythonModule[] = [
     color: "from-rose-400 to-pink-600",
   },
   {
-    id: "m6-realworld",
+    id: "m6-mastery",
     order: 6,
     title: "Module 6 — Ứng dụng thực tế",
     titleEn: "Module 6 — Real-world Applications",
