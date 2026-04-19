@@ -88,6 +88,7 @@ const PteReading = lazy(() => import("./pages/PteReading.tsx"));
 const PteListening = lazy(() => import("./pages/PteListening.tsx"));
 const PtePlaceholder = lazy(() => import("./pages/PtePlaceholder.tsx"));
 const PteVocabulary = lazy(() => import("./pages/PteVocabulary.tsx"));
+const PythonLessonView = lazy(() => import("./pages/PythonLessonView.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -132,6 +133,7 @@ const App = () => (
             <Route path="/chinese/learn/:moduleId/:lessonId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
             <Route path="/programming" element={<LazyRoute><Programming /></LazyRoute>} />
             <Route path="/programming/:moduleId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
+            <Route path="/programming/python/:lessonId" element={<LazyRoute><PythonLessonView /></LazyRoute>} />
             <Route path="/programming/:moduleId/:lessonId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
             <Route path="/ai-grading" element={<LazyRoute><AIGrading /></LazyRoute>} />
             <Route path="/ielts-writing-practice" element={<LazyRoute><IeltsWritingPractice /></LazyRoute>} />
