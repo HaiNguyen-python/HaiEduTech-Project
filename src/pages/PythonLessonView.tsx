@@ -10,6 +10,7 @@ import {
   ArrowLeft, ChevronLeft, ChevronRight, Trophy, AlertTriangle, Wrench, Sparkles, Target,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import confetti from "canvas-confetti";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -188,8 +189,10 @@ const PythonLessonView = () => {
                   <Sparkles className="w-4 h-4 text-blue-600" />
                   📘 {language === "vi" ? "Hiểu khái niệm" : "Understand the concept"}
                 </h2>
-                <div className="prose prose-sm sm:prose-base max-w-none dark:prose-invert leading-relaxed">
-                  <ReactMarkdown>{language === "vi" ? lesson.concept : lesson.conceptEn}</ReactMarkdown>
+                <div className="prose prose-sm sm:prose-base max-w-none dark:prose-invert leading-relaxed [&>*]:my-4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&>p]:my-4 [&>ol]:my-4 [&>ul]:my-4 [&>pre]:my-4 [&>table]:my-4 [&_strong]:text-foreground [&_strong]:font-bold [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:bg-blue-500/10 [&_code]:text-blue-700 dark:[&_code]:text-blue-300 [&_code]:before:content-none [&_code]:after:content-none [&_pre_code]:bg-transparent [&_pre_code]:text-inherit [&_pre]:rounded-lg [&_th]:bg-blue-500/10 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_li]:my-1 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {language === "vi" ? lesson.concept : lesson.conceptEn}
+                  </ReactMarkdown>
                 </div>
               </motion.div>
 
@@ -201,12 +204,14 @@ const PythonLessonView = () => {
                 className="p-5 rounded-2xl border-l-4 border-red-500 border-y border-r border-red-500/20 bg-red-500/5"
               >
                 <StepBadge n={2} label={language === "vi" ? "Cạm bẫy" : "Pitfalls"} color="bg-gradient-to-br from-red-500 to-rose-600" />
-                <h3 className="font-bold text-foreground text-sm mb-2 flex items-center gap-2">
+                <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-red-600" />
                   ⚠️ {language === "vi" ? "Cạm bẫy thường gặp" : "Common pitfalls"}
                 </h3>
-                <div className="text-sm text-foreground/85 whitespace-pre-line leading-relaxed">
-                  {language === "vi" ? lesson.pitfalls : lesson.pitfallsEn}
+                <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-2 prose-strong:text-foreground prose-strong:font-bold prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:bg-red-500/10 prose-code:before:content-none prose-code:after:content-none text-foreground/90 leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {(language === "vi" ? lesson.pitfalls : lesson.pitfallsEn).replace(/\n(?!\n)/g, "\n\n")}
+                  </ReactMarkdown>
                 </div>
               </motion.div>
 
@@ -218,13 +223,15 @@ const PythonLessonView = () => {
                 className="p-5 rounded-2xl border-l-4 border-emerald-500 border-y border-r border-emerald-500/20 bg-emerald-500/5"
               >
                 <StepBadge n={3} label={language === "vi" ? "Thực hành" : "Practice"} color="bg-gradient-to-br from-emerald-500 to-green-600" />
-                <h3 className="font-bold text-foreground text-sm mb-2 flex items-center gap-2">
+                <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                   <Wrench className="w-4 h-4 text-emerald-600" />
                   🛠️ {language === "vi" ? "Bài tập thực hành" : "Practice task"}
                 </h3>
-                <p className="text-sm text-foreground/85 leading-relaxed">
-                  {language === "vi" ? lesson.practiceTask : lesson.practiceTaskEn}
-                </p>
+                <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-2 prose-strong:text-foreground prose-strong:font-bold prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:bg-emerald-500/10 prose-code:before:content-none prose-code:after:content-none text-foreground/90 leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {(language === "vi" ? lesson.practiceTask : lesson.practiceTaskEn).replace(/\n(?!\n)/g, "\n\n")}
+                  </ReactMarkdown>
+                </div>
               </motion.div>
             </div>
 
