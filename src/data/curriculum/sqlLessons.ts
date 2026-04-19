@@ -920,188 +920,259 @@ WHERE o.id IS NULL;`,
         titleEn: "Basic Subqueries",
         level: 3,
         difficulty: "intermediate",
-        theory: `A **subquery** is a query embedded inside another query. Used well, it expresses logic that is awkward or impossible with JOINs alone. Used poorly, it is the cause of mysterious 30× slowdowns. The senior-engineer skill is knowing when to use a subquery, when to convert it to a JOIN, and when to refactor it into a CTE.
+        theory: `**Subquery** (truy vấn con) đơn giản là **một câu SELECT đặt bên trong một câu SELECT khác**. Bài này mình sẽ học theo cách dễ nhất: bắt đầu từ một câu hỏi đời thường, rồi từ từ thêm chi tiết.
 
-## Why this matters
+## 1. Subquery là gì? (Câu chuyện 30 giây)
 
-Subqueries crop up the moment you need to filter by an aggregate ("orders larger than the average") or check existence ("customers who have never ordered"). They are also one of the most-asked SQL interview topics — every senior data engineer should be able to write *and* explain the four flavors below in their sleep.
+Giả sử thầy Hải hỏi: *"Tìm những học viên có điểm cao hơn **điểm trung bình của lớp**."*
 
-## Three placement patterns
-
-| Where | Behavior | Example |
-|---|---|---|
-| **In WHERE** | Filter using a derived value/list | \`WHERE amount > (SELECT AVG(amount) FROM orders)\` |
-| **In FROM** (a.k.a. derived table) | Treat the subquery as a temporary table | \`FROM (SELECT … ) AS sub\` |
-| **In SELECT** (scalar) | One value per outer row | \`SELECT id, (SELECT name FROM …) AS x FROM orders\` |
-
-A FROM-subquery **must be aliased** in Postgres / MySQL (\`… ) AS sub\`).
-
-## Scalar vs multi-row vs multi-column
-
-- **Scalar**: returns one row, one column. Usable anywhere a single value is. \`amount > (SELECT AVG(amount) …)\`
-- **Multi-row, one column**: usable with \`IN\`, \`ANY\`, \`ALL\`. \`WHERE id IN (SELECT order_id FROM …)\`
-- **Multi-row, multi-column**: usable in FROM as a derived table.
-
-If a "scalar" subquery accidentally returns more than one row, the database raises an error at runtime — be defensive: aggregate or LIMIT to guarantee one.
-
-## Correlated vs non-correlated
-
-A **non-correlated** subquery runs **once**:
+Nếu **không có subquery**, bạn phải làm 2 bước riêng:
 
 \`\`\`sql
-SELECT * FROM orders
-WHERE amount > (SELECT AVG(amount) FROM orders);
+-- Bước 1: Chạy câu này, ghi nhớ kết quả (giả sử là 7.5)
+SELECT AVG(score) FROM students;
+
+-- Bước 2: Gõ lại con số 7.5 vào câu thứ hai
+SELECT name FROM students WHERE score > 7.5;
 \`\`\`
 
-A **correlated** subquery references a column from the outer query and runs **once per outer row**:
+→ Tốn công, dễ sai khi điểm trung bình thay đổi.
+
+Với **subquery**, bạn nhét luôn câu 1 vào trong câu 2:
 
 \`\`\`sql
-SELECT o.*
-FROM orders o
-WHERE amount > (
-  SELECT AVG(amount) FROM orders o2 WHERE o2.customer_id = o.customer_id
-);
-\`\`\`
-
-Correlated subqueries are powerful but can be devastating for performance — they are essentially nested loops. Modern optimizers (Postgres ≥ 13, Snowflake, BigQuery) often rewrite simple correlated forms into JOIN+GROUP BY automatically, but **don't rely on it for complex cases**.
-
-## EXISTS vs IN — pick the right one
-
-\`\`\`sql
--- "Customers who have ever ordered"
-SELECT * FROM customers c
-WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);
-
--- Same intent
-SELECT * FROM customers c
-WHERE c.id IN (SELECT customer_id FROM orders);
-\`\`\`
-
-| Aspect | EXISTS | IN |
-|---|---|---|
-| Stops at first match? | ✅ Yes | ❌ Builds full list |
-| NULL handling | Safe | Tricky — \`NOT IN (… NULL …)\` returns nothing! |
-| Performance on large lists | Often better | Can blow up |
-
-The infamous **\`NOT IN\` with NULL** trap: if the subquery returns even one NULL, \`NOT IN\` returns *no* rows at all (because \`x <> NULL\` is "unknown"). **Always prefer \`NOT EXISTS\`** for "find rows that don't have a match."
-
-## Comparison: subquery vs JOIN vs CTE
-
-| Need | Best fit |
-|---|---|
-| Filter by an aggregate of the same table | Subquery in WHERE |
-| Find existence in another table | EXISTS |
-| Find orphans | LEFT JOIN + IS NULL or NOT EXISTS |
-| Re-use the same derived set multiple times | **CTE** (next lesson) |
-| Read complex multi-step logic | **CTE** |
-
-The 2024 rule of thumb: prefer **CTEs over deeply-nested subqueries** for readability. They compile to the same plan in modern engines.
-
-## Case study — the 30× slowdown that wasn't
-
-A junior wrote a "find customers above their region's average order" query as a correlated scalar subquery. On 5 M rows it took 4 minutes. Senior reviewer rewrote it as a window function: \`AVG(amount) OVER (PARTITION BY region)\`. New runtime: 8 seconds (30× faster). Both queries are correct; the rewrite let the engine use a single hash aggregate instead of nested loops. **Knowing when to escape a subquery is half the skill.**
-
-## Case study — the NOT IN nightmare
-
-A reporting query said "give me customers not in our churn list." Worked perfectly in dev (no NULLs in the churn list). After a data refresh, one row in the churn list had a NULL customer_id. \`NOT IN\` started returning **zero customers**. The "we lost all our active accounts" alarm went off. Fix: replaced \`NOT IN\` with \`NOT EXISTS\`, which handles NULL cleanly. Now in the team's lint rules.
-
-## Best practices
-
-- **Default to CTEs** for multi-step logic; reserve subqueries for one-line filters.
-- Use **EXISTS, not IN**, for "is there any match" patterns.
-- Use **NOT EXISTS, not NOT IN**, when nullable columns are involved.
-- For "compare each row to the group's aggregate," prefer **window functions** over correlated subqueries.
-- Always **alias derived tables** explicitly (Postgres demands it).
-- Run \`EXPLAIN ANALYZE\` whenever a subquery feels slow — the plan will tell you whether the optimizer was able to flatten it.
-
-## Anti-patterns & next lesson
-
-Avoid: \`NOT IN\` on nullable subqueries; correlated scalar subqueries in SELECT lists when a window function would do; deeply nested 4+ level subqueries (refactor to CTEs); putting business logic in scalar subqueries that hides it from review.
-
-Next: **Common Table Expressions (CTEs)** — the modern, readable way to express what most subqueries try to do.`,
-        theoryEn: `A **subquery** is a query inside another. Used well, expresses logic JOINs can't. Used poorly, causes 30× slowdowns.
-
-## Why this matters
-
-You'll need them for "filter by aggregate," "find non-existence," and they're a top SQL interview topic.
-
-## Three placements
-
-| Where | Example |
-|---|---|
-| WHERE | \`WHERE amount > (SELECT AVG…)\` |
-| FROM (derived table) | \`FROM (SELECT … ) AS sub\` (must alias) |
-| SELECT (scalar) | One value per outer row |
-
-## Scalar / multi-row / multi-column
-
-Scalar must return exactly one row + col, or runtime error. Multi-row → \`IN\` / \`ANY\` / \`ALL\`. Multi-row+col → derived table.
-
-## Correlated vs non-correlated
-
-Non-correlated runs once. Correlated references the outer row → runs per outer row → potential disaster. Modern optimizers flatten simple cases.
-
-## EXISTS vs IN
-
-| Aspect | EXISTS | IN |
-|---|---|---|
-| Short-circuit | Yes | No |
-| NULL safety | Safe | \`NOT IN\` with NULL → 0 rows! |
-| Large lists | Often better | Can blow up |
-
-Always prefer \`NOT EXISTS\` over \`NOT IN\`.
-
-## Subquery vs JOIN vs CTE
-
-Reuse → CTE; existence → EXISTS; orphan → LEFT+NULL or NOT EXISTS; multi-step → CTE.
-
-## Case study — 30× slowdown
-
-Correlated subquery on 5M rows → 4 minutes. Rewrote as \`AVG(...) OVER (PARTITION BY region)\` → 8 seconds.
-
-## Case study — \`NOT IN\` NULL nightmare
-
-A NULL in the churn list made \`NOT IN\` return zero customers. Switched to \`NOT EXISTS\` → fixed + linted.
-
-## Best practices
-
-Default to CTEs; EXISTS over IN; NOT EXISTS over NOT IN; window functions over correlated; alias derived tables; \`EXPLAIN ANALYZE\` when slow.
-
-## Anti-patterns & next
-
-Avoid \`NOT IN\` on nullables, deep nesting, hidden business logic in scalars. Next: **CTEs**.`,
-        code: `-- Students older than average
-SELECT name, age FROM students
-WHERE age > (SELECT AVG(age) FROM students);
-
--- Students with highest order
 SELECT name FROM students
-WHERE id = (
-  SELECT student_id FROM orders
-  ORDER BY amount DESC LIMIT 1
-);
+WHERE score > (SELECT AVG(score) FROM students);
+\`\`\`
 
--- EXISTS: students who placed orders
-SELECT s.name FROM students s
-WHERE EXISTS (
-  SELECT 1 FROM orders o
-  WHERE o.student_id = s.id
-);
+Database tự chạy phần trong ngoặc trước, lấy kết quả (7.5), rồi mới chạy phần ngoài. Một câu, một lần Enter, luôn đúng.
 
--- Derived table
-SELECT city_stats.city, city_stats.avg_age
+## 2. Cú pháp tối thiểu (xem 1 lần là nhớ)
+
+\`\`\`sql
+SELECT name                                    -- ① Chọn cột muốn xem
+FROM students                                  -- ② Từ bảng students
+WHERE score > (                                -- ③ Lọc: điểm lớn hơn...
+  SELECT AVG(score) FROM students              -- ④ ...kết quả của câu CON này
+);                                             -- ⑤ Đóng ngoặc đơn của subquery
+\`\`\`
+
+Quy tắc duy nhất cần nhớ: **subquery luôn nằm trong cặp ngoặc đơn \`( ... )\`**.
+
+## 3. Ba vị trí đặt subquery
+
+| Vị trí | Tác dụng | Ví dụ ngắn |
+|---|---|---|
+| **Trong WHERE** | Lọc theo một giá trị tính ra được | \`WHERE age > (SELECT AVG(age) FROM students)\` |
+| **Trong FROM** | Coi subquery như một **bảng tạm** | \`FROM (SELECT city, COUNT(*) AS n FROM students GROUP BY city) AS t\` |
+| **Trong SELECT** | Lấy **1 giá trị** kèm theo từng dòng | \`SELECT name, (SELECT COUNT(*) FROM orders WHERE student_id = s.id) AS so_don FROM students s\` |
+
+⚠️ Khi đặt trong FROM, bắt buộc phải đặt **alias** (tên bí danh) cho bảng tạm — ví dụ \`AS t\`. Quên alias là Postgres / MySQL báo lỗi ngay.
+
+## 4. Subquery trả về gì? (1 ô, 1 cột, hay cả bảng)
+
+Tùy subquery trả ra bao nhiêu dòng/cột mà cách dùng khác nhau:
+
+**(a) Trả về 1 ô** (1 dòng, 1 cột) — gọi là *scalar*. Dùng được với \`=\`, \`>\`, \`<\`:
+
+\`\`\`sql
+SELECT name FROM students
+WHERE score > (SELECT AVG(score) FROM students);  -- AVG trả 1 ô
+\`\`\`
+
+**(b) Trả về 1 cột nhiều dòng** — dùng với \`IN\`:
+
+\`\`\`sql
+SELECT name FROM students
+WHERE id IN (SELECT student_id FROM orders);      -- Danh sách id đã đặt hàng
+\`\`\`
+
+**(c) Trả về cả bảng** (nhiều cột, nhiều dòng) — đặt trong FROM:
+
+\`\`\`sql
+SELECT t.city, t.so_hoc_vien
 FROM (
-  SELECT age, COUNT(*) as cnt FROM students GROUP BY age
-) AS city_stats;`,
+  SELECT city, COUNT(*) AS so_hoc_vien
+  FROM students GROUP BY city
+) AS t
+WHERE t.so_hoc_vien > 10;
+\`\`\`
+
+💡 Nếu một subquery scalar (mong chờ 1 ô) lỡ trả về 2 dòng → database báo lỗi runtime. Cách phòng tránh: dùng \`MAX\`, \`MIN\`, \`AVG\` hoặc thêm \`LIMIT 1\`.
+
+## 5. \`IN\` vs \`EXISTS\` — chọn cái nào?
+
+Hai câu dưới đây cho **kết quả giống hệt nhau**: "Lấy danh sách học viên đã từng đặt đơn hàng".
+
+\`\`\`sql
+-- Cách 1: dùng IN
+SELECT name FROM students
+WHERE id IN (SELECT student_id FROM orders);
+
+-- Cách 2: dùng EXISTS
+SELECT name FROM students s
+WHERE EXISTS (
+  SELECT 1 FROM orders o WHERE o.student_id = s.id
+);
+\`\`\`
+
+So sánh đời thường: **EXISTS** giống như mở cửa phòng hỏi *"có ai trong đây không?"* — thấy 1 người là đóng cửa, đi tiếp. **IN** giống như đếm hết tất cả mọi người trong phòng rồi mới trả lời.
+
+| Tiêu chí | EXISTS | IN |
+|---|---|---|
+| Thấy 1 dòng khớp là dừng | ✅ Có | ❌ Không, phải duyệt hết |
+| An toàn khi có NULL | ✅ Có | ⚠️ Bẫy NULL với \`NOT IN\` |
+| Khi danh sách lớn | Thường nhanh hơn | Có thể rất chậm |
+
+## 6. Bẫy \`NOT IN\` với NULL (cực kỳ quan trọng)
+
+Tình huống thực tế: bảng \`churn_list\` lưu các học viên đã nghỉ học. Bạn muốn lấy *học viên còn đang học*:
+
+\`\`\`sql
+SELECT name FROM students
+WHERE id NOT IN (SELECT student_id FROM churn_list);
+\`\`\`
+
+Hôm trước chạy ra **500 học viên** — đúng. Hôm nay sau khi cập nhật dữ liệu, có **1 dòng** trong \`churn_list\` bị NULL ở cột \`student_id\`. Câu trên đột nhiên trả về **0 dòng** — báo cáo trống trơn!
+
+**Lý do:** trong SQL, \`x <> NULL\` không phải là \`true\` mà là *unknown* (không biết). Một khi danh sách có NULL, \`NOT IN\` luôn coi là *unknown* nên loại hết.
+
+✅ **Quy tắc vàng:** Nếu cột trong subquery có thể chứa NULL → **dùng \`NOT EXISTS\`** thay vì \`NOT IN\`:
+
+\`\`\`sql
+SELECT name FROM students s
+WHERE NOT EXISTS (
+  SELECT 1 FROM churn_list c WHERE c.student_id = s.id
+);
+\`\`\`
+
+## 7. Correlated subquery — khi subquery "nhìn ra ngoài"
+
+Bình thường subquery chạy **1 lần duy nhất** (gọi là *non-correlated* — độc lập):
+
+\`\`\`sql
+SELECT name FROM students
+WHERE score > (SELECT AVG(score) FROM students);  -- chạy 1 lần
+\`\`\`
+
+Nhưng nếu subquery **tham chiếu cột của bảng ngoài**, nó trở thành *correlated* (truy vấn con phụ thuộc) — và database phải **chạy lại cho TỪNG dòng** của bảng ngoài:
+
+\`\`\`sql
+SELECT s.name FROM students s
+WHERE s.score > (
+  SELECT AVG(score) FROM students s2
+  WHERE s2.class_id = s.class_id   -- ← nhìn ra ngoài (s.class_id)
+);
+\`\`\`
+
+Câu này nghĩa là *"học viên có điểm cao hơn trung bình của **lớp mình**"*. Với 100 học viên thì subquery chạy 100 lần, với 1 triệu dòng thì chạy 1 triệu lần → **rất chậm**.
+
+⚠️ Khi nào nghi ngờ chậm: chạy \`EXPLAIN ANALYZE\` để xem kế hoạch thực thi. Phần nhiều trường hợp nên thay bằng **window function** (sẽ học sau) hoặc **JOIN + GROUP BY**.
+
+## 8. Tổng kết & checklist khi viết subquery
+
+- 🔹 Subquery **luôn nằm trong \`( ... )\`** — nhớ ngoặc đơn.
+- 🔹 Subquery trong **FROM** phải có **alias** (\`AS t\`).
+- 🔹 Mong chờ 1 ô → đảm bảo subquery dùng \`MAX/MIN/AVG\` hoặc \`LIMIT 1\`.
+- 🔹 "Có tồn tại / không tồn tại" → ưu tiên **\`EXISTS\` / \`NOT EXISTS\`**, đừng dùng \`IN/NOT IN\` khi cột có thể NULL.
+- 🔹 Subquery tham chiếu bảng ngoài (correlated) → cẩn thận hiệu năng với dữ liệu lớn.
+
+Bài tiếp theo: **CTE (\`WITH ... AS\`)** — cách viết subquery dài thành các bước có tên, dễ đọc hơn nhiều.`,
+        theoryEn: `A **subquery** is a SELECT inside another SELECT. Best learned from a real question, not a textbook definition.
+
+## 1. The 30-second story
+
+Question: *"Find students whose score is above the class average."* Without a subquery you'd run two queries and copy a number between them. With a subquery, you nest them:
+
+\`\`\`sql
+SELECT name FROM students
+WHERE score > (SELECT AVG(score) FROM students);
+\`\`\`
+
+The DB runs the inner SELECT first, then plugs the result into the outer one.
+
+## 2. Minimum syntax
+
+A subquery is **always wrapped in \`( ... )\`**. That's the only hard rule.
+
+## 3. Three placements
+
+| Placement | Purpose | Mini example |
+|---|---|---|
+| WHERE | Filter by a computed value | \`WHERE age > (SELECT AVG(age) ...)\` |
+| FROM (derived table) | Use as a temporary table — **must be aliased** | \`FROM (SELECT ...) AS t\` |
+| SELECT (scalar) | Attach one value per outer row | \`SELECT name, (SELECT COUNT(*) FROM ...) AS n\` |
+
+## 4. What does the subquery return?
+
+- **Scalar** (1 row, 1 col) → use with \`=\`, \`>\`, \`<\`. If it accidentally returns >1 row, runtime error.
+- **One column, many rows** → use with \`IN\`.
+- **Multiple cols/rows (a table)** → only valid in FROM.
+
+## 5. IN vs EXISTS
+
+EXISTS short-circuits at the first match (like asking *"is anyone in the room?"*). IN must collect every value first.
+
+| | EXISTS | IN |
+|---|---|---|
+| Stops at first match | ✅ | ❌ |
+| NULL-safe | ✅ | ⚠️ \`NOT IN\` is dangerous |
+
+## 6. The \`NOT IN\` + NULL trap
+
+If the inner result contains a single NULL, \`NOT IN\` returns **zero rows** because \`x <> NULL\` is *unknown*, not *true*. **Rule:** if the column may be NULL, use \`NOT EXISTS\`.
+
+## 7. Correlated subqueries
+
+A non-correlated subquery runs **once**. A *correlated* subquery references a column from the outer query and runs **once per outer row** — fine on small data, deadly on large data. Often rewritable as a JOIN + GROUP BY or a window function.
+
+## 8. Checklist
+
+- Always wrap in \`( ... )\`
+- Alias FROM-subqueries
+- Guarantee a single value for scalar subqueries (\`MAX\`, \`LIMIT 1\`)
+- Prefer \`EXISTS\` / \`NOT EXISTS\` over \`IN\` / \`NOT IN\` when NULLs are possible
+- Watch performance on correlated subqueries
+
+Next: **CTEs (\`WITH\`)** — the readable cousin of subqueries.`,
+        code: `-- VÍ DỤ 1: Tìm học viên có điểm cao hơn trung bình lớp
+-- (subquery scalar trong WHERE — chạy 1 lần)
+SELECT name, score
+FROM students
+WHERE score > (SELECT AVG(score) FROM students);
+
+-- VÍ DỤ 2: Lấy tên học viên đã từng đặt đơn hàng
+-- (subquery trả 1 cột nhiều dòng → dùng IN)
+SELECT name
+FROM students
+WHERE id IN (SELECT student_id FROM orders);
+
+-- VÍ DỤ 3: Cách an toàn cho "chưa từng đặt đơn"
+-- (dùng NOT EXISTS để tránh bẫy NULL)
+SELECT s.name
+FROM students s
+WHERE NOT EXISTS (
+  SELECT 1 FROM orders o WHERE o.student_id = s.id
+);
+
+-- VÍ DỤ 4: Subquery trong FROM (bảng tạm)
+-- Đếm số học viên theo thành phố, lọc thành phố > 5 người
+SELECT t.city, t.so_hoc_vien
+FROM (
+  SELECT city, COUNT(*) AS so_hoc_vien
+  FROM students
+  GROUP BY city
+) AS t
+WHERE t.so_hoc_vien > 5;`,
         codeLanguage: "sql",
-        exercise: "Find students whose total order amount is above the average total order amount across all students.",
-        exerciseEn: "Find students whose total order amount is above the average total order amount across all students.",
+        exercise: "Tìm những học viên có **tổng giá trị đơn hàng** lớn hơn **trung bình tổng giá trị đơn hàng của tất cả học viên**. Gợi ý: dùng GROUP BY trong subquery để tính tổng theo từng học viên, rồi so sánh với AVG của các tổng đó.",
+        exerciseEn: "Find students whose **total order amount** is greater than the **average of all students' total order amounts**. Hint: use GROUP BY inside a subquery to compute totals per student, then compare with the AVG of those totals.",
         quiz: [
-          { question: "How is a correlated subquery different from a regular subquery?", options: ["It is faster", "It references the outer query and runs per row", "It can only be used in SELECT", "No difference"], answer: 1, explanation: "A correlated subquery references columns from the outer query and executes once for each row of the outer query." },
-          { question: "When is EXISTS better than IN?", options: ["Always", "When the subquery returns a large result set", "Never", "Only with NULLs"], answer: 1, explanation: "EXISTS stops at the first match and doesn't need to build the full result set, making it faster for large subqueries." },
-          { question: "What does a scalar subquery return?", options: ["Multiple rows", "A single value (one row, one column)", "A table", "Nothing"], answer: 1, explanation: "A scalar subquery returns exactly one value — one row and one column. Used with =, >, <, etc." },
-          { question: "Why must derived tables have an alias?", options: ["For performance", "SQL syntax requires a name to reference the temporary result", "It's optional", "Only in PostgreSQL"], answer: 1, explanation: "SQL requires an alias for derived tables so you can reference their columns in the outer query." },
-          { question: "What is the risk of correlated subqueries?", options: ["They return wrong results", "They execute per row of the outer query, causing O(n²) performance", "They lock the database", "No risk"], answer: 1, explanation: "Correlated subqueries run once per outer row. With 1M rows, that is 1M sub-executions — very slow without optimization." }
+          { question: "Câu hỏi: \"Subquery thông thường\" và \"correlated subquery\" khác nhau ở điểm gì?", options: ["Correlated chạy nhanh hơn", "Correlated tham chiếu cột của bảng ngoài và chạy lại cho từng dòng của bảng ngoài", "Correlated chỉ dùng trong SELECT", "Không khác gì cả"], answer: 1, explanation: "Correlated subquery có một cột trong subquery trỏ ra bảng ngoài, vì vậy nó chạy 1 lần cho MỖI dòng của bảng ngoài — chậm hơn rất nhiều khi dữ liệu lớn." },
+          { question: "Khi nào nên dùng EXISTS thay vì IN?", options: ["Lúc nào cũng nên dùng", "Khi subquery có thể trả về nhiều dòng / có thể chứa NULL", "Không bao giờ", "Chỉ khi không có NULL"], answer: 1, explanation: "EXISTS dừng ngay khi tìm thấy 1 dòng khớp và xử lý NULL an toàn. IN phải thu thập toàn bộ danh sách và bị bẫy NULL với NOT IN." },
+          { question: "Một subquery scalar trả về cái gì?", options: ["Nhiều dòng", "Đúng 1 ô (1 dòng, 1 cột)", "Cả 1 bảng", "Không trả về gì"], answer: 1, explanation: "Subquery scalar trả về đúng 1 ô — vì vậy mới dùng được với các phép so sánh =, >, <. Nếu nó lỡ trả 2 dòng → database báo lỗi runtime." },
+          { question: "Vì sao subquery trong FROM bắt buộc phải có alias (ví dụ \`AS t\`)?", options: ["Để chạy nhanh hơn", "Vì câu SQL bên ngoài cần một cái tên để tham chiếu cột của bảng tạm", "Đó là tùy chọn", "Chỉ PostgreSQL bắt buộc"], answer: 1, explanation: "Bảng tạm sinh ra từ subquery cần một cái tên để câu SELECT bên ngoài có thể gọi cột (ví dụ t.city). Postgres / MySQL đều báo lỗi nếu thiếu alias." },
+          { question: "Vì sao nên ưu tiên \`NOT EXISTS\` thay cho \`NOT IN\`?", options: ["NOT EXISTS chạy nhanh hơn luôn luôn", "Nếu danh sách trong subquery có 1 giá trị NULL, NOT IN sẽ trả về 0 dòng — lỗi nguy hiểm thầm lặng", "NOT IN không tồn tại trong SQL", "Không có lý do"], answer: 1, explanation: "Trong SQL, x <> NULL không phải true mà là unknown. Vì vậy chỉ cần 1 NULL trong danh sách là NOT IN trả 0 dòng. NOT EXISTS xử lý NULL an toàn." }
         ]
       }
     ]
