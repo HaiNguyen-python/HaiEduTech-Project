@@ -20,40 +20,111 @@ export const cloudModules: ExtendedProgrammingModule[] = [
         titleEn: "What is Cloud Computing?",
         level: 1,
         difficulty: "beginner",
-        theory: `**Cloud Computing** là việc cung cấp tài nguyên máy tính (server, storage, database, network, software) qua Internet theo mô hình **trả tiền theo mức sử dụng (pay-as-you-go)**.
+        theory: `**Cloud Computing** là việc cung cấp tài nguyên máy tính (server, storage, database, network, software) qua Internet theo mô hình **trả tiền theo mức sử dụng (pay-as-you-go)**. Thay vì đầu tư trước hàng triệu đô vào data center, bạn "thuê" hạ tầng theo phút/giờ và mở rộng tức thì khi cần.
 
-**5 đặc tính cốt lõi (NIST):**
-1. **On-demand self-service** — tự cấp phát tài nguyên không cần liên hệ nhà cung cấp.
-2. **Broad network access** — truy cập từ mọi thiết bị qua Internet.
-3. **Resource pooling** — tài nguyên dùng chung qua mô hình multi-tenant.
-4. **Rapid elasticity** — co giãn nhanh theo nhu cầu (scale up/down).
-5. **Measured service** — đo lường, tính phí chính xác theo mức dùng.
+## Bối cảnh & vì sao Cloud bùng nổ
+Trước 2006, mọi công ty muốn chạy phần mềm phải tự mua server, lắp ráp data center, thuê đội sysadmin trực 24/7. Khi traffic tăng đột ngột (Black Friday, viral content), hệ thống sập vì không kịp mua thêm máy. Khi traffic xuống, hàng triệu đô server nằm chơi.
 
-**3 mô hình dịch vụ:**
-- **IaaS** (Infrastructure as a Service): bạn quản lý OS, runtime, app. Ví dụ: AWS EC2, Azure VM.
-- **PaaS** (Platform as a Service): bạn chỉ lo code & data. Ví dụ: AWS Elastic Beanstalk, Heroku.
-- **SaaS** (Software as a Service): dùng trực tiếp ứng dụng. Ví dụ: Gmail, Office 365.
+AWS ra mắt S3 (2006) và EC2 (2006) khởi đầu kỷ nguyên Cloud — biến CAPEX (chi phí đầu tư) thành OPEX (chi phí vận hành). Ngày nay >95% doanh nghiệp dùng cloud ở mức độ nào đó (Gartner 2024).
 
-**4 mô hình triển khai:** Public, Private, Hybrid, Community Cloud.
+## 5 đặc tính cốt lõi theo NIST
+NIST (Viện Tiêu chuẩn Mỹ) định nghĩa cloud bằng 5 đặc tính chuẩn để phân biệt với "outsourcing thường":
 
-**Lợi ích chính:** giảm CAPEX, tăng tốc time-to-market, khả năng mở rộng toàn cầu, độ tin cậy cao (SLA 99.9%+).`,
-        theoryEn: `**Cloud Computing** delivers compute resources (servers, storage, databases, network, software) over the Internet on a **pay-as-you-go** model.
+1. **On-demand self-service** — tự cấp phát tài nguyên qua web console / API / CLI mà không cần liên hệ con người ở nhà cung cấp.
+2. **Broad network access** — truy cập từ mọi thiết bị (laptop, mobile, IoT) qua mạng chuẩn (HTTPS).
+3. **Resource pooling** — hạ tầng vật lý dùng chung (multi-tenant) qua ảo hóa, người dùng không thấy vị trí vật lý cụ thể.
+4. **Rapid elasticity** — co giãn nhanh theo nhu cầu, có thể tự động (auto-scaling) hoặc thủ công, gần như không giới hạn từ góc nhìn người dùng.
+5. **Measured service** — đo đếm chính xác (CPU-second, GB-month, request) để tính phí minh bạch.
 
-**5 essential characteristics (NIST):**
-1. **On-demand self-service** — provision without human interaction.
-2. **Broad network access** — accessible from any device.
-3. **Resource pooling** — multi-tenant shared resources.
-4. **Rapid elasticity** — scale up/down quickly.
-5. **Measured service** — metered, precise billing.
+## 3 mô hình dịch vụ (IaaS / PaaS / SaaS)
+Mức độ "nhà cung cấp lo giùm" tăng dần — bạn càng ít việc, càng ít linh hoạt:
 
-**3 service models:**
-- **IaaS**: you manage OS, runtime, app. Examples: AWS EC2, Azure VM.
-- **PaaS**: you focus on code & data. Examples: Elastic Beanstalk, Heroku.
-- **SaaS**: end-user software. Examples: Gmail, Office 365.
+| Mô hình | Khách hàng quản lý | Nhà cung cấp lo | Ví dụ |
+|---|---|---|---|
+| **IaaS** | OS, runtime, middleware, app, data | Hardware, virtualization, network | AWS EC2, Azure VM, GCP Compute Engine |
+| **PaaS** | App, data | Toàn bộ phần dưới | Elastic Beanstalk, Heroku, App Engine |
+| **SaaS** | Cấu hình & dữ liệu của bạn | Mọi thứ khác | Gmail, Office 365, Salesforce |
 
-**4 deployment models:** Public, Private, Hybrid, Community Cloud.
+**Mẹo nhớ:** "Pizza analogy" — IaaS = bạn mua nguyên liệu về tự nấu; PaaS = mua pizza đông lạnh tự nướng; SaaS = đặt pizza giao tận nhà.
 
-**Key benefits:** lower CAPEX, faster time-to-market, global scale, high reliability (99.9%+ SLA).`,
+## 4 mô hình triển khai (deployment)
+- **Public Cloud** — hạ tầng dùng chung (AWS, Azure, GCP). Rẻ nhất, scale nhanh nhất.
+- **Private Cloud** — riêng cho 1 tổ chức (on-prem hoặc hosted). Kiểm soát cao, phù hợp ngân hàng/quốc phòng.
+- **Hybrid Cloud** — mix Public + Private, kết nối qua VPN/Direct Connect.
+- **Community Cloud** — vài tổ chức cùng lĩnh vực dùng chung (vd. cloud cho ngành y tế tuân thủ HIPAA).
+
+## Case study thực tế: Netflix
+Năm 2008 Netflix bị crash database 3 ngày vì hạ tầng on-prem không chịu nổi. Họ quyết định "all-in" vào AWS. Đến 2016 đóng hoàn toàn data center cuối cùng. Hiện nay Netflix chạy >100,000 EC2 instance, phục vụ 250M+ subscriber, dùng auto-scaling để xử lý peak buổi tối gấp 10× lúc 3h sáng — không thể làm được nếu tự mua server.
+
+## Lợi ích vs đánh đổi
+**Lợi ích:**
+- Giảm CAPEX (không mua server) → đổi sang OPEX dễ dự toán hơn cho startup
+- Time-to-market nhanh: deploy app mới trong vài phút thay vì 3 tháng đặt hàng server
+- Global scale: bật region mới ở Singapore trong 5 phút
+- Độ tin cậy cao (SLA 99.9% – 99.999%)
+- Tự động backup, encryption, compliance (SOC2, ISO27001) sẵn có
+
+**Đánh đổi:**
+- Bill có thể "shock" nếu thiết kế sai (xem bài FinOps)
+- Vendor lock-in nếu dùng dịch vụ độc quyền (DynamoDB, BigQuery)
+- Phụ thuộc Internet — mất mạng = mất production
+- Compliance/data residency phức tạp với một số ngành
+
+## Khi nào KHÔNG nên cloud
+- Workload cực ổn định, chạy 24/7 nhiều năm → on-prem có thể rẻ hơn 30-50% (vd. Dropbox đã "reverse migration" từ AWS về self-hosted để tiết kiệm $75M/năm)
+- Latency cực thấp <1ms (HFT trading)
+- Dữ liệu nhạy cảm bị luật cấm rời quốc gia
+
+## Liên hệ bài tiếp theo
+Bài 2 sẽ so sánh **Big Three** (AWS / Azure / GCP) — bạn sẽ biết chọn nhà cung cấp nào cho dự án cụ thể.`,
+        theoryEn: `**Cloud Computing** delivers compute resources (servers, storage, databases, network, software) over the Internet on a **pay-as-you-go** model. Instead of investing millions upfront in a data center, you rent infrastructure by the minute/hour and scale instantly when needed.
+
+## Context: why Cloud exploded
+Before 2006, every company had to buy servers, build data centers, and hire 24/7 sysadmins. Traffic spike on Black Friday? Site crashed. Traffic drop? Millions in idle hardware.
+
+AWS launched S3 and EC2 in 2006, turning CAPEX into OPEX. Today >95% of businesses use cloud in some form (Gartner 2024).
+
+## 5 essential characteristics (NIST)
+NIST defines cloud with 5 traits that distinguish it from regular hosting:
+
+1. **On-demand self-service** — provision via console/API/CLI without contacting a human.
+2. **Broad network access** — reachable from any device over standard protocols.
+3. **Resource pooling** — multi-tenant shared physical hardware via virtualization.
+4. **Rapid elasticity** — scale up/down quickly, often automatically.
+5. **Measured service** — precise metering (CPU-second, GB-month) for transparent billing.
+
+## 3 service models (IaaS / PaaS / SaaS)
+The more the provider handles, the less you control:
+
+| Model | You manage | Provider manages | Examples |
+|---|---|---|---|
+| **IaaS** | OS, runtime, app, data | Hardware, virtualization | EC2, Azure VM |
+| **PaaS** | App + data | Everything below | Beanstalk, Heroku, App Engine |
+| **SaaS** | Config + your data | Everything else | Gmail, O365, Salesforce |
+
+**Pizza analogy:** IaaS = buy ingredients & cook; PaaS = frozen pizza, just bake; SaaS = order delivery.
+
+## 4 deployment models
+- **Public** — shared (AWS, Azure, GCP). Cheapest, fastest scale.
+- **Private** — dedicated to one org. Maximum control, common in banking/defense.
+- **Hybrid** — mix of public + private, linked via VPN / Direct Connect.
+- **Community** — shared by orgs in same regulated industry (e.g., HIPAA-compliant health cloud).
+
+## Case study: Netflix
+In 2008 Netflix suffered a 3-day database outage on-prem. They went "all-in" on AWS, closed their last data center in 2016. Today Netflix runs 100,000+ EC2 instances serving 250M+ subscribers, using auto-scaling to handle prime-time peaks 10× larger than 3 AM — impossible with self-owned hardware.
+
+## Benefits vs trade-offs
+**Benefits:** lower CAPEX, fast time-to-market, global scale, 99.9-99.999% SLA, built-in backup/encryption/compliance.
+
+**Trade-offs:** bills can shock you if designed wrong; vendor lock-in (DynamoDB, BigQuery); Internet dependency; compliance/data-residency complexity.
+
+## When NOT to use cloud
+- Very stable workloads running 24/7 for years → on-prem can be 30-50% cheaper (Dropbox famously reverse-migrated and saved $75M/year).
+- Ultra-low latency <1ms (HFT trading).
+- Data legally barred from leaving the country.
+
+## Next lesson
+Lesson 2 compares the **Big Three** so you can pick the right provider for your project.`,
         code: `# Mô phỏng mô hình "pay-as-you-go" của Cloud
 def calculate_cloud_cost(hours_used: float, instance_type: str = "t3.micro") -> float:
     pricing = {
@@ -90,49 +161,135 @@ print(f"On-prem hòa vốn sau: {months_to_breakeven:.1f} tháng")`,
         titleEn: "Big Three: AWS vs Azure vs GCP",
         level: 1,
         difficulty: "beginner",
-        theory: `**Ba ông lớn (Big Three)** chiếm hơn 65% thị phần Cloud toàn cầu:
+        theory: `**Ba ông lớn (Big Three)** chiếm hơn 65% thị phần Cloud toàn cầu. Hiểu sự khác biệt giúp bạn chọn đúng nhà cung cấp cho startup, doanh nghiệp, hoặc dự án ML cụ thể — và tránh "vendor lock-in" bất ngờ.
 
-**1. AWS (Amazon Web Services) — ~32% market share**
-- Ra đời sớm nhất (2006), portfolio rộng nhất với 200+ dịch vụ.
-- Mạnh về: compute (EC2), storage (S3), serverless (Lambda).
-- Cộng đồng lớn, tài liệu dồi dào.
+## Toàn cảnh thị trường (Synergy Research 2024)
+- **AWS** ~32% — số 1 từ 2006, lead về innovation và service breadth.
+- **Microsoft Azure** ~23% — tăng nhanh nhờ Office 365 + AI (OpenAI partnership).
+- **Google Cloud (GCP)** ~11% — mạnh về data/AI/Kubernetes, đang tăng trưởng nhanh nhất.
+- Còn lại (~34%): Alibaba, IBM, Oracle, Tencent, DigitalOcean…
 
-**2. Microsoft Azure — ~23% market share**
-- Tích hợp sâu với hệ sinh thái Microsoft (Windows Server, Active Directory, Office 365).
-- Mạnh về: enterprise hybrid cloud, Azure DevOps, AI services.
+## 1. AWS — vua của breadth & maturity
+- Ra đời 2006 với S3 và EC2, đi trước 4-5 năm.
+- **200+ dịch vụ** trong mọi domain: compute, storage, DB, AI/ML, IoT, satellite, robotics.
+- Cộng đồng lớn nhất: tài liệu, Stack Overflow answers, certified engineers.
+- **Mạnh nhất ở:** EC2, S3, Lambda, DynamoDB.
+- **Yếu ở:** UX console phức tạp, naming khó hiểu (Cognito, Athena…).
+- **Khách hàng tiêu biểu:** Netflix, Airbnb, Lyft, NASA, Samsung.
 
-**3. Google Cloud Platform (GCP) — ~11% market share**
-- Mạnh về: data analytics (BigQuery), AI/ML (Vertex AI), Kubernetes (GKE).
-- Hạ tầng mạng global của Google rất nhanh.
+## 2. Microsoft Azure — vua của enterprise hybrid
+- Tận dụng quan hệ doanh nghiệp 30 năm của Microsoft.
+- **Tích hợp sâu:** Active Directory, Office 365, Windows Server, Teams, SQL Server.
+- **Mạnh nhất ở:** Azure AD, Azure DevOps, Power BI, Azure OpenAI Service (độc quyền hosted GPT-4).
+- **Hybrid cloud số 1:** Azure Arc, Azure Stack — chạy Azure trên on-prem.
+- **Khách hàng tiêu biểu:** Walmart, BMW, FedEx, Coca-Cola, hầu hết ngân hàng & chính phủ.
 
-**Bảng so sánh dịch vụ tương đương:**
+## 3. Google Cloud (GCP) — vua của data & AI
+- Hạ tầng từ Google Search/YouTube — mạng global cực nhanh (private fiber).
+- **Mạnh nhất ở:** BigQuery, Vertex AI, GKE (Google phát minh K8s).
+- UX/console sạch và dev-friendly nhất.
+- **Yếu ở:** ít service hơn AWS/Azure, support enterprise yếu hơn.
+- **Khách hàng tiêu biểu:** Spotify, PayPal, HSBC, Snapchat.
+
+## Bảng so sánh dịch vụ tương đương
 | Loại | AWS | Azure | GCP |
 |------|-----|-------|-----|
 | VM | EC2 | Virtual Machines | Compute Engine |
 | Object Storage | S3 | Blob Storage | Cloud Storage |
-| Managed DB | RDS | SQL Database | Cloud SQL |
-| Serverless | Lambda | Functions | Cloud Functions |
+| Managed SQL | RDS | SQL Database | Cloud SQL |
+| NoSQL | DynamoDB | Cosmos DB | Firestore / Bigtable |
+| Serverless FaaS | Lambda | Functions | Cloud Functions |
 | Kubernetes | EKS | AKS | GKE |
+| Data Warehouse | Redshift | Synapse | BigQuery |
+| ML Platform | SageMaker | Azure ML | Vertex AI |
+| CDN | CloudFront | Front Door | Cloud CDN |
 
-**Cách chọn:** dựa vào hệ sinh thái sẵn có, kỹ năng team, giá cả cho workload cụ thể, và yêu cầu vị trí địa lý (region).`,
-        theoryEn: `**The Big Three** dominate 65%+ of the global cloud market:
+## Trade-offs khi chọn provider
+| Tiêu chí | AWS | Azure | GCP |
+|---|---|---|---|
+| Breadth of services | ★★★★★ | ★★★★ | ★★★ |
+| Enterprise sales/support | ★★★★ | ★★★★★ | ★★★ |
+| Data & AI/ML | ★★★★ | ★★★★ | ★★★★★ |
+| Documentation | ★★★★★ | ★★★★ | ★★★★ |
+| Pricing transparency | ★★★ | ★★★ | ★★★★ |
+| Hybrid cloud | ★★★ | ★★★★★ | ★★★ |
 
-**1. AWS — ~32% market share**: oldest (2006), 200+ services, strong in compute (EC2), storage (S3), serverless (Lambda).
+## Case study: Spotify chọn GCP
+Năm 2016 Spotify migrate từ on-prem sang GCP (không chọn AWS dù lớn hơn) vì BigQuery cho phép query 100TB data trong vài giây — phân tích hành vi nghe nhạc realtime; Pub/Sub + Dataflow đơn giản hơn Kinesis.
 
-**2. Azure — ~23%**: deep Microsoft integration (Windows Server, AD, O365), strong in enterprise hybrid, DevOps.
+## Case study: Coca-Cola chọn Azure
+700,000 nhân viên đã dùng Office 365 + Active Directory toàn cầu → Azure tích hợp SSO ngay, không cần build lại identity.
 
-**3. GCP — ~11%**: best for data analytics (BigQuery), AI/ML (Vertex AI), Kubernetes (GKE), fast global network.
+## Best practices khi chọn cloud
+1. **Bắt đầu từ skill team:** Windows/.NET → Azure; Linux/Python → AWS/GCP.
+2. **Region & latency:** chọn nhà cung cấp có data center gần khách hàng cuối.
+3. **Pricing cho workload cụ thể:** chạy POC tính bill thực tế, đừng tin pricing calculator 100%.
+4. **Compliance:** kiểm tra certification (HIPAA, PCI-DSS, SOC2) tại region bạn dùng.
+5. **Exit strategy:** dùng abstraction (Terraform, K8s) để có thể migrate sau này.
 
-**Service equivalence:**
+## Anti-patterns
+- ❌ Chọn cloud chỉ vì "AWS lớn nhất" mà không đánh giá use case.
+- ❌ Lock-in vào dịch vụ độc quyền (DynamoDB, BigQuery) cho dự án ngắn hạn.
+- ❌ Multi-cloud "cho vui" → tăng độ phức tạp 3x mà không có lợi ích thật.
+
+## Liên hệ bài tiếp theo
+Bài 3 sẽ giải thích **Region, AZ, Edge Location** — kiến trúc vật lý phía dưới mọi cloud.`,
+        theoryEn: `**The Big Three** dominate 65%+ of the global cloud market. Knowing the differences helps you pick the right provider — and avoid surprise vendor lock-in.
+
+## Market overview (Synergy Research 2024)
+- **AWS** ~32% — #1 since 2006.
+- **Azure** ~23% — fastest enterprise growth via Office 365 + OpenAI.
+- **GCP** ~11% — strong in data/AI/Kubernetes.
+
+## 1. AWS — king of breadth
+Born 2006, 4-5 year head start. **200+ services**. Largest community. **Strongest in:** EC2, S3, Lambda, DynamoDB. **Customers:** Netflix, Airbnb, NASA.
+
+## 2. Azure — king of enterprise hybrid
+Leverages Microsoft's 30-year enterprise relationships. **Deep integration** with AD, Office 365, Windows Server. **Strongest in:** Azure AD, Azure DevOps, Azure OpenAI. **Customers:** Walmart, BMW, FedEx.
+
+## 3. GCP — king of data & AI
+Built on Google Search/YouTube infrastructure. **Strongest in:** BigQuery, Vertex AI, GKE. Cleanest UX. **Customers:** Spotify, PayPal, Snapchat.
+
+## Service equivalence
 | Type | AWS | Azure | GCP |
 |------|-----|-------|-----|
 | VM | EC2 | VMs | Compute Engine |
 | Object Storage | S3 | Blob | Cloud Storage |
-| DB | RDS | SQL DB | Cloud SQL |
-| Serverless | Lambda | Functions | Cloud Functions |
+| SQL | RDS | SQL DB | Cloud SQL |
+| NoSQL | DynamoDB | Cosmos DB | Firestore |
+| FaaS | Lambda | Functions | Cloud Functions |
 | K8s | EKS | AKS | GKE |
+| DW | Redshift | Synapse | BigQuery |
+| ML | SageMaker | Azure ML | Vertex AI |
 
-**How to choose:** existing ecosystem, team skills, workload pricing, region requirements.`,
+## Provider trade-offs
+| Criterion | AWS | Azure | GCP |
+|---|---|---|---|
+| Breadth | ★★★★★ | ★★★★ | ★★★ |
+| Enterprise support | ★★★★ | ★★★★★ | ★★★ |
+| Data & AI/ML | ★★★★ | ★★★★ | ★★★★★ |
+| Hybrid | ★★★ | ★★★★★ | ★★★ |
+
+## Case: Spotify picked GCP (2016)
+BigQuery let them query 100TB in seconds for real-time listener analytics; Pub/Sub + Dataflow simpler than AWS Kinesis.
+
+## Case: Coca-Cola picked Azure
+700K employees already on Office 365 + AD → Azure SSO worked instantly.
+
+## Best practices
+1. Start from team skills (Windows/.NET → Azure; Linux/Python → AWS/GCP).
+2. Choose by region/latency proximity to end users.
+3. Run a real POC — don't trust pricing calculators 100%.
+4. Verify compliance certs for your region.
+5. Use abstractions (Terraform, K8s) to keep an exit option.
+
+## Anti-patterns
+- ❌ Picking AWS just because it's "biggest".
+- ❌ Locking into proprietary services for short-term projects.
+- ❌ Multi-cloud "for fun" — 3× complexity, no real benefit.
+
+## Next lesson
+Lesson 3 covers **Regions, AZs, Edge Locations** — the physical layer beneath every cloud.`,
         code: `# Bảng tra cứu dịch vụ tương đương 3 nhà cung cấp
 service_map = {
     "virtual_machine": {"aws": "EC2",      "azure": "Virtual Machines", "gcp": "Compute Engine"},
@@ -168,35 +325,132 @@ print(find_equivalent("BigQuery", "gcp", "azure")) # Synapse`,
         titleEn: "Regions, AZs, and Edge Locations",
         level: 2,
         difficulty: "beginner",
-        theory: `**Hạ tầng vật lý của Cloud** được tổ chức theo 3 cấp:
+        theory: `**Hạ tầng vật lý của Cloud** được tổ chức theo 3 cấp lồng nhau: Region → AZ → Edge Location. Hiểu rõ giúp bạn thiết kế hệ thống chịu lỗi (fault-tolerant), tuân thủ luật dữ liệu, và tối ưu latency cho người dùng.
 
-**1. Region (Khu vực)** — một vùng địa lý chứa nhiều data center. Ví dụ: \`us-east-1\` (Virginia), \`ap-southeast-1\` (Singapore), \`eu-west-1\` (Ireland).
-- AWS hiện có ~33 region, GCP ~40, Azure ~60.
-- Chọn region gần người dùng để giảm latency, và tuân thủ luật dữ liệu (GDPR, data residency).
+## Vì sao cần biết kiến trúc vật lý?
+Năm 2017, AWS us-east-1 (Virginia) sập 5 giờ vì 1 typo trong lệnh debug — Slack, Trello, Quora, Medium đều offline. Lý do? Tất cả đều chạy single-region. Sau sự cố này "Multi-AZ" trở thành tiêu chuẩn vàng, và các hệ thống critical bắt đầu Multi-Region.
 
-**2. Availability Zone (AZ)** — một hoặc nhiều data center riêng biệt **trong một Region**, có nguồn điện, mạng, làm mát độc lập.
-- Mỗi region thường có 3 AZ trở lên.
-- Triển khai ứng dụng qua nhiều AZ để **chịu lỗi (fault tolerance)**: nếu 1 AZ sập, ứng dụng vẫn chạy.
+## 1. Region (Khu vực)
+Một vùng địa lý chứa nhiều data center liên kết bằng mạng tốc độ cao. Mỗi region có **mã định danh** riêng:
+- AWS: \`us-east-1\` (Virginia), \`ap-southeast-1\` (Singapore), \`eu-west-1\` (Ireland)
+- Azure: \`East US\`, \`Southeast Asia\`, \`West Europe\`
+- GCP: \`us-central1\`, \`asia-southeast1\`, \`europe-west1\`
 
-**3. Edge Location** — điểm phân phối nội dung (CDN) gần người dùng cuối, cache static assets.
-- AWS CloudFront có 600+ edge location toàn cầu.
-- Giảm latency truy cập cho ảnh, video, file tĩnh.
+**Số lượng region (2024):** AWS ~33, Azure ~60, GCP ~40.
 
-**Quy tắc thiết kế HA (High Availability):**
-- **Multi-AZ**: chống sự cố tại 1 data center → SLA 99.99%.
-- **Multi-Region**: chống sự cố toàn vùng địa lý → SLA 99.999% nhưng chi phí cao.
-- **Active-Active** vs **Active-Passive**: tùy ngân sách và RTO/RPO.`,
-        theoryEn: `**Cloud physical infrastructure** is organized in 3 tiers:
+**Chọn region dựa trên:**
+1. **Khoảng cách tới user** → giảm latency (mỗi 1000km ≈ 10ms RTT thêm vào)
+2. **Luật dữ liệu** — GDPR yêu cầu data EU không rời EU; Trung Quốc, Nga, Việt Nam có luật data residency riêng
+3. **Giá** — us-east-1 thường rẻ nhất AWS; Sao Paulo đắt gấp 1.5x
+4. **Service availability** — service mới thường ra mắt us-east-1 trước, region khác chậm 6-18 tháng
+5. **Carbon footprint** — vài region chạy 100% renewable energy (eu-north-1 Stockholm)
 
-**1. Region** — geographic area with multiple data centers (e.g. \`us-east-1\`, \`ap-southeast-1\`). AWS ~33, GCP ~40, Azure ~60. Choose by latency + data residency law (GDPR).
+## 2. Availability Zone (AZ)
+**1 hoặc nhiều data center** trong cùng region, **vật lý cách ly**: nguồn điện riêng, máy phát dự phòng, hệ thống làm mát riêng, đường mạng riêng. AZ cách nhau ~10-100 km — đủ xa để 1 thảm họa (cháy, lụt, mất điện) không ảnh hưởng AZ khác, đủ gần để mạng nội bộ <2ms latency.
 
-**2. Availability Zone (AZ)** — one or more isolated data centers inside a Region with independent power, network, cooling. Each region has 3+ AZs. Deploy across AZs for fault tolerance.
+**Mỗi region thường có 3 AZ trở lên.** Ký hiệu: \`us-east-1a\`, \`us-east-1b\`, \`us-east-1c\`.
 
-**3. Edge Location** — CDN PoPs near end-users that cache static content. CloudFront has 600+ globally.
+**Lưu ý cực quan trọng:** AZ \`us-east-1a\` của tài khoản A có thể là AZ vật lý khác với \`us-east-1a\` của tài khoản B! AWS shuffle AZ name để tránh "tất cả khách hàng đổ vào us-east-1a".
 
-**HA design rules:**
-- **Multi-AZ**: protects against 1 data center failure → 99.99% SLA.
-- **Multi-Region**: protects against entire region failure → 99.999% but expensive.`,
+## 3. Edge Location
+**Điểm hiện diện (PoP)** cho CDN — chỉ cache nội dung tĩnh, không phải data center đầy đủ.
+- AWS CloudFront có **600+ edge** ở 90+ thành phố
+- Azure Front Door, Cloudflare, Akamai cũng có hạ tầng tương tự
+- Edge **không** chạy app code thông thường (trừ Lambda@Edge, Cloudflare Workers)
+
+## So sánh 3 cấp
+| Cấp | Quy mô | Chức năng chính | Khoảng cách | Latency tới user |
+|---|---|---|---|---|
+| Region | Vùng địa lý | Toàn bộ services | 1000s km | 50-200ms |
+| AZ | Cụm data center | Compute/DB chịu lỗi | 10-100 km | <2ms (nội bộ) |
+| Edge | PoP nhỏ | Cache CDN | 50-500 km | 5-50ms |
+
+## Tính SLA & xác suất downtime
+- 1 AZ uptime ~99.95% → downtime ~4.4 giờ/năm
+- 3 AZ độc lập → uptime ~99.9999998% → downtime ~63 ms/năm (lý thuyết)
+- Multi-Region (active-active) → gần 99.999% (the Five Nines), downtime <5 phút/năm
+
+## Case study: Slack outage 2017
+Slack chạy 100% trên us-east-1 đơn (single-region). Khi AWS S3 us-east-1 sập 5 giờ, Slack offline toàn cầu. Sau đó họ đầu tư multi-region active-passive với DynamoDB Global Tables.
+
+## Case study: Netflix Chaos Engineering
+Netflix tạo công cụ "Chaos Monkey" tự ngẫu nhiên kill EC2 trong production để **buộc** team phải thiết kế Multi-AZ. Sau đó "Chaos Kong" ngẫu nhiên kill cả region để test Multi-Region.
+
+## Best practices HA design
+1. **Mặc định Multi-AZ** cho mọi production workload (RDS, EC2 ASG, ElastiCache đều support)
+2. **Đừng hardcode AZ name** trong code — để autoscaling tự phân phối
+3. **Multi-Region cho hệ thống critical** (financial, healthcare) — chấp nhận chi phí 1.8-2.5x
+4. **CloudFront / CDN** đặt ở Edge gần user → giảm bandwidth + latency
+5. **Backup chéo region** — backup us-east-1 sang us-west-2 để chống region failure
+6. **Test failover hàng quý** — chuẩn bị runbook và practice (Game Day)
+
+## Anti-patterns
+- ❌ Single-AZ DB cho production
+- ❌ Multi-Region nhưng dữ liệu chỉ ở 1 region (replica chưa promote được)
+- ❌ Hardcode \`us-east-1\` trong source code → khó migrate
+- ❌ Edge Location dùng cho dynamic API (sai use case, nên dùng Lambda@Edge nếu cần)
+
+## Liên hệ bài tiếp theo
+Module tiếp theo bắt đầu **Compute & Storage** — làm quen với EC2 (VM), S3 (object storage), và container Docker.`,
+        theoryEn: `**Cloud physical infrastructure** has 3 nested tiers: Region → AZ → Edge. Knowing this lets you design fault-tolerant systems, comply with data laws, and optimize user latency.
+
+## Why it matters
+In 2017, AWS us-east-1 went down for 5 hours due to a debug typo — Slack, Trello, Quora, Medium all offline. They all ran single-region. After that, "Multi-AZ" became the gold standard and critical systems went Multi-Region.
+
+## 1. Region
+Geographic area with multiple linked data centers. Each has a code: \`us-east-1\`, \`ap-southeast-1\`, \`eu-west-1\`.
+
+**Counts (2024):** AWS ~33, Azure ~60, GCP ~40.
+
+**Choose a region by:**
+1. Distance to users (every 1000 km ≈ +10ms RTT)
+2. Data residency laws (GDPR, China, Russia)
+3. Pricing (us-east-1 is cheapest AWS; São Paulo 1.5× more)
+4. Service availability (new services launch in us-east-1 first)
+5. Carbon footprint (eu-north-1 = 100% renewable)
+
+## 2. Availability Zone (AZ)
+**One or more data centers** in the same region with isolated power, cooling, networking. AZs are 10-100 km apart — far enough to survive disasters, close enough for <2ms internal latency. Most regions have 3+ AZs.
+
+**Important:** AZ \`us-east-1a\` of account A may be a different physical AZ than account B's "1a" — AWS shuffles names to balance load.
+
+## 3. Edge Location
+**CDN PoPs** that cache static content — not full data centers. CloudFront has 600+ edges in 90+ cities. Edges don't run app code (except Lambda@Edge / Cloudflare Workers).
+
+## Comparison
+| Tier | Scale | Function | Distance | Latency |
+|---|---|---|---|---|
+| Region | Geographic | All services | 1000s km | 50-200ms |
+| AZ | Data center cluster | Fault-tolerant compute/DB | 10-100 km | <2ms internal |
+| Edge | Small PoP | CDN cache | 50-500 km | 5-50ms |
+
+## SLA math
+- 1 AZ ~99.95% → ~4.4 hr downtime/year
+- 3 independent AZs → ~99.9999998% → ~63 ms/year (theory)
+- Multi-Region active-active → ~99.999% → <5 min/year
+
+## Case: Slack 2017 outage
+Slack ran 100% in us-east-1. When S3 us-east-1 went down for 5 hours, Slack went global-offline. They invested in multi-region active-passive with DynamoDB Global Tables afterward.
+
+## Case: Netflix Chaos Engineering
+Netflix built "Chaos Monkey" to randomly kill EC2 instances in production — forcing engineers to design Multi-AZ. Later "Chaos Kong" randomly kills entire regions.
+
+## Best practices
+1. Default to Multi-AZ for every production workload.
+2. Never hardcode an AZ name.
+3. Multi-Region for critical (financial, healthcare); accept 1.8-2.5× cost.
+4. Use CloudFront/CDN at edges close to users.
+5. Cross-region backups (us-east-1 → us-west-2).
+6. Run quarterly failover drills (Game Day).
+
+## Anti-patterns
+- ❌ Single-AZ DB in production
+- ❌ Multi-Region but data isn't actually replicated
+- ❌ Hardcoding \`us-east-1\` in source
+- ❌ Using Edge for dynamic APIs
+
+## Next lesson
+Next module starts **Compute & Storage** — meet EC2 (VM), S3 (object storage), and Docker containers.`,
         code: `# Mô phỏng triển khai Multi-AZ vs Single-AZ
 class CloudDeployment:
     def __init__(self, name: str, azs: list[str]):
@@ -245,43 +499,141 @@ print(f"{multi_az.name}:  {multi_az.availability()}%")   # 99.99999...`,
         titleEn: "Virtual Machines (EC2/VM)",
         level: 2,
         difficulty: "beginner",
-        theory: `**Virtual Machine (VM)** là máy ảo chạy trên hạ tầng vật lý dùng chung qua hypervisor. Đây là dịch vụ **IaaS** cốt lõi.
+        theory: `**Virtual Machine (VM)** là máy ảo chạy trên hạ tầng vật lý dùng chung qua hypervisor. Đây là dịch vụ **IaaS** cốt lõi và là khối xây dựng đầu tiên hầu hết engineer chạm tới khi vào cloud.
 
-**AWS EC2 — các thành phần:**
-- **AMI** (Amazon Machine Image): template chứa OS + phần mềm.
+## Vì sao bắt đầu từ VM?
+VM là cách "đơn giản nhất" để mang ứng dụng lên cloud — chỉ cần một server Linux/Windows tương tự on-prem. Không cần học container, serverless, hay refactor code. Đây là bước migration "lift-and-shift" phổ biến nhất.
+
+## VM hoạt động ra sao?
+Một server vật lý (bare metal) có thể chứa hàng chục VM nhờ **hypervisor** (Xen, KVM, AWS Nitro):
+- Hypervisor chia CPU, RAM, network ảo cho từng VM
+- Mỗi VM tin rằng mình là máy thật (có "kernel" riêng, OS riêng)
+- Cô lập (isolation) giữa các VM cùng máy → khách hàng A không nhìn thấy data của khách hàng B
+
+AWS Nitro System (2017) là cải tiến lớn: chuyển virtualization xuống chip riêng → VM gần như hiệu năng bare metal.
+
+## Các thành phần chính của EC2
+- **AMI** (Amazon Machine Image): template chứa OS + phần mềm. Có public AMI (Amazon Linux 2, Ubuntu), Marketplace AMI (Bitnami, có phí), Custom AMI (chính bạn build).
 - **Instance Type**: cấu hình CPU/RAM. Họ chính:
-  - **t** (burstable, rẻ): t3.micro, t3.small — dev/test, web nhỏ.
-  - **m** (general purpose): m5.large — cân bằng compute/memory.
-  - **c** (compute optimized): c5.xlarge — xử lý tính toán nặng.
-  - **r** (memory optimized): r5.xlarge — database, cache.
-  - **g/p** (GPU): training ML, render.
-- **EBS Volume**: ổ đĩa gắn vào VM (block storage).
-- **Security Group**: firewall ảo cho instance.
-- **Key Pair**: SSH key để truy cập.
+  - **t** (burstable, rẻ): t3.micro, t3.small — dev/test, web nhỏ, có "CPU credits" giới hạn
+  - **m** (general purpose): m5.large — cân bằng compute/memory, web app điển hình
+  - **c** (compute optimized): c5.xlarge — game server, batch processing, video encoding
+  - **r** (memory optimized): r5.xlarge — Redis cache, in-memory DB
+  - **i** (storage optimized): i3.large — NoSQL, search engine cần SSD nhanh
+  - **g/p** (GPU): training ML (p4d, g5), render
+  - **mac/metal**: Mac mini cho iOS build, bare metal cho VMware
+- **EBS Volume**: ổ đĩa gắn vào VM (block storage), persistent
+- **Instance Store**: SSD nội bộ trên host → cực nhanh nhưng **mất data khi stop**
+- **Security Group**: firewall ảo (stateful)
+- **Key Pair**: SSH key (Linux) hoặc password retrieval (Windows)
+- **User Data**: bash script chạy lúc boot — bootstrap config
 
-**Mô hình mua:**
-- **On-Demand**: trả theo giờ, không cam kết. Đắt nhất.
-- **Reserved Instance (RI)**: cam kết 1-3 năm, tiết kiệm 30-72%.
-- **Spot Instance**: dùng dung lượng dư, rẻ tới 90% nhưng có thể bị thu hồi.
-- **Savings Plan**: cam kết mức chi mỗi giờ, linh hoạt hơn RI.
+## Mô hình pricing (xem chi tiết bài "Cloud Pricing")
+| Model | Discount | Cam kết | Use case |
+|---|---|---|---|
+| On-Demand | 0% | Không | Dev/test, spike traffic |
+| Reserved (1-3yr) | 30-72% | 1-3 năm | Workload ổn định 24/7 |
+| Savings Plan | 30-66% | Cam kết \\\\$/giờ | Mix EC2/Fargate/Lambda |
+| Spot | 70-90% | Có thể bị thu hồi 2 phút | Batch, ML training, CI |
+| Dedicated Host | Cao nhất | Riêng máy vật lý | License Oracle/Windows BYOL |
 
-**Auto Scaling Group (ASG)**: tự động thêm/bớt instance theo CPU, request count, lịch.`,
-        theoryEn: `**Virtual Machine (VM)** runs on shared physical hardware via a hypervisor. Core IaaS service.
+## Auto Scaling Group (ASG)
+Tự động thêm/bớt instance dựa trên:
+- **Target tracking** — giữ CPU ~50%
+- **Step scaling** — thêm 2 instance nếu CPU >70% trong 5 phút
+- **Scheduled scaling** — scale up 8AM, scale down 8PM
+- **Predictive scaling** — ML dự đoán traffic (AWS Auto Scaling)
 
-**AWS EC2 components:**
-- **AMI**: OS + software template.
-- **Instance Type**: t (burstable), m (general), c (compute), r (memory), g/p (GPU).
-- **EBS Volume**: block storage attached.
-- **Security Group**: virtual firewall.
-- **Key Pair**: SSH access.
+ASG luôn đi cùng **Load Balancer (ALB/NLB)** để phân phối traffic.
 
-**Pricing models:**
-- **On-Demand**: hourly, no commit.
-- **Reserved Instance**: 1-3yr commit, 30-72% savings.
-- **Spot**: spare capacity, up to 90% off, can be reclaimed.
-- **Savings Plan**: commit \$/hour, flexible.
+## Case study: Airbnb — 5000+ EC2
+Airbnb dùng mix m5/c5 cho web tier, r5 cho cache, p3 cho ML model search. Auto-scaling theo lịch (mùa hè peak), tiết kiệm ~40% bằng Savings Plan + Spot cho data pipeline.
 
-**Auto Scaling Group**: scale based on CPU, request count, schedule.`,
+## Best practices EC2
+1. **Right-sizing hàng tháng** — m5.xlarge dùng 30% CPU → đổi m5.large (tiết kiệm 50%)
+2. **Dùng Spot cho stateless workload** (web, batch, CI)
+3. **Snapshot EBS định kỳ** — DLM (Data Lifecycle Manager) tự động
+4. **Security Group nguyên tắc least-privilege** — không mở 0.0.0.0/0 cho SSH
+5. **IMDSv2 mandatory** — chống SSRF attack
+6. **Termination Protection** cho production instance
+7. **Tags chuẩn:** Environment, Owner, CostCenter, Project
+
+## Anti-patterns
+- ❌ Chạy 1 EC2 không có ASG cho production (single point of failure)
+- ❌ Mở SSH 0.0.0.0/0 → bị brute-force trong vài giờ
+- ❌ Dùng Spot cho database stateful → mất data
+- ❌ AMI tự build không cập nhật patch → lỗ hổng security
+- ❌ Quên tắt EC2 dev sau giờ làm → bill ngầm
+
+## Khi nào KHÔNG dùng VM?
+- Workload rất ngắn (vài giây/request) → Lambda rẻ hơn 10-100x
+- App đã container-ize → ECS/EKS quản lý dễ hơn
+- Static website → S3 + CloudFront 0 server, 0 maintenance
+
+## Liên hệ bài tiếp theo
+Bài Storage tiếp theo sẽ giới thiệu **S3 Object Storage** — bộ nhớ "vô tận" giá rẻ, complement cho EC2.`,
+        theoryEn: `**Virtual Machine (VM)** runs on shared physical hardware via a hypervisor. Core IaaS service and the first building block most engineers touch in cloud.
+
+## Why start with VMs?
+VMs are the simplest way to bring an app to cloud — just like an on-prem Linux/Windows server. No container/serverless rewrite needed. This is the classic "lift-and-shift" path.
+
+## How VMs work
+A bare-metal server runs many VMs via a **hypervisor** (Xen, KVM, AWS Nitro). Hypervisor splits CPU/RAM/network. Each VM has its own kernel and OS, fully isolated from neighbors. **AWS Nitro (2017)** offloads virtualization to dedicated chips → near bare-metal performance.
+
+## EC2 components
+- **AMI**: OS + software template (public, Marketplace, custom)
+- **Instance Type families:**
+  - **t** (burstable): dev/test with CPU credits
+  - **m** (general): typical web apps
+  - **c** (compute): game server, batch, video encoding
+  - **r** (memory): Redis, in-memory DB
+  - **i** (storage): NoSQL, search engines
+  - **g/p** (GPU): ML training, render
+  - **mac/metal**: iOS build, VMware
+- **EBS Volume** (persistent block storage)
+- **Instance Store** (fast local SSD, lost on stop)
+- **Security Group** (stateful firewall)
+- **Key Pair** (SSH)
+- **User Data** (boot script)
+
+## Pricing models
+| Model | Discount | Commit | Use case |
+|---|---|---|---|
+| On-Demand | 0% | None | Dev/test, spikes |
+| Reserved | 30-72% | 1-3 yr | Stable 24/7 |
+| Savings Plan | 30-66% | \\\\$/hr | Mixed EC2/Fargate/Lambda |
+| Spot | 70-90% | Reclaimable in 2 min | Batch, ML, CI |
+| Dedicated Host | Highest | Physical machine | Oracle/Windows BYOL |
+
+## Auto Scaling Group (ASG)
+Adds/removes instances by target tracking (keep CPU ~50%), step scaling, scheduled (8AM up, 8PM down), or predictive (ML-based). Always paired with a Load Balancer.
+
+## Case: Airbnb — 5000+ EC2
+Mix of m5/c5 web tier, r5 cache, p3 ML search. Schedule-based scaling for summer peaks. ~40% savings via Savings Plans + Spot for pipelines.
+
+## Best practices
+1. Monthly right-sizing (50% CPU? downsize)
+2. Spot for stateless workloads
+3. Periodic EBS snapshots (DLM)
+4. Least-privilege Security Groups (no 0.0.0.0/0 SSH)
+5. Mandatory IMDSv2 (anti-SSRF)
+6. Termination Protection in prod
+7. Standard tags: Env, Owner, CostCenter, Project
+
+## Anti-patterns
+- ❌ Single EC2 in prod (no ASG)
+- ❌ SSH open to 0.0.0.0/0
+- ❌ Spot for stateful DBs
+- ❌ Stale unpatched AMIs
+- ❌ Forgetting to stop dev EC2 after hours
+
+## When NOT to use VMs
+- Sub-second workloads → Lambda is 10-100× cheaper
+- Already containerized → ECS/EKS easier
+- Static site → S3 + CloudFront, zero servers
+
+## Next lesson
+Storage lesson covers **S3 Object Storage** — "infinite", cheap storage that complements EC2.`,
         code: `# Khởi tạo EC2 instance với boto3 (AWS SDK for Python)
 import boto3
 
