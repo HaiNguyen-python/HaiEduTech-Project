@@ -1327,224 +1327,195 @@ print(f"VPC {vpc_id} sẵn sàng: public={public['Subnet']['SubnetId']}, private
         titleEn: "IAM: Identity & Access Management",
         level: 3,
         difficulty: "intermediate",
-        theory: `**IAM (Identity & Access Management)** trả lời 5 câu hỏi cốt lõi: **AI** (identity), được làm **GÌ** (action), với **TÀI NGUYÊN** nào (resource), **KHI NÀO** + **TỪ ĐÂU** (condition). Đây là dịch vụ **bảo mật quan trọng nhất** trong cloud — sai IAM = lộ data, mất tiền, hỏng compliance.
+        theory: `## 1. Vấn đề đời thường
 
-## Vì sao IAM là "first line of defense"?
-Theo báo cáo Gartner, **>75% sự cố bảo mật cloud do cấu hình IAM sai** (key bị rò trên GitHub, role rộng, không bật MFA…). Vd: vụ Capital One 2019 mất 100M record vì 1 IAM role có \`s3:ListBucket\` quá rộng. Vụ Uber 2016 mất data 57M user vì AWS access key commit lên GitHub. **Hiểu IAM = giảm 75% rủi ro.**
+Bạn mở một quán cà phê. **Ai được làm gì?**
+- Nhân viên pha chế: vào quầy bar, không vào két.
+- Kế toán: mở két, không pha chế.
+- Khách: ngồi bàn, không vào quầy.
 
-## Bốn thực thể cốt lõi
-| Thực thể | Định nghĩa | Khi nào dùng |
-|----------|-----------|--------------|
-| **User** | Identity dài hạn cho người/service account | Người dev login console, app legacy không thể assume role |
-| **Group** | Tập hợp user, gán policy chung | Quản lý theo team (Devs, Admins, ReadOnly) |
-| **Role** | Identity tạm thời, được "assume" → cấp credential ngắn hạn | EC2/Lambda/EKS, cross-account, federated SSO |
-| **Policy** | JSON định nghĩa quyền (Allow/Deny + Action + Resource + Condition) | Gắn vào User/Group/Role |
+Trong cloud, danh sách "ai làm được gì" gọi là **IAM** (Identity & Access Management — quản lý danh tính và quyền truy cập). Sai IAM = giao chìa khoá két cho khách → mất tiền, lộ data.
 
-**Quy tắc vàng**: ưu tiên **Role > User** mọi lúc có thể, vì:
-- Credential ngắn hạn (15 phút – 12 giờ), tự xoay.
-- Không cần lưu access key vào file/biến môi trường.
-- Audit dễ qua CloudTrail.
+> **Vì sao quan trọng?** Theo Gartner, **>75% sự cố bảo mật cloud do cấu hình IAM sai**. Học IAM tốt = giảm 75% rủi ro.
 
-## Cấu trúc IAM Policy
+## 2. IAM trả lời 4 câu hỏi
+
+Mỗi lần ai đó gọi AWS, IAM hỏi:
+
+| Câu hỏi | Tên gọi | Ví dụ |
+|---|---|---|
+| **Ai?** | Identity (Principal) | User Lan, Lambda function |
+| **Làm gì?** | Action | \`s3:GetObject\` (đọc file S3) |
+| **Trên cái gì?** | Resource | Bucket \`app-data\` |
+| **Khi nào / từ đâu?** | Condition | Chỉ từ IP văn phòng + có MFA |
+
+Có đủ 4 câu trả lời "Allow" thì cho qua, thiếu thì từ chối.
+
+## 3. Bốn nhân vật cần nhớ
+
+| Nhân vật | Là gì? | Khi nào dùng |
+|---|---|---|
+| **User** | 1 người/account dài hạn, có mật khẩu hoặc access key | Dev đăng nhập console |
+| **Group** | Nhóm User, gán quyền chung | Nhóm "Developers" cùng quyền |
+| **Role** | Danh tính tạm thời, được "mượn" trong vài giờ | Lambda, EC2, GitHub Actions |
+| **Policy** | File JSON ghi quyền (Allow/Deny + Action + Resource) | Gắn vào User/Group/Role |
+
+> **Quy tắc vàng**: Dùng **Role thay cho User** mọi khi có thể. Vì sao? Role tự sinh credential ngắn hạn (15 phút – 12 giờ), tự xoá → nếu bị lộ cũng hết hạn nhanh. User có access key tồn tại mãi → lộ là chết.
+
+## 4. Cú pháp tối thiểu — viết 1 Policy
+
 \`\`\`json
 {
   "Version": "2012-10-17",
   "Statement": [{
-    "Sid": "AllowS3FromOffice",
     "Effect": "Allow",
-    "Action": ["s3:GetObject", "s3:PutObject"],
-    "Resource": "arn:aws:s3:::myapp-data/*",
+    "Action": ["s3:GetObject"],
+    "Resource": "arn:aws:s3:::app-data/*",
     "Condition": {
-      "IpAddress": {"aws:SourceIp": "203.0.113.0/24"},
-      "Bool": {"aws:MultiFactorAuthPresent": "true"}
+      "IpAddress": {"aws:SourceIp": "203.0.113.0/24"}
     }
   }]
 }
 \`\`\`
-- **Effect**: Allow / Deny (Deny luôn thắng).
-- **Action**: theo định dạng \`service:operation\` (\`s3:GetObject\`, \`ec2:RunInstances\`); hỗ trợ wildcard \`s3:Get*\`.
-- **Resource**: ARN — \`arn:aws:s3:::bucket/*\` (lưu ý 2 wildcard khác nhau: \`*\` = mọi ký tự, \`?\` = 1 ký tự).
-- **Condition**: bộ lọc — IP, MFA, thời gian, tag, user-agent…
 
-## Cơ chế đánh giá quyền
-Khi 1 request đến AWS, IAM duyệt theo thứ tự:
-1. **Explicit Deny** ở bất kỳ policy → DENY ngay.
-2. **Explicit Allow** ở ít nhất 1 policy → cần kiểm tra tiếp.
-3. **Service Control Policy (SCP)** ở Organizations → nếu chặn → DENY.
-4. **Resource policy** (vd bucket policy) → có thể grant cross-account.
-5. **Permission boundary** (giới hạn tối đa của role).
-6. **Session policy** (khi assume role) — thu hẹp thêm.
-7. Nếu không có Allow nào rõ ràng → **implicit DENY**.
+**Đọc từng dòng**:
+- \`Effect: "Allow"\` — Cho phép (hoặc \`"Deny"\` để cấm).
+- \`Action: ["s3:GetObject"]\` — Hành động: đọc file trên S3.
+- \`Resource: "arn:aws:s3:::app-data/*"\` — Trên bucket tên \`app-data\`, mọi file (\`/*\`).
+- \`Condition\` — Chỉ khi IP nguồn thuộc dải văn phòng \`203.0.113.0/24\`.
 
-## Các loại Policy
-| Loại | Phạm vi | Use case |
-|------|---------|----------|
-| **AWS Managed** | AWS soạn (\`AmazonS3ReadOnlyAccess\`) | Khởi đầu nhanh |
-| **Customer Managed** | Bạn soạn, tái dùng | Chuẩn nội bộ |
-| **Inline** | Gắn cứng 1 entity | Quyền one-off |
-| **Resource policy** | Trên resource (bucket policy, KMS key policy) | Cross-account access |
-| **SCP** | Org-wide guardrail | Chặn region, dịch vụ ở account |
-| **Permission Boundary** | Trần quyền tối đa | Cho dev tự tạo role nhưng không vượt giới hạn |
-| **Session Policy** | Khi STS AssumeRole | Cấp credential thu hẹp tạm thời |
+Hiểu được 4 dòng này là hiểu được 80% IAM.
 
-## Case study: Capital One 2019 — bài học $300 triệu
-- Lỗi: IAM Role gắn cho WAF có quyền \`s3:ListBucket\` + \`s3:GetObject\` quá rộng.
-- Tấn công SSRF khai thác → đọc credential → liệt kê & tải bucket.
-- Mất 100M record cá nhân, phạt **$80M** + tổn thất ~$300M.
-- **Bài học**: least privilege + Permission Boundary + Block Public Access mặc định.
+## 5. Quy tắc đánh giá quyền (đọc kỹ kẻo nhầm)
 
-## Case study: Uber 2016 — access key trên GitHub
-- Dev commit AWS access key vào private GitHub repo.
-- Hacker tìm được, dùng key tải data 57M user + 600k driver.
-- Uber giấu, trả $100k "bug bounty" — bị phạt $148M năm 2018.
-- **Bài học**: dùng **OIDC** (GitHub Actions assume role không cần key), bật **GitGuardian/AWS Access Analyzer** scan, **Secrets Manager** thay vì env var.
+Khi 1 request đến, IAM kiểm tra theo thứ tự:
 
-## Cross-account access đúng cách
-Thay vì share user/key, dùng **AssumeRole**:
+1. **Nếu có dòng "Deny"** ở bất kỳ policy nào → **TỪ CHỐI ngay** (Deny luôn thắng).
+2. **Nếu có ít nhất 1 dòng "Allow"** → cho qua.
+3. **Nếu không có Allow rõ ràng** → **TỪ CHỐI ngầm** (mặc định cấm).
+
+> **Mẹo nhớ**: Cloud mặc định **đóng** mọi cửa. Bạn phải mở từng cánh bằng "Allow". Đã "Deny" thì không có "Allow" nào cứu được.
+
+## 6. Lỗi đắt tiền thường gặp
+
+- ❌ **\`Action: "*"\` + \`Resource: "*"\`** trong production — bằng quyền root, 1 lỗi nhỏ thành thảm hoạ.
+- ❌ **Gắn AdministratorAccess cho user thường** "cho nhanh" — quên thu hồi → developer nghỉ việc vẫn xoá được data.
+- ❌ **Commit access key lên GitHub** — bot tìm thấy trong vài phút, đào Bitcoin trên account bạn → hoá đơn $50k/đêm.
+- ❌ **Trust policy mở \`Principal: "*"\`** — bất kỳ ai trên thế giới mượn được role của bạn.
+- ❌ **Tắt CloudTrail** — bị tấn công cũng không biết ai đã làm gì.
+- ❌ **MFA chỉ bật cho admin** — user thường bị lừa cũng có thể vào hệ thống.
+
+## 7. Best Practices cốt lõi (8 điểm)
+
+- ✅ **Khoá root account**: bật MFA phần cứng, không tạo access key, chỉ dùng cho việc account/billing.
+- ✅ **MFA bắt buộc** cho mọi người dùng (kể cả intern).
+- ✅ **Dùng Role** cho EC2/Lambda/EKS — đừng bao giờ hardcode access key vào code.
+- ✅ **Least Privilege** (tối thiểu quyền): chỉ cấp đúng quyền cần, không hơn.
+- ✅ **AWS SSO / IAM Identity Center** cho công ty — thay vì tạo IAM User cho từng nhân viên.
+- ✅ **Secrets Manager** lưu mật khẩu DB/API key — không để trong env var.
+- ✅ **CloudTrail bật mọi region** + lưu vào S3 immutable bucket → audit khi có sự cố.
+- ✅ **Test policy bằng IAM Policy Simulator** trước khi apply cho production.
+
+## 8. Ghi chú nâng cao (case study + tính năng cao cấp)
+
+**Capital One 2019 — bài học $300 triệu**: 1 IAM Role gắn cho WAF có quyền \`s3:ListBucket\` quá rộng. Hacker khai thác lỗ hổng SSRF → đọc credential → tải 100M record cá nhân. Phạt $80M + thiệt hại $300M. **Bài học**: Least Privilege + Permission Boundary + Block Public Access mặc định.
+
+**Uber 2016 — access key trên GitHub**: Dev commit access key vào repo "private" GitHub. Hacker tìm thấy, tải data 57M user. Uber giấu, trả $100k "bug bounty" → bị phạt $148M năm 2018. **Bài học**: dùng OIDC (GitHub Actions assume role không cần key cố định).
+
+**Tính năng cao cấp** (đọc khi đã thạo cơ bản):
+- **SCP** (Service Control Policy): chặn rộng ở cấp Organizations — ví dụ chặn cả region không cho tạo tài nguyên.
+- **Permission Boundary**: trần quyền tối đa cho team self-service.
+- **ABAC** (Tag-based access): policy dùng tag thay vì list cứng resource.
+- **Cross-account AssumeRole + ExternalId**: cho 3rd-party SaaS (Datadog, Snyk) truy cập an toàn.
+
+## 9. Liên hệ bài tiếp theo
+
+IAM kiểm soát "ai làm gì". Bài kế **Shared Responsibility & Encryption** trả lời câu hỏi tiếp theo: "Ai chịu trách nhiệm bảo mật cái gì?" và "Làm sao mã hoá data để dù bị lộ, kẻ tấn công cũng không đọc được?".`,
+        theoryEn: `## 1. Real-world problem
+Run a coffee shop. Who can do what? Barista at the bar (not the safe). Accountant at the safe (not the bar). Customer at the table only. In the cloud, that "who-can-do-what" list is **IAM**. >75% of cloud security incidents come from misconfigured IAM (Gartner).
+
+## 2. IAM answers 4 questions
+WHO (Principal) does WHAT (Action) on WHICH RESOURCE under WHICH CONDITION (IP, MFA, time)?
+
+## 3. Four characters
+- **User**: long-term identity (password / access key) for humans.
+- **Group**: collection of users, share policies.
+- **Role**: temporary identity assumed for 15 min – 12 h. Use for EC2, Lambda, GitHub Actions.
+- **Policy**: JSON describing Allow/Deny + Action + Resource + Condition. Attach to User/Group/Role.
+
+**Golden rule**: prefer Role over User — short-lived credentials beat long-lived keys.
+
+## 4. Minimal policy
+\`\`\`json
+{ "Effect": "Allow",
+  "Action": ["s3:GetObject"],
+  "Resource": "arn:aws:s3:::app-data/*",
+  "Condition": {"IpAddress": {"aws:SourceIp": "203.0.113.0/24"}} }
 \`\`\`
-Account A (Trust)            Account B (Caller)
-┌─────────────┐              ┌──────────────┐
-│ Role MyRole │◄── trust ────│ User devops  │
-│  Trust:     │              │              │
-│  acct-B     │              │  sts:Assume  │
-└─────────────┘              │  Role        │
-       ▲                     └──────┬───────┘
-       │ assume                     │
-       └────── temp credential ◄────┘
-\`\`\`
-**External ID** dùng cho 3rd-party SaaS (Datadog, Snyk) để chống "confused deputy attack".
+Allow reading any object in bucket \`app-data\` only from office IP range.
 
-## Best Practices (checklist 12 điểm)
-- ✅ **Khóa root account**: bật MFA hardware, không tạo access key, chỉ dùng cho billing/account closure.
-- ✅ **MFA bắt buộc** cho mọi human user (\`Condition: aws:MultiFactorAuthPresent\`).
-- ✅ **Dùng Role** cho EC2/Lambda/EKS — không hardcode key.
-- ✅ **AWS SSO/IAM Identity Center** cho SSO doanh nghiệp; tránh tạo IAM User cho từng nhân viên.
-- ✅ **Permission Boundary** cho team tự service mới mà không vượt trần.
-- ✅ **SCP** ở Organizations chặn region không cho phép, chặn dịch vụ nguy hiểm.
-- ✅ **Access Analyzer** chạy hàng tuần — tự tìm policy public/cross-account thừa.
-- ✅ **CloudTrail** bật mọi region, log vào S3 immutable bucket có Object Lock.
-- ✅ **Rotate access key 90 ngày** (nếu buộc phải dùng); ưu tiên xóa hẳn.
-- ✅ **Tag-based access control** (ABAC): policy dùng \`aws:ResourceTag\` thay vì list cứng resource.
-- ✅ **Secrets Manager / Parameter Store** thay vì env var cho DB password, API key.
-- ✅ **Test policy với IAM Policy Simulator** trước khi apply.
+## 5. Evaluation order
+1. Any explicit Deny → DENY.
+2. At least one Allow → ALLOW.
+3. No Allow at all → implicit DENY.
+Cloud is closed by default; every door must be opened with an Allow.
 
-## Common Pitfalls
-- ❌ **\`Action: "*"\` + \`Resource: "*"\`** trong policy production.
-- ❌ **AdministratorAccess gắn cho user thường** "cho nhanh".
-- ❌ **Access key cá nhân trong code/Slack/Notion**.
-- ❌ **Trust policy quá rộng** (\`Principal: "*"\`).
-- ❌ **Không bật CloudTrail** → không có audit khi có sự cố.
-- ❌ **MFA chỉ bật cho admin** — mọi user nên bật.
-- ❌ **IAM User cho mỗi nhân viên** thay vì federated SSO → khó offboard.
+## 6. Common pitfalls
+- \`Action: "*"\` + \`Resource: "*"\` in prod.
+- AdministratorAccess on regular users.
+- Access keys committed to GitHub.
+- \`Principal: "*"\` in trust policies.
+- CloudTrail off.
+- MFA only for admins.
 
-## Khi NÀO dùng User vs Role?
-- ✅ User: legacy app không assume role được; CLI cá nhân (nên kết hợp aws-vault).
-- ✅ Role: 99% case khác — service-to-service, cross-account, federated SSO, GitHub Actions OIDC.
+## 7. Best Practices
+Lock root + hardware MFA, mandatory MFA for everyone, Roles for services (no hardcoded keys), Least Privilege, AWS SSO for staff, Secrets Manager for DB passwords, CloudTrail in all regions to immutable S3, test with IAM Policy Simulator.
 
-## Liên hệ bài tiếp theo
-IAM kiểm soát "ai làm gì". Tầng kế tiếp là **bảo vệ DỮ LIỆU** — bài tiếp **Shared Responsibility & Encryption** sẽ học cách mã hóa at-rest (KMS) + in-transit (TLS) và phân chia trách nhiệm với cloud provider.`,
-        theoryEn: `**IAM (Identity & Access Management)** answers 5 questions: **WHO** (identity) can do **WHAT** (action) on **WHICH** resource, **WHEN** + **FROM WHERE** (condition). It is the most important security service in the cloud — IAM mistakes = data leaks, financial loss, compliance failure.
+## 8. Advanced notes (case studies)
+- **Capital One 2019**: over-broad WAF role → SSRF leaked 100M records, $80M fine + ~$300M total. Use Least Privilege + Permission Boundary + Block Public Access.
+- **Uber 2016**: AWS key in private GitHub → 57M users leaked → $148M fine. Use OIDC for GitHub Actions instead of static keys.
+Advanced features: SCPs (org-wide guardrails), Permission Boundaries (max ceiling for self-service), ABAC (tag-based access), Cross-account AssumeRole with ExternalId for 3rd-party SaaS.
 
-## Why IAM is the first line of defense
-Per Gartner, **>75% of cloud security incidents are caused by IAM misconfiguration** (leaked keys on GitHub, overly broad roles, no MFA, etc.). Capital One 2019 lost 100M records due to one IAM role with overly broad \`s3:ListBucket\`. Uber 2016 lost 57M users via an AWS access key committed to GitHub. **Mastering IAM cuts ~75% of risk.**
-
-## Four core entities
-| Entity | Definition | Use case |
-|--------|------------|----------|
-| **User** | Long-term identity for human/service account | Console login, legacy apps that can't assume roles |
-| **Group** | Set of users with shared policies | Team-based management |
-| **Role** | Temporary identity that is "assumed" → short-lived credentials | EC2/Lambda/EKS, cross-account, federated SSO |
-| **Policy** | JSON defining permissions (Allow/Deny + Action + Resource + Condition) | Attach to User/Group/Role |
-
-**Golden rule**: prefer **Role > User** wherever possible.
-
-## Policy structure (Effect, Action, Resource, Condition)
-- Effect: Allow / Deny (Deny always wins).
-- Action: \`service:operation\` (\`s3:GetObject\`); supports wildcards.
-- Resource: ARN with wildcards.
-- Condition: filters — IP, MFA, time, tag, user-agent.
-
-## Evaluation order
-Explicit Deny → Explicit Allow → SCP → Resource policy → Permission boundary → Session policy → implicit DENY if no Allow.
-
-## Policy types
-AWS Managed, Customer Managed, Inline, Resource policy, SCP, Permission Boundary, Session Policy.
-
-## Case study: Capital One 2019 ($300M lesson)
-WAF role had over-broad \`s3:ListBucket\` + \`s3:GetObject\`. SSRF exploit read credentials, listed and downloaded buckets — 100M records lost, $80M fine, ~$300M total. Lesson: least privilege + Permission Boundary + default Block Public Access.
-
-## Case study: Uber 2016 (key on GitHub)
-Dev committed AWS access key to private GitHub repo. Hackers found it, downloaded 57M users + 600k drivers. Uber hid it, paid $100k "bug bounty", got fined $148M in 2018. Lesson: use **OIDC** (GitHub Actions assume role without keys), enable secret scanners, use **Secrets Manager**.
-
-## Cross-account: AssumeRole + ExternalId
-Use Role with trust policy + STS AssumeRole; ExternalId protects against the "confused deputy" problem with 3rd-party SaaS.
-
-## Best Practices (12-point checklist)
-- ✅ Lock root: hardware MFA, no access keys, only for billing/account closure.
-- ✅ Mandatory MFA for humans.
-- ✅ Roles for EC2/Lambda/EKS — no hardcoded keys.
-- ✅ AWS SSO/IAM Identity Center for enterprise SSO.
-- ✅ Permission Boundary for self-service teams.
-- ✅ SCPs in Organizations to block dangerous regions/services.
-- ✅ Run Access Analyzer weekly.
-- ✅ CloudTrail in all regions → immutable S3 with Object Lock.
-- ✅ Rotate access keys 90 days (if you must use them).
-- ✅ Tag-based access control (ABAC).
-- ✅ Secrets Manager / Parameter Store for secrets.
-- ✅ Test policies with IAM Policy Simulator first.
-
-## Common Pitfalls
-- ❌ \`Action: "*"\` + \`Resource: "*"\` in production.
-- ❌ AdministratorAccess on regular users.
-- ❌ Personal access keys in code/Slack/Notion.
-- ❌ \`Principal: "*"\` in trust policies.
-- ❌ CloudTrail off — no audit trail.
-- ❌ MFA only for admins.
-- ❌ IAM Users instead of federated SSO — offboarding nightmare.
-
-## User vs Role decision
-User: legacy apps, individual CLI (use aws-vault). Role: 99% of other cases.
-
-## Bridge to next lesson
-IAM controls "who does what". Next layer protects **DATA** — **Shared Responsibility & Encryption** covers at-rest (KMS) + in-transit (TLS) and how responsibility is split with the cloud provider.`,
-        code: `# IAM Policy: cho phép Lambda đọc S3 bucket cụ thể + ghi CloudWatch Logs
+## 9. Bridge to next lesson
+IAM controls "who does what". Next: **Shared Responsibility & Encryption** — who is responsible for which security layer, and how to encrypt data so leaks remain unreadable.`,
+        code: `# IAM Policy: cho phép Lambda đọc 1 bucket S3 cụ thể + ghi log CloudWatch
 policy = {
-  "Version": "2012-10-17",
+  "Version": "2012-10-17",   # Phiên bản chuẩn, luôn để 2012-10-17
   "Statement": [
     {
-      "Sid": "AllowS3Read",
-      "Effect": "Allow",
-      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Sid": "AllowS3Read",  # Tên đoạn quyền, đặt cho dễ đọc
+      "Effect": "Allow",     # Cho phép (đối lập với Deny)
+      "Action": ["s3:GetObject", "s3:ListBucket"],   # Đọc file + liệt kê bucket
       "Resource": [
-        "arn:aws:s3:::app-data",
-        "arn:aws:s3:::app-data/*"
+        "arn:aws:s3:::app-data",        # Bucket (để ListBucket)
+        "arn:aws:s3:::app-data/*"       # Mọi file trong bucket (để GetObject)
       ]
     },
     {
       "Sid": "AllowLogs",
       "Effect": "Allow",
-      "Action": [
+      "Action": [                       # Quyền ghi log để debug Lambda
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "arn:aws:logs:*:*:*"
+      "Resource": "arn:aws:logs:*:*:*"  # Mọi log group ở mọi region
     }
   ]
 }
 
 import json
 print(json.dumps(policy, indent=2))
-# Gắn policy này vào Role, sau đó Lambda assume Role đó`,
+# Sau đó: tạo Role, gắn policy này vào Role, rồi gán Role cho Lambda function`,
         codeLanguage: "json",
-        exercise: "Viết IAM policy cho phép developer write/read 1 bucket S3 'dev-uploads', deny xóa object, chỉ truy cập từ IP công ty 203.0.113.0/24.",
-        exerciseEn: "Write an IAM policy that lets a developer read/write S3 bucket 'dev-uploads', deny delete, accessible only from office IP 203.0.113.0/24.",
+        exercise: "Viết IAM policy cho phép developer đọc/ghi bucket S3 'dev-uploads', cấm xoá object, chỉ cho truy cập từ IP văn phòng 203.0.113.0/24. Gợi ý: dùng 2 Statement — 1 Allow cho đọc/ghi, 1 Deny cho xoá.",
+        exerciseEn: "Write an IAM policy that lets a developer read/write S3 bucket 'dev-uploads', deny delete, accessible only from office IP 203.0.113.0/24. Hint: use 2 Statements — one Allow for read/write, one Deny for delete.",
         quiz: [
-          { question: "What is the core principle of IAM?", options: ["Grant maximum permissions", "Least Privilege", "One user, one policy", "Use root for everything"], answer: 1, explanation: "Least Privilege — grant only the minimum permissions required to do the job." },
-          { question: "How should an EC2 instance access S3?", options: ["Hardcode an access key", "Attach an IAM Role to the instance", "Make the S3 bucket public", "Share a password"], answer: 1, explanation: "Best practice is to attach an IAM Role to EC2 — credentials rotate automatically and access keys are never exposed." },
-          { question: "What does MFA stand for?", options: ["Multi-Factor Authentication", "Mass File Access", "Manual Failure Alert", "Memory Function Array"], answer: 0, explanation: "MFA = Multi-Factor Authentication — requires a second factor (token, app) in addition to a password." },
-          { question: "To deny actions at the organization level (multi-account), use?", options: ["Security Group", "NACL", "SCP in AWS Organizations", "IAM Group"], answer: 2, explanation: "Service Control Policies (SCPs) in AWS Organizations block actions at the account level — stronger than IAM Policies." },
-          { question: "Which service logs every AWS API call?", options: ["CloudWatch", "CloudTrail", "Config", "Inspector"], answer: 1, explanation: "CloudTrail records every API call (who did what, when) — required for audit & forensics." },
+          { question: "Nguyên tắc cốt lõi của IAM là gì?", options: ["Cấp quyền tối đa cho tiện", "Least Privilege — chỉ cấp đúng quyền cần", "1 user 1 policy", "Dùng root cho mọi việc"], answer: 1, explanation: "Least Privilege (tối thiểu quyền) — chỉ cấp đúng quyền cần thiết, không hơn. Quy tắc số 1 của bảo mật cloud, giúp giảm 'blast radius' khi có sự cố." },
+          { question: "EC2 nên truy cập S3 bằng cách nào?", options: ["Hardcode access key vào code", "Gắn IAM Role vào EC2", "Để bucket S3 public", "Chia sẻ password"], answer: 1, explanation: "Gắn IAM Role vào EC2 → AWS tự sinh credential ngắn hạn, tự xoay vòng. Không bao giờ phải hardcode key → không lo rò GitHub." },
+          { question: "MFA viết tắt của gì?", options: ["Multi-Factor Authentication", "Mass File Access", "Manual Failure Alert", "Memory Function Array"], answer: 0, explanation: "MFA = Multi-Factor Authentication — xác thực nhiều yếu tố. Cần thêm yếu tố thứ 2 (mã từ app, USB key…) ngoài mật khẩu. Bật MFA ngăn ~99% tấn công credential stuffing." },
+          { question: "Để chặn hành động ở cấp tổ chức (multi-account), dùng gì?", options: ["Security Group", "NACL", "SCP trong AWS Organizations", "IAM Group"], answer: 2, explanation: "SCP (Service Control Policy) trong AWS Organizations chặn ở cấp account — kể cả root account của child account cũng không vượt qua được. Mạnh hơn IAM Policy thường." },
+          { question: "Service nào ghi log mọi cuộc gọi AWS API (ai làm gì, khi nào)?", options: ["CloudWatch", "CloudTrail", "Config", "Inspector"], answer: 1, explanation: "CloudTrail ghi mọi API call — bắt buộc bật để audit và điều tra khi có sự cố. CloudWatch khác — đó là metrics & logs ứng dụng." },
         ],
       },
       {
