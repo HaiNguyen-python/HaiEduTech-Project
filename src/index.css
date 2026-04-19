@@ -394,15 +394,16 @@
   margin: 0;
 }
 .theory-content thead {
-  background: hsl(var(--secondary));
-  border-bottom: 2px solid hsl(var(--border));
+  background: linear-gradient(90deg, hsl(217 91% 60% / 0.12), hsl(160 84% 39% / 0.10));
+  border-bottom: 2px solid hsl(var(--primary) / 0.25);
 }
 .theory-content th {
   text-align: left;
-  padding: 0.65rem 0.85rem;
-  font-weight: 600;
-  color: hsl(var(--foreground));
+  padding: 0.7rem 0.9rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
   font-size: 0.9rem;
+  letter-spacing: 0.01em;
 }
 .theory-content td {
   padding: 0.6rem 0.85rem;
@@ -410,8 +411,11 @@
   vertical-align: top;
   color: hsl(var(--foreground) / 0.92);
 }
-.theory-content tbody tr:nth-child(even) { background: hsl(var(--secondary) / 0.35); }
-.theory-content tbody tr:hover { background: hsl(var(--primary) / 0.06); }
+.theory-content tbody tr:nth-child(even) { background: hsl(var(--secondary) / 0.45); }
+.theory-content tbody tr:hover { background: hsl(var(--primary) / 0.07); transition: background 0.15s ease; }
+
+/* When blockquote is rendered as Callout (not-prose), avoid double margin */
+.theory-content .theory-callout + p { margin-top: 0.85rem; }
 
 /* Pre wrapper for CodeBlock should have no extra prose spacing */
 .theory-content pre {

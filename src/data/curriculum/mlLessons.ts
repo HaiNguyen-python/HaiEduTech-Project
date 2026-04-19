@@ -21,6 +21,8 @@ Bạn có 1 bảng dữ liệu: **diện tích nhà → giá bán** của 100 c�
 
 Cách thô sơ: lấy giá trung bình. Nhưng ta thấy rõ: **nhà to thì giá cao**. Vậy phải có một "công thức" liên hệ diện tích với giá. Linear Regression là cách đơn giản nhất để **vẽ một đường thẳng đi gần nhất qua tất cả các điểm dữ liệu** — rồi dùng đường đó để dự đoán giá cho mọi căn mới.
 
+:::diagram type="linear-regression":::
+
 > Linear Regression là thuật toán Machine Learning **đơn giản nhất, hữu dụng nhất**, và **luôn nên thử đầu tiên** trước khi nghĩ tới mô hình phức tạp.
 
 ## 2. Công thức tối thiểu — đọc 1 lần là nhớ
