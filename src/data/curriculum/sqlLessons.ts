@@ -1971,165 +1971,77 @@ CREATE TABLE book_authors (
 ## Bài tiếp theo
 
 **Stored procedures, functions & triggers** — logic phía database, dùng đúng cách giúp tránh hàng nghìn round-trip và ngăn cả lớp bug.`,
+        theoryEn: `Schema design is the most consequential decision in a system. Bad design is a bottleneck no index can fix.
 
-## Why this matters
+## 1. The everyday problem
 
-You can refactor an API endpoint in a sprint. Refactoring a 500-million-row schema with 30 dependent services takes a year and a half-dozen incidents. *Design decisions you make in week one survive longer than any individual on the team.*
+An \`orders\` table storing customer email/city in every row → updating one customer means updating 1000 rows. Fix: split out a \`customers\` table (normalization).
 
-## Normalization — the foundation
+## 2. Normalization — 3 forms you actually use
 
-**Normalization** is the process of organizing data to eliminate redundancy and update anomalies. The standard normal forms:
-
-| Form | Rule | Eliminates |
-|---|---|---|
-| **1NF** | Atomic values (no lists in cells) | Repeating groups |
-| **2NF** | All non-key columns depend on the *whole* key | Partial dependencies |
-| **3NF** | No transitive dependencies (non-key → non-key) | Derived data |
-| **BCNF** | Stronger 3NF for edge cases | Subtle anomalies |
-
-90% of OLTP databases target **3NF**. Anything beyond is academic for most apps.
-
-Example of **not** 3NF:
-
-\`\`\`
-orders(id, customer_id, customer_email, customer_city)
-\`\`\`
-
-\`customer_email\` and \`customer_city\` depend on \`customer_id\`, not on \`id\`. If a customer changes city, you must update every order — 10,000 rows for one fact change. The fix: a separate \`customers\` table.
-
-## Keys — the contracts of your data
-
-| Key | Purpose |
+| Form | Plain rule |
 |---|---|
-| **Primary key (PK)** | Uniquely identifies a row; non-NULL; one per table |
-| **Foreign key (FK)** | References a PK in another table; enforces referential integrity |
-| **Surrogate key** | Auto-generated integer or UUID with no business meaning |
-| **Natural key** | Real-world identifier (SSN, email, ISBN) |
-| **Composite key** | PK made of multiple columns (e.g., \`(order_id, line_no)\`) |
+| 1NF | Each cell holds one value (no lists) |
+| 2NF | Non-key columns depend on the *whole* PK |
+| 3NF | No non-key → non-key dependency |
 
-**Surrogate vs natural** is one of the great recurring debates. Surrogate (auto-generated integer or UUID) is the modern default because:
+90% of OLTP apps target **3NF**. Beyond that is mostly academic.
 
-- Natural keys change (people change emails, companies rename SKUs).
-- Joining on integers is faster than joining on long strings.
-- Surrogate keys make SCD Type 2 (history-tracking dimensions) possible.
+## 3. Keys
 
-Use a natural key only when it's truly immutable *and* short.
-
-## Relationships — the four kinds
-
-| Cardinality | Modeled as |
+| Key | Role |
 |---|---|
-| **One-to-one** | Either one table, or a FK with UNIQUE constraint |
-| **One-to-many** | FK on the "many" side |
-| **Many-to-many** | A junction (link) table with two FKs |
-| **Self-referential** | FK pointing back to the same table (org chart) |
+| Primary (PK) | Unique row identifier |
+| Foreign (FK) | Points to PK in another table |
+| Surrogate | Auto int / UUID, no business meaning |
+| Natural | Real-world ID (email, SSN) |
+| Composite | PK across multiple columns |
 
-Many-to-many always needs a junction table — there is no "many-to-many column."
+**Default to surrogate PKs** — natural keys change, integers join faster, surrogate enables change tracking.
 
-\`\`\`
-students --< enrollments >-- courses
-\`\`\`
+## 4. The 4 relationships
 
-The \`enrollments\` table holds \`(student_id, course_id, grade, enrolled_at)\` — and is also a great place for relationship attributes.
+| Cardinality | How to model |
+|---|---|
+| 1-1 | FK with UNIQUE |
+| 1-N | FK on the "many" side |
+| N-N | **Junction table** with two FKs |
+| Self-ref | FK pointing back to same table |
 
-## OLTP vs OLAP design — opposite goals
+N-N **always** needs a junction table — no "many-to-many column" exists.
 
-| Goal | OLTP (apps) | OLAP (warehouses) |
+## 5. OLTP vs OLAP — opposite goals
+
+| Aspect | OLTP (apps) | OLAP (warehouse) |
 |---|---|---|
 | Normalization | High (3NF) | Low (star schema) |
 | Optimized for | Many small writes | Few large reads |
-| JOINs | Frequent, small | Rare, with denormalized dims |
-| Schema changes | Expensive (online migrations) | Cheap (rebuild downstream models) |
+| Schema change | Expensive | Cheap (rebuild models) |
 
-The classic mistake: applying OLTP normalization to an analytical warehouse. Result: dashboards joining 12 tables, taking 30 seconds, and breaking on every schema change.
+Don't apply OLTP normalization to a warehouse — 12-table joins, 30s dashboards.
 
-## Design checklist for a new table
-
-1. **What is the grain?** "One row = one ___."
-2. **What is the primary key?** Surrogate auto-increment or UUID, almost always.
-3. **What are the FKs?** With \`ON DELETE\` policy chosen explicitly (\`CASCADE / RESTRICT / SET NULL\`).
-4. **Which columns are NOT NULL?** Default to NOT NULL; add NULL only with a reason.
-5. **Which columns need indexes?** WHERE, JOIN, ORDER BY columns.
-6. **Audit columns**: \`created_at\`, \`updated_at\` — always include them.
-7. **Soft delete vs hard delete?** Compliance often forces soft delete (\`deleted_at TIMESTAMP NULL\`).
-
-## Case study — the GitHub issues table
-
-GitHub publicly described their early schema choice for the \`issues\` table: integer surrogate PK, FK to \`repository_id\`, polymorphic association to assignees and labels via junction tables. Twelve years and billions of issues later, the schema is largely unchanged — proof that boring, normalized OLTP design ages exceptionally well.
-
-## Case study — the JSON-everything anti-pattern
-
-A startup decided to "stay flexible" by storing each entity as one row with a single \`data JSONB\` column. For two months velocity felt great. Then they needed to query "users in California with > 5 orders." There was no way to index inside the JSONB efficiently for that combination. Every query full-scanned and parsed JSON. They spent a quarter migrating to a normalized schema and the problem disappeared. **Schema-on-read sounds liberating until you have to read the schema.**
-
-## Best practices
-
-- Default to **3NF for OLTP**, **star schema for analytical** — and never confuse the two.
-- **Surrogate PKs** unless you have a strong reason for natural.
-- **NOT NULL by default**; nullable is a deliberate choice.
-- **Always include \`created_at\` and \`updated_at\`** with database-side defaults.
-- **Choose ON DELETE policy explicitly** for every FK.
-- **Naming convention**: lowercase snake_case, plural table names (\`users\`), singular column names (\`user_id\`). Pick one and enforce.
-- **Prefer narrow tables**; if a table grows past 50 columns, ask if it should split.
-
-## Anti-patterns & next lesson
-
-Avoid: storing comma-separated lists in a single column (violates 1NF); using natural keys that can change; "EAV" (entity-attribute-value) tables that try to be a database within a database; JSONB for data you'll always query structurally; nullable everything.
-
-Next: **Stored procedures, functions & triggers** — the database-side logic that, when used carefully, can save thousands of round-trips and prevent entire classes of bugs.`,
-        theoryEn: `Schema design is the most consequential decision in a system. Bad design is the bottleneck no index can fix.
-
-## Why this matters
-
-Refactoring a 500M-row schema with 30 dependent services = 1.5 years. Design decisions outlive everyone on the team.
-
-## Normalization
-
-| Form | Rule |
-|---|---|
-| 1NF | Atomic values |
-| 2NF | Non-key cols depend on whole key |
-| 3NF | No transitive dependencies |
-| BCNF | Stronger 3NF |
-
-OLTP targets 3NF. \`orders(customer_email)\` violates 3NF — fix with separate \`customers\` table.
-
-## Keys
-
-PK / FK / surrogate / natural / composite. Default to **surrogate PKs** — natural keys change, integers join faster, surrogate enables SCD Type 2.
-
-## Relationships
-
-One-to-one, one-to-many (FK on many side), many-to-many (junction table), self-referential (FK to same table). M:N **always** needs a junction.
-
-## OLTP vs OLAP design
-
-| Goal | OLTP | OLAP |
-|---|---|---|
-| Normalization | 3NF | Star schema |
-| Optimized for | Small writes | Large reads |
-| Schema change | Expensive | Cheap |
-
-Don't apply OLTP normalization to a warehouse — 12-table joins, 30-second dashboards.
-
-## New-table checklist
+## 6. New-table 7-step checklist
 
 Grain → PK → FKs (with ON DELETE) → NOT NULLs → indexes → \`created_at/updated_at\` → soft vs hard delete.
 
-## Case study — GitHub issues
+## 7. Worked example — library schema
 
-12 years, billions of rows, schema unchanged: integer PK, FK to repo, polymorphic via junction tables. Boring normalized design ages well.
+\`authors\` ← \`book_authors\` (junction) → \`books\`. Each FK has explicit \`ON DELETE\`. Audit columns everywhere.
 
-## Case study — JSON everything
+## 8. Best practices & anti-patterns
 
-Startup stored everything as \`data JSONB\` for "flexibility." Couldn't index "California users with >5 orders." Quarter-long migration to normalized schema fixed it.
+✅ 3NF for OLTP / star for OLAP, surrogate PKs, NOT NULL default, always audit cols, snake_case naming.
+❌ Comma-separated lists in cells, mutable natural keys, EAV tables, JSONB for structured queries.
 
-## Best practices
+## Advanced notes
 
-3NF for OLTP / star for analytical; surrogate PKs; NOT NULL default; \`created_at/updated_at\` everywhere; explicit ON DELETE; consistent naming convention.
+**GitHub issues**: integer PK + FK to repo + junction tables. Unchanged for 12+ years and billions of rows.
 
-## Anti-patterns & next
+**JSON-everything anti-pattern**: a startup stored everything as \`JSONB\` for "flexibility" — couldn't index "California users with >5 orders". Spent a quarter migrating back to a normalized schema.
 
-Avoid CSV-in-column, mutable natural keys, EAV tables, JSONB for structured queries, nullable-everything. Next: **Stored procedures, functions & triggers**.`,
+## Next
+
+**Stored procedures, functions & triggers** — database-side logic that, used wisely, prevents whole bug classes.`,
         code: `-- Create normalized tables
 CREATE TABLE departments (
   id SERIAL PRIMARY KEY,
