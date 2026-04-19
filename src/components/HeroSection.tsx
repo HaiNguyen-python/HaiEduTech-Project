@@ -110,16 +110,38 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mx-auto mt-12 max-w-2xl pb-20 sm:pb-0"
           >
-            <div className="glass-card grid grid-cols-1 gap-4 rounded-2xl px-5 py-5 sm:grid-cols-3 sm:gap-8 sm:px-8 sm:py-6">
+            <div className="glass-card grid grid-cols-1 gap-4 rounded-2xl px-5 py-5 sm:grid-cols-2 sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-4">
               {[
-                { icon: GraduationCap, value: t("Thạc sĩ", "M.A."), label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
-                { icon: BookOpen, value: "15+", label: t("Năm kinh nghiệm giảng dạy các cấp", "Years Teaching Experience") },
-                { icon: Code2, value: t("Kỹ sư", "Engineer"), label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & Artificial Intelligence") },
+                {
+                  icon: GraduationCap,
+                  value: t("Thạc sĩ", "M.A."),
+                  label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture"),
+                  place: t("ĐH Đông Phần Lan", "University of Eastern Finland"),
+                },
+                {
+                  icon: GraduationCap,
+                  value: t("Thạc sĩ", "M.A."),
+                  label: t("Công nghệ Ngôn ngữ", "Language Technology"),
+                  place: t("ĐH Helsinki", "University of Helsinki"),
+                },
+                {
+                  icon: Code2,
+                  value: t("Kỹ sư", "Engineer"),
+                  label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & Artificial Intelligence"),
+                  place: t("ĐH Khoa học Ứng dụng Turku", "Turku University of Applied Sciences"),
+                },
+                {
+                  icon: BookOpen,
+                  value: "15+",
+                  label: t("Năm kinh nghiệm giảng dạy", "Years Teaching Experience"),
+                  place: t("Việt Nam – Phần Lan", "Vietnam – Finland"),
+                },
               ].map((s, i) => (
                 <div key={i} className="text-center">
                   <s.icon className="mx-auto mb-2 h-6 w-6 text-primary" />
-                  <div className="font-display text-lg font-bold text-foreground sm:text-xl md:text-2xl">{s.value}</div>
-                  <div className="mt-1 text-xs leading-5 text-muted-foreground">{s.label}</div>
+                  <div className="font-display text-lg font-bold text-foreground sm:text-xl">{s.value}</div>
+                  <div className="mt-1 text-xs font-medium leading-5 text-foreground/90">{s.label}</div>
+                  <div className="mt-0.5 text-[11px] leading-4 text-muted-foreground">{s.place}</div>
                 </div>
               ))}
             </div>
