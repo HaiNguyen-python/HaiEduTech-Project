@@ -408,13 +408,21 @@ const ChineseConversationalLessonView = () => {
                       </div>
                     );
                   })}
+                  {fibChecked && fibScore && (
+                    <div className={`p-4 rounded-lg border-2 ${fibScore.percent >= 80 ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300" : fibScore.percent >= 50 ? "bg-amber-50 border-amber-300 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300" : "bg-red-50 border-red-300 text-red-800 dark:bg-red-950/30 dark:text-red-300"}`}>
+                      <p className="text-base font-bold">
+                        {fibScore.percent >= 80 ? "🎉" : fibScore.percent >= 50 ? "👍" : "💪"} {t("Kết quả", "Score")}: {fibScore.correct}/{fibScore.total} ({fibScore.percent}%)
+                      </p>
+                      <p className="text-xs opacity-80 mt-1">{t("Đã lưu vào Bảng điều khiển học sinh.", "Saved to your Student Dashboard.")}</p>
+                    </div>
+                  )}
                   <div className="flex gap-2 pt-2">
                     {!fibChecked ? (
-                      <Button onClick={() => setFibChecked(true)} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-                        {t("Kiểm tra", "Check Answers")}
+                      <Button onClick={handleCheckFib} disabled={Object.keys(fibAnswers).length === 0} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                        {t("Kiểm tra & Chấm điểm", "Check & Score")}
                       </Button>
                     ) : (
-                      <Button onClick={() => { setFibChecked(false); setFibAnswers({}); }} variant="outline">
+                      <Button onClick={() => { setFibChecked(false); setFibAnswers({}); setFibScore(null); }} variant="outline">
                         {t("Làm lại", "Try Again")}
                       </Button>
                     )}
