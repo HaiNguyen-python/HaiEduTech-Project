@@ -87,7 +87,7 @@ const KnowledgeHubPage = () => {
       <main className="flex-1 pt-28 lg:pt-32 pb-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           {/* Header */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
             <div className="flex items-center justify-center gap-2 mb-3">
               <GraduationCap className="w-8 h-8 text-primary" />
               <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
@@ -101,6 +101,25 @@ const KnowledgeHubPage = () => {
               )}
             </p>
           </motion.div>
+
+          {/* Profile + Compare toolbar */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+            <Button variant="outline" size="sm" className="gap-1.5" onClick={() => setProfileOpen(true)}>
+              <UserCog className="w-4 h-4" />
+              {profile?.gpa || profile?.ielts_score
+                ? t("Cập nhật hồ sơ", "Update Profile")
+                : t("Tạo hồ sơ học thuật", "Create Academic Profile")}
+            </Button>
+            <CompareSchoolsDashboard />
+            {(profile?.gpa || profile?.ielts_score) && (
+              <Badge variant="secondary" className="gap-1 text-xs">
+                <Sparkles className="w-3 h-3 text-primary" />
+                {t("Match Score đã bật", "Match Score active")}
+              </Badge>
+            )}
+          </div>
+
+          <ProfileEditorDialog open={profileOpen} onOpenChange={setProfileOpen} />
 
           {/* AI Consultation Box */}
           <div className="mb-10">
@@ -200,6 +219,9 @@ const KnowledgeHubPage = () => {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((s, i) => {
               const isExpanded = expandedId === s.id;
+              const matchResult = profile && (profile.gpa || profile.ielts_score || profile.target_country)
+                ? computeMatchScore(profile, s)
+                : null;
               return (
                 <motion.div
                   key={s.id}
@@ -220,7 +242,23 @@ const KnowledgeHubPage = () => {
                             </Badge>
                           )}
                         </div>
+                        {matchResult && (
+                          <div className="flex-shrink-0">
+                            <MatchScoreRing result={matchResult} size={56} strokeWidth={6} showLabel={false} />
+                          </div>
+                        )}
                       </div>
+
+                      {matchResult && matchResult.improvements.length > 0 && (
+                        <div className="mb-3 rounded-lg bg-amber-500/10 border border-amber-500/20 p-2">
+                          <div className="text-[10px] font-bold uppercase text-amber-600 dark:text-amber-400 mb-0.5">
+                            💡 {t("Cách cải thiện", "How to improve")}
+                          </div>
+                          <p className="text-[11px] text-muted-foreground line-clamp-2">
+                            {matchResult.improvements[0]}
+                          </p>
+                        </div>
+                      )}
 
                       {/* Title */}
                       <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">

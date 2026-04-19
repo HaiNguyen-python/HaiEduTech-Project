@@ -8,7 +8,9 @@ import { motion } from "framer-motion";
 import {
   FolderLock, Upload, FileText, Image as ImageIcon, FileType2,
   Trash2, Pencil, Download, Eye, Loader2, Plus, ShieldCheck, FileWarning,
+  CalendarClock, AlertTriangle,
 } from "lucide-react";
+import { getExpiryInfo } from "@/lib/expiryAlerts";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
@@ -48,6 +50,7 @@ interface DocRow {
   size_bytes: number;
   status: StatusTag;
   created_at: string;
+  expiry_date: string | null;
 }
 
 const STATUS_STYLE: Record<StatusTag, string> = {
@@ -69,6 +72,8 @@ const StudentDocuments = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [renameTarget, setRenameTarget] = useState<DocRow | null>(null);
   const [renameValue, setRenameValue] = useState("");
+  const [expiryTarget, setExpiryTarget] = useState<DocRow | null>(null);
+  const [expiryValue, setExpiryValue] = useState("");
 
   const CATEGORIES: { id: Category; label: string; icon: typeof FileText; gradient: string }[] = [
     { id: "transcripts", label: t("Bảng điểm", "Academic Transcripts"), icon: FileText, gradient: "from-sky-500 to-indigo-600" },
@@ -203,6 +208,22 @@ const StudentDocuments = () => {
     }
     setDocs((d) => d.map((x) => (x.id === renameTarget.id ? { ...x, display_name: renameValue.trim() } : x)));
     setRenameTarget(null);
+  };
+
+  const handleSaveExpiry = async () => {
+    if (!expiryTarget) return;
+    const newDate = expiryValue || null;
+    const { error } = await supabase
+      .from("student_documents")
+      .update({ expiry_date: newDate })
+      .eq("id", expiryTarget.id);
+    if (error) {
+      toast({ title: t("Lỗi", "Error"), description: error.message, variant: "destructive" });
+      return;
+    }
+    setDocs((d) => d.map((x) => (x.id === expiryTarget.id ? { ...x, expiry_date: newDate } : x)));
+    setExpiryTarget(null);
+    toast({ title: t("Đã cập nhật ngày hết hạn", "Expiry updated") });
   };
 
   const handleStatus = async (doc: DocRow, status: StatusTag) => {
