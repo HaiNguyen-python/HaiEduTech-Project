@@ -1405,43 +1405,272 @@ ORDER BY salary DESC;`,
         id: "sql-recursive-1",
         title: "WITH RECURSIVE",
         titleEn: "WITH RECURSIVE",
-        theory: `# Recursive CTE (WITH RECURSIVE)
+        theory: `**Recursive CTE** (Common Table Expression đệ quy) là vũ khí bí mật của SQL để xử lý dữ liệu **phân cấp (hierarchical)** và **đồ thị (graph)** — những thứ mà SQL truyền thống cực kỳ khó. Nó cho phép một CTE tham chiếu chính nó.
 
-## Cấu trúc
+## Vì sao cần Recursive CTE?
+
+Hãy thử trả lời các câu hỏi sau bằng SQL thường:
+- "Liệt kê tất cả nhân viên dưới quyền CEO (bất kỳ cấp nào)"
+- "Hiển thị cây danh mục e-commerce (cha → con → cháu)"
+- "Tìm đường ngắn nhất giữa 2 thành phố trong bảng routes"
+- "Tạo dãy 100 ngày liên tiếp từ một ngày bắt đầu"
+
+Tất cả đều cần **lặp đi lặp lại** đến khi điều kiện dừng — đó là đệ quy. Recursive CTE giải quyết tất cả trong 1 query duy nhất.
+
+## Cú pháp & 2 phần bắt buộc
+
 \`\`\`sql
-WITH RECURSIVE cte_name AS (
-  -- Base case (anchor)
-  SELECT ... 
-  UNION ALL
-  -- Recursive case
-  SELECT ... FROM cte_name WHERE ...
+WITH RECURSIVE cte_name (col1, col2, ...) AS (
+  -- 1️⃣ ANCHOR (base case) — chạy 1 lần đầu
+  SELECT initial_values FROM table WHERE start_condition
+
+  UNION ALL                       -- bắt buộc UNION ALL, không phải UNION
+
+  -- 2️⃣ RECURSIVE — chạy lặp, tham chiếu chính cte_name
+  SELECT new_values 
+  FROM table JOIN cte_name ON ...
+  WHERE termination_condition     -- BẮT BUỘC có điều kiện dừng
 )
 SELECT * FROM cte_name;
 \`\`\`
 
-## Ví dụ 1: Cây tổ chức
-\`\`\`sql
-WITH RECURSIVE org_tree AS (
-  SELECT id, name, manager_id, 1 AS level
-  FROM employees WHERE manager_id IS NULL
-  UNION ALL
-  SELECT e.id, e.name, e.manager_id, t.level + 1
-  FROM employees e JOIN org_tree t ON e.manager_id = t.id
-)
-SELECT * FROM org_tree ORDER BY level;
+> Quên \`UNION ALL\` hoặc điều kiện dừng → infinite loop → query crash.
+
+## Cách thực thi (mental model)
+
+\`\`\`
+Bước 0: Anchor → Result_0
+Bước 1: Recursive trên Result_0 → Result_1
+Bước 2: Recursive trên Result_1 → Result_2
+...
+Bước N: Result_N rỗng → Dừng
+Cuối cùng: UNION tất cả Result_0 + Result_1 + ... + Result_N
 \`\`\`
 
-## Ví dụ 2: Dãy số
+PostgreSQL/SQL Server có \`MAX_RECURSION\` (mặc định 100-1000) để tránh runaway.
+
+## Ví dụ #1: Sinh dãy số / dãy ngày
+
 \`\`\`sql
-WITH RECURSIVE nums AS (
-  SELECT 1 AS n
+-- Tạo 30 ngày liên tiếp từ 2024-01-01
+WITH RECURSIVE dates AS (
+  SELECT DATE '2024-01-01' AS d
   UNION ALL
-  SELECT n + 1 FROM nums WHERE n < 10
+  SELECT d + 1 FROM dates WHERE d < DATE '2024-01-30'
 )
-SELECT n FROM nums;
-\`\`\``,
-        theoryEn: `# Recursive CTE
-Structure: base case (anchor) UNION ALL recursive case. Used for hierarchical data (org trees, categories) and sequences.`,
+SELECT * FROM dates;
+\`\`\`
+
+Cực hữu ích cho **date dimension table**, fill missing dates trong time series.
+
+## Ví dụ #2: Cây tổ chức (Org Chart)
+
+\`\`\`sql
+-- employees(id, name, manager_id)
+WITH RECURSIVE org AS (
+  -- Anchor: CEO (manager_id IS NULL)
+  SELECT id, name, manager_id, 1 AS level, name::text AS path
+  FROM employees WHERE manager_id IS NULL
+  
+  UNION ALL
+  
+  -- Recursive: đi xuống mỗi cấp
+  SELECT e.id, e.name, e.manager_id, o.level + 1, 
+         o.path || ' > ' || e.name
+  FROM employees e
+  JOIN org o ON e.manager_id = o.id
+)
+SELECT level, path FROM org ORDER BY path;
+\`\`\`
+
+Output:
+\`\`\`
+1 | CEO Linh
+2 | CEO Linh > VP Hùng
+3 | CEO Linh > VP Hùng > Manager An
+4 | CEO Linh > VP Hùng > Manager An > Dev Bình
+\`\`\`
+
+## Ví dụ #3: Bill of Materials (BOM)
+
+Một sản phẩm gồm nhiều bộ phận, mỗi bộ phận lại gồm các bộ phận con. Tính tổng cost:
+\`\`\`sql
+WITH RECURSIVE bom AS (
+  SELECT part_id, parent_id, qty, cost FROM parts WHERE part_id = 'CAR'
+  UNION ALL
+  SELECT p.part_id, p.parent_id, p.qty * b.qty, p.cost
+  FROM parts p JOIN bom b ON p.parent_id = b.part_id
+)
+SELECT SUM(qty * cost) FROM bom;
+\`\`\`
+
+Toyota, Boeing dùng pattern này quản lý hàng triệu linh kiện.
+
+## Ví dụ #4: Graph Traversal — Friends of Friends
+
+\`\`\`sql
+WITH RECURSIVE network AS (
+  SELECT friend_id, 1 AS hops 
+  FROM friendships WHERE user_id = 100
+  UNION
+  SELECT f.friend_id, n.hops + 1
+  FROM friendships f JOIN network n ON f.user_id = n.friend_id
+  WHERE n.hops < 3                 -- giới hạn 3 hops
+)
+SELECT DISTINCT friend_id, MIN(hops) FROM network GROUP BY friend_id;
+\`\`\`
+
+Lưu ý dùng \`UNION\` (không ALL) để tránh duplicate khi có cycle.
+
+## So sánh: Recursive CTE vs các giải pháp khác
+
+| Giải pháp | Ưu điểm | Nhược điểm |
+|-----------|---------|------------|
+| **Recursive CTE** | Standard SQL, không cần app code | Có thể chậm với cây sâu |
+| **Adjacency List + Loop trong app** | Linh hoạt | N+1 query, slow |
+| **Nested Sets (LFT/RGT)** | Read cực nhanh | Insert/update phức tạp |
+| **Materialized Path** | Read nhanh, dễ hiểu | Update khó, hạn chế length |
+| **Closure Table** | Read/write balanced | Tốn storage |
+| **Graph DB (Neo4j)** | Tối ưu cho graph | Thêm tech stack |
+
+> Quy tắc: dữ liệu nhỏ-vừa (<100k node) → Recursive CTE. Dữ liệu lớn, traversal nhiều → Closure Table hoặc Neo4j.
+
+## Case study: GitLab và quyền truy cập group
+
+GitLab có **nested groups** (group lồng group). Để check user có quyền ở project, cần đi từ project → parent group → grandparent group → ... đến top. GitLab dùng recursive CTE trên PostgreSQL — đơn giản, hiệu quả, không cần thêm graph DB.
+
+## Best Practices ✅
+
+- ✅ **Luôn có điều kiện dừng** rõ ràng (WHERE level < N hoặc tương tự)
+- ✅ Dùng \`UNION ALL\` cho performance, \`UNION\` chỉ khi có cycle
+- ✅ Index trên cột JOIN (parent_id) để tăng tốc
+- ✅ Track \`level\` hoặc \`path\` để debug
+- ✅ Test với dữ liệu nhỏ trước khi chạy production
+- ✅ Set \`MAX_RECURSION\` thấp khi prototype
+
+## Anti-patterns ❌
+
+- ❌ Không có điều kiện dừng → infinite loop, server hang
+- ❌ \`UNION\` thay vì \`UNION ALL\` khi không có cycle → sort tốn kém
+- ❌ JOIN nhiều bảng trong recursive part → exponential blowup
+- ❌ Recursive CTE cho dữ liệu nông (1-2 cấp) → JOIN thường nhanh hơn
+- ❌ Cycle trong dữ liệu mà không xử lý → infinite loop
+
+## Khi nào dùng?
+
+✅ **Nên:** Org chart, category tree, BOM, comment threads, file system, route finding, sinh date series, hierarchical aggregation.
+
+❌ **Không nên:** Cây cực sâu (>100 cấp), graph cực lớn (millions of nodes) — dùng Neo4j/JanusGraph. Khi cấu trúc cây fixed (luôn 2-3 cấp) — dùng JOIN thường.
+
+## Bridge: Bài tiếp theo
+
+**Apache Spark** — khi data quá lớn cho 1 database (>1TB), bạn cần phân tán xử lý ra cluster. Spark là framework #1 cho big data trong industry.`,
+        theoryEn: `**Recursive CTE** is SQL's secret weapon for **hierarchical** and **graph** data — things normal SQL struggles with. It lets a CTE reference itself.
+
+## Why Recursive CTE?
+
+Try answering with regular SQL:
+- "All employees under the CEO at any level"
+- "E-commerce category tree (parent → child → grandchild)"
+- "Shortest path between two cities"
+- "Generate 100 consecutive dates"
+
+All require iteration until termination — recursion. Recursive CTE solves all in one query.
+
+## Syntax & Two Required Parts
+
+\`\`\`sql
+WITH RECURSIVE cte_name AS (
+  -- 1️⃣ ANCHOR (base case) — runs once
+  SELECT initial_values WHERE start_condition
+
+  UNION ALL                  -- must be UNION ALL, not UNION
+
+  -- 2️⃣ RECURSIVE — references cte_name
+  SELECT new_values FROM table JOIN cte_name ON ...
+  WHERE termination_condition  -- REQUIRED termination
+)
+SELECT * FROM cte_name;
+\`\`\`
+
+> Missing UNION ALL or termination → infinite loop → crash.
+
+## Execution Mental Model
+
+Anchor → Result_0; Recursive on R0 → R1; on R1 → R2; ... until empty. Final: UNION all results. PostgreSQL has \`MAX_RECURSION\` safety.
+
+## Example #1: Date Series
+
+\`\`\`sql
+WITH RECURSIVE dates AS (
+  SELECT DATE '2024-01-01' AS d
+  UNION ALL
+  SELECT d + 1 FROM dates WHERE d < DATE '2024-01-30'
+)
+SELECT * FROM dates;
+\`\`\`
+
+Great for date dimensions, filling time series gaps.
+
+## Example #2: Org Chart
+
+\`\`\`sql
+WITH RECURSIVE org AS (
+  SELECT id, name, manager_id, 1 AS level, name::text AS path
+  FROM employees WHERE manager_id IS NULL
+  UNION ALL
+  SELECT e.id, e.name, e.manager_id, o.level + 1, o.path || ' > ' || e.name
+  FROM employees e JOIN org o ON e.manager_id = o.id
+)
+SELECT level, path FROM org;
+\`\`\`
+
+## Example #3: Bill of Materials (Toyota, Boeing)
+
+Roll up costs of nested parts.
+
+## Example #4: Friends of Friends (3-hop graph)
+
+Use \`UNION\` (not ALL) to dedupe in cycles.
+
+## Comparison
+
+| Solution | Pros | Cons |
+|----------|------|------|
+| **Recursive CTE** | Standard SQL | Slower for deep trees |
+| **Adjacency + App loop** | Flexible | N+1 query |
+| **Nested Sets** | Fast reads | Hard updates |
+| **Materialized Path** | Simple reads | Length limits |
+| **Closure Table** | Balanced | Storage cost |
+| **Graph DB (Neo4j)** | Optimal for graphs | Extra stack |
+
+## Case Study: GitLab Nested Groups
+
+GitLab uses recursive CTE on PostgreSQL to check access through nested group hierarchies — no separate graph DB needed.
+
+## Best Practices ✅
+
+- Always include termination condition
+- Use UNION ALL for performance (UNION only for cycles)
+- Index parent_id columns
+- Track level/path for debugging
+- Test on small data first
+
+## Anti-patterns ❌
+
+- No termination → infinite loop
+- UNION instead of UNION ALL when no cycle → costly sort
+- Many JOINs in recursive part → exponential blowup
+- Cycles without handling → infinite loop
+
+## When to Use
+
+✅ Org charts, category trees, BOM, comment threads, file systems, date series
+❌ Very deep trees (>100 levels), millions of nodes (use Neo4j), fixed shallow structure (use JOIN)
+
+## Bridge
+
+Next: **Apache Spark** — when data exceeds single DB (>1TB), distribute across a cluster. Spark is the industry #1 big data framework.`,
         code: `-- Recursive CTE: Generate a number series
 WITH RECURSIVE numbers AS (
   SELECT 1 AS n
