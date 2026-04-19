@@ -1715,44 +1715,210 @@ SELECT depth, path FROM category_tree ORDER BY path;`,
         id: "spark-basics-1",
         title: "Giới thiệu Apache Spark",
         titleEn: "Introduction to Apache Spark",
-        theory: `# Apache Spark
+        theory: `**Apache Spark** là framework #1 cho **xử lý dữ liệu phân tán** trong industry — Netflix, Uber, Airbnb, Shopify, Pinterest dùng để xử lý petabytes/ngày.
 
-## Spark là gì?
-Apache Spark là framework xử lý dữ liệu phân tán, nhanh hơn MapReduce 100x nhờ xử lý in-memory.
+## Vì sao Spark thay thế Hadoop MapReduce?
+
+MapReduce ghi ra HDFS giữa mỗi stage → cực chậm. Spark giữ data **trong RAM** → nhanh hơn 10-100×, đặc biệt với iterative workload (ML, graph).
 
 ## Kiến trúc
-- **Driver**: Điều phối
-- **Executor**: Thực thi trên worker nodes
-- **Cluster Manager**: Quản lý tài nguyên (YARN, Mesos, K8s)
 
-## Các API chính
-1. **RDD** (Resilient Distributed Dataset): API cấp thấp
-2. **DataFrame**: API cấp cao, tối ưu tự động
-3. **Dataset**: Type-safe (Scala/Java)
-4. **Spark SQL**: Truy vấn SQL trên DataFrame
-
-## Ví dụ PySpark
-\`\`\`python
-from pyspark.sql import SparkSession
-
-spark = SparkSession.builder.appName("MyApp").getOrCreate()
-
-# Đọc CSV
-df = spark.read.csv("data.csv", header=True, inferSchema=True)
-
-# Transformation
-result = df.filter(df.age > 25) \\
-           .groupBy("department") \\
-           .agg({"salary": "avg"})
-
-result.show()
+\`\`\`
+Driver (coordinator) → schedule tasks
+   ↓
+Executors (workers) → chạy tasks song song, cache data trong RAM
+   ↑
+Cluster Manager (YARN/K8s/Mesos) → cấp resource
 \`\`\`
 
-## Lazy Evaluation
-Spark không thực thi ngay — chỉ tạo execution plan.
-Chỉ khi gọi action (show, collect, write) mới thực sự chạy.`,
-        theoryEn: `# Apache Spark
-Distributed data processing framework, 100x faster than MapReduce. Key APIs: RDD (low-level), DataFrame (high-level), Spark SQL. Uses lazy evaluation.`,
+## 3 API levels
+
+| API | Performance | Khi nào dùng |
+|-----|-------------|--------------|
+| **RDD** | Chậm hơn | Custom logic phức tạp |
+| **DataFrame** | Nhanh (Catalyst) | **Mặc định 95% case** |
+| **Dataset** | Nhanh, type-safe | Scala/Java |
+| **Spark SQL** | Nhanh | Analyst dùng SQL |
+
+> Luôn ưu tiên DataFrame/SQL.
+
+## Lazy Evaluation & DAG Optimizer
+
+Spark **không chạy** transformation — chỉ build DAG. Action mới trigger:
+
+\`\`\`python
+df = spark.read.csv("sales.csv")        # lazy
+filtered = df.filter(df.amount > 100)   # lazy
+filtered.show()                         # ACTION — chạy bây giờ
+\`\`\`
+
+**Catalyst Optimizer** rewrites DAG: predicate pushdown, column pruning, join reordering.
+
+| Loại | Ví dụ |
+|------|-------|
+| Transformations (lazy) | filter, select, groupBy, join, withColumn |
+| Actions (trigger) | show, collect, count, write, take |
+
+## Narrow vs Wide Transformations
+
+- **Narrow** (filter, select): không shuffle → nhanh
+- **Wide** (groupBy, join, distinct): cần shuffle dữ liệu giữa nodes → chậm + tốn network
+
+Tối ưu Spark = giảm shuffle.
+
+## Ví dụ PySpark đầy đủ
+
+\`\`\`python
+from pyspark.sql import SparkSession, functions as F
+spark = SparkSession.builder.appName("SalesETL").getOrCreate()
+
+result = (spark.read.parquet("s3://bucket/sales/")
+    .filter(F.col("date") >= "2024-01-01")
+    .withColumn("revenue", F.col("price") * F.col("quantity"))
+    .groupBy("region", "category")
+    .agg(F.sum("revenue").alias("total_revenue"))
+    .orderBy(F.desc("total_revenue")))
+
+result.write.mode("overwrite").parquet("s3://bucket/output/")
+\`\`\`
+
+## File formats: Parquet > CSV
+
+| Format | Read speed | Storage | Pushdown |
+|--------|-----------|---------|----------|
+| CSV | Chậm | Lớn | Không |
+| **Parquet** | **Nhanh** | **Nhỏ (10x)** | **Có** |
+| Delta Lake | Parquet + ACID | + log | Có |
+
+> Big data production luôn dùng **Parquet** (columnar) — nhanh hơn CSV 10-100×.
+
+## Case study: Netflix — 1 EB/ngày
+
+Netflix xử lý **1 exabyte/ngày** trên Spark + S3 + Iceberg cho personalization (250M users), A/B testing, billing. Hàng nghìn nodes, dùng AQE (Adaptive Query Execution) tự động re-optimize.
+
+## Case study: Uber — 15T messages/ngày
+
+Uber dùng Spark Structured Streaming + Kafka cho surge pricing, driver matching, fraud detection. Latency end-to-end <1 giây.
+
+## Khi nào dùng?
+
+✅ **Nên:** Data >100GB, ETL phức tạp nhiều stage, streaming từ Kafka, ML training trên dataset lớn.
+
+❌ **Không nên:** Data <10GB (Pandas/DuckDB nhanh hơn), latency <100ms cho từng query (dùng DB), prototype đơn giản.
+
+## Best Practices ✅
+
+- ✅ Luôn dùng **Parquet** thay CSV
+- ✅ **Cache** DataFrame được reuse nhiều lần (\`df.cache()\`)
+- ✅ **Broadcast join** khi 1 bảng nhỏ (<100MB): \`F.broadcast(small_df)\`
+- ✅ Partition theo cột query thường xuyên
+- ✅ Tránh \`collect()\` trên data lớn → driver OOM
+- ✅ Monitor qua Spark UI (port 4040)
+- ✅ Bật **AQE** từ Spark 3+
+
+## Anti-patterns ❌
+
+- ❌ \`collect()\` 1TB về driver → crash
+- ❌ \`.toPandas()\` trên big data → OOM
+- ❌ Python UDF khi có function built-in (chậm 10-100×)
+- ❌ Data skew (1 key chiếm 90% data) → 1 task chạy mãi
+- ❌ Quá nhiều small files (<128MB) → overhead lớn
+- ❌ Dùng RDD cho structured data → mất Catalyst
+
+## Hành trình tiếp theo
+
+Nắm vững Spark là bước cuối hoàn thiện foundation Data Engineering. Tiếp theo: **Spark Streaming** (real-time), **Delta Lake** (ACID trên data lake), **Spark MLlib** (ML phân tán), hoặc **Databricks** (managed Spark được Netflix, Shell, Comcast dùng).`,
+        theoryEn: `**Apache Spark** is the industry's #1 distributed data processing framework — used by Netflix, Uber, Airbnb to process petabytes daily.
+
+## Why Spark Replaced MapReduce
+
+MapReduce writes to HDFS between stages → slow. Spark keeps data **in RAM** → 10-100× faster. Critical for iterative workloads (ML, graphs).
+
+## Architecture
+
+Driver coordinates → Executors run tasks in parallel, cache in RAM → Cluster Manager (YARN/K8s) allocates resources.
+
+## 3 API Levels
+
+| API | Performance | When |
+|-----|-------------|------|
+| RDD | Slower | Custom complex logic |
+| **DataFrame** | Fast (Catalyst) | **Default 95%** |
+| Dataset | Fast, type-safe | Scala/Java |
+| Spark SQL | Fast | Analyst SQL |
+
+## Lazy Evaluation & DAG
+
+Spark builds a DAG; only **actions** trigger execution. Catalyst Optimizer rewrites: predicate pushdown, column pruning, join reordering.
+
+| Type | Examples |
+|------|----------|
+| Transformations (lazy) | filter, select, groupBy, join |
+| Actions (trigger) | show, collect, count, write |
+
+## Narrow vs Wide
+
+- **Narrow** (filter, select): no shuffle → fast
+- **Wide** (groupBy, join): shuffle → slow + network-heavy
+
+Optimize = minimize shuffle.
+
+## PySpark Example
+
+\`\`\`python
+result = (spark.read.parquet("s3://bucket/sales/")
+    .filter(F.col("date") >= "2024-01-01")
+    .groupBy("region")
+    .agg(F.sum("revenue").alias("total"))
+    .orderBy(F.desc("total")))
+result.write.mode("overwrite").parquet("s3://bucket/out/")
+\`\`\`
+
+## File Formats
+
+| Format | Speed | Storage | Pushdown |
+|--------|-------|---------|----------|
+| CSV | Slow | Large | No |
+| **Parquet** | **Fast** | **10× smaller** | **Yes** |
+| Delta Lake | Parquet + ACID | + log | Yes |
+
+> Always use **Parquet** in production.
+
+## Case Study: Netflix — 1 EB/day
+
+Netflix processes **1 exabyte/day** on Spark + S3 + Iceberg for personalization (250M users), A/B testing, billing. Thousands of nodes with AQE.
+
+## Case Study: Uber — 15T messages/day
+
+Uber uses Spark Structured Streaming with Kafka for surge pricing, driver matching, fraud detection. Sub-second end-to-end latency.
+
+## When to Use
+
+✅ Data >100GB, complex ETL, streaming, distributed ML
+❌ Data <10GB (use Pandas/DuckDB), <100ms latency (use DB), simple scripts
+
+## Best Practices ✅
+
+- Use **Parquet** over CSV
+- **Cache** reused DataFrames
+- **Broadcast join** small tables (<100MB)
+- Partition by frequent filter columns
+- Avoid \`collect()\` on large data
+- Monitor Spark UI (port 4040)
+- Enable **AQE** in Spark 3+
+
+## Anti-patterns ❌
+
+- \`collect()\` on 1TB → driver OOM
+- \`.toPandas()\` on big data → OOM
+- Python UDF when built-in exists (10-100× slower)
+- Data skew → one task hangs forever
+- Too many small files (<128MB)
+- RDD for structured data (loses Catalyst)
+
+## Next Journey
+
+Master Spark = Data Engineering foundation complete. Next: **Spark Streaming**, **Delta Lake**, **Spark MLlib**, or **Databricks** (managed Spark used by Netflix, Shell, Comcast).`,
         code: `# PySpark DataFrame example (conceptual)
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
