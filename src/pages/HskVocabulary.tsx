@@ -52,12 +52,15 @@ const shuffle = <T,>(arr: T[]): T[] => {
 // (hanzi-writer can only animate one character per instance)
 const HanziWord = ({ characters, size }: { characters: string; size: number }) => {
   const chars = Array.from(characters); // supports surrogate pairs
-  const perCharSize = chars.length >= 3 ? Math.floor(size * 0.75) : size;
+  const perCharSize = chars.length >= 3 ? Math.floor(size * 0.72) : size;
   return (
-    <div className="flex items-center justify-center gap-1 flex-wrap">
-      {chars.map((c, i) => (
-        <HanziStrokeOrder key={i} character={c} size={perCharSize} />
-      ))}
+    <div className="flex flex-col items-center gap-1">
+      <div className="flex items-end justify-center gap-0">
+        {chars.map((c, i) => (
+          <HanziStrokeOrder key={i} character={c} size={perCharSize} compact />
+        ))}
+      </div>
+      <p className="text-[10px] text-muted-foreground">Click ký tự để xem lại nét bút</p>
     </div>
   );
 };

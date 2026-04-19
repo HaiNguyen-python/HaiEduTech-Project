@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 interface HanziStrokeOrderProps {
   character: string;
   size?: number;
+  compact?: boolean;
 }
 
 const CDN_URLS = [
@@ -14,7 +15,7 @@ const CDN_URLS = [
   "https://esm.sh/hanzi-writer-data@2.0.1",
 ];
 
-const HanziStrokeOrder = ({ character, size = 120 }: HanziStrokeOrderProps) => {
+const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrokeOrderProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const writerRef = useRef<any>(null);
   const autoPlayedRef = useRef(false);
@@ -130,9 +131,11 @@ const HanziStrokeOrder = ({ character, size = 120 }: HanziStrokeOrderProps) => {
           </div>
         )}
       </div>
-      <p className="text-[10px] text-muted-foreground mt-1">
-        {loading ? "Đang tải nét bút..." : hasPlayed ? "Click để xem lại nét bút" : "Đang vẽ nét bút..."}
-      </p>
+      {!compact && (
+        <p className="text-[10px] text-muted-foreground mt-1">
+          {loading ? "Đang tải nét bút..." : hasPlayed ? "Click để xem lại nét bút" : "Đang vẽ nét bút..."}
+        </p>
+      )}
     </div>
   );
 };
