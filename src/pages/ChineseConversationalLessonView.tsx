@@ -63,6 +63,11 @@ const ChineseConversationalLessonView = () => {
     if (lesson && pillar && hasAccess) {
       setIsCompleted(getCompletedLessons().includes(lesson.id));
     }
+    // Reset exercise state when lesson changes
+    setFibAnswers({});
+    setFibChecked(false);
+    setListeningRevealed(false);
+    setListeningAnswers({});
   }, [lesson, pillar, hasAccess]);
 
   if (accessLoading) {
