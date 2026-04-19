@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
@@ -81,7 +82,20 @@ const pillars = [
 
 const Programming = () => {
   const { t } = useLanguage();
-  const [activePillar, setActivePillar] = useState("python");
+  const [searchParams] = useSearchParams();
+  const [activePillar, setActivePillar] = useState(() => {
+    const initial = searchParams.get("pillar");
+    return initial && pillars.some(p => p.id === initial) ? initial : "python";
+  });
+
+  // Sync active pillar when ?pillar= changes (e.g. coming from Navbar link)
+  useEffect(() => {
+    const next = searchParams.get("pillar");
+    if (next && pillars.some(p => p.id === next) && next !== activePillar) {
+      setActivePillar(next);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const completedChallenges = pythonChallenges.filter(
     c => localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1"
