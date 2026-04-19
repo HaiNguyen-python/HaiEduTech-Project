@@ -487,150 +487,80 @@ print(f"Sum = {softmax(logits).sum():.4f}")`,
       {
         id: "ai-loss-1", title: "Loss Functions & Gradient Descent", titleEn: "Loss Functions & Gradient Descent",
         level: 3, difficulty: "intermediate",
-        theory: `**Loss Functions & Optimization — How Neural Networks Learn**
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Training a neural network is essentially an optimization problem: find the weights that minimize the loss function. The loss function measures how "wrong" our predictions are.
+Bạn tập ném phi tiêu vào hồng tâm. Mỗi lần ném lệch, bạn **đo khoảng cách** trượt mục tiêu (loss), rồi **điều chỉnh tay** để lần sau gần hơn. Càng nhiều lần thử + điều chỉnh đúng hướng, càng gần tâm.
 
----
+Đó chính là **Loss + Gradient Descent**: đo sai số, tính hướng sửa, bước theo hướng đó — lặp lại tới khi loss đủ nhỏ.
 
-**📏 Loss Functions for Regression**
+## 2. 💡 Khái niệm chính
 
-**Mean Squared Error (MSE):**
-\`L = (1/n) × Σ(yᵢ - ŷᵢ)²\`
+- **Loss function**: con số đo "sai bao nhiêu" so với ground truth.
+- **Gradient**: đạo hàm của loss theo từng weight — chỉ "đi hướng nào loss giảm nhanh nhất".
+- **Gradient Descent**: $w \\\\leftarrow w - \\\\eta \\\\cdot \\\\nabla L$ ($\\\\eta$ = learning rate).
 
-- Penalizes large errors heavily (squared term)
-- Sensitive to outliers
-- Always non-negative, 0 = perfect prediction
+## 3. 🧰 Loss phổ biến
 
-**Mean Absolute Error (MAE):**
-\`L = (1/n) × Σ|yᵢ - ŷᵢ|\`
+| Bài toán | Loss | Lý do |
+|---|---|---|
+| Regression | **MSE** $(y-\\\\hat y)^2$ | Phạt sai lớn nặng |
+| Regression có outlier | **MAE / Huber** | Bớt nhạy outlier |
+| Binary | **BCE** | Khớp với sigmoid |
+| Multi-class | **CrossEntropy** | Khớp với softmax |
+| Imbalanced | **Focal Loss** | Tập trung sample khó |
 
-- More robust to outliers than MSE
-- Gradient is constant (doesn't decrease near minimum)
+## 4. 🎯 Ví dụ chạy được ngay
 
-**Huber Loss:** Combines MSE (near 0) and MAE (far from 0) — best of both worlds.
+\\\`\\\`\\\`python
+import torch, torch.nn as nn
+x = torch.tensor([1., 2., 3., 4.])
+y = torch.tensor([2., 4., 6., 8.])              # y = 2x
 
----
+w = torch.tensor([0.5], requires_grad=True)
+optim = torch.optim.SGD([w], lr=0.05)
+loss_fn = nn.MSELoss()
 
-**📊 Loss Functions for Classification**
+for step in range(50):
+    y_hat = w * x
+    loss = loss_fn(y_hat, y)
+    optim.zero_grad()
+    loss.backward()                              # tính gradient
+    optim.step()                                 # cập nhật w
+print(f"w = {w.item():.4f}")                     # ~ 2.0
+\\\`\\\`\\\`
 
-**Binary Cross-Entropy (Log Loss):**
-\`L = -[y·log(ŷ) + (1-y)·log(1-ŷ)]\`
+## 5. ⚠️ Bẫy thường gặp
 
-- For binary classification (0 or 1)
-- Heavily penalizes confident wrong predictions
-- Example: If true label is 1 and model predicts 0.01, loss is very high (-log(0.01) ≈ 4.6)
+> ⚠️ **Cảnh báo:**
+> - **Learning rate quá cao** → loss nhảy lung tung, bay qua điểm tốt nhất.
+> - **Quá thấp** → train 10h mới giảm 1 chút.
+> - **Quên \`optim.zero_grad()\`** → gradient cộng dồn → cập nhật sai.
+> - **Loss = NaN**: thường do log(0), chia 0, lr quá cao, hoặc input chưa scale.
+> - **Chỉ nhìn train loss**: cần xem cả validation — train loss giảm mà val tăng = overfit.
 
-**Categorical Cross-Entropy:**
-\`L = -Σ yᵢ·log(ŷᵢ)\`
+## 6. ✅ Best practice của thầy Hải
 
-- For multi-class classification
-- Used with Softmax output layer
+> 💡 **Mẹo:**
+> - **Bắt đầu lr = 1e-3** (Adam) hoặc 1e-2 (SGD), rồi điều chỉnh theo loss curve.
+> - Dùng **Learning Rate Finder** (fastai, lr_finder) để tìm lr tối ưu trong 1 phút.
+> - **Optimizer**: Adam cho hầu hết bài toán; SGD + momentum cho CV cuối cùng (thường tổng quát hoá tốt hơn).
+> - **Gradient clipping** ($\\\\|g\\\\| \\\\le 1.0$) cho RNN/Transformer để tránh nổ gradient.
+> - Vẽ **loss curve** mỗi epoch — nó nói cho bạn biết mọi vấn đề.
 
-**Sparse Categorical Cross-Entropy:** Same as above but takes integer labels instead of one-hot vectors.
+## 7. 🤔 Variants của GD
 
----
+| Tên | Đặc điểm |
+|---|---|
+| Batch GD | Dùng toàn bộ data → chậm, ổn định |
+| **SGD** | 1 sample → nhanh, nhiễu |
+| **Mini-batch SGD** | Batch 32-256 → cân bằng (chuẩn ngày nay) |
+| Momentum | Có "đà" → vượt qua local minima |
+| Adam | Adaptive lr cho từng weight (default ngày nay) |
 
-**📉 Gradient Descent — The Core Optimization Algorithm**
+## 8. 📌 Tóm tắt 30 giây
 
-Gradient Descent finds the minimum of the loss function by iteratively moving in the direction of steepest descent:
-
-**Update Rule:** \`w = w - lr × ∂L/∂w\`
-
-Where:
-- \`lr\` (learning rate) controls step size
-- \`∂L/∂w\` is the gradient (slope) of loss w.r.t. weight
-
-**Analogy:** Imagine you're blindfolded on a mountain. You feel the slope under your feet and take a step downhill. Repeat until you reach the valley.
-
----
-
-**🔄 Variants of Gradient Descent:**
-
-| Variant | Batch Size | Pros | Cons |
-|---------|-----------|------|------|
-| Batch GD | All data | Stable convergence | Slow, memory-heavy |
-| SGD | 1 sample | Fast updates | Very noisy |
-| Mini-batch GD | 32-512 | Good balance | Need to tune batch size |
-
----
-
-**🚀 Advanced Optimizers:**
-
-- **Momentum:** Adds "velocity" — accelerates in consistent gradient direction
-- **RMSProp:** Adapts learning rate per parameter
-- **Adam:** Combines Momentum + RMSProp. **The most popular optimizer** — good defaults, works well for most problems
-- **AdamW:** Adam + weight decay (better regularization)
-
-**Learning Rate Scheduling:**
-- Start high, decrease over time
-- Cosine annealing, warm restarts
-- Learning rate warmup (common in Transformers)
-
----
-
-**⚠️ Common Problems:**
-
-1. **Learning rate too high:** Loss oscillates or diverges (overshooting)
-2. **Learning rate too low:** Training is extremely slow, may get stuck
-3. **Local minima:** In practice, saddle points are more problematic than local minima
-4. **Gradient explosion:** Gradients become huge → use gradient clipping
-
----
-
-## 🏢 Case Study: OpenAI's $4.6M GPT-3 Training Run
-
-GPT-3 (175B parameters) was trained for one full pass with carefully tuned optimization:
-- **Optimizer:** AdamW with β₁=0.9, β₂=0.95, ε=1e-8
-- **Learning rate:** 6e-5 with cosine decay + 375M token warmup
-- **Batch size:** 3.2M tokens (gradient accumulation across 1000s of GPUs)
-- **Loss:** Standard next-token cross-entropy
-- **Compute:** 3,640 PetaFLOP-days = ~$4.6M on V100s
-
-**Key insight:** A single mis-tuned learning rate would waste millions. OpenAI used "**learning rate sweep**" on smaller models (1.3B, 6.7B, 13B) to extrapolate the optimal LR for 175B — this scaling-law approach saved a fortune.
-
----
-
-## 🏢 Case Study: DeepMind's Chinchilla — Loss Curves Reveal "Compute-Optimal" Training
-
-In 2022, DeepMind discovered most LLMs (including GPT-3) were **dramatically under-trained**:
-- GPT-3 (175B params, 300B tokens) — trained too few tokens for its size
-- Chinchilla (70B params, 1.4T tokens) — outperformed GPT-3 with 2.5× fewer parameters
-
-**The Chinchilla scaling law:** For optimal compute use, **N (params) and D (training tokens) should scale equally** (~20 tokens per parameter).
-
-**Impact:** Llama 2 (7B params, 2T tokens), Llama 3 (70B, 15T tokens) all follow Chinchilla — not GPT-3 — scaling.
-
-**Lesson:** The right loss function + optimizer is necessary but not sufficient. **How much you train** matters as much as **what you train**.
-
----
-
-## 📋 Optimizer Selection Guide
-
-| Use Case | Optimizer | Why |
-|----------|-----------|-----|
-| Default for new projects | AdamW | Robust, good defaults, standard |
-| Computer vision (ResNet/ViT) | SGD + Momentum | Often generalizes better than Adam |
-| LLMs (>1B params) | AdamW + cosine LR | OpenAI/Anthropic/Google standard |
-| Limited compute / mobile | Adafactor | Memory-efficient (no momentum) |
-| Reinforcement Learning | Adam (β₂=0.999) | Handles sparse rewards |
-| Large batch training | LAMB / LARS | Layer-wise LR scaling |
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Using MSE for classification (gradients near saturation are tiny → slow training)
-❌ Forgetting to scale loss when using gradient accumulation (loss should be averaged, not summed)
-❌ Setting learning rate without a sweep — the "default" in tutorials may be 100× off for your problem
-❌ Ignoring loss spikes — usually signals corrupt data or numerical instability
-❌ Using vanilla SGD for Transformers (almost never works without warmup + adaptive optimizers)
-
----
-
-## 🌉 Bridge to Next Lesson
-
-You now know HOW to update weights (gradient descent) and HOW to measure error (loss functions). But how do gradients **flow backwards** through 96 layers of GPT-3? Next: **Backpropagation** — the algorithm that propagates errors backwards using the chain rule.`,
+Loss = đo sai; Gradient = chỉ hướng sửa; GD = bước theo hướng đó. Chọn loss đúng bài toán (MSE/CE/BCE), chọn lr vừa phải, dùng Adam mặc định. Luôn vẽ loss curve và theo dõi cả val loss để bắt overfit sớm.
+`,
         theoryEn: `**Loss Functions & Optimization — How Neural Networks Learn**
 
 ---
@@ -699,133 +629,76 @@ print(f"\\n✅ Converged to x ≈ {x:.6f} (optimal: 0)")`,
       {
         id: "ai-bp-1", title: "Thuật toán Backpropagation", titleEn: "Backpropagation Algorithm",
         level: 3, difficulty: "intermediate",
-        theory: `**Backpropagation — How Neural Networks Learn from Mistakes**
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Backpropagation (back-propagation of errors) is the algorithm that makes deep learning possible. It efficiently computes gradients for all weights in a network, enabling gradient descent to update them.
+Bạn nướng bánh sai vị. Bạn truy ngược: vị mặn → muối nhiều → đong sai cốc → cốc bị mẻ. Mỗi nguyên nhân **đóng góp một phần** vào kết quả sai cuối cùng.
 
----
+**Backpropagation** = truy ngược "mỗi weight đóng góp bao nhiêu vào loss" để biết phải sửa weight nào nhiều, weight nào ít.
 
-**🔗 The Chain Rule — Mathematical Foundation**
+## 2. 💡 Khái niệm chính
 
-The chain rule from calculus allows us to compute derivatives of composed functions:
+- **Forward pass**: tính output từ input qua từng lớp.
+- **Loss**: so output với ground truth.
+- **Backward pass (backprop)**: dùng **chain rule** truy ngược gradient từ loss về từng weight.
+- **Update**: $w \\\\leftarrow w - \\\\eta \\\\cdot \\\\partial L / \\\\partial w$.
 
-If \`y = f(g(x))\`, then \`dy/dx = (dy/dg) × (dg/dx)\`
+## 3. 🧰 Chain rule trong 30 giây
 
-In neural networks, the loss depends on weights through multiple layers:
+Nếu $L = f(g(h(w)))$, thì:
+$$\\\\frac{\\\\partial L}{\\\\partial w} = \\\\frac{\\\\partial L}{\\\\partial f} \\\\cdot \\\\frac{\\\\partial f}{\\\\partial g} \\\\cdot \\\\frac{\\\\partial g}{\\\\partial h} \\\\cdot \\\\frac{\\\\partial h}{\\\\partial w}$$
 
-\`∂L/∂w₁ = ∂L/∂ŷ × ∂ŷ/∂z₂ × ∂z₂/∂a₁ × ∂a₁/∂z₁ × ∂z₁/∂w₁\`
+Backprop = áp dụng chain rule từ output về input, lưu lại gradient ở mỗi node (computation graph).
 
-Each term is simple to compute individually; the chain rule connects them.
+## 4. 🎯 Ví dụ chạy được ngay
 
----
+\\\`\\\`\\\`python
+import torch
+# Mạng siêu nhỏ: y = w2 * relu(w1 * x + b1) + b2
+x  = torch.tensor([2.0])
+y_true = torch.tensor([10.0])
 
-**🔄 The Complete Training Process:**
+w1 = torch.tensor([3.0], requires_grad=True)
+b1 = torch.tensor([1.0], requires_grad=True)
+w2 = torch.tensor([2.0], requires_grad=True)
+b2 = torch.tensor([0.5], requires_grad=True)
 
-1. **Forward Pass:** Input → compute output through all layers
-2. **Compute Loss:** Compare prediction to target
-3. **Backward Pass:** Compute gradients from output back to input using chain rule
-4. **Update Weights:** w = w - lr × gradient
+# Forward
+h = torch.relu(w1 * x + b1)        # 7
+y = w2 * h + b2                    # 14.5
+loss = (y - y_true) ** 2           # 20.25
 
-This 4-step loop repeats for thousands of iterations until loss converges.
+# Backward — PyTorch tự chạy chain rule
+loss.backward()
+print("dL/dw1 =", w1.grad.item())  # autograd cho ra số chính xác
+print("dL/dw2 =", w2.grad.item())
+\\\`\\\`\\\`
 
----
+## 5. ⚠️ Bẫy thường gặp
 
-**📐 Step-by-Step Example (1 Hidden Layer):**
+> ⚠️ **Cảnh báo:**
+> - **Vanishing gradient**: nhiều lớp sigmoid → gradient ~0 ở các lớp đầu → không học. Giải: ReLU + BatchNorm + ResNet skip connection.
+> - **Exploding gradient**: gradient lớn dần → NaN. Giải: gradient clipping, init đúng.
+> - **Quên \`loss.backward()\`** → optim.step() không có gì để cập nhật.
+> - **Quên \`optim.zero_grad()\`** → gradient cộng dồn qua các batch.
+> - **\`requires_grad=False\`** trên tensor cần học → "model không học".
 
-Given: Input x → Hidden z₁ = w₁x + b₁ → a₁ = σ(z₁) → Output z₂ = w₂a₁ + b₂ → ŷ = σ(z₂)
+## 6. ✅ Best practice của thầy Hải
 
-**Forward:**
-- z₁ = w₁ × x + b₁
-- a₁ = σ(z₁)
-- z₂ = w₂ × a₁ + b₂
-- ŷ = σ(z₂)
+> 💡 **Mẹo:**
+> - **Tin vào autograd** — đừng tự code backward trừ khi viết custom layer.
+> - Dùng **gradient checking** khi tự viết: so gradient autograd với gradient tính bằng numerical $(L(w+\\\\epsilon) - L(w-\\\\epsilon)) / 2\\\\epsilon$.
+> - In **gradient norm** mỗi epoch → quá nhỏ là vanishing, quá lớn là exploding.
+> - Skip connection (ResNet) là phát minh "cứu rỗi" backprop sâu — luôn cân nhắc.
+> - **Mixed precision** (fp16) tăng tốc 2-3x nhưng dễ NaN — dùng \`torch.cuda.amp\` đúng cách.
 
-**Backward (computing gradients):**
-- ∂L/∂ŷ = -(y/ŷ) + (1-y)/(1-ŷ) [from cross-entropy]
-- ∂L/∂z₂ = ŷ - y [simplified for sigmoid + cross-entropy]
-- ∂L/∂w₂ = (ŷ - y) × a₁
-- ∂L/∂a₁ = (ŷ - y) × w₂
-- ∂L/∂z₁ = ∂L/∂a₁ × σ'(z₁)
-- ∂L/∂w₁ = ∂L/∂z₁ × x
+## 7. 🤔 Tại sao quan trọng
 
----
+Backprop là **bước nhảy năm 1986** đưa neural net thoát AI Winter. Mọi framework (PyTorch, TF, JAX) đều xoay quanh autograd = backprop tự động.
 
-**⚠️ Common Problems:**
+## 8. 📌 Tóm tắt 30 giây
 
-**Vanishing Gradient:**
-- In deep networks, gradients multiply through many layers
-- If each gradient < 1, the product → 0 exponentially
-- Layers close to input barely learn
-- **Solutions:** ReLU activation, BatchNorm, Skip Connections (ResNet), careful initialization
-
-**Exploding Gradient:**
-- Gradients > 1 multiply to become huge
-- Weights update wildly, loss becomes NaN
-- **Solutions:** Gradient clipping, proper initialization (Xavier/He), BatchNorm
-
----
-
-**🏗️ Modern Improvements:**
-
-- **Batch Normalization:** Normalizes layer outputs, stabilizes training
-- **Skip/Residual Connections:** Allow gradients to flow directly through shortcuts (ResNet)
-- **Layer Normalization:** Used in Transformers, normalizes across features
-- **Xavier/He Initialization:** Initialize weights properly to maintain gradient magnitude
-- **Gradient Clipping:** Cap gradient magnitude to prevent explosion
-
----
-
-## 🏢 Case Study: ResNet (Microsoft Research, 2015) — How Skip Connections Saved Deep Learning
-
-Before ResNet, networks deeper than ~20 layers got **worse**, not better — vanishing gradients made early layers untrainable.
-
-**Kaiming He's insight:** Add "skip connections" so gradients flow through identity shortcuts:
-- ResNet-152 (152 layers!) won ImageNet 2015 with 3.57% top-5 error — beating humans
-- Same idea now used in **every Transformer** (GPT, BERT, Claude, Gemini all use residual connections)
-- **Citation count:** >250,000 — one of the most cited papers in CS history
-
-**Without skip connections, GPT-4 would not exist.** The 96-layer GPT-3 only trains because each Transformer block has 2 residual connections per layer.
-
----
-
-## 🏢 Case Study: Anthropic's Mechanistic Interpretability — Tracing Gradients to Understand LLMs
-
-Anthropic's interpretability team uses **gradient attribution** (a backprop-derived technique) to understand how Claude makes decisions:
-- Trace which input tokens most affect output via gradients
-- Find "circuits" — small subnetworks that perform specific tasks (e.g., "indirect object identification")
-- 2024: Discovered "induction heads" — circuits that enable in-context learning
-
-**Lesson:** Backpropagation isn't just for training — it's the foundation of **AI safety research**.
-
----
-
-## 📋 Debugging Checklist
-
-When training fails, run these gradient health checks:
-
-✅ Print **gradient norms per layer** — should be O(1), not 0 or NaN
-✅ Check **dead neurons** (output always 0 with ReLU) — switch to Leaky ReLU
-✅ Visualize **loss curve** — divergence = LR too high, plateau = LR too low
-✅ Add **gradient clipping** (norm 1.0) for RNNs/Transformers
-✅ Use **He initialization** for ReLU, **Xavier** for Tanh/Sigmoid
-✅ Verify **input normalization** (mean 0, std 1)
-✅ Test with **single batch overfit** — if you can't overfit 1 batch, the model is broken
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Forgetting to call \`optimizer.zero_grad()\` — gradients accumulate from previous batches
-❌ Calling \`.backward()\` twice on the same graph without \`retain_graph=True\`
-❌ Computing gradients on validation data (waste of compute, can cause OOM)
-❌ Manually implementing backprop in production — use PyTorch/JAX autograd (1000× less buggy)
-❌ Skipping gradient clipping in RNN/Transformer training — almost guaranteed NaN
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Backprop works for any architecture, but **certain architectures are dramatically better for certain data types**. Next: **CNNs** — specialized networks that exploit spatial structure in images, achieving 100× fewer parameters than fully-connected networks.`,
+Backprop = chain rule truy ngược: từ loss về từng weight, biết phải sửa cái nào bao nhiêu. PyTorch/TF lo backward tự động — bạn chỉ cần forward + \`.backward()\` + \`optim.step()\`. Cảnh giác vanishing/exploding gradient.
+`,
         theoryEn: `**Backpropagation — How Neural Networks Learn from Mistakes**
 
 ---
