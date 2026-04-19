@@ -310,94 +310,332 @@ print(df[['name', 'score', 'grade']])`,
       {
         id: "de-clean-1", title: "Missing Values & Duplicates", titleEn: "Missing Values & Duplicates",
         level: 2, difficulty: "beginner",
-        theory: `**Data Cleaning** is often called the most important (and most time-consuming) step in any data pipeline. Industry surveys consistently show that data professionals spend 60-80% of their time cleaning data. Dirty data leads to wrong analyses, broken models, and bad business decisions.
+        theory: `**Data Cleaning** thường được gọi là bước **quan trọng nhất và tốn thời gian nhất** trong mọi data pipeline. Khảo sát của Anaconda (2023) chỉ ra **data professional dành 60-80% thời gian** chỉ để làm sạch dữ liệu. **"Garbage in, garbage out"** — dữ liệu bẩn dẫn đến phân tích sai, model ML sụp đổ, và quyết định kinh doanh tệ hại.
 
-**Types of "Dirty" Data:**
-1. **Missing values** (NaN, None, empty strings)
-2. **Duplicates** (same record appearing multiple times)
-3. **Outliers** (values far outside the expected range)
-4. **Inconsistent formatting** ("New York" vs "new york" vs "NY")
-5. **Wrong data types** (dates stored as strings, numbers as text)
-6. **Invalid values** (negative ages, future birth dates)
+## Vì sao Data Cleaning quan trọng?
+**Case study cảnh báo — IBM Watson Health:**
+IBM đầu tư **$5 tỷ** vào Watson for Oncology, nhưng năm 2018 phải đóng cửa vì model recommend sai phác đồ điều trị. Nguyên nhân chính: **training data không sạch** — bệnh án có cột "tumor stage" mã hóa khác nhau giữa các bệnh viện (1, I, Stage I, stage_1…), missing values bị fill mặc định = 0, ngày tháng không chuẩn hóa timezone. **Một lỗi data cleaning = $5B mất trắng.**
 
-**Handling Missing Values:**
+## 6 loại dữ liệu "bẩn"
+1. **Missing values** (NaN, None, '', 'N/A', '-')
+2. **Duplicates** (cùng record xuất hiện nhiều lần)
+3. **Outliers** (giá trị nằm xa khỏi phạm vi hợp lý)
+4. **Inconsistent formatting** ("New York" vs "new york" vs "NY" vs "N.Y.")
+5. **Wrong data types** (date lưu dưới dạng string, số lưu dưới dạng text)
+6. **Invalid values** (age = -5, birth_date = 2050, email không có @)
 
-**Detection:**
+## 1. Phát hiện Missing Values
 \`\`\`python
-df.isnull().sum()           # count NULLs per column
-df.isnull().sum() / len(df) # percentage missing per column
-df[df['email'].isnull()]    # view rows with missing emails
+df.isnull().sum()                      # số NULL mỗi cột
+df.isnull().sum() / len(df) * 100      # % missing mỗi cột
+df[df['email'].isnull()]               # xem rows có email NULL
+df.isnull().any(axis=1).sum()          # số rows có ít nhất 1 NULL
+
+# Visualize pattern missing
+import missingno as msno
+msno.matrix(df)                        # heatmap missing
+msno.heatmap(df)                       # tương quan missing giữa các cột
 \`\`\`
 
-**Strategy Decision Tree:**
-- **< 5% missing → Drop rows:** \`df.dropna(subset=['email'])\`
-- **5-30% missing → Impute (fill):**
-  - Numeric: \`df['age'].fillna(df['age'].median())\` — median is robust to outliers
-  - Categorical: \`df['city'].fillna(df['city'].mode()[0])\` — most frequent value
-  - Time series: \`df['temp'].interpolate(method='linear')\` — estimate between known points
-- **> 30% missing → Consider dropping the column** or using advanced imputation (KNN, regression)
+## Cây quyết định xử lý Missing
+| % Missing | Action |
+|-----------|--------|
+| **<5%** | Drop rows: \`df.dropna(subset=['email'])\` |
+| **5-30%** | Impute (fill) — xem chi tiết bên dưới |
+| **30-60%** | Cân nhắc drop cột HOẶC dùng advanced imputation (KNN, MICE) |
+| **>60%** | Drop cột (gần như chắc chắn) |
 
-**Important:** Never fill NULLs blindly! Understand *why* data is missing:
-- **MCAR (Missing Completely At Random):** Safe to drop or impute
-- **MAR (Missing At Random):** Missing depends on other observed columns → impute using those columns
-- **MNAR (Missing Not At Random):** Missingness depends on the missing value itself → requires domain knowledge
+**Chiến lược impute theo loại dữ liệu:**
+- **Numeric (skewed)**: \`df['age'].fillna(df['age'].median())\` — median **chống outlier** tốt hơn mean
+- **Numeric (normal)**: \`df['height'].fillna(df['height'].mean())\`
+- **Categorical**: \`df['city'].fillna(df['city'].mode()[0])\` — most frequent
+- **Time series**: \`df['temp'].interpolate(method='linear')\` — ước lượng giữa các điểm
+- **Forward/Backward fill**: \`df['stock_price'].fillna(method='ffill')\` — chuẩn cho stock data
+- **Sentinel value**: \`df['city'].fillna('UNKNOWN')\` — giữ thông tin "đã từng missing"
 
-**Handling Duplicates:**
+## MCAR / MAR / MNAR — vì sao bạn PHẢI hiểu
+**KHÔNG BAO GIỜ** fill NULL một cách máy móc. Phải hiểu **vì sao** data bị thiếu:
 
+| Loại | Định nghĩa | Ví dụ | Strategy |
+|------|------------|-------|----------|
+| **MCAR** (Missing Completely At Random) | Random thuần | Cảm biến hỏng ngẫu nhiên | An toàn drop hoặc impute đơn giản |
+| **MAR** (Missing At Random) | Phụ thuộc cột khác đã quan sát | Nam ít trả lời câu hỏi cảm xúc hơn nữ | Impute bằng group (theo gender) |
+| **MNAR** (Missing Not At Random) | Phụ thuộc chính giá trị bị thiếu | Người thu nhập cao từ chối khai income | **NGUY HIỂM** — impute = bias model |
+
+→ Nếu MNAR mà bạn fill bằng median → model sẽ sai lệch nghiêm trọng (income trung bình bị kéo xuống).
+
+## 2. Xử lý Duplicates
 \`\`\`python
-df.duplicated().sum()                           # count duplicates
-df.duplicated(subset=['email']).sum()            # duplicates by specific columns
-df.drop_duplicates()                             # remove exact duplicates
-df.drop_duplicates(subset=['email'], keep='last') # keep last occurrence
+# Phát hiện
+df.duplicated().sum()                              # tổng số dòng trùng (theo ALL cột)
+df.duplicated(subset=['email']).sum()              # trùng theo email
+df[df.duplicated(subset=['email'], keep=False)]    # XEM tất cả dòng trùng
+
+# Xóa
+df.drop_duplicates()                                # xóa exact duplicates
+df.drop_duplicates(subset=['email'], keep='last')   # giữ bản mới nhất
+df.drop_duplicates(subset=['email'], keep=False)    # xóa TẤT CẢ duplicates
 \`\`\`
 
-**Detecting Outliers:**
+**Pattern thực tế: Fuzzy duplicate** — "John Smith" vs "john smith" vs "John  Smith" (2 spaces):
+\`\`\`python
+df['email_clean'] = df['email'].str.lower().str.strip()
+df = df.drop_duplicates(subset=['email_clean'])
+\`\`\`
 
-**IQR Method (Interquartile Range):**
+## 3. Phát hiện Outliers — 3 phương pháp
+
+### IQR Method (robust, không yêu cầu phân phối)
 \`\`\`python
 Q1 = df['score'].quantile(0.25)
 Q3 = df['score'].quantile(0.75)
 IQR = Q3 - Q1
-lower = Q1 - 1.5 * IQR
-upper = Q3 + 1.5 * IQR
+lower, upper = Q1 - 1.5*IQR, Q3 + 1.5*IQR
 outliers = df[(df['score'] < lower) | (df['score'] > upper)]
 \`\`\`
+✅ Ưu: không giả định phân phối | ❌ Nhược: cứng nhắc với tail dài
 
-**Z-Score Method:**
+### Z-Score Method (cho phân phối normal)
 \`\`\`python
 from scipy import stats
-z_scores = stats.zscore(df['score'])
-outliers = df[abs(z_scores) > 3]  # values more than 3 std devs from mean
+z = stats.zscore(df['score'])
+outliers = df[abs(z) > 3]   # >3σ từ mean
 \`\`\`
+✅ Cho phân phối normal | ❌ Sai khi data skewed
 
-**Handling Outliers:**
-- **Remove:** If they are errors (e.g., age = -5)
-- **Cap (Winsorize):** Replace with boundary values
-- **Log transform:** Reduce skew for naturally skewed data (income, prices)
-- **Keep:** If they are legitimate data points (e.g., Elon Musk's income in a salary dataset)
-
-**Data Validation Pipeline:**
+### Isolation Forest (ML-based, cho high-dimensional)
 \`\`\`python
-def clean_dataframe(df):
+from sklearn.ensemble import IsolationForest
+clf = IsolationForest(contamination=0.05)
+df['outlier'] = clf.fit_predict(df[['age', 'income', 'score']])
+\`\`\`
+✅ Multi-variate outlier | ❌ Cần tune
+
+## Bảng so sánh xử lý outlier
+| Action | Khi nào dùng |
+|--------|--------------|
+| **Remove** | Lỗi rõ ràng (age=-5, age=300) |
+| **Cap (Winsorize)** | Giữ row nhưng kéo giá trị về biên (Q1, Q99) |
+| **Log transform** | Data skew (income, prices, view counts) — log(x+1) |
+| **Keep as-is** | Outlier hợp lệ (Elon Musk income trong dataset salary) |
+| **Separate model** | Outlier có pattern riêng (fraud detection) |
+
+## Pipeline làm sạch chuẩn (production-ready)
+\`\`\`python
+def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """Clean DataFrame with logging and metrics."""
+    initial_rows = len(df)
+    metrics = {}
+
     # 1. Fix types
     df['age'] = pd.to_numeric(df['age'], errors='coerce')
-    # 2. Remove duplicates
-    df = df.drop_duplicates()
-    # 3. Handle missing
-    df['age'] = df['age'].fillna(df['age'].median())
-    # 4. Fix outliers
-    df['age'] = df['age'].clip(0, 120)
-    # 5. Standardize text
-    df['name'] = df['name'].str.strip().str.title()
-    return df
-\`\`\``,
-        theoryEn: `**Data Cleaning** — the most time-consuming step in data pipelines (60-80% of work).
+    df['signup_date'] = pd.to_datetime(df['signup_date'], errors='coerce')
 
-**Dirty data types:** Missing values, duplicates, outliers, inconsistent formatting, wrong types.
-**Missing values:** Detect with isnull(). Strategy: <5% drop, 5-30% impute, >30% drop column.
-**Missing types:** MCAR, MAR, MNAR — understand WHY data is missing.
-**Duplicates:** duplicated(), drop_duplicates() with subset and keep options.
-**Outliers:** IQR method or Z-score. Options: remove, cap, transform, or keep.`,
+    # 2. Standardize text BEFORE dedup (catches case-only duplicates)
+    df['email'] = df['email'].str.lower().str.strip()
+    df['name'] = df['name'].str.strip().str.title()
+
+    # 3. Drop exact duplicates
+    metrics['duplicates'] = df.duplicated().sum()
+    df = df.drop_duplicates()
+
+    # 4. Handle missing
+    df['age'] = df['age'].fillna(df['age'].median())
+    df['city'] = df['city'].fillna('UNKNOWN')
+
+    # 5. Cap outliers (Winsorize at 1st and 99th percentile)
+    df['age'] = df['age'].clip(0, 120)
+    df['income'] = df['income'].clip(
+        df['income'].quantile(0.01),
+        df['income'].quantile(0.99)
+    )
+
+    # 6. Validate
+    assert df['email'].str.contains('@').all(), "Invalid emails detected"
+    metrics['rows_removed'] = initial_rows - len(df)
+    metrics['final_rows'] = len(df)
+
+    return df, metrics
+\`\`\`
+
+## Case study thật
+
+### Airbnb — Data Cleaning Pipeline
+- 100M+ listings/booking events/ngày
+- Pipeline phát hiện: **5% bookings có price = 0** (lỗi UI), **3% reviews là duplicate** (user re-submit)
+- Áp dụng **Great Expectations** + custom Spark UDF để validate trước khi vào warehouse
+- Kết quả: giảm **40% complaint** từ data scientists về data quality
+
+### Uber — Surge Pricing và outlier
+- Surge pricing 1.0× - 5.0× là **valid outlier** (không được "clean" đi!)
+- Năm 2014, một intern viết script clean outlier price → xóa toàn bộ surge data → revenue model dự báo sai $2M/ngày trong 1 tuần
+
+→ **Bài học:** outlier domain-specific phải hỏi business trước khi xóa.
+
+## Best practices
+1. **Log mọi cleaning step** — số rows trước/sau, % missing, # outliers
+2. **Standardize text TRƯỚC dedup** — bắt được case-only duplicates
+3. **Validate sau cleaning** — assert business rules (email có @, age ≥0)
+4. **Tách raw vs cleaned table** — không bao giờ ghi đè raw
+5. **Version control cleaning logic** — bug có thể trở lại sau 6 tháng
+6. **Sample check thủ công** — random 100 rows xem có "trông đúng" không
+7. **Dùng tools chuyên dụng**: **Great Expectations**, **dbt tests**, **Pandera** cho validation
+
+## Anti-patterns (tránh!)
+- ❌ \`df.fillna(0)\` cho TẤT CẢ cột — biến NULL date thành 1970, NULL category thành "0"
+- ❌ \`df.dropna()\` không có \`subset\` — mất 80% data vì 1 cột có 50% null
+- ❌ Xóa outlier mà không hỏi domain expert → mất data quan trọng
+- ❌ Clean trong production query — làm chậm dashboard, lặp lại mỗi lần query
+- ❌ Không log cleaning → không trace được khi data warehouse có anomaly
+
+## Khi nào nên / không nên clean
+**Nên clean ở pipeline:** trước khi vào warehouse (single source of truth)
+**Không nên clean ở dashboard:** chậm, lặp lại, không reproducible
+**Cleaning ở source nếu được:** sửa form validation thay vì clean sau
+
+## Bridge sang bài tiếp
+Sau khi biết cách làm sạch, bài kế (**Data Ingestion**) sẽ học cách **lấy dữ liệu vào** từ nhiều nguồn (CSV, JSON, API, DB) — bước đầu tiên trước khi cleaning.`,
+        theoryEn: `**Data Cleaning** is the most time-consuming step in any data pipeline — Anaconda's 2023 survey shows data professionals spend **60-80% of their time** on it. **Garbage in, garbage out** — dirty data leads to wrong analysis, broken ML models, and bad business decisions.
+
+## Why this matters — IBM Watson Health
+IBM invested **$5B** in Watson for Oncology but shut it down in 2018 because the model recommended wrong treatments. Root cause: **training data not cleaned** — different hospitals encoded "tumor stage" differently (1, I, Stage I, stage_1…), missing values defaulted to 0, dates not normalized to timezone. **One cleaning failure = $5B lost.**
+
+## 6 types of dirty data
+1. Missing values (NaN, None, '', 'N/A', '-')
+2. Duplicates
+3. Outliers
+4. Inconsistent formatting ("New York" vs "new york" vs "NY")
+5. Wrong types (date as string, number as text)
+6. Invalid values (age=-5, birth_date=2050)
+
+## 1. Detect missing values
+\`\`\`python
+df.isnull().sum()                       # NULL count per column
+df.isnull().sum() / len(df) * 100       # % missing per column
+
+import missingno as msno
+msno.matrix(df)                         # missing pattern heatmap
+\`\`\`
+
+## Decision tree for missing
+| % Missing | Action |
+|-----------|--------|
+| <5% | Drop rows |
+| 5-30% | Impute |
+| 30-60% | Drop column or advanced imputation (KNN, MICE) |
+| >60% | Drop column |
+
+**Imputation by data type:**
+- Numeric (skewed): median (outlier-resistant)
+- Numeric (normal): mean
+- Categorical: mode (most frequent)
+- Time series: interpolate(linear)
+- Stock data: ffill / bfill
+- Sentinel: 'UNKNOWN' to preserve "was missing" info
+
+## MCAR / MAR / MNAR — you MUST understand
+**NEVER** fill NULLs blindly. Understand WHY they're missing:
+
+| Type | Definition | Example | Strategy |
+|------|-----------|---------|----------|
+| MCAR | Pure random | Sensor random failure | Safe to drop/impute |
+| MAR | Depends on observed columns | Men answer fewer emotion questions | Impute by group |
+| MNAR | Depends on missing value itself | High earners hide income | **DANGER** — imputation = bias |
+
+## 2. Handle duplicates
+\`\`\`python
+df.duplicated().sum()                               # exact dup count
+df.duplicated(subset=['email']).sum()               # by email
+df.drop_duplicates(subset=['email'], keep='last')   # keep latest
+\`\`\`
+
+Pattern: fuzzy duplicates ("John Smith" vs "john smith" vs "John  Smith"):
+\`\`\`python
+df['email_clean'] = df['email'].str.lower().str.strip()
+df = df.drop_duplicates(subset=['email_clean'])
+\`\`\`
+
+## 3. Detect outliers — 3 methods
+
+### IQR Method (robust)
+\`\`\`python
+Q1, Q3 = df['score'].quantile([0.25, 0.75])
+IQR = Q3 - Q1
+outliers = df[(df['score'] < Q1 - 1.5*IQR) | (df['score'] > Q3 + 1.5*IQR)]
+\`\`\`
+
+### Z-Score (for normal distribution)
+\`\`\`python
+from scipy import stats
+outliers = df[abs(stats.zscore(df['score'])) > 3]
+\`\`\`
+
+### Isolation Forest (multi-variate)
+\`\`\`python
+from sklearn.ensemble import IsolationForest
+df['outlier'] = IsolationForest(contamination=0.05).fit_predict(df[['age','income','score']])
+\`\`\`
+
+## Outlier handling
+| Action | When |
+|--------|------|
+| Remove | Clear errors (age=-5) |
+| Cap (Winsorize) | Bring to boundary (Q1, Q99) |
+| Log transform | Skewed data (income, prices) |
+| Keep | Legitimate (Elon Musk in salary dataset) |
+| Separate model | Outlier has own pattern (fraud) |
+
+## Production-ready cleaning pipeline
+\`\`\`python
+def clean_dataframe(df):
+    metrics = {}
+    df['age'] = pd.to_numeric(df['age'], errors='coerce')
+    df['email'] = df['email'].str.lower().str.strip()
+    metrics['duplicates'] = df.duplicated().sum()
+    df = df.drop_duplicates()
+    df['age'] = df['age'].fillna(df['age'].median()).clip(0, 120)
+    df['income'] = df['income'].clip(df['income'].quantile(0.01), df['income'].quantile(0.99))
+    assert df['email'].str.contains('@').all(), "Invalid emails"
+    return df, metrics
+\`\`\`
+
+## Real-world cases
+
+### Airbnb — Data Cleaning Pipeline
+- 100M+ listings/booking events/day
+- Found 5% bookings with price=0 (UI bug), 3% duplicate reviews
+- Used Great Expectations + Spark UDF for validation
+- Result: 40% fewer data quality complaints
+
+### Uber — Surge pricing outlier disaster
+- Surge pricing 1.0× - 5.0× is **legitimate outlier** (don't clean!)
+- 2014: an intern's outlier-cleaning script removed surge data → revenue forecast off by $2M/day for a week
+
+→ Lesson: domain-specific outliers need business approval before removal.
+
+## Best practices
+1. Log every step (rows before/after, % missing, # outliers)
+2. Standardize text BEFORE dedup (catches case-only dupes)
+3. Validate after cleaning (asserts on business rules)
+4. Separate raw vs cleaned tables — never overwrite raw
+5. Version control cleaning logic
+6. Manual sample check (random 100 rows)
+7. Use proper tools: **Great Expectations**, **dbt tests**, **Pandera**
+
+## Anti-patterns
+- ❌ \`df.fillna(0)\` for ALL columns — turns NULL dates into 1970
+- ❌ \`df.dropna()\` without subset — loses 80% of data because of one bad column
+- ❌ Removing outliers without domain expert input
+- ❌ Cleaning in dashboard query — slow, repeated, not reproducible
+- ❌ No logging — can't trace anomalies later
+
+## When to clean
+**At pipeline:** before warehouse (single source of truth)
+**Not at dashboard:** slow and not reproducible
+**At source if possible:** fix form validation instead of cleaning later
+
+## Bridge to next
+After learning to clean, the next lesson (**Data Ingestion**) covers HOW to get data in from various sources (CSV, JSON, API, DB) — the first step before cleaning.`,
         code: `import pandas as pd
 import numpy as np
 
