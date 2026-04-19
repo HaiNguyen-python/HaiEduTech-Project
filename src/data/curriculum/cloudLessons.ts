@@ -325,35 +325,132 @@ print(find_equivalent("BigQuery", "gcp", "azure")) # Synapse`,
         titleEn: "Regions, AZs, and Edge Locations",
         level: 2,
         difficulty: "beginner",
-        theory: `**Hạ tầng vật lý của Cloud** được tổ chức theo 3 cấp:
+        theory: `**Hạ tầng vật lý của Cloud** được tổ chức theo 3 cấp lồng nhau: Region → AZ → Edge Location. Hiểu rõ giúp bạn thiết kế hệ thống chịu lỗi (fault-tolerant), tuân thủ luật dữ liệu, và tối ưu latency cho người dùng.
 
-**1. Region (Khu vực)** — một vùng địa lý chứa nhiều data center. Ví dụ: \`us-east-1\` (Virginia), \`ap-southeast-1\` (Singapore), \`eu-west-1\` (Ireland).
-- AWS hiện có ~33 region, GCP ~40, Azure ~60.
-- Chọn region gần người dùng để giảm latency, và tuân thủ luật dữ liệu (GDPR, data residency).
+## Vì sao cần biết kiến trúc vật lý?
+Năm 2017, AWS us-east-1 (Virginia) sập 5 giờ vì 1 typo trong lệnh debug — Slack, Trello, Quora, Medium đều offline. Lý do? Tất cả đều chạy single-region. Sau sự cố này "Multi-AZ" trở thành tiêu chuẩn vàng, và các hệ thống critical bắt đầu Multi-Region.
 
-**2. Availability Zone (AZ)** — một hoặc nhiều data center riêng biệt **trong một Region**, có nguồn điện, mạng, làm mát độc lập.
-- Mỗi region thường có 3 AZ trở lên.
-- Triển khai ứng dụng qua nhiều AZ để **chịu lỗi (fault tolerance)**: nếu 1 AZ sập, ứng dụng vẫn chạy.
+## 1. Region (Khu vực)
+Một vùng địa lý chứa nhiều data center liên kết bằng mạng tốc độ cao. Mỗi region có **mã định danh** riêng:
+- AWS: \`us-east-1\` (Virginia), \`ap-southeast-1\` (Singapore), \`eu-west-1\` (Ireland)
+- Azure: \`East US\`, \`Southeast Asia\`, \`West Europe\`
+- GCP: \`us-central1\`, \`asia-southeast1\`, \`europe-west1\`
 
-**3. Edge Location** — điểm phân phối nội dung (CDN) gần người dùng cuối, cache static assets.
-- AWS CloudFront có 600+ edge location toàn cầu.
-- Giảm latency truy cập cho ảnh, video, file tĩnh.
+**Số lượng region (2024):** AWS ~33, Azure ~60, GCP ~40.
 
-**Quy tắc thiết kế HA (High Availability):**
-- **Multi-AZ**: chống sự cố tại 1 data center → SLA 99.99%.
-- **Multi-Region**: chống sự cố toàn vùng địa lý → SLA 99.999% nhưng chi phí cao.
-- **Active-Active** vs **Active-Passive**: tùy ngân sách và RTO/RPO.`,
-        theoryEn: `**Cloud physical infrastructure** is organized in 3 tiers:
+**Chọn region dựa trên:**
+1. **Khoảng cách tới user** → giảm latency (mỗi 1000km ≈ 10ms RTT thêm vào)
+2. **Luật dữ liệu** — GDPR yêu cầu data EU không rời EU; Trung Quốc, Nga, Việt Nam có luật data residency riêng
+3. **Giá** — us-east-1 thường rẻ nhất AWS; Sao Paulo đắt gấp 1.5x
+4. **Service availability** — service mới thường ra mắt us-east-1 trước, region khác chậm 6-18 tháng
+5. **Carbon footprint** — vài region chạy 100% renewable energy (eu-north-1 Stockholm)
 
-**1. Region** — geographic area with multiple data centers (e.g. \`us-east-1\`, \`ap-southeast-1\`). AWS ~33, GCP ~40, Azure ~60. Choose by latency + data residency law (GDPR).
+## 2. Availability Zone (AZ)
+**1 hoặc nhiều data center** trong cùng region, **vật lý cách ly**: nguồn điện riêng, máy phát dự phòng, hệ thống làm mát riêng, đường mạng riêng. AZ cách nhau ~10-100 km — đủ xa để 1 thảm họa (cháy, lụt, mất điện) không ảnh hưởng AZ khác, đủ gần để mạng nội bộ <2ms latency.
 
-**2. Availability Zone (AZ)** — one or more isolated data centers inside a Region with independent power, network, cooling. Each region has 3+ AZs. Deploy across AZs for fault tolerance.
+**Mỗi region thường có 3 AZ trở lên.** Ký hiệu: \`us-east-1a\`, \`us-east-1b\`, \`us-east-1c\`.
 
-**3. Edge Location** — CDN PoPs near end-users that cache static content. CloudFront has 600+ globally.
+**Lưu ý cực quan trọng:** AZ \`us-east-1a\` của tài khoản A có thể là AZ vật lý khác với \`us-east-1a\` của tài khoản B! AWS shuffle AZ name để tránh "tất cả khách hàng đổ vào us-east-1a".
 
-**HA design rules:**
-- **Multi-AZ**: protects against 1 data center failure → 99.99% SLA.
-- **Multi-Region**: protects against entire region failure → 99.999% but expensive.`,
+## 3. Edge Location
+**Điểm hiện diện (PoP)** cho CDN — chỉ cache nội dung tĩnh, không phải data center đầy đủ.
+- AWS CloudFront có **600+ edge** ở 90+ thành phố
+- Azure Front Door, Cloudflare, Akamai cũng có hạ tầng tương tự
+- Edge **không** chạy app code thông thường (trừ Lambda@Edge, Cloudflare Workers)
+
+## So sánh 3 cấp
+| Cấp | Quy mô | Chức năng chính | Khoảng cách | Latency tới user |
+|---|---|---|---|---|
+| Region | Vùng địa lý | Toàn bộ services | 1000s km | 50-200ms |
+| AZ | Cụm data center | Compute/DB chịu lỗi | 10-100 km | <2ms (nội bộ) |
+| Edge | PoP nhỏ | Cache CDN | 50-500 km | 5-50ms |
+
+## Tính SLA & xác suất downtime
+- 1 AZ uptime ~99.95% → downtime ~4.4 giờ/năm
+- 3 AZ độc lập → uptime ~99.9999998% → downtime ~63 ms/năm (lý thuyết)
+- Multi-Region (active-active) → gần 99.999% (the Five Nines), downtime <5 phút/năm
+
+## Case study: Slack outage 2017
+Slack chạy 100% trên us-east-1 đơn (single-region). Khi AWS S3 us-east-1 sập 5 giờ, Slack offline toàn cầu. Sau đó họ đầu tư multi-region active-passive với DynamoDB Global Tables.
+
+## Case study: Netflix Chaos Engineering
+Netflix tạo công cụ "Chaos Monkey" tự ngẫu nhiên kill EC2 trong production để **buộc** team phải thiết kế Multi-AZ. Sau đó "Chaos Kong" ngẫu nhiên kill cả region để test Multi-Region.
+
+## Best practices HA design
+1. **Mặc định Multi-AZ** cho mọi production workload (RDS, EC2 ASG, ElastiCache đều support)
+2. **Đừng hardcode AZ name** trong code — để autoscaling tự phân phối
+3. **Multi-Region cho hệ thống critical** (financial, healthcare) — chấp nhận chi phí 1.8-2.5x
+4. **CloudFront / CDN** đặt ở Edge gần user → giảm bandwidth + latency
+5. **Backup chéo region** — backup us-east-1 sang us-west-2 để chống region failure
+6. **Test failover hàng quý** — chuẩn bị runbook và practice (Game Day)
+
+## Anti-patterns
+- ❌ Single-AZ DB cho production
+- ❌ Multi-Region nhưng dữ liệu chỉ ở 1 region (replica chưa promote được)
+- ❌ Hardcode \`us-east-1\` trong source code → khó migrate
+- ❌ Edge Location dùng cho dynamic API (sai use case, nên dùng Lambda@Edge nếu cần)
+
+## Liên hệ bài tiếp theo
+Module tiếp theo bắt đầu **Compute & Storage** — làm quen với EC2 (VM), S3 (object storage), và container Docker.`,
+        theoryEn: `**Cloud physical infrastructure** has 3 nested tiers: Region → AZ → Edge. Knowing this lets you design fault-tolerant systems, comply with data laws, and optimize user latency.
+
+## Why it matters
+In 2017, AWS us-east-1 went down for 5 hours due to a debug typo — Slack, Trello, Quora, Medium all offline. They all ran single-region. After that, "Multi-AZ" became the gold standard and critical systems went Multi-Region.
+
+## 1. Region
+Geographic area with multiple linked data centers. Each has a code: \`us-east-1\`, \`ap-southeast-1\`, \`eu-west-1\`.
+
+**Counts (2024):** AWS ~33, Azure ~60, GCP ~40.
+
+**Choose a region by:**
+1. Distance to users (every 1000 km ≈ +10ms RTT)
+2. Data residency laws (GDPR, China, Russia)
+3. Pricing (us-east-1 is cheapest AWS; São Paulo 1.5× more)
+4. Service availability (new services launch in us-east-1 first)
+5. Carbon footprint (eu-north-1 = 100% renewable)
+
+## 2. Availability Zone (AZ)
+**One or more data centers** in the same region with isolated power, cooling, networking. AZs are 10-100 km apart — far enough to survive disasters, close enough for <2ms internal latency. Most regions have 3+ AZs.
+
+**Important:** AZ \`us-east-1a\` of account A may be a different physical AZ than account B's "1a" — AWS shuffles names to balance load.
+
+## 3. Edge Location
+**CDN PoPs** that cache static content — not full data centers. CloudFront has 600+ edges in 90+ cities. Edges don't run app code (except Lambda@Edge / Cloudflare Workers).
+
+## Comparison
+| Tier | Scale | Function | Distance | Latency |
+|---|---|---|---|---|
+| Region | Geographic | All services | 1000s km | 50-200ms |
+| AZ | Data center cluster | Fault-tolerant compute/DB | 10-100 km | <2ms internal |
+| Edge | Small PoP | CDN cache | 50-500 km | 5-50ms |
+
+## SLA math
+- 1 AZ ~99.95% → ~4.4 hr downtime/year
+- 3 independent AZs → ~99.9999998% → ~63 ms/year (theory)
+- Multi-Region active-active → ~99.999% → <5 min/year
+
+## Case: Slack 2017 outage
+Slack ran 100% in us-east-1. When S3 us-east-1 went down for 5 hours, Slack went global-offline. They invested in multi-region active-passive with DynamoDB Global Tables afterward.
+
+## Case: Netflix Chaos Engineering
+Netflix built "Chaos Monkey" to randomly kill EC2 instances in production — forcing engineers to design Multi-AZ. Later "Chaos Kong" randomly kills entire regions.
+
+## Best practices
+1. Default to Multi-AZ for every production workload.
+2. Never hardcode an AZ name.
+3. Multi-Region for critical (financial, healthcare); accept 1.8-2.5× cost.
+4. Use CloudFront/CDN at edges close to users.
+5. Cross-region backups (us-east-1 → us-west-2).
+6. Run quarterly failover drills (Game Day).
+
+## Anti-patterns
+- ❌ Single-AZ DB in production
+- ❌ Multi-Region but data isn't actually replicated
+- ❌ Hardcoding \`us-east-1\` in source
+- ❌ Using Edge for dynamic APIs
+
+## Next lesson
+Next module starts **Compute & Storage** — meet EC2 (VM), S3 (object storage), and Docker containers.`,
         code: `# Mô phỏng triển khai Multi-AZ vs Single-AZ
 class CloudDeployment:
     def __init__(self, name: str, azs: list[str]):
