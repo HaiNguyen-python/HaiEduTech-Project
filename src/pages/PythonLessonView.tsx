@@ -24,6 +24,7 @@ import {
   getLessonsByModule,
 } from "@/data/curriculum/pythonPathway";
 import CodePlayground from "@/components/python/CodePlayground";
+import { preloadPyodide } from "@/components/python/PyodideRunner";
 import LessonQuiz from "@/components/python/LessonQuiz";
 import { setLessonComplete, getPythonPathwayProgress } from "@/components/python/PythonPathwayHub";
 import { cn } from "@/lib/utils";
@@ -65,6 +66,11 @@ const PythonLessonView = () => {
   useEffect(() => {
     if (lesson) setCompleted(!!getPythonPathwayProgress()[lesson.id]);
   }, [lesson]);
+
+  // Preload Pyodide in background as soon as a lesson opens — makes Run feel instant.
+  useEffect(() => {
+    preloadPyodide();
+  }, []);
 
   const handleQuizComplete = async (passed: boolean, score: number) => {
     if (!lesson) return;
