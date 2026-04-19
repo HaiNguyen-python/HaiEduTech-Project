@@ -71,6 +71,8 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
       "cloud-network-security",
       "cloud-serverless-devops",
       "cloud-architecture-cost",
+      "cloud-ops-resilience",
+      "cloud-strategy-cost",
     ],
   };
   const ids = directIds[pillar] || [];
