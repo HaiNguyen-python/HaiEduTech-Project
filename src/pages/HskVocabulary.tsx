@@ -75,7 +75,7 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
       >
         {/* Front - Show Hanzi (stroke order) + Pinyin */}
         <div className="absolute inset-0 rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center gap-2" style={{ backfaceVisibility: "hidden" }}>
-          <HanziStrokeOrder character={word.character} size={120} />
+          <HanziWord characters={word.character} size={110} />
           <p className="text-base text-primary font-medium">{word.pinyin}</p>
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
           <button onClick={(e) => { e.stopPropagation(); speakChinese(word.character); }} className="mt-1 p-2 rounded-full hover:bg-primary/10 transition-colors">
@@ -436,12 +436,12 @@ const HskVocabulary = () => {
                   <div key={w.character + w.category} className="rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
                     {/* Stroke order area */}
                     <div className="bg-secondary/30 flex items-center justify-center p-4">
-                      <HanziStrokeOrder character={w.character} size={100} />
+                      <HanziWord characters={w.character} size={84} />
                     </div>
                     <div className="p-4">
                       <div className="flex items-start justify-between gap-2 mb-2">
                         <div>
-                          <h3 className="font-bold text-foreground text-2xl">{w.character}</h3>
+                          <p className="text-sm text-primary font-medium sr-only">{w.character}</p>
                           <p className="text-sm text-primary font-medium">{w.pinyin}</p>
                         </div>
                         <div className="flex items-center gap-1">
