@@ -1,60 +1,93 @@
 
+## Hiện trạng
 
-## Vấn đề
-Học viên đang ở `/programming/ml-linear-reg` thấy bài Theory dài, toàn chữ + bảng, **không có icon hay hình minh hoạ** → cảm giác đơn điệu, khó nuốt. Vấn đề lặp lại trên toàn bộ 80+ lessons trong `Learn Programming`.
+Đã rà soát các file curriculum trong `src/data/curriculum/`:
 
-## Chiến lược: Tăng "visual layer" ở component render, KHÔNG sửa từng bài
-Sửa data 80 bài → mất nhiều vòng + dễ vỡ. Thay vào đó **nâng cấp `TheorySections.tsx`** để **tự động** thêm yếu tố trực quan dựa trên cấu trúc markdown đã có (vì cấu trúc đã chuẩn: H2 đánh số "1.", "2.", có emoji, có blockquote, có bảng, có code block).
+| File | Lessons | Tình trạng giọng văn |
+|------|---------|---------------------|
+| `sqlLessons.ts` | ~10 | ✅ Đã rewrite 3 bài (`sql-select-1`, `sql-sub-1`, `sql-cte-1`, `sql-join-1`) — giọng đời thường, có analogy |
+| `cloudLessons.ts` | ~15 | ✅ Đã rewrite 3 bài (`cloud-net-1`, `cloud-iam-1`, `cloud-sec-1`) |
+| `mlLessons.ts` | ~10 | ⚠️ Mới rewrite 2 bài (`ml-lr-1`, `ml-log-1`). 8 bài còn lại (Decision Tree, Random Forest, SVM, K-Means, PCA, Neural Net, CNN, RNN) **vẫn nặng jargon, một số đoạn còn 100% English** |
+| `aiFoundationLessons.ts` | ~8 | ❌ Chưa chạm — bài "What is AI", "ML basics", "Supervised/Unsupervised", "Bias & Ethics"... còn khô khan, ít analogy |
+| `dataEngLessons.ts` | ~12 | ❌ Chưa chạm — ETL, Warehousing, Pipelines, Spark... còn khô, định nghĩa khô như sách |
+| `cloudExpansion.ts` | ~10 | ❌ Chưa chạm |
+| `programmingExpansion.ts` | ~12 | ❌ Chưa chạm — Python OOP/Decorators/Generators/FileIO + SQL Window/Recursive |
 
-### Cấp độ 1 — Tự động hoá toàn cục (áp dụng tất cả 80 bài, 0 đụng data)
+URL hiện tại `/programming/prog-data-pipeline` rơi đúng vào nhóm Data Eng — nhóm chưa được rà soát.
 
-**a) H2 với số thứ tự thành "step badge" tròn có gradient**
-- Detect regex `^(\d+)\.\s+(.+)` trong tiêu đề H2 → tách số ra thành **badge tròn 36×36 gradient brand** (royal blue → emerald) đứng cạnh tiêu đề.
-- Auto-pick **lucide icon** theo từ khoá trong tiêu đề: "vấn đề/problem" → `Lightbulb`, "công thức/syntax/cú pháp" → `Code2`, "ví dụ/example" → `FileCode`, "bẫy/lỗi/mistake/trap" → `AlertTriangle`, "tổng kết/summary/checklist" → `ListChecks`, "khi nào/when" → `HelpCircle`, "hiệu năng/performance" → `Zap`, "so sánh/vs" → `GitCompare`, "thực hành/practice" → `Dumbbell`, "ghi chú nâng cao/advanced" → `Sparkles`. Fallback: `BookOpen`.
+## Vấn đề chung của các bài chưa rewrite
 
-**b) Blockquote (`>`) thành "callout card" có icon**
-- Detect dòng đầu blockquote: nếu bắt đầu bằng "Mẹo/Tip/💡" → callout vàng + `Lightbulb`; "Cảnh báo/Warning/⚠️" → đỏ + `AlertTriangle`; "Lưu ý/Note/📝" → xanh dương + `Info`; mặc định → tím + `Quote`. Card có border-left 4px, background nhạt 8% màu chủ đạo.
+1. **Mở đầu khô**: "ETL is a process that..." → không có hook đời sống.
+2. **Định nghĩa hàn lâm**: liệt kê thuật ngữ liền nhau, không giải thích "tại sao quan tâm".
+3. **Ít analogy & ví dụ Việt Nam hoá**: thiếu tình huống VN (Shopee, VietJet, ngân hàng MB...).
+4. **Không có "bẫy thường gặp" & "best practice"** → học xong không biết áp dụng.
+5. **Một số đoạn còn 100% tiếng Anh** trong khối theory.
 
-**c) Bảng (`<table>`) đẹp hơn**
-- Header row gradient brand nhẹ, zebra rows, rounded corners, icon `Table` nhỏ phía trên-trái khi bảng > 3 cột.
+## Chiến lược: Rewrite theo "đợt", giữ template chuẩn
 
-**d) "Pro tip" inline cho code block**
-- Mỗi `<CodeBlock>` đã có sẵn nút copy; thêm icon ngôn ngữ nhỏ ở góc trên-trái (Python `🐍`, SQL `🗄️`, JS `📜`…) — dùng emoji có sẵn để khỏi đụng `CodeBlock.tsx` quá sâu.
+Áp dụng template 8-bước đã thành công ở SQL/Cloud/ML cho mọi bài còn lại:
 
-**e) Section divider có hoa văn nhẹ** giữa các H2 (đường gạch ngang gradient mờ → ngắt nhịp thị giác).
+```
+## 1. Vấn đề đời thường (analogy + tình huống VN)
+## 2. Khái niệm chính là gì? (giải thích bằng ngôn ngữ thường ngày)
+## 3. Cú pháp / thành phần tối thiểu
+## 4. Ví dụ chạy được ngay
+## 5. Bẫy thường gặp (ai cũng dính)
+## 6. Best practice của thầy Hải
+## 7. Khi nào dùng / không dùng
+## 8. Tóm tắt 30 giây
+```
 
-**f) Animated entrance**: mỗi section fade-in + slide-up 200ms khi cuộn vào view (Framer Motion + IntersectionObserver) → cảm giác sống động, không nặng.
+Giọng văn:
+- Xưng hô **"thầy" / "các bạn"** tự nhiên.
+- Dùng emoji nhẹ ở đầu mỗi mục H2 (🚦 ⚠️ 💡 🎯 ✅).
+- Câu chuyện ngắn 1–2 dòng kiểu "Thử tưởng tượng bạn đang giao hàng cho Shopee...".
+- Bảng so sánh có cột "Đời sống" để neo vào trí nhớ.
+- Đặt **tối thiểu 1 callout `> 💡 Mẹo`** và **1 callout `> ⚠️ Cảnh báo`** mỗi bài → tự động hưởng UI Callout đẹp.
+- Đặt **≥6 H2 đánh số** → tự động hưởng Step Badge gradient.
 
-### Cấp độ 2 — Hình minh hoạ SVG cho 3 concepts khó nhất (chỉ 3 bài "flagship")
+## Đợt 4 — Phạm vi lần này (15 bài quan trọng nhất)
 
-Chèn vào data bằng **markdown component custom** (cú pháp `:::diagram type="..."`) cho 3 bài học viên chạm sớm và khó nhất:
+Ưu tiên các bài học viên chạm nhiều và đang khô nhất:
 
-1. **`ml-lr-1` Linear Regression** → SVG scatter plot có đường thẳng best-fit + nhãn `y = wx + b`, axis labels Việt ("Diện tích", "Giá").
-2. **`sql-join-1` JOINs** → SVG Venn diagram 2 vòng tròn (INNER, LEFT, RIGHT, FULL) cạnh nhau, có nhãn.
-3. **`sql-sub-1` Subqueries** → SVG sơ đồ truy vấn lồng nhau (outer query → inner query → result).
+**A. Data Engineering (5 bài)** — `dataEngLessons.ts`
+1. `de-etl-1` — ETL vs ELT (analogy: nhà bếp vs buffet)
+2. `de-pipeline-1` — Data Pipeline (analogy: dây chuyền sản xuất Vinamilk)
+3. `de-warehouse-1` — Data Warehouse vs Lake (analogy: kho Tiki vs bãi container)
+4. `de-stream-1` — Streaming (Kafka) (analogy: livestream Shopee)
+5. `de-quality-1` — Data Quality (analogy: kiểm phẩm cà phê Trung Nguyên)
 
-Mỗi diagram là 1 React component nhỏ trong `src/components/lesson-visuals/` (~50 dòng SVG mỗi cái).
+**B. AI Foundation (5 bài)** — `aiFoundationLessons.ts`
+1. `ai-intro-1` — AI là gì? (analogy: dạy em bé phân biệt mèo/chó)
+2. `ai-ml-basics-1` — Machine Learning căn bản
+3. `ai-supervised-1` — Supervised vs Unsupervised
+4. `ai-bias-1` — Bias & Ethics (case study tuyển dụng)
+5. `ai-prompt-1` — Prompt Engineering căn bản
 
-### Files thay đổi
-- ✏️ `src/components/TheorySections.tsx` — thêm icon mapper, callout parser, animated entrance, custom H2 với step badge.
-- ➕ `src/components/lesson-visuals/StepBadge.tsx` — badge số tròn gradient.
-- ➕ `src/components/lesson-visuals/Callout.tsx` — 4 variants tip/warning/note/quote.
-- ➕ `src/components/lesson-visuals/LinearRegressionDiagram.tsx` — SVG scatter + best fit.
-- ➕ `src/components/lesson-visuals/JoinVennDiagram.tsx` — SVG Venn 4 loại JOIN.
-- ➕ `src/components/lesson-visuals/SubqueryDiagram.tsx` — SVG sơ đồ subquery.
-- ✏️ `src/data/curriculum/mlLessons.ts` — chèn `:::diagram type="linear-regression":::` vào `ml-lr-1`.
-- ✏️ `src/data/curriculum/sqlLessons.ts` — chèn `:::diagram type="join-venn":::` vào `sql-join-1`, `:::diagram type="subquery":::` vào `sql-sub-1`.
-- ✏️ `src/index.css` — thêm style cho `.theory-callout`, `.theory-step-badge`, table polish.
+**C. ML còn lại (3 bài cốt lõi)** — `mlLessons.ts`
+1. `ml-tree-1` — Decision Tree (analogy: chơi 20 câu hỏi)
+2. `ml-rf-1` — Random Forest (analogy: hội đồng giám khảo Rap Việt)
+3. `ml-kmeans-1` — K-Means (analogy: chia bàn tiệc cưới)
 
-### Không đụng tới
-- `CodeBlock.tsx` (đã ổn).
-- `ProgrammingLesson.tsx` (chỉ là wrapper).
-- Schema DB, Supabase types.
-- 77 lessons còn lại — toàn bộ tự động hưởng cấp độ 1 mà không cần sửa data.
+**D. Programming Expansion (2 bài Python phổ biến)** — `programmingExpansion.ts`
+1. `py-decorators` — Decorators (analogy: gói quà sinh nhật)
+2. `py-gen-1` — Generators (analogy: máy ATM nhả tiền từng tờ)
 
-### Kết quả mong đợi
-- Mọi bài học đều có **step badge số gradient + icon ngữ nghĩa** ở mỗi mục H2.
-- Blockquote thành callout màu sắc với icon → mắt dễ scan.
-- 3 bài flagship có **diagram SVG riêng** minh hoạ trực quan khái niệm khó.
-- Không bài nào cần viết lại data → an toàn, nhanh.
+→ **Tổng 15 bài** trong đợt này. Các bài còn lại (~25 bài) sẽ làm trong đợt 5–6 sau khi user duyệt phong cách đợt 4.
 
+## Files thay đổi
+- ✏️ `src/data/curriculum/dataEngLessons.ts` (5 bài)
+- ✏️ `src/data/curriculum/aiFoundationLessons.ts` (5 bài)
+- ✏️ `src/data/curriculum/mlLessons.ts` (3 bài)
+- ✏️ `src/data/curriculum/programmingExpansion.ts` (2 bài)
+
+## Không đụng tới
+- `TheorySections.tsx`, `CodeBlock.tsx`, components lesson-visuals (đã ổn).
+- Schema, IDs, structure object — chỉ rewrite trường `theory` (giữ nguyên `theoryEn`, `code`, `quiz`, `exercise`).
+- Các bài SQL/Cloud/ML đã rewrite trước đó.
+- 25 bài còn lại (đợt sau).
+
+## Kết quả mong đợi
+- 15 bài "khô nhất" trở nên vui, có hook đời sống VN, dễ nuốt.
+- Tự động hưởng UI Step Badge + Callout + Diagram đã có sẵn.
+- Phong cách thống nhất với các bài SQL/Cloud/ML đã rewrite → toàn bộ Learn Programming có giọng văn nhất quán.
