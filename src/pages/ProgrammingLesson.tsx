@@ -29,6 +29,7 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "sql": ["sql"],
   "data-eng": ["data-eng"],
   "ml": ["ml"],
+  "cloud": ["cloud"],
 };
 
 function getPillarForModule(moduleId: string): string | null {
@@ -38,6 +39,11 @@ function getPillarForModule(moduleId: string): string | null {
     "prog-sql": "sql",
     "prog-data-pipeline": "data-eng",
     "prog-ml": "ml",
+    "cloud-fundamentals": "cloud",
+    "cloud-compute-storage": "cloud",
+    "cloud-network-security": "cloud",
+    "cloud-serverless-devops": "cloud",
+    "cloud-architecture-cost": "cloud",
   };
   if (directMap[moduleId]) return directMap[moduleId];
 
@@ -57,6 +63,13 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
     "sql": ["prog-sql"],
     "data-eng": ["prog-data-pipeline"],
     "ml": ["prog-ml"],
+    "cloud": [
+      "cloud-fundamentals",
+      "cloud-compute-storage",
+      "cloud-network-security",
+      "cloud-serverless-devops",
+      "cloud-architecture-cost",
+    ],
   };
   const ids = directIds[pillar] || [];
   return allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
