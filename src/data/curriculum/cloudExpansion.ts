@@ -1115,7 +1115,7 @@ AWS 12 months + always-free; Azure \\\\$200; GCP \\\\$300.
     print("-" * 50)
     for model, cost in models.items():
         savings = (1 - cost / on_demand) * 100
-        print(f"{model:<25} \\\\${cost:>8.2f}   {savings:>5.1f}%")
+        print(f"{model} {cost} {savings}")
 
     return models
 
@@ -1130,7 +1130,7 @@ orphaned = ec2.describe_volumes(
     Filters=[{'Name': 'status', 'Values': ['available']}]   # available = unattached
 )
 total_waste = sum(v['Size'] * 0.10 for v in orphaned['Volumes'])  # gp3 = \\\\$0.10/GB/month
-print(f"\\nOrphaned EBS waste: \\\\${total_waste:.2f}/month")
+print("Orphaned EBS waste:", total_waste, "/month")
 
 # Set budget alert
 budgets = boto3.client('budgets')
@@ -1370,8 +1370,8 @@ for name, config in clusters:
 def hybrid_connection_cost(monthly_gb: int):
     vpn = monthly_gb * 0.05         # \\\\$0.05/GB internet egress
     direct_connect = 250 + monthly_gb * 0.02   # \\\\$250/month port + \\\\$0.02/GB
-    print(f"VPN:            \\\\${vpn:.2f}/month")
-    print(f"Direct Connect: \\\\${direct_connect:.2f}/month")
+    print("VPN:", vpn, "/month")
+    print("Direct Connect:", direct_connect, "/month")
     print(f"Break-even at: {(250 / 0.03):.0f} GB/month")
 
 hybrid_connection_cost(monthly_gb=15000)`,
@@ -1620,9 +1620,9 @@ def recommend_compute(req_per_month: int, avg_duration_ms: int):
         ('EC2',     ec2_cost),
     ], key=lambda x: x[1])
 
-    print(f"Cheapest: {options[0][0]} at \\\\${options[0][1]:.2f}/month")
+    print("Cheapest:", options[0][0], options[0][1])
     for name, cost in options:
-        print(f"  {name}: \\\\${cost:.2f}")
+        print(name, cost)
 
 recommend_compute(req_per_month=1_000_000, avg_duration_ms=200)`,
         codeLanguage: "python",
