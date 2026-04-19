@@ -1,61 +1,79 @@
 
-Tiếp tục mở rộng nội dung Theory cho Learn Programming theo chuẩn đã thiết lập (6-9 H2 sections, case study thật, trade-off tables, best practices, anti-patterns).
 
-## Trạng thái hiện tại
-**Đã hoàn thành (đợt 1 — phần 1/3):**
-- `cloudLessons.ts`: 4/15 lessons (cloud-fund-1, cloud-fund-2, cloud-fund-3, cloud-compute-1)
+## Chẩn đoán
 
-**Người dùng hiện đang ở:** `/programming/prog-data-pipeline` → thuộc Data Engineering pillar
+Component `TheorySections.tsx` chỉ chia nội dung lý thuyết thành các "khối có thể đánh dấu Đã đọc" khi gặp dòng bắt đầu bằng `## ` (H2 markdown). Nếu một bài viết theory **không có H2** (chỉ dùng `**Bold:**` để giả làm tiêu đề), thì:
 
-## Kế hoạch tiếp theo
+1. Toàn bộ bài bị dồn vào **đúng 1 khối**, không có thanh tiến độ section, không có nút "Mark read", không có ngắt thị giác → **dính chùm**.
+2. Các "tiêu đề" `**Bold:**` chỉ là chữ đậm cùng một dòng với đoạn văn → **mắt không lướt được**.
+3. Bài thường ngắn (~2.000–3.000 ký tự) so với chuẩn các bài đã mở rộng (~6.000–10.000 ký tự, 7–9 H2).
 
-### Đợt này — Hoàn tất Cloud + bắt đầu Data Engineering
+Phân tích chính xác:
 
-**Phần A: Hoàn tất Cloud Engineer (cloudLessons.ts còn 11 lessons)**
-Mở rộng theory + theoryEn cho:
-1. cloud-storage-1 (S3/Object Storage)
-2. cloud-compute-2 (Containers/Kubernetes)
-3. cloud-net-1 (VPC/Networking)
-4. cloud-iam-1 (IAM/Security)
-5. cloud-sec-1 (Encryption/Compliance)
-6. cloud-serverless-1 (Lambda/Functions)
-7. cloud-iac-1 (Terraform/IaC)
-8. cloud-cicd-1 (CI/CD pipelines)
-9. cloud-arch-1 (Well-Architected)
-10. cloud-cost-1 (FinOps cơ bản)
-11. cloud-arch-2 (Microservices)
+| File | Bài thiếu H2 / quá ngắn |
+|---|---|
+| `dataEngLessons.ts` | **7 bài** — `de-model-1`, `de-wh-1`, `de-bs-1`, `de-dq-1`, `de-orch-1`, `de-cloud-1`, `de-prod-1` |
+| `sqlLessons.ts` | **13 bài** — toàn bộ (sql-select-1 → sql-adv-1) |
+| `aiFoundationLessons.ts` | OK |
+| `mlLessons.ts` | OK |
+| `cloudLessons.ts`, `cloudExpansion.ts`, `programmingExpansion.ts` | OK |
 
-**Phần B: Data Engineering (dataEngLessons.ts) — vì user đang ở pipeline lesson**
-Ưu tiên mở rộng các module quan trọng nhất trước:
-1. Module 1: Pandas Basics
-2. Module 2: Data Cleaning
-3. Module 3: Data Ingestion
-4. Module 4: ETL Pipeline Design ← user đang xem
-5. Module 5: Data Modeling
-6. Module 6: Data Warehousing
+→ **Tổng: 20 lessons cần làm lại theo chuẩn.**
 
-(Module 7-11 sẽ làm trong đợt sau)
+## Phương án
 
-## Chuẩn nội dung (giữ nguyên)
-Mỗi lesson tối thiểu 6-9 H2 sections:
-- Tổng quan & bối cảnh
-- Khái niệm cốt lõi
-- Cách hoạt động chi tiết (sơ đồ ASCII / bảng)
-- Case study thật (Netflix, Spotify, Stripe, Airbnb, Uber, Grab, Shopee...)
-- So sánh / trade-offs (bảng)
-- Best practices (checklist)
-- Common pitfalls / anti-patterns
-- Khi nào nên / không nên dùng
-- Bridge sang bài tiếp theo
+### A. Nâng cấp content (nguồn gốc của vấn đề)
+
+Viết lại trường `theory` (và `theoryEn` tương ứng) cho đúng **20 bài** trên theo chuẩn đã thiết lập:
+
+- **7–9 section `## H2`** mỗi bài → kích hoạt được toàn bộ UX của `TheorySections` (progress bar, nút Mark read, gạch chân tự động, scroll-anchor theo slug).
+- **Mỗi section**: 1 đoạn mở + bullet/bảng + ví dụ code/SQL ngắn nếu cần.
+- **Bắt buộc có**: 1 trade-off table (markdown), 1–2 case study thực tế (Stripe / Airbnb / Netflix / Shopify / Uber / Google / Snowflake…), khối **Best Practices** + **Anti-Patterns**, **Bridge sang bài tiếp**.
+- **Độ dài mục tiêu**: 6.000–9.000 ký tự (gấp 2–3× hiện tại).
+- Giữ nguyên `code`, `exercise`, `quiz` — chỉ chỉnh `theory` + `theoryEn`.
+
+Khung cố định 8 H2 áp dụng cho mỗi bài:
+
+```text
+## Why this matters (real-world stake)
+## Core concepts (định nghĩa + ví dụ)
+## Mechanics / How it works (cơ chế, có code/SQL)
+## Comparison table (trade-off rõ ràng)
+## Case study #1 — <Company>
+## Case study #2 — <Company / failure story>
+## Best practices (checklist 5–7 mục)
+## Anti-patterns & Bridge to next lesson
+```
+
+### B. Cải thiện CSS thị giác cho `.theory-content` (nâng "dễ nhìn")
+
+Trong `src/index.css`:
+
+1. **Tăng tách lớp giữa các H2**: thêm `padding-top` + `border-top` mảnh cho `.theory-content h2` (hiện chỉ có margin).
+2. **Card hoá section**: `.theory-section` (đã có ID) → bo nhẹ background `bg-card`, padding 12px, gap-y 24px giữa sections để chấm dứt cảm giác "dính chùm" ngay cả khi nội dung dày.
+3. **Tăng độ tương phản bullet**: marker đậm hơn (đã có), `li` line-height 1.75.
+4. **Bảng**: `min-width: 600px` (đồng bộ memory rule), zebra stripe hàng chẵn.
+5. **Code block inline**: padding rộng hơn để không "dính" chữ xung quanh.
+6. **Spacing giữa đoạn `**Bold lead-in:**` và bullet phía dưới**: `p + ul { margin-top: 0.4rem }` để gom thành cụm logic.
+
+### C. Phòng ngừa tái diễn
+
+Thêm 1 dòng comment hướng dẫn ở đầu mỗi file curriculum:
+
+```ts
+// CONTENT STANDARD: every `theory` block MUST contain ≥6 `## H2` sections
+// so TheorySections.tsx can render the per-section "Mark read" UX.
+```
 
 ## Files chỉnh sửa
-- `src/data/curriculum/cloudLessons.ts` (11 lessons còn lại)
-- `src/data/curriculum/dataEngLessons.ts` (6 modules đầu)
 
-Không tạo file mới, không thay schema, không đụng UI/backend. Cấu trúc code/exercise/quiz giữ nguyên — chỉ mở rộng `theory` và `theoryEn`.
+- `src/data/curriculum/dataEngLessons.ts` (rewrite 7 theory blocks)
+- `src/data/curriculum/sqlLessons.ts` (rewrite 13 theory blocks)
+- `src/index.css` (visual polish khối `.theory-content` + `.theory-section`)
 
-## Đợt sau (sẽ tiếp tục trong message kế tiếp)
-- `cloudExpansion.ts` (10 lessons)
-- `dataEngLessons.ts` module 7-11
-- `aiFoundationLessons.ts`, `mlLessons.ts`
-- `sqlLessons.ts`, `programmingExpansion.ts`
+Không tạo file mới, không đổi schema, không đụng `TheorySections.tsx` (vì logic split của nó đúng — chỉ cần content đúng định dạng).
+
+## Đợt sau
+
+- Đợt kế: rà các file curriculum **ngôn ngữ** (English/Chinese/Vietnamese/Finnish lessons) bằng cùng script đếm H2 → mở rộng tương tự nếu phát hiện bài "dính chùm".
+
