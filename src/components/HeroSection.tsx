@@ -110,8 +110,14 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mx-auto mt-12 max-w-2xl pb-20 sm:pb-0"
           >
-            <div className="glass-card grid grid-cols-1 gap-4 rounded-2xl px-5 py-5 sm:grid-cols-2 sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-4">
+            <div className="glass-card grid grid-cols-1 gap-4 rounded-2xl px-5 py-5 sm:grid-cols-2 sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-5">
               {[
+                {
+                  icon: GraduationCap,
+                  value: t("Cử nhân", "B.A."),
+                  label: t("TEFL – Giảng dạy Tiếng Anh", "TEFL – Teaching English"),
+                  place: t("ĐH Sư phạm TP.HCM", "HCMC University of Education"),
+                },
                 {
                   icon: GraduationCap,
                   value: t("Thạc sĩ", "M.A."),
