@@ -31,7 +31,7 @@ export const setLessonComplete = (lessonId: string) => {
 };
 
 const PythonPathwayHub = () => {
-  const { language } = useLanguage();
+  const { lang: language } = useLanguage();
   const [progress, setProgress] = useState<Record<string, boolean>>(getPythonPathwayProgress());
 
   useEffect(() => {

@@ -16,7 +16,7 @@ interface Props {
 }
 
 const LessonQuiz = ({ questions, onComplete }: Props) => {
-  const { language } = useLanguage();
+  const { lang: language } = useLanguage();
   const [answers, setAnswers] = useState<(string | number | null)[]>(questions.map(() => null));
   const [submitted, setSubmitted] = useState(false);
 
