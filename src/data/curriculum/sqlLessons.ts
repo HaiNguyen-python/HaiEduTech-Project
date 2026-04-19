@@ -544,176 +544,173 @@ WHERE (city = 'Hà Nội' OR city = 'TP HCM')
         titleEn: "COUNT, SUM, AVG",
         level: 2,
         difficulty: "beginner",
-        theory: `**Aggregate functions** collapse many rows into a single value: a count, a sum, an average. They are how raw event data becomes business metrics. Every dashboard you've ever seen is, ultimately, a series of aggregate queries dressed up with charts.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bảng \`orders\` (đơn hàng) có 10.000 dòng. Sếp hỏi: *"Lớp mình bán được bao nhiêu đơn? Doanh thu mỗi vùng miền? Đơn trung bình bao nhiêu tiền?"*
 
-A staggering share of analytical bugs come from aggregate-function misunderstandings: COUNT including NULLs, AVG silently dividing by the wrong denominator, GROUP BY missing a column. Getting the aggregation rules right is the difference between trustworthy and "we'll need to recompute that."
+Bạn không thể trả lời từng dòng — phải **gộp nhiều dòng lại thành 1 con số**. Đó là việc của **aggregate function** (hàm tổng hợp — gom nhiều dòng thành 1 giá trị).
 
-## The five core aggregates
+## 2. 5 hàm tổng hợp cốt lõi
+
+| Hàm | Trả về | Bỏ qua NULL? |
+|---|---|---|
+| \`COUNT(*)\` | Đếm **tất cả** các dòng (kể cả dòng toàn NULL) | Không |
+| \`COUNT(col)\` | Đếm các dòng có giá trị (NOT NULL) ở cột đó | **Có** |
+| \`SUM(col)\` | Tổng cộng giá trị cột | Có |
+| \`AVG(col)\` | Trung bình cộng | Có |
+| \`MIN(col)\` / \`MAX(col)\` | Giá trị nhỏ nhất / lớn nhất | Có |
+
+⚠️ **Lưu ý cực quan trọng**: \`AVG(rating)\` chỉ tính trung bình trên các dòng có rating — **bỏ qua dòng NULL**. Nếu bạn muốn coi NULL là 0, phải dùng \`AVG(COALESCE(rating, 0))\` (COALESCE = "nếu NULL thì thay bằng…").
+
+## 3. Cú pháp tối thiểu
+
+\`\`\`sql
+SELECT COUNT(*)   AS so_don,        -- Đếm tổng số đơn
+       SUM(amount) AS doanh_thu,    -- Tổng doanh thu
+       AVG(amount) AS don_tb        -- Đơn trung bình
+FROM   orders;
+\`\`\`
+
+Câu này trả về **đúng 1 dòng** với 3 con số.
+
+## 4. \`GROUP BY\` — gộp theo nhóm
+
+Nếu muốn xem doanh thu **theo từng vùng**, dùng \`GROUP BY\`:
+
+\`\`\`sql
+SELECT region,
+       COUNT(*)   AS so_don,
+       SUM(amount) AS doanh_thu
+FROM   orders
+GROUP BY region;     -- "Gộp các dòng cùng region lại thành 1 nhóm"
+\`\`\`
+
+Mỗi giá trị \`region\` thành 1 dòng kết quả. Database tính số đếm và tổng *trong từng nhóm*.
+
+## 5. Quy tắc VÀNG của GROUP BY
+
+> Mọi cột trong SELECT **phải** hoặc là (a) nằm trong hàm tổng hợp, hoặc (b) liệt kê trong GROUP BY.
+
+\`\`\`sql
+-- ❌ SAI: city không có trong GROUP BY và cũng không bị tổng hợp
+SELECT region, city, SUM(amount) FROM orders GROUP BY region;
+
+-- ✅ ĐÚNG: thêm city vào GROUP BY
+SELECT region, city, SUM(amount) FROM orders GROUP BY region, city;
+\`\`\`
+
+Lý do: nếu 1 nhóm \`region = 'Bắc'\` có nhiều city (Hà Nội, Hải Phòng, …), database không biết hiển thị city nào. PostgreSQL báo lỗi; MySQL cũ thì lặng lẽ chọn 1 cái ngẫu nhiên (rất nguy hiểm).
+
+## 6. \`HAVING\` — lọc trên *nhóm* đã gộp
+
+WHERE lọc *trước* khi gộp (lọc trên dòng). HAVING lọc *sau* khi gộp (lọc trên nhóm):
+
+\`\`\`sql
+SELECT region, SUM(amount) AS doanh_thu
+FROM   orders
+GROUP BY region
+HAVING SUM(amount) > 100000;    -- Chỉ giữ các vùng có tổng > 100k
+\`\`\`
+
+| Mệnh đề | Lọc trên gì? | Có dùng được hàm tổng hợp? |
+|---|---|---|
+| \`WHERE\` | Từng dòng | ❌ Không |
+| \`HAVING\` | Từng nhóm (sau GROUP BY) | ✅ Có |
+
+**Mẹo**: Lọc được bằng WHERE thì **luôn ưu tiên WHERE** — nhanh hơn nhiều vì lọc trước, nhóm sau.
+
+## 7. \`COUNT(DISTINCT)\` — đếm giá trị riêng biệt
+
+\`\`\`sql
+SELECT COUNT(DISTINCT customer_id) AS so_khach_hang
+FROM   orders;
+\`\`\`
+
+Dùng khi 1 khách có nhiều đơn nhưng bạn chỉ muốn đếm số khách *duy nhất*. Lưu ý: trên bảng vài tỷ dòng, \`COUNT(DISTINCT)\` rất tốn RAM — khi đó có thể dùng \`APPROX_COUNT_DISTINCT\` (có sẵn trên BigQuery, Snowflake) chấp nhận sai số ~1% để đổi lấy tốc độ.
+
+## 8. Tổng kết — checklist khi viết aggregate
+
+- ✅ Phân biệt \`COUNT(*)\` (đếm dòng) vs \`COUNT(col)\` (đếm dòng có giá trị).
+- ✅ \`SUM\`, \`AVG\` **bỏ qua NULL** — luôn nói rõ "trung bình của ai" khi báo cáo.
+- ✅ Mọi cột không bị tổng hợp **phải** xuất hiện trong \`GROUP BY\`.
+- ✅ Lọc dòng → \`WHERE\`. Lọc nhóm → \`HAVING\`.
+- ✅ Bài tiếp theo: **JOIN** — kết nối bảng để có thể GROUP BY theo tên sản phẩm, tên khách hàng…`,
+        theoryEn: `## 1. Real-world problem
+
+\`orders\` has 10,000 rows. Boss asks: how many orders? revenue per region? average order? You can't answer row-by-row — collapse rows into a single value with **aggregate functions**.
+
+## 2. Five core aggregates
 
 | Function | Returns | Ignores NULL? |
 |---|---|---|
-| \`COUNT(*)\` | All rows including NULL-only rows | No |
-| \`COUNT(col)\` | Rows where col IS NOT NULL | **Yes** |
-| \`COUNT(DISTINCT col)\` | Distinct non-NULL values | Yes |
-| \`SUM(col)\` | Sum of non-NULL values | Yes |
-| \`AVG(col)\` | Sum / count of non-NULL | Yes |
-| \`MIN(col)\`, \`MAX(col)\` | Smallest / largest non-NULL | Yes |
-
-The most common bug: writing \`AVG(rating)\` and forgetting that NULLs are excluded — you average over the *responders only*, not all customers. If you wanted "average rating including unanswered as zero," you must \`COALESCE(rating, 0)\` first.
-
-## GROUP BY — the partner
-
-\`\`\`sql
-SELECT region, COUNT(*) AS orders, SUM(amount) AS revenue
-FROM fact_sales
-GROUP BY region;
-\`\`\`
-
-Rule: every column in SELECT must either be (a) inside an aggregate, or (b) listed in GROUP BY. Postgres / ANSI enforces this; older MySQL silently picked an arbitrary value, which caused decades of bugs (now fixed by default).
-
-GROUP BY can take expressions: \`GROUP BY date_trunc('month', created_at)\`.
-
-## HAVING — filtering on aggregates
-
-\`HAVING\` runs *after* GROUP BY, so it can reference aggregate functions.
-
-\`\`\`sql
-SELECT region, SUM(amount) AS revenue
-FROM fact_sales
-GROUP BY region
-HAVING SUM(amount) > 100000;
-\`\`\`
-
-Mental model: WHERE filters rows, HAVING filters *groups*.
-
-## Comparison — WHERE, GROUP BY, HAVING
-
-| Stage | Operates on | Can reference |
-|---|---|---|
-| WHERE | Individual rows | Columns only |
-| GROUP BY | Rows → groups | Columns or expressions |
-| HAVING | Groups | Aggregates + grouped columns |
-
-Always push filters as early as possible: \`WHERE region = 'EU'\` before grouping is much faster than \`HAVING region = 'EU'\` after.
-
-## Distinct counting — beware the cost
-
-\`COUNT(DISTINCT user_id)\` is **expensive** at scale because the engine must keep every distinct value in memory. On a billion-row table, this can blow up RAM. Modern warehouses offer **approximate** versions:
-
-- BigQuery: \`APPROX_COUNT_DISTINCT(user_id)\`
-- Snowflake: \`APPROX_COUNT_DISTINCT(user_id)\`
-- Postgres: \`hll_count_distinct(...)\` (HyperLogLog extension)
-
-Approximate is ~1% off but uses constant memory. For dashboards that don't need to-the-exact-user precision, it is the right default.
-
-## Case study — the "average that lied"
-
-A SaaS company published an "average customer rating" of 4.6/5 in their pitch deck. The number came from \`AVG(rating) FROM reviews\`. What it *actually* measured: the average among customers who had bothered to leave a review (~5% of users). When an investor asked for "average rating across all paying customers" (with non-responders treated as missing), the real number — using a churn-weighted estimate — was 3.2/5. The lesson: **always state your denominator** explicitly when reporting an average.
-
-## Case study — the GROUP BY ambiguity outage
-
-A team migrated from MySQL (lenient mode) to Postgres. A query like \`SELECT user_id, name, SUM(amount) FROM orders GROUP BY user_id\` had silently worked in MySQL by picking an arbitrary \`name\`. Postgres rejected it. The migration script ran for a year before someone realized that during the dual-write phase, MySQL had been quietly returning *different* names for the same user across runs. Lesson: ANSI-strict GROUP BY is a feature, not a bug.
-
-## Best practices
-
-- **State your denominator** when reporting averages — show the count alongside.
-- Use \`COUNT(*)\` when you want "all rows including NULL-only."
-- Use \`COUNT(col)\` when you want "rows that have a value here."
-- Reach for **approximate distinct** on billion-row tables unless exactness is regulatory.
-- **Group by the surrogate key**, not the descriptive name, when both are present (faster + safer).
-- **Filter in WHERE, not HAVING**, whenever the column is not aggregated.
-
-## Anti-patterns & next lesson
-
-Avoid: assuming NULLs count in averages; selecting non-grouped, non-aggregated columns (works in legacy MySQL only); \`COUNT(DISTINCT)\` on billions of rows without considering APPROX; reporting an average without its sample size.
-
-Next: **JOIN operations** — bringing facts and dimensions together to make those aggregates meaningful by region, product, or customer segment.`,
-        theoryEn: `**Aggregates** collapse rows into a single value. Every dashboard is a series of aggregates dressed up.
-
-## Why this matters
-
-Most analytical bugs come from aggregate mis-use: NULL handling, wrong denominators, missing GROUP BY columns.
-
-## Five core aggregates
-
-| Function | Behavior | Ignores NULL? |
-|---|---|---|
 | COUNT(*) | All rows | No |
 | COUNT(col) | Non-NULL rows | Yes |
-| COUNT(DISTINCT) | Distinct non-NULL | Yes |
 | SUM, AVG | Non-NULL only | Yes |
 | MIN, MAX | Non-NULL only | Yes |
 
 \`AVG(rating)\` excludes NULLs — you average responders only.
 
-## GROUP BY
+## 3. Minimal syntax
 
-Every SELECT column must be aggregated or grouped. ANSI/Postgres enforces this; MySQL historically didn't.
+\`SELECT COUNT(*), SUM(amount), AVG(amount) FROM orders;\` → returns one row.
 
-## HAVING
+## 4. GROUP BY
 
-Filters *groups* (after GROUP BY), can reference aggregates. WHERE filters rows.
+\`SELECT region, SUM(amount) FROM orders GROUP BY region;\` → one row per region.
 
-## Comparison
+## 5. Golden rule
 
-| Stage | Operates on | Refs |
+Every SELECT column must be aggregated OR listed in GROUP BY. ANSI/Postgres enforces; legacy MySQL was lenient.
+
+## 6. HAVING vs WHERE
+
+| Clause | Filters | Aggregates? |
 |---|---|---|
-| WHERE | rows | cols |
-| GROUP BY | rows→groups | cols/expr |
-| HAVING | groups | aggregates |
+| WHERE | rows | No |
+| HAVING | groups | Yes |
 
-Push filters into WHERE when possible.
+Always push filters into WHERE when possible.
 
-## DISTINCT counting cost
+## 7. COUNT(DISTINCT)
 
-\`COUNT(DISTINCT)\` keeps every value in memory. Use \`APPROX_COUNT_DISTINCT\` (BigQuery/Snowflake) for ~1% error + constant memory.
+Counts unique values; expensive at scale → use \`APPROX_COUNT_DISTINCT\` for billion-row tables (~1% error, constant memory).
 
-## Case study — the lying average
+## 8. Checklist
 
-A pitch deck claimed "4.6/5 average rating" — really only 5% of users responded. True churn-weighted: 3.2/5. Always state the denominator.
+- COUNT(*) vs COUNT(col)
+- SUM/AVG ignore NULL — state denominator
+- All non-aggregated columns in GROUP BY
+- Filter rows in WHERE, groups in HAVING
+- Next: **JOIN operations**`,
+        code: `-- Đếm tổng số học viên
+SELECT COUNT(*) AS so_hoc_vien FROM students;
 
-## Case study — MySQL→Postgres GROUP BY
+-- Tuổi trung bình (NULL bị bỏ qua tự động)
+SELECT AVG(age) AS tuoi_tb FROM students;
 
-Lenient MySQL silently picked arbitrary non-grouped values; Postgres rejected the query. Discovered after a year of inconsistency. ANSI-strict GROUP BY is a feature.
-
-## Best practices
-
-State denominators; choose COUNT(*) vs COUNT(col) deliberately; APPROX for billion-row distinct; group by surrogate keys; filter in WHERE.
-
-## Anti-patterns & next
-
-Avoid NULL-ignorant averages, ungrouped columns, COUNT(DISTINCT) on billions without approx. Next: **JOIN operations**.`,
-        code: `-- Count all students
-SELECT COUNT(*) AS total_students FROM students;
-
--- Average age
-SELECT AVG(age) AS avg_age FROM students;
-
--- Group by with aggregates
-SELECT age, COUNT(*) AS count
-FROM students
+-- Đếm số học viên theo từng tuổi (gộp nhóm)
+SELECT age, COUNT(*) AS so_luong
+FROM   students
 GROUP BY age
-ORDER BY count DESC;
+ORDER BY so_luong DESC;
 
--- HAVING clause
-SELECT age, COUNT(*) AS count
-FROM students
+-- Chỉ giữ các nhóm tuổi có >= 2 học viên (lọc nhóm bằng HAVING)
+SELECT age, COUNT(*) AS so_luong
+FROM   students
 GROUP BY age
 HAVING COUNT(*) >= 2;
 
--- COUNT DISTINCT
-SELECT COUNT(DISTINCT age) AS unique_ages FROM students;`,
+-- Đếm số tuổi khác nhau
+SELECT COUNT(DISTINCT age) AS so_tuoi_khac_nhau FROM students;`,
         codeLanguage: "sql",
-        exercise: "Count orders per customer_id, show only customers with >= 3 orders.",
-        exerciseEn: "Count orders per customer_id, show only customers with >= 3 orders.",
+        exercise: "Đếm số đơn hàng theo từng customer_id trong bảng orders, sau đó chỉ hiển thị các khách có >= 3 đơn. Gợi ý: GROUP BY customer_id, lọc bằng HAVING COUNT(*) >= 3.",
+        exerciseEn: "Count orders per customer_id, then show only customers with >= 3 orders. Hint: GROUP BY customer_id, HAVING COUNT(*) >= 3.",
         quiz: [
-          { question: "What is the difference between HAVING and WHERE?", options: ["No difference", "HAVING filters after GROUP BY, WHERE filters before", "HAVING is faster", "WHERE is used for aggregates"], answer: 1, explanation: "WHERE filters individual rows before grouping. HAVING filters groups after aggregation." },
-          { question: "What is the difference between COUNT(*) and COUNT(column)?", options: ["They are identical", "COUNT(*) counts all rows including NULLs, COUNT(column) skips NULLs", "COUNT(column) is faster", "COUNT(*) only counts NULLs"], answer: 1, explanation: "COUNT(*) counts every row regardless of NULLs. COUNT(column) only counts rows where that column is not NULL." },
-          { question: "Why is 'WHERE COUNT(*) > 5' invalid?", options: ["COUNT is not a function", "WHERE runs before GROUP BY so aggregates don't exist yet", "You need parentheses", "It's valid in MySQL"], answer: 1, explanation: "WHERE filters rows before grouping happens, so aggregate results are not yet available. Use HAVING instead." },
-          { question: "What does AVG do with NULL values?", options: ["Treats them as 0", "Ignores them entirely", "Returns NULL", "Causes an error"], answer: 1, explanation: "AVG ignores NULLs — it sums non-NULL values and divides by the count of non-NULL values." },
-          { question: "If you SELECT city, COUNT(*) FROM students without GROUP BY, what happens?", options: ["Returns all cities with counts", "Error: city must be in GROUP BY or aggregate", "Returns the first city", "Returns NULL"], answer: 1, explanation: "Non-aggregated columns (city) must appear in GROUP BY when using aggregate functions, otherwise most databases raise an error." }
+          { question: "Khác nhau giữa HAVING và WHERE là gì?", options: ["Không khác gì", "HAVING lọc SAU khi GROUP BY (lọc nhóm), WHERE lọc TRƯỚC (lọc dòng)", "HAVING nhanh hơn", "WHERE dùng với hàm tổng hợp"], answer: 1, explanation: "WHERE lọc từng dòng trước khi gộp nhóm. HAVING lọc các nhóm sau khi đã gộp — nên có thể dùng hàm tổng hợp như SUM(), COUNT()." },
+          { question: "Khác biệt giữa `COUNT(*)` và `COUNT(column)` là gì?", options: ["Giống hệt nhau", "COUNT(*) đếm mọi dòng kể cả NULL, COUNT(column) chỉ đếm dòng có giá trị (NOT NULL) ở cột đó", "COUNT(column) nhanh hơn", "COUNT(*) chỉ đếm NULL"], answer: 1, explanation: "COUNT(*) đếm mọi dòng. COUNT(column) chỉ đếm các dòng có giá trị thực ở cột đó — bỏ qua NULL." },
+          { question: "Vì sao `WHERE COUNT(*) > 5` báo lỗi?", options: ["COUNT không phải hàm", "WHERE chạy TRƯỚC GROUP BY nên hàm tổng hợp chưa tồn tại — phải dùng HAVING", "Phải có dấu ngoặc", "Hợp lệ trên MySQL"], answer: 1, explanation: "WHERE lọc dòng TRƯỚC khi gộp nhóm, lúc đó kết quả của COUNT chưa có. Để lọc theo kết quả tổng hợp, phải dùng HAVING." },
+          { question: "`AVG` xử lý giá trị NULL như thế nào?", options: ["Coi NULL = 0", "Bỏ qua hoàn toàn (chỉ tính trung bình trên các giá trị NOT NULL)", "Trả về NULL", "Báo lỗi"], answer: 1, explanation: "AVG bỏ qua NULL hoàn toàn — cộng các giá trị NOT NULL rồi chia cho SỐ DÒNG NOT NULL. Đây là nguồn gốc nhiều báo cáo sai." },
+          { question: "Nếu viết `SELECT city, COUNT(*) FROM students` mà KHÔNG có GROUP BY thì sao?", options: ["Trả về tất cả thành phố kèm số đếm", "Báo lỗi: city phải nằm trong GROUP BY hoặc trong hàm tổng hợp", "Trả về thành phố đầu tiên", "Trả về NULL"], answer: 1, explanation: "Cột không bị tổng hợp (như city) bắt buộc phải có trong GROUP BY khi câu lệnh có hàm tổng hợp — nếu không hầu hết database sẽ báo lỗi." }
         ]
       }
     ]
