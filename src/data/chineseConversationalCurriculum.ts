@@ -879,7 +879,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Explain how to exchange currency at a bank",
         ],
         fillInBlankExercises: [
-          { sentence: "我想___一个银行账户。", pinyin: "Wǒ xiǎng ___ yí ge yínháng zhànghù.", answer: "开", translationVi: "Tôi muốn mở một tài khoản ngân hàng.", hint: ""开" = mở" },
+          { sentence: "我想___一个银行账户。", pinyin: "Wǒ xiǎng ___ yí ge yínháng zhànghù.", answer: "开", translationVi: "Tôi muốn mở một tài khoản ngân hàng.", hint: "开 = mở" },
           { sentence: "请输入您的___密码。", pinyin: "Qǐng shūrù nín de ___ mìmǎ.", answer: "银行卡", translationVi: "Vui lòng nhập mật khẩu thẻ ngân hàng." },
           { sentence: "我要把钱___到他的账户。", pinyin: "Wǒ yào bǎ qián ___ dào tā de zhànghù.", answer: "转账", translationVi: "Tôi muốn chuyển khoản sang tài khoản anh ấy." },
           { sentence: "这家银行的___很高。", pinyin: "Zhè jiā yínháng de ___ hěn gāo.", answer: "利息", translationVi: "Lãi suất ngân hàng này khá cao." },
