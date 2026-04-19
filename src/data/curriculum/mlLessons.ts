@@ -182,172 +182,151 @@ Linear Regression dự đoán **số liên tục** (giá nhà, doanh thu). Nhưn
       {
         id: "ml-log-1", title: "Binary Classification", titleEn: "Binary Classification",
         level: 2, difficulty: "beginner",
-        theory: `**Logistic Regression — Binary Classification**
+        theory: `## 1. Vấn đề đời thường
 
-Despite its name, Logistic Regression is a **classification** algorithm, not regression. It predicts the probability that an input belongs to a particular class (0 or 1). It is the foundation for understanding neural networks and deep learning.
+Bạn nhận 1 email. Câu hỏi: **đây là spam hay không?** Đây là bài toán **phân loại nhị phân** (binary classification): output chỉ có 2 giá trị — 1 (spam) hoặc 0 (không spam).
 
----
+Linear Regression không dùng được: nó cho ra số bất kỳ (vd: -50 hoặc +200), không phải xác suất "khả năng là spam = 87%". Cần một cách **nén kết quả về khoảng [0, 1]** để đọc như xác suất. Đó là việc của **Logistic Regression**.
 
-**📐 The Model:**
+> **Bẫy ngôn ngữ**: tên có chữ "Regression" nhưng đây là thuật toán **phân loại**, không phải hồi quy. Tên gọi đến từ "logistic function" — hàm nén giá trị về [0, 1].
 
-\`P(y=1|x) = σ(wx + b) = 1 / (1 + e^(-(wx+b)))\`
+## 2. Cú pháp tối thiểu — sigmoid là chìa khóa
 
-The **Sigmoid function** maps any real number to the range [0, 1], interpretable as a probability.
-
-**Sigmoid Properties:**
-- σ(0) = 0.5 (neutral — equal probability for both classes)
-- σ(large positive) → 1 (confident positive)
-- σ(large negative) → 0 (confident negative)
-- Derivative: σ'(z) = σ(z) × (1 - σ(z)) — easy to compute, useful for gradient descent
-- Symmetric: σ(-z) = 1 - σ(z)
-
-**Decision Rule:** If P(y=1) ≥ 0.5, predict class 1; otherwise predict class 0.
-
-**Decision Boundary:** The line/surface where P(y=1) = 0.5, i.e., wx + b = 0.
-- In 2D: the boundary is a straight line
-- In higher dimensions: a hyperplane
-- Logistic Regression can ONLY create linear boundaries
-
----
-
-**📏 Loss Function — Binary Cross-Entropy (BCE):**
-
-\`L = -(1/n) × Σ[yᵢ·log(ŷᵢ) + (1-yᵢ)·log(1-ŷᵢ)]\`
-
-**Intuition:**
-- When y=1 and ŷ≈1: loss ≈ 0 (correct, confident — good!)
-- When y=1 and ŷ≈0: loss → ∞ (wrong, confident → heavy penalty!)
-- When y=0 and ŷ≈0: loss ≈ 0 (correct, confident — good!)
-- When y=0 and ŷ≈1: loss → ∞ (wrong, confident → heavy penalty!)
-
-**Why not use MSE for classification?** MSE with sigmoid creates a **non-convex** loss surface with many local minima, making gradient descent unreliable. Cross-entropy with sigmoid is **convex** — guaranteed single global minimum.
-
-**Why not use accuracy as the loss?** Accuracy is not differentiable (it's a step function). We need a smooth, differentiable function for gradient-based optimization.
-
----
-
-**📊 Evaluation Metrics for Classification:**
-
-| Metric | Formula | When to Use |
-|--------|---------|-------------|
-| Accuracy | (TP+TN)/Total | Balanced classes only |
-| Precision | TP/(TP+FP) | When FP is costly (spam filter, recommendation) |
-| Recall (Sensitivity) | TP/(TP+FN) | When FN is costly (disease detection, fraud) |
-| F1 Score | 2×P×R/(P+R) | Imbalanced classes |
-| AUC-ROC | Area under ROC curve | Overall model quality, threshold-independent |
-| Log Loss | -Σ[y·log(ŷ)+(1-y)·log(1-ŷ)] | When probability calibration matters |
-
-**Confusion Matrix:**
 \`\`\`
-              Predicted
-              Pos    Neg
-Actual Pos    TP     FN   ← Type II error (missed positive)
-Actual Neg    FP     TN   ← Type I error (false alarm)
+P(y=1 | x) = σ(w·x + b)
 \`\`\`
 
-**Real-World Metric Selection:**
-- **Cancer detection:** High Recall — missing a cancer case (FN) is far worse than a false alarm (FP)
-- **Spam filter:** High Precision — marking a legitimate email as spam (FP) is very annoying
-- **Credit card fraud:** Balance via F1 — both missing fraud (FN) and blocking legitimate transactions (FP) are costly
+trong đó **sigmoid** là hàm hình chữ S:
 
----
-
-**🔧 Threshold Tuning:**
-
-The default threshold of 0.5 isn't always optimal:
-- **High threshold (e.g., 0.8):** More conservative — higher precision, lower recall
-- **Low threshold (e.g., 0.3):** More permissive — higher recall, lower precision
-
-**Precision-Recall Curve:** Plot precision vs recall at various thresholds. Choose the threshold that best fits your business need.
-
-**ROC Curve:** Plot True Positive Rate (Recall) vs False Positive Rate at all thresholds. The area under the curve (AUC) measures overall model quality.
-
----
-
-**⚖️ Handling Imbalanced Classes:**
-
-When one class dominates (e.g., 99% negative, 1% positive):
-
-1. **Class weights:** Increase the loss contribution of the minority class
-\`\`\`python
-LogisticRegression(class_weight='balanced')  # auto-adjust weights
+\`\`\`
+σ(z) = 1 / (1 + e⁻ᶻ)
 \`\`\`
 
-2. **Oversampling (SMOTE):** Generate synthetic minority samples
-3. **Undersampling:** Remove majority class samples
-4. **Threshold adjustment:** Lower the classification threshold
+**Đặc tính sigmoid** (hình dung như "công tắc mềm"):
 
----
+| Đầu vào z | σ(z) | Ý nghĩa |
+|---|---|---|
+| z = 0 | 0.5 | "50/50, không chắc" |
+| z = +∞ | → 1 | "Chắc chắn là class 1" |
+| z = -∞ | → 0 | "Chắc chắn là class 0" |
 
-**📋 Multi-Class Extension:**
+**Quy tắc quyết định**: Nếu P(y=1) ≥ 0.5 → predict class 1, ngược lại class 0.
 
-- **One-vs-Rest (OvR):** Train K binary classifiers, one per class. Each classifier separates one class from all others.
-- **One-vs-One (OvO):** Train K(K-1)/2 classifiers, one per pair of classes.
-- **Softmax Regression (Multinomial):** Extends logistic regression directly to K classes using softmax function:
-  \`P(y=k|x) = e^(wₖx) / Σⱼ e^(wⱼx)\`
+## 3. 3 bước hoạt động — ví dụ email spam
 
-**Softmax vs Sigmoid:**
-- Sigmoid: output per class is independent (can sum to > 1) — good for multi-label
-- Softmax: outputs sum to exactly 1 — good for multi-class (mutually exclusive)
+Giả sử ta có 2 feature đơn giản: x₁ = số từ "free" trong email, x₂ = số dấu "!".
 
----
+**Bước 1**: tính \`z = w₁·x₁ + w₂·x₂ + b\` — vd: \`z = 1.5·5 + 0.8·10 - 3 = 12.5\`.
+**Bước 2**: nén qua sigmoid: \`σ(12.5) ≈ 0.9999\` → P(spam) = 99.99%.
+**Bước 3**: 0.9999 ≥ 0.5 → **kết luận: SPAM**.
 
-## 🏢 Case Study: Kaggle Titanic — Logistic Regression Baseline
+Mỗi w nói lên: "feature này quan trọng đến đâu trong việc xác định class". w lớn dương → đẩy mạnh về class 1. w lớn âm → đẩy về class 0.
 
-Bài toán "ai sống sót trên Titanic" là dataset nổi tiếng nhất Kaggle (>15K submissions). **Logistic Regression** với 6 feature cơ bản (Sex, Age, Pclass, Fare, SibSp, Embarked) đạt **accuracy 78-80%** — vượt hơn 60% submissions sử dụng Random Forest hoặc XGBoost không tinh chỉnh kỹ. Lý do: dataset nhỏ (891 samples), feature interactions đơn giản → mô hình tuyến tính generalizes tốt hơn.
+## 4. Loss function — Binary Cross-Entropy (BCE)
 
-**Bài học:** Trong bối cảnh ít data + feature đã được engineer tốt, Logistic Regression thường đánh bại deep learning. Đây là lý do nó vẫn là **first-choice baseline** ở mọi data science team chuyên nghiệp.
+Sai số được đo bằng **cross-entropy** (entropy chéo) — phạt rất nặng khi mô hình **tự tin sai**.
 
----
+\`\`\`
+L = -(1/n) · Σ [y·log(ŷ) + (1-y)·log(1-ŷ)]
+\`\`\`
 
-## 🏢 Case Study: PayPal Fraud Detection — Logistic Regression Production (2010s)
+**Trực giác**:
+- y=1 (thật là spam), ŷ ≈ 1 (predict đúng, tự tin) → loss ≈ 0 ✅
+- y=1 nhưng ŷ ≈ 0 (predict sai, tự tin) → loss → ∞ ❌ (phạt nặng)
+- y=0 (không spam), ŷ ≈ 0 → loss ≈ 0 ✅
+- y=0 nhưng ŷ ≈ 1 → loss → ∞ ❌
 
-PayPal dùng Logistic Regression để detect fraud transactions với volume **>4 tỷ transactions/quý**. Lý do chọn LogReg thay vì XGBoost/Neural Network:
-- **Latency requirement <50ms** mỗi transaction → LogReg inference cực nhanh (1 phép nhân ma trận)
-- **Interpretability cho compliance** — phải giải thích được vì sao block một transaction (luật EU PSD2)
-- **Easy to update** — model retrained hourly với data mới
-- Feature engineering bài bản (velocity features, graph-based features) → LogReg đạt AUC 0.92+
+> **Vì sao không dùng MSE?** MSE + sigmoid tạo **bề mặt loss lồi lõm** (non-convex) → gradient descent dễ kẹt ở local minimum. BCE + sigmoid tạo bề mặt **lồi hoàn hảo** (convex) → đảm bảo tìm được global minimum.
 
-**Modern hybrid:** PayPal hiện kết hợp LogReg (first-stage filter, fast) với Gradient Boosted Trees (second-stage, high-accuracy) để cân bằng latency + accuracy.
+## 5. Đo độ tốt — không chỉ Accuracy!
 
----
+Accuracy (tỉ lệ đúng) **không đủ**, đặc biệt khi class lệch (vd: chỉ 1% là spam, predict luôn "không spam" cho accuracy = 99% nhưng vô dụng).
 
-## 🏢 Case Study: Stanford Diabetes Prediction (Pima Indians)
+**Confusion Matrix** (ma trận nhầm lẫn):
 
-Dataset Pima Indians (768 samples, 8 features y khoa) — Logistic Regression đạt **accuracy 77%**, AUC 0.83. Coefficient analysis chỉ ra:
-- **Glucose** (β = +0.035): tăng 1 mg/dL → odds bị tiểu đường tăng 3.5%
-- **BMI** (β = +0.09): tăng 1 đơn vị → odds tăng 9.4%
-- **Pregnancies** (β = +0.12): mỗi lần mang thai → odds tăng 12.7%
+\`\`\`
+                   PREDICT
+                   Spam    Không spam
+THẬT  Spam         TP       FN  ← bỏ sót spam
+      Không spam   FP       TN  ← cảnh báo nhầm
+\`\`\`
 
-Bác sĩ có thể **giải thích từng yếu tố** cho bệnh nhân — điều mà XGBoost/Neural Net không thể làm. Đây là lý do Logistic Regression vẫn dominant trong **medical research, credit scoring, criminal justice**.
+**4 metric chính**:
 
----
+| Tên | Công thức | Trả lời câu hỏi |
+|---|---|---|
+| **Accuracy** | (TP+TN)/Tổng | "Tỉ lệ đúng tổng" — chỉ dùng khi class cân |
+| **Precision** | TP/(TP+FP) | "Khi predict 'spam', có bao nhiêu % thật là spam?" |
+| **Recall** | TP/(TP+FN) | "Trong tất cả spam thật, bắt được bao nhiêu %?" |
+| **F1** | 2·P·R/(P+R) | "Cân bằng cả Precision và Recall" |
 
-## 📊 Bảng so sánh: Logistic Regression vs alternatives
+**Khi nào ưu tiên gì?**
 
-| Tiêu chí | Logistic Regression | Random Forest | Neural Network |
-|---------|---------------------|---------------|----------------|
-| Inference speed | <1ms | ~10ms | 10-100ms |
+| Bài toán | Ưu tiên | Vì sao |
+|---|---|---|
+| Lọc spam | **Precision** cao | Chặn nhầm email khách hàng = mất khách |
+| Phát hiện ung thư | **Recall** cao | Bỏ sót 1 ca = mất mạng |
+| Phát hiện gian lận thẻ | **F1** | Cả 2 sai đều tốn |
+
+**AUC-ROC**: 1 con số (0–1) đánh giá mô hình ở **mọi ngưỡng**, không phụ thuộc threshold 0.5. AUC = 1 hoàn hảo, AUC = 0.5 ngẫu nhiên.
+
+## 6. Threshold tuning — không phải lúc nào cũng 0.5
+
+Mặc định predict class 1 khi P ≥ 0.5. Nhưng có thể chỉnh:
+
+- **Threshold cao (0.8)**: chỉ chắc chắn 80% mới predict spam → ít FP, nhiều FN. Tốt cho lọc spam.
+- **Threshold thấp (0.3)**: nghi ngờ chút là cảnh báo → nhiều FP, ít FN. Tốt cho phát hiện ung thư.
+
+Vẽ **Precision-Recall Curve** ở các threshold khác nhau → chọn điểm phù hợp với business.
+
+## 7. Lỗi thường gặp (đắt tiền)
+
+- ❌ **Dùng accuracy với data lệch** — 99% accuracy có thể là vô dụng.
+- ❌ **Quên cân bằng class** — khi 99% âm và 1% dương, mô hình lười predict luôn 0. Giải pháp: \`class_weight='balanced'\`, **SMOTE** (sinh sample tổng hợp), hoặc giảm threshold.
+- ❌ **Quên One-Hot encoding** cho categorical (vd: tỉnh thành) — mã số 1, 2, 3 sẽ bị hiểu nhầm có thứ tự.
+- ❌ **Bỏ qua calibration** — sigmoid output không phải xác suất thực nếu không calibrated. Dùng **Platt Scaling** hoặc **Isotonic Regression**.
+- ❌ **Dùng cho boundary phi tuyến rõ ràng** (XOR problem) → accuracy thấp. Phải chuyển sang Decision Tree, Random Forest, hoặc Neural Network.
+
+## 8. Multi-class (nhiều hơn 2 lớp)
+
+Cần phân loại 10 chữ số thay vì 2 class? Có 3 cách:
+
+1. **One-vs-Rest (OvR)**: train 10 classifier, mỗi cái phân "chữ số i vs phần còn lại". Đơn giản, phổ biến.
+2. **One-vs-One (OvO)**: train K(K-1)/2 classifier cho mỗi cặp. Nhiều hơn nhưng từng cái nhỏ.
+3. **Softmax Regression** (multinomial): mở rộng trực tiếp với hàm softmax → output là vector xác suất cộng = 1.
+
+**Sigmoid vs Softmax**:
+- **Sigmoid**: mỗi class độc lập, có thể cộng > 1. Dùng cho **multi-label** (1 ảnh có cả "mèo" và "ngoài trời").
+- **Softmax**: cộng = 1 chính xác. Dùng cho **multi-class loại trừ** (1 ảnh chỉ là 1 chữ số duy nhất).
+
+## 9. Ghi chú nâng cao (case study + so sánh)
+
+**PayPal Fraud Detection**: xử lý **>4 tỷ giao dịch/quý** với Logistic Regression. Lý do chọn LogReg thay vì Deep Learning:
+- Latency phải <50 ms → LogReg chỉ là 1 phép nhân ma trận.
+- **Interpretability** cho compliance (luật EU PSD2 yêu cầu giải thích vì sao block).
+- Retrain mỗi giờ với data mới — LogReg đào tạo cực nhanh.
+- Modern hybrid: LogReg lọc thô (high recall), giao dịch nghi ngờ chuyển sang XGBoost (high accuracy).
+
+**Stanford Pima Indians Diabetes (768 mẫu, 8 feature)**: LogReg đạt accuracy 77%, AUC 0.83. Coefficient có thể giải thích cho bệnh nhân:
+- Glucose +1 mg/dL → odds tiểu đường tăng 3.5%.
+- BMI +1 → odds tăng 9.4%.
+- Mỗi lần mang thai → odds tăng 12.7%.
+
+Đây là lý do **LogReg vẫn dominant trong y khoa, credit scoring, hệ thống tư pháp** — XGBoost không thể giải thích từng yếu tố cho bệnh nhân.
+
+**So sánh nhanh**:
+
+| Tiêu chí | LogReg | Random Forest | Neural Network |
+|---|---|---|---|
+| Inference speed | <1 ms | ~10 ms | 10–100 ms |
 | Interpretability | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
 | Cần feature engineering | Cao | Thấp | Rất thấp |
-| Hiệu quả với data nhỏ (<10K) | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
-| Calibrated probabilities | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ (cần Platt scaling) |
-| Production ready (regulated) | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| Hiệu quả với data <10K | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| Production trong ngành regulated | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
 
----
+## 10. Liên hệ bài tiếp theo
 
-## ⚠️ Anti-Patterns
-
-❌ Dùng **threshold mặc định 0.5** cho imbalanced data (vd: fraud chỉ 0.1%) — phải tune theo cost matrix
-❌ Bỏ qua **calibration** — sigmoid output không phải xác suất thật nếu không calibrated (dùng Platt Scaling/Isotonic Regression)
-❌ Dùng accuracy làm metric duy nhất khi imbalanced → 99% accuracy có thể tệ hơn predict tất cả "normal"
-❌ Quên One-Hot encoding cho categorical features → mô hình hiểu sai (1, 2, 3 không có thứ tự)
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Logistic Regression vẽ một **decision boundary tuyến tính** — tốt khi class tách bằng đường thẳng, nhưng thất bại với pattern phức tạp (XOR problem). Bài tiếp: **Decision Trees** — học các luật if/else linh hoạt, capture được boundary phi tuyến.`,
+Logistic Regression chỉ vẽ được **đường thẳng** phân tách (linear decision boundary). Khi pattern phức tạp (vd: bài toán XOR — 2 class xếp xen kẽ), đường thẳng không tách được. Bài tiếp **Decision Trees** học các luật **if/else** linh hoạt → capture được boundary phi tuyến, không cần feature engineering nặng.`,
         theoryEn: `**Logistic Regression — Binary Classification**
 
 **Model:** P(y=1) = sigmoid(wx + b). Output is probability [0,1]. Decision boundary is linear.
