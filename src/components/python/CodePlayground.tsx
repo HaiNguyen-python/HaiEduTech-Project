@@ -40,14 +40,14 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
 
   const handleRun = useCallback(async () => {
     setRunning(true);
-    setOutput("⏳ Running…");
+    setOutput(loading || !ready ? "⏳ Waiting for Python runtime to finish loading…" : "⏳ Running…");
     const res = await runCode(code);
     const parts: string[] = [];
     if (res.stdout) parts.push(res.stdout);
     if (res.stderr) parts.push(`\n--- stderr ---\n${res.stderr}`);
     setOutput(parts.join("") || "(no output)");
     setRunning(false);
-  }, [code, runCode]);
+  }, [code, runCode, loading, ready]);
 
   const handleReset = () => {
     setCode(initialCode);
