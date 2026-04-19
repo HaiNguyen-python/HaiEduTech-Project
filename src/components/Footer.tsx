@@ -65,10 +65,10 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-semibold text-sm text-foreground mb-4">{t("Công cụ", "Tools")}</h4>
             <div className="space-y-2.5">
-              <Link to="/ai-grading" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">✍️ {t("Chấm điểm tự động", "Auto Grading")}</Link>
+              <Link to="/ai-grading" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🤖 {t("Chấm điểm AI", "AI Grading")}</Link>
               <Link to="/ielts-vocabulary" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">📖 {t("Từ vựng IELTS", "IELTS Vocabulary")}</Link>
-              <Link to="/speaking-practice" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🎤 {t("Luyện nói", "Speaking Practice")}</Link>
-              <Link to="/knowledge-hub" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">📰 Knowledge Hub</Link>
+              <Link to="/ielts-speaking-practice" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🎤 {t("Luyện nói IELTS", "IELTS Speaking")}</Link>
+              <Link to="/global-scholarship" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🎓 {t("Học bổng toàn cầu", "Global Scholarship")}</Link>
               <Link to="/dashboard" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">📊 {t("Bảng điều khiển", "Dashboard")}</Link>
             </div>
           </div>
