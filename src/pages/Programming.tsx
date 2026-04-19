@@ -192,7 +192,7 @@ const Programming = () => {
                     {data.titleEn}
                   </h3>
                   <p className="text-[11px] text-muted-foreground line-clamp-2">
-                    {data.modules.length} modules · {data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} lessons
+                    {data.isPathway ? "6 modules · ~25 lessons · Pyodide" : `${data.modules.length} modules · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} lessons`}
                   </p>
                   {isActive && (
                     <motion.div
