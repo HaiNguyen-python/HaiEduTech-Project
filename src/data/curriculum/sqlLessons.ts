@@ -179,163 +179,164 @@ LIMIT 5 OFFSET 5;`,
         titleEn: "AS & Column Aliases",
         level: 1,
         difficulty: "beginner",
-        theory: `An **alias** renames a column or table inside a query. Two characters of syntax, but they are the difference between a query a teammate can read in 5 seconds and one that takes 5 minutes to understand.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bạn viết câu lệnh:
 
-In production warehouses with 80-column wide tables and 6-table joins, *readability is not a nice-to-have — it is how you avoid bugs*. Every senior reviewer rejects PRs whose SELECT lists look like \`f.amount, c.name, p.title, s.region\`. Good aliases turn that into prose: \`o.total_amount AS revenue, cust.full_name AS customer\`.
+\`\`\`sql
+SELECT full_name, total_amount FROM orders;
+\`\`\`
 
-## Column aliases
+Người xem báo cáo nhìn vào sẽ thấy 2 cột tên là \`full_name\` và \`total_amount\` — kỹ thuật, khô khan. Sếp muốn báo cáo hiện ra **"Khách hàng"** và **"Doanh thu"**. Đó là việc của **alias** (tên gọi tạm — đặt lại tên cho cột hoặc bảng *trong câu query*, không đổi tên thật trong database).
+
+## 2. Cú pháp tối thiểu — alias cho cột
 
 \`\`\`sql
 SELECT
-  full_name AS customer,
-  total_amount AS revenue
+  full_name    AS customer,    -- Đặt tên hiển thị là "customer"
+  total_amount AS revenue      -- Đặt tên hiển thị là "revenue"
 FROM orders;
 \`\`\`
 
-The \`AS\` keyword is optional in most dialects — \`full_name customer\` works — but **always write \`AS\` explicitly**. It signals intent and prevents typos like \`SELECT name email FROM users\` (which silently aliases \`name\` to \`email\`!).
+- \`AS\` (đọc là "as") = "đổi tên thành".
+- \`AS\` có thể bỏ (\`full_name customer\` cũng chạy), nhưng **luôn nên viết** \`AS\` để code rõ ràng và tránh lỗi gõ thiếu dấu phẩy.
 
-Aliases with spaces or reserved words need quoting:
+## 3. Alias cho cột tính toán
 
-- ANSI / Postgres / Snowflake: \`"Customer Name"\`
-- MySQL: \`\\\`Customer Name\\\`\`
-- SQL Server: \`[Customer Name]\`
-
-## Table aliases
+Khi cột là kết quả tính toán, alias là **bắt buộc** — nếu không, cột không có tên rõ ràng:
 
 \`\`\`sql
-SELECT o.id, c.name
-FROM orders AS o
-JOIN customers AS c ON c.id = o.customer_id;
+SELECT
+  name,
+  age,
+  age + 5 AS age_in_5_years    -- Cột tính toán phải có tên
+FROM students;
 \`\`\`
 
-Conventions that scale:
-
-- 1–3 letter aliases for joined tables (\`o\`, \`c\`, \`p\`).
-- Use the *initial* of the table — \`orders\` → \`o\`, never \`x\`.
-- For self-joins use \`a\` / \`b\` or \`mgr\` / \`emp\`.
-
-## Aliases & execution order — the SELECT trap
-
-You **cannot** use a column alias in WHERE because SELECT runs *after* WHERE:
+Hoặc nối chuỗi để tạo cột "hồ sơ":
 
 \`\`\`sql
--- ❌ ERROR
+SELECT name || ' (Tuổi: ' || age || ')' AS profile
+FROM students;
+\`\`\`
+
+## 4. Alias cho bảng — viết tắt khi JOIN
+
+Khi câu query có nhiều bảng (sẽ học ở bài JOIN), gõ tên bảng dài lặp đi lặp lại rất mệt. Alias bảng giải quyết việc này:
+
+\`\`\`sql
+SELECT o.id, c.name              -- o = orders, c = customers
+FROM orders     AS o
+JOIN customers  AS c ON c.id = o.customer_id;
+\`\`\`
+
+**Quy ước nên theo**:
+- Dùng 1–3 ký tự đầu của tên bảng: \`orders\` → \`o\`, \`customers\` → \`c\`, \`products\` → \`p\`.
+- **Không** dùng chữ cái ngẫu nhiên như \`a\`, \`b\`, \`c\` không liên quan tới tên bảng — sau này đọc lại sẽ rất khó hiểu.
+
+## 5. Cái BẪY: alias không dùng được trong WHERE
+
+Đây là lỗi rất nhiều người mới mắc:
+
+\`\`\`sql
+-- ❌ BÁO LỖI
 SELECT amount * 1.1 AS gross
 FROM orders
-WHERE gross > 100;
+WHERE gross > 100;       -- gross chưa tồn tại lúc WHERE chạy!
 
--- ✅ Works (alias allowed in ORDER BY)
+-- ✅ ĐÚNG (dùng alias trong ORDER BY thì OK)
 SELECT amount * 1.1 AS gross
 FROM orders
 ORDER BY gross DESC;
 \`\`\`
 
-Workarounds: repeat the expression in WHERE, or wrap in a subquery / CTE.
+**Vì sao?** Nhớ lại bài trước: SQL chạy theo thứ tự **WHERE → SELECT → ORDER BY**. Lúc WHERE chạy thì SELECT chưa chạy → alias \`gross\` chưa tồn tại. Cách khắc phục: lặp lại biểu thức trong WHERE, hoặc bọc trong subquery (sẽ học sau).
 
-## Comparison — quoting rules across dialects
+## 6. Khi nào alias là bắt buộc
 
-| Need | Postgres / Snowflake | MySQL | SQL Server |
-|---|---|---|---|
-| Reserved word as alias | \`"order"\` | \`\\\`order\\\`\` | \`[order]\` |
-| Case-sensitive identifier | \`"Name"\` (case-sensitive!) | depends on collation | depends on collation |
-| Standard "I just want a label" | \`AS revenue\` | \`AS revenue\` | \`AS revenue\` |
+- **Subquery trong FROM**: \`FROM (SELECT … FROM orders) AS sub\` — phải đặt tên cho bảng tạm.
+- **Cột tính toán** cần tên: \`COUNT(*) AS order_count\`.
+- **Self-join** (join 1 bảng với chính nó): mỗi "phiên bản" cần alias riêng (\`emp\` và \`mgr\`).
 
-Postgres treating \`"Name"\` as case-sensitive but \`Name\` as lowercase has caused millions of dollars in confusion. **Stick to lowercase snake_case identifiers** and you avoid every quoting headache.
+## 7. Quy tắc đặt tên gọn — tránh phải bọc dấu
 
-## When aliases are mandatory
+Tên cột tốt nhất nên dùng \`lowercase_snake_case\` (chữ thường, nối bằng dấu gạch dưới): \`customer_name\`, \`order_total\`. Tránh khoảng trắng và ký tự đặc biệt — nếu không sẽ phải bọc dấu (\`"Customer Name"\`) mỗi lần dùng, rất phiền.
 
-- **Subqueries in FROM** — Postgres and MySQL require it: \`FROM (SELECT …) AS sub\`.
-- **Computed columns** that need a name (\`COUNT(*) AS order_count\`).
-- **Self-joins** — both copies of the table need distinct aliases.
-- **CTEs** — the CTE name itself acts as a table alias.
+## 8. Tổng kết — checklist alias
 
-## Case study — the "f, c, p, s" code review
+- ✅ Luôn viết \`AS\` rõ ràng để code dễ đọc.
+- ✅ Alias bảng: dùng chữ cái đầu của tên bảng (\`orders\` → \`o\`).
+- ✅ Cột tính toán **bắt buộc** có alias.
+- ✅ Nhớ: **không** dùng alias trong WHERE — chỉ dùng được trong ORDER BY/GROUP BY (chạy sau SELECT).
+- ✅ Bài tiếp theo: **WHERE & lọc dữ liệu** — chỉ lấy đúng các dòng bạn cần.`,
+        theoryEn: `## 1. Real-world problem
 
-A real PR (told on the dbt Slack) had a 40-line SELECT joining 7 tables, all aliased \`a\` through \`g\`. Reviewers spent an hour decoding which alphabet letter was which entity. The author rewrote it with descriptive 3-letter aliases (\`ord\`, \`cust\`, \`prd\`, \`stg\`) — review took 3 minutes. The diff was identical in execution; the difference was purely human.
+\`SELECT full_name, total_amount FROM orders;\` — works, but the column headers look raw. **Alias** lets you rename them on the fly to "customer" and "revenue".
 
-## Best practices
+## 2. Column alias
 
-- Always use \`AS\` explicitly for column aliases.
-- Use lowercase snake_case identifiers and avoid quoting altogether.
-- Pick aliases from the table name's initials, not random letters.
-- One alias = one entity, used consistently for the entire file.
-- In dbt models, alias the SELECT list to *exactly* the names downstream consumers should see.
+\`\`\`sql
+SELECT full_name AS customer, total_amount AS revenue FROM orders;
+\`\`\`
 
-## Anti-patterns & next lesson
+\`AS\` is optional, but **always write it** — clearer intent and prevents missing-comma bugs.
 
-Avoid: \`SELECT a.*, b.*, c.*\` from joined tables (column collisions); single-letter aliases unrelated to table names; mixing case styles (\`customerName\` and \`customer_name\` in the same file).
+## 3. Computed columns
 
-Next: **WHERE & filtering** — narrowing down rows before they ever reach SELECT.`,
-        theoryEn: `An **alias** renames a column or table. Two-character syntax, huge readability win.
+Aliases are **required** for computed columns: \`SELECT age + 5 AS age_in_5_years\`.
 
-## Why this matters
+## 4. Table aliases for JOIN
 
-In wide tables with 6-way joins, readability is a bug-prevention tool, not a luxury.
+\`FROM orders AS o JOIN customers AS c ON c.id = o.customer_id\`. Use 1–3 letters from the table name (\`orders\` → \`o\`); never random letters.
 
-## Column aliases
+## 5. The trap: alias not allowed in WHERE
 
-\`SELECT full_name AS customer FROM orders;\` — always write \`AS\` explicitly to signal intent and avoid silent-alias bugs.
+\`\`\`sql
+SELECT amount * 1.1 AS gross FROM orders WHERE gross > 100;  -- ❌ ERROR
+\`\`\`
 
-## Table aliases
+WHERE runs before SELECT, so \`gross\` doesn't exist yet. Works in ORDER BY (which runs after).
 
-\`FROM orders AS o JOIN customers AS c …\`. Use 1–3 letter initials of the table name; never random letters.
+## 6. Mandatory cases
 
-## Alias & execution order
+Subqueries in FROM, computed columns, self-joins.
 
-You **cannot** use an alias in WHERE (SELECT runs after WHERE). You **can** in ORDER BY.
+## 7. Naming convention
 
-## Quoting across dialects
+Stick to \`lowercase_snake_case\` to avoid quoting hassles.
 
-| Dialect | Reserved word alias |
-|---|---|
-| Postgres/Snowflake | \`"order"\` (case-sensitive!) |
-| MySQL | \`\\\`order\\\`\` |
-| SQL Server | \`[order]\` |
+## 8. Checklist
 
-Stick to lowercase snake_case → no quoting headaches.
-
-## Mandatory cases
-
-Subqueries in FROM, computed columns, self-joins, CTEs.
-
-## Case study — alphabet aliases
-
-A 7-table join aliased \`a\`–\`g\` took an hour to review. Renamed to descriptive 3-letter aliases → 3 minutes. Same execution, different humans.
-
-## Best practices
-
-Explicit \`AS\`; lowercase snake_case; initials of table; one alias per entity; in dbt, alias to consumer-facing names.
-
-## Anti-patterns & next
-
-Avoid \`SELECT a.*, b.*\` from joins, single-letter aliases unrelated to tables. Next: **WHERE & filtering**.`,
-        code: `-- Column alias
+- Always write \`AS\` explicitly
+- Table alias = first letters of the table name
+- Computed columns must be aliased
+- No alias in WHERE
+- Next: **WHERE & filtering**`,
+        code: `-- Alias cho cột (đổi tên hiển thị trong kết quả)
 SELECT name AS student_name, age AS student_age
 FROM students;
 
--- Calculated column
+-- Cột tính toán BẮT BUỘC có alias
 SELECT name, age, age + 5 AS age_in_5_years
 FROM students;
 
--- String concatenation
-SELECT name || ' (Age: ' || age || ')' AS profile
+-- Nối chuỗi tạo cột "profile"
+SELECT name || ' (Tuổi: ' || age || ')' AS profile
 FROM students;
 
--- Table alias (useful in JOINs)
+-- Alias cho bảng (rất hữu ích khi có nhiều bảng JOIN)
 SELECT s.name, s.age
-FROM students s
+FROM students AS s
 WHERE s.age > 20;`,
         codeLanguage: "sql",
-        exercise: "Create a query showing student names and their age in 10 years (column 'future_age').",
-        exerciseEn: "Create a query showing student names and their age in 10 years (column 'future_age').",
+        exercise: "Viết query hiển thị tên học viên (cột 'name') và tuổi của họ sau 10 năm (cột tính toán đặt tên là 'future_age'). Gợi ý: dùng age + 10 AS future_age.",
+        exerciseEn: "Write a query showing student names and their age in 10 years (computed column named 'future_age'). Hint: age + 10 AS future_age.",
         quiz: [
-          { question: "What is the AS keyword used for?", options: ["Filtering data", "Creating an alias for a column or table", "Sorting", "Grouping data"], answer: 1, explanation: "AS creates an alias — an alternate name for a column or table in query results." },
-          { question: "Can you use a column alias in the WHERE clause?", options: ["Yes, always", "No, because WHERE executes before SELECT", "Only in MySQL", "Only with numbers"], answer: 1, explanation: "WHERE executes before SELECT in SQL's execution order, so aliases defined in SELECT are not yet available." },
-          { question: "What does SELECT price * quantity AS total FROM orders; produce?", options: ["An error", "A new column 'total' with the product of price and quantity", "It updates the table", "It creates a new table"], answer: 1, explanation: "It calculates price × quantity for each row and displays the result in a column named 'total'." },
-          { question: "Why are table aliases important?", options: ["They make queries faster", "They shorten table names and avoid ambiguity in JOINs", "They are required by SQL", "They create new tables"], answer: 1, explanation: "Table aliases make JOINed queries readable and disambiguate columns that share names across tables." },
-          { question: "What is the difference between 'SELECT name student_name' and 'SELECT name AS student_name'?", options: ["They produce different results", "They are identical — AS is optional", "The first one causes an error", "AS is required in PostgreSQL"], answer: 1, explanation: "Both are valid and produce the same result. AS is optional but recommended for clarity." }
+          { question: "Từ khóa `AS` dùng để làm gì?", options: ["Lọc dữ liệu", "Đặt tên gọi tạm (alias) cho cột hoặc bảng", "Sắp xếp", "Gom nhóm dữ liệu"], answer: 1, explanation: "AS đặt tên gọi tạm — một tên hiển thị thay thế cho cột hoặc bảng trong kết quả query." },
+          { question: "Có thể dùng alias của cột trong mệnh đề WHERE không?", options: ["Có, lúc nào cũng được", "Không, vì WHERE chạy trước SELECT", "Chỉ dùng được trên MySQL", "Chỉ dùng được với số"], answer: 1, explanation: "Theo thứ tự thực thi của SQL, WHERE chạy trước SELECT, nên alias định nghĩa ở SELECT chưa tồn tại lúc WHERE chạy." },
+          { question: "Câu `SELECT price * quantity AS total FROM orders;` cho ra cái gì?", options: ["Báo lỗi", "Cột mới tên 'total' chứa tích của price × quantity", "Cập nhật bảng", "Tạo bảng mới"], answer: 1, explanation: "Câu này tính price × quantity cho mỗi dòng và hiển thị kết quả trong cột tên 'total'. Không thay đổi dữ liệu gốc." },
+          { question: "Vì sao alias cho bảng lại quan trọng?", options: ["Giúp query chạy nhanh hơn", "Rút gọn tên bảng và tránh nhập nhằng cột khi JOIN", "SQL bắt buộc phải có", "Tạo bảng mới"], answer: 1, explanation: "Khi JOIN nhiều bảng có cùng tên cột (ví dụ cả 2 bảng đều có cột 'id'), alias bảng giúp phân biệt rõ và làm query ngắn gọn." },
+          { question: "Sự khác biệt giữa `SELECT name student_name` và `SELECT name AS student_name` là gì?", options: ["Cho kết quả khác nhau", "Giống hệt nhau — AS có thể bỏ", "Cách 1 báo lỗi", "AS bắt buộc trên PostgreSQL"], answer: 1, explanation: "Cả hai đều hợp lệ và cho kết quả giống nhau. AS chỉ là tùy chọn nhưng nên viết để code rõ ràng." }
         ]
       }
     ]
