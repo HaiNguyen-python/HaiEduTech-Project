@@ -20,63 +20,48 @@ export const cloudModules: ExtendedProgrammingModule[] = [
         titleEn: "What is Cloud Computing?",
         level: 1,
         difficulty: "beginner",
-        theory: `**Cloud Computing** là việc cung cấp tài nguyên máy tính (server, storage, database, network, software) qua Internet theo mô hình **trả tiền theo mức sử dụng (pay-as-you-go)**. Thay vì đầu tư trước hàng triệu đô vào data center, bạn "thuê" hạ tầng theo phút/giờ và mở rộng tức thì khi cần.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Bối cảnh & vì sao Cloud bùng nổ
-Trước 2006, mọi công ty muốn chạy phần mềm phải tự mua server, lắp ráp data center, thuê đội sysadmin trực 24/7. Khi traffic tăng đột ngột (Black Friday, viral content), hệ thống sập vì không kịp mua thêm máy. Khi traffic xuống, hàng triệu đô server nằm chơi.
+Ngày xưa muốn bán hàng online phải mua server vài chục triệu, thuê phòng máy lạnh, cắm điện 24/7. Giờ chỉ cần mở laptop, vài cú click trên AWS/GCP — có ngay máy chủ chạy. **Cloud computing** = "thuê hạ tầng IT theo phút như thuê Grab".
 
-AWS ra mắt S3 (2006) và EC2 (2006) khởi đầu kỷ nguyên Cloud — biến CAPEX (chi phí đầu tư) thành OPEX (chi phí vận hành). Ngày nay >95% doanh nghiệp dùng cloud ở mức độ nào đó (Gartner 2024).
+> 💡 **Mẹo của thầy Hải:** Cloud không phải "máy ảo trên mây" — đó là **mô hình kinh doanh trả theo dùng** (pay-as-you-go), giúp startup khởi nghiệp với 0đ vốn hạ tầng.
 
-## 5 đặc tính cốt lõi theo NIST
-NIST (Viện Tiêu chuẩn Mỹ) định nghĩa cloud bằng 5 đặc tính chuẩn để phân biệt với "outsourcing thường":
+## 2. 💡 Khái niệm chính
 
-1. **On-demand self-service** — tự cấp phát tài nguyên qua web console / API / CLI mà không cần liên hệ con người ở nhà cung cấp.
-2. **Broad network access** — truy cập từ mọi thiết bị (laptop, mobile, IoT) qua mạng chuẩn (HTTPS).
-3. **Resource pooling** — hạ tầng vật lý dùng chung (multi-tenant) qua ảo hóa, người dùng không thấy vị trí vật lý cụ thể.
-4. **Rapid elasticity** — co giãn nhanh theo nhu cầu, có thể tự động (auto-scaling) hoặc thủ công, gần như không giới hạn từ góc nhìn người dùng.
-5. **Measured service** — đo đếm chính xác (CPU-second, GB-month, request) để tính phí minh bạch.
+- **On-premise**: server bạn tự sở hữu, đặt trong văn phòng.
+- **Cloud**: server do AWS/GCP/Azure quản lý, bạn thuê.
+- **Pay-as-you-go**: dùng bao nhiêu trả bấy nhiêu.
+- **Elasticity**: tự co giãn khi traffic tăng/giảm.
 
-## 3 mô hình dịch vụ (IaaS / PaaS / SaaS)
-Mức độ "nhà cung cấp lo giùm" tăng dần — bạn càng ít việc, càng ít linh hoạt:
+## 3. 🧰 5 đặc tính NIST của cloud
 
-| Mô hình | Khách hàng quản lý | Nhà cung cấp lo | Ví dụ |
-|---|---|---|---|
-| **IaaS** | OS, runtime, middleware, app, data | Hardware, virtualization, network | AWS EC2, Azure VM, GCP Compute Engine |
-| **PaaS** | App, data | Toàn bộ phần dưới | Elastic Beanstalk, Heroku, App Engine |
-| **SaaS** | Cấu hình & dữ liệu của bạn | Mọi thứ khác | Gmail, Office 365, Salesforce |
+1. On-demand self-service (tự click là có).
+2. Broad network access (truy cập mọi nơi).
+3. Resource pooling (chia sẻ tài nguyên).
+4. Rapid elasticity (co giãn nhanh).
+5. Measured service (đo đếm để tính tiền).
 
-**Mẹo nhớ:** "Pizza analogy" — IaaS = bạn mua nguyên liệu về tự nấu; PaaS = mua pizza đông lạnh tự nướng; SaaS = đặt pizza giao tận nhà.
+## 4. 🎯 Ví dụ chạy được ngay
 
-## 4 mô hình triển khai (deployment)
-- **Public Cloud** — hạ tầng dùng chung (AWS, Azure, GCP). Rẻ nhất, scale nhanh nhất.
-- **Private Cloud** — riêng cho 1 tổ chức (on-prem hoặc hosted). Kiểm soát cao, phù hợp ngân hàng/quốc phòng.
-- **Hybrid Cloud** — mix Public + Private, kết nối qua VPN/Direct Connect.
-- **Community Cloud** — vài tổ chức cùng lĩnh vực dùng chung (vd. cloud cho ngành y tế tuân thủ HIPAA).
+Mở AWS Free Tier → tạo 1 EC2 t2.micro → SSH vào → bạn vừa "thuê server". Hết tháng tắt đi → khỏi tốn xu nào.
 
-## Case study thực tế: Netflix
-Năm 2008 Netflix bị crash database 3 ngày vì hạ tầng on-prem không chịu nổi. Họ quyết định "all-in" vào AWS. Đến 2016 đóng hoàn toàn data center cuối cùng. Hiện nay Netflix chạy >100,000 EC2 instance, phục vụ 250M+ subscriber, dùng auto-scaling để xử lý peak buổi tối gấp 10× lúc 3h sáng — không thể làm được nếu tự mua server.
+## 5. ⚠️ Bẫy thường gặp
 
-## Lợi ích vs đánh đổi
-**Lợi ích:**
-- Giảm CAPEX (không mua server) → đổi sang OPEX dễ dự toán hơn cho startup
-- Time-to-market nhanh: deploy app mới trong vài phút thay vì 3 tháng đặt hàng server
-- Global scale: bật region mới ở Singapore trong 5 phút
-- Độ tin cậy cao (SLA 99.9% – 99.999%)
-- Tự động backup, encryption, compliance (SOC2, ISO27001) sẵn có
+> ⚠️ **Cảnh báo:** Quên tắt resource → cuối tháng nhận hoá đơn vài trăm USD. Luôn set **billing alert** ngay sau khi tạo account.
 
-**Đánh đổi:**
-- Bill có thể "shock" nếu thiết kế sai (xem bài FinOps)
-- Vendor lock-in nếu dùng dịch vụ độc quyền (DynamoDB, BigQuery)
-- Phụ thuộc Internet — mất mạng = mất production
-- Compliance/data residency phức tạp với một số ngành
+## 6. ✅ Best practice
 
-## Khi nào KHÔNG nên cloud
-- Workload cực ổn định, chạy 24/7 nhiều năm → on-prem có thể rẻ hơn 30-50% (vd. Dropbox đã "reverse migration" từ AWS về self-hosted để tiết kiệm $75M/năm)
-- Latency cực thấp <1ms (HFT trading)
-- Dữ liệu nhạy cảm bị luật cấm rời quốc gia
+> 💡 **Mẹo của thầy Hải:** Mới học → dùng AWS Free Tier 12 tháng (EC2 t2.micro, S3 5GB, RDS) miễn phí. Đủ để build portfolio.
 
-## Liên hệ bài tiếp theo
-Bài 2 sẽ so sánh **Big Three** (AWS / Azure / GCP) — bạn sẽ biết chọn nhà cung cấp nào cho dự án cụ thể.`,
+## 7. 🤔 Khi nào dùng cloud
+
+- ✅ Startup, traffic biến động, cần scale nhanh.
+- ❌ Hệ thống cực nhạy cảm (quân sự, ngân hàng lõi) → on-premise.
+
+## 8. 📌 Tóm tắt 30 giây
+
+Cloud = thuê IT theo phút. 5 đặc tính NIST. Pay-as-you-go + elasticity = lý do startup yêu cloud. Luôn bật billing alert.
+`,
         theoryEn: `**Cloud Computing** delivers compute resources (servers, storage, databases, network, software) over the Internet on a **pay-as-you-go** model. Instead of investing millions upfront in a data center, you rent infrastructure by the minute/hour and scale instantly when needed.
 
 ## Context: why Cloud exploded
@@ -161,79 +146,52 @@ print(f"On-prem hòa vốn sau: {months_to_breakeven:.1f} tháng")`,
         titleEn: "Big Three: AWS vs Azure vs GCP",
         level: 1,
         difficulty: "beginner",
-        theory: `**Ba ông lớn (Big Three)** chiếm hơn 65% thị phần Cloud toàn cầu. Hiểu sự khác biệt giúp bạn chọn đúng nhà cung cấp cho startup, doanh nghiệp, hoặc dự án ML cụ thể — và tránh "vendor lock-in" bất ngờ.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Toàn cảnh thị trường (Synergy Research 2024)
-- **AWS** ~32% — số 1 từ 2006, lead về innovation và service breadth.
-- **Microsoft Azure** ~23% — tăng nhanh nhờ Office 365 + AI (OpenAI partnership).
-- **Google Cloud (GCP)** ~11% — mạnh về data/AI/Kubernetes, đang tăng trưởng nhanh nhất.
-- Còn lại (~34%): Alibaba, IBM, Oracle, Tencent, DigitalOcean…
+Bạn vào quán phở: **IaaS** = mua nguyên liệu sống về tự nấu (linh hoạt, tốn công). **PaaS** = đặt suất set có sẵn rau-thịt, chỉ ăn (đỡ vất vả). **SaaS** = vào quán ăn luôn, không cần nấu nướng.
 
-## 1. AWS — vua của breadth & maturity
-- Ra đời 2006 với S3 và EC2, đi trước 4-5 năm.
-- **200+ dịch vụ** trong mọi domain: compute, storage, DB, AI/ML, IoT, satellite, robotics.
-- Cộng đồng lớn nhất: tài liệu, Stack Overflow answers, certified engineers.
-- **Mạnh nhất ở:** EC2, S3, Lambda, DynamoDB.
-- **Yếu ở:** UX console phức tạp, naming khó hiểu (Cognito, Athena…).
-- **Khách hàng tiêu biểu:** Netflix, Airbnb, Lyft, NASA, Samsung.
+> 💡 **Mẹo của thầy Hải:** Càng lên cao càng đỡ quản lý hạ tầng — đổi lấy việc ít tuỳ biến hơn.
 
-## 2. Microsoft Azure — vua của enterprise hybrid
-- Tận dụng quan hệ doanh nghiệp 30 năm của Microsoft.
-- **Tích hợp sâu:** Active Directory, Office 365, Windows Server, Teams, SQL Server.
-- **Mạnh nhất ở:** Azure AD, Azure DevOps, Power BI, Azure OpenAI Service (độc quyền hosted GPT-4).
-- **Hybrid cloud số 1:** Azure Arc, Azure Stack — chạy Azure trên on-prem.
-- **Khách hàng tiêu biểu:** Walmart, BMW, FedEx, Coca-Cola, hầu hết ngân hàng & chính phủ.
+## 2. 💡 3 mô hình dịch vụ
 
-## 3. Google Cloud (GCP) — vua của data & AI
-- Hạ tầng từ Google Search/YouTube — mạng global cực nhanh (private fiber).
-- **Mạnh nhất ở:** BigQuery, Vertex AI, GKE (Google phát minh K8s).
-- UX/console sạch và dev-friendly nhất.
-- **Yếu ở:** ít service hơn AWS/Azure, support enterprise yếu hơn.
-- **Khách hàng tiêu biểu:** Spotify, PayPal, HSBC, Snapchat.
+| Mô hình | Bạn quản | Cloud quản | Ví dụ |
+|---------|----------|-----------|-------|
+| IaaS | OS, app, data | Server, network | EC2, GCE |
+| PaaS | App, data | OS, runtime | Heroku, App Engine |
+| SaaS | Data người dùng | Cả ứng dụng | Gmail, Notion |
 
-## Bảng so sánh dịch vụ tương đương
-| Loại | AWS | Azure | GCP |
-|------|-----|-------|-----|
-| VM | EC2 | Virtual Machines | Compute Engine |
-| Object Storage | S3 | Blob Storage | Cloud Storage |
-| Managed SQL | RDS | SQL Database | Cloud SQL |
-| NoSQL | DynamoDB | Cosmos DB | Firestore / Bigtable |
-| Serverless FaaS | Lambda | Functions | Cloud Functions |
-| Kubernetes | EKS | AKS | GKE |
-| Data Warehouse | Redshift | Synapse | BigQuery |
-| ML Platform | SageMaker | Azure ML | Vertex AI |
-| CDN | CloudFront | Front Door | Cloud CDN |
+## 3. 🧰 Khi chọn mô hình
 
-## Trade-offs khi chọn provider
-| Tiêu chí | AWS | Azure | GCP |
-|---|---|---|---|
-| Breadth of services | ★★★★★ | ★★★★ | ★★★ |
-| Enterprise sales/support | ★★★★ | ★★★★★ | ★★★ |
-| Data & AI/ML | ★★★★ | ★★★★ | ★★★★★ |
-| Documentation | ★★★★★ | ★★★★ | ★★★★ |
-| Pricing transparency | ★★★ | ★★★ | ★★★★ |
-| Hybrid cloud | ★★★ | ★★★★★ | ★★★ |
+\`\`\`
+Cần kiểm soát hệ điều hành → IaaS
+Chỉ cần deploy code Python → PaaS
+Cần dùng ngay không setup → SaaS
+\`\`\`
 
-## Case study: Spotify chọn GCP
-Năm 2016 Spotify migrate từ on-prem sang GCP (không chọn AWS dù lớn hơn) vì BigQuery cho phép query 100TB data trong vài giây — phân tích hành vi nghe nhạc realtime; Pub/Sub + Dataflow đơn giản hơn Kinesis.
+## 4. 🎯 Ví dụ chạy được ngay
 
-## Case study: Coca-Cola chọn Azure
-700,000 nhân viên đã dùng Office 365 + Active Directory toàn cầu → Azure tích hợp SSO ngay, không cần build lại identity.
+- Build website Django: chọn **PaaS** (Render/Railway) → 5 phút deploy.
+- Train model AI có GPU: chọn **IaaS** (AWS EC2 g4dn) để cài CUDA.
+- Quản lý team: chọn **SaaS** (Slack, Notion).
 
-## Best practices khi chọn cloud
-1. **Bắt đầu từ skill team:** Windows/.NET → Azure; Linux/Python → AWS/GCP.
-2. **Region & latency:** chọn nhà cung cấp có data center gần khách hàng cuối.
-3. **Pricing cho workload cụ thể:** chạy POC tính bill thực tế, đừng tin pricing calculator 100%.
-4. **Compliance:** kiểm tra certification (HIPAA, PCI-DSS, SOC2) tại region bạn dùng.
-5. **Exit strategy:** dùng abstraction (Terraform, K8s) để có thể migrate sau này.
+## 5. ⚠️ Bẫy thường gặp
 
-## Anti-patterns
-- ❌ Chọn cloud chỉ vì "AWS lớn nhất" mà không đánh giá use case.
-- ❌ Lock-in vào dịch vụ độc quyền (DynamoDB, BigQuery) cho dự án ngắn hạn.
-- ❌ Multi-cloud "cho vui" → tăng độ phức tạp 3x mà không có lợi ích thật.
+> ⚠️ **Cảnh báo:** Chọn IaaS chỉ vì "nghe pro" → mất hàng tuần config server, lẽ ra PaaS xong trong 1 ngày.
 
-## Liên hệ bài tiếp theo
-Bài 3 sẽ giải thích **Region, AZ, Edge Location** — kiến trúc vật lý phía dưới mọi cloud.`,
+## 6. ✅ Best practice
+
+> 💡 **Mẹo của thầy Hải:** Startup MVP → bắt đầu PaaS. Khi traffic và chi phí tăng → cân nhắc xuống IaaS để tối ưu.
+
+## 7. 🤔 Khi nào dùng
+
+- ✅ IaaS: cần kiểm soát sâu, workload đặc biệt.
+- ✅ PaaS: dev nhanh, app web/api thông thường.
+- ✅ SaaS: tool hằng ngày.
+
+## 8. 📌 Tóm tắt 30 giây
+
+IaaS = nguyên liệu, PaaS = set ăn, SaaS = ăn liền. Càng lên cao càng đỡ quản, càng ít tuỳ biến. Chọn theo nhu cầu kiểm soát.
+`,
         theoryEn: `**The Big Three** dominate 65%+ of the global cloud market. Knowing the differences helps you pick the right provider — and avoid surprise vendor lock-in.
 
 ## Market overview (Synergy Research 2024)
@@ -325,73 +283,51 @@ print(find_equivalent("BigQuery", "gcp", "azure")) # Synapse`,
         titleEn: "Regions, AZs, and Edge Locations",
         level: 2,
         difficulty: "beginner",
-        theory: `**Hạ tầng vật lý của Cloud** được tổ chức theo 3 cấp lồng nhau: Region → AZ → Edge Location. Hiểu rõ giúp bạn thiết kế hệ thống chịu lỗi (fault-tolerant), tuân thủ luật dữ liệu, và tối ưu latency cho người dùng.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao cần biết kiến trúc vật lý?
-Năm 2017, AWS us-east-1 (Virginia) sập 5 giờ vì 1 typo trong lệnh debug — Slack, Trello, Quora, Medium đều offline. Lý do? Tất cả đều chạy single-region. Sau sự cố này "Multi-AZ" trở thành tiêu chuẩn vàng, và các hệ thống critical bắt đầu Multi-Region.
+Bạn cần lên Đà Lạt: **Public cloud** = đi xe khách (chia chỗ với khách lạ, rẻ). **Private cloud** = thuê xe riêng (đắt nhưng kín đáo). **Hybrid** = đi xe nhà ra bến rồi lên xe khách. **Multi-cloud** = lúc đi Vietjet, lúc Bamboo — không phụ thuộc 1 hãng.
 
-## 1. Region (Khu vực)
-Một vùng địa lý chứa nhiều data center liên kết bằng mạng tốc độ cao. Mỗi region có **mã định danh** riêng:
-- AWS: \`us-east-1\` (Virginia), \`ap-southeast-1\` (Singapore), \`eu-west-1\` (Ireland)
-- Azure: \`East US\`, \`Southeast Asia\`, \`West Europe\`
-- GCP: \`us-central1\`, \`asia-southeast1\`, \`europe-west1\`
+> 💡 **Mẹo của thầy Hải:** Doanh nghiệp lớn thường multi-cloud để tránh "vendor lock-in" — bị 1 nhà cung cấp giam.
 
-**Số lượng region (2024):** AWS ~33, Azure ~60, GCP ~40.
+## 2. 💡 4 mô hình triển khai
 
-**Chọn region dựa trên:**
-1. **Khoảng cách tới user** → giảm latency (mỗi 1000km ≈ 10ms RTT thêm vào)
-2. **Luật dữ liệu** — GDPR yêu cầu data EU không rời EU; Trung Quốc, Nga, Việt Nam có luật data residency riêng
-3. **Giá** — us-east-1 thường rẻ nhất AWS; Sao Paulo đắt gấp 1.5x
-4. **Service availability** — service mới thường ra mắt us-east-1 trước, region khác chậm 6-18 tháng
-5. **Carbon footprint** — vài region chạy 100% renewable energy (eu-north-1 Stockholm)
+| Mô hình | Ai dùng | Đặc điểm |
+|---------|---------|---------|
+| Public | Mọi người | AWS/GCP/Azure công cộng, rẻ |
+| Private | 1 tổ chức | Tự host hoặc thuê riêng, kiểm soát cao |
+| Hybrid | Trộn 2 trên | Nhạy cảm trên private, còn lại public |
+| Multi-cloud | Nhiều nhà cung cấp | Không phụ thuộc, phức tạp quản lý |
 
-## 2. Availability Zone (AZ)
-**1 hoặc nhiều data center** trong cùng region, **vật lý cách ly**: nguồn điện riêng, máy phát dự phòng, hệ thống làm mát riêng, đường mạng riêng. AZ cách nhau ~10-100 km — đủ xa để 1 thảm họa (cháy, lụt, mất điện) không ảnh hưởng AZ khác, đủ gần để mạng nội bộ <2ms latency.
+## 3. 🧰 Khi nào chọn
 
-**Mỗi region thường có 3 AZ trở lên.** Ký hiệu: \`us-east-1a\`, \`us-east-1b\`, \`us-east-1c\`.
+\`\`\`
+Startup / SME → Public
+Bệnh viện, ngân hàng → Hybrid (data nhạy cảm on-prem)
+Tập đoàn lớn → Multi-cloud + Hybrid
+\`\`\`
 
-**Lưu ý cực quan trọng:** AZ \`us-east-1a\` của tài khoản A có thể là AZ vật lý khác với \`us-east-1a\` của tài khoản B! AWS shuffle AZ name để tránh "tất cả khách hàng đổ vào us-east-1a".
+## 4. 🎯 Ví dụ chạy được ngay
 
-## 3. Edge Location
-**Điểm hiện diện (PoP)** cho CDN — chỉ cache nội dung tĩnh, không phải data center đầy đủ.
-- AWS CloudFront có **600+ edge** ở 90+ thành phố
-- Azure Front Door, Cloudflare, Akamai cũng có hạ tầng tương tự
-- Edge **không** chạy app code thông thường (trừ Lambda@Edge, Cloudflare Workers)
+Một ngân hàng VN: data khách hàng trên private cloud (Vietel IDC), website public trên AWS — hybrid điển hình.
 
-## So sánh 3 cấp
-| Cấp | Quy mô | Chức năng chính | Khoảng cách | Latency tới user |
-|---|---|---|---|---|
-| Region | Vùng địa lý | Toàn bộ services | 1000s km | 50-200ms |
-| AZ | Cụm data center | Compute/DB chịu lỗi | 10-100 km | <2ms (nội bộ) |
-| Edge | PoP nhỏ | Cache CDN | 50-500 km | 5-50ms |
+## 5. ⚠️ Bẫy thường gặp
 
-## Tính SLA & xác suất downtime
-- 1 AZ uptime ~99.95% → downtime ~4.4 giờ/năm
-- 3 AZ độc lập → uptime ~99.9999998% → downtime ~63 ms/năm (lý thuyết)
-- Multi-Region (active-active) → gần 99.999% (the Five Nines), downtime <5 phút/năm
+> ⚠️ **Cảnh báo:** Multi-cloud nghe hay nhưng tăng độ phức tạp gấp 3 (auth, billing, monitoring). Đừng theo trend nếu chưa đủ team.
 
-## Case study: Slack outage 2017
-Slack chạy 100% trên us-east-1 đơn (single-region). Khi AWS S3 us-east-1 sập 5 giờ, Slack offline toàn cầu. Sau đó họ đầu tư multi-region active-passive với DynamoDB Global Tables.
+## 6. ✅ Best practice
 
-## Case study: Netflix Chaos Engineering
-Netflix tạo công cụ "Chaos Monkey" tự ngẫu nhiên kill EC2 trong production để **buộc** team phải thiết kế Multi-AZ. Sau đó "Chaos Kong" ngẫu nhiên kill cả region để test Multi-Region.
+> 💡 **Mẹo của thầy Hải:** Bắt đầu public — khi có yêu cầu tuân thủ (compliance), data nhạy cảm mới chuyển hybrid.
 
-## Best practices HA design
-1. **Mặc định Multi-AZ** cho mọi production workload (RDS, EC2 ASG, ElastiCache đều support)
-2. **Đừng hardcode AZ name** trong code — để autoscaling tự phân phối
-3. **Multi-Region cho hệ thống critical** (financial, healthcare) — chấp nhận chi phí 1.8-2.5x
-4. **CloudFront / CDN** đặt ở Edge gần user → giảm bandwidth + latency
-5. **Backup chéo region** — backup us-east-1 sang us-west-2 để chống region failure
-6. **Test failover hàng quý** — chuẩn bị runbook và practice (Game Day)
+## 7. 🤔 Khi nào dùng
 
-## Anti-patterns
-- ❌ Single-AZ DB cho production
-- ❌ Multi-Region nhưng dữ liệu chỉ ở 1 region (replica chưa promote được)
-- ❌ Hardcode \`us-east-1\` trong source code → khó migrate
-- ❌ Edge Location dùng cho dynamic API (sai use case, nên dùng Lambda@Edge nếu cần)
+- ✅ Public: 90% startup, dự án mới.
+- ✅ Hybrid: tài chính, y tế, chính phủ.
+- ✅ Multi-cloud: enterprise tránh lock-in.
 
-## Liên hệ bài tiếp theo
-Module tiếp theo bắt đầu **Compute & Storage** — làm quen với EC2 (VM), S3 (object storage), và container Docker.`,
+## 8. 📌 Tóm tắt 30 giây
+
+Public rẻ và nhanh. Private kiểm soát cao. Hybrid kết hợp. Multi-cloud tránh phụ thuộc. Chọn theo độ nhạy data và quy mô team.
+`,
         theoryEn: `**Cloud physical infrastructure** has 3 nested tiers: Region → AZ → Edge. Knowing this lets you design fault-tolerant systems, comply with data laws, and optimize user latency.
 
 ## Why it matters
@@ -499,79 +435,58 @@ print(f"{multi_az.name}:  {multi_az.availability()}%")   # 99.99999...`,
         titleEn: "Virtual Machines (EC2/VM)",
         level: 2,
         difficulty: "beginner",
-        theory: `**Virtual Machine (VM)** là máy ảo chạy trên hạ tầng vật lý dùng chung qua hypervisor. Đây là dịch vụ **IaaS** cốt lõi và là khối xây dựng đầu tiên hầu hết engineer chạm tới khi vào cloud.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao bắt đầu từ VM?
-VM là cách "đơn giản nhất" để mang ứng dụng lên cloud — chỉ cần một server Linux/Windows tương tự on-prem. Không cần học container, serverless, hay refactor code. Đây là bước migration "lift-and-shift" phổ biến nhất.
+Bạn cần "máy tính trên cloud" để chạy app: chọn CPU/RAM/ổ cứng, bật lên, SSH vào — y hệt máy thật. Đó là **EC2** (AWS) hay **Compute Engine** (GCP) — máy chủ ảo (Virtual Machine).
 
-## VM hoạt động ra sao?
-Một server vật lý (bare metal) có thể chứa hàng chục VM nhờ **hypervisor** (Xen, KVM, AWS Nitro):
-- Hypervisor chia CPU, RAM, network ảo cho từng VM
-- Mỗi VM tin rằng mình là máy thật (có "kernel" riêng, OS riêng)
-- Cô lập (isolation) giữa các VM cùng máy → khách hàng A không nhìn thấy data của khách hàng B
+> 💡 **Mẹo của thầy Hải:** EC2 là dịch vụ **kiếm doanh thu lớn nhất AWS**. Hiểu EC2 = hiểu 50% AWS.
 
-AWS Nitro System (2017) là cải tiến lớn: chuyển virtualization xuống chip riêng → VM gần như hiệu năng bare metal.
+## 2. 💡 Khái niệm chính
 
-## Các thành phần chính của EC2
-- **AMI** (Amazon Machine Image): template chứa OS + phần mềm. Có public AMI (Amazon Linux 2, Ubuntu), Marketplace AMI (Bitnami, có phí), Custom AMI (chính bạn build).
-- **Instance Type**: cấu hình CPU/RAM. Họ chính:
-  - **t** (burstable, rẻ): t3.micro, t3.small — dev/test, web nhỏ, có "CPU credits" giới hạn
-  - **m** (general purpose): m5.large — cân bằng compute/memory, web app điển hình
-  - **c** (compute optimized): c5.xlarge — game server, batch processing, video encoding
-  - **r** (memory optimized): r5.xlarge — Redis cache, in-memory DB
-  - **i** (storage optimized): i3.large — NoSQL, search engine cần SSD nhanh
-  - **g/p** (GPU): training ML (p4d, g5), render
-  - **mac/metal**: Mac mini cho iOS build, bare metal cho VMware
-- **EBS Volume**: ổ đĩa gắn vào VM (block storage), persistent
-- **Instance Store**: SSD nội bộ trên host → cực nhanh nhưng **mất data khi stop**
-- **Security Group**: firewall ảo (stateful)
-- **Key Pair**: SSH key (Linux) hoặc password retrieval (Windows)
-- **User Data**: bash script chạy lúc boot — bootstrap config
+- **Instance**: 1 máy ảo cụ thể.
+- **Instance type**: cấu hình (t2.micro, m5.xlarge…). Chữ cái = họ (general/compute/memory), số = thế hệ.
+- **AMI** (Amazon Machine Image): "ảnh đĩa" cài sẵn OS.
+- **EBS**: ổ cứng gắn vào instance.
+- **Region & AZ**: vùng địa lý + phòng máy.
 
-## Mô hình pricing (xem chi tiết bài "Cloud Pricing")
-| Model | Discount | Cam kết | Use case |
-|---|---|---|---|
-| On-Demand | 0% | Không | Dev/test, spike traffic |
-| Reserved (1-3yr) | 30-72% | 1-3 năm | Workload ổn định 24/7 |
-| Savings Plan | 30-66% | Cam kết \\\\$/giờ | Mix EC2/Fargate/Lambda |
-| Spot | 70-90% | Có thể bị thu hồi 2 phút | Batch, ML training, CI |
-| Dedicated Host | Cao nhất | Riêng máy vật lý | License Oracle/Windows BYOL |
+## 3. 🧰 Tạo EC2 bằng AWS CLI
 
-## Auto Scaling Group (ASG)
-Tự động thêm/bớt instance dựa trên:
-- **Target tracking** — giữ CPU ~50%
-- **Step scaling** — thêm 2 instance nếu CPU >70% trong 5 phút
-- **Scheduled scaling** — scale up 8AM, scale down 8PM
-- **Predictive scaling** — ML dự đoán traffic (AWS Auto Scaling)
+\`\`\`bash
+aws ec2 run-instances \\
+  --image-id ami-0abcdef \\
+  --instance-type t2.micro \\
+  --key-name my-key \\
+  --security-group-ids sg-123
+\`\`\`
 
-ASG luôn đi cùng **Load Balancer (ALB/NLB)** để phân phối traffic.
+## 4. 🎯 Ví dụ chạy được ngay
 
-## Case study: Airbnb — 5000+ EC2
-Airbnb dùng mix m5/c5 cho web tier, r5 cho cache, p3 cho ML model search. Auto-scaling theo lịch (mùa hè peak), tiết kiệm ~40% bằng Savings Plan + Spot cho data pipeline.
+Free Tier: tạo \`t2.micro\` + Ubuntu → SSH:
 
-## Best practices EC2
-1. **Right-sizing hàng tháng** — m5.xlarge dùng 30% CPU → đổi m5.large (tiết kiệm 50%)
-2. **Dùng Spot cho stateless workload** (web, batch, CI)
-3. **Snapshot EBS định kỳ** — DLM (Data Lifecycle Manager) tự động
-4. **Security Group nguyên tắc least-privilege** — không mở 0.0.0.0/0 cho SSH
-5. **IMDSv2 mandatory** — chống SSRF attack
-6. **Termination Protection** cho production instance
-7. **Tags chuẩn:** Environment, Owner, CostCenter, Project
+\`\`\`bash
+ssh -i my-key.pem ubuntu@<public-ip>
+sudo apt update && sudo apt install nginx -y
+\`\`\`
 
-## Anti-patterns
-- ❌ Chạy 1 EC2 không có ASG cho production (single point of failure)
-- ❌ Mở SSH 0.0.0.0/0 → bị brute-force trong vài giờ
-- ❌ Dùng Spot cho database stateful → mất data
-- ❌ AMI tự build không cập nhật patch → lỗ hổng security
-- ❌ Quên tắt EC2 dev sau giờ làm → bill ngầm
+→ Trình duyệt mở \`http://<ip>\` → đã có web server!
 
-## Khi nào KHÔNG dùng VM?
-- Workload rất ngắn (vài giây/request) → Lambda rẻ hơn 10-100x
-- App đã container-ize → ECS/EKS quản lý dễ hơn
-- Static website → S3 + CloudFront 0 server, 0 maintenance
+## 5. ⚠️ Bẫy thường gặp
 
-## Liên hệ bài tiếp theo
-Bài Storage tiếp theo sẽ giới thiệu **S3 Object Storage** — bộ nhớ "vô tận" giá rẻ, complement cho EC2.`,
+> ⚠️ **Cảnh báo:** Quên gán Security Group mở port 22/80 → SSH/HTTP không vào được mà cứ tưởng máy chết.
+
+## 6. ✅ Best practice
+
+> 💡 **Mẹo của thầy Hải:** Dev → **Spot Instance** (giảm 70-90% giá). Production critical → **On-Demand** hoặc **Reserved**.
+
+## 7. 🤔 Khi nào dùng
+
+- ✅ App cần OS-level control, custom runtime.
+- ❌ Code Python đơn giản → Lambda/serverless rẻ hơn.
+
+## 8. 📌 Tóm tắt 30 giây
+
+EC2 = máy ảo trên cloud. Chọn instance type theo workload. Spot rẻ cho dev, On-Demand cho prod. Security Group = firewall.
+`,
         theoryEn: `**Virtual Machine (VM)** runs on shared physical hardware via a hypervisor. Core IaaS service and the first building block most engineers touch in cloud.
 
 ## Why start with VMs?
@@ -674,95 +589,60 @@ print(f"Monthly cost: \${hours * hourly:.2f}")`,
         titleEn: "Object Storage (S3)",
         level: 2,
         difficulty: "beginner",
-        theory: `**Object Storage** là kiểu lưu trữ phẳng (flat namespace), khác hoàn toàn với file system truyền thống có folder lồng nhau. Mỗi file là một "object" độc lập có metadata riêng, được truy cập qua HTTP API. Đây là nền tảng của data lake, static website, backup, và CDN trong cloud hiện đại.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao cần Object Storage?
-Trước cloud, công ty phải mua **NAS/SAN** đắt tiền (vài chục nghìn USD), tự lo RAID, sao lưu, mở rộng. Khi data vượt vài TB, chi phí tăng phi tuyến. Object Storage giải quyết bằng **hạ tầng phân tán** quy mô exabyte, **trả tiền theo GB thực dùng**, durability cực cao và API đơn giản. AWS S3 ra đời 2006 — sản phẩm thương mại đầu tiên của AWS — và đến nay vẫn là chuẩn de-facto.
+Cần lưu hình ảnh app, video user upload, file backup — không thể nhồi hết vào ổ cứng EC2. **S3** = "Google Drive cho lập trình viên": vô hạn dung lượng, truy cập qua HTTP, trả tiền theo GB lưu + GB tải.
 
-## Cấu trúc một Object
-Mỗi object gồm 4 phần:
-- **Key** — chuỗi tên duy nhất trong bucket, thường giống đường dẫn (\`reports/2026/q1.pdf\`) nhưng thực ra **không có folder** — đó chỉ là tiền tố (prefix).
-- **Value** — nội dung nhị phân (0 byte đến 5 TB).
-- **Metadata** — \`Content-Type\`, \`Cache-Control\`, custom tag (\`x-amz-meta-author\`).
-- **Version ID** — chỉ có khi bật Versioning, giúp khôi phục object đã xóa/ghi đè.
+> 💡 **Mẹo của thầy Hải:** S3 = object storage. Phù hợp file (image, video, log). KHÔNG dùng làm database (truy vấn chậm).
 
-## Đặc tính cốt lõi của S3
-- **Durability 99.999999999% (11 nines)** — về mặt thống kê, lưu 10 triệu object thì trung bình **10,000 năm mới mất 1 object**. Đạt được nhờ S3 nhân bản dữ liệu qua tối thiểu 3 AZ.
-- **Availability 99.99%** (Standard) — tương đương ~52 phút downtime/năm.
-- **Strongly consistent** (từ 2020): write xong là read ngay thấy ngay (trước đó là eventual consistency).
-- **Khả năng mở rộng tuyến tính**: 1 bucket có thể chứa hàng tỷ object, throughput tự scale.
-- **Truy cập qua REST API** (PUT, GET, DELETE, LIST) — dễ tích hợp mọi ngôn ngữ.
+## 2. 💡 Khái niệm chính
 
-## Storage Classes — chọn đúng tier để tiết kiệm
-| Class | Use case | Giá USD/GB/tháng | Min duration | Retrieval |
-|-------|----------|------------------|--------------|-----------|
-| **Standard** | Truy cập thường xuyên | $0.023 | — | tức thì |
-| **Intelligent-Tiering** | Pattern không đoán được | $0.023 + $0.0025 monitor | 30 ngày | tức thì |
-| **Standard-IA** | Truy cập <1 lần/tháng | $0.0125 | 30 ngày | tức thì |
-| **One Zone-IA** | IA nhưng chỉ 1 AZ (rẻ hơn 20%) | $0.01 | 30 ngày | tức thì |
-| **Glacier Instant Retrieval** | Archive cần truy cập tức thì | $0.004 | 90 ngày | tức thì |
-| **Glacier Flexible** | Archive (1 phút – 12h) | $0.0036 | 90 ngày | 1 phút – 12h |
-| **Glacier Deep Archive** | Lưu trữ lâu dài (>1 năm) | $0.00099 | 180 ngày | 12-48h |
+- **Bucket**: thư mục gốc (tên duy nhất toàn cầu).
+- **Object**: 1 file + metadata.
+- **Key**: đường dẫn \`folder/subfolder/file.jpg\`.
+- **Storage class**: Standard, IA, Glacier (rẻ nhưng chậm).
 
-**Bài toán thực tế**: Lưu 1 PB log trong 1 năm.
-- Standard: 1,048,576 GB × $0.023 × 12 = **$289,406/năm**
-- Glacier Deep Archive: 1,048,576 GB × $0.00099 × 12 = **$12,457/năm** → tiết kiệm **96%**
+## 3. 🧰 Cú pháp Python (boto3)
 
-## Lifecycle Policy — tự động hóa tiết kiệm
-Lifecycle là rule JSON gắn vào bucket, tự chuyển object giữa các class theo tuổi:
+\`\`\`python
+import boto3
+s3 = boto3.client("s3")
+s3.upload_file("local.jpg", "my-bucket", "uploads/local.jpg")
+s3.download_file("my-bucket", "uploads/local.jpg", "out.jpg")
 \`\`\`
-0-30 ngày   → Standard       (truy cập nóng)
-30-90 ngày  → Standard-IA    (truy cập thưa)
-90-365 ngày → Glacier Flexible (archive)
->365 ngày   → Glacier Deep Archive (lưu trữ tuân thủ)
->2555 ngày  → Delete         (sau 7 năm theo SOX)
+
+## 4. 🎯 Ví dụ chạy được ngay
+
+URL public:
+
 \`\`\`
-**Quan trọng**: lifecycle **chỉ giảm chi phí lưu trữ**, không giảm chi phí lấy ra (retrieval). Nếu workload truy cập ngẫu nhiên, **Intelligent-Tiering** là an toàn hơn — S3 tự đo và chuyển.
+https://my-bucket.s3.amazonaws.com/uploads/local.jpg
+\`\`\`
 
-## Case study thật: Netflix dùng S3 như "single source of truth"
-Netflix lưu **>100 PB** dữ liệu (video master, log analytics, ML feature) trên S3. Họ không tự build storage vì:
-- **Chi phí**: nếu tự xây cần >5 data center riêng — tốn hàng trăm triệu USD.
-- **Reliability**: S3 đã 17 năm chưa từng mất dữ liệu của Netflix.
-- **Tích hợp**: Spark/Athena/Hive đọc trực tiếp từ S3 không cần copy ra HDFS.
-- **Lifecycle**: log cũ tự xuống Glacier sau 30 ngày → tiết kiệm hàng triệu USD/năm.
+Hoặc tạo presigned URL hết hạn sau 1 giờ:
 
-## Case study: Dropbox rời S3 (Project Magic Pocket)
-Năm 2016 Dropbox migrate **>500 PB** từ S3 sang hạ tầng tự xây vì khi đạt quy mô siêu lớn, biên lợi nhuận tự build vượt giá thuê S3. Bài học: **dưới ~50 PB hầu như luôn rẻ hơn dùng S3**, chỉ vài hyperscaler mới có lý do tự build.
+\`\`\`python
+url = s3.generate_presigned_url("get_object",
+        Params={"Bucket":"my-bucket","Key":"x.jpg"}, ExpiresIn=3600)
+\`\`\`
 
-## So sánh Object vs Block vs File Storage
-| Khía cạnh | Object (S3) | Block (EBS) | File (EFS/NFS) |
-|-----------|-------------|-------------|----------------|
-| Đơn vị | object + metadata | block 4 KB | file + folder |
-| API | HTTP REST | iSCSI/NVMe | NFS/SMB |
-| Mount như disk? | Không | Có (1 instance) | Có (nhiều instance) |
-| Tốc độ random IO | Trung bình | Rất cao | Cao |
-| Giá | Rẻ nhất | Đắt nhất | Trung bình |
-| Use case | Backup, data lake, web asset | DB, OS disk | Shared workspace, lift-and-shift |
+## 5. ⚠️ Bẫy thường gặp
 
-## Best practices
-- ✅ **Bật Versioning** + MFA Delete cho bucket quan trọng — chống xóa nhầm/ransomware.
-- ✅ **Block Public Access** ở account level — mặc định mọi bucket private.
-- ✅ **Server-side encryption** mặc định (SSE-S3 hoặc SSE-KMS).
-- ✅ **Lifecycle** ngay từ ngày tạo bucket — tránh "data hoarding" không kiểm soát.
-- ✅ **Bucket policy + IAM Role** thay vì access key — và dùng **presigned URL** cho truy cập tạm thời.
-- ✅ **CloudFront** trước S3 cho web asset — giảm 80-90% egress cost.
-- ✅ **S3 Storage Lens** — dashboard miễn phí phân tích usage và đề xuất tiết kiệm.
+> ⚠️ **Cảnh báo:** Để bucket public + ghi đè key trùng → hacker có thể overwrite. Luôn enable **versioning** + **block public access** trừ khi cần thiết.
 
-## Common pitfalls
-- ❌ **Bucket public mà không biết** — top nguyên nhân lộ data (Capital One 2019, ~100M record).
-- ❌ **Không bật lifecycle** → 60% bucket >1 năm có data "lạnh" trả giá Standard.
-- ❌ **Quá nhiều object nhỏ (KB)** — overhead request lớn hơn data; nên gộp thành Parquet/ORC.
-- ❌ **Hot-key prefix** — trước 2018, dùng prefix tăng dần (\`logs/2024/01/01/...\`) gây bottleneck; hiện S3 đã auto-shard nhưng vẫn nên random hash đầu key.
-- ❌ **Egress cost bất ngờ** — tải 1 TB từ S3 ra Internet ~$90; dùng CloudFront hoặc S3 Transfer Acceleration để tối ưu.
-- ❌ **Glacier retrieval trong giờ cao điểm** — Bulk retrieval rẻ ($0.0025/GB) nhưng mất 5-12h.
+## 6. ✅ Best practice
 
-## Khi nào KHÔNG nên dùng S3?
-- ❌ Cần latency <10 ms cho read/write nhỏ → dùng DynamoDB hoặc ElastiCache.
-- ❌ Cần POSIX file system (lock, append) → dùng EFS hoặc FSx.
-- ❌ Workload OLTP (database) → dùng RDS/Aurora.
+> 💡 **Mẹo của thầy Hải:** File ít truy cập → **Lifecycle rule** tự động chuyển qua Glacier sau 30 ngày, giảm chi phí 80%.
 
-## Liên hệ bài tiếp theo
-S3 chỉ là một mảnh trong bộ ba **Compute + Storage + Network**. Bài kế tiếp sẽ học cách chạy workload đóng gói bằng **Container & Kubernetes**, kết hợp với S3 để build microservice scalable.`,
+## 7. 🤔 Khi nào dùng
+
+- ✅ Static website, image/video, backup, data lake.
+- ❌ Lưu data có quan hệ → DB (RDS, DynamoDB).
+
+## 8. 📌 Tóm tắt 30 giây
+
+S3 = object storage vô hạn. Bucket → object → key. Storage class chọn theo tần suất truy cập. Bật versioning + block public.
+`,
         theoryEn: `**Object Storage** uses a flat namespace where each file is a self-describing object with metadata, accessed via HTTP API — fundamentally different from POSIX file systems. It powers data lakes, static sites, backups, and CDNs in modern cloud architectures.
 
 ## Why Object Storage?
@@ -888,124 +768,57 @@ s3.put_bucket_lifecycle_configuration(Bucket="my-app-bucket", LifecycleConfigura
         titleEn: "Containers & Kubernetes (EKS/AKS/GKE)",
         level: 3,
         difficulty: "intermediate",
-        theory: `**Container** là cách đóng gói ứng dụng cùng toàn bộ phụ thuộc (libraries, runtime, config) thành một image bất biến, chạy giống hệt nhau trên laptop dev, server staging và cluster production. **Docker** là implementation phổ biến nhất; **Kubernetes** là hệ điều hành phân tán quản lý hàng nghìn container ở quy mô production. Bộ đôi này đã thay đổi hoàn toàn cách deploy phần mềm trong 10 năm qua.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao Container thay thế VM?
-| Khía cạnh | VM | Container |
-|-----------|-----|-----------|
-| Boot time | 30-120 giây | 0.5-2 giây |
-| Kích thước image | 1-10 GB | 50-500 MB |
-| Overhead | Toàn bộ Guest OS | Chỉ shared kernel |
-| Density/host | 10-30 VM | 100-1000 container |
-| Portable | Cần chuẩn (OVF) | Image OCI chạy mọi nơi |
-| Use case | Cô lập mạnh, multi-OS | Microservice, CI/CD |
+App của bạn chạy local ngon — đem deploy mỗi máy 1 phiên bản Python, library lệch nhau, lỗi tùm lum. **Container (Docker)** đóng gói app + dependencies thành 1 hộp chạy y hệt mọi nơi. **Kubernetes** = "ban quản lý chung cư container".
 
-VM ảo hóa **phần cứng** (hypervisor giả lập CPU/RAM/disk); container ảo hóa **OS** (chia sẻ kernel host nhưng cô lập namespace + cgroup). Vì shared kernel, container nhẹ hơn nhưng cô lập yếu hơn — không nên chạy code không tin cậy chung host (dùng gVisor/Kata cho điều đó).
+> 💡 **Mẹo của thầy Hải:** Container ≠ máy ảo. Container chia sẻ kernel OS → nhẹ hơn 100 lần, khởi động trong giây.
 
-## Bên trong Docker — kiến trúc layered
-Một Dockerfile build ra image gồm nhiều **layer** xếp chồng (copy-on-write):
+## 2. 💡 Khái niệm chính
+
+- **Image**: bản đóng gói (read-only).
+- **Container**: instance chạy của image.
+- **Dockerfile**: công thức build image.
+- **Registry**: nơi lưu image (Docker Hub, ECR).
+- **Kubernetes (K8s)**: quản lý hàng trăm container: scale, restart, load balance.
+
+## 3. 🧰 Dockerfile mẫu
+
 \`\`\`dockerfile
-FROM python:3.11-slim          # layer 1: base OS + Python
+FROM python:3.11-slim
 WORKDIR /app
-COPY requirements.txt .         # layer 2: chỉ rebuild khi requirements đổi
-RUN pip install -r requirements.txt   # layer 3: cache nếu layer 2 không đổi
-COPY . .                        # layer 4: code app, đổi nhiều nhất
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "app.py"]
 \`\`\`
-**Best practice xếp lớp**: đặt thứ ít đổi (deps) lên trên, code app xuống dưới — tận dụng cache, build nhanh.
 
-## Kubernetes — các khái niệm cốt lõi
-- **Pod** — đơn vị nhỏ nhất K8s schedule. Một Pod = 1+ container chia sẻ network + storage. Pod ephemeral (chết là tạo mới với IP khác).
-- **ReplicaSet** — đảm bảo luôn có N pod chạy.
-- **Deployment** — quản lý ReplicaSet + chiến lược rolling update / rollback.
-- **Service** — endpoint ổn định (ClusterIP, NodePort, LoadBalancer) định tuyến vào tập pod theo label.
-- **Ingress** — route HTTP/HTTPS layer 7 (host/path) vào Service. Dùng nginx-ingress, AWS ALB Ingress Controller, Traefik.
-- **ConfigMap / Secret** — tách config & bí mật khỏi image.
-- **Namespace** — phân vùng logic (team, env) trong cùng cluster.
-- **PersistentVolume + PVC** — abstraction cho storage (EBS, EFS, S3 csi).
-- **HPA (Horizontal Pod Autoscaler)** — auto scale pod theo CPU/memory/custom metric.
-- **DaemonSet** — chạy 1 pod trên MỌI node (log agent, monitoring agent).
-- **StatefulSet** — pod có identity ổn định + storage cá nhân (DB, Kafka).
-
-## Architecture của Kubernetes Cluster
+\`\`\`bash
+docker build -t my-app .
+docker run -p 8000:8000 my-app
 \`\`\`
-┌──────────── Control Plane ────────────┐
-│ kube-apiserver  (entry point REST)   │
-│ etcd            (key-value state DB) │
-│ scheduler       (gán pod → node)     │
-│ controller-mgr  (reconcile loops)    │
-└──────────────────┬─────────────────────┘
-                   │
-       ┌───────────┴───────────┐
-       │                       │
-┌──── Node 1 ────┐      ┌──── Node 2 ────┐
-│ kubelet        │      │ kubelet        │
-│ kube-proxy     │      │ kube-proxy     │
-│ container rt   │      │ container rt   │
-│ ┌──┐ ┌──┐     │      │ ┌──┐ ┌──┐     │
-│ │P1│ │P2│ ... │      │ │P3│ │P4│ ... │
-│ └──┘ └──┘     │      │ └──┘ └──┘     │
-└────────────────┘      └────────────────┘
-\`\`\`
-Mọi tương tác qua **kube-apiserver**. State lưu trong **etcd**. Mỗi node có **kubelet** quản pod local, **kube-proxy** routing network.
 
-## Managed Kubernetes — chọn cái nào?
-| Service | Provider | Control plane | Worker | Đặc điểm |
-|---------|----------|---------------|--------|----------|
-| **EKS** | AWS | Managed ($0.10/h) | EC2 hoặc Fargate | Tích hợp IAM, ALB, VPC chuẩn |
-| **AKS** | Azure | **Free** | VM hoặc ACI | Tích hợp Entra ID, free SLA 99.95% |
-| **GKE** | GCP | Standard $0.10/h, Autopilot $0.10/h+pod | VM hoặc Autopilot | **Autopilot** tự lo node — gần serverless |
-| **Self-hosted (kubeadm)** | Bất kỳ | Tự build | Tự build | Rẻ nhưng tốn devops |
+## 4. 🎯 Ví dụ chạy được ngay
 
-**Lời khuyên**: nếu mới bắt đầu, **GKE Autopilot** dễ nhất; team AWS-heavy chọn **EKS + Fargate**; team Microsoft chọn **AKS**.
+Đẩy lên AWS ECS hoặc Google Cloud Run → có URL public ngay, scale tự động.
 
-## Case study: Spotify — chạy hơn 1700 microservice trên K8s
-Spotify migrate từ Helios (orchestrator riêng) sang Kubernetes 2018-2020. Họ chạy:
-- **150+ cluster GKE** xuyên 4 region.
-- **>10,000 node**, **>1.7 triệu pod** đỉnh.
-- Backend **Backstage** (open-source developer portal) ra đời từ trải nghiệm này — nay là chuẩn CNCF.
-Bài học: K8s cho phép **mỗi team deploy độc lập 100+ lần/ngày** mà không đụng nhau.
+## 5. ⚠️ Bẫy thường gặp
 
-## Case study: Airbnb — 1000 service, EKS + service mesh
-Airbnb dùng EKS + Envoy/Istio service mesh để xử lý 100k+ RPS giữa các service. Mesh cho mTLS tự động, retry, circuit breaker — tránh viết lại logic này trong từng service. Tradeoff: thêm độ phức tạp ops và 1-2 ms latency mỗi hop.
+> ⚠️ **Cảnh báo:** Image to vài GB (do \`python:3.11\` full) → deploy chậm. Dùng \`python:3.11-slim\` hoặc \`alpine\` để giảm xuống dưới 200MB.
 
-## Container vs Serverless vs VM — khi nào chọn gì?
-| Tình huống | Khuyến nghị |
-|------------|-------------|
-| Webhook, batch ngắn, ít event | **Lambda/Cloud Functions** |
-| Microservice HTTP đều đặn | **Container (ECS/EKS/Cloud Run)** |
-| Long-running worker, queue consumer | **Container** |
-| DB, cache stateful | **Managed service hoặc StatefulSet** |
-| Legacy app cần Windows/full OS | **VM** |
-| Workload đều cao 24/7 | **VM với Reserved/Savings Plan** |
-| Cần portability multi-cloud | **K8s** (chuẩn hóa) |
+## 6. ✅ Best practice
 
-## Best Practices
-- ✅ **Image nhỏ**: dùng \`-slim\`, \`-alpine\`, multi-stage build → đẩy nhanh deploy & giảm CVE.
-- ✅ **Non-root user** trong container.
-- ✅ **Health probe**: liveness (kill nếu chết), readiness (chỉ nhận traffic khi sẵn sàng), startup (cho app boot chậm).
-- ✅ **Resource request + limit**: tránh "noisy neighbor" và OOMKill bất ngờ.
-- ✅ **Pod Disruption Budget** + **anti-affinity** để khả dụng cao.
-- ✅ **Network Policy** (Calico/Cilium): mặc định deny all, allow theo nhãn.
-- ✅ **GitOps** (ArgoCD/Flux): cluster state = git repo.
-- ✅ **Image signing** (cosign) + **scan** (Trivy) trong CI.
+> 💡 **Mẹo của thầy Hải:** Mới học container? Bắt đầu với **ECS Fargate** hoặc **Cloud Run** — dễ hơn K8s nhiều mà vẫn auto-scale.
 
-## Common Pitfalls
-- ❌ Không đặt resource request/limit → 1 pod ngốn RAM kéo cả node sập.
-- ❌ Lưu state vào filesystem container (mất khi pod restart) — phải dùng PV/EFS/S3.
-- ❌ Latest tag image (\`myapp:latest\`) → không reproducible; luôn pin SHA hoặc semver.
-- ❌ 1 pod / 1 node (over-provisioning) → mất lợi thế bin-packing K8s.
-- ❌ Quên log → stdout (K8s thu thập tự động); log vào file trong container sẽ mất.
-- ❌ Cluster admin role rộng cho mọi developer — tuân thủ RBAC least privilege.
-- ❌ Bật autoscaling mà không có **PodDisruptionBudget** → scale down giết hết replica.
+## 7. 🤔 Khi nào dùng
 
-## Khi KHÔNG nên dùng K8s
-- ❌ Team <5 dev, <10 service → ECS/Cloud Run/Heroku đủ.
-- ❌ Không có người chuyên ops K8s — chi phí học khoảng 6-12 tháng.
-- ❌ Workload thuần event-driven → Lambda đơn giản hơn nhiều.
+- ✅ Microservices, dev/prod đồng nhất, CI/CD.
+- ❌ Script chạy 1 lần → script Python thường đủ.
 
-## Liên hệ bài tiếp theo
-Container chạy bên trong **VPC** — mạng ảo riêng có subnet, route, firewall. Bài tiếp sẽ đi sâu **VPC, Subnet & Routing** để hiểu cách container trong EKS giao tiếp an toàn với DB, Internet, và các service khác.`,
+## 8. 📌 Tóm tắt 30 giây
+
+Docker = đóng gói app. K8s = điều phối hàng trăm container. Image nhẹ + registry + orchestrator = devops hiện đại.
+`,
         theoryEn: `**Containers** package app + dependencies into immutable images that run identically across dev laptops, staging servers, and production clusters. **Docker** is the dominant runtime; **Kubernetes** is the distributed OS that orchestrates thousands of containers. Together they reshaped software deployment in the past decade.
 
 ## Containers vs VMs
@@ -1750,150 +1563,50 @@ print(f"Bucket đã bảo mật bằng CMK {key_id}")`,
         titleEn: "Lambda & API Gateway",
         level: 3,
         difficulty: "intermediate",
-        theory: `**Serverless** không có nghĩa là "không có server", mà là **bạn không cần quản lý server**. Cloud provider lo provisioning, OS patching, scaling, high availability. Lập trình viên chỉ viết function — code chạy khi có event và **trả tiền theo từng millisecond execution**. Đây là mô hình điện toán "pay-per-use" thuần khiết nhất hiện nay.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao Serverless ra đời?
+Bạn chỉ cần code 1 hàm gửi email khi user đăng ký — vậy mà phải dựng EC2, cài OS, mở firewall, trả tiền 24/7. Quá phí. **Serverless** (AWS Lambda, GCF) = "chỉ trả tiền khi hàm chạy", không cần quản lý server.
 
-Trước Serverless, ngay cả với cloud, ta vẫn phải:
-- Chọn instance type, OS, patch security.
-- Tự thiết lập Auto Scaling Group, Load Balancer.
-- Trả tiền cả khi server idle (24/7).
+> 💡 **Mẹo của thầy Hải:** Serverless KHÔNG phải "không có server" — vẫn có, nhưng AWS lo cho bạn. Bạn chỉ trả theo số lần gọi + thời gian chạy.
 
-AWS Lambda ra mắt 2014 là dịch vụ Function-as-a-Service (FaaS) đầu tiên, đảo ngược mô hình: **"Đưa code, không cần đưa server"**. Từ đó hệ sinh thái mở rộng: Azure Functions, Google Cloud Functions, Cloudflare Workers, Vercel Functions...
+## 2. 💡 Khái niệm chính
 
-## Khái niệm cốt lõi của AWS Lambda
+- **Function**: đoạn code (Python/Node/Go).
+- **Trigger**: sự kiện kích hoạt (HTTP, S3 upload, cron, queue).
+- **Cold start**: lần gọi đầu tiên chậm hơn (vài trăm ms).
+- **Pay-per-invocation**: tính theo số lần + GB-second.
 
-| Khái niệm | Mô tả |
-|---|---|
-| **Function** | Đoạn code (handler) chạy khi event đến |
-| **Runtime** | Môi trường thực thi: Node.js, Python, Java, Go, Ruby, .NET, hoặc custom container |
-| **Trigger / Event Source** | S3, API Gateway, EventBridge, SQS, SNS, DynamoDB Stream, Kinesis, CloudWatch cron... |
-| **Memory** | 128 MB → 10 GB (tăng RAM cũng tăng vCPU) |
-| **Timeout** | Tối đa **15 phút** (900s) cho mỗi invocation |
-| **Concurrency** | Default 1000 execution song song / region (soft limit) |
-| **Layer** | Thư viện chia sẻ giữa nhiều function (giảm package size) |
-| **Execution role** | IAM role Lambda dùng để truy cập AWS resource khác |
+## 3. 🧰 AWS Lambda Python
 
-## Cold Start vs Warm Start — vấn đề kinh điển
-
-**Cold start** xảy ra khi Lambda cần khởi tạo container mới:
-\`\`\`
-Request đến → Download code (50-200ms)
-            → Init runtime (50-300ms)
-            → Run handler (your code)
-\`\`\`
-- Java/.NET: cold start 1-3 giây ❌
-- Python/Node.js: 100-500ms ⚠️
-- Go/Rust (compiled): 50-100ms ✅
-
-**Warm start** (container còn sống, ~5-15 phút sau request cuối): chỉ chạy handler, <10ms overhead.
-
-**Giải pháp giảm cold start:**
-- **Provisioned Concurrency** — giữ N container "warm" (trả thêm tiền nhưng latency p99 giảm 90%).
-- **SnapStart** (Java) — snapshot container đã init, restore nhanh.
-- **Lambda Power Tuning** — tìm memory tối ưu (RAM cao có khi rẻ hơn vì chạy nhanh hơn).
-- Tránh Java, ưu tiên Python/Node/Go cho latency-sensitive workload.
-
-## API Gateway — cánh cổng cho Lambda
-
-| Tính năng | Vai trò |
-|---|---|
-| **Routing** | Map URL/method → Lambda function |
-| **Auth** | Cognito User Pool, IAM, Lambda Authorizer (JWT custom) |
-| **Throttling** | Rate limit & burst limit (chống DDoS) |
-| **Caching** | Cache response 1-3600s (giảm Lambda call) |
-| **Request validation** | Schema JSON, query/header validation |
-| **Custom domain + TLS** | api.mycompany.com với cert ACM |
-| **Stages** | dev / staging / prod riêng biệt |
-| **WebSocket API** | Hỗ trợ real-time (chat, notification) |
-
-**3 loại API Gateway trên AWS:**
-- **HTTP API** — rẻ ($1/triệu request), nhanh, đơn giản. **Khuyến nghị mặc định.**
-- **REST API** — đắt ($3.5/triệu) nhưng đầy đủ tính năng (caching, request validation, WAF integration).
-- **WebSocket API** — cho real-time bidirectional.
-
-## Pricing thực tế (us-east-1)
-
-\`\`\`
-Lambda: $0.20 / 1 triệu request + $0.0000166667 / GB-second
-
-Ví dụ: API có 5 triệu request/tháng, 256 MB, chạy 200 ms
-- Request cost: 5 × $0.20 = $1.00
-- Compute: 5,000,000 × 0.2s × (256/1024) GB × $0.0000166667
-         = 5,000,000 × 0.05 × $0.0000166667 ≈ $4.17
-- Tổng: ~$5.17 / tháng
-
-So với EC2 t3.small chạy 24/7: ~$15/tháng (gấp ~3 lần)
+\`\`\`python
+def lambda_handler(event, context):
+    name = event.get("name", "world")
+    return {"statusCode": 200, "body": f"Hello {name}"}
 \`\`\`
 
-**Free Tier vĩnh viễn:** 1 triệu request + 400,000 GB-second / tháng. Đủ chạy nhiều side-project miễn phí.
+Trigger qua API Gateway → có URL public.
 
-## Case study: Netflix — Lambda xử lý 1 nghìn tỷ event/ngày
+## 4. 🎯 Ví dụ chạy được ngay
 
-Netflix dùng Lambda cho:
-- **Encoding pipeline**: mỗi video upload trigger hàng nghìn Lambda song song để encode đa độ phân giải (DASH/HLS).
-- **A/B testing infra**: route traffic, ghi metric, không cần server cố định.
-- **CDN cache invalidation**: khi metadata video đổi, Lambda invalidate edge cache toàn cầu.
+Workflow phổ biến: User upload ảnh lên S3 → Lambda tự động resize → ghi lại bucket. Không cần server lúc nào cả.
 
-Kết quả: giảm 80% chi phí so với chạy EC2 24/7 cho các workload event-driven.
+## 5. ⚠️ Bẫy thường gặp
 
-## Case study: Coca-Cola Freestyle — vending machine 50,000 máy
+> ⚠️ **Cảnh báo:** Lambda có giới hạn 15 phút mỗi lần chạy + 10GB RAM. Job dài hơn → dùng ECS/Batch.
 
-Mỗi máy bán nước Freestyle gửi telemetry mỗi vài giờ. Coca-Cola dùng API Gateway + Lambda + DynamoDB:
-- Trước: cluster EC2 chạy 24/7, idle 95% thời gian → lãng phí.
-- Sau Lambda: chỉ trả tiền khi máy gọi → tiết kiệm **65% chi phí backend**.
-- Auto-scale từ 0 → vài nghìn concurrent không cần config.
+## 6. ✅ Best practice
 
-## So sánh Serverless vs Container vs VM
+> 💡 **Mẹo của thầy Hải:** Cold start đau → bật **Provisioned Concurrency** cho function quan trọng, hoặc dùng **Lambda SnapStart**.
 
-| Tiêu chí | Lambda (Serverless) | Container (ECS/EKS) | VM (EC2) |
-|---|---|---|---|
-| **Idle cost** | $0 | Trả tiền cluster | Trả tiền 24/7 |
-| **Cold start** | 100ms-3s | 0 (luôn chạy) | 0 |
-| **Max runtime** | 15 phút | Vô hạn | Vô hạn |
-| **Scaling time** | <1s, tự động | 30s-2min (ASG) | 1-3 phút |
-| **Phù hợp cho** | Bursty, event-driven | Workload đều, microservices | Legacy, GPU, full control |
-| **Vendor lock-in** | Cao | Thấp (Docker chuẩn) | Thấp |
+## 7. 🤔 Khi nào dùng
 
-## Best practices
+- ✅ Webhook, image processing, cron jobs nhẹ, glue logic.
+- ❌ App lâu (>15 phút), web socket realtime — dùng container.
 
-- ✅ **Function nhỏ và đơn nhiệm** (single responsibility) — dễ test, deploy.
-- ✅ **Stateless** — state lưu vào DynamoDB/S3/RDS, không lưu trong /tmp.
-- ✅ **Reuse connection** — khởi tạo DB client ngoài handler để tận dụng warm start.
-- ✅ **Set timeout sát thực tế** (vd 10s, không để mặc định 3s hay max 15min).
-- ✅ **Dead Letter Queue (DLQ)** cho async invoke — không mất event khi fail.
-- ✅ **CloudWatch Logs + X-Ray** để trace.
-- ✅ **Observability**: structured logs (JSON), correlation ID.
-- ✅ **Lambda Powertools** (AWS official) — logger, tracer, metrics chuẩn.
+## 8. 📌 Tóm tắt 30 giây
 
-## Common pitfalls / Anti-patterns
-
-- ❌ **"Lambda monolith"** — 1 function 5000 dòng xử lý 20 endpoint → khó debug, deploy chậm.
-- ❌ **Synchronous Lambda gọi Lambda** — double-billing + timeout cascade. Dùng Step Functions hoặc EventBridge.
-- ❌ **Lambda kết nối RDS trực tiếp** không qua RDS Proxy → connection storm khi scale.
-- ❌ **Đóng gói cả node_modules lớn** (>50MB) → cold start chậm. Dùng Layer hoặc tree-shaking.
-- ❌ **Workload chạy lâu** (ETL 30 phút) trên Lambda → fail vì vượt 15 phút timeout.
-- ❌ **Polling SQS bằng Lambda với batch size = 1** → tốn 10x cost. Dùng batch 10.
-
-## Khi nào nên / không nên dùng Serverless?
-
-✅ **Nên dùng:**
-- API backend mobile/web nhỏ-vừa (<10k req/s ổn định).
-- Webhook, image/video processing on-demand.
-- Cron job (CloudWatch Scheduled Events → Lambda).
-- Glue code: kết nối các AWS service (S3 trigger → DynamoDB → SNS).
-- Startup MVP — tiết kiệm và scale tự động.
-
-❌ **Không nên dùng:**
-- Workload chạy >15 phút (ETL lớn, ML training).
-- Latency p99 < 50ms strict (vì cold start).
-- Workload đều cao (>1000 req/s 24/7) — EC2/Fargate rẻ hơn.
-- Stateful WebSocket connection lâu dài.
-- Workflow phức tạp nhiều bước có state — dùng Step Functions thay vì chuỗi Lambda.
-
-## Bridge sang bài tiếp theo
-
-Bài tiếp theo (**Infrastructure as Code**) sẽ giải quyết câu hỏi: làm sao quản lý hàng trăm Lambda, API Gateway, IAM Role, S3 bucket... một cách reproducible và team-friendly? Đáp án: **Terraform / CloudFormation / SAM** — viết hạ tầng bằng code, version trong git, deploy qua CI/CD.`,
+Serverless = trả theo lần chạy. Trigger qua HTTP/S3/cron. Hợp glue logic, microservice nhỏ. Cảnh báo cold start + 15-min limit.
+`,
         theoryEn: `**Serverless** doesn't mean "no servers" — it means **you don't manage servers**. The cloud handles provisioning, OS patching, scaling, and HA. You write functions and **pay per millisecond of execution**. It is the purest pay-per-use compute model.
 
 ## Why Serverless emerged
@@ -2050,145 +1763,57 @@ print(sam_template)`,
         titleEn: "Infrastructure as Code (Terraform)",
         level: 4,
         difficulty: "intermediate",
-        theory: `**Infrastructure as Code (IaC)** là phương pháp quản lý và provisioning hạ tầng (server, network, database, IAM…) thông qua **file code có thể version trong git**, thay vì click chuột trên console hay gõ CLI command thủ công. IaC biến hạ tầng thành "phần mềm" — có thể review, test, deploy, rollback như application code.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao cần IaC?
+Mỗi lần ra production, bạn click chuột tạo 20 resource trên AWS — quên 1 cái là lỗi. Ngày sau muốn tạo môi trường staging y hệt → click lại từ đầu, mất 4 tiếng. **IaC (Infrastructure as Code)** = "viết hạ tầng bằng code, deploy bằng 1 lệnh".
 
-Trước IaC, sysadmin tạo hạ tầng bằng tay:
-- Click console AWS để tạo VPC, EC2, Security Group...
-- Không ai biết môi trường staging khác prod chỗ nào ("snowflake server").
-- Disaster recovery = nhật ký Word + ngón tay vàng.
-- Onboarding member mới mất 2 tuần để hiểu hệ thống.
+> 💡 **Mẹo của thầy Hải:** Hạ tầng = code → version git, code review, rollback. Đó là cách Netflix, Facebook quản hàng ngàn server.
 
-Với IaC, một file \`.tf\` mô tả toàn bộ hạ tầng. Tạo lại môi trường giống hệt chỉ trong vài phút bằng \`terraform apply\`.
+## 2. 💡 Khái niệm chính
 
-## Lợi ích cụ thể của IaC
+- **Declarative**: mô tả trạng thái cuối (Terraform, CloudFormation).
+- **Imperative**: mô tả các bước (Ansible, scripts).
+- **State file**: lưu trạng thái hiện tại của hạ tầng.
+- **Module**: tái sử dụng cấu hình.
 
-| Lợi ích | Giá trị thực tế |
-|---|---|
-| **Version control** | Mọi thay đổi có git history, blame, rollback |
-| **Reproducibility** | Tạo dev/staging/prod giống hệt nhau |
-| **Code review** | Pull request review trước khi deploy infra |
-| **Disaster recovery** | Tái tạo region trong 30 phút thay vì 3 ngày |
-| **Documentation tự động** | Code chính là tài liệu (vs sơ đồ Visio outdated) |
-| **Compliance audit** | Mọi resource có "ai tạo, khi nào, vì sao" |
-| **Cost transparency** | Plan trước khi apply → biết chi phí dự kiến |
+## 3. 🧰 Terraform mẫu
 
-## Các công cụ IaC phổ biến
-
-| Công cụ | Cloud hỗ trợ | Ngôn ngữ | Điểm mạnh | Điểm yếu |
-|---|---|---|---|---|
-| **Terraform** | Đa cloud (AWS, Azure, GCP, K8s, Cloudflare…) | HCL | Cộng đồng lớn nhất, modular, state management tốt | Cần học HCL, state file conflict |
-| **AWS CloudFormation** | AWS only | YAML/JSON | Native AWS, miễn phí, drift detection sẵn | Verbose, chỉ AWS, rollback chậm |
-| **AWS CDK** | AWS chủ yếu | TypeScript, Python, Java, Go | Dùng ngôn ngữ thật (loop, function) | Compile sang CFN — debug 2 lớp |
-| **Pulumi** | Đa cloud | TS/Python/Go/.NET | Ngôn ngữ thật + đa cloud | Nhỏ hơn Terraform community |
-| **Ansible** | Đa cloud | YAML | Mạnh về configuration management | Imperative, khó với infra phức tạp |
-| **AWS SAM** | AWS Serverless | YAML | Tối ưu cho Lambda/API GW | Chỉ serverless |
-
-**Khuyến nghị 2024:** Terraform cho đa cloud, CDK cho team thuần TypeScript/Python ở AWS, SAM cho dự án thuần serverless.
-
-## Khái niệm cốt lõi của Terraform
-
-\`\`\`
-[Code .tf] → terraform plan → [Cloud API] → terraform.tfstate (mapping)
+\`\`\`hcl
+resource "aws_instance" "web" {
+  ami           = "ami-0abc123"
+  instance_type = "t2.micro"
+  tags = { Name = "web-server" }
+}
 \`\`\`
 
-| Concept | Mô tả |
-|---|---|
-| **Provider** | Plugin kết nối cloud (\`aws\`, \`azurerm\`, \`google\`, \`kubernetes\`, \`cloudflare\`) |
-| **Resource** | Tài nguyên cụ thể: \`aws_instance\`, \`aws_s3_bucket\`, \`aws_iam_role\` |
-| **Data Source** | Tham chiếu resource đã có (không tạo mới): \`data "aws_ami"\` |
-| **Variable** | Tham số đầu vào: env, region, instance_type |
-| **Output** | Giá trị xuất ra: VPC ID, ALB DNS để module khác dùng |
-| **Module** | Bộ code tái sử dụng (vd: module "vpc" đóng gói VPC + subnets + NAT) |
-| **State file** | \`terraform.tfstate\` — bản đồ giữa code và resource thực tế |
-| **Backend** | Nơi lưu state: S3 + DynamoDB (lock), Terraform Cloud, GCS |
-| **Workspace** | Tách state cho nhiều env (dev/staging/prod) |
-
-## State file — tim của Terraform
-
-State file chứa thông tin:
-- Mỗi resource trong code map sang resource ID nào trên cloud (i-abc123, vpc-456…).
-- Metadata: dependency graph, attribute (IP, ARN…).
-- Hash để phát hiện drift.
-
-**Quy tắc vàng về state:**
-1. **Luôn lưu remote** (S3 + DynamoDB lock) — không commit vào git.
-2. **Không bao giờ sửa tay** state file (dùng \`terraform import\` / \`state mv\`).
-3. **Lock file** ngăn 2 người \`apply\` đồng thời (tránh corrupt).
-4. **Encrypt at rest** — state có thể chứa secret (DB password).
-5. **Versioning S3** bật để rollback nếu corrupt.
-
-## Workflow chuẩn của Terraform
-
-\`\`\`
-1. terraform init       # tải provider, kết nối backend
-2. terraform fmt        # format code
-3. terraform validate   # check syntax
-4. terraform plan       # preview thay đổi (KHÔNG apply)
-5. terraform apply      # áp dụng (sau khi review plan)
-6. terraform destroy    # xóa hết (cẩn thận!)
+\`\`\`bash
+terraform init
+terraform plan    # xem sẽ thay đổi gì
+terraform apply   # deploy
+terraform destroy # xoá sạch
 \`\`\`
 
-**Plan output đọc thế nào?**
-- \`+\` = create (tạo mới)
-- \`-\` = destroy (xóa) — **CẢNH BÁO** nếu là DB!
-- \`~\` = update in-place (đổi tag, đổi size)
-- \`-/+\` = replace (xóa rồi tạo lại — rủi ro mất data!)
+## 4. 🎯 Ví dụ chạy được ngay
 
-## Module — chìa khóa scale Terraform
+1 file \`.tf\` tạo: VPC + 2 subnet + EC2 + Security Group → chạy \`apply\` 5 phút có cả hệ thống.
 
-Thay vì copy-paste code VPC cho 5 môi trường, viết 1 module và instantiate cho từng env. Nguồn module: **Terraform Registry** (registry.terraform.io), git repo team, hoặc module nổi tiếng \`terraform-aws-modules/vpc/aws\`, \`terraform-aws-modules/eks/aws\`.
+## 5. ⚠️ Bẫy thường gặp
 
-## Case study: Airbnb — quản lý 5000+ AWS resource
+> ⚠️ **Cảnh báo:** State file chứa secret → đừng commit lên git public. Lưu trên S3 + DynamoDB lock.
 
-Airbnb có hàng nghìn microservice. Họ dùng Terraform với:
-- **Atlantis** (PR automation) — comment \`atlantis plan\` trên GitHub PR để xem diff.
-- **Tách module theo team** — mỗi service team có repo TF riêng.
-- **State remote S3 + DynamoDB lock** — multi-engineer apply an toàn.
-- **Policy as Code (Sentinel/OPA)** — chặn PR nếu tạo S3 public hoặc instance >$1000/tháng.
+## 6. ✅ Best practice
 
-Kết quả: deploy infra change từ "vài ngày" xuống "vài giờ", drift gần như bằng 0.
+> 💡 **Mẹo của thầy Hải:** 1 module/repo cho dev/staging/prod. Dùng workspace hoặc folder separate để tránh "apply nhầm môi trường".
 
-## Case study: Capital One — 100% IaC sau khi chuyển cloud
+## 7. 🤔 Khi nào dùng
 
-Sau khi migrate sang AWS, Capital One bắt buộc 100% hạ tầng phải qua CloudFormation/Terraform:
-- Console AWS chỉ cho **read-only** với engineer.
-- Mọi thay đổi phải qua PR + review + CI/CD.
-- Disaster recovery test hằng quý: xóa toàn bộ region staging và tái tạo trong 4h bằng IaC.
+- ✅ Bất kỳ team nào > 2 người, hạ tầng > 5 resource.
+- ❌ POC 1 file index.html → quá overkill.
 
-## Best practices
+## 8. 📌 Tóm tắt 30 giây
 
-- ✅ **Remote state + locking** ngay từ ngày 1.
-- ✅ **Tách env bằng workspace hoặc folder** (không trộn dev/prod 1 state).
-- ✅ **Pin version** provider (\`version = "~> 5.0"\`) tránh breaking change.
-- ✅ **Module hóa** mọi pattern lặp lại (VPC, EKS cluster, RDS).
-- ✅ **PR review bắt buộc** + đính kèm output \`terraform plan\`.
-- ✅ **\`terraform fmt\` + \`tflint\` + \`tfsec\`** trong CI.
-- ✅ **Tagging chuẩn** (Environment, Owner, CostCenter) — gắn vào provider default_tags.
-- ✅ **Lifecycle \`prevent_destroy\`** cho RDS, S3 production.
-
-## Common pitfalls / Anti-patterns
-
-- ❌ **Sửa resource bằng tay trên console** → Terraform sẽ override lần apply tới (drift!).
-- ❌ **Commit state file vào git** → leak DB password + race condition.
-- ❌ **1 state file khổng lồ** chứa cả 100 service → plan 30 phút, lock cả team.
-- ❌ **Không pin version provider** → một ngày đẹp trời upgrade tự động phá hệ thống.
-- ❌ **\`terraform apply\`** thẳng trên laptop dev → khác state với CI/CD.
-- ❌ **Hardcoded secret** trong file .tf → lộ trên git. Dùng AWS Secrets Manager + data source.
-- ❌ **Module quá generic** với 50 variable → khó dùng hơn copy-paste.
-
-## Khi nào nên / không nên dùng IaC?
-
-✅ **Nên dùng:** mọi production cloud workload — không có ngoại lệ.
-
-⚠️ **Cẩn thận:** experiment 1-lần (POC nhỏ chỉ chạy 1 ngày) — có thể ClickOps để nhanh, nhưng **xóa ngay** sau khi xong.
-
-❌ **Không nên:** dùng IaC để quản lý content (file upload S3, row trong DB) — đó là việc của application.
-
-## Bridge sang bài tiếp theo
-
-Có IaC rồi, ta cần **CI/CD pipeline** để tự động chạy \`terraform plan\` trên mỗi PR và \`apply\` khi merge. Bài tiếp theo (**CI/CD & Observability**) sẽ kết nối tất cả: code app + IaC → build → test → deploy + monitor production với metrics, logs, traces.`,
+IaC = hạ tầng dạng code. Terraform là tool đa cloud phổ biến nhất. State file phải bảo vệ. Apply phải qua plan + review.
+`,
         theoryEn: `**Infrastructure as Code (IaC)** manages infrastructure (servers, networks, DBs, IAM…) through **version-controlled code files** instead of console clicks or manual CLI. IaC turns infra into software — reviewable, testable, deployable, and rollback-able like application code.
 
 ## Why IaC?
@@ -2354,165 +1979,59 @@ output "bucket_arn" { value = aws_s3_bucket.data.arn }`,
         titleEn: "CI/CD & Observability",
         level: 4,
         difficulty: "advanced",
-        theory: `**CI/CD** (Continuous Integration / Continuous Delivery / Continuous Deployment) là tập hợp các thực hành kỹ thuật để **tự động hóa toàn bộ quy trình từ lúc dev push code → đến lúc code chạy trên production**, kèm theo **observability** để theo dõi và phản ứng khi có sự cố. Đây là xương sống của DevOps hiện đại — không có CI/CD + observability, không thể vận hành production cloud-native.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Phân biệt CI vs CD vs CD
+Dev xong đẩy code lên git → tester clone về test → lead build deploy. Mất 2 ngày cho 1 lần ra mắt. Có **CI/CD** thì: bạn \`git push\` → auto test → auto deploy → 5 phút sau khách hàng đã dùng được.
 
-| Cụm từ | Viết tắt | Ý nghĩa | Ai trigger? |
-|---|---|---|---|
-| **Continuous Integration** | CI | Mỗi commit → tự động build + chạy test + lint + security scan | Mỗi push/PR |
-| **Continuous Delivery** | CD | Sau khi pass CI → artifact sẵn sàng deploy → cần **người bấm nút** | Manual approve |
-| **Continuous Deployment** | CD | Sau khi pass CI → tự động deploy lên prod, **không cần ai bấm** | Tự động |
+> 💡 **Mẹo của thầy Hải:** **CI** = Continuous Integration (auto test/build). **CD** = Continuous Deployment (auto release). 2 thứ đi đôi.
 
-Hầu hết công ty bắt đầu với **Continuous Delivery** (an toàn hơn) và chỉ chuyển sang **Continuous Deployment** khi có bộ test mạnh + observability đủ tốt + canary deploy.
+## 2. 💡 Khái niệm chính
 
-## Các công cụ CI/CD phổ biến
+- **Pipeline**: chuỗi job (lint → test → build → deploy).
+- **Runner**: máy chạy job.
+- **Artifact**: sản phẩm sau build (jar, image).
+- **Environment**: dev/staging/prod.
 
-| Công cụ | Phù hợp | Điểm mạnh | Điểm yếu |
-|---|---|---|---|
-| **GitHub Actions** | Project trên GitHub | YAML đơn giản, marketplace 20k+ action, miễn phí cho public repo | Vendor lock-in GitHub |
-| **GitLab CI** | Project trên GitLab | Tích hợp sẵn, runner self-host dễ | UI nặng |
-| **Jenkins** | Enterprise on-prem | Linh hoạt vô tận, plugin nhiều | Cần maintain master/agent, UI cũ |
-| **AWS CodePipeline** | Native AWS | Tích hợp sâu IAM, ECS, Lambda | Verbose, chỉ AWS |
-| **CircleCI** | Startup, SaaS | Tốc độ nhanh, parallelism dễ | Pricing cao khi scale |
-| **ArgoCD / Flux** | Kubernetes GitOps | Pull-based deploy, drift detection | Chỉ Kubernetes |
+## 3. 🧰 GitHub Actions mẫu
 
-## Deployment strategies — giảm rủi ro release
-
-| Strategy | Cách hoạt động | Rủi ro | Khi nào dùng |
-|---|---|---|---|
-| **Recreate** | Tắt v1 → bật v2 (downtime) | Cao | Dev/staging |
-| **Rolling update** | Thay từng instance, giữ hệ thống chạy | Trung bình | Default K8s, web app phổ thông |
-| **Blue/Green** | 2 môi trường song song, switch DNS/LB | Thấp (rollback nhanh) | Khi cần rollback tức thì |
-| **Canary** | Deploy 5% → 25% → 100% theo metric | Rất thấp | Workload high-stakes (Netflix, Amazon) |
-| **Shadow / Mirror** | Copy traffic sang v2 không trả response | Zero | Test version mới với traffic thật |
-| **Feature flags** | Code mới đã deploy nhưng tắt — bật cho subset user | Thấp | A/B test, gradual rollout |
-
-## Observability — 3 trụ cột (Three Pillars)
-
-\`\`\`
-                    ┌─── Metrics: "How much / how often"
-USER REQUEST ──┬─── Logs:    "What happened"
-                    └─── Traces:  "Where did time go"
+\`\`\`yaml
+name: CI/CD
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pip install -r requirements.txt
+      - run: pytest
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - run: aws s3 sync ./dist s3://my-site
 \`\`\`
 
-### 1. Metrics (định lượng)
-Số liệu thời gian (time series): CPU%, latency p50/p95/p99, error rate, RPS, queue length.
+## 4. 🎯 Ví dụ chạy được ngay
 
-| Tool | Loại |
-|---|---|
-| AWS CloudWatch | Native AWS, tích hợp |
-| Prometheus + Grafana | Open-source, K8s standard |
-| Datadog / New Relic | SaaS, tất cả-trong-một |
-| InfluxDB | Time-series DB chuyên dụng |
+Push code → tab Actions thấy job xanh → 2 phút sau site live tại \`https://my-site.com\`.
 
-**4 Golden Signals (Google SRE):** Latency, Traffic, Errors, Saturation.
+## 5. ⚠️ Bẫy thường gặp
 
-### 2. Logs (định tính)
-Sự kiện văn bản chi tiết: "User 123 logged in", "Payment failed: insufficient funds".
+> ⚠️ **Cảnh báo:** Hardcode AWS key trong yaml → leak public. Luôn dùng **GitHub Secrets** hoặc OIDC role.
 
-| Tool | Đặc điểm |
-|---|---|
-| CloudWatch Logs | AWS native, query với CloudWatch Insights |
-| ELK Stack (Elasticsearch + Logstash + Kibana) | Open-source mạnh nhất |
-| Loki + Grafana | Nhẹ hơn ELK, label-based |
-| Splunk | Enterprise, đắt nhưng mạnh |
-| Datadog Logs | SaaS, tích hợp với metrics |
+## 6. ✅ Best practice
 
-**Best practice:** **Structured logs (JSON)** với correlation ID, không phải plain text.
+> 💡 **Mẹo của thầy Hải:** Nhánh \`main\` → auto deploy production. PR → deploy preview environment để QA test trước khi merge.
 
-### 3. Traces (distributed tracing)
-Đường đi của 1 request qua nhiều service: \`request-id ABC123 → API GW (5ms) → Auth (12ms) → Order Service (45ms) → Payment Service (120ms ⚠️)\`.
+## 7. 🤔 Khi nào dùng
 
-| Tool | Loại |
-|---|---|
-| AWS X-Ray | Native AWS |
-| Jaeger | Open-source CNCF |
-| Zipkin | Older OSS |
-| OpenTelemetry | Chuẩn vendor-neutral hiện nay |
+- ✅ Mọi dự án có > 1 dev, deploy > 1 lần/tuần.
+- ❌ Script 1 file chạy 1 lần → manual cũng được.
 
-## SLI / SLO / SLA — ngôn ngữ chung của reliability
+## 8. 📌 Tóm tắt 30 giây
 
-| Thuật ngữ | Định nghĩa | Ví dụ | Ai quan tâm? |
-|---|---|---|---|
-| **SLI** (Indicator) | Chỉ số đo được | "% request có latency <200ms" | Engineer |
-| **SLO** (Objective) | Mục tiêu nội bộ cho SLI | "SLI ≥ 99.9% trong 30 ngày" | Engineering team |
-| **SLA** (Agreement) | Cam kết hợp đồng + phạt | "99.5% uptime, không thì hoàn 10% phí" | Customer + Legal |
-
-**Quy tắc SLO < SLA:** SLO luôn nghiêm hơn SLA (vd SLO 99.9% trong khi SLA 99.5%) để có "buffer" trước khi vi phạm hợp đồng.
-
-## Error Budget — biến reliability thành kinh tế học
-
-\`\`\`
-Error Budget = (1 - SLO) × thời gian
-
-SLO 99.9%/tháng → 0.1% × 30 × 24 × 60 = 43.2 phút "ngân sách lỗi"
-SLO 99.95%      → 21.6 phút
-SLO 99.99%      → 4.32 phút (4 nines — rất khó!)
-SLO 99.999%     → 26 giây/tháng (5 nines — chỉ telco/finance)
-\`\`\`
-
-**Cơ chế:**
-- Còn budget → free release nhiều, thử nghiệm.
-- Hết budget → freeze release, ưu tiên fix bug + cải thiện độ tin cậy.
-
-Đây là cách Google/Netflix cân bằng "tốc độ ship feature" vs "ổn định hệ thống" bằng số liệu thay vì cãi nhau.
-
-## Case study: Netflix — Spinnaker + Chaos Engineering
-
-Netflix tự xây **Spinnaker** (open-source CD platform) deploy 4000+ lần/ngày với canary tự động:
-- Tự động deploy 1% canary, theo dõi 50+ metric so với baseline.
-- Nếu metric xấu → tự rollback trong vài phút.
-- **Chaos Monkey** kill instance ngẫu nhiên trên production để test resilience.
-
-Kết quả: deploy nhanh hơn cạnh tranh, vẫn đạt 99.99% uptime.
-
-## Case study: Knight Capital — \$440 triệu trong 45 phút vì CI/CD lỗi
-
-2012, Knight Capital triển khai code mới lên 8 server giao dịch — **quên 1 server**. Server cũ chạy code cũ → đặt lệnh giao dịch sai → mất \$440 triệu trong 45 phút → công ty phá sản.
-
-**Bài học:** automation toàn bộ + immutable deployment + canary + rollback tự động.
-
-## Best practices CI/CD
-
-- ✅ **Trunk-based development** + feature flags thay vì long-lived branches.
-- ✅ **Test pyramid**: nhiều unit, vừa integration, ít E2E.
-- ✅ **Build artifact 1 lần, deploy nhiều môi trường** (cùng artifact dev → staging → prod).
-- ✅ **Immutable infrastructure** — không SSH sửa, redeploy luôn.
-- ✅ **Secret từ vault**, không bao giờ trong code/env file commit.
-- ✅ **Approval gate** cho prod (manual hoặc tự động dựa trên metric).
-- ✅ **Pipeline as code** (\`.github/workflows/\`, \`Jenkinsfile\`) — version trong git.
-- ✅ **DORA metrics** đo CI/CD quality: deployment frequency, lead time, MTTR, change failure rate.
-
-## Best practices Observability
-
-- ✅ **Structured logs JSON** với correlation ID xuyên suốt request.
-- ✅ **Sample traces** (1-10%) tránh tốn tiền — không trace 100% production.
-- ✅ **Alert dựa trên SLO** không dựa trên CPU% (alert fatigue!).
-- ✅ **Runbook gắn với mỗi alert** — on-call biết phải làm gì lúc 3h sáng.
-- ✅ **Postmortem blameless** sau mỗi incident.
-
-## Common pitfalls / Anti-patterns
-
-- ❌ **Deploy thẳng từ laptop dev** lên production.
-- ❌ **Skip test "vì gấp"** — sẽ phải pay lại với incident lớn.
-- ❌ **Build khác nhau cho từng env** → "works on staging, fails on prod".
-- ❌ **Alert mọi thứ** → fatigue → ignore alert thật.
-- ❌ **Không có rollback plan** trước khi deploy.
-- ❌ **Log secret/PII** ra CloudWatch → vi phạm GDPR.
-- ❌ **100% trace** → bill X-Ray phá ngân sách.
-
-## Khi nào nên / không nên?
-
-✅ **Nên dùng CI/CD:** mọi project có >1 dev hoặc >1 release/tháng — không có ngoại lệ.
-
-✅ **Nên đầu tư observability:** ngay từ MVP — fix bug khi có data dễ hơn 100 lần đoán mò.
-
-⚠️ **Cẩn thận:** Continuous Deployment (auto-deploy prod) chỉ phù hợp khi đã có canary + auto-rollback + observability đủ tốt.
-
-## Bridge sang bài tiếp theo
-
-Có CI/CD + observability rồi, làm sao biết kiến trúc tổng thể có "tốt" không? Bài tiếp theo (**AWS Well-Architected Framework**) cung cấp framework 6 trụ cột để đánh giá: Operational Excellence, Security, Reliability, Performance, Cost, Sustainability — và tránh các anti-pattern kinh điển.`,
+CI test, CD deploy. GitHub Actions/GitLab CI/Jenkins là 3 tool top. Dùng secret manager. Pipeline phải fast (< 10 phút) để không cản dev.
+`,
         theoryEn: `**CI/CD** (Continuous Integration / Continuous Delivery / Continuous Deployment) automates the journey from a developer's commit to production, paired with **observability** to monitor and respond to incidents. It's the backbone of modern DevOps — there's no cloud-native production without CI/CD + observability.
 
 ## CI vs CD vs CD
@@ -2709,166 +2228,51 @@ jobs:
         titleEn: "AWS Well-Architected Framework",
         level: 4,
         difficulty: "advanced",
-        theory: `**AWS Well-Architected Framework (WAF)** là bộ nguyên tắc và câu hỏi đánh giá do AWS phát triển từ 2015, dựa trên kinh nghiệm review hàng nghìn workload thật của khách hàng. Mục đích: cho team một **ngôn ngữ chung** để đánh giá kiến trúc cloud có "tốt" hay không, và một **lộ trình cải thiện** dựa trên 6 trụ cột.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-> WAF không phải checklist máy móc — nó là **framework đặt câu hỏi đúng**. Tool WAR (Well-Architected Review) miễn phí trong AWS Console giúp tự đánh giá.
+Ngày khai trương sàn TMĐT, traffic tăng gấp 100. Server đơn nổ tan tành. Khách bỏ giỏ hàng, mất doanh thu. **Cloud architecture** tốt = thiết kế hệ thống biết "co giãn" + "không chết khi 1 phần hỏng".
 
-## Vì sao cần một framework?
+> 💡 **Mẹo của thầy Hải:** AWS Well-Architected Framework có 6 trụ cột: **Operational, Security, Reliability, Performance, Cost, Sustainability**.
 
-Nếu không có chuẩn chung, mỗi engineer thiết kế kiểu "best practice cá nhân":
-- Người thì obsessed với security, quên cost.
-- Người thì optimize cost cực đoan, làm hệ thống fragile.
-- Người thì over-engineer reliability cho 1 internal app 10 user.
+## 2. 💡 Pattern thường gặp
 
-WAF cân bằng 6 trụ cột — không thể tối đa hết, mà cần **trade-off có chủ đích**.
+- **N-tier**: web + app + DB tách lớp.
+- **Microservices**: mỗi service deploy riêng.
+- **Event-driven**: pub/sub qua queue (SQS, Kafka).
+- **CQRS**: tách read/write.
+- **Auto-scaling**: thêm/bớt server theo CPU/traffic.
 
-## 6 Pillars chi tiết
-
-### 1️⃣ Operational Excellence — Vận hành xuất sắc
-Khả năng chạy và monitor hệ thống để mang lại business value, đồng thời cải thiện liên tục.
-
-**Practices chính:**
-- Infrastructure as Code (CloudFormation / Terraform / CDK).
-- CI/CD pipeline cho cả app và infra.
-- Observability đầy đủ (metrics, logs, traces).
-- Runbook + on-call rotation.
-- **Postmortem blameless** sau mỗi incident.
-- Game day / chaos engineering test định kỳ.
-
-**Câu hỏi key:** "Nếu bạn nghỉ 2 tuần, hệ thống có tự vận hành không?"
-
-### 2️⃣ Security — Bảo mật
-Bảo vệ dữ liệu, hệ thống, asset thông qua đánh giá rủi ro và mitigation.
-
-**Practices chính (Defense in Depth):**
-- **Identity:** IAM least privilege, MFA bắt buộc, SSO (Identity Center).
-- **Detective:** CloudTrail mọi region, GuardDuty (threat detection), Security Hub.
-- **Infrastructure protection:** VPC, Security Group, WAF, Shield.
-- **Data protection:** Encrypt at-rest (KMS) + in-transit (TLS 1.2+).
-- **Incident response:** runbook, isolation procedure, forensic.
-
-**Câu hỏi key:** "Nếu credential 1 dev bị lộ, kẻ tấn công làm được gì?"
-
-### 3️⃣ Reliability — Độ tin cậy
-Khả năng workload hoạt động đúng và phục hồi nhanh khi có lỗi.
-
-**Practices chính:**
-- **Multi-AZ** cho mọi production workload (RDS, EC2 ASG, ECS).
-- **Multi-region** cho mission-critical (DR).
-- **Auto-scaling** dựa trên metric (không hardcode capacity).
-- **Backup tested** — backup không test = không có backup.
-- **RPO/RTO** xác định rõ cho mỗi service tier.
-- **Circuit breaker, retry với exponential backoff, idempotent operation.**
-
-**Câu hỏi key:** "Nếu 1 AZ chết lúc 3h sáng, hệ thống tự phục hồi không?"
-
-### 4️⃣ Performance Efficiency — Hiệu năng
-Sử dụng compute resource một cách hiệu quả, scale theo demand.
-
-**Practices chính:**
-- **Right-sizing** instance (đừng mặc định m5.large nếu cần t3.small).
-- **Caching nhiều tầng:** CloudFront (edge) → ElastiCache (data) → app cache.
-- **Serverless cho bursty workload** (Lambda + DynamoDB).
-- **Database phù hợp:** OLTP → RDS, NoSQL → DynamoDB, Analytics → Redshift, Search → OpenSearch.
-- **CDN cho static asset.**
-- **GPU instance cho ML inference** (g4dn, p4d).
-
-**Câu hỏi key:** "Latency p99 của bạn là bao nhiêu? Cost-per-request là bao nhiêu?"
-
-### 5️⃣ Cost Optimization — Tối ưu chi phí
-Đạt được kết quả business với chi phí thấp nhất.
-
-**Practices chính:**
-- **Tagging chuẩn** để chargeback từng team.
-- **Right-sizing + scheduling** (tắt dev ngoài giờ).
-- **Reserved Instances / Savings Plans** cho workload đều.
-- **Spot Instance** cho batch + training (giảm 90%).
-- **S3 Lifecycle** (Standard → IA → Glacier).
-- **Cost Anomaly Detection + Budget alert.**
-
-**Câu hỏi key:** "Bạn có biết \$1 doanh thu tốn bao nhiêu \$ AWS không?"
-
-### 6️⃣ Sustainability — Bền vững (mới 2021)
-Giảm tác động môi trường khi vận hành cloud workload.
-
-**Practices chính:**
-- **Region carbon thấp** (eu-north-1 Stockholm, us-west-2 Oregon — nhiều thủy điện).
-- **ARM Graviton** thay x86 (giảm 60% năng lượng).
-- **Serverless + auto-scale** (không idle 24/7).
-- **Right-sizing nghiêm ngặt** — over-provision = tốn năng lượng.
-- **Tắt resource không dùng** (dev environment, snapshot cũ).
-
-**Câu hỏi key:** "Nếu cắt 30% resource, app có chạy bình thường không?"
-
-## 5 Design Principles (xuyên suốt 6 pillars)
-
-1. **Stop guessing capacity** — dùng auto-scaling, đừng mua server "to cho chắc".
-2. **Test systems at production scale** — cloud cho phép spin lên test rồi tear down.
-3. **Automate to make architectural experimentation easier** — IaC + CI/CD.
-4. **Allow for evolutionary architectures** — design có thể thay đổi (microservices, modular).
-5. **Drive architectures using data** — quyết định dựa trên metric thật, không ý kiến cá nhân.
-
-## Anti-patterns kinh điển — đừng phạm!
-
-| Anti-pattern | Hậu quả | Fix |
-|---|---|---|
-| **Single point of failure** (1 EC2 không ASG/LB) | 1 instance chết → toàn hệ thống chết | Multi-AZ ASG + ALB |
-| **Hardcoded credential trong code** | Push GitHub → kẻ tấn công đào ra trong vài phút | Secrets Manager + IAM Role |
-| **Backup không test restore** | Disaster đến mới biết backup hỏng | Quarterly DR drill |
-| **Over-provisioning** | Trả tiền cho 80% không dùng | Right-sizing + Cost Explorer |
-| **"Lift-and-shift" thuần** | Trả tiền cloud nhưng không có lợi ích cloud | Re-architect dần dần |
-| **Permission \`*:*\`** | Compromise 1 service = compromise tất cả | IAM least privilege |
-| **No tagging** | Không biết tiền chạy đâu | Mandatory tag policy |
-| **Manual prod deploy** | Human error + không repeatable | CI/CD + IaC |
-| **Run on default VPC** | Không phân tách, không kiểm soát | Custom VPC với subnets phân tầng |
-| **Database public IP** | Internet có thể quét + brute force | Private subnet + bastion/SSM |
-
-## Case study: Capital One — full WAF Review hàng năm
-
-Capital One yêu cầu **mọi production workload** phải qua WAR Review hằng năm:
-- 6 pillar × ~10 câu hỏi = ~60 câu / workload.
-- Score "High Risk Issues (HRI)" — phải fix trong SLA (Critical: 30 ngày, High: 90 ngày).
-- Kết quả: giảm 40% incident production sau 2 năm áp dụng nghiêm.
-
-## Case study: Bệnh viện không có DR plan — mất dữ liệu 7 ngày
-
-Một bệnh viện ở US chạy EHR (Electronic Health Records) trên AWS với chỉ Multi-AZ, không có Multi-Region, không test backup. Một ransomware encrypt RDS snapshot. Backup lifecycle expired sau 7 ngày → mất 7 ngày bệnh án. **Vi phạm pillar Reliability (RPO không định nghĩa) + Operational Excellence (no DR drill).**
-
-## Cách áp dụng WAF thực tế
+## 3. 🧰 Architecture điển hình
 
 \`\`\`
-Bước 1: Liệt kê workload (mỗi app/microservice)
-Bước 2: Với mỗi workload, chạy WAR tool trong AWS Console
-Bước 3: Trả lời ~60 câu hỏi (6 pillars)
-Bước 4: Nhận danh sách HRI (High Risk Issues)
-Bước 5: Lập roadmap fix theo priority + SLA
-Bước 6: Re-review mỗi 6-12 tháng
+[CloudFront CDN] → [ALB Load Balancer]
+   → [Auto Scaling Group: EC2/ECS]
+   → [RDS Multi-AZ + Read Replica]
+   → [ElastiCache Redis]
+   → [S3 Static Assets]
 \`\`\`
 
-## Best practices
+## 4. 🎯 Ví dụ chạy được ngay
 
-- ✅ **WAR review** mọi workload prod trước go-live và mỗi năm.
-- ✅ **Cân bằng 6 pillars** thay vì max-out 1 pillar.
-- ✅ **Document trade-off** rõ ràng (vd: "Chấp nhận RPO 1h để giảm cost backup 60%").
-- ✅ **Chia tier workload** (Tier 0 mission-critical vs Tier 3 internal tool) — đừng over-engineer Tier 3.
-- ✅ **Đào tạo team** WAF vocabulary — ai cũng nói cùng ngôn ngữ.
+Web Shopify-like cho 100k user/ngày: ALB + 5 EC2 + RDS Multi-AZ + ElastiCache → chịu được 1000 req/s, downtime gần 0.
 
-## Common pitfalls
+## 5. ⚠️ Bẫy thường gặp
 
-- ❌ Coi WAF là **checklist 1 lần** rồi quên.
-- ❌ **Max-out Reliability** cho internal POC → tốn tiền vô ích.
-- ❌ Bỏ qua **Sustainability** vì "không trực tiếp ra tiền" → mất cơ hội ESG.
-- ❌ **Score WAF cao nhưng không fix HRI** → tự huyễn hoặc.
+> ⚠️ **Cảnh báo:** Single AZ = 1 phòng máy chết là cả site sập. Luôn deploy ≥ 2 AZ cho production.
 
-## Khi nào nên / không nên?
+## 6. ✅ Best practice
 
-✅ **Nên áp dụng:** mọi production workload trên AWS.
-⚠️ **Linh hoạt:** với Tier 3 (internal tool, POC), không cần áp dụng full 6 pillars — tập trung Security + Cost.
-❌ **Không phải:** thay thế cho hiểu biết kiến trúc cụ thể domain (vd: WAF không dạy bạn thiết kế trading system).
+> 💡 **Mẹo của thầy Hải:** **Cache aggressive**: CDN cho static, Redis cho session/data nóng. 80% traffic phải hit cache, không hit DB.
 
-## Bridge sang bài tiếp theo
+## 7. 🤔 Khi nào áp dụng
 
-Trong 6 pillars, **Cost Optimization** là pillar mà CFO quan tâm nhất. Bài tiếp theo (**Tối ưu chi phí & FinOps**) đi sâu vào 10+ chiến lược cụ thể, công cụ, và văn hóa FinOps — biến cost từ "bill cuối tháng" thành **chỉ số kinh doanh hằng ngày**.`,
+- ✅ Production app cần > 99% uptime.
+- ❌ POC, dự án 1 user → over-engineer.
+
+## 8. 📌 Tóm tắt 30 giây
+
+6 trụ cột Well-Architected. Multi-AZ bắt buộc. Cache aggressive. Auto-scale theo metric. Loose coupling qua queue/event.
+`,
         theoryEn: `**AWS Well-Architected Framework (WAF)** is a set of principles and assessment questions developed by AWS since 2015, based on reviewing thousands of real customer workloads. Goal: give teams a **common language** to evaluate cloud architectures and a **roadmap to improve** along 6 pillars.
 
 WAF isn't a mindless checklist — it's a framework for **asking the right questions**. The free WAR (Well-Architected Review) tool in the AWS Console enables self-assessment.
@@ -3040,188 +2444,48 @@ for pillar, items in checklist.items():
         titleEn: "Cost Optimization & FinOps",
         level: 5,
         difficulty: "advanced",
-        theory: `**FinOps** (Cloud Financial Operations) là một **văn hóa thực hành kết hợp Finance + Engineering + Business** để mang lại giá trị tối đa từ chi tiêu cloud thông qua quyết định dữ liệu hóa và trách nhiệm tài chính phân tán xuống từng team. Khái niệm được FinOps Foundation (CNCF/Linux Foundation) chuẩn hóa từ 2019.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-> Khẩu hiệu FinOps: **"Visibility → Optimization → Operation"** và **"Make engineers care about cost without slowing them down."**
+Cuối tháng nhận hoá đơn AWS: 8.000 USD — sếp xanh mặt. Hoá ra dev quên tắt 5 RDS dev, 200GB EBS không dùng, 3 NAT Gateway cấu hình sai. **Cost optimization** = hồi quang phản chiếu mỗi tháng để cắt chi phí 30-70%.
 
-## Vì sao cost cloud trở thành vấn đề lớn?
+> 💡 **Mẹo của thầy Hải:** Cloud rẻ chỉ khi bạn hiểu cách tính tiền. Không hiểu → cloud đắt gấp 5 lần on-premise.
 
-Trong on-prem datacenter, mua server là **CapEx** — phê duyệt 1 lần, sau đó "tự do dùng". Trên cloud, mọi resource là **OpEx** — chạy bao lâu trả bấy nhiêu, **dev có thể tạo \$10,000/tháng chỉ bằng 1 click** (vd: SageMaker GPU notebook quên tắt).
+## 2. 💡 5 chiến lược cắt giảm
 
-Một số con số shock:
-- Trung bình **30-35% chi tiêu cloud bị lãng phí** (Flexera State of Cloud 2024).
-- Adobe từng phải fix bug Azure quên tắt resource → tiết kiệm \$80K/tháng.
-- Pinterest chi \$170 triệu/năm AWS → tiết kiệm 15% sau khi áp dụng FinOps.
+1. **Right-sizing**: chọn instance đúng nhu cầu (đừng m5.4xlarge cho app dùng 5% CPU).
+2. **Reserved/Savings Plan**: cam kết 1-3 năm → giảm tới 72%.
+3. **Spot instance**: workload có thể bị ngắt → giảm 90%.
+4. **Auto-shutdown dev**: tắt EC2/RDS dev ngoài giờ hành chính.
+5. **Storage tiering**: file ít dùng → Glacier (rẻ 1/10).
 
-## 3 Phase của FinOps Framework
+## 3. 🧰 Tool theo dõi
 
-\`\`\`
-PHASE 1: INFORM      → Thấy được chi phí
-   ↓                   (tagging, dashboard, allocation)
-PHASE 2: OPTIMIZE    → Giảm chi phí
-   ↓                   (right-size, RI, lifecycle, shutdown)
-PHASE 3: OPERATE     → Vận hành liên tục
-                       (automation, budget alert, FinOps culture)
-\`\`\`
+- **AWS Cost Explorer**: phân tích theo service/tag.
+- **AWS Budgets**: alert khi vượt ngưỡng.
+- **Trusted Advisor**: gợi ý cắt giảm.
+- **Compute Optimizer**: gợi ý right-sizing.
 
-Đây là **vòng lặp**, không phải checklist tuyến tính. Sau khi optimize → quay lại inform với data mới → optimize tiếp.
+## 4. 🎯 Ví dụ chạy được ngay
 
-## Phase 1 — Inform (Visibility)
+Tag mọi resource theo \`env=dev/prod\` và \`team=...\` → Cost Explorer chia theo tag → biết ngay team nào tiêu tốn nhất.
 
-**Mục tiêu:** ai chi tiêu cái gì, vì sao?
+## 5. ⚠️ Bẫy thường gặp
 
-**Công cụ AWS:**
-| Tool | Vai trò |
-|---|---|
-| **Cost Explorer** | Phân tích chi phí theo service, tag, region |
-| **AWS Budgets** | Alert khi vượt ngưỡng (vd \$10K/tháng) |
-| **Cost & Usage Report (CUR)** | Raw data CSV/Parquet → BI tool |
-| **Cost Anomaly Detection** | ML phát hiện spike bất thường |
-| **Trusted Advisor** | Khuyến nghị tiết kiệm tự động |
-| **Compute Optimizer** | Right-sizing recommendation cho EC2/EBS |
+> ⚠️ **Cảnh báo:** Data transfer giữa AZ/Region tính tiền cao — kiến trúc dàn trải nhiều region không cần thiết → hoá đơn nhân 3.
 
-**Tagging Strategy bắt buộc** (cost allocation tag):
-- \`Environment\` — prod / staging / dev
-- \`Owner\` — team hoặc email
-- \`CostCenter\` — mã phòng ban (cho chargeback)
-- \`Project\` — mã dự án
-- \`Application\` — tên app
-- \`DataClassification\` — public/internal/confidential
+## 6. ✅ Best practice
 
-**Tip:** dùng AWS Organizations + Service Control Policy bắt buộc tag — resource không tag không được tạo.
+> 💡 **Mẹo của thầy Hải:** Set **Budget alert ở 50%, 80%, 100%** của ngân sách dự kiến. Nhận email sớm sửa kịp.
 
-## Phase 2 — Optimize: 10 chiến lược tiết kiệm
+## 7. 🤔 Khi nào áp dụng
 
-### 1. Right-sizing (giảm 20-40% phổ biến)
-Phân tích metric CloudWatch — nếu CPU avg <40% trong 14 ngày → đổi xuống size nhỏ hơn. Compute Optimizer tự động đề xuất.
+- ✅ Mọi tài khoản production.
+- ✅ Dev account để tránh "tiền nướng vô tội vạ".
 
-### 2. Reserved Instances / Savings Plans (giảm 30-72%)
-Cam kết dùng đều 1-3 năm để được discount lớn.
+## 8. 📌 Tóm tắt 30 giây
 
-| Loại | Linh hoạt | Discount |
-|---|---|---|
-| EC2 RI Standard 3y All Upfront | Thấp (lock instance type) | ~72% |
-| Compute Savings Plan 3y | Cao (mọi instance, region, OS) | ~66% |
-| EC2 Savings Plan 1y No Upfront | Trung bình | ~30% |
-
-**Quy tắc:** mua RI/SP cho **baseline workload đều** (vd: 70% capacity), để on-demand cho phần biến động.
-
-### 3. Spot Instance (giảm tới 90%)
-Dùng spare capacity, có thể bị reclaim 2 phút trước. Phù hợp:
-- Batch processing, data pipeline.
-- CI/CD runner, build farm.
-- ML training với checkpoint.
-- Stateless web server (với fleet diversification).
-
-### 4. Auto Scaling
-Scale up/down theo metric thực tế. Tránh "over-provision cho lúc peak rồi để 24/7".
-
-### 5. Schedule shutdown (giảm 70% cho dev)
-Tắt dev/staging ngoài giờ làm việc (8h × 5 ngày = 40h/tuần thay vì 168h):
-\`\`\`
-Saving = 1 - 40/168 ≈ 76%
-\`\`\`
-Dùng **Instance Scheduler** hoặc Lambda + EventBridge.
-
-### 6. S3 Lifecycle (giảm 50-90% cho dữ liệu cũ)
-- 0-30 ngày: S3 Standard (\$23/TB/tháng)
-- 30-90 ngày: S3 IA (\$12.5/TB)
-- 90+ ngày: Glacier Instant Retrieval (\$4/TB)
-- 1 năm+: Glacier Deep Archive (\$1/TB)
-
-### 7. Delete unused resources
-- EBS volume mồ côi (không attach EC2 nào).
-- Snapshot >90 ngày không dùng.
-- Elastic IP không gắn (charge \$3.6/tháng/cái).
-- NAT Gateway dư thừa (\$32/tháng/cái + data charge).
-- Old AMI, ELB không có target.
-
-**Trusted Advisor + AWS Config + cron Lambda** tự dọn hàng tuần.
-
-### 8. Compression + caching
-- Bật **gzip/brotli** trên CloudFront/ALB → giảm 70% bandwidth.
-- **Caching** giảm DB call → giảm RDS size.
-- **CloudFront** giảm S3 GET request + egress.
-
-### 9. Graviton (ARM) — giảm 20-40% giá-hiệu năng
-EC2/RDS/Lambda hỗ trợ Graviton (M6g, R6g, C6g…). Hầu hết workload Linux/Java/Python/Go chạy được mà không sửa code.
-
-### 10. Region pricing arbitrage
-Cùng dịch vụ, giá khác nhau theo region:
-- us-east-1 (Virginia) — thường rẻ nhất.
-- us-west-2 (Oregon) — gần us-east-1.
-- ap-southeast-1 (Singapore) — đắt hơn ~10-20%.
-- sa-east-1 (São Paulo) — đắt nhất ~30%.
-
-⚠️ Trade-off: latency với end-user, data residency law (GDPR ép data ở EU).
-
-## Phase 3 — Operate (Automation + Culture)
-
-- **Budget alert** ở 50%, 80%, 100% threshold.
-- **Cost Anomaly Detection** auto-alert qua Slack/Email.
-- **Tagging policy** enforced bằng SCP.
-- **FinOps champion** mỗi team — review cost weekly.
-- **Showback dashboard** cho mỗi team xem chi tiêu của mình.
-- **Chargeback** thực sự trừ ngân sách team (nâng cao trách nhiệm).
-
-## Showback vs Chargeback
-
-| | Showback | Chargeback |
-|---|---|---|
-| **Cách hoạt động** | Hiển thị cost cho team (educational) | Thực sự trừ ngân sách team |
-| **Accountability** | Trung bình | Cao |
-| **Rủi ro chính trị** | Thấp | Cao (cần văn hóa data-driven mạnh) |
-| **Phù hợp** | Bắt đầu FinOps | Tổ chức trưởng thành |
-
-Khuyến nghị: bắt đầu với **Showback** 6-12 tháng để team quen, sau đó mới chuyển sang **Chargeback**.
-
-## Case study: Pinterest — tiết kiệm \$25 triệu/năm
-
-Pinterest chi \$170M/năm AWS năm 2018:
-- Triển khai Compute Savings Plan cho 70% baseline.
-- Migrate stateless service sang Graviton (giảm 30%).
-- Áp dụng Spot Instance cho data pipeline (giảm 75% phần đó).
-- Tối ưu S3 Intelligent-Tiering cho 200PB ảnh.
-- **Kết quả:** giảm 15% tổng cost = \$25M/năm.
-
-## Case study: Adobe — \$80K/tháng leak vì 1 service quên tắt
-
-Một dev Adobe spin SageMaker notebook ml.p3.16xlarge (\$25/giờ) cho POC, quên tắt cuối tuần. Sau 2 tháng phát hiện → \$160K cost hoàn toàn lãng phí. **Bài học:** budget alert + auto-shutdown notebook khi idle.
-
-## Case study: Snap — Spotify-like FinOps culture
-
-Snap (Snapchat) công khai cost dashboard cho mọi engineer. Mỗi feature mới phải có **cost-per-DAU estimate** trước khi launch. Engineer được thưởng theo "cost saving idea". Văn hóa này giúp họ giảm cost từ \$2/user/năm xuống \$0.60/user/năm trong 3 năm.
-
-## Best practices
-
-- ✅ **Tagging từ ngày 1** — bù lại sau cực kỳ khó.
-- ✅ **Budget alert** cho mọi account.
-- ✅ **Weekly cost review** trong team standup.
-- ✅ **Cost as a feature** — đưa cost-per-request vào design doc.
-- ✅ **Bắt buộc Compute Savings Plan** cho baseline.
-- ✅ **Spot Instance** cho 100% workload chịu lỗi.
-- ✅ **Auto-shutdown** dev/staging cuối tuần.
-- ✅ **Quarterly waste audit** — tìm orphan resource.
-
-## Common pitfalls
-
-- ❌ **Tagging "có là được"** không enforce → dashboard vô giá trị.
-- ❌ **Mua RI quá nhiều** → lock-in workload mà 6 tháng sau không dùng nữa.
-- ❌ **Chỉ optimize cost, quên reliability/perf** → user experience xấu đi.
-- ❌ **Đổ trách nhiệm cost cho mỗi finance team** → engineer không quan tâm.
-- ❌ **Race-to-the-bottom** — cắt cost đến mức ảnh hưởng SLO.
-
-## Khi nào nên / không nên?
-
-✅ **Luôn nên FinOps** — kể cả startup (cost mất kiểm soát rất nhanh trên cloud).
-
-⚠️ **Cẩn thận:** không cắt cost vào lúc đang scale nhanh — ưu tiên ship feature, FinOps sau khi sản phẩm ổn.
-
-❌ **Không phải:** áp dụng cho on-prem (đó là CapEx, dùng IT asset management).
-
-## Bridge sang bài tiếp theo
-
-Bài cuối cùng (**Microservices & Event-Driven Architecture**) sẽ giải quyết câu hỏi: làm sao mở rộng từ monolith sang kiến trúc nhiều service độc lập, vẫn maintain được reliability + cost optimization vừa học? Các pattern như SQS, SNS, EventBridge, Saga, CQRS sẽ được phân tích chi tiết.`,
+Right-size + Reserved + Spot + Auto-shutdown + Tiering = công thức cắt 50% chi phí. Tag mọi resource. Bật Budget alert.
+`,
         theoryEn: `**FinOps** (Cloud Financial Operations) is a **cultural practice combining Finance + Engineering + Business** to maximize the value of cloud spend through data-driven decisions and distributed financial accountability. Standardized by the FinOps Foundation (CNCF/Linux Foundation) since 2019.
 
 > Motto: **"Visibility → Optimization → Operation"** and **"Make engineers care about cost without slowing them down."**
@@ -3393,234 +2657,49 @@ print(f"💎 RI cho i-bbb: tiết kiệm thêm ~\${ri_save:.0f}/năm")`,
         titleEn: "Microservices & Event-Driven Architecture",
         level: 5,
         difficulty: "advanced",
-        theory: `**Microservices Architecture** chia một ứng dụng lớn thành **nhiều service nhỏ, độc lập deploy, giao tiếp qua API/event**, mỗi service do 1 team sở hữu, có thể dùng tech stack khác nhau, scale riêng. **Event-Driven Architecture (EDA)** là cách các microservice giao tiếp **bất đồng bộ qua event** thay vì gọi REST API trực tiếp — giảm coupling và tăng resilience.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-> "Microservices không phải free lunch — bạn đổi complexity của monolith thành complexity của distributed system." — Sam Newman, *Building Microservices*
+App của bạn ngày 100 user, nửa năm sau 1 triệu user. Kiến trúc cũ chịu không nổi. Phải biết các pattern **scale**: caching, queue, sharding, read replica… để không phải viết lại từ đầu.
 
-## Vì sao microservices ra đời?
+> 💡 **Mẹo của thầy Hải:** Scale có 2 loại — **vertical** (server to hơn) dễ nhưng có giới hạn; **horizontal** (nhiều server) khó nhưng vô hạn.
 
-Monolith truyền thống có vấn đề khi scale tổ chức:
-- Codebase 5 triệu dòng → 100 dev → merge conflict, deploy chậm 1 tuần.
-- 1 bug nhỏ ở module A → phải redeploy toàn bộ.
-- Scale: cả app phải scale dù chỉ 1 module nóng.
-- Tech lock-in: 1 ngôn ngữ duy nhất cho mọi thứ.
+## 2. 💡 Pattern nâng cao
 
-Netflix (2009-2012), Amazon (2002 với "two-pizza team"), Uber là những công ty tiên phong áp dụng microservices ở scale lớn.
+- **Caching**: CDN, Redis, query cache.
+- **Queue/Async**: SQS, Kafka, RabbitMQ → tách workload chậm khỏi request.
+- **Read replica**: nhiều DB read, 1 DB write.
+- **Sharding**: chia data theo user_id mod N.
+- **Circuit breaker**: ngắt service hỏng để không lan.
+- **Saga pattern**: distributed transaction qua chuỗi event.
 
-## Lợi ích của Microservices
-
-| Lợi ích | Giải thích |
-|---|---|
-| **Independent deployment** | Team A deploy 50 lần/ngày không phụ thuộc Team B |
-| **Scale từng phần** | Chỉ scale Search Service khi Black Friday, không scale Auth |
-| **Polyglot stack** | Recommendation viết Python (ML), Payment viết Java (mature lib), Notification viết Go (concurrency) |
-| **Fault isolation** | Recommendation Service chết không ảnh hưởng Checkout |
-| **Team ownership** | "You build it, you run it" (Werner Vogels, AWS) |
-| **Tech evolution** | Có thể migrate 1 service sang tech mới mà không rewrite cả app |
-
-## Thách thức (cost) của Microservices
-
-| Thách thức | Mô tả |
-|---|---|
-| **Distributed system complexity** | Network failure, partial failure, consistency |
-| **Data consistency** | Không có ACID transaction xuyên service → cần Saga, eventual consistency |
-| **Observability khó hơn** | 1 user request → 20 service → cần distributed tracing |
-| **Operational overhead** | CI/CD × N service, monitoring × N, on-call × N |
-| **Service mesh & API gateway** | Cần lớp infra mới (Istio, Linkerd, Kong) |
-| **Skill demand cao** | Team cần hiểu Docker, K8s, queue, event sourcing |
-| **Latency tăng** | Network hop giữa service thay vì in-memory call |
-| **Testing phức tạp** | Integration test cần nhiều service chạy cùng — contract testing thay thế |
-
-## Khi nào DÙNG microservices?
-
-✅ **Phù hợp khi:**
-- Tổ chức lớn (>50 dev), nhiều team độc lập.
-- Domain phức tạp với nhiều **bounded context** rõ rệt (DDD).
-- Cần scale từng phần độc lập với pattern khác nhau.
-- Có DevOps maturity tốt (CI/CD, monitoring, K8s).
-- Sẵn sàng đầu tư vào platform team.
-
-❌ **Không phù hợp khi:**
-- Startup nhỏ (<10 dev) — overhead lớn hơn lợi ích.
-- MVP/POC — bắt đầu với **modular monolith**.
-- Domain đơn giản (CRUD app).
-- Team chưa quen distributed system.
-
-> **Khuyến nghị Martin Fowler:** *"Don't start with microservices. Start with a monolith, then extract services as you grow."* — gọi là **Monolith First** strategy.
-
-## Modular Monolith — bước trung gian khôn ngoan
+## 3. 🧰 Caching layered
 
 \`\`\`
-Monolith → Modular Monolith → Microservices
-  ↓             ↓                    ↓
-1 codebase   1 codebase          N codebase
-1 deploy     1 deploy            N deploy
-mixed code   strict modules       network calls
+[Client] → [CDN edge cache] → [ALB] → [App memory cache] 
+       → [Redis cluster] → [DB primary]
 \`\`\`
 
-**Modular Monolith** giữ 1 deployment nhưng code chia module rõ ràng (mỗi module có schema DB riêng, public API rõ). Khi 1 module thực sự cần scale riêng → extract thành microservice.
+## 4. 🎯 Ví dụ chạy được ngay
 
-Shopify, GitHub, Basecamp đến giờ vẫn chủ yếu monolith và rất thành công.
+Email gửi user → đẩy vào SQS → worker pool xử lý async → response trả về < 100ms thay vì chờ 3s.
 
-## Event-Driven Architecture (EDA) — pattern then chốt
+## 5. ⚠️ Bẫy thường gặp
 
-\`\`\`
-SYNC (REST):
-[Order Service] ──HTTP─→ [Email Service]
-                ──HTTP─→ [Inventory Service]
-                ──HTTP─→ [Analytics Service]
-Vấn đề: Order Service phải biết và phụ thuộc 3 service. Nếu Email down → Order fail.
+> ⚠️ **Cảnh báo:** Cache invalidation là 1 trong 2 bài toán khó nhất CS. Sai TTL → user thấy data cũ. Phải có chiến lược rõ ràng.
 
-ASYNC (Event):
-[Order Service] ──publish "OrderCreated"─→ [Event Bus]
-                                          ↓
-                          ┌───────────────┼───────────────┐
-                  [Email Service]  [Inventory]    [Analytics]
-                  (subscribe)      (subscribe)    (subscribe)
-Lợi ích: Order Service không biết ai consume. Thêm service mới = chỉ subscribe thêm.
-\`\`\`
+## 6. ✅ Best practice
 
-## AWS Components cho EDA
+> 💡 **Mẹo của thầy Hải:** Áp dụng **CAP theorem**: pick 2 trong 3 (Consistency, Availability, Partition tolerance). Hệ thống lớn thường chọn AP + eventual consistency.
 
-| Service | Mô hình | Use case | Đặc điểm |
-|---|---|---|---|
-| **SQS** (Simple Queue Service) | Point-to-point queue | Decouple producer-consumer, retry | FIFO option, DLQ, lên đến 14 ngày retention |
-| **SNS** (Simple Notification Service) | Pub/Sub fanout (1 → many) | Notify nhiều consumer cùng lúc | Push to SQS, Lambda, Email, SMS, HTTP |
-| **EventBridge** | Event bus với rule routing | Event-driven app, SaaS integration | Schema registry, 90+ SaaS source |
-| **Kinesis Data Streams** | Streaming (high throughput) | Real-time analytics, click stream | Ordered, replay được trong 7 ngày |
-| **Kinesis Firehose** | Streaming → S3/Redshift | Log aggregation, ETL | Auto buffer + transform |
-| **Step Functions** | Orchestration workflow | Saga, multi-step process | Visual workflow, retry, error handling |
-| **MSK** (Managed Kafka) | Kafka managed | Event sourcing, log streaming | High throughput, low latency, strict ordering |
+## 7. 🤔 Khi nào áp dụng
 
-## Khi nào dùng SQS vs SNS vs EventBridge vs Kinesis?
+- ✅ App > 10k DAU, growth nhanh.
+- ❌ POC, MVP → keep it simple.
 
-| Tiêu chí | SQS | SNS | EventBridge | Kinesis |
-|---|---|---|---|---|
-| **Pattern** | Queue 1-1 | Pub/Sub fanout | Event bus + routing | Streaming |
-| **Throughput** | High | High | Medium | Very high (MB/s) |
-| **Ordering** | FIFO option | Không | Không | Per-shard |
-| **Retention** | 14 ngày | Tức thì | 24h archive | 7-365 ngày |
-| **Consumer pattern** | 1 consumer | N subscriber | Rule-based routing | Multiple readers, replay |
-| **Use case** | Job queue, decouple | Notification fanout | Cross-service event, SaaS | Click stream, IoT, log |
+## 8. 📌 Tóm tắt 30 giây
 
-## Microservice Patterns kinh điển
-
-### 1. API Gateway Pattern
-1 entry point cho mọi client → route đến microservice phù hợp. AWS: API Gateway, ALB, hoặc Kong/Nginx.
-
-### 2. Service Discovery
-Service tự register vào registry (Consul, AWS Cloud Map, K8s DNS). Client query để tìm endpoint.
-
-### 3. Circuit Breaker
-Khi downstream fail liên tục → tự ngắt call trong X giây để cho service hồi phục, tránh cascading failure. Library: Hystrix, Resilience4j.
-
-### 4. Saga Pattern (distributed transaction)
-Thay vì 2-phase commit (chậm và yếu), dùng chuỗi local transaction + **compensating action** nếu fail:
-\`\`\`
-Order Service: tạo order (status=PENDING)
-   → Payment Service: charge (nếu fail → cancel order)
-       → Inventory Service: reserve (nếu fail → refund + cancel)
-           → Order Service: status=CONFIRMED
-\`\`\`
-Implement: **Choreography** (mỗi service publish event) hoặc **Orchestration** (Step Functions điều phối).
-
-### 5. CQRS (Command Query Responsibility Segregation)
-Tách model write (Command) và read (Query):
-- Write → DynamoDB / RDS (normalized).
-- Read → ElasticSearch / read-replica (denormalized, optimized cho query).
-
-Phù hợp khi read >> write nhiều lần.
-
-### 6. Event Sourcing
-Thay vì lưu **state hiện tại**, lưu **chuỗi event** dẫn đến state đó. Account balance = sum(deposit) - sum(withdraw). Replay event để rebuild state.
-- Lợi: audit trail hoàn hảo, time-travel debug.
-- Khó: query phức tạp hơn, cần snapshot tránh replay quá dài.
-
-### 7. Outbox Pattern
-Đảm bảo "save DB + publish event" atomic:
-\`\`\`
-Trong 1 DB transaction:
-1. INSERT order
-2. INSERT into outbox table (event)
-
-Worker riêng:
-3. Đọc outbox → publish ra SNS/Kafka
-4. Đánh dấu đã publish
-\`\`\`
-
-### 8. Strangler Fig Pattern
-Migrate monolith sang microservices từng phần: route traffic qua API Gateway, dần "bóp nghẹt" code cũ bằng service mới.
-
-## Case study: Netflix — pioneer microservices
-
-Netflix có **700+ microservice** cho streaming platform:
-- Mỗi service có team owner riêng (~5-10 người).
-- 1 user xem video → ~100 service call (auth, recommendation, billing, video metadata, CDN routing…).
-- Dùng EventBridge-like (Apache Kafka) cho event giữa service.
-- Hystrix (circuit breaker) tự ngắt service down để tránh cascade.
-- **Chaos Monkey** kill service ngẫu nhiên trên prod để test resilience.
-
-## Case study: Uber — domain-oriented microservices
-
-Uber từng có 4000+ microservice → quá phức tạp → re-organize thành **domain-oriented microservices** (~50 domain): Rider, Driver, Trip, Pricing, Maps... Mỗi domain group ~10-50 service liên quan, giảm gánh nặng coordination.
-
-## Case study: Stitch Fix — modular monolith vẫn ổn
-
-Stitch Fix (e-commerce) chủ động giữ kiến trúc **modular Rails monolith** với chỉ vài microservice ML riêng. CTO của họ viết bài *"We don't need microservices — we need modules"*. Đến \$2B doanh thu vẫn dùng monolith hiệu quả.
-
-## Best practices
-
-- ✅ **Bounded context** từ Domain-Driven Design — chia service theo business capability, không theo technical layer.
-- ✅ **Database per service** — không share DB giữa service.
-- ✅ **API contract first** (OpenAPI/Protobuf) + contract testing.
-- ✅ **Async event là default**, sync REST khi thực sự cần response ngay.
-- ✅ **Idempotent operation** — event có thể bị deliver 2 lần.
-- ✅ **Distributed tracing** (X-Ray, Jaeger) ngay từ đầu.
-- ✅ **Service mesh** (Istio, App Mesh) khi >20 service.
-- ✅ **Versioning API** rõ ràng (\`/v1/users\`, \`/v2/users\`).
-
-## Common pitfalls / Anti-patterns
-
-- ❌ **Distributed monolith** — N service nhưng phải deploy chung (cùng release train) → tệ hơn monolith.
-- ❌ **Shared database** giữa service → coupling chặt, không scale độc lập được.
-- ❌ **Sync chain quá dài** (Service A → B → C → D → E) → latency cộng dồn, lỗi cascade.
-- ❌ **Microservice quá nhỏ** (1 service = 1 function CRUD) → "nano-service" overhead.
-- ❌ **Bỏ qua observability** từ đầu → debug 1 incident = 3 ngày grep log.
-- ❌ **Saga viết tay** trong code app → cực khó maintain, dùng Step Functions.
-- ❌ **Bắt đầu microservices ngày 1** với 5 dev → over-engineering.
-
-## Khi nào nên / không nên?
-
-✅ **Microservices nên dùng:**
-- Tổ chức >50 dev, nhiều domain rõ.
-- Cần scale từng phần khác biệt.
-- Mature DevOps + observability.
-
-✅ **EDA nên dùng:**
-- Cần loose coupling.
-- Workflow async hoặc nhiều consumer cho 1 event.
-- Audit trail / event sourcing.
-
-❌ **Không nên:**
-- Startup nhỏ → modular monolith.
-- Workflow đồng bộ ngắn → REST đủ.
-- Team chưa hiểu distributed system → đào tạo trước.
-
-## Bridge — kết luận khóa Cloud Engineer
-
-Bạn đã hoàn tất 5 module Cloud Engineer:
-1. Cloud Fundamentals (concepts, providers, infrastructure)
-2. Compute & Storage (EC2, S3, K8s, Containers)
-3. Networking & Security (VPC, IAM, Encryption)
-4. DevOps & Automation (Lambda, IaC, CI/CD)
-5. Architecture & Cost (Well-Architected, FinOps, Microservices, EDA)
-
-**Bước tiếp theo:** chọn pillar chuyên sâu phù hợp:
-- **Data Engineering** — pipeline, ETL, warehousing trên cloud.
-- **AI Foundation + ML** — train + serve model trên cloud (SageMaker, Bedrock).
-- **SQL Advanced** — query optimization cho cloud DW.
-
-Hoặc lấy **AWS Solutions Architect Associate** certification để chính thức hóa kiến thức!`,
+Cache, queue, replica, sharding, circuit breaker, saga. Hiểu CAP. Don't over-engineer khi chưa scale tới.
+`,
         theoryEn: `**Microservices Architecture** splits an application into **many small, independently deployed services** communicating via API/event. Each service is owned by one team, can use a different tech stack, and scales independently. **Event-Driven Architecture (EDA)** is how microservices communicate **asynchronously through events** instead of direct REST calls — reducing coupling and increasing resilience.
 
 > "Microservices isn't a free lunch — you trade monolith complexity for distributed-system complexity." — Sam Newman, *Building Microservices*

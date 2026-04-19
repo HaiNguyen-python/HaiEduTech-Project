@@ -983,170 +983,59 @@ for row in reader:
         id: "sql-adv-win-1",
         title: "Window Frame & Advanced Functions",
         titleEn: "Window Frame & Advanced Functions",
-        theory: `**Window Functions** là một trong những tính năng mạnh mẽ nhất của SQL hiện đại — cho phép tính toán **trên một tập hợp các hàng liên quan đến hàng hiện tại** mà không gộp chúng lại (như GROUP BY). Đây là kỹ năng "must-have" cho data analyst, BI developer.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao Window Functions thay đổi cuộc chơi?
+Sếp hỏi: "Bảng xếp hạng nhân viên theo phòng ban, mỗi phòng ai cao nhất?". \`GROUP BY\` trả 1 dòng/phòng — mất chi tiết. **Window function** = "vừa giữ chi tiết từng dòng, vừa tính toán theo nhóm".
 
-Trước khi có window functions (chuẩn SQL:2003), để tính "running total", "rank within group", "month-over-month growth" cần subquery phức tạp hoặc self-join — vừa khó viết, vừa chậm. Window functions giải quyết trong 1 dòng, chạy nhanh hơn 10-100 lần nhờ optimizer hiểu intent.
+> 💡 **Mẹo của thầy Hải:** \`OVER()\` = "mở cửa sổ nhìn các dòng xung quanh mà không gộp lại".
 
-Hiện được hỗ trợ bởi: PostgreSQL, MySQL 8+, SQL Server, Oracle, BigQuery, Snowflake, Redshift, DuckDB.
+## 2. 💡 Hàm window phổ biến
 
-## Cú pháp tổng quát
+| Hàm | Ý nghĩa |
+|-----|---------|
+| \`ROW_NUMBER()\` | Số thứ tự (không trùng) |
+| \`RANK()\` | Hạng (đồng hạng nhảy số) |
+| \`DENSE_RANK()\` | Hạng (đồng hạng không nhảy) |
+| \`LAG/LEAD\` | Lấy giá trị dòng trước/sau |
+| \`SUM/AVG OVER\` | Tích lũy, moving average |
+
+## 3. 🧰 Cú pháp
 
 \`\`\`sql
-function() OVER (
-  PARTITION BY col1, col2     -- Chia thành nhóm (tương tự GROUP BY)
-  ORDER BY col3 [ASC|DESC]    -- Sắp xếp trong mỗi nhóm
-  ROWS|RANGE BETWEEN ... AND ... -- Frame: phạm vi hàng
+SELECT name, dept, salary,
+  RANK() OVER (PARTITION BY dept ORDER BY salary DESC) AS rnk
+FROM employees;
+\`\`\`
+
+## 4. 🎯 Ví dụ chạy được ngay
+
+Top 1 mỗi phòng:
+
+\`\`\`sql
+WITH r AS (
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC) AS rn
+  FROM employees
 )
+SELECT * FROM r WHERE rn = 1;
 \`\`\`
 
-3 mệnh đề chính: **PARTITION BY** (nhóm), **ORDER BY** (sắp xếp trong nhóm), **frame clause** (phạm vi rows tham gia tính toán).
+## 5. ⚠️ Bẫy thường gặp
 
-## Phân loại Window Functions
+> ⚠️ **Cảnh báo:** Window function chạy **sau** WHERE/GROUP BY. Muốn lọc theo \`rnk\` phải bọc CTE hoặc subquery.
 
-| Nhóm | Function | Mô tả |
-|------|----------|-------|
-| **Ranking** | \`ROW_NUMBER()\` | Số thứ tự duy nhất 1, 2, 3... |
-|  | \`RANK()\` | Hạng, gap khi tie (1, 2, 2, 4) |
-|  | \`DENSE_RANK()\` | Hạng không gap (1, 2, 2, 3) |
-|  | \`NTILE(n)\` | Chia thành n nhóm đều |
-|  | \`PERCENT_RANK()\` | Phần trăm hạng (0..1) |
-|  | \`CUME_DIST()\` | Cumulative distribution |
-| **Aggregate** | \`SUM/AVG/COUNT/MIN/MAX OVER()\` | Tổng/TB/đếm theo cửa sổ |
-| **Value (Offset)** | \`LAG(col, n)\` | Giá trị n hàng trước |
-|  | \`LEAD(col, n)\` | Giá trị n hàng sau |
-|  | \`FIRST_VALUE/LAST_VALUE\` | Đầu/cuối cửa sổ |
-|  | \`NTH_VALUE(col, n)\` | Giá trị thứ n |
+## 6. ✅ Best practice
 
-## Frame Clause — Trái tim của Window Function
+> 💡 **Mẹo của thầy Hải:** Moving average dùng \`AVG(x) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)\` cho 7-day MA.
 
-Frame xác định **những hàng nào** tham gia tính toán cho hàng hiện tại:
+## 7. 🤔 Khi nào dùng
 
-\`\`\`sql
-ROWS BETWEEN <start> AND <end>
+- ✅ Ranking, running total, moving average, so sánh kỳ trước.
+- ❌ Chỉ cần tổng hợp đơn giản → \`GROUP BY\` đủ.
 
--- Các tùy chọn:
-UNBOUNDED PRECEDING    -- Từ đầu partition
-n PRECEDING            -- n hàng trước
-CURRENT ROW            -- Hàng hiện tại
-n FOLLOWING            -- n hàng sau
-UNBOUNDED FOLLOWING    -- Đến cuối partition
-\`\`\`
+## 8. 📌 Tóm tắt 30 giây
 
-**3 frame patterns kinh điển:**
-
-\`\`\`sql
--- 1. Running total (tổng tích luỹ)
-SUM(amount) OVER (ORDER BY date 
-  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
-
--- 2. Moving average 7 ngày (3 trước + hiện tại + 3 sau)
-AVG(price) OVER (ORDER BY date 
-  ROWS BETWEEN 3 PRECEDING AND 3 FOLLOWING)
-
--- 3. Centered moving average / smoothing
-AVG(value) OVER (ORDER BY ts 
-  ROWS BETWEEN 5 PRECEDING AND 5 FOLLOWING)
-\`\`\`
-
-**ROWS vs RANGE:** \`ROWS\` đếm theo số hàng vật lý. \`RANGE\` đếm theo giá trị (ví dụ "trong vòng 7 ngày" — kể cả có nhiều hàng cùng ngày).
-
-## Pattern thực tế #1: Top-N per Group
-
-"Lấy 3 sản phẩm bán chạy nhất mỗi danh mục":
-\`\`\`sql
-WITH ranked AS (
-  SELECT *, ROW_NUMBER() OVER (
-    PARTITION BY category ORDER BY revenue DESC
-  ) AS rn
-  FROM products
-)
-SELECT * FROM ranked WHERE rn <= 3;
-\`\`\`
-
-## Pattern #2: Period-over-Period Growth
-
-"Tăng trưởng doanh thu so với tháng trước":
-\`\`\`sql
-SELECT month, revenue,
-  LAG(revenue) OVER (ORDER BY month) AS prev_month,
-  ROUND(100.0 * (revenue - LAG(revenue) OVER (ORDER BY month)) 
-        / LAG(revenue) OVER (ORDER BY month), 2) AS growth_pct
-FROM monthly_sales;
-\`\`\`
-
-## Pattern #3: Sessionization
-
-"Gom các event của user thành session, mỗi session cách nhau >30 phút":
-\`\`\`sql
-WITH gaps AS (
-  SELECT user_id, event_time,
-    EXTRACT(EPOCH FROM event_time 
-      - LAG(event_time) OVER (PARTITION BY user_id ORDER BY event_time)) / 60 AS gap_min
-  FROM events
-)
-SELECT *, SUM(CASE WHEN gap_min > 30 OR gap_min IS NULL THEN 1 ELSE 0 END) 
-  OVER (PARTITION BY user_id ORDER BY event_time) AS session_id
-FROM gaps;
-\`\`\`
-
-Đây là cách Google Analytics, Mixpanel sessionize hàng tỉ events.
-
-## Pattern #4: Quartile / Percentile Cohorts
-
-"Chia học sinh thành 4 nhóm theo điểm cho phân tích cohort":
-\`\`\`sql
-SELECT name, score, NTILE(4) OVER (ORDER BY score DESC) AS quartile
-FROM students;
-\`\`\`
-
-## So sánh: Window Function vs GROUP BY
-
-| Khía cạnh | GROUP BY | Window Function |
-|-----------|----------|-----------------|
-| Số hàng output | Giảm (1 hàng/group) | Giữ nguyên |
-| Truy cập detail | Mất | Vẫn còn |
-| Tính trên group | ✅ | ✅ |
-| So sánh với detail | ❌ Cần subquery | ✅ Trực tiếp |
-| Performance | Nhanh | Hơi chậm hơn (cần sort) |
-
-> Quy tắc: cần giữ chi tiết + tính group → window. Cần aggregate giảm hàng → GROUP BY.
-
-## Case study: Stripe Revenue Analytics
-
-Stripe dùng window functions cực mạnh trong analytics dashboard:
-- **MRR running total**: \`SUM(mrr) OVER (ORDER BY month)\`
-- **Churn rate per cohort**: \`NTILE\` chia user theo signup month
-- **Cohort retention curves**: \`LAG/LEAD\` so sánh activity qua tháng
-- **Anomaly detection**: \`AVG/STDDEV OVER\` để tìm outlier
-
-Một query window function thay thế cho 5-10 query phụ + Python join — giảm latency dashboard từ 30s xuống 2s.
-
-## Best Practices ✅
-
-- ✅ Luôn có \`ORDER BY\` trong window khi dùng frame
-- ✅ Tận dụng CTE để window function dễ đọc
-- ✅ Index trên cột \`PARTITION BY\` + \`ORDER BY\` để tăng tốc
-- ✅ Test với \`EXPLAIN ANALYZE\` để check sort cost
-- ✅ Dùng \`ROWS\` cho clarity, \`RANGE\` chỉ khi thực sự cần ngữ nghĩa giá trị
-
-## Anti-patterns ❌
-
-- ❌ Quên \`ORDER BY\` khi cần thứ tự (LAG/LEAD/running total) → kết quả không deterministic
-- ❌ Lạm dụng window khi GROUP BY đủ → tốn memory cho sort không cần thiết
-- ❌ Default frame của \`AVG\` khi có \`ORDER BY\` là \`RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\` → không phải ai cũng biết
-- ❌ Window function trong \`WHERE\` → không hợp lệ, phải bọc CTE/subquery
-
-## Khi nào dùng?
-
-✅ Ranking, running total, moving average, period-over-period, sessionization, percentile, top-N per group, cumulative metrics.
-
-❌ Aggregate đơn giản (SUM/COUNT toàn bảng) — GROUP BY đủ.
-
-## Bridge: Bài tiếp theo
-
-**Recursive CTE** — khi dữ liệu của bạn là cây/đồ thị (org chart, danh mục lồng nhau, friend graph), window function không đủ. Bạn cần \`WITH RECURSIVE\`.`,
+\`OVER(PARTITION BY … ORDER BY …)\` = nhóm cửa sổ + sắp xếp. Lọc theo kết quả window phải bọc CTE. Cực mạnh cho BI.
+`,
         theoryEn: `**Window Functions** are SQL's most powerful modern feature — compute over **a window of related rows** without collapsing them (unlike GROUP BY). Must-have skill for data analysts and BI devs.
 
 ## Why They Matter
@@ -1285,166 +1174,68 @@ ORDER BY salary DESC;`,
         id: "sql-recursive-1",
         title: "WITH RECURSIVE",
         titleEn: "WITH RECURSIVE",
-        theory: `**Recursive CTE** (Common Table Expression đệ quy) là vũ khí bí mật của SQL để xử lý dữ liệu **phân cấp (hierarchical)** và **đồ thị (graph)** — những thứ mà SQL truyền thống cực kỳ khó. Nó cho phép một CTE tham chiếu chính nó.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao cần Recursive CTE?
+Cây gia phả: ông → bố → bạn → con → cháu. Bạn không biết "tổ tiên có bao nhiêu thế hệ". Query thông thường chịu thua. **Recursive CTE** = câu lệnh SQL biết "tự gọi chính nó" cho đến khi không còn tổ tiên nữa.
 
-Hãy thử trả lời các câu hỏi sau bằng SQL thường:
-- "Liệt kê tất cả nhân viên dưới quyền CEO (bất kỳ cấp nào)"
-- "Hiển thị cây danh mục e-commerce (cha → con → cháu)"
-- "Tìm đường ngắn nhất giữa 2 thành phố trong bảng routes"
-- "Tạo dãy 100 ngày liên tiếp từ một ngày bắt đầu"
+> 💡 **Mẹo của thầy Hải:** Dùng cho cấu trúc cây/đồ thị: org chart, danh mục con, đường đi mạng xã hội.
 
-Tất cả đều cần **lặp đi lặp lại** đến khi điều kiện dừng — đó là đệ quy. Recursive CTE giải quyết tất cả trong 1 query duy nhất.
-
-## Cú pháp & 2 phần bắt buộc
+## 2. 💡 Cấu trúc
 
 \`\`\`sql
-WITH RECURSIVE cte_name (col1, col2, ...) AS (
-  -- 1️⃣ ANCHOR (base case) — chạy 1 lần đầu
-  SELECT initial_values FROM table WHERE start_condition
-
-  UNION ALL                       -- bắt buộc UNION ALL, không phải UNION
-
-  -- 2️⃣ RECURSIVE — chạy lặp, tham chiếu chính cte_name
-  SELECT new_values 
-  FROM table JOIN cte_name ON ...
-  WHERE termination_condition     -- BẮT BUỘC có điều kiện dừng
-)
-SELECT * FROM cte_name;
-\`\`\`
-
-> Quên \`UNION ALL\` hoặc điều kiện dừng → infinite loop → query crash.
-
-## Cách thực thi (mental model)
-
-\`\`\`
-Bước 0: Anchor → Result_0
-Bước 1: Recursive trên Result_0 → Result_1
-Bước 2: Recursive trên Result_1 → Result_2
-...
-Bước N: Result_N rỗng → Dừng
-Cuối cùng: UNION tất cả Result_0 + Result_1 + ... + Result_N
-\`\`\`
-
-PostgreSQL/SQL Server có \`MAX_RECURSION\` (mặc định 100-1000) để tránh runaway.
-
-## Ví dụ #1: Sinh dãy số / dãy ngày
-
-\`\`\`sql
--- Tạo 30 ngày liên tiếp từ 2024-01-01
-WITH RECURSIVE dates AS (
-  SELECT DATE '2024-01-01' AS d
+WITH RECURSIVE cte AS (
+  -- 1. Anchor: dòng khởi đầu
+  SELECT id, parent_id, name, 1 AS lvl FROM employees WHERE id = 1
   UNION ALL
-  SELECT d + 1 FROM dates WHERE d < DATE '2024-01-30'
+  -- 2. Recursive: dòng kế tiếp dựa trên cte
+  SELECT e.id, e.parent_id, e.name, c.lvl + 1
+  FROM employees e JOIN cte c ON e.parent_id = c.id
 )
-SELECT * FROM dates;
+SELECT * FROM cte;
 \`\`\`
 
-Cực hữu ích cho **date dimension table**, fill missing dates trong time series.
-
-## Ví dụ #2: Cây tổ chức (Org Chart)
+## 3. 🧰 Ví dụ org chart
 
 \`\`\`sql
--- employees(id, name, manager_id)
 WITH RECURSIVE org AS (
-  -- Anchor: CEO (manager_id IS NULL)
-  SELECT id, name, manager_id, 1 AS level, name::text AS path
-  FROM employees WHERE manager_id IS NULL
-  
+  SELECT id, name, manager_id, 1 AS depth FROM emp WHERE manager_id IS NULL
   UNION ALL
-  
-  -- Recursive: đi xuống mỗi cấp
-  SELECT e.id, e.name, e.manager_id, o.level + 1, 
-         o.path || ' > ' || e.name
-  FROM employees e
-  JOIN org o ON e.manager_id = o.id
+  SELECT e.id, e.name, e.manager_id, o.depth + 1
+  FROM emp e JOIN org o ON e.manager_id = o.id
 )
-SELECT level, path FROM org ORDER BY path;
+SELECT REPEAT('  ', depth-1) || name AS tree FROM org;
 \`\`\`
 
-Output:
-\`\`\`
-1 | CEO Linh
-2 | CEO Linh > VP Hùng
-3 | CEO Linh > VP Hùng > Manager An
-4 | CEO Linh > VP Hùng > Manager An > Dev Bình
-\`\`\`
+## 4. 🎯 Ví dụ chạy được ngay
 
-## Ví dụ #3: Bill of Materials (BOM)
-
-Một sản phẩm gồm nhiều bộ phận, mỗi bộ phận lại gồm các bộ phận con. Tính tổng cost:
-\`\`\`sql
-WITH RECURSIVE bom AS (
-  SELECT part_id, parent_id, qty, cost FROM parts WHERE part_id = 'CAR'
-  UNION ALL
-  SELECT p.part_id, p.parent_id, p.qty * b.qty, p.cost
-  FROM parts p JOIN bom b ON p.parent_id = b.part_id
-)
-SELECT SUM(qty * cost) FROM bom;
-\`\`\`
-
-Toyota, Boeing dùng pattern này quản lý hàng triệu linh kiện.
-
-## Ví dụ #4: Graph Traversal — Friends of Friends
+Đếm số cấp dưới của 1 manager:
 
 \`\`\`sql
-WITH RECURSIVE network AS (
-  SELECT friend_id, 1 AS hops 
-  FROM friendships WHERE user_id = 100
-  UNION
-  SELECT f.friend_id, n.hops + 1
-  FROM friendships f JOIN network n ON f.user_id = n.friend_id
-  WHERE n.hops < 3                 -- giới hạn 3 hops
+WITH RECURSIVE sub AS (
+  SELECT id FROM emp WHERE manager_id = 5
+  UNION ALL
+  SELECT e.id FROM emp e JOIN sub s ON e.manager_id = s.id
 )
-SELECT DISTINCT friend_id, MIN(hops) FROM network GROUP BY friend_id;
+SELECT COUNT(*) FROM sub;
 \`\`\`
 
-Lưu ý dùng \`UNION\` (không ALL) để tránh duplicate khi có cycle.
+## 5. ⚠️ Bẫy thường gặp
 
-## So sánh: Recursive CTE vs các giải pháp khác
+> ⚠️ **Cảnh báo:** Quên điều kiện dừng → vòng lặp vô hạn (cycle), DB nổ. Luôn đảm bảo dữ liệu không có vòng tròn parent.
 
-| Giải pháp | Ưu điểm | Nhược điểm |
-|-----------|---------|------------|
-| **Recursive CTE** | Standard SQL, không cần app code | Có thể chậm với cây sâu |
-| **Adjacency List + Loop trong app** | Linh hoạt | N+1 query, slow |
-| **Nested Sets (LFT/RGT)** | Read cực nhanh | Insert/update phức tạp |
-| **Materialized Path** | Read nhanh, dễ hiểu | Update khó, hạn chế length |
-| **Closure Table** | Read/write balanced | Tốn storage |
-| **Graph DB (Neo4j)** | Tối ưu cho graph | Thêm tech stack |
+## 6. ✅ Best practice
 
-> Quy tắc: dữ liệu nhỏ-vừa (<100k node) → Recursive CTE. Dữ liệu lớn, traversal nhiều → Closure Table hoặc Neo4j.
+> 💡 **Mẹo của thầy Hải:** Thêm cột \`depth\` để giới hạn (\`WHERE depth < 50\`) — phòng ngừa lặp vô tận.
 
-## Case study: GitLab và quyền truy cập group
+## 7. 🤔 Khi nào dùng
 
-GitLab có **nested groups** (group lồng group). Để check user có quyền ở project, cần đi từ project → parent group → grandparent group → ... đến top. GitLab dùng recursive CTE trên PostgreSQL — đơn giản, hiệu quả, không cần thêm graph DB.
+- ✅ Org chart, danh mục đa cấp, friend-of-friend.
+- ❌ Dữ liệu phẳng → JOIN thường nhanh hơn.
 
-## Best Practices ✅
+## 8. 📌 Tóm tắt 30 giây
 
-- ✅ **Luôn có điều kiện dừng** rõ ràng (WHERE level < N hoặc tương tự)
-- ✅ Dùng \`UNION ALL\` cho performance, \`UNION\` chỉ khi có cycle
-- ✅ Index trên cột JOIN (parent_id) để tăng tốc
-- ✅ Track \`level\` hoặc \`path\` để debug
-- ✅ Test với dữ liệu nhỏ trước khi chạy production
-- ✅ Set \`MAX_RECURSION\` thấp khi prototype
-
-## Anti-patterns ❌
-
-- ❌ Không có điều kiện dừng → infinite loop, server hang
-- ❌ \`UNION\` thay vì \`UNION ALL\` khi không có cycle → sort tốn kém
-- ❌ JOIN nhiều bảng trong recursive part → exponential blowup
-- ❌ Recursive CTE cho dữ liệu nông (1-2 cấp) → JOIN thường nhanh hơn
-- ❌ Cycle trong dữ liệu mà không xử lý → infinite loop
-
-## Khi nào dùng?
-
-✅ **Nên:** Org chart, category tree, BOM, comment threads, file system, route finding, sinh date series, hierarchical aggregation.
-
-❌ **Không nên:** Cây cực sâu (>100 cấp), graph cực lớn (millions of nodes) — dùng Neo4j/JanusGraph. Khi cấu trúc cây fixed (luôn 2-3 cấp) — dùng JOIN thường.
-
-## Bridge: Bài tiếp theo
-
-**Apache Spark** — khi data quá lớn cho 1 database (>1TB), bạn cần phân tán xử lý ra cluster. Spark là framework #1 cho big data trong industry.`,
+\`WITH RECURSIVE\` = anchor + UNION ALL + recursive. Dùng cho cây/đồ thị. Nhớ đặt giới hạn depth tránh loop vô hạn.
+`,
         theoryEn: `**Recursive CTE** is SQL's secret weapon for **hierarchical** and **graph** data — things normal SQL struggles with. It lets a CTE reference itself.
 
 ## Why Recursive CTE?
@@ -1595,119 +1386,55 @@ SELECT depth, path FROM category_tree ORDER BY path;`,
         id: "spark-basics-1",
         title: "Giới thiệu Apache Spark",
         titleEn: "Introduction to Apache Spark",
-        theory: `**Apache Spark** là framework #1 cho **xử lý dữ liệu phân tán** trong industry — Netflix, Uber, Airbnb, Shopify, Pinterest dùng để xử lý petabytes/ngày.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao Spark thay thế Hadoop MapReduce?
+Pandas xử lý 10 triệu dòng còn ổn — đến 1 tỷ dòng thì laptop cháy. **Apache Spark** = pandas chạy phân tán trên 100 máy, xử lý petabyte trong vài phút. Netflix, Uber, Shopee đều dùng.
 
-MapReduce ghi ra HDFS giữa mỗi stage → cực chậm. Spark giữ data **trong RAM** → nhanh hơn 10-100×, đặc biệt với iterative workload (ML, graph).
+> 💡 **Mẹo của thầy Hải:** Spark = "pandas cho big data". Cú pháp PySpark gần như Pandas, nhưng chạy phân tán.
 
-## Kiến trúc
+## 2. 💡 Khái niệm chính
 
-\`\`\`
-Driver (coordinator) → schedule tasks
-   ↓
-Executors (workers) → chạy tasks song song, cache data trong RAM
-   ↑
-Cluster Manager (YARN/K8s/Mesos) → cấp resource
-\`\`\`
+- **DataFrame**: bảng phân tán, lazy.
+- **Transformation** (map, filter, join): chỉ ghi nhớ kế hoạch, không chạy.
+- **Action** (count, show, write): mới thực sự kích hoạt tính toán.
+- **Cluster**: 1 driver + nhiều executor.
 
-## 3 API levels
-
-| API | Performance | Khi nào dùng |
-|-----|-------------|--------------|
-| **RDD** | Chậm hơn | Custom logic phức tạp |
-| **DataFrame** | Nhanh (Catalyst) | **Mặc định 95% case** |
-| **Dataset** | Nhanh, type-safe | Scala/Java |
-| **Spark SQL** | Nhanh | Analyst dùng SQL |
-
-> Luôn ưu tiên DataFrame/SQL.
-
-## Lazy Evaluation & DAG Optimizer
-
-Spark **không chạy** transformation — chỉ build DAG. Action mới trigger:
+## 3. 🧰 Cú pháp PySpark
 
 \`\`\`python
-df = spark.read.csv("sales.csv")        # lazy
-filtered = df.filter(df.amount > 100)   # lazy
-filtered.show()                         # ACTION — chạy bây giờ
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName("demo").getOrCreate()
+df = spark.read.parquet("s3://my-bucket/sales/")
+result = (df.filter(df.amount > 100)
+            .groupBy("region").sum("amount"))
+result.show()
 \`\`\`
 
-**Catalyst Optimizer** rewrites DAG: predicate pushdown, column pruning, join reordering.
-
-| Loại | Ví dụ |
-|------|-------|
-| Transformations (lazy) | filter, select, groupBy, join, withColumn |
-| Actions (trigger) | show, collect, count, write, take |
-
-## Narrow vs Wide Transformations
-
-- **Narrow** (filter, select): không shuffle → nhanh
-- **Wide** (groupBy, join, distinct): cần shuffle dữ liệu giữa nodes → chậm + tốn network
-
-Tối ưu Spark = giảm shuffle.
-
-## Ví dụ PySpark đầy đủ
+## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`python
-from pyspark.sql import SparkSession, functions as F
-spark = SparkSession.builder.appName("SalesETL").getOrCreate()
-
-result = (spark.read.parquet("s3://bucket/sales/")
-    .filter(F.col("date") >= "2024-01-01")
-    .withColumn("revenue", F.col("price") * F.col("quantity"))
-    .groupBy("region", "category")
-    .agg(F.sum("revenue").alias("total_revenue"))
-    .orderBy(F.desc("total_revenue")))
-
-result.write.mode("overwrite").parquet("s3://bucket/output/")
+df = spark.read.csv("orders.csv", header=True, inferSchema=True)
+df.printSchema()
+df.groupBy("status").count().show()
 \`\`\`
 
-## File formats: Parquet > CSV
+## 5. ⚠️ Bẫy thường gặp
 
-| Format | Read speed | Storage | Pushdown |
-|--------|-----------|---------|----------|
-| CSV | Chậm | Lớn | Không |
-| **Parquet** | **Nhanh** | **Nhỏ (10x)** | **Có** |
-| Delta Lake | Parquet + ACID | + log | Có |
+> ⚠️ **Cảnh báo:** \`collect()\` kéo toàn bộ data về driver → nổ memory nếu data to. Dùng \`show(20)\` hoặc \`take(100)\` để xem mẫu.
 
-> Big data production luôn dùng **Parquet** (columnar) — nhanh hơn CSV 10-100×.
+## 6. ✅ Best practice
 
-## Case study: Netflix — 1 EB/ngày
+> 💡 **Mẹo của thầy Hải:** Lưu format **Parquet** (cột nén) thay CSV — nhỏ hơn 10 lần, nhanh hơn 100 lần khi đọc cột chọn lọc.
 
-Netflix xử lý **1 exabyte/ngày** trên Spark + S3 + Iceberg cho personalization (250M users), A/B testing, billing. Hàng nghìn nodes, dùng AQE (Adaptive Query Execution) tự động re-optimize.
+## 7. 🤔 Khi nào dùng
 
-## Case study: Uber — 15T messages/ngày
+- ✅ Dữ liệu > 50GB, cần phân tán.
+- ❌ Dữ liệu < 10GB → Pandas / Polars đủ và đơn giản hơn.
 
-Uber dùng Spark Structured Streaming + Kafka cho surge pricing, driver matching, fraud detection. Latency end-to-end <1 giây.
+## 8. 📌 Tóm tắt 30 giây
 
-## Khi nào dùng?
-
-✅ **Nên:** Data >100GB, ETL phức tạp nhiều stage, streaming từ Kafka, ML training trên dataset lớn.
-
-❌ **Không nên:** Data <10GB (Pandas/DuckDB nhanh hơn), latency <100ms cho từng query (dùng DB), prototype đơn giản.
-
-## Best Practices ✅
-
-- ✅ Luôn dùng **Parquet** thay CSV
-- ✅ **Cache** DataFrame được reuse nhiều lần (\`df.cache()\`)
-- ✅ **Broadcast join** khi 1 bảng nhỏ (<100MB): \`F.broadcast(small_df)\`
-- ✅ Partition theo cột query thường xuyên
-- ✅ Tránh \`collect()\` trên data lớn → driver OOM
-- ✅ Monitor qua Spark UI (port 4040)
-- ✅ Bật **AQE** từ Spark 3+
-
-## Anti-patterns ❌
-
-- ❌ \`collect()\` 1TB về driver → crash
-- ❌ \`.toPandas()\` trên big data → OOM
-- ❌ Python UDF khi có function built-in (chậm 10-100×)
-- ❌ Data skew (1 key chiếm 90% data) → 1 task chạy mãi
-- ❌ Quá nhiều small files (<128MB) → overhead lớn
-- ❌ Dùng RDD cho structured data → mất Catalyst
-
-## Hành trình tiếp theo
-
-Nắm vững Spark là bước cuối hoàn thiện foundation Data Engineering. Tiếp theo: **Spark Streaming** (real-time), **Delta Lake** (ACID trên data lake), **Spark MLlib** (ML phân tán), hoặc **Databricks** (managed Spark được Netflix, Shell, Comcast dùng).`,
+Spark = pandas phân tán. Lazy evaluation. Action mới chạy thật. Tránh \`collect()\`. Parquet > CSV. Cú pháp DataFrame quen Pandas là dùng được.
+`,
         theoryEn: `**Apache Spark** is the industry's #1 distributed data processing framework — used by Netflix, Uber, Airbnb to process petabytes daily.
 
 ## Why Spark Replaced MapReduce
