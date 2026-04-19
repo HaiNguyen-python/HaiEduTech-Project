@@ -136,6 +136,56 @@ const ChineseConversationalLessonView = () => {
     });
   };
 
+  // Check fill-in-blank exercises: compute %, save to localStorage, log activity
+  const handleCheckFib = () => {
+    if (!lesson?.fillInBlankExercises) return;
+    const total = lesson.fillInBlankExercises.length;
+    const correct = lesson.fillInBlankExercises.reduce((acc, ex, idx) => {
+      const userAns = (fibAnswers[idx] || "").trim();
+      return acc + (userAns === ex.answer ? 1 : 0);
+    }, 0);
+    const percent = Math.round((correct / total) * 100);
+    const result = { correct, total, percent };
+    setFibChecked(true);
+    setFibScore(result);
+    // Save to localStorage
+    try {
+      const prev = JSON.parse(localStorage.getItem(`conv-cn-ex-${lesson.id}`) || "{}");
+      localStorage.setItem(`conv-cn-ex-${lesson.id}`, JSON.stringify({ ...prev, fib: result, updatedAt: Date.now() }));
+    } catch { /* ignore */ }
+    // Log activity for dashboard
+    logStudentActivity({
+      activityType: "conv_chinese_exercise",
+      activityId: `${lesson.id}-fib`,
+      score: correct,
+      maxScore: total,
+      metadata: { pillar: pillar.id, lessonTitle: lesson.title, exerciseType: "fill_in_blank", percent },
+    });
+  };
+
+  // Submit listening: compute %, save, log
+  const handleSubmitListening = () => {
+    if (!lesson) return;
+    const qs = lesson.listeningChallenge.questions;
+    const total = qs.length;
+    const correct = qs.reduce((acc, q, qi) => acc + (listeningAnswers[qi] === q.answer ? 1 : 0), 0);
+    const percent = Math.round((correct / total) * 100);
+    const result = { correct, total, percent };
+    setListeningSubmitted(true);
+    setListeningScore(result);
+    try {
+      const prev = JSON.parse(localStorage.getItem(`conv-cn-ex-${lesson.id}`) || "{}");
+      localStorage.setItem(`conv-cn-ex-${lesson.id}`, JSON.stringify({ ...prev, listening: result, updatedAt: Date.now() }));
+    } catch { /* ignore */ }
+    logStudentActivity({
+      activityType: "conv_chinese_exercise",
+      activityId: `${lesson.id}-listening`,
+      score: correct,
+      maxScore: total,
+      metadata: { pillar: pillar.id, lessonTitle: lesson.title, exerciseType: "listening", percent },
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
