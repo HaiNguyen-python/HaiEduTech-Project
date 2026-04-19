@@ -1,76 +1,60 @@
 
 
 ## Vấn đề
-Đã rà soát toàn bộ `src/data/curriculum/`:
-- **7 file**, ~**19,432 dòng**, ~**80 lessons** thuộc 7 lộ trình: SQL, AI Foundation, Data Engineering, ML, Cloud, Cloud Expansion, Programming Expansion (Python OOP/Decorators/Generators/FileIO + Spark).
-- Bài đang đứng (`sql-select-1`) là ví dụ điển hình của vấn đề chung:
-  1. Theory **100% tiếng Anh** dù học viên Việt — không có tiếng Việt làm "neo" để hiểu khái niệm.
-  2. Mở đầu kiểu marketing ("paint on the walls", "$700 mistake") trước khi học viên biết cú pháp.
-  3. **Bảng so sánh dialect** (Postgres/MySQL/SQL Server/Oracle/Snowflake) ngay bài 1 → nhiễu.
-  4. Thuật ngữ chưa định nghĩa: *keyset pagination, deterministic, dbt, partitioned table, BigQuery* xuất hiện không kèm giải thích.
-  5. Code không có comment tiếng Việt; ví dụ rời rạc, không có ngữ cảnh "trước–sau".
-- 2 lessons SQL (`sql-sub-1`, `sql-cte-1`) đã được rewrite đúng chuẩn ở vòng trước → dùng làm **template chuẩn vàng** cho toàn bộ.
+Học viên đang ở `/programming/ml-linear-reg` thấy bài Theory dài, toàn chữ + bảng, **không có icon hay hình minh hoạ** → cảm giác đơn điệu, khó nuốt. Vấn đề lặp lại trên toàn bộ 80+ lessons trong `Learn Programming`.
 
-## Chiến lược: Nhiều vòng, ưu tiên bài học viên chạm sớm nhất
-Không thể viết lại 80 lessons trong 1 vòng (sẽ vượt token, dễ phát sinh lỗi). Chia thành **3 đợt theo độ ưu tiên dựa trên đường đi của học viên mới**.
+## Chiến lược: Tăng "visual layer" ở component render, KHÔNG sửa từng bài
+Sửa data 80 bài → mất nhiều vòng + dễ vỡ. Thay vào đó **nâng cấp `TheorySections.tsx`** để **tự động** thêm yếu tố trực quan dựa trên cấu trúc markdown đã có (vì cấu trúc đã chuẩn: H2 đánh số "1.", "2.", có emoji, có blockquote, có bảng, có code block).
 
-### Chuẩn rewrite áp dụng cho mọi bài (rút từ template `sql-sub-1`)
-1. ✅ **Tiếng Việt là chính**, thuật ngữ Anh giữ nguyên + giải nghĩa ngắn trong ngoặc lần đầu xuất hiện. Ví dụ: *aggregate function (hàm tổng hợp — gom nhiều dòng thành 1 giá trị)*.
-2. ✅ **Mở đầu = câu hỏi đời thường** ("Lớp học có 30 học viên, làm sao đếm số học viên trên 18 tuổi?") trước khi đưa cú pháp.
-3. ✅ **3 bước cho mỗi khái niệm khó**: (1) vấn đề thực tế → (2) code 3–5 dòng → (3) giải thích từng dòng.
-4. ✅ Cắt **case study tài chính/kỹ thuật cao cấp** ở đầu bài; nếu giữ thì dời xuống "Ghi chú nâng cao" cuối.
-5. ✅ **Bảng so sánh dialect chỉ khi cần thiết** và đã có ngữ cảnh; bài 1–3 không nên có.
-6. ✅ Giữ **≥6 H2 sections** (yêu cầu của `TheorySections.tsx`).
-7. ✅ `code` có **comment tiếng Việt từng block** khớp với explanation.
-8. ✅ `theoryEn` (short form) viết tiếng Anh ngắn gọn cùng cấu trúc.
-9. ✅ Quiz: `answer` 0–3, có `explanation` rõ.
-10. ✅ Không đổi `id` lesson/module → không phá link/route.
+### Cấp độ 1 — Tự động hoá toàn cục (áp dụng tất cả 80 bài, 0 đụng data)
 
-### Đợt 1 — Vòng này (ưu tiên cao nhất, 8 lessons)
-**SQL còn lại trong file `sqlLessons.ts`** — đường đi tự nhiên của học viên SQL beginner:
+**a) H2 với số thứ tự thành "step badge" tròn có gradient**
+- Detect regex `^(\d+)\.\s+(.+)` trong tiêu đề H2 → tách số ra thành **badge tròn 36×36 gradient brand** (royal blue → emerald) đứng cạnh tiêu đề.
+- Auto-pick **lucide icon** theo từ khoá trong tiêu đề: "vấn đề/problem" → `Lightbulb`, "công thức/syntax/cú pháp" → `Code2`, "ví dụ/example" → `FileCode`, "bẫy/lỗi/mistake/trap" → `AlertTriangle`, "tổng kết/summary/checklist" → `ListChecks`, "khi nào/when" → `HelpCircle`, "hiệu năng/performance" → `Zap`, "so sánh/vs" → `GitCompare`, "thực hành/practice" → `Dumbbell`, "ghi chú nâng cao/advanced" → `Sparkles`. Fallback: `BookOpen`.
 
-| Lesson ID | Tên | Lý do ưu tiên |
-|---|---|---|
-| `sql-select-1` | SELECT & FROM | **Bài đầu tiên** học viên chạm — hiện đang ở route này |
-| `sql-select-2` | AS & Alias | Bài 2 cùng module |
-| `sql-where-1` | WHERE & Lọc dữ liệu | Bài 3 — module WHERE |
-| `sql-agg-1` | Aggregate / GROUP BY | Bài 4 — bước nhảy tư duy lớn nhất với người mới |
-| `sql-join-1` | JOINs | Bài 5 — khái niệm khó nhất ở SQL beginner |
-| `sql-win-1` | Window Functions | Bài 7 — thường gây hoang mang nhất |
-| `sql-idx-1` | Indexing | Bài 8 — khái niệm vô hình, cần nhiều ví dụ đời thường |
-| `sql-design-1` | Database Design | Bài 9 — chuẩn hoá (normalization) thường viết khô khan |
+**b) Blockquote (`>`) thành "callout card" có icon**
+- Detect dòng đầu blockquote: nếu bắt đầu bằng "Mẹo/Tip/💡" → callout vàng + `Lightbulb`; "Cảnh báo/Warning/⚠️" → đỏ + `AlertTriangle`; "Lưu ý/Note/📝" → xanh dương + `Info`; mặc định → tím + `Quote`. Card có border-left 4px, background nhạt 8% màu chủ đạo.
 
-→ Sau đợt 1, **toàn bộ module SQL** (10 lessons) sẽ đồng nhất chuẩn dễ hiểu.
+**c) Bảng (`<table>`) đẹp hơn**
+- Header row gradient brand nhẹ, zebra rows, rounded corners, icon `Table` nhỏ phía trên-trái khi bảng > 3 cột.
 
-### Đợt 2 — Vòng tiếp (sẽ chờ user duyệt riêng)
-**Python & Programming Expansion** (~6 lessons): OOP, Decorators, Generators, File I/O — học viên Python intermediate chạm sớm.
+**d) "Pro tip" inline cho code block**
+- Mỗi `<CodeBlock>` đã có sẵn nút copy; thêm icon ngôn ngữ nhỏ ở góc trên-trái (Python `🐍`, SQL `🗄️`, JS `📜`…) — dùng emoji có sẵn để khỏi đụng `CodeBlock.tsx` quá sâu.
 
-### Đợt 3 — Vòng sau cùng
-**AI Foundation, ML, Data Engineering, Cloud** (~50 lessons) — học viên đến sau khi có nền tảng, chia thành các sub-batch 6–8 lessons/lần để tránh lỗi.
+**e) Section divider có hoa văn nhẹ** giữa các H2 (đường gạch ngang gradient mờ → ngắt nhịp thị giác).
 
-## Phạm vi cam kết VÒNG NÀY
-- ✏️ Rewrite **8 SQL lessons** trong `src/data/curriculum/sqlLessons.ts`: `sql-select-1`, `sql-select-2`, `sql-where-1`, `sql-agg-1`, `sql-join-1`, `sql-win-1`, `sql-idx-1`, `sql-design-1`.
-- Mỗi lesson: viết lại `theory` (VI), `theoryEn` (EN ngắn), `code` (thêm comment VI), `exercise`/`exerciseEn`, `quiz` (5 câu, giữ schema).
-- Cuối phản hồi sẽ liệt kê rõ **đợt 2 & 3 còn lại bao nhiêu bài** để user chủ động duyệt vòng tiếp.
+**f) Animated entrance**: mỗi section fade-in + slide-up 200ms khi cuộn vào view (Framer Motion + IntersectionObserver) → cảm giác sống động, không nặng.
 
-## Ví dụ minh hoạ (trích đoạn `sql-select-1` sau khi viết lại)
-> ## 1. Vấn đề đời thường  
-> Bạn có một bảng `students` chứa 1000 học viên. Sếp bảo: "Cho tôi xem 10 học viên có điểm cao nhất". Làm sao? → Đó là việc của `SELECT`.  
->  
-> ## 2. Cú pháp tối thiểu  
-> ```sql  
-> SELECT name, score        -- Lấy cột nào?  
-> FROM   students            -- Từ bảng nào?  
-> ORDER BY score DESC        -- Sắp xếp giảm dần theo điểm  
-> LIMIT 10;                  -- Chỉ lấy 10 dòng đầu  
-> ```  
-> Mỗi dòng là 1 câu hỏi: "Lấy gì? Từ đâu? Sắp xếp ra sao? Bao nhiêu dòng?"  
+### Cấp độ 2 — Hình minh hoạ SVG cho 3 concepts khó nhất (chỉ 3 bài "flagship")
 
-## Files thay đổi
-- ✏️ `src/data/curriculum/sqlLessons.ts` — rewrite 8 lessons (giữ nguyên structure, id, schema).
+Chèn vào data bằng **markdown component custom** (cú pháp `:::diagram type="..."`) cho 3 bài học viên chạm sớm và khó nhất:
 
-## Không đụng tới
-- `TheorySections.tsx`, `CodeBlock.tsx`, `ProgrammingLesson.tsx`, schema DB, types Supabase.
-- `aiFoundationLessons.ts`, `mlLessons.ts`, `cloudLessons.ts`, `dataEngLessons.ts`, `programmingExpansion.ts`, `cloudExpansion.ts` (để dành cho đợt 2 & 3).
-- 2 lessons SQL đã rewrite (`sql-sub-1`, `sql-cte-1`) và 2 lessons SQL nâng cao ít người chạm (`sql-proc-1`, `sql-opt-1`, `sql-adv-1`).
+1. **`ml-lr-1` Linear Regression** → SVG scatter plot có đường thẳng best-fit + nhãn `y = wx + b`, axis labels Việt ("Diện tích", "Giá").
+2. **`sql-join-1` JOINs** → SVG Venn diagram 2 vòng tròn (INNER, LEFT, RIGHT, FULL) cạnh nhau, có nhãn.
+3. **`sql-sub-1` Subqueries** → SVG sơ đồ truy vấn lồng nhau (outer query → inner query → result).
+
+Mỗi diagram là 1 React component nhỏ trong `src/components/lesson-visuals/` (~50 dòng SVG mỗi cái).
+
+### Files thay đổi
+- ✏️ `src/components/TheorySections.tsx` — thêm icon mapper, callout parser, animated entrance, custom H2 với step badge.
+- ➕ `src/components/lesson-visuals/StepBadge.tsx` — badge số tròn gradient.
+- ➕ `src/components/lesson-visuals/Callout.tsx` — 4 variants tip/warning/note/quote.
+- ➕ `src/components/lesson-visuals/LinearRegressionDiagram.tsx` — SVG scatter + best fit.
+- ➕ `src/components/lesson-visuals/JoinVennDiagram.tsx` — SVG Venn 4 loại JOIN.
+- ➕ `src/components/lesson-visuals/SubqueryDiagram.tsx` — SVG sơ đồ subquery.
+- ✏️ `src/data/curriculum/mlLessons.ts` — chèn `:::diagram type="linear-regression":::` vào `ml-lr-1`.
+- ✏️ `src/data/curriculum/sqlLessons.ts` — chèn `:::diagram type="join-venn":::` vào `sql-join-1`, `:::diagram type="subquery":::` vào `sql-sub-1`.
+- ✏️ `src/index.css` — thêm style cho `.theory-callout`, `.theory-step-badge`, table polish.
+
+### Không đụng tới
+- `CodeBlock.tsx` (đã ổn).
+- `ProgrammingLesson.tsx` (chỉ là wrapper).
+- Schema DB, Supabase types.
+- 77 lessons còn lại — toàn bộ tự động hưởng cấp độ 1 mà không cần sửa data.
+
+### Kết quả mong đợi
+- Mọi bài học đều có **step badge số gradient + icon ngữ nghĩa** ở mỗi mục H2.
+- Blockquote thành callout màu sắc với icon → mắt dễ scan.
+- 3 bài flagship có **diagram SVG riêng** minh hoạ trực quan khái niệm khó.
+- Không bài nào cần viết lại data → an toàn, nhanh.
 
