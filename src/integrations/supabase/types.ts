@@ -1000,6 +1000,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      award_global_scholar_badge: { Args: never; Returns: Json }
       get_streak_leaderboard: {
         Args: never
         Returns: {
