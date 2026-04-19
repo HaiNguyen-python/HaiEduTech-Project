@@ -25,7 +25,12 @@ const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrok
 
   useEffect(() => {
     if (!containerRef.current) return;
-    containerRef.current.innerHTML = "";
+    // Use a dedicated inner node that HanziWriter owns, so React never touches its children
+    const host = document.createElement("div");
+    host.style.width = `${size}px`;
+    host.style.height = `${size}px`;
+    containerRef.current.appendChild(host);
+
     setLoading(true);
     setFailed(false);
     setHasPlayed(false);
@@ -45,8 +50,10 @@ const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrok
       throw new Error("All CDNs failed");
     };
 
+    let cancelled = false;
+
     try {
-      writerRef.current = HanziWriter.create(containerRef.current, char, {
+      writerRef.current = HanziWriter.create(host, char, {
         width: size,
         height: size,
         padding: 8,
@@ -59,15 +66,16 @@ const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrok
         charDataLoader: (charToLoad: string, onComplete: (data: any) => void) => {
           fetchWithFallback(charToLoad)
             .then((data) => {
+              if (cancelled) return;
               setLoading(false);
               onComplete(data);
-              // Auto-play once after a short delay so users see the strokes form
               if (!autoPlayedRef.current) {
                 autoPlayedRef.current = true;
                 setTimeout(() => {
+                  if (cancelled) return;
                   try {
                     writerRef.current?.animateCharacter({
-                      onComplete: () => setHasPlayed(true),
+                      onComplete: () => !cancelled && setHasPlayed(true),
                     });
                   } catch {
                     setHasPlayed(true);
@@ -76,11 +84,13 @@ const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrok
               }
             })
             .catch(() => {
+              if (cancelled) return;
               setLoading(false);
               setFailed(true);
             });
         },
         onLoadCharDataError: () => {
+          if (cancelled) return;
           setLoading(false);
           setFailed(true);
         },
@@ -91,7 +101,12 @@ const HanziStrokeOrder = ({ character, size = 120, compact = false }: HanziStrok
     }
 
     return () => {
+      cancelled = true;
       writerRef.current = null;
+      // Safely detach the host node managed by HanziWriter
+      if (host.parentNode) {
+        try { host.parentNode.removeChild(host); } catch { /* ignore */ }
+      }
     };
   }, [character, size]);
 
