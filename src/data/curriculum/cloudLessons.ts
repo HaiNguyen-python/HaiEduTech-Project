@@ -1865,36 +1865,252 @@ print(f"Bucket secured with CMK {key_id}")`,
         titleEn: "Lambda & API Gateway",
         level: 3,
         difficulty: "intermediate",
-        theory: `**Serverless** không có nghĩa là "không server", mà là **bạn không quản lý server**. Cloud lo: provisioning, scaling, patching, HA. Bạn chỉ viết code và **trả tiền theo execution**.
+        theory: `**Serverless** không có nghĩa là "không có server", mà là **bạn không cần quản lý server**. Cloud provider lo provisioning, OS patching, scaling, high availability. Lập trình viên chỉ viết function — code chạy khi có event và **trả tiền theo từng millisecond execution**. Đây là mô hình điện toán "pay-per-use" thuần khiết nhất hiện nay.
 
-**AWS Lambda — đặc tính:**
-- Trigger từ S3, API Gateway, EventBridge, SQS, DynamoDB Stream...
-- Hỗ trợ Node.js, Python, Java, Go, Ruby, .NET, container.
-- Memory 128MB – 10GB, timeout tối đa 15 phút.
-- **Cold start**: lần invoke đầu chậm (100ms – vài giây) do container khởi tạo.
-- Concurrency mặc định 1000/region, có thể request tăng.
+## Vì sao Serverless ra đời?
 
-**Pricing:** \$0.20 / 1M request + \$0.0000166667 / GB-second. **1M request 128MB chạy 100ms = ~\$0.20.**
+Trước Serverless, ngay cả với cloud, ta vẫn phải:
+- Chọn instance type, OS, patch security.
+- Tự thiết lập Auto Scaling Group, Load Balancer.
+- Trả tiền cả khi server idle (24/7).
 
-**API Gateway** tạo REST/HTTP/WebSocket API trước Lambda:
-- Authentication (Cognito, IAM, Lambda authorizer).
-- Throttling, caching, request validation.
-- Custom domain + TLS.
+AWS Lambda ra mắt 2014 là dịch vụ Function-as-a-Service (FaaS) đầu tiên, đảo ngược mô hình: **"Đưa code, không cần đưa server"**. Từ đó hệ sinh thái mở rộng: Azure Functions, Google Cloud Functions, Cloudflare Workers, Vercel Functions...
 
-**Khi nào dùng Serverless?**
-- ✅ Event-driven, không đều (webhook, image processing, cron).
-- ✅ Tải đột biến (campaign, sự kiện).
-- ✅ Backend mobile/web nhỏ-vừa.
-- ❌ Long-running >15 phút, low-latency real-time, workload đều cao (VM/container rẻ hơn).`,
-        theoryEn: `**Serverless** = no server management. Cloud handles provisioning, scaling, HA. You write code and pay per execution.
+## Khái niệm cốt lõi của AWS Lambda
 
-**AWS Lambda:** trigger from S3/API GW/EventBridge/SQS, supports many runtimes, 128MB–10GB memory, 15min timeout max, has cold start, default 1000 concurrency.
+| Khái niệm | Mô tả |
+|---|---|
+| **Function** | Đoạn code (handler) chạy khi event đến |
+| **Runtime** | Môi trường thực thi: Node.js, Python, Java, Go, Ruby, .NET, hoặc custom container |
+| **Trigger / Event Source** | S3, API Gateway, EventBridge, SQS, SNS, DynamoDB Stream, Kinesis, CloudWatch cron... |
+| **Memory** | 128 MB → 10 GB (tăng RAM cũng tăng vCPU) |
+| **Timeout** | Tối đa **15 phút** (900s) cho mỗi invocation |
+| **Concurrency** | Default 1000 execution song song / region (soft limit) |
+| **Layer** | Thư viện chia sẻ giữa nhiều function (giảm package size) |
+| **Execution role** | IAM role Lambda dùng để truy cập AWS resource khác |
 
-**Pricing:** \$0.20 per 1M requests + \$0.0000166667/GB-second.
+## Cold Start vs Warm Start — vấn đề kinh điển
 
-**API Gateway** fronts Lambda with auth, throttling, caching, custom domain.
+**Cold start** xảy ra khi Lambda cần khởi tạo container mới:
+\`\`\`
+Request đến → Download code (50-200ms)
+            → Init runtime (50-300ms)
+            → Run handler (your code)
+\`\`\`
+- Java/.NET: cold start 1-3 giây ❌
+- Python/Node.js: 100-500ms ⚠️
+- Go/Rust (compiled): 50-100ms ✅
 
-**Use serverless for:** event-driven workloads, bursty traffic, small/medium APIs. Avoid for >15min jobs, ultra-low-latency, or steady high load.`,
+**Warm start** (container còn sống, ~5-15 phút sau request cuối): chỉ chạy handler, <10ms overhead.
+
+**Giải pháp giảm cold start:**
+- **Provisioned Concurrency** — giữ N container "warm" (trả thêm tiền nhưng latency p99 giảm 90%).
+- **SnapStart** (Java) — snapshot container đã init, restore nhanh.
+- **Lambda Power Tuning** — tìm memory tối ưu (RAM cao có khi rẻ hơn vì chạy nhanh hơn).
+- Tránh Java, ưu tiên Python/Node/Go cho latency-sensitive workload.
+
+## API Gateway — cánh cổng cho Lambda
+
+| Tính năng | Vai trò |
+|---|---|
+| **Routing** | Map URL/method → Lambda function |
+| **Auth** | Cognito User Pool, IAM, Lambda Authorizer (JWT custom) |
+| **Throttling** | Rate limit & burst limit (chống DDoS) |
+| **Caching** | Cache response 1-3600s (giảm Lambda call) |
+| **Request validation** | Schema JSON, query/header validation |
+| **Custom domain + TLS** | api.mycompany.com với cert ACM |
+| **Stages** | dev / staging / prod riêng biệt |
+| **WebSocket API** | Hỗ trợ real-time (chat, notification) |
+
+**3 loại API Gateway trên AWS:**
+- **HTTP API** — rẻ ($1/triệu request), nhanh, đơn giản. **Khuyến nghị mặc định.**
+- **REST API** — đắt ($3.5/triệu) nhưng đầy đủ tính năng (caching, request validation, WAF integration).
+- **WebSocket API** — cho real-time bidirectional.
+
+## Pricing thực tế (us-east-1)
+
+\`\`\`
+Lambda: $0.20 / 1 triệu request + $0.0000166667 / GB-second
+
+Ví dụ: API có 5 triệu request/tháng, 256 MB, chạy 200 ms
+- Request cost: 5 × $0.20 = $1.00
+- Compute: 5,000,000 × 0.2s × (256/1024) GB × $0.0000166667
+         = 5,000,000 × 0.05 × $0.0000166667 ≈ $4.17
+- Tổng: ~$5.17 / tháng
+
+So với EC2 t3.small chạy 24/7: ~$15/tháng (gấp ~3 lần)
+\`\`\`
+
+**Free Tier vĩnh viễn:** 1 triệu request + 400,000 GB-second / tháng. Đủ chạy nhiều side-project miễn phí.
+
+## Case study: Netflix — Lambda xử lý 1 nghìn tỷ event/ngày
+
+Netflix dùng Lambda cho:
+- **Encoding pipeline**: mỗi video upload trigger hàng nghìn Lambda song song để encode đa độ phân giải (DASH/HLS).
+- **A/B testing infra**: route traffic, ghi metric, không cần server cố định.
+- **CDN cache invalidation**: khi metadata video đổi, Lambda invalidate edge cache toàn cầu.
+
+Kết quả: giảm 80% chi phí so với chạy EC2 24/7 cho các workload event-driven.
+
+## Case study: Coca-Cola Freestyle — vending machine 50,000 máy
+
+Mỗi máy bán nước Freestyle gửi telemetry mỗi vài giờ. Coca-Cola dùng API Gateway + Lambda + DynamoDB:
+- Trước: cluster EC2 chạy 24/7, idle 95% thời gian → lãng phí.
+- Sau Lambda: chỉ trả tiền khi máy gọi → tiết kiệm **65% chi phí backend**.
+- Auto-scale từ 0 → vài nghìn concurrent không cần config.
+
+## So sánh Serverless vs Container vs VM
+
+| Tiêu chí | Lambda (Serverless) | Container (ECS/EKS) | VM (EC2) |
+|---|---|---|---|
+| **Idle cost** | $0 | Trả tiền cluster | Trả tiền 24/7 |
+| **Cold start** | 100ms-3s | 0 (luôn chạy) | 0 |
+| **Max runtime** | 15 phút | Vô hạn | Vô hạn |
+| **Scaling time** | <1s, tự động | 30s-2min (ASG) | 1-3 phút |
+| **Phù hợp cho** | Bursty, event-driven | Workload đều, microservices | Legacy, GPU, full control |
+| **Vendor lock-in** | Cao | Thấp (Docker chuẩn) | Thấp |
+
+## Best practices
+
+- ✅ **Function nhỏ và đơn nhiệm** (single responsibility) — dễ test, deploy.
+- ✅ **Stateless** — state lưu vào DynamoDB/S3/RDS, không lưu trong /tmp.
+- ✅ **Reuse connection** — khởi tạo DB client ngoài handler để tận dụng warm start.
+- ✅ **Set timeout sát thực tế** (vd 10s, không để mặc định 3s hay max 15min).
+- ✅ **Dead Letter Queue (DLQ)** cho async invoke — không mất event khi fail.
+- ✅ **CloudWatch Logs + X-Ray** để trace.
+- ✅ **Observability**: structured logs (JSON), correlation ID.
+- ✅ **Lambda Powertools** (AWS official) — logger, tracer, metrics chuẩn.
+
+## Common pitfalls / Anti-patterns
+
+- ❌ **"Lambda monolith"** — 1 function 5000 dòng xử lý 20 endpoint → khó debug, deploy chậm.
+- ❌ **Synchronous Lambda gọi Lambda** — double-billing + timeout cascade. Dùng Step Functions hoặc EventBridge.
+- ❌ **Lambda kết nối RDS trực tiếp** không qua RDS Proxy → connection storm khi scale.
+- ❌ **Đóng gói cả node_modules lớn** (>50MB) → cold start chậm. Dùng Layer hoặc tree-shaking.
+- ❌ **Workload chạy lâu** (ETL 30 phút) trên Lambda → fail vì vượt 15 phút timeout.
+- ❌ **Polling SQS bằng Lambda với batch size = 1** → tốn 10x cost. Dùng batch 10.
+
+## Khi nào nên / không nên dùng Serverless?
+
+✅ **Nên dùng:**
+- API backend mobile/web nhỏ-vừa (<10k req/s ổn định).
+- Webhook, image/video processing on-demand.
+- Cron job (CloudWatch Scheduled Events → Lambda).
+- Glue code: kết nối các AWS service (S3 trigger → DynamoDB → SNS).
+- Startup MVP — tiết kiệm và scale tự động.
+
+❌ **Không nên dùng:**
+- Workload chạy >15 phút (ETL lớn, ML training).
+- Latency p99 < 50ms strict (vì cold start).
+- Workload đều cao (>1000 req/s 24/7) — EC2/Fargate rẻ hơn.
+- Stateful WebSocket connection lâu dài.
+- Workflow phức tạp nhiều bước có state — dùng Step Functions thay vì chuỗi Lambda.
+
+## Bridge sang bài tiếp theo
+
+Bài tiếp theo (**Infrastructure as Code**) sẽ giải quyết câu hỏi: làm sao quản lý hàng trăm Lambda, API Gateway, IAM Role, S3 bucket... một cách reproducible và team-friendly? Đáp án: **Terraform / CloudFormation / SAM** — viết hạ tầng bằng code, version trong git, deploy qua CI/CD.`,
+        theoryEn: `**Serverless** doesn't mean "no servers" — it means **you don't manage servers**. The cloud handles provisioning, OS patching, scaling, and HA. You write functions and **pay per millisecond of execution**. It is the purest pay-per-use compute model.
+
+## Why Serverless emerged
+
+Even with traditional cloud, you still picked instance types, configured ASG/LB, and paid for idle servers 24/7. AWS Lambda (2014) inverted the model: **"Bring code, not servers."** Azure Functions, GCP Functions, Cloudflare Workers, and Vercel Functions followed.
+
+## Core Lambda concepts
+
+| Concept | Description |
+|---|---|
+| **Function** | The handler code that runs on event |
+| **Runtime** | Node.js, Python, Java, Go, Ruby, .NET, or custom container |
+| **Trigger** | S3, API GW, EventBridge, SQS, SNS, DynamoDB Stream, Kinesis, cron |
+| **Memory** | 128 MB → 10 GB (more RAM = more vCPU) |
+| **Timeout** | Max **15 minutes** per invocation |
+| **Concurrency** | Default 1000 parallel executions / region |
+| **Layer** | Shared libraries to reduce package size |
+| **Execution role** | IAM role granting Lambda access to AWS resources |
+
+## Cold start vs warm start
+
+\`\`\`
+Cold: Request → Download code (50-200ms) → Init runtime (50-300ms) → Run handler
+Warm: Request → Run handler (<10ms overhead)
+\`\`\`
+- Java/.NET: 1-3s cold start ❌
+- Python/Node.js: 100-500ms ⚠️
+- Go/Rust: 50-100ms ✅
+
+**Mitigations:** Provisioned Concurrency (keeps N containers warm), SnapStart (Java), Lambda Power Tuning, prefer Python/Node/Go.
+
+## API Gateway
+
+Provides routing, auth (Cognito/IAM/JWT), throttling, caching, request validation, custom TLS domains, stages, and WebSocket support.
+
+**Three flavors on AWS:**
+- **HTTP API** — cheap ($1/M req), fast, simple. **Default choice.**
+- **REST API** — expensive ($3.5/M) but full features (caching, validation, WAF).
+- **WebSocket API** — bidirectional real-time.
+
+## Real pricing (us-east-1)
+
+\`\`\`
+Lambda: $0.20 per 1M requests + $0.0000166667 per GB-second
+
+Example: 5M req/month, 256 MB, 200ms each
+- Request: $1.00
+- Compute: ~$4.17
+- Total: ~$5.17/month
+
+vs EC2 t3.small 24/7: ~$15/month (3x more)
+\`\`\`
+
+**Free Tier (forever):** 1M requests + 400,000 GB-seconds / month.
+
+## Case study: Netflix — 1 trillion events/day on Lambda
+
+Netflix uses Lambda for video encoding pipelines (one upload triggers thousands of parallel encodings), A/B testing infra, and CDN cache invalidation. Result: **80% cost reduction** vs always-on EC2 for event-driven workloads.
+
+## Case study: Coca-Cola Freestyle — 50,000 vending machines
+
+Each machine pings telemetry every few hours. Switched from idle EC2 cluster to API Gateway + Lambda + DynamoDB. Saved **65% backend cost** and gained automatic scaling from 0 → thousands.
+
+## Serverless vs Container vs VM
+
+| Criterion | Lambda | Container (ECS/EKS) | VM (EC2) |
+|---|---|---|---|
+| **Idle cost** | $0 | Cluster cost | 24/7 cost |
+| **Cold start** | 100ms-3s | None | None |
+| **Max runtime** | 15 min | Unlimited | Unlimited |
+| **Scaling speed** | <1s, auto | 30s-2min | 1-3 min |
+| **Best for** | Bursty, event-driven | Steady microservices | Legacy, GPU |
+| **Vendor lock-in** | High | Low (Docker) | Low |
+
+## Best practices
+
+- ✅ Small single-purpose functions.
+- ✅ Stateless — store state in DynamoDB/S3/RDS, not /tmp.
+- ✅ Initialize DB clients **outside** the handler to reuse on warm start.
+- ✅ Set realistic timeouts (10s typical).
+- ✅ Use DLQ for async invokes.
+- ✅ CloudWatch Logs + X-Ray + structured JSON logs + correlation IDs.
+- ✅ Use Lambda Powertools (official AWS).
+
+## Common pitfalls
+
+- ❌ "Lambda monolith" — one function with 20 endpoints.
+- ❌ Sync Lambda → Lambda calls (double-billing, cascade timeouts). Use Step Functions.
+- ❌ Direct RDS connections without RDS Proxy → connection storms.
+- ❌ Huge packages (>50MB) → slow cold start.
+- ❌ Long-running ETL → fails at 15min.
+- ❌ SQS polling with batch size 1 → 10x more cost.
+
+## When to use Serverless
+
+✅ **Yes:** APIs <10k RPS, webhooks, image processing, cron jobs, glue code, MVPs.
+
+❌ **No:** Jobs >15 min, strict p99 <50ms, steady high load (>1000 RPS 24/7), long-lived stateful WebSockets, complex stateful workflows (use Step Functions).
+
+## Bridge to next lesson
+
+Next (**Infrastructure as Code**): how do you manage hundreds of Lambdas, API Gateways, IAM roles, and S3 buckets reproducibly and as a team? Answer: Terraform / CloudFormation / SAM — infrastructure in code, version-controlled, deployed via CI/CD.`,
         code: `# AWS Lambda handler (Python) — xử lý API Gateway request
 import json
 
