@@ -50,6 +50,8 @@ const ChineseConversationalLessonView = () => {
   const [activeTab, setActiveTab] = useState("situations");
   const [listeningRevealed, setListeningRevealed] = useState(false);
   const [listeningAnswers, setListeningAnswers] = useState<Record<number, number>>({});
+  const [fibAnswers, setFibAnswers] = useState<Record<number, string>>({});
+  const [fibChecked, setFibChecked] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese");
   const [showAccessModal, setShowAccessModal] = useState(false);
