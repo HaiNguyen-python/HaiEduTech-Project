@@ -2165,42 +2165,251 @@ print(sam_template)`,
         titleEn: "Infrastructure as Code (Terraform)",
         level: 4,
         difficulty: "intermediate",
-        theory: `**Infrastructure as Code (IaC)** quản lý hạ tầng bằng code thay vì click trên console. Lợi ích: version control, reproducible, code review, rollback.
+        theory: `**Infrastructure as Code (IaC)** là phương pháp quản lý và provisioning hạ tầng (server, network, database, IAM…) thông qua **file code có thể version trong git**, thay vì click chuột trên console hay gõ CLI command thủ công. IaC biến hạ tầng thành "phần mềm" — có thể review, test, deploy, rollback như application code.
 
-**Công cụ phổ biến:**
-- **Terraform** (HashiCorp) — multi-cloud, cộng đồng lớn nhất, ngôn ngữ HCL.
-- **AWS CloudFormation** — native AWS, YAML/JSON.
-- **AWS CDK** — viết bằng TypeScript/Python, biên dịch sang CloudFormation.
-- **Pulumi** — IaC bằng ngôn ngữ thực (TS/Py/Go).
+## Vì sao cần IaC?
 
-**Terraform concepts:**
-- **Provider**: plugin kết nối cloud (aws, azurerm, google).
-- **Resource**: tài nguyên cần tạo (\`aws_instance\`, \`aws_s3_bucket\`).
-- **State file** (\`terraform.tfstate\`): theo dõi resource đã tạo. **Lưu remote** (S3 + DynamoDB lock).
-- **Module**: tái sử dụng cấu hình.
-- **Variable** + **Output**: tham số hóa.
+Trước IaC, sysadmin tạo hạ tầng bằng tay:
+- Click console AWS để tạo VPC, EC2, Security Group...
+- Không ai biết môi trường staging khác prod chỗ nào ("snowflake server").
+- Disaster recovery = nhật ký Word + ngón tay vàng.
+- Onboarding member mới mất 2 tuần để hiểu hệ thống.
 
-**Workflow chuẩn:**
-1. \`terraform init\` — tải provider.
-2. \`terraform plan\` — xem trước thay đổi.
-3. \`terraform apply\` — áp dụng.
-4. \`terraform destroy\` — xóa hết.
+Với IaC, một file \`.tf\` mô tả toàn bộ hạ tầng. Tạo lại môi trường giống hệt chỉ trong vài phút bằng \`terraform apply\`.
 
-**Best practices:**
-- ✅ Lưu state remote + lock.
-- ✅ Tách environment (dev/staging/prod) bằng workspace hoặc folder.
-- ✅ Code review mọi PR thay đổi infra.
-- ✅ Dùng module cho pattern lặp lại.
-- ❌ Không bao giờ sửa tay tài nguyên đã quản lý bởi Terraform (sẽ drift).`,
-        theoryEn: `**Infrastructure as Code (IaC)** manages infra via code — version control, reproducible, reviewable, rollback.
+## Lợi ích cụ thể của IaC
 
-**Tools:** Terraform (multi-cloud, HCL), CloudFormation (native AWS, YAML), CDK (TS/Py → CloudFormation), Pulumi (real languages).
+| Lợi ích | Giá trị thực tế |
+|---|---|
+| **Version control** | Mọi thay đổi có git history, blame, rollback |
+| **Reproducibility** | Tạo dev/staging/prod giống hệt nhau |
+| **Code review** | Pull request review trước khi deploy infra |
+| **Disaster recovery** | Tái tạo region trong 30 phút thay vì 3 ngày |
+| **Documentation tự động** | Code chính là tài liệu (vs sơ đồ Visio outdated) |
+| **Compliance audit** | Mọi resource có "ai tạo, khi nào, vì sao" |
+| **Cost transparency** | Plan trước khi apply → biết chi phí dự kiến |
 
-**Terraform:** Provider, Resource, State file (store remote with S3 + DynamoDB lock), Module, Variable, Output.
+## Các công cụ IaC phổ biến
 
-**Workflow:** init → plan → apply → destroy.
+| Công cụ | Cloud hỗ trợ | Ngôn ngữ | Điểm mạnh | Điểm yếu |
+|---|---|---|---|---|
+| **Terraform** | Đa cloud (AWS, Azure, GCP, K8s, Cloudflare…) | HCL | Cộng đồng lớn nhất, modular, state management tốt | Cần học HCL, state file conflict |
+| **AWS CloudFormation** | AWS only | YAML/JSON | Native AWS, miễn phí, drift detection sẵn | Verbose, chỉ AWS, rollback chậm |
+| **AWS CDK** | AWS chủ yếu | TypeScript, Python, Java, Go | Dùng ngôn ngữ thật (loop, function) | Compile sang CFN — debug 2 lớp |
+| **Pulumi** | Đa cloud | TS/Python/Go/.NET | Ngôn ngữ thật + đa cloud | Nhỏ hơn Terraform community |
+| **Ansible** | Đa cloud | YAML | Mạnh về configuration management | Imperative, khó với infra phức tạp |
+| **AWS SAM** | AWS Serverless | YAML | Tối ưu cho Lambda/API GW | Chỉ serverless |
 
-**Best practices:** remote state + locking, separate envs, code review every PR, use modules, never manually edit Terraform-managed resources (causes drift).`,
+**Khuyến nghị 2024:** Terraform cho đa cloud, CDK cho team thuần TypeScript/Python ở AWS, SAM cho dự án thuần serverless.
+
+## Khái niệm cốt lõi của Terraform
+
+\`\`\`
+[Code .tf] → terraform plan → [Cloud API] → terraform.tfstate (mapping)
+\`\`\`
+
+| Concept | Mô tả |
+|---|---|
+| **Provider** | Plugin kết nối cloud (\`aws\`, \`azurerm\`, \`google\`, \`kubernetes\`, \`cloudflare\`) |
+| **Resource** | Tài nguyên cụ thể: \`aws_instance\`, \`aws_s3_bucket\`, \`aws_iam_role\` |
+| **Data Source** | Tham chiếu resource đã có (không tạo mới): \`data "aws_ami"\` |
+| **Variable** | Tham số đầu vào: env, region, instance_type |
+| **Output** | Giá trị xuất ra: VPC ID, ALB DNS để module khác dùng |
+| **Module** | Bộ code tái sử dụng (vd: module "vpc" đóng gói VPC + subnets + NAT) |
+| **State file** | \`terraform.tfstate\` — bản đồ giữa code và resource thực tế |
+| **Backend** | Nơi lưu state: S3 + DynamoDB (lock), Terraform Cloud, GCS |
+| **Workspace** | Tách state cho nhiều env (dev/staging/prod) |
+
+## State file — tim của Terraform
+
+State file chứa thông tin:
+- Mỗi resource trong code map sang resource ID nào trên cloud (i-abc123, vpc-456…).
+- Metadata: dependency graph, attribute (IP, ARN…).
+- Hash để phát hiện drift.
+
+**Quy tắc vàng về state:**
+1. **Luôn lưu remote** (S3 + DynamoDB lock) — không commit vào git.
+2. **Không bao giờ sửa tay** state file (dùng \`terraform import\` / \`state mv\`).
+3. **Lock file** ngăn 2 người \`apply\` đồng thời (tránh corrupt).
+4. **Encrypt at rest** — state có thể chứa secret (DB password).
+5. **Versioning S3** bật để rollback nếu corrupt.
+
+## Workflow chuẩn của Terraform
+
+\`\`\`
+1. terraform init       # tải provider, kết nối backend
+2. terraform fmt        # format code
+3. terraform validate   # check syntax
+4. terraform plan       # preview thay đổi (KHÔNG apply)
+5. terraform apply      # áp dụng (sau khi review plan)
+6. terraform destroy    # xóa hết (cẩn thận!)
+\`\`\`
+
+**Plan output đọc thế nào?**
+- \`+\` = create (tạo mới)
+- \`-\` = destroy (xóa) — **CẢNH BÁO** nếu là DB!
+- \`~\` = update in-place (đổi tag, đổi size)
+- \`-/+\` = replace (xóa rồi tạo lại — rủi ro mất data!)
+
+## Module — chìa khóa scale Terraform
+
+Thay vì copy-paste code VPC cho 5 môi trường, viết 1 module và instantiate cho từng env. Nguồn module: **Terraform Registry** (registry.terraform.io), git repo team, hoặc module nổi tiếng \`terraform-aws-modules/vpc/aws\`, \`terraform-aws-modules/eks/aws\`.
+
+## Case study: Airbnb — quản lý 5000+ AWS resource
+
+Airbnb có hàng nghìn microservice. Họ dùng Terraform với:
+- **Atlantis** (PR automation) — comment \`atlantis plan\` trên GitHub PR để xem diff.
+- **Tách module theo team** — mỗi service team có repo TF riêng.
+- **State remote S3 + DynamoDB lock** — multi-engineer apply an toàn.
+- **Policy as Code (Sentinel/OPA)** — chặn PR nếu tạo S3 public hoặc instance >$1000/tháng.
+
+Kết quả: deploy infra change từ "vài ngày" xuống "vài giờ", drift gần như bằng 0.
+
+## Case study: Capital One — 100% IaC sau khi chuyển cloud
+
+Sau khi migrate sang AWS, Capital One bắt buộc 100% hạ tầng phải qua CloudFormation/Terraform:
+- Console AWS chỉ cho **read-only** với engineer.
+- Mọi thay đổi phải qua PR + review + CI/CD.
+- Disaster recovery test hằng quý: xóa toàn bộ region staging và tái tạo trong 4h bằng IaC.
+
+## Best practices
+
+- ✅ **Remote state + locking** ngay từ ngày 1.
+- ✅ **Tách env bằng workspace hoặc folder** (không trộn dev/prod 1 state).
+- ✅ **Pin version** provider (\`version = "~> 5.0"\`) tránh breaking change.
+- ✅ **Module hóa** mọi pattern lặp lại (VPC, EKS cluster, RDS).
+- ✅ **PR review bắt buộc** + đính kèm output \`terraform plan\`.
+- ✅ **\`terraform fmt\` + \`tflint\` + \`tfsec\`** trong CI.
+- ✅ **Tagging chuẩn** (Environment, Owner, CostCenter) — gắn vào provider default_tags.
+- ✅ **Lifecycle \`prevent_destroy\`** cho RDS, S3 production.
+
+## Common pitfalls / Anti-patterns
+
+- ❌ **Sửa resource bằng tay trên console** → Terraform sẽ override lần apply tới (drift!).
+- ❌ **Commit state file vào git** → leak DB password + race condition.
+- ❌ **1 state file khổng lồ** chứa cả 100 service → plan 30 phút, lock cả team.
+- ❌ **Không pin version provider** → một ngày đẹp trời upgrade tự động phá hệ thống.
+- ❌ **\`terraform apply\`** thẳng trên laptop dev → khác state với CI/CD.
+- ❌ **Hardcoded secret** trong file .tf → lộ trên git. Dùng AWS Secrets Manager + data source.
+- ❌ **Module quá generic** với 50 variable → khó dùng hơn copy-paste.
+
+## Khi nào nên / không nên dùng IaC?
+
+✅ **Nên dùng:** mọi production cloud workload — không có ngoại lệ.
+
+⚠️ **Cẩn thận:** experiment 1-lần (POC nhỏ chỉ chạy 1 ngày) — có thể ClickOps để nhanh, nhưng **xóa ngay** sau khi xong.
+
+❌ **Không nên:** dùng IaC để quản lý content (file upload S3, row trong DB) — đó là việc của application.
+
+## Bridge sang bài tiếp theo
+
+Có IaC rồi, ta cần **CI/CD pipeline** để tự động chạy \`terraform plan\` trên mỗi PR và \`apply\` khi merge. Bài tiếp theo (**CI/CD & Observability**) sẽ kết nối tất cả: code app + IaC → build → test → deploy + monitor production với metrics, logs, traces.`,
+        theoryEn: `**Infrastructure as Code (IaC)** manages infrastructure (servers, networks, DBs, IAM…) through **version-controlled code files** instead of console clicks or manual CLI. IaC turns infra into software — reviewable, testable, deployable, and rollback-able like application code.
+
+## Why IaC?
+
+Before IaC: admins clicked the console, no one knew how staging differed from prod ("snowflake servers"), DR ran on hand-written runbooks, onboarding took weeks. With IaC: a single \`.tf\` file describes the system; \`terraform apply\` rebuilds it in minutes.
+
+## Concrete benefits
+
+| Benefit | Real value |
+|---|---|
+| Version control | Git history, blame, rollback |
+| Reproducibility | Identical dev/staging/prod |
+| Code review | PR review before deploying infra |
+| Disaster recovery | Rebuild a region in 30 min, not 3 days |
+| Auto documentation | Code IS the doc |
+| Compliance | Who/when/why for every resource |
+| Cost transparency | Plan reveals cost impact before apply |
+
+## Popular IaC tools
+
+| Tool | Clouds | Language | Strength | Weakness |
+|---|---|---|---|---|
+| **Terraform** | Multi (AWS/Azure/GCP/K8s) | HCL | Largest community, modules | HCL learning curve |
+| **CloudFormation** | AWS | YAML/JSON | Native AWS, free, drift detection | Verbose, AWS-only |
+| **AWS CDK** | AWS | TS/Python/Java/Go | Real languages | Two-layer debugging |
+| **Pulumi** | Multi | TS/Python/Go/.NET | Real languages + multi-cloud | Smaller community |
+| **Ansible** | Multi | YAML | Great for config mgmt | Imperative |
+| **AWS SAM** | AWS Serverless | YAML | Optimized for Lambda | Serverless only |
+
+**2024 picks:** Terraform for multi-cloud, CDK for AWS-only TS/Python teams, SAM for pure serverless.
+
+## Core Terraform concepts
+
+| Concept | Description |
+|---|---|
+| Provider | Cloud plugin (aws, azurerm, google, kubernetes) |
+| Resource | A specific resource (\`aws_instance\`, \`aws_s3_bucket\`) |
+| Data source | Reference existing resources (\`data "aws_ami"\`) |
+| Variable | Input parameter |
+| Output | Exported value |
+| Module | Reusable code package |
+| State file | \`terraform.tfstate\` — code-to-cloud mapping |
+| Backend | Where state is stored (S3 + DynamoDB lock) |
+| Workspace | Per-env state |
+
+## State file — Terraform's heart
+
+Stores the mapping of code resources to real cloud IDs plus metadata.
+
+**Golden rules:**
+1. Always store **remote** (S3 + DynamoDB lock).
+2. **Never** edit it by hand — use \`terraform import\` or \`state mv\`.
+3. Lock prevents concurrent apply.
+4. **Encrypt at rest** — state may contain secrets.
+5. Enable S3 versioning for rollback.
+
+## Standard workflow
+
+\`\`\`
+init → fmt → validate → plan → apply → destroy
+\`\`\`
+
+**Plan symbols:** \`+\` create, \`-\` destroy (warning if DB!), \`~\` in-place update, \`-/+\` replace (data loss risk!).
+
+## Modules — scaling Terraform
+
+Don't copy-paste — write a module once, instantiate per env. Sources: Terraform Registry, your own git, popular ones like \`terraform-aws-modules/vpc/aws\`.
+
+## Case study: Airbnb — 5000+ resources via Terraform
+
+Uses Atlantis (PR automation), per-team module repos, S3+DynamoDB state, and Policy-as-Code (Sentinel) to block dangerous PRs. Result: infra changes went from days to hours; near-zero drift.
+
+## Case study: Capital One — 100% IaC mandate
+
+Post-cloud migration, console is read-only. All changes via PR + CI/CD. Quarterly DR test rebuilds entire staging region in 4h.
+
+## Best practices
+
+- ✅ Remote state + locking from day one.
+- ✅ Separate envs (workspace or folder).
+- ✅ Pin provider versions.
+- ✅ Modularize repeated patterns.
+- ✅ Required PR review with \`plan\` output attached.
+- ✅ \`fmt\` + \`tflint\` + \`tfsec\` in CI.
+- ✅ Standard tags via provider default_tags.
+- ✅ \`prevent_destroy\` lifecycle for prod RDS/S3.
+
+## Anti-patterns
+
+- ❌ Manual console edits → drift.
+- ❌ Committing state to git.
+- ❌ One giant state file for 100 services.
+- ❌ No version pinning.
+- ❌ Apply from a dev laptop.
+- ❌ Hardcoded secrets in .tf files.
+- ❌ Over-generic modules with 50 variables.
+
+## When to use
+
+✅ All production cloud workloads — no exception.
+⚠️ One-off POCs — ClickOps OK but **delete immediately**.
+❌ Don't use IaC for application data (S3 file uploads, DB rows).
+
+## Bridge to next lesson
+
+With IaC in place, we need **CI/CD pipelines** to auto-run \`terraform plan\` on PRs and \`apply\` on merge. Next: **CI/CD & Observability** — build, test, deploy, and monitor with metrics, logs, traces.`,
         code: `# main.tf — tạo VPC + S3 bucket bằng Terraform
 terraform {
   required_providers {
