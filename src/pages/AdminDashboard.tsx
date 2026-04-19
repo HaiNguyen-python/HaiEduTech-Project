@@ -34,6 +34,7 @@ import CourseAccessManager from "@/components/CourseAccessManager";
 import SystemStatusTab from "@/components/SystemStatusTab";
 import IncomeManagement from "@/components/IncomeManagement";
 import ClassScheduleManager from "@/components/admin/ClassScheduleManager";
+import BusinessStrategyTab from "@/components/admin/BusinessStrategyTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -412,6 +413,9 @@ const AdminDashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger value="system" className="gap-1.5">
                   <Activity className="w-3.5 h-3.5" /> {t("Hệ thống API", "System Status")}
+                </TabsTrigger>
+                <TabsTrigger value="strategy" className="gap-1.5">
+                  <TrendingUp className="w-3.5 h-3.5" /> {t("Chiến lược", "Strategy")}
                 </TabsTrigger>
               </TabsList>
 
@@ -910,6 +914,11 @@ const AdminDashboard = () => {
               {/* ===== SYSTEM STATUS & API MONITORING TAB ===== */}
               <TabsContent value="system">
                 <SystemStatusTab />
+              </TabsContent>
+
+              {/* ===== BUSINESS STRATEGY TAB (Admin BI) ===== */}
+              <TabsContent value="strategy">
+                <BusinessStrategyTab />
               </TabsContent>
             </Tabs>
           </motion.div>
