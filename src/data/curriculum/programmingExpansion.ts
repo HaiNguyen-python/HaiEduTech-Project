@@ -519,31 +519,224 @@ print(f"Result: {result}")`,
         id: "py-gen-1",
         title: "Generators & Yield",
         titleEn: "Generators & Yield",
-        theory: `# Generators & Yield
+        theory: `**Generator** là một loại function đặc biệt dùng \`yield\` thay vì \`return\`, sản sinh giá trị **lười (lazy)** — chỉ tính khi cần. Đây là chìa khóa xử lý dữ liệu lớn (hàng tỉ records) trên RAM hạn chế.
 
-## Generator là gì?
-Generator là hàm đặc biệt dùng \`yield\` thay vì \`return\`. Nó tạo ra giá trị từng cái một (lazy evaluation).
+## Vấn đề mà Generator giải quyết
 
-## Tại sao dùng generator?
-- Tiết kiệm bộ nhớ (không load toàn bộ dữ liệu)
-- Xử lý dữ liệu lớn
-- Tạo chuỗi vô hạn
-
-## Ví dụ
+Bạn cần đọc file log 50GB để đếm số lỗi 500. Cách thông thường:
 \`\`\`python
-def fibonacci():
-    a, b = 0, 1
-    while True:
-        yield a
-        a, b = b, a + b
+lines = open("server.log").readlines()   # Load 50GB vào RAM → CRASH!
+\`\`\`
 
-# Lấy 10 số Fibonacci đầu tiên
-fib = fibonacci()
-for _ in range(10):
-    print(next(fib))
-\`\`\``,
-        theoryEn: `# Generators & Yield
-Generators use \`yield\` instead of \`return\` to produce values lazily, one at a time. Great for large datasets and infinite sequences.`,
+Cách Generator:
+\`\`\`python
+def read_log(path):
+    with open(path) as f:
+        for line in f:        # Đọc từng dòng, RAM chỉ giữ 1 dòng
+            yield line
+
+count = sum(1 for line in read_log("server.log") if "500" in line)
+\`\`\`
+
+Chạy mượt với laptop 8GB RAM. Đây là sức mạnh của lazy evaluation.
+
+## Cơ chế hoạt động: Trạng thái được "đóng băng"
+
+Khác với function thường (chạy 1 lần rồi xong), generator **dừng tại \`yield\`, giữ nguyên trạng thái local variables**, sẽ tiếp tục từ đó khi gọi \`next()\`.
+
+\`\`\`python
+def counter():
+    print("Start")
+    yield 1
+    print("After yield 1")
+    yield 2
+    print("After yield 2")
+    yield 3
+
+g = counter()
+print(next(g))  # "Start" → 1
+print(next(g))  # "After yield 1" → 2
+print(next(g))  # "After yield 2" → 3
+print(next(g))  # StopIteration exception
+\`\`\`
+
+Mỗi \`next()\` chạy đến \`yield\` tiếp theo rồi dừng — như "tạm dừng thời gian".
+
+## Generator Expression — One-liner
+
+\`\`\`python
+# List comprehension (tạo full list ngay)
+squares_list = [x**2 for x in range(1_000_000)]   # Tốn ~32MB RAM
+
+# Generator expression (lazy)
+squares_gen = (x**2 for x in range(1_000_000))    # Tốn ~200 bytes!
+\`\`\`
+
+Chỉ khác dấu \`[]\` → \`()\`, nhưng tiết kiệm RAM hàng nghìn lần.
+
+## So sánh Generator vs List
+
+| Aspect | List \`[]\` | Generator \`()\` |
+|--------|-----------|----------------|
+| Bộ nhớ | Full data trong RAM | Chỉ 1 phần tử tại 1 thời điểm |
+| Tốc độ tạo | Chậm (tính tất cả) | Nhanh (chưa tính gì) |
+| Truy cập ngẫu nhiên | \`l[5]\` OK | Không hỗ trợ |
+| Lặp lại nhiều lần | OK | Chỉ duyệt được 1 lần |
+| Dữ liệu vô hạn | ❌ Crash | ✅ OK |
+| len() | ✅ | ❌ |
+| Khi nào dùng | Cần truy cập ngẫu nhiên, dữ liệu nhỏ | Stream dữ liệu lớn, pipeline |
+
+## Generator Pipeline — Composable
+
+\`\`\`python
+def read_lines(path):
+    with open(path) as f:
+        for line in f: yield line
+
+def parse_json(lines):
+    for line in lines: yield json.loads(line)
+
+def filter_errors(records):
+    for r in records:
+        if r["status"] >= 500: yield r
+
+# Compose pipeline — không tốn thêm RAM!
+errors = filter_errors(parse_json(read_lines("logs.jsonl")))
+for e in errors:
+    print(e["message"])
+\`\`\`
+
+Đây là pattern Spark, Kafka Streams, RxJS đều dùng — generator là nền tảng functional reactive programming.
+
+## yield from — Delegating
+
+\`\`\`python
+def sub_gen():
+    yield 1; yield 2; yield 3
+
+def main_gen():
+    yield 'start'
+    yield from sub_gen()    # Delegate to sub
+    yield 'end'
+\`\`\`
+
+\`yield from\` cho phép một generator "uỷ thác" cho generator khác, dùng nhiều trong asyncio (\`async def\`).
+
+## Case study thực tế
+
+**Apache Beam / Google Dataflow** xử lý hàng petabyte dữ liệu mỗi ngày. Core của nó là PCollection — về bản chất là generator pipeline phân tán.
+
+**Pandas \`read_csv(chunksize=10000)\`** trả generator các DataFrame nhỏ — cách standard để xử lý CSV >100GB trên 1 máy.
+
+**Twitter** dùng generator pattern xử lý 500M tweets/ngày qua streaming pipeline.
+
+## Best Practices ✅
+
+- ✅ Dùng \`()\` thay \`[]\` khi không cần lưu kết quả
+- ✅ Đặt tên động từ: \`read_lines\`, \`stream_records\`
+- ✅ Dùng \`itertools\` cho generator helpers (\`chain\`, \`islice\`, \`groupby\`)
+- ✅ Đóng resources với \`try/finally\` hoặc \`contextmanager\`
+
+## Anti-patterns ❌
+
+- ❌ Convert generator thành list ngay (\`list(gen)\`) — mất hết lợi ích
+- ❌ Duyệt lại generator nhiều lần (chỉ chạy được 1 lần) → confusing bugs
+- ❌ Dùng generator khi cần truy cập ngẫu nhiên hoặc \`len()\`
+- ❌ Generator vô hạn không có break → loop forever
+
+## Khi nào dùng?
+
+✅ **Nên:** Stream dữ liệu lớn, dãy vô hạn (Fibonacci, IDs), pipeline xử lý, đọc/ghi file lớn, API trả về cursor/page.
+
+❌ **Không nên:** Dữ liệu nhỏ (<1000 items), cần lặp nhiều lần, cần \`len()\`/\`indexing\`, cần debug từng phần tử dễ dàng.
+
+## Bridge: Bài tiếp theo
+
+**File I/O** — kết hợp với generator, bạn có thể xây dựng pipeline đọc/xử lý file CSV/JSON khổng lồ với memory footprint tối thiểu.`,
+        theoryEn: `**Generators** use \`yield\` instead of \`return\` to produce values **lazily** — only computed when needed. The key to processing massive datasets on limited RAM.
+
+## The Problem They Solve
+
+Reading a 50GB log file with \`readlines()\` → CRASH. With generator:
+\`\`\`python
+def read_log(path):
+    with open(path) as f:
+        for line in f: yield line   # 1 line in RAM at a time
+\`\`\`
+
+Runs smoothly on 8GB laptop.
+
+## How It Works: Frozen State
+
+Generators **pause at yield**, preserving locals, resume on next \`next()\`:
+\`\`\`python
+def counter():
+    yield 1; yield 2; yield 3
+g = counter()
+next(g)  # 1
+next(g)  # 2 (resumes after yield 1)
+\`\`\`
+
+## Generator Expression
+
+\`\`\`python
+squares = (x**2 for x in range(1_000_000))   # ~200 bytes
+# vs [x**2 for x in range(1_000_000)] — ~32MB
+\`\`\`
+
+## Generator vs List
+
+| Aspect | List | Generator |
+|--------|------|-----------|
+| Memory | Full in RAM | One item at a time |
+| Random access | Yes | No |
+| Re-iterate | Yes | Single-pass |
+| Infinite data | ❌ | ✅ |
+| len() | ✅ | ❌ |
+
+## Pipeline Composition
+
+\`\`\`python
+errors = filter_errors(parse_json(read_lines("logs.jsonl")))
+\`\`\`
+
+Composable, memory-efficient — same pattern as Spark, Kafka Streams.
+
+## yield from — Delegation
+
+\`\`\`python
+def main_gen():
+    yield from sub_gen()    # delegates
+\`\`\`
+
+Used heavily in asyncio.
+
+## Real-world
+
+- **Apache Beam**: petabytes/day via PCollection (generator-based)
+- **Pandas \`chunksize\`**: yields DataFrames for >100GB CSV
+- **Twitter**: 500M tweets/day via streaming pipelines
+
+## Best Practices ✅
+
+- Use \`()\` over \`[]\` when results aren't stored
+- Use \`itertools\` (chain, islice, groupby)
+- Close resources with \`try/finally\`
+
+## Anti-patterns ❌
+
+- Immediately \`list(gen)\` — defeats purpose
+- Re-iterating consumed generators
+- Using generators when random access needed
+
+## When to Use
+
+✅ Streaming, infinite sequences, pipelines, large file I/O
+❌ Small data, multi-pass iteration, need len()/indexing
+
+## Bridge
+
+Next: **File I/O** — combined with generators, build pipelines for huge CSV/JSON files with minimal memory.`,
         code: `def count_up(start=0):
     """Generator đếm lên vô hạn"""
     n = start
