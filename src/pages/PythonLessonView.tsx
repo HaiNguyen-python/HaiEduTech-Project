@@ -24,6 +24,7 @@ import {
   getLessonsByModule,
 } from "@/data/curriculum/pythonPathway";
 import CodePlayground from "@/components/python/CodePlayground";
+import { preloadPyodide } from "@/components/python/PyodideRunner";
 import LessonQuiz from "@/components/python/LessonQuiz";
 import { setLessonComplete, getPythonPathwayProgress } from "@/components/python/PythonPathwayHub";
 import { cn } from "@/lib/utils";
