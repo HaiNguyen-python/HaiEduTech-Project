@@ -1,42 +1,59 @@
 
 
-## Hai vấn đề cần fix
+## Vấn đề
 
-### 1. Hán tự không hiển thị nét bút (List view)
-**Nguyên nhân**: Cả 2 CDN tải dữ liệu nét bút (`cdn.jsdelivr.net` và `unpkg.com` cho `hanzi-writer-data`) đều bị fail (xác nhận qua network logs — tất cả request đều "Failed to fetch", có thể do CORS/blocked). Component `HanziStrokeOrder` rơi vào nhánh fallback → chỉ render chữ tĩnh, không có hoạt ảnh.
+Trong flashcard (và cả list view), nhiều mục HSK là **từ ghép nhiều ký tự** (ví dụ: 你好, 谢谢, 对不起, 没关系, 再见), nhưng component `HanziStrokeOrder` **chỉ render ký tự đầu tiên** qua `character.charAt(0)`. Hệ quả:
 
-### 2. Flashcard bị chữ chồng chữ
-**Nguyên nhân**: Trong `HskFlashcard`, mặt trước render đồng thời:
-- `<HanziStrokeOrder character={word.character} size={80} />` (hiển thị 1 ký tự lớn)
-- `<h3 className="text-4xl font-bold">{word.character}</h3>` (hiển thị lại y hệt)
+- Phiên âm hiển thị đầy đủ: `nǐ hǎo`, `duì bu qǐ`, `méi guānxi`
+- Nhưng chữ Hán chỉ hiện 1 ký tự: 你, 对, 没
 
-→ Hai chữ giống nhau xếp chồng dọc → trông rối.
+→ Trông như "chữ thiếu so với phiên âm".
 
----
+Lý do code cũ chỉ lấy 1 ký tự: `hanzi-writer` chỉ vẽ được **một ký tự** mỗi instance.
 
 ## Giải pháp
 
-### Fix 1: Stroke order — đổi nguồn data + tự động animate
+Render **mỗi ký tự thành một `HanziStrokeOrder` riêng**, xếp ngang cạnh nhau. Mỗi ký tự vẫn có nét bút chạy độc lập.
 
-**File**: `src/components/HanziStrokeOrder.tsx`
-- Thêm CDN dự phòng đáng tin cậy hơn (`cdnjs.cloudflare.com` và `esm.sh`) trước 2 CDN hiện tại.
-- **Tự động chạy animation** sau khi load xong (delay nhẹ ~400ms), thay vì chờ user click — vì hiện tại user không hề biết phải click. Sau khi chạy xong, vẫn cho click để xem lại.
-- Thêm `loop` tùy chọn (mặc định false) — chỉ chạy 1 lần auto rồi dừng ở trạng thái đầy đủ chữ, click để xem lại.
-- Giữ fallback (chữ tĩnh) nếu mọi CDN đều fail.
-- Cập nhật label hint: "Click để xem lại nét bút" sau lần auto-play.
+### Fix 1: `HanziStrokeOrder.tsx` — chỉ vẽ 1 ký tự (đã đúng), nhưng giảm size mặc định để xếp ngang gọn hơn
 
-### Fix 2: Flashcard — bỏ chữ trùng
+Giữ nguyên logic vẽ 1 ký tự, không cần đổi.
 
-**File**: `src/pages/HskVocabulary.tsx`, component `HskFlashcard` (mặt trước)
-- **Xóa** dòng `<h3 className="text-4xl font-bold text-foreground">{word.character}</h3>` (chữ Hán lớn thừa ở trên).
-- Giữ lại `HanziStrokeOrder` (nguồn hiển thị chữ + nét bút chính), Pinyin, badge HSK level, nút loa.
-- Tăng `size` của `HanziStrokeOrder` từ `80` lên `120` để chữ vẫn nổi bật trên thẻ.
+### Fix 2: Tạo wrapper `HanziWord` trong `HskVocabulary.tsx` (hoặc inline)
+
+Một component nhỏ nhận `character: string`, tách thành mảng ký tự (lọc bỏ ký tự không phải Hán tự nếu có), và render mỗi ký tự bằng `HanziStrokeOrder`:
+
+```tsx
+const HanziWord = ({ characters, size }: { characters: string; size: number }) => {
+  const chars = Array.from(characters); // hỗ trợ surrogate pairs
+  // Co kích thước mỗi ký tự nếu từ dài để vừa khung
+  const perCharSize = chars.length >= 3 ? Math.floor(size * 0.75) : size;
+  return (
+    <div className="flex items-center justify-center gap-1 flex-wrap">
+      {chars.map((c, i) => (
+        <HanziStrokeOrder key={i} character={c} size={perCharSize} />
+      ))}
+    </div>
+  );
+};
+```
+
+Áp dụng cho:
+- **Flashcard front** (line 64): thay `<HanziStrokeOrder character={word.character} size={120} />` → `<HanziWord characters={word.character} size={110} />`
+- **List view** (line 425): thay `<HanziStrokeOrder character={w.character} size={100} />` → `<HanziWord characters={w.character} size={84} />`
+- **List view** (line 430): xóa luôn `<h3 className="font-bold text-foreground text-2xl">{w.character}</h3>` trùng lặp (giờ HanziWord đã hiển thị đầy đủ chữ rồi), chỉ giữ pinyin.
 
 ### Kết quả mong đợi
-- List view & Flashcard: hiển thị chữ Hán có nét bút tự động chạy 1 lần khi load (nhờ CDN mới hoạt động + auto-animate), click để xem lại.
-- Flashcard: chỉ còn 1 chữ Hán duy nhất ở giữa thẻ, không còn cảnh "chữ chồng chữ".
+
+- 你好 → hiện 2 ký tự "你 好" cạnh nhau, mỗi ký tự đều có nét bút.
+- 对不起 → hiện 3 ký tự "对 不 起" (size nhỏ hơn để vừa khung).
+- 谢谢 → hiện "谢 谢".
+- Ký tự đơn (như 我, 他, 她) → giữ nguyên 1 ký tự lớn như cũ.
+- Phiên âm và chữ Hán giờ khớp nhau hoàn toàn.
 
 ### Files thay đổi
-- `src/components/HanziStrokeOrder.tsx` (mở rộng CDN list, auto-animate sau load)
-- `src/pages/HskVocabulary.tsx` (xóa `<h3>` chữ Hán trùng trong `HskFlashcard`, tăng size stroke writer)
+
+- `src/pages/HskVocabulary.tsx` — thêm component `HanziWord` nội bộ; thay 2 chỗ dùng `HanziStrokeOrder`; xóa `<h3>` chữ Hán trùng trong list view.
+
+Không cần đổi `HanziStrokeOrder.tsx`.
 
