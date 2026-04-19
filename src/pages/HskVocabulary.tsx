@@ -48,6 +48,20 @@ const shuffle = <T,>(arr: T[]): T[] => {
   return a;
 };
 
+// Render multi-character Chinese words by splitting into individual characters
+// (hanzi-writer can only animate one character per instance)
+const HanziWord = ({ characters, size }: { characters: string; size: number }) => {
+  const chars = Array.from(characters); // supports surrogate pairs
+  const perCharSize = chars.length >= 3 ? Math.floor(size * 0.75) : size;
+  return (
+    <div className="flex items-center justify-center gap-1 flex-wrap">
+      {chars.map((c, i) => (
+        <HanziStrokeOrder key={i} character={c} size={perCharSize} />
+      ))}
+    </div>
+  );
+};
+
 // Flashcard component for HSK words
 const HskFlashcard = ({ word }: { word: HskWord }) => {
   const [flipped, setFlipped] = useState(false);
