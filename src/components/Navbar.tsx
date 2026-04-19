@@ -164,11 +164,11 @@ const Navbar = () => {
 
   const studyAbroadSubs: SubItem[] = [
     { to: "/study-abroad", label: t("🌍 Tổng quan", "🌍 Overview"), icon: Compass },
+    { to: "/global-scholarship", label: t("💰 Global Scholarship", "💰 Global Scholarship"), icon: Newspaper },
     { to: "/study-abroad/documents", label: t("📁 Hồ sơ của tôi", "📁 My Documents"), icon: FolderLock },
     { to: "/study-abroad/motivation-letter", label: t("✍️ Motivation Letter", "✍️ Motivation Letter"), icon: FileText },
     { to: "/study-abroad/sat", label: t("🧭 Lộ trình SAT", "🧭 SAT Roadmap"), icon: Compass },
     { to: "/study-abroad/phd", label: t("🎓 PhD Pathway", "🎓 PhD Pathway"), icon: GraduationCap },
-    { to: "/global-scholarship", label: t("💰 Học bổng AI", "💰 AI Scholarships"), icon: Newspaper },
   ];
 
   const baseLinks = [
