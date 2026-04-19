@@ -376,169 +376,116 @@ Logistic Regression chỉ vẽ được **đường thẳng** phân tách (linea
       {
         id: "ml-dt-1", title: "Decision Tree Classifier", titleEn: "Decision Tree Classifier",
         level: 2, difficulty: "intermediate",
-        theory: `**Decision Trees — Intuitive Classification**
+        theory: `Trò chơi **20 câu hỏi**: bạn nghĩ trong đầu một con vật, tôi đặt 20 câu yes/no để đoán. Người chơi giỏi luôn hỏi câu **chia đôi** không gian khả năng — *"sống ở nước?"* trước *"có vảy?"*. Đó **chính xác** là cách Decision Tree làm việc.
 
-Decision Trees classify data by learning a series of if/else rules from the data. They're one of the most interpretable ML models — you can literally read the decision process. They are the foundation for powerful ensemble methods like Random Forests and Gradient Boosting.
+## 1. 🚦 Vấn đề đời thường
 
----
+Ngân hàng MB cần quyết định cho vay mua xe. Nhân viên truyền thống dùng quy trình:
+- Lương > 30 triệu? → check tiếp.
+- Có nhà chưa? → check tiếp.
+- Lịch sử nợ? → quyết.
 
-**🌳 How It Works:**
+→ Đó là **một cây quyết định viết bằng tay**. Decision Tree là máy **tự học** ra cây này từ data lịch sử.
 
-1. Start with all data at the root
-2. Find the best feature and threshold to split the data
-3. Create two child nodes (left: condition true, right: condition false)
-4. Repeat recursively until stopping criteria are met
-5. Assign each leaf node the majority class of its samples
+## 2. 💡 Khái niệm chính: Decision Tree là gì?
 
-**Analogy:** It's like playing 20 Questions — each question splits the remaining possibilities into two groups. The best question is the one that gives the most information.
+Mạng cây gồm:
+- **Root** — câu hỏi đầu tiên (chia đôi data).
+- **Internal node** — câu hỏi tiếp theo trên từng nhánh.
+- **Leaf** — quyết định cuối (class hoặc giá trị).
 
-**Example Decision Tree for Loan Approval:**
-\`\`\`
-                    Income > 50K?
-                   /            \\
-                Yes              No
-                 |                |
-          Credit > 700?     Employment > 2yr?
-           /      \\          /        \\
-        Approve  Review   Review    Reject
-\`\`\`
+Ví dụ cây phê duyệt loan:
+\\\`\\\`\\\`
+                  Lương > 50tr?
+                 /            \\\\
+              Yes              No
+               |                |
+        Credit > 700?     Việc làm > 2 năm?
+         /        \\\\        /        \\\\
+      Approve   Review   Review    Reject
+\\\`\\\`\\\`
 
----
+→ Mạnh: **đọc được** — bạn chỉ tay vào tree giải thích cho khách "vì lương < 50tr nên bị từ chối". Logistic regression không làm được điều này.
 
-**📏 Splitting Criteria — How to Choose the Best Split:**
+## 3. 📏 Cây học bằng gì? — Splitting Criteria
 
-**Gini Impurity:**
-\`G = 1 - Σ(pᵢ²)\`
-- Measures how "mixed" a node is
-- G = 0 → pure node (all samples belong to one class)
-- G = 0.5 → maximally impure (binary classification, 50/50 split)
-- Used by scikit-learn (default), CART algorithm
-- Slightly faster to compute than entropy (no logarithm)
+Tại mỗi node, thuật toán hỏi: *"feature nào + threshold nào chia data tốt nhất?"*
 
-**Example:** A node with 70 positives and 30 negatives:
-\`G = 1 - (0.7² + 0.3²) = 1 - (0.49 + 0.09) = 0.42\`
+**Gini Impurity** — đo độ "trộn lẫn" của node:
+\\\`G = 1 - Σ(pᵢ²)\\\`
+- G = 0 → pure (mọi sample cùng class).
+- G = 0.5 → trộn đều (50/50 với binary).
+- Mặc định của scikit-learn.
 
-**Entropy (Information Entropy):**
-\`H = -Σ(pᵢ × log₂(pᵢ))\`
-- Information-theoretic measure of disorder/uncertainty
-- H = 0 → pure node (no uncertainty)
-- H = 1 → maximally impure (binary, 50/50 — maximum uncertainty)
-- Used by ID3, C4.5 algorithms
+**Ví dụ**: node 70 dương / 30 âm:
+\\\`G = 1 - (0.7² + 0.3²) = 1 - 0.58 = 0.42\\\`
 
-**Example:** Same node (70/30):
-\`H = -(0.7 × log₂(0.7) + 0.3 × log₂(0.3)) ≈ 0.88\`
+**Entropy** — độ bất định:
+\\\`H = -Σ(pᵢ × log₂(pᵢ))\\\`
 
-**Information Gain:**
-\`IG = H(parent) - Σ(|childᵢ|/|parent| × H(childᵢ))\`
-- Measures how much impurity decreases after a split
-- Best split = highest Information Gain
-- The algorithm tries every possible feature and threshold, computing IG for each, then picks the best
+**Information Gain** — chọn split khiến impurity **giảm nhiều nhất**:
+\\\`IG = H(parent) - Σ(|childᵢ|/|parent| × H(childᵢ))\\\`
 
-**Gain Ratio (C4.5):**
-Normalizes information gain by the split's own entropy, avoiding bias toward features with many unique values.
+→ Thuật toán **thử mọi feature × threshold**, chọn cái có IG cao nhất.
 
----
+## 4. 🎛️ Hyperparameter quan trọng
 
-**✂️ Preventing Overfitting (Pruning):**
+| Param | Tác dụng | Range thường |
+|-------|----------|--------------|
+| \\\`max_depth\\\` | Sâu tối đa của cây | 3–20 |
+| \\\`min_samples_split\\\` | Min sample để tách node | 2–20 |
+| \\\`min_samples_leaf\\\` | Min sample ở leaf | 1–10 |
+| \\\`max_features\\\` | Số feature xét mỗi split | "sqrt", "log2" |
+| \\\`criterion\\\` | Gini hay entropy | "gini" (mặc định) |
 
-Decision trees without constraints will grow until each leaf is pure — memorizing the training data (overfitting). This is like memorizing exam answers instead of understanding the material.
+→ Nguyên tắc: **giới hạn depth** để chống overfit.
 
-**Pre-pruning (constraints during training):**
-- \`max_depth\`: Limit tree depth (most important hyperparameter)
-- \`min_samples_split\`: Minimum samples required to split a node (default 2)
-- \`min_samples_leaf\`: Minimum samples required in each leaf node
-- \`max_features\`: Random subset of features considered per split
-- \`max_leaf_nodes\`: Maximum number of leaf nodes allowed
+## 5. 🐍 Code mẫu
 
-**Post-pruning (after growing full tree):**
-- Grow the complete tree first, then remove nodes that don't improve validation performance
-- **Cost-complexity pruning (CCP):** \`ccp_alpha\` in scikit-learn. Higher alpha = more aggressive pruning.
-- **Reduced Error Pruning:** Remove each node if validation accuracy doesn't decrease
+\\\`\\\`\\\`python
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 
-**How to choose max_depth?**
-- Use cross-validation: try max_depth = [3, 5, 7, 10, 15, None]
-- Plot training and validation accuracy vs max_depth
-- Choose the depth where validation accuracy peaks
+model = DecisionTreeClassifier(
+    max_depth=5,
+    min_samples_leaf=20,
+    criterion="gini",
+    random_state=42
+)
+model.fit(X_train, y_train)
 
----
+# Vẽ cây — đọc được!
+import matplotlib.pyplot as plt
+plt.figure(figsize=(15, 8))
+plot_tree(model, feature_names=X.columns, class_names=["Reject", "Approve"], filled=True)
+\\\`\\\`\\\`
 
-**📊 Feature Importance:**
+## 6. ⚠️ Bẫy thường gặp
 
-Decision Trees naturally provide feature importance scores:
-- **Impurity-based importance:** How much each feature reduces impurity across all splits
-- Calculated as: total Gini decrease from splits using that feature, weighted by the proportion of samples
-- **Limitation:** Biased toward features with many unique values (high cardinality)
+> ⚠️ **Cảnh báo:** Bẫy chí mạng: **không giới hạn \\\`max_depth\\\`**. Cây tự do sẽ học **vẹt** từng sample → train accuracy 100%, test accuracy 60%. **LUÔN giới hạn depth hoặc \\\`min_samples_leaf\\\`.**
 
----
+Bẫy khác:
+- **High variance** — đổi 1 sample data, cây ra hoàn toàn khác → giải bằng Random Forest.
+- **Bias to majority class** — class 95/5 → cây chỉ predict majority. Dùng \\\`class_weight="balanced"\\\`.
+- **Categorical features high-cardinality** (1000 giá trị) → cây split bừa. Encode hoặc gộp trước.
 
-**📋 Pros and Cons:**
+## 7. 🎯 Best practice của thầy Hải
 
-| Pros | Cons |
-|------|------|
-| Highly interpretable (readable rules) | Prone to overfitting without pruning |
-| No feature scaling needed | Unstable — small data changes → very different tree |
-| Handles categorical & numerical features | Can create biased trees with imbalanced data |
-| Fast inference (O(log n) depth) | Not great for complex, non-axis-aligned boundaries |
-| Feature importance built-in | Greedy algorithm (locally optimal, not globally) |
-| Handles missing values (some implementations) | High variance model |
+1. Bắt đầu với \\\`max_depth=5\\\`, \\\`min_samples_leaf=20\\\` — đủ chống overfit cho 90% dataset.
+2. Dùng **plot_tree** + feature_names → đưa cho business để **giải thích** quyết định.
+3. Imbalanced data? Set \\\`class_weight="balanced"\\\`.
+4. Cần performance cao hơn? → chuyển sang **Random Forest** hoặc **XGBoost** (cùng họ).
+5. Đừng quên cross-validation để chọn depth tối ưu.
 
-**When to use Decision Trees:**
-- When interpretability is critical (regulatory requirements, explainability)
-- As a building block for ensemble methods (Random Forest, XGBoost)
-- For quick prototyping and data exploration
-- **Do NOT use alone** for production models with high accuracy requirements — use ensembles instead
+> 💡 **Mẹo của thầy Hải:** Decision Tree là **best baseline interpretable**. Chạy nó trước khi đụng XGBoost — nếu Decision Tree đã đủ tốt, đừng vác model phức tạp lên production.
 
----
+## 8. ✅ Tóm tắt 30 giây
 
-## 🏢 Case Study: FICO Credit Score — Decision Trees in Banking (1989-nay)
-
-FICO Score (300-850) ảnh hưởng đến >90% quyết định cho vay tại Mỹ. Mô hình gốc kết hợp **Decision Trees + Logistic Regression**. Lý do chọn Decision Trees:
-- **Tuân thủ Fair Credit Reporting Act (FCRA)**: phải giải thích được lý do từ chối cho vay → tree có thể trace path từ root → leaf
-- **No assumption về phân phối data** — credit history không tuân theo Gaussian
-- **Handle missing values** tự nhiên — nhiều người không có credit history dài
-
-**Hệ quả:** Khi consumer bị từ chối thẻ tín dụng, FICO gửi "Adverse Action Notice" liệt kê 4 yếu tố chính → đây chính là 4 splits đầu tiên của tree.
-
----
-
-## 🏢 Case Study: IBM Watson Oncology Failure ($62M, 2018)
-
-IBM Watson for Oncology dùng Decision Trees + NLP để gợi ý điều trị ung thư. **Thảm họa:** trees được train trên **synthetic data** từ Memorial Sloan Kettering (không phải dữ liệu thực), dẫn đến gợi ý "unsafe and incorrect" — vd: gợi ý drug gây xuất huyết cho bệnh nhân đang xuất huyết. MD Anderson Cancer Center hủy hợp đồng $62M.
-
-**Bài học:** Decision Trees **memorize** training data — nếu train data biased/synthetic, tree sẽ tự tin sai. Luôn cần **clinical validation + pruning aggressive** cho high-stakes domains.
-
----
-
-## 🏢 Case Study: Microsoft Kinect Body Pose (2011) — Random Decision Forests
-
-Kinect's body pose recognition (chạy real-time trên Xbox 360, hardware yếu) dùng **ensemble of Decision Trees** — chính là Random Forest. Mỗi pixel được classify thành 1 trong 31 body parts qua ~20 trees, depth ~20. Inference: **5ms cho cả frame 640×480** trên CPU consumer.
-
-**Tại sao trees thắng deep learning ở đây (2011)?** GPU consumer chưa đủ mạnh cho CNN real-time. Trees inference cực nhanh (chỉ traverse), parallelize được trên CPU multicore.
-
----
-
-## 📋 Best Practices (từ scikit-learn maintainers)
-
-✅ **Always set max_depth ≤ 10** cho production trees — ngoài đó là overfitting
-✅ **min_samples_leaf ≥ 5%** total samples — tránh leaves dựa trên outliers
-✅ **Visualize tree** với \`plot_tree()\` hoặc \`dtreeviz\` — debug logic
-✅ **class_weight='balanced'** cho imbalanced data — tránh tree predict toàn class lớn
-✅ **Cross-validate ccp_alpha** cho post-pruning — thường alpha ∈ [0.001, 0.05]
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Dùng single Decision Tree cho production (instability cao) — luôn dùng Random Forest/XGBoost
-❌ Trust feature importance khi feature có **high cardinality** (zip codes, IDs) — bias mạnh về features có nhiều unique values
-❌ Quên prune → tree có 10000 nodes, không generalize
-❌ Dùng Decision Tree cho **regression với continuous target** mượt → bậc thang khó chấp nhận về mặt thẩm mỹ
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Single Decision Tree dễ overfit và bất ổn. Giải pháp: **Random Forest** — train hàng trăm trees trên random subsets data, sau đó vote/average. Sức mạnh của ensemble!`,
+- Decision Tree = **chuỗi câu hỏi if/else** học từ data.
+- Học bằng **Gini / Entropy + Information Gain**.
+- Mạnh nhất: **đọc được, giải thích được**.
+- Yếu nhất: **high variance** — fix bằng Random Forest.
+- Best practice: giới hạn depth, balanced class, plot tree để giải thích.
+`,
         theoryEn: `**Decision Trees — Intuitive Classification**
 
 **How it works:** Recursively split data using best feature/threshold until stopping criteria. Each leaf predicts majority class.
@@ -581,179 +528,111 @@ Single Decision Tree dễ overfit và bất ổn. Giải pháp: **Random Forest*
       {
         id: "ml-rf-1", title: "Ensemble Learning", titleEn: "Ensemble Learning",
         level: 3, difficulty: "intermediate",
-        theory: `**Random Forest — The Power of Many Trees**
+        theory: `Một giám khảo đoán bài hát hay nhất Rap Việt = ý kiến chủ quan. **Hội đồng 100 giám khảo** đa dạng cùng vote = quyết định đáng tin gấp nhiều lần. Đó là tinh thần của **Random Forest** — *"nhiều cây yếu cộng lại = một forest mạnh"*.
 
-Random Forest = many Decision Trees voting together. It's one of the most reliable and widely-used ML algorithms, consistently producing strong results with minimal tuning. It addresses the single Decision Tree's biggest weakness: high variance.
+## 1. 🚦 Vấn đề đời thường
 
----
+Decision Tree đơn lẻ có vấn đề: **đổi 1 row data, cây ra hoàn toàn khác** (high variance). Một startup VN từng deploy model phê duyệt loan dùng Decision Tree → tuần sau retrain với data mới, model **đảo ngược** 30% quyết định. Khách bùng nổ.
 
-**🎲 Bagging (Bootstrap Aggregating):**
+→ Cần thứ **ổn định hơn**. Đó là Random Forest.
 
-The core idea: "Many weak learners together make a strong learner."
+## 2. 💡 Khái niệm chính: Bagging + Random Forest
 
-1. Create N bootstrap samples (random sampling **with replacement** from the training data)
-   - Each bootstrap sample is the same size as the original data
-   - On average, each sample contains ~63.2% of unique original data points (due to replacement)
-   - The remaining ~36.8% are called Out-of-Bag (OOB) samples
-2. Train one Decision Tree on each bootstrap sample
-3. Combine predictions:
-   - **Classification:** Majority vote (each tree gets one vote)
-   - **Regression:** Average of all tree predictions
+**Bagging** = Bootstrap Aggregating = "trồng nhiều cây trên data hơi khác nhau, vote cuối cùng".
 
-**Why it works (Variance Reduction):**
-Each tree sees different data, so they learn slightly different patterns and make different errors. When combined, these errors tend to cancel out. Mathematically, if individual trees have variance σ² and correlation ρ:
-\`Var(forest) = ρσ² + (1-ρ)σ²/N\`
+**Quy trình:**
+1. Tạo **N bootstrap sample** (random sampling **có thay thế** từ training data).
+   - Mỗi bootstrap sample cùng size với data gốc.
+   - Trung bình mỗi sample chứa ~63.2% data point unique.
+   - 36.8% còn lại gọi là **Out-of-Bag (OOB)**.
+2. Train **một Decision Tree trên mỗi bootstrap sample**.
+3. Combine prediction:
+   - **Classification**: majority vote.
+   - **Regression**: trung bình.
 
-The second term shrinks with more trees (N), so the key is keeping correlation (ρ) low — which is where random feature sampling comes in.
+**Vì sao hoạt động?** Mỗi cây sai khác nhau → khi vote, lỗi **triệt tiêu** lẫn nhau. Toán học:
+\\\`Var(forest) = ρσ² + (1-ρ)σ²/N\\\`
 
----
+→ Khi N (số cây) tăng, term thứ 2 nhỏ dần. Chìa khoá là giữ ρ (correlation giữa cây) **thấp**.
 
-**🌿 Random Feature Sampling:**
+## 3. 🌿 Random Feature Sampling — Bí mật giảm correlation
 
-At each split, only consider a random subset of features:
-- **Classification:** √(n_features) — e.g., with 100 features, each split considers only 10
-- **Regression:** n_features / 3
+Tại mỗi split, chỉ xét **subset feature random**:
+- **Classification**: \\\`√(n_features)\\\` — 100 feature → mỗi split xét 10.
+- **Regression**: \\\`n_features / 3\\\`.
 
-**Why?** Without this, all trees would look very similar — dominated by the same strong features. This high correlation between trees limits the variance reduction benefit. Random feature sampling ensures diversity:
-- Tree 1 might split on income (feature 5)
-- Tree 2 might split on age (feature 2)
-- Tree 3 might split on education (feature 8)
+→ Không có thủ thuật này, mọi cây đều split trên cùng feature mạnh nhất → tương tự nhau → mất tác dụng bagging. Random feature sampling **đảm bảo đa dạng**:
+- Cây 1: split lương.
+- Cây 2: split tuổi.
+- Cây 3: split học vấn.
 
-Each tree captures different aspects of the data, making the ensemble more robust.
+## 4. 🎛️ Hyperparameter quan trọng
 
----
+| Param | Tác dụng | Range | Lời khuyên |
+|-------|----------|-------|-----------|
+| \\\`n_estimators\\\` | Số cây | 100–1000 | Càng nhiều càng tốt, diminishing return sau 500 |
+| \\\`max_depth\\\` | Depth mỗi cây | None, 10–30 | None cho classification, giới hạn cho regression |
+| \\\`max_features\\\` | Feature/split | sqrt(n), n/3 | sqrt cho classify, n/3 cho regress |
+| \\\`min_samples_split\\\` | Min sample tách | 2–10 | Cao = nhiều regularization |
+| \\\`min_samples_leaf\\\` | Min sample leaf | 1–5 | Cao = prediction mượt |
+| \\\`oob_score\\\` | Eval bằng OOB | True | **Free validation** — không cần val set riêng |
 
-**📊 Key Hyperparameters:**
+> 💡 **Mẹo của thầy Hải:** Bật \\\`oob_score=True\\\` luôn — bạn có **validation miễn phí** mà không cần train/val split. Tiết kiệm 20% data cho training.
 
-| Parameter | Effect | Typical Range | Guidelines |
-|-----------|--------|--------------|------------|
-| n_estimators | Number of trees | 100-1000 | More is usually better (diminishing returns after ~500) |
-| max_depth | Tree depth limit | None, 10-30 | None for classification, limit for regression |
-| max_features | Features per split | sqrt(n), n/3, log2(n) | sqrt for classification, n/3 for regression |
-| min_samples_split | Min samples to split | 2-10 | Higher = more regularization |
-| min_samples_leaf | Min samples in leaf | 1-5 | Higher = smoother predictions |
-| bootstrap | Use bootstrapping? | True | False = use all data (pasting) |
-| oob_score | Use OOB evaluation? | True | Free validation — no need for separate val set |
+## 5. 🐍 Code mẫu
 
-**Rule of thumb:** Start with defaults, then tune n_estimators (more is better) and max_features.
+\\\`\\\`\\\`python
+from sklearn.ensemble import RandomForestClassifier
 
----
+model = RandomForestClassifier(
+    n_estimators=500,
+    max_depth=None,
+    max_features="sqrt",
+    min_samples_leaf=2,
+    oob_score=True,
+    n_jobs=-1,           # dùng hết core
+    random_state=42,
+    class_weight="balanced"
+)
+model.fit(X_train, y_train)
 
-**🎯 Feature Importance:**
+print(f"OOB score: {model.oob_score_:.3f}")
 
-Random Forests naturally provide feature importance scores:
+# Feature importance — biết feature nào quan trọng nhất
+import pandas as pd
+importance = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
+print(importance.head(10))
+\\\`\\\`\\\`
 
-**1. Impurity-based (Mean Decrease Impurity - MDI):**
-- How much each feature reduces impurity across all trees, averaged
-- Fast to compute (calculated during training)
-- **Limitation:** Biased toward high-cardinality features and correlated features
+## 6. 📊 Random Forest vs Decision Tree
 
-**2. Permutation-based (Mean Decrease Accuracy - MDA):**
-- Randomly shuffle one feature, measure how much accuracy drops
-- More reliable than impurity-based (no bias toward high cardinality)
-- **Limitation:** Slower to compute (requires predictions on shuffled data)
-- Can be computed on training or test data (test data preferred for unbiased estimate)
+| Tiêu chí | Decision Tree | Random Forest |
+|----------|--------------|---------------|
+| Variance | Cao | Thấp |
+| Interpretability | Cao (đọc được) | Trung bình (feature importance) |
+| Training time | Nhanh | Chậm hơn N lần |
+| Accuracy | Trung bình | Cao |
+| Hyperparameter tuning | Quan trọng | Ít nhạy cảm |
 
-**3. SHAP values:**
-- Game-theoretic approach to feature importance
-- Provides per-prediction explanations (not just global importance)
-- Computationally expensive but most theoretically sound
+## 7. ⚠️ Bẫy thường gặp & 🎯 Best practice
 
----
+> ⚠️ **Cảnh báo:** Bẫy phổ biến: dùng Random Forest cho **mọi bài toán**. Khi data tabular nhỏ (< 1000 row) hoặc cần interpretability cao → Decision Tree đơn lẻ tốt hơn. Khi data phức tạp (image, text, sequence) → neural network. Random Forest **ngon nhất cho tabular cỡ trung–lớn**.
 
-**📦 Out-of-Bag (OOB) Error:**
+Best practice của thầy Hải:
+1. Default config: \\\`n_estimators=500, max_features="sqrt", min_samples_leaf=2, n_jobs=-1\\\`.
+2. Bật \\\`oob_score=True\\\` — validation miễn phí.
+3. Imbalanced? \\\`class_weight="balanced"\\\`.
+4. Inspect \\\`feature_importances_\\\` — drop feature noise.
+5. Khi cần performance cao hơn → thử **Gradient Boosting** (XGBoost, LightGBM, CatBoost) — họ hàng của Random Forest, thường thắng 2–5%.
 
-Each bootstrap sample leaves ~36.8% of data unused. These OOB samples serve as a free validation set:
-- For each sample, average predictions from trees that did NOT train on it
-- OOB error ≈ cross-validation error, but at no additional cost
-- Use \`oob_score=True\` in scikit-learn
+## 8. ✅ Tóm tắt 30 giây
 
----
-
-**📋 Pros and Cons:**
-
-| Pros | Cons |
-|------|------|
-| Very accurate out-of-box (minimal tuning) | Less interpretable than single tree |
-| Hard to overfit (with enough trees) | Slower than single tree (N trees) |
-| Handles missing values (some impls) | Memory-intensive (stores all trees) |
-| Built-in feature importance | Not great for very high-dimensional sparse data |
-| Parallelizable (trees are independent) | Can be biased toward features with more levels |
-| OOB error = free validation | Cannot extrapolate beyond training data range |
-
-**When to use Random Forest:**
-- Default first choice for tabular data (before trying XGBoost)
-- When you need reliable predictions with minimal tuning
-- When you need feature importance
-- **Not ideal for:** Very large datasets (slow), streaming data, or when interpretability is critical
-
----
-
-## 🏢 Case Study: Kaggle Competitions — Random Forest Era (2010-2014)
-
-Trước khi XGBoost thống trị, **Random Forest** là vua các Kaggle competitions tabular data. Ví dụ:
-- **Otto Group Product Classification (2015)**: Top 10% sử dụng RF với ~500 trees, đạt log-loss 0.45
-- **Allstate Claim Prediction**: RF baseline đạt top 30% chỉ với feature engineering nhẹ
-- **Microsoft Malware**: RF với 1000 trees được dùng trong winning solutions
-
-Lý do thành công: RF là **"thuốc generic" của ML** — gần như không cần tune, chạy out-of-the-box, **rất khó overfit** nhờ randomness kép (bootstrap + feature subsampling).
-
----
-
-## 🏢 Case Study: Twitter Spam Detection (2012)
-
-Twitter dùng Random Forest để phát hiện spam accounts với feature: số follower, tỉ lệ follower/following, tần suất tweet, ratio @mentions, độ dài URL. Dataset: 500K accounts, ~5% spam.
-
-**Kết quả:** Precision 0.99, Recall 0.95 — đủ để **block automatically** mà không cần human review. RF chạy **trên 200M accounts** mỗi ngày. Lý do RF thắng SVM/Neural Net: feature highly heterogeneous (numeric + counts + ratios), RF không cần normalize.
-
-**Hạn chế:** RF **không adapt nhanh** với spam evolution — Twitter chuyển sang **online learning** (Vowpal Wabbit) sau 2014.
-
----
-
-## 🏢 Case Study: Airbnb Search Ranking — Bagging Trees (2014-2017)
-
-Airbnb dùng **Gradient Boosting + Bagging Trees** để rank search results. Họ phát hiện: đơn lẻ 1 tree biased về vị trí (top results luôn cùng style); 100 trees với bootstrap → diversity tăng → CTR tăng **5.6%** so với baseline.
-
-**Bài học operational:** RF predictions có thể được **parallelized hoàn toàn** (mỗi tree độc lập) → scale horizontally trên Spark/Dask. Đây là lợi thế lớn so với Neural Net (sequential layers).
-
----
-
-## 📊 Random Forest vs XGBoost vs Neural Net (tabular data)
-
-| Aspect | Random Forest | XGBoost | Neural Net |
-|--------|---------------|---------|------------|
-| Training speed | Trung bình | Nhanh hơn (with GPU) | Chậm |
-| Inference speed | Chậm (nhiều trees) | Nhanh | Nhanh |
-| Hyperparameter tuning | Ít cần (~5 params) | Nhiều (~15 params) | Rất nhiều |
-| Overfitting risk | Thấp | Trung bình (cần early stop) | Cao |
-| Categorical features | Native | Cần encoding | Cần embedding |
-| Missing values | Native | Native | Cần impute |
-| Best for | Quick prototype, robust | Competitions, structured | Image, text, sequences |
-
----
-
-## 📋 Production Best Practices
-
-✅ **n_estimators = 100-500** thường đủ — thêm trees không làm tệ nhưng tốn memory
-✅ **max_features = sqrt(p)** classification, **p/3** regression (default scikit-learn)
-✅ **Use OOB score** thay cross-validation cho estimate nhanh
-✅ **Permutation importance** thay vì Gini importance — chính xác hơn cho high-cardinality features
-✅ **Save model với joblib** — serialize nhanh hơn pickle 5-10x
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Dùng RF cho dataset rất lớn (>10M rows) — training và inference đều chậm. Dùng LightGBM
-❌ Train RF với **n_estimators = 10000** — diminishing returns, lãng phí RAM
-❌ Quên kiểm tra **out-of-bag error** — đây là free validation set
-❌ Trust Gini feature importance khi có high-cardinality feature — luôn double-check với SHAP
-
----
-
-## 🌉 Bridge to Next Lesson
-
-RF là **bagging** (parallel, reduce variance). Nhưng còn **boosting** (sequential, reduce bias) — mỗi tree sửa lỗi của tree trước. Đó là lý do XGBoost, LightGBM, CatBoost thống trị competitions hiện nay. Trước đó, ta cần hiểu một mô hình hoàn toàn khác: **SVM với kernel trick**.`,
+- Random Forest = **N Decision Tree** train trên bootstrap sample + random feature subset.
+- Giảm **variance** mạnh, tăng **stability** + accuracy.
+- Hyperparameter ít nhạy cảm — **default đã rất tốt**.
+- **OOB score** = validation miễn phí.
+- Default tabular ML — bắt đầu từ đây trước khi đụng XGBoost/LightGBM.
+`,
         theoryEn: `**Random Forest — Many Trees Voting Together**
 
 **Bagging:** Bootstrap samples → Train tree each → Vote/average. ~63.2% unique data per sample, ~36.8% OOB.
@@ -1013,187 +892,117 @@ SVM, Logistic Regression, Decision Trees đều là **supervised** (cần labels
       {
         id: "ml-km-1", title: "K-Means Algorithm", titleEn: "K-Means Algorithm",
         level: 2, difficulty: "beginner",
-        theory: `**K-Means Clustering — Unsupervised Learning**
+        theory: `Bạn tổ chức **tiệc cưới 200 khách**, có 8 bàn. Cách nhanh nhất xếp khách: chọn 8 vị trí "trung tâm bàn", **mỗi khách ngồi vào bàn gần nhất**. Sau đó dịch chuyển bàn về **trung tâm thực** của những người đã ngồi quanh nó. Lặp lại đến khi không ai phải đổi chỗ. Đó **chính xác** là K-Means.
 
-K-Means is the most popular unsupervised clustering algorithm. Unlike supervised learning, there are **no labels** — the algorithm discovers natural groupings in data. It partitions n data points into K clusters where each point belongs to the cluster with the nearest centroid.
+## 1. 🚦 Vấn đề đời thường
 
----
+Tiki có 5 triệu khách hàng — không có nhãn. Marketing muốn **chia thành 4–8 nhóm** để gửi mail khác nhau:
+- Nhóm "VIP shopaholic"
+- Nhóm "săn sale cuối tuần"
+- Nhóm "mua 1 lần rồi đi"
+- …
 
-**🔄 The Algorithm (Lloyd's Algorithm):**
+→ Không ai gắn nhãn trước. Cần thuật toán **tự khám phá nhóm**. Đó là **clustering** — và **K-Means** là vua của clustering.
 
-1. **Initialize:** Choose K random centroids (or use K-Means++)
-2. **Assign (E-step):** Each point → nearest centroid (Euclidean distance)
-3. **Update (M-step):** Each centroid → mean of all assigned points
-4. **Repeat** steps 2-3 until centroids stop moving (convergence) or max iterations reached
+## 2. 💡 Khái niệm chính: Unsupervised Learning
 
-Typically converges in 10-50 iterations. The algorithm is guaranteed to converge, but may converge to a local minimum (not necessarily the global optimum).
+Khác với supervised (có label \\\`y\\\`):
+- **Supervised** = "đây là chó, đây là mèo, học đi" → predict.
+- **Unsupervised** = "đây là 5 triệu khách, tự tìm pattern" → cluster.
 
-**Convergence Proof:** Each step can only decrease (or maintain) the total within-cluster sum of squares (WCSS/inertia). Since WCSS is bounded below by 0, the algorithm must converge.
+K-Means **chia n điểm thành K cluster**, mỗi điểm thuộc cluster có **centroid (trọng tâm)** gần nhất.
 
-**Time Complexity:** O(n × K × d × I), where n = samples, K = clusters, d = dimensions, I = iterations. Very efficient!
+## 3. 🔄 Thuật toán Lloyd — 4 bước
 
----
+1. **Initialize**: chọn K centroid ngẫu nhiên (hoặc K-Means++).
+2. **Assign (E-step)**: mỗi điểm → centroid gần nhất (Euclidean distance).
+3. **Update (M-step)**: mỗi centroid → trung bình của các điểm thuộc nó.
+4. **Lặp** bước 2–3 đến khi centroid **ngừng di chuyển** (convergence) hoặc đạt max iter.
 
-**🎯 Choosing K (Number of Clusters):**
+Thường hội tụ trong 10–50 iter. Đảm bảo hội tụ — nhưng có thể vào **local minimum** (không tối ưu toàn cục).
 
-**1. Elbow Method:**
-- Run K-Means for K = 1, 2, 3, ..., 10
-- Plot K vs Inertia (sum of squared distances to centroids, aka WCSS)
-- Look for the "elbow" — where adding more clusters gives diminishing returns
-- **Limitation:** The elbow isn't always clear; subjective interpretation
+**Time complexity**: O(n × K × d × I) — siêu nhanh.
 
-**2. Silhouette Score:**
-- Measures how similar a point is to its own cluster vs nearest other cluster
-- For each point:
-  - a = average distance to points in same cluster (cohesion)
-  - b = average distance to points in nearest other cluster (separation)
-  - s = (b - a) / max(a, b)
-- Range: [-1, 1]. Higher is better.
-  - s ≈ 1: Point is well-matched to its cluster
-  - s ≈ 0: Point is on the boundary between clusters
-  - s < 0: Point is probably in the wrong cluster!
-- Plot average silhouette score for each K — choose the K with the highest score
+## 4. 🎯 Chọn K — Câu hỏi triệu đô
 
-**3. Gap Statistic:**
-- Compares WCSS of your clustering against WCSS of random uniform data
-- The optimal K is where the gap is largest
-- More rigorous than elbow method but more computationally expensive
+K không tự xuất hiện — bạn phải chọn. 4 cách:
 
-**4. Domain Knowledge:**
-- Sometimes you know K from the business context
-- E.g., customer segments: "We want 4 tiers: VIP, Regular, Occasional, Inactive"
+**1. Elbow Method**
+- Chạy K-Means với K = 1, 2, …, 10.
+- Vẽ K vs **Inertia** (tổng squared distance đến centroid).
+- Tìm "khuỷu tay" — chỗ thêm cluster không giảm inertia nhiều nữa.
 
----
+**2. Silhouette Score** (đáng tin cậy hơn)
+- Đo: điểm gần cluster của nó cỡ nào vs cluster khác.
+- Range [-1, 1]. Càng cao càng tốt.
+- s ≈ 1: điểm khớp cluster của nó.
+- s < 0: điểm đang ở **sai cluster**!
 
-**📋 Limitations and Solutions:**
+**3. Gap Statistic** — so inertia với data random uniform.
 
-| Limitation | Why It Happens | Solution |
-|-----------|----------------|----------|
-| Must choose K beforehand | K is a hyperparameter | Elbow, silhouette, gap statistic |
-| Sensitive to initialization | Random centroids → different results | K-Means++ initialization |
-| Assumes spherical clusters | Uses Euclidean distance | DBSCAN, GMM for non-spherical |
-| Sensitive to outliers | Outliers pull centroids | Remove outliers first, or use K-Medoids |
-| Only finds convex clusters | Can't handle ring/moon shapes | Spectral clustering, DBSCAN |
-| Sensitive to feature scales | Large-range features dominate | Always standardize features first! |
-| Equal-size cluster bias | Minimizes total WCSS | Use GMM for varying-size clusters |
+**4. Domain Knowledge** — đôi khi business chỉ cần 4 tier (VIP, Regular, Occasional, Inactive).
 
----
+> 💡 **Mẹo của thầy Hải:** Đừng chỉ dùng Elbow — dễ chủ quan. Kết hợp **Elbow + Silhouette** sẽ ra K đáng tin nhất.
 
-**🔧 K-Means++ Initialization:**
+## 5. 🐍 Code mẫu
 
-The standard K-Means initialization (random centroids) can lead to poor results. K-Means++ provides a smarter initialization:
+\\\`\\\`\\\`python
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import silhouette_score
+import numpy as np
 
-1. Choose first centroid randomly from data points
-2. For each remaining centroid:
-   - Compute D(x) = distance from each point to its nearest existing centroid
-   - Choose next centroid with probability proportional to D(x)²
-   - Points far from existing centroids are more likely to be chosen
-3. This spreads centroids apart, avoiding poor initializations
+# K-Means CỰC nhạy với scale → LUÔN scale trước
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
 
-**Result:** K-Means++ guarantees O(log K) competitive approximation ratio and is the default in scikit-learn.
+# Tìm K tối ưu
+scores = []
+for k in range(2, 11):
+    km = KMeans(n_clusters=k, init="k-means++", n_init=10, random_state=42)
+    labels = km.fit_predict(X_scaled)
+    scores.append((k, km.inertia_, silhouette_score(X_scaled, labels)))
 
----
+for k, inertia, sil in scores:
+    print(f"K={k}: inertia={inertia:.0f}, silhouette={sil:.3f}")
 
-**🔄 Variants of K-Means:**
+# Train với K tốt nhất
+best_k = 5
+model = KMeans(n_clusters=best_k, init="k-means++", n_init=10, random_state=42)
+clusters = model.fit_predict(X_scaled)
+\\\`\\\`\\\`
 
-**Mini-Batch K-Means:**
-- Uses random mini-batches instead of full dataset for each update
-- Much faster for large datasets (100K+ samples)
-- Slightly lower quality but negligible difference in practice
+## 6. ⚠️ Hạn chế và cách giải
 
-**K-Medoids (PAM):**
-- Uses actual data points as cluster centers (medoids) instead of means
-- More robust to outliers
-- Slower than K-Means (O(n²))
+| Hạn chế | Vì sao | Giải pháp |
+|---------|--------|-----------|
+| Phải chọn K | K là hyperparameter | Elbow + Silhouette |
+| Nhạy với init | Random centroid → kết quả khác nhau | **K-Means++** init |
+| Giả định cluster hình cầu | Dùng Euclidean | DBSCAN, GMM cho hình bất kỳ |
+| Nhạy với outlier | Outlier kéo centroid lệch | Loại outlier hoặc K-Medoids |
+| Nhạy với scale | Feature lớn lấn át | **LUÔN StandardScaler trước** |
 
-**Bisecting K-Means:**
-- Start with 1 cluster, repeatedly split the worst cluster into 2
-- Hierarchical approach, less sensitive to initialization
+## 7. ⚠️ Bẫy thường gặp & 🎯 Best practice
 
----
+> ⚠️ **Cảnh báo:** Bẫy chết người: **không scale data trước K-Means**. Nếu \\\`income\\\` chạy 0–100M và \\\`age\\\` chạy 0–80, K-Means cluster gần như **chỉ theo income**. **LUÔN StandardScaler hoặc MinMaxScaler trước.**
 
-**📊 Applications:**
+Best practice của thầy Hải:
+1. **StandardScaler trước** — không có ngoại lệ.
+2. \\\`init="k-means++"\\\` mặc định — đừng dùng \\\`"random"\\\`.
+3. \\\`n_init=10\\\` — chạy 10 lần với init khác nhau, chọn kết quả tốt nhất → tránh local minimum.
+4. Visualize bằng **PCA 2D** — vẽ ra mới biết cluster có ý nghĩa hay không.
+5. **Đặt tên** cho cluster sau khi xem profile (VIP, Casual, …) — không nói "cluster 0, 1, 2".
+6. Re-cluster định kỳ (mỗi quý) — hành vi khách thay đổi.
 
-- **Customer segmentation** (marketing) — group customers by behavior for targeted campaigns
-- **Image compression** (color quantization) — reduce colors by clustering pixel values
-- **Document clustering** — group articles by topic
-- **Anomaly detection** — points far from all centroids may be anomalies
-- **Feature engineering** — use cluster membership as a new feature for supervised models
-- **Data preprocessing** — initialize GMM parameters, find representative samples
-- **Geographic clustering** — group locations for delivery route optimization
+## 8. ✅ Tóm tắt 30 giây
 
----
-
-## 🏢 Case Study: Spotify Discover Weekly — User Clustering (2015-nay)
-
-Spotify Discover Weekly (gửi cho 100M+ users mỗi thứ Hai) dùng **K-Means clustering** trên 250M users với feature: listening history, playlist composition, time-of-day patterns. K = 1000-2000 (lượng "taste profiles").
-
-**Pipeline:**
-1. Mỗi user → vector 1000 chiều (engagement với mỗi cluster nhạc)
-2. K-Means group users với taste tương tự
-3. Khi user A nghe bài mới → recommend cho users cùng cluster
-
-**Kết quả:** Discover Weekly tạo ra **2.3 tỷ stream** từ song không quen thuộc trong 2 năm đầu — tăng monthly retention 30%. K-Means chạy hàng tuần trên Spark cluster, mỗi run ~6 giờ.
-
----
-
-## 🏢 Case Study: Amazon Customer Segmentation — RFM + K-Means
-
-Amazon segment customers bằng **Recency-Frequency-Monetary (RFM) + K-Means**:
-- **R**: Bao lâu kể từ purchase gần nhất
-- **F**: Số purchase trong 12 tháng qua
-- **M**: Tổng tiền chi
-
-K=8 cụm điển hình: "Champions", "Loyal Customers", "Big Spenders", "At Risk", "Lost", "New", "Promising", "Need Attention".
-
-**Action:** Mỗi cluster nhận email campaign khác nhau. "At Risk" → discount 20%; "Champions" → early access. CTR tăng **2.8x** so với mass email.
-
----
-
-## 🏢 Case Study: Netflix Image Personalization (2017)
-
-Netflix phát hiện: cùng 1 phim, hiển thị **thumbnail khác nhau** cho user khác nhau → CTR tăng **20-30%**. Họ dùng K-Means để cluster users theo art preferences (colorful vs minimalist, character close-up vs scenery). Mỗi phim có 5-10 thumbnail variants, K-Means quyết định show variant nào cho cluster nào.
-
-**Bài học:** Clustering không chỉ cho marketing — nó là **personalization engine** đằng sau hầu hết tech products.
-
----
-
-## 📊 Choosing K — Methods Comparison
-
-| Method | Cách dùng | Ưu điểm | Hạn chế |
-|--------|-----------|---------|---------|
-| Elbow Method | Plot inertia vs K, tìm "elbow" | Trực quan, đơn giản | Subjective, không có elbow rõ ràng |
-| Silhouette Score | Max silhouette ∈ [-1, 1] | Định lượng, có ngưỡng | Tốn O(n²), chậm |
-| Gap Statistic | So inertia với uniform random | Thống kê chặt chẽ | Phức tạp implement |
-| Domain knowledge | Business yêu cầu (vd: 10 segments) | Actionable | Không tối ưu math |
-
-**Best practice:** Combine 2-3 methods. Nếu Elbow tại K=5, Silhouette max tại K=5 → confidence cao.
-
----
-
-## 📋 Best Practices
-
-✅ **Always use K-Means++** initialization (default scikit-learn) — tránh local minima
-✅ **n_init = 10** — chạy nhiều random init, pick best
-✅ **Standardize features** — K-Means dùng Euclidean distance, scale matters
-✅ **Visualize với t-SNE/UMAP** sau cluster để verify structure
-✅ **Use MiniBatchKMeans** cho dataset > 100K samples — nhanh hơn 10-100x
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Dùng K-Means trên categorical features → distance không có nghĩa. Dùng K-Modes thay thế
-❌ Không scale features → feature range lớn dominate clustering
-❌ Pick K random — luôn dùng Elbow + Silhouette + business sense
-❌ Trust K-Means trên data có **non-spherical clusters** (vd: 2 vòng đồng tâm) → DBSCAN tốt hơn
-❌ Ignore outliers → 1 outlier xa có thể tạo "cluster" 1 phần tử
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Clustering + Linear/Logistic/Trees đều phụ thuộc vào **chất lượng features**. Một feature xấu có thể phá hỏng mô hình tốt nhất. Bài tiếp: **Feature Engineering** — kỹ năng quan trọng nhất của data scientist (Andrew Ng nói: "Coming up with features is difficult, time-consuming, requires expert knowledge").`,
+- K-Means = **chia n điểm thành K cluster** quanh centroid gần nhất.
+- Lặp **assign → update** đến khi centroid ngừng dịch chuyển.
+- Chọn K bằng **Elbow + Silhouette**.
+- **LUÔN scale** data trước.
+- Default: \\\`n_clusters=K, init="k-means++", n_init=10\\\`.
+- Hợp với: customer segmentation, image compression, anomaly detection.
+`,
         theoryEn: `**K-Means — Unsupervised Clustering**
 
 **Algorithm:** Initialize centroids → Assign points to nearest centroid → Update centroids to cluster means → Repeat until convergence. O(n×K×d×I).

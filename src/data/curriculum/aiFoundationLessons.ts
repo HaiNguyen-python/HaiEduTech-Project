@@ -15,97 +15,84 @@ export const aiFoundationModules: ExtendedProgrammingModule[] = [
       {
         id: "ai-hist-1", title: "Từ Turing đến Deep Learning", titleEn: "From Turing to Deep Learning",
         level: 1, difficulty: "beginner",
-        theory: `## 1. Vì sao học viên cần biết lịch sử AI?
+        theory: `Bạn có thể hỏi: *"Tôi muốn học AI làm chatbot, sao phải học lịch sử?"* — Vì lịch sử AI là **70 năm thử–thất bại–làm lại**. Hiểu vì sao những cách trước thất bại sẽ giúp bạn tránh lặp lại sai lầm và biết tại sao cách hôm nay (deep learning + dữ liệu lớn + GPU) lại ăn — chứ không phải vì *"đó là AI"*.
 
-Bạn có thể hỏi: "Tôi muốn học AI để làm chatbot / xử lý ảnh, sao phải nhớ mấy mốc lịch sử?". Câu trả lời: **lịch sử AI là chuỗi 70 năm thử–thất bại–làm lại**. Hiểu vì sao những thứ trước đó *thất bại* giúp bạn tránh lặp lại sai lầm và biết tại sao **cách làm hôm nay (deep learning + dữ liệu lớn + GPU)** lại ăn — chứ không phải vì "nó là AI".
+## 1. 🚦 Tóm tắt 70 năm trong 1 câu
 
-Một câu chuyện tóm tắt 70 năm trong 1 dòng: *AI mất 60 năm để chứng minh rằng "học từ dữ liệu" thắng "viết luật bằng tay".*
+> *AI mất 60 năm để chứng minh: "học từ dữ liệu" thắng "viết luật bằng tay".*
 
-## 2. Khởi đầu (1943–1956) — Ý tưởng "máy có thể nghĩ"
+Mỗi lần ai đó nói *"AGI sẽ có trong 5 năm"*, hãy nhớ Herbert Simon đã nói y câu đó năm **1956**.
+
+## 2. 🌱 Khởi đầu (1943–1956) — "Máy có thể nghĩ?"
 
 | Năm | Sự kiện | Vì sao quan trọng |
-|---|---|---|
+|-----|---------|-------------------|
 | 1943 | McCulloch & Pitts mô phỏng neuron bằng toán | Lần đầu chứng minh: bộ não *có thể* mô tả bằng công thức |
-| 1950 | Alan Turing đặt câu hỏi "Máy có nghĩ được không?" — **Turing Test** (bài kiểm tra Turing) | Định nghĩa "thông minh" = đánh lừa được con người qua hội thoại |
-| 1956 | Hội nghị **Dartmouth** chính thức đặt tên "Artificial Intelligence" | Khai sinh AI thành một ngành học chính thức |
+| 1950 | Alan Turing đặt câu hỏi *"Máy có nghĩ được không?"* — **Turing Test** | Định nghĩa "thông minh" = đánh lừa được người qua hội thoại |
+| 1956 | Hội nghị **Dartmouth** đặt tên "Artificial Intelligence" | Khai sinh AI thành ngành học |
 
-**Điểm cần nhớ:** Người sáng lập AI lạc quan tới mức Herbert Simon dự đoán "20 năm nữa máy làm được mọi việc của con người". Họ sai — và sai lầm này lặp lại mỗi 20 năm cho đến tận hôm nay.
+## 3. ❄️ Mùa đông AI (1974–1993) — Vì sao AI từng "chết" 2 lần
 
-## 3. Mùa đông AI (1974–1993) — Vì sao AI từng "chết" 2 lần
+- **Mùa đông 1 (1974–1980)**: Báo cáo Lighthill ở Anh kết luận "AI không đạt mục tiêu" → DARPA cắt ngân sách.
+- **Bùng nổ Expert Systems (1980–1987)**: Hệ thống chuyên gia kiểu *"nếu sốt > 38 thì uống thuốc X"* — công ty đổ hàng tỷ USD.
+- **Mùa đông 2 (1987–1993)**: Expert system quá đắt để bảo trì, không scale → thị trường sụp.
 
-AI không tiến lên một mạch. Có 2 giai đoạn được gọi là **AI Winter (mùa đông AI)** — tài trợ bị cắt, nghiên cứu đóng băng:
-
-- **Mùa đông 1 (1974–1980):** Báo cáo Lighthill ở Anh kết luận "AI không đạt mục tiêu hứa hẹn" → DARPA cắt ngân sách.
-- **Bùng nổ Expert Systems (1980–1987):** Hệ thống chuyên gia (kiểu *nếu sốt > 38 thì uống thuốc X*) được công ty đổ hàng tỷ USD.
-- **Mùa đông 2 (1987–1993):** Expert systems quá đắt để bảo trì, không scale được — thị trường sụp.
-
-**Vì sao AI Winter xảy ra?** 4 nguyên nhân lặp đi lặp lại:
+**4 nguyên nhân lặp đi lặp lại:**
 1. Hứa nhiều, làm ít.
 2. Máy tính thời đó quá yếu.
 3. Không đủ dữ liệu để học.
-4. Giới hạn lý thuyết (ví dụ perceptron không giải nổi bài toán XOR).
+4. Giới hạn lý thuyết (perceptron không giải nổi XOR).
 
-> *Bài học cho hôm nay:* mỗi lần ai đó nói "AGI sẽ có trong 5 năm", hãy nhớ Herbert Simon 1956.
+> 💡 **Bài học cho hôm nay:** Mỗi đợt "AI hot" đều theo chu kỳ này — học bài lịch sử để tỉnh táo trước hype.
 
-## 4. Phục hưng Neural Network (1986–2010) — "Học từ dữ liệu" thắng "viết luật"
+## 4. 🧠 Phục hưng Neural Network (1986–2010)
 
 | Năm | Sự kiện | Tác động |
-|---|---|---|
-| 1986 | Hinton & cộng sự công bố **Backpropagation** (lan truyền ngược — thuật toán huấn luyện neural network nhiều lớp) | Lần đầu mạng nơ-ron sâu *huấn luyện được* |
-| 1997 | **Deep Blue** (IBM) thắng vô địch cờ vua Kasparov | AI làm được việc "trí tuệ" trong môi trường khép kín |
-| 1998 | **LeNet-5** của Yann LeCun nhận diện chữ số viết tay | CNN — tiền thân của xử lý ảnh hiện đại |
+|-----|---------|----------|
+| 1986 | Hinton & cộng sự công bố **Backpropagation** | Lần đầu mạng nơ-ron sâu *huấn luyện được* |
+| 1997 | **Deep Blue** thắng Kasparov cờ vua | AI làm được "trí tuệ" trong môi trường khép kín |
+| 1998 | **LeNet-5** của Yann LeCun nhận diện chữ số | CNN — tiền thân xử lý ảnh hiện đại |
 | 2006 | Hinton đặt thuật ngữ **"Deep Learning"** | Tên gọi của làn sóng tiếp theo |
 
-## 5. Cách mạng Deep Learning (2012–nay) — Vì sao "bùng nổ" đột ngột?
+## 5. 🚀 Cách mạng Deep Learning (2012 – nay)
 
-Năm **2012** là điểm bùng nổ. **AlexNet** (Krizhevsky, Sutskever, Hinton) thắng cuộc thi nhận diện ảnh ImageNet với cách biệt khổng lồ. *Vì sao 2012 mà không phải 1995?* Câu trả lời gồm 3 yếu tố cùng lúc:
+**2012** là điểm bùng nổ. **AlexNet** thắng ImageNet với cách biệt khổng lồ. *Vì sao 2012 mà không phải 1995?* — 3 yếu tố cùng lúc:
 
 1. **Dữ liệu lớn** (ImageNet: 14 triệu ảnh được gắn nhãn).
 2. **GPU rẻ** (NVIDIA dùng cho game, hoá ra hợp với neural network).
 3. **Thuật toán đủ tốt** (ReLU, dropout, backprop).
 
-Sau 2012:
-- **2014:** GANs (sinh ảnh giả như thật) — Ian Goodfellow.
-- **2016:** **AlphaGo** thắng Lee Sedol môn cờ vây — giới chuyên gia tưởng phải 20 năm nữa.
-- **2017:** Google công bố **Transformer** (kiến trúc nền của ChatGPT, Claude, Gemini) — paper "Attention Is All You Need".
-- **2022 (30/11):** **ChatGPT** ra mắt — đạt 100 triệu user trong 2 tháng (TikTok mất 9 tháng, Instagram mất 2.5 năm).
-- **2023–2024:** GPT-4, Claude, Gemini, Llama mã nguồn mở — AI multi-modal (vừa hiểu chữ vừa hiểu ảnh) trở thành phổ thông.
+Sau đó:
+- **2014** — GANs (sinh ảnh giả như thật).
+- **2016** — **AlphaGo** thắng Lee Sedol môn cờ vây.
+- **2017** — Google công bố **Transformer** (paper *"Attention Is All You Need"*).
+- **2020** — GPT-3 (175B tham số).
+- **2022** — **ChatGPT** ra mắt → AI vào nhà mọi người.
+- **2023–2024** — GPT-4, Claude 3, Gemini, Llama 3 — multimodal, agent, code.
 
-## 6. Bảng tổng kết các thời kỳ
+## 6. 🇻🇳 AI tại Việt Nam — bạn đang ở đâu?
 
-| Thời kỳ | Cách tiếp cận | Hạn chế chính |
-|---|---|---|
-| 1950–1970 | Symbolic AI (viết luật bằng tay) | Không xử lý được điều bất định |
-| 1980–1990 | Expert Systems | Đắt, dễ vỡ, không scale |
-| 2000–2010 | Statistical ML | Phải tự "bịa" feature từ dữ liệu thô |
-| 2012–2020 | Deep Learning | Đói dữ liệu + đói GPU |
-| 2020+ | Foundation Models (GPT, Claude…) | Hallucination (bịa thông tin), khó kiểm soát |
+| Năm | Sự kiện |
+|-----|---------|
+| 2018 | VinAI Research thành lập, hút PhD từ DeepMind / Google Brain |
+| 2020 | Zalo AI mở nhiều API tiếng Việt (TTS, OCR, NER) |
+| 2023 | VinFast triển khai AI nhận diện hành vi lái xe |
+| 2024 | FPT, Viettel mở AI Studio cho doanh nghiệp |
 
-Mỗi thời kỳ giải quyết được vấn đề của thời kỳ trước, rồi tự sinh vấn đề mới.
+## 7. ⚠️ Bẫy & 🎯 Best practice
 
-## 7. Case study: ChatGPT — "thành công sau 1 đêm" thực ra mất 7 năm
+> ⚠️ **Cảnh báo:** Đừng tin "AGI 5 năm nữa" hay "AI sắp thất nghiệp tất cả". 70 năm lịch sử cho thấy: tiến bộ thực sự **không tuyến tính** — mỗi 10–20 năm có 1 đợt bùng nổ + 1 đợt mùa đông.
 
-Thời gian biểu OpenAI:
-- **2015:** Sam Altman, Elon Musk, Ilya Sutskever lập OpenAI (phi lợi nhuận, $1B cam kết).
-- **2018:** GPT-1 (117 triệu tham số) — chứng minh pre-training không giám sát hoạt động cho ngôn ngữ.
-- **2019:** GPT-2 (1.5 tỷ) — ban đầu *không dám* công bố vì "nguy hiểm", sau đó mã nguồn mở.
-- **2020:** GPT-3 (175 tỷ) — emergent few-shot learning (làm được task mới chỉ với vài ví dụ).
-- **2022 (30/11):** ChatGPT ra mắt → 100M user/2 tháng.
-- **2024:** OpenAI định giá $157 tỷ.
+> 💡 **Best practice của thầy Hải:** Học **fundamentals** (toán, ML, deep learning) — chúng sống cả 30 năm. Học **framework** (PyTorch, TensorFlow) — sống 5–10 năm. Học **prompt cho 1 model cụ thể** — sống 6 tháng. Phân bổ thời gian theo tỷ lệ này.
 
-> *Bài học:* "Thành công sau 1 đêm" của ChatGPT thực ra là 7 năm nghiên cứu cộng dồn. AI hiện đại = **kiên nhẫn + vốn + GPU**.
+## 8. ✅ Tóm tắt 30 giây
 
-## 8. 5 sai lầm lặp đi lặp lại trong lịch sử AI
-
-1. **Hứa AGI quá sớm** (1956, 1970s, 1980s — và có lẽ cả hôm nay).
-2. **Bỏ qua chất lượng dữ liệu** — chatbot Tay của Microsoft (2016) thành phân biệt chủng tộc trong 24h.
-3. **Không xét đạo đức** — AI tuyển dụng của Amazon (2018) phạt CV có chữ "women's".
-4. **Triển khai ẩu** — demo Bard đầu tiên của Google (2023) trả lời sai về kính thiên văn JWST → mất $100B vốn hoá trong 1 ngày.
-5. **Bám vào công nghệ cũ** — công ty còn dùng RNN năm 2018 đã bỏ lỡ làn sóng Transformer.
-
-## 9. Bài tiếp theo
-
-Giờ bạn đã hiểu **vì sao** AI hiện đại hoạt động (dữ liệu + GPU + thuật toán), bài kế dạy đơn vị tính toán nhỏ nhất tạo nên mọi thứ trên: **Perceptron** (nơ-ron nhân tạo). Mọi đột phá ở trên — từ AlphaGo đến GPT-4 — đều xếp từ hàng tỷ đơn vị đơn giản này.`,
+- AI = **70 năm thử–thất bại–làm lại** → "học từ dữ liệu" cuối cùng thắng "viết luật".
+- **2 mùa đông AI** dạy ta: hype không = năng lực thực.
+- **2012** là điểm bùng nổ nhờ data + GPU + thuật toán đồng quy.
+- **2022 (ChatGPT)** đưa AI vào nhà mọi người.
+- Học fundamentals trước, framework sau, prompt cuối.
+`,
         theoryEn: `**History of Artificial Intelligence — A Comprehensive Overview**
 
 Artificial Intelligence (AI) has evolved through several distinct eras, each marked by breakthroughs, setbacks, and paradigm shifts. Understanding this history is essential for any AI practitioner.
@@ -207,129 +194,94 @@ print(f"\\n📊 {len(timeline)} milestones spanning {timeline[-1][0] - timeline[
       {
         id: "ai-nn-1", title: "Perceptron & Forward Pass", titleEn: "Perceptron & Forward Pass",
         level: 2, difficulty: "beginner",
-        theory: `**Neural Networks — The Foundation of Modern AI**
+        theory: `Khi bạn dạy em bé phân biệt mèo và chó, bé không cần học định nghĩa sinh học. Bé **xem nhiều ví dụ**, sai thì bị sửa, dần dần đoán đúng. Đó chính xác là cách **neural network** học. Hôm nay thầy sẽ "mổ xẻ" 1 con neuron — viên gạch nhỏ nhất tạo nên ChatGPT.
 
-Neural networks are computing systems inspired by biological neural networks in the brain. They form the backbone of deep learning and modern AI.
+## 1. 🚦 Vấn đề đời thường
 
----
+Bạn muốn máy tự động: nhận diện mèo trong ảnh, dịch tiếng Anh sang tiếng Việt, dự đoán giá nhà. Cách "code thẳng" (if/else) **không thể** vì có hàng triệu ngoại lệ.
 
-**🔵 The Perceptron — The Simplest Neural Unit**
+→ Cần thứ **tự học pattern** từ dữ liệu. Đó là neural network.
 
-A perceptron is the most basic building block of a neural network. It works in 4 steps:
+## 2. 💡 Perceptron — Viên gạch nhỏ nhất
 
-1. **Receive inputs** (x₁, x₂, ..., xₙ) — these are your features/data
-2. **Multiply by weights** (w₁, w₂, ..., wₙ) — weights determine importance
-3. **Add bias** (b) — shifts the decision boundary
-4. **Apply activation function** — introduces non-linearity
+**Perceptron** là neuron đơn giản nhất, hoạt động qua **4 bước** giống như một cuộc bỏ phiếu:
 
-**Mathematical Formula:**
-\`output = activation(Σ(xᵢ × wᵢ) + b)\`
+1. **Nhận input** (x₁, x₂, …, xₙ) — các đặc trưng dữ liệu (tuổi, lương, học vấn…).
+2. **Nhân với trọng số** (w₁, w₂, …, wₙ) — quyết định mỗi đặc trưng quan trọng cỡ nào.
+3. **Cộng bias** (b) — dịch chuyển ranh giới quyết định.
+4. **Áp dụng activation function** — quyết định "passed" hay "failed".
 
-Think of it like a voting system: each input "votes" (weighted by importance), and the activation function decides if the total vote passes a threshold.
+**Công thức**: \\\`output = activation(Σ(xᵢ × wᵢ) + b)\\\`
 
----
+**Liên tưởng:** Như hội đồng tuyển sinh — mỗi giáo viên (input) cho điểm với trọng số khác nhau, tổng điểm vượt ngưỡng → đậu.
 
-**🏗️ Multi-Layer Networks (MLPs)**
+## 3. 🏗️ Multi-Layer Network (MLP) — Xếp tầng neuron
 
-Real neural networks stack multiple layers of neurons:
+Mạng nơ-ron thực tế xếp **nhiều layer** chồng lên nhau:
 
-- **Input Layer:** Receives raw data (e.g., pixel values, features)
-- **Hidden Layers:** Extract increasingly abstract features
-- **Output Layer:** Produces final prediction
+- **Input Layer** — nhận data thô (pixel, đặc trưng).
+- **Hidden Layer(s)** — chiết xuất đặc trưng ngày càng trừu tượng.
+- **Output Layer** — đưa ra dự đoán cuối cùng.
 
-**Why multiple layers?**
-A single perceptron can only learn **linear** boundaries (straight lines). Multiple layers can learn **non-linear** complex patterns — curves, shapes, abstract concepts.
+**Vì sao cần nhiều layer?**
+1 perceptron chỉ học được **đường thẳng** (linear). Nhiều layer học được **đường cong, hình dạng, khái niệm trừu tượng**.
 
-**Universal Approximation Theorem:** A neural network with at least one hidden layer and sufficient neurons can approximate *any* continuous function. This is why neural networks are so powerful.
+> 💡 **Universal Approximation Theorem:** mạng nơ-ron có ít nhất 1 hidden layer + đủ neuron có thể xấp xỉ **bất kỳ hàm liên tục nào**. Đó là lý do neural network mạnh đến vậy.
 
----
+## 4. ➡️ Forward Propagation — Data chảy xuyên mạng
 
-**➡️ Forward Propagation**
+\\\`\\\`\\\`
+Input → Layer 1 → Activation → Layer 2 → Activation → … → Output
+\\\`\\\`\\\`
 
-Forward propagation is how data flows through the network:
+Tại mỗi layer:
+1. Tính \\\`z = W·x + b\\\` (linear transform).
+2. Áp activation \\\`a = σ(z)\\\` (phi tuyến).
+3. \\\`a\\\` trở thành input cho layer kế.
 
-\`\`\`
-Input → Layer 1 → Activation → Layer 2 → Activation → ... → Output
-\`\`\`
+→ Cuối cùng ra **prediction**, đem so với target để tính loss.
 
-At each layer:
-1. Compute **z = W·x + b** (linear transformation)
-2. Apply **activation function** a = σ(z)
-3. Pass **a** as input to next layer
+## 5. 🎨 Trực quan với 1 ví dụ
 
-This produces a prediction, which is then compared to the actual target to compute the loss.
+Phân loại ảnh chó/mèo 28×28 = 784 pixel:
 
----
+\\\`\\\`\\\`
+Input: 784 pixels
+   ↓
+Hidden 1 (128 neuron, ReLU): học cạnh, góc
+   ↓
+Hidden 2 (64 neuron, ReLU): học mắt, tai, mũi
+   ↓
+Output (1 neuron, Sigmoid): xác suất là chó
+\\\`\\\`\\\`
 
-**🎯 Key Concepts:**
+Layer càng sâu, đặc trưng càng **trừu tượng** — đó là điều kỳ diệu của deep learning.
 
-| Term | Description |
-|------|-------------|
-| Weight | How important an input is (learned during training) |
-| Bias | Allows the neuron to shift its activation (like y-intercept) |
-| Layer | A collection of neurons at the same depth |
-| Depth | Number of layers (more depth = "deeper" network) |
-| Width | Number of neurons per layer |
+## 6. ⚠️ Bẫy thường gặp
 
----
+> ⚠️ **Cảnh báo:** Bẫy số 1: **xếp toàn linear layer mà không có activation phi tuyến**. Khi đó dù 100 layer, mạng vẫn tương đương 1 layer linear duy nhất — vô dụng. **Activation phi tuyến (ReLU, sigmoid…) là LINH HỒN của deep learning.**
 
-**⚠️ Common Misconceptions:**
-- Neural networks don't "think" — they perform matrix multiplications
-- More layers ≠ always better (risk of overfitting, vanishing gradients)
-- The architecture design (how many layers, neurons) is crucial and often more art than science
+Bẫy khác:
+- **Quá nhiều neuron + ít data** → overfit, học vẹt.
+- **Không scale input** (pixel 0–255 trộn với lương 0–100M) → mạng học kém.
+- **Khởi tạo weight = 0** → mọi neuron học y nhau, mạng không phá đối xứng được.
 
----
+## 7. 🎯 Best practice của thầy Hải
 
-## 🏢 Case Study: Google's Neural Machine Translation (2016)
+1. Bắt đầu với mạng **2–3 hidden layer** + **ReLU**, scale input về [0,1] hoặc chuẩn hoá z-score.
+2. **Khởi tạo Xavier/He** thay vì zero.
+3. Số neuron mỗi hidden layer: **2× input** rồi giảm dần (kiểu pyramid).
+4. Luôn **chia train/val/test** trước khi bắt đầu — đừng tin "loss train thấp" là model giỏi.
+5. Lúc nghi ngờ — vẽ **loss curve** train vs val. Mọi câu trả lời nằm ở 2 đường này.
 
-Before 2016, Google Translate used phrase-based statistical translation — translating chunks of words separately, then stitching them together. Quality was robotic, often comically wrong.
+## 8. ✅ Tóm tắt 30 giây
 
-**The shift:**
-- Google replaced 500,000 lines of phrase-based code with a **single 8-layer LSTM neural network**
-- Used encoder-decoder architecture with attention
-- **Result:** 60% reduction in translation errors overnight; some language pairs (English↔Spanish) approached human-level quality
-- **Cost:** Months of training on Google's TPU pods
-
-**Lesson:** A well-designed neural network can replace decades of hand-engineered rules. This same principle later enabled GPT to replace hand-crafted NLP pipelines.
-
----
-
-## 🏢 Case Study: OpenAI's MLP Surprise in GPT-3
-
-While Transformers get the credit, **~70% of GPT-3's parameters live in the MLP feed-forward layers** (not attention). Each Transformer block contains:
-- Self-attention: ~25M params per layer
-- MLP feed-forward: ~50M params per layer (4× expansion ratio)
-
-In a 96-layer GPT-3 (175B total), the simple "input → linear → activation → linear → output" MLPs you learn here account for over **120 billion parameters**. They store most of the model's factual knowledge — recent interpretability research (Anthropic's "circuits" team) shows MLPs act as key-value memories.
-
-**Lesson:** Don't underestimate basic MLPs — they remain the workhorse of even the most advanced LLMs.
-
----
-
-## 📋 Best Practices Checklist
-
-✅ **Start small:** Begin with 1-2 hidden layers, 32-128 neurons before scaling up
-✅ **Normalize inputs:** Mean=0, std=1 prevents gradient issues
-✅ **Use He initialization for ReLU networks** (\`std = √(2/fan_in)\`)
-✅ **Add Batch Normalization** between layers in deep networks
-✅ **Monitor activation distributions** — dead neurons (always 0) signal problems
-✅ **Validate Universal Approximation needs ≥1 hidden layer** — linear models for linear problems
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Building 100-layer networks for a 1000-row tabular dataset (use XGBoost!)
-❌ Forgetting bias terms — limits the function class learnable
-❌ Using Sigmoid in hidden layers of deep networks (vanishing gradient)
-❌ Mixing one-hot encoded categories with raw continuous features without scaling
-❌ Treating hyperparameters (depth, width, LR) as fixed instead of tuning
-
----
-
-## 🌉 Bridge to Next Lesson
-
-The forward pass produces a number — but neural networks need **non-linearity** to learn complex patterns. Without activation functions, stacking 100 linear layers is mathematically identical to one linear layer. Next: **Activation Functions** — Sigmoid, ReLU, GELU — and why your choice can make or break training.`,
+- **Perceptron** = neuron đơn = bỏ phiếu có trọng số + activation.
+- **MLP** = xếp tầng → học được mọi pattern (Universal Approximation).
+- **Forward pass** = data chảy từ input → output.
+- **Activation phi tuyến** = linh hồn — không có nó, mạng vô dụng.
+- Best practice: ReLU + scale input + Xavier init + train/val/test split.
+`,
         theoryEn: `**Neural Networks — The Foundation of Modern AI**
 
 Neural networks are computing systems inspired by biological brain networks, forming the backbone of deep learning.
@@ -1740,153 +1692,103 @@ for i, t in enumerate(tokens):
       {
         id: "ai-llm-1", title: "Prompt Engineering", titleEn: "Prompt Engineering",
         level: 2, difficulty: "beginner",
-        theory: `**Prompt Engineering — The Art of Communicating with AI**
+        theory: `Có 2 người cùng bảo ChatGPT *"viết email cho khách"* — một người nhận lại 5 dòng vô nghĩa, một người nhận lại email 4 đoạn chuyên nghiệp gửi luôn cho khách được. Khác biệt **không nằm ở model** — mà ở **cách hỏi**. Đó là **Prompt Engineering**.
 
-Prompt Engineering is the practice of designing effective inputs (prompts) to get desired outputs from Large Language Models. It's one of the most practical and immediately useful AI skills.
+## 1. 🚦 Vấn đề đời thường
 
----
+Bạn dùng ChatGPT/Claude để: viết email, debug code, tóm tắt bài báo, tạo SQL. Cùng 1 model, người dùng giỏi nhanh gấp **5 lần** người dùng dở. Lý do: **biết hỏi đúng cách**.
 
-**📝 Core Prompting Techniques:**
+→ Prompt Engineering là kỹ năng AI **giá trị nhất** mà mọi người (lập trình viên, marketer, học sinh) đều dùng được ngay hôm nay.
 
-**1. Zero-Shot Prompting**
-Ask the model directly without examples:
-> "Classify this review as positive or negative: 'The food was amazing!'"
+## 2. 💡 5 kỹ thuật prompt cốt lõi
 
-Best when: The task is straightforward and well-defined.
+**1. Zero-shot** — hỏi thẳng, không ví dụ.
+> *"Phân loại review sau là tích cực hay tiêu cực: 'Đồ ăn quá ngon!'"*
 
-**2. Few-Shot Prompting**
-Provide 2-5 examples before your question:
-> "'Love it!' → positive
-> 'Terrible!' → negative
-> 'Broke after 1 day' → ?"
+**2. Few-shot** — đưa 2–5 ví dụ trước khi hỏi.
+> *"'Tuyệt vời!' → tích cực*
+> *'Tệ hại!' → tiêu cực*
+> *'Hỏng sau 1 ngày' → ?"*
 
-Best when: The task needs pattern demonstration. The model learns the format from examples.
+**3. Chain-of-Thought (CoT)** — bảo model **suy nghĩ từng bước**.
+> *"Hãy nghĩ từng bước: nếu có 3 hộp, mỗi hộp 12 quả, bán 15 quả thì còn lại bao nhiêu?"*
 
-**3. Chain-of-Thought (CoT)**
-Ask the model to reason step by step:
-> "Let's think step by step: If there are 3 boxes with 12 items each, and we sell 15..."
+→ CoT cải thiện **20–40%** độ chính xác cho các bài toán logic/math.
 
-This dramatically improves performance on math, logic, and complex reasoning tasks. Studies show it can improve accuracy by 20-40% on reasoning tasks.
+**4. Role prompting** — gán vai cho model.
+> *"Bạn là senior Python developer 15 năm kinh nghiệm. Review code sau…"*
 
-**4. Role Prompting**
-Assign a specific role/persona:
-> "You are a senior Python developer with 15 years of experience. Review this code..."
+**5. Self-consistency** — hỏi cùng câu với CoT 5 lần, chọn đáp án đa số. Giảm sai sót so với chain duy nhất.
 
-The model adapts its language, depth, and perspective to match the role.
+## 3. 🏗️ Giải phẫu một prompt tốt
 
-**5. Self-Consistency**
-Ask the same question multiple times with CoT, then take the majority answer. Reduces errors from a single reasoning chain.
+| Thành phần | Vai trò | Ví dụ |
+|-----------|---------|-------|
+| **Context** | Bối cảnh | "Cho dataset review khách hàng…" |
+| **Role** | Vai của AI | "Là một data scientist…" |
+| **Task** | Việc cần làm | "Phân loại tích cực/tiêu cực" |
+| **Format** | Cấu trúc output | "Trả JSON với 'sentiment' và 'confidence'" |
+| **Constraint** | Giới hạn | "Tối đa 100 từ. Chỉ dùng data đã cho." |
+| **Example** | Ví dụ I/O | "VD: 'Tuyệt!' → tích cực" |
 
----
+## 4. 📝 Template chuẩn của thầy Hải
 
-**🏗️ Anatomy of a Great Prompt:**
+\\\`\\\`\\\`
+[Role]
+You are a senior product manager fluent in Vietnamese.
 
-| Component | Description | Example |
-|-----------|-------------|---------|
-| **Context** | Background information | "Given a dataset of customer reviews..." |
-| **Role** | Who the AI should be | "As a data scientist..." |
-| **Task** | What to do | "Classify each review as positive/negative" |
-| **Format** | Expected output structure | "Return JSON with 'sentiment' and 'confidence'" |
-| **Constraints** | Limitations | "Use only the provided data. Max 100 words." |
-| **Examples** | Input/output pairs | "Example: 'Great!' → positive" |
+[Context]
+We are launching a fintech app for Vietnamese students.
 
----
+[Task]
+Suggest 5 onboarding screens with copy.
 
-**⚠️ Anti-Patterns to Avoid:**
+[Constraints]
+- Output in Vietnamese.
+- Each screen ≤ 30 words.
+- Tone: friendly, no jargon.
 
-1. **Vague prompts:** "Tell me about AI" → Too broad, unfocused response
-2. **No format specification:** Get inconsistent output formats
-3. **Contradictory instructions:** "Be brief. Include all details." → Model confused
-4. **Assuming context:** Model doesn't know your project/codebase unless you tell it
-5. **Single long prompt:** Break complex tasks into steps
+[Format]
+Return as numbered markdown list. Each item: bold title + 1 line copy.
 
----
+[Example]
+1. **Chào Long!** — Tài khoản đầu tiên dành riêng cho sinh viên Việt.
+\\\`\\\`\\\`
 
-**🔧 Advanced Techniques:**
+→ Áp template này vào *bất kỳ* model nào, kết quả nhảy vọt.
 
-- **ReAct (Reasoning + Acting):** Model reasons, then takes action, then observes results
-- **Tree of Thought:** Explores multiple reasoning paths
-- **Structured Output:** Force JSON/XML output for programmatic use
-- **System Prompts:** Set persistent behavior for an entire conversation
-- **Temperature Control:** Low (0.1) = deterministic/factual, High (0.9) = creative/varied
+## 5. ⚠️ 4 anti-pattern cần tránh
 
----
+> ⚠️ **Cảnh báo:** Đừng hỏi *"Tell me about AI"* — vague prompt cho ra vague answer. Càng cụ thể, càng tốt.
 
-**💡 Tokenization — How LLMs See Text:**
+1. **Vague**: "Tell me about AI" → câu trả lời lan man.
+2. **Không spec format**: nhận output mỗi lần một kiểu, không parse được.
+3. **Hướng dẫn mâu thuẫn**: "Hãy ngắn gọn. Bao gồm mọi chi tiết." → model bối rối.
+4. **Giả định context**: model không biết project bạn nếu bạn không nói.
 
-LLMs don't read characters or words — they read **tokens**:
-- "Hello" → 1 token
-- "Artificial Intelligence" → 2 tokens
-- "supercalifragilistic" → 4+ tokens
+## 6. 🛠️ Kỹ thuật nâng cao
 
-**Why it matters:**
-- API pricing is per token
-- Context window limits are in tokens (e.g., 128K tokens for GPT-4)
-- Rare words use more tokens → may be understood less well
+- **ReAct (Reason + Act)** — model **suy nghĩ** rồi **gọi tool** (search, calculator, code) → cốt lõi của AI agent.
+- **Tree of Thoughts** — model khám phá nhiều nhánh suy nghĩ song song, chọn nhánh tốt nhất.
+- **Prompt Chaining** — chia bài toán lớn thành nhiều prompt nhỏ, output cái này = input cái kia.
 
----
+## 7. 🎯 Best practice của thầy Hải
 
-## 🏢 Case Study: Anthropic's Prompt Engineering Guide — How Claude Was Designed
+1. **Always specify output format** — nhất là khi parse bằng code.
+2. **Đưa 1–3 ví dụ tốt** > giải thích bằng lời.
+3. Với task khó → bật **CoT** ("hãy nghĩ từng bước").
+4. **Test prompt với 10 input đa dạng** trước khi đưa lên production.
+5. Lưu prompt trong **Git**, version như code.
 
-Anthropic publishes detailed guidance because Claude was specifically trained to follow well-structured prompts:
-- **XML tags** (\`<context>\`, \`<task>\`, \`<example>\`) work better than markdown — Claude was trained on synthetic XML-formatted data
-- **Place instructions at the START**, examples in the middle, query at the END
-- **"Think step by step inside <thinking> tags"** unlocks reasoning without showing it to the user
-- Multi-shot examples (5-10) outperform few-shot (2-3) by 15-30% on complex tasks
+> 💡 **Mẹo của thầy Hải:** Khi prompt không ra kết quả mong muốn, đừng đổ lỗi cho model. Hỏi: *"Mình đã spec context, role, task, format, constraint chưa?"* — 90% lần thiếu 1 trong 5 cái.
 
-**Real impact:** A well-engineered Claude prompt can match GPT-4 fine-tuning quality at 1/100th the cost.
+## 8. ✅ Tóm tắt 30 giây
 
----
-
-## 🏢 Case Study: Google DeepMind's Chain-of-Thought (2022) — A Single Prompt Trick
-
-Wei et al. discovered that adding **"Let's think step by step"** to math problems:
-- PaLM 540B accuracy on GSM8K (math word problems): **18% → 57%** with CoT
-- No retraining needed — pure prompt change
-- Triggered the "reasoning model" race: OpenAI o1, DeepSeek R1, Claude 3.5 with extended thinking
-
-**Lesson:** Sometimes a 5-word prompt change beats months of fine-tuning.
-
----
-
-## 🏢 Case Study: GitHub Copilot's System Prompt Leak (2023)
-
-When Copilot's system prompt leaked, the community learned production prompts are surprisingly long:
-- ~1500 tokens of instructions
-- Includes: role definition, capabilities, refusal rules, output format, tone guidelines, ~20 examples
-- Layered: System prompt → User context → IDE state → Active file → Recent edits
-
-**Lesson:** Production LLM apps invest enormous effort in prompt engineering. It is software engineering, not creative writing.
-
----
-
-## 📋 Prompt Engineering Checklist
-
-✅ **Specify role explicitly** ("You are an expert Python reviewer...")
-✅ **Define output format** (JSON schema, markdown table, exact bullet count)
-✅ **Add 2-5 examples** of input → desired output
-✅ **Use structured delimiters** (XML for Claude, markdown for GPT)
-✅ **Set temperature appropriately** (0.0 for facts, 0.7 for creative, 0.2 for code)
-✅ **Add "think step by step" for complex reasoning**
-✅ **Specify what NOT to do** ("Do not include code comments")
-✅ **Use few-shot for edge cases** the model gets wrong by default
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ "Tell me about X" — too vague, gets generic Wikipedia summary
-❌ Mixing system instructions with user data in same message — model may follow user's instructions
-❌ Not specifying format — causes parsing failures in production
-❌ Burying important instructions in the middle (LLMs have "lost in the middle" problem)
-❌ Treating prompts as one-shot — production prompts evolve through 50-100 iterations
-❌ Ignoring temperature — using 0.7 for code generation causes inconsistency
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Prompt engineering customizes behavior at inference time, but for major changes (new tasks, domain expertise), you need **fine-tuning**. Next: **Transfer Learning & LoRA** — adapting pre-trained models efficiently.`,
+- 5 kỹ thuật cốt lõi: **zero-shot, few-shot, CoT, role, self-consistency**.
+- Prompt tốt = **Context + Role + Task + Format + Constraint + Example**.
+- Tránh: vague, không format, mâu thuẫn, giả định context.
+- Production: **test 10 input đa dạng, lưu prompt vào Git**.
+`,
         theoryEn: `**Prompt Engineering — Communicating with AI**
 
 **Techniques:** Zero-shot (direct ask), Few-shot (with examples), Chain-of-Thought (step by step), Role prompting (assign persona).
@@ -2181,166 +2083,103 @@ print(f"  Reduction: {original_params/lora_params:.1f}x fewer trainable params")
       {
         id: "ai-rag-1", title: "RAG Pipeline", titleEn: "RAG Pipeline",
         level: 5, difficulty: "advanced",
-        theory: `**RAG (Retrieval-Augmented Generation) — Grounding AI in Facts**
+        theory: `ChatGPT trả lời rất hay về **kiến thức chung** — nhưng hỏi *"chính sách hoàn hàng của Shopee tháng 3/2024 thế nào?"* nó sẽ **bịa**. Vì model không biết tài liệu nội bộ và không có data sau cutoff date. Giải pháp: **cho model tự tra cứu trước khi trả lời** — đó là **RAG**.
 
-RAG is one of the most important practical AI patterns. It combines the knowledge retrieval capabilities of search engines with the language generation abilities of LLMs to produce accurate, up-to-date, and verifiable answers.
+## 1. 🚦 Vấn đề đời thường
 
----
+Bạn xây chatbot hỗ trợ khách của Tiki. Khách hỏi: *"Đơn của tôi #VN12345 đang ở đâu?"* hoặc *"Chính sách hoàn tiền cho hàng điện tử là gì?"*
 
-**❓ Why RAG?**
+→ ChatGPT thuần **không thể** trả lời — không biết DB Tiki, không đọc policy.pdf của Tiki.
 
-LLMs have limitations:
-- **Knowledge cutoff:** Training data has a date limit
-- **Hallucination:** May generate plausible but incorrect information
-- **No source citation:** Can't point to where information came from
-- **Domain specificity:** Don't know your company's internal documents
+→ Giải pháp: **tra cứu tài liệu Tiki trước, đưa cho LLM, rồi mới sinh câu trả lời**. Đó là RAG.
 
-RAG solves all of these by retrieving relevant documents first, then generating answers based on retrieved context.
+## 2. 💡 Khái niệm chính: RAG là gì?
 
----
+**RAG** = Retrieval-Augmented Generation = **Tra cứu + Sinh câu trả lời**.
 
-**🔄 The RAG Pipeline — Three Phases:**
+LLM có 4 hạn chế cố hữu:
+- **Knowledge cutoff** — data huấn luyện có hạn.
+- **Hallucination** — bịa thông tin nghe rất thật.
+- **Không trích nguồn** — không biết câu trả lời lấy từ đâu.
+- **Không biết tài liệu nội bộ công ty bạn**.
 
-**Phase 1: Indexing (Offline — done once)**
-1. **Collect documents** (PDFs, web pages, databases, internal docs)
-2. **Chunk** documents into smaller pieces (100-500 tokens each)
-3. **Embed** each chunk into a vector using an embedding model
-4. **Store** vectors in a Vector Database (Pinecone, Weaviate, ChromaDB, Qdrant)
+RAG giải cả 4 — bằng cách **tìm tài liệu liên quan trước, đưa cho LLM cùng với câu hỏi**.
 
-**Phase 2: Retrieval (At query time)**
-1. **Embed** the user's query using the same embedding model
-2. **Search** the vector database for the most similar chunks
-3. **Retrieve** top-k most relevant chunks (typically k=3-10)
-4. **Re-rank** (optional) — use a cross-encoder to improve relevance
+## 3. 🔄 Pipeline RAG — 3 giai đoạn
+
+**Phase 1: Indexing (offline, làm 1 lần)**
+1. Thu thập tài liệu (PDF, web, internal docs).
+2. **Chunk** thành đoạn nhỏ (100–500 token).
+3. **Embed** mỗi chunk thành vector (dùng OpenAI Embedding hoặc BGE).
+4. Lưu vector vào **Vector DB** (Pinecone, Weaviate, ChromaDB, Qdrant).
+
+**Phase 2: Retrieval (lúc user hỏi)**
+1. **Embed** câu hỏi user.
+2. **Search** top-k chunk gần nhất trong vector DB.
+3. (Optional) **Re-rank** bằng cross-encoder cho relevance cao hơn.
 
 **Phase 3: Generation**
-1. **Construct prompt:** System instructions + Retrieved chunks + User question
-2. **Send to LLM** for answer generation
-3. **Post-process:** Add citations, format output
+1. Dựng prompt: \\\`[System instruction] + [Retrieved chunks] + [User question]\\\`.
+2. Gửi LLM sinh câu trả lời.
+3. Post-process: thêm trích nguồn, format.
 
----
+## 4. 🧩 Các thành phần chìa khoá
 
-**🧩 Key Components Explained:**
+**Embedding** — vector dày đặc biểu diễn nghĩa text. Text giống nhau → vector gần nhau trong không gian. Mô hình: OpenAI text-embedding-3, BGE, E5. Chiều: 768–3072.
 
-**Embeddings:**
-- Dense vector representations of text meaning
-- Similar texts → similar vectors (close in vector space)
-- Models: OpenAI text-embedding-3, Cohere embed, BGE, E5
-- Dimension: typically 768-3072
+**Vector Database** — DB chuyên cho similarity search. Dùng thuật toán ANN (HNSW, IVF, ScaNN).
 
-**Vector Databases:**
-- Specialized databases for similarity search (not SQL)
-- Use approximate nearest neighbor (ANN) algorithms: HNSW, IVF, ScaNN
-- Managed: Pinecone, Weaviate Cloud
-- Open-source: ChromaDB, Qdrant, Milvus, FAISS (library)
+| Hạng mục | Managed | Open-source |
+|----------|---------|-------------|
+| Vector DB | Pinecone, Weaviate Cloud | ChromaDB, Qdrant, Milvus, FAISS |
 
-**Chunking Strategies:**
-| Strategy | Description | Best For |
-|----------|-------------|----------|
-| Fixed-size | Split every N characters/tokens | Simple documents |
-| Recursive | Split by headers, paragraphs, sentences | Structured docs |
-| Semantic | Split at topic boundaries | Long articles |
-| Sliding window | Overlapping chunks | Dense content |
+**Chunking strategies:**
 
----
+| Cách | Mô tả | Hợp với |
+|------|-------|---------|
+| Fixed-size | Cắt mỗi N ký tự/token | Tài liệu đơn giản |
+| Recursive | Tôn trọng cấu trúc (đoạn, dòng) | Hầu hết case |
+| Semantic | Cắt theo nghĩa | Document phức tạp |
+| By section | Theo heading H1/H2 | Markdown / structured docs |
 
-**📊 RAG vs Fine-tuning:**
+## 5. 🛠️ Sơ đồ kiến trúc
 
-| Aspect | RAG | Fine-tuning |
-|--------|-----|-------------|
-| Data updates | Real-time (just re-index) | Need to retrain |
-| Source citation | ✅ Can point to source | ❌ Not possible |
-| Hallucination | Reduced (grounded) | Can still hallucinate |
-| Cost | Lower (no training) | Higher (GPU time) |
-| Best for | Q&A, knowledge bases | Style/behavior changes |
+\\\`\\\`\\\`
+[User question] ──► [Embed] ──► [Vector DB Search] ──► [Top-k chunks]
+                                                              │
+                                                              ▼
+[System prompt] + [Chunks] + [Question] ──► [LLM] ──► [Answer + citations]
+\\\`\\\`\\\`
 
----
+> 💡 **Mẹo của thầy Hải:** Chunk size 300–500 token + overlap 50 token là sweet spot cho hầu hết tài liệu tiếng Việt. Quá nhỏ mất context, quá lớn loãng nghĩa.
 
-**⚠️ Common Pitfalls:**
-- **Chunk size too large:** Retrieval includes irrelevant info
-- **Chunk size too small:** Loses context
-- **Poor embedding model:** Retrieval quality degrades
-- **No re-ranking:** Top similarity ≠ most relevant
-- **Stuffing too much context:** Exceeds context window, LLM gets confused
+## 6. ⚠️ Bẫy thường gặp
 
----
+> ⚠️ **Cảnh báo:** Bẫy số 1: **chunk size sai**. Chunk 50 token = mất context, model trả lời lan man. Chunk 2000 token = tín hiệu "loãng", retrieval kém. Test với 20 query thật để chọn size đúng.
 
-## 🏢 Case Study: Perplexity AI — RAG as a Product, Not a Feature
+Các bẫy khác:
+- Dùng **embedding model khác** giữa lúc index và query → không tìm thấy gì.
+- **Không re-rank** → top-k chunk thường chứa noise.
+- Không **cite source** → user không tin câu trả lời.
+- Không **handle "không tìm thấy"** → LLM tự bịa thay vì nói "tôi không biết".
 
-Perplexity ($9B valuation, 2024) built an entire company on RAG:
-- **Architecture:** Real-time web search (Bing/Google) → re-rank with proprietary model → feed to LLM (Claude/GPT-4) → cite sources
-- **Latency:** ~3 seconds end-to-end (search 800ms, embed 100ms, LLM 1500ms)
-- **Differentiation vs ChatGPT:** Always cited, always current, never hallucinates dates
-- **15M+ users**, $250M ARR by 2025
+## 7. 🎯 Best practice của thầy Hải
 
-**Lesson:** RAG is not a research curiosity — it's a multi-billion-dollar business model.
+1. **Recursive chunking** với size 300–500 token, overlap 50.
+2. Dùng cùng **một embedding model** cho index và query.
+3. Top-k = **3–5 chunk** (đủ context, không loãng).
+4. Bật **re-rank** (Cohere Rerank, BGE Reranker) → +10–20% accuracy.
+5. **Luôn cite source** trong câu trả lời.
+6. Khi top-k score < threshold → trả lời *"Tôi không tìm thấy thông tin"* (đừng để LLM bịa).
+7. Lập **eval set 50 câu** để đo retrieval quality (Recall@k, MRR).
 
----
+## 8. ✅ Tóm tắt 30 giây
 
-## 🏢 Case Study: OpenAI's GPTs with File Upload — RAG at Scale
-
-When OpenAI launched custom GPTs (Nov 2023), file upload uses managed RAG:
-- Auto-chunks uploaded PDFs/docs (~512 tokens with 50-token overlap)
-- Uses \`text-embedding-3-large\` (3072 dimensions)
-- Stores in OpenAI's internal vector store (likely managed Qdrant/Milvus)
-- Retrieves top-20, re-ranks to top-5, injects into context
-
-**Limit:** 20 files per GPT, 512MB each. Built-in RAG handles 99% of small business use cases without custom code.
-
----
-
-## 🏢 Case Study: Anthropic's Contextual Retrieval (Sept 2024)
-
-Anthropic's research showed standard RAG retrieval fails when chunks lose context. Their fix:
-- Before embedding each chunk, prepend an LLM-generated **chunk-specific context summary**
-- Example: Instead of "Revenue grew 5%", embed "From Apple Q3 2023 10-K: Revenue grew 5%"
-- **Result:** 49% reduction in retrieval failures, 67% with reranking
-
-**Cost trade-off:** Adds Claude calls during indexing (one-time), but query-time quality jumps significantly.
-
----
-
-## 🏢 Case Study: Google AI Overviews Disaster (May 2024)
-
-Google launched AI-generated search summaries powered by RAG. Within days, viral failures:
-- "Add glue to pizza to make cheese stick" (sourced from a Reddit joke)
-- "Eat one rock per day for vitamins" (from The Onion satire site)
-- Doctors suggested "smoking 2-3 cigarettes during pregnancy"
-
-**Root cause:** Naive RAG with no source quality scoring. Treated Reddit and Wikipedia as equally authoritative.
-
-**Lesson:** RAG without **source quality filtering** + **adversarial testing** is a PR disaster waiting to happen.
-
----
-
-## 📋 RAG Production Checklist
-
-✅ **Chunk size 200-500 tokens** with 10-20% overlap
-✅ **Use a strong embedding model** (text-embedding-3-large, BGE-M3, Cohere v3)
-✅ **Add a re-ranker** (Cohere Rerank, BGE reranker) — improves top-5 by 20-40%
-✅ **Filter by source authority** (rank Reddit < Wikipedia < peer-reviewed)
-✅ **Cite sources in output** with clickable links
-✅ **Monitor "I don't know" rate** — if too low, model is hallucinating from weak context
-✅ **A/B test chunk strategies** — semantic vs fixed vs recursive
-✅ **Cache embeddings** — re-embedding 1M docs costs $130 with OpenAI
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Single embedding model for both indexing and querying mismatch (use the same model!)
-❌ Chunks too large (>1K tokens) — retrieval becomes imprecise
-❌ Chunks too small (<100 tokens) — lose semantic context
-❌ No re-ranking — top similarity ≠ top relevance
-❌ Stuffing 50 chunks into context — "lost in the middle" effect, LLM ignores middle chunks
-❌ Trusting any source — implement domain whitelists and authority scoring
-❌ No evaluation set — you can't improve what you don't measure
-
----
-
-## 🌉 Bridge to Next Lesson
-
-RAG and fine-tuning give you POWER over LLMs. But power without responsibility creates real harm — biased hiring AI, hallucinated medical advice, deepfake misinformation. Next: **AI Ethics & Governance** — the legal, ethical, and technical frameworks for responsible AI.`,
+- **RAG** = tra cứu tài liệu trước khi sinh câu trả lời → giải hallucination + cutoff.
+- 3 phase: **Index → Retrieve → Generate**.
+- Stack tối thiểu: **embedding + vector DB + LLM**.
+- Quan trọng: chunk size đúng, re-rank, cite source, handle "không biết".
+`,
         theoryEn: `**RAG — Grounding AI in Facts**
 
 **Why RAG?** LLMs hallucinate, have knowledge cutoffs, and can't cite sources. RAG fixes this by retrieving relevant documents before generating.
@@ -2430,177 +2269,102 @@ print(f"  Based on the retrieved information: {results[0][0]}")`,
       {
         id: "ai-eth-1", title: "Bias Detection & Fairness", titleEn: "Bias Detection & Fairness",
         level: 3, difficulty: "intermediate",
-        theory: `**AI Ethics & Governance — Building Responsible AI**
+        theory: `Năm 2018, Amazon **bỏ** một AI tuyển dụng đã xây 4 năm — vì model học từ resume cũ (đa số là nam) đã **tự động penalize** mọi resume có chữ *"women's"* (như "women's chess club"). Không ai cố tình lập trình bias đó. Nó **phát sinh từ data**. Đây là bài học **AI Ethics** đắt giá nhất thế kỷ 21.
 
-As AI systems increasingly make decisions that affect people's lives (hiring, loans, medical diagnosis, criminal justice), ensuring they are fair, transparent, and accountable is not just ethical — it's a business and legal requirement.
+## 1. 🚦 Vấn đề đời thường
 
----
+AI ngày càng quyết định: **ai được vay tiền, ai được tuyển, ai bị giam, chẩn đoán bệnh ai**. Sai sót không còn là "model không tốt lắm" — mà là **người thật, đời thật bị tổn hại**.
 
-**🔍 Types of AI Bias:**
+→ Fairness và Ethics không còn là chủ đề triết học — mà là **yêu cầu pháp lý** (EU AI Act phạt tới 7% doanh thu toàn cầu).
 
-**1. Data Bias (most common)**
-- Training data doesn't represent the real-world population
-- Example: A hiring AI trained mostly on male resumes learns to penalize female applicants
-- Historical bias: Past discrimination encoded in historical data
+## 2. 💡 4 loại bias trong AI
+
+**1. Data Bias (phổ biến nhất)**
+Data huấn luyện không đại diện cho thực tế.
+→ Ví dụ: AI tuyển dụng học từ resume cũ (đa số nam) → tự động loại nữ.
 
 **2. Algorithmic Bias**
-- The model amplifies existing biases in data
-- Feedback loops: biased predictions → biased data collection → more bias
+Model **khuếch đại** bias trong data. Feedback loop: dự đoán bias → thu data bias → bias hơn nữa.
 
 **3. Measurement Bias**
-- Features used as proxies for protected characteristics
-- Example: ZIP code as proxy for race in lending decisions
+Feature dùng làm proxy cho **thuộc tính được bảo vệ** (chủng tộc, giới tính).
+→ Ví dụ: ZIP code làm proxy cho race trong quyết định cho vay.
 
 **4. Deployment Bias**
-- Model used in a context different from what it was designed for
-- Example: Facial recognition trained on one demographic deployed globally
+Model dùng trong context khác với lúc thiết kế.
+→ Ví dụ: nhận diện khuôn mặt train trên 1 nhóm dân tộc, deploy toàn cầu.
 
----
+## 3. 📏 Fairness Metrics — Không có metric duy nhất
 
-**📏 Fairness Metrics:**
+Không có **một** metric đo được "công bằng" — và các metric **mâu thuẫn nhau**.
 
-No single metric captures all aspects of fairness. Different metrics can even contradict each other.
+**Demographic Parity** — mọi nhóm nhận positive prediction tỷ lệ bằng nhau.
+\\\`P(ŷ=1 | A) = P(ŷ=1 | B)\\\`
+→ Hạn chế: bỏ qua base rate thực tế.
 
-**Demographic Parity:**
-- All groups receive positive predictions at equal rates
-- P(ŷ=1 | Group A) = P(ŷ=1 | Group B)
-- Limitation: Ignores actual base rates
+**Equal Opportunity** — TPR (True Positive Rate) bằng nhau.
+\\\`P(ŷ=1 | y=1, A) = P(ŷ=1 | y=1, B)\\\`
+→ "Nếu xứng đáng, bạn được chọn — bất kể nhóm".
 
-**Equal Opportunity:**
-- All groups have equal True Positive Rates
-- P(ŷ=1 | y=1, Group A) = P(ŷ=1 | y=1, Group B)
-- "If you deserve it, you get it regardless of group"
+**Equalized Odds** — TPR **và** FPR đều bằng nhau giữa các nhóm.
 
-**Equalized Odds:**
-- Equal TPR *and* FPR across groups
-- Stronger than Equal Opportunity
+**Calibration** — xác suất dự đoán khớp với thực tế ở mọi nhóm.
+→ "Model nói 80% chắc → đúng 80% lần ở mọi nhóm".
 
-**Calibration:**
-- Predicted probabilities match actual outcomes across groups
-- "When the model says 80% chance, it should be right 80% of the time for all groups"
+> 💡 **Impossibility Theorem:** Bạn **không thể** thoả mãn mọi fairness metric cùng lúc — phải chọn metric phù hợp với case của mình.
 
-**Impossibility Theorem:** You generally cannot satisfy all fairness metrics simultaneously. Choose the most appropriate metric for your use case.
+## 4. 📜 Quy định pháp lý
 
----
+| Quy định | Vùng | Yêu cầu chính |
+|----------|------|---------------|
+| **EU AI Act** (2024) | EU | Phân loại 4 mức rủi ro: Cấm / Cao / Hạn chế / Tối thiểu. Phạt tới 7% doanh thu |
+| **GDPR Article 22** | EU | Quyền được giải thích quyết định tự động |
+| **NIST AI RMF** | Mỹ | Framework risk management |
+| **NĐ 13/2023/NĐ-CP** | VN | Bảo vệ dữ liệu cá nhân, bao gồm xử lý tự động |
 
-**📜 Regulations & Standards:**
+## 5. 🛠️ Bias Mitigation — Có thể làm gì?
 
-| Regulation | Region | Key Requirements |
-|-----------|--------|-----------------|
-| **EU AI Act** | EU | Risk-based classification (Unacceptable, High, Limited, Minimal) |
-| **GDPR** | EU | Right to explanation of automated decisions |
-| **NYC Local Law 144** | NYC | Audits required for AI hiring tools |
-| **NIST AI RMF** | US | Risk management framework |
-| **IEEE 7000** | Global | Ethical design standard |
+**Pre-processing (trước train)**
+- Re-sample data cho cân bằng.
+- Loại proxy của thuộc tính nhạy cảm.
+- Synthetic data cho nhóm thiểu số.
 
----
+**In-processing (trong train)**
+- Adversarial debiasing.
+- Fairness constraints trong loss function.
 
-**🔒 Explainability & Transparency:**
+**Post-processing (sau train)**
+- Threshold điều chỉnh khác nhau cho từng nhóm.
+- Equalized odds post-processing.
 
-- **LIME (Local Interpretable Model-agnostic Explanations):** Explains individual predictions
-- **SHAP (SHapley Additive exPlanations):** Game-theory based feature importance
-- **Attention Visualization:** Shows which input parts the model focuses on
-- **Model Cards:** Documentation describing model limitations, intended use, and bias evaluations
+**Tools**: IBM AI Fairness 360, Microsoft Fairlearn, Google What-If Tool.
 
----
+## 6. ⚠️ Bẫy thường gặp
 
-**🛡️ Best Practices:**
+> ⚠️ **Cảnh báo:** Bẫy chết người: "**Mình không dùng feature 'giới tính' nên model fair**". Sai. Model học **proxy** từ feature khác (ZIP code, tên, trường học) → vẫn discriminate. Phải **đo bằng metric** trên nhóm bảo vệ, không tin cảm tính.
 
-1. **Diverse training data:** Audit and balance representation
-2. **Regular bias audits:** Test across demographic groups
-3. **Human oversight:** AI recommends, humans decide (for high-stakes)
-4. **Documentation:** Model cards, data sheets, impact assessments
-5. **Monitoring:** Continuous bias tracking in production
-6. **Red teaming:** Adversarial testing for harmful outputs
-7. **Feedback mechanisms:** Allow affected individuals to contest decisions
+Các bẫy khác:
+- Chỉ test fairness ở **giai đoạn cuối** → fix khó, tốn $$$.
+- Một metric pass → tưởng OK → metric khác fail thảm.
+- Không có **diverse team** → blind spot trong định nghĩa "fair".
 
----
+## 7. 🎯 Best practice của thầy Hải
 
-## 🏢 Case Study: Amazon's Hiring AI Disaster (2014-2018)
+1. **Audit data** trước khi train: distribution theo nhóm bảo vệ.
+2. Chọn **fairness metric phù hợp business** (không tham 5 metric cùng lúc).
+3. **Document model card** — model dùng cho ai, không dùng cho ai, đo trên nhóm nào.
+4. **Human-in-the-loop** cho high-stakes decision (loan, hire, medical).
+5. **Diverse review team** — đa giới tính, đa văn hoá review trước khi launch.
+6. **Plan to retire model** — không có model nào fair vĩnh viễn, định kỳ re-audit.
 
-Amazon built an AI to screen resumes by training on 10 years of past hires (mostly male in tech roles):
-- Model learned to **penalize resumes containing "women's"** (e.g., "women's chess club captain")
-- Downgraded graduates from women's colleges
-- Discovered during internal audit; project quietly killed in 2018
-- **Cost:** Untold millions in development + reputational damage
+## 8. ✅ Tóm tắt 30 giây
 
-**Lesson:** "Train on historical data" embeds historical bias. Without explicit fairness constraints, the model perfectly replicates past discrimination.
-
----
-
-## 🏢 Case Study: COMPAS Recidivism Algorithm (ProPublica, 2016)
-
-COMPAS, used by US courts to predict re-offense risk, was investigated by ProPublica:
-- **False positive rate for Black defendants: 45%**
-- **False positive rate for White defendants: 23%**
-- COMPAS satisfied "calibration" fairness but failed "equal opportunity"
-
-**Impossibility theorem in action:** You literally cannot satisfy both calibration AND equal opportunity when base rates differ. Choosing which fairness metric matters is a **moral judgment**, not a technical one.
-
----
-
-## 🏢 Case Study: Anthropic's Constitutional AI — Safety as Architecture
-
-Anthropic embeds ethics into model training:
-1. Write a "constitution" — natural language principles (e.g., "Avoid discrimination based on race")
-2. Have the model critique its own responses against the constitution
-3. Use those critiques to train an improved model
-4. Iterate
-
-**Result:** Claude refuses ~3× more harmful requests than vanilla GPT-3.5, with fewer false refusals. Demonstrates safety can be designed in, not bolted on.
-
----
-
-## 🏢 Case Study: EU AI Act (Effective 2025-2027) — The First Comprehensive AI Law
-
-The EU AI Act categorizes AI by risk:
-- **Unacceptable (banned):** Social scoring, real-time biometric surveillance, manipulative AI
-- **High risk (heavily regulated):** Hiring, credit scoring, medical, education, law enforcement
-- **Limited risk (transparency required):** Chatbots must disclose AI nature
-- **Minimal risk (no rules):** Spam filters, recommendation systems
-
-**Penalties:** Up to €35M or 7% of global revenue. Effects every AI company selling to EU.
-
----
-
-## 🏢 Case Study: Google's Gemini Image Generation Backlash (Feb 2024)
-
-Google's Gemini generated historically inaccurate images (Black Vikings, female Popes, Asian Founding Fathers) — overcorrecting for diversity to the point of falsifying history:
-- 2-week pause of image generation
-- $90B market cap loss in days
-- CEO Sundar Pichai: "Completely unacceptable"
-
-**Lesson:** Bias correction without nuance is itself a form of bias. Fairness requires **context-aware** application, not blanket rules.
-
----
-
-## 📋 Responsible AI Deployment Checklist
-
-✅ **Bias audit before launch** — test across race, gender, age, geography
-✅ **Document with Model Card** (intended use, limitations, fairness metrics)
-✅ **Continuous monitoring** in production (data drift, fairness metric drift)
-✅ **Human-in-the-loop for high-stakes decisions** (hiring, lending, medical, legal)
-✅ **Transparent appeals process** for affected individuals
-✅ **Red team testing** — hire adversaries to find harmful outputs
-✅ **Privacy review** (GDPR, CCPA, sector-specific regulations)
-✅ **Carbon footprint disclosure** for large model training
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ "We'll fix bias after launch" — the harm has already occurred
-❌ "The model is just learning from data" — abdicates responsibility to inanimate code
-❌ Optimizing only for accuracy — ignores fairness, robustness, explainability
-❌ Hiding model limitations from users — erodes trust and creates liability
-❌ Treating ethics as a legal compliance checkbox instead of design principle
-❌ Outsourcing labeling to underpaid workers without psychological support (OpenAI Kenya scandal)
-
----
-
-## 🌉 Module Wrap-Up
-
-You've completed AI Foundation — from neural networks → CNNs/RNNs → Transformers → LLMs → RAG → Ethics. The next courses dive deeper into specific specializations: **Machine Learning** (classical algorithms), **Data Engineering** (pipelines that feed AI), and **Cloud Engineering** (infrastructure for production AI). The principles you've learned here apply across all of them.`,
+- **4 loại bias**: data, algorithmic, measurement, deployment.
+- Không có metric "fair" duy nhất — **chọn theo case**.
+- **Impossibility Theorem**: không thể thoả mọi metric cùng lúc.
+- Mitigation: pre / in / post-processing + tools (Fairlearn, AIF360).
+- **Quan trọng nhất**: đo trên nhóm bảo vệ + diverse team + human-in-the-loop.
+`,
         theoryEn: `**AI Ethics — Building Responsible AI**
 
 **Bias Types:** Data bias (unrepresentative), Algorithmic (amplifies bias), Measurement (proxy features), Deployment (wrong context).

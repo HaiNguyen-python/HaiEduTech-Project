@@ -270,34 +270,37 @@ for animal in animals:
         id: "py-dec-1",
         title: "Decorators",
         titleEn: "Decorators",
-        theory: `**Decorator** là một trong những tính năng mạnh mẽ và "Pythonic" nhất. Nó cho phép bạn **thêm chức năng cho function/class mà không sửa code gốc** — hiện thân của nguyên tắc Open/Closed (mở để mở rộng, đóng để sửa đổi).
+        theory: `**Decorator** giống như **giấy gói quà sinh nhật** — bạn không sửa món quà bên trong, chỉ thêm lớp giấy đẹp ở ngoài. Trong Python, decorator cho phép bạn **thêm chức năng cho function mà không sửa code gốc** — hiện thân của nguyên tắc Open/Closed (mở để mở rộng, đóng để sửa đổi).
 
-## Vì sao cần Decorator?
+## 1. 🚦 Vấn đề đời thường
 
-Hãy tưởng tượng bạn có 50 API endpoints và muốn:
-- Log mỗi lần được gọi (ai, khi nào, mất bao lâu)
-- Kiểm tra authentication
-- Cache kết quả 60 giây
-- Đo performance
+Bạn có 50 API endpoint trong project FastAPI. Mỗi endpoint cần:
+- Log mỗi lần gọi (ai, lúc nào, mất bao lâu).
+- Kiểm tra authentication.
+- Cache kết quả 60 giây.
+- Đo performance.
 
-Cách "ngu ngốc": copy-paste code log/auth/cache vào 50 endpoint → 50 lần sửa khi đổi logic. Cách Pythonic: viết 1 decorator, dùng \`@auth\`, \`@log\`, \`@cache\` — sạch và DRY.
+Cách "ngu ngốc": copy-paste code log/auth/cache vào **50 chỗ** → 50 lần sửa khi đổi logic. 💀
 
-## Cơ chế: Function là First-class Citizen
+Cách Pythonic: viết **1 decorator**, dùng \\\`@auth\\\`, \\\`@log\\\`, \\\`@cache\\\` — sạch và DRY.
 
-Trong Python, function là object — có thể gán vào biến, truyền làm tham số, return từ function khác:
-\`\`\`python
+## 2. 💡 Cơ chế: Function là "first-class citizen"
+
+Trong Python, function là **object** — gán vào biến, truyền làm tham số, return từ function khác:
+
+\\\`\\\`\\\`python
 def greet(name):
     return f"Hello {name}"
 
 say_hi = greet           # function gán vào biến
 print(say_hi("An"))      # Hello An
-\`\`\`
+\\\`\\\`\\\`
 
-Decorator tận dụng đặc tính này: nhận function, return function mới (đã wrap thêm logic).
+Decorator tận dụng đặc tính này: **nhận function, return function mới** (đã wrap thêm logic).
 
-## Cú pháp & Cấu trúc đầy đủ
+## 3. ⚙️ Cú pháp đầy đủ
 
-\`\`\`python
+\\\`\\\`\\\`python
 import functools
 
 def log_calls(func):
@@ -312,14 +315,15 @@ def log_calls(func):
 @log_calls
 def add(a, b):
     return a + b
+
 # add(2, 3) tương đương add = log_calls(add); add(2, 3)
-\`\`\`
+\\\`\\\`\\\`
 
-\`@functools.wraps\` rất quan trọng — không có nó, \`add.__name__\` sẽ thành \`"wrapper"\`, làm hỏng debugging và introspection.
+\\\`@functools.wraps\\\` **rất quan trọng** — không có nó, \\\`add.__name__\\\` sẽ thành \\\`"wrapper"\\\`, làm hỏng debugging và introspection.
 
-## Decorator có tham số
+## 4. 🎁 Decorator có tham số
 
-\`\`\`python
+\\\`\\\`\\\`python
 def retry(max_attempts=3, delay=1):
     def decorator(func):
         @functools.wraps(func)
@@ -335,69 +339,55 @@ def retry(max_attempts=3, delay=1):
     return decorator
 
 @retry(max_attempts=5, delay=2)
-def call_api(url): ...
-\`\`\`
+def call_api():
+    return requests.get("https://api.example.com").json()
+\\\`\\\`\\\`
 
-3 tầng lồng: outer (nhận tham số) → middle (nhận func) → inner (thực thi).
+3 tầng function: **factory → decorator → wrapper**. Khó nhớ lúc đầu — đọc 5 lần là quen.
 
-## Decorator trong các framework lớn
+## 5. 🛠️ 5 use case thường gặp
 
-| Framework | Decorator | Công dụng |
-|-----------|-----------|-----------|
-| **Flask** | \`@app.route("/users")\` | Đăng ký URL routing |
-| **FastAPI** | \`@app.get("/api/items")\` | Endpoint + validation |
-| **Django** | \`@login_required\` | Bảo vệ view |
-| **Pytest** | \`@pytest.fixture\` | Inject test dependencies |
-| **Celery** | \`@task\` | Async task queue |
-| **Click** | \`@click.command()\` | CLI commands |
-| **Numba** | \`@jit\` | Compile thành machine code |
+1. **Logging** — log mỗi function call.
+2. **Authentication** — check token trước khi chạy endpoint.
+3. **Caching** — \\\`@functools.lru_cache(maxsize=128)\\\` cho function pure.
+4. **Timing / profiling** — đo thời gian chạy.
+5. **Validation** — check input trước khi chạy.
 
-Hiểu decorator = hiểu cách 90% framework Python hoạt động bên dưới.
+Một số decorator built-in **PHẢI biết**:
+- \\\`@property\\\` — biến method thành attribute.
+- \\\`@classmethod\\\` / \\\`@staticmethod\\\` — method không cần self.
+- \\\`@functools.lru_cache\\\` — memoize function pure.
+- \\\`@dataclass\\\` — auto generate \\\`__init__\\\`, \\\`__repr__\\\`, \\\`__eq__\\\`.
 
-## Built-in decorators quan trọng
+## 6. ⚠️ Bẫy thường gặp
 
-| Decorator | Mục đích |
-|-----------|----------|
-| \`@staticmethod\` | Method không cần \`self\` |
-| \`@classmethod\` | Method nhận \`cls\` thay vì \`self\` |
-| \`@property\` | Biến getter thành "fake attribute" |
-| \`@functools.cache\` | Memoization tự động (Python 3.9+) |
-| \`@functools.lru_cache(maxsize=128)\` | Cache với giới hạn |
-| \`@dataclass\` | Auto-gen \`__init__\`, \`__repr__\` |
+> ⚠️ **Cảnh báo:** Bẫy số 1: **quên \\\`@functools.wraps\\\`**. Khi đó \\\`func.__name__\\\`, \\\`func.__doc__\\\` mất → \\\`help(func)\\\` ra bậy, debugging khổ sở. **Mọi decorator PHẢI có \\\`@functools.wraps\\\`.**
 
-## Case study: Cache giảm 95% latency
+Bẫy khác:
+- Decorator **mutate state global** → khó test, race condition.
+- Stack quá nhiều decorator (\\\`@a @b @c @d @e def f()\\\`) → khó debug khi lỗi.
+- Decorator có side effect lúc define (chạy ngay khi import) → app khó load.
 
-Một startup fintech dùng \`@functools.lru_cache\` cho hàm \`get_exchange_rate(from, to)\` gọi API Forex (mất 200ms/call). Sau khi thêm cache:
-- Trước: 1000 req/s × 200ms = quá tải
-- Sau: 99% hit cache, p99 latency từ 200ms → 8ms
-- Tiết kiệm $4000/tháng tiền API + giảm tải hệ thống
+## 7. 🎯 Best practice của thầy Hải
 
-Một dòng \`@lru_cache(maxsize=10000)\` đem lại impact khổng lồ.
+1. **LUÔN \\\`@functools.wraps\\\`** — không có ngoại lệ.
+2. Decorator **làm 1 việc duy nhất** (Single Responsibility) — log riêng, cache riêng, auth riêng.
+3. Stateless > stateful — tránh global mutation.
+4. Nếu cần param → cấu trúc 3 tầng (factory → decorator → wrapper).
+5. Test decorator **độc lập** — viết unit test cho riêng nó.
+6. Document rõ: tham số, side effect, exception có thể raise.
 
-## Best Practices ✅
+> 💡 **Mẹo của thầy Hải:** Trước khi tự viết decorator, check \\\`functools\\\` và \\\`itertools\\\` — Python đã build-in 80% case bạn cần (\\\`lru_cache\\\`, \\\`partial\\\`, \\\`reduce\\\`, \\\`wraps\\\`).
 
-- ✅ Luôn dùng \`@functools.wraps(func)\` để giữ metadata
-- ✅ Decorator phải transparent — không thay đổi behavior cốt lõi
-- ✅ Tài liệu hóa rõ side effects (log, cache, retry)
-- ✅ Đặt tên động từ: \`@cache\`, \`@retry\`, \`@validate\`
-- ✅ Test riêng decorator với function dummy
+## 8. ✅ Tóm tắt 30 giây
 
-## Anti-patterns ❌
-
-- ❌ Quên \`@functools.wraps\` → debugging trở nên ác mộng
-- ❌ Quá nhiều decorator chồng lên (\`@a @b @c @d def f()\`) → khó hiểu thứ tự
-- ❌ Decorator có state mutation chia sẻ giữa các call → race condition
-- ❌ Dùng decorator thay vì utility function khi không cần wrap
-
-## Khi nào dùng?
-
-✅ **Nên:** Cross-cutting concerns (logging, auth, cache, retry, timing), framework hooks (route, fixture), code lặp lại trên nhiều function.
-
-❌ **Không nên:** Logic phức tạp riêng cho 1 function, khi cần debug step-by-step (decorator làm stack trace dài hơn), khi composition function rõ ràng hơn.
-
-## Bridge: Bài tiếp theo
-
-**Generators** — kỹ thuật Python xử lý dữ liệu lớn mà không cần load vào RAM. Khi kết hợp với decorator, bạn có thể xây pipeline xử lý hàng tỉ records trên laptop cá nhân.`,
+- Decorator = **lớp giấy gói quà** — thêm chức năng mà không sửa function gốc.
+- Cơ chế: **nhận function, return function mới**.
+- Pattern chuẩn: \\\`functools.wraps\\\` + \\\`*args, **kwargs\\\` trong wrapper.
+- 3 tầng cho decorator có param.
+- Use case: log, auth, cache, timing, validation.
+- Single Responsibility — mỗi decorator 1 việc.
+`,
         theoryEn: `**Decorator** is one of Python's most powerful features — it adds functionality to functions/classes **without modifying source** (Open/Closed principle).
 
 ## Why Decorators?
@@ -519,32 +509,34 @@ print(f"Result: {result}")`,
         id: "py-gen-1",
         title: "Generators & Yield",
         titleEn: "Generators & Yield",
-        theory: `**Generator** là một loại function đặc biệt dùng \`yield\` thay vì \`return\`, sản sinh giá trị **lười (lazy)** — chỉ tính khi cần. Đây là chìa khóa xử lý dữ liệu lớn (hàng tỉ records) trên RAM hạn chế.
+        theory: `**Generator** giống như **máy ATM** — bạn rút **từng tờ tiền khi cần**, chứ không phải đem về cả két 1 tỷ rồi mới đếm. Đây là chìa khoá xử lý dữ liệu lớn (hàng tỷ record) trên RAM hạn chế.
 
-## Vấn đề mà Generator giải quyết
+## 1. 🚦 Vấn đề đời thường
 
-Bạn cần đọc file log 50GB để đếm số lỗi 500. Cách thông thường:
-\`\`\`python
+Bạn cần đọc file log **50GB** để đếm số lỗi 500. Cách thông thường:
+
+\\\`\\\`\\\`python
 lines = open("server.log").readlines()   # Load 50GB vào RAM → CRASH!
-\`\`\`
+\\\`\\\`\\\`
 
 Cách Generator:
-\`\`\`python
+
+\\\`\\\`\\\`python
 def read_log(path):
     with open(path) as f:
-        for line in f:        # Đọc từng dòng, RAM chỉ giữ 1 dòng
+        for line in f:        # Đọc từng dòng, RAM giữ 1 dòng
             yield line
 
 count = sum(1 for line in read_log("server.log") if "500" in line)
-\`\`\`
+\\\`\\\`\\\`
 
-Chạy mượt với laptop 8GB RAM. Đây là sức mạnh của lazy evaluation.
+→ Chạy mượt với laptop 8GB RAM. Đó là sức mạnh của **lazy evaluation**.
 
-## Cơ chế hoạt động: Trạng thái được "đóng băng"
+## 2. 💡 Cơ chế: Trạng thái được "đóng băng"
 
-Khác với function thường (chạy 1 lần rồi xong), generator **dừng tại \`yield\`, giữ nguyên trạng thái local variables**, sẽ tiếp tục từ đó khi gọi \`next()\`.
+Khác function thường (chạy 1 lần rồi xong), generator **dừng tại \\\`yield\\\`, giữ nguyên local variables**, sẽ tiếp tục từ đó khi gọi \\\`next()\\\`.
 
-\`\`\`python
+\\\`\\\`\\\`python
 def counter():
     print("Start")
     yield 1
@@ -558,101 +550,104 @@ print(next(g))  # "Start" → 1
 print(next(g))  # "After yield 1" → 2
 print(next(g))  # "After yield 2" → 3
 print(next(g))  # StopIteration exception
-\`\`\`
+\\\`\\\`\\\`
 
-Mỗi \`next()\` chạy đến \`yield\` tiếp theo rồi dừng — như "tạm dừng thời gian".
+Mỗi \\\`next()\\\` chạy đến \\\`yield\\\` tiếp theo rồi **dừng** — như "tạm dừng thời gian". Cực kỳ tiết kiệm RAM.
 
-## Generator Expression — One-liner
+## 3. ⚡ Generator Expression — One-liner
 
-\`\`\`python
+\\\`\\\`\\\`python
 # List comprehension (tạo full list ngay)
-squares_list = [x**2 for x in range(1_000_000)]   # Tốn ~32MB RAM
+squares_list = [x**2 for x in range(1_000_000)]   # ~32MB RAM
 
 # Generator expression (lazy)
-squares_gen = (x**2 for x in range(1_000_000))    # Tốn ~200 bytes!
-\`\`\`
+squares_gen = (x**2 for x in range(1_000_000))    # ~200 bytes!
+\\\`\\\`\\\`
 
-Chỉ khác dấu \`[]\` → \`()\`, nhưng tiết kiệm RAM hàng nghìn lần.
+Chỉ khác \\\`[]\\\` → \\\`()\\\` — nhưng tiết kiệm RAM **hàng nghìn lần**.
 
-## So sánh Generator vs List
+## 4. ⚖️ Generator vs List
 
-| Aspect | List \`[]\` | Generator \`()\` |
+| Aspect | List \\\`[]\\\` | Generator \\\`()\\\` |
 |--------|-----------|----------------|
-| Bộ nhớ | Full data trong RAM | Chỉ 1 phần tử tại 1 thời điểm |
-| Tốc độ tạo | Chậm (tính tất cả) | Nhanh (chưa tính gì) |
-| Truy cập ngẫu nhiên | \`l[5]\` OK | Không hỗ trợ |
-| Lặp lại nhiều lần | OK | Chỉ duyệt được 1 lần |
-| Dữ liệu vô hạn | ❌ Crash | ✅ OK |
-| len() | ✅ | ❌ |
-| Khi nào dùng | Cần truy cập ngẫu nhiên, dữ liệu nhỏ | Stream dữ liệu lớn, pipeline |
+| RAM | Cao (lưu hết) | Thấp (1 phần tử) |
+| Tốc độ tạo | Chậm (tạo full ngay) | Nhanh (lazy) |
+| Lặp lại | Lặp nhiều lần OK | **Chỉ lặp được 1 lần** |
+| Index \\\`a[5]\\\` | OK | Không hỗ trợ |
+| \\\`len()\\\` | OK | Không hỗ trợ |
+| Hợp với | Data nhỏ, cần truy cập ngẫu nhiên | Data lớn, lặp tuần tự |
 
-## Generator Pipeline — Composable
+> 💡 **Mẹo của thầy Hải:** Mặc định **dùng generator** cho mọi pipeline xử lý data. Chỉ chuyển sang list khi **cần index, len, hoặc lặp nhiều lần**.
 
-\`\`\`python
-def read_lines(path):
-    with open(path) as f:
-        for line in f: yield line
+## 5. 🔗 \\\`yield from\\\` — Delegate generator
 
-def parse_json(lines):
-    for line in lines: yield json.loads(line)
+\\\`\\\`\\\`python
+def small_gen():
+    yield 1
+    yield 2
+    yield 3
 
-def filter_errors(records):
-    for r in records:
-        if r["status"] >= 500: yield r
+def big_gen():
+    yield from small_gen()   # tương đương 3 yield
+    yield from small_gen()
+    yield 99
 
-# Compose pipeline — không tốn thêm RAM!
-errors = filter_errors(parse_json(read_lines("logs.jsonl")))
-for e in errors:
-    print(e["message"])
-\`\`\`
+list(big_gen())  # [1, 2, 3, 1, 2, 3, 99]
+\\\`\\\`\\\`
 
-Đây là pattern Spark, Kafka Streams, RxJS đều dùng — generator là nền tảng functional reactive programming.
+Gộp nhiều generator thành 1 — sạch hơn nested for loop.
 
-## yield from — Delegating
+## 6. 🛠️ 5 use case kinh điển
 
-\`\`\`python
-def sub_gen():
-    yield 1; yield 2; yield 3
+1. **Đọc file lớn** — log, CSV nhiều GB.
+2. **Stream từ API** với pagination — \\\`yield\\\` từng trang.
+3. **Pipeline ETL** — chain nhiều generator: extract → transform → load.
+4. **Infinite sequence** — Fibonacci, prime number.
+5. **Memory-efficient batch** trong ML — feed batch cho neural network.
 
-def main_gen():
-    yield 'start'
-    yield from sub_gen()    # Delegate to sub
-    yield 'end'
-\`\`\`
+\\\`\\\`\\\`python
+def etl_pipeline(filepath):
+    rows = (line.strip().split(",") for line in open(filepath))    # Extract
+    cleaned = (r for r in rows if len(r) == 5 and r[0])             # Transform
+    parsed = ({"id": r[0], "amount": float(r[3])} for r in cleaned) # Transform
+    return parsed                                                    # Load on demand
 
-\`yield from\` cho phép một generator "uỷ thác" cho generator khác, dùng nhiều trong asyncio (\`async def\`).
+for record in etl_pipeline("orders.csv"):
+    db.insert(record)
+\\\`\\\`\\\`
 
-## Case study thực tế
+→ Pipeline xử lý 10GB CSV với RAM chỉ vài KB. ✨
 
-**Apache Beam / Google Dataflow** xử lý hàng petabyte dữ liệu mỗi ngày. Core của nó là PCollection — về bản chất là generator pipeline phân tán.
+## 7. ⚠️ Bẫy thường gặp & 🎯 Best practice
 
-**Pandas \`read_csv(chunksize=10000)\`** trả generator các DataFrame nhỏ — cách standard để xử lý CSV >100GB trên 1 máy.
+> ⚠️ **Cảnh báo:** Bẫy số 1: **dùng generator 2 lần**. Generator **chỉ chạy được 1 lần** — lần 2 trả về rỗng. Nếu cần lặp 2 lần → \\\`list()\\\` nó hoặc gọi function tạo generator mới.
 
-**Twitter** dùng generator pattern xử lý 500M tweets/ngày qua streaming pipeline.
+\\\`\\\`\\\`python
+gen = (x for x in range(5))
+list(gen)   # [0, 1, 2, 3, 4]
+list(gen)   # [] ← rỗng vì đã tiêu thụ!
+\\\`\\\`\\\`
 
-## Best Practices ✅
+Bẫy khác:
+- Quên \\\`yield\\\` trong nested function → trả về \\\`None\\\`, debug 1 tiếng.
+- Generator giữ reference đến file/connection → quên đóng → resource leak.
+- \\\`for x in gen: ...\\\` rồi \\\`if not gen: ...\\\` → \\\`if\\\` luôn falsy vì gen đã hết.
 
-- ✅ Dùng \`()\` thay \`[]\` khi không cần lưu kết quả
-- ✅ Đặt tên động từ: \`read_lines\`, \`stream_records\`
-- ✅ Dùng \`itertools\` cho generator helpers (\`chain\`, \`islice\`, \`groupby\`)
-- ✅ Đóng resources với \`try/finally\` hoặc \`contextmanager\`
+Best practice của thầy Hải:
+1. **Default dùng generator** cho data pipeline.
+2. **\\\`with open()\\\`** + \\\`yield\\\` để tự đóng file.
+3. Tên rõ ràng: \\\`read_log()\\\` thay vì \\\`get_log()\\\` để báo "lazy".
+4. **Type hint**: \\\`Iterator[str]\\\` hoặc \\\`Generator[str, None, None]\\\`.
+5. Nếu cần count + iterate → tách 2 generator (đừng chia sẻ 1 cái).
 
-## Anti-patterns ❌
+## 8. ✅ Tóm tắt 30 giây
 
-- ❌ Convert generator thành list ngay (\`list(gen)\`) — mất hết lợi ích
-- ❌ Duyệt lại generator nhiều lần (chỉ chạy được 1 lần) → confusing bugs
-- ❌ Dùng generator khi cần truy cập ngẫu nhiên hoặc \`len()\`
-- ❌ Generator vô hạn không có break → loop forever
-
-## Khi nào dùng?
-
-✅ **Nên:** Stream dữ liệu lớn, dãy vô hạn (Fibonacci, IDs), pipeline xử lý, đọc/ghi file lớn, API trả về cursor/page.
-
-❌ **Không nên:** Dữ liệu nhỏ (<1000 items), cần lặp nhiều lần, cần \`len()\`/\`indexing\`, cần debug từng phần tử dễ dàng.
-
-## Bridge: Bài tiếp theo
-
-**File I/O** — kết hợp với generator, bạn có thể xây dựng pipeline đọc/xử lý file CSV/JSON khổng lồ với memory footprint tối thiểu.`,
+- Generator = **máy ATM**, sản sinh giá trị **từng cái khi cần** (lazy).
+- Cơ chế: \\\`yield\\\` đóng băng trạng thái, \\\`next()\\\` mở băng.
+- Tiết kiệm RAM **hàng nghìn lần** so với list.
+- **Chỉ tiêu thụ được 1 lần** — đây là bẫy phổ biến nhất.
+- Default cho data pipeline; convert sang list chỉ khi cần index/len/lặp lại.
+`,
         theoryEn: `**Generators** use \`yield\` instead of \`return\` to produce values **lazily** — only computed when needed. The key to processing massive datasets on limited RAM.
 
 ## The Problem They Solve
