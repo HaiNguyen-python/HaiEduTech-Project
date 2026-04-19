@@ -65,7 +65,28 @@ interface SavedCampaign {
   created_at: string;
 }
 
-const COURSES = [
+interface VideoShot {
+  shotNumber: number;
+  timing: string;
+  visual: string;
+  onScreenText: string;
+  voiceover: string;
+  broll: string;
+}
+
+interface VideoScript {
+  title: string;
+  hook: string;
+  totalSeconds: number;
+  format: string;
+  aspectRatio: string;
+  musicMood: string;
+  shots: VideoShot[];
+  cta: string;
+  captionForUpload: string;
+  hashtags: string[];
+  productionTips: string[];
+}
   { value: "PTE Intensive 79+", label: "🎯 PTE Intensive 79+" },
   { value: "IELTS Foundation 6.5+", label: "📚 IELTS Foundation 6.5+" },
   { value: "IELTS Advanced 7.5+", label: "🏆 IELTS Advanced 7.5+" },
