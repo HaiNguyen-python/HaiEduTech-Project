@@ -57,10 +57,10 @@ const AccessDeniedModal = ({ open, onOpenChange }: AccessDeniedModalProps) => {
           <Button
             variant="outline"
             className="w-full gap-2"
-            onClick={() => window.open("mailto:hainguyen240195@gmail.com?subject=Đăng ký khóa Conversational English", "_blank")}
+            onClick={() => window.open("mailto:contact@haiedutech.com?subject=Đăng ký khóa Conversational English", "_blank")}
           >
             <Mail className="w-4 h-4" />
-            hainguyen240195@gmail.com
+            contact@haiedutech.com
           </Button>
 
           <Button

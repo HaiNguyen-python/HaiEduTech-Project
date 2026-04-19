@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const socialLinks = [
-  { href: "mailto:hainguyen240195@gmail.com", icon: Mail, label: "Email" },
+  { href: "mailto:contact@haiedutech.com", icon: Mail, label: "Email" },
   { href: "https://github.com/HaiNguyen-python", icon: Github, label: "GitHub" },
   { href: "https://www.linkedin.com/in/hainguyen2401/", icon: Linkedin, label: "LinkedIn" },
 ];
@@ -80,8 +80,8 @@ const Footer = () => {
               <a href="tel:0962823800" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <Phone className="w-4 h-4" /> 0962.823.800
               </a>
-              <a href="mailto:hainguyen240195@gmail.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <Mail className="w-4 h-4" /> hainguyen240195@gmail.com
+              <a href="mailto:contact@haiedutech.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Mail className="w-4 h-4" /> contact@haiedutech.com
               </a>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4 shrink-0" /> {t("Phần Lan & Việt Nam", "Finland & Vietnam")}
