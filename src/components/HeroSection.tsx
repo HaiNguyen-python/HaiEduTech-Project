@@ -117,30 +117,35 @@ const HeroSection = () => {
                   value: t("Cử nhân", "B.A."),
                   label: t("TEFL – Giảng dạy Tiếng Anh", "TEFL – Teaching English"),
                   place: t("ĐH Sư phạm TP.HCM", "HCMC University of Education"),
+                  year: "2018",
                 },
                 {
                   icon: GraduationCap,
                   value: t("Thạc sĩ", "M.A."),
                   label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture"),
                   place: t("ĐH Đông Phần Lan", "University of Eastern Finland"),
+                  year: "2020",
                 },
                 {
                   icon: GraduationCap,
                   value: t("Thạc sĩ", "M.A."),
                   label: t("Công nghệ Ngôn ngữ", "Language Technology"),
                   place: t("ĐH Helsinki", "University of Helsinki"),
+                  year: t("Đang học", "Current"),
                 },
                 {
                   icon: Code2,
                   value: t("Kỹ sư", "Engineer"),
                   label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & Artificial Intelligence"),
                   place: t("ĐH Khoa học Ứng dụng Turku", "Turku University of Applied Sciences"),
+                  year: "2026",
                 },
                 {
                   icon: BookOpen,
                   value: "15+",
                   label: t("Năm kinh nghiệm giảng dạy", "Years Teaching Experience"),
                   place: t("Việt Nam – Phần Lan", "Vietnam – Finland"),
+                  year: t("Từ 2013", "Since 2013"),
                 },
               ].map((s, i) => (
                 <div key={i} className="text-center">
@@ -148,6 +153,7 @@ const HeroSection = () => {
                   <div className="font-display text-lg font-bold text-foreground sm:text-xl">{s.value}</div>
                   <div className="mt-1 text-xs font-medium leading-5 text-foreground/90">{s.label}</div>
                   <div className="mt-0.5 text-[11px] leading-4 text-muted-foreground">{s.place}</div>
+                  <div className="mt-0.5 text-[11px] font-semibold leading-4 text-primary">{s.year}</div>
                 </div>
               ))}
             </div>
