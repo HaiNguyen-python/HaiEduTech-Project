@@ -2042,42 +2042,46 @@ Grain → PK → FKs (with ON DELETE) → NOT NULLs → indexes → \`created_at
 ## Next
 
 **Stored procedures, functions & triggers** — database-side logic that, used wisely, prevents whole bug classes.`,
-        code: `-- Create normalized tables
+        code: `-- Bảng phòng ban (parent của employees)
 CREATE TABLE departments (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL
+  id SERIAL PRIMARY KEY,                  -- Surrogate PK tự tăng
+  name VARCHAR(100) NOT NULL              -- Tên phòng bắt buộc có
 );
 
+-- Bảng nhân viên: 1 nhân viên thuộc 1 phòng (quan hệ 1-N)
 CREATE TABLE employees (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE,
-  dept_id INTEGER REFERENCES departments(id),
-  salary DECIMAL(10, 2) DEFAULT 0
+  email VARCHAR(100) UNIQUE,              -- Mỗi email chỉ xuất hiện 1 lần
+  dept_id INTEGER REFERENCES departments(id),  -- FK trỏ về phòng ban
+  salary DECIMAL(10, 2) DEFAULT 0,
+  created_at TIMESTAMP DEFAULT now()      -- Cột audit (theo checklist 6)
 );
 
+-- Bảng dự án
 CREATE TABLE projects (
   id SERIAL PRIMARY KEY,
   title VARCHAR(200) NOT NULL,
   deadline DATE
 );
 
--- Many-to-many: employee <-> project
+-- Quan hệ N-N: 1 nhân viên làm nhiều dự án, 1 dự án có nhiều nhân viên
+-- → BẮT BUỘC dùng bảng trung gian (junction table)
 CREATE TABLE employee_projects (
-  employee_id INTEGER REFERENCES employees(id),
-  project_id INTEGER REFERENCES projects(id),
-  role VARCHAR(50),
-  PRIMARY KEY (employee_id, project_id)
+  employee_id INTEGER REFERENCES employees(id) ON DELETE CASCADE,
+  project_id INTEGER REFERENCES projects(id) ON DELETE CASCADE,
+  role VARCHAR(50),                       -- Vai trò trong dự án (lead, member...)
+  PRIMARY KEY (employee_id, project_id)   -- Composite PK: 1 cặp (nv, dự án) duy nhất
 );`,
         codeLanguage: "sql",
-        exercise: "Design a schema for a library system: books, authors, members, borrowings (many-to-many between books and authors).",
-        exerciseEn: "Design a schema for a library system: books, authors, members, borrowings (many-to-many between books and authors).",
+        exercise: "Thiết kế schema cho hệ thống thư viện gồm: books (sách), authors (tác giả), members (thành viên), borrowings (lượt mượn). Lưu ý: 1 sách có thể có nhiều tác giả (N-N) → cần bảng trung gian. Mỗi bảng phải có PK rõ ràng, FK với ON DELETE phù hợp, và cột created_at.",
+        exerciseEn: "Design a schema for a library system: books, authors, members, borrowings. Note: a book can have many authors (N-N) → junction table needed. Each table must have explicit PK, FK with ON DELETE policy, and a created_at column.",
         quiz: [
-          { question: "What does 3NF eliminate compared to 2NF?", options: ["NULL values", "Transitive dependencies", "Row duplication", "Foreign keys"], answer: 1, explanation: "3NF removes transitive dependencies — when column A depends on column B which is not a primary key." },
-          { question: "How do you model a many-to-many relationship?", options: ["Add a column to both tables", "Use a junction table with FKs to both tables", "Use a FOREIGN KEY array", "It's not possible"], answer: 1, explanation: "A junction/pivot table contains foreign keys to both tables and typically a composite primary key." },
-          { question: "What is a surrogate key?", options: ["A real-world identifier like SSN", "An auto-generated ID with no business meaning", "A foreign key", "A composite key"], answer: 1, explanation: "Surrogate keys are system-generated (SERIAL, UUID) and have no real-world meaning, unlike natural keys." },
-          { question: "When is denormalization acceptable?", options: ["Never", "In read-heavy systems like data warehouses for performance", "Always", "Only in small databases"], answer: 1, explanation: "Denormalization trades write complexity for read speed — appropriate in analytics/warehouse scenarios." },
-          { question: "What does a FOREIGN KEY constraint enforce?", options: ["Column uniqueness", "Referential integrity — the referenced row must exist", "Non-NULL values", "Data type matching"], answer: 1, explanation: "A FOREIGN KEY ensures the value exists in the referenced table's primary key, preventing orphan records." }
+          { question: "Bảng `orders(id, customer_id, customer_email, customer_city)` vi phạm dạng chuẩn nào?", options: ["1NF", "2NF", "3NF", "Không vi phạm gì"], answer: 2, explanation: "Vi phạm 3NF vì `customer_email` và `customer_city` phụ thuộc vào `customer_id` (cột không-khoá), không phụ thuộc trực tiếp vào `id`. Cách sửa: tách bảng `customers` riêng." },
+          { question: "Quan hệ N-N (nhiều-nhiều) giữa students và courses được mô hình hoá như thế nào?", options: ["Thêm cột `course_id` vào students", "Thêm mảng FOREIGN KEY", "Tạo bảng trung gian `enrollments` chứa 2 FK", "Không thể mô hình hoá trong SQL"], answer: 2, explanation: "N-N luôn cần bảng trung gian (junction table) chứa FK đến cả 2 bảng. SQL không có khái niệm 'cột nhiều-nhiều'." },
+          { question: "Vì sao mặc định nên dùng surrogate key (số tự tăng / UUID) thay vì natural key (email, CMND)?", options: ["Surrogate ngắn hơn", "Natural key có thể đổi (đổi email, đổi mã SP); số nguyên join nhanh hơn chuỗi", "SQL bắt buộc dùng số nguyên", "Natural key vi phạm chuẩn hoá"], answer: 1, explanation: "Natural key có thể thay đổi theo thời gian (email cá nhân, mã sản phẩm công ty đổi), gây cascade update khắp các bảng FK. Số nguyên cũng join nhanh hơn chuỗi nhiều ký tự." },
+          { question: "Khi nào denormalization (cố ý phá chuẩn 3NF để lưu dữ liệu trùng lặp) là chấp nhận được?", options: ["Không bao giờ", "Trong data warehouse / báo cáo (OLAP) — đọc nhiều, ghi ít", "Mọi lúc", "Chỉ khi DB nhỏ"], answer: 1, explanation: "OLAP (warehouse, BI) ưu tiên đọc nhanh hơn ghi nhanh → denormalize (star schema) giúp dashboard không cần JOIN 12 bảng. Trong khi OLTP (app) thì ngược lại — phải normalize." },
+          { question: "FOREIGN KEY ràng buộc điều gì?", options: ["Tính duy nhất của cột", "Toàn vẹn tham chiếu — giá trị phải tồn tại ở bảng được trỏ tới", "Không cho NULL", "Khớp kiểu dữ liệu"], answer: 1, explanation: "FK đảm bảo referential integrity (toàn vẹn tham chiếu): không thể chèn `dept_id = 99` vào `employees` nếu phòng id=99 chưa tồn tại trong `departments`. Điều này ngăn dữ liệu mồ côi (orphan records)." }
         ]
       }
     ]
