@@ -46,6 +46,7 @@ export interface ChineseConvLesson {
   speakingTopics: string[];
   badge: string;
   badgeVi: string;
+  fillInBlankExercises?: { sentence: string; pinyin: string; answer: string; translationVi: string; hint?: string }[];
 }
 
 export interface ChineseConvPillar {
