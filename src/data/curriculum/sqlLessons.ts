@@ -179,96 +179,55 @@ LIMIT 5 OFFSET 5;`,
         titleEn: "AS & Column Aliases",
         level: 1,
         difficulty: "beginner",
-        theory: `## 1. Vấn đề đời thường
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn viết câu lệnh:
+Bảng \`students\` có 50 cột nhưng bạn chỉ cần \`name\` và \`score\`. Nếu dùng \`SELECT *\` thì phí băng thông + phí cloud. **\`SELECT cột1, cột2\`** = lấy đúng món mình cần ở quán buffet, không tham lam.
 
-\`\`\`sql
-SELECT full_name, total_amount FROM orders;
-\`\`\`
+> 💡 **Mẹo của thầy Hải:** \`SELECT *\` chỉ dùng khi explore data lần đầu. Production = liệt kê cột rõ ràng.
 
-Người xem báo cáo nhìn vào sẽ thấy 2 cột tên là \`full_name\` và \`total_amount\` — kỹ thuật, khô khan. Sếp muốn báo cáo hiện ra **"Khách hàng"** và **"Doanh thu"**. Đó là việc của **alias** (tên gọi tạm — đặt lại tên cho cột hoặc bảng *trong câu query*, không đổi tên thật trong database).
+## 2. 💡 Khái niệm chính
 
-## 2. Cú pháp tối thiểu — alias cho cột
+- \`SELECT cột\` — chọn cột.
+- \`AS\` — đổi tên hiển thị (alias).
+- \`DISTINCT\` — bỏ trùng.
+- \`LIMIT n\` — lấy n dòng đầu.
 
-\`\`\`sql
-SELECT
-  full_name    AS customer,    -- Đặt tên hiển thị là "customer"
-  total_amount AS revenue      -- Đặt tên hiển thị là "revenue"
-FROM orders;
-\`\`\`
-
-- \`AS\` (đọc là "as") = "đổi tên thành".
-- \`AS\` có thể bỏ (\`full_name customer\` cũng chạy), nhưng **luôn nên viết** \`AS\` để code rõ ràng và tránh lỗi gõ thiếu dấu phẩy.
-
-## 3. Alias cho cột tính toán
-
-Khi cột là kết quả tính toán, alias là **bắt buộc** — nếu không, cột không có tên rõ ràng:
+## 3. 🧰 Cú pháp
 
 \`\`\`sql
-SELECT
-  name,
-  age,
-  age + 5 AS age_in_5_years    -- Cột tính toán phải có tên
-FROM students;
+SELECT name AS student_name, score
+FROM students
+LIMIT 10;
+
+SELECT DISTINCT class FROM students;
 \`\`\`
 
-Hoặc nối chuỗi để tạo cột "hồ sơ":
+## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
-SELECT name || ' (Tuổi: ' || age || ')' AS profile
-FROM students;
+SELECT name, score
+FROM students
+WHERE score >= 8
+LIMIT 5;
 \`\`\`
 
-## 4. Alias cho bảng — viết tắt khi JOIN
+## 5. ⚠️ Bẫy thường gặp
 
-Khi câu query có nhiều bảng (sẽ học ở bài JOIN), gõ tên bảng dài lặp đi lặp lại rất mệt. Alias bảng giải quyết việc này:
+> ⚠️ **Cảnh báo:** \`SELECT *\` trên bảng triệu dòng → query 30 giây thay vì 0.3 giây. Lúc nào cũng nghĩ "cột nào tôi cần?".
 
-\`\`\`sql
-SELECT o.id, c.name              -- o = orders, c = customers
-FROM orders     AS o
-JOIN customers  AS c ON c.id = o.customer_id;
-\`\`\`
+## 6. ✅ Best practice
 
-**Quy ước nên theo**:
-- Dùng 1–3 ký tự đầu của tên bảng: \`orders\` → \`o\`, \`customers\` → \`c\`, \`products\` → \`p\`.
-- **Không** dùng chữ cái ngẫu nhiên như \`a\`, \`b\`, \`c\` không liên quan tới tên bảng — sau này đọc lại sẽ rất khó hiểu.
+> 💡 **Mẹo của thầy Hải:** Đặt alias rõ ràng (\`SELECT u.name AS user_name\`) khi join nhiều bảng — tránh lẫn cột trùng tên.
 
-## 5. Cái BẪY: alias không dùng được trong WHERE
+## 7. 🤔 Khi nào dùng
 
-Đây là lỗi rất nhiều người mới mắc:
+- ✅ Mọi query đọc data.
+- ❌ INSERT/UPDATE/DELETE → cú pháp khác.
 
-\`\`\`sql
--- ❌ BÁO LỖI
-SELECT amount * 1.1 AS gross
-FROM orders
-WHERE gross > 100;       -- gross chưa tồn tại lúc WHERE chạy!
+## 8. 📌 Tóm tắt 30 giây
 
--- ✅ ĐÚNG (dùng alias trong ORDER BY thì OK)
-SELECT amount * 1.1 AS gross
-FROM orders
-ORDER BY gross DESC;
-\`\`\`
-
-**Vì sao?** Nhớ lại bài trước: SQL chạy theo thứ tự **WHERE → SELECT → ORDER BY**. Lúc WHERE chạy thì SELECT chưa chạy → alias \`gross\` chưa tồn tại. Cách khắc phục: lặp lại biểu thức trong WHERE, hoặc bọc trong subquery (sẽ học sau).
-
-## 6. Khi nào alias là bắt buộc
-
-- **Subquery trong FROM**: \`FROM (SELECT … FROM orders) AS sub\` — phải đặt tên cho bảng tạm.
-- **Cột tính toán** cần tên: \`COUNT(*) AS order_count\`.
-- **Self-join** (join 1 bảng với chính nó): mỗi "phiên bản" cần alias riêng (\`emp\` và \`mgr\`).
-
-## 7. Quy tắc đặt tên gọn — tránh phải bọc dấu
-
-Tên cột tốt nhất nên dùng \`lowercase_snake_case\` (chữ thường, nối bằng dấu gạch dưới): \`customer_name\`, \`order_total\`. Tránh khoảng trắng và ký tự đặc biệt — nếu không sẽ phải bọc dấu (\`"Customer Name"\`) mỗi lần dùng, rất phiền.
-
-## 8. Tổng kết — checklist alias
-
-- ✅ Luôn viết \`AS\` rõ ràng để code dễ đọc.
-- ✅ Alias bảng: dùng chữ cái đầu của tên bảng (\`orders\` → \`o\`).
-- ✅ Cột tính toán **bắt buộc** có alias.
-- ✅ Nhớ: **không** dùng alias trong WHERE — chỉ dùng được trong ORDER BY/GROUP BY (chạy sau SELECT).
-- ✅ Bài tiếp theo: **WHERE & lọc dữ liệu** — chỉ lấy đúng các dòng bạn cần.`,
+\`SELECT cột FROM bảng [WHERE …] [LIMIT n]\`. Tránh \`SELECT *\` trong production. \`DISTINCT\` để bỏ trùng, \`AS\` để đổi tên.
+`,
         theoryEn: `## 1. Real-world problem
 
 \`SELECT full_name, total_amount FROM orders;\` — works, but the column headers look raw. **Alias** lets you rename them on the fly to "customer" and "revenue".
@@ -357,96 +316,57 @@ WHERE s.age > 20;`,
         titleEn: "Basic WHERE Clause",
         level: 1,
         difficulty: "beginner",
-        theory: `## 1. Vấn đề đời thường
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Bảng \`students\` có 1000 học viên. Sếp hỏi: *"Liệt kê các học viên trên 18 tuổi ở Hà Nội."* Bạn không thể lấy hết 1000 dòng rồi tự lọc bằng tay — đó là việc của **WHERE** (lọc).
+Bạn vào kho 10.000 sản phẩm, sếp hỏi "lọc cho tôi mấy món Samsung dưới 5 triệu". Không có **WHERE** thì phải kéo từng dòng — chết tươi. WHERE = "đứng ngoài cửa, chỉ cho ai đáp ứng điều kiện vào".
 
-WHERE giống như một bộ lọc cà phê: bạn đổ tất cả dòng dữ liệu vào, chỉ những dòng thoả mãn điều kiện mới chảy xuống dưới.
+> 💡 **Mẹo của thầy Hải:** WHERE chạy **trước** SELECT trong engine — index trên cột WHERE = tăng tốc 100 lần.
 
-## 2. Cú pháp tối thiểu
+## 2. 💡 Toán tử thường dùng
 
-\`\`\`sql
-SELECT name, age, city
-FROM   students
-WHERE  age > 18              -- Chỉ giữ dòng thoả điều kiện này
-   AND city = 'Hà Nội';      -- VÀ thoả thêm điều kiện này
-\`\`\`
+| Toán tử | Ý nghĩa | Ví dụ |
+|---------|---------|-------|
+| \`=\` \`<>\` | Bằng / khác | \`age = 20\` |
+| \`> >= < <=\` | So sánh | \`score >= 8\` |
+| \`BETWEEN\` | Trong khoảng | \`age BETWEEN 18 AND 25\` |
+| \`IN\` | Thuộc danh sách | \`city IN ('HN','HCM')\` |
+| \`LIKE\` | Pattern | \`name LIKE 'Nguyen%'\` |
+| \`IS NULL\` | Rỗng | \`email IS NULL\` |
+| \`AND OR NOT\` | Logic | \`a AND b\` |
 
-Mỗi dòng được kiểm tra với điều kiện. **Đúng → giữ lại. Sai → loại bỏ.**
-
-## 3. Các phép so sánh thường gặp
-
-| Phép | Ý nghĩa | Ví dụ |
-|---|---|---|
-| \`=\` | bằng | \`age = 20\` |
-| \`<>\` hoặc \`!=\` | khác | \`status <> 'paid'\` |
-| \`<\`, \`<=\`, \`>\`, \`>=\` | nhỏ hơn / lớn hơn (hoặc bằng) | \`amount >= 100\` |
-
-## 4. Kết hợp nhiều điều kiện: \`AND\`, \`OR\`, \`NOT\`
-
-- \`AND\` (và): cả hai điều kiện đều phải đúng.
-- \`OR\` (hoặc): chỉ cần 1 điều kiện đúng.
-- \`NOT\` (không): đảo ngược điều kiện.
+## 3. 🧰 Ví dụ tổ hợp
 
 \`\`\`sql
-SELECT * FROM orders
-WHERE status = 'paid'
-  AND amount > 100
-  AND (region = 'EU' OR region = 'US');   -- Bọc dấu ngoặc khi trộn AND/OR
+SELECT * FROM products
+WHERE brand = 'Samsung'
+  AND price < 5000000
+  AND stock > 0;
 \`\`\`
 
-**Mẹo vàng**: khi trộn AND và OR, **luôn dùng dấu ngoặc** \`()\` để câu lệnh rõ ràng. Đừng dựa vào "thứ tự ưu tiên ngầm" — rất dễ sai.
-
-## 5. \`IN\`, \`BETWEEN\`, \`LIKE\` — 3 phép lọc cực hữu ích
-
-| Phép | Khi nào dùng | Ví dụ |
-|---|---|---|
-| \`IN (...)\` | thuộc danh sách rời rạc | \`region IN ('EU', 'US', 'APAC')\` |
-| \`BETWEEN a AND b\` | nằm trong khoảng (bao gồm 2 đầu) | \`amount BETWEEN 100 AND 500\` |
-| \`LIKE 'mẫu'\` | khớp mẫu chuỗi | \`email LIKE '%@gmail.com'\` |
-
-**Quy tắc \`LIKE\`**:
-- \`%\` = chuỗi bất kỳ (không hoặc nhiều ký tự).
-- \`_\` (gạch dưới) = đúng 1 ký tự.
-- \`'An%'\` = bắt đầu bằng "An". \`'%@gmail.com'\` = kết thúc bằng "@gmail.com".
-
-⚠️ \`BETWEEN 1 AND 10\` **bao gồm cả 1 và 10** (không phải "lớn hơn 1, nhỏ hơn 10").
-
-## 6. Cái BẪY lớn nhất: \`NULL\` (giá trị "không biết")
-
-\`NULL\` không phải là 0, cũng không phải chuỗi rỗng — nó nghĩa là *"không có thông tin"*. Vì vậy:
+## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
-WHERE age = NULL    -- ❌ Không bao giờ khớp! Vì "không biết" không "bằng" cái gì cả.
-WHERE age IS NULL   -- ✅ Đúng cú pháp để kiểm tra rỗng.
-WHERE age <> 30     -- ❌ Loại luôn các dòng có age = NULL!
-WHERE age <> 30 OR age IS NULL    -- ✅ Nếu muốn giữ cả NULL.
+SELECT name, email FROM students
+WHERE class IN ('10A','10B') AND score BETWEEN 7 AND 9;
 \`\`\`
 
-**Quy tắc vàng**: cột nào có thể NULL → luôn xử lý NULL bằng \`IS NULL\` / \`IS NOT NULL\`.
+## 5. ⚠️ Bẫy thường gặp
 
-## 7. Hiệu năng — đừng "bọc" cột bằng hàm
+> ⚠️ **Cảnh báo:** \`WHERE col = NULL\` luôn FALSE! Phải dùng \`WHERE col IS NULL\`. NULL không bằng cái gì, kể cả chính nó.
 
-Khi cột đã có index (chỉ mục — giúp tìm nhanh), **đừng** bọc cột trong hàm — sẽ phá tác dụng của index:
+## 6. ✅ Best practice
 
-\`\`\`sql
--- ❌ Chậm — hàm DATE() làm hỏng index
-WHERE DATE(created_at) = '2024-01-15'
+> 💡 **Mẹo của thầy Hải:** Đặt điều kiện hay loại bỏ nhiều dòng nhất lên đầu (selectivity cao) — engine xử lý nhanh hơn.
 
--- ✅ Nhanh — so sánh trực tiếp với khoảng thời gian
-WHERE created_at >= '2024-01-15'
-  AND created_at <  '2024-01-16'
-\`\`\`
+## 7. 🤔 Khi nào dùng
 
-Trên bảng 100 triệu dòng, khác biệt là *vài phút vs vài mili-giây*.
+- ✅ Mọi query có lọc.
+- ❌ Cần aggregate trước rồi lọc → dùng \`HAVING\`.
 
-## 8. Tổng kết — checklist khi viết WHERE
+## 8. 📌 Tóm tắt 30 giây
 
-- ✅ Trộn AND/OR → **luôn dùng \`()\`** để rõ ràng.
-- ✅ \`BETWEEN\` bao gồm cả 2 đầu.
-- ✅ Cột có thể NULL → kiểm tra bằng \`IS NULL\` / \`IS NOT NULL\`.
-- ✅ Đừng bọc cột bằng hàm khi cột đã có index.
-- ✅ Bài tiếp theo: **GROUP BY & các hàm tổng hợp** — đếm, tính trung bình, tổng cộng theo nhóm.`,
+WHERE = lọc trước GROUP. Toán tử: \`=\`, \`IN\`, \`BETWEEN\`, \`LIKE\`, \`IS NULL\`. NULL phải dùng \`IS NULL\`. Index trên cột WHERE là chìa khóa tốc độ.
+`,
         theoryEn: `## 1. Real-world problem
 
 \`students\` table has 1000 rows. Boss asks: "List students over 18 in Hanoi." That's **WHERE** — keep only rows that match.
@@ -544,97 +464,58 @@ WHERE (city = 'Hà Nội' OR city = 'TP HCM')
         titleEn: "COUNT, SUM, AVG",
         level: 2,
         difficulty: "beginner",
-        theory: `## 1. Vấn đề đời thường
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Bảng \`orders\` (đơn hàng) có 10.000 dòng. Sếp hỏi: *"Lớp mình bán được bao nhiêu đơn? Doanh thu mỗi vùng miền? Đơn trung bình bao nhiêu tiền?"*
+Sếp hỏi: "Doanh thu từng tháng năm nay?". Bạn không thể nhìn 100.000 đơn hàng rồi cộng tay. **Aggregate functions** + **GROUP BY** = "tự động gộp từng nhóm và tính tổng".
 
-Bạn không thể trả lời từng dòng — phải **gộp nhiều dòng lại thành 1 con số**. Đó là việc của **aggregate function** (hàm tổng hợp — gom nhiều dòng thành 1 giá trị).
+> 💡 **Mẹo của thầy Hải:** GROUP BY = sắp xếp đơn hàng vào các "rổ" theo khoá; aggregate function tính cho từng rổ.
 
-## 2. 5 hàm tổng hợp cốt lõi
+## 2. 💡 Hàm aggregate cơ bản
 
-| Hàm | Trả về | Bỏ qua NULL? |
-|---|---|---|
-| \`COUNT(*)\` | Đếm **tất cả** các dòng (kể cả dòng toàn NULL) | Không |
-| \`COUNT(col)\` | Đếm các dòng có giá trị (NOT NULL) ở cột đó | **Có** |
-| \`SUM(col)\` | Tổng cộng giá trị cột | Có |
-| \`AVG(col)\` | Trung bình cộng | Có |
-| \`MIN(col)\` / \`MAX(col)\` | Giá trị nhỏ nhất / lớn nhất | Có |
+| Hàm | Ý nghĩa |
+|-----|---------|
+| \`COUNT(*)\` | Đếm dòng |
+| \`SUM(col)\` | Tổng |
+| \`AVG(col)\` | Trung bình |
+| \`MIN/MAX(col)\` | Min/Max |
 
-⚠️ **Lưu ý cực quan trọng**: \`AVG(rating)\` chỉ tính trung bình trên các dòng có rating — **bỏ qua dòng NULL**. Nếu bạn muốn coi NULL là 0, phải dùng \`AVG(COALESCE(rating, 0))\` (COALESCE = "nếu NULL thì thay bằng…").
-
-## 3. Cú pháp tối thiểu
+## 3. 🧰 Cú pháp
 
 \`\`\`sql
-SELECT COUNT(*)   AS so_don,        -- Đếm tổng số đơn
-       SUM(amount) AS doanh_thu,    -- Tổng doanh thu
-       AVG(amount) AS don_tb        -- Đơn trung bình
-FROM   orders;
+SELECT month, SUM(amount) AS revenue
+FROM orders
+WHERE year = 2025
+GROUP BY month
+HAVING SUM(amount) > 100000000
+ORDER BY revenue DESC;
 \`\`\`
 
-Câu này trả về **đúng 1 dòng** với 3 con số.
-
-## 4. \`GROUP BY\` — gộp theo nhóm
-
-Nếu muốn xem doanh thu **theo từng vùng**, dùng \`GROUP BY\`:
+## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
-SELECT region,
-       COUNT(*)   AS so_don,
-       SUM(amount) AS doanh_thu
-FROM   orders
-GROUP BY region;     -- "Gộp các dòng cùng region lại thành 1 nhóm"
+SELECT class, AVG(score) AS avg_score, COUNT(*) AS n_students
+FROM students
+GROUP BY class
+ORDER BY avg_score DESC;
 \`\`\`
 
-Mỗi giá trị \`region\` thành 1 dòng kết quả. Database tính số đếm và tổng *trong từng nhóm*.
+## 5. ⚠️ Bẫy thường gặp
 
-## 5. Quy tắc VÀNG của GROUP BY
+> ⚠️ **Cảnh báo:** Cột nào trong \`SELECT\` mà KHÔNG nằm trong aggregate → phải có trong \`GROUP BY\`. Quên là lỗi cú pháp ngay.
 
-> Mọi cột trong SELECT **phải** hoặc là (a) nằm trong hàm tổng hợp, hoặc (b) liệt kê trong GROUP BY.
+## 6. ✅ Best practice
 
-\`\`\`sql
--- ❌ SAI: city không có trong GROUP BY và cũng không bị tổng hợp
-SELECT region, city, SUM(amount) FROM orders GROUP BY region;
+> 💡 **Mẹo của thầy Hải:** Lọc **trước** GROUP dùng \`WHERE\`, lọc **sau** GROUP dùng \`HAVING\`. Đừng nhầm — \`WHERE SUM()\` sẽ lỗi.
 
--- ✅ ĐÚNG: thêm city vào GROUP BY
-SELECT region, city, SUM(amount) FROM orders GROUP BY region, city;
-\`\`\`
+## 7. 🤔 Khi nào dùng
 
-Lý do: nếu 1 nhóm \`region = 'Bắc'\` có nhiều city (Hà Nội, Hải Phòng, …), database không biết hiển thị city nào. PostgreSQL báo lỗi; MySQL cũ thì lặng lẽ chọn 1 cái ngẫu nhiên (rất nguy hiểm).
+- ✅ Báo cáo, dashboard, KPI.
+- ❌ Lấy chi tiết từng dòng → bỏ GROUP BY.
 
-## 6. \`HAVING\` — lọc trên *nhóm* đã gộp
+## 8. 📌 Tóm tắt 30 giây
 
-WHERE lọc *trước* khi gộp (lọc trên dòng). HAVING lọc *sau* khi gộp (lọc trên nhóm):
-
-\`\`\`sql
-SELECT region, SUM(amount) AS doanh_thu
-FROM   orders
-GROUP BY region
-HAVING SUM(amount) > 100000;    -- Chỉ giữ các vùng có tổng > 100k
-\`\`\`
-
-| Mệnh đề | Lọc trên gì? | Có dùng được hàm tổng hợp? |
-|---|---|---|
-| \`WHERE\` | Từng dòng | ❌ Không |
-| \`HAVING\` | Từng nhóm (sau GROUP BY) | ✅ Có |
-
-**Mẹo**: Lọc được bằng WHERE thì **luôn ưu tiên WHERE** — nhanh hơn nhiều vì lọc trước, nhóm sau.
-
-## 7. \`COUNT(DISTINCT)\` — đếm giá trị riêng biệt
-
-\`\`\`sql
-SELECT COUNT(DISTINCT customer_id) AS so_khach_hang
-FROM   orders;
-\`\`\`
-
-Dùng khi 1 khách có nhiều đơn nhưng bạn chỉ muốn đếm số khách *duy nhất*. Lưu ý: trên bảng vài tỷ dòng, \`COUNT(DISTINCT)\` rất tốn RAM — khi đó có thể dùng \`APPROX_COUNT_DISTINCT\` (có sẵn trên BigQuery, Snowflake) chấp nhận sai số ~1% để đổi lấy tốc độ.
-
-## 8. Tổng kết — checklist khi viết aggregate
-
-- ✅ Phân biệt \`COUNT(*)\` (đếm dòng) vs \`COUNT(col)\` (đếm dòng có giá trị).
-- ✅ \`SUM\`, \`AVG\` **bỏ qua NULL** — luôn nói rõ "trung bình của ai" khi báo cáo.
-- ✅ Mọi cột không bị tổng hợp **phải** xuất hiện trong \`GROUP BY\`.
-- ✅ Lọc dòng → \`WHERE\`. Lọc nhóm → \`HAVING\`.
-- ✅ Bài tiếp theo: **JOIN** — kết nối bảng để có thể GROUP BY theo tên sản phẩm, tên khách hàng…`,
+\`GROUP BY\` chia rổ, aggregate tính trong rổ. WHERE lọc trước, HAVING lọc sau. Cột không aggregate phải GROUP BY.
+`,
         theoryEn: `## 1. Real-world problem
 
 \`orders\` has 10,000 rows. Boss asks: how many orders? revenue per region? average order? You can't answer row-by-row — collapse rows into a single value with **aggregate functions**.
@@ -1419,119 +1300,59 @@ SELECT * FROM org ORDER BY level;`,
         titleEn: "ROW_NUMBER & RANK",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. Vấn đề đời thường
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Bảng \`orders\` (đơn hàng) có cột \`customer_id\` và \`amount\` (số tiền). Sếp hỏi:
-> *"Với mỗi khách, tìm đơn lớn nhất và đứng thứ mấy."*
+Sếp hỏi: "Bảng xếp hạng nhân viên theo phòng ban, mỗi phòng ai cao nhất?". \`GROUP BY\` trả 1 dòng/phòng — mất chi tiết. **Window function** = "vừa giữ chi tiết từng dòng, vừa tính toán theo nhóm".
 
-Với \`GROUP BY\`, bạn tính được max của mỗi khách — nhưng **mất hết các dòng chi tiết**. Ai cũng chỉ còn 1 dòng tổng kết.
+> 💡 **Mẹo của thầy Hải:** \`OVER()\` = "mở cửa sổ nhìn các dòng xung quanh mà không gộp lại".
 
-→ Cần một công cụ tính theo nhóm **mà KHÔNG nén dòng** lại. Đó là **window function** (hàm cửa sổ — tính toán theo "cửa sổ" các dòng xung quanh, mỗi dòng vẫn giữ nguyên).
+## 2. 💡 Hàm window phổ biến
 
-## 2. Cú pháp tối thiểu — \`OVER (...)\`
+| Hàm | Ý nghĩa |
+|-----|---------|
+| \`ROW_NUMBER()\` | Số thứ tự (không trùng) |
+| \`RANK()\` | Hạng (đồng hạng nhảy số) |
+| \`DENSE_RANK()\` | Hạng (đồng hạng không nhảy) |
+| \`LAG/LEAD\` | Lấy giá trị dòng trước/sau |
+| \`SUM/AVG OVER\` | Tích lũy, moving average |
+
+## 3. 🧰 Cú pháp
 
 \`\`\`sql
-SELECT customer_id,
-       amount,
-       RANK() OVER (
-         PARTITION BY customer_id      -- Chia theo từng khách
-         ORDER BY amount DESC          -- Sắp đơn theo số tiền giảm dần
-       ) AS hang
-FROM   orders;
+SELECT name, dept, salary,
+  RANK() OVER (PARTITION BY dept ORDER BY salary DESC) AS rnk
+FROM employees;
 \`\`\`
 
-- \`OVER (...)\` định nghĩa **cửa sổ** — phạm vi mà hàm "nhìn thấy".
-- \`PARTITION BY customer_id\` — chia dữ liệu thành các nhóm riêng cho từng khách (nhưng *không* gộp dòng như GROUP BY).
-- \`ORDER BY amount DESC\` — trong mỗi nhóm, sắp xếp theo số tiền.
+## 4. 🎯 Ví dụ chạy được ngay
 
-Kết quả: mỗi đơn vẫn còn nguyên, kèm thêm cột \`hang\` cho biết "đơn này đứng thứ mấy *trong khách hàng đó*".
-
-## 3. \`ROW_NUMBER\` vs \`RANK\` vs \`DENSE_RANK\` — chọn cái nào?
-
-3 đơn có cùng \`amount = 100\`. Mỗi hàm xử lý "hòa" khác nhau:
-
-| amount | ROW_NUMBER | RANK | DENSE_RANK |
-|---|---|---|---|
-| 200 | 1 | 1 | 1 |
-| 100 | 2 | 2 | 2 |
-| 100 | 3 | **2** | **2** |
-| 100 | 4 | **2** | **2** |
-| 50  | 5 | **5** | **3** |
-
-- **\`ROW_NUMBER\`** — luôn duy nhất 1, 2, 3… kể cả khi hòa (chọn ngẫu nhiên).
-- **\`RANK\`** — dòng hòa cùng số. Dòng tiếp theo **nhảy** (3 dòng hòa hạng 2 → tiếp theo là hạng 5).
-- **\`DENSE_RANK\`** — dòng hòa cùng số, dòng tiếp theo *liền kề* (không nhảy).
-
-**Mẹo chọn**:
-- Cần **đúng 1 dòng** mỗi nhóm (ví dụ "đơn mới nhất của mỗi khách") → \`ROW_NUMBER\`.
-- Cho thi đấu, "Top 3" có thể có nhiều người cùng hạng 1 → \`RANK\` hoặc \`DENSE_RANK\`.
-
-## 4. Mẫu kinh điển: lấy "1 dòng đại diện" cho mỗi nhóm
-
-Bài toán cực hay gặp: *"Lấy đơn mới nhất của mỗi khách hàng."*
+Top 1 mỗi phòng:
 
 \`\`\`sql
-WITH t AS (
-  SELECT *,
-    ROW_NUMBER() OVER (
-      PARTITION BY customer_id
-      ORDER BY created_at DESC, id DESC    -- Mới nhất trước; id để hòa thì ổn định
-    ) AS rn
-  FROM orders
+WITH r AS (
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC) AS rn
+  FROM employees
 )
-SELECT * FROM t WHERE rn = 1;     -- Chỉ giữ "đơn mới nhất" của mỗi khách
+SELECT * FROM r WHERE rn = 1;
 \`\`\`
 
-Đây cũng là **mẫu khử trùng lặp** (deduplication) — mọi data warehouse production đều có dùng.
+## 5. ⚠️ Bẫy thường gặp
 
-## 5. \`LAG\` & \`LEAD\` — so sánh với dòng TRƯỚC / SAU
+> ⚠️ **Cảnh báo:** Window function chạy **sau** WHERE/GROUP BY. Muốn lọc theo \`rnk\` phải bọc CTE hoặc subquery.
 
-Vấn đề: bảng \`daily_revenue\` (doanh thu mỗi ngày). Muốn biết *"hôm nay tăng/giảm bao nhiêu so với hôm qua?"*
+## 6. ✅ Best practice
 
-\`\`\`sql
-SELECT date,
-       revenue,
-       LAG(revenue) OVER (ORDER BY date)        AS hom_qua,    -- Lùi 1 dòng
-       revenue - LAG(revenue) OVER (ORDER BY date) AS chenh_lech
-FROM   daily_revenue;
-\`\`\`
+> 💡 **Mẹo của thầy Hải:** Moving average dùng \`AVG(x) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)\` cho 7-day MA.
 
-- \`LAG(col)\` = **lùi** 1 dòng (lấy dòng trước).
-- \`LEAD(col)\` = **tiến** 1 dòng (lấy dòng sau).
-- Dòng đầu tiên không có dòng trước → \`LAG\` trả về NULL.
+## 7. 🤔 Khi nào dùng
 
-## 6. Tổng cộng dồn (running total) — \`SUM() OVER\`
+- ✅ Ranking, running total, moving average, so sánh kỳ trước.
+- ❌ Chỉ cần tổng hợp đơn giản → \`GROUP BY\` đủ.
 
-Vấn đề: muốn xem **doanh thu cộng dồn** từ đầu năm tới mỗi ngày.
+## 8. 📌 Tóm tắt 30 giây
 
-\`\`\`sql
-SELECT date,
-       revenue,
-       SUM(revenue) OVER (
-         ORDER BY date
-         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-       ) AS cong_don
-FROM   daily_revenue;
-\`\`\`
-
-Đoạn \`ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\` (frame — khung) nghĩa là: *"cộng từ dòng đầu tiên đến dòng hiện tại"*. Đổi thành \`ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\` → bạn có **trung bình trượt 7 ngày**.
-
-## 7. So sánh: window function vs GROUP BY
-
-| Cần gì? | Dùng |
-|---|---|
-| Gộp tất cả dòng trong nhóm thành 1 dòng tổng | **GROUP BY** |
-| Giữ nguyên các dòng + thêm 1 cột tính theo nhóm | **Window function** |
-| Cộng dồn / trung bình trượt | Window function với frame |
-| Top-N của mỗi nhóm | \`ROW_NUMBER()\` window |
-
-## 8. Tổng kết — checklist khi viết window
-
-- ✅ Luôn có \`ORDER BY\` trong \`OVER()\` cho hàm xếp hạng (nếu không kết quả không xác định).
-- ✅ \`ROW_NUMBER\` → 1 dòng duy nhất mỗi nhóm. \`RANK/DENSE_RANK\` → cho phép hòa.
-- ✅ Khi sắp xếp có khả năng hòa, thêm cột phụ trong ORDER BY (ví dụ \`, id DESC\`) để ổn định.
-- ✅ Cộng dồn / trung bình trượt → ghi rõ \`ROWS BETWEEN ... AND ...\`.
-- ✅ Bài tiếp theo: **Indexing** — sau khi viết query đúng, làm sao cho nó CHẠY NHANH?`,
+\`OVER(PARTITION BY … ORDER BY …)\` = nhóm cửa sổ + sắp xếp. Lọc theo kết quả window phải bọc CTE. Cực mạnh cho BI.
+`,
         theoryEn: `## 1. Real-world problem
 
 \`orders\` table — for each customer, find their largest order and its rank. \`GROUP BY\` collapses rows; you need a per-row calc that still sees the group → **window function**.
@@ -1638,108 +1459,54 @@ FROM orders;`,
         titleEn: "Indexes & EXPLAIN",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. Vấn đề đời thường
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Bảng \`students\` có 1 triệu dòng. Bạn chạy:
+Bảng \`orders\` có 1 triệu dòng. Mỗi lần tìm đơn hàng theo \`customer_id\` mất 8 giây — như lục từng cuốn sách trong thư viện không có mục lục. **Index** = mục lục. Có nó, tìm 1 cuốn chỉ tốn 0.01 giây.
 
-\`\`\`sql
-SELECT * FROM students WHERE email = 'an@gmail.com';
-\`\`\`
+> 💡 **Mẹo của thầy Hải:** Index = "trade-off". Đọc nhanh hơn nhưng ghi (INSERT/UPDATE) chậm hơn vì phải cập nhật mục lục.
 
-Không có **index** (chỉ mục), database phải đọc **lần lượt từng dòng** trong số 1 triệu để tìm — mất vài giây. Có index, nó tìm trong ~20 phép so sánh — vài mili-giây.
+## 2. 💡 Khái niệm chính
 
-Index giống như **mục lục cuối quyển sách**: thay vì lật từng trang, bạn tra mục lục và nhảy thẳng tới trang cần.
+- **Primary index**: tự động trên primary key.
+- **Secondary index**: bạn tự tạo trên cột hay query.
+- **Composite index**: nhiều cột — thứ tự cột cực quan trọng.
+- **B-tree** (mặc định): tốt cho \`=\`, \`<\`, \`>\`, \`BETWEEN\`. **Hash**: chỉ \`=\`. **GIN**: full-text search.
 
-## 2. Tạo index — cú pháp tối thiểu
-
-\`\`\`sql
--- Tạo index trên cột email
-CREATE INDEX idx_students_email ON students(email);
-
--- Index "duy nhất" — vừa làm chỉ mục vừa chống trùng giá trị
-CREATE UNIQUE INDEX uniq_students_email ON students(email);
-\`\`\`
-
-Sau khi tạo, các câu \`WHERE email = ...\` sẽ **tự động** dùng index — bạn không cần đổi câu query.
-
-## 3. Index hoạt động như thế nào (B-tree, đơn giản hóa)
-
-Loại index mặc định ở mọi database (Postgres, MySQL, SQL Server) là **B-tree** (cây nhị phân cân bằng) — một cấu trúc cây giữ các giá trị **đã được sắp xếp**.
-
-- Tra cứu giống như tra từ điển: chia đôi liên tục → \`O(log N)\` (rất nhanh).
-- Vì giá trị đã sắp xếp, các phép \`>\`, \`<\`, \`BETWEEN\` đều dùng được.
-
-## 4. Khi nào index GIÚP, khi nào KHÔNG
-
-| Câu WHERE | Dùng được index? |
-|---|---|
-| \`WHERE id = 42\` (so sánh bằng) | ✅ Có |
-| \`WHERE created_at > '2024-01-01'\` (khoảng) | ✅ Có |
-| \`WHERE name LIKE 'an%'\` (đầu chuỗi) | ✅ Có |
-| \`WHERE name LIKE '%an'\` (đuôi chuỗi) | ❌ Không |
-| \`WHERE UPPER(email) = 'X'\` (bọc cột bằng hàm) | ❌ Không |
-| \`WHERE age + 5 > 30\` (biểu thức trên cột) | ❌ Không |
-| Lọc ra > 10% bảng | ❌ Thường full-scan nhanh hơn |
-
-**Quy tắc vàng**: đã có index trên cột nào thì **đừng bọc cột đó bằng hàm** — sẽ phá tác dụng. Hãy đẩy hàm sang phía bên phải:
+## 3. 🧰 Cú pháp
 
 \`\`\`sql
--- ❌ Phá index
-WHERE DATE(created_at) = '2024-01-15'
-
--- ✅ Giữ index hoạt động
-WHERE created_at >= '2024-01-15' AND created_at < '2024-01-16'
+CREATE INDEX idx_customer ON orders(customer_id);
+CREATE INDEX idx_date_status ON orders(order_date, status);
+DROP INDEX idx_customer;
+EXPLAIN SELECT * FROM orders WHERE customer_id = 123;
 \`\`\`
 
-## 5. Composite index (chỉ mục nhiều cột) — thứ tự CỘT cực quan trọng
-
-\`\`\`sql
-CREATE INDEX idx_orders_cust_date ON orders(customer_id, created_at);
-\`\`\`
-
-Index này hỗ trợ:
-- \`WHERE customer_id = 42\` ✅
-- \`WHERE customer_id = 42 AND created_at > '2024-01-01'\` ✅✅
-- \`WHERE created_at > '2024-01-01'\` ❌ (bỏ qua cột đầu — không dùng được)
-
-**Quy tắc "leftmost prefix"**: index \`(A, B, C)\` dùng được khi WHERE có A, hoặc A+B, hoặc A+B+C — không dùng được khi *chỉ* có B, hoặc *chỉ* có C.
-
-→ Đặt cột **luôn xuất hiện trong WHERE** lên đầu.
-
-## 6. \`EXPLAIN\` — cách DUY NHẤT để biết query có dùng index không
-
-Đừng đoán — chạy \`EXPLAIN ANALYZE\` để xem **kế hoạch thực thi** thật:
+## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
 EXPLAIN ANALYZE
-SELECT * FROM orders WHERE customer_id = 42;
+SELECT * FROM orders WHERE customer_id = 100 AND order_date > '2025-01-01';
+-- Rồi tạo index:
+CREATE INDEX idx_cust_date ON orders(customer_id, order_date);
 \`\`\`
 
-Đọc kết quả:
-- **\`Seq Scan\`** trên bảng lớn = **xấu** (đang đọc toàn bảng — thiếu index).
-- **\`Index Scan\`** / **\`Index Only Scan\`** = **tốt** (đang dùng index).
-- **\`Rows Removed by Filter\`** quá nhiều = đã đọc nhiều dòng rồi mới lọc → cân nhắc thêm index.
+## 5. ⚠️ Bẫy thường gặp
 
-## 7. Cái GIÁ phải trả: index không miễn phí
+> ⚠️ **Cảnh báo:** Quá nhiều index → INSERT chậm thê thảm. Audit định kỳ, drop index không dùng.
 
-Mỗi index là một bản sao có sắp xếp của cột — chiếm dung lượng và **làm chậm INSERT/UPDATE/DELETE** (vì phải cập nhật cả index).
+## 6. ✅ Best practice
 
-| Tình huống | Có nên thêm index? |
-|---|---|
-| Cột thường xuất hiện trong WHERE / JOIN | ✅ Có |
-| Cột có nhiều giá trị khác nhau (cardinality cao) | ✅ Có |
-| Bảng ghi rất nhiều, đọc ít | ⚠️ Cẩn trọng |
-| Cột hiếm khi lọc theo | ❌ Không |
+> 💡 **Mẹo của thầy Hải:** Composite index \`(A, B)\` chỉ tăng tốc query lọc theo \`A\` hoặc \`(A, B)\`, KHÔNG tăng tốc query chỉ lọc \`B\`.
 
-**Câu chuyện thật**: 1 team thêm index "phòng hờ" lên mọi cột → tốc độ INSERT giảm 60% (mỗi insert phải cập nhật 14 indexes). Bài học: **mỗi index là 1 thuế ghi**.
+## 7. 🤔 Khi nào dùng
 
-## 8. Tổng kết — checklist khi tối ưu index
+- ✅ Cột hay xuất hiện trong WHERE/JOIN/ORDER BY.
+- ❌ Cột có ít giá trị unique (gender, boolean) — index gần như vô dụng.
 
-- ✅ Index các cột xuất hiện thường xuyên trong WHERE / JOIN / ORDER BY.
-- ✅ Composite index: cột "luôn có trong WHERE" đặt **đầu tiên**.
-- ✅ Đừng bọc cột bằng hàm (\`UPPER(col)\`, \`DATE(col)\`) — phá index.
-- ✅ Trước & sau khi thêm index, **chạy \`EXPLAIN ANALYZE\`** để đo.
-- ✅ Bài tiếp theo: **Thiết kế Database & Normalization** — nếu thiết kế tốt, bạn sẽ đỡ phải tạo nhiều index về sau.`,
+## 8. 📌 Tóm tắt 30 giây
+
+Index = mục lục → đọc nhanh, ghi chậm. B-tree là default. Composite có thứ tự. Dùng \`EXPLAIN\` để kiểm tra index có được dùng không.
+`,
         theoryEn: `## 1. Real-world problem
 
 \`students\` has 1M rows. \`WHERE email='x'\` without index → reads all 1M rows. With index → ~20 comparisons. Index = book's table of contents.
@@ -1836,145 +1603,62 @@ DROP INDEX idx_students_age;`,
         titleEn: "Normalization & Keys",
         level: 3,
         difficulty: "intermediate",
-        theory: `**Thiết kế database (database design)** là quyết định *quan trọng nhất* trong cả vòng đời của một hệ thống. Một schema (cấu trúc bảng) tốt giúp thêm tính năng dễ dàng, ít bug. Một schema tệ trở thành nút thắt cổ chai mà *không một index nào cứu nổi*.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## 1. Vấn đề đời thường
+Khởi nghiệp bán đồ ăn online. Chỉ với 1 bảng \`everything(name, address, food, price, qty)\` → khách đổi địa chỉ phải sửa 100 dòng. **Database design** chuẩn = chia bảng theo nghiệp vụ, dùng khoá ngoại để liên kết.
 
-Bạn có một bảng \`orders\` (đơn hàng) lưu thông tin khách như sau:
+> 💡 **Mẹo của thầy Hải:** 3 ý niệm gối đầu giường — **Entity, Relationship, Normalization** (1NF/2NF/3NF).
 
-\`\`\`
-id | customer_id | customer_email   | customer_city | total
-1  | 7           | an@gmail.com     | Hà Nội        | 200
-2  | 7           | an@gmail.com     | Hà Nội        | 350
-3  | 7           | an@gmail.com     | Hà Nội        | 120
-\`\`\`
+## 2. 💡 Khái niệm chính
 
-Khi anh An chuyển vào Sài Gòn, bạn phải sửa **email & city ở 1000 dòng đơn hàng** chỉ vì 1 thông tin thay đổi. Đây là dấu hiệu schema đang sai. Cách giải quyết là **chuẩn hoá (normalization)**: tách thông tin khách sang bảng \`customers\` riêng.
+- **Entity**: thực thể (User, Order, Product).
+- **Primary key**: khoá chính (duy nhất).
+- **Foreign key**: tham chiếu sang bảng khác.
+- **1NF**: cell chứa giá trị nguyên tử.
+- **2NF**: bỏ phụ thuộc một phần PK.
+- **3NF**: bỏ phụ thuộc bắc cầu.
 
-## 2. Chuẩn hoá (Normalization) — 3 cấp độ cần nhớ
-
-Chuẩn hoá là quá trình tổ chức dữ liệu để **không lặp lại** và **không mâu thuẫn**.
-
-| Cấp độ | Quy tắc dễ hiểu | Loại bỏ |
-|---|---|---|
-| **1NF** | Mỗi ô chỉ chứa 1 giá trị (không có list trong ô) | Dữ liệu kiểu "Toán, Lý, Hoá" trong 1 ô |
-| **2NF** | Mọi cột phụ thuộc vào *toàn bộ* khoá chính | Phụ thuộc một phần |
-| **3NF** | Cột không-khoá không phụ thuộc cột không-khoá khác | Dữ liệu suy ra được |
-
-90% ứng dụng web/app chỉ cần đạt **3NF** là đủ. Cao hơn (BCNF, 4NF…) chỉ dùng trong sách giáo khoa.
-
-**Ví dụ vi phạm 3NF** (như bảng \`orders\` ở mục 1): \`customer_email\` phụ thuộc vào \`customer_id\`, không phụ thuộc \`id\` của đơn hàng → tách bảng.
-
-## 3. Khoá (Keys) — hợp đồng giữa các bảng
-
-| Loại khoá | Vai trò |
-|---|---|
-| **Primary key (PK)** — khoá chính | Định danh duy nhất 1 dòng. Không NULL. Mỗi bảng có 1 PK. |
-| **Foreign key (FK)** — khoá ngoại | Trỏ tới PK của bảng khác. Đảm bảo dữ liệu liên kết hợp lệ. |
-| **Surrogate key** — khoá nhân tạo | Số tự tăng (\`SERIAL\`) hoặc \`UUID\`, *không có ý nghĩa thực tế*. |
-| **Natural key** — khoá tự nhiên | Định danh có thật ngoài đời (số CMND, email, ISBN). |
-| **Composite key** — khoá kép | PK gồm nhiều cột, ví dụ \`(order_id, line_no)\`. |
-
-**Nên dùng surrogate hay natural?** → **Mặc định luôn dùng surrogate** (số tự tăng / UUID) vì:
-- Khoá tự nhiên có thể đổi (người ta đổi email, công ty đổi mã sản phẩm).
-- Số nguyên join nhanh hơn chuỗi dài.
-- Dễ bảo trì lịch sử thay đổi.
-
-## 4. Quan hệ giữa các bảng — 4 kiểu chính
-
-| Cardinality | Cách mô hình hoá | Ví dụ |
-|---|---|---|
-| **1-1** (Một-Một) | FK kèm UNIQUE | 1 user — 1 profile |
-| **1-N** (Một-Nhiều) | FK ở bên "nhiều" | 1 customer — N orders |
-| **N-N** (Nhiều-Nhiều) | **Bảng trung gian** (junction) chứa 2 FK | students ↔ courses |
-| **Tự tham chiếu** | FK trỏ về chính bảng đó | nhân viên — quản lý |
-
-**N-N luôn cần bảng trung gian** — không có cái gọi là "cột nhiều-nhiều". Ví dụ:
-
-\`\`\`
-students --< enrollments >-- courses
-              ^
-       (student_id, course_id, grade, enrolled_at)
-\`\`\`
-
-Bảng \`enrollments\` cũng là nơi lý tưởng để lưu thuộc tính của *quan hệ* (điểm số, ngày đăng ký).
-
-## 5. Thiết kế cho App (OLTP) vs Báo cáo (OLAP)
-
-Cùng là database nhưng mục tiêu *ngược nhau hoàn toàn*:
-
-| Khía cạnh | OLTP (app web/mobile) | OLAP (data warehouse, BI) |
-|---|---|---|
-| Chuẩn hoá | Cao (3NF) | Thấp (star schema — sao) |
-| Tối ưu cho | Nhiều ghi nhỏ | Ít đọc nhưng truy vấn lớn |
-| JOIN | Thường xuyên, nhỏ | Hiếm, dùng dim đã denormalize |
-| Đổi schema | Rất tốn công | Dễ (build lại model) |
-
-Lỗi kinh điển: dùng schema OLTP cho data warehouse → dashboard join 12 bảng, chạy 30 giây, vỡ mỗi khi đổi schema.
-
-## 6. Checklist 7 bước khi tạo bảng mới
-
-1. **Grain (độ chi tiết) là gì?** — "Mỗi dòng = một ___ (đơn hàng / lượt click / lần đăng nhập)". Câu này phải trả lời được trước khi viết \`CREATE TABLE\`.
-2. **Primary key?** — Gần như luôn dùng \`SERIAL\` hoặc \`UUID\`.
-3. **Foreign key nào?** — Chọn rõ \`ON DELETE\`: \`CASCADE\` (xoá theo) / \`RESTRICT\` (chặn xoá) / \`SET NULL\`.
-4. **Cột nào NOT NULL?** — Mặc định NOT NULL, chỉ cho NULL khi *thực sự* hợp lý.
-5. **Cột nào cần index?** — Cột xuất hiện trong WHERE, JOIN, ORDER BY.
-6. **Cột audit:** \`created_at\`, \`updated_at\` — luôn có.
-7. **Soft delete vs hard delete?** — Yêu cầu pháp lý thường buộc dùng soft delete (\`deleted_at TIMESTAMP NULL\`).
-
-## 7. Ví dụ đầy đủ: thư viện sách
+## 3. 🧰 Schema mẫu
 
 \`\`\`sql
--- Tác giả
-CREATE TABLE authors (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  created_at TIMESTAMP DEFAULT now()
+CREATE TABLE users (
+  id INT PRIMARY KEY,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  name VARCHAR(100)
 );
-
--- Sách
-CREATE TABLE books (
-  id SERIAL PRIMARY KEY,
-  title VARCHAR(200) NOT NULL,
-  isbn VARCHAR(20) UNIQUE NOT NULL,
-  created_at TIMESTAMP DEFAULT now()
-);
-
--- N-N: 1 sách có thể nhiều tác giả → cần bảng trung gian
-CREATE TABLE book_authors (
-  book_id INTEGER REFERENCES books(id) ON DELETE CASCADE,
-  author_id INTEGER REFERENCES authors(id) ON DELETE RESTRICT,
-  PRIMARY KEY (book_id, author_id)
+CREATE TABLE orders (
+  id INT PRIMARY KEY,
+  user_id INT REFERENCES users(id),
+  total DECIMAL(10,2),
+  created_at TIMESTAMP DEFAULT NOW()
 );
 \`\`\`
 
-Đọc lại: mỗi quyết định đều có lý do (PK, FK, ON DELETE, NOT NULL, audit cột).
+## 4. 🎯 Ví dụ chạy được ngay
 
-## 8. Best Practices ✅ & Anti-patterns ❌
+\`\`\`sql
+SELECT u.name, COUNT(o.id) AS n_orders, SUM(o.total) AS spent
+FROM users u LEFT JOIN orders o ON u.id = o.user_id
+GROUP BY u.name;
+\`\`\`
 
-**Nên:**
-- 3NF cho app, star schema cho báo cáo — *không nhầm lẫn 2 cái*.
-- Surrogate PK trừ khi có lý do mạnh dùng natural.
-- NOT NULL mặc định.
-- Luôn có \`created_at\` + \`updated_at\` (default ở DB level).
-- Đặt tên: snake_case, bảng số nhiều (\`users\`), cột số ít (\`user_id\`).
+## 5. ⚠️ Bẫy thường gặp
 
-**Tránh:**
-- Lưu list ngăn cách bằng dấu phẩy ("Toán,Lý,Hoá") trong 1 cột → vi phạm 1NF.
-- Dùng natural key có thể đổi (email, mã SKU).
-- Bảng EAV (Entity-Attribute-Value) tự xây "database trong database".
-- JSONB cho dữ liệu sẽ luôn truy vấn theo cấu trúc → không index hiệu quả.
-- "Nullable everything" — cho phép NULL ở mọi cột vì lười nghĩ.
+> ⚠️ **Cảnh báo:** Lưu danh sách (vd \`'1,2,3'\` trong cột \`tags\`) là vi phạm 1NF — query rất khổ. Tách bảng \`entity_tag\` riêng.
 
-## Ghi chú nâng cao (đọc khi đã làm dự án thật)
+## 6. ✅ Best practice
 
-**Case study GitHub issues:** GitHub công khai schema bảng \`issues\` từ 2008: PK số nguyên, FK \`repository_id\`, junction table cho assignees & labels. *12 năm sau, tỉ dòng dữ liệu, schema gần như không đổi* — minh chứng thiết kế OLTP "buồn tẻ" mà chuẩn hoá lại sống lâu nhất.
+> 💡 **Mẹo của thầy Hải:** Đặt tên: bảng số nhiều (\`users\`), khoá ngoại \`<entity>_id\` (\`user_id\`). Luôn có \`created_at\`, \`updated_at\`.
 
-**Case study JSON-everything:** Một startup quyết định "linh hoạt" bằng cách lưu mọi entity dưới dạng \`data JSONB\`. 2 tháng đầu tốc độ phát triển nhanh. Khi cần truy vấn "users ở California có >5 đơn", không thể index hiệu quả — query nào cũng full-scan. Mất nguyên 1 quý migrate ngược về schema chuẩn hoá. *Schema-on-read nghe hấp dẫn, đến khi bạn cần đọc schema.*
+## 7. 🤔 Khi nào áp dụng
 
-## Bài tiếp theo
+- ✅ OLTP (giao dịch) → chuẩn 3NF.
+- ❌ Warehouse/BI → denormalize (Star schema) cho query nhanh.
 
-**Stored procedures, functions & triggers** — logic phía database, dùng đúng cách giúp tránh hàng nghìn round-trip và ngăn cả lớp bug.`,
+## 8. 📌 Tóm tắt 30 giây
+
+Chia bảng theo entity, liên kết bằng FK. 1NF–3NF tránh dư thừa. OLTP dùng 3NF, OLAP dùng Star. Đặt tên nhất quán.
+`,
         theoryEn: `Schema design is the most consequential decision in a system. Bad design is a bottleneck no index can fix.
 
 ## 1. The everyday problem
@@ -2106,117 +1790,60 @@ CREATE TABLE employee_projects (
         titleEn: "Functions & Triggers",
         level: 4,
         difficulty: "advanced",
-        theory: `**Stored procedures, functions, and triggers** push logic into the database itself. Used wisely, they prevent entire classes of bugs (e.g., "we forgot to update the audit log"), eliminate round-trips, and enforce invariants atomically. Used unwisely, they hide business logic where no application engineer can find it.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Why this matters
+Nhân viên kế toán hằng ngày phải chạy lại đúng 5 câu SQL: tính lương → trừ thuế → ghi log → email báo. Copy-paste hoài dễ sai. **Stored Procedure** = "macro Excel cho database" — gói nguyên quy trình, gọi 1 lệnh là chạy.
 
-Every senior data engineer encounters legacy systems where 500 lines of SQL Server stored procedures contain the *real* business rules — and the application code is just a UI on top. Knowing when to embrace database logic and when to push it back into the app is a judgment call that defines the architecture for years.
+> 💡 **Mẹo của thầy Hải:** Stored Procedure chạy **trong database** → ít round-trip mạng → nhanh hơn code app gọi từng query.
 
-## Functions vs procedures
+## 2. 💡 Khái niệm chính
 
-| Aspect | Function | Procedure |
-|---|---|---|
-| Returns a value | ✅ Yes | ⚠️ Out parameters / result sets |
-| Usable inside SELECT | ✅ Yes | ❌ No |
-| Side effects (modify data) | Usually ❌ | ✅ Yes |
-| Called via | Embed in SQL | \`CALL proc(...)\` |
+- **Procedure**: thực hiện logic, không trả kết quả (hoặc trả qua OUT param).
+- **Function**: trả về 1 giá trị (dùng được trong SELECT).
+- **Trigger**: tự chạy khi có INSERT/UPDATE/DELETE.
 
-Postgres example:
+## 3. 🧰 Cú pháp PostgreSQL
 
 \`\`\`sql
-CREATE OR REPLACE FUNCTION discount_price(price NUMERIC, pct NUMERIC)
-RETURNS NUMERIC LANGUAGE SQL IMMUTABLE
-AS $$
-  SELECT price * (1 - pct / 100);
-$$;
-
-SELECT name, discount_price(price, 10) AS sale_price FROM products;
-\`\`\`
-
-\`IMMUTABLE\` tells the planner the function always returns the same output for the same input — enabling caching and index use.
-
-## Triggers — automatic actions
-
-A trigger fires automatically on INSERT / UPDATE / DELETE.
-
-\`\`\`sql
-CREATE OR REPLACE FUNCTION set_updated_at()
-RETURNS TRIGGER LANGUAGE plpgsql AS $$
+CREATE OR REPLACE PROCEDURE add_bonus(emp_id INT, amount DECIMAL)
+LANGUAGE plpgsql AS $$
 BEGIN
-  NEW.updated_at := now();
-  RETURN NEW;
+  UPDATE employees SET salary = salary + amount WHERE id = emp_id;
+  INSERT INTO bonus_log(emp_id, amount, at) VALUES (emp_id, amount, NOW());
 END;
 $$;
 
-CREATE TRIGGER trg_orders_updated
-BEFORE UPDATE ON orders
-FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+CALL add_bonus(101, 500000);
 \`\`\`
 
-Common, well-loved trigger uses:
-
-- \`updated_at\` maintenance.
-- Audit logging — write every change to an audit table.
-- Soft-delete enforcement.
-- Maintaining derived columns (e.g., search vectors).
-
-## Transactions — ACID, briefly
-
-Triggers and procedures run inside transactions. The four ACID properties:
-
-| Property | Meaning |
-|---|---|
-| **Atomicity** | All-or-nothing commit |
-| **Consistency** | Constraints always satisfied at commit |
-| **Isolation** | Concurrent transactions don't see each other's partial state |
-| **Durability** | Once committed, survives crashes |
-
-A multi-statement transaction:
+## 4. 🎯 Ví dụ chạy được ngay
 
 \`\`\`sql
-BEGIN;
-  UPDATE accounts SET balance = balance - 100 WHERE id = 1;
-  UPDATE accounts SET balance = balance + 100 WHERE id = 2;
-  INSERT INTO ledger(...) VALUES (...);
-COMMIT;
+CREATE FUNCTION total_orders(uid INT) RETURNS INT
+LANGUAGE sql AS $$
+  SELECT COUNT(*) FROM orders WHERE user_id = uid;
+$$;
+
+SELECT name, total_orders(id) FROM users;
 \`\`\`
 
-If anything fails, \`ROLLBACK\` undoes all three changes — *the* canonical reason banks use relational databases.
+## 5. ⚠️ Bẫy thường gặp
 
-## Comparison — where should logic live?
+> ⚠️ **Cảnh báo:** Lạm dụng stored procedure → logic business "ẩn" trong DB, khó test/version. Code Python/Node test dễ hơn.
 
-| Logic type | Best home | Why |
-|---|---|---|
-| Auth, business workflows | Application | Versioning, testing, code review |
-| Audit / change tracking | Trigger | Cannot be forgotten |
-| Constraints (uniqueness, FK) | Database | Enforced regardless of which app |
-| Bulk transformations | Stored procedure or dbt | Avoid million-row round-trips |
-| Reporting derivations | Views / materialized views | Easy to refresh |
-| Real-time enrichment | Application service | Database isn't a service bus |
+## 6. ✅ Best practice
 
-## Case study — the auditing trigger that saved an audit
+> 💡 **Mẹo của thầy Hải:** Dùng SP cho: bulk operation, transaction phức tạp, audit log. Đừng dùng cho business logic chính.
 
-A fintech was preparing for a SOX audit. Auditors asked: "Prove no one has modified \`fact_transactions\` outside of the pipeline." Because every UPDATE / DELETE on the table fired an audit-log trigger inserting into an append-only \`audit_transactions\` table, they could prove it in 5 minutes with a single query. A different team in the same company had decided to "do auditing in app code." After two app deploys, ~2% of changes were missing from their audit log. They failed the audit and spent 6 months rebuilding the trail. **Triggers are forgettable; app code is forgetful.**
+## 7. 🤔 Khi nào dùng
 
-## Case study — the procedure-soup nightmare
+- ✅ Job nightly batch, audit, data migration.
+- ❌ CRUD app — nên ở tầng backend.
 
-A mid-size insurance company had ~1,200 stored procedures totaling 60,000 lines. Each call site in the app passed dozens of parameters; the procedures called each other 4–5 levels deep. There were no tests, no version control, and the only person who fully understood it had retired. Adding any new feature took weeks. Eventually the team froze the procedures, built a new microservice that wrapped them, and migrated logic out one piece at a time over 2 years. **Database logic without engineering rigor becomes its own kind of legacy hell.**
+## 8. 📌 Tóm tắt 30 giây
 
-## Best practices
-
-- **Use triggers for invariants the database must enforce** — \`updated_at\`, audit, soft-delete protection.
-- **Keep stored procedures small** — if it's > 200 lines, it probably belongs in app code or dbt.
-- **Version-control all DB code** in the same repo as the app; treat DDL like source.
-- **Write tests** — pgTAP, tSQLt, dbt tests for SQL transformations.
-- **Document the boundaries**: which logic lives in app vs DB. Stick to the rule.
-- **Use transactions for any multi-statement state change** that must be all-or-nothing.
-- **Beware trigger performance**: they fire on every row — a slow trigger can cripple INSERT throughput.
-
-## Anti-patterns & next lesson
-
-Avoid: cascades of triggers that fire each other (debugging nightmare); business logic in 1,000-line procedures with no tests; long-running transactions that hold locks; \`AUTOCOMMIT\` confusion across drivers; using triggers to call out to external services (network = unreliable inside a transaction).
-
-Next: **Query optimization** — once your design and indexes are right, how do you tune the queries themselves to scale to billions of rows?`,
+Procedure = gói lệnh trong DB. Function = trả về giá trị. Trigger = tự kích hoạt. Mạnh nhưng phải dùng đúng chỗ — đừng nhồi business logic vào.
+`,
         theoryEn: `**Procedures, functions, triggers** push logic into the DB. Prevent classes of bugs; can also become legacy hell.
 
 ## Why this matters
@@ -2317,136 +1944,55 @@ COMMIT;`,
         titleEn: "Query Tuning",
         level: 5,
         difficulty: "advanced",
-        theory: `**Query optimization** is the discipline of making queries fast — not by adding hardware, but by understanding how the database thinks. The same query can run in 30 ms or 30 minutes depending on join order, index choice, and predicate pushdown. The optimizer makes most of these decisions for you, but it makes them based on how *you* write the query.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Why this matters
+Query \`SELECT * FROM orders JOIN products JOIN users WHERE …\` chạy 45 giây — sếp doạ đuổi việc. **Query optimization** = đọc kế hoạch thực thi (\`EXPLAIN\`), tìm điểm nghẽn, rồi sửa từng bước.
 
-A staff data engineer is often paged not because a query is broken, but because it's *too slow*. The first 80% of speed comes from schema and indexes; the next 15% from query rewriting; the last 5% from configuration tweaks. This lesson covers the rewriting layer, where a small change in SQL can deliver 10–1000× speedups.
+> 💡 **Mẹo của thầy Hải:** 80% query chậm là do thiếu index hoặc dùng \`SELECT *\`. Sửa 2 thứ này thường giải quyết được.
 
-## EXPLAIN — the only honest answer
+## 2. 💡 Quy trình tối ưu
 
-Every database has an \`EXPLAIN\` (or \`EXPLAIN ANALYZE\`, or \`EXPLAIN PLAN\`) command. **Reading the plan is not optional** — it is the difference between guessing and knowing.
+1. Chạy \`EXPLAIN ANALYZE\` → đọc kế hoạch.
+2. Tìm \`Seq Scan\` trên bảng to → cần index.
+3. Tìm \`Nested Loop\` với rows quá lớn → cân nhắc \`HASH JOIN\`.
+4. Giảm cột (\`SELECT *\` → liệt kê).
+5. Lọc sớm bằng WHERE/JOIN ON đúng cột index.
+
+## 3. 🧰 Lệnh đọc kế hoạch
 
 \`\`\`sql
 EXPLAIN ANALYZE
-SELECT c.name, COUNT(o.id)
-FROM customers c
-LEFT JOIN orders o ON o.customer_id = c.id
-WHERE c.signup_date > '2024-01-01'
-GROUP BY c.name;
+SELECT u.name, SUM(o.total)
+FROM users u JOIN orders o ON u.id = o.user_id
+WHERE o.created_at > '2025-01-01'
+GROUP BY u.name;
 \`\`\`
 
-What to scan for first:
+## 4. 🎯 Ví dụ chạy được ngay
 
-1. **Scan type**: \`Index Scan\` ✅, \`Seq Scan\` on big tables ❌
-2. **Estimated vs actual rows**: order-of-magnitude mismatch = stale stats → \`ANALYZE\`
-3. **Join algorithm**: \`Hash Join\` ✅ for big-big, \`Nested Loop\` ❌ if outer is huge
-4. **Sort / Aggregate spilling to disk**: \`Sort Method: external merge\` = need more \`work_mem\`
-
-## The five highest-leverage rewrites
-
-**1. Push filters down.** Filter rows *before* they enter joins or aggregates:
+Thấy \`Seq Scan on orders (cost=… rows=1000000)\` → tạo index:
 
 \`\`\`sql
--- ❌ Slow: filter after join
-SELECT *
-FROM orders o JOIN customers c ON c.id = o.customer_id
-WHERE c.country = 'VN';
-
--- ✅ Faster: explicit subquery (or trust the optimizer)
-SELECT *
-FROM orders o
-JOIN (SELECT * FROM customers WHERE country = 'VN') c ON c.id = o.customer_id;
+CREATE INDEX idx_orders_created_user ON orders(created_at, user_id);
 \`\`\`
 
-Modern optimizers do this for you, but legacy MySQL and complex CTEs sometimes don't.
+## 5. ⚠️ Bẫy thường gặp
 
-**2. Replace correlated subqueries with windows.** A 30× speedup is common (covered in window-functions lesson).
+> ⚠️ **Cảnh báo:** Hàm bao quanh cột (\`WHERE DATE(created_at) = '2025-01-01'\`) làm index vô hiệu. Viết lại: \`WHERE created_at >= '2025-01-01' AND created_at < '2025-01-02'\`.
 
-**3. Use EXISTS instead of IN** for "is there any match" — short-circuits at first hit.
+## 6. ✅ Best practice
 
-**4. Pre-aggregate before joining** to fix fan-out:
+> 💡 **Mẹo của thầy Hải:** \`LIMIT\` + \`ORDER BY indexed_col\` siêu nhanh. Pagination dùng cursor (\`WHERE id > last_id\`) thay vì \`OFFSET\` lớn.
 
-\`\`\`sql
-WITH item_count AS (
-  SELECT order_id, COUNT(*) AS items
-  FROM order_items GROUP BY order_id
-)
-SELECT o.*, ic.items
-FROM orders o LEFT JOIN item_count ic USING (order_id);
-\`\`\`
+## 7. 🤔 Khi nào tối ưu
 
-**5. Avoid SELECT \\*** — fetching unused columns wastes I/O and can prevent index-only scans.
+- ✅ Query > 1s, hoặc chạy nhiều lần / phút.
+- ❌ Ad-hoc 1 lần → không cần.
 
-## Common anti-patterns and their fixes
+## 8. 📌 Tóm tắt 30 giây
 
-| Anti-pattern | Fix |
-|---|---|
-| \`WHERE func(col) = X\` | \`WHERE col = func⁻¹(X)\` to allow index use |
-| \`OR\` across columns | Split into UNION ALL of two indexed queries |
-| \`IN\` with thousands of values | Insert into a temp table, JOIN |
-| \`NOT IN (subquery with NULL)\` | \`NOT EXISTS\` |
-| Big \`OFFSET\` | Keyset pagination (\`WHERE id > last_id\`) |
-| Many small INSERTs | Batch into one multi-row INSERT |
-| \`SELECT DISTINCT\` after a JOIN | Pre-aggregate the many side |
-| Implicit type cast in WHERE (\`id = '42'\`) | Match types so index is used |
-
-## Statistics — the brain of the optimizer
-
-The planner uses **table statistics** (row counts, value distributions, NULL fractions) to decide between Seq Scan / Index Scan and Nested Loop / Hash Join. If stats are stale, the planner picks badly.
-
-- Postgres: \`ANALYZE table;\` (also runs automatically via autovacuum).
-- After a big bulk load, **always run ANALYZE manually** — autovacuum may be hours behind.
-- Long-tail / skewed distributions need \`ALTER TABLE … SET STATISTICS 1000\` for finer histograms.
-
-## Materialized views — pre-compute the expensive bits
-
-A regular VIEW is just a saved query. A **materialized view** stores the *result* on disk and is refreshed on demand or on schedule.
-
-\`\`\`sql
-CREATE MATERIALIZED VIEW mv_daily_revenue AS
-SELECT date_trunc('day', created_at) AS day, SUM(amount) AS rev
-FROM orders GROUP BY 1;
-
-REFRESH MATERIALIZED VIEW CONCURRENTLY mv_daily_revenue;
-\`\`\`
-
-For a dashboard query that runs 5,000 times a day on the same aggregate, materializing once and refreshing hourly can drop database load by 99%.
-
-## Comparison — when to reach for what
-
-| Symptom | Likely fix |
-|---|---|
-| Seq Scan on big table | Add index |
-| Nested Loop with millions of inner rows | Force Hash Join (rewrite, or set \`enable_nestloop = off\` for the query) |
-| Sort spilling to disk | \`SET work_mem\`, or pre-sort via index |
-| Stats off by 100× | \`ANALYZE\` |
-| Query slow only sometimes | Plan flipping → consider hints / \`pg_hint_plan\` |
-| Repeated identical aggregate | Materialized view |
-
-## Case study — the OFFSET 1,000,000 disaster
-
-A pagination API used \`LIMIT 20 OFFSET 1000000\`. The DB scanned 1,000,020 rows and threw away 1,000,000 — every page-1000 request took 12 seconds. Switched to keyset pagination (\`WHERE id > :last_id ORDER BY id LIMIT 20\`). New latency: **3 ms**. The change touched 6 lines of code and made the team stop apologizing in standup.
-
-## Case study — the materialized view that saved $40k/month
-
-A reporting query joining 4 tables and aggregating daily revenue ran in 8 seconds — fine in isolation. But it ran from 90 different dashboards, refreshing every 5 minutes. The Snowflake bill blew past $40k/month. Solution: one materialized view, refreshed hourly. Dashboard latency dropped to 80 ms; warehouse compute dropped 95%.
-
-## Best practices
-
-- **Always start with EXPLAIN ANALYZE** — never optimize blind.
-- **Keep statistics fresh** — \`ANALYZE\` after bulk loads.
-- **Prefer keyset pagination** over OFFSET on large tables.
-- **Materialize repeated expensive aggregates**.
-- **Batch writes**, never one-row-per-call in a tight loop.
-- **Profile in production-shaped data**, not toy datasets.
-- **Tag every long-running query** with a comment so you can find it in slow-query logs.
-
-## Anti-patterns & next lesson
-
-Avoid: optimizing without measuring; relying on the optimizer to magically rewrite a poorly-written query; over-using hints (they ossify the plan); building a wall of indexes instead of fixing the query; refreshing materialized views non-concurrently in production (locks readers).
-
-Next: **Advanced SQL patterns** — recursive CTEs, JSON operations, and PIVOT — the patterns you'll reach for once the fundamentals are second nature.`,
+\`EXPLAIN ANALYZE\` → tìm Seq Scan trên bảng to → tạo index. Tránh hàm trên cột WHERE. Cursor pagination thay OFFSET.
+`,
         theoryEn: `**Query optimization** = make queries fast by understanding how the DB thinks. Same query can run 30ms or 30min.
 
 ## Why this matters
@@ -2569,145 +2115,59 @@ REFRESH MATERIALIZED VIEW student_report;`,
         titleEn: "Recursive CTE & JSON",
         level: 5,
         difficulty: "advanced",
-        theory: `Once you've mastered SELECT, JOINs, CTEs, and windows, three more patterns appear in every advanced SQL interview and every mature production codebase: **recursive CTEs, JSON operations, and PIVOT**. They handle problems the previous tools simply can't.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Why this matters
+Sếp hỏi 3 thứ cùng lúc: "top 3 sản phẩm mỗi danh mục, tỉ lệ doanh thu so với tháng trước, khách hàng VIP 6 tháng liên tiếp". Query thường viết lằng nhằng cả trang. **Pattern nâng cao** = công thức gọn gàng cho các bài toán "khó" này.
 
-Modern OLTP and analytical workloads include semi-structured data (JSON from APIs and webhooks), hierarchical data (org charts, comment threads, BOMs), and reporting layouts that require pivoting rows into columns. A senior data engineer reaches for these on a weekly basis.
+> 💡 **Mẹo của thầy Hải:** Top-N per group, pivot, gap-and-island, recursive — 4 pattern senior SQL phải thuộc.
 
-## Recursive CTEs — walking hierarchies
+## 2. 💡 Pattern thường gặp
 
-\`WITH RECURSIVE\` lets a CTE reference itself. The structure is always the same:
+| Pattern | Tool SQL |
+|---------|----------|
+| Top-N per group | \`ROW_NUMBER() OVER(PARTITION BY g ORDER BY x)\` |
+| So sánh tháng trước | \`LAG(amount) OVER(ORDER BY month)\` |
+| Gap & Island | \`ROW_NUMBER\` + \`DATE - row_number\` |
+| Pivot | \`CASE WHEN … END\` + \`SUM\` |
+
+## 3. 🧰 Top-3 sản phẩm theo danh mục
 
 \`\`\`sql
-WITH RECURSIVE cte_name AS (
-  -- 1. Anchor: the starting set
-  SELECT … FROM table WHERE base_condition
-
-  UNION ALL
-
-  -- 2. Recursive: the step that builds on the previous
-  SELECT … FROM table JOIN cte_name ON …
+WITH ranked AS (
+  SELECT category, name, sales,
+    ROW_NUMBER() OVER (PARTITION BY category ORDER BY sales DESC) AS rn
+  FROM products
 )
-SELECT * FROM cte_name;
+SELECT * FROM ranked WHERE rn <= 3;
 \`\`\`
 
-Use cases:
+## 4. 🎯 Ví dụ chạy được ngay
 
-- **Org chart traversal** — find every employee under a given manager.
-- **Bill of materials** — what parts make up this product, recursively?
-- **Generate date series** — every Monday for a year.
-- **Graph paths** — shortest path / connected components.
-
-Always **cap recursion depth** with a level column to defend against cyclic data:
+So sánh doanh thu tháng này với tháng trước:
 
 \`\`\`sql
-WITH RECURSIVE org AS (
-  SELECT id, name, manager_id, 1 AS lvl FROM employees WHERE manager_id IS NULL
-  UNION ALL
-  SELECT e.id, e.name, e.manager_id, o.lvl + 1
-  FROM employees e JOIN org o ON e.manager_id = o.id
-  WHERE o.lvl < 10        -- safety guard
-)
-SELECT * FROM org;
+SELECT month, revenue,
+  revenue - LAG(revenue) OVER (ORDER BY month) AS diff
+FROM monthly_sales;
 \`\`\`
 
-## JSON operations — semi-structured at scale
+## 5. ⚠️ Bẫy thường gặp
 
-Every modern database supports a JSON type: Postgres has \`JSON\` and the indexable \`JSONB\`; MySQL has \`JSON\`; Snowflake has \`VARIANT\`; BigQuery has \`JSON\`. The operators differ slightly but the ideas are universal.
+> ⚠️ **Cảnh báo:** \`RANK()\` và \`DENSE_RANK()\` xử lý "đồng hạng" khác \`ROW_NUMBER()\`. Cần top-N không trùng → \`ROW_NUMBER\`.
 
-| Operation | Postgres JSONB | Snowflake | BigQuery |
-|---|---|---|---|
-| Get field | \`data->'name'\` | \`data:name\` | \`JSON_VALUE(data, '$.name')\` |
-| Get text | \`data->>'name'\` | \`data:name::string\` | same |
-| Path navigate | \`data#>'{a,b,c}'\` | \`data:a.b.c\` | \`JSON_QUERY(...)\` |
-| Contains | \`data @> '{"x":1}'\` | \`data:x = 1\` | \`JSON_VALUE(...) = "1"\` |
-| Index | GIN | Auto (micro-partitions) | Auto |
+## 6. ✅ Best practice
 
-Postgres example:
+> 💡 **Mẹo của thầy Hải:** Dùng CTE (\`WITH\`) chia query thành nhiều bước rõ ràng, dễ debug, dễ tái sử dụng.
 
-\`\`\`sql
-SELECT
-  id,
-  data->>'name' AS name,
-  (data->'address'->>'city') AS city
-FROM customers
-WHERE data @> '{"plan":"pro"}';
+## 7. 🤔 Khi nào dùng
 
-CREATE INDEX idx_cust_jsonb ON customers USING GIN (data jsonb_path_ops);
-\`\`\`
+- ✅ BI dashboard nâng cao, phân tích cohort.
+- ❌ Query đơn giản — đừng quá engineer.
 
-The GIN index transforms "find all rows where data contains \`{plan:pro}\`" from a full scan into a millisecond lookup.
+## 8. 📌 Tóm tắt 30 giây
 
-## PIVOT — rows into columns
-
-Reports often want this layout:
-
-\`\`\`
-region | jan | feb | mar | apr
-EU     | 100 | 120 | 130 | 140
-US     | 200 | 210 | 220 | 230
-\`\`\`
-
-But the source is rows: \`(region, month, revenue)\`. Two ways to pivot:
-
-**1. Conditional aggregation (works everywhere):**
-
-\`\`\`sql
-SELECT region,
-  SUM(CASE WHEN month = 1 THEN revenue END) AS jan,
-  SUM(CASE WHEN month = 2 THEN revenue END) AS feb,
-  SUM(CASE WHEN month = 3 THEN revenue END) AS mar
-FROM monthly_revenue
-GROUP BY region;
-\`\`\`
-
-**2. Native PIVOT (SQL Server, Snowflake, Oracle):**
-
-\`\`\`sql
-SELECT *
-FROM monthly_revenue
-PIVOT (SUM(revenue) FOR month IN (1 AS jan, 2 AS feb, 3 AS mar)) AS p;
-\`\`\`
-
-The conditional-aggregation form is more portable and more flexible (supports multiple aggregates per pivot column).
-
-**UNPIVOT** is the inverse — turn columns back into rows. Useful when a source table has \`(name, q1, q2, q3, q4)\` and you want \`(name, quarter, value)\`.
-
-## Comparison — which advanced tool, when
-
-| Problem | Tool |
-|---|---|
-| Walk a parent-child hierarchy | Recursive CTE |
-| Generate a sequence (dates, numbers) | Recursive CTE or \`generate_series\` |
-| Query semi-structured webhook payloads | JSON operators + GIN index |
-| Schema-on-read for early experimentation | JSON column |
-| Dashboard layout: months → columns | PIVOT (conditional aggregation) |
-| Long-form data for ML/Tableau | UNPIVOT / UNION ALL |
-
-## Case study — webhooks at Stripe-scale
-
-Many companies store inbound webhook payloads in a single JSONB column and selectively extract structured columns later. A real e-commerce stored \`stripe_event(id, type, payload JSONB, received_at)\` for *all* incoming events. With a GIN index on \`payload\` they could answer ad-hoc questions like "which events from customer X had a refund > $100" in milliseconds — without ever changing the schema. Three years in, they extracted only the 6 most-queried fields into proper columns. The hybrid pattern is now standard for event-driven systems.
-
-## Case study — the recursive CTE that saved a 1990s ETL
-
-A logistics company had an ancient COBOL ETL that walked a 7-level deep package-routing hierarchy in nightly batch — 6 hours of runtime. Replaced by a single recursive CTE in Postgres: 14 minutes. The team retired 8,000 lines of COBOL with 30 lines of SQL and went home early on a Friday for the first time in a decade.
-
-## Best practices
-
-- **Always cap recursive CTE depth** with a level column + WHERE clause.
-- **Use JSONB (Postgres) over JSON** unless you specifically need to preserve key order/whitespace.
-- **Add a GIN index on JSONB** columns you'll filter on.
-- **Extract hot fields into real columns** once they stabilize (hybrid schema).
-- **Conditional aggregation > native PIVOT** for portability.
-- **For UNPIVOT, prefer \`UNION ALL\`** in any engine that doesn't support it natively.
-- **Limit JSON depth** — schemas more than 4 levels deep are usually a modeling smell.
-
-## Anti-patterns & where to go next
-
-Avoid: recursive CTEs without termination guards (infinite loops + temp-disk explosion); storing structured, queryable fields inside JSON forever (extract them); native PIVOT in cross-engine codebases (portability nightmare); querying JSON without an index (full scans every time).
-
-Where to go next: this concludes the SQL track. From here, the next layer is **dbt** (modular SQL transformation), **query engines** (Trino, DuckDB), and **data modeling** at warehouse scale (which we covered in the Data Engineering track). The patterns you've learned here are exactly the language those higher-level tools speak — every dbt model, every Trino query, every warehouse view is built on the same SELECT + JOIN + CTE + window foundation.`,
+Top-N: \`ROW_NUMBER\`. So sánh: \`LAG/LEAD\`. Pivot: \`CASE WHEN\`. Gap-island: \`DATE - ROW_NUMBER\`. CTE để code rõ ràng.
+`,
         theoryEn: `Three patterns appear in every advanced SQL interview: **recursive CTEs, JSON operations, PIVOT**.
 
 ## Why this matters
