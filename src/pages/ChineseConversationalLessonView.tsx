@@ -180,28 +180,22 @@ const ChineseConversationalLessonView = () => {
                       {/* Sample dialogue — chat bubble style */}
                       <div className="space-y-4">
                         {situation.sampleDialogue.map((line, i) => {
-                          const isUser = line.speaker === "You";
-                          const speakerColors: Record<string, string> = {
-                            "A": "bg-gradient-to-br from-blue-500 to-blue-600 text-white",
-                            "B": "bg-gradient-to-br from-emerald-500 to-teal-600 text-white",
-                            "You": "bg-gradient-to-br from-red-500 to-orange-500 text-white",
-                          };
-                          const bubbleColor = speakerColors[line.speaker] || "bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 text-foreground";
-                          const labelColors: Record<string, string> = {
-                            "A": "bg-blue-600 text-white",
-                            "B": "bg-emerald-600 text-white",
-                            "You": "bg-red-600 text-white",
-                          };
-                          const labelColor = labelColors[line.speaker] || "bg-muted-foreground text-white";
+                          // Alternate sides: even index = left, odd = right (zig-zag for readability)
+                          const isRight = i % 2 === 1;
+                          const palette = [
+                            { bubble: "bg-gradient-to-br from-blue-500 to-blue-600 text-white", label: "bg-blue-600 text-white" },
+                            { bubble: "bg-gradient-to-br from-emerald-500 to-teal-600 text-white", label: "bg-emerald-600 text-white" },
+                          ];
+                          const { bubble: bubbleColor, label: labelColor } = palette[i % 2];
 
                           return (
-                            <div key={i} className={`flex gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
+                            <div key={i} className={`flex gap-3 ${isRight ? "flex-row-reverse" : ""}`}>
                               {/* Avatar circle */}
                               <div className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold ${labelColor}`}>
                                 {line.speaker.charAt(0)}
                               </div>
                               {/* Bubble */}
-                              <div className={`max-w-[80%] px-4 py-3 rounded-2xl shadow-sm ${isUser ? "rounded-tr-sm" : "rounded-tl-sm"} ${bubbleColor}`}>
+                              <div className={`max-w-[80%] px-4 py-3 rounded-2xl shadow-sm ${isRight ? "rounded-tr-sm" : "rounded-tl-sm"} ${bubbleColor}`}>
                                 <p className="text-xs font-bold opacity-80 mb-1">{line.speaker}</p>
                                 <p className="text-lg font-bold leading-relaxed">{line.line}</p>
                                 <p className="text-sm opacity-80 mt-1 italic">{line.pinyin}</p>
