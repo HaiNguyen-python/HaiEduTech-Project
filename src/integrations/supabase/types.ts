@@ -791,6 +791,45 @@ export type Database = {
         }
         Relationships: []
       }
+      student_documents: {
+        Row: {
+          category: string
+          created_at: string
+          display_name: string
+          id: string
+          mime_type: string | null
+          size_bytes: number
+          status: string
+          storage_path: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          display_name: string
+          id?: string
+          mime_type?: string | null
+          size_bytes?: number
+          status?: string
+          storage_path: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          mime_type?: string | null
+          size_bytes?: number
+          status?: string
+          storage_path?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       student_notebooks: {
         Row: {
           content: string
