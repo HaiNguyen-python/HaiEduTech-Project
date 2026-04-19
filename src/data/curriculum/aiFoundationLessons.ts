@@ -15,83 +15,72 @@ export const aiFoundationModules: ExtendedProgrammingModule[] = [
       {
         id: "ai-hist-1", title: "Từ Turing đến Deep Learning", titleEn: "From Turing to Deep Learning",
         level: 1, difficulty: "beginner",
-        theory: `Bạn có thể hỏi: *"Tôi muốn học AI làm chatbot, sao phải học lịch sử?"* — Vì lịch sử AI là **70 năm thử–thất bại–làm lại**. Hiểu vì sao những cách trước thất bại sẽ giúp bạn tránh lặp lại sai lầm và biết tại sao cách hôm nay (deep learning + dữ liệu lớn + GPU) lại ăn — chứ không phải vì *"đó là AI"*.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## 1. 🚦 Tóm tắt 70 năm trong 1 câu
+70 năm trước, "AI" còn là chuyện viễn tưởng — nay điện thoại trong túi bạn dịch tiếng Việt-Anh, gợi ý đường, vẽ tranh trong 3 giây. Hành trình đó không phải "đùng cái có" — mà là chuỗi 70 năm "winter" + "spring" với những bước nhảy thay đổi thế giới. Hiểu lịch sử AI giúp bạn đoán được bước tiếp theo.
 
-> *AI mất 60 năm để chứng minh: "học từ dữ liệu" thắng "viết luật bằng tay".*
+## 2. 💡 Cột mốc cốt lõi
 
-Mỗi lần ai đó nói *"AGI sẽ có trong 5 năm"*, hãy nhớ Herbert Simon đã nói y câu đó năm **1956**.
+| Năm | Sự kiện | Ý nghĩa |
+|---|---|---|
+| 1950 | **Turing Test** | "Máy có suy nghĩ?" — đặt câu hỏi nền tảng |
+| 1956 | **Dartmouth Conference** | Thuật ngữ "Artificial Intelligence" ra đời |
+| 1958 | **Perceptron** (Rosenblatt) | Neural net đầu tiên |
+| 1969-80 | **AI Winter 1** | Perceptron bị chứng minh không học XOR |
+| 1986 | **Backpropagation** (Rumelhart) | Cứu neural net |
+| 1997 | **Deep Blue thắng Kasparov** | AI thắng cờ vua |
+| 2012 | **AlexNet** (ImageNet) | Deep Learning bùng nổ |
+| 2017 | **Transformer** ("Attention is all you need") | Nền móng GPT/BERT |
+| 2020 | **GPT-3** (175B params) | LLM đại chúng |
+| 2022 | **ChatGPT** | AI vào mọi nhà |
+| 2024+ | **Multimodal + Agents** | AI hành động, không chỉ nói |
 
-## 2. 🌱 Khởi đầu (1943–1956) — "Máy có thể nghĩ?"
+## 3. 🧰 Ba làn sóng
 
-| Năm | Sự kiện | Vì sao quan trọng |
-|-----|---------|-------------------|
-| 1943 | McCulloch & Pitts mô phỏng neuron bằng toán | Lần đầu chứng minh: bộ não *có thể* mô tả bằng công thức |
-| 1950 | Alan Turing đặt câu hỏi *"Máy có nghĩ được không?"* — **Turing Test** | Định nghĩa "thông minh" = đánh lừa được người qua hội thoại |
-| 1956 | Hội nghị **Dartmouth** đặt tên "Artificial Intelligence" | Khai sinh AI thành ngành học |
+1. **Symbolic AI** (1950-80): viết tay luật if-then. Mạnh logic, dở perception.
+2. **Machine Learning** (1990-2010): học từ data, cần feature engineering.
+3. **Deep Learning** (2012-nay): tự học feature qua nhiều lớp neural.
 
-## 3. ❄️ Mùa đông AI (1974–1993) — Vì sao AI từng "chết" 2 lần
+## 4. 🎯 Ví dụ trực quan
 
-- **Mùa đông 1 (1974–1980)**: Báo cáo Lighthill ở Anh kết luận "AI không đạt mục tiêu" → DARPA cắt ngân sách.
-- **Bùng nổ Expert Systems (1980–1987)**: Hệ thống chuyên gia kiểu *"nếu sốt > 38 thì uống thuốc X"* — công ty đổ hàng tỷ USD.
-- **Mùa đông 2 (1987–1993)**: Expert system quá đắt để bảo trì, không scale → thị trường sụp.
+\\\`\\\`\\\`python
+# Symbolic: "Nếu nhiệt độ > 38 → sốt"
+def is_fever(t): return t > 38
 
-**4 nguyên nhân lặp đi lặp lại:**
-1. Hứa nhiều, làm ít.
-2. Máy tính thời đó quá yếu.
-3. Không đủ dữ liệu để học.
-4. Giới hạn lý thuyết (perceptron không giải nổi XOR).
+# ML: học từ data
+from sklearn.tree import DecisionTreeClassifier
+clf = DecisionTreeClassifier().fit(X, y)
 
-> 💡 **Bài học cho hôm nay:** Mỗi đợt "AI hot" đều theo chu kỳ này — học bài lịch sử để tỉnh táo trước hype.
+# Deep Learning: nhiều lớp tự học feature
+import torch.nn as nn
+model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,1))
+\\\`\\\`\\\`
 
-## 4. 🧠 Phục hưng Neural Network (1986–2010)
+## 5. ⚠️ Hiểu nhầm thường gặp
 
-| Năm | Sự kiện | Tác động |
-|-----|---------|----------|
-| 1986 | Hinton & cộng sự công bố **Backpropagation** | Lần đầu mạng nơ-ron sâu *huấn luyện được* |
-| 1997 | **Deep Blue** thắng Kasparov cờ vua | AI làm được "trí tuệ" trong môi trường khép kín |
-| 1998 | **LeNet-5** của Yann LeCun nhận diện chữ số | CNN — tiền thân xử lý ảnh hiện đại |
-| 2006 | Hinton đặt thuật ngữ **"Deep Learning"** | Tên gọi của làn sóng tiếp theo |
+> ⚠️ **Cảnh báo:**
+> - "AI = Deep Learning" — sai. DL là 1 nhánh, ML rộng hơn, AI rộng hơn nữa.
+> - "ChatGPT là AI thông minh thật" — nó là LLM dự đoán token, không có ý thức.
+> - "AI Winter sẽ không quay lại" — chưa chắc; mỗi lần kỳ vọng vượt thực tế là 1 winter.
+> - "GPU là lý do duy nhất AI bùng nổ" — thật ra là **GPU + Big Data + Backprop + Transformer + Internet**, đủ 5 yếu tố.
 
-## 5. 🚀 Cách mạng Deep Learning (2012 – nay)
+## 6. ✅ Best practice của thầy Hải
 
-**2012** là điểm bùng nổ. **AlexNet** thắng ImageNet với cách biệt khổng lồ. *Vì sao 2012 mà không phải 1995?* — 3 yếu tố cùng lúc:
+> 💡 **Mẹo:**
+> - Học AI nên đi theo **trình tự lịch sử**: Perceptron → MLP → CNN → RNN → Transformer. Mỗi bước trả lời 1 câu "tại sao cần cái sau?".
+> - Đọc lại bài báo gốc ngắn (Turing 1950, Attention is all you need 2017) — nhiều thuật ngữ ngày nay vẫn từ đó.
+> - Theo dõi 2 nguồn: **arXiv sanity** (paper mới), **Papers with Code** (paper + repo).
 
-1. **Dữ liệu lớn** (ImageNet: 14 triệu ảnh được gắn nhãn).
-2. **GPU rẻ** (NVIDIA dùng cho game, hoá ra hợp với neural network).
-3. **Thuật toán đủ tốt** (ReLU, dropout, backprop).
+## 7. 🤔 Áp dụng
 
-Sau đó:
-- **2014** — GANs (sinh ảnh giả như thật).
-- **2016** — **AlphaGo** thắng Lee Sedol môn cờ vây.
-- **2017** — Google công bố **Transformer** (paper *"Attention Is All You Need"*).
-- **2020** — GPT-3 (175B tham số).
-- **2022** — **ChatGPT** ra mắt → AI vào nhà mọi người.
-- **2023–2024** — GPT-4, Claude 3, Gemini, Llama 3 — multimodal, agent, code.
+Khi đọc 1 paper/sản phẩm mới, hỏi:
+1. Đây thuộc làn sóng nào? (symbolic / ML / DL)
+2. Vấn đề "winter" trước đây nó giải quyết là gì?
+3. Có rủi ro hype lần này không?
 
-## 6. 🇻🇳 AI tại Việt Nam — bạn đang ở đâu?
+## 8. 📌 Tóm tắt 30 giây
 
-| Năm | Sự kiện |
-|-----|---------|
-| 2018 | VinAI Research thành lập, hút PhD từ DeepMind / Google Brain |
-| 2020 | Zalo AI mở nhiều API tiếng Việt (TTS, OCR, NER) |
-| 2023 | VinFast triển khai AI nhận diện hành vi lái xe |
-| 2024 | FPT, Viettel mở AI Studio cho doanh nghiệp |
-
-## 7. ⚠️ Bẫy & 🎯 Best practice
-
-> ⚠️ **Cảnh báo:** Đừng tin "AGI 5 năm nữa" hay "AI sắp thất nghiệp tất cả". 70 năm lịch sử cho thấy: tiến bộ thực sự **không tuyến tính** — mỗi 10–20 năm có 1 đợt bùng nổ + 1 đợt mùa đông.
-
-> 💡 **Best practice của thầy Hải:** Học **fundamentals** (toán, ML, deep learning) — chúng sống cả 30 năm. Học **framework** (PyTorch, TensorFlow) — sống 5–10 năm. Học **prompt cho 1 model cụ thể** — sống 6 tháng. Phân bổ thời gian theo tỷ lệ này.
-
-## 8. ✅ Tóm tắt 30 giây
-
-- AI = **70 năm thử–thất bại–làm lại** → "học từ dữ liệu" cuối cùng thắng "viết luật".
-- **2 mùa đông AI** dạy ta: hype không = năng lực thực.
-- **2012** là điểm bùng nổ nhờ data + GPU + thuật toán đồng quy.
-- **2022 (ChatGPT)** đưa AI vào nhà mọi người.
-- Học fundamentals trước, framework sau, prompt cuối.
+AI 70 năm = 3 làn sóng (symbolic → ML → DL), 2 mùa đông và nhiều bước nhảy: Perceptron, Backprop, AlexNet, Transformer, ChatGPT. Hiểu lịch sử = đoán được tương lai và tránh hype.
 `,
         theoryEn: `**History of Artificial Intelligence — A Comprehensive Overview**
 
@@ -194,93 +183,81 @@ print(f"\\n📊 {len(timeline)} milestones spanning {timeline[-1][0] - timeline[
       {
         id: "ai-nn-1", title: "Perceptron & Forward Pass", titleEn: "Perceptron & Forward Pass",
         level: 2, difficulty: "beginner",
-        theory: `Khi bạn dạy em bé phân biệt mèo và chó, bé không cần học định nghĩa sinh học. Bé **xem nhiều ví dụ**, sai thì bị sửa, dần dần đoán đúng. Đó chính xác là cách **neural network** học. Hôm nay thầy sẽ "mổ xẻ" 1 con neuron — viên gạch nhỏ nhất tạo nên ChatGPT.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## 1. 🚦 Vấn đề đời thường
+Bạn quyết định **đi xem phim hay không** dựa trên 3 yếu tố: phim hay (8/10), giá vé (rẻ hay không), bạn rủ (có hay không). Não bạn cân từng yếu tố theo "trọng số" — phim hay quan trọng nhất, sau đó bạn rủ, cuối cùng là giá. Cộng lại > ngưỡng → đi.
 
-Bạn muốn máy tự động: nhận diện mèo trong ảnh, dịch tiếng Anh sang tiếng Việt, dự đoán giá nhà. Cách "code thẳng" (if/else) **không thể** vì có hàng triệu ngoại lệ.
+Đó **chính xác** là một **Perceptron**: input × weight + bias → activation → output.
 
-→ Cần thứ **tự học pattern** từ dữ liệu. Đó là neural network.
+## 2. 💡 Khái niệm chính
 
-## 2. 💡 Perceptron — Viên gạch nhỏ nhất
+- **Perceptron** = neural unit nhỏ nhất: $y = f(w_1 x_1 + w_2 x_2 + ... + b)$
+- **Weight (w)**: tầm quan trọng của input.
+- **Bias (b)**: ngưỡng "nỗ lực tối thiểu" để kích hoạt.
+- **Activation (f)**: hàm bẻ cong tuyến tính → phi tuyến (sigmoid, ReLU).
+- **Forward pass**: tính output từ input qua nhiều lớp.
 
-**Perceptron** là neuron đơn giản nhất, hoạt động qua **4 bước** giống như một cuộc bỏ phiếu:
-
-1. **Nhận input** (x₁, x₂, …, xₙ) — các đặc trưng dữ liệu (tuổi, lương, học vấn…).
-2. **Nhân với trọng số** (w₁, w₂, …, wₙ) — quyết định mỗi đặc trưng quan trọng cỡ nào.
-3. **Cộng bias** (b) — dịch chuyển ranh giới quyết định.
-4. **Áp dụng activation function** — quyết định "passed" hay "failed".
-
-**Công thức**: \\\`output = activation(Σ(xᵢ × wᵢ) + b)\\\`
-
-**Liên tưởng:** Như hội đồng tuyển sinh — mỗi giáo viên (input) cho điểm với trọng số khác nhau, tổng điểm vượt ngưỡng → đậu.
-
-## 3. 🏗️ Multi-Layer Network (MLP) — Xếp tầng neuron
-
-Mạng nơ-ron thực tế xếp **nhiều layer** chồng lên nhau:
-
-- **Input Layer** — nhận data thô (pixel, đặc trưng).
-- **Hidden Layer(s)** — chiết xuất đặc trưng ngày càng trừu tượng.
-- **Output Layer** — đưa ra dự đoán cuối cùng.
-
-**Vì sao cần nhiều layer?**
-1 perceptron chỉ học được **đường thẳng** (linear). Nhiều layer học được **đường cong, hình dạng, khái niệm trừu tượng**.
-
-> 💡 **Universal Approximation Theorem:** mạng nơ-ron có ít nhất 1 hidden layer + đủ neuron có thể xấp xỉ **bất kỳ hàm liên tục nào**. Đó là lý do neural network mạnh đến vậy.
-
-## 4. ➡️ Forward Propagation — Data chảy xuyên mạng
+## 3. 🧰 Cấu trúc tối thiểu
 
 \\\`\\\`\\\`
-Input → Layer 1 → Activation → Layer 2 → Activation → … → Output
+Input layer  →  Hidden layer(s)  →  Output layer
+   x1,x2,x3       w·x + b → ReLU       softmax/sigmoid
 \\\`\\\`\\\`
 
-Tại mỗi layer:
-1. Tính \\\`z = W·x + b\\\` (linear transform).
-2. Áp activation \\\`a = σ(z)\\\` (phi tuyến).
-3. \\\`a\\\` trở thành input cho layer kế.
+## 4. 🎯 Ví dụ chạy được ngay
 
-→ Cuối cùng ra **prediction**, đem so với target để tính loss.
+\\\`\\\`\\\`python
+import numpy as np
 
-## 5. 🎨 Trực quan với 1 ví dụ
+def sigmoid(z): return 1 / (1 + np.exp(-z))
 
-Phân loại ảnh chó/mèo 28×28 = 784 pixel:
+# Perceptron 1 đơn vị: dự đoán "đi xem phim"
+x = np.array([0.8, 0.0, 1.0])         # phim hay, vé đắt, có bạn rủ
+w = np.array([0.6, -0.4, 0.5])        # trọng số học được
+b = -0.3
 
-\\\`\\\`\\\`
-Input: 784 pixels
-   ↓
-Hidden 1 (128 neuron, ReLU): học cạnh, góc
-   ↓
-Hidden 2 (64 neuron, ReLU): học mắt, tai, mũi
-   ↓
-Output (1 neuron, Sigmoid): xác suất là chó
+z = np.dot(w, x) + b                  # 0.48 + 0 + 0.5 - 0.3 = 0.68
+y = sigmoid(z)                        # 0.664 → đi (>0.5)
+print(f"P(đi xem phim) = {y:.3f}")
 \\\`\\\`\\\`
 
-Layer càng sâu, đặc trưng càng **trừu tượng** — đó là điều kỳ diệu của deep learning.
+\\\`\\\`\\\`python
+# Multi-layer Perceptron với PyTorch (forward pass)
+import torch.nn as nn, torch
+mlp = nn.Sequential(
+    nn.Linear(3, 8), nn.ReLU(),
+    nn.Linear(8, 1), nn.Sigmoid()
+)
+print(mlp(torch.tensor([[0.8, 0.0, 1.0]])))
+\\\`\\\`\\\`
 
-## 6. ⚠️ Bẫy thường gặp
+## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** Bẫy số 1: **xếp toàn linear layer mà không có activation phi tuyến**. Khi đó dù 100 layer, mạng vẫn tương đương 1 layer linear duy nhất — vô dụng. **Activation phi tuyến (ReLU, sigmoid…) là LINH HỒN của deep learning.**
+> ⚠️ **Cảnh báo:**
+> - **Không có activation phi tuyến** → dù bao nhiêu lớp cũng = 1 lớp tuyến tính (vô dụng).
+> - **Không scale input** (giá nhà 1 tỷ vs số phòng 3) → gradient nổ hoặc chết.
+> - **Bias = 0 và init random** → mọi neuron học giống nhau (symmetry breaking fail).
+> - **Quên softmax/sigmoid ở output** → loss tính sai.
 
-Bẫy khác:
-- **Quá nhiều neuron + ít data** → overfit, học vẹt.
-- **Không scale input** (pixel 0–255 trộn với lương 0–100M) → mạng học kém.
-- **Khởi tạo weight = 0** → mọi neuron học y nhau, mạng không phá đối xứng được.
+## 6. ✅ Best practice của thầy Hải
 
-## 7. 🎯 Best practice của thầy Hải
+> 💡 **Mẹo:**
+> - Vẽ kiến trúc trước khi code: input shape → các lớp → output shape.
+> - **He init** cho ReLU, **Xavier init** cho sigmoid/tanh.
+> - Bắt đầu **MLP nhỏ** (1-2 hidden layer, 32-128 neuron) — đừng chồng 10 lớp ngay.
+> - Khi forward pass ra NaN: kiểm tra learning rate quá cao, input chưa scale, hoặc log(0).
 
-1. Bắt đầu với mạng **2–3 hidden layer** + **ReLU**, scale input về [0,1] hoặc chuẩn hoá z-score.
-2. **Khởi tạo Xavier/He** thay vì zero.
-3. Số neuron mỗi hidden layer: **2× input** rồi giảm dần (kiểu pyramid).
-4. Luôn **chia train/val/test** trước khi bắt đầu — đừng tin "loss train thấp" là model giỏi.
-5. Lúc nghi ngờ — vẽ **loss curve** train vs val. Mọi câu trả lời nằm ở 2 đường này.
+## 7. 🤔 Khi nào dùng MLP
 
-## 8. ✅ Tóm tắt 30 giây
+| Hợp | Không hợp (dùng kiến trúc khác) |
+|---|---|
+| Tabular structured data | Ảnh → CNN |
+| Embedding đã có | Chuỗi/text → RNN/Transformer |
+| Baseline nhanh | Graph → GNN |
 
-- **Perceptron** = neuron đơn = bỏ phiếu có trọng số + activation.
-- **MLP** = xếp tầng → học được mọi pattern (Universal Approximation).
-- **Forward pass** = data chảy từ input → output.
-- **Activation phi tuyến** = linh hồn — không có nó, mạng vô dụng.
-- Best practice: ReLU + scale input + Xavier init + train/val/test split.
+## 8. 📌 Tóm tắt 30 giây
+
+Perceptron = "cân nhắc theo trọng số": $y = f(\\\\sum w_i x_i + b)$. Nhiều perceptron xếp lớp = MLP. Phải có activation phi tuyến, phải scale input, phải init đúng. Đây là viên gạch đầu tiên của mọi kiến trúc neural net khác.
 `,
         theoryEn: `**Neural Networks — The Foundation of Modern AI**
 
@@ -383,159 +360,68 @@ print(f"\\n🧠 Network output: {result:.4f}")`,
       {
         id: "ai-act-1", title: "Các hàm kích hoạt", titleEn: "Activation Functions Deep Dive",
         level: 2, difficulty: "intermediate",
-        theory: `**Activation Functions — Adding Non-Linearity to Neural Networks**
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Without activation functions, a neural network would just be a series of linear transformations — essentially a fancy linear regression. Activation functions introduce **non-linearity**, allowing networks to learn complex patterns.
+Bạn vào phòng tối, công tắc đèn có 2 trạng thái: **bật** hoặc **tắt**. Nhưng đèn dimmer thì có "mờ → sáng dần → chói loà" — uyển chuyển hơn. Trong neural net, **activation function** chính là công tắc / dimmer quyết định "neuron này có cháy không và cháy mạnh thế nào".
 
----
+Không có activation phi tuyến, neural net dù 100 lớp cũng chỉ bằng 1 phép cộng tuyến tính — vô dụng.
 
-**📐 Sigmoid (Logistic Function)**
+## 2. 💡 Khái niệm chính
 
-\`σ(x) = 1 / (1 + e⁻ˣ)\`
+| Hàm | Công thức | Output | Vai trò |
+|---|---|---|---|
+| **Sigmoid** | $1/(1+e^{-x})$ | (0,1) | Output xác suất nhị phân |
+| **Tanh** | $(e^x-e^{-x})/(e^x+e^{-x})$ | (-1,1) | Sigmoid xoay tâm về 0 |
+| **ReLU** | $\\\\max(0,x)$ | $[0,\\\\infty)$ | **Mặc định cho hidden** |
+| **Leaky ReLU** | $\\\\max(0.01x, x)$ | $\\\\mathbb{R}$ | Tránh "dying ReLU" |
+| **GELU** | $x \\\\cdot \\\\Phi(x)$ | $\\\\mathbb{R}$ | Transformer/GPT |
+| **Softmax** | $e^{x_i}/\\\\sum e^{x_j}$ | (0,1), tổng=1 | Output phân loại nhiều lớp |
 
-- **Output range:** [0, 1]
-- **Shape:** Smooth S-curve
-- **Use case:** Binary classification output layer, gates in LSTM
-- **Pros:** Output interpretable as probability
-- **Cons:** 
-  - **Vanishing gradient:** For very large/small x, gradient ≈ 0 → deep layers stop learning
-  - **Not zero-centered:** Outputs are always positive, causing zig-zag gradient updates
-  - **Computationally expensive:** Involves exponentiation
+## 3. 🧰 Khi nào dùng cái nào
 
----
+- **Hidden layer**: ReLU (default) → GELU (transformer) → Leaky ReLU (nếu thấy nhiều neuron chết).
+- **Output binary**: Sigmoid.
+- **Output multi-class**: Softmax.
+- **Output regression**: Không activation (linear).
 
-**📊 Tanh (Hyperbolic Tangent)**
+## 4. 🎯 Ví dụ chạy được ngay
 
-\`tanh(x) = (eˣ - e⁻ˣ) / (eˣ + e⁻ˣ)\`
+\\\`\\\`\\\`python
+import torch, torch.nn as nn
+x = torch.tensor([-2., -0.5, 0., 1., 3.])
 
-- **Output range:** [-1, 1]
-- **Advantage over Sigmoid:** Zero-centered → smoother gradient updates
-- **Use case:** RNNs, hidden layers in older architectures
-- **Cons:** Still suffers from vanishing gradient
+print("ReLU   :", torch.relu(x))           # [0, 0, 0, 1, 3]
+print("Leaky  :", nn.LeakyReLU(0.01)(x))   # [-0.02, -0.005, 0, 1, 3]
+print("Sigmoid:", torch.sigmoid(x))        # (0,1)
+print("Tanh   :", torch.tanh(x))           # (-1,1)
+print("Softmax:", torch.softmax(x, dim=0)) # tổng = 1
+\\\`\\\`\\\`
 
----
+## 5. ⚠️ Bẫy thường gặp
 
-**⚡ ReLU (Rectified Linear Unit)**
+> ⚠️ **Cảnh báo:**
+> - **Sigmoid trong hidden layer sâu** → vanishing gradient (đạo hàm tối đa 0.25, nhân nhau qua nhiều lớp → ~0).
+> - **Dying ReLU**: với learning rate cao, neuron có thể "chết" — output luôn 0 mãi mãi.
+> - **Quên softmax + dùng CrossEntropyLoss**: PyTorch \`nn.CrossEntropyLoss\` đã tích hợp softmax — đừng softmax 2 lần.
+> - **Tanh chưa chuẩn hoá input**: dễ bão hoà ở -1 hoặc 1 → gradient ~0.
 
-\`ReLU(x) = max(0, x)\`
+## 6. ✅ Best practice của thầy Hải
 
-- **Output range:** [0, ∞)
-- **The most popular activation function today**
-- **Pros:**
-  - Extremely fast to compute (just a comparison)
-  - No vanishing gradient for positive values
-  - Promotes sparse activations (many neurons output 0)
-- **Cons:**
-  - **Dying ReLU problem:** Neurons that output 0 for all inputs stop learning permanently
-  - Not zero-centered
+> 💡 **Mẹo:**
+> - **Mặc định ReLU**, đổi GELU nếu làm transformer, Leaky/PReLU nếu thấy nhiều neuron chết.
+> - **Sigmoid/Tanh chỉ dùng ở output layer** (binary / bounded regression).
+> - Theo dõi **% neuron có activation = 0** — > 50% là dấu hiệu dying ReLU.
+> - **He init** cho ReLU/Leaky, **Xavier init** cho sigmoid/tanh.
+> - Đừng đổi activation lung tung khi loss không giảm — kiểm tra learning rate, init, data trước.
 
----
+## 7. 🤔 So sánh tốc độ
 
-**🔧 Leaky ReLU & Variants**
+ReLU > Leaky > GELU > Tanh > Sigmoid (về tốc độ tính + gradient ổn định).
 
-\`LeakyReLU(x) = max(αx, x)\` where α = 0.01
+## 8. 📌 Tóm tắt 30 giây
 
-- Fixes the dying ReLU problem by allowing small negative gradients
-- **PReLU (Parametric):** α is learned during training
-- **ELU:** Smooth version: \`α(eˣ - 1)\` for x < 0
-- **GELU:** Used in Transformers (BERT, GPT): \`x · Φ(x)\`
-- **SiLU/Swish:** \`x · σ(x)\` — used in modern architectures
-
----
-
-**🎯 Softmax**
-
-\`Softmax(xᵢ) = eˣⁱ / Σ(eˣʲ)\`
-
-- Converts a vector of real numbers into a **probability distribution** (all values sum to 1)
-- **Use case:** Multi-class classification output layer
-- Not used in hidden layers
-
----
-
-**📋 Quick Reference — When to Use What:**
-
-| Layer Type | Recommended Activation |
-|-----------|----------------------|
-| Hidden layers (default) | ReLU |
-| Hidden layers (modern) | GELU, SiLU |
-| Binary output | Sigmoid |
-| Multi-class output | Softmax |
-| RNN hidden | Tanh |
-| GAN generator output | Tanh |
-| Regression output | None (linear) |
-
----
-
-**⚠️ Key Takeaway:** The choice of activation function significantly impacts training speed, convergence, and final performance. ReLU is the safe default for hidden layers, but modern architectures increasingly use GELU or SiLU.
-
----
-
-## 🏢 Case Study: Why GPT-2 → GPT-3 Switched to GELU
-
-**GPT-1 (2018)** used ReLU. **GPT-2 and onwards (2019+)** switched to **GELU (Gaussian Error Linear Unit)**: \`GELU(x) = x · Φ(x)\` where Φ is the cumulative normal distribution.
-
-**Why the switch?**
-- ReLU's hard cutoff at 0 creates a non-smooth function — bad for gradient-based optimization at scale
-- GELU is **smooth everywhere** AND has a probabilistic interpretation (multiply input by P(input > random Gaussian))
-- Empirically gives **~0.5-1% perplexity improvement** on language modeling — small per-parameter but huge at GPT-3 scale
-
-**Industry adoption:**
-- BERT, GPT-2/3/4, T5: GELU
-- Llama, PaLM, Gemini: SiLU/Swish (\`x · σ(x)\`) — even smoother
-- Mistral, modern Llama: SwiGLU (gated SiLU variant) — adds a multiplicative gate
-
-**Lesson:** At small scale (<1M params), activation choice barely matters. At billion-parameter scale, the right activation can save **millions of dollars in compute**.
-
----
-
-## 🏢 Case Study: Dying ReLU Disaster at Stanford (Andrej Karpathy's blog)
-
-In 2016, Karpathy reported that ~40% of ReLU neurons in his vision models were **permanently dead** (always outputting 0) due to high learning rates causing weight updates that pushed neurons into negative territory permanently.
-
-**Symptoms:**
-- Training loss plateaus mysteriously
-- Validation accuracy lower than expected
-- Gradient norm collapses for affected neurons
-
-**Fixes deployed:**
-1. Switch to **Leaky ReLU** or **ELU**
-2. Lower learning rate
-3. Better weight initialization (He init for ReLU)
-4. Add Batch Normalization
-
-This disaster is why Leaky ReLU became standard in CV pipelines from 2017 onwards.
-
----
-
-## 📋 Decision Flowchart
-
-\`\`\`
-What layer am I designing?
-├── Hidden layer in CNN?           → ReLU (or Leaky ReLU)
-├── Hidden layer in Transformer?   → GELU or SwiGLU
-├── Hidden layer in RNN?           → Tanh (cell), Sigmoid (gates)
-├── Output for binary classify?    → Sigmoid
-├── Output for multi-class?        → Softmax
-├── Output for regression?         → None (linear)
-└── GAN generator output?          → Tanh (matches [-1,1] image norm)
-\`\`\`
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Using Sigmoid in deep hidden layers — vanishing gradient guaranteed
-❌ Forgetting to apply Softmax before computing categorical cross-entropy (most frameworks combine them — applying twice = bug)
-❌ Using ReLU on the output layer when you need negative values
-❌ Mixing activations randomly across layers without justification
-❌ Ignoring the "dying ReLU" problem when training loss plateaus
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Activations let networks learn non-linear patterns. But how do we measure "wrong" so the network knows what to fix? Next: **Loss Functions & Gradient Descent** — the mathematical engine that turns errors into learning.`,
+Activation = công tắc bật neuron, biến tuyến tính → phi tuyến. **ReLU mặc định cho hidden, Sigmoid/Softmax cho output**. Tránh sigmoid trong hidden sâu (vanishing), tránh learning rate quá cao (dying ReLU). Không có activation phi tuyến = neural net chỉ là 1 lớp.
+`,
         theoryEn: `**Activation Functions — Adding Non-Linearity to Neural Networks**
 
 Without activation functions, a neural network is just linear regression. Activation functions introduce **non-linearity**.
@@ -601,150 +487,80 @@ print(f"Sum = {softmax(logits).sum():.4f}")`,
       {
         id: "ai-loss-1", title: "Loss Functions & Gradient Descent", titleEn: "Loss Functions & Gradient Descent",
         level: 3, difficulty: "intermediate",
-        theory: `**Loss Functions & Optimization — How Neural Networks Learn**
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Training a neural network is essentially an optimization problem: find the weights that minimize the loss function. The loss function measures how "wrong" our predictions are.
+Bạn tập ném phi tiêu vào hồng tâm. Mỗi lần ném lệch, bạn **đo khoảng cách** trượt mục tiêu (loss), rồi **điều chỉnh tay** để lần sau gần hơn. Càng nhiều lần thử + điều chỉnh đúng hướng, càng gần tâm.
 
----
+Đó chính là **Loss + Gradient Descent**: đo sai số, tính hướng sửa, bước theo hướng đó — lặp lại tới khi loss đủ nhỏ.
 
-**📏 Loss Functions for Regression**
+## 2. 💡 Khái niệm chính
 
-**Mean Squared Error (MSE):**
-\`L = (1/n) × Σ(yᵢ - ŷᵢ)²\`
+- **Loss function**: con số đo "sai bao nhiêu" so với ground truth.
+- **Gradient**: đạo hàm của loss theo từng weight — chỉ "đi hướng nào loss giảm nhanh nhất".
+- **Gradient Descent**: $w \\\\leftarrow w - \\\\eta \\\\cdot \\\\nabla L$ ($\\\\eta$ = learning rate).
 
-- Penalizes large errors heavily (squared term)
-- Sensitive to outliers
-- Always non-negative, 0 = perfect prediction
+## 3. 🧰 Loss phổ biến
 
-**Mean Absolute Error (MAE):**
-\`L = (1/n) × Σ|yᵢ - ŷᵢ|\`
+| Bài toán | Loss | Lý do |
+|---|---|---|
+| Regression | **MSE** $(y-\\\\hat y)^2$ | Phạt sai lớn nặng |
+| Regression có outlier | **MAE / Huber** | Bớt nhạy outlier |
+| Binary | **BCE** | Khớp với sigmoid |
+| Multi-class | **CrossEntropy** | Khớp với softmax |
+| Imbalanced | **Focal Loss** | Tập trung sample khó |
 
-- More robust to outliers than MSE
-- Gradient is constant (doesn't decrease near minimum)
+## 4. 🎯 Ví dụ chạy được ngay
 
-**Huber Loss:** Combines MSE (near 0) and MAE (far from 0) — best of both worlds.
+\\\`\\\`\\\`python
+import torch, torch.nn as nn
+x = torch.tensor([1., 2., 3., 4.])
+y = torch.tensor([2., 4., 6., 8.])              # y = 2x
 
----
+w = torch.tensor([0.5], requires_grad=True)
+optim = torch.optim.SGD([w], lr=0.05)
+loss_fn = nn.MSELoss()
 
-**📊 Loss Functions for Classification**
+for step in range(50):
+    y_hat = w * x
+    loss = loss_fn(y_hat, y)
+    optim.zero_grad()
+    loss.backward()                              # tính gradient
+    optim.step()                                 # cập nhật w
+print(f"w = {w.item():.4f}")                     # ~ 2.0
+\\\`\\\`\\\`
 
-**Binary Cross-Entropy (Log Loss):**
-\`L = -[y·log(ŷ) + (1-y)·log(1-ŷ)]\`
+## 5. ⚠️ Bẫy thường gặp
 
-- For binary classification (0 or 1)
-- Heavily penalizes confident wrong predictions
-- Example: If true label is 1 and model predicts 0.01, loss is very high (-log(0.01) ≈ 4.6)
+> ⚠️ **Cảnh báo:**
+> - **Learning rate quá cao** → loss nhảy lung tung, bay qua điểm tốt nhất.
+> - **Quá thấp** → train 10h mới giảm 1 chút.
+> - **Quên \`optim.zero_grad()\`** → gradient cộng dồn → cập nhật sai.
+> - **Loss = NaN**: thường do log(0), chia 0, lr quá cao, hoặc input chưa scale.
+> - **Chỉ nhìn train loss**: cần xem cả validation — train loss giảm mà val tăng = overfit.
 
-**Categorical Cross-Entropy:**
-\`L = -Σ yᵢ·log(ŷᵢ)\`
+## 6. ✅ Best practice của thầy Hải
 
-- For multi-class classification
-- Used with Softmax output layer
+> 💡 **Mẹo:**
+> - **Bắt đầu lr = 1e-3** (Adam) hoặc 1e-2 (SGD), rồi điều chỉnh theo loss curve.
+> - Dùng **Learning Rate Finder** (fastai, lr_finder) để tìm lr tối ưu trong 1 phút.
+> - **Optimizer**: Adam cho hầu hết bài toán; SGD + momentum cho CV cuối cùng (thường tổng quát hoá tốt hơn).
+> - **Gradient clipping** ($\\\\|g\\\\| \\\\le 1.0$) cho RNN/Transformer để tránh nổ gradient.
+> - Vẽ **loss curve** mỗi epoch — nó nói cho bạn biết mọi vấn đề.
 
-**Sparse Categorical Cross-Entropy:** Same as above but takes integer labels instead of one-hot vectors.
+## 7. 🤔 Variants của GD
 
----
+| Tên | Đặc điểm |
+|---|---|
+| Batch GD | Dùng toàn bộ data → chậm, ổn định |
+| **SGD** | 1 sample → nhanh, nhiễu |
+| **Mini-batch SGD** | Batch 32-256 → cân bằng (chuẩn ngày nay) |
+| Momentum | Có "đà" → vượt qua local minima |
+| Adam | Adaptive lr cho từng weight (default ngày nay) |
 
-**📉 Gradient Descent — The Core Optimization Algorithm**
+## 8. 📌 Tóm tắt 30 giây
 
-Gradient Descent finds the minimum of the loss function by iteratively moving in the direction of steepest descent:
-
-**Update Rule:** \`w = w - lr × ∂L/∂w\`
-
-Where:
-- \`lr\` (learning rate) controls step size
-- \`∂L/∂w\` is the gradient (slope) of loss w.r.t. weight
-
-**Analogy:** Imagine you're blindfolded on a mountain. You feel the slope under your feet and take a step downhill. Repeat until you reach the valley.
-
----
-
-**🔄 Variants of Gradient Descent:**
-
-| Variant | Batch Size | Pros | Cons |
-|---------|-----------|------|------|
-| Batch GD | All data | Stable convergence | Slow, memory-heavy |
-| SGD | 1 sample | Fast updates | Very noisy |
-| Mini-batch GD | 32-512 | Good balance | Need to tune batch size |
-
----
-
-**🚀 Advanced Optimizers:**
-
-- **Momentum:** Adds "velocity" — accelerates in consistent gradient direction
-- **RMSProp:** Adapts learning rate per parameter
-- **Adam:** Combines Momentum + RMSProp. **The most popular optimizer** — good defaults, works well for most problems
-- **AdamW:** Adam + weight decay (better regularization)
-
-**Learning Rate Scheduling:**
-- Start high, decrease over time
-- Cosine annealing, warm restarts
-- Learning rate warmup (common in Transformers)
-
----
-
-**⚠️ Common Problems:**
-
-1. **Learning rate too high:** Loss oscillates or diverges (overshooting)
-2. **Learning rate too low:** Training is extremely slow, may get stuck
-3. **Local minima:** In practice, saddle points are more problematic than local minima
-4. **Gradient explosion:** Gradients become huge → use gradient clipping
-
----
-
-## 🏢 Case Study: OpenAI's $4.6M GPT-3 Training Run
-
-GPT-3 (175B parameters) was trained for one full pass with carefully tuned optimization:
-- **Optimizer:** AdamW with β₁=0.9, β₂=0.95, ε=1e-8
-- **Learning rate:** 6e-5 with cosine decay + 375M token warmup
-- **Batch size:** 3.2M tokens (gradient accumulation across 1000s of GPUs)
-- **Loss:** Standard next-token cross-entropy
-- **Compute:** 3,640 PetaFLOP-days = ~$4.6M on V100s
-
-**Key insight:** A single mis-tuned learning rate would waste millions. OpenAI used "**learning rate sweep**" on smaller models (1.3B, 6.7B, 13B) to extrapolate the optimal LR for 175B — this scaling-law approach saved a fortune.
-
----
-
-## 🏢 Case Study: DeepMind's Chinchilla — Loss Curves Reveal "Compute-Optimal" Training
-
-In 2022, DeepMind discovered most LLMs (including GPT-3) were **dramatically under-trained**:
-- GPT-3 (175B params, 300B tokens) — trained too few tokens for its size
-- Chinchilla (70B params, 1.4T tokens) — outperformed GPT-3 with 2.5× fewer parameters
-
-**The Chinchilla scaling law:** For optimal compute use, **N (params) and D (training tokens) should scale equally** (~20 tokens per parameter).
-
-**Impact:** Llama 2 (7B params, 2T tokens), Llama 3 (70B, 15T tokens) all follow Chinchilla — not GPT-3 — scaling.
-
-**Lesson:** The right loss function + optimizer is necessary but not sufficient. **How much you train** matters as much as **what you train**.
-
----
-
-## 📋 Optimizer Selection Guide
-
-| Use Case | Optimizer | Why |
-|----------|-----------|-----|
-| Default for new projects | AdamW | Robust, good defaults, standard |
-| Computer vision (ResNet/ViT) | SGD + Momentum | Often generalizes better than Adam |
-| LLMs (>1B params) | AdamW + cosine LR | OpenAI/Anthropic/Google standard |
-| Limited compute / mobile | Adafactor | Memory-efficient (no momentum) |
-| Reinforcement Learning | Adam (β₂=0.999) | Handles sparse rewards |
-| Large batch training | LAMB / LARS | Layer-wise LR scaling |
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Using MSE for classification (gradients near saturation are tiny → slow training)
-❌ Forgetting to scale loss when using gradient accumulation (loss should be averaged, not summed)
-❌ Setting learning rate without a sweep — the "default" in tutorials may be 100× off for your problem
-❌ Ignoring loss spikes — usually signals corrupt data or numerical instability
-❌ Using vanilla SGD for Transformers (almost never works without warmup + adaptive optimizers)
-
----
-
-## 🌉 Bridge to Next Lesson
-
-You now know HOW to update weights (gradient descent) and HOW to measure error (loss functions). But how do gradients **flow backwards** through 96 layers of GPT-3? Next: **Backpropagation** — the algorithm that propagates errors backwards using the chain rule.`,
+Loss = đo sai; Gradient = chỉ hướng sửa; GD = bước theo hướng đó. Chọn loss đúng bài toán (MSE/CE/BCE), chọn lr vừa phải, dùng Adam mặc định. Luôn vẽ loss curve và theo dõi cả val loss để bắt overfit sớm.
+`,
         theoryEn: `**Loss Functions & Optimization — How Neural Networks Learn**
 
 ---
@@ -813,133 +629,76 @@ print(f"\\n✅ Converged to x ≈ {x:.6f} (optimal: 0)")`,
       {
         id: "ai-bp-1", title: "Thuật toán Backpropagation", titleEn: "Backpropagation Algorithm",
         level: 3, difficulty: "intermediate",
-        theory: `**Backpropagation — How Neural Networks Learn from Mistakes**
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Backpropagation (back-propagation of errors) is the algorithm that makes deep learning possible. It efficiently computes gradients for all weights in a network, enabling gradient descent to update them.
+Bạn nướng bánh sai vị. Bạn truy ngược: vị mặn → muối nhiều → đong sai cốc → cốc bị mẻ. Mỗi nguyên nhân **đóng góp một phần** vào kết quả sai cuối cùng.
 
----
+**Backpropagation** = truy ngược "mỗi weight đóng góp bao nhiêu vào loss" để biết phải sửa weight nào nhiều, weight nào ít.
 
-**🔗 The Chain Rule — Mathematical Foundation**
+## 2. 💡 Khái niệm chính
 
-The chain rule from calculus allows us to compute derivatives of composed functions:
+- **Forward pass**: tính output từ input qua từng lớp.
+- **Loss**: so output với ground truth.
+- **Backward pass (backprop)**: dùng **chain rule** truy ngược gradient từ loss về từng weight.
+- **Update**: $w \\\\leftarrow w - \\\\eta \\\\cdot \\\\partial L / \\\\partial w$.
 
-If \`y = f(g(x))\`, then \`dy/dx = (dy/dg) × (dg/dx)\`
+## 3. 🧰 Chain rule trong 30 giây
 
-In neural networks, the loss depends on weights through multiple layers:
+Nếu $L = f(g(h(w)))$, thì:
+$$\\\\frac{\\\\partial L}{\\\\partial w} = \\\\frac{\\\\partial L}{\\\\partial f} \\\\cdot \\\\frac{\\\\partial f}{\\\\partial g} \\\\cdot \\\\frac{\\\\partial g}{\\\\partial h} \\\\cdot \\\\frac{\\\\partial h}{\\\\partial w}$$
 
-\`∂L/∂w₁ = ∂L/∂ŷ × ∂ŷ/∂z₂ × ∂z₂/∂a₁ × ∂a₁/∂z₁ × ∂z₁/∂w₁\`
+Backprop = áp dụng chain rule từ output về input, lưu lại gradient ở mỗi node (computation graph).
 
-Each term is simple to compute individually; the chain rule connects them.
+## 4. 🎯 Ví dụ chạy được ngay
 
----
+\\\`\\\`\\\`python
+import torch
+# Mạng siêu nhỏ: y = w2 * relu(w1 * x + b1) + b2
+x  = torch.tensor([2.0])
+y_true = torch.tensor([10.0])
 
-**🔄 The Complete Training Process:**
+w1 = torch.tensor([3.0], requires_grad=True)
+b1 = torch.tensor([1.0], requires_grad=True)
+w2 = torch.tensor([2.0], requires_grad=True)
+b2 = torch.tensor([0.5], requires_grad=True)
 
-1. **Forward Pass:** Input → compute output through all layers
-2. **Compute Loss:** Compare prediction to target
-3. **Backward Pass:** Compute gradients from output back to input using chain rule
-4. **Update Weights:** w = w - lr × gradient
+# Forward
+h = torch.relu(w1 * x + b1)        # 7
+y = w2 * h + b2                    # 14.5
+loss = (y - y_true) ** 2           # 20.25
 
-This 4-step loop repeats for thousands of iterations until loss converges.
+# Backward — PyTorch tự chạy chain rule
+loss.backward()
+print("dL/dw1 =", w1.grad.item())  # autograd cho ra số chính xác
+print("dL/dw2 =", w2.grad.item())
+\\\`\\\`\\\`
 
----
+## 5. ⚠️ Bẫy thường gặp
 
-**📐 Step-by-Step Example (1 Hidden Layer):**
+> ⚠️ **Cảnh báo:**
+> - **Vanishing gradient**: nhiều lớp sigmoid → gradient ~0 ở các lớp đầu → không học. Giải: ReLU + BatchNorm + ResNet skip connection.
+> - **Exploding gradient**: gradient lớn dần → NaN. Giải: gradient clipping, init đúng.
+> - **Quên \`loss.backward()\`** → optim.step() không có gì để cập nhật.
+> - **Quên \`optim.zero_grad()\`** → gradient cộng dồn qua các batch.
+> - **\`requires_grad=False\`** trên tensor cần học → "model không học".
 
-Given: Input x → Hidden z₁ = w₁x + b₁ → a₁ = σ(z₁) → Output z₂ = w₂a₁ + b₂ → ŷ = σ(z₂)
+## 6. ✅ Best practice của thầy Hải
 
-**Forward:**
-- z₁ = w₁ × x + b₁
-- a₁ = σ(z₁)
-- z₂ = w₂ × a₁ + b₂
-- ŷ = σ(z₂)
+> 💡 **Mẹo:**
+> - **Tin vào autograd** — đừng tự code backward trừ khi viết custom layer.
+> - Dùng **gradient checking** khi tự viết: so gradient autograd với gradient tính bằng numerical $(L(w+\\\\epsilon) - L(w-\\\\epsilon)) / 2\\\\epsilon$.
+> - In **gradient norm** mỗi epoch → quá nhỏ là vanishing, quá lớn là exploding.
+> - Skip connection (ResNet) là phát minh "cứu rỗi" backprop sâu — luôn cân nhắc.
+> - **Mixed precision** (fp16) tăng tốc 2-3x nhưng dễ NaN — dùng \`torch.cuda.amp\` đúng cách.
 
-**Backward (computing gradients):**
-- ∂L/∂ŷ = -(y/ŷ) + (1-y)/(1-ŷ) [from cross-entropy]
-- ∂L/∂z₂ = ŷ - y [simplified for sigmoid + cross-entropy]
-- ∂L/∂w₂ = (ŷ - y) × a₁
-- ∂L/∂a₁ = (ŷ - y) × w₂
-- ∂L/∂z₁ = ∂L/∂a₁ × σ'(z₁)
-- ∂L/∂w₁ = ∂L/∂z₁ × x
+## 7. 🤔 Tại sao quan trọng
 
----
+Backprop là **bước nhảy năm 1986** đưa neural net thoát AI Winter. Mọi framework (PyTorch, TF, JAX) đều xoay quanh autograd = backprop tự động.
 
-**⚠️ Common Problems:**
+## 8. 📌 Tóm tắt 30 giây
 
-**Vanishing Gradient:**
-- In deep networks, gradients multiply through many layers
-- If each gradient < 1, the product → 0 exponentially
-- Layers close to input barely learn
-- **Solutions:** ReLU activation, BatchNorm, Skip Connections (ResNet), careful initialization
-
-**Exploding Gradient:**
-- Gradients > 1 multiply to become huge
-- Weights update wildly, loss becomes NaN
-- **Solutions:** Gradient clipping, proper initialization (Xavier/He), BatchNorm
-
----
-
-**🏗️ Modern Improvements:**
-
-- **Batch Normalization:** Normalizes layer outputs, stabilizes training
-- **Skip/Residual Connections:** Allow gradients to flow directly through shortcuts (ResNet)
-- **Layer Normalization:** Used in Transformers, normalizes across features
-- **Xavier/He Initialization:** Initialize weights properly to maintain gradient magnitude
-- **Gradient Clipping:** Cap gradient magnitude to prevent explosion
-
----
-
-## 🏢 Case Study: ResNet (Microsoft Research, 2015) — How Skip Connections Saved Deep Learning
-
-Before ResNet, networks deeper than ~20 layers got **worse**, not better — vanishing gradients made early layers untrainable.
-
-**Kaiming He's insight:** Add "skip connections" so gradients flow through identity shortcuts:
-- ResNet-152 (152 layers!) won ImageNet 2015 with 3.57% top-5 error — beating humans
-- Same idea now used in **every Transformer** (GPT, BERT, Claude, Gemini all use residual connections)
-- **Citation count:** >250,000 — one of the most cited papers in CS history
-
-**Without skip connections, GPT-4 would not exist.** The 96-layer GPT-3 only trains because each Transformer block has 2 residual connections per layer.
-
----
-
-## 🏢 Case Study: Anthropic's Mechanistic Interpretability — Tracing Gradients to Understand LLMs
-
-Anthropic's interpretability team uses **gradient attribution** (a backprop-derived technique) to understand how Claude makes decisions:
-- Trace which input tokens most affect output via gradients
-- Find "circuits" — small subnetworks that perform specific tasks (e.g., "indirect object identification")
-- 2024: Discovered "induction heads" — circuits that enable in-context learning
-
-**Lesson:** Backpropagation isn't just for training — it's the foundation of **AI safety research**.
-
----
-
-## 📋 Debugging Checklist
-
-When training fails, run these gradient health checks:
-
-✅ Print **gradient norms per layer** — should be O(1), not 0 or NaN
-✅ Check **dead neurons** (output always 0 with ReLU) — switch to Leaky ReLU
-✅ Visualize **loss curve** — divergence = LR too high, plateau = LR too low
-✅ Add **gradient clipping** (norm 1.0) for RNNs/Transformers
-✅ Use **He initialization** for ReLU, **Xavier** for Tanh/Sigmoid
-✅ Verify **input normalization** (mean 0, std 1)
-✅ Test with **single batch overfit** — if you can't overfit 1 batch, the model is broken
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Forgetting to call \`optimizer.zero_grad()\` — gradients accumulate from previous batches
-❌ Calling \`.backward()\` twice on the same graph without \`retain_graph=True\`
-❌ Computing gradients on validation data (waste of compute, can cause OOM)
-❌ Manually implementing backprop in production — use PyTorch/JAX autograd (1000× less buggy)
-❌ Skipping gradient clipping in RNN/Transformer training — almost guaranteed NaN
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Backprop works for any architecture, but **certain architectures are dramatically better for certain data types**. Next: **CNNs** — specialized networks that exploit spatial structure in images, achieving 100× fewer parameters than fully-connected networks.`,
+Backprop = chain rule truy ngược: từ loss về từng weight, biết phải sửa cái nào bao nhiêu. PyTorch/TF lo backward tự động — bạn chỉ cần forward + \`.backward()\` + \`optim.step()\`. Cảnh giác vanishing/exploding gradient.
+`,
         theoryEn: `**Backpropagation — How Neural Networks Learn from Mistakes**
 
 ---
@@ -1623,152 +1382,81 @@ print(f"   Score: {score_prompt(prompts['few_shot'])}%")`,
       {
         id: "ai-ft-1", title: "Transfer Learning & Fine-tuning", titleEn: "Transfer Learning & Fine-tuning",
         level: 4, difficulty: "advanced",
-        theory: `**Transfer Learning & Fine-tuning — Standing on the Shoulders of Giants**
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Training a large neural network from scratch requires massive data and compute. Transfer Learning lets us leverage pre-trained models and adapt them to specific tasks with minimal effort.
+Bạn đã biết tiếng Anh giỏi. Giờ học tiếng Pháp — bạn không học lại từ đầu (chữ A, B, C, ngữ pháp cơ bản) mà tận dụng nền tảng đã có (cấu trúc câu, từ gốc Latin) → học nhanh hơn 5 lần.
 
----
+**Transfer Learning** chính là vậy: lấy model đã train sẵn trên data khổng lồ (ImageNet, GPT trên 10TB text), rồi **fine-tune** trên data riêng nhỏ của bạn.
 
-**🔄 What is Transfer Learning?**
+## 2. 💡 Khái niệm chính
 
-Instead of training from scratch, start with a model already trained on a large dataset (e.g., ImageNet for vision, Common Crawl for language) and adapt it to your specific task.
+- **Pre-trained model**: model gốc (ResNet, BERT, GPT, Llama) đã học general knowledge.
+- **Fine-tuning**: train tiếp với data riêng + learning rate nhỏ.
+- **LoRA / QLoRA**: chỉ train thêm 1% weight (matrix rank thấp) → tiết kiệm GPU 10-100x.
+- **Adapter / Prompt tuning**: thêm module nhỏ, freeze model gốc.
 
-**Why it works:** Early layers learn universal features (edges, grammar patterns) that are useful across many tasks. Only the task-specific layers need to be retrained.
+## 3. 🧰 Các chiến lược
 
----
+| Chiến lược | Khi dùng | Chi phí |
+|---|---|---|
+| **Feature extraction** (freeze toàn bộ, chỉ train head) | Data <500 sample | Rẻ nhất |
+| **Fine-tune full** | Data 5K-100K | Đắt, cần GPU lớn |
+| **LoRA** | LLM, ít data | Trung bình |
+| **QLoRA** (4-bit) | Llama 70B trên 1 GPU 24GB | Rất rẻ |
 
-**📋 Three Strategies:**
+## 4. 🎯 Ví dụ chạy được ngay
 
-**1. Feature Extraction (Freeze Everything)**
-- Freeze all pre-trained layers
-- Only train a new output head
-- Best when: Very little data, task similar to pre-training
-- Example: Use BERT embeddings as fixed features for text classification
+\\\`\\\`\\\`python
+# Fine-tune ResNet50 cho phân loại 5 loại trái cây VN
+import torch, torchvision.models as models
+from torch import nn
 
-**2. Fine-tuning (Partial Unfreezing)**
-- Freeze early layers, unfreeze later layers + new head
-- Early layers keep general features, later layers adapt
-- Best when: Moderate data, somewhat different task
-- Common pattern: Unfreeze top 2-3 layers
+model = models.resnet50(weights="IMAGENET1K_V2")
+for p in model.parameters(): p.requires_grad = False     # freeze
+model.fc = nn.Linear(model.fc.in_features, 5)            # đổi head 5 lớp
 
-**3. Full Fine-tuning**
-- Unfreeze all layers, train everything
-- Use small learning rate to avoid catastrophic forgetting
-- Best when: Lots of data, very different domain
+optim = torch.optim.Adam(model.fc.parameters(), lr=1e-3)
+# train head trước 5 epoch, sau đó unfreeze layer4 + train tiếp với lr=1e-5
+\\\`\\\`\\\`
 
----
+\\\`\\\`\\\`python
+# LoRA fine-tune Llama (peft)
+from peft import LoraConfig, get_peft_model
+config = LoraConfig(r=16, lora_alpha=32, target_modules=["q_proj","v_proj"], lora_dropout=0.05)
+model = get_peft_model(base_model, config)               # chỉ train ~0.5% params
+\\\`\\\`\\\`
 
-**📊 Strategy Decision Matrix:**
+## 5. ⚠️ Bẫy thường gặp
 
-| Data Amount | Task Similarity | Strategy |
-|------------|----------------|----------|
-| Very little | Similar | Feature Extraction |
-| Moderate | Somewhat similar | Fine-tune top layers |
-| Lots | Different domain | Full fine-tuning |
-| Lots | Similar | Fine-tune or Feature Extraction |
+> ⚠️ **Cảnh báo:**
+> - **Catastrophic forgetting**: train full với lr cao → quên hết kiến thức gốc.
+> - **Data leak**: data fine-tune trùng với data pre-train → metric ảo.
+> - **Pre-process khác**: mean/std của ImageNet ≠ data của bạn → kết quả tệ.
+> - **Domain quá khác**: pre-train trên ảnh tự nhiên, dùng cho ảnh X-ray → tăng marginal nhỏ, đôi khi train lại từ đầu tốt hơn.
+> - **LoRA rank quá thấp** (r=2) → không học đủ; quá cao (r=128) → mất lợi thế tiết kiệm.
 
----
+## 6. ✅ Best practice của thầy Hải
 
-**🔧 LoRA (Low-Rank Adaptation)**
+> 💡 **Mẹo:**
+> - **2 phase**: phase 1 train head (lr 1e-3), phase 2 unfreeze + lr nhỏ 10-100 lần (1e-5).
+> - **Discriminative LR**: layer cuối lr cao, layer gốc lr nhỏ (fastai pattern).
+> - LoRA r=8-16 là "sweet spot" cho hầu hết LLM task.
+> - Fine-tune LLM: chuẩn bị **dataset chất lượng** (200-2000 ví dụ ChatML format) > tăng số sample bừa bãi.
+> - **Đánh giá trước khi fine-tune**: nhiều trường hợp prompt engineering + RAG đã đủ, không cần fine-tune.
 
-The breakthrough technique for efficiently fine-tuning LLMs:
+## 7. 🤔 Khi nào fine-tune vs không
 
-**Problem:** GPT-3 has 175B parameters. Full fine-tuning requires enormous GPU memory.
+| Fine-tune hợp | Tạm chưa cần |
+|---|---|
+| Domain-specific (y khoa, luật) | General Q&A → RAG đủ |
+| Cần style/format nhất quán | Few-shot prompt được |
+| Có ≥500 sample chất lượng | Có < 50 sample |
+| Latency nhạy cảm | Có thể chấp nhận prompt dài |
 
-**LoRA Solution:**
-- Instead of updating the full weight matrix W (d × d), add two small matrices:
-  - A (d × r) and B (r × d), where rank r << d (typically r = 8-64)
-- W_new = W_frozen + A × B
-- Only train A and B — **99.9% fewer trainable parameters**
+## 8. 📌 Tóm tắt 30 giây
 
-**Why LoRA works:** Weight updates during fine-tuning tend to be low-rank (not all dimensions change equally). LoRA captures this efficiently.
-
-**QLoRA:** Combines LoRA with 4-bit quantization, enabling fine-tuning of 65B+ models on a single GPU.
-
----
-
-**🛠️ PEFT (Parameter-Efficient Fine-Tuning) Methods:**
-
-| Method | Approach | Parameters Added |
-|--------|----------|-----------------|
-| LoRA | Low-rank weight matrices | 0.1-1% |
-| Adapter Layers | Small bottleneck layers between existing layers | 1-5% |
-| Prefix Tuning | Learnable prefix tokens | 0.1% |
-| Prompt Tuning | Learnable soft prompt embeddings | 0.01% |
-
----
-
-**⚠️ Key Considerations:**
-
-- **Catastrophic Forgetting:** Fine-tuning can make the model forget pre-trained knowledge. Use low learning rate and early stopping.
-- **Data Quality > Quantity:** 1000 high-quality examples often beats 100K noisy ones.
-- **Evaluation:** Always compare fine-tuned model against the base model and prompt engineering baseline.
-
----
-
-## 🏢 Case Study: Microsoft's LoRA Paper (2021) — From Idea to Industry Standard
-
-Edward Hu et al. at Microsoft Research published LoRA expecting modest impact. Within 18 months:
-- HuggingFace PEFT library standardized LoRA across thousands of models
-- **Stable Diffusion LoRAs** became a $100M+ creator economy on CivitAI
-- **Llama fine-tuning democratized:** anyone with a 24GB GPU can fine-tune 7B models
-- OpenAI launched GPT-4 fine-tuning API using LoRA-like methods (2024)
-
-**The number that matters:** GPT-3 175B full fine-tuning needs ~1.2TB GPU memory (impossible on single node). LoRA needs **~35GB** — fits on one A100.
-
----
-
-## 🏢 Case Study: BloombergGPT (2023) — Domain Fine-Tuning Done Right
-
-Bloomberg trained a 50B parameter LLM on financial data:
-- **51% finance-specific data** + 49% general web (mixed to prevent forgetting)
-- Cost: ~$2.7M (vs. ~$500K with LoRA on Llama 2 70B today)
-- **Outperformed GPT-3.5 on financial benchmarks** despite being 3.5× smaller
-- Outperformed open-source models on general benchmarks too
-
-**Lesson:** When domain matters and you have data, fine-tuning still beats prompt engineering — but increasingly, LoRA on Llama achieves 90% of the quality at 1% of the cost.
-
----
-
-## 🏢 Case Study: OpenAI's RLHF — The Most Important Fine-Tune in History
-
-ChatGPT is GPT-3.5 + RLHF (Reinforcement Learning from Human Feedback):
-1. Collect 30K-100K human-ranked response pairs
-2. Train a "reward model" to predict human preferences
-3. Use PPO (Proximal Policy Optimization) to fine-tune GPT-3.5 to maximize reward
-
-**Why it mattered:** Raw GPT-3 was capable but unhelpful — would continue prompts instead of answering. RLHF made it conversational. Without RLHF, ChatGPT would not exist.
-
----
-
-## 📋 Fine-Tuning Decision Tree
-
-| Scenario | Recommendation |
-|----------|----------------|
-| Need to teach new factual knowledge | RAG (not fine-tuning) |
-| Need specific output format/style | Few-shot prompting first, then LoRA |
-| Need domain expertise (legal, medical) | LoRA on 5K-50K examples |
-| Need to remove/add safety behavior | Full RLHF/DPO pipeline |
-| Limited GPU (<48GB) | QLoRA + 4-bit quantization |
-| Budget <$1K | LoRA on Llama 3 8B |
-| Need new language/script | Continued pretraining + LoRA |
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ Fine-tuning to teach new facts — RAG is 10× more reliable and updateable
-❌ Fine-tuning on <500 examples — likely to overfit, prompt engineering is better
-❌ Forgetting to use a held-out validation set — overfitting goes undetected
-❌ Catastrophic forgetting from too-high learning rate (use 1e-5 to 1e-4 for LoRA)
-❌ Not measuring against the base model — sometimes fine-tuning makes things worse
-❌ Skipping evaluation suite — 5-10 carefully crafted test prompts catch most regressions
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Fine-tuning teaches the model **behavior**. RAG provides **knowledge** at query time. Next: **RAG (Retrieval-Augmented Generation)** — the production pattern behind every modern AI assistant (Perplexity, Google AI Overviews, ChatGPT with browsing).`,
+Transfer Learning = đứng trên vai người khổng lồ. Freeze + train head cho data nhỏ; full fine-tune cho data vừa; LoRA/QLoRA cho LLM tiết kiệm GPU. Trước khi fine-tune, hãy thử **prompt engineering + RAG** — thường đã đủ.
+`,
         theoryEn: `**Transfer Learning — Standing on the Shoulders of Giants**
 
 **Strategies:** Feature Extraction (freeze all), Fine-tuning (partial unfreeze), Full Fine-tuning (unfreeze all).
@@ -1841,102 +1529,91 @@ print(f"  Reduction: {original_params/lora_params:.1f}x fewer trainable params")
       {
         id: "ai-rag-1", title: "RAG Pipeline", titleEn: "RAG Pipeline",
         level: 5, difficulty: "advanced",
-        theory: `ChatGPT trả lời rất hay về **kiến thức chung** — nhưng hỏi *"chính sách hoàn hàng của Shopee tháng 3/2024 thế nào?"* nó sẽ **bịa**. Vì model không biết tài liệu nội bộ và không có data sau cutoff date. Giải pháp: **cho model tự tra cứu trước khi trả lời** — đó là **RAG**.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## 1. 🚦 Vấn đề đời thường
+Bạn hỏi ChatGPT: "Quy chế nội bộ công ty mình về OT là gì?" — nó bịa ra (hallucinate) vì chưa từng thấy tài liệu công ty bạn. Nhưng nếu bạn **đưa kèm file PDF quy chế** trong câu hỏi, nó trả lời chính xác.
 
-Bạn xây chatbot hỗ trợ khách của Tiki. Khách hỏi: *"Đơn của tôi #VN12345 đang ở đâu?"* hoặc *"Chính sách hoàn tiền cho hàng điện tử là gì?"*
+**RAG (Retrieval-Augmented Generation)** chính là tự động: lúc user hỏi, hệ thống **lấy đoạn tài liệu liên quan nhất** từ kho riêng → ghép vào prompt → LLM trả lời có dẫn chứng.
 
-→ ChatGPT thuần **không thể** trả lời — không biết DB Tiki, không đọc policy.pdf của Tiki.
+## 2. 💡 Khái niệm chính
 
-→ Giải pháp: **tra cứu tài liệu Tiki trước, đưa cho LLM, rồi mới sinh câu trả lời**. Đó là RAG.
+RAG = **Retrieval** (tìm tài liệu) + **Augmentation** (ghép vào prompt) + **Generation** (LLM trả lời).
 
-## 2. 💡 Khái niệm chính: RAG là gì?
+Pipeline 5 bước:
+1. **Chunk**: chẻ tài liệu thành đoạn 200-500 token.
+2. **Embed**: biến mỗi chunk thành vector (OpenAI embeddings, BGE, E5).
+3. **Index**: lưu vào vector DB (Pinecone, Qdrant, Chroma, pgvector).
+4. **Retrieve**: query câu hỏi → vector → top-K chunk gần nhất (cosine).
+5. **Generate**: prompt = "Dựa vào [chunks], trả lời: [câu hỏi]" → LLM.
 
-**RAG** = Retrieval-Augmented Generation = **Tra cứu + Sinh câu trả lời**.
+## 3. 🧰 Stack phổ biến
 
-LLM có 4 hạn chế cố hữu:
-- **Knowledge cutoff** — data huấn luyện có hạn.
-- **Hallucination** — bịa thông tin nghe rất thật.
-- **Không trích nguồn** — không biết câu trả lời lấy từ đâu.
-- **Không biết tài liệu nội bộ công ty bạn**.
+| Tầng | Lựa chọn |
+|---|---|
+| Embedding | OpenAI text-embedding-3, BGE-M3 |
+| Vector DB | Pinecone, Qdrant, pgvector, Weaviate |
+| LLM | GPT-4o, Claude, Llama 3, Gemini |
+| Framework | LangChain, LlamaIndex, Haystack |
 
-RAG giải cả 4 — bằng cách **tìm tài liệu liên quan trước, đưa cho LLM cùng với câu hỏi**.
+## 4. 🎯 Ví dụ chạy được ngay
 
-## 3. 🔄 Pipeline RAG — 3 giai đoạn
+\\\`\\\`\\\`python
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_community.vectorstores import Chroma
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-**Phase 1: Indexing (offline, làm 1 lần)**
-1. Thu thập tài liệu (PDF, web, internal docs).
-2. **Chunk** thành đoạn nhỏ (100–500 token).
-3. **Embed** mỗi chunk thành vector (dùng OpenAI Embedding hoặc BGE).
-4. Lưu vector vào **Vector DB** (Pinecone, Weaviate, ChromaDB, Qdrant).
+# 1. Chunk + embed + index
+docs = load_pdfs("./company_docs/")
+chunks = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50).split_documents(docs)
+db = Chroma.from_documents(chunks, OpenAIEmbeddings())
 
-**Phase 2: Retrieval (lúc user hỏi)**
-1. **Embed** câu hỏi user.
-2. **Search** top-k chunk gần nhất trong vector DB.
-3. (Optional) **Re-rank** bằng cross-encoder cho relevance cao hơn.
+# 2. Query
+q = "Chính sách nghỉ thai sản công ty mình thế nào?"
+hits = db.similarity_search(q, k=4)
+context = "\\\\n\\\\n".join(d.page_content for d in hits)
 
-**Phase 3: Generation**
-1. Dựng prompt: \\\`[System instruction] + [Retrieved chunks] + [User question]\\\`.
-2. Gửi LLM sinh câu trả lời.
-3. Post-process: thêm trích nguồn, format.
+prompt = f"""Dựa CHỈ vào các đoạn sau, trả lời. Nếu không có thông tin, nói "Không tìm thấy".
 
-## 4. 🧩 Các thành phần chìa khoá
+Đoạn:
+{context}
 
-**Embedding** — vector dày đặc biểu diễn nghĩa text. Text giống nhau → vector gần nhau trong không gian. Mô hình: OpenAI text-embedding-3, BGE, E5. Chiều: 768–3072.
-
-**Vector Database** — DB chuyên cho similarity search. Dùng thuật toán ANN (HNSW, IVF, ScaNN).
-
-| Hạng mục | Managed | Open-source |
-|----------|---------|-------------|
-| Vector DB | Pinecone, Weaviate Cloud | ChromaDB, Qdrant, Milvus, FAISS |
-
-**Chunking strategies:**
-
-| Cách | Mô tả | Hợp với |
-|------|-------|---------|
-| Fixed-size | Cắt mỗi N ký tự/token | Tài liệu đơn giản |
-| Recursive | Tôn trọng cấu trúc (đoạn, dòng) | Hầu hết case |
-| Semantic | Cắt theo nghĩa | Document phức tạp |
-| By section | Theo heading H1/H2 | Markdown / structured docs |
-
-## 5. 🛠️ Sơ đồ kiến trúc
-
-\\\`\\\`\\\`
-[User question] ──► [Embed] ──► [Vector DB Search] ──► [Top-k chunks]
-                                                              │
-                                                              ▼
-[System prompt] + [Chunks] + [Question] ──► [LLM] ──► [Answer + citations]
+Câu hỏi: {q}"""
+print(ChatOpenAI(model="gpt-4o").invoke(prompt).content)
 \\\`\\\`\\\`
 
-> 💡 **Mẹo của thầy Hải:** Chunk size 300–500 token + overlap 50 token là sweet spot cho hầu hết tài liệu tiếng Việt. Quá nhỏ mất context, quá lớn loãng nghĩa.
+## 5. ⚠️ Bẫy thường gặp
 
-## 6. ⚠️ Bẫy thường gặp
+> ⚠️ **Cảnh báo:**
+> - **Chunk size quá lớn** (2000 token): retrieval kém chính xác. Quá nhỏ (50): mất ngữ cảnh.
+> - **Quên overlap** giữa chunks → câu cắt giữa, mất nghĩa.
+> - **Chỉ dùng vector search** → bỏ lọt từ khoá chính xác (mã sản phẩm, số hiệu). Dùng **hybrid: vector + BM25**.
+> - **Không re-rank**: top-10 vector có thể không phải top-10 đúng nhất → dùng cross-encoder rerank.
+> - **Prompt không bắt cite**: LLM bịa số liệu → bắt nó "trích nguyên văn" + show source.
 
-> ⚠️ **Cảnh báo:** Bẫy số 1: **chunk size sai**. Chunk 50 token = mất context, model trả lời lan man. Chunk 2000 token = tín hiệu "loãng", retrieval kém. Test với 20 query thật để chọn size đúng.
+## 6. ✅ Best practice của thầy Hải
 
-Các bẫy khác:
-- Dùng **embedding model khác** giữa lúc index và query → không tìm thấy gì.
-- **Không re-rank** → top-k chunk thường chứa noise.
-- Không **cite source** → user không tin câu trả lời.
-- Không **handle "không tìm thấy"** → LLM tự bịa thay vì nói "tôi không biết".
+> 💡 **Mẹo:**
+> - **Chunk 300-500 token, overlap 50** là baseline tốt cho text VN.
+> - **Hybrid search** (BGE + BM25) tăng recall 15-30% so với vector-only.
+> - **Rerank top-20 → top-5** bằng cross-encoder (Cohere Rerank, BGE-reranker).
+> - Luôn **show source** + đường link → user verify được, tăng trust.
+> - **Evaluate**: dùng RAGAS / TruLens để đo faithfulness (LLM có bịa không) + answer relevancy.
+> - Cập nhật index khi tài liệu thay đổi — đừng để stale.
 
-## 7. 🎯 Best practice của thầy Hải
+## 7. 🤔 RAG vs Fine-tune
 
-1. **Recursive chunking** với size 300–500 token, overlap 50.
-2. Dùng cùng **một embedding model** cho index và query.
-3. Top-k = **3–5 chunk** (đủ context, không loãng).
-4. Bật **re-rank** (Cohere Rerank, BGE Reranker) → +10–20% accuracy.
-5. **Luôn cite source** trong câu trả lời.
-6. Khi top-k score < threshold → trả lời *"Tôi không tìm thấy thông tin"* (đừng để LLM bịa).
-7. Lập **eval set 50 câu** để đo retrieval quality (Recall@k, MRR).
+| RAG | Fine-tune |
+|---|---|
+| Data thay đổi liên tục | Style/format cố định |
+| Cần cite source | Cần performance + speed |
+| Setup nhanh (vài giờ) | Tốn GPU, vài ngày |
+| Dễ update | Phải re-train mỗi lần |
 
-## 8. ✅ Tóm tắt 30 giây
+Nhiều khi **kết hợp cả hai** mới là đỉnh.
 
-- **RAG** = tra cứu tài liệu trước khi sinh câu trả lời → giải hallucination + cutoff.
-- 3 phase: **Index → Retrieve → Generate**.
-- Stack tối thiểu: **embedding + vector DB + LLM**.
-- Quan trọng: chunk size đúng, re-rank, cite source, handle "không biết".
+## 8. 📌 Tóm tắt 30 giây
+
+RAG = Retrieve + Augment + Generate. Pipeline: chunk → embed → vector DB → query → top-K → prompt LLM. Luôn hybrid search + rerank + show source. Trước khi fine-tune, hãy thử RAG — rẻ hơn 100 lần và thường đủ.
 `,
         theoryEn: `**RAG — Grounding AI in Facts**
 
@@ -2027,101 +1704,82 @@ print(f"  Based on the retrieved information: {results[0][0]}")`,
       {
         id: "ai-eth-1", title: "Bias Detection & Fairness", titleEn: "Bias Detection & Fairness",
         level: 3, difficulty: "intermediate",
-        theory: `Năm 2018, Amazon **bỏ** một AI tuyển dụng đã xây 4 năm — vì model học từ resume cũ (đa số là nam) đã **tự động penalize** mọi resume có chữ *"women's"* (như "women's chess club"). Không ai cố tình lập trình bias đó. Nó **phát sinh từ data**. Đây là bài học **AI Ethics** đắt giá nhất thế kỷ 21.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## 1. 🚦 Vấn đề đời thường
+Một công ty Mỹ từng xài AI tuyển dụng, kết quả: ưu tiên ứng viên nam, loại CV có chữ "women's chess club". Lý do? Data train là 10 năm CV cũ — đa số đậu là nam. AI không "kỳ thị" — nó học **đúng mẫu lệch** từ data lệch.
 
-AI ngày càng quyết định: **ai được vay tiền, ai được tuyển, ai bị giam, chẩn đoán bệnh ai**. Sai sót không còn là "model không tốt lắm" — mà là **người thật, đời thật bị tổn hại**.
+**Bias & Fairness** = phát hiện và sửa các thiên lệch ẩn trong AI để không gây hại cho nhóm yếu thế.
 
-→ Fairness và Ethics không còn là chủ đề triết học — mà là **yêu cầu pháp lý** (EU AI Act phạt tới 7% doanh thu toàn cầu).
+## 2. 💡 Các loại bias phổ biến
 
-## 2. 💡 4 loại bias trong AI
+| Loại | Ví dụ |
+|---|---|
+| **Sampling bias** | Chỉ thu data ở Hà Nội → model sai ở miền Tây |
+| **Label bias** | Người gán nhãn có định kiến |
+| **Historical bias** | Data quá khứ phản ánh xã hội bất công |
+| **Measurement bias** | Đo điểm tín dụng theo tiêu chí thiên lệch |
+| **Confirmation bias** | Chọn metric "đẹp", giấu cái xấu |
 
-**1. Data Bias (phổ biến nhất)**
-Data huấn luyện không đại diện cho thực tế.
-→ Ví dụ: AI tuyển dụng học từ resume cũ (đa số nam) → tự động loại nữ.
+## 3. 🧰 Metrics đo Fairness
 
-**2. Algorithmic Bias**
-Model **khuếch đại** bias trong data. Feedback loop: dự đoán bias → thu data bias → bias hơn nữa.
+| Metric | Ý nghĩa |
+|---|---|
+| **Demographic parity** | Tỉ lệ "duyệt" giống nhau giữa các nhóm |
+| **Equal opportunity** | True Positive Rate giống nhau |
+| **Equalized odds** | Cả TPR và FPR giống nhau |
+| **Disparate impact** | Tỉ lệ chấp nhận nhóm yếu / nhóm mạnh ≥ 0.8 (rule 4/5) |
 
-**3. Measurement Bias**
-Feature dùng làm proxy cho **thuộc tính được bảo vệ** (chủng tộc, giới tính).
-→ Ví dụ: ZIP code làm proxy cho race trong quyết định cho vay.
+## 4. 🎯 Ví dụ chạy được ngay
 
-**4. Deployment Bias**
-Model dùng trong context khác với lúc thiết kế.
-→ Ví dụ: nhận diện khuôn mặt train trên 1 nhóm dân tộc, deploy toàn cầu.
+\\\`\\\`\\\`python
+# Đo bias bằng Fairlearn
+from fairlearn.metrics import MetricFrame, selection_rate, true_positive_rate
 
-## 3. 📏 Fairness Metrics — Không có metric duy nhất
+mf = MetricFrame(
+    metrics={"selection_rate": selection_rate, "tpr": true_positive_rate},
+    y_true=y_test, y_pred=preds,
+    sensitive_features=df_test["gender"]   # cột nhạy cảm
+)
+print(mf.by_group)
+print("Disparity:", mf.difference())       # càng gần 0 càng công bằng
+\\\`\\\`\\\`
 
-Không có **một** metric đo được "công bằng" — và các metric **mâu thuẫn nhau**.
+\\\`\\\`\\\`python
+# Mitigate bằng Reweighing trước khi train
+from fairlearn.reductions import ExponentiatedGradient, DemographicParity
+mitigator = ExponentiatedGradient(base_clf, constraints=DemographicParity())
+mitigator.fit(X, y, sensitive_features=A)
+\\\`\\\`\\\`
 
-**Demographic Parity** — mọi nhóm nhận positive prediction tỷ lệ bằng nhau.
-\\\`P(ŷ=1 | A) = P(ŷ=1 | B)\\\`
-→ Hạn chế: bỏ qua base rate thực tế.
+## 5. ⚠️ Bẫy thường gặp
 
-**Equal Opportunity** — TPR (True Positive Rate) bằng nhau.
-\\\`P(ŷ=1 | y=1, A) = P(ŷ=1 | y=1, B)\\\`
-→ "Nếu xứng đáng, bạn được chọn — bất kể nhóm".
+> ⚠️ **Cảnh báo:**
+> - **"Bỏ cột giới tính/chủng tộc là xong"** — sai. Model vẫn học qua proxy (mã bưu điện, tên trường).
+> - **Chỉ tối ưu accuracy** → bỏ qua nhóm thiểu số (chiếm ít, sai cũng không kéo accuracy nhiều).
+> - **Không tài liệu hoá** → không ai biết model có rủi ro gì 6 tháng sau.
+> - **"Không thể vừa fair vừa accurate"**: đôi khi đúng — phải chọn trade-off có ý thức.
 
-**Equalized Odds** — TPR **và** FPR đều bằng nhau giữa các nhóm.
+## 6. ✅ Best practice của thầy Hải
 
-**Calibration** — xác suất dự đoán khớp với thực tế ở mọi nhóm.
-→ "Model nói 80% chắc → đúng 80% lần ở mọi nhóm".
+> 💡 **Mẹo:**
+> - **Audit bias ở cả 3 giai đoạn**: pre-process (data), in-process (training), post-process (output).
+> - Viết **Model Card** + **Datasheet for Datasets** cho mỗi model production.
+> - **Diverse team**: team đa dạng giới/vùng miền dễ phát hiện bias hơn.
+> - Khi có sensitive groups, luôn report **metric per group** (không chỉ overall).
+> - Tham chiếu khung: **EU AI Act**, **NIST AI RMF**, **ISO/IEC 42001**.
+> - **Human-in-the-loop** với quyết định high-stakes (tuyển dụng, tín dụng, y tế).
 
-> 💡 **Impossibility Theorem:** Bạn **không thể** thoả mãn mọi fairness metric cùng lúc — phải chọn metric phù hợp với case của mình.
+## 7. 🤔 Khi nào quan tâm nhiều nhất
 
-## 4. 📜 Quy định pháp lý
+| Cao | Thấp |
+|---|---|
+| Tuyển dụng, tín dụng, bảo hiểm | Phân loại email spam |
+| Y tế, tư pháp | Recommendation âm nhạc |
+| Có sensitive attribute | Không liên quan người |
 
-| Quy định | Vùng | Yêu cầu chính |
-|----------|------|---------------|
-| **EU AI Act** (2024) | EU | Phân loại 4 mức rủi ro: Cấm / Cao / Hạn chế / Tối thiểu. Phạt tới 7% doanh thu |
-| **GDPR Article 22** | EU | Quyền được giải thích quyết định tự động |
-| **NIST AI RMF** | Mỹ | Framework risk management |
-| **NĐ 13/2023/NĐ-CP** | VN | Bảo vệ dữ liệu cá nhân, bao gồm xử lý tự động |
+## 8. 📌 Tóm tắt 30 giây
 
-## 5. 🛠️ Bias Mitigation — Có thể làm gì?
-
-**Pre-processing (trước train)**
-- Re-sample data cho cân bằng.
-- Loại proxy của thuộc tính nhạy cảm.
-- Synthetic data cho nhóm thiểu số.
-
-**In-processing (trong train)**
-- Adversarial debiasing.
-- Fairness constraints trong loss function.
-
-**Post-processing (sau train)**
-- Threshold điều chỉnh khác nhau cho từng nhóm.
-- Equalized odds post-processing.
-
-**Tools**: IBM AI Fairness 360, Microsoft Fairlearn, Google What-If Tool.
-
-## 6. ⚠️ Bẫy thường gặp
-
-> ⚠️ **Cảnh báo:** Bẫy chết người: "**Mình không dùng feature 'giới tính' nên model fair**". Sai. Model học **proxy** từ feature khác (ZIP code, tên, trường học) → vẫn discriminate. Phải **đo bằng metric** trên nhóm bảo vệ, không tin cảm tính.
-
-Các bẫy khác:
-- Chỉ test fairness ở **giai đoạn cuối** → fix khó, tốn $$$.
-- Một metric pass → tưởng OK → metric khác fail thảm.
-- Không có **diverse team** → blind spot trong định nghĩa "fair".
-
-## 7. 🎯 Best practice của thầy Hải
-
-1. **Audit data** trước khi train: distribution theo nhóm bảo vệ.
-2. Chọn **fairness metric phù hợp business** (không tham 5 metric cùng lúc).
-3. **Document model card** — model dùng cho ai, không dùng cho ai, đo trên nhóm nào.
-4. **Human-in-the-loop** cho high-stakes decision (loan, hire, medical).
-5. **Diverse review team** — đa giới tính, đa văn hoá review trước khi launch.
-6. **Plan to retire model** — không có model nào fair vĩnh viễn, định kỳ re-audit.
-
-## 8. ✅ Tóm tắt 30 giây
-
-- **4 loại bias**: data, algorithmic, measurement, deployment.
-- Không có metric "fair" duy nhất — **chọn theo case**.
-- **Impossibility Theorem**: không thể thoả mọi metric cùng lúc.
-- Mitigation: pre / in / post-processing + tools (Fairlearn, AIF360).
-- **Quan trọng nhất**: đo trên nhóm bảo vệ + diverse team + human-in-the-loop.
+AI không tự kỳ thị — nó học từ data lệch. Đo bằng demographic parity, equal opportunity. Mitigate ở cả 3 giai đoạn. Bỏ cột nhạy cảm KHÔNG đủ — proxy vẫn tồn tại. High-stakes decisions luôn cần human-in-the-loop.
 `,
         theoryEn: `**AI Ethics — Building Responsible AI**
 
