@@ -2469,42 +2469,288 @@ output "bucket_arn" { value = aws_s3_bucket.data.arn }`,
         titleEn: "CI/CD & Observability",
         level: 4,
         difficulty: "advanced",
-        theory: `**CI/CD** tự động hóa build → test → deploy:
-- **CI (Continuous Integration)**: mỗi commit → build + chạy test + scan security.
-- **CD (Continuous Delivery)**: build qua test thì sẵn sàng deploy (manual approve).
-- **CD (Continuous Deployment)**: deploy tự động lên prod nếu pass.
+        theory: `**CI/CD** (Continuous Integration / Continuous Delivery / Continuous Deployment) là tập hợp các thực hành kỹ thuật để **tự động hóa toàn bộ quy trình từ lúc dev push code → đến lúc code chạy trên production**, kèm theo **observability** để theo dõi và phản ứng khi có sự cố. Đây là xương sống của DevOps hiện đại — không có CI/CD + observability, không thể vận hành production cloud-native.
 
-**Công cụ phổ biến:**
-- **GitHub Actions** — YAML, marketplace lớn.
-- **AWS CodePipeline + CodeBuild + CodeDeploy** — native AWS.
-- **GitLab CI**, **Jenkins**, **CircleCI**.
+## Phân biệt CI vs CD vs CD
 
-**Deployment strategies (giảm rủi ro):**
-- **Rolling update**: thay từng phần. Default Kubernetes.
-- **Blue/Green**: 2 môi trường, switch traffic.
-- **Canary**: deploy 5% → 25% → 100% theo dõi metric.
-- **Feature flags**: bật tính năng cho subset user.
+| Cụm từ | Viết tắt | Ý nghĩa | Ai trigger? |
+|---|---|---|---|
+| **Continuous Integration** | CI | Mỗi commit → tự động build + chạy test + lint + security scan | Mỗi push/PR |
+| **Continuous Delivery** | CD | Sau khi pass CI → artifact sẵn sàng deploy → cần **người bấm nút** | Manual approve |
+| **Continuous Deployment** | CD | Sau khi pass CI → tự động deploy lên prod, **không cần ai bấm** | Tự động |
 
-**Observability — 3 trụ cột:**
-1. **Metrics** — số liệu định lượng (CPU, latency, error rate). CloudWatch, Prometheus, Datadog.
-2. **Logs** — sự kiện văn bản. CloudWatch Logs, ELK, Loki.
-3. **Traces** — đường đi của request qua nhiều service. AWS X-Ray, Jaeger, OpenTelemetry.
+Hầu hết công ty bắt đầu với **Continuous Delivery** (an toàn hơn) và chỉ chuyển sang **Continuous Deployment** khi có bộ test mạnh + observability đủ tốt + canary deploy.
 
-**SLI / SLO / SLA:**
-- **SLI** (Service Level Indicator): chỉ số đo (vd: 99.95% request <200ms).
-- **SLO** (Objective): mục tiêu nội bộ (vd: SLI ≥ 99.9%).
-- **SLA** (Agreement): cam kết với khách hàng + bồi thường nếu vi phạm.
+## Các công cụ CI/CD phổ biến
 
-**Error budget**: nếu SLO 99.9% thì tháng có 43 phút "downtime allowance" — vượt thì freeze release.`,
-        theoryEn: `**CI/CD:** automate build → test → deploy. CI = on every commit; CD (Delivery) = ready to deploy; CD (Deployment) = auto deploy if pass.
+| Công cụ | Phù hợp | Điểm mạnh | Điểm yếu |
+|---|---|---|---|
+| **GitHub Actions** | Project trên GitHub | YAML đơn giản, marketplace 20k+ action, miễn phí cho public repo | Vendor lock-in GitHub |
+| **GitLab CI** | Project trên GitLab | Tích hợp sẵn, runner self-host dễ | UI nặng |
+| **Jenkins** | Enterprise on-prem | Linh hoạt vô tận, plugin nhiều | Cần maintain master/agent, UI cũ |
+| **AWS CodePipeline** | Native AWS | Tích hợp sâu IAM, ECS, Lambda | Verbose, chỉ AWS |
+| **CircleCI** | Startup, SaaS | Tốc độ nhanh, parallelism dễ | Pricing cao khi scale |
+| **ArgoCD / Flux** | Kubernetes GitOps | Pull-based deploy, drift detection | Chỉ Kubernetes |
 
-**Tools:** GitHub Actions, AWS CodePipeline, GitLab CI, Jenkins.
+## Deployment strategies — giảm rủi ro release
 
-**Deployment strategies:** Rolling, Blue/Green, Canary, Feature flags.
+| Strategy | Cách hoạt động | Rủi ro | Khi nào dùng |
+|---|---|---|---|
+| **Recreate** | Tắt v1 → bật v2 (downtime) | Cao | Dev/staging |
+| **Rolling update** | Thay từng instance, giữ hệ thống chạy | Trung bình | Default K8s, web app phổ thông |
+| **Blue/Green** | 2 môi trường song song, switch DNS/LB | Thấp (rollback nhanh) | Khi cần rollback tức thì |
+| **Canary** | Deploy 5% → 25% → 100% theo metric | Rất thấp | Workload high-stakes (Netflix, Amazon) |
+| **Shadow / Mirror** | Copy traffic sang v2 không trả response | Zero | Test version mới với traffic thật |
+| **Feature flags** | Code mới đã deploy nhưng tắt — bật cho subset user | Thấp | A/B test, gradual rollout |
 
-**Observability — 3 pillars:** Metrics (CloudWatch/Prometheus), Logs (CloudWatch/ELK), Traces (X-Ray/Jaeger/OpenTelemetry).
+## Observability — 3 trụ cột (Three Pillars)
 
-**SLI / SLO / SLA + Error budget:** measurable indicator → internal target → customer commitment + penalty. Error budget = allowed downtime per period.`,
+\`\`\`
+                    ┌─── Metrics: "How much / how often"
+USER REQUEST ──┬─── Logs:    "What happened"
+                    └─── Traces:  "Where did time go"
+\`\`\`
+
+### 1. Metrics (định lượng)
+Số liệu thời gian (time series): CPU%, latency p50/p95/p99, error rate, RPS, queue length.
+
+| Tool | Loại |
+|---|---|
+| AWS CloudWatch | Native AWS, tích hợp |
+| Prometheus + Grafana | Open-source, K8s standard |
+| Datadog / New Relic | SaaS, tất cả-trong-một |
+| InfluxDB | Time-series DB chuyên dụng |
+
+**4 Golden Signals (Google SRE):** Latency, Traffic, Errors, Saturation.
+
+### 2. Logs (định tính)
+Sự kiện văn bản chi tiết: "User 123 logged in", "Payment failed: insufficient funds".
+
+| Tool | Đặc điểm |
+|---|---|
+| CloudWatch Logs | AWS native, query với CloudWatch Insights |
+| ELK Stack (Elasticsearch + Logstash + Kibana) | Open-source mạnh nhất |
+| Loki + Grafana | Nhẹ hơn ELK, label-based |
+| Splunk | Enterprise, đắt nhưng mạnh |
+| Datadog Logs | SaaS, tích hợp với metrics |
+
+**Best practice:** **Structured logs (JSON)** với correlation ID, không phải plain text.
+
+### 3. Traces (distributed tracing)
+Đường đi của 1 request qua nhiều service: \`request-id ABC123 → API GW (5ms) → Auth (12ms) → Order Service (45ms) → Payment Service (120ms ⚠️)\`.
+
+| Tool | Loại |
+|---|---|
+| AWS X-Ray | Native AWS |
+| Jaeger | Open-source CNCF |
+| Zipkin | Older OSS |
+| OpenTelemetry | Chuẩn vendor-neutral hiện nay |
+
+## SLI / SLO / SLA — ngôn ngữ chung của reliability
+
+| Thuật ngữ | Định nghĩa | Ví dụ | Ai quan tâm? |
+|---|---|---|---|
+| **SLI** (Indicator) | Chỉ số đo được | "% request có latency <200ms" | Engineer |
+| **SLO** (Objective) | Mục tiêu nội bộ cho SLI | "SLI ≥ 99.9% trong 30 ngày" | Engineering team |
+| **SLA** (Agreement) | Cam kết hợp đồng + phạt | "99.5% uptime, không thì hoàn 10% phí" | Customer + Legal |
+
+**Quy tắc SLO < SLA:** SLO luôn nghiêm hơn SLA (vd SLO 99.9% trong khi SLA 99.5%) để có "buffer" trước khi vi phạm hợp đồng.
+
+## Error Budget — biến reliability thành kinh tế học
+
+\`\`\`
+Error Budget = (1 - SLO) × thời gian
+
+SLO 99.9%/tháng → 0.1% × 30 × 24 × 60 = 43.2 phút "ngân sách lỗi"
+SLO 99.95%      → 21.6 phút
+SLO 99.99%      → 4.32 phút (4 nines — rất khó!)
+SLO 99.999%     → 26 giây/tháng (5 nines — chỉ telco/finance)
+\`\`\`
+
+**Cơ chế:**
+- Còn budget → free release nhiều, thử nghiệm.
+- Hết budget → freeze release, ưu tiên fix bug + cải thiện độ tin cậy.
+
+Đây là cách Google/Netflix cân bằng "tốc độ ship feature" vs "ổn định hệ thống" bằng số liệu thay vì cãi nhau.
+
+## Case study: Netflix — Spinnaker + Chaos Engineering
+
+Netflix tự xây **Spinnaker** (open-source CD platform) deploy 4000+ lần/ngày với canary tự động:
+- Tự động deploy 1% canary, theo dõi 50+ metric so với baseline.
+- Nếu metric xấu → tự rollback trong vài phút.
+- **Chaos Monkey** kill instance ngẫu nhiên trên production để test resilience.
+
+Kết quả: deploy nhanh hơn cạnh tranh, vẫn đạt 99.99% uptime.
+
+## Case study: Knight Capital — \$440 triệu trong 45 phút vì CI/CD lỗi
+
+2012, Knight Capital triển khai code mới lên 8 server giao dịch — **quên 1 server**. Server cũ chạy code cũ → đặt lệnh giao dịch sai → mất \$440 triệu trong 45 phút → công ty phá sản.
+
+**Bài học:** automation toàn bộ + immutable deployment + canary + rollback tự động.
+
+## Best practices CI/CD
+
+- ✅ **Trunk-based development** + feature flags thay vì long-lived branches.
+- ✅ **Test pyramid**: nhiều unit, vừa integration, ít E2E.
+- ✅ **Build artifact 1 lần, deploy nhiều môi trường** (cùng artifact dev → staging → prod).
+- ✅ **Immutable infrastructure** — không SSH sửa, redeploy luôn.
+- ✅ **Secret từ vault**, không bao giờ trong code/env file commit.
+- ✅ **Approval gate** cho prod (manual hoặc tự động dựa trên metric).
+- ✅ **Pipeline as code** (\`.github/workflows/\`, \`Jenkinsfile\`) — version trong git.
+- ✅ **DORA metrics** đo CI/CD quality: deployment frequency, lead time, MTTR, change failure rate.
+
+## Best practices Observability
+
+- ✅ **Structured logs JSON** với correlation ID xuyên suốt request.
+- ✅ **Sample traces** (1-10%) tránh tốn tiền — không trace 100% production.
+- ✅ **Alert dựa trên SLO** không dựa trên CPU% (alert fatigue!).
+- ✅ **Runbook gắn với mỗi alert** — on-call biết phải làm gì lúc 3h sáng.
+- ✅ **Postmortem blameless** sau mỗi incident.
+
+## Common pitfalls / Anti-patterns
+
+- ❌ **Deploy thẳng từ laptop dev** lên production.
+- ❌ **Skip test "vì gấp"** — sẽ phải pay lại với incident lớn.
+- ❌ **Build khác nhau cho từng env** → "works on staging, fails on prod".
+- ❌ **Alert mọi thứ** → fatigue → ignore alert thật.
+- ❌ **Không có rollback plan** trước khi deploy.
+- ❌ **Log secret/PII** ra CloudWatch → vi phạm GDPR.
+- ❌ **100% trace** → bill X-Ray phá ngân sách.
+
+## Khi nào nên / không nên?
+
+✅ **Nên dùng CI/CD:** mọi project có >1 dev hoặc >1 release/tháng — không có ngoại lệ.
+
+✅ **Nên đầu tư observability:** ngay từ MVP — fix bug khi có data dễ hơn 100 lần đoán mò.
+
+⚠️ **Cẩn thận:** Continuous Deployment (auto-deploy prod) chỉ phù hợp khi đã có canary + auto-rollback + observability đủ tốt.
+
+## Bridge sang bài tiếp theo
+
+Có CI/CD + observability rồi, làm sao biết kiến trúc tổng thể có "tốt" không? Bài tiếp theo (**AWS Well-Architected Framework**) cung cấp framework 6 trụ cột để đánh giá: Operational Excellence, Security, Reliability, Performance, Cost, Sustainability — và tránh các anti-pattern kinh điển.`,
+        theoryEn: `**CI/CD** (Continuous Integration / Continuous Delivery / Continuous Deployment) automates the journey from a developer's commit to production, paired with **observability** to monitor and respond to incidents. It's the backbone of modern DevOps — there's no cloud-native production without CI/CD + observability.
+
+## CI vs CD vs CD
+
+| Term | Meaning | Trigger |
+|---|---|---|
+| **Continuous Integration** | On commit: build + test + lint + security scan | Each push/PR |
+| **Continuous Delivery** | After CI passes: artifact ready, **human clicks deploy** | Manual approval |
+| **Continuous Deployment** | After CI passes: auto-deploy to prod | Fully automatic |
+
+Most teams start with Delivery (safer) and move to Deployment once tests, observability, and canaries are mature.
+
+## Popular CI/CD tools
+
+| Tool | Best for | Strengths | Weaknesses |
+|---|---|---|---|
+| **GitHub Actions** | GitHub repos | Simple YAML, huge marketplace | GitHub lock-in |
+| **GitLab CI** | GitLab repos | Built-in, easy self-hosted runners | Heavy UI |
+| **Jenkins** | On-prem enterprise | Infinite flexibility, many plugins | High maintenance |
+| **AWS CodePipeline** | AWS-native | Deep IAM/ECS/Lambda integration | AWS-only |
+| **CircleCI** | Startups | Fast, easy parallelism | Pricey at scale |
+| **ArgoCD / Flux** | Kubernetes GitOps | Pull-based, drift detection | K8s-only |
+
+## Deployment strategies
+
+| Strategy | How it works | Risk | When |
+|---|---|---|---|
+| Recreate | Stop v1, start v2 (downtime) | High | Dev/staging |
+| Rolling | Replace instances gradually | Medium | K8s default, common web apps |
+| Blue/Green | Two parallel envs, switch LB | Low | Need instant rollback |
+| Canary | 5% → 25% → 100% by metric | Very low | High-stakes (Netflix/Amazon) |
+| Shadow | Mirror traffic, drop response | Zero | Test new version with real traffic |
+| Feature flags | Deploy off, enable per user | Low | A/B testing |
+
+## Observability — Three Pillars
+
+### Metrics (quantitative)
+Time-series data: CPU%, latency p50/p95/p99, error rate, RPS, queue length.
+
+**Tools:** CloudWatch, Prometheus + Grafana, Datadog, New Relic, InfluxDB.
+
+**Google SRE 4 Golden Signals:** Latency, Traffic, Errors, Saturation.
+
+### Logs (qualitative)
+Detailed events: "User 123 logged in", "Payment failed: insufficient funds".
+
+**Tools:** CloudWatch Logs, ELK, Loki + Grafana, Splunk, Datadog Logs.
+
+**Best practice:** **Structured JSON logs** with correlation IDs.
+
+### Traces (distributed)
+The path of one request across services: \`req-ABC → API GW (5ms) → Auth (12ms) → Order (45ms) → Payment (120ms ⚠️)\`.
+
+**Tools:** AWS X-Ray, Jaeger (CNCF), Zipkin, OpenTelemetry (vendor-neutral standard).
+
+## SLI / SLO / SLA
+
+| Term | Definition | Example | Audience |
+|---|---|---|---|
+| SLI | Measurable indicator | "% requests <200ms" | Engineers |
+| SLO | Internal target for SLI | "SLI ≥ 99.9% in 30 days" | Engineering team |
+| SLA | Customer contract + penalty | "99.5% uptime or refund 10%" | Customer + Legal |
+
+**Rule:** SLO is always stricter than SLA, providing a buffer.
+
+## Error Budget — economics of reliability
+
+\`\`\`
+Error Budget = (1 - SLO) × time
+SLO 99.9%/month  → ~43.2 minutes
+SLO 99.95%       → ~21.6 minutes
+SLO 99.99%       → ~4.32 minutes (4 nines)
+SLO 99.999%      → ~26 seconds (5 nines — telco/finance only)
+\`\`\`
+
+Budget remaining → ship freely. Budget exhausted → freeze and stabilize.
+
+## Case study: Netflix — Spinnaker + Chaos Engineering
+
+Built Spinnaker (open-source CD), deploys 4000+ times/day with auto-canary. Compares 50+ metrics vs baseline. Bad metrics → auto-rollback. **Chaos Monkey** kills random prod instances to test resilience. Result: faster shipping with 99.99% uptime.
+
+## Case study: Knight Capital — $440M lost in 45 minutes
+
+2012: deployed new code to 8 trading servers — **forgot one**. Old code on the missed server placed wrong orders, losing $440M in 45 minutes; the company collapsed. **Lesson:** full automation, immutable deploys, canaries, auto-rollback.
+
+## CI/CD best practices
+
+- ✅ Trunk-based development + feature flags.
+- ✅ Test pyramid (lots of unit, some integration, few E2E).
+- ✅ Build artifact once, deploy to many envs.
+- ✅ Immutable infrastructure (no SSH, redeploy).
+- ✅ Secrets from vault, never in code/committed env files.
+- ✅ Approval gate for prod (manual or metric-based).
+- ✅ Pipeline as code in git.
+- ✅ Track DORA metrics: deploy freq, lead time, MTTR, change failure rate.
+
+## Observability best practices
+
+- ✅ Structured JSON logs with correlation IDs.
+- ✅ Sample traces (1-10%) to control cost.
+- ✅ Alert on SLOs, not raw CPU%.
+- ✅ Runbook attached to each alert.
+- ✅ Blameless postmortems after incidents.
+
+## Anti-patterns
+
+- ❌ Deploying from a developer laptop.
+- ❌ Skipping tests "because we're in a hurry".
+- ❌ Different builds per env → "works on staging, fails on prod".
+- ❌ Alerting on everything → fatigue.
+- ❌ No rollback plan.
+- ❌ Logging secrets/PII → GDPR violation.
+- ❌ 100% trace sampling → wrecks budget.
+
+## When to use
+
+✅ **CI/CD:** any project with >1 developer or >1 release/month.
+✅ **Observability:** invest from MVP — debugging with data is 100x easier.
+⚠️ **Continuous Deployment:** only after canaries + auto-rollback + strong observability.
+
+## Bridge to next lesson
+
+With CI/CD + observability in place, how do we know our overall architecture is "good"? Next: the **AWS Well-Architected Framework** — six pillars (Operational Excellence, Security, Reliability, Performance, Cost, Sustainability) and the classic anti-patterns to avoid.`,
         code: `# .github/workflows/deploy.yml — CI/CD với GitHub Actions
 name: Build & Deploy
 
