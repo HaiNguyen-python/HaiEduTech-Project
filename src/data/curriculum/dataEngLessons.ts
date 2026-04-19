@@ -15,21 +15,32 @@ export const dataEngModules: ExtendedProgrammingModule[] = [
       {
         id: "de-pd-1", title: "DataFrame & Series", titleEn: "DataFrame & Series",
         level: 1, difficulty: "beginner",
-        theory: `**Pandas** is Python's most popular data manipulation library, used by data engineers, data scientists, and analysts worldwide. It provides two core data structures that make working with structured data intuitive and powerful.
+        theory: `**Pandas** là **thư viện xử lý dữ liệu phổ biến nhất Python**, tải về hơn **300 triệu lần/tháng** (PyPI 2025) — được dùng bởi 95% data scientist và 80% data engineer toàn cầu. Nó cung cấp 2 cấu trúc dữ liệu cốt lõi giúp làm việc với dữ liệu structured (như Excel, CSV, SQL table) trở nên trực quan và mạnh mẽ.
 
-**Series — The 1D Building Block:**
-A Series is a one-dimensional labeled array. Think of it as a single column in a spreadsheet with row labels (called an *index*).
+## Vì sao Pandas quan trọng?
+Trước Pandas (2008, tác giả Wes McKinney tại AQR Capital), Python yếu hơn R/MATLAB cho phân tích dữ liệu. Pandas đem đến:
+- **Xử lý in-memory** lên đến **vài chục GB** trên 1 máy (với chunking)
+- API thống nhất từ **đọc → làm sạch → biến đổi → ghi**
+- Tích hợp với toàn bộ hệ sinh thái: NumPy, Matplotlib, scikit-learn, PyTorch, Spark
+- Là **bước đầu tiên** trong mọi pipeline data: ETL, ML feature engineering, EDA, reporting
+
+## Series — viên gạch 1D
+**Series** là mảng có nhãn 1 chiều — như **một cột Excel** với index làm row label.
 \`\`\`python
 import pandas as pd
-ages = pd.Series([22, 25, 23], index=['An', 'Binh', 'Chi'])
+ages = pd.Series([22, 25, 23], index=['An', 'Binh', 'Chi'], name='age')
 # An      22
 # Binh    25
 # Chi     23
 \`\`\`
-Key properties: \`ages.values\` (the data), \`ages.index\` (the labels), \`ages.dtype\` (data type).
+Thuộc tính chính:
+- \`ages.values\` → numpy array (data thật)
+- \`ages.index\` → row labels
+- \`ages.dtype\` → kiểu (int64, object, datetime64...)
+- \`ages.name\` → tên cột
 
-**DataFrame — The 2D Powerhouse:**
-A DataFrame is a two-dimensional table — essentially a dictionary of Series that share the same index. It is the primary Pandas data structure.
+## DataFrame — bảng 2D mạnh mẽ
+**DataFrame** là bảng 2 chiều — về cơ bản là **dictionary của các Series** chia sẻ chung index. Đây là cấu trúc chính của Pandas.
 \`\`\`python
 df = pd.DataFrame({
     'name': ['An', 'Binh', 'Chi'],
@@ -38,60 +49,215 @@ df = pd.DataFrame({
 })
 \`\`\`
 
-**Creating DataFrames:**
-| Source | Method |
-|--------|--------|
+## Tạo DataFrame từ nhiều nguồn
+| Nguồn | Method |
+|-------|--------|
 | Dictionary | \`pd.DataFrame({'col': [values]})\` |
-| CSV file | \`pd.read_csv('data.csv')\` |
+| CSV | \`pd.read_csv('data.csv')\` |
 | JSON | \`pd.read_json('data.json')\` |
-| Excel | \`pd.read_excel('data.xlsx')\` |
-| SQL query | \`pd.read_sql('SELECT * FROM table', connection)\` |
+| Excel | \`pd.read_excel('data.xlsx', sheet_name='Sheet1')\` |
+| SQL query | \`pd.read_sql('SELECT * FROM users', conn)\` |
+| Parquet (cloud) | \`pd.read_parquet('s3://bucket/file.parquet')\` |
+| Google Sheets | \`pd.read_csv('https://docs.google.com/.../export?format=csv')\` |
 | List of dicts | \`pd.DataFrame([{'a': 1}, {'a': 2}])\` |
 
-**Essential Exploration Commands:**
-- \`df.head(n)\` / \`df.tail(n)\` — first/last n rows (default 5)
-- \`df.shape\` — (rows, columns) tuple
-- \`df.dtypes\` — data type of each column
-- \`df.info()\` — concise summary including memory usage
-- \`df.describe()\` — statistical summary (count, mean, std, min, quartiles, max)
-- \`df.columns\` — list of column names
-- \`df.index\` — the row labels
+## Bộ lệnh thám hiểm bắt buộc thuộc
+Mỗi khi nhận dataset mới, chạy ngay 6 lệnh sau:
+- \`df.head(n)\` / \`df.tail(n)\` — n dòng đầu/cuối (mặc định 5)
+- \`df.shape\` — tuple (rows, cols)
+- \`df.dtypes\` — kiểu của từng cột
+- \`df.info()\` — tóm tắt + memory usage (cảnh báo nếu int64 chỗ nên dùng int8)
+- \`df.describe(include='all')\` — count, mean, std, min/max, quartiles, unique
+- \`df.isnull().sum()\` — số NULL mỗi cột
 
-**Selecting Data:**
-- **Single column:** \`df['name']\` or \`df.name\` → returns a Series
-- **Multiple columns:** \`df[['name', 'age']]\` → returns a DataFrame
-- **By position:** \`df.iloc[0]\` (first row), \`df.iloc[0:3]\` (rows 0-2)
-- **By label:** \`df.loc[0]\` (row with index 0), \`df.loc[0:2, 'name':'age']\`
-- **Boolean filtering:** \`df[df['age'] > 22]\` → rows where age > 22
+## 4 cách chọn dữ liệu (selection)
+| Cú pháp | Ý nghĩa | Trả về |
+|---------|---------|--------|
+| \`df['name']\` | 1 cột theo tên | Series |
+| \`df[['name', 'age']]\` | nhiều cột | DataFrame |
+| \`df.iloc[0:3, 0:2]\` | theo position (0-based) | DataFrame |
+| \`df.loc[0:2, 'name':'age']\` | theo label (inclusive) | DataFrame |
+| \`df[df['age'] > 22]\` | boolean filter | DataFrame |
+| \`df.query('age > 22 and city == "HCM"')\` | SQL-like filter | DataFrame |
 
-**Adding & Modifying Columns:**
+**Khác biệt loc vs iloc** — sai cái này = bug khó tìm:
+- **iloc** = integer position (như list Python, end-exclusive)
+- **loc** = label-based (kể cả end)
+
+## Thêm/sửa cột (mutation patterns)
 \`\`\`python
-df['grade'] = df['score'].apply(lambda x: 'A' if x >= 90 else 'B')
-df['passed'] = df['score'] >= 70  # Boolean column
+# Cột phái sinh đơn giản
+df['passed'] = df['score'] >= 70
+
+# Apply hàm tùy chỉnh
+df['grade'] = df['score'].apply(lambda x: 'A' if x >= 90 else 'B' if x >= 80 else 'C')
+
+# Vectorized (NHANH HƠN apply 100×)
 df['score_pct'] = (df['score'] / 100 * 100).round(1)
+
+# np.select cho điều kiện phức tạp (nhanh hơn nested apply)
+import numpy as np
+df['tier'] = np.select(
+    [df['score'] >= 90, df['score'] >= 70],
+    ['gold', 'silver'],
+    default='bronze'
+)
 \`\`\`
 
-**Common Aggregations:**
+## Aggregation & GroupBy (sức mạnh thật của Pandas)
+Pattern **Split-Apply-Combine** (Hadley Wickham 2011) — chia data theo nhóm, áp hàm, gộp lại:
 \`\`\`python
-df.groupby('city')['score'].mean()       # average score per city
-df.groupby('city').agg({'score': ['mean', 'max'], 'age': 'count'})
+# Đơn giản
+df.groupby('city')['score'].mean()
+
+# Multi-aggregation
+df.groupby('city').agg({
+    'score': ['mean', 'max', 'std'],
+    'age': 'count',
+    'revenue': 'sum'
+})
+
+# Named aggregation (Pandas 0.25+, rõ ràng hơn)
+df.groupby('city').agg(
+    avg_score=('score', 'mean'),
+    student_count=('name', 'count')
+)
 \`\`\`
 
-**Sorting:**
+## Bảng so sánh hiệu năng (1M rows)
+| Operation | Time | Note |
+|-----------|------|------|
+| Vectorized (\`df['a'] + df['b']\`) | ~5 ms | Nhanh nhất |
+| \`np.where()\` | ~10 ms | Cho if/else |
+| \`apply(lambda)\` | ~500 ms | Chậm 100× |
+| \`iterrows()\` | ~5,000 ms | **TRÁNH** |
+
+→ Quy tắc vàng: **Đừng bao giờ dùng for-loop trên DataFrame**. Luôn ưu tiên vectorized > apply > iterrows.
+
+## Case study: Spotify Data Team
+Spotify dùng Pandas cho **EDA hằng ngày** trước khi viết Spark job production:
+- Analyst export 1-10M rows từ Snowflake → Pandas → notebook
+- Khám phá feature mới cho recommendation model
+- Khi pattern stable → port sang **PySpark** chạy trên 10B rows
+
+→ Bài học: **Pandas cho prototyping, Spark cho production scale**.
+
+## Best practices
+1. **Đọc với dtype rõ ràng** — \`dtype={'id': 'int32', 'name': 'category'}\` tiết kiệm 50-90% RAM
+2. **Dùng \`category\` cho cột có ít unique value** (city, status…)
+3. **\`copy()\` khi cần** — tránh SettingWithCopyWarning bug âm thầm
+4. **Method chaining** với \`.assign()\` và \`.pipe()\` — code sạch hơn
+5. **Check memory với \`.memory_usage(deep=True)\`** trước khi load 10GB
+6. **Đọc theo chunk** với \`chunksize=50000\` cho file >1GB
+
+## Anti-patterns (tránh!)
+- ❌ \`for index, row in df.iterrows()\` — chậm 1000× so với vectorized
+- ❌ Tạo DataFrame trong loop bằng \`df = df.append(...)\` — O(n²) memory
+- ❌ Dùng \`df.values\` rồi xử lý numpy thủ công — mất index, error-prone
+- ❌ Nhầm \`df.copy()\` với \`df.copy(deep=False)\` → mutation lan ra DataFrame gốc
+- ❌ Đọc CSV 10GB không có \`chunksize\` → OOM máy
+
+## Khi nào nên / không nên dùng Pandas
+**Nên:** dataset <10GB, EDA, feature engineering, prototyping ML, reporting, ETL nhỏ
+**Không:** dataset >100GB (dùng **Polars**, **Dask**, **Spark**), real-time streaming (dùng **Kafka Streams**, **Flink**)
+
+## Bridge sang bài tiếp
+Sau khi nắm vững DataFrame/Series, bài kế (**Data Cleaning**) sẽ áp dụng các kỹ thuật này để xử lý vấn đề số 1 của data engineer: **dữ liệu bẩn** (missing, duplicate, outlier).`,
+        theoryEn: `**Pandas** is Python's #1 data manipulation library — 300M+ downloads/month (PyPI 2025), used by 95% of data scientists and 80% of data engineers globally.
+
+## Why Pandas matters
+Before Pandas (2008, Wes McKinney at AQR Capital), Python lagged behind R/MATLAB for data analysis. Pandas brought:
+- In-memory processing up to tens of GB on a single machine (with chunking)
+- Unified API from read → clean → transform → write
+- Integration with the entire ecosystem: NumPy, Matplotlib, scikit-learn, PyTorch, Spark
+- The first step in every data pipeline: ETL, ML feature engineering, EDA, reporting
+
+## Series — 1D building block
+A 1D labeled array — like a single Excel column with row labels.
 \`\`\`python
-df.sort_values('score', ascending=False)          # by score descending
-df.sort_values(['city', 'score'], ascending=[True, False])  # multi-column
-\`\`\``,
-        theoryEn: `**Pandas** — Python's #1 data processing library.
+ages = pd.Series([22, 25, 23], index=['An', 'Binh', 'Chi'], name='age')
+\`\`\`
+Properties: \`.values\`, \`.index\`, \`.dtype\`, \`.name\`
 
-**Series:** 1D labeled array (single column with index).
-**DataFrame:** 2D table (dictionary of Series sharing an index).
+## DataFrame — 2D powerhouse
+A 2D table — essentially a dict of Series sharing an index. The main Pandas structure.
 
-**Creating:** From dict, CSV, JSON, Excel, SQL, list of dicts.
-**Exploration:** head(), shape, dtypes, info(), describe().
-**Selecting:** df['col'], df[['col1','col2']], iloc (position), loc (label), boolean filtering.
-**Modifying:** df['new'] = expression, apply(), assign().
-**Aggregating:** groupby().agg(), sort_values().`,
+## Creating DataFrames
+| Source | Method |
+|--------|--------|
+| Dict | \`pd.DataFrame({'col': [values]})\` |
+| CSV | \`pd.read_csv('data.csv')\` |
+| JSON | \`pd.read_json('data.json')\` |
+| Excel | \`pd.read_excel('data.xlsx')\` |
+| SQL | \`pd.read_sql('SELECT...', conn)\` |
+| Parquet (cloud) | \`pd.read_parquet('s3://bucket/file.parquet')\` |
+| List of dicts | \`pd.DataFrame([{'a': 1}, {'a': 2}])\` |
+
+## Must-know exploration commands
+\`df.head(n)\`, \`df.tail(n)\`, \`df.shape\`, \`df.dtypes\`, \`df.info()\`, \`df.describe(include='all')\`, \`df.isnull().sum()\`
+
+## 4 ways to select data
+| Syntax | Meaning |
+|--------|---------|
+| \`df['name']\` | 1 column → Series |
+| \`df[['name','age']]\` | multiple columns → DataFrame |
+| \`df.iloc[0:3, 0:2]\` | by position (0-based, end-exclusive) |
+| \`df.loc[0:2, 'name':'age']\` | by label (inclusive) |
+| \`df[df['age'] > 22]\` | boolean filter |
+| \`df.query('age > 22')\` | SQL-like filter |
+
+**iloc vs loc** — getting this wrong = hard-to-find bugs.
+
+## Modify columns (vectorized > apply > iterrows)
+\`\`\`python
+df['passed'] = df['score'] >= 70                          # vectorized
+df['grade'] = df['score'].apply(lambda x: 'A' if x >= 90 else 'B')  # apply
+df['tier'] = np.select(
+    [df['score'] >= 90, df['score'] >= 70],
+    ['gold', 'silver'], default='bronze'
+)
+\`\`\`
+
+## GroupBy — Split-Apply-Combine
+\`\`\`python
+df.groupby('city').agg(
+    avg_score=('score', 'mean'),
+    student_count=('name', 'count')
+)
+\`\`\`
+
+## Performance comparison (1M rows)
+| Operation | Time |
+|-----------|------|
+| Vectorized | ~5 ms |
+| np.where | ~10 ms |
+| apply(lambda) | ~500 ms |
+| iterrows | ~5000 ms — **AVOID** |
+
+## Spotify case study
+Analysts export 1-10M rows from Snowflake → Pandas notebooks → discover features → port to PySpark for 10B-row production. **Pandas for prototyping, Spark for scale.**
+
+## Best practices
+1. Read with explicit dtype (saves 50-90% RAM)
+2. Use \`category\` dtype for low-cardinality columns
+3. Always \`.copy()\` to avoid SettingWithCopyWarning
+4. Method chain with \`.assign()\` and \`.pipe()\`
+5. Check \`.memory_usage(deep=True)\` before loading 10GB
+6. Use \`chunksize\` for files >1GB
+
+## Anti-patterns
+- ❌ \`iterrows()\` — 1000× slower than vectorized
+- ❌ \`df = df.append()\` in loop — O(n²) memory
+- ❌ Going to \`.values\` numpy then back — error-prone
+- ❌ Shallow copy when you need deep copy
+- ❌ Reading 10GB CSV without chunksize → OOM
+
+## When to use Pandas vs alternatives
+**Use:** datasets <10GB, EDA, feature engineering, prototyping, reporting, small ETL
+**Don't:** datasets >100GB (use **Polars**, **Dask**, **Spark**), real-time streaming (use **Kafka Streams**, **Flink**)
+
+## Bridge to next
+After mastering DataFrame/Series, the next lesson (**Data Cleaning**) applies these techniques to data engineering's #1 problem: **dirty data** (missing, duplicates, outliers).`,
         code: `import pandas as pd
 import numpy as np
 
