@@ -69,9 +69,22 @@ const ChineseConversationalLessonView = () => {
     // Reset exercise state when lesson changes
     setFibAnswers({});
     setFibChecked(false);
+    setFibScore(null);
     setListeningRevealed(false);
     setListeningAnswers({});
+    setListeningSubmitted(false);
+    setListeningScore(null);
   }, [lesson, pillar, hasAccess]);
+
+  // Load saved exercise scores for this lesson from localStorage
+  useEffect(() => {
+    if (!lesson) return;
+    try {
+      const saved = JSON.parse(localStorage.getItem(`conv-cn-ex-${lesson.id}`) || "null");
+      if (saved?.fib) setFibScore(saved.fib);
+      if (saved?.listening) setListeningScore(saved.listening);
+    } catch { /* ignore */ }
+  }, [lesson]);
 
   if (accessLoading) {
     return <div className="min-h-screen bg-background flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
