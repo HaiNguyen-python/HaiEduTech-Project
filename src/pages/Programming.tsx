@@ -8,11 +8,21 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import PythonReview from "@/components/PythonReview";
+import PythonPathwayHub from "@/components/python/PythonPathwayHub";
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
 
 const pillars = [
+  {
+    id: "python-pathway",
+    icon: Sparkles,
+    emoji: "🐍",
+    color: "from-fuchsia-500 to-purple-600",
+    bgColor: "bg-fuchsia-500/8",
+    borderColor: "border-fuchsia-500/20",
+    accentColor: "text-fuchsia-600",
+  },
   {
     id: "python",
     icon: Code2,
