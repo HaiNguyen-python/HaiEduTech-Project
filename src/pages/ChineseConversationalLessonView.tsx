@@ -52,6 +52,9 @@ const ChineseConversationalLessonView = () => {
   const [listeningAnswers, setListeningAnswers] = useState<Record<number, number>>({});
   const [fibAnswers, setFibAnswers] = useState<Record<number, string>>({});
   const [fibChecked, setFibChecked] = useState(false);
+  const [fibScore, setFibScore] = useState<{ correct: number; total: number; percent: number } | null>(null);
+  const [listeningSubmitted, setListeningSubmitted] = useState(false);
+  const [listeningScore, setListeningScore] = useState<{ correct: number; total: number; percent: number } | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese");
   const [showAccessModal, setShowAccessModal] = useState(false);
