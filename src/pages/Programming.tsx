@@ -167,7 +167,7 @@ const Programming = () => {
           </motion.div>
 
           {/* 5 Pillar Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 max-w-5xl mx-auto mb-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-6xl mx-auto mb-10">
             {pillars.map((p, i) => {
               const data = pillarData[p.id];
               const isActive = activePillar === p.id;
