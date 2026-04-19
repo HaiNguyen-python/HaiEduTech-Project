@@ -776,48 +776,288 @@ print(list(squares))`,
         id: "py-fileio-1",
         title: "Đọc & Ghi File",
         titleEn: "Reading & Writing Files",
-        theory: `# File I/O trong Python
+        theory: `**File I/O** là kỹ năng nền tảng — mọi ứng dụng đều cần đọc/ghi file (config, log, dữ liệu, export). Python cung cấp API đơn giản nhưng có nhiều "ổ gà" về encoding, performance và resource leak nếu không cẩn thận.
 
-## Đọc file
+## Vì sao File I/O quan trọng?
+
+Trong production:
+- **Log files**: app ghi hàng GB log/ngày để debug
+- **Config**: \`.env\`, \`yaml\`, \`json\` lưu cấu hình
+- **Data exchange**: CSV/Parquet trao đổi giữa hệ thống
+- **State persistence**: lưu user data, cache, session
+
+Hiểu rõ I/O = code mạnh mẽ, không bị "file not found" ở 3 giờ sáng.
+
+## Mở file đúng cách: \`with\` statement
+
 \`\`\`python
-with open('data.txt', 'r') as f:
-    content = f.read()       # Đọc toàn bộ
-    lines = f.readlines()    # Đọc từng dòng
+# ❌ Sai — không đóng file, leak resource
+f = open("data.txt")
+data = f.read()
+# Quên f.close() → file handle leak
+
+# ✅ Đúng — context manager tự đóng
+with open("data.txt", "r", encoding="utf-8") as f:
+    data = f.read()
+# File tự động đóng kể cả khi có exception
 \`\`\`
 
-## Ghi file
-\`\`\`python
-with open('output.txt', 'w') as f:
-    f.write("Hello World\\n")
+\`with\` đảm bảo \`__exit__\` chạy → file luôn đóng. Trên Linux mỗi process giới hạn ~1024 file handles — leak là disaster.
 
-# Append (thêm vào cuối)
-with open('log.txt', 'a') as f:
-    f.write("New log entry\\n")
+## File Modes — Bảng đầy đủ
+
+| Mode | Ý nghĩa | Tạo file mới? | Xóa nội dung cũ? |
+|------|---------|---------------|------------------|
+| \`r\` | Read (mặc định) | ❌ (FileNotFoundError) | ❌ |
+| \`w\` | Write | ✅ | ✅ Xóa hết |
+| \`a\` | Append | ✅ | ❌ Thêm cuối |
+| \`x\` | Exclusive write | ✅ (FileExistsError nếu có) | — |
+| \`r+\` | Read + write | ❌ | ❌ |
+| \`b\` | Binary (ghép: \`rb\`, \`wb\`) | — | — |
+| \`t\` | Text (mặc định) | — | — |
+
+> Mẹo: dùng \`x\` thay \`w\` khi không muốn đè file cũ — an toàn hơn.
+
+## Encoding: Cạm bẫy lớn nhất
+
+\`\`\`python
+# ❌ Mặc định Windows = cp1252, Linux = utf-8 → chạy 1 nơi, lỗi nơi khác
+open("vi.txt").read()    # UnicodeDecodeError với 'ư', 'ơ'
+
+# ✅ Luôn explicit
+open("vi.txt", encoding="utf-8").read()
 \`\`\`
 
-## Modes
-- 'r': read (mặc định)
-- 'w': write (ghi đè)
-- 'a': append (thêm vào cuối)
-- 'b': binary mode
+**Quy tắc vàng:** *Luôn* truyền \`encoding="utf-8"\` cho text file. UTF-8 = chuẩn web, hỗ trợ mọi ngôn ngữ.
 
-## CSV
+## Đọc file lớn: KHÔNG dùng \`read()\` hay \`readlines()\`
+
+\`\`\`python
+# ❌ Crash với file 10GB
+content = open("huge.log").read()   # Load 10GB vào RAM
+
+# ✅ Iteration tự nhiên — đọc từng dòng
+with open("huge.log", encoding="utf-8") as f:
+    for line in f:                   # Generator, RAM friendly
+        process(line)
+\`\`\`
+
+File object trong Python **chính là một iterator** — duyệt \`for line in f\` là cách Pythonic và hiệu quả nhất.
+
+## CSV: Dùng \`csv.DictReader\`
+
 \`\`\`python
 import csv
-with open('data.csv', 'r') as f:
-    reader = csv.DictReader(f)
+with open("students.csv", encoding="utf-8") as f:
+    reader = csv.DictReader(f)       # Header → dict keys
     for row in reader:
-        print(row)
+        print(row["name"], row["score"])
 \`\`\`
 
-## JSON
+**Tránh tự split bằng \`,\`** — gặp dữ liệu \`"Hà Nội, VN"\` sẽ break. \`csv\` module xử lý quoting, escaping đúng chuẩn RFC 4180.
+
+Với data lớn (>100MB CSV), dùng **Pandas** \`pd.read_csv("file", chunksize=10000)\`.
+
+## JSON: Phân biệt \`load\` vs \`loads\`
+
+| Function | Input | Output |
+|----------|-------|--------|
+| \`json.load(file)\` | File object | Python object |
+| \`json.loads(string)\` | String | Python object |
+| \`json.dump(obj, file)\` | Object → File | None |
+| \`json.dumps(obj)\` | Object → String | str |
+
 \`\`\`python
-import json
-with open('data.json', 'r') as f:
-    data = json.load(f)
-\`\`\``,
-        theoryEn: `# File I/O in Python
-Read/write text files with open(). Modes: 'r' (read), 'w' (write), 'a' (append). Use csv and json modules for structured data.`,
+# Lưu data (đẹp + Unicode)
+with open("data.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, indent=2, ensure_ascii=False)
+#                                  ^^^^^^^^^^^^^^^^^^
+#                                  Quan trọng cho tiếng Việt!
+\`\`\`
+
+\`ensure_ascii=False\` → giữ nguyên \`"Hà Nội"\` thay vì escape thành \`"H\\u00e0 N\\u1ed9i"\`.
+
+## Format khác cho Production
+
+| Format | Khi nào dùng | Tool |
+|--------|--------------|------|
+| **CSV** | Excel-compatible, nhỏ | csv, pandas |
+| **JSON** | Web API, config | json, orjson (nhanh hơn 5x) |
+| **YAML** | Config dễ đọc | PyYAML |
+| **TOML** | pyproject.toml, config | tomllib (Python 3.11+) |
+| **Parquet** | Big data, columnar | pyarrow, pandas |
+| **Pickle** | Object Python (không cross-language) | pickle |
+| **HDF5** | Scientific, mảng số lớn | h5py |
+
+## Case study: Dropbox và Atomic Write
+
+Dropbox sync hàng tỉ file. Họ dùng pattern **atomic write** để tránh corrupt:
+\`\`\`python
+import os, tempfile
+def atomic_write(path, data):
+    dir_ = os.path.dirname(path) or "."
+    fd, tmp = tempfile.mkstemp(dir=dir_)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(data)
+        os.replace(tmp, path)        # Atomic on POSIX
+    except:
+        os.unlink(tmp)
+        raise
+\`\`\`
+
+\`os.replace\` là atomic → file đích hoặc là bản cũ, hoặc là bản mới — không bao giờ là "nửa nạc nửa mỡ" khi có crash giữa chừng.
+
+## Best Practices ✅
+
+- ✅ Luôn dùng \`with open(...)\`
+- ✅ Luôn truyền \`encoding="utf-8"\` cho text file
+- ✅ Iterate file lớn từng dòng, không \`read()\` hết
+- ✅ \`pathlib.Path\` thay \`os.path\` (Python 3.6+, OOP, cross-platform)
+- ✅ Atomic write cho file quan trọng (config, state)
+- ✅ Validate input file trước khi xử lý
+
+## Anti-patterns ❌
+
+- ❌ Quên \`encoding\` → dev trên Mac/Linux, prod Windows lỗi tiếng Việt
+- ❌ \`open()\` không có \`with\` → leak file handle
+- ❌ \`readlines()\` cho file 10GB → out of memory
+- ❌ Tự split CSV bằng \`,\` → break với data có dấu phẩy trong field
+- ❌ \`pickle\` data từ source không tin cậy → arbitrary code execution risk
+- ❌ Hardcode đường dẫn \`"C:\\\\Users\\\\..."\` → không cross-platform
+
+## Khi nào dùng?
+
+✅ Lưu config, log, export data, exchange giữa hệ thống.
+❌ Dữ liệu cần query phức tạp (dùng SQLite/Postgres), dữ liệu rất lớn cần phân tán (dùng cloud storage).
+
+## Bridge: Bài tiếp theo
+
+Phần tiếp theo: **Advanced SQL Window Functions** — khi data đã đọc vào database, làm sao xếp hạng, tính running total, moving average hiệu quả? Đáp án: window functions.`,
+        theoryEn: `**File I/O** is foundational — every app reads/writes files (config, logs, data, exports). Python's API is simple but has pitfalls around encoding, performance, and resource leaks.
+
+## Why File I/O Matters
+
+In production: gigabytes of logs daily, config files, CSV/Parquet data exchange, state persistence. Robust I/O = no 3am "file not found" pages.
+
+## Open Properly: \`with\` Statement
+
+\`\`\`python
+with open("data.txt", "r", encoding="utf-8") as f:
+    data = f.read()
+# Auto-closed even on exception
+\`\`\`
+
+Linux limits ~1024 file handles per process — leaks are disaster.
+
+## File Modes
+
+| Mode | Meaning | Creates? | Truncates? |
+|------|---------|----------|------------|
+| \`r\` | Read (default) | ❌ | ❌ |
+| \`w\` | Write | ✅ | ✅ |
+| \`a\` | Append | ✅ | ❌ |
+| \`x\` | Exclusive write | ✅ (errors if exists) | — |
+| \`b\` | Binary | — | — |
+
+Use \`x\` over \`w\` to avoid overwriting.
+
+## Encoding: Biggest Pitfall
+
+\`\`\`python
+# ❌ Default differs Windows/Linux
+open("vi.txt").read()              # UnicodeDecodeError
+
+# ✅ Explicit
+open("vi.txt", encoding="utf-8").read()
+\`\`\`
+
+**Golden rule:** *Always* pass \`encoding="utf-8"\` for text files.
+
+## Large Files: Iterate, Don't Read All
+
+\`\`\`python
+# ❌ Crashes on 10GB file
+content = open("huge.log").read()
+
+# ✅ Iterate (file is a generator!)
+with open("huge.log", encoding="utf-8") as f:
+    for line in f:
+        process(line)
+\`\`\`
+
+## CSV: Use \`csv.DictReader\`
+
+\`\`\`python
+import csv
+with open("data.csv", encoding="utf-8") as f:
+    for row in csv.DictReader(f):
+        print(row["name"])
+\`\`\`
+
+Don't manually split on \`,\` — fails with quoted commas. For >100MB, use \`pd.read_csv(chunksize=)\`.
+
+## JSON: load vs loads
+
+| Function | Input | Output |
+|----------|-------|--------|
+| \`json.load(file)\` | File | Object |
+| \`json.loads(str)\` | String | Object |
+| \`json.dump(obj, file)\` | Save to file | — |
+| \`json.dumps(obj)\` | Object → str | str |
+
+\`\`\`python
+json.dump(data, f, indent=2, ensure_ascii=False)
+#                            ^ keeps "Hà Nội" readable
+\`\`\`
+
+## Production Formats
+
+| Format | Use Case | Tool |
+|--------|----------|------|
+| **CSV** | Excel-compat | csv, pandas |
+| **JSON** | Web/config | json, orjson |
+| **YAML** | Human config | PyYAML |
+| **TOML** | pyproject.toml | tomllib |
+| **Parquet** | Big data | pyarrow |
+| **Pickle** | Python objects | pickle (unsafe!) |
+
+## Case Study: Dropbox Atomic Write
+
+\`\`\`python
+def atomic_write(path, data):
+    fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path) or ".")
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        f.write(data)
+    os.replace(tmp, path)        # atomic on POSIX
+\`\`\`
+
+Either old or new file — never half-written.
+
+## Best Practices ✅
+
+- Always use \`with open(...)\`
+- Always pass \`encoding="utf-8"\`
+- Iterate large files line-by-line
+- Use \`pathlib.Path\` (modern, cross-platform)
+- Atomic writes for critical files
+
+## Anti-patterns ❌
+
+- Forgetting encoding → Vietnamese text breaks
+- \`open()\` without \`with\` → handle leaks
+- \`readlines()\` on huge files → OOM
+- Manual CSV splitting on \`,\`
+- \`pickle\` from untrusted sources → RCE
+
+## When to Use
+
+✅ Config, logs, data export/import
+❌ Complex queries (use DB), distributed scale (use cloud storage)
+
+## Bridge
+
+Next: **Advanced SQL Window Functions** — once data is in DB, how to rank, compute running totals, moving averages efficiently.`,
         code: `import json
 import csv
 from io import StringIO
