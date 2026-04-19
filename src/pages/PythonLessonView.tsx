@@ -67,6 +67,11 @@ const PythonLessonView = () => {
     if (lesson) setCompleted(!!getPythonPathwayProgress()[lesson.id]);
   }, [lesson]);
 
+  // Preload Pyodide in background as soon as a lesson opens — makes Run feel instant.
+  useEffect(() => {
+    preloadPyodide();
+  }, []);
+
   const handleQuizComplete = async (passed: boolean, score: number) => {
     if (!lesson) return;
     if (passed && !completed) {
