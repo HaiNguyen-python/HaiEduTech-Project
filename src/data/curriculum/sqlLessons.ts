@@ -19,143 +19,158 @@ export const sqlModules: ExtendedProgrammingModule[] = [
         titleEn: "SELECT & FROM",
         level: 1,
         difficulty: "beginner",
-        theory: `**SELECT** is the most fundamental SQL statement — it is how you ask the database to return data. Every analytical query, every dashboard, every ML feature pipeline starts here. Mastering the semantics of SELECT pays off for the rest of your career.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bạn có một bảng \`students\` (học viên) chứa 1000 dòng. Sếp nhắn: *"Cho tôi xem 10 học viên có điểm cao nhất."* Làm sao? Đó chính là việc của câu lệnh **SELECT** — cách bạn "hỏi" database để lấy dữ liệu ra.
 
-Even staff-level data engineers write SELECT every day. The difference between a beginner and a senior is *not* the keyword — it is knowing when \`SELECT *\` is a $700 mistake (covered later) and when \`DISTINCT\` silently hides a data-quality issue. Get the foundations right and the rest of SQL is paint on the walls.
+Mỗi câu hỏi với database đều bắt đầu bằng SELECT: từ dashboard công ty, báo cáo doanh thu, cho tới feature cho machine learning.
 
-## Basic syntax
+## 2. Cú pháp tối thiểu (xem 1 lần là nhớ)
 
 \`\`\`sql
-SELECT column1, column2 FROM table_name;
+SELECT name, score        -- Lấy cột nào? → cột "name" và "score"
+FROM   students           -- Từ bảng nào? → bảng "students"
+ORDER BY score DESC       -- Sắp xếp theo điểm giảm dần (DESC = descending)
+LIMIT 10;                 -- Lấy bao nhiêu dòng? → 10 dòng đầu tiên
 \`\`\`
 
-Mental model: SELECT = *what you want*, FROM = *where to read it from*. Like ordering food: "give me the soup and salad (SELECT) from the lunch menu (FROM)."
+Mỗi dòng trả lời 1 câu hỏi: **Lấy gì? Từ đâu? Sắp xếp ra sao? Bao nhiêu dòng?**
 
-## Selecting columns — \`*\` vs explicit
+## 3. \`SELECT *\` vs liệt kê cột cụ thể
 
-- \`SELECT * FROM students;\` — every column. Convenient for exploration, **dangerous in production**: schema changes silently break downstream code, and on a wide table you fetch megabytes you don't use.
-- \`SELECT name, age FROM students;\` — only what you need. **Always preferred** in shipped code.
+- \`SELECT * FROM students;\` → lấy **tất cả các cột**. Tiện khi khám phá dữ liệu lần đầu.
+- \`SELECT name, age FROM students;\` → chỉ lấy cột bạn cần. **Luôn dùng cách này khi đưa code lên production** (môi trường thật).
 
-## DISTINCT — careful with it
+Lý do: bảng thật có thể có 50 cột, mỗi dòng nặng vài KB. \`SELECT *\` kéo về cả MB dữ liệu thừa, tốn băng thông và RAM.
 
-\`SELECT DISTINCT city FROM students;\` returns each city once. \`SELECT DISTINCT city, age FROM students;\` evaluates uniqueness across the *combination*. Use sparingly — DISTINCT often masks a deduplication problem you should fix at the source instead.
+## 4. \`DISTINCT\` — loại bỏ trùng lặp
 
-## LIMIT, OFFSET, and pagination
+Bảng \`students\` có 1000 học viên ở khắp Việt Nam. Bạn muốn biết có bao nhiêu **thành phố** khác nhau xuất hiện?
 
-| Dialect | Syntax |
-|---|---|
-| Postgres / MySQL / SQLite | \`LIMIT 10 OFFSET 20\` |
-| SQL Server | \`OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY\` (or \`TOP 10\`) |
-| Oracle | \`FETCH FIRST 10 ROWS ONLY\` |
-
-OFFSET-based pagination is fine for small datasets but becomes slow on big tables (the database must scan all skipped rows). Production APIs usually switch to **keyset pagination** (\`WHERE id > last_seen_id ORDER BY id LIMIT 10\`).
-
-## ORDER BY — and the always-needs-a-tiebreaker rule
-
-\`ORDER BY age DESC\` works, but if multiple rows share the same age, the order *between them* is undefined. For deterministic results — especially with LIMIT — always include a tiebreaker: \`ORDER BY age DESC, id ASC\`.
-
-## Logical execution order — the most useful trick
-
-You write SQL in this order: \`SELECT … FROM … WHERE … GROUP BY … ORDER BY … LIMIT\`.
-SQL *runs* it in this order:
-
-\`\`\`
-1. FROM      (which table)
-2. WHERE     (filter rows)
-3. GROUP BY  (collapse into groups)
-4. HAVING    (filter groups)
-5. SELECT    (compute output columns)
-6. ORDER BY  (sort)
-7. LIMIT     (cut)
+\`\`\`sql
+SELECT DISTINCT city FROM students;   -- Mỗi thành phố chỉ hiện 1 lần
 \`\`\`
 
-This is why you cannot reference a SELECT alias in WHERE (SELECT runs *after* WHERE) but you *can* reference it in ORDER BY (which runs after).
+\`DISTINCT\` (riêng biệt) loại bỏ giá trị trùng lặp. Khi liệt kê nhiều cột (\`DISTINCT city, age\`), database xét tính duy nhất theo **cả tổ hợp** — chỉ trùng nếu cả city lẫn age đều giống.
 
-## Case study & best practices
+## 5. \`LIMIT\` & \`OFFSET\` — chỉ lấy 1 phần kết quả
 
-The famous BigQuery \`SELECT *\` story: a junior analyst at a startup ran \`SELECT *\` against a 70 TB partitioned table without a partition filter. BigQuery scanned the whole table at $5/TB. Two runs cost $700. Modern teams now block unfiltered \`SELECT *\` at the warehouse level.
+\`\`\`sql
+SELECT name FROM students
+LIMIT 10 OFFSET 20;   -- Bỏ qua 20 dòng đầu, sau đó lấy 10 dòng tiếp theo
+\`\`\`
 
-**Best practices**: prefer explicit columns; always pair \`ORDER BY\` with a tiebreaker when using \`LIMIT\`; never use \`SELECT *\` in shipped views; understand logical execution order before debugging anything else.
+- \`LIMIT 10\` — chỉ lấy **10 dòng**.
+- \`OFFSET 20\` — **bỏ qua 20 dòng đầu** rồi mới đếm.
 
-## Bridge to next lesson
+Dùng khi phân trang (pagination): trang 1 = OFFSET 0, trang 2 = OFFSET 10, trang 3 = OFFSET 20…
 
-Now that you can shape *what* and *how many* rows come back, the next step is **AS / Aliases** — making your output and joins readable when queries grow beyond a single table.`,
-        theoryEn: `**SELECT** is the foundation of every SQL query. Mastery here pays off for life.
+## 6. \`ORDER BY\` — sắp xếp kết quả
 
-## Why this matters
+\`\`\`sql
+SELECT name, age FROM students
+ORDER BY age DESC;        -- DESC = giảm dần. ASC = tăng dần (mặc định).
+\`\`\`
 
-Senior engineers still write SELECT every day. The difference is judgment: when \`*\` is a $700 mistake, when \`DISTINCT\` masks a real bug.
+**Mẹo nhỏ**: nếu nhiều học viên cùng tuổi, thứ tự giữa họ là *ngẫu nhiên*. Khi dùng kèm \`LIMIT\`, hãy thêm 1 cột phụ để sắp xếp ổn định:
 
-## Basic syntax
+\`\`\`sql
+ORDER BY age DESC, id ASC;   -- Cùng tuổi → sắp theo id tăng dần
+\`\`\`
 
-\`SELECT cols FROM table;\` — what you want, where to read it.
+## 7. Thứ tự thực thi (execution order) — mẹo vàng để hiểu SQL
 
-## \`*\` vs explicit columns
+Bạn **viết** SQL theo thứ tự: \`SELECT … FROM … WHERE … ORDER BY … LIMIT\`.
+Nhưng database **chạy** theo thứ tự khác:
 
-\`SELECT *\` is fine for exploration, dangerous in production (schema breaks, wasted bytes). Always prefer explicit columns in shipped code.
+\`\`\`
+1. FROM      → mở bảng
+2. WHERE     → lọc dòng
+3. GROUP BY  → gom nhóm
+4. SELECT    → tính cột kết quả
+5. ORDER BY  → sắp xếp
+6. LIMIT     → cắt số dòng
+\`\`\`
 
-## DISTINCT
+Vì vậy, một alias (tên đặt tạm) trong SELECT *không* dùng được trong WHERE — vì WHERE đã chạy xong trước SELECT. Nhớ điều này, sau này gặp lỗi sẽ hiểu ngay.
 
-Use sparingly. Often hides a duplicate-data bug that should be fixed at the source.
+## 8. Tổng kết — checklist khi viết SELECT
 
-## LIMIT / OFFSET / pagination
+- ✅ Trên production: liệt kê cột cụ thể, **tránh** \`SELECT *\`.
+- ✅ Khi dùng \`LIMIT\`, **luôn** kèm \`ORDER BY\` (kèm cột phụ để ổn định).
+- ✅ \`DISTINCT\` chỉ dùng khi thật cần — nếu dữ liệu bị trùng, sửa từ nguồn.
+- ✅ Nhớ thứ tự thực thi: **FROM → WHERE → SELECT → ORDER BY → LIMIT**.
+- ✅ Bài tiếp theo: **AS / Alias** — đặt tên ngắn gọn cho cột & bảng để query dễ đọc.`,
+        theoryEn: `## 1. Real-world problem
 
-| Dialect | Syntax |
-|---|---|
-| Postgres/MySQL | \`LIMIT 10 OFFSET 20\` |
-| SQL Server | \`OFFSET … FETCH NEXT …\` / \`TOP\` |
-| Oracle | \`FETCH FIRST … ROWS ONLY\` |
+You have a \`students\` table with 1000 rows. The boss asks: "Show me the top 10 by score." That's exactly what **SELECT** does — ask the database for data.
 
-OFFSET is slow on big tables → switch to keyset pagination.
+## 2. Minimal syntax
 
-## ORDER BY needs a tiebreaker
+\`\`\`sql
+SELECT name, score    -- which columns?
+FROM   students       -- from which table?
+ORDER BY score DESC   -- sort how?
+LIMIT 10;             -- how many rows?
+\`\`\`
 
-\`ORDER BY age DESC\` is non-deterministic on ties. Always add \`, id ASC\` when using LIMIT.
+## 3. \`*\` vs explicit columns
 
-## Logical execution order
+\`SELECT *\` is fine for exploration, dangerous in production (wasted bytes, schema breaks). Always list columns in shipped code.
 
-\`FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT\`.
+## 4. DISTINCT
 
-This is why aliases work in ORDER BY but not WHERE.
+\`SELECT DISTINCT city FROM students;\` — each value once. With multiple columns, uniqueness is over the combination.
 
-## Case study & best practices
+## 5. LIMIT / OFFSET
 
-BigQuery \`SELECT *\` on 70 TB → $700. Block unfiltered \`*\` at warehouse level. Always: explicit columns, tiebreakers, no \`SELECT *\` in views.
+\`LIMIT 10 OFFSET 20\` skips 20 rows, returns the next 10. Used for pagination.
 
-## Bridge
+## 6. ORDER BY
 
-Next: **AS / Aliases** — keeping output and joins readable.`,
-        code: `-- Retrieve all students
+\`ORDER BY age DESC\` is non-deterministic on ties. With LIMIT, always add a tiebreaker: \`ORDER BY age DESC, id ASC\`.
+
+## 7. Execution order
+
+You write \`SELECT … FROM … WHERE … ORDER BY\` but it runs:
+\`FROM → WHERE → GROUP BY → SELECT → ORDER BY → LIMIT\`. That's why aliases work in ORDER BY but not WHERE.
+
+## 8. Checklist
+
+- Avoid \`SELECT *\` in production
+- Always pair LIMIT with a stable ORDER BY
+- Use DISTINCT sparingly
+- Remember execution order
+- Next lesson: **AS / Aliases**`,
+        code: `-- Lấy tất cả các cột (chỉ dùng khi khám phá)
 SELECT * FROM students;
 
--- Select specific columns
+-- Chỉ lấy cột cần thiết (cách dùng chuẩn)
 SELECT name, age FROM students;
 
--- Get unique values
+-- Lấy danh sách độ tuổi không trùng
 SELECT DISTINCT age FROM students;
 
--- Limit results
-SELECT * FROM students LIMIT 3;
+-- Chỉ lấy 3 dòng đầu
+SELECT name FROM students LIMIT 3;
 
--- Order and paginate
-SELECT name, age FROM students
-ORDER BY age DESC
-LIMIT 5 OFFSET 10;`,
+-- Sắp xếp theo điểm giảm dần, lấy trang 2 (5 dòng/trang)
+SELECT name, score FROM students
+ORDER BY score DESC, id ASC   -- thêm id ASC để thứ tự ổn định
+LIMIT 5 OFFSET 5;`,
         codeLanguage: "sql",
-        exercise: "Write a query to get names and emails of the first 5 students, sorted by name alphabetically.",
-        exerciseEn: "Write a query to get names and emails of the first 5 students, sorted by name alphabetically.",
+        exercise: "Viết câu lệnh lấy tên (name) và email của 5 học viên đầu tiên trong bảng students, sắp xếp theo tên A→Z. Gợi ý: dùng ORDER BY name ASC kèm LIMIT 5.",
+        exerciseEn: "Write a query to get name and email of the first 5 students, sorted alphabetically by name (A→Z). Hint: ORDER BY name ASC + LIMIT 5.",
         testCases: [
-          { input: "SELECT name, email FROM students ORDER BY name LIMIT 5;", expectedOutput: "5 rows", description: "Should return 5 rows with name and email columns" }
+          { input: "SELECT name, email FROM students ORDER BY name LIMIT 5;", expectedOutput: "5 rows", description: "Trả về 5 dòng với 2 cột name và email" }
         ],
-        solutionExplanation: "Use SELECT to pick columns (name, email), FROM to specify the table, ORDER BY name for alphabetical sorting, and LIMIT 5 to restrict output.",
+        solutionExplanation: "SELECT chọn 2 cột (name, email), FROM chỉ định bảng (students), ORDER BY name sắp theo thứ tự A→Z (ASC mặc định), LIMIT 5 chỉ lấy 5 dòng đầu.",
         quiz: [
-          { question: "What does SELECT * FROM students; return?", options: ["Only the first column", "All columns and all rows", "Only 10 rows", "An error"], answer: 1, explanation: "The * wildcard means all columns. Without WHERE or LIMIT, it returns every row in the table." },
-          { question: "What is DISTINCT used for?", options: ["Sorting data", "Removing duplicate values", "Limiting rows", "Counting rows"], answer: 1, explanation: "DISTINCT removes rows with duplicate values from the result set." },
-          { question: "What does LIMIT 10 OFFSET 20 do?", options: ["Returns rows 1-10", "Returns rows 11-20", "Skips 20 rows then returns 10", "Returns 20 rows"], answer: 2, explanation: "OFFSET 20 skips the first 20 rows, then LIMIT 10 returns the next 10 rows (rows 21-30)." },
-          { question: "In SQL execution order, which runs first?", options: ["SELECT", "FROM", "ORDER BY", "LIMIT"], answer: 1, explanation: "FROM executes first — the database needs to know which table to read before it can do anything else." },
-          { question: "Why is SELECT * considered bad practice in production?", options: ["It causes syntax errors", "It fetches unnecessary data and hurts performance", "It only works in MySQL", "It skips NULL values"], answer: 1, explanation: "SELECT * fetches all columns including ones you don't need, increasing network transfer and memory usage." }
+          { question: "Câu lệnh `SELECT * FROM students;` trả về cái gì?", options: ["Chỉ cột đầu tiên", "Tất cả cột và tất cả dòng của bảng", "Chỉ 10 dòng", "Báo lỗi"], answer: 1, explanation: "Dấu * có nghĩa là 'tất cả các cột'. Không có WHERE hay LIMIT thì lấy hết mọi dòng." },
+          { question: "`DISTINCT` được dùng để làm gì?", options: ["Sắp xếp dữ liệu", "Loại bỏ giá trị trùng lặp", "Giới hạn số dòng", "Đếm số dòng"], answer: 1, explanation: "DISTINCT (riêng biệt) loại bỏ các dòng có giá trị giống nhau, mỗi giá trị chỉ xuất hiện 1 lần." },
+          { question: "`LIMIT 10 OFFSET 20` nghĩa là gì?", options: ["Lấy dòng 1–10", "Lấy dòng 11–20", "Bỏ qua 20 dòng rồi lấy 10 dòng tiếp", "Lấy 20 dòng"], answer: 2, explanation: "OFFSET 20 bỏ qua 20 dòng đầu, sau đó LIMIT 10 lấy 10 dòng kế tiếp (tức dòng thứ 21–30)." },
+          { question: "Trong thứ tự thực thi của SQL, lệnh nào chạy ĐẦU TIÊN?", options: ["SELECT", "FROM", "ORDER BY", "LIMIT"], answer: 1, explanation: "FROM chạy trước — database phải biết đọc bảng nào trước khi làm bất cứ việc gì khác." },
+          { question: "Vì sao `SELECT *` không nên dùng trên môi trường production?", options: ["Gây lỗi cú pháp", "Lấy về cả những cột không cần, lãng phí băng thông và RAM", "Chỉ chạy được trên MySQL", "Bỏ qua giá trị NULL"], answer: 1, explanation: "SELECT * lấy về cả những cột không dùng đến, tốn băng thông mạng và bộ nhớ; ngoài ra nếu schema bảng thay đổi thì code dễ vỡ." }
         ]
       },
       {
