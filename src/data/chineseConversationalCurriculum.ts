@@ -2982,6 +2982,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         speakingTopics: ["Tell the story of your most memorable trip", "Narrate a moment that changed your perspective"],
       },
     ],
+  },
+];
 
 // Helper functions
 export const getChineseConvLessonById = (id: string): ChineseConvLesson | null => {
