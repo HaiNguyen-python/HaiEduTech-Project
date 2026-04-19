@@ -572,6 +572,48 @@ export type Database = {
         }
         Relationships: []
       }
+      marketing_campaigns: {
+        Row: {
+          audience: string
+          campaign_label: string
+          copy_variations: Json
+          course: string
+          created_at: string
+          created_by: string
+          goal: string
+          id: string
+          image_prompt: string | null
+          image_url: string | null
+          platform: string
+        }
+        Insert: {
+          audience: string
+          campaign_label?: string
+          copy_variations?: Json
+          course: string
+          created_at?: string
+          created_by: string
+          goal: string
+          id?: string
+          image_prompt?: string | null
+          image_url?: string | null
+          platform: string
+        }
+        Update: {
+          audience?: string
+          campaign_label?: string
+          copy_variations?: Json
+          course?: string
+          created_at?: string
+          created_by?: string
+          goal?: string
+          id?: string
+          image_prompt?: string | null
+          image_url?: string | null
+          platform?: string
+        }
+        Relationships: []
+      }
       moderation_logs: {
         Row: {
           blocked_content: string

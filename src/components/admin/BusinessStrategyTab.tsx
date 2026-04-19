@@ -23,6 +23,7 @@ import {
 } from "@/data/marketIntelligenceData";
 import { exportStrategyToPdf, exportStrategyToExcel } from "@/lib/strategyExport";
 import AiStrategyOptimizer from "./AiStrategyOptimizer";
+import AiMarketingKit from "./AiMarketingKit";
 
 interface AiInsight {
   expansionOpportunity?: { title: string; rationale: string; estimatedRevenue: string };
@@ -489,6 +490,9 @@ export default function BusinessStrategyTab() {
       <AiStrategyOptimizer
         metrics={{ studentCounts, revenueByCategory }}
       />
+
+      {/* AI Marketing Kit — Lovable AI ad generator */}
+      <AiMarketingKit />
     </div>
   );
 }
