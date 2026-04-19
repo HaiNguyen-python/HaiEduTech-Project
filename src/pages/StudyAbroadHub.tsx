@@ -4,7 +4,7 @@
  */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FolderLock, FileText, GraduationCap, Compass, Briefcase, ArrowRight, Sparkles } from "lucide-react";
+import { FolderLock, FileText, GraduationCap, Compass, Briefcase, ArrowRight, Sparkles, Users, Plane } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -48,6 +48,20 @@ const StudyAbroadHub = () => {
       gradient: "from-pink-500 to-rose-600",
       title: t("AI Scholarship Advisor", "AI Scholarship Advisor"),
       desc: t("Tư vấn học bổng cá nhân hoá realtime với Perplexity AI.", "Personalized real-time scholarship search with Perplexity AI."),
+    },
+    {
+      to: "/study-abroad/mentor-hub",
+      icon: Users,
+      gradient: "from-cyan-500 to-blue-600",
+      title: t("Mentor Hub", "Mentor Hub"),
+      desc: t("Câu chuyện thành công từ cựu học viên + form hỏi Thầy Hải.", "Success stories from alumni + inquiry form to Teacher Hai."),
+    },
+    {
+      to: "/study-abroad/checklist",
+      icon: Plane,
+      gradient: "from-teal-500 to-emerald-600",
+      title: t("Pre-Departure Checklist", "Pre-Departure Checklist"),
+      desc: t("Lộ trình từng bước cho Phần Lan, Trung Quốc, Anh, Mỹ.", "Step-by-step roadmap for Finland, China, UK, USA."),
     },
   ];
 

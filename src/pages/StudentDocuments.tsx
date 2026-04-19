@@ -8,7 +8,9 @@ import { motion } from "framer-motion";
 import {
   FolderLock, Upload, FileText, Image as ImageIcon, FileType2,
   Trash2, Pencil, Download, Eye, Loader2, Plus, ShieldCheck, FileWarning,
+  CalendarClock, AlertTriangle,
 } from "lucide-react";
+import { getExpiryInfo } from "@/lib/expiryAlerts";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
@@ -48,6 +50,7 @@ interface DocRow {
   size_bytes: number;
   status: StatusTag;
   created_at: string;
+  expiry_date: string | null;
 }
 
 const STATUS_STYLE: Record<StatusTag, string> = {
@@ -69,6 +72,8 @@ const StudentDocuments = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [renameTarget, setRenameTarget] = useState<DocRow | null>(null);
   const [renameValue, setRenameValue] = useState("");
+  const [expiryTarget, setExpiryTarget] = useState<DocRow | null>(null);
+  const [expiryValue, setExpiryValue] = useState("");
 
   const CATEGORIES: { id: Category; label: string; icon: typeof FileText; gradient: string }[] = [
     { id: "transcripts", label: t("Bảng điểm", "Academic Transcripts"), icon: FileText, gradient: "from-sky-500 to-indigo-600" },
@@ -203,6 +208,22 @@ const StudentDocuments = () => {
     }
     setDocs((d) => d.map((x) => (x.id === renameTarget.id ? { ...x, display_name: renameValue.trim() } : x)));
     setRenameTarget(null);
+  };
+
+  const handleSaveExpiry = async () => {
+    if (!expiryTarget) return;
+    const newDate = expiryValue || null;
+    const { error } = await supabase
+      .from("student_documents")
+      .update({ expiry_date: newDate })
+      .eq("id", expiryTarget.id);
+    if (error) {
+      toast({ title: t("Lỗi", "Error"), description: error.message, variant: "destructive" });
+      return;
+    }
+    setDocs((d) => d.map((x) => (x.id === expiryTarget.id ? { ...x, expiry_date: newDate } : x)));
+    setExpiryTarget(null);
+    toast({ title: t("Đã cập nhật ngày hết hạn", "Expiry updated") });
   };
 
   const handleStatus = async (doc: DocRow, status: StatusTag) => {
@@ -362,8 +383,20 @@ const StudentDocuments = () => {
                           </div>
                           <div className="flex-1 min-w-[160px]">
                             <div className="font-semibold text-sm truncate">{doc.display_name}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {(doc.size_bytes / 1024).toFixed(0)} KB • {new Date(doc.created_at).toLocaleDateString()}
+                            <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-x-2">
+                              <span>{(doc.size_bytes / 1024).toFixed(0)} KB</span>
+                              <span>•</span>
+                              <span>{new Date(doc.created_at).toLocaleDateString()}</span>
+                              {(() => {
+                                const exp = getExpiryInfo(doc.expiry_date);
+                                if (!exp) return null;
+                                return (
+                                  <Badge variant="outline" className={`text-[10px] gap-1 border ${exp.colorClass}`}>
+                                    {exp.status === "expired" || exp.status === "warning" ? <AlertTriangle className="w-2.5 h-2.5" /> : <CalendarClock className="w-2.5 h-2.5" />}
+                                    {t(exp.labelVi, exp.labelEn)}
+                                  </Badge>
+                                );
+                              })()}
                             </div>
                           </div>
                           <Select value={doc.status} onValueChange={(v) => handleStatus(doc, v as StatusTag)}>
@@ -384,6 +417,9 @@ const StudentDocuments = () => {
                             </Button>
                             <Button size="sm" variant="ghost" onClick={() => downloadFile(doc)} title={t("Tải xuống", "Download")}>
                               <Download className="w-4 h-4" />
+                            </Button>
+                            <Button size="sm" variant="ghost" onClick={() => { setExpiryTarget(doc); setExpiryValue(doc.expiry_date || ""); }} title={t("Ngày hết hạn", "Expiry date")}>
+                              <CalendarClock className="w-4 h-4" />
                             </Button>
                             <Button size="sm" variant="ghost" onClick={() => { setRenameTarget(doc); setRenameValue(doc.display_name); }} title={t("Đổi tên", "Rename")}>
                               <Pencil className="w-4 h-4" />
@@ -410,6 +446,34 @@ const StudentDocuments = () => {
           <DialogFooter>
             <Button variant="outline" onClick={() => setRenameTarget(null)}>{t("Huỷ", "Cancel")}</Button>
             <Button onClick={handleRename}>{t("Lưu", "Save")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!expiryTarget} onOpenChange={(o) => !o && setExpiryTarget(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <CalendarClock className="w-5 h-5 text-primary" />
+              {t("Ngày hết hạn", "Expiry date")}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              {t(
+                "Đặt ngày hết hạn (vd: hộ chiếu, chứng chỉ IELTS 2 năm). Hệ thống sẽ cảnh báo khi gần hết hạn.",
+                "Set the expiry date (e.g., passport, IELTS valid 2 years). You'll be alerted as it approaches."
+              )}
+            </p>
+            <Input
+              type="date"
+              value={expiryValue}
+              onChange={(e) => setExpiryValue(e.target.value)}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setExpiryValue(""); }}>{t("Xoá ngày", "Clear date")}</Button>
+            <Button onClick={handleSaveExpiry}>{t("Lưu", "Save")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
