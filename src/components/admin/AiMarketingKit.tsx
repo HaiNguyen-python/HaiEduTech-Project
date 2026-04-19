@@ -255,7 +255,84 @@ export default function AiMarketingKit() {
     }
   };
 
-  const formatCopy = (v: CopyVariation): string => {
+  const generateVideoScript = async () => {
+    setGeneratingVideo(true);
+    setVideoScript(null);
+    try {
+      const { data, error } = await supabase.functions.invoke(
+        "generate-marketing-kit",
+        {
+          body: { course, audience, platform, goal, videoOnly: true, videoFormat },
+        },
+      );
+      if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || "Failed");
+      if (!data.videoScript) throw new Error("No script returned");
+      setVideoScript(data.videoScript as VideoScript);
+      toast.success("🎬 Video script generated!");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Unknown error";
+      if (msg.includes("429")) toast.error("Rate limited. Please wait.");
+      else if (msg.includes("402")) toast.error("AI credits exhausted.");
+      else toast.error(`Script generation failed: ${msg}`);
+    } finally {
+      setGeneratingVideo(false);
+    }
+  };
+
+  const formatVideoScriptText = (s: VideoScript): string => {
+    let txt = `🎬 ${s.title}\n`;
+    txt += `Format: ${s.format.toUpperCase()} · ${s.aspectRatio} · ${s.totalSeconds}s\n`;
+    txt += `🎵 Music mood: ${s.musicMood}\n\n`;
+    txt += `🪝 HOOK (0-3s): ${s.hook}\n\n`;
+    txt += `━━━ SHOT-BY-SHOT BREAKDOWN ━━━\n\n`;
+    s.shots.forEach((sh) => {
+      txt += `▸ Shot ${sh.shotNumber} | ${sh.timing}\n`;
+      txt += `  📷 Visual: ${sh.visual}\n`;
+      txt += `  📝 On-screen: "${sh.onScreenText}"\n`;
+      txt += `  🎙️ Voiceover: "${sh.voiceover}"\n`;
+      txt += `  🎞️ B-roll/SFX: ${sh.broll}\n\n`;
+    });
+    txt += `📣 CTA: ${s.cta}\n\n`;
+    txt += `━━━ UPLOAD CAPTION ━━━\n${s.captionForUpload}\n\n`;
+    if (s.hashtags?.length) txt += `${s.hashtags.join(" ")}\n\n`;
+    if (s.productionTips?.length) {
+      txt += `━━━ PRODUCTION TIPS ━━━\n`;
+      s.productionTips.forEach((t, i) => (txt += `${i + 1}. ${t}\n`));
+    }
+    return txt;
+  };
+
+  const copyVideoScript = () => {
+    if (!videoScript) return;
+    void navigator.clipboard.writeText(formatVideoScriptText(videoScript));
+    toast.success("📋 Full script copied!");
+  };
+
+  const copyVoiceoverOnly = () => {
+    if (!videoScript) return;
+    const vo = videoScript.shots
+      .map((s) => `[${s.timing}] ${s.voiceover}`)
+      .join("\n") + `\n\n[CTA] ${videoScript.cta}`;
+    void navigator.clipboard.writeText(vo);
+    toast.success("🎙️ Voiceover lines copied!");
+  };
+
+  const downloadScriptAsTxt = () => {
+    if (!videoScript) return;
+    const blob = new Blob([formatVideoScriptText(videoScript)], {
+      type: "text/plain;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `haiedutech-${videoFormat}-script-${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("⬇️ Script downloaded!");
+  };
+
+
     let txt = `${v.headline}\n\n${v.body}\n\n`;
     if (v.benefits?.length) {
       txt += v.benefits.map((b) => `✅ ${b}`).join("\n") + "\n\n";
