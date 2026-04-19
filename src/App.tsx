@@ -89,6 +89,11 @@ const PteListening = lazy(() => import("./pages/PteListening.tsx"));
 const PtePlaceholder = lazy(() => import("./pages/PtePlaceholder.tsx"));
 const PteVocabulary = lazy(() => import("./pages/PteVocabulary.tsx"));
 const PythonLessonView = lazy(() => import("./pages/PythonLessonView.tsx"));
+const StudyAbroadHub = lazy(() => import("./pages/StudyAbroadHub.tsx"));
+const StudentDocuments = lazy(() => import("./pages/StudentDocuments.tsx"));
+const MotivationLetterGuide = lazy(() => import("./pages/MotivationLetterGuide.tsx"));
+const SatRoadmap = lazy(() => import("./pages/SatRoadmap.tsx"));
+const PhdGlobalPathway = lazy(() => import("./pages/PhdGlobalPathway.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -197,6 +202,11 @@ const App = () => (
             <Route path="/pte/listening" element={<LazyRoute><PteListening /></LazyRoute>} />
             <Route path="/pte/vocabulary" element={<LazyRoute><PteVocabulary /></LazyRoute>} />
             <Route path="/pte/:skill" element={<LazyRoute><PtePlaceholder /></LazyRoute>} />
+            <Route path="/study-abroad" element={<LazyRoute><StudyAbroadHub /></LazyRoute>} />
+            <Route path="/study-abroad/documents" element={<LazyRoute><StudentDocuments /></LazyRoute>} />
+            <Route path="/study-abroad/motivation-letter" element={<LazyRoute><MotivationLetterGuide /></LazyRoute>} />
+            <Route path="/study-abroad/sat" element={<LazyRoute><SatRoadmap /></LazyRoute>} />
+            <Route path="/study-abroad/phd" element={<LazyRoute><PhdGlobalPathway /></LazyRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatBot />
