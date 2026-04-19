@@ -741,6 +741,8 @@ Sếp hỏi: *"Cho tôi xem từng học viên đã đặt bao nhiêu tiền."* 
 
 JOIN giống như ghép 2 mảnh ghép lego: bảng nào cũng có 1 cột "khớp" với bảng kia (\`students.id\` ↔ \`orders.student_id\`).
 
+:::diagram type="join-venn":::
+
 ## 2. Cú pháp tối thiểu
 
 \`\`\`sql
@@ -904,6 +906,8 @@ WHERE  o.id IS NULL;`,
         level: 3,
         difficulty: "intermediate",
         theory: `**Subquery** (truy vấn con) đơn giản là **một câu SELECT đặt bên trong một câu SELECT khác**. Bài này mình sẽ học theo cách dễ nhất: bắt đầu từ một câu hỏi đời thường, rồi từ từ thêm chi tiết.
+
+:::diagram type="subquery":::
 
 ## 1. Subquery là gì? (Câu chuyện 30 giây)
 
