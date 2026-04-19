@@ -323,8 +323,12 @@ serve(async (req) => {
 
     const result: any = {};
 
-    // Image-only mode (regenerate image)
-    if (body.imageOnly) {
+    // Video-only mode (TikTok/Reels script)
+    if (body.videoOnly) {
+      const script = await generateVideoScript(body, apiKey);
+      result.videoScript = script;
+    } else if (body.imageOnly) {
+      // Image-only mode (regenerate image)
       const imagePrompt = body.customImagePrompt || buildImagePrompt(body);
       const base64 = await generateImage(imagePrompt, apiKey);
       const publicUrl = await uploadImageToStorage(base64, userId);
