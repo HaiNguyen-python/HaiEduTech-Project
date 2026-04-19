@@ -15,126 +15,85 @@ export const programmingExpansionModules: ExtendedProgrammingModule[] = [
         id: "py-oop-adv-1",
         title: "Kế thừa & Đa hình",
         titleEn: "Inheritance & Polymorphism",
-        theory: `**Kế thừa (Inheritance)** và **Đa hình (Polymorphism)** là hai trong bốn trụ cột của OOP (cùng với Encapsulation và Abstraction). Chúng giúp tái sử dụng code, mở rộng hệ thống mà không phá vỡ code cũ — nguyên tắc Open/Closed của SOLID.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao cần Inheritance?
+Bạn quản lý nhân viên: **Nhân viên** có lương, **Quản lý** cũng là nhân viên nhưng có thêm cấp dưới, **Sếp tổng** cũng là quản lý nhưng có thêm cổ phần. Viết 3 class riêng → trùng code. Dùng **kế thừa (inheritance)** → class con tự thừa hưởng + mở rộng.
 
-Hãy tưởng tượng bạn xây hệ thống quản lý nhân viên cho một công ty lớn:
-- Tất cả nhân viên đều có \`name\`, \`salary\`, \`work()\`
-- Lập trình viên có thêm \`programming_languages\`
-- Quản lý có thêm \`team_size\`, \`approve_leave()\`
-- Sales có \`commission_rate\`, \`close_deal()\`
+OOP nâng cao là vũ khí giúp code Python **không lặp lại**, **dễ mở rộng** khi dự án lớn.
 
-Nếu không có inheritance, bạn phải copy-paste \`name\`, \`salary\` vào mỗi class → vi phạm DRY (Don't Repeat Yourself), khó maintain. Inheritance giải quyết: viết code chung trong \`Employee\` (parent), các class con chỉ thêm phần riêng.
+## 2. 💡 4 trụ cột OOP
 
-## Cú pháp & Cơ chế hoạt động
+| Trụ cột | Ý nghĩa | Ví dụ |
+|---------|---------|-------|
+| **Encapsulation** | Giấu chi tiết bên trong | \`_private\`, \`__name_mangled\` |
+| **Inheritance** | Class con thừa hưởng cha | \`Manager(Employee)\` |
+| **Polymorphism** | Cùng tên, khác hành vi | \`area()\` cho Circle/Square |
+| **Abstraction** | Định nghĩa "phải có gì" | \`ABC\`, \`@abstractmethod\` |
 
-\`\`\`python
-class Employee:                    # Parent / Base / Superclass
-    def __init__(self, name, salary):
-        self.name = name
-        self.salary = salary
-    def work(self):
-        return f"{self.name} is working"
+## 3. 🧰 Magic methods (dunder) hay dùng
 
-class Developer(Employee):         # Child / Derived / Subclass
-    def __init__(self, name, salary, languages):
-        super().__init__(name, salary)   # gọi parent constructor
-        self.languages = languages
-    def work(self):                # Override method
-        return f"{self.name} is coding in {self.languages}"
-\`\`\`
+- \`__init__\`: khởi tạo.
+- \`__str__\` / \`__repr__\`: in ra dễ đọc.
+- \`__eq__\` / \`__lt__\`: so sánh.
+- \`__len__\`: hỗ trợ \`len()\`.
+- \`__enter__\` / \`__exit__\`: hỗ trợ \`with\` block.
 
-**MRO (Method Resolution Order):** Python dùng thuật toán C3 Linearization để xác định thứ tự tìm method khi có multi-inheritance. Kiểm tra qua \`ClassName.__mro__\`.
+## 4. 🎯 Ví dụ kế thừa + polymorphism
 
-## 4 loại Inheritance
-
-| Loại | Mô tả | Ví dụ |
-|------|-------|-------|
-| **Single** | 1 parent → 1 child | Dog → Animal |
-| **Multilevel** | A → B → C | Manager → Employee → Person |
-| **Multiple** | Nhiều parent | class C(A, B) |
-| **Hierarchical** | 1 parent → nhiều child | Dog, Cat, Bird đều kế thừa Animal |
-
-Python hỗ trợ **multiple inheritance** (khác Java) nhưng dễ gây "diamond problem" — dùng cẩn thận, ưu tiên composition.
-
-## Polymorphism — Cùng giao diện, khác hành vi
-
-Polymorphism cho phép dùng object như parent type nhưng gọi method của child:
-\`\`\`python
-def make_them_work(employees: list[Employee]):
-    for emp in employees:
-        print(emp.work())   # Tự động gọi đúng version
-
-team = [Developer("An", 30, "Python"), Manager("Bình", 50, 5)]
-make_them_work(team)
-\`\`\`
-
-**Duck Typing** (đặc trưng Python): "If it walks like a duck and quacks like a duck, it's a duck." Không cần kế thừa — chỉ cần có method cùng tên là dùng được.
-
-## Abstract Class & Interface
-
-Khi muốn ép buộc class con phải implement một số method nhất định:
 \`\`\`python
 from abc import ABC, abstractmethod
 
-class Shape(ABC):
+class Employee(ABC):
+    def __init__(self, name: str, base: float):
+        self.name = name
+        self._base = base
+
     @abstractmethod
-    def area(self) -> float: ...
+    def salary(self) -> float: ...
 
-class Circle(Shape):
-    def __init__(self, r): self.r = r
-    def area(self): return 3.14 * self.r ** 2
+    def __repr__(self):
+        return f"<{type(self).__name__} {self.name}: {self.salary():,.0f}>"
 
-# Shape() → TypeError vì không thể khởi tạo abstract class
+class Staff(Employee):
+    def salary(self): return self._base
+
+class Manager(Employee):
+    def __init__(self, name, base, bonus):
+        super().__init__(name, base)
+        self.bonus = bonus
+    def salary(self): return self._base + self.bonus
+
+team = [Staff("An", 10_000_000), Manager("Bình", 20_000_000, 5_000_000)]
+for e in team: print(e)
 \`\`\`
 
-## So sánh Inheritance vs Composition
+## 5. ⚠️ Bẫy thường gặp
 
-| Aspect | Inheritance ("is-a") | Composition ("has-a") |
-|--------|---------------------|----------------------|
-| Quan hệ | Dog **is-a** Animal | Car **has-a** Engine |
-| Linh hoạt | Cứng nhắc, khó đổi | Linh hoạt, swap dễ |
-| Coupling | Chặt (tight) | Lỏng (loose) |
-| Khuyến nghị | Dùng khi quan hệ rõ ràng | Mặc định ưu tiên |
+> ⚠️ **Cảnh báo:** Quên gọi \`super().__init__()\` trong class con → thuộc tính của cha không được khởi tạo → AttributeError lúc chạy.
 
-> **Composition over Inheritance** — nguyên tắc nổi tiếng từ "Design Patterns" (GoF). Dùng inheritance khi có "is-a" thực sự, dùng composition cho "has-a".
+- Kế thừa **5–6 tầng** → debug ác mộng. Quy tắc: tối đa 2–3 tầng.
+- Dùng **multiple inheritance** lung tung → MRO (Method Resolution Order) khó đoán.
+- Đặt mọi attribute là \`__private\` → code khó test, khó mock.
 
-## Case study thực tế: Django ORM Models
+## 6. ✅ Best practice của thầy Hải
 
-Django ORM dùng inheritance triệt để. Khi bạn viết:
-\`\`\`python
-class User(models.Model):
-    name = models.CharField(max_length=100)
-\`\`\`
-Class \`User\` kế thừa \`Model\` → tự động có \`save()\`, \`delete()\`, \`objects.filter()\`. Đây là cách Django giúp developer viết ít code mà có nhiều tính năng.
+> 💡 **Mẹo:** **Composition > Inheritance**. Thay vì \`Car(Engine)\` (kế thừa), hãy \`Car có Engine\` (composition). Linh hoạt hơn, ít coupling hơn.
 
-**Instagram, Pinterest, Disqus** đều xây trên Django, sử dụng pattern này quản lý hàng tỉ records.
+- Dùng \`@dataclass\` cho class chỉ chứa data → tự sinh \`__init__\`, \`__repr__\`, \`__eq__\`.
+- Dùng \`Protocol\` (Python 3.8+) cho duck typing có type hint.
+- Tận dụng \`@property\` thay vì \`get_xxx()\` / \`set_xxx()\` kiểu Java.
 
-## Best Practices ✅
+## 7. 🤔 Khi nào dùng / không dùng OOP
 
-- ✅ Dùng \`super().__init__()\` để gọi parent constructor
-- ✅ Override method khi child cần hành vi khác
-- ✅ Dùng \`isinstance()\` để check type, không dùng \`type() ==\`
-- ✅ Tài liệu hóa rõ method nào được override
-- ✅ Giữ class hierarchy dưới 3-4 cấp — sâu hơn rất khó debug
+- ✅ Dự án có **nhiều thực thể có hành vi**: game, ORM, framework.
+- ✅ Cần **mở rộng nhiều phiên bản** (PaymentGateway → Stripe/Paddle/MoMo).
+- ❌ Script ETL ngắn 100 dòng — function thường là đủ.
+- ❌ Data processing — \`pandas\`/\`polars\` đã đủ, đừng wrap class vô nghĩa.
 
-## Anti-patterns ❌
+## 8. 📌 Tóm tắt 30 giây
 
-- ❌ Inheritance chỉ để tái sử dụng code (không có "is-a" thực sự) → dùng composition
-- ❌ Override method nhưng không gọi \`super()\` khi cần (ví dụ \`__init__\`)
-- ❌ Multiple inheritance phức tạp với nhiều parent có method cùng tên → diamond problem
-- ❌ Class cha biết chi tiết class con (vi phạm Liskov Substitution Principle)
-
-## Khi nào nên dùng Inheritance?
-
-✅ **Nên:** Khi có quan hệ "is-a" rõ ràng (Dog is an Animal), khi muốn tận dụng polymorphism, khi nhiều class chia sẻ logic chung.
-
-❌ **Không nên:** Khi chỉ muốn tái sử dụng code (dùng helper function/composition), khi quan hệ là "has-a" (dùng composition), khi class con thay đổi quá nhiều behavior của parent.
-
-## Bridge: Bài tiếp theo
-
-Sau khi nắm vững Inheritance + Polymorphism, bạn sẽ học **Decorators & Generators** — hai công cụ Python cấp cao giúp viết code thanh lịch, hiệu năng cao mà OOP truyền thống khó đạt được.`,
+OOP nâng cao = **encapsulation + inheritance + polymorphism + abstraction** + magic methods. Ưu tiên **composition**, dùng \`@dataclass\` cho data class, \`Protocol\` cho duck typing có hint. Đừng kế thừa quá 3 tầng. OOP đúng chỗ là vũ khí — sai chỗ là gánh nặng.
+`,
         theoryEn: `**Inheritance** and **Polymorphism** are two of OOP's four pillars (with Encapsulation and Abstraction). They enable code reuse and system extensibility without breaking existing code — the Open/Closed principle of SOLID.
 
 ## Why Inheritance?
@@ -771,164 +730,90 @@ print(list(squares))`,
         id: "py-fileio-1",
         title: "Đọc & Ghi File",
         titleEn: "Reading & Writing Files",
-        theory: `**File I/O** là kỹ năng nền tảng — mọi ứng dụng đều cần đọc/ghi file (config, log, dữ liệu, export). Python cung cấp API đơn giản nhưng có nhiều "ổ gà" về encoding, performance và resource leak nếu không cẩn thận.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## Vì sao File I/O quan trọng?
+Bạn xuất báo cáo tháng cho sếp: lương 1.000 nhân viên ra Excel, log hệ thống ra CSV, cấu hình ra JSON, danh sách khách hàng ra TXT. Mỗi định dạng có "cách mở" riêng. Python File I/O = **bộ chìa khoá vạn năng** mở mọi loại file an toàn.
 
-Trong production:
-- **Log files**: app ghi hàng GB log/ngày để debug
-- **Config**: \`.env\`, \`yaml\`, \`json\` lưu cấu hình
-- **Data exchange**: CSV/Parquet trao đổi giữa hệ thống
-- **State persistence**: lưu user data, cache, session
+## 2. 💡 Mở file đúng cách: \`with open(...)\`
 
-Hiểu rõ I/O = code mạnh mẽ, không bị "file not found" ở 3 giờ sáng.
-
-## Mở file đúng cách: \`with\` statement
+Quy tắc vàng: **luôn dùng \`with\`** để Python tự đóng file kể cả khi lỗi.
 
 \`\`\`python
-# ❌ Sai — không đóng file, leak resource
-f = open("data.txt")
-data = f.read()
-# Quên f.close() → file handle leak
-
-# ✅ Đúng — context manager tự đóng
 with open("data.txt", "r", encoding="utf-8") as f:
-    data = f.read()
-# File tự động đóng kể cả khi có exception
+    content = f.read()
+# file tự đóng ở đây — dù có exception bên trên
 \`\`\`
 
-\`with\` đảm bảo \`__exit__\` chạy → file luôn đóng. Trên Linux mỗi process giới hạn ~1024 file handles — leak là disaster.
+## 3. 🧰 7 mode phải nhớ
 
-## File Modes — Bảng đầy đủ
+| Mode | Ý nghĩa | Cảnh báo |
+|------|---------|----------|
+| \`"r"\` | Đọc (mặc định) | File phải tồn tại |
+| \`"w"\` | Ghi đè | **Xoá sạch nội dung cũ** |
+| \`"a"\` | Thêm vào cuối | An toàn hơn \`"w"\` |
+| \`"x"\` | Tạo mới | Lỗi nếu file đã có |
+| \`"r+"\` | Đọc + ghi | Cần biết offset |
+| \`"rb"\` / \`"wb"\` | Binary | Cho ảnh, video, pickle |
 
-| Mode | Ý nghĩa | Tạo file mới? | Xóa nội dung cũ? |
-|------|---------|---------------|------------------|
-| \`r\` | Read (mặc định) | ❌ (FileNotFoundError) | ❌ |
-| \`w\` | Write | ✅ | ✅ Xóa hết |
-| \`a\` | Append | ✅ | ❌ Thêm cuối |
-| \`x\` | Exclusive write | ✅ (FileExistsError nếu có) | — |
-| \`r+\` | Read + write | ❌ | ❌ |
-| \`b\` | Binary (ghép: \`rb\`, \`wb\`) | — | — |
-| \`t\` | Text (mặc định) | — | — |
-
-> Mẹo: dùng \`x\` thay \`w\` khi không muốn đè file cũ — an toàn hơn.
-
-## Encoding: Cạm bẫy lớn nhất
+## 4. 🎯 Ví dụ với 4 định dạng phổ biến
 
 \`\`\`python
-# ❌ Mặc định Windows = cp1252, Linux = utf-8 → chạy 1 nơi, lỗi nơi khác
-open("vi.txt").read()    # UnicodeDecodeError với 'ư', 'ơ'
+import json, csv
 
-# ✅ Luôn explicit
-open("vi.txt", encoding="utf-8").read()
-\`\`\`
+# TXT
+with open("note.txt", "a", encoding="utf-8") as f:
+    f.write("Học Python ngày 1\\n")
 
-**Quy tắc vàng:** *Luôn* truyền \`encoding="utf-8"\` cho text file. UTF-8 = chuẩn web, hỗ trợ mọi ngôn ngữ.
+# JSON
+data = {"name": "An", "score": 9.5}
+with open("user.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
 
-## Đọc file lớn: KHÔNG dùng \`read()\` hay \`readlines()\`
+# CSV
+with open("rows.csv", "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow(["name", "score"])
+    w.writerow(["An", 9.5])
 
-\`\`\`python
-# ❌ Crash với file 10GB
-content = open("huge.log").read()   # Load 10GB vào RAM
-
-# ✅ Iteration tự nhiên — đọc từng dòng
-with open("huge.log", encoding="utf-8") as f:
-    for line in f:                   # Generator, RAM friendly
+# Đọc file lớn từng dòng (không OOM)
+with open("big.log", "r", encoding="utf-8") as f:
+    for line in f:
         process(line)
 \`\`\`
 
-File object trong Python **chính là một iterator** — duyệt \`for line in f\` là cách Pythonic và hiệu quả nhất.
+## 5. ⚠️ Bẫy thường gặp
 
-## CSV: Dùng \`csv.DictReader\`
+> ⚠️ **Cảnh báo:** Quên \`encoding="utf-8"\` → tiếng Việt biến thành **mojibake** (\`Tiáº¿ng Viá»‡t\`). Đây là lỗi #1 của developer Việt Nam.
 
-\`\`\`python
-import csv
-with open("students.csv", encoding="utf-8") as f:
-    reader = csv.DictReader(f)       # Header → dict keys
-    for row in reader:
-        print(row["name"], row["score"])
-\`\`\`
+- Dùng \`"w"\` thay vì \`"a"\` → ghi đè log cũ → mất data lịch sử.
+- \`f.read()\` cho file 5 GB → OOM. Phải đọc từng dòng hoặc từng chunk.
+- Quên \`newline=""\` khi mở CSV trên Windows → mỗi dòng có thêm dòng trắng.
 
-**Tránh tự split bằng \`,\`** — gặp dữ liệu \`"Hà Nội, VN"\` sẽ break. \`csv\` module xử lý quoting, escaping đúng chuẩn RFC 4180.
+## 6. ✅ Best practice của thầy Hải
 
-Với data lớn (>100MB CSV), dùng **Pandas** \`pd.read_csv("file", chunksize=10000)\`.
+> 💡 **Mẹo:** Dùng **\`pathlib.Path\`** thay vì \`os.path\` — code sạch hơn, cross-platform.
+> 
+> \`\`\`python
+> from pathlib import Path
+> Path("logs/app.log").write_text("hello", encoding="utf-8")
+> \`\`\`
 
-## JSON: Phân biệt \`load\` vs \`loads\`
+- File JSON cấu hình → dùng \`pydantic\` để **validate schema** lúc đọc.
+- File CSV/Excel lớn → dùng \`pandas.read_csv(chunksize=10000)\` xử lý từng chunk.
+- File quan trọng → ghi tạm vào \`data.tmp\` rồi \`os.replace("data.tmp", "data.json")\` → atomic, không sợ ghi nửa chừng.
 
-| Function | Input | Output |
-|----------|-------|--------|
-| \`json.load(file)\` | File object | Python object |
-| \`json.loads(string)\` | String | Python object |
-| \`json.dump(obj, file)\` | Object → File | None |
-| \`json.dumps(obj)\` | Object → String | str |
+## 7. 🤔 Khi nào dùng định dạng nào
 
-\`\`\`python
-# Lưu data (đẹp + Unicode)
-with open("data.json", "w", encoding="utf-8") as f:
-    json.dump(data, f, indent=2, ensure_ascii=False)
-#                                  ^^^^^^^^^^^^^^^^^^
-#                                  Quan trọng cho tiếng Việt!
-\`\`\`
+- **TXT**: log đơn giản, README.
+- **JSON**: cấu hình, API, dữ liệu lồng nhau.
+- **CSV**: bảng tính phẳng, import vào Excel/DB.
+- **Parquet**: data lớn (> 100 MB), cần nén và đọc nhanh.
+- **Pickle**: chỉ dùng nội bộ — **không bao giờ unpickle file lạ** (RCE!).
 
-\`ensure_ascii=False\` → giữ nguyên \`"Hà Nội"\` thay vì escape thành \`"H\\u00e0 N\\u1ed9i"\`.
+## 8. 📌 Tóm tắt 30 giây
 
-## Format khác cho Production
-
-| Format | Khi nào dùng | Tool |
-|--------|--------------|------|
-| **CSV** | Excel-compatible, nhỏ | csv, pandas |
-| **JSON** | Web API, config | json, orjson (nhanh hơn 5x) |
-| **YAML** | Config dễ đọc | PyYAML |
-| **TOML** | pyproject.toml, config | tomllib (Python 3.11+) |
-| **Parquet** | Big data, columnar | pyarrow, pandas |
-| **Pickle** | Object Python (không cross-language) | pickle |
-| **HDF5** | Scientific, mảng số lớn | h5py |
-
-## Case study: Dropbox và Atomic Write
-
-Dropbox sync hàng tỉ file. Họ dùng pattern **atomic write** để tránh corrupt:
-\`\`\`python
-import os, tempfile
-def atomic_write(path, data):
-    dir_ = os.path.dirname(path) or "."
-    fd, tmp = tempfile.mkstemp(dir=dir_)
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as f:
-            f.write(data)
-        os.replace(tmp, path)        # Atomic on POSIX
-    except:
-        os.unlink(tmp)
-        raise
-\`\`\`
-
-\`os.replace\` là atomic → file đích hoặc là bản cũ, hoặc là bản mới — không bao giờ là "nửa nạc nửa mỡ" khi có crash giữa chừng.
-
-## Best Practices ✅
-
-- ✅ Luôn dùng \`with open(...)\`
-- ✅ Luôn truyền \`encoding="utf-8"\` cho text file
-- ✅ Iterate file lớn từng dòng, không \`read()\` hết
-- ✅ \`pathlib.Path\` thay \`os.path\` (Python 3.6+, OOP, cross-platform)
-- ✅ Atomic write cho file quan trọng (config, state)
-- ✅ Validate input file trước khi xử lý
-
-## Anti-patterns ❌
-
-- ❌ Quên \`encoding\` → dev trên Mac/Linux, prod Windows lỗi tiếng Việt
-- ❌ \`open()\` không có \`with\` → leak file handle
-- ❌ \`readlines()\` cho file 10GB → out of memory
-- ❌ Tự split CSV bằng \`,\` → break với data có dấu phẩy trong field
-- ❌ \`pickle\` data từ source không tin cậy → arbitrary code execution risk
-- ❌ Hardcode đường dẫn \`"C:\\\\Users\\\\..."\` → không cross-platform
-
-## Khi nào dùng?
-
-✅ Lưu config, log, export data, exchange giữa hệ thống.
-❌ Dữ liệu cần query phức tạp (dùng SQLite/Postgres), dữ liệu rất lớn cần phân tán (dùng cloud storage).
-
-## Bridge: Bài tiếp theo
-
-Phần tiếp theo: **Advanced SQL Window Functions** — khi data đã đọc vào database, làm sao xếp hạng, tính running total, moving average hiệu quả? Đáp án: window functions.`,
+\`with open(..., encoding="utf-8")\` là quy tắc vàng. Chọn đúng mode (\`r/w/a/x\`), luôn ghi atomic cho file quan trọng, đọc từng dòng cho file lớn. Dùng \`pathlib\` thay \`os.path\`. Nắm 5 dòng code này là xử lý được 90% bài toán file trong Python.
+`,
         theoryEn: `**File I/O** is foundational — every app reads/writes files (config, logs, data, exports). Python's API is simple but has pitfalls around encoding, performance, and resource leaks.
 
 ## Why File I/O Matters
