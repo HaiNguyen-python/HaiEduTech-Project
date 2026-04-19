@@ -1,65 +1,61 @@
 
-Người dùng muốn nội dung Theory trong Learn Programming **dài, chi tiết, chuyên sâu hơn nữa**. Hiện tại nội dung vẫn còn ngắn và đơn giản.
+Tiếp tục mở rộng nội dung Theory cho Learn Programming theo chuẩn đã thiết lập (6-9 H2 sections, case study thật, trade-off tables, best practices, anti-patterns).
 
-## Phạm vi mở rộng
+## Trạng thái hiện tại
+**Đã hoàn thành (đợt 1 — phần 1/3):**
+- `cloudLessons.ts`: 4/15 lessons (cloud-fund-1, cloud-fund-2, cloud-fund-3, cloud-compute-1)
 
-Tập trung mở rộng theory cho toàn bộ các pillar trong Learn Programming:
-- **Cloud Engineer**: `cloudLessons.ts` (15 lessons) + `cloudExpansion.ts` (10 lessons)
-- **Data Engineering**: `dataEngLessons.ts` (~12 modules)
-- **AI Foundation**: `aiFoundationLessons.ts` (~12 modules)
-- **SQL**: `sqlLessons.ts` (12 modules)
-- **Programming/Python**: `programmingExpansion.ts` (5 modules)
-- **ML**: `mlLessons.ts`
+**Người dùng hiện đang ở:** `/programming/prog-data-pipeline` → thuộc Data Engineering pillar
 
-## Chuẩn nội dung mới (mỗi lesson theory)
+## Kế hoạch tiếp theo
 
-Mỗi bài sẽ được mở rộng theo cấu trúc đầy đủ, **tối thiểu 6-8 sections lớn** với markdown chuẩn `## H2` đã đặt ra:
+### Đợt này — Hoàn tất Cloud + bắt đầu Data Engineering
 
-1. **Tổng quan & bối cảnh** — vì sao cần học, dùng ở đâu trong thực tế
-2. **Khái niệm cốt lõi** — định nghĩa, thuật ngữ, mô hình tư duy
-3. **Cách hoạt động chi tiết** — đi sâu cơ chế bên trong, có sơ đồ ASCII / bảng nếu cần
-4. **Ví dụ thực tế từ doanh nghiệp** — Netflix, Spotify, Stripe, Grab, Shopee… (1-2 case study cụ thể)
-5. **So sánh / đánh đổi (trade-offs)** — bảng so sánh các lựa chọn
-6. **Best practices** — checklist các nguyên tắc nên làm
-7. **Common pitfalls / anti-patterns** — các lỗi hay gặp + cách tránh
-8. **Khi nào nên / không nên dùng** — guideline ra quyết định
-9. **Liên hệ với các bài khác** — bridge học tiếp
+**Phần A: Hoàn tất Cloud Engineer (cloudLessons.ts còn 11 lessons)**
+Mở rộng theory + theoryEn cho:
+1. cloud-storage-1 (S3/Object Storage)
+2. cloud-compute-2 (Containers/Kubernetes)
+3. cloud-net-1 (VPC/Networking)
+4. cloud-iam-1 (IAM/Security)
+5. cloud-sec-1 (Encryption/Compliance)
+6. cloud-serverless-1 (Lambda/Functions)
+7. cloud-iac-1 (Terraform/IaC)
+8. cloud-cicd-1 (CI/CD pipelines)
+9. cloud-arch-1 (Well-Architected)
+10. cloud-cost-1 (FinOps cơ bản)
+11. cloud-arch-2 (Microservices)
 
-Bổ sung:
-- TheoryEn song song được mở rộng tương ứng
-- Vẫn giữ format đã chuẩn hóa (H2 cho section lớn, **Bold inline:** cho ý ngắn, không lạm dụng heading nhỏ lẻ)
-- Code example và Practice exercise giữ nguyên cấu trúc hiện tại (không đụng tới)
-- Quiz giữ nguyên (không thay đổi)
+**Phần B: Data Engineering (dataEngLessons.ts) — vì user đang ở pipeline lesson**
+Ưu tiên mở rộng các module quan trọng nhất trước:
+1. Module 1: Pandas Basics
+2. Module 2: Data Cleaning
+3. Module 3: Data Ingestion
+4. Module 4: ETL Pipeline Design ← user đang xem
+5. Module 5: Data Modeling
+6. Module 6: Data Warehousing
 
-## Cách triển khai
+(Module 7-11 sẽ làm trong đợt sau)
 
-Vì khối lượng rất lớn (50+ lessons × ~3-5x nội dung hiện tại), sẽ làm theo **đợt ưu tiên**:
+## Chuẩn nội dung (giữ nguyên)
+Mỗi lesson tối thiểu 6-9 H2 sections:
+- Tổng quan & bối cảnh
+- Khái niệm cốt lõi
+- Cách hoạt động chi tiết (sơ đồ ASCII / bảng)
+- Case study thật (Netflix, Spotify, Stripe, Airbnb, Uber, Grab, Shopee...)
+- So sánh / trade-offs (bảng)
+- Best practices (checklist)
+- Common pitfalls / anti-patterns
+- Khi nào nên / không nên dùng
+- Bridge sang bài tiếp theo
 
-**Đợt 1 — Cloud Engineer (đang xem)**
-- `cloudLessons.ts`: mở rộng 15 lessons
-- `cloudExpansion.ts`: mở rộng 10 lessons
+## Files chỉnh sửa
+- `src/data/curriculum/cloudLessons.ts` (11 lessons còn lại)
+- `src/data/curriculum/dataEngLessons.ts` (6 modules đầu)
 
-**Đợt 2 — Data & AI**
-- `dataEngLessons.ts`
-- `aiFoundationLessons.ts`
-- `mlLessons.ts`
+Không tạo file mới, không thay schema, không đụng UI/backend. Cấu trúc code/exercise/quiz giữ nguyên — chỉ mở rộng `theory` và `theoryEn`.
 
-**Đợt 3 — SQL & Python**
-- `sqlLessons.ts`
-- `programmingExpansion.ts`
-
-Trong lần triển khai này, tôi sẽ bắt đầu với **Đợt 1 (Cloud Engineer)** vì người dùng đang ở `/programming/cloud-strategy-cost`. Sau khi xác nhận chất lượng nội dung đạt yêu cầu, sẽ tiếp tục các đợt còn lại trong các message tiếp theo.
-
-## Files chỉnh sửa (đợt 1)
-
-- `src/data/curriculum/cloudLessons.ts` — mở rộng theory + theoryEn cho 15 lessons
-- `src/data/curriculum/cloudExpansion.ts` — mở rộng theory + theoryEn cho 10 lessons
-
-Không tạo file mới, không thay schema, không đụng UI/backend.
-
-## Kết quả mong đợi
-
-- Mỗi lesson Theory dài gấp 3-5 lần hiện tại
-- Có chiều sâu chuyên môn (cơ chế, trade-offs, case study thật)
-- Vẫn giữ readability nhờ format markdown chuẩn đã thiết lập + component `TheorySections` (chia nhỏ theo H2, có nút đánh dấu đã đọc cho từng phần)
-- Học viên có thể đọc như tài liệu kỹ thuật chuyên nghiệp, không còn cảm giác "quá ngắn"
+## Đợt sau (sẽ tiếp tục trong message kế tiếp)
+- `cloudExpansion.ts` (10 lessons)
+- `dataEngLessons.ts` module 7-11
+- `aiFoundationLessons.ts`, `mlLessons.ts`
+- `sqlLessons.ts`, `programmingExpansion.ts`
