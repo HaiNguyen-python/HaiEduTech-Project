@@ -11,6 +11,7 @@ export interface StudentProfileLite {
   ielts_score?: number | null;
   toefl_score?: number | null;
   sat_score?: number | null;
+  current_level?: string | null;
   field_of_study?: string | null;
   activities?: string | null;
   work_experience_years?: number | null;
