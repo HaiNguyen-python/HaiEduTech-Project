@@ -233,6 +233,9 @@ const Programming = () => {
                   </div>
                 </div>
 
+                {/* Python Pathway hub (full lesson grid + Pyodide) */}
+                {active.isPathway && <PythonPathwayHub />}
+
                 {/* Python Challenges Section */}
                 {active.challengeSection && (
                   <Link
