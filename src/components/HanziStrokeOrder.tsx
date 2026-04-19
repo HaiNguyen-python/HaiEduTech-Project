@@ -8,21 +8,27 @@ interface HanziStrokeOrderProps {
 }
 
 const CDN_URLS = [
+  "https://cdnjs.cloudflare.com/ajax/libs/hanzi-writer-data/2.0.1",
   "https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0.1",
   "https://unpkg.com/hanzi-writer-data@2.0.1",
+  "https://esm.sh/hanzi-writer-data@2.0.1",
 ];
 
 const HanziStrokeOrder = ({ character, size = 120 }: HanziStrokeOrderProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const writerRef = useRef<any>(null);
+  const autoPlayedRef = useRef(false);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [hasPlayed, setHasPlayed] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
     containerRef.current.innerHTML = "";
     setLoading(true);
     setFailed(false);
+    setHasPlayed(false);
+    autoPlayedRef.current = false;
 
     const char = character.charAt(0);
 
@@ -54,6 +60,19 @@ const HanziStrokeOrder = ({ character, size = 120 }: HanziStrokeOrderProps) => {
             .then((data) => {
               setLoading(false);
               onComplete(data);
+              // Auto-play once after a short delay so users see the strokes form
+              if (!autoPlayedRef.current) {
+                autoPlayedRef.current = true;
+                setTimeout(() => {
+                  try {
+                    writerRef.current?.animateCharacter({
+                      onComplete: () => setHasPlayed(true),
+                    });
+                  } catch {
+                    setHasPlayed(true);
+                  }
+                }, 400);
+              }
             })
             .catch(() => {
               setLoading(false);
@@ -79,7 +98,6 @@ const HanziStrokeOrder = ({ character, size = 120 }: HanziStrokeOrderProps) => {
     const w = writerRef.current;
     if (!w) return;
     try {
-      // Reset to outline state then animate
       w.hideCharacter();
       setTimeout(() => {
         w.animateCharacter();
@@ -103,7 +121,7 @@ const HanziStrokeOrder = ({ character, size = 120 }: HanziStrokeOrderProps) => {
     <div
       className="flex flex-col items-center justify-center cursor-pointer"
       onClick={handleAnimate}
-      title="Click để xem nét bút"
+      title="Click để xem lại nét bút"
     >
       <div ref={containerRef} className="flex items-center justify-center relative" style={{ width: size, height: size }}>
         {loading && (
@@ -113,7 +131,7 @@ const HanziStrokeOrder = ({ character, size = 120 }: HanziStrokeOrderProps) => {
         )}
       </div>
       <p className="text-[10px] text-muted-foreground mt-1">
-        {loading ? "Đang tải nét bút..." : "Click để xem nét bút"}
+        {loading ? "Đang tải nét bút..." : hasPlayed ? "Click để xem lại nét bút" : "Đang vẽ nét bút..."}
       </p>
     </div>
   );

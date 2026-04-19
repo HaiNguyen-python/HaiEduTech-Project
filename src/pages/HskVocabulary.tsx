@@ -59,10 +59,9 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
         transition={{ duration: 0.5 }}
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Front - Show Hanzi + Pinyin */}
+        {/* Front - Show Hanzi (stroke order) + Pinyin */}
         <div className="absolute inset-0 rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center gap-2" style={{ backfaceVisibility: "hidden" }}>
-          <HanziStrokeOrder character={word.character} size={80} />
-          <h3 className="text-4xl font-bold text-foreground">{word.character}</h3>
+          <HanziStrokeOrder character={word.character} size={120} />
           <p className="text-base text-primary font-medium">{word.pinyin}</p>
           <Badge className={levelColors[word.level]}>{word.level}</Badge>
           <button onClick={(e) => { e.stopPropagation(); speakChinese(word.character); }} className="mt-1 p-2 rounded-full hover:bg-primary/10 transition-colors">
