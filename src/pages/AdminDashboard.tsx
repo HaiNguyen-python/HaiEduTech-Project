@@ -902,6 +902,11 @@ const AdminDashboard = () => {
                 <IncomeManagement />
               </TabsContent>
 
+              {/* ===== CLASS SCHEDULE TAB ===== */}
+              <TabsContent value="schedule">
+                <ClassScheduleManager />
+              </TabsContent>
+
               {/* ===== SYSTEM STATUS & API MONITORING TAB ===== */}
               <TabsContent value="system">
                 <SystemStatusTab />
