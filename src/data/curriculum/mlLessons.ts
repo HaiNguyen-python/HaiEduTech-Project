@@ -15,181 +15,124 @@ export const mlModules: ExtendedProgrammingModule[] = [
       {
         id: "ml-lr-1", title: "Simple Linear Regression", titleEn: "Simple Linear Regression",
         level: 1, difficulty: "beginner",
-        theory: `**Linear Regression — Predicting Continuous Values**
+        theory: `## 1. Vấn đề đời thường
 
-Linear Regression is the simplest and most fundamental supervised learning algorithm. It models the relationship between a dependent variable (y) and one or more independent variables (X) by fitting a straight line. Despite its simplicity, it remains one of the most widely used algorithms in industry because of its interpretability and efficiency.
+Bạn có 1 bảng dữ liệu: **diện tích nhà → giá bán** của 100 căn ở Hà Nội. Sếp hỏi: "Một căn 80 m² ước giá bao nhiêu?".
 
----
+Cách thô sơ: lấy giá trung bình. Nhưng ta thấy rõ: **nhà to thì giá cao**. Vậy phải có một "công thức" liên hệ diện tích với giá. Linear Regression là cách đơn giản nhất để **vẽ một đường thẳng đi gần nhất qua tất cả các điểm dữ liệu** — rồi dùng đường đó để dự đoán giá cho mọi căn mới.
 
-**📐 The Model:**
+> Linear Regression là thuật toán Machine Learning **đơn giản nhất, hữu dụng nhất**, và **luôn nên thử đầu tiên** trước khi nghĩ tới mô hình phức tạp.
 
-**Simple Linear Regression (1 feature):**
-\`y = wx + b\`
-- w (weight/slope): How much y changes when x increases by 1
-- b (bias/intercept): The value of y when x = 0
+## 2. Công thức tối thiểu — đọc 1 lần là nhớ
 
-**Multiple Linear Regression (multiple features):**
-\`y = w₁x₁ + w₂x₂ + ... + wₙxₙ + b\`
+Với 1 đặc trưng (feature) duy nhất:
 
-In matrix notation: \`y = Xw + b\`, where X is the feature matrix (n samples × p features), w is the weight vector (p × 1), and b is the bias scalar.
-
-**Geometric Interpretation:**
-- In 2D (1 feature): the model is a line
-- In 3D (2 features): the model is a plane
-- In higher dimensions: the model is a hyperplane
-
----
-
-**📏 Loss Function — Mean Squared Error (MSE):**
-
-\`MSE = (1/n) × Σ(yᵢ - ŷᵢ)²\`
-
-- Measures average squared difference between predictions and actual values
-- Squaring penalizes large errors more heavily (a prediction off by 10 contributes 100 to the loss, while off by 1 contributes only 1)
-- Always ≥ 0; MSE = 0 means perfect predictions
-- Differentiable everywhere, making it suitable for optimization
-
-**Why not use absolute error?** Mean Absolute Error (MAE = (1/n)Σ|y-ŷ|) is another option, but MSE has a smooth gradient everywhere (MAE has a discontinuity at 0), making optimization easier. However, MSE is more sensitive to outliers.
-
-**Root Mean Squared Error (RMSE):** \`RMSE = √MSE\` — has the same units as the target variable, making it more interpretable.
-
----
-
-**🎯 Training — Finding Optimal w and b:**
-
-**Method 1: Closed-Form Solution (Normal Equation)**
-\`w = (XᵀX)⁻¹Xᵀy\`
-- Exact solution, no iteration needed
-- Computationally expensive for large datasets (matrix inversion is O(n³))
-- Requires XᵀX to be invertible (fails with multicollinearity)
-- Best for small-to-medium datasets (< 10,000 features)
-
-**Method 2: Gradient Descent**
-Iteratively update w and b in the direction of steepest descent:
 \`\`\`
-w = w - lr × ∂MSE/∂w
-b = b - lr × ∂MSE/∂b
+y = w·x + b
 \`\`\`
 
-Where the gradient is:
+| Ký hiệu | Là gì? | Ví dụ giá nhà |
+|---|---|---|
+| **x** | đặc trưng đầu vào (input feature) | diện tích (m²) |
+| **y** | giá trị cần dự đoán (target) | giá nhà (triệu VND) |
+| **w** | hệ số góc (slope/weight) — *x tăng 1 đơn vị thì y tăng bao nhiêu?* | giá tăng theo m² (vd: 50 triệu/m²) |
+| **b** | giao điểm với trục y (intercept/bias) — *khi x=0 thì y bằng bao nhiêu?* | giá "nền" |
+
+**Đọc nghĩa**: nếu học được \`y = 50·x + 200\`, một căn 80 m² sẽ có giá ≈ 50·80 + 200 = **4,200 triệu**.
+
+Khi có **nhiều đặc trưng** (diện tích + số phòng + vị trí…), công thức mở rộng: \`y = w₁·x₁ + w₂·x₂ + ... + b\`.
+
+## 3. Làm sao biết "đường nào tốt nhất"? — MSE
+
+Mỗi đường thẳng cho 1 dự đoán \`ŷ\` (đọc là "y mũ"). So với giá thật \`y\`, ta có **sai số** \`(y - ŷ)\`. Đo độ tốt của đường = trung bình bình phương sai số:
+
 \`\`\`
-∂MSE/∂w = -(2/n) × Σ(yᵢ - ŷᵢ) × xᵢ
-∂MSE/∂b = -(2/n) × Σ(yᵢ - ŷᵢ)
+MSE = (1/n) · Σ (y - ŷ)²
 \`\`\`
 
-**Gradient Descent Variants:**
-- **Batch GD:** Uses all data per update. Smooth but slow for large datasets.
-- **Stochastic GD (SGD):** Uses 1 sample per update. Noisy but fast. Can escape local minima.
-- **Mini-Batch GD:** Uses a batch of 32-256 samples. Best of both worlds — most commonly used.
+Vì sao **bình phương**? Để (a) sai số dương và âm không triệt tiêu nhau, (b) **phạt nặng** sai lớn (sai 10 → đóng góp 100, sai 1 → chỉ 1).
 
-**Learning Rate (lr) — The Most Important Hyperparameter:**
-- Too large → oscillation, may diverge (loss increases)
-- Too small → very slow convergence
-- Typical starting values: 0.01, 0.001
-- Advanced: Learning rate scheduling (reduce lr over time), Adam optimizer (adaptive lr per parameter)
+Mục tiêu training = **tìm w và b sao cho MSE nhỏ nhất**.
 
----
+> RMSE (= √MSE) thường được báo cáo thay MSE vì cùng đơn vị với y, dễ giải thích hơn ("sai trung bình ±200 triệu").
 
-**📊 Evaluation Metrics:**
+## 4. Cách máy "học" w và b — Gradient Descent (đi xuống dốc)
 
-| Metric | Formula | Interpretation |
-|--------|---------|---------------|
-| MSE | (1/n)Σ(y-ŷ)² | Average squared error |
-| RMSE | √MSE | Same units as y, more interpretable |
-| MAE | (1/n)Σ|y-ŷ| | Average absolute error, robust to outliers |
-| R² Score | 1 - SS_res/SS_tot | % variance explained (0-1) |
-| Adjusted R² | 1 - (1-R²)(n-1)/(n-p-1) | R² penalized for number of features |
+Hãy hình dung MSE là một **thung lũng hình chén**, w và b là toạ độ. Mục tiêu: đi tới **đáy thung lũng** (MSE thấp nhất).
 
-**R² Score Interpretation:**
-- R² = 1.0 → Perfect predictions (suspicious — likely overfitting!)
-- R² = 0.7-0.9 → Good model for most practical applications
-- R² = 0.0 → Model is no better than predicting the mean
-- R² < 0.0 → Model is worse than predicting the mean (something is wrong)
+**Thuật toán** (nhẹ nhàng, không công thức):
+1. Bắt đầu từ một điểm bất kỳ (vd: w=0, b=0).
+2. Tính độ dốc (gradient) tại điểm đó — cho biết đi hướng nào để xuống nhanh nhất.
+3. Bước 1 bước nhỏ theo hướng đó. Độ dài bước gọi là **learning rate** (vd: 0.01).
+4. Lặp lại 100–10,000 lần. Sau mỗi lần, MSE giảm dần.
 
-**Adjusted R²:** Always use this when comparing models with different numbers of features. Regular R² always increases when adding features (even useless ones). Adjusted R² penalizes unnecessary features.
+**Mẹo về learning rate**:
+- Quá lớn → nhảy qua đáy thung lũng, MSE tăng → mô hình "bùng nổ".
+- Quá nhỏ → bò chậm như rùa.
+- Bắt đầu từ 0.01 hoặc 0.001 là an toàn.
 
----
+## 5. Đo độ tốt mô hình — R² (R bình phương)
 
-**📋 Assumptions of Linear Regression:**
+R² trả lời câu hỏi: "Mô hình giải thích được bao nhiêu **biến thiên** trong dữ liệu?"
 
-1. **Linearity:** Relationship between X and y is linear. *Check:* Residual vs fitted plot should show no pattern.
-2. **Independence:** Observations are independent of each other. *Violation:* Time series data (use autoregressive models instead).
-3. **Homoscedasticity:** Constant variance of residuals (residuals spread evenly). *Check:* Residual plot should show constant spread. *Fix:* Log transform the target.
-4. **Normality:** Residuals are normally distributed. *Check:* Q-Q plot or Shapiro-Wilk test. *Important:* Only matters for statistical inference (confidence intervals), not for prediction.
-5. **No multicollinearity:** Features are not highly correlated with each other. *Check:* VIF (Variance Inflation Factor). VIF > 10 indicates problematic collinearity. *Fix:* Remove one of the correlated features, use PCA, or use Ridge regression.
+| R² | Ý nghĩa |
+|---|---|
+| 1.0 | Hoàn hảo (đáng nghi! thường là **overfitting**) |
+| 0.7 – 0.9 | Tốt cho hầu hết bài toán thực tế |
+| 0.0 | Mô hình tệ ngang predict luôn giá trung bình |
+| < 0 | Mô hình **tệ hơn** cả predict trung bình → có lỗi |
 
-Violating these assumptions can lead to unreliable coefficients and predictions.
+> **Lưu ý**: R² **luôn tăng** khi thêm feature, kể cả feature vô nghĩa. Khi so 2 mô hình có số feature khác nhau, dùng **Adjusted R²** (R² hiệu chỉnh) — nó "phạt" feature thừa.
 
----
+## 6. Khi nào nên / không nên dùng?
 
-**🔧 Regularization — Preventing Overfitting:**
+✅ **Nên dùng** khi:
+- Cần một **baseline** (mức cơ sở) trước khi thử mô hình phức tạp — quy tắc số 1 của Google ML team.
+- Quan hệ giữa x và y **gần tuyến tính** (vẽ scatter plot ra thấy điểm xếp gần đường thẳng).
+- Cần **giải thích được** (interpretability) — vì coefficient \`w\` có nghĩa rõ ràng cho luật sư, bác sĩ, nhà quản lý.
+- Cần inference **siêu nhanh** (<1 ms) — Logistic Regression của PayPal xử lý 4 tỷ giao dịch/quý.
 
-**Ridge Regression (L2):**
-\`Loss = MSE + λ × Σwᵢ²\`
-- Shrinks all weights toward zero but never to exactly zero
-- Good when many features contribute a little each
-- Handles multicollinearity well
+❌ **Không nên dùng** khi:
+- Quan hệ rõ phi tuyến (ảnh, văn bản thô, âm thanh) → R² < 0.3.
+- Có nhiều **interaction** phức tạp giữa các feature → cần Random Forest / XGBoost.
 
-**Lasso Regression (L1):**
-\`Loss = MSE + λ × Σ|wᵢ|\`
-- Can shrink weights to exactly zero → automatic feature selection
-- Good when few features are truly important
+## 7. Lỗi thường gặp (đắt tiền)
 
-**Elastic Net:**
-\`Loss = MSE + λ₁ × Σ|wᵢ| + λ₂ × Σwᵢ²\`
-- Combines L1 and L2 — best of both worlds
+- ❌ **Tin R² cao = mô hình tốt** — phải kiểm tra trên **dữ liệu test** chưa thấy.
+- ❌ **Quên scale feature** khi dùng Ridge/Lasso — feature lớn (lương VND ~10⁷) sẽ át feature nhỏ (số con ~1).
+- ❌ **Multicollinearity** (2 feature tương quan cao, vd: diện tích m² và diện tích ft²) → coefficient vô nghĩa, dấu thậm chí đảo ngược. Kiểm tra bằng **VIF**, VIF > 10 là cảnh báo.
+- ❌ **Dùng Linear cho dữ liệu phi tuyến rõ ràng** → lãng phí thời gian, hãy plot scatter trước.
+- ❌ **Không log-transform target** khi target lệch (giá nhà, doanh thu) → R² có thể cải thiện 10–20% sau log.
 
----
+## 8. Ridge & Lasso — chống overfitting
 
-**🔧 When to Use Linear Regression:**
-- Quick baseline model (always start here!)
-- When the relationship is approximately linear
-- When interpretability matters (coefficients have clear meaning)
-- Feature importance analysis (which features affect the target most)
-- When you need fast inference (milliseconds)
-- **Do NOT use when:** Relationships are highly non-linear, data has complex interactions, or you need very high accuracy
+Khi có nhiều feature mà dữ liệu ít, mô hình dễ "thuộc lòng" training data (overfitting). Giải pháp: thêm hình phạt vào loss để ép w nhỏ lại.
 
----
+| Tên | Hình phạt | Đặc điểm |
+|---|---|---|
+| **Ridge (L2)** | λ·Σw² | Ép tất cả w nhỏ dần, không về 0. Tốt khi nhiều feature đều đóng góp nhẹ. |
+| **Lasso (L1)** | λ·Σ\\|w\\| | Có thể ép w về **đúng 0** → tự động chọn feature. Tốt khi chỉ vài feature thực sự quan trọng. |
+| **Elastic Net** | Cả 2 | Cân bằng — best of both worlds. |
 
-## 🏢 Case Study: Zillow's Zestimate — Linear Regression at Scale (2006-2021)
+Tham số λ (lambda) điều chỉnh "mạnh tay phạt" hay không. Tune bằng cross-validation.
 
-Zillow's flagship product Zestimate ban đầu sử dụng **Linear Regression** (cùng các kỹ thuật hồi quy mở rộng) để định giá hơn 100 triệu căn nhà tại Mỹ. Mô hình dùng các đặc trưng cơ bản: diện tích, số phòng ngủ, vị trí, năm xây dựng. Median error ~5-7% — chấp nhận được nhờ tính **interpretability** (luật sư, môi giới, ngân hàng đều hiểu được).
+## 9. Ghi chú nâng cao (case study + công thức chuẩn)
 
-**Bài học $304M:** Năm 2021, Zillow chuyển sang **Zillow Offers** (mua nhà thực tế dựa trên dự đoán mô hình). Linear Regression không bắt kịp biến động giá hậu COVID → công ty mất $304M, sa thải 25% nhân sự. Bài học: Linear Regression lý tưởng cho **dự báo (prediction)** chứ không phải **quyết định mua bán giá trị cao** trong thị trường biến động phi tuyến.
+**Zillow Zestimate (2006–2021)**: Linear Regression định giá 100 triệu căn nhà ở Mỹ với median error 5–7%. Năm 2021 Zillow Offers (mua nhà thật theo dự đoán) lỗ **$304 triệu** vì mô hình tuyến tính không bắt kịp biến động hậu COVID. **Bài học**: LR tốt cho **dự báo**, không tốt cho **quyết định mua/bán giá trị cao** trong thị trường biến động.
 
----
+**Netflix Prize ($1M, 2009)**: đội thắng dùng **Ridge Regression** + Matrix Factorization. L2 giúp xử lý multicollinearity giữa 100 triệu rating, RMSE giảm 10.06% — đủ thắng giải. Minh chứng: Linear models vẫn cạnh tranh được với Deep Learning khi feature đã engineered tốt.
 
-## 🏢 Case Study: Netflix Recommender — Ridge Regression (2006-2009)
+**Công thức chính xác cho người muốn đào sâu**:
+- Dạng matrix: \`y = Xw + b\`
+- Closed-form (Normal Equation): \`w = (XᵀX)⁻¹Xᵀy\` — chính xác tuyệt đối nhưng O(n³), chỉ dùng cho dataset nhỏ.
+- Gradient: \`∂MSE/∂w = -(2/n)·Σ(y-ŷ)·x\`, \`∂MSE/∂b = -(2/n)·Σ(y-ŷ)\`.
+- Variants Gradient Descent: **Batch** (toàn bộ data, mượt nhưng chậm), **SGD** (1 sample, nhanh nhưng nhiễu), **Mini-Batch** (32–256 samples, **chuẩn industry**).
 
-Netflix Prize ($1M) — đội thắng cuộc "BellKor's Pragmatic Chaos" sử dụng **Ridge Regression** kết hợp với Matrix Factorization. Lý do chọn Ridge: dataset có 100 triệu ratings nhưng nhiều feature tương quan cao (multicollinearity giữa các bộ phim cùng thể loại). L2 regularization giúp mô hình **ổn định** mà không loại bỏ feature nào.
+**Giả định LR (assumptions)** — vi phạm = coefficient không đáng tin: (1) Linearity, (2) Independence, (3) Homoscedasticity (residual đều), (4) Normality of residuals, (5) No multicollinearity.
 
-**RMSE giảm 10.06%** so với baseline Cinematch của Netflix → đủ để thắng giải. Đây là minh chứng kinh điển: với feature có structure rõ và yêu cầu interpretability + tốc độ, Linear models vẫn cạnh tranh được với deep learning trong nhiều bài toán production.
+## 10. Liên hệ bài tiếp theo
 
----
-
-## 📋 Production Best Practices (từ Google, Uber)
-
-✅ **Always start với Linear Regression** làm baseline trước khi thử mô hình phức tạp (Google Rules of ML, Rule #4: "Keep the first model simple")
-✅ **Standardize features** trước khi dùng Ridge/Lasso — vì regularization phụ thuộc scale
-✅ **Log-transform target** nếu phân phối lệch (giá nhà, doanh thu) — cải thiện R² 10-20%
-✅ **Plot residuals vs fitted** sau training — phát hiện heteroscedasticity
-✅ **VIF check** cho mỗi feature — VIF > 10 → loại bỏ hoặc dùng Ridge
-
----
-
-## ⚠️ Anti-Patterns thường gặp
-
-❌ Dùng R² làm metric duy nhất — R² cao có thể do overfitting (luôn check Adjusted R² + cross-validation)
-❌ Bỏ qua kiểm tra **homoscedasticity** → coefficients không đáng tin cho inference
-❌ Quên scale features khi dùng L1/L2 → một feature lớn (vd: salary tính bằng VND) sẽ át các feature nhỏ
-❌ Thử Linear trên dữ liệu rõ ràng phi tuyến (image, text raw) → R² < 0.3, lãng phí thời gian
-❌ Trust coefficients khi có multicollinearity — dấu (sign) có thể bị đảo ngược
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Linear Regression giải bài toán **continuous prediction** (giá nhà, doanh thu). Nhưng nếu output là **categorical** (spam/ham, mua/không mua)? Ta không thể dự đoán xác suất bằng đường thẳng vô hạn. Bài tiếp theo: **Logistic Regression** — kéo output về khoảng [0,1] bằng hàm Sigmoid.`,
+Linear Regression dự đoán **số liên tục** (giá nhà, doanh thu). Nhưng nếu output là **phân loại** (spam/không spam, mua/không mua)? Đường thẳng có thể cho ŷ = -50 hoặc +200, không phải xác suất [0, 1]. Bài tiếp **Logistic Regression** giải vấn đề bằng hàm **sigmoid** — nén kết quả về khoảng [0, 1] để đọc như xác suất.`,
         theoryEn: `**Linear Regression — Predicting Continuous Values**
 
 **Model:** y = wx + b (simple) or y = w₁x₁ + w₂x₂ + ... + b (multiple). Geometrically: line, plane, or hyperplane.
@@ -239,172 +182,151 @@ Linear Regression giải bài toán **continuous prediction** (giá nhà, doanh 
       {
         id: "ml-log-1", title: "Binary Classification", titleEn: "Binary Classification",
         level: 2, difficulty: "beginner",
-        theory: `**Logistic Regression — Binary Classification**
+        theory: `## 1. Vấn đề đời thường
 
-Despite its name, Logistic Regression is a **classification** algorithm, not regression. It predicts the probability that an input belongs to a particular class (0 or 1). It is the foundation for understanding neural networks and deep learning.
+Bạn nhận 1 email. Câu hỏi: **đây là spam hay không?** Đây là bài toán **phân loại nhị phân** (binary classification): output chỉ có 2 giá trị — 1 (spam) hoặc 0 (không spam).
 
----
+Linear Regression không dùng được: nó cho ra số bất kỳ (vd: -50 hoặc +200), không phải xác suất "khả năng là spam = 87%". Cần một cách **nén kết quả về khoảng [0, 1]** để đọc như xác suất. Đó là việc của **Logistic Regression**.
 
-**📐 The Model:**
+> **Bẫy ngôn ngữ**: tên có chữ "Regression" nhưng đây là thuật toán **phân loại**, không phải hồi quy. Tên gọi đến từ "logistic function" — hàm nén giá trị về [0, 1].
 
-\`P(y=1|x) = σ(wx + b) = 1 / (1 + e^(-(wx+b)))\`
+## 2. Cú pháp tối thiểu — sigmoid là chìa khóa
 
-The **Sigmoid function** maps any real number to the range [0, 1], interpretable as a probability.
-
-**Sigmoid Properties:**
-- σ(0) = 0.5 (neutral — equal probability for both classes)
-- σ(large positive) → 1 (confident positive)
-- σ(large negative) → 0 (confident negative)
-- Derivative: σ'(z) = σ(z) × (1 - σ(z)) — easy to compute, useful for gradient descent
-- Symmetric: σ(-z) = 1 - σ(z)
-
-**Decision Rule:** If P(y=1) ≥ 0.5, predict class 1; otherwise predict class 0.
-
-**Decision Boundary:** The line/surface where P(y=1) = 0.5, i.e., wx + b = 0.
-- In 2D: the boundary is a straight line
-- In higher dimensions: a hyperplane
-- Logistic Regression can ONLY create linear boundaries
-
----
-
-**📏 Loss Function — Binary Cross-Entropy (BCE):**
-
-\`L = -(1/n) × Σ[yᵢ·log(ŷᵢ) + (1-yᵢ)·log(1-ŷᵢ)]\`
-
-**Intuition:**
-- When y=1 and ŷ≈1: loss ≈ 0 (correct, confident — good!)
-- When y=1 and ŷ≈0: loss → ∞ (wrong, confident → heavy penalty!)
-- When y=0 and ŷ≈0: loss ≈ 0 (correct, confident — good!)
-- When y=0 and ŷ≈1: loss → ∞ (wrong, confident → heavy penalty!)
-
-**Why not use MSE for classification?** MSE with sigmoid creates a **non-convex** loss surface with many local minima, making gradient descent unreliable. Cross-entropy with sigmoid is **convex** — guaranteed single global minimum.
-
-**Why not use accuracy as the loss?** Accuracy is not differentiable (it's a step function). We need a smooth, differentiable function for gradient-based optimization.
-
----
-
-**📊 Evaluation Metrics for Classification:**
-
-| Metric | Formula | When to Use |
-|--------|---------|-------------|
-| Accuracy | (TP+TN)/Total | Balanced classes only |
-| Precision | TP/(TP+FP) | When FP is costly (spam filter, recommendation) |
-| Recall (Sensitivity) | TP/(TP+FN) | When FN is costly (disease detection, fraud) |
-| F1 Score | 2×P×R/(P+R) | Imbalanced classes |
-| AUC-ROC | Area under ROC curve | Overall model quality, threshold-independent |
-| Log Loss | -Σ[y·log(ŷ)+(1-y)·log(1-ŷ)] | When probability calibration matters |
-
-**Confusion Matrix:**
 \`\`\`
-              Predicted
-              Pos    Neg
-Actual Pos    TP     FN   ← Type II error (missed positive)
-Actual Neg    FP     TN   ← Type I error (false alarm)
+P(y=1 | x) = σ(w·x + b)
 \`\`\`
 
-**Real-World Metric Selection:**
-- **Cancer detection:** High Recall — missing a cancer case (FN) is far worse than a false alarm (FP)
-- **Spam filter:** High Precision — marking a legitimate email as spam (FP) is very annoying
-- **Credit card fraud:** Balance via F1 — both missing fraud (FN) and blocking legitimate transactions (FP) are costly
+trong đó **sigmoid** là hàm hình chữ S:
 
----
-
-**🔧 Threshold Tuning:**
-
-The default threshold of 0.5 isn't always optimal:
-- **High threshold (e.g., 0.8):** More conservative — higher precision, lower recall
-- **Low threshold (e.g., 0.3):** More permissive — higher recall, lower precision
-
-**Precision-Recall Curve:** Plot precision vs recall at various thresholds. Choose the threshold that best fits your business need.
-
-**ROC Curve:** Plot True Positive Rate (Recall) vs False Positive Rate at all thresholds. The area under the curve (AUC) measures overall model quality.
-
----
-
-**⚖️ Handling Imbalanced Classes:**
-
-When one class dominates (e.g., 99% negative, 1% positive):
-
-1. **Class weights:** Increase the loss contribution of the minority class
-\`\`\`python
-LogisticRegression(class_weight='balanced')  # auto-adjust weights
+\`\`\`
+σ(z) = 1 / (1 + e⁻ᶻ)
 \`\`\`
 
-2. **Oversampling (SMOTE):** Generate synthetic minority samples
-3. **Undersampling:** Remove majority class samples
-4. **Threshold adjustment:** Lower the classification threshold
+**Đặc tính sigmoid** (hình dung như "công tắc mềm"):
 
----
+| Đầu vào z | σ(z) | Ý nghĩa |
+|---|---|---|
+| z = 0 | 0.5 | "50/50, không chắc" |
+| z = +∞ | → 1 | "Chắc chắn là class 1" |
+| z = -∞ | → 0 | "Chắc chắn là class 0" |
 
-**📋 Multi-Class Extension:**
+**Quy tắc quyết định**: Nếu P(y=1) ≥ 0.5 → predict class 1, ngược lại class 0.
 
-- **One-vs-Rest (OvR):** Train K binary classifiers, one per class. Each classifier separates one class from all others.
-- **One-vs-One (OvO):** Train K(K-1)/2 classifiers, one per pair of classes.
-- **Softmax Regression (Multinomial):** Extends logistic regression directly to K classes using softmax function:
-  \`P(y=k|x) = e^(wₖx) / Σⱼ e^(wⱼx)\`
+## 3. 3 bước hoạt động — ví dụ email spam
 
-**Softmax vs Sigmoid:**
-- Sigmoid: output per class is independent (can sum to > 1) — good for multi-label
-- Softmax: outputs sum to exactly 1 — good for multi-class (mutually exclusive)
+Giả sử ta có 2 feature đơn giản: x₁ = số từ "free" trong email, x₂ = số dấu "!".
 
----
+**Bước 1**: tính \`z = w₁·x₁ + w₂·x₂ + b\` — vd: \`z = 1.5·5 + 0.8·10 - 3 = 12.5\`.
+**Bước 2**: nén qua sigmoid: \`σ(12.5) ≈ 0.9999\` → P(spam) = 99.99%.
+**Bước 3**: 0.9999 ≥ 0.5 → **kết luận: SPAM**.
 
-## 🏢 Case Study: Kaggle Titanic — Logistic Regression Baseline
+Mỗi w nói lên: "feature này quan trọng đến đâu trong việc xác định class". w lớn dương → đẩy mạnh về class 1. w lớn âm → đẩy về class 0.
 
-Bài toán "ai sống sót trên Titanic" là dataset nổi tiếng nhất Kaggle (>15K submissions). **Logistic Regression** với 6 feature cơ bản (Sex, Age, Pclass, Fare, SibSp, Embarked) đạt **accuracy 78-80%** — vượt hơn 60% submissions sử dụng Random Forest hoặc XGBoost không tinh chỉnh kỹ. Lý do: dataset nhỏ (891 samples), feature interactions đơn giản → mô hình tuyến tính generalizes tốt hơn.
+## 4. Loss function — Binary Cross-Entropy (BCE)
 
-**Bài học:** Trong bối cảnh ít data + feature đã được engineer tốt, Logistic Regression thường đánh bại deep learning. Đây là lý do nó vẫn là **first-choice baseline** ở mọi data science team chuyên nghiệp.
+Sai số được đo bằng **cross-entropy** (entropy chéo) — phạt rất nặng khi mô hình **tự tin sai**.
 
----
+\`\`\`
+L = -(1/n) · Σ [y·log(ŷ) + (1-y)·log(1-ŷ)]
+\`\`\`
 
-## 🏢 Case Study: PayPal Fraud Detection — Logistic Regression Production (2010s)
+**Trực giác**:
+- y=1 (thật là spam), ŷ ≈ 1 (predict đúng, tự tin) → loss ≈ 0 ✅
+- y=1 nhưng ŷ ≈ 0 (predict sai, tự tin) → loss → ∞ ❌ (phạt nặng)
+- y=0 (không spam), ŷ ≈ 0 → loss ≈ 0 ✅
+- y=0 nhưng ŷ ≈ 1 → loss → ∞ ❌
 
-PayPal dùng Logistic Regression để detect fraud transactions với volume **>4 tỷ transactions/quý**. Lý do chọn LogReg thay vì XGBoost/Neural Network:
-- **Latency requirement <50ms** mỗi transaction → LogReg inference cực nhanh (1 phép nhân ma trận)
-- **Interpretability cho compliance** — phải giải thích được vì sao block một transaction (luật EU PSD2)
-- **Easy to update** — model retrained hourly với data mới
-- Feature engineering bài bản (velocity features, graph-based features) → LogReg đạt AUC 0.92+
+> **Vì sao không dùng MSE?** MSE + sigmoid tạo **bề mặt loss lồi lõm** (non-convex) → gradient descent dễ kẹt ở local minimum. BCE + sigmoid tạo bề mặt **lồi hoàn hảo** (convex) → đảm bảo tìm được global minimum.
 
-**Modern hybrid:** PayPal hiện kết hợp LogReg (first-stage filter, fast) với Gradient Boosted Trees (second-stage, high-accuracy) để cân bằng latency + accuracy.
+## 5. Đo độ tốt — không chỉ Accuracy!
 
----
+Accuracy (tỉ lệ đúng) **không đủ**, đặc biệt khi class lệch (vd: chỉ 1% là spam, predict luôn "không spam" cho accuracy = 99% nhưng vô dụng).
 
-## 🏢 Case Study: Stanford Diabetes Prediction (Pima Indians)
+**Confusion Matrix** (ma trận nhầm lẫn):
 
-Dataset Pima Indians (768 samples, 8 features y khoa) — Logistic Regression đạt **accuracy 77%**, AUC 0.83. Coefficient analysis chỉ ra:
-- **Glucose** (β = +0.035): tăng 1 mg/dL → odds bị tiểu đường tăng 3.5%
-- **BMI** (β = +0.09): tăng 1 đơn vị → odds tăng 9.4%
-- **Pregnancies** (β = +0.12): mỗi lần mang thai → odds tăng 12.7%
+\`\`\`
+                   PREDICT
+                   Spam    Không spam
+THẬT  Spam         TP       FN  ← bỏ sót spam
+      Không spam   FP       TN  ← cảnh báo nhầm
+\`\`\`
 
-Bác sĩ có thể **giải thích từng yếu tố** cho bệnh nhân — điều mà XGBoost/Neural Net không thể làm. Đây là lý do Logistic Regression vẫn dominant trong **medical research, credit scoring, criminal justice**.
+**4 metric chính**:
 
----
+| Tên | Công thức | Trả lời câu hỏi |
+|---|---|---|
+| **Accuracy** | (TP+TN)/Tổng | "Tỉ lệ đúng tổng" — chỉ dùng khi class cân |
+| **Precision** | TP/(TP+FP) | "Khi predict 'spam', có bao nhiêu % thật là spam?" |
+| **Recall** | TP/(TP+FN) | "Trong tất cả spam thật, bắt được bao nhiêu %?" |
+| **F1** | 2·P·R/(P+R) | "Cân bằng cả Precision và Recall" |
 
-## 📊 Bảng so sánh: Logistic Regression vs alternatives
+**Khi nào ưu tiên gì?**
 
-| Tiêu chí | Logistic Regression | Random Forest | Neural Network |
-|---------|---------------------|---------------|----------------|
-| Inference speed | <1ms | ~10ms | 10-100ms |
+| Bài toán | Ưu tiên | Vì sao |
+|---|---|---|
+| Lọc spam | **Precision** cao | Chặn nhầm email khách hàng = mất khách |
+| Phát hiện ung thư | **Recall** cao | Bỏ sót 1 ca = mất mạng |
+| Phát hiện gian lận thẻ | **F1** | Cả 2 sai đều tốn |
+
+**AUC-ROC**: 1 con số (0–1) đánh giá mô hình ở **mọi ngưỡng**, không phụ thuộc threshold 0.5. AUC = 1 hoàn hảo, AUC = 0.5 ngẫu nhiên.
+
+## 6. Threshold tuning — không phải lúc nào cũng 0.5
+
+Mặc định predict class 1 khi P ≥ 0.5. Nhưng có thể chỉnh:
+
+- **Threshold cao (0.8)**: chỉ chắc chắn 80% mới predict spam → ít FP, nhiều FN. Tốt cho lọc spam.
+- **Threshold thấp (0.3)**: nghi ngờ chút là cảnh báo → nhiều FP, ít FN. Tốt cho phát hiện ung thư.
+
+Vẽ **Precision-Recall Curve** ở các threshold khác nhau → chọn điểm phù hợp với business.
+
+## 7. Lỗi thường gặp (đắt tiền)
+
+- ❌ **Dùng accuracy với data lệch** — 99% accuracy có thể là vô dụng.
+- ❌ **Quên cân bằng class** — khi 99% âm và 1% dương, mô hình lười predict luôn 0. Giải pháp: \`class_weight='balanced'\`, **SMOTE** (sinh sample tổng hợp), hoặc giảm threshold.
+- ❌ **Quên One-Hot encoding** cho categorical (vd: tỉnh thành) — mã số 1, 2, 3 sẽ bị hiểu nhầm có thứ tự.
+- ❌ **Bỏ qua calibration** — sigmoid output không phải xác suất thực nếu không calibrated. Dùng **Platt Scaling** hoặc **Isotonic Regression**.
+- ❌ **Dùng cho boundary phi tuyến rõ ràng** (XOR problem) → accuracy thấp. Phải chuyển sang Decision Tree, Random Forest, hoặc Neural Network.
+
+## 8. Multi-class (nhiều hơn 2 lớp)
+
+Cần phân loại 10 chữ số thay vì 2 class? Có 3 cách:
+
+1. **One-vs-Rest (OvR)**: train 10 classifier, mỗi cái phân "chữ số i vs phần còn lại". Đơn giản, phổ biến.
+2. **One-vs-One (OvO)**: train K(K-1)/2 classifier cho mỗi cặp. Nhiều hơn nhưng từng cái nhỏ.
+3. **Softmax Regression** (multinomial): mở rộng trực tiếp với hàm softmax → output là vector xác suất cộng = 1.
+
+**Sigmoid vs Softmax**:
+- **Sigmoid**: mỗi class độc lập, có thể cộng > 1. Dùng cho **multi-label** (1 ảnh có cả "mèo" và "ngoài trời").
+- **Softmax**: cộng = 1 chính xác. Dùng cho **multi-class loại trừ** (1 ảnh chỉ là 1 chữ số duy nhất).
+
+## 9. Ghi chú nâng cao (case study + so sánh)
+
+**PayPal Fraud Detection**: xử lý **>4 tỷ giao dịch/quý** với Logistic Regression. Lý do chọn LogReg thay vì Deep Learning:
+- Latency phải <50 ms → LogReg chỉ là 1 phép nhân ma trận.
+- **Interpretability** cho compliance (luật EU PSD2 yêu cầu giải thích vì sao block).
+- Retrain mỗi giờ với data mới — LogReg đào tạo cực nhanh.
+- Modern hybrid: LogReg lọc thô (high recall), giao dịch nghi ngờ chuyển sang XGBoost (high accuracy).
+
+**Stanford Pima Indians Diabetes (768 mẫu, 8 feature)**: LogReg đạt accuracy 77%, AUC 0.83. Coefficient có thể giải thích cho bệnh nhân:
+- Glucose +1 mg/dL → odds tiểu đường tăng 3.5%.
+- BMI +1 → odds tăng 9.4%.
+- Mỗi lần mang thai → odds tăng 12.7%.
+
+Đây là lý do **LogReg vẫn dominant trong y khoa, credit scoring, hệ thống tư pháp** — XGBoost không thể giải thích từng yếu tố cho bệnh nhân.
+
+**So sánh nhanh**:
+
+| Tiêu chí | LogReg | Random Forest | Neural Network |
+|---|---|---|---|
+| Inference speed | <1 ms | ~10 ms | 10–100 ms |
 | Interpretability | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
 | Cần feature engineering | Cao | Thấp | Rất thấp |
-| Hiệu quả với data nhỏ (<10K) | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
-| Calibrated probabilities | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ (cần Platt scaling) |
-| Production ready (regulated) | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| Hiệu quả với data <10K | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| Production trong ngành regulated | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
 
----
+## 10. Liên hệ bài tiếp theo
 
-## ⚠️ Anti-Patterns
-
-❌ Dùng **threshold mặc định 0.5** cho imbalanced data (vd: fraud chỉ 0.1%) — phải tune theo cost matrix
-❌ Bỏ qua **calibration** — sigmoid output không phải xác suất thật nếu không calibrated (dùng Platt Scaling/Isotonic Regression)
-❌ Dùng accuracy làm metric duy nhất khi imbalanced → 99% accuracy có thể tệ hơn predict tất cả "normal"
-❌ Quên One-Hot encoding cho categorical features → mô hình hiểu sai (1, 2, 3 không có thứ tự)
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Logistic Regression vẽ một **decision boundary tuyến tính** — tốt khi class tách bằng đường thẳng, nhưng thất bại với pattern phức tạp (XOR problem). Bài tiếp: **Decision Trees** — học các luật if/else linh hoạt, capture được boundary phi tuyến.`,
+Logistic Regression chỉ vẽ được **đường thẳng** phân tách (linear decision boundary). Khi pattern phức tạp (vd: bài toán XOR — 2 class xếp xen kẽ), đường thẳng không tách được. Bài tiếp **Decision Trees** học các luật **if/else** linh hoạt → capture được boundary phi tuyến, không cần feature engineering nặng.`,
         theoryEn: `**Logistic Regression — Binary Classification**
 
 **Model:** P(y=1) = sigmoid(wx + b). Output is probability [0,1]. Decision boundary is linear.
