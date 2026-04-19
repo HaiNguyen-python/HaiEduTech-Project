@@ -1159,39 +1159,175 @@ print(manifest)`,
         titleEn: "VPC, Subnets, and Routing",
         level: 3,
         difficulty: "intermediate",
-        theory: `**VPC (Virtual Private Cloud)** là mạng ảo riêng của bạn trong cloud, cách ly logic với các khách hàng khác.
+        theory: `**VPC (Virtual Private Cloud)** là mạng ảo cô lập của bạn trong cloud — giống như có một data center riêng nhưng được hạ tầng hyperscaler quản lý. Mọi tài nguyên cloud (EC2, RDS, EKS, Lambda) đều "sống" bên trong một VPC nào đó. Hiểu VPC là điều kiện bắt buộc để build hệ thống cloud an toàn và hiệu năng cao.
 
-**Cấu trúc VPC điển hình:**
-- **CIDR block** — dải IP của VPC, ví dụ \`10.0.0.0/16\` (65,536 IP).
-- **Subnet** — chia VPC thành các vùng nhỏ, mỗi subnet thuộc 1 AZ.
-  - **Public subnet**: có route ra Internet Gateway → VM có public IP.
-  - **Private subnet**: chỉ ra Internet qua **NAT Gateway** → bảo mật cao hơn.
-- **Route Table** — quy tắc định tuyến cho mỗi subnet.
-- **Internet Gateway (IGW)** — cổng ra Internet cho public subnet.
-- **NAT Gateway** — cho phép private subnet ra Internet (outbound only).
-- **Security Group** — firewall **stateful** ở cấp instance (mặc định deny inbound).
-- **NACL** — firewall **stateless** ở cấp subnet (rule-based).
+## Vì sao cần VPC?
+Trước khi có VPC (AWS giới thiệu 2009, EC2-Classic là tiền thân), mọi EC2 chia chung 1 mạng phẳng — không kiểm soát được ai thấy ai. VPC giải quyết:
+- **Cô lập logic**: tài nguyên của bạn không thấy được tài nguyên khách hàng khác.
+- **Định tuyến tùy biến**: tự quyết route, NAT, peering.
+- **Bảo mật phân lớp**: SG (instance), NACL (subnet), endpoint, WAF.
+- **Hybrid**: kết nối trực tiếp với on-prem qua VPN/Direct Connect.
 
-**Best practice 3-tier architecture:**
-- Public subnet: ALB (Application Load Balancer), Bastion host.
-- Private subnet (app): EC2/EKS chạy backend.
-- Private subnet (data): RDS, ElastiCache.
+## Khái niệm cốt lõi
+- **CIDR block** — dải IP của VPC, ví dụ \`10.0.0.0/16\` cho 65,536 địa chỉ. Chọn dải **không đụng** với on-prem hoặc các VPC khác (chuẩn RFC1918: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16).
+- **Subnet** — chia VPC thành nhiều vùng nhỏ; mỗi subnet **thuộc đúng 1 AZ** (không trải qua AZ).
+  - **Public subnet**: route table có \`0.0.0.0/0 → IGW\`; instance có Public IP → ra Internet.
+  - **Private subnet**: không có route trực tiếp ra IGW; muốn ra Internet phải đi qua **NAT Gateway** trong public subnet (outbound only).
+  - **Isolated subnet**: không ra Internet được — dùng cho DB nhạy cảm.
+- **Route Table** — quy tắc \`destination → target\`; mỗi subnet gắn 1 route table.
+- **Internet Gateway (IGW)** — cổng ra Internet; gắn 1 IGW per VPC.
+- **NAT Gateway** — managed NAT, chịu chi phí ~$0.045/giờ + $0.045/GB ra. (Anti-pattern lớn về cost!)
+- **VPC Endpoint** — kết nối riêng tới dịch vụ AWS (S3, DynamoDB) **không qua Internet** → tiết kiệm cost & tăng bảo mật.
+- **Security Group (SG)** — firewall **stateful** ở cấp instance/ENI. Mặc định deny inbound, allow outbound. Return traffic tự allow.
+- **NACL (Network ACL)** — firewall **stateless** ở cấp subnet, có rule Allow + Deny đánh số thứ tự. Phải allow cả 2 chiều.
 
-**Kết nối hybrid:** VPN, Direct Connect, VPC Peering, Transit Gateway.`,
-        theoryEn: `**VPC** is your isolated virtual network in the cloud.
+## So sánh Security Group vs NACL
+| Đặc điểm | Security Group | NACL |
+|----------|----------------|------|
+| Cấp độ | Instance/ENI | Subnet |
+| Stateful | ✅ Có | ❌ Không |
+| Rule | Chỉ Allow | Allow + Deny |
+| Đánh giá rule | All rules | Theo thứ tự (lowest first) |
+| Mặc định | Deny inbound | Allow tất cả |
+| Use case chính | Kiểm soát app-level | Bóc lớp bảo mật subnet |
 
-**Components:**
-- **CIDR block**: IP range like \`10.0.0.0/16\`.
-- **Subnet**: divides VPC; each in 1 AZ. Public (with IGW route), Private (with NAT Gateway).
-- **Route Table**: routing rules.
-- **IGW**: Internet entrance for public subnets.
-- **NAT Gateway**: outbound-only Internet for private subnets.
-- **Security Group**: stateful firewall at instance level.
-- **NACL**: stateless firewall at subnet level.
+Best practice: dùng SG là tuyến phòng thủ chính; NACL chỉ để chặn rộng (block IP độc, chặn cả subnet).
 
-**3-tier architecture:** ALB in public, app in private, DB in private DB subnet.
+## Sơ đồ kiến trúc 3-tier chuẩn
+\`\`\`
+                    ┌─────────────┐
+Internet ───► IGW ─►│   Public    │  ALB, Bastion, NAT Gateway
+                    │   Subnet    │  (10.0.1.0/24, 10.0.2.0/24)
+                    └──────┬──────┘
+                           │
+                    ┌──────▼──────┐
+                    │   Private   │  EC2/ECS/EKS app servers
+                    │  App Subnet │  (10.0.11.0/24, 10.0.12.0/24)
+                    └──────┬──────┘
+                           │
+                    ┌──────▼──────┐
+                    │   Private   │  RDS, ElastiCache (no Internet)
+                    │  DB Subnet  │  (10.0.21.0/24, 10.0.22.0/24)
+                    └─────────────┘
+\`\`\`
+**2 AZ tối thiểu** cho mỗi tier để chịu lỗi 1 AZ.
 
-**Hybrid connectivity:** VPN, Direct Connect, VPC Peering, Transit Gateway.`,
+## Hybrid & Multi-VPC connectivity
+| Cách kết nối | Băng thông | Latency | Use case |
+|--------------|------------|---------|----------|
+| **VPN site-to-site** | <1.25 Gbps | ~Internet | Backup link, dev/test |
+| **Direct Connect** | 1-100 Gbps | <2 ms | Production hybrid, low latency |
+| **VPC Peering** | Full speed | <1 ms | 2 VPC kết nối trực tiếp (không transitive) |
+| **Transit Gateway** | 50 Gbps/attachment | <1 ms | Hub-and-spoke nhiều VPC + on-prem |
+| **PrivateLink** | Service-specific | <1 ms | Expose 1 dịch vụ ra VPC khác |
+
+## Case study: Capital One — VPC làm tường bảo mật fintech
+Capital One chia hạ tầng thành **>200 VPC** theo team/môi trường, kết nối qua Transit Gateway. Mỗi VPC có chính sách bảo mật riêng + audit độc lập. Sau sự cố 2019 (lộ data S3), họ tăng cường VPC Endpoint cho S3 — mọi traffic giờ đi nội bộ AWS network thay vì Internet.
+
+## Case study: Stripe — chiến lược latency
+Stripe là payment processor, phải xử lý webhook <100 ms toàn cầu. Họ:
+- Triển khai 1 VPC mỗi region với cùng CIDR scheme.
+- Dùng PrivateLink cho merchant trong cùng region → bypass Internet.
+- VPC Flow Log → S3 → Athena để forensic mọi packet bất thường.
+
+## Best Practices
+- ✅ **Dải CIDR đủ lớn** (\`/16\`) — khó mở rộng sau này. Tránh \`/24\` nhỏ.
+- ✅ **Tách CIDR** giữa các VPC — cần peering không đụng dải.
+- ✅ **2-3 AZ tối thiểu** cho HA.
+- ✅ **VPC Flow Log** bật mặc định (gửi vào S3/CloudWatch) — debug + security.
+- ✅ **VPC Endpoint cho S3, DynamoDB** — miễn phí Gateway endpoint, tiết kiệm hàng nghìn USD/tháng NAT egress.
+- ✅ **Tags chuẩn**: Environment, Owner, CostCenter cho mọi subnet/SG.
+- ✅ **SG reference SG khác** thay vì hardcode IP — co giãn theo ASG.
+- ✅ **Default SG trống** — buộc team tạo SG riêng có ý đồ rõ ràng.
+
+## Common Pitfalls
+- ❌ **NAT Gateway runaway cost** — 1 NAT = $32/tháng + data; 1 app sai bug spam call ra ngoài có thể đốt $10k/tháng.
+- ❌ **Subnet quá nhỏ** (\`/28\` chỉ có 11 IP) → ASG scale up bị fail.
+- ❌ **SG mở 0.0.0.0/0 cho 22/3389** — top vector tấn công.
+- ❌ **CIDR overlap** giữa VPC → không peering được.
+- ❌ **1 NAT Gateway / 1 AZ** → AZ chết là cả 1 AZ private mất Internet. Triển khai NAT mỗi AZ.
+- ❌ **Không dùng VPC Endpoint cho S3** → traffic ra Internet rồi vòng lại, tốn cost & latency.
+
+## Khi cần Multi-VPC?
+- Tách prod/staging/dev (blast radius).
+- Tách team/business unit (billing, compliance).
+- Gộp sau M&A (peering hoặc TGW).
+- Compliance vùng (PCI-DSS, HIPAA cô lập).
+
+## Liên hệ bài tiếp theo
+VPC quyết định **WHO có thể kết nối tới WHAT qua đường nào**. Bài tiếp **IAM** sẽ trả lời câu hỏi sâu hơn: **WHO được phép làm GÌ trên TÀI NGUYÊN nào** — tầng kiểm soát identity & permission của cloud.`,
+        theoryEn: `**VPC (Virtual Private Cloud)** is your isolated virtual network in the cloud — like a private data center managed by the hyperscaler. Every cloud resource lives inside some VPC. Mastering VPC is mandatory for safe, performant cloud systems.
+
+## Why VPC?
+Before VPC (AWS introduced it 2009; EC2-Classic predecessor), all EC2s shared one flat network with no isolation. VPC delivers logical isolation, custom routing, layered security (SG, NACL, endpoint, WAF), and hybrid connectivity to on-prem.
+
+## Core Concepts
+- **CIDR block** — VPC IP range (\`10.0.0.0/16\` = 65,536 IPs). Pick a range that doesn't collide with on-prem or other VPCs (RFC1918: 10/8, 172.16/12, 192.168/16).
+- **Subnet** — divides VPC; **belongs to exactly 1 AZ**.
+  - **Public**: route \`0.0.0.0/0 → IGW\`; instances have public IP.
+  - **Private**: no direct IGW route; uses NAT Gateway in public subnet for outbound only.
+  - **Isolated**: no Internet at all — for sensitive DBs.
+- **Route Table** — \`destination → target\` rules; one per subnet.
+- **Internet Gateway (IGW)** — Internet entry point; one per VPC.
+- **NAT Gateway** — managed NAT, ~$0.045/h + $0.045/GB out. Big cost trap!
+- **VPC Endpoint** — private connection to AWS services (S3, DynamoDB) bypassing Internet.
+- **Security Group (SG)** — stateful firewall at instance/ENI; default deny inbound, allow outbound.
+- **NACL** — stateless firewall at subnet; has Allow + Deny ordered rules; must allow both directions.
+
+## SG vs NACL
+| Aspect | SG | NACL |
+|--------|-----|------|
+| Level | Instance/ENI | Subnet |
+| Stateful | ✅ | ❌ |
+| Rule types | Allow only | Allow + Deny |
+| Evaluation | All rules | Ordered (lowest first) |
+| Default | Deny in | Allow all |
+
+Use SG as primary defense; NACL for broad blocks (bad IPs, whole subnets).
+
+## 3-tier reference architecture
+- Public subnet (2 AZ): ALB, Bastion, NAT Gateway.
+- Private app subnet (2 AZ): EC2/ECS/EKS app servers.
+- Private DB subnet (2 AZ): RDS, ElastiCache, no Internet.
+
+## Hybrid & multi-VPC
+| Method | Bandwidth | Latency | Use |
+|--------|-----------|---------|-----|
+| VPN | <1.25 Gbps | ~Internet | Backup, dev |
+| Direct Connect | 1-100 Gbps | <2 ms | Prod hybrid |
+| VPC Peering | Full | <1 ms | Two VPCs (non-transitive) |
+| Transit Gateway | 50 Gbps | <1 ms | Hub-and-spoke many VPCs |
+| PrivateLink | Service-specific | <1 ms | Expose one service across VPCs |
+
+## Case study: Capital One
+200+ VPCs split by team/env, connected via Transit Gateway. Each VPC has independent security policy + audit. After 2019 S3 leak they enforced VPC Endpoints for S3 — all traffic now stays inside AWS network.
+
+## Case study: Stripe
+Payment webhooks <100 ms globally. One VPC per region with consistent CIDR scheme; PrivateLink for in-region merchants bypassing Internet; VPC Flow Logs → S3 → Athena for forensics.
+
+## Best Practices
+- ✅ Big CIDR (/16); tough to expand later.
+- ✅ Non-overlapping CIDRs across VPCs (peering needs it).
+- ✅ Min 2-3 AZs.
+- ✅ Enable VPC Flow Logs by default.
+- ✅ S3 + DynamoDB Gateway endpoints — free, save thousands in NAT egress.
+- ✅ Tag everything (Env, Owner, CostCenter).
+- ✅ Reference other SGs in rules instead of hardcoded IPs.
+- ✅ Keep default SG empty — force teams to create intentional SGs.
+
+## Common Pitfalls
+- ❌ NAT Gateway runaway cost (one bug looping out → $10k/month).
+- ❌ Tiny subnets (/28 = 11 usable IPs) breaking ASG.
+- ❌ SG opening 22/3389 to 0.0.0.0/0.
+- ❌ Overlapping CIDRs blocking future peering.
+- ❌ Single NAT for all AZs — AZ outage breaks Internet for all private subnets.
+- ❌ No VPC Endpoint for S3 → traffic goes out and back, costs & latency.
+
+## When multi-VPC?
+Prod/staging/dev separation; team/BU isolation; M&A merges; compliance regions (PCI/HIPAA).
+
+## Bridge to next lesson
+VPC controls **who can connect where**. Next: **IAM** — who can do **what** on which **resource** — the identity & permission layer of the cloud.`,
         code: `# Tạo VPC + 2 subnet (1 public + 1 private) bằng boto3
 import boto3
 ec2 = boto3.client("ec2")
