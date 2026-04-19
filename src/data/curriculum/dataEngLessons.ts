@@ -693,99 +693,390 @@ print(df_clean)`,
       {
         id: "de-ingest-1", title: "Đọc nhiều nguồn dữ liệu", titleEn: "Reading Multiple Data Sources",
         level: 2, difficulty: "beginner",
-        theory: `**Data Ingestion** is the process of collecting data from various sources and bringing it into your data platform. It is the "Extract" part of ETL/ELT and the starting point of every data pipeline.
+        theory: `**Data Ingestion** là quá trình thu thập dữ liệu từ nhiều nguồn khác nhau và đưa vào platform của bạn. Đây là chữ **"E" (Extract)** trong ETL/ELT — bước đầu tiên và quan trọng nhất của mọi data pipeline. Một con số ấn tượng: **70% sự cố pipeline production xảy ra ở khâu ingestion** (báo cáo của Monte Carlo Data 2024) — vì đây là điểm tiếp xúc với "thế giới ngoài kiểm soát".
 
-**Common Data Sources:**
+## Vì sao Ingestion là điểm yếu nhất?
+Ingestion phải đối mặt với:
+- **Source schema thay đổi** không báo trước (Salesforce update field)
+- **Network instability** (API timeout, DB connection drop)
+- **Rate limit** (Stripe API: 100 req/sec, Twitter: 300 req/15min)
+- **Data format không nhất quán** (CSV với delimiter khác nhau, JSON nested vs flat)
+- **Volume spike** (Black Friday: 10× traffic bình thường)
 
-| Source Type | Format | Tool |
-|------------|--------|------|
-| Flat files | CSV, TSV, fixed-width | pd.read_csv(), csv module |
-| Semi-structured | JSON, XML, YAML | pd.read_json(), json module |
-| Spreadsheets | Excel, Google Sheets | pd.read_excel(), gspread |
-| Databases | PostgreSQL, MySQL, etc. | pd.read_sql(), SQLAlchemy |
-| APIs | REST, GraphQL | requests library |
-| Streaming | Kafka, Kinesis, Pub/Sub | kafka-python, boto3 |
-| Cloud storage | S3, GCS, Azure Blob | boto3, google-cloud-storage |
+→ Pipeline ingestion phải **resilient, observable, idempotent** — không thì pipeline downstream chết theo.
 
-**Reading CSV Files (the most common format):**
+## Các loại nguồn dữ liệu phổ biến
+
+| Loại nguồn | Format | Tool | Use case |
+|------------|--------|------|----------|
+| Flat files | CSV, TSV, fixed-width | \`pd.read_csv()\`, csv module | Export từ legacy system |
+| Semi-structured | JSON, XML, YAML | \`pd.read_json()\`, json | API response, config |
+| Spreadsheets | Excel, Google Sheets | \`pd.read_excel()\`, gspread | Data nhập tay từ business |
+| **Databases (full)** | PostgreSQL, MySQL, MongoDB | \`pd.read_sql()\`, SQLAlchemy | One-time backfill |
+| **Databases (CDC)** | Postgres binlog, MySQL binlog | Debezium, AWS DMS | Real-time replication |
+| **REST API** | JSON over HTTPS | requests, httpx | SaaS data (Stripe, Salesforce) |
+| **GraphQL API** | typed query | gql, requests | Modern APIs (Shopify, GitHub) |
+| **Streaming** | Avro, Protobuf | kafka-python, confluent-kafka | Event data, IoT |
+| **Cloud storage** | Parquet, ORC, JSON | boto3, gcs, azure-blob | Data lake |
+| **Webhooks** | JSON push | FastAPI, Lambda | Real-time event (Slack, GitHub) |
+
+## 1. Đọc CSV — định dạng phổ biến nhất
+
+CSV nhìn đơn giản nhưng **chứa rất nhiều cạm bẫy** trong production:
 \`\`\`python
-# Basic read
-df = pd.read_csv('data.csv')
-
-# With options for real-world messiness
 df = pd.read_csv('data.csv',
-    encoding='utf-8',          # handle special characters
-    sep=',',                   # delimiter (use '\\t' for TSV)
-    header=0,                  # row number for column names
-    skiprows=2,                # skip first 2 rows
-    na_values=['', 'N/A', '-'],# treat these as NaN
-    dtype={'id': str},         # force column types
-    parse_dates=['created_at'],# auto-parse date columns
-    chunksize=10000            # read in chunks for large files
+    encoding='utf-8',                    # tránh UnicodeDecodeError với data tiếng Việt/Trung
+    sep=',',                             # delimiter (dùng '\\t' cho TSV, '|' cho data từ banking)
+    header=0,                            # row chứa header (0-based); None nếu không có header
+    skiprows=2,                          # bỏ qua 2 dòng đầu (thường là metadata)
+    na_values=['', 'N/A', '-', 'NULL', 'NaN'],  # treat as NULL
+    dtype={'id': str, 'price': 'float32'},  # ép type → tiết kiệm RAM
+    parse_dates=['created_at', 'updated_at'],  # tự parse date
+    date_format='%Y-%m-%d %H:%M:%S',     # nếu format không chuẩn ISO
+    chunksize=50000,                     # đọc theo chunk cho file >1GB
+    low_memory=False,                    # đọc 1 lần (vs đoán dtype theo chunk)
+    on_bad_lines='warn',                 # 'skip' / 'warn' / 'error' khi có dòng lỗi
+    quotechar='"',                       # ký tự quote
+    escapechar='\\\\'                    # ký tự escape
 )
 \`\`\`
 
-**Reading JSON:**
+**Cạm bẫy thường gặp:**
+- File 10GB không có \`chunksize\` → OOM
+- Không set \`dtype\` → Pandas đoán nhầm (id thành float vì có ID = 12345.0)
+- File từ Excel xuất ra có **BOM** (\`\\ufeff\`) → cột đầu lỗi → \`encoding='utf-8-sig'\`
+- Date format Mỹ (\`MM/DD/YYYY\`) vs EU (\`DD/MM/YYYY\`) → parse sai
+
+## 2. Đọc JSON — flat vs nested
+
 \`\`\`python
-# Simple flat JSON
+# Flat JSON (1 row 1 record)
 df = pd.read_json('data.json')
 
-# Nested JSON (common from APIs)
+# Nested JSON từ API
 import json
 with open('data.json') as f:
     raw = json.load(f)
-df = pd.json_normalize(raw, record_path='items', meta=['page', 'total'])
+
+# json_normalize: flatten nested structure
+df = pd.json_normalize(
+    raw['data'],
+    record_path=['orders', 'items'],     # path đến array cần flatten
+    meta=['order_id', ['customer', 'name']],  # giữ field từ parent
+    sep='_'                              # 'customer.name' → 'customer_name'
+)
 \`\`\`
 
-**Reading from APIs:**
+## 3. Đọc từ API — production-grade pattern
+
 \`\`\`python
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
-response = requests.get('https://api.example.com/data',
-    headers={'Authorization': 'Bearer TOKEN'},
-    params={'page': 1, 'per_page': 100}
+# Session với retry tự động
+session = requests.Session()
+retry = Retry(
+    total=5,                              # tối đa 5 lần retry
+    backoff_factor=2,                     # 2, 4, 8, 16, 32 seconds
+    status_forcelist=[429, 500, 502, 503, 504]  # retry các status này
 )
-response.raise_for_status()  # raise exception on HTTP error
-data = response.json()
+session.mount('https://', HTTPAdapter(max_retries=retry))
+
+# Gọi với timeout, auth, pagination
+all_data = []
+page = 1
+while True:
+    response = session.get(
+        'https://api.example.com/data',
+        headers={'Authorization': f'Bearer {TOKEN}'},
+        params={'page': page, 'per_page': 100},
+        timeout=(5, 30)                  # (connect, read) timeout
+    )
+    response.raise_for_status()           # raise nếu status >= 400
+    data = response.json()
+    if not data['items']:
+        break
+    all_data.extend(data['items'])
+    page += 1
+
+df = pd.DataFrame(all_data)
 \`\`\`
 
-**Handling Large Files:**
-- **Chunked reading:** Process the file in pieces instead of loading everything into memory
+## 4. Đọc từ Database — chunked + parameterized
+
+\`\`\`python
+from sqlalchemy import create_engine
+
+engine = create_engine('postgresql://user:pass@host:5432/db', pool_size=5)
+
+# ĐÚNG: parameterized query (an toàn SQLi)
+df = pd.read_sql(
+    "SELECT * FROM users WHERE created_at > %s",
+    engine,
+    params=(start_date,),
+    chunksize=10000                      # đọc theo chunk
+)
+
+# Nếu cần all-in-one
+all_chunks = []
+for chunk in df:
+    all_chunks.append(chunk)
+df_full = pd.concat(all_chunks, ignore_index=True)
+\`\`\`
+
+## Xử lý File Lớn — 3 chiến lược
+
+### Chunked reading (đơn giản nhất)
 \`\`\`python
 chunks = pd.read_csv('huge_file.csv', chunksize=50000)
+total = 0
 for chunk in chunks:
-    process(chunk)  # process each 50K-row piece
+    chunk_clean = clean(chunk)
+    total += len(chunk_clean)
+    chunk_clean.to_parquet(f'output/chunk_{total}.parquet')
 \`\`\`
 
-**Schema Validation — Trust But Verify:**
-Always validate incoming data against expected schemas:
+### Chuyển sang Parquet (columnar, nén tốt 10×)
 \`\`\`python
-EXPECTED_COLUMNS = {'id', 'name', 'email', 'age'}
-EXPECTED_TYPES = {'id': int, 'age': int, 'email': str}
-
-def validate(df):
-    missing_cols = EXPECTED_COLUMNS - set(df.columns)
-    if missing_cols:
-        raise ValueError(f"Missing columns: {missing_cols}")
-    for col, dtype in EXPECTED_TYPES.items():
-        if not pd.api.types.is_dtype_equal(df[col].dtype, dtype):
-            print(f"Warning: {col} expected {dtype}, got {df[col].dtype}")
+# CSV 10GB → Parquet 1-2GB, query nhanh hơn 5-10×
+df = pd.read_csv('huge.csv')
+df.to_parquet('huge.parquet', engine='pyarrow', compression='snappy')
 \`\`\`
 
-**Best Practices:**
-1. **Log metadata** — record row counts, column counts, file sizes after each ingestion
-2. **Idempotent loads** — re-running the same ingestion should not create duplicates
-3. **Incremental loading** — only ingest new or changed records (using timestamps or change tracking)
-4. **Error handling** — wrap ingestion in try/except, send alerts on failure
-5. **Data lineage** — track where each record came from (source, timestamp, pipeline version)`,
-        theoryEn: `**Data Ingestion** — collecting data from various sources into your platform.
+### Dùng Polars / Dask (out-of-core)
+\`\`\`python
+# Polars: nhanh hơn Pandas 5-30× cho file lớn
+import polars as pl
+df = pl.scan_csv('huge.csv').filter(pl.col('age') > 18).collect()
+\`\`\`
 
-**Sources:** CSV, JSON, Excel, databases, APIs, streaming, cloud storage.
-**CSV tricks:** encoding, sep, na_values, dtype, parse_dates, chunksize.
-**JSON:** json_normalize for nested structures.
-**Large files:** Chunked reading to avoid memory issues.
-**Schema validation:** Always verify columns and types.
-**Best practices:** Log metadata, idempotent loads, incremental loading, error handling, data lineage.`,
+## Schema Validation — Trust But Verify
+
+Source data **CÓ THỂ THAY ĐỔI BẤT KỲ LÚC NÀO**. Pipeline phải fail-fast khi schema lệch:
+
+\`\`\`python
+import pandera as pa
+
+schema = pa.DataFrameSchema({
+    "id": pa.Column(int, unique=True, nullable=False),
+    "email": pa.Column(str, pa.Check.str_matches(r'^[\\w.+-]+@[\\w.-]+\\.\\w+$')),
+    "age": pa.Column(int, pa.Check.in_range(0, 120)),
+    "signup_date": pa.Column(pa.DateTime, pa.Check.le(pd.Timestamp.now())),
+})
+
+# Validate, raise SchemaError nếu fail
+df_validated = schema.validate(df, lazy=True)  # lazy=True: gom tất cả lỗi
+\`\`\`
+
+## Bảng so sánh tools ingestion
+
+| Tool | Best for | Pricing |
+|------|----------|---------|
+| **Custom Python** | Edge cases, full control | Dev time |
+| **Fivetran** | SaaS connectors (300+) | $$$ per row |
+| **Airbyte (OSS)** | Self-host SaaS connectors | Free + infra |
+| **AWS DMS** | DB CDC vào AWS warehouse | $$ per hour |
+| **Debezium** | DB CDC open-source vào Kafka | Free + infra |
+| **Stitch** | Simple SaaS → warehouse | $ per row |
+| **Hevo** | No-code, SaaS-friendly | $$ per row |
+
+→ Quy tắc: **buy SaaS connectors, build custom cho edge cases**. Đừng tự build connector Salesforce — đã có 1000 team thất bại.
+
+## Case study thật
+
+### Stripe — Webhook ingestion ở scale
+- **3+ tỷ webhook events/tháng** từ payment, subscription, dispute
+- Stack: webhook → API Gateway → SQS → Lambda → S3 (raw) → Snowflake
+- **At-least-once delivery** với idempotency key tránh duplicate
+- Retention raw S3: 7 năm (compliance)
+
+### Shopify — Multi-source aggregation
+- Ingest từ: Shopify orders DB, Stripe payments, Mailchimp emails, Google Analytics, Facebook Ads
+- 50+ pipelines chạy bằng **Airflow** + **Fivetran** + custom Python
+- Schema registry **Confluent Schema Registry** cho streaming events
+- Cost monitoring: alert khi 1 source ingest >$1000/day
+
+### GitHub — Webhook + REST polling hybrid
+- Real-time events (push, PR, issue) qua webhook
+- Backfill historical data qua REST API với pagination
+- Rate limit handling: respect \`X-RateLimit-Remaining\` header, exponential backoff khi 429
+
+## Best practices
+1. **Log metadata** sau mỗi run: row count, columns, file size, source timestamp, pipeline version
+2. **Idempotent loads** — re-run không tạo duplicate (dùng MERGE, không INSERT)
+3. **Incremental loading** — chỉ ingest data mới (theo \`updated_at\` hoặc CDC)
+4. **Error handling** — try/except + dead-letter queue cho data lỗi, alert lên PagerDuty
+5. **Data lineage** — track source/timestamp/pipeline_version cho mỗi record
+6. **Schema validation** — Pandera/Great Expectations fail-fast khi schema lệch
+7. **Rate limit respect** — đừng làm sập API source (anti-pattern: gọi 10000 req/sec không có throttle)
+8. **Secrets management** — dùng AWS Secrets Manager, Vault — KHÔNG hardcode
+9. **Test với sample data** trước khi chạy full pipeline (prevent $1000 bill từ BigQuery query lỗi)
+
+## Anti-patterns (tránh!)
+- ❌ \`pd.read_csv(huge_file)\` không có chunksize → OOM
+- ❌ \`SELECT * FROM big_table\` không LIMIT → load 100GB vào RAM
+- ❌ Không retry khi API 503 → 1 lỗi tạm thời = pipeline fail
+- ❌ Hardcode API key trong code → leak qua Git
+- ❌ Không có alert khi ingest fail → phát hiện sau 3 ngày
+- ❌ Ingest cùng data 2 lần (không idempotent) → duplicate report cho CEO
+- ❌ Bỏ qua rate limit → bị API ban IP
+
+## Khi nào dùng pull vs push
+**Pull (polling)**: bạn chủ động query (REST API, DB query) — đơn giản, có thể chậm
+**Push (webhook/streaming)**: source chủ động gửi (webhook, Kafka) — real-time, phức tạp hơn
+
+## Bridge sang bài tiếp
+Sau khi extract data thành công, bài kế (**ETL Pipeline Design**) sẽ học cách orchestrate **toàn bộ flow** từ extract → transform → load với Airflow, idempotency, và monitoring.`,
+        theoryEn: `**Data Ingestion** = collecting data from various sources into your platform. It's the **"E" (Extract)** step in ETL/ELT — the first and most critical of any data pipeline. Eye-opening stat: **70% of production pipeline incidents happen at ingestion** (Monte Carlo Data 2024) — because it's the contact point with "the world outside your control".
+
+## Why ingestion is the weakest link
+Ingestion faces:
+- Source schema changes without notice (Salesforce field updates)
+- Network instability (API timeouts, DB connection drops)
+- Rate limits (Stripe API: 100 req/sec, Twitter: 300/15min)
+- Inconsistent formats (CSV with different delimiters, nested vs flat JSON)
+- Volume spikes (Black Friday: 10× normal)
+
+→ Ingestion pipelines must be **resilient, observable, idempotent**.
+
+## Common data sources
+
+| Source | Format | Tool | Use |
+|--------|--------|------|-----|
+| Flat files | CSV, TSV | pd.read_csv() | Legacy exports |
+| Semi-structured | JSON, XML | pd.read_json() | API responses |
+| Spreadsheets | Excel, Google Sheets | pd.read_excel(), gspread | Manual business data |
+| Database (full) | Postgres, MySQL | pd.read_sql() | One-time backfill |
+| Database (CDC) | binlog | Debezium, AWS DMS | Real-time replication |
+| REST API | JSON over HTTPS | requests | SaaS (Stripe, Salesforce) |
+| GraphQL | typed query | gql | Modern APIs (Shopify) |
+| Streaming | Avro, Protobuf | kafka-python | Events, IoT |
+| Cloud storage | Parquet, ORC | boto3 | Data lake |
+| Webhooks | JSON push | FastAPI, Lambda | Real-time events |
+
+## 1. Reading CSV — production tricks
+
+\`\`\`python
+df = pd.read_csv('data.csv',
+    encoding='utf-8',
+    sep=',', header=0, skiprows=2,
+    na_values=['', 'N/A', '-', 'NULL'],
+    dtype={'id': str, 'price': 'float32'},
+    parse_dates=['created_at'],
+    chunksize=50000,
+    on_bad_lines='warn'
+)
+\`\`\`
+**Pitfalls:** 10GB CSV without chunksize = OOM; missing dtype = wrong inference (id as float); BOM from Excel needs \`encoding='utf-8-sig'\`; US (MM/DD/YYYY) vs EU (DD/MM/YYYY) date confusion.
+
+## 2. Reading JSON — flat vs nested
+\`\`\`python
+df = pd.json_normalize(
+    raw['data'],
+    record_path=['orders', 'items'],
+    meta=['order_id', ['customer', 'name']],
+    sep='_'
+)
+\`\`\`
+
+## 3. API ingestion — production pattern
+\`\`\`python
+session = requests.Session()
+retry = Retry(total=5, backoff_factor=2, status_forcelist=[429,500,502,503,504])
+session.mount('https://', HTTPAdapter(max_retries=retry))
+
+all_data = []
+page = 1
+while True:
+    r = session.get(url, headers={'Authorization': f'Bearer {TOKEN}'},
+                    params={'page': page, 'per_page': 100}, timeout=(5, 30))
+    r.raise_for_status()
+    data = r.json()
+    if not data['items']: break
+    all_data.extend(data['items'])
+    page += 1
+\`\`\`
+
+## 4. Database — chunked + parameterized
+\`\`\`python
+df = pd.read_sql(
+    "SELECT * FROM users WHERE created_at > %s",
+    engine, params=(start_date,), chunksize=10000
+)
+\`\`\`
+
+## Large file strategies
+- **Chunked reading**: \`chunksize=50000\`
+- **Convert to Parquet**: 10× compression, 5-10× faster query
+- **Polars/Dask**: out-of-core, 5-30× faster than Pandas
+
+## Schema validation
+\`\`\`python
+import pandera as pa
+schema = pa.DataFrameSchema({
+    "id": pa.Column(int, unique=True),
+    "email": pa.Column(str, pa.Check.str_matches(r'^[\\w.+-]+@[\\w.-]+\\.\\w+$')),
+    "age": pa.Column(int, pa.Check.in_range(0, 120)),
+})
+df_validated = schema.validate(df, lazy=True)
+\`\`\`
+
+## Tools comparison
+| Tool | Best for | Pricing |
+|------|----------|---------|
+| Custom Python | Edge cases | Dev time |
+| Fivetran | SaaS connectors (300+) | $$$ per row |
+| Airbyte (OSS) | Self-host | Free + infra |
+| AWS DMS | DB CDC into AWS | $$ per hour |
+| Debezium | OSS DB CDC into Kafka | Free + infra |
+
+→ Rule: **buy SaaS connectors, build custom for edge cases**.
+
+## Real-world cases
+
+### Stripe — Webhook ingestion at scale
+- 3B+ webhook events/month
+- Stack: webhook → API Gateway → SQS → Lambda → S3 raw → Snowflake
+- At-least-once delivery + idempotency key
+- 7-year S3 raw retention (compliance)
+
+### Shopify — Multi-source
+- 50+ pipelines via Airflow + Fivetran + custom Python
+- Confluent Schema Registry for streaming
+- Cost alerts when source ingest >$1000/day
+
+### GitHub — Hybrid webhook + REST
+- Real-time via webhooks
+- Historical backfill via REST + pagination
+- Respect \`X-RateLimit-Remaining\`, exponential backoff on 429
+
+## Best practices
+1. Log metadata after each run (rows, cols, size, timestamp, version)
+2. Idempotent loads (MERGE, not INSERT)
+3. Incremental loading (by updated_at or CDC)
+4. Error handling + dead-letter queue + PagerDuty alerts
+5. Data lineage (source, timestamp, pipeline version)
+6. Schema validation (Pandera, Great Expectations) fail-fast
+7. Respect rate limits
+8. Secrets management (AWS Secrets Manager, Vault)
+9. Test on sample first
+
+## Anti-patterns
+- ❌ \`pd.read_csv(huge)\` without chunksize → OOM
+- ❌ \`SELECT *\` without LIMIT
+- ❌ No retry on 503
+- ❌ Hardcoded API keys in Git
+- ❌ No alerts on failure
+- ❌ Non-idempotent → duplicates
+- ❌ Ignoring rate limits → IP ban
+
+## Pull vs Push
+**Pull**: you query (REST, DB query) — simple, can lag
+**Push**: source pushes (webhook, Kafka) — real-time, more complex
+
+## Bridge to next
+After successful extraction, the next lesson (**ETL Pipeline Design**) covers orchestrating the **full flow** from extract → transform → load with Airflow, idempotency, and monitoring.`,
         code: `import json
 import csv
 from io import StringIO
