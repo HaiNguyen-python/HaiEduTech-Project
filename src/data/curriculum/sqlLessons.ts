@@ -1634,195 +1634,184 @@ FROM orders;`,
         titleEn: "Indexes & EXPLAIN",
         level: 4,
         difficulty: "advanced",
-        theory: `An **index** is a data structure that lets the database find rows without scanning the whole table. Indexes are the difference between a 10 ms query and a 10-second query — but every index also slows down writes and uses storage. Knowing which to add, and which *not* to add, is one of the most ROI-positive skills a data engineer can develop.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bảng \`students\` có 1 triệu dòng. Bạn chạy:
 
-A correctly-indexed query on a 1-billion-row table can return in milliseconds. The same query without an index full-scans the table — minutes, sometimes hours. Multiply that by every query a dashboard fires and the user-experience difference is *order of magnitude*. On the flip side, over-indexing is the silent killer of OLTP write throughput.
+\`\`\`sql
+SELECT * FROM students WHERE email = 'an@gmail.com';
+\`\`\`
 
-## How a B-tree index actually works
+Không có **index** (chỉ mục), database phải đọc **lần lượt từng dòng** trong số 1 triệu để tìm — mất vài giây. Có index, nó tìm trong ~20 phép so sánh — vài mili-giây.
 
-The default index in every major OLTP database (Postgres, MySQL, SQL Server, Oracle) is a **B-tree** — a balanced tree where each node holds sorted keys.
+Index giống như **mục lục cuối quyển sách**: thay vì lật từng trang, bạn tra mục lục và nhảy thẳng tới trang cần.
 
-- Lookup cost: \`O(log N)\`. On a billion rows, ~30 comparisons instead of a billion.
-- Range queries (\`BETWEEN\`, \`>\`, \`<\`) work great because keys are sorted.
-- Equality and prefix-match \`LIKE 'an%'\` work; \`LIKE '%an'\` does not.
+## 2. Tạo index — cú pháp tối thiểu
 
-## When indexes help (and when they don't)
+\`\`\`sql
+-- Tạo index trên cột email
+CREATE INDEX idx_students_email ON students(email);
 
-| Predicate | Uses index? |
+-- Index "duy nhất" — vừa làm chỉ mục vừa chống trùng giá trị
+CREATE UNIQUE INDEX uniq_students_email ON students(email);
+\`\`\`
+
+Sau khi tạo, các câu \`WHERE email = ...\` sẽ **tự động** dùng index — bạn không cần đổi câu query.
+
+## 3. Index hoạt động như thế nào (B-tree, đơn giản hóa)
+
+Loại index mặc định ở mọi database (Postgres, MySQL, SQL Server) là **B-tree** (cây nhị phân cân bằng) — một cấu trúc cây giữ các giá trị **đã được sắp xếp**.
+
+- Tra cứu giống như tra từ điển: chia đôi liên tục → \`O(log N)\` (rất nhanh).
+- Vì giá trị đã sắp xếp, các phép \`>\`, \`<\`, \`BETWEEN\` đều dùng được.
+
+## 4. Khi nào index GIÚP, khi nào KHÔNG
+
+| Câu WHERE | Dùng được index? |
 |---|---|
-| \`WHERE id = 42\` (equality) | ✅ Yes |
-| \`WHERE created_at > '2024-01-01'\` (range) | ✅ Yes |
-| \`WHERE name LIKE 'an%'\` | ✅ Yes |
-| \`WHERE name LIKE '%an'\` (leading wildcard) | ❌ No |
-| \`WHERE UPPER(email) = 'X'\` (function on column) | ❌ No (unless functional index) |
-| \`WHERE age + 5 > 30\` (expression on column) | ❌ No |
-| Selecting \`> ~10%\` of the table | Often a full scan is faster |
+| \`WHERE id = 42\` (so sánh bằng) | ✅ Có |
+| \`WHERE created_at > '2024-01-01'\` (khoảng) | ✅ Có |
+| \`WHERE name LIKE 'an%'\` (đầu chuỗi) | ✅ Có |
+| \`WHERE name LIKE '%an'\` (đuôi chuỗi) | ❌ Không |
+| \`WHERE UPPER(email) = 'X'\` (bọc cột bằng hàm) | ❌ Không |
+| \`WHERE age + 5 > 30\` (biểu thức trên cột) | ❌ Không |
+| Lọc ra > 10% bảng | ❌ Thường full-scan nhanh hơn |
 
-The 10% rule: if a query returns more than ~10% of a table, the planner often *correctly* chooses a full scan over an index — random index lookups become slower than sequential reads.
+**Quy tắc vàng**: đã có index trên cột nào thì **đừng bọc cột đó bằng hàm** — sẽ phá tác dụng. Hãy đẩy hàm sang phía bên phải:
 
-## Index types beyond B-tree
+\`\`\`sql
+-- ❌ Phá index
+WHERE DATE(created_at) = '2024-01-15'
 
-| Type | Best for | Available in |
-|---|---|---|
-| **B-tree** | Equality + range, default | All major DBs |
-| **Hash** | Pure equality, slightly faster | Postgres, MySQL (memory) |
-| **GIN** (generalized inverted) | Arrays, JSONB, full-text | Postgres |
-| **GiST** | Geographic, range types | Postgres |
-| **BRIN** (block-range) | Huge naturally-ordered tables | Postgres |
-| **Bitmap** | Low-cardinality columns | Oracle, columnar DBs |
-| **Columnstore** | Analytical workloads | SQL Server, MySQL HeatWave |
+-- ✅ Giữ index hoạt động
+WHERE created_at >= '2024-01-15' AND created_at < '2024-01-16'
+\`\`\`
 
-For a JSON column you query with \`@>\` containment, a GIN index can be 1000× faster than no index.
-
-## Composite indexes — the order matters
+## 5. Composite index (chỉ mục nhiều cột) — thứ tự CỘT cực quan trọng
 
 \`\`\`sql
 CREATE INDEX idx_orders_cust_date ON orders(customer_id, created_at);
 \`\`\`
 
-This index helps:
-
+Index này hỗ trợ:
 - \`WHERE customer_id = 42\` ✅
 - \`WHERE customer_id = 42 AND created_at > '2024-01-01'\` ✅✅
-- \`WHERE created_at > '2024-01-01'\` ❌ (skipped the leading column)
+- \`WHERE created_at > '2024-01-01'\` ❌ (bỏ qua cột đầu — không dùng được)
 
-Rule: put the **most selective** column first, *or* the column always present in WHERE.
+**Quy tắc "leftmost prefix"**: index \`(A, B, C)\` dùng được khi WHERE có A, hoặc A+B, hoặc A+B+C — không dùng được khi *chỉ* có B, hoặc *chỉ* có C.
 
-## EXPLAIN — the only way to know
+→ Đặt cột **luôn xuất hiện trong WHERE** lên đầu.
 
-Never guess at performance — \`EXPLAIN ANALYZE\` runs the query and shows the actual plan:
+## 6. \`EXPLAIN\` — cách DUY NHẤT để biết query có dùng index không
+
+Đừng đoán — chạy \`EXPLAIN ANALYZE\` để xem **kế hoạch thực thi** thật:
 
 \`\`\`sql
 EXPLAIN ANALYZE
 SELECT * FROM orders WHERE customer_id = 42;
 \`\`\`
 
-What to look for:
+Đọc kết quả:
+- **\`Seq Scan\`** trên bảng lớn = **xấu** (đang đọc toàn bảng — thiếu index).
+- **\`Index Scan\`** / **\`Index Only Scan\`** = **tốt** (đang dùng index).
+- **\`Rows Removed by Filter\`** quá nhiều = đã đọc nhiều dòng rồi mới lọc → cân nhắc thêm index.
 
-- **Seq Scan** on a big table = bad. **Index Scan** / **Index Only Scan** = good.
-- **Rows Removed by Filter** = predicate not pushed into the index.
-- **Nested Loop** with millions of inner rows = catastrophe. **Hash Join** scales much better.
-- **Buffers: shared hit / read** = how much I/O happened (Postgres).
+## 7. Cái GIÁ phải trả: index không miễn phí
 
-## Comparison — when to add an index
+Mỗi index là một bản sao có sắp xếp của cột — chiếm dung lượng và **làm chậm INSERT/UPDATE/DELETE** (vì phải cập nhật cả index).
 
-| Situation | Add index? |
+| Tình huống | Có nên thêm index? |
 |---|---|
-| Column appears in WHERE / JOIN frequently | ✅ Yes |
-| Column has high cardinality (many distinct values) | ✅ Yes |
-| OLAP warehouse with columnar storage | ❌ Usually no — already optimized |
-| Table has heavy writes, low reads | ⚠️ Add sparingly |
-| Column is rarely filtered | ❌ No |
+| Cột thường xuất hiện trong WHERE / JOIN | ✅ Có |
+| Cột có nhiều giá trị khác nhau (cardinality cao) | ✅ Có |
+| Bảng ghi rất nhiều, đọc ít | ⚠️ Cẩn trọng |
+| Cột hiếm khi lọc theo | ❌ Không |
 
-Note: **modern cloud warehouses** (Snowflake, BigQuery, Redshift) generally do *not* use B-tree indexes. They use columnar storage + clustering + partitioning to achieve the same goal. The lessons here apply mostly to OLTP / Postgres / MySQL.
+**Câu chuyện thật**: 1 team thêm index "phòng hờ" lên mọi cột → tốc độ INSERT giảm 60% (mỗi insert phải cập nhật 14 indexes). Bài học: **mỗi index là 1 thuế ghi**.
 
-## Case study — the missing index that cost $50k/month
+## 8. Tổng kết — checklist khi tối ưu index
 
-A SaaS company's API had a \`GET /orders?status=paid&user_id=X\` endpoint. P99 latency was 2 seconds. The DBA noticed every call ran \`Seq Scan on orders\` because no index existed on \`(user_id, status)\`. Adding a single composite index dropped p99 to **8 ms**. Database CPU dropped from 70% to 8%, allowing them to downsize from \`db.r5.4xlarge\` to \`db.r5.xlarge\` — saving ~$3,500/month. Multiply by their fleet, ~$50k/year recovered.
+- ✅ Index các cột xuất hiện thường xuyên trong WHERE / JOIN / ORDER BY.
+- ✅ Composite index: cột "luôn có trong WHERE" đặt **đầu tiên**.
+- ✅ Đừng bọc cột bằng hàm (\`UPPER(col)\`, \`DATE(col)\`) — phá index.
+- ✅ Trước & sau khi thêm index, **chạy \`EXPLAIN ANALYZE\`** để đo.
+- ✅ Bài tiếp theo: **Thiết kế Database & Normalization** — nếu thiết kế tốt, bạn sẽ đỡ phải tạo nhiều index về sau.`,
+        theoryEn: `## 1. Real-world problem
 
-## Case study — the over-indexed write disaster
+\`students\` has 1M rows. \`WHERE email='x'\` without index → reads all 1M rows. With index → ~20 comparisons. Index = book's table of contents.
 
-A different team responded to slow reports by adding indexes "just in case" on every column. The reporting team was happy; the OLTP write throughput collapsed by 60%. Every INSERT had to update 14 indexes. They eventually dropped half of them and moved reporting workloads to a read replica (and later to a warehouse). **Indexes are not free — every one is a write tax.**
+## 2. Create an index
 
-## Best practices
+\`\`\`sql
+CREATE INDEX idx_students_email ON students(email);
+CREATE UNIQUE INDEX uniq_students_email ON students(email);
+\`\`\`
 
-- **Index columns used in WHERE, JOIN, ORDER BY** — not every column.
-- **Composite index column order**: equality columns first, then range.
-- **Use \`EXPLAIN ANALYZE\`** before and after every index change.
-- For Postgres on JSON, **use GIN with the \`jsonb_path_ops\` operator class**.
-- **Drop unused indexes** — Postgres exposes \`pg_stat_user_indexes\` showing zero-use indexes.
-- For warehouses, **use partitioning + clustering** instead of indexes.
-- Keep an eye on **index bloat** in Postgres — periodic \`REINDEX CONCURRENTLY\`.
+Queries auto-use it — no rewrite needed.
 
-## Anti-patterns & next lesson
+## 3. How B-tree works
 
-Avoid: indexing every column "for safety"; functional predicates on indexed columns; ignoring EXPLAIN; adding indexes to a write-heavy OLTP table without measuring write impact; expecting B-tree indexes to help in Snowflake/BigQuery (they don't exist there).
+Balanced sorted tree, \`O(log N)\` lookup. Range queries efficient.
 
-Next: **Database design & normalization** — the upstream decisions that determine whether you'll *need* a forest of indexes in the first place.`,
-        theoryEn: `An **index** lets the DB find rows without scanning the whole table. The difference between 10 ms and 10 sec.
-
-## Why this matters
-
-Right index = milliseconds at billion-row scale. Over-indexing kills write throughput.
-
-## How B-tree works
-
-Balanced tree, sorted keys, \`O(log N)\` lookup. ~30 comparisons on a billion rows. Range queries efficient.
-
-## When indexes help
+## 4. When indexes help
 
 | Predicate | Uses index? |
 |---|---|
-| Equality | ✅ |
-| Range | ✅ |
-| Prefix LIKE | ✅ |
-| Leading-wildcard LIKE | ❌ |
+| Equality / range | ✅ |
+| Prefix LIKE \`'an%'\` | ✅ |
+| Leading-wildcard \`'%an'\` | ❌ |
 | Function on column | ❌ |
-| Returning >10% of table | Often no |
+| Returning >10% of table | Usually no |
 
-## Index types
+## 5. Composite indexes — order matters
 
-B-tree (default), Hash (equality), GIN (JSON/full-text), GiST (geo), BRIN (huge ordered tables), Bitmap (low-cardinality), Columnstore (analytical).
+Index \`(A, B)\` helps WHERE A, or WHERE A AND B — but **not** WHERE B alone (leftmost-prefix rule).
 
-## Composite indexes
+## 6. EXPLAIN ANALYZE
 
-\`(a, b)\` helps \`WHERE a=…\` and \`WHERE a=… AND b…\`, but **not** \`WHERE b=…\` alone. Most selective / always-present column first.
+Look for: \`Seq Scan\` on big table = bad; \`Index Scan\` = good; \`Rows Removed by Filter\` = predicate not pushed.
 
-## EXPLAIN ANALYZE
+## 7. The cost
 
-Look for: Seq Scan (bad on big tables), Index Scan (good), Rows Removed by Filter (predicate not pushed), Nested Loop with millions (disaster).
+Every index slows writes (INSERT/UPDATE/DELETE). One team's "just-in-case" indexes → -60% write throughput. Indexes are a write tax.
 
-## When to add
+## 8. Checklist
 
-High-frequency WHERE/JOIN, high-cardinality, low-write tables. **Cloud warehouses don't use B-tree** — they use partitioning + clustering.
-
-## Case study — missing index
-
-Composite \`(user_id, status)\` dropped p99 from 2s → 8ms; DB CPU 70%→8%; saved ~$50k/year.
-
-## Case study — over-indexed disaster
-
-"Just in case" indexes on every column → write throughput −60% (14 indexes per INSERT). Lesson: every index is a write tax.
-
-## Best practices
-
-Index used columns; equality before range; \`EXPLAIN ANALYZE\` before/after; GIN for JSONB; drop unused (\`pg_stat_user_indexes\`); warehouses → partition + cluster.
-
-## Anti-patterns & next
-
-Avoid blanket indexing, function predicates, ignoring EXPLAIN, B-tree expectations on Snowflake. Next: **Database design & normalization**.`,
-        code: `-- Create an index
+- Index frequent WHERE/JOIN columns
+- Composite: most-present column first
+- Don't wrap indexed cols in functions
+- Always EXPLAIN ANALYZE before/after
+- Next: **Database design & normalization**`,
+        code: `-- Tạo index đơn giản trên 1 cột
 CREATE INDEX idx_students_age ON students(age);
 
--- Composite index
+-- Composite index trên 2 cột (thứ tự QUAN TRỌNG)
 CREATE INDEX idx_orders_student_amount
 ON orders(student_id, amount);
 
--- View query plan
+-- Xem kế hoạch thực thi để kiểm tra index có được dùng không
 EXPLAIN ANALYZE
 SELECT * FROM students WHERE age > 20;
 
--- Unique index
+-- Unique index: vừa làm chỉ mục vừa chống trùng email
 CREATE UNIQUE INDEX idx_students_email
 ON students(email);
 
--- Partial index
+-- Partial index: chỉ index các dòng thoả điều kiện (tiết kiệm dung lượng)
 CREATE INDEX idx_active ON users(email)
 WHERE active = true;
 
--- Drop index
+-- Xoá index khi không cần
 DROP INDEX idx_students_age;`,
         codeLanguage: "sql",
-        exercise: "Create an appropriate index for: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC;",
-        exerciseEn: "Create an appropriate index for: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC;",
+        exercise: "Đề xuất 1 composite index phù hợp cho câu: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC; Gợi ý: cột nào dùng so sánh '=' nên đặt trước, cột range/order đặt sau.",
+        exerciseEn: "Propose a composite index for: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC; Hint: equality column first, then the range/order column.",
         quiz: [
-          { question: "Which index type is best for range queries (BETWEEN, <, >)?", options: ["Hash", "B-Tree", "GIN", "BRIN"], answer: 1, explanation: "B-Tree indexes support range queries efficiently. Hash indexes only support exact equality (=)." },
-          { question: "Can a composite index on (A, B) be used for a query filtering only on B?", options: ["Yes", "No, the leftmost column (A) must be present", "Only in MySQL", "Yes, but slower"], answer: 1, explanation: "The leftmost prefix rule requires the first column to be present. Index (A,B) works for A, or A+B, but not B alone." },
-          { question: "What does 'Seq Scan' in EXPLAIN output mean?", options: ["An optimized scan", "A full table scan without using any index", "A sequential index scan", "An error"], answer: 1, explanation: "Seq Scan means the database reads every row in the table — the slowest scan type. Usually indicates a missing index." },
-          { question: "What is a partial index?", options: ["An incomplete index", "An index that only covers rows matching a WHERE condition", "A half-built index", "An index on half the columns"], answer: 1, explanation: "A partial index only indexes rows that satisfy a condition (e.g., WHERE active = true), saving space and speeding up targeted queries." },
-          { question: "What is the downside of having too many indexes?", options: ["Queries become slower", "INSERT/UPDATE/DELETE operations slow down", "The database crashes", "No downside"], answer: 1, explanation: "Every index must be updated on writes (INSERT/UPDATE/DELETE), so too many indexes degrade write performance and consume disk space." }
+          { question: "Loại index nào tốt nhất cho các truy vấn dạng khoảng (BETWEEN, <, >)?", options: ["Hash", "B-Tree", "GIN", "BRIN"], answer: 1, explanation: "B-Tree giữ giá trị đã sắp xếp nên rất hiệu quả với truy vấn khoảng. Hash chỉ hỗ trợ so sánh bằng (=)." },
+          { question: "Composite index trên (A, B) có dùng được khi câu WHERE chỉ lọc trên B không?", options: ["Có", "Không — quy tắc 'leftmost prefix' yêu cầu cột đầu (A) phải có mặt", "Chỉ trên MySQL", "Có nhưng chậm hơn"], answer: 1, explanation: "Quy tắc leftmost prefix: index (A,B) dùng được cho WHERE A, hoặc WHERE A AND B — KHÔNG dùng được khi chỉ có B." },
+          { question: "Trong EXPLAIN, 'Seq Scan' nghĩa là gì?", options: ["Quét tối ưu", "Đọc TOÀN BỘ bảng, không dùng index nào", "Quét index tuần tự", "Báo lỗi"], answer: 1, explanation: "Seq Scan = đọc lần lượt từng dòng trong bảng — chậm nhất. Trên bảng lớn, đây thường là dấu hiệu thiếu index." },
+          { question: "Partial index là gì?", options: ["Index dở dang", "Index chỉ bao phủ các dòng thoả 1 điều kiện WHERE (ví dụ WHERE active = true)", "Index xây nửa chừng", "Index chỉ trên nửa số cột"], answer: 1, explanation: "Partial index chỉ index các dòng thoả điều kiện cho trước — tiết kiệm dung lượng và tăng tốc các query có cùng điều kiện đó." },
+          { question: "Hậu quả của việc tạo quá nhiều index là gì?", options: ["Query trở nên chậm hơn", "Các thao tác INSERT/UPDATE/DELETE bị chậm vì phải cập nhật mọi index", "Database sập", "Không có hậu quả gì"], answer: 1, explanation: "Mỗi lần ghi (INSERT/UPDATE/DELETE), database phải cập nhật mọi index liên quan → quá nhiều index = ghi chậm + tốn dung lượng." }
         ]
       }
     ]
