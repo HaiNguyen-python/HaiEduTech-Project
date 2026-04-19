@@ -91,7 +91,15 @@ const Programming = () => {
   const pillarData: Record<string, {
     title: string; titleEn: string; desc: string; descEn: string;
     modules: typeof programmingModules; challengeSection?: boolean;
+    isPathway?: boolean;
   }> = {
+    "python-pathway": {
+      title: "Python Pathway", titleEn: "Python Pathway",
+      desc: "Lộ trình Python từ Beginner → Mastery: 6 module, ~25 bài, có Pyodide playground chạy thật trong trình duyệt, quiz và badge 'Python Certified'.",
+      descEn: "Python from Beginner → Mastery: 6 modules, ~25 lessons, real in-browser Pyodide playground, quizzes, and 'Python Certified' badges.",
+      modules: [],
+      isPathway: true,
+    },
     python: {
       title: "Python", titleEn: "Python",
       desc: "Từ tư duy thuật toán cơ bản (Scratch) đến Python nâng cao, cấu trúc dữ liệu và dự án thực tế. Bao gồm 150 thử thách lập trình với IDE tích hợp.",
