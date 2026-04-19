@@ -679,7 +679,7 @@ export const pythonLessons: PythonLesson[] = [
   // ===== MODULE 6 — REAL WORLD =====
   L({
     id: "m6-l1-files",
-    moduleId: "m6-realworld",
+    moduleId: "m6-mastery",
     order: 1,
     title: "Đọc/ghi file CSV & JSON",
     titleEn: "Working with Files (CSV/JSON)",
@@ -704,7 +704,7 @@ export const pythonLessons: PythonLesson[] = [
 
   L({
     id: "m6-l2-api",
-    moduleId: "m6-realworld",
+    moduleId: "m6-mastery",
     order: 2,
     title: "Gọi API REST",
     titleEn: "API Integration",
@@ -728,7 +728,7 @@ export const pythonLessons: PythonLesson[] = [
 
   L({
     id: "m6-l3-numpy",
-    moduleId: "m6-realworld",
+    moduleId: "m6-mastery",
     order: 3,
     title: "NumPy cơ bản",
     titleEn: "NumPy Basics",
@@ -753,7 +753,7 @@ export const pythonLessons: PythonLesson[] = [
 
   L({
     id: "m6-l4-pandas",
-    moduleId: "m6-realworld",
+    moduleId: "m6-mastery",
     order: 4,
     title: "Pandas — Phân tích dữ liệu",
     titleEn: "Pandas Basics",
@@ -1327,7 +1327,7 @@ export const pythonLessons: PythonLesson[] = [
   // ===== M6 EXPANSION =====
   L({
     id: "m6-l9-virtualenv",
-    moduleId: "m6-realworld",
+    moduleId: "m6-mastery",
     order: 9,
     title: "venv & pip",
     titleEn: "Virtual Environments & pip",
