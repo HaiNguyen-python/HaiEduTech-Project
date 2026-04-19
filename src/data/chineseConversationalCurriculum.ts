@@ -2652,7 +2652,6 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Du lịch & Tham quan",
         titleZh: "旅游",
         icon: "Plane",
-        difficulty: "intermediate",
         hskLevel: 3,
         keySituations: [
           {
@@ -2702,7 +2701,6 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Âm nhạc, Phim & TV",
         titleZh: "音乐电影",
         icon: "Music",
-        difficulty: "intermediate",
         hskLevel: 4,
         keySituations: [
           {
@@ -2752,7 +2750,6 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Công nghệ & Mạng xã hội",
         titleZh: "科技社交",
         icon: "Smartphone",
-        difficulty: "intermediate",
         hskLevel: 4,
         keySituations: [
           {
@@ -2802,7 +2799,6 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Môi trường & Bền vững",
         titleZh: "环保",
         icon: "Leaf",
-        difficulty: "advanced",
         hskLevel: 5,
         keySituations: [
           {
@@ -2852,7 +2848,6 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Triết học & Tôn giáo",
         titleZh: "哲学宗教",
         icon: "BookOpen",
-        difficulty: "advanced",
         hskLevel: 5,
         keySituations: [
           {
@@ -2902,7 +2897,6 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Tranh luận & Lập luận",
         titleZh: "辩论",
         icon: "MessageSquare",
-        difficulty: "advanced",
         hskLevel: 6,
         keySituations: [
           {
@@ -2952,7 +2946,6 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         titleVi: "Kể chuyện & Tường thuật",
         titleZh: "讲故事",
         icon: "BookText",
-        difficulty: "advanced",
         hskLevel: 6,
         keySituations: [
           {
