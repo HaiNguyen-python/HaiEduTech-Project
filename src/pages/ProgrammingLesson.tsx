@@ -345,37 +345,14 @@ const ProgrammingLessonPage = () => {
                       <BookOpen className="w-5 h-5 text-primary" />
                       Theory
                     </h2>
-                    <div className="theory-content">
-                      <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
-                        components={{
-                          // Wrap tables for horizontal scroll on mobile
-                          table: ({ children }) => (
-                            <div className="theory-table-wrap">
-                              <table>{children}</table>
-                            </div>
-                          ),
-                          code({ node, inline, className, children, ...props }: any) {
-                            const match = /language-(\w+)/.exec(className || "");
-                            const codeStr = String(children).replace(/\n$/, "");
-                            if (!inline && match) {
-                              return <CodeBlock code={codeStr} language={match[1]} />;
-                            }
-                            if (!inline && codeStr.includes("\n")) {
-                              return <CodeBlock code={codeStr} language={lesson.codeLanguage || "text"} />;
-                            }
-                            return <code className={className} {...props}>{children}</code>;
-                          },
-                        }}
-                      >
-                        {(() => {
-                          const raw = (lesson.theoryEn || lesson.theory || "").replace(/\\\$/g, "$");
-                          // Strip a leading single "# Lesson Title" since the page already shows the title.
-                          // Only strips ONE level-1 heading at the very top, not section H1s further down.
-                          return raw.replace(/^\s*#\s+[^\n]+\n+/, "");
-                        })()}
-                      </ReactMarkdown>
-                    </div>
+                    <TheorySections
+                      markdown={(lesson.theoryEn || lesson.theory || "")
+                        .replace(/\\\$/g, "$")
+                        // Strip a leading single "# Lesson Title" since the page already shows the title
+                        .replace(/^\s*#\s+[^\n]+\n+/, "")}
+                      storageKey={`theory-read:${mod.id}:${lesson.id}`}
+                      defaultCodeLanguage={lesson.codeLanguage || "text"}
+                    />
                   </div>
 
                   {/* Code Example */}
