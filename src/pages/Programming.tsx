@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -58,6 +58,15 @@ const pillars = [
     borderColor: "border-teal-500/20",
     accentColor: "text-teal-600",
   },
+  {
+    id: "cloud",
+    icon: Cloud,
+    emoji: "☁️",
+    color: "from-sky-500 to-blue-600",
+    bgColor: "bg-sky-500/8",
+    borderColor: "border-sky-500/20",
+    accentColor: "text-sky-600",
+  },
 ];
 
 const Programming = () => {
@@ -103,6 +112,12 @@ const Programming = () => {
       desc: "Regression, Classification, Clustering và các mô hình AI cơ bản với scikit-learn.",
       descEn: "Regression, Classification, Clustering and basic AI models with scikit-learn.",
       modules: allProgrammingModules.filter(m => m.id === "prog-ml" || m.course === "ml"),
+    },
+    cloud: {
+      title: "Cloud Engineer", titleEn: "Cloud Engineer",
+      desc: "Lộ trình Cloud Engineer chuyên nghiệp: nền tảng AWS/Azure/GCP, Compute & Storage, Networking & Bảo mật, Serverless, IaC (Terraform), CI/CD, Well-Architected Framework và FinOps tối ưu chi phí.",
+      descEn: "Professional Cloud Engineer path: AWS/Azure/GCP fundamentals, Compute & Storage, Networking & Security, Serverless, IaC (Terraform), CI/CD, Well-Architected Framework and FinOps cost optimization.",
+      modules: allProgrammingModules.filter(m => m.course === "cloud"),
     },
   };
 
