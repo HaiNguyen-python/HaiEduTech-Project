@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.scholarship-advisor]
 verify_jwt = false
+
+[functions.draft-motivation-letter]
+verify_jwt = false
+
+[functions.draft-cold-email]
+verify_jwt = false
