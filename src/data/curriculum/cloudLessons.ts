@@ -20,40 +20,111 @@ export const cloudModules: ExtendedProgrammingModule[] = [
         titleEn: "What is Cloud Computing?",
         level: 1,
         difficulty: "beginner",
-        theory: `**Cloud Computing** là việc cung cấp tài nguyên máy tính (server, storage, database, network, software) qua Internet theo mô hình **trả tiền theo mức sử dụng (pay-as-you-go)**.
+        theory: `**Cloud Computing** là việc cung cấp tài nguyên máy tính (server, storage, database, network, software) qua Internet theo mô hình **trả tiền theo mức sử dụng (pay-as-you-go)**. Thay vì đầu tư trước hàng triệu đô vào data center, bạn "thuê" hạ tầng theo phút/giờ và mở rộng tức thì khi cần.
 
-**5 đặc tính cốt lõi (NIST):**
-1. **On-demand self-service** — tự cấp phát tài nguyên không cần liên hệ nhà cung cấp.
-2. **Broad network access** — truy cập từ mọi thiết bị qua Internet.
-3. **Resource pooling** — tài nguyên dùng chung qua mô hình multi-tenant.
-4. **Rapid elasticity** — co giãn nhanh theo nhu cầu (scale up/down).
-5. **Measured service** — đo lường, tính phí chính xác theo mức dùng.
+## Bối cảnh & vì sao Cloud bùng nổ
+Trước 2006, mọi công ty muốn chạy phần mềm phải tự mua server, lắp ráp data center, thuê đội sysadmin trực 24/7. Khi traffic tăng đột ngột (Black Friday, viral content), hệ thống sập vì không kịp mua thêm máy. Khi traffic xuống, hàng triệu đô server nằm chơi.
 
-**3 mô hình dịch vụ:**
-- **IaaS** (Infrastructure as a Service): bạn quản lý OS, runtime, app. Ví dụ: AWS EC2, Azure VM.
-- **PaaS** (Platform as a Service): bạn chỉ lo code & data. Ví dụ: AWS Elastic Beanstalk, Heroku.
-- **SaaS** (Software as a Service): dùng trực tiếp ứng dụng. Ví dụ: Gmail, Office 365.
+AWS ra mắt S3 (2006) và EC2 (2006) khởi đầu kỷ nguyên Cloud — biến CAPEX (chi phí đầu tư) thành OPEX (chi phí vận hành). Ngày nay >95% doanh nghiệp dùng cloud ở mức độ nào đó (Gartner 2024).
 
-**4 mô hình triển khai:** Public, Private, Hybrid, Community Cloud.
+## 5 đặc tính cốt lõi theo NIST
+NIST (Viện Tiêu chuẩn Mỹ) định nghĩa cloud bằng 5 đặc tính chuẩn để phân biệt với "outsourcing thường":
 
-**Lợi ích chính:** giảm CAPEX, tăng tốc time-to-market, khả năng mở rộng toàn cầu, độ tin cậy cao (SLA 99.9%+).`,
-        theoryEn: `**Cloud Computing** delivers compute resources (servers, storage, databases, network, software) over the Internet on a **pay-as-you-go** model.
+1. **On-demand self-service** — tự cấp phát tài nguyên qua web console / API / CLI mà không cần liên hệ con người ở nhà cung cấp.
+2. **Broad network access** — truy cập từ mọi thiết bị (laptop, mobile, IoT) qua mạng chuẩn (HTTPS).
+3. **Resource pooling** — hạ tầng vật lý dùng chung (multi-tenant) qua ảo hóa, người dùng không thấy vị trí vật lý cụ thể.
+4. **Rapid elasticity** — co giãn nhanh theo nhu cầu, có thể tự động (auto-scaling) hoặc thủ công, gần như không giới hạn từ góc nhìn người dùng.
+5. **Measured service** — đo đếm chính xác (CPU-second, GB-month, request) để tính phí minh bạch.
 
-**5 essential characteristics (NIST):**
-1. **On-demand self-service** — provision without human interaction.
-2. **Broad network access** — accessible from any device.
-3. **Resource pooling** — multi-tenant shared resources.
-4. **Rapid elasticity** — scale up/down quickly.
-5. **Measured service** — metered, precise billing.
+## 3 mô hình dịch vụ (IaaS / PaaS / SaaS)
+Mức độ "nhà cung cấp lo giùm" tăng dần — bạn càng ít việc, càng ít linh hoạt:
 
-**3 service models:**
-- **IaaS**: you manage OS, runtime, app. Examples: AWS EC2, Azure VM.
-- **PaaS**: you focus on code & data. Examples: Elastic Beanstalk, Heroku.
-- **SaaS**: end-user software. Examples: Gmail, Office 365.
+| Mô hình | Khách hàng quản lý | Nhà cung cấp lo | Ví dụ |
+|---|---|---|---|
+| **IaaS** | OS, runtime, middleware, app, data | Hardware, virtualization, network | AWS EC2, Azure VM, GCP Compute Engine |
+| **PaaS** | App, data | Toàn bộ phần dưới | Elastic Beanstalk, Heroku, App Engine |
+| **SaaS** | Cấu hình & dữ liệu của bạn | Mọi thứ khác | Gmail, Office 365, Salesforce |
 
-**4 deployment models:** Public, Private, Hybrid, Community Cloud.
+**Mẹo nhớ:** "Pizza analogy" — IaaS = bạn mua nguyên liệu về tự nấu; PaaS = mua pizza đông lạnh tự nướng; SaaS = đặt pizza giao tận nhà.
 
-**Key benefits:** lower CAPEX, faster time-to-market, global scale, high reliability (99.9%+ SLA).`,
+## 4 mô hình triển khai (deployment)
+- **Public Cloud** — hạ tầng dùng chung (AWS, Azure, GCP). Rẻ nhất, scale nhanh nhất.
+- **Private Cloud** — riêng cho 1 tổ chức (on-prem hoặc hosted). Kiểm soát cao, phù hợp ngân hàng/quốc phòng.
+- **Hybrid Cloud** — mix Public + Private, kết nối qua VPN/Direct Connect.
+- **Community Cloud** — vài tổ chức cùng lĩnh vực dùng chung (vd. cloud cho ngành y tế tuân thủ HIPAA).
+
+## Case study thực tế: Netflix
+Năm 2008 Netflix bị crash database 3 ngày vì hạ tầng on-prem không chịu nổi. Họ quyết định "all-in" vào AWS. Đến 2016 đóng hoàn toàn data center cuối cùng. Hiện nay Netflix chạy >100,000 EC2 instance, phục vụ 250M+ subscriber, dùng auto-scaling để xử lý peak buổi tối gấp 10× lúc 3h sáng — không thể làm được nếu tự mua server.
+
+## Lợi ích vs đánh đổi
+**Lợi ích:**
+- Giảm CAPEX (không mua server) → đổi sang OPEX dễ dự toán hơn cho startup
+- Time-to-market nhanh: deploy app mới trong vài phút thay vì 3 tháng đặt hàng server
+- Global scale: bật region mới ở Singapore trong 5 phút
+- Độ tin cậy cao (SLA 99.9% – 99.999%)
+- Tự động backup, encryption, compliance (SOC2, ISO27001) sẵn có
+
+**Đánh đổi:**
+- Bill có thể "shock" nếu thiết kế sai (xem bài FinOps)
+- Vendor lock-in nếu dùng dịch vụ độc quyền (DynamoDB, BigQuery)
+- Phụ thuộc Internet — mất mạng = mất production
+- Compliance/data residency phức tạp với một số ngành
+
+## Khi nào KHÔNG nên cloud
+- Workload cực ổn định, chạy 24/7 nhiều năm → on-prem có thể rẻ hơn 30-50% (vd. Dropbox đã "reverse migration" từ AWS về self-hosted để tiết kiệm $75M/năm)
+- Latency cực thấp <1ms (HFT trading)
+- Dữ liệu nhạy cảm bị luật cấm rời quốc gia
+
+## Liên hệ bài tiếp theo
+Bài 2 sẽ so sánh **Big Three** (AWS / Azure / GCP) — bạn sẽ biết chọn nhà cung cấp nào cho dự án cụ thể.`,
+        theoryEn: `**Cloud Computing** delivers compute resources (servers, storage, databases, network, software) over the Internet on a **pay-as-you-go** model. Instead of investing millions upfront in a data center, you rent infrastructure by the minute/hour and scale instantly when needed.
+
+## Context: why Cloud exploded
+Before 2006, every company had to buy servers, build data centers, and hire 24/7 sysadmins. Traffic spike on Black Friday? Site crashed. Traffic drop? Millions in idle hardware.
+
+AWS launched S3 and EC2 in 2006, turning CAPEX into OPEX. Today >95% of businesses use cloud in some form (Gartner 2024).
+
+## 5 essential characteristics (NIST)
+NIST defines cloud with 5 traits that distinguish it from regular hosting:
+
+1. **On-demand self-service** — provision via console/API/CLI without contacting a human.
+2. **Broad network access** — reachable from any device over standard protocols.
+3. **Resource pooling** — multi-tenant shared physical hardware via virtualization.
+4. **Rapid elasticity** — scale up/down quickly, often automatically.
+5. **Measured service** — precise metering (CPU-second, GB-month) for transparent billing.
+
+## 3 service models (IaaS / PaaS / SaaS)
+The more the provider handles, the less you control:
+
+| Model | You manage | Provider manages | Examples |
+|---|---|---|---|
+| **IaaS** | OS, runtime, app, data | Hardware, virtualization | EC2, Azure VM |
+| **PaaS** | App + data | Everything below | Beanstalk, Heroku, App Engine |
+| **SaaS** | Config + your data | Everything else | Gmail, O365, Salesforce |
+
+**Pizza analogy:** IaaS = buy ingredients & cook; PaaS = frozen pizza, just bake; SaaS = order delivery.
+
+## 4 deployment models
+- **Public** — shared (AWS, Azure, GCP). Cheapest, fastest scale.
+- **Private** — dedicated to one org. Maximum control, common in banking/defense.
+- **Hybrid** — mix of public + private, linked via VPN / Direct Connect.
+- **Community** — shared by orgs in same regulated industry (e.g., HIPAA-compliant health cloud).
+
+## Case study: Netflix
+In 2008 Netflix suffered a 3-day database outage on-prem. They went "all-in" on AWS, closed their last data center in 2016. Today Netflix runs 100,000+ EC2 instances serving 250M+ subscribers, using auto-scaling to handle prime-time peaks 10× larger than 3 AM — impossible with self-owned hardware.
+
+## Benefits vs trade-offs
+**Benefits:** lower CAPEX, fast time-to-market, global scale, 99.9-99.999% SLA, built-in backup/encryption/compliance.
+
+**Trade-offs:** bills can shock you if designed wrong; vendor lock-in (DynamoDB, BigQuery); Internet dependency; compliance/data-residency complexity.
+
+## When NOT to use cloud
+- Very stable workloads running 24/7 for years → on-prem can be 30-50% cheaper (Dropbox famously reverse-migrated and saved $75M/year).
+- Ultra-low latency <1ms (HFT trading).
+- Data legally barred from leaving the country.
+
+## Next lesson
+Lesson 2 compares the **Big Three** so you can pick the right provider for your project.`,
         code: `# Mô phỏng mô hình "pay-as-you-go" của Cloud
 def calculate_cloud_cost(hours_used: float, instance_type: str = "t3.micro") -> float:
     pricing = {
