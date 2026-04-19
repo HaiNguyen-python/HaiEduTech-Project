@@ -157,6 +157,19 @@ const StudentDocuments = () => {
       setUploadProgress(100);
       toast({ title: t("Tải lên thành công", "Uploaded"), description: file.name });
       await fetchDocs(userId);
+      // Award Global Scholar badge if criteria met (idempotent server-side check)
+      try {
+        const { data: badgeRes } = await supabase.rpc("award_global_scholar_badge");
+        const res = badgeRes as { newly_earned?: boolean } | null;
+        if (res?.newly_earned) {
+          toast({
+            title: t("🌍 Bạn vừa nhận huy hiệu!", "🌍 New Badge Unlocked!"),
+            description: t("Global Scholar — Hành trình du học bắt đầu!", "Global Scholar — Your study abroad journey has begun!"),
+          });
+        }
+      } catch {
+        // Silent — badge award is non-critical
+      }
     } catch (err: any) {
       toast({ title: t("Lỗi tải lên", "Upload failed"), description: err.message, variant: "destructive" });
     } finally {
