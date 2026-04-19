@@ -674,44 +674,169 @@ print(f"Monthly cost: \${hours * hourly:.2f}")`,
         titleEn: "Object Storage (S3)",
         level: 2,
         difficulty: "beginner",
-        theory: `**Object Storage** lưu trữ dữ liệu dưới dạng **đối tượng (object)** trong **bucket**, mỗi object có:
-- **Key** (path/tên file)
-- **Value** (nội dung)
-- **Metadata** (Content-Type, custom tags)
-- **Version ID** (nếu bật versioning)
+        theory: `**Object Storage** là kiểu lưu trữ phẳng (flat namespace), khác hoàn toàn với file system truyền thống có folder lồng nhau. Mỗi file là một "object" độc lập có metadata riêng, được truy cập qua HTTP API. Đây là nền tảng của data lake, static website, backup, và CDN trong cloud hiện đại.
 
-**AWS S3 — đặc tính:**
-- Khả năng mở rộng vô hạn (đến hàng exabyte).
-- Độ bền **99.999999999%** (11 số 9) — gần như không bao giờ mất data.
-- Truy cập qua HTTP/HTTPS REST API.
-- Tích hợp sâu với Lambda, CloudFront, Athena.
+## Vì sao cần Object Storage?
+Trước cloud, công ty phải mua **NAS/SAN** đắt tiền (vài chục nghìn USD), tự lo RAID, sao lưu, mở rộng. Khi data vượt vài TB, chi phí tăng phi tuyến. Object Storage giải quyết bằng **hạ tầng phân tán** quy mô exabyte, **trả tiền theo GB thực dùng**, durability cực cao và API đơn giản. AWS S3 ra đời 2006 — sản phẩm thương mại đầu tiên của AWS — và đến nay vẫn là chuẩn de-facto.
 
-**Storage Classes (lớp lưu trữ):**
-| Class | Use case | Giá |
-|-------|----------|-----|
-| **Standard** | Truy cập thường xuyên | \$0.023/GB |
-| **Intelligent-Tiering** | Tự chuyển tier theo access | Tự động |
-| **Standard-IA** | Truy cập ít (>30 ngày) | \$0.0125/GB |
-| **One Zone-IA** | IA nhưng 1 AZ | \$0.01/GB |
-| **Glacier Instant** | Archive truy cập tức thì | \$0.004/GB |
-| **Glacier Flexible** | Archive (1 phút – 12h) | \$0.0036/GB |
-| **Glacier Deep Archive** | Archive lâu dài (12h) | \$0.00099/GB |
+## Cấu trúc một Object
+Mỗi object gồm 4 phần:
+- **Key** — chuỗi tên duy nhất trong bucket, thường giống đường dẫn (\`reports/2026/q1.pdf\`) nhưng thực ra **không có folder** — đó chỉ là tiền tố (prefix).
+- **Value** — nội dung nhị phân (0 byte đến 5 TB).
+- **Metadata** — \`Content-Type\`, \`Cache-Control\`, custom tag (\`x-amz-meta-author\`).
+- **Version ID** — chỉ có khi bật Versioning, giúp khôi phục object đã xóa/ghi đè.
 
-**Lifecycle Policy**: tự động chuyển object giữa các class theo thời gian (ví dụ: sau 30 ngày → IA, sau 365 ngày → Glacier).
+## Đặc tính cốt lõi của S3
+- **Durability 99.999999999% (11 nines)** — về mặt thống kê, lưu 10 triệu object thì trung bình **10,000 năm mới mất 1 object**. Đạt được nhờ S3 nhân bản dữ liệu qua tối thiểu 3 AZ.
+- **Availability 99.99%** (Standard) — tương đương ~52 phút downtime/năm.
+- **Strongly consistent** (từ 2020): write xong là read ngay thấy ngay (trước đó là eventual consistency).
+- **Khả năng mở rộng tuyến tính**: 1 bucket có thể chứa hàng tỷ object, throughput tự scale.
+- **Truy cập qua REST API** (PUT, GET, DELETE, LIST) — dễ tích hợp mọi ngôn ngữ.
 
-**Use case phổ biến:** lưu ảnh/video user upload, static website, backup, data lake, log archive.`,
-        theoryEn: `**Object Storage** stores data as **objects** in **buckets**. Each object has Key, Value, Metadata, Version ID.
+## Storage Classes — chọn đúng tier để tiết kiệm
+| Class | Use case | Giá USD/GB/tháng | Min duration | Retrieval |
+|-------|----------|------------------|--------------|-----------|
+| **Standard** | Truy cập thường xuyên | $0.023 | — | tức thì |
+| **Intelligent-Tiering** | Pattern không đoán được | $0.023 + $0.0025 monitor | 30 ngày | tức thì |
+| **Standard-IA** | Truy cập <1 lần/tháng | $0.0125 | 30 ngày | tức thì |
+| **One Zone-IA** | IA nhưng chỉ 1 AZ (rẻ hơn 20%) | $0.01 | 30 ngày | tức thì |
+| **Glacier Instant Retrieval** | Archive cần truy cập tức thì | $0.004 | 90 ngày | tức thì |
+| **Glacier Flexible** | Archive (1 phút – 12h) | $0.0036 | 90 ngày | 1 phút – 12h |
+| **Glacier Deep Archive** | Lưu trữ lâu dài (>1 năm) | $0.00099 | 180 ngày | 12-48h |
 
-**AWS S3:**
-- Infinite scale, **11 nines** durability.
-- HTTP/HTTPS REST API.
-- Integrates with Lambda, CloudFront, Athena.
+**Bài toán thực tế**: Lưu 1 PB log trong 1 năm.
+- Standard: 1,048,576 GB × $0.023 × 12 = **$289,406/năm**
+- Glacier Deep Archive: 1,048,576 GB × $0.00099 × 12 = **$12,457/năm** → tiết kiệm **96%**
 
-**Storage Classes:** Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier Instant/Flexible/Deep Archive.
+## Lifecycle Policy — tự động hóa tiết kiệm
+Lifecycle là rule JSON gắn vào bucket, tự chuyển object giữa các class theo tuổi:
+\`\`\`
+0-30 ngày   → Standard       (truy cập nóng)
+30-90 ngày  → Standard-IA    (truy cập thưa)
+90-365 ngày → Glacier Flexible (archive)
+>365 ngày   → Glacier Deep Archive (lưu trữ tuân thủ)
+>2555 ngày  → Delete         (sau 7 năm theo SOX)
+\`\`\`
+**Quan trọng**: lifecycle **chỉ giảm chi phí lưu trữ**, không giảm chi phí lấy ra (retrieval). Nếu workload truy cập ngẫu nhiên, **Intelligent-Tiering** là an toàn hơn — S3 tự đo và chuyển.
 
-**Lifecycle policy** auto-transitions objects between classes.
+## Case study thật: Netflix dùng S3 như "single source of truth"
+Netflix lưu **>100 PB** dữ liệu (video master, log analytics, ML feature) trên S3. Họ không tự build storage vì:
+- **Chi phí**: nếu tự xây cần >5 data center riêng — tốn hàng trăm triệu USD.
+- **Reliability**: S3 đã 17 năm chưa từng mất dữ liệu của Netflix.
+- **Tích hợp**: Spark/Athena/Hive đọc trực tiếp từ S3 không cần copy ra HDFS.
+- **Lifecycle**: log cũ tự xuống Glacier sau 30 ngày → tiết kiệm hàng triệu USD/năm.
 
-**Use cases:** user uploads, static websites, backups, data lakes, log archives.`,
+## Case study: Dropbox rời S3 (Project Magic Pocket)
+Năm 2016 Dropbox migrate **>500 PB** từ S3 sang hạ tầng tự xây vì khi đạt quy mô siêu lớn, biên lợi nhuận tự build vượt giá thuê S3. Bài học: **dưới ~50 PB hầu như luôn rẻ hơn dùng S3**, chỉ vài hyperscaler mới có lý do tự build.
+
+## So sánh Object vs Block vs File Storage
+| Khía cạnh | Object (S3) | Block (EBS) | File (EFS/NFS) |
+|-----------|-------------|-------------|----------------|
+| Đơn vị | object + metadata | block 4 KB | file + folder |
+| API | HTTP REST | iSCSI/NVMe | NFS/SMB |
+| Mount như disk? | Không | Có (1 instance) | Có (nhiều instance) |
+| Tốc độ random IO | Trung bình | Rất cao | Cao |
+| Giá | Rẻ nhất | Đắt nhất | Trung bình |
+| Use case | Backup, data lake, web asset | DB, OS disk | Shared workspace, lift-and-shift |
+
+## Best practices
+- ✅ **Bật Versioning** + MFA Delete cho bucket quan trọng — chống xóa nhầm/ransomware.
+- ✅ **Block Public Access** ở account level — mặc định mọi bucket private.
+- ✅ **Server-side encryption** mặc định (SSE-S3 hoặc SSE-KMS).
+- ✅ **Lifecycle** ngay từ ngày tạo bucket — tránh "data hoarding" không kiểm soát.
+- ✅ **Bucket policy + IAM Role** thay vì access key — và dùng **presigned URL** cho truy cập tạm thời.
+- ✅ **CloudFront** trước S3 cho web asset — giảm 80-90% egress cost.
+- ✅ **S3 Storage Lens** — dashboard miễn phí phân tích usage và đề xuất tiết kiệm.
+
+## Common pitfalls
+- ❌ **Bucket public mà không biết** — top nguyên nhân lộ data (Capital One 2019, ~100M record).
+- ❌ **Không bật lifecycle** → 60% bucket >1 năm có data "lạnh" trả giá Standard.
+- ❌ **Quá nhiều object nhỏ (KB)** — overhead request lớn hơn data; nên gộp thành Parquet/ORC.
+- ❌ **Hot-key prefix** — trước 2018, dùng prefix tăng dần (\`logs/2024/01/01/...\`) gây bottleneck; hiện S3 đã auto-shard nhưng vẫn nên random hash đầu key.
+- ❌ **Egress cost bất ngờ** — tải 1 TB từ S3 ra Internet ~$90; dùng CloudFront hoặc S3 Transfer Acceleration để tối ưu.
+- ❌ **Glacier retrieval trong giờ cao điểm** — Bulk retrieval rẻ ($0.0025/GB) nhưng mất 5-12h.
+
+## Khi nào KHÔNG nên dùng S3?
+- ❌ Cần latency <10 ms cho read/write nhỏ → dùng DynamoDB hoặc ElastiCache.
+- ❌ Cần POSIX file system (lock, append) → dùng EFS hoặc FSx.
+- ❌ Workload OLTP (database) → dùng RDS/Aurora.
+
+## Liên hệ bài tiếp theo
+S3 chỉ là một mảnh trong bộ ba **Compute + Storage + Network**. Bài kế tiếp sẽ học cách chạy workload đóng gói bằng **Container & Kubernetes**, kết hợp với S3 để build microservice scalable.`,
+        theoryEn: `**Object Storage** uses a flat namespace where each file is a self-describing object with metadata, accessed via HTTP API — fundamentally different from POSIX file systems. It powers data lakes, static sites, backups, and CDNs in modern cloud architectures.
+
+## Why Object Storage?
+Before cloud, companies bought expensive NAS/SAN ($10k+) and managed RAID, backup, scaling. Cost grew non-linearly past a few TB. Object Storage solves this with distributed exabyte-scale infrastructure, pay-per-GB pricing, extreme durability, and a simple API. AWS S3 (2006) was AWS's first commercial product and remains the de-facto standard.
+
+## Anatomy of an Object
+- **Key** — unique string in the bucket; looks like a path (\`reports/2026/q1.pdf\`) but there are **no real folders**, only prefixes.
+- **Value** — binary payload (0 bytes to 5 TB).
+- **Metadata** — \`Content-Type\`, \`Cache-Control\`, custom \`x-amz-meta-*\` tags.
+- **Version ID** — only when Versioning is enabled; lets you restore deleted/overwritten objects.
+
+## Core S3 Properties
+- **Durability 99.999999999% (11 nines)** — statistically, 10M objects lose 1 object per ~10,000 years. Achieved by replicating across ≥3 AZs.
+- **Availability 99.99%** (Standard) — ~52 min downtime/year.
+- **Strongly consistent** (since 2020): read-after-write returns the latest version immediately.
+- **Linear scalability**: billions of objects per bucket; throughput auto-scales.
+- **REST API access**: easy to integrate from any language.
+
+## Storage Classes
+| Class | Use case | $/GB/mo | Min | Retrieval |
+|-------|----------|---------|-----|-----------|
+| Standard | Frequent | $0.023 | — | instant |
+| Intelligent-Tiering | Unknown patterns | $0.023 + $0.0025 monitor | 30d | instant |
+| Standard-IA | <1×/month | $0.0125 | 30d | instant |
+| One Zone-IA | IA in 1 AZ | $0.01 | 30d | instant |
+| Glacier Instant | Archive, instant | $0.004 | 90d | instant |
+| Glacier Flexible | Archive | $0.0036 | 90d | 1 min – 12h |
+| Glacier Deep Archive | Long-term | $0.00099 | 180d | 12-48h |
+
+**Real math:** 1 PB for 1 year on Standard = **$289,406**, on Glacier Deep Archive = **$12,457** (96% savings).
+
+## Lifecycle Policies
+JSON rules attached to a bucket auto-transition objects by age. Lifecycle reduces **storage cost only**, not retrieval cost. For unpredictable access, use Intelligent-Tiering — S3 measures and moves automatically.
+
+## Case study: Netflix
+Netflix stores **>100 PB** on S3 (video masters, analytics logs, ML features). They don't self-host because: (1) cost — building 5+ DCs is hundreds of millions; (2) reliability — 17 years with no Netflix data lost; (3) integration — Spark/Athena read directly; (4) lifecycle — old logs auto-tier to Glacier saving millions/year.
+
+## Case study: Dropbox left S3
+In 2016 Dropbox migrated **>500 PB** off S3 to in-house "Magic Pocket". At extreme scale, self-build margin beats S3 pricing. **Below ~50 PB, S3 is almost always cheaper.**
+
+## Object vs Block vs File
+| Aspect | Object (S3) | Block (EBS) | File (EFS) |
+|--------|-------------|-------------|------------|
+| Unit | object + metadata | 4 KB block | file + folder |
+| API | HTTP REST | iSCSI/NVMe | NFS/SMB |
+| Mount | No | Yes (1 instance) | Yes (many) |
+| Random IO | Medium | Very high | High |
+| Price | Cheapest | Most expensive | Medium |
+| Use case | Backup, data lake, web | DB, OS disk | Shared workspace |
+
+## Best Practices
+- ✅ Versioning + MFA Delete on critical buckets (anti-ransomware).
+- ✅ Block Public Access at account level — default private.
+- ✅ Default server-side encryption (SSE-S3 or SSE-KMS).
+- ✅ Lifecycle from day 1 — avoid uncontrolled data hoarding.
+- ✅ Bucket Policy + IAM Role over access keys; use presigned URLs for temp access.
+- ✅ CloudFront in front of S3 — cuts 80-90% egress.
+- ✅ S3 Storage Lens — free dashboard with savings recommendations.
+
+## Common Pitfalls
+- ❌ Accidentally public buckets (Capital One 2019, ~100M records).
+- ❌ No lifecycle → 60% of buckets >1 year hold cold data at Standard pricing.
+- ❌ Many tiny objects — request overhead exceeds data; consolidate into Parquet/ORC.
+- ❌ Hot-key prefix (legacy issue, mostly auto-sharded now); still randomize prefixes for highest TPS.
+- ❌ Unexpected egress: 1 TB to Internet costs ~$90; use CloudFront or Transfer Acceleration.
+- ❌ Glacier retrieval at peak: Bulk is cheap ($0.0025/GB) but 5-12h.
+
+## When NOT to use S3
+- ❌ Latency <10 ms reads/writes → DynamoDB or ElastiCache.
+- ❌ POSIX semantics (lock, append) → EFS or FSx.
+- ❌ OLTP DB workloads → RDS/Aurora.
+
+## Bridge to Next Lesson
+S3 is one piece of Compute + Storage + Network. Next we cover **Containers & Kubernetes** — running packaged workloads at scale, often paired with S3 for storage.`,
         code: `# Upload và quản lý object trên S3 với boto3
 import boto3
 
@@ -763,40 +888,207 @@ s3.put_bucket_lifecycle_configuration(Bucket="my-app-bucket", LifecycleConfigura
         titleEn: "Containers & Kubernetes (EKS/AKS/GKE)",
         level: 3,
         difficulty: "intermediate",
-        theory: `**Container** đóng gói app + dependencies thành một đơn vị nhẹ, chạy nhất quán mọi nơi. **Docker** là chuẩn de-facto.
+        theory: `**Container** là cách đóng gói ứng dụng cùng toàn bộ phụ thuộc (libraries, runtime, config) thành một image bất biến, chạy giống hệt nhau trên laptop dev, server staging và cluster production. **Docker** là implementation phổ biến nhất; **Kubernetes** là hệ điều hành phân tán quản lý hàng nghìn container ở quy mô production. Bộ đôi này đã thay đổi hoàn toàn cách deploy phần mềm trong 10 năm qua.
 
-**Vì sao chọn container thay VM?**
-- Khởi động giây thay vì phút.
-- Nhẹ (MB thay vì GB).
-- Cùng image chạy được trên dev/staging/prod.
+## Vì sao Container thay thế VM?
+| Khía cạnh | VM | Container |
+|-----------|-----|-----------|
+| Boot time | 30-120 giây | 0.5-2 giây |
+| Kích thước image | 1-10 GB | 50-500 MB |
+| Overhead | Toàn bộ Guest OS | Chỉ shared kernel |
+| Density/host | 10-30 VM | 100-1000 container |
+| Portable | Cần chuẩn (OVF) | Image OCI chạy mọi nơi |
+| Use case | Cô lập mạnh, multi-OS | Microservice, CI/CD |
 
-**Kubernetes (K8s)** là nền tảng orchestration để chạy hàng nghìn container ở quy mô production:
-- **Pod**: đơn vị nhỏ nhất, chứa 1+ container.
-- **Deployment**: quản lý replica + rolling update.
-- **Service**: load balancer nội bộ.
-- **Ingress**: route HTTP từ ngoài vào.
-- **ConfigMap / Secret**: config + bí mật.
-- **Namespace**: phân vùng logic.
+VM ảo hóa **phần cứng** (hypervisor giả lập CPU/RAM/disk); container ảo hóa **OS** (chia sẻ kernel host nhưng cô lập namespace + cgroup). Vì shared kernel, container nhẹ hơn nhưng cô lập yếu hơn — không nên chạy code không tin cậy chung host (dùng gVisor/Kata cho điều đó).
 
-**Managed Kubernetes:**
-- **AWS EKS** — control plane do AWS quản lý, worker node tự bạn quản (hoặc Fargate).
-- **Azure AKS** — miễn phí control plane.
-- **GCP GKE** — chế độ Autopilot tự lo cả node.
+## Bên trong Docker — kiến trúc layered
+Một Dockerfile build ra image gồm nhiều **layer** xếp chồng (copy-on-write):
+\`\`\`dockerfile
+FROM python:3.11-slim          # layer 1: base OS + Python
+WORKDIR /app
+COPY requirements.txt .         # layer 2: chỉ rebuild khi requirements đổi
+RUN pip install -r requirements.txt   # layer 3: cache nếu layer 2 không đổi
+COPY . .                        # layer 4: code app, đổi nhiều nhất
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]
+\`\`\`
+**Best practice xếp lớp**: đặt thứ ít đổi (deps) lên trên, code app xuống dưới — tận dụng cache, build nhanh.
 
-**Khi nào dùng container thay serverless?**
-- Cần control runtime, custom binary.
-- Stateful workload (database, queue).
-- Long-running process (background worker).
-- Tránh vendor lock-in (K8s portable).`,
-        theoryEn: `**Containers** package app + deps into lightweight units. **Docker** is the standard.
+## Kubernetes — các khái niệm cốt lõi
+- **Pod** — đơn vị nhỏ nhất K8s schedule. Một Pod = 1+ container chia sẻ network + storage. Pod ephemeral (chết là tạo mới với IP khác).
+- **ReplicaSet** — đảm bảo luôn có N pod chạy.
+- **Deployment** — quản lý ReplicaSet + chiến lược rolling update / rollback.
+- **Service** — endpoint ổn định (ClusterIP, NodePort, LoadBalancer) định tuyến vào tập pod theo label.
+- **Ingress** — route HTTP/HTTPS layer 7 (host/path) vào Service. Dùng nginx-ingress, AWS ALB Ingress Controller, Traefik.
+- **ConfigMap / Secret** — tách config & bí mật khỏi image.
+- **Namespace** — phân vùng logic (team, env) trong cùng cluster.
+- **PersistentVolume + PVC** — abstraction cho storage (EBS, EFS, S3 csi).
+- **HPA (Horizontal Pod Autoscaler)** — auto scale pod theo CPU/memory/custom metric.
+- **DaemonSet** — chạy 1 pod trên MỌI node (log agent, monitoring agent).
+- **StatefulSet** — pod có identity ổn định + storage cá nhân (DB, Kafka).
 
-**Why over VMs?** Seconds to start, MB-sized, consistent across environments.
+## Architecture của Kubernetes Cluster
+\`\`\`
+┌──────────── Control Plane ────────────┐
+│ kube-apiserver  (entry point REST)   │
+│ etcd            (key-value state DB) │
+│ scheduler       (gán pod → node)     │
+│ controller-mgr  (reconcile loops)    │
+└──────────────────┬─────────────────────┘
+                   │
+       ┌───────────┴───────────┐
+       │                       │
+┌──── Node 1 ────┐      ┌──── Node 2 ────┐
+│ kubelet        │      │ kubelet        │
+│ kube-proxy     │      │ kube-proxy     │
+│ container rt   │      │ container rt   │
+│ ┌──┐ ┌──┐     │      │ ┌──┐ ┌──┐     │
+│ │P1│ │P2│ ... │      │ │P3│ │P4│ ... │
+│ └──┘ └──┘     │      │ └──┘ └──┘     │
+└────────────────┘      └────────────────┘
+\`\`\`
+Mọi tương tác qua **kube-apiserver**. State lưu trong **etcd**. Mỗi node có **kubelet** quản pod local, **kube-proxy** routing network.
 
-**Kubernetes (K8s)** orchestrates containers at scale: Pod, Deployment, Service, Ingress, ConfigMap/Secret, Namespace.
+## Managed Kubernetes — chọn cái nào?
+| Service | Provider | Control plane | Worker | Đặc điểm |
+|---------|----------|---------------|--------|----------|
+| **EKS** | AWS | Managed ($0.10/h) | EC2 hoặc Fargate | Tích hợp IAM, ALB, VPC chuẩn |
+| **AKS** | Azure | **Free** | VM hoặc ACI | Tích hợp Entra ID, free SLA 99.95% |
+| **GKE** | GCP | Standard $0.10/h, Autopilot $0.10/h+pod | VM hoặc Autopilot | **Autopilot** tự lo node — gần serverless |
+| **Self-hosted (kubeadm)** | Bất kỳ | Tự build | Tự build | Rẻ nhưng tốn devops |
 
-**Managed K8s:** EKS (AWS), AKS (Azure), GKE (GCP — has Autopilot mode).
+**Lời khuyên**: nếu mới bắt đầu, **GKE Autopilot** dễ nhất; team AWS-heavy chọn **EKS + Fargate**; team Microsoft chọn **AKS**.
 
-**Containers vs serverless:** choose containers for runtime control, stateful workloads, long-running processes, or to avoid vendor lock-in.`,
+## Case study: Spotify — chạy hơn 1700 microservice trên K8s
+Spotify migrate từ Helios (orchestrator riêng) sang Kubernetes 2018-2020. Họ chạy:
+- **150+ cluster GKE** xuyên 4 region.
+- **>10,000 node**, **>1.7 triệu pod** đỉnh.
+- Backend **Backstage** (open-source developer portal) ra đời từ trải nghiệm này — nay là chuẩn CNCF.
+Bài học: K8s cho phép **mỗi team deploy độc lập 100+ lần/ngày** mà không đụng nhau.
+
+## Case study: Airbnb — 1000 service, EKS + service mesh
+Airbnb dùng EKS + Envoy/Istio service mesh để xử lý 100k+ RPS giữa các service. Mesh cho mTLS tự động, retry, circuit breaker — tránh viết lại logic này trong từng service. Tradeoff: thêm độ phức tạp ops và 1-2 ms latency mỗi hop.
+
+## Container vs Serverless vs VM — khi nào chọn gì?
+| Tình huống | Khuyến nghị |
+|------------|-------------|
+| Webhook, batch ngắn, ít event | **Lambda/Cloud Functions** |
+| Microservice HTTP đều đặn | **Container (ECS/EKS/Cloud Run)** |
+| Long-running worker, queue consumer | **Container** |
+| DB, cache stateful | **Managed service hoặc StatefulSet** |
+| Legacy app cần Windows/full OS | **VM** |
+| Workload đều cao 24/7 | **VM với Reserved/Savings Plan** |
+| Cần portability multi-cloud | **K8s** (chuẩn hóa) |
+
+## Best Practices
+- ✅ **Image nhỏ**: dùng \`-slim\`, \`-alpine\`, multi-stage build → đẩy nhanh deploy & giảm CVE.
+- ✅ **Non-root user** trong container.
+- ✅ **Health probe**: liveness (kill nếu chết), readiness (chỉ nhận traffic khi sẵn sàng), startup (cho app boot chậm).
+- ✅ **Resource request + limit**: tránh "noisy neighbor" và OOMKill bất ngờ.
+- ✅ **Pod Disruption Budget** + **anti-affinity** để khả dụng cao.
+- ✅ **Network Policy** (Calico/Cilium): mặc định deny all, allow theo nhãn.
+- ✅ **GitOps** (ArgoCD/Flux): cluster state = git repo.
+- ✅ **Image signing** (cosign) + **scan** (Trivy) trong CI.
+
+## Common Pitfalls
+- ❌ Không đặt resource request/limit → 1 pod ngốn RAM kéo cả node sập.
+- ❌ Lưu state vào filesystem container (mất khi pod restart) — phải dùng PV/EFS/S3.
+- ❌ Latest tag image (\`myapp:latest\`) → không reproducible; luôn pin SHA hoặc semver.
+- ❌ 1 pod / 1 node (over-provisioning) → mất lợi thế bin-packing K8s.
+- ❌ Quên log → stdout (K8s thu thập tự động); log vào file trong container sẽ mất.
+- ❌ Cluster admin role rộng cho mọi developer — tuân thủ RBAC least privilege.
+- ❌ Bật autoscaling mà không có **PodDisruptionBudget** → scale down giết hết replica.
+
+## Khi KHÔNG nên dùng K8s
+- ❌ Team <5 dev, <10 service → ECS/Cloud Run/Heroku đủ.
+- ❌ Không có người chuyên ops K8s — chi phí học khoảng 6-12 tháng.
+- ❌ Workload thuần event-driven → Lambda đơn giản hơn nhiều.
+
+## Liên hệ bài tiếp theo
+Container chạy bên trong **VPC** — mạng ảo riêng có subnet, route, firewall. Bài tiếp sẽ đi sâu **VPC, Subnet & Routing** để hiểu cách container trong EKS giao tiếp an toàn với DB, Internet, và các service khác.`,
+        theoryEn: `**Containers** package app + dependencies into immutable images that run identically across dev laptops, staging servers, and production clusters. **Docker** is the dominant runtime; **Kubernetes** is the distributed OS that orchestrates thousands of containers. Together they reshaped software deployment in the past decade.
+
+## Containers vs VMs
+| Aspect | VM | Container |
+|--------|-----|-----------|
+| Boot | 30-120s | 0.5-2s |
+| Image | 1-10 GB | 50-500 MB |
+| Overhead | Full guest OS | Shared kernel only |
+| Density/host | 10-30 | 100-1000 |
+| Portability | OVF standard | OCI runs anywhere |
+
+VMs virtualize hardware (hypervisor); containers virtualize OS (shared kernel + namespaces + cgroups). Lighter but weaker isolation — use gVisor/Kata for untrusted code.
+
+## Docker layered architecture
+Dockerfiles build images as stacked, copy-on-write layers. Best practice: place rarely-changing items (deps) on top, app code on bottom — maximizes cache reuse.
+
+## Kubernetes core concepts
+- **Pod** — smallest scheduled unit; 1+ containers sharing network/storage; ephemeral.
+- **ReplicaSet** — keeps N pods running.
+- **Deployment** — manages ReplicaSets + rolling updates/rollback.
+- **Service** — stable endpoint (ClusterIP/NodePort/LoadBalancer).
+- **Ingress** — L7 HTTP routing (nginx, ALB Ingress, Traefik).
+- **ConfigMap / Secret** — externalize config & secrets.
+- **Namespace** — logical partitioning.
+- **PersistentVolume + PVC** — storage abstraction (EBS, EFS, S3 CSI).
+- **HPA** — autoscale pods on CPU/mem/custom metrics.
+- **DaemonSet** — one pod per node (log/monitor agents).
+- **StatefulSet** — stable identity + per-pod storage (DBs, Kafka).
+
+## Cluster Architecture
+Control plane: \`kube-apiserver\` (entry), \`etcd\` (state), scheduler, controller-manager. Each node: \`kubelet\` (manages local pods), \`kube-proxy\` (network), container runtime.
+
+## Managed Kubernetes
+| Service | Provider | Control plane | Notes |
+|---------|----------|---------------|-------|
+| **EKS** | AWS | $0.10/h | Tight IAM/ALB/VPC integration |
+| **AKS** | Azure | Free | Entra ID, free 99.95% SLA |
+| **GKE** | GCP | $0.10/h (Autopilot extra) | Autopilot ≈ serverless K8s |
+
+Beginner pick: **GKE Autopilot**. AWS shop: **EKS + Fargate**. MS shop: **AKS**.
+
+## Case study: Spotify
+Migrated from Helios to Kubernetes 2018-2020: 150+ GKE clusters, >10k nodes, >1.7M pods at peak, 1700+ microservices. Created Backstage developer portal (now CNCF standard). Each team deploys 100+ times/day independently.
+
+## Case study: Airbnb
+Runs 1000+ services on EKS + Envoy/Istio mesh handling 100k+ RPS with auto mTLS, retries, circuit breakers. Tradeoff: ops complexity + 1-2 ms per hop.
+
+## Decision matrix
+| Workload | Pick |
+|----------|------|
+| Webhooks, short bursts | Lambda/Cloud Functions |
+| Steady microservice HTTP | Container (ECS/EKS/Cloud Run) |
+| Long-running workers | Container |
+| Stateful DB/cache | Managed service or StatefulSet |
+| Legacy needing full OS/Windows | VM |
+| Steady high 24/7 | VM + Reserved/Savings Plan |
+| Multi-cloud portability | K8s |
+
+## Best Practices
+- ✅ Small images (slim/alpine, multi-stage), non-root user.
+- ✅ Liveness, readiness, startup probes.
+- ✅ Resource requests + limits (avoid noisy neighbor + OOMKill).
+- ✅ PodDisruptionBudget + anti-affinity.
+- ✅ Default-deny NetworkPolicy (Calico/Cilium).
+- ✅ GitOps (ArgoCD/Flux): cluster state = git repo.
+- ✅ Image signing (cosign) + scanning (Trivy) in CI.
+
+## Common Pitfalls
+- ❌ No resource limits → one pod kills node.
+- ❌ Storing state on container fs (lost on restart).
+- ❌ \`:latest\` tag → not reproducible; pin SHA/semver.
+- ❌ One pod per node — wastes K8s bin-packing.
+- ❌ Logs to file inside container — log to stdout instead.
+- ❌ Wide cluster-admin RBAC.
+- ❌ Autoscaling without PodDisruptionBudget.
+
+## When NOT to use K8s
+- ❌ <5 devs, <10 services → ECS/Cloud Run/Heroku is enough.
+- ❌ No K8s ops expertise — 6-12 month learning curve.
+- ❌ Pure event-driven workloads → Lambda is simpler.
+
+## Bridge to next lesson
+Containers run inside a **VPC** — your private virtual network with subnets, routing, firewall. Next we dive into **VPC, Subnets & Routing** to see how EKS pods talk to DBs, Internet, and other services securely.`,
         code: `# Dockerfile cho web app Python
 # FROM python:3.11-slim
 # WORKDIR /app
@@ -867,39 +1159,175 @@ print(manifest)`,
         titleEn: "VPC, Subnets, and Routing",
         level: 3,
         difficulty: "intermediate",
-        theory: `**VPC (Virtual Private Cloud)** là mạng ảo riêng của bạn trong cloud, cách ly logic với các khách hàng khác.
+        theory: `**VPC (Virtual Private Cloud)** là mạng ảo cô lập của bạn trong cloud — giống như có một data center riêng nhưng được hạ tầng hyperscaler quản lý. Mọi tài nguyên cloud (EC2, RDS, EKS, Lambda) đều "sống" bên trong một VPC nào đó. Hiểu VPC là điều kiện bắt buộc để build hệ thống cloud an toàn và hiệu năng cao.
 
-**Cấu trúc VPC điển hình:**
-- **CIDR block** — dải IP của VPC, ví dụ \`10.0.0.0/16\` (65,536 IP).
-- **Subnet** — chia VPC thành các vùng nhỏ, mỗi subnet thuộc 1 AZ.
-  - **Public subnet**: có route ra Internet Gateway → VM có public IP.
-  - **Private subnet**: chỉ ra Internet qua **NAT Gateway** → bảo mật cao hơn.
-- **Route Table** — quy tắc định tuyến cho mỗi subnet.
-- **Internet Gateway (IGW)** — cổng ra Internet cho public subnet.
-- **NAT Gateway** — cho phép private subnet ra Internet (outbound only).
-- **Security Group** — firewall **stateful** ở cấp instance (mặc định deny inbound).
-- **NACL** — firewall **stateless** ở cấp subnet (rule-based).
+## Vì sao cần VPC?
+Trước khi có VPC (AWS giới thiệu 2009, EC2-Classic là tiền thân), mọi EC2 chia chung 1 mạng phẳng — không kiểm soát được ai thấy ai. VPC giải quyết:
+- **Cô lập logic**: tài nguyên của bạn không thấy được tài nguyên khách hàng khác.
+- **Định tuyến tùy biến**: tự quyết route, NAT, peering.
+- **Bảo mật phân lớp**: SG (instance), NACL (subnet), endpoint, WAF.
+- **Hybrid**: kết nối trực tiếp với on-prem qua VPN/Direct Connect.
 
-**Best practice 3-tier architecture:**
-- Public subnet: ALB (Application Load Balancer), Bastion host.
-- Private subnet (app): EC2/EKS chạy backend.
-- Private subnet (data): RDS, ElastiCache.
+## Khái niệm cốt lõi
+- **CIDR block** — dải IP của VPC, ví dụ \`10.0.0.0/16\` cho 65,536 địa chỉ. Chọn dải **không đụng** với on-prem hoặc các VPC khác (chuẩn RFC1918: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16).
+- **Subnet** — chia VPC thành nhiều vùng nhỏ; mỗi subnet **thuộc đúng 1 AZ** (không trải qua AZ).
+  - **Public subnet**: route table có \`0.0.0.0/0 → IGW\`; instance có Public IP → ra Internet.
+  - **Private subnet**: không có route trực tiếp ra IGW; muốn ra Internet phải đi qua **NAT Gateway** trong public subnet (outbound only).
+  - **Isolated subnet**: không ra Internet được — dùng cho DB nhạy cảm.
+- **Route Table** — quy tắc \`destination → target\`; mỗi subnet gắn 1 route table.
+- **Internet Gateway (IGW)** — cổng ra Internet; gắn 1 IGW per VPC.
+- **NAT Gateway** — managed NAT, chịu chi phí ~$0.045/giờ + $0.045/GB ra. (Anti-pattern lớn về cost!)
+- **VPC Endpoint** — kết nối riêng tới dịch vụ AWS (S3, DynamoDB) **không qua Internet** → tiết kiệm cost & tăng bảo mật.
+- **Security Group (SG)** — firewall **stateful** ở cấp instance/ENI. Mặc định deny inbound, allow outbound. Return traffic tự allow.
+- **NACL (Network ACL)** — firewall **stateless** ở cấp subnet, có rule Allow + Deny đánh số thứ tự. Phải allow cả 2 chiều.
 
-**Kết nối hybrid:** VPN, Direct Connect, VPC Peering, Transit Gateway.`,
-        theoryEn: `**VPC** is your isolated virtual network in the cloud.
+## So sánh Security Group vs NACL
+| Đặc điểm | Security Group | NACL |
+|----------|----------------|------|
+| Cấp độ | Instance/ENI | Subnet |
+| Stateful | ✅ Có | ❌ Không |
+| Rule | Chỉ Allow | Allow + Deny |
+| Đánh giá rule | All rules | Theo thứ tự (lowest first) |
+| Mặc định | Deny inbound | Allow tất cả |
+| Use case chính | Kiểm soát app-level | Bóc lớp bảo mật subnet |
 
-**Components:**
-- **CIDR block**: IP range like \`10.0.0.0/16\`.
-- **Subnet**: divides VPC; each in 1 AZ. Public (with IGW route), Private (with NAT Gateway).
-- **Route Table**: routing rules.
-- **IGW**: Internet entrance for public subnets.
-- **NAT Gateway**: outbound-only Internet for private subnets.
-- **Security Group**: stateful firewall at instance level.
-- **NACL**: stateless firewall at subnet level.
+Best practice: dùng SG là tuyến phòng thủ chính; NACL chỉ để chặn rộng (block IP độc, chặn cả subnet).
 
-**3-tier architecture:** ALB in public, app in private, DB in private DB subnet.
+## Sơ đồ kiến trúc 3-tier chuẩn
+\`\`\`
+                    ┌─────────────┐
+Internet ───► IGW ─►│   Public    │  ALB, Bastion, NAT Gateway
+                    │   Subnet    │  (10.0.1.0/24, 10.0.2.0/24)
+                    └──────┬──────┘
+                           │
+                    ┌──────▼──────┐
+                    │   Private   │  EC2/ECS/EKS app servers
+                    │  App Subnet │  (10.0.11.0/24, 10.0.12.0/24)
+                    └──────┬──────┘
+                           │
+                    ┌──────▼──────┐
+                    │   Private   │  RDS, ElastiCache (no Internet)
+                    │  DB Subnet  │  (10.0.21.0/24, 10.0.22.0/24)
+                    └─────────────┘
+\`\`\`
+**2 AZ tối thiểu** cho mỗi tier để chịu lỗi 1 AZ.
 
-**Hybrid connectivity:** VPN, Direct Connect, VPC Peering, Transit Gateway.`,
+## Hybrid & Multi-VPC connectivity
+| Cách kết nối | Băng thông | Latency | Use case |
+|--------------|------------|---------|----------|
+| **VPN site-to-site** | <1.25 Gbps | ~Internet | Backup link, dev/test |
+| **Direct Connect** | 1-100 Gbps | <2 ms | Production hybrid, low latency |
+| **VPC Peering** | Full speed | <1 ms | 2 VPC kết nối trực tiếp (không transitive) |
+| **Transit Gateway** | 50 Gbps/attachment | <1 ms | Hub-and-spoke nhiều VPC + on-prem |
+| **PrivateLink** | Service-specific | <1 ms | Expose 1 dịch vụ ra VPC khác |
+
+## Case study: Capital One — VPC làm tường bảo mật fintech
+Capital One chia hạ tầng thành **>200 VPC** theo team/môi trường, kết nối qua Transit Gateway. Mỗi VPC có chính sách bảo mật riêng + audit độc lập. Sau sự cố 2019 (lộ data S3), họ tăng cường VPC Endpoint cho S3 — mọi traffic giờ đi nội bộ AWS network thay vì Internet.
+
+## Case study: Stripe — chiến lược latency
+Stripe là payment processor, phải xử lý webhook <100 ms toàn cầu. Họ:
+- Triển khai 1 VPC mỗi region với cùng CIDR scheme.
+- Dùng PrivateLink cho merchant trong cùng region → bypass Internet.
+- VPC Flow Log → S3 → Athena để forensic mọi packet bất thường.
+
+## Best Practices
+- ✅ **Dải CIDR đủ lớn** (\`/16\`) — khó mở rộng sau này. Tránh \`/24\` nhỏ.
+- ✅ **Tách CIDR** giữa các VPC — cần peering không đụng dải.
+- ✅ **2-3 AZ tối thiểu** cho HA.
+- ✅ **VPC Flow Log** bật mặc định (gửi vào S3/CloudWatch) — debug + security.
+- ✅ **VPC Endpoint cho S3, DynamoDB** — miễn phí Gateway endpoint, tiết kiệm hàng nghìn USD/tháng NAT egress.
+- ✅ **Tags chuẩn**: Environment, Owner, CostCenter cho mọi subnet/SG.
+- ✅ **SG reference SG khác** thay vì hardcode IP — co giãn theo ASG.
+- ✅ **Default SG trống** — buộc team tạo SG riêng có ý đồ rõ ràng.
+
+## Common Pitfalls
+- ❌ **NAT Gateway runaway cost** — 1 NAT = $32/tháng + data; 1 app sai bug spam call ra ngoài có thể đốt $10k/tháng.
+- ❌ **Subnet quá nhỏ** (\`/28\` chỉ có 11 IP) → ASG scale up bị fail.
+- ❌ **SG mở 0.0.0.0/0 cho 22/3389** — top vector tấn công.
+- ❌ **CIDR overlap** giữa VPC → không peering được.
+- ❌ **1 NAT Gateway / 1 AZ** → AZ chết là cả 1 AZ private mất Internet. Triển khai NAT mỗi AZ.
+- ❌ **Không dùng VPC Endpoint cho S3** → traffic ra Internet rồi vòng lại, tốn cost & latency.
+
+## Khi cần Multi-VPC?
+- Tách prod/staging/dev (blast radius).
+- Tách team/business unit (billing, compliance).
+- Gộp sau M&A (peering hoặc TGW).
+- Compliance vùng (PCI-DSS, HIPAA cô lập).
+
+## Liên hệ bài tiếp theo
+VPC quyết định **WHO có thể kết nối tới WHAT qua đường nào**. Bài tiếp **IAM** sẽ trả lời câu hỏi sâu hơn: **WHO được phép làm GÌ trên TÀI NGUYÊN nào** — tầng kiểm soát identity & permission của cloud.`,
+        theoryEn: `**VPC (Virtual Private Cloud)** is your isolated virtual network in the cloud — like a private data center managed by the hyperscaler. Every cloud resource lives inside some VPC. Mastering VPC is mandatory for safe, performant cloud systems.
+
+## Why VPC?
+Before VPC (AWS introduced it 2009; EC2-Classic predecessor), all EC2s shared one flat network with no isolation. VPC delivers logical isolation, custom routing, layered security (SG, NACL, endpoint, WAF), and hybrid connectivity to on-prem.
+
+## Core Concepts
+- **CIDR block** — VPC IP range (\`10.0.0.0/16\` = 65,536 IPs). Pick a range that doesn't collide with on-prem or other VPCs (RFC1918: 10/8, 172.16/12, 192.168/16).
+- **Subnet** — divides VPC; **belongs to exactly 1 AZ**.
+  - **Public**: route \`0.0.0.0/0 → IGW\`; instances have public IP.
+  - **Private**: no direct IGW route; uses NAT Gateway in public subnet for outbound only.
+  - **Isolated**: no Internet at all — for sensitive DBs.
+- **Route Table** — \`destination → target\` rules; one per subnet.
+- **Internet Gateway (IGW)** — Internet entry point; one per VPC.
+- **NAT Gateway** — managed NAT, ~$0.045/h + $0.045/GB out. Big cost trap!
+- **VPC Endpoint** — private connection to AWS services (S3, DynamoDB) bypassing Internet.
+- **Security Group (SG)** — stateful firewall at instance/ENI; default deny inbound, allow outbound.
+- **NACL** — stateless firewall at subnet; has Allow + Deny ordered rules; must allow both directions.
+
+## SG vs NACL
+| Aspect | SG | NACL |
+|--------|-----|------|
+| Level | Instance/ENI | Subnet |
+| Stateful | ✅ | ❌ |
+| Rule types | Allow only | Allow + Deny |
+| Evaluation | All rules | Ordered (lowest first) |
+| Default | Deny in | Allow all |
+
+Use SG as primary defense; NACL for broad blocks (bad IPs, whole subnets).
+
+## 3-tier reference architecture
+- Public subnet (2 AZ): ALB, Bastion, NAT Gateway.
+- Private app subnet (2 AZ): EC2/ECS/EKS app servers.
+- Private DB subnet (2 AZ): RDS, ElastiCache, no Internet.
+
+## Hybrid & multi-VPC
+| Method | Bandwidth | Latency | Use |
+|--------|-----------|---------|-----|
+| VPN | <1.25 Gbps | ~Internet | Backup, dev |
+| Direct Connect | 1-100 Gbps | <2 ms | Prod hybrid |
+| VPC Peering | Full | <1 ms | Two VPCs (non-transitive) |
+| Transit Gateway | 50 Gbps | <1 ms | Hub-and-spoke many VPCs |
+| PrivateLink | Service-specific | <1 ms | Expose one service across VPCs |
+
+## Case study: Capital One
+200+ VPCs split by team/env, connected via Transit Gateway. Each VPC has independent security policy + audit. After 2019 S3 leak they enforced VPC Endpoints for S3 — all traffic now stays inside AWS network.
+
+## Case study: Stripe
+Payment webhooks <100 ms globally. One VPC per region with consistent CIDR scheme; PrivateLink for in-region merchants bypassing Internet; VPC Flow Logs → S3 → Athena for forensics.
+
+## Best Practices
+- ✅ Big CIDR (/16); tough to expand later.
+- ✅ Non-overlapping CIDRs across VPCs (peering needs it).
+- ✅ Min 2-3 AZs.
+- ✅ Enable VPC Flow Logs by default.
+- ✅ S3 + DynamoDB Gateway endpoints — free, save thousands in NAT egress.
+- ✅ Tag everything (Env, Owner, CostCenter).
+- ✅ Reference other SGs in rules instead of hardcoded IPs.
+- ✅ Keep default SG empty — force teams to create intentional SGs.
+
+## Common Pitfalls
+- ❌ NAT Gateway runaway cost (one bug looping out → $10k/month).
+- ❌ Tiny subnets (/28 = 11 usable IPs) breaking ASG.
+- ❌ SG opening 22/3389 to 0.0.0.0/0.
+- ❌ Overlapping CIDRs blocking future peering.
+- ❌ Single NAT for all AZs — AZ outage breaks Internet for all private subnets.
+- ❌ No VPC Endpoint for S3 → traffic goes out and back, costs & latency.
+
+## When multi-VPC?
+Prod/staging/dev separation; team/BU isolation; M&A merges; compliance regions (PCI/HIPAA).
+
+## Bridge to next lesson
+VPC controls **who can connect where**. Next: **IAM** — who can do **what** on which **resource** — the identity & permission layer of the cloud.`,
         code: `# Tạo VPC + 2 subnet (1 public + 1 private) bằng boto3
 import boto3
 ec2 = boto3.client("ec2")
@@ -937,45 +1365,186 @@ print(f"VPC {vpc_id} ready: public={public['Subnet']['SubnetId']}, private={priv
         titleEn: "IAM: Identity & Access Management",
         level: 3,
         difficulty: "intermediate",
-        theory: `**IAM** quản lý **AI** được làm **GÌ** với **TÀI NGUYÊN** nào, **KHI NÀO**, **TỪ ĐÂU**. Đây là dịch vụ bảo mật quan trọng nhất cloud.
+        theory: `**IAM (Identity & Access Management)** trả lời 5 câu hỏi cốt lõi: **AI** (identity), được làm **GÌ** (action), với **TÀI NGUYÊN** nào (resource), **KHI NÀO** + **TỪ ĐÂU** (condition). Đây là dịch vụ **bảo mật quan trọng nhất** trong cloud — sai IAM = lộ data, mất tiền, hỏng compliance.
 
-**4 thực thể chính:**
-- **User**: con người hoặc service account, có credential (password, access key).
-- **Group**: nhóm user, gán policy chung.
-- **Role**: identity tạm thời, được "assume" bởi user/service. Best practice cho EC2/Lambda.
-- **Policy**: tài liệu JSON định nghĩa quyền (Allow/Deny + Action + Resource).
+## Vì sao IAM là "first line of defense"?
+Theo báo cáo Gartner, **>75% sự cố bảo mật cloud do cấu hình IAM sai** (key bị rò trên GitHub, role rộng, không bật MFA…). Vd: vụ Capital One 2019 mất 100M record vì 1 IAM role có \`s3:ListBucket\` quá rộng. Vụ Uber 2016 mất data 57M user vì AWS access key commit lên GitHub. **Hiểu IAM = giảm 75% rủi ro.**
 
-**Cấu trúc IAM Policy:**
+## Bốn thực thể cốt lõi
+| Thực thể | Định nghĩa | Khi nào dùng |
+|----------|-----------|--------------|
+| **User** | Identity dài hạn cho người/service account | Người dev login console, app legacy không thể assume role |
+| **Group** | Tập hợp user, gán policy chung | Quản lý theo team (Devs, Admins, ReadOnly) |
+| **Role** | Identity tạm thời, được "assume" → cấp credential ngắn hạn | EC2/Lambda/EKS, cross-account, federated SSO |
+| **Policy** | JSON định nghĩa quyền (Allow/Deny + Action + Resource + Condition) | Gắn vào User/Group/Role |
+
+**Quy tắc vàng**: ưu tiên **Role > User** mọi lúc có thể, vì:
+- Credential ngắn hạn (15 phút – 12 giờ), tự xoay.
+- Không cần lưu access key vào file/biến môi trường.
+- Audit dễ qua CloudTrail.
+
+## Cấu trúc IAM Policy
 \`\`\`json
 {
   "Version": "2012-10-17",
   "Statement": [{
+    "Sid": "AllowS3FromOffice",
     "Effect": "Allow",
-    "Action": ["s3:GetObject"],
-    "Resource": "arn:aws:s3:::my-bucket/*",
+    "Action": ["s3:GetObject", "s3:PutObject"],
+    "Resource": "arn:aws:s3:::myapp-data/*",
     "Condition": {
-      "IpAddress": {"aws:SourceIp": "203.0.113.0/24"}
+      "IpAddress": {"aws:SourceIp": "203.0.113.0/24"},
+      "Bool": {"aws:MultiFactorAuthPresent": "true"}
     }
   }]
 }
 \`\`\`
+- **Effect**: Allow / Deny (Deny luôn thắng).
+- **Action**: theo định dạng \`service:operation\` (\`s3:GetObject\`, \`ec2:RunInstances\`); hỗ trợ wildcard \`s3:Get*\`.
+- **Resource**: ARN — \`arn:aws:s3:::bucket/*\` (lưu ý 2 wildcard khác nhau: \`*\` = mọi ký tự, \`?\` = 1 ký tự).
+- **Condition**: bộ lọc — IP, MFA, thời gian, tag, user-agent…
 
-**Nguyên tắc vàng — Least Privilege:** chỉ cấp quyền tối thiểu cần thiết.
+## Cơ chế đánh giá quyền
+Khi 1 request đến AWS, IAM duyệt theo thứ tự:
+1. **Explicit Deny** ở bất kỳ policy → DENY ngay.
+2. **Explicit Allow** ở ít nhất 1 policy → cần kiểm tra tiếp.
+3. **Service Control Policy (SCP)** ở Organizations → nếu chặn → DENY.
+4. **Resource policy** (vd bucket policy) → có thể grant cross-account.
+5. **Permission boundary** (giới hạn tối đa của role).
+6. **Session policy** (khi assume role) — thu hẹp thêm.
+7. Nếu không có Allow nào rõ ràng → **implicit DENY**.
 
-**Best practices:**
-- ❌ Không dùng root account cho công việc hằng ngày.
-- ✅ Bật **MFA** cho mọi user.
-- ✅ Dùng **Role** cho EC2/Lambda thay vì hardcode access key.
-- ✅ Rotate access key định kỳ (90 ngày).
-- ✅ Dùng **AWS Organizations + SCP** cho multi-account.
-- ✅ Audit bằng **CloudTrail** + **IAM Access Analyzer**.`,
-        theoryEn: `**IAM** controls WHO can do WHAT on WHICH resource, WHEN, and FROM WHERE.
+## Các loại Policy
+| Loại | Phạm vi | Use case |
+|------|---------|----------|
+| **AWS Managed** | AWS soạn (\`AmazonS3ReadOnlyAccess\`) | Khởi đầu nhanh |
+| **Customer Managed** | Bạn soạn, tái dùng | Chuẩn nội bộ |
+| **Inline** | Gắn cứng 1 entity | Quyền one-off |
+| **Resource policy** | Trên resource (bucket policy, KMS key policy) | Cross-account access |
+| **SCP** | Org-wide guardrail | Chặn region, dịch vụ ở account |
+| **Permission Boundary** | Trần quyền tối đa | Cho dev tự tạo role nhưng không vượt giới hạn |
+| **Session Policy** | Khi STS AssumeRole | Cấp credential thu hẹp tạm thời |
 
-**4 entities:** User, Group, Role, Policy (JSON Allow/Deny + Action + Resource + Condition).
+## Case study: Capital One 2019 — bài học $300 triệu
+- Lỗi: IAM Role gắn cho WAF có quyền \`s3:ListBucket\` + \`s3:GetObject\` quá rộng.
+- Tấn công SSRF khai thác → đọc credential → liệt kê & tải bucket.
+- Mất 100M record cá nhân, phạt **$80M** + tổn thất ~$300M.
+- **Bài học**: least privilege + Permission Boundary + Block Public Access mặc định.
 
-**Least Privilege**: grant only minimum needed permissions.
+## Case study: Uber 2016 — access key trên GitHub
+- Dev commit AWS access key vào private GitHub repo.
+- Hacker tìm được, dùng key tải data 57M user + 600k driver.
+- Uber giấu, trả $100k "bug bounty" — bị phạt $148M năm 2018.
+- **Bài học**: dùng **OIDC** (GitHub Actions assume role không cần key), bật **GitGuardian/AWS Access Analyzer** scan, **Secrets Manager** thay vì env var.
 
-**Best practices:** no root for daily work, enable MFA, use Roles for EC2/Lambda, rotate keys every 90 days, AWS Organizations + SCP, audit with CloudTrail + IAM Access Analyzer.`,
+## Cross-account access đúng cách
+Thay vì share user/key, dùng **AssumeRole**:
+\`\`\`
+Account A (Trust)            Account B (Caller)
+┌─────────────┐              ┌──────────────┐
+│ Role MyRole │◄── trust ────│ User devops  │
+│  Trust:     │              │              │
+│  acct-B     │              │  sts:Assume  │
+└─────────────┘              │  Role        │
+       ▲                     └──────┬───────┘
+       │ assume                     │
+       └────── temp credential ◄────┘
+\`\`\`
+**External ID** dùng cho 3rd-party SaaS (Datadog, Snyk) để chống "confused deputy attack".
+
+## Best Practices (checklist 12 điểm)
+- ✅ **Khóa root account**: bật MFA hardware, không tạo access key, chỉ dùng cho billing/account closure.
+- ✅ **MFA bắt buộc** cho mọi human user (\`Condition: aws:MultiFactorAuthPresent\`).
+- ✅ **Dùng Role** cho EC2/Lambda/EKS — không hardcode key.
+- ✅ **AWS SSO/IAM Identity Center** cho SSO doanh nghiệp; tránh tạo IAM User cho từng nhân viên.
+- ✅ **Permission Boundary** cho team tự service mới mà không vượt trần.
+- ✅ **SCP** ở Organizations chặn region không cho phép, chặn dịch vụ nguy hiểm.
+- ✅ **Access Analyzer** chạy hàng tuần — tự tìm policy public/cross-account thừa.
+- ✅ **CloudTrail** bật mọi region, log vào S3 immutable bucket có Object Lock.
+- ✅ **Rotate access key 90 ngày** (nếu buộc phải dùng); ưu tiên xóa hẳn.
+- ✅ **Tag-based access control** (ABAC): policy dùng \`aws:ResourceTag\` thay vì list cứng resource.
+- ✅ **Secrets Manager / Parameter Store** thay vì env var cho DB password, API key.
+- ✅ **Test policy với IAM Policy Simulator** trước khi apply.
+
+## Common Pitfalls
+- ❌ **\`Action: "*"\` + \`Resource: "*"\`** trong policy production.
+- ❌ **AdministratorAccess gắn cho user thường** "cho nhanh".
+- ❌ **Access key cá nhân trong code/Slack/Notion**.
+- ❌ **Trust policy quá rộng** (\`Principal: "*"\`).
+- ❌ **Không bật CloudTrail** → không có audit khi có sự cố.
+- ❌ **MFA chỉ bật cho admin** — mọi user nên bật.
+- ❌ **IAM User cho mỗi nhân viên** thay vì federated SSO → khó offboard.
+
+## Khi NÀO dùng User vs Role?
+- ✅ User: legacy app không assume role được; CLI cá nhân (nên kết hợp aws-vault).
+- ✅ Role: 99% case khác — service-to-service, cross-account, federated SSO, GitHub Actions OIDC.
+
+## Liên hệ bài tiếp theo
+IAM kiểm soát "ai làm gì". Tầng kế tiếp là **bảo vệ DỮ LIỆU** — bài tiếp **Shared Responsibility & Encryption** sẽ học cách mã hóa at-rest (KMS) + in-transit (TLS) và phân chia trách nhiệm với cloud provider.`,
+        theoryEn: `**IAM (Identity & Access Management)** answers 5 questions: **WHO** (identity) can do **WHAT** (action) on **WHICH** resource, **WHEN** + **FROM WHERE** (condition). It is the most important security service in the cloud — IAM mistakes = data leaks, financial loss, compliance failure.
+
+## Why IAM is the first line of defense
+Per Gartner, **>75% of cloud security incidents are caused by IAM misconfiguration** (leaked keys on GitHub, overly broad roles, no MFA, etc.). Capital One 2019 lost 100M records due to one IAM role with overly broad \`s3:ListBucket\`. Uber 2016 lost 57M users via an AWS access key committed to GitHub. **Mastering IAM cuts ~75% of risk.**
+
+## Four core entities
+| Entity | Definition | Use case |
+|--------|------------|----------|
+| **User** | Long-term identity for human/service account | Console login, legacy apps that can't assume roles |
+| **Group** | Set of users with shared policies | Team-based management |
+| **Role** | Temporary identity that is "assumed" → short-lived credentials | EC2/Lambda/EKS, cross-account, federated SSO |
+| **Policy** | JSON defining permissions (Allow/Deny + Action + Resource + Condition) | Attach to User/Group/Role |
+
+**Golden rule**: prefer **Role > User** wherever possible.
+
+## Policy structure (Effect, Action, Resource, Condition)
+- Effect: Allow / Deny (Deny always wins).
+- Action: \`service:operation\` (\`s3:GetObject\`); supports wildcards.
+- Resource: ARN with wildcards.
+- Condition: filters — IP, MFA, time, tag, user-agent.
+
+## Evaluation order
+Explicit Deny → Explicit Allow → SCP → Resource policy → Permission boundary → Session policy → implicit DENY if no Allow.
+
+## Policy types
+AWS Managed, Customer Managed, Inline, Resource policy, SCP, Permission Boundary, Session Policy.
+
+## Case study: Capital One 2019 ($300M lesson)
+WAF role had over-broad \`s3:ListBucket\` + \`s3:GetObject\`. SSRF exploit read credentials, listed and downloaded buckets — 100M records lost, $80M fine, ~$300M total. Lesson: least privilege + Permission Boundary + default Block Public Access.
+
+## Case study: Uber 2016 (key on GitHub)
+Dev committed AWS access key to private GitHub repo. Hackers found it, downloaded 57M users + 600k drivers. Uber hid it, paid $100k "bug bounty", got fined $148M in 2018. Lesson: use **OIDC** (GitHub Actions assume role without keys), enable secret scanners, use **Secrets Manager**.
+
+## Cross-account: AssumeRole + ExternalId
+Use Role with trust policy + STS AssumeRole; ExternalId protects against the "confused deputy" problem with 3rd-party SaaS.
+
+## Best Practices (12-point checklist)
+- ✅ Lock root: hardware MFA, no access keys, only for billing/account closure.
+- ✅ Mandatory MFA for humans.
+- ✅ Roles for EC2/Lambda/EKS — no hardcoded keys.
+- ✅ AWS SSO/IAM Identity Center for enterprise SSO.
+- ✅ Permission Boundary for self-service teams.
+- ✅ SCPs in Organizations to block dangerous regions/services.
+- ✅ Run Access Analyzer weekly.
+- ✅ CloudTrail in all regions → immutable S3 with Object Lock.
+- ✅ Rotate access keys 90 days (if you must use them).
+- ✅ Tag-based access control (ABAC).
+- ✅ Secrets Manager / Parameter Store for secrets.
+- ✅ Test policies with IAM Policy Simulator first.
+
+## Common Pitfalls
+- ❌ \`Action: "*"\` + \`Resource: "*"\` in production.
+- ❌ AdministratorAccess on regular users.
+- ❌ Personal access keys in code/Slack/Notion.
+- ❌ \`Principal: "*"\` in trust policies.
+- ❌ CloudTrail off — no audit trail.
+- ❌ MFA only for admins.
+- ❌ IAM Users instead of federated SSO — offboarding nightmare.
+
+## User vs Role decision
+User: legacy apps, individual CLI (use aws-vault). Role: 99% of other cases.
+
+## Bridge to next lesson
+IAM controls "who does what". Next layer protects **DATA** — **Shared Responsibility & Encryption** covers at-rest (KMS) + in-transit (TLS) and how responsibility is split with the cloud provider.`,
         code: `# IAM Policy: cho phép Lambda đọc S3 bucket cụ thể + ghi CloudWatch Logs
 policy = {
   "Version": "2012-10-17",
@@ -1022,50 +1591,213 @@ print(json.dumps(policy, indent=2))
         titleEn: "Shared Responsibility & Encryption",
         level: 3,
         difficulty: "intermediate",
-        theory: `**Shared Responsibility Model** chia trách nhiệm bảo mật giữa **nhà cung cấp cloud (CSP)** và **khách hàng**.
+        theory: `**Shared Responsibility Model** là khế ước bảo mật giữa **cloud provider (CSP)** và **khách hàng** — định rõ ai phải làm gì để bảo vệ hệ thống. Hiểu sai mô hình này = top nguyên nhân lộ data trên cloud (Gartner: 99% sự cố cloud security đến năm 2025 sẽ là LỖI KHÁCH HÀNG, không phải lỗi CSP).
 
-**CSP chịu trách nhiệm "Security OF the Cloud":**
-- Hạ tầng vật lý (data center, server, network)
-- Hypervisor, mạng nội bộ
-- Tính sẵn sàng của các managed service
+## Nguyên lý "of vs in"
+- **CSP — Security OF the Cloud**: hạ tầng vật lý (data center, điện, làm mát, fiber), phần cứng (server, ổ đĩa, network), virtualization (hypervisor), tính sẵn sàng của managed service.
+- **Customer — Security IN the Cloud**: cấu hình bảo mật (IAM, SG, encryption setting), patch OS (với IaaS), bảo mật code, dữ liệu khách hàng, MFA cho user của bạn.
 
-**Khách hàng chịu trách nhiệm "Security IN the Cloud":**
-- OS patching (với IaaS)
-- Cấu hình firewall, IAM
-- **Mã hóa dữ liệu** at-rest và in-transit
-- App-level vulnerability
-- Quản lý user, password, MFA
+## Trách nhiệm thay đổi theo mô hình dịch vụ
+| Layer | On-prem | IaaS (EC2) | PaaS (RDS) | SaaS (S3) |
+|-------|---------|------------|------------|-----------|
+| Data | Bạn | Bạn | Bạn | Bạn |
+| Access control | Bạn | Bạn | Bạn | Bạn |
+| Application | Bạn | Bạn | Bạn | CSP |
+| OS / Runtime | Bạn | Bạn | CSP | CSP |
+| Virtualization | Bạn | CSP | CSP | CSP |
+| Hardware / Network | Bạn | CSP | CSP | CSP |
+| Physical DC | Bạn | CSP | CSP | CSP |
 
-**Mức độ trách nhiệm theo dịch vụ:**
-| Service | CSP lo | Khách hàng lo |
-|---------|--------|---------------|
-| IaaS (EC2) | hạ tầng + hypervisor | OS, app, data, IAM |
-| PaaS (RDS) | + OS + DB engine | data, access control |
-| SaaS (S3) | gần như tất cả | data + access control |
+**Quy luật quan trọng**: càng lên SaaS, CSP gánh càng nhiều — NHƯNG **dữ liệu + IAM luôn là của BẠN** dù dùng dịch vụ gì.
 
-**Encryption (mã hóa):**
-- **At-rest**: dữ liệu lưu trên disk → dùng **AWS KMS** quản lý key, S3/EBS/RDS hỗ trợ tự động.
-- **In-transit**: dữ liệu khi truyền → bắt buộc **TLS 1.2+**.
-- **Customer-managed key (CMK)** vs **AWS-managed key**: CMK có quyền xoay/audit/cấp quyền chi tiết hơn.
+## Encryption — 3 trạng thái dữ liệu
+**1. At-rest (lưu trên disk)**
+- S3, EBS, RDS, DynamoDB hỗ trợ mã hóa AES-256 tự động.
+- 3 cấp key:
+  - **SSE-S3**: AWS quản hoàn toàn — đơn giản, miễn phí.
+  - **SSE-KMS**: dùng KMS Customer Master Key — kiểm soát rotate, audit, cấp quyền chi tiết.
+  - **SSE-C**: bạn cung cấp key — AWS không lưu, mất key là mất data.
+- **DSSE-KMS** (dual-layer) cho data siêu nhạy cảm.
 
-**Best practices an toàn:**
-1. Bật encryption mặc định cho mọi bucket/disk/DB.
-2. Bắt buộc HTTPS/TLS cho mọi endpoint.
-3. Định kỳ scan vulnerability (Inspector, GuardDuty).
-4. Backup + test restore định kỳ.
-5. Bật **WAF + Shield** cho web app công khai.`,
-        theoryEn: `**Shared Responsibility Model** splits security between cloud provider (CSP) and customer.
+**2. In-transit (đang truyền)**
+- Bắt buộc **TLS 1.2+** (TLS 1.3 ưu tiên); TLS 1.0/1.1 đã deprecated.
+- ALB/CloudFront cấu hình **modern security policy**.
+- mTLS giữa microservice (service mesh: Istio, App Mesh).
 
-**CSP — Security OF the Cloud:** physical infra, hypervisor, network, managed service availability.
+**3. In-use (đang xử lý)**
+- **Confidential Computing**: AWS Nitro Enclaves, Azure Confidential VM, Google Confidential Computing — mã hóa cả khi data ở RAM/CPU.
+- Use case: xử lý PHI, key management, multi-party computation.
 
-**Customer — Security IN the Cloud:** OS patching (IaaS), firewall config, IAM, **data encryption**, app security, MFA.
+## AWS KMS — kiến trúc key management
+\`\`\`
+Application
+    │ encrypt(plaintext)
+    ▼
+Data Encryption Key (DEK)  ← sinh trong app, mã hóa data nhanh (AES-256)
+    │ encrypt(DEK)
+    ▼
+KMS Customer Master Key (CMK)  ← never leaves KMS HSM
+    │
+    ▼
+Mã hóa DEK → lưu cùng ciphertext
+\`\`\`
+**Envelope encryption**: data lớn dùng DEK (nhanh), DEK lại được CMK mã hóa (an toàn). KMS không bao giờ thấy plaintext data.
 
-**Encryption:**
-- **At-rest**: KMS-managed keys for S3/EBS/RDS.
-- **In-transit**: TLS 1.2+.
-- **CMK** vs AWS-managed key: CMK gives full control (rotation, audit, granular access).
+## CMK Key Policy — ai được dùng key?
+\`\`\`json
+{
+  "Sid": "Allow Lambda to decrypt",
+  "Effect": "Allow",
+  "Principal": {"AWS": "arn:aws:iam::123:role/lambda-app"},
+  "Action": ["kms:Decrypt", "kms:GenerateDataKey"],
+  "Resource": "*",
+  "Condition": {
+    "StringEquals": {"kms:EncryptionContext:purpose": "user-data"}
+  }
+}
+\`\`\`
+- **Encryption Context** — metadata gắn với mỗi lần encrypt; Decrypt phải đưa đúng context → chống "wrong-context decrypt".
+- **Automatic key rotation**: bật mỗi 1-3 năm; key cũ vẫn decrypt được data cũ.
 
-**Best practices:** default encryption everywhere, enforce HTTPS, scan with Inspector/GuardDuty, backup + test restore, WAF + Shield for public apps.`,
+## Defense-in-depth — bảo mật phân lớp
+\`\`\`
+┌─ Edge:    CloudFront + WAF + Shield (DDoS, OWASP)
+├─ Network: VPC + SG + NACL + Flow Logs
+├─ Identity: IAM + MFA + SSO + SCP
+├─ Data:    Encryption at-rest + in-transit + KMS
+├─ Audit:   CloudTrail + Config + GuardDuty + Security Hub
+└─ Backup:  Multi-region snapshot + immutable Object Lock
+\`\`\`
+Mỗi tầng độc lập — kẻ tấn công phá 1 lớp vẫn còn lớp khác.
+
+## Compliance frameworks tham chiếu
+| Framework | Áp dụng | AWS support |
+|-----------|---------|-------------|
+| **PCI-DSS** | Thẻ tín dụng | Audit Manager template |
+| **HIPAA** | Y tế Mỹ | BAA available |
+| **SOC 2 Type II** | SaaS B2B | AWS Artifact download |
+| **ISO 27001** | Quốc tế | Certified |
+| **GDPR** | Châu Âu | EU regions, DPA |
+| **FedRAMP** | Chính phủ Mỹ | GovCloud |
+
+## Case study: Capital One vs Code Spaces
+**Capital One 2019**: lộ S3 do IAM rộng + WAF SSRF → mất 100M record, phạt $80M. **Khôi phục được** vì có backup + audit rõ.
+
+**Code Spaces 2014** (đã phá sản): hacker chiếm AWS root account, không có MFA, xóa toàn bộ EC2 + S3 + backup trong cùng account. **6 tiếng** — công ty đóng cửa vĩnh viễn. Bài học cay đắng: backup phải ở **account khác** + Object Lock immutable.
+
+## Case study: Equifax 2017 — không patch
+- Apache Struts vuln CVE-2017-5638 phát hành tháng 3.
+- Equifax không patch trong 2 tháng → tháng 5 bị khai thác.
+- Mất **147M record** SSN, khoản phạt $1.4 tỷ USD.
+- Bài học: **patch management** thuộc về KHÁCH HÀNG (IaaS), không phải AWS.
+
+## Best Practices — security baseline
+- ✅ **Default encryption** mọi bucket/disk/DB (bật ở account level).
+- ✅ **TLS 1.2+ everywhere**; HSTS header.
+- ✅ **CMK với rotation** cho data nhạy cảm; **Encryption Context** ép đúng use case.
+- ✅ **Backup ở account/region khác** + **S3 Object Lock** chống xóa.
+- ✅ **CloudTrail multi-region** → S3 immutable bucket có Object Lock + MFA Delete.
+- ✅ **Security Hub + GuardDuty + Inspector + Macie** — bộ 4 bảo mật chuẩn.
+- ✅ **AWS Config** rule kiểm tra compliance liên tục.
+- ✅ **Patch management**: Systems Manager Patch Manager schedule weekly.
+- ✅ **Secrets Manager** auto-rotate DB password 30-90 ngày.
+- ✅ **WAF + Shield Advanced** cho web app công khai (DDoS L7).
+- ✅ **VPC Flow Log + DNS Log** để forensic.
+- ✅ **Tabletop exercise** mô phỏng incident hằng quý.
+
+## Common Pitfalls
+- ❌ **Tin "AWS lo hết"** — 99% sự cố là lỗi customer.
+- ❌ **Backup cùng account** → bị xóa cùng main data (Code Spaces).
+- ❌ **CMK không rotate** nhiều năm.
+- ❌ **TLS 1.0 vẫn bật** vì legacy client.
+- ❌ **Public S3 bucket** với data nhạy cảm.
+- ❌ **Không patch OS** trên EC2 → vuln tích lũy.
+- ❌ **Lưu secret trong env var** thay Secrets Manager.
+- ❌ **GuardDuty bật nhưng không ai xem alert**.
+- ❌ **Compliance "check the box"** — pass audit nhưng không thật sự an toàn.
+
+## Khi nào tăng cường thêm?
+- Fintech/Healthcare → Confidential Computing + DSSE-KMS + dedicated HSM.
+- Multi-region → cross-region replication + KMS multi-region keys.
+- M&A → tách account + SCP isolate trong 90 ngày đầu.
+
+## Liên hệ bài tiếp theo
+Bảo mật xong, tiếp đến **vận hành hiện đại** — bài kế **Lambda & API Gateway** mở chương Serverless & DevOps, học cách build app không cần quản server với chi phí pay-per-execution.`,
+        theoryEn: `**Shared Responsibility Model** is the security contract between **cloud provider (CSP)** and **customer**. Misunderstanding it is the #1 cause of cloud breaches (Gartner: 99% of cloud security incidents through 2025 will be customer fault, not CSP fault).
+
+## "of vs in" principle
+- **CSP — Security OF the Cloud**: physical DC, hardware, virtualization, managed service availability.
+- **Customer — Security IN the Cloud**: IAM, SG config, encryption settings, OS patching (IaaS), application security, data, MFA.
+
+## Responsibility shifts by service model
+| Layer | On-prem | IaaS | PaaS | SaaS |
+|-------|---------|------|------|------|
+| Data | You | You | You | You |
+| Access control | You | You | You | You |
+| Application | You | You | You | CSP |
+| OS / Runtime | You | You | CSP | CSP |
+| Virtualization | You | CSP | CSP | CSP |
+| Hardware / Network | You | CSP | CSP | CSP |
+| Physical DC | You | CSP | CSP | CSP |
+
+**Rule**: data + IAM are ALWAYS yours regardless of service.
+
+## Encryption — 3 data states
+**At-rest**: S3/EBS/RDS auto AES-256. SSE-S3 (AWS-managed), SSE-KMS (customer-managed key, audit + rotate), SSE-C (you supply key — lose it = lose data). DSSE-KMS for ultra-sensitive.
+
+**In-transit**: Mandatory TLS 1.2+, prefer 1.3. ALB/CloudFront on modern security policies. mTLS for microservices via service mesh.
+
+**In-use**: Confidential Computing (AWS Nitro Enclaves, Azure Confidential VM, GCP Confidential Computing) encrypts in RAM/CPU. Used for PHI, key management, MPC.
+
+## AWS KMS envelope encryption
+App generates a Data Encryption Key (DEK) for fast bulk encryption; KMS Customer Master Key (CMK) wraps the DEK. KMS HSM never sees plaintext.
+
+## CMK Key Policy + Encryption Context
+Encryption Context is metadata bound to each encrypt call; Decrypt must supply the same context — defends against wrong-context decryption. Enable automatic rotation every 1-3 years.
+
+## Defense-in-depth
+Edge (CloudFront + WAF + Shield) → Network (VPC + SG + NACL + Flow Logs) → Identity (IAM + MFA + SSO + SCP) → Data (encryption + KMS) → Audit (CloudTrail + Config + GuardDuty + Security Hub) → Backup (cross-region + Object Lock).
+
+## Compliance frameworks
+PCI-DSS, HIPAA (with BAA), SOC 2 Type II (via AWS Artifact), ISO 27001, GDPR (EU regions + DPA), FedRAMP (GovCloud).
+
+## Case study: Capital One vs Code Spaces
+**Capital One 2019**: 100M records lost, $80M fine — recovered thanks to backups + audit.
+**Code Spaces 2014**: hacker took root (no MFA), wiped EC2 + S3 + backups in same account. Company shut down in 6 hours. Lesson: backups in **separate account** + Object Lock.
+
+## Case study: Equifax 2017 (unpatched Struts)
+Apache Struts vuln released March; not patched in 2 months; exploited May. 147M SSN records lost, $1.4B in fines. Lesson: patch management belongs to the customer for IaaS.
+
+## Best Practices
+- ✅ Default encryption everywhere.
+- ✅ TLS 1.2+ + HSTS.
+- ✅ CMK with rotation + Encryption Context.
+- ✅ Cross-account/region backups + Object Lock.
+- ✅ Multi-region CloudTrail → immutable S3 with MFA Delete.
+- ✅ Security Hub + GuardDuty + Inspector + Macie quartet.
+- ✅ AWS Config continuous compliance.
+- ✅ Systems Manager Patch Manager weekly.
+- ✅ Secrets Manager auto-rotation 30-90 days.
+- ✅ WAF + Shield Advanced for public apps.
+- ✅ VPC Flow Logs + DNS Logs for forensics.
+- ✅ Quarterly incident tabletop exercises.
+
+## Common Pitfalls
+- ❌ Believing "AWS handles everything".
+- ❌ Backups in same account.
+- ❌ CMK never rotated.
+- ❌ TLS 1.0 still enabled.
+- ❌ Public S3 with sensitive data.
+- ❌ Unpatched OS on EC2.
+- ❌ Secrets in env vars instead of Secrets Manager.
+- ❌ GuardDuty alerts ignored.
+- ❌ Checkbox compliance.
+
+## When to escalate
+Fintech/healthcare → Confidential Computing + DSSE-KMS + dedicated HSM. Multi-region → CRR + multi-region KMS keys. M&A → account split + SCP isolation in first 90 days.
+
+## Bridge to next lesson
+With security covered, next is modern operations — **Lambda & API Gateway** opens the Serverless & DevOps chapter: build apps with no server management and pay-per-execution pricing.`,
         code: `# Bật encryption khi upload S3 + tạo CMK trong KMS
 import boto3
 kms = boto3.client("kms")
