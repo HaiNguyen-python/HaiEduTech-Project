@@ -38,6 +38,8 @@ const KnowledgeHubPage = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [advisorLoading, setAdvisorLoading] = useState(false);
   const [advisorData, setAdvisorData] = useState<AdvisorResponse | null>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const { profile, userId } = useStudentProfile();
 
   const handleAdvisorSubmit = async (input: AdvisorInput) => {
     setAdvisorLoading(true);
