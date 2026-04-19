@@ -596,7 +596,7 @@ This disaster is why Leaky ReLU became standard in CV pipelines from 2017 onward
 
 ## 📋 Decision Flowchart
 
-```
+\`\`\`
 What layer am I designing?
 ├── Hidden layer in CNN?           → ReLU (or Leaky ReLU)
 ├── Hidden layer in Transformer?   → GELU or SwiGLU
@@ -605,7 +605,7 @@ What layer am I designing?
 ├── Output for multi-class?        → Softmax
 ├── Output for regression?         → None (linear)
 └── GAN generator output?          → Tanh (matches [-1,1] image norm)
-```
+\`\`\`
 
 ---
 
