@@ -376,115 +376,77 @@ Logistic Regression chỉ vẽ được **đường thẳng** phân tách (linea
       {
         id: "ml-dt-1", title: "Decision Tree Classifier", titleEn: "Decision Tree Classifier",
         level: 2, difficulty: "intermediate",
-        theory: `Trò chơi **20 câu hỏi**: bạn nghĩ trong đầu một con vật, tôi đặt 20 câu yes/no để đoán. Người chơi giỏi luôn hỏi câu **chia đôi** không gian khả năng — *"sống ở nước?"* trước *"có vảy?"*. Đó **chính xác** là cách Decision Tree làm việc.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## 1. 🚦 Vấn đề đời thường
+Trò chơi **20 câu hỏi**: thầy nghĩ 1 con vật, các bạn hỏi câu yes/no — "có 4 chân không?", "có lông không?", "ăn thịt không?". Mỗi câu giúp loại bớt khả năng. Sau 5-10 câu là đoán ra.
 
-Ngân hàng MB cần quyết định cho vay mua xe. Nhân viên truyền thống dùng quy trình:
-- Lương > 30 triệu? → check tiếp.
-- Có nhà chưa? → check tiếp.
-- Lịch sử nợ? → quyết.
+**Decision Tree** chính là vậy: hỏi từng feature theo thứ tự "quan trọng nhất trước", chia data thành nhánh, tới khi mỗi lá đủ "thuần" (cùng nhãn).
 
-→ Đó là **một cây quyết định viết bằng tay**. Decision Tree là máy **tự học** ra cây này từ data lịch sử.
+## 2. 💡 Khái niệm chính
 
-## 2. 💡 Khái niệm chính: Decision Tree là gì?
+- **Node**: 1 câu hỏi (vd: "tuổi > 30?").
+- **Branch**: trả lời yes/no.
+- **Leaf**: dự đoán cuối.
+- **Gini / Entropy**: đo độ "loạn" — chọn split giảm loạn nhiều nhất.
+- **max_depth**: giới hạn độ sâu để tránh overfit.
 
-Mạng cây gồm:
-- **Root** — câu hỏi đầu tiên (chia đôi data).
-- **Internal node** — câu hỏi tiếp theo trên từng nhánh.
-- **Leaf** — quyết định cuối (class hoặc giá trị).
+## 3. 🧰 Thuật toán
 
-Ví dụ cây phê duyệt loan:
-\\\`\\\`\\\`
-                  Lương > 50tr?
-                 /            \\\\
-              Yes              No
-               |                |
-        Credit > 700?     Việc làm > 2 năm?
-         /        \\\\        /        \\\\
-      Approve   Review   Review    Reject
-\\\`\\\`\\\`
+1. Tại mỗi node, thử mọi feature × ngưỡng.
+2. Tính Gini/Entropy giảm sau split.
+3. Chọn split tốt nhất → tách 2 nhánh.
+4. Lặp tới khi: depth = max, samples < min_samples_split, hoặc lá thuần.
 
-→ Mạnh: **đọc được** — bạn chỉ tay vào tree giải thích cho khách "vì lương < 50tr nên bị từ chối". Logistic regression không làm được điều này.
-
-## 3. 📏 Cây học bằng gì? — Splitting Criteria
-
-Tại mỗi node, thuật toán hỏi: *"feature nào + threshold nào chia data tốt nhất?"*
-
-**Gini Impurity** — đo độ "trộn lẫn" của node:
-\\\`G = 1 - Σ(pᵢ²)\\\`
-- G = 0 → pure (mọi sample cùng class).
-- G = 0.5 → trộn đều (50/50 với binary).
-- Mặc định của scikit-learn.
-
-**Ví dụ**: node 70 dương / 30 âm:
-\\\`G = 1 - (0.7² + 0.3²) = 1 - 0.58 = 0.42\\\`
-
-**Entropy** — độ bất định:
-\\\`H = -Σ(pᵢ × log₂(pᵢ))\\\`
-
-**Information Gain** — chọn split khiến impurity **giảm nhiều nhất**:
-\\\`IG = H(parent) - Σ(|childᵢ|/|parent| × H(childᵢ))\\\`
-
-→ Thuật toán **thử mọi feature × threshold**, chọn cái có IG cao nhất.
-
-## 4. 🎛️ Hyperparameter quan trọng
-
-| Param | Tác dụng | Range thường |
-|-------|----------|--------------|
-| \\\`max_depth\\\` | Sâu tối đa của cây | 3–20 |
-| \\\`min_samples_split\\\` | Min sample để tách node | 2–20 |
-| \\\`min_samples_leaf\\\` | Min sample ở leaf | 1–10 |
-| \\\`max_features\\\` | Số feature xét mỗi split | "sqrt", "log2" |
-| \\\`criterion\\\` | Gini hay entropy | "gini" (mặc định) |
-
-→ Nguyên tắc: **giới hạn depth** để chống overfit.
-
-## 5. 🐍 Code mẫu
+## 4. 🎯 Ví dụ chạy được ngay
 
 \\\`\\\`\\\`python
 from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt
 
-model = DecisionTreeClassifier(
-    max_depth=5,
+# Dự đoán "khách hàng có mua iPhone 16 Pro không?"
+clf = DecisionTreeClassifier(
+    max_depth=4,
     min_samples_leaf=20,
     criterion="gini",
     random_state=42
 )
-model.fit(X_train, y_train)
+clf.fit(X_train, y_train)
+print("Test acc:", clf.score(X_test, y_test))
 
-# Vẽ cây — đọc được!
-import matplotlib.pyplot as plt
-plt.figure(figsize=(15, 8))
-plot_tree(model, feature_names=X.columns, class_names=["Reject", "Approve"], filled=True)
+plt.figure(figsize=(14,8))
+plot_tree(clf, feature_names=feat_names, class_names=["Không","Mua"], filled=True)
+plt.show()
 \\\`\\\`\\\`
 
-## 6. ⚠️ Bẫy thường gặp
+## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** Bẫy chí mạng: **không giới hạn \\\`max_depth\\\`**. Cây tự do sẽ học **vẹt** từng sample → train accuracy 100%, test accuracy 60%. **LUÔN giới hạn depth hoặc \\\`min_samples_leaf\\\`.**
+> ⚠️ **Cảnh báo:**
+> - **Không giới hạn depth** → cây học thuộc data (overfit nặng), test thảm hoạ.
+> - **Imbalanced data** (95% nhãn 0): cây dự đoán toàn 0 vẫn 95% accuracy → dùng \`class_weight="balanced"\`.
+> - **High-cardinality categorical** (zip code): cây thiên lệch chọn cột đó.
+> - **Nhỏ vài sample đổi → cây khác hoàn toàn**: không ổn định → dùng Random Forest.
 
-Bẫy khác:
-- **High variance** — đổi 1 sample data, cây ra hoàn toàn khác → giải bằng Random Forest.
-- **Bias to majority class** — class 95/5 → cây chỉ predict majority. Dùng \\\`class_weight="balanced"\\\`.
-- **Categorical features high-cardinality** (1000 giá trị) → cây split bừa. Encode hoặc gộp trước.
+## 6. ✅ Best practice của thầy Hải
 
-## 7. 🎯 Best practice của thầy Hải
+> 💡 **Mẹo:**
+> - **max_depth = 3-7** cho hầu hết bài; lớn hơn là dấu hiệu phải dùng ensemble.
+> - **min_samples_leaf ≥ 1% data** để node có ý nghĩa thống kê.
+> - Dùng **feature_importances_** xem cây quan tâm cột nào nhất → giải thích cho stakeholder.
+> - Vẽ cây ra (plot_tree, dtreeviz) — đây là siêu năng lực: model **giải thích được**.
+> - Nếu cần performance cao hơn: chuyển sang Random Forest, XGBoost, LightGBM (cùng họ).
 
-1. Bắt đầu với \\\`max_depth=5\\\`, \\\`min_samples_leaf=20\\\` — đủ chống overfit cho 90% dataset.
-2. Dùng **plot_tree** + feature_names → đưa cho business để **giải thích** quyết định.
-3. Imbalanced data? Set \\\`class_weight="balanced"\\\`.
-4. Cần performance cao hơn? → chuyển sang **Random Forest** hoặc **XGBoost** (cùng họ).
-5. Đừng quên cross-validation để chọn depth tối ưu.
+## 7. 🤔 Khi nào dùng / không dùng
 
-> 💡 **Mẹo của thầy Hải:** Decision Tree là **best baseline interpretable**. Chạy nó trước khi đụng XGBoost — nếu Decision Tree đã đủ tốt, đừng vác model phức tạp lên production.
+| Decision Tree hợp | Không hợp |
+|---|---|
+| Cần giải thích từng dự đoán | Cần accuracy cao tuyệt đối → ensemble |
+| Mix data số + categorical | Data ảnh, text dài |
+| Baseline nhanh, dễ debug | Quan hệ phi tuyến phức tạp |
+| Audit/compliance (giải thích) | High-dimensional sparse |
 
-## 8. ✅ Tóm tắt 30 giây
+## 8. 📌 Tóm tắt 30 giây
 
-- Decision Tree = **chuỗi câu hỏi if/else** học từ data.
-- Học bằng **Gini / Entropy + Information Gain**.
-- Mạnh nhất: **đọc được, giải thích được**.
-- Yếu nhất: **high variance** — fix bằng Random Forest.
-- Best practice: giới hạn depth, balanced class, plot tree để giải thích.
+Decision Tree = trò 20 câu hỏi: chia data theo Gini/Entropy. Mạnh ở giải thích, yếu ở accuracy + ổn định. Luôn giới hạn depth, vẽ cây ra để hiểu. Khi cần accuracy cao, chuyển sang Random Forest/XGBoost.
 `,
         theoryEn: `**Decision Trees — Intuitive Classification**
 
@@ -528,110 +490,82 @@ Bẫy khác:
       {
         id: "ml-rf-1", title: "Ensemble Learning", titleEn: "Ensemble Learning",
         level: 3, difficulty: "intermediate",
-        theory: `Một giám khảo đoán bài hát hay nhất Rap Việt = ý kiến chủ quan. **Hội đồng 100 giám khảo** đa dạng cùng vote = quyết định đáng tin gấp nhiều lần. Đó là tinh thần của **Random Forest** — *"nhiều cây yếu cộng lại = một forest mạnh"*.
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-## 1. 🚦 Vấn đề đời thường
+Trên Rap Việt, **1 giám khảo** dễ thiên vị. Nhưng **4 giám khảo bỏ phiếu độc lập** rồi cộng điểm — kết quả công bằng và chính xác hơn nhiều. Hơn nữa, mỗi giám khảo có "góc nhìn" khác nhau (flow, lyric, stage, cảm xúc) → bù trừ điểm yếu của nhau.
 
-Decision Tree đơn lẻ có vấn đề: **đổi 1 row data, cây ra hoàn toàn khác** (high variance). Một startup VN từng deploy model phê duyệt loan dùng Decision Tree → tuần sau retrain với data mới, model **đảo ngược** 30% quyết định. Khách bùng nổ.
+**Random Forest** chính là vậy: trồng N cây quyết định, mỗi cây xem dữ liệu hơi khác, rồi **bỏ phiếu** ra kết quả cuối.
 
-→ Cần thứ **ổn định hơn**. Đó là Random Forest.
+## 2. 💡 Khái niệm chính
 
-## 2. 💡 Khái niệm chính: Bagging + Random Forest
+- **Bagging (Bootstrap Aggregating)**: mỗi cây train trên 1 mẫu bootstrap (lấy có thay thế từ data gốc).
+- **Feature randomness**: tại mỗi node, chỉ xét random $\\\\sqrt{n}$ features → tăng đa dạng.
+- **Voting**: classification = majority vote; regression = trung bình.
+- **OOB (Out-Of-Bag)**: ~37% sample không nằm trong bootstrap → dùng làm validation miễn phí.
 
-**Bagging** = Bootstrap Aggregating = "trồng nhiều cây trên data hơi khác nhau, vote cuối cùng".
+## 3. 🧰 Vì sao mạnh hơn 1 cây
 
-**Quy trình:**
-1. Tạo **N bootstrap sample** (random sampling **có thay thế** từ training data).
-   - Mỗi bootstrap sample cùng size với data gốc.
-   - Trung bình mỗi sample chứa ~63.2% data point unique.
-   - 36.8% còn lại gọi là **Out-of-Bag (OOB)**.
-2. Train **một Decision Tree trên mỗi bootstrap sample**.
-3. Combine prediction:
-   - **Classification**: majority vote.
-   - **Regression**: trung bình.
+| Vấn đề Decision Tree | Random Forest giải |
+|---|---|
+| Overfit nặng | Trung bình N cây → giảm variance |
+| Không ổn định | Mỗi cây độc lập → ổn định |
+| 1 feature lấn át | Feature randomness ép cây xét feature khác |
 
-**Vì sao hoạt động?** Mỗi cây sai khác nhau → khi vote, lỗi **triệt tiêu** lẫn nhau. Toán học:
-\\\`Var(forest) = ρσ² + (1-ρ)σ²/N\\\`
-
-→ Khi N (số cây) tăng, term thứ 2 nhỏ dần. Chìa khoá là giữ ρ (correlation giữa cây) **thấp**.
-
-## 3. 🌿 Random Feature Sampling — Bí mật giảm correlation
-
-Tại mỗi split, chỉ xét **subset feature random**:
-- **Classification**: \\\`√(n_features)\\\` — 100 feature → mỗi split xét 10.
-- **Regression**: \\\`n_features / 3\\\`.
-
-→ Không có thủ thuật này, mọi cây đều split trên cùng feature mạnh nhất → tương tự nhau → mất tác dụng bagging. Random feature sampling **đảm bảo đa dạng**:
-- Cây 1: split lương.
-- Cây 2: split tuổi.
-- Cây 3: split học vấn.
-
-## 4. 🎛️ Hyperparameter quan trọng
-
-| Param | Tác dụng | Range | Lời khuyên |
-|-------|----------|-------|-----------|
-| \\\`n_estimators\\\` | Số cây | 100–1000 | Càng nhiều càng tốt, diminishing return sau 500 |
-| \\\`max_depth\\\` | Depth mỗi cây | None, 10–30 | None cho classification, giới hạn cho regression |
-| \\\`max_features\\\` | Feature/split | sqrt(n), n/3 | sqrt cho classify, n/3 cho regress |
-| \\\`min_samples_split\\\` | Min sample tách | 2–10 | Cao = nhiều regularization |
-| \\\`min_samples_leaf\\\` | Min sample leaf | 1–5 | Cao = prediction mượt |
-| \\\`oob_score\\\` | Eval bằng OOB | True | **Free validation** — không cần val set riêng |
-
-> 💡 **Mẹo của thầy Hải:** Bật \\\`oob_score=True\\\` luôn — bạn có **validation miễn phí** mà không cần train/val split. Tiết kiệm 20% data cho training.
-
-## 5. 🐍 Code mẫu
+## 4. 🎯 Ví dụ chạy được ngay
 
 \\\`\\\`\\\`python
 from sklearn.ensemble import RandomForestClassifier
-
-model = RandomForestClassifier(
-    n_estimators=500,
-    max_depth=None,
-    max_features="sqrt",
-    min_samples_leaf=2,
-    oob_score=True,
-    n_jobs=-1,           # dùng hết core
-    random_state=42,
-    class_weight="balanced"
-)
-model.fit(X_train, y_train)
-
-print(f"OOB score: {model.oob_score_:.3f}")
-
-# Feature importance — biết feature nào quan trọng nhất
 import pandas as pd
-importance = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
-print(importance.head(10))
+
+rf = RandomForestClassifier(
+    n_estimators=300,        # 300 cây
+    max_depth=None,          # cây mọc tự do (RF không sợ overfit nặng)
+    min_samples_leaf=2,
+    max_features="sqrt",
+    n_jobs=-1,               # train song song
+    oob_score=True,          # validation miễn phí
+    random_state=42
+)
+rf.fit(X_train, y_train)
+print("OOB score:", rf.oob_score_)
+print("Test acc :", rf.score(X_test, y_test))
+
+# Feature importance
+imp = pd.Series(rf.feature_importances_, index=X_train.columns).sort_values(ascending=False)
+print(imp.head(10))
 \\\`\\\`\\\`
 
-## 6. 📊 Random Forest vs Decision Tree
+## 5. ⚠️ Bẫy thường gặp
 
-| Tiêu chí | Decision Tree | Random Forest |
-|----------|--------------|---------------|
-| Variance | Cao | Thấp |
-| Interpretability | Cao (đọc được) | Trung bình (feature importance) |
-| Training time | Nhanh | Chậm hơn N lần |
-| Accuracy | Trung bình | Cao |
-| Hyperparameter tuning | Quan trọng | Ít nhạy cảm |
+> ⚠️ **Cảnh báo:**
+> - **n_estimators quá ít** (10-50) → variance còn cao; **quá nhiều** (5000) → chậm gấp đôi mà ít cải thiện.
+> - **Imbalanced data**: dùng \`class_weight="balanced_subsample"\` hoặc SMOTE trước.
+> - **Categorical high-cardinality**: feature_importance bị thiên vị cho cột nhiều giá trị → dùng permutation importance thay thế.
+> - **Tưởng RF không cần tune**: thực ra max_features, min_samples_leaf vẫn ảnh hưởng đáng kể.
+> - **Predict chậm trên 1 sample** (300 cây × forward) — không phù hợp low-latency real-time nếu cây sâu.
 
-## 7. ⚠️ Bẫy thường gặp & 🎯 Best practice
+## 6. ✅ Best practice của thầy Hải
 
-> ⚠️ **Cảnh báo:** Bẫy phổ biến: dùng Random Forest cho **mọi bài toán**. Khi data tabular nhỏ (< 1000 row) hoặc cần interpretability cao → Decision Tree đơn lẻ tốt hơn. Khi data phức tạp (image, text, sequence) → neural network. Random Forest **ngon nhất cho tabular cỡ trung–lớn**.
+> 💡 **Mẹo:**
+> - **n_estimators = 200-500** là sweet spot cho hầu hết bài.
+> - Dùng **OOB score** thay vì cross-validation nếu data nhỏ — tiết kiệm thời gian.
+> - **Permutation importance** > feature_importances_ mặc định (chính xác hơn).
+> - Khi cần accuracy cao hơn nữa: chuyển sang **Gradient Boosting** (XGBoost, LightGBM, CatBoost).
+> - RF là **baseline siêu mạnh** — luôn chạy đầu tiên trên tabular data trước khi thử model phức tạp.
 
-Best practice của thầy Hải:
-1. Default config: \\\`n_estimators=500, max_features="sqrt", min_samples_leaf=2, n_jobs=-1\\\`.
-2. Bật \\\`oob_score=True\\\` — validation miễn phí.
-3. Imbalanced? \\\`class_weight="balanced"\\\`.
-4. Inspect \\\`feature_importances_\\\` — drop feature noise.
-5. Khi cần performance cao hơn → thử **Gradient Boosting** (XGBoost, LightGBM, CatBoost) — họ hàng của Random Forest, thường thắng 2–5%.
+## 7. 🤔 RF vs XGBoost
 
-## 8. ✅ Tóm tắt 30 giây
+| Random Forest | XGBoost/LightGBM |
+|---|---|
+| Bagging (parallel) | Boosting (sequential) |
+| Khó overfit | Cần tune cẩn thận |
+| Train song song nhanh | Predict nhanh hơn |
+| Robust với hyperparameter | Cần early stopping |
+| Baseline đầu tiên | Khi cần đỉnh accuracy |
 
-- Random Forest = **N Decision Tree** train trên bootstrap sample + random feature subset.
-- Giảm **variance** mạnh, tăng **stability** + accuracy.
-- Hyperparameter ít nhạy cảm — **default đã rất tốt**.
-- **OOB score** = validation miễn phí.
-- Default tabular ML — bắt đầu từ đây trước khi đụng XGBoost/LightGBM.
+## 8. 📌 Tóm tắt 30 giây
+
+Random Forest = N giám khảo Rap Việt bỏ phiếu. Bagging + feature randomness → ổn định, ít overfit, mạnh ngay khi default. Luôn dùng làm baseline tabular. Khi cần đỉnh accuracy, leo lên XGBoost/LightGBM.
 `,
         theoryEn: `**Random Forest — Many Trees Voting Together**
 
@@ -1165,214 +1099,79 @@ K-Fold CV = **làm K đề khác nhau, lấy trung bình**. Phân loại → Str
       {
         id: "ml-hp-1", title: "Grid & Random Search", titleEn: "Grid & Random Search",
         level: 3, difficulty: "intermediate",
-        theory: `**Hyperparameter Tuning — Finding the Best Configuration**
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-**Parameters vs Hyperparameters:**
-- **Parameters** are learned during training (weights, biases) — the model figures these out
-- **Hyperparameters** are set before training (learning rate, max_depth, C, n_estimators) — YOU choose these
+Nấu phở: nước dùng ninh **mấy giờ?**, cho **bao nhiêu** muối?, lửa **lớn hay nhỏ?** — mỗi tổ hợp ra một vị khác nhau. Nếu thử từng tổ hợp cho hết: thầy hết nồi trước khi tìm ra công thức ngon nhất.
 
-The right hyperparameter values can dramatically impact model performance — the difference between 80% and 95% accuracy.
+Trong ML, **hyperparameter** chính là "muối, lửa, thời gian" — bạn chọn trước khi train, không học từ data. **Tuning** = tìm tổ hợp ngon nhất.
 
----
+## 2. 💡 Khái niệm chính
 
-**🔍 Grid Search — Exhaustive Search:**
+- **Parameter**: model học được (weights). Hyperparameter: bạn chọn (learning_rate, n_estimators, max_depth).
+- **Grid Search**: thử mọi tổ hợp — chắc chắn nhưng đắt.
+- **Random Search**: bốc thăm — thường tốt hơn Grid khi nhiều hyperparameter.
+- **Bayesian Optimization** (Optuna, Hyperopt): học từ lần thử trước để chọn lần sau thông minh hơn.
 
-Define a grid of all hyperparameter values to try, then evaluate EVERY combination using cross-validation.
+## 3. 🧰 So sánh nhanh
 
-\`\`\`python
-param_grid = {
-    'max_depth': [3, 5, 7, 10],
-    'n_estimators': [50, 100, 200],
-    'learning_rate': [0.01, 0.1, 0.3]
+| Phương pháp | Số lần thử | Khi nào dùng |
+|---|---|---|
+| Grid Search | $K^N$ tổ hợp | ≤3 hyperparameter, mỗi cái ≤4 giá trị |
+| Random Search | Tự chọn (ví dụ 50) | Nhiều hyperparameter |
+| Bayesian (Optuna) | 30-100 đủ | Train đắt, muốn tối ưu thật |
+
+## 4. 🎯 Ví dụ chạy được ngay
+
+\\\`\\\`\\\`python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import RandomizedSearchCV
+import numpy as np
+
+param_dist = {
+    "n_estimators": [100, 200, 500],
+    "max_depth":    [None, 10, 20, 30],
+    "min_samples_split": np.arange(2, 11),
+    "max_features": ["sqrt", "log2"],
 }
-# Total: 4 × 3 × 3 = 36 combinations
-# With 5-fold CV: 36 × 5 = 180 model trainings!
-\`\`\`
+search = RandomizedSearchCV(
+    RandomForestClassifier(random_state=42),
+    param_distributions=param_dist,
+    n_iter=30, cv=5, n_jobs=-1, scoring="f1", random_state=42
+)
+search.fit(X_train, y_train)
+print(search.best_params_, search.best_score_)
+\\\`\\\`\\\`
 
-**Pros:** Guaranteed to find the best combination within the grid.
-**Cons:** Exponentially expensive. 5 params × 5 values each = 5⁵ = 3125 combinations! With 5-fold CV = 15,625 model trainings.
+## 5. ⚠️ Bẫy thường gặp
 
-**When to use:** Few hyperparameters (2-3), narrow value ranges, fast model training.
+> ⚠️ **Cảnh báo:**
+> - **Tune trên test set** → leak! Luôn tune trên train+CV, đánh giá cuối trên test.
+> - **Grid quá rộng**: 5 hp × 5 giá trị = 3125 combo × CV 5 = 15.625 fit → nửa ngày.
+> - **Quên seed** → kết quả không tái lập được.
+> - **Tune trước khi feature engineering** → ép model "cứu" data tệ.
+> - **Chỉ nhìn best_score**: cần xem **độ chênh giữa CV folds** (cao = không ổn định).
 
----
+## 6. ✅ Best practice của thầy Hải
 
-**🎲 Random Search — Smarter Exploration:**
+> 💡 **Mẹo:**
+> - **Thứ tự ưu tiên**: data sạch → feature → model phù hợp → **mới tune**. Tune cuối cùng, không phải đầu tiên.
+> - Bắt đầu **Random Search 20-30 lần** để có baseline → nếu cần chính xác hơn, chuyển sang **Optuna**.
+> - Dùng **early stopping** với XGBoost/LightGBM để tự động cắt khi không cải thiện.
+> - Log mọi trial vào **MLflow / Weights & Biases** — đừng ghi tay vào Excel.
+> - Tune trên **subset** trước (10% data) để biết khoảng nào hợp, rồi mới tune full.
 
-Instead of trying all combinations, randomly sample N combinations from the hyperparameter distributions.
+## 7. 🤔 Khi nào dùng / không dùng
 
-\`\`\`python
-param_distributions = {
-    'max_depth': randint(3, 15),           # uniform integer distribution
-    'n_estimators': randint(50, 500),
-    'learning_rate': loguniform(0.001, 1),  # log-uniform for learning rates
-    'min_samples_split': randint(2, 20)
-}
-# Try 50 random combinations instead of all possibilities
-\`\`\`
+| Cần tune | Tạm chưa cần |
+|---|---|
+| Đã sạch data, chọn đúng model | Baseline đầu tiên |
+| Cần đẩy từ 0.85 → 0.88 | Đang gap 0.5 → 0.8 (lo data trước) |
+| Train < 1h/lần | Train mất 1 tuần (cân nhắc kỹ) |
 
-**Why Random Search often wins:**
-Bergstra & Bengio (2012) showed that most hyperparameters have **unequal importance**. In a 2-param grid:
-\`\`\`
-Grid Search (9 trials):     Random Search (9 trials):
-[x] [x] [x]                [x]    [x]   [x]
-[x] [x] [x]                    [x]     [x]
-[x] [x] [x]                [x]    [x]  [x]  [x]
-\`\`\`
-Grid only tests 3 values per dimension, while Random tests 9 unique values per dimension! If only one parameter matters, Random Search explores it more thoroughly.
+## 8. 📌 Tóm tắt 30 giây
 
-**When to use:** Many hyperparameters (4+), wide value ranges, limited compute budget.
-
----
-
-**🧠 Bayesian Optimization — Learning from Past Trials:**
-
-Uses past evaluation results to intelligently choose the next combination to try.
-
-**How it works:**
-1. Start with a few random trials
-2. Build a **surrogate model** (usually Gaussian Process or Tree-Parzen Estimator) of the objective function
-3. Use an **acquisition function** to balance:
-   - **Exploration:** Try new, unexplored areas of the parameter space
-   - **Exploitation:** Refine around known good areas
-4. Evaluate the next point, update the surrogate model, repeat
-
-**Tools:**
-- **Optuna** (recommended): Modern, flexible, efficient. Uses TPE (Tree-Parzen Estimator).
-- **Hyperopt:** Another TPE-based framework.
-- **Weights & Biases (W&B):** Cloud-based experiment tracking + Bayesian sweeps.
-- **BOHB:** Combines Bayesian optimization with early stopping (Hyperband).
-
-**Optuna Example:**
-\`\`\`python
-import optuna
-
-def objective(trial):
-    params = {
-        'max_depth': trial.suggest_int('max_depth', 3, 15),
-        'learning_rate': trial.suggest_float('lr', 0.001, 1, log=True),
-        'n_estimators': trial.suggest_int('n_estimators', 50, 500),
-    }
-    model = XGBClassifier(**params)
-    score = cross_val_score(model, X, y, cv=5).mean()
-    return score
-
-study = optuna.create_study(direction='maximize')
-study.optimize(objective, n_trials=50)
-print(f'Best params: {study.best_params}')
-\`\`\`
-
-**When to use:** Expensive model training (each trial takes minutes/hours), moderate number of hyperparameters (3-10).
-
----
-
-**⏱️ Early Stopping (Hyperband/ASHA):**
-
-Why train bad configurations to completion? Stop them early and reallocate resources!
-
-**Successive Halving (SHA):**
-1. Start N configurations with a small budget (e.g., 10 epochs)
-2. Evaluate all, keep the top 50%
-3. Double the budget, repeat until 1 configuration remains
-
-**ASHA (Asynchronous SHA):** Same idea but doesn't wait for all configurations to finish — starts evaluating new ones as soon as resources are freed.
-
----
-
-**📊 Comparison:**
-
-| Method | Trials Needed | Finds Optimal? | Best For | Intelligence |
-|--------|--------------|----------------|----------|-------------|
-| Grid | All combos (exponential) | Within grid, yes | Few params (2-3) | None |
-| Random | 10-100 | Near-optimal | Many params (4+) | None |
-| Bayesian | 20-50 | Often global | Expensive models | Uses past results |
-| Hyperband | Variable | Good enough | Any | Budget-aware |
-
----
-
-**📋 Best Practices:**
-
-1. **Start with Random Search** to find the right neighborhood of good values
-2. **Narrow down with Grid Search or Bayesian** around the promising area
-3. **Always use cross-validation** inside the search (never evaluate on a single split)
-4. **Log every experiment** — you'll want to revisit past results (MLflow, W&B, Neptune)
-5. **Don't tune too many parameters at once** — risk of overfitting to validation data
-6. **Use log-scale for learning rates:** [0.001, 0.01, 0.1] not [0.001, 0.002, 0.003]
-7. **Set a compute budget** and stick to it — diminishing returns after a point
-8. **Tune the most impactful parameters first** (usually learning_rate, n_estimators, max_depth)
-
----
-
-## 🏢 Case Study: Google AutoML — Bayesian Optimization Wins
-
-Google AutoML (2017) tự động tune hyperparameters cho neural architecture. So sánh 3 methods trên CIFAR-10:
-- **Grid Search**: 10000 trials, accuracy 91.2%, 200 GPU-hours
-- **Random Search**: 1000 trials, accuracy 91.5%, 20 GPU-hours
-- **Bayesian Optimization (Vizier)**: 200 trials, accuracy 92.1%, **5 GPU-hours**
-
-**Bài học (Bergstra & Bengio, 2012):** Random Search consistently beats Grid Search vì hầu hết hyperparameters không quan trọng — Grid lãng phí trials trên unimportant axes. Bayesian optimization còn tốt hơn nhờ **học từ trials trước**.
-
----
-
-## 🏢 Case Study: OpenAI GPT-3 — $4.6M Single Training Run
-
-OpenAI training GPT-3 175B params chỉ chạy **1 lần** (không thể afford retry) → hyperparameters phải đúng từ đầu. Họ:
-1. Train **smaller models** (125M, 350M, 760M, 1.3B, 2.7B, 6.7B, 13B) với hyperparameter sweeps mở rộng
-2. **Fit scaling laws** cho mỗi hyperparameter (lr, batch size, warmup steps)
-3. Extrapolate optimal values cho 175B — dự đoán lr_optimal ≈ 0.6e-4
-4. Single 175B run thành công ngay lần đầu
-
-Đây là **scaling-aware hyperparameter selection** — kỹ thuật mới của LLM era.
-
----
-
-## 🏢 Case Study: Kaggle Microsoft Malware — XGBoost Tuning
-
-Winning solution Microsoft Malware 2019 (Kaggle): tune XGBoost với **Optuna** (Bayesian framework). 500 trials, 50 CPU-hours. Kết quả vs default:
-- **default XGBoost**: AUC 0.694
-- **Tuned (Optuna)**: AUC 0.712 (+1.8 points)
-
-1.8 points không lớn nhưng đủ để move từ rank 200 → rank 5 trong leaderboard. **Tuning matters at the margin** — đặc biệt trong competitions.
-
----
-
-## 📊 Method Comparison
-
-| Method | Số trials cần | Best for | Tools |
-|--------|--------------|----------|-------|
-| Grid Search | Exponential O(n^p) | < 4 hyperparams, discrete | sklearn GridSearchCV |
-| Random Search | Hundreds | 4-20 hyperparams | sklearn RandomizedSearchCV |
-| Bayesian Opt | Tens to hundreds | Expensive evaluations | Optuna, Hyperopt, scikit-optimize |
-| Hyperband | Hundreds | Many configs, early stopping | Ray Tune |
-| Population-Based | Thousands | Neural net training | DeepMind's PBT |
-| AutoML | Thousands | Automated end-to-end | Google AutoML, AutoKeras, H2O |
-
-**Practical rule:** Với <4 params dùng Grid; 4-20 params dùng Random + Bayesian; deep learning dùng Hyperband.
-
----
-
-## 📋 Best Practices
-
-✅ **Define search space** với domain knowledge (vd: lr ∈ [1e-5, 1e-1] log-uniform, không linear)
-✅ **Log-uniform sampling** cho lr, regularization (covers magnitudes)
-✅ **Early stopping** trong mỗi trial (validation plateau → kill)
-✅ **Save all trials** (Optuna trial database) — phân tích sau
-✅ **Use validation set tách biệt** — không tune trên test set!
-
----
-
-## ⚠️ Anti-Patterns
-
-❌ **Grid search với 10 params** — 10^10 combinations, không chạy nổi
-❌ **Tune trên test set** → biased optimistic estimate. Always train/val/test 3-way split
-❌ **Tune trên 1 fold** (no CV) → variance cao, picks lucky config
-❌ **Tune random_state** — đây không phải hyperparameter thật! Đôi khi seed giúp +2% nhưng không generalize
-❌ **Tune mà không log** — sau 1 tuần không nhớ config nào đã thử
-
----
-
-## 🌉 Bridge to Next Lesson
-
-Tuning hoàn hảo cũng vô ích nếu chọn **sai metric**. Accuracy 99% có thể là disaster nếu data imbalanced 99:1. Bài tiếp: **Model Evaluation Metrics** — chọn metric phù hợp business problem.`,
+Hyperparameter = muối/lửa/thời gian, bạn chọn trước khi train. Random Search > Grid Search trong hầu hết trường hợp. Bayesian (Optuna) khi train đắt. Luôn tune trên CV, không trên test. Tune là **bước cuối**, không phải đầu.
+`,
         theoryEn: `**Hyperparameter Tuning**
 
 **Grid Search:** Try all combinations. Exhaustive but exponentially expensive (5 params × 5 values = 3125 combos).
@@ -1637,255 +1436,81 @@ Ensemble = **đội nhóm thắng cá nhân**. Bagging giảm variance, Boosting
       {
         id: "ml-ops-1", title: "MLOps Pipeline", titleEn: "MLOps Pipeline",
         level: 5, difficulty: "advanced",
-        theory: `**MLOps — DevOps for Machine Learning**
-
-MLOps bridges the gap between developing ML models and deploying them reliably in production. Only ~15% of ML projects make it to production (Gartner) — MLOps aims to change that.
-
-**The MLOps challenge:** Deploying a model is easy. Keeping it working reliably in production is hard. Data changes, user behavior evolves, model performance degrades. MLOps provides the tools and practices to manage this lifecycle.
-
----
-
-**🔄 The MLOps Lifecycle:**
-
-\`\`\`
-1. Data Collection → 2. Feature Engineering → 3. Model Training
-       ↑                                              ↓
-7. Retraining ← 6. Monitoring ← 5. Serving ← 4. Registry
-\`\`\`
-
-**1. Data Collection & Versioning:**
-- DVC (Data Version Control): Git for data files
-- LakeFS: Git-like operations for data lakes
-- Delta Lake: ACID transactions on data lake
-- Track: Which data was used for which model version
-
-**2. Feature Store — Centralized Feature Management:**
-- **Problem it solves:** Training and serving use different code to compute features → inconsistencies → bugs
-- **Solution:** Compute features once, store centrally, serve consistently
-- Tools: Feast (open-source), Tecton, Amazon SageMaker Feature Store
-- Online store (low latency, real-time features) + Offline store (historical, training)
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-**3. Experiment Tracking:**
-- Log hyperparameters, metrics, artifacts, code versions for every training run
-- Compare experiments side-by-side
-- Tools: MLflow (most popular), W&B (Weights & Biases), Neptune, Comet
-
-**4. Model Registry:**
-- Version models (v1.0, v1.1, v2.0)
-- Track model lineage: which data, code, hyperparameters produced this model
-- Manage approvals: Staging → Production transitions
-- Store model metadata: performance metrics, training date, owner
-
-**5. Model Serving — Making Predictions Available:**
-- Covered in detail below
-
-**6. Monitoring — Detecting Problems:**
-- Covered in detail below
-
-**7. Automated Retraining:**
-- Triggered by: schedule (weekly), drift detection, or performance degradation
-- Retrain → evaluate → if better → register → deploy
-
----
-
-**📦 Model Serving Patterns:**
-
-| Pattern | Latency | Throughput | Use Case | Tools |
-|---------|---------|------------|----------|-------|
-| REST API | ~50-200ms | Medium | Web apps, mobile | FastAPI, Flask, BentoML |
-| gRPC | ~5-20ms | High | Microservices, internal | TensorFlow Serving, Triton |
-| Batch Inference | Minutes-Hours | Very High | Nightly predictions, reports | Spark, Airflow |
-| Edge/Embedded | ~1-5ms | Low | Mobile, IoT, offline | ONNX, TensorRT, CoreML |
-| Serverless | ~200-500ms | Variable | Low-traffic, cost-sensitive | Lambda, Cloud Functions |
-| Streaming | ~10-50ms | Continuous | Real-time features | Kafka + model service |
-
-**FastAPI Example:**
-\`\`\`python
-from fastapi import FastAPI
-import joblib
-
-app = FastAPI()
-model = joblib.load("model.pkl")
+Bạn nấu được nồi phở ngon trong bếp nhà. Nhưng để bán cho 1.000 khách/ngày ở chuỗi 5 chi nhánh, cần: công thức chuẩn (versioning), nguyên liệu sạch nhập đều (data pipeline), bếp công nghiệp (training infra), kiểm phẩm trước khi ra bàn (testing), và phải biết khi nào nồi nước hôm nay lạt hơn (monitoring).
 
-@app.post("/predict")
-async def predict(features: dict):
-    X = preprocess(features)
-    prediction = model.predict(X)
-    return {"prediction": prediction.tolist()}
-\`\`\`
+**MLOps** = đưa "nồi phở model" từ bếp jupyter notebook ra production và **giữ nó ngon mãi**.
 
-**Model Optimization for Serving:**
-- **Quantization:** Float32 → Int8 (4x smaller, faster, slight accuracy loss)
-- **Pruning:** Remove unnecessary weights/neurons
-- **Distillation:** Train a small model to mimic a large model
-- **ONNX:** Framework-agnostic model format for portable deployment
+## 2. 💡 Khái niệm chính
 
----
+MLOps = DevOps + Data + Model. 4 trụ cột:
 
-**📊 Model Monitoring — The Most Neglected Part:**
+1. **Versioning**: code (Git), data (DVC), model (MLflow Registry).
+2. **CI/CD/CT**: Continuous Integration, Delivery, **Training** (retrain tự động).
+3. **Serving**: REST/gRPC API, batch, edge.
+4. **Monitoring**: drift, performance, latency.
 
-**Data Drift:** Input distribution changes over time
-- Example: COVID changed spending patterns → credit score model broke
-- Detect: Population Stability Index (PSI), Kolmogorov-Smirnov test, JS divergence
-- PSI > 0.25 → significant drift → investigate
+## 3. 🧰 Vòng đời 6 bước
 
-**Concept Drift:** The relationship between inputs and outputs changes
-- Example: User preferences evolve; what was spam 5 years ago isn't today
-- Detect: Monitor prediction performance on labeled data (if available)
-- Harder to detect than data drift because you need ground truth labels
+| Bước | Công cụ phổ biến |
+|---|---|
+| 1. Data ingestion | Airflow, dbt |
+| 2. Feature store | Feast, Tecton |
+| 3. Training | MLflow, Kubeflow |
+| 4. Registry | MLflow Model Registry |
+| 5. Serving | BentoML, KServe, SageMaker |
+| 6. Monitoring | Evidently, WhyLabs, Prometheus |
 
-**Model Decay:** Gradual performance degradation over time
-- Root cause: usually data drift or concept drift
-- Solution: Automated retraining triggers (schedule + drift-based)
+## 4. 🎯 Ví dụ chạy được ngay
 
-**Prediction Monitoring:**
-- Track prediction distribution (are outputs shifting?)
-- Monitor latency (is the model slowing down?)
-- Track error rates (are exceptions increasing?)
-- Business metrics (is the model still providing value?)
+\\\`\\\`\\\`python
+import mlflow, mlflow.sklearn
+from sklearn.ensemble import RandomForestClassifier
 
----
+mlflow.set_experiment("churn_v2")
+with mlflow.start_run():
+    model = RandomForestClassifier(n_estimators=200, max_depth=10)
+    model.fit(X_train, y_train)
+    f1 = evaluate(model, X_val, y_val)
 
-**🏗️ MLOps Maturity Levels (Google's Framework):**
+    mlflow.log_param("n_estimators", 200)
+    mlflow.log_metric("f1", f1)
+    mlflow.sklearn.log_model(model, "model",
+        registered_model_name="churn-classifier")  # tự động version
+\\\`\\\`\\\`
 
-| Level | Description | Characteristics |
-|-------|-------------|----------------|
-| 0 — Manual | Data scientists train manually in notebooks | No automation, no monitoring, no reproducibility |
-| 1 — ML Pipeline | Automated training pipeline | Reproducible training, experiment tracking |
-| 2 — CI/CD for ML | Automated testing and deployment | Automated testing, staged deployment, model registry |
-| 3 — Full Automation | Continuous training + monitoring | Auto-retrain on drift, A/B testing, full observability |
+## 5. ⚠️ Bẫy thường gặp
 
-Most organizations are at Level 0-1. The goal is to reach Level 2-3.
+> ⚠️ **Cảnh báo:**
+> - **Không version data** → 6 tháng sau không tái tạo được kết quả.
+> - **Train-serve skew**: feature engineering ở train (pandas) khác serve (Java) → model "ảo giác".
+> - **Không monitor data drift** → model giảm dần độ chính xác mà không ai biết, đến khi khách phàn nàn.
+> - **Deploy bằng pickle** thẳng vào Flask, không có rollback → sự cố là bó tay.
+> - **Retrain vô tội vạ** → tốn $$$ và có thể tệ hơn model cũ.
 
----
+## 6. ✅ Best practice của thầy Hải
 
-**📋 Best Practices:**
+> 💡 **Mẹo:**
+> - **Bắt đầu nhỏ**: Git + MLflow + 1 endpoint REST → đủ cho 90% startup.
+> - **Shadow deployment**: model mới chạy song song, log dự đoán nhưng không trả về user — so với model cũ trước khi swap.
+> - **Canary**: chuyển 5% traffic → 25% → 100% qua vài ngày.
+> - **Feature Store** chỉ cần khi ≥3 model dùng chung feature, không thì over-engineering.
+> - Định nghĩa **trigger retrain**: theo lịch (tuần/tháng), theo drift (PSI > 0.2), theo metric drop (F1 -5%).
+> - Mỗi model phải có **model card**: ai owner, train ngày nào, data nào, metric bao nhiêu, fallback là gì.
 
-1. **Version everything:** Data (DVC), code (Git), models (MLflow), configs (YAML), environments (Docker)
-2. **Automate testing:** Data validation, model performance tests, integration tests, load tests
-3. **A/B testing:** Compare new model vs current in production with real traffic (50/50 or 90/10 split)
-4. **Shadow mode (dark launch):** Run new model alongside current without affecting users — compare outputs
-5. **Canary deployment:** Route 5% of traffic to new model, monitor, then gradually increase
-6. **Rollback plan:** Always be able to revert to the previous model instantly
-7. **Feature store:** Centralize feature computation for consistency between training and serving
-8. **Model cards:** Document model limitations, intended use, bias evaluations, performance per subgroup
-9. **Alert on everything:** Data drift, prediction drift, latency, error rates, business metrics
-10. **Keep it simple:** Don't over-engineer. Start with batch prediction, evolve to real-time when needed
+## 7. 🤔 Khi nào dùng / không dùng
 
----
+| Cần MLOps đầy đủ | Tạm chưa cần |
+|---|---|
+| ≥1 model đang chạy production | POC, hackathon |
+| ≥2 data scientist trong team | 1 người làm cả end-to-end |
+| Có SLA / khách hàng trả tiền | Demo nội bộ |
 
-## 🏢 Case Study: Google's Hidden Technical Debt Paper (2015)
+## 8. 📌 Tóm tắt 30 giây
 
-Google Research công bố paper "Hidden Technical Debt in Machine Learning Systems" — **classic** trong MLOps. Phát hiện chính: **ML code chỉ chiếm 5% codebase** của ML systems thực tế. 95% còn lại là:
-- Configuration (10%)
-- Data Collection (15%)
-- Feature Extraction (12%)
-- Data Verification (8%)
-- Process Management (6%)
-- Analysis Tools (12%)
-- Monitoring (8%)
-- Serving Infrastructure (15%)
-- Resource Management (9%)
-
-**Bài học:** "Doing ML" ≠ "Doing notebooks". Production ML là **software engineering** với layers phức tạp.
-
----
-
-## 🏢 Case Study: Uber Michelangelo — End-to-End MLOps Platform (2017)
-
-Uber xây Michelangelo để serve **>10000 ML models** in production. Components:
-- **Feature Store** — share features giữa training và serving (tránh skew)
-- **Model Registry** — version control cho models
-- **Auto-retraining** — pipeline chạy daily
-- **Online prediction** — Cassandra-backed feature lookups <10ms
-- **Monitoring** — drift detection, latency, accuracy tracking
-
-**Impact:** Time-to-deploy mới từ 6 tuần → 3 ngày. Models active từ 50 → 10000+.
-
----
-
-## 🏢 Case Study: Zillow Zestimate Disaster ($304M, 2021)
-
-Zillow Offers (mua nhà dựa trên model) lost $304M, sa thải 25% staff. Nguyên nhân:
-- **Data drift** không được detect — COVID thay đổi housing market patterns
-- **Model retraining** quá chậm (quarterly) — không bắt kịp shifts
-- **No A/B testing** trên model versions trong production
-- **Over-trust model** — tin model 100%, không có human-in-loop cho high-value decisions
-
-**Bài học:** Monitoring + drift detection không phải nice-to-have, là **survival**.
-
----
-
-## 📊 MLOps Maturity Levels (Google)
-
-| Level | Tên | Đặc điểm | Phù hợp với |
-|-------|-----|----------|-------------|
-| 0 | Manual | Notebooks, deploy bằng tay | Prototype, research |
-| 1 | ML Pipeline Automation | CI/CD cho data + model | Startup, single product |
-| 2 | CI/CD Pipeline Automation | Auto-retrain, auto-deploy, monitoring | Scale-up, multiple models |
-| 3 | Full MLOps | A/B testing, canary, automated rollback | Enterprise (Netflix, Uber) |
-
-**Reality check:** 87% data science projects **never reach production** (Gartner 2019). Lý do chính: gap giữa Level 0 và Level 1.
-
----
-
-## 📊 Essential MLOps Tools
-
-| Category | Open Source | Commercial |
-|----------|-------------|-----------|
-| Experiment Tracking | MLflow, Weights & Biases | Neptune.ai, Comet |
-| Feature Store | Feast | Tecton, Hopsworks |
-| Model Serving | TorchServe, BentoML, Triton | SageMaker, Vertex AI |
-| Pipeline Orchestration | Airflow, Prefect, Kubeflow | Databricks, Dagster Cloud |
-| Monitoring | Evidently AI, WhyLabs | Arize, Fiddler |
-| Model Registry | MLflow Models | Vertex AI Model Registry |
-
----
-
-## 📋 Best Practices
-
-✅ **Version everything**: code (git), data (DVC), models (MLflow), configs (Hydra)
-✅ **CI/CD cho ML**: tests cho data quality, model performance, integration tests
-✅ **Shadow deployment** trước canary: chạy model mới song song không ảnh hưởng users
-✅ **Drift monitoring**: PSI (Population Stability Index), KL divergence trên features
-✅ **Rollback plan**: luôn có thể revert về previous model trong <5 phút
-✅ **Latency SLA**: P99 latency, không chỉ mean
-
----
-
-## ⚠️ Anti-Patterns (từ Sculley et al. Google paper)
-
-❌ **Glue code** — 95% codebase chỉ để adapt 5% ML library
-❌ **Pipeline jungles** — data flows chằng chịt, không ai hiểu
-❌ **Dead experimental codepaths** — code experiments bỏ lại trong production
-❌ **Configuration debt** — 1000+ config flags, không ai biết default nào đúng
-❌ **Training-serving skew** — features tính khác nhau giữa train (Pandas) vs serve (Java) → silent failure
-❌ **No monitoring** — phát hiện model hỏng từ customer complaints, không phải dashboards
-
----
-
-## 🎓 Career Path: ML Engineer (FAANG salaries)
-
-| Vị trí | Skills cần | TC range US (2024) |
-|--------|-----------|---------------------|
-| ML Engineer (entry) | Python + PyTorch + AWS basics | $150-220K |
-| Senior ML Engineer | + System design + MLOps tools | $250-400K |
-| Staff ML Engineer | + Architecture + cross-team leadership | $400-600K+ |
-| Principal/Distinguished | + Industry impact + research | $700K-1M+ |
-
-**Vietnam TC (2024):** ML Engineer mid-level $40-80K, Senior $80-150K.
-
----
-
-## 🌉 Bridge to Next Steps
-
-Bạn đã hoàn thành 12 modules ML thuần (regression → MLOps). Roadmap tiếp theo:
-1. **Deep Learning** (Neural Networks → Transformers) — cho image, text, audio
-2. **AI Foundation** (LLMs, RAG, Ethics) — wave hiện tại
-3. **Data Engineering** (Spark, Airflow, Kafka) — đảm bảo data flow stable
-4. **Cloud Engineering** (AWS/GCP/Azure ML services) — production deployment
-
-Chúc mừng đã hoàn thành ML core!`,
+MLOps = DevOps cho model + data. 4 trụ cột: version, CI/CD/CT, serving, monitoring. Bắt đầu nhỏ với Git + MLflow + 1 endpoint. Quan trọng nhất là **monitor drift** — model nào cũng "lão hoá", không monitor là chết âm thầm.
+`,
         theoryEn: `**MLOps — DevOps for Machine Learning**
 
 **Lifecycle:** Data → Features → Training → Registry → Serving → Monitoring → Retrain.
