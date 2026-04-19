@@ -24,6 +24,7 @@ import SqlEditor from "@/components/SqlEditor";
 import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
 import CodeBlock from "@/components/CodeBlock";
+import TheorySections from "@/components/TheorySections";
 
 // Map module IDs to their pillar/course for grouping
 const PILLAR_COURSES: Record<string, string[]> = {
