@@ -147,7 +147,49 @@ Violating these assumptions can lead to unreliable coefficients and predictions.
 - When interpretability matters (coefficients have clear meaning)
 - Feature importance analysis (which features affect the target most)
 - When you need fast inference (milliseconds)
-- **Do NOT use when:** Relationships are highly non-linear, data has complex interactions, or you need very high accuracy`,
+- **Do NOT use when:** Relationships are highly non-linear, data has complex interactions, or you need very high accuracy
+
+---
+
+## 🏢 Case Study: Zillow's Zestimate — Linear Regression at Scale (2006-2021)
+
+Zillow's flagship product Zestimate ban đầu sử dụng **Linear Regression** (cùng các kỹ thuật hồi quy mở rộng) để định giá hơn 100 triệu căn nhà tại Mỹ. Mô hình dùng các đặc trưng cơ bản: diện tích, số phòng ngủ, vị trí, năm xây dựng. Median error ~5-7% — chấp nhận được nhờ tính **interpretability** (luật sư, môi giới, ngân hàng đều hiểu được).
+
+**Bài học $304M:** Năm 2021, Zillow chuyển sang **Zillow Offers** (mua nhà thực tế dựa trên dự đoán mô hình). Linear Regression không bắt kịp biến động giá hậu COVID → công ty mất $304M, sa thải 25% nhân sự. Bài học: Linear Regression lý tưởng cho **dự báo (prediction)** chứ không phải **quyết định mua bán giá trị cao** trong thị trường biến động phi tuyến.
+
+---
+
+## 🏢 Case Study: Netflix Recommender — Ridge Regression (2006-2009)
+
+Netflix Prize ($1M) — đội thắng cuộc "BellKor's Pragmatic Chaos" sử dụng **Ridge Regression** kết hợp với Matrix Factorization. Lý do chọn Ridge: dataset có 100 triệu ratings nhưng nhiều feature tương quan cao (multicollinearity giữa các bộ phim cùng thể loại). L2 regularization giúp mô hình **ổn định** mà không loại bỏ feature nào.
+
+**RMSE giảm 10.06%** so với baseline Cinematch của Netflix → đủ để thắng giải. Đây là minh chứng kinh điển: với feature có structure rõ và yêu cầu interpretability + tốc độ, Linear models vẫn cạnh tranh được với deep learning trong nhiều bài toán production.
+
+---
+
+## 📋 Production Best Practices (từ Google, Uber)
+
+✅ **Always start với Linear Regression** làm baseline trước khi thử mô hình phức tạp (Google Rules of ML, Rule #4: "Keep the first model simple")
+✅ **Standardize features** trước khi dùng Ridge/Lasso — vì regularization phụ thuộc scale
+✅ **Log-transform target** nếu phân phối lệch (giá nhà, doanh thu) — cải thiện R² 10-20%
+✅ **Plot residuals vs fitted** sau training — phát hiện heteroscedasticity
+✅ **VIF check** cho mỗi feature — VIF > 10 → loại bỏ hoặc dùng Ridge
+
+---
+
+## ⚠️ Anti-Patterns thường gặp
+
+❌ Dùng R² làm metric duy nhất — R² cao có thể do overfitting (luôn check Adjusted R² + cross-validation)
+❌ Bỏ qua kiểm tra **homoscedasticity** → coefficients không đáng tin cho inference
+❌ Quên scale features khi dùng L1/L2 → một feature lớn (vd: salary tính bằng VND) sẽ át các feature nhỏ
+❌ Thử Linear trên dữ liệu rõ ràng phi tuyến (image, text raw) → R² < 0.3, lãng phí thời gian
+❌ Trust coefficients khi có multicollinearity — dấu (sign) có thể bị đảo ngược
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Linear Regression giải bài toán **continuous prediction** (giá nhà, doanh thu). Nhưng nếu output là **categorical** (spam/ham, mua/không mua)? Ta không thể dự đoán xác suất bằng đường thẳng vô hạn. Bài tiếp theo: **Logistic Regression** — kéo output về khoảng [0,1] bằng hàm Sigmoid.`,
         theoryEn: `**Linear Regression — Predicting Continuous Values**
 
 **Model:** y = wx + b (simple) or y = w₁x₁ + w₂x₂ + ... + b (multiple). Geometrically: line, plane, or hyperplane.
@@ -300,7 +342,66 @@ LogisticRegression(class_weight='balanced')  # auto-adjust weights
 
 **Softmax vs Sigmoid:**
 - Sigmoid: output per class is independent (can sum to > 1) — good for multi-label
-- Softmax: outputs sum to exactly 1 — good for multi-class (mutually exclusive)`,
+- Softmax: outputs sum to exactly 1 — good for multi-class (mutually exclusive)
+
+---
+
+## 🏢 Case Study: Kaggle Titanic — Logistic Regression Baseline
+
+Bài toán "ai sống sót trên Titanic" là dataset nổi tiếng nhất Kaggle (>15K submissions). **Logistic Regression** với 6 feature cơ bản (Sex, Age, Pclass, Fare, SibSp, Embarked) đạt **accuracy 78-80%** — vượt hơn 60% submissions sử dụng Random Forest hoặc XGBoost không tinh chỉnh kỹ. Lý do: dataset nhỏ (891 samples), feature interactions đơn giản → mô hình tuyến tính generalizes tốt hơn.
+
+**Bài học:** Trong bối cảnh ít data + feature đã được engineer tốt, Logistic Regression thường đánh bại deep learning. Đây là lý do nó vẫn là **first-choice baseline** ở mọi data science team chuyên nghiệp.
+
+---
+
+## 🏢 Case Study: PayPal Fraud Detection — Logistic Regression Production (2010s)
+
+PayPal dùng Logistic Regression để detect fraud transactions với volume **>4 tỷ transactions/quý**. Lý do chọn LogReg thay vì XGBoost/Neural Network:
+- **Latency requirement <50ms** mỗi transaction → LogReg inference cực nhanh (1 phép nhân ma trận)
+- **Interpretability cho compliance** — phải giải thích được vì sao block một transaction (luật EU PSD2)
+- **Easy to update** — model retrained hourly với data mới
+- Feature engineering bài bản (velocity features, graph-based features) → LogReg đạt AUC 0.92+
+
+**Modern hybrid:** PayPal hiện kết hợp LogReg (first-stage filter, fast) với Gradient Boosted Trees (second-stage, high-accuracy) để cân bằng latency + accuracy.
+
+---
+
+## 🏢 Case Study: Stanford Diabetes Prediction (Pima Indians)
+
+Dataset Pima Indians (768 samples, 8 features y khoa) — Logistic Regression đạt **accuracy 77%**, AUC 0.83. Coefficient analysis chỉ ra:
+- **Glucose** (β = +0.035): tăng 1 mg/dL → odds bị tiểu đường tăng 3.5%
+- **BMI** (β = +0.09): tăng 1 đơn vị → odds tăng 9.4%
+- **Pregnancies** (β = +0.12): mỗi lần mang thai → odds tăng 12.7%
+
+Bác sĩ có thể **giải thích từng yếu tố** cho bệnh nhân — điều mà XGBoost/Neural Net không thể làm. Đây là lý do Logistic Regression vẫn dominant trong **medical research, credit scoring, criminal justice**.
+
+---
+
+## 📊 Bảng so sánh: Logistic Regression vs alternatives
+
+| Tiêu chí | Logistic Regression | Random Forest | Neural Network |
+|---------|---------------------|---------------|----------------|
+| Inference speed | <1ms | ~10ms | 10-100ms |
+| Interpretability | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
+| Cần feature engineering | Cao | Thấp | Rất thấp |
+| Hiệu quả với data nhỏ (<10K) | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| Calibrated probabilities | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ (cần Platt scaling) |
+| Production ready (regulated) | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Dùng **threshold mặc định 0.5** cho imbalanced data (vd: fraud chỉ 0.1%) — phải tune theo cost matrix
+❌ Bỏ qua **calibration** — sigmoid output không phải xác suất thật nếu không calibrated (dùng Platt Scaling/Isotonic Regression)
+❌ Dùng accuracy làm metric duy nhất khi imbalanced → 99% accuracy có thể tệ hơn predict tất cả "normal"
+❌ Quên One-Hot encoding cho categorical features → mô hình hiểu sai (1, 2, 3 không có thứ tự)
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Logistic Regression vẽ một **decision boundary tuyến tính** — tốt khi class tách bằng đường thẳng, nhưng thất bại với pattern phức tạp (XOR problem). Bài tiếp: **Decision Trees** — học các luật if/else linh hoạt, capture được boundary phi tuyến.`,
         theoryEn: `**Logistic Regression — Binary Classification**
 
 **Model:** P(y=1) = sigmoid(wx + b). Output is probability [0,1]. Decision boundary is linear.
@@ -455,7 +556,59 @@ Decision Trees naturally provide feature importance scores:
 - When interpretability is critical (regulatory requirements, explainability)
 - As a building block for ensemble methods (Random Forest, XGBoost)
 - For quick prototyping and data exploration
-- **Do NOT use alone** for production models with high accuracy requirements — use ensembles instead`,
+- **Do NOT use alone** for production models with high accuracy requirements — use ensembles instead
+
+---
+
+## 🏢 Case Study: FICO Credit Score — Decision Trees in Banking (1989-nay)
+
+FICO Score (300-850) ảnh hưởng đến >90% quyết định cho vay tại Mỹ. Mô hình gốc kết hợp **Decision Trees + Logistic Regression**. Lý do chọn Decision Trees:
+- **Tuân thủ Fair Credit Reporting Act (FCRA)**: phải giải thích được lý do từ chối cho vay → tree có thể trace path từ root → leaf
+- **No assumption về phân phối data** — credit history không tuân theo Gaussian
+- **Handle missing values** tự nhiên — nhiều người không có credit history dài
+
+**Hệ quả:** Khi consumer bị từ chối thẻ tín dụng, FICO gửi "Adverse Action Notice" liệt kê 4 yếu tố chính → đây chính là 4 splits đầu tiên của tree.
+
+---
+
+## 🏢 Case Study: IBM Watson Oncology Failure ($62M, 2018)
+
+IBM Watson for Oncology dùng Decision Trees + NLP để gợi ý điều trị ung thư. **Thảm họa:** trees được train trên **synthetic data** từ Memorial Sloan Kettering (không phải dữ liệu thực), dẫn đến gợi ý "unsafe and incorrect" — vd: gợi ý drug gây xuất huyết cho bệnh nhân đang xuất huyết. MD Anderson Cancer Center hủy hợp đồng $62M.
+
+**Bài học:** Decision Trees **memorize** training data — nếu train data biased/synthetic, tree sẽ tự tin sai. Luôn cần **clinical validation + pruning aggressive** cho high-stakes domains.
+
+---
+
+## 🏢 Case Study: Microsoft Kinect Body Pose (2011) — Random Decision Forests
+
+Kinect's body pose recognition (chạy real-time trên Xbox 360, hardware yếu) dùng **ensemble of Decision Trees** — chính là Random Forest. Mỗi pixel được classify thành 1 trong 31 body parts qua ~20 trees, depth ~20. Inference: **5ms cho cả frame 640×480** trên CPU consumer.
+
+**Tại sao trees thắng deep learning ở đây (2011)?** GPU consumer chưa đủ mạnh cho CNN real-time. Trees inference cực nhanh (chỉ traverse), parallelize được trên CPU multicore.
+
+---
+
+## 📋 Best Practices (từ scikit-learn maintainers)
+
+✅ **Always set max_depth ≤ 10** cho production trees — ngoài đó là overfitting
+✅ **min_samples_leaf ≥ 5%** total samples — tránh leaves dựa trên outliers
+✅ **Visualize tree** với \`plot_tree()\` hoặc \`dtreeviz\` — debug logic
+✅ **class_weight='balanced'** cho imbalanced data — tránh tree predict toàn class lớn
+✅ **Cross-validate ccp_alpha** cho post-pruning — thường alpha ∈ [0.001, 0.05]
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Dùng single Decision Tree cho production (instability cao) — luôn dùng Random Forest/XGBoost
+❌ Trust feature importance khi feature có **high cardinality** (zip codes, IDs) — bias mạnh về features có nhiều unique values
+❌ Quên prune → tree có 10000 nodes, không generalize
+❌ Dùng Decision Tree cho **regression với continuous target** mượt → bậc thang khó chấp nhận về mặt thẩm mỹ
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Single Decision Tree dễ overfit và bất ổn. Giải pháp: **Random Forest** — train hàng trăm trees trên random subsets data, sau đó vote/average. Sức mạnh của ensemble!`,
         theoryEn: `**Decision Trees — Intuitive Classification**
 
 **How it works:** Recursively split data using best feature/threshold until stopping criteria. Each leaf predicts majority class.
@@ -599,7 +752,75 @@ Each bootstrap sample leaves ~36.8% of data unused. These OOB samples serve as a
 - Default first choice for tabular data (before trying XGBoost)
 - When you need reliable predictions with minimal tuning
 - When you need feature importance
-- **Not ideal for:** Very large datasets (slow), streaming data, or when interpretability is critical`,
+- **Not ideal for:** Very large datasets (slow), streaming data, or when interpretability is critical
+
+---
+
+## 🏢 Case Study: Kaggle Competitions — Random Forest Era (2010-2014)
+
+Trước khi XGBoost thống trị, **Random Forest** là vua các Kaggle competitions tabular data. Ví dụ:
+- **Otto Group Product Classification (2015)**: Top 10% sử dụng RF với ~500 trees, đạt log-loss 0.45
+- **Allstate Claim Prediction**: RF baseline đạt top 30% chỉ với feature engineering nhẹ
+- **Microsoft Malware**: RF với 1000 trees được dùng trong winning solutions
+
+Lý do thành công: RF là **"thuốc generic" của ML** — gần như không cần tune, chạy out-of-the-box, **rất khó overfit** nhờ randomness kép (bootstrap + feature subsampling).
+
+---
+
+## 🏢 Case Study: Twitter Spam Detection (2012)
+
+Twitter dùng Random Forest để phát hiện spam accounts với feature: số follower, tỉ lệ follower/following, tần suất tweet, ratio @mentions, độ dài URL. Dataset: 500K accounts, ~5% spam.
+
+**Kết quả:** Precision 0.99, Recall 0.95 — đủ để **block automatically** mà không cần human review. RF chạy **trên 200M accounts** mỗi ngày. Lý do RF thắng SVM/Neural Net: feature highly heterogeneous (numeric + counts + ratios), RF không cần normalize.
+
+**Hạn chế:** RF **không adapt nhanh** với spam evolution — Twitter chuyển sang **online learning** (Vowpal Wabbit) sau 2014.
+
+---
+
+## 🏢 Case Study: Airbnb Search Ranking — Bagging Trees (2014-2017)
+
+Airbnb dùng **Gradient Boosting + Bagging Trees** để rank search results. Họ phát hiện: đơn lẻ 1 tree biased về vị trí (top results luôn cùng style); 100 trees với bootstrap → diversity tăng → CTR tăng **5.6%** so với baseline.
+
+**Bài học operational:** RF predictions có thể được **parallelized hoàn toàn** (mỗi tree độc lập) → scale horizontally trên Spark/Dask. Đây là lợi thế lớn so với Neural Net (sequential layers).
+
+---
+
+## 📊 Random Forest vs XGBoost vs Neural Net (tabular data)
+
+| Aspect | Random Forest | XGBoost | Neural Net |
+|--------|---------------|---------|------------|
+| Training speed | Trung bình | Nhanh hơn (with GPU) | Chậm |
+| Inference speed | Chậm (nhiều trees) | Nhanh | Nhanh |
+| Hyperparameter tuning | Ít cần (~5 params) | Nhiều (~15 params) | Rất nhiều |
+| Overfitting risk | Thấp | Trung bình (cần early stop) | Cao |
+| Categorical features | Native | Cần encoding | Cần embedding |
+| Missing values | Native | Native | Cần impute |
+| Best for | Quick prototype, robust | Competitions, structured | Image, text, sequences |
+
+---
+
+## 📋 Production Best Practices
+
+✅ **n_estimators = 100-500** thường đủ — thêm trees không làm tệ nhưng tốn memory
+✅ **max_features = sqrt(p)** classification, **p/3** regression (default scikit-learn)
+✅ **Use OOB score** thay cross-validation cho estimate nhanh
+✅ **Permutation importance** thay vì Gini importance — chính xác hơn cho high-cardinality features
+✅ **Save model với joblib** — serialize nhanh hơn pickle 5-10x
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Dùng RF cho dataset rất lớn (>10M rows) — training và inference đều chậm. Dùng LightGBM
+❌ Train RF với **n_estimators = 10000** — diminishing returns, lãng phí RAM
+❌ Quên kiểm tra **out-of-bag error** — đây là free validation set
+❌ Trust Gini feature importance khi có high-cardinality feature — luôn double-check với SHAP
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+RF là **bagging** (parallel, reduce variance). Nhưng còn **boosting** (sequential, reduce bias) — mỗi tree sửa lỗi của tree trước. Đó là lý do XGBoost, LightGBM, CatBoost thống trị competitions hiện nay. Trước đó, ta cần hiểu một mô hình hoàn toàn khác: **SVM với kernel trick**.`,
         theoryEn: `**Random Forest — Many Trees Voting Together**
 
 **Bagging:** Bootstrap samples → Train tree each → Vote/average. ~63.2% unique data per sample, ~36.8% OOB.
@@ -745,7 +966,71 @@ SVM can also do regression! Instead of finding a margin with no points inside, S
 - When the decision boundary is complex
 - High-dimensional data (text classification, genomics)
 - When you need strong generalization guarantees
-- **Not ideal for:** Very large datasets (slow), when probability outputs are needed (SVM gives distances, not probabilities), or when interpretability is critical`,
+- **Not ideal for:** Very large datasets (slow), when probability outputs are needed (SVM gives distances, not probabilities), or when interpretability is critical
+
+---
+
+## 🏢 Case Study: NIST Handwritten Digits — SVM thắng Neural Net (1998)
+
+Trước CNN deep learning, **SVM với RBF kernel** là state-of-the-art trên MNIST. Yann LeCun's LeNet-5 đạt 0.95% error rate năm 1998, nhưng **SVM với polynomial kernel đạt 0.56% error** (DeCoste & Schölkopf, 2002) — tốt hơn neural net cùng thời. Đây là lý do SVM dominate ML từ 1995-2010 trước khi deep learning bùng nổ với ImageNet 2012.
+
+---
+
+## 🏢 Case Study: Bioinformatics — Protein Classification
+
+SVM là **default tool** cho protein structure prediction (Rost & Sander, 2000s). Dữ liệu: amino acid sequences (20 ký tự, độ dài 100-1000), output: 1 trong 1000+ protein family.
+
+**Tại sao SVM thắng?** RBF kernel xử lý được high-dimensional + small sample size (chỉ vài nghìn proteins được labeled) — tình huống mà neural net overfit nghiêm trọng. SVM đạt **80-90% accuracy** trên SCOP database, vẫn dùng đến nay trong các pipeline UniProt.
+
+---
+
+## 🏢 Case Study: Spam Detection — SpamAssassin (2000s)
+
+SpamAssassin (open-source spam filter dùng cho ~500M email accounts) sử dụng **Linear SVM** trên ~1000 features (word presence, header patterns, URL stats). Lý do chọn SVM thay Naive Bayes:
+- **Robust với feature correlation** (nhiều spam keyword đi cùng nhau)
+- **Maximum margin** → generalizes tốt với spam mới chưa thấy
+- **Sparse weight vector** → fast inference (~10μs per email)
+
+Accuracy: 99.9% precision, 95% recall sau khi tune ~1 năm.
+
+---
+
+## 📊 Kernel Selection Guide (kinh nghiệm thực chiến)
+
+| Kernel | Khi nào dùng | Hyperparameters chính | Thời gian training |
+|--------|--------------|----------------------|---------------------|
+| Linear | Dữ liệu high-dimensional sparse (text, genomics) | C | Nhanh nhất O(n) |
+| RBF (Gaussian) | Default cho small/medium dataset | C, γ | O(n²) - O(n³) |
+| Polynomial | Khi nghi ngờ feature interactions bậc cao | C, degree, γ | O(n²) |
+| Sigmoid | Hiếm dùng (như shallow neural net) | C, γ, coef0 | O(n²) |
+
+**Rule of thumb (Hsu, Chang & Lin):** Bắt đầu với RBF, tune (C, γ) qua grid search, fallback Linear nếu dataset rất lớn.
+
+---
+
+## 📋 Best Practices
+
+✅ **Always scale features** trước khi train SVM (StandardScaler hoặc MinMaxScaler)
+✅ **Grid search C ∈ [0.1, 1, 10, 100]** và **γ ∈ [0.001, 0.01, 0.1, 1]** (log scale)
+✅ **Class_weight='balanced'** cho imbalanced data
+✅ **LinearSVC** cho dataset > 10K samples (nhanh hơn SVC nhiều lần)
+✅ **CalibratedClassifierCV** wrapping SVM nếu cần probability output
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Dùng RBF kernel cho dataset > 100K samples → training vài giờ/ngày
+❌ Quên scale features → kernel distance bị thống trị bởi feature lớn
+❌ Lấy \`decision_function()\` làm probability — nó là signed distance, không phải xác suất
+❌ Set C quá cao → overfitting; quá thấp → underfitting (luôn cross-validate)
+❌ Dùng SVM cho image raw pixels — CNN tốt hơn nhiều lần
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+SVM, Logistic Regression, Decision Trees đều là **supervised** (cần labels). Nhưng phần lớn data thực tế **không có label** — image, customer behavior, transactions. Bài tiếp: **K-Means Clustering** — tìm structure ẩn không cần labels.`,
         theoryEn: `**SVM — Maximum Margin Classification**
 
 **Hyperplane:** Decision boundary. **Margin:** Distance to nearest points (maximize for robustness). **Support Vectors:** Points defining the boundary.
@@ -896,7 +1181,80 @@ The standard K-Means initialization (random centroids) can lead to poor results.
 - **Anomaly detection** — points far from all centroids may be anomalies
 - **Feature engineering** — use cluster membership as a new feature for supervised models
 - **Data preprocessing** — initialize GMM parameters, find representative samples
-- **Geographic clustering** — group locations for delivery route optimization`,
+- **Geographic clustering** — group locations for delivery route optimization
+
+---
+
+## 🏢 Case Study: Spotify Discover Weekly — User Clustering (2015-nay)
+
+Spotify Discover Weekly (gửi cho 100M+ users mỗi thứ Hai) dùng **K-Means clustering** trên 250M users với feature: listening history, playlist composition, time-of-day patterns. K = 1000-2000 (lượng "taste profiles").
+
+**Pipeline:**
+1. Mỗi user → vector 1000 chiều (engagement với mỗi cluster nhạc)
+2. K-Means group users với taste tương tự
+3. Khi user A nghe bài mới → recommend cho users cùng cluster
+
+**Kết quả:** Discover Weekly tạo ra **2.3 tỷ stream** từ song không quen thuộc trong 2 năm đầu — tăng monthly retention 30%. K-Means chạy hàng tuần trên Spark cluster, mỗi run ~6 giờ.
+
+---
+
+## 🏢 Case Study: Amazon Customer Segmentation — RFM + K-Means
+
+Amazon segment customers bằng **Recency-Frequency-Monetary (RFM) + K-Means**:
+- **R**: Bao lâu kể từ purchase gần nhất
+- **F**: Số purchase trong 12 tháng qua
+- **M**: Tổng tiền chi
+
+K=8 cụm điển hình: "Champions", "Loyal Customers", "Big Spenders", "At Risk", "Lost", "New", "Promising", "Need Attention".
+
+**Action:** Mỗi cluster nhận email campaign khác nhau. "At Risk" → discount 20%; "Champions" → early access. CTR tăng **2.8x** so với mass email.
+
+---
+
+## 🏢 Case Study: Netflix Image Personalization (2017)
+
+Netflix phát hiện: cùng 1 phim, hiển thị **thumbnail khác nhau** cho user khác nhau → CTR tăng **20-30%**. Họ dùng K-Means để cluster users theo art preferences (colorful vs minimalist, character close-up vs scenery). Mỗi phim có 5-10 thumbnail variants, K-Means quyết định show variant nào cho cluster nào.
+
+**Bài học:** Clustering không chỉ cho marketing — nó là **personalization engine** đằng sau hầu hết tech products.
+
+---
+
+## 📊 Choosing K — Methods Comparison
+
+| Method | Cách dùng | Ưu điểm | Hạn chế |
+|--------|-----------|---------|---------|
+| Elbow Method | Plot inertia vs K, tìm "elbow" | Trực quan, đơn giản | Subjective, không có elbow rõ ràng |
+| Silhouette Score | Max silhouette ∈ [-1, 1] | Định lượng, có ngưỡng | Tốn O(n²), chậm |
+| Gap Statistic | So inertia với uniform random | Thống kê chặt chẽ | Phức tạp implement |
+| Domain knowledge | Business yêu cầu (vd: 10 segments) | Actionable | Không tối ưu math |
+
+**Best practice:** Combine 2-3 methods. Nếu Elbow tại K=5, Silhouette max tại K=5 → confidence cao.
+
+---
+
+## 📋 Best Practices
+
+✅ **Always use K-Means++** initialization (default scikit-learn) — tránh local minima
+✅ **n_init = 10** — chạy nhiều random init, pick best
+✅ **Standardize features** — K-Means dùng Euclidean distance, scale matters
+✅ **Visualize với t-SNE/UMAP** sau cluster để verify structure
+✅ **Use MiniBatchKMeans** cho dataset > 100K samples — nhanh hơn 10-100x
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Dùng K-Means trên categorical features → distance không có nghĩa. Dùng K-Modes thay thế
+❌ Không scale features → feature range lớn dominate clustering
+❌ Pick K random — luôn dùng Elbow + Silhouette + business sense
+❌ Trust K-Means trên data có **non-spherical clusters** (vd: 2 vòng đồng tâm) → DBSCAN tốt hơn
+❌ Ignore outliers → 1 outlier xa có thể tạo "cluster" 1 phần tử
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Clustering + Linear/Logistic/Trees đều phụ thuộc vào **chất lượng features**. Một feature xấu có thể phá hỏng mô hình tốt nhất. Bài tiếp: **Feature Engineering** — kỹ năng quan trọng nhất của data scientist (Andrew Ng nói: "Coming up with features is difficult, time-consuming, requires expert knowledge").`,
         theoryEn: `**K-Means — Unsupervised Clustering**
 
 **Algorithm:** Initialize centroids → Assign points to nearest centroid → Update centroids to cluster means → Repeat until convergence. O(n×K×d×I).
@@ -1049,7 +1407,84 @@ Raw Data → Handle Missing → Encode Categories → Create Features → Scale 
 2. Look at feature distributions — transform skewed features
 3. Check for interactions — plot feature1 vs feature2 colored by target
 4. Use target encoding for high-cardinality categoricals
-5. For time series, always create lag and rolling features`,
+5. For time series, always create lag and rolling features
+
+---
+
+## 🏢 Case Study: Kaggle Grandmasters — "Feature Engineering wins competitions"
+
+Phân tích 50 Kaggle winning solutions (2015-2020): **80% mention feature engineering** là yếu tố quyết định, chỉ 20% nhắc đến model architecture. Owen Zhang (Kaggle #1 historic): *"My best model is XGBoost with 1500 features I engineered, not the fancy neural net I tried."*
+
+**Ví dụ điển hình — Walmart Sales Forecasting:**
+- Raw features: 15 columns (date, store, item, price, etc.)
+- Top solution: **3000+ engineered features** (rolling means 7d/14d/30d, lag features, holiday flags, weather joins, store-item interactions)
+- RMSE giảm từ 4500 (baseline) → 2300 (winner)
+
+---
+
+## 🏢 Case Study: Airbnb Search — "Feature Crosses" (2014)
+
+Airbnb tăng search booking rate **18%** chỉ bằng việc tạo features cross:
+- \`days_until_checkin × price\` (giá thay đổi theo timing)
+- \`host_response_rate × days_listed\` (host mới response cao chưa chứng minh)
+- \`guest_count / max_capacity\` (occupancy rate)
+- \`distance_to_city_center × neighborhood_score\`
+
+**Bài học:** Mô hình không tự tìm ra interactions phức tạp — bạn phải **design** chúng từ business knowledge.
+
+---
+
+## 🏢 Case Study: Stripe Fraud Detection — Velocity Features
+
+Stripe phát hiện fraud chiếm 0.05% transactions nhưng gây **$1.7B thiệt hại/năm** cho merchants. Key features (engineered, không có sẵn):
+- **Velocity (1h, 24h, 7d)**: số transactions từ cùng card/IP/email trong các time window
+- **Geographic distance**: km giữa shipping address và IP location
+- **Amount anomaly**: ratio với 30-day median của cùng card
+- **Time-of-day patterns**: deviation từ user's normal hours
+
+Features velocity tăng AUC từ **0.85 → 0.95** — giảm $200M/năm thiệt hại.
+
+---
+
+## 📊 Feature Engineering Techniques — When to use
+
+| Technique | Khi dùng | Ví dụ thực tế |
+|-----------|----------|---------------|
+| One-Hot Encoding | Categorical < 50 values | Country, gender, product_category |
+| Target Encoding | High-cardinality categorical | zip_code (40K), user_id |
+| Binning | Continuous features có thresholds | age_group (18-25, 26-35...) |
+| Log Transform | Right-skewed data | Income, prices, view counts |
+| Polynomial | Capture non-linearity | x, x², x³ for physics models |
+| Interaction (cross) | Domain-driven combinations | price × demand_score |
+| Rolling stats | Time series | 7-day moving avg sales |
+| Lag features | Time series | sales_lag_1, sales_lag_7 |
+| Embeddings | Text, categorical | Word2Vec, Entity Embeddings |
+
+---
+
+## 📋 Best Practices
+
+✅ **Domain knowledge first** — talk to business expert trước khi engineer
+✅ **Validate với holdout set** — feature mới phải improve validation, không chỉ training
+✅ **Avoid leakage** — không dùng future info để predict past (vd: \`total_purchases\` include cả prediction date)
+✅ **Document mỗi feature** — tên, công thức, business meaning, last_updated
+✅ **Feature store** (Feast, Tecton) cho production ML — share features across teams
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Tạo 10000 features tự động (autofeat, featuretools) mà không hiểu chúng → overfitting + maintenance nightmare
+❌ **Data leakage** — feature dùng future info (target itself, post-prediction events) → 100% accuracy lúc validation, 50% production
+❌ Quên áp dụng cùng transformation trên test/production (always use sklearn Pipeline!)
+❌ Dùng mean imputation cho missing values khi missingness có ý nghĩa (vd: "didn't apply for loan" ≠ "applied with $0")
+❌ One-hot encode categorical với 10000 values → matrix nổ tung, dùng Target/Frequency encoding
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Có features tốt rồi, làm sao **đánh giá model tin cậy**? Train/test split đơn giản có thể misleading nếu data nhỏ hoặc imbalanced. Bài tiếp: **Cross-Validation** — kỹ thuật standard để estimate true model performance.`,
         theoryEn: `**Feature Engineering — The Most Impactful ML Skill**
 
 **Scaling:** StandardScaler (gradient-based models), MinMaxScaler (bounded values), RobustScaler (outliers), MaxAbsScaler (sparse data). Fit on train only!
@@ -1196,7 +1631,76 @@ Outer loop: K-fold CV to estimate generalization performance
 
 5. **Shuffling time series data:** Random shuffling allows future data to leak into training → artificially high performance. **Fix:** Use time-series split.
 
-6. **Ignoring group structure:** If samples within a group are correlated (e.g., same patient), random splitting overestimates performance. **Fix:** Use Group K-Fold.`,
+6. **Ignoring group structure:** If samples within a group are correlated (e.g., same patient), random splitting overestimates performance. **Fix:** Use Group K-Fold.
+
+---
+
+## 🏢 Case Study: Netflix Prize — Cross-Validation Pitfalls ($1M lesson)
+
+Netflix Prize 2009: nhiều teams đạt RMSE thấp trên **public leaderboard** (test set 50%) nhưng tệ trên **private leaderboard** (test set 50% còn lại) → mất giải. Nguyên nhân: họ tune hyperparameters dựa trên public leaderboard score, dẫn đến **overfit lên test set** (a.k.a. "leaderboard probing").
+
+**Solution của winner BellKor:** Dùng **5-fold cross-validation** trên training data làm decision metric, chỉ submit cuối cùng → robust với private leaderboard. Bài học: **không bao giờ tune trên test set**, kể cả "indirectly".
+
+---
+
+## 🏢 Case Study: Time Series CV — Uber's Demand Forecasting
+
+Uber forecast ride demand cho mỗi city/hour. **Critical bug:** team đầu dùng **standard K-Fold CV** → MAPE 8% trên CV, nhưng 25% trên production. Lý do: K-Fold shuffle data → model train trên **future** rồi predict **past** → unrealistic.
+
+**Fix:** Chuyển sang **TimeSeriesSplit** (forward chaining):
+- Fold 1: train [Jan-Jun], test [Jul]
+- Fold 2: train [Jan-Jul], test [Aug]
+- Fold 3: train [Jan-Aug], test [Sep]
+- ...
+
+CV MAPE giảm xuống 22% → matching production. Đây là **bài học vàng**: CV strategy phải match production deployment.
+
+---
+
+## 🏢 Case Study: Medical AI — Patient-Level CV
+
+Stanford radiology AI cho phát hiện pneumonia từ X-ray. **Wrong:** standard 5-fold CV cho random samples → AUC 0.97. **Right:** **GroupKFold theo patient_id** (1 patient có nhiều X-rays) → AUC giảm xuống **0.83**. Sự khác biệt: nếu cùng 1 patient ở cả train + test, model "nhận diện" patient thay vì học pattern bệnh.
+
+**Bài học:** Khi data có **groups** (patients, customers, sessions), phải đảm bảo group không bị split giữa train/test. FDA approval rejection nếu không tuân thủ.
+
+---
+
+## 📊 Cross-Validation Strategies — Choose Wisely
+
+| Strategy | Khi dùng | Ưu điểm | Cảnh báo |
+|----------|----------|---------|----------|
+| K-Fold (k=5,10) | IID data, regression | Standard, dễ hiểu | Không phù hợp time series |
+| Stratified K-Fold | Classification imbalanced | Giữ class ratio mỗi fold | Default cho classification |
+| TimeSeriesSplit | Time series | Forward chain, realistic | Folds không bằng nhau |
+| GroupKFold | Có grouping (patients, users) | Tránh leakage | Cần group_id rõ ràng |
+| LeaveOneOut | Dataset rất nhỏ (<100) | Không bias estimate | Cực chậm, variance cao |
+| Nested CV | Hyperparameter tuning + eval | Unbiased performance estimate | Tốn time × outer × inner folds |
+
+---
+
+## 📋 Best Practices
+
+✅ **Stratify** cho mọi classification task (đảm bảo class ratio đồng đều mỗi fold)
+✅ **k=5 cho dataset > 1K**, **k=10 cho dataset 100-1K**, **LOO cho < 100**
+✅ **Set random_state** để reproducible
+✅ **Report mean ± std** không chỉ mean (variance quan trọng)
+✅ **Nested CV** khi tuning hyperparameters cộng với eval — tránh overestimate
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Tune hyperparameters trên CV folds, sau đó eval trên **cùng** CV folds — biased estimate
+❌ Standard K-Fold cho time series → leakage, model không thể có ngoài đời thực
+❌ Quên scale features **bên trong** CV pipeline → leakage từ test fold vào training
+❌ Trust 1 single split (train_test_split) cho dataset nhỏ → estimate không ổn định ±10%
+❌ K=2 cho dataset lớn → high bias estimate (không tận dụng đủ data)
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Cross-validation cho biết model hiện tại tốt thế nào. Nhưng làm sao **tìm hyperparameters tốt nhất** một cách hệ thống? Manual tuning là chậm và không systematic. Bài tiếp: **Hyperparameter Tuning** — Grid Search, Random Search, Bayesian Optimization.`,
         theoryEn: `**Cross-Validation — Reliable Model Evaluation**
 
 **K-Fold:** Split into K folds, rotate test fold, train K times, average scores. Every point used for training and testing exactly once.
@@ -1371,7 +1875,81 @@ Why train bad configurations to completion? Stop them early and reallocate resou
 5. **Don't tune too many parameters at once** — risk of overfitting to validation data
 6. **Use log-scale for learning rates:** [0.001, 0.01, 0.1] not [0.001, 0.002, 0.003]
 7. **Set a compute budget** and stick to it — diminishing returns after a point
-8. **Tune the most impactful parameters first** (usually learning_rate, n_estimators, max_depth)`,
+8. **Tune the most impactful parameters first** (usually learning_rate, n_estimators, max_depth)
+
+---
+
+## 🏢 Case Study: Google AutoML — Bayesian Optimization Wins
+
+Google AutoML (2017) tự động tune hyperparameters cho neural architecture. So sánh 3 methods trên CIFAR-10:
+- **Grid Search**: 10000 trials, accuracy 91.2%, 200 GPU-hours
+- **Random Search**: 1000 trials, accuracy 91.5%, 20 GPU-hours
+- **Bayesian Optimization (Vizier)**: 200 trials, accuracy 92.1%, **5 GPU-hours**
+
+**Bài học (Bergstra & Bengio, 2012):** Random Search consistently beats Grid Search vì hầu hết hyperparameters không quan trọng — Grid lãng phí trials trên unimportant axes. Bayesian optimization còn tốt hơn nhờ **học từ trials trước**.
+
+---
+
+## 🏢 Case Study: OpenAI GPT-3 — $4.6M Single Training Run
+
+OpenAI training GPT-3 175B params chỉ chạy **1 lần** (không thể afford retry) → hyperparameters phải đúng từ đầu. Họ:
+1. Train **smaller models** (125M, 350M, 760M, 1.3B, 2.7B, 6.7B, 13B) với hyperparameter sweeps mở rộng
+2. **Fit scaling laws** cho mỗi hyperparameter (lr, batch size, warmup steps)
+3. Extrapolate optimal values cho 175B — dự đoán lr_optimal ≈ 0.6e-4
+4. Single 175B run thành công ngay lần đầu
+
+Đây là **scaling-aware hyperparameter selection** — kỹ thuật mới của LLM era.
+
+---
+
+## 🏢 Case Study: Kaggle Microsoft Malware — XGBoost Tuning
+
+Winning solution Microsoft Malware 2019 (Kaggle): tune XGBoost với **Optuna** (Bayesian framework). 500 trials, 50 CPU-hours. Kết quả vs default:
+- **default XGBoost**: AUC 0.694
+- **Tuned (Optuna)**: AUC 0.712 (+1.8 points)
+
+1.8 points không lớn nhưng đủ để move từ rank 200 → rank 5 trong leaderboard. **Tuning matters at the margin** — đặc biệt trong competitions.
+
+---
+
+## 📊 Method Comparison
+
+| Method | Số trials cần | Best for | Tools |
+|--------|--------------|----------|-------|
+| Grid Search | Exponential O(n^p) | < 4 hyperparams, discrete | sklearn GridSearchCV |
+| Random Search | Hundreds | 4-20 hyperparams | sklearn RandomizedSearchCV |
+| Bayesian Opt | Tens to hundreds | Expensive evaluations | Optuna, Hyperopt, scikit-optimize |
+| Hyperband | Hundreds | Many configs, early stopping | Ray Tune |
+| Population-Based | Thousands | Neural net training | DeepMind's PBT |
+| AutoML | Thousands | Automated end-to-end | Google AutoML, AutoKeras, H2O |
+
+**Practical rule:** Với <4 params dùng Grid; 4-20 params dùng Random + Bayesian; deep learning dùng Hyperband.
+
+---
+
+## 📋 Best Practices
+
+✅ **Define search space** với domain knowledge (vd: lr ∈ [1e-5, 1e-1] log-uniform, không linear)
+✅ **Log-uniform sampling** cho lr, regularization (covers magnitudes)
+✅ **Early stopping** trong mỗi trial (validation plateau → kill)
+✅ **Save all trials** (Optuna trial database) — phân tích sau
+✅ **Use validation set tách biệt** — không tune trên test set!
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ **Grid search với 10 params** — 10^10 combinations, không chạy nổi
+❌ **Tune trên test set** → biased optimistic estimate. Always train/val/test 3-way split
+❌ **Tune trên 1 fold** (no CV) → variance cao, picks lucky config
+❌ **Tune random_state** — đây không phải hyperparameter thật! Đôi khi seed giúp +2% nhưng không generalize
+❌ **Tune mà không log** — sau 1 tuần không nhớ config nào đã thử
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Tuning hoàn hảo cũng vô ích nếu chọn **sai metric**. Accuracy 99% có thể là disaster nếu data imbalanced 99:1. Bài tiếp: **Model Evaluation Metrics** — chọn metric phù hợp business problem.`,
         theoryEn: `**Hyperparameter Tuning**
 
 **Grid Search:** Try all combinations. Exhaustive but exponentially expensive (5 params × 5 values = 3125 combos).
@@ -1525,7 +2103,84 @@ Score                         Score
 - RMSE: Default choice, penalizes large errors
 - MAE: When outlier resistance matters
 - MAPE: When relative error matters (but fails when y=0)
-- R²: For interpretability ("model explains 85% of variance")`,
+- R²: For interpretability ("model explains 85% of variance")
+
+---
+
+## 🏢 Case Study: COVID-19 X-Ray Detection — Accuracy Paradox
+
+Đầu 2020, hàng trăm papers công bố models phát hiện COVID từ chest X-ray với **accuracy 95-99%**. Phân tích sau (Roberts et al., Nature 2021): **không một model nào** đủ chất lượng dùng clinical. Lý do:
+- Dataset imbalanced (99% normal, 1% COVID) → model predict toàn "normal" đạt 99% accuracy
+- Confounding: COVID images từ Italy (chụp portable), normal từ children dataset → model học **device type**, không phải bệnh
+- Right metric: **Sensitivity (Recall)** + **Specificity**, không phải Accuracy
+
+**Bài học:** Accuracy tệ hại với imbalanced data. Always **report Confusion Matrix + per-class metrics**.
+
+---
+
+## 🏢 Case Study: Netflix Churn Prediction — Choosing the Right Threshold
+
+Netflix muốn predict users sắp hủy subscription để retention team gọi. Model XGBoost output probability, default threshold 0.5:
+- **Threshold 0.5**: Precision 80%, Recall 30% → bỏ sót 70% churners
+- **Threshold 0.3**: Precision 50%, Recall 70% → bắt được 70% nhưng 50% là false alarm
+
+**Cost-based decision:**
+- False Negative cost = $120/user (lost subscription)
+- False Positive cost = $5/user (unnecessary call)
+- Optimal threshold = solve cost equation → **0.28**
+
+**Kết quả:** Saved $50M/năm bằng cách chỉnh threshold thay vì retrain model. **Threshold tuning** thường impact business hơn cả model improvement.
+
+---
+
+## 🏢 Case Study: Google Search — Click-Through Rate (CTR) AUC
+
+Google's CTR prediction model (cho ads ranking) tối ưu **AUC**, không Accuracy. Lý do: ranking matters, absolute prediction không. AUC measures: với 1 cặp (ad clicked, ad not clicked), model rank đúng cặp này bao nhiêu % thời gian.
+
+**Improvement 0.001 AUC** → **$millions revenue** vì traffic cực lớn. Đây là lý do Google invest hundreds of engineers vào improving model với marginal gains.
+
+---
+
+## 📊 Metrics Cheat Sheet
+
+| Metric | Khi dùng | Công thức | Caveat |
+|--------|----------|-----------|--------|
+| Accuracy | Balanced data | (TP+TN)/All | Misleading khi imbalanced |
+| Precision | Cost của FP cao (spam, fraud alerts) | TP/(TP+FP) | Trade-off với Recall |
+| Recall (Sensitivity) | Cost của FN cao (cancer, COVID) | TP/(TP+FN) | Trade-off với Precision |
+| F1 Score | Balance Precision + Recall | 2PR/(P+R) | Harmonic mean, không weight |
+| ROC AUC | Ranking quan trọng (search, ads) | Area under TPR vs FPR curve | Chỉ binary, có thể misleading khi imbalanced |
+| PR AUC | Imbalanced classification | Area under Precision-Recall curve | Tốt hơn ROC cho imbalanced |
+| Log Loss | Calibrated probabilities | -Σ(y log p + (1-y) log(1-p)) | Penalize confident wrong predictions |
+| MSE/RMSE | Regression, penalize large errors | Σ(y-ŷ)²/n | Sensitive to outliers |
+| MAE | Regression, robust | Σ|y-ŷ|/n | Equal weight to all errors |
+| MAPE | Forecasting, % error | Σ|y-ŷ|/y × 100/n | Bias when y near 0 |
+
+---
+
+## 📋 Best Practices
+
+✅ **Always report 3+ metrics** (vd: Accuracy + F1 + AUC) — cho cái nhìn toàn diện
+✅ **Confusion Matrix** cho mọi classification report
+✅ **Per-class metrics** (precision/recall) cho multi-class
+✅ **Calibration plot** cho probabilistic predictions
+✅ **Cost-sensitive evaluation** — define cost matrix cho FN/FP
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Dùng Accuracy cho imbalanced data (>70/30 ratio) → meaningless
+❌ Optimize F1 mặc định → giả định Precision = Recall importance, business hiếm khi đúng
+❌ Report metric trên **training set** → wildly optimistic
+❌ Quên statistical significance — improvement 0.5% có thể là noise
+❌ Trust 1 metric — model có thể tốt theo 1 metric, tệ theo khác
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Một model tốt là khởi đầu. **Ensemble nhiều models** thường vượt single best model — đó là cách hầu hết Kaggle competitions thắng. Bài tiếp: **Ensemble Methods** — Bagging, Boosting, Stacking, Blending.`,
         theoryEn: `**Model Evaluation — Beyond Accuracy**
 
 **Confusion Matrix:** TP, TN, FP, FN. Foundation for all classification metrics.
@@ -1702,7 +2357,97 @@ Level 1 (Meta-model):
 1. Start with Random Forest (baseline)
 2. Try XGBoost/LightGBM (usually best)
 3. If you need every 0.1% improvement: stacking
-4. For categorical-heavy data: CatBoost`,
+4. For categorical-heavy data: CatBoost
+
+---
+
+## 🏢 Case Study: Netflix Prize — Ensemble of 107 Models Wins $1M
+
+BellKor's Pragmatic Chaos (winner Netflix Prize 2009) là **ensemble của 107 models** khác nhau: SVD variations, k-NN, RBMs, neural networks, regression. Final blend dùng **linear regression** trên 107 predictions.
+
+- Best single model: RMSE 0.8800
+- Ensemble of 107: RMSE **0.8567** (+10% improvement)
+
+Bài học kinh điển: **diversity** quan trọng hơn **individual strength**. 107 mediocre models đa dạng beat 1 super model.
+
+---
+
+## 🏢 Case Study: XGBoost — Why It Dominates Tabular Data
+
+Tianqi Chen (UW PhD) phát hành XGBoost 2014. Trong 2015-2017, **XGBoost thắng 17 trên 29 Kaggle competitions** với prize > $5K. Key innovations:
+- **Gradient boosting** (sequential, mỗi tree fix lỗi tree trước)
+- **Regularization** (L1+L2 trên leaf weights)
+- **Sparsity-aware** (handle missing tự động)
+- **Parallel histogram** (training nhanh 10x so với GBM truyền thống)
+
+**Companies dùng XGBoost production:**
+- **Airbnb** — search ranking
+- **Uber** — ETA prediction
+- **DeepMind** — protein folding (one of components)
+- **Microsoft** — Bing Ads CTR
+
+---
+
+## 🏢 Case Study: Stacking — Otto Group Kaggle Winner
+
+Otto Group Product Classification (2015): winning solution dùng **3-level stacking**:
+- **Level 0**: 35 base models (XGBoost, RF, NN, SVM, KNN, LR)
+- **Level 1**: 5 meta-models (LR, NN với base predictions làm input)
+- **Level 2**: Average of 5 meta-models
+
+Log-loss giảm từ 0.45 (best single) → **0.38** (stacked) → secured #1 trong 3514 teams.
+
+---
+
+## 📊 Bagging vs Boosting vs Stacking
+
+| Method | Cách hoạt động | Reduce | Ví dụ | Khi dùng |
+|--------|----------------|--------|-------|----------|
+| Bagging | Parallel, bootstrap samples | Variance | Random Forest | Models high-variance (deep trees) |
+| Boosting | Sequential, fix previous errors | Bias | XGBoost, LightGBM, AdaBoost | Default cho tabular data |
+| Stacking | Meta-model học từ base predictions | Both | Custom blends | Final 1-2% improvement (competitions) |
+| Voting | Simple average/majority | Variance | sklearn VotingClassifier | Quick ensemble baseline |
+
+---
+
+## 📊 XGBoost vs LightGBM vs CatBoost
+
+| Aspect | XGBoost | LightGBM | CatBoost |
+|--------|---------|----------|----------|
+| Speed | Fast | **Fastest** (10x XGBoost on large data) | Slower training |
+| Accuracy | Excellent | Excellent | **Best for categorical** |
+| Categorical handling | Cần encoding | Native (better than XGB) | **Best native** |
+| Memory | High | **Low** (histogram-based) | Medium |
+| Default hyperparams | OK | Good | **Best out-of-box** |
+| Best for | Default choice | Large datasets | Heavy categorical features |
+
+**Modern recommendation:** Try LightGBM first (speed), CatBoost second (categorical), XGBoost third (familiarity).
+
+---
+
+## 📋 Best Practices
+
+✅ **n_estimators = 1000 + early_stopping_rounds = 50** — XGBoost auto-stops
+✅ **learning_rate = 0.01-0.1** — lower = better but slower
+✅ **max_depth = 4-8** — sâu hơn dễ overfit
+✅ **subsample = 0.8, colsample_bytree = 0.8** — randomness chống overfit
+✅ **Validate ensemble** carefully — easy to overfit blends
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Ensemble **highly correlated models** → no diversity benefit, just slower
+❌ Stack trên **same training data** → meta-model overfits. Always use out-of-fold predictions
+❌ Average models với **wildly different scales** (probability + raw scores) → cần normalize
+❌ Dùng XGBoost với learning_rate=0.3, n_estimators=10000 → overfit nghiêm trọng
+❌ Quên \`eval_metric\` trong XGBoost → default sai cho problem (vd: dùng RMSE cho classification)
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Bạn đã có model tốt nhất qua ensemble + tuning. Nhưng **deploy nó đến production** mới là 80% công việc thực sự. Model decay, data drift, monitoring, A/B testing... Bài tiếp: **MLOps & Deployment** — DevOps cho Machine Learning.`,
         theoryEn: `**Ensemble Methods — Combining Models**
 
 **Bagging (parallel):** Random subsets, vote/average. Reduces variance. Example: Random Forest.
@@ -1879,7 +2624,122 @@ Most organizations are at Level 0-1. The goal is to reach Level 2-3.
 7. **Feature store:** Centralize feature computation for consistency between training and serving
 8. **Model cards:** Document model limitations, intended use, bias evaluations, performance per subgroup
 9. **Alert on everything:** Data drift, prediction drift, latency, error rates, business metrics
-10. **Keep it simple:** Don't over-engineer. Start with batch prediction, evolve to real-time when needed`,
+10. **Keep it simple:** Don't over-engineer. Start with batch prediction, evolve to real-time when needed
+
+---
+
+## 🏢 Case Study: Google's Hidden Technical Debt Paper (2015)
+
+Google Research công bố paper "Hidden Technical Debt in Machine Learning Systems" — **classic** trong MLOps. Phát hiện chính: **ML code chỉ chiếm 5% codebase** của ML systems thực tế. 95% còn lại là:
+- Configuration (10%)
+- Data Collection (15%)
+- Feature Extraction (12%)
+- Data Verification (8%)
+- Process Management (6%)
+- Analysis Tools (12%)
+- Monitoring (8%)
+- Serving Infrastructure (15%)
+- Resource Management (9%)
+
+**Bài học:** "Doing ML" ≠ "Doing notebooks". Production ML là **software engineering** với layers phức tạp.
+
+---
+
+## 🏢 Case Study: Uber Michelangelo — End-to-End MLOps Platform (2017)
+
+Uber xây Michelangelo để serve **>10000 ML models** in production. Components:
+- **Feature Store** — share features giữa training và serving (tránh skew)
+- **Model Registry** — version control cho models
+- **Auto-retraining** — pipeline chạy daily
+- **Online prediction** — Cassandra-backed feature lookups <10ms
+- **Monitoring** — drift detection, latency, accuracy tracking
+
+**Impact:** Time-to-deploy mới từ 6 tuần → 3 ngày. Models active từ 50 → 10000+.
+
+---
+
+## 🏢 Case Study: Zillow Zestimate Disaster ($304M, 2021)
+
+Zillow Offers (mua nhà dựa trên model) lost $304M, sa thải 25% staff. Nguyên nhân:
+- **Data drift** không được detect — COVID thay đổi housing market patterns
+- **Model retraining** quá chậm (quarterly) — không bắt kịp shifts
+- **No A/B testing** trên model versions trong production
+- **Over-trust model** — tin model 100%, không có human-in-loop cho high-value decisions
+
+**Bài học:** Monitoring + drift detection không phải nice-to-have, là **survival**.
+
+---
+
+## 📊 MLOps Maturity Levels (Google)
+
+| Level | Tên | Đặc điểm | Phù hợp với |
+|-------|-----|----------|-------------|
+| 0 | Manual | Notebooks, deploy bằng tay | Prototype, research |
+| 1 | ML Pipeline Automation | CI/CD cho data + model | Startup, single product |
+| 2 | CI/CD Pipeline Automation | Auto-retrain, auto-deploy, monitoring | Scale-up, multiple models |
+| 3 | Full MLOps | A/B testing, canary, automated rollback | Enterprise (Netflix, Uber) |
+
+**Reality check:** 87% data science projects **never reach production** (Gartner 2019). Lý do chính: gap giữa Level 0 và Level 1.
+
+---
+
+## 📊 Essential MLOps Tools
+
+| Category | Open Source | Commercial |
+|----------|-------------|-----------|
+| Experiment Tracking | MLflow, Weights & Biases | Neptune.ai, Comet |
+| Feature Store | Feast | Tecton, Hopsworks |
+| Model Serving | TorchServe, BentoML, Triton | SageMaker, Vertex AI |
+| Pipeline Orchestration | Airflow, Prefect, Kubeflow | Databricks, Dagster Cloud |
+| Monitoring | Evidently AI, WhyLabs | Arize, Fiddler |
+| Model Registry | MLflow Models | Vertex AI Model Registry |
+
+---
+
+## 📋 Best Practices
+
+✅ **Version everything**: code (git), data (DVC), models (MLflow), configs (Hydra)
+✅ **CI/CD cho ML**: tests cho data quality, model performance, integration tests
+✅ **Shadow deployment** trước canary: chạy model mới song song không ảnh hưởng users
+✅ **Drift monitoring**: PSI (Population Stability Index), KL divergence trên features
+✅ **Rollback plan**: luôn có thể revert về previous model trong <5 phút
+✅ **Latency SLA**: P99 latency, không chỉ mean
+
+---
+
+## ⚠️ Anti-Patterns (từ Sculley et al. Google paper)
+
+❌ **Glue code** — 95% codebase chỉ để adapt 5% ML library
+❌ **Pipeline jungles** — data flows chằng chịt, không ai hiểu
+❌ **Dead experimental codepaths** — code experiments bỏ lại trong production
+❌ **Configuration debt** — 1000+ config flags, không ai biết default nào đúng
+❌ **Training-serving skew** — features tính khác nhau giữa train (Pandas) vs serve (Java) → silent failure
+❌ **No monitoring** — phát hiện model hỏng từ customer complaints, không phải dashboards
+
+---
+
+## 🎓 Career Path: ML Engineer (FAANG salaries)
+
+| Vị trí | Skills cần | TC range US (2024) |
+|--------|-----------|---------------------|
+| ML Engineer (entry) | Python + PyTorch + AWS basics | $150-220K |
+| Senior ML Engineer | + System design + MLOps tools | $250-400K |
+| Staff ML Engineer | + Architecture + cross-team leadership | $400-600K+ |
+| Principal/Distinguished | + Industry impact + research | $700K-1M+ |
+
+**Vietnam TC (2024):** ML Engineer mid-level $40-80K, Senior $80-150K.
+
+---
+
+## 🌉 Bridge to Next Steps
+
+Bạn đã hoàn thành 12 modules ML thuần (regression → MLOps). Roadmap tiếp theo:
+1. **Deep Learning** (Neural Networks → Transformers) — cho image, text, audio
+2. **AI Foundation** (LLMs, RAG, Ethics) — wave hiện tại
+3. **Data Engineering** (Spark, Airflow, Kafka) — đảm bảo data flow stable
+4. **Cloud Engineering** (AWS/GCP/Azure ML services) — production deployment
+
+Chúc mừng đã hoàn thành ML core!`,
         theoryEn: `**MLOps — DevOps for Machine Learning**
 
 **Lifecycle:** Data → Features → Training → Registry → Serving → Monitoring → Retrain.
