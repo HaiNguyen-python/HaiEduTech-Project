@@ -830,7 +830,7 @@ In 2022, DeepMind discovered most LLMs (including GPT-3) were **dramatically und
 
 ## 🌉 Bridge to Next Lesson
 
-You now know HOW to update weights (gradient descent) and HOW to measure error (loss functions). But how do gradients **flow backwards** through 96 layers of GPT-3? Next: **Backpropagation** — the algorithm that propagates errors backwards using the chain rule.\`,
+You now know HOW to update weights (gradient descent) and HOW to measure error (loss functions). But how do gradients **flow backwards** through 96 layers of GPT-3? Next: **Backpropagation** — the algorithm that propagates errors backwards using the chain rule.`,
         theoryEn: `**Loss Functions & Optimization — How Neural Networks Learn**
 
 ---
@@ -1025,7 +1025,7 @@ When training fails, run these gradient health checks:
 
 ## 🌉 Bridge to Next Lesson
 
-Backprop works for any architecture, but **certain architectures are dramatically better for certain data types**. Next: **CNNs** — specialized networks that exploit spatial structure in images, achieving 100× fewer parameters than fully-connected networks.\`,
+Backprop works for any architecture, but **certain architectures are dramatically better for certain data types**. Next: **CNNs** — specialized networks that exploit spatial structure in images, achieving 100× fewer parameters than fully-connected networks.`,
         theoryEn: `**Backpropagation — How Neural Networks Learn from Mistakes**
 
 ---
@@ -1254,7 +1254,7 @@ Stanford's CheXNet (2017) transferred a 121-layer DenseNet pre-trained on ImageN
 
 ## 🌉 Bridge to Next Lesson
 
-CNNs exploit **spatial** structure. But what about **temporal** structure — text, audio, time series? Next: **RNNs** — networks with memory, designed for sequential data.\`,
+CNNs exploit **spatial** structure. But what about **temporal** structure — text, audio, time series? Next: **RNNs** — networks with memory, designed for sequential data.`,
         theoryEn: `**CNNs — Vision AI**
 
 CNNs process grid-like data (images) using local connectivity, weight sharing, and translation invariance.
@@ -1474,7 +1474,7 @@ Despite Transformer dominance, RNNs remain best for specific tasks:
 
 ## 🌉 Bridge to Next Lesson
 
-RNNs taught us that **memory** is essential for sequences — but their sequential bottleneck is fatal for scale. Next: **Transformers** — the architecture that solved RNN's bottleneck and powers every modern LLM (GPT-4, Claude, Gemini).\`,
+RNNs taught us that **memory** is essential for sequences — but their sequential bottleneck is fatal for scale. Next: **Transformers** — the architecture that solved RNN's bottleneck and powers every modern LLM (GPT-4, Claude, Gemini).`,
         theoryEn: `**RNNs — Processing Sequential Data**
 
 **Vanilla RNN:** Hidden state hₜ = tanh(Wₓxₜ + Wₕhₜ₋₁ + b). Problem: vanishing gradients → can't remember long-term.
@@ -1701,7 +1701,7 @@ Anthropic's Claude uses Transformers + a unique training process:
 
 ## 🌉 Bridge to Next Lesson
 
-You understand the architecture that powers ChatGPT and Claude. But the real magic is in HOW you talk to them. Next: **Prompt Engineering** — the practical skill of getting LLMs to do what you want.\`,
+You understand the architecture that powers ChatGPT and Claude. But the real magic is in HOW you talk to them. Next: **Prompt Engineering** — the practical skill of getting LLMs to do what you want.`,
         theoryEn: `**Transformers — The Architecture Behind Modern AI**
 
 **Self-Attention:** Each token looks at all other tokens. Q·Kᵀ measures similarity, softmax normalizes, multiply by V.
@@ -1924,7 +1924,7 @@ When Copilot's system prompt leaked, the community learned production prompts ar
 
 ## 🌉 Bridge to Next Lesson
 
-Prompt engineering customizes behavior at inference time, but for major changes (new tasks, domain expertise), you need **fine-tuning**. Next: **Transfer Learning & LoRA** — adapting pre-trained models efficiently.\`,
+Prompt engineering customizes behavior at inference time, but for major changes (new tasks, domain expertise), you need **fine-tuning**. Next: **Transfer Learning & LoRA** — adapting pre-trained models efficiently.`,
         theoryEn: `**Prompt Engineering — Communicating with AI**
 
 **Techniques:** Zero-shot (direct ask), Few-shot (with examples), Chain-of-Thought (step by step), Role prompting (assign persona).
@@ -2146,7 +2146,7 @@ ChatGPT is GPT-3.5 + RLHF (Reinforcement Learning from Human Feedback):
 
 ## 🌉 Bridge to Next Lesson
 
-Fine-tuning teaches the model **behavior**. RAG provides **knowledge** at query time. Next: **RAG (Retrieval-Augmented Generation)** — the production pattern behind every modern AI assistant (Perplexity, Google AI Overviews, ChatGPT with browsing).\`,
+Fine-tuning teaches the model **behavior**. RAG provides **knowledge** at query time. Next: **RAG (Retrieval-Augmented Generation)** — the production pattern behind every modern AI assistant (Perplexity, Google AI Overviews, ChatGPT with browsing).`,
         theoryEn: `**Transfer Learning — Standing on the Shoulders of Giants**
 
 **Strategies:** Feature Extraction (freeze all), Fine-tuning (partial unfreeze), Full Fine-tuning (unfreeze all).
@@ -2378,7 +2378,7 @@ Google launched AI-generated search summaries powered by RAG. Within days, viral
 
 ## 🌉 Bridge to Next Lesson
 
-RAG and fine-tuning give you POWER over LLMs. But power without responsibility creates real harm — biased hiring AI, hallucinated medical advice, deepfake misinformation. Next: **AI Ethics & Governance** — the legal, ethical, and technical frameworks for responsible AI.\`,
+RAG and fine-tuning give you POWER over LLMs. But power without responsibility creates real harm — biased hiring AI, hallucinated medical advice, deepfake misinformation. Next: **AI Ethics & Governance** — the legal, ethical, and technical frameworks for responsible AI.`,
         theoryEn: `**RAG — Grounding AI in Facts**
 
 **Why RAG?** LLMs hallucinate, have knowledge cutoffs, and can't cite sources. RAG fixes this by retrieving relevant documents before generating.
@@ -2638,7 +2638,7 @@ Google's Gemini generated historically inaccurate images (Black Vikings, female 
 
 ## 🌉 Module Wrap-Up
 
-You've completed AI Foundation — from neural networks → CNNs/RNNs → Transformers → LLMs → RAG → Ethics. The next courses dive deeper into specific specializations: **Machine Learning** (classical algorithms), **Data Engineering** (pipelines that feed AI), and **Cloud Engineering** (infrastructure for production AI). The principles you've learned here apply across all of them.\`,
+You've completed AI Foundation — from neural networks → CNNs/RNNs → Transformers → LLMs → RAG → Ethics. The next courses dive deeper into specific specializations: **Machine Learning** (classical algorithms), **Data Engineering** (pipelines that feed AI), and **Cloud Engineering** (infrastructure for production AI). The principles you've learned here apply across all of them.`,
         theoryEn: `**AI Ethics — Building Responsible AI**
 
 **Bias Types:** Data bias (unrepresentative), Algorithmic (amplifies bias), Measurement (proxy features), Deployment (wrong context).
