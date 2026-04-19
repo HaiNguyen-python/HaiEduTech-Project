@@ -88,7 +88,62 @@ The field experienced two major "winters" — periods of reduced funding and int
 | 2012-2020 | Deep Learning | Data + compute hungry |
 | 2020+ | Foundation Models | Alignment, hallucination |
 
-Understanding these cycles helps us avoid repeating past mistakes and appreciate why modern AI works the way it does.`,
+Understanding these cycles helps us avoid repeating past mistakes and appreciate why modern AI works the way it does.
+
+---
+
+## 🏢 Case Study: OpenAI — From Non-Profit to $157B Valuation
+
+OpenAI's journey illustrates the modern AI era perfectly:
+
+- **2015:** Founded as a non-profit by Sam Altman, Elon Musk, Ilya Sutskever with $1B pledge — mission "safe AGI for humanity"
+- **2018:** GPT-1 (117M parameters) — proved unsupervised pre-training works for language
+- **2019:** GPT-2 (1.5B) — initially "too dangerous to release", later open-sourced
+- **2020:** GPT-3 (175B) — emergent few-shot learning, $4.6M training cost
+- **2022 (Nov 30):** ChatGPT launched — **100M users in 2 months** (fastest in history; TikTok took 9 months, Instagram 2.5 years)
+- **2023:** GPT-4 multimodal, $100M+ training estimate
+- **2024:** o1/o3 reasoning models, $157B valuation
+
+**Lesson:** The "overnight success" of ChatGPT was actually 7 years of compound research. Modern AI requires **patience + capital + compute**.
+
+---
+
+## 🏢 Case Study: Google DeepMind — Research-First Approach
+
+- **2014:** Google acquires DeepMind for $500M (then ~50 employees)
+- **2016:** AlphaGo defeats Lee Sedol 4-1 (Move 37 considered "creative genius")
+- **2017:** "Attention Is All You Need" — Transformer paper that paradoxically benefits competitors more than Google initially
+- **2020:** AlphaFold 2 solves 50-year-old protein folding problem — predicts 200M+ protein structures
+- **2024:** Gemini 1.5 Pro (1M token context), Gemini 2.0 multimodal native
+
+**Lesson:** Google often **invents** but slow to **productize**. Transformer paper authors all left to start companies (Cohere, Character.AI, Adept, Inceptive).
+
+---
+
+## 🏢 Case Study: Anthropic — Safety-First Bet
+
+- **2021:** Founded by Dario & Daniela Amodei (ex-OpenAI VP Research) with focus on **Constitutional AI**
+- **2023:** Claude launched — emphasizes Helpful, Harmless, Honest (HHH) principles
+- **2024:** Claude 3.5 Sonnet leads coding benchmarks; Amazon invests $4B
+- **2025:** Claude 4 series, valued at $61.5B
+
+**Lesson:** Differentiation by **safety methodology** (RLHF + Constitutional AI) created a viable competitor to OpenAI in just 3 years.
+
+---
+
+## ⚠️ Anti-Patterns Throughout AI History
+
+1. **Over-promising AGI timelines** (1956, 1970s, 1980s — and arguably today)
+2. **Ignoring data quality** — Tay chatbot (Microsoft, 2016) became racist in 24 hours
+3. **No ethical review** — Amazon's hiring AI (2018) penalized resumes with "women's"
+4. **Premature deployment** — Google Bard's first demo (2023) gave wrong answer about JWST → $100B market cap loss
+5. **Vendor lock-in to deprecated tech** — Companies stuck on RNNs in 2018 missed Transformer revolution
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Now that you understand WHY modern AI works (data + compute + algorithms), the next lesson dives into the fundamental computing unit that makes it all possible: **the artificial neuron** (perceptron). Every breakthrough above — from AlphaGo to GPT-4 — is built from billions of these simple units.`,
         theoryEn: `**History of Artificial Intelligence — A Comprehensive Overview**
 
 Artificial Intelligence (AI) has evolved through several distinct eras, each marked by breakthroughs, setbacks, and paradigm shifts. Understanding this history is essential for any AI practitioner.
@@ -259,7 +314,60 @@ This produces a prediction, which is then compared to the actual target to compu
 **⚠️ Common Misconceptions:**
 - Neural networks don't "think" — they perform matrix multiplications
 - More layers ≠ always better (risk of overfitting, vanishing gradients)
-- The architecture design (how many layers, neurons) is crucial and often more art than science`,
+- The architecture design (how many layers, neurons) is crucial and often more art than science
+
+---
+
+## 🏢 Case Study: Google's Neural Machine Translation (2016)
+
+Before 2016, Google Translate used phrase-based statistical translation — translating chunks of words separately, then stitching them together. Quality was robotic, often comically wrong.
+
+**The shift:**
+- Google replaced 500,000 lines of phrase-based code with a **single 8-layer LSTM neural network**
+- Used encoder-decoder architecture with attention
+- **Result:** 60% reduction in translation errors overnight; some language pairs (English↔Spanish) approached human-level quality
+- **Cost:** Months of training on Google's TPU pods
+
+**Lesson:** A well-designed neural network can replace decades of hand-engineered rules. This same principle later enabled GPT to replace hand-crafted NLP pipelines.
+
+---
+
+## 🏢 Case Study: OpenAI's MLP Surprise in GPT-3
+
+While Transformers get the credit, **~70% of GPT-3's parameters live in the MLP feed-forward layers** (not attention). Each Transformer block contains:
+- Self-attention: ~25M params per layer
+- MLP feed-forward: ~50M params per layer (4× expansion ratio)
+
+In a 96-layer GPT-3 (175B total), the simple "input → linear → activation → linear → output" MLPs you learn here account for over **120 billion parameters**. They store most of the model's factual knowledge — recent interpretability research (Anthropic's "circuits" team) shows MLPs act as key-value memories.
+
+**Lesson:** Don't underestimate basic MLPs — they remain the workhorse of even the most advanced LLMs.
+
+---
+
+## 📋 Best Practices Checklist
+
+✅ **Start small:** Begin with 1-2 hidden layers, 32-128 neurons before scaling up
+✅ **Normalize inputs:** Mean=0, std=1 prevents gradient issues
+✅ **Use He initialization for ReLU networks** (\`std = √(2/fan_in)\`)
+✅ **Add Batch Normalization** between layers in deep networks
+✅ **Monitor activation distributions** — dead neurons (always 0) signal problems
+✅ **Validate Universal Approximation needs ≥1 hidden layer** — linear models for linear problems
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Building 100-layer networks for a 1000-row tabular dataset (use XGBoost!)
+❌ Forgetting bias terms — limits the function class learnable
+❌ Using Sigmoid in hidden layers of deep networks (vanishing gradient)
+❌ Mixing one-hot encoded categories with raw continuous features without scaling
+❌ Treating hyperparameters (depth, width, LR) as fixed instead of tuning
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+The forward pass produces a number — but neural networks need **non-linearity** to learn complex patterns. Without activation functions, stacking 100 linear layers is mathematically identical to one linear layer. Next: **Activation Functions** — Sigmoid, ReLU, GELU — and why your choice can make or break training.`,
         theoryEn: `**Neural Networks — The Foundation of Modern AI**
 
 Neural networks are computing systems inspired by biological brain networks, forming the backbone of deep learning.
@@ -445,7 +553,75 @@ Without activation functions, a neural network would just be a series of linear 
 
 ---
 
-**⚠️ Key Takeaway:** The choice of activation function significantly impacts training speed, convergence, and final performance. ReLU is the safe default for hidden layers, but modern architectures increasingly use GELU or SiLU.`,
+**⚠️ Key Takeaway:** The choice of activation function significantly impacts training speed, convergence, and final performance. ReLU is the safe default for hidden layers, but modern architectures increasingly use GELU or SiLU.
+
+---
+
+## 🏢 Case Study: Why GPT-2 → GPT-3 Switched to GELU
+
+**GPT-1 (2018)** used ReLU. **GPT-2 and onwards (2019+)** switched to **GELU (Gaussian Error Linear Unit)**: \`GELU(x) = x · Φ(x)\` where Φ is the cumulative normal distribution.
+
+**Why the switch?**
+- ReLU's hard cutoff at 0 creates a non-smooth function — bad for gradient-based optimization at scale
+- GELU is **smooth everywhere** AND has a probabilistic interpretation (multiply input by P(input > random Gaussian))
+- Empirically gives **~0.5-1% perplexity improvement** on language modeling — small per-parameter but huge at GPT-3 scale
+
+**Industry adoption:**
+- BERT, GPT-2/3/4, T5: GELU
+- Llama, PaLM, Gemini: SiLU/Swish (\`x · σ(x)\`) — even smoother
+- Mistral, modern Llama: SwiGLU (gated SiLU variant) — adds a multiplicative gate
+
+**Lesson:** At small scale (<1M params), activation choice barely matters. At billion-parameter scale, the right activation can save **millions of dollars in compute**.
+
+---
+
+## 🏢 Case Study: Dying ReLU Disaster at Stanford (Andrej Karpathy's blog)
+
+In 2016, Karpathy reported that ~40% of ReLU neurons in his vision models were **permanently dead** (always outputting 0) due to high learning rates causing weight updates that pushed neurons into negative territory permanently.
+
+**Symptoms:**
+- Training loss plateaus mysteriously
+- Validation accuracy lower than expected
+- Gradient norm collapses for affected neurons
+
+**Fixes deployed:**
+1. Switch to **Leaky ReLU** or **ELU**
+2. Lower learning rate
+3. Better weight initialization (He init for ReLU)
+4. Add Batch Normalization
+
+This disaster is why Leaky ReLU became standard in CV pipelines from 2017 onwards.
+
+---
+
+## 📋 Decision Flowchart
+
+\`\`\`
+What layer am I designing?
+├── Hidden layer in CNN?           → ReLU (or Leaky ReLU)
+├── Hidden layer in Transformer?   → GELU or SwiGLU
+├── Hidden layer in RNN?           → Tanh (cell), Sigmoid (gates)
+├── Output for binary classify?    → Sigmoid
+├── Output for multi-class?        → Softmax
+├── Output for regression?         → None (linear)
+└── GAN generator output?          → Tanh (matches [-1,1] image norm)
+\`\`\`
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Using Sigmoid in deep hidden layers — vanishing gradient guaranteed
+❌ Forgetting to apply Softmax before computing categorical cross-entropy (most frameworks combine them — applying twice = bug)
+❌ Using ReLU on the output layer when you need negative values
+❌ Mixing activations randomly across layers without justification
+❌ Ignoring the "dying ReLU" problem when training loss plateaus
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Activations let networks learn non-linear patterns. But how do we measure "wrong" so the network knows what to fix? Next: **Loss Functions & Gradient Descent** — the mathematical engine that turns errors into learning.`,
         theoryEn: `**Activation Functions — Adding Non-Linearity to Neural Networks**
 
 Without activation functions, a neural network is just linear regression. Activation functions introduce **non-linearity**.
@@ -598,7 +774,63 @@ Where:
 1. **Learning rate too high:** Loss oscillates or diverges (overshooting)
 2. **Learning rate too low:** Training is extremely slow, may get stuck
 3. **Local minima:** In practice, saddle points are more problematic than local minima
-4. **Gradient explosion:** Gradients become huge → use gradient clipping`,
+4. **Gradient explosion:** Gradients become huge → use gradient clipping
+
+---
+
+## 🏢 Case Study: OpenAI's $4.6M GPT-3 Training Run
+
+GPT-3 (175B parameters) was trained for one full pass with carefully tuned optimization:
+- **Optimizer:** AdamW with β₁=0.9, β₂=0.95, ε=1e-8
+- **Learning rate:** 6e-5 with cosine decay + 375M token warmup
+- **Batch size:** 3.2M tokens (gradient accumulation across 1000s of GPUs)
+- **Loss:** Standard next-token cross-entropy
+- **Compute:** 3,640 PetaFLOP-days = ~$4.6M on V100s
+
+**Key insight:** A single mis-tuned learning rate would waste millions. OpenAI used "**learning rate sweep**" on smaller models (1.3B, 6.7B, 13B) to extrapolate the optimal LR for 175B — this scaling-law approach saved a fortune.
+
+---
+
+## 🏢 Case Study: DeepMind's Chinchilla — Loss Curves Reveal "Compute-Optimal" Training
+
+In 2022, DeepMind discovered most LLMs (including GPT-3) were **dramatically under-trained**:
+- GPT-3 (175B params, 300B tokens) — trained too few tokens for its size
+- Chinchilla (70B params, 1.4T tokens) — outperformed GPT-3 with 2.5× fewer parameters
+
+**The Chinchilla scaling law:** For optimal compute use, **N (params) and D (training tokens) should scale equally** (~20 tokens per parameter).
+
+**Impact:** Llama 2 (7B params, 2T tokens), Llama 3 (70B, 15T tokens) all follow Chinchilla — not GPT-3 — scaling.
+
+**Lesson:** The right loss function + optimizer is necessary but not sufficient. **How much you train** matters as much as **what you train**.
+
+---
+
+## 📋 Optimizer Selection Guide
+
+| Use Case | Optimizer | Why |
+|----------|-----------|-----|
+| Default for new projects | AdamW | Robust, good defaults, standard |
+| Computer vision (ResNet/ViT) | SGD + Momentum | Often generalizes better than Adam |
+| LLMs (>1B params) | AdamW + cosine LR | OpenAI/Anthropic/Google standard |
+| Limited compute / mobile | Adafactor | Memory-efficient (no momentum) |
+| Reinforcement Learning | Adam (β₂=0.999) | Handles sparse rewards |
+| Large batch training | LAMB / LARS | Layer-wise LR scaling |
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Using MSE for classification (gradients near saturation are tiny → slow training)
+❌ Forgetting to scale loss when using gradient accumulation (loss should be averaged, not summed)
+❌ Setting learning rate without a sweep — the "default" in tutorials may be 100× off for your problem
+❌ Ignoring loss spikes — usually signals corrupt data or numerical instability
+❌ Using vanilla SGD for Transformers (almost never works without warmup + adaptive optimizers)
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+You now know HOW to update weights (gradient descent) and HOW to measure error (loss functions). But how do gradients **flow backwards** through 96 layers of GPT-3? Next: **Backpropagation** — the algorithm that propagates errors backwards using the chain rule.`,
         theoryEn: `**Loss Functions & Optimization — How Neural Networks Learn**
 
 ---
@@ -739,7 +971,61 @@ Given: Input x → Hidden z₁ = w₁x + b₁ → a₁ = σ(z₁) → Output z�
 - **Skip/Residual Connections:** Allow gradients to flow directly through shortcuts (ResNet)
 - **Layer Normalization:** Used in Transformers, normalizes across features
 - **Xavier/He Initialization:** Initialize weights properly to maintain gradient magnitude
-- **Gradient Clipping:** Cap gradient magnitude to prevent explosion`,
+- **Gradient Clipping:** Cap gradient magnitude to prevent explosion
+
+---
+
+## 🏢 Case Study: ResNet (Microsoft Research, 2015) — How Skip Connections Saved Deep Learning
+
+Before ResNet, networks deeper than ~20 layers got **worse**, not better — vanishing gradients made early layers untrainable.
+
+**Kaiming He's insight:** Add "skip connections" so gradients flow through identity shortcuts:
+- ResNet-152 (152 layers!) won ImageNet 2015 with 3.57% top-5 error — beating humans
+- Same idea now used in **every Transformer** (GPT, BERT, Claude, Gemini all use residual connections)
+- **Citation count:** >250,000 — one of the most cited papers in CS history
+
+**Without skip connections, GPT-4 would not exist.** The 96-layer GPT-3 only trains because each Transformer block has 2 residual connections per layer.
+
+---
+
+## 🏢 Case Study: Anthropic's Mechanistic Interpretability — Tracing Gradients to Understand LLMs
+
+Anthropic's interpretability team uses **gradient attribution** (a backprop-derived technique) to understand how Claude makes decisions:
+- Trace which input tokens most affect output via gradients
+- Find "circuits" — small subnetworks that perform specific tasks (e.g., "indirect object identification")
+- 2024: Discovered "induction heads" — circuits that enable in-context learning
+
+**Lesson:** Backpropagation isn't just for training — it's the foundation of **AI safety research**.
+
+---
+
+## 📋 Debugging Checklist
+
+When training fails, run these gradient health checks:
+
+✅ Print **gradient norms per layer** — should be O(1), not 0 or NaN
+✅ Check **dead neurons** (output always 0 with ReLU) — switch to Leaky ReLU
+✅ Visualize **loss curve** — divergence = LR too high, plateau = LR too low
+✅ Add **gradient clipping** (norm 1.0) for RNNs/Transformers
+✅ Use **He initialization** for ReLU, **Xavier** for Tanh/Sigmoid
+✅ Verify **input normalization** (mean 0, std 1)
+✅ Test with **single batch overfit** — if you can't overfit 1 batch, the model is broken
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Forgetting to call \`optimizer.zero_grad()\` — gradients accumulate from previous batches
+❌ Calling \`.backward()\` twice on the same graph without \`retain_graph=True\`
+❌ Computing gradients on validation data (waste of compute, can cause OOM)
+❌ Manually implementing backprop in production — use PyTorch/JAX autograd (1000× less buggy)
+❌ Skipping gradient clipping in RNN/Transformer training — almost guaranteed NaN
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Backprop works for any architecture, but **certain architectures are dramatically better for certain data types**. Next: **CNNs** — specialized networks that exploit spatial structure in images, achieving 100× fewer parameters than fully-connected networks.`,
         theoryEn: `**Backpropagation — How Neural Networks Learn from Mistakes**
 
 ---
@@ -904,7 +1190,71 @@ Pooling reduces spatial dimensions (downsampling):
 Output size = (Input - Kernel + 2×Padding) / Stride + 1
 
 Example: Input 32×32, Kernel 5×5, Padding 0, Stride 1:
-Output = (32 - 5 + 0) / 1 + 1 = **28×28**`,
+Output = (32 - 5 + 0) / 1 + 1 = **28×28**
+
+---
+
+## 🏢 Case Study: AlexNet (2012) — The Big Bang of Deep Learning
+
+In 2012, ImageNet competition was dominated by hand-crafted feature engineering (SIFT + SVM, ~26% error). Then AlexNet:
+- 8 layers (5 conv + 3 fully connected), 60M parameters
+- Trained on **2 GTX 580 GPUs** (3GB each) for 5-6 days
+- Used ReLU instead of Tanh — 6× faster training
+- Used Dropout — first major use in CNNs
+- Used data augmentation (crops, flips, color jitter)
+- **Result:** 15.3% top-5 error — crushed the 26% second place by 11 percentage points
+
+**Aftermath:** Within 5 years, every CV paper used CNNs. Geoffrey Hinton's lab acquired by Google for $44M. Ilya Sutskever (co-author) became OpenAI co-founder.
+
+---
+
+## 🏢 Case Study: Google's MobileNet — CNNs on Your Phone
+
+Google needed CNNs to run on mobile (limited compute, battery, memory). MobileNet (2017) introduced **depthwise separable convolutions**:
+- Standard 3×3 conv on 32 channels: 9 × 32 × 32 = **9,216 multiplies per pixel**
+- Depthwise + Pointwise: (9 × 32) + (1 × 32 × 32) = **1,312 multiplies** — **7× fewer**
+
+**Real-world impact:** Powers Google Lens, Pixel camera AI, real-time AR filters in Snapchat/Instagram. Runs at 30 FPS on phones from 2015.
+
+---
+
+## 🏢 Case Study: ImageNet → Medical Imaging Transfer
+
+Stanford's CheXNet (2017) transferred a 121-layer DenseNet pre-trained on ImageNet to detect pneumonia from chest X-rays:
+- Trained on 100,000 chest X-rays from NIH
+- **Outperformed 4 board-certified radiologists** on F1 score
+- Demonstrated CNN feature transferability across domains
+
+**Lesson:** A CNN trained to recognize cats also has features useful for detecting tumors. This insight underpins all medical AI today.
+
+---
+
+## 📋 CNN Architecture Selection
+
+| Task | Recommended | Why |
+|------|-------------|-----|
+| Image classification (general) | EfficientNet-B0 to B7 | Best accuracy/parameter ratio |
+| Real-time / mobile | MobileNetV3, EfficientNet-Lite | Optimized for inference speed |
+| Object detection | YOLO v8/v9, Faster R-CNN | Designed for bounding boxes |
+| Segmentation | U-Net, DeepLab | Pixel-level predictions |
+| Medical imaging | DenseNet-121, ResNet-50 (pretrained) | Strong transfer learning |
+| Vision + Language | CLIP, Vision Transformer | Cross-modal embeddings |
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Using massive 7×7 kernels everywhere — modern CNNs prefer stacked 3×3 (more non-linearity, fewer params)
+❌ Forgetting Batch Normalization between Conv and ReLU — training is 5-10× slower
+❌ No data augmentation — guaranteed overfitting on small datasets
+❌ Training CNN from scratch on <100K images — always start with pretrained weights
+❌ Mixing image sizes without resizing — wastes Conv padding
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+CNNs exploit **spatial** structure. But what about **temporal** structure — text, audio, time series? Next: **RNNs** — networks with memory, designed for sequential data.`,
         theoryEn: `**CNNs — Vision AI**
 
 CNNs process grid-like data (images) using local connectivity, weight sharing, and translation invariance.
@@ -1062,7 +1412,69 @@ A simplified version of LSTM with 2 gates instead of 3:
 
 ---
 
-**⚠️ Note:** While RNNs/LSTMs were the gold standard for sequence tasks, **Transformers** have largely replaced them due to their ability to process sequences in parallel and capture long-range dependencies more effectively.`,
+**⚠️ Note:** While RNNs/LSTMs were the gold standard for sequence tasks, **Transformers** have largely replaced them due to their ability to process sequences in parallel and capture long-range dependencies more effectively.
+
+---
+
+## 🏢 Case Study: Google Translate (2016) — The LSTM Era's Peak
+
+Google's GNMT (Google Neural Machine Translation) replaced 10 years of statistical translation code:
+- 8-layer encoder LSTM + 8-layer decoder LSTM with attention
+- Trained on billions of sentence pairs
+- 60% reduction in translation errors overnight (Sept 2016)
+- Deployed across 100+ language pairs within a year
+
+**The catch:** Training took weeks across 100+ TPUs. RNNs were sequential — couldn't parallelize across time steps. This bottleneck directly motivated the Transformer architecture in 2017.
+
+---
+
+## 🏢 Case Study: OpenAI's Pre-Transformer GPT — Why It Was Quietly Killed
+
+In 2018, before the GPT-1 paper, OpenAI experimented with **LSTM-based language models trained on Reddit**. They reached the limits of what RNNs could do:
+- Long-context coherence broke down beyond ~500 tokens
+- Training scaled poorly — doubling parameters required quadrupling time (vs. ~1.5× for Transformers)
+- The team quietly switched to Transformer architecture for GPT-1 (June 2018)
+
+**Lesson:** RNNs hit a ceiling. The 2017 Transformer paper unlocked the path to GPT-3, ChatGPT, and Claude.
+
+---
+
+## 🏢 Case Study: Where RNNs Still Win in 2024
+
+Despite Transformer dominance, RNNs remain best for specific tasks:
+- **Time series forecasting (Amazon DeepAR):** LSTMs predict warehouse demand for 100M+ products
+- **Speech recognition (legacy Siri/Alexa):** Streaming RNNs with low latency
+- **IoT sensors:** RNNs run on microcontrollers with <1MB RAM (Transformers can't)
+- **State Space Models (Mamba, 2024):** New RNN-like architecture matching Transformer quality with O(N) instead of O(N²) complexity — RNN ideas are making a comeback
+
+---
+
+## 📋 When to Use Each Architecture
+
+| Task | Best Choice | Why |
+|------|-------------|-----|
+| Text generation, chat | Transformer | Parallel, long context |
+| Real-time speech recognition | LSTM/GRU | Low latency, streaming |
+| Time series (small data) | LSTM | Good inductive bias for sequences |
+| Time series (huge data) | Transformer | Scales better |
+| Edge/mobile sequence tasks | GRU | Fewer parameters than LSTM |
+| Very long sequences (>100K) | Mamba / SSM | Linear complexity |
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Using vanilla RNN for any sequence >20 tokens — vanishing gradients destroy learning
+❌ Forgetting gradient clipping (clip norm = 1.0) for LSTM/GRU training
+❌ Setting LSTM hidden size too large without dropout — overfits instantly on small data
+❌ Using LSTM when sequence is fixed-length and short — a CNN/MLP is faster
+❌ Training LSTM on text in 2024 when Transformers exist (unless edge constraint forces it)
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+RNNs taught us that **memory** is essential for sequences — but their sequential bottleneck is fatal for scale. Next: **Transformers** — the architecture that solved RNN's bottleneck and powers every modern LLM (GPT-4, Claude, Gemini).`,
         theoryEn: `**RNNs — Processing Sequential Data**
 
 **Vanilla RNN:** Hidden state hₜ = tanh(Wₓxₜ + Wₕhₜ₋₁ + b). Problem: vanishing gradients → can't remember long-term.
@@ -1223,7 +1635,73 @@ Since Transformers process all positions simultaneously, they have no inherent n
 | BERT | Encoder-only | Masked language modeling, bidirectional |
 | GPT | Decoder-only | Autoregressive generation |
 | T5 | Encoder-Decoder | Text-to-text framework |
-| ViT | Vision | Applies Transformer to image patches |`,
+| ViT | Vision | Applies Transformer to image patches |
+
+---
+
+## 🏢 Case Study: "Attention Is All You Need" (Google, 2017) — The Most Influential AI Paper
+
+Eight Google researchers (Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, Polosukhin) published the Transformer paper for **machine translation**. They did not foresee its impact:
+- 2018: BERT (Google) and GPT-1 (OpenAI) both built on Transformers
+- 2019: T5 unifies all NLP tasks as text-to-text
+- 2020: GPT-3 emergent abilities (175B params)
+- 2022: ChatGPT — 100M users in 2 months
+- 2024: All frontier models (GPT-4, Claude 3.5, Gemini 2, Llama 3) are Transformers
+
+**Ironic twist:** All 8 authors left Google. They founded Cohere, Character.AI, Adept, Inceptive — Google invented the technology that disrupts its own search business.
+
+---
+
+## 🏢 Case Study: OpenAI's Scaling Laws (2020) — Why Transformers Keep Getting Better
+
+Kaplan et al. (OpenAI) discovered Transformer performance follows predictable power laws:
+- Loss = f(parameters, data, compute) — improves smoothly across 7+ orders of magnitude
+- **No saturation observed** even at GPT-3 scale
+- Justified massive investment: doubling compute reliably improves capability
+
+**Practical impact:** This paper convinced Microsoft to invest $1B in OpenAI (2019), then $10B+ later. Without scaling laws, no one would have funded GPT-4-scale training.
+
+---
+
+## 🏢 Case Study: Anthropic's Constitutional AI — Transformers + RLHF
+
+Anthropic's Claude uses Transformers + a unique training process:
+1. **Pre-training:** Standard Transformer on internet text (similar to GPT)
+2. **RLHF (Reinforcement Learning from Human Feedback):** Humans rank responses
+3. **Constitutional AI (CAI):** Model critiques its own responses against written principles
+4. **RLAIF:** AI feedback replaces some human feedback for scaling
+
+**Result:** Claude exhibits stronger refusal behaviors and reasoning than GPT-4 on safety benchmarks — same architecture, different training methodology.
+
+---
+
+## 📋 Transformer Hyperparameter Reference
+
+| Model | Layers | Heads | d_model | Params |
+|-------|--------|-------|---------|--------|
+| BERT-base | 12 | 12 | 768 | 110M |
+| GPT-2 | 12-48 | 12-25 | 768-1600 | 117M-1.5B |
+| GPT-3 | 96 | 96 | 12,288 | 175B |
+| Llama 3 70B | 80 | 64 | 8192 | 70B |
+| GPT-4 (rumored) | 120 | 128 | 18,432 | ~1.7T (MoE) |
+
+**Rule of thumb:** d_model / num_heads = head dimension (typically 64-128).
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Implementing your own attention mechanism — use \`torch.nn.functional.scaled_dot_product_attention\` (uses FlashAttention under the hood)
+❌ Forgetting causal masking in autoregressive (GPT-style) models — model "cheats" by seeing future
+❌ Skipping Layer Normalization — training diverges in deep Transformers
+❌ Using sinusoidal positional encoding for long contexts — RoPE/ALiBi handle extrapolation better
+❌ Setting learning rate without warmup — Transformers REQUIRE LR warmup (typically 1-10K steps)
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+You understand the architecture that powers ChatGPT and Claude. But the real magic is in HOW you talk to them. Next: **Prompt Engineering** — the practical skill of getting LLMs to do what you want.`,
         theoryEn: `**Transformers — The Architecture Behind Modern AI**
 
 **Self-Attention:** Each token looks at all other tokens. Q·Kᵀ measures similarity, softmax normalizes, multiply by V.
@@ -1382,7 +1860,71 @@ LLMs don't read characters or words — they read **tokens**:
 **Why it matters:**
 - API pricing is per token
 - Context window limits are in tokens (e.g., 128K tokens for GPT-4)
-- Rare words use more tokens → may be understood less well`,
+- Rare words use more tokens → may be understood less well
+
+---
+
+## 🏢 Case Study: Anthropic's Prompt Engineering Guide — How Claude Was Designed
+
+Anthropic publishes detailed guidance because Claude was specifically trained to follow well-structured prompts:
+- **XML tags** (\`<context>\`, \`<task>\`, \`<example>\`) work better than markdown — Claude was trained on synthetic XML-formatted data
+- **Place instructions at the START**, examples in the middle, query at the END
+- **"Think step by step inside <thinking> tags"** unlocks reasoning without showing it to the user
+- Multi-shot examples (5-10) outperform few-shot (2-3) by 15-30% on complex tasks
+
+**Real impact:** A well-engineered Claude prompt can match GPT-4 fine-tuning quality at 1/100th the cost.
+
+---
+
+## 🏢 Case Study: Google DeepMind's Chain-of-Thought (2022) — A Single Prompt Trick
+
+Wei et al. discovered that adding **"Let's think step by step"** to math problems:
+- PaLM 540B accuracy on GSM8K (math word problems): **18% → 57%** with CoT
+- No retraining needed — pure prompt change
+- Triggered the "reasoning model" race: OpenAI o1, DeepSeek R1, Claude 3.5 with extended thinking
+
+**Lesson:** Sometimes a 5-word prompt change beats months of fine-tuning.
+
+---
+
+## 🏢 Case Study: GitHub Copilot's System Prompt Leak (2023)
+
+When Copilot's system prompt leaked, the community learned production prompts are surprisingly long:
+- ~1500 tokens of instructions
+- Includes: role definition, capabilities, refusal rules, output format, tone guidelines, ~20 examples
+- Layered: System prompt → User context → IDE state → Active file → Recent edits
+
+**Lesson:** Production LLM apps invest enormous effort in prompt engineering. It is software engineering, not creative writing.
+
+---
+
+## 📋 Prompt Engineering Checklist
+
+✅ **Specify role explicitly** ("You are an expert Python reviewer...")
+✅ **Define output format** (JSON schema, markdown table, exact bullet count)
+✅ **Add 2-5 examples** of input → desired output
+✅ **Use structured delimiters** (XML for Claude, markdown for GPT)
+✅ **Set temperature appropriately** (0.0 for facts, 0.7 for creative, 0.2 for code)
+✅ **Add "think step by step" for complex reasoning**
+✅ **Specify what NOT to do** ("Do not include code comments")
+✅ **Use few-shot for edge cases** the model gets wrong by default
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ "Tell me about X" — too vague, gets generic Wikipedia summary
+❌ Mixing system instructions with user data in same message — model may follow user's instructions
+❌ Not specifying format — causes parsing failures in production
+❌ Burying important instructions in the middle (LLMs have "lost in the middle" problem)
+❌ Treating prompts as one-shot — production prompts evolve through 50-100 iterations
+❌ Ignoring temperature — using 0.7 for code generation causes inconsistency
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Prompt engineering customizes behavior at inference time, but for major changes (new tasks, domain expertise), you need **fine-tuning**. Next: **Transfer Learning & LoRA** — adapting pre-trained models efficiently.`,
         theoryEn: `**Prompt Engineering — Communicating with AI**
 
 **Techniques:** Zero-shot (direct ask), Few-shot (with examples), Chain-of-Thought (step by step), Role prompting (assign persona).
@@ -1538,7 +2080,73 @@ The breakthrough technique for efficiently fine-tuning LLMs:
 
 - **Catastrophic Forgetting:** Fine-tuning can make the model forget pre-trained knowledge. Use low learning rate and early stopping.
 - **Data Quality > Quantity:** 1000 high-quality examples often beats 100K noisy ones.
-- **Evaluation:** Always compare fine-tuned model against the base model and prompt engineering baseline.`,
+- **Evaluation:** Always compare fine-tuned model against the base model and prompt engineering baseline.
+
+---
+
+## 🏢 Case Study: Microsoft's LoRA Paper (2021) — From Idea to Industry Standard
+
+Edward Hu et al. at Microsoft Research published LoRA expecting modest impact. Within 18 months:
+- HuggingFace PEFT library standardized LoRA across thousands of models
+- **Stable Diffusion LoRAs** became a $100M+ creator economy on CivitAI
+- **Llama fine-tuning democratized:** anyone with a 24GB GPU can fine-tune 7B models
+- OpenAI launched GPT-4 fine-tuning API using LoRA-like methods (2024)
+
+**The number that matters:** GPT-3 175B full fine-tuning needs ~1.2TB GPU memory (impossible on single node). LoRA needs **~35GB** — fits on one A100.
+
+---
+
+## 🏢 Case Study: BloombergGPT (2023) — Domain Fine-Tuning Done Right
+
+Bloomberg trained a 50B parameter LLM on financial data:
+- **51% finance-specific data** + 49% general web (mixed to prevent forgetting)
+- Cost: ~$2.7M (vs. ~$500K with LoRA on Llama 2 70B today)
+- **Outperformed GPT-3.5 on financial benchmarks** despite being 3.5× smaller
+- Outperformed open-source models on general benchmarks too
+
+**Lesson:** When domain matters and you have data, fine-tuning still beats prompt engineering — but increasingly, LoRA on Llama achieves 90% of the quality at 1% of the cost.
+
+---
+
+## 🏢 Case Study: OpenAI's RLHF — The Most Important Fine-Tune in History
+
+ChatGPT is GPT-3.5 + RLHF (Reinforcement Learning from Human Feedback):
+1. Collect 30K-100K human-ranked response pairs
+2. Train a "reward model" to predict human preferences
+3. Use PPO (Proximal Policy Optimization) to fine-tune GPT-3.5 to maximize reward
+
+**Why it mattered:** Raw GPT-3 was capable but unhelpful — would continue prompts instead of answering. RLHF made it conversational. Without RLHF, ChatGPT would not exist.
+
+---
+
+## 📋 Fine-Tuning Decision Tree
+
+| Scenario | Recommendation |
+|----------|----------------|
+| Need to teach new factual knowledge | RAG (not fine-tuning) |
+| Need specific output format/style | Few-shot prompting first, then LoRA |
+| Need domain expertise (legal, medical) | LoRA on 5K-50K examples |
+| Need to remove/add safety behavior | Full RLHF/DPO pipeline |
+| Limited GPU (<48GB) | QLoRA + 4-bit quantization |
+| Budget <$1K | LoRA on Llama 3 8B |
+| Need new language/script | Continued pretraining + LoRA |
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Fine-tuning to teach new facts — RAG is 10× more reliable and updateable
+❌ Fine-tuning on <500 examples — likely to overfit, prompt engineering is better
+❌ Forgetting to use a held-out validation set — overfitting goes undetected
+❌ Catastrophic forgetting from too-high learning rate (use 1e-5 to 1e-4 for LoRA)
+❌ Not measuring against the base model — sometimes fine-tuning makes things worse
+❌ Skipping evaluation suite — 5-10 carefully crafted test prompts catch most regressions
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Fine-tuning teaches the model **behavior**. RAG provides **knowledge** at query time. Next: **RAG (Retrieval-Augmented Generation)** — the production pattern behind every modern AI assistant (Perplexity, Google AI Overviews, ChatGPT with browsing).`,
         theoryEn: `**Transfer Learning — Standing on the Shoulders of Giants**
 
 **Strategies:** Feature Extraction (freeze all), Fine-tuning (partial unfreeze), Full Fine-tuning (unfreeze all).
@@ -1691,7 +2299,86 @@ RAG solves all of these by retrieving relevant documents first, then generating 
 - **Chunk size too small:** Loses context
 - **Poor embedding model:** Retrieval quality degrades
 - **No re-ranking:** Top similarity ≠ most relevant
-- **Stuffing too much context:** Exceeds context window, LLM gets confused`,
+- **Stuffing too much context:** Exceeds context window, LLM gets confused
+
+---
+
+## 🏢 Case Study: Perplexity AI — RAG as a Product, Not a Feature
+
+Perplexity ($9B valuation, 2024) built an entire company on RAG:
+- **Architecture:** Real-time web search (Bing/Google) → re-rank with proprietary model → feed to LLM (Claude/GPT-4) → cite sources
+- **Latency:** ~3 seconds end-to-end (search 800ms, embed 100ms, LLM 1500ms)
+- **Differentiation vs ChatGPT:** Always cited, always current, never hallucinates dates
+- **15M+ users**, $250M ARR by 2025
+
+**Lesson:** RAG is not a research curiosity — it's a multi-billion-dollar business model.
+
+---
+
+## 🏢 Case Study: OpenAI's GPTs with File Upload — RAG at Scale
+
+When OpenAI launched custom GPTs (Nov 2023), file upload uses managed RAG:
+- Auto-chunks uploaded PDFs/docs (~512 tokens with 50-token overlap)
+- Uses \`text-embedding-3-large\` (3072 dimensions)
+- Stores in OpenAI's internal vector store (likely managed Qdrant/Milvus)
+- Retrieves top-20, re-ranks to top-5, injects into context
+
+**Limit:** 20 files per GPT, 512MB each. Built-in RAG handles 99% of small business use cases without custom code.
+
+---
+
+## 🏢 Case Study: Anthropic's Contextual Retrieval (Sept 2024)
+
+Anthropic's research showed standard RAG retrieval fails when chunks lose context. Their fix:
+- Before embedding each chunk, prepend an LLM-generated **chunk-specific context summary**
+- Example: Instead of "Revenue grew 5%", embed "From Apple Q3 2023 10-K: Revenue grew 5%"
+- **Result:** 49% reduction in retrieval failures, 67% with reranking
+
+**Cost trade-off:** Adds Claude calls during indexing (one-time), but query-time quality jumps significantly.
+
+---
+
+## 🏢 Case Study: Google AI Overviews Disaster (May 2024)
+
+Google launched AI-generated search summaries powered by RAG. Within days, viral failures:
+- "Add glue to pizza to make cheese stick" (sourced from a Reddit joke)
+- "Eat one rock per day for vitamins" (from The Onion satire site)
+- Doctors suggested "smoking 2-3 cigarettes during pregnancy"
+
+**Root cause:** Naive RAG with no source quality scoring. Treated Reddit and Wikipedia as equally authoritative.
+
+**Lesson:** RAG without **source quality filtering** + **adversarial testing** is a PR disaster waiting to happen.
+
+---
+
+## 📋 RAG Production Checklist
+
+✅ **Chunk size 200-500 tokens** with 10-20% overlap
+✅ **Use a strong embedding model** (text-embedding-3-large, BGE-M3, Cohere v3)
+✅ **Add a re-ranker** (Cohere Rerank, BGE reranker) — improves top-5 by 20-40%
+✅ **Filter by source authority** (rank Reddit < Wikipedia < peer-reviewed)
+✅ **Cite sources in output** with clickable links
+✅ **Monitor "I don't know" rate** — if too low, model is hallucinating from weak context
+✅ **A/B test chunk strategies** — semantic vs fixed vs recursive
+✅ **Cache embeddings** — re-embedding 1M docs costs $130 with OpenAI
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Single embedding model for both indexing and querying mismatch (use the same model!)
+❌ Chunks too large (>1K tokens) — retrieval becomes imprecise
+❌ Chunks too small (<100 tokens) — lose semantic context
+❌ No re-ranking — top similarity ≠ top relevance
+❌ Stuffing 50 chunks into context — "lost in the middle" effect, LLM ignores middle chunks
+❌ Trusting any source — implement domain whitelists and authority scoring
+❌ No evaluation set — you can't improve what you don't measure
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+RAG and fine-tuning give you POWER over LLMs. But power without responsibility creates real harm — biased hiring AI, hallucinated medical advice, deepfake misinformation. Next: **AI Ethics & Governance** — the legal, ethical, and technical frameworks for responsible AI.`,
         theoryEn: `**RAG — Grounding AI in Facts**
 
 **Why RAG?** LLMs hallucinate, have knowledge cutoffs, and can't cite sources. RAG fixes this by retrieving relevant documents before generating.
@@ -1863,7 +2550,95 @@ No single metric captures all aspects of fairness. Different metrics can even co
 4. **Documentation:** Model cards, data sheets, impact assessments
 5. **Monitoring:** Continuous bias tracking in production
 6. **Red teaming:** Adversarial testing for harmful outputs
-7. **Feedback mechanisms:** Allow affected individuals to contest decisions`,
+7. **Feedback mechanisms:** Allow affected individuals to contest decisions
+
+---
+
+## 🏢 Case Study: Amazon's Hiring AI Disaster (2014-2018)
+
+Amazon built an AI to screen resumes by training on 10 years of past hires (mostly male in tech roles):
+- Model learned to **penalize resumes containing "women's"** (e.g., "women's chess club captain")
+- Downgraded graduates from women's colleges
+- Discovered during internal audit; project quietly killed in 2018
+- **Cost:** Untold millions in development + reputational damage
+
+**Lesson:** "Train on historical data" embeds historical bias. Without explicit fairness constraints, the model perfectly replicates past discrimination.
+
+---
+
+## 🏢 Case Study: COMPAS Recidivism Algorithm (ProPublica, 2016)
+
+COMPAS, used by US courts to predict re-offense risk, was investigated by ProPublica:
+- **False positive rate for Black defendants: 45%**
+- **False positive rate for White defendants: 23%**
+- COMPAS satisfied "calibration" fairness but failed "equal opportunity"
+
+**Impossibility theorem in action:** You literally cannot satisfy both calibration AND equal opportunity when base rates differ. Choosing which fairness metric matters is a **moral judgment**, not a technical one.
+
+---
+
+## 🏢 Case Study: Anthropic's Constitutional AI — Safety as Architecture
+
+Anthropic embeds ethics into model training:
+1. Write a "constitution" — natural language principles (e.g., "Avoid discrimination based on race")
+2. Have the model critique its own responses against the constitution
+3. Use those critiques to train an improved model
+4. Iterate
+
+**Result:** Claude refuses ~3× more harmful requests than vanilla GPT-3.5, with fewer false refusals. Demonstrates safety can be designed in, not bolted on.
+
+---
+
+## 🏢 Case Study: EU AI Act (Effective 2025-2027) — The First Comprehensive AI Law
+
+The EU AI Act categorizes AI by risk:
+- **Unacceptable (banned):** Social scoring, real-time biometric surveillance, manipulative AI
+- **High risk (heavily regulated):** Hiring, credit scoring, medical, education, law enforcement
+- **Limited risk (transparency required):** Chatbots must disclose AI nature
+- **Minimal risk (no rules):** Spam filters, recommendation systems
+
+**Penalties:** Up to €35M or 7% of global revenue. Effects every AI company selling to EU.
+
+---
+
+## 🏢 Case Study: Google's Gemini Image Generation Backlash (Feb 2024)
+
+Google's Gemini generated historically inaccurate images (Black Vikings, female Popes, Asian Founding Fathers) — overcorrecting for diversity to the point of falsifying history:
+- 2-week pause of image generation
+- $90B market cap loss in days
+- CEO Sundar Pichai: "Completely unacceptable"
+
+**Lesson:** Bias correction without nuance is itself a form of bias. Fairness requires **context-aware** application, not blanket rules.
+
+---
+
+## 📋 Responsible AI Deployment Checklist
+
+✅ **Bias audit before launch** — test across race, gender, age, geography
+✅ **Document with Model Card** (intended use, limitations, fairness metrics)
+✅ **Continuous monitoring** in production (data drift, fairness metric drift)
+✅ **Human-in-the-loop for high-stakes decisions** (hiring, lending, medical, legal)
+✅ **Transparent appeals process** for affected individuals
+✅ **Red team testing** — hire adversaries to find harmful outputs
+✅ **Privacy review** (GDPR, CCPA, sector-specific regulations)
+✅ **Carbon footprint disclosure** for large model training
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ "We'll fix bias after launch" — the harm has already occurred
+❌ "The model is just learning from data" — abdicates responsibility to inanimate code
+❌ Optimizing only for accuracy — ignores fairness, robustness, explainability
+❌ Hiding model limitations from users — erodes trust and creates liability
+❌ Treating ethics as a legal compliance checkbox instead of design principle
+❌ Outsourcing labeling to underpaid workers without psychological support (OpenAI Kenya scandal)
+
+---
+
+## 🌉 Module Wrap-Up
+
+You've completed AI Foundation — from neural networks → CNNs/RNNs → Transformers → LLMs → RAG → Ethics. The next courses dive deeper into specific specializations: **Machine Learning** (classical algorithms), **Data Engineering** (pipelines that feed AI), and **Cloud Engineering** (infrastructure for production AI). The principles you've learned here apply across all of them.`,
         theoryEn: `**AI Ethics — Building Responsible AI**
 
 **Bias Types:** Data bias (unrepresentative), Algorithmic (amplifies bias), Measurement (proxy features), Deployment (wrong context).
