@@ -143,7 +143,16 @@ const PythonPathwayHub = () => {
         <div className="grid sm:grid-cols-2 gap-2">
           {pythonLessons.map((l) => {
             const done = progress[l.id];
-            const m = pythonModules.find((mm) => mm.id === l.moduleId)!;
+            const m = pythonModules.find((mm) => mm.id === l.moduleId);
+            const moduleEmoji = m?.emoji ?? "📘";
+            const moduleTitle = m
+              ? language === "vi"
+                ? m.title
+                : m.titleEn
+              : language === "vi"
+                ? "Module đang cập nhật"
+                : "Module updating";
+
             return (
               <Link
                 key={l.id}
@@ -159,7 +168,7 @@ const PythonPathwayHub = () => {
                     {language === "vi" ? l.title : l.titleEn}
                   </div>
                   <div className="text-[10px] text-muted-foreground">
-                    {m.emoji} {language === "vi" ? m.title : m.titleEn}
+                    {moduleEmoji} {moduleTitle}
                   </div>
                 </div>
                 {done && <Award className="w-4 h-4 text-emerald-600 shrink-0" />}
