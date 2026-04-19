@@ -357,184 +357,173 @@ WHERE s.age > 20;`,
         titleEn: "Basic WHERE Clause",
         level: 1,
         difficulty: "beginner",
-        theory: `**WHERE** is how you go from "all the data" to "the data I actually care about." It runs *before* SELECT, *before* GROUP BY — so it is also the single biggest lever you have on query performance.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bảng \`students\` có 1000 học viên. Sếp hỏi: *"Liệt kê các học viên trên 18 tuổi ở Hà Nội."* Bạn không thể lấy hết 1000 dòng rồi tự lọc bằng tay — đó là việc của **WHERE** (lọc).
 
-A bad WHERE clause is the #1 source of slow queries in production warehouses. Forgetting a partition filter on a 10 TB table can turn a 3-second query into a 30-minute one (and a $50 BigQuery bill into a $50 one). Mastering WHERE is mastering performance.
+WHERE giống như một bộ lọc cà phê: bạn đổ tất cả dòng dữ liệu vào, chỉ những dòng thoả mãn điều kiện mới chảy xuống dưới.
 
-## Comparison operators
+## 2. Cú pháp tối thiểu
 
-\`=\`, \`!=\` (\`<>\`), \`<\`, \`<=\`, \`>\`, \`>=\`. Standard across all dialects. The subtle one: \`<>\` is the ANSI-standard "not equal" — both work, prefer one consistently.
+\`\`\`sql
+SELECT name, age, city
+FROM   students
+WHERE  age > 18              -- Chỉ giữ dòng thoả điều kiện này
+   AND city = 'Hà Nội';      -- VÀ thoả thêm điều kiện này
+\`\`\`
 
-## Combining with AND, OR, NOT
+Mỗi dòng được kiểm tra với điều kiện. **Đúng → giữ lại. Sai → loại bỏ.**
+
+## 3. Các phép so sánh thường gặp
+
+| Phép | Ý nghĩa | Ví dụ |
+|---|---|---|
+| \`=\` | bằng | \`age = 20\` |
+| \`<>\` hoặc \`!=\` | khác | \`status <> 'paid'\` |
+| \`<\`, \`<=\`, \`>\`, \`>=\` | nhỏ hơn / lớn hơn (hoặc bằng) | \`amount >= 100\` |
+
+## 4. Kết hợp nhiều điều kiện: \`AND\`, \`OR\`, \`NOT\`
+
+- \`AND\` (và): cả hai điều kiện đều phải đúng.
+- \`OR\` (hoặc): chỉ cần 1 điều kiện đúng.
+- \`NOT\` (không): đảo ngược điều kiện.
 
 \`\`\`sql
 SELECT * FROM orders
 WHERE status = 'paid'
   AND amount > 100
-  AND (region = 'EU' OR region = 'US');
+  AND (region = 'EU' OR region = 'US');   -- Bọc dấu ngoặc khi trộn AND/OR
 \`\`\`
 
-**Operator precedence**: \`NOT > AND > OR\`. When mixing AND and OR, **always parenthesize** — relying on precedence is a recipe for subtle bugs that pass review and break in prod.
+**Mẹo vàng**: khi trộn AND và OR, **luôn dùng dấu ngoặc** \`()\` để câu lệnh rõ ràng. Đừng dựa vào "thứ tự ưu tiên ngầm" — rất dễ sai.
 
-## IN, BETWEEN, LIKE — the workhorses
+## 5. \`IN\`, \`BETWEEN\`, \`LIKE\` — 3 phép lọc cực hữu ích
 
-| Operator | Use case | Example |
+| Phép | Khi nào dùng | Ví dụ |
 |---|---|---|
-| \`IN\` | Multiple discrete values | \`region IN ('EU','US','APAC')\` |
-| \`BETWEEN\` | Inclusive range | \`amount BETWEEN 100 AND 500\` |
-| \`LIKE\` | Pattern match | \`email LIKE '%@gmail.com'\` |
-| \`ILIKE\` (Postgres) | Case-insensitive LIKE | \`name ILIKE 'an%'\` |
+| \`IN (...)\` | thuộc danh sách rời rạc | \`region IN ('EU', 'US', 'APAC')\` |
+| \`BETWEEN a AND b\` | nằm trong khoảng (bao gồm 2 đầu) | \`amount BETWEEN 100 AND 500\` |
+| \`LIKE 'mẫu'\` | khớp mẫu chuỗi | \`email LIKE '%@gmail.com'\` |
 
-\`BETWEEN\` is **inclusive on both ends** — \`BETWEEN 1 AND 10\` includes 1 and 10. Forgetting this off-by-one has caused real revenue-attribution bugs.
+**Quy tắc \`LIKE\`**:
+- \`%\` = chuỗi bất kỳ (không hoặc nhiều ký tự).
+- \`_\` (gạch dưới) = đúng 1 ký tự.
+- \`'An%'\` = bắt đầu bằng "An". \`'%@gmail.com'\` = kết thúc bằng "@gmail.com".
 
-\`LIKE\` wildcards: \`%\` = any sequence, \`_\` = exactly one character. Anchored prefix patterns (\`'an%'\`) can use indexes; leading-wildcard patterns (\`'%an'\`) cannot — they always full-scan.
+⚠️ \`BETWEEN 1 AND 10\` **bao gồm cả 1 và 10** (không phải "lớn hơn 1, nhỏ hơn 10").
 
-## NULL — the silent killer
+## 6. Cái BẪY lớn nhất: \`NULL\` (giá trị "không biết")
 
-\`NULL\` means "unknown," not "empty." This breaks intuition:
+\`NULL\` không phải là 0, cũng không phải chuỗi rỗng — nó nghĩa là *"không có thông tin"*. Vì vậy:
 
 \`\`\`sql
-WHERE age = NULL    -- ❌ never matches anything
-WHERE age IS NULL   -- ✅ correct
-WHERE age <> 30     -- ❌ excludes NULLs too! (because NULL <> 30 is "unknown")
+WHERE age = NULL    -- ❌ Không bao giờ khớp! Vì "không biết" không "bằng" cái gì cả.
+WHERE age IS NULL   -- ✅ Đúng cú pháp để kiểm tra rỗng.
+WHERE age <> 30     -- ❌ Loại luôn các dòng có age = NULL!
+WHERE age <> 30 OR age IS NULL    -- ✅ Nếu muốn giữ cả NULL.
 \`\`\`
 
-The 3-valued logic (\`TRUE / FALSE / UNKNOWN\`) is the single most surprising thing in SQL for beginners. The fix is mechanical: any time a column is nullable, explicitly handle NULL with \`IS NULL\` / \`IS NOT NULL\` / \`COALESCE\`.
+**Quy tắc vàng**: cột nào có thể NULL → luôn xử lý NULL bằng \`IS NULL\` / \`IS NOT NULL\`.
 
-## Comparison: WHERE vs HAVING
+## 7. Hiệu năng — đừng "bọc" cột bằng hàm
 
-| Aspect | WHERE | HAVING |
-|---|---|---|
-| Runs | Before GROUP BY | After GROUP BY |
-| Operates on | Individual rows | Aggregated groups |
-| Can use aggregate? | ❌ No | ✅ Yes |
-| Performance | Faster (fewer rows enter group) | Slower |
-
-Rule of thumb: **filter as early as possible** — push every condition you can into WHERE, leave only group-level conditions for HAVING.
-
-## Performance — sargable predicates
-
-A predicate is **sargable** ("Search ARGument-able") if the database can use an index for it. The big rule: **don't wrap the indexed column in a function**.
+Khi cột đã có index (chỉ mục — giúp tìm nhanh), **đừng** bọc cột trong hàm — sẽ phá tác dụng của index:
 
 \`\`\`sql
--- ❌ Not sargable — function on indexed column
+-- ❌ Chậm — hàm DATE() làm hỏng index
 WHERE DATE(created_at) = '2024-01-15'
 
--- ✅ Sargable — function on the literal instead
-WHERE created_at >= '2024-01-15' AND created_at < '2024-01-16'
+-- ✅ Nhanh — so sánh trực tiếp với khoảng thời gian
+WHERE created_at >= '2024-01-15'
+  AND created_at <  '2024-01-16'
 \`\`\`
 
-The first version full-scans every row to compute \`DATE(created_at)\`; the second uses the index on \`created_at\`. On a 100 M-row table the difference is *minutes vs milliseconds*.
+Trên bảng 100 triệu dòng, khác biệt là *vài phút vs vài mili-giây*.
 
-## Case study — the "missing partition filter" incident
+## 8. Tổng kết — checklist khi viết WHERE
 
-A real story from a Snowflake-using e-commerce: an analyst wrote \`WHERE event_type = 'purchase'\` on the events table — *but forgot to add a date filter*. The table was partitioned by date but had 4 years of history. Each query scanned 4 years (~8 TB), at $40/TB. The dashboard ran every 15 minutes from a BI tool. The team noticed when the warehouse bill jumped $12,000 in three days. Fix: a single line — \`AND event_date >= current_date - 30\`.
+- ✅ Trộn AND/OR → **luôn dùng \`()\`** để rõ ràng.
+- ✅ \`BETWEEN\` bao gồm cả 2 đầu.
+- ✅ Cột có thể NULL → kiểm tra bằng \`IS NULL\` / \`IS NOT NULL\`.
+- ✅ Đừng bọc cột bằng hàm khi cột đã có index.
+- ✅ Bài tiếp theo: **GROUP BY & các hàm tổng hợp** — đếm, tính trung bình, tổng cộng theo nhóm.`,
+        theoryEn: `## 1. Real-world problem
 
-## Best practices
+\`students\` table has 1000 rows. Boss asks: "List students over 18 in Hanoi." That's **WHERE** — keep only rows that match.
 
-- **Always include a partition filter** on partitioned tables — make it part of your code-review checklist.
-- **Parenthesize AND/OR mixes** explicitly.
-- **Treat NULL as a third state** every time the column is nullable.
-- **Keep predicates sargable** — function on the literal, never on the column.
-- **Filter early** — push down into WHERE rather than HAVING when possible.
-- **Use \`= ANY(array)\` over long IN lists** in Postgres for cleaner planning.
+## 2. Minimal syntax
 
-## Anti-patterns & next lesson
+\`\`\`sql
+SELECT name FROM students
+WHERE age > 18 AND city = 'Hanoi';
+\`\`\`
 
-Avoid: \`column = NULL\`; mixing AND/OR without parens; \`UPPER(email) = 'X'\` on indexed columns; relying on implicit type casts in WHERE (\`WHERE id = '42'\` when id is INTEGER).
+## 3. Comparison operators
 
-Next: **Aggregate functions** — once you have the right rows, how do you summarize them?`,
-        theoryEn: `**WHERE** filters rows before SELECT runs. The biggest lever on performance.
+\`=, <>, <, <=, >, >=\`. \`<>\` is the ANSI "not equal".
 
-## Why this matters
+## 4. AND / OR / NOT
 
-Bad WHERE is the #1 source of slow queries. Missing a partition filter on a 10 TB table = 30 minutes + $50 instead of 3 seconds + cents.
+Always parenthesize when mixing AND with OR — don't rely on implicit precedence.
 
-## Operators
-
-\`=, <>, <, <=, >, >=\` standard everywhere. \`<>\` is ANSI for "not equal."
-
-## AND / OR / NOT
-
-Precedence: \`NOT > AND > OR\`. Always parenthesize mixes.
-
-## IN / BETWEEN / LIKE
+## 5. IN, BETWEEN, LIKE
 
 | Operator | Use |
 |---|---|
 | IN | discrete values |
 | BETWEEN | inclusive range |
 | LIKE | pattern (\`%\`, \`_\`) |
-| ILIKE | case-insensitive (Postgres) |
 
-\`BETWEEN\` is inclusive on both ends. Leading-wildcard LIKE can't use indexes.
+## 6. NULL trap
 
-## NULL — three-valued logic
+\`= NULL\` never matches; use \`IS NULL\`. \`<> 30\` also excludes NULL rows.
 
-\`= NULL\` never matches; use \`IS NULL\`. \`<> 30\` *excludes* NULLs too. Always handle nullable columns with \`IS NULL\` / \`COALESCE\`.
-
-## WHERE vs HAVING
-
-| Aspect | WHERE | HAVING |
-|---|---|---|
-| Runs | Before GROUP BY | After |
-| On | Rows | Groups |
-| Aggregates? | No | Yes |
-
-Filter as early as possible.
-
-## Sargable predicates
+## 7. Sargable predicates
 
 Don't wrap indexed columns in functions:
-
 - ❌ \`DATE(created_at) = '2024-01-15'\`
 - ✅ \`created_at >= '2024-01-15' AND created_at < '2024-01-16'\`
 
-## Case study — missing partition filter
+## 8. Checklist
 
-Snowflake events table, 4 years of history, no date filter, BI dashboard polling every 15 min → +$12k in 3 days. Fix: one line.
-
-## Best practices
-
-Always partition filter; parenthesize AND/OR; treat NULL as third state; sargable predicates; filter early.
-
-## Anti-patterns & next
-
-Avoid \`= NULL\`, missing parens, function-on-column, implicit casts. Next: **Aggregate functions**.`,
-        code: `-- Basic filtering
+- Parenthesize AND/OR mixes
+- BETWEEN is inclusive on both ends
+- Handle NULL explicitly
+- Keep functions off indexed columns
+- Next: **Aggregate functions & GROUP BY**`,
+        code: `-- Lọc cơ bản
 SELECT * FROM students WHERE age > 20;
 
--- Multiple conditions
+-- Nhiều điều kiện kết hợp bằng AND
 SELECT * FROM students
 WHERE age >= 18 AND age <= 25;
 
--- IN operator
+-- IN: thuộc danh sách
 SELECT * FROM students
-WHERE name IN ('An', 'Binh', 'Chi');
+WHERE name IN ('An', 'Bình', 'Chi');
 
--- LIKE pattern matching
+-- LIKE: khớp mẫu chuỗi (bắt đầu bằng "N")
 SELECT * FROM students WHERE name LIKE 'N%';
 
--- NULL check
+-- Kiểm tra NULL đúng cách
 SELECT * FROM orders WHERE email IS NOT NULL;
 
--- Combining AND, OR with parentheses
+-- Trộn AND/OR — LUÔN dùng dấu ngoặc
 SELECT * FROM students
-WHERE (city = 'Hanoi' OR city = 'HCMC') AND age > 20;`,
+WHERE (city = 'Hà Nội' OR city = 'TP HCM')
+  AND age > 20;`,
         codeLanguage: "sql",
-        exercise: "Filter students aged 18-22 whose names start with 'T'.",
-        exerciseEn: "Filter students aged 18-22 whose names start with 'T'.",
+        exercise: "Lọc các học viên có tuổi từ 18 đến 22 (bao gồm cả 18 và 22) VÀ tên bắt đầu bằng chữ 'T'. Gợi ý: dùng BETWEEN kết hợp LIKE 'T%'.",
+        exerciseEn: "Filter students aged 18-22 (inclusive) AND whose names start with 'T'. Hint: BETWEEN combined with LIKE 'T%'.",
         testCases: [
-          { input: "SELECT * FROM students WHERE age BETWEEN 18 AND 22 AND name LIKE 'T%';", expectedOutput: "filtered rows", description: "Combined BETWEEN and LIKE" }
+          { input: "SELECT * FROM students WHERE age BETWEEN 18 AND 22 AND name LIKE 'T%';", expectedOutput: "filtered rows", description: "Kết hợp BETWEEN và LIKE" }
         ],
         quiz: [
-          { question: "What does LIKE 'A%' match?", options: ["Contains the letter A", "Starts with A", "Ends with A", "Exactly the letter A"], answer: 1, explanation: "% is a wildcard matching any sequence. 'A%' means starts with A followed by anything." },
-          { question: "Why does WHERE email = NULL not work?", options: ["Syntax error", "NULL is not a value so = always returns false", "It works fine", "NULL equals zero"], answer: 1, explanation: "NULL represents unknown. Any comparison with = returns NULL (not true), so no rows match. Use IS NULL instead." },
-          { question: "What does BETWEEN 10 AND 20 include?", options: ["10 and 20 are excluded", "10 and 20 are both included", "Only 10 is included", "Only 20 is included"], answer: 1, explanation: "BETWEEN is inclusive on both ends — equivalent to >= 10 AND <= 20." },
-          { question: "What is the result of: WHERE age > 18 OR city = 'HN' AND active = true?", options: ["(age > 18 OR city = 'HN') AND active = true", "age > 18 OR (city = 'HN' AND active = true)", "Syntax error", "Same as using parentheses"], answer: 1, explanation: "AND has higher precedence than OR, so it binds first: age > 18 OR (city = 'HN' AND active = true)." },
-          { question: "What does the underscore _ match in LIKE?", options: ["Any number of characters", "Exactly one character", "A literal underscore", "Zero or one character"], answer: 1, explanation: "_ matches exactly one character. 'J__n' matches John, Joan (4 chars total)." }
+          { question: "`LIKE 'A%'` khớp với chuỗi nào?", options: ["Có chứa chữ A", "Bắt đầu bằng chữ A", "Kết thúc bằng chữ A", "Đúng bằng chữ A"], answer: 1, explanation: "Dấu % nghĩa là 'chuỗi bất kỳ'. 'A%' nghĩa là bắt đầu bằng A, theo sau là gì cũng được." },
+          { question: "Vì sao `WHERE email = NULL` không hoạt động?", options: ["Lỗi cú pháp", "NULL nghĩa là 'không biết' nên = luôn cho kết quả không xác định, không khớp dòng nào", "Vẫn chạy bình thường", "NULL bằng 0"], answer: 1, explanation: "NULL là 'không biết'. Mọi so sánh với = đều cho kết quả NULL (không phải TRUE), nên không dòng nào khớp. Phải dùng IS NULL." },
+          { question: "`BETWEEN 10 AND 20` bao gồm những giá trị nào?", options: ["Loại cả 10 và 20", "Bao gồm cả 10 và 20", "Chỉ bao gồm 10", "Chỉ bao gồm 20"], answer: 1, explanation: "BETWEEN bao gồm cả 2 đầu — tương đương với >= 10 AND <= 20." },
+          { question: "`WHERE age > 18 OR city = 'HN' AND active = true` thực sự được hiểu là gì?", options: ["(age > 18 OR city = 'HN') AND active = true", "age > 18 OR (city = 'HN' AND active = true)", "Lỗi cú pháp", "Giống như có ngoặc"], answer: 1, explanation: "AND có độ ưu tiên cao hơn OR, nên AND được nhóm trước: age > 18 OR (city = 'HN' AND active = true). Đây chính là lý do nên LUÔN dùng dấu ngoặc khi trộn AND/OR." },
+          { question: "Trong LIKE, dấu gạch dưới `_` khớp với cái gì?", options: ["Chuỗi bất kỳ", "Đúng 1 ký tự bất kỳ", "Dấu gạch dưới thật sự", "0 hoặc 1 ký tự"], answer: 1, explanation: "Dấu _ khớp với đúng 1 ký tự bất kỳ. Ví dụ 'J__n' (4 ký tự) khớp với 'John', 'Joan'." }
         ]
       }
     ]
