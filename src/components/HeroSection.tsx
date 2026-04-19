@@ -145,15 +145,15 @@ const HeroSection = () => {
                   value: "15+",
                   label: t("Năm kinh nghiệm giảng dạy", "Years Teaching Experience"),
                   place: t("Việt Nam – Phần Lan", "Vietnam – Finland"),
-                  year: t("Từ 2013", "Since 2013"),
+                  year: t("Từ 2011", "Since 2011"),
                 },
               ].map((s, i) => (
-                <div key={i} className="text-center">
+                <div key={i} className="flex h-full flex-col text-center">
                   <s.icon className="mx-auto mb-2 h-6 w-6 text-primary" />
                   <div className="font-display text-lg font-bold text-foreground sm:text-xl">{s.value}</div>
                   <div className="mt-1 text-xs font-medium leading-5 text-foreground/90">{s.label}</div>
                   <div className="mt-0.5 text-[11px] leading-4 text-muted-foreground">{s.place}</div>
-                  <div className="mt-0.5 text-[11px] font-semibold leading-4 text-primary">{s.year}</div>
+                  <div className="mt-auto pt-2 text-[11px] font-semibold leading-4 text-primary">{s.year}</div>
                 </div>
               ))}
             </div>
