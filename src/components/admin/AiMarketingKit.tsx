@@ -164,6 +164,11 @@ export default function AiMarketingKit() {
   const [regenText, setRegenText] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // Video script state
+  const [videoFormat, setVideoFormat] = useState<"tiktok" | "reels" | "shorts">("tiktok");
+  const [videoScript, setVideoScript] = useState<VideoScript | null>(null);
+  const [generatingVideo, setGeneratingVideo] = useState(false);
+
   const [savedCampaigns, setSavedCampaigns] = useState<SavedCampaign[]>([]);
   const [activeTab, setActiveTab] = useState("studio");
 
