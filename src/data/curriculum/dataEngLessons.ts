@@ -448,73 +448,245 @@ print(f"\\n✅ Validation: {len(errors)} errors" if errors else "\\n✅ Schema v
       {
         id: "de-etl-1", title: "ETL vs ELT", titleEn: "ETL vs ELT",
         level: 3, difficulty: "intermediate",
-        theory: `**ETL and ELT** are two fundamental approaches to moving data from source systems to analytical destinations. Understanding when to use each is a core data engineering skill.
+        theory: `**ETL** và **ELT** là hai cách tiếp cận nền tảng để di chuyển dữ liệu từ nguồn (operational systems) đến đích phân tích (data warehouse, lakehouse). Hiểu rõ khi nào dùng cái nào là **kỹ năng cốt lõi** của Data Engineer — chọn sai có thể đốt $$$ tiền cloud hoặc làm chậm pipeline 10×.
 
-**ETL (Extract → Transform → Load):**
-Data is transformed **before** it is loaded into the destination.
-\`\`\`
-Source DB → [Extract] → Raw Data → [Transform] → Clean Data → [Load] → Data Warehouse
-\`\`\`
+## Vì sao chủ đề này quan trọng?
+Mọi tổ chức data-driven đều cần một pipeline đáng tin cậy đưa dữ liệu từ **operational systems** (Postgres, MongoDB, Salesforce, Stripe…) vào **analytical store** (BigQuery, Snowflake, Redshift). Pipeline này có thể xử lý từ **vài MB/ngày** (startup) đến **petabytes/giờ** (Netflix, Uber). Cấu trúc ETL/ELT quyết định:
+- **Chi phí compute** (transform ở đâu = trả tiền ở đó)
+- **Tốc độ time-to-insight** (analyst phải chờ bao lâu)
+- **Khả năng tái xử lý** (re-process khi logic sai)
 
-**When to use ETL:**
-- Legacy on-premise data warehouses with limited compute
-- Sensitive data that must be masked/anonymized before storage
-- Small-to-medium data volumes
-- Well-defined, stable schemas
-
-**ELT (Extract → Load → Transform):**
-Raw data is loaded **first**, then transformed inside the destination warehouse.
+## ETL — Extract → Transform → Load
+Dữ liệu được **biến đổi TRƯỚC khi** đưa vào warehouse. Sơ đồ:
 \`\`\`
-Source DB → [Extract] → Raw Data → [Load] → Data Warehouse → [Transform] → Mart Tables
+[Source DB] → [Extract] → [Staging Server] → [Transform: Python/Spark] → [Clean Data] → [Load] → [Warehouse]
 \`\`\`
 
-**When to use ELT:**
-- Cloud warehouses (BigQuery, Snowflake, Redshift) with massive compute power
-- Large data volumes where transformation benefits from warehouse's distributed processing
-- Exploratory analytics where you want raw data available
-- Schema-on-read scenarios
+**Đặc điểm:**
+- Cần **server transform riêng** (EC2, Spark cluster, on-prem box)
+- Warehouse chỉ chứa data **đã sạch, đã agg**
+- Chi phí cố định cho hạ tầng transform
+- **Khó re-process** vì raw data không lưu lại
 
+**Khi nào dùng ETL:**
+- Warehouse on-premise (Teradata, Oracle Exadata) — compute đắt và giới hạn
+- Có quy định **PII masking trước khi lưu** (GDPR Art. 25 — privacy by design)
+- Dữ liệu nhỏ, schema cực ổn định
+- Cần **audit trail** với data đã transform là single source of truth
+
+## ELT — Extract → Load → Transform
+Dữ liệu thô được **load thẳng** vào warehouse, transform thực hiện **bên trong warehouse** bằng SQL. Sơ đồ:
+\`\`\`
+[Source DB] → [Extract] → [Load thẳng] → [Warehouse: raw schema] → [Transform: SQL/dbt] → [Mart schema]
+\`\`\`
+
+**Đặc điểm:**
+- Tận dụng **MPP compute** của warehouse (BigQuery, Snowflake)
+- Raw data **luôn còn** → re-process dễ
+- Transform = SQL → analyst tự viết được (không phải code Python)
+- Chi phí compute biến đổi theo query (pay-per-query model)
+
+**Khi nào dùng ELT:**
+- Cloud warehouse (BigQuery, Snowflake, Redshift, Databricks) — compute rẻ và elastic
+- Data volume lớn (TB+)
+- Team analytics đông, cần tự service
+- Cần **time travel / replay** khi logic ETL có bug
+
+## So sánh chi tiết ETL vs ELT
+| Khía cạnh | ETL | ELT |
+|-----------|-----|-----|
+| Vị trí transform | Server riêng | Trong warehouse |
+| Tốc độ | Chậm (compute hạn chế) | Nhanh (MPP của warehouse) |
+| Tính linh hoạt | Thấp (transform fix sẵn) | Cao (raw luôn còn) |
+| Ngôn ngữ transform | Python, Java, Spark | SQL (dbt, Dataform) |
+| Chi phí | Server cố định | Pay-per-query (biến đổi) |
+| Compliance (PII) | Mask trước khi lưu | Cần row/column-level security |
+| Re-processing | Khó (không có raw) | Dễ (raw vẫn còn) |
+| Tools tiêu biểu | Informatica, Talend, AWS Glue | dbt, Dataform, Fivetran + Snowflake |
+
+## Các thành phần cốt lõi của Pipeline
+
+### 1. Source Connectors (Extract)
+- **Database CDC** (Debezium, AWS DMS) — đọc binlog, capture INSERT/UPDATE/DELETE realtime
+- **API connectors** — REST polling (Stripe, Shopify), webhook (Slack, GitHub)
+- **File watchers** — S3 EventBridge, GCS Pub/Sub trigger khi file mới đến
+- **Streaming source** — Kafka topic, Kinesis stream
+
+### 2. Transformation Layer
+- **Cleaning**: null handling, type cast, dedup
+- **Enrichment**: join với reference (geocoding IP, currency convert, lookup user master)
+- **Aggregation**: pre-compute metrics cho dashboard (DAU, GMV, conversion rate)
+- **Conforming**: chuẩn hóa format (date YYYY-MM-DD, timezone UTC, currency USD)
+
+### 3. Loading Strategies
+| Strategy | Mô tả | Ưu điểm | Nhược điểm |
+|----------|-------|---------|------------|
+| **Full refresh** | Xóa hết + load lại | Đơn giản, đảm bảo đồng bộ | Chậm với bảng lớn |
+| **Incremental append** | Chỉ thêm row mới (theo timestamp) | Nhanh | Không xử lý UPDATE |
+| **Upsert (MERGE)** | Insert mới + update cũ theo key | Cân bằng tốt | Cần unique key |
+| **SCD Type 2** | Lưu lịch sử (valid_from/valid_to) | Audit đầy đủ | Storage tăng nhanh |
+
+### 4. Orchestration
+- **Time-based**: cron (\`0 2 * * *\` — 2h sáng mỗi ngày)
+- **Event-driven**: Lambda trigger khi file đến S3
+- **Dependency-based**: Airflow DAG — task B chạy sau khi A xong
+- **Sensor-based**: poll cho đến khi điều kiện đúng (file đến, partition đầy)
+
+### 5. Monitoring & Data Quality
+- **Row count check**: hôm nay nhận 1.2M, trung bình 1M ± 5% → OK
+- **Schema drift detection**: cột mới xuất hiện → alert
+- **Freshness SLA**: dashboard cần data <1h cũ
+- **Volume anomaly**: drop >30% so với baseline → page on-call
+
+## Case study thật
+
+### Netflix — ELT trên S3 + Spark + Iceberg
+- **3+ PB/ngày** event data từ 250M users
+- Stack: **Kafka → S3 (raw, parquet) → Spark transform → Iceberg tables → Druid (serving)**
+- Lý do chọn ELT: cần re-process khi sửa logic recommendation; raw data giữ 18 tháng
+- Cost saving: dùng **Spot Instances** cho Spark batch (tiết kiệm 70%)
+
+### Stripe — ETL với Python + Postgres
+- Data tài chính cần **PII masking** trước khi vào analytical DB (PCI-DSS)
+- Pipeline Python + Airflow extract từ production Postgres → mask card numbers → load vào analytics warehouse
+- Chọn ETL vì compliance > flexibility
+
+### Airbnb — Hybrid ETL + ELT
+- **Real-time pricing** (ETL): Spark Streaming, transform trước khi push vào serving DB
+- **Reporting/analytics** (ELT): dump raw vào Hive → dbt transform → Presto query
+- Bài học: không phải chọn 1 trong 2 — **dùng cả hai cho use cases khác nhau**
+
+## Best practices
+1. **Idempotent jobs** — chạy lại nhiều lần không tạo duplicate (dùng MERGE thay vì INSERT)
+2. **Partition by date** — \`/year=2026/month=04/day=19/\` giúp prune query nhanh
+3. **Schema evolution friendly** — dùng Avro/Parquet với schema registry, tránh CSV
+4. **Separate raw / staging / mart** schemas — 3 lớp rõ ràng, dễ debug
+5. **Data contract** giữa source team và data team — schema + SLA + on-call rotation
+6. **Backfill capability** — pipeline phải re-process được 30/60/90 ngày dữ liệu cũ
+7. **CI/CD cho pipeline** — test transform với sample data trước khi deploy
+
+## Anti-patterns (tránh!)
+- ❌ **"Big bang" full refresh hàng giờ** với bảng 100GB → tốn $$$ compute
+- ❌ Transform trong **stored procedure** không có version control → không debug được
+- ❌ Pipeline **không idempotent** — retry tạo data trùng
+- ❌ **Hardcode credentials** trong DAG code → leak qua Git
+- ❌ Không có **alert khi pipeline fail** — phát hiện sau 3 ngày qua complaint của CEO
+- ❌ Transform raw data **mất luôn raw** — không re-process được khi phát hiện bug logic
+
+## Khi nào nên / không nên
+**Nên ELT khi:** cloud warehouse, data volume lớn, team analytics đông, cần flexibility cao
+**Nên ETL khi:** PII compliance bắt buộc, on-prem warehouse, schema cực ổn định, audit yêu cầu single source
+
+## Bridge sang bài tiếp
+Sau khi nắm được kiến trúc tổng thể ETL/ELT, bài tiếp theo (**Data Modeling**) sẽ đào sâu vào **cách tổ chức bảng** trong warehouse: Star Schema, Snowflake Schema, fact vs dimension — quyết định query có nhanh hay chậm.`,
+        theoryEn: `**ETL** and **ELT** are the two fundamental patterns for moving data from operational sources to analytical destinations. Choosing wrong can burn cloud budget or make pipelines 10× slower.
+
+## Why this matters
+Every data-driven company needs reliable pipelines from operational systems (Postgres, MongoDB, Salesforce, Stripe) to analytical stores (BigQuery, Snowflake, Redshift). Volumes range from MB/day (startups) to petabytes/hour (Netflix, Uber). The pattern decides:
+- **Compute cost** (transform location = bill location)
+- **Time to insight**
+- **Reprocessing capability** when logic is wrong
+
+## ETL — Transform before Load
+\`\`\`
+[Source] → [Extract] → [Staging server] → [Transform: Python/Spark] → [Load] → [Warehouse]
+\`\`\`
+- Separate transform server (EC2, Spark cluster, on-prem)
+- Warehouse holds clean, aggregated data only
+- Fixed infra cost
+- Hard to reprocess (no raw kept)
+
+**Use ETL when:** on-prem warehouse, GDPR-style PII masking required before storage, small stable schema, need clean data as single source.
+
+## ELT — Load raw, then transform
+\`\`\`
+[Source] → [Extract] → [Load raw] → [Warehouse: raw schema] → [Transform: SQL/dbt] → [Mart schema]
+\`\`\`
+- Leverages warehouse's MPP compute (BigQuery, Snowflake)
+- Raw data always available → easy reprocess
+- Transform = SQL → analysts can self-serve
+- Pay-per-query cost model
+
+**Use ELT when:** cloud warehouse, large volume (TB+), big analytics team, need replay/time-travel.
+
+## Detailed comparison
 | Aspect | ETL | ELT |
 |--------|-----|-----|
-| Transform location | Separate server | Inside the warehouse |
-| Speed | Slower (compute constrained) | Faster (warehouse compute) |
-| Flexibility | Less (transforms fixed before load) | More (raw data always available) |
-| Cost | Server costs | Warehouse compute costs |
-| Tools | Informatica, Talend, custom scripts | dbt, Dataform, Snowflake SQL |
+| Transform location | Separate server | Inside warehouse |
+| Speed | Slower (constrained) | Faster (warehouse MPP) |
+| Flexibility | Low (fixed transforms) | High (raw kept) |
+| Language | Python, Java, Spark | SQL (dbt) |
+| Cost | Fixed server | Pay-per-query |
+| Compliance (PII) | Mask before load | Row/column-level security |
+| Reprocessing | Hard (no raw) | Easy (raw kept) |
+| Tools | Informatica, Talend, Glue | dbt, Dataform, Fivetran + Snowflake |
 
-**Pipeline Architecture Components:**
+## Pipeline components
 
-**1. Source Connectors (Extract):**
-- Database connectors: CDC (Change Data Capture), full dumps, incremental queries
-- API connectors: REST polling, webhooks
-- File watchers: monitor S3/GCS for new files
+### 1. Source connectors (Extract)
+- DB CDC (Debezium, AWS DMS) — read binlog for real-time INSERT/UPDATE/DELETE
+- API: REST polling (Stripe, Shopify), webhooks (Slack, GitHub)
+- File watchers: S3 EventBridge, GCS Pub/Sub
+- Streaming: Kafka, Kinesis
 
-**2. Transformations:**
-- **Cleaning:** handle nulls, duplicates, type casting
-- **Enrichment:** join with reference data (geocoding, currency conversion)
-- **Aggregation:** pre-compute summaries for dashboards
-- **Conforming:** standardize formats across sources (date formats, naming conventions)
+### 2. Transformation layer
+- Cleaning, enrichment (joins with reference data), aggregation, conforming (date, timezone, currency)
 
-**3. Loading Strategies:**
-- **Full refresh:** delete all + reload (simple but slow, okay for small tables)
-- **Incremental append:** add new rows only (fast but doesn't handle updates)
-- **Upsert (merge):** insert new, update existing (best for changing data)
-- **SCD Type 2:** Keep historical versions (track changes over time)
+### 3. Loading strategies
+| Strategy | Description | Pros | Cons |
+|----------|-------------|------|------|
+| Full refresh | Delete + reload | Simple | Slow on large tables |
+| Incremental append | Add new rows | Fast | No UPDATE handling |
+| Upsert (MERGE) | Insert + update by key | Balanced | Needs unique key |
+| SCD Type 2 | Keep history | Full audit | Storage grows fast |
 
-**4. Scheduling & Orchestration:**
-- **Time-based:** cron schedules (every hour, daily at 2 AM)
-- **Event-driven:** triggered by file arrival or API webhook
-- **Dependency-based:** job B runs only after job A succeeds
+### 4. Orchestration
+- Time-based (cron), event-driven (Lambda on S3 file), dependency-based (Airflow DAG), sensor-based
 
-**5. Monitoring & Alerting:**
-- Row count validation (did we get the expected number of records?)
-- Schema drift detection (did columns change?)
-- Freshness checks (is data up to date?)
-- Runtime monitoring (did the pipeline take longer than expected?)`,
-        theoryEn: `**ETL:** Transform before loading (for on-premise, sensitive data, stable schemas).
-**ELT:** Load raw, transform in warehouse (for cloud, large volumes, flexibility).
+### 5. Monitoring
+- Row count anomalies, schema drift, freshness SLA, volume drop alerts
 
-**Components:** Source connectors (Extract), Transformations (Clean/Enrich/Aggregate), Loading strategies (Full/Incremental/Upsert/SCD), Scheduling (cron/event/dependency), Monitoring (counts/schema/freshness).`,
+## Real-world cases
+
+### Netflix — ELT on S3 + Spark + Iceberg
+- 3+ PB/day event data from 250M users
+- Stack: Kafka → S3 raw (parquet) → Spark → Iceberg → Druid
+- Why ELT: reprocess for recommendation logic changes; raw kept 18 months
+- Spot instances for Spark = 70% savings
+
+### Stripe — ETL with Python + Postgres
+- Financial data needs PII masking before analytics DB (PCI-DSS)
+- Python + Airflow: extract from prod Postgres → mask card numbers → load
+- Chose ETL because compliance > flexibility
+
+### Airbnb — Hybrid
+- Real-time pricing (ETL): Spark Streaming → transform → serving DB
+- Reporting (ELT): raw → Hive → dbt → Presto
+- Lesson: use BOTH for different use cases
+
+## Best practices
+1. Idempotent jobs (use MERGE not INSERT)
+2. Partition by date for query pruning
+3. Schema-evolution friendly formats (Avro/Parquet + schema registry)
+4. Separate raw / staging / mart schemas
+5. Data contracts between source and data teams
+6. Backfill capability (replay 30/60/90 days)
+7. CI/CD for pipelines
+
+## Anti-patterns
+- ❌ Hourly "big bang" full refresh on 100GB tables
+- ❌ Transforms in unversioned stored procedures
+- ❌ Non-idempotent pipelines causing duplicates
+- ❌ Hardcoded credentials in DAG code
+- ❌ No alerting on failures
+- ❌ Losing raw data during transform
+
+## When to use which
+**ELT:** cloud warehouse, large volume, analytics team, high flexibility needed
+**ETL:** PII compliance required, on-prem warehouse, very stable schema, audit demands single source
+
+## Bridge to next
+After understanding the ETL/ELT architecture, the next lesson (**Data Modeling**) covers HOW to organize tables in the warehouse: Star Schema, Snowflake, fact vs dimension — the foundation of fast queries.`,
         code: `import json
 from datetime import datetime
 
