@@ -19,143 +19,158 @@ export const sqlModules: ExtendedProgrammingModule[] = [
         titleEn: "SELECT & FROM",
         level: 1,
         difficulty: "beginner",
-        theory: `**SELECT** is the most fundamental SQL statement — it is how you ask the database to return data. Every analytical query, every dashboard, every ML feature pipeline starts here. Mastering the semantics of SELECT pays off for the rest of your career.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bạn có một bảng \`students\` (học viên) chứa 1000 dòng. Sếp nhắn: *"Cho tôi xem 10 học viên có điểm cao nhất."* Làm sao? Đó chính là việc của câu lệnh **SELECT** — cách bạn "hỏi" database để lấy dữ liệu ra.
 
-Even staff-level data engineers write SELECT every day. The difference between a beginner and a senior is *not* the keyword — it is knowing when \`SELECT *\` is a $700 mistake (covered later) and when \`DISTINCT\` silently hides a data-quality issue. Get the foundations right and the rest of SQL is paint on the walls.
+Mỗi câu hỏi với database đều bắt đầu bằng SELECT: từ dashboard công ty, báo cáo doanh thu, cho tới feature cho machine learning.
 
-## Basic syntax
+## 2. Cú pháp tối thiểu (xem 1 lần là nhớ)
 
 \`\`\`sql
-SELECT column1, column2 FROM table_name;
+SELECT name, score        -- Lấy cột nào? → cột "name" và "score"
+FROM   students           -- Từ bảng nào? → bảng "students"
+ORDER BY score DESC       -- Sắp xếp theo điểm giảm dần (DESC = descending)
+LIMIT 10;                 -- Lấy bao nhiêu dòng? → 10 dòng đầu tiên
 \`\`\`
 
-Mental model: SELECT = *what you want*, FROM = *where to read it from*. Like ordering food: "give me the soup and salad (SELECT) from the lunch menu (FROM)."
+Mỗi dòng trả lời 1 câu hỏi: **Lấy gì? Từ đâu? Sắp xếp ra sao? Bao nhiêu dòng?**
 
-## Selecting columns — \`*\` vs explicit
+## 3. \`SELECT *\` vs liệt kê cột cụ thể
 
-- \`SELECT * FROM students;\` — every column. Convenient for exploration, **dangerous in production**: schema changes silently break downstream code, and on a wide table you fetch megabytes you don't use.
-- \`SELECT name, age FROM students;\` — only what you need. **Always preferred** in shipped code.
+- \`SELECT * FROM students;\` → lấy **tất cả các cột**. Tiện khi khám phá dữ liệu lần đầu.
+- \`SELECT name, age FROM students;\` → chỉ lấy cột bạn cần. **Luôn dùng cách này khi đưa code lên production** (môi trường thật).
 
-## DISTINCT — careful with it
+Lý do: bảng thật có thể có 50 cột, mỗi dòng nặng vài KB. \`SELECT *\` kéo về cả MB dữ liệu thừa, tốn băng thông và RAM.
 
-\`SELECT DISTINCT city FROM students;\` returns each city once. \`SELECT DISTINCT city, age FROM students;\` evaluates uniqueness across the *combination*. Use sparingly — DISTINCT often masks a deduplication problem you should fix at the source instead.
+## 4. \`DISTINCT\` — loại bỏ trùng lặp
 
-## LIMIT, OFFSET, and pagination
+Bảng \`students\` có 1000 học viên ở khắp Việt Nam. Bạn muốn biết có bao nhiêu **thành phố** khác nhau xuất hiện?
 
-| Dialect | Syntax |
-|---|---|
-| Postgres / MySQL / SQLite | \`LIMIT 10 OFFSET 20\` |
-| SQL Server | \`OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY\` (or \`TOP 10\`) |
-| Oracle | \`FETCH FIRST 10 ROWS ONLY\` |
-
-OFFSET-based pagination is fine for small datasets but becomes slow on big tables (the database must scan all skipped rows). Production APIs usually switch to **keyset pagination** (\`WHERE id > last_seen_id ORDER BY id LIMIT 10\`).
-
-## ORDER BY — and the always-needs-a-tiebreaker rule
-
-\`ORDER BY age DESC\` works, but if multiple rows share the same age, the order *between them* is undefined. For deterministic results — especially with LIMIT — always include a tiebreaker: \`ORDER BY age DESC, id ASC\`.
-
-## Logical execution order — the most useful trick
-
-You write SQL in this order: \`SELECT … FROM … WHERE … GROUP BY … ORDER BY … LIMIT\`.
-SQL *runs* it in this order:
-
-\`\`\`
-1. FROM      (which table)
-2. WHERE     (filter rows)
-3. GROUP BY  (collapse into groups)
-4. HAVING    (filter groups)
-5. SELECT    (compute output columns)
-6. ORDER BY  (sort)
-7. LIMIT     (cut)
+\`\`\`sql
+SELECT DISTINCT city FROM students;   -- Mỗi thành phố chỉ hiện 1 lần
 \`\`\`
 
-This is why you cannot reference a SELECT alias in WHERE (SELECT runs *after* WHERE) but you *can* reference it in ORDER BY (which runs after).
+\`DISTINCT\` (riêng biệt) loại bỏ giá trị trùng lặp. Khi liệt kê nhiều cột (\`DISTINCT city, age\`), database xét tính duy nhất theo **cả tổ hợp** — chỉ trùng nếu cả city lẫn age đều giống.
 
-## Case study & best practices
+## 5. \`LIMIT\` & \`OFFSET\` — chỉ lấy 1 phần kết quả
 
-The famous BigQuery \`SELECT *\` story: a junior analyst at a startup ran \`SELECT *\` against a 70 TB partitioned table without a partition filter. BigQuery scanned the whole table at $5/TB. Two runs cost $700. Modern teams now block unfiltered \`SELECT *\` at the warehouse level.
+\`\`\`sql
+SELECT name FROM students
+LIMIT 10 OFFSET 20;   -- Bỏ qua 20 dòng đầu, sau đó lấy 10 dòng tiếp theo
+\`\`\`
 
-**Best practices**: prefer explicit columns; always pair \`ORDER BY\` with a tiebreaker when using \`LIMIT\`; never use \`SELECT *\` in shipped views; understand logical execution order before debugging anything else.
+- \`LIMIT 10\` — chỉ lấy **10 dòng**.
+- \`OFFSET 20\` — **bỏ qua 20 dòng đầu** rồi mới đếm.
 
-## Bridge to next lesson
+Dùng khi phân trang (pagination): trang 1 = OFFSET 0, trang 2 = OFFSET 10, trang 3 = OFFSET 20…
 
-Now that you can shape *what* and *how many* rows come back, the next step is **AS / Aliases** — making your output and joins readable when queries grow beyond a single table.`,
-        theoryEn: `**SELECT** is the foundation of every SQL query. Mastery here pays off for life.
+## 6. \`ORDER BY\` — sắp xếp kết quả
 
-## Why this matters
+\`\`\`sql
+SELECT name, age FROM students
+ORDER BY age DESC;        -- DESC = giảm dần. ASC = tăng dần (mặc định).
+\`\`\`
 
-Senior engineers still write SELECT every day. The difference is judgment: when \`*\` is a $700 mistake, when \`DISTINCT\` masks a real bug.
+**Mẹo nhỏ**: nếu nhiều học viên cùng tuổi, thứ tự giữa họ là *ngẫu nhiên*. Khi dùng kèm \`LIMIT\`, hãy thêm 1 cột phụ để sắp xếp ổn định:
 
-## Basic syntax
+\`\`\`sql
+ORDER BY age DESC, id ASC;   -- Cùng tuổi → sắp theo id tăng dần
+\`\`\`
 
-\`SELECT cols FROM table;\` — what you want, where to read it.
+## 7. Thứ tự thực thi (execution order) — mẹo vàng để hiểu SQL
 
-## \`*\` vs explicit columns
+Bạn **viết** SQL theo thứ tự: \`SELECT … FROM … WHERE … ORDER BY … LIMIT\`.
+Nhưng database **chạy** theo thứ tự khác:
 
-\`SELECT *\` is fine for exploration, dangerous in production (schema breaks, wasted bytes). Always prefer explicit columns in shipped code.
+\`\`\`
+1. FROM      → mở bảng
+2. WHERE     → lọc dòng
+3. GROUP BY  → gom nhóm
+4. SELECT    → tính cột kết quả
+5. ORDER BY  → sắp xếp
+6. LIMIT     → cắt số dòng
+\`\`\`
 
-## DISTINCT
+Vì vậy, một alias (tên đặt tạm) trong SELECT *không* dùng được trong WHERE — vì WHERE đã chạy xong trước SELECT. Nhớ điều này, sau này gặp lỗi sẽ hiểu ngay.
 
-Use sparingly. Often hides a duplicate-data bug that should be fixed at the source.
+## 8. Tổng kết — checklist khi viết SELECT
 
-## LIMIT / OFFSET / pagination
+- ✅ Trên production: liệt kê cột cụ thể, **tránh** \`SELECT *\`.
+- ✅ Khi dùng \`LIMIT\`, **luôn** kèm \`ORDER BY\` (kèm cột phụ để ổn định).
+- ✅ \`DISTINCT\` chỉ dùng khi thật cần — nếu dữ liệu bị trùng, sửa từ nguồn.
+- ✅ Nhớ thứ tự thực thi: **FROM → WHERE → SELECT → ORDER BY → LIMIT**.
+- ✅ Bài tiếp theo: **AS / Alias** — đặt tên ngắn gọn cho cột & bảng để query dễ đọc.`,
+        theoryEn: `## 1. Real-world problem
 
-| Dialect | Syntax |
-|---|---|
-| Postgres/MySQL | \`LIMIT 10 OFFSET 20\` |
-| SQL Server | \`OFFSET … FETCH NEXT …\` / \`TOP\` |
-| Oracle | \`FETCH FIRST … ROWS ONLY\` |
+You have a \`students\` table with 1000 rows. The boss asks: "Show me the top 10 by score." That's exactly what **SELECT** does — ask the database for data.
 
-OFFSET is slow on big tables → switch to keyset pagination.
+## 2. Minimal syntax
 
-## ORDER BY needs a tiebreaker
+\`\`\`sql
+SELECT name, score    -- which columns?
+FROM   students       -- from which table?
+ORDER BY score DESC   -- sort how?
+LIMIT 10;             -- how many rows?
+\`\`\`
 
-\`ORDER BY age DESC\` is non-deterministic on ties. Always add \`, id ASC\` when using LIMIT.
+## 3. \`*\` vs explicit columns
 
-## Logical execution order
+\`SELECT *\` is fine for exploration, dangerous in production (wasted bytes, schema breaks). Always list columns in shipped code.
 
-\`FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT\`.
+## 4. DISTINCT
 
-This is why aliases work in ORDER BY but not WHERE.
+\`SELECT DISTINCT city FROM students;\` — each value once. With multiple columns, uniqueness is over the combination.
 
-## Case study & best practices
+## 5. LIMIT / OFFSET
 
-BigQuery \`SELECT *\` on 70 TB → $700. Block unfiltered \`*\` at warehouse level. Always: explicit columns, tiebreakers, no \`SELECT *\` in views.
+\`LIMIT 10 OFFSET 20\` skips 20 rows, returns the next 10. Used for pagination.
 
-## Bridge
+## 6. ORDER BY
 
-Next: **AS / Aliases** — keeping output and joins readable.`,
-        code: `-- Retrieve all students
+\`ORDER BY age DESC\` is non-deterministic on ties. With LIMIT, always add a tiebreaker: \`ORDER BY age DESC, id ASC\`.
+
+## 7. Execution order
+
+You write \`SELECT … FROM … WHERE … ORDER BY\` but it runs:
+\`FROM → WHERE → GROUP BY → SELECT → ORDER BY → LIMIT\`. That's why aliases work in ORDER BY but not WHERE.
+
+## 8. Checklist
+
+- Avoid \`SELECT *\` in production
+- Always pair LIMIT with a stable ORDER BY
+- Use DISTINCT sparingly
+- Remember execution order
+- Next lesson: **AS / Aliases**`,
+        code: `-- Lấy tất cả các cột (chỉ dùng khi khám phá)
 SELECT * FROM students;
 
--- Select specific columns
+-- Chỉ lấy cột cần thiết (cách dùng chuẩn)
 SELECT name, age FROM students;
 
--- Get unique values
+-- Lấy danh sách độ tuổi không trùng
 SELECT DISTINCT age FROM students;
 
--- Limit results
-SELECT * FROM students LIMIT 3;
+-- Chỉ lấy 3 dòng đầu
+SELECT name FROM students LIMIT 3;
 
--- Order and paginate
-SELECT name, age FROM students
-ORDER BY age DESC
-LIMIT 5 OFFSET 10;`,
+-- Sắp xếp theo điểm giảm dần, lấy trang 2 (5 dòng/trang)
+SELECT name, score FROM students
+ORDER BY score DESC, id ASC   -- thêm id ASC để thứ tự ổn định
+LIMIT 5 OFFSET 5;`,
         codeLanguage: "sql",
-        exercise: "Write a query to get names and emails of the first 5 students, sorted by name alphabetically.",
-        exerciseEn: "Write a query to get names and emails of the first 5 students, sorted by name alphabetically.",
+        exercise: "Viết câu lệnh lấy tên (name) và email của 5 học viên đầu tiên trong bảng students, sắp xếp theo tên A→Z. Gợi ý: dùng ORDER BY name ASC kèm LIMIT 5.",
+        exerciseEn: "Write a query to get name and email of the first 5 students, sorted alphabetically by name (A→Z). Hint: ORDER BY name ASC + LIMIT 5.",
         testCases: [
-          { input: "SELECT name, email FROM students ORDER BY name LIMIT 5;", expectedOutput: "5 rows", description: "Should return 5 rows with name and email columns" }
+          { input: "SELECT name, email FROM students ORDER BY name LIMIT 5;", expectedOutput: "5 rows", description: "Trả về 5 dòng với 2 cột name và email" }
         ],
-        solutionExplanation: "Use SELECT to pick columns (name, email), FROM to specify the table, ORDER BY name for alphabetical sorting, and LIMIT 5 to restrict output.",
+        solutionExplanation: "SELECT chọn 2 cột (name, email), FROM chỉ định bảng (students), ORDER BY name sắp theo thứ tự A→Z (ASC mặc định), LIMIT 5 chỉ lấy 5 dòng đầu.",
         quiz: [
-          { question: "What does SELECT * FROM students; return?", options: ["Only the first column", "All columns and all rows", "Only 10 rows", "An error"], answer: 1, explanation: "The * wildcard means all columns. Without WHERE or LIMIT, it returns every row in the table." },
-          { question: "What is DISTINCT used for?", options: ["Sorting data", "Removing duplicate values", "Limiting rows", "Counting rows"], answer: 1, explanation: "DISTINCT removes rows with duplicate values from the result set." },
-          { question: "What does LIMIT 10 OFFSET 20 do?", options: ["Returns rows 1-10", "Returns rows 11-20", "Skips 20 rows then returns 10", "Returns 20 rows"], answer: 2, explanation: "OFFSET 20 skips the first 20 rows, then LIMIT 10 returns the next 10 rows (rows 21-30)." },
-          { question: "In SQL execution order, which runs first?", options: ["SELECT", "FROM", "ORDER BY", "LIMIT"], answer: 1, explanation: "FROM executes first — the database needs to know which table to read before it can do anything else." },
-          { question: "Why is SELECT * considered bad practice in production?", options: ["It causes syntax errors", "It fetches unnecessary data and hurts performance", "It only works in MySQL", "It skips NULL values"], answer: 1, explanation: "SELECT * fetches all columns including ones you don't need, increasing network transfer and memory usage." }
+          { question: "Câu lệnh `SELECT * FROM students;` trả về cái gì?", options: ["Chỉ cột đầu tiên", "Tất cả cột và tất cả dòng của bảng", "Chỉ 10 dòng", "Báo lỗi"], answer: 1, explanation: "Dấu * có nghĩa là 'tất cả các cột'. Không có WHERE hay LIMIT thì lấy hết mọi dòng." },
+          { question: "`DISTINCT` được dùng để làm gì?", options: ["Sắp xếp dữ liệu", "Loại bỏ giá trị trùng lặp", "Giới hạn số dòng", "Đếm số dòng"], answer: 1, explanation: "DISTINCT (riêng biệt) loại bỏ các dòng có giá trị giống nhau, mỗi giá trị chỉ xuất hiện 1 lần." },
+          { question: "`LIMIT 10 OFFSET 20` nghĩa là gì?", options: ["Lấy dòng 1–10", "Lấy dòng 11–20", "Bỏ qua 20 dòng rồi lấy 10 dòng tiếp", "Lấy 20 dòng"], answer: 2, explanation: "OFFSET 20 bỏ qua 20 dòng đầu, sau đó LIMIT 10 lấy 10 dòng kế tiếp (tức dòng thứ 21–30)." },
+          { question: "Trong thứ tự thực thi của SQL, lệnh nào chạy ĐẦU TIÊN?", options: ["SELECT", "FROM", "ORDER BY", "LIMIT"], answer: 1, explanation: "FROM chạy trước — database phải biết đọc bảng nào trước khi làm bất cứ việc gì khác." },
+          { question: "Vì sao `SELECT *` không nên dùng trên môi trường production?", options: ["Gây lỗi cú pháp", "Lấy về cả những cột không cần, lãng phí băng thông và RAM", "Chỉ chạy được trên MySQL", "Bỏ qua giá trị NULL"], answer: 1, explanation: "SELECT * lấy về cả những cột không dùng đến, tốn băng thông mạng và bộ nhớ; ngoài ra nếu schema bảng thay đổi thì code dễ vỡ." }
         ]
       },
       {
@@ -164,163 +179,164 @@ LIMIT 5 OFFSET 10;`,
         titleEn: "AS & Column Aliases",
         level: 1,
         difficulty: "beginner",
-        theory: `An **alias** renames a column or table inside a query. Two characters of syntax, but they are the difference between a query a teammate can read in 5 seconds and one that takes 5 minutes to understand.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bạn viết câu lệnh:
 
-In production warehouses with 80-column wide tables and 6-table joins, *readability is not a nice-to-have — it is how you avoid bugs*. Every senior reviewer rejects PRs whose SELECT lists look like \`f.amount, c.name, p.title, s.region\`. Good aliases turn that into prose: \`o.total_amount AS revenue, cust.full_name AS customer\`.
+\`\`\`sql
+SELECT full_name, total_amount FROM orders;
+\`\`\`
 
-## Column aliases
+Người xem báo cáo nhìn vào sẽ thấy 2 cột tên là \`full_name\` và \`total_amount\` — kỹ thuật, khô khan. Sếp muốn báo cáo hiện ra **"Khách hàng"** và **"Doanh thu"**. Đó là việc của **alias** (tên gọi tạm — đặt lại tên cho cột hoặc bảng *trong câu query*, không đổi tên thật trong database).
+
+## 2. Cú pháp tối thiểu — alias cho cột
 
 \`\`\`sql
 SELECT
-  full_name AS customer,
-  total_amount AS revenue
+  full_name    AS customer,    -- Đặt tên hiển thị là "customer"
+  total_amount AS revenue      -- Đặt tên hiển thị là "revenue"
 FROM orders;
 \`\`\`
 
-The \`AS\` keyword is optional in most dialects — \`full_name customer\` works — but **always write \`AS\` explicitly**. It signals intent and prevents typos like \`SELECT name email FROM users\` (which silently aliases \`name\` to \`email\`!).
+- \`AS\` (đọc là "as") = "đổi tên thành".
+- \`AS\` có thể bỏ (\`full_name customer\` cũng chạy), nhưng **luôn nên viết** \`AS\` để code rõ ràng và tránh lỗi gõ thiếu dấu phẩy.
 
-Aliases with spaces or reserved words need quoting:
+## 3. Alias cho cột tính toán
 
-- ANSI / Postgres / Snowflake: \`"Customer Name"\`
-- MySQL: \`\\\`Customer Name\\\`\`
-- SQL Server: \`[Customer Name]\`
-
-## Table aliases
+Khi cột là kết quả tính toán, alias là **bắt buộc** — nếu không, cột không có tên rõ ràng:
 
 \`\`\`sql
-SELECT o.id, c.name
-FROM orders AS o
-JOIN customers AS c ON c.id = o.customer_id;
+SELECT
+  name,
+  age,
+  age + 5 AS age_in_5_years    -- Cột tính toán phải có tên
+FROM students;
 \`\`\`
 
-Conventions that scale:
-
-- 1–3 letter aliases for joined tables (\`o\`, \`c\`, \`p\`).
-- Use the *initial* of the table — \`orders\` → \`o\`, never \`x\`.
-- For self-joins use \`a\` / \`b\` or \`mgr\` / \`emp\`.
-
-## Aliases & execution order — the SELECT trap
-
-You **cannot** use a column alias in WHERE because SELECT runs *after* WHERE:
+Hoặc nối chuỗi để tạo cột "hồ sơ":
 
 \`\`\`sql
--- ❌ ERROR
+SELECT name || ' (Tuổi: ' || age || ')' AS profile
+FROM students;
+\`\`\`
+
+## 4. Alias cho bảng — viết tắt khi JOIN
+
+Khi câu query có nhiều bảng (sẽ học ở bài JOIN), gõ tên bảng dài lặp đi lặp lại rất mệt. Alias bảng giải quyết việc này:
+
+\`\`\`sql
+SELECT o.id, c.name              -- o = orders, c = customers
+FROM orders     AS o
+JOIN customers  AS c ON c.id = o.customer_id;
+\`\`\`
+
+**Quy ước nên theo**:
+- Dùng 1–3 ký tự đầu của tên bảng: \`orders\` → \`o\`, \`customers\` → \`c\`, \`products\` → \`p\`.
+- **Không** dùng chữ cái ngẫu nhiên như \`a\`, \`b\`, \`c\` không liên quan tới tên bảng — sau này đọc lại sẽ rất khó hiểu.
+
+## 5. Cái BẪY: alias không dùng được trong WHERE
+
+Đây là lỗi rất nhiều người mới mắc:
+
+\`\`\`sql
+-- ❌ BÁO LỖI
 SELECT amount * 1.1 AS gross
 FROM orders
-WHERE gross > 100;
+WHERE gross > 100;       -- gross chưa tồn tại lúc WHERE chạy!
 
--- ✅ Works (alias allowed in ORDER BY)
+-- ✅ ĐÚNG (dùng alias trong ORDER BY thì OK)
 SELECT amount * 1.1 AS gross
 FROM orders
 ORDER BY gross DESC;
 \`\`\`
 
-Workarounds: repeat the expression in WHERE, or wrap in a subquery / CTE.
+**Vì sao?** Nhớ lại bài trước: SQL chạy theo thứ tự **WHERE → SELECT → ORDER BY**. Lúc WHERE chạy thì SELECT chưa chạy → alias \`gross\` chưa tồn tại. Cách khắc phục: lặp lại biểu thức trong WHERE, hoặc bọc trong subquery (sẽ học sau).
 
-## Comparison — quoting rules across dialects
+## 6. Khi nào alias là bắt buộc
 
-| Need | Postgres / Snowflake | MySQL | SQL Server |
-|---|---|---|---|
-| Reserved word as alias | \`"order"\` | \`\\\`order\\\`\` | \`[order]\` |
-| Case-sensitive identifier | \`"Name"\` (case-sensitive!) | depends on collation | depends on collation |
-| Standard "I just want a label" | \`AS revenue\` | \`AS revenue\` | \`AS revenue\` |
+- **Subquery trong FROM**: \`FROM (SELECT … FROM orders) AS sub\` — phải đặt tên cho bảng tạm.
+- **Cột tính toán** cần tên: \`COUNT(*) AS order_count\`.
+- **Self-join** (join 1 bảng với chính nó): mỗi "phiên bản" cần alias riêng (\`emp\` và \`mgr\`).
 
-Postgres treating \`"Name"\` as case-sensitive but \`Name\` as lowercase has caused millions of dollars in confusion. **Stick to lowercase snake_case identifiers** and you avoid every quoting headache.
+## 7. Quy tắc đặt tên gọn — tránh phải bọc dấu
 
-## When aliases are mandatory
+Tên cột tốt nhất nên dùng \`lowercase_snake_case\` (chữ thường, nối bằng dấu gạch dưới): \`customer_name\`, \`order_total\`. Tránh khoảng trắng và ký tự đặc biệt — nếu không sẽ phải bọc dấu (\`"Customer Name"\`) mỗi lần dùng, rất phiền.
 
-- **Subqueries in FROM** — Postgres and MySQL require it: \`FROM (SELECT …) AS sub\`.
-- **Computed columns** that need a name (\`COUNT(*) AS order_count\`).
-- **Self-joins** — both copies of the table need distinct aliases.
-- **CTEs** — the CTE name itself acts as a table alias.
+## 8. Tổng kết — checklist alias
 
-## Case study — the "f, c, p, s" code review
+- ✅ Luôn viết \`AS\` rõ ràng để code dễ đọc.
+- ✅ Alias bảng: dùng chữ cái đầu của tên bảng (\`orders\` → \`o\`).
+- ✅ Cột tính toán **bắt buộc** có alias.
+- ✅ Nhớ: **không** dùng alias trong WHERE — chỉ dùng được trong ORDER BY/GROUP BY (chạy sau SELECT).
+- ✅ Bài tiếp theo: **WHERE & lọc dữ liệu** — chỉ lấy đúng các dòng bạn cần.`,
+        theoryEn: `## 1. Real-world problem
 
-A real PR (told on the dbt Slack) had a 40-line SELECT joining 7 tables, all aliased \`a\` through \`g\`. Reviewers spent an hour decoding which alphabet letter was which entity. The author rewrote it with descriptive 3-letter aliases (\`ord\`, \`cust\`, \`prd\`, \`stg\`) — review took 3 minutes. The diff was identical in execution; the difference was purely human.
+\`SELECT full_name, total_amount FROM orders;\` — works, but the column headers look raw. **Alias** lets you rename them on the fly to "customer" and "revenue".
 
-## Best practices
+## 2. Column alias
 
-- Always use \`AS\` explicitly for column aliases.
-- Use lowercase snake_case identifiers and avoid quoting altogether.
-- Pick aliases from the table name's initials, not random letters.
-- One alias = one entity, used consistently for the entire file.
-- In dbt models, alias the SELECT list to *exactly* the names downstream consumers should see.
+\`\`\`sql
+SELECT full_name AS customer, total_amount AS revenue FROM orders;
+\`\`\`
 
-## Anti-patterns & next lesson
+\`AS\` is optional, but **always write it** — clearer intent and prevents missing-comma bugs.
 
-Avoid: \`SELECT a.*, b.*, c.*\` from joined tables (column collisions); single-letter aliases unrelated to table names; mixing case styles (\`customerName\` and \`customer_name\` in the same file).
+## 3. Computed columns
 
-Next: **WHERE & filtering** — narrowing down rows before they ever reach SELECT.`,
-        theoryEn: `An **alias** renames a column or table. Two-character syntax, huge readability win.
+Aliases are **required** for computed columns: \`SELECT age + 5 AS age_in_5_years\`.
 
-## Why this matters
+## 4. Table aliases for JOIN
 
-In wide tables with 6-way joins, readability is a bug-prevention tool, not a luxury.
+\`FROM orders AS o JOIN customers AS c ON c.id = o.customer_id\`. Use 1–3 letters from the table name (\`orders\` → \`o\`); never random letters.
 
-## Column aliases
+## 5. The trap: alias not allowed in WHERE
 
-\`SELECT full_name AS customer FROM orders;\` — always write \`AS\` explicitly to signal intent and avoid silent-alias bugs.
+\`\`\`sql
+SELECT amount * 1.1 AS gross FROM orders WHERE gross > 100;  -- ❌ ERROR
+\`\`\`
 
-## Table aliases
+WHERE runs before SELECT, so \`gross\` doesn't exist yet. Works in ORDER BY (which runs after).
 
-\`FROM orders AS o JOIN customers AS c …\`. Use 1–3 letter initials of the table name; never random letters.
+## 6. Mandatory cases
 
-## Alias & execution order
+Subqueries in FROM, computed columns, self-joins.
 
-You **cannot** use an alias in WHERE (SELECT runs after WHERE). You **can** in ORDER BY.
+## 7. Naming convention
 
-## Quoting across dialects
+Stick to \`lowercase_snake_case\` to avoid quoting hassles.
 
-| Dialect | Reserved word alias |
-|---|---|
-| Postgres/Snowflake | \`"order"\` (case-sensitive!) |
-| MySQL | \`\\\`order\\\`\` |
-| SQL Server | \`[order]\` |
+## 8. Checklist
 
-Stick to lowercase snake_case → no quoting headaches.
-
-## Mandatory cases
-
-Subqueries in FROM, computed columns, self-joins, CTEs.
-
-## Case study — alphabet aliases
-
-A 7-table join aliased \`a\`–\`g\` took an hour to review. Renamed to descriptive 3-letter aliases → 3 minutes. Same execution, different humans.
-
-## Best practices
-
-Explicit \`AS\`; lowercase snake_case; initials of table; one alias per entity; in dbt, alias to consumer-facing names.
-
-## Anti-patterns & next
-
-Avoid \`SELECT a.*, b.*\` from joins, single-letter aliases unrelated to tables. Next: **WHERE & filtering**.`,
-        code: `-- Column alias
+- Always write \`AS\` explicitly
+- Table alias = first letters of the table name
+- Computed columns must be aliased
+- No alias in WHERE
+- Next: **WHERE & filtering**`,
+        code: `-- Alias cho cột (đổi tên hiển thị trong kết quả)
 SELECT name AS student_name, age AS student_age
 FROM students;
 
--- Calculated column
+-- Cột tính toán BẮT BUỘC có alias
 SELECT name, age, age + 5 AS age_in_5_years
 FROM students;
 
--- String concatenation
-SELECT name || ' (Age: ' || age || ')' AS profile
+-- Nối chuỗi tạo cột "profile"
+SELECT name || ' (Tuổi: ' || age || ')' AS profile
 FROM students;
 
--- Table alias (useful in JOINs)
+-- Alias cho bảng (rất hữu ích khi có nhiều bảng JOIN)
 SELECT s.name, s.age
-FROM students s
+FROM students AS s
 WHERE s.age > 20;`,
         codeLanguage: "sql",
-        exercise: "Create a query showing student names and their age in 10 years (column 'future_age').",
-        exerciseEn: "Create a query showing student names and their age in 10 years (column 'future_age').",
+        exercise: "Viết query hiển thị tên học viên (cột 'name') và tuổi của họ sau 10 năm (cột tính toán đặt tên là 'future_age'). Gợi ý: dùng age + 10 AS future_age.",
+        exerciseEn: "Write a query showing student names and their age in 10 years (computed column named 'future_age'). Hint: age + 10 AS future_age.",
         quiz: [
-          { question: "What is the AS keyword used for?", options: ["Filtering data", "Creating an alias for a column or table", "Sorting", "Grouping data"], answer: 1, explanation: "AS creates an alias — an alternate name for a column or table in query results." },
-          { question: "Can you use a column alias in the WHERE clause?", options: ["Yes, always", "No, because WHERE executes before SELECT", "Only in MySQL", "Only with numbers"], answer: 1, explanation: "WHERE executes before SELECT in SQL's execution order, so aliases defined in SELECT are not yet available." },
-          { question: "What does SELECT price * quantity AS total FROM orders; produce?", options: ["An error", "A new column 'total' with the product of price and quantity", "It updates the table", "It creates a new table"], answer: 1, explanation: "It calculates price × quantity for each row and displays the result in a column named 'total'." },
-          { question: "Why are table aliases important?", options: ["They make queries faster", "They shorten table names and avoid ambiguity in JOINs", "They are required by SQL", "They create new tables"], answer: 1, explanation: "Table aliases make JOINed queries readable and disambiguate columns that share names across tables." },
-          { question: "What is the difference between 'SELECT name student_name' and 'SELECT name AS student_name'?", options: ["They produce different results", "They are identical — AS is optional", "The first one causes an error", "AS is required in PostgreSQL"], answer: 1, explanation: "Both are valid and produce the same result. AS is optional but recommended for clarity." }
+          { question: "Từ khóa `AS` dùng để làm gì?", options: ["Lọc dữ liệu", "Đặt tên gọi tạm (alias) cho cột hoặc bảng", "Sắp xếp", "Gom nhóm dữ liệu"], answer: 1, explanation: "AS đặt tên gọi tạm — một tên hiển thị thay thế cho cột hoặc bảng trong kết quả query." },
+          { question: "Có thể dùng alias của cột trong mệnh đề WHERE không?", options: ["Có, lúc nào cũng được", "Không, vì WHERE chạy trước SELECT", "Chỉ dùng được trên MySQL", "Chỉ dùng được với số"], answer: 1, explanation: "Theo thứ tự thực thi của SQL, WHERE chạy trước SELECT, nên alias định nghĩa ở SELECT chưa tồn tại lúc WHERE chạy." },
+          { question: "Câu `SELECT price * quantity AS total FROM orders;` cho ra cái gì?", options: ["Báo lỗi", "Cột mới tên 'total' chứa tích của price × quantity", "Cập nhật bảng", "Tạo bảng mới"], answer: 1, explanation: "Câu này tính price × quantity cho mỗi dòng và hiển thị kết quả trong cột tên 'total'. Không thay đổi dữ liệu gốc." },
+          { question: "Vì sao alias cho bảng lại quan trọng?", options: ["Giúp query chạy nhanh hơn", "Rút gọn tên bảng và tránh nhập nhằng cột khi JOIN", "SQL bắt buộc phải có", "Tạo bảng mới"], answer: 1, explanation: "Khi JOIN nhiều bảng có cùng tên cột (ví dụ cả 2 bảng đều có cột 'id'), alias bảng giúp phân biệt rõ và làm query ngắn gọn." },
+          { question: "Sự khác biệt giữa `SELECT name student_name` và `SELECT name AS student_name` là gì?", options: ["Cho kết quả khác nhau", "Giống hệt nhau — AS có thể bỏ", "Cách 1 báo lỗi", "AS bắt buộc trên PostgreSQL"], answer: 1, explanation: "Cả hai đều hợp lệ và cho kết quả giống nhau. AS chỉ là tùy chọn nhưng nên viết để code rõ ràng." }
         ]
       }
     ]
@@ -341,184 +357,173 @@ WHERE s.age > 20;`,
         titleEn: "Basic WHERE Clause",
         level: 1,
         difficulty: "beginner",
-        theory: `**WHERE** is how you go from "all the data" to "the data I actually care about." It runs *before* SELECT, *before* GROUP BY — so it is also the single biggest lever you have on query performance.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bảng \`students\` có 1000 học viên. Sếp hỏi: *"Liệt kê các học viên trên 18 tuổi ở Hà Nội."* Bạn không thể lấy hết 1000 dòng rồi tự lọc bằng tay — đó là việc của **WHERE** (lọc).
 
-A bad WHERE clause is the #1 source of slow queries in production warehouses. Forgetting a partition filter on a 10 TB table can turn a 3-second query into a 30-minute one (and a $50 BigQuery bill into a $50 one). Mastering WHERE is mastering performance.
+WHERE giống như một bộ lọc cà phê: bạn đổ tất cả dòng dữ liệu vào, chỉ những dòng thoả mãn điều kiện mới chảy xuống dưới.
 
-## Comparison operators
+## 2. Cú pháp tối thiểu
 
-\`=\`, \`!=\` (\`<>\`), \`<\`, \`<=\`, \`>\`, \`>=\`. Standard across all dialects. The subtle one: \`<>\` is the ANSI-standard "not equal" — both work, prefer one consistently.
+\`\`\`sql
+SELECT name, age, city
+FROM   students
+WHERE  age > 18              -- Chỉ giữ dòng thoả điều kiện này
+   AND city = 'Hà Nội';      -- VÀ thoả thêm điều kiện này
+\`\`\`
 
-## Combining with AND, OR, NOT
+Mỗi dòng được kiểm tra với điều kiện. **Đúng → giữ lại. Sai → loại bỏ.**
+
+## 3. Các phép so sánh thường gặp
+
+| Phép | Ý nghĩa | Ví dụ |
+|---|---|---|
+| \`=\` | bằng | \`age = 20\` |
+| \`<>\` hoặc \`!=\` | khác | \`status <> 'paid'\` |
+| \`<\`, \`<=\`, \`>\`, \`>=\` | nhỏ hơn / lớn hơn (hoặc bằng) | \`amount >= 100\` |
+
+## 4. Kết hợp nhiều điều kiện: \`AND\`, \`OR\`, \`NOT\`
+
+- \`AND\` (và): cả hai điều kiện đều phải đúng.
+- \`OR\` (hoặc): chỉ cần 1 điều kiện đúng.
+- \`NOT\` (không): đảo ngược điều kiện.
 
 \`\`\`sql
 SELECT * FROM orders
 WHERE status = 'paid'
   AND amount > 100
-  AND (region = 'EU' OR region = 'US');
+  AND (region = 'EU' OR region = 'US');   -- Bọc dấu ngoặc khi trộn AND/OR
 \`\`\`
 
-**Operator precedence**: \`NOT > AND > OR\`. When mixing AND and OR, **always parenthesize** — relying on precedence is a recipe for subtle bugs that pass review and break in prod.
+**Mẹo vàng**: khi trộn AND và OR, **luôn dùng dấu ngoặc** \`()\` để câu lệnh rõ ràng. Đừng dựa vào "thứ tự ưu tiên ngầm" — rất dễ sai.
 
-## IN, BETWEEN, LIKE — the workhorses
+## 5. \`IN\`, \`BETWEEN\`, \`LIKE\` — 3 phép lọc cực hữu ích
 
-| Operator | Use case | Example |
+| Phép | Khi nào dùng | Ví dụ |
 |---|---|---|
-| \`IN\` | Multiple discrete values | \`region IN ('EU','US','APAC')\` |
-| \`BETWEEN\` | Inclusive range | \`amount BETWEEN 100 AND 500\` |
-| \`LIKE\` | Pattern match | \`email LIKE '%@gmail.com'\` |
-| \`ILIKE\` (Postgres) | Case-insensitive LIKE | \`name ILIKE 'an%'\` |
+| \`IN (...)\` | thuộc danh sách rời rạc | \`region IN ('EU', 'US', 'APAC')\` |
+| \`BETWEEN a AND b\` | nằm trong khoảng (bao gồm 2 đầu) | \`amount BETWEEN 100 AND 500\` |
+| \`LIKE 'mẫu'\` | khớp mẫu chuỗi | \`email LIKE '%@gmail.com'\` |
 
-\`BETWEEN\` is **inclusive on both ends** — \`BETWEEN 1 AND 10\` includes 1 and 10. Forgetting this off-by-one has caused real revenue-attribution bugs.
+**Quy tắc \`LIKE\`**:
+- \`%\` = chuỗi bất kỳ (không hoặc nhiều ký tự).
+- \`_\` (gạch dưới) = đúng 1 ký tự.
+- \`'An%'\` = bắt đầu bằng "An". \`'%@gmail.com'\` = kết thúc bằng "@gmail.com".
 
-\`LIKE\` wildcards: \`%\` = any sequence, \`_\` = exactly one character. Anchored prefix patterns (\`'an%'\`) can use indexes; leading-wildcard patterns (\`'%an'\`) cannot — they always full-scan.
+⚠️ \`BETWEEN 1 AND 10\` **bao gồm cả 1 và 10** (không phải "lớn hơn 1, nhỏ hơn 10").
 
-## NULL — the silent killer
+## 6. Cái BẪY lớn nhất: \`NULL\` (giá trị "không biết")
 
-\`NULL\` means "unknown," not "empty." This breaks intuition:
+\`NULL\` không phải là 0, cũng không phải chuỗi rỗng — nó nghĩa là *"không có thông tin"*. Vì vậy:
 
 \`\`\`sql
-WHERE age = NULL    -- ❌ never matches anything
-WHERE age IS NULL   -- ✅ correct
-WHERE age <> 30     -- ❌ excludes NULLs too! (because NULL <> 30 is "unknown")
+WHERE age = NULL    -- ❌ Không bao giờ khớp! Vì "không biết" không "bằng" cái gì cả.
+WHERE age IS NULL   -- ✅ Đúng cú pháp để kiểm tra rỗng.
+WHERE age <> 30     -- ❌ Loại luôn các dòng có age = NULL!
+WHERE age <> 30 OR age IS NULL    -- ✅ Nếu muốn giữ cả NULL.
 \`\`\`
 
-The 3-valued logic (\`TRUE / FALSE / UNKNOWN\`) is the single most surprising thing in SQL for beginners. The fix is mechanical: any time a column is nullable, explicitly handle NULL with \`IS NULL\` / \`IS NOT NULL\` / \`COALESCE\`.
+**Quy tắc vàng**: cột nào có thể NULL → luôn xử lý NULL bằng \`IS NULL\` / \`IS NOT NULL\`.
 
-## Comparison: WHERE vs HAVING
+## 7. Hiệu năng — đừng "bọc" cột bằng hàm
 
-| Aspect | WHERE | HAVING |
-|---|---|---|
-| Runs | Before GROUP BY | After GROUP BY |
-| Operates on | Individual rows | Aggregated groups |
-| Can use aggregate? | ❌ No | ✅ Yes |
-| Performance | Faster (fewer rows enter group) | Slower |
-
-Rule of thumb: **filter as early as possible** — push every condition you can into WHERE, leave only group-level conditions for HAVING.
-
-## Performance — sargable predicates
-
-A predicate is **sargable** ("Search ARGument-able") if the database can use an index for it. The big rule: **don't wrap the indexed column in a function**.
+Khi cột đã có index (chỉ mục — giúp tìm nhanh), **đừng** bọc cột trong hàm — sẽ phá tác dụng của index:
 
 \`\`\`sql
--- ❌ Not sargable — function on indexed column
+-- ❌ Chậm — hàm DATE() làm hỏng index
 WHERE DATE(created_at) = '2024-01-15'
 
--- ✅ Sargable — function on the literal instead
-WHERE created_at >= '2024-01-15' AND created_at < '2024-01-16'
+-- ✅ Nhanh — so sánh trực tiếp với khoảng thời gian
+WHERE created_at >= '2024-01-15'
+  AND created_at <  '2024-01-16'
 \`\`\`
 
-The first version full-scans every row to compute \`DATE(created_at)\`; the second uses the index on \`created_at\`. On a 100 M-row table the difference is *minutes vs milliseconds*.
+Trên bảng 100 triệu dòng, khác biệt là *vài phút vs vài mili-giây*.
 
-## Case study — the "missing partition filter" incident
+## 8. Tổng kết — checklist khi viết WHERE
 
-A real story from a Snowflake-using e-commerce: an analyst wrote \`WHERE event_type = 'purchase'\` on the events table — *but forgot to add a date filter*. The table was partitioned by date but had 4 years of history. Each query scanned 4 years (~8 TB), at $40/TB. The dashboard ran every 15 minutes from a BI tool. The team noticed when the warehouse bill jumped $12,000 in three days. Fix: a single line — \`AND event_date >= current_date - 30\`.
+- ✅ Trộn AND/OR → **luôn dùng \`()\`** để rõ ràng.
+- ✅ \`BETWEEN\` bao gồm cả 2 đầu.
+- ✅ Cột có thể NULL → kiểm tra bằng \`IS NULL\` / \`IS NOT NULL\`.
+- ✅ Đừng bọc cột bằng hàm khi cột đã có index.
+- ✅ Bài tiếp theo: **GROUP BY & các hàm tổng hợp** — đếm, tính trung bình, tổng cộng theo nhóm.`,
+        theoryEn: `## 1. Real-world problem
 
-## Best practices
+\`students\` table has 1000 rows. Boss asks: "List students over 18 in Hanoi." That's **WHERE** — keep only rows that match.
 
-- **Always include a partition filter** on partitioned tables — make it part of your code-review checklist.
-- **Parenthesize AND/OR mixes** explicitly.
-- **Treat NULL as a third state** every time the column is nullable.
-- **Keep predicates sargable** — function on the literal, never on the column.
-- **Filter early** — push down into WHERE rather than HAVING when possible.
-- **Use \`= ANY(array)\` over long IN lists** in Postgres for cleaner planning.
+## 2. Minimal syntax
 
-## Anti-patterns & next lesson
+\`\`\`sql
+SELECT name FROM students
+WHERE age > 18 AND city = 'Hanoi';
+\`\`\`
 
-Avoid: \`column = NULL\`; mixing AND/OR without parens; \`UPPER(email) = 'X'\` on indexed columns; relying on implicit type casts in WHERE (\`WHERE id = '42'\` when id is INTEGER).
+## 3. Comparison operators
 
-Next: **Aggregate functions** — once you have the right rows, how do you summarize them?`,
-        theoryEn: `**WHERE** filters rows before SELECT runs. The biggest lever on performance.
+\`=, <>, <, <=, >, >=\`. \`<>\` is the ANSI "not equal".
 
-## Why this matters
+## 4. AND / OR / NOT
 
-Bad WHERE is the #1 source of slow queries. Missing a partition filter on a 10 TB table = 30 minutes + $50 instead of 3 seconds + cents.
+Always parenthesize when mixing AND with OR — don't rely on implicit precedence.
 
-## Operators
-
-\`=, <>, <, <=, >, >=\` standard everywhere. \`<>\` is ANSI for "not equal."
-
-## AND / OR / NOT
-
-Precedence: \`NOT > AND > OR\`. Always parenthesize mixes.
-
-## IN / BETWEEN / LIKE
+## 5. IN, BETWEEN, LIKE
 
 | Operator | Use |
 |---|---|
 | IN | discrete values |
 | BETWEEN | inclusive range |
 | LIKE | pattern (\`%\`, \`_\`) |
-| ILIKE | case-insensitive (Postgres) |
 
-\`BETWEEN\` is inclusive on both ends. Leading-wildcard LIKE can't use indexes.
+## 6. NULL trap
 
-## NULL — three-valued logic
+\`= NULL\` never matches; use \`IS NULL\`. \`<> 30\` also excludes NULL rows.
 
-\`= NULL\` never matches; use \`IS NULL\`. \`<> 30\` *excludes* NULLs too. Always handle nullable columns with \`IS NULL\` / \`COALESCE\`.
-
-## WHERE vs HAVING
-
-| Aspect | WHERE | HAVING |
-|---|---|---|
-| Runs | Before GROUP BY | After |
-| On | Rows | Groups |
-| Aggregates? | No | Yes |
-
-Filter as early as possible.
-
-## Sargable predicates
+## 7. Sargable predicates
 
 Don't wrap indexed columns in functions:
-
 - ❌ \`DATE(created_at) = '2024-01-15'\`
 - ✅ \`created_at >= '2024-01-15' AND created_at < '2024-01-16'\`
 
-## Case study — missing partition filter
+## 8. Checklist
 
-Snowflake events table, 4 years of history, no date filter, BI dashboard polling every 15 min → +$12k in 3 days. Fix: one line.
-
-## Best practices
-
-Always partition filter; parenthesize AND/OR; treat NULL as third state; sargable predicates; filter early.
-
-## Anti-patterns & next
-
-Avoid \`= NULL\`, missing parens, function-on-column, implicit casts. Next: **Aggregate functions**.`,
-        code: `-- Basic filtering
+- Parenthesize AND/OR mixes
+- BETWEEN is inclusive on both ends
+- Handle NULL explicitly
+- Keep functions off indexed columns
+- Next: **Aggregate functions & GROUP BY**`,
+        code: `-- Lọc cơ bản
 SELECT * FROM students WHERE age > 20;
 
--- Multiple conditions
+-- Nhiều điều kiện kết hợp bằng AND
 SELECT * FROM students
 WHERE age >= 18 AND age <= 25;
 
--- IN operator
+-- IN: thuộc danh sách
 SELECT * FROM students
-WHERE name IN ('An', 'Binh', 'Chi');
+WHERE name IN ('An', 'Bình', 'Chi');
 
--- LIKE pattern matching
+-- LIKE: khớp mẫu chuỗi (bắt đầu bằng "N")
 SELECT * FROM students WHERE name LIKE 'N%';
 
--- NULL check
+-- Kiểm tra NULL đúng cách
 SELECT * FROM orders WHERE email IS NOT NULL;
 
--- Combining AND, OR with parentheses
+-- Trộn AND/OR — LUÔN dùng dấu ngoặc
 SELECT * FROM students
-WHERE (city = 'Hanoi' OR city = 'HCMC') AND age > 20;`,
+WHERE (city = 'Hà Nội' OR city = 'TP HCM')
+  AND age > 20;`,
         codeLanguage: "sql",
-        exercise: "Filter students aged 18-22 whose names start with 'T'.",
-        exerciseEn: "Filter students aged 18-22 whose names start with 'T'.",
+        exercise: "Lọc các học viên có tuổi từ 18 đến 22 (bao gồm cả 18 và 22) VÀ tên bắt đầu bằng chữ 'T'. Gợi ý: dùng BETWEEN kết hợp LIKE 'T%'.",
+        exerciseEn: "Filter students aged 18-22 (inclusive) AND whose names start with 'T'. Hint: BETWEEN combined with LIKE 'T%'.",
         testCases: [
-          { input: "SELECT * FROM students WHERE age BETWEEN 18 AND 22 AND name LIKE 'T%';", expectedOutput: "filtered rows", description: "Combined BETWEEN and LIKE" }
+          { input: "SELECT * FROM students WHERE age BETWEEN 18 AND 22 AND name LIKE 'T%';", expectedOutput: "filtered rows", description: "Kết hợp BETWEEN và LIKE" }
         ],
         quiz: [
-          { question: "What does LIKE 'A%' match?", options: ["Contains the letter A", "Starts with A", "Ends with A", "Exactly the letter A"], answer: 1, explanation: "% is a wildcard matching any sequence. 'A%' means starts with A followed by anything." },
-          { question: "Why does WHERE email = NULL not work?", options: ["Syntax error", "NULL is not a value so = always returns false", "It works fine", "NULL equals zero"], answer: 1, explanation: "NULL represents unknown. Any comparison with = returns NULL (not true), so no rows match. Use IS NULL instead." },
-          { question: "What does BETWEEN 10 AND 20 include?", options: ["10 and 20 are excluded", "10 and 20 are both included", "Only 10 is included", "Only 20 is included"], answer: 1, explanation: "BETWEEN is inclusive on both ends — equivalent to >= 10 AND <= 20." },
-          { question: "What is the result of: WHERE age > 18 OR city = 'HN' AND active = true?", options: ["(age > 18 OR city = 'HN') AND active = true", "age > 18 OR (city = 'HN' AND active = true)", "Syntax error", "Same as using parentheses"], answer: 1, explanation: "AND has higher precedence than OR, so it binds first: age > 18 OR (city = 'HN' AND active = true)." },
-          { question: "What does the underscore _ match in LIKE?", options: ["Any number of characters", "Exactly one character", "A literal underscore", "Zero or one character"], answer: 1, explanation: "_ matches exactly one character. 'J__n' matches John, Joan (4 chars total)." }
+          { question: "`LIKE 'A%'` khớp với chuỗi nào?", options: ["Có chứa chữ A", "Bắt đầu bằng chữ A", "Kết thúc bằng chữ A", "Đúng bằng chữ A"], answer: 1, explanation: "Dấu % nghĩa là 'chuỗi bất kỳ'. 'A%' nghĩa là bắt đầu bằng A, theo sau là gì cũng được." },
+          { question: "Vì sao `WHERE email = NULL` không hoạt động?", options: ["Lỗi cú pháp", "NULL nghĩa là 'không biết' nên = luôn cho kết quả không xác định, không khớp dòng nào", "Vẫn chạy bình thường", "NULL bằng 0"], answer: 1, explanation: "NULL là 'không biết'. Mọi so sánh với = đều cho kết quả NULL (không phải TRUE), nên không dòng nào khớp. Phải dùng IS NULL." },
+          { question: "`BETWEEN 10 AND 20` bao gồm những giá trị nào?", options: ["Loại cả 10 và 20", "Bao gồm cả 10 và 20", "Chỉ bao gồm 10", "Chỉ bao gồm 20"], answer: 1, explanation: "BETWEEN bao gồm cả 2 đầu — tương đương với >= 10 AND <= 20." },
+          { question: "`WHERE age > 18 OR city = 'HN' AND active = true` thực sự được hiểu là gì?", options: ["(age > 18 OR city = 'HN') AND active = true", "age > 18 OR (city = 'HN' AND active = true)", "Lỗi cú pháp", "Giống như có ngoặc"], answer: 1, explanation: "AND có độ ưu tiên cao hơn OR, nên AND được nhóm trước: age > 18 OR (city = 'HN' AND active = true). Đây chính là lý do nên LUÔN dùng dấu ngoặc khi trộn AND/OR." },
+          { question: "Trong LIKE, dấu gạch dưới `_` khớp với cái gì?", options: ["Chuỗi bất kỳ", "Đúng 1 ký tự bất kỳ", "Dấu gạch dưới thật sự", "0 hoặc 1 ký tự"], answer: 1, explanation: "Dấu _ khớp với đúng 1 ký tự bất kỳ. Ví dụ 'J__n' (4 ký tự) khớp với 'John', 'Joan'." }
         ]
       }
     ]
@@ -539,176 +544,173 @@ WHERE (city = 'Hanoi' OR city = 'HCMC') AND age > 20;`,
         titleEn: "COUNT, SUM, AVG",
         level: 2,
         difficulty: "beginner",
-        theory: `**Aggregate functions** collapse many rows into a single value: a count, a sum, an average. They are how raw event data becomes business metrics. Every dashboard you've ever seen is, ultimately, a series of aggregate queries dressed up with charts.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bảng \`orders\` (đơn hàng) có 10.000 dòng. Sếp hỏi: *"Lớp mình bán được bao nhiêu đơn? Doanh thu mỗi vùng miền? Đơn trung bình bao nhiêu tiền?"*
 
-A staggering share of analytical bugs come from aggregate-function misunderstandings: COUNT including NULLs, AVG silently dividing by the wrong denominator, GROUP BY missing a column. Getting the aggregation rules right is the difference between trustworthy and "we'll need to recompute that."
+Bạn không thể trả lời từng dòng — phải **gộp nhiều dòng lại thành 1 con số**. Đó là việc của **aggregate function** (hàm tổng hợp — gom nhiều dòng thành 1 giá trị).
 
-## The five core aggregates
+## 2. 5 hàm tổng hợp cốt lõi
+
+| Hàm | Trả về | Bỏ qua NULL? |
+|---|---|---|
+| \`COUNT(*)\` | Đếm **tất cả** các dòng (kể cả dòng toàn NULL) | Không |
+| \`COUNT(col)\` | Đếm các dòng có giá trị (NOT NULL) ở cột đó | **Có** |
+| \`SUM(col)\` | Tổng cộng giá trị cột | Có |
+| \`AVG(col)\` | Trung bình cộng | Có |
+| \`MIN(col)\` / \`MAX(col)\` | Giá trị nhỏ nhất / lớn nhất | Có |
+
+⚠️ **Lưu ý cực quan trọng**: \`AVG(rating)\` chỉ tính trung bình trên các dòng có rating — **bỏ qua dòng NULL**. Nếu bạn muốn coi NULL là 0, phải dùng \`AVG(COALESCE(rating, 0))\` (COALESCE = "nếu NULL thì thay bằng…").
+
+## 3. Cú pháp tối thiểu
+
+\`\`\`sql
+SELECT COUNT(*)   AS so_don,        -- Đếm tổng số đơn
+       SUM(amount) AS doanh_thu,    -- Tổng doanh thu
+       AVG(amount) AS don_tb        -- Đơn trung bình
+FROM   orders;
+\`\`\`
+
+Câu này trả về **đúng 1 dòng** với 3 con số.
+
+## 4. \`GROUP BY\` — gộp theo nhóm
+
+Nếu muốn xem doanh thu **theo từng vùng**, dùng \`GROUP BY\`:
+
+\`\`\`sql
+SELECT region,
+       COUNT(*)   AS so_don,
+       SUM(amount) AS doanh_thu
+FROM   orders
+GROUP BY region;     -- "Gộp các dòng cùng region lại thành 1 nhóm"
+\`\`\`
+
+Mỗi giá trị \`region\` thành 1 dòng kết quả. Database tính số đếm và tổng *trong từng nhóm*.
+
+## 5. Quy tắc VÀNG của GROUP BY
+
+> Mọi cột trong SELECT **phải** hoặc là (a) nằm trong hàm tổng hợp, hoặc (b) liệt kê trong GROUP BY.
+
+\`\`\`sql
+-- ❌ SAI: city không có trong GROUP BY và cũng không bị tổng hợp
+SELECT region, city, SUM(amount) FROM orders GROUP BY region;
+
+-- ✅ ĐÚNG: thêm city vào GROUP BY
+SELECT region, city, SUM(amount) FROM orders GROUP BY region, city;
+\`\`\`
+
+Lý do: nếu 1 nhóm \`region = 'Bắc'\` có nhiều city (Hà Nội, Hải Phòng, …), database không biết hiển thị city nào. PostgreSQL báo lỗi; MySQL cũ thì lặng lẽ chọn 1 cái ngẫu nhiên (rất nguy hiểm).
+
+## 6. \`HAVING\` — lọc trên *nhóm* đã gộp
+
+WHERE lọc *trước* khi gộp (lọc trên dòng). HAVING lọc *sau* khi gộp (lọc trên nhóm):
+
+\`\`\`sql
+SELECT region, SUM(amount) AS doanh_thu
+FROM   orders
+GROUP BY region
+HAVING SUM(amount) > 100000;    -- Chỉ giữ các vùng có tổng > 100k
+\`\`\`
+
+| Mệnh đề | Lọc trên gì? | Có dùng được hàm tổng hợp? |
+|---|---|---|
+| \`WHERE\` | Từng dòng | ❌ Không |
+| \`HAVING\` | Từng nhóm (sau GROUP BY) | ✅ Có |
+
+**Mẹo**: Lọc được bằng WHERE thì **luôn ưu tiên WHERE** — nhanh hơn nhiều vì lọc trước, nhóm sau.
+
+## 7. \`COUNT(DISTINCT)\` — đếm giá trị riêng biệt
+
+\`\`\`sql
+SELECT COUNT(DISTINCT customer_id) AS so_khach_hang
+FROM   orders;
+\`\`\`
+
+Dùng khi 1 khách có nhiều đơn nhưng bạn chỉ muốn đếm số khách *duy nhất*. Lưu ý: trên bảng vài tỷ dòng, \`COUNT(DISTINCT)\` rất tốn RAM — khi đó có thể dùng \`APPROX_COUNT_DISTINCT\` (có sẵn trên BigQuery, Snowflake) chấp nhận sai số ~1% để đổi lấy tốc độ.
+
+## 8. Tổng kết — checklist khi viết aggregate
+
+- ✅ Phân biệt \`COUNT(*)\` (đếm dòng) vs \`COUNT(col)\` (đếm dòng có giá trị).
+- ✅ \`SUM\`, \`AVG\` **bỏ qua NULL** — luôn nói rõ "trung bình của ai" khi báo cáo.
+- ✅ Mọi cột không bị tổng hợp **phải** xuất hiện trong \`GROUP BY\`.
+- ✅ Lọc dòng → \`WHERE\`. Lọc nhóm → \`HAVING\`.
+- ✅ Bài tiếp theo: **JOIN** — kết nối bảng để có thể GROUP BY theo tên sản phẩm, tên khách hàng…`,
+        theoryEn: `## 1. Real-world problem
+
+\`orders\` has 10,000 rows. Boss asks: how many orders? revenue per region? average order? You can't answer row-by-row — collapse rows into a single value with **aggregate functions**.
+
+## 2. Five core aggregates
 
 | Function | Returns | Ignores NULL? |
 |---|---|---|
-| \`COUNT(*)\` | All rows including NULL-only rows | No |
-| \`COUNT(col)\` | Rows where col IS NOT NULL | **Yes** |
-| \`COUNT(DISTINCT col)\` | Distinct non-NULL values | Yes |
-| \`SUM(col)\` | Sum of non-NULL values | Yes |
-| \`AVG(col)\` | Sum / count of non-NULL | Yes |
-| \`MIN(col)\`, \`MAX(col)\` | Smallest / largest non-NULL | Yes |
-
-The most common bug: writing \`AVG(rating)\` and forgetting that NULLs are excluded — you average over the *responders only*, not all customers. If you wanted "average rating including unanswered as zero," you must \`COALESCE(rating, 0)\` first.
-
-## GROUP BY — the partner
-
-\`\`\`sql
-SELECT region, COUNT(*) AS orders, SUM(amount) AS revenue
-FROM fact_sales
-GROUP BY region;
-\`\`\`
-
-Rule: every column in SELECT must either be (a) inside an aggregate, or (b) listed in GROUP BY. Postgres / ANSI enforces this; older MySQL silently picked an arbitrary value, which caused decades of bugs (now fixed by default).
-
-GROUP BY can take expressions: \`GROUP BY date_trunc('month', created_at)\`.
-
-## HAVING — filtering on aggregates
-
-\`HAVING\` runs *after* GROUP BY, so it can reference aggregate functions.
-
-\`\`\`sql
-SELECT region, SUM(amount) AS revenue
-FROM fact_sales
-GROUP BY region
-HAVING SUM(amount) > 100000;
-\`\`\`
-
-Mental model: WHERE filters rows, HAVING filters *groups*.
-
-## Comparison — WHERE, GROUP BY, HAVING
-
-| Stage | Operates on | Can reference |
-|---|---|---|
-| WHERE | Individual rows | Columns only |
-| GROUP BY | Rows → groups | Columns or expressions |
-| HAVING | Groups | Aggregates + grouped columns |
-
-Always push filters as early as possible: \`WHERE region = 'EU'\` before grouping is much faster than \`HAVING region = 'EU'\` after.
-
-## Distinct counting — beware the cost
-
-\`COUNT(DISTINCT user_id)\` is **expensive** at scale because the engine must keep every distinct value in memory. On a billion-row table, this can blow up RAM. Modern warehouses offer **approximate** versions:
-
-- BigQuery: \`APPROX_COUNT_DISTINCT(user_id)\`
-- Snowflake: \`APPROX_COUNT_DISTINCT(user_id)\`
-- Postgres: \`hll_count_distinct(...)\` (HyperLogLog extension)
-
-Approximate is ~1% off but uses constant memory. For dashboards that don't need to-the-exact-user precision, it is the right default.
-
-## Case study — the "average that lied"
-
-A SaaS company published an "average customer rating" of 4.6/5 in their pitch deck. The number came from \`AVG(rating) FROM reviews\`. What it *actually* measured: the average among customers who had bothered to leave a review (~5% of users). When an investor asked for "average rating across all paying customers" (with non-responders treated as missing), the real number — using a churn-weighted estimate — was 3.2/5. The lesson: **always state your denominator** explicitly when reporting an average.
-
-## Case study — the GROUP BY ambiguity outage
-
-A team migrated from MySQL (lenient mode) to Postgres. A query like \`SELECT user_id, name, SUM(amount) FROM orders GROUP BY user_id\` had silently worked in MySQL by picking an arbitrary \`name\`. Postgres rejected it. The migration script ran for a year before someone realized that during the dual-write phase, MySQL had been quietly returning *different* names for the same user across runs. Lesson: ANSI-strict GROUP BY is a feature, not a bug.
-
-## Best practices
-
-- **State your denominator** when reporting averages — show the count alongside.
-- Use \`COUNT(*)\` when you want "all rows including NULL-only."
-- Use \`COUNT(col)\` when you want "rows that have a value here."
-- Reach for **approximate distinct** on billion-row tables unless exactness is regulatory.
-- **Group by the surrogate key**, not the descriptive name, when both are present (faster + safer).
-- **Filter in WHERE, not HAVING**, whenever the column is not aggregated.
-
-## Anti-patterns & next lesson
-
-Avoid: assuming NULLs count in averages; selecting non-grouped, non-aggregated columns (works in legacy MySQL only); \`COUNT(DISTINCT)\` on billions of rows without considering APPROX; reporting an average without its sample size.
-
-Next: **JOIN operations** — bringing facts and dimensions together to make those aggregates meaningful by region, product, or customer segment.`,
-        theoryEn: `**Aggregates** collapse rows into a single value. Every dashboard is a series of aggregates dressed up.
-
-## Why this matters
-
-Most analytical bugs come from aggregate mis-use: NULL handling, wrong denominators, missing GROUP BY columns.
-
-## Five core aggregates
-
-| Function | Behavior | Ignores NULL? |
-|---|---|---|
 | COUNT(*) | All rows | No |
 | COUNT(col) | Non-NULL rows | Yes |
-| COUNT(DISTINCT) | Distinct non-NULL | Yes |
 | SUM, AVG | Non-NULL only | Yes |
 | MIN, MAX | Non-NULL only | Yes |
 
 \`AVG(rating)\` excludes NULLs — you average responders only.
 
-## GROUP BY
+## 3. Minimal syntax
 
-Every SELECT column must be aggregated or grouped. ANSI/Postgres enforces this; MySQL historically didn't.
+\`SELECT COUNT(*), SUM(amount), AVG(amount) FROM orders;\` → returns one row.
 
-## HAVING
+## 4. GROUP BY
 
-Filters *groups* (after GROUP BY), can reference aggregates. WHERE filters rows.
+\`SELECT region, SUM(amount) FROM orders GROUP BY region;\` → one row per region.
 
-## Comparison
+## 5. Golden rule
 
-| Stage | Operates on | Refs |
+Every SELECT column must be aggregated OR listed in GROUP BY. ANSI/Postgres enforces; legacy MySQL was lenient.
+
+## 6. HAVING vs WHERE
+
+| Clause | Filters | Aggregates? |
 |---|---|---|
-| WHERE | rows | cols |
-| GROUP BY | rows→groups | cols/expr |
-| HAVING | groups | aggregates |
+| WHERE | rows | No |
+| HAVING | groups | Yes |
 
-Push filters into WHERE when possible.
+Always push filters into WHERE when possible.
 
-## DISTINCT counting cost
+## 7. COUNT(DISTINCT)
 
-\`COUNT(DISTINCT)\` keeps every value in memory. Use \`APPROX_COUNT_DISTINCT\` (BigQuery/Snowflake) for ~1% error + constant memory.
+Counts unique values; expensive at scale → use \`APPROX_COUNT_DISTINCT\` for billion-row tables (~1% error, constant memory).
 
-## Case study — the lying average
+## 8. Checklist
 
-A pitch deck claimed "4.6/5 average rating" — really only 5% of users responded. True churn-weighted: 3.2/5. Always state the denominator.
+- COUNT(*) vs COUNT(col)
+- SUM/AVG ignore NULL — state denominator
+- All non-aggregated columns in GROUP BY
+- Filter rows in WHERE, groups in HAVING
+- Next: **JOIN operations**`,
+        code: `-- Đếm tổng số học viên
+SELECT COUNT(*) AS so_hoc_vien FROM students;
 
-## Case study — MySQL→Postgres GROUP BY
+-- Tuổi trung bình (NULL bị bỏ qua tự động)
+SELECT AVG(age) AS tuoi_tb FROM students;
 
-Lenient MySQL silently picked arbitrary non-grouped values; Postgres rejected the query. Discovered after a year of inconsistency. ANSI-strict GROUP BY is a feature.
-
-## Best practices
-
-State denominators; choose COUNT(*) vs COUNT(col) deliberately; APPROX for billion-row distinct; group by surrogate keys; filter in WHERE.
-
-## Anti-patterns & next
-
-Avoid NULL-ignorant averages, ungrouped columns, COUNT(DISTINCT) on billions without approx. Next: **JOIN operations**.`,
-        code: `-- Count all students
-SELECT COUNT(*) AS total_students FROM students;
-
--- Average age
-SELECT AVG(age) AS avg_age FROM students;
-
--- Group by with aggregates
-SELECT age, COUNT(*) AS count
-FROM students
+-- Đếm số học viên theo từng tuổi (gộp nhóm)
+SELECT age, COUNT(*) AS so_luong
+FROM   students
 GROUP BY age
-ORDER BY count DESC;
+ORDER BY so_luong DESC;
 
--- HAVING clause
-SELECT age, COUNT(*) AS count
-FROM students
+-- Chỉ giữ các nhóm tuổi có >= 2 học viên (lọc nhóm bằng HAVING)
+SELECT age, COUNT(*) AS so_luong
+FROM   students
 GROUP BY age
 HAVING COUNT(*) >= 2;
 
--- COUNT DISTINCT
-SELECT COUNT(DISTINCT age) AS unique_ages FROM students;`,
+-- Đếm số tuổi khác nhau
+SELECT COUNT(DISTINCT age) AS so_tuoi_khac_nhau FROM students;`,
         codeLanguage: "sql",
-        exercise: "Count orders per customer_id, show only customers with >= 3 orders.",
-        exerciseEn: "Count orders per customer_id, show only customers with >= 3 orders.",
+        exercise: "Đếm số đơn hàng theo từng customer_id trong bảng orders, sau đó chỉ hiển thị các khách có >= 3 đơn. Gợi ý: GROUP BY customer_id, lọc bằng HAVING COUNT(*) >= 3.",
+        exerciseEn: "Count orders per customer_id, then show only customers with >= 3 orders. Hint: GROUP BY customer_id, HAVING COUNT(*) >= 3.",
         quiz: [
-          { question: "What is the difference between HAVING and WHERE?", options: ["No difference", "HAVING filters after GROUP BY, WHERE filters before", "HAVING is faster", "WHERE is used for aggregates"], answer: 1, explanation: "WHERE filters individual rows before grouping. HAVING filters groups after aggregation." },
-          { question: "What is the difference between COUNT(*) and COUNT(column)?", options: ["They are identical", "COUNT(*) counts all rows including NULLs, COUNT(column) skips NULLs", "COUNT(column) is faster", "COUNT(*) only counts NULLs"], answer: 1, explanation: "COUNT(*) counts every row regardless of NULLs. COUNT(column) only counts rows where that column is not NULL." },
-          { question: "Why is 'WHERE COUNT(*) > 5' invalid?", options: ["COUNT is not a function", "WHERE runs before GROUP BY so aggregates don't exist yet", "You need parentheses", "It's valid in MySQL"], answer: 1, explanation: "WHERE filters rows before grouping happens, so aggregate results are not yet available. Use HAVING instead." },
-          { question: "What does AVG do with NULL values?", options: ["Treats them as 0", "Ignores them entirely", "Returns NULL", "Causes an error"], answer: 1, explanation: "AVG ignores NULLs — it sums non-NULL values and divides by the count of non-NULL values." },
-          { question: "If you SELECT city, COUNT(*) FROM students without GROUP BY, what happens?", options: ["Returns all cities with counts", "Error: city must be in GROUP BY or aggregate", "Returns the first city", "Returns NULL"], answer: 1, explanation: "Non-aggregated columns (city) must appear in GROUP BY when using aggregate functions, otherwise most databases raise an error." }
+          { question: "Khác nhau giữa HAVING và WHERE là gì?", options: ["Không khác gì", "HAVING lọc SAU khi GROUP BY (lọc nhóm), WHERE lọc TRƯỚC (lọc dòng)", "HAVING nhanh hơn", "WHERE dùng với hàm tổng hợp"], answer: 1, explanation: "WHERE lọc từng dòng trước khi gộp nhóm. HAVING lọc các nhóm sau khi đã gộp — nên có thể dùng hàm tổng hợp như SUM(), COUNT()." },
+          { question: "Khác biệt giữa `COUNT(*)` và `COUNT(column)` là gì?", options: ["Giống hệt nhau", "COUNT(*) đếm mọi dòng kể cả NULL, COUNT(column) chỉ đếm dòng có giá trị (NOT NULL) ở cột đó", "COUNT(column) nhanh hơn", "COUNT(*) chỉ đếm NULL"], answer: 1, explanation: "COUNT(*) đếm mọi dòng. COUNT(column) chỉ đếm các dòng có giá trị thực ở cột đó — bỏ qua NULL." },
+          { question: "Vì sao `WHERE COUNT(*) > 5` báo lỗi?", options: ["COUNT không phải hàm", "WHERE chạy TRƯỚC GROUP BY nên hàm tổng hợp chưa tồn tại — phải dùng HAVING", "Phải có dấu ngoặc", "Hợp lệ trên MySQL"], answer: 1, explanation: "WHERE lọc dòng TRƯỚC khi gộp nhóm, lúc đó kết quả của COUNT chưa có. Để lọc theo kết quả tổng hợp, phải dùng HAVING." },
+          { question: "`AVG` xử lý giá trị NULL như thế nào?", options: ["Coi NULL = 0", "Bỏ qua hoàn toàn (chỉ tính trung bình trên các giá trị NOT NULL)", "Trả về NULL", "Báo lỗi"], answer: 1, explanation: "AVG bỏ qua NULL hoàn toàn — cộng các giá trị NOT NULL rồi chia cho SỐ DÒNG NOT NULL. Đây là nguồn gốc nhiều báo cáo sai." },
+          { question: "Nếu viết `SELECT city, COUNT(*) FROM students` mà KHÔNG có GROUP BY thì sao?", options: ["Trả về tất cả thành phố kèm số đếm", "Báo lỗi: city phải nằm trong GROUP BY hoặc trong hàm tổng hợp", "Trả về thành phố đầu tiên", "Trả về NULL"], answer: 1, explanation: "Cột không bị tổng hợp (như city) bắt buộc phải có trong GROUP BY khi câu lệnh có hàm tổng hợp — nếu không hầu hết database sẽ báo lỗi." }
         ]
       }
     ]
@@ -729,177 +731,158 @@ SELECT COUNT(DISTINCT age) AS unique_ages FROM students;`,
         titleEn: "INNER & LEFT JOIN",
         level: 2,
         difficulty: "intermediate",
-        theory: `A **JOIN** combines rows from two tables based on a relationship. It is the operation that turns a normalized database into business answers — orders joined with customers, sales joined with products, events joined with users. If WHERE is the most-used SQL clause, JOIN is the one that most distinguishes a junior from a senior.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bạn có 2 bảng:
+- \`students\` — thông tin học viên (id, name, email).
+- \`orders\` — đơn hàng đã đặt (id, student_id, amount).
 
-Every "the dashboard double-counted revenue" Slack thread is, 90% of the time, a JOIN bug — typically a missing or wrong key, a many-to-many relationship treated as one-to-many, or a silent fan-out that triples row counts. Understanding the *math* of JOINs (not just the syntax) is the antidote.
+Sếp hỏi: *"Cho tôi xem từng học viên đã đặt bao nhiêu tiền."* Để trả lời, bạn cần **gắn (ghép)** 2 bảng lại với nhau theo một "khóa nối" — ở đây là \`student_id\`. Đó chính là **JOIN**.
 
-## The four canonical JOIN types
+JOIN giống như ghép 2 mảnh ghép lego: bảng nào cũng có 1 cột "khớp" với bảng kia (\`students.id\` ↔ \`orders.student_id\`).
 
-\`\`\`sql
-SELECT *
-FROM orders o
-INNER JOIN customers c ON c.id = o.customer_id;
-\`\`\`
-
-| JOIN | Returns |
-|---|---|
-| **INNER** | Only matching rows from both sides |
-| **LEFT (OUTER)** | All from left + matched from right; NULL where no match |
-| **RIGHT (OUTER)** | All from right + matched from left (rarely used — flip and use LEFT) |
-| **FULL (OUTER)** | All from both sides; NULL where no match |
-| **CROSS** | Cartesian product (every left × every right) |
-
-Visualization (Venn-style):
-
-\`\`\`
-INNER:   A ∩ B
-LEFT:    A (with B-data where it matches)
-RIGHT:   B (with A-data where it matches)
-FULL:    A ∪ B
-CROSS:   A × B
-\`\`\`
-
-## INNER JOIN — the default
+## 2. Cú pháp tối thiểu
 
 \`\`\`sql
-SELECT o.id, o.amount, c.name
-FROM orders o
-INNER JOIN customers c ON c.id = o.customer_id;
+SELECT s.name, o.amount
+FROM   students s                        -- Bảng "trái"
+INNER JOIN orders o                      -- Bảng "phải", nối vào trái
+       ON o.student_id = s.id;           -- Điều kiện nối: 2 cột phải bằng nhau
 \`\`\`
 
-If a customer has no orders, they don't appear. If an order has a NULL or invalid customer_id, *it doesn't appear either*. This silent dropping is the single biggest INNER-JOIN gotcha — always sanity-check row counts before vs after.
+- \`s\` và \`o\` là **alias bảng** (đã học bài AS).
+- \`ON o.student_id = s.id\` là **điều kiện nối** — quy tắc ghép 2 dòng lại.
 
-## LEFT JOIN — keep all from left
+## 3. INNER JOIN — chỉ giữ dòng KHỚP cả 2 bên
+
+Đây là loại JOIN mặc định, hay dùng nhất. Quy tắc: **chỉ trả về dòng có khớp ở CẢ 2 bảng**.
+
+- Học viên không có đơn nào → biến mất khỏi kết quả.
+- Đơn hàng có \`student_id\` không tồn tại trong \`students\` → cũng biến mất.
+
+⚠️ Đây chính là cái bẫy: INNER JOIN **âm thầm bỏ qua** các dòng không khớp. Luôn kiểm tra số dòng trước/sau JOIN.
+
+## 4. LEFT JOIN — giữ TẤT CẢ dòng của bảng trái
+
+Vấn đề: muốn liệt kê **mọi học viên**, kể cả người chưa đặt đơn nào (số đơn = 0). INNER JOIN không làm được. → Dùng LEFT JOIN.
 
 \`\`\`sql
-SELECT c.name, COUNT(o.id) AS order_count
-FROM customers c
-LEFT JOIN orders o ON o.customer_id = c.id
-GROUP BY c.name;
+SELECT s.name, COUNT(o.id) AS so_don
+FROM   students s
+LEFT JOIN orders o ON o.student_id = s.id     -- Giữ HẾT students, kể cả không khớp
+GROUP BY s.name;
 \`\`\`
 
-This returns every customer, even those with zero orders (\`order_count = 0\`). Notice we count \`o.id\` (not \`*\`) — \`COUNT(*)\` would return 1 for unmatched rows because the left side still exists.
+- Học viên có đơn → đếm số đơn bình thường.
+- Học viên không có đơn → \`o.id\` là **NULL** → \`COUNT(o.id)\` = **0**.
 
-## Comparison & decision flow
+⚠️ Mẹo: dùng \`COUNT(o.id)\`, **không** dùng \`COUNT(*)\`. Vì \`COUNT(*)\` đếm cả dòng "trống" sinh ra do LEFT JOIN, sẽ cho ra 1 thay vì 0.
 
-| Question | Use |
-|---|---|
-| "Only matched rows from both sides" | INNER |
-| "Every row from this table, with optional matches from the other" | LEFT (put the must-keep table on the left) |
-| "Find rows in A that have no match in B" | LEFT JOIN + \`WHERE b.id IS NULL\` |
-| "Combine two lists allowing missing on either side" | FULL OUTER |
-| "Cross every row of A with every row of B" | CROSS (rare — calendar generation, test combos) |
+## 5. So sánh các loại JOIN (chỉ cần nhớ 3)
 
-## The fan-out problem
+| JOIN | Trả về dòng nào? | Khi nào dùng? |
+|---|---|---|
+| **INNER JOIN** | Chỉ dòng khớp cả 2 bên | Câu hỏi: "Học viên *có đơn* và đơn của họ" |
+| **LEFT JOIN** | Tất cả dòng bảng trái + dòng khớp bên phải (nếu có) | Câu hỏi: "*Mọi học viên*, kèm đơn nếu có" |
+| **CROSS JOIN** | Mọi cặp tổ hợp (Cartesian) | Hiếm dùng — sinh lịch, sinh tổ hợp test |
 
-If \`orders\` joins to \`order_items\` (one order has many items), \`SELECT SUM(o.amount)\` *triples-counts* the order amount once per item. Symptoms: revenue numbers that look 3× too high.
+(Có thêm RIGHT JOIN và FULL OUTER JOIN nhưng ít gặp — RIGHT chỉ là LEFT đảo bảng.)
 
-Fixes:
+## 6. Mẹo: tìm "mồ côi" — dòng KHÔNG có khớp
 
-- Aggregate the many-side first (\`SELECT order_id, COUNT(*) AS items FROM order_items GROUP BY order_id\`), then join.
-- Or use \`SUM(DISTINCT o.amount)\` — possible but fragile.
-- Use a CTE / subquery to pre-aggregate.
+Câu hỏi cực hay gặp: *"Học viên nào CHƯA đặt đơn nào?"*
 
-## Case study — the "double-revenue" incident
+\`\`\`sql
+SELECT s.name
+FROM   students s
+LEFT JOIN orders o ON o.student_id = s.id
+WHERE  o.id IS NULL;        -- "Không tìm thấy đơn nào ghép được"
+\`\`\`
 
-A growth-stage startup launched a "sales by category" dashboard. Revenue suddenly looked **2.4× higher** than the finance team's monthly close. Root cause: the new model joined \`orders\` to \`order_items\` to attribute category, then summed \`o.amount\` (the order total, repeated per item). The fix took one CTE: pre-aggregate items per order, then join. Three days of misreported revenue had to be explained to the CEO. The lesson made it into the team's onboarding doc.
+Mẫu **LEFT JOIN + IS NULL** là cách kinh điển để tìm dòng "mồ côi" (orphan — dòng không có quan hệ ở bảng kia).
 
-## Case study — the silent INNER drop
+## 7. Cái BẪY "fan-out" (nhân bản dòng) — phải biết
 
-An analyst reported "we have 47,000 active subscribers." Finance reported 49,200. The difference was an INNER JOIN to \`dim_plan\` — and ~2,200 grandfathered subscribers had a \`plan_id\` that no longer existed in \`dim_plan\` after a migration. INNER silently dropped them. A LEFT JOIN with a NULL-check made the orphans visible immediately.
+Nếu 1 \`order\` có nhiều \`order_items\` (1 đơn nhiều món), khi JOIN \`orders\` với \`order_items\`, **mỗi đơn bị lặp 1 lần cho mỗi món**. Khi đó \`SUM(orders.amount)\` sẽ bị **đếm gấp 2, gấp 3 lần**!
 
-## Best practices
+Triệu chứng: doanh thu báo cáo cao bất thường (3× thực tế).
+**Cách chữa**: tổng hợp bảng "phía nhiều" trước (bằng GROUP BY hoặc subquery), rồi mới JOIN.
 
-- **Always know the cardinality** of every JOIN (one-to-one / one-to-many / many-to-many) *before* you write it.
-- **Sanity-check row counts** before and after adding a JOIN — if it changes unexpectedly, you have a fan-out.
-- **LEFT JOIN to detect missing data**: \`LEFT JOIN x ON … WHERE x.id IS NULL\` is the canonical orphan-finder.
-- **Always alias both tables** in joined queries (covered in lesson 2).
-- **Put the join condition in ON, not WHERE** — they behave differently for OUTER joins.
-- **Avoid CROSS JOIN by accident** (missing JOIN condition → silent Cartesian explosion).
+## 8. Tổng kết — checklist khi viết JOIN
 
-## Anti-patterns & next lesson
+- ✅ Trước khi JOIN, hỏi: *"1 dòng bảng A khớp với mấy dòng bảng B?"* (1-1, 1-N, hay N-N).
+- ✅ INNER → chỉ dòng khớp. LEFT → giữ hết bảng trái.
+- ✅ Sau khi thêm JOIN, **đếm lại số dòng** — nếu tăng bất thường có thể là fan-out.
+- ✅ Tìm "mồ côi" → \`LEFT JOIN + WHERE … IS NULL\`.
+- ✅ Bài tiếp theo: **Subquery** — đặt 1 query bên trong query khác.`,
+        theoryEn: `## 1. Real-world problem
 
-Avoid: joining without checking cardinality; mixing JOIN conditions in WHERE on OUTER joins; silently dropping rows with INNER JOIN to a stale dim table; SELECT \\* on joined tables (column collisions).
+\`students\` and \`orders\` are 2 separate tables. To "show each student's total spend", connect them by a key (\`student_id\`). That's a **JOIN**.
 
-Next: **Subqueries** — when a JOIN is awkward and a "query inside a query" is cleaner, faster, or simply the only way.`,
-        theoryEn: `A **JOIN** combines rows from two tables. The operation that turns normalized data into business answers.
+## 2. Minimal syntax
 
-## Why this matters
-
-90% of "double-counted revenue" Slack threads are JOIN bugs — wrong key, missing cardinality check, silent fan-out.
-
-## Four canonical types
-
-| JOIN | Returns |
-|---|---|
-| INNER | Matched rows on both sides |
-| LEFT | All left + matches; NULL otherwise |
-| RIGHT | All right + matches (rarely used) |
-| FULL OUTER | Both sides; NULL where no match |
-| CROSS | Cartesian product |
-
-## INNER — the default
-
-Drops rows missing on either side. Single biggest gotcha — sanity-check row counts.
-
-## LEFT — keep all left
-
-Returns customers even with 0 orders. Use \`COUNT(o.id)\` (not \`*\`) so unmatched = 0.
-
-## Decision matrix
-
-| Need | JOIN |
-|---|---|
-| Matched-only | INNER |
-| Keep all from one side | LEFT |
-| Find orphans | LEFT + IS NULL |
-| Combine with both-side missing | FULL OUTER |
-
-## Fan-out problem
-
-\`orders\` 1→N \`order_items\`: \`SUM(o.amount)\` triples. Fix: pre-aggregate the many-side, then join.
-
-## Case study — double revenue
-
-Joined orders → items, summed order amount → 2.4× revenue. CTE pre-aggregation fixed it after 3 days of misreporting.
-
-## Case study — silent INNER drop
-
-INNER JOIN to stale \`dim_plan\` silently lost ~2,200 grandfathered subscribers. LEFT JOIN + NULL check exposed orphans.
-
-## Best practices
-
-Know cardinality first; sanity-check row counts; LEFT for orphan detection; alias both tables; conditions in ON not WHERE for OUTER; never accidentally CROSS.
-
-## Anti-patterns & next
-
-Avoid unknown cardinality, OUTER conditions in WHERE, stale-dim INNER joins, \`SELECT *\` on joins. Next: **Subqueries**.`,
-        code: `-- INNER JOIN: students with orders
+\`\`\`sql
 SELECT s.name, o.amount
 FROM students s
+INNER JOIN orders o ON o.student_id = s.id;
+\`\`\`
+
+## 3. INNER JOIN
+
+Returns only rows matching on BOTH sides. Silent drop is the biggest gotcha — sanity-check row counts.
+
+## 4. LEFT JOIN
+
+Keep ALL rows from left table; right-side columns become NULL when no match. Use \`COUNT(o.id)\` (not \`*\`) so unmatched students show 0 orders.
+
+## 5. JOIN comparison
+
+| JOIN | Returns | Use case |
+|---|---|---|
+| INNER | matched rows on both | "students with orders" |
+| LEFT | all left + matched right | "all students, with orders if any" |
+| CROSS | Cartesian product | calendar/test combos |
+
+## 6. Find orphans
+
+\`LEFT JOIN x ON … WHERE x.id IS NULL\` finds rows in left with no match in right.
+
+## 7. Fan-out trap
+
+orders 1→N items: \`SUM(orders.amount)\` triple-counts. Pre-aggregate the many-side before joining.
+
+## 8. Checklist
+
+- Know cardinality (1-1, 1-N, N-N) before joining
+- Sanity-check row counts after JOIN
+- LEFT + IS NULL = orphan finder
+- Watch for fan-out when summing
+- Next: **Subqueries**`,
+        code: `-- INNER JOIN: chỉ học viên ĐÃ đặt đơn
+SELECT s.name, o.amount
+FROM   students s
 INNER JOIN orders o ON s.id = o.student_id;
 
--- LEFT JOIN: all students, even without orders
-SELECT s.name, COALESCE(o.amount, 0) AS amount
-FROM students s
+-- LEFT JOIN: TẤT CẢ học viên, ai chưa đặt thì amount = 0
+SELECT s.name,
+       COALESCE(o.amount, 0) AS amount   -- COALESCE: NULL → 0
+FROM   students s
 LEFT JOIN orders o ON s.id = o.student_id;
 
--- Find students WITHOUT orders
+-- Tìm học viên CHƯA đặt đơn nào (mẫu LEFT JOIN + IS NULL)
 SELECT s.name
-FROM students s
+FROM   students s
 LEFT JOIN orders o ON s.id = o.student_id
-WHERE o.id IS NULL;`,
+WHERE  o.id IS NULL;`,
         codeLanguage: "sql",
-        exercise: "Write a LEFT JOIN query showing all students and their total order amount (SUM). Students without orders show 0.",
-        exerciseEn: "Write a LEFT JOIN query showing all students and their total order amount (SUM). Students without orders show 0.",
+        exercise: "Viết 1 câu LEFT JOIN hiển thị tên TẤT CẢ học viên kèm tổng giá trị đơn của họ (SUM amount). Học viên chưa đặt đơn nào thì hiển thị 0. Gợi ý: dùng COALESCE(SUM(o.amount), 0) và GROUP BY s.name.",
+        exerciseEn: "Write a LEFT JOIN query showing every student's name + their total order amount (SUM). Students with no orders show 0. Hint: COALESCE(SUM(o.amount), 0) + GROUP BY s.name.",
         quiz: [
-          { question: "What does LEFT JOIN return when there is no matching row?", options: ["Skips that row", "NULL for right table columns", "An error", "0 for all columns"], answer: 1, explanation: "LEFT JOIN keeps all left table rows. When no match exists, right-side columns are filled with NULL." },
-          { question: "How do you find rows with NO match using LEFT JOIN?", options: ["WHERE right.id = 0", "WHERE right.id IS NULL", "HAVING count = 0", "Not possible"], answer: 1, explanation: "LEFT JOIN + WHERE right_table.id IS NULL finds rows only in the left table." },
-          { question: "If table A has 10 rows and table B has 5, how many rows does CROSS JOIN produce?", options: ["15", "10", "50", "5"], answer: 2, explanation: "CROSS JOIN produces the Cartesian product: every row of A × every row of B = 10 × 5 = 50 rows." },
-          { question: "What is the difference between INNER JOIN and LEFT JOIN?", options: ["No difference", "INNER only returns matching rows; LEFT returns all from left table", "LEFT is faster", "INNER returns more rows"], answer: 1, explanation: "INNER JOIN only includes rows with matches in both tables. LEFT JOIN includes all left-table rows even without matches." },
-          { question: "Why do most developers prefer LEFT JOIN over RIGHT JOIN?", options: ["LEFT JOIN is faster", "You can always rewrite RIGHT as LEFT by swapping tables, keeping consistent style", "RIGHT JOIN is deprecated", "They produce different results"], answer: 1, explanation: "A RIGHT JOIN on A,B is identical to a LEFT JOIN on B,A. Using LEFT JOIN consistently improves code readability." }
+          { question: "LEFT JOIN trả về cái gì khi không có dòng khớp ở bảng phải?", options: ["Bỏ qua dòng đó", "Trả về NULL cho các cột của bảng phải", "Báo lỗi", "Trả về 0 cho tất cả các cột"], answer: 1, explanation: "LEFT JOIN giữ TẤT CẢ dòng của bảng trái. Khi không tìm thấy dòng khớp ở bảng phải, các cột bên phải sẽ là NULL." },
+          { question: "Làm sao tìm các dòng KHÔNG có khớp khi dùng LEFT JOIN?", options: ["WHERE right.id = 0", "WHERE right.id IS NULL (mẫu kinh điển tìm 'mồ côi')", "HAVING count = 0", "Không thể làm được"], answer: 1, explanation: "Mẫu LEFT JOIN + WHERE right_table.id IS NULL là cách kinh điển tìm các dòng chỉ tồn tại ở bảng trái — gọi là dòng 'mồ côi' (orphan)." },
+          { question: "Bảng A có 10 dòng, bảng B có 5 dòng. CROSS JOIN tạo ra bao nhiêu dòng?", options: ["15", "10", "50", "5"], answer: 2, explanation: "CROSS JOIN tạo tích Đề-các (Cartesian): mọi dòng A × mọi dòng B = 10 × 5 = 50 dòng. Vì vậy hiếm khi dùng — rất dễ 'nổ' số dòng." },
+          { question: "Khác nhau giữa INNER JOIN và LEFT JOIN là gì?", options: ["Không khác gì", "INNER chỉ trả về dòng khớp cả 2 bên; LEFT trả về tất cả dòng bảng trái (kể cả không khớp)", "LEFT nhanh hơn", "INNER trả về nhiều dòng hơn"], answer: 1, explanation: "INNER JOIN chỉ giữ các dòng có khớp ở CẢ 2 bảng. LEFT JOIN giữ tất cả dòng bảng trái, kể cả khi không tìm được khớp ở bảng phải." },
+          { question: "Vì sao đa số lập trình viên ưu tiên LEFT JOIN hơn RIGHT JOIN?", options: ["LEFT JOIN nhanh hơn", "RIGHT JOIN luôn có thể viết lại bằng LEFT JOIN bằng cách đảo 2 bảng — giữ phong cách code đồng nhất", "RIGHT JOIN bị bỏ", "Cho kết quả khác nhau"], answer: 1, explanation: "RIGHT JOIN A,B = LEFT JOIN B,A — kết quả y hệt. Dùng LEFT JOIN nhất quán giúp code dễ đọc, không phải nhảy não giữa 2 chiều." }
         ]
       }
     ]
@@ -1432,220 +1415,205 @@ SELECT * FROM org ORDER BY level;`,
         titleEn: "ROW_NUMBER & RANK",
         level: 4,
         difficulty: "advanced",
-        theory: `**Window functions** are the most powerful family of operations in modern SQL. Unlike aggregates, they compute a result *per row* while still seeing the rest of the data. "Rank each order within its customer," "running 7-day average," "previous order's amount" — all are one-liners with windows, and ugly nightmares without them.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bảng \`orders\` (đơn hàng) có cột \`customer_id\` và \`amount\` (số tiền). Sếp hỏi:
+> *"Với mỗi khách, tìm đơn lớn nhất và đứng thứ mấy."*
 
-Window functions are the dividing line between "I know SQL" and "I know analytical SQL." Every senior data engineer / analytics engineer interview asks at least one. Equally important: most expensive correlated subqueries in production can be rewritten as windows for 10–100× speedups.
+Với \`GROUP BY\`, bạn tính được max của mỗi khách — nhưng **mất hết các dòng chi tiết**. Ai cũng chỉ còn 1 dòng tổng kết.
 
-## Anatomy of a window function
+→ Cần một công cụ tính theo nhóm **mà KHÔNG nén dòng** lại. Đó là **window function** (hàm cửa sổ — tính toán theo "cửa sổ" các dòng xung quanh, mỗi dòng vẫn giữ nguyên).
+
+## 2. Cú pháp tối thiểu — \`OVER (...)\`
 
 \`\`\`sql
-SELECT
-  customer_id,
-  amount,
+SELECT customer_id,
+       amount,
+       RANK() OVER (
+         PARTITION BY customer_id      -- Chia theo từng khách
+         ORDER BY amount DESC          -- Sắp đơn theo số tiền giảm dần
+       ) AS hang
+FROM   orders;
+\`\`\`
+
+- \`OVER (...)\` định nghĩa **cửa sổ** — phạm vi mà hàm "nhìn thấy".
+- \`PARTITION BY customer_id\` — chia dữ liệu thành các nhóm riêng cho từng khách (nhưng *không* gộp dòng như GROUP BY).
+- \`ORDER BY amount DESC\` — trong mỗi nhóm, sắp xếp theo số tiền.
+
+Kết quả: mỗi đơn vẫn còn nguyên, kèm thêm cột \`hang\` cho biết "đơn này đứng thứ mấy *trong khách hàng đó*".
+
+## 3. \`ROW_NUMBER\` vs \`RANK\` vs \`DENSE_RANK\` — chọn cái nào?
+
+3 đơn có cùng \`amount = 100\`. Mỗi hàm xử lý "hòa" khác nhau:
+
+| amount | ROW_NUMBER | RANK | DENSE_RANK |
+|---|---|---|---|
+| 200 | 1 | 1 | 1 |
+| 100 | 2 | 2 | 2 |
+| 100 | 3 | **2** | **2** |
+| 100 | 4 | **2** | **2** |
+| 50  | 5 | **5** | **3** |
+
+- **\`ROW_NUMBER\`** — luôn duy nhất 1, 2, 3… kể cả khi hòa (chọn ngẫu nhiên).
+- **\`RANK\`** — dòng hòa cùng số. Dòng tiếp theo **nhảy** (3 dòng hòa hạng 2 → tiếp theo là hạng 5).
+- **\`DENSE_RANK\`** — dòng hòa cùng số, dòng tiếp theo *liền kề* (không nhảy).
+
+**Mẹo chọn**:
+- Cần **đúng 1 dòng** mỗi nhóm (ví dụ "đơn mới nhất của mỗi khách") → \`ROW_NUMBER\`.
+- Cho thi đấu, "Top 3" có thể có nhiều người cùng hạng 1 → \`RANK\` hoặc \`DENSE_RANK\`.
+
+## 4. Mẫu kinh điển: lấy "1 dòng đại diện" cho mỗi nhóm
+
+Bài toán cực hay gặp: *"Lấy đơn mới nhất của mỗi khách hàng."*
+
+\`\`\`sql
+WITH t AS (
+  SELECT *,
+    ROW_NUMBER() OVER (
+      PARTITION BY customer_id
+      ORDER BY created_at DESC, id DESC    -- Mới nhất trước; id để hòa thì ổn định
+    ) AS rn
+  FROM orders
+)
+SELECT * FROM t WHERE rn = 1;     -- Chỉ giữ "đơn mới nhất" của mỗi khách
+\`\`\`
+
+Đây cũng là **mẫu khử trùng lặp** (deduplication) — mọi data warehouse production đều có dùng.
+
+## 5. \`LAG\` & \`LEAD\` — so sánh với dòng TRƯỚC / SAU
+
+Vấn đề: bảng \`daily_revenue\` (doanh thu mỗi ngày). Muốn biết *"hôm nay tăng/giảm bao nhiêu so với hôm qua?"*
+
+\`\`\`sql
+SELECT date,
+       revenue,
+       LAG(revenue) OVER (ORDER BY date)        AS hom_qua,    -- Lùi 1 dòng
+       revenue - LAG(revenue) OVER (ORDER BY date) AS chenh_lech
+FROM   daily_revenue;
+\`\`\`
+
+- \`LAG(col)\` = **lùi** 1 dòng (lấy dòng trước).
+- \`LEAD(col)\` = **tiến** 1 dòng (lấy dòng sau).
+- Dòng đầu tiên không có dòng trước → \`LAG\` trả về NULL.
+
+## 6. Tổng cộng dồn (running total) — \`SUM() OVER\`
+
+Vấn đề: muốn xem **doanh thu cộng dồn** từ đầu năm tới mỗi ngày.
+
+\`\`\`sql
+SELECT date,
+       revenue,
+       SUM(revenue) OVER (
+         ORDER BY date
+         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+       ) AS cong_don
+FROM   daily_revenue;
+\`\`\`
+
+Đoạn \`ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\` (frame — khung) nghĩa là: *"cộng từ dòng đầu tiên đến dòng hiện tại"*. Đổi thành \`ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\` → bạn có **trung bình trượt 7 ngày**.
+
+## 7. So sánh: window function vs GROUP BY
+
+| Cần gì? | Dùng |
+|---|---|
+| Gộp tất cả dòng trong nhóm thành 1 dòng tổng | **GROUP BY** |
+| Giữ nguyên các dòng + thêm 1 cột tính theo nhóm | **Window function** |
+| Cộng dồn / trung bình trượt | Window function với frame |
+| Top-N của mỗi nhóm | \`ROW_NUMBER()\` window |
+
+## 8. Tổng kết — checklist khi viết window
+
+- ✅ Luôn có \`ORDER BY\` trong \`OVER()\` cho hàm xếp hạng (nếu không kết quả không xác định).
+- ✅ \`ROW_NUMBER\` → 1 dòng duy nhất mỗi nhóm. \`RANK/DENSE_RANK\` → cho phép hòa.
+- ✅ Khi sắp xếp có khả năng hòa, thêm cột phụ trong ORDER BY (ví dụ \`, id DESC\`) để ổn định.
+- ✅ Cộng dồn / trung bình trượt → ghi rõ \`ROWS BETWEEN ... AND ...\`.
+- ✅ Bài tiếp theo: **Indexing** — sau khi viết query đúng, làm sao cho nó CHẠY NHANH?`,
+        theoryEn: `## 1. Real-world problem
+
+\`orders\` table — for each customer, find their largest order and its rank. \`GROUP BY\` collapses rows; you need a per-row calc that still sees the group → **window function**.
+
+## 2. Minimal syntax
+
+\`\`\`sql
+SELECT customer_id, amount,
   RANK() OVER (PARTITION BY customer_id ORDER BY amount DESC) AS rnk
 FROM orders;
 \`\`\`
 
-The \`OVER (...)\` clause defines the **window**:
+\`OVER()\` defines the window — \`PARTITION BY\` splits without collapsing, \`ORDER BY\` sorts within.
 
-- \`PARTITION BY\` — split rows into groups (like GROUP BY but rows are *not* collapsed).
-- \`ORDER BY\` — order within each partition (required for ranking and offset functions).
-- \`ROWS / RANGE\` — frame: which rows around the current one are visible (for running totals).
-
-Without a window function, computing "rank within customer" requires a correlated subquery or a self-join — both slow.
-
-## The four function families
-
-| Family | Functions | Use case |
-|---|---|---|
-| **Ranking** | \`ROW_NUMBER()\`, \`RANK()\`, \`DENSE_RANK()\`, \`NTILE(n)\` | Top-N per group, percentiles |
-| **Offset** | \`LAG()\`, \`LEAD()\`, \`FIRST_VALUE()\`, \`LAST_VALUE()\` | Prev/next row comparison |
-| **Aggregate-as-window** | \`SUM() OVER\`, \`AVG() OVER\`, \`COUNT() OVER\` | Running totals, moving averages |
-| **Statistical** | \`PERCENT_RANK()\`, \`CUME_DIST()\` | Distribution analysis |
-
-## Ranking — ROW_NUMBER vs RANK vs DENSE_RANK
-
-Three rows tied at amount = 100 (rest are unique):
+## 3. ROW_NUMBER vs RANK vs DENSE_RANK
 
 | amount | ROW_NUMBER | RANK | DENSE_RANK |
 |---|---|---|---|
 | 200 | 1 | 1 | 1 |
 | 100 | 2 | 2 | 2 |
 | 100 | 3 | 2 | 2 |
-| 100 | 4 | 2 | 2 |
-| 50 | 5 | 5 | 3 |
-
-- \`ROW_NUMBER\` — always unique 1..N, ties broken arbitrarily (use a tiebreaker in ORDER BY).
-- \`RANK\` — ties get the same number; *next number skips*.
-- \`DENSE_RANK\` — ties same number; *no gap*.
-
-For "give me one row per customer (their latest order)," use \`ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY created_at DESC, id DESC)\` and filter \`= 1\`.
-
-## LAG / LEAD — comparing across rows
-
-\`\`\`sql
-SELECT
-  date,
-  revenue,
-  LAG(revenue) OVER (ORDER BY date) AS prev_day,
-  revenue - LAG(revenue) OVER (ORDER BY date) AS delta
-FROM daily_revenue;
-\`\`\`
-
-\`LAG(col, n)\` looks N rows back; \`LEAD\` looks forward. Default offset is 1. Optional 3rd argument is a default value when out-of-range.
-
-## Frames — running totals & moving averages
-
-\`\`\`sql
-SELECT
-  date,
-  revenue,
-  SUM(revenue) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_total,
-  AVG(revenue) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS rolling_7d_avg
-FROM daily_revenue;
-\`\`\`
-
-The frame clause is **mandatory** for most production rolling-window work — the implicit default (\`RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\`) can give surprising results with duplicate ORDER BY values.
-
-## Comparison: window vs GROUP BY
-
-| Need | Use |
-|---|---|
-| Collapse rows into one summary per group | GROUP BY |
-| Keep every row but add a per-group calc | Window function |
-| Running total / moving average | Window function with frame |
-| Top-N per group | \`ROW_NUMBER\` window |
-
-## Case study — the 30-minute → 4-second rewrite
-
-A retention dashboard computed "days between user's first and most recent purchase" with a self-join (\`MIN\` and \`MAX\` subqueries joined back). On 200 M rows it took 30 minutes. A senior rewrote it with two windows in one pass: \`MIN(date) OVER (PARTITION BY user_id)\` and \`MAX(date) OVER (PARTITION BY user_id)\`. Runtime: **4 seconds** (450× faster). The query also became 3 lines instead of 30.
-
-## Case study — the deduplication pattern
-
-Every production warehouse needs to handle late-arriving duplicate events. The canonical fix is one window:
-
-\`\`\`sql
-WITH ranked AS (
-  SELECT *,
-    ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) AS rn
-  FROM raw_events
-)
-SELECT * FROM ranked WHERE rn = 1;
-\`\`\`
-
-This pattern appears in *every* dbt project at scale. Memorize it.
-
-## Best practices
-
-- **Always include a tiebreaker** in window ORDER BY when uniqueness matters (\`ORDER BY ts DESC, id DESC\`).
-- Use **ROW_NUMBER** when you want exactly one row per group; **RANK / DENSE_RANK** for ties.
-- **Specify the frame** explicitly for running totals — never rely on the default.
-- For "compare to group average," prefer \`AVG() OVER\` over a correlated subquery (10–100× faster).
-- Combine windows with **CTEs**: compute the window in a CTE, filter in the outer query.
-- Beware of windows + DISTINCT — they don't compose intuitively; aggregate first.
-
-## Anti-patterns & next lesson
-
-Avoid: windows without ORDER BY for ranking functions (results undefined); huge unbounded windows over billions of rows (memory pressure); using window in WHERE (not allowed — use a CTE wrapper); ignoring the difference between \`RANGE\` and \`ROWS\` frames.
-
-Next: **Indexing & EXPLAIN** — once your queries are correct, how do you make them fast?`,
-        theoryEn: `**Window functions** compute per-row results while seeing the rest of the data. The dividing line between "I know SQL" and "I know analytical SQL."
-
-## Why this matters
-
-Top interview topic + most slow correlated subqueries become 10–100× faster as windows.
-
-## Anatomy
-
-\`func() OVER (PARTITION BY … ORDER BY … ROWS …)\` — partition splits rows into groups (without collapsing), ORDER BY sorts within, frame defines visible neighbors.
-
-## Four families
-
-| Family | Functions |
-|---|---|
-| Ranking | \`ROW_NUMBER, RANK, DENSE_RANK, NTILE\` |
-| Offset | \`LAG, LEAD, FIRST_VALUE\` |
-| Aggregate-as-window | \`SUM, AVG, COUNT OVER\` |
-| Statistical | \`PERCENT_RANK, CUME_DIST\` |
-
-## Ranking differences
-
-| amount | ROW_NUMBER | RANK | DENSE_RANK |
-|---|---|---|---|
-| 200 | 1 | 1 | 1 |
-| 100 | 2 | 2 | 2 |
-| 100 | 3 | 2 | 2 |
-| 50 | 4 | 4 | 3 |
+| 50  | 4 | 4 | 3 |
 
 ROW_NUMBER unique; RANK skips after ties; DENSE_RANK doesn't.
 
-## LAG / LEAD
+## 4. "One row per group" pattern
 
-Compare to N-prev / N-next row. Use for day-over-day deltas, sequence checks.
+\`ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY created_at DESC) → WHERE rn = 1\`. Used in every dbt project for dedup / latest-per-group.
 
-## Frames
+## 5. LAG / LEAD
 
-\`ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\` for 7-day moving avg. Always specify explicitly.
+Compare to previous (LAG) or next (LEAD) row. First row has no previous → NULL.
 
-## Window vs GROUP BY
+## 6. Running totals
+
+\`SUM(x) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)\`. For 7-day rolling avg: \`6 PRECEDING\`.
+
+## 7. Window vs GROUP BY
 
 | Need | Use |
 |---|---|
-| Collapse | GROUP BY |
+| Collapse rows | GROUP BY |
 | Per-row + per-group calc | Window |
 | Running total | Window + frame |
-| Top-N per group | ROW_NUMBER window |
+| Top-N per group | ROW_NUMBER |
 
-## Case study — 30 min → 4 sec
+## 8. Checklist
 
-Self-join with MIN/MAX subqueries on 200M rows = 30 min. Two windows in one pass = 4 sec. 450× speedup.
-
-## Case study — dedup pattern
-
-\`ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) → WHERE rn=1\`. Every dbt project at scale uses it.
-
-## Best practices
-
-Tiebreaker in ORDER BY; ROW_NUMBER for unique top-1; explicit frame; windows over correlated subqueries; combine with CTEs.
-
-## Anti-patterns & next
-
-Avoid ranking without ORDER BY, huge unbounded windows, windows in WHERE. Next: **Indexing & EXPLAIN**.`,
-        code: `-- Rank students by age
+- Always ORDER BY inside OVER for ranking
+- ROW_NUMBER for unique-per-group; RANK for ties
+- Tiebreaker in ORDER BY for stability
+- Explicit frame for running totals
+- Next: **Indexing**`,
+        code: `-- Xếp hạng học viên theo tuổi (3 cách khác nhau)
 SELECT name, age,
-  ROW_NUMBER() OVER (ORDER BY age DESC) AS row_num,
-  RANK() OVER (ORDER BY age DESC) AS rank,
-  DENSE_RANK() OVER (ORDER BY age DESC) AS dense_rank
+  ROW_NUMBER() OVER (ORDER BY age DESC) AS row_num,    -- Luôn 1,2,3...
+  RANK()       OVER (ORDER BY age DESC) AS rank_,      -- Hòa cùng hạng, nhảy
+  DENSE_RANK() OVER (ORDER BY age DESC) AS dense_rank  -- Hòa cùng hạng, không nhảy
 FROM students;
 
--- Running total of orders
+-- Tổng cộng dồn đơn hàng theo từng học viên
 SELECT student_id, amount,
   SUM(amount) OVER (
-    PARTITION BY student_id
+    PARTITION BY student_id      -- Cộng dồn riêng cho từng học viên
     ORDER BY id
-  ) AS running_total
+  ) AS cong_don
 FROM orders;
 
--- Compare with previous order
+-- So sánh đơn hiện tại với đơn TRƯỚC ĐÓ của cùng 1 học viên
 SELECT student_id, amount,
   LAG(amount, 1) OVER (
     PARTITION BY student_id ORDER BY id
-  ) AS prev_amount,
+  ) AS don_truoc,
   amount - LAG(amount, 1) OVER (
     PARTITION BY student_id ORDER BY id
-  ) AS diff
+  ) AS chenh_lech
 FROM orders;`,
         codeLanguage: "sql",
-        exercise: "Rank students by total spending (SUM amount) using DENSE_RANK.",
-        exerciseEn: "Rank students by total spending (SUM amount) using DENSE_RANK.",
+        exercise: "Xếp hạng các học viên theo TỔNG số tiền họ đã chi (SUM(amount) trên bảng orders) bằng DENSE_RANK. Gợi ý: cần GROUP BY + window function trên kết quả tổng hợp (có thể dùng CTE).",
+        exerciseEn: "Rank students by their TOTAL spending (SUM amount across orders) using DENSE_RANK. Hint: GROUP BY + window over the aggregated result (use a CTE).",
         quiz: [
-          { question: "How do RANK() and DENSE_RANK() differ?", options: ["No difference", "RANK skips numbers after ties, DENSE_RANK does not", "DENSE_RANK is slower", "RANK only works with numbers"], answer: 1, explanation: "If two rows tie at rank 2, RANK gives the next row rank 4 (skips 3), DENSE_RANK gives it rank 3." },
-          { question: "What does PARTITION BY do in a window function?", options: ["Filters rows", "Divides rows into groups without collapsing them", "Sorts results", "Limits output"], answer: 1, explanation: "PARTITION BY creates groups like GROUP BY but keeps all individual rows — the window function computes within each partition." },
-          { question: "What does LAG(amount, 1) return for the first row?", options: ["0", "NULL (no previous row exists)", "The current row's value", "An error"], answer: 1, explanation: "For the first row there is no previous row, so LAG returns NULL by default. Use the third parameter for a default value." },
-          { question: "How do you calculate a 7-day moving average?", options: ["AVG(col) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)", "AVG(col) GROUP BY week", "AVG(col) WHERE date > now() - 7", "AVG(col) OVER ()"], answer: 0, explanation: "ROWS BETWEEN 6 PRECEDING AND CURRENT ROW creates a sliding window of 7 rows (current + 6 previous)." },
-          { question: "What is a common use case for ROW_NUMBER() + PARTITION BY?", options: ["Counting total rows", "Finding the top-N items per category", "Deleting duplicates", "Both B and C"], answer: 3, explanation: "ROW_NUMBER + PARTITION BY is used for top-N per group queries and deduplication (keep row_number = 1, delete the rest)." }
+          { question: "Khác nhau giữa `RANK()` và `DENSE_RANK()` là gì?", options: ["Không khác gì", "RANK nhảy số sau khi có hòa, DENSE_RANK không nhảy", "DENSE_RANK chậm hơn", "RANK chỉ dùng với số"], answer: 1, explanation: "Nếu có 2 dòng cùng hạng 2, RANK cho dòng tiếp theo hạng 4 (nhảy 3); DENSE_RANK cho hạng 3 (liền kề)." },
+          { question: "`PARTITION BY` trong window function dùng để làm gì?", options: ["Lọc dòng", "Chia dòng thành các nhóm riêng MÀ KHÔNG nén lại (khác với GROUP BY)", "Sắp xếp kết quả", "Giới hạn output"], answer: 1, explanation: "PARTITION BY tạo nhóm giống GROUP BY, NHƯNG vẫn giữ nguyên từng dòng — window function tính toán riêng trong mỗi nhóm." },
+          { question: "`LAG(amount, 1)` trả về gì cho dòng ĐẦU TIÊN?", options: ["0", "NULL (vì không có dòng trước)", "Giá trị của chính dòng đó", "Báo lỗi"], answer: 1, explanation: "Dòng đầu tiên không có dòng trước → LAG trả về NULL theo mặc định. Có thể chỉ định giá trị mặc định bằng tham số thứ 3: LAG(amount, 1, 0)." },
+          { question: "Làm sao tính trung bình trượt 7 ngày của doanh thu?", options: ["AVG(col) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)", "AVG(col) GROUP BY week", "AVG(col) WHERE date > now() - 7", "AVG(col) OVER ()"], answer: 0, explanation: "ROWS BETWEEN 6 PRECEDING AND CURRENT ROW tạo cửa sổ trượt 7 dòng (dòng hiện tại + 6 dòng trước đó)." },
+          { question: "Mẫu thường dùng nào kết hợp `ROW_NUMBER() + PARTITION BY`?", options: ["Đếm tổng số dòng", "Tìm Top-N của mỗi nhóm", "Khử trùng lặp (giữ rn = 1)", "Cả B và C"], answer: 3, explanation: "ROW_NUMBER + PARTITION BY là nền tảng cho cả Top-N của mỗi nhóm và khử trùng lặp (giữ dòng có rn = 1, bỏ phần còn lại)." }
         ]
       }
     ]
@@ -1666,195 +1634,184 @@ FROM orders;`,
         titleEn: "Indexes & EXPLAIN",
         level: 4,
         difficulty: "advanced",
-        theory: `An **index** is a data structure that lets the database find rows without scanning the whole table. Indexes are the difference between a 10 ms query and a 10-second query — but every index also slows down writes and uses storage. Knowing which to add, and which *not* to add, is one of the most ROI-positive skills a data engineer can develop.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bảng \`students\` có 1 triệu dòng. Bạn chạy:
 
-A correctly-indexed query on a 1-billion-row table can return in milliseconds. The same query without an index full-scans the table — minutes, sometimes hours. Multiply that by every query a dashboard fires and the user-experience difference is *order of magnitude*. On the flip side, over-indexing is the silent killer of OLTP write throughput.
+\`\`\`sql
+SELECT * FROM students WHERE email = 'an@gmail.com';
+\`\`\`
 
-## How a B-tree index actually works
+Không có **index** (chỉ mục), database phải đọc **lần lượt từng dòng** trong số 1 triệu để tìm — mất vài giây. Có index, nó tìm trong ~20 phép so sánh — vài mili-giây.
 
-The default index in every major OLTP database (Postgres, MySQL, SQL Server, Oracle) is a **B-tree** — a balanced tree where each node holds sorted keys.
+Index giống như **mục lục cuối quyển sách**: thay vì lật từng trang, bạn tra mục lục và nhảy thẳng tới trang cần.
 
-- Lookup cost: \`O(log N)\`. On a billion rows, ~30 comparisons instead of a billion.
-- Range queries (\`BETWEEN\`, \`>\`, \`<\`) work great because keys are sorted.
-- Equality and prefix-match \`LIKE 'an%'\` work; \`LIKE '%an'\` does not.
+## 2. Tạo index — cú pháp tối thiểu
 
-## When indexes help (and when they don't)
+\`\`\`sql
+-- Tạo index trên cột email
+CREATE INDEX idx_students_email ON students(email);
 
-| Predicate | Uses index? |
+-- Index "duy nhất" — vừa làm chỉ mục vừa chống trùng giá trị
+CREATE UNIQUE INDEX uniq_students_email ON students(email);
+\`\`\`
+
+Sau khi tạo, các câu \`WHERE email = ...\` sẽ **tự động** dùng index — bạn không cần đổi câu query.
+
+## 3. Index hoạt động như thế nào (B-tree, đơn giản hóa)
+
+Loại index mặc định ở mọi database (Postgres, MySQL, SQL Server) là **B-tree** (cây nhị phân cân bằng) — một cấu trúc cây giữ các giá trị **đã được sắp xếp**.
+
+- Tra cứu giống như tra từ điển: chia đôi liên tục → \`O(log N)\` (rất nhanh).
+- Vì giá trị đã sắp xếp, các phép \`>\`, \`<\`, \`BETWEEN\` đều dùng được.
+
+## 4. Khi nào index GIÚP, khi nào KHÔNG
+
+| Câu WHERE | Dùng được index? |
 |---|---|
-| \`WHERE id = 42\` (equality) | ✅ Yes |
-| \`WHERE created_at > '2024-01-01'\` (range) | ✅ Yes |
-| \`WHERE name LIKE 'an%'\` | ✅ Yes |
-| \`WHERE name LIKE '%an'\` (leading wildcard) | ❌ No |
-| \`WHERE UPPER(email) = 'X'\` (function on column) | ❌ No (unless functional index) |
-| \`WHERE age + 5 > 30\` (expression on column) | ❌ No |
-| Selecting \`> ~10%\` of the table | Often a full scan is faster |
+| \`WHERE id = 42\` (so sánh bằng) | ✅ Có |
+| \`WHERE created_at > '2024-01-01'\` (khoảng) | ✅ Có |
+| \`WHERE name LIKE 'an%'\` (đầu chuỗi) | ✅ Có |
+| \`WHERE name LIKE '%an'\` (đuôi chuỗi) | ❌ Không |
+| \`WHERE UPPER(email) = 'X'\` (bọc cột bằng hàm) | ❌ Không |
+| \`WHERE age + 5 > 30\` (biểu thức trên cột) | ❌ Không |
+| Lọc ra > 10% bảng | ❌ Thường full-scan nhanh hơn |
 
-The 10% rule: if a query returns more than ~10% of a table, the planner often *correctly* chooses a full scan over an index — random index lookups become slower than sequential reads.
+**Quy tắc vàng**: đã có index trên cột nào thì **đừng bọc cột đó bằng hàm** — sẽ phá tác dụng. Hãy đẩy hàm sang phía bên phải:
 
-## Index types beyond B-tree
+\`\`\`sql
+-- ❌ Phá index
+WHERE DATE(created_at) = '2024-01-15'
 
-| Type | Best for | Available in |
-|---|---|---|
-| **B-tree** | Equality + range, default | All major DBs |
-| **Hash** | Pure equality, slightly faster | Postgres, MySQL (memory) |
-| **GIN** (generalized inverted) | Arrays, JSONB, full-text | Postgres |
-| **GiST** | Geographic, range types | Postgres |
-| **BRIN** (block-range) | Huge naturally-ordered tables | Postgres |
-| **Bitmap** | Low-cardinality columns | Oracle, columnar DBs |
-| **Columnstore** | Analytical workloads | SQL Server, MySQL HeatWave |
+-- ✅ Giữ index hoạt động
+WHERE created_at >= '2024-01-15' AND created_at < '2024-01-16'
+\`\`\`
 
-For a JSON column you query with \`@>\` containment, a GIN index can be 1000× faster than no index.
-
-## Composite indexes — the order matters
+## 5. Composite index (chỉ mục nhiều cột) — thứ tự CỘT cực quan trọng
 
 \`\`\`sql
 CREATE INDEX idx_orders_cust_date ON orders(customer_id, created_at);
 \`\`\`
 
-This index helps:
-
+Index này hỗ trợ:
 - \`WHERE customer_id = 42\` ✅
 - \`WHERE customer_id = 42 AND created_at > '2024-01-01'\` ✅✅
-- \`WHERE created_at > '2024-01-01'\` ❌ (skipped the leading column)
+- \`WHERE created_at > '2024-01-01'\` ❌ (bỏ qua cột đầu — không dùng được)
 
-Rule: put the **most selective** column first, *or* the column always present in WHERE.
+**Quy tắc "leftmost prefix"**: index \`(A, B, C)\` dùng được khi WHERE có A, hoặc A+B, hoặc A+B+C — không dùng được khi *chỉ* có B, hoặc *chỉ* có C.
 
-## EXPLAIN — the only way to know
+→ Đặt cột **luôn xuất hiện trong WHERE** lên đầu.
 
-Never guess at performance — \`EXPLAIN ANALYZE\` runs the query and shows the actual plan:
+## 6. \`EXPLAIN\` — cách DUY NHẤT để biết query có dùng index không
+
+Đừng đoán — chạy \`EXPLAIN ANALYZE\` để xem **kế hoạch thực thi** thật:
 
 \`\`\`sql
 EXPLAIN ANALYZE
 SELECT * FROM orders WHERE customer_id = 42;
 \`\`\`
 
-What to look for:
+Đọc kết quả:
+- **\`Seq Scan\`** trên bảng lớn = **xấu** (đang đọc toàn bảng — thiếu index).
+- **\`Index Scan\`** / **\`Index Only Scan\`** = **tốt** (đang dùng index).
+- **\`Rows Removed by Filter\`** quá nhiều = đã đọc nhiều dòng rồi mới lọc → cân nhắc thêm index.
 
-- **Seq Scan** on a big table = bad. **Index Scan** / **Index Only Scan** = good.
-- **Rows Removed by Filter** = predicate not pushed into the index.
-- **Nested Loop** with millions of inner rows = catastrophe. **Hash Join** scales much better.
-- **Buffers: shared hit / read** = how much I/O happened (Postgres).
+## 7. Cái GIÁ phải trả: index không miễn phí
 
-## Comparison — when to add an index
+Mỗi index là một bản sao có sắp xếp của cột — chiếm dung lượng và **làm chậm INSERT/UPDATE/DELETE** (vì phải cập nhật cả index).
 
-| Situation | Add index? |
+| Tình huống | Có nên thêm index? |
 |---|---|
-| Column appears in WHERE / JOIN frequently | ✅ Yes |
-| Column has high cardinality (many distinct values) | ✅ Yes |
-| OLAP warehouse with columnar storage | ❌ Usually no — already optimized |
-| Table has heavy writes, low reads | ⚠️ Add sparingly |
-| Column is rarely filtered | ❌ No |
+| Cột thường xuất hiện trong WHERE / JOIN | ✅ Có |
+| Cột có nhiều giá trị khác nhau (cardinality cao) | ✅ Có |
+| Bảng ghi rất nhiều, đọc ít | ⚠️ Cẩn trọng |
+| Cột hiếm khi lọc theo | ❌ Không |
 
-Note: **modern cloud warehouses** (Snowflake, BigQuery, Redshift) generally do *not* use B-tree indexes. They use columnar storage + clustering + partitioning to achieve the same goal. The lessons here apply mostly to OLTP / Postgres / MySQL.
+**Câu chuyện thật**: 1 team thêm index "phòng hờ" lên mọi cột → tốc độ INSERT giảm 60% (mỗi insert phải cập nhật 14 indexes). Bài học: **mỗi index là 1 thuế ghi**.
 
-## Case study — the missing index that cost $50k/month
+## 8. Tổng kết — checklist khi tối ưu index
 
-A SaaS company's API had a \`GET /orders?status=paid&user_id=X\` endpoint. P99 latency was 2 seconds. The DBA noticed every call ran \`Seq Scan on orders\` because no index existed on \`(user_id, status)\`. Adding a single composite index dropped p99 to **8 ms**. Database CPU dropped from 70% to 8%, allowing them to downsize from \`db.r5.4xlarge\` to \`db.r5.xlarge\` — saving ~$3,500/month. Multiply by their fleet, ~$50k/year recovered.
+- ✅ Index các cột xuất hiện thường xuyên trong WHERE / JOIN / ORDER BY.
+- ✅ Composite index: cột "luôn có trong WHERE" đặt **đầu tiên**.
+- ✅ Đừng bọc cột bằng hàm (\`UPPER(col)\`, \`DATE(col)\`) — phá index.
+- ✅ Trước & sau khi thêm index, **chạy \`EXPLAIN ANALYZE\`** để đo.
+- ✅ Bài tiếp theo: **Thiết kế Database & Normalization** — nếu thiết kế tốt, bạn sẽ đỡ phải tạo nhiều index về sau.`,
+        theoryEn: `## 1. Real-world problem
 
-## Case study — the over-indexed write disaster
+\`students\` has 1M rows. \`WHERE email='x'\` without index → reads all 1M rows. With index → ~20 comparisons. Index = book's table of contents.
 
-A different team responded to slow reports by adding indexes "just in case" on every column. The reporting team was happy; the OLTP write throughput collapsed by 60%. Every INSERT had to update 14 indexes. They eventually dropped half of them and moved reporting workloads to a read replica (and later to a warehouse). **Indexes are not free — every one is a write tax.**
+## 2. Create an index
 
-## Best practices
+\`\`\`sql
+CREATE INDEX idx_students_email ON students(email);
+CREATE UNIQUE INDEX uniq_students_email ON students(email);
+\`\`\`
 
-- **Index columns used in WHERE, JOIN, ORDER BY** — not every column.
-- **Composite index column order**: equality columns first, then range.
-- **Use \`EXPLAIN ANALYZE\`** before and after every index change.
-- For Postgres on JSON, **use GIN with the \`jsonb_path_ops\` operator class**.
-- **Drop unused indexes** — Postgres exposes \`pg_stat_user_indexes\` showing zero-use indexes.
-- For warehouses, **use partitioning + clustering** instead of indexes.
-- Keep an eye on **index bloat** in Postgres — periodic \`REINDEX CONCURRENTLY\`.
+Queries auto-use it — no rewrite needed.
 
-## Anti-patterns & next lesson
+## 3. How B-tree works
 
-Avoid: indexing every column "for safety"; functional predicates on indexed columns; ignoring EXPLAIN; adding indexes to a write-heavy OLTP table without measuring write impact; expecting B-tree indexes to help in Snowflake/BigQuery (they don't exist there).
+Balanced sorted tree, \`O(log N)\` lookup. Range queries efficient.
 
-Next: **Database design & normalization** — the upstream decisions that determine whether you'll *need* a forest of indexes in the first place.`,
-        theoryEn: `An **index** lets the DB find rows without scanning the whole table. The difference between 10 ms and 10 sec.
-
-## Why this matters
-
-Right index = milliseconds at billion-row scale. Over-indexing kills write throughput.
-
-## How B-tree works
-
-Balanced tree, sorted keys, \`O(log N)\` lookup. ~30 comparisons on a billion rows. Range queries efficient.
-
-## When indexes help
+## 4. When indexes help
 
 | Predicate | Uses index? |
 |---|---|
-| Equality | ✅ |
-| Range | ✅ |
-| Prefix LIKE | ✅ |
-| Leading-wildcard LIKE | ❌ |
+| Equality / range | ✅ |
+| Prefix LIKE \`'an%'\` | ✅ |
+| Leading-wildcard \`'%an'\` | ❌ |
 | Function on column | ❌ |
-| Returning >10% of table | Often no |
+| Returning >10% of table | Usually no |
 
-## Index types
+## 5. Composite indexes — order matters
 
-B-tree (default), Hash (equality), GIN (JSON/full-text), GiST (geo), BRIN (huge ordered tables), Bitmap (low-cardinality), Columnstore (analytical).
+Index \`(A, B)\` helps WHERE A, or WHERE A AND B — but **not** WHERE B alone (leftmost-prefix rule).
 
-## Composite indexes
+## 6. EXPLAIN ANALYZE
 
-\`(a, b)\` helps \`WHERE a=…\` and \`WHERE a=… AND b…\`, but **not** \`WHERE b=…\` alone. Most selective / always-present column first.
+Look for: \`Seq Scan\` on big table = bad; \`Index Scan\` = good; \`Rows Removed by Filter\` = predicate not pushed.
 
-## EXPLAIN ANALYZE
+## 7. The cost
 
-Look for: Seq Scan (bad on big tables), Index Scan (good), Rows Removed by Filter (predicate not pushed), Nested Loop with millions (disaster).
+Every index slows writes (INSERT/UPDATE/DELETE). One team's "just-in-case" indexes → -60% write throughput. Indexes are a write tax.
 
-## When to add
+## 8. Checklist
 
-High-frequency WHERE/JOIN, high-cardinality, low-write tables. **Cloud warehouses don't use B-tree** — they use partitioning + clustering.
-
-## Case study — missing index
-
-Composite \`(user_id, status)\` dropped p99 from 2s → 8ms; DB CPU 70%→8%; saved ~$50k/year.
-
-## Case study — over-indexed disaster
-
-"Just in case" indexes on every column → write throughput −60% (14 indexes per INSERT). Lesson: every index is a write tax.
-
-## Best practices
-
-Index used columns; equality before range; \`EXPLAIN ANALYZE\` before/after; GIN for JSONB; drop unused (\`pg_stat_user_indexes\`); warehouses → partition + cluster.
-
-## Anti-patterns & next
-
-Avoid blanket indexing, function predicates, ignoring EXPLAIN, B-tree expectations on Snowflake. Next: **Database design & normalization**.`,
-        code: `-- Create an index
+- Index frequent WHERE/JOIN columns
+- Composite: most-present column first
+- Don't wrap indexed cols in functions
+- Always EXPLAIN ANALYZE before/after
+- Next: **Database design & normalization**`,
+        code: `-- Tạo index đơn giản trên 1 cột
 CREATE INDEX idx_students_age ON students(age);
 
--- Composite index
+-- Composite index trên 2 cột (thứ tự QUAN TRỌNG)
 CREATE INDEX idx_orders_student_amount
 ON orders(student_id, amount);
 
--- View query plan
+-- Xem kế hoạch thực thi để kiểm tra index có được dùng không
 EXPLAIN ANALYZE
 SELECT * FROM students WHERE age > 20;
 
--- Unique index
+-- Unique index: vừa làm chỉ mục vừa chống trùng email
 CREATE UNIQUE INDEX idx_students_email
 ON students(email);
 
--- Partial index
+-- Partial index: chỉ index các dòng thoả điều kiện (tiết kiệm dung lượng)
 CREATE INDEX idx_active ON users(email)
 WHERE active = true;
 
--- Drop index
+-- Xoá index khi không cần
 DROP INDEX idx_students_age;`,
         codeLanguage: "sql",
-        exercise: "Create an appropriate index for: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC;",
-        exerciseEn: "Create an appropriate index for: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC;",
+        exercise: "Đề xuất 1 composite index phù hợp cho câu: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC; Gợi ý: cột nào dùng so sánh '=' nên đặt trước, cột range/order đặt sau.",
+        exerciseEn: "Propose a composite index for: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC; Hint: equality column first, then the range/order column.",
         quiz: [
-          { question: "Which index type is best for range queries (BETWEEN, <, >)?", options: ["Hash", "B-Tree", "GIN", "BRIN"], answer: 1, explanation: "B-Tree indexes support range queries efficiently. Hash indexes only support exact equality (=)." },
-          { question: "Can a composite index on (A, B) be used for a query filtering only on B?", options: ["Yes", "No, the leftmost column (A) must be present", "Only in MySQL", "Yes, but slower"], answer: 1, explanation: "The leftmost prefix rule requires the first column to be present. Index (A,B) works for A, or A+B, but not B alone." },
-          { question: "What does 'Seq Scan' in EXPLAIN output mean?", options: ["An optimized scan", "A full table scan without using any index", "A sequential index scan", "An error"], answer: 1, explanation: "Seq Scan means the database reads every row in the table — the slowest scan type. Usually indicates a missing index." },
-          { question: "What is a partial index?", options: ["An incomplete index", "An index that only covers rows matching a WHERE condition", "A half-built index", "An index on half the columns"], answer: 1, explanation: "A partial index only indexes rows that satisfy a condition (e.g., WHERE active = true), saving space and speeding up targeted queries." },
-          { question: "What is the downside of having too many indexes?", options: ["Queries become slower", "INSERT/UPDATE/DELETE operations slow down", "The database crashes", "No downside"], answer: 1, explanation: "Every index must be updated on writes (INSERT/UPDATE/DELETE), so too many indexes degrade write performance and consume disk space." }
+          { question: "Loại index nào tốt nhất cho các truy vấn dạng khoảng (BETWEEN, <, >)?", options: ["Hash", "B-Tree", "GIN", "BRIN"], answer: 1, explanation: "B-Tree giữ giá trị đã sắp xếp nên rất hiệu quả với truy vấn khoảng. Hash chỉ hỗ trợ so sánh bằng (=)." },
+          { question: "Composite index trên (A, B) có dùng được khi câu WHERE chỉ lọc trên B không?", options: ["Có", "Không — quy tắc 'leftmost prefix' yêu cầu cột đầu (A) phải có mặt", "Chỉ trên MySQL", "Có nhưng chậm hơn"], answer: 1, explanation: "Quy tắc leftmost prefix: index (A,B) dùng được cho WHERE A, hoặc WHERE A AND B — KHÔNG dùng được khi chỉ có B." },
+          { question: "Trong EXPLAIN, 'Seq Scan' nghĩa là gì?", options: ["Quét tối ưu", "Đọc TOÀN BỘ bảng, không dùng index nào", "Quét index tuần tự", "Báo lỗi"], answer: 1, explanation: "Seq Scan = đọc lần lượt từng dòng trong bảng — chậm nhất. Trên bảng lớn, đây thường là dấu hiệu thiếu index." },
+          { question: "Partial index là gì?", options: ["Index dở dang", "Index chỉ bao phủ các dòng thoả 1 điều kiện WHERE (ví dụ WHERE active = true)", "Index xây nửa chừng", "Index chỉ trên nửa số cột"], answer: 1, explanation: "Partial index chỉ index các dòng thoả điều kiện cho trước — tiết kiệm dung lượng và tăng tốc các query có cùng điều kiện đó." },
+          { question: "Hậu quả của việc tạo quá nhiều index là gì?", options: ["Query trở nên chậm hơn", "Các thao tác INSERT/UPDATE/DELETE bị chậm vì phải cập nhật mọi index", "Database sập", "Không có hậu quả gì"], answer: 1, explanation: "Mỗi lần ghi (INSERT/UPDATE/DELETE), database phải cập nhật mọi index liên quan → quá nhiều index = ghi chậm + tốn dung lượng." }
         ]
       }
     ]
