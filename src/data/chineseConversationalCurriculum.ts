@@ -2658,6 +2658,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           {
             title: "Booking a Tour",
             titleVi: "Đặt tour du lịch",
+            description: "Practice essential dialogues for đặt tour du lịch.",
+            descriptionVi: "Luyện hội thoại thực tế chủ đề đặt tour du lịch.",
             sampleDialogue: [
               { speaker: "游客", line: "您好，我想报一个北京三日游。", pinyin: "Nín hǎo, wǒ xiǎng bào yí ge Běijīng sān rì yóu.", translationVi: "Chào, tôi muốn đăng ký tour Bắc Kinh 3 ngày." },
               { speaker: "客服", line: "好的，我们有标准团和高端团两种。", pinyin: "Hǎo de, wǒmen yǒu biāozhǔn tuán hé gāoduān tuán liǎng zhǒng.", translationVi: "Vâng, có tour tiêu chuẩn và cao cấp." },
@@ -2706,6 +2708,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           {
             title: "Discussing Favorite Movies",
             titleVi: "Bàn về phim yêu thích",
+            description: "Practice essential dialogues for bàn về phim yêu thích.",
+            descriptionVi: "Luyện hội thoại thực tế chủ đề bàn về phim yêu thích.",
             sampleDialogue: [
               { speaker: "A", line: "你最近看了什么电影？", pinyin: "Nǐ zuìjìn kàn le shénme diànyǐng?", translationVi: "Gần đây bạn xem phim gì?" },
               { speaker: "B", line: "我看了《流浪地球2》，特效很震撼。", pinyin: "Wǒ kàn le 《Liúlàng Dìqiú 2》, tèxiào hěn zhènhàn.", translationVi: "Tôi xem Lưu Lạc Địa Cầu 2, hiệu ứng rất ấn tượng." },
@@ -2754,6 +2758,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           {
             title: "Discussing Apps",
             titleVi: "Bàn về ứng dụng",
+            description: "Practice essential dialogues for bàn về ứng dụng.",
+            descriptionVi: "Luyện hội thoại thực tế chủ đề bàn về ứng dụng.",
             sampleDialogue: [
               { speaker: "A", line: "你平时用什么社交软件？", pinyin: "Nǐ píngshí yòng shénme shèjiāo ruǎnjiàn?", translationVi: "Bạn dùng app xã hội nào?" },
               { speaker: "B", line: "微信、小红书还有抖音。", pinyin: "Wēixìn, Xiǎohóngshū hái yǒu Dǒuyīn.", translationVi: "WeChat, Xiaohongshu và Douyin." },
@@ -2802,6 +2808,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           {
             title: "Discussing Pollution",
             titleVi: "Bàn về ô nhiễm",
+            description: "Practice essential dialogues for bàn về ô nhiễm.",
+            descriptionVi: "Luyện hội thoại thực tế chủ đề bàn về ô nhiễm.",
             sampleDialogue: [
               { speaker: "A", line: "今天的空气质量怎么样？", pinyin: "Jīntiān de kōngqì zhìliàng zěnmeyàng?", translationVi: "Chất lượng không khí hôm nay sao?" },
               { speaker: "B", line: "PM2.5指数有点高，最好戴口罩。", pinyin: "PM2.5 zhǐshù yǒudiǎn gāo, zuì hǎo dài kǒuzhào.", translationVi: "Chỉ số PM2.5 hơi cao, nên đeo khẩu trang." },
@@ -2850,6 +2858,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           {
             title: "Discussing Confucianism",
             titleVi: "Bàn về Nho giáo",
+            description: "Practice essential dialogues for bàn về nho giáo.",
+            descriptionVi: "Luyện hội thoại thực tế chủ đề bàn về nho giáo.",
             sampleDialogue: [
               { speaker: "A", line: "儒家思想对中国文化影响很深。", pinyin: "Rújiā sīxiǎng duì Zhōngguó wénhuà yǐngxiǎng hěn shēn.", translationVi: "Tư tưởng Nho gia ảnh hưởng sâu đến văn hóa TQ." },
               { speaker: "B", line: "对，比如尊老爱幼、注重家庭。", pinyin: "Duì, bǐrú zūn lǎo ài yòu, zhùzhòng jiātíng.", translationVi: "Đúng, ví dụ như kính già yêu trẻ, coi trọng gia đình." },
@@ -2898,6 +2908,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           {
             title: "Formal Debate",
             titleVi: "Tranh luận chính thức",
+            description: "Practice essential dialogues for tranh luận chính thức.",
+            descriptionVi: "Luyện hội thoại thực tế chủ đề tranh luận chính thức.",
             sampleDialogue: [
               { speaker: "正方", line: "我方认为人工智能将取代大部分工作。", pinyin: "Wǒ fāng rènwéi réngōng zhìnéng jiāng qǔdài dà bùfèn gōngzuò.", translationVi: "Bên tôi cho rằng AI sẽ thay thế phần lớn công việc." },
               { speaker: "反方", line: "我方持不同意见。AI虽然强大，但缺乏创造力和情感。", pinyin: "Wǒ fāng chí bùtóng yìjiàn. AI suīrán qiángdà, dàn quēfá chuàngzàolì hé qínggǎn.", translationVi: "Bên tôi không đồng ý. AI mạnh nhưng thiếu sáng tạo và cảm xúc." },
@@ -2946,6 +2958,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           {
             title: "Narrating a Memorable Trip",
             titleVi: "Kể về chuyến đi đáng nhớ",
+            description: "Practice essential dialogues for kể về chuyến đi đáng nhớ.",
+            descriptionVi: "Luyện hội thoại thực tế chủ đề kể về chuyến đi đáng nhớ.",
             sampleDialogue: [
               { speaker: "A", line: "给我讲讲你最难忘的一次经历吧。", pinyin: "Gěi wǒ jiǎng jiǎng nǐ zuì nánwàng de yí cì jīnglì ba.", translationVi: "Kể tôi nghe trải nghiệm đáng nhớ nhất của bạn đi." },
               { speaker: "B", line: "那是去年夏天，我独自去西藏旅行。一开始，因为高原反应差点放弃。", pinyin: "Nà shì qùnián xiàtiān, wǒ dúzì qù Xīzàng lǚxíng. Yī kāishǐ, yīnwèi gāoyuán fǎnyìng chà diǎn fàngqì.", translationVi: "Đó là mùa hè năm ngoái, tôi một mình đi Tây Tạng. Lúc đầu suýt bỏ cuộc vì sốc độ cao." },
