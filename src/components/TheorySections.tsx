@@ -86,6 +86,14 @@ function splitByH2(md: string): Section[] {
     }
   }
   flush();
+
+  // If there's only ONE numbered section (typically a lone "1."), drop the number —
+  // showing a solo "1" badge looks awkward. Fall back to icon-only badge.
+  const numbered = sections.filter((s) => s.stepNumber !== null);
+  if (numbered.length <= 1) {
+    for (const s of sections) s.stepNumber = null;
+  }
+
   return sections;
 }
 
