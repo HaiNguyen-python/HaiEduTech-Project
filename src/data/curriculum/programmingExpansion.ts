@@ -1103,45 +1103,267 @@ for row in reader:
         id: "sql-adv-win-1",
         title: "Window Frame & Advanced Functions",
         titleEn: "Window Frame & Advanced Functions",
-        theory: `# Advanced Window Functions
+        theory: `**Window Functions** là một trong những tính năng mạnh mẽ nhất của SQL hiện đại — cho phép tính toán **trên một tập hợp các hàng liên quan đến hàng hiện tại** mà không gộp chúng lại (như GROUP BY). Đây là kỹ năng "must-have" cho data analyst, BI developer.
 
-## NTILE(n) — Chia thành n nhóm đều
-\`\`\`sql
-SELECT name, score,
-  NTILE(4) OVER (ORDER BY score DESC) AS quartile
-FROM students;
-\`\`\`
+## Vì sao Window Functions thay đổi cuộc chơi?
 
-## PERCENT_RANK — Phần trăm xếp hạng
-\`\`\`sql
-SELECT name, score,
-  PERCENT_RANK() OVER (ORDER BY score) AS pct_rank
-FROM students;
-\`\`\`
+Trước khi có window functions (chuẩn SQL:2003), để tính "running total", "rank within group", "month-over-month growth" cần subquery phức tạp hoặc self-join — vừa khó viết, vừa chậm. Window functions giải quyết trong 1 dòng, chạy nhanh hơn 10-100 lần nhờ optimizer hiểu intent.
 
-## CUME_DIST — Phân phối tích lũy
-\`\`\`sql
-SELECT name, score,
-  CUME_DIST() OVER (ORDER BY score) AS cume
-FROM students;
-\`\`\`
+Hiện được hỗ trợ bởi: PostgreSQL, MySQL 8+, SQL Server, Oracle, BigQuery, Snowflake, Redshift, DuckDB.
 
-## Window Frame Specification
+## Cú pháp tổng quát
+
 \`\`\`sql
--- Running total (tổng tích lũy)
-SUM(amount) OVER (
-  ORDER BY date
-  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+function() OVER (
+  PARTITION BY col1, col2     -- Chia thành nhóm (tương tự GROUP BY)
+  ORDER BY col3 [ASC|DESC]    -- Sắp xếp trong mỗi nhóm
+  ROWS|RANGE BETWEEN ... AND ... -- Frame: phạm vi hàng
 )
+\`\`\`
 
--- Moving average 3 ngày
-AVG(price) OVER (
-  ORDER BY date
-  ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+3 mệnh đề chính: **PARTITION BY** (nhóm), **ORDER BY** (sắp xếp trong nhóm), **frame clause** (phạm vi rows tham gia tính toán).
+
+## Phân loại Window Functions
+
+| Nhóm | Function | Mô tả |
+|------|----------|-------|
+| **Ranking** | \`ROW_NUMBER()\` | Số thứ tự duy nhất 1, 2, 3... |
+|  | \`RANK()\` | Hạng, gap khi tie (1, 2, 2, 4) |
+|  | \`DENSE_RANK()\` | Hạng không gap (1, 2, 2, 3) |
+|  | \`NTILE(n)\` | Chia thành n nhóm đều |
+|  | \`PERCENT_RANK()\` | Phần trăm hạng (0..1) |
+|  | \`CUME_DIST()\` | Cumulative distribution |
+| **Aggregate** | \`SUM/AVG/COUNT/MIN/MAX OVER()\` | Tổng/TB/đếm theo cửa sổ |
+| **Value (Offset)** | \`LAG(col, n)\` | Giá trị n hàng trước |
+|  | \`LEAD(col, n)\` | Giá trị n hàng sau |
+|  | \`FIRST_VALUE/LAST_VALUE\` | Đầu/cuối cửa sổ |
+|  | \`NTH_VALUE(col, n)\` | Giá trị thứ n |
+
+## Frame Clause — Trái tim của Window Function
+
+Frame xác định **những hàng nào** tham gia tính toán cho hàng hiện tại:
+
+\`\`\`sql
+ROWS BETWEEN <start> AND <end>
+
+-- Các tùy chọn:
+UNBOUNDED PRECEDING    -- Từ đầu partition
+n PRECEDING            -- n hàng trước
+CURRENT ROW            -- Hàng hiện tại
+n FOLLOWING            -- n hàng sau
+UNBOUNDED FOLLOWING    -- Đến cuối partition
+\`\`\`
+
+**3 frame patterns kinh điển:**
+
+\`\`\`sql
+-- 1. Running total (tổng tích luỹ)
+SUM(amount) OVER (ORDER BY date 
+  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+
+-- 2. Moving average 7 ngày (3 trước + hiện tại + 3 sau)
+AVG(price) OVER (ORDER BY date 
+  ROWS BETWEEN 3 PRECEDING AND 3 FOLLOWING)
+
+-- 3. Centered moving average / smoothing
+AVG(value) OVER (ORDER BY ts 
+  ROWS BETWEEN 5 PRECEDING AND 5 FOLLOWING)
+\`\`\`
+
+**ROWS vs RANGE:** \`ROWS\` đếm theo số hàng vật lý. \`RANGE\` đếm theo giá trị (ví dụ "trong vòng 7 ngày" — kể cả có nhiều hàng cùng ngày).
+
+## Pattern thực tế #1: Top-N per Group
+
+"Lấy 3 sản phẩm bán chạy nhất mỗi danh mục":
+\`\`\`sql
+WITH ranked AS (
+  SELECT *, ROW_NUMBER() OVER (
+    PARTITION BY category ORDER BY revenue DESC
+  ) AS rn
+  FROM products
 )
-\`\`\``,
-        theoryEn: `# Advanced Window Functions
-NTILE(n): divide into n groups. PERCENT_RANK: percentile ranking. Frame specs: ROWS BETWEEN for running totals and moving averages.`,
+SELECT * FROM ranked WHERE rn <= 3;
+\`\`\`
+
+## Pattern #2: Period-over-Period Growth
+
+"Tăng trưởng doanh thu so với tháng trước":
+\`\`\`sql
+SELECT month, revenue,
+  LAG(revenue) OVER (ORDER BY month) AS prev_month,
+  ROUND(100.0 * (revenue - LAG(revenue) OVER (ORDER BY month)) 
+        / LAG(revenue) OVER (ORDER BY month), 2) AS growth_pct
+FROM monthly_sales;
+\`\`\`
+
+## Pattern #3: Sessionization
+
+"Gom các event của user thành session, mỗi session cách nhau >30 phút":
+\`\`\`sql
+WITH gaps AS (
+  SELECT user_id, event_time,
+    EXTRACT(EPOCH FROM event_time 
+      - LAG(event_time) OVER (PARTITION BY user_id ORDER BY event_time)) / 60 AS gap_min
+  FROM events
+)
+SELECT *, SUM(CASE WHEN gap_min > 30 OR gap_min IS NULL THEN 1 ELSE 0 END) 
+  OVER (PARTITION BY user_id ORDER BY event_time) AS session_id
+FROM gaps;
+\`\`\`
+
+Đây là cách Google Analytics, Mixpanel sessionize hàng tỉ events.
+
+## Pattern #4: Quartile / Percentile Cohorts
+
+"Chia học sinh thành 4 nhóm theo điểm cho phân tích cohort":
+\`\`\`sql
+SELECT name, score, NTILE(4) OVER (ORDER BY score DESC) AS quartile
+FROM students;
+\`\`\`
+
+## So sánh: Window Function vs GROUP BY
+
+| Khía cạnh | GROUP BY | Window Function |
+|-----------|----------|-----------------|
+| Số hàng output | Giảm (1 hàng/group) | Giữ nguyên |
+| Truy cập detail | Mất | Vẫn còn |
+| Tính trên group | ✅ | ✅ |
+| So sánh với detail | ❌ Cần subquery | ✅ Trực tiếp |
+| Performance | Nhanh | Hơi chậm hơn (cần sort) |
+
+> Quy tắc: cần giữ chi tiết + tính group → window. Cần aggregate giảm hàng → GROUP BY.
+
+## Case study: Stripe Revenue Analytics
+
+Stripe dùng window functions cực mạnh trong analytics dashboard:
+- **MRR running total**: \`SUM(mrr) OVER (ORDER BY month)\`
+- **Churn rate per cohort**: \`NTILE\` chia user theo signup month
+- **Cohort retention curves**: \`LAG/LEAD\` so sánh activity qua tháng
+- **Anomaly detection**: \`AVG/STDDEV OVER\` để tìm outlier
+
+Một query window function thay thế cho 5-10 query phụ + Python join — giảm latency dashboard từ 30s xuống 2s.
+
+## Best Practices ✅
+
+- ✅ Luôn có \`ORDER BY\` trong window khi dùng frame
+- ✅ Tận dụng CTE để window function dễ đọc
+- ✅ Index trên cột \`PARTITION BY\` + \`ORDER BY\` để tăng tốc
+- ✅ Test với \`EXPLAIN ANALYZE\` để check sort cost
+- ✅ Dùng \`ROWS\` cho clarity, \`RANGE\` chỉ khi thực sự cần ngữ nghĩa giá trị
+
+## Anti-patterns ❌
+
+- ❌ Quên \`ORDER BY\` khi cần thứ tự (LAG/LEAD/running total) → kết quả không deterministic
+- ❌ Lạm dụng window khi GROUP BY đủ → tốn memory cho sort không cần thiết
+- ❌ Default frame của \`AVG\` khi có \`ORDER BY\` là \`RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\` → không phải ai cũng biết
+- ❌ Window function trong \`WHERE\` → không hợp lệ, phải bọc CTE/subquery
+
+## Khi nào dùng?
+
+✅ Ranking, running total, moving average, period-over-period, sessionization, percentile, top-N per group, cumulative metrics.
+
+❌ Aggregate đơn giản (SUM/COUNT toàn bảng) — GROUP BY đủ.
+
+## Bridge: Bài tiếp theo
+
+**Recursive CTE** — khi dữ liệu của bạn là cây/đồ thị (org chart, danh mục lồng nhau, friend graph), window function không đủ. Bạn cần \`WITH RECURSIVE\`.`,
+        theoryEn: `**Window Functions** are SQL's most powerful modern feature — compute over **a window of related rows** without collapsing them (unlike GROUP BY). Must-have skill for data analysts and BI devs.
+
+## Why They Matter
+
+Pre-window (SQL:2003), running totals, ranking, period-over-period required complex subqueries/self-joins. Window functions: one line, 10-100× faster. Supported by PostgreSQL, MySQL 8+, BigQuery, Snowflake, Redshift, DuckDB.
+
+## Syntax
+
+\`\`\`sql
+function() OVER (
+  PARTITION BY col1
+  ORDER BY col2
+  ROWS BETWEEN ... AND ...
+)
+\`\`\`
+
+## Categories
+
+| Group | Functions |
+|-------|-----------|
+| **Ranking** | ROW_NUMBER, RANK, DENSE_RANK, NTILE, PERCENT_RANK, CUME_DIST |
+| **Aggregate** | SUM/AVG/COUNT/MIN/MAX OVER() |
+| **Value/Offset** | LAG, LEAD, FIRST_VALUE, LAST_VALUE, NTH_VALUE |
+
+## Frame Clause — The Heart
+
+\`\`\`sql
+ROWS BETWEEN <start> AND <end>
+-- options: UNBOUNDED PRECEDING, n PRECEDING, CURRENT ROW, n FOLLOWING, UNBOUNDED FOLLOWING
+\`\`\`
+
+3 classic patterns:
+\`\`\`sql
+-- Running total
+SUM(amount) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+
+-- 7-day moving average (centered)
+AVG(price) OVER (ORDER BY date ROWS BETWEEN 3 PRECEDING AND 3 FOLLOWING)
+\`\`\`
+
+**ROWS vs RANGE:** ROWS counts physical rows. RANGE counts by value (e.g., "within 7 days").
+
+## Pattern: Top-N per Group
+
+\`\`\`sql
+WITH ranked AS (
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY category ORDER BY revenue DESC) rn
+  FROM products
+)
+SELECT * FROM ranked WHERE rn <= 3;
+\`\`\`
+
+## Pattern: Period-over-Period
+
+\`\`\`sql
+SELECT month, revenue,
+  LAG(revenue) OVER (ORDER BY month) AS prev_month
+FROM monthly_sales;
+\`\`\`
+
+## Pattern: Sessionization (Google Analytics style)
+
+Group events into sessions when gap > 30 min using \`LAG\` + cumulative \`SUM\`.
+
+## Window vs GROUP BY
+
+| Aspect | GROUP BY | Window |
+|--------|----------|--------|
+| Output rows | Reduced | Same |
+| Detail access | Lost | Preserved |
+| Compare to detail | ❌ Subquery | ✅ Direct |
+
+## Case Study: Stripe Analytics
+
+Stripe uses window functions heavily: MRR running totals, cohort retention via \`LAG/LEAD\`, anomaly detection with \`STDDEV OVER\`. Replaces 5-10 subqueries → dashboard latency 30s → 2s.
+
+## Best Practices ✅
+
+- Always include \`ORDER BY\` when using frames
+- Use CTEs for readability
+- Index \`PARTITION BY\` + \`ORDER BY\` columns
+- Test with EXPLAIN ANALYZE
+
+## Anti-patterns ❌
+
+- Missing \`ORDER BY\` for LAG/LEAD → non-deterministic
+- Default RANGE frame surprises (when ORDER BY present)
+- Window in \`WHERE\` clause (illegal — wrap in CTE)
+
+## When to Use
+
+✅ Ranking, running totals, moving averages, period comparisons, sessionization, top-N per group
+❌ Simple aggregates (use GROUP BY)
+
+## Bridge
+
+Next: **Recursive CTE** — for tree/graph data (org charts, nested categories), window functions aren't enough.`,
         code: `-- Advanced window functions demo
 SELECT 
   employee_name,
