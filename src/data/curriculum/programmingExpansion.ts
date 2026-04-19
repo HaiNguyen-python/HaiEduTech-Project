@@ -15,35 +15,219 @@ export const programmingExpansionModules: ExtendedProgrammingModule[] = [
         id: "py-oop-adv-1",
         title: "Kế thừa & Đa hình",
         titleEn: "Inheritance & Polymorphism",
-        theory: `# Kế thừa & Đa hình
+        theory: `**Kế thừa (Inheritance)** và **Đa hình (Polymorphism)** là hai trong bốn trụ cột của OOP (cùng với Encapsulation và Abstraction). Chúng giúp tái sử dụng code, mở rộng hệ thống mà không phá vỡ code cũ — nguyên tắc Open/Closed của SOLID.
 
-## Kế thừa (Inheritance)
-Cho phép class con kế thừa thuộc tính và phương thức từ class cha.
+## Vì sao cần Inheritance?
 
-## Đa hình (Polymorphism)
-Các class khác nhau có thể có cùng tên method nhưng hành vi khác nhau.
+Hãy tưởng tượng bạn xây hệ thống quản lý nhân viên cho một công ty lớn:
+- Tất cả nhân viên đều có \`name\`, \`salary\`, \`work()\`
+- Lập trình viên có thêm \`programming_languages\`
+- Quản lý có thêm \`team_size\`, \`approve_leave()\`
+- Sales có \`commission_rate\`, \`close_deal()\`
 
-## Ví dụ
+Nếu không có inheritance, bạn phải copy-paste \`name\`, \`salary\` vào mỗi class → vi phạm DRY (Don't Repeat Yourself), khó maintain. Inheritance giải quyết: viết code chung trong \`Employee\` (parent), các class con chỉ thêm phần riêng.
+
+## Cú pháp & Cơ chế hoạt động
+
 \`\`\`python
-class Animal:
-    def speak(self):
-        return "..."
+class Employee:                    # Parent / Base / Superclass
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+    def work(self):
+        return f"{self.name} is working"
 
-class Dog(Animal):
-    def speak(self):
-        return "Woof!"
+class Developer(Employee):         # Child / Derived / Subclass
+    def __init__(self, name, salary, languages):
+        super().__init__(name, salary)   # gọi parent constructor
+        self.languages = languages
+    def work(self):                # Override method
+        return f"{self.name} is coding in {self.languages}"
+\`\`\`
 
-class Cat(Animal):
-    def speak(self):
-        return "Meow!"
+**MRO (Method Resolution Order):** Python dùng thuật toán C3 Linearization để xác định thứ tự tìm method khi có multi-inheritance. Kiểm tra qua \`ClassName.__mro__\`.
 
-# Đa hình
-animals = [Dog(), Cat()]
-for a in animals:
-    print(a.speak())  # Woof! rồi Meow!
-\`\`\``,
-        theoryEn: `# Inheritance & Polymorphism
-Inheritance lets child classes inherit from parent classes. Polymorphism allows different classes to have methods with the same name but different behavior.`,
+## 4 loại Inheritance
+
+| Loại | Mô tả | Ví dụ |
+|------|-------|-------|
+| **Single** | 1 parent → 1 child | Dog → Animal |
+| **Multilevel** | A → B → C | Manager → Employee → Person |
+| **Multiple** | Nhiều parent | class C(A, B) |
+| **Hierarchical** | 1 parent → nhiều child | Dog, Cat, Bird đều kế thừa Animal |
+
+Python hỗ trợ **multiple inheritance** (khác Java) nhưng dễ gây "diamond problem" — dùng cẩn thận, ưu tiên composition.
+
+## Polymorphism — Cùng giao diện, khác hành vi
+
+Polymorphism cho phép dùng object như parent type nhưng gọi method của child:
+\`\`\`python
+def make_them_work(employees: list[Employee]):
+    for emp in employees:
+        print(emp.work())   # Tự động gọi đúng version
+
+team = [Developer("An", 30, "Python"), Manager("Bình", 50, 5)]
+make_them_work(team)
+\`\`\`
+
+**Duck Typing** (đặc trưng Python): "If it walks like a duck and quacks like a duck, it's a duck." Không cần kế thừa — chỉ cần có method cùng tên là dùng được.
+
+## Abstract Class & Interface
+
+Khi muốn ép buộc class con phải implement một số method nhất định:
+\`\`\`python
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self) -> float: ...
+
+class Circle(Shape):
+    def __init__(self, r): self.r = r
+    def area(self): return 3.14 * self.r ** 2
+
+# Shape() → TypeError vì không thể khởi tạo abstract class
+\`\`\`
+
+## So sánh Inheritance vs Composition
+
+| Aspect | Inheritance ("is-a") | Composition ("has-a") |
+|--------|---------------------|----------------------|
+| Quan hệ | Dog **is-a** Animal | Car **has-a** Engine |
+| Linh hoạt | Cứng nhắc, khó đổi | Linh hoạt, swap dễ |
+| Coupling | Chặt (tight) | Lỏng (loose) |
+| Khuyến nghị | Dùng khi quan hệ rõ ràng | Mặc định ưu tiên |
+
+> **Composition over Inheritance** — nguyên tắc nổi tiếng từ "Design Patterns" (GoF). Dùng inheritance khi có "is-a" thực sự, dùng composition cho "has-a".
+
+## Case study thực tế: Django ORM Models
+
+Django ORM dùng inheritance triệt để. Khi bạn viết:
+\`\`\`python
+class User(models.Model):
+    name = models.CharField(max_length=100)
+\`\`\`
+Class \`User\` kế thừa \`Model\` → tự động có \`save()\`, \`delete()\`, \`objects.filter()\`. Đây là cách Django giúp developer viết ít code mà có nhiều tính năng.
+
+**Instagram, Pinterest, Disqus** đều xây trên Django, sử dụng pattern này quản lý hàng tỉ records.
+
+## Best Practices ✅
+
+- ✅ Dùng \`super().__init__()\` để gọi parent constructor
+- ✅ Override method khi child cần hành vi khác
+- ✅ Dùng \`isinstance()\` để check type, không dùng \`type() ==\`
+- ✅ Tài liệu hóa rõ method nào được override
+- ✅ Giữ class hierarchy dưới 3-4 cấp — sâu hơn rất khó debug
+
+## Anti-patterns ❌
+
+- ❌ Inheritance chỉ để tái sử dụng code (không có "is-a" thực sự) → dùng composition
+- ❌ Override method nhưng không gọi \`super()\` khi cần (ví dụ \`__init__\`)
+- ❌ Multiple inheritance phức tạp với nhiều parent có method cùng tên → diamond problem
+- ❌ Class cha biết chi tiết class con (vi phạm Liskov Substitution Principle)
+
+## Khi nào nên dùng Inheritance?
+
+✅ **Nên:** Khi có quan hệ "is-a" rõ ràng (Dog is an Animal), khi muốn tận dụng polymorphism, khi nhiều class chia sẻ logic chung.
+
+❌ **Không nên:** Khi chỉ muốn tái sử dụng code (dùng helper function/composition), khi quan hệ là "has-a" (dùng composition), khi class con thay đổi quá nhiều behavior của parent.
+
+## Bridge: Bài tiếp theo
+
+Sau khi nắm vững Inheritance + Polymorphism, bạn sẽ học **Decorators & Generators** — hai công cụ Python cấp cao giúp viết code thanh lịch, hiệu năng cao mà OOP truyền thống khó đạt được.`,
+        theoryEn: `**Inheritance** and **Polymorphism** are two of OOP's four pillars (with Encapsulation and Abstraction). They enable code reuse and system extensibility without breaking existing code — the Open/Closed principle of SOLID.
+
+## Why Inheritance?
+
+Imagine modeling employees: all share \`name\`, \`salary\`, \`work()\`. Developers add \`languages\`, Managers add \`team_size\`. Without inheritance, you copy-paste shared fields → DRY violation. Inheritance: shared logic in parent \`Employee\`, children add specifics.
+
+## Syntax & Mechanism
+
+\`\`\`python
+class Employee:                       # Parent / Base / Superclass
+    def __init__(self, name, salary):
+        self.name = name; self.salary = salary
+    def work(self):
+        return f"{self.name} is working"
+
+class Developer(Employee):            # Child / Subclass
+    def __init__(self, name, salary, languages):
+        super().__init__(name, salary)
+        self.languages = languages
+    def work(self):                   # Override
+        return f"{self.name} codes in {self.languages}"
+\`\`\`
+
+**MRO (Method Resolution Order):** Python uses C3 Linearization for multi-inheritance. Inspect with \`ClassName.__mro__\`.
+
+## 4 Types of Inheritance
+
+| Type | Description |
+|------|-------------|
+| **Single** | One parent → one child |
+| **Multilevel** | A → B → C chain |
+| **Multiple** | class C(A, B) |
+| **Hierarchical** | One parent, many children |
+
+Python supports multiple inheritance (unlike Java) but watch for the **diamond problem**.
+
+## Polymorphism — Same interface, different behavior
+
+\`\`\`python
+def make_them_work(employees: list[Employee]):
+    for emp in employees:
+        print(emp.work())   # Calls correct version automatically
+\`\`\`
+
+**Duck Typing** (Pythonic): "If it walks like a duck..." — no inheritance required, just matching methods.
+
+## Abstract Classes
+
+\`\`\`python
+from abc import ABC, abstractmethod
+class Shape(ABC):
+    @abstractmethod
+    def area(self) -> float: ...
+\`\`\`
+
+Forces children to implement specified methods.
+
+## Inheritance vs Composition
+
+| Aspect | Inheritance ("is-a") | Composition ("has-a") |
+|--------|---------------------|----------------------|
+| Flexibility | Rigid | Flexible, swappable |
+| Coupling | Tight | Loose |
+| Recommendation | When relationship is clear | Default preference |
+
+> **Composition over Inheritance** — GoF Design Patterns principle.
+
+## Real-world: Django ORM
+
+Django models inherit from \`models.Model\` → gain \`save()\`, \`delete()\`, query API. Instagram, Pinterest, Disqus all leverage this pattern at billion-record scale.
+
+## Best Practices ✅
+
+- Use \`super().__init__()\` to call parent
+- Use \`isinstance()\` not \`type() ==\`
+- Document overrides clearly
+- Keep hierarchy ≤ 3-4 levels deep
+
+## Anti-patterns ❌
+
+- Inheritance just for code reuse (no real "is-a")
+- Forgetting \`super()\` calls
+- Complex multiple inheritance → diamond problem
+- Parent knowing about children (violates Liskov)
+
+## When to Use
+
+✅ Clear "is-a", need polymorphism, shared logic across many classes
+❌ Just for reuse (use helpers/composition), "has-a" relationships, child overrides too much
+
+## Bridge
+
+Next: **Decorators & Generators** — high-level Python tools for elegant, performant code beyond traditional OOP.`,
         code: `class Animal:
     def __init__(self, name):
         self.name = name
