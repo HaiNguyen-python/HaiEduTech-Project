@@ -626,6 +626,39 @@ export type Database = {
         }
         Relationships: []
       }
+      pre_departure_progress: {
+        Row: {
+          completed_at: string | null
+          country: string
+          created_at: string
+          id: string
+          is_done: boolean
+          task_key: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          country: string
+          created_at?: string
+          id?: string
+          is_done?: boolean
+          task_key: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          country?: string
+          created_at?: string
+          id?: string
+          is_done?: boolean
+          task_key?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -796,6 +829,7 @@ export type Database = {
           category: string
           created_at: string
           display_name: string
+          expiry_date: string | null
           id: string
           mime_type: string | null
           size_bytes: number
@@ -808,6 +842,7 @@ export type Database = {
           category?: string
           created_at?: string
           display_name: string
+          expiry_date?: string | null
           id?: string
           mime_type?: string | null
           size_bytes?: number
@@ -820,6 +855,7 @@ export type Database = {
           category?: string
           created_at?: string
           display_name?: string
+          expiry_date?: string | null
           id?: string
           mime_type?: string | null
           size_bytes?: number
@@ -860,6 +896,57 @@ export type Database = {
           title?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      student_profiles: {
+        Row: {
+          activities: string | null
+          created_at: string
+          current_level: string | null
+          field_of_study: string | null
+          gpa: number | null
+          id: string
+          ielts_score: number | null
+          sat_score: number | null
+          target_country: string | null
+          target_level: string | null
+          toefl_score: number | null
+          updated_at: string
+          user_id: string
+          work_experience_years: number | null
+        }
+        Insert: {
+          activities?: string | null
+          created_at?: string
+          current_level?: string | null
+          field_of_study?: string | null
+          gpa?: number | null
+          id?: string
+          ielts_score?: number | null
+          sat_score?: number | null
+          target_country?: string | null
+          target_level?: string | null
+          toefl_score?: number | null
+          updated_at?: string
+          user_id: string
+          work_experience_years?: number | null
+        }
+        Update: {
+          activities?: string | null
+          created_at?: string
+          current_level?: string | null
+          field_of_study?: string | null
+          gpa?: number | null
+          id?: string
+          ielts_score?: number | null
+          sat_score?: number | null
+          target_country?: string | null
+          target_level?: string | null
+          toefl_score?: number | null
+          updated_at?: string
+          user_id?: string
+          work_experience_years?: number | null
         }
         Relationships: []
       }
