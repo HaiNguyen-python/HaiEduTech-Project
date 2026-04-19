@@ -1832,202 +1832,256 @@ DROP INDEX idx_students_age;`,
         titleEn: "Normalization & Keys",
         level: 3,
         difficulty: "intermediate",
-        theory: `Database design — choosing tables, keys, and relationships — is the most consequential decision in a system's life. A well-designed schema makes new features fast and bugs rare. A poorly-designed one becomes the bottleneck every team complains about for years and that no amount of indexing can save.
+        theory: `**Thiết kế database (database design)** là quyết định *quan trọng nhất* trong cả vòng đời của một hệ thống. Một schema (cấu trúc bảng) tốt giúp thêm tính năng dễ dàng, ít bug. Một schema tệ trở thành nút thắt cổ chai mà *không một index nào cứu nổi*.
 
-## Why this matters
+## 1. Vấn đề đời thường
 
-You can refactor an API endpoint in a sprint. Refactoring a 500-million-row schema with 30 dependent services takes a year and a half-dozen incidents. *Design decisions you make in week one survive longer than any individual on the team.*
+Bạn có một bảng \`orders\` (đơn hàng) lưu thông tin khách như sau:
 
-## Normalization — the foundation
+\`\`\`
+id | customer_id | customer_email   | customer_city | total
+1  | 7           | an@gmail.com     | Hà Nội        | 200
+2  | 7           | an@gmail.com     | Hà Nội        | 350
+3  | 7           | an@gmail.com     | Hà Nội        | 120
+\`\`\`
 
-**Normalization** is the process of organizing data to eliminate redundancy and update anomalies. The standard normal forms:
+Khi anh An chuyển vào Sài Gòn, bạn phải sửa **email & city ở 1000 dòng đơn hàng** chỉ vì 1 thông tin thay đổi. Đây là dấu hiệu schema đang sai. Cách giải quyết là **chuẩn hoá (normalization)**: tách thông tin khách sang bảng \`customers\` riêng.
 
-| Form | Rule | Eliminates |
+## 2. Chuẩn hoá (Normalization) — 3 cấp độ cần nhớ
+
+Chuẩn hoá là quá trình tổ chức dữ liệu để **không lặp lại** và **không mâu thuẫn**.
+
+| Cấp độ | Quy tắc dễ hiểu | Loại bỏ |
 |---|---|---|
-| **1NF** | Atomic values (no lists in cells) | Repeating groups |
-| **2NF** | All non-key columns depend on the *whole* key | Partial dependencies |
-| **3NF** | No transitive dependencies (non-key → non-key) | Derived data |
-| **BCNF** | Stronger 3NF for edge cases | Subtle anomalies |
+| **1NF** | Mỗi ô chỉ chứa 1 giá trị (không có list trong ô) | Dữ liệu kiểu "Toán, Lý, Hoá" trong 1 ô |
+| **2NF** | Mọi cột phụ thuộc vào *toàn bộ* khoá chính | Phụ thuộc một phần |
+| **3NF** | Cột không-khoá không phụ thuộc cột không-khoá khác | Dữ liệu suy ra được |
 
-90% of OLTP databases target **3NF**. Anything beyond is academic for most apps.
+90% ứng dụng web/app chỉ cần đạt **3NF** là đủ. Cao hơn (BCNF, 4NF…) chỉ dùng trong sách giáo khoa.
 
-Example of **not** 3NF:
+**Ví dụ vi phạm 3NF** (như bảng \`orders\` ở mục 1): \`customer_email\` phụ thuộc vào \`customer_id\`, không phụ thuộc \`id\` của đơn hàng → tách bảng.
 
-\`\`\`
-orders(id, customer_id, customer_email, customer_city)
-\`\`\`
+## 3. Khoá (Keys) — hợp đồng giữa các bảng
 
-\`customer_email\` and \`customer_city\` depend on \`customer_id\`, not on \`id\`. If a customer changes city, you must update every order — 10,000 rows for one fact change. The fix: a separate \`customers\` table.
-
-## Keys — the contracts of your data
-
-| Key | Purpose |
+| Loại khoá | Vai trò |
 |---|---|
-| **Primary key (PK)** | Uniquely identifies a row; non-NULL; one per table |
-| **Foreign key (FK)** | References a PK in another table; enforces referential integrity |
-| **Surrogate key** | Auto-generated integer or UUID with no business meaning |
-| **Natural key** | Real-world identifier (SSN, email, ISBN) |
-| **Composite key** | PK made of multiple columns (e.g., \`(order_id, line_no)\`) |
+| **Primary key (PK)** — khoá chính | Định danh duy nhất 1 dòng. Không NULL. Mỗi bảng có 1 PK. |
+| **Foreign key (FK)** — khoá ngoại | Trỏ tới PK của bảng khác. Đảm bảo dữ liệu liên kết hợp lệ. |
+| **Surrogate key** — khoá nhân tạo | Số tự tăng (\`SERIAL\`) hoặc \`UUID\`, *không có ý nghĩa thực tế*. |
+| **Natural key** — khoá tự nhiên | Định danh có thật ngoài đời (số CMND, email, ISBN). |
+| **Composite key** — khoá kép | PK gồm nhiều cột, ví dụ \`(order_id, line_no)\`. |
 
-**Surrogate vs natural** is one of the great recurring debates. Surrogate (auto-generated integer or UUID) is the modern default because:
+**Nên dùng surrogate hay natural?** → **Mặc định luôn dùng surrogate** (số tự tăng / UUID) vì:
+- Khoá tự nhiên có thể đổi (người ta đổi email, công ty đổi mã sản phẩm).
+- Số nguyên join nhanh hơn chuỗi dài.
+- Dễ bảo trì lịch sử thay đổi.
 
-- Natural keys change (people change emails, companies rename SKUs).
-- Joining on integers is faster than joining on long strings.
-- Surrogate keys make SCD Type 2 (history-tracking dimensions) possible.
+## 4. Quan hệ giữa các bảng — 4 kiểu chính
 
-Use a natural key only when it's truly immutable *and* short.
+| Cardinality | Cách mô hình hoá | Ví dụ |
+|---|---|---|
+| **1-1** (Một-Một) | FK kèm UNIQUE | 1 user — 1 profile |
+| **1-N** (Một-Nhiều) | FK ở bên "nhiều" | 1 customer — N orders |
+| **N-N** (Nhiều-Nhiều) | **Bảng trung gian** (junction) chứa 2 FK | students ↔ courses |
+| **Tự tham chiếu** | FK trỏ về chính bảng đó | nhân viên — quản lý |
 
-## Relationships — the four kinds
-
-| Cardinality | Modeled as |
-|---|---|
-| **One-to-one** | Either one table, or a FK with UNIQUE constraint |
-| **One-to-many** | FK on the "many" side |
-| **Many-to-many** | A junction (link) table with two FKs |
-| **Self-referential** | FK pointing back to the same table (org chart) |
-
-Many-to-many always needs a junction table — there is no "many-to-many column."
+**N-N luôn cần bảng trung gian** — không có cái gọi là "cột nhiều-nhiều". Ví dụ:
 
 \`\`\`
 students --< enrollments >-- courses
+              ^
+       (student_id, course_id, grade, enrolled_at)
 \`\`\`
 
-The \`enrollments\` table holds \`(student_id, course_id, grade, enrolled_at)\` — and is also a great place for relationship attributes.
+Bảng \`enrollments\` cũng là nơi lý tưởng để lưu thuộc tính của *quan hệ* (điểm số, ngày đăng ký).
 
-## OLTP vs OLAP design — opposite goals
+## 5. Thiết kế cho App (OLTP) vs Báo cáo (OLAP)
 
-| Goal | OLTP (apps) | OLAP (warehouses) |
+Cùng là database nhưng mục tiêu *ngược nhau hoàn toàn*:
+
+| Khía cạnh | OLTP (app web/mobile) | OLAP (data warehouse, BI) |
+|---|---|---|
+| Chuẩn hoá | Cao (3NF) | Thấp (star schema — sao) |
+| Tối ưu cho | Nhiều ghi nhỏ | Ít đọc nhưng truy vấn lớn |
+| JOIN | Thường xuyên, nhỏ | Hiếm, dùng dim đã denormalize |
+| Đổi schema | Rất tốn công | Dễ (build lại model) |
+
+Lỗi kinh điển: dùng schema OLTP cho data warehouse → dashboard join 12 bảng, chạy 30 giây, vỡ mỗi khi đổi schema.
+
+## 6. Checklist 7 bước khi tạo bảng mới
+
+1. **Grain (độ chi tiết) là gì?** — "Mỗi dòng = một ___ (đơn hàng / lượt click / lần đăng nhập)". Câu này phải trả lời được trước khi viết \`CREATE TABLE\`.
+2. **Primary key?** — Gần như luôn dùng \`SERIAL\` hoặc \`UUID\`.
+3. **Foreign key nào?** — Chọn rõ \`ON DELETE\`: \`CASCADE\` (xoá theo) / \`RESTRICT\` (chặn xoá) / \`SET NULL\`.
+4. **Cột nào NOT NULL?** — Mặc định NOT NULL, chỉ cho NULL khi *thực sự* hợp lý.
+5. **Cột nào cần index?** — Cột xuất hiện trong WHERE, JOIN, ORDER BY.
+6. **Cột audit:** \`created_at\`, \`updated_at\` — luôn có.
+7. **Soft delete vs hard delete?** — Yêu cầu pháp lý thường buộc dùng soft delete (\`deleted_at TIMESTAMP NULL\`).
+
+## 7. Ví dụ đầy đủ: thư viện sách
+
+\`\`\`sql
+-- Tác giả
+CREATE TABLE authors (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+-- Sách
+CREATE TABLE books (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  isbn VARCHAR(20) UNIQUE NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+-- N-N: 1 sách có thể nhiều tác giả → cần bảng trung gian
+CREATE TABLE book_authors (
+  book_id INTEGER REFERENCES books(id) ON DELETE CASCADE,
+  author_id INTEGER REFERENCES authors(id) ON DELETE RESTRICT,
+  PRIMARY KEY (book_id, author_id)
+);
+\`\`\`
+
+Đọc lại: mỗi quyết định đều có lý do (PK, FK, ON DELETE, NOT NULL, audit cột).
+
+## 8. Best Practices ✅ & Anti-patterns ❌
+
+**Nên:**
+- 3NF cho app, star schema cho báo cáo — *không nhầm lẫn 2 cái*.
+- Surrogate PK trừ khi có lý do mạnh dùng natural.
+- NOT NULL mặc định.
+- Luôn có \`created_at\` + \`updated_at\` (default ở DB level).
+- Đặt tên: snake_case, bảng số nhiều (\`users\`), cột số ít (\`user_id\`).
+
+**Tránh:**
+- Lưu list ngăn cách bằng dấu phẩy ("Toán,Lý,Hoá") trong 1 cột → vi phạm 1NF.
+- Dùng natural key có thể đổi (email, mã SKU).
+- Bảng EAV (Entity-Attribute-Value) tự xây "database trong database".
+- JSONB cho dữ liệu sẽ luôn truy vấn theo cấu trúc → không index hiệu quả.
+- "Nullable everything" — cho phép NULL ở mọi cột vì lười nghĩ.
+
+## Ghi chú nâng cao (đọc khi đã làm dự án thật)
+
+**Case study GitHub issues:** GitHub công khai schema bảng \`issues\` từ 2008: PK số nguyên, FK \`repository_id\`, junction table cho assignees & labels. *12 năm sau, tỉ dòng dữ liệu, schema gần như không đổi* — minh chứng thiết kế OLTP "buồn tẻ" mà chuẩn hoá lại sống lâu nhất.
+
+**Case study JSON-everything:** Một startup quyết định "linh hoạt" bằng cách lưu mọi entity dưới dạng \`data JSONB\`. 2 tháng đầu tốc độ phát triển nhanh. Khi cần truy vấn "users ở California có >5 đơn", không thể index hiệu quả — query nào cũng full-scan. Mất nguyên 1 quý migrate ngược về schema chuẩn hoá. *Schema-on-read nghe hấp dẫn, đến khi bạn cần đọc schema.*
+
+## Bài tiếp theo
+
+**Stored procedures, functions & triggers** — logic phía database, dùng đúng cách giúp tránh hàng nghìn round-trip và ngăn cả lớp bug.`,
+        theoryEn: `Schema design is the most consequential decision in a system. Bad design is a bottleneck no index can fix.
+
+## 1. The everyday problem
+
+An \`orders\` table storing customer email/city in every row → updating one customer means updating 1000 rows. Fix: split out a \`customers\` table (normalization).
+
+## 2. Normalization — 3 forms you actually use
+
+| Form | Plain rule |
+|---|---|
+| 1NF | Each cell holds one value (no lists) |
+| 2NF | Non-key columns depend on the *whole* PK |
+| 3NF | No non-key → non-key dependency |
+
+90% of OLTP apps target **3NF**. Beyond that is mostly academic.
+
+## 3. Keys
+
+| Key | Role |
+|---|---|
+| Primary (PK) | Unique row identifier |
+| Foreign (FK) | Points to PK in another table |
+| Surrogate | Auto int / UUID, no business meaning |
+| Natural | Real-world ID (email, SSN) |
+| Composite | PK across multiple columns |
+
+**Default to surrogate PKs** — natural keys change, integers join faster, surrogate enables change tracking.
+
+## 4. The 4 relationships
+
+| Cardinality | How to model |
+|---|---|
+| 1-1 | FK with UNIQUE |
+| 1-N | FK on the "many" side |
+| N-N | **Junction table** with two FKs |
+| Self-ref | FK pointing back to same table |
+
+N-N **always** needs a junction table — no "many-to-many column" exists.
+
+## 5. OLTP vs OLAP — opposite goals
+
+| Aspect | OLTP (apps) | OLAP (warehouse) |
 |---|---|---|
 | Normalization | High (3NF) | Low (star schema) |
 | Optimized for | Many small writes | Few large reads |
-| JOINs | Frequent, small | Rare, with denormalized dims |
-| Schema changes | Expensive (online migrations) | Cheap (rebuild downstream models) |
+| Schema change | Expensive | Cheap (rebuild models) |
 
-The classic mistake: applying OLTP normalization to an analytical warehouse. Result: dashboards joining 12 tables, taking 30 seconds, and breaking on every schema change.
+Don't apply OLTP normalization to a warehouse — 12-table joins, 30s dashboards.
 
-## Design checklist for a new table
-
-1. **What is the grain?** "One row = one ___."
-2. **What is the primary key?** Surrogate auto-increment or UUID, almost always.
-3. **What are the FKs?** With \`ON DELETE\` policy chosen explicitly (\`CASCADE / RESTRICT / SET NULL\`).
-4. **Which columns are NOT NULL?** Default to NOT NULL; add NULL only with a reason.
-5. **Which columns need indexes?** WHERE, JOIN, ORDER BY columns.
-6. **Audit columns**: \`created_at\`, \`updated_at\` — always include them.
-7. **Soft delete vs hard delete?** Compliance often forces soft delete (\`deleted_at TIMESTAMP NULL\`).
-
-## Case study — the GitHub issues table
-
-GitHub publicly described their early schema choice for the \`issues\` table: integer surrogate PK, FK to \`repository_id\`, polymorphic association to assignees and labels via junction tables. Twelve years and billions of issues later, the schema is largely unchanged — proof that boring, normalized OLTP design ages exceptionally well.
-
-## Case study — the JSON-everything anti-pattern
-
-A startup decided to "stay flexible" by storing each entity as one row with a single \`data JSONB\` column. For two months velocity felt great. Then they needed to query "users in California with > 5 orders." There was no way to index inside the JSONB efficiently for that combination. Every query full-scanned and parsed JSON. They spent a quarter migrating to a normalized schema and the problem disappeared. **Schema-on-read sounds liberating until you have to read the schema.**
-
-## Best practices
-
-- Default to **3NF for OLTP**, **star schema for analytical** — and never confuse the two.
-- **Surrogate PKs** unless you have a strong reason for natural.
-- **NOT NULL by default**; nullable is a deliberate choice.
-- **Always include \`created_at\` and \`updated_at\`** with database-side defaults.
-- **Choose ON DELETE policy explicitly** for every FK.
-- **Naming convention**: lowercase snake_case, plural table names (\`users\`), singular column names (\`user_id\`). Pick one and enforce.
-- **Prefer narrow tables**; if a table grows past 50 columns, ask if it should split.
-
-## Anti-patterns & next lesson
-
-Avoid: storing comma-separated lists in a single column (violates 1NF); using natural keys that can change; "EAV" (entity-attribute-value) tables that try to be a database within a database; JSONB for data you'll always query structurally; nullable everything.
-
-Next: **Stored procedures, functions & triggers** — the database-side logic that, when used carefully, can save thousands of round-trips and prevent entire classes of bugs.`,
-        theoryEn: `Schema design is the most consequential decision in a system. Bad design is the bottleneck no index can fix.
-
-## Why this matters
-
-Refactoring a 500M-row schema with 30 dependent services = 1.5 years. Design decisions outlive everyone on the team.
-
-## Normalization
-
-| Form | Rule |
-|---|---|
-| 1NF | Atomic values |
-| 2NF | Non-key cols depend on whole key |
-| 3NF | No transitive dependencies |
-| BCNF | Stronger 3NF |
-
-OLTP targets 3NF. \`orders(customer_email)\` violates 3NF — fix with separate \`customers\` table.
-
-## Keys
-
-PK / FK / surrogate / natural / composite. Default to **surrogate PKs** — natural keys change, integers join faster, surrogate enables SCD Type 2.
-
-## Relationships
-
-One-to-one, one-to-many (FK on many side), many-to-many (junction table), self-referential (FK to same table). M:N **always** needs a junction.
-
-## OLTP vs OLAP design
-
-| Goal | OLTP | OLAP |
-|---|---|---|
-| Normalization | 3NF | Star schema |
-| Optimized for | Small writes | Large reads |
-| Schema change | Expensive | Cheap |
-
-Don't apply OLTP normalization to a warehouse — 12-table joins, 30-second dashboards.
-
-## New-table checklist
+## 6. New-table 7-step checklist
 
 Grain → PK → FKs (with ON DELETE) → NOT NULLs → indexes → \`created_at/updated_at\` → soft vs hard delete.
 
-## Case study — GitHub issues
+## 7. Worked example — library schema
 
-12 years, billions of rows, schema unchanged: integer PK, FK to repo, polymorphic via junction tables. Boring normalized design ages well.
+\`authors\` ← \`book_authors\` (junction) → \`books\`. Each FK has explicit \`ON DELETE\`. Audit columns everywhere.
 
-## Case study — JSON everything
+## 8. Best practices & anti-patterns
 
-Startup stored everything as \`data JSONB\` for "flexibility." Couldn't index "California users with >5 orders." Quarter-long migration to normalized schema fixed it.
+✅ 3NF for OLTP / star for OLAP, surrogate PKs, NOT NULL default, always audit cols, snake_case naming.
+❌ Comma-separated lists in cells, mutable natural keys, EAV tables, JSONB for structured queries.
 
-## Best practices
+## Advanced notes
 
-3NF for OLTP / star for analytical; surrogate PKs; NOT NULL default; \`created_at/updated_at\` everywhere; explicit ON DELETE; consistent naming convention.
+**GitHub issues**: integer PK + FK to repo + junction tables. Unchanged for 12+ years and billions of rows.
 
-## Anti-patterns & next
+**JSON-everything anti-pattern**: a startup stored everything as \`JSONB\` for "flexibility" — couldn't index "California users with >5 orders". Spent a quarter migrating back to a normalized schema.
 
-Avoid CSV-in-column, mutable natural keys, EAV tables, JSONB for structured queries, nullable-everything. Next: **Stored procedures, functions & triggers**.`,
-        code: `-- Create normalized tables
+## Next
+
+**Stored procedures, functions & triggers** — database-side logic that, used wisely, prevents whole bug classes.`,
+        code: `-- Bảng phòng ban (parent của employees)
 CREATE TABLE departments (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL
+  id SERIAL PRIMARY KEY,                  -- Surrogate PK tự tăng
+  name VARCHAR(100) NOT NULL              -- Tên phòng bắt buộc có
 );
 
+-- Bảng nhân viên: 1 nhân viên thuộc 1 phòng (quan hệ 1-N)
 CREATE TABLE employees (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE,
-  dept_id INTEGER REFERENCES departments(id),
-  salary DECIMAL(10, 2) DEFAULT 0
+  email VARCHAR(100) UNIQUE,              -- Mỗi email chỉ xuất hiện 1 lần
+  dept_id INTEGER REFERENCES departments(id),  -- FK trỏ về phòng ban
+  salary DECIMAL(10, 2) DEFAULT 0,
+  created_at TIMESTAMP DEFAULT now()      -- Cột audit (theo checklist 6)
 );
 
+-- Bảng dự án
 CREATE TABLE projects (
   id SERIAL PRIMARY KEY,
   title VARCHAR(200) NOT NULL,
   deadline DATE
 );
 
--- Many-to-many: employee <-> project
+-- Quan hệ N-N: 1 nhân viên làm nhiều dự án, 1 dự án có nhiều nhân viên
+-- → BẮT BUỘC dùng bảng trung gian (junction table)
 CREATE TABLE employee_projects (
-  employee_id INTEGER REFERENCES employees(id),
-  project_id INTEGER REFERENCES projects(id),
-  role VARCHAR(50),
-  PRIMARY KEY (employee_id, project_id)
+  employee_id INTEGER REFERENCES employees(id) ON DELETE CASCADE,
+  project_id INTEGER REFERENCES projects(id) ON DELETE CASCADE,
+  role VARCHAR(50),                       -- Vai trò trong dự án (lead, member...)
+  PRIMARY KEY (employee_id, project_id)   -- Composite PK: 1 cặp (nv, dự án) duy nhất
 );`,
         codeLanguage: "sql",
-        exercise: "Design a schema for a library system: books, authors, members, borrowings (many-to-many between books and authors).",
-        exerciseEn: "Design a schema for a library system: books, authors, members, borrowings (many-to-many between books and authors).",
+        exercise: "Thiết kế schema cho hệ thống thư viện gồm: books (sách), authors (tác giả), members (thành viên), borrowings (lượt mượn). Lưu ý: 1 sách có thể có nhiều tác giả (N-N) → cần bảng trung gian. Mỗi bảng phải có PK rõ ràng, FK với ON DELETE phù hợp, và cột created_at.",
+        exerciseEn: "Design a schema for a library system: books, authors, members, borrowings. Note: a book can have many authors (N-N) → junction table needed. Each table must have explicit PK, FK with ON DELETE policy, and a created_at column.",
         quiz: [
-          { question: "What does 3NF eliminate compared to 2NF?", options: ["NULL values", "Transitive dependencies", "Row duplication", "Foreign keys"], answer: 1, explanation: "3NF removes transitive dependencies — when column A depends on column B which is not a primary key." },
-          { question: "How do you model a many-to-many relationship?", options: ["Add a column to both tables", "Use a junction table with FKs to both tables", "Use a FOREIGN KEY array", "It's not possible"], answer: 1, explanation: "A junction/pivot table contains foreign keys to both tables and typically a composite primary key." },
-          { question: "What is a surrogate key?", options: ["A real-world identifier like SSN", "An auto-generated ID with no business meaning", "A foreign key", "A composite key"], answer: 1, explanation: "Surrogate keys are system-generated (SERIAL, UUID) and have no real-world meaning, unlike natural keys." },
-          { question: "When is denormalization acceptable?", options: ["Never", "In read-heavy systems like data warehouses for performance", "Always", "Only in small databases"], answer: 1, explanation: "Denormalization trades write complexity for read speed — appropriate in analytics/warehouse scenarios." },
-          { question: "What does a FOREIGN KEY constraint enforce?", options: ["Column uniqueness", "Referential integrity — the referenced row must exist", "Non-NULL values", "Data type matching"], answer: 1, explanation: "A FOREIGN KEY ensures the value exists in the referenced table's primary key, preventing orphan records." }
+          { question: "Bảng `orders(id, customer_id, customer_email, customer_city)` vi phạm dạng chuẩn nào?", options: ["1NF", "2NF", "3NF", "Không vi phạm gì"], answer: 2, explanation: "Vi phạm 3NF vì `customer_email` và `customer_city` phụ thuộc vào `customer_id` (cột không-khoá), không phụ thuộc trực tiếp vào `id`. Cách sửa: tách bảng `customers` riêng." },
+          { question: "Quan hệ N-N (nhiều-nhiều) giữa students và courses được mô hình hoá như thế nào?", options: ["Thêm cột `course_id` vào students", "Thêm mảng FOREIGN KEY", "Tạo bảng trung gian `enrollments` chứa 2 FK", "Không thể mô hình hoá trong SQL"], answer: 2, explanation: "N-N luôn cần bảng trung gian (junction table) chứa FK đến cả 2 bảng. SQL không có khái niệm 'cột nhiều-nhiều'." },
+          { question: "Vì sao mặc định nên dùng surrogate key (số tự tăng / UUID) thay vì natural key (email, CMND)?", options: ["Surrogate ngắn hơn", "Natural key có thể đổi (đổi email, đổi mã SP); số nguyên join nhanh hơn chuỗi", "SQL bắt buộc dùng số nguyên", "Natural key vi phạm chuẩn hoá"], answer: 1, explanation: "Natural key có thể thay đổi theo thời gian (email cá nhân, mã sản phẩm công ty đổi), gây cascade update khắp các bảng FK. Số nguyên cũng join nhanh hơn chuỗi nhiều ký tự." },
+          { question: "Khi nào denormalization (cố ý phá chuẩn 3NF để lưu dữ liệu trùng lặp) là chấp nhận được?", options: ["Không bao giờ", "Trong data warehouse / báo cáo (OLAP) — đọc nhiều, ghi ít", "Mọi lúc", "Chỉ khi DB nhỏ"], answer: 1, explanation: "OLAP (warehouse, BI) ưu tiên đọc nhanh hơn ghi nhanh → denormalize (star schema) giúp dashboard không cần JOIN 12 bảng. Trong khi OLTP (app) thì ngược lại — phải normalize." },
+          { question: "FOREIGN KEY ràng buộc điều gì?", options: ["Tính duy nhất của cột", "Toàn vẹn tham chiếu — giá trị phải tồn tại ở bảng được trỏ tới", "Không cho NULL", "Khớp kiểu dữ liệu"], answer: 1, explanation: "FK đảm bảo referential integrity (toàn vẹn tham chiếu): không thể chèn `dept_id = 99` vào `employees` nếu phòng id=99 chưa tồn tại trong `departments`. Điều này ngăn dữ liệu mồ côi (orphan records)." }
         ]
       }
     ]
