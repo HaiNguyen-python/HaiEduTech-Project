@@ -50,6 +50,8 @@ const ChineseConversationalLessonView = () => {
   const [activeTab, setActiveTab] = useState("situations");
   const [listeningRevealed, setListeningRevealed] = useState(false);
   const [listeningAnswers, setListeningAnswers] = useState<Record<number, number>>({});
+  const [fibAnswers, setFibAnswers] = useState<Record<number, string>>({});
+  const [fibChecked, setFibChecked] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese");
   const [showAccessModal, setShowAccessModal] = useState(false);
@@ -61,6 +63,11 @@ const ChineseConversationalLessonView = () => {
     if (lesson && pillar && hasAccess) {
       setIsCompleted(getCompletedLessons().includes(lesson.id));
     }
+    // Reset exercise state when lesson changes
+    setFibAnswers({});
+    setFibChecked(false);
+    setListeningRevealed(false);
+    setListeningAnswers({});
   }, [lesson, pillar, hasAccess]);
 
   if (accessLoading) {
@@ -149,6 +156,9 @@ const ChineseConversationalLessonView = () => {
             <TabsTrigger value="situations" className="flex-1 text-xs sm:text-sm py-2">🎯 {t("Tình huống", "Situations")}</TabsTrigger>
             <TabsTrigger value="vocabulary" className="flex-1 text-xs sm:text-sm py-2">📚 {t("Từ vựng", "Vocabulary")}</TabsTrigger>
             <TabsTrigger value="structures" className="flex-1 text-xs sm:text-sm py-2">📐 {t("Cấu trúc", "Structures")}</TabsTrigger>
+            {lesson.fillInBlankExercises && lesson.fillInBlankExercises.length > 0 && (
+              <TabsTrigger value="exercises" className="flex-1 text-xs sm:text-sm py-2">✏️ {t("Bài tập", "Exercises")}</TabsTrigger>
+            )}
             <TabsTrigger value="listening" className="flex-1 text-xs sm:text-sm py-2">🎧 {t("Nghe", "Listening")}</TabsTrigger>
             <TabsTrigger value="roleplay" className="flex-1 text-xs sm:text-sm py-2">🎤 {t("Luyện nói", "Roleplay")}</TabsTrigger>
           </TabsList>
@@ -180,28 +190,22 @@ const ChineseConversationalLessonView = () => {
                       {/* Sample dialogue — chat bubble style */}
                       <div className="space-y-4">
                         {situation.sampleDialogue.map((line, i) => {
-                          const isUser = line.speaker === "You";
-                          const speakerColors: Record<string, string> = {
-                            "A": "bg-gradient-to-br from-blue-500 to-blue-600 text-white",
-                            "B": "bg-gradient-to-br from-emerald-500 to-teal-600 text-white",
-                            "You": "bg-gradient-to-br from-red-500 to-orange-500 text-white",
-                          };
-                          const bubbleColor = speakerColors[line.speaker] || "bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 text-foreground";
-                          const labelColors: Record<string, string> = {
-                            "A": "bg-blue-600 text-white",
-                            "B": "bg-emerald-600 text-white",
-                            "You": "bg-red-600 text-white",
-                          };
-                          const labelColor = labelColors[line.speaker] || "bg-muted-foreground text-white";
+                          // Alternate sides: even index = left, odd = right (zig-zag for readability)
+                          const isRight = i % 2 === 1;
+                          const palette = [
+                            { bubble: "bg-gradient-to-br from-blue-500 to-blue-600 text-white", label: "bg-blue-600 text-white" },
+                            { bubble: "bg-gradient-to-br from-emerald-500 to-teal-600 text-white", label: "bg-emerald-600 text-white" },
+                          ];
+                          const { bubble: bubbleColor, label: labelColor } = palette[i % 2];
 
                           return (
-                            <div key={i} className={`flex gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
+                            <div key={i} className={`flex gap-3 ${isRight ? "flex-row-reverse" : ""}`}>
                               {/* Avatar circle */}
                               <div className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold ${labelColor}`}>
                                 {line.speaker.charAt(0)}
                               </div>
                               {/* Bubble */}
-                              <div className={`max-w-[80%] px-4 py-3 rounded-2xl shadow-sm ${isUser ? "rounded-tr-sm" : "rounded-tl-sm"} ${bubbleColor}`}>
+                              <div className={`max-w-[80%] px-4 py-3 rounded-2xl shadow-sm ${isRight ? "rounded-tr-sm" : "rounded-tl-sm"} ${bubbleColor}`}>
                                 <p className="text-xs font-bold opacity-80 mb-1">{line.speaker}</p>
                                 <p className="text-lg font-bold leading-relaxed">{line.line}</p>
                                 <p className="text-sm opacity-80 mt-1 italic">{line.pinyin}</p>
@@ -289,6 +293,70 @@ const ChineseConversationalLessonView = () => {
               ))}
             </div>
           </TabsContent>
+
+          {/* EXERCISES TAB - Fill in the blank */}
+          {lesson.fillInBlankExercises && lesson.fillInBlankExercises.length > 0 && (
+            <TabsContent value="exercises">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BookOpen className="h-5 w-5 text-purple-500" />
+                    {t("Bài tập điền từ", "Fill in the Blank")}
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    {t("Điền từ tiếng Trung phù hợp vào chỗ trống.", "Fill in the correct Chinese word for each blank.")}
+                  </p>
+                </CardHeader>
+                <CardContent className="space-y-5">
+                  {lesson.fillInBlankExercises.map((ex, idx) => {
+                    const userAns = (fibAnswers[idx] || "").trim();
+                    const correct = userAns === ex.answer;
+                    return (
+                      <div key={idx} className="border rounded-lg p-4 bg-card space-y-2">
+                        <div className="flex items-start gap-2">
+                          <span className="text-sm font-bold text-purple-600 min-w-[28px]">{idx + 1}.</span>
+                          <div className="flex-1">
+                            <p className="text-lg font-semibold leading-relaxed">{ex.sentence}</p>
+                            <p className="text-sm text-muted-foreground italic mt-1">{ex.pinyin}</p>
+                            <p className="text-sm text-muted-foreground mt-1">🇻🇳 {ex.translationVi}</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pl-9">
+                          <input
+                            type="text"
+                            value={fibAnswers[idx] || ""}
+                            onChange={(e) => setFibAnswers({ ...fibAnswers, [idx]: e.target.value })}
+                            placeholder={t("Nhập đáp án...", "Type answer...")}
+                            className="border rounded-md px-3 py-2 text-base bg-background min-w-[140px]"
+                            disabled={fibChecked}
+                          />
+                          {ex.hint && !fibChecked && (
+                            <span className="text-xs text-amber-600 dark:text-amber-400">💡 {ex.hint}</span>
+                          )}
+                          {fibChecked && (
+                            <span className={`text-sm font-semibold ${correct ? "text-emerald-600" : "text-red-600"}`}>
+                              {correct ? `✅ ${t("Đúng", "Correct")}` : `❌ ${t("Đáp án", "Answer")}: ${ex.answer}`}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div className="flex gap-2 pt-2">
+                    {!fibChecked ? (
+                      <Button onClick={() => setFibChecked(true)} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                        {t("Kiểm tra", "Check Answers")}
+                      </Button>
+                    ) : (
+                      <Button onClick={() => { setFibChecked(false); setFibAnswers({}); }} variant="outline">
+                        {t("Làm lại", "Try Again")}
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
 
           {/* LISTENING TAB */}
           <TabsContent value="listening">
