@@ -343,25 +343,25 @@ const ProgrammingLessonPage = () => {
                       <BookOpen className="w-5 h-5 text-primary" />
                       Theory
                     </h2>
-                    <div className="prose prose-sm sm:prose-base max-w-none text-secondary-foreground
-                      prose-headings:text-foreground prose-headings:font-semibold prose-headings:scroll-mt-24
-                      prose-h1:text-2xl prose-h1:mt-6 prose-h1:mb-3
-                      prose-h2:text-xl prose-h2:mt-6 prose-h2:mb-2 prose-h2:pb-1 prose-h2:border-b prose-h2:border-border
-                      prose-h3:text-lg prose-h3:mt-5 prose-h3:mb-2 prose-h3:text-primary
-                      prose-h4:text-base prose-h4:mt-4 prose-h4:mb-1
-                      prose-p:my-2 prose-p:leading-relaxed
+                    <div className="prose prose-sm max-w-none text-foreground/90 leading-relaxed
+                      prose-headings:text-foreground prose-headings:font-semibold prose-headings:scroll-mt-24 prose-headings:tracking-tight
+                      prose-h1:text-[1.25rem] prose-h1:mt-6 prose-h1:mb-3 prose-h1:font-bold
+                      prose-h2:text-[1.05rem] prose-h2:mt-5 prose-h2:mb-2 prose-h2:font-semibold prose-h2:text-primary prose-h2:border-b prose-h2:border-border/60 prose-h2:pb-1
+                      prose-h3:text-[0.975rem] prose-h3:mt-4 prose-h3:mb-1.5 prose-h3:font-semibold prose-h3:text-foreground
+                      prose-h4:text-[0.925rem] prose-h4:mt-3 prose-h4:mb-1 prose-h4:font-semibold prose-h4:text-foreground/80
+                      prose-p:my-2 prose-p:text-[0.925rem] prose-p:leading-relaxed
                       prose-strong:text-foreground prose-strong:font-semibold
                       prose-ul:my-2 prose-ul:pl-5 prose-ol:my-2 prose-ol:pl-5
-                      prose-li:my-1 prose-li:marker:text-primary
-                      prose-code:text-primary prose-code:bg-primary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-[0.85em] prose-code:before:content-none prose-code:after:content-none
-                      prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:rounded-lg prose-pre:overflow-x-auto
-                      prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:not-italic prose-blockquote:text-foreground/90
+                      prose-li:my-0.5 prose-li:text-[0.925rem] prose-li:leading-relaxed prose-li:marker:text-primary
+                      prose-code:text-primary prose-code:bg-primary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-[0.825em] prose-code:font-medium prose-code:before:content-none prose-code:after:content-none
+                      prose-pre:bg-slate-950 prose-pre:text-slate-100 prose-pre:rounded-lg prose-pre:overflow-x-auto prose-pre:text-[0.85rem] prose-pre:my-3
+                      prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:not-italic prose-blockquote:text-foreground/90 prose-blockquote:font-normal
                       prose-a:text-primary prose-a:underline-offset-2 hover:prose-a:underline
-                      prose-hr:my-6 prose-hr:border-border
-                      prose-table:my-4 prose-table:text-sm prose-table:block prose-table:overflow-x-auto
-                      prose-thead:bg-secondary prose-thead:border-b prose-thead:border-border
-                      prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:font-semibold prose-th:text-foreground
-                      prose-td:px-3 prose-td:py-2 prose-td:border-t prose-td:border-border/50
+                      prose-hr:my-5 prose-hr:border-border
+                      prose-table:my-4 prose-table:text-[0.85rem] prose-table:block prose-table:overflow-x-auto prose-table:w-full
+                      prose-thead:bg-secondary/60 prose-thead:border-b prose-thead:border-border
+                      prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:font-semibold prose-th:text-foreground prose-th:text-[0.85rem]
+                      prose-td:px-3 prose-td:py-2 prose-td:border-t prose-td:border-border/50 prose-td:align-top
                       prose-tr:hover:bg-secondary/40">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {(lesson.theoryEn || lesson.theory || "").replace(/\\\$/g, "$")}
