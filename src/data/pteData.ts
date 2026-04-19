@@ -1227,16 +1227,126 @@ export const HIGHLIGHT_INCORRECT_BANK: PteHighlightIncorrect[] = [
 ];
 
 
-// ===== Combined banks (existing + expansion) for pages to consume =====
-export const READ_ALOUD_ALL: PteReadAloud[]            = [...READ_ALOUD_BANK, ...READ_ALOUD_EXPANSION];
-export const REPEAT_SENTENCE_ALL: PteRepeatSentence[]  = [...REPEAT_SENTENCE_BANK, ...REPEAT_SENTENCE_EXPANSION];
-export const ESSAY_ALL: PteEssayPrompt[]               = [...ESSAY_BANK, ...ESSAY_EXPANSION];
-export const SUMMARIZE_TEXT_ALL: PteSummarizeText[]    = [...SUMMARIZE_TEXT_BANK, ...SUMMARIZE_TEXT_EXPANSION];
-export const FILL_BLANK_ALL: PteFillBlank[]            = [...FILL_BLANK_BANK, ...FILL_BLANK_EXPANSION];
+// ===== 2026 Expansion 2 — additional task bank for SAT/PTE/Grammar refresh =====
+export const READ_ALOUD_EXPANSION_2: PteReadAloud[] = [
+  { id: "ra-36", topic: "Technology", difficulty: "hard", prepSeconds: 35, recordSeconds: 40, targetBand: "79+", realExam2026: true, category: "prediction", text: "Generative artificial intelligence has reshaped creative industries by producing text, images, and music in seconds. While critics worry about authenticity and copyright, supporters argue that the technology will democratise creative expression and accelerate productivity." },
+  { id: "ra-37", topic: "Health", difficulty: "medium", prepSeconds: 35, recordSeconds: 40, targetBand: "65", realExam2026: true, category: "daily", text: "Researchers have linked regular physical activity to a substantial reduction in the risk of cardiovascular disease. Even short walks taken several times a week can lower blood pressure and improve overall cardiac function." },
+  { id: "ra-38", topic: "Environment", difficulty: "hard", prepSeconds: 35, recordSeconds: 40, targetBand: "79+", realExam2026: true, category: "mock", text: "Coastal mangrove forests act as natural barriers against storm surges and protect inland communities from erosion. Restoration programmes across South-East Asia are being scaled rapidly to combine biodiversity gains with disaster resilience." },
+  { id: "ra-39", topic: "Society", difficulty: "medium", prepSeconds: 35, recordSeconds: 40, targetBand: "65", category: "daily", text: "Volunteer tutoring programmes have expanded across major cities to address educational inequality. By matching skilled mentors with students from underserved schools, these initiatives improve literacy and self-confidence in measurable ways." },
+  { id: "ra-40", topic: "Business", difficulty: "hard", prepSeconds: 35, recordSeconds: 40, targetBand: "79+", realExam2026: true, category: "prediction", text: "Remote-first companies are redesigning organisational culture around asynchronous communication, written documentation, and outcome-based performance reviews. Early evidence suggests that these practices improve retention while widening the global talent pool." }
+];
+
+export const REPEAT_SENTENCE_EXPANSION_2: PteRepeatSentence[] = [
+  { id: "rs-59", text: "Most universities now require digital portfolios for graduate applications.", recordSeconds: 15, targetBand: "65", realExam2026: true, category: "prediction", accent: "US" },
+  { id: "rs-60", text: "Climate scientists are building higher-resolution models of Antarctic ice loss.", recordSeconds: 15, targetBand: "79+", realExam2026: true, category: "mock", accent: "UK" },
+  { id: "rs-61", text: "The library will introduce extended evening hours during exam season.", recordSeconds: 15, targetBand: "50", category: "daily", accent: "AU" },
+  { id: "rs-62", text: "Many start-ups rely on cloud platforms to scale services rapidly.", recordSeconds: 15, targetBand: "65", category: "daily", accent: "US" },
+  { id: "rs-63", text: "Government grants encourage rural communities to adopt clean energy systems.", recordSeconds: 15, targetBand: "79+", realExam2026: true, category: "prediction", accent: "UK" }
+];
+
+export const DESCRIBE_IMAGE_EXPANSION_2: PteDescribeImage[] = [
+  { id: "di-x1", title: "Bar chart: Global EV sales 2020–2025", chartType: "bar", prepSeconds: 25, recordSeconds: 40, targetBand: "79+", realExam2026: true, category: "prediction",
+    emojiVisual: "📊 EV Sales (millions)\n2020 ▇▇ 3.2\n2021 ▇▇▇▇ 6.6\n2022 ▇▇▇▇▇▇ 10.5\n2023 ▇▇▇▇▇▇▇ 13.6\n2024 ▇▇▇▇▇▇▇▇ 17.1\n2025 ▇▇▇▇▇▇▇▇▇ 21.0",
+    keywords: ["bar chart", "electric vehicle", "global sales", "increase", "rapid growth", "2020", "2025", "doubled", "tripled", "trend"],
+    modelAnswer: "The bar chart shows global electric vehicle sales between 2020 and 2025. Sales grew from roughly three million units in 2020 to about twenty-one million in 2025, a sevenfold increase. The fastest acceleration occurred between 2021 and 2024, after which growth continued at a steady pace. Overall, the chart highlights a sustained upward trend driven by policy incentives and falling battery costs." },
+  { id: "di-x2", title: "Pie chart: Household energy consumption", chartType: "pie", prepSeconds: 25, recordSeconds: 40, targetBand: "65", realExam2026: true, category: "daily",
+    emojiVisual: "🥧 Heating 42% • Appliances 24% • Water heating 14% • Lighting 10% • Cooking 6% • Other 4%",
+    keywords: ["pie chart", "household", "energy", "heating", "appliances", "largest", "smallest", "percentage", "consumption"],
+    modelAnswer: "The pie chart displays the breakdown of household energy consumption. Heating accounts for the largest share at about forty-two percent, followed by appliances at roughly a quarter. Water heating, lighting, and cooking together represent another thirty percent, while a small remainder is classified as other. The chart suggests that improving heating efficiency would have the greatest impact on overall household energy use." },
+  { id: "di-x3", title: "Process: Coffee bean to cup", chartType: "process", prepSeconds: 25, recordSeconds: 40, targetBand: "65", category: "mock",
+    emojiVisual: "🌱 Plant → 🌳 Grow 3-4 yrs → 🍒 Harvest cherries → 🌞 Dry → 🧴 Hull → 🔥 Roast → ⚙ Grind → ☕ Brew",
+    keywords: ["process", "coffee", "stages", "first", "next", "then", "finally", "harvest", "roast", "brew"],
+    modelAnswer: "The diagram outlines the eight stages of producing coffee from plant to cup. Coffee trees are first planted and grown for three to four years before the cherries are harvested. The cherries are then dried and hulled to extract the beans. Next, the beans are roasted, ground, and finally brewed to produce a cup of coffee. The process highlights how a single cup depends on a long agricultural and industrial chain." }
+];
+
+export const ESSAY_EXPANSION_2: PteEssayPrompt[] = [
+  { id: "es-19", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "79+", realExam2026: true, category: "prediction",
+    prompt: "Some people believe that artificial intelligence will create more jobs than it destroys, while others fear widespread unemployment. Discuss both views and give your own opinion.",
+    modelOutline: "Intro → AI as job creator → AI as job destroyer → Your opinion → Conclusion" },
+  { id: "es-20", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "79+", realExam2026: true, category: "mock",
+    prompt: "Universities should focus on practical, employment-related skills rather than purely academic subjects. To what extent do you agree or disagree?",
+    modelOutline: "Intro → Practical skills argument → Academic value argument → Balanced opinion → Conclusion" },
+  { id: "es-21", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "65", realExam2026: true, category: "daily",
+    prompt: "Online communication has weakened the quality of face-to-face relationships. Do you agree or disagree?",
+    modelOutline: "Intro → Negative effects → Positive effects → Your opinion → Conclusion" }
+];
+
+export const SUMMARIZE_TEXT_EXPANSION_2: PteSummarizeText[] = [
+  { id: "st-x1", minWords: 5, maxWords: 75, timeMinutes: 10, targetBand: "79+", realExam2026: true, category: "prediction",
+    passage: "Recent research suggests that short, frequent breaks during study sessions improve long-term retention more effectively than extended uninterrupted work. Studies of university learners show that those who paused every twenty-five to thirty minutes for a five-minute rest performed better on delayed recall tests than peers who studied for two continuous hours. Researchers attribute the effect to memory consolidation, which appears to occur during low-effort intervals when the brain organises and stores newly acquired information.",
+    keyPoints: ["short frequent breaks", "improve retention", "twenty-five to thirty minute intervals", "memory consolidation"] },
+  { id: "st-x2", minWords: 5, maxWords: 75, timeMinutes: 10, targetBand: "65", category: "daily",
+    passage: "Public bicycle-sharing schemes have transformed urban mobility in many large cities by providing affordable short-distance transport. The systems reduce car dependency, lower greenhouse-gas emissions, and improve last-mile connectivity around public transit hubs. However, operators continue to face challenges including theft, vandalism, uneven station distribution, and the difficulty of redistributing bikes from low-demand to high-demand areas.",
+    keyPoints: ["public bicycle-sharing", "urban mobility", "reduce emissions", "operational challenges"] },
+  { id: "st-x3", minWords: 5, maxWords: 75, timeMinutes: 10, targetBand: "79+", realExam2026: true, category: "mock",
+    passage: "Indigenous fire-management techniques, used for thousands of years across northern Australia, are now being integrated into modern wildfire prevention strategies. By conducting controlled, low-intensity burns during cooler months, communities reduce fuel loads and limit the scale of catastrophic dry-season fires. Scientists report that this hybrid approach also lowers carbon emissions and protects culturally significant landscapes.",
+    keyPoints: ["indigenous fire-management", "controlled burns", "wildfire prevention", "lower carbon emissions"] }
+];
+
+export const FILL_BLANK_EXPANSION_2: PteFillBlank[] = [
+  { id: "fb-34", targetBand: "65", realExam2026: true, category: "prediction",
+    passage: "The new policy aims to {{1}} student debt while ensuring universities continue to {{2}} world-class research.",
+    options: ["reduce", "expand", "fund", "ignore", "block", "delete"],
+    answers: ["reduce", "fund"] },
+  { id: "fb-35", targetBand: "79+", realExam2026: true, category: "mock",
+    passage: "Innovative startups often {{1}} traditional industries by offering services that are faster, cheaper, and more {{2}} to consumer needs.",
+    options: ["disrupt", "support", "responsive", "blind", "ignore", "harmful"],
+    answers: ["disrupt", "responsive"] },
+  { id: "fb-36", targetBand: "65", category: "daily",
+    passage: "Local councils {{1}} community gardens because they {{2}} both healthy eating and neighbourhood cohesion.",
+    options: ["promote", "ban", "encourage", "prevent", "ignore", "weaken"],
+    answers: ["promote", "encourage"] }
+];
+
+export const MCQ_EXPANSION: PteMcq[] = [
+  { id: "mcq-21", topic: "Education", targetBand: "65", realExam2026: true, category: "prediction",
+    passage: "Project-based learning shifts students from passive listening to active investigation. By tackling real-world problems, learners develop research, collaboration, and presentation skills that traditional lectures rarely cultivate.",
+    question: "What is the central benefit highlighted?",
+    options: ["Lower tuition fees", "Active development of multiple skills", "Faster completion of degrees", "Reduced need for teachers"],
+    correctIndices: [1] },
+  { id: "mcq-22", topic: "Environment", targetBand: "79+", realExam2026: true, category: "mock",
+    passage: "Reforestation projects sequester carbon, restore wildlife habitats, and stabilise soils. However, planting non-native species can sometimes harm local ecosystems and reduce groundwater availability.",
+    question: "Select all benefits AND drawbacks mentioned.",
+    options: ["Carbon sequestration", "Habitat restoration", "Groundwater depletion", "Increased air pollution"],
+    correctIndices: [0, 1, 2] },
+  { id: "mcq-23", topic: "Health", targetBand: "65", category: "daily",
+    passage: "Telemedicine allows patients to consult doctors remotely, reducing travel time and easing pressure on hospitals. Yet limited internet access in rural areas continues to constrain its full benefit.",
+    question: "What barrier to telemedicine does the passage identify?",
+    options: ["High medication costs", "Limited rural internet access", "Lack of qualified doctors", "Patient unwillingness"],
+    correctIndices: [1] }
+];
+
+export const HIGHLIGHT_INCORRECT_EXPANSION: PteHighlightIncorrect[] = [
+  { id: "hi-16", topic: "Health", targetBand: "65", realExam2026: true, category: "prediction", accent: "US",
+    audioText: "Doctors recommend regular exercise for better cardiovascular health.",
+    displayText: "Doctors recommend regular exercise for better cardiovascular wealth.",
+    incorrectIndices: [7] },
+  { id: "hi-17", topic: "Education", targetBand: "79+", realExam2026: true, category: "mock", accent: "UK",
+    audioText: "Universities are expanding their online learning offerings worldwide.",
+    displayText: "Universities are expanding their online earning offerings worldwide.",
+    incorrectIndices: [5] }
+];
+
+export const DICTATION_EXPANSION_2: PteDictation[] = [
+  { id: "dc-61", difficulty: "medium", targetBand: "65", realExam2026: true, category: "prediction", accent: "UK", audioText: "Many graduates pursue further training to remain competitive in the job market." },
+  { id: "dc-62", difficulty: "hard", targetBand: "79+", realExam2026: true, category: "mock", accent: "US", audioText: "Sustainable agriculture relies on careful management of soil, water, and biodiversity." },
+  { id: "dc-63", difficulty: "easy", targetBand: "50", category: "daily", accent: "AU", audioText: "The library is closed on public holidays and Sundays." },
+  { id: "dc-64", difficulty: "medium", targetBand: "65", realExam2026: true, category: "daily", accent: "UK", audioText: "Researchers shared their preliminary findings at the international conference." },
+  { id: "dc-65", difficulty: "hard", targetBand: "79+", realExam2026: true, category: "prediction", accent: "US", audioText: "Modern economies depend increasingly on digital infrastructure and skilled workers." }
+];
+
+// ===== Combined banks (existing + all expansions) for pages to consume =====
+export const READ_ALOUD_ALL: PteReadAloud[]            = [...READ_ALOUD_BANK, ...READ_ALOUD_EXPANSION, ...READ_ALOUD_EXPANSION_2];
+export const REPEAT_SENTENCE_ALL: PteRepeatSentence[]  = [...REPEAT_SENTENCE_BANK, ...REPEAT_SENTENCE_EXPANSION, ...REPEAT_SENTENCE_EXPANSION_2];
+export const ESSAY_ALL: PteEssayPrompt[]               = [...ESSAY_BANK, ...ESSAY_EXPANSION, ...ESSAY_EXPANSION_2];
+export const SUMMARIZE_TEXT_ALL: PteSummarizeText[]    = [...SUMMARIZE_TEXT_BANK, ...SUMMARIZE_TEXT_EXPANSION, ...SUMMARIZE_TEXT_EXPANSION_2];
+export const FILL_BLANK_ALL: PteFillBlank[]            = [...FILL_BLANK_BANK, ...FILL_BLANK_EXPANSION, ...FILL_BLANK_EXPANSION_2];
 export const REORDER_ALL: PteReorderItem[]             = [...REORDER_BANK, ...REORDER_EXPANSION];
-export const DICTATION_ALL: PteDictation[]             = [...DICTATION_BANK, ...DICTATION_EXPANSION];
+export const DICTATION_ALL: PteDictation[]             = [...DICTATION_BANK, ...DICTATION_EXPANSION, ...DICTATION_EXPANSION_2];
 export const SUMMARIZE_SPOKEN_ALL: PteSummarizeSpoken[]= [...SUMMARIZE_SPOKEN_BANK, ...SUMMARIZE_SPOKEN_EXPANSION];
-export const DESCRIBE_IMAGE_ALL: PteDescribeImage[]    = [...DESCRIBE_IMAGE_BANK, ...DESCRIBE_IMAGE_EXPANSION];
+export const DESCRIBE_IMAGE_ALL: PteDescribeImage[]    = [...DESCRIBE_IMAGE_BANK, ...DESCRIBE_IMAGE_EXPANSION, ...DESCRIBE_IMAGE_EXPANSION_2];
+export const MCQ_ALL: PteMcq[]                         = [...MCQ_BANK, ...MCQ_EXPANSION];
+export const HIGHLIGHT_INCORRECT_ALL: PteHighlightIncorrect[] = [...HIGHLIGHT_INCORRECT_BANK, ...HIGHLIGHT_INCORRECT_EXPANSION];
 
 // Total count of practice items across all task types (used by the PTE Peak progress bar)
 export const PTE_TOTAL_TASKS =
