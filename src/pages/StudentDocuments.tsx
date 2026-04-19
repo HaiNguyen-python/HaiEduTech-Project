@@ -383,8 +383,20 @@ const StudentDocuments = () => {
                           </div>
                           <div className="flex-1 min-w-[160px]">
                             <div className="font-semibold text-sm truncate">{doc.display_name}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {(doc.size_bytes / 1024).toFixed(0)} KB • {new Date(doc.created_at).toLocaleDateString()}
+                            <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-x-2">
+                              <span>{(doc.size_bytes / 1024).toFixed(0)} KB</span>
+                              <span>•</span>
+                              <span>{new Date(doc.created_at).toLocaleDateString()}</span>
+                              {(() => {
+                                const exp = getExpiryInfo(doc.expiry_date);
+                                if (!exp) return null;
+                                return (
+                                  <Badge variant="outline" className={`text-[10px] gap-1 border ${exp.colorClass}`}>
+                                    {exp.status === "expired" || exp.status === "warning" ? <AlertTriangle className="w-2.5 h-2.5" /> : <CalendarClock className="w-2.5 h-2.5" />}
+                                    {t(exp.labelVi, exp.labelEn)}
+                                  </Badge>
+                                );
+                              })()}
                             </div>
                           </div>
                           <Select value={doc.status} onValueChange={(v) => handleStatus(doc, v as StatusTag)}>
@@ -405,6 +417,9 @@ const StudentDocuments = () => {
                             </Button>
                             <Button size="sm" variant="ghost" onClick={() => downloadFile(doc)} title={t("Tải xuống", "Download")}>
                               <Download className="w-4 h-4" />
+                            </Button>
+                            <Button size="sm" variant="ghost" onClick={() => { setExpiryTarget(doc); setExpiryValue(doc.expiry_date || ""); }} title={t("Ngày hết hạn", "Expiry date")}>
+                              <CalendarClock className="w-4 h-4" />
                             </Button>
                             <Button size="sm" variant="ghost" onClick={() => { setRenameTarget(doc); setRenameValue(doc.display_name); }} title={t("Đổi tên", "Rename")}>
                               <Pencil className="w-4 h-4" />
