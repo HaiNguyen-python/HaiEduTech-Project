@@ -261,8 +261,11 @@ const StudentDocuments = () => {
                 </p>
               </div>
             </div>
-            <div className="text-xs text-muted-foreground">
-              {docs.length}/{MAX_FILES_PER_USER} {t("file • Tối đa 10MB/file", "files • Max 10MB/file")}
+            <div className="flex items-center gap-3 flex-wrap">
+              <div className="text-xs text-muted-foreground">
+                {docs.length}/{MAX_FILES_PER_USER} {t("file • Tối đa 10MB/file", "files • Max 10MB/file")}
+              </div>
+              <GlobalScholarBadge userId={userId} />
             </div>
           </motion.div>
 
