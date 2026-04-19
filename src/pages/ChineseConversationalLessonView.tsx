@@ -289,6 +289,70 @@ const ChineseConversationalLessonView = () => {
             </div>
           </TabsContent>
 
+          {/* EXERCISES TAB - Fill in the blank */}
+          {lesson.fillInBlankExercises && lesson.fillInBlankExercises.length > 0 && (
+            <TabsContent value="exercises">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BookOpen className="h-5 w-5 text-purple-500" />
+                    {t("Bài tập điền từ", "Fill in the Blank")}
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    {t("Điền từ tiếng Trung phù hợp vào chỗ trống.", "Fill in the correct Chinese word for each blank.")}
+                  </p>
+                </CardHeader>
+                <CardContent className="space-y-5">
+                  {lesson.fillInBlankExercises.map((ex, idx) => {
+                    const userAns = (fibAnswers[idx] || "").trim();
+                    const correct = userAns === ex.answer;
+                    return (
+                      <div key={idx} className="border rounded-lg p-4 bg-card space-y-2">
+                        <div className="flex items-start gap-2">
+                          <span className="text-sm font-bold text-purple-600 min-w-[28px]">{idx + 1}.</span>
+                          <div className="flex-1">
+                            <p className="text-lg font-semibold leading-relaxed">{ex.sentence}</p>
+                            <p className="text-sm text-muted-foreground italic mt-1">{ex.pinyin}</p>
+                            <p className="text-sm text-muted-foreground mt-1">🇻🇳 {ex.translationVi}</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pl-9">
+                          <input
+                            type="text"
+                            value={fibAnswers[idx] || ""}
+                            onChange={(e) => setFibAnswers({ ...fibAnswers, [idx]: e.target.value })}
+                            placeholder={t("Nhập đáp án...", "Type answer...")}
+                            className="border rounded-md px-3 py-2 text-base bg-background min-w-[140px]"
+                            disabled={fibChecked}
+                          />
+                          {ex.hint && !fibChecked && (
+                            <span className="text-xs text-amber-600 dark:text-amber-400">💡 {ex.hint}</span>
+                          )}
+                          {fibChecked && (
+                            <span className={`text-sm font-semibold ${correct ? "text-emerald-600" : "text-red-600"}`}>
+                              {correct ? `✅ ${t("Đúng", "Correct")}` : `❌ ${t("Đáp án", "Answer")}: ${ex.answer}`}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div className="flex gap-2 pt-2">
+                    {!fibChecked ? (
+                      <Button onClick={() => setFibChecked(true)} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                        {t("Kiểm tra", "Check Answers")}
+                      </Button>
+                    ) : (
+                      <Button onClick={() => { setFibChecked(false); setFibAnswers({}); }} variant="outline">
+                        {t("Làm lại", "Try Again")}
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
+
           {/* LISTENING TAB */}
           <TabsContent value="listening">
             <Card>
