@@ -161,6 +161,15 @@ const Navbar = () => {
     { to: "/programming/job-opportunities", label: t("🎯 Cơ hội Việc làm 🇫🇮", "🎯 Job Opportunities 🇫🇮") },
   ];
 
+  const studyAbroadSubs: SubItem[] = [
+    { to: "/study-abroad", label: t("🌍 Tổng quan", "🌍 Overview"), icon: Compass },
+    { to: "/study-abroad/documents", label: t("📁 Hồ sơ của tôi", "📁 My Documents"), icon: FolderLock },
+    { to: "/study-abroad/motivation-letter", label: t("✍️ Motivation Letter", "✍️ Motivation Letter"), icon: FileText },
+    { to: "/study-abroad/sat", label: t("🧭 Lộ trình SAT", "🧭 SAT Roadmap"), icon: Compass },
+    { to: "/study-abroad/phd", label: t("🎓 PhD Pathway", "🎓 PhD Pathway"), icon: GraduationCap },
+    { to: "/global-scholarship", label: t("💰 Học bổng AI", "💰 AI Scholarships"), icon: Newspaper },
+  ];
+
   const baseLinks = [
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap },
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain },
@@ -169,7 +178,7 @@ const Navbar = () => {
     { to: "/learn-vietnamese", label: t("Học Tiếng Việt", "Learn Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
     { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), icon: Languages, subs: finnishSubs, key: "fi" },
     { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
-    { to: "/global-scholarship", label: t("Học Bổng", "Scholarship"), icon: Newspaper },
+    { to: "/study-abroad", label: t("Du Học", "Study Abroad"), icon: Briefcase, subs: studyAbroadSubs, key: "abroad" },
     { to: "/for-vietnamese-children", label: t("Vì Trẻ Em VN", "For Vietnamese Children"), icon: Heart },
   ];
 
