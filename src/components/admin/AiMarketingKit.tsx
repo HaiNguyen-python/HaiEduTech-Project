@@ -123,6 +123,12 @@ const GOALS = [
   { value: "Flash Sale", label: "⚡ Flash Sale" },
 ];
 
+const VIDEO_FORMATS = [
+  { value: "tiktok", label: "🎵 TikTok (9:16)" },
+  { value: "reels", label: "📸 Instagram Reels (9:16)" },
+  { value: "shorts", label: "▶️ YouTube Shorts (9:16)" },
+];
+
 const VARIATION_META: Record<
   string,
   { icon: typeof Heart; color: string; bg: string }
