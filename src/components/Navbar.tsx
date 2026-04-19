@@ -19,6 +19,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import teacherLogo from "@/assets/teacher-logo.png";
 import teacherWave from "@/assets/teacher-wave.png";
+import GlobalSearch from "@/components/GlobalSearch";
 
 // Sub-item with optional icon and nested children
 interface SubItem {
@@ -316,6 +317,7 @@ const Navbar = () => {
                     </Link>
                   </>
                 )}
+                <GlobalSearch variant="icon" />
                 <button onClick={() => setLang(lang === "vi" ? "en" : "vi")}
                   className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                   <Globe className="w-3.5 h-3.5" />
@@ -325,6 +327,7 @@ const Navbar = () => {
 
               {/* Mobile: lang + hamburger — same row as logo */}
               <div className="flex items-center gap-1 lg:hidden">
+                <GlobalSearch variant="icon" />
                 <button onClick={() => setLang(lang === "vi" ? "en" : "vi")} className="text-foreground p-2 rounded-md hover:bg-secondary transition-colors">
                   <Globe className="w-4 h-4" />
                 </button>

@@ -23,6 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import GlobalScholarBadge from "@/components/GlobalScholarBadge";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
 const MAX_FILES_PER_USER = 50;
@@ -157,6 +158,19 @@ const StudentDocuments = () => {
       setUploadProgress(100);
       toast({ title: t("Tải lên thành công", "Uploaded"), description: file.name });
       await fetchDocs(userId);
+      // Award Global Scholar badge if criteria met (idempotent server-side check)
+      try {
+        const { data: badgeRes } = await supabase.rpc("award_global_scholar_badge");
+        const res = badgeRes as { newly_earned?: boolean } | null;
+        if (res?.newly_earned) {
+          toast({
+            title: t("🌍 Bạn vừa nhận huy hiệu!", "🌍 New Badge Unlocked!"),
+            description: t("Global Scholar — Hành trình du học bắt đầu!", "Global Scholar — Your study abroad journey has begun!"),
+          });
+        }
+      } catch {
+        // Silent — badge award is non-critical
+      }
     } catch (err: any) {
       toast({ title: t("Lỗi tải lên", "Upload failed"), description: err.message, variant: "destructive" });
     } finally {
@@ -248,8 +262,11 @@ const StudentDocuments = () => {
                 </p>
               </div>
             </div>
-            <div className="text-xs text-muted-foreground">
-              {docs.length}/{MAX_FILES_PER_USER} {t("file • Tối đa 10MB/file", "files • Max 10MB/file")}
+            <div className="flex items-center gap-3 flex-wrap">
+              <div className="text-xs text-muted-foreground">
+                {docs.length}/{MAX_FILES_PER_USER} {t("file • Tối đa 10MB/file", "files • Max 10MB/file")}
+              </div>
+              <GlobalScholarBadge userId={userId} />
             </div>
           </motion.div>
 
