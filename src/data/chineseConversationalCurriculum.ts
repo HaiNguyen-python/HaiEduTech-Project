@@ -2101,6 +2101,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         speakingTopics: ["Describe how to handle workplace conflict", "Role-play resolving a project disagreement"],
       },
     ],
+  },
   {
     id: "social",
     title: "Advanced Socializing",
