@@ -270,33 +270,225 @@ for animal in animals:
         id: "py-dec-1",
         title: "Decorators",
         titleEn: "Decorators",
-        theory: `# Decorators
+        theory: `**Decorator** là một trong những tính năng mạnh mẽ và "Pythonic" nhất. Nó cho phép bạn **thêm chức năng cho function/class mà không sửa code gốc** — hiện thân của nguyên tắc Open/Closed (mở để mở rộng, đóng để sửa đổi).
 
-## Decorator là gì?
-Decorator là một hàm bao bọc (wrap) hàm khác để thêm chức năng mà không sửa code gốc.
+## Vì sao cần Decorator?
 
-## Cú pháp
+Hãy tưởng tượng bạn có 50 API endpoints và muốn:
+- Log mỗi lần được gọi (ai, khi nào, mất bao lâu)
+- Kiểm tra authentication
+- Cache kết quả 60 giây
+- Đo performance
+
+Cách "ngu ngốc": copy-paste code log/auth/cache vào 50 endpoint → 50 lần sửa khi đổi logic. Cách Pythonic: viết 1 decorator, dùng \`@auth\`, \`@log\`, \`@cache\` — sạch và DRY.
+
+## Cơ chế: Function là First-class Citizen
+
+Trong Python, function là object — có thể gán vào biến, truyền làm tham số, return từ function khác:
 \`\`\`python
-def my_decorator(func):
+def greet(name):
+    return f"Hello {name}"
+
+say_hi = greet           # function gán vào biến
+print(say_hi("An"))      # Hello An
+\`\`\`
+
+Decorator tận dụng đặc tính này: nhận function, return function mới (đã wrap thêm logic).
+
+## Cú pháp & Cấu trúc đầy đủ
+
+\`\`\`python
+import functools
+
+def log_calls(func):
+    @functools.wraps(func)             # giữ metadata gốc
     def wrapper(*args, **kwargs):
-        print("Before function")
+        print(f"→ Calling {func.__name__}({args}, {kwargs})")
         result = func(*args, **kwargs)
-        print("After function")
+        print(f"← {func.__name__} returned {result}")
         return result
     return wrapper
 
-@my_decorator
-def say_hello(name):
-    print(f"Hello, {name}!")
+@log_calls
+def add(a, b):
+    return a + b
+# add(2, 3) tương đương add = log_calls(add); add(2, 3)
 \`\`\`
 
-## Ứng dụng thực tế
-- Logging (ghi log)
-- Đo thời gian chạy (timing)
-- Kiểm tra quyền truy cập (authentication)
-- Caching (lưu cache)`,
-        theoryEn: `# Decorators
-A decorator wraps a function to add functionality without modifying the original code. Common uses: logging, timing, authentication, caching.`,
+\`@functools.wraps\` rất quan trọng — không có nó, \`add.__name__\` sẽ thành \`"wrapper"\`, làm hỏng debugging và introspection.
+
+## Decorator có tham số
+
+\`\`\`python
+def retry(max_attempts=3, delay=1):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_attempts):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    if attempt == max_attempts - 1:
+                        raise
+                    time.sleep(delay)
+        return wrapper
+    return decorator
+
+@retry(max_attempts=5, delay=2)
+def call_api(url): ...
+\`\`\`
+
+3 tầng lồng: outer (nhận tham số) → middle (nhận func) → inner (thực thi).
+
+## Decorator trong các framework lớn
+
+| Framework | Decorator | Công dụng |
+|-----------|-----------|-----------|
+| **Flask** | \`@app.route("/users")\` | Đăng ký URL routing |
+| **FastAPI** | \`@app.get("/api/items")\` | Endpoint + validation |
+| **Django** | \`@login_required\` | Bảo vệ view |
+| **Pytest** | \`@pytest.fixture\` | Inject test dependencies |
+| **Celery** | \`@task\` | Async task queue |
+| **Click** | \`@click.command()\` | CLI commands |
+| **Numba** | \`@jit\` | Compile thành machine code |
+
+Hiểu decorator = hiểu cách 90% framework Python hoạt động bên dưới.
+
+## Built-in decorators quan trọng
+
+| Decorator | Mục đích |
+|-----------|----------|
+| \`@staticmethod\` | Method không cần \`self\` |
+| \`@classmethod\` | Method nhận \`cls\` thay vì \`self\` |
+| \`@property\` | Biến getter thành "fake attribute" |
+| \`@functools.cache\` | Memoization tự động (Python 3.9+) |
+| \`@functools.lru_cache(maxsize=128)\` | Cache với giới hạn |
+| \`@dataclass\` | Auto-gen \`__init__\`, \`__repr__\` |
+
+## Case study: Cache giảm 95% latency
+
+Một startup fintech dùng \`@functools.lru_cache\` cho hàm \`get_exchange_rate(from, to)\` gọi API Forex (mất 200ms/call). Sau khi thêm cache:
+- Trước: 1000 req/s × 200ms = quá tải
+- Sau: 99% hit cache, p99 latency từ 200ms → 8ms
+- Tiết kiệm $4000/tháng tiền API + giảm tải hệ thống
+
+Một dòng \`@lru_cache(maxsize=10000)\` đem lại impact khổng lồ.
+
+## Best Practices ✅
+
+- ✅ Luôn dùng \`@functools.wraps(func)\` để giữ metadata
+- ✅ Decorator phải transparent — không thay đổi behavior cốt lõi
+- ✅ Tài liệu hóa rõ side effects (log, cache, retry)
+- ✅ Đặt tên động từ: \`@cache\`, \`@retry\`, \`@validate\`
+- ✅ Test riêng decorator với function dummy
+
+## Anti-patterns ❌
+
+- ❌ Quên \`@functools.wraps\` → debugging trở nên ác mộng
+- ❌ Quá nhiều decorator chồng lên (\`@a @b @c @d def f()\`) → khó hiểu thứ tự
+- ❌ Decorator có state mutation chia sẻ giữa các call → race condition
+- ❌ Dùng decorator thay vì utility function khi không cần wrap
+
+## Khi nào dùng?
+
+✅ **Nên:** Cross-cutting concerns (logging, auth, cache, retry, timing), framework hooks (route, fixture), code lặp lại trên nhiều function.
+
+❌ **Không nên:** Logic phức tạp riêng cho 1 function, khi cần debug step-by-step (decorator làm stack trace dài hơn), khi composition function rõ ràng hơn.
+
+## Bridge: Bài tiếp theo
+
+**Generators** — kỹ thuật Python xử lý dữ liệu lớn mà không cần load vào RAM. Khi kết hợp với decorator, bạn có thể xây pipeline xử lý hàng tỉ records trên laptop cá nhân.`,
+        theoryEn: `**Decorator** is one of Python's most powerful features — it adds functionality to functions/classes **without modifying source** (Open/Closed principle).
+
+## Why Decorators?
+
+50 API endpoints needing logging, auth, caching? Without decorators: copy-paste 50 times. With decorators: \`@auth\`, \`@log\`, \`@cache\` — clean and DRY.
+
+## Mechanism: Functions are First-class
+
+\`\`\`python
+def greet(name): return f"Hi {name}"
+say_hi = greet           # functions can be assigned
+\`\`\`
+
+Decorators leverage this: take a function, return a wrapped one.
+
+## Full Syntax
+
+\`\`\`python
+import functools
+
+def log_calls(func):
+    @functools.wraps(func)              # preserve metadata!
+    def wrapper(*args, **kwargs):
+        print(f"→ {func.__name__}({args})")
+        result = func(*args, **kwargs)
+        print(f"← returned {result}")
+        return result
+    return wrapper
+
+@log_calls
+def add(a, b): return a + b
+\`\`\`
+
+Without \`@functools.wraps\`, \`add.__name__\` becomes \`"wrapper"\` — breaks debugging.
+
+## Parametrized Decorators
+
+\`\`\`python
+def retry(max_attempts=3):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            for i in range(max_attempts):
+                try: return func(*args, **kw)
+                except: 
+                    if i == max_attempts - 1: raise
+        return wrapper
+    return decorator
+\`\`\`
+
+3 layers: outer (params) → middle (func) → inner (execution).
+
+## Decorators in Major Frameworks
+
+| Framework | Decorator | Purpose |
+|-----------|-----------|---------|
+| **Flask/FastAPI** | \`@app.route\` | URL routing |
+| **Django** | \`@login_required\` | Auth protection |
+| **Pytest** | \`@pytest.fixture\` | Test deps |
+| **Celery** | \`@task\` | Async queue |
+| **Numba** | \`@jit\` | Native compilation |
+
+## Built-ins You Must Know
+
+\`@staticmethod\`, \`@classmethod\`, \`@property\`, \`@functools.cache\`, \`@functools.lru_cache\`, \`@dataclass\`.
+
+## Case study: 95% latency reduction
+
+A fintech startup added \`@lru_cache(maxsize=10000)\` to \`get_exchange_rate()\`. p99 dropped from 200ms → 8ms, saving $4000/month in API costs.
+
+## Best Practices ✅
+
+- Always use \`@functools.wraps(func)\`
+- Decorators should be transparent
+- Document side effects clearly
+- Verb-form names: \`@cache\`, \`@retry\`
+
+## Anti-patterns ❌
+
+- Forgetting \`@wraps\` → debugging hell
+- Stacking too many decorators
+- Mutable shared state in decorators → race conditions
+
+## When to Use
+
+✅ Cross-cutting concerns (log, auth, cache, retry), framework hooks
+❌ Function-specific complex logic, when composition is clearer
+
+## Bridge
+
+Next: **Generators** — process huge datasets without loading into RAM.`,
         code: `import time
 
 def timer(func):
