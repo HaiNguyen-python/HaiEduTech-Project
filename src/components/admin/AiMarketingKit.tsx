@@ -332,7 +332,7 @@ export default function AiMarketingKit() {
     toast.success("⬇️ Script downloaded!");
   };
 
-
+  const formatCopy = (v: CopyVariation): string => {
     let txt = `${v.headline}\n\n${v.body}\n\n`;
     if (v.benefits?.length) {
       txt += v.benefits.map((b) => `✅ ${b}`).join("\n") + "\n\n";
