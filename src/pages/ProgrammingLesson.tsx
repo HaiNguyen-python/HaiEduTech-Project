@@ -44,6 +44,8 @@ function getPillarForModule(moduleId: string): string | null {
     "cloud-network-security": "cloud",
     "cloud-serverless-devops": "cloud",
     "cloud-architecture-cost": "cloud",
+    "cloud-ops-resilience": "cloud",
+    "cloud-strategy-cost": "cloud",
   };
   if (directMap[moduleId]) return directMap[moduleId];
 
