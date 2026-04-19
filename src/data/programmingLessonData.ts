@@ -9,7 +9,7 @@ export interface ProgrammingModule {
   color: string;
   description: string;
   descriptionEn: string;
-  course: "kids" | "data-ai" | "python" | "sql" | "data-eng" | "ml";
+  course: "kids" | "data-ai" | "python" | "sql" | "data-eng" | "ml" | "cloud";
   lessons: ProgrammingLesson[];
 }
 
