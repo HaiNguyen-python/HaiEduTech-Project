@@ -145,11 +145,11 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
         <Button
           size="sm"
           onClick={handleRun}
-          disabled={running || loading}
-          className="bg-[#50fa7b] text-[#282a36] hover:bg-[#69ff94] font-bold"
+          disabled={running}
+          className="bg-[#50fa7b] text-[#282a36] hover:bg-[#69ff94] font-bold disabled:opacity-60"
         >
-          {running ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Play className="w-4 h-4 mr-1" />}
-          Run
+          {running || (loading && !ready) ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Play className="w-4 h-4 mr-1" />}
+          {loading && !ready ? "Loading…" : "Run"}
         </Button>
         <Button size="sm" variant="ghost" onClick={handleReset} className="text-[#f8f8f2] hover:bg-[#44475a]">
           <RotateCcw className="w-4 h-4 mr-1" /> Reset
