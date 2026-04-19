@@ -108,10 +108,26 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
           <span className="w-3 h-3 rounded-full bg-[#50fa7b]" />
           <span className="ml-2 font-mono text-[#bd93f9]">🐍 playground.py</span>
         </div>
-        <div className="text-[10px] text-[#6272a4] font-mono">
-          {loading ? `⏳ ${status}` : ready ? "● ready" : "○ idle"}
+        <div className="text-[10px] font-mono flex items-center gap-1">
+          {loading ? (
+            <span className="text-[#f1fa8c] flex items-center gap-1">
+              <Loader2 className="w-3 h-3 animate-spin" /> {status}
+            </span>
+          ) : ready ? (
+            <span className="text-[#50fa7b]">● ready</span>
+          ) : (
+            <span className="text-[#6272a4]">○ idle</span>
+          )}
         </div>
       </div>
+
+      {/* Loading banner — only shown on first load so user knows it's working */}
+      {loading && !ready && (
+        <div className="px-3 py-2 bg-[#bd93f9]/10 border-b border-[#44475a] text-xs text-[#bd93f9] flex items-center gap-2">
+          <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
+          <span className="flex-1">{status} — first run downloads ~10MB, then it's instant.</span>
+        </div>
+      )}
 
       {/* Editor */}
       <textarea
