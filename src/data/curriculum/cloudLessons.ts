@@ -1365,45 +1365,186 @@ print(f"VPC {vpc_id} ready: public={public['Subnet']['SubnetId']}, private={priv
         titleEn: "IAM: Identity & Access Management",
         level: 3,
         difficulty: "intermediate",
-        theory: `**IAM** quản lý **AI** được làm **GÌ** với **TÀI NGUYÊN** nào, **KHI NÀO**, **TỪ ĐÂU**. Đây là dịch vụ bảo mật quan trọng nhất cloud.
+        theory: `**IAM (Identity & Access Management)** trả lời 5 câu hỏi cốt lõi: **AI** (identity), được làm **GÌ** (action), với **TÀI NGUYÊN** nào (resource), **KHI NÀO** + **TỪ ĐÂU** (condition). Đây là dịch vụ **bảo mật quan trọng nhất** trong cloud — sai IAM = lộ data, mất tiền, hỏng compliance.
 
-**4 thực thể chính:**
-- **User**: con người hoặc service account, có credential (password, access key).
-- **Group**: nhóm user, gán policy chung.
-- **Role**: identity tạm thời, được "assume" bởi user/service. Best practice cho EC2/Lambda.
-- **Policy**: tài liệu JSON định nghĩa quyền (Allow/Deny + Action + Resource).
+## Vì sao IAM là "first line of defense"?
+Theo báo cáo Gartner, **>75% sự cố bảo mật cloud do cấu hình IAM sai** (key bị rò trên GitHub, role rộng, không bật MFA…). Vd: vụ Capital One 2019 mất 100M record vì 1 IAM role có \`s3:ListBucket\` quá rộng. Vụ Uber 2016 mất data 57M user vì AWS access key commit lên GitHub. **Hiểu IAM = giảm 75% rủi ro.**
 
-**Cấu trúc IAM Policy:**
+## Bốn thực thể cốt lõi
+| Thực thể | Định nghĩa | Khi nào dùng |
+|----------|-----------|--------------|
+| **User** | Identity dài hạn cho người/service account | Người dev login console, app legacy không thể assume role |
+| **Group** | Tập hợp user, gán policy chung | Quản lý theo team (Devs, Admins, ReadOnly) |
+| **Role** | Identity tạm thời, được "assume" → cấp credential ngắn hạn | EC2/Lambda/EKS, cross-account, federated SSO |
+| **Policy** | JSON định nghĩa quyền (Allow/Deny + Action + Resource + Condition) | Gắn vào User/Group/Role |
+
+**Quy tắc vàng**: ưu tiên **Role > User** mọi lúc có thể, vì:
+- Credential ngắn hạn (15 phút – 12 giờ), tự xoay.
+- Không cần lưu access key vào file/biến môi trường.
+- Audit dễ qua CloudTrail.
+
+## Cấu trúc IAM Policy
 \`\`\`json
 {
   "Version": "2012-10-17",
   "Statement": [{
+    "Sid": "AllowS3FromOffice",
     "Effect": "Allow",
-    "Action": ["s3:GetObject"],
-    "Resource": "arn:aws:s3:::my-bucket/*",
+    "Action": ["s3:GetObject", "s3:PutObject"],
+    "Resource": "arn:aws:s3:::myapp-data/*",
     "Condition": {
-      "IpAddress": {"aws:SourceIp": "203.0.113.0/24"}
+      "IpAddress": {"aws:SourceIp": "203.0.113.0/24"},
+      "Bool": {"aws:MultiFactorAuthPresent": "true"}
     }
   }]
 }
 \`\`\`
+- **Effect**: Allow / Deny (Deny luôn thắng).
+- **Action**: theo định dạng \`service:operation\` (\`s3:GetObject\`, \`ec2:RunInstances\`); hỗ trợ wildcard \`s3:Get*\`.
+- **Resource**: ARN — \`arn:aws:s3:::bucket/*\` (lưu ý 2 wildcard khác nhau: \`*\` = mọi ký tự, \`?\` = 1 ký tự).
+- **Condition**: bộ lọc — IP, MFA, thời gian, tag, user-agent…
 
-**Nguyên tắc vàng — Least Privilege:** chỉ cấp quyền tối thiểu cần thiết.
+## Cơ chế đánh giá quyền
+Khi 1 request đến AWS, IAM duyệt theo thứ tự:
+1. **Explicit Deny** ở bất kỳ policy → DENY ngay.
+2. **Explicit Allow** ở ít nhất 1 policy → cần kiểm tra tiếp.
+3. **Service Control Policy (SCP)** ở Organizations → nếu chặn → DENY.
+4. **Resource policy** (vd bucket policy) → có thể grant cross-account.
+5. **Permission boundary** (giới hạn tối đa của role).
+6. **Session policy** (khi assume role) — thu hẹp thêm.
+7. Nếu không có Allow nào rõ ràng → **implicit DENY**.
 
-**Best practices:**
-- ❌ Không dùng root account cho công việc hằng ngày.
-- ✅ Bật **MFA** cho mọi user.
-- ✅ Dùng **Role** cho EC2/Lambda thay vì hardcode access key.
-- ✅ Rotate access key định kỳ (90 ngày).
-- ✅ Dùng **AWS Organizations + SCP** cho multi-account.
-- ✅ Audit bằng **CloudTrail** + **IAM Access Analyzer**.`,
-        theoryEn: `**IAM** controls WHO can do WHAT on WHICH resource, WHEN, and FROM WHERE.
+## Các loại Policy
+| Loại | Phạm vi | Use case |
+|------|---------|----------|
+| **AWS Managed** | AWS soạn (\`AmazonS3ReadOnlyAccess\`) | Khởi đầu nhanh |
+| **Customer Managed** | Bạn soạn, tái dùng | Chuẩn nội bộ |
+| **Inline** | Gắn cứng 1 entity | Quyền one-off |
+| **Resource policy** | Trên resource (bucket policy, KMS key policy) | Cross-account access |
+| **SCP** | Org-wide guardrail | Chặn region, dịch vụ ở account |
+| **Permission Boundary** | Trần quyền tối đa | Cho dev tự tạo role nhưng không vượt giới hạn |
+| **Session Policy** | Khi STS AssumeRole | Cấp credential thu hẹp tạm thời |
 
-**4 entities:** User, Group, Role, Policy (JSON Allow/Deny + Action + Resource + Condition).
+## Case study: Capital One 2019 — bài học $300 triệu
+- Lỗi: IAM Role gắn cho WAF có quyền \`s3:ListBucket\` + \`s3:GetObject\` quá rộng.
+- Tấn công SSRF khai thác → đọc credential → liệt kê & tải bucket.
+- Mất 100M record cá nhân, phạt **$80M** + tổn thất ~$300M.
+- **Bài học**: least privilege + Permission Boundary + Block Public Access mặc định.
 
-**Least Privilege**: grant only minimum needed permissions.
+## Case study: Uber 2016 — access key trên GitHub
+- Dev commit AWS access key vào private GitHub repo.
+- Hacker tìm được, dùng key tải data 57M user + 600k driver.
+- Uber giấu, trả $100k "bug bounty" — bị phạt $148M năm 2018.
+- **Bài học**: dùng **OIDC** (GitHub Actions assume role không cần key), bật **GitGuardian/AWS Access Analyzer** scan, **Secrets Manager** thay vì env var.
 
-**Best practices:** no root for daily work, enable MFA, use Roles for EC2/Lambda, rotate keys every 90 days, AWS Organizations + SCP, audit with CloudTrail + IAM Access Analyzer.`,
+## Cross-account access đúng cách
+Thay vì share user/key, dùng **AssumeRole**:
+\`\`\`
+Account A (Trust)            Account B (Caller)
+┌─────────────┐              ┌──────────────┐
+│ Role MyRole │◄── trust ────│ User devops  │
+│  Trust:     │              │              │
+│  acct-B     │              │  sts:Assume  │
+└─────────────┘              │  Role        │
+       ▲                     └──────┬───────┘
+       │ assume                     │
+       └────── temp credential ◄────┘
+\`\`\`
+**External ID** dùng cho 3rd-party SaaS (Datadog, Snyk) để chống "confused deputy attack".
+
+## Best Practices (checklist 12 điểm)
+- ✅ **Khóa root account**: bật MFA hardware, không tạo access key, chỉ dùng cho billing/account closure.
+- ✅ **MFA bắt buộc** cho mọi human user (\`Condition: aws:MultiFactorAuthPresent\`).
+- ✅ **Dùng Role** cho EC2/Lambda/EKS — không hardcode key.
+- ✅ **AWS SSO/IAM Identity Center** cho SSO doanh nghiệp; tránh tạo IAM User cho từng nhân viên.
+- ✅ **Permission Boundary** cho team tự service mới mà không vượt trần.
+- ✅ **SCP** ở Organizations chặn region không cho phép, chặn dịch vụ nguy hiểm.
+- ✅ **Access Analyzer** chạy hàng tuần — tự tìm policy public/cross-account thừa.
+- ✅ **CloudTrail** bật mọi region, log vào S3 immutable bucket có Object Lock.
+- ✅ **Rotate access key 90 ngày** (nếu buộc phải dùng); ưu tiên xóa hẳn.
+- ✅ **Tag-based access control** (ABAC): policy dùng \`aws:ResourceTag\` thay vì list cứng resource.
+- ✅ **Secrets Manager / Parameter Store** thay vì env var cho DB password, API key.
+- ✅ **Test policy với IAM Policy Simulator** trước khi apply.
+
+## Common Pitfalls
+- ❌ **\`Action: "*"\` + \`Resource: "*"\`** trong policy production.
+- ❌ **AdministratorAccess gắn cho user thường** "cho nhanh".
+- ❌ **Access key cá nhân trong code/Slack/Notion**.
+- ❌ **Trust policy quá rộng** (\`Principal: "*"\`).
+- ❌ **Không bật CloudTrail** → không có audit khi có sự cố.
+- ❌ **MFA chỉ bật cho admin** — mọi user nên bật.
+- ❌ **IAM User cho mỗi nhân viên** thay vì federated SSO → khó offboard.
+
+## Khi NÀO dùng User vs Role?
+- ✅ User: legacy app không assume role được; CLI cá nhân (nên kết hợp aws-vault).
+- ✅ Role: 99% case khác — service-to-service, cross-account, federated SSO, GitHub Actions OIDC.
+
+## Liên hệ bài tiếp theo
+IAM kiểm soát "ai làm gì". Tầng kế tiếp là **bảo vệ DỮ LIỆU** — bài tiếp **Shared Responsibility & Encryption** sẽ học cách mã hóa at-rest (KMS) + in-transit (TLS) và phân chia trách nhiệm với cloud provider.`,
+        theoryEn: `**IAM (Identity & Access Management)** answers 5 questions: **WHO** (identity) can do **WHAT** (action) on **WHICH** resource, **WHEN** + **FROM WHERE** (condition). It is the most important security service in the cloud — IAM mistakes = data leaks, financial loss, compliance failure.
+
+## Why IAM is the first line of defense
+Per Gartner, **>75% of cloud security incidents are caused by IAM misconfiguration** (leaked keys on GitHub, overly broad roles, no MFA, etc.). Capital One 2019 lost 100M records due to one IAM role with overly broad \`s3:ListBucket\`. Uber 2016 lost 57M users via an AWS access key committed to GitHub. **Mastering IAM cuts ~75% of risk.**
+
+## Four core entities
+| Entity | Definition | Use case |
+|--------|------------|----------|
+| **User** | Long-term identity for human/service account | Console login, legacy apps that can't assume roles |
+| **Group** | Set of users with shared policies | Team-based management |
+| **Role** | Temporary identity that is "assumed" → short-lived credentials | EC2/Lambda/EKS, cross-account, federated SSO |
+| **Policy** | JSON defining permissions (Allow/Deny + Action + Resource + Condition) | Attach to User/Group/Role |
+
+**Golden rule**: prefer **Role > User** wherever possible.
+
+## Policy structure (Effect, Action, Resource, Condition)
+- Effect: Allow / Deny (Deny always wins).
+- Action: \`service:operation\` (\`s3:GetObject\`); supports wildcards.
+- Resource: ARN with wildcards.
+- Condition: filters — IP, MFA, time, tag, user-agent.
+
+## Evaluation order
+Explicit Deny → Explicit Allow → SCP → Resource policy → Permission boundary → Session policy → implicit DENY if no Allow.
+
+## Policy types
+AWS Managed, Customer Managed, Inline, Resource policy, SCP, Permission Boundary, Session Policy.
+
+## Case study: Capital One 2019 ($300M lesson)
+WAF role had over-broad \`s3:ListBucket\` + \`s3:GetObject\`. SSRF exploit read credentials, listed and downloaded buckets — 100M records lost, $80M fine, ~$300M total. Lesson: least privilege + Permission Boundary + default Block Public Access.
+
+## Case study: Uber 2016 (key on GitHub)
+Dev committed AWS access key to private GitHub repo. Hackers found it, downloaded 57M users + 600k drivers. Uber hid it, paid $100k "bug bounty", got fined $148M in 2018. Lesson: use **OIDC** (GitHub Actions assume role without keys), enable secret scanners, use **Secrets Manager**.
+
+## Cross-account: AssumeRole + ExternalId
+Use Role with trust policy + STS AssumeRole; ExternalId protects against the "confused deputy" problem with 3rd-party SaaS.
+
+## Best Practices (12-point checklist)
+- ✅ Lock root: hardware MFA, no access keys, only for billing/account closure.
+- ✅ Mandatory MFA for humans.
+- ✅ Roles for EC2/Lambda/EKS — no hardcoded keys.
+- ✅ AWS SSO/IAM Identity Center for enterprise SSO.
+- ✅ Permission Boundary for self-service teams.
+- ✅ SCPs in Organizations to block dangerous regions/services.
+- ✅ Run Access Analyzer weekly.
+- ✅ CloudTrail in all regions → immutable S3 with Object Lock.
+- ✅ Rotate access keys 90 days (if you must use them).
+- ✅ Tag-based access control (ABAC).
+- ✅ Secrets Manager / Parameter Store for secrets.
+- ✅ Test policies with IAM Policy Simulator first.
+
+## Common Pitfalls
+- ❌ \`Action: "*"\` + \`Resource: "*"\` in production.
+- ❌ AdministratorAccess on regular users.
+- ❌ Personal access keys in code/Slack/Notion.
+- ❌ \`Principal: "*"\` in trust policies.
+- ❌ CloudTrail off — no audit trail.
+- ❌ MFA only for admins.
+- ❌ IAM Users instead of federated SSO — offboarding nightmare.
+
+## User vs Role decision
+User: legacy apps, individual CLI (use aws-vault). Role: 99% of other cases.
+
+## Bridge to next lesson
+IAM controls "who does what". Next layer protects **DATA** — **Shared Responsibility & Encryption** covers at-rest (KMS) + in-transit (TLS) and how responsibility is split with the cloud provider.`,
         code: `# IAM Policy: cho phép Lambda đọc S3 bucket cụ thể + ghi CloudWatch Logs
 policy = {
   "Version": "2012-10-17",
