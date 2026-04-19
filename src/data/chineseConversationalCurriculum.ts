@@ -878,6 +878,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Compare cash vs mobile payment in China",
           "Explain how to exchange currency at a bank",
         ],
+        fillInBlankExercises: [
+          { sentence: "我想___一个银行账户。", pinyin: "Wǒ xiǎng ___ yí ge yínháng zhànghù.", answer: "开", translationVi: "Tôi muốn mở một tài khoản ngân hàng.", hint: ""开" = mở" },
+          { sentence: "请输入您的___密码。", pinyin: "Qǐng shūrù nín de ___ mìmǎ.", answer: "银行卡", translationVi: "Vui lòng nhập mật khẩu thẻ ngân hàng." },
+          { sentence: "我要把钱___到他的账户。", pinyin: "Wǒ yào bǎ qián ___ dào tā de zhànghù.", answer: "转账", translationVi: "Tôi muốn chuyển khoản sang tài khoản anh ấy." },
+          { sentence: "这家银行的___很高。", pinyin: "Zhè jiā yínháng de ___ hěn gāo.", answer: "利息", translationVi: "Lãi suất ngân hàng này khá cao." },
+        ],
       },
       // ──── Lesson 9: Post Office & Delivery ────
       {
@@ -958,6 +964,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Describe the express delivery system in China",
           "Explain how to send a package abroad",
           "Compare delivery services in China and your country",
+        ],
+        fillInBlankExercises: [
+          { sentence: "我想___一个包裹去越南。", pinyin: "Wǒ xiǎng ___ yí ge bāoguǒ qù Yuènán.", answer: "寄", translationVi: "Tôi muốn gửi một bưu kiện đi Việt Nam." },
+          { sentence: "请填写___地址。", pinyin: "Qǐng tiánxiě ___ dìzhǐ.", answer: "收件人", translationVi: "Vui lòng điền địa chỉ người nhận." },
+          { sentence: "我要选___，三天到。", pinyin: "Wǒ yào xuǎn ___, sān tiān dào.", answer: "快递", translationVi: "Tôi chọn chuyển phát nhanh, 3 ngày đến." },
+          { sentence: "___费一共五十块。", pinyin: "___ fèi yígòng wǔshí kuài.", answer: "邮", translationVi: "Phí bưu chính tổng 50 tệ." },
         ],
       },
       // ──── Lesson 10: Mobile & Internet ────
@@ -1041,6 +1053,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Describe how to fix common Wi-Fi problems",
           "Talk about your favorite Chinese app",
         ],
+        fillInBlankExercises: [
+          { sentence: "我的手机___了，怎么办？", pinyin: "Wǒ de shǒujī ___ le, zěnme bàn?", answer: "坏", translationVi: "Điện thoại tôi hỏng rồi, làm sao đây?" },
+          { sentence: "我要充___套餐。", pinyin: "Wǒ yào chōng ___ tàocān.", answer: "流量", translationVi: "Tôi muốn nạp gói data." },
+          { sentence: "家里的___信号不好。", pinyin: "Jiā lǐ de ___ xìnhào bù hǎo.", answer: "WiFi", translationVi: "Tín hiệu WiFi ở nhà không tốt." },
+          { sentence: "请帮我___一下手机。", pinyin: "Qǐng bāng wǒ ___ yíxià shǒujī.", answer: "修", translationVi: "Xin sửa giúp tôi điện thoại." },
+        ],
       },
       // ──── Lesson 11: Haircut & Beauty ────
       {
@@ -1123,6 +1141,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Compare salon prices between China and your country",
           "Talk about a haircut experience that went wrong",
         ],
+        fillInBlankExercises: [
+          { sentence: "我想___个头发。", pinyin: "Wǒ xiǎng ___ ge tóufà.", answer: "剪", translationVi: "Tôi muốn cắt tóc." },
+          { sentence: "请帮我___头。", pinyin: "Qǐng bāng wǒ ___ tóu.", answer: "洗", translationVi: "Xin gội đầu giúp tôi." },
+          { sentence: "我要做___，染棕色。", pinyin: "Wǒ yào zuò ___, rǎn zōngsè.", answer: "染发", translationVi: "Tôi muốn nhuộm tóc, nhuộm màu nâu." },
+          { sentence: "短发让我看起来更___。", pinyin: "Duǎn fà ràng wǒ kàn qǐlái gèng ___.", answer: "精神", translationVi: "Tóc ngắn làm tôi trông tươi tỉnh hơn." },
+        ],
       },
       // ──── Lesson 12: Laundry & Repair ────
       {
@@ -1203,6 +1227,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Describe how you do laundry at home",
           "Talk about a time you needed clothing repaired",
           "Compare laundry services in China vs your country",
+        ],
+        fillInBlankExercises: [
+          { sentence: "这件衬衫需要___洗。", pinyin: "Zhè jiàn chènshān xūyào ___ xǐ.", answer: "干", translationVi: "Áo này cần giặt khô." },
+          { sentence: "衣服上有一个___。", pinyin: "Yīfu shàng yǒu yí ge ___.", answer: "污渍", translationVi: "Trên áo có một vết bẩn." },
+          { sentence: "请帮我___一下裤子。", pinyin: "Qǐng bāng wǒ ___ yíxià kùzi.", answer: "熨", translationVi: "Xin là giúp tôi cái quần." },
+          { sentence: "鞋子坏了，能___吗？", pinyin: "Xiézi huài le, néng ___ ma?", answer: "修", translationVi: "Giày hỏng rồi, có thể sửa không?" },
         ],
       },
       // ──── Lesson 13: Lost Items & Police ────
@@ -1286,6 +1316,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Talk about a time you lost something important",
           "Explain the steps to report a lost item to the police",
         ],
+        fillInBlankExercises: [
+          { sentence: "快打___，火灾！", pinyin: "Kuài dǎ ___, huǒzāi!", answer: "119", translationVi: "Mau gọi 119, cháy!", hint: "119 là số cứu hỏa" },
+          { sentence: "我的钱包___了。", pinyin: "Wǒ de qiánbāo ___ le.", answer: "丢", translationVi: "Ví tiền của tôi mất rồi." },
+          { sentence: "请叫___，有人受伤。", pinyin: "Qǐng jiào ___, yǒu rén shòushāng.", answer: "救护车", translationVi: "Xin gọi xe cấp cứu, có người bị thương." },
+          { sentence: "我要去派出所___案。", pinyin: "Wǒ yào qù pàichūsuǒ ___ àn.", answer: "报", translationVi: "Tôi cần đến đồn cảnh sát trình báo." },
+        ],
       },
       // ──── Lesson 14: Pets & Vet ────
       {
@@ -1366,6 +1402,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           "Describe your pet (or a pet you would like)",
           "Talk about pet ownership culture in China vs your country",
           "Explain how to take care of a sick pet",
+        ],
+        fillInBlankExercises: [
+          { sentence: "我家有一只___。", pinyin: "Wǒ jiā yǒu yì zhī ___.", answer: "狗", translationVi: "Nhà tôi có một con chó." },
+          { sentence: "请带宠物去___打疫苗。", pinyin: "Qǐng dài chǒngwù qù ___ dǎ yìmiáo.", answer: "兽医", translationVi: "Hãy đưa thú cưng đến bác sĩ thú y tiêm vắc-xin." },
+          { sentence: "它最近不___东西。", pinyin: "Tā zuìjìn bù ___ dōngxi.", answer: "吃", translationVi: "Gần đây nó không ăn." },
+          { sentence: "我想___一只猫。", pinyin: "Wǒ xiǎng ___ yì zhī māo.", answer: "领养", translationVi: "Tôi muốn nhận nuôi một con mèo." },
         ],
       },
     ],
@@ -1860,6 +1902,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Write a formal business email opening", "Compare email etiquette China vs your country"],
+        fillInBlankExercises: [
+          { sentence: "请查收___件。", pinyin: "Qǐng chá shōu ___ jiàn.", answer: "附", translationVi: "Vui lòng kiểm tra tệp đính kèm." },
+          { sentence: "___您百忙之中回复。", pinyin: "___ nín bǎi máng zhī zhōng huífù.", answer: "感谢", translationVi: "Cảm ơn anh đã trả lời trong lúc bận." },
+          { sentence: "此致___礼。", pinyin: "Cǐ zhì ___ lǐ.", answer: "敬", translationVi: "Trân trọng kính chào." },
+          { sentence: "请尽快___我。", pinyin: "Qǐng jǐnkuài ___ wǒ.", answer: "回复", translationVi: "Xin trả lời tôi sớm nhất có thể." },
+        ],
       },
       // ──── Lesson 7: Presentations ────
       {
@@ -1900,6 +1948,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Open a presentation in formal Chinese", "Present a chart showing growth"],
+        fillInBlankExercises: [
+          { sentence: "请看这张___。", pinyin: "Qǐng kàn zhè zhāng ___.", answer: "幻灯片", translationVi: "Xin xem slide này." },
+          { sentence: "销售额上升了百分之___。", pinyin: "Xiāoshòu é shàngshēng le bǎi fēn zhī ___.", answer: "二十", translationVi: "Doanh thu tăng 20%." },
+          { sentence: "请问大家有什么___？", pinyin: "Qǐngwèn dàjiā yǒu shénme ___?", answer: "问题", translationVi: "Xin hỏi mọi người có câu hỏi gì?" },
+          { sentence: "我的___到此结束。", pinyin: "Wǒ de ___ dào cǐ jiéshù.", answer: "演讲", translationVi: "Bài thuyết trình của tôi kết thúc tại đây." },
+        ],
       },
       // ──── Lesson 8: Contracts & Legal ────
       {
@@ -1940,6 +1994,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Discuss contract payment terms", "Explain a breach of contract scenario"],
+        fillInBlankExercises: [
+          { sentence: "请仔细阅读___条款。", pinyin: "Qǐng zǐxì yuèdú ___ tiáokuǎn.", answer: "合同", translationVi: "Xin đọc kỹ các điều khoản hợp đồng." },
+          { sentence: "双方需要___合同。", pinyin: "Shuāngfāng xūyào ___ hétong.", answer: "签", translationVi: "Hai bên cần ký hợp đồng." },
+          { sentence: "如果违约要付___金。", pinyin: "Rúguǒ wéiyuē yào fù ___ jīn.", answer: "违约", translationVi: "Nếu vi phạm phải trả tiền phạt." },
+          { sentence: "合同___期是一年。", pinyin: "Hétong ___ qī shì yì nián.", answer: "有效", translationVi: "Thời hạn hiệu lực hợp đồng là 1 năm." },
+        ],
       },
       // ──── Lesson 9: Marketing & Sales ────
       {
@@ -1980,6 +2040,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Pitch your favorite product in Chinese", "Discuss sales KPIs"],
+        fillInBlankExercises: [
+          { sentence: "我们要做___调研。", pinyin: "Wǒmen yào zuò ___ diàoyán.", answer: "市场", translationVi: "Chúng ta cần làm nghiên cứu thị trường." },
+          { sentence: "这个产品的___群是年轻人。", pinyin: "Zhège chǎnpǐn de ___ qún shì niánqīng rén.", answer: "客户", translationVi: "Nhóm khách hàng của sản phẩm này là người trẻ." },
+          { sentence: "请提高___率。", pinyin: "Qǐng tígāo ___ lǜ.", answer: "转化", translationVi: "Hãy tăng tỷ lệ chuyển đổi." },
+          { sentence: "我们要做线上___。", pinyin: "Wǒmen yào zuò xiàn shàng ___.", answer: "推广", translationVi: "Chúng ta cần làm quảng bá online." },
+        ],
       },
       // ──── Lesson 10: Startup & Funding ────
       {
@@ -2020,6 +2086,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Pitch a startup idea in 60 seconds", "Discuss fundraising strategies"],
+        fillInBlankExercises: [
+          { sentence: "我们公司在___阶段。", pinyin: "Wǒmen gōngsī zài ___ jiēduàn.", answer: "创业", translationVi: "Công ty chúng tôi ở giai đoạn khởi nghiệp." },
+          { sentence: "需要___一千万。", pinyin: "Xūyào ___ yì qiān wàn.", answer: "融资", translationVi: "Cần gọi vốn 10 triệu." },
+          { sentence: "请看我们的商业___。", pinyin: "Qǐng kàn wǒmen de shāngyè ___.", answer: "计划", translationVi: "Xin xem kế hoạch kinh doanh của chúng tôi." },
+          { sentence: "这是我们的___产品。", pinyin: "Zhè shì wǒmen de ___ chǎnpǐn.", answer: "核心", translationVi: "Đây là sản phẩm cốt lõi của chúng tôi." },
+        ],
       },
       // ──── Lesson 11: HR & Benefits ────
       {
@@ -2060,6 +2132,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Negotiate your salary and benefits", "Compare HR practices in China and your country"],
+        fillInBlankExercises: [
+          { sentence: "请问公司有什么___？", pinyin: "Qǐngwèn gōngsī yǒu shénme ___?", answer: "福利", translationVi: "Xin hỏi công ty có chế độ phúc lợi gì?" },
+          { sentence: "我想申请年___。", pinyin: "Wǒ xiǎng shēnqǐng nián ___.", answer: "假", translationVi: "Tôi muốn xin nghỉ phép năm." },
+          { sentence: "每月发___号？", pinyin: "Měi yuè fā ___ hào?", answer: "工资", translationVi: "Lương phát ngày bao nhiêu mỗi tháng?" },
+          { sentence: "请填写___合同。", pinyin: "Qǐng tiánxiě ___ hétong.", answer: "劳动", translationVi: "Xin điền hợp đồng lao động." },
+        ],
       },
       // ──── Lesson 12: Workplace Conflict ────
       {
@@ -2100,6 +2178,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Describe how to handle workplace conflict", "Role-play resolving a project disagreement"],
+        fillInBlankExercises: [
+          { sentence: "我们之间有一些___。", pinyin: "Wǒmen zhī jiān yǒu yìxiē ___.", answer: "分歧", translationVi: "Giữa chúng ta có một vài bất đồng." },
+          { sentence: "请好好___一下。", pinyin: "Qǐng hǎohǎo ___ yíxià.", answer: "沟通", translationVi: "Xin giao tiếp tốt một chút." },
+          { sentence: "这只是___，别生气。", pinyin: "Zhè zhǐ shì ___, bié shēngqì.", answer: "误会", translationVi: "Đây chỉ là hiểu lầm, đừng giận." },
+          { sentence: "我们需要互相___。", pinyin: "Wǒmen xūyào hùxiāng ___.", answer: "妥协", translationVi: "Chúng ta cần thỏa hiệp lẫn nhau." },
+        ],
       },
     ],
   },
@@ -2696,6 +2780,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Describe your dream trip in China", "Discuss group tour vs free travel"],
+        fillInBlankExercises: [
+          { sentence: "我想报一个___三日游。", pinyin: "Wǒ xiǎng bào yí ge ___ sān rì yóu.", answer: "北京", translationVi: "Tôi muốn đăng ký tour Bắc Kinh 3 ngày." },
+          { sentence: "请带好你的___。", pinyin: "Qǐng dài hǎo nǐ de ___.", answer: "护照", translationVi: "Hãy mang theo hộ chiếu." },
+          { sentence: "___带我们参观长城。", pinyin: "___ dài wǒmen cānguān Chángchéng.", answer: "导游", translationVi: "Hướng dẫn viên dẫn chúng tôi tham quan Vạn Lý Trường Thành." },
+          { sentence: "这家___又便宜又干净。", pinyin: "Zhè jiā ___ yòu piányi yòu gānjìng.", answer: "民宿", translationVi: "Homestay này vừa rẻ vừa sạch." },
+        ],
         badge: "Du lịch & Tham quan Master",
         badgeVi: "Bậc thầy Du lịch & Tham quan",
       },
@@ -2749,6 +2839,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Recommend a Chinese movie", "Discuss your favorite Chinese singer"],
+        fillInBlankExercises: [
+          { sentence: "这部电影的___很震撼。", pinyin: "Zhè bù diànyǐng de ___ hěn zhènhàn.", answer: "特效", translationVi: "Hiệu ứng phim này rất ấn tượng." },
+          { sentence: "我最喜欢的___是周杰伦。", pinyin: "Wǒ zuì xǐhuān de ___ shì Zhōu Jiélún.", answer: "歌手", translationVi: "Ca sĩ tôi thích nhất là Châu Kiệt Luân." },
+          { sentence: "我要去看他的___。", pinyin: "Wǒ yào qù kàn tā de ___.", answer: "演唱会", translationVi: "Tôi đi xem liveshow của anh ấy." },
+          { sentence: "请打开中文___。", pinyin: "Qǐng dǎkāi Zhōngwén ___.", answer: "字幕", translationVi: "Xin bật phụ đề tiếng Trung." },
+        ],
         badge: "Âm nhạc, Phim & TV Master",
         badgeVi: "Bậc thầy Âm nhạc, Phim & TV",
       },
@@ -2802,6 +2898,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Discuss pros and cons of short videos", "Compare Chinese and Western social apps"],
+        fillInBlankExercises: [
+          { sentence: "她有一百万___。", pinyin: "Tā yǒu yì bǎi wàn ___.", answer: "粉丝", translationVi: "Cô ấy có 1 triệu fan." },
+          { sentence: "请给我的视频___。", pinyin: "Qǐng gěi wǒ de shìpín ___.", answer: "点赞", translationVi: "Xin like video của tôi." },
+          { sentence: "我每天花两小时___视频。", pinyin: "Wǒ měi tiān huā liǎng xiǎoshí ___ shìpín.", answer: "刷", translationVi: "Tôi mỗi ngày dành 2 tiếng lướt video." },
+          { sentence: "要保护个人___。", pinyin: "Yào bǎohù gèrén ___.", answer: "隐私", translationVi: "Cần bảo vệ quyền riêng tư cá nhân." },
+        ],
         badge: "Công nghệ & Mạng xã hội Master",
         badgeVi: "Bậc thầy Công nghệ & Mạng xã hội",
       },
@@ -2855,6 +2957,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Suggest 3 ways to live more sustainably", "Discuss China's environmental policies"],
+        fillInBlankExercises: [
+          { sentence: "保护___人人有责。", pinyin: "Bǎohù ___ rén rén yǒu zé.", answer: "环境", translationVi: "Bảo vệ môi trường là trách nhiệm của mọi người." },
+          { sentence: "要减少碳___。", pinyin: "Yào jiǎnshǎo tàn ___.", answer: "排放", translationVi: "Cần giảm phát thải carbon." },
+          { sentence: "我们要做___分类。", pinyin: "Wǒmen yào zuò ___ fēnlèi.", answer: "垃圾", translationVi: "Chúng ta phải phân loại rác." },
+          { sentence: "发展可___能源。", pinyin: "Fāzhǎn kě ___ néngyuán.", answer: "再生", translationVi: "Phát triển năng lượng tái tạo." },
+        ],
         badge: "Môi trường & Bền vững Master",
         badgeVi: "Bậc thầy Môi trường & Bền vững",
       },
@@ -2908,6 +3016,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Compare Confucian and Western values", "Discuss role of religion in modern China"],
+        fillInBlankExercises: [
+          { sentence: "___思想强调家庭。", pinyin: "___ sīxiǎng qiángdiào jiātíng.", answer: "儒家", translationVi: "Tư tưởng Nho gia nhấn mạnh gia đình." },
+          { sentence: "我没有宗教___。", pinyin: "Wǒ méiyǒu zōngjiào ___.", answer: "信仰", translationVi: "Tôi không có tín ngưỡng tôn giáo." },
+          { sentence: "这是古人的___。", pinyin: "Zhè shì gǔrén de ___.", answer: "智慧", translationVi: "Đây là trí tuệ của người xưa." },
+          { sentence: "社会需要___。", pinyin: "Shèhuì xūyào ___.", answer: "和谐", translationVi: "Xã hội cần sự hài hòa." },
+        ],
         badge: "Triết học & Tôn giáo Master",
         badgeVi: "Bậc thầy Triết học & Tôn giáo",
       },
@@ -2961,6 +3075,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Debate: Should social media have age limits?", "Argue for or against remote work"],
+        fillInBlankExercises: [
+          { sentence: "请提供你的___。", pinyin: "Qǐng tígōng nǐ de ___.", answer: "证据", translationVi: "Xin cung cấp bằng chứng của bạn." },
+          { sentence: "我___对方的观点。", pinyin: "Wǒ ___ duìfāng de guāndiǎn.", answer: "反对", translationVi: "Tôi phản đối quan điểm đối phương." },
+          { sentence: "他的___很清晰。", pinyin: "Tā de ___ hěn qīngxī.", answer: "逻辑", translationVi: "Logic của anh ấy rất rõ ràng." },
+          { sentence: "我坚定我的___。", pinyin: "Wǒ jiāndìng wǒ de ___.", answer: "立场", translationVi: "Tôi giữ vững lập trường của mình." },
+        ],
         badge: "Tranh luận & Lập luận Master",
         badgeVi: "Bậc thầy Tranh luận & Lập luận",
       },
@@ -3014,6 +3134,12 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           ],
         },
         speakingTopics: ["Tell the story of your most memorable trip", "Narrate a moment that changed your perspective"],
+        fillInBlankExercises: [
+          { sentence: "给我讲一个___。", pinyin: "Gěi wǒ jiǎng yí ge ___.", answer: "故事", translationVi: "Kể tôi nghe một câu chuyện." },
+          { sentence: "那是一段难忘的___。", pinyin: "Nà shì yí duàn nánwàng de ___.", answer: "经历", translationVi: "Đó là một trải nghiệm đáng nhớ." },
+          { sentence: "故事的___很感人。", pinyin: "Gùshì de ___ hěn gǎnrén.", answer: "结局", translationVi: "Kết thúc câu chuyện rất cảm động." },
+          { sentence: "我从中得到了深刻的___。", pinyin: "Wǒ cóng zhōng dédào le shēnkè de ___.", answer: "感悟", translationVi: "Tôi rút ra được cảm ngộ sâu sắc." },
+        ],
         badge: "Kể chuyện & Tường thuật Master",
         badgeVi: "Bậc thầy Kể chuyện & Tường thuật",
       },
