@@ -33,6 +33,7 @@ import TeacherAdmin from "@/pages/TeacherAdmin";
 import CourseAccessManager from "@/components/CourseAccessManager";
 import SystemStatusTab from "@/components/SystemStatusTab";
 import IncomeManagement from "@/components/IncomeManagement";
+import ClassScheduleManager from "@/components/admin/ClassScheduleManager";
 
 // Priority colors
 const PRIORITY_COLORS = {
