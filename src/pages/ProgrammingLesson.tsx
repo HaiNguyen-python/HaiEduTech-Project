@@ -23,6 +23,7 @@ import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
 import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
+import CodeBlock from "@/components/CodeBlock";
 
 // Map module IDs to their pillar/course for grouping
 const PILLAR_COURSES: Record<string, string[]> = {
