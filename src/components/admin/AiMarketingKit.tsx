@@ -21,6 +21,11 @@ import {
   Instagram,
   MessageCircle,
   Globe,
+  Video,
+  Film,
+  Music2,
+  Mic,
+  Clapperboard,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
