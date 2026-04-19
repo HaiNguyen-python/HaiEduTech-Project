@@ -722,6 +722,217 @@ export default function AiMarketingKit() {
             )}
           </TabsContent>
 
+          <TabsContent value="video" className="space-y-4">
+            {/* Video Input Panel */}
+            <div className="grid grid-cols-1 gap-3 rounded-xl border bg-gradient-to-br from-purple-500/5 to-pink-500/5 p-4 md:grid-cols-4">
+              <div className="space-y-1">
+                <Label className="text-xs uppercase">Course</Label>
+                <Select value={course} onValueChange={setCourse}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {COURSES.map((c) => (
+                      <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs uppercase">Audience</Label>
+                <Select value={audience} onValueChange={setAudience}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {AUDIENCES.map((a) => (
+                      <SelectItem key={a.value} value={a.value}>{a.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs uppercase">Video Format</Label>
+                <Select value={videoFormat} onValueChange={(v) => setVideoFormat(v as "tiktok" | "reels" | "shorts")}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {VIDEO_FORMATS.map((f) => (
+                      <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs uppercase">Goal</Label>
+                <Select value={goal} onValueChange={setGoal}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {GOALS.map((g) => (
+                      <SelectItem key={g.value} value={g.value}>{g.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Button
+                onClick={generateVideoScript}
+                disabled={generatingVideo}
+                size="lg"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:brightness-110"
+              >
+                {generatingVideo ? (
+                  <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang dựng kịch bản...</>
+                ) : (
+                  <><Video className="mr-2 h-4 w-4" /> Generate 30s Script</>
+                )}
+              </Button>
+              {videoScript && (
+                <>
+                  <Button onClick={copyVideoScript} variant="outline">
+                    <CopyIcon className="mr-2 h-4 w-4" /> Copy Full Script
+                  </Button>
+                  <Button onClick={copyVoiceoverOnly} variant="outline">
+                    <Mic className="mr-2 h-4 w-4" /> Copy Voiceover Only
+                  </Button>
+                  <Button onClick={downloadScriptAsTxt} variant="secondary">
+                    <Download className="mr-2 h-4 w-4" /> Download .txt
+                  </Button>
+                </>
+              )}
+            </div>
+
+            {videoScript && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+                <Card className="border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-pink-500/5">
+                  <CardContent className="pt-6">
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <Badge className="bg-purple-600 text-white">{videoScript.format?.toUpperCase()}</Badge>
+                      <Badge variant="outline">{videoScript.aspectRatio}</Badge>
+                      <Badge variant="outline">⏱️ {videoScript.totalSeconds}s</Badge>
+                      <Badge variant="outline" className="gap-1">
+                        <Music2 className="h-3 w-3" />{videoScript.musicMood}
+                      </Badge>
+                    </div>
+                    <h3 className="mb-2 text-2xl font-bold leading-tight">🎬 {videoScript.title}</h3>
+                    <div className="rounded-lg border-l-4 border-amber-500 bg-amber-50 p-3 dark:bg-amber-950/20">
+                      <div className="text-xs font-semibold uppercase text-amber-700 dark:text-amber-400">🪝 Hook (0-3s)</div>
+                      <p className="mt-1 text-base font-semibold">{videoScript.hook}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                  <Card className="lg:col-span-1">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="flex items-center gap-2 text-sm">
+                        <Film className="h-4 w-4" /> Vertical Preview
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div
+                        className="relative mx-auto overflow-hidden rounded-2xl border-4 border-foreground/20 bg-gradient-to-br from-slate-900 to-slate-700 shadow-xl"
+                        style={{ aspectRatio: "9 / 16", maxWidth: "240px" }}
+                      >
+                        <div className="absolute inset-0 flex flex-col justify-between p-3 text-white">
+                          <div className="space-y-1">
+                            <div className="rounded bg-black/40 px-2 py-1 text-[10px] font-semibold backdrop-blur">
+                              {videoScript.format?.toUpperCase()}
+                            </div>
+                            <div className="rounded-lg bg-gradient-to-r from-yellow-400 to-pink-500 p-2 text-xs font-black leading-tight text-black">
+                              {videoScript.shots[0]?.onScreenText}
+                            </div>
+                          </div>
+                          <div className="space-y-1.5">
+                            <div className="text-[10px] font-semibold leading-tight">@haiedutech</div>
+                            <div className="line-clamp-2 text-[10px] leading-tight">{videoScript.captionForUpload}</div>
+                            <div className="rounded-full bg-white px-3 py-1 text-center text-[10px] font-bold text-purple-600">
+                              {videoScript.cta}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {videoScript.productionTips?.length > 0 && (
+                        <div className="mt-3 rounded-lg border bg-muted/40 p-3">
+                          <div className="mb-1 text-xs font-semibold uppercase text-muted-foreground">🎯 Production Tips</div>
+                          <ul className="space-y-1 text-xs">
+                            {videoScript.productionTips.map((t, i) => (
+                              <li key={i} className="flex gap-1.5">
+                                <span className="text-purple-500">▸</span><span>{t}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <div className="space-y-2 lg:col-span-2">
+                    {videoScript.shots.map((shot, i) => (
+                      <motion.div
+                        key={shot.shotNumber}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.05 }}
+                      >
+                        <Card className="border-l-4 border-l-purple-500">
+                          <CardContent className="space-y-2 pt-4">
+                            <Badge variant="outline" className="border-purple-500/40 bg-purple-500/10 font-mono text-purple-700 dark:text-purple-300">
+                              Shot {shot.shotNumber} · {shot.timing}
+                            </Badge>
+                            <div className="space-y-2 text-sm">
+                              <div>
+                                <span className="text-xs font-semibold uppercase text-muted-foreground">📷 Visual</span>
+                                <p className="leading-relaxed">{shot.visual}</p>
+                              </div>
+                              <div className="rounded-lg bg-gradient-to-r from-yellow-100 to-pink-100 p-2 dark:from-yellow-950/30 dark:to-pink-950/30">
+                                <span className="text-xs font-semibold uppercase text-amber-700 dark:text-amber-400">📝 On-screen text</span>
+                                <p className="text-base font-bold">"{shot.onScreenText}"</p>
+                              </div>
+                              <div className="rounded-lg border-l-2 border-blue-500 bg-blue-50 p-2 dark:bg-blue-950/20">
+                                <span className="text-xs font-semibold uppercase text-blue-700 dark:text-blue-400">🎙️ Voiceover</span>
+                                <p className="italic">"{shot.voiceover}"</p>
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                <span className="font-semibold">🎞️ B-roll/SFX:</span> {shot.broll}
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
+
+                    <Card className="border-2 border-pink-500/40 bg-gradient-to-br from-pink-500/10 to-purple-500/10">
+                      <CardContent className="space-y-2 pt-4">
+                        <div>
+                          <span className="text-xs font-semibold uppercase text-pink-700 dark:text-pink-400">📣 Final CTA</span>
+                          <p className="text-lg font-bold">{videoScript.cta}</p>
+                        </div>
+                        <div>
+                          <span className="text-xs font-semibold uppercase text-muted-foreground">📋 Upload Caption</span>
+                          <p className="whitespace-pre-wrap text-sm">{videoScript.captionForUpload}</p>
+                        </div>
+                        {videoScript.hashtags?.length > 0 && (
+                          <div className="flex flex-wrap gap-1 pt-1">
+                            {videoScript.hashtags.map((h, i) => (
+                              <Badge key={i} variant="secondary" className="text-xs">{h}</Badge>
+                            ))}
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {!videoScript && !generatingVideo && (
+              <div className="rounded-xl border-2 border-dashed bg-muted/20 p-12 text-center">
+                <Clapperboard className="mx-auto mb-3 h-12 w-12 text-muted-foreground/40" />
+                <p className="text-sm text-muted-foreground">
+                  Chọn course + format và nhấn <span className="font-semibold">Generate 30s Script</span> để AI dựng kịch bản TikTok/Reels với 6 shots, voiceover và caption.
+                </p>
+              </div>
+            )}
+          </TabsContent>
+
           <TabsContent value="library">
             <ScrollArea className="h-[600px] pr-3">
               {savedCampaigns.length === 0 ? (
