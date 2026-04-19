@@ -1144,137 +1144,81 @@ print(f"\\n✅ Validation: {len(errors)} errors" if errors else "\\n✅ Schema v
       {
         id: "de-etl-1", title: "ETL vs ELT", titleEn: "ETL vs ELT",
         level: 3, difficulty: "intermediate",
-        theory: `**ETL** và **ELT** là hai cách tiếp cận nền tảng để di chuyển dữ liệu từ nguồn (operational systems) đến đích phân tích (data warehouse, lakehouse). Hiểu rõ khi nào dùng cái nào là **kỹ năng cốt lõi** của Data Engineer — chọn sai có thể đốt $$$ tiền cloud hoặc làm chậm pipeline 10×.
+        theory: `Tưởng tượng các bạn mở **bếp ăn cho 500 khách Shopee** mỗi tối. Có hai cách tổ chức: **nấu sẵn** rồi mới bê ra (ETL), hoặc **bê nguyên liệu sống ra buffet**, khách tự nướng tại bàn (ELT). Cả hai đều no — nhưng chi phí, tốc độ và độ linh hoạt khác hẳn nhau. Đó chính xác là câu chuyện của ETL vs ELT trong Data Engineering.
 
-## Vì sao chủ đề này quan trọng?
-Mọi tổ chức data-driven đều cần một pipeline đáng tin cậy đưa dữ liệu từ **operational systems** (Postgres, MongoDB, Salesforce, Stripe…) vào **analytical store** (BigQuery, Snowflake, Redshift). Pipeline này có thể xử lý từ **vài MB/ngày** (startup) đến **petabytes/giờ** (Netflix, Uber). Cấu trúc ETL/ELT quyết định:
-- **Chi phí compute** (transform ở đâu = trả tiền ở đó)
-- **Tốc độ time-to-insight** (analyst phải chờ bao lâu)
-- **Khả năng tái xử lý** (re-process khi logic sai)
+## 1. 🚦 Vấn đề đời thường
 
-## ETL — Extract → Transform → Load
-Dữ liệu được **biến đổi TRƯỚC khi** đưa vào warehouse. Sơ đồ:
-\`\`\`
-[Source DB] → [Extract] → [Staging Server] → [Transform: Python/Spark] → [Clean Data] → [Load] → [Warehouse]
-\`\`\`
+Công ty bạn có dữ liệu ở **5 nguồn**: Postgres bán hàng, MongoDB log app, Google Sheet phòng marketing, Stripe thanh toán, Salesforce CRM. Sếp muốn 1 dashboard duy nhất để xem doanh thu hôm qua.
 
-**Đặc điểm:**
-- Cần **server transform riêng** (EC2, Spark cluster, on-prem box)
-- Warehouse chỉ chứa data **đã sạch, đã agg**
-- Chi phí cố định cho hạ tầng transform
-- **Khó re-process** vì raw data không lưu lại
+→ Bạn cần **gom dữ liệu về một chỗ** (warehouse) rồi **biến đổi** để dashboard đọc được. Câu hỏi triệu đô: **biến đổi ở đâu, lúc nào?**
 
-**Khi nào dùng ETL:**
-- Warehouse on-premise (Teradata, Oracle Exadata) — compute đắt và giới hạn
-- Có quy định **PII masking trước khi lưu** (GDPR Art. 25 — privacy by design)
-- Dữ liệu nhỏ, schema cực ổn định
-- Cần **audit trail** với data đã transform là single source of truth
+## 2. 💡 Khái niệm chính: ETL vs ELT là gì?
 
-## ELT — Extract → Load → Transform
-Dữ liệu thô được **load thẳng** vào warehouse, transform thực hiện **bên trong warehouse** bằng SQL. Sơ đồ:
-\`\`\`
-[Source DB] → [Extract] → [Load thẳng] → [Warehouse: raw schema] → [Transform: SQL/dbt] → [Mart schema]
-\`\`\`
+| Cách | Đời sống | Trong data |
+|------|----------|-----------|
+| **ETL** (Extract → Transform → Load) | Bếp nấu sẵn món rồi bưng ra | Biến đổi **trước**, chỉ đẩy data đã sạch vào warehouse |
+| **ELT** (Extract → Load → Transform) | Buffet — bê nguyên liệu sống ra, khách tự xử | Đẩy thẳng raw data vào warehouse, biến đổi bằng **SQL ngay trong warehouse** |
 
-**Đặc điểm:**
-- Tận dụng **MPP compute** của warehouse (BigQuery, Snowflake)
-- Raw data **luôn còn** → re-process dễ
-- Transform = SQL → analyst tự viết được (không phải code Python)
-- Chi phí compute biến đổi theo query (pay-per-query model)
+Khác biệt nằm ở chữ **T** đứng trước hay sau chữ **L**.
 
-**Khi nào dùng ELT:**
-- Cloud warehouse (BigQuery, Snowflake, Redshift, Databricks) — compute rẻ và elastic
-- Data volume lớn (TB+)
-- Team analytics đông, cần tự service
-- Cần **time travel / replay** khi logic ETL có bug
+## 3. 🏭 ETL — "Bếp nấu sẵn"
 
-## So sánh chi tiết ETL vs ELT
+Sơ đồ:
+\\\`\\\`\\\`
+[Postgres] → [Extract] → [Server riêng: Python/Spark] → [Transform] → [Warehouse: chỉ data sạch]
+\\\`\\\`\\\`
+
+- Cần **một server riêng** để chạy biến đổi (EC2, Spark cluster).
+- Warehouse chỉ chứa data đã agg/sạch → query nhanh nhưng **mất raw**.
+- Hợp khi compute trong warehouse **đắt** (Teradata, Oracle on-prem) hoặc khi luật bắt **mask PII trước khi lưu** (GDPR).
+
+## 4. ☁️ ELT — "Buffet"
+
+Sơ đồ:
+\\\`\\\`\\\`
+[Postgres] → [Extract] → [Load thẳng] → [Warehouse: raw schema] → [SQL/dbt transform] → [mart schema]
+\\\`\\\`\\\`
+
+- Tận dụng **MPP compute siêu mạnh** của Snowflake / BigQuery / Redshift.
+- Raw data **luôn còn** → bug logic? Re-process trong 5 phút.
+- Analyst tự viết SQL transform — không cần đợi data engineer.
+
+> 💡 **Mẹo của thầy Hải:** 90% công ty mới lên cloud (Shopee, Tiki, MoMo, các startup) đều chọn **ELT** vì BigQuery/Snowflake compute rẻ và tự co giãn. ETL chỉ còn ngon trong các ngân hàng on-prem hoặc fintech bị siết PII gắt.
+
+## 5. ⚖️ So sánh chi tiết
+
 | Khía cạnh | ETL | ELT |
 |-----------|-----|-----|
 | Vị trí transform | Server riêng | Trong warehouse |
-| Tốc độ | Chậm (compute hạn chế) | Nhanh (MPP của warehouse) |
-| Tính linh hoạt | Thấp (transform fix sẵn) | Cao (raw luôn còn) |
-| Ngôn ngữ transform | Python, Java, Spark | SQL (dbt, Dataform) |
-| Chi phí | Server cố định | Pay-per-query (biến đổi) |
-| Compliance (PII) | Mask trước khi lưu | Cần row/column-level security |
-| Re-processing | Khó (không có raw) | Dễ (raw vẫn còn) |
-| Tools tiêu biểu | Informatica, Talend, AWS Glue | dbt, Dataform, Fivetran + Snowflake |
+| Tốc độ | Chậm (compute hạn chế) | Nhanh (MPP cloud) |
+| Linh hoạt | Thấp (transform fix sẵn) | Cao (raw luôn còn) |
+| Ngôn ngữ | Python, Spark | SQL (dbt, Dataform) |
+| Chi phí | Server cố định | Pay-per-query |
+| Re-process | Khó (mất raw) | Dễ |
+| Hợp với | On-prem, PII chặt | Cloud warehouse hiện đại |
 
-## Các thành phần cốt lõi của Pipeline
+## 6. ⚠️ Bẫy thường gặp
 
-### 1. Source Connectors (Extract)
-- **Database CDC** (Debezium, AWS DMS) — đọc binlog, capture INSERT/UPDATE/DELETE realtime
-- **API connectors** — REST polling (Stripe, Shopify), webhook (Slack, GitHub)
-- **File watchers** — S3 EventBridge, GCS Pub/Sub trigger khi file mới đến
-- **Streaming source** — Kafka topic, Kinesis stream
+> ⚠️ **Cảnh báo:** Đừng "ELT mọi thứ vào BigQuery" rồi để raw data **không bao giờ transform**. Sau 6 tháng warehouse thành **bãi rác** (data swamp) — tốn tiền lưu trữ mà chẳng ai dám query.
 
-### 2. Transformation Layer
-- **Cleaning**: null handling, type cast, dedup
-- **Enrichment**: join với reference (geocoding IP, currency convert, lookup user master)
-- **Aggregation**: pre-compute metrics cho dashboard (DAU, GMV, conversion rate)
-- **Conforming**: chuẩn hóa format (date YYYY-MM-DD, timezone UTC, currency USD)
+Các sai lầm điển hình:
+1. Đẩy raw data nhưng **không có dbt model** → analyst tự viết SQL trùng nhau khắp nơi.
+2. Không **partition** bảng raw theo ngày → query 1 tháng quét cả 3 năm → bill BigQuery $$$$.
+3. Không có **staging layer** giữa raw và mart → mart phụ thuộc thẳng raw, schema raw đổi là vỡ.
 
-### 3. Loading Strategies
-| Strategy | Mô tả | Ưu điểm | Nhược điểm |
-|----------|-------|---------|------------|
-| **Full refresh** | Xóa hết + load lại | Đơn giản, đảm bảo đồng bộ | Chậm với bảng lớn |
-| **Incremental append** | Chỉ thêm row mới (theo timestamp) | Nhanh | Không xử lý UPDATE |
-| **Upsert (MERGE)** | Insert mới + update cũ theo key | Cân bằng tốt | Cần unique key |
-| **SCD Type 2** | Lưu lịch sử (valid_from/valid_to) | Audit đầy đủ | Storage tăng nhanh |
+## 7. 🎯 Best practice của thầy Hải
 
-### 4. Orchestration
-- **Time-based**: cron (\`0 2 * * *\` — 2h sáng mỗi ngày)
-- **Event-driven**: Lambda trigger khi file đến S3
-- **Dependency-based**: Airflow DAG — task B chạy sau khi A xong
-- **Sensor-based**: poll cho đến khi điều kiện đúng (file đến, partition đầy)
+1. **Chọn ELT mặc định** cho mọi dự án dùng cloud warehouse.
+2. Cấu trúc warehouse 3 tầng: \\\`raw\\\` → \\\`staging\\\` (dbt clean) → \\\`mart\\\` (dbt business).
+3. Mỗi bảng raw **partition theo ngày**, expire raw cũ > 90 ngày để tiết kiệm.
+4. Chỉ chuyển sang ETL khi: warehouse on-prem, hoặc luật cấm lưu PII gốc.
 
-### 5. Monitoring & Data Quality
-- **Row count check**: hôm nay nhận 1.2M, trung bình 1M ± 5% → OK
-- **Schema drift detection**: cột mới xuất hiện → alert
-- **Freshness SLA**: dashboard cần data <1h cũ
-- **Volume anomaly**: drop >30% so với baseline → page on-call
+## 8. ✅ Tóm tắt 30 giây
 
-## Case study thật
-
-### Netflix — ELT trên S3 + Spark + Iceberg
-- **3+ PB/ngày** event data từ 250M users
-- Stack: **Kafka → S3 (raw, parquet) → Spark transform → Iceberg tables → Druid (serving)**
-- Lý do chọn ELT: cần re-process khi sửa logic recommendation; raw data giữ 18 tháng
-- Cost saving: dùng **Spot Instances** cho Spark batch (tiết kiệm 70%)
-
-### Stripe — ETL với Python + Postgres
-- Data tài chính cần **PII masking** trước khi vào analytical DB (PCI-DSS)
-- Pipeline Python + Airflow extract từ production Postgres → mask card numbers → load vào analytics warehouse
-- Chọn ETL vì compliance > flexibility
-
-### Airbnb — Hybrid ETL + ELT
-- **Real-time pricing** (ETL): Spark Streaming, transform trước khi push vào serving DB
-- **Reporting/analytics** (ELT): dump raw vào Hive → dbt transform → Presto query
-- Bài học: không phải chọn 1 trong 2 — **dùng cả hai cho use cases khác nhau**
-
-## Best practices
-1. **Idempotent jobs** — chạy lại nhiều lần không tạo duplicate (dùng MERGE thay vì INSERT)
-2. **Partition by date** — \`/year=2026/month=04/day=19/\` giúp prune query nhanh
-3. **Schema evolution friendly** — dùng Avro/Parquet với schema registry, tránh CSV
-4. **Separate raw / staging / mart** schemas — 3 lớp rõ ràng, dễ debug
-5. **Data contract** giữa source team và data team — schema + SLA + on-call rotation
-6. **Backfill capability** — pipeline phải re-process được 30/60/90 ngày dữ liệu cũ
-7. **CI/CD cho pipeline** — test transform với sample data trước khi deploy
-
-## Anti-patterns (tránh!)
-- ❌ **"Big bang" full refresh hàng giờ** với bảng 100GB → tốn $$$ compute
-- ❌ Transform trong **stored procedure** không có version control → không debug được
-- ❌ Pipeline **không idempotent** — retry tạo data trùng
-- ❌ **Hardcode credentials** trong DAG code → leak qua Git
-- ❌ Không có **alert khi pipeline fail** — phát hiện sau 3 ngày qua complaint của CEO
-- ❌ Transform raw data **mất luôn raw** — không re-process được khi phát hiện bug logic
-
-## Khi nào nên / không nên
-**Nên ELT khi:** cloud warehouse, data volume lớn, team analytics đông, cần flexibility cao
-**Nên ETL khi:** PII compliance bắt buộc, on-prem warehouse, schema cực ổn định, audit yêu cầu single source
-
-## Bridge sang bài tiếp
-Sau khi nắm được kiến trúc tổng thể ETL/ELT, bài tiếp theo (**Data Modeling**) sẽ đào sâu vào **cách tổ chức bảng** trong warehouse: Star Schema, Snowflake Schema, fact vs dimension — quyết định query có nhanh hay chậm.`,
+- **ETL** = nấu sẵn rồi bưng ra. Hợp on-prem.
+- **ELT** = bê nguyên liệu, khách tự xử trong warehouse. Hợp cloud — **lựa chọn 2025**.
+- Nguyên tắc vàng: **luôn giữ raw**, dùng dbt transform thành nhiều layer, partition theo ngày.
+`,
         theoryEn: `**ETL** and **ELT** are the two fundamental patterns for moving data from operational sources to analytical destinations. Choosing wrong can burn cloud budget or make pipelines 10× slower.
 
 ## Why this matters
@@ -1706,88 +1650,86 @@ ORDER BY d.year, d.month;
       {
         id: "de-wh-1", title: "OLAP & Warehouse Concepts", titleEn: "OLAP & Warehouse Concepts",
         level: 3, difficulty: "intermediate",
-        theory: `A **data warehouse** is a database engineered for analytical queries: large scans, aggregations, joins across billions of rows. It is fundamentally different from the OLTP databases that run your application. Confusing the two is the #1 reason analytics projects fail in their first year.
+        theory: `Một ngày đẹp trời ở startup, sếp hỏi: *"Sao không cắm Metabase thẳng vào Postgres production cho gọn?"* Bạn gật đầu — và 2 tuần sau lúc 14h thứ Sáu, một báo cáo quý chạy 4 phút **khoá bảng \\\`orders\\\`** ngay giữa giờ check-out. Khách rớt giỏ hàng. Sếp Slack đỏ rực. Đó chính là **lý do Data Warehouse tồn tại**.
 
-## Why this matters in production
+## 1. 🚦 Vấn đề đời thường
 
-When a startup hits ~50 employees, someone always asks: *"Can we just run our reports off the production Postgres?"* The answer is "yes, until the day a quarterly board report locks the orders table for 4 minutes during checkout." Warehouses exist precisely to keep analytics from breaking transactions, and to make analytics fast enough to be interactive instead of overnight batch.
+Tiki có **2 cuộc đời**:
+- **Cuộc đời 1 — bán hàng**: hàng triệu thao tác nhỏ/giây (thêm giỏ, thanh toán). Cần Postgres/MySQL — **OLTP**.
+- **Cuộc đời 2 — phân tích**: "doanh thu trung bình theo vùng theo tháng trong 3 năm qua" — quét hàng tỷ dòng, rất ít người chạy nhưng mỗi câu cực nặng. Cần **OLAP**.
 
-Every modern data team relies on at least one of: Snowflake, BigQuery, Redshift, Databricks SQL, ClickHouse, DuckDB. The architectural ideas below explain *why* they all look surprisingly similar.
+Cố ép cuộc đời 2 chạy trong DB của cuộc đời 1 = **sập hệ thống bán hàng**.
 
-## OLTP vs OLAP — two different worlds
+## 2. 💡 OLTP vs OLAP — Hai thế giới khác nhau
 
-| Aspect | OLTP (Postgres, MySQL) | OLAP (Snowflake, BigQuery) |
-|---|---|---|
-| Purpose | Run the business | Analyze the business |
-| Workload | Many small writes | Few large reads |
-| Query pattern | "Get user 42's last order" | "Avg order value per region per month over 3 years" |
-| Rows touched per query | 1–100 | Millions–billions |
-| Storage layout | Row-oriented | **Column-oriented** |
-| Concurrency | Thousands of users | Tens of analysts |
-| Schema | Highly normalized (3NF) | Denormalized star schema |
+| Khía cạnh | OLTP (Postgres, MySQL) | OLAP (Snowflake, BigQuery) |
+|-----------|----------------------|---------------------------|
+| Mục đích | Vận hành kinh doanh | Phân tích kinh doanh |
+| Workload | Nhiều ghi nhỏ | Vài đọc khổng lồ |
+| Câu hỏi | "Đơn cuối của user 42 là gì?" | "Doanh thu TB theo vùng 3 năm?" |
+| Dòng/query | 1–100 | Triệu–tỷ |
+| Lưu trữ | **Theo dòng** (row-store) | **Theo cột** (column-store) |
+| Concurrency | Hàng nghìn user | Hàng chục analyst |
+| Schema | Chuẩn hoá 3NF | Star schema (denormalized) |
 
-The two-sentence summary: **OLTP optimizes for finding one needle in the haystack; OLAP optimizes for measuring the whole haystack.**
+Tóm tắt 1 câu: **OLTP tìm 1 cây kim trong đống rơm; OLAP đo cả đống rơm.**
 
-## Columnar storage — the secret sauce
+## 3. 🧱 Bí mật: Lưu trữ theo cột (Columnar)
 
-Row-store (OLTP): all columns of one row are stored together on disk.
-Column-store (OLAP): all values of one *column* are stored together.
+Câu query \\\`SELECT AVG(amount) FROM fact_sales WHERE year = 2024\\\` chỉ cần **2 cột** trong bảng 50 cột.
 
-Why columnar wins for analytics:
+- **Row-store**: phải đọc cả 50 cột để lấy 2 → đọc thừa **96%** dữ liệu.
+- **Column-store**: chỉ đọc đúng 2 cột → giảm 25× I/O.
 
-- A query like \`SELECT AVG(amount) FROM fact_sales WHERE year = 2024\` only needs **two columns** out of 50. Columnar reads ~4% of the bytes a row store would.
-- Column data is highly compressible (often 10× — same data type, similar values, sorted).
-- Modern CPUs can vectorize operations on tightly-packed columns (SIMD).
+Cộng thêm **nén siêu mạnh** (cùng kiểu dữ liệu, giá trị tương tự nhau, đã sort) → nén tới **10×**. Cộng SIMD trên CPU hiện đại → đó là lý do BigQuery quét 10TB trong 30 giây mà Postgres chạy cả ngày.
 
-This is why Snowflake/BigQuery can scan 10 TB in 30 seconds while Postgres would take hours.
+## 4. ☁️ Kiến trúc cloud warehouse — Tách Storage khỏi Compute
 
-## Cloud warehouse architecture
+Snowflake / BigQuery / Redshift / Databricks đều chia làm 3 lớp:
 
-All modern cloud warehouses share the same trick: **separation of storage and compute**.
+1. **Storage** = object storage rẻ (S3/GCS) — \\\`$23/TB/tháng\\\`.
+2. **Compute** = cluster bật theo nhu cầu, tính tiền theo giây.
+3. **Metadata** = catalog toàn cầu biết file nào thuộc bảng nào.
 
-- Storage: cheap object storage (S3, GCS) — \`$23/TB/month\`.
-- Compute: ephemeral clusters that spin up on demand — pay only for the seconds they run.
-- Metadata service: a global catalog tracking which files belong to which table.
+Hệ quả "thần kỳ":
+- **2 query trên cùng 1 bảng với 2 cluster size khác nhau** — không xung đột.
+- **Auto-scale** lên 100 nodes lúc cao điểm, 0 lúc 3h sáng.
+- **Zero-copy clone** — clone bảng 10TB trong **0 giây** (chỉ copy metadata) → dev/test khoái chí.
 
-Consequences:
+## 5. 🏆 So sánh 4 ông lớn
 
-1. You can run **two queries on the same data with two different cluster sizes** — one for analysts, one for batch ETL — without conflict.
-2. Auto-scaling: spike to 100 nodes for a complex query, drop to zero overnight.
-3. You can clone a 10 TB table in **0 seconds** (metadata-only "zero-copy clone") — game-changing for dev/test environments.
+| Warehouse | Tính tiền | Mạnh ở | Cẩn thận |
+|-----------|-----------|--------|----------|
+| **Snowflake** | Theo credit (compute) | Multi-cloud, share data dễ | Bill leo nhanh nếu không tắt cluster |
+| **BigQuery** | Theo TB scan | Serverless, miễn lo cluster | Phải biết partition để khỏi cháy ví |
+| **Redshift** | Theo node-hour | Tích hợp AWS chặt | Vacuum/sort key thủ công |
+| **Databricks** | Theo DBU | Ngon cho ML + ETL Spark | Hơi phức tạp cho team chỉ làm BI |
 
-## Comparison: the four big warehouses
+> 💡 **Mẹo của thầy Hải:** Startup Việt mới bắt đầu? Chọn **BigQuery** — không cần quản cluster, có free tier 1TB/tháng, khớp ngay với GA4 và Firebase.
 
-| Warehouse | Pricing model | Strengths | Watch-outs |
-|---|---|---|---|
-| **Snowflake** | Per-second compute + storage | UX, zero-copy clone, sharing | Cost can explode without governance |
-| **BigQuery** | Per-TB scanned (or slots) | Serverless, ML built-in | Surprise bills if no \`SELECT\` discipline |
-| **Redshift** | Provisioned clusters | Tight AWS integration | Manual sizing, vacuums |
-| **Databricks SQL** | Per-DBU (cluster) | Best for lakehouse + ML | Complex pricing, learning curve |
+## 6. ⚠️ Bẫy thường gặp
 
-The boring truth: pick whichever your cloud provider already runs and your team can hire for. The performance differences are smaller than the operational ones.
+> ⚠️ **Cảnh báo:** "Cắm Metabase vào Postgres production cho nhanh" — câu nói **giết startup** nhanh nhất. Khi data > 50GB, một query report sẽ khoá bảng → checkout sập. Bài học: **dù chỉ 100MB, hãy CDC sang warehouse trước**.
 
-## Case study #1 — Capital One on Snowflake
+Bẫy thường gặp:
+- Quên \\\`PARTITION BY date\\\` → query 1 ngày quét cả 3 năm → bill nổ.
+- Dùng \\\`SELECT *\\\` trên warehouse columnar → mất hết lợi thế cột.
+- Tưởng warehouse "miễn phí scale" → quên đặt budget alert → tháng đầu nhận hoá đơn $30,000.
 
-Capital One famously migrated from on-prem Teradata (8-figure annual contract, fixed capacity) to Snowflake. The win was not raw speed — it was *elasticity*. Quarterly stress-test workloads that used to take 3 weeks of capacity planning now ran on a temporary 2-hour cluster. They cut their analytics infrastructure cost ~40% while *increasing* throughput.
+## 7. 🎯 Best practice của thầy Hải
 
-## Case study #2 — the "$700 SELECT *" on BigQuery
+1. **Tách warehouse khỏi production từ ngày đầu** — dùng CDC (Fivetran, Airbyte, Debezium).
+2. Mọi bảng fact phải có **partition** theo ngày + **cluster key** theo dimension hay filter.
+3. Set **budget alert** trong console BigQuery/Snowflake — KHÔNG bao giờ bỏ qua.
+4. Dùng **dbt** để tổ chức transform thành raw → staging → mart.
 
-A junior analyst at an early-stage startup ran \`SELECT * FROM events\` against a 70 TB partitioned table because they wanted to "look around." BigQuery scanned the entire table at $5/TB → a single query cost $350 (run twice = $700). The lesson is structural: BigQuery's pricing makes \`SELECT *\` literally a wallet attack. Mature teams enforce table partitioning, require \`WHERE\` clauses on partition columns, and set per-user query quotas.
+## 8. ✅ Tóm tắt 30 giây
 
-## Best practices
-
-- **Partition large fact tables by date** (\`PARTITION BY date_trunc('day', event_ts)\`) so queries skip 99% of files.
-- **Cluster / sort by the most-filtered column** (often \`customer_id\` or \`country\`).
-- Tag every query with a \`-- team:growth, dashboard:weekly_kpis\` comment so cost can be attributed.
-- Use **materialized views** for the top 10 most-expensive recurring queries.
-- **Separate workloads onto separate warehouses/clusters** — never let a 6-hour ML training job share compute with the CEO's morning dashboard.
-- Set **resource monitors / budget alerts** in week one, not after the first surprise invoice.
-
-## Anti-patterns & bridge to next lesson
-
-Avoid: scanning unpartitioned tables; running OLTP-style point lookups in a warehouse; ignoring storage tiering; granting everyone the largest warehouse size; treating warehouse cost as "infra's problem" instead of a per-team budget.
-
-Next lesson tackles **Batch vs Streaming**: once you have a great warehouse, the next architectural decision is *how fresh* the data inside it needs to be — minutes, hours, or sub-second.`,
+- **OLTP** chạy app, **OLAP** phân tích — không bao giờ trộn lẫn.
+- **Columnar + tách storage/compute** = phép mầu của cloud warehouse.
+- Mới làm cloud → chọn **BigQuery** hoặc **Snowflake**.
+- Luôn **partition + budget alert** — bảo vệ ví của bạn.
+`,
         theoryEn: `A **data warehouse** is engineered for analytical queries: large scans, aggregations, joins across billions of rows. Different beast from OLTP databases.
 
 ## Why this matters
@@ -1904,91 +1846,82 @@ for s in q1:
       {
         id: "de-bs-1", title: "Batch & Streaming", titleEn: "Batch & Streaming",
         level: 4, difficulty: "advanced",
-        theory: `Every modern data system makes one fundamental choice: **process data in batches** (every hour, every night) or **process events as they arrive** (sub-second). The choice cascades into everything — the technologies, the team skills, the cost, even the way business stakeholders think about "now."
+        theory: `Khi sếp nói *"tôi muốn data real-time"*, hãy tỉnh táo. **Real-time** rất sexy — nhưng đắt gấp 10 lần batch và đau đầu gấp 100 lần. Câu hỏi quyết định không phải *"có làm được không?"* mà là **"trễ 1 phút vs 1 giờ vs 1 ngày — tốn của business bao nhiêu?"**
 
-## Why this matters in production
+## 1. 🚦 Vấn đề đời thường
 
-Streaming sounds sexy ("real-time data!"), but most companies do not actually *need* it. A daily revenue report does not need streaming. A fraud-detection system absolutely does. Picking streaming when batch would do is one of the most expensive over-engineering mistakes a data team can make: 5–10× the operational complexity, 24/7 on-call, and infrastructure bills that scale with throughput, not with value.
+- **Báo cáo doanh thu cuối ngày** cho sếp → trễ 1 ngày OK → **batch**.
+- **Cảnh báo gian lận thẻ tín dụng** lúc khách quẹt thẻ → trễ 5 giây = mất tiền → **streaming**.
+- **Dashboard livestream Shopee** đang bao nhiêu người xem → trễ 30 giây vẫn đỡ → **micro-batch**.
 
-The core question: *what is the cost of being one minute late vs one hour late vs one day late?*
+→ Chọn sai: streaming cho báo cáo cuối ngày = đốt $$$ vô ích.
 
-## Batch processing — the workhorse
+## 2. 💡 Khái niệm chính
 
-Batch jobs collect data over a period (an hour, a day) and process it in a single pass.
+| Cách | Đời sống | Latency | Cost |
+|------|----------|---------|------|
+| **Batch** | Bếp nấu sẵn, cứ 1 tiếng dọn ra 1 đợt | Phút–giờ | $ |
+| **Streaming** | Livestream Shopee — sự kiện đến là xử ngay | Mili giây–giây | $$$$ |
+| **Micro-batch** | Batch siêu nhỏ, chạy mỗi 5 giây | Giây–chục giây | $$ |
 
-- Tools: Airflow + Spark, dbt, Snowflake tasks, AWS Glue, BigQuery scheduled queries.
-- Latency: minutes to hours.
-- Throughput: enormous (TBs per job).
-- Cost: low — you pay only when jobs run.
-- Recovery: easy — just re-run yesterday's job.
+## 3. 🛒 Batch — Con ngựa thồ tin cậy
 
-90% of analytics work in the world is batch. dbt is the de-facto standard for batch transformations in 2024–2025.
+- **Tools**: Airflow + Spark, dbt, Snowflake tasks, AWS Glue, BigQuery scheduled queries.
+- **Latency**: Phút đến giờ.
+- **Throughput**: Khổng lồ (TBs mỗi job).
+- **Cost**: Thấp — chỉ trả khi chạy.
+- **Recovery**: Dễ — re-run job hôm qua là xong.
 
-## Streaming processing — the live wire
+→ **90% công việc analytics trên thế giới là batch.** dbt là chuẩn ngành 2024–2025.
 
-Streaming systems process events one at a time (or in tiny micro-batches) as they arrive.
+## 4. ⚡ Streaming — Đường dây sống
 
-- Tools: Kafka + Flink, Spark Structured Streaming, Kinesis, Pulsar, Materialize, RisingWave.
-- Latency: milliseconds to seconds.
-- Throughput: high but expensive per byte.
-- Cost: 24/7 running clusters even when traffic is low.
-- Recovery: hard — replaying state requires careful design.
+- **Tools**: Kafka + Flink, Spark Structured Streaming, Kinesis, Pulsar.
+- **Latency**: Mili giây đến giây.
+- **Throughput**: Cao nhưng đắt theo byte.
+- **Cost**: Cluster chạy 24/7 — cao điểm hay 3h sáng đều tốn.
+- **Recovery**: Khó — replay state đòi thiết kế cẩn thận.
 
-## How streaming actually works — three concepts you must know
+## 5. 🧩 3 khái niệm streaming PHẢI biết
 
-**1. Event time vs processing time.** Events have a timestamp from when they *happened*. They arrive at the processor at a different — usually later — time. A user offline for 2 hours uploads 50 events at once: event time spans 2 hours, processing time spans 1 second.
+**1. Event time vs Processing time** — Sự kiện có timestamp lúc *xảy ra*, đến processor lúc *xử lý* — hai mốc thường lệch nhau. Khách offline 2 tiếng, lên mạng upload 50 event 1 lúc → event time trải 2h, processing time gói trong 1 giây.
 
-**2. Windowing.** "Average orders per minute" needs a definition of *which minute*. Three common windows:
+**2. Windowing** — "TB đơn/phút" cần định nghĩa "phút nào". 3 loại window:
+- **Tumbling** — cố định, không chồng (mỗi 1 phút).
+- **Sliding** — kích thước cố định nhưng trượt (1 phút gần nhất, tính lại mỗi 10 giây).
+- **Session** — động — đóng khi user ngừng hoạt động.
 
-- **Tumbling**: fixed, non-overlapping (every 1-minute bucket).
-- **Sliding**: fixed-size but advancing every N seconds (last 1 minute, recomputed every 10 s).
-- **Session**: dynamic — closes when there's a gap in user activity.
+**3. Watermark** — "tôi hứa không xử event nào cũ hơn X." Định nghĩa khi nào window được **đóng** và emit kết quả. Data đến muộn sau watermark sẽ bị drop hoặc đẩy sang side output.
 
-**3. Watermarks.** A promise: "I will not process any event older than X." Defines when a window is *closed* and ready to emit. Late data after the watermark is dropped or routed to a side output.
+## 6. ⚖️ Bảng so sánh
 
-## Trade-off table
-
-| Aspect | Batch | Streaming |
-|---|---|---|
-| Latency | Hours | Sub-second |
+| Khía cạnh | Batch | Streaming |
+|-----------|-------|-----------|
+| Latency | Giờ | Sub-giây |
 | Cost | $ | $$$$ |
-| Operational complexity | Low | Very high |
-| Backfill / replay | Trivial (\`re-run\`) | Hard (must replay state) |
-| Best for | Reports, ML training | Fraud, alerts, live dashboards |
-| Team skill needed | SQL / Python | Distributed systems |
+| Độ phức tạp vận hành | Thấp | Rất cao |
+| Backfill / replay | Trivial (\\\`re-run\\\`) | Khó (replay state) |
+| Hợp với | Báo cáo, ML training | Fraud, alert, live dashboard |
+| Skill team cần | SQL / Python | Distributed systems |
 
-## Lambda vs Kappa architectures
+## 7. ⚠️ Bẫy thường gặp & 🎯 Best practice
 
-**Lambda** runs *both* a batch and a streaming pipeline in parallel. Streaming gives a fast (but approximate) view; batch gives the eventually-correct view; the serving layer reconciles them. Powerful but requires maintaining two codebases for the same logic — most teams come to hate this.
+> ⚠️ **Cảnh báo:** Bẫy đắt nhất ngành: **chọn streaming khi batch là đủ**. Một bạn data engineer ở startup VN từng setup Kafka + Flink để đếm "số đơn/giờ" — trong khi 1 query SQL chạy mỗi 10 phút là dư xài. Kết quả: bill AWS $8,000/tháng cho thứ đáng lẽ tốn $50.
 
-**Kappa** runs a single streaming pipeline; backfills are done by replaying the event log from the start. Simpler, single source of truth, but only feasible if your event log is durable (Kafka with infinite retention) and your stream processor can replay.
+> 💡 **Mẹo của thầy Hải:** Hỏi trước 3 câu rồi mới chọn streaming:
+> 1. Trễ 1 giờ thì business mất bao nhiêu tiền?
+> 2. Team có đủ kỹ sư distributed systems để on-call 24/7 không?
+> 3. Có chấp nhận hoá đơn cloud cao gấp 5–10 lần không?
 
-The 2020s consensus: prefer **Kappa-style with a streaming engine** + **dbt batch on top of the warehouse** for analytical aggregates.
+→ Nếu trả lời không cho **bất kỳ câu nào** — chọn **batch**.
 
-## Case study #1 — Uber's marketplace
+## 8. ✅ Tóm tắt 30 giây
 
-Uber matches riders to drivers in **<5 seconds**, computes surge pricing in **<10 seconds**, and runs financial reconciliation **once a day**. Same data, three latency tiers. Their architecture: Kafka for the event spine, Flink for streaming aggregates (surge, ETAs), and Hive/Presto for batch (financial close, A/B test reads). They publicly described this in the "uReplicator" and "Athena" blog posts (2017–2019).
-
-## Case study #2 — when streaming was the wrong choice
-
-A mid-sized e-commerce company built a streaming pipeline (Kafka + Flink) to deliver "real-time" daily sales dashboards. After 18 months of on-call pain (watermark tuning, late events, exactly-once semantics), they discovered the dashboard refreshed *once per morning anyway*. They migrated to dbt + Airflow in 2 sprints, saved $200k/year in infra, and paged the on-call engineer 80% less.
-
-The moral: **streaming for the sake of streaming is technical debt with extra steps.**
-
-## Best practices
-
-- **Default to batch.** Move to streaming only when latency directly creates business value (fraud, personalization, alerting).
-- Use a **single event log (Kafka)** as the source of truth — feeds *both* batch and streaming downstream.
-- Make pipelines **idempotent**: replaying the same event twice must produce the same result.
-- Always design **late-data handling** explicitly (drop / re-aggregate / route to dead letter).
-- Set **end-to-end latency SLOs** — "p99 from event to dashboard < 30s" — before designing.
-- Monitor **lag** (consumer offset behind log head), not just throughput.
-
-## Anti-patterns & bridge to next lesson
-
-Avoid: choosing streaming because it sounds modern; running streaming jobs without exactly-once or idempotency; using \`processing time\` when you really mean \`event time\`; building Lambda when Kappa would suffice.
-
-Next: **Data Quality** — once data is flowing (batch or stream), how do you make sure the numbers are *right*?`,
+- **Batch** xử cả mớ một lần, latency phút–giờ, rẻ. **90% case dùng cái này.**
+- **Streaming** xử từng event ngay, latency sub-giây, đắt + phức tạp.
+- 3 khái niệm streaming phải nhớ: **event time, window, watermark**.
+- Quy tắc vàng: **mặc định batch**, chỉ streaming khi business mất tiền vì độ trễ.
+`,
         theoryEn: `Every data system chooses: process in **batches** or as **streams**. The choice drives tooling, cost, team skills.
 
 ## Why this matters
@@ -2102,93 +2035,98 @@ for event in data[:10]:
       {
         id: "de-dq-1", title: "Data Quality Framework", titleEn: "Data Quality Framework",
         level: 3, difficulty: "intermediate",
-        theory: `Data quality is not a tool you install — it is a **discipline** you practice every release. The question stops being "is the pipeline running?" and becomes "is the data the pipeline produced *correct, complete, fresh, and consistent*?" Companies that get this right ship trustworthy dashboards. Companies that don't end up with the dreaded "the numbers are wrong again" Slack thread every week.
+        theory: `Sếp nhắn 8h sáng thứ Hai: *"Số doanh thu chủ nhật sai rồi"*. Bạn mở dashboard — đúng là sai. Lần thứ 4 trong tháng. **Trust** — thứ duy nhất mà data team có với phần còn lại của công ty — bốc hơi mỗi lần như thế. Đó là lý do **Data Quality** không phải tool, mà là **kỷ luật** ship hàng tuần.
 
-## Why this matters in production
+## 1. 🚦 Vấn đề đời thường
 
-A 2023 Monte Carlo / Wakefield survey found data engineers spend **40% of their time** on data-quality firefighting. Worse, downstream consumers — the ML team, the finance team, the CEO — discover bad data *before* the data team does, eroding trust faster than any marketing campaign can rebuild it.
+Hãy tưởng tượng nhà máy cà phê **Trung Nguyên**: nếu không có khâu **kiểm phẩm** sau mỗi mẻ rang, một lô hạt cháy có thể đến tay 10,000 khách trước khi ai đó phát hiện. Pipeline data y hệt — không có DQ, một bug trong job ETL có thể làm sai dashboard CEO trong 2 tuần.
 
-A famous Gartner estimate puts the average annual cost of poor data quality at **$12.9 million per company**. Even a fraction of that justifies building proper observability.
+Theo Gartner, công ty trung bình **mất $12.9 triệu/năm** vì data quality kém. Theo khảo sát Monte Carlo, data engineer dành **40% thời gian** chữa cháy data sai.
 
-## The six dimensions of data quality
+## 2. 💡 Khái niệm chính: 6 chiều của Data Quality
 
-The standard framework you should know cold:
+| Chiều | Câu hỏi | Ví dụ kiểm tra |
+|-------|---------|----------------|
+| **Completeness** | Giá trị bắt buộc có đủ? | \\\`% null trong customer_email\\\` |
+| **Accuracy** | Giá trị có đúng thực tế? | \\\`amount > 0\\\` cho doanh thu |
+| **Consistency** | Cùng giá trị giữa các hệ thống? | \\\`order_total = sum(line_items)\\\` |
+| **Timeliness** | Data có tươi không? | last update < 1h |
+| **Uniqueness** | Không trùng lặp ngoài ý muốn? | \\\`count(distinct id) = count(*)\\\` |
+| **Validity** | Đúng format/range? | email regex, country code ISO |
 
-| Dimension | Question it answers | Example check |
-|---|---|---|
-| **Completeness** | Are required values present? | \`% null in customer_email\` |
-| **Accuracy** | Does the value match reality? | \`amount > 0\` for sales |
-| **Consistency** | Same value across systems? | \`order_total = sum(line_items)\` |
-| **Timeliness** | How fresh is the data? | last update < 1h ago |
-| **Uniqueness** | No unwanted duplicates? | \`count(distinct id) = count(*)\` |
-| **Validity** | Conforms to format/range? | email regex, country code in ISO list |
+→ Team data trưởng thành **mã hoá MỌI dimension** thành automated test — fail là pipeline dừng.
 
-A mature data team encodes *every* one of these as automated tests that block deployment if they fail.
+## 3. 🛡️ 3 lớp phòng thủ
 
-## Three layers of defense
+**Lớp 1 — Schema/contract test (build time)** — typed columns, NOT NULL, foreign-key check. Tools: dbt tests, Great Expectations, Soda.
 
-Production-grade quality programs operate at three layers:
+**Lớp 2 — Statistical anomaly detection (runtime)** — row count giảm 50%? Distribution của \\\`amount\\\` lệch? Null rate gấp đôi? Tools: Monte Carlo, Bigeye, Anomalo.
 
-**Layer 1 — Schema / contract tests** (build time): typed columns, NOT NULL constraints, foreign-key checks. Caught by dbt tests, Great Expectations, Soda.
+**Lớp 3 — Business-logic assertion (semantic)** — "doanh thu cuối tuần phải bằng 60–80% ngày thường", "refund < 5% gross". Đây là rule **chỉ analytics engineer biết**, warehouse không tự suy ra được.
 
-**Layer 2 — Statistical anomaly detection** (run time): row-count down 50%? distribution of \`amount\` shifted? null rate doubled? Caught by tools like Monte Carlo, Bigeye, Anomalo, or hand-rolled with SQL + alerting.
+## 4. 🛠️ Cú pháp: dbt test
 
-**Layer 3 — Business-logic assertions** (semantic): "weekend revenue should be 60–80% of weekday." "Refunds < 5% of gross." These are domain rules the warehouse cannot infer. Owned by the analytics engineer, not the platform team.
+Trong YAML:
+\\\`\\\`\\\`yaml
+models:
+  - name: fact_orders
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+\\\`\\\`\\\`
 
-## Mechanics — implementing dq tests with dbt
+Custom test SQL:
+\\\`\\\`\\\`sql
+-- tests/assert_positive_amount.sql
+select * from {{ ref('fact_orders') }}
+where amount <= 0
+\\\`\\\`\\\`
 
-The 2024 industry standard is **dbt tests**. Generic tests run as SQL:
+Test pass = query trả về **0 dòng**. CI chạy bộ test mỗi PR; production chạy sau mỗi transformation. Fail → pipeline dừng, alert Slack, mart không refresh.
 
-\`\`\`sql
--- This becomes a test in dbt YAML:
--- tests:
---   - not_null
---   - unique
---   - relationships:
---       to: ref('dim_customer')
---       field: customer_id
+## 5. 🧰 So sánh tools
 
-select customer_id
-from {{ ref('fact_orders') }}
-where customer_id is null
-\`\`\`
+| Tool | Mạnh | Hợp với |
+|------|------|---------|
+| **dbt tests** | Đơn giản, miễn phí, tích hợp transform | Mọi team dùng dbt |
+| **Great Expectations** | Test phong phú, profile data | Team data Python-heavy |
+| **Soda Core** | YAML config, multi-engine | Team đa cloud |
+| **Monte Carlo** | Phát hiện anomaly tự động bằng ML | Enterprise có budget |
 
-A test passes if the query returns **zero rows**. CI runs the suite on every PR; production runs it after every transformation. Failed test → pipeline halts, alert fires, downstream models don't refresh.
+> 💡 **Mẹo của thầy Hải:** Bắt đầu với **dbt tests + Slack webhook** — 80% giá trị, 0 chi phí. Chỉ mua Monte Carlo khi pipeline > 200 model và team không kịp viết test thủ công.
 
-## Comparison of leading tools
+## 6. ⚠️ Bẫy thường gặp
 
-| Tool | Strength | Best for |
-|---|---|---|
-| **dbt tests** | Built into transformations | Schema + simple business rules |
-| **Great Expectations** | Rich assertion library, docs | Python-heavy stacks, file/stream sources |
-| **Soda Core** | YAML-first, lightweight | Multi-engine, GitOps workflows |
-| **Monte Carlo** | ML-based anomaly detection | Large warehouses, lineage-heavy orgs |
-| **Anomalo** | No-code, business-user friendly | Cross-functional teams |
+> ⚠️ **Cảnh báo:** Bẫy chết người: **chỉ test ở mart layer**. Khi mart fail, bạn không biết lỗi ở extract, load, hay transform — phải debug ngược 5 tầng. **Test ở MỌI tầng** (raw → staging → mart) — fail càng sớm càng dễ sửa.
 
-For most teams the right answer is: **dbt tests for schema + business rules** + **a Monte Carlo / Anomalo-class tool for anomaly detection**. Don't try to hand-roll the second category — it never gets prioritized.
+Các sai lầm khác:
+- Test chỉ chạy mỗi đêm → bug đã lan vào dashboard 6 tiếng.
+- Alert spam Slack → team mute kênh → bỏ lỡ alert thật.
+- Test pass nhưng business sai → thiếu **business-logic assertion** ở lớp 3.
 
-## Case study #1 — Netflix's "Write-Audit-Publish"
+## 7. 🎯 Best practice của thầy Hải
 
-Netflix popularized **WAP**: every batch job first writes to a *staging* table, runs assertions, and only on success swaps the production table pointer. If assertions fail, prod is untouched and an alert fires. The pattern is now standard at Stripe, Airbnb, and most data-mature companies. Netflix wrote about it in their tech blog ("Maintaining Data Quality at Scale," 2019) and the open-source project **Apache Iceberg** ships first-class WAP support today.
+1. Mỗi PR thêm bảng mới phải **kèm tối thiểu 4 test**: not_null PK, unique PK, freshness, row count check.
+2. Alert chỉ gửi **kênh #data-alerts** — không spam #general.
+3. Có **DQ scorecard** hàng tuần show: % test pass, freshness lag, anomaly count.
+4. Sau mỗi incident → **viết test để bug đó không quay lại** (regression test).
 
-## Case study #2 — Unity's $110M data-quality miss
+## 8. ✅ Tóm tắt 30 giây
 
-In May 2022, Unity Technologies announced it would lose roughly **$110 million** in 2022 revenue because **bad data from a large customer had been fed into its ad-targeting ML model**, degrading its precision for months before anyone noticed. The stock dropped 36% in a day. The lesson is brutally clear: data quality is not a back-office concern — it is *directly* on the P&L.
-
-## Best practices
-
-- **Treat data tests like unit tests** — they run on every PR, fail the build on regression.
-- **Set SLAs per table**: freshness, completeness, schema-stability. Publish them, alert on breach.
-- **Separate critical-path tables** from "exploratory" ones — apply different rigor levels.
-- **Own quality at the producer, not the consumer.** The team that creates \`fact_orders\` owns its quality.
-- **Capture lineage** so when \`dim_product\` breaks, you immediately know which 47 dashboards are at risk.
-- **Run a weekly "data incident review"** — same discipline as software post-mortems.
-
-## Anti-patterns & bridge to next lesson
-
-Avoid: tests that "always pass" (commented out long ago); silent retries that mask quality issues; adding tests only after an incident; relying on stakeholders to find bad data; treating quality as one team's responsibility.
-
-Next: **Orchestration & DAGs** — once you have quality checks, you need a system that runs them in the right order, retries failures, and gives you a single pane of glass into pipeline health.`,
+- DQ = **kỷ luật**, không phải tool.
+- 6 chiều: Completeness, Accuracy, Consistency, Timeliness, Uniqueness, Validity.
+- 3 lớp phòng thủ: schema → statistical → business logic.
+- Bắt đầu từ **dbt tests + Slack** — đủ cho 90% team.
+- Quy tắc vàng: **fail càng sớm càng dễ sửa, regression test sau mỗi sự cố**.
+`,
         theoryEn: `Data quality is a discipline, not a tool. The right question shifts from "is the pipeline running?" to "is the output correct, complete, fresh, consistent?"
 
 ## Why this matters
@@ -2318,96 +2256,106 @@ dq.report()`,
       {
         id: "de-orch-1", title: "DAGs & Task Dependencies", titleEn: "DAGs & Task Dependencies",
         level: 4, difficulty: "advanced",
-        theory: `An **orchestrator** is the operating system of your data platform. It decides *what runs, when, in what order, what happens on failure, and who gets paged*. Without one you have a graveyard of cron jobs and Slack messages saying "did the report run today?" With one, you get a single pane of glass over the entire pipeline.
+        theory: `Bạn từng dậy sáng thứ Hai và thấy báo cáo doanh thu **rỗng**? 99% lý do không phải code transform sai — mà là **task A chạy xong trước khi data của task B sẵn sàng**. Đó là lý do **Orchestrator** (nhạc trưởng dữ liệu) ra đời. Hãy nghĩ về Orchestrator như **trưởng ca trong dây chuyền sản xuất Vinamilk**: ai làm trước, ai làm sau, lỗi thì ai gọi lại, hỏng thì ai báo sếp.
 
-## Why this matters in production
+## 1. 🚦 Vấn đề đời thường
 
-The number-one cause of broken dashboards on Monday morning is *not* a bad transformation — it is **task A finished before task B's data was ready**, and the report read stale data. A real orchestrator solves this by modeling pipelines as **DAGs** (directed acyclic graphs) where edges encode "B depends on A," and the engine guarantees order, retries, and observability.
+Pipeline data của bạn có 5 bước:
+1. Lấy đơn hàng từ Postgres
+2. Lấy thông tin user từ MongoDB
+3. Đẩy cả 2 vào BigQuery
+4. dbt transform
+5. Refresh dashboard Metabase
 
-In 2024–2025 the dominant choices are **Airflow** (still the de-facto standard), **Dagster** (modern, asset-aware), and **Prefect** (Pythonic, lightweight). dbt's built-in DAG handles intra-warehouse transformations and is usually triggered by one of the above.
+Nếu chạy bằng **5 cron job riêng lẻ** mỗi giờ một cái → một hôm bước 1 chạy chậm, bước 3 đã chạy với data cũ → dashboard sai. Sếp gọi lúc 8h sáng. 😱
 
-## Core concepts — task, DAG, scheduler, executor
+→ Cần một thứ **biết thứ tự** và **biết đợi**. Đó là DAG.
 
-- **Task**: a single unit of work (run a SQL, call an API, copy a file).
-- **DAG**: a graph of tasks with dependency edges; "directed" = order matters; "acyclic" = no loops.
-- **Scheduler**: decides which DAG runs when (cron-like).
-- **Executor**: actually runs the tasks (locally, on Celery workers, on Kubernetes pods).
-- **Backfill**: re-run a DAG for historical dates after a bug fix or schema change.
-- **Idempotency**: re-running a task with the same inputs must produce the same output.
+## 2. 💡 Khái niệm chính: DAG là gì?
 
-A textbook DAG:
+**DAG** = Directed Acyclic Graph = **đồ thị có hướng, không vòng lặp**.
 
-\`\`\`
+| Thuật ngữ | Đời sống |
+|-----------|----------|
+| **Task** | Một việc nhỏ (chạy 1 SQL, copy 1 file) |
+| **Edge** (cạnh) | Mũi tên "B đợi A xong" |
+| **Directed** | Có chiều — A → B chứ không phải B → A |
+| **Acyclic** | Không có vòng — A → B → A là **sai** |
+| **Scheduler** | Người canh đồng hồ: 2h sáng kích hoạt DAG |
+| **Executor** | Người thực sự xắn tay làm task |
+
+Một DAG kinh điển:
+\\\`\\\`\\\`
 extract_orders ──┐
-                  ├──> load_to_warehouse ──> dbt_transform ──> run_dq_tests ──> refresh_dashboard
-extract_users ───┘
-\`\`\`
+                  ├──> load_warehouse ──> dbt_transform ──> dq_test ──> refresh_dashboard
+extract_users  ──┘
+\\\`\\\`\\\`
 
-The orchestrator guarantees \`load_to_warehouse\` waits for both extracts; \`dbt_transform\` waits for the load; \`refresh_dashboard\` waits for the tests to pass.
+Orchestrator **đảm bảo** \\\`load_warehouse\\\` đợi cả 2 extract xong; \\\`refresh_dashboard\\\` đợi DQ test pass.
 
-## Mechanics — Airflow's mental model
+## 3. 🛠️ 3 ông lớn 2024–2025
 
-In Airflow you declare a DAG in Python:
+| Tool | Triết lý | Mạnh ở |
+|------|----------|--------|
+| **Airflow** | Task-centric, Python | Chuẩn ngành, ecosystem khổng lồ, dễ tuyển người |
+| **Dagster** | Asset-centric (data is the unit) | Modern, type-safe, debug dễ |
+| **Prefect** | Pythonic, lightweight | Setup nhanh, hợp team nhỏ |
 
-\`\`\`python
+→ Mới học chọn **Airflow** trước vì 70% công ty VN (VNG, Tiki, MoMo, Shopee) dùng nó.
+
+## 4. ⚙️ Cú pháp Airflow tối thiểu
+
+\\\`\\\`\\\`python
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from datetime import datetime
+from datetime import datetime, timedelta
 
 with DAG("daily_orders",
-         schedule="0 2 * * *",   # every day at 02:00
+         schedule="0 2 * * *",   # 2h sáng mỗi ngày
          start_date=datetime(2024, 1, 1),
-         catchup=False) as dag:
+         catchup=False,
+         default_args={"retries": 3, "retry_delay": timedelta(minutes=5)}) as dag:
 
     extract = PythonOperator(task_id="extract", python_callable=do_extract)
     load    = PythonOperator(task_id="load",    python_callable=do_load)
     dbt     = PythonOperator(task_id="dbt",     python_callable=run_dbt)
 
-    extract >> load >> dbt
-\`\`\`
+    extract >> load >> dbt    # mũi tên = thứ tự
+\\\`\\\`\\\`
 
-Key behaviors:
+Toán tử \\\`>>\\\` đọc là "chạy xong rồi đến". Đẹp, dễ đọc.
 
-- **Retries**: \`retries=3, retry_delay=timedelta(minutes=5)\` — transient failures recover automatically.
-- **SLA**: alert if a task takes longer than expected.
-- **XCom**: small message passing between tasks (do *not* abuse for big data — use object storage).
-- **Sensors**: tasks that wait for an external condition (file appears, table is fresh).
+## 5. 🔑 4 khái niệm phải nhớ
 
-## Comparison of orchestrators
+1. **Idempotency** — chạy lại task với input cũ phải ra kết quả cũ. Không idempotent = re-run là vỡ data.
+2. **Backfill** — chạy lại DAG cho ngày trong quá khứ (sau khi fix bug).
+3. **XCom** — chuyển message nhỏ giữa task. **Đừng** dùng để chuyển 10GB dữ liệu — dùng S3.
+4. **Sensor** — task biết đợi: "khi nào file xuất hiện trong S3 thì mới chạy".
 
-| Tool | Paradigm | Strengths | Watch-outs |
-|---|---|---|---|
-| **Airflow** | Task-centric, Python | Huge ecosystem, hire-ability | Verbose, slow scheduler at extreme scale |
-| **Dagster** | Asset-centric (data, not tasks) | First-class data assets, types, lineage | Smaller community |
-| **Prefect** | Python-native, hybrid cloud | Clean API, dynamic mapping | Less mature ecosystem |
-| **Argo Workflows** | Kubernetes-native YAML | Tight K8s integration | Steep curve outside K8s shops |
-| **Cron + bash** | DIY | Free, simple | No observability — *don't ship to prod* |
+## 6. ⚠️ Bẫy thường gặp
 
-The "asset vs task" distinction matters. Dagster says "I produce \`fact_orders\`" and the dependency graph is derived. Airflow says "I run task X after task Y" and you maintain dependencies manually.
+> ⚠️ **Cảnh báo:** Bẫy số 1 mà junior data engineer dính: **chạy code transform nặng ngay trong Airflow worker**. Worker được thiết kế để **điều phối**, không phải để chạy job xử lý 100GB. Cách đúng: Airflow chỉ \\\`gọi\\\` Spark/dbt/BigQuery rồi đợi kết quả.
 
-## Case study #1 — Airbnb (the birthplace of Airflow)
+Các bẫy khác:
+- Không set \\\`retries\\\` → một flaky API call hỏng cả pipeline.
+- Set \\\`schedule="0 * * * *"\\\` (mỗi giờ) cho job 5 tiếng → DAG chồng nhau, RAM nổ.
+- \\\`catchup=True\\\` mặc định → deploy DAG mới Airflow chạy backfill 2 năm. Bill Snowflake $$$$.
 
-Airbnb open-sourced Airflow in 2015 specifically to replace a tangle of cron jobs that were causing nightly outages. By 2018 they were running ~10,000 DAGs per day. Their public talks identify three keys to success: **strict idempotency** (every task safe to re-run), **metadata-driven DAGs** (generate DAGs from a config table, not 10,000 hand-written files), and **clear ownership tags** so the on-call could route any failure to the right team in <60 seconds.
+## 7. 🎯 Best practice của thầy Hải
 
-## Case study #2 — the cron-jungle anti-pattern
+1. Mỗi task **làm 1 việc duy nhất**, idempotent, < 30 phút.
+2. Luôn set \\\`retries=3\\\` và \\\`retry_delay\\\`.
+3. \\\`catchup=False\\\` cho DAG mới, bật khi chủ đích.
+4. Đặt **SLA** + alert Slack khi task chạy quá lâu.
+5. **Không xử lý data trong worker** — trigger Spark/dbt/BigQuery rồi đợi.
 
-A FAANG-adjacent startup (story shared on the *Locally Optimistic* podcast) ran ~400 cron jobs across 5 EC2 instances. There was no DAG, no retries, no logs in one place. A daily revenue report was downstream of 9 jobs scheduled "with enough buffer" between them. When traffic doubled, the upstream jobs took longer; the buffers stopped being enough; the report silently used yesterday's data for *six weeks* before anyone noticed. The fix took 3 engineers a quarter to rebuild the same logic in Airflow with explicit dependencies.
+## 8. ✅ Tóm tắt 30 giây
 
-## Best practices
-
-- **Make every task idempotent** — re-runnable without side effects. This is non-negotiable.
-- **Externalize state to object storage / warehouse** — never store data inside the orchestrator.
-- **One DAG per domain**, not one mega-DAG with 500 tasks.
-- **Tag DAGs with owner + on-call rotation** — failures auto-route to the right team.
-- **Set SLAs and alert on lateness**, not just on failure (success-but-late is a real failure mode).
-- **Backfill discipline**: parameterize tasks by execution date so re-runs Just Work.
-- **Version-control DAGs** like application code; require code review.
-
-## Anti-patterns & bridge to next lesson
-
-Avoid: passing large data through XCom; using \`datetime.now()\` inside tasks (kills idempotency); long sleep loops to "wait for data" (use sensors); hand-rolling cron in production after you have an orchestrator.
-
-Next: **Cloud Platforms** — where do these orchestrators run, and how do AWS/GCP/Azure each package the data-engineering stack?`,
+- **Orchestrator** = trưởng ca dây chuyền, đảm bảo thứ tự + retry + alert.
+- **DAG** = đồ thị có hướng, không vòng — mô tả "ai đợi ai".
+- **Airflow** = chuẩn ngành. Học nó trước.
+- Quy tắc vàng: task **idempotent**, **nhỏ**, **không chứa logic xử lý nặng**.
+`,
         theoryEn: `An **orchestrator** is the OS of your data platform: it decides what runs, when, in what order, and who gets paged on failure.
 
 ## Why this matters
