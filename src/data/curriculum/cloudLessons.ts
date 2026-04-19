@@ -499,43 +499,141 @@ print(f"{multi_az.name}:  {multi_az.availability()}%")   # 99.99999...`,
         titleEn: "Virtual Machines (EC2/VM)",
         level: 2,
         difficulty: "beginner",
-        theory: `**Virtual Machine (VM)** là máy ảo chạy trên hạ tầng vật lý dùng chung qua hypervisor. Đây là dịch vụ **IaaS** cốt lõi.
+        theory: `**Virtual Machine (VM)** là máy ảo chạy trên hạ tầng vật lý dùng chung qua hypervisor. Đây là dịch vụ **IaaS** cốt lõi và là khối xây dựng đầu tiên hầu hết engineer chạm tới khi vào cloud.
 
-**AWS EC2 — các thành phần:**
-- **AMI** (Amazon Machine Image): template chứa OS + phần mềm.
+## Vì sao bắt đầu từ VM?
+VM là cách "đơn giản nhất" để mang ứng dụng lên cloud — chỉ cần một server Linux/Windows tương tự on-prem. Không cần học container, serverless, hay refactor code. Đây là bước migration "lift-and-shift" phổ biến nhất.
+
+## VM hoạt động ra sao?
+Một server vật lý (bare metal) có thể chứa hàng chục VM nhờ **hypervisor** (Xen, KVM, AWS Nitro):
+- Hypervisor chia CPU, RAM, network ảo cho từng VM
+- Mỗi VM tin rằng mình là máy thật (có "kernel" riêng, OS riêng)
+- Cô lập (isolation) giữa các VM cùng máy → khách hàng A không nhìn thấy data của khách hàng B
+
+AWS Nitro System (2017) là cải tiến lớn: chuyển virtualization xuống chip riêng → VM gần như hiệu năng bare metal.
+
+## Các thành phần chính của EC2
+- **AMI** (Amazon Machine Image): template chứa OS + phần mềm. Có public AMI (Amazon Linux 2, Ubuntu), Marketplace AMI (Bitnami, có phí), Custom AMI (chính bạn build).
 - **Instance Type**: cấu hình CPU/RAM. Họ chính:
-  - **t** (burstable, rẻ): t3.micro, t3.small — dev/test, web nhỏ.
-  - **m** (general purpose): m5.large — cân bằng compute/memory.
-  - **c** (compute optimized): c5.xlarge — xử lý tính toán nặng.
-  - **r** (memory optimized): r5.xlarge — database, cache.
-  - **g/p** (GPU): training ML, render.
-- **EBS Volume**: ổ đĩa gắn vào VM (block storage).
-- **Security Group**: firewall ảo cho instance.
-- **Key Pair**: SSH key để truy cập.
+  - **t** (burstable, rẻ): t3.micro, t3.small — dev/test, web nhỏ, có "CPU credits" giới hạn
+  - **m** (general purpose): m5.large — cân bằng compute/memory, web app điển hình
+  - **c** (compute optimized): c5.xlarge — game server, batch processing, video encoding
+  - **r** (memory optimized): r5.xlarge — Redis cache, in-memory DB
+  - **i** (storage optimized): i3.large — NoSQL, search engine cần SSD nhanh
+  - **g/p** (GPU): training ML (p4d, g5), render
+  - **mac/metal**: Mac mini cho iOS build, bare metal cho VMware
+- **EBS Volume**: ổ đĩa gắn vào VM (block storage), persistent
+- **Instance Store**: SSD nội bộ trên host → cực nhanh nhưng **mất data khi stop**
+- **Security Group**: firewall ảo (stateful)
+- **Key Pair**: SSH key (Linux) hoặc password retrieval (Windows)
+- **User Data**: bash script chạy lúc boot — bootstrap config
 
-**Mô hình mua:**
-- **On-Demand**: trả theo giờ, không cam kết. Đắt nhất.
-- **Reserved Instance (RI)**: cam kết 1-3 năm, tiết kiệm 30-72%.
-- **Spot Instance**: dùng dung lượng dư, rẻ tới 90% nhưng có thể bị thu hồi.
-- **Savings Plan**: cam kết mức chi mỗi giờ, linh hoạt hơn RI.
+## Mô hình pricing (xem chi tiết bài "Cloud Pricing")
+| Model | Discount | Cam kết | Use case |
+|---|---|---|---|
+| On-Demand | 0% | Không | Dev/test, spike traffic |
+| Reserved (1-3yr) | 30-72% | 1-3 năm | Workload ổn định 24/7 |
+| Savings Plan | 30-66% | Cam kết \\\\$/giờ | Mix EC2/Fargate/Lambda |
+| Spot | 70-90% | Có thể bị thu hồi 2 phút | Batch, ML training, CI |
+| Dedicated Host | Cao nhất | Riêng máy vật lý | License Oracle/Windows BYOL |
 
-**Auto Scaling Group (ASG)**: tự động thêm/bớt instance theo CPU, request count, lịch.`,
-        theoryEn: `**Virtual Machine (VM)** runs on shared physical hardware via a hypervisor. Core IaaS service.
+## Auto Scaling Group (ASG)
+Tự động thêm/bớt instance dựa trên:
+- **Target tracking** — giữ CPU ~50%
+- **Step scaling** — thêm 2 instance nếu CPU >70% trong 5 phút
+- **Scheduled scaling** — scale up 8AM, scale down 8PM
+- **Predictive scaling** — ML dự đoán traffic (AWS Auto Scaling)
 
-**AWS EC2 components:**
-- **AMI**: OS + software template.
-- **Instance Type**: t (burstable), m (general), c (compute), r (memory), g/p (GPU).
-- **EBS Volume**: block storage attached.
-- **Security Group**: virtual firewall.
-- **Key Pair**: SSH access.
+ASG luôn đi cùng **Load Balancer (ALB/NLB)** để phân phối traffic.
 
-**Pricing models:**
-- **On-Demand**: hourly, no commit.
-- **Reserved Instance**: 1-3yr commit, 30-72% savings.
-- **Spot**: spare capacity, up to 90% off, can be reclaimed.
-- **Savings Plan**: commit \$/hour, flexible.
+## Case study: Airbnb — 5000+ EC2
+Airbnb dùng mix m5/c5 cho web tier, r5 cho cache, p3 cho ML model search. Auto-scaling theo lịch (mùa hè peak), tiết kiệm ~40% bằng Savings Plan + Spot cho data pipeline.
 
-**Auto Scaling Group**: scale based on CPU, request count, schedule.`,
+## Best practices EC2
+1. **Right-sizing hàng tháng** — m5.xlarge dùng 30% CPU → đổi m5.large (tiết kiệm 50%)
+2. **Dùng Spot cho stateless workload** (web, batch, CI)
+3. **Snapshot EBS định kỳ** — DLM (Data Lifecycle Manager) tự động
+4. **Security Group nguyên tắc least-privilege** — không mở 0.0.0.0/0 cho SSH
+5. **IMDSv2 mandatory** — chống SSRF attack
+6. **Termination Protection** cho production instance
+7. **Tags chuẩn:** Environment, Owner, CostCenter, Project
+
+## Anti-patterns
+- ❌ Chạy 1 EC2 không có ASG cho production (single point of failure)
+- ❌ Mở SSH 0.0.0.0/0 → bị brute-force trong vài giờ
+- ❌ Dùng Spot cho database stateful → mất data
+- ❌ AMI tự build không cập nhật patch → lỗ hổng security
+- ❌ Quên tắt EC2 dev sau giờ làm → bill ngầm
+
+## Khi nào KHÔNG dùng VM?
+- Workload rất ngắn (vài giây/request) → Lambda rẻ hơn 10-100x
+- App đã container-ize → ECS/EKS quản lý dễ hơn
+- Static website → S3 + CloudFront 0 server, 0 maintenance
+
+## Liên hệ bài tiếp theo
+Bài Storage tiếp theo sẽ giới thiệu **S3 Object Storage** — bộ nhớ "vô tận" giá rẻ, complement cho EC2.`,
+        theoryEn: `**Virtual Machine (VM)** runs on shared physical hardware via a hypervisor. Core IaaS service and the first building block most engineers touch in cloud.
+
+## Why start with VMs?
+VMs are the simplest way to bring an app to cloud — just like an on-prem Linux/Windows server. No container/serverless rewrite needed. This is the classic "lift-and-shift" path.
+
+## How VMs work
+A bare-metal server runs many VMs via a **hypervisor** (Xen, KVM, AWS Nitro). Hypervisor splits CPU/RAM/network. Each VM has its own kernel and OS, fully isolated from neighbors. **AWS Nitro (2017)** offloads virtualization to dedicated chips → near bare-metal performance.
+
+## EC2 components
+- **AMI**: OS + software template (public, Marketplace, custom)
+- **Instance Type families:**
+  - **t** (burstable): dev/test with CPU credits
+  - **m** (general): typical web apps
+  - **c** (compute): game server, batch, video encoding
+  - **r** (memory): Redis, in-memory DB
+  - **i** (storage): NoSQL, search engines
+  - **g/p** (GPU): ML training, render
+  - **mac/metal**: iOS build, VMware
+- **EBS Volume** (persistent block storage)
+- **Instance Store** (fast local SSD, lost on stop)
+- **Security Group** (stateful firewall)
+- **Key Pair** (SSH)
+- **User Data** (boot script)
+
+## Pricing models
+| Model | Discount | Commit | Use case |
+|---|---|---|---|
+| On-Demand | 0% | None | Dev/test, spikes |
+| Reserved | 30-72% | 1-3 yr | Stable 24/7 |
+| Savings Plan | 30-66% | \\\\$/hr | Mixed EC2/Fargate/Lambda |
+| Spot | 70-90% | Reclaimable in 2 min | Batch, ML, CI |
+| Dedicated Host | Highest | Physical machine | Oracle/Windows BYOL |
+
+## Auto Scaling Group (ASG)
+Adds/removes instances by target tracking (keep CPU ~50%), step scaling, scheduled (8AM up, 8PM down), or predictive (ML-based). Always paired with a Load Balancer.
+
+## Case: Airbnb — 5000+ EC2
+Mix of m5/c5 web tier, r5 cache, p3 ML search. Schedule-based scaling for summer peaks. ~40% savings via Savings Plans + Spot for pipelines.
+
+## Best practices
+1. Monthly right-sizing (50% CPU? downsize)
+2. Spot for stateless workloads
+3. Periodic EBS snapshots (DLM)
+4. Least-privilege Security Groups (no 0.0.0.0/0 SSH)
+5. Mandatory IMDSv2 (anti-SSRF)
+6. Termination Protection in prod
+7. Standard tags: Env, Owner, CostCenter, Project
+
+## Anti-patterns
+- ❌ Single EC2 in prod (no ASG)
+- ❌ SSH open to 0.0.0.0/0
+- ❌ Spot for stateful DBs
+- ❌ Stale unpatched AMIs
+- ❌ Forgetting to stop dev EC2 after hours
+
+## When NOT to use VMs
+- Sub-second workloads → Lambda is 10-100× cheaper
+- Already containerized → ECS/EKS easier
+- Static site → S3 + CloudFront, zero servers
+
+## Next lesson
+Storage lesson covers **S3 Object Storage** — "infinite", cheap storage that complements EC2.`,
         code: `# Khởi tạo EC2 instance với boto3 (AWS SDK for Python)
 import boto3
 
