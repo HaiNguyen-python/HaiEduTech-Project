@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import FloatingParticles from "@/components/FloatingParticles";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import StudentScheduleWidget from "@/components/StudentScheduleWidget";
 import { motion } from "framer-motion";
 import {
   Target, TrendingUp, Calendar, Flame, LogIn, BookOpen,
@@ -717,6 +718,11 @@ const Dashboard = () => {
                     </div>
                   </div>
                 )}
+
+                {/* Class schedule (read-only for students) */}
+                <div className="mt-6">
+                  <StudentScheduleWidget userId={user?.id ?? null} />
+                </div>
 
                 {/* Overall Leaderboard */}
                 <OverallLeaderboard />

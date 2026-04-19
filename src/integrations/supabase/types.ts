@@ -112,6 +112,92 @@ export type Database = {
           },
         ]
       }
+      class_reminders: {
+        Row: {
+          class_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          class_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          class_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "class_reminders_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "class_schedules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      class_schedules: {
+        Row: {
+          class_name: string
+          color: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          end_time: string
+          id: string
+          location: string | null
+          max_students: number
+          platform_link: string | null
+          recurring: string
+          recurring_days: number[] | null
+          start_time: string
+          status: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          class_name: string
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          end_time: string
+          id?: string
+          location?: string | null
+          max_students?: number
+          platform_link?: string | null
+          recurring?: string
+          recurring_days?: number[] | null
+          start_time: string
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Update: {
+          class_name?: string
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          end_time?: string
+          id?: string
+          location?: string | null
+          max_students?: number
+          platform_link?: string | null
+          recurring?: string
+          recurring_days?: number[] | null
+          start_time?: string
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
