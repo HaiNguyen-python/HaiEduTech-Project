@@ -5,10 +5,11 @@ import { dataEngModules } from "./dataEngLessons";
 import { mlModules } from "./mlLessons";
 import { programmingExpansionModules } from "./programmingExpansion";
 import { cloudModules } from "./cloudLessons";
+import { cloudExpansionModules } from "./cloudExpansion";
 import type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase } from "./types";
 
 export type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase };
-export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules };
+export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules };
 
 // Combined expanded modules array
 export const expandedModules: ExtendedProgrammingModule[] = [
@@ -17,5 +18,6 @@ export const expandedModules: ExtendedProgrammingModule[] = [
   ...dataEngModules,
   ...mlModules,
   ...cloudModules,
+  ...cloudExpansionModules,
   ...programmingExpansionModules,
 ];
