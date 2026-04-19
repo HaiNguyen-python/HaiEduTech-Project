@@ -8,11 +8,21 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import PythonReview from "@/components/PythonReview";
+import PythonPathwayHub from "@/components/python/PythonPathwayHub";
 import { programmingModules, allProgrammingModules } from "@/data/programmingLessonData";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
 
 const pillars = [
+  {
+    id: "python-pathway",
+    icon: Sparkles,
+    emoji: "🐍",
+    color: "from-fuchsia-500 to-purple-600",
+    bgColor: "bg-fuchsia-500/8",
+    borderColor: "border-fuchsia-500/20",
+    accentColor: "text-fuchsia-600",
+  },
   {
     id: "python",
     icon: Code2,
@@ -81,7 +91,15 @@ const Programming = () => {
   const pillarData: Record<string, {
     title: string; titleEn: string; desc: string; descEn: string;
     modules: typeof programmingModules; challengeSection?: boolean;
+    isPathway?: boolean;
   }> = {
+    "python-pathway": {
+      title: "Python Pathway", titleEn: "Python Pathway",
+      desc: "Lộ trình Python từ Beginner → Mastery: 6 module, ~25 bài, có Pyodide playground chạy thật trong trình duyệt, quiz và badge 'Python Certified'.",
+      descEn: "Python from Beginner → Mastery: 6 modules, ~25 lessons, real in-browser Pyodide playground, quizzes, and 'Python Certified' badges.",
+      modules: [],
+      isPathway: true,
+    },
     python: {
       title: "Python", titleEn: "Python",
       desc: "Từ tư duy thuật toán cơ bản (Scratch) đến Python nâng cao, cấu trúc dữ liệu và dự án thực tế. Bao gồm 150 thử thách lập trình với IDE tích hợp.",
@@ -149,7 +167,7 @@ const Programming = () => {
           </motion.div>
 
           {/* 5 Pillar Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 max-w-5xl mx-auto mb-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-6xl mx-auto mb-10">
             {pillars.map((p, i) => {
               const data = pillarData[p.id];
               const isActive = activePillar === p.id;
@@ -174,7 +192,7 @@ const Programming = () => {
                     {data.titleEn}
                   </h3>
                   <p className="text-[11px] text-muted-foreground line-clamp-2">
-                    {data.modules.length} modules · {data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} lessons
+                    {data.isPathway ? "6 modules · ~25 lessons · Pyodide" : `${data.modules.length} modules · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} lessons`}
                   </p>
                   {isActive && (
                     <motion.div
@@ -214,6 +232,9 @@ const Programming = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Python Pathway hub (full lesson grid + Pyodide) */}
+                {active.isPathway && <PythonPathwayHub />}
 
                 {/* Python Challenges Section */}
                 {active.challengeSection && (
