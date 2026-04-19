@@ -731,177 +731,158 @@ SELECT COUNT(DISTINCT age) AS so_tuoi_khac_nhau FROM students;`,
         titleEn: "INNER & LEFT JOIN",
         level: 2,
         difficulty: "intermediate",
-        theory: `A **JOIN** combines rows from two tables based on a relationship. It is the operation that turns a normalized database into business answers — orders joined with customers, sales joined with products, events joined with users. If WHERE is the most-used SQL clause, JOIN is the one that most distinguishes a junior from a senior.
+        theory: `## 1. Vấn đề đời thường
 
-## Why this matters
+Bạn có 2 bảng:
+- \`students\` — thông tin học viên (id, name, email).
+- \`orders\` — đơn hàng đã đặt (id, student_id, amount).
 
-Every "the dashboard double-counted revenue" Slack thread is, 90% of the time, a JOIN bug — typically a missing or wrong key, a many-to-many relationship treated as one-to-many, or a silent fan-out that triples row counts. Understanding the *math* of JOINs (not just the syntax) is the antidote.
+Sếp hỏi: *"Cho tôi xem từng học viên đã đặt bao nhiêu tiền."* Để trả lời, bạn cần **gắn (ghép)** 2 bảng lại với nhau theo một "khóa nối" — ở đây là \`student_id\`. Đó chính là **JOIN**.
 
-## The four canonical JOIN types
+JOIN giống như ghép 2 mảnh ghép lego: bảng nào cũng có 1 cột "khớp" với bảng kia (\`students.id\` ↔ \`orders.student_id\`).
 
-\`\`\`sql
-SELECT *
-FROM orders o
-INNER JOIN customers c ON c.id = o.customer_id;
-\`\`\`
-
-| JOIN | Returns |
-|---|---|
-| **INNER** | Only matching rows from both sides |
-| **LEFT (OUTER)** | All from left + matched from right; NULL where no match |
-| **RIGHT (OUTER)** | All from right + matched from left (rarely used — flip and use LEFT) |
-| **FULL (OUTER)** | All from both sides; NULL where no match |
-| **CROSS** | Cartesian product (every left × every right) |
-
-Visualization (Venn-style):
-
-\`\`\`
-INNER:   A ∩ B
-LEFT:    A (with B-data where it matches)
-RIGHT:   B (with A-data where it matches)
-FULL:    A ∪ B
-CROSS:   A × B
-\`\`\`
-
-## INNER JOIN — the default
+## 2. Cú pháp tối thiểu
 
 \`\`\`sql
-SELECT o.id, o.amount, c.name
-FROM orders o
-INNER JOIN customers c ON c.id = o.customer_id;
+SELECT s.name, o.amount
+FROM   students s                        -- Bảng "trái"
+INNER JOIN orders o                      -- Bảng "phải", nối vào trái
+       ON o.student_id = s.id;           -- Điều kiện nối: 2 cột phải bằng nhau
 \`\`\`
 
-If a customer has no orders, they don't appear. If an order has a NULL or invalid customer_id, *it doesn't appear either*. This silent dropping is the single biggest INNER-JOIN gotcha — always sanity-check row counts before vs after.
+- \`s\` và \`o\` là **alias bảng** (đã học bài AS).
+- \`ON o.student_id = s.id\` là **điều kiện nối** — quy tắc ghép 2 dòng lại.
 
-## LEFT JOIN — keep all from left
+## 3. INNER JOIN — chỉ giữ dòng KHỚP cả 2 bên
+
+Đây là loại JOIN mặc định, hay dùng nhất. Quy tắc: **chỉ trả về dòng có khớp ở CẢ 2 bảng**.
+
+- Học viên không có đơn nào → biến mất khỏi kết quả.
+- Đơn hàng có \`student_id\` không tồn tại trong \`students\` → cũng biến mất.
+
+⚠️ Đây chính là cái bẫy: INNER JOIN **âm thầm bỏ qua** các dòng không khớp. Luôn kiểm tra số dòng trước/sau JOIN.
+
+## 4. LEFT JOIN — giữ TẤT CẢ dòng của bảng trái
+
+Vấn đề: muốn liệt kê **mọi học viên**, kể cả người chưa đặt đơn nào (số đơn = 0). INNER JOIN không làm được. → Dùng LEFT JOIN.
 
 \`\`\`sql
-SELECT c.name, COUNT(o.id) AS order_count
-FROM customers c
-LEFT JOIN orders o ON o.customer_id = c.id
-GROUP BY c.name;
+SELECT s.name, COUNT(o.id) AS so_don
+FROM   students s
+LEFT JOIN orders o ON o.student_id = s.id     -- Giữ HẾT students, kể cả không khớp
+GROUP BY s.name;
 \`\`\`
 
-This returns every customer, even those with zero orders (\`order_count = 0\`). Notice we count \`o.id\` (not \`*\`) — \`COUNT(*)\` would return 1 for unmatched rows because the left side still exists.
+- Học viên có đơn → đếm số đơn bình thường.
+- Học viên không có đơn → \`o.id\` là **NULL** → \`COUNT(o.id)\` = **0**.
 
-## Comparison & decision flow
+⚠️ Mẹo: dùng \`COUNT(o.id)\`, **không** dùng \`COUNT(*)\`. Vì \`COUNT(*)\` đếm cả dòng "trống" sinh ra do LEFT JOIN, sẽ cho ra 1 thay vì 0.
 
-| Question | Use |
-|---|---|
-| "Only matched rows from both sides" | INNER |
-| "Every row from this table, with optional matches from the other" | LEFT (put the must-keep table on the left) |
-| "Find rows in A that have no match in B" | LEFT JOIN + \`WHERE b.id IS NULL\` |
-| "Combine two lists allowing missing on either side" | FULL OUTER |
-| "Cross every row of A with every row of B" | CROSS (rare — calendar generation, test combos) |
+## 5. So sánh các loại JOIN (chỉ cần nhớ 3)
 
-## The fan-out problem
+| JOIN | Trả về dòng nào? | Khi nào dùng? |
+|---|---|---|
+| **INNER JOIN** | Chỉ dòng khớp cả 2 bên | Câu hỏi: "Học viên *có đơn* và đơn của họ" |
+| **LEFT JOIN** | Tất cả dòng bảng trái + dòng khớp bên phải (nếu có) | Câu hỏi: "*Mọi học viên*, kèm đơn nếu có" |
+| **CROSS JOIN** | Mọi cặp tổ hợp (Cartesian) | Hiếm dùng — sinh lịch, sinh tổ hợp test |
 
-If \`orders\` joins to \`order_items\` (one order has many items), \`SELECT SUM(o.amount)\` *triples-counts* the order amount once per item. Symptoms: revenue numbers that look 3× too high.
+(Có thêm RIGHT JOIN và FULL OUTER JOIN nhưng ít gặp — RIGHT chỉ là LEFT đảo bảng.)
 
-Fixes:
+## 6. Mẹo: tìm "mồ côi" — dòng KHÔNG có khớp
 
-- Aggregate the many-side first (\`SELECT order_id, COUNT(*) AS items FROM order_items GROUP BY order_id\`), then join.
-- Or use \`SUM(DISTINCT o.amount)\` — possible but fragile.
-- Use a CTE / subquery to pre-aggregate.
+Câu hỏi cực hay gặp: *"Học viên nào CHƯA đặt đơn nào?"*
 
-## Case study — the "double-revenue" incident
+\`\`\`sql
+SELECT s.name
+FROM   students s
+LEFT JOIN orders o ON o.student_id = s.id
+WHERE  o.id IS NULL;        -- "Không tìm thấy đơn nào ghép được"
+\`\`\`
 
-A growth-stage startup launched a "sales by category" dashboard. Revenue suddenly looked **2.4× higher** than the finance team's monthly close. Root cause: the new model joined \`orders\` to \`order_items\` to attribute category, then summed \`o.amount\` (the order total, repeated per item). The fix took one CTE: pre-aggregate items per order, then join. Three days of misreported revenue had to be explained to the CEO. The lesson made it into the team's onboarding doc.
+Mẫu **LEFT JOIN + IS NULL** là cách kinh điển để tìm dòng "mồ côi" (orphan — dòng không có quan hệ ở bảng kia).
 
-## Case study — the silent INNER drop
+## 7. Cái BẪY "fan-out" (nhân bản dòng) — phải biết
 
-An analyst reported "we have 47,000 active subscribers." Finance reported 49,200. The difference was an INNER JOIN to \`dim_plan\` — and ~2,200 grandfathered subscribers had a \`plan_id\` that no longer existed in \`dim_plan\` after a migration. INNER silently dropped them. A LEFT JOIN with a NULL-check made the orphans visible immediately.
+Nếu 1 \`order\` có nhiều \`order_items\` (1 đơn nhiều món), khi JOIN \`orders\` với \`order_items\`, **mỗi đơn bị lặp 1 lần cho mỗi món**. Khi đó \`SUM(orders.amount)\` sẽ bị **đếm gấp 2, gấp 3 lần**!
 
-## Best practices
+Triệu chứng: doanh thu báo cáo cao bất thường (3× thực tế).
+**Cách chữa**: tổng hợp bảng "phía nhiều" trước (bằng GROUP BY hoặc subquery), rồi mới JOIN.
 
-- **Always know the cardinality** of every JOIN (one-to-one / one-to-many / many-to-many) *before* you write it.
-- **Sanity-check row counts** before and after adding a JOIN — if it changes unexpectedly, you have a fan-out.
-- **LEFT JOIN to detect missing data**: \`LEFT JOIN x ON … WHERE x.id IS NULL\` is the canonical orphan-finder.
-- **Always alias both tables** in joined queries (covered in lesson 2).
-- **Put the join condition in ON, not WHERE** — they behave differently for OUTER joins.
-- **Avoid CROSS JOIN by accident** (missing JOIN condition → silent Cartesian explosion).
+## 8. Tổng kết — checklist khi viết JOIN
 
-## Anti-patterns & next lesson
+- ✅ Trước khi JOIN, hỏi: *"1 dòng bảng A khớp với mấy dòng bảng B?"* (1-1, 1-N, hay N-N).
+- ✅ INNER → chỉ dòng khớp. LEFT → giữ hết bảng trái.
+- ✅ Sau khi thêm JOIN, **đếm lại số dòng** — nếu tăng bất thường có thể là fan-out.
+- ✅ Tìm "mồ côi" → \`LEFT JOIN + WHERE … IS NULL\`.
+- ✅ Bài tiếp theo: **Subquery** — đặt 1 query bên trong query khác.`,
+        theoryEn: `## 1. Real-world problem
 
-Avoid: joining without checking cardinality; mixing JOIN conditions in WHERE on OUTER joins; silently dropping rows with INNER JOIN to a stale dim table; SELECT \\* on joined tables (column collisions).
+\`students\` and \`orders\` are 2 separate tables. To "show each student's total spend", connect them by a key (\`student_id\`). That's a **JOIN**.
 
-Next: **Subqueries** — when a JOIN is awkward and a "query inside a query" is cleaner, faster, or simply the only way.`,
-        theoryEn: `A **JOIN** combines rows from two tables. The operation that turns normalized data into business answers.
+## 2. Minimal syntax
 
-## Why this matters
-
-90% of "double-counted revenue" Slack threads are JOIN bugs — wrong key, missing cardinality check, silent fan-out.
-
-## Four canonical types
-
-| JOIN | Returns |
-|---|---|
-| INNER | Matched rows on both sides |
-| LEFT | All left + matches; NULL otherwise |
-| RIGHT | All right + matches (rarely used) |
-| FULL OUTER | Both sides; NULL where no match |
-| CROSS | Cartesian product |
-
-## INNER — the default
-
-Drops rows missing on either side. Single biggest gotcha — sanity-check row counts.
-
-## LEFT — keep all left
-
-Returns customers even with 0 orders. Use \`COUNT(o.id)\` (not \`*\`) so unmatched = 0.
-
-## Decision matrix
-
-| Need | JOIN |
-|---|---|
-| Matched-only | INNER |
-| Keep all from one side | LEFT |
-| Find orphans | LEFT + IS NULL |
-| Combine with both-side missing | FULL OUTER |
-
-## Fan-out problem
-
-\`orders\` 1→N \`order_items\`: \`SUM(o.amount)\` triples. Fix: pre-aggregate the many-side, then join.
-
-## Case study — double revenue
-
-Joined orders → items, summed order amount → 2.4× revenue. CTE pre-aggregation fixed it after 3 days of misreporting.
-
-## Case study — silent INNER drop
-
-INNER JOIN to stale \`dim_plan\` silently lost ~2,200 grandfathered subscribers. LEFT JOIN + NULL check exposed orphans.
-
-## Best practices
-
-Know cardinality first; sanity-check row counts; LEFT for orphan detection; alias both tables; conditions in ON not WHERE for OUTER; never accidentally CROSS.
-
-## Anti-patterns & next
-
-Avoid unknown cardinality, OUTER conditions in WHERE, stale-dim INNER joins, \`SELECT *\` on joins. Next: **Subqueries**.`,
-        code: `-- INNER JOIN: students with orders
+\`\`\`sql
 SELECT s.name, o.amount
 FROM students s
+INNER JOIN orders o ON o.student_id = s.id;
+\`\`\`
+
+## 3. INNER JOIN
+
+Returns only rows matching on BOTH sides. Silent drop is the biggest gotcha — sanity-check row counts.
+
+## 4. LEFT JOIN
+
+Keep ALL rows from left table; right-side columns become NULL when no match. Use \`COUNT(o.id)\` (not \`*\`) so unmatched students show 0 orders.
+
+## 5. JOIN comparison
+
+| JOIN | Returns | Use case |
+|---|---|---|
+| INNER | matched rows on both | "students with orders" |
+| LEFT | all left + matched right | "all students, with orders if any" |
+| CROSS | Cartesian product | calendar/test combos |
+
+## 6. Find orphans
+
+\`LEFT JOIN x ON … WHERE x.id IS NULL\` finds rows in left with no match in right.
+
+## 7. Fan-out trap
+
+orders 1→N items: \`SUM(orders.amount)\` triple-counts. Pre-aggregate the many-side before joining.
+
+## 8. Checklist
+
+- Know cardinality (1-1, 1-N, N-N) before joining
+- Sanity-check row counts after JOIN
+- LEFT + IS NULL = orphan finder
+- Watch for fan-out when summing
+- Next: **Subqueries**`,
+        code: `-- INNER JOIN: chỉ học viên ĐÃ đặt đơn
+SELECT s.name, o.amount
+FROM   students s
 INNER JOIN orders o ON s.id = o.student_id;
 
--- LEFT JOIN: all students, even without orders
-SELECT s.name, COALESCE(o.amount, 0) AS amount
-FROM students s
+-- LEFT JOIN: TẤT CẢ học viên, ai chưa đặt thì amount = 0
+SELECT s.name,
+       COALESCE(o.amount, 0) AS amount   -- COALESCE: NULL → 0
+FROM   students s
 LEFT JOIN orders o ON s.id = o.student_id;
 
--- Find students WITHOUT orders
+-- Tìm học viên CHƯA đặt đơn nào (mẫu LEFT JOIN + IS NULL)
 SELECT s.name
-FROM students s
+FROM   students s
 LEFT JOIN orders o ON s.id = o.student_id
-WHERE o.id IS NULL;`,
+WHERE  o.id IS NULL;`,
         codeLanguage: "sql",
-        exercise: "Write a LEFT JOIN query showing all students and their total order amount (SUM). Students without orders show 0.",
-        exerciseEn: "Write a LEFT JOIN query showing all students and their total order amount (SUM). Students without orders show 0.",
+        exercise: "Viết 1 câu LEFT JOIN hiển thị tên TẤT CẢ học viên kèm tổng giá trị đơn của họ (SUM amount). Học viên chưa đặt đơn nào thì hiển thị 0. Gợi ý: dùng COALESCE(SUM(o.amount), 0) và GROUP BY s.name.",
+        exerciseEn: "Write a LEFT JOIN query showing every student's name + their total order amount (SUM). Students with no orders show 0. Hint: COALESCE(SUM(o.amount), 0) + GROUP BY s.name.",
         quiz: [
-          { question: "What does LEFT JOIN return when there is no matching row?", options: ["Skips that row", "NULL for right table columns", "An error", "0 for all columns"], answer: 1, explanation: "LEFT JOIN keeps all left table rows. When no match exists, right-side columns are filled with NULL." },
-          { question: "How do you find rows with NO match using LEFT JOIN?", options: ["WHERE right.id = 0", "WHERE right.id IS NULL", "HAVING count = 0", "Not possible"], answer: 1, explanation: "LEFT JOIN + WHERE right_table.id IS NULL finds rows only in the left table." },
-          { question: "If table A has 10 rows and table B has 5, how many rows does CROSS JOIN produce?", options: ["15", "10", "50", "5"], answer: 2, explanation: "CROSS JOIN produces the Cartesian product: every row of A × every row of B = 10 × 5 = 50 rows." },
-          { question: "What is the difference between INNER JOIN and LEFT JOIN?", options: ["No difference", "INNER only returns matching rows; LEFT returns all from left table", "LEFT is faster", "INNER returns more rows"], answer: 1, explanation: "INNER JOIN only includes rows with matches in both tables. LEFT JOIN includes all left-table rows even without matches." },
-          { question: "Why do most developers prefer LEFT JOIN over RIGHT JOIN?", options: ["LEFT JOIN is faster", "You can always rewrite RIGHT as LEFT by swapping tables, keeping consistent style", "RIGHT JOIN is deprecated", "They produce different results"], answer: 1, explanation: "A RIGHT JOIN on A,B is identical to a LEFT JOIN on B,A. Using LEFT JOIN consistently improves code readability." }
+          { question: "LEFT JOIN trả về cái gì khi không có dòng khớp ở bảng phải?", options: ["Bỏ qua dòng đó", "Trả về NULL cho các cột của bảng phải", "Báo lỗi", "Trả về 0 cho tất cả các cột"], answer: 1, explanation: "LEFT JOIN giữ TẤT CẢ dòng của bảng trái. Khi không tìm thấy dòng khớp ở bảng phải, các cột bên phải sẽ là NULL." },
+          { question: "Làm sao tìm các dòng KHÔNG có khớp khi dùng LEFT JOIN?", options: ["WHERE right.id = 0", "WHERE right.id IS NULL (mẫu kinh điển tìm 'mồ côi')", "HAVING count = 0", "Không thể làm được"], answer: 1, explanation: "Mẫu LEFT JOIN + WHERE right_table.id IS NULL là cách kinh điển tìm các dòng chỉ tồn tại ở bảng trái — gọi là dòng 'mồ côi' (orphan)." },
+          { question: "Bảng A có 10 dòng, bảng B có 5 dòng. CROSS JOIN tạo ra bao nhiêu dòng?", options: ["15", "10", "50", "5"], answer: 2, explanation: "CROSS JOIN tạo tích Đề-các (Cartesian): mọi dòng A × mọi dòng B = 10 × 5 = 50 dòng. Vì vậy hiếm khi dùng — rất dễ 'nổ' số dòng." },
+          { question: "Khác nhau giữa INNER JOIN và LEFT JOIN là gì?", options: ["Không khác gì", "INNER chỉ trả về dòng khớp cả 2 bên; LEFT trả về tất cả dòng bảng trái (kể cả không khớp)", "LEFT nhanh hơn", "INNER trả về nhiều dòng hơn"], answer: 1, explanation: "INNER JOIN chỉ giữ các dòng có khớp ở CẢ 2 bảng. LEFT JOIN giữ tất cả dòng bảng trái, kể cả khi không tìm được khớp ở bảng phải." },
+          { question: "Vì sao đa số lập trình viên ưu tiên LEFT JOIN hơn RIGHT JOIN?", options: ["LEFT JOIN nhanh hơn", "RIGHT JOIN luôn có thể viết lại bằng LEFT JOIN bằng cách đảo 2 bảng — giữ phong cách code đồng nhất", "RIGHT JOIN bị bỏ", "Cho kết quả khác nhau"], answer: 1, explanation: "RIGHT JOIN A,B = LEFT JOIN B,A — kết quả y hệt. Dùng LEFT JOIN nhất quán giúp code dễ đọc, không phải nhảy não giữa 2 chiều." }
         ]
       }
     ]
