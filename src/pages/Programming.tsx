@@ -144,7 +144,7 @@ const Programming = () => {
               <span className="text-gradient">Career Path</span>
             </h1>
             <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-              5 core pillars taking you from beginner to data technology expert.
+              6 core pillars taking you from beginner to data & cloud technology expert.
             </p>
           </motion.div>
 
