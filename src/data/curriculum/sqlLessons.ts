@@ -1193,203 +1193,225 @@ WHERE t.so_hoc_vien > 5;`,
         titleEn: "Basic WITH & CTE",
         level: 3,
         difficulty: "intermediate",
-        theory: `A **Common Table Expression (CTE)** — written with the \`WITH\` keyword — is a named temporary result set you can reference within a single query. CTEs are the readability super-power of modern SQL: they turn a 200-line nested mess into 5 named, reviewable steps.
+        theory: `**CTE** (Common Table Expression — *biểu thức bảng tạm có tên*) là cách viết một câu SELECT phức tạp thành **các bước nhỏ, mỗi bước có một cái tên dễ hiểu**. Cú pháp bắt đầu bằng từ khóa \`WITH\`. Bài này mình sẽ học theo cách dễ nhất: thấy vấn đề trước, rồi mới thấy giải pháp.
 
-## Why this matters
+## 1. CTE là gì? (Câu chuyện 30 giây)
 
-When dbt swept the data world (2020–2024), one of its core stylistic rules became "every model is a series of CTEs ending in a final SELECT." The reason is human, not technical: pipelines built from named CTEs are *reviewable*. A reviewer reads the CTE names top-to-bottom and understands the model's intent in 30 seconds.
+Giả sử bạn cần báo cáo: *"Tên học viên + tổng tiền đơn hàng + xếp hạng theo tổng tiền."*
 
-## Basic syntax
+Nếu **không có CTE**, bạn phải viết subquery lồng nhau, đọc rất rối:
 
 \`\`\`sql
-WITH active_customers AS (
-  SELECT id FROM customers WHERE status = 'active'
-),
-recent_orders AS (
-  SELECT *
+SELECT s.name, t.total
+FROM students s
+JOIN (
+  SELECT student_id, SUM(amount) AS total
+  FROM orders GROUP BY student_id
+) t ON t.student_id = s.id
+ORDER BY t.total DESC;
+\`\`\`
+
+Cùng câu đó viết bằng **CTE** — đặt tên cho bảng tạm là \`student_totals\`:
+
+\`\`\`sql
+WITH student_totals AS (
+  SELECT student_id, SUM(amount) AS total
   FROM orders
-  WHERE created_at >= current_date - 30
+  GROUP BY student_id
 )
-SELECT ac.id, COUNT(*) AS orders_30d
-FROM active_customers ac
-JOIN recent_orders ro ON ro.customer_id = ac.id
-GROUP BY ac.id;
+SELECT s.name, st.total
+FROM students s
+JOIN student_totals st ON st.student_id = s.id
+ORDER BY st.total DESC;
 \`\`\`
 
-You can chain as many CTEs as you want, separated by commas. The final SELECT consumes them.
+Bạn đọc từ trên xuống: *"Đầu tiên tính \`student_totals\`. Sau đó dùng nó để JOIN với students."* — rất tự nhiên, giống như đọc các bước nấu ăn trong công thức.
 
-## CTE vs subquery vs view
-
-| Aspect | CTE | Subquery | View |
-|---|---|---|---|
-| Scope | Single query | Single query | Permanent / DB-wide |
-| Reusable in same query | ✅ Yes (multiple references) | ❌ Must rewrite | ✅ |
-| Self-reference (recursion) | ✅ \`WITH RECURSIVE\` | ❌ | ❌ |
-| Readability | Excellent | Degrades with depth | Excellent |
-| Performance | Same plan as inlined subquery (modern engines) | Same | Materialized view = stored result |
-
-For one-off queries CTEs and subqueries compile to the same plan in Postgres ≥12, Snowflake, BigQuery, and dbt-style warehouses. Pick CTEs for human readability.
-
-## The dbt convention
-
-Modern dbt models follow this template:
+## 2. Cú pháp tối thiểu (xem 1 lần là nhớ)
 
 \`\`\`sql
-with
-
-source as (
-    select * from {{ ref('raw_orders') }}
-),
-
-filtered as (
-    select * from source where status != 'cancelled'
-),
-
-aggregated as (
-    select customer_id, sum(amount) as ltv
-    from filtered
-    group by 1
-)
-
-select * from aggregated
+WITH ten_buoc_1 AS (              -- ① Khai báo bảng tạm
+  SELECT ... FROM ...             -- ② Câu SELECT của bước 1
+)                                 -- ③ Đóng ngoặc
+SELECT ...                        -- ④ Câu SELECT chính, dùng ten_buoc_1
+FROM ten_buoc_1;
 \`\`\`
 
-Every CTE has a clear, single responsibility. New engineers can join the project and read any model in a minute. This pattern is now the unofficial industry standard.
+Cần nhớ:
+- Bắt đầu bằng \`WITH\`.
+- Mỗi CTE: **\`tên AS ( SELECT ... )\`**.
+- Sau dấu \`)\` cuối cùng phải có một câu SELECT chính (không có nó là báo lỗi).
 
-## Recursive CTEs
+## 3. Nhiều CTE nối tiếp — cách viết bài bản
 
-A \`WITH RECURSIVE\` CTE references itself. The classic use case: walking a hierarchy.
+Bạn có thể viết **nhiều CTE liên tiếp**, ngăn cách bằng dấu phẩy. CTE sau có thể dùng kết quả của CTE trước:
+
+\`\`\`sql
+WITH
+active_students AS (                                 -- Bước 1: lọc học viên đang học
+  SELECT id, name FROM students WHERE status = 'active'
+),
+recent_orders AS (                                   -- Bước 2: đơn hàng 30 ngày gần đây
+  SELECT * FROM orders WHERE created_at >= current_date - 30
+),
+final_report AS (                                    -- Bước 3: ghép 2 cái trên lại
+  SELECT a.name, COUNT(r.id) AS so_don
+  FROM active_students a
+  JOIN recent_orders r ON r.student_id = a.id
+  GROUP BY a.name
+)
+SELECT * FROM final_report ORDER BY so_don DESC;     -- Câu chính
+\`\`\`
+
+→ Đọc tên 3 bước là hiểu logic ngay: *học viên đang học → đơn 30 ngày gần đây → đếm đơn cho từng người.*
+
+## 4. CTE so với subquery — khi nào dùng cái nào?
+
+| Tiêu chí | CTE (\`WITH\`) | Subquery |
+|---|---|---|
+| Đọc dễ | ✅ Có tên, đọc từ trên xuống | ❌ Lồng sâu là rối |
+| Dùng lại 1 bảng tạm nhiều lần trong cùng câu | ✅ Có | ❌ Phải copy lại |
+| Hiệu năng | Bằng nhau (engine hiện đại tự inline) | Bằng nhau |
+
+✅ **Quy tắc đơn giản:** câu nào dài hơn ~10 dòng hoặc có >1 bước trung gian → **dùng CTE** cho dễ đọc. Câu 1 dòng đơn giản → subquery vẫn ổn.
+
+## 5. CTE đệ quy — đi qua cây phân cấp
+
+Đôi khi dữ liệu có cấu trúc cha-con (sơ đồ tổ chức, danh mục cha-con, cây thư mục). CTE bình thường không đi xuống cây được. **Recursive CTE** (CTE đệ quy) thì làm được.
 
 \`\`\`sql
 WITH RECURSIVE org_chart AS (
-  -- Anchor: top-level managers
+  -- Phần ANCHOR: bắt đầu từ sếp tổng (không có sếp)
   SELECT id, name, manager_id, 1 AS level
   FROM employees
   WHERE manager_id IS NULL
 
   UNION ALL
 
-  -- Recursive: each step adds one level down
+  -- Phần RECURSIVE: thêm 1 tầng cấp dưới mỗi vòng
   SELECT e.id, e.name, e.manager_id, oc.level + 1
   FROM employees e
   JOIN org_chart oc ON e.manager_id = oc.id
+  WHERE oc.level < 10                  -- ⚠️ chặn không cho chạy quá 10 tầng
 )
 SELECT * FROM org_chart;
 \`\`\`
 
-Other use cases: bill-of-materials traversal, graph paths, generating date series.
+⚠️ **Bắt buộc** phải có điều kiện dừng (ví dụ \`level < 10\`). Nếu dữ liệu lỡ có vòng tròn (A là sếp của B, B là sếp của A) thì câu lệnh sẽ chạy mãi không dừng → database treo.
 
-## Performance — the "materialization" footnote
+## 6. Sai lầm thường gặp
 
-Some engines (Postgres < 12) treated CTEs as **optimization fences** — they always materialized the CTE result, blocking the planner from pushing predicates down. Postgres 12+ inlines them by default unless you write \`WITH … AS MATERIALIZED\`. Snowflake and BigQuery have always inlined.
+- ❌ **Quên câu SELECT chính sau cùng.** \`WITH a AS (...);\` — chạy xong báo lỗi vì thiếu câu chính.
+- ❌ **CTE sau dùng CTE trước nhưng viết sai thứ tự.** Bạn không thể tham chiếu một CTE chưa được khai báo phía trên.
+- ❌ **Dùng CTE đệ quy mà quên điều kiện dừng** → câu lệnh chạy vô hạn.
+- ❌ **Tách CTE quá nhỏ** (mỗi CTE chỉ \`SELECT * FROM bang\`) → đọc còn rối hơn không có CTE.
 
-If you're on a legacy Postgres (< 12), be aware that wrapping a slow query in a CTE can sometimes make it slower. \`EXPLAIN ANALYZE\` will tell you.
+## 7. Tổng kết & checklist khi viết CTE
 
-## Case study — a 200-line model becomes 40 lines of named steps
+- 🔹 Bắt đầu bằng \`WITH\`, kết thúc bằng **một câu SELECT chính**.
+- 🔹 Mỗi CTE viết theo dạng \`ten AS ( ... )\`, ngăn cách bằng dấu phẩy.
+- 🔹 Đặt tên CTE theo **danh từ có nghĩa** (\`active_students\`, \`monthly_revenue\`) — đừng đặt \`step1\`, \`tmp\`.
+- 🔹 Mỗi CTE chỉ làm **một việc**. Làm 2 việc → tách thành 2 CTE.
+- 🔹 Recursive CTE → **luôn có \`WHERE level < N\`** để tránh chạy vô hạn.
 
-A team's "monthly revenue per region" model started as a 200-line query with 6-deep nested subqueries. Code review took an hour and almost no one understood it. A staff engineer rewrote it as 7 named CTEs (\`raw_orders\`, \`paid_orders\`, \`with_region\`, \`monthly\`, \`with_targets\`, \`with_pct\`, \`final\`), each ~5 lines. The query plan was identical (Snowflake inlined them). Review time dropped from 1 hour to 5 minutes. Three months later, when the metric definition changed, the diff touched a single CTE.
+Bài tiếp theo: **Window Functions** — hàm cửa sổ giúp tính tổng / trung bình / xếp hạng *trên từng nhóm dữ liệu* mà **không gộp dòng** lại như GROUP BY.`,
+        theoryEn: `A **CTE** (Common Table Expression, written with \`WITH\`) is a *named* temporary result set used inside one query. Best learned from the problem it solves.
 
-## Case study — the recursive query that ran forever
+## 1. The 30-second story
 
-A junior wrote a recursive CTE to walk an org chart but **forgot a termination condition**. The CTE's anchor returned 50 rows; the recursive step joined back without filtering already-visited employees. Two cycles in the data created an infinite loop — Postgres killed the query after 30 minutes and 50 GB of temp disk. Lesson: every recursive CTE needs an explicit \`level < N\` guard and, if cycles are possible, a "visited set" tracked through the recursion.
+Need to compute "student name + total order amount + ranking"? Without a CTE you nest a subquery in FROM. With a CTE you give that intermediate step a name (\`student_totals\`) and the query reads top-to-bottom like a recipe.
 
-## Best practices
-
-- **Adopt the dbt CTE-per-step style** even outside dbt — it ages well.
-- **Name CTEs after the noun they produce** (\`active_customers\`, not \`step1\`).
-- **Keep each CTE single-purpose** — if it does two things, split it.
-- **Cap recursion depth** explicitly with a \`level\` column and \`WHERE level < 10\`.
-- On legacy Postgres, run \`EXPLAIN ANALYZE\` to confirm CTEs aren't blocking optimization.
-- **Don't over-CTE** — wrapping a single \`SELECT a FROM b\` in a CTE is cargo cult, not clarity.
-
-## Anti-patterns & next lesson
-
-Avoid: deeply-nested subqueries when a CTE would clarify; recursive CTEs without a depth cap; abusing CTEs as "fake views" that should actually be a real view; renaming the same column three times across CTEs.
-
-Next: **Window functions** — the closest cousin to aggregates, but without collapsing rows. Together with CTEs, they are how senior engineers express most analytical SQL.`,
-        theoryEn: `A **CTE** (Common Table Expression, \`WITH …\`) is a named temporary result set inside a query. The readability super-power of modern SQL.
-
-## Why this matters
-
-dbt's industry-standard style is "every model = a series of CTEs ending in a final SELECT." Reviewers can scan CTE names and grasp a model in 30 seconds.
-
-## Basic syntax
+## 2. Minimum syntax
 
 \`\`\`sql
-WITH a AS (...), b AS (SELECT … FROM a)
-SELECT * FROM b;
+WITH step_name AS ( SELECT ... )
+SELECT ... FROM step_name;
 \`\`\`
 
-Chain as many as you want; final SELECT consumes them.
+Always end with a final SELECT — without it, error.
 
-## CTE vs subquery vs view
+## 3. Chaining multiple CTEs
 
-| Aspect | CTE | Subquery | View |
-|---|---|---|---|
-| Reusable same query | Yes | No | Yes |
-| Recursion | Yes | No | No |
-| Readability | Excellent | Degrades w/ depth | Excellent |
+Separate with commas; each later CTE can use earlier ones:
 
-Modern engines compile CTEs and subqueries to the same plan.
+\`\`\`sql
+WITH a AS (...), b AS (SELECT ... FROM a), c AS (SELECT ... FROM b)
+SELECT * FROM c;
+\`\`\`
 
-## dbt convention
+Reads like a numbered step list.
 
-\`source → filtered → aggregated → final SELECT\`. Each CTE has one job.
+## 4. CTE vs subquery — when to pick which?
 
-## Recursive CTEs
+| | CTE | Subquery |
+|---|---|---|
+| Readability | ✅ Named, top-down | ❌ Nested = noisy |
+| Reuse same temp set | ✅ Yes | ❌ Re-write |
+| Performance | Same plan in modern engines | Same |
 
-\`WITH RECURSIVE\` references itself — anchor + recursive part. Classic use: org chart, BOM, graph paths.
+Rule of thumb: query > ~10 lines or has >1 intermediate step → use CTE.
 
-## Performance footnote
+## 5. Recursive CTEs
 
-Postgres < 12 materialized CTEs (could be slower). Postgres 12+, Snowflake, BigQuery inline by default.
+\`WITH RECURSIVE\` walks hierarchies (org chart, BOM, graph paths). Two parts: an **anchor** (starting rows) + a **recursive** part that joins back to the CTE itself. **Always** add a depth guard (\`WHERE level < 10\`) — without it, cyclic data causes infinite loops.
 
-## Case study — 200 lines → 40
+## 6. Common mistakes
 
-A 200-line nested query became 7 named CTEs. Same plan, 1-hour review → 5 minutes. Later metric change touched one CTE.
+- Forgetting the final SELECT after \`WITH ...\`
+- Referencing a CTE before declaring it
+- Recursive CTE without a stopping condition
+- Over-splitting (one-line CTEs add noise, not clarity)
 
-## Case study — infinite recursion
+## 7. Checklist
 
-Org-chart CTE without a depth cap looped on cyclic data → killed after 30 min + 50 GB temp. Always cap with \`WHERE level < N\`.
+- Start with \`WITH\`, end with a final SELECT
+- One job per CTE; name them after nouns (\`active_users\`)
+- Cap recursion depth explicitly
+- Don't over-CTE trivial selects
 
-## Best practices
-
-dbt CTE-per-step style; noun-named CTEs; one job per CTE; cap recursion; \`EXPLAIN ANALYZE\` on legacy Postgres; don't over-CTE.
-
-## Anti-patterns & next
-
-Avoid deep nesting, uncapped recursion, fake-views as CTEs. Next: **Window functions**.`,
-        code: `-- Basic CTE
-WITH student_stats AS (
-  SELECT student_id, COUNT(*) AS order_count, SUM(amount) AS total
+Next: **Window functions** — aggregates per group **without collapsing rows**.`,
+        code: `-- VÍ DỤ 1: Tổng tiền đơn hàng theo từng học viên (1 CTE)
+WITH student_totals AS (
+  SELECT student_id, SUM(amount) AS total
   FROM orders
   GROUP BY student_id
 )
-SELECT s.name, ss.order_count, ss.total
+SELECT s.name, st.total
 FROM students s
-JOIN student_stats ss ON s.id = ss.student_id
-ORDER BY ss.total DESC;
+JOIN student_totals st ON st.student_id = s.id
+ORDER BY st.total DESC;
 
--- Multiple CTEs
+-- VÍ DỤ 2: Nhiều CTE nối tiếp — đọc như các bước
 WITH
-  top_students AS (
-    SELECT * FROM students WHERE age < 25
-  ),
-  recent_orders AS (
-    SELECT * FROM orders WHERE amount > 50
-  )
-SELECT t.name, r.amount
-FROM top_students t
-JOIN recent_orders r ON t.id = r.student_id;`,
+active_students AS (                                  -- Bước 1
+  SELECT id, name FROM students WHERE age < 25
+),
+big_orders AS (                                       -- Bước 2
+  SELECT * FROM orders WHERE amount > 50
+)
+SELECT a.name, b.amount                               -- Câu chính
+FROM active_students a
+JOIN big_orders b ON b.student_id = a.id;
+
+-- VÍ DỤ 3: Recursive CTE — đi xuống sơ đồ tổ chức
+WITH RECURSIVE org AS (
+  SELECT id, name, manager_id, 1 AS level             -- Anchor
+  FROM employees WHERE manager_id IS NULL
+  UNION ALL
+  SELECT e.id, e.name, e.manager_id, o.level + 1      -- Recursive
+  FROM employees e JOIN org o ON e.manager_id = o.id
+  WHERE o.level < 10                                  -- Chặn vô hạn
+)
+SELECT * FROM org ORDER BY level;`,
         codeLanguage: "sql",
-        exercise: "Use a CTE to create 'high_spenders' (students with total orders > 100), then JOIN with students to get names.",
-        exerciseEn: "Use a CTE to create 'high_spenders' (students with total orders > 100), then JOIN with students to get names.",
+        exercise: "Dùng CTE đặt tên \`high_spenders\` để chứa các học viên có tổng tiền đơn hàng > 100 (gồm 2 cột: student_id, total). Sau đó JOIN với bảng \`students\` để hiển thị tên kèm tổng tiền, sắp xếp giảm dần.",
+        exerciseEn: "Create a CTE named \`high_spenders\` containing students whose total order amount > 100 (columns: student_id, total). Then JOIN with \`students\` to show name + total, sorted descending.",
         quiz: [
-          { question: "Does a CTE persist after the query finishes?", options: ["Yes, stored permanently", "No, it only exists within the query", "Yes, if you use PERSIST", "Depends on the database"], answer: 1, explanation: "A CTE only exists for the duration of the query it is defined in. After execution, it disappears." },
-          { question: "Can a CTE reference another CTE defined before it?", options: ["No, CTEs are independent", "Yes, later CTEs can reference earlier ones", "Only with special syntax", "Only in PostgreSQL"], answer: 1, explanation: "In a WITH clause with multiple CTEs, each subsequent CTE can reference any previously defined CTE." },
-          { question: "What is the main advantage of CTE over a subquery in FROM?", options: ["CTEs are faster", "CTEs improve readability and can be referenced multiple times", "Subqueries cannot be used in FROM", "CTEs create permanent tables"], answer: 1, explanation: "CTEs make complex queries readable and allow you to reference the same result set multiple times without repeating code." },
-          { question: "Are CTEs materialized by default in most databases?", options: ["Yes, always", "No, they are usually inlined as subqueries", "Only in MySQL", "Yes, but only for large results"], answer: 1, explanation: "Most databases inline CTEs as subqueries during optimization. PostgreSQL 12+ offers explicit MATERIALIZED hints." },
-          { question: "When should you use a temporary table instead of a CTE?", options: ["Always", "When the intermediate result is large and reused across multiple queries", "Never", "When the query is simple"], answer: 1, explanation: "Temp tables persist across queries, can be indexed, and are better for large intermediate results reused multiple times." }
+          { question: "CTE có tồn tại sau khi câu lệnh chạy xong không?", options: ["Có, lưu vĩnh viễn trong database", "Không — CTE chỉ tồn tại trong câu lệnh đang chạy, xong là biến mất", "Có, nếu dùng PERSIST", "Tùy database"], answer: 1, explanation: "CTE là bảng tạm chỉ sống trong phạm vi câu lệnh đang chạy. Câu lệnh kết thúc, CTE biến mất hoàn toàn." },
+          { question: "Trong khối WITH có nhiều CTE, một CTE phía sau có dùng được kết quả của CTE phía trước không?", options: ["Không, các CTE độc lập", "Có — CTE phía sau có thể tham chiếu mọi CTE đã khai báo trước nó", "Chỉ với cú pháp đặc biệt", "Chỉ có ở PostgreSQL"], answer: 1, explanation: "Trong cùng một WITH, CTE sau hoàn toàn dùng được CTE trước, giống như mỗi bước trong công thức nấu ăn dùng nguyên liệu của bước trước." },
+          { question: "Ưu điểm chính của CTE so với subquery đặt trong FROM là gì?", options: ["CTE chạy nhanh hơn", "CTE có tên rõ ràng, dễ đọc và có thể tham chiếu lại nhiều lần trong cùng câu lệnh", "Subquery không dùng được trong FROM", "CTE tạo bảng vĩnh viễn"], answer: 1, explanation: "Engine hiện đại chạy CTE và subquery với tốc độ tương đương. Lý do chính chọn CTE là để câu lệnh dễ đọc và có thể tái sử dụng bảng tạm trong cùng truy vấn." },
+          { question: "Các database hiện đại có 'materialize' (hiện thực hóa) CTE mặc định không?", options: ["Có, luôn luôn", "Không — phần lớn engine hiện đại tự inline CTE giống như subquery", "Chỉ MySQL", "Có, nhưng chỉ với kết quả lớn"], answer: 1, explanation: "PostgreSQL 12+, Snowflake, BigQuery đều inline CTE thành subquery khi tối ưu. PostgreSQL có hint MATERIALIZED nếu bạn muốn ép buộc lưu kết quả." },
+          { question: "Khi viết Recursive CTE, điều bắt buộc cần có để tránh chạy vô hạn là gì?", options: ["Đặt tên CTE thật ngắn", "Có điều kiện dừng — ví dụ thêm cột level và WHERE level < N", "Dùng UNION thay vì UNION ALL", "Không có gì bắt buộc"], answer: 1, explanation: "Recursive CTE sẽ tự lặp đến khi không còn dòng mới. Nếu dữ liệu có vòng tròn (A → B → A) mà không có WHERE level < N thì câu lệnh chạy mãi không dừng — treo database." }
         ]
       }
     ]
