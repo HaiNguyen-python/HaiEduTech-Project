@@ -1591,50 +1591,213 @@ print(json.dumps(policy, indent=2))
         titleEn: "Shared Responsibility & Encryption",
         level: 3,
         difficulty: "intermediate",
-        theory: `**Shared Responsibility Model** chia trách nhiệm bảo mật giữa **nhà cung cấp cloud (CSP)** và **khách hàng**.
+        theory: `**Shared Responsibility Model** là khế ước bảo mật giữa **cloud provider (CSP)** và **khách hàng** — định rõ ai phải làm gì để bảo vệ hệ thống. Hiểu sai mô hình này = top nguyên nhân lộ data trên cloud (Gartner: 99% sự cố cloud security đến năm 2025 sẽ là LỖI KHÁCH HÀNG, không phải lỗi CSP).
 
-**CSP chịu trách nhiệm "Security OF the Cloud":**
-- Hạ tầng vật lý (data center, server, network)
-- Hypervisor, mạng nội bộ
-- Tính sẵn sàng của các managed service
+## Nguyên lý "of vs in"
+- **CSP — Security OF the Cloud**: hạ tầng vật lý (data center, điện, làm mát, fiber), phần cứng (server, ổ đĩa, network), virtualization (hypervisor), tính sẵn sàng của managed service.
+- **Customer — Security IN the Cloud**: cấu hình bảo mật (IAM, SG, encryption setting), patch OS (với IaaS), bảo mật code, dữ liệu khách hàng, MFA cho user của bạn.
 
-**Khách hàng chịu trách nhiệm "Security IN the Cloud":**
-- OS patching (với IaaS)
-- Cấu hình firewall, IAM
-- **Mã hóa dữ liệu** at-rest và in-transit
-- App-level vulnerability
-- Quản lý user, password, MFA
+## Trách nhiệm thay đổi theo mô hình dịch vụ
+| Layer | On-prem | IaaS (EC2) | PaaS (RDS) | SaaS (S3) |
+|-------|---------|------------|------------|-----------|
+| Data | Bạn | Bạn | Bạn | Bạn |
+| Access control | Bạn | Bạn | Bạn | Bạn |
+| Application | Bạn | Bạn | Bạn | CSP |
+| OS / Runtime | Bạn | Bạn | CSP | CSP |
+| Virtualization | Bạn | CSP | CSP | CSP |
+| Hardware / Network | Bạn | CSP | CSP | CSP |
+| Physical DC | Bạn | CSP | CSP | CSP |
 
-**Mức độ trách nhiệm theo dịch vụ:**
-| Service | CSP lo | Khách hàng lo |
-|---------|--------|---------------|
-| IaaS (EC2) | hạ tầng + hypervisor | OS, app, data, IAM |
-| PaaS (RDS) | + OS + DB engine | data, access control |
-| SaaS (S3) | gần như tất cả | data + access control |
+**Quy luật quan trọng**: càng lên SaaS, CSP gánh càng nhiều — NHƯNG **dữ liệu + IAM luôn là của BẠN** dù dùng dịch vụ gì.
 
-**Encryption (mã hóa):**
-- **At-rest**: dữ liệu lưu trên disk → dùng **AWS KMS** quản lý key, S3/EBS/RDS hỗ trợ tự động.
-- **In-transit**: dữ liệu khi truyền → bắt buộc **TLS 1.2+**.
-- **Customer-managed key (CMK)** vs **AWS-managed key**: CMK có quyền xoay/audit/cấp quyền chi tiết hơn.
+## Encryption — 3 trạng thái dữ liệu
+**1. At-rest (lưu trên disk)**
+- S3, EBS, RDS, DynamoDB hỗ trợ mã hóa AES-256 tự động.
+- 3 cấp key:
+  - **SSE-S3**: AWS quản hoàn toàn — đơn giản, miễn phí.
+  - **SSE-KMS**: dùng KMS Customer Master Key — kiểm soát rotate, audit, cấp quyền chi tiết.
+  - **SSE-C**: bạn cung cấp key — AWS không lưu, mất key là mất data.
+- **DSSE-KMS** (dual-layer) cho data siêu nhạy cảm.
 
-**Best practices an toàn:**
-1. Bật encryption mặc định cho mọi bucket/disk/DB.
-2. Bắt buộc HTTPS/TLS cho mọi endpoint.
-3. Định kỳ scan vulnerability (Inspector, GuardDuty).
-4. Backup + test restore định kỳ.
-5. Bật **WAF + Shield** cho web app công khai.`,
-        theoryEn: `**Shared Responsibility Model** splits security between cloud provider (CSP) and customer.
+**2. In-transit (đang truyền)**
+- Bắt buộc **TLS 1.2+** (TLS 1.3 ưu tiên); TLS 1.0/1.1 đã deprecated.
+- ALB/CloudFront cấu hình **modern security policy**.
+- mTLS giữa microservice (service mesh: Istio, App Mesh).
 
-**CSP — Security OF the Cloud:** physical infra, hypervisor, network, managed service availability.
+**3. In-use (đang xử lý)**
+- **Confidential Computing**: AWS Nitro Enclaves, Azure Confidential VM, Google Confidential Computing — mã hóa cả khi data ở RAM/CPU.
+- Use case: xử lý PHI, key management, multi-party computation.
 
-**Customer — Security IN the Cloud:** OS patching (IaaS), firewall config, IAM, **data encryption**, app security, MFA.
+## AWS KMS — kiến trúc key management
+\`\`\`
+Application
+    │ encrypt(plaintext)
+    ▼
+Data Encryption Key (DEK)  ← sinh trong app, mã hóa data nhanh (AES-256)
+    │ encrypt(DEK)
+    ▼
+KMS Customer Master Key (CMK)  ← never leaves KMS HSM
+    │
+    ▼
+Mã hóa DEK → lưu cùng ciphertext
+\`\`\`
+**Envelope encryption**: data lớn dùng DEK (nhanh), DEK lại được CMK mã hóa (an toàn). KMS không bao giờ thấy plaintext data.
 
-**Encryption:**
-- **At-rest**: KMS-managed keys for S3/EBS/RDS.
-- **In-transit**: TLS 1.2+.
-- **CMK** vs AWS-managed key: CMK gives full control (rotation, audit, granular access).
+## CMK Key Policy — ai được dùng key?
+\`\`\`json
+{
+  "Sid": "Allow Lambda to decrypt",
+  "Effect": "Allow",
+  "Principal": {"AWS": "arn:aws:iam::123:role/lambda-app"},
+  "Action": ["kms:Decrypt", "kms:GenerateDataKey"],
+  "Resource": "*",
+  "Condition": {
+    "StringEquals": {"kms:EncryptionContext:purpose": "user-data"}
+  }
+}
+\`\`\`
+- **Encryption Context** — metadata gắn với mỗi lần encrypt; Decrypt phải đưa đúng context → chống "wrong-context decrypt".
+- **Automatic key rotation**: bật mỗi 1-3 năm; key cũ vẫn decrypt được data cũ.
 
-**Best practices:** default encryption everywhere, enforce HTTPS, scan with Inspector/GuardDuty, backup + test restore, WAF + Shield for public apps.`,
+## Defense-in-depth — bảo mật phân lớp
+\`\`\`
+┌─ Edge:    CloudFront + WAF + Shield (DDoS, OWASP)
+├─ Network: VPC + SG + NACL + Flow Logs
+├─ Identity: IAM + MFA + SSO + SCP
+├─ Data:    Encryption at-rest + in-transit + KMS
+├─ Audit:   CloudTrail + Config + GuardDuty + Security Hub
+└─ Backup:  Multi-region snapshot + immutable Object Lock
+\`\`\`
+Mỗi tầng độc lập — kẻ tấn công phá 1 lớp vẫn còn lớp khác.
+
+## Compliance frameworks tham chiếu
+| Framework | Áp dụng | AWS support |
+|-----------|---------|-------------|
+| **PCI-DSS** | Thẻ tín dụng | Audit Manager template |
+| **HIPAA** | Y tế Mỹ | BAA available |
+| **SOC 2 Type II** | SaaS B2B | AWS Artifact download |
+| **ISO 27001** | Quốc tế | Certified |
+| **GDPR** | Châu Âu | EU regions, DPA |
+| **FedRAMP** | Chính phủ Mỹ | GovCloud |
+
+## Case study: Capital One vs Code Spaces
+**Capital One 2019**: lộ S3 do IAM rộng + WAF SSRF → mất 100M record, phạt $80M. **Khôi phục được** vì có backup + audit rõ.
+
+**Code Spaces 2014** (đã phá sản): hacker chiếm AWS root account, không có MFA, xóa toàn bộ EC2 + S3 + backup trong cùng account. **6 tiếng** — công ty đóng cửa vĩnh viễn. Bài học cay đắng: backup phải ở **account khác** + Object Lock immutable.
+
+## Case study: Equifax 2017 — không patch
+- Apache Struts vuln CVE-2017-5638 phát hành tháng 3.
+- Equifax không patch trong 2 tháng → tháng 5 bị khai thác.
+- Mất **147M record** SSN, khoản phạt $1.4 tỷ USD.
+- Bài học: **patch management** thuộc về KHÁCH HÀNG (IaaS), không phải AWS.
+
+## Best Practices — security baseline
+- ✅ **Default encryption** mọi bucket/disk/DB (bật ở account level).
+- ✅ **TLS 1.2+ everywhere**; HSTS header.
+- ✅ **CMK với rotation** cho data nhạy cảm; **Encryption Context** ép đúng use case.
+- ✅ **Backup ở account/region khác** + **S3 Object Lock** chống xóa.
+- ✅ **CloudTrail multi-region** → S3 immutable bucket có Object Lock + MFA Delete.
+- ✅ **Security Hub + GuardDuty + Inspector + Macie** — bộ 4 bảo mật chuẩn.
+- ✅ **AWS Config** rule kiểm tra compliance liên tục.
+- ✅ **Patch management**: Systems Manager Patch Manager schedule weekly.
+- ✅ **Secrets Manager** auto-rotate DB password 30-90 ngày.
+- ✅ **WAF + Shield Advanced** cho web app công khai (DDoS L7).
+- ✅ **VPC Flow Log + DNS Log** để forensic.
+- ✅ **Tabletop exercise** mô phỏng incident hằng quý.
+
+## Common Pitfalls
+- ❌ **Tin "AWS lo hết"** — 99% sự cố là lỗi customer.
+- ❌ **Backup cùng account** → bị xóa cùng main data (Code Spaces).
+- ❌ **CMK không rotate** nhiều năm.
+- ❌ **TLS 1.0 vẫn bật** vì legacy client.
+- ❌ **Public S3 bucket** với data nhạy cảm.
+- ❌ **Không patch OS** trên EC2 → vuln tích lũy.
+- ❌ **Lưu secret trong env var** thay Secrets Manager.
+- ❌ **GuardDuty bật nhưng không ai xem alert**.
+- ❌ **Compliance "check the box"** — pass audit nhưng không thật sự an toàn.
+
+## Khi nào tăng cường thêm?
+- Fintech/Healthcare → Confidential Computing + DSSE-KMS + dedicated HSM.
+- Multi-region → cross-region replication + KMS multi-region keys.
+- M&A → tách account + SCP isolate trong 90 ngày đầu.
+
+## Liên hệ bài tiếp theo
+Bảo mật xong, tiếp đến **vận hành hiện đại** — bài kế **Lambda & API Gateway** mở chương Serverless & DevOps, học cách build app không cần quản server với chi phí pay-per-execution.`,
+        theoryEn: `**Shared Responsibility Model** is the security contract between **cloud provider (CSP)** and **customer**. Misunderstanding it is the #1 cause of cloud breaches (Gartner: 99% of cloud security incidents through 2025 will be customer fault, not CSP fault).
+
+## "of vs in" principle
+- **CSP — Security OF the Cloud**: physical DC, hardware, virtualization, managed service availability.
+- **Customer — Security IN the Cloud**: IAM, SG config, encryption settings, OS patching (IaaS), application security, data, MFA.
+
+## Responsibility shifts by service model
+| Layer | On-prem | IaaS | PaaS | SaaS |
+|-------|---------|------|------|------|
+| Data | You | You | You | You |
+| Access control | You | You | You | You |
+| Application | You | You | You | CSP |
+| OS / Runtime | You | You | CSP | CSP |
+| Virtualization | You | CSP | CSP | CSP |
+| Hardware / Network | You | CSP | CSP | CSP |
+| Physical DC | You | CSP | CSP | CSP |
+
+**Rule**: data + IAM are ALWAYS yours regardless of service.
+
+## Encryption — 3 data states
+**At-rest**: S3/EBS/RDS auto AES-256. SSE-S3 (AWS-managed), SSE-KMS (customer-managed key, audit + rotate), SSE-C (you supply key — lose it = lose data). DSSE-KMS for ultra-sensitive.
+
+**In-transit**: Mandatory TLS 1.2+, prefer 1.3. ALB/CloudFront on modern security policies. mTLS for microservices via service mesh.
+
+**In-use**: Confidential Computing (AWS Nitro Enclaves, Azure Confidential VM, GCP Confidential Computing) encrypts in RAM/CPU. Used for PHI, key management, MPC.
+
+## AWS KMS envelope encryption
+App generates a Data Encryption Key (DEK) for fast bulk encryption; KMS Customer Master Key (CMK) wraps the DEK. KMS HSM never sees plaintext.
+
+## CMK Key Policy + Encryption Context
+Encryption Context is metadata bound to each encrypt call; Decrypt must supply the same context — defends against wrong-context decryption. Enable automatic rotation every 1-3 years.
+
+## Defense-in-depth
+Edge (CloudFront + WAF + Shield) → Network (VPC + SG + NACL + Flow Logs) → Identity (IAM + MFA + SSO + SCP) → Data (encryption + KMS) → Audit (CloudTrail + Config + GuardDuty + Security Hub) → Backup (cross-region + Object Lock).
+
+## Compliance frameworks
+PCI-DSS, HIPAA (with BAA), SOC 2 Type II (via AWS Artifact), ISO 27001, GDPR (EU regions + DPA), FedRAMP (GovCloud).
+
+## Case study: Capital One vs Code Spaces
+**Capital One 2019**: 100M records lost, $80M fine — recovered thanks to backups + audit.
+**Code Spaces 2014**: hacker took root (no MFA), wiped EC2 + S3 + backups in same account. Company shut down in 6 hours. Lesson: backups in **separate account** + Object Lock.
+
+## Case study: Equifax 2017 (unpatched Struts)
+Apache Struts vuln released March; not patched in 2 months; exploited May. 147M SSN records lost, $1.4B in fines. Lesson: patch management belongs to the customer for IaaS.
+
+## Best Practices
+- ✅ Default encryption everywhere.
+- ✅ TLS 1.2+ + HSTS.
+- ✅ CMK with rotation + Encryption Context.
+- ✅ Cross-account/region backups + Object Lock.
+- ✅ Multi-region CloudTrail → immutable S3 with MFA Delete.
+- ✅ Security Hub + GuardDuty + Inspector + Macie quartet.
+- ✅ AWS Config continuous compliance.
+- ✅ Systems Manager Patch Manager weekly.
+- ✅ Secrets Manager auto-rotation 30-90 days.
+- ✅ WAF + Shield Advanced for public apps.
+- ✅ VPC Flow Logs + DNS Logs for forensics.
+- ✅ Quarterly incident tabletop exercises.
+
+## Common Pitfalls
+- ❌ Believing "AWS handles everything".
+- ❌ Backups in same account.
+- ❌ CMK never rotated.
+- ❌ TLS 1.0 still enabled.
+- ❌ Public S3 with sensitive data.
+- ❌ Unpatched OS on EC2.
+- ❌ Secrets in env vars instead of Secrets Manager.
+- ❌ GuardDuty alerts ignored.
+- ❌ Checkbox compliance.
+
+## When to escalate
+Fintech/healthcare → Confidential Computing + DSSE-KMS + dedicated HSM. Multi-region → CRR + multi-region KMS keys. M&A → account split + SCP isolation in first 90 days.
+
+## Bridge to next lesson
+With security covered, next is modern operations — **Lambda & API Gateway** opens the Serverless & DevOps chapter: build apps with no server management and pay-per-execution pricing.`,
         code: `# Bật encryption khi upload S3 + tạo CMK trong KMS
 import boto3
 kms = boto3.client("kms")
