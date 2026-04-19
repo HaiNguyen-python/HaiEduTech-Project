@@ -674,44 +674,169 @@ print(f"Monthly cost: \${hours * hourly:.2f}")`,
         titleEn: "Object Storage (S3)",
         level: 2,
         difficulty: "beginner",
-        theory: `**Object Storage** lưu trữ dữ liệu dưới dạng **đối tượng (object)** trong **bucket**, mỗi object có:
-- **Key** (path/tên file)
-- **Value** (nội dung)
-- **Metadata** (Content-Type, custom tags)
-- **Version ID** (nếu bật versioning)
+        theory: `**Object Storage** là kiểu lưu trữ phẳng (flat namespace), khác hoàn toàn với file system truyền thống có folder lồng nhau. Mỗi file là một "object" độc lập có metadata riêng, được truy cập qua HTTP API. Đây là nền tảng của data lake, static website, backup, và CDN trong cloud hiện đại.
 
-**AWS S3 — đặc tính:**
-- Khả năng mở rộng vô hạn (đến hàng exabyte).
-- Độ bền **99.999999999%** (11 số 9) — gần như không bao giờ mất data.
-- Truy cập qua HTTP/HTTPS REST API.
-- Tích hợp sâu với Lambda, CloudFront, Athena.
+## Vì sao cần Object Storage?
+Trước cloud, công ty phải mua **NAS/SAN** đắt tiền (vài chục nghìn USD), tự lo RAID, sao lưu, mở rộng. Khi data vượt vài TB, chi phí tăng phi tuyến. Object Storage giải quyết bằng **hạ tầng phân tán** quy mô exabyte, **trả tiền theo GB thực dùng**, durability cực cao và API đơn giản. AWS S3 ra đời 2006 — sản phẩm thương mại đầu tiên của AWS — và đến nay vẫn là chuẩn de-facto.
 
-**Storage Classes (lớp lưu trữ):**
-| Class | Use case | Giá |
-|-------|----------|-----|
-| **Standard** | Truy cập thường xuyên | \$0.023/GB |
-| **Intelligent-Tiering** | Tự chuyển tier theo access | Tự động |
-| **Standard-IA** | Truy cập ít (>30 ngày) | \$0.0125/GB |
-| **One Zone-IA** | IA nhưng 1 AZ | \$0.01/GB |
-| **Glacier Instant** | Archive truy cập tức thì | \$0.004/GB |
-| **Glacier Flexible** | Archive (1 phút – 12h) | \$0.0036/GB |
-| **Glacier Deep Archive** | Archive lâu dài (12h) | \$0.00099/GB |
+## Cấu trúc một Object
+Mỗi object gồm 4 phần:
+- **Key** — chuỗi tên duy nhất trong bucket, thường giống đường dẫn (\`reports/2026/q1.pdf\`) nhưng thực ra **không có folder** — đó chỉ là tiền tố (prefix).
+- **Value** — nội dung nhị phân (0 byte đến 5 TB).
+- **Metadata** — \`Content-Type\`, \`Cache-Control\`, custom tag (\`x-amz-meta-author\`).
+- **Version ID** — chỉ có khi bật Versioning, giúp khôi phục object đã xóa/ghi đè.
 
-**Lifecycle Policy**: tự động chuyển object giữa các class theo thời gian (ví dụ: sau 30 ngày → IA, sau 365 ngày → Glacier).
+## Đặc tính cốt lõi của S3
+- **Durability 99.999999999% (11 nines)** — về mặt thống kê, lưu 10 triệu object thì trung bình **10,000 năm mới mất 1 object**. Đạt được nhờ S3 nhân bản dữ liệu qua tối thiểu 3 AZ.
+- **Availability 99.99%** (Standard) — tương đương ~52 phút downtime/năm.
+- **Strongly consistent** (từ 2020): write xong là read ngay thấy ngay (trước đó là eventual consistency).
+- **Khả năng mở rộng tuyến tính**: 1 bucket có thể chứa hàng tỷ object, throughput tự scale.
+- **Truy cập qua REST API** (PUT, GET, DELETE, LIST) — dễ tích hợp mọi ngôn ngữ.
 
-**Use case phổ biến:** lưu ảnh/video user upload, static website, backup, data lake, log archive.`,
-        theoryEn: `**Object Storage** stores data as **objects** in **buckets**. Each object has Key, Value, Metadata, Version ID.
+## Storage Classes — chọn đúng tier để tiết kiệm
+| Class | Use case | Giá USD/GB/tháng | Min duration | Retrieval |
+|-------|----------|------------------|--------------|-----------|
+| **Standard** | Truy cập thường xuyên | $0.023 | — | tức thì |
+| **Intelligent-Tiering** | Pattern không đoán được | $0.023 + $0.0025 monitor | 30 ngày | tức thì |
+| **Standard-IA** | Truy cập <1 lần/tháng | $0.0125 | 30 ngày | tức thì |
+| **One Zone-IA** | IA nhưng chỉ 1 AZ (rẻ hơn 20%) | $0.01 | 30 ngày | tức thì |
+| **Glacier Instant Retrieval** | Archive cần truy cập tức thì | $0.004 | 90 ngày | tức thì |
+| **Glacier Flexible** | Archive (1 phút – 12h) | $0.0036 | 90 ngày | 1 phút – 12h |
+| **Glacier Deep Archive** | Lưu trữ lâu dài (>1 năm) | $0.00099 | 180 ngày | 12-48h |
 
-**AWS S3:**
-- Infinite scale, **11 nines** durability.
-- HTTP/HTTPS REST API.
-- Integrates with Lambda, CloudFront, Athena.
+**Bài toán thực tế**: Lưu 1 PB log trong 1 năm.
+- Standard: 1,048,576 GB × $0.023 × 12 = **$289,406/năm**
+- Glacier Deep Archive: 1,048,576 GB × $0.00099 × 12 = **$12,457/năm** → tiết kiệm **96%**
 
-**Storage Classes:** Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier Instant/Flexible/Deep Archive.
+## Lifecycle Policy — tự động hóa tiết kiệm
+Lifecycle là rule JSON gắn vào bucket, tự chuyển object giữa các class theo tuổi:
+\`\`\`
+0-30 ngày   → Standard       (truy cập nóng)
+30-90 ngày  → Standard-IA    (truy cập thưa)
+90-365 ngày → Glacier Flexible (archive)
+>365 ngày   → Glacier Deep Archive (lưu trữ tuân thủ)
+>2555 ngày  → Delete         (sau 7 năm theo SOX)
+\`\`\`
+**Quan trọng**: lifecycle **chỉ giảm chi phí lưu trữ**, không giảm chi phí lấy ra (retrieval). Nếu workload truy cập ngẫu nhiên, **Intelligent-Tiering** là an toàn hơn — S3 tự đo và chuyển.
 
-**Lifecycle policy** auto-transitions objects between classes.
+## Case study thật: Netflix dùng S3 như "single source of truth"
+Netflix lưu **>100 PB** dữ liệu (video master, log analytics, ML feature) trên S3. Họ không tự build storage vì:
+- **Chi phí**: nếu tự xây cần >5 data center riêng — tốn hàng trăm triệu USD.
+- **Reliability**: S3 đã 17 năm chưa từng mất dữ liệu của Netflix.
+- **Tích hợp**: Spark/Athena/Hive đọc trực tiếp từ S3 không cần copy ra HDFS.
+- **Lifecycle**: log cũ tự xuống Glacier sau 30 ngày → tiết kiệm hàng triệu USD/năm.
 
-**Use cases:** user uploads, static websites, backups, data lakes, log archives.`,
+## Case study: Dropbox rời S3 (Project Magic Pocket)
+Năm 2016 Dropbox migrate **>500 PB** từ S3 sang hạ tầng tự xây vì khi đạt quy mô siêu lớn, biên lợi nhuận tự build vượt giá thuê S3. Bài học: **dưới ~50 PB hầu như luôn rẻ hơn dùng S3**, chỉ vài hyperscaler mới có lý do tự build.
+
+## So sánh Object vs Block vs File Storage
+| Khía cạnh | Object (S3) | Block (EBS) | File (EFS/NFS) |
+|-----------|-------------|-------------|----------------|
+| Đơn vị | object + metadata | block 4 KB | file + folder |
+| API | HTTP REST | iSCSI/NVMe | NFS/SMB |
+| Mount như disk? | Không | Có (1 instance) | Có (nhiều instance) |
+| Tốc độ random IO | Trung bình | Rất cao | Cao |
+| Giá | Rẻ nhất | Đắt nhất | Trung bình |
+| Use case | Backup, data lake, web asset | DB, OS disk | Shared workspace, lift-and-shift |
+
+## Best practices
+- ✅ **Bật Versioning** + MFA Delete cho bucket quan trọng — chống xóa nhầm/ransomware.
+- ✅ **Block Public Access** ở account level — mặc định mọi bucket private.
+- ✅ **Server-side encryption** mặc định (SSE-S3 hoặc SSE-KMS).
+- ✅ **Lifecycle** ngay từ ngày tạo bucket — tránh "data hoarding" không kiểm soát.
+- ✅ **Bucket policy + IAM Role** thay vì access key — và dùng **presigned URL** cho truy cập tạm thời.
+- ✅ **CloudFront** trước S3 cho web asset — giảm 80-90% egress cost.
+- ✅ **S3 Storage Lens** — dashboard miễn phí phân tích usage và đề xuất tiết kiệm.
+
+## Common pitfalls
+- ❌ **Bucket public mà không biết** — top nguyên nhân lộ data (Capital One 2019, ~100M record).
+- ❌ **Không bật lifecycle** → 60% bucket >1 năm có data "lạnh" trả giá Standard.
+- ❌ **Quá nhiều object nhỏ (KB)** — overhead request lớn hơn data; nên gộp thành Parquet/ORC.
+- ❌ **Hot-key prefix** — trước 2018, dùng prefix tăng dần (\`logs/2024/01/01/...\`) gây bottleneck; hiện S3 đã auto-shard nhưng vẫn nên random hash đầu key.
+- ❌ **Egress cost bất ngờ** — tải 1 TB từ S3 ra Internet ~$90; dùng CloudFront hoặc S3 Transfer Acceleration để tối ưu.
+- ❌ **Glacier retrieval trong giờ cao điểm** — Bulk retrieval rẻ ($0.0025/GB) nhưng mất 5-12h.
+
+## Khi nào KHÔNG nên dùng S3?
+- ❌ Cần latency <10 ms cho read/write nhỏ → dùng DynamoDB hoặc ElastiCache.
+- ❌ Cần POSIX file system (lock, append) → dùng EFS hoặc FSx.
+- ❌ Workload OLTP (database) → dùng RDS/Aurora.
+
+## Liên hệ bài tiếp theo
+S3 chỉ là một mảnh trong bộ ba **Compute + Storage + Network**. Bài kế tiếp sẽ học cách chạy workload đóng gói bằng **Container & Kubernetes**, kết hợp với S3 để build microservice scalable.`,
+        theoryEn: `**Object Storage** uses a flat namespace where each file is a self-describing object with metadata, accessed via HTTP API — fundamentally different from POSIX file systems. It powers data lakes, static sites, backups, and CDNs in modern cloud architectures.
+
+## Why Object Storage?
+Before cloud, companies bought expensive NAS/SAN ($10k+) and managed RAID, backup, scaling. Cost grew non-linearly past a few TB. Object Storage solves this with distributed exabyte-scale infrastructure, pay-per-GB pricing, extreme durability, and a simple API. AWS S3 (2006) was AWS's first commercial product and remains the de-facto standard.
+
+## Anatomy of an Object
+- **Key** — unique string in the bucket; looks like a path (\`reports/2026/q1.pdf\`) but there are **no real folders**, only prefixes.
+- **Value** — binary payload (0 bytes to 5 TB).
+- **Metadata** — \`Content-Type\`, \`Cache-Control\`, custom \`x-amz-meta-*\` tags.
+- **Version ID** — only when Versioning is enabled; lets you restore deleted/overwritten objects.
+
+## Core S3 Properties
+- **Durability 99.999999999% (11 nines)** — statistically, 10M objects lose 1 object per ~10,000 years. Achieved by replicating across ≥3 AZs.
+- **Availability 99.99%** (Standard) — ~52 min downtime/year.
+- **Strongly consistent** (since 2020): read-after-write returns the latest version immediately.
+- **Linear scalability**: billions of objects per bucket; throughput auto-scales.
+- **REST API access**: easy to integrate from any language.
+
+## Storage Classes
+| Class | Use case | $/GB/mo | Min | Retrieval |
+|-------|----------|---------|-----|-----------|
+| Standard | Frequent | $0.023 | — | instant |
+| Intelligent-Tiering | Unknown patterns | $0.023 + $0.0025 monitor | 30d | instant |
+| Standard-IA | <1×/month | $0.0125 | 30d | instant |
+| One Zone-IA | IA in 1 AZ | $0.01 | 30d | instant |
+| Glacier Instant | Archive, instant | $0.004 | 90d | instant |
+| Glacier Flexible | Archive | $0.0036 | 90d | 1 min – 12h |
+| Glacier Deep Archive | Long-term | $0.00099 | 180d | 12-48h |
+
+**Real math:** 1 PB for 1 year on Standard = **$289,406**, on Glacier Deep Archive = **$12,457** (96% savings).
+
+## Lifecycle Policies
+JSON rules attached to a bucket auto-transition objects by age. Lifecycle reduces **storage cost only**, not retrieval cost. For unpredictable access, use Intelligent-Tiering — S3 measures and moves automatically.
+
+## Case study: Netflix
+Netflix stores **>100 PB** on S3 (video masters, analytics logs, ML features). They don't self-host because: (1) cost — building 5+ DCs is hundreds of millions; (2) reliability — 17 years with no Netflix data lost; (3) integration — Spark/Athena read directly; (4) lifecycle — old logs auto-tier to Glacier saving millions/year.
+
+## Case study: Dropbox left S3
+In 2016 Dropbox migrated **>500 PB** off S3 to in-house "Magic Pocket". At extreme scale, self-build margin beats S3 pricing. **Below ~50 PB, S3 is almost always cheaper.**
+
+## Object vs Block vs File
+| Aspect | Object (S3) | Block (EBS) | File (EFS) |
+|--------|-------------|-------------|------------|
+| Unit | object + metadata | 4 KB block | file + folder |
+| API | HTTP REST | iSCSI/NVMe | NFS/SMB |
+| Mount | No | Yes (1 instance) | Yes (many) |
+| Random IO | Medium | Very high | High |
+| Price | Cheapest | Most expensive | Medium |
+| Use case | Backup, data lake, web | DB, OS disk | Shared workspace |
+
+## Best Practices
+- ✅ Versioning + MFA Delete on critical buckets (anti-ransomware).
+- ✅ Block Public Access at account level — default private.
+- ✅ Default server-side encryption (SSE-S3 or SSE-KMS).
+- ✅ Lifecycle from day 1 — avoid uncontrolled data hoarding.
+- ✅ Bucket Policy + IAM Role over access keys; use presigned URLs for temp access.
+- ✅ CloudFront in front of S3 — cuts 80-90% egress.
+- ✅ S3 Storage Lens — free dashboard with savings recommendations.
+
+## Common Pitfalls
+- ❌ Accidentally public buckets (Capital One 2019, ~100M records).
+- ❌ No lifecycle → 60% of buckets >1 year hold cold data at Standard pricing.
+- ❌ Many tiny objects — request overhead exceeds data; consolidate into Parquet/ORC.
+- ❌ Hot-key prefix (legacy issue, mostly auto-sharded now); still randomize prefixes for highest TPS.
+- ❌ Unexpected egress: 1 TB to Internet costs ~$90; use CloudFront or Transfer Acceleration.
+- ❌ Glacier retrieval at peak: Bulk is cheap ($0.0025/GB) but 5-12h.
+
+## When NOT to use S3
+- ❌ Latency <10 ms reads/writes → DynamoDB or ElastiCache.
+- ❌ POSIX semantics (lock, append) → EFS or FSx.
+- ❌ OLTP DB workloads → RDS/Aurora.
+
+## Bridge to Next Lesson
+S3 is one piece of Compute + Storage + Network. Next we cover **Containers & Kubernetes** — running packaged workloads at scale, often paired with S3 for storage.`,
         code: `# Upload và quản lý object trên S3 với boto3
 import boto3
 
@@ -763,40 +888,207 @@ s3.put_bucket_lifecycle_configuration(Bucket="my-app-bucket", LifecycleConfigura
         titleEn: "Containers & Kubernetes (EKS/AKS/GKE)",
         level: 3,
         difficulty: "intermediate",
-        theory: `**Container** đóng gói app + dependencies thành một đơn vị nhẹ, chạy nhất quán mọi nơi. **Docker** là chuẩn de-facto.
+        theory: `**Container** là cách đóng gói ứng dụng cùng toàn bộ phụ thuộc (libraries, runtime, config) thành một image bất biến, chạy giống hệt nhau trên laptop dev, server staging và cluster production. **Docker** là implementation phổ biến nhất; **Kubernetes** là hệ điều hành phân tán quản lý hàng nghìn container ở quy mô production. Bộ đôi này đã thay đổi hoàn toàn cách deploy phần mềm trong 10 năm qua.
 
-**Vì sao chọn container thay VM?**
-- Khởi động giây thay vì phút.
-- Nhẹ (MB thay vì GB).
-- Cùng image chạy được trên dev/staging/prod.
+## Vì sao Container thay thế VM?
+| Khía cạnh | VM | Container |
+|-----------|-----|-----------|
+| Boot time | 30-120 giây | 0.5-2 giây |
+| Kích thước image | 1-10 GB | 50-500 MB |
+| Overhead | Toàn bộ Guest OS | Chỉ shared kernel |
+| Density/host | 10-30 VM | 100-1000 container |
+| Portable | Cần chuẩn (OVF) | Image OCI chạy mọi nơi |
+| Use case | Cô lập mạnh, multi-OS | Microservice, CI/CD |
 
-**Kubernetes (K8s)** là nền tảng orchestration để chạy hàng nghìn container ở quy mô production:
-- **Pod**: đơn vị nhỏ nhất, chứa 1+ container.
-- **Deployment**: quản lý replica + rolling update.
-- **Service**: load balancer nội bộ.
-- **Ingress**: route HTTP từ ngoài vào.
-- **ConfigMap / Secret**: config + bí mật.
-- **Namespace**: phân vùng logic.
+VM ảo hóa **phần cứng** (hypervisor giả lập CPU/RAM/disk); container ảo hóa **OS** (chia sẻ kernel host nhưng cô lập namespace + cgroup). Vì shared kernel, container nhẹ hơn nhưng cô lập yếu hơn — không nên chạy code không tin cậy chung host (dùng gVisor/Kata cho điều đó).
 
-**Managed Kubernetes:**
-- **AWS EKS** — control plane do AWS quản lý, worker node tự bạn quản (hoặc Fargate).
-- **Azure AKS** — miễn phí control plane.
-- **GCP GKE** — chế độ Autopilot tự lo cả node.
+## Bên trong Docker — kiến trúc layered
+Một Dockerfile build ra image gồm nhiều **layer** xếp chồng (copy-on-write):
+\`\`\`dockerfile
+FROM python:3.11-slim          # layer 1: base OS + Python
+WORKDIR /app
+COPY requirements.txt .         # layer 2: chỉ rebuild khi requirements đổi
+RUN pip install -r requirements.txt   # layer 3: cache nếu layer 2 không đổi
+COPY . .                        # layer 4: code app, đổi nhiều nhất
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]
+\`\`\`
+**Best practice xếp lớp**: đặt thứ ít đổi (deps) lên trên, code app xuống dưới — tận dụng cache, build nhanh.
 
-**Khi nào dùng container thay serverless?**
-- Cần control runtime, custom binary.
-- Stateful workload (database, queue).
-- Long-running process (background worker).
-- Tránh vendor lock-in (K8s portable).`,
-        theoryEn: `**Containers** package app + deps into lightweight units. **Docker** is the standard.
+## Kubernetes — các khái niệm cốt lõi
+- **Pod** — đơn vị nhỏ nhất K8s schedule. Một Pod = 1+ container chia sẻ network + storage. Pod ephemeral (chết là tạo mới với IP khác).
+- **ReplicaSet** — đảm bảo luôn có N pod chạy.
+- **Deployment** — quản lý ReplicaSet + chiến lược rolling update / rollback.
+- **Service** — endpoint ổn định (ClusterIP, NodePort, LoadBalancer) định tuyến vào tập pod theo label.
+- **Ingress** — route HTTP/HTTPS layer 7 (host/path) vào Service. Dùng nginx-ingress, AWS ALB Ingress Controller, Traefik.
+- **ConfigMap / Secret** — tách config & bí mật khỏi image.
+- **Namespace** — phân vùng logic (team, env) trong cùng cluster.
+- **PersistentVolume + PVC** — abstraction cho storage (EBS, EFS, S3 csi).
+- **HPA (Horizontal Pod Autoscaler)** — auto scale pod theo CPU/memory/custom metric.
+- **DaemonSet** — chạy 1 pod trên MỌI node (log agent, monitoring agent).
+- **StatefulSet** — pod có identity ổn định + storage cá nhân (DB, Kafka).
 
-**Why over VMs?** Seconds to start, MB-sized, consistent across environments.
+## Architecture của Kubernetes Cluster
+\`\`\`
+┌──────────── Control Plane ────────────┐
+│ kube-apiserver  (entry point REST)   │
+│ etcd            (key-value state DB) │
+│ scheduler       (gán pod → node)     │
+│ controller-mgr  (reconcile loops)    │
+└──────────────────┬─────────────────────┘
+                   │
+       ┌───────────┴───────────┐
+       │                       │
+┌──── Node 1 ────┐      ┌──── Node 2 ────┐
+│ kubelet        │      │ kubelet        │
+│ kube-proxy     │      │ kube-proxy     │
+│ container rt   │      │ container rt   │
+│ ┌──┐ ┌──┐     │      │ ┌──┐ ┌──┐     │
+│ │P1│ │P2│ ... │      │ │P3│ │P4│ ... │
+│ └──┘ └──┘     │      │ └──┘ └──┘     │
+└────────────────┘      └────────────────┘
+\`\`\`
+Mọi tương tác qua **kube-apiserver**. State lưu trong **etcd**. Mỗi node có **kubelet** quản pod local, **kube-proxy** routing network.
 
-**Kubernetes (K8s)** orchestrates containers at scale: Pod, Deployment, Service, Ingress, ConfigMap/Secret, Namespace.
+## Managed Kubernetes — chọn cái nào?
+| Service | Provider | Control plane | Worker | Đặc điểm |
+|---------|----------|---------------|--------|----------|
+| **EKS** | AWS | Managed ($0.10/h) | EC2 hoặc Fargate | Tích hợp IAM, ALB, VPC chuẩn |
+| **AKS** | Azure | **Free** | VM hoặc ACI | Tích hợp Entra ID, free SLA 99.95% |
+| **GKE** | GCP | Standard $0.10/h, Autopilot $0.10/h+pod | VM hoặc Autopilot | **Autopilot** tự lo node — gần serverless |
+| **Self-hosted (kubeadm)** | Bất kỳ | Tự build | Tự build | Rẻ nhưng tốn devops |
 
-**Managed K8s:** EKS (AWS), AKS (Azure), GKE (GCP — has Autopilot mode).
+**Lời khuyên**: nếu mới bắt đầu, **GKE Autopilot** dễ nhất; team AWS-heavy chọn **EKS + Fargate**; team Microsoft chọn **AKS**.
 
-**Containers vs serverless:** choose containers for runtime control, stateful workloads, long-running processes, or to avoid vendor lock-in.`,
+## Case study: Spotify — chạy hơn 1700 microservice trên K8s
+Spotify migrate từ Helios (orchestrator riêng) sang Kubernetes 2018-2020. Họ chạy:
+- **150+ cluster GKE** xuyên 4 region.
+- **>10,000 node**, **>1.7 triệu pod** đỉnh.
+- Backend **Backstage** (open-source developer portal) ra đời từ trải nghiệm này — nay là chuẩn CNCF.
+Bài học: K8s cho phép **mỗi team deploy độc lập 100+ lần/ngày** mà không đụng nhau.
+
+## Case study: Airbnb — 1000 service, EKS + service mesh
+Airbnb dùng EKS + Envoy/Istio service mesh để xử lý 100k+ RPS giữa các service. Mesh cho mTLS tự động, retry, circuit breaker — tránh viết lại logic này trong từng service. Tradeoff: thêm độ phức tạp ops và 1-2 ms latency mỗi hop.
+
+## Container vs Serverless vs VM — khi nào chọn gì?
+| Tình huống | Khuyến nghị |
+|------------|-------------|
+| Webhook, batch ngắn, ít event | **Lambda/Cloud Functions** |
+| Microservice HTTP đều đặn | **Container (ECS/EKS/Cloud Run)** |
+| Long-running worker, queue consumer | **Container** |
+| DB, cache stateful | **Managed service hoặc StatefulSet** |
+| Legacy app cần Windows/full OS | **VM** |
+| Workload đều cao 24/7 | **VM với Reserved/Savings Plan** |
+| Cần portability multi-cloud | **K8s** (chuẩn hóa) |
+
+## Best Practices
+- ✅ **Image nhỏ**: dùng \`-slim\`, \`-alpine\`, multi-stage build → đẩy nhanh deploy & giảm CVE.
+- ✅ **Non-root user** trong container.
+- ✅ **Health probe**: liveness (kill nếu chết), readiness (chỉ nhận traffic khi sẵn sàng), startup (cho app boot chậm).
+- ✅ **Resource request + limit**: tránh "noisy neighbor" và OOMKill bất ngờ.
+- ✅ **Pod Disruption Budget** + **anti-affinity** để khả dụng cao.
+- ✅ **Network Policy** (Calico/Cilium): mặc định deny all, allow theo nhãn.
+- ✅ **GitOps** (ArgoCD/Flux): cluster state = git repo.
+- ✅ **Image signing** (cosign) + **scan** (Trivy) trong CI.
+
+## Common Pitfalls
+- ❌ Không đặt resource request/limit → 1 pod ngốn RAM kéo cả node sập.
+- ❌ Lưu state vào filesystem container (mất khi pod restart) — phải dùng PV/EFS/S3.
+- ❌ Latest tag image (\`myapp:latest\`) → không reproducible; luôn pin SHA hoặc semver.
+- ❌ 1 pod / 1 node (over-provisioning) → mất lợi thế bin-packing K8s.
+- ❌ Quên log → stdout (K8s thu thập tự động); log vào file trong container sẽ mất.
+- ❌ Cluster admin role rộng cho mọi developer — tuân thủ RBAC least privilege.
+- ❌ Bật autoscaling mà không có **PodDisruptionBudget** → scale down giết hết replica.
+
+## Khi KHÔNG nên dùng K8s
+- ❌ Team <5 dev, <10 service → ECS/Cloud Run/Heroku đủ.
+- ❌ Không có người chuyên ops K8s — chi phí học khoảng 6-12 tháng.
+- ❌ Workload thuần event-driven → Lambda đơn giản hơn nhiều.
+
+## Liên hệ bài tiếp theo
+Container chạy bên trong **VPC** — mạng ảo riêng có subnet, route, firewall. Bài tiếp sẽ đi sâu **VPC, Subnet & Routing** để hiểu cách container trong EKS giao tiếp an toàn với DB, Internet, và các service khác.`,
+        theoryEn: `**Containers** package app + dependencies into immutable images that run identically across dev laptops, staging servers, and production clusters. **Docker** is the dominant runtime; **Kubernetes** is the distributed OS that orchestrates thousands of containers. Together they reshaped software deployment in the past decade.
+
+## Containers vs VMs
+| Aspect | VM | Container |
+|--------|-----|-----------|
+| Boot | 30-120s | 0.5-2s |
+| Image | 1-10 GB | 50-500 MB |
+| Overhead | Full guest OS | Shared kernel only |
+| Density/host | 10-30 | 100-1000 |
+| Portability | OVF standard | OCI runs anywhere |
+
+VMs virtualize hardware (hypervisor); containers virtualize OS (shared kernel + namespaces + cgroups). Lighter but weaker isolation — use gVisor/Kata for untrusted code.
+
+## Docker layered architecture
+Dockerfiles build images as stacked, copy-on-write layers. Best practice: place rarely-changing items (deps) on top, app code on bottom — maximizes cache reuse.
+
+## Kubernetes core concepts
+- **Pod** — smallest scheduled unit; 1+ containers sharing network/storage; ephemeral.
+- **ReplicaSet** — keeps N pods running.
+- **Deployment** — manages ReplicaSets + rolling updates/rollback.
+- **Service** — stable endpoint (ClusterIP/NodePort/LoadBalancer).
+- **Ingress** — L7 HTTP routing (nginx, ALB Ingress, Traefik).
+- **ConfigMap / Secret** — externalize config & secrets.
+- **Namespace** — logical partitioning.
+- **PersistentVolume + PVC** — storage abstraction (EBS, EFS, S3 CSI).
+- **HPA** — autoscale pods on CPU/mem/custom metrics.
+- **DaemonSet** — one pod per node (log/monitor agents).
+- **StatefulSet** — stable identity + per-pod storage (DBs, Kafka).
+
+## Cluster Architecture
+Control plane: \`kube-apiserver\` (entry), \`etcd\` (state), scheduler, controller-manager. Each node: \`kubelet\` (manages local pods), \`kube-proxy\` (network), container runtime.
+
+## Managed Kubernetes
+| Service | Provider | Control plane | Notes |
+|---------|----------|---------------|-------|
+| **EKS** | AWS | $0.10/h | Tight IAM/ALB/VPC integration |
+| **AKS** | Azure | Free | Entra ID, free 99.95% SLA |
+| **GKE** | GCP | $0.10/h (Autopilot extra) | Autopilot ≈ serverless K8s |
+
+Beginner pick: **GKE Autopilot**. AWS shop: **EKS + Fargate**. MS shop: **AKS**.
+
+## Case study: Spotify
+Migrated from Helios to Kubernetes 2018-2020: 150+ GKE clusters, >10k nodes, >1.7M pods at peak, 1700+ microservices. Created Backstage developer portal (now CNCF standard). Each team deploys 100+ times/day independently.
+
+## Case study: Airbnb
+Runs 1000+ services on EKS + Envoy/Istio mesh handling 100k+ RPS with auto mTLS, retries, circuit breakers. Tradeoff: ops complexity + 1-2 ms per hop.
+
+## Decision matrix
+| Workload | Pick |
+|----------|------|
+| Webhooks, short bursts | Lambda/Cloud Functions |
+| Steady microservice HTTP | Container (ECS/EKS/Cloud Run) |
+| Long-running workers | Container |
+| Stateful DB/cache | Managed service or StatefulSet |
+| Legacy needing full OS/Windows | VM |
+| Steady high 24/7 | VM + Reserved/Savings Plan |
+| Multi-cloud portability | K8s |
+
+## Best Practices
+- ✅ Small images (slim/alpine, multi-stage), non-root user.
+- ✅ Liveness, readiness, startup probes.
+- ✅ Resource requests + limits (avoid noisy neighbor + OOMKill).
+- ✅ PodDisruptionBudget + anti-affinity.
+- ✅ Default-deny NetworkPolicy (Calico/Cilium).
+- ✅ GitOps (ArgoCD/Flux): cluster state = git repo.
+- ✅ Image signing (cosign) + scanning (Trivy) in CI.
+
+## Common Pitfalls
+- ❌ No resource limits → one pod kills node.
+- ❌ Storing state on container fs (lost on restart).
+- ❌ \`:latest\` tag → not reproducible; pin SHA/semver.
+- ❌ One pod per node — wastes K8s bin-packing.
+- ❌ Logs to file inside container — log to stdout instead.
+- ❌ Wide cluster-admin RBAC.
+- ❌ Autoscaling without PodDisruptionBudget.
+
+## When NOT to use K8s
+- ❌ <5 devs, <10 services → ECS/Cloud Run/Heroku is enough.
+- ❌ No K8s ops expertise — 6-12 month learning curve.
+- ❌ Pure event-driven workloads → Lambda is simpler.
+
+## Bridge to next lesson
+Containers run inside a **VPC** — your private virtual network with subnets, routing, firewall. Next we dive into **VPC, Subnets & Routing** to see how EKS pods talk to DBs, Internet, and other services securely.`,
         code: `# Dockerfile cho web app Python
 # FROM python:3.11-slim
 # WORKDIR /app
