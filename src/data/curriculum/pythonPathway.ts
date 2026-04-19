@@ -672,7 +672,7 @@ export const pythonLessons: PythonLesson[] = [
       titleEn: "Employee Management",
       description: "Class Employee, Manager kế thừa. Tính lương khác nhau.",
       descriptionEn: "Employee class, Manager inherits. Different salary calculation.",
-      starterCode: `class Employee:\n    def __init__(self, name, base_salary):\n        self.name = name\n        self.base = base_salary\n\n    def total_salary(self):\n        return self.base\n\n    def info(self):\n        return f"{type(self).__name__} {self.name}: ${self.total_salary():,}"\n\nclass Manager(Employee):\n    def __init__(self, name, base, bonus):\n        super().__init__(name, base)\n        self.bonus = bonus\n\n    def total_salary(self):\n        return self.base + self.bonus\n\nteam = [\n    Employee("Alice", 50000),\n    Manager("Bob", 70000, 20000),\n    Employee("Carol", 55000),\n]\n\nfor member in team:\n    print(member.info())\n\nprint(f"\\nTotal payroll: ${sum(m.total_salary() for m in team):,}")\n`,
+      starterCode: `class Employee:\n    def __init__(self, name, base_salary):\n        self.name = name\n        self.base = base_salary\n\n    def total_salary(self):\n        return self.base\n\n    def info(self):\n        return f"{type(self).__name__} {self.name}: \${self.total_salary():,}"\n\nclass Manager(Employee):\n    def __init__(self, name, base, bonus):\n        super().__init__(name, base)\n        self.bonus = bonus\n\n    def total_salary(self):\n        return self.base + self.bonus\n\nteam = [\n    Employee("Alice", 50000),\n    Manager("Bob", 70000, 20000),\n    Employee("Carol", 55000),\n]\n\nfor member in team:\n    print(member.info())\n\nprint(f"\\nTotal payroll: \${sum(m.total_salary() for m in team):,}")\n`,
     },
   }),
 
