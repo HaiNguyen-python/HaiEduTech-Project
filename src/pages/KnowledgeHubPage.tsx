@@ -10,6 +10,11 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { scholarships, COUNTRIES, type Scholarship } from "@/data/globalScholarshipData";
+import ConsultationBox, { type AdvisorInput } from "@/components/scholarship/ConsultationBox";
+import AdvisorLoading from "@/components/scholarship/AdvisorLoading";
+import RoadmapResults, { type AdvisorResponse } from "@/components/scholarship/RoadmapResults";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const LEVELS = ["Bachelor", "Master", "PhD"] as const;
 
@@ -25,6 +30,33 @@ const KnowledgeHubPage = () => {
   const [activeCountry, setActiveCountry] = useState("all");
   const [activeLevel, setActiveLevel] = useState<string>("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [advisorLoading, setAdvisorLoading] = useState(false);
+  const [advisorData, setAdvisorData] = useState<AdvisorResponse | null>(null);
+
+  const handleAdvisorSubmit = async (input: AdvisorInput) => {
+    setAdvisorLoading(true);
+    setAdvisorData(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("scholarship-advisor", {
+        body: { ...input, language: lang },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      setAdvisorData(data as AdvisorResponse);
+      // Smooth scroll to results
+      setTimeout(() => {
+        document.getElementById("advisor-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    } catch (e: any) {
+      toast({
+        title: t("Lỗi", "Error"),
+        description: e?.message || t("Không thể tư vấn lúc này. Thử lại sau.", "Couldn't get advice now. Try again."),
+        variant: "destructive",
+      });
+    } finally {
+      setAdvisorLoading(false);
+    }
+  };
 
   const filtered = useMemo(() => {
     return scholarships.filter((s) => {
@@ -61,6 +93,31 @@ const KnowledgeHubPage = () => {
               )}
             </p>
           </motion.div>
+
+          {/* AI Consultation Box */}
+          <div className="mb-10">
+            <ConsultationBox onSubmit={handleAdvisorSubmit} loading={advisorLoading} />
+          </div>
+
+          {/* AI Results / Loading */}
+          <div id="advisor-results" className="mb-12 scroll-mt-24">
+            {advisorLoading && <AdvisorLoading />}
+            {!advisorLoading && advisorData && (
+              <RoadmapResults data={advisorData} onReset={() => setAdvisorData(null)} />
+            )}
+          </div>
+
+          {/* Browse curated scholarships divider */}
+          <div className="relative mb-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border"></div>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-background px-4 text-sm font-semibold text-muted-foreground">
+                {t("Hoặc duyệt thư viện học bổng", "Or browse curated scholarships")}
+              </span>
+            </div>
+          </div>
 
           {/* Search */}
           <div className="mb-6">
