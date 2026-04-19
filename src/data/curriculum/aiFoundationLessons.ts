@@ -88,7 +88,62 @@ The field experienced two major "winters" — periods of reduced funding and int
 | 2012-2020 | Deep Learning | Data + compute hungry |
 | 2020+ | Foundation Models | Alignment, hallucination |
 
-Understanding these cycles helps us avoid repeating past mistakes and appreciate why modern AI works the way it does.`,
+Understanding these cycles helps us avoid repeating past mistakes and appreciate why modern AI works the way it does.
+
+---
+
+## 🏢 Case Study: OpenAI — From Non-Profit to $157B Valuation
+
+OpenAI's journey illustrates the modern AI era perfectly:
+
+- **2015:** Founded as a non-profit by Sam Altman, Elon Musk, Ilya Sutskever with $1B pledge — mission "safe AGI for humanity"
+- **2018:** GPT-1 (117M parameters) — proved unsupervised pre-training works for language
+- **2019:** GPT-2 (1.5B) — initially "too dangerous to release", later open-sourced
+- **2020:** GPT-3 (175B) — emergent few-shot learning, $4.6M training cost
+- **2022 (Nov 30):** ChatGPT launched — **100M users in 2 months** (fastest in history; TikTok took 9 months, Instagram 2.5 years)
+- **2023:** GPT-4 multimodal, $100M+ training estimate
+- **2024:** o1/o3 reasoning models, $157B valuation
+
+**Lesson:** The "overnight success" of ChatGPT was actually 7 years of compound research. Modern AI requires **patience + capital + compute**.
+
+---
+
+## 🏢 Case Study: Google DeepMind — Research-First Approach
+
+- **2014:** Google acquires DeepMind for $500M (then ~50 employees)
+- **2016:** AlphaGo defeats Lee Sedol 4-1 (Move 37 considered "creative genius")
+- **2017:** "Attention Is All You Need" — Transformer paper that paradoxically benefits competitors more than Google initially
+- **2020:** AlphaFold 2 solves 50-year-old protein folding problem — predicts 200M+ protein structures
+- **2024:** Gemini 1.5 Pro (1M token context), Gemini 2.0 multimodal native
+
+**Lesson:** Google often **invents** but slow to **productize**. Transformer paper authors all left to start companies (Cohere, Character.AI, Adept, Inceptive).
+
+---
+
+## 🏢 Case Study: Anthropic — Safety-First Bet
+
+- **2021:** Founded by Dario & Daniela Amodei (ex-OpenAI VP Research) with focus on **Constitutional AI**
+- **2023:** Claude launched — emphasizes Helpful, Harmless, Honest (HHH) principles
+- **2024:** Claude 3.5 Sonnet leads coding benchmarks; Amazon invests $4B
+- **2025:** Claude 4 series, valued at $61.5B
+
+**Lesson:** Differentiation by **safety methodology** (RLHF + Constitutional AI) created a viable competitor to OpenAI in just 3 years.
+
+---
+
+## ⚠️ Anti-Patterns Throughout AI History
+
+1. **Over-promising AGI timelines** (1956, 1970s, 1980s — and arguably today)
+2. **Ignoring data quality** — Tay chatbot (Microsoft, 2016) became racist in 24 hours
+3. **No ethical review** — Amazon's hiring AI (2018) penalized resumes with "women's"
+4. **Premature deployment** — Google Bard's first demo (2023) gave wrong answer about JWST → $100B market cap loss
+5. **Vendor lock-in to deprecated tech** — Companies stuck on RNNs in 2018 missed Transformer revolution
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Now that you understand WHY modern AI works (data + compute + algorithms), the next lesson dives into the fundamental computing unit that makes it all possible: **the artificial neuron** (perceptron). Every breakthrough above — from AlphaGo to GPT-4 — is built from billions of these simple units.`,
         theoryEn: `**History of Artificial Intelligence — A Comprehensive Overview**
 
 Artificial Intelligence (AI) has evolved through several distinct eras, each marked by breakthroughs, setbacks, and paradigm shifts. Understanding this history is essential for any AI practitioner.
@@ -259,7 +314,60 @@ This produces a prediction, which is then compared to the actual target to compu
 **⚠️ Common Misconceptions:**
 - Neural networks don't "think" — they perform matrix multiplications
 - More layers ≠ always better (risk of overfitting, vanishing gradients)
-- The architecture design (how many layers, neurons) is crucial and often more art than science`,
+- The architecture design (how many layers, neurons) is crucial and often more art than science
+
+---
+
+## 🏢 Case Study: Google's Neural Machine Translation (2016)
+
+Before 2016, Google Translate used phrase-based statistical translation — translating chunks of words separately, then stitching them together. Quality was robotic, often comically wrong.
+
+**The shift:**
+- Google replaced 500,000 lines of phrase-based code with a **single 8-layer LSTM neural network**
+- Used encoder-decoder architecture with attention
+- **Result:** 60% reduction in translation errors overnight; some language pairs (English↔Spanish) approached human-level quality
+- **Cost:** Months of training on Google's TPU pods
+
+**Lesson:** A well-designed neural network can replace decades of hand-engineered rules. This same principle later enabled GPT to replace hand-crafted NLP pipelines.
+
+---
+
+## 🏢 Case Study: OpenAI's MLP Surprise in GPT-3
+
+While Transformers get the credit, **~70% of GPT-3's parameters live in the MLP feed-forward layers** (not attention). Each Transformer block contains:
+- Self-attention: ~25M params per layer
+- MLP feed-forward: ~50M params per layer (4× expansion ratio)
+
+In a 96-layer GPT-3 (175B total), the simple "input → linear → activation → linear → output" MLPs you learn here account for over **120 billion parameters**. They store most of the model's factual knowledge — recent interpretability research (Anthropic's "circuits" team) shows MLPs act as key-value memories.
+
+**Lesson:** Don't underestimate basic MLPs — they remain the workhorse of even the most advanced LLMs.
+
+---
+
+## 📋 Best Practices Checklist
+
+✅ **Start small:** Begin with 1-2 hidden layers, 32-128 neurons before scaling up
+✅ **Normalize inputs:** Mean=0, std=1 prevents gradient issues
+✅ **Use He initialization for ReLU networks** (`std = √(2/fan_in)`)
+✅ **Add Batch Normalization** between layers in deep networks
+✅ **Monitor activation distributions** — dead neurons (always 0) signal problems
+✅ **Validate Universal Approximation needs ≥1 hidden layer** — linear models for linear problems
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Building 100-layer networks for a 1000-row tabular dataset (use XGBoost!)
+❌ Forgetting bias terms — limits the function class learnable
+❌ Using Sigmoid in hidden layers of deep networks (vanishing gradient)
+❌ Mixing one-hot encoded categories with raw continuous features without scaling
+❌ Treating hyperparameters (depth, width, LR) as fixed instead of tuning
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+The forward pass produces a number — but neural networks need **non-linearity** to learn complex patterns. Without activation functions, stacking 100 linear layers is mathematically identical to one linear layer. Next: **Activation Functions** — Sigmoid, ReLU, GELU — and why your choice can make or break training.`,
         theoryEn: `**Neural Networks — The Foundation of Modern AI**
 
 Neural networks are computing systems inspired by biological brain networks, forming the backbone of deep learning.
@@ -445,7 +553,75 @@ Without activation functions, a neural network would just be a series of linear 
 
 ---
 
-**⚠️ Key Takeaway:** The choice of activation function significantly impacts training speed, convergence, and final performance. ReLU is the safe default for hidden layers, but modern architectures increasingly use GELU or SiLU.`,
+**⚠️ Key Takeaway:** The choice of activation function significantly impacts training speed, convergence, and final performance. ReLU is the safe default for hidden layers, but modern architectures increasingly use GELU or SiLU.
+
+---
+
+## 🏢 Case Study: Why GPT-2 → GPT-3 Switched to GELU
+
+**GPT-1 (2018)** used ReLU. **GPT-2 and onwards (2019+)** switched to **GELU (Gaussian Error Linear Unit)**: `GELU(x) = x · Φ(x)` where Φ is the cumulative normal distribution.
+
+**Why the switch?**
+- ReLU's hard cutoff at 0 creates a non-smooth function — bad for gradient-based optimization at scale
+- GELU is **smooth everywhere** AND has a probabilistic interpretation (multiply input by P(input > random Gaussian))
+- Empirically gives **~0.5-1% perplexity improvement** on language modeling — small per-parameter but huge at GPT-3 scale
+
+**Industry adoption:**
+- BERT, GPT-2/3/4, T5: GELU
+- Llama, PaLM, Gemini: SiLU/Swish (`x · σ(x)`) — even smoother
+- Mistral, modern Llama: SwiGLU (gated SiLU variant) — adds a multiplicative gate
+
+**Lesson:** At small scale (<1M params), activation choice barely matters. At billion-parameter scale, the right activation can save **millions of dollars in compute**.
+
+---
+
+## 🏢 Case Study: Dying ReLU Disaster at Stanford (Andrej Karpathy's blog)
+
+In 2016, Karpathy reported that ~40% of ReLU neurons in his vision models were **permanently dead** (always outputting 0) due to high learning rates causing weight updates that pushed neurons into negative territory permanently.
+
+**Symptoms:**
+- Training loss plateaus mysteriously
+- Validation accuracy lower than expected
+- Gradient norm collapses for affected neurons
+
+**Fixes deployed:**
+1. Switch to **Leaky ReLU** or **ELU**
+2. Lower learning rate
+3. Better weight initialization (He init for ReLU)
+4. Add Batch Normalization
+
+This disaster is why Leaky ReLU became standard in CV pipelines from 2017 onwards.
+
+---
+
+## 📋 Decision Flowchart
+
+```
+What layer am I designing?
+├── Hidden layer in CNN?           → ReLU (or Leaky ReLU)
+├── Hidden layer in Transformer?   → GELU or SwiGLU
+├── Hidden layer in RNN?           → Tanh (cell), Sigmoid (gates)
+├── Output for binary classify?    → Sigmoid
+├── Output for multi-class?        → Softmax
+├── Output for regression?         → None (linear)
+└── GAN generator output?          → Tanh (matches [-1,1] image norm)
+```
+
+---
+
+## ⚠️ Anti-Patterns
+
+❌ Using Sigmoid in deep hidden layers — vanishing gradient guaranteed
+❌ Forgetting to apply Softmax before computing categorical cross-entropy (most frameworks combine them — applying twice = bug)
+❌ Using ReLU on the output layer when you need negative values
+❌ Mixing activations randomly across layers without justification
+❌ Ignoring the "dying ReLU" problem when training loss plateaus
+
+---
+
+## 🌉 Bridge to Next Lesson
+
+Activations let networks learn non-linear patterns. But how do we measure "wrong" so the network knows what to fix? Next: **Loss Functions & Gradient Descent** — the mathematical engine that turns errors into learning.`,
         theoryEn: `**Activation Functions — Adding Non-Linearity to Neural Networks**
 
 Without activation functions, a neural network is just linear regression. Activation functions introduce **non-linearity**.
