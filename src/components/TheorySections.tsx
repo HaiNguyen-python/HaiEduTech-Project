@@ -29,6 +29,7 @@ const KATEX_OPTIONS = {
     "\\Z": "\\mathbb{Z}",
     "\\Q": "\\mathbb{Q}",
     "\\KL": "\\operatorname{KL}",
+    "\\norm": "\\left\\| #1 \\right\\|",
   },
 };
 import {
@@ -183,9 +184,26 @@ function normalizeMath(input: string): string {
       // \( ... \)  → $ ... $
       out = out.replace(/\\\(([\s\S]+?)\\\)/g, (_, body) => `$${body.trim()}$`);
 
+      // Replace double-pipe norm bars `||x||` with KaTeX-friendly `\|x\|`
+      // (KaTeX doesn't natively render `||...||`). Apply globally outside code.
+      // Run twice: once for pairs separated by content, once for stray `||`.
+      out = out.replace(/\|\|/g, "\\|");
+
+      // Repair pass: the AI sometimes wraps a math expression in plain text
+      // parentheses without `$...$`, e.g. `(\lambda \|\beta\|^2)` or
+      // `((\lambda \|\beta\|^2))`. Detect a paren group containing a `\cmd`
+      // and wrap its inside in inline math, keeping the parens textual.
+      // Strip any extra outer pair of parens too.
+      out = out.replace(
+        /\(\s*\(([^()\n]*\\[A-Za-z]+[^()\n]*)\)\s*\)/g,
+        (_, inner) => `($${inner.trim()}$)`,
+      );
+      out = out.replace(
+        /(^|[^$\\])\(([^()\n]*\\[A-Za-z]+[^()\n]*)\)/g,
+        (_, pre, inner) => `${pre}($${inner.trim()}$)`,
+      );
+
       // ── Wrap BARE LaTeX fragments (no $ delimiters) in inline math. ──
-      // We process the part line-by-line, and within each line we walk through
-      // segments that are NOT already inside `$...$` / `$$...$$` / inline `code`.
       out = out
         .split("\n")
         .map((line) => wrapBareLatexInLine(line))
@@ -225,26 +243,29 @@ function wrapBareLatexInLine(line: string): string {
 function wrapLatexRuns(text: string): string {
   // Pattern for a single math-ish token:
   //   - \cmd  (with optional {..} or [..] arg, possibly nested one level)
+  //   - \|   (norm bar)
   //   - {...}
   //   - identifier with _{..} or ^{..} (e.g. L^{CLIP}, r_t)
   //   - numbers, single letters, common math operators when adjacent to math
   const MATH_TOKEN =
-    String.raw`(?:\\[A-Za-z]+(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\[[^\[\]]*\])*` +    // \cmd{..}{..}
+    String.raw`(?:\\\|` +                                                             // \|  (norm)
+    String.raw`|\\[A-Za-z]+(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\[[^\[\]]*\])*` +       // \cmd{..}{..}
     String.raw`|\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}` +                                    // {..}
     String.raw`|[A-Za-z](?:_\{[^{}]+\}|\^\{[^{}]+\}|_[A-Za-z0-9]|\^[A-Za-z0-9])+` +   // x_t, L^{CLIP}
-    String.raw`|[=+\-*/<>|,.;:!?()\[\]]` +                                            // operators / punctuation glue
+    String.raw`|[=+\-*/<>,.;:!?()\[\]]` +                                             // operators / punctuation glue
     String.raw`|[A-Za-z0-9]+` +                                                       // bare ids/numbers
     String.raw`)`;
 
-  // A run = sequence of MATH_TOKENs separated by single spaces, containing at least one \cmd or _{ / ^{
+  // A run = sequence of MATH_TOKENs optionally separated by spaces (allow glue),
+  // containing at least one \cmd or _{ / ^{
   const RUN_RE = new RegExp(
-    String.raw`(?:${MATH_TOKEN})(?:[ \t]+(?:${MATH_TOKEN}))*`,
+    String.raw`(?:${MATH_TOKEN})(?:[ \t]*(?:${MATH_TOKEN}))*`,
     "g",
   );
 
   return text.replace(RUN_RE, (run) => {
     // Skip if no real LaTeX command or sub/sup brace inside.
-    if (!LATEX_CMD_RE.test(run) && !/[_^]\{/.test(run)) return run;
+    if (!LATEX_CMD_RE.test(run) && !/[_^]\{/.test(run) && !/\\\|/.test(run)) return run;
     // Skip URLs / paths.
     if (/https?:\/\//.test(run)) return run;
     // Trim trailing punctuation we don't want inside the math.
