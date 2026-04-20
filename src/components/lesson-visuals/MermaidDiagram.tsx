@@ -19,7 +19,19 @@ function initMermaid() {
     securityLevel: "loose",
     suppressErrorRendering: true, // ⬅ stops the bomb-icon SVG injection
     fontFamily: "Inter, system-ui, sans-serif",
-    flowchart: { curve: "basis", padding: 12 },
+    flowchart: { curve: "basis", padding: 20, nodeSpacing: 50, rankSpacing: 50, htmlLabels: true, useMaxWidth: true },
+    themeCSS: `
+      .node rect, .node polygon, .node circle, .node ellipse {
+        rx: 8; ry: 8;
+      }
+      .nodeLabel, .edgeLabel, .label {
+        white-space: nowrap !important;
+        font-size: 14px !important;
+        padding: 0 6px;
+      }
+      foreignObject { overflow: visible !important; }
+      foreignObject div { white-space: nowrap !important; overflow: visible !important; }
+    `,
     themeVariables: isDark
       ? { primaryColor: "#3b82f6", primaryTextColor: "#f1f5f9", lineColor: "#64748b" }
       : { primaryColor: "#3b82f6", primaryTextColor: "#0f172a", lineColor: "#64748b" },
@@ -89,7 +101,10 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
           <Loader2 className="w-4 h-4 animate-spin mr-2" /> Rendering diagram…
         </div>
       )}
-      <div ref={ref} className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto" />
+      <div
+        ref={ref}
+        className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto [&_foreignObject]:!overflow-visible [&_.nodeLabel]:!whitespace-nowrap [&_.label]:!whitespace-nowrap"
+      />
     </div>
   );
 };
