@@ -29,6 +29,7 @@ export const rlModule: ExtendedProgrammingModule = {
       level: 4,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Python basics, basic probability, NumPy. Linear Algebra is helpful for later lessons.
 
@@ -173,6 +174,7 @@ env.close()`,
       level: 4,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lesson 1 (RL Foundations), basic probability theory.
 
@@ -359,6 +361,7 @@ for row in policy.reshape(4, 4):
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lesson 2 (MDP), Python OOP, basic PyTorch.
 
@@ -553,6 +556,7 @@ env.close()`,
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lesson 3 (Q-Learning/DQN), PyTorch autograd, basic calculus (gradients).
 
@@ -753,6 +757,7 @@ env.close()`,
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lessons 1–4. This lesson surveys industrial RL deployments and the engineering challenges that come with them.
 
@@ -941,6 +946,7 @@ render_env.close()`,
       level: 4,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lesson 3 (Q-Learning).
 
@@ -1067,6 +1073,7 @@ for row in np.argmax(Q, axis=1).reshape(4, 12):
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lesson 4 (Policy Gradients).
 
@@ -1195,6 +1202,7 @@ print("Solved threshold = 200.")`,
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lessons 3–4.
 
@@ -1329,6 +1337,7 @@ model.save("ppo_pursuit_team")`,
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lesson 3 (Q-Learning).
 
@@ -1453,6 +1462,7 @@ print("CQL typically reaches ~70-80 normalized score vs ~45 for BC.")`,
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lessons 3–4, Lesson 7 (PPO).
 
@@ -1613,6 +1623,7 @@ for epoch in range(50):
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lessons 3–4 (Q-Learning, DQN).
 
@@ -1708,6 +1719,7 @@ print(f"UCB-1   regret: {run('ucb'):8.1f}")
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lesson 11.
 
@@ -1827,6 +1839,7 @@ print("novelty (after training): ", intrinsic_reward(states).mean().item())  # �
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lessons 4 (Policy Gradients), 7 (PPO).
 
@@ -1945,6 +1958,7 @@ print(f"Successful transitions in buffer: {successes} / {len(buffer)} "
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lessons 3, 4, 7.
 
@@ -2053,6 +2067,7 @@ for epoch in range(3):
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
+      theory: "",
       theoryEn: `
 > **Prerequisites**: Lessons 2 (MDP), 3 (DQN), 7 (PPO), 10 (AlphaGo).
 
