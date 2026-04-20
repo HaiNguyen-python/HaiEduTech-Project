@@ -165,6 +165,11 @@ const Navbar = () => {
       { to: "/programming/prog-data-pipeline", label: t("Data Engineer", "Data Engineer"), icon: Workflow },
       { to: "/programming/cloud-fundamentals", label: t("Cloud Engineer", "Cloud Engineer"), icon: Cloud },
     ] },
+    { to: "#prog-software-web-group", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Settings2, groupLabel: "prog-software-web", children: [
+      { to: "/programming?pillar=software-eng", label: t("Software & Web Engineering", "Software & Web Engineering"), icon: Settings2 },
+      { to: "/programming/se-foundations/se-git", label: t("Git Branching Simulator", "Git Branching Simulator"), icon: Workflow },
+      { to: "/programming/software-eng-interview", label: t("Software Engineer Interview", "Software Engineer Interview"), icon: MessagesSquare },
+    ] },
     { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Briefcase, groupLabel: "prog-career", children: [
       { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
       { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮"), icon: Target },
