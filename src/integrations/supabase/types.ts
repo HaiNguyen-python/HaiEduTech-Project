@@ -112,6 +112,39 @@ export type Database = {
           },
         ]
       }
+      career_assessments: {
+        Row: {
+          ai_insights: string | null
+          answers: Json
+          assessment_type: string
+          created_at: string
+          id: string
+          result: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_insights?: string | null
+          answers?: Json
+          assessment_type: string
+          created_at?: string
+          id?: string
+          result?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_insights?: string | null
+          answers?: Json
+          assessment_type?: string
+          created_at?: string
+          id?: string
+          result?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       class_reminders: {
         Row: {
           class_id: string
@@ -225,6 +258,66 @@ export type Database = {
           name?: string
           phone?: string | null
           subject?: string | null
+        }
+        Relationships: []
+      }
+      counseling_conversations: {
+        Row: {
+          created_at: string
+          distress_flagged: boolean
+          id: string
+          messages: Json
+          mode: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          distress_flagged?: boolean
+          id?: string
+          messages?: Json
+          mode?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          distress_flagged?: boolean
+          id?: string
+          messages?: Json
+          mode?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      counseling_journal: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          tags: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          tags?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          tags?: string[] | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -680,6 +773,33 @@ export type Database = {
         }
         Relationships: []
       }
+      mood_checkins: {
+        Row: {
+          created_at: string
+          id: string
+          mood: string
+          mood_score: number
+          note: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mood: string
+          mood_score: number
+          note?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mood?: string
+          mood_score?: number
+          note?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       player_badges: {
         Row: {
           badge_icon: string
@@ -1028,6 +1148,45 @@ export type Database = {
           updated_at?: string
           user_id?: string
           work_experience_years?: number | null
+        }
+        Relationships: []
+      }
+      teacher_contact_requests: {
+        Row: {
+          admin_notes: string | null
+          conversation_excerpt: string | null
+          created_at: string
+          id: string
+          message: string
+          status: string
+          topic: string
+          updated_at: string
+          urgency: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          conversation_excerpt?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          status?: string
+          topic: string
+          updated_at?: string
+          urgency?: string
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          conversation_excerpt?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          status?: string
+          topic?: string
+          updated_at?: string
+          urgency?: string
+          user_id?: string
         }
         Relationships: []
       }
