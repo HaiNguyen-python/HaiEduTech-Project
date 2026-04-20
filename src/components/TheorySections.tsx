@@ -297,14 +297,23 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
       if (c.kind === "deepdive") {
         return (
           <DeepDive key={`dd-${i}`} title={c.title}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm, remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+              components={components}
+            >
               {c.body}
             </ReactMarkdown>
           </DeepDive>
         );
       }
       return (
-        <ReactMarkdown key={`m-${i}`} remarkPlugins={[remarkGfm]} components={components}>
+        <ReactMarkdown
+          key={`m-${i}`}
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+          components={components}
+        >
           {c.value}
         </ReactMarkdown>
       );
