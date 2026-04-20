@@ -32,7 +32,7 @@ const SECTION_TABS: { id: SectionTab; icon: any; en: string; vi: string }[] = [
 ];
 
 const CounselingHub = ({ userId }: Props) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [activeSection, setActiveSection] = useState<SectionTab>("chat");
 
   return (
@@ -689,7 +689,7 @@ const JournalSection = ({ userId }: { userId: string }) => {
 
 // ============= IKIGAI SECTION =============
 const IkigaiSection = ({ userId }: { userId: string }) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -767,11 +767,11 @@ const IkigaiSection = ({ userId }: { userId: string }) => {
         <div className="space-y-4">
           {IKIGAI_QUESTIONS.map((q) => (
             <div key={q.id}>
-              <label className="text-sm font-medium text-foreground">{language === "vi" ? q.vi : q.en}</label>
+              <label className="text-sm font-medium text-foreground">{lang === "vi" ? q.vi : q.en}</label>
               <textarea
                 value={answers[q.id] || ""}
                 onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })}
-                placeholder={language === "vi" ? q.placeholder_vi : q.placeholder_en}
+                placeholder={lang === "vi" ? q.placeholder_vi : q.placeholder_en}
                 className="w-full mt-1.5 px-3 py-2 rounded-lg border border-input bg-background text-sm min-h-[70px] resize-none"
                 maxLength={500}
               />
@@ -840,7 +840,7 @@ const IkigaiSection = ({ userId }: { userId: string }) => {
 
 // ============= PERSONALITY SECTION =============
 const PersonalitySection = ({ userId }: { userId: string }) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [test, setTest] = useState<"mbti" | "holland">("mbti");
   const [mbtiAnswers, setMbtiAnswers] = useState<Record<string, "a" | "b">>({});
   const [hollandScores, setHollandScores] = useState<Record<string, number>>({});
@@ -926,7 +926,7 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
           <div className="space-y-4">
             {MBTI_QUESTIONS.map((q, i) => (
               <div key={q.id} className="border-b border-border last:border-0 pb-3">
-                <p className="text-sm font-medium mb-2">{i + 1}. {language === "vi" ? q.vi : q.en}</p>
+                <p className="text-sm font-medium mb-2">{i + 1}. {lang === "vi" ? q.vi : q.en}</p>
                 <div className="grid grid-cols-2 gap-2">
                   {(["a", "b"] as const).map((opt) => {
                     const o = q[opt];
@@ -939,7 +939,7 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
                           selected ? "border-primary bg-primary/10 text-foreground" : "border-border hover:bg-secondary"
                         }`}
                       >
-                        {language === "vi" ? o.vi : o.en}
+                        {lang === "vi" ? o.vi : o.en}
                       </button>
                     );
                   })}
@@ -953,7 +953,7 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
           <div className="space-y-4">
             {HOLLAND_QUESTIONS.map((q) => (
               <div key={q.id} className="border-b border-border last:border-0 pb-3">
-                <p className="text-sm font-medium mb-2">{language === "vi" ? q.vi : q.en}</p>
+                <p className="text-sm font-medium mb-2">{lang === "vi" ? q.vi : q.en}</p>
                 <div className="flex gap-2">
                   {[1, 2, 3, 4, 5].map((n) => (
                     <button
@@ -1024,7 +1024,7 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
 
 // ============= DILEMMAS SECTION =============
 const DilemmasSection = ({ onPick }: { onPick: () => void }) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const ask = (text: string) => {
     window.dispatchEvent(new CustomEvent("counseling:prefill", { detail: text }));
@@ -1045,10 +1045,10 @@ const DilemmasSection = ({ onPick }: { onPick: () => void }) => {
         {COMMON_DILEMMAS.map((d, i) => (
           <button
             key={i}
-            onClick={() => ask(language === "vi" ? d.vi : d.en)}
+            onClick={() => ask(lang === "vi" ? d.vi : d.en)}
             className="text-left p-4 rounded-xl border border-border hover:border-amber-400/40 hover:bg-amber-50/30 dark:hover:bg-amber-950/20 transition-all group"
           >
-            <p className="text-sm text-foreground leading-relaxed">{language === "vi" ? d.vi : d.en}</p>
+            <p className="text-sm text-foreground leading-relaxed">{lang === "vi" ? d.vi : d.en}</p>
             <span className="mt-2 inline-flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 font-medium group-hover:underline">
               {t("Hỏi AI", "Ask AI")} <ArrowRight className="w-3 h-3" />
             </span>
@@ -1061,7 +1061,7 @@ const DilemmasSection = ({ onPick }: { onPick: () => void }) => {
 
 // ============= QUOTE SECTION =============
 const QuoteSection = ({ userId }: { userId: string }) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [quote, setQuote] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
@@ -1099,7 +1099,7 @@ const QuoteSection = ({ userId }: { userId: string }) => {
     } finally {
       setLoading(false);
     }
-  }, [userId, language]);
+  }, [userId, lang]);
 
   useEffect(() => { generate(); }, [generate]);
 
