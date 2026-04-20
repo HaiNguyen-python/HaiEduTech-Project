@@ -161,6 +161,7 @@ const App = () => (
             <Route path="/national-exam" element={<LazyRoute><NationalExamPrep /></LazyRoute>} />
             <Route path="/national-exam/:examId" element={<LazyRoute><NationalExamRoom /></LazyRoute>} />
             <Route path="/dashboard" element={<LazyRoute><Dashboard /></LazyRoute>} />
+            <Route path="/activity-log" element={<LazyRoute><ActivityLog /></LazyRoute>} />
             <Route path="/register" element={<LazyRoute><Register /></LazyRoute>} />
             <Route path="/contact" element={<LazyRoute><Contact /></LazyRoute>} />
             <Route path="/for-vietnamese-children" element={<LazyRoute><ForVietnameseChildren /></LazyRoute>} />
