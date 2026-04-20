@@ -10,6 +10,7 @@ import { ArrowRight, Sparkles, GraduationCap, BookOpen, Languages, Code2 } from 
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import FloatingParticles from "@/components/FloatingParticles";
+import LearningJourneyTimeline from "@/components/LearningJourneyTimeline";
 import heroBg from "@/assets/hero-bg.jpg";
 import haiProfile from "@/assets/hai-profile.png";
 
