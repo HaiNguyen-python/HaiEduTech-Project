@@ -17,6 +17,7 @@ import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToeicLectureProgress } from "@/hooks/useToeicLectureProgress";
 import { allToeicLectures, type ToeicLecture } from "@/data/toeicLecturesData";
+import ToeicRoadmap from "@/components/toeic/ToeicRoadmap";
 
 // Category filter configuration
 const CATEGORY_FILTERS = [
@@ -143,8 +144,22 @@ const ToeicLectures = () => {
           </div>
         </section>
 
+        {/* === Roadmap 4 chặng — sắp xếp dễ → khó === */}
+        <ToeicRoadmap completedSet={completedSet} />
+
+        {/* Divider */}
+        <div className="container mx-auto px-4">
+          <div className="flex items-center gap-4 my-6">
+            <div className="flex-1 h-px bg-white/10" />
+            <span className="text-xs font-semibold text-[#64748B] uppercase tracking-wider">
+              {t("Hoặc tra cứu nhanh theo bộ lọc", "Or quick-filter all lectures")}
+            </span>
+            <div className="flex-1 h-px bg-white/10" />
+          </div>
+        </div>
+
         {/* Filters */}
-        <section className="container mx-auto px-4 py-8">
+        <section className="container mx-auto px-4 py-2">
           {/* Category filters */}
           <div className="flex flex-wrap gap-2 mb-4">
             {CATEGORY_FILTERS.map(f => {
