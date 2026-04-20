@@ -15,6 +15,7 @@ import { FillInBlankExercise, SentenceReorderExercise, DictationExercise, QuizEx
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 // Difficulty badge colors
 const difficultyConfig = {
@@ -202,8 +203,8 @@ const LanguageLessonView = () => {
                       <GraduationCap className="w-5 h-5 text-primary" />
                       {t("Lý thuyết", "Theory")}
                     </h2>
-                    <div className="prose prose-base max-w-none text-secondary-foreground leading-[1.85] text-[17px] space-y-3 [&_p]:my-3 [&_strong]:text-primary [&_strong]:font-semibold [&_ul]:my-3 [&_ul]:space-y-2 [&_li]:my-1 [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded">
-                      <ReactMarkdown>
+                    <div className="prose prose-base max-w-none text-secondary-foreground leading-[1.85] text-[17px] space-y-3 [&_p]:my-3 [&_strong]:text-primary [&_strong]:font-semibold [&_ul]:my-3 [&_ul]:space-y-2 [&_li]:my-1 [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_svg]:my-4 [&_svg]:mx-auto [&_svg]:max-w-full [&_svg]:h-auto [&_figure]:my-5 [&_figure]:text-center [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_figcaption]:mt-2 [&_figcaption]:italic [&_table]:my-4 [&_table]:w-full [&_table]:border-collapse [&_th]:bg-primary/10 [&_th]:text-primary [&_th]:p-2 [&_th]:border [&_th]:border-border [&_td]:p-2 [&_td]:border [&_td]:border-border">
+                      <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                         {(() => {
                           const raw = t(lesson.theory, lesson.theoryEn) || "";
                           // Split inline "**Label:**" segments onto their own bullet lines for readability
