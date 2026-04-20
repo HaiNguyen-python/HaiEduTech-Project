@@ -6,11 +6,11 @@ export const webDevModules: ExtendedProgrammingModule[] = [
   {
     id: "web-dev-foundations",
     title: "Phát triển Web (HTML · CSS · JavaScript)",
-    titleEn: "Web Development (HTML · CSS · JavaScript)",
+    titleEn: "Web Development (HTML · CSS · JavaScript · React)",
     icon: "🌐",
     color: "from-orange-500 to-pink-600",
-    description: "6 bài học từ HTML semantic, CSS hiện đại đến JavaScript & DOM — chuẩn Frontend 2026",
-    descriptionEn: "6 lessons from semantic HTML, modern CSS to JavaScript & the DOM — Frontend 2026 standards",
+    description: "7 bài học từ HTML semantic, CSS hiện đại, JavaScript, DOM đến React Cơ Bản — chuẩn Frontend 2026",
+    descriptionEn: "7 lessons from semantic HTML, modern CSS, JavaScript, the DOM to React Basics — Frontend 2026 standards",
     course: "data-ai",
     lessons: [
       // ──────────────────────────── LESSON 1: HTML ────────────────────────────
