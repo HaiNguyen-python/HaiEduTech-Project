@@ -60,16 +60,17 @@ function initMermaid() {
     suppressErrorRendering: true,
     // Use stable system fonts to avoid post-render font swaps changing label width.
     fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    fontSize: 15,
+    fontSize: 14,
     flowchart: {
       curve: "basis",
-      padding: 36,
-      nodeSpacing: 95,
-      rankSpacing: 110,
-      htmlLabels: false,
+      padding: 22,
+      nodeSpacing: 70,
+      rankSpacing: 95,
+      // htmlLabels=true lets each node auto-grow its height to fit wrapped text via foreignObject.
+      htmlLabels: true,
       useMaxWidth: false,
-      diagramPadding: 32,
-      wrappingWidth: 220,
+      diagramPadding: 28,
+      wrappingWidth: 180,
     },
     sequence: {
       useMaxWidth: false,
