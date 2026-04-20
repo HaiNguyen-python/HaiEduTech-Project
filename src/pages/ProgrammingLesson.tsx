@@ -306,9 +306,9 @@ const ProgrammingLessonPage = () => {
               {/* Left side: Sidebar + Lesson content */}
               <div className={`${showIDE && !isMobile ? "w-3/5 xl:w-[62%]" : "w-full"} min-w-0`}>
             <div className="flex flex-col lg:flex-row gap-6">
-              {/* Sidebar - Roadmap with ALL pillar modules */}
+              {/* Sidebar - Roadmap with ALL pillar modules — visually lighter than main lesson body */}
               <div className="lg:w-72 shrink-0">
-                <div className="glass-card rounded-xl p-4 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
+                <div className="rounded-xl border border-border/70 bg-muted/30 p-4 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
                     <h3 className="font-semibold text-foreground text-sm">Learning Roadmap</h3>
@@ -412,13 +412,13 @@ const ProgrammingLessonPage = () => {
                   <Progress value={progress} className="h-2" />
                 </motion.div>
 
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6" key={lesson.id}>
-                  <h1 className="text-2xl font-display font-bold text-foreground">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8" key={lesson.id}>
+                  <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground tracking-tight">
                     {mod.icon} {t(lesson.title, lesson.titleEn)}
                   </h1>
 
-                  {/* Theory */}
-                  <div className="glass-card rounded-xl p-6 sm:p-7">
+                  {/* Theory — document-style reading card with extra breathing room */}
+                  <div className="rounded-2xl border border-border bg-card shadow-sm p-6 sm:p-8 lg:p-10">
                     <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pb-3 border-b border-border">
                       <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                         <BookOpen className="w-5 h-5 text-primary" />
