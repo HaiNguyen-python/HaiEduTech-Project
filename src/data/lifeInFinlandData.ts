@@ -2,6 +2,7 @@
  * @file lifeInFinlandData.ts
  * @description Newcomer guide content for living in Finland — admin, daily life,
  *              employment & tax, healthcare. Bilingual VI/EN with key Finnish terms.
+ *              Updated for 2026 with shopping, housing, winter, student tips.
  * @author HaiEduTech
  */
 
