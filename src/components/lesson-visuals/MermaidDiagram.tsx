@@ -377,12 +377,11 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
           <button
             type="button"
             onClick={() => setIsFullscreen(true)}
-            className="absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-md border border-border bg-background/90 px-2.5 py-1.5 text-xs font-medium text-foreground shadow-sm backdrop-blur transition hover:bg-primary hover:text-primary-foreground hover:shadow-md"
+            className="absolute right-2 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/60 bg-background/70 text-muted-foreground opacity-0 shadow-sm backdrop-blur transition hover:bg-primary hover:text-primary-foreground group-hover:opacity-100 focus:opacity-100"
             aria-label="Open diagram fullscreen"
             title="Open fullscreen"
           >
             <Maximize2 className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Fullscreen</span>
           </button>
         )}
         {loading && (
