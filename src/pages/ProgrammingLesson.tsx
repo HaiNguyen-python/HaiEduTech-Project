@@ -312,7 +312,7 @@ const ProgrammingLessonPage = () => {
             <div className="flex flex-col lg:flex-row gap-6 programming-lesson-shell">
               {/* Sidebar - Roadmap with ALL pillar modules — visually lighter than main lesson body */}
               <div className="lg:w-72 shrink-0">
-                <div className="rounded-xl border border-border/70 bg-muted/30 p-4 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto overflow-visible">
+                <div className="rounded-xl border border-border/70 bg-muted/30 p-4 overflow-visible">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
                     <h3 className="font-semibold text-foreground text-sm">Learning Roadmap</h3>

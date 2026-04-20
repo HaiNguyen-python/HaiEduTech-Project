@@ -443,12 +443,21 @@
 }
 
 /* ===== Mermaid diagram spacing inside theory ===== */
+.programming-lesson-shell,
+.programming-lesson-shell .theory-content,
+.programming-lesson-shell .theory-section,
+.programming-lesson-shell .mermaid-diagram,
+.programming-lesson-shell .mermaid-stage {
+  overflow-anchor: none;
+}
+
 .theory-content .mermaid-diagram {
   margin: 2rem 0;
   /* Visually anchor the diagram band so small diagrams don't look lost
      and huge ones scroll horizontally inside the theory column. */
   max-width: 100%;
   width: 100%;
+  contain: layout paint;
 }
 .theory-content .mermaid-diagram .mermaid-stage {
   width: 100%;
