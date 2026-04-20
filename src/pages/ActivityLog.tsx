@@ -40,7 +40,7 @@ const formatRelativeTime = (date: string, isVi: boolean) => {
 };
 
 const ActivityLog = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [activities, setActivities] = useState<ActivityRow[]>([]);
   const [loading, setLoading] = useState(true);
