@@ -243,20 +243,29 @@ const MbtiFullTest = ({ userId }: Props) => {
     const ai = result.ai || {};
     return (
       <div className="space-y-5">
-        {/* Hero card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, rotateY: -90 }}
-          animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-          transition={{ duration: 0.6 }}
-          className={`rounded-2xl bg-gradient-to-br ${profile.color} p-8 text-white shadow-2xl`}
-        >
-          <div className="text-center">
-            <p className="text-sm opacity-90 mb-1">{t("Tính cách của em là", "Your personality type is")}</p>
-            <p className="text-6xl font-display font-bold tracking-tight mb-2">{profile.code}</p>
-            <p className="text-xl font-display font-semibold">{lang === "vi" ? profile.title_vi : profile.title_en}</p>
-            <p className="text-sm opacity-90 italic mt-1">"{lang === "vi" ? profile.nickname_vi : profile.nickname_en}"</p>
+        <div ref={printRef} className="space-y-5 bg-background p-1">
+          {/* PDF header (only visible in PDF export, hidden via screen but rendered) */}
+          <div className="text-center pb-3 border-b border-border print-header">
+            <p className="text-xs text-muted-foreground">HaiEduTech · {t("Báo cáo Trắc nghiệm Tính cách MBTI", "MBTI Personality Assessment Report")}</p>
+            <p className="text-[10px] text-muted-foreground mt-0.5">
+              {new Date().toLocaleDateString(lang === "vi" ? "vi-VN" : "en-US", { year: "numeric", month: "long", day: "numeric" })} · haiedutech.com
+            </p>
           </div>
-        </motion.div>
+
+          {/* Hero card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, rotateY: -90 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 0.6 }}
+            className={`rounded-2xl bg-gradient-to-br ${profile.color} p-8 text-white shadow-2xl`}
+          >
+            <div className="text-center">
+              <p className="text-sm opacity-90 mb-1">{t("Tính cách của em là", "Your personality type is")}</p>
+              <p className="text-6xl font-display font-bold tracking-tight mb-2">{profile.code}</p>
+              <p className="text-xl font-display font-semibold">{lang === "vi" ? profile.title_vi : profile.title_en}</p>
+              <p className="text-sm opacity-90 italic mt-1">"{lang === "vi" ? profile.nickname_vi : profile.nickname_en}"</p>
+            </div>
+          </motion.div>
 
         {/* Dimension bars */}
         <div className="rounded-2xl border border-border bg-card p-5">
