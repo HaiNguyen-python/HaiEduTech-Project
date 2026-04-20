@@ -146,9 +146,14 @@ const Navbar = () => {
     { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
   ];
   const finnishSubs: SubItem[] = [
-    { to: "/finnish", label: "📚 Overview" },
-    { to: "/finnish/yki-dashboard", label: "❄️ YKI A2 Dashboard" },
-    { to: "/speaking-coach/finnish", label: "🎙️ AI Speaking Coach" },
+    { to: "/finnish", label: t("📚 Tổng quan", "📚 Overview") },
+    { to: "#fi-div1", label: "", divider: true },
+    { to: "/finnish/beginner", label: t("🌱 Người mới (A1–A2)", "🌱 Beginner (A1–A2)") },
+    { to: "/finnish/yki-dashboard", label: t("❄️ YKI A2 Dashboard", "❄️ YKI A2 Dashboard") },
+    { to: "/finnish/yki-b1", label: t("🎯 YKI B1 Dashboard", "🎯 YKI B1 Dashboard") },
+    { to: "/finnish/life-in-finland", label: t("🇫🇮 Cuộc sống ở Phần Lan", "🇫🇮 Life in Finland") },
+    { to: "#fi-div2", label: "", divider: true },
+    { to: "/speaking-coach/finnish", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Library },
