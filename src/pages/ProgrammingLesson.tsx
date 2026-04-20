@@ -448,7 +448,7 @@ const ProgrammingLessonPage = () => {
                     <TheorySections
                       markdown={(useEnhanced && enhancedMd
                         ? enhancedMd
-                        : (lesson.theoryEn || lesson.theory || ""))
+                        : (lang === "vi" ? (lesson.theory || lesson.theoryEn || "") : (lesson.theoryEn || lesson.theory || "")))
                         .replace(/\\\$/g, "$")
                         // Strip a leading single "# Lesson Title" since the page already shows the title
                         .replace(/^\s*#\s+[^\n]+\n+/, "")}
