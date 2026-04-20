@@ -385,6 +385,84 @@ function stripOuterMarkdownFence(md: string): string {
   return m ? m[1].trim() : trimmed;
 }
 
+/**
+ * Break long, dense paragraphs into smaller ones for readability.
+ * Splits a paragraph into sub-paragraphs of ~2 sentences each when it's long
+ * (>= 280 chars OR >= 3 sentences). Skips lists, headings, blockquotes, code,
+ * tables, math display blocks, and lines containing inline math/code so we
+ * never corrupt formulas or markdown structure.
+ */
+function splitLongParagraphs(input: string): string {
+  if (!input) return input;
+  const parts = input.split(/(```[\s\S]*?```)/g);
+  return parts
+    .map((part) => {
+      if (part.startsWith("```")) return part;
+      // Process by blank-line-separated blocks (paragraphs)
+      const blocks = part.split(/\n{2,}/);
+      return blocks
+        .map((block) => {
+          const trimmed = block.trim();
+          if (!trimmed) return block;
+          // Skip non-paragraph blocks
+          const firstLine = trimmed.split("\n")[0];
+          if (/^(#{1,6}\s|>\s|[-*+]\s|\d+\.\s|\||:::|\$\$)/.test(firstLine)) return block;
+          // Multi-line block that isn't a plain paragraph (e.g. table, list continuation)
+          if (trimmed.includes("\n") && /(^|\n)([-*+]\s|\d+\.\s|\||>\s)/.test(trimmed)) return block;
+          // Skip if it contains display math or starts/ends mid-formula
+          if (/\$\$[\s\S]+\$\$/.test(trimmed)) return block;
+
+          // Flatten internal single newlines into spaces for sentence splitting,
+          // but preserve them if the paragraph is short.
+          const flat = trimmed.replace(/\s*\n\s*/g, " ");
+          const sentenceCount = (flat.match(/[.!?…]["')\]]?\s+(?=[A-ZÀ-ỹ0-9])/g) || []).length + 1;
+          if (flat.length < 280 && sentenceCount < 3) return block;
+
+          // Split into sentences without breaking inside $...$ or `...` or (...)
+          const sentences = splitIntoSentences(flat);
+          if (sentences.length < 2) return block;
+
+          // Group every 2 sentences into a sub-paragraph
+          const groups: string[] = [];
+          for (let i = 0; i < sentences.length; i += 2) {
+            groups.push(sentences.slice(i, i + 2).join(" ").trim());
+          }
+          return groups.filter(Boolean).join("\n\n");
+        })
+        .join("\n\n");
+    })
+    .join("");
+}
+
+/** Split text into sentences while respecting $...$, `...`, and parentheses. */
+function splitIntoSentences(text: string): string[] {
+  const out: string[] = [];
+  let buf = "";
+  let inMath = false;
+  let inCode = false;
+  let parenDepth = 0;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    buf += ch;
+    if (ch === "`") inCode = !inCode;
+    else if (ch === "$" && !inCode) inMath = !inMath;
+    else if (!inMath && !inCode) {
+      if (ch === "(" || ch === "[") parenDepth++;
+      else if (ch === ")" || ch === "]") parenDepth = Math.max(0, parenDepth - 1);
+      else if (/[.!?…]/.test(ch) && parenDepth === 0) {
+        // Look ahead: must be followed by space + uppercase/digit (next sentence start)
+        const next = text.slice(i + 1, i + 3);
+        if (/^["')\]]?\s+[A-ZÀ-ỹ0-9]/.test(next)) {
+          out.push(buf.trim());
+          buf = "";
+        }
+      }
+    }
+  }
+  if (buf.trim()) out.push(buf.trim());
+  return out;
+}
+
 const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: TheorySectionsProps) => {
   const sections = useMemo(
     () => splitByH2(normalizeMath(stripOuterMarkdownFence(markdown))),
