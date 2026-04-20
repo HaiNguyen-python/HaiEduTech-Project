@@ -119,9 +119,10 @@ const Navbar = () => {
       { to: "/english/cambridge", label: t("Cambridge Starters–PET", "Cambridge Starters–PET"), icon: Map },
       { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
     ] },
-    // International exams (IELTS / TOEIC / PTE / SAT)
-    { to: "#en-exams-group", label: t("🎯 Luyện thi Quốc tế", "🎯 International Exams"), groupLabel: "en-exams", children: [
-      { to: "#ielts-group", label: "IELTS Program", groupLabel: "ielts", children: ieltsChildren, icon: Target },
+    // IELTS — promoted to top-level so all 10 IELTS items are reachable in one hover
+    { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren, icon: Target },
+    // Other international exams (TOEIC / PTE / SAT)
+    { to: "#en-exams-group", label: t("🌐 Luyện thi Quốc tế khác", "🌐 Other International Exams"), groupLabel: "en-exams", children: [
       { to: "/english/toeic", label: "TOEIC", icon: Briefcase },
       { to: "/toeic-lectures", label: t("Bài giảng TOEIC", "TOEIC Lectures"), icon: BookOpen },
       { to: "/toeic-vocabulary", label: t("Từ vựng TOEIC", "TOEIC Vocabulary"), icon: Library },
