@@ -93,19 +93,21 @@ const About = () => {
               </p>
             </div>
 
-            {/* Achievements */}
-            <div className="grid grid-cols-3 gap-4 mb-12">
-              {achievements.map((a, i) => (
+            {/* Achievements - synced with HeroSection */}
+            <div className="glass-card grid grid-cols-1 gap-4 rounded-2xl px-5 py-5 sm:grid-cols-2 sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-5 mb-12">
+              {achievements.map((s, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="glass-card rounded-xl p-4 text-center"
+                  transition={{ delay: i * 0.08 }}
+                  className="flex h-full flex-col text-center"
                 >
-                  <a.icon className="w-6 h-6 text-primary mx-auto mb-2" />
-                  <div className="text-xl font-display font-bold text-foreground">{a.value}</div>
-                  <div className="text-xs text-muted-foreground">{a.label}</div>
+                  <s.icon className="mx-auto mb-2 h-6 w-6 text-primary" />
+                  <div className="font-display text-lg font-bold text-foreground sm:text-xl">{s.value}</div>
+                  <div className="mt-1 text-xs font-medium leading-5 text-foreground/90">{s.label}</div>
+                  <div className="mt-0.5 text-[11px] leading-4 text-muted-foreground">{s.place}</div>
+                  <div className="mt-auto pt-2 text-[11px] font-semibold leading-4 text-primary">{s.year}</div>
                 </motion.div>
               ))}
             </div>
