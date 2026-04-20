@@ -1,50 +1,100 @@
 
 
-## Fix Inconsistent Text Sizing in AI Chatbot Responses
+## Lesson Illustration Generator (AI-Powered Infographics)
 
-### The Problem
-The chat bubble currently wraps assistant markdown in `<div class="prose prose-sm">`. Tailwind Typography's `prose` aggressively restyles every element — `# Heading` becomes ~28px, `## Heading` ~22px, `code` shrinks to ~12px, blockquotes get oversized margins. Inside a 400px chat window, this produces the "huge title, tiny code, jumpy spacing" look the user is seeing.
+Add cute, infographic-style illustrations (similar to your "Classic / Graph / Agentic RAG" reference image) inline in every Programming lesson's theory — making lessons feel visual and modern instead of text-heavy.
 
-### The Fix
-Replace the `prose` wrapper with a **custom, chat-tuned markdown renderer** that locks every element to a consistent ~14px base, keeps headings only slightly larger, and gives code blocks proper monospace styling without size jumps.
+### What you'll get
 
-### What Changes (single file: `src/components/ChatBot.tsx`)
+Each enhanced theory will automatically include **1–2 inline AI-generated infographics** at the most pedagogically useful sections (typically "Detailed Breakdown" and "Comparative Table"). The Mermaid diagram system stays — these new images complement it with rich, illustrated visuals like the one you uploaded.
 
-1. **Remove `prose prose-sm`** wrapper around `<ReactMarkdown>`.
+```text
+##  4. Detailed Breakdown
+... text ...
+[ AI infographic: "Decision Tree Splits"  ← cute illustrated diagram ]
+... more text ...
 
-2. **Add explicit component overrides** to `ReactMarkdown` so every element uses chat-appropriate, uniform sizing:
+## 5. Comparative Table
+| ... |
+[ AI infographic: "Tree vs Random Forest vs XGBoost"  ← side-by-side cards ]
+```
 
-   | Element | New Style |
-   |---|---|
-   | `p` | `text-sm leading-relaxed` (14px, tight gap between paragraphs) |
-   | `h1` | `text-base font-bold mt-2 mb-1` (16px) |
-   | `h2` | `text-sm font-bold mt-2 mb-1` (14px) |
-   | `h3` | `text-sm font-semibold mt-1.5 mb-1` (14px) |
-   | `ul` / `ol` | `text-sm pl-4 space-y-1 list-disc/decimal` |
-   | `li` | `text-sm leading-relaxed` |
-   | `strong` | `font-semibold text-foreground` |
-   | `em` | `italic` |
-   | `code` (inline) | `text-[13px] font-mono px-1.5 py-0.5 rounded bg-background/60 border border-border/40` |
-   | `pre` | `text-[12.5px] font-mono p-3 rounded-lg bg-zinc-900 text-zinc-100 overflow-x-auto my-2 whitespace-pre` |
-   | `blockquote` | `text-sm italic border-l-2 border-primary/40 pl-3 my-2 text-muted-foreground` |
-   | `a` | `text-primary underline underline-offset-2 hover:brightness-110` (with `target="_blank"`, `rel="noreferrer"`) |
-   | `table` | `text-xs border-collapse my-2`, `th/td` get `border px-2 py-1` |
-   | `hr` | `my-2 border-border` |
+### How it works
 
-3. **Add `remark-gfm`** plugin so tables, strikethrough, and task lists render correctly (already a dependency in the project).
+1. **AI picks the visuals**: When `enhance-programming-theory` generates the Deep-Dive markdown, it now also outputs 1–2 image prompts (one per chosen section) describing exactly what to illustrate.
+2. **Gemini Nano Banana renders them**: A new edge function `generate-lesson-illustrations` calls `google/gemini-2.5-flash-image` with a strict style guide ("flat infographic, soft pastels, rounded cards, 3-column comparison, friendly mascot, no text labels in image, white background…") that mimics the look of your reference image.
+3. **Stored permanently**: Each PNG goes to a new public Supabase Storage bucket `lesson-illustrations`, and the URLs are cached in the DB so each lesson generates only **once ever**.
+4. **Inline rendering**: Markdown gets `![caption](url)` tags that `TheorySections` already supports via `react-markdown` — they appear inline with rounded corners + caption styling.
 
-4. **Wrap renderer in a single styled container** `<div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 space-y-2">` to guarantee no stray top/bottom margins push the bubble layout around.
+### Pre-generation script (your choice — all 110 lessons in one batch)
 
-5. **Code-block long-line handling**: add `break-words` on `p` and `overflow-x-auto` on `pre` so long URLs or code don't overflow the 85% bubble width.
+A new admin button **"Generate All Lesson Illustrations"** appears in the Programming page (visible only to teacher/admin). Clicking it:
+- Loops through all 110 lessons in the background
+- Throttles to 1 lesson every 4 seconds (avoids 429 rate limits)
+- Shows live progress: "47 / 110 lessons illustrated"
+- Skips lessons already cached
+- Total cost estimate: ~110 lessons × 2 images × ~$0.003 = **~$0.66 in Lovable AI credits, one time**
 
-### Out of Scope (Not Touched)
-- The edge function / system prompt — formatting issue is purely client-side.
-- The user-message bubble (already uses plain `<p>`, looks fine).
-- Profanity, voice, lockout, animation logic — all preserved.
+Once done, every learner just loads cached PNG URLs instantly.
 
-### Expected Result
-Every assistant reply — whether it contains a `# Title`, a `**bold**` term, a bullet list, or a Python ` ```code``` ` block — renders at a single, calm visual rhythm: 14px body, 16px max headings, properly contained code blocks, no oversized jumps.
+### Style guide for images (replicates your reference)
 
-### Files Edited
-- `src/components/ChatBot.tsx` (only the assistant-message render block, ~15 lines → ~50 lines)
+The image prompt template enforces:
+- Flat infographic illustration, soft pastel colors (blue / green / purple panels like your sample)
+- Cute rounded mascot/character icons, NO text labels in image
+- Centered composition, white/light background, drop shadow, rounded corners
+- Pedagogical focus: concept comparison, flow, or "how it works" visualization
+- Square 1024×1024 (Gemini default), displayed at max-width 720px
+
+### Technical Details
+
+**New Edge Function**: `supabase/functions/generate-lesson-illustrations/index.ts`
+- Input: `{ module_id, lesson_id, lesson_title, sections: [{anchor, prompt}] }`
+- Calls `https://ai.gateway.lovable.dev/v1/chat/completions` with `model: "google/gemini-2.5-flash-image"` and `modalities: ["image", "text"]` per section
+- Decodes base64 → uploads to bucket `lesson-illustrations/{module_id}/{lesson_id}/{anchor}.png` via service role
+- Returns `{ illustrations: [{anchor, url, caption}] }`
+- Logs to `api_usage_log` (domain: "programming", model: "gemini-2.5-flash-image")
+
+**Updated Edge Function**: `supabase/functions/enhance-programming-theory/index.ts`
+- System prompt extended: also output a JSON block ` ```json\n{"illustrations":[{"anchor":"detailed-breakdown","prompt":"..."},{"anchor":"comparative-table","prompt":"..."}]}\n``` ` at the END of the markdown.
+- Server parses + strips this JSON block, calls `generate-lesson-illustrations` with the prompts, then **inserts** `![caption](url)` markers under the matching `## N. ...` sections in the final markdown before caching.
+
+**Database migration**:
+```sql
+-- New column on existing cache table
+ALTER TABLE programming_theory_cache 
+  ADD COLUMN illustrations jsonb NOT NULL DEFAULT '[]';
+
+-- New public storage bucket for illustrations
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('lesson-illustrations', 'lesson-illustrations', true);
+
+-- Public-read, service-role write policies on storage.objects for that bucket
+```
+
+**Frontend changes**:
+- `src/pages/ProgrammingLesson.tsx`: add admin-only "🎨 Generate All Illustrations" button beside the existing "Open Interactive IDE" button. Driver loop calls the enhance function with `force_refresh=false` per lesson, sequentially.
+- `src/components/TheorySections.tsx`: add custom `img` renderer in `markdownComponents` that wraps `<img>` in `<figure>` with rounded corners, soft border, drop shadow, `loading="lazy"`, `decoding="async"`, and renders an italic caption. Reserves height via `aspect-ratio: 1/1` to keep your scrollbar-stability fix intact.
+
+**Style enforcement** (in image prompt builder):
+```
+A cute, modern flat infographic illustration explaining "{concept}".
+Style: soft pastel colors (blue, mint green, lavender panels), rounded cards 
+with subtle drop shadows, friendly cartoon mascot characters, isometric icons 
+(database, gears, charts, brain). White background. NO text, NO letters, 
+NO numbers in the image — visual only. Composition: centered, clean,
+educational poster style. Suitable for a programming lesson.
+```
+
+### Files touched
+
+- **NEW**: `supabase/functions/generate-lesson-illustrations/index.ts`
+- **NEW**: `supabase/migrations/<timestamp>_add_lesson_illustrations.sql`
+- **EDIT**: `supabase/functions/enhance-programming-theory/index.ts` (extract image prompts, call illustrations function, splice `![](url)` into markdown)
+- **EDIT**: `src/components/TheorySections.tsx` (custom `img` renderer with figure/caption styling)
+- **EDIT**: `src/pages/ProgrammingLesson.tsx` (admin batch-generate button + progress toast)
+
+### Important note about your request
+
+Perplexity API does **not** generate images — it's a text-search API. The reference image you shared is best replicated using **Gemini Nano Banana** (already wired into your project for vocab/marketing images via `LOVABLE_API_KEY`), which is cheap, fast, and well-tested for this exact "flat educational infographic" style. The plan uses Gemini for image generation but keeps Perplexity for the text Deep-Dive (as it is today).
 
