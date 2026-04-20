@@ -115,7 +115,7 @@ const pickMotivation = (name: string, isVi: boolean) => {
 };
 
 const Dashboard = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(true);
