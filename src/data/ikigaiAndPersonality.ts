@@ -43,15 +43,51 @@ export const MBTI_QUESTIONS = [
   { id: "jp2", dim: "JP", en: "I prefer deadlines that are:", vi: "Tôi thích deadline:", a: { en: "Fixed and clear", vi: "Cố định, rõ ràng", v: "J" }, b: { en: "Open and adjustable", vi: "Mở, có thể điều chỉnh", v: "P" } },
 ];
 
-// Holland Code (RIASEC) — short version
+// Holland Code (RIASEC) — 30 questions, 5 per group
 export const HOLLAND_QUESTIONS = [
-  { id: "r", code: "R", en: "I enjoy building, fixing, or working with my hands", vi: "Tôi thích xây dựng, sửa chữa hoặc làm việc tay chân" },
-  { id: "i", code: "I", en: "I enjoy investigating, analyzing, and solving complex problems", vi: "Tôi thích nghiên cứu, phân tích và giải quyết vấn đề phức tạp" },
-  { id: "a", code: "A", en: "I enjoy creating art, music, writing, or designing", vi: "Tôi thích sáng tạo nghệ thuật, âm nhạc, viết hoặc thiết kế" },
-  { id: "s", code: "S", en: "I enjoy helping, teaching, or supporting others", vi: "Tôi thích giúp đỡ, dạy học hoặc hỗ trợ người khác" },
-  { id: "e", code: "E", en: "I enjoy leading, persuading, or starting projects", vi: "Tôi thích lãnh đạo, thuyết phục hoặc khởi xướng dự án" },
-  { id: "c", code: "C", en: "I enjoy organizing data, following procedures, working with details", vi: "Tôi thích tổ chức dữ liệu, theo quy trình, làm việc với chi tiết" },
+  // R — Realistic (Doer): hands-on, mechanical, physical
+  { id: "r1", code: "R", en: "I enjoy building, fixing, or working with my hands", vi: "Tôi thích xây dựng, sửa chữa hoặc làm việc tay chân" },
+  { id: "r2", code: "R", en: "I like working with tools, machines, or technology hardware", vi: "Tôi thích làm việc với công cụ, máy móc hoặc thiết bị công nghệ" },
+  { id: "r3", code: "R", en: "I prefer outdoor or physical activities over sitting at a desk", vi: "Tôi thích hoạt động ngoài trời hoặc vận động hơn là ngồi bàn giấy" },
+  { id: "r4", code: "R", en: "I enjoy taking things apart to see how they work", vi: "Tôi thích tháo rời đồ vật để xem chúng hoạt động thế nào" },
+  { id: "r5", code: "R", en: "I would rather see concrete results than abstract ideas", vi: "Tôi thích thấy kết quả cụ thể hơn là ý tưởng trừu tượng" },
+
+  // I — Investigative (Thinker): research, analysis, science
+  { id: "i1", code: "I", en: "I enjoy investigating, analyzing, and solving complex problems", vi: "Tôi thích nghiên cứu, phân tích và giải quyết vấn đề phức tạp" },
+  { id: "i2", code: "I", en: "I am curious about how the natural world or systems work", vi: "Tôi tò mò về cách thế giới tự nhiên hoặc các hệ thống vận hành" },
+  { id: "i3", code: "I", en: "I like reading scientific articles, doing experiments, or research", vi: "Tôi thích đọc bài báo khoa học, làm thí nghiệm hoặc nghiên cứu" },
+  { id: "i4", code: "I", en: "I enjoy math, logic puzzles, or data analysis", vi: "Tôi thích toán học, câu đố logic hoặc phân tích dữ liệu" },
+  { id: "i5", code: "I", en: "I prefer working independently to think deeply about problems", vi: "Tôi thích làm việc độc lập để suy nghĩ sâu về vấn đề" },
+
+  // A — Artistic (Creator): art, design, expression
+  { id: "a1", code: "A", en: "I enjoy creating art, music, writing, or designing", vi: "Tôi thích sáng tạo nghệ thuật, âm nhạc, viết hoặc thiết kế" },
+  { id: "a2", code: "A", en: "I express myself best through creative work", vi: "Tôi thể hiện bản thân tốt nhất qua các công việc sáng tạo" },
+  { id: "a3", code: "A", en: "I enjoy attending concerts, exhibitions, or cultural events", vi: "Tôi thích đi xem hòa nhạc, triển lãm hoặc sự kiện văn hóa" },
+  { id: "a4", code: "A", en: "I value originality and dislike strict rules or routines", vi: "Tôi coi trọng sự độc đáo và không thích quy tắc hoặc khuôn mẫu cứng nhắc" },
+  { id: "a5", code: "A", en: "I often imagine new ideas, stories, or visual concepts", vi: "Tôi thường tưởng tượng ra ý tưởng, câu chuyện hoặc hình ảnh mới" },
+
+  // S — Social (Helper): teaching, counseling, helping
+  { id: "s1", code: "S", en: "I enjoy helping, teaching, or supporting others", vi: "Tôi thích giúp đỡ, dạy học hoặc hỗ trợ người khác" },
+  { id: "s2", code: "S", en: "I'm a good listener and people often share their feelings with me", vi: "Tôi lắng nghe tốt và mọi người thường chia sẻ cảm xúc với tôi" },
+  { id: "s3", code: "S", en: "I want my work to make a positive impact on people's lives", vi: "Tôi muốn công việc của mình tạo ra tác động tích cực lên cuộc sống mọi người" },
+  { id: "s4", code: "S", en: "I enjoy volunteering or community activities", vi: "Tôi thích hoạt động tình nguyện hoặc cộng đồng" },
+  { id: "s5", code: "S", en: "I work well in teams and enjoy collaborating", vi: "Tôi làm việc nhóm tốt và thích hợp tác" },
+
+  // E — Enterprising (Persuader): leadership, sales, business
+  { id: "e1", code: "E", en: "I enjoy leading, persuading, or starting projects", vi: "Tôi thích lãnh đạo, thuyết phục hoặc khởi xướng dự án" },
+  { id: "e2", code: "E", en: "I am comfortable speaking in front of groups and presenting ideas", vi: "Tôi thoải mái khi nói trước đám đông và trình bày ý tưởng" },
+  { id: "e3", code: "E", en: "I am ambitious and motivated by goals, status, or success", vi: "Tôi tham vọng và được thúc đẩy bởi mục tiêu, vị thế hoặc thành công" },
+  { id: "e4", code: "E", en: "I would enjoy starting my own business or running an organization", vi: "Tôi sẽ thích khởi nghiệp hoặc điều hành một tổ chức" },
+  { id: "e5", code: "E", en: "I enjoy negotiating, debating, or convincing others", vi: "Tôi thích đàm phán, tranh luận hoặc thuyết phục người khác" },
+
+  // C — Conventional (Organizer): structure, data, administration
+  { id: "c1", code: "C", en: "I enjoy organizing data, following procedures, working with details", vi: "Tôi thích tổ chức dữ liệu, theo quy trình, làm việc với chi tiết" },
+  { id: "c2", code: "C", en: "I am punctual, reliable, and good at meeting deadlines", vi: "Tôi đúng giờ, đáng tin cậy và làm tốt việc đảm bảo thời hạn" },
+  { id: "c3", code: "C", en: "I prefer clear instructions and a structured environment", vi: "Tôi thích hướng dẫn rõ ràng và môi trường có cấu trúc" },
+  { id: "c4", code: "C", en: "I enjoy working with spreadsheets, schedules, or financial records", vi: "Tôi thích làm việc với bảng tính, lịch trình hoặc hồ sơ tài chính" },
+  { id: "c5", code: "C", en: "I am careful, precise, and notice small mistakes others miss", vi: "Tôi cẩn thận, chính xác và phát hiện lỗi nhỏ mà người khác bỏ qua" },
 ];
+
 
 export const COMMON_DILEMMAS = [
   { en: "I want to study IT but my parents want me to do Business", vi: "Em muốn học IT nhưng bố mẹ muốn em học Kinh doanh" },
