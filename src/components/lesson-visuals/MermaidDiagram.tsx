@@ -260,13 +260,9 @@ function postProcessSvg(svg: string): string {
     }
   }
 
-  // 2. Add crisp text rendering hints to all text nodes.
+  // 2. Add crisp text rendering hints to all SVG text nodes (sequence/gantt/etc).
   doc.querySelectorAll("text, tspan").forEach((el) => {
     el.setAttribute("text-rendering", "geometricPrecision");
-    // Avoid overly tight letter-spacing inherited from defaults
-    if (!el.getAttribute("dominant-baseline")) {
-      el.setAttribute("dominant-baseline", "middle");
-    }
   });
 
   // 3. Serialize back
