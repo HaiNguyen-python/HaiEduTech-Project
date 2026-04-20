@@ -309,10 +309,10 @@ const ProgrammingLessonPage = () => {
             <div className={`flex gap-6 ${showIDE && !isMobile ? "flex-row" : "flex-col"}`}>
               {/* Left side: Sidebar + Lesson content */}
               <div className={`${showIDE && !isMobile ? "w-3/5 xl:w-[62%]" : "w-full"} min-w-0`}>
-            <div className="flex flex-col lg:flex-row gap-6">
+            <div className="flex flex-col lg:flex-row gap-6 programming-lesson-shell">
               {/* Sidebar - Roadmap with ALL pillar modules — visually lighter than main lesson body */}
               <div className="lg:w-72 shrink-0">
-                <div className="rounded-xl border border-border/70 bg-muted/30 p-4 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
+                <div className="rounded-xl border border-border/70 bg-muted/30 p-4 overflow-visible">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl">{mod.icon}</span>
                     <h3 className="font-semibold text-foreground text-sm">Learning Roadmap</h3>
