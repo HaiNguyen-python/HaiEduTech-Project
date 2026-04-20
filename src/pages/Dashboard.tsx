@@ -3,10 +3,12 @@ import FloatingParticles from "@/components/FloatingParticles";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StudentScheduleWidget from "@/components/StudentScheduleWidget";
+import CounselingHub from "@/components/counseling/CounselingHub";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import {
   Target, TrendingUp, Calendar, Flame, LogIn, BookOpen,
-  BarChart3, Clock, Award, ArrowRight, Activity, Trophy,
+  BarChart3, Clock, Award, ArrowRight, Activity, Trophy, Heart,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useState, useCallback } from "react";
