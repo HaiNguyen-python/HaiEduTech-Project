@@ -4,16 +4,16 @@ import type { ExtendedProgrammingModule } from "./types";
 export const aiFoundationModules: ExtendedProgrammingModule[] = [
   {
     id: "ai-history",
-    title: "Lịch sử AI",
+    title: "History of AI",
     titleEn: "History of AI",
     icon: "📜",
     color: "from-rose-500 to-pink-600",
-    description: "Từ Turing đến GPT — hành trình phát triển AI",
+    description: "From Turing to GPT — the journey to AI development",
     descriptionEn: "From Turing to GPT — the evolution of AI",
     course: "data-ai",
     lessons: [
       {
-        id: "ai-hist-1", title: "Từ Turing đến Deep Learning", titleEn: "From Turing to Deep Learning",
+        id: "ai-hist-1", title: "From Turing to Deep Learning", titleEn: "From Turing to Deep Learning",
         level: 1, difficulty: "beginner",
         theory: `## 1. 🚦 Vấn đề đời thường
 
@@ -172,7 +172,7 @@ print(f"\\n📊 {len(timeline)} milestones spanning {timeline[-1][0] - timeline[
   },
   {
     id: "ai-neural-basics",
-    title: "Neural Network cơ bản",
+    title: "Basic Neural Network",
     titleEn: "Neural Network Basics",
     icon: "🧠",
     color: "from-rose-500 to-pink-600",
@@ -358,7 +358,7 @@ print(f"\\n🧠 Network output: {result:.4f}")`,
     course: "data-ai",
     lessons: [
       {
-        id: "ai-act-1", title: "Các hàm kích hoạt", titleEn: "Activation Functions Deep Dive",
+        id: "ai-act-1", title: "Activation functions", titleEn: "Activation Functions Deep Dive",
         level: 2, difficulty: "intermediate",
         theory: `## 1. 🚦 Vấn đề đời thường
 
@@ -627,7 +627,7 @@ print(f"\\n✅ Converged to x ≈ {x:.6f} (optimal: 0)")`,
     course: "data-ai",
     lessons: [
       {
-        id: "ai-bp-1", title: "Thuật toán Backpropagation", titleEn: "Backpropagation Algorithm",
+        id: "ai-bp-1", title: "Backpropagation algorithm", titleEn: "Backpropagation Algorithm",
         level: 3, difficulty: "intermediate",
         theory: `## 1. 🚦 Vấn đề đời thường
 

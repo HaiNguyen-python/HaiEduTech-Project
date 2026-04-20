@@ -5,11 +5,11 @@ import type { ExtendedProgrammingModule } from "./types";
 export const dataEngModules: ExtendedProgrammingModule[] = [
   {
     id: "de-pandas-basics",
-    title: "Pandas cơ bản",
+    title: "Basic Pandas",
     titleEn: "Pandas Basics",
     icon: "🐼",
     color: "from-amber-500 to-orange-600",
-    description: "DataFrame, Series, đọc/ghi dữ liệu",
+    description: "DataFrame, Series, read/write data",
     descriptionEn: "DataFrame, Series, reading/writing data",
     course: "data-eng",
     lessons: [
@@ -206,7 +206,7 @@ print(df[['name', 'score', 'grade']])`,
     titleEn: "Data Cleaning",
     icon: "🧹",
     color: "from-amber-500 to-orange-600",
-    description: "Xử lý missing values, duplicates, outliers",
+    description: "Handle missing values, duplicates, outliers",
     descriptionEn: "Handle missing values, duplicates, outliers",
     course: "data-eng",
     lessons: [
@@ -452,12 +452,12 @@ print(df_clean)`,
     titleEn: "Data Ingestion",
     icon: "📥",
     color: "from-amber-500 to-orange-600",
-    description: "CSV, JSON, API — thu thập dữ liệu",
+    description: "CSV, JSON, API — collect data",
     descriptionEn: "CSV, JSON, API — data collection",
     course: "data-eng",
     lessons: [
       {
-        id: "de-ingest-1", title: "Đọc nhiều nguồn dữ liệu", titleEn: "Reading Multiple Data Sources",
+        id: "de-ingest-1", title: "Read multiple data sources", titleEn: "Reading Multiple Data Sources",
         level: 2, difficulty: "beginner",
         theory: `## 1. 🚦 Vấn đề đời thường
 
@@ -718,7 +718,7 @@ print(f"\\n✅ Validation: {len(errors)} errors" if errors else "\\n✅ Schema v
     titleEn: "ETL Pipeline Design",
     icon: "🔄",
     color: "from-amber-500 to-orange-600",
-    description: "Extract, Transform, Load — thiết kế pipeline",
+    description: "Extract, Transform, Load — pipeline design",
     descriptionEn: "Extract, Transform, Load — pipeline design",
     course: "data-eng",
     lessons: [

@@ -3,17 +3,17 @@ import type { ExtendedProgrammingModule } from "./types";
 export const programmingExpansionModules: ExtendedProgrammingModule[] = [
   {
     id: "py-oop-adv",
-    title: "Python OOP Nâng cao",
+    title: "Advanced Python OOP",
     titleEn: "Advanced Python OOP",
     icon: "🏗️",
     color: "from-yellow-500 to-yellow-700",
-    description: "Kế thừa, đa hình, abstract class",
+    description: "Inheritance, polymorphism, abstract class",
     descriptionEn: "Inheritance, polymorphism, abstract classes",
     course: "python",
     lessons: [
       {
         id: "py-oop-adv-1",
-        title: "Kế thừa & Đa hình",
+        title: "Inheritance & Polymorphism",
         titleEn: "Inheritance & Polymorphism",
         theory: `## 1. 🚦 Vấn đề đời thường
 
@@ -206,7 +206,7 @@ animals = [Dog("Rex"), Cat("Whiskers")]
 for animal in animals:
     print(animal.speak())`,
         codeLanguage: "python",
-        exercise: "Tạo class Bird kế thừa từ Animal với method speak() trả về 'Tweet!'",
+        exercise: "Create a Bird class that inherits from Animal with a speak() method that returns 'Tweet!'",
         exerciseEn: "Create a Bird class inheriting from Animal with speak() returning 'Tweet!'",
         quiz: [
           { question: "Inheritance allows:", options: ["Deleting the parent class", "A subclass to reuse code from the parent class", "Creating global variables", "Importing libraries"], answer: 1, explanation: "Inheritance lets a subclass reuse attributes and methods from its parent class." },
@@ -457,7 +457,7 @@ def slow_function():
 result = slow_function()
 print(f"Result: {result}")`,
         codeLanguage: "python",
-        exercise: "Viết decorator 'count_calls' đếm số lần hàm được gọi",
+        exercise: "Write a 'count_calls' decorator that counts the number of times the function is called",
         exerciseEn: "Write a 'count_calls' decorator that counts how many times a function is called",
         quiz: [
           { question: "A decorator is used to:", options: ["Delete a function", "Add functionality to a function without modifying its source code", "Create a new class", "Import a module"], answer: 1, explanation: "A decorator wraps a function to add behavior without changing the original function's code." },
@@ -692,22 +692,22 @@ Used heavily in asyncio.
 
 Next: **File I/O** — combined with generators, build pipelines for huge CSV/JSON files with minimal memory.`,
         code: `def count_up(start=0):
-    """Generator đếm lên vô hạn"""
+    """Generator counts up infinitely"""
     n = start
     while True:
         yield n
         n += 1
 
-# Sử dụng generator
+# Use generators
 counter = count_up(1)
 for _ in range(5):
     print(next(counter))
 
-# Generator expression (tương tự list comprehension)
+# Generator expression (similar to list comprehension)
 squares = (x**2 for x in range(10))
 print(list(squares))`,
         codeLanguage: "python",
-        exercise: "Viết generator 'even_numbers(n)' yield n số chẵn đầu tiên",
+        exercise: "Write generator 'even_numbers(n)' yielding first n even numbers",
         exerciseEn: "Write a generator 'even_numbers(n)' that yields the first n even numbers",
         quiz: [
           { question: "Which keyword does a generator use instead of return?", options: ["give", "send", "yield", "produce"], answer: 2, explanation: "`yield` pauses the function and returns a value; the next call resumes from that point." },
@@ -722,13 +722,13 @@ print(list(squares))`,
     titleEn: "File I/O",
     icon: "📁",
     color: "from-green-500 to-green-700",
-    description: "Đọc/ghi file, CSV, JSON trong Python",
+    description: "Read/write files, CSV, JSON in Python",
     descriptionEn: "Reading/writing files, CSV, JSON in Python",
     course: "python",
     lessons: [
       {
         id: "py-fileio-1",
-        title: "Đọc & Ghi File",
+        title: "Read & Write Files",
         titleEn: "Reading & Writing Files",
         theory: `## 1. 🚦 Vấn đề đời thường
 
@@ -960,7 +960,7 @@ print("\\nCSV rows:")
 for row in reader:
     print(f"  {row['Name']}: {row['Score']}")`,
         codeLanguage: "python",
-        exercise: "Viết hàm đọc file JSON chứa danh sách sinh viên và tính điểm trung bình",
+        exercise: "Write a function to read a JSON file containing a list of students and calculate the average score",
         exerciseEn: "Write a function to read a JSON file of students and calculate the average score",
         quiz: [
           { question: "What does mode `'a'` in open() mean?", options: ["Read", "Write (overwrite)", "Append (add to the end)", "Binary"], answer: 2, explanation: "`'a'` (append) adds content to the end of the file without erasing existing content." },
@@ -971,7 +971,7 @@ for row in reader:
   },
   {
     id: "sql-adv-window",
-    title: "SQL Window Functions Nâng cao",
+    title: "Advanced SQL Window Functions",
     titleEn: "Advanced SQL Window Functions",
     icon: "🪟",
     color: "from-blue-500 to-blue-700",
@@ -1151,7 +1151,7 @@ SELECT
 FROM employees
 ORDER BY salary DESC;`,
         codeLanguage: "sql",
-        exercise: "Viết query chia sinh viên thành 3 nhóm theo điểm và tính running average",
+        exercise: "Write a query to divide students into 3 groups according to scores and calculate running average",
         exerciseEn: "Write a query to divide students into 3 groups by score and calculate running average",
         quiz: [
           { question: "NTILE(4) splits the data into:", options: ["2 groups", "3 groups", "4 groups", "Arbitrary"], answer: 2, explanation: "NTILE(4) divides the data into 4 equal-sized groups (quartiles)." },
@@ -1166,7 +1166,7 @@ ORDER BY salary DESC;`,
     titleEn: "Recursive Queries",
     icon: "🔄",
     color: "from-indigo-500 to-indigo-700",
-    description: "WITH RECURSIVE cho cây phân cấp và đồ thị",
+    description: "WITH RECURSIVE for hierarchical trees and graphs",
     descriptionEn: "WITH RECURSIVE for hierarchical and graph data",
     course: "sql",
     lessons: [
@@ -1363,7 +1363,7 @@ WITH RECURSIVE category_tree AS (
 )
 SELECT depth, path FROM category_tree ORDER BY path;`,
         codeLanguage: "sql",
-        exercise: "Viết recursive CTE để hiển thị cây menu 3 cấp với indentation",
+        exercise: "Write a recursive CTE to display a 3-level menu tree with indentation",
         exerciseEn: "Write a recursive CTE to display a 3-level menu tree with indentation",
         quiz: [
           { question: "In a recursive CTE, the 'anchor' is:", options: ["The recursive part", "The termination condition", "The base case (non-recursive starting point)", "The final result"], answer: 2, explanation: "The anchor (base case) is the starting point and is not recursive. The recursive part references the CTE itself." },
@@ -1374,17 +1374,17 @@ SELECT depth, path FROM category_tree ORDER BY path;`,
   },
   {
     id: "data-spark-basics",
-    title: "Apache Spark Cơ bản",
+    title: "Apache Spark Basic",
     titleEn: "Apache Spark Basics",
     icon: "⚡",
     color: "from-orange-500 to-orange-700",
-    description: "Giới thiệu Spark, RDD, DataFrame API",
+    description: "Introducing Spark, RDD, DataFrame API",
     descriptionEn: "Introduction to Spark, RDD, DataFrame API",
     course: "data-eng",
     lessons: [
       {
         id: "spark-basics-1",
-        title: "Giới thiệu Apache Spark",
+        title: "Introducing Apache Spark",
         titleEn: "Introduction to Apache Spark",
         theory: `## 1. 🚦 Vấn đề đời thường
 
@@ -1554,7 +1554,7 @@ monthly_sales.show()
 # Write result
 monthly_sales.write.parquet("output/monthly_sales")`,
         codeLanguage: "python",
-        exercise: "Viết PySpark pipeline đọc file JSON, lọc theo điều kiện, group by và ghi ra Parquet",
+        exercise: "Write PySpark pipeline to read JSON file, filter by condition, group by and write to Parquet",
         exerciseEn: "Write a PySpark pipeline to read JSON, filter, group by, and write to Parquet",
         quiz: [
           { question: "Spark is faster than MapReduce mainly because:", options: ["Less code", "In-memory processing", "It uses Python", "It has a GUI"], answer: 1, explanation: "Spark processes data in memory instead of repeatedly reading/writing to disk like MapReduce." },

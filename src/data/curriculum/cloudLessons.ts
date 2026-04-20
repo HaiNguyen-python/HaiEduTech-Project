@@ -6,17 +6,17 @@ export const cloudModules: ExtendedProgrammingModule[] = [
   // ============ MODULE 1: Cloud Fundamentals ============
   {
     id: "cloud-fundamentals",
-    title: "Nền tảng Điện toán Đám mây",
+    title: "Cloud Computing Platform",
     titleEn: "Cloud Computing Fundamentals",
     icon: "☁️",
     color: "from-sky-500 to-blue-600",
-    description: "Hiểu mô hình đám mây, IaaS/PaaS/SaaS, các nhà cung cấp lớn (AWS, Azure, GCP)",
+    description: "Understand cloud models, IaaS/PaaS/SaaS, major providers (AWS, Azure, GCP)",
     descriptionEn: "Understand cloud models, IaaS/PaaS/SaaS, major providers (AWS, Azure, GCP)",
     course: "cloud",
     lessons: [
       {
         id: "cloud-fund-1",
-        title: "Điện toán đám mây là gì?",
+        title: "What is cloud computing?",
         titleEn: "What is Cloud Computing?",
         level: 1,
         difficulty: "beginner",
@@ -121,16 +121,16 @@ def calculate_cloud_cost(hours_used: float, instance_type: str = "t3.micro") -> 
     rate = pricing.get(instance_type, 0.05)
     return round(hours_used * rate, 4)
 
-# Ví dụ: chạy 1 web server t3.small trong 720 giờ (1 tháng)
+# For example: run 1 t3.small web server for 720 hours (1 month)
 monthly = calculate_cloud_cost(720, "t3.small")
-print(f"Chi phí 1 tháng: \${monthly} USD")
+print(f"Cost for 1 month: \${monthly} USD")
 
-# So sánh on-premise (mua server vật lý)
+# Compare on-premise (buy physical server)
 on_prem_capex = 5000  # USD đầu tư ban đầu
 months_to_breakeven = on_prem_capex / monthly
-print(f"On-prem hòa vốn sau: {months_to_breakeven:.1f} tháng")`,
+print(f"On-prem breakeven later: {months_to_breakeven:.1f} months")`,
         codeLanguage: "python",
-        exercise: "Tính chi phí khi chạy 3 instance m5.large trong 24 giờ. So sánh với việc chạy 10 instance t3.micro cùng thời gian.",
+        exercise: "Calculate the cost of running 3 m5.large instances for 24 hours. Compare that to running 10 t3.micro instances at the same time.",
         exerciseEn: "Calculate the cost of running 3 m5.large instances for 24 hours. Compare with 10 t3.micro instances for the same time.",
         quiz: [
           { question: "In which model does the CUSTOMER manage the OS?", options: ["SaaS", "PaaS", "IaaS", "FaaS"], answer: 2, explanation: "IaaS — the customer manages OS, runtime, and app. The provider handles hardware and virtualization only." },
@@ -267,7 +267,7 @@ def find_equivalent(service: str, from_provider: str, to_provider: str) -> str:
 print(find_equivalent("S3", "aws", "gcp"))         # Cloud Storage
 print(find_equivalent("BigQuery", "gcp", "azure")) # Synapse`,
         codeLanguage: "python",
-        exercise: "Bạn đang dùng AWS Lambda + S3 + RDS. Liệt kê dịch vụ tương đương trên Azure và GCP để tạo bảng so sánh migration.",
+        exercise: "You are using AWS Lambda + S3 + RDS. List equivalent services on Azure and GCP to create a migration comparison table.",
         exerciseEn: "You use AWS Lambda + S3 + RDS. List equivalent services on Azure and GCP for a migration comparison.",
         quiz: [
           { question: "What is the GCP equivalent of AWS S3?", options: ["Blob Storage", "Cloud Storage", "Cloud SQL", "BigQuery"], answer: 1, explanation: "GCP Cloud Storage is the object storage equivalent of AWS S3 and Azure Blob Storage." },
@@ -279,7 +279,7 @@ print(find_equivalent("BigQuery", "gcp", "azure")) # Synapse`,
       },
       {
         id: "cloud-fund-3",
-        title: "Region, AZ và Edge Location",
+        title: "Region, AZ and Edge Location",
         titleEn: "Regions, AZs, and Edge Locations",
         level: 2,
         difficulty: "beginner",
@@ -394,7 +394,7 @@ class CloudDeployment:
         self.azs = azs
 
     def availability(self) -> float:
-        # Mỗi AZ có uptime ~99.95%; xác suất TẤT CẢ cùng sập = (1-0.9995)^n
+        # Each AZ has uptime ~99.95%; probability of ALL collapsing = (1-0.9995)^n
         single_uptime = 0.9995
         all_down = (1 - single_uptime) ** len(self.azs)
         return round((1 - all_down) * 100, 5)
@@ -405,7 +405,7 @@ multi_az  = CloudDeployment("Web app B", ["us-east-1a", "us-east-1b", "us-east-1
 print(f"{single_az.name}: {single_az.availability()}%")  # 99.95
 print(f"{multi_az.name}:  {multi_az.availability()}%")   # 99.99999...`,
         codeLanguage: "python",
-        exercise: "Một ứng dụng SaaS toàn cầu cần SLA 99.99% và phục vụ user tại Mỹ + Châu Âu + Châu Á. Hãy đề xuất chiến lược Region + AZ + Edge Location.",
+        exercise: "A global SaaS application needs a 99.99% SLA and serves users in the US + Europe + Asia. Let's propose the strategy Region + AZ + Edge Location.",
         exerciseEn: "A global SaaS app needs 99.99% SLA and serves users in US + EU + Asia. Propose a Region + AZ + Edge Location strategy.",
         quiz: [
           { question: "What is an AZ?", options: ["A region", "An isolated data center inside a region", "A CDN node", "A physical server"], answer: 1, explanation: "An AZ (Availability Zone) is one or more isolated data centers (independent power, network, cooling) within a single region." },
@@ -425,7 +425,7 @@ print(f"{multi_az.name}:  {multi_az.availability()}%")   # 99.99999...`,
     titleEn: "Compute & Storage",
     icon: "💾",
     color: "from-cyan-500 to-blue-600",
-    description: "VM, container, serverless và các loại storage (block, object, file)",
+    description: "VM, container, serverless and storage types (block, object, file)",
     descriptionEn: "VMs, containers, serverless and storage types (block, object, file)",
     course: "cloud",
     lessons: [
@@ -568,12 +568,12 @@ instance = ec2.create_instances(
 )
 print(f"Started instance: {instance[0].id}")
 
-# Ước tính chi phí 1 tháng
+# Estimated cost for 1 month
 hours = 24 * 30
 hourly = 0.0104  # t3.micro on-demand
 print(f"Monthly cost: \${hours * hourly:.2f}")`,
         codeLanguage: "python",
-        exercise: "Một startup chạy web app có ~100 req/s ban ngày, gần 0 req/s ban đêm. Đề xuất loại instance + chiến lược pricing tiết kiệm nhất.",
+        exercise: "A startup running a web app has ~100 req/s during the day, nearly 0 req/s at night. Propose the most economical instance type + pricing strategy.",
         exerciseEn: "A startup runs a web app with ~100 req/s during the day and near 0 at night. Propose the best instance type + pricing strategy.",
         quiz: [
           { question: "Which instance type is CHEAPEST but can be reclaimed?", options: ["On-Demand", "Reserved", "Spot", "Dedicated"], answer: 2, explanation: "Spot Instances use spare capacity, up to 90% cheaper, but AWS can reclaim them with a 2-minute warning." },
@@ -733,7 +733,7 @@ s3.upload_file(
     },
 )
 
-# 2. Generate presigned URL (cho phép download tạm thời 1h)
+# 2. Generate presigned URL (allows temporary download for 1 hour)
 url = s3.generate_presigned_url(
     "get_object",
     Params={"Bucket": "my-app-bucket", "Key": "reports/2026/q1-report.pdf"},
@@ -741,7 +741,7 @@ url = s3.generate_presigned_url(
 )
 print(f"Download link (1h): {url}")
 
-# 3. Lifecycle: chuyển sang Glacier sau 90 ngày
+# 3. Lifecycle: switch to Glacier after 90 days
 lifecycle = {
     "Rules": [{
         "ID": "archive-old-reports",
@@ -752,7 +752,7 @@ lifecycle = {
 }
 s3.put_bucket_lifecycle_configuration(Bucket="my-app-bucket", LifecycleConfiguration=lifecycle)`,
         codeLanguage: "python",
-        exercise: "Thiết kế lifecycle cho bucket lưu log: 30 ngày đầu Standard, 30-90 ngày Standard-IA, sau 1 năm Glacier Deep Archive, sau 7 năm xóa.",
+        exercise: "Lifecycle design for log storage bucket: first 30 days Standard, 30-90 days Standard-IA, after 1 year Glacier Deep Archive, after 7 years deletion.",
         exerciseEn: "Design a lifecycle for a log bucket: Standard for 30 days, Standard-IA 30-90, Glacier Deep Archive after 1 year, delete after 7 years.",
         quiz: [
           { question: "What durability does S3 promise?", options: ["99.9%", "99.99%", "99.999999999% (11 nines)", "100%"], answer: 2, explanation: "S3 Standard offers 99.999999999% (11 nines) durability — objects are virtually never lost." },
@@ -942,7 +942,7 @@ spec:
 """
 print(manifest)`,
         codeLanguage: "yaml",
-        exercise: "Viết Deployment Kubernetes cho 1 API Node.js cần 2 replica, image `mycompany/api:v3`, request 200m CPU & 256Mi RAM, expose qua Service ClusterIP port 3000.",
+        exercise: "Writing a Deployment of Kubernetes for a Node.js API requires 2 replicas, image `mycompany/api:v3`, requires 200m CPU & 256Mi RAM, exposed via Service ClusterIP port 3000.",
         exerciseEn: "Write a Kubernetes Deployment for a Node.js API needing 2 replicas, image `mycompany/api:v3`, request 200m CPU & 256Mi RAM, exposed via ClusterIP Service port 3000.",
         quiz: [
           { question: "What is the smallest deployable unit in Kubernetes?", options: ["Container", "Pod", "Deployment", "Node"], answer: 1, explanation: "A Pod is the smallest unit — it contains one or more containers sharing network/storage." },
@@ -958,7 +958,7 @@ print(manifest)`,
   // ============ MODULE 3: Networking & Security ============
   {
     id: "cloud-network-security",
-    title: "Networking & Bảo mật",
+    title: "Networking & Security",
     titleEn: "Networking & Security",
     icon: "🔐",
     color: "from-indigo-500 to-blue-600",
@@ -968,7 +968,7 @@ print(manifest)`,
     lessons: [
       {
         id: "cloud-net-1",
-        title: "VPC, Subnet và Routing",
+        title: "VPC, Subnet and Routing",
         titleEn: "VPC, Subnets, and Routing",
         level: 3,
         difficulty: "intermediate",
@@ -1106,25 +1106,25 @@ VPC controls "where servers live and who can reach them". Next: **IAM** — who 
 import boto3
 ec2 = boto3.client("ec2")
 
-# Bước 1: Tạo VPC dải 10.0.0.0/16 (65,536 IP nội bộ)
+# Step 1: Create VPC range 10.0.0.0/16 (65,536 internal IPs)
 vpc = ec2.create_vpc(CidrBlock="10.0.0.0/16")
 vpc_id = vpc["Vpc"]["VpcId"]
 
-# Bước 2: Subnet công khai trong vùng us-east-1a (256 IP)
+# Step 2: Public subnet in us-east-1a zone (256 IPs)
 public = ec2.create_subnet(VpcId=vpc_id, CidrBlock="10.0.1.0/24", AvailabilityZone="us-east-1a")
-# Tự gán IP công khai khi máy chủ khởi động trong subnet này
+# Self-assign a public IP when the server starts in this subnet
 ec2.modify_subnet_attribute(SubnetId=public["Subnet"]["SubnetId"], MapPublicIpOnLaunch={"Value": True})
 
-# Bước 3: Subnet riêng tư trong vùng us-east-1b (chống lỗi 1 vùng)
+# Step 3: Private subnet in us-east-1b zone (1 zone error protection)
 private = ec2.create_subnet(VpcId=vpc_id, CidrBlock="10.0.2.0/24", AvailabilityZone="us-east-1b")
 
-# Bước 4: Tạo Internet Gateway và gắn vào VPC để subnet công khai ra được Internet
+# Step 4: Create an Internet Gateway and attach it to the VPC to make the subnet public to the Internet
 igw = ec2.create_internet_gateway()
 ec2.attach_internet_gateway(VpcId=vpc_id, InternetGatewayId=igw["InternetGateway"]["InternetGatewayId"])
 
-print(f"VPC {vpc_id} sẵn sàng: public={public['Subnet']['SubnetId']}, private={private['Subnet']['SubnetId']}")`,
+print(f"VPC {vpc_id} available: public={public['Subnet']['SubnetId']}, private={private['Subnet']['SubnetId']}")`,
         codeLanguage: "python",
-        exercise: "Thiết kế VPC cho web app 3 tầng (Load Balancer + EC2 app + RDS database) trên 2 vùng (AZ). Liệt kê: cần bao nhiêu subnet, mỗi subnet loại gì (public/private/isolated), và mở Security Group cho từng tầng như thế nào.",
+        exercise: "Design VPC for 3-tier web app (Load Balancer + EC2 app + RDS database) in 2 regions (AZ). List: how many subnets are needed, what type of each subnet (public/private/isolated), and how to open a Security Group for each floor.",
         exerciseEn: "Design a VPC for a 3-tier web app (Load Balancer + EC2 app + RDS) across 2 AZs. List: how many subnets, what type each (public/private/isolated), and how to open Security Groups for each tier.",
         quiz: [
           { question: "How does a Public subnet differ from a Private subnet?", options: ["Public has more IPs", "Public has a route 0.0.0.0/0 → Internet Gateway", "Private runs faster", "No difference"], answer: 1, explanation: "A Public subnet has a route '0.0.0.0/0 → Internet Gateway', so its instances can reach the Internet. A Private subnet lacks this route — it must go through a NAT Gateway to reach the Internet." },
@@ -1319,9 +1319,9 @@ policy = {
 
 import json
 print(json.dumps(policy, indent=2))
-# Sau đó: tạo Role, gắn policy này vào Role, rồi gán Role cho Lambda function`,
+# Then: create a Role, attach this policy to the Role, then assign the Role to the Lambda function`,
         codeLanguage: "json",
-        exercise: "Viết IAM policy cho phép developer đọc/ghi bucket S3 'dev-uploads', cấm xoá object, chỉ cho truy cập từ IP văn phòng 203.0.113.0/24. Gợi ý: dùng 2 Statement — 1 Allow cho đọc/ghi, 1 Deny cho xoá.",
+        exercise: "Write an IAM policy that allows developers to read/write 'dev-uploads' S3 bucket, prohibits deleting objects, only allows access from office IP 203.0.113.0/24. Suggestion: use 2 Statements — 1 Allow for read/write, 1 Deny for delete.",
         exerciseEn: "Write an IAM policy that lets a developer read/write S3 bucket 'dev-uploads', deny delete, accessible only from office IP 203.0.113.0/24. Hint: use 2 Statements — one Allow for read/write, one Deny for delete.",
         quiz: [
           { question: "What is the core principle of IAM?", options: ["Grant maximum permissions for convenience", "Least Privilege — grant only the permissions needed", "One user one policy", "Use root for everything"], answer: 1, explanation: "Least Privilege — grant only the minimum permissions necessary. Cloud security rule #1: it shrinks the 'blast radius' when something goes wrong." },
@@ -1498,17 +1498,17 @@ import boto3
 kms = boto3.client("kms")
 s3  = boto3.client("s3")
 
-# Bước 1: Tạo Customer Master Key (CMK) trong KMS
-# Khoá này nằm trong HSM của AWS, không bao giờ rời khỏi KMS
+# Step 1: Create Customer Master Key (CMK) in KMS
+# This key resides in the AWS HSM, never leaving the KMS
 key = kms.create_key(
-    Description="Khoá mã hoá data ứng dụng",
+    Description="Application data encryption key",
     KeyUsage="ENCRYPT_DECRYPT",
     KeySpec="SYMMETRIC_DEFAULT",  # AES-256 đối xứng
 )
 key_id = key["KeyMetadata"]["KeyId"]
 
-# Bước 2: Upload 1 file lên S3 với mã hoá SSE-KMS
-# S3 sẽ tự gọi KMS để mã hoá file trước khi ghi xuống ổ đĩa
+# Step 2: Upload a file to S3 with SSE-KMS encryption
+# S3 will automatically call KMS to encrypt the file before writing to the drive
 s3.put_object(
     Bucket="my-secure-bucket",
     Key="confidential/contract.pdf",
@@ -1517,8 +1517,8 @@ s3.put_object(
     SSEKMSKeyId=key_id,                # Dùng khoá vừa tạo
 )
 
-# Bước 3: Bật mã hoá mặc định cho cả bucket
-# → mọi file upload sau này tự động mã hoá, không cần khai báo lại
+# Step 3: Turn on default encryption for the entire bucket
+# → All files uploaded later are automatically encrypted, no need to declare again
 s3.put_bucket_encryption(
     Bucket="my-secure-bucket",
     ServerSideEncryptionConfiguration={
@@ -1531,9 +1531,9 @@ s3.put_bucket_encryption(
         }]
     },
 )
-print(f"Bucket đã bảo mật bằng CMK {key_id}")`,
+print(f"Bucket secured with CMK {key_id}")`,
         codeLanguage: "python",
-        exercise: "Một fintech lưu data khách hàng trên RDS PostgreSQL. Liệt kê 8–10 biện pháp bảo mật cần áp dụng — chia theo 4 nhóm: (1) Mã hoá, (2) IAM, (3) Network, (4) Audit/Backup.",
+        exercise: "A fintech stores customer data on RDS PostgreSQL. List 8–10 security measures to apply — divided into 4 groups: (1) Encryption, (2) IAM, (3) Network, (4) Audit/Backup.",
         exerciseEn: "A fintech stores customer data in RDS PostgreSQL. List 8–10 required security measures, grouped into: (1) Encryption, (2) IAM, (3) Network, (4) Audit/Backup.",
         quiz: [
           { question: "Under Shared Responsibility, who patches the OS on an EC2 instance?", options: ["AWS handles it", "The customer (you)", "Both", "Nobody"], answer: 1, explanation: "With IaaS (like EC2), the customer patches the OS. With PaaS (RDS) or SaaS (S3), AWS handles it. Rule of thumb: the more 'self-managed' (IaaS), the more is on you." },
@@ -1713,10 +1713,10 @@ Next (**Infrastructure as Code**): how do you manage hundreds of Lambdas, API Ga
 import json
 
 def lambda_handler(event, context):
-    """Xử lý GET /users/{id}"""
+    """Handle GET /users/{id}"""
     user_id = event["pathParameters"]["id"]
 
-    # Mô phỏng query DynamoDB
+    # Simulate DynamoDB queries
     user = {"id": user_id, "name": f"User {user_id}", "email": f"{user_id}@example.com"}
 
     return {
@@ -1747,7 +1747,7 @@ Resources:
 """
 print(sam_template)`,
         codeLanguage: "python",
-        exercise: "Tính chi phí cho Lambda chạy 5 triệu request/tháng, mỗi request dùng 256MB và chạy 200ms.",
+        exercise: "Calculate the cost for Lambda to run 5 million requests/month, each request uses 256MB and runs 200ms.",
         exerciseEn: "Calculate the cost for a Lambda running 5 million requests/month, each using 256MB and running 200ms.",
         quiz: [
           { question: "What is the maximum Lambda timeout?", options: ["1 minute", "5 minutes", "15 minutes", "Unlimited"], answer: 2, explanation: "Lambda has a maximum timeout of 15 minutes (900 seconds)." },
@@ -1963,7 +1963,7 @@ resource "aws_s3_bucket_versioning" "v" {
 output "vpc_id"     { value = aws_vpc.main.id }
 output "bucket_arn" { value = aws_s3_bucket.data.arn }`,
         codeLanguage: "hcl",
-        exercise: "Viết Terraform tạo: 1 EC2 t3.micro trong VPC default, gắn security group cho phép SSH (port 22) và HTTP (port 80) từ 0.0.0.0/0.",
+        exercise: "Write Terraform to create: 1 EC2 t3.micro in the default VPC, attach a security group that allows SSH (port 22) and HTTP (port 80) from 0.0.0.0/0.",
         exerciseEn: "Write Terraform to create: 1 EC2 t3.micro in default VPC, with a security group allowing SSH (22) and HTTP (80) from 0.0.0.0/0.",
         quiz: [
           { question: "What is the Terraform state file used for?", options: ["Storing code", "Tracking the resources you've created", "Storing passwords", "Storing logs"], answer: 1, explanation: "The state file maps code resources to real cloud resources — store remotely with locking for teams." },
@@ -2198,7 +2198,7 @@ jobs:
             --service myapp \\
             --force-new-deployment`,
         codeLanguage: "yaml",
-        exercise: "Một service có SLO 99.95% uptime/tháng. Tính error budget (phút downtime cho phép). Nếu tuần đầu đã dùng 30 phút thì còn lại bao nhiêu?",
+        exercise: "A service has an SLO of 99.95% uptime/month. Calculate error budget (allowable minutes of downtime). If you used 30 minutes the first week, how much is left?",
         exerciseEn: "A service has an SLO of 99.95% monthly uptime. Calculate the error budget (allowed downtime in minutes). If 30 min were used in week 1, how much remains?",
         quiz: [
           { question: "What is a canary deployment?", options: ["Deploy 100% immediately", "Deploy gradually 5%→25%→100% while watching metrics", "Deploy only at night", "Automatic rollback"], answer: 1, explanation: "Canary gradually shifts a small portion of traffic, monitors metrics, then expands — reducing risk." },
@@ -2214,7 +2214,7 @@ jobs:
   // ============ MODULE 5: Architecture & Cost ============
   {
     id: "cloud-architecture-cost",
-    title: "Kiến trúc & Tối ưu chi phí",
+    title: "Architecture & Cost Optimization",
     titleEn: "Architecture & Cost Optimization",
     icon: "🏗️",
     color: "from-blue-500 to-indigo-600",
@@ -2389,46 +2389,46 @@ Among the 6 pillars, **Cost Optimization** is the one CFOs care about most. Next
 checklist = {
     "operational_excellence": [
         "IaC (Terraform/CFN) cho 100% infra?",
-        "CI/CD tự động deploy?",
-        "Có runbook + on-call rotation?",
+        "CI/CD automatic deployment?",
+        "Is there runbook + on-call rotation?",
     ],
     "security": [
-        "Bật MFA cho mọi user?",
+        "Enable MFA for all users?",
         "Encryption at-rest + in-transit?",
-        "CloudTrail bật ở mọi region?",
+        "CloudTrail enabled in all regions?",
         "GuardDuty + Security Hub?",
     ],
     "reliability": [
         "Multi-AZ deployment?",
-        "Backup + test restore định kỳ?",
-        "Đã định nghĩa RPO/RTO?",
+        "Backup + test restore periodically?",
+        "RPO/RTO defined?",
         "Disaster recovery plan tested?",
     ],
     "performance": [
         "Right-sized instance?",
-        "Có caching (CloudFront/ElastiCache)?",
-        "Auto Scaling Group cấu hình đúng?",
+        "Is there caching (CloudFront/ElastiCache)?",
+        "Auto Scaling Group configured correctly?",
     ],
     "cost": [
-        "Tagging chuẩn để chargeback?",
-        "Reserved/Savings Plan cho workload đều?",
+        "Standard tagging for chargeback?",
+        "Reserved/Savings Plan for even workload?",
         "Lifecycle S3 → Glacier?",
-        "Tắt dev environment ngoài giờ?",
+        "Turn off dev environment after hours?",
     ],
     "sustainability": [
-        "Dùng ARM Graviton khi có thể?",
-        "Region carbon thấp (eu-north-1)?",
-        "Tắt resource không dùng?",
+        "Use ARM Graviton when possible?",
+        "Low carbon region (eu-north-1)?",
+        "Turn off unused resources?",
     ],
 }
 
 total = sum(len(v) for v in checklist.values())
-print(f"Tổng câu hỏi đánh giá: {total}")
+print(f"Total assessment questions: {total}")
 for pillar, items in checklist.items():
-    print(f"\\n[{pillar.upper()}] — {len(items)} mục")
+    print(f"\\n[{pillar.upper()}] — {len(items)} items")
     for q in items: print(f"  □ {q}")`,
         codeLanguage: "python",
-        exercise: "Áp dụng Well-Architected vào kiến trúc 1 web app e-commerce. Liệt kê 2 cải tiến cụ thể cho mỗi trong 6 pillars.",
+        exercise: "Applying Well-Architected to the architecture of an e-commerce web app. List 2 specific improvements for each of the 6 pillars.",
         exerciseEn: "Apply Well-Architected to an e-commerce web app. List 2 concrete improvements for each of the 6 pillars.",
         quiz: [
           { question: "Which pillar is the NEWEST (added in 2021)?", options: ["Security", "Reliability", "Sustainability", "Performance"], answer: 2, explanation: "Sustainability is the 6th pillar, added in 2021." },
@@ -2440,7 +2440,7 @@ for pillar, items in checklist.items():
       },
       {
         id: "cloud-cost-1",
-        title: "Tối ưu chi phí & FinOps",
+        title: "Cost Optimization & FinOps",
         titleEn: "Cost Optimization & FinOps",
         level: 5,
         difficulty: "advanced",
@@ -2620,7 +2620,7 @@ instances = [
     {"id": "i-ddd", "type": "t3.medium",  "cpu_avg": 8,  "monthly_cost": 30},
 ]
 
-# Right-sizing: nếu CPU <40% → giảm 1 size
+# Right-sizing: if CPU <40% → reduce 1 size
 size_down = {
     "m5.2xlarge": ("m5.large",  70),     # ~75% rẻ hơn
     "c5.4xlarge": ("c5.xlarge", 125),
@@ -2633,15 +2633,15 @@ for inst in instances:
         new_type, new_cost = size_down[inst["type"]]
         save = inst["monthly_cost"] - new_cost
         total_save += save
-        print(f"⬇️  {inst['id']} {inst['type']} → {new_type}: tiết kiệm \${save}/tháng (CPU avg {inst['cpu_avg']}%)")
+        print(f"⬇️ {inst['id']} {inst['type']} → {new_type}: save \${save}/month (CPU avg {inst['cpu_avg']}%)")
 
-print(f"\\n💰 Tổng tiết kiệm: \${total_save}/tháng = \${total_save*12}/năm")
+print(f"\\n💰 Total savings: \${total_save}/month = \${total_save*12}/year")
 
-# Reserved Instance: với i-bbb chạy đều → mua RI 1 năm tiết kiệm thêm ~40%
+# Reserved Instance: with i-bbb running smoothly → buy RI for 1 year and save ~40% more
 ri_save = 70 * 12 * 0.40
-print(f"💎 RI cho i-bbb: tiết kiệm thêm ~\${ri_save:.0f}/năm")`,
+print(f"💎 RI for i-bbb: additional savings ~\${ri_save:.0f}/year")`,
         codeLanguage: "python",
-        exercise: "Công ty bạn chi \$50,000/tháng cho AWS (60% EC2, 25% RDS, 10% S3, 5% transfer). Đề xuất 5 hành động cụ thể để giảm 25-30% chi phí.",
+        exercise: "Your company spends \$50,000/month on AWS (60% EC2, 25% RDS, 10% S3, 5% transfer). Propose 5 specific actions to reduce costs by 25-30%.",
         exerciseEn: "Your company spends \$50,000/month on AWS (60% EC2, 25% RDS, 10% S3, 5% transfer). Propose 5 concrete actions to reduce cost by 25-30%.",
         quiz: [
           { question: "What are the 3 phases of FinOps?", options: ["Plan/Build/Run", "Inform/Optimize/Operate", "Buy/Use/Sell", "Dev/Test/Prod"], answer: 1, explanation: "FinOps Foundation phases: Inform (visibility) → Optimize (reduce) → Operate (automate)." },
@@ -2885,16 +2885,16 @@ def email_handler(event, context):
         print(f"📧 Send confirmation email for order {order['orderId']}")
         # send_email(...)
 
-# 3. InventoryService Lambda consumer (giảm stock)
+# 3. InventoryService Lambda consumer (reduce stock)
 def inventory_handler(event, context):
     for record in event["Records"]:
         order = json.loads(json.loads(record["body"])["Message"])
         for item in order["items"]:
             print(f"📦 Decrement stock {item['sku']} by {item['qty']}")
 
-# Lợi ích: thêm AnalyticsService chỉ cần subscribe SNS — không sửa OrderService`,
+# Benefit: adding AnalyticsService just requires subscribing to SNS — no editing of OrderService`,
         codeLanguage: "python",
-        exercise: "Thiết kế EDA cho ứng dụng đặt taxi (Uber-like): khi user book, các service Driver-Match, Notification, Pricing, Analytics đều cần biết. Vẽ flow & chọn AWS service phù hợp.",
+        exercise: "EDA design for a taxi booking application (Uber-like): when a user books, the Driver-Match, Notification, Pricing, and Analytics services all need to be known. Draw the flow & choose the appropriate AWS service.",
         exerciseEn: "Design EDA for a taxi-booking app (Uber-like): when a user books, Driver-Match, Notification, Pricing, Analytics services all need to know. Draw the flow & pick suitable AWS services.",
         quiz: [
           { question: "Microservices are NOT suitable for?", options: ["Large org with many teams", "Small startup MVP", "App that scales per part", "Strong DevOps maturity"], answer: 1, explanation: "Small MVPs/startups should start as a monolith or modular monolith — avoid premature complexity." },

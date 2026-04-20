@@ -8,7 +8,7 @@ export const mlModules: ExtendedProgrammingModule[] = [
     titleEn: "Linear Regression",
     icon: "📈",
     color: "from-teal-500 to-cyan-600",
-    description: "Hồi quy tuyến tính, MSE, Gradient Descent",
+    description: "Linear Regression, MSE, Gradient Descent",
     descriptionEn: "Linear regression, MSE, Gradient Descent",
     course: "ml",
     lessons: [
@@ -177,7 +177,7 @@ Linear Regression dự đoán **số liên tục** (giá nhà, doanh thu). Nhưn
     titleEn: "Logistic Regression",
     icon: "🎯",
     color: "from-teal-500 to-cyan-600",
-    description: "Phân loại nhị phân, Sigmoid, Decision Boundary",
+    description: "Binary Classification, Sigmoid, Decision Boundary",
     descriptionEn: "Binary classification, Sigmoid, Decision Boundary",
     course: "ml",
     lessons: [
