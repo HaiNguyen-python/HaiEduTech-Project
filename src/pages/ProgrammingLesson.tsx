@@ -81,6 +81,8 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
       "cloud-ops-resilience",
       "cloud-strategy-cost",
     ],
+    "deep-learning": ["dl-foundations"],
+    "reinforcement-learning": ["reinforcement-learning"],
   };
   const ids = directIds[pillar] || [];
   return allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
