@@ -411,7 +411,7 @@ Don't wrap indexed columns in functions:
 - Handle NULL explicitly
 - Keep functions off indexed columns
 - Next: **Aggregate functions & GROUP BY**`,
-        code: `-- Lọc cơ bản
+        code: `-- Basic filtering
 SELECT * FROM students WHERE age > 20;
 
 -- Multiple conditions combined using AND
@@ -563,26 +563,26 @@ Counts unique values; expensive at scale → use \`APPROX_COUNT_DISTINCT\` for b
 - All non-aggregated columns in GROUP BY
 - Filter rows in WHERE, groups in HAVING
 - Next: **JOIN operations**`,
-        code: `-- Đếm tổng số học viên
-SELECT COUNT(*) AS so_hoc_vien FROM students;
+        code: `-- Count total students
+SELECT COUNT(*) AS student_count FROM students;
 
 -- Average age (NULL automatically omitted)
-SELECT AVG(age) AS tuoi_tb FROM students;
+SELECT AVG(age) AS avg_age FROM students;
 
--- Count the number of students by age (grouped together)
-SELECT age, COUNT(*) AS so_luong
+-- Count students by age (grouped together)
+SELECT age, COUNT(*) AS quantity
 FROM   students
 GROUP BY age
-ORDER BY so_luong DESC;
+ORDER BY quantity DESC;
 
 -- Only keep age groups with >= 2 students (filter groups using HAVING)
-SELECT age, COUNT(*) AS so_luong
+SELECT age, COUNT(*) AS quantity
 FROM   students
 GROUP BY age
 HAVING COUNT(*) >= 2;
 
--- Count different ages
-SELECT COUNT(DISTINCT age) AS so_tuoi_khac_nhau FROM students;`,
+-- Count distinct ages
+SELECT COUNT(DISTINCT age) AS distinct_age_count FROM students;`,
         codeLanguage: "sql",
         exercise: "Count the number of orders by each customer_id in the orders table, then only display customers with >= 3 orders. Suggestion: GROUP BY customer_id, filter by HAVING COUNT(*) >= 3.",
         exerciseEn: "Count orders per customer_id, then show only customers with >= 3 orders. Hint: GROUP BY customer_id, HAVING COUNT(*) >= 3.",
@@ -1003,14 +1003,14 @@ A non-correlated subquery runs **once**. A *correlated* subquery references a co
 - Watch performance on correlated subqueries
 
 Next: **CTEs (\`WITH\`)** — the readable cousin of subqueries.`,
-        code: `-- VÍ DỤ 1: Tìm học viên có điểm cao hơn trung bình lớp
+        code: `-- EXAMPLE 1: Find students scoring above the class average
 -- (scalar subquery in WHERE — runs once)
 SELECT name, score
 FROM students
 WHERE score > (SELECT AVG(score) FROM students);
 
--- EXAMPLE 2: Get the name of a student who has placed an order
--- (subquery returns 1 column with multiple lines → use IN)
+-- EXAMPLE 2: Get the names of students who have placed an order
+-- (subquery returns 1 column with multiple rows → use IN)
 SELECT name
 FROM students
 WHERE id IN (SELECT student_id FROM orders);
@@ -1023,11 +1023,11 @@ WHERE NOT EXISTS (
   SELECT 1 FROM orders o WHERE o.student_id = s.id
 );
 
--- EXAMPLE 4: Subquery in FROM (clipboard)
--- Count the number of students by city, filter cities > 5 people
-SELECT t.city, t.so_hoc_vien
+-- EXAMPLE 4: Subquery in FROM (derived table)
+-- Count students per city, then keep only cities with > 5 people
+SELECT t.city, t.student_count
 FROM (
-  SELECT city, COUNT(*) AS so_hoc_vien
+  SELECT city, COUNT(*) AS student_count
   FROM students
   GROUP BY city
 ) AS t
