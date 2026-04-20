@@ -45,6 +45,7 @@ const Navbar = () => {
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { user, isTeacher } = useUserRole();
+  const { streak } = useStreak();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
@@ -314,6 +315,12 @@ const Navbar = () => {
                     >
                       <User className="w-3.5 h-3.5" />
                       Hello, {displayName.split(" ")[0]}
+                      {streak > 0 && (
+                        <span title={t(`Chuỗi ${streak} ngày liên tục`, `${streak}-day streak`)}
+                          className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-orange-500/15 text-orange-500 text-[10px] font-bold">
+                          <Flame className="w-3 h-3" />{streak}
+                        </span>
+                      )}
                       <ChevronDown className={`w-3 h-3 transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
                     </button>
                     <AnimatePresence>
@@ -558,6 +565,12 @@ const Navbar = () => {
                     >
                       <User className="w-3.5 h-3.5" />
                       Hello, {displayName.split(" ")[0]}
+                      {streak > 0 && (
+                        <span title={t(`Chuỗi ${streak} ngày liên tục`, `${streak}-day streak`)}
+                          className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-orange-500/15 text-orange-500 text-[10px] font-bold">
+                          <Flame className="w-3 h-3" />{streak}
+                        </span>
+                      )}
                       <ChevronDown className={`w-3 h-3 transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
                     </button>
                     <AnimatePresence>
@@ -757,9 +770,14 @@ const Navbar = () => {
               <div className="sticky bottom-0 px-4 py-5 border-t border-border bg-background space-y-3">
                 {user ? (
                   <>
-                    <div className="text-center text-sm font-medium text-foreground mb-2">
-                      <User className="w-4 h-4 inline mr-1" />
+                    <div className="text-center text-sm font-medium text-foreground mb-2 flex items-center justify-center gap-2">
+                      <User className="w-4 h-4 inline" />
                       Hello, {displayName}
+                      {streak > 0 && (
+                        <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-500 text-xs font-bold">
+                          <Flame className="w-3.5 h-3.5" />{streak}
+                        </span>
+                      )}
                     </div>
                     <Link to="/dashboard" onClick={() => setOpen(false)}
                       className="flex items-center justify-center gap-2 w-full px-4 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-primary to-accent text-white shadow-lg transition-all">
