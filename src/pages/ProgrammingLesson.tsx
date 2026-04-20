@@ -316,7 +316,7 @@ const ProgrammingLessonPage = () => {
                             }`}
                           >
                             <span className="text-base shrink-0">{pm.icon}</span>
-                            <span className="truncate flex-1">{pm.titleEn}</span>
+                            <span className="truncate flex-1">{t(pm.title, pm.titleEn)}</span>
                             <ChevronDown className={`w-3 h-3 shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                           </button>
                           {isExpanded && (
