@@ -290,11 +290,14 @@ function postProcessSvg(svg: string): string {
 const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const fullscreenRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [svgMarkup, setSvgMarkup] = useState<string>("");
+  const [fitZoom, setFitZoom] = useState(1);
+  const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
   const safeId = id || `mmd${Math.random().toString(36).slice(2, 10)}`;
   const kind = detectKind(code);
 
@@ -332,23 +335,56 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
     };
   }, [code, safeId]);
 
-  // Inject the SVG into the fullscreen container whenever the dialog opens or markup changes.
+  // Inject the SVG into the fullscreen container and preserve its natural aspect ratio.
   useEffect(() => {
     if (isFullscreen && fullscreenRef.current && svgMarkup) {
       fullscreenRef.current.innerHTML = svgMarkup;
-      // Strip the inline max-width constraint so the SVG can grow to fill the modal.
       const svg = fullscreenRef.current.querySelector("svg");
       if (svg) {
+        const viewBox = svg.getAttribute("viewBox")?.split(/\s+/).map(Number) ?? [];
+        if (viewBox.length === 4 && Number.isFinite(viewBox[2]) && Number.isFinite(viewBox[3])) {
+          setSvgSize({ width: viewBox[2], height: viewBox[3] });
+        }
         svg.style.maxWidth = "none";
-        svg.style.width = "100%";
-        svg.style.height = "100%";
+        svg.style.width = `${Math.max(viewBox[2] || 0, 1)}px`;
+        svg.style.height = `${Math.max(viewBox[3] || 0, 1)}px`;
       }
     }
-  }, [isFullscreen, svgMarkup, zoom]);
+  }, [isFullscreen, svgMarkup]);
+
+  // Start fullscreen in fit-to-view mode so students see the whole diagram first.
+  useEffect(() => {
+    if (!isFullscreen || !viewportRef.current || !svgSize.width || !svgSize.height) return;
+
+    const updateFitZoom = () => {
+      const containerWidth = viewportRef.current?.clientWidth ?? 0;
+      const containerHeight = viewportRef.current?.clientHeight ?? 0;
+      if (!containerWidth || !containerHeight) return;
+
+      const horizontalPadding = 48;
+      const verticalPadding = 48;
+      const widthScale = (containerWidth - horizontalPadding) / svgSize.width;
+      const heightScale = (containerHeight - verticalPadding) / svgSize.height;
+      const nextFitZoom = Math.max(0.35, Math.min(1, widthScale, heightScale));
+
+      setFitZoom(nextFitZoom);
+      setZoom(nextFitZoom);
+    };
+
+    updateFitZoom();
+    const resizeObserver = new ResizeObserver(updateFitZoom);
+    resizeObserver.observe(viewportRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, [isFullscreen, svgSize]);
 
   // Reset zoom when closing the dialog.
   useEffect(() => {
-    if (!isFullscreen) setZoom(1);
+    if (!isFullscreen) {
+      setZoom(1);
+      setFitZoom(1);
+      setSvgSize({ width: 0, height: 0 });
+    }
   }, [isFullscreen]);
 
   if (error) {
@@ -410,7 +446,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setZoom((z) => Math.max(0.4, +(z - 0.2).toFixed(2)))}
+                onClick={() => setZoom((z) => Math.max(Math.min(fitZoom, 0.35), +(z - 0.15).toFixed(2)))}
                 aria-label="Zoom out"
               >
                 <ZoomOut className="h-4 w-4" />
@@ -418,7 +454,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setZoom(1)}
+                onClick={() => setZoom(fitZoom)}
                 aria-label="Reset zoom"
               >
                 <RotateCcw className="h-4 w-4" />
@@ -426,7 +462,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setZoom((z) => Math.min(4, +(z + 0.2).toFixed(2)))}
+                onClick={() => setZoom((z) => Math.min(3, +(z + 0.15).toFixed(2)))}
                 aria-label="Zoom in"
               >
                 <ZoomIn className="h-4 w-4" />
@@ -443,18 +479,22 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
           </div>
 
           {/* Scrollable canvas — pan via native scrollbars when the diagram is zoomed in. */}
-          <div className="flex-1 overflow-auto bg-gradient-to-br from-card/40 to-muted/20 p-6">
+          <div ref={viewportRef} className="flex-1 overflow-auto bg-gradient-to-br from-card/40 to-muted/20 p-6">
             <div
               style={{
-                transform: `scale(${zoom})`,
-                transformOrigin: "top left",
-                width: `${100 / zoom}%`,
-                minHeight: "100%",
+                width: svgSize.width ? `${svgSize.width * zoom}px` : "100%",
+                height: svgSize.height ? `${svgSize.height * zoom}px` : "100%",
               }}
-              className="transition-transform duration-100"
+              className="mx-auto min-h-full min-w-fit transition-[width,height] duration-100"
             >
               <div
                 ref={fullscreenRef}
+                style={{
+                  width: svgSize.width ? `${svgSize.width}px` : undefined,
+                  height: svgSize.height ? `${svgSize.height}px` : undefined,
+                  transform: `scale(${zoom})`,
+                  transformOrigin: "top left",
+                }}
                 className="mermaid-fullscreen-stage flex justify-center [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:max-w-none"
               />
             </div>
