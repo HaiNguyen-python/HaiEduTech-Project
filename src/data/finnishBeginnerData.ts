@@ -91,6 +91,17 @@ export const ALPHABET_SOUNDS: AlphabetSound[] = [
   { letter: "PP", ipa: "/pː/", example: "kauppa", exampleEn: "shop", exampleVi: "cửa hàng", group: "double-consonant", tip: "Two-beat P", tipVi: "Âm P kéo dài 2 nhịp" },
   { letter: "TT", ipa: "/tː/", example: "kissa", exampleEn: "cat (with SS)", exampleVi: "con mèo (với SS)", group: "double-consonant", tip: "Same logic for SS, LL, MM, NN, RR", tipVi: "Tương tự với SS, LL, MM, NN, RR" },
   { letter: "NG", ipa: "/ŋː/", example: "kengät", exampleEn: "shoes", exampleVi: "đôi giày", group: "double-consonant", tip: "Like 'ng' in 'singing', held longer", tipVi: "Giống 'ng' trong 'song', kéo dài hơn" },
+  // Long vowels (length contrast — critical for meaning)
+  { letter: "AA", ipa: "/ɑː/", example: "maa", exampleEn: "land", exampleVi: "đất nước", group: "vowel-back", tip: "Hold 'a' for 2 beats — meaning changes!", tipVi: "Giữ 'a' 2 nhịp — nghĩa thay đổi hoàn toàn!" },
+  { letter: "OO", ipa: "/oː/", example: "koodi", exampleEn: "code", exampleVi: "mã", group: "vowel-back", tip: "Long 'o' — different word from 'kodi'", tipVi: "Âm 'o' dài — khác hẳn 'kodi'" },
+  { letter: "UU", ipa: "/uː/", example: "kuu", exampleEn: "moon", exampleVi: "mặt trăng", group: "vowel-back", tip: "Long 'u' — vs 'ku' (no meaning)", tipVi: "Âm 'u' dài — vs 'ku' (vô nghĩa)" },
+  { letter: "II", ipa: "/iː/", example: "kiitos", exampleEn: "thank you", exampleVi: "cảm ơn", group: "vowel-front", tip: "Hold 'i' clearly", tipVi: "Giữ 'i' rõ ràng" },
+  // Tricky consonants
+  { letter: "H", ipa: "/h/", example: "hyvä", exampleEn: "good", exampleVi: "tốt", group: "consonant", tip: "Soft, breathy 'h'", tipVi: "Âm 'h' nhẹ, hơi thở" },
+  { letter: "J", ipa: "/j/", example: "joki", exampleEn: "river", exampleVi: "con sông", group: "consonant", tip: "Like 'y' in 'yes' — never like English J", tipVi: "Như 'y' trong 'yes' — không bao giờ như 'j' tiếng Anh" },
+  { letter: "R", ipa: "/r/", example: "rakas", exampleEn: "dear", exampleVi: "thân yêu", group: "consonant", tip: "Trilled R — flick the tongue", tipVi: "Âm R rung — búng đầu lưỡi" },
+  { letter: "S", ipa: "/s/", example: "sininen", exampleEn: "blue", exampleVi: "màu xanh", group: "consonant", tip: "Sharp 's' — never voiced like 'z'", tipVi: "Âm 's' sắc — không bao giờ thành 'z'" },
+  { letter: "V", ipa: "/ʋ/", example: "vesi", exampleEn: "water", exampleVi: "nước", group: "consonant", tip: "Soft V, between English V and W", tipVi: "Âm V nhẹ, giữa V và W tiếng Anh" },
 ];
 
 /* ============================================================
@@ -165,6 +176,11 @@ export const KPT_PAIRS: KptPair[] = [
   { strong: "t", weak: "d", example: "katu → kadun", meaning: "street → of the street", meaningVi: "đường phố → của đường phố" },
   { strong: "nt", weak: "nn", example: "ranta → rannan", meaning: "shore → of the shore", meaningVi: "bờ biển → của bờ biển" },
   { strong: "mp", weak: "mm", example: "kampa → kamman", meaning: "comb → of the comb", meaningVi: "lược → của cái lược" },
+  { strong: "lt", weak: "ll", example: "ilta → illan", meaning: "evening → of the evening", meaningVi: "buổi tối → của buổi tối" },
+  { strong: "rt", weak: "rr", example: "parta → parran", meaning: "beard → of the beard", meaningVi: "râu → của bộ râu" },
+  { strong: "nk", weak: "ng", example: "Helsinki → Helsingissä", meaning: "Helsinki → in Helsinki", meaningVi: "Helsinki → ở Helsinki" },
+  { strong: "lke", weak: "lje", example: "kulkea → kuljen", meaning: "to walk → I walk", meaningVi: "đi bộ → tôi đi bộ" },
+  { strong: "rke", weak: "rje", example: "särkeä → särjen", meaning: "to break → I break", meaningVi: "làm vỡ → tôi làm vỡ" },
 ];
 
 /* ============================================================
@@ -231,6 +247,31 @@ export const DAILY_PHRASES: DailyPhrase[] = [
   { fi: "Ole hyvä", en: "You're welcome", vi: "Không có gì", category: "polite", illustration: "🤗" },
   { fi: "Anteeksi", en: "Sorry / Excuse me", vi: "Xin lỗi", category: "polite", illustration: "🙇" },
   { fi: "Nähdään!", en: "See you!", vi: "Hẹn gặp lại!", category: "polite", illustration: "👋" },
+  // More greetings
+  { fi: "Hyvää päivää", en: "Good day", vi: "Chào buổi trưa", category: "greeting", illustration: "☀️" },
+  { fi: "Hyvää yötä", en: "Good night", vi: "Chúc ngủ ngon", category: "greeting", illustration: "🌙" },
+  { fi: "Tervetuloa!", en: "Welcome!", vi: "Chào mừng!", category: "greeting", illustration: "🎉" },
+  { fi: "Hauska tavata", en: "Nice to meet you", vi: "Rất vui được gặp bạn", category: "greeting", illustration: "🤝" },
+  // More intro
+  { fi: "Olen 25-vuotias", en: "I am 25 years old", vi: "Tôi 25 tuổi", category: "intro", illustration: "🎂" },
+  { fi: "Mistä olet kotoisin?", en: "Where are you from?", vi: "Bạn đến từ đâu?", category: "intro", illustration: "🌍" },
+  { fi: "Olen kotoisin Hanoista", en: "I am from Hanoi", vi: "Tôi đến từ Hà Nội", category: "intro", illustration: "🏯" },
+  { fi: "Työskentelen opettajana", en: "I work as a teacher", vi: "Tôi làm giáo viên", category: "intro", illustration: "👩‍🏫" },
+  // More shopping
+  { fi: "Yksi kahvi, kiitos", en: "One coffee, please", vi: "Một ly cà phê, làm ơn", category: "shopping", illustration: "☕" },
+  { fi: "Voinko maksaa käteisellä?", en: "Can I pay in cash?", vi: "Tôi trả tiền mặt được không?", category: "shopping", illustration: "💵" },
+  { fi: "Haluaisin tämän", en: "I would like this one", vi: "Tôi muốn lấy cái này", category: "shopping", illustration: "👉" },
+  { fi: "Onko alennusta?", en: "Is there a discount?", vi: "Có giảm giá không?", category: "shopping", illustration: "🏷️" },
+  // More asking
+  { fi: "Kuinka mennä keskustaan?", en: "How to get to the centre?", vi: "Đi tới trung tâm thế nào?", category: "asking", illustration: "🚶" },
+  { fi: "Mihin aikaan juna lähtee?", en: "What time does the train leave?", vi: "Tàu hỏa khởi hành lúc mấy giờ?", category: "asking", illustration: "🚆" },
+  { fi: "Mikä tämä on?", en: "What is this?", vi: "Đây là cái gì?", category: "asking", illustration: "❓" },
+  { fi: "Voitko auttaa minua?", en: "Can you help me?", vi: "Bạn có thể giúp tôi không?", category: "asking", illustration: "🆘" },
+  { fi: "Puhutko hitaammin?", en: "Can you speak slower?", vi: "Bạn nói chậm hơn được không?", category: "asking", illustration: "🐢" },
+  // More polite
+  { fi: "Ei kestä", en: "No problem", vi: "Không sao đâu", category: "polite", illustration: "😊" },
+  { fi: "Toivottavasti pian!", en: "Hope to see you soon!", vi: "Mong gặp lại sớm!", category: "polite", illustration: "💫" },
+  { fi: "Onnea!", en: "Good luck!", vi: "Chúc may mắn!", category: "polite", illustration: "🍀" },
 ];
 
 /* ============================================================
@@ -252,6 +293,41 @@ export const BEGINNER_VOCAB: BeginnerVocab[] = [
   { fi: "metsä", en: "forest", vi: "khu rừng", illustration: "🌲", category: "Nature" },
   { fi: "järvi", en: "lake", vi: "hồ", illustration: "🏞️", category: "Nature" },
   { fi: "aurinko", en: "sun", vi: "mặt trời", illustration: "☀️", category: "Nature" },
+  // Home & rooms
+  { fi: "keittiö", en: "kitchen", vi: "nhà bếp", illustration: "🍳", category: "Home" },
+  { fi: "makuuhuone", en: "bedroom", vi: "phòng ngủ", illustration: "🛏️", category: "Home" },
+  { fi: "kylpyhuone", en: "bathroom", vi: "phòng tắm", illustration: "🛁", category: "Home" },
+  { fi: "tuoli", en: "chair", vi: "cái ghế", illustration: "🪑", category: "Home" },
+  { fi: "pöytä", en: "table", vi: "cái bàn", illustration: "🪟", category: "Home" },
+  // Food
+  { fi: "omena", en: "apple", vi: "quả táo", illustration: "🍎", category: "Food" },
+  { fi: "maito", en: "milk", vi: "sữa", illustration: "🥛", category: "Food" },
+  { fi: "juusto", en: "cheese", vi: "phô mai", illustration: "🧀", category: "Food" },
+  { fi: "kala", en: "fish", vi: "con cá", illustration: "🐟", category: "Food" },
+  { fi: "peruna", en: "potato", vi: "khoai tây", illustration: "🥔", category: "Food" },
+  // Transport
+  { fi: "juna", en: "train", vi: "tàu hỏa", illustration: "🚆", category: "Transport" },
+  { fi: "bussi", en: "bus", vi: "xe buýt", illustration: "🚌", category: "Transport" },
+  { fi: "polkupyörä", en: "bicycle", vi: "xe đạp", illustration: "🚲", category: "Transport" },
+  { fi: "lentokone", en: "airplane", vi: "máy bay", illustration: "✈️", category: "Transport" },
+  // Body
+  { fi: "pää", en: "head", vi: "cái đầu", illustration: "🧠", category: "Body" },
+  { fi: "silmä", en: "eye", vi: "mắt", illustration: "👁️", category: "Body" },
+  { fi: "käsi", en: "hand", vi: "bàn tay", illustration: "✋", category: "Body" },
+  { fi: "jalka", en: "leg", vi: "chân", illustration: "🦵", category: "Body" },
+  // Weather/seasons
+  { fi: "sade", en: "rain", vi: "mưa", illustration: "🌧️", category: "Nature" },
+  { fi: "tuuli", en: "wind", vi: "gió", illustration: "🌬️", category: "Nature" },
+  { fi: "kesä", en: "summer", vi: "mùa hè", illustration: "🌞", category: "Nature" },
+  { fi: "talvi", en: "winter", vi: "mùa đông", illustration: "🌨️", category: "Nature" },
+  { fi: "syksy", en: "autumn", vi: "mùa thu", illustration: "🍂", category: "Nature" },
+  { fi: "kevät", en: "spring", vi: "mùa xuân", illustration: "🌸", category: "Nature" },
+  // Numbers
+  { fi: "yksi", en: "one", vi: "một", illustration: "1️⃣", category: "Numbers" },
+  { fi: "kaksi", en: "two", vi: "hai", illustration: "2️⃣", category: "Numbers" },
+  { fi: "kolme", en: "three", vi: "ba", illustration: "3️⃣", category: "Numbers" },
+  { fi: "kymmenen", en: "ten", vi: "mười", illustration: "🔟", category: "Numbers" },
+  { fi: "sata", en: "hundred", vi: "trăm", illustration: "💯", category: "Numbers" },
 ];
 
 /* ============================================================
@@ -353,5 +429,45 @@ export const BEGINNER_QUIZ: BeginnerQuiz[] = [
     answer: 1,
     explanation: "Verb + ko/kö makes a yes/no question; partitive 'englantia' after puhua.",
     explanationVi: "Động từ + ko/kö tạo câu hỏi yes/no; partitive 'englantia' sau puhua.",
+  },
+  {
+    question: "Vowel harmony: which ending fits 'metsä' (forest) for 'in the forest'?",
+    questionVi: "Hoà âm: đuôi nào hợp với 'metsä' (rừng) để nói 'trong rừng'?",
+    options: ["metsassa", "metsässä", "metsossa", "metsussa"],
+    answer: 1,
+    explanation: "Front vowels (ä,ö,y) in stem → front-vowel ending -ssä.",
+    explanationVi: "Gốc có nguyên âm trước (ä,ö,y) → đuôi nguyên âm trước -ssä.",
+  },
+  {
+    question: "How do you say 'I would like a coffee'?",
+    questionVi: "'Tôi muốn một ly cà phê' nói thế nào?",
+    options: ["Haluan kahvi", "Haluaisin kahvia", "Haluatte kahvia", "Kahvi haluan"],
+    answer: 1,
+    explanation: "Conditional 'haluaisin' is more polite; partitive 'kahvia' after.",
+    explanationVi: "Dạng điều kiện 'haluaisin' lịch sự hơn; partitive 'kahvia' theo sau.",
+  },
+  {
+    question: "Verb type 3 (mennä) — 'we go' is:",
+    questionVi: "Động từ loại 3 (mennä) — 'chúng tôi đi' là:",
+    options: ["mennämme", "menemme", "mennemme", "menemmen"],
+    answer: 1,
+    explanation: "mennä → drop -nä, add e + mme: menemme.",
+    explanationVi: "mennä → bỏ -nä, thêm e + mme: menemme.",
+  },
+  {
+    question: "Choose the correct way to say 'I don't speak Finnish':",
+    questionVi: "Chọn cách đúng nói 'Tôi không nói tiếng Phần Lan':",
+    options: ["Minä ei puhu suomea", "En puhu suomea", "Minä en suomea", "En suomi"],
+    answer: 1,
+    explanation: "Negation: en + verb stem (no personal ending) + partitive object.",
+    explanationVi: "Phủ định: en + thân động từ (không đuôi) + tân ngữ partitive.",
+  },
+  {
+    question: "Which is the genitive of 'koira' (dog)?",
+    questionVi: "Cách sở hữu (genitive) của 'koira' (chó) là gì?",
+    options: ["koiran", "koirassa", "koiraa", "koirat"],
+    answer: 0,
+    explanation: "Genitive = stem + n: koira → koiran (of the dog).",
+    explanationVi: "Genitive = thân + n: koira → koiran (của con chó).",
   },
 ];
