@@ -18,6 +18,7 @@ import ChatBot from "./components/ChatBot.tsx";
 import FloatingNotebook from "./components/FloatingNotebook.tsx";
 import LastSessionRecap from "./components/LastSessionRecap.tsx";
 import GlobalSuperDictionary from "./components/GlobalSuperDictionary.tsx";
+import SessionTracker from "./components/SessionTracker.tsx";
 
 // Lazy-load all heavy route components for optimal code splitting
 const About = lazy(() => import("./pages/About.tsx"));
@@ -231,6 +232,7 @@ const App = () => (
           <FloatingNotebook />
           <LastSessionRecap />
           <GlobalSuperDictionary />
+          <SessionTracker />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
