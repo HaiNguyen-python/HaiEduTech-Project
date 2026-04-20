@@ -349,16 +349,16 @@ const Programming = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="font-display font-semibold text-foreground text-sm group-hover:text-primary transition-colors truncate">
-                              {mod.titleEn}
+                              {t(mod.title, mod.titleEn)}
                             </h3>
                             <span className="text-xs text-muted-foreground">
-                              {mod.lessons.length} lessons
+                              {mod.lessons.length} {t("bài", "lessons")}
                             </span>
                           </div>
                           <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
                         </div>
                         <p className="text-xs text-muted-foreground line-clamp-2">
-                          {mod.descriptionEn}
+                          {t(mod.description, mod.descriptionEn)}
                         </p>
                         {/* Mini roadmap */}
                         <div className="flex items-center gap-1.5 mt-3">
