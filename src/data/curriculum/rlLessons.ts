@@ -29,7 +29,7 @@ export const rlModule: ExtendedProgrammingModule = {
       level: 4,
       difficulty: "advanced",
       codeLanguage: "python",
-      __THEORY_START__
+      theoryEn: `
 > **Prerequisites**: Python basics, basic probability, NumPy. Linear Algebra is helpful for later lessons.
 
 ## What is Reinforcement Learning?
@@ -173,7 +173,7 @@ env.close()`,
       level: 4,
       difficulty: "advanced",
       codeLanguage: "python",
-      __THEORY_START__
+      theoryEn: `
 > **Prerequisites**: Lesson 1 (RL Foundations), basic probability theory.
 
 ## Why We Need a Mathematical Framework
@@ -359,7 +359,7 @@ for row in policy.reshape(4, 4):
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
-      __THEORY_START__
+      theoryEn: `
 > **Prerequisites**: Lesson 2 (MDP), Python OOP, basic PyTorch.
 
 ## From Model-Based to Model-Free
@@ -553,7 +553,7 @@ env.close()`,
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
-      __THEORY_START__
+      theoryEn: `
 > **Prerequisites**: Lesson 3 (Q-Learning/DQN), PyTorch autograd, basic calculus (gradients).
 
 ## Why Not Just Use Q-Learning?
@@ -753,7 +753,7 @@ env.close()`,
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
-      __THEORY_START__
+      theoryEn: `
 > **Prerequisites**: Lessons 1–4. This lesson surveys industrial RL deployments and the engineering challenges that come with them.
 
 ## RL in the Wild — A 2025 Snapshot
