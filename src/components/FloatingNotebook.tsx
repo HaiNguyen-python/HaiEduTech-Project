@@ -458,6 +458,25 @@ const FloatingNotebook = () => {
                 <button onClick={handleResetPosition} className="p-1.5 rounded-md hover:bg-black/10" title="Reset vị trí" style={{ color: theme.text }}>
                   <RotateCcw size={14} />
                 </button>
+                <div className="relative">
+                  <button onClick={() => setShowTemplatePicker(!showTemplatePicker)} className="p-1.5 rounded-md hover:bg-black/10" title="Áp dụng mẫu (Templates)" style={{ color: theme.text }}>
+                    <FileText size={14} />
+                  </button>
+                  {showTemplatePicker && (
+                    <div className="absolute top-8 right-0 z-20 bg-card border border-border rounded-lg shadow-lg p-2 flex flex-col gap-1 w-[210px]">
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground px-2 py-1">Software Engineering</p>
+                      {NOTE_TEMPLATES.map((tpl) => (
+                        <button
+                          key={tpl.id}
+                          onClick={() => handleApplyTemplate(tpl.id)}
+                          className="text-xs px-2 py-1.5 rounded text-left hover:bg-muted text-foreground"
+                        >
+                          {tpl.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <button onClick={handleNew} className="p-1.5 rounded-md hover:bg-black/10" title="Tạo mới" style={{ color: theme.text }}>
                   <Plus size={16} />
                 </button>
