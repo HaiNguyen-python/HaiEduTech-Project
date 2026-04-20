@@ -877,7 +877,7 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
         .slice(0, 3)
         .map((x) => x.code)
         .join("");
-      payload = { test: "holland", code: top3, language };
+      payload = { test: "holland", code: top3, language: lang };
     }
 
     setLoading(true);
