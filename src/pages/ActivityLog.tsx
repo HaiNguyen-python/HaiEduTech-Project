@@ -166,7 +166,7 @@ const ActivityLog = () => {
                         {act.type.replace(/_/g, " ")}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {formatRelativeTime(act.date, language === "vi")}
+                        {formatRelativeTime(act.date, lang === "vi")}
                         {act.timeSpent ? ` · ${Math.round(act.timeSpent / 60)}m` : ""}
                       </p>
                     </div>
