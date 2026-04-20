@@ -160,6 +160,23 @@ const ProgrammingLessonPage = () => {
   const pillar = moduleId ? getPillarForModule(moduleId) : null;
   const pillarModules = pillar ? getPillarModules(pillar) : [];
 
+  // Sidebar badge: load all cached (module_id, lesson_id) for the current pillar in one query
+  useEffect(() => {
+    const moduleIds = pillarModules.map((m) => m.id);
+    if (moduleIds.length === 0) return;
+    let cancelled = false;
+    supabase
+      .from("programming_theory_cache")
+      .select("module_id,lesson_id")
+      .in("module_id", moduleIds)
+      .then(({ data }) => {
+        if (cancelled || !data) return;
+        setCachedLessonKeys(new Set(data.map((r: any) => `${r.module_id}::${r.lesson_id}`)));
+      });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pillar]);
+
   useEffect(() => {
     const m = allProgrammingModules.find(m => m.id === moduleId);
     if (m) {
