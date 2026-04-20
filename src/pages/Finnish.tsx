@@ -77,6 +77,11 @@ const Finnish = () => {
                     🎯 YKI B1
                   </Button>
                 </Link>
+                <Link to="/finnish/life-in-finland">
+                  <Button size="lg" variant="outline" className="bg-transparent border-white/60 text-white hover:bg-white/10 font-semibold gap-2">
+                    🇫🇮 {t("Cuộc sống ở Phần Lan", "Life in Finland")}
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           </div>
