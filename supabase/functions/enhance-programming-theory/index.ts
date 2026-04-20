@@ -260,10 +260,16 @@ Deno.serve(async (req: Request) => {
         .eq("lesson_id", body.lesson_id)
         .maybeSingle();
       if (cached?.enhanced_markdown) {
+        // Strip Perplexity citation markers from previously cached content (legacy data)
+        const cleanedCached = cached.enhanced_markdown
+          .replace(/\s*\[\d+(?:\s*[,\s]\s*\d+)*\]/g, "")
+          .replace(/\n#{1,6}\s*(References|Sources|Citations|Tham khảo|Nguồn)[\s\S]*$/i, "")
+          .replace(/[ \t]+([.,;:!?])/g, "$1")
+          .replace(/[ \t]{2,}/g, " ");
         return new Response(
           JSON.stringify({
             cached: true,
-            markdown: cached.enhanced_markdown,
+            markdown: cleanedCached,
             citations: cached.citations || [],
             illustrations: cached.illustrations || [],
           }),
