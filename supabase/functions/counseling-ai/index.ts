@@ -166,15 +166,19 @@ serve(async (req) => {
       });
     }
 
-    const { mode, messages, payload } = await req.json();
+    const { mode, messages, payload, mbti_context } = await req.json();
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY not configured");
 
-    const systemPrompt = SYSTEM_PROMPTS[mode as keyof typeof SYSTEM_PROMPTS];
-    if (!systemPrompt) {
+    const baseSystemPrompt = SYSTEM_PROMPTS[mode as keyof typeof SYSTEM_PROMPTS];
+    if (!baseSystemPrompt) {
       return new Response(JSON.stringify({ error: "Invalid mode" }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+    let systemPrompt = baseSystemPrompt;
+    if (mbti_context && (mode === "psychological" || mode === "career")) {
+      systemPrompt += `\n\nSTUDENT PROFILE CONTEXT:\nThe student has MBTI type ${mbti_context}. Tailor tone, examples, and study advice to this personality type. Use structured plans for J types, flexible approaches for P types, big-picture for N types, concrete steps for S types, logical reasoning for T types, emotional resonance for F types.`;
     }
 
     // Build user-side messages
