@@ -1249,6 +1249,568 @@ trainer.save_model("llama3-lora-vi")  # adapter is ~80 MB vs 16 GB full model`,
           },
         ],
       },
+      {
+        id: "dl-11",
+        title: "Sequence Models — RNN, LSTM & GRU",
+        titleEn: "Sequence Models — RNN, LSTM & GRU",
+        level: 4,
+        difficulty: "intermediate",
+        theory: `> ⚠️ **Prerequisites** — Lessons 1–3 (neural nets, backprop).
+
+## 1. Why a feed-forward net cannot read a sentence
+
+A dense network treats inputs as an unordered bag. But "**dog bites man**" ≠ "**man bites dog**". We need a network whose hidden state \`h_t\` depends on the previous step:
+
+\`\`\`
+h_t = tanh(W_x · x_t + W_h · h_{t-1} + b)
+\`\`\`
+
+This is a **Recurrent Neural Network** (RNN) — the same weights are reused at every time step (parameter sharing across time).
+
+\`\`\`mermaid
+flowchart LR
+  X1[x₁] --> H1[h₁]
+  H1 --> H2[h₂]
+  X2[x₂] --> H2
+  H2 --> H3[h₃]
+  X3[x₃] --> H3
+  H3 --> Y[Output]
+\`\`\`
+
+## 2. The vanishing gradient problem
+
+Backprop through 100 time steps multiplies 100 Jacobians. If each has spectral radius < 1, gradients **vanish** → the network forgets long-range dependencies. If > 1, they **explode** → NaNs.
+
+## 3. LSTM — adding a memory highway
+
+**Long Short-Term Memory** (Hochreiter & Schmidhuber, 1997) introduces a **cell state** \`C_t\` that flows through time with only linear interactions, gated by:
+
+| Gate | Formula | Role |
+|---|---|---|
+| **Forget** \`f_t\` | σ(W_f·[h_{t-1}, x_t]) | What to drop from \`C\` |
+| **Input** \`i_t\` | σ(W_i·…) | What new info to add |
+| **Output** \`o_t\` | σ(W_o·…) | What to expose as \`h_t\` |
+
+\`C_t = f_t · C_{t-1} + i_t · tanh(...)\` — additive update preserves gradients.
+
+**GRU** (2014) is a streamlined LSTM with 2 gates instead of 3 — fewer params, similar accuracy.
+
+## 4. Why we still teach RNNs in 2025
+
+Transformers replaced RNNs for most NLP, but RNNs remain the right tool for: **streaming audio (Whisper distilled, RNN-T)**, **on-device keyword spotting** (~100 KB model), **time-series forecasting with very long horizons**, and as **building blocks of state-space models (Mamba)**.
+
+## 5. Real-world example: predicting electricity demand
+
+Vietnam's EVN forecasts hourly load 24 h ahead. A bidirectional LSTM ingesting the previous 168 hours + temperature + holiday flags reaches MAPE ≈ 1.8 % — enough to optimise thermal/hydro dispatch.
+
+## ⚠️ Common Pitfalls
+- **Forgetting to clip gradients** — exploding gradients silently produce NaNs.
+- **Using RNN where attention wins** — for sequences > 500 with random access patterns, Transformers train 10× faster on GPU.
+- **Ignoring sequence length padding** — pack sequences (\`pack_padded_sequence\`) or you waste compute on PAD tokens.
+
+## 🛠️ Practice Task
+Implement a character-level LSTM that generates Vietnamese poetry in the style of "Truyện Kiều". Train on the first 1 000 lines. Sample with temperatures 0.3, 0.7, and 1.2 — describe how outputs change.`,
+        theoryEn: "",
+        code: `# Stock-price next-day forecaster with LSTM
+import torch, torch.nn as nn
+
+class PriceLSTM(nn.Module):
+    def __init__(self, n_features=5, hidden=64, layers=2):
+        super().__init__()
+        self.lstm = nn.LSTM(n_features, hidden, layers,
+                            batch_first=True, dropout=0.2)
+        self.head = nn.Linear(hidden, 1)
+
+    def forward(self, x):                  # x: (batch, 30 days, 5 features)
+        out, _ = self.lstm(x)
+        return self.head(out[:, -1, :])    # use last time step
+
+model = PriceLSTM()
+opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+loss_fn = nn.MSELoss()
+
+# One training step
+x = torch.randn(32, 30, 5)                 # batch of 32 windows
+y = torch.randn(32, 1)                     # next-day close price
+pred = model(x)
+loss = loss_fn(pred, y)
+loss.backward()
+torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # critical!
+opt.step()
+print(f"Loss: {loss.item():.4f}")`,
+        codeLanguage: "python",
+        exercise: "Why does an LSTM solve the vanishing gradient problem better than a vanilla RNN? Answer in 2 sentences referring to the cell state update rule.",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "Which gate decides what information leaves the cell state in an LSTM?",
+            options: ["Input gate", "Forget gate", "Output gate", "Update gate"],
+            answer: 1,
+            explanation: "The forget gate f_t multiplies C_{t-1} element-wise — values close to 0 erase, close to 1 keep.",
+          },
+          {
+            question: "Main reason GRUs were proposed?",
+            options: ["Better accuracy than LSTM on every task", "Fewer parameters and faster training with comparable accuracy", "Built-in attention", "Support multimodal input"],
+            answer: 1,
+            explanation: "GRU merges forget+input into a single update gate → ~25 % fewer parameters than LSTM.",
+          },
+          {
+            question: "What does gradient clipping prevent?",
+            options: ["Vanishing gradients", "Exploding gradients (NaN losses)", "Overfitting", "Slow data loading"],
+            answer: 1,
+            explanation: "Clipping caps the gradient norm — essential whenever you backprop through long sequences.",
+          },
+        ],
+      },
+      {
+        id: "dl-12",
+        title: "Self-Supervised Learning — Pretraining Without Labels",
+        titleEn: "Self-Supervised Learning — Pretraining Without Labels",
+        level: 5,
+        difficulty: "advanced",
+        theory: `> ⚠️ **Prerequisites** — Lesson 5 (Transformers) and Lesson 6 (Transfer Learning).
+
+## 1. The labelling crisis
+
+ImageNet has 1.2M labelled images and cost millions of dollars. The internet has **trillions** of unlabelled images and texts. **Self-Supervised Learning (SSL)** invents a pretext task from the raw data itself — no human labels.
+
+## 2. The two dominant paradigms
+
+\`\`\`mermaid
+flowchart LR
+    UN[Unlabelled data] --> A[Generative SSL<br/>Predict missing parts]
+    UN --> B[Contrastive SSL<br/>Pull similar together,<br/>push different apart]
+    A --> X[BERT, GPT, MAE]
+    B --> Y[SimCLR, MoCo, CLIP]
+\`\`\`
+
+### A. Generative — "predict the missing token / patch"
+- **BERT** — mask 15% of tokens, predict them (Masked Language Model).
+- **GPT** — predict the next token (Causal LM).
+- **MAE** (He et al. 2021) — mask 75% of image patches, reconstruct pixels.
+
+### B. Contrastive — "same image, two augmentations → close embedding"
+- **SimCLR** — InfoNCE loss; needs huge batch sizes (4096+).
+- **MoCo** — momentum-encoded queue removes the giant-batch requirement.
+- **CLIP** — contrastive across **modalities** (image ↔ caption); zero-shot ImageNet 76 %.
+
+## 3. Why SSL changed everything
+
+| Era | Approach | ImageNet top-1 with 1 % labels |
+|---|---|---|
+| 2018 | Supervised from scratch | 25 % |
+| 2020 | SimCLR pretrain + linear head | 64 % |
+| 2022 | DINOv2 pretrain | 80 % |
+
+A foundation model trained once on 1 billion unlabelled images can be fine-tuned to dozens of downstream tasks — **the same idea that gave us GPT in NLP, applied to vision, audio, video, molecules**.
+
+## 4. Real-world example: medical imaging
+
+A Vietnamese hospital has 50 000 X-rays but only 800 are labelled by radiologists. SSL pretraining (MAE on the 50 k unlabelled X-rays) followed by fine-tuning on the 800 labels reaches the same accuracy as supervised training on 5 000 labels — saving radiologist hours.
+
+## ⚠️ Common Pitfalls
+- **Weak augmentations** — contrastive learning collapses if the two views are too similar.
+- **Skipping linear probing** — always evaluate the frozen encoder with a linear head before fine-tuning.
+- **Pretraining on the wrong domain** — SSL on natural images transfers poorly to satellite imagery.
+
+## 🛠️ Practice Task
+You have 5 000 unlabelled product photos and 200 labelled ones (10 categories). Design a 2-stage training plan and justify your choice of SSL method (contrastive vs MAE).`,
+        theoryEn: "",
+        code: `# Tiny SimCLR on CIFAR-10 (PyTorch)
+import torch, torch.nn as nn, torch.nn.functional as F
+from torchvision import models, transforms
+
+# Two random augmentations of the same image → "positive pair"
+augment = transforms.Compose([
+    transforms.RandomResizedCrop(32, scale=(0.5, 1.0)),
+    transforms.RandomHorizontalFlip(),
+    transforms.ColorJitter(0.4, 0.4, 0.4, 0.1),
+    transforms.RandomGrayscale(p=0.2),
+    transforms.ToTensor(),
+])
+
+backbone = models.resnet18(weights=None)
+backbone.fc = nn.Identity()                       # remove classifier head
+projector = nn.Sequential(
+    nn.Linear(512, 512), nn.ReLU(),
+    nn.Linear(512, 128),                          # projection dim
+)
+
+def info_nce(z1, z2, t=0.5):
+    z1 = F.normalize(z1, dim=1); z2 = F.normalize(z2, dim=1)
+    z = torch.cat([z1, z2], 0)                    # (2N, 128)
+    sim = z @ z.T / t                             # cosine similarity matrix
+    n = z1.size(0)
+    labels = torch.cat([torch.arange(n, 2*n), torch.arange(0, n)]).to(z.device)
+    sim.fill_diagonal_(-1e9)                      # mask self-similarity
+    return F.cross_entropy(sim, labels)
+
+# One step (assuming dataloader yields raw images x)
+x = torch.randn(64, 3, 32, 32)
+v1 = torch.stack([augment(transforms.functional.to_pil_image(img)) for img in x])
+v2 = torch.stack([augment(transforms.functional.to_pil_image(img)) for img in x])
+z1 = projector(backbone(v1)); z2 = projector(backbone(v2))
+loss = info_nce(z1, z2)
+print(f"InfoNCE: {loss.item():.4f}")`,
+        codeLanguage: "python",
+        exercise: "Explain in 3 sentences why CLIP can classify a class it has never seen during training (zero-shot). What role does the text encoder play?",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "What is the pretext task in BERT?",
+            options: ["Predict the next sentence", "Reconstruct masked tokens", "Translate English → German", "Generate captions"],
+            answer: 1,
+            explanation: "BERT masks 15 % of tokens and asks the model to predict them (MLM).",
+          },
+          {
+            question: "Why does SimCLR need very large batch sizes?",
+            options: ["GPU vendors require it", "Larger batches give more in-batch negative examples", "It speeds up data loading", "It reduces overfitting"],
+            answer: 1,
+            explanation: "InfoNCE relies on negative pairs from the batch — more negatives = sharper representation.",
+          },
+          {
+            question: "What makes CLIP suitable for *zero-shot* classification?",
+            options: ["It is trained on labelled ImageNet", "Its text encoder lets you describe a class in natural language at inference", "It uses a bigger ResNet", "It fine-tunes itself on every new class"],
+            answer: 1,
+            explanation: "Compute embeddings of class prompts ('a photo of a {label}'); pick the class whose embedding is closest to the image embedding.",
+          },
+        ],
+      },
+      {
+        id: "dl-13",
+        title: "Multimodal Models — Seeing, Reading & Listening Together",
+        titleEn: "Multimodal Models — Seeing, Reading & Listening Together",
+        level: 5,
+        difficulty: "advanced",
+        theory: `> ⚠️ **Prerequisites** — Lessons 5, 9 (GAN/Diffusion) and 12 (SSL).
+
+## 1. Why multimodal?
+
+Humans don't think in text alone — we combine vision, sound, language, and action. The frontier of AI in 2024-2025 (GPT-4o, Gemini 2.0, Claude 3.5 Sonnet vision, LLaVA) is **multimodal foundation models** that process and generate across modalities.
+
+## 2. The three architectural patterns
+
+\`\`\`mermaid
+flowchart TB
+    subgraph "1. Late Fusion (Two-Tower)"
+      I1[Image encoder] --> S1[Cosine similarity]
+      T1[Text encoder] --> S1
+    end
+    subgraph "2. Early Fusion (Cross-Attention)"
+      I2[Image patches] --> CA[Cross-attention layers]
+      T2[Text tokens] --> CA
+      CA --> O2[Joint representation]
+    end
+    subgraph "3. Unified Token Stream"
+      I3[Image patches as tokens] --> TR[Transformer]
+      T3[Text tokens] --> TR
+      A3[Audio tokens] --> TR
+      TR --> O3[Generates any modality]
+    end
+\`\`\`
+
+| Pattern | Example | Strength |
+|---|---|---|
+| **Two-tower** | CLIP, ALIGN | Fast retrieval; zero-shot classification |
+| **Cross-attention** | Flamingo, BLIP-2 | Visual question answering |
+| **Unified tokens** | GPT-4o, Gemini, Chameleon | Generates text + images + audio |
+
+## 3. The "Q-Former" trick (BLIP-2)
+
+A frozen image encoder produces 256 patches; a frozen LLM has its own token space. **Q-Former** (Querying Transformer) is a tiny bridge — 32 learnable query vectors that distil the 256 patches into a sequence the LLM understands. Only Q-Former is trained → multimodal in days, not months.
+
+## 4. Real-world examples
+
+- **Medical**: MedPaLM-M reads X-rays + clinical notes to draft differential diagnoses.
+- **E-commerce in Vietnam**: Tiki uses CLIP-style retrieval — users snap a photo, the model finds similar products in the catalog (text + image jointly).
+- **Accessibility**: SeeingAI describes the world to blind users in real-time.
+- **Customer support**: GPT-4o reads a screenshot + the user's voice complaint to triage tickets.
+
+## ⚠️ Common Pitfalls
+- **Modality dominance** — when training jointly, the easier modality (text) overwhelms the harder one (audio). Solution: balance losses.
+- **Hallucinated grounding** — VLMs can describe objects that aren't in the image. Mitigation: chain-of-thought with bounding-box prompts.
+- **Catastrophic forgetting** — fine-tuning a multimodal model on a single task often destroys other modalities.
+
+## 🛠️ Practice Task
+You want to build "Tutor Bot" — students upload a photo of a math problem and ask a question. Sketch the architecture (which encoder for the image, which LLM, how they connect) and the training data you would need.`,
+        theoryEn: "",
+        code: `# Visual Question Answering with BLIP-2 (Hugging Face)
+from transformers import Blip2Processor, Blip2ForConditionalGeneration
+from PIL import Image
+import torch, requests
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
+model = Blip2ForConditionalGeneration.from_pretrained(
+    "Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16
+).to(device)
+
+img = Image.open(requests.get(
+    "https://images.unsplash.com/photo-1574158622682-e40e69881006",
+    stream=True).raw).convert("RGB")
+
+prompts = [
+    "Question: What animal is in the image? Answer:",
+    "Question: How many of them are there? Answer:",
+    "Question: What color is the background? Answer:",
+]
+
+for q in prompts:
+    inputs = processor(images=img, text=q, return_tensors="pt").to(device, torch.float16)
+    out = model.generate(**inputs, max_new_tokens=20)
+    print(q, "->", processor.decode(out[0], skip_special_tokens=True))`,
+        codeLanguage: "python",
+        exercise: "List 3 differences between CLIP-style two-tower models and unified-token models like GPT-4o. For each difference, name a use-case where one wins.",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "Which architecture is best for billion-scale image search by text query?",
+            options: ["Cross-attention BLIP-2", "Two-tower CLIP", "Unified token GPT-4o", "Diffusion model"],
+            answer: 1,
+            explanation: "Two-tower models pre-compute image embeddings; only the text query is encoded online → millisecond retrieval.",
+          },
+          {
+            question: "What does Q-Former in BLIP-2 do?",
+            options: ["Trains the LLM from scratch", "Bridges a frozen image encoder and frozen LLM with 32 learnable queries", "Generates images", "Compresses audio"],
+            answer: 1,
+            explanation: "Q-Former is the only trainable component — keeps multimodal training cheap.",
+          },
+          {
+            question: "What is 'modality dominance' in multimodal training?",
+            options: ["The model uses GPU memory aggressively", "The easier modality overshadows the harder one in the loss", "User selects the dominant input", "A trademark issue"],
+            answer: 1,
+            explanation: "Loss balancing or temperature scaling prevents text from drowning out vision/audio signals.",
+          },
+        ],
+      },
+      {
+        id: "dl-14",
+        title: "Edge AI — Quantization, Pruning & Distillation",
+        titleEn: "Edge AI — Quantization, Pruning & Distillation",
+        level: 4,
+        difficulty: "advanced",
+        theory: `> ⚠️ **Prerequisites** — Lessons 1–6.
+
+## 1. Why deploy on the edge?
+
+Cloud inference costs scale linearly with users; latency depends on network; privacy-sensitive data (faces, voice, medical) shouldn't leave the device. **On-device inference** (smartphone, Raspberry Pi, microcontroller) solves all three — but a 7B-parameter model in float32 needs **28 GB**. We need to compress it 50–500×.
+
+## 2. The compression toolbox
+
+\`\`\`mermaid
+flowchart LR
+    BIG[FP32 Model<br/>~28 GB] --> Q[Quantization<br/>FP32 → INT8 / INT4]
+    BIG --> P[Pruning<br/>Drop near-zero weights]
+    BIG --> D[Distillation<br/>Small student mimics big teacher]
+    Q --> SMALL[Small Model<br/>~500 MB → MCU-friendly]
+    P --> SMALL
+    D --> SMALL
+\`\`\`
+
+### A. Quantization
+| Format | Bits | Size of Llama-7B | Quality drop |
+|---|---|---|---|
+| FP32 | 32 | 28 GB | baseline |
+| FP16 | 16 | 14 GB | ~0 % |
+| INT8 (PTQ) | 8 | 7 GB | < 1 % |
+| INT4 (GPTQ/AWQ) | 4 | 3.5 GB | 1–3 % |
+| 1.58-bit (BitNet) | 1.58 | 1.3 GB | active research |
+
+**PTQ** (Post-Training Quantization) is one shot — calibrate on 128 samples. **QAT** (Quantization-Aware Training) simulates rounding during training — better accuracy, slower.
+
+### B. Pruning
+**Magnitude pruning** drops weights with |w| below threshold; **structured pruning** drops whole channels/heads (faster on GPU). Lottery Ticket Hypothesis (Frankle 2018) shows you can keep 5 % of weights and retrain to full accuracy.
+
+### C. Knowledge Distillation
+Hinton 2015. Train a small **student** to match a big **teacher**'s soft probabilities (with temperature \`T\`). DistilBERT keeps 97 % of BERT accuracy at 40 % size, 60 % faster.
+
+## 3. The deployment pipeline
+
+PyTorch → **ONNX** → backend (TensorRT for NVIDIA, Core ML for iPhone, TFLite for Android, GGUF for CPU/llama.cpp). Each backend applies its own kernel fusion and quantization.
+
+## 4. Real-world example: license plate recognition on traffic cameras
+
+Vietnam's smart traffic cameras (Hà Nội, HCM) need to read 100 plates/sec on a $50 SoC. A YOLOv8-nano (3 MB INT8) detects the plate; a 5-layer CRNN (1 MB) reads it. Total: 4 MB, 35 ms per frame, no cloud.
+
+## ⚠️ Common Pitfalls
+- **Quantizing without calibration** — weights round fine, but **activations** clip → catastrophic accuracy loss. Always calibrate on representative data.
+- **Pruning + retraining order** — pruning then retraining (iterative magnitude pruning) recovers accuracy; prune-only does not.
+- **Forgetting embedding tables** — for LLMs, embeddings are 30 % of the size — quantize them too.
+
+## 🛠️ Practice Task
+You must deploy a sentiment classifier (BERT-base, 110M params) on a Raspberry Pi 4 (1 GB RAM). Pick a compression strategy and justify the order of operations.`,
+        theoryEn: "",
+        code: `# 4-bit quantize a Llama model with bitsandbytes (single GPU)
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+import torch
+
+bnb = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",          # NormalFloat-4
+    bnb_4bit_compute_dtype=torch.float16,
+    bnb_4bit_use_double_quant=True,     # quantize the quantization constants
+)
+
+model_id = "meta-llama/Llama-3.1-8B-Instruct"
+tok = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(
+    model_id, quantization_config=bnb, device_map="auto"
+)
+print(f"Memory footprint: {model.get_memory_footprint() / 1e9:.2f} GB")
+# Llama-3.1-8B in nf4 ≈ 5.4 GB → fits a single RTX 3060 12 GB
+
+prompt = "Explain quantization in one sentence:"
+out = model.generate(**tok(prompt, return_tensors="pt").to(model.device),
+                     max_new_tokens=60, do_sample=False)
+print(tok.decode(out[0], skip_special_tokens=True))`,
+        codeLanguage: "python",
+        exercise: "Compare quantization vs distillation for compressing a 1B-parameter chatbot to run on a phone. Discuss accuracy, training cost, and inference latency.",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "Which quantization method usually preserves the highest accuracy?",
+            options: ["PTQ INT4", "QAT INT8", "Magnitude pruning", "FP16 with no calibration"],
+            answer: 1,
+            explanation: "QAT simulates rounding during training so the model learns to compensate — best accuracy, more compute.",
+          },
+          {
+            question: "Knowledge Distillation transfers from teacher to student through:",
+            options: ["Hard labels only", "Teacher's soft probability distribution at temperature T", "Random label noise", "Quantized weights"],
+            answer: 1,
+            explanation: "Soft targets carry richer information than one-hot labels — that's the 'dark knowledge'.",
+          },
+          {
+            question: "Why do we calibrate before INT8 PTQ?",
+            options: ["To compress weights more", "To estimate activation ranges so we don't clip them", "To speed up training", "It is required by ONNX"],
+            answer: 1,
+            explanation: "Activations have wide dynamic range; calibration picks the scale that minimizes clipping error.",
+          },
+        ],
+      },
+      {
+        id: "dl-15",
+        title: "MLOps for Deep Learning — From Notebook to Production",
+        titleEn: "MLOps for Deep Learning — From Notebook to Production",
+        level: 5,
+        difficulty: "advanced",
+        theory: `> ⚠️ **Prerequisites** — All previous lessons. This is the capstone.
+
+## 1. Why "it works in my notebook" isn't enough
+
+A model that wins a Kaggle leaderboard is **5 %** of a real ML system. The other 95 % is data pipelines, monitoring, retraining, A/B testing, rollback, compliance. **MLOps** = DevOps + the unique problems of data and models.
+
+## 2. The end-to-end lifecycle
+
+\`\`\`mermaid
+flowchart LR
+    DATA[Data ingestion<br/>Airflow, Kafka] --> FS[Feature Store<br/>Feast, Tecton]
+    FS --> EXP[Experimentation<br/>MLflow, W&B]
+    EXP --> REG[Model Registry<br/>versions + metadata]
+    REG --> CICD[CI/CD<br/>GitHub Actions, Argo]
+    CICD --> SERVE[Serving<br/>Triton, TorchServe, vLLM]
+    SERVE --> MON[Monitoring<br/>latency + drift + cost]
+    MON --> RETRAIN[Trigger retrain]
+    RETRAIN --> EXP
+\`\`\`
+
+## 3. Three drift types you must monitor
+
+| Drift | Symptom | Detection |
+|---|---|---|
+| **Data drift** | Input distribution shifts | KS-test, PSI, embedding distance |
+| **Concept drift** | P(y\\|x) shifts (world changes) | Drop in online metrics |
+| **Model drift** | Predictions become biased | Calibration plots, fairness audits |
+
+In 2020, COVID broke nearly every demand-forecasting model on the planet — concept drift at scale.
+
+## 4. Serving patterns
+
+| Pattern | Use case | Latency |
+|---|---|---|
+| **Batch** | Daily reports, recommendations | Hours |
+| **Online (REST)** | Chatbot, fraud check | < 100 ms |
+| **Streaming** | Real-time bidding | < 10 ms |
+| **Edge** | On-device, offline | 1 ms, no network |
+
+For LLMs specifically, **vLLM** + paged attention serves 5–24× more requests/sec than naive Hugging Face inference.
+
+## 5. Real-world example: Grab's surge pricing
+
+Grab serves >1B predictions/day across SE-Asia. Stack: feature store (DynamoDB), models (XGBoost + DL), Triton on GPU, online metrics (latency p99 < 50 ms, business KPI = driver acceptance rate). Drift detected → automatic retrain on yesterday's data → A/B vs current champion → promote if win.
+
+## 6. Reproducibility checklist
+
+1. **Pin** every dependency (uv, poetry, conda-lock).
+2. **Hash** the training data (DVC, LakeFS).
+3. **Log** all hyperparameters and the **git commit** of the training run.
+4. **Containerize** the inference image; tag with model version + framework version.
+5. **Save** the calibration data used for quantization.
+
+## ⚠️ Common Pitfalls
+- **Train/serve skew** — different feature engineering in training vs production. Cure: a single feature store used by both.
+- **Silent label leakage** — a feature available at training time but not at inference. Cure: simulate prod timing offline.
+- **No rollback plan** — always serve the last 2 model versions behind a flag.
+
+## 🛠️ Practice Task
+Design the MLOps stack for a Vietnamese-language chatbot deployed on web + mobile, serving 10 000 RPS. List: serving framework, GPU type, monitoring metrics, retraining trigger, and rollback strategy.`,
+        theoryEn: "",
+        code: `# Minimal MLflow tracking + model registry workflow
+import mlflow, mlflow.pytorch, torch, torch.nn as nn
+
+mlflow.set_tracking_uri("http://mlflow.haiedu.local:5000")
+mlflow.set_experiment("sentiment-vi")
+
+with mlflow.start_run(run_name="distilbert-vi-v3") as run:
+    # 1. Log hyperparameters
+    params = {"lr": 2e-5, "batch_size": 32, "epochs": 3, "model": "distilbert-base-multilingual"}
+    mlflow.log_params(params)
+
+    # ... training loop here ...
+    val_f1 = 0.912
+    val_loss = 0.187
+    mlflow.log_metrics({"val_f1": val_f1, "val_loss": val_loss})
+
+    # 2. Log the trained model artifact + signature
+    model = nn.Linear(768, 3)        # placeholder
+    mlflow.pytorch.log_model(
+        model, artifact_path="model",
+        registered_model_name="sentiment-vi",
+    )
+
+    # 3. Promote to "Staging" if it beats the champion
+    client = mlflow.tracking.MlflowClient()
+    champion = client.get_model_version_by_alias("sentiment-vi", "production")
+    champion_f1 = float(champion.tags.get("val_f1", 0))
+    if val_f1 > champion_f1:
+        new_v = client.get_latest_versions("sentiment-vi", stages=["None"])[0]
+        client.set_registered_model_alias("sentiment-vi", "staging", new_v.version)
+        print(f"✅ Promoted v{new_v.version} to staging (F1 {val_f1:.3f} > {champion_f1:.3f})")
+    else:
+        print("⏭  Champion still wins, no promotion.")`,
+        codeLanguage: "python",
+        exercise: "You deploy a sentiment model. After 3 weeks, accuracy drops from 92 % to 78 %. List 4 diagnostic steps in order, naming the tool you would use at each step.",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "Which drift describes 'the world changed, so the relationship between X and Y changed'?",
+            options: ["Data drift", "Concept drift", "Model drift", "Schema drift"],
+            answer: 1,
+            explanation: "P(y|x) changes — exactly what COVID did to demand forecasting models.",
+          },
+          {
+            question: "Best cure for train/serve skew?",
+            options: ["Train longer", "Use the same feature store online and offline", "Increase batch size", "Switch to PyTorch Lightning"],
+            answer: 1,
+            explanation: "A single source of feature definitions guarantees identical computation in training and inference.",
+          },
+          {
+            question: "Why use vLLM for LLM serving?",
+            options: ["It writes the model code for you", "Paged attention serves many more concurrent requests on the same GPU", "It quantizes models automatically", "It is the only framework that supports HuggingFace"],
+            answer: 1,
+            explanation: "vLLM's paged KV-cache enables 5–24× throughput vs naive HF generate().",
+          },
+        ],
+      },
     ],
   },
 ];

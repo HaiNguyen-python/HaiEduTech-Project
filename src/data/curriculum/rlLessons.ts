@@ -1606,7 +1606,576 @@ for epoch in range(50):
         },
       ],
     },
+    {
+      id: "rl-11-exploration",
+      title: "Advanced Exploration — Beyond ε-Greedy",
+      titleEn: "Advanced Exploration — Beyond ε-Greedy",
+      level: 5,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lessons 3–4 (Q-Learning, DQN).
 
+## Why ε-greedy is not enough
+
+Random exploration scales **exponentially** badly with state-space size. In Montezuma's Revenge (the famous 1984 Atari game), an ε-greedy DQN agent scores **0** even after 200 M frames — the room with the first key requires a 100-step coordinated sequence whose probability under random exploration is ≈ 10⁻²⁰.
+
+## The exploration zoo
+
+\`\`\`mermaid
+flowchart LR
+  EG[ε-greedy] --> UCB[UCB / Optimism]
+  EG --> TS[Thompson Sampling]
+  EG --> NN[Noisy Networks]
+  EG --> CB[Curiosity-driven]
+  EG --> RND[Random Network Distillation]
+\`\`\`
+
+### 1. Upper Confidence Bound (UCB)
+Pick action that maximises \`Q(s,a) + c · sqrt(log N / N(s,a))\`. The bonus shrinks as you visit (s,a) more — natural decay, no schedule needed.
+
+### 2. Thompson Sampling
+Maintain a **distribution** over Q values (e.g., Bayesian DQN). Sample from it, act greedily. Naturally trades off exploration ↔ exploitation.
+
+### 3. Noisy Networks (Fortunato 2018)
+Replace fixed weights \`W\` with \`W + σ ⊙ ε\` where \`ε\` is sampled noise. The agent **learns** how much noise to inject per layer → state-aware exploration with **zero hyperparameters**.
+
+### 4. Intrinsic Motivation
+Add a bonus \`r⁺\` to environment reward when the agent encounters something **new or surprising**. Two leading approaches in the next lesson.
+
+## Real-world example: web crawler
+
+A search engine crawler must discover new pages. ε-greedy revisits popular pages forever. UCB-based crawlers (Google's "Caffeine" was rumored to use Bandit-style scheduling) prioritise pages with **high uncertainty** about freshness, dramatically reducing time-to-index.
+
+## Common Pitfalls
+- **Decaying ε too fast** — agent commits before learning; lock training in a local optimum.
+- **Exploration bonuses that never decay** — agent wanders forever; tasks like Atari Pong overshoot.
+- **Noisy nets with batch norm** — destroys the per-sample noise; use layer norm instead.
+
+## Practice Task
+Implement UCB-1 for a 10-armed Bernoulli bandit and compare cumulative regret vs ε=0.1 greedy over 5 000 steps. Plot both curves.`,
+      code: `# UCB-1 vs ε-greedy on a 10-armed bandit
+import numpy as np, math
+
+K, T = 10, 10_000
+true_p = np.random.uniform(0.1, 0.9, K)        # hidden Bernoulli probs
+
+def run(strategy):
+    Q = np.zeros(K); N = np.zeros(K); reward_hist = []
+    for t in range(1, T+1):
+        if strategy == "egreedy":
+            a = np.random.randint(K) if np.random.rand() < 0.1 else int(np.argmax(Q))
+        else:                                  # UCB-1
+            ucb = Q + np.sqrt(2 * math.log(t) / np.maximum(N, 1e-6))
+            a = int(np.argmax(ucb))
+        r = float(np.random.rand() < true_p[a])
+        N[a] += 1
+        Q[a] += (r - Q[a]) / N[a]              # incremental mean
+        reward_hist.append(r)
+    optimal = true_p.max() * T
+    return optimal - np.sum(reward_hist)        # cumulative regret
+
+print(f"ε-greedy regret: {run('egreedy'):8.1f}")
+print(f"UCB-1   regret: {run('ucb'):8.1f}")
+# UCB typically reaches ~30 % lower regret`,
+      exercise: "Why does ε-greedy fail catastrophically on Montezuma's Revenge while curiosity-driven methods can solve it? Explain in 3 sentences referring to reward sparsity.",
+      exerciseEn: "",
+      quiz: [
+        {
+          question: "Main advantage of UCB over ε-greedy?",
+          options: ["Faster compute", "Exploration bonus naturally shrinks with visit count — no manual schedule", "Works only on continuous actions", "Requires a neural network"],
+          answer: 1,
+          explanation: "The √(log t / N) term automatically decays for well-explored arms.",
+        },
+        {
+          question: "Noisy Networks add learnable noise to:",
+          options: ["The reward signal", "The network weights", "The replay buffer", "The discount factor γ"],
+          answer: 1,
+          explanation: "σ parameters control per-weight noise magnitude — the agent learns how much exploration each state needs.",
+        },
+        {
+          question: "In Bayesian Thompson Sampling for DQN, an action is selected by:",
+          options: ["Always picking the max-mean Q", "Sampling Q-values from the posterior, then acting greedily on the sample", "Random uniform sampling", "Following a fixed policy"],
+          answer: 1,
+          explanation: "Sampling from the posterior naturally balances confidence and uncertainty.",
+        },
+      ],
+    },
+    {
+      id: "rl-12-curiosity",
+      title: "Curiosity-Driven RL — RND, ICM & Empowerment",
+      titleEn: "Curiosity-Driven RL — RND, ICM & Empowerment",
+      level: 5,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lesson 11.
+
+## Sparse rewards: the central problem of RL
+
+In Montezuma's Revenge, the first reward arrives after **~100 perfect actions**. In real robotics, the only reward might be "task complete after 30 minutes". Without an extrinsic signal, the agent needs an **intrinsic** one: **be curious about novel states**.
+
+## Three flavours of intrinsic motivation
+
+### 1. Random Network Distillation (RND, Burda 2018)
+- Initialise a **random target network** \`f̂\`. Freeze it.
+- Train a **predictor network** \`f\` to predict \`f̂(s)\`.
+- Intrinsic reward = \`‖f(s) − f̂(s)‖²\` → **high for novel states**, low for visited ones (predictor has learned them).
+
+\`\`\`mermaid
+flowchart LR
+  S[State s] --> TGT[Random Target Network<br/>FROZEN]
+  S --> PRED[Predictor Network<br/>TRAINED]
+  TGT --> Y1[ŷ]
+  PRED --> Y2[y]
+  Y1 --> DIFF[‖y - ŷ‖² = curiosity bonus]
+  Y2 --> DIFF
+\`\`\`
+
+Beautifully **simple, parameter-free, and beat human on Montezuma's Revenge**.
+
+### 2. Intrinsic Curiosity Module (ICM, Pathak 2017)
+Train a **forward model** that predicts \`s_{t+1}\` from \`(s_t, a_t)\`. Bonus = prediction error. Adds an inverse model to filter noise (TV-static problem).
+
+### 3. Empowerment
+Maximise mutual information between actions and future states: be in a state where your actions matter. Theoretically beautiful, computationally expensive.
+
+## When to use what
+
+| Method | Compute | Robust to noise | Best for |
+|---|---|---|---|
+| RND | Cheap | Excellent | Hard exploration (Atari) |
+| ICM | Medium | Bad (TV-static) | Procedural environments |
+| Empowerment | Expensive | Good | Open-ended skills (DIAYN) |
+
+## Real-world example: drug discovery
+
+Reinforcement learning agents proposing new molecules suffer from sparse reward (most molecules are useless). RND-style curiosity over molecular embeddings encourages **structural diversity**, accelerating hit-finding 4–10× over random baselines.
+
+## Common Pitfalls
+- **The "noisy TV" problem** — a TV showing static is forever novel; ICM gets stuck staring at it. RND avoids this because random targets do not depend on actions.
+- **Curiosity dominates extrinsic** — anneal the bonus or extrinsic reward will be ignored.
+- **Forgetting normalisation** — divide intrinsic reward by its running std; raw scale ruins PPO updates.
+
+## Practice Task
+Design a curiosity bonus for a robot vacuum cleaner. State = (room id, dirt sensor, battery). Argue whether RND or ICM is better and how you would prevent the bonus from preventing the robot from ever recharging.`,
+      code: `# Minimal RND module (PyTorch)
+import torch, torch.nn as nn, torch.optim as optim
+
+class RNDNet(nn.Module):
+    def __init__(self, in_dim=64, hid=256, out=128):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(in_dim, hid), nn.ReLU(),
+            nn.Linear(hid, hid), nn.ReLU(),
+            nn.Linear(hid, out),
+        )
+    def forward(self, x): return self.net(x)
+
+target = RNDNet().eval()                      # frozen, random
+predictor = RNDNet()                          # trained
+opt = optim.Adam(predictor.parameters(), lr=1e-4)
+
+def intrinsic_reward(states):
+    with torch.no_grad():
+        y_hat = target(states)
+    y = predictor(states)
+    err = (y - y_hat).pow(2).mean(dim=1)      # per-sample novelty
+    return err.detach()                        # use as bonus
+
+def update_predictor(states):
+    with torch.no_grad():
+        y_hat = target(states)
+    y = predictor(states)
+    loss = (y - y_hat).pow(2).mean()
+    opt.zero_grad(); loss.backward(); opt.step()
+    return loss.item()
+
+# Pretend we sample random states from the env
+states = torch.randn(64, 64)
+print("novelty (high at first):", intrinsic_reward(states).mean().item())
+for _ in range(200):
+    update_predictor(states)
+print("novelty (after training): ", intrinsic_reward(states).mean().item())  # → near 0`,
+      exercise: "Explain the 'noisy TV' failure of ICM and why RND avoids it. Use the words 'forward model', 'random target' and 'stochastic'.",
+      exerciseEn: "",
+      quiz: [
+        {
+          question: "RND's intrinsic reward equals:",
+          options: ["The environment reward × 0.1", "Prediction error of a learnable network against a frozen random network", "Action entropy", "Negative log probability of the action"],
+          answer: 1,
+          explanation: "As the predictor learns familiar states, error drops → bonus is high only on novel states.",
+        },
+        {
+          question: "Why is RND robust to the noisy-TV problem?",
+          options: ["It uses dropout", "Random target depends only on the state, not on stochastic future transitions", "It clips rewards", "It uses prioritized replay"],
+          answer: 1,
+          explanation: "Randomness in the world cannot fool a network that doesn't try to predict the future.",
+        },
+        {
+          question: "What problem motivates Curiosity-Driven RL?",
+          options: ["Continuous action spaces", "Sparse extrinsic reward", "GPU memory limits", "Catastrophic forgetting"],
+          answer: 1,
+          explanation: "Without intrinsic motivation, agents in sparse-reward worlds never reach the first reward.",
+        },
+      ],
+    },
+    {
+      id: "rl-13-hierarchical",
+      title: "Hierarchical RL — Options, HIRO & Goal-Conditioned Policies",
+      titleEn: "Hierarchical RL — Options, HIRO & Goal-Conditioned Policies",
+      level: 5,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lessons 4 (Policy Gradients), 7 (PPO).
+
+## Why hierarchy?
+
+Solving "make breakfast" as a sequence of millisecond joint torques is hopeless. Humans plan in **abstractions**: open fridge → take eggs → crack → … . Each abstraction is itself a learned policy. **Hierarchical RL** learns multiple temporal scales simultaneously.
+
+## The Options framework (Sutton, Precup, Singh 1999)
+
+An **option** \`ω = (I_ω, π_ω, β_ω)\` is:
+- \`I_ω\`: states where the option can start
+- \`π_ω\`: internal policy
+- \`β_ω(s)\`: probability the option terminates in state \`s\`
+
+The **policy over options** picks an option, runs it until termination, then picks the next option. This is a Semi-MDP — Bellman equations still hold over option-completion times.
+
+## Modern hierarchical architectures
+
+\`\`\`mermaid
+flowchart TB
+  HI[High-level Policy<br/>picks goals every k steps] --> GOAL[Goal g_t]
+  GOAL --> LO[Low-level Policy<br/>conditioned on g_t]
+  LO --> ACT[Atomic action a_t]
+  ACT --> ENV[Environment]
+  ENV --> NS[Next state]
+  NS --> LO
+\`\`\`
+
+| Method | High-level output | Low-level training |
+|---|---|---|
+| **Feudal Networks** | Latent goal vector | Mimic goal direction |
+| **HIRO (Nachum 2018)** | Subgoal state | Off-policy correction with relabelling |
+| **Goal-conditioned (UVFA, HER)** | Explicit goal s_g | Hindsight relabelling |
+
+## Hindsight Experience Replay (HER, Andrychowicz 2017)
+
+Failed trajectories are gold mines: if the agent reached state \`s'\` instead of the goal, **relabel** the trajectory as if \`s'\` were the goal — now it is a success! HER turns sparse-reward robotics from "doesn't work" to "trains in hours".
+
+## Real-world examples
+- **Robot manipulation**: OpenAI's solved Rubik's cube (2019) used hierarchical control: high-level cube-state planner + low-level finger-policy trained with PPO.
+- **AlphaStar (StarCraft II)**: high-level macro strategy + low-level unit micro-control.
+- **Game NPCs**: Skyrim-style RPGs use behaviour trees that map naturally to options.
+
+## Common Pitfalls
+- **Subgoal collapse** — high-level policy proposes the same goal forever. Cure: entropy bonus on goal distribution.
+- **Stale low-level policy** — when low-level changes, high-level value estimates become wrong. HIRO solves this with off-policy correction.
+- **HER on stochastic environments** — relabelling can teach incorrect dynamics; use future strategy not random.
+
+## Practice Task
+For a household robot ("make tea"), define 4 reasonable options with their initiation set, internal policy goal, and termination condition. Diagram which option calls which.`,
+      code: `# Tiny goal-conditioned policy with HER on a 2D grid (concept)
+import numpy as np, random
+from collections import deque
+
+GRID = 8
+def step(s, a):
+    dx, dy = [(0,1),(0,-1),(1,0),(-1,0)][a]
+    ns = (max(0,min(GRID-1,s[0]+dx)), max(0,min(GRID-1,s[1]+dy)))
+    return ns
+
+def episode(policy, goal):
+    s, traj = (0,0), []
+    for _ in range(20):
+        a = policy(s, goal)
+        ns = step(s, a)
+        traj.append((s, a, ns))
+        if ns == goal: return traj, True
+        s = ns
+    return traj, False
+
+buffer = deque(maxlen=10000)
+def random_policy(s, g): return random.randint(0,3)
+
+# Collect 1000 episodes towards random goals
+for _ in range(1000):
+    g = (random.randint(0,GRID-1), random.randint(0,GRID-1))
+    traj, ok = episode(random_policy, g)
+    for s,a,ns in traj:
+        r = 1.0 if ns == g else 0.0
+        buffer.append((s, a, ns, g, r))
+        # HER: also store with the *achieved* state as goal → guaranteed success!
+        achieved = traj[-1][2]
+        r_h = 1.0 if ns == achieved else 0.0
+        buffer.append((s, a, ns, achieved, r_h))
+
+successes = sum(1 for *_, r in buffer if r == 1.0)
+print(f"Successful transitions in buffer: {successes} / {len(buffer)} "
+      f"(without HER would be ≈ {successes // 2})")`,
+      exercise: "Explain why HER works only when the relabelled goal is reachable by the same dynamics. What goes wrong if you relabel arbitrarily?",
+      exerciseEn: "",
+      quiz: [
+        {
+          question: "What does 'option' termination β_ω(s) control?",
+          options: ["The reward signal", "The probability the option ends and control returns to the high level in state s", "Discount factor", "Learning rate"],
+          answer: 1,
+          explanation: "Termination conditions enable variable-length skills.",
+        },
+        {
+          question: "Hindsight Experience Replay improves learning by:",
+          options: ["Training a critic", "Relabelling failed trajectories so achieved states become 'goals'", "Doubling the network size", "Using a target network"],
+          answer: 1,
+          explanation: "HER converts every trajectory into a success at the achieved end-state, multiplying useful signal.",
+        },
+        {
+          question: "Why does HIRO need off-policy correction?",
+          options: ["It uses a value baseline", "Because the low-level policy changes, old high-level subgoals no longer reflect current behaviour", "GPUs require it", "TensorFlow is slow"],
+          answer: 1,
+          explanation: "When the worker's policy shifts, manager rewards collected with the old worker become stale.",
+        },
+      ],
+    },
+    {
+      id: "rl-14-inverse-rl",
+      title: "Inverse RL & Imitation Learning — Learning from Demonstrations",
+      titleEn: "Inverse RL & Imitation Learning — Learning from Demonstrations",
+      level: 5,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lessons 3, 4, 7.
+
+## When the reward is unknown
+
+Designing reward functions is **harder than the original problem**. For self-driving: reward should encode safety, comfort, lawfulness, social acceptability… any wrong weighting yields a sociopathic driver. **Inverse Reinforcement Learning (IRL)** infers the reward from expert demonstrations; **Imitation Learning** skips reward and copies expert actions directly.
+
+## Three approaches on a continuum
+
+\`\`\`mermaid
+flowchart LR
+  BC[Behavioural Cloning<br/>Supervised mimic] --> DG[DAgger<br/>Mimic + interactive correction]
+  DG --> GAIL[GAIL<br/>Adversarial: discriminator vs policy]
+  GAIL --> IRL[Inverse RL<br/>Learn reward, then RL]
+\`\`\`
+
+### 1. Behavioural Cloning (BC)
+Treat (state → action) as supervised learning. **Fast** but suffers from **covariate shift**: tiny errors compound off-distribution → catastrophic on long horizons.
+
+### 2. DAgger (Ross 2011)
+Iteratively roll out the policy, **let the expert relabel** the visited states. Cures covariate shift at the cost of expert availability online.
+
+### 3. GAIL (Ho & Ermon 2016)
+Adversarial: a **discriminator** distinguishes expert vs policy trajectories. The policy is trained (with PPO) to **fool** the discriminator → matches the expert state-action distribution without ever defining a reward.
+
+### 4. Inverse RL
+Assume the expert is optimal under some unknown reward \`R\`. Recover \`R\` such that the expert's policy is optimal. Once you have \`R\`, you can train new agents that **transfer** to new environments — power that pure imitation lacks.
+
+## Real-world examples
+- **Self-driving (Waymo, Wayve)**: trained on millions of human-driven hours via combined BC + GAIL.
+- **Surgical robots (Intuitive Surgical, MedTech start-ups)**: imitation from expert surgeons is safer than RL exploration.
+- **Game AI (Forza Motorsport)**: AI opponents trained on real player races feel "human".
+- **LLM alignment**: SFT before RLHF is essentially behavioural cloning of human chat data.
+
+## Common Pitfalls
+- **BC on long horizons** — error compounds linearly with horizon → quadratic regret in T.
+- **GAIL mode collapse** — discriminator overpowers; policy ignores rare expert behaviours. Cure: gradient penalty (WGAIL).
+- **IRL ambiguity** — many rewards explain the same behaviour. Maximum-entropy IRL picks the one with highest action entropy.
+
+## Practice Task
+You have 50 hours of expert chess gameplay logs but no engine evaluations. Compare BC, GAIL, and IRL approaches. Which would you ship to production and why?`,
+      code: `# Behavioural Cloning skeleton (PyTorch) for car steering
+import torch, torch.nn as nn, torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+
+# Suppose we have expert (image, steering_angle) pairs
+# X: tensor of shape (N, 3, 64, 64)  Y: tensor of shape (N,) in [-1, 1]
+N = 4096
+X = torch.randn(N, 3, 64, 64)
+Y = torch.randn(N)
+
+class CNNPolicy(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.feat = nn.Sequential(
+            nn.Conv2d(3, 16, 5, 2), nn.ReLU(),
+            nn.Conv2d(16, 32, 5, 2), nn.ReLU(),
+            nn.Flatten(),
+        )
+        with torch.no_grad():
+            d = self.feat(torch.zeros(1, 3, 64, 64)).shape[1]
+        self.head = nn.Sequential(nn.Linear(d, 64), nn.ReLU(), nn.Linear(64, 1), nn.Tanh())
+    def forward(self, x): return self.head(self.feat(x)).squeeze(-1)
+
+policy = CNNPolicy()
+opt = optim.Adam(policy.parameters(), lr=1e-3)
+loss_fn = nn.MSELoss()
+loader = DataLoader(TensorDataset(X, Y), batch_size=64, shuffle=True)
+
+for epoch in range(3):
+    total = 0
+    for xb, yb in loader:
+        pred = policy(xb)
+        loss = loss_fn(pred, yb)
+        opt.zero_grad(); loss.backward(); opt.step()
+        total += loss.item() * len(xb)
+    print(f"epoch {epoch}: avg MSE = {total/N:.4f}")
+# Caveat: BC will *not* recover from off-distribution states — DAgger needed for highway driving`,
+      exercise: "Explain why BC suffers from quadratic regret in horizon T while DAgger achieves linear regret. Use the term 'covariate shift'.",
+      exerciseEn: "",
+      quiz: [
+        {
+          question: "Main weakness of pure Behavioural Cloning?",
+          options: ["Too slow to train", "Compounding errors push the policy off the expert distribution (covariate shift)", "Cannot use deep networks", "Requires a reward signal"],
+          answer: 1,
+          explanation: "Once the policy drifts off-distribution, all subsequent states look novel and errors snowball.",
+        },
+        {
+          question: "GAIL trains the policy with which loss?",
+          options: ["MSE on expert actions", "Adversarial loss with a discriminator distinguishing expert vs policy state-actions", "Cross-entropy on goal", "TD-error"],
+          answer: 1,
+          explanation: "GAIL = GAN + RL: the discriminator's score becomes the policy's reward.",
+        },
+        {
+          question: "Why is Inverse RL valuable beyond imitation?",
+          options: ["It is faster to train", "Recovering the reward enables transfer to new environments and agents", "It has fewer hyperparameters", "It does not require demonstrations"],
+          answer: 1,
+          explanation: "A learned reward can be reused — a learned policy cannot generalise across embodiments.",
+        },
+      ],
+    },
+    {
+      id: "rl-15-world-models",
+      title: "Model-Based RL & World Models — Dreamer, MuZero & Beyond",
+      titleEn: "Model-Based RL & World Models — Dreamer, MuZero & Beyond",
+      level: 5,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lessons 2 (MDP), 3 (DQN), 7 (PPO), 10 (AlphaGo).
+
+## Sample efficiency: the Achilles' heel of model-free RL
+
+DQN needs ~200M frames to master Atari. A **human** masters Pong in ~15 minutes. The gap is **1 000 000×** sample efficiency. Model-based RL closes most of it by **learning a world model** of the environment dynamics and planning inside it.
+
+## The model-based pipeline
+
+\`\`\`mermaid
+flowchart LR
+  REAL[Real environment] -->|few interactions| BUF[Replay buffer]
+  BUF --> WM[Learn world model<br/>p(s'|s,a), r(s,a)]
+  WM --> IMG[Imagine rollouts<br/>cheap, parallel, GPU]
+  IMG --> POL[Train policy & value<br/>inside the dream]
+  POL -->|act| REAL
+\`\`\`
+
+## Two leading families in 2024
+
+### A. Dreamer (Hafner 2020-2023)
+- **Recurrent State-Space Model (RSSM)** with deterministic + stochastic latent.
+- **Actor-critic in latent space** — never touches pixels at training time → enormous compute savings.
+- **DreamerV3** (2023): one set of hyperparameters solves 150+ tasks (Atari, Crafter, Minecraft diamonds in 17 days vs 20 years for prior work).
+
+### B. MuZero (Schrittwieser 2019)
+- World model is **implicit**: learns latent dynamics that only need to predict reward, value, and policy — **not pixels**.
+- Combines model + MCTS — same algorithm conquered Go, Chess, Shogi, Atari, **without being told the rules**.
+- Powers Alphabet's chip floorplan tool and YouTube video compression (-4 % bandwidth).
+
+## Pixel-prediction vs reward-prediction
+
+| Aspect | Dreamer (predict pixels) | MuZero (predict value/reward only) |
+|---|---|---|
+| Decoder needed | Yes | No |
+| Visual inspection | Easy ("dreams") | Impossible |
+| Compute | Higher | Lower |
+| Sample efficiency | Excellent | Excellent |
+
+## Real-world examples
+- **DeepMind's controller for nuclear fusion plasma** (TCV tokamak, 2022): trained inside a simulator + Dreamer-style world model — sustained novel plasma shapes for the first time.
+- **Tesla's "FSD V12"**: end-to-end driving leverages neural simulation of traffic.
+- **Google's Genie (2024)**: a world model that turns a single image into a playable 2D platformer environment — generative RL training data.
+
+## Why hasn't model-based replaced model-free everywhere?
+
+- **Model bias** — small dynamics errors compound in long imagination rollouts.
+- **Hard environments** — deformable objects, fluid dynamics resist accurate models.
+- **Cost** — training the world model itself can dwarf the policy training.
+
+## Common Pitfalls
+- **Imagination horizon too long** — stack predictions amplify model error; usually 15–50 steps.
+- **No uncertainty estimates** — without an ensemble of models the agent over-trusts the dream. Cure: ensemble disagreement as bonus or constraint.
+- **Forgetting to ground** — periodically interleave with real-environment data or the policy diverges.
+
+## Practice Task
+A robotic arm has a slow simulator (5 Hz) but a perfect digital twin in PyBullet (200 Hz). Argue whether you should still bother learning a world model with Dreamer, or just train PPO inside PyBullet. Discuss reality gap.`,
+      code: `# Tiny world model: predict next state + reward (PyTorch concept)
+import torch, torch.nn as nn, torch.optim as optim
+
+class WorldModel(nn.Module):
+    def __init__(self, s_dim=4, a_dim=2, hid=64):
+        super().__init__()
+        self.trunk = nn.Sequential(
+            nn.Linear(s_dim + a_dim, hid), nn.ReLU(),
+            nn.Linear(hid, hid), nn.ReLU(),
+        )
+        self.next_state = nn.Linear(hid, s_dim)
+        self.reward = nn.Linear(hid, 1)
+
+    def forward(self, s, a):
+        h = self.trunk(torch.cat([s, a], dim=-1))
+        return self.next_state(h), self.reward(h).squeeze(-1)
+
+wm = WorldModel()
+opt = optim.Adam(wm.parameters(), lr=1e-3)
+loss_fn = nn.MSELoss()
+
+# Suppose we have a small batch from the real env
+B = 64
+s = torch.randn(B, 4); a = torch.randn(B, 2)
+s_next_true = torch.randn(B, 4); r_true = torch.randn(B)
+
+for _ in range(500):
+    s_next_pred, r_pred = wm(s, a)
+    loss = loss_fn(s_next_pred, s_next_true) + loss_fn(r_pred, r_true)
+    opt.zero_grad(); loss.backward(); opt.step()
+print(f"World-model loss after training: {loss.item():.4f}")
+
+# Imagine a rollout: cheap, fully on GPU, no real env needed
+def imagine(wm, s0, policy, horizon=20):
+    s = s0; total = torch.zeros(s.size(0))
+    for _ in range(horizon):
+        a = policy(s)
+        s, r = wm(s, a)
+        total = total + r
+    return total                                  # imagined return for actor update
+
+policy = lambda s: torch.tanh(s[:, :2])           # placeholder
+print("Imagined return:", imagine(wm, s, policy).mean().item())`,
+      exercise: "DreamerV3 trains its actor-critic entirely inside latent imagination. Why is this dramatically more sample-efficient than model-free PPO? Discuss the trade-off if the world model is wrong by 5 % per step.",
+      exerciseEn: "",
+      quiz: [
+        {
+          question: "What does MuZero's world model predict?",
+          options: ["Pixels of the next frame", "Latent quantities sufficient for value, policy and reward", "Action probabilities only", "Reward only"],
+          answer: 1,
+          explanation: "Skipping pixel reconstruction is what makes MuZero scale to Go, Chess, Atari with one architecture.",
+        },
+        {
+          question: "Why limit imagination horizon to ~20–50 steps?",
+          options: ["To save GPU memory only", "Model errors compound exponentially over long rollouts", "Discount factor restricts it", "PyTorch cannot backprop through more"],
+          answer: 1,
+          explanation: "Even small per-step model errors multiply, so plans beyond ~50 steps become unreliable.",
+        },
+        {
+          question: "Sample efficiency advantage of model-based RL is largest when:",
+          options: ["The simulator is free and infinitely fast", "Real-world interaction is expensive and a learned model is cheap", "Reward is dense", "Action space is discrete"],
+          answer: 1,
+          explanation: "Robotics, scientific control, healthcare — exactly where each real interaction is costly.",
+        },
+      ],
+    },
   ],
 };
 
