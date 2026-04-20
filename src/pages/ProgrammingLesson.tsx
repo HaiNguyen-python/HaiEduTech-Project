@@ -282,10 +282,10 @@ const ProgrammingLessonPage = () => {
               )}
             </div>
 
-            {/* Main 2-column layout: Content + IDE */}
+            {/* Main 2-column layout: Content + IDE (60% theory / 40% IDE for readability) */}
             <div className={`flex gap-6 ${showIDE && !isMobile ? "flex-row" : "flex-col"}`}>
               {/* Left side: Sidebar + Lesson content */}
-              <div className={`${showIDE && !isMobile ? "w-1/2 xl:w-3/5" : "w-full"} min-w-0`}>
+              <div className={`${showIDE && !isMobile ? "w-3/5 xl:w-[62%]" : "w-full"} min-w-0`}>
             <div className="flex flex-col lg:flex-row gap-6">
               {/* Sidebar - Roadmap with ALL pillar modules */}
               <div className="lg:w-72 shrink-0">
