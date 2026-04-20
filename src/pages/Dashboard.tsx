@@ -616,64 +616,115 @@ const Dashboard = () => {
                   ))}
                 </div>
 
-                {/* Domain breakdown bar chart */}
-                {stats!.domainBreakdown.length > 0 && (
-                  <div className="glass-card rounded-xl p-6 mb-6">
-                    <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                      <Target className="w-4 h-4 text-primary" />
-                      {t("Phân bố theo lĩnh vực", "Domain Breakdown")}
+                {/* Daily Motivation — personalized by name */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                  className="rounded-2xl p-5 mb-6 bg-gradient-to-br from-primary/10 via-accent/5 to-background border border-primary/20"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
+                      <Quote className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">
+                        {t("Lời chúc hôm nay", "Daily Motivation")}
+                      </p>
+                      <p className="text-base text-foreground font-medium leading-relaxed">
+                        "{pickMotivation(displayName, lang === "vi")}" — {displayName}.
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* AI Achievement Summary */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="rounded-2xl p-5 mb-6 bg-emerald-500/5 border border-emerald-500/20"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">
+                        {t("AI nhận xét", "AI Insight")}
+                      </p>
+                      <p className="text-sm text-foreground leading-relaxed">{stats!.aiSummary}</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Active Course Cards */}
+                {stats!.courses.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 text-primary" />
+                      {t("Khóa học đang theo", "Active Courses")}
                     </h3>
-                    <div className="h-48">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={stats!.domainBreakdown}>
-                          <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
-                          <XAxis dataKey="domain" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
-                          <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
-                          <Tooltip
-                            contentStyle={{
-                              backgroundColor: "hsl(var(--card))",
-                              border: "1px solid hsl(var(--border))",
-                              borderRadius: "8px",
-                              fontSize: "12px",
-                            }}
-                          />
-                          <Bar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} name={t("Hoạt động", "Activities")} />
-                        </BarChart>
-                      </ResponsiveContainer>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {stats!.courses.map((course, i) => (
+                        <motion.div
+                          key={course.id}
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.45 + i * 0.08 }}
+                          className="rounded-2xl bg-card p-5 border border-border hover:border-primary/40 hover:shadow-lg transition-all"
+                        >
+                          <div className="flex items-center justify-between mb-3">
+                            <span className={`text-xs font-bold px-2 py-1 rounded-md ${
+                              course.domain === "english" ? "bg-blue-500/10 text-blue-600" :
+                              course.domain === "chinese" ? "bg-red-500/10 text-red-600" :
+                              course.domain === "finnish" ? "bg-sky-500/10 text-sky-600" :
+                              "bg-emerald-500/10 text-emerald-600"
+                            }`}>
+                              {DOMAIN_LABELS[course.domain] || course.domain}
+                            </span>
+                            <span className="text-xs font-mono text-muted-foreground">
+                              {course.completed}/{course.total}
+                            </span>
+                          </div>
+                          <h4 className="text-base font-bold text-foreground mb-3 leading-snug">{course.title}</h4>
+                          {/* Animated progress bar */}
+                          <div className="h-2 bg-secondary rounded-full overflow-hidden mb-2">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${course.pct}%` }}
+                              transition={{ duration: 0.8, delay: 0.5 + i * 0.08, ease: "easeOut" }}
+                              className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
+                            />
+                          </div>
+                          <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
+                            <span className="font-bold text-primary">{course.pct}%</span>
+                            <span>{course.nextGoal}</span>
+                          </div>
+                          <Link
+                            to={course.lastLessonHref}
+                            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:gap-2 transition-all"
+                          >
+                            {t("Tiếp tục học", "Continue learning")} <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
                 )}
 
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  {/* Skill radar */}
-                  {stats!.skillRadar.length >= 3 && (
-                    <div className="glass-card rounded-xl p-6">
-                      <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                        <Target className="w-4 h-4 text-primary" /> {t("Biểu đồ kỹ năng", "Skill Radar")}
-                      </h3>
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <RadarChart data={stats!.skillRadar}>
-                            <PolarGrid stroke="hsl(var(--border))" />
-                            <PolarAngleAxis dataKey="skill" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} />
-                            <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.15} strokeWidth={2} />
-                          </RadarChart>
-                        </ResponsiveContainer>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Weekly activity trend */}
-                  <div className="glass-card rounded-xl p-6">
-                    <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-primary" /> {t("Xu hướng hoạt động", "Activity Trend")}
+                  {/* Skill Radar — 4 programs */}
+                  <div className="rounded-2xl bg-card p-6 border border-border">
+                    <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
+                      <Target className="w-4 h-4 text-primary" /> {t("Biểu đồ kỹ năng", "Skill Radar")}
                     </h3>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={stats!.weeklyTrend}>
-                          <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
-                          <XAxis dataKey="week" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
-                          <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
+                        <RadarChart data={stats!.skillRadar}>
+                          <PolarGrid stroke="hsl(var(--border))" />
+                          <PolarAngleAxis dataKey="skill" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} />
+                          <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} strokeWidth={2} />
                           <Tooltip
                             contentStyle={{
                               backgroundColor: "hsl(var(--card))",
@@ -682,80 +733,94 @@ const Dashboard = () => {
                               fontSize: "12px",
                             }}
                           />
-                          <Line type="monotone" dataKey="activities" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ fill: "hsl(var(--primary))", r: 4 }} name={t("Hoạt động", "Activities")} />
-                        </LineChart>
+                        </RadarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Weekly Study Hours bar chart */}
+                  <div className="rounded-2xl bg-card p-6 border border-border">
+                    <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-primary" /> {t("Giờ học trong tuần", "Weekly Study Hours")}
+                    </h3>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={stats!.weeklyMinutes}>
+                          <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
+                          <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
+                          <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
+                          <Tooltip
+                            formatter={(v: number) => [`${v} ${t("phút", "min")}`, t("Thời gian", "Time")]}
+                            contentStyle={{
+                              backgroundColor: "hsl(var(--card))",
+                              border: "1px solid hsl(var(--border))",
+                              borderRadius: "8px",
+                              fontSize: "12px",
+                            }}
+                          />
+                          <Bar dataKey="minutes" fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} />
+                        </BarChart>
                       </ResponsiveContainer>
                     </div>
                   </div>
                 </div>
 
-                {/* Consistency heatmap */}
-                <div className="glass-card rounded-xl p-6 mb-6">
-                  <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                    <Flame className="w-4 h-4 text-orange-500" /> {t("Biểu đồ chuyên cần", "Consistency Heatmap")}
-                  </h3>
-                  <div className="overflow-x-auto">
-                    <div className="flex gap-[3px] min-w-[700px]">
-                      {stats!.heatmap.map((week, wi) => (
-                        <div key={wi} className="flex flex-col gap-[3px]">
-                          {week.map((val, di) => (
-                            <div
-                              key={di}
-                              className={`w-3 h-3 rounded-sm ${heatColors[val]}`}
-                              title={`${val} ${t("hoạt động", "activities")}`}
-                            />
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 mt-3 text-xs text-muted-foreground">
-                    <span>{t("Ít", "Less")}</span>
-                    {heatColors.map((c, i) => (
-                      <div key={i} className={`w-3 h-3 rounded-sm ${c}`} />
-                    ))}
-                    <span>{t("Nhiều", "More")}</span>
-                  </div>
-                </div>
-
-                {/* Recent activities */}
+                {/* Recent activities — 5 most recent + View All */}
                 {stats!.recentActivities.length > 0 && (
-                  <div className="glass-card rounded-xl p-6">
-                    <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-primary" /> {t("Hoạt động gần đây", "Recent Activities")}
-                    </h3>
-                    <div className="space-y-2">
-                      {stats!.recentActivities.map((act, i) => (
-                        <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold ${
-                              act.domain === "english" ? "bg-blue-500/10 text-blue-600" :
-                              act.domain === "chinese" ? "bg-red-500/10 text-red-600" :
-                              "bg-emerald-500/10 text-emerald-600"
-                            }`}>
-                              {act.domain === "english" ? "EN" : act.domain === "chinese" ? "CN" : "PR"}
+                  <div className="rounded-2xl bg-card p-6 border border-border mb-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-primary" /> {t("Hoạt động gần đây", "Recent Activities")}
+                      </h3>
+                      <Link
+                        to="/activity-log"
+                        className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1"
+                      >
+                        {t("Xem tất cả", "View All")} <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+                    <div className="space-y-1">
+                      {stats!.recentActivities.map((act, i) => {
+                        const Icon = getActivityIcon(act.type);
+                        return (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.6 + i * 0.05 }}
+                            className="flex items-center justify-between py-2.5 px-2 rounded-lg hover:bg-secondary/50 transition-colors"
+                          >
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                                act.domain === "english" ? "bg-blue-500/10 text-blue-600" :
+                                act.domain === "chinese" ? "bg-red-500/10 text-red-600" :
+                                act.domain === "finnish" ? "bg-sky-500/10 text-sky-600" :
+                                "bg-emerald-500/10 text-emerald-600"
+                              }`}>
+                                <Icon className="w-4 h-4" />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-sm font-semibold text-foreground capitalize truncate">
+                                  {act.type.replace(/_/g, " ")}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {formatRelativeTime(act.date, lang === "vi")}
+                                  {act.timeSpent ? ` · ${Math.round(act.timeSpent / 60)}m` : ""}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <p className="text-sm font-medium text-foreground">
-                                {act.type.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                {new Date(act.date).toLocaleDateString()}
-                                {act.timeSpent ? ` · ${Math.round(act.timeSpent / 60)}m` : ""}
-                              </p>
-                            </div>
-                          </div>
-                          {act.score !== null && act.maxScore && (
-                            <span className={`text-sm font-bold ${
-                              (act.score / act.maxScore) >= 0.7 ? "text-emerald-600" :
-                              (act.score / act.maxScore) >= 0.5 ? "text-amber-600" :
-                              "text-red-600"
-                            }`}>
-                              {act.score}/{act.maxScore}
-                            </span>
-                          )}
-                        </div>
-                      ))}
+                            {act.score !== null && act.maxScore && (
+                              <span className={`text-sm font-bold flex-shrink-0 ml-2 ${
+                                (act.score / act.maxScore) >= 0.7 ? "text-emerald-600" :
+                                (act.score / act.maxScore) >= 0.5 ? "text-amber-600" :
+                                "text-red-600"
+                              }`}>
+                                {act.score}/{act.maxScore}
+                              </span>
+                            )}
+                          </motion.div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -763,25 +828,6 @@ const Dashboard = () => {
                 {/* Class schedule (read-only for students) */}
                 <div className="mt-6">
                   <StudentScheduleWidget userId={user?.id ?? null} />
-                </div>
-
-                {/* Overall Leaderboard */}
-                <OverallLeaderboard />
-
-                {/* Quick links */}
-                <div className="grid grid-cols-3 gap-3 mt-6">
-                  <Link to="/english" className="glass-card rounded-xl p-4 text-center hover:border-primary/30 transition-all group">
-                    <BookOpen className="w-5 h-5 text-blue-500 mx-auto mb-2" />
-                    <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground">{t("Tiếng Anh", "English")}</span>
-                  </Link>
-                  <Link to="/chinese" className="glass-card rounded-xl p-4 text-center hover:border-primary/30 transition-all group">
-                    <BookOpen className="w-5 h-5 text-red-500 mx-auto mb-2" />
-                    <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground">{t("Tiếng Trung", "Chinese")}</span>
-                  </Link>
-                  <Link to="/programming" className="glass-card rounded-xl p-4 text-center hover:border-primary/30 transition-all group">
-                    <BookOpen className="w-5 h-5 text-emerald-500 mx-auto mb-2" />
-                    <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground">{t("Lập Trình", "Programming")}</span>
-                  </Link>
                 </div>
               </>
             )}
