@@ -142,21 +142,21 @@ You write \`SELECT … FROM … WHERE … ORDER BY\` but it runs:
 - Use DISTINCT sparingly
 - Remember execution order
 - Next lesson: **AS / Aliases**`,
-        code: `-- Lấy tất cả các cột (chỉ dùng khi khám phá)
+        code: `-- Get all columns (only when exploring)
 SELECT * FROM students;
 
 -- Get only the columns needed (standard usage)
 SELECT name, age FROM students;
 
--- Get a list of different ages
+-- Get a list of distinct ages
 SELECT DISTINCT age FROM students;
 
--- Take only the first 3 lines
+-- Take only the first 3 rows
 SELECT name FROM students LIMIT 3;
 
--- Sort by descending score, take page 2 (5 lines/page)
+-- Sort by descending score, take page 2 (5 rows/page)
 SELECT name, score FROM students
-ORDER BY score DESC, id ASC   -- thêm id ASC để thứ tự ổn định
+ORDER BY score DESC, id ASC   -- add id ASC for stable ordering
 LIMIT 5 OFFSET 5;`,
         codeLanguage: "sql",
         exercise: "Write a command to get the names and emails of the first 5 students in the students table, sorted by name A→Z. Suggestion: use ORDER BY name ASC with LIMIT 5.",
@@ -411,7 +411,7 @@ Don't wrap indexed columns in functions:
 - Handle NULL explicitly
 - Keep functions off indexed columns
 - Next: **Aggregate functions & GROUP BY**`,
-        code: `-- Lọc cơ bản
+        code: `-- Basic filtering
 SELECT * FROM students WHERE age > 20;
 
 -- Multiple conditions combined using AND
@@ -563,26 +563,26 @@ Counts unique values; expensive at scale → use \`APPROX_COUNT_DISTINCT\` for b
 - All non-aggregated columns in GROUP BY
 - Filter rows in WHERE, groups in HAVING
 - Next: **JOIN operations**`,
-        code: `-- Đếm tổng số học viên
-SELECT COUNT(*) AS so_hoc_vien FROM students;
+        code: `-- Count total students
+SELECT COUNT(*) AS student_count FROM students;
 
 -- Average age (NULL automatically omitted)
-SELECT AVG(age) AS tuoi_tb FROM students;
+SELECT AVG(age) AS avg_age FROM students;
 
--- Count the number of students by age (grouped together)
-SELECT age, COUNT(*) AS so_luong
+-- Count students by age (grouped together)
+SELECT age, COUNT(*) AS quantity
 FROM   students
 GROUP BY age
-ORDER BY so_luong DESC;
+ORDER BY quantity DESC;
 
 -- Only keep age groups with >= 2 students (filter groups using HAVING)
-SELECT age, COUNT(*) AS so_luong
+SELECT age, COUNT(*) AS quantity
 FROM   students
 GROUP BY age
 HAVING COUNT(*) >= 2;
 
--- Count different ages
-SELECT COUNT(DISTINCT age) AS so_tuoi_khac_nhau FROM students;`,
+-- Count distinct ages
+SELECT COUNT(DISTINCT age) AS distinct_age_count FROM students;`,
         codeLanguage: "sql",
         exercise: "Count the number of orders by each customer_id in the orders table, then only display customers with >= 3 orders. Suggestion: GROUP BY customer_id, filter by HAVING COUNT(*) >= 3.",
         exerciseEn: "Count orders per customer_id, then show only customers with >= 3 orders. Hint: GROUP BY customer_id, HAVING COUNT(*) >= 3.",
@@ -1003,14 +1003,14 @@ A non-correlated subquery runs **once**. A *correlated* subquery references a co
 - Watch performance on correlated subqueries
 
 Next: **CTEs (\`WITH\`)** — the readable cousin of subqueries.`,
-        code: `-- VÍ DỤ 1: Tìm học viên có điểm cao hơn trung bình lớp
+        code: `-- EXAMPLE 1: Find students scoring above the class average
 -- (scalar subquery in WHERE — runs once)
 SELECT name, score
 FROM students
 WHERE score > (SELECT AVG(score) FROM students);
 
--- EXAMPLE 2: Get the name of a student who has placed an order
--- (subquery returns 1 column with multiple lines → use IN)
+-- EXAMPLE 2: Get the names of students who have placed an order
+-- (subquery returns 1 column with multiple rows → use IN)
 SELECT name
 FROM students
 WHERE id IN (SELECT student_id FROM orders);
@@ -1023,15 +1023,15 @@ WHERE NOT EXISTS (
   SELECT 1 FROM orders o WHERE o.student_id = s.id
 );
 
--- EXAMPLE 4: Subquery in FROM (clipboard)
--- Count the number of students by city, filter cities > 5 people
-SELECT t.city, t.so_hoc_vien
+-- EXAMPLE 4: Subquery in FROM (derived table)
+-- Count students per city, then keep only cities with > 5 people
+SELECT t.city, t.student_count
 FROM (
-  SELECT city, COUNT(*) AS so_hoc_vien
+  SELECT city, COUNT(*) AS student_count
   FROM students
   GROUP BY city
 ) AS t
-WHERE t.so_hoc_vien > 5;`,
+WHERE t.student_count > 5;`,
         codeLanguage: "sql",
         exercise: "Find students whose **total order value** is greater than the **average total order value of all students**. Suggestion: use GROUP BY in the subquery to calculate the total for each student, then compare with the AVG of those totals.",
         exerciseEn: "Find students whose **total order amount** is greater than the **average of all students' total order amounts**. Hint: use GROUP BY inside a subquery to compute totals per student, then compare with the AVG of those totals.",
@@ -1758,8 +1758,8 @@ CREATE TABLE projects (
 CREATE TABLE employee_projects (
   employee_id INTEGER REFERENCES employees(id) ON DELETE CASCADE,
   project_id INTEGER REFERENCES projects(id) ON DELETE CASCADE,
-  role VARCHAR(50),                       -- Vai trò trong dự án (lead, member...)
-  PRIMARY KEY (employee_id, project_id)   -- Composite PK: 1 cặp (nv, dự án) duy nhất
+  role VARCHAR(50),                       -- Role on the project (lead, member...)
+  PRIMARY KEY (employee_id, project_id)   -- Composite PK: a single (employee, project) pair
 );`,
         codeLanguage: "sql",
         exercise: "Schema design for the library system includes: books, authors, members, borrowings. Note: 1 book can have many authors (N-N) → requires an intermediate table. Each table must have an explicit PK, FK with appropriate ON DELETE, and created_at column.",
