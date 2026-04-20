@@ -1,5 +1,7 @@
 // Edge function: rewrite a programming lesson into a 1000-word Deep-Dive
-// using Perplexity sonar-pro. Caches the result in programming_theory_cache.
+// using Perplexity sonar-pro, plus generate 1-2 cute infographic illustrations
+// via the generate-lesson-illustrations function. Caches everything in
+// programming_theory_cache.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
@@ -69,7 +71,33 @@ Advanced explanation here.
 :::
 
 GROUND your content in current 2025-2026 industry standards (real frameworks, real services, real best practices).
-NEVER invent fake APIs.`;
+NEVER invent fake APIs.
+
+═══════════════════════════════════════════════════════════════
+ILLUSTRATIONS (REQUIRED — APPENDED AFTER ALL MARKDOWN)
+
+After the entire markdown above, on a new line, append EXACTLY ONE fenced JSON
+block describing 1-2 cute infographic illustrations to generate. The first
+illustration should illustrate "Detailed Breakdown" (anchor: "detailed-breakdown"),
+the second should illustrate the comparison (anchor: "comparative-table").
+
+Each "prompt" must be a SHORT visual concept phrase (max 14 words), describing
+WHAT the illustration shows — not full instructions. NO style words (we add the style).
+Example good prompts:
+  - "decision tree branching into leaves with classification icons"
+  - "three side-by-side cards comparing tree, random forest, gradient boosting"
+  - "data flowing from source through ETL pipeline into warehouse"
+Example bad prompts (DO NOT USE):
+  - "create a beautiful illustration of..." (too instructional)
+  - "a comprehensive overview showing many different aspects" (too vague)
+
+Each "caption" is a short italic line (max 8 words) shown under the image.
+
+Format EXACTLY (do not deviate):
+\`\`\`json
+{"illustrations":[{"anchor":"detailed-breakdown","prompt":"...","caption":"..."},{"anchor":"comparative-table","prompt":"...","caption":"..."}]}
+\`\`\`
+`;
 
 interface Body {
   module_id: string;
@@ -79,6 +107,94 @@ interface Body {
   base_theory: string;
   code_language?: string;
   force_refresh?: boolean;
+}
+
+interface IllustrationSpec {
+  anchor: string;
+  prompt: string;
+  caption?: string;
+}
+
+// Extract and remove the trailing ```json {...} ``` block containing the
+// illustration specs. Returns { markdown (cleaned), specs }.
+function extractIllustrationSpecs(md: string): { markdown: string; specs: IllustrationSpec[] } {
+  const m = md.match(/```json\s*(\{[\s\S]*?"illustrations"[\s\S]*?\})\s*```\s*$/i);
+  if (!m) return { markdown: md, specs: [] };
+  try {
+    const parsed = JSON.parse(m[1]);
+    const arr = Array.isArray(parsed?.illustrations) ? parsed.illustrations : [];
+    const specs: IllustrationSpec[] = arr
+      .filter((s: any) => s && typeof s.anchor === "string" && typeof s.prompt === "string")
+      .map((s: any) => ({
+        anchor: String(s.anchor),
+        prompt: String(s.prompt),
+        caption: typeof s.caption === "string" ? s.caption : "",
+      }))
+      .slice(0, 2);
+    const cleaned = md.slice(0, m.index).trimEnd();
+    return { markdown: cleaned, specs };
+  } catch (e) {
+    console.warn("Failed to parse illustration JSON:", e);
+    // Still strip the broken block so it doesn't render as a code block
+    const cleaned = md.slice(0, m.index).trimEnd();
+    return { markdown: cleaned, specs: [] };
+  }
+}
+
+// Insert each illustration as ![caption](url) at the end of the matching
+// "## N. <Title>" section. Anchor matches the slug of the H2 title.
+function injectIllustrations(
+  md: string,
+  illustrations: { anchor: string; url: string; caption: string }[],
+): string {
+  if (illustrations.length === 0) return md;
+
+  const slugify = (s: string) =>
+    s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+  // Map anchor → tokens that should appear in the H2 title (handle the "1. " prefix)
+  const anchorMatchers: Record<string, RegExp> = {
+    "detailed-breakdown": /detailed[\s-]?breakdown/i,
+    "comparative-table": /comparat|comparison|comparison[\s-]?table/i,
+  };
+
+  // Split markdown by H2 headers, preserving them
+  const parts = md.split(/(^##\s+[^\n]+$)/m);
+  // parts looks like: [pre, "## 1. Foo", body, "## 2. Bar", body, ...]
+
+  for (const ill of illustrations) {
+    const matcher = anchorMatchers[ill.anchor] ||
+      new RegExp(slugify(ill.anchor).replace(/-/g, "[\\s-]?"), "i");
+
+    // Find the H2 part matching this anchor
+    let injected = false;
+    for (let i = 1; i < parts.length; i += 2) {
+      const heading = parts[i];
+      if (matcher.test(heading)) {
+        const body = parts[i + 1] || "";
+        const safeAlt = (ill.caption || "Illustration").replace(/[\[\]]/g, "");
+        const imgMd = `\n\n![${safeAlt}](${ill.url})\n\n`;
+        // Insert the image after the first paragraph of the section so it
+        // appears inline with the explanation.
+        const trimmedBody = body.replace(/^\n+/, "");
+        const firstBreak = trimmedBody.indexOf("\n\n");
+        if (firstBreak > 0) {
+          parts[i + 1] = "\n" + trimmedBody.slice(0, firstBreak) + imgMd + trimmedBody.slice(firstBreak + 2);
+        } else {
+          parts[i + 1] = "\n" + trimmedBody + imgMd;
+        }
+        injected = true;
+        break;
+      }
+    }
+    // Fallback: append at the end if no matching section found
+    if (!injected) {
+      const safeAlt = (ill.caption || "Illustration").replace(/[\[\]]/g, "");
+      parts.push(`\n\n![${safeAlt}](${ill.url})\n`);
+    }
+  }
+
+  return parts.join("");
 }
 
 Deno.serve(async (req: Request) => {
@@ -109,7 +225,7 @@ Deno.serve(async (req: Request) => {
     if (!body.force_refresh) {
       const { data: cached } = await admin
         .from("programming_theory_cache")
-        .select("enhanced_markdown, citations")
+        .select("enhanced_markdown, citations, illustrations")
         .eq("module_id", body.module_id)
         .eq("lesson_id", body.lesson_id)
         .maybeSingle();
@@ -119,6 +235,7 @@ Deno.serve(async (req: Request) => {
             cached: true,
             markdown: cached.enhanced_markdown,
             citations: cached.citations || [],
+            illustrations: cached.illustrations || [],
           }),
           { headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
@@ -146,7 +263,7 @@ Existing theory snippet (use as starting point but expand significantly with 202
 ${(body.base_theory || "").slice(0, 3000)}
 """
 
-Now produce the full Deep-Dive Markdown using the strict structure.`;
+Now produce the full Deep-Dive Markdown using the strict structure, and append the illustrations JSON block at the very end.`;
 
     // 3. Call Perplexity
     const ppxResp = await fetch("https://api.perplexity.ai/chat/completions", {
@@ -162,7 +279,7 @@ Now produce the full Deep-Dive Markdown using the strict structure.`;
           { role: "user", content: userPrompt },
         ],
         temperature: 0.3,
-        max_tokens: 2400,
+        max_tokens: 2600,
       }),
     });
 
@@ -180,8 +297,6 @@ Now produce the full Deep-Dive Markdown using the strict structure.`;
     const citations: string[] = data?.citations || [];
 
     // Some Perplexity responses wrap the whole output in a ```markdown ... ``` fence.
-    // Strip that outer fence so headings/diagrams render properly instead of being
-    // displayed as a single code block (which also leaks an "undefined" string).
     markdown = markdown.trim();
     const outerFence = markdown.match(/^```(?:markdown|md)?\s*\n([\s\S]*?)\n?```\s*$/i);
     if (outerFence) markdown = outerFence[1].trim();
@@ -193,19 +308,56 @@ Now produce the full Deep-Dive Markdown using the strict structure.`;
       });
     }
 
-    // 4. Cache (upsert by module+lesson)
+    // 4. Extract & strip the trailing illustrations JSON block
+    const { markdown: cleanedMarkdown, specs } = extractIllustrationSpecs(markdown);
+    let finalMarkdown = cleanedMarkdown;
+    let illustrations: { anchor: string; url: string; caption: string }[] = [];
+
+    // 5. Generate illustrations (best-effort, never blocks final response)
+    if (specs.length > 0) {
+      try {
+        const illResp = await fetch(`${supabaseUrl}/functions/v1/generate-lesson-illustrations`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${serviceRoleKey}`,
+            "Content-Type": "application/json",
+            apikey: serviceRoleKey,
+          },
+          body: JSON.stringify({
+            module_id: body.module_id,
+            lesson_id: body.lesson_id,
+            lesson_title: body.lesson_title,
+            sections: specs,
+          }),
+        });
+        if (illResp.ok) {
+          const illData = await illResp.json();
+          if (Array.isArray(illData?.illustrations)) {
+            illustrations = illData.illustrations;
+            finalMarkdown = injectIllustrations(cleanedMarkdown, illustrations);
+          }
+        } else {
+          console.warn("Illustration sub-call failed:", illResp.status, await illResp.text());
+        }
+      } catch (illErr) {
+        console.warn("Illustration sub-call error (non-fatal):", illErr);
+      }
+    }
+
+    // 6. Cache (upsert by module+lesson)
     await admin.from("programming_theory_cache").upsert(
       {
         module_id: body.module_id,
         lesson_id: body.lesson_id,
-        enhanced_markdown: markdown,
+        enhanced_markdown: finalMarkdown,
         citations,
+        illustrations,
         generated_by: userId,
       },
       { onConflict: "module_id,lesson_id" },
     );
 
-    // 5. Best-effort usage logging (non-blocking)
+    // 7. Best-effort usage logging (non-blocking)
     admin.from("api_usage_log").insert({
       function_name: "enhance-programming-theory",
       model: "sonar-pro",
@@ -217,7 +369,7 @@ Now produce the full Deep-Dive Markdown using the strict structure.`;
     }).then(() => {}).catch(() => {});
 
     return new Response(
-      JSON.stringify({ cached: false, markdown, citations }),
+      JSON.stringify({ cached: false, markdown: finalMarkdown, citations, illustrations }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
