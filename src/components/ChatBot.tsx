@@ -5,7 +5,88 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import chatbotIcon from "@/assets/chatbot-icon.png";
+
+// Chat-tuned markdown components: lock typography to a uniform ~14px rhythm
+// so headings, code, and lists never blow up inside the narrow chat bubble.
+const chatMarkdownComponents = {
+  p: ({ node, ...props }: any) => (
+    <p className="text-sm leading-relaxed break-words" {...props} />
+  ),
+  h1: ({ node, ...props }: any) => (
+    <h1 className="text-base font-bold mt-2 mb-1" {...props} />
+  ),
+  h2: ({ node, ...props }: any) => (
+    <h2 className="text-sm font-bold mt-2 mb-1" {...props} />
+  ),
+  h3: ({ node, ...props }: any) => (
+    <h3 className="text-sm font-semibold mt-1.5 mb-1" {...props} />
+  ),
+  h4: ({ node, ...props }: any) => (
+    <h4 className="text-sm font-semibold mt-1.5 mb-1" {...props} />
+  ),
+  ul: ({ node, ...props }: any) => (
+    <ul className="text-sm pl-4 space-y-1 list-disc" {...props} />
+  ),
+  ol: ({ node, ...props }: any) => (
+    <ol className="text-sm pl-4 space-y-1 list-decimal" {...props} />
+  ),
+  li: ({ node, ...props }: any) => (
+    <li className="text-sm leading-relaxed" {...props} />
+  ),
+  strong: ({ node, ...props }: any) => (
+    <strong className="font-semibold text-foreground" {...props} />
+  ),
+  em: ({ node, ...props }: any) => <em className="italic" {...props} />,
+  code: ({ node, inline, className, children, ...props }: any) =>
+    inline ? (
+      <code
+        className="text-[13px] font-mono px-1.5 py-0.5 rounded bg-background/60 border border-border/40"
+        {...props}
+      >
+        {children}
+      </code>
+    ) : (
+      <code className={`text-[12.5px] font-mono ${className || ""}`} {...props}>
+        {children}
+      </code>
+    ),
+  pre: ({ node, ...props }: any) => (
+    <pre
+      className="text-[12.5px] font-mono p-3 rounded-lg bg-zinc-900 text-zinc-100 overflow-x-auto my-2 whitespace-pre"
+      {...props}
+    />
+  ),
+  blockquote: ({ node, ...props }: any) => (
+    <blockquote
+      className="text-sm italic border-l-2 border-primary/40 pl-3 my-2 text-muted-foreground"
+      {...props}
+    />
+  ),
+  a: ({ node, ...props }: any) => (
+    <a
+      className="text-primary underline underline-offset-2 hover:brightness-110"
+      target="_blank"
+      rel="noreferrer"
+      {...props}
+    />
+  ),
+  table: ({ node, ...props }: any) => (
+    <div className="overflow-x-auto my-2">
+      <table className="text-xs border-collapse" {...props} />
+    </div>
+  ),
+  th: ({ node, ...props }: any) => (
+    <th className="border border-border px-2 py-1 text-left font-semibold" {...props} />
+  ),
+  td: ({ node, ...props }: any) => (
+    <td className="border border-border px-2 py-1" {...props} />
+  ),
+  hr: ({ node, ...props }: any) => (
+    <hr className="my-2 border-border" {...props} />
+  ),
+};
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -579,8 +660,13 @@ const ChatBot = () => {
                     }`}
                   >
                     {msg.role === "assistant" ? (
-                      <div className="prose prose-sm max-w-none dark:prose-invert">
-                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                      <div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 space-y-2">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={chatMarkdownComponents}
+                        >
+                          {msg.content}
+                        </ReactMarkdown>
                       </div>
                     ) : (
                       <p className="whitespace-pre-wrap">{msg.content}</p>
