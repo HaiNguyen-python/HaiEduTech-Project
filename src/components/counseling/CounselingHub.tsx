@@ -16,7 +16,7 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianG
 
 type Mode = "psychological" | "career";
 type Msg = { role: "user" | "assistant"; content: string };
-type SectionTab = "chat" | "mood" | "journal" | "ikigai" | "personality" | "dilemmas" | "quote";
+type SectionTab = "chat" | "mood" | "journal" | "personality" | "dilemmas" | "quote";
 
 interface Props {
   userId: string;
@@ -26,8 +26,7 @@ const SECTION_TABS: { id: SectionTab; icon: any; en: string; vi: string }[] = [
   { id: "chat", icon: MessageCircle, en: "AI Counselor", vi: "Trợ lý AI" },
   { id: "mood", icon: Smile, en: "Mood Tracker", vi: "Cảm xúc" },
   { id: "journal", icon: BookHeart, en: "My Thoughts", vi: "Nhật ký" },
-  { id: "ikigai", icon: Compass, en: "IKIGAI", vi: "IKIGAI" },
-  { id: "personality", icon: Brain, en: "Personality", vi: "Trắc nghiệm" },
+  { id: "personality", icon: Compass, en: "Career Profile", vi: "Hồ sơ Hướng nghiệp" },
   { id: "dilemmas", icon: Lightbulb, en: "Dilemmas", vi: "Tình huống" },
   { id: "quote", icon: Quote, en: "Daily Quote", vi: "Câu nói hôm nay" },
 ];
@@ -93,7 +92,6 @@ const CounselingHub = ({ userId }: Props) => {
           {activeSection === "chat" && <ChatSection userId={userId} />}
           {activeSection === "mood" && <MoodSection userId={userId} />}
           {activeSection === "journal" && <JournalSection userId={userId} />}
-          {activeSection === "ikigai" && <IkigaiSection userId={userId} />}
           {activeSection === "personality" && <PersonalitySection userId={userId} />}
           {activeSection === "dilemmas" && <DilemmasSection onPick={() => setActiveSection("chat")} />}
           {activeSection === "quote" && <QuoteSection userId={userId} />}
@@ -914,7 +912,7 @@ const IkigaiSection = ({ userId }: { userId: string }) => {
 // ============= PERSONALITY SECTION =============
 const PersonalitySection = ({ userId }: { userId: string }) => {
   const { t, lang } = useLanguage();
-  const [test, setTest] = useState<"mbti" | "holland">("mbti");
+  const [test, setTest] = useState<"ikigai" | "mbti" | "holland">("ikigai");
   const [hollandScores, setHollandScores] = useState<Record<string, number>>({});
   const [hollandIdx, setHollandIdx] = useState(0);
   const [result, setResult] = useState<any>(null);
@@ -974,16 +972,31 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
   return (
     <div className="space-y-5">
       <div className="rounded-2xl border border-border bg-card p-6">
-        <h3 className="font-display font-bold flex items-center gap-2 mb-3">
-          <Brain className="w-5 h-5 text-violet-500" />
-          {t("Trắc nghiệm tính cách", "Personality Test")}
+        <h3 className="font-display font-bold flex items-center gap-2 mb-1">
+          <Compass className="w-5 h-5 text-emerald-500" />
+          {t("Hồ sơ Hướng nghiệp", "Career Profile")}
         </h3>
-        <div className="flex gap-2 mb-5 p-1 bg-secondary/40 rounded-xl w-fit">
-          <button onClick={() => { setTest("mbti"); setResult(null); }} className={`px-4 py-1.5 rounded-lg text-sm font-medium ${test === "mbti" ? "bg-background shadow-sm" : "text-muted-foreground"}`}>
-            {t("MBTI (40 câu)", "MBTI (40 Q)")}
+        <p className="text-sm text-muted-foreground mb-5">
+          {t(
+            "Khám phá bản thân qua 3 công cụ chuẩn quốc tế: IKIGAI, MBTI và Holland Code (RIASEC).",
+            "Discover yourself through 3 internationally-recognized tools: IKIGAI, MBTI, and Holland Code (RIASEC)."
+          )}
+        </p>
+        <div className="flex flex-wrap gap-2 mb-5 p-1 bg-secondary/40 rounded-xl w-fit">
+          <button onClick={() => { setTest("ikigai"); setResult(null); }} className={`px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 ${test === "ikigai" ? "bg-background shadow-sm text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"}`}>
+            <Compass className="w-3.5 h-3.5" /> IKIGAI
           </button>
-          <button onClick={() => { setTest("holland"); setResult(null); }} className={`px-4 py-1.5 rounded-lg text-sm font-medium ${test === "holland" ? "bg-background shadow-sm" : "text-muted-foreground"}`}>Holland Code</button>
+          <button onClick={() => { setTest("mbti"); setResult(null); }} className={`px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 ${test === "mbti" ? "bg-background shadow-sm text-violet-600 dark:text-violet-400" : "text-muted-foreground"}`}>
+            <Brain className="w-3.5 h-3.5" /> {t("MBTI (40 câu)", "MBTI (40 Q)")}
+          </button>
+          <button onClick={() => { setTest("holland"); setResult(null); }} className={`px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 ${test === "holland" ? "bg-background shadow-sm text-pink-600 dark:text-pink-400" : "text-muted-foreground"}`}>
+            <Sparkles className="w-3.5 h-3.5" /> Holland Code
+          </button>
         </div>
+
+        {test === "ikigai" && (
+          <IkigaiSection userId={userId} />
+        )}
 
         {test === "mbti" && (
           <MbtiFullTest userId={userId} />
