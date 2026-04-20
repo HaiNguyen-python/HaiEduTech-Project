@@ -289,8 +289,12 @@ function postProcessSvg(svg: string): string {
 
 const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const fullscreenRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [svgMarkup, setSvgMarkup] = useState<string>("");
   const safeId = id || `mmd${Math.random().toString(36).slice(2, 10)}`;
   const kind = detectKind(code);
 
@@ -308,6 +312,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
 
         if (!cancelled && ref.current) {
           ref.current.innerHTML = polished;
+          setSvgMarkup(polished);
           setError(null);
         }
       } catch (e) {
@@ -326,6 +331,25 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
       cleanupOrphan(safeId);
     };
   }, [code, safeId]);
+
+  // Inject the SVG into the fullscreen container whenever the dialog opens or markup changes.
+  useEffect(() => {
+    if (isFullscreen && fullscreenRef.current && svgMarkup) {
+      fullscreenRef.current.innerHTML = svgMarkup;
+      // Strip the inline max-width constraint so the SVG can grow to fill the modal.
+      const svg = fullscreenRef.current.querySelector("svg");
+      if (svg) {
+        svg.style.maxWidth = "none";
+        svg.style.width = "100%";
+        svg.style.height = "100%";
+      }
+    }
+  }, [isFullscreen, svgMarkup, zoom]);
+
+  // Reset zoom when closing the dialog.
+  useEffect(() => {
+    if (!isFullscreen) setZoom(1);
+  }, [isFullscreen]);
 
   if (error) {
     return (
