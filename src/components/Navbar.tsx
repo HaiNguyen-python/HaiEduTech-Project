@@ -494,15 +494,22 @@ const Navbar = () => {
                               );
                             }
 
+                            // Divider
+                            if (sub.divider) {
+                              return <div key={sub.to + i} className="my-1.5 mx-3 h-px bg-border" />;
+                            }
+
                             // Regular sub-item
+                            const SubIcon = sub.icon;
                             return (
                               <motion.div key={sub.to + sub.label}
                                 initial={{ opacity: 0, x: -6 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: i * 0.025, duration: 0.18 }}>
                                 <Link to={sub.to} onClick={() => setDropdown(null)}
-                                  className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors rounded-md mx-1">
-                                  {sub.label}
+                                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors rounded-md mx-1">
+                                  {SubIcon && <SubIcon className="w-4 h-4 text-primary/70" />}
+                                  <span>{sub.label}</span>
                                 </Link>
                               </motion.div>
                             );
