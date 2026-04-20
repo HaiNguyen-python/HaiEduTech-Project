@@ -416,7 +416,15 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
   },
 ];
 
-// First 30 days interactive checklist
+// ============================================================
+// Merge expansion guides (2026) into base categories
+// ============================================================
+export const NEWCOMER_CATEGORIES: NewcomerCategory[] = _NEWCOMER_CATEGORIES_BASE.map((cat) => {
+  if (cat.id === "admin") return { ...cat, guides: [...cat.guides, ...HOUSING_GUIDES] };
+  if (cat.id === "daily") return { ...cat, guides: [...cat.guides, ...SHOPPING_GUIDES, ...SEASONAL_GUIDES] };
+  if (cat.id === "work") return { ...cat, guides: [...cat.guides, ...STUDENT_TIPS_GUIDES] };
+  return cat;
+});
 export interface ChecklistItem {
   key: string;
   vi: string;
