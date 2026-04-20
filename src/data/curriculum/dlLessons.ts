@@ -764,11 +764,11 @@ The key insight: the **lower layers** of a deep CNN learn very generic features 
 | **Feature extraction** | Freeze pretrained weights, train only a new head | Small dataset (< 5 000 imgs) |
 | **Fine-tuning** | Replace head AND unfreeze top layers, train with a small learning rate | Larger dataset, similar domain |
 
-Rule of thumb: **freeze first**, validate, then unfreeze top blocks with `lr × 0.1`. Never unfreeze everything at the original learning rate — that destroys pretrained knowledge (catastrophic forgetting).
+Rule of thumb: **freeze first**, validate, then unfreeze top blocks with \`lr × 0.1\`. Never unfreeze everything at the original learning rate — that destroys pretrained knowledge (catastrophic forgetting).
 
 ## 3. Real-world example — license-plate detection
 
-You have only 2 000 labelled Vietnamese license-plate images. Training from scratch overfits massively. Instead: load **ResNet-50 pretrained on ImageNet**, replace the classifier with a 2-class head, freeze layers 1–3, fine-tune layer 4 + the head with `lr=1e-4`. You typically reach **>95 % accuracy in under an hour**.
+You have only 2 000 labelled Vietnamese license-plate images. Training from scratch overfits massively. Instead: load **ResNet-50 pretrained on ImageNet**, replace the classifier with a 2-class head, freeze layers 1–3, fine-tune layer 4 + the head with \`lr=1e-4\`. You typically reach **>95 % accuracy in under an hour**.
 
 ## 4. Beyond vision
 
@@ -844,7 +844,7 @@ print(f"Loss: {loss.item():.4f}")`,
 
 ## 1. Beyond classification
 
-Classification answers "*what* is in this image?" Object detection answers two harder questions: **what** objects + **where** they are (bounding boxes `(x, y, w, h)`). **Semantic segmentation** labels every pixel; **instance segmentation** also distinguishes individual objects of the same class.
+Classification answers "*what* is in this image?" Object detection answers two harder questions: **what** objects + **where** they are (bounding boxes \`(x, y, w, h)\`). **Semantic segmentation** labels every pixel; **instance segmentation** also distinguishes individual objects of the same class.
 
 ## 2. Two families
 
@@ -855,13 +855,13 @@ Classification answers "*what* is in this image?" Object detection answers two h
 
 In 2025, **YOLO** dominates production real-time use cases — modern variants reach >50 mAP on COCO at >100 FPS.
 
-```mermaid
+\`\`\`mermaid
 flowchart LR
     IMG[Input image] --> CNN[Backbone CNN]
     CNN --> NECK[Neck FPN: multi-scale features]
     NECK --> HEAD[Detection head]
     HEAD --> OUT[Boxes + classes + confidence]
-```
+\`\`\`
 
 ## 3. Three letters every detector uses
 
@@ -871,7 +871,7 @@ flowchart LR
 
 ## 4. Real-world deployments
 
-Self-driving cars, license-plate recognition (YOLO + CRNN), medical imaging (U-Net for tumour segmentation), retail analytics. With `ultralytics/yolov8` you can fine-tune a state-of-the-art detector on 200–500 labelled images in under an hour.
+Self-driving cars, license-plate recognition (YOLO + CRNN), medical imaging (U-Net for tumour segmentation), retail analytics. With \`ultralytics/yolov8\` you can fine-tune a state-of-the-art detector on 200–500 labelled images in under an hour.
 
 > 💡 **Key concept** — The bottleneck in 2025 is no longer the model — it's the **labelling**.`,
         theoryEn: "",
@@ -942,14 +942,14 @@ In 2014, Ian Goodfellow proposed: train **two** networks fighting each other.
 
 A *minimax* game. As D improves at spotting fakes, G is forced to make more realistic ones. At equilibrium, G's outputs are indistinguishable from real data.
 
-```mermaid
+\`\`\`mermaid
 flowchart LR
     Z[Random noise z] --> G[Generator G]
     G --> FAKE[Fake sample]
     REAL[Real sample] --> D[Discriminator D]
     FAKE --> D
     D --> OUT[Real or Fake?]
-```
+\`\`\`
 
 ## 2. Training loop
 
@@ -1049,14 +1049,14 @@ for step in range(2000):
 Diffusion models train on a brilliantly simple idea: instead of generating an image in one giant leap, learn to gradually **remove noise** at every noise level. Once the model can denoise, generate by starting from **pure noise** and denoising step-by-step.
 
 Two phases:
-1. **Forward (fixed)** — add Gaussian noise to a real image `x₀` over T steps until `x_T` is pure noise. No learning here.
-2. **Reverse (learned)** — train a network `ε_θ(x_t, t)` to **predict the noise** added at step `t`. Loss = MSE between predicted and true noise.
+1. **Forward (fixed)** — add Gaussian noise to a real image \`x₀\` over T steps until \`x_T\` is pure noise. No learning here.
+2. **Reverse (learned)** — train a network \`ε_θ(x_t, t)\` to **predict the noise** added at step \`t\`. Loss = MSE between predicted and true noise.
 
-```mermaid
+\`\`\`mermaid
 flowchart LR
     X0[Clean x_0] -->|+noise| X1 -->|+noise| XT[Pure noise]
     XT -->|denoise| X1b -->|denoise| X0b[Generated image]
-```
+\`\`\`
 
 ## 2. Why diffusion beat GANs
 
@@ -1151,20 +1151,20 @@ Production systems usually **combine RAG + fine-tuning** — fine-tune for tone,
 
 ## 2. RAG in 60 seconds
 
-```mermaid
+\`\`\`mermaid
 flowchart LR
     Q[User question] --> EMB[Embed query]
     EMB --> VDB[(Vector DB:<br/>Pinecone, Qdrant, pgvector)]
     VDB --> CTX[Top-k relevant chunks]
     CTX --> LLM[LLM answers using<br/>question + retrieved context]
     LLM --> A[Grounded answer + citations]
-```
+\`\`\`
 
 Knowledge updates without retraining; citations make hallucinations auditable; even a 7B model with good RAG often beats a 70B model alone on factual tasks.
 
 ## 3. LoRA — fine-tuning without breaking the bank
 
-Full fine-tuning of a 7B Llama needs ~80 GB GPU. **LoRA** (2021): freeze `W`, learn a tiny **delta** `ΔW = B · A` where `A`, `B` are low-rank. For a 4 096×4 096 matrix with rank `r=8`, you train **65k params instead of 17M** — 250× reduction.
+Full fine-tuning of a 7B Llama needs ~80 GB GPU. **LoRA** (2021): freeze \`W`, learn a tiny **delta** `ΔW = B · A` where `A`, `B` are low-rank. For a 4 096×4 096 matrix with rank `r=8`, you train **65k params instead of 17M** — 250× reduction.
 
 **QLoRA** (2023): load the base model in **4-bit** precision; LoRA adapters stay in float16. You can now fine-tune a **70B model on a single 24 GB consumer GPU**.
 
