@@ -176,8 +176,15 @@ Now produce the full Deep-Dive Markdown using the strict structure.`;
     }
 
     const data = await ppxResp.json();
-    const markdown: string = data?.choices?.[0]?.message?.content || "";
+    let markdown: string = data?.choices?.[0]?.message?.content || "";
     const citations: string[] = data?.citations || [];
+
+    // Some Perplexity responses wrap the whole output in a ```markdown ... ``` fence.
+    // Strip that outer fence so headings/diagrams render properly instead of being
+    // displayed as a single code block (which also leaks an "undefined" string).
+    markdown = markdown.trim();
+    const outerFence = markdown.match(/^```(?:markdown|md)?\s*\n([\s\S]*?)\n?```\s*$/i);
+    if (outerFence) markdown = outerFence[1].trim();
 
     if (!markdown.trim()) {
       return new Response(JSON.stringify({ error: "Empty AI response" }), {

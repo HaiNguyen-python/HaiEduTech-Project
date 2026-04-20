@@ -250,8 +250,20 @@ const markdownComponents = (defaultLang: string) => ({
   },
 });
 
+// Strip an outer ```markdown ... ``` wrapper that some AI providers emit around
+// the entire response. Without this, the whole lesson would render as a single
+// code block (with a "MARKDOWN" header) instead of structured theory.
+function stripOuterMarkdownFence(md: string): string {
+  const trimmed = (md || "").trim();
+  const m = trimmed.match(/^```(?:markdown|md)?\s*\n([\s\S]*?)\n?```\s*$/i);
+  return m ? m[1].trim() : trimmed;
+}
+
 const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: TheorySectionsProps) => {
-  const sections = useMemo(() => splitByH2(normalizeMath(markdown)), [markdown]);
+  const sections = useMemo(
+    () => splitByH2(normalizeMath(stripOuterMarkdownFence(markdown))),
+    [markdown],
+  );
   const components = useMemo(() => markdownComponents(defaultCodeLanguage), [defaultCodeLanguage]);
 
   const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
