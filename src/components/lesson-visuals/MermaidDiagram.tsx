@@ -478,14 +478,8 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
               >
                 <ZoomIn className="h-4 w-4" />
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsFullscreen(false)}
-                aria-label="Close fullscreen"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+              {/* Spacer keeps zoom controls clear of the Dialog's built-in close (X) button at top-right. */}
+              <div className="w-8" aria-hidden="true" />
             </div>
           </div>
 
