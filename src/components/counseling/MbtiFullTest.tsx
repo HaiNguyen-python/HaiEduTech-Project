@@ -389,12 +389,31 @@ const MbtiFullTest = ({ userId }: Props) => {
           </div>
         )}
 
-        <button
-          onClick={restart}
-          className="w-full py-3 rounded-xl border border-border hover:bg-secondary text-sm font-semibold flex items-center justify-center gap-2"
-        >
-          <RotateCcw className="w-4 h-4" /> {t("Làm lại trắc nghiệm", "Retake Test")}
-        </button>
+          {ai.scholarship_hint && (
+                <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                  <p className="text-sm">🎓 <strong>{t("Học bổng phù hợp:", "Scholarship hint:")}</strong> {ai.scholarship_hint}</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button
+            onClick={exportPDF}
+            disabled={exporting}
+            className="py-3 rounded-xl bg-gradient-to-r from-violet-500 to-pink-500 text-white text-sm font-semibold flex items-center justify-center gap-2 hover:brightness-110 disabled:opacity-60 shadow-lg"
+          >
+            {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+            {exporting ? t("Đang tạo PDF...", "Generating PDF...") : t("Tải xuống PDF", "Download PDF")}
+          </button>
+          <button
+            onClick={restart}
+            className="py-3 rounded-xl border border-border hover:bg-secondary text-sm font-semibold flex items-center justify-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" /> {t("Làm lại trắc nghiệm", "Retake Test")}
+          </button>
+        </div>
       </div>
     );
   }
