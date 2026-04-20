@@ -17,6 +17,7 @@ function initMermaid() {
     startOnLoad: false,
     theme: isDark ? "dark" : "default",
     securityLevel: "loose",
+    suppressErrorRendering: true, // ⬅ stops the bomb-icon SVG injection
     fontFamily: "Inter, system-ui, sans-serif",
     flowchart: { curve: "basis", padding: 12 },
     themeVariables: isDark
@@ -25,40 +26,58 @@ function initMermaid() {
   });
 }
 
+// Remove any orphan error nodes Mermaid may have appended to <body>
+function cleanupOrphan(safeId: string) {
+  if (typeof document === "undefined") return;
+  const orphan = document.getElementById(`d${safeId}`);
+  if (orphan && orphan.parentElement === document.body) {
+    orphan.remove();
+  }
+  // Also clean up any stray temp svg nodes mermaid leaves behind
+  document.querySelectorAll(`body > svg[id^="d${safeId}"]`).forEach((el) => el.remove());
+}
+
 const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const safeId = id || `mmd-${Math.random().toString(36).slice(2, 10)}`;
+  const safeId = id || `mmd${Math.random().toString(36).slice(2, 10)}`;
 
   useEffect(() => {
     let cancelled = false;
     const run = async () => {
       try {
         initMermaid();
-        const { svg } = await mermaid.render(safeId, code.trim());
+        const trimmed = code.trim();
+        // Pre-validate; mermaid.parse throws on syntax errors WITHOUT side-effects
+        await mermaid.parse(trimmed);
+        const { svg } = await mermaid.render(safeId, trimmed);
         if (!cancelled && ref.current) {
           ref.current.innerHTML = svg;
           setError(null);
         }
       } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Render error");
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message.split("\n")[0] : "Render error");
+        }
       } finally {
+        cleanupOrphan(safeId);
         if (!cancelled) setLoading(false);
       }
     };
     run();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      cleanupOrphan(safeId);
+    };
   }, [code, safeId]);
 
   if (error) {
+    // Silent fallback: show a small inline note instead of the loud bomb icon
     return (
-      <div className="not-prose my-4 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-sm text-amber-700 dark:text-amber-300 flex items-start gap-2">
-        <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
-        <div>
-          <div className="font-semibold mb-1">Diagram render error</div>
-          <code className="text-xs opacity-80">{error}</code>
-        </div>
+      <div className="not-prose my-4 rounded-lg border border-border bg-muted/40 p-3 text-xs text-muted-foreground flex items-start gap-2">
+        <AlertTriangle className="w-3.5 h-3.5 mt-0.5 shrink-0 opacity-60" />
+        <span>Diagram could not be rendered.</span>
       </div>
     );
   }
