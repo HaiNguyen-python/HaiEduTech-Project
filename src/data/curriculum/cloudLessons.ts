@@ -1,5 +1,5 @@
 // Cloud Engineer curriculum — 5 progressive modules
-// Compatible with ExtendedProgrammingModule (same schema as SQL/ML/Data Eng)
+// Tương thích với ExtendedProgrammingModule (cùng schema với SQL/ML/Data Eng)
 import type { ExtendedProgrammingModule } from "./types";
 
 export const cloudModules: ExtendedProgrammingModule[] = [
@@ -10,17 +10,107 @@ export const cloudModules: ExtendedProgrammingModule[] = [
     titleEn: "Cloud Computing Fundamentals",
     icon: "☁️",
     color: "from-sky-500 to-blue-600",
-    description: "Understand cloud models, IaaS/PaaS/SaaS, major providers
+    description: "Understand cloud models, IaaS/PaaS/SaaS, major providers (AWS, Azure, GCP)",
+    descriptionEn: "Understand cloud models, IaaS/PaaS/SaaS, major providers (AWS, Azure, GCP)",
+    course: "cloud",
+    lessons: [
+      {
+        id: "cloud-fund-1",
+        title: "What is cloud computing?",
+        titleEn: "What is Cloud Computing?",
+        level: 1,
+        difficulty: "beginner",
+        theory: `## 1. 🚦 Vấn đề đời thường
+
+Ngày xưa muốn bán hàng online phải mua server vài chục triệu, thuê phòng máy lạnh, cắm điện 24/7. Giờ chỉ cần mở laptop, vài cú click trên AWS/GCP — có ngay máy chủ chạy. **Cloud computing** = "thuê hạ tầng IT theo phút như thuê Grab".
+
+> 💡 **Mẹo của thầy Hải:** Cloud không phải "máy ảo trên mây" — đó là **mô hình kinh doanh trả theo dùng** (pay-as-you-go), giúp startup khởi nghiệp với 0đ vốn hạ tầng.
+
+## 2. 💡 Khái niệm chính
+
+- **On-premise**: server bạn tự sở hữu, đặt trong văn phòng.
+- **Cloud**: server do AWS/GCP/Azure quản lý, bạn thuê.
+- **Pay-as-you-go**: dùng bao nhiêu trả bấy nhiêu.
+- **Elasticity**: tự co giãn khi traffic tăng/giảm.
+
+## 3. 🧰 5 đặc tính NIST của cloud
+
+1. On-demand self-service (tự click là có).
+2. Broad network access (truy cập mọi nơi).
+3. Resource pooling (chia sẻ tài nguyên).
+4. Rapid elasticity (co giãn nhanh).
+5. Measured service (đo đếm để tính tiền).
+
+## 4. 🎯 Ví dụ chạy được ngay
+
+Mở AWS Free Tier → tạo 1 EC2 t2.micro → SSH vào → bạn vừa "thuê server". Hết tháng tắt đi → khỏi tốn xu nào.
+
+## 5. ⚠️ Bẫy thường gặp
+
+> ⚠️ **Cảnh báo:** Quên tắt resource → cuối tháng nhận hoá đơn vài trăm USD. Luôn set **billing alert** ngay sau khi tạo account.
+
+## 6. ✅ Best practice
+
+> 💡 **Mẹo của thầy Hải:** Mới học → dùng AWS Free Tier 12 tháng (EC2 t2.micro, S3 5GB, RDS) miễn phí. Đủ để build portfolio.
+
+## 7. 🤔 Khi nào dùng cloud
+
+- ✅ Startup, traffic biến động, cần scale nhanh.
+- ❌ Hệ thống cực nhạy cảm (quân sự, ngân hàng lõi) → on-premise.
+
+## 8. 📌 Tóm tắt 30 giây
+
+Cloud = thuê IT theo phút. 5 đặc tính NIST. Pay-as-you-go + elasticity = lý do startup yêu cloud. Luôn bật billing alert.
+`,
+        theoryEn: `**Cloud Computing** delivers compute resources (servers, storage, databases, network, software) over the Internet on a **pay-as-you-go** model. Instead of investing millions upfront in a data center, you rent infrastructure by the minute/hour and scale instantly when needed.
+
+## Context: why Cloud exploded
+Before 2006, every company had to buy servers, build data centers, and hire 24/7 sysadmins. Traffic spike on Black Friday? Site crashed. Traffic drop? Millions in idle hardware.
+
+AWS launched S3 and EC2 in 2006, turning CAPEX into OPEX. Today >95% of businesses use cloud in some form (Gartner 2024).
+
+## 5 essential characteristics (NIST)
+NIST defines cloud with 5 traits that distinguish it from regular hosting:
+
+1. **On-demand self-service** — provision via console/API/CLI without contacting a human.
+2. **Broad network access** — reachable from any device over standard protocols.
+3. **Resource pooling** — multi-tenant shared physical hardware via virtualization.
+4. **Rapid elasticity** — scale up/down quickly, often automatically.
+5. **Measured service** — precise metering (CPU-second, GB-month) for transparent billing.
+
+## 3 service models (IaaS / PaaS / SaaS)
+The more the provider handles, the less you control:
+
+| Model | You manage | Provider manages | Examples |
+|---|---|---|---|
+| **IaaS** | OS, runtime, app, data | Hardware, virtualization | EC2, Azure VM |
+| **PaaS** | App + data | Everything below | Beanstalk, Heroku, App Engine |
+| **SaaS** | Config + your data | Everything else | Gmail, O365, Salesforce |
+
+**Pizza analogy:** IaaS = buy ingredients & cook; PaaS = frozen pizza, just bake; SaaS = order delivery.
+
+## 4 deployment models
+- **Public** — shared (AWS, Azure, GCP). Cheapest, fastest scale.
+- **Private** — dedicated to one org. Maximum control, common in banking/defense.
+- **Hybrid** — mix of public + private, linked via VPN / Direct Connect.
+- **Community** — shared by orgs in same regulated industry (e.g., HIPAA-compliant health cloud).
+
+## Case study: Netflix
+In 2008 Netflix suffered a 3-day database outage on-prem. They went "all-in" on AWS, closed their last data center in 2016. Today Netflix runs 100,000+ EC2 instances serving 250M+ subscribers, using auto-scaling to handle prime-time peaks 10× larger than 3 AM — impossible with self-owned hardware.
+
+## Benefits vs trade-offs
+**Benefits:** lower CAPEX, fast time-to-market, global scale, 99.9-99.999% SLA, built-in backup/encryption/compliance.
+
 **Trade-offs:** bills can shock you if designed wrong; vendor lock-in (DynamoDB, BigQuery); Internet dependency; compliance/data-residency complexity.
 
 ## When NOT to use cloud
-- Very stable workloads running 24/7 for years → on-prem can be **30-50% cheaper** (Dropbox famously reverse-migrated and saved $75M/year).
-- Ultra-low latency <1ms (**HFT trading**).
+- Very stable workloads running 24/7 for years → on-prem can be 30-50% cheaper (Dropbox famously reverse-migrated and saved $75M/year).
+- Ultra-low latency <1ms (HFT trading).
 - Data legally barred from leaving the country.
 
 ## Next lesson
 Lesson 2 compares the **Big Three** so you can pick the right provider for your project.`,
-        code: `# Simulate cloud "pay-as-you-go" model
+        code: `# Mô phỏng mô hình "pay-as-you-go" của Cloud
 def calculate_cloud_cost(hours_used: float, instance_type: str = "t3.micro") -> float:
     pricing = {
         "t3.micro":  0.0104,   # USD/hour
@@ -36,7 +126,7 @@ monthly = calculate_cloud_cost(720, "t3.small")
 print(f"Cost for 1 month: \${monthly} USD")
 
 # Compare on-premise (buy physical server)
-on_prem_capex = 5000  # USD initial investment
+on_prem_capex = 5000  # USD đầu tư ban đầu
 months_to_breakeven = on_prem_capex / monthly
 print(f"On-prem breakeven later: {months_to_breakeven:.1f} months")`,
         codeLanguage: "python",
@@ -56,51 +146,51 @@ print(f"On-prem breakeven later: {months_to_breakeven:.1f} months")`,
         titleEn: "Big Three: AWS vs Azure vs GCP",
         level: 1,
         difficulty: "beginner",
-        theory: `## 1. 🚦 Everyday problem
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-You go to a **noodle shop**: **IaaS** = buy raw ingredients and cook yourself (flexible, labor-intensive). **PaaS** = order a pre-made set with veggies and meat, just eat (less hassle). **SaaS** = go to the shop and eat right away, no cooking needed.
+Bạn vào quán phở: **IaaS** = mua nguyên liệu sống về tự nấu (linh hoạt, tốn công). **PaaS** = đặt suất set có sẵn rau-thịt, chỉ ăn (đỡ vất vả). **SaaS** = vào quán ăn luôn, không cần nấu nướng.
 
-> 💡 **Mr. Hai's tip:** The higher you go, the less infrastructure you manage — at the cost of less customization.
+> 💡 **Mẹo của thầy Hải:** Càng lên cao càng đỡ quản lý hạ tầng — đổi lấy việc ít tuỳ biến hơn.
 
-## 2. 💡 3 service models
+## 2. 💡 3 mô hình dịch vụ
 
-| Model | You manage | Cloud manages | Example |
-|-------|------------|---------------|---------|
-| IaaS  | OS, app, data | Server, network | EC2, GCE |
-| PaaS  | App, data | OS, runtime | Heroku, App Engine |
-| SaaS  | User data | Entire app | Gmail, Notion |
+| Mô hình | Bạn quản | Cloud quản | Ví dụ |
+|---------|----------|-----------|-------|
+| IaaS | OS, app, data | Server, network | EC2, GCE |
+| PaaS | App, data | OS, runtime | Heroku, App Engine |
+| SaaS | Data người dùng | Cả ứng dụng | Gmail, Notion |
 
-## 3. 🧰 When choosing a model
+## 3. 🧰 Khi chọn mô hình
 
 \`\`\`
-Need OS control → IaaS
-Just deploy Python code → PaaS
-Need to use right away, no setup → SaaS
+Cần kiểm soát hệ điều hành → IaaS
+Chỉ cần deploy code Python → PaaS
+Cần dùng ngay không setup → SaaS
 \`\`\`
 
-## 4. 🎯 Runnable examples
+## 4. 🎯 Ví dụ chạy được ngay
 
-- Build Django website: choose **PaaS** (Render/Railway) → deploy in 5 minutes.
-- Train AI model with GPU: choose **IaaS** (AWS EC2 g4dn) to install CUDA.
-- Manage team: choose **SaaS** (Slack, Notion).
+- Build website Django: chọn **PaaS** (Render/Railway) → 5 phút deploy.
+- Train model AI có GPU: chọn **IaaS** (AWS EC2 g4dn) để cài CUDA.
+- Quản lý team: chọn **SaaS** (Slack, Notion).
 
-## 5. ⚠️ Common pitfalls
+## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Warning:** Choosing IaaS just because it "sounds pro" → waste weeks configuring server, when PaaS could finish in 1 day.
+> ⚠️ **Cảnh báo:** Chọn IaaS chỉ vì "nghe pro" → mất hàng tuần config server, lẽ ra PaaS xong trong 1 ngày.
 
 ## 6. ✅ Best practice
 
-> 💡 **Mr. Hai's tip:** Startup MVP → start with PaaS. When traffic and costs increase → consider dropping to IaaS for optimization.
+> 💡 **Mẹo của thầy Hải:** Startup MVP → bắt đầu PaaS. Khi traffic và chi phí tăng → cân nhắc xuống IaaS để tối ưu.
 
-## 7. 🤔 When to use
+## 7. 🤔 Khi nào dùng
 
-- ✅ IaaS: need deep control, special workloads.
-- ✅ PaaS: fast dev, typical web/api apps.
-- ✅ SaaS: daily tools.
+- ✅ IaaS: cần kiểm soát sâu, workload đặc biệt.
+- ✅ PaaS: dev nhanh, app web/api thông thường.
+- ✅ SaaS: tool hằng ngày.
 
-## 8. 📌 30-second summary
+## 8. 📌 Tóm tắt 30 giây
 
-IaaS = ingredients, PaaS = ready meal, SaaS = instant food. Higher up means less management, less customization. Choose based on control needs.
+IaaS = nguyên liệu, PaaS = set ăn, SaaS = ăn liền. Càng lên cao càng đỡ quản, càng ít tuỳ biến. Chọn theo nhu cầu kiểm soát.
 `,
         theoryEn: `**The Big Three** dominate 65%+ of the global cloud market. Knowing the differences helps you pick the right provider — and avoid surprise vendor lock-in.
 
@@ -110,15 +200,9 @@ IaaS = ingredients, PaaS = ready meal, SaaS = instant food. Higher up means less
 - **GCP** ~11% — strong in data/AI/Kubernetes.
 
 ## 1. AWS — king of breadth
-Born 2006, 4-5 year head start. **200+ services**. Largest community. **Strongest in:** EC2, S3, Lambda, DynamoDB. **Customers:** Netflix, Airbnb, NASA.`,
-        }
-{
-  id: "cloud-fund-2",
-  title: "2. Azure — king of enterprise hybrid",
-  titleEn: "2. Azure — king of enterprise hybrid",
-  level: 2,
-  difficulty: "beginner",
-  theory: `## 2. Azure — king of enterprise hybrid
+Born 2006, 4-5 year head start. **200+ services**. Largest community. **Strongest in:** EC2, S3, Lambda, DynamoDB. **Customers:** Netflix, Airbnb, NASA.
+
+## 2. Azure — king of enterprise hybrid
 Leverages Microsoft's 30-year enterprise relationships. **Deep integration** with AD, Office 365, Windows Server. **Strongest in:** Azure AD, Azure DevOps, Azure OpenAI. **Customers:** Walmart, BMW, FedEx.
 
 ## 3. GCP — king of data & AI
@@ -164,7 +248,7 @@ BigQuery let them query 100TB in seconds for real-time listener analytics; Pub/S
 
 ## Next lesson
 Lesson 3 covers **Regions, AZs, Edge Locations** — the physical layer beneath every cloud.`,
-  code: `# Service equivalence table for 3 providers
+        code: `# Bảng tra cứu dịch vụ tương đương 3 nhà cung cấp
 service_map = {
     "virtual_machine": {"aws": "EC2",      "azure": "Virtual Machines", "gcp": "Compute Engine"},
     "object_storage":  {"aws": "S3",       "azure": "Blob Storage",     "gcp": "Cloud Storage"},
@@ -182,70 +266,69 @@ def find_equivalent(service: str, from_provider: str, to_provider: str) -> str:
 
 print(find_equivalent("S3", "aws", "gcp"))         # Cloud Storage
 print(find_equivalent("BigQuery", "gcp", "azure")) # Synapse`,
-  codeLanguage: "python",
-  exercise: "You are using AWS Lambda + S3 + RDS. List equivalent services on Azure and GCP to create a migration comparison table.",
-  exerciseEn: "You use AWS Lambda + S3 + RDS. List equivalent services on Azure and GCP for a migration comparison.",
-  quiz: [
-    { question: "What is the GCP equivalent of AWS S3?", options: ["Blob Storage", "Cloud Storage", "Cloud SQL", "BigQuery"], answer: 1, explanation: "GCP Cloud Storage is the object storage equivalent of AWS S3 and Azure Blob Storage." },
-    { question: "Which provider is well-known for Data Analytics with BigQuery?", options: ["AWS", "Azure", "GCP", "IBM"], answer: 2, explanation: "GCP is famous for BigQuery — a blazing-fast serverless data warehouse." },
-    { question: "What is AKS?", options: ["AWS Kubernetes service", "Azure Kubernetes service", "GCP Kubernetes service", "A framework name"], answer: 1, explanation: "AKS = Azure Kubernetes Service. Equivalent to EKS (AWS) and GKE (GCP)." },
-    { question: "Where does Azure shine the most?", options: ["Pure AI", "Microsoft enterprise integration", "Gaming", "Personal IoT"], answer: 1, explanation: "Azure integrates deeply with the Microsoft ecosystem (Windows Server, Active Directory, Office 365) — a major enterprise advantage." },
-    { question: "AWS Lambda is what type of service?", options: ["IaaS", "PaaS", "Serverless / FaaS", "SaaS"], answer: 2, explanation: "AWS Lambda is Function-as-a-Service (FaaS) — a form of serverless computing." },
-  ],
-},
-{
-  id: "cloud-fund-3",
-  title: "Region, AZ and Edge Location",
-  titleEn: "Regions, AZs, and Edge Locations",
-  level: 2,
-  difficulty: "beginner",
-  theory: `## 1. 🚦 Everyday problems
+        codeLanguage: "python",
+        exercise: "You are using AWS Lambda + S3 + RDS. List equivalent services on Azure and GCP to create a migration comparison table.",
+        exerciseEn: "You use AWS Lambda + S3 + RDS. List equivalent services on Azure and GCP for a migration comparison.",
+        quiz: [
+          { question: "What is the GCP equivalent of AWS S3?", options: ["Blob Storage", "Cloud Storage", "Cloud SQL", "BigQuery"], answer: 1, explanation: "GCP Cloud Storage is the object storage equivalent of AWS S3 and Azure Blob Storage." },
+          { question: "Which provider is well-known for Data Analytics with BigQuery?", options: ["AWS", "Azure", "GCP", "IBM"], answer: 2, explanation: "GCP is famous for BigQuery — a blazing-fast serverless data warehouse." },
+          { question: "What is AKS?", options: ["AWS Kubernetes service", "Azure Kubernetes service", "GCP Kubernetes service", "A framework name"], answer: 1, explanation: "AKS = Azure Kubernetes Service. Equivalent to EKS (AWS) and GKE (GCP)." },
+          { question: "Where does Azure shine the most?", options: ["Pure AI", "Microsoft enterprise integration", "Gaming", "Personal IoT"], answer: 1, explanation: "Azure integrates deeply with the Microsoft ecosystem (Windows Server, Active Directory, Office 365) — a major enterprise advantage." },
+          { question: "AWS Lambda is what type of service?", options: ["IaaS", "PaaS", "Serverless / FaaS", "SaaS"], answer: 2, explanation: "AWS Lambda is Function-as-a-Service (FaaS) — a form of serverless computing." },
+        ],
+      },
+      {
+        id: "cloud-fund-3",
+        title: "Region, AZ and Edge Location",
+        titleEn: "Regions, AZs, and Edge Locations",
+        level: 2,
+        difficulty: "beginner",
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-You need to go to Da Lat: **Public cloud** = bus (share seats with strangers, cheap). **Private cloud** = rent a private car (expensive but private). **Hybrid** = drive your car to the station then take the bus. **Multi-cloud** = sometimes Vietjet, sometimes Bamboo — not dependent on one airline.
+Bạn cần lên Đà Lạt: **Public cloud** = đi xe khách (chia chỗ với khách lạ, rẻ). **Private cloud** = thuê xe riêng (đắt nhưng kín đáo). **Hybrid** = đi xe nhà ra bến rồi lên xe khách. **Multi-cloud** = lúc đi Vietjet, lúc Bamboo — không phụ thuộc 1 hãng.
 
-> 💡 **Mr. Hai's tip:** Large enterprises often use multi-cloud to avoid "vendor lock-in" — being held captive by one provider.
+> 💡 **Mẹo của thầy Hải:** Doanh nghiệp lớn thường multi-cloud để tránh "vendor lock-in" — bị 1 nhà cung cấp giam.
 
-## 2. 💡 4 deployment models
+## 2. 💡 4 mô hình triển khai
 
-| Model | Who uses it | Characteristics |
-|-------|-------------|-----------------|
-| Public | Everyone | AWS/GCP/Azure public, cheap |
-| Private | 1 organization | Self-hosted or dedicated rental, high control |
-| Hybrid | Mix of above 2 | Sensitive data on private, rest on public |
-| Multi-cloud | Multiple providers | No dependency, complex management |
+| Mô hình | Ai dùng | Đặc điểm |
+|---------|---------|---------|
+| Public | Mọi người | AWS/GCP/Azure công cộng, rẻ |
+| Private | 1 tổ chức | Tự host hoặc thuê riêng, kiểm soát cao |
+| Hybrid | Trộn 2 trên | Nhạy cảm trên private, còn lại public |
+| Multi-cloud | Nhiều nhà cung cấp | Không phụ thuộc, phức tạp quản lý |
 
-## 3. 🧰 When to choose
+## 3. 🧰 Khi nào chọn
 
 \`\`\`
 Startup / SME → Public
-Hospital, bank → Hybrid (sensitive data on-prem)
-Large corporation → Multi-cloud + Hybrid
-\`\`\``,
-}
-{
-  modules: [
-    {
-      title: "## 4. 🎯 Ready-to-run example",
-      content: `A **VN bank**: customer data on private cloud (Viettel IDC), public website on AWS — typical hybrid.
+Bệnh viện, ngân hàng → Hybrid (data nhạy cảm on-prem)
+Tập đoàn lớn → Multi-cloud + Hybrid
+\`\`\`
 
-## 5. ⚠️ Common pitfalls
+## 4. 🎯 Ví dụ chạy được ngay
 
-> ⚠️ **Warning:** Multi-cloud sounds great but triples complexity (auth, billing, monitoring). Don't follow trends without a sufficient team.
+Một ngân hàng VN: data khách hàng trên private cloud (Vietel IDC), website public trên AWS — hybrid điển hình.
 
-## 6. ✅ Best practices
+## 5. ⚠️ Bẫy thường gặp
 
-> 💡 **Mr. Hai's tip:** Start with public — switch to hybrid only when compliance requirements or sensitive data arise.
+> ⚠️ **Cảnh báo:** Multi-cloud nghe hay nhưng tăng độ phức tạp gấp 3 (auth, billing, monitoring). Đừng theo trend nếu chưa đủ team.
 
-## 7. 🤔 When to use
+## 6. ✅ Best practice
 
-- ✅ Public: 90% startups, new projects.
-- ✅ Hybrid: finance, healthcare, government.
-- ✅ Multi-cloud: enterprises avoiding lock-in.
+> 💡 **Mẹo của thầy Hải:** Bắt đầu public — khi có yêu cầu tuân thủ (compliance), data nhạy cảm mới chuyển hybrid.
 
-## 8. 📌 30-second summary
+## 7. 🤔 Khi nào dùng
 
-Public is cheap and fast. Private offers high control. Hybrid combines both. Multi-cloud avoids dependency. Choose based on data sensitivity and team scale.`,
-      theoryEn: `**Cloud physical infrastructure** has 3 nested tiers: Region → AZ → Edge. Knowing this lets you design fault-tolerant systems, comply with data laws, and optimize user latency.
+- ✅ Public: 90% startup, dự án mới.
+- ✅ Hybrid: tài chính, y tế, chính phủ.
+- ✅ Multi-cloud: enterprise tránh lock-in.
+
+## 8. 📌 Tóm tắt 30 giây
+
+Public rẻ và nhanh. Private kiểm soát cao. Hybrid kết hợp. Multi-cloud tránh phụ thuộc. Chọn theo độ nhạy data và quy mô team.
+`,
+        theoryEn: `**Cloud physical infrastructure** has 3 nested tiers: Region → AZ → Edge. Knowing this lets you design fault-tolerant systems, comply with data laws, and optimize user latency.
 
 ## Why it matters
 In 2017, AWS us-east-1 went down for 5 hours due to a debug typo — Slack, Trello, Quora, Medium all offline. They all ran single-region. After that, "Multi-AZ" became the gold standard and critical systems went Multi-Region.
@@ -304,7 +387,7 @@ Netflix built "Chaos Monkey" to randomly kill EC2 instances in production — fo
 
 ## Next lesson
 Next module starts **Compute & Storage** — meet EC2 (VM), S3 (object storage), and Docker containers.`,
-      code: `# Simulate Multi-AZ vs Single-AZ deployment
+        code: `# Mô phỏng triển khai Multi-AZ vs Single-AZ
 class CloudDeployment:
     def __init__(self, name: str, azs: list[str]):
         self.name = name
@@ -321,50 +404,52 @@ multi_az  = CloudDeployment("Web app B", ["us-east-1a", "us-east-1b", "us-east-1
 
 print(f"{single_az.name}: {single_az.availability()}%")  # 99.95
 print(f"{multi_az.name}:  {multi_az.availability()}%")   # 99.99999...`,
-      codeLanguage: "python",
-      exercise: "A global SaaS application needs a 99.99% SLA and serves users in the US + Europe + Asia. Let's propose the strategy Region + AZ + Edge Location.",
-      exerciseEn: "A global SaaS app needs 99.99% SLA and serves users in US + EU + Asia. Propose a Region + AZ + Edge Location strategy.",
-      quiz: [
-        { question: "What is an AZ?", options: ["A region", "An isolated data center inside a region", "A CDN node", "A physical server"], answer: 1, explanation: "An AZ (Availability Zone) is one or more isolated data centers (independent power, network, cooling) within a single region." },
-        { question: "To survive a data center failure, you should?", options: ["Use one large AZ", "Deploy across Multi-AZ", "Use on-premise", "Add more RAM"], answer: 1, explanation: "Multi-AZ deployment keeps the application running when one AZ fails." },
-        { question: "Edge Locations are used for?", options: ["Storing the main database", "Caching content close to users (CDN)", "Backing up an AZ", "Running VMs"], answer: 1, explanation: "Edge Locations are CDN PoPs that cache static content near end-users to reduce latency." },
-        { question: "Where is the us-east-1 region located?", options: ["California", "Virginia (USA)", "Singapore", "Ireland"], answer: 1, explanation: "us-east-1 is the first AWS region, located in N. Virginia, USA." },
-        { question: "Most COMMON reason for choosing a region?", options: ["Nice logo color", "Low cost + low latency + legal compliance", "Fewer AZs", "Memorable name"], answer: 1, explanation: "Pick a region based on user proximity (latency), pricing, and data residency law (GDPR)." },
-      ],
-    },
-  ],
-},
-{
-  id: "cloud-compute-storage",
-  title: "Compute & Storage",
-  titleEn: "Compute & Storage",
-  icon: "💾",
-  color: "from-cyan-500 to-blue-600",
-  description: "VM, container, serverless and storage types (block, object, file)",
-  descriptionEn: "VMs, containers, serverless and storage types (block, object, file)",
-  course: "cloud",
-  lessons: [
-    {
-      id: "cloud-compute-1",
-      title: "Virtual Machines (EC2/VM)",
-      titleEn: "Virtual Machines (EC2/VM)",
-      level: 2,
-      difficulty: "beginner",
-      theory: `## 1. 🚦 Everyday Problem
+        codeLanguage: "python",
+        exercise: "A global SaaS application needs a 99.99% SLA and serves users in the US + Europe + Asia. Let's propose the strategy Region + AZ + Edge Location.",
+        exerciseEn: "A global SaaS app needs 99.99% SLA and serves users in US + EU + Asia. Propose a Region + AZ + Edge Location strategy.",
+        quiz: [
+          { question: "What is an AZ?", options: ["A region", "An isolated data center inside a region", "A CDN node", "A physical server"], answer: 1, explanation: "An AZ (Availability Zone) is one or more isolated data centers (independent power, network, cooling) within a single region." },
+          { question: "To survive a data center failure, you should?", options: ["Use one large AZ", "Deploy across Multi-AZ", "Use on-premise", "Add more RAM"], answer: 1, explanation: "Multi-AZ deployment keeps the application running when one AZ fails." },
+          { question: "Edge Locations are used for?", options: ["Storing the main database", "Caching content close to users (CDN)", "Backing up an AZ", "Running VMs"], answer: 1, explanation: "Edge Locations are CDN PoPs that cache static content near end-users to reduce latency." },
+          { question: "Where is the us-east-1 region located?", options: ["California", "Virginia (USA)", "Singapore", "Ireland"], answer: 1, explanation: "us-east-1 is the first AWS region, located in N. Virginia, USA." },
+          { question: "Most COMMON reason for choosing a region?", options: ["Nice logo color", "Low cost + low latency + legal compliance", "Fewer AZs", "Memorable name"], answer: 1, explanation: "Pick a region based on user proximity (latency), pricing, and data residency law (GDPR)." },
+        ],
+      },
+    ],
+  },
 
-You need a "cloud computer" to run your app: choose CPU/RAM/disk, start it up, SSH in — just like a real machine. That's **EC2** (AWS) or **Compute Engine** (GCP) — a virtual machine.
+  // ============ MODULE 2: Compute & Storage ============
+  {
+    id: "cloud-compute-storage",
+    title: "Compute & Storage",
+    titleEn: "Compute & Storage",
+    icon: "💾",
+    color: "from-cyan-500 to-blue-600",
+    description: "VM, container, serverless and storage types (block, object, file)",
+    descriptionEn: "VMs, containers, serverless and storage types (block, object, file)",
+    course: "cloud",
+    lessons: [
+      {
+        id: "cloud-compute-1",
+        title: "Virtual Machines (EC2/VM)",
+        titleEn: "Virtual Machines (EC2/VM)",
+        level: 2,
+        difficulty: "beginner",
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-> 💡 **Mr. Hai's tip:** EC2 is AWS's **highest revenue service**. Understanding EC2 = understanding 50% of AWS.
+Bạn cần "máy tính trên cloud" để chạy app: chọn CPU/RAM/ổ cứng, bật lên, SSH vào — y hệt máy thật. Đó là **EC2** (AWS) hay **Compute Engine** (GCP) — máy chủ ảo (Virtual Machine).
 
-## 2. 💡 Key Concepts
+> 💡 **Mẹo của thầy Hải:** EC2 là dịch vụ **kiếm doanh thu lớn nhất AWS**. Hiểu EC2 = hiểu 50% AWS.
 
-- **Instance**: A specific virtual machine.
-- **Instance type**: Configuration (t2.micro, m5.xlarge…). Letter = family (general/compute/memory), number = generation.
-- **AMI** (Amazon Machine Image): Pre-installed OS "disk image".
-- **EBS**: Disk attached to the instance.
-- **Region & AZ**: Geographic region + data center.
+## 2. 💡 Khái niệm chính
 
-## 3. 🧰 Create EC2 with AWS CLI
+- **Instance**: 1 máy ảo cụ thể.
+- **Instance type**: cấu hình (t2.micro, m5.xlarge…). Chữ cái = họ (general/compute/memory), số = thế hệ.
+- **AMI** (Amazon Machine Image): "ảnh đĩa" cài sẵn OS.
+- **EBS**: ổ cứng gắn vào instance.
+- **Region & AZ**: vùng địa lý + phòng máy.
+
+## 3. 🧰 Tạo EC2 bằng AWS CLI
 
 \`\`\`bash
 aws ec2 run-instances \\
@@ -374,35 +459,35 @@ aws ec2 run-instances \\
   --security-group-ids sg-123
 \`\`\`
 
-## 4. 🎯 Runnable Example
+## 4. 🎯 Ví dụ chạy được ngay
 
-Free Tier: create \`t2.micro\` + Ubuntu → SSH:
+Free Tier: tạo \`t2.micro\` + Ubuntu → SSH:
 
 \`\`\`bash
 ssh -i my-key.pem ubuntu@<public-ip>
 sudo apt update && sudo apt install nginx -y
 \`\`\`
 
-→ Open \`http://<ip>\` in browser → web server is live!
+→ Trình duyệt mở \`http://<ip>\` → đã có web server!
 
-## 5. ⚠️ Common Pitfalls
+## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Warning:** Forget to assign Security Group opening ports 22/80 → Can't SSH/HTTP in, but think the machine is dead.
+> ⚠️ **Cảnh báo:** Quên gán Security Group mở port 22/80 → SSH/HTTP không vào được mà cứ tưởng máy chết.
 
-## 6. ✅ Best Practices
+## 6. ✅ Best practice
 
-> 💡 **Mr. Hai's tip:** Dev → **Spot Instance** (70-90% cheaper). Critical production → **On-Demand** or **Reserved**.
+> 💡 **Mẹo của thầy Hải:** Dev → **Spot Instance** (giảm 70-90% giá). Production critical → **On-Demand** hoặc **Reserved**.
 
-## 7. 🤔 When to Use
+## 7. 🤔 Khi nào dùng
 
-- ✅ Apps needing OS-level control, custom runtime.
-- ❌ Simple Python code → Lambda/serverless is cheaper.
+- ✅ App cần OS-level control, custom runtime.
+- ❌ Code Python đơn giản → Lambda/serverless rẻ hơn.
 
-## 8. 📌 30-Second Summary
+## 8. 📌 Tóm tắt 30 giây
 
-EC2 = virtual machine on cloud. Choose instance type by workload. Spot cheap for dev, On-Demand for prod. Security Group = firewall.
+EC2 = máy ảo trên cloud. Chọn instance type theo workload. Spot rẻ cho dev, On-Demand cho prod. Security Group = firewall.
 `,
-      theoryEn: `**Virtual Machine (VM)** runs on shared physical hardware via a hypervisor. Core IaaS service and the first building block most engineers touch in cloud.
+        theoryEn: `**Virtual Machine (VM)** runs on shared physical hardware via a hypervisor. Core IaaS service and the first building block most engineers touch in cloud.
 
 ## Why start with VMs?
 VMs are the simplest way to bring an app to cloud — just like an on-prem Linux/Windows server. No container/serverless rewrite needed. This is the classic "lift-and-shift" path.
@@ -434,18 +519,9 @@ A bare-metal server runs many VMs via a **hypervisor** (Xen, KVM, AWS Nitro). Hy
 | Savings Plan | 30-66% | \\\\$/hr | Mixed EC2/Fargate/Lambda |
 | Spot | 70-90% | Reclaimable in 2 min | Batch, ML, CI |
 | Dedicated Host | Highest | Physical machine | Oracle/Windows BYOL |
-`
-    }
-  ]
-}
-{
-  id: "ec2-scaling-2",
-  title: "## Auto Scaling Group (ASG)",
-  titleEn: "## Auto Scaling Group (ASG)",
-  level: 2,
-  difficulty: "intermediate",
-  theory: `## Auto Scaling Group (ASG)
-Adds/removes instances by **target tracking** (keep CPU ~50%), **step scaling**, **scheduled** (8AM up, 8PM down), or **predictive** (ML-based). Always paired with a Load Balancer.
+
+## Auto Scaling Group (ASG)
+Adds/removes instances by target tracking (keep CPU ~50%), step scaling, scheduled (8AM up, 8PM down), or predictive (ML-based). Always paired with a Load Balancer.
 
 ## Case: Airbnb — 5000+ EC2
 Mix of m5/c5 web tier, r5 cache, p3 ML search. Schedule-based scaling for summer peaks. ~40% savings via Savings Plans + Spot for pipelines.
@@ -473,7 +549,7 @@ Mix of m5/c5 web tier, r5 cache, p3 ML search. Schedule-based scaling for summer
 
 ## Next lesson
 Storage lesson covers **S3 Object Storage** — "infinite", cheap storage that complements EC2.`,
-  code: `# Initialize EC2 instance with boto3 (AWS SDK for Python)
+        code: `# Khởi tạo EC2 instance với boto3 (AWS SDK for Python)
 import boto3
 
 ec2 = boto3.resource("ec2", region_name="us-east-1")
@@ -490,43 +566,43 @@ instance = ec2.create_instances(
         "Tags": [{"Key": "Name", "Value": "web-server-prod"}],
     }],
 )
-print(f"Started instance: {instance.id}")
+print(f"Started instance: {instance[0].id}")
 
 # Estimated cost for 1 month
 hours = 24 * 30
 hourly = 0.0104  # t3.micro on-demand
 print(f"Monthly cost: \${hours * hourly:.2f}")`,
-  codeLanguage: "python",
-  exercise: "A startup running a web app has ~100 req/s during the day, nearly 0 req/s at night. Propose the most economical instance type + pricing strategy.",
-  exerciseEn: "A startup runs a web app with ~100 req/s during the day and near 0 at night. Propose the best instance type + pricing strategy.",
-  quiz: [
-    { question: "Which instance type is CHEAPEST but can be reclaimed?", options: ["On-Demand", "Reserved", "Spot", "Dedicated"], answer: 2, explanation: "Spot Instances use spare capacity, up to 90% cheaper, but AWS can reclaim them with a 2-minute warning." },
-    { question: "AMI stands for?", options: ["AWS Memory Image", "Amazon Machine Image", "Auto Mount Instance", "App Module Index"], answer: 1, explanation: "AMI = Amazon Machine Image — a template containing OS + software used to launch instances." },
-    { question: "The 'r' instance family (e.g. r5.xlarge) is optimized for?", options: ["GPU", "Heavy compute", "Memory (large RAM)", "Network"], answer: 2, explanation: "The 'r' family is memory optimized — ideal for databases, caches, and in-memory analytics." },
-    { question: "Auto Scaling Group is used to?", options: ["Add RAM automatically", "Add/remove instances automatically", "Back up data", "Encrypt disks"], answer: 1, explanation: "ASG automatically launches/terminates EC2 instances based on conditions (CPU, request count, schedule)." },
-    { question: "To save 30-72% with a 1-3 year commitment, use?", options: ["Spot", "On-Demand", "Reserved Instance", "Free Tier"], answer: 2, explanation: "Reserved Instances commit for 1 or 3 years in exchange for substantial savings vs On-Demand." },
-  ],
-},
-{
-  id: "cloud-storage-1",
-  title: "Object Storage (S3)",
-  titleEn: "Object Storage (S3)",
-  level: 2,
-  difficulty: "beginner",
-  theory: `## 1. 🚦 Everyday Problem
+        codeLanguage: "python",
+        exercise: "A startup running a web app has ~100 req/s during the day, nearly 0 req/s at night. Propose the most economical instance type + pricing strategy.",
+        exerciseEn: "A startup runs a web app with ~100 req/s during the day and near 0 at night. Propose the best instance type + pricing strategy.",
+        quiz: [
+          { question: "Which instance type is CHEAPEST but can be reclaimed?", options: ["On-Demand", "Reserved", "Spot", "Dedicated"], answer: 2, explanation: "Spot Instances use spare capacity, up to 90% cheaper, but AWS can reclaim them with a 2-minute warning." },
+          { question: "AMI stands for?", options: ["AWS Memory Image", "Amazon Machine Image", "Auto Mount Instance", "App Module Index"], answer: 1, explanation: "AMI = Amazon Machine Image — a template containing OS + software used to launch instances." },
+          { question: "The 'r' instance family (e.g. r5.xlarge) is optimized for?", options: ["GPU", "Heavy compute", "Memory (large RAM)", "Network"], answer: 2, explanation: "The 'r' family is memory optimized — ideal for databases, caches, and in-memory analytics." },
+          { question: "Auto Scaling Group is used to?", options: ["Add RAM automatically", "Add/remove instances automatically", "Back up data", "Encrypt disks"], answer: 1, explanation: "ASG automatically launches/terminates EC2 instances based on conditions (CPU, request count, schedule)." },
+          { question: "To save 30-72% with a 1-3 year commitment, use?", options: ["Spot", "On-Demand", "Reserved Instance", "Free Tier"], answer: 2, explanation: "Reserved Instances commit for 1 or 3 years in exchange for substantial savings vs On-Demand." },
+        ],
+      },
+      {
+        id: "cloud-storage-1",
+        title: "Object Storage (S3)",
+        titleEn: "Object Storage (S3)",
+        level: 2,
+        difficulty: "beginner",
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Need to store app images, user-uploaded videos, backup files — can't stuff everything into EC2 disk. **S3** = "Google Drive for developers": infinite capacity, HTTP access, pay per GB stored + GB downloaded.
+Cần lưu hình ảnh app, video user upload, file backup — không thể nhồi hết vào ổ cứng EC2. **S3** = "Google Drive cho lập trình viên": vô hạn dung lượng, truy cập qua HTTP, trả tiền theo GB lưu + GB tải.
 
-> 💡 **Mr. Hai's tip:** S3 = object storage. Suitable for files (image, video, log). DO NOT use as database (slow queries).
+> 💡 **Mẹo của thầy Hải:** S3 = object storage. Phù hợp file (image, video, log). KHÔNG dùng làm database (truy vấn chậm).
 
-## 2. 💡 Key Concepts
+## 2. 💡 Khái niệm chính
 
-- **Bucket**: root folder (globally unique name).
+- **Bucket**: thư mục gốc (tên duy nhất toàn cầu).
 - **Object**: 1 file + metadata.
-- **Key**: path \`folder/subfolder/file.jpg\`.
-- **Storage class**: Standard, IA, Glacier (cheaper but slower).
+- **Key**: đường dẫn \`folder/subfolder/file.jpg\`.
+- **Storage class**: Standard, IA, Glacier (rẻ nhưng chậm).
 
-## 3. 🧰 Python Syntax (boto3)
+## 3. 🧰 Cú pháp Python (boto3)
 
 \`\`\`python
 import boto3
@@ -535,47 +611,225 @@ s3.upload_file("local.jpg", "my-bucket", "uploads/local.jpg")
 s3.download_file("my-bucket", "uploads/local.jpg", "out.jpg")
 \`\`\`
 
-## 4. 🎯 Working Example
+## 4. 🎯 Ví dụ chạy được ngay
 
-Public URL:
+URL public:
 
 \`\`\`
 https://my-bucket.s3.amazonaws.com/uploads/local.jpg
 \`\`\`
 
-Or create presigned URL expires in 1 hour:`,
-}
+Hoặc tạo presigned URL hết hạn sau 1 giờ:
+
+\`\`\`python
 url = s3.generate_presigned_url("get_object",
         Params={"Bucket":"my-bucket","Key":"x.jpg"}, ExpiresIn=3600)
-```
+\`\`\`
 
-## 5. ⚠️ **Common Pitfalls**
+## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Warning:** Making bucket public + overwriting duplicate keys → hacker can overwrite. Always enable **versioning** + **block public access** unless necessary.
+> ⚠️ **Cảnh báo:** Để bucket public + ghi đè key trùng → hacker có thể overwrite. Luôn enable **versioning** + **block public access** trừ khi cần thiết.
 
-## 6. ✅ **Best Practices**
+## 6. ✅ Best practice
 
-> 💡 **Mr. Hai's tip:** Files with low access → **Lifecycle rule** automatically moves to Glacier after 30 days, reducing costs by 80%.
+> 💡 **Mẹo của thầy Hải:** File ít truy cập → **Lifecycle rule** tự động chuyển qua Glacier sau 30 ngày, giảm chi phí 80%.
 
-## 7. 🤔 **When to Use**
+## 7. 🤔 Khi nào dùng
 
 - ✅ Static website, image/video, backup, data lake.
-- ❌ Relational data → DB (RDS, DynamoDB).
+- ❌ Lưu data có quan hệ → DB (RDS, DynamoDB).
 
-## 8. 📌 **30-Second Summary**
+## 8. 📌 Tóm tắt 30 giây
 
-S3 = infinite object storage. Bucket → object → key. Choose storage class based on access frequency. Enable versioning + block public.
-I appreciate you sharing this content, but I need to clarify what you're asking. 
+S3 = object storage vô hạn. Bucket → object → key. Storage class chọn theo tần suất truy cập. Bật versioning + block public.
+`,
+        theoryEn: `**Object Storage** uses a flat namespace where each file is a self-describing object with metadata, accessed via HTTP API — fundamentally different from POSIX file systems. It powers data lakes, static sites, backups, and CDNs in modern cloud architectures.
 
-The material you've provided appears to be a **TypeScript curriculum data file** (containing course lesson structures with theory, code examples, exercises, and quizzes) that mixes Vietnamese and English text about AWS S3 and Kubernetes.
+## Why Object Storage?
+Before cloud, companies bought expensive NAS/SAN ($10k+) and managed RAID, backup, scaling. Cost grew non-linearly past a few TB. Object Storage solves this with distributed exabyte-scale infrastructure, pay-per-GB pricing, extreme durability, and a simple API. AWS S3 (2006) was AWS's first commercial product and remains the de-facto standard.
 
-However, your query doesn't include a clear question. Based on your system instructions mentioning translation work, are you asking me to:
+## Anatomy of an Object
+- **Key** — unique string in the bucket; looks like a path (\`reports/2026/q1.pdf\`) but there are **no real folders**, only prefixes.
+- **Value** — binary payload (0 bytes to 5 TB).
+- **Metadata** — \`Content-Type\`, \`Cache-Control\`, custom \`x-amz-meta-*\` tags.
+- **Version ID** — only when Versioning is enabled; lets you restore deleted/overwritten objects.
 
-1. **Translate the Vietnamese sections to English** in this curriculum file?
-2. **Answer a technical question** about the S3 and Kubernetes code examples shown?
-3. **Review or validate** the content structure?
+## Core S3 Properties
+- **Durability 99.999999999% (11 nines)** — statistically, 10M objects lose 1 object per ~10,000 years. Achieved by replicating across ≥3 AZs.
+- **Availability 99.99%** (Standard) — ~52 min downtime/year.
+- **Strongly consistent** (since 2020): read-after-write returns the latest version immediately.
+- **Linear scalability**: billions of objects per bucket; throughput auto-scales.
+- **REST API access**: easy to integrate from any language.
 
-Please clarify what you need, and I'll provide the appropriate response. If you need translation of the Vietnamese curriculum content to English while preserving all TypeScript syntax and structure, please confirm and I'll proceed with that task.
+## Storage Classes
+| Class | Use case | $/GB/mo | Min | Retrieval |
+|-------|----------|---------|-----|-----------|
+| Standard | Frequent | $0.023 | — | instant |
+| Intelligent-Tiering | Unknown patterns | $0.023 + $0.0025 monitor | 30d | instant |
+| Standard-IA | <1×/month | $0.0125 | 30d | instant |
+| One Zone-IA | IA in 1 AZ | $0.01 | 30d | instant |
+| Glacier Instant | Archive, instant | $0.004 | 90d | instant |
+| Glacier Flexible | Archive | $0.0036 | 90d | 1 min – 12h |
+| Glacier Deep Archive | Long-term | $0.00099 | 180d | 12-48h |
+
+**Real math:** 1 PB for 1 year on Standard = **$289,406**, on Glacier Deep Archive = **$12,457** (96% savings).
+
+## Lifecycle Policies
+JSON rules attached to a bucket auto-transition objects by age. Lifecycle reduces **storage cost only**, not retrieval cost. For unpredictable access, use Intelligent-Tiering — S3 measures and moves automatically.
+
+## Case study: Netflix
+Netflix stores **>100 PB** on S3 (video masters, analytics logs, ML features). They don't self-host because: (1) cost — building 5+ DCs is hundreds of millions; (2) reliability — 17 years with no Netflix data lost; (3) integration — Spark/Athena read directly; (4) lifecycle — old logs auto-tier to Glacier saving millions/year.
+
+## Case study: Dropbox left S3
+In 2016 Dropbox migrated **>500 PB** off S3 to in-house "Magic Pocket". At extreme scale, self-build margin beats S3 pricing. **Below ~50 PB, S3 is almost always cheaper.**
+
+## Object vs Block vs File
+| Aspect | Object (S3) | Block (EBS) | File (EFS) |
+|--------|-------------|-------------|------------|
+| Unit | object + metadata | 4 KB block | file + folder |
+| API | HTTP REST | iSCSI/NVMe | NFS/SMB |
+| Mount | No | Yes (1 instance) | Yes (many) |
+| Random IO | Medium | Very high | High |
+| Price | Cheapest | Most expensive | Medium |
+| Use case | Backup, data lake, web | DB, OS disk | Shared workspace |
+
+## Best Practices
+- ✅ Versioning + MFA Delete on critical buckets (anti-ransomware).
+- ✅ Block Public Access at account level — default private.
+- ✅ Default server-side encryption (SSE-S3 or SSE-KMS).
+- ✅ Lifecycle from day 1 — avoid uncontrolled data hoarding.
+- ✅ Bucket Policy + IAM Role over access keys; use presigned URLs for temp access.
+- ✅ CloudFront in front of S3 — cuts 80-90% egress.
+- ✅ S3 Storage Lens — free dashboard with savings recommendations.
+
+## Common Pitfalls
+- ❌ Accidentally public buckets (Capital One 2019, ~100M records).
+- ❌ No lifecycle → 60% of buckets >1 year hold cold data at Standard pricing.
+- ❌ Many tiny objects — request overhead exceeds data; consolidate into Parquet/ORC.
+- ❌ Hot-key prefix (legacy issue, mostly auto-sharded now); still randomize prefixes for highest TPS.
+- ❌ Unexpected egress: 1 TB to Internet costs ~$90; use CloudFront or Transfer Acceleration.
+- ❌ Glacier retrieval at peak: Bulk is cheap ($0.0025/GB) but 5-12h.
+
+## When NOT to use S3
+- ❌ Latency <10 ms reads/writes → DynamoDB or ElastiCache.
+- ❌ POSIX semantics (lock, append) → EFS or FSx.
+- ❌ OLTP DB workloads → RDS/Aurora.
+
+## Bridge to Next Lesson
+S3 is one piece of Compute + Storage + Network. Next we cover **Containers & Kubernetes** — running packaged workloads at scale, often paired with S3 for storage.`,
+        code: `# Upload và quản lý object trên S3 với boto3
+import boto3
+
+s3 = boto3.client("s3")
+
+# 1. Upload file
+s3.upload_file(
+    Filename="report.pdf",
+    Bucket="my-app-bucket",
+    Key="reports/2026/q1-report.pdf",
+    ExtraArgs={
+        "ContentType": "application/pdf",
+        "Metadata": {"author": "hai-nguyen", "year": "2026"},
+    },
+)
+
+# 2. Generate presigned URL (allows temporary download for 1 hour)
+url = s3.generate_presigned_url(
+    "get_object",
+    Params={"Bucket": "my-app-bucket", "Key": "reports/2026/q1-report.pdf"},
+    ExpiresIn=3600,
+)
+print(f"Download link (1h): {url}")
+
+# 3. Lifecycle: switch to Glacier after 90 days
+lifecycle = {
+    "Rules": [{
+        "ID": "archive-old-reports",
+        "Filter": {"Prefix": "reports/"},
+        "Status": "Enabled",
+        "Transitions": [{"Days": 90, "StorageClass": "GLACIER"}],
+    }]
+}
+s3.put_bucket_lifecycle_configuration(Bucket="my-app-bucket", LifecycleConfiguration=lifecycle)`,
+        codeLanguage: "python",
+        exercise: "Lifecycle design for log storage bucket: first 30 days Standard, 30-90 days Standard-IA, after 1 year Glacier Deep Archive, after 7 years deletion.",
+        exerciseEn: "Design a lifecycle for a log bucket: Standard for 30 days, Standard-IA 30-90, Glacier Deep Archive after 1 year, delete after 7 years.",
+        quiz: [
+          { question: "What durability does S3 promise?", options: ["99.9%", "99.99%", "99.999999999% (11 nines)", "100%"], answer: 2, explanation: "S3 Standard offers 99.999999999% (11 nines) durability — objects are virtually never lost." },
+          { question: "Which class is CHEAPEST for long-term archival?", options: ["Standard", "Standard-IA", "Glacier Instant", "Glacier Deep Archive"], answer: 3, explanation: "Glacier Deep Archive (~$0.00099/GB) is the cheapest, but retrieval takes about 12 hours." },
+          { question: "Presigned URLs are used to?", options: ["Secure the bucket", "Grant temporary access to a private object", "Speed up downloads", "Encrypt the file"], answer: 1, explanation: "Presigned URLs grant time-limited access to private objects without sharing AWS credentials." },
+          { question: "How does S3 store data?", options: ["Block", "File system", "Objects in a bucket", "Database rows"], answer: 2, explanation: "S3 is object storage — data is stored as objects (key + value + metadata) inside buckets." },
+          { question: "Which is NOT something a Lifecycle policy can do?", options: ["Move to IA after 30 days", "Delete after 1 year", "Move to Glacier", "Auto-rename files"], answer: 3, explanation: "Lifecycle policies only transition storage class or delete — they cannot rename/key objects." },
+        ],
+      },
+      {
+        id: "cloud-compute-2",
+        title: "Containers & Kubernetes (EKS/AKS/GKE)",
+        titleEn: "Containers & Kubernetes (EKS/AKS/GKE)",
+        level: 3,
+        difficulty: "intermediate",
+        theory: `## 1. 🚦 Vấn đề đời thường
+
+App của bạn chạy local ngon — đem deploy mỗi máy 1 phiên bản Python, library lệch nhau, lỗi tùm lum. **Container (Docker)** đóng gói app + dependencies thành 1 hộp chạy y hệt mọi nơi. **Kubernetes** = "ban quản lý chung cư container".
+
+> 💡 **Mẹo của thầy Hải:** Container ≠ máy ảo. Container chia sẻ kernel OS → nhẹ hơn 100 lần, khởi động trong giây.
+
+## 2. 💡 Khái niệm chính
+
+- **Image**: bản đóng gói (read-only).
+- **Container**: instance chạy của image.
+- **Dockerfile**: công thức build image.
+- **Registry**: nơi lưu image (Docker Hub, ECR).
+- **Kubernetes (K8s)**: quản lý hàng trăm container: scale, restart, load balance.
+
+## 3. 🧰 Dockerfile mẫu
+
+\`\`\`dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "app.py"]
+\`\`\`
+
+\`\`\`bash
+docker build -t my-app .
+docker run -p 8000:8000 my-app
+\`\`\`
+
+## 4. 🎯 Ví dụ chạy được ngay
+
+Đẩy lên AWS ECS hoặc Google Cloud Run → có URL public ngay, scale tự động.
+
+## 5. ⚠️ Bẫy thường gặp
+
+> ⚠️ **Cảnh báo:** Image to vài GB (do \`python:3.11\` full) → deploy chậm. Dùng \`python:3.11-slim\` hoặc \`alpine\` để giảm xuống dưới 200MB.
+
+## 6. ✅ Best practice
+
+> 💡 **Mẹo của thầy Hải:** Mới học container? Bắt đầu với **ECS Fargate** hoặc **Cloud Run** — dễ hơn K8s nhiều mà vẫn auto-scale.
+
+## 7. 🤔 Khi nào dùng
+
+- ✅ Microservices, dev/prod đồng nhất, CI/CD.
+- ❌ Script chạy 1 lần → script Python thường đủ.
+
+## 8. 📌 Tóm tắt 30 giây
+
+Docker = đóng gói app. K8s = điều phối hàng trăm container. Image nhẹ + registry + orchestrator = devops hiện đại.
+`,
+        theoryEn: `**Containers** package app + dependencies into immutable images that run identically across dev laptops, staging servers, and production clusters. **Docker** is the dominant runtime; **Kubernetes** is the distributed OS that orchestrates thousands of containers. Together they reshaped software deployment in the past decade.
+
+## Containers vs VMs
+| Aspect | VM | Container |
+|--------|-----|-----------|
+| Boot | 30-120s | 0.5-2s |
+| Image | 1-10 GB | 50-500 MB |
+| Overhead | Full guest OS | Shared kernel only |
+| Density/host | 10-30 | 100-1000 |
+| Portability | OVF standard | OCI runs anywhere |
+
 VMs virtualize hardware (hypervisor); containers virtualize OS (shared kernel + namespaces + cgroups). Lighter but weaker isolation — use gVisor/Kata for untrusted code.
 
 ## Docker layered architecture
@@ -700,155 +954,217 @@ print(manifest)`,
       },
     ],
   },
-// ============ MODULE 3: Networking & Security ============
-{
-  id: "cloud-network-security",
-  title: "Networking & Security",
-  titleEn: "Networking & Security",
-  icon: "🔐",
-  color: "from-indigo-500 to-blue-600",
-  description: "VPC, subnet, IAM, security group, encryption, shared responsibility model",
-  descriptionEn: "VPC, subnets, IAM, security groups, encryption, shared responsibility model",
-  course: "cloud",
-  lessons: [
-    {
-      id: "cloud-net-1",
-      title: "VPC, Subnet and Routing",
-      titleEn: "VPC, Subnets, and Routing",
-      level: 3,
-      difficulty: "intermediate",
-      theory: `## 1. Everyday Problem
 
-Imagine you rent an office building (cloud account). If you leave the door wide open, anyone in the building can enter your room — too dangerous. You need **a private area with walls, gates, and security**. In the cloud, that "private area" is called **VPC** (Virtual Private Cloud — virtual private network).
+  // ============ MODULE 3: Networking & Security ============
+  {
+    id: "cloud-network-security",
+    title: "Networking & Security",
+    titleEn: "Networking & Security",
+    icon: "🔐",
+    color: "from-indigo-500 to-blue-600",
+    description: "VPC, subnet, IAM, security group, encryption, shared responsibility model",
+    descriptionEn: "VPC, subnets, IAM, security groups, encryption, shared responsibility model",
+    course: "cloud",
+    lessons: [
+      {
+        id: "cloud-net-1",
+        title: "VPC, Subnet and Routing",
+        titleEn: "VPC, Subnets, and Routing",
+        level: 3,
+        difficulty: "intermediate",
+        theory: `## 1. Vấn đề đời thường
 
-Every cloud server (EC2, RDS, Lambda…) must "live" inside a VPC. No VPC = no cloud.
+Hãy tưởng tượng bạn thuê một toà nhà văn phòng (cloud account). Nếu để cửa mở toang, bất kỳ ai trong toà nhà cũng vào được phòng bạn — quá nguy hiểm. Bạn cần **một khu riêng có tường, có cổng, có bảo vệ**. Trong cloud, "khu riêng" đó gọi là **VPC** (Virtual Private Cloud — mạng ảo riêng).
 
-## 2. What is VPC? — Super Short Definition
+Mọi máy chủ cloud (EC2, RDS, Lambda…) đều phải "sống" bên trong một VPC. Không có VPC = không có cloud.
 
-**VPC = a private network in the cloud with its own IP addresses and firewall, invisible to others.**
+## 2. VPC là gì? — định nghĩa siêu ngắn
 
-Example: Your VPC has IP range \`10.0.0.0/16\` → contains 65,536 internal IP addresses (like an office with 65k rooms). Neighbors in the same AWS cannot see this IP.
+**VPC = một mạng riêng (private network) trong cloud, có địa chỉ IP riêng, có firewall riêng, không ai khác thấy được.**
 
-> **What is CIDR?** \`10.0.0.0/16\` is shorthand for "IP range from 10.0.0.0 to 10.0.255.255". The \`/16\` indicates how many IPs. Don't worry about the formula — just remember \`/16\` = many, \`/24\` = few (256 IPs), \`/28\` = very few (16 IPs).
+Ví dụ: VPC của bạn có dải IP \`10.0.0.0/16\` → chứa 65,536 địa chỉ IP nội bộ (giống như văn phòng có 65k phòng). Hàng xóm cùng AWS không thấy IP này.
 
-## 3. Divide VPC into Subnets (Smaller Areas)
+> **CIDR là gì?** \`10.0.0.0/16\` là cách viết tắt cho "dải IP từ 10.0.0.0 đến 10.0.255.255". Số \`/16\` cho biết có bao nhiêu IP. Đừng lo công thức — chỉ cần nhớ \`/16\` = nhiều, \`/24\` = ít (256 IP), \`/28\` = rất ít (16 IP).
 
-VPC is too big → divide into multiple **subnets**, each with a specific role:
+## 3. Chia VPC thành các Subnet (khu nhỏ hơn)
 
-| Subnet Type | Internet Access? | Used For |
+VPC quá to → chia thành nhiều **subnet** (mạng con), mỗi subnet có vai trò riêng:
+
+| Loại subnet | Có ra Internet? | Dùng cho |
 |---|---|---|
-| **Public** | ✅ Yes (via Internet Gateway) | Web server, Load Balancer — needs customer access |
-| **Private** | ⚠️ Outbound only, no inbound (via NAT) | App server — calls external APIs for updates, doesn't allow inbound calls |
-| **Isolated** | ❌ No | Database — absolutely no Internet access |
+| **Public** | ✅ Có (qua Internet Gateway) | Web server, Load Balancer — cần khách truy cập |
+| **Private** | ⚠️ Chỉ ra được, không ai vào (qua NAT) | App server — gọi API ngoài để cập nhật, không cho ai gọi vào |
+| **Isolated** | ❌ Không | Database — tuyệt đối không cho ra Internet |
 
-**Everyday Rule**: Like your house — living room (public) welcomes guests, bedroom (private) only family in/out, safe (isolated) locked tight.
+**Quy tắc đời thường**: như nhà bạn — phòng khách (public) đón khách, phòng ngủ (private) chỉ người nhà ra vào, két sắt (isolated) khoá kín.
 
-## 4. Minimal Syntax — Create VPC + 2 Subnets
+## 4. Cú pháp tối thiểu — tạo VPC + 2 Subnet
 
 \`\`\`python
 import boto3
 ec2 = boto3.client("ec2")
 
-# Step 1: Create VPC with IP range 10.0.0.0/16 (65k internal IPs)
+# Bước 1: Tạo VPC với dải IP 10.0.0.0/16 (65k IP nội bộ)
 vpc = ec2.create_vpc(CidrBlock="10.0.0.0/16")
 vpc_id = vpc["Vpc"]["VpcId"]
 
-# Step 2: Public subnet (10.0.1.0/24) — place web server
-public_subnet = ec2.create_subnet(
+# Bước 2: Subnet công khai (10.0.1.0/24) — đặt web server
+public = ec2.create_subnet(
     VpcId=vpc_id,
-    CidrBlock="10.0.1.0/24",      # 256 IPs for this subnet
-    AvailabilityZone="us-east-1a" # Place in zone a
+    CidrBlock="10.0.1.0/24",      # 256 IP cho subnet này
+    AvailabilityZone="us-east-1a" # Đặt trong vùng a
 )
 
-# Step 3: Private subnet (10.0.2.0/24) — place database
-private_subnet = ec2.create_subnet(
+# Bước 3: Subnet riêng tư (10.0.2.0/24) — đặt database
+private = ec2.create_subnet(
     VpcId=vpc_id,
     CidrBlock="10.0.2.0/24",
-    AvailabilityZone="us-east-1b" # Place in zone b for fault tolerance
+    AvailabilityZone="us-east-1b" # Đặt vùng b để chống lỗi 1 vùng
 )
 \`\`\`
 
-**Read Line by Line**:
-- Line 4: creates "building area" \`10.0.0.0/16\`.
-- Lines 8–11: cuts out 1 room \`10.0.1.0/24\` in zone a, later connect to Internet.
-- Lines 14–17: cuts out room \`10.0.2.0/24\` in zone b — separate zones so if one zone fails, app still runs.
+**Đọc từng dòng**:
+- Dòng 4: tạo "khu nhà" \`10.0.0.0/16\`.
+- Dòng 8–11: cắt 1 phòng \`10.0.1.0/24\` đặt ở vùng a, sau này nối Internet.
+- Dòng 14–17: cắt phòng \`10.0.2.0/24\` đặt ở vùng b — tách 2 vùng để 1 vùng chết, app vẫn sống.
 
-## 5. Two Types of Firewall — Which to Choose?
+## 5. Hai loại firewall — chọn cái nào?
 
-VPC has **2 firewall layers** that are easy to confuse:
+VPC có **2 lớp firewall** dễ nhầm:
 
-| Name | Attached To | How It Works | Default |
+| Tên | Đặt ở đâu | Cách hoạt động | Mặc định |
 |---|---|---|---|
-| **Security Group (SG)** | Around **each server** | Stateful (remembers connections, allows return traffic automatically) | Block all inbound, allow all outbound |
-| **NACL** | Around **entire subnet** | Stateless (must open both directions) | Allow all traffic |
+| **Security Group (SG)** | Quanh **từng máy chủ** | Stateful (nhớ kết nối, return traffic tự cho qua) | Chặn tất cả vào, cho tất cả ra |
+| **NACL** | Quanh **cả subnet** | Stateless (phải mở cả 2 chiều) | Cho tất cả qua |
 
-> **What does Stateful mean?** Like a house door with a sensor: you open for guest to enter, when guest exits, door opens automatically without asking. Stateless requires permission every time. SG is easier → use SG mainly, NACL only for special cases.
+> **Stateful nghĩa là gì?** Như cửa nhà có cảm biến: bạn mở cửa cho khách vào, khi khách đi ra, cửa tự cho qua không hỏi lại. Stateless thì lần nào cũng phải xin phép. SG dễ dùng hơn → dùng SG là chính, NACL chỉ cho trường hợp đặc biệt.
 
-**Best Practice**: 99% of cases use only **Security Group**. Enable NACL only when needing broad blocks (e.g., block an IP range).
+**Best practice**: 99% trường hợp chỉ dùng **Security Group**. NACL chỉ bật khi cần chặn rộng (block 1 dải IP độc).
 
-## 6. Common Expensive Mistakes
+## 6. Lỗi thường gặp (đắt tiền)
 
-- ❌ **Open SSH (port 22) to \`0.0.0.0/0\`** — whole world can try passwords. Hackers find it in minutes. Open only to office IP.
-- ❌ **Subnet too small** \`/28\` (only 11 usable IPs) — auto-scaling adds servers and runs out of IPs, deployment fails.
-- ❌ **Forget to enable VPC Flow Logs** — when attacked, no logs to investigate what happened.
-- ❌ **Only 1 NAT Gateway for entire VPC** — if NAT zone fails → all private subnets lose Internet. Place 1 per zone.
-- ❌ **Overlapping CIDR** between 2 VPCs when needing to connect (peering) → must rebuild from scratch.
+- ❌ **Mở SSH (cổng 22) cho \`0.0.0.0/0\`** — cả thế giới có thể thử mật khẩu. Hacker sẽ tìm thấy trong vài phút. Chỉ mở cho IP văn phòng.
+- ❌ **Subnet quá nhỏ** \`/28\` (chỉ 11 IP dùng được) — auto-scale tăng máy lên là hết IP, deploy fail.
+- ❌ **Quên bật VPC Flow Log** — khi bị tấn công, không có log để điều tra ai đã làm gì.
+- ❌ **Chỉ 1 NAT Gateway cho cả VPC** — vùng đặt NAT chết → toàn bộ private subnet mất Internet. Đặt mỗi vùng 1 cái.
+- ❌ **CIDR trùng** giữa 2 VPC khi cần nối với nhau (peering) → phải dựng lại từ đầu.
 
-## 7. Advanced Notes (Read After Mastering Basics)
+## 7. Ghi chú nâng cao (đọc khi đã thạo cơ bản)
 
-When your system grows, you'll encounter these concepts:
-- **NAT Gateway**: gate for private subnets to access Internet outbound. Cost ~$32/month + $0.045/GB → 1 spam bug can burn $10k/month.
-- **VPC Endpoint**: direct connection to S3/DynamoDB **without Internet** → saves cost + more secure.
-- **VPC Peering / Transit Gateway**: connect 2 or multiple VPCs (peering = 2, TGW = many like "central hub").
-- **Direct Connect / VPN**: connect VPC to on-premises data center (hybrid cloud).`
-    }
-  ]
-}
-**AWS 3-Tier Architecture** separates an application into three distinct layers distributed across multiple Availability Zones for high availability and scalability.
+Khi hệ thống lớn lên, bạn sẽ gặp các khái niệm sau:
+- **NAT Gateway**: cổng cho private subnet ra Internet một chiều. Phí ~$32/tháng + $0.045/GB → 1 bug spam call có thể đốt $10k/tháng.
+- **VPC Endpoint**: nối thẳng tới S3/DynamoDB **không qua Internet** → tiết kiệm cost + an toàn hơn.
+- **VPC Peering / Transit Gateway**: nối 2 hoặc nhiều VPC với nhau (peering = 2 cái, TGW = nhiều cái như "ổ điện trung tâm").
+- **Direct Connect / VPN**: nối VPC với data center on-prem (lai cloud).
 
-## Architecture Overview
+**Kiến trúc 3-tier chuẩn**: Public subnet (Load Balancer) → Private subnet (app server) → Isolated subnet (database). Mỗi tier ở **2 vùng (AZ)** để chống lỗi.
 
-The three tiers are:
+## 8. Liên hệ bài tiếp theo
 
-1. **Public Tier (Presentation):** Contains the Application Load Balancer and web servers in public subnets. This tier is directly accessible from the Internet.
+VPC trả lời: "Máy chủ nào ở đâu, nối được với ai qua đường nào?". Bài tiếp **IAM** trả lời câu hỏi tiếp theo: "**Người nào / Service nào** được phép **làm gì** trên **tài nguyên nào**?" — tầng kiểm soát danh tính của cloud.`,
+        theoryEn: `## 1. Real-world problem
+Imagine renting an office building. If you leave doors open, anyone can wander in. You need a private area with walls and a guard. In the cloud, that private area is a **VPC (Virtual Private Cloud)**. Every cloud server (EC2, RDS, Lambda) must live inside one.
 
-2. **Private Tier (Application Logic):** Hosts application servers in private subnets. These servers receive traffic only from the load balancer and communicate with the database tier.
+## 2. What is a VPC?
+A VPC is a private network in the cloud with its own IPs and firewalls. Example: \`10.0.0.0/16\` gives 65,536 internal IPs that nobody else can see. \`/16\` = many; \`/24\` = 256; \`/28\` = 16.
 
-3. **Isolated Tier (Database):** Contains RDS databases in isolated subnets with no direct Internet access. This tier accepts traffic only from application servers.
+## 3. Subnets — divide the VPC
+- **Public**: reachable from Internet (web servers, load balancers).
+- **Private**: outbound only via NAT (app servers).
+- **Isolated**: no Internet at all (databases).
 
-## Multi-AZ Deployment
+Like a house: living room (public) for guests, bedroom (private) for family, safe (isolated) locked away.
 
-To achieve fault tolerance, each tier spans **two or more Availability Zones**. For a two-AZ setup, you need **6 subnets total**:
+## 4. Minimal syntax
+Create a VPC \`10.0.0.0/16\`, then a public subnet \`10.0.1.0/24\` in AZ \`us-east-1a\` and a private subnet \`10.0.2.0/24\` in \`us-east-1b\` (two AZs for fault tolerance).
 
-- 2 public subnets (one per AZ for the load balancer and web tier)
-- 2 private subnets (one per AZ for application servers)
-- 2 isolated subnets (one per AZ for databases)
+## 5. Two firewall layers
+| Layer | Scope | Behavior | Default |
+|---|---|---|---|
+| **Security Group** | Per instance | Stateful (return traffic auto-allowed) | Deny in / Allow out |
+| **NACL** | Per subnet | Stateless (allow both directions) | Allow all |
+Use SG as your main firewall; NACL only for blanket blocks.
 
-Each Availability Zone is a separate physical data center, so if one zone fails, the other continues operating.
+## 6. Common pitfalls
+- Opening SSH (port 22) to \`0.0.0.0/0\` — hackers find it in minutes.
+- Tiny subnets (/28 = 11 usable IPs) breaking auto-scale.
+- Forgetting VPC Flow Logs — no forensics after an incident.
+- Single NAT Gateway across AZs — one AZ outage breaks Internet for all private subnets.
+- Overlapping CIDRs preventing future VPC peering.
 
-## Network Configuration
+## 7. Advanced notes
+- **NAT Gateway**: ~$32/month + $0.045/GB; a runaway bug can burn $10k/month.
+- **VPC Endpoints** for S3/DynamoDB stay inside AWS network — cheaper and safer.
+- **VPC Peering** connects two VPCs; **Transit Gateway** is a hub for many VPCs.
+- **Direct Connect / VPN** bridges VPC to on-prem data centers.
 
-**VPC Setup:**
-- Create a Virtual Private Cloud with CIDR block (e.g., `10.0.0.0/16`)
-- Divide into public and private subnets across AZs
-- Deploy a **NAT Gateway** in the public subnet to allow private subnet instances outbound Internet access while blocking inbound connections
+3-tier reference: public (ALB) → private (app) → isolated (DB), each across 2 AZs.
 
-**Security Layers:**
-- Web servers accept traffic from clients via the load balancer
-- Application servers accept traffic only from web servers
-- Database servers accept traffic only from application servers
+## 8. Bridge to next lesson
+VPC controls "where servers live and who can reach them". Next: **IAM** — who is allowed to do what on which resource.`,
+        code: `# Tạo VPC + 2 subnet (1 public + 1 private) bằng boto3
+import boto3
+ec2 = boto3.client("ec2")
 
-## Key Components
+# Step 1: Create VPC range 10.0.0.0/16 (65,536 internal IPs)
+vpc = ec2.create_vpc(CidrBlock="10.0.0.0/16")
+vpc_id = vpc["Vpc"]["VpcId"]
 
-- **Application Load Balancer (ALB):** Distributes incoming traffic across web tier instances
-- **Auto Scaling Group:** Automatically scales application and web tier instances based on demand
-- **RDS Database:** Managed relational database with failover instances in separate AZs
-- **Security Groups:** Enforce strict traffic rules between tiers (security group chaining)
+# Step 2: Public subnet in us-east-1a zone (256 IPs)
+public = ec2.create_subnet(VpcId=vpc_id, CidrBlock="10.0.1.0/24", AvailabilityZone="us-east-1a")
+# Self-assign a public IP when the server starts in this subnet
+ec2.modify_subnet_attribute(SubnetId=public["Subnet"]["SubnetId"], MapPublicIpOnLaunch={"Value": True})
 
-This architecture ensures **high availability** through redundancy across zones and **scalability** through load balancing and auto-scaling.
-        theoryVi: `Có đủ 4 câu trả lời "Allow" thì cho qua, thiếu thì từ chối.
+# Step 3: Private subnet in us-east-1b zone (1 zone error protection)
+private = ec2.create_subnet(VpcId=vpc_id, CidrBlock="10.0.2.0/24", AvailabilityZone="us-east-1b")
 
-## 3. **Bốn nhân vật cần nhớ**
+# Step 4: Create an Internet Gateway and attach it to the VPC to make the subnet public to the Internet
+igw = ec2.create_internet_gateway()
+ec2.attach_internet_gateway(VpcId=vpc_id, InternetGatewayId=igw["InternetGateway"]["InternetGatewayId"])
+
+print(f"VPC {vpc_id} available: public={public['Subnet']['SubnetId']}, private={private['Subnet']['SubnetId']}")`,
+        codeLanguage: "python",
+        exercise: "Design VPC for 3-tier web app (Load Balancer + EC2 app + RDS database) in 2 regions (AZ). List: how many subnets are needed, what type of each subnet (public/private/isolated), and how to open a Security Group for each floor.",
+        exerciseEn: "Design a VPC for a 3-tier web app (Load Balancer + EC2 app + RDS) across 2 AZs. List: how many subnets, what type each (public/private/isolated), and how to open Security Groups for each tier.",
+        quiz: [
+          { question: "How does a Public subnet differ from a Private subnet?", options: ["Public has more IPs", "Public has a route 0.0.0.0/0 → Internet Gateway", "Private runs faster", "No difference"], answer: 1, explanation: "A Public subnet has a route '0.0.0.0/0 → Internet Gateway', so its instances can reach the Internet. A Private subnet lacks this route — it must go through a NAT Gateway to reach the Internet." },
+          { question: "What is a NAT Gateway used for?", options: ["Letting public subnets reach the Internet", "Letting private subnets reach the Internet outbound only", "Speeding up DNS", "Storing logs"], answer: 1, explanation: "A NAT Gateway lets instances in a private subnet make outbound calls (e.g. fetch updates, hit external APIs) but blocks any inbound calls from the Internet — keeping private machines safe." },
+          { question: "What kind of firewall is a Security Group?", options: ["Stateless at the subnet level", "Stateful at the instance level", "At the VPC level", "At the region level"], answer: 1, explanation: "A Security Group surrounds each instance/ENI and is 'stateful' — when you allow an inbound packet, the response packet is automatically allowed out." },
+          { question: "How many IP addresses does the CIDR block 10.0.0.0/16 contain?", options: ["256", "1024", "65,536", "16 million"], answer: 2, explanation: "/16 = 2^(32-16) = 2^16 = 65,536 IPs. Mnemonic: /16 ≈ a large city, /24 = a street (256 IPs), /28 = a few houses (16 IPs)." },
+          { question: "How do you connect 2 VPCs in different accounts?", options: ["Internet Gateway", "VPC Peering or Transit Gateway", "NAT Gateway", "Route Table"], answer: 1, explanation: "VPC Peering connects two VPCs directly (even across accounts). For many VPCs + on-prem, use Transit Gateway as a central hub to avoid complex mesh peering." },
+        ],
+      },
+      {
+        id: "cloud-iam-1",
+        title: "IAM: Identity & Access Management",
+        titleEn: "IAM: Identity & Access Management",
+        level: 3,
+        difficulty: "intermediate",
+        theory: `## 1. Vấn đề đời thường
+
+Bạn mở một quán cà phê. **Ai được làm gì?**
+- Nhân viên pha chế: vào quầy bar, không vào két.
+- Kế toán: mở két, không pha chế.
+- Khách: ngồi bàn, không vào quầy.
+
+Trong cloud, danh sách "ai làm được gì" gọi là **IAM** (Identity & Access Management — quản lý danh tính và quyền truy cập). Sai IAM = giao chìa khoá két cho khách → mất tiền, lộ data.
+
+> **Vì sao quan trọng?** Theo Gartner, **>75% sự cố bảo mật cloud do cấu hình IAM sai**. Học IAM tốt = giảm 75% rủi ro.
+
+## 2. IAM trả lời 4 câu hỏi
+
+Mỗi lần ai đó gọi AWS, IAM hỏi:
+
+| Câu hỏi | Tên gọi | Ví dụ |
+|---|---|---|
+| **Ai?** | Identity (Principal) | User Lan, Lambda function |
+| **Làm gì?** | Action | \`s3:GetObject\` (đọc file S3) |
+| **Trên cái gì?** | Resource | Bucket \`app-data\` |
+| **Khi nào / từ đâu?** | Condition | Chỉ từ IP văn phòng + có MFA |
+
+Có đủ 4 câu trả lời "Allow" thì cho qua, thiếu thì từ chối.
+
+## 3. Bốn nhân vật cần nhớ
 
 | Nhân vật | Là gì? | Khi nào dùng |
 |---|---|---|
@@ -895,7 +1211,62 @@ Khi 1 request đến, IAM kiểm tra theo thứ tự:
 
 ## 6. Lỗi đắt tiền thường gặp
 
-- ❌ **\`Action: "*"\` + \`Resource: "*"\`** trong production — bằng quyền root,
+- ❌ **\`Action: "*"\` + \`Resource: "*"\`** trong production — bằng quyền root, 1 lỗi nhỏ thành thảm hoạ.
+- ❌ **Gắn AdministratorAccess cho user thường** "cho nhanh" — quên thu hồi → developer nghỉ việc vẫn xoá được data.
+- ❌ **Commit access key lên GitHub** — bot tìm thấy trong vài phút, đào Bitcoin trên account bạn → hoá đơn $50k/đêm.
+- ❌ **Trust policy mở \`Principal: "*"\`** — bất kỳ ai trên thế giới mượn được role của bạn.
+- ❌ **Tắt CloudTrail** — bị tấn công cũng không biết ai đã làm gì.
+- ❌ **MFA chỉ bật cho admin** — user thường bị lừa cũng có thể vào hệ thống.
+
+## 7. Best Practices cốt lõi (8 điểm)
+
+- ✅ **Khoá root account**: bật MFA phần cứng, không tạo access key, chỉ dùng cho việc account/billing.
+- ✅ **MFA bắt buộc** cho mọi người dùng (kể cả intern).
+- ✅ **Dùng Role** cho EC2/Lambda/EKS — đừng bao giờ hardcode access key vào code.
+- ✅ **Least Privilege** (tối thiểu quyền): chỉ cấp đúng quyền cần, không hơn.
+- ✅ **AWS SSO / IAM Identity Center** cho công ty — thay vì tạo IAM User cho từng nhân viên.
+- ✅ **Secrets Manager** lưu mật khẩu DB/API key — không để trong env var.
+- ✅ **CloudTrail bật mọi region** + lưu vào S3 immutable bucket → audit khi có sự cố.
+- ✅ **Test policy bằng IAM Policy Simulator** trước khi apply cho production.
+
+## 8. Ghi chú nâng cao (case study + tính năng cao cấp)
+
+**Capital One 2019 — bài học $300 triệu**: 1 IAM Role gắn cho WAF có quyền \`s3:ListBucket\` quá rộng. Hacker khai thác lỗ hổng SSRF → đọc credential → tải 100M record cá nhân. Phạt $80M + thiệt hại $300M. **Bài học**: Least Privilege + Permission Boundary + Block Public Access mặc định.
+
+**Uber 2016 — access key trên GitHub**: Dev commit access key vào repo "private" GitHub. Hacker tìm thấy, tải data 57M user. Uber giấu, trả $100k "bug bounty" → bị phạt $148M năm 2018. **Bài học**: dùng OIDC (GitHub Actions assume role không cần key cố định).
+
+**Tính năng cao cấp** (đọc khi đã thạo cơ bản):
+- **SCP** (Service Control Policy): chặn rộng ở cấp Organizations — ví dụ chặn cả region không cho tạo tài nguyên.
+- **Permission Boundary**: trần quyền tối đa cho team self-service.
+- **ABAC** (Tag-based access): policy dùng tag thay vì list cứng resource.
+- **Cross-account AssumeRole + ExternalId**: cho 3rd-party SaaS (Datadog, Snyk) truy cập an toàn.
+
+## 9. Liên hệ bài tiếp theo
+
+IAM kiểm soát "ai làm gì". Bài kế **Shared Responsibility & Encryption** trả lời câu hỏi tiếp theo: "Ai chịu trách nhiệm bảo mật cái gì?" và "Làm sao mã hoá data để dù bị lộ, kẻ tấn công cũng không đọc được?".`,
+        theoryEn: `## 1. Real-world problem
+Run a coffee shop. Who can do what? Barista at the bar (not the safe). Accountant at the safe (not the bar). Customer at the table only. In the cloud, that "who-can-do-what" list is **IAM**. >75% of cloud security incidents come from misconfigured IAM (Gartner).
+
+## 2. IAM answers 4 questions
+WHO (Principal) does WHAT (Action) on WHICH RESOURCE under WHICH CONDITION (IP, MFA, time)?
+
+## 3. Four characters
+- **User**: long-term identity (password / access key) for humans.
+- **Group**: collection of users, share policies.
+- **Role**: temporary identity assumed for 15 min – 12 h. Use for EC2, Lambda, GitHub Actions.
+- **Policy**: JSON describing Allow/Deny + Action + Resource + Condition. Attach to User/Group/Role.
+
+**Golden rule**: prefer Role over User — short-lived credentials beat long-lived keys.
+
+## 4. Minimal policy
+\`\`\`json
+{ "Effect": "Allow",
+  "Action": ["s3:GetObject"],
+  "Resource": "arn:aws:s3:::app-data/*",
+  "Condition": {"IpAddress": {"aws:SourceIp": "203.0.113.0/24"}} }
+\`\`\`
+Allow reading any object in bucket \`app-data\` only from office IP range.
+
 ## 5. Evaluation order
 1. Any explicit Deny → DENY.
 2. At least one Allow → ALLOW.
@@ -903,10 +1274,10 @@ Khi 1 request đến, IAM kiểm tra theo thứ tự:
 Cloud is closed by default; every door must be opened with an Allow.
 
 ## 6. Common pitfalls
-- `Action: "*"` + `Resource: "*"` in prod.
+- \`Action: "*"\` + \`Resource: "*"\` in prod.
 - AdministratorAccess on regular users.
 - Access keys committed to GitHub.
-- `Principal: "*"` in trust policies.
+- \`Principal: "*"\` in trust policies.
 - CloudTrail off.
 - MFA only for admins.
 
@@ -919,29 +1290,29 @@ Lock root + hardware MFA, mandatory MFA for everyone, Roles for services (no har
 Advanced features: SCPs (org-wide guardrails), Permission Boundaries (max ceiling for self-service), ABAC (tag-based access), Cross-account AssumeRole with ExternalId for 3rd-party SaaS.
 
 ## 9. Bridge to next lesson
-IAM controls "who does what". Next: **Shared Responsibility & Encryption** — who is responsible for which security layer, and how to encrypt data so leaks remain unreadable.
-        code: `# IAM Policy: allow Lambda to read 1 specific S3 bucket + write CloudWatch logs
+IAM controls "who does what". Next: **Shared Responsibility & Encryption** — who is responsible for which security layer, and how to encrypt data so leaks remain unreadable.`,
+        code: `# IAM Policy: cho phép Lambda đọc 1 bucket S3 cụ thể + ghi log CloudWatch
 policy = {
-  "Version": "2012-10-17",   # Standard version, always use 2012-10-17
+  "Version": "2012-10-17",   # Phiên bản chuẩn, luôn để 2012-10-17
   "Statement": [
     {
-      "Sid": "AllowS3Read",  # Statement name, for readability
-      "Effect": "Allow",     # Allow (opposite of Deny)
-      "Action": ["s3:GetObject", "s3:ListBucket"],   # Read file + list bucket
+      "Sid": "AllowS3Read",  # Tên đoạn quyền, đặt cho dễ đọc
+      "Effect": "Allow",     # Cho phép (đối lập với Deny)
+      "Action": ["s3:GetObject", "s3:ListBucket"],   # Đọc file + liệt kê bucket
       "Resource": [
-        "arn:aws:s3:::app-data",        # Bucket (for ListBucket)
-        "arn:aws:s3:::app-data/*"       # All files in bucket (for GetObject)
+        "arn:aws:s3:::app-data",        # Bucket (để ListBucket)
+        "arn:aws:s3:::app-data/*"       # Mọi file trong bucket (để GetObject)
       ]
     },
     {
       "Sid": "AllowLogs",
       "Effect": "Allow",
-      "Action": [                       # Log write permissions for Lambda debugging
+      "Action": [                       # Quyền ghi log để debug Lambda
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "arn:aws:logs:*:*:*"  # All log groups in all regions
+      "Resource": "arn:aws:logs:*:*:*"  # Mọi log group ở mọi region
     }
   ]
 }
@@ -966,201 +1337,139 @@ print(json.dumps(policy, indent=2))
         titleEn: "Shared Responsibility & Encryption",
         level: 3,
         difficulty: "intermediate",
-        theory: `## 1. Everyday problem
+        theory: `## 1. Vấn đề đời thường
 
-You rent an apartment. The management is responsible for: walls, roof, elevator, gate security. **You are responsible for**: locking your apartment door, not letting strangers in, not leaving the key outside.
+Bạn thuê 1 căn hộ chung cư. Ban quản lý chịu trách nhiệm: tường, mái, thang máy, bảo vệ cổng. **Bạn chịu trách nhiệm**: khoá cửa căn hộ, không cho người lạ vào, không để chìa khoá ngoài cửa.
 
-If you leave the door open and money is stolen — **your fault**, not the management's. Cloud is the same. This model is called **Shared Responsibility Model**.
+Nếu bạn để cửa mở rồi mất tiền — **lỗi của bạn**, không phải ban quản lý. Cloud cũng vậy. Mô hình này gọi là **Shared Responsibility Model** (mô hình trách nhiệm chia sẻ).
 
-> **Why important?** Gartner predicts by 2025, **99% of cloud security incidents will be CUSTOMER ERRORS** — not AWS/Azure/Google's fault. Understanding this model = not blaming the wrong place.
+> **Vì sao quan trọng?** Gartner dự báo đến 2025, **99% sự cố bảo mật cloud sẽ là LỖI KHÁCH HÀNG** — không phải lỗi của AWS/Azure/Google. Hiểu mô hình này = không đổ lỗi sai chỗ.
 
-## 2. "of vs in" rule — whose responsibility?
+## 2. Quy tắc "of vs in" — của ai?
 
-| Responsibility | Who? | Example |
+| Trách nhiệm | Ai làm? | Ví dụ |
 |---|---|---|
-| **Security OF the Cloud** | Cloud Provider (AWS/Azure/GCP) | Data center, hardware, hypervisor, physical network |
-| **Security IN the Cloud** | **You (customer)** | IAM, Security Group, encryption, OS patching, app code, data |
+| **Security OF the Cloud** | Cloud Provider (AWS/Azure/GCP) | Data center, phần cứng, hypervisor, mạng vật lý |
+| **Security IN the Cloud** | **Bạn (khách hàng)** | IAM, Security Group, mã hoá, vá OS, code app, dữ liệu |
 
-**Tip to remember**: "**OF** the cloud" = **the cloud itself** (provider handles). "**IN** the cloud" = **everything you put in the cloud** (you handle).
+**Mẹo nhớ**: "**OF** the cloud" = **bản thân cloud** (provider lo). "**IN** the cloud" = **mọi thứ bạn để vào cloud** (bạn lo).
 
-## 3. Responsibility changes by service type
+## 3. Trách nhiệm thay đổi theo loại dịch vụ
 
-The more "high-level" the service (PaaS/SaaS), the more the provider handles, the less you do:
+Càng dùng dịch vụ "cao cấp" (PaaS/SaaS), provider lo càng nhiều, bạn lo càng ít:
 
-| Layer | On-prem | IaaS (EC2) | PaaS (RDS) | SaaS (S3) |
+| Tầng | On-prem | IaaS (EC2) | PaaS (RDS) | SaaS (S3) |
 |---|---|---|---|---|
-| Data | **You** | **You** | **You** | **You** |
-| IAM (access control) | **You** | **You** | **You** | **You** |
-| App code | You | You | You | CSP |
-| OS, runtime | You | You | CSP | CSP |
-| Hardware, physical network | You | CSP | CSP | CSP |
+| Dữ liệu | **Bạn** | **Bạn** | **Bạn** | **Bạn** |
+| IAM (kiểm soát truy cập) | **Bạn** | **Bạn** | **Bạn** | **Bạn** |
+| App code | Bạn | Bạn | Bạn | CSP |
+| OS, runtime | Bạn | Bạn | CSP | CSP |
+| Hardware, network vật lý | Bạn | CSP | CSP | CSP |
 
-> **Core rule**: no matter the service, **DATA + IAM are always YOURS**. AWS never decides for you "who can read your data".
-{
-  theory: `## 4. Data Encryption — 3 States Requiring Protection
+> **Quy luật cốt lõi**: dù dùng dịch vụ nào, **DỮ LIỆU + IAM luôn là của BẠN**. AWS không bao giờ thay bạn quyết "ai được đọc data của bạn".
 
-Data exists in 3 states, each requiring specific protection:
+## 4. Mã hoá dữ liệu — 3 trạng thái cần bảo vệ
 
-| State | Definition | Encryption Method |
+Data ở 3 trạng thái, mỗi trạng thái có cách bảo vệ riêng:
+
+| Trạng thái | Là gì? | Cách mã hoá |
 |---|---|---|
-| **At-rest** | Stored on disk | AES-256 on S3/EBS/RDS (using KMS) |
-| **In-transit** | Transmitted over network | TLS 1.2+ (HTTPS, mTLS) |
-| **In-use** | Processing in RAM/CPU | Confidential Computing (Nitro Enclaves) |
+| **At-rest** | Đang nằm trên ổ đĩa | AES-256 trên S3/EBS/RDS (dùng KMS) |
+| **In-transit** | Đang truyền qua mạng | TLS 1.2+ (HTTPS, mTLS) |
+| **In-use** | Đang xử lý trong RAM/CPU | Confidential Computing (Nitro Enclaves) |
 
-> **Mr. Hai's tip**: Enabling at-rest and in-transit encryption is **default**, free, and has no reason to disable. In-use encryption is only needed when processing highly sensitive data (healthcare, banking).
+> **Mẹo**: Bật mã hoá at-rest và in-transit là **mặc định**, miễn phí, không lý do gì để tắt. In-use chỉ cần khi xử lý data siêu nhạy cảm (y tế, ngân hàng).
 
-## 5. Minimal syntax — enable encryption when uploading to S3
+## 5. Cú pháp tối thiểu — bật mã hoá khi upload S3
 
 \`\`\`python
 import boto3
 kms = boto3.client("kms")
 s3  = boto3.client("s3")
 
-# Step 1: Create a "master key" (Customer Master Key) in KMS
-key = kms.create_key(Description="Encryption key for app data")
+# Bước 1: Tạo "khoá chủ" (Customer Master Key) trong KMS
+key = kms.create_key(Description="Khoá mã hoá data app")
 key_id = key["KeyMetadata"]["KeyId"]
 
-# Step 2: Upload file to S3 with at-rest encryption using the created key
+# Bước 2: Upload file lên S3 với mã hoá at-rest dùng khoá vừa tạo
 s3.put_object(
     Bucket="my-secure-bucket",
-    Key="contracts/contract.pdf",
-    Body=b"<file content>",
-    ServerSideEncryption="aws:kms",   # Enable KMS encryption
-    SSEKMSKeyId=key_id,                # Which key to use
+    Key="hop-dong/contract.pdf",
+    Body=b"<noi dung file>",
+    ServerSideEncryption="aws:kms",   # Bật mã hoá KMS
+    SSEKMSKeyId=key_id,                # Dùng khoá nào
 )
 \`\`\`
 
-**Read line by line**:
-- Lines 5–7: Create an encryption key stored in KMS (Key Management Service). This key **never leaves AWS** — you only "borrow" it to encrypt/decrypt.
-- Lines 10–16: When uploading a file, tag it "encrypt with KMS, use key X". S3 automatically encrypts before writing to disk. When reading back, S3 automatically decrypts (if IAM permits).
+**Đọc từng dòng**:
+- Dòng 5–7: Tạo 1 khoá mã hoá nằm trong KMS (Key Management Service). Khoá này **không bao giờ rời khỏi AWS** — bạn chỉ "mượn" nó để mã/giải mã.
+- Dòng 10–16: Khi upload file, gắn nhãn "mã hoá bằng KMS, dùng khoá X". S3 tự mã hoá trước khi ghi xuống đĩa. Khi đọc lại, S3 tự giải mã (nếu IAM cho phép).
 
-## 6. Common costly mistakes
+## 6. Lỗi đắt tiền thường gặp
 
-- ❌ **Believe "AWS handles all security"** — wrong. 99% of incidents are customer errors.
-- ❌ **Backup in same account as original data** — if hacker compromises account, they delete both backup and original. Code Spaces 2014: hacker deleted EC2 + S3 + backup → company shut down in 6 hours.
-- ❌ **Public S3 bucket** containing sensitive data — bots scan and find it within hours.
-- ❌ **TLS 1.0 still enabled** for one legacy client — enough for hacker to perform downgrade attack.
-- ❌ **No OS patching** on EC2 — Equifax 2017: didn't patch Apache Struts for 2 months → lost 147M SSN records, fined $1.4 billion USD.
-- ❌ **Store database password in env var** instead of Secrets Manager → leaks through logs/config.
-- ❌ **Enable GuardDuty but no one reads alerts** → warnings exist but no action taken.
+- ❌ **Tin "AWS lo hết bảo mật"** — sai. 99% sự cố là lỗi customer.
+- ❌ **Backup cùng account với data gốc** — hacker chiếm account là xoá luôn cả backup. Vụ Code Spaces 2014: hacker xoá EC2 + S3 + backup → công ty đóng cửa trong 6 tiếng.
+- ❌ **Public S3 bucket** chứa data nhạy cảm — bot scan tìm thấy trong vài giờ.
+- ❌ **TLS 1.0 vẫn bật** vì 1 client cũ — đủ để hacker thực hiện downgrade attack.
+- ❌ **Không vá OS** trên EC2 — vụ Equifax 2017: không vá Apache Struts trong 2 tháng → mất 147M record SSN, phạt $1.4 tỷ USD.
+- ❌ **Lưu password DB trong env var** thay vì Secrets Manager → leak qua log/config.
+- ❌ **Bật GuardDuty nhưng không ai xem alert** → cảnh báo có nhưng không hành động.
 
-## 7. Core best practices (10 points)
+## 7. Best Practices cốt lõi (10 điểm)
 
-- ✅ **Encrypt by default** all buckets/disks/databases (enable at account level to avoid forgetting).
+- ✅ **Mã hoá mặc định** mọi bucket/disk/DB (bật ở account level cho khỏi quên).
 - ✅ **TLS 1.2+ everywhere** + HSTS header.
-- ✅ **CMK** (Customer-Managed Key) for sensitive data + enable automatic key rotation (1–3 years).
-- ✅ **Backup in different account** + S3 Object Lock (immutable — cannot delete even with root account).
+- ✅ **CMK** (Customer-Managed Key) cho data nhạy cảm + bật xoay khoá tự động (1–3 năm).
+- ✅ **Backup ở account khác** + S3 Object Lock (bất biến — không xoá được dù root account).
 - ✅ **CloudTrail multi-region** → S3 immutable bucket.
-- ✅ **GuardDuty + Security Hub + Inspector** (standard trio) — and **read alerts** regularly.
-- ✅ **AWS Config** continuously check compliance (e.g., detect which buckets are public, which EBS volumes lack encryption).
-- ✅ **Systems Manager Patch Manager** patch OS weekly.
-- ✅ **Secrets Manager** store database passwords, auto-rotate every 30–90 days.
-- ✅ **WAF + Shield** for public web apps (prevent DDoS L7, SQL injection).
+- ✅ **GuardDuty + Security Hub + Inspector** (bộ 3 chuẩn) — và **đọc alert** đều đặn.
+- ✅ **AWS Config** kiểm tra compliance liên tục (vd: phát hiện bucket nào public, EBS nào chưa mã hoá).
+- ✅ **Systems Manager Patch Manager** vá OS hàng tuần.
+- ✅ **Secrets Manager** lưu mật khẩu DB, tự xoay 30–90 ngày.
+- ✅ **WAF + Shield** cho web app công khai (chống DDoS L7, SQL injection).
 
-## 8. Advanced notes (case study + KMS details)
+## 8. Ghi chú nâng cao (case study + KMS chi tiết)
 
-**Capital One vs Code Spaces — 2 outcomes**:
-- **Capital One 2019**: S3 exposed due to overly broad IAM + WAF SSRF → lost 100M records, fined $80M. **Recovered** because backup was in different account + audit trail was clear.
-- **Code Spaces 2014** (now defunct): hacker compromised root account (no MFA), deleted all EC2 + S3 + **backup in same account**. **6 hours** — company permanently shut down.
+**Capital One vs Code Spaces — 2 kết cục**:
+- **Capital One 2019**: lộ S3 do IAM rộng + WAF SSRF → mất 100M record, phạt $80M. **Khôi phục được** vì có backup ở account khác + audit rõ.
+- **Code Spaces 2014** (đã phá sản): hacker chiếm root account (không MFA), xoá toàn bộ EC2 + S3 + **backup trong cùng account**. **6 tiếng** — công ty đóng cửa vĩnh viễn.
 
-→ Lesson: backup must be in **different account** + Object Lock immutable.
+→ Bài học: backup phải ở **account khác** + Object Lock immutable.
 
-**Envelope encryption (KMS)**: Large data uses DEK (Data Encryption Key — generated quickly, encrypts with AES-256). DEK itself is encrypted by CMK (Customer Master Key in KMS HSM). KMS never sees plaintext data → high security.
+**Envelope encryption (KMS)**: Dữ liệu lớn dùng DEK (Data Encryption Key — sinh nhanh, mã hoá AES-256). DEK lại được CMK (Customer Master Key trong KMS HSM) mã hoá. KMS không bao giờ thấy plaintext data → an toàn cao.
 
-**Encryption Context**: attach metadata (e.g., \`{"purpose": "user-data"}\`) to each encryption operation. When decrypting, must provide correct context → prevents "wrong-context decrypt" attacks.
+**Encryption Context**: gắn metadata (vd: \`{"purpose": "user-data"}\`) vào mỗi lần encrypt. Khi decrypt phải đưa đúng context → chống tấn công "wrong-context decrypt".
 
-**Compliance frameworks**: PCI-DSS (credit cards), HIPAA (US healthcare — requires BAA), SOC 2 (B2B SaaS), ISO 27001 (international), GDPR (Europe), FedRAMP (US government — use GovCloud).
+**Compliance frameworks**: PCI-DSS (thẻ tín dụng), HIPAA (y tế Mỹ — cần BAA), SOC 2 (SaaS B2B), ISO 27001 (quốc tế), GDPR (châu Âu), FedRAMP (chính phủ Mỹ — dùng GovCloud).
 
-## 9. Next lesson connection
+## 9. Liên hệ bài tiếp theo
 
-Security complete, next lesson shifts to **modern operations** — **Lambda & API Gateway** opens the Serverless & DevOps chapter: build apps without managing servers, pay only when code actually runs.`,
-  code: `import boto3
+Bảo mật xong, bài kế chuyển sang **vận hành hiện đại** — **Lambda & API Gateway** mở chương Serverless & DevOps: build app không cần quản server, chỉ trả tiền khi code thực sự chạy.`,
+        theoryEn: `## 1. Real-world problem
+Renting an apartment: building manager handles walls, lifts, security guard. **You** lock your own door and don't leave keys outside. Same in cloud — this is the **Shared Responsibility Model**. Gartner: 99% of cloud security incidents through 2025 are customer mistakes, not provider mistakes.
 
-kms = boto3.client("kms")
-s3  = boto3.client("s3")
+## 2. "of vs in" rule
+- **Security OF the Cloud** = provider's job (data centers, hardware, hypervisor).
+- **Security IN the Cloud** = your job (IAM, Security Groups, encryption settings, OS patching, app code, data).
 
-# Step 1: Create a "master key" (Customer Master Key) in KMS
-key = kms.create_key(Description="Encryption key for app data")
-key_id = key["KeyMetadata"]["KeyId"]
+## 3. Responsibility shifts by service model
+| Layer | On-prem | IaaS | PaaS | SaaS |
+|---|---|---|---|---|
+| Data | You | You | You | You |
+| IAM | You | You | You | You |
+| App | You | You | You | CSP |
+| OS / runtime | You | You | CSP | CSP |
+| Hardware / network | You | CSP | CSP | CSP |
 
-# Step 2: Upload file to S3 with at-rest encryption using the created key
-s3.put_object(
-    Bucket="my-secure-bucket",
-    Key="contracts/contract.pdf",
-    Body=b"<file content>",
-    ServerSideEncryption="aws:kms",   # Enable KMS encryption
-    SSEKMSKeyId=key_id,                # Which key to use
-)`,
-  exercise: `1. Create a KMS key and encrypt an S3 object using the key.
-2. Attempt to read the encrypted object without proper IAM permissions — verify access is denied.
-3. Enable versioning + Object Lock on the bucket, then try to delete an object — confirm it cannot be deleted.
-4. Enable CloudTrail and check logs to see who accessed the encrypted object and when.
-5. Set up a bucket policy to deny any upload without ServerSideEncryption="aws:kms".`,
-  quiz: [
-    {
-      question: "Which of the following is NOT a responsibility of the customer in the Shared Responsibility Model?",
-      options: [
-        "Configuring IAM policies",
-        "Patching the hypervisor",
-        "Encrypting data at rest",
-        "Managing application code"
-      ],
-      answer: 1,
-      explanation: "Patching the hypervisor is AWS's responsibility. The customer is responsible for IAM, encryption, and application code."
-    },
-    {
-      question: "What are the 3 states of data that require encryption?",
-      options: [
-        "At-rest, in-transit, in-use",
-        "At-rest, in-memory, in-database",
-        "In-transit, in-cache, in-backup",
-        "At-rest, in-transit, in-archive"
-      ],
-      answer: 0,
-      explanation: "Data exists in three states: at-rest (on disk), in-transit (over network), and in-use (in RAM/CPU during processing)."
-    },
-    {
-      question: "Which encryption method is recommended for data in-transit in AWS?",
-      options: [
-        "AES-128",
-        "TLS 1.0",
-        "TLS 1.2+",
-        "DES"
-      ],
-      answer: 2,
-      explanation: "TLS 1.2 or higher is the recommended standard for encrypting data in transit. TLS 1.0 is outdated and vulnerable."
-    },
-    {
-      question: "What is the primary purpose of KMS (Key Management Service)?",
-      options: [
-        "To store encrypted data",
-        "To manage and protect encryption keys",
-        "To compress data before encryption",
-        "To monitor network traffic"
-      ],
-      answer: 1,
-      explanation: "KMS manages and protects encryption keys. Keys never leave AWS, and you only borrow them for encrypt/decrypt operations."
-    },
-    {
-      question: "In the Code Spaces 2014 incident, why was the company unable to recover?",
-      options: [
-        "They had no backups",
-        "Backups were in the same account as the original data",
-        "AWS refused to help",
-        "The hacker had encryption keys"
-      ],
-      answer: 1,
-      explanation: "The hacker compromised the root account and deleted EC2, S3, and backups all in the same account. Backups must be in a separate account."
-    }
-  ]
-}
-{
-  id: "cloud-security-2",
-  title: "## 8. Advanced Security — KMS + Case Studies",
-  titleEn: "## 8. Advanced Security — KMS + Case Studies",
-  level: 3,
-  difficulty: "advanced",
-  theory: `## 5. Minimal example — encrypt S3 upload
+**Rule**: data + IAM are ALWAYS yours.
+
+## 4. Encrypt 3 data states
+- **At-rest** (on disk): AES-256 via KMS for S3/EBS/RDS.
+- **In-transit** (over network): TLS 1.2+, mTLS for service mesh.
+- **In-use** (in RAM/CPU): Confidential Computing (Nitro Enclaves) for ultra-sensitive data.
+At-rest + in-transit are free defaults — never leave them off.
+
+## 5. Minimal example — encrypt S3 upload
 Create a KMS Customer Master Key, then \`put_object\` with \`ServerSideEncryption="aws:kms"\` + the key id. KMS holds the key; S3 calls KMS to wrap a per-object data key.
 
 ## 6. Common pitfalls
@@ -1184,7 +1493,7 @@ Compliance: PCI-DSS, HIPAA (BAA), SOC 2, ISO 27001, GDPR, FedRAMP.
 
 ## 9. Bridge to next lesson
 Security covered. Next: **Lambda & API Gateway** opens the Serverless & DevOps chapter — build apps without managing servers, paying only when code runs.`,
-  code: `# Enable encryption when uploading files to S3 + create CMK in KMS
+        code: `# Bật mã hoá khi upload file lên S3 + tạo CMK trong KMS
 import boto3
 kms = boto3.client("kms")
 s3  = boto3.client("s3")
@@ -1194,7 +1503,7 @@ s3  = boto3.client("s3")
 key = kms.create_key(
     Description="Application data encryption key",
     KeyUsage="ENCRYPT_DECRYPT",
-    KeySpec="SYMMETRIC_DEFAULT",  # Symmetric AES-256
+    KeySpec="SYMMETRIC_DEFAULT",  # AES-256 đối xứng
 )
 key_id = key["KeyMetadata"]["KeyId"]
 
@@ -1204,8 +1513,8 @@ s3.put_object(
     Bucket="my-secure-bucket",
     Key="confidential/contract.pdf",
     Body=b"<binary content>",
-    ServerSideEncryption="aws:kms",   # Enable KMS encryption
-    SSEKMSKeyId=key_id,                # Use the key just created
+    ServerSideEncryption="aws:kms",   # Bật mã hoá bằng KMS
+    SSEKMSKeyId=key_id,                # Dùng khoá vừa tạo
 )
 
 # Step 3: Turn on default encryption for the entire bucket
@@ -1218,164 +1527,474 @@ s3.put_bucket_encryption(
                 "SSEAlgorithm": "aws:kms",
                 "KMSMasterKeyID": key_id,
             },
-            "BucketKeyEnabled": True,  # Save KMS API call costs
+            "BucketKeyEnabled": True,  # Tiết kiệm chi phí KMS API call
         }]
     },
 )
 print(f"Bucket secured with CMK {key_id}")`,
-  codeLanguage: "python",
-  exercise: "A fintech stores customer data on RDS PostgreSQL. List 8–10 security measures to apply — divided into 4 groups: (1) Encryption, (2) IAM, (3) Network, (4) Audit/Backup.",
-  exerciseEn: "A fintech stores customer data in RDS PostgreSQL. List 8–10 required security measures, grouped into: (1) Encryption, (2) IAM, (3) Network, (4) Audit/Backup.",
-  quiz: [
-    { question: "Under Shared Responsibility, who patches the OS on an EC2 instance?", options: ["AWS handles it", "The customer (you)", "Both", "Nobody"], answer: 1, explanation: "With IaaS (like EC2), the customer patches the OS. With PaaS (RDS) or SaaS (S3), AWS handles it. Rule of thumb: the more 'self-managed' (IaaS), the more is on you." },
-    { question: "What is AWS KMS used for?", options: ["Managing IPs", "Managing encryption keys", "Managing logs", "Managing DNS"], answer: 1, explanation: "KMS = Key Management Service — generates, stores, and rotates encryption keys. Keys live inside an HSM and never leave AWS → no risk of leakage." },
-    { question: "TLS 1.2+ protects data in which state?", options: ["At-rest (on disk)", "In-transit (moving over the network)", "IAM", "Backup"], answer: 1, explanation: "TLS protects data **in transit** between client ↔ server. At-rest encryption uses AES-256 on disk, not TLS." },
-    { question: "Why is a Customer-Managed Key (CMK) better than an AWS-managed key?", options: ["Cheaper", "You control rotation, audit, and fine-grained access", "It runs faster", "It's automatic"], answer: 1, explanation: "A CMK lets you decide when keys rotate, who can use them, and audit via CloudTrail. AWS-managed keys are simple but lack the fine-grained controls required for compliance like PCI/HIPAA." },
-    { question: "Which service uses ML for threat detection?", options: ["KMS", "GuardDuty", "S3", "Lambda"], answer: 1, explanation: "GuardDuty uses ML on VPC Flow Logs + DNS logs + CloudTrail to detect anomalous behavior (Bitcoin mining, leaked keys, lateral movement)." },
-  ],
-},
-```
+        codeLanguage: "python",
+        exercise: "A fintech stores customer data on RDS PostgreSQL. List 8–10 security measures to apply — divided into 4 groups: (1) Encryption, (2) IAM, (3) Network, (4) Audit/Backup.",
+        exerciseEn: "A fintech stores customer data in RDS PostgreSQL. List 8–10 required security measures, grouped into: (1) Encryption, (2) IAM, (3) Network, (4) Audit/Backup.",
+        quiz: [
+          { question: "Under Shared Responsibility, who patches the OS on an EC2 instance?", options: ["AWS handles it", "The customer (you)", "Both", "Nobody"], answer: 1, explanation: "With IaaS (like EC2), the customer patches the OS. With PaaS (RDS) or SaaS (S3), AWS handles it. Rule of thumb: the more 'self-managed' (IaaS), the more is on you." },
+          { question: "What is AWS KMS used for?", options: ["Managing IPs", "Managing encryption keys", "Managing logs", "Managing DNS"], answer: 1, explanation: "KMS = Key Management Service — generates, stores, and rotates encryption keys. Keys live inside an HSM and never leave AWS → no risk of leakage." },
+          { question: "TLS 1.2+ protects data in which state?", options: ["At-rest (on disk)", "In-transit (moving over the network)", "IAM", "Backup"], answer: 1, explanation: "TLS protects data **in transit** between client ↔ server. At-rest encryption uses AES-256 on disk, not TLS." },
+          { question: "Why is a Customer-Managed Key (CMK) better than an AWS-managed key?", options: ["Cheaper", "You control rotation, audit, and fine-grained access", "It runs faster", "It's automatic"], answer: 1, explanation: "A CMK lets you decide when keys rotate, who can use them, and audit via CloudTrail. AWS-managed keys are simple but lack the fine-grained controls required for compliance like PCI/HIPAA." },
+          { question: "Which service uses ML for threat detection?", options: ["KMS", "GuardDuty", "S3", "Lambda"], answer: 1, explanation: "GuardDuty uses ML on VPC Flow Logs + DNS logs + CloudTrail to detect anomalous behavior (Bitcoin mining, leaked keys, lateral movement)." },
+        ],
+      },
+    ],
+  },
 
-// ============ MODULE 4: Serverless & DevOps ============
-{
-  id: "cloud-serverless-devops",
-  title: "Serverless & DevOps",
-  titleEn: "Serverless & DevOps",
-  icon: "⚡",
-  color: "from-emerald-500 to-cyan-600",
-  description: "Lambda, API Gateway, IaC (Terraform), CI/CD pipeline, observability",
-  descriptionEn: "Lambda, API Gateway, IaC (Terraform), CI/CD pipelines, observability",
-  course: "cloud",
-  lessons: [
-    {
-      id: "cloud-serverless-1",
-      title: "Lambda & API Gateway",
-      titleEn: "Lambda & API Gateway",
-      level: 3,
-      difficulty: "intermediate",
-      theory: `## 1. 🚦 Everyday problems
+  // ============ MODULE 4: Serverless & DevOps ============
+  {
+    id: "cloud-serverless-devops",
+    title: "Serverless & DevOps",
+    titleEn: "Serverless & DevOps",
+    icon: "⚡",
+    color: "from-emerald-500 to-cyan-600",
+    description: "Lambda, API Gateway, IaC (Terraform), CI/CD pipeline, observability",
+    descriptionEn: "Lambda, API Gateway, IaC (Terraform), CI/CD pipelines, observability",
+    course: "cloud",
+    lessons: [
+      {
+        id: "cloud-serverless-1",
+        title: "Lambda & API Gateway",
+        titleEn: "Lambda & API Gateway",
+        level: 3,
+        difficulty: "intermediate",
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-You just need 1 function to send email when user registers — but have to setup EC2, install OS, open firewall, pay 24/7. Too wasteful. **Serverless** (AWS Lambda, GCF) = "pay only when function runs", no server management needed.
+Bạn chỉ cần code 1 hàm gửi email khi user đăng ký — vậy mà phải dựng EC2, cài OS, mở firewall, trả tiền 24/7. Quá phí. **Serverless** (AWS Lambda, GCF) = "chỉ trả tiền khi hàm chạy", không cần quản lý server.
 
-> 💡 **Mr. Hai's tip:** Serverless is NOT "no servers" — they exist, but AWS manages them. You only pay per invocation + execution time.
+> 💡 **Mẹo của thầy Hải:** Serverless KHÔNG phải "không có server" — vẫn có, nhưng AWS lo cho bạn. Bạn chỉ trả theo số lần gọi + thời gian chạy.
 
-## 2. 💡 Key concepts`,
-      // ... rest of lesson content would continue here
-    },
-  ],
-},
-I appreciate you sharing this content, but I notice your query appears to be a **Vietnamese-to-English translation task for a TypeScript curriculum**, not a question requiring web search results.
+## 2. 💡 Khái niệm chính
 
-Based on your special instructions, you've asked me to translate a TypeScript curriculum file from Vietnamese to English while preserving all code syntax and structure.
+- **Function**: đoạn code (Python/Node/Go).
+- **Trigger**: sự kiện kích hoạt (HTTP, S3 upload, cron, queue).
+- **Cold start**: lần gọi đầu tiên chậm hơn (vài trăm ms).
+- **Pay-per-invocation**: tính theo số lần + GB-second.
 
-However, the content you've provided mixes:
-1. Vietnamese markdown text about AWS Lambda
-2. Python code examples
-3. English theory sections (already translated)
-4. Search results about Lambda pricing
+## 3. 🧰 AWS Lambda Python
 
-**To proceed accurately, I need clarification:**
+\`\`\`python
+def lambda_handler(event, context):
+    name = event.get("name", "world")
+    return {"statusCode": 200, "body": f"Hello {name}"}
+\`\`\`
 
-- Should I translate **only the Vietnamese sections** (the theory, examples, warnings, tips, and summary)?
-- Should the output be a complete TypeScript curriculum file, or just the translated Vietnamese portions?
-- Are the Python code examples meant to stay as-is, or should they be converted to TypeScript?
-- Should I preserve the current markdown structure (headers, tables, code blocks, emoji)?
+Trigger qua API Gateway → có URL public.
 
-Please provide the **complete, original Vietnamese curriculum file** you'd like translated, and I'll deliver the precise English translation following all your rules (identical syntax, converted variable names to snake_case English, Mr. Hai's tip attribution, etc.).
-I appreciate you sharing this content, but I need to clarify what you're asking me to do.
+## 4. 🎯 Ví dụ chạy được ngay
 
-Based on your instructions at the beginning, you've asked me to **translate a TypeScript curriculum data file from Vietnamese to English**. However, the content you've provided appears to be:
+Workflow phổ biến: User upload ảnh lên S3 → Lambda tự động resize → ghi lại bucket. Không cần server lúc nào cả.
 
-1. A table comparing Lambda, ECS/EKS, and EC2
-2. Best practices and pitfalls for Lambda
-3. Python code examples
-4. A partially translated lesson on Infrastructure as Code (Terraform) with Vietnamese text still present
+## 5. ⚠️ Bẫy thường gặp
 
-**To proceed accurately, I need clarification:**
+> ⚠️ **Cảnh báo:** Lambda có giới hạn 15 phút mỗi lần chạy + 10GB RAM. Job dài hơn → dùng ECS/Batch.
 
-- Should I translate the **entire lesson structure** (including the theory section that starts with "## 1. 🚦 Vấn đề đời thường") from Vietnamese to English?
-- Should I convert the Python code comments and variable names to English?
-- Should I translate the quiz questions and explanations?
-- Is there a complete Vietnamese source file you'd like me to translate, or should I work with what's provided here?
+## 6. ✅ Best practice
 
-Once you confirm the scope, I'll deliver the full English translation following your rules:
-- All Vietnamese text → English
-- TypeScript/code syntax unchanged
-- Variable names in snake_case English
-- No markdown fences or commentary in output
-- Start directly with translated content
+> 💡 **Mẹo của thầy Hải:** Cold start đau → bật **Provisioned Concurrency** cho function quan trọng, hoặc dùng **Lambda SnapStart**.
 
-Please clarify, and I'll proceed immediately.
-## 3. 🧰 **Terraform** sample
+## 7. 🤔 Khi nào dùng
 
-```hcl
+- ✅ Webhook, image processing, cron jobs nhẹ, glue logic.
+- ❌ App lâu (>15 phút), web socket realtime — dùng container.
+
+## 8. 📌 Tóm tắt 30 giây
+
+Serverless = trả theo lần chạy. Trigger qua HTTP/S3/cron. Hợp glue logic, microservice nhỏ. Cảnh báo cold start + 15-min limit.
+`,
+        theoryEn: `**Serverless** doesn't mean "no servers" — it means **you don't manage servers**. The cloud handles provisioning, OS patching, scaling, and HA. You write functions and **pay per millisecond of execution**. It is the purest pay-per-use compute model.
+
+## Why Serverless emerged
+
+Even with traditional cloud, you still picked instance types, configured ASG/LB, and paid for idle servers 24/7. AWS Lambda (2014) inverted the model: **"Bring code, not servers."** Azure Functions, GCP Functions, Cloudflare Workers, and Vercel Functions followed.
+
+## Core Lambda concepts
+
+| Concept | Description |
+|---|---|
+| **Function** | The handler code that runs on event |
+| **Runtime** | Node.js, Python, Java, Go, Ruby, .NET, or custom container |
+| **Trigger** | S3, API GW, EventBridge, SQS, SNS, DynamoDB Stream, Kinesis, cron |
+| **Memory** | 128 MB → 10 GB (more RAM = more vCPU) |
+| **Timeout** | Max **15 minutes** per invocation |
+| **Concurrency** | Default 1000 parallel executions / region |
+| **Layer** | Shared libraries to reduce package size |
+| **Execution role** | IAM role granting Lambda access to AWS resources |
+
+## Cold start vs warm start
+
+\`\`\`
+Cold: Request → Download code (50-200ms) → Init runtime (50-300ms) → Run handler
+Warm: Request → Run handler (<10ms overhead)
+\`\`\`
+- Java/.NET: 1-3s cold start ❌
+- Python/Node.js: 100-500ms ⚠️
+- Go/Rust: 50-100ms ✅
+
+**Mitigations:** Provisioned Concurrency (keeps N containers warm), SnapStart (Java), Lambda Power Tuning, prefer Python/Node/Go.
+
+## API Gateway
+
+Provides routing, auth (Cognito/IAM/JWT), throttling, caching, request validation, custom TLS domains, stages, and WebSocket support.
+
+**Three flavors on AWS:**
+- **HTTP API** — cheap ($1/M req), fast, simple. **Default choice.**
+- **REST API** — expensive ($3.5/M) but full features (caching, validation, WAF).
+- **WebSocket API** — bidirectional real-time.
+
+## Real pricing (us-east-1)
+
+\`\`\`
+Lambda: $0.20 per 1M requests + $0.0000166667 per GB-second
+
+Example: 5M req/month, 256 MB, 200ms each
+- Request: $1.00
+- Compute: ~$4.17
+- Total: ~$5.17/month
+
+vs EC2 t3.small 24/7: ~$15/month (3x more)
+\`\`\`
+
+**Free Tier (forever):** 1M requests + 400,000 GB-seconds / month.
+
+## Case study: Netflix — 1 trillion events/day on Lambda
+
+Netflix uses Lambda for video encoding pipelines (one upload triggers thousands of parallel encodings), A/B testing infra, and CDN cache invalidation. Result: **80% cost reduction** vs always-on EC2 for event-driven workloads.
+
+## Case study: Coca-Cola Freestyle — 50,000 vending machines
+
+Each machine pings telemetry every few hours. Switched from idle EC2 cluster to API Gateway + Lambda + DynamoDB. Saved **65% backend cost** and gained automatic scaling from 0 → thousands.
+
+## Serverless vs Container vs VM
+
+| Criterion | Lambda | Container (ECS/EKS) | VM (EC2) |
+|---|---|---|---|
+| **Idle cost** | $0 | Cluster cost | 24/7 cost |
+| **Cold start** | 100ms-3s | None | None |
+| **Max runtime** | 15 min | Unlimited | Unlimited |
+| **Scaling speed** | <1s, auto | 30s-2min | 1-3 min |
+| **Best for** | Bursty, event-driven | Steady microservices | Legacy, GPU |
+| **Vendor lock-in** | High | Low (Docker) | Low |
+
+## Best practices
+
+- ✅ Small single-purpose functions.
+- ✅ Stateless — store state in DynamoDB/S3/RDS, not /tmp.
+- ✅ Initialize DB clients **outside** the handler to reuse on warm start.
+- ✅ Set realistic timeouts (10s typical).
+- ✅ Use DLQ for async invokes.
+- ✅ CloudWatch Logs + X-Ray + structured JSON logs + correlation IDs.
+- ✅ Use Lambda Powertools (official AWS).
+
+## Common pitfalls
+
+- ❌ "Lambda monolith" — one function with 20 endpoints.
+- ❌ Sync Lambda → Lambda calls (double-billing, cascade timeouts). Use Step Functions.
+- ❌ Direct RDS connections without RDS Proxy → connection storms.
+- ❌ Huge packages (>50MB) → slow cold start.
+- ❌ Long-running ETL → fails at 15min.
+- ❌ SQS polling with batch size 1 → 10x more cost.
+
+## When to use Serverless
+
+✅ **Yes:** APIs <10k RPS, webhooks, image processing, cron jobs, glue code, MVPs.
+
+❌ **No:** Jobs >15 min, strict p99 <50ms, steady high load (>1000 RPS 24/7), long-lived stateful WebSockets, complex stateful workflows (use Step Functions).
+
+## Bridge to next lesson
+
+Next (**Infrastructure as Code**): how do you manage hundreds of Lambdas, API Gateways, IAM roles, and S3 buckets reproducibly and as a team? Answer: Terraform / CloudFormation / SAM — infrastructure in code, version-controlled, deployed via CI/CD.`,
+        code: `# AWS Lambda handler (Python) — xử lý API Gateway request
+import json
+
+def lambda_handler(event, context):
+    """Handle GET /users/{id}"""
+    user_id = event["pathParameters"]["id"]
+
+    # Simulate DynamoDB queries
+    user = {"id": user_id, "name": f"User {user_id}", "email": f"{user_id}@example.com"}
+
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+        },
+        "body": json.dumps(user),
+    }
+
+# SAM template (serverless.yaml)
+sam_template = """
+Resources:
+  GetUserFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: python3.11
+      Handler: app.lambda_handler
+      MemorySize: 256
+      Timeout: 10
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: get
+"""
+print(sam_template)`,
+        codeLanguage: "python",
+        exercise: "Calculate the cost for Lambda to run 5 million requests/month, each request uses 256MB and runs 200ms.",
+        exerciseEn: "Calculate the cost for a Lambda running 5 million requests/month, each using 256MB and running 200ms.",
+        quiz: [
+          { question: "What is the maximum Lambda timeout?", options: ["1 minute", "5 minutes", "15 minutes", "Unlimited"], answer: 2, explanation: "Lambda has a maximum timeout of 15 minutes (900 seconds)." },
+          { question: "What is a cold start?", options: ["Lambda errored", "Initial slow invocation while a new container initializes", "Lambda runs at machine boot", "Unrelated"], answer: 1, explanation: "Cold start is the latency of creating a new Lambda container — can be reduced with Provisioned Concurrency." },
+          { question: "API Gateway does NOT provide which feature?", options: ["Authentication", "Throttling", "Database storage", "Caching"], answer: 2, explanation: "API Gateway does not store data — that's the job of DynamoDB/RDS." },
+          { question: "When should you NOT use serverless?", options: ["Short webhook handler", "Cron job", "Long-running >15 minutes", "Image resize"], answer: 2, explanation: "Workloads longer than 15 minutes need containers/VMs because Lambda's max timeout is 15 minutes." },
+          { question: "Lambda pricing is based on?", options: ["Number of CPUs", "Number of requests + GB-seconds", "Bandwidth", "Storage"], answer: 1, explanation: "Lambda is billed per request and memory × execution time (GB-seconds)." },
+        ],
+      },
+      {
+        id: "cloud-iac-1",
+        title: "Infrastructure as Code (Terraform)",
+        titleEn: "Infrastructure as Code (Terraform)",
+        level: 4,
+        difficulty: "intermediate",
+        theory: `## 1. 🚦 Vấn đề đời thường
+
+Mỗi lần ra production, bạn click chuột tạo 20 resource trên AWS — quên 1 cái là lỗi. Ngày sau muốn tạo môi trường staging y hệt → click lại từ đầu, mất 4 tiếng. **IaC (Infrastructure as Code)** = "viết hạ tầng bằng code, deploy bằng 1 lệnh".
+
+> 💡 **Mẹo của thầy Hải:** Hạ tầng = code → version git, code review, rollback. Đó là cách Netflix, Facebook quản hàng ngàn server.
+
+## 2. 💡 Khái niệm chính
+
+- **Declarative**: mô tả trạng thái cuối (Terraform, CloudFormation).
+- **Imperative**: mô tả các bước (Ansible, scripts).
+- **State file**: lưu trạng thái hiện tại của hạ tầng.
+- **Module**: tái sử dụng cấu hình.
+
+## 3. 🧰 Terraform mẫu
+
+\`\`\`hcl
 resource "aws_instance" "web" {
   ami           = "ami-0abc123"
   instance_type = "t2.micro"
   tags = { Name = "web-server" }
 }
-```
+\`\`\`
 
-```bash
+\`\`\`bash
 terraform init
-terraform plan    # see what will change
+terraform plan    # xem sẽ thay đổi gì
 terraform apply   # deploy
-terraform destroy # clean up
-```
+terraform destroy # xoá sạch
+\`\`\`
 
-## 4. 🎯 Ready-to-run example
+## 4. 🎯 Ví dụ chạy được ngay
 
-1 **.tf** file creates: **VPC** + **2 subnets** + **EC2** + **Security Group** → run `apply` and have a full system in **5 minutes**.
+1 file \`.tf\` tạo: VPC + 2 subnet + EC2 + Security Group → chạy \`apply\` 5 phút có cả hệ thống.
 
-## 5. ⚠️ Common pitfalls
+## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Warning:** State file contains secrets → **don't commit** to public git. Store on **S3 + DynamoDB lock**.
+> ⚠️ **Cảnh báo:** State file chứa secret → đừng commit lên git public. Lưu trên S3 + DynamoDB lock.
 
-## 6. ✅ **Best practices**
+## 6. ✅ Best practice
 
-> 💡 **Mr. Hai's tip:** 1 module/repo per **dev/staging/prod**. Use **workspace** or **separate folders** to avoid "apply to wrong environment".
+> 💡 **Mẹo của thầy Hải:** 1 module/repo cho dev/staging/prod. Dùng workspace hoặc folder separate để tránh "apply nhầm môi trường".
 
-## 7. 🤔 When to use
+## 7. 🤔 Khi nào dùng
 
-- ✅ Any team **> 2 people**, infrastructure **> 5 resources**.
-- ❌ **POC** with 1 `index.html` file → **overkill**.
+- ✅ Bất kỳ team nào > 2 người, hạ tầng > 5 resource.
+- ❌ POC 1 file index.html → quá overkill.
 
-## 8. 📌 **30-second summary**
+## 8. 📌 Tóm tắt 30 giây
 
-**IaC** = infrastructure as code. **Terraform** is the most popular multi-cloud tool. **Protect state file**. Always **plan + review** before apply.
-I appreciate you sharing this content, but I need to clarify what you're asking me to do.
+IaC = hạ tầng dạng code. Terraform là tool đa cloud phổ biến nhất. State file phải bảo vệ. Apply phải qua plan + review.
+`,
+        theoryEn: `**Infrastructure as Code (IaC)** manages infrastructure (servers, networks, DBs, IAM…) through **version-controlled code files** instead of console clicks or manual CLI. IaC turns infra into software — reviewable, testable, deployable, and rollback-able like application code.
 
-Based on your instructions, you've asked me to:
-1. Act as Perplexity, a search assistant
-2. Read search results and answer a query
-3. Translate a TypeScript curriculum file from Vietnamese to English
+## Why IaC?
 
-However, the "query" you've provided appears to be a **curriculum module in Vietnamese** that needs translation to English, not a search query requiring me to synthesize the provided search results.
+Before IaC: admins clicked the console, no one knew how staging differed from prod ("snowflake servers"), DR ran on hand-written runbooks, onboarding took weeks. With IaC: a single \`.tf\` file describes the system; \`terraform apply\` rebuilds it in minutes.
 
-The search results discuss Terraform module best practices, but they don't directly relate to translating this curriculum content.
+## Concrete benefits
 
-**To help you effectively, I need clarification:**
+| Benefit | Real value |
+|---|---|
+| Version control | Git history, blame, rollback |
+| Reproducibility | Identical dev/staging/prod |
+| Code review | PR review before deploying infra |
+| Disaster recovery | Rebuild a region in 30 min, not 3 days |
+| Auto documentation | Code IS the doc |
+| Compliance | Who/when/why for every resource |
+| Cost transparency | Plan reveals cost impact before apply |
 
-- **Are you asking me to translate the Vietnamese curriculum module to English?** If so, I should focus on that translation task and ignore the search results.
-- **Or are you asking me to answer a question about Terraform modules using the search results?** If so, please provide a clear question separate from the curriculum content.
+## Popular IaC tools
 
-The curriculum excerpt you've shared contains Vietnamese text like "tạo VPC + S3 bucket bằng Terraform" and "Vấn đề đời thường" that would need translation, but mixing this with search result synthesis creates ambiguity about the actual task.
+| Tool | Clouds | Language | Strength | Weakness |
+|---|---|---|---|---|
+| **Terraform** | Multi (AWS/Azure/GCP/K8s) | HCL | Largest community, modules | HCL learning curve |
+| **CloudFormation** | AWS | YAML/JSON | Native AWS, free, drift detection | Verbose, AWS-only |
+| **AWS CDK** | AWS | TS/Python/Java/Go | Real languages | Two-layer debugging |
+| **Pulumi** | Multi | TS/Python/Go/.NET | Real languages + multi-cloud | Smaller community |
+| **Ansible** | Multi | YAML | Great for config mgmt | Imperative |
+| **AWS SAM** | AWS Serverless | YAML | Optimized for Lambda | Serverless only |
 
-Please clarify your primary objective, and I'll provide the appropriate response.
-Query: Finished dev → push code to git → tester clones to test → lead builds and deploys. Takes 2 days for one release. With **CI/CD**: you `git push` → auto test → auto deploy → customers use it in 5 minutes.
+**2024 picks:** Terraform for multi-cloud, CDK for AWS-only TS/Python teams, SAM for pure serverless.
 
-> 💡 **Mr. Hai's tip:** **CI** = Continuous Integration (auto test/build). **CD** = Continuous Deployment (auto release). The two go hand in hand.
+## Core Terraform concepts
 
-## 2. 💡 Key Concepts
+| Concept | Description |
+|---|---|
+| Provider | Cloud plugin (aws, azurerm, google, kubernetes) |
+| Resource | A specific resource (\`aws_instance\`, \`aws_s3_bucket\`) |
+| Data source | Reference existing resources (\`data "aws_ami"\`) |
+| Variable | Input parameter |
+| Output | Exported value |
+| Module | Reusable code package |
+| State file | \`terraform.tfstate\` — code-to-cloud mapping |
+| Backend | Where state is stored (S3 + DynamoDB lock) |
+| Workspace | Per-env state |
 
-- **Pipeline**: chain of jobs (lint → test → build → deploy).
-- **Runner**: machine that runs jobs.
-- **Artifact**: product after build (jar, image).
+## State file — Terraform's heart
+
+Stores the mapping of code resources to real cloud IDs plus metadata.
+
+**Golden rules:**
+1. Always store **remote** (S3 + DynamoDB lock).
+2. **Never** edit it by hand — use \`terraform import\` or \`state mv\`.
+3. Lock prevents concurrent apply.
+4. **Encrypt at rest** — state may contain secrets.
+5. Enable S3 versioning for rollback.
+
+## Standard workflow
+
+\`\`\`
+init → fmt → validate → plan → apply → destroy
+\`\`\`
+
+**Plan symbols:** \`+\` create, \`-\` destroy (warning if DB!), \`~\` in-place update, \`-/+\` replace (data loss risk!).
+
+## Modules — scaling Terraform
+
+Don't copy-paste — write a module once, instantiate per env. Sources: Terraform Registry, your own git, popular ones like \`terraform-aws-modules/vpc/aws\`.
+
+## Case study: Airbnb — 5000+ resources via Terraform
+
+Uses Atlantis (PR automation), per-team module repos, S3+DynamoDB state, and Policy-as-Code (Sentinel) to block dangerous PRs. Result: infra changes went from days to hours; near-zero drift.
+
+## Case study: Capital One — 100% IaC mandate
+
+Post-cloud migration, console is read-only. All changes via PR + CI/CD. Quarterly DR test rebuilds entire staging region in 4h.
+
+## Best practices
+
+- ✅ Remote state + locking from day one.
+- ✅ Separate envs (workspace or folder).
+- ✅ Pin provider versions.
+- ✅ Modularize repeated patterns.
+- ✅ Required PR review with \`plan\` output attached.
+- ✅ \`fmt\` + \`tflint\` + \`tfsec\` in CI.
+- ✅ Standard tags via provider default_tags.
+- ✅ \`prevent_destroy\` lifecycle for prod RDS/S3.
+
+## Anti-patterns
+
+- ❌ Manual console edits → drift.
+- ❌ Committing state to git.
+- ❌ One giant state file for 100 services.
+- ❌ No version pinning.
+- ❌ Apply from a dev laptop.
+- ❌ Hardcoded secrets in .tf files.
+- ❌ Over-generic modules with 50 variables.
+
+## When to use
+
+✅ All production cloud workloads — no exception.
+⚠️ One-off POCs — ClickOps OK but **delete immediately**.
+❌ Don't use IaC for application data (S3 file uploads, DB rows).
+
+## Bridge to next lesson
+
+With IaC in place, we need **CI/CD pipelines** to auto-run \`terraform plan\` on PRs and \`apply\` on merge. Next: **CI/CD & Observability** — build, test, deploy, and monitor with metrics, logs, traces.`,
+        code: `# main.tf — tạo VPC + S3 bucket bằng Terraform
+terraform {
+  required_providers {
+    aws = { source = "hashicorp/aws", version = "~> 5.0" }
+  }
+  backend "s3" {
+    bucket = "my-terraform-state"
+    key    = "prod/network.tfstate"
+    region = "us-east-1"
+    dynamodb_table = "tf-state-lock"
+  }
+}
+
+provider "aws" {
+  region = var.region
+}
+
+variable "region" {
+  default = "us-east-1"
+}
+
+variable "env" {
+  default = "prod"
+}
+
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+  tags = { Name = "vpc-\${var.env}", ManagedBy = "terraform" }
+}
+
+resource "aws_s3_bucket" "data" {
+  bucket = "myapp-data-\${var.env}"
+  tags   = { ManagedBy = "terraform" }
+}
+
+resource "aws_s3_bucket_versioning" "v" {
+  bucket = aws_s3_bucket.data.id
+  versioning_configuration { status = "Enabled" }
+}
+
+output "vpc_id"     { value = aws_vpc.main.id }
+output "bucket_arn" { value = aws_s3_bucket.data.arn }`,
+        codeLanguage: "hcl",
+        exercise: "Write Terraform to create: 1 EC2 t3.micro in the default VPC, attach a security group that allows SSH (port 22) and HTTP (port 80) from 0.0.0.0/0.",
+        exerciseEn: "Write Terraform to create: 1 EC2 t3.micro in default VPC, with a security group allowing SSH (22) and HTTP (80) from 0.0.0.0/0.",
+        quiz: [
+          { question: "What is the Terraform state file used for?", options: ["Storing code", "Tracking the resources you've created", "Storing passwords", "Storing logs"], answer: 1, explanation: "The state file maps code resources to real cloud resources — store remotely with locking for teams." },
+          { question: "Which command PREVIEWS changes WITHOUT applying them?", options: ["terraform apply", "terraform plan", "terraform destroy", "terraform init"], answer: 1, explanation: "`terraform plan` shows the changes that would be made without actually applying them." },
+          { question: "The MAIN benefit of IaC is?", options: ["Faster than the console", "Version control + reproducibility + reviewability", "It is free", "It self-heals"], answer: 1, explanation: "IaC enables git versioning, reproducible environments, and code review — reducing console-click mistakes." },
+          { question: "What is drift?", options: ["A network error", "Difference between code and actual deployed state", "A price increase", "A backup"], answer: 1, explanation: "Drift happens when resources are modified manually so the live state differs from the code — Terraform will revert or warn." },
+          { question: "The native AWS IaC tool is?", options: ["Terraform", "CloudFormation", "Ansible", "Chef"], answer: 1, explanation: "CloudFormation is native AWS IaC; Terraform is HashiCorp's multi-cloud tool." },
+        ],
+      },
+      {
+        id: "cloud-cicd-1",
+        title: "CI/CD & Observability",
+        titleEn: "CI/CD & Observability",
+        level: 4,
+        difficulty: "advanced",
+        theory: `## 1. 🚦 Vấn đề đời thường
+
+Dev xong đẩy code lên git → tester clone về test → lead build deploy. Mất 2 ngày cho 1 lần ra mắt. Có **CI/CD** thì: bạn \`git push\` → auto test → auto deploy → 5 phút sau khách hàng đã dùng được.
+
+> 💡 **Mẹo của thầy Hải:** **CI** = Continuous Integration (auto test/build). **CD** = Continuous Deployment (auto release). 2 thứ đi đôi.
+
+## 2. 💡 Khái niệm chính
+
+- **Pipeline**: chuỗi job (lint → test → build → deploy).
+- **Runner**: máy chạy job.
+- **Artifact**: sản phẩm sau build (jar, image).
 - **Environment**: dev/staging/prod.
 
-## 3. 🧰 GitHub Actions Sample
+## 3. 🧰 GitHub Actions mẫu
 
-```yaml
+\`\`\`yaml
 name: CI/CD
 on: [push]
 jobs:
@@ -1390,29 +2009,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: aws s3 sync ./dist s3://my-site
-```
+\`\`\`
 
-## 4. 🎯 Ready-to-Run Example
+## 4. 🎯 Ví dụ chạy được ngay
 
-Push code → Actions tab shows green jobs → site live at `https://my-site.com` in 2 minutes.
+Push code → tab Actions thấy job xanh → 2 phút sau site live tại \`https://my-site.com\`.
 
-## 5. ⚠️ Common Pitfalls
+## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Warning:** Hardcode AWS key in yaml → leaks publicly. Always use **GitHub Secrets** or OIDC role.
+> ⚠️ **Cảnh báo:** Hardcode AWS key trong yaml → leak public. Luôn dùng **GitHub Secrets** hoặc OIDC role.
 
-## 6. ✅ Best Practices
+## 6. ✅ Best practice
 
-> 💡 **Mr. Hai's tip:** Branch `main` → auto deploy to production. PR → deploy to preview environment for QA to test before merge.
+> 💡 **Mẹo của thầy Hải:** Nhánh \`main\` → auto deploy production. PR → deploy preview environment để QA test trước khi merge.
 
-## 7. 🤔 When to Use
+## 7. 🤔 Khi nào dùng
 
-- ✅ Every project with > 1 dev, deploy > 1 time/week.
-- ❌ Single-file script run once → manual is fine.
+- ✅ Mọi dự án có > 1 dev, deploy > 1 lần/tuần.
+- ❌ Script 1 file chạy 1 lần → manual cũng được.
 
-## 8. 📌 30-Second Summary
+## 8. 📌 Tóm tắt 30 giây
 
-CI tests, CD deploys. GitHub Actions/GitLab CI/Jenkins are top 3 tools. Use secret manager. Pipeline must be fast (< 10 minutes) to not block devs.
-,
+CI test, CD deploy. GitHub Actions/GitLab CI/Jenkins là 3 tool top. Dùng secret manager. Pipeline phải fast (< 10 phút) để không cản dev.
+`,
         theoryEn: `**CI/CD** (Continuous Integration / Continuous Delivery / Continuous Deployment) automates the journey from a developer's commit to production, paired with **observability** to monitor and respond to incidents. It's the backbone of modern DevOps — there's no cloud-native production without CI/CD + observability.
 
 ## CI vs CD vs CD
@@ -1461,9 +2080,10 @@ Detailed events: "User 123 logged in", "Payment failed: insufficient funds".
 
 **Tools:** CloudWatch Logs, ELK, Loki + Grafana, Splunk, Datadog Logs.
 
-**Best practice:** **Structured JSON logs** with correlation IDs.`
+**Best practice:** **Structured JSON logs** with correlation IDs.
+
 ### Traces (distributed)
-The path of one request across services: `req-ABC → API GW (5ms) → Auth (12ms) → Order (45ms) → Payment (120ms ⚠️)`.
+The path of one request across services: \`req-ABC → API GW (5ms) → Auth (12ms) → Order (45ms) → Payment (120ms ⚠️)\`.
 
 **Tools:** AWS X-Ray, Jaeger (CNCF), Zipkin, OpenTelemetry (vendor-neutral standard).
 
@@ -1479,13 +2099,13 @@ The path of one request across services: `req-ABC → API GW (5ms) → Auth (12m
 
 ## Error Budget — economics of reliability
 
-```
+\`\`\`
 Error Budget = (1 - SLO) × time
 SLO 99.9%/month  → ~43.2 minutes
 SLO 99.95%       → ~21.6 minutes
 SLO 99.99%       → ~4.32 minutes (4 nines)
 SLO 99.999%      → ~26 seconds (5 nines — telco/finance only)
-```
+\`\`\`
 
 Budget remaining → ship freely. Budget exhausted → freeze and stabilize.
 
@@ -1534,9 +2154,8 @@ Built Spinnaker (open-source CD), deploys 4000+ times/day with auto-canary. Comp
 
 ## Bridge to next lesson
 
-With CI/CD + observability in place, how do we know our overall architecture is "good"? Next: the **AWS Well-Architected Framework** — six pillars (Operational Excellence, Security, Reliability, Performance, Cost, Sustainability) and the classic anti-patterns to avoid.
-
-        code: `# .github/workflows/deploy.yml — CI/CD with GitHub Actions
+With CI/CD + observability in place, how do we know our overall architecture is "good"? Next: the **AWS Well-Architected Framework** — six pillars (Operational Excellence, Security, Reliability, Performance, Cost, Sustainability) and the classic anti-patterns to avoid.`,
+        code: `# .github/workflows/deploy.yml — CI/CD với GitHub Actions
 name: Build & Deploy
 
 on:
@@ -1564,19 +2183,20 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::123456789012:role/github-deploy
           aws-region: us-east-1
+
       - name: Build & push Docker image
         run: |
-          docker build -t myapp:${{ github.sha }} .
+          docker build -t myapp:\${{ github.sha }} .
           aws ecr get-login-password | docker login --username AWS --password-stdin 123.dkr.ecr.us-east-1.amazonaws.com
-          docker tag myapp:${{ github.sha }} 123.dkr.ecr.us-east-1.amazonaws.com/myapp:${{ github.sha }}
-          docker push 123.dkr.ecr.us-east-1.amazonaws.com/myapp:${{ github.sha }}
+          docker tag myapp:\${{ github.sha }} 123.dkr.ecr.us-east-1.amazonaws.com/myapp:\${{ github.sha }}
+          docker push 123.dkr.ecr.us-east-1.amazonaws.com/myapp:\${{ github.sha }}
 
       - name: Deploy ECS (rolling update)
         run: |
-          aws ecs update-service \
-            --cluster prod \
-            --service myapp \
-            --force-new-deployment
+          aws ecs update-service \\
+            --cluster prod \\
+            --service myapp \\
+            --force-new-deployment`,
         codeLanguage: "yaml",
         exercise: "A service has an SLO of 99.95% uptime/month. Calculate error budget (allowable minutes of downtime). If you used 30 minutes the first week, how much is left?",
         exerciseEn: "A service has an SLO of 99.95% monthly uptime. Calculate the error budget (allowed downtime in minutes). If 30 min were used in week 1, how much remains?",
@@ -1608,21 +2228,21 @@ jobs:
         titleEn: "AWS Well-Architected Framework",
         level: 4,
         difficulty: "advanced",
-        theory: `## 1. 🚦 Everyday Problems
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-On e-commerce launch day, traffic spikes 100x. Single server explodes. Customers abandon carts, revenue lost. **Good cloud architecture** = system design that **scales** + **doesn't die when one part fails**.
+Ngày khai trương sàn TMĐT, traffic tăng gấp 100. Server đơn nổ tan tành. Khách bỏ giỏ hàng, mất doanh thu. **Cloud architecture** tốt = thiết kế hệ thống biết "co giãn" + "không chết khi 1 phần hỏng".
 
-> 💡 **Mr. Hai's tip:** AWS Well-Architected Framework has 6 pillars: **Operational, Security, Reliability, Performance, Cost, Sustainability**.
+> 💡 **Mẹo của thầy Hải:** AWS Well-Architected Framework có 6 trụ cột: **Operational, Security, Reliability, Performance, Cost, Sustainability**.
 
-## 2. 💡 Common Patterns
+## 2. 💡 Pattern thường gặp
 
-- **N-tier**: web + app + DB separated layers.
-- **Microservices**: each service deployed independently.
-- **Event-driven**: pub/sub via queue (SQS, Kafka).
-- **CQRS**: separate read/write.
-- **Auto-scaling**: add/remove servers based on CPU/traffic.
+- **N-tier**: web + app + DB tách lớp.
+- **Microservices**: mỗi service deploy riêng.
+- **Event-driven**: pub/sub qua queue (SQS, Kafka).
+- **CQRS**: tách read/write.
+- **Auto-scaling**: thêm/bớt server theo CPU/traffic.
 
-## 3. 🧰 Typical Architecture
+## 3. 🧰 Architecture điển hình
 
 \`\`\`
 [CloudFront CDN] → [ALB Load Balancer]
@@ -1632,26 +2252,26 @@ On e-commerce launch day, traffic spikes 100x. Single server explodes. Customers
    → [S3 Static Assets]
 \`\`\`
 
-## 4. 🎯 Runnable Example
+## 4. 🎯 Ví dụ chạy được ngay
 
-Shopify-like web for 100k users/day: ALB + 5 EC2 + RDS Multi-AZ + ElastiCache → handles 1000 req/s, near-zero downtime.
+Web Shopify-like cho 100k user/ngày: ALB + 5 EC2 + RDS Multi-AZ + ElastiCache → chịu được 1000 req/s, downtime gần 0.
 
-## 5. ⚠️ Common Pitfalls
+## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Warning:** Single AZ = one data center dies, whole site down. Always deploy ≥ 2 AZ for production.
+> ⚠️ **Cảnh báo:** Single AZ = 1 phòng máy chết là cả site sập. Luôn deploy ≥ 2 AZ cho production.
 
-## 6. ✅ Best Practices
+## 6. ✅ Best practice
 
-> 💡 **Mr. Hai's tip:** **Aggressive caching**: CDN for static, Redis for session/hot data. 80% traffic must hit cache, not DB.
+> 💡 **Mẹo của thầy Hải:** **Cache aggressive**: CDN cho static, Redis cho session/data nóng. 80% traffic phải hit cache, không hit DB.
 
-## 7. 🤔 When to Apply
+## 7. 🤔 Khi nào áp dụng
 
-- ✅ Production apps needing > 99% uptime.
-- ❌ POC, 1-user projects → over-engineering.
+- ✅ Production app cần > 99% uptime.
+- ❌ POC, dự án 1 user → over-engineer.
 
-## 8. 📌 30-Second Summary
+## 8. 📌 Tóm tắt 30 giây
 
-6 Well-Architected pillars. Multi-AZ mandatory. Aggressive caching. Auto-scale by metrics. Loose coupling via queue/event.
+6 trụ cột Well-Architected. Multi-AZ bắt buộc. Cache aggressive. Auto-scale theo metric. Loose coupling qua queue/event.
 `,
         theoryEn: `**AWS Well-Architected Framework (WAF)** is a set of principles and assessment questions developed by AWS since 2015, based on reviewing thousands of real customer workloads. Goal: give teams a **common language** to evaluate cloud architectures and a **roadmap to improve** along 6 pillars.
 
@@ -1664,7 +2284,8 @@ Without a standard, every engineer designs to personal "best practices" — some
 ## The 6 Pillars
 
 ### 1️⃣ Operational Excellence
-Run and monitor systems to deliver business value and continuously improve.`,
+Run and monitor systems to deliver business value and continuously improve.
+
 **Practices:** IaC, CI/CD, observability, runbooks, on-call, blameless postmortems, periodic game days.
 
 **Key question:** "If you took 2 weeks off, would the system run itself?"
@@ -1765,26 +2386,108 @@ A US hospital ran its EHR on AWS Multi-AZ but no Multi-Region, no tested backups
 
 Among the 6 pillars, **Cost Optimization** is the one CFOs care about most. Next: **Cost Optimization & FinOps** dives into 10+ concrete strategies, tools, and the FinOps culture — turning cost from a "monthly bill surprise" into a **daily business metric**.`,
         code: `# Well-Architected self-assessment checklist
-I appreciate you sharing this curriculum content, but I need to clarify my role here.
+checklist = {
+    "operational_excellence": [
+        "IaC (Terraform/CFN) cho 100% infra?",
+        "CI/CD automatic deployment?",
+        "Is there runbook + on-call rotation?",
+    ],
+    "security": [
+        "Enable MFA for all users?",
+        "Encryption at-rest + in-transit?",
+        "CloudTrail enabled in all regions?",
+        "GuardDuty + Security Hub?",
+    ],
+    "reliability": [
+        "Multi-AZ deployment?",
+        "Backup + test restore periodically?",
+        "RPO/RTO defined?",
+        "Disaster recovery plan tested?",
+    ],
+    "performance": [
+        "Right-sized instance?",
+        "Is there caching (CloudFront/ElastiCache)?",
+        "Auto Scaling Group configured correctly?",
+    ],
+    "cost": [
+        "Standard tagging for chargeback?",
+        "Reserved/Savings Plan for even workload?",
+        "Lifecycle S3 → Glacier?",
+        "Turn off dev environment after hours?",
+    ],
+    "sustainability": [
+        "Use ARM Graviton when possible?",
+        "Low carbon region (eu-north-1)?",
+        "Turn off unused resources?",
+    ],
+}
 
-You've provided me with:
-1. A set of search results about FinOps and the FinOps Framework
-2. A TypeScript curriculum data structure containing Vietnamese content about AWS Well-Architected Framework and Cost Optimization/FinOps
-3. Instructions to translate Vietnamese to English
+total = sum(len(v) for v in checklist.values())
+print(f"Total assessment questions: {total}")
+for pillar, items in checklist.items():
+    print(f"\\n[{pillar.upper()}] — {len(items)} items")
+    for q in items: print(f"  □ {q}")`,
+        codeLanguage: "python",
+        exercise: "Applying Well-Architected to the architecture of an e-commerce web app. List 2 specific improvements for each of the 6 pillars.",
+        exerciseEn: "Apply Well-Architected to an e-commerce web app. List 2 concrete improvements for each of the 6 pillars.",
+        quiz: [
+          { question: "Which pillar is the NEWEST (added in 2021)?", options: ["Security", "Reliability", "Sustainability", "Performance"], answer: 2, explanation: "Sustainability is the 6th pillar, added in 2021." },
+          { question: "What is RPO?", options: ["Recovery Point Objective", "Real Production Output", "Resource Provisioning Order", "Region Performance Optimizer"], answer: 0, explanation: "RPO = Recovery Point Objective — the maximum amount of data loss you can tolerate (e.g. 1h means hourly backups)." },
+          { question: "Which anti-pattern is most dangerous for reliability?", options: ["Good tagging", "Single point of failure", "Auto-scaling", "Multi-AZ"], answer: 1, explanation: "A SPOF (single point of failure) takes the whole system down when one component fails." },
+          { question: "The principle 'Stop guessing capacity' means?", options: ["Guess more", "Use auto-scaling to match real demand", "Over-provision by 50%", "Skip monitoring"], answer: 1, explanation: "Cloud enables auto-scaling — no need to guess capacity, just scale to actual demand." },
+          { question: "How many pillars does Well-Architected have?", options: ["3", "5", "6", "10"], answer: 2, explanation: "6 pillars: Operational Excellence, Security, Reliability, Performance, Cost, Sustainability." },
+        ],
+      },
+      {
+        id: "cloud-cost-1",
+        title: "Cost Optimization & FinOps",
+        titleEn: "Cost Optimization & FinOps",
+        level: 5,
+        difficulty: "advanced",
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-However, there's a mismatch: **the search results are about FinOps as a formal framework and practice**, while **your curriculum content appears to be teaching practical AWS cost optimization and FinOps concepts at an introductory level**.
+Cuối tháng nhận hoá đơn AWS: 8.000 USD — sếp xanh mặt. Hoá ra dev quên tắt 5 RDS dev, 200GB EBS không dùng, 3 NAT Gateway cấu hình sai. **Cost optimization** = hồi quang phản chiếu mỗi tháng để cắt chi phí 30-70%.
 
-The search results don't directly address the specific Vietnamese content you've provided (the checklist, the practical tips, the exercises, etc.). 
+> 💡 **Mẹo của thầy Hải:** Cloud rẻ chỉ khi bạn hiểu cách tính tiền. Không hiểu → cloud đắt gấp 5 lần on-premise.
 
-**To help you effectively, I need clarification:**
+## 2. 💡 5 chiến lược cắt giảm
 
-1. **Are you asking me to translate the Vietnamese curriculum content to English?** If so, I should focus on that translation task directly, using the special instructions you provided (keeping TypeScript syntax intact, converting variable names to English, etc.).
+1. **Right-sizing**: chọn instance đúng nhu cầu (đừng m5.4xlarge cho app dùng 5% CPU).
+2. **Reserved/Savings Plan**: cam kết 1-3 năm → giảm tới 72%.
+3. **Spot instance**: workload có thể bị ngắt → giảm 90%.
+4. **Auto-shutdown dev**: tắt EC2/RDS dev ngoài giờ hành chính.
+5. **Storage tiering**: file ít dùng → Glacier (rẻ 1/10).
 
-2. **Or are you asking me to answer a question about FinOps using the search results?** If so, what is your specific question?
+## 3. 🧰 Tool theo dõi
 
-3. **Or do you want me to validate/enhance the curriculum content against the FinOps Framework search results?**
+- **AWS Cost Explorer**: phân tích theo service/tag.
+- **AWS Budgets**: alert khi vượt ngưỡng.
+- **Trusted Advisor**: gợi ý cắt giảm.
+- **Compute Optimizer**: gợi ý right-sizing.
 
-Please clarify your primary objective, and I'll provide the most useful response.
+## 4. 🎯 Ví dụ chạy được ngay
+
+Tag mọi resource theo \`env=dev/prod\` và \`team=...\` → Cost Explorer chia theo tag → biết ngay team nào tiêu tốn nhất.
+
+## 5. ⚠️ Bẫy thường gặp
+
+> ⚠️ **Cảnh báo:** Data transfer giữa AZ/Region tính tiền cao — kiến trúc dàn trải nhiều region không cần thiết → hoá đơn nhân 3.
+
+## 6. ✅ Best practice
+
+> 💡 **Mẹo của thầy Hải:** Set **Budget alert ở 50%, 80%, 100%** của ngân sách dự kiến. Nhận email sớm sửa kịp.
+
+## 7. 🤔 Khi nào áp dụng
+
+- ✅ Mọi tài khoản production.
+- ✅ Dev account để tránh "tiền nướng vô tội vạ".
+
+## 8. 📌 Tóm tắt 30 giây
+
+Right-size + Reserved + Spot + Auto-shutdown + Tiering = công thức cắt 50% chi phí. Tag mọi resource. Bật Budget alert.
+`,
+        theoryEn: `**FinOps** (Cloud Financial Operations) is a **cultural practice combining Finance + Engineering + Business** to maximize the value of cloud spend through data-driven decisions and distributed financial accountability. Standardized by the FinOps Foundation (CNCF/Linux Foundation) since 2019.
+
 > Motto: **"Visibility → Optimization → Operation"** and **"Make engineers care about cost without slowing them down."**
 
 ## Why cloud cost is a major problem
@@ -1892,13 +2595,7 @@ Public cost dashboards for every engineer. Each new feature needs **cost-per-DAU
 - ✅ Auto-shutdown dev/staging on weekends.
 - ✅ Quarterly waste audit.
 
-{
-  id: "finops",
-  title: "FinOps & Cost Optimization",
-  titleEn: "FinOps & Cost Optimization",
-  level: 4,
-  difficulty: "intermediate",
-  theory: `## Common pitfalls
+## Common pitfalls
 
 - ❌ "Optional" tagging → useless dashboards.
 - ❌ Over-buying RI → locked into workloads you abandon.
@@ -1915,7 +2612,7 @@ Public cost dashboards for every engineer. Each new feature needs **cost-per-DAU
 ## Bridge to next lesson
 
 The final lesson (**Microservices & Event-Driven Architecture**) tackles how to scale from a monolith to many independent services while maintaining the reliability + cost optimization just learned. SQS, SNS, EventBridge, Saga, and CQRS will be analyzed in detail.`,
-  code: `# EC2 cost analysis: find over-provisioned instances + calculate savings
+        code: `# Phân tích chi phí EC2: tìm instance over-provisioned + tính tiết kiệm
 instances = [
     {"id": "i-aaa", "type": "m5.2xlarge", "cpu_avg": 12, "monthly_cost": 280},
     {"id": "i-bbb", "type": "m5.large",   "cpu_avg": 65, "monthly_cost": 70},
@@ -1925,7 +2622,7 @@ instances = [
 
 # Right-sizing: if CPU <40% → reduce 1 size
 size_down = {
-    "m5.2xlarge": ("m5.large",  70),     # ~75% cheaper
+    "m5.2xlarge": ("m5.large",  70),     # ~75% rẻ hơn
     "c5.4xlarge": ("c5.xlarge", 125),
     "t3.medium":  ("t3.small",  15),
 }
@@ -1943,88 +2640,165 @@ print(f"\\n💰 Total savings: \${total_save}/month = \${total_save*12}/year")
 # Reserved Instance: with i-bbb running smoothly → buy RI for 1 year and save ~40% more
 ri_save = 70 * 12 * 0.40
 print(f"💎 RI for i-bbb: additional savings ~\${ri_save:.0f}/year")`,
-  codeLanguage: "python",
-  exercise: "Your company spends \$50,000/month on AWS (60% EC2, 25% RDS, 10% S3, 5% transfer). Propose 5 specific actions to reduce costs by 25-30%.",
-  exerciseEn: "Your company spends \$50,000/month on AWS (60% EC2, 25% RDS, 10% S3, 5% transfer). Propose 5 concrete actions to reduce cost by 25-30%.",
-  quiz: [
-    { question: "What are the 3 phases of FinOps?", options: ["Plan/Build/Run", "Inform/Optimize/Operate", "Buy/Use/Sell", "Dev/Test/Prod"], answer: 1, explanation: "FinOps Foundation phases: Inform (visibility) → Optimize (reduce) → Operate (automate)." },
-    { question: "Spot Instances can save up to?", options: ["10%", "30%", "50%", "90%"], answer: 3, explanation: "Spot Instances use spare capacity, saving up to 90% vs on-demand — for interruption-tolerant workloads." },
-    { question: "The most COMMON required tags are?", options: ["Color", "Environment + Owner + CostCenter", "Random ID", "Hostname"], answer: 1, explanation: "Standard cost-allocation tags: Environment, Owner, CostCenter, Project." },
-    { question: "How much does Graviton (ARM) save vs x86?", options: ["0%", "5%", "20-40%", "80%"], answer: 2, explanation: "Graviton2/3 (ARM) provides 20-40% better price-performance than x86 across many workloads." },
-    { question: "How does Chargeback differ from Showback?", options: ["Chargeback only displays cost", "Chargeback actually deducts from team budget", "No difference", "Showback is more expensive"], answer: 1, explanation: "Showback only displays cost (educational); Chargeback actually charges the team's budget (stronger accountability)." },
-  ],
-},
-{
-  id: "cloud-arch-2",
-  title: "Microservices & Event-Driven Architecture",
-  titleEn: "Microservices & Event-Driven Architecture",
-  level: 5,
-  difficulty: "advanced",
-  theory: `## 1. 🚦 Everyday problems
+        codeLanguage: "python",
+        exercise: "Your company spends \$50,000/month on AWS (60% EC2, 25% RDS, 10% S3, 5% transfer). Propose 5 specific actions to reduce costs by 25-30%.",
+        exerciseEn: "Your company spends \$50,000/month on AWS (60% EC2, 25% RDS, 10% S3, 5% transfer). Propose 5 concrete actions to reduce cost by 25-30%.",
+        quiz: [
+          { question: "What are the 3 phases of FinOps?", options: ["Plan/Build/Run", "Inform/Optimize/Operate", "Buy/Use/Sell", "Dev/Test/Prod"], answer: 1, explanation: "FinOps Foundation phases: Inform (visibility) → Optimize (reduce) → Operate (automate)." },
+          { question: "Spot Instances can save up to?", options: ["10%", "30%", "50%", "90%"], answer: 3, explanation: "Spot Instances use spare capacity, saving up to 90% vs on-demand — for interruption-tolerant workloads." },
+          { question: "The most COMMON required tags are?", options: ["Color", "Environment + Owner + CostCenter", "Random ID", "Hostname"], answer: 1, explanation: "Standard cost-allocation tags: Environment, Owner, CostCenter, Project." },
+          { question: "How much does Graviton (ARM) save vs x86?", options: ["0%", "5%", "20-40%", "80%"], answer: 2, explanation: "Graviton2/3 (ARM) provides 20-40% better price-performance than x86 across many workloads." },
+          { question: "How does Chargeback differ from Showback?", options: ["Chargeback only displays cost", "Chargeback actually deducts from team budget", "No difference", "Showback is more expensive"], answer: 1, explanation: "Showback only displays cost (educational); Chargeback actually charges the team's budget (stronger accountability)." },
+        ],
+      },
+      {
+        id: "cloud-arch-2",
+        title: "Microservices & Event-Driven Architecture",
+        titleEn: "Microservices & Event-Driven Architecture",
+        level: 5,
+        difficulty: "advanced",
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Your app starts with 100 users daily, half a year later 1 million users. The old architecture can't handle it. You need to know **scaling** patterns: caching, queue, sharding, read replica… to avoid rewriting from scratch.
+App của bạn ngày 100 user, nửa năm sau 1 triệu user. Kiến trúc cũ chịu không nổi. Phải biết các pattern **scale**: caching, queue, sharding, read replica… để không phải viết lại từ đầu.
 
-> 💡 **Mr. Hai's tip:** There are 2 types of scaling — **vertical** (bigger server) easy but limited; **horizontal** (more servers) harder but unlimited.
+> 💡 **Mẹo của thầy Hải:** Scale có 2 loại — **vertical** (server to hơn) dễ nhưng có giới hạn; **horizontal** (nhiều server) khó nhưng vô hạn.
 
-## 2. 💡 Advanced patterns
+## 2. 💡 Pattern nâng cao
 
 - **Caching**: CDN, Redis, query cache.
-- **Queue/Async**: SQS, Kafka, RabbitMQ → separate slow workloads from requests.
-- **Read replica**: multiple DBs for reads, 1 DB for writes.
-- **Sharding**: split data by user_id mod N.
-- **Circuit breaker**: cut off failed services to prevent spread.
-- **Saga pattern**: distributed transaction via event chain.
+- **Queue/Async**: SQS, Kafka, RabbitMQ → tách workload chậm khỏi request.
+- **Read replica**: nhiều DB read, 1 DB write.
+- **Sharding**: chia data theo user_id mod N.
+- **Circuit breaker**: ngắt service hỏng để không lan.
+- **Saga pattern**: distributed transaction qua chuỗi event.
 
-## 3. 🧰 Layered caching
+## 3. 🧰 Caching layered
 
 \`\`\`
 [Client] → [CDN edge cache] → [ALB] → [App memory cache] 
        → [Redis cluster] → [DB primary]
 \`\`\`
 
-## 4. 🎯 Practical example
+## 4. 🎯 Ví dụ chạy được ngay
 
-Sending email to user → push to SQS → worker pool processes async → response back < 100ms instead of waiting 3s.
+Email gửi user → đẩy vào SQS → worker pool xử lý async → response trả về < 100ms thay vì chờ 3s.
 
-## 5. ⚠️ Common pitfalls
+## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Warning:** Cache invalidation is one of the 2 hardest problems in CS. Wrong TTL → users see stale data. Need a clear strategy.
+> ⚠️ **Cảnh báo:** Cache invalidation là 1 trong 2 bài toán khó nhất CS. Sai TTL → user thấy data cũ. Phải có chiến lược rõ ràng.
 
-## 6. ✅ Best practices
+## 6. ✅ Best practice
 
-> 💡 **Mr. Hai's tip:** Apply **CAP theorem**: pick 2 out of 3 (Consistency, Availability, Partition tolerance). Large systems often choose AP + eventual consistency.
+> 💡 **Mẹo của thầy Hải:** Áp dụng **CAP theorem**: pick 2 trong 3 (Consistency, Availability, Partition tolerance). Hệ thống lớn thường chọn AP + eventual consistency.
 
-## 7. 🤔 When to apply
+## 7. 🤔 Khi nào áp dụng
 
-- ✅ App > 10k DAU, fast growth.
-- ❌ POC, MVP → keep it simple.`,
-}
-I appreciate you sharing this content, but I notice there's a mismatch between what you've asked me to do and what you've provided.
+- ✅ App > 10k DAU, growth nhanh.
+- ❌ POC, MVP → keep it simple.
 
-You've given me:
-1. **Search results** about the CAP theorem and system design concepts
-2. **A query** that appears to be Vietnamese text requesting a 30-second summary, followed by extensive English theory content about microservices architecture
+## 8. 📌 Tóm tắt 30 giây
 
-However, your **special instructions** state I should translate a TypeScript curriculum data file from Vietnamese to English.
+Cache, queue, replica, sharding, circuit breaker, saga. Hiểu CAP. Don't over-engineer khi chưa scale tới.
+`,
+        theoryEn: `**Microservices Architecture** splits an application into **many small, independently deployed services** communicating via API/event. Each service is owned by one team, can use a different tech stack, and scales independently. **Event-Driven Architecture (EDA)** is how microservices communicate **asynchronously through events** instead of direct REST calls — reducing coupling and increasing resilience.
 
-To help you effectively, I need clarification:
+> "Microservices isn't a free lunch — you trade monolith complexity for distributed-system complexity." — Sam Newman, *Building Microservices*
 
-**Are you asking me to:**
-- Translate the Vietnamese query ("📌 Tóm tắt 30 giây...") to English?
-- Translate a TypeScript curriculum file (which I don't see in the input)?
-- Answer a question about CAP theorem and microservices using the search results?
-- Something else?
+## Why microservices?
 
-Please provide:
-1. The actual TypeScript curriculum file you'd like translated, or
-2. Clarification on what output you need
+Traditional monoliths struggle with org scale:
+- 5M-line codebase + 100 devs → merge hell, week-long deploys.
+- One module bug → redeploy everything.
+- Whole app must scale even if only one module is hot.
+- Single tech stack lock-in.
 
-Once you clarify, I'll deliver the precise translation or answer you're looking for.
-{
-  modules: [
-    {
-      title: "## Case study: Netflix — 700+ microservices",
-      theory: `## Case study: Netflix — 700+ microservices
+Netflix (2009-2012), Amazon (2002 "two-pizza teams"), and Uber pioneered microservices at scale.
+
+## Pros
+
+| Benefit | Explanation |
+|---|---|
+| Independent deployment | Team A deploys 50x/day independently of Team B |
+| Per-part scaling | Scale Search on Black Friday, not Auth |
+| Polyglot | Recommendation in Python, Payment in Java, Notification in Go |
+| Fault isolation | Recommendation outage doesn't kill Checkout |
+| Team ownership | "You build it, you run it" (Werner Vogels) |
+| Tech evolution | Migrate one service to new tech without rewriting all |
+
+## Costs
+
+| Challenge | Description |
+|---|---|
+| Distributed complexity | Network failure, partial failure, consistency |
+| Data consistency | No cross-service ACID → need Saga, eventual consistency |
+| Harder observability | One request → 20 services → need distributed tracing |
+| Ops overhead | CI/CD × N, monitoring × N, on-call × N |
+| Service mesh / API gateway | New infra layer (Istio, Linkerd, Kong) |
+| Skill demand | Team must know Docker, K8s, queues, event sourcing |
+| Higher latency | Network hops vs in-memory calls |
+| Testing complexity | Integration tests need N services — use contract testing |
+
+## When to use microservices?
+
+✅ Large org (>50 devs), distinct bounded contexts (DDD), differentiated scaling needs, mature DevOps + platform team.
+
+❌ Small startups, MVPs, simple CRUD, teams new to distributed systems.
+
+> Martin Fowler's **Monolith First** rule: *"Don't start with microservices."*
+
+## Modular Monolith — wise middle ground
+
+Same single deploy but strict module boundaries (separate DB schemas, public APIs). Extract a module to a microservice **only when** it really needs independent scaling. Shopify, GitHub, and Basecamp still run massive modular monoliths.
+
+## Event-Driven Architecture (EDA)
+
+\`\`\`
+SYNC: Order ──HTTP→ Email
+              ──HTTP→ Inventory
+              ──HTTP→ Analytics
+(Order knows & depends on all three; one outage kills the order)
+
+ASYNC: Order ──"OrderCreated"→ [Event Bus]
+                               ↓
+                  Email   Inventory   Analytics
+                 (sub)     (sub)       (sub)
+(Order knows nothing about consumers; add new ones by subscribing)
+\`\`\`
+
+## AWS components for EDA
+
+| Service | Pattern | Use case |
+|---|---|---|
+| **SQS** | Queue (1-1) | Decouple, retry, DLQ |
+| **SNS** | Pub/Sub fanout | Notify many consumers |
+| **EventBridge** | Event bus + routing | Event apps, SaaS integration |
+| **Kinesis Streams** | Streaming | Real-time analytics, clickstream |
+| **Kinesis Firehose** | Streaming → S3/Redshift | Log aggregation, ETL |
+| **Step Functions** | Orchestration | Saga, multi-step workflows |
+| **MSK** | Managed Kafka | Event sourcing, strict ordering |
+
+## SQS vs SNS vs EventBridge vs Kinesis
+
+| | SQS | SNS | EventBridge | Kinesis |
+|---|---|---|---|---|
+| Pattern | Queue 1-1 | Pub/Sub fanout | Event bus + routing | Streaming |
+| Throughput | High | High | Medium | Very high (MB/s) |
+| Ordering | FIFO option | No | No | Per-shard |
+| Retention | 14 days | Immediate | 24h archive | 7-365 days |
+| Best for | Job queue | Notify many | SaaS integration | IoT, logs, clickstream |
+
+## Classic patterns
+
+1. **API Gateway** — single entry point routes to services.
+2. **Service Discovery** — Consul, Cloud Map, K8s DNS.
+3. **Circuit Breaker** — open the circuit when downstream fails to avoid cascading.
+4. **Saga** — sequence of local transactions + compensating actions, via Choreography (events) or Orchestration (Step Functions).
+5. **CQRS** — separate write (DynamoDB/RDS) and read (ES, replicas) models.
+6. **Event Sourcing** — store the event log, not current state; replay to rebuild.
+7. **Outbox** — atomic "save DB + publish event" via DB transaction + worker.
+8. **Strangler Fig** — migrate from monolith piece by piece via API gateway routing.
+
+## Case study: Netflix — 700+ microservices
 
 One user view → ~100 service calls (auth, recommendation, billing, video metadata, CDN). Uses Apache Kafka for events, Hystrix for circuit breaking, Chaos Monkey to randomly kill services in prod and test resilience.
 
@@ -2049,5 +2823,87 @@ Stitch Fix kept a Rails modular monolith with only a few ML microservices. CTO w
 
 ## Anti-patterns
 
-- ❌ **Distributed monolith** —
+- ❌ **Distributed monolith** — services that must release together.
+- ❌ Shared database across services.
+- ❌ Long sync chains (A → B → C → D) — cascading failures.
+- ❌ Nano-services (one CRUD operation per service).
+- ❌ Skipping observability → 3-day incident debugging.
+- ❌ Hand-rolled saga in app code — use Step Functions.
+- ❌ Starting with microservices on day one with 5 devs.
+
+## When to use
+
+✅ Microservices: large orgs, distinct domains, differentiated scaling, mature DevOps.
+✅ EDA: loose coupling, async workflows, multiple consumers, audit trail.
+❌ Small startups → modular monolith. Simple sync workflow → REST. Inexperienced teams → train first.
+
+## Bridge — Cloud Engineer course conclusion
+
+You've completed 5 Cloud Engineer modules:
+1. Cloud Fundamentals
+2. Compute & Storage
+3. Networking & Security
+4. DevOps & Automation
+5. Architecture & Cost
+
+**Next steps:** pick a deeper pillar:
+- **Data Engineering** — pipelines, ETL, warehousing on cloud.
+- **AI Foundation + ML** — train and serve models on cloud (SageMaker, Bedrock).
+- **Advanced SQL** — query optimization for cloud data warehouses.
+
+Or take the **AWS Solutions Architect Associate** certification to formalize your knowledge!`,
+        code: `# Event-driven microservice với SNS + SQS + Lambda
+# Flow: OrderService publish 'OrderCreated' → SNS → 3 SQS queue → 3 consumer Lambda
+# (EmailService, InventoryService, AnalyticsService)
+
+import boto3, json
+sns = boto3.client("sns")
+sqs = boto3.client("sqs")
+
+# 1. OrderService publish event
+def create_order(order):
+    # Save order to DB (omitted)
+    sns.publish(
+        TopicArn="arn:aws:sns:us-east-1:123:OrderEvents",
+        Message=json.dumps({
+            "type": "OrderCreated",
+            "orderId": order["id"],
+            "userId": order["userId"],
+            "amount": order["total"],
+            "items": order["items"],
+        }),
+        MessageAttributes={
+            "eventType": {"DataType": "String", "StringValue": "OrderCreated"}
+        },
+    )
+
+# 2. EmailService Lambda consumer
+def email_handler(event, context):
+    for record in event["Records"]:
+        msg = json.loads(record["body"])
+        order = json.loads(msg["Message"])
+        print(f"📧 Send confirmation email for order {order['orderId']}")
+        # send_email(...)
+
+# 3. InventoryService Lambda consumer (reduce stock)
+def inventory_handler(event, context):
+    for record in event["Records"]:
+        order = json.loads(json.loads(record["body"])["Message"])
+        for item in order["items"]:
+            print(f"📦 Decrement stock {item['sku']} by {item['qty']}")
+
+# Benefit: adding AnalyticsService just requires subscribing to SNS — no editing of OrderService`,
+        codeLanguage: "python",
+        exercise: "EDA design for a taxi booking application (Uber-like): when a user books, the Driver-Match, Notification, Pricing, and Analytics services all need to be known. Draw the flow & choose the appropriate AWS service.",
+        exerciseEn: "Design EDA for a taxi-booking app (Uber-like): when a user books, Driver-Match, Notification, Pricing, Analytics services all need to know. Draw the flow & pick suitable AWS services.",
+        quiz: [
+          { question: "Microservices are NOT suitable for?", options: ["Large org with many teams", "Small startup MVP", "App that scales per part", "Strong DevOps maturity"], answer: 1, explanation: "Small MVPs/startups should start as a monolith or modular monolith — avoid premature complexity." },
+          { question: "How does SNS differ from SQS?", options: ["SNS is a queue", "SNS is pub/sub fanout (1-to-many)", "No difference", "SNS is slower"], answer: 1, explanation: "SNS is a pub/sub topic with fanout (1 message → many subscribers); SQS is a point-to-point queue (one consumer per message)." },
+          { question: "The Saga pattern solves?", options: ["Auth", "Distributed transactions across services", "Logging", "Caching"], answer: 1, explanation: "Saga replaces distributed ACID transactions with a sequence of local transactions plus compensating actions on failure." },
+          { question: "A circuit breaker is used to?", options: ["Speed things up", "Stop calling a downstream service that's failing", "Encrypt data", "Back up data"], answer: 1, explanation: "A circuit breaker detects downstream failure and temporarily halts calls to prevent cascading failures." },
+          { question: "The Outbox pattern guarantees?", options: ["Email outbox", "Atomic 'save to DB + publish event'", "Backups", "Encryption"], answer: 1, explanation: "The Outbox pattern writes the event in the same DB transaction; a worker then reads and publishes — ensuring atomicity." },
+        ],
+      },
+    ],
+  },
 ];
