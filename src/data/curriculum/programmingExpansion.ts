@@ -1184,10 +1184,10 @@ Cây gia phả: ông → bố → bạn → con → cháu. Bạn không biết "
 
 \`\`\`sql
 WITH RECURSIVE cte AS (
-  -- 1. Anchor: dòng khởi đầu
+  -- 1. Anchor: starting row
   SELECT id, parent_id, name, 1 AS lvl FROM employees WHERE id = 1
   UNION ALL
-  -- 2. Recursive: dòng kế tiếp dựa trên cte
+  -- 2. Recursive: next rows derived from cte
   SELECT e.id, e.parent_id, e.name, c.lvl + 1
   FROM employees e JOIN cte c ON e.parent_id = c.id
 )
