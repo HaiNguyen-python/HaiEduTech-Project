@@ -35,6 +35,8 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "data-eng": ["data-eng"],
   "ml": ["ml"],
   "cloud": ["cloud"],
+  "deep-learning": ["dl"],
+  "reinforcement-learning": ["rl"],
 };
 
 function getPillarForModule(moduleId: string): string | null {
