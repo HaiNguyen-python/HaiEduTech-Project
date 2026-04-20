@@ -339,7 +339,8 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
     }
 
     // 4. Extract & strip the trailing illustrations JSON block
-    const { markdown: cleanedMarkdown, specs } = extractIllustrationSpecs(markdown);
+    const { markdown: cleanedMarkdown, specs: aiSpecs } = extractIllustrationSpecs(markdown);
+    const specs = aiSpecs.length > 0 ? aiSpecs : fallbackSpecs(body.lesson_title, body.module_title);
     let finalMarkdown = cleanedMarkdown;
     let illustrations: { anchor: string; url: string; caption: string }[] = [];
 
