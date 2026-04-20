@@ -589,7 +589,7 @@ const Dashboard = () => {
                     },
                     {
                       icon: Clock,
-                      label: t("Thời gian học", "Study Time"),
+                      label: t("Thời gian trên platform", "Time on Platform"),
                       value: stats!.totalTimeMinutes > 60
                         ? `${Math.round(stats!.totalTimeMinutes / 60)}h ${stats!.totalTimeMinutes % 60}m`
                         : `${stats!.totalTimeMinutes}m`,
