@@ -342,12 +342,12 @@ const ProgrammingLessonPage = () => {
                             <div className="ml-3 mt-1 space-y-0.5 border-l-2 border-border pl-2">
                               {pm.lessons.map((l, i) => {
                                 const isActive = lesson.id === l.id && mod.id === pm.id;
+                                const isEnhanced = cachedLessonKeys.has(`${pm.id}::${l.id}`);
                                 return (
                                   <button
                                     key={l.id}
                                     onClick={() => {
                                       if (pm.id !== mod.id) {
-                                        // Navigate to different module
                                         window.history.pushState({}, '', `/programming/${pm.id}`);
                                         setMod(pm);
                                       }
@@ -366,7 +366,15 @@ const ProgrammingLessonPage = () => {
                                         {i + 1}
                                       </span>
                                     )}
-                                    <span className="truncate">{t(l.title, l.titleEn)}</span>
+                                    <span className="truncate flex-1">{t(l.title, l.titleEn)}</span>
+                                    {isEnhanced && (
+                                      <span
+                                        title="AI Deep-Dive ready"
+                                        className="shrink-0 text-[10px] leading-none text-violet-500 dark:text-violet-300"
+                                      >
+                                        ✨
+                                      </span>
+                                    )}
                                   </button>
                                 );
                               })}
