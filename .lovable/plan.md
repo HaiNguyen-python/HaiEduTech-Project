@@ -1,125 +1,50 @@
 
-## Goal
-Make the entire Learn Programming experience significantly clearer and more readable, especially in Cloud/Data/AI lessons where Mermaid diagrams and dense theory blocks are still rendering poorly.
 
-## What is still causing the issue
-The remaining display problems are broader than one Mermaid setting:
+## Fix Inconsistent Text Sizing in AI Chatbot Responses
 
-1. `MermaidDiagram.tsx` is currently optimized only at the global config level, but AI-generated diagrams vary a lot in size, direction, and label length. One fixed layout is not enough.
-2. The AI Deep-Dive generator explicitly injects Mermaid blocks, so some diagrams are being generated with structures that are hard to read by default.
-3. `ProgrammingLesson.tsx` packs several dense UI sections together inside similar “glass-card” panels, so even when diagrams render correctly, the lesson can still feel visually heavy.
-4. `TheorySections.tsx` and `.theory-content` styling are good for text, but not yet tuned enough for diagram-heavy technical lessons and wide comparison tables.
+### The Problem
+The chat bubble currently wraps assistant markdown in `<div class="prose prose-sm">`. Tailwind Typography's `prose` aggressively restyles every element — `# Heading` becomes ~28px, `## Heading` ~22px, `code` shrinks to ~12px, blockquotes get oversized margins. Inside a 400px chat window, this produces the "huge title, tiny code, jumpy spacing" look the user is seeing.
 
-## Implementation plan
+### The Fix
+Replace the `prose` wrapper with a **custom, chat-tuned markdown renderer** that locks every element to a consistent ~14px base, keeps headings only slightly larger, and gives code blocks proper monospace styling without size jumps.
 
-### 1. Harden Mermaid rendering for readability, not just correctness
-Update `src/components/lesson-visuals/MermaidDiagram.tsx` so diagrams adapt better to different lesson content:
+### What Changes (single file: `src/components/ChatBot.tsx`)
 
-- Detect diagram type (`flowchart`, `graph`, `sequenceDiagram`, `timeline`) and apply safer defaults per type.
-- Add stronger SVG-side text rendering rules:
-  - larger font size
-  - clearer line-height behavior
-  - explicit text anchoring/alignment
-  - sharper text rendering where supported
-- Increase node/cluster spacing further for technical diagrams with long labels.
-- Add a centered inner stage wrapper so oversized diagrams scroll horizontally without shrinking or blurring.
-- Constrain visual density:
-  - cap maximum wrapping width
-  - increase node padding
-  - reduce “cramped” edge label placement
-- Keep the existing protections:
-  - `mermaid.parse`
-  - `suppressErrorRendering`
-  - orphan cleanup
-  - graceful fallback state
+1. **Remove `prose prose-sm`** wrapper around `<ReactMarkdown>`.
 
-### 2. Add post-render SVG cleanup for Mermaid output
-Improve `MermaidDiagram.tsx` after `mermaid.render(...)` by normalizing the generated SVG before inserting it:
+2. **Add explicit component overrides** to `ReactMarkdown` so every element uses chat-appropriate, uniform sizing:
 
-- remove inline width/height behavior that causes awkward scaling
-- enforce `preserveAspectRatio` and stable viewBox-driven layout
-- add readable defaults to generated text nodes and edge labels
-- ensure long labels remain visible instead of being clipped by internal SVG bounds
-- make diagrams align left on narrow/mobile layouts and center only when space allows
+   | Element | New Style |
+   |---|---|
+   | `p` | `text-sm leading-relaxed` (14px, tight gap between paragraphs) |
+   | `h1` | `text-base font-bold mt-2 mb-1` (16px) |
+   | `h2` | `text-sm font-bold mt-2 mb-1` (14px) |
+   | `h3` | `text-sm font-semibold mt-1.5 mb-1` (14px) |
+   | `ul` / `ol` | `text-sm pl-4 space-y-1 list-disc/decimal` |
+   | `li` | `text-sm leading-relaxed` |
+   | `strong` | `font-semibold text-foreground` |
+   | `em` | `italic` |
+   | `code` (inline) | `text-[13px] font-mono px-1.5 py-0.5 rounded bg-background/60 border border-border/40` |
+   | `pre` | `text-[12.5px] font-mono p-3 rounded-lg bg-zinc-900 text-zinc-100 overflow-x-auto my-2 whitespace-pre` |
+   | `blockquote` | `text-sm italic border-l-2 border-primary/40 pl-3 my-2 text-muted-foreground` |
+   | `a` | `text-primary underline underline-offset-2 hover:brightness-110` (with `target="_blank"`, `rel="noreferrer"`) |
+   | `table` | `text-xs border-collapse my-2`, `th/td` get `border px-2 py-1` |
+   | `hr` | `my-2 border-border` |
 
-This is important because Mermaid’s generated SVG often needs a second pass for polished app UI.
+3. **Add `remark-gfm`** plugin so tables, strikethrough, and task lists render correctly (already a dependency in the project).
 
-### 3. Improve lesson-page layout hierarchy in Learn Programming
-Refine `src/pages/ProgrammingLesson.tsx` so the lesson feels easier to scan:
+4. **Wrap renderer in a single styled container** `<div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 space-y-2">` to guarantee no stray top/bottom margins push the bubble layout around.
 
-- make the theory card more spacious and clearly separated from code / quiz / challenge sections
-- reduce visual crowding between stacked cards
-- improve heading hierarchy and section spacing
-- give the theory area a slightly more document-like reading layout
-- make the roadmap/sidebar visually lighter so it does not compete with the lesson body
-- improve behavior when IDE is open so the reading column still feels comfortable, not compressed
+5. **Code-block long-line handling**: add `break-words` on `p` and `overflow-x-auto` on `pre` so long URLs or code don't overflow the 85% bubble width.
 
-### 4. Tune TheorySections for technical reading
-Update `src/components/TheorySections.tsx` to better support diagram-heavy content:
+### Out of Scope (Not Touched)
+- The edge function / system prompt — formatting issue is purely client-side.
+- The user-message bubble (already uses plain `<p>`, looks fine).
+- Profanity, voice, lockout, animation logic — all preserved.
 
-- add stronger spacing before/after Mermaid blocks
-- visually separate diagrams from surrounding paragraphs and callouts
-- reduce header clutter around each theory section
-- keep progress/read controls, but make them less dominant than the lesson content
-- ensure markdown chunks with diagrams, deep dives, tables, and prose flow cleanly in a predictable order
+### Expected Result
+Every assistant reply — whether it contains a `# Title`, a `**bold**` term, a bullet list, or a Python ` ```code``` ` block — renders at a single, calm visual rhythm: 14px body, 16px max headings, properly contained code blocks, no oversized jumps.
 
-### 5. Refine global programming lesson typography and table styling
-Adjust the Learn Programming styles in `src/index.css`:
+### Files Edited
+- `src/components/ChatBot.tsx` (only the assistant-message render block, ~15 lines → ~50 lines)
 
-- increase readability for dense technical text:
-  - slightly larger body size on desktop
-  - stronger contrast for paragraph text
-  - better spacing for lists and tables
-- improve technical tables:
-  - more padding
-  - less cramped columns
-  - clearer row separation
-  - safer mobile overflow
-- add dedicated spacing rules for diagram wrappers inside `.theory-content`
-- ensure code blocks, diagrams, callouts, and tables all feel like distinct content types
-
-### 6. Reduce future bad Mermaid output from AI Deep-Dive
-Update `supabase/functions/enhance-programming-theory/index.ts` so AI-generated diagrams are easier to render well:
-
-- instruct the model to prefer simple Mermaid structures
-- avoid overly long node labels
-- prefer short noun phrases over sentence-length labels
-- prefer top-down or left-right layouts with limited branching
-- avoid visually dense diagrams when a comparison table would communicate more clearly
-- keep code comments in English as already required
-
-This reduces future broken or cluttered diagrams at the source.
-
-### 7. Verify across the whole Programming pillar, not just one lesson
-After implementation, test multiple programming lessons that represent different content types:
-
-- Cloud Fundamentals
-- Compute & Storage
-- SQL lessons with tables/diagrams
-- ML lessons with built-in visual blocks
-- AI Deep-Dive content with generated Mermaid diagrams
-
-Verification should confirm:
-- no clipped node text
-- no blurry/scaled-down diagrams
-- no cramped tables
-- clearer section spacing
-- better readability with and without the IDE open
-- acceptable mobile behavior for wide technical content
-
-## Files to update
-- `src/components/lesson-visuals/MermaidDiagram.tsx`
-- `src/components/TheorySections.tsx`
-- `src/pages/ProgrammingLesson.tsx`
-- `src/index.css`
-- `supabase/functions/enhance-programming-theory/index.ts`
-
-## Technical notes
-- The biggest remaining issue is no longer just syntax or orphan SVG injection; it is layout quality after Mermaid renders.
-- The fix should combine:
-  - better Mermaid config
-  - SVG post-processing
-  - page-level spacing improvements
-  - stricter AI prompt guidance for generated diagrams
-- No database migration is required.
-- No auth or RLS changes are required.
