@@ -9,7 +9,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
 import {
-  IKIGAI_QUESTIONS, MBTI_QUESTIONS, HOLLAND_QUESTIONS, COMMON_DILEMMAS, MOOD_OPTIONS,
+  IKIGAI_QUESTIONS, MBTI_QUESTIONS, HOLLAND_QUESTIONS, COMMON_DILEMMAS, MOOD_OPTIONS, DILEMMA_CATEGORIES,
+  type DilemmaCategory,
 } from "@/data/ikigaiAndPersonality";
 import MbtiFullTest from "@/components/counseling/MbtiFullTest";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
@@ -1151,39 +1152,132 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
   );
 };
 
-// ============= DILEMMAS SECTION =============
+// ============= DILEMMAS SECTION (Flashcard Style) =============
 const DilemmasSection = ({ onPick }: { onPick: () => void }) => {
   const { t, lang } = useLanguage();
+  const [activeCat, setActiveCat] = useState<DilemmaCategory | "all">("all");
+  const [flipped, setFlipped] = useState<Record<number, boolean>>({});
 
-  const ask = (text: string) => {
+  const ask = (text: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     window.dispatchEvent(new CustomEvent("counseling:prefill", { detail: text }));
     onPick();
-    toast.info(t("Đã chuyển vào AI Counselor", "Switched to AI Counselor"));
+    toast.info(t("Đã chuyển vào Trợ lý của em", "Switched to your Counselor"));
   };
 
+  const filtered = COMMON_DILEMMAS
+    .map((d, i) => ({ ...d, _idx: i }))
+    .filter((d) => activeCat === "all" || d.category === activeCat);
+
   return (
-    <div className="rounded-2xl border border-border bg-card p-6">
-      <h3 className="font-display font-bold flex items-center gap-2 mb-1">
+    <div className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+      <h3 className="font-display font-bold flex items-center gap-2 mb-1 text-lg">
         <Lightbulb className="w-5 h-5 text-amber-500" />
         {t("Tình huống thường gặp", "Common Dilemmas")}
       </h3>
-      <p className="text-sm text-muted-foreground mb-5">
-        {t("Chọn một tình huống để trao đổi nhanh với AI Counselor.", "Pick a dilemma to discuss with the AI Counselor.")}
+      <p className="text-sm text-muted-foreground mb-4">
+        {t("Click vào thẻ để xem ngay lời khuyên từ thầy Hải. Bấm 'Hỏi sâu hơn' để trao đổi với Trợ lý của em.",
+           "Tap a card to instantly see Teacher Hai's advice. Click 'Discuss' to chat with your Counselor.")}
       </p>
-      <div className="grid md:grid-cols-2 gap-3">
-        {COMMON_DILEMMAS.map((d, i) => (
+
+      {/* Category filter */}
+      <div className="flex flex-wrap gap-2 mb-5">
+        {DILEMMA_CATEGORIES.map((cat) => (
           <button
-            key={i}
-            onClick={() => ask(lang === "vi" ? d.vi : d.en)}
-            className="text-left p-4 rounded-xl border border-border hover:border-amber-400/40 hover:bg-amber-50/30 dark:hover:bg-amber-950/20 transition-all group"
+            key={cat.id}
+            onClick={() => setActiveCat(cat.id)}
+            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${
+              activeCat === cat.id
+                ? "bg-amber-500 text-white border-amber-500 shadow-sm"
+                : "bg-background text-muted-foreground border-border hover:border-amber-300 hover:text-foreground"
+            }`}
           >
-            <p className="text-sm text-foreground leading-relaxed">{lang === "vi" ? d.vi : d.en}</p>
-            <span className="mt-2 inline-flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 font-medium group-hover:underline">
-              {t("Hỏi thầy Hải", "Ask Teacher Hai")} <ArrowRight className="w-3 h-3" />
-            </span>
+            <span className="mr-1">{cat.emoji}</span>
+            {lang === "vi" ? cat.vi : cat.en}
           </button>
         ))}
       </div>
+
+      {/* Flashcard grid */}
+      <div className="grid sm:grid-cols-2 gap-4">
+        {filtered.map((d) => {
+          const isFlipped = !!flipped[d._idx];
+          return (
+            <div
+              key={d._idx}
+              onClick={() => setFlipped((p) => ({ ...p, [d._idx]: !isFlipped }))}
+              className="relative cursor-pointer min-h-[240px]"
+              style={{ perspective: "1200px" }}
+            >
+              <motion.div
+                className="relative w-full"
+                animate={{ rotateY: isFlipped ? 180 : 0 }}
+                transition={{ duration: 0.6, type: "spring", stiffness: 120, damping: 18 }}
+                style={{ transformStyle: "preserve-3d", minHeight: "240px" }}
+              >
+                {/* FRONT */}
+                <div
+                  className="absolute inset-0 rounded-2xl border border-border bg-gradient-to-br from-amber-50 via-orange-50/50 to-yellow-50 dark:from-amber-950/30 dark:via-orange-950/20 dark:to-yellow-950/30 p-5 flex flex-col justify-between hover:shadow-lg transition-shadow"
+                  style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+                >
+                  <div>
+                    <div className="text-3xl mb-3">{d.emoji}</div>
+                    <p className="text-sm sm:text-base font-medium text-foreground leading-relaxed">
+                      "{lang === "vi" ? d.vi : d.en}"
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-amber-200/50 dark:border-amber-800/30">
+                    <span className="text-xs text-amber-700 dark:text-amber-400 font-semibold">
+                      {DILEMMA_CATEGORIES.find((c) => c.id === d.category)?.[lang === "vi" ? "vi" : "en"]}
+                    </span>
+                    <span className="text-xs font-medium text-amber-600 dark:text-amber-400 inline-flex items-center gap-1">
+                      {t("Lật thẻ", "Flip card")} <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </div>
+                </div>
+
+                {/* BACK */}
+                <div
+                  className="absolute inset-0 rounded-2xl border border-amber-300 dark:border-amber-700 bg-card p-5 flex flex-col overflow-hidden"
+                  style={{
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+                    transform: "rotateY(180deg)",
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-2 pb-2 border-b border-border">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                      H
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-foreground">{t("Thầy Hải", "Teacher Hai")}</p>
+                      <p className="text-[10px] text-muted-foreground">{t("Lời khuyên nhanh", "Quick advice")}</p>
+                    </div>
+                  </div>
+                  <div className="flex-1 overflow-y-auto pr-1 mb-3" style={{ maxHeight: "150px" }}>
+                    <p className="text-xs sm:text-[13px] text-foreground leading-relaxed whitespace-pre-line">
+                      {lang === "vi" ? d.answerVi : d.answerEn}
+                    </p>
+                  </div>
+                  <button
+                    onClick={(e) => ask(lang === "vi" ? d.vi : d.en, e)}
+                    className="w-full py-2 rounded-lg bg-gradient-to-r from-blue-500 to-emerald-500 text-white text-xs font-semibold inline-flex items-center justify-center gap-1.5 hover:shadow-md transition-shadow"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" />
+                    {t("Hỏi sâu hơn với thầy Hải", "Discuss deeper with Teacher Hai")}
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          );
+        })}
+      </div>
+
+      {filtered.length === 0 && (
+        <p className="text-center text-sm text-muted-foreground py-8">
+          {t("Chưa có tình huống trong nhóm này.", "No dilemmas in this category yet.")}
+        </p>
+      )}
     </div>
   );
 };
