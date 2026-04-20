@@ -2,7 +2,10 @@
 // and post-render SVG normalization for consistent, sharp, readable output.
 import { useEffect, useRef, useState } from "react";
 import mermaid from "mermaid";
-import { Loader2, AlertTriangle } from "lucide-react";
+import { Loader2, AlertTriangle, Maximize2, ZoomIn, ZoomOut, RotateCcw, X } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface MermaidDiagramProps {
   code: string;
