@@ -86,7 +86,7 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const isMobile = useIsMobile();
   const [mod, setMod] = useState<ProgrammingModule | null>(null);
   const [lesson, setLesson] = useState<PLType | null>(null);
