@@ -81,6 +81,7 @@ const Finnish = lazy(() => import("./pages/Finnish.tsx"));
 const YkiDashboard = lazy(() => import("./pages/YkiDashboard.tsx"));
 const FinnishBeginner = lazy(() => import("./pages/FinnishBeginner.tsx"));
 const YkiB1Dashboard = lazy(() => import("./pages/YkiB1Dashboard.tsx"));
+const LifeInFinland = lazy(() => import("./pages/LifeInFinland.tsx"));
 const SpeakingCoachPage = lazy(() => import("./pages/SpeakingCoachPage.tsx"));
 const EnglishGrammar = lazy(() => import("./pages/EnglishGrammar.tsx"));
 const NotebookPage = lazy(() => import("./pages/Notebook.tsx"));
@@ -193,6 +194,7 @@ const App = () => (
             <Route path="/finnish/yki-dashboard" element={<LazyRoute><YkiDashboard /></LazyRoute>} />
             <Route path="/finnish/beginner" element={<LazyRoute><FinnishBeginner /></LazyRoute>} />
             <Route path="/finnish/yki-b1" element={<LazyRoute><YkiB1Dashboard /></LazyRoute>} />
+            <Route path="/finnish/life-in-finland" element={<LazyRoute><LifeInFinland /></LazyRoute>} />
             <Route path="/speaking-coach/:language" element={<LazyRoute><SpeakingCoachPage /></LazyRoute>} />
             <Route path="/notebook" element={<LazyRoute><NotebookPage /></LazyRoute>} />
             {/* Redirects for old routes */}
