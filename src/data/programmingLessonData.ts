@@ -558,32 +558,32 @@ pygame.quit()`,
         titleEn: "Basic SELECT Queries",
         theory: "**SQL (Structured Query Language)** là ngôn ngữ để 'nói chuyện' với cơ sở dữ liệu — giống **Google cho database**: bạn hỏi, database trả lời! 🔍\n\n**Tại sao SQL quan trọng?**\nMọi ứng dụng (Facebook, Shopee, ngân hàng) đều lưu dữ liệu trong database. SQL là cách duy nhất để truy xuất và thao tác dữ liệu đó.\n\n**🏗️ Cấu trúc truy vấn — Nghĩ như câu tiếng Việt:**\n```sql\nSELECT cột      -- 'Cho tôi xem'\nFROM bảng        -- 'từ bảng'\nWHERE điều_kiện  -- 'mà thỏa điều kiện'\nORDER BY cột     -- 'sắp xếp theo'\nLIMIT 10;        -- 'chỉ 10 dòng đầu'\n```\n\n**Ví dụ thực tế — Quản lý lớp học:**\n```sql\n-- 'Cho tôi xem tên và điểm Toán của học sinh lớp 10A1, ai cao nhất trước'\nSELECT ho_ten, diem_toan\nFROM hoc_sinh\nWHERE lop = '10A1'\nORDER BY diem_toan DESC;\n```\n\n**📊 Các lệnh quan trọng:**\n| Lệnh | Ý nghĩa | Ví dụ đời thực |\n|---|---|---|\n| SELECT | Chọn cột hiển thị | 'Cho tôi xem tên và SĐT' |\n| WHERE | Lọc theo điều kiện | 'Chỉ những ai trên 18 tuổi' |\n| ORDER BY | Sắp xếp | 'Ai điểm cao nhất lên trước' |\n| GROUP BY | Nhóm dữ liệu | 'Đếm số học sinh mỗi lớp' |\n| HAVING | Lọc sau nhóm | 'Chỉ lớp nào có hơn 30 bạn' |\n| LIMIT | Giới hạn kết quả | 'Top 5 thôi' |",
         theoryEn: "**SQL (Structured Query Language)** is the language to 'talk' to databases — like **Google for databases**: you ask, database answers! 🔍\n\n**Why SQL matters?**\nEvery app (Facebook, Amazon, banks) stores data in databases. SQL is THE way to retrieve and manipulate that data.\n\n**🏗️ Query structure — Think like an English sentence:**\n```sql\nSELECT columns    -- 'Show me'\nFROM table         -- 'from the table'\nWHERE condition    -- 'where condition is met'\nORDER BY column    -- 'sorted by'\nLIMIT 10;          -- 'only first 10 rows'\n```\n\n**Real example — Managing a classroom:**\n```sql\n-- 'Show me names and Math scores of class 10A1, highest first'\nSELECT name, math_score\nFROM students\nWHERE class = '10A1'\nORDER BY math_score DESC;\n```\n\n**📊 Key commands:**\n| Command | Meaning | Real-life example |\n|---|---|---|\n| SELECT | Choose columns | 'Show me name and phone' |\n| WHERE | Filter by condition | 'Only those over 18' |\n| ORDER BY | Sort results | 'Highest score first' |\n| GROUP BY | Group data | 'Count students per class' |\n| HAVING | Filter after grouping | 'Only classes with 30+ students' |\n| LIMIT | Cap results | 'Top 5 only' |",
-        code: `-- Tạo bảng học sinh
-CREATE TABLE hoc_sinh (
+        code: `-- Create the students table
+CREATE TABLE students (
     id SERIAL PRIMARY KEY,
-    ho_ten VARCHAR(100) NOT NULL,
-    lop VARCHAR(10),
-    diem_toan DECIMAL(4,2),
-    diem_van DECIMAL(4,2),
-    diem_anh DECIMAL(4,2)
+    full_name VARCHAR(100) NOT NULL,
+    class VARCHAR(10),
+    math_score DECIMAL(4,2),
+    literature_score DECIMAL(4,2),
+    english_score DECIMAL(4,2)
 );
 
 -- Insert data
-INSERT INTO hoc_sinh (ho_ten, lop, diem_toan, diem_van, diem_anh) VALUES
-('Nguyễn An', '10A1', 9.0, 8.5, 7.5),
-('Trần Bình', '10A1', 7.0, 9.0, 8.0),
-('Lê Chi', '10A2', 8.5, 7.0, 9.5);
+INSERT INTO students (full_name, class, math_score, literature_score, english_score) VALUES
+('Nguyen An', '10A1', 9.0, 8.5, 7.5),
+('Tran Binh', '10A1', 7.0, 9.0, 8.0),
+('Le Chi', '10A2', 8.5, 7.0, 9.5);
 
 -- Basic query
-SELECT ho_ten, diem_toan FROM hoc_sinh WHERE diem_toan >= 8.0;
+SELECT full_name, math_score FROM students WHERE math_score >= 8.0;
 
 -- Calculate average score by class
-SELECT lop, 
-       AVG(diem_toan) AS tb_toan,
-       AVG(diem_van) AS tb_van
-FROM hoc_sinh 
-GROUP BY lop
-ORDER BY tb_toan DESC;`,
+SELECT class,
+       AVG(math_score) AS avg_math,
+       AVG(literature_score) AS avg_literature
+FROM students
+GROUP BY class
+ORDER BY avg_math DESC;`,
         codeLanguage: "sql",
         exercise: "Write a query: (1) Find 3 students with the highest average score, (2) Count the number of students in each class, (3) Find students with Math scores above the class average.",
         exerciseEn: "Write queries: (1) Find top 3 students by average score, (2) Count students per class, (3) Find students with Math above class average.",
@@ -601,33 +601,33 @@ ORDER BY tb_toan DESC;`,
         titleEn: "JOINs and Table Relationships",
         theory: "**JOIN** kết nối dữ liệu từ nhiều bảng — giống **ghép 2 mảnh puzzle** lại với nhau 🧩!\n\n**Tại sao cần JOIN?** Trong thực tế, dữ liệu nằm rải rác ở nhiều bảng:\n- Bảng `khách_hàng`: tên, SĐT, địa chỉ\n- Bảng `đơn_hàng`: sản phẩm, giá, ngày mua\n- JOIN = 'Ghép tên khách hàng vào đơn hàng'\n\n**🎨 Minh họa bằng hình — 4 loại JOIN:**\n```\nBảng A (Khách hàng)    Bảng B (Đơn hàng)\n┌──────────┐            ┌──────────┐\n│ An       │────────────│ Laptop   │  ← An mua Laptop\n│ Bình     │            │ Phone    │  ← Bình mua Phone  \n│ Chi ❌   │            │ Tablet ❌│  ← Tablet chưa ai mua\n└──────────┘            └──────────┘\n  Chi chưa mua gì        Tablet không có người mua\n```\n\n**INNER JOIN** — Chỉ lấy **khớp cả 2 bên** (An+Laptop, Bình+Phone):\n→ Chi bị loại (chưa mua), Tablet bị loại (không ai mua)\n\n**LEFT JOIN** — **Tất cả khách hàng** + đơn hàng (nếu có):\n→ Chi vẫn xuất hiện nhưng đơn hàng = NULL\n→ Dùng khi muốn biết 'Ai CHƯA mua gì?'\n\n**RIGHT JOIN** — Tất cả đơn hàng + khách hàng (nếu có):\n→ Tablet xuất hiện nhưng khách hàng = NULL\n\n**FULL OUTER JOIN** — **Tất cả từ cả 2 bảng**, khớp hoặc không.\n\n**🔑 Foreign Key — Chìa khóa kết nối:**\nGiống **mã học sinh** in trên cả thẻ thư viện và bảng điểm → dùng mã này để ghép 2 bảng!\n```sql\nSELECT kh.ten, dh.san_pham\nFROM khach_hang kh\nINNER JOIN don_hang dh ON kh.id = dh.khach_hang_id;\n--                       ↑ 'Nơi khớp nhau'\n```",
         theoryEn: "**JOIN** connects data from multiple tables — like **fitting 2 puzzle pieces** together 🧩!\n\n**Why JOIN?** In practice, data lives in separate tables:\n- `customers` table: name, phone, address\n- `orders` table: product, price, date\n- JOIN = 'Attach customer name to their order'\n\n**🎨 Visual illustration — 4 JOIN types:**\n```\nTable A (Customers)    Table B (Orders)\n┌──────────┐            ┌──────────┐\n│ An       │────────────│ Laptop   │  ← An bought Laptop\n│ Binh     │            │ Phone    │  ← Binh bought Phone  \n│ Chi ❌   │            │ Tablet ❌│  ← Nobody bought Tablet\n└──────────┘            └──────────┘\n  Chi hasn't bought       Tablet has no buyer\n```\n\n**INNER JOIN** — Only **matching rows** (An+Laptop, Binh+Phone):\n→ Chi excluded (no orders), Tablet excluded (no buyer)\n\n**LEFT JOIN** — **All customers** + orders (if any):\n→ Chi still appears but order = NULL\n→ Use when you want to know 'Who HASN'T bought anything?'\n\n**RIGHT JOIN** — All orders + customers (if any):\n→ Tablet appears but customer = NULL\n\n**FULL OUTER JOIN** — **Everything from both tables**, matched or not.\n\n**🔑 Foreign Key — The linking key:**\nLike a **student ID** printed on both library card and report card → use this ID to join 2 tables!\n```sql\nSELECT c.name, o.product\nFROM customers c\nINNER JOIN orders o ON c.id = o.customer_id;\n--                    ↑ 'Where they match'\n```",
-        code: `-- Bảng đơn hàng
-CREATE TABLE don_hang (
+        code: `-- Orders table
+CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
-    khach_hang_id INT REFERENCES khach_hang(id),
-    san_pham VARCHAR(100),
-    so_luong INT,
-    gia DECIMAL(10,2),
-    ngay_dat DATE DEFAULT CURRENT_DATE
+    customer_id INT REFERENCES customers(id),
+    product VARCHAR(100),
+    quantity INT,
+    price DECIMAL(10,2),
+    order_date DATE DEFAULT CURRENT_DATE
 );
 
 -- INNER JOIN: Order with customer name
-SELECT kh.ho_ten, dh.san_pham, dh.gia
-FROM don_hang dh
-INNER JOIN khach_hang kh ON dh.khach_hang_id = kh.id;
+SELECT c.full_name, o.product, o.price
+FROM orders o
+INNER JOIN customers c ON o.customer_id = c.id;
 
 -- LEFT JOIN: All customers (including those who have not yet purchased)
-SELECT kh.ho_ten, COUNT(dh.id) AS so_don
-FROM khach_hang kh
-LEFT JOIN don_hang dh ON kh.id = dh.khach_hang_id
-GROUP BY kh.ho_ten;
+SELECT c.full_name, COUNT(o.id) AS order_count
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id
+GROUP BY c.full_name;
 
--- Subquery: Customers who spend the most
-SELECT ho_ten FROM khach_hang
+-- Subquery: Customer who spends the most
+SELECT full_name FROM customers
 WHERE id = (
-    SELECT khach_hang_id FROM don_hang
-    GROUP BY khach_hang_id
-    ORDER BY SUM(gia * so_luong) DESC
+    SELECT customer_id FROM orders
+    GROUP BY customer_id
+    ORDER BY SUM(price * quantity) DESC
     LIMIT 1
 );`,
         codeLanguage: "sql",
@@ -647,29 +647,29 @@ WHERE id = (
         titleEn: "Aggregate Functions & GROUP BY",
         theory: "**Hàm tổng hợp (Aggregate Functions):**\n- COUNT(): Đếm số hàng\n- SUM(): Tính tổng\n- AVG(): Trung bình\n- MIN() / MAX(): Giá trị nhỏ/lớn nhất\n\n**GROUP BY:** Nhóm dữ liệu để tính tổng hợp theo nhóm\n**HAVING:** Lọc sau khi GROUP BY (WHERE lọc trước GROUP BY)\n\n**Thứ tự thực thi:** FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT",
         theoryEn: "**Aggregate Functions:**\n- COUNT(): Count rows\n- SUM(): Calculate total\n- AVG(): Average\n- MIN() / MAX(): Smallest/largest value\n\n**GROUP BY:** Group data for aggregate calculations\n**HAVING:** Filter after GROUP BY (WHERE filters before GROUP BY)\n\n**Execution order:** FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT",
-        code: `-- Doanh thu theo danh mục sản phẩm
-SELECT 
-    danh_muc,
-    COUNT(*) AS so_don,
-    SUM(gia * so_luong) AS tong_doanh_thu,
-    AVG(gia) AS gia_trung_binh,
-    MAX(gia) AS gia_cao_nhat
-FROM don_hang
-GROUP BY danh_muc
-HAVING SUM(gia * so_luong) > 1000000
-ORDER BY tong_doanh_thu DESC;
+        code: `-- Revenue by product category
+SELECT
+    category,
+    COUNT(*) AS order_count,
+    SUM(price * quantity) AS total_revenue,
+    AVG(price) AS avg_price,
+    MAX(price) AS max_price
+FROM orders
+GROUP BY category
+HAVING SUM(price * quantity) > 1000000
+ORDER BY total_revenue DESC;
 
 -- Score statistics by class
-SELECT 
-    lop,
-    COUNT(*) AS si_so,
-    ROUND(AVG(diem_toan), 2) AS tb_toan,
-    ROUND(AVG(diem_van), 2) AS tb_van,
-    MIN(diem_toan) AS diem_thap_nhat,
-    MAX(diem_toan) AS diem_cao_nhat
-FROM hoc_sinh
-GROUP BY lop
-ORDER BY tb_toan DESC;`,
+SELECT
+    class,
+    COUNT(*) AS class_size,
+    ROUND(AVG(math_score), 2) AS avg_math,
+    ROUND(AVG(literature_score), 2) AS avg_literature,
+    MIN(math_score) AS lowest_score,
+    MAX(math_score) AS highest_score
+FROM students
+GROUP BY class
+ORDER BY avg_math DESC;`,
         codeLanguage: "sql",
         exercise: "Write a statistical query: (1) Top 5 best-selling products, (2) Average monthly revenue, (3) Category with more than 10 orders.",
         exerciseEn: "Write statistical queries: (1) Top 5 best-selling products, (2) Average monthly revenue, (3) Categories with more than 10 orders.",
@@ -687,30 +687,30 @@ ORDER BY tb_toan DESC;`,
         titleEn: "Subqueries & CTEs",
         theory: "**Subquery (Truy vấn con):** Truy vấn lồng bên trong truy vấn khác.\n- Scalar subquery: Trả về 1 giá trị\n- Table subquery: Trả về bảng\n- Correlated subquery: Tham chiếu bảng ngoài\n\n**CTE (Common Table Expression):**\n- Tạo bảng tạm với WITH\n- Code dễ đọc hơn subquery\n- Có thể đệ quy (Recursive CTE)",
         theoryEn: "**Subquery:** A query nested inside another query.\n- Scalar: Returns 1 value\n- Table: Returns a table\n- Correlated: References outer table\n\n**CTE (Common Table Expression):**\n- Create temp table with WITH\n- More readable than subqueries\n- Can be recursive",
-        code: `-- Subquery: Học sinh có điểm trên trung bình
-SELECT ho_ten, diem_toan
-FROM hoc_sinh
-WHERE diem_toan > (
-    SELECT AVG(diem_toan) FROM hoc_sinh
+        code: `-- Subquery: Students with above-average scores
+SELECT full_name, math_score
+FROM students
+WHERE math_score > (
+    SELECT AVG(math_score) FROM students
 );
 
 -- CTE: Student ranking
-WITH xep_hang AS (
-    SELECT 
-        ho_ten,
-        diem_toan,
-        RANK() OVER (ORDER BY diem_toan DESC) AS hang
-    FROM hoc_sinh
+WITH ranking AS (
+    SELECT
+        full_name,
+        math_score,
+        RANK() OVER (ORDER BY math_score DESC) AS rank_position
+    FROM students
 )
-SELECT * FROM xep_hang WHERE hang <= 5;
+SELECT * FROM ranking WHERE rank_position <= 5;
 
--- Recursive CTE: Create a date string
-WITH RECURSIVE ngay AS (
+-- Recursive CTE: Generate a date series
+WITH RECURSIVE date_series AS (
     SELECT DATE '2024-01-01' AS d
     UNION ALL
-    SELECT d + 1 FROM ngay WHERE d < '2024-01-07'
+    SELECT d + 1 FROM date_series WHERE d < '2024-01-07'
 )
-SELECT d AS ngay_trong_tuan FROM ngay;`,
+SELECT d AS day_of_week FROM date_series;`,
         codeLanguage: "sql",
         exercise: "Use CTE to write queries: (1) Top 3 customers spending the most, (2) Compare revenue this month vs last month.",
         exerciseEn: "Use CTE to write: (1) Top 3 highest-spending customers, (2) Compare this month vs last month revenue.",
@@ -728,33 +728,33 @@ SELECT d AS ngay_trong_tuan FROM ngay;`,
         titleEn: "Indexing & Query Optimization",
         theory: "**Index** giống mục lục sách — giúp tìm kiếm nhanh hơn.\n\n**Loại Index:**\n- B-tree: Mặc định, tốt cho =, <, >, BETWEEN\n- Hash: Chỉ tốt cho =\n- GIN: Cho mảng, full-text search\n- GiST: Cho dữ liệu không gian\n\n**Khi nào tạo Index:**\n- Cột WHERE, JOIN, ORDER BY thường xuyên\n- Cột có tính chọn lọc cao (nhiều giá trị khác nhau)\n\n**EXPLAIN ANALYZE:** Phân tích kế hoạch truy vấn",
         theoryEn: "**Index** is like a book index — speeds up lookups.\n\n**Index Types:**\n- B-tree: Default, good for =, <, >, BETWEEN\n- Hash: Only good for =\n- GIN: For arrays, full-text search\n- GiST: For spatial data\n\n**When to create Index:**\n- Frequently used WHERE, JOIN, ORDER BY columns\n- High cardinality columns\n\n**EXPLAIN ANALYZE:** Analyze query plan",
-        code: `-- Tạo index trên cột thường xuyên tìm kiếm
-CREATE INDEX idx_hoc_sinh_lop ON hoc_sinh(lop);
-CREATE INDEX idx_don_hang_ngay ON don_hang(ngay_dat);
+        code: `-- Create an index on frequently searched columns
+CREATE INDEX idx_students_class ON students(class);
+CREATE INDEX idx_orders_date ON orders(order_date);
 
--- Index composite (multiple columns)
-CREATE INDEX idx_hs_lop_diem ON hoc_sinh(lop, diem_toan);
+-- Composite index (multiple columns)
+CREATE INDEX idx_students_class_score ON students(class, math_score);
 
--- Analyze query plans
+-- Analyze the query plan
 EXPLAIN ANALYZE
-SELECT * FROM hoc_sinh WHERE lop = '10A1';
+SELECT * FROM students WHERE class = '10A1';
 
 -- Comparison: Without index vs with index
 -- Seq Scan (sequential scan): O(n) - slow
--- Index Scan: O(log n) - nhanh
+-- Index Scan: O(log n) - fast
 
 -- Optimization: Avoid SELECT *
 -- ❌ Slow
-SELECT * FROM don_hang WHERE ngay_dat > '2024-01-01';
--- ✅ Nhanh  
-SELECT id, san_pham, gia FROM don_hang WHERE ngay_dat > '2024-01-01';
+SELECT * FROM orders WHERE order_date > '2024-01-01';
+-- ✅ Fast
+SELECT id, product, price FROM orders WHERE order_date > '2024-01-01';
 
 -- Optimization: Use EXISTS instead of IN for large subqueries
--- ❌ Slow with large tables
-SELECT * FROM hoc_sinh WHERE lop IN (SELECT lop FROM lop_hoc WHERE si_so > 30);
+-- ❌ Slow on large tables
+SELECT * FROM students WHERE class IN (SELECT class FROM classes WHERE class_size > 30);
 -- ✅ Faster
-SELECT * FROM hoc_sinh hs WHERE EXISTS (
-    SELECT 1 FROM lop_hoc lh WHERE lh.lop = hs.lop AND lh.si_so > 30
+SELECT * FROM students s WHERE EXISTS (
+    SELECT 1 FROM classes c WHERE c.class = s.class AND c.class_size > 30
 );`,
         codeLanguage: "sql",
         exercise: "Create a table of 10,000 rows, compare query speed before/after creating index. Use EXPLAIN ANALYZE.",
@@ -773,15 +773,15 @@ SELECT * FROM hoc_sinh hs WHERE EXISTS (
         titleEn: "Transactions & Data Security",
         theory: "**Transaction** đảm bảo tính toàn vẹn dữ liệu (ACID):\n- Atomicity: Tất cả hoặc không gì cả\n- Consistency: Dữ liệu luôn hợp lệ\n- Isolation: Các transaction độc lập\n- Durability: Thay đổi được lưu vĩnh viễn\n\n**Row Level Security (RLS):**\n- Kiểm soát truy cập ở cấp hàng\n- Mỗi user chỉ thấy dữ liệu của mình\n\n**SQL Injection:** Luôn dùng parameterized queries!",
         theoryEn: "**Transaction** ensures data integrity (ACID):\n- Atomicity: All or nothing\n- Consistency: Data always valid\n- Isolation: Transactions independent\n- Durability: Changes persist\n\n**Row Level Security (RLS):**\n- Control access at row level\n- Each user sees only their data\n\n**SQL Injection:** Always use parameterized queries!",
-        code: `-- Transaction: Chuyển tiền an toàn
+        code: `-- Transaction: Safe money transfer
 BEGIN;
-UPDATE tai_khoan SET so_du = so_du - 500000 WHERE id = 1;
-UPDATE tai_khoan SET so_du = so_du + 500000 WHERE id = 2;
--- Check: do not give negative balance
+UPDATE accounts SET balance = balance - 500000 WHERE id = 1;
+UPDATE accounts SET balance = balance + 500000 WHERE id = 2;
+-- Check: do not allow a negative balance
 DO $$
 BEGIN
-    IF (SELECT so_du FROM tai_khoan WHERE id = 1) < 0 THEN
-        RAISE EXCEPTION 'Số dư không đủ!';
+    IF (SELECT balance FROM accounts WHERE id = 1) < 0 THEN
+        RAISE EXCEPTION 'Insufficient balance!';
     END IF;
 END $$;
 COMMIT;
