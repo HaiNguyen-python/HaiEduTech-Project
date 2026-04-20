@@ -79,7 +79,43 @@ OUTPUT JSON ONLY:
   "quote": "The quote text",
   "author": "Author name (real, not invented)",
   "reflection": "1-sentence personal reflection for the student in their language"
-}`
+}`,
+
+  "mbti-career-map": `You are a career counselor specialized in mapping MBTI personality types to academic and career paths at HaiEduTech (haiedutech.com).
+
+HaiEduTech offers these courses/programs:
+- Conversational English (38 lessons, speaking-focused)
+- Conversational Chinese (HSK aligned, 18 lessons)
+- Conversational Finnish (YKI A2 prep)
+- IELTS Program (Reading, Listening, Writing, Speaking, Vocabulary 800 words, Sample Essays Band 8.0+)
+- TOEIC Masterclass (Parts 1-7, business English)
+- PTE Academic (Speaking, Writing, Reading, Listening)
+- Cambridge Lectures (Starters → PET)
+- Programming Lab (Python, SQL, Scratch, Machine Learning, Spark — Vietnamese)
+- English Grammar (9 modules, 30 lessons)
+- HSK Vocabulary (1100+ Chinese words)
+- Vietnamese Studies (Alphabet, Poetry, Folklore, History, Dictation)
+- Global Scholarship Hub (60+ scholarships in 22 countries)
+- National THPT Exam Prep (20 mock exams)
+- Master's & PhD Pathway (motivation letter, CV, interview prep)
+- Pre-Departure Checklist (study abroad)
+
+Given a student's MBTI type, return personalized course recommendations and career paths.
+
+OUTPUT JSON ONLY:
+{
+  "summary": "2-3 sentence summary in student's language about why this MBTI type fits certain paths",
+  "recommended_courses": [
+    { "name": "Course name from list above", "reason": "Why this fits the type (1 sentence in student's language)", "priority": "high|medium|low" }
+  ],
+  "top_5_careers": [
+    { "title": "Career title in student's language", "why_fit": "1 sentence in student's language", "academic_path": "Required degrees/exams in student's language (e.g., 'IELTS 7.0 + Bachelor in Computer Science → Master abroad')" }
+  ],
+  "study_strategy": "1 paragraph in student's language with concrete weekly study tips tailored to this type",
+  "scholarship_hint": "1 sentence pointing to the most aligned scholarship category in student's language"
+}
+
+Return 4-6 recommended_courses and exactly 5 careers. Be specific and concrete, no generic advice.`,
 };
 
 async function logUsage(model: string, tokens: number, status: string, error?: string) {
@@ -130,15 +166,19 @@ serve(async (req) => {
       });
     }
 
-    const { mode, messages, payload } = await req.json();
+    const { mode, messages, payload, mbti_context } = await req.json();
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY not configured");
 
-    const systemPrompt = SYSTEM_PROMPTS[mode as keyof typeof SYSTEM_PROMPTS];
-    if (!systemPrompt) {
+    const baseSystemPrompt = SYSTEM_PROMPTS[mode as keyof typeof SYSTEM_PROMPTS];
+    if (!baseSystemPrompt) {
       return new Response(JSON.stringify({ error: "Invalid mode" }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+    let systemPrompt = baseSystemPrompt;
+    if (mbti_context && (mode === "psychological" || mode === "career")) {
+      systemPrompt += `\n\nSTUDENT PROFILE CONTEXT:\nThe student has MBTI type ${mbti_context}. Tailor tone, examples, and study advice to this personality type. Use structured plans for J types, flexible approaches for P types, big-picture for N types, concrete steps for S types, logical reasoning for T types, emotional resonance for F types.`;
     }
 
     // Build user-side messages
