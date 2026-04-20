@@ -238,10 +238,10 @@ const Programming = () => {
                     </div>
                     <div>
                       <h2 className="text-xl font-display font-bold text-foreground mb-1">
-                        {active.titleEn}
+                        {t(active.title, active.titleEn)}
                       </h2>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        {active.descEn}
+                        {t(active.desc, active.descEn)}
                       </p>
                     </div>
                   </div>
