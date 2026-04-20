@@ -16,7 +16,7 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianG
 
 type Mode = "psychological" | "career";
 type Msg = { role: "user" | "assistant"; content: string };
-type SectionTab = "chat" | "mood" | "journal" | "ikigai" | "personality" | "dilemmas" | "quote";
+type SectionTab = "chat" | "mood" | "journal" | "personality" | "dilemmas" | "quote";
 
 interface Props {
   userId: string;
@@ -26,8 +26,7 @@ const SECTION_TABS: { id: SectionTab; icon: any; en: string; vi: string }[] = [
   { id: "chat", icon: MessageCircle, en: "AI Counselor", vi: "Trợ lý AI" },
   { id: "mood", icon: Smile, en: "Mood Tracker", vi: "Cảm xúc" },
   { id: "journal", icon: BookHeart, en: "My Thoughts", vi: "Nhật ký" },
-  { id: "ikigai", icon: Compass, en: "IKIGAI", vi: "IKIGAI" },
-  { id: "personality", icon: Brain, en: "Personality", vi: "Trắc nghiệm" },
+  { id: "personality", icon: Compass, en: "Career Profile", vi: "Hồ sơ Hướng nghiệp" },
   { id: "dilemmas", icon: Lightbulb, en: "Dilemmas", vi: "Tình huống" },
   { id: "quote", icon: Quote, en: "Daily Quote", vi: "Câu nói hôm nay" },
 ];
