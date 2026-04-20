@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Check, X, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useLanguage } from "@/contexts/LanguageContext";
+// useLanguage intentionally not used — Knowledge Check is forced to English.
 import type { QuizQuestion } from "@/data/curriculum/pythonPathway";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,8 @@ interface Props {
 }
 
 const LessonQuiz = ({ questions, onComplete }: Props) => {
-  const { lang: language } = useLanguage();
+  // Knowledge Check is always rendered in English for Programming lessons.
+  const language = "en" as "vi" | "en";
   const [answers, setAnswers] = useState<(string | number | null)[]>(questions.map(() => null));
   const [submitted, setSubmitted] = useState(false);
 

@@ -288,7 +288,7 @@ const PythonLessonView = () => {
                 5
               </span>
               <h2 className="font-display font-bold text-foreground text-base flex items-center gap-2">
-                ✅ {language === "vi" ? "Kiểm tra kiến thức" : "Knowledge Check"}
+                ✅ Knowledge Check
               </h2>
             </div>
             <LessonQuiz questions={lesson.quiz} onComplete={handleQuizComplete} />
