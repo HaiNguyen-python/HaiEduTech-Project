@@ -16,7 +16,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 const HskHub = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [readyLevels, setReadyLevels] = useState<number[]>([]);
 
   useEffect(() => {
@@ -61,14 +61,14 @@ const HskHub = () => {
           <div className="flex items-start gap-3 mb-3">
             <Sparkles className="w-6 h-6 text-emerald-500 shrink-0 mt-0.5" />
             <h2 className="text-xl font-bold text-foreground">
-              {language === "vi" ? HSK_3_UPDATES.titleVi : HSK_3_UPDATES.title}
+              {lang === "vi" ? HSK_3_UPDATES.titleVi : HSK_3_UPDATES.title}
             </h2>
           </div>
           <ul className="space-y-2 ml-9">
             {HSK_3_UPDATES.bullets.map((b, i) => (
               <li key={i} className="text-sm md:text-base text-foreground/90 leading-relaxed">
                 <span className="text-emerald-500 font-bold mr-2">▸</span>
-                {language === "vi" ? b.vi : b.en}
+                {lang === "vi" ? b.vi : b.en}
               </li>
             ))}
           </ul>
@@ -98,7 +98,7 @@ const HskHub = () => {
                       <h3 className="text-2xl font-display font-bold">HSK {g.level}</h3>
                     </div>
                     <p className="text-sm font-semibold text-foreground/80 mb-2">
-                      {language === "vi" ? g.titleVi : g.title}
+                      {lang === "vi" ? g.titleVi : g.title}
                     </p>
                     <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-4">
                       <span className="px-2 py-0.5 rounded-full bg-secondary">

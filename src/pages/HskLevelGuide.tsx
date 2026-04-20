@@ -32,7 +32,7 @@ import { toast } from "@/hooks/use-toast";
 const HskLevelGuide = () => {
   const { level } = useParams<{ level: string }>();
   const navigate = useNavigate();
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const guide = getHskLevel(Number(level));
   const showPinyinAbove = guide ? guide.level <= 3 : false;
 
@@ -127,7 +127,7 @@ const HskLevelGuide = () => {
             <div>
               <Badge variant="secondary" className="mb-1">HSK {guide.level}</Badge>
               <h1 className="text-3xl md:text-4xl font-display font-bold">
-                {language === "vi" ? guide.titleVi : guide.title}
+                {lang === "vi" ? guide.titleVi : guide.title}
               </h1>
             </div>
           </div>
@@ -170,7 +170,7 @@ const HskLevelGuide = () => {
                           <td className="py-3 pr-3 font-semibold">{p.part}</td>
                           <td className="py-3 pr-3">{p.questions}</td>
                           <td className="py-3 text-foreground/90">
-                            {language === "vi" ? p.formatVi : p.format}
+                            {lang === "vi" ? p.formatVi : p.format}
                           </td>
                         </tr>
                       ))}
@@ -187,7 +187,7 @@ const HskLevelGuide = () => {
                 ✍️ {t("Trọng tâm phần Viết", "Writing focus")}
               </h4>
               <p className="text-sm text-foreground/90 leading-relaxed">
-                {language === "vi" ? guide.writingFocus.descriptionVi : guide.writingFocus.description}
+                {lang === "vi" ? guide.writingFocus.descriptionVi : guide.writingFocus.description}
               </p>
             </Card>
           )}
@@ -205,7 +205,7 @@ const HskLevelGuide = () => {
                 {t("Mẹo chung", "General Tips")}
               </h3>
               <div className="space-y-3">
-                {guide.generalTips.map((tip, i) => <ProTipCard key={i} tip={tip} language={language} />)}
+                {guide.generalTips.map((tip, i) => <ProTipCard key={i} tip={tip} language={lang} />)}
               </div>
             </div>
             <div>
@@ -213,7 +213,7 @@ const HskLevelGuide = () => {
                 {t("Mẹo riêng cho HSK ", "Strategies for HSK ")}{guide.level}
               </h3>
               <div className="space-y-3">
-                {guide.levelTips.map((tip, i) => <ProTipCard key={i} tip={tip} language={language} />)}
+                {guide.levelTips.map((tip, i) => <ProTipCard key={i} tip={tip} language={lang} />)}
               </div>
             </div>
           </div>
@@ -228,7 +228,7 @@ const HskLevelGuide = () => {
           <Card className="p-5">
             <div className="flex flex-wrap justify-between items-center gap-3 mb-4">
               <h3 className="font-bold">
-                {language === "vi" ? guide.timedDrill.titleVi : guide.timedDrill.title}
+                {lang === "vi" ? guide.timedDrill.titleVi : guide.timedDrill.title}
               </h3>
               <div className="flex items-center gap-3">
                 <span className={`text-2xl font-mono font-bold ${secondsLeft <= 5 ? "text-red-500 animate-pulse" : "text-foreground"}`}>
@@ -265,7 +265,7 @@ const HskLevelGuide = () => {
             <p className="text-sm text-muted-foreground italic mb-4">{guide.timedDrill.translation}</p>
 
             <p className="font-semibold mb-3">
-              {language === "vi" ? guide.timedDrill.questionVi : guide.timedDrill.question}
+              {lang === "vi" ? guide.timedDrill.questionVi : guide.timedDrill.question}
             </p>
             <div className="grid sm:grid-cols-2 gap-2">
               {guide.timedDrill.options.map((opt, i) => {
@@ -317,7 +317,7 @@ const HskLevelGuide = () => {
                     </>
                   )}
                   <p className="text-sm text-foreground/90 mb-2">
-                    {language === "vi" ? p.promptVi : p.prompt}
+                    {lang === "vi" ? p.promptVi : p.prompt}
                   </p>
                   <p className="text-xs text-muted-foreground mb-3">
                     ⏱ {p.durationSeconds}s {t("để trả lời", "to respond")}
@@ -352,7 +352,7 @@ const HskLevelGuide = () => {
                       <p className="text-xs text-muted-foreground italic">{w.pinyin}</p>
                     )}
                     <p className="text-xs text-foreground/80 mt-1">
-                      {language === "vi" ? w.meaningVi : w.meaning}
+                      {lang === "vi" ? w.meaningVi : w.meaning}
                     </p>
                   </div>
                   <button onClick={() => speak(w.hanzi)} className="p-1.5 rounded-full hover:bg-secondary opacity-60 group-hover:opacity-100" aria-label="Play">
@@ -439,10 +439,10 @@ const ProTipCard = ({
       <span className="text-xl shrink-0">💡</span>
       <div>
         <h4 className="font-bold text-foreground mb-1">
-          {language === "vi" ? tip.titleVi : tip.title}
+          {lang === "vi" ? tip.titleVi : tip.title}
         </h4>
         <p className="text-sm text-foreground/85 leading-relaxed">
-          {language === "vi" ? tip.bodyVi : tip.body}
+          {lang === "vi" ? tip.bodyVi : tip.body}
         </p>
       </div>
     </div>
