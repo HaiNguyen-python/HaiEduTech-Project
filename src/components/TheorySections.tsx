@@ -251,7 +251,7 @@ const markdownComponents = (defaultLang: string) => ({
 });
 
 const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: TheorySectionsProps) => {
-  const sections = useMemo(() => splitByH2(markdown), [markdown]);
+  const sections = useMemo(() => splitByH2(normalizeMath(markdown)), [markdown]);
   const components = useMemo(() => markdownComponents(defaultCodeLanguage), [defaultCodeLanguage]);
 
   const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
