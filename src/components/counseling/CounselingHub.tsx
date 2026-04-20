@@ -916,8 +916,17 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
   const { t, lang } = useLanguage();
   const [test, setTest] = useState<"mbti" | "holland">("mbti");
   const [hollandScores, setHollandScores] = useState<Record<string, number>>({});
+  const [hollandIdx, setHollandIdx] = useState(0);
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+
+  const HOLLAND_LIKERT = [
+    { value: 1, emoji: "😣", en: "Strongly Disagree", vi: "Rất không đồng ý" },
+    { value: 2, emoji: "🙁", en: "Disagree", vi: "Không đồng ý" },
+    { value: 3, emoji: "😐", en: "Neutral", vi: "Trung lập" },
+    { value: 4, emoji: "🙂", en: "Agree", vi: "Đồng ý" },
+    { value: 5, emoji: "😍", en: "Strongly Agree", vi: "Rất đồng ý" },
+  ];
 
   const submitHolland = async () => {
     if (Object.keys(hollandScores).length < HOLLAND_QUESTIONS.length) {
