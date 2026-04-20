@@ -252,12 +252,21 @@ function postProcessSvg(svg: string): string {
   const vb = root.getAttribute("viewBox");
   if (vb) {
     const parts = vb.split(/\s+/).map(Number);
-    if (parts.length === 4 && !Number.isNaN(parts[2])) {
+    if (parts.length === 4 && !Number.isNaN(parts[2]) && !Number.isNaN(parts[3])) {
       const naturalW = Math.ceil(parts[2]);
+      const naturalH = Math.ceil(parts[3]);
+      // Consistent rendering band:
+      //  - Tiny diagrams (<480px) get scaled UP to a comfortable 520px floor so they
+      //    don't look like postage stamps next to dense theory text.
+      //  - Huge diagrams (>1100px) keep their natural width but become horizontally
+      //    scrollable rather than shrinking until labels are unreadable.
+      const MIN_TARGET = 520;
+      const MAX_TARGET = 1100;
+      const targetW = Math.min(MAX_TARGET, Math.max(MIN_TARGET, naturalW));
       const existingStyle = root.getAttribute("style") || "";
       root.setAttribute(
         "style",
-        `${existingStyle}; max-width: 100%; height: auto; min-width: min(100%, ${naturalW}px);`,
+        `${existingStyle}; display: block; width: 100%; max-width: ${targetW}px; height: auto; min-width: min(100%, ${Math.min(targetW, naturalW)}px); aspect-ratio: ${naturalW} / ${naturalH};`,
       );
     }
   }
