@@ -29,6 +29,7 @@ const KATEX_OPTIONS = {
     "\\Z": "\\mathbb{Z}",
     "\\Q": "\\mathbb{Q}",
     "\\KL": "\\operatorname{KL}",
+    "\\norm": "\\left\\| #1 \\right\\|",
   },
 };
 import {
