@@ -128,12 +128,20 @@ const ProgrammingLessonPage = () => {
     setUseEnhanced(true);
     supabase
       .from("programming_theory_cache")
-      .select("enhanced_markdown")
+      .select("enhanced_markdown, illustrations")
       .eq("module_id", mod.id)
       .eq("lesson_id", lesson.id)
       .maybeSingle()
       .then(({ data }) => {
-        if (data?.enhanced_markdown) setEnhancedMd(data.enhanced_markdown);
+        if (!data?.enhanced_markdown) return;
+
+        setEnhancedMd(data.enhanced_markdown);
+
+        const illustrations = Array.isArray(data.illustrations) ? data.illustrations : [];
+        const hasInlineImages = /!\[[^\]]*\]\((https?:\/\/|\/storage\/v1\/object\/public\/)/.test(data.enhanced_markdown);
+        if (!hasInlineImages && illustrations.length === 0) {
+          void handleEnhanceTheory(true);
+        }
       });
   }, [mod, lesson]);
 
