@@ -206,7 +206,10 @@ function normalizeMath(input: string): string {
       // ── Wrap BARE LaTeX fragments (no $ delimiters) in inline math. ──
       out = out
         .split("\n")
-        .map((line) => wrapBareLatexInLine(wrapStandaloneLatexLine(line)))
+        .map((line) => {
+          const standaloneWrapped = wrapStandaloneLatexLine(line);
+          return standaloneWrapped !== line ? standaloneWrapped : wrapBareLatexInLine(line);
+        })
         .join("\n");
 
       return out;
