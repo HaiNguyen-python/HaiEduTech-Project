@@ -449,7 +449,7 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
         <ReactMarkdown
           key={`m-${i}`}
           remarkPlugins={[remarkGfm, remarkMath]}
-          rehypePlugins={[rehypeKatex]}
+          rehypePlugins={[[rehypeKatex, KATEX_OPTIONS]]}
           components={components}
         >
           {c.value}
