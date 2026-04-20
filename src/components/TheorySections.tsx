@@ -195,18 +195,18 @@ function normalizeMath(input: string): string {
       // and wrap its inside in inline math, keeping the parens textual.
       // Strip any extra outer pair of parens too.
       out = out.replace(
-        /\(\s*\(([^()\n]*\\[A-Za-z]+[^()\n]*)\)\s*\)/g,
+        /\(\s*\(([^()\n$]*\\[A-Za-z]+[^()\n$]*)\)\s*\)/g,
         (_, inner) => `($${inner.trim()}$)`,
       );
       out = out.replace(
-        /(^|[^$\\])\(([^()\n]*\\[A-Za-z]+[^()\n]*)\)/g,
+        /(^|[^$\\])\(([^()\n$]*\\[A-Za-z]+[^()\n$]*)\)/g,
         (_, pre, inner) => `${pre}($${inner.trim()}$)`,
       );
 
       // ── Wrap BARE LaTeX fragments (no $ delimiters) in inline math. ──
       out = out
         .split("\n")
-        .map((line) => wrapBareLatexInLine(line))
+        .map((line) => wrapBareLatexInLine(wrapStandaloneLatexLine(line)))
         .join("\n");
 
       return out;
@@ -233,6 +233,22 @@ function wrapBareLatexInLine(line: string): string {
       return wrapLatexRuns(seg);
     })
     .join("");
+}
+
+function wrapStandaloneLatexLine(line: string): string {
+  const trimmed = line.trim();
+  if (!trimmed || trimmed.includes("$") || /^([>#\-]|\d+\.)\s/.test(trimmed)) return line;
+
+  const candidate = trimmed.replace(/^\(+\s*/, "").replace(/\s*\)+$/, "");
+  const startsMathy = /^\\[A-Za-z]+/.test(candidate);
+  const hasStrongMath = /\\(?:text|frac|sqrt|left|right|sum|prod|int|lambda|beta|alpha|theta|hat|mathbb|operatorname|softmax)\b/.test(candidate);
+  const proseShadow = candidate
+    .replace(/\\[A-Za-z]+(?:\{[^{}]*\})?/g, " ")
+    .replace(/[{}_^=+\-*/(),.[\]]/g, " ");
+  const looksLikeSentence = /\b[a-z]{4,}\s+[a-z]{4,}\b/.test(proseShadow);
+
+  if (!startsMathy || !hasStrongMath || looksLikeSentence) return line;
+  return line.replace(trimmed, `$${trimmed}$`);
 }
 
 /** Inside an unprotected segment, find runs that contain LaTeX commands and
