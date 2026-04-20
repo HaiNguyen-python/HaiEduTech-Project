@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2 } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -32,6 +32,15 @@ const pillars = [
     bgColor: "bg-emerald-500/8",
     borderColor: "border-emerald-500/20",
     accentColor: "text-emerald-600",
+  },
+  {
+    id: "software-eng",
+    icon: Settings2,
+    emoji: "⚙️",
+    color: "from-slate-600 to-blue-700",
+    bgColor: "bg-slate-500/8",
+    borderColor: "border-slate-500/20",
+    accentColor: "text-slate-700 dark:text-slate-300",
   },
   {
     id: "ai-foundation",
@@ -139,11 +148,17 @@ const Programming = () => {
       modules: allProgrammingModules.filter(m => m.course === "kids"),
       challengeSection: true,
     },
+    "software-eng": {
+      title: "Kỹ thuật phần mềm", titleEn: "Software Engineering",
+      desc: "7 bài học chuẩn ngành 2026: SDLC/Agile, System Design, Git, Clean Code, Testing/TDD, CI/CD và Bảo mật + Design Patterns. Kèm Git Branching Simulator tương tác.",
+      descEn: "7 industry-grade lessons (2026): SDLC/Agile, System Design, Git, Clean Code, Testing/TDD, CI/CD and Security + Design Patterns. Includes an interactive Git Branching Simulator.",
+      modules: allProgrammingModules.filter(m => m.id === "se-foundations"),
+    },
     "ai-foundation": {
       title: "AI Foundation", titleEn: "AI Foundation",
       desc: "Nền tảng AI: Lịch sử, LLMs, Prompt Engineering, Ethics. Thực hành tối ưu hóa Prompt và xây dựng ứng dụng AI cơ bản.",
       descEn: "AI Fundamentals: History, LLMs, Prompt Engineering, Ethics. Practice Prompt optimization and build basic AI applications.",
-      modules: allProgrammingModules.filter(m => m.id === "prog-ai-foundation" || m.course === "data-ai"),
+      modules: allProgrammingModules.filter(m => m.id === "prog-ai-foundation" || (m.course === "data-ai" && m.id !== "se-foundations")),
     },
     sql: {
       title: "SQL & Database", titleEn: "SQL & Database",
