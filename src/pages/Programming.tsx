@@ -150,8 +150,8 @@ const Programming = () => {
     },
     "software-eng": {
       title: "Kỹ thuật phần mềm & Web", titleEn: "Software & Web Engineering",
-      desc: "13 bài học chuẩn ngành 2026: 7 bài Software Engineering (SDLC/Agile, System Design, Git, Clean Code, Testing/TDD, CI/CD, Security + Patterns) và 6 bài Web Development (HTML semantic, CSS hiện đại, Flex/Grid, JavaScript, DOM, dự án full-stack mini). Có Git Branching Simulator tương tác và mọi bài đều có hình minh họa AI.",
-      descEn: "13 industry-grade lessons (2026): 7 Software Engineering (SDLC/Agile, System Design, Git, Clean Code, Testing/TDD, CI/CD, Security + Patterns) and 6 Web Development (semantic HTML, modern CSS, Flex/Grid, JavaScript, DOM, mini full-stack project). Includes an interactive Git Branching Simulator and AI illustrations on every lesson.",
+      desc: "14 bài học chuẩn ngành 2026: 7 bài Software Engineering (SDLC/Agile, System Design, Git, Clean Code, Testing/TDD, CI/CD, Security + Patterns) và 7 bài Web Development (HTML semantic, CSS hiện đại, Flex/Grid, JavaScript, DOM, dự án full-stack mini, React Cơ Bản). Có Git Branching Simulator tương tác và mọi bài đều có hình minh họa AI.",
+      descEn: "14 industry-grade lessons (2026): 7 Software Engineering (SDLC/Agile, System Design, Git, Clean Code, Testing/TDD, CI/CD, Security + Patterns) and 7 Web Development (semantic HTML, modern CSS, Flex/Grid, JavaScript, DOM, mini full-stack project, React Basics). Includes an interactive Git Branching Simulator and AI illustrations on every lesson.",
       modules: allProgrammingModules.filter(m => m.id === "se-foundations" || m.id === "web-dev-foundations"),
     },
     "ai-foundation": {
