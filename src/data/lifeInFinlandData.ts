@@ -45,7 +45,15 @@ export interface NewcomerCategory {
   guides: NewcomerGuide[];
 }
 
-export const NEWCOMER_CATEGORIES: NewcomerCategory[] = [
+import {
+  SHOPPING_GUIDES,
+  HOUSING_GUIDES,
+  SEASONAL_GUIDES,
+  STUDENT_TIPS_GUIDES,
+  FIRST_30_DAYS_CHECKLIST_EXPANSION,
+} from "./lifeInFinlandExpansion";
+
+const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
   {
     id: "admin",
     pillar: "admin",
