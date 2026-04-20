@@ -92,7 +92,6 @@ const CounselingHub = ({ userId }: Props) => {
           {activeSection === "chat" && <ChatSection userId={userId} />}
           {activeSection === "mood" && <MoodSection userId={userId} />}
           {activeSection === "journal" && <JournalSection userId={userId} />}
-          {activeSection === "ikigai" && <IkigaiSection userId={userId} />}
           {activeSection === "personality" && <PersonalitySection userId={userId} />}
           {activeSection === "dilemmas" && <DilemmasSection onPick={() => setActiveSection("chat")} />}
           {activeSection === "quote" && <QuoteSection userId={userId} />}
