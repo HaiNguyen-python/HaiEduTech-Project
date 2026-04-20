@@ -17,18 +17,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, Volume2, AlertTriangle, NotebookPen, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { playFinnishTts } from "@/lib/finnishTts";
 import {
   ALPHABET_SOUNDS, VERB_TYPES, KPT_PAIRS, PARTITIVE_CASES,
   DAILY_PHRASES, BEGINNER_VOCAB, VIETNAMESE_PITFALLS, BEGINNER_QUIZ,
 } from "@/data/finnishBeginnerData";
 
-const speakFi = (text: string) => {
-  try {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "fi-FI"; u.rate = 0.85;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  } catch {/* noop */}
+// Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
+// to guarantee proper Finnish pronunciation, not the system's English fallback voice.
+const speakFi = (text: string, rate = 0.85) => {
+  void playFinnishTts(text, { playbackRate: rate, speechRate: rate });
 };
 
 const saveToNotebook = async (title: string, content: string) => {
