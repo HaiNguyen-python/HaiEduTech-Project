@@ -739,6 +739,516 @@ print("\\nOutput shape (one new vector per token):", output.shape)`,
           },
         ],
       },
+
+      // ========================================================================
+      // Lesson 6 — Transfer Learning & Fine-Tuning
+      // ========================================================================
+      {
+        id: "dl-6",
+        title: "Transfer Learning & Fine-Tuning",
+        titleEn: "Transfer Learning & Fine-Tuning",
+        level: 5,
+        difficulty: "advanced",
+        theory: `> ⚠️ **Prerequisites** — Lessons 1–3.
+
+## 1. Why not train from scratch?
+
+Training a modern vision model on ImageNet (1.2M images) takes **days on 8 GPUs**. Most teams reuse a network already trained on a giant dataset and adapt it — that is **transfer learning**.
+
+The key insight: the **lower layers** of a deep CNN learn very generic features (edges, textures, shapes) useful for almost any vision problem. Only the **top layers** specialise. Keep the generic part, replace the top, and you get a powerful model with very little new training.
+
+## 2. Two flavours
+
+| Strategy | What you do | When to use |
+|---|---|---|
+| **Feature extraction** | Freeze pretrained weights, train only a new head | Small dataset (< 5 000 imgs) |
+| **Fine-tuning** | Replace head AND unfreeze top layers, train with a small learning rate | Larger dataset, similar domain |
+
+Rule of thumb: **freeze first**, validate, then unfreeze top blocks with `lr × 0.1`. Never unfreeze everything at the original learning rate — that destroys pretrained knowledge (catastrophic forgetting).
+
+## 3. Real-world example — license-plate detection
+
+You have only 2 000 labelled Vietnamese license-plate images. Training from scratch overfits massively. Instead: load **ResNet-50 pretrained on ImageNet**, replace the classifier with a 2-class head, freeze layers 1–3, fine-tune layer 4 + the head with `lr=1e-4`. You typically reach **>95 % accuracy in under an hour**.
+
+## 4. Beyond vision
+
+In 2025 transfer learning is the default in **every** subfield: BERT/Llama for NLP, Whisper for speech, wav2vec 2.0 for audio. **LoRA** and **QLoRA** update only ~1 % of parameters — making fine-tuning of multi-billion-parameter LLMs possible on a single consumer GPU.
+
+> 💡 **Key concept** — Almost no one trains foundation models from scratch in 2025. The skill that matters is choosing the right pretrained backbone and fine-tuning it efficiently.`,
+        theoryEn: "",
+        code: `# Transfer learning with a pretrained ResNet-18 — freeze backbone, train new head
+import torch
+import torch.nn as nn
+import torchvision.models as models
+
+# Load ResNet-18 pretrained on ImageNet
+model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
+
+# Freeze every parameter
+for param in model.parameters():
+    param.requires_grad = False
+
+# Replace the final layer with a 2-class head (only this gets trained)
+num_features = model.fc.in_features
+model.fc = nn.Linear(num_features, 2)
+
+trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+total = sum(p.numel() for p in model.parameters())
+print(f"Trainable: {trainable:,} / {total:,} ({100*trainable/total:.2f}%)")
+
+optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+
+# Toy training step
+imgs = torch.randn(8, 3, 224, 224)
+labels = torch.randint(0, 2, (8,))
+loss = criterion(model(imgs), labels)
+loss.backward()
+optimizer.step()
+print(f"Loss: {loss.item():.4f}")`,
+        codeLanguage: "python",
+        exercise: "Switch to **fine-tuning** mode: also unfreeze `model.layer4`, then build an Adam optimizer with two parameter groups — `layer4` at `lr=1e-4` and `fc` at `lr=1e-3`. Print the new trainable-parameter percentage (~20–25 %).",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "Why freeze early layers of a pretrained CNN when transfer-learning?",
+            options: ["They are too large to fit in memory", "They learn generic features (edges, textures) that transfer well", "They contain task-specific classification logic", "Frozen layers run faster on CPU"],
+            answer: 1,
+            explanation: "Lower convolutional layers detect universal patterns like edges and colour blobs. Reusing them avoids re-learning these concepts and prevents overfitting on small target datasets.",
+          },
+          {
+            question: "Recommended learning rate when fine-tuning unfrozen pretrained layers?",
+            options: ["Much higher than the head's lr", "Roughly 10× smaller than the head's lr", "Exactly zero", "It does not matter"],
+            answer: 1,
+            explanation: "A small learning rate prevents catastrophic forgetting — large gradient steps would erase the useful knowledge inside the backbone.",
+          },
+          {
+            question: "Which technique updates only ~1 % of an LLM's parameters?",
+            options: ["LoRA", "Dropout", "BatchNorm", "Beam search"],
+            answer: 0,
+            explanation: "LoRA injects small trainable low-rank matrices into each layer, leaving the original weights frozen — making fine-tuning of multi-billion-parameter models tractable.",
+          },
+        ],
+      },
+
+      // ========================================================================
+      // Lesson 7 — Object Detection (YOLO)
+      // ========================================================================
+      {
+        id: "dl-7",
+        title: "Object Detection & Segmentation",
+        titleEn: "Object Detection & Segmentation",
+        level: 5,
+        difficulty: "advanced",
+        theory: `> ⚠️ **Prerequisites** — Lessons 3 (CNN) and 6 (Transfer Learning).
+
+## 1. Beyond classification
+
+Classification answers "*what* is in this image?" Object detection answers two harder questions: **what** objects + **where** they are (bounding boxes `(x, y, w, h)`). **Semantic segmentation** labels every pixel; **instance segmentation** also distinguishes individual objects of the same class.
+
+## 2. Two families
+
+| Family | Examples | Idea | Speed |
+|---|---|---|---|
+| **Two-stage** | Faster R-CNN, Mask R-CNN | Propose regions → classify each | Slower, highest accuracy |
+| **One-stage** | YOLO v8/v9/v10, RetinaNet | Predict boxes + classes in one pass | Real-time |
+
+In 2025, **YOLO** dominates production real-time use cases — modern variants reach >50 mAP on COCO at >100 FPS.
+
+```mermaid
+flowchart LR
+    IMG[Input image] --> CNN[Backbone CNN]
+    CNN --> NECK[Neck FPN: multi-scale features]
+    NECK --> HEAD[Detection head]
+    HEAD --> OUT[Boxes + classes + confidence]
+```
+
+## 3. Three letters every detector uses
+
+- **Anchor boxes** — predefined shapes; the network predicts offsets to them
+- **IoU** (Intersection over Union) — overlap metric; >0.5 = correct match
+- **NMS** (Non-Maximum Suppression) — keeps highest-confidence box, discards overlaps
+
+## 4. Real-world deployments
+
+Self-driving cars, license-plate recognition (YOLO + CRNN), medical imaging (U-Net for tumour segmentation), retail analytics. With `ultralytics/yolov8` you can fine-tune a state-of-the-art detector on 200–500 labelled images in under an hour.
+
+> 💡 **Key concept** — The bottleneck in 2025 is no longer the model — it's the **labelling**.`,
+        theoryEn: "",
+        code: `# Real-world object detection in ~10 lines using a pretrained YOLOv8
+# pip install ultralytics
+from ultralytics import YOLO
+
+model = YOLO("yolov8n.pt")  # ~6 MB, runs at 100+ FPS on a modern GPU
+
+results = model.predict(
+    source="https://ultralytics.com/images/bus.jpg",
+    conf=0.25,       # min confidence
+    iou=0.45,        # NMS IoU threshold
+    save=True,       # writes annotated image to ./runs/detect/predict/
+)
+
+for r in results:
+    print(f"Detected {len(r.boxes)} objects in {r.path}")
+    for box, cls, score in zip(r.boxes.xyxy, r.boxes.cls, r.boxes.conf):
+        x1, y1, x2, y2 = box.tolist()
+        print(f"  {model.names[int(cls)]:12s} conf={score:.2f}  "
+              f"box=({x1:.0f},{y1:.0f})->({x2:.0f},{y2:.0f})")
+
+# Fine-tune on your own dataset:
+# model.train(data="my_dataset.yaml", epochs=50, imgsz=640, batch=16)`,
+        codeLanguage: "python",
+        exercise: "Run on a different image, then change `conf=0.25` to `conf=0.7` and observe how many fewer boxes you get. Count distinct classes detected using a Python `set` over `r.boxes.cls`.",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "What does Non-Maximum Suppression (NMS) do?",
+            options: ["Maximises the loss during training", "Removes duplicate, overlapping boxes referring to the same object", "Up-samples small images", "Applies dropout to box predictions"],
+            answer: 1,
+            explanation: "NMS keeps the highest-confidence box and discards every other box whose IoU with it exceeds a threshold.",
+          },
+          {
+            question: "Why are YOLO-style models called *one-stage* detectors?",
+            options: ["They train on one class only", "They predict classes and boxes in a single forward pass with no separate region-proposal step", "They use only one channel", "They have one convolutional layer"],
+            answer: 1,
+            explanation: "One-stage detectors skip the region-proposal stage of two-stage detectors (Faster R-CNN), enabling real-time inference.",
+          },
+          {
+            question: "What does *instance* segmentation provide that *semantic* segmentation does not?",
+            options: ["Higher resolution masks", "Distinguishes individual objects of the same class", "Runs faster", "No training data needed"],
+            answer: 1,
+            explanation: "Semantic segmentation labels all person pixels as `person`. Instance segmentation tells you *which* pixels belong to *person 1* vs *person 2*.",
+          },
+        ],
+      },
+
+      // ========================================================================
+      // Lesson 8 — GANs
+      // ========================================================================
+      {
+        id: "dl-8",
+        title: "Generative Adversarial Networks (GANs)",
+        titleEn: "Generative Adversarial Networks (GANs)",
+        level: 5,
+        difficulty: "advanced",
+        theory: `> ⚠️ **Prerequisites** — Lessons 1–3.
+
+## 1. The two-player game
+
+In 2014, Ian Goodfellow proposed: train **two** networks fighting each other.
+
+- **Generator (G)** — takes random noise, produces a fake sample that looks real
+- **Discriminator (D)** — receives real or fake samples, must tell which is which
+
+A *minimax* game. As D improves at spotting fakes, G is forced to make more realistic ones. At equilibrium, G's outputs are indistinguishable from real data.
+
+```mermaid
+flowchart LR
+    Z[Random noise z] --> G[Generator G]
+    G --> FAKE[Fake sample]
+    REAL[Real sample] --> D[Discriminator D]
+    FAKE --> D
+    D --> OUT[Real or Fake?]
+```
+
+## 2. Training loop
+
+For each batch:
+1. **Train D**: reals (label 1) and fakes from G (label 0). Minimise BCE.
+2. **Train G**: feed noise, push fakes through D, push it to label them as **real**.
+
+Famously unstable — too-strong D crushes G's gradient; too-weak D gives no useful signal. Tricks like **WGAN-GP** and **spectral normalisation** stabilise training.
+
+## 3. Variants that mattered
+
+| Variant | Year | Contribution |
+|---|---|---|
+| **DCGAN** | 2015 | First convolutional GAN |
+| **CycleGAN** | 2017 | Image-to-image translation **without paired data** |
+| **StyleGAN** | 2019 | Photorealistic face synthesis with style control |
+
+## 4. GANs vs Diffusion in 2025
+
+By 2022, **diffusion models** (Stable Diffusion, DALL-E 3) overtook GANs for general image synthesis. But GANs still dominate niches: real-time generation (NVIDIA DLSS), audio synthesis (HiFi-GAN), super-resolution.
+
+> 💡 **Key concept** — A GAN learns a distribution **implicitly** by drawing samples from it, rather than estimating its density.`,
+        theoryEn: "",
+        code: `# Tiny GAN learns to generate samples from a 1-D bimodal distribution
+import torch
+import torch.nn as nn
+
+REAL_SAMPLER = lambda n: torch.cat([
+    torch.randn(n // 2) * 0.5 - 2.0,   # left mode at -2
+    torch.randn(n // 2) * 0.5 + 2.0,   # right mode at +2
+]).unsqueeze(1)
+
+G = nn.Sequential(nn.Linear(1, 32), nn.ReLU(), nn.Linear(32, 1))
+D = nn.Sequential(nn.Linear(1, 32), nn.ReLU(), nn.Linear(32, 1), nn.Sigmoid())
+
+opt_G = torch.optim.Adam(G.parameters(), lr=1e-3)
+opt_D = torch.optim.Adam(D.parameters(), lr=1e-3)
+bce = nn.BCELoss()
+
+for step in range(2000):
+    # Train discriminator
+    real = REAL_SAMPLER(64)
+    z = torch.randn(64, 1)
+    fake = G(z).detach()
+    loss_D = bce(D(real), torch.ones(64, 1)) + bce(D(fake), torch.zeros(64, 1))
+    opt_D.zero_grad(); loss_D.backward(); opt_D.step()
+
+    # Train generator (wants D to call fakes "real")
+    z = torch.randn(64, 1)
+    fake = G(z)
+    loss_G = bce(D(fake), torch.ones(64, 1))
+    opt_G.zero_grad(); loss_G.backward(); opt_G.step()
+
+    if step % 400 == 0:
+        with torch.no_grad():
+            samples = G(torch.randn(1000, 1)).squeeze().numpy()
+        print(f"step {step:4d} | loss_D={loss_D.item():.3f} loss_G={loss_G.item():.3f} | "
+              f"fake mean={samples.mean():+.2f} std={samples.std():.2f}")`,
+        codeLanguage: "python",
+        exercise: "Modify `REAL_SAMPLER` to a **three-mode** distribution at -3, 0, +3. Re-train and check whether the generator covers all three modes — if it suffers **mode collapse**, increase hidden size from 32 to 128.",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "What does the **generator** try to maximise?",
+            options: ["The discriminator's accuracy on real samples", "The probability that D labels its fakes as real", "Reconstruction error", "KL-divergence to noise"],
+            answer: 1,
+            explanation: "G is rewarded when D outputs a high probability of `real` for G's fake samples.",
+          },
+          {
+            question: "What is *mode collapse* in GAN training?",
+            options: ["Discriminator loss explodes", "Generator produces only a small subset of possible outputs", "GPU runs out of memory", "Dataset is too small"],
+            answer: 1,
+            explanation: "Mode collapse: G finds one output that fools D and stops exploring the rest of the data distribution.",
+          },
+          {
+            question: "Which family overtook GANs as the go-to for high-quality image synthesis around 2022?",
+            options: ["VAEs", "Restricted Boltzmann Machines", "Diffusion models (Stable Diffusion, DALL-E 3)", "Normalising flows"],
+            answer: 2,
+            explanation: "Diffusion models train more stably, scale better, and produce more diverse, higher-fidelity samples.",
+          },
+        ],
+      },
+
+      // ========================================================================
+      // Lesson 9 — Diffusion Models
+      // ========================================================================
+      {
+        id: "dl-9",
+        title: "Diffusion Models — The Engine Behind Stable Diffusion",
+        titleEn: "Diffusion Models — The Engine Behind Stable Diffusion",
+        level: 5,
+        difficulty: "advanced",
+        theory: `> ⚠️ **Prerequisites** — Lessons 3 (CNN) and 8 (GANs).
+
+## 1. Learn to **un-noise**
+
+Diffusion models train on a brilliantly simple idea: instead of generating an image in one giant leap, learn to gradually **remove noise** at every noise level. Once the model can denoise, generate by starting from **pure noise** and denoising step-by-step.
+
+Two phases:
+1. **Forward (fixed)** — add Gaussian noise to a real image `x₀` over T steps until `x_T` is pure noise. No learning here.
+2. **Reverse (learned)** — train a network `ε_θ(x_t, t)` to **predict the noise** added at step `t`. Loss = MSE between predicted and true noise.
+
+```mermaid
+flowchart LR
+    X0[Clean x_0] -->|+noise| X1 -->|+noise| XT[Pure noise]
+    XT -->|denoise| X1b -->|denoise| X0b[Generated image]
+```
+
+## 2. Why diffusion beat GANs
+
+GANs need an unstable adversarial game; diffusion only needs MSE regression. Three advantages:
+- **Stable training** — no mode collapse, no balancing tricks
+- **Scalable** — bigger models keep getting better; GANs plateau
+- **Diverse** — different noise seeds give different images
+
+The price: **inference speed**. Vanilla DDPM needs 1 000 forward passes per image. Modern samplers (DDIM, DPM-Solver++, **Latent Consistency Models**) cut that to **4–8 steps**.
+
+## 3. Latent diffusion — Stable Diffusion's secret
+
+Running diffusion on 1024×1024 RGB pixels is too expensive. **Stable Diffusion** (2022) does the diffusion in a **64×64 latent space** of a pretrained autoencoder, then decodes back. That trick made photorealistic text-to-image **run on a consumer GPU**.
+
+## 4. Conditioning: text → pictures
+
+Condition the denoiser on a **text embedding** from CLIP/T5. **Classifier-Free Guidance** amplifies prompt influence at sample time.
+
+> 💡 **Key concept** — A diffusion model is a **denoiser** trained at every noise level. Generation = repeatedly denoising pure noise into something meaningful. With text conditioning, this single idea powers Stable Diffusion, DALL-E 3, Midjourney, and Sora.`,
+        theoryEn: "",
+        code: `# Use a pretrained Stable Diffusion model from Hugging Face
+# pip install diffusers transformers accelerate torch
+import torch
+from diffusers import StableDiffusionPipeline
+
+pipe = StableDiffusionPipeline.from_pretrained(
+    "runwayml/stable-diffusion-v1-5",
+    torch_dtype=torch.float16,
+)
+pipe = pipe.to("cuda" if torch.cuda.is_available() else "cpu")
+
+prompt = "A photorealistic cat astronaut on Mars, cinematic lighting"
+image = pipe(
+    prompt=prompt,
+    num_inference_steps=30,
+    guidance_scale=7.5,            # how strongly to follow the prompt
+    height=512, width=512,
+).images[0]
+
+image.save("cat_astronaut.png")
+print("Saved cat_astronaut.png")
+
+# Generate 4 variations from the same prompt
+images = pipe(prompt=[prompt] * 4, num_inference_steps=30).images
+for i, img in enumerate(images):
+    img.save(f"variation_{i}.png")`,
+        codeLanguage: "python",
+        exercise: "Try `guidance_scale=3.0` then `15.0`. Describe how the prompt-faithfulness vs creativity trade-off changes. Then add `negative_prompt='blurry, low quality, watermark'` and observe the quality improvement.",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "What does the network in a diffusion model actually predict at each step?",
+            options: ["Next pixel value", "The noise that was added at that step", "A class label", "Real vs fake"],
+            answer: 1,
+            explanation: "The denoiser is trained with MSE between its prediction and the actual Gaussian noise added during the forward process.",
+          },
+          {
+            question: "Why does Stable Diffusion run diffusion in a *latent* space?",
+            options: ["Pixels can only represent integers", "Diffusing in 64×64 latents is dramatically cheaper than 512×512 pixels", "GANs cannot operate on latents", "The autoencoder learns to denoise"],
+            answer: 1,
+            explanation: "Latent diffusion moves the expensive denoising loop into a small latent grid produced by a pretrained VAE.",
+          },
+          {
+            question: "How does a text prompt steer diffusion output?",
+            options: ["Text is rasterised as letters", "A text encoder produces an embedding that conditions the denoising network at every step", "The model trains a new network for each prompt", "Prompt becomes a class index"],
+            answer: 1,
+            explanation: "Text is encoded once (e.g. by CLIP); that embedding feeds into cross-attention layers in the denoiser.",
+          },
+        ],
+      },
+
+      // ========================================================================
+      // Lesson 10 — Fine-Tuning LLMs (LoRA, QLoRA, RAG)
+      // ========================================================================
+      {
+        id: "dl-10",
+        title: "Fine-Tuning LLMs — LoRA, QLoRA & RAG",
+        titleEn: "Fine-Tuning LLMs — LoRA, QLoRA & RAG",
+        level: 5,
+        difficulty: "advanced",
+        theory: `> ⚠️ **Prerequisites** — Lesson 5 (Transformers & LLMs) and Lesson 6 (Transfer Learning).
+
+## 1. Three ways to make an LLM "yours"
+
+| Technique | Cost | Latency | Best for |
+|---|---|---|---|
+| **Prompt engineering + few-shot** | Free | Fast | Quick wins |
+| **RAG (Retrieval-Augmented Generation)** | Cheap | Medium | Up-to-date facts |
+| **Fine-tuning (LoRA / QLoRA)** | Moderate | Fast | Style, format, domain reasoning |
+
+Production systems usually **combine RAG + fine-tuning** — fine-tune for tone, retrieve for facts.
+
+## 2. RAG in 60 seconds
+
+```mermaid
+flowchart LR
+    Q[User question] --> EMB[Embed query]
+    EMB --> VDB[(Vector DB:<br/>Pinecone, Qdrant, pgvector)]
+    VDB --> CTX[Top-k relevant chunks]
+    CTX --> LLM[LLM answers using<br/>question + retrieved context]
+    LLM --> A[Grounded answer + citations]
+```
+
+Knowledge updates without retraining; citations make hallucinations auditable; even a 7B model with good RAG often beats a 70B model alone on factual tasks.
+
+## 3. LoRA — fine-tuning without breaking the bank
+
+Full fine-tuning of a 7B Llama needs ~80 GB GPU. **LoRA** (2021): freeze `W`, learn a tiny **delta** `ΔW = B · A` where `A`, `B` are low-rank. For a 4 096×4 096 matrix with rank `r=8`, you train **65k params instead of 17M** — 250× reduction.
+
+**QLoRA** (2023): load the base model in **4-bit** precision; LoRA adapters stay in float16. You can now fine-tune a **70B model on a single 24 GB consumer GPU**.
+
+## 4. What to fine-tune for
+
+Don't fine-tune for **facts** — that's RAG's job. Fine-tune for:
+- **Output format** (JSON, citations, formal Vietnamese)
+- **Tone & persona**
+- **Domain reasoning**
+- **Latency / cost** — a fine-tuned 1B can replace a 70B prompt and cut bills 50×
+
+> 💡 **Key concept** — In 2025, the modern AI engineer's stack: pick a strong open-weight base, wire up RAG for facts, apply LoRA/QLoRA for format & style. No one starts from scratch.`,
+        theoryEn: "",
+        code: `# QLoRA fine-tuning of Llama-3-8B in ~30 lines — runs on a single 16 GB GPU
+# pip install transformers peft accelerate bitsandbytes datasets trl
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from datasets import load_dataset
+from trl import SFTTrainer, SFTConfig
+
+MODEL = "meta-llama/Meta-Llama-3-8B"
+
+# Load base model in 4-bit precision (QLoRA)
+bnb = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.bfloat16,
+)
+model = AutoModelForCausalLM.from_pretrained(MODEL, quantization_config=bnb, device_map="auto")
+tokenizer = AutoTokenizer.from_pretrained(MODEL)
+tokenizer.pad_token = tokenizer.eos_token
+
+# Wrap with LoRA — only ~0.5 % of params will be trained
+model = prepare_model_for_kbit_training(model)
+lora = LoraConfig(
+    r=16, lora_alpha=32, lora_dropout=0.05,
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+    bias="none", task_type="CAUSAL_LM",
+)
+model = get_peft_model(model, lora)
+model.print_trainable_parameters()  # e.g. 41.9M / 8.0B (0.52%)
+
+dataset = load_dataset("json", data_files="my_instructions.jsonl", split="train")
+
+trainer = SFTTrainer(
+    model=model,
+    train_dataset=dataset,
+    args=SFTConfig(
+        output_dir="llama3-lora-vi",
+        num_train_epochs=1,
+        per_device_train_batch_size=2,
+        gradient_accumulation_steps=4,
+        learning_rate=2e-4,
+        bf16=True,
+        logging_steps=10,
+    ),
+)
+trainer.train()
+trainer.save_model("llama3-lora-vi")  # adapter is ~80 MB vs 16 GB full model`,
+        codeLanguage: "python",
+        exercise: "Plan a fine-tuning project for a Vietnamese customer-support chatbot in 3 bullets: (1) base model + why, (2) one example instruction/response pair, (3) would you also use RAG and what would it retrieve?",
+        exerciseEn: "",
+        quiz: [
+          {
+            question: "Which problem is *RAG* the right tool for, but *fine-tuning* is not?",
+            options: ["Making the model answer in JSON", "Up-to-date company documents that change weekly", "Adopting a friendly tone", "Reducing inference latency"],
+            answer: 1,
+            explanation: "Frequently changing facts belong in a vector DB, not in model weights — re-fine-tuning weekly is wasteful.",
+          },
+          {
+            question: "Core trick of LoRA?",
+            options: ["Quantises every weight to 4 bits", "Freezes the original weight matrix and learns a low-rank update `ΔW = B·A`", "Removes attention layers", "Replaces optimizer with SGD"],
+            answer: 1,
+            explanation: "LoRA trains two skinny low-rank matrices whose product approximates the needed weight update — 100–250× fewer parameters.",
+          },
+          {
+            question: "What does *QLoRA* add on top of LoRA?",
+            options: ["A new optimizer Q-Adam", "Loads the frozen base model in 4-bit so very large models fit on a single consumer GPU", "Encrypts model weights", "Removes the tokenizer"],
+            answer: 1,
+            explanation: "QLoRA quantises the base model to 4-bit (nf4) while keeping LoRA adapters in higher precision — unlocked single-GPU fine-tuning of 70B models.",
+          },
+        ],
+      },
     ],
   },
 ];
