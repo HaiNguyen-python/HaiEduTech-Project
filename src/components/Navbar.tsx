@@ -12,7 +12,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -150,24 +150,24 @@ const Navbar = () => {
     { to: "/speaking-coach/finnish", label: "🎙️ AI Speaking Coach" },
   ];
   const programmingSubs: SubItem[] = [
-    { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "#prog-foundation-group", label: t("🎓 Lộ trình Cơ bản", "🎓 Foundation Track"), groupLabel: "prog-foundation", children: [
+    { to: "/programming", label: t("Tổng quan", "Overview"), icon: Library },
+    { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: GraduationCap, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
-      { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges") },
+      { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges"), icon: Trophy },
     ] },
-    { to: "#prog-ai-data-group", label: t("🤖 AI & Data Engineering", "🤖 AI & Data Engineering"), groupLabel: "prog-ai-data", children: [
-      { to: "/programming/prog-ai-foundation", label: "🧠 AI Foundation" },
-      { to: "/programming/prog-ml", label: "🤖 Machine Learning" },
-      { to: "/programming/dl-foundations", label: "🧬 Deep Learning" },
-      { to: "/programming/reinforcement-learning", label: "🎮 Reinforcement Learning" },
+    { to: "#prog-ai-data-group", label: t("AI & Data Engineering", "AI & Data Engineering"), icon: Sparkles, groupLabel: "prog-ai-data", children: [
+      { to: "/programming/prog-ai-foundation", label: t("AI Foundation", "AI Foundation"), icon: Brain },
+      { to: "/programming/prog-ml", label: t("Machine Learning", "Machine Learning"), icon: Bot },
+      { to: "/programming/dl-foundations", label: t("Deep Learning", "Deep Learning"), icon: Network },
+      { to: "/programming/reinforcement-learning", label: t("Reinforcement Learning", "Reinforcement Learning"), icon: Gamepad2 },
       { to: "#div-ai", label: "", divider: true },
-      { to: "/programming/prog-sql", label: "🗄️ SQL & Database" },
-      { to: "/programming/prog-data-pipeline", label: "🔄 Data Engineer" },
-      { to: "/programming/cloud-fundamentals", label: "☁️ Cloud Engineer" },
+      { to: "/programming/prog-sql", label: t("SQL & Database", "SQL & Database"), icon: Database },
+      { to: "/programming/prog-data-pipeline", label: t("Data Engineer", "Data Engineer"), icon: Workflow },
+      { to: "/programming/cloud-fundamentals", label: t("Cloud Engineer", "Cloud Engineer"), icon: Cloud },
     ] },
-    { to: "#prog-career-group", label: t("💼 Sự nghiệp", "💼 Career"), groupLabel: "prog-career", children: [
-      { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions") },
-      { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮") },
+    { to: "#prog-career-group", label: t("Sự nghiệp", "Career"), icon: Briefcase, groupLabel: "prog-career", children: [
+      { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
+      { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮"), icon: Target },
     ] },
   ];
 
