@@ -437,7 +437,7 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
           <DeepDive key={`dd-${i}`} title={c.title}>
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[rehypeKatex]}
+              rehypePlugins={[[rehypeKatex, KATEX_OPTIONS]]}
               components={components}
             >
               {c.body}
