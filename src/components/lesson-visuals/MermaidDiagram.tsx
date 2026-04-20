@@ -63,14 +63,15 @@ function initMermaid() {
     fontSize: 14,
     flowchart: {
       curve: "basis",
-      padding: 22,
-      nodeSpacing: 70,
-      rankSpacing: 95,
+      padding: 28,
+      nodeSpacing: 80,
+      rankSpacing: 110,
       // htmlLabels=true lets each node auto-grow its height to fit wrapped text via foreignObject.
       htmlLabels: true,
       useMaxWidth: false,
-      diagramPadding: 28,
-      wrappingWidth: 180,
+      diagramPadding: 32,
+      // Large enough that short labels (Workload, Public?, Yes, No, Hybrid) never wrap mid-word.
+      wrappingWidth: 320,
     },
     sequence: {
       useMaxWidth: false,
@@ -108,14 +109,15 @@ function initMermaid() {
         -webkit-font-smoothing: antialiased;
       }
 
-      /* HTML-label flowchart nodes: allow wrap, center, padding */
-      .nodeLabel, .nodeLabel p, foreignObject div {
+      /* HTML-label flowchart nodes: wrap only on real word boundaries, never split short words */
+      .nodeLabel, .nodeLabel p, foreignObject div, foreignObject span {
         white-space: normal !important;
-        word-break: break-word !important;
-        overflow-wrap: anywhere !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
         text-align: center !important;
-        line-height: 1.4 !important;
-        padding: 2px 4px !important;
+        line-height: 1.45 !important;
+        padding: 4px 10px !important;
+        max-width: 320px !important;
       }
 
       foreignObject {
