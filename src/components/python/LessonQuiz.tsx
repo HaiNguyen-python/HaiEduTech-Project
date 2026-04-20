@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Check, X, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useLanguage } from "@/contexts/LanguageContext";
+// useLanguage intentionally not used — Knowledge Check is forced to English.
 import type { QuizQuestion } from "@/data/curriculum/pythonPathway";
 import { cn } from "@/lib/utils";
 
