@@ -439,6 +439,24 @@
 /* ===== Mermaid diagram spacing inside theory ===== */
 .theory-content .mermaid-diagram {
   margin: 2rem 0;
+  /* Visually anchor the diagram band so small diagrams don't look lost
+     and huge ones scroll horizontally inside the theory column. */
+  max-width: 100%;
+  width: 100%;
+}
+.theory-content .mermaid-diagram .mermaid-stage {
+  width: 100%;
+}
+.theory-content .mermaid-diagram svg {
+  /* Floor + ceiling for legibility across all generated diagrams. */
+  min-height: 220px;
+  max-height: 70vh;
+}
+@media (max-width: 640px) {
+  .theory-content .mermaid-diagram svg {
+    min-height: 180px;
+    max-height: 60vh;
+  }
 }
 .theory-content .mermaid-diagram + p,
 .theory-content .mermaid-diagram + ul,
@@ -459,4 +477,27 @@
 }
 .theory-content .theory-callout + .theory-callout {
   margin-top: 1rem;
+}
+
+/* ===== KaTeX (math formulas) inside theory ===== */
+.theory-content .katex {
+  font-size: 1.05em;
+  color: hsl(var(--foreground));
+}
+.theory-content .katex-display {
+  margin: 1.25rem 0;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  background: linear-gradient(90deg, hsl(var(--primary) / 0.06), hsl(var(--primary) / 0.02) 70%, transparent);
+  border-left: 3px solid hsl(var(--primary) / 0.45);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.theory-content .katex-display > .katex {
+  font-size: 1.15em;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .theory-content .katex { font-size: 1em; }
+  .theory-content .katex-display > .katex { font-size: 1.05em; }
 }
