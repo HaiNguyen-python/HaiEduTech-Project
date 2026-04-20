@@ -1,6 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brain, ArrowLeft, ArrowRight, Loader2, Sparkles, Check, RotateCcw, Lightbulb, Award, GraduationCap, BookOpen, History } from "lucide-react";
+import { Brain, ArrowLeft, ArrowRight, Loader2, Sparkles, Check, RotateCcw, Lightbulb, Award, GraduationCap, BookOpen, History, Download } from "lucide-react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
