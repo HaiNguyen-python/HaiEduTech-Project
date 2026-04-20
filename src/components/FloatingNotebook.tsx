@@ -195,6 +195,20 @@ const FloatingNotebook = () => {
     lastSyncedUpdatedAt.current = null;
   };
 
+  const [showTemplatePicker, setShowTemplatePicker] = useState(false);
+  const handleApplyTemplate = (tplId: string) => {
+    const tpl = NOTE_TEMPLATES.find((t) => t.id === tplId);
+    if (!tpl) return;
+    setSelectedId(null);
+    setTitle(tpl.title);
+    setSubject(tpl.subject);
+    skipNextAutoSave.current = true;
+    editor?.commands.setContent(tpl.html);
+    lastSyncedUpdatedAt.current = null;
+    setShowTemplatePicker(false);
+    toast({ title: `Đã áp dụng mẫu: ${tpl.label}` });
+  };
+
   const handleSelect = (nb: Notebook) => {
     setSelectedId(nb.id);
     setTitle(nb.title);
