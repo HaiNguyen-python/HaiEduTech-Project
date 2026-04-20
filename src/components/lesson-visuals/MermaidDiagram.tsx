@@ -367,20 +367,102 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
       : "justify-center";
 
   return (
-    <div
-      className="mermaid-diagram not-prose my-7 min-h-[180px] overflow-x-auto rounded-xl border border-border bg-gradient-to-br from-card to-muted/20 p-5 sm:p-6 shadow-sm"
-      data-kind={kind}
-    >
-      {loading && (
-        <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Rendering diagram…
-        </div>
-      )}
+    <>
       <div
-        ref={ref}
-        className={`mermaid-stage flex ${alignmentClass} [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:max-w-none [&_.node]:drop-shadow-sm`}
-      />
-    </div>
+        className="mermaid-diagram not-prose group relative my-7 min-h-[180px] overflow-x-auto rounded-xl border border-border bg-gradient-to-br from-card to-muted/20 p-5 sm:p-6 shadow-sm"
+        data-kind={kind}
+      >
+        {/* Fullscreen trigger — sticky to top-right so it stays visible when the diagram scrolls horizontally. */}
+        {!loading && !error && (
+          <button
+            type="button"
+            onClick={() => setIsFullscreen(true)}
+            className="absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-md border border-border bg-background/90 px-2.5 py-1.5 text-xs font-medium text-foreground shadow-sm backdrop-blur transition hover:bg-primary hover:text-primary-foreground hover:shadow-md"
+            aria-label="Open diagram fullscreen"
+            title="Open fullscreen"
+          >
+            <Maximize2 className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Fullscreen</span>
+          </button>
+        )}
+        {loading && (
+          <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Rendering diagram…
+          </div>
+        )}
+        <div
+          ref={ref}
+          className={`mermaid-stage flex ${alignmentClass} [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:max-w-none [&_.node]:drop-shadow-sm`}
+        />
+      </div>
+
+      <Dialog open={isFullscreen} onOpenChange={setIsFullscreen}>
+        <DialogContent className="flex h-[95vh] max-h-[95vh] w-[98vw] max-w-[98vw] flex-col gap-0 overflow-hidden border-border bg-background p-0 sm:rounded-xl">
+          <VisuallyHidden>
+            <DialogTitle>Diagram fullscreen view</DialogTitle>
+          </VisuallyHidden>
+
+          {/* Toolbar */}
+          <div className="flex items-center justify-between gap-2 border-b border-border bg-card/60 px-4 py-2 backdrop-blur">
+            <div className="text-sm font-medium text-muted-foreground">
+              Diagram · zoom {Math.round(zoom * 100)}%
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setZoom((z) => Math.max(0.4, +(z - 0.2).toFixed(2)))}
+                aria-label="Zoom out"
+              >
+                <ZoomOut className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setZoom(1)}
+                aria-label="Reset zoom"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setZoom((z) => Math.min(4, +(z + 0.2).toFixed(2)))}
+                aria-label="Zoom in"
+              >
+                <ZoomIn className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsFullscreen(false)}
+                aria-label="Close fullscreen"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Scrollable canvas — pan via native scrollbars when the diagram is zoomed in. */}
+          <div className="flex-1 overflow-auto bg-gradient-to-br from-card/40 to-muted/20 p-6">
+            <div
+              style={{
+                transform: `scale(${zoom})`,
+                transformOrigin: "top left",
+                width: `${100 / zoom}%`,
+                minHeight: "100%",
+              }}
+              className="transition-transform duration-100"
+            >
+              <div
+                ref={fullscreenRef}
+                className="mermaid-fullscreen-stage flex justify-center [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:max-w-none"
+              />
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
