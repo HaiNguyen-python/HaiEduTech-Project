@@ -8,15 +8,16 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import {
   Target, TrendingUp, Calendar, Flame, LogIn, BookOpen,
-  BarChart3, Clock, Award, ArrowRight, Activity, Trophy, Heart,
+  BarChart3, Clock, Award, ArrowRight, Activity, Heart,
+  Mic, PenTool, Code, Sparkles, Quote,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer,
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
+  XAxis, YAxis, CartesianGrid, Tooltip,
   BarChart, Bar,
 } from "recharts";
 
