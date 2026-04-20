@@ -29,6 +29,7 @@ const Programming = lazy(() => import("./pages/Programming.tsx"));
 const ProgrammingLesson = lazy(() => import("./pages/ProgrammingLesson.tsx"));
 const AIGrading = lazy(() => import("./pages/AIGrading.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
+const ActivityLog = lazy(() => import("./pages/ActivityLog.tsx"));
 const Register = lazy(() => import("./pages/Register.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
 const ForVietnameseChildren = lazy(() => import("./pages/ForVietnameseChildren.tsx"));
@@ -160,6 +161,7 @@ const App = () => (
             <Route path="/national-exam" element={<LazyRoute><NationalExamPrep /></LazyRoute>} />
             <Route path="/national-exam/:examId" element={<LazyRoute><NationalExamRoom /></LazyRoute>} />
             <Route path="/dashboard" element={<LazyRoute><Dashboard /></LazyRoute>} />
+            <Route path="/activity-log" element={<LazyRoute><ActivityLog /></LazyRoute>} />
             <Route path="/register" element={<LazyRoute><Register /></LazyRoute>} />
             <Route path="/contact" element={<LazyRoute><Contact /></LazyRoute>} />
             <Route path="/for-vietnamese-children" element={<LazyRoute><ForVietnameseChildren /></LazyRoute>} />

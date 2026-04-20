@@ -8,129 +8,114 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import {
   Target, TrendingUp, Calendar, Flame, LogIn, BookOpen,
-  BarChart3, Clock, Award, ArrowRight, Activity, Trophy, Heart,
+  BarChart3, Clock, Award, ArrowRight, Activity, Heart,
+  Mic, PenTool, Code, Sparkles, Quote,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer,
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
+  XAxis, YAxis, CartesianGrid, Tooltip,
   BarChart, Bar,
 } from "recharts";
 
 // Types for processed dashboard data
+interface ActivityItem {
+  type: string;
+  domain: string;
+  score: number | null;
+  maxScore: number | null;
+  date: string;
+  timeSpent: number | null;
+}
+
+interface CourseProgress {
+  id: string;
+  title: string;
+  domain: string;
+  completed: number;
+  total: number;
+  pct: number;
+  lastLessonHref: string;
+  nextGoal: string;
+}
+
 interface DashboardStats {
   totalActivities: number;
   totalTimeMinutes: number;
   avgScore: number;
   studyStreak: number;
   domainBreakdown: { domain: string; count: number; avgScore: number }[];
-  skillRadar: { skill: string; value: number }[];
-  weeklyTrend: { week: string; activities: number; avgScore: number }[];
-  heatmap: number[][]; // 52 weeks x 7 days
-  recentActivities: {
-    type: string;
-    domain: string;
-    score: number | null;
-    maxScore: number | null;
-    date: string;
-    timeSpent: number | null;
-  }[];
+  // Skill radar across 4 main programs
+  skillRadar: { skill: string; value: number; fullMark: number }[];
+  // Last 7 days study minutes
+  weeklyMinutes: { day: string; minutes: number }[];
+  recentActivities: ActivityItem[];
+  courses: CourseProgress[];
+  // AI summary text
+  aiSummary: string;
 }
 
 const DOMAIN_LABELS: Record<string, string> = {
   english: "English",
   chinese: "Chinese",
   programming: "Programming",
+  finnish: "Finnish",
 };
 
-const SKILL_MAP: Record<string, string[]> = {
-  english: ["Grammar", "Vocabulary", "Reading", "Writing", "Speaking"],
-  chinese: ["Pinyin", "Hanzi", "Grammar", "Reading", "Vocabulary"],
-  programming: ["Syntax", "Logic", "SQL", "Data", "Algorithms"],
+// Pick the right icon for an activity type
+const getActivityIcon = (type: string) => {
+  if (type.includes("speaking")) return Mic;
+  if (type.includes("writing")) return PenTool;
+  if (type.includes("python") || type.includes("code") || type.includes("programming")) return Code;
+  if (type.includes("game") || type.includes("hsk") || type.includes("vocab")) return Award;
+  if (type.includes("reading") || type.includes("lecture") || type.includes("lesson")) return BookOpen;
+  return Activity;
 };
 
-const heatColors = ["bg-secondary", "bg-primary/20", "bg-primary/40", "bg-primary/60", "bg-primary"];
+// Format relative timestamps
+const formatRelativeTime = (date: string, isVi: boolean) => {
+  const diff = Date.now() - new Date(date).getTime();
+  const mins = Math.floor(diff / 60000);
+  const hours = Math.floor(mins / 60);
+  const days = Math.floor(hours / 24);
+  if (mins < 1) return isVi ? "Vừa xong" : "Just now";
+  if (mins < 60) return isVi ? `${mins} phút trước` : `${mins}m ago`;
+  if (hours < 24) return isVi ? `${hours} giờ trước` : `${hours}h ago`;
+  if (days < 7) return isVi ? `${days} ngày trước` : `${days}d ago`;
+  return new Date(date).toLocaleDateString();
+};
 
-// Overall Leaderboard component
-const OverallLeaderboard = () => {
-  const { t } = useLanguage();
-  const [entries, setEntries] = useState<{ user_id: string; total: number; name: string }[]>([]);
-  const [loading, setLoading] = useState(true);
+// Daily motivation pool — picked deterministically by name + date
+const MOTIVATIONS_VI = [
+  "Mỗi bước nhỏ hôm nay là bước nhảy lớn của ngày mai.",
+  "Học không phải là cuộc đua, mà là hành trình của riêng em.",
+  "Sự kiên trì luôn chiến thắng tài năng đơn thuần.",
+  "Hôm nay học một chút, mai vững vàng hơn nhiều.",
+  "Em làm tốt hơn em nghĩ. Tin vào bản thân nhé!",
+  "Không có gì là không thể với sự cố gắng mỗi ngày.",
+  "Thầy Hải tin rằng em sẽ làm được điều tuyệt vời.",
+];
+const MOTIVATIONS_EN = [
+  "Small steps today become giant leaps tomorrow.",
+  "Learning is not a race — it's your unique journey.",
+  "Consistency beats raw talent every time.",
+  "A little today, much stronger tomorrow.",
+  "You're doing better than you think. Trust yourself!",
+  "Nothing is impossible when you show up daily.",
+  "Teacher Hai believes you will achieve great things.",
+];
 
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const { data } = await supabase
-          .from("game_scores")
-          .select("user_id, score")
-          .order("created_at", { ascending: false })
-          .limit(500);
-
-        if (data && data.length > 0) {
-          const totals = new Map<string, number>();
-          for (const row of data) {
-            totals.set(row.user_id, (totals.get(row.user_id) || 0) + row.score);
-          }
-
-          const userIds = [...totals.keys()];
-          const { data: profiles } = await supabase
-            .from("profiles")
-            .select("id, full_name")
-            .in("id", userIds);
-
-          const nameMap = new Map(profiles?.map((p) => [p.id, p.full_name]) || []);
-
-          const sorted = [...totals.entries()]
-            .map(([uid, total]) => ({ user_id: uid, total, name: nameMap.get(uid) || "Student" }))
-            .sort((a, b) => b.total - a.total)
-            .slice(0, 10);
-
-          setEntries(sorted);
-        }
-      } catch (e) {
-        console.error("Leaderboard error:", e);
-      }
-      setLoading(false);
-    };
-    fetch();
-  }, []);
-
-  if (loading) return null;
-  if (entries.length === 0) return null;
-
-  const medals = ["🥇", "🥈", "🥉"];
-
-  return (
-    <div className="glass-card rounded-xl p-4 mt-6">
-      <h3 className="text-sm font-bold text-foreground flex items-center gap-2 mb-3">
-        <Trophy className="w-4 h-4 text-amber-400" />
-        {t("Bảng xếp hạng tổng hợp", "Overall Leaderboard")}
-      </h3>
-      <div className="space-y-2">
-        {entries.map((entry, i) => (
-          <div
-            key={entry.user_id}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs ${
-              i === 0 ? "bg-amber-500/10 border border-amber-500/30" : "bg-card/50 border border-border/50"
-            }`}
-          >
-            <span className="w-6 flex-shrink-0 text-center">
-              {i < 3 ? medals[i] : <span className="text-muted-foreground font-mono">#{i + 1}</span>}
-            </span>
-            <span className="flex-1 truncate font-medium text-foreground">{entry.name}</span>
-            <span className="font-bold text-primary">{entry.total}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+const pickMotivation = (name: string, isVi: boolean) => {
+  const pool = isVi ? MOTIVATIONS_VI : MOTIVATIONS_EN;
+  const seed = (name + new Date().toDateString()).split("").reduce((s, c) => s + c.charCodeAt(0), 0);
+  return pool[seed % pool.length];
 };
 
 const Dashboard = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(true);
@@ -309,106 +294,146 @@ const Dashboard = () => {
       avgScore: data.scored > 0 ? Math.round((data.totalPct / data.scored) * 10) / 10 : 0,
     }));
 
-    // Skill radar — aggregate scores by skill tag from metadata
-    const skillScores = new Map<string, { total: number; count: number }>();
-    for (const e of allEvents) {
-      if (e.score === null || !e.maxScore) continue;
-      const pct = (e.score / e.maxScore) * 100;
+    // Build skill radar across 4 main programs (English/Finnish/Chinese/Programming)
+    const programDomains: { skill: string; key: string }[] = [
+      { skill: "English (PTE)", key: "english" },
+      { skill: "Finnish (YKI)", key: "finnish" },
+      { skill: "Chinese (HSK)", key: "chinese" },
+      { skill: "Programming", key: "programming" },
+    ];
+    const skillRadar = programDomains.map(({ skill, key }) => {
+      const evs = allEvents.filter((e) => e.domain === key && e.score !== null && e.maxScore);
+      const avg = evs.length > 0
+        ? Math.round((evs.reduce((s, e) => s + (e.score! / e.maxScore!) * 100, 0) / evs.length))
+        : 0;
+      return { skill, value: avg, fullMark: 100 };
+    });
 
-      // Use metadata skill if available
-      const skill = (e.metadata as any)?.skill || e.type;
-      const domainSkills = SKILL_MAP[e.domain] || [];
-
-      // Map activity type to skill category
-      let skillName = skill;
-      if (e.type.includes("writing")) skillName = "Writing";
-      else if (e.type.includes("speaking")) skillName = "Speaking";
-      else if (e.type.includes("assessment")) {
-        // For assessments, distribute score across domain skills
-        for (const ds of domainSkills) {
-          if (!skillScores.has(ds)) skillScores.set(ds, { total: 0, count: 0 });
-          const s = skillScores.get(ds)!;
-          s.total += pct;
-          s.count++;
-        }
-        continue;
-      }
-
-      if (!skillScores.has(skillName)) skillScores.set(skillName, { total: 0, count: 0 });
-      const s = skillScores.get(skillName)!;
-      s.total += pct;
-      s.count++;
+    // Weekly study minutes — last 7 days
+    const weeklyMinutes: { day: string; minutes: number }[] = [];
+    const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const key = date.toISOString().split("T")[0];
+      const dayEvents = allEvents.filter(
+        (e) => new Date(e.date).toISOString().split("T")[0] === key
+      );
+      const minutes = Math.round(
+        dayEvents.reduce((s, e) => s + (e.timeSpent || 0), 0) / 60
+      );
+      weeklyMinutes.push({ day: dayLabels[date.getDay()], minutes });
     }
 
-    // Build radar from all domains' skills
-    const allSkillNames = new Set<string>();
-    for (const domain of Object.keys(SKILL_MAP)) {
-      for (const s of SKILL_MAP[domain]) allSkillNames.add(s);
-    }
-    const skillRadar = Array.from(allSkillNames).map((skill) => ({
-      skill,
-      value: skillScores.has(skill)
-        ? Math.round(skillScores.get(skill)!.total / skillScores.get(skill)!.count)
-        : 0,
-    })).filter((s) => s.value > 0);
+    // Active course cards — derived from progress in major systems
+    const courses: CourseProgress[] = [];
 
-    // If no skill data, create a placeholder from domain scores
-    if (skillRadar.length === 0 && domainBreakdown.length > 0) {
-      for (const db of domainBreakdown) {
-        skillRadar.push({ skill: db.domain, value: db.avgScore });
-      }
-    }
-
-    // Weekly trend — last 8 weeks
-    const weeklyTrend: { week: string; activities: number; avgScore: number }[] = [];
-    for (let w = 7; w >= 0; w--) {
-      const weekStart = new Date(today);
-      weekStart.setDate(weekStart.getDate() - w * 7 - weekStart.getDay());
-      const weekEnd = new Date(weekStart);
-      weekEnd.setDate(weekEnd.getDate() + 7);
-
-      const weekEvents = allEvents.filter((e) => {
-        const d = new Date(e.date);
-        return d >= weekStart && d < weekEnd;
-      });
-
-      const weekScored = weekEvents.filter((e) => e.score !== null && e.maxScore);
-      const weekAvg =
-        weekScored.length > 0
-          ? Math.round(
-              (weekScored.reduce((s, e) => s + ((e.score! / e.maxScore!) * 100), 0) /
-                weekScored.length) *
-                10
-            ) / 10
-          : 0;
-
-      weeklyTrend.push({
-        week: `W${8 - w}`,
-        activities: weekEvents.length,
-        avgScore: weekAvg,
+    // IELTS Lectures — total ~80
+    if ((ieltsLectureCount || 0) > 0) {
+      const total = 80;
+      const c = Math.min(ieltsLectureCount || 0, total);
+      courses.push({
+        id: "ielts",
+        title: "IELTS Lectures",
+        domain: "english",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/ielts-lectures",
+        nextGoal: `Lecture ${c + 1}/${total}`,
       });
     }
 
-    // Heatmap — last 52 weeks of daily activity counts
-    const heatmap: number[][] = [];
-    for (let w = 51; w >= 0; w--) {
-      const week: number[] = [];
-      for (let d = 0; d < 7; d++) {
-        const date = new Date(today);
-        date.setDate(date.getDate() - w * 7 - (6 - d));
-        const key = date.toISOString().split("T")[0];
-        const count = allEvents.filter(
-          (e) => new Date(e.date).toISOString().split("T")[0] === key
-        ).length;
-        week.push(Math.min(count, 4)); // cap at 4 for color intensity
-      }
-      heatmap.push(week);
+    // TOEIC Lectures — total ~50
+    if ((toeicLectureCount || 0) > 0) {
+      const total = 50;
+      const c = Math.min(toeicLectureCount || 0, total);
+      courses.push({
+        id: "toeic",
+        title: "TOEIC Masterclass",
+        domain: "english",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/toeic-lectures",
+        nextGoal: `Lecture ${c + 1}/${total}`,
+      });
     }
 
-    // Recent activities (last 10)
+    // Programming activities → Python pathway (47 lessons)
+    const programmingActs = allEvents.filter((e) => e.domain === "programming").length;
+    if (programmingActs > 0) {
+      const total = 47;
+      const c = Math.min(programmingActs, total);
+      courses.push({
+        id: "python",
+        title: "Introduction to Programming",
+        domain: "programming",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/programming?pillar=python-pathway",
+        nextGoal: `Lesson ${c + 1}/${total}`,
+      });
+    }
+
+    // Finnish (YKI A2)
+    const finnishActs = allEvents.filter((e) => e.domain === "finnish").length;
+    if (finnishActs > 0) {
+      const total = 18;
+      const c = Math.min(finnishActs, total);
+      courses.push({
+        id: "yki",
+        title: "Finnish YKI A2 Prep",
+        domain: "finnish",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/finnish",
+        nextGoal: `Module ${c + 1}/${total}`,
+      });
+    }
+
+    // Chinese
+    const chineseActs = allEvents.filter((e) => e.domain === "chinese").length;
+    if (chineseActs > 0) {
+      const total = 30;
+      const c = Math.min(chineseActs, total);
+      courses.push({
+        id: "chinese",
+        title: "Chinese HSK Track",
+        domain: "chinese",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/chinese",
+        nextGoal: `Lesson ${c + 1}/${total}`,
+      });
+    }
+
+    // Recent activities (last 5 only — full log on /activity-log page)
     const recentActivities = [...allEvents]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 10);
+      .slice(0, 5);
+
+    // AI summary — find biggest improvement domain over the last 14 days
+    let aiSummary = "Keep going! Every small step builds your future.";
+    const last14 = allEvents.filter(
+      (e) => Date.now() - new Date(e.date).getTime() < 14 * 86400000
+    );
+    if (last14.length >= 3) {
+      const recentAvg = last14
+        .filter((e) => e.score !== null && e.maxScore)
+        .reduce((s, e, _, arr) => s + (e.score! / e.maxScore!) * 100 / arr.length, 0);
+      if (recentAvg > 0) {
+        const topDomain = programDomains.find((p) =>
+          last14.some((e) => e.domain === p.key)
+        );
+        if (topDomain) {
+          aiSummary = `Great progress in ${topDomain.skill}! You've completed ${last14.length} activities recently with an average of ${Math.round(recentAvg)}%.`;
+        }
+      }
+    }
 
     setStats({
       totalActivities,
@@ -417,9 +442,10 @@ const Dashboard = () => {
       studyStreak: streak,
       domainBreakdown,
       skillRadar,
-      weeklyTrend,
-      heatmap,
+      weeklyMinutes,
       recentActivities,
+      courses: courses.slice(0, 3),
+      aiSummary,
     });
 
     setDataLoading(false);
@@ -590,64 +616,115 @@ const Dashboard = () => {
                   ))}
                 </div>
 
-                {/* Domain breakdown bar chart */}
-                {stats!.domainBreakdown.length > 0 && (
-                  <div className="glass-card rounded-xl p-6 mb-6">
-                    <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                      <Target className="w-4 h-4 text-primary" />
-                      {t("Phân bố theo lĩnh vực", "Domain Breakdown")}
+                {/* Daily Motivation — personalized by name */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                  className="rounded-2xl p-5 mb-6 bg-gradient-to-br from-primary/10 via-accent/5 to-background border border-primary/20"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
+                      <Quote className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">
+                        {t("Lời chúc hôm nay", "Daily Motivation")}
+                      </p>
+                      <p className="text-base text-foreground font-medium leading-relaxed">
+                        "{pickMotivation(displayName, lang === "vi")}" — {displayName}.
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* AI Achievement Summary */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="rounded-2xl p-5 mb-6 bg-emerald-500/5 border border-emerald-500/20"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">
+                        {t("AI nhận xét", "AI Insight")}
+                      </p>
+                      <p className="text-sm text-foreground leading-relaxed">{stats!.aiSummary}</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Active Course Cards */}
+                {stats!.courses.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 text-primary" />
+                      {t("Khóa học đang theo", "Active Courses")}
                     </h3>
-                    <div className="h-48">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={stats!.domainBreakdown}>
-                          <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
-                          <XAxis dataKey="domain" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
-                          <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
-                          <Tooltip
-                            contentStyle={{
-                              backgroundColor: "hsl(var(--card))",
-                              border: "1px solid hsl(var(--border))",
-                              borderRadius: "8px",
-                              fontSize: "12px",
-                            }}
-                          />
-                          <Bar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} name={t("Hoạt động", "Activities")} />
-                        </BarChart>
-                      </ResponsiveContainer>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {stats!.courses.map((course, i) => (
+                        <motion.div
+                          key={course.id}
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.45 + i * 0.08 }}
+                          className="rounded-2xl bg-card p-5 border border-border hover:border-primary/40 hover:shadow-lg transition-all"
+                        >
+                          <div className="flex items-center justify-between mb-3">
+                            <span className={`text-xs font-bold px-2 py-1 rounded-md ${
+                              course.domain === "english" ? "bg-blue-500/10 text-blue-600" :
+                              course.domain === "chinese" ? "bg-red-500/10 text-red-600" :
+                              course.domain === "finnish" ? "bg-sky-500/10 text-sky-600" :
+                              "bg-emerald-500/10 text-emerald-600"
+                            }`}>
+                              {DOMAIN_LABELS[course.domain] || course.domain}
+                            </span>
+                            <span className="text-xs font-mono text-muted-foreground">
+                              {course.completed}/{course.total}
+                            </span>
+                          </div>
+                          <h4 className="text-base font-bold text-foreground mb-3 leading-snug">{course.title}</h4>
+                          {/* Animated progress bar */}
+                          <div className="h-2 bg-secondary rounded-full overflow-hidden mb-2">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${course.pct}%` }}
+                              transition={{ duration: 0.8, delay: 0.5 + i * 0.08, ease: "easeOut" }}
+                              className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
+                            />
+                          </div>
+                          <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
+                            <span className="font-bold text-primary">{course.pct}%</span>
+                            <span>{course.nextGoal}</span>
+                          </div>
+                          <Link
+                            to={course.lastLessonHref}
+                            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:gap-2 transition-all"
+                          >
+                            {t("Tiếp tục học", "Continue learning")} <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
                 )}
 
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  {/* Skill radar */}
-                  {stats!.skillRadar.length >= 3 && (
-                    <div className="glass-card rounded-xl p-6">
-                      <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                        <Target className="w-4 h-4 text-primary" /> {t("Biểu đồ kỹ năng", "Skill Radar")}
-                      </h3>
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <RadarChart data={stats!.skillRadar}>
-                            <PolarGrid stroke="hsl(var(--border))" />
-                            <PolarAngleAxis dataKey="skill" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} />
-                            <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.15} strokeWidth={2} />
-                          </RadarChart>
-                        </ResponsiveContainer>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Weekly activity trend */}
-                  <div className="glass-card rounded-xl p-6">
-                    <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-primary" /> {t("Xu hướng hoạt động", "Activity Trend")}
+                  {/* Skill Radar — 4 programs */}
+                  <div className="rounded-2xl bg-card p-6 border border-border">
+                    <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
+                      <Target className="w-4 h-4 text-primary" /> {t("Biểu đồ kỹ năng", "Skill Radar")}
                     </h3>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={stats!.weeklyTrend}>
-                          <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
-                          <XAxis dataKey="week" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
-                          <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
+                        <RadarChart data={stats!.skillRadar}>
+                          <PolarGrid stroke="hsl(var(--border))" />
+                          <PolarAngleAxis dataKey="skill" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} />
+                          <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} strokeWidth={2} />
                           <Tooltip
                             contentStyle={{
                               backgroundColor: "hsl(var(--card))",
@@ -656,80 +733,94 @@ const Dashboard = () => {
                               fontSize: "12px",
                             }}
                           />
-                          <Line type="monotone" dataKey="activities" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ fill: "hsl(var(--primary))", r: 4 }} name={t("Hoạt động", "Activities")} />
-                        </LineChart>
+                        </RadarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Weekly Study Hours bar chart */}
+                  <div className="rounded-2xl bg-card p-6 border border-border">
+                    <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-primary" /> {t("Giờ học trong tuần", "Weekly Study Hours")}
+                    </h3>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={stats!.weeklyMinutes}>
+                          <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
+                          <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
+                          <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
+                          <Tooltip
+                            formatter={(v: number) => [`${v} ${t("phút", "min")}`, t("Thời gian", "Time")]}
+                            contentStyle={{
+                              backgroundColor: "hsl(var(--card))",
+                              border: "1px solid hsl(var(--border))",
+                              borderRadius: "8px",
+                              fontSize: "12px",
+                            }}
+                          />
+                          <Bar dataKey="minutes" fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} />
+                        </BarChart>
                       </ResponsiveContainer>
                     </div>
                   </div>
                 </div>
 
-                {/* Consistency heatmap */}
-                <div className="glass-card rounded-xl p-6 mb-6">
-                  <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                    <Flame className="w-4 h-4 text-orange-500" /> {t("Biểu đồ chuyên cần", "Consistency Heatmap")}
-                  </h3>
-                  <div className="overflow-x-auto">
-                    <div className="flex gap-[3px] min-w-[700px]">
-                      {stats!.heatmap.map((week, wi) => (
-                        <div key={wi} className="flex flex-col gap-[3px]">
-                          {week.map((val, di) => (
-                            <div
-                              key={di}
-                              className={`w-3 h-3 rounded-sm ${heatColors[val]}`}
-                              title={`${val} ${t("hoạt động", "activities")}`}
-                            />
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 mt-3 text-xs text-muted-foreground">
-                    <span>{t("Ít", "Less")}</span>
-                    {heatColors.map((c, i) => (
-                      <div key={i} className={`w-3 h-3 rounded-sm ${c}`} />
-                    ))}
-                    <span>{t("Nhiều", "More")}</span>
-                  </div>
-                </div>
-
-                {/* Recent activities */}
+                {/* Recent activities — 5 most recent + View All */}
                 {stats!.recentActivities.length > 0 && (
-                  <div className="glass-card rounded-xl p-6">
-                    <h3 className="text-sm font-medium text-foreground mb-4 flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-primary" /> {t("Hoạt động gần đây", "Recent Activities")}
-                    </h3>
-                    <div className="space-y-2">
-                      {stats!.recentActivities.map((act, i) => (
-                        <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold ${
-                              act.domain === "english" ? "bg-blue-500/10 text-blue-600" :
-                              act.domain === "chinese" ? "bg-red-500/10 text-red-600" :
-                              "bg-emerald-500/10 text-emerald-600"
-                            }`}>
-                              {act.domain === "english" ? "EN" : act.domain === "chinese" ? "CN" : "PR"}
+                  <div className="rounded-2xl bg-card p-6 border border-border mb-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-primary" /> {t("Hoạt động gần đây", "Recent Activities")}
+                      </h3>
+                      <Link
+                        to="/activity-log"
+                        className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1"
+                      >
+                        {t("Xem tất cả", "View All")} <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+                    <div className="space-y-1">
+                      {stats!.recentActivities.map((act, i) => {
+                        const Icon = getActivityIcon(act.type);
+                        return (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.6 + i * 0.05 }}
+                            className="flex items-center justify-between py-2.5 px-2 rounded-lg hover:bg-secondary/50 transition-colors"
+                          >
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                                act.domain === "english" ? "bg-blue-500/10 text-blue-600" :
+                                act.domain === "chinese" ? "bg-red-500/10 text-red-600" :
+                                act.domain === "finnish" ? "bg-sky-500/10 text-sky-600" :
+                                "bg-emerald-500/10 text-emerald-600"
+                              }`}>
+                                <Icon className="w-4 h-4" />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-sm font-semibold text-foreground capitalize truncate">
+                                  {act.type.replace(/_/g, " ")}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {formatRelativeTime(act.date, lang === "vi")}
+                                  {act.timeSpent ? ` · ${Math.round(act.timeSpent / 60)}m` : ""}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <p className="text-sm font-medium text-foreground">
-                                {act.type.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                {new Date(act.date).toLocaleDateString()}
-                                {act.timeSpent ? ` · ${Math.round(act.timeSpent / 60)}m` : ""}
-                              </p>
-                            </div>
-                          </div>
-                          {act.score !== null && act.maxScore && (
-                            <span className={`text-sm font-bold ${
-                              (act.score / act.maxScore) >= 0.7 ? "text-emerald-600" :
-                              (act.score / act.maxScore) >= 0.5 ? "text-amber-600" :
-                              "text-red-600"
-                            }`}>
-                              {act.score}/{act.maxScore}
-                            </span>
-                          )}
-                        </div>
-                      ))}
+                            {act.score !== null && act.maxScore && (
+                              <span className={`text-sm font-bold flex-shrink-0 ml-2 ${
+                                (act.score / act.maxScore) >= 0.7 ? "text-emerald-600" :
+                                (act.score / act.maxScore) >= 0.5 ? "text-amber-600" :
+                                "text-red-600"
+                              }`}>
+                                {act.score}/{act.maxScore}
+                              </span>
+                            )}
+                          </motion.div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -737,25 +828,6 @@ const Dashboard = () => {
                 {/* Class schedule (read-only for students) */}
                 <div className="mt-6">
                   <StudentScheduleWidget userId={user?.id ?? null} />
-                </div>
-
-                {/* Overall Leaderboard */}
-                <OverallLeaderboard />
-
-                {/* Quick links */}
-                <div className="grid grid-cols-3 gap-3 mt-6">
-                  <Link to="/english" className="glass-card rounded-xl p-4 text-center hover:border-primary/30 transition-all group">
-                    <BookOpen className="w-5 h-5 text-blue-500 mx-auto mb-2" />
-                    <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground">{t("Tiếng Anh", "English")}</span>
-                  </Link>
-                  <Link to="/chinese" className="glass-card rounded-xl p-4 text-center hover:border-primary/30 transition-all group">
-                    <BookOpen className="w-5 h-5 text-red-500 mx-auto mb-2" />
-                    <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground">{t("Tiếng Trung", "Chinese")}</span>
-                  </Link>
-                  <Link to="/programming" className="glass-card rounded-xl p-4 text-center hover:border-primary/30 transition-all group">
-                    <BookOpen className="w-5 h-5 text-emerald-500 mx-auto mb-2" />
-                    <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground">{t("Lập Trình", "Programming")}</span>
-                  </Link>
                 </div>
               </>
             )}
