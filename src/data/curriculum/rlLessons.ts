@@ -931,6 +931,682 @@ render_env.close()`,
         },
       ],
     },
+    // ────────────────────────────────────────────────────────────────────────
+    // Lesson 6 — SARSA: On-Policy TD Control
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      id: "rl-06-sarsa",
+      title: "SARSA: On-Policy TD Control",
+      titleEn: "SARSA: On-Policy TD Control",
+      level: 4,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lesson 3 (Q-Learning).
+
+## On-policy vs Off-policy — the key distinction
+
+**Q-Learning** is **off-policy** — its update target uses `max Q(s', a')` regardless of the action actually taken. **SARSA** (Rummery & Niranjan, 1994) is **on-policy** — it uses the action `A'` actually selected by the current ε-greedy policy.
+
+The name itself is the update tuple: **(S, A, R, S\', A\')**
+
+```text
+Q(S,A) ← Q(S,A) + α · [R + γ · Q(S\', A\') − Q(S,A)]
+```
+
+## The cliff-walking experiment
+
+In a gridworld with a cliff (reward −100 if you fall off):
+- **Q-Learning** learns the *optimal* (cliff-edge) path — but with ε-exploration it falls off frequently → low average reward during training.
+- **SARSA** learns a *safer* (longer) path because its updates account for exploration mistakes.
+
+```mermaid
+flowchart LR
+  S[Start] --> P1[ ] --> P2[ ] --> P3[ ] --> G[Goal]
+  S -.optimal but risky.-> CLIFF[CLIFF: -100]
+  style CLIFF fill:#dc2626,color:#fff
+```
+
+> 🎯 **Real-world insight**: When the deployed policy will keep exploring (medical dosing, noisy robotics), on-policy SARSA can be safer.
+
+## Expected SARSA — smoother variant
+
+```text
+Q(S,A) ← Q(S,A) + α · [R + γ · Σ_a π(a|S\')·Q(S\',a) − Q(S,A)]
+```
+
+Replace the sampled `Q(S\',A\')` with its expectation under the policy. Lower variance, basis of modern actor-critic methods.
+
+## Key Concept
+
+SARSA is the on-policy cousin of Q-Learning. Its update target uses the *next action actually selected* by the current ε-greedy policy, so SARSA learns the value of exploration-aware behavior — making it safer for real-world deployment in robotics and safety-critical domains.
+
+## Common Pitfalls
+
+**Slow convergence** vs Q-Learning when the deployment policy is greedy. **ε decay matters more** — if ε stays high, SARSA converges to a very conservative policy. Tune ε schedule carefully.
+
+## Practice Task
+
+Implement SARSA on **CliffWalking-v0**. Compare its trajectory and average reward against Q-Learning over 500 episodes. SARSA should take the safe upper path while Q-Learning hugs the cliff edge.
+      `,
+      theory: "",
+      code: `# SARSA on CliffWalking-v0
+import numpy as np
+import gymnasium as gym
+
+env = gym.make("CliffWalking-v0")
+n_states = env.observation_space.n
+n_actions = env.action_space.n
+
+alpha, gamma = 0.1, 1.0
+epsilon, eps_min, eps_decay = 1.0, 0.05, 0.995
+
+Q = np.zeros((n_states, n_actions))
+
+def epsilon_greedy(state, eps):
+    if np.random.rand() < eps:
+        return env.action_space.sample()
+    return int(np.argmax(Q[state]))
+
+for episode in range(500):
+    state, _ = env.reset()
+    action = epsilon_greedy(state, epsilon)
+    total_reward = 0
+    done = False
+
+    while not done:
+        next_state, reward, terminated, truncated, _ = env.step(action)
+        done = terminated or truncated
+        # Pick A' using the SAME policy (on-policy)
+        next_action = epsilon_greedy(next_state, epsilon)
+        # SARSA update: uses Q(S', A') — NOT max Q(S', .)
+        td_target = reward + gamma * Q[next_state, next_action] * (not done)
+        Q[state, action] += alpha * (td_target - Q[state, action])
+        state, action = next_state, next_action
+        total_reward += reward
+
+    epsilon = max(eps_min, epsilon * eps_decay)
+    if (episode + 1) % 50 == 0:
+        print(f"Episode {episode+1} | reward={total_reward} | eps={epsilon:.3f}")
+
+arrows = ["↑", "→", "↓", "←"]
+print("\\nLearned greedy policy (SARSA):")
+for row in np.argmax(Q, axis=1).reshape(4, 12):
+    print(" ".join(arrows[a] for a in row))`,
+      exercise: "",
+      exerciseEn: "Re-run with **Q-Learning** (use `max(Q[next_state])`). Compare: does Q-Learning hug the cliff? Which has higher average reward DURING training?",
+      quiz: [
+        {
+          question: "What makes SARSA an on-policy algorithm?",
+          options: ["It always picks the greedy action", "Its update uses the next action selected by the same policy being followed", "It does not use exploration", "It works only on continuous spaces"],
+          answer: 1,
+          explanation: "SARSA updates Q(S,A) toward R + γ·Q(S\',A\') where A\' is sampled by the current ε-greedy policy.",
+        },
+        {
+          question: "On CliffWalking, why does SARSA learn a safer (longer) path?",
+          options: ["It cannot represent the optimal path", "Its updates account for the cost of accidentally falling during exploration", "Smaller learning rate", "Cliffs are unreachable"],
+          answer: 1,
+          explanation: "Because SARSA evaluates the policy it actually follows (including ε-greedy slips), it correctly devalues states near the cliff.",
+        },
+        {
+          question: "Advantage of Expected SARSA?",
+          options: ["Skips exploration", "Replaces sampled Q(S\',A\') with an expectation, reducing variance", "Eliminates the Q-table", "Only for continuous actions"],
+          answer: 1,
+          explanation: "Expected SARSA averages over all next actions weighted by policy probability — lower variance, still on-policy.",
+        },
+      ],
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // Lesson 7 — PPO Deep Dive
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      id: "rl-07-ppo-deep-dive",
+      title: "PPO Deep Dive: The Industry Workhorse",
+      titleEn: "PPO Deep Dive: The Industry Workhorse",
+      level: 5,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lesson 4 (Policy Gradients).
+
+## Why PPO took over
+
+REINFORCE is brittle — one bad step collapses the policy. **TRPO** (2015) fixed this with a complex KL-divergence trust region. **PPO** (Schulman et al., 2017) keeps TRPO's safety using a tiny clipping trick that fits in 10 lines of code — the default RL algorithm at OpenAI, DeepMind, and Anthropic ever since.
+
+It powers: 🤖 OpenAI Five (Dota 2), 🧠 ChatGPT's RLHF, 🦾 robot locomotion, 🎮 most production game AIs.
+
+## The PPO clipped objective
+
+```text
+L^CLIP(θ) = E_t[ min( r_t(θ) · A_t, clip(r_t(θ), 1−ε, 1+ε) · A_t ) ]
+```
+
+Where **r_t(θ) = π_θ(a_t|s_t) / π_θ_old(a_t|s_t)** is the probability ratio and **A_t** the advantage (typically GAE-Lambda). **ε** = 0.1–0.2.
+
+```mermaid
+flowchart TB
+  A[Old policy π_θ_old] -->|collect rollout| B[Compute advantages with GAE]
+  B --> C[For K epochs: optimize clipped objective on minibatches]
+  C --> D[θ_old ← θ]
+  D --> A
+```
+
+**Intuition**: if a new action is much more likely AND has positive advantage, the ratio is clipped to `1+ε` so the gradient stops pushing — preventing catastrophic policy jumps.
+
+## GAE-Lambda — the perfect partner
+
+```text
+A_t^GAE(λ) = Σ (γλ)^l · δ_{t+l},   δ_t = r_t + γV(s_{t+1}) − V(s_t)
+```
+
+`λ` interpolates bias (low) ↔ variance (high). **λ=0.95** is the standard sweet spot.
+
+## 7 essential PPO implementation tricks
+
+1. Reward normalization (running std)
+2. Observation normalization (running mean/std)
+3. Orthogonal weight init (gain √2 hidden, 0.01 actor, 1.0 critic)
+4. Adam with linear LR decay
+5. Gradient clipping at norm 0.5
+6. Entropy bonus (~0.01)
+7. Clip range scheduling (typically constant 0.2)
+
+## Key Concept
+
+PPO clips the policy update ratio so no single optimization step moves the policy too far. Combined with GAE for advantages and the 7 engineering tricks, it delivers state-of-the-art performance across Atari, MuJoCo, robotics, and LLM alignment.
+
+## Common Pitfalls
+
+**Hyperparameter sensitivity** — wrong batch size or rollout length silently degrades performance. **Reward scaling** is critical — always normalize. **Off-the-shelf libraries** (Stable-Baselines3, CleanRL) embed all 7 tricks; reinventing PPO from scratch usually produces worse results.
+
+## Practice Task
+
+Train PPO on **LunarLander-v2** with Stable-Baselines3 for 500k timesteps. Compare wall-clock time and final return against your REINFORCE from Lesson 4 — PPO should reach the 200-reward solve threshold ~10× faster.
+      `,
+      theory: "",
+      code: `# Production-grade PPO with Stable-Baselines3
+# pip install stable-baselines3[extra] gymnasium
+import gymnasium as gym
+from stable_baselines3 import PPO
+from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
+from stable_baselines3.common.evaluation import evaluate_policy
+
+def make_env():
+    return gym.make("LunarLander-v2")
+
+env = DummyVecEnv([make_env])
+env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.0)
+
+model = PPO(
+    policy="MlpPolicy",
+    env=env,
+    learning_rate=3e-4,
+    n_steps=2048,
+    batch_size=64,
+    n_epochs=10,
+    gamma=0.99,
+    gae_lambda=0.95,
+    clip_range=0.2,
+    ent_coef=0.01,
+    vf_coef=0.5,
+    max_grad_norm=0.5,
+    verbose=1,
+)
+
+model.learn(total_timesteps=500_000, progress_bar=True)
+model.save("ppo_lunarlander")
+env.save("vec_normalize.pkl")
+
+mean_reward, std_reward = evaluate_policy(model, env, n_eval_episodes=20)
+print(f"Mean reward: {mean_reward:.1f} ± {std_reward:.1f}")
+print("Solved threshold = 200.")`,
+      exercise: "",
+      exerciseEn: "Train on **BipedalWalker-v3** for 1M+ timesteps. Compare convergence with **SAC** (off-policy max-entropy method) — which wins on this harder continuous task?",
+      quiz: [
+        {
+          question: "Main purpose of clipping in PPO's objective?",
+          options: ["Reduce computational cost", "Prevent overly large policy updates that destabilize training", "Eliminate the value function", "Handle continuous spaces"],
+          answer: 1,
+          explanation: "Clipping the ratio to [1−ε, 1+ε] caps the per-step policy change — replicating TRPO's trust region with a much simpler implementation.",
+        },
+        {
+          question: "What does GAE-Lambda's λ trade off?",
+          options: ["Learning rate vs batch size", "Bias (low λ) vs variance (high λ) in advantage estimation", "Discount vs reward", "Exploration vs exploitation"],
+          answer: 1,
+          explanation: "λ=0 uses only TD error (low variance, high bias); λ=1 is full Monte Carlo. λ=0.95 is the standard middle ground.",
+        },
+        {
+          question: "Which famous AI system is fine-tuned with PPO?",
+          options: ["BERT", "ChatGPT (RLHF)", "ResNet-50", "AlphaFold"],
+          answer: 1,
+          explanation: "ChatGPT and Claude are aligned via RLHF, where PPO fine-tunes the LLM against a learned reward model from human preferences.",
+        },
+      ],
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // Lesson 8 — Multi-Agent RL
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      id: "rl-08-multi-agent",
+      title: "Multi-Agent RL: Cooperation, Competition, Emergence",
+      titleEn: "Multi-Agent RL: Cooperation, Competition, Emergence",
+      level: 5,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lessons 3–4.
+
+## When one agent isn't enough
+
+Real systems have multiple decision-makers: financial markets, traffic, robot swarms, multi-LLM systems. **Multi-Agent RL (MARL)** studies how multiple agents learn simultaneously while their actions affect each other.
+
+```mermaid
+flowchart LR
+  A1[Agent 1] -->|action| ENV[Shared Environment]
+  A2[Agent 2] -->|action| ENV
+  A3[Agent 3] -->|action| ENV
+  ENV -->|obs, reward| A1
+  ENV -->|obs, reward| A2
+  ENV -->|obs, reward| A3
+```
+
+## Three flavors
+
+| Setting | Reward | Examples |
+|---------|--------|----------|
+| **Cooperative** | Shared team reward | Drone swarms, warehouse robots |
+| **Competitive** | Zero-sum | Chess, poker, StarCraft |
+| **Mixed** | Personal + shared | Auctions, traffic, Diplomacy |
+
+## Why naive single-agent algorithms break
+
+You **cannot** just run independent DQN per agent. Three challenges:
+
+1. **Non-stationarity**: from agent A's view, agent B is *itself learning and changing* — the MDP becomes non-Markov.
+2. **Credit assignment**: when team reward is high, *which agent* deserves credit?
+3. **Partial observability**: each agent sees only local info.
+
+## Centralized Training, Decentralized Execution (CTDE)
+
+The dominant 2025 paradigm:
+- **Training**: a centralized critic sees the global state + all actions → stable learning
+- **Execution**: each agent acts using only local observation → scalable, no comms needed
+
+Architecture behind **MADDPG**, **QMIX**, **MAPPO**.
+
+## Self-play — the engine of superhuman AI
+
+The most stunning MARL successes use **self-play**: an agent plays against past versions of itself. Opponent always matches current skill → automatic curriculum.
+
+- **AlphaGo Zero / AlphaZero**: pure self-play, mastered Go/Chess/Shogi
+- **AlphaStar**: population-based self-play → StarCraft II Grandmaster
+- **OpenAI Five**: PPO + self-play → Dota 2 world champions
+- **Cicero (2022)**: self-play + dialogue → human-level Diplomacy
+
+## Emergent behavior
+
+OpenAI's **hide-and-seek** agents discovered tool use, ramp surfing, and box surfing. **AlphaZero** invented chess openings dismissed by humans for centuries.
+
+## Key Concept
+
+MARL extends RL to systems with multiple learners whose actions interact. Non-stationarity (every agent's "environment" includes other learning agents) breaks naive single-agent approaches. CTDE combines a global critic at training time with local policies at deployment. Self-play has produced superhuman performance in Go, StarCraft II, Dota 2, and Diplomacy.
+
+## Common Pitfalls
+
+**Reward shaping** is even harder than single-agent — credit assignment is ambiguous. **Population-based training** matters: training against only one opponent risks overfitting to its quirks.
+
+## Practice Task
+
+Use **PettingZoo** to train independent PPO on the cooperative `pursuit_v4` environment. Plot average team reward over 200k timesteps.
+      `,
+      theory: "",
+      code: `# Multi-agent cooperative pursuit with PettingZoo + Stable-Baselines3
+# pip install pettingzoo[sisl] supersuit stable-baselines3
+from pettingzoo.sisl import pursuit_v4
+import supersuit as ss
+from stable_baselines3 import PPO
+
+env = pursuit_v4.parallel_env(max_cycles=500, n_pursuers=8, n_evaders=30)
+env.reset(seed=42)
+
+# Wrap for SB3
+env = ss.pad_observations_v0(env)
+env = ss.pad_action_space_v0(env)
+env = ss.pettingzoo_env_to_vec_env_v1(env)
+env = ss.concat_vec_envs_v1(env, num_vec_envs=4, base_class="stable_baselines3")
+
+# Shared-parameter PPO — all predators use the same policy
+model = PPO(
+    policy="MlpPolicy",
+    env=env,
+    learning_rate=3e-4,
+    n_steps=512,
+    batch_size=128,
+    n_epochs=4,
+    gamma=0.99,
+    gae_lambda=0.95,
+    clip_range=0.2,
+    ent_coef=0.01,
+    verbose=1,
+)
+
+print("Training cooperative predator team for 200k timesteps...")
+model.learn(total_timesteps=200_000)
+model.save("ppo_pursuit_team")`,
+      exercise: "",
+      exerciseEn: "Switch to **competitive** `connect_four_v3`. Implement self-play: train P1 against frozen P2 for 50k steps, then swap. Repeat 5 cycles. Measure win-rate vs random opponent — does it grow monotonically?",
+      quiz: [
+        {
+          question: "Why is naive independent Q-Learning unstable in multi-agent envs?",
+          options: ["Q-tables too large", "From each agent's view the env is non-stationary because other agents are also learning", "Discount factor must be negative", "Rewards cannot be shared"],
+          answer: 1,
+          explanation: "If agent B keeps changing while A learns, A's transition dynamics are non-stationary — breaking the Markov assumption.",
+        },
+        {
+          question: "What does CTDE mean?",
+          options: ["All agents share one network at execution", "Centralized critic with global info during training; agents act on local obs at deployment", "All agents communicate every step", "Cloud training, on-device execution"],
+          answer: 1,
+          explanation: "CTDE gives stable learning (global critic) + scalable execution (local policies) — the paradigm behind MADDPG, QMIX, MAPPO.",
+        },
+        {
+          question: "Which technique enabled AlphaZero to master Go/Chess/Shogi without human games?",
+          options: ["Imitation learning", "Self-play", "Reward shaping", "Curriculum learning"],
+          answer: 1,
+          explanation: "Pure self-play creates an automatic curriculum — opponents always match current skill — enabling AlphaZero to surpass humans in days.",
+        },
+      ],
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // Lesson 9 — Offline RL
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      id: "rl-09-offline-rl",
+      title: "Offline RL: Learning from Logged Data",
+      titleEn: "Offline RL: Learning from Logged Data",
+      level: 5,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lesson 3 (Q-Learning).
+
+## The most important RL paradigm for industry
+
+Most real-world RL applications **cannot afford online exploration**:
+- 🏥 Healthcare — cannot test random treatments on patients
+- 💰 Finance — random trades lose millions
+- 🚗 Autonomous driving — random actions cause crashes
+- 🏭 Industrial control — random commands destroy equipment
+
+But these domains have **enormous logged datasets**. **Offline RL** (Batch RL) learns optimal policies purely from this fixed dataset, with **zero new interaction**.
+
+```mermaid
+flowchart LR
+  D[(Logged dataset:<br/>states, actions, rewards)] --> ALG[Offline RL Algorithm]
+  ALG --> POLICY[Improved Policy π*]
+  POLICY -.deploy.-> ENV[Real Environment]
+```
+
+## Why offline RL is hard: distributional shift
+
+Naive Q-Learning on logged data **catastrophically overestimates** Q-values for actions never taken — there's no online feedback to correct optimism. Deploy → policy picks unseen actions → fails.
+
+## Three families of solutions
+
+### 1. Policy Constraint (BCQ, TD3+BC)
+Restrict the learned policy to stay close to the behavior policy.
+
+### 2. Conservative Q-Learning (CQL)
+Penalize Q-values for out-of-distribution actions. Explicitly **lower-bounds** the true Q.
+
+### 3. Sequence Modeling (Decision Transformer, 2021)
+Treat RL as **autoregressive sequence modeling** — feed (return-to-go, state, action) tuples to a Transformer, predict the next action. No Bellman backups, no distributional shift.
+
+## Offline → Online Fine-Tuning (modern recipe)
+
+1. Pretrain offline on massive logged data (cheap, safe)
+2. Fine-tune online with limited rollouts (a few hours of robot time)
+
+## Real-world successes
+
+- **Google DeepMind**: offline RL on cooling logs → 40% data-center energy reduction
+- **Healthcare**: sepsis treatment from MIMIC-III ICU logs
+- **Robotics**: Google's RT-2 trained on internet + offline robot demos
+- **Recommenders**: YouTube, TikTok use offline RL for watch-time
+
+## Key Concept
+
+Offline RL learns optimal policies from a fixed dataset of past interactions, with no new environment access. The core challenge — distributional shift — is addressed by either constraining the policy (BCQ, TD3+BC), being pessimistic about unseen actions (CQL), or treating RL as sequence modeling (Decision Transformer).
+
+## Common Pitfalls
+
+**Insufficient state coverage** in the dataset → policy can't generalize. **Reward signal quality** — if logged rewards are biased (e.g., only logged successful sessions), the policy inherits the bias. **Always evaluate offline** with techniques like FQE before deployment.
+
+## Practice Task
+
+Use **D4RL** + **d3rlpy** to train **CQL** on `hopper-medium-v2`. Compare its return against pure behavior cloning — CQL should outperform, demonstrating offline RL improving *beyond* what was demonstrated.
+      `,
+      theory: "",
+      code: `# Offline RL with d3rlpy on the D4RL benchmark
+# pip install d3rlpy gymnasium
+import d3rlpy
+from d3rlpy.algos import CQLConfig
+
+# Load D4RL hopper-medium dataset (1M transitions)
+dataset, env = d3rlpy.datasets.get_dataset("hopper-medium-v2")
+print(f"Loaded {len(dataset.episodes)} episodes")
+
+# Conservative Q-Learning — penalizes Q for out-of-distribution actions
+cql = CQLConfig(
+    actor_learning_rate=1e-4,
+    critic_learning_rate=3e-4,
+    batch_size=256,
+    gamma=0.99,
+    tau=0.005,
+    n_critics=2,
+    conservative_weight=5.0,    # the key CQL hyperparameter
+).create(device="cuda:0")        # or "cpu:0"
+
+# Train offline — NO interaction with env during training
+cql.fit(
+    dataset,
+    n_steps=500_000,
+    n_steps_per_epoch=10_000,
+    evaluators={"environment": d3rlpy.metrics.EnvironmentEvaluator(env)},
+)
+
+cql.save("cql_hopper_medium.d3")
+print("CQL typically reaches ~70-80 normalized score vs ~45 for BC.")`,
+      exercise: "",
+      exerciseEn: "Train **Behavior Cloning** (`d3rlpy.algos.BCConfig`) on the same dataset. Compare returns vs CQL. Try `hopper-medium-replay-v2` — on which dataset does CQL's improvement over BC become larger and why?",
+      quiz: [
+        {
+          question: "Defining constraint of offline RL?",
+          options: ["Must use deep NNs", "Learns purely from a fixed dataset, no new environment interaction", "Only for continuous actions", "Requires a perfect simulator"],
+          answer: 1,
+          explanation: "Offline RL operates on a frozen dataset of (s,a,r,s') tuples — no additional rollouts allowed.",
+        },
+        {
+          question: "What is 'distributional shift' in offline RL?",
+          options: ["Train and test rewards differ", "The learned policy wants actions outside the data distribution, causing extrapolation errors in Q", "Discount factor changes", "Dataset too small"],
+          answer: 1,
+          explanation: "Naive Q-Learning overestimates Q for unseen actions because there's no online feedback to correct optimism.",
+        },
+        {
+          question: "How does CQL prevent distributional shift?",
+          options: ["Smaller learning rate", "Adds a penalty that lowers Q-values for actions not in the dataset", "Restricts to discrete actions", "Increases discount"],
+          answer: 1,
+          explanation: "CQL adds a regularizer that pushes down Q for out-of-distribution actions, ensuring the learned Q is a lower bound on true Q.",
+        },
+      ],
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // Lesson 10 — RLHF & AlphaGo Deep Dive
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      id: "rl-10-rlhf-alphago",
+      title: "Landmark Case Studies: AlphaGo & RLHF (ChatGPT)",
+      titleEn: "Landmark Case Studies: AlphaGo & RLHF (ChatGPT)",
+      level: 5,
+      difficulty: "advanced",
+      codeLanguage: "python",
+      theoryEn: `
+> **Prerequisites**: Lessons 3–4, Lesson 7 (PPO).
+
+## Two RL achievements that defined modern AI
+
+**AlphaGo** (board games — discrete, perfect information) and **RLHF** (LLM alignment — continuous, partial-information, human-preference-based) showcase the breadth of modern RL.
+
+## Case Study 1: AlphaGo → AlphaZero → MuZero
+
+### AlphaGo (March 2016) — defeated Lee Sedol 4-1
+- **Stage 1**: Supervised learning on ~30M human Go moves
+- **Stage 2**: Policy gradient self-play
+- **Stage 3**: **Monte Carlo Tree Search (MCTS)** at inference, guided by policy + value network
+
+```mermaid
+flowchart TB
+  ROOT[Current Board] --> SEL[1. Select: traverse tree using UCB]
+  SEL --> EXP[2. Expand: add child via policy network]
+  EXP --> SIM[3. Evaluate: value network gives V_s]
+  SIM --> BACK[4. Backpropagate: update visits and values]
+  BACK --> ROOT
+```
+
+### AlphaGo Zero (Oct 2017) — beat AlphaGo 100-0
+- **Zero** human data — pure self-play from random init
+- Single network outputs both policy and value
+- Surpassed all previous Go AIs in 40 days
+
+### AlphaZero (Dec 2017) — generalized to Chess and Shogi
+Same algorithm, three games — superhuman in 24 hours.
+
+### MuZero (Dec 2019) — learned the rules from scratch
+Combined model-based RL + MCTS, never told the rules.
+
+## Case Study 2: RLHF — How ChatGPT Was Aligned
+
+Three stages turned a raw LLM into a usable assistant:
+
+### Stage 1: Supervised Fine-Tuning (SFT)
+Fine-tune base LLM on human-written demonstrations.
+
+### Stage 2: Reward Model Training
+Humans rank model outputs. Train a reward model `r_φ(prompt, response)` to predict rankings.
+
+### Stage 3: PPO Optimization
+```mermaid
+flowchart LR
+  P[Prompt] --> LLM[LLM Policy π_θ]
+  LLM -->|response| RM[Reward Model r_φ]
+  RM -->|reward| PPO[PPO Update]
+  PPO -->|update θ| LLM
+  REF[Frozen Reference Policy π_ref] -.KL penalty.-> PPO
+```
+
+The objective:
+
+```text
+r_φ(x, y) − β · KL[π_θ(·|x) ‖ π_ref(·|x)]
+```
+
+The KL penalty against the frozen pre-RLHF model prevents reward-hacking.
+
+## RLHF beyond ChatGPT
+
+- **Claude**: Constitutional AI — uses AI feedback (RLAIF)
+- **Llama 2/3**: standard RLHF with two reward models (helpful + safe)
+- **Gemini**: combines RLHF, distillation, and DPO
+
+## DPO (2023) — Direct Preference Optimization
+Trains the LLM directly on preference pairs **without** a separate reward model. Simpler, more stable.
+
+## Key Concept
+
+AlphaGo combines policy/value networks with MCTS, then improves via pure self-play — discovering strategies beyond human knowledge. RLHF aligns LLMs by training a reward model from human preferences and fine-tuning with PPO under a KL constraint. Together they powered the two most-discussed AI breakthroughs of the past decade.
+
+## Common Pitfalls
+
+**RLHF reward hacking** — without strong KL penalty, the model exploits reward-model weaknesses (overuse of certain phrases, sycophancy). **AlphaZero compute** — requires massive distributed self-play; can't be replicated on a laptop.
+
+## Practice Task
+
+Read OpenAI's InstructGPT paper (2022) and the AlphaGo Nature paper. Compare: (1) PPO's role in each, (2) reward signal differences, (3) exploration strategies.
+      `,
+      theory: "",
+      code: `# Conceptual RLHF skeleton with TRL
+# pip install trl transformers peft accelerate
+from trl import PPOConfig, PPOTrainer, AutoModelForCausalLMWithValueHead
+from transformers import AutoTokenizer, pipeline
+import torch
+
+MODEL = "gpt2"
+tokenizer = AutoTokenizer.from_pretrained(MODEL)
+tokenizer.pad_token = tokenizer.eos_token
+model = AutoModelForCausalLMWithValueHead.from_pretrained(MODEL)
+ref_model = AutoModelForCausalLMWithValueHead.from_pretrained(MODEL)
+
+# Reward model — sentiment as stand-in for human-trained reward
+reward_pipe = pipeline("sentiment-analysis", model="lvwerra/distilbert-imdb")
+
+def reward_fn(text):
+    out = reward_pipe(text, truncation=True, max_length=512)[0]
+    return out["score"] if out["label"] == "POSITIVE" else -out["score"]
+
+ppo_config = PPOConfig(
+    model_name=MODEL,
+    learning_rate=1.4e-5,
+    batch_size=16,
+    mini_batch_size=4,
+    init_kl_coef=0.2,            # KL penalty β
+    target_kl=6.0,
+    cliprange=0.2,
+)
+
+ppo_trainer = PPOTrainer(
+    config=ppo_config,
+    model=model,
+    ref_model=ref_model,
+    tokenizer=tokenizer,
+)
+
+prompts = ["The movie was", "I really felt that", "Honestly, the experience was"]
+for epoch in range(50):
+    queries = [tokenizer.encode(p, return_tensors="pt").squeeze() for p in prompts]
+    response_tensors = ppo_trainer.generate(queries, max_new_tokens=30, do_sample=True, top_p=0.9)
+    responses = [tokenizer.decode(r) for r in response_tensors]
+    rewards = [torch.tensor(reward_fn(p + r)) for p, r in zip(prompts, responses)]
+    stats = ppo_trainer.step(queries, response_tensors, rewards)
+    if epoch % 10 == 0:
+        mean_r = sum(r.item() for r in rewards) / len(rewards)
+        print(f"Epoch {epoch} | mean reward={mean_r:.3f} | KL={stats['objective/kl']:.3f}")`,
+      exercise: "",
+      exerciseEn: "Implement simplified **MCTS** for Tic-Tac-Toe in pure Python (no NN). For each move, run 1000 random rollouts and pick the action with the highest win rate. Test vs random opponent — should win >95%.",
+      quiz: [
+        {
+          question: "Key innovation of AlphaGo Zero vs AlphaGo?",
+          options: ["Larger NN", "Learned purely from self-play with zero human game data", "Single GPU", "Used SARSA"],
+          answer: 1,
+          explanation: "AlphaGo Zero discarded human-game pretraining, starting from random weights — yet surpassed AlphaGo in 40 days.",
+        },
+        {
+          question: "Role of KL penalty in RLHF?",
+          options: ["Speeds up training", "Prevents the policy from drifting too far from pre-RLHF model and exploiting reward-model weaknesses", "Eliminates value function", "Scales gradients"],
+          answer: 1,
+          explanation: "Without the KL penalty, PPO over-optimizes the imperfect reward model and produces incoherent reward-hacking text.",
+        },
+        {
+          question: "What does DPO replace in the RLHF pipeline?",
+          options: ["The base LLM", "The separate reward model and PPO step (trains directly on preference pairs)", "The SFT stage", "The tokenizer"],
+          answer: 1,
+          explanation: "DPO derives a closed-form objective from (winning, losing) pairs — no reward model, no PPO loop.",
+        },
+      ],
+    },
+
   ],
 };
 
