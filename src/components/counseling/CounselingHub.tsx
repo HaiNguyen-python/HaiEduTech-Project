@@ -730,7 +730,7 @@ const IkigaiSection = ({ userId }: { userId: string }) => {
           },
           body: JSON.stringify({
             mode: "ikigai",
-            payload: { answers, language },
+            payload: { answers, language: lang },
           }),
         }
       );
