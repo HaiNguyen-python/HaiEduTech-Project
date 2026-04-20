@@ -452,15 +452,20 @@ export const FIRST_30_DAYS_CHECKLIST: ChecklistItem[] = [
   { key: "kela-card", vi: "Nhận thẻ KELA qua bưu điện", en: "Receive KELA card by mail", category: "admin", week: 4 },
   { key: "recycling-points", vi: "Tìm điểm tái chế (Rinki-piste) gần nhất", en: "Find the nearest Rinki recycling point", category: "daily", week: 4 },
   { key: "language-course", vi: "Đăng ký khóa tiếng Phần Lan miễn phí (kotoutumiskoulutus)", en: "Enroll in free Finnish course (integration training)", category: "work", week: 4 },
+  ...FIRST_30_DAYS_CHECKLIST_EXPANSION,
 ];
 
-// Latest Migri / community resources
+// Latest Migri / community resources (2026)
 export const COMMUNITY_RESOURCES = [
-  { title: "Migri — Latest Updates", url: "https://migri.fi/en/news", emoji: "📰" },
+  { title: "Migri — Latest Updates 2026", url: "https://migri.fi/en/news", emoji: "📰" },
   { title: "InfoFinland (Official multilingual portal)", url: "https://www.infofinland.fi/en", emoji: "🌐" },
   { title: "Người Việt tại Phần Lan (Facebook)", url: "https://www.facebook.com/groups/nguoivietphanlan", emoji: "👥" },
   { title: "Vietnam Association in Finland", url: "https://www.facebook.com/vietnamfinland", emoji: "🤝" },
   { title: "Helsinki International House", url: "https://www.google.com/maps/search/International+House+Helsinki", emoji: "🏛️" },
+  { title: "Tori.fi — Buy used in Finland", url: "https://www.tori.fi", emoji: "♻️" },
+  { title: "HOAS — Helsinki student housing", url: "https://www.hoas.fi/en/", emoji: "🏠" },
+  { title: "Kela — Benefits 2026", url: "https://www.kela.fi/web/en", emoji: "💳" },
+  { title: "Vero — Tax info 2026", url: "https://www.vero.fi/en/", emoji: "🧾" },
 ];
 
 export const NEWCOMER_BADGE = {
