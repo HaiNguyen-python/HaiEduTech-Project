@@ -23,7 +23,7 @@ interface Props {
 }
 
 const SECTION_TABS: { id: SectionTab; icon: any; en: string; vi: string }[] = [
-  { id: "chat", icon: MessageCircle, en: "AI Counselor", vi: "Trợ lý AI" },
+  { id: "chat", icon: MessageCircle, en: "Your Counselor", vi: "Trợ lý của em" },
   { id: "mood", icon: Smile, en: "Mood Tracker", vi: "Cảm xúc" },
   { id: "journal", icon: BookHeart, en: "My Thoughts", vi: "Nhật ký" },
   { id: "personality", icon: Compass, en: "Career Profile", vi: "Hồ sơ Hướng nghiệp" },
