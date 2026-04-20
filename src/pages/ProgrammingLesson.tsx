@@ -698,15 +698,15 @@ const ProgrammingLessonPage = () => {
               </div>
             </div>
 
-              {/* Right side: IDE Panel with smooth animation */}
+              {/* Right side: IDE Panel — 40% default, sticky for easy reading */}
               <AnimatePresence>
                 {showIDE && !isMobile && (
                   <motion.div
                     initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: "50%", opacity: 1 }}
+                    animate={{ width: "40%", opacity: 1 }}
                     exit={{ width: 0, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="xl:w-2/5 shrink-0 min-w-0 overflow-hidden"
+                    className="xl:w-[38%] shrink-0 min-w-0 overflow-hidden"
                   >
                     <div className="sticky top-28 rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "calc(100vh - 140px)" }}>
                       {isSQL ? (
