@@ -19,7 +19,11 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { playFinnishTts } from "@/lib/finnishTts";
 import {
-  B1_READING, B1_LISTENING, B1_WRITING, B1_SPEAKING, getWordOfTheDay,
+  B1_READING_ALL as B1_READING,
+  B1_LISTENING_ALL as B1_LISTENING,
+  B1_WRITING_ALL as B1_WRITING,
+  B1_SPEAKING_ALL as B1_SPEAKING,
+  getWordOfTheDay,
 } from "@/data/ykiB1Data";
 
 // Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
