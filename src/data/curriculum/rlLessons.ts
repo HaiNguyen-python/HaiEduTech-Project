@@ -101,7 +101,6 @@ Reinforcement Learning trains agents to make sequential decisions by interacting
 Implement a simple agent in the FrozenLake environment that takes random actions for one episode. Print each (state, action, reward) tuple to visualize the RL loop in action.
       
       `,
-      theory: "",
       code: `# Foundations of RL: The Agent-Environment Loop
 # Using gymnasium (the modern successor to OpenAI Gym)
 import gymnasium as gym
@@ -260,7 +259,6 @@ An MDP is a 5-tuple (S, A, P, R, γ) that mathematically formalizes RL. The Mark
 Implement Value Iteration for a 4x4 GridWorld where each step costs -1 and reaching the goal gives +10. Print the converged value function as a 4x4 grid.
       
       `,
-      theory: "",
       code: `# Value Iteration on FrozenLake (known dynamics)
 import numpy as np
 import gymnasium as gym
@@ -446,7 +444,6 @@ Q-Learning is a model-free RL algorithm that learns Q(s,a) — the expected retu
 Train a tabular Q-Learning agent on FrozenLake for 5,000 episodes with ε-greedy exploration. Plot the moving average of episode rewards. You should see the agent learn to reach the goal consistently.
       
       `,
-      theory: "",
       code: `# Tabular Q-Learning on FrozenLake
 import numpy as np
 import gymnasium as gym
@@ -638,7 +635,6 @@ Policy Gradient methods directly optimize the policy π(a|s;θ) by gradient asce
 Implement REINFORCE on CartPole-v1: a 2-layer MLP outputs softmax over 2 actions. Use discount γ=0.99 and a learning rate of 1e-3. Train for 1000 episodes and plot the moving average reward — you should reach 500 (max) within a few hundred episodes.
       
       `,
-      theory: "",
       code: `# REINFORCE on CartPole-v1
 import torch
 import torch.nn as nn
@@ -851,7 +847,6 @@ Real-world RL has moved beyond toy problems: AlphaGo/AlphaZero conquered board g
 Use Stable-Baselines3 to train PPO on LunarLander-v2 for 200,000 timesteps. Render the trained policy and watch your agent learn to land safely. Try modifying the reward function (e.g., penalize fuel use more) and see how behavior changes.
       
       `,
-      theory: "",
       code: `# Production-grade RL with Stable-Baselines3
 # pip install stable-baselines3[extra] gymnasium
 
@@ -995,7 +990,6 @@ SARSA is the on-policy cousin of Q-Learning. Its update target uses the *next ac
 
 Implement SARSA on **CliffWalking-v0**. Compare its trajectory and average reward against Q-Learning over 500 episodes. SARSA should take the safe upper path while Q-Learning hugs the cliff edge.
       `,
-      theory: "",
       code: `# SARSA on CliffWalking-v0
 import numpy as np
 import gymnasium as gym
@@ -1131,7 +1125,6 @@ PPO clips the policy update ratio so no single optimization step moves the polic
 
 Train PPO on **LunarLander-v2** with Stable-Baselines3 for 500k timesteps. Compare wall-clock time and final return against your REINFORCE from Lesson 4 — PPO should reach the 200-reward solve threshold ~10× faster.
       `,
-      theory: "",
       code: `# Production-grade PPO with Stable-Baselines3
 # pip install stable-baselines3[extra] gymnasium
 import gymnasium as gym
@@ -1269,7 +1262,6 @@ MARL extends RL to systems with multiple learners whose actions interact. Non-st
 
 Use **PettingZoo** to train independent PPO on the cooperative \`pursuit_v4\` environment. Plot average team reward over 200k timesteps.
       `,
-      theory: "",
       code: `# Multi-agent cooperative pursuit with PettingZoo + Stable-Baselines3
 # pip install pettingzoo[sisl] supersuit stable-baselines3
 from pettingzoo.sisl import pursuit_v4
@@ -1397,7 +1389,6 @@ Offline RL learns optimal policies from a fixed dataset of past interactions, wi
 
 Use **D4RL** + **d3rlpy** to train **CQL** on \`hopper-medium-v2\`. Compare its return against pure behavior cloning — CQL should outperform, demonstrating offline RL improving *beyond* what was demonstrated.
       `,
-      theory: "",
       code: `# Offline RL with d3rlpy on the D4RL benchmark
 # pip install d3rlpy gymnasium
 import d3rlpy
@@ -1546,7 +1537,6 @@ AlphaGo combines policy/value networks with MCTS, then improves via pure self-pl
 
 Read OpenAI's InstructGPT paper (2022) and the AlphaGo Nature paper. Compare: (1) PPO's role in each, (2) reward signal differences, (3) exploration strategies.
       `,
-      theory: "",
       code: `# Conceptual RLHF skeleton with TRL
 # pip install trl transformers peft accelerate
 from trl import PPOConfig, PPOTrainer, AutoModelForCausalLMWithValueHead
