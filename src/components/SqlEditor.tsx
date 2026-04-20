@@ -177,7 +177,7 @@ const SqlEditor = ({ initialCode = "SELECT * FROM students;", expectedOutput }: 
             {loading ? "⏳ Loading SQL..." : "📊 Results"}
           </span>
         </div>
-        <pre className="p-4 bg-[#1e1e1e] text-green-400 text-sm font-mono min-h-[80px] max-h-[240px] overflow-auto whitespace-pre-wrap">
+        <pre className="p-4 bg-[#1e1e1e] text-green-400 text-sm font-mono min-h-[80px] max-h-[360px] overflow-auto whitespace-pre break-words leading-relaxed">
           {loading
             ? t("Đang tải SQL runtime...", "Loading SQL runtime...")
             : output || t("Bấm 'Chạy SQL' để xem kết quả...", "Press 'Run SQL' to see results...")}

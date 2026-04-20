@@ -70,21 +70,25 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
             margin: 0,
             padding: "1.25rem",
             background: "#0f172a",
-            fontSize: "0.9rem",
-            lineHeight: 1.65,
+            fontSize: "0.875rem",
+            lineHeight: 1.7,
             fontFamily:
               "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
             fontFeatureSettings: '"liga" 1, "calt" 1',
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-word",
           }}
           codeTagProps={{
             style: {
               fontFamily:
                 "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
               fontFeatureSettings: '"liga" 1, "calt" 1',
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
             },
           }}
           showLineNumbers={false}
-          wrapLongLines={false}
+          wrapLongLines={true}
         >
           {code.replace(/\n$/, "")}
         </SyntaxHighlighter>

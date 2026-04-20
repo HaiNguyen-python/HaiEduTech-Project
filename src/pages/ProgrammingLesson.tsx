@@ -282,10 +282,10 @@ const ProgrammingLessonPage = () => {
               )}
             </div>
 
-            {/* Main 2-column layout: Content + IDE */}
+            {/* Main 2-column layout: Content + IDE (60% theory / 40% IDE for readability) */}
             <div className={`flex gap-6 ${showIDE && !isMobile ? "flex-row" : "flex-col"}`}>
               {/* Left side: Sidebar + Lesson content */}
-              <div className={`${showIDE && !isMobile ? "w-1/2 xl:w-3/5" : "w-full"} min-w-0`}>
+              <div className={`${showIDE && !isMobile ? "w-3/5 xl:w-[62%]" : "w-full"} min-w-0`}>
             <div className="flex flex-col lg:flex-row gap-6">
               {/* Sidebar - Roadmap with ALL pillar modules */}
               <div className="lg:w-72 shrink-0">
@@ -698,15 +698,15 @@ const ProgrammingLessonPage = () => {
               </div>
             </div>
 
-              {/* Right side: IDE Panel with smooth animation */}
+              {/* Right side: IDE Panel — 40% default, sticky for easy reading */}
               <AnimatePresence>
                 {showIDE && !isMobile && (
                   <motion.div
                     initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: "50%", opacity: 1 }}
+                    animate={{ width: "40%", opacity: 1 }}
                     exit={{ width: 0, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="xl:w-2/5 shrink-0 min-w-0 overflow-hidden"
+                    className="xl:w-[38%] shrink-0 min-w-0 overflow-hidden"
                   >
                     <div className="sticky top-28 rounded-xl overflow-hidden border border-border shadow-md" style={{ height: "calc(100vh - 140px)" }}>
                       {isSQL ? (
@@ -737,7 +737,7 @@ const ProgrammingLessonPage = () => {
                     {showIDE && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 400, opacity: 1 }}
+                        animate={{ height: 540, opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         className="rounded-xl overflow-hidden border border-border shadow-md"
