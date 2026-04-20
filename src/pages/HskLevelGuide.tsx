@@ -439,10 +439,10 @@ const ProTipCard = ({
       <span className="text-xl shrink-0">💡</span>
       <div>
         <h4 className="font-bold text-foreground mb-1">
-          {lang === "vi" ? tip.titleVi : tip.title}
+          {language === "vi" ? tip.titleVi : tip.title}
         </h4>
         <p className="text-sm text-foreground/85 leading-relaxed">
-          {lang === "vi" ? tip.bodyVi : tip.body}
+          {language === "vi" ? tip.bodyVi : tip.body}
         </p>
       </div>
     </div>
