@@ -1,6 +1,9 @@
 import { useState, useEffect, useMemo, useCallback, ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 import {
   Check, Circle, BookOpenCheck, Lightbulb, Code2, FileCode, AlertTriangle,
   ListChecks, HelpCircle, Zap, GitCompare, Dumbbell, Sparkles, BookOpen,
@@ -105,6 +108,39 @@ const DIAGRAM_RE = /:::diagram\s+type=["']([\w-]+)["']\s*:::/g;
 const MERMAID_RE = /```mermaid\s*\n([\s\S]*?)```/g;
 // Deep Dive block: :::deepdive title="..." ... :::
 const DEEPDIVE_RE = /:::deepdive\s+title=["']([^"']+)["']\s*\n([\s\S]*?):::/g;
+
+/**
+ * Normalize math notation so KaTeX can render it.
+ * AI often outputs `\( ... \)` and `\[ ... \]` (LaTeX delimiters) or raw
+ * `( \frac{...}{...} )` fragments — none of which remark-math understands by default.
+ * We rewrite all of these to standard `$...$` / `$$...$$` delimiters,
+ * but ONLY outside fenced code blocks so we never corrupt code samples.
+ */
+function normalizeMath(input: string): string {
+  if (!input) return input;
+
+  // Split by fenced code so we leave ``` blocks untouched.
+  const parts = input.split(/(```[\s\S]*?```)/g);
+  return parts
+    .map((part) => {
+      if (part.startsWith("```")) return part;
+
+      let out = part;
+      // \[ ... \]  → $$ ... $$
+      out = out.replace(/\\\[([\s\S]+?)\\\]/g, (_, body) => `$$${body.trim()}$$`);
+      // \( ... \)  → $ ... $
+      out = out.replace(/\\\(([\s\S]+?)\\\)/g, (_, body) => `$${body.trim()}$`);
+      // ( \frac{..}{..} ... )  /  ( \sum ... )  /  ( \sqrt{..} ... )
+      // — promote inline-paren LaTeX fragments to inline math.
+      out = out.replace(
+        /\(\s*((?:[^()]*\\(?:frac|sum|sqrt|hat|bar|mathbf|partial|leftarrow|rightarrow|cdot|times|leq|geq|neq|alpha|beta|gamma|delta|theta|lambda|mu|sigma|eta|epsilon|infty|in|notin|forall|exists|approx|sim|propto|prod|int|lim|log|ln|sin|cos|tan|text)[^()]*)+)\s*\)/g,
+        (_, body) => `$${body.trim()}$`,
+      );
+      // Standalone references like [1][2] are fine, leave them.
+      return out;
+    })
+    .join("");
+}
 
 type Chunk =
   | { kind: "md"; value: string }
@@ -215,7 +251,7 @@ const markdownComponents = (defaultLang: string) => ({
 });
 
 const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: TheorySectionsProps) => {
-  const sections = useMemo(() => splitByH2(markdown), [markdown]);
+  const sections = useMemo(() => splitByH2(normalizeMath(markdown)), [markdown]);
   const components = useMemo(() => markdownComponents(defaultCodeLanguage), [defaultCodeLanguage]);
 
   const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
@@ -261,14 +297,23 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
       if (c.kind === "deepdive") {
         return (
           <DeepDive key={`dd-${i}`} title={c.title}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm, remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+              components={components}
+            >
               {c.body}
             </ReactMarkdown>
           </DeepDive>
         );
       }
       return (
-        <ReactMarkdown key={`m-${i}`} remarkPlugins={[remarkGfm]} components={components}>
+        <ReactMarkdown
+          key={`m-${i}`}
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+          components={components}
+        >
           {c.value}
         </ReactMarkdown>
       );
