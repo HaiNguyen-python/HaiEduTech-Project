@@ -19,46 +19,53 @@ function initMermaid() {
     securityLevel: "loose",
     suppressErrorRendering: true, // ⬅ stops the bomb-icon SVG injection
     fontFamily: "Inter, system-ui, sans-serif",
+    fontSize: 15,
     flowchart: {
       curve: "basis",
-      padding: 24,
-      nodeSpacing: 70,
-      rankSpacing: 70,
-      htmlLabels: true,
+      padding: 20,
+      nodeSpacing: 80,
+      rankSpacing: 90,
+      // Use SVG text labels so Mermaid measures text correctly and never clips
+      htmlLabels: false,
       useMaxWidth: true,
-      diagramPadding: 16,
+      diagramPadding: 20,
+      wrappingWidth: 220,
+    },
+    sequence: {
+      useMaxWidth: true,
+      wrap: true,
+      messageFontSize: 15,
+      noteFontSize: 14,
+      actorFontSize: 15,
     },
     themeCSS: `
-      .node rect, .node polygon, .node circle, .node ellipse {
+      .node rect, .node polygon, .node circle, .node ellipse, .node path {
         rx: 10; ry: 10;
         stroke-width: 1.5px !important;
       }
-      .nodeLabel, .edgeLabel, .label {
-        white-space: nowrap !important;
+      /* Allow text to wrap naturally — never force nowrap */
+      .nodeLabel, .edgeLabel, .label, text.actor, .messageText, .loopText, .noteText {
         font-size: 15px !important;
-        font-weight: 500 !important;
-        line-height: 1.5 !important;
-        padding: 4px 10px !important;
-        letter-spacing: 0.01em;
+        font-weight: 600 !important;
+        line-height: 1.45 !important;
+        letter-spacing: 0.005em;
       }
       .edgeLabel {
         background-color: ${isDark ? "#0f172a" : "#ffffff"} !important;
         color: ${isDark ? "#f1f5f9" : "#0f172a"} !important;
+        padding: 2px 6px !important;
       }
-      foreignObject { overflow: visible !important; }
-      foreignObject div {
-        white-space: nowrap !important;
-        overflow: visible !important;
-        display: inline-block !important;
-        text-align: center !important;
-      }
+      /* Make sure the text node never gets clipped by its rect */
+      .node text { dominant-baseline: middle; }
       .cluster rect { rx: 12; ry: 12; }
       .flowchart-link { stroke-width: 1.5px !important; }
+      /* Timeline + sequence subtle polish */
+      .timeline .section-0, .timeline .section-1 { font-weight: 600 !important; }
     `,
     themeVariables: isDark
       ? {
           primaryColor: "#1e3a8a",
-          primaryTextColor: "#f1f5f9",
+          primaryTextColor: "#f8fafc",
           primaryBorderColor: "#3b82f6",
           lineColor: "#94a3b8",
           secondaryColor: "#0f172a",
@@ -66,6 +73,9 @@ function initMermaid() {
           background: "#0f172a",
           mainBkg: "#1e3a8a",
           nodeBorder: "#3b82f6",
+          clusterBkg: "#1e293b",
+          clusterBorder: "#3b82f6",
+          titleColor: "#f8fafc",
         }
       : {
           primaryColor: "#dbeafe",
@@ -77,6 +87,9 @@ function initMermaid() {
           background: "#ffffff",
           mainBkg: "#dbeafe",
           nodeBorder: "#3b82f6",
+          clusterBkg: "#f8fafc",
+          clusterBorder: "#3b82f6",
+          titleColor: "#0f172a",
         },
   });
 }
@@ -138,7 +151,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   }
 
   return (
-    <div className="not-prose my-6 rounded-xl border border-border bg-gradient-to-br from-card to-muted/20 p-6 overflow-x-auto shadow-sm">
+    <div className="not-prose my-6 rounded-xl border border-border bg-gradient-to-br from-card to-muted/20 p-6 overflow-x-auto shadow-sm min-h-[160px]">
       {loading && (
         <div className="flex items-center justify-center py-6 text-muted-foreground text-sm">
           <Loader2 className="w-4 h-4 animate-spin mr-2" /> Rendering diagram…
@@ -146,7 +159,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
       )}
       <div
         ref={ref}
-        className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto [&_svg]:mx-auto [&_foreignObject]:!overflow-visible [&_.nodeLabel]:!whitespace-nowrap [&_.label]:!whitespace-nowrap [&_.node]:drop-shadow-sm"
+        className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto [&_svg]:mx-auto [&_.node]:drop-shadow-sm"
       />
     </div>
   );
