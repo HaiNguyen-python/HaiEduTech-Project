@@ -107,6 +107,8 @@ const ProgrammingLessonPage = () => {
   const [enhancedMd, setEnhancedMd] = useState<string | null>(null);
   const [enhanceLoading, setEnhanceLoading] = useState(false);
   const [useEnhanced, setUseEnhanced] = useState(true);
+  // Set of cached lesson keys "moduleId::lessonId" — drives the sidebar ✨ Enhanced badge
+  const [cachedLessonKeys, setCachedLessonKeys] = useState<Set<string>>(new Set());
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
 
@@ -157,6 +159,23 @@ const ProgrammingLessonPage = () => {
   // Get all sibling modules for same pillar
   const pillar = moduleId ? getPillarForModule(moduleId) : null;
   const pillarModules = pillar ? getPillarModules(pillar) : [];
+
+  // Sidebar badge: load all cached (module_id, lesson_id) for the current pillar in one query
+  useEffect(() => {
+    const moduleIds = pillarModules.map((m) => m.id);
+    if (moduleIds.length === 0) return;
+    let cancelled = false;
+    supabase
+      .from("programming_theory_cache")
+      .select("module_id,lesson_id")
+      .in("module_id", moduleIds)
+      .then(({ data }) => {
+        if (cancelled || !data) return;
+        setCachedLessonKeys(new Set(data.map((r: any) => `${r.module_id}::${r.lesson_id}`)));
+      });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pillar]);
 
   useEffect(() => {
     const m = allProgrammingModules.find(m => m.id === moduleId);
@@ -323,12 +342,12 @@ const ProgrammingLessonPage = () => {
                             <div className="ml-3 mt-1 space-y-0.5 border-l-2 border-border pl-2">
                               {pm.lessons.map((l, i) => {
                                 const isActive = lesson.id === l.id && mod.id === pm.id;
+                                const isEnhanced = cachedLessonKeys.has(`${pm.id}::${l.id}`);
                                 return (
                                   <button
                                     key={l.id}
                                     onClick={() => {
                                       if (pm.id !== mod.id) {
-                                        // Navigate to different module
                                         window.history.pushState({}, '', `/programming/${pm.id}`);
                                         setMod(pm);
                                       }
@@ -347,7 +366,15 @@ const ProgrammingLessonPage = () => {
                                         {i + 1}
                                       </span>
                                     )}
-                                    <span className="truncate">{t(l.title, l.titleEn)}</span>
+                                    <span className="truncate flex-1">{t(l.title, l.titleEn)}</span>
+                                    {isEnhanced && (
+                                      <span
+                                        title="AI Deep-Dive ready"
+                                        className="shrink-0 text-[10px] leading-none text-violet-500 dark:text-violet-300"
+                                      >
+                                        ✨
+                                      </span>
+                                    )}
                                   </button>
                                 );
                               })}
