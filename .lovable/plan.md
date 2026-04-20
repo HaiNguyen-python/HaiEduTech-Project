@@ -1,47 +1,43 @@
 
 
-## Vấn đề
-Khi mở IDE ở `/programming/...`, layout split-view ép cột nội dung bên trái xuống ~50% chiều rộng → CodeBlock & code trong IDE bị tràn, phải scroll ngang nhiều. Console output trong `PythonIDEPanel` (max-h 160px) và `SqlEditor` (max-h 240px) cũng quá thấp khi chạy query/code dài.
+## Goal
+Pre-generate the AI "Deep-Dive" enhanced theory for **all ~238 Programming lessons** so every lesson opens with rich, AI-enhanced content already cached — no need for the user (or students) to manually click "Enhance with AI" on each one.
 
-## Giải pháp (gọn, tập trung)
+## Current state
+- The `enhance-programming-theory` edge function already exists and uses **Perplexity `sonar-pro`** to produce a structured 800–1100-word Deep-Dive (sections, comparison table, Mermaid diagram, code blocks, deep-dive callouts) and stores it in the `programming_theory_cache` table keyed by `(module_id, lesson_id)`.
+- Right now only **6 of ~238 lessons** are cached. The rest still show the original short theory until a student clicks the button.
+- Each curriculum lesson already has a stable `id` plus `title/titleEn`, `theory/theoryEn`, and `codeLanguage` — exactly what the function needs.
 
-### 1. Tăng không gian đọc bằng resizable split-view
-File `src/pages/ProgrammingLesson.tsx`:
-- Thay layout `motion.div width: 50%` cứng bằng **`ResizablePanelGroup`** (đã có sẵn `src/components/ui/resizable.tsx`)
-- Mặc định: 60% nội dung lý thuyết / 40% IDE — dễ đọc hơn
-- Người dùng có thể **kéo handle** để mở rộng tùy ý (ví dụ kéo IDE rộng 70% khi viết code dài)
-- Min size: lý thuyết 35%, IDE 30% → không bao giờ bị bóp đến mức không đọc được
-- Giữ animation fade-in nhẹ thay vì width animation (tránh xung đột với resizable)
+## Plan
 
-### 2. Fix word-wrap & spacing trong IDE panels
-File `src/components/PythonIDEPanel.tsx`:
-- Console output: tăng `max-h-[160px]` → `max-h-[280px]`, font `text-xs` → `text-sm`
-- Đảm bảo `whitespace-pre-wrap break-words` (dòng dài tự xuống hàng thay vì scroll ngang)
-- AI help box: thêm `break-words` + tăng padding
+### 1. Build a one-shot bulk-enhancer script (`/tmp/bulk_enhance.ts`)
+A Deno/Node script that:
+- Imports `allProgrammingModules` from the curriculum data.
+- For every `(module, lesson)` pair, checks the `programming_theory_cache` table; if no row exists, calls the deployed `enhance-programming-theory` edge function with the same payload the UI sends.
+- Runs sequentially with a small delay (≈1.5s) and limited concurrency (2–3 in parallel) to respect Perplexity rate limits.
+- Logs progress (`[123/238] prog-sql / sql-select-basics ✓ cached`) and a final summary with success/skip/fail counts.
+- On 429/insufficient-quota, backs off and stops cleanly so we can resume; resuming is automatic since cached rows are skipped.
 
-File `src/components/SqlEditor.tsx`:
-- Console output: tăng `max-h-[240px]` → `max-h-[360px]`
-- Bảng kết quả SQL: bọc trong `overflow-x-auto` riêng, giữ font-mono nhưng tăng `text-sm` → dễ đọc số liệu
+### 2. Run it from the sandbox
+Execute the script with `code--exec` against the live edge function. Because the function already upserts into `programming_theory_cache`, no DB migration is needed. Expected runtime: ~15–25 minutes for 232 new lessons (Perplexity sonar-pro typical latency).
 
-### 3. Mobile: tăng chiều cao IDE
-- IDE drawer mobile hiện tại fix `height: 400` → tăng lên `height: 540` (lesson Python thường cần > 8 dòng code + console)
-- Thêm nút "Expand fullscreen" cho mobile để học sinh có thể tập trung viết code
+### 3. Tiny UX polish in `ProgrammingLesson.tsx`
+- When a cached Deep-Dive exists, the page already auto-loads it via the existing `useEffect` and shows the `AI Deep-Dive` badge — so after the bulk run, every lesson will open enhanced by default. No code change strictly required, but I'll:
+  - Add a small "✨ Enhanced" indicator next to lessons in the sidebar list when cached (single extra Supabase query on page load: `select lesson_id where module_id = ...`).
+  - Keep the existing manual "Refresh" button for teachers who want to regenerate.
 
-### 4. CodeBlock trong nội dung lý thuyết
-File `src/components/CodeBlock.tsx`:
-- Hiện đã có `overflow-x-auto`, nhưng khi cột bị hẹp → vẫn scroll. Bổ sung `wrapLongLines={true}` cho `SyntaxHighlighter` (giữ syntax color, tự xuống hàng cho dòng > viewport)
-- Tăng `font-size` thực tế từ ~13px lên 14px khi container hẹp
+### 4. Verification
+After the script finishes:
+- Query `select count(*) from programming_theory_cache` — expect ~238.
+- Spot-check 3 lessons in different pillars (Python, SQL, Cloud) by visiting `/programming/<module>/<lesson>` and confirming the violet "AI Deep-Dive" badge appears immediately.
 
-## Phạm vi thay đổi
-| File | Thay đổi |
-|---|---|
-| `src/pages/ProgrammingLesson.tsx` | Resizable split-view + tăng mobile IDE height |
-| `src/components/PythonIDEPanel.tsx` | Console rộng hơn + break-words |
-| `src/components/SqlEditor.tsx` | Console rộng hơn + bảng SQL dễ đọc |
-| `src/components/CodeBlock.tsx` | wrapLongLines cho SyntaxHighlighter |
+## Cost & risk note
+- Each call uses ≈2,400 tokens of Perplexity sonar-pro (~$0.012). 232 lessons ≈ **$2.80 total**. Monitored via the existing `api_usage_log` insert already inside the edge function.
+- If the Perplexity quota is exhausted mid-run, the script stops gracefully; re-running later picks up exactly where it left off (cached rows are skipped).
+- Original theory remains untouched — the toggle to "Original" view in the UI still works.
 
-## Không thay đổi
-- Logic Pyodide / sql.js / AI Debug
-- Layout khi IDE đóng (vẫn full-width đọc thoải mái)
-- Theme màu Dracula của `CodePlayground` (Python Pathway dùng component khác — không bị ảnh hưởng)
+## Files touched
+- **New**: `/tmp/bulk_enhance.ts` (sandbox-only, not committed).
+- **Edited (small)**: `src/pages/ProgrammingLesson.tsx` — sidebar "✨ Enhanced" badge per lesson.
+- **No DB migration**, **no edge-function changes**, **no new secrets** (PERPLEXITY_API_KEY already configured).
 
