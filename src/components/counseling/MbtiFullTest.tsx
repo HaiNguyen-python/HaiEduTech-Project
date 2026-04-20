@@ -388,15 +388,8 @@ const MbtiFullTest = ({ userId }: Props) => {
             )}
           </div>
         )}
-
-          {ai.scholarship_hint && (
-                <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
-                  <p className="text-sm">🎓 <strong>{t("Học bổng phù hợp:", "Scholarship hint:")}</strong> {ai.scholarship_hint}</p>
-                </div>
-              )}
-            </div>
-          )}
         </div>
+
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button
