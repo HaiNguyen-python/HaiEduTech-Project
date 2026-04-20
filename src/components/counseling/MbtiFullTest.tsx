@@ -1,6 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brain, ArrowLeft, ArrowRight, Loader2, Sparkles, Check, RotateCcw, Lightbulb, Award, GraduationCap, BookOpen, History } from "lucide-react";
+import { Brain, ArrowLeft, ArrowRight, Loader2, Sparkles, Check, RotateCcw, Lightbulb, Award, GraduationCap, BookOpen, History, Download } from "lucide-react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
@@ -18,6 +20,8 @@ const MbtiFullTest = ({ userId }: Props) => {
   const [result, setResult] = useState<any>(null);
   const [history, setHistory] = useState<any[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const printRef = useRef<HTMLDivElement>(null);
 
   const total = MBTI_FULL_QUESTIONS.length;
   const current = MBTI_FULL_QUESTIONS[idx];
@@ -91,6 +95,44 @@ const MbtiFullTest = ({ userId }: Props) => {
     setIdx(0);
     setResult(null);
     setPhase("intro");
+  };
+
+  const exportPDF = async () => {
+    if (!printRef.current || !result) return;
+    setExporting(true);
+    try {
+      const element = printRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        windowWidth: element.scrollWidth,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth - 20;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 10;
+      pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight - 20;
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight + 10;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight - 20;
+      }
+      const code = result.code || "MBTI";
+      const date = new Date().toISOString().slice(0, 10);
+      pdf.save(`MBTI_${code}_${date}.pdf`);
+      toast.success(t("Đã tải xuống PDF!", "PDF downloaded!"));
+    } catch (e: any) {
+      toast.error(e.message || "Failed to export");
+    } finally {
+      setExporting(false);
+    }
   };
 
   // INTRO
@@ -201,20 +243,29 @@ const MbtiFullTest = ({ userId }: Props) => {
     const ai = result.ai || {};
     return (
       <div className="space-y-5">
-        {/* Hero card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, rotateY: -90 }}
-          animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-          transition={{ duration: 0.6 }}
-          className={`rounded-2xl bg-gradient-to-br ${profile.color} p-8 text-white shadow-2xl`}
-        >
-          <div className="text-center">
-            <p className="text-sm opacity-90 mb-1">{t("Tính cách của em là", "Your personality type is")}</p>
-            <p className="text-6xl font-display font-bold tracking-tight mb-2">{profile.code}</p>
-            <p className="text-xl font-display font-semibold">{lang === "vi" ? profile.title_vi : profile.title_en}</p>
-            <p className="text-sm opacity-90 italic mt-1">"{lang === "vi" ? profile.nickname_vi : profile.nickname_en}"</p>
+        <div ref={printRef} className="space-y-5 bg-background p-1">
+          {/* PDF header (only visible in PDF export, hidden via screen but rendered) */}
+          <div className="text-center pb-3 border-b border-border print-header">
+            <p className="text-xs text-muted-foreground">HaiEduTech · {t("Báo cáo Trắc nghiệm Tính cách MBTI", "MBTI Personality Assessment Report")}</p>
+            <p className="text-[10px] text-muted-foreground mt-0.5">
+              {new Date().toLocaleDateString(lang === "vi" ? "vi-VN" : "en-US", { year: "numeric", month: "long", day: "numeric" })} · haiedutech.com
+            </p>
           </div>
-        </motion.div>
+
+          {/* Hero card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, rotateY: -90 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 0.6 }}
+            className={`rounded-2xl bg-gradient-to-br ${profile.color} p-8 text-white shadow-2xl`}
+          >
+            <div className="text-center">
+              <p className="text-sm opacity-90 mb-1">{t("Tính cách của em là", "Your personality type is")}</p>
+              <p className="text-6xl font-display font-bold tracking-tight mb-2">{profile.code}</p>
+              <p className="text-xl font-display font-semibold">{lang === "vi" ? profile.title_vi : profile.title_en}</p>
+              <p className="text-sm opacity-90 italic mt-1">"{lang === "vi" ? profile.nickname_vi : profile.nickname_en}"</p>
+            </div>
+          </motion.div>
 
         {/* Dimension bars */}
         <div className="rounded-2xl border border-border bg-card p-5">
@@ -337,13 +388,25 @@ const MbtiFullTest = ({ userId }: Props) => {
             )}
           </div>
         )}
+        </div>
 
-        <button
-          onClick={restart}
-          className="w-full py-3 rounded-xl border border-border hover:bg-secondary text-sm font-semibold flex items-center justify-center gap-2"
-        >
-          <RotateCcw className="w-4 h-4" /> {t("Làm lại trắc nghiệm", "Retake Test")}
-        </button>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button
+            onClick={exportPDF}
+            disabled={exporting}
+            className="py-3 rounded-xl bg-gradient-to-r from-violet-500 to-pink-500 text-white text-sm font-semibold flex items-center justify-center gap-2 hover:brightness-110 disabled:opacity-60 shadow-lg"
+          >
+            {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+            {exporting ? t("Đang tạo PDF...", "Generating PDF...") : t("Tải xuống PDF", "Download PDF")}
+          </button>
+          <button
+            onClick={restart}
+            className="py-3 rounded-xl border border-border hover:bg-secondary text-sm font-semibold flex items-center justify-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" /> {t("Làm lại trắc nghiệm", "Retake Test")}
+          </button>
+        </div>
       </div>
     );
   }
