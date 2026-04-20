@@ -109,21 +109,27 @@ const Navbar = () => {
 
   const englishSubs: SubItem[] = [
     { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/english/cambridge", label: "🌟 Cambridge Starters–PET", children: [
-      { to: "/english/cambridge", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
+    { to: "#en-div1", label: "", divider: true },
+    // Foundation (everyday English)
+    { to: "#en-foundation-group", label: t("📖 Nền tảng Anh ngữ", "📖 English Foundation"), groupLabel: "en-foundation", children: [
+      { to: "/english/grammar", label: t("Ngữ pháp", "Grammar"), icon: BookOpen },
+      { to: "/english/conversational", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
+      { to: "/english/cambridge", label: t("Cambridge Starters–PET", "Cambridge Starters–PET"), icon: Map },
       { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
     ] },
-    { to: "#ielts-group", label: t("🎯 IELTS Program", "🎯 IELTS Program"), groupLabel: "ielts", children: ieltsChildren },
-    { to: "#toeic-group", label: "💼 TOEIC", groupLabel: "toeic", children: [
-      { to: "/english/toeic", label: t("Tổng quan & Lộ trình", "Overview & Roadmap"), icon: Map },
+    // International exams (IELTS / TOEIC / PTE / SAT)
+    { to: "#en-exams-group", label: t("🎯 Luyện thi Quốc tế", "🎯 International Exams"), groupLabel: "en-exams", children: [
+      { to: "#ielts-group", label: "IELTS Program", groupLabel: "ielts", children: ieltsChildren, icon: Target },
+      { to: "/english/toeic", label: "TOEIC", icon: Briefcase },
       { to: "/toeic-lectures", label: t("Bài giảng TOEIC", "TOEIC Lectures"), icon: BookOpen },
       { to: "/toeic-vocabulary", label: t("Từ vựng TOEIC", "TOEIC Vocabulary"), icon: Library },
+      { to: "#en-exams-div", label: "", divider: true },
+      { to: "/pte", label: "PTE Academic", icon: Target },
+      { to: "/english/sat", label: "SAT", icon: PenTool },
     ] },
-    { to: "/english/grammar", label: t("📖 Ngữ pháp", "📖 Grammar") },
-    { to: "/english/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
+    // Vietnamese national exam
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
-    { to: "/english/sat", label: "📝 SAT" },
-    { to: "/pte", label: t("🎯 PTE Academic", "🎯 PTE Academic") },
+    { to: "#en-div2", label: "", divider: true },
     { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const chineseSubs: SubItem[] = [
