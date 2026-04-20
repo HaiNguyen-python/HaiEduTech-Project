@@ -75,8 +75,8 @@ const MbtiFullTest = ({ userId }: Props) => {
       await supabase.from("career_assessments").insert([{
         user_id: userId,
         assessment_type: "mbti-full",
-        answers,
-        result: finalResult,
+        answers: answers as any,
+        result: finalResult as any,
         ai_insights: aiData?.summary || null,
       }]);
       setPhase("result");
