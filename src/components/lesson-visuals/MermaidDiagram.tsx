@@ -448,7 +448,10 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setZoom((z) => Math.max(Math.min(fitZoom, 0.35), +(z - 0.15).toFixed(2)))}
+                onClick={() => {
+                  setAutoFit(false);
+                  setZoom((z) => Math.max(Math.min(fitZoom, 0.35), +(z - 0.15).toFixed(2)));
+                }}
                 aria-label="Zoom out"
               >
                 <ZoomOut className="h-4 w-4" />
@@ -456,7 +459,10 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setZoom(fitZoom)}
+                onClick={() => {
+                  setAutoFit(true);
+                  setZoom(fitZoom);
+                }}
                 aria-label="Reset zoom"
               >
                 <RotateCcw className="h-4 w-4" />
@@ -464,7 +470,10 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setZoom((z) => Math.min(3, +(z + 0.15).toFixed(2)))}
+                onClick={() => {
+                  setAutoFit(false);
+                  setZoom((z) => Math.min(3, +(z + 0.15).toFixed(2)));
+                }}
                 aria-label="Zoom in"
               >
                 <ZoomIn className="h-4 w-4" />
