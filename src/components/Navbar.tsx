@@ -464,6 +464,8 @@ const Navbar = () => {
                                           <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
                                             {sub.groupLabel === "ielts" ? "IELTS Program"
                                               : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
+                                              : sub.groupLabel === "en-foundation" ? t("Nền tảng Anh ngữ", "English Foundation")
+                                              : sub.groupLabel === "en-exams" ? t("Luyện thi Quốc tế", "International Exams")
                                               : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
                                               : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
                                               : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
