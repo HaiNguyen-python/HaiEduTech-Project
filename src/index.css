@@ -5,6 +5,12 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    /* Reserve space for the vertical scrollbar so it doesn't pop in/out and
+       cause horizontal "shake" when content height changes during scroll
+       (e.g. lazy images, motion sections, mermaid diagrams rendering). */
+    scrollbar-gutter: stable;
+  }
   html, body {
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
