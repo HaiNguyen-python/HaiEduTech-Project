@@ -13,13 +13,22 @@ let mermaidInited = false;
 function normalizeMermaidCode(rawCode: string) {
   const trimmed = rawCode.trim();
 
-  // Keep SVG labels, but normalize common HTML break tags so Mermaid can
-  // measure multi-line labels consistently instead of clipping them.
+  // Normalize HTML line breaks so Mermaid handles multiline node labels
+  // consistently across AI-generated diagrams.
   if (/^(flowchart|graph)\b/m.test(trimmed)) {
     return trimmed.replace(/<br\s*\/?>/gi, "<br>");
   }
 
   return trimmed;
+}
+
+async function waitForFonts() {
+  if (typeof document === "undefined") return;
+  try {
+    await document.fonts?.ready;
+  } catch {
+    // Ignore font-loading issues and render with fallback fonts.
+  }
 }
 
 function initMermaid() {
@@ -33,20 +42,21 @@ function initMermaid() {
     theme: isDark ? "dark" : "default",
     securityLevel: "loose",
     suppressErrorRendering: true,
-    fontFamily: "Inter, system-ui, sans-serif",
+    // Use stable system fonts to avoid post-render font swaps changing label width.
+    fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     fontSize: 14,
     flowchart: {
       curve: "basis",
-      padding: 28,
-      nodeSpacing: 96,
-      rankSpacing: 110,
+      padding: 32,
+      nodeSpacing: 110,
+      rankSpacing: 120,
       htmlLabels: false,
-      useMaxWidth: true,
-      diagramPadding: 24,
-      wrappingWidth: 240,
+      useMaxWidth: false,
+      diagramPadding: 28,
+      wrappingWidth: 260,
     },
     sequence: {
-      useMaxWidth: true,
+      useMaxWidth: false,
       wrap: true,
       messageFontSize: 14,
       noteFontSize: 14,
@@ -59,8 +69,6 @@ function initMermaid() {
         stroke-width: 1.5px !important;
       }
 
-      /* Do not override node font metrics here — Mermaid must measure the
-         final text size itself or boxes will clip long labels. */
       .edgeLabel, .messageText, .noteText, text.actor {
         font-size: 14px !important;
       }
@@ -135,6 +143,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
     const run = async () => {
       try {
         initMermaid();
+        await waitForFonts();
         const normalized = normalizeMermaidCode(code);
         await mermaid.parse(normalized);
         const { svg } = await mermaid.render(safeId, normalized);
@@ -178,7 +187,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
       )}
       <div
         ref={ref}
-        className="flex justify-center [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:max-w-full [&_.node]:drop-shadow-sm"
+        className="flex justify-center [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:w-auto [&_svg]:min-w-max [&_.node]:drop-shadow-sm"
       />
     </div>
   );
