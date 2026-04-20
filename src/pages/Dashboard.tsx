@@ -759,6 +759,12 @@ const Dashboard = () => {
                 </div>
               </>
             )}
+              </TabsContent>
+
+              <TabsContent value="counseling">
+                <CounselingHub userId={user?.id ?? null} />
+              </TabsContent>
+            </Tabs>
           </motion.div>
         </div>
       </div>
