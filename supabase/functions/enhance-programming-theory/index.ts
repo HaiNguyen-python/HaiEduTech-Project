@@ -119,30 +119,56 @@ interface IllustrationSpec {
   caption?: string;
 }
 
-// Extract and remove the trailing ```json {...} ``` block containing the
-// illustration specs. Returns { markdown (cleaned), specs }.
+// Extract and remove ALL ```json {...} ``` blocks containing illustration
+// specs (anywhere in the doc, not just trailing). Returns { markdown, specs }.
 function extractIllustrationSpecs(md: string): { markdown: string; specs: IllustrationSpec[] } {
-  const m = md.match(/```json\s*(\{[\s\S]*?"illustrations"[\s\S]*?\})\s*```\s*$/i);
-  if (!m) return { markdown: md, specs: [] };
-  try {
-    const parsed = JSON.parse(m[1]);
-    const arr = Array.isArray(parsed?.illustrations) ? parsed.illustrations : [];
-    const specs: IllustrationSpec[] = arr
-      .filter((s: any) => s && typeof s.anchor === "string" && typeof s.prompt === "string")
-      .map((s: any) => ({
-        anchor: String(s.anchor),
-        prompt: String(s.prompt),
-        caption: typeof s.caption === "string" ? s.caption : "",
-      }))
-      .slice(0, 2);
-    const cleaned = md.slice(0, m.index).trimEnd();
-    return { markdown: cleaned, specs };
-  } catch (e) {
-    console.warn("Failed to parse illustration JSON:", e);
-    // Still strip the broken block so it doesn't render as a code block
-    const cleaned = md.slice(0, m.index).trimEnd();
-    return { markdown: cleaned, specs: [] };
+  const re = /```json\s*(\{[\s\S]*?"illustrations"[\s\S]*?\})\s*```/gi;
+  let cleaned = md;
+  let specs: IllustrationSpec[] = [];
+  let match: RegExpExecArray | null;
+  const blocks: { full: string; json: string }[] = [];
+  while ((match = re.exec(md)) !== null) {
+    blocks.push({ full: match[0], json: match[1] });
   }
+  for (const b of blocks) {
+    try {
+      const parsed = JSON.parse(b.json);
+      const arr = Array.isArray(parsed?.illustrations) ? parsed.illustrations : [];
+      specs = arr
+        .filter((s: any) => s && typeof s.anchor === "string" && typeof s.prompt === "string")
+        .map((s: any) => ({
+          anchor: String(s.anchor),
+          prompt: String(s.prompt),
+          caption: typeof s.caption === "string" ? s.caption : "",
+        }))
+        .slice(0, 2);
+      if (specs.length > 0) break;
+    } catch (e) {
+      console.warn("Failed to parse illustration JSON block:", e);
+    }
+  }
+  // Strip ALL such blocks from the markdown so they never render as code
+  for (const b of blocks) cleaned = cleaned.replace(b.full, "").trimEnd();
+  return { markdown: cleaned, specs };
+}
+
+// Fallback: if AI did not provide specs, derive 2 sensible prompts from the
+// lesson title so we always render at least one illustration per lesson.
+function fallbackSpecs(lessonTitle: string, moduleTitle: string): IllustrationSpec[] {
+  const concept = lessonTitle.replace(/^[\d.\s-]+/, "").trim();
+  const ctx = moduleTitle.replace(/^[\d.\s-]+/, "").trim();
+  return [
+    {
+      anchor: "detailed-breakdown",
+      prompt: `${concept} concept diagram with isometric icons and arrows`,
+      caption: concept,
+    },
+    {
+      anchor: "comparative-table",
+      prompt: `three side-by-side comparison cards about ${concept} in ${ctx}`,
+      caption: `Comparing approaches: ${concept}`,
+    },
+  ];
 }
 
 // Insert each illustration as ![caption](url) at the end of the matching
@@ -313,7 +339,8 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
     }
 
     // 4. Extract & strip the trailing illustrations JSON block
-    const { markdown: cleanedMarkdown, specs } = extractIllustrationSpecs(markdown);
+    const { markdown: cleanedMarkdown, specs: aiSpecs } = extractIllustrationSpecs(markdown);
+    const specs = aiSpecs.length > 0 ? aiSpecs : fallbackSpecs(body.lesson_title, body.module_title);
     let finalMarkdown = cleanedMarkdown;
     let illustrations: { anchor: string; url: string; caption: string }[] = [];
 
