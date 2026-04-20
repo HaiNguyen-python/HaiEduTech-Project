@@ -737,7 +737,7 @@ const ProgrammingLessonPage = () => {
                     {showIDE && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 400, opacity: 1 }}
+                        animate={{ height: 540, opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         className="rounded-xl overflow-hidden border border-border shadow-md"
