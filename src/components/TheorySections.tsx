@@ -254,16 +254,25 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
   const allDone = totalMarkable > 0 && readCount === totalMarkable;
 
   const renderBody = (body: string) => {
-    const chunks = splitBodyByDiagrams(body);
-    return chunks.map((c, i) =>
-      c.kind === "diagram" ? (
-        <div key={`d-${i}`}>{renderDiagram(c.value)}</div>
-      ) : (
+    const chunks = splitBody(body);
+    return chunks.map((c, i) => {
+      if (c.kind === "diagram") return <div key={`d-${i}`}>{renderDiagram(c.value)}</div>;
+      if (c.kind === "mermaid") return <MermaidDiagram key={`mmd-${i}`} code={c.value} />;
+      if (c.kind === "deepdive") {
+        return (
+          <DeepDive key={`dd-${i}`} title={c.title}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+              {c.body}
+            </ReactMarkdown>
+          </DeepDive>
+        );
+      }
+      return (
         <ReactMarkdown key={`m-${i}`} remarkPlugins={[remarkGfm]} components={components}>
           {c.value}
         </ReactMarkdown>
-      ),
-    );
+      );
+    });
   };
 
   return (
