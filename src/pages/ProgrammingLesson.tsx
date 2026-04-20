@@ -392,16 +392,67 @@ const ProgrammingLessonPage = () => {
 
                   {/* Theory */}
                   <div className="glass-card rounded-xl p-6 sm:p-7">
-                    <h2 className="text-lg font-semibold text-foreground mb-5 flex items-center gap-2 pb-3 border-b border-border">
-                      <BookOpen className="w-5 h-5 text-primary" />
-                      Theory
-                    </h2>
+                    <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pb-3 border-b border-border">
+                      <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                        <BookOpen className="w-5 h-5 text-primary" />
+                        Theory
+                        {enhancedMd && useEnhanced && (
+                          <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-violet-500/15 text-violet-600 dark:text-violet-300 border border-violet-500/30">
+                            <Sparkles className="w-3 h-3" />
+                            AI Deep-Dive
+                          </span>
+                        )}
+                      </h2>
+                      <div className="flex items-center gap-2">
+                        {enhancedMd ? (
+                          <>
+                            <button
+                              onClick={() => setUseEnhanced((v) => !v)}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-border bg-secondary text-foreground hover:bg-muted transition-all active:scale-[0.97]"
+                              title={useEnhanced ? "Show original theory" : "Show AI Deep-Dive"}
+                            >
+                              {useEnhanced ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                              {useEnhanced ? "Original" : "Deep-Dive"}
+                            </button>
+                            <button
+                              onClick={() => handleEnhanceTheory(true)}
+                              disabled={enhanceLoading}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-border bg-secondary text-foreground hover:bg-muted transition-all active:scale-[0.97] disabled:opacity-50"
+                              title="Regenerate Deep-Dive with AI"
+                            >
+                              {enhanceLoading ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : (
+                                <RefreshCw className="w-3.5 h-3.5" />
+                              )}
+                              Refresh
+                            </button>
+                          </>
+                        ) : (
+                          <button
+                            onClick={() => handleEnhanceTheory(false)}
+                            disabled={enhanceLoading}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white hover:brightness-110 shadow-sm transition-all active:scale-[0.97] disabled:opacity-50"
+                            title="Generate a 1000-word AI Deep-Dive"
+                          >
+                            {enhanceLoading ? (
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            ) : (
+                              <Wand2 className="w-3.5 h-3.5" />
+                            )}
+                            Enhance with AI
+                          </button>
+                        )}
+                      </div>
+                    </div>
                     <TheorySections
-                      markdown={(lesson.theoryEn || lesson.theory || "")
+                      markdown={(useEnhanced && enhancedMd
+                        ? enhancedMd
+                        : (lesson.theoryEn || lesson.theory || ""))
                         .replace(/\\\$/g, "$")
                         // Strip a leading single "# Lesson Title" since the page already shows the title
                         .replace(/^\s*#\s+[^\n]+\n+/, "")}
-                      storageKey={`theory-read:${mod.id}:${lesson.id}`}
+                      storageKey={`theory-read:${mod.id}:${lesson.id}:${useEnhanced && enhancedMd ? "ai" : "orig"}`}
                       defaultCodeLanguage={lesson.codeLanguage || "text"}
                     />
                   </div>
