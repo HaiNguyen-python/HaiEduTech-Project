@@ -1,43 +1,100 @@
-// Finnish Language Program landing page with Nordic clean aesthetic
-import { useState } from "react";
+// Finnish landing hub — 4 distinct programs as separate cards
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  BookOpen, GraduationCap, ChevronRight, Globe,
-  Languages, Snowflake, Home, Briefcase, Heart, Bus, ShoppingCart,
-  PenTool, Mic, BookText, Headphones, type LucideIcon,
-} from "lucide-react";
+import { ChevronRight, Sprout, Snowflake, Target, Mic, type LucideIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import finnishBg from "@/assets/finnish-nordic-bg.jpg";
-import { finnishVocabModules, finnishLessonModules, finnishMockExamModules } from "@/data/finnishCurriculum";
 
-const pillarIconMap: Record<string, LucideIcon> = {
-  "vocabulary": BookOpen,
-  "lessons": GraduationCap,
-  "mock-exams": PenTool,
-};
+interface ProgramCard {
+  emoji: string;
+  Icon: LucideIcon;
+  titleVi: string;
+  titleEn: string;
+  descVi: string;
+  descEn: string;
+  bulletsVi: string[];
+  bulletsEn: string[];
+  badgeVi: string;
+  badgeEn: string;
+  to: string;
+  accent: string;
+}
 
 const Finnish = () => {
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState("overview");
 
-  const allModules = [...finnishVocabModules, ...finnishLessonModules, ...finnishMockExamModules];
+  const programs: ProgramCard[] = [
+    {
+      emoji: "🌱",
+      Icon: Sprout,
+      titleVi: "Người mới bắt đầu",
+      titleEn: "Beginner",
+      descVi: "Nền tảng phát âm, ngữ pháp và từ vựng cho người mới học tiếng Phần Lan từ con số 0.",
+      descEn: "Pronunciation, grammar, and vocabulary foundations for absolute beginners.",
+      bulletsVi: ["Bảng chữ cái & phát âm", "6 loại động từ Phần Lan", "Biến đổi KPT (astevaihtelu)", "Lỗi sai thường gặp của người Việt"],
+      bulletsEn: ["Alphabet & pronunciation", "6 Finnish verb types", "Consonant gradation (KPT)", "Common Vietnamese learner pitfalls"],
+      badgeVi: "Trình độ A1 – A2",
+      badgeEn: "Level A1 – A2",
+      to: "/finnish/beginner",
+      accent: "from-emerald-500 to-teal-600",
+    },
+    {
+      emoji: "❄️",
+      Icon: Snowflake,
+      titleVi: "Luyện thi YKI A2",
+      titleEn: "YKI A2 Prep",
+      descVi: "Lộ trình luyện thi YKI cấp Perustaso toàn diện với từ vựng, bài học và đề thi thử 4 kỹ năng.",
+      descEn: "Comprehensive YKI Perustaso prep with vocabulary, lessons, and 4-skill mock exams.",
+      bulletsVi: ["5 chủ đề từ vựng A1-A2", "Sijat, KPT, thì quá khứ", "Đề thi thử 4 kỹ năng", "Phản hồi viết chuyên sâu"],
+      bulletsEn: ["5 thematic vocabulary sets", "Local cases, KPT, past tenses", "Full 4-skill mock exams", "In-depth writing feedback"],
+      badgeVi: "Trình độ A2 (Perustaso)",
+      badgeEn: "Level A2 (Perustaso)",
+      to: "/finnish/yki-dashboard",
+      accent: "from-sky-500 to-blue-600",
+    },
+    {
+      emoji: "🎯",
+      Icon: Target,
+      titleVi: "Luyện thi YKI B1",
+      titleEn: "YKI B1 Dashboard",
+      descVi: "Cấp độ trung cấp Keskitaso với bài đọc tin tức, viết email trang trọng và tình huống nói thực tế.",
+      descEn: "Intermediate Keskitaso level with news reading, formal emails, and real-life speaking scenarios.",
+      bulletsVi: ["Đọc hiểu tin tức & thông báo", "Nghe ngân hàng, nhà trẻ", "Email trang trọng & blog post", "YKI Word of the Day"],
+      bulletsEn: ["News & notice reading", "Bank & daycare listening", "Formal emails & blog posts", "YKI Word of the Day"],
+      badgeVi: "Trình độ B1 (Keskitaso)",
+      badgeEn: "Level B1 (Keskitaso)",
+      to: "/finnish/yki-b1",
+      accent: "from-violet-500 to-purple-600",
+    },
+    {
+      emoji: "🇫🇮",
+      Icon: Snowflake,
+      titleVi: "Cuộc sống ở Phần Lan",
+      titleEn: "Life in Finland",
+      descVi: "Hướng dẫn song ngữ cho người mới đến: thủ tục hành chính, thuế, y tế và đời sống hàng ngày.",
+      descEn: "Bilingual newcomer guide: admin procedures, taxes, healthcare, and daily life.",
+      bulletsVi: ["DVV, Kela, BankID", "Verokortti & văn hóa làm việc", "Terveysasema & cấp cứu 112", "Checklist 30 ngày đầu + PDF"],
+      bulletsEn: ["DVV, Kela, BankID", "Tax card & work culture", "Health centers & 112 emergency", "First 30 days checklist + PDF"],
+      badgeVi: "Hướng dẫn hội nhập",
+      badgeEn: "Integration Guide",
+      to: "/finnish/life-in-finland",
+      accent: "from-rose-500 to-pink-600",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-24 lg:pt-28">
-        {/* Hero Section with Nordic landscape */}
+        {/* Hero */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0">
             <img src={finnishBg} alt="Finnish landscape" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#003580]/70 via-[#003580]/50 to-background" />
+            <div className="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/50 to-background" />
           </div>
           <div className="relative container mx-auto px-4 sm:px-6 py-16 md:py-24 text-center">
             <motion.div
@@ -48,259 +105,100 @@ const Finnish = () => {
               <div className="flex items-center justify-center gap-3 mb-4">
                 <span className="text-4xl">🇫🇮</span>
                 <Badge className="bg-white/20 text-white border-white/30 text-sm px-3 py-1 backdrop-blur-sm">
-                  YKI Prep — Level A2
+                  {t("4 Chương trình", "4 Programs")}
                 </Badge>
               </div>
               <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-                {t("Luyện thi YKI Tiếng Phần Lan", "YKI Finnish Prep: Level A2")}
+                {t("Học Tiếng Phần Lan — 4 Chương trình", "Learn Finnish — 4 Programs")}
               </h1>
-              <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-6 leading-relaxed">
+              <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
                 {t(
-                  "Chương trình luyện thi YKI A2 toàn diện — Từ vựng, Ngữ pháp, và Thi thử 4 kỹ năng. Thiết kế theo chuẩn Perustaso.",
-                  "Comprehensive YKI A2 preparation — Vocabulary, Grammar, and Mock Exams across 4 skills. Designed for the Perustaso level."
+                  "Chọn lộ trình phù hợp: từ Beginner A1-A2, luyện thi YKI A2/B1, đến hướng dẫn hội nhập cuộc sống tại Phần Lan.",
+                  "Pick your path: Beginner A1-A2, YKI A2/B1 prep, or a complete integration guide for life in Finland."
                 )}
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                <Link to="/finnish/beginner">
-                  <Button size="lg" className="bg-white text-[#003580] hover:bg-white/90 font-semibold gap-2">
-                    🌱 {t("Người mới bắt đầu (A1-A2)", "Beginner (A1-A2)")}
-                  </Button>
-                </Link>
-                <Link to="/finnish/yki-dashboard">
-                  <Button size="lg" variant="outline" className="bg-transparent border-white/60 text-white hover:bg-white/10 font-semibold gap-2">
-                    <Snowflake className="w-5 h-5" />
-                    YKI A2
-                  </Button>
-                </Link>
-                <Link to="/finnish/yki-b1">
-                  <Button size="lg" variant="outline" className="bg-transparent border-white/60 text-white hover:bg-white/10 font-semibold gap-2">
-                    🎯 YKI B1
-                  </Button>
-                </Link>
-                <Link to="/finnish/life-in-finland">
-                  <Button size="lg" variant="outline" className="bg-transparent border-white/60 text-white hover:bg-white/10 font-semibold gap-2">
-                    🇫🇮 {t("Cuộc sống ở Phần Lan", "Life in Finland")}
-                  </Button>
-                </Link>
-              </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Tab Navigation */}
-        <section className="container mx-auto px-4 sm:px-6 py-8">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="w-full max-w-xl mx-auto grid grid-cols-2 h-12 mb-8">
-              <TabsTrigger value="overview" className="text-sm font-medium">
-                📋 {t("Tổng quan", "Overview")}
-              </TabsTrigger>
-              <TabsTrigger value="modules" className="text-sm font-medium">
-                📚 {t("Các Module", "Modules")}
-              </TabsTrigger>
-            </TabsList>
+        {/* 4 Program Cards */}
+        <section className="container mx-auto px-4 sm:px-6 py-12 md:py-16">
+          <div className="grid md:grid-cols-2 gap-6">
+            {programs.map((p, i) => (
+              <motion.div
+                key={p.to}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+              >
+                <Link to={p.to} className="block h-full group">
+                  <div className="h-full rounded-2xl border-2 border-primary/15 bg-card p-6 md:p-8 hover:border-primary/40 hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${p.accent} flex items-center justify-center text-3xl shadow-md`}>
+                        {p.emoji}
+                      </div>
+                      <Badge variant="outline" className="border-primary/30 text-primary">
+                        {t(p.badgeVi, p.badgeEn)}
+                      </Badge>
+                    </div>
 
-            {/* Overview Tab */}
-            <TabsContent value="overview">
-              <div className="grid md:grid-cols-3 gap-6 mb-10">
-                {/* Pillar 1: Vocabulary */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="rounded-2xl border-2 border-[#003580]/20 bg-card p-6 hover:shadow-lg transition-shadow"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-white text-xl">
-                      📖
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-foreground text-lg">YKI Vocabulary</h3>
-                      <p className="text-sm text-muted-foreground">A1 – A2 Focus</p>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
-                    {t(
-                      "5 chủ đề từ vựng thiết yếu: Nhà ở, Công việc, Sức khỏe, Giao thông, Mua sắm. Bao gồm Puhekieli (tiếng nói) so với Kirjakieli (tiếng viết).",
-                      "5 thematic vocab lists: Home, Work, Health, Transport, Shopping. Includes Puhekieli (spoken) vs Kirjakieli (written) forms."
-                    )}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {["🏠 Home", "💼 Work", "🏥 Health", "🚌 Transport", "🛒 Food"].map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
-                    ))}
-                  </div>
-                </motion.div>
+                    <h2 className="text-2xl font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
+                      {t(p.titleVi, p.titleEn)}
+                    </h2>
+                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                      {t(p.descVi, p.descEn)}
+                    </p>
 
-                {/* Pillar 2: Lessons */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="rounded-2xl border-2 border-[#003580]/20 bg-card p-6 hover:shadow-lg transition-shadow"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xl">
-                      🎓
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-foreground text-lg">YKI A2 Lessons</h3>
-                      <p className="text-sm text-muted-foreground">{t("Học kỹ năng", "Skill-building")}</p>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
-                    {t(
-                      "Ngữ pháp tương tác: Sijat paikalliset, Astevaihtelu (KPT), Thì quá khứ. Chiến lược nói: Bưu điện, Bệnh viện, Phỏng vấn.",
-                      "Interactive grammar: Local Cases, Consonant Gradation (KPT), Past Tenses. Speaking strategies: Post Office, Doctor, Job Interview."
-                    )}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {["📍 Cases", "🔄 KPT", "⏪ Past", "🗣️ Speaking"].map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
-                    ))}
-                  </div>
-                </motion.div>
+                    <ul className="space-y-2 mb-6 flex-1">
+                      {(t(p.bulletsVi.join("|"), p.bulletsEn.join("|")) as string).split("|").map((b, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-foreground/80">
+                          <span className="text-primary mt-0.5">✓</span>
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
 
-                {/* Pillar 3: Mock Exams */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="rounded-2xl border-2 border-[#003580]/20 bg-card p-6 hover:shadow-lg transition-shadow"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xl">
-                      📝
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-foreground text-lg">YKI Mock Exams</h3>
-                      <p className="text-sm text-muted-foreground">4 Skills</p>
-                    </div>
+                    <Button className="w-full gap-2 font-semibold group-hover:gap-3 transition-all">
+                      {t("Bắt đầu học", "Start Learning")}
+                      <ChevronRight className="w-4 h-4" />
+                    </Button>
                   </div>
-                  <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
-                    {t(
-                      "Thi thử đầy đủ 4 kỹ năng: Đọc hiểu, Nghe hiểu, Viết, Nói. Mô phỏng áp lực phòng thi YKI thực tế.",
-                      "Full 4-skill mock exams: Reading, Listening, Writing, Speaking. Simulates real YKI test pressure."
-                    )}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {["📖 Reading", "🎧 Listening", "✍️ Writing", "🎤 Speaking"].map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
-                    ))}
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* CTA to Dashboard */}
-              <div className="text-center">
-                <Link to="/finnish/yki-dashboard">
-                  <Button size="lg" className="gap-2 font-semibold">
-                    {t("Vào Dashboard học tập", "Go to Learning Dashboard")}
-                    <ChevronRight className="w-5 h-5" />
-                  </Button>
                 </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bonus: AI Speaking Coach */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="mt-6"
+          >
+            <Link to="/speaking-coach/finnish" className="block group">
+              <div className="rounded-2xl border-2 border-dashed border-primary/20 bg-card/60 backdrop-blur-sm p-5 md:p-6 hover:border-primary/40 hover:bg-card transition-all flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-2xl shadow-md shrink-0">
+                  🎙️
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                    <Mic className="w-4 h-4" />
+                    {t("AI Speaking Coach — Tiếng Phần Lan", "AI Speaking Coach — Finnish")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t(
+                      "Luyện phát âm với 150+ câu mẫu, IPA, nhận diện giọng nói liên tục.",
+                      "Practice pronunciation with 150+ sentences, IPA, and continuous speech recognition."
+                    )}
+                  </p>
+                </div>
+                <Button variant="outline" className="gap-2 shrink-0">
+                  {t("Mở Coach", "Open Coach")}
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
               </div>
-            </TabsContent>
-
-            {/* Modules Tab */}
-            <TabsContent value="modules">
-              <div className="space-y-8">
-                {/* Vocabulary Modules */}
-                <div>
-                  <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                    📖 YKI Vocabulary (A1–A2)
-                  </h2>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {finnishVocabModules.map((mod, i) => (
-                      <motion.div
-                        key={mod.id}
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                      >
-                        <Link to={`/finnish/yki-dashboard?module=${mod.id}`}>
-                          <div className="rounded-xl border border-[#003580]/15 bg-card/80 backdrop-blur-sm p-5 hover:shadow-md hover:border-[#003580]/30 transition-all group">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="text-2xl">{mod.icon}</span>
-                              <div>
-                                <h3 className="font-semibold text-foreground group-hover:text-[#003580] transition-colors">{mod.titleEn}</h3>
-                                <p className="text-xs text-muted-foreground">{mod.title}</p>
-                              </div>
-                            </div>
-                            <p className="text-sm text-muted-foreground line-clamp-2">{mod.descriptionEn}</p>
-                            <div className="mt-3 flex items-center gap-2 text-xs text-[#003580]">
-                              <Badge variant="outline" className="border-[#003580]/30 text-[#003580]">
-                                {mod.lessons.length} {mod.lessons.length === 1 ? "lesson" : "lessons"}
-                              </Badge>
-                            </div>
-                          </div>
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Lesson Modules */}
-                <div>
-                  <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                    🎓 YKI A2 Lessons
-                  </h2>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {finnishLessonModules.map((mod, i) => (
-                      <motion.div
-                        key={mod.id}
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                      >
-                        <Link to={`/finnish/yki-dashboard?module=${mod.id}`}>
-                          <div className="rounded-xl border border-[#003580]/15 bg-card/80 backdrop-blur-sm p-5 hover:shadow-md hover:border-[#003580]/30 transition-all group">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="text-2xl">{mod.icon}</span>
-                              <div>
-                                <h3 className="font-semibold text-foreground group-hover:text-[#003580] transition-colors">{mod.titleEn}</h3>
-                                <p className="text-xs text-muted-foreground">{mod.title}</p>
-                              </div>
-                            </div>
-                            <p className="text-sm text-muted-foreground line-clamp-2">{mod.descriptionEn}</p>
-                          </div>
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Mock Exam Modules */}
-                <div>
-                  <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                    📝 YKI Mock Exams
-                  </h2>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {finnishMockExamModules.map((mod, i) => (
-                      <motion.div
-                        key={mod.id}
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                      >
-                        <Link to={`/finnish/yki-dashboard?module=${mod.id}`}>
-                          <div className="rounded-xl border border-[#003580]/15 bg-card/80 backdrop-blur-sm p-5 hover:shadow-md hover:border-[#003580]/30 transition-all group">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="text-2xl">{mod.icon}</span>
-                              <div>
-                                <h3 className="font-semibold text-foreground group-hover:text-[#003580] transition-colors">{mod.titleEn}</h3>
-                                <p className="text-xs text-muted-foreground">{mod.title}</p>
-                              </div>
-                            </div>
-                            <p className="text-sm text-muted-foreground line-clamp-2">{mod.descriptionEn}</p>
-                          </div>
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
+            </Link>
+          </motion.div>
         </section>
       </main>
       <Footer />
