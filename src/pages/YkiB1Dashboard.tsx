@@ -17,17 +17,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Volume2, Timer, Mic, Pause, Play, RotateCcw, NotebookPen, Sparkles, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { playFinnishTts } from "@/lib/finnishTts";
 import {
   B1_READING, B1_LISTENING, B1_WRITING, B1_SPEAKING, getWordOfTheDay,
 } from "@/data/ykiB1Data";
 
+// Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
+// to guarantee proper Finnish pronunciation, not the system's English fallback voice.
 const speakFi = (text: string, rate = 0.9) => {
-  try {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "fi-FI"; u.rate = rate;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  } catch {/* noop */}
+  void playFinnishTts(text, { playbackRate: rate, speechRate: rate });
 };
 
 const saveToNotebook = async (title: string, content: string) => {
