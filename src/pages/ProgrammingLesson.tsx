@@ -10,8 +10,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ChevronRight, Sparkles, CheckCircle, XCircle, Clock, Trophy,
   Loader2, Play, Lightbulb, Code2, BookOpen, ChevronDown, Eye, EyeOff,
-  PanelRightClose, PanelRightOpen
+  PanelRightClose, PanelRightOpen, Wand2, RefreshCw,
 } from "lucide-react";
+import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allProgrammingModules, type ProgrammingModule, type ProgrammingLesson as PLType } from "@/data/programmingLessonData";
 import { updateSkillScore } from "@/components/SkillRadarChart";
@@ -102,8 +103,56 @@ const ProgrammingLessonPage = () => {
   const [showChallengeResult, setShowChallengeResult] = useState(false);
   const [showIDE, setShowIDE] = useState(false);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
+  // AI-enhanced theory state
+  const [enhancedMd, setEnhancedMd] = useState<string | null>(null);
+  const [enhanceLoading, setEnhanceLoading] = useState(false);
+  const [useEnhanced, setUseEnhanced] = useState(true);
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
+
+  // Load cached AI theory whenever the lesson changes
+  useEffect(() => {
+    if (!mod || !lesson) return;
+    setEnhancedMd(null);
+    setUseEnhanced(true);
+    supabase
+      .from("programming_theory_cache")
+      .select("enhanced_markdown")
+      .eq("module_id", mod.id)
+      .eq("lesson_id", lesson.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.enhanced_markdown) setEnhancedMd(data.enhanced_markdown);
+      });
+  }, [mod, lesson]);
+
+  const handleEnhanceTheory = async (forceRefresh = false) => {
+    if (!mod || !lesson) return;
+    setEnhanceLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("enhance-programming-theory", {
+        body: {
+          module_id: mod.id,
+          lesson_id: lesson.id,
+          lesson_title: lesson.titleEn || lesson.title,
+          module_title: mod.titleEn || mod.title,
+          base_theory: lesson.theoryEn || lesson.theory || "",
+          code_language: lesson.codeLanguage,
+          force_refresh: forceRefresh,
+        },
+      });
+      if (error) throw error;
+      if (data?.markdown) {
+        setEnhancedMd(data.markdown);
+        setUseEnhanced(true);
+        toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
+      }
+    } catch (e) {
+      toast.error("Could not enhance theory. Please try again later.");
+      console.error(e);
+    }
+    setEnhanceLoading(false);
+  };
 
   // Get all sibling modules for same pillar
   const pillar = moduleId ? getPillarForModule(moduleId) : null;

@@ -14,6 +14,8 @@ import Callout from "@/components/lesson-visuals/Callout";
 import LinearRegressionDiagram from "@/components/lesson-visuals/LinearRegressionDiagram";
 import JoinVennDiagram from "@/components/lesson-visuals/JoinVennDiagram";
 import SubqueryDiagram from "@/components/lesson-visuals/SubqueryDiagram";
+import MermaidDiagram from "@/components/lesson-visuals/MermaidDiagram";
+import DeepDive from "@/components/lesson-visuals/DeepDive";
 
 interface TheorySectionsProps {
   markdown: string;
@@ -97,8 +99,18 @@ function splitByH2(md: string): Section[] {
   return sections;
 }
 
-// ── Detect & render :::diagram type="..."::: blocks ──
+// ── Detect & render embedded blocks: legacy diagrams, Mermaid, DeepDive ──
 const DIAGRAM_RE = /:::diagram\s+type=["']([\w-]+)["']\s*:::/g;
+// Mermaid fenced block: ```mermaid ... ```
+const MERMAID_RE = /```mermaid\s*\n([\s\S]*?)```/g;
+// Deep Dive block: :::deepdive title="..." ... :::
+const DEEPDIVE_RE = /:::deepdive\s+title=["']([^"']+)["']\s*\n([\s\S]*?):::/g;
+
+type Chunk =
+  | { kind: "md"; value: string }
+  | { kind: "diagram"; value: string }
+  | { kind: "mermaid"; value: string }
+  | { kind: "deepdive"; title: string; body: string };
 
 function renderDiagram(type: string): ReactNode {
   switch (type) {
@@ -109,21 +121,58 @@ function renderDiagram(type: string): ReactNode {
   }
 }
 
-/** Splits a body by diagram tokens and returns ordered chunks (markdown | diagram). */
-function splitBodyByDiagrams(body: string): Array<{ kind: "md" | "diagram"; value: string }> {
-  const parts: Array<{ kind: "md" | "diagram"; value: string }> = [];
-  let lastIdx = 0;
-  body.replace(DIAGRAM_RE, (match, type, offset: number) => {
-    const before = body.slice(lastIdx, offset);
-    if (before.trim()) parts.push({ kind: "md", value: before });
-    parts.push({ kind: "diagram", value: type });
-    lastIdx = offset + match.length;
-    return match;
+/**
+ * Splits a body into ordered chunks. Order of detection:
+ * 1) DeepDive (:::deepdive title="...")
+ * 2) Mermaid (```mermaid)
+ * 3) Legacy diagram tokens (:::diagram type="...")
+ * Remaining text is markdown.
+ */
+function splitBody(body: string): Chunk[] {
+  // Collect all matches with their positions
+  type M = { start: number; end: number; chunk: Chunk };
+  const matches: M[] = [];
+
+  body.replace(DEEPDIVE_RE, (m, title: string, inner: string, offset: number) => {
+    matches.push({ start: offset, end: offset + m.length, chunk: { kind: "deepdive", title, body: inner } });
+    return m;
   });
-  const tail = body.slice(lastIdx);
-  if (tail.trim()) parts.push({ kind: "md", value: tail });
-  if (parts.length === 0) parts.push({ kind: "md", value: body });
-  return parts;
+  body.replace(MERMAID_RE, (m, code: string, offset: number) => {
+    matches.push({ start: offset, end: offset + m.length, chunk: { kind: "mermaid", value: code } });
+    return m;
+  });
+  body.replace(DIAGRAM_RE, (m, type: string, offset: number) => {
+    matches.push({ start: offset, end: offset + m.length, chunk: { kind: "diagram", value: type } });
+    return m;
+  });
+
+  // Sort by position; drop overlaps (earlier wins)
+  matches.sort((a, b) => a.start - b.start);
+  const filtered: M[] = [];
+  let lastEnd = -1;
+  for (const m of matches) {
+    if (m.start >= lastEnd) {
+      filtered.push(m);
+      lastEnd = m.end;
+    }
+  }
+
+  const out: Chunk[] = [];
+  let cursor = 0;
+  for (const m of filtered) {
+    if (m.start > cursor) {
+      const txt = body.slice(cursor, m.start);
+      if (txt.trim()) out.push({ kind: "md", value: txt });
+    }
+    out.push(m.chunk);
+    cursor = m.end;
+  }
+  if (cursor < body.length) {
+    const tail = body.slice(cursor);
+    if (tail.trim()) out.push({ kind: "md", value: tail });
+  }
+  if (out.length === 0) out.push({ kind: "md", value: body });
+  return out;
 }
 
 // ── Markdown components: blockquote → Callout, code → CodeBlock, table → wrapper ──
@@ -134,7 +183,6 @@ const markdownComponents = (defaultLang: string) => ({
     </div>
   ),
   blockquote: ({ children }: any) => {
-    // Inspect text content to determine variant
     const text = (() => {
       try {
         const collect = (n: any): string => {
@@ -146,15 +194,20 @@ const markdownComponents = (defaultLang: string) => ({
         return collect(children).toLowerCase();
       } catch { return ""; }
     })();
-    let variant: "tip" | "warning" | "note" | "quote" = "quote";
-    if (/^(\s|💡)*(mẹo|tip|pro tip|gợi ý)/i.test(text) || text.includes("💡")) variant = "tip";
-    else if (/^(\s|⚠️|🚨)*(cảnh báo|warning|danger|nguy hiểm|chú ý|coi chừng)/i.test(text) || /⚠️|🚨/.test(text)) variant = "warning";
+    let variant: "tip" | "warning" | "note" | "quote" | "info" | "success" = "quote";
+    // Order matters — check the most specific markers first.
+    if (/^(\s|✅|🟢)*(optim|tối ưu|best practice|success|hiệu quả)/i.test(text) || /✅|🟢/.test(text)) variant = "success";
+    else if (/^(\s|💡)*(mẹo|tip|pro tip|gợi ý)/i.test(text) || text.includes("💡")) variant = "tip";
+    else if (/^(\s|⚠️|🚨)*(cảnh báo|warning|danger|nguy hiểm|chú ý|coi chừng|risk)/i.test(text) || /⚠️|🚨/.test(text)) variant = "warning";
+    else if (/^(\s|🔵|ℹ️)*(info|definition|định nghĩa)/i.test(text) || /🔵/.test(text)) variant = "info";
     else if (/^(\s|📝|ℹ️)*(lưu ý|note|ghi chú|chú thích)/i.test(text) || /📝|ℹ️/.test(text)) variant = "note";
     return <Callout variant={variant}>{children}</Callout>;
   },
   code({ inline, className, children, ...props }: any) {
     const match = /language-(\w+)/.exec(className || "");
     const codeStr = String(children).replace(/\n$/, "");
+    // Mermaid is handled by splitBody before reaching here, but guard just in case.
+    if (!inline && match && match[1] === "mermaid") return <MermaidDiagram code={codeStr} />;
     if (!inline && match) return <CodeBlock code={codeStr} language={match[1]} />;
     if (!inline && codeStr.includes("\n")) return <CodeBlock code={codeStr} language={defaultLang} />;
     return <code className={className} {...props}>{children}</code>;
@@ -201,16 +254,25 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
   const allDone = totalMarkable > 0 && readCount === totalMarkable;
 
   const renderBody = (body: string) => {
-    const chunks = splitBodyByDiagrams(body);
-    return chunks.map((c, i) =>
-      c.kind === "diagram" ? (
-        <div key={`d-${i}`}>{renderDiagram(c.value)}</div>
-      ) : (
+    const chunks = splitBody(body);
+    return chunks.map((c, i) => {
+      if (c.kind === "diagram") return <div key={`d-${i}`}>{renderDiagram(c.value)}</div>;
+      if (c.kind === "mermaid") return <MermaidDiagram key={`mmd-${i}`} code={c.value} />;
+      if (c.kind === "deepdive") {
+        return (
+          <DeepDive key={`dd-${i}`} title={c.title}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+              {c.body}
+            </ReactMarkdown>
+          </DeepDive>
+        );
+      }
+      return (
         <ReactMarkdown key={`m-${i}`} remarkPlugins={[remarkGfm]} components={components}>
           {c.value}
         </ReactMarkdown>
-      ),
-    );
+      );
+    });
   };
 
   return (

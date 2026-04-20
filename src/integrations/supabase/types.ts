@@ -884,6 +884,39 @@ export type Database = {
         }
         Relationships: []
       }
+      programming_theory_cache: {
+        Row: {
+          citations: Json
+          created_at: string
+          enhanced_markdown: string
+          generated_by: string | null
+          id: string
+          lesson_id: string
+          module_id: string
+          updated_at: string
+        }
+        Insert: {
+          citations?: Json
+          created_at?: string
+          enhanced_markdown: string
+          generated_by?: string | null
+          id?: string
+          lesson_id: string
+          module_id: string
+          updated_at?: string
+        }
+        Update: {
+          citations?: Json
+          created_at?: string
+          enhanced_markdown?: string
+          generated_by?: string | null
+          id?: string
+          lesson_id?: string
+          module_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pte_vocab_mastery: {
         Row: {
           created_at: string
