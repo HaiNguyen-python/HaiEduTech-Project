@@ -489,8 +489,25 @@ export const B1_WORD_POOL: B1WordOfDay[] = [
     exampleFi: "Saimme tärkeän tiedotuksen koululta.", exampleEn: "We got an important notice from school." },
 ];
 
-/** Pick today's word deterministically */
+/* ============================================================
+ * Merge expansion content (extra reading, listening, writing, speaking, vocab)
+ * ============================================================ */
+import {
+  B1_READING_EXPANSION,
+  B1_LISTENING_EXPANSION,
+  B1_WRITING_EXPANSION,
+  B1_SPEAKING_EXPANSION,
+  B1_WORD_POOL_EXPANSION,
+} from "./ykiB1Expansion";
+
+export const B1_READING_ALL: B1ReadingPassage[] = [...B1_READING, ...B1_READING_EXPANSION];
+export const B1_LISTENING_ALL: B1ListeningClip[] = [...B1_LISTENING, ...B1_LISTENING_EXPANSION];
+export const B1_WRITING_ALL: B1WritingTemplate[] = [...B1_WRITING, ...B1_WRITING_EXPANSION];
+export const B1_SPEAKING_ALL: B1SpeakingSituation[] = [...B1_SPEAKING, ...B1_SPEAKING_EXPANSION];
+export const B1_WORD_POOL_ALL: B1WordOfDay[] = [...B1_WORD_POOL, ...B1_WORD_POOL_EXPANSION];
+
+/** Pick today's word deterministically (rotates over full pool incl. expansion) */
 export const getWordOfTheDay = (): B1WordOfDay => {
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86_400_000);
-  return B1_WORD_POOL[dayOfYear % B1_WORD_POOL.length];
+  return B1_WORD_POOL_ALL[dayOfYear % B1_WORD_POOL_ALL.length];
 };
