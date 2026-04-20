@@ -1087,7 +1087,7 @@ const QuoteSection = ({ userId }: { userId: string }) => {
           },
           body: JSON.stringify({
             mode: "quote",
-            payload: { mood: latest?.mood || "okay", language },
+            payload: { mood: latest?.mood || "okay", language: lang },
           }),
         }
       );
