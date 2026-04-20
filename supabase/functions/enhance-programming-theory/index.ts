@@ -338,8 +338,18 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
       });
     }
 
-    // 4. Extract & strip the trailing illustrations JSON block
-    const { markdown: cleanedMarkdown, specs: aiSpecs } = extractIllustrationSpecs(markdown);
+    // 4. Extract & strip the trailing illustrations JSON block + remove Perplexity citation markers like [1][2][3]
+    const stripCitations = (md: string): string =>
+      md
+        // Remove sequences of citation refs e.g. [1], [2][3], [1, 2, 5]
+        .replace(/\s*\[\d+(?:\s*[,\s]\s*\d+)*\]/g, "")
+        // Remove a trailing "References" / "Sources" / "Citations" section if present
+        .replace(/\n#{1,6}\s*(References|Sources|Citations|Tham khảo|Nguồn)[\s\S]*$/i, "")
+        // Collapse extra blank space left by removed markers
+        .replace(/[ \t]+([.,;:!?])/g, "$1")
+        .replace(/[ \t]{2,}/g, " ");
+    const { markdown: rawCleaned, specs: aiSpecs } = extractIllustrationSpecs(markdown);
+    const cleanedMarkdown = stripCitations(rawCleaned);
     const specs = aiSpecs.length > 0 ? aiSpecs : fallbackSpecs(body.lesson_title, body.module_title);
     let finalMarkdown = cleanedMarkdown;
     let illustrations: { anchor: string; url: string; caption: string }[] = [];
