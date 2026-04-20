@@ -865,7 +865,7 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
           return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
         })
         .join("");
-      payload = { test: "mbti", code, language };
+      payload = { test: "mbti", code, language: lang };
     } else {
       if (Object.keys(hollandScores).length < HOLLAND_QUESTIONS.length) {
         toast.error(t("Đánh giá đủ các mục", "Rate all items"));
