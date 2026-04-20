@@ -243,26 +243,29 @@ function wrapBareLatexInLine(line: string): string {
 function wrapLatexRuns(text: string): string {
   // Pattern for a single math-ish token:
   //   - \cmd  (with optional {..} or [..] arg, possibly nested one level)
+  //   - \|   (norm bar)
   //   - {...}
   //   - identifier with _{..} or ^{..} (e.g. L^{CLIP}, r_t)
   //   - numbers, single letters, common math operators when adjacent to math
   const MATH_TOKEN =
-    String.raw`(?:\\[A-Za-z]+(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\[[^\[\]]*\])*` +    // \cmd{..}{..}
+    String.raw`(?:\\\|` +                                                             // \|  (norm)
+    String.raw`|\\[A-Za-z]+(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\[[^\[\]]*\])*` +       // \cmd{..}{..}
     String.raw`|\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}` +                                    // {..}
     String.raw`|[A-Za-z](?:_\{[^{}]+\}|\^\{[^{}]+\}|_[A-Za-z0-9]|\^[A-Za-z0-9])+` +   // x_t, L^{CLIP}
-    String.raw`|[=+\-*/<>|,.;:!?()\[\]]` +                                            // operators / punctuation glue
+    String.raw`|[=+\-*/<>,.;:!?()\[\]]` +                                             // operators / punctuation glue
     String.raw`|[A-Za-z0-9]+` +                                                       // bare ids/numbers
     String.raw`)`;
 
-  // A run = sequence of MATH_TOKENs separated by single spaces, containing at least one \cmd or _{ / ^{
+  // A run = sequence of MATH_TOKENs optionally separated by spaces (allow glue),
+  // containing at least one \cmd or _{ / ^{
   const RUN_RE = new RegExp(
-    String.raw`(?:${MATH_TOKEN})(?:[ \t]+(?:${MATH_TOKEN}))*`,
+    String.raw`(?:${MATH_TOKEN})(?:[ \t]*(?:${MATH_TOKEN}))*`,
     "g",
   );
 
   return text.replace(RUN_RE, (run) => {
     // Skip if no real LaTeX command or sub/sup brace inside.
-    if (!LATEX_CMD_RE.test(run) && !/[_^]\{/.test(run)) return run;
+    if (!LATEX_CMD_RE.test(run) && !/[_^]\{/.test(run) && !/\\\|/.test(run)) return run;
     // Skip URLs / paths.
     if (/https?:\/\//.test(run)) return run;
     // Trim trailing punctuation we don't want inside the math.
