@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
 import { MBTI_FULL_QUESTIONS, LIKERT_LABELS, MBTI_PROFILES, computeMbtiCode } from "@/data/mbtiFullTest";
+import MbtiJourney from "./MbtiJourney";
 
 interface Props { userId: string }
 
@@ -221,6 +222,9 @@ const MbtiFullTest = ({ userId }: Props) => {
             </div>
           </div>
         )}
+
+        {/* MBTI Journey — comparison across multiple tests */}
+        {history.length >= 2 && <MbtiJourney history={history} />}
       </div>
     );
   }
