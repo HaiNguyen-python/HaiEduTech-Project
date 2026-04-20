@@ -134,12 +134,17 @@ const Navbar = () => {
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/chinese/foundation", label: t("🏗️ Nền tảng", "🏗️ Foundation") },
-    { to: "/chinese/hsk", label: "📊 HSK 1-6" },
-    { to: "/chinese/hsk-guide", label: t("🎓 HSK Exam Guide", "🎓 HSK Exam Guide") },
-    { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
-    { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
-    { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
+    { to: "#cn-div1", label: "", divider: true },
+    { to: "#cn-hsk-group", label: t("🎓 Lộ trình HSK", "🎓 HSK Program"), groupLabel: "cn-hsk", children: [
+      { to: "/chinese/foundation", label: t("🏗️ Nền tảng", "🏗️ Foundation") },
+      { to: "/chinese/hsk", label: "📊 HSK 1-6" },
+      { to: "/chinese/hsk-guide", label: t("🎓 HSK Exam Guide", "🎓 HSK Exam Guide") },
+      { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
+    ] },
+    { to: "#cn-conv-group", label: t("💬 Giao tiếp & Tương tác", "💬 Conversational"), groupLabel: "cn-conv", children: [
+      { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
+      { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
+    ] },
     { to: "/speaking-coach/chinese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const vietnameseSubs: SubItem[] = [
@@ -470,6 +475,8 @@ const Navbar = () => {
                                               : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
                                               : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
                                               : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
+                                              : sub.groupLabel === "cn-hsk" ? t("Lộ trình HSK", "HSK Program")
+                                              : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
                                               : sub.label}
                                           </span>
                                         </div>
