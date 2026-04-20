@@ -219,6 +219,9 @@ const Chinese = () => {
                 ))}
               </div>
               <div className="flex flex-wrap gap-4">
+                <Link to="/chinese/hsk-guide" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-amber-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg">
+                  🎓 {t("Cẩm nang HSK Hub", "HSK Exam Guide Hub")} <ArrowRight className="w-4 h-4" />
+                </Link>
                 <Link to="/chinese/hsk/vocabulary" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-500 text-white font-semibold hover:brightness-110 transition-all">
                   {t("Vào học ngay", "Start Learning")} <ArrowRight className="w-4 h-4" />
                 </Link>
