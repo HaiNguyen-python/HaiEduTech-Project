@@ -460,6 +460,7 @@ const Navbar = () => {
                                               : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                               : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
                                               : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
+                                              : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
                                               : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
                                               : sub.label}
                                           </span>
