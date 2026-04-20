@@ -1164,7 +1164,7 @@ Knowledge updates without retraining; citations make hallucinations auditable; e
 
 ## 3. LoRA — fine-tuning without breaking the bank
 
-Full fine-tuning of a 7B Llama needs ~80 GB GPU. **LoRA** (2021): freeze \`W`, learn a tiny **delta** `ΔW = B · A` where `A`, `B` are low-rank. For a 4 096×4 096 matrix with rank `r=8`, you train **65k params instead of 17M** — 250× reduction.
+Full fine-tuning of a 7B Llama needs ~80 GB GPU. **LoRA** (2021): freeze \`W\`, learn a tiny **delta** \`ΔW = B · A\` where \`A\`, \`B\` are low-rank. For a 4 096×4 096 matrix with rank \`r=8\`, you train **65k params instead of 17M** — 250× reduction.
 
 **QLoRA** (2023): load the base model in **4-bit** precision; LoRA adapters stay in float16. You can now fine-tune a **70B model on a single 24 GB consumer GPU**.
 
