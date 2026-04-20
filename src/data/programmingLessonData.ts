@@ -37,40 +37,40 @@ export type { ExtendedProgrammingModule };
 export const programmingModules: ProgrammingModule[] = [
   {
     id: "prog-scratch",
-    title: "Scratch & Tư duy thuật toán",
+    title: "Scratch & Algorithmic Thinking",
     titleEn: "Scratch & Algorithmic Thinking",
     icon: "🧩",
     color: "from-orange-500/20 to-yellow-500/20",
-    description: "Học lập trình kéo thả và tư duy logic qua trò chơi sáng tạo",
+    description: "Learn drag-and-drop programming and logical thinking through creative games",
     descriptionEn: "Learn drag-and-drop coding and logical thinking through creative games",
     course: "kids",
     lessons: [
       {
         id: "scratch-1",
-        title: "Giới thiệu Scratch & khối lệnh cơ bản",
+        title: "Introducing Scratch & basic command blocks",
         titleEn: "Introduction to Scratch & Basic Blocks",
         theory: "Scratch là ngôn ngữ lập trình trực quan do MIT phát triển. Thay vì viết code, bạn kéo thả các khối lệnh (blocks) để tạo chương trình — giống như ghép LEGO vậy! 🧱\n\n**Tại sao học Scratch?**\nHãy tưởng tượng bạn là đạo diễn phim hoạt hình. Scratch cho phép bạn điều khiển nhân vật, tạo hiệu ứng, và xây dựng trò chơi mà không cần nhớ cú pháp phức tạp.\n\n**Các loại khối lệnh chính:**\n- 🟡 **Sự kiện (Events):** Giống nút 'Play' — bắt đầu mọi thứ. Ví dụ: 'Khi bấm cờ xanh' = khi phim bắt đầu chiếu.\n- 🔵 **Chuyển động (Motion):** Điều khiển nhân vật di chuyển. Ví dụ: 'Di chuyển 10 bước' = nhân vật bước 10 pixel. Hãy thử: nếu bạn đi 10 bước rồi xoay 90° và lặp lại 4 lần → bạn vẽ được hình vuông! 🟦\n- 🟣 **Ngoại hình (Looks):** Thay đổi diện mạo nhân vật. 'Nói Hello trong 2 giây' sẽ hiện bong bóng chat 💬 trên đầu nhân vật.\n- 🟢 **Âm thanh (Sound):** Phát nhạc, ghi âm. Ví dụ: mỗi lần nhân vật nhảy, phát tiếng 'boing!'.\n\n**Ví dụ thực tế:** Game 'Bắt bướm' 🦋\n1. Sự kiện: Khi bấm cờ xanh → bắt đầu game\n2. Chuyển động: Con bướm bay ngẫu nhiên trên màn hình\n3. Ngoại hình: Khi bắt được → bướm biến mất ✨\n4. Âm thanh: Phát tiếng 'ding!' khi ghi điểm",
         theoryEn: "Scratch is a visual programming language developed by MIT. Instead of writing code, you drag and drop blocks to create programs — like building with LEGO! 🧱\n\n**Why learn Scratch?**\nImagine you're a movie director. Scratch lets you control characters, create effects, and build games without memorizing complex syntax.\n\n**Main block categories:**\n- 🟡 **Events:** Like a 'Play' button — starts everything. Example: 'When green flag clicked' = when the movie starts playing.\n- 🔵 **Motion:** Control character movement. Example: 'Move 10 steps' = character walks 10 pixels. Try this: move 10 steps, turn 90°, repeat 4 times → you draw a square! 🟦\n- 🟣 **Looks:** Change character appearance. 'Say Hello for 2 seconds' shows a speech bubble 💬 above the character.\n- 🟢 **Sound:** Play music, record sounds. Example: each time the character jumps, play 'boing!'.\n\n**Real example:** Butterfly Catcher Game 🦋\n1. Events: When green flag clicked → start game\n2. Motion: Butterfly flies randomly on screen\n3. Looks: When caught → butterfly disappears ✨\n4. Sound: Play 'ding!' when scoring",
         code: `# Mô phỏng logic Scratch bằng Python
-# Khi bấm cờ xanh → Di chuyển 10 bước → Nói "Xin chào!"
+# When pressing the green flag → Move 10 steps → Say "Hello!"
 
 sprite_x = 0
 sprite_y = 0
 
-# Di chuyển 10 bước sang phải
+# Move 10 steps to the right
 sprite_x += 10
-print(f"Vị trí: ({sprite_x}, {sprite_y})")
+print(f"Location: ({sprite_x}, {sprite_y})")
 
-# Sprite nói
-print("💬 Xin chào! Tôi là Scratch Cat!")
+# Sprite said
+print("💬 Hello! I'm Scratch Cat!")
 
-# Lặp lại 4 lần: di chuyển + xoay (vẽ hình vuông)
+# Repeat 4 times: move + rotate (draw a square)
 for i in range(4):
     sprite_x += 50
-    print(f"Bước {i+1}: di chuyển đến ({sprite_x}, {sprite_y})")
-    print(f"  ↪ Xoay 90 độ")`,
+    print(f"Step {i+1}: move to ({sprite_x}, {sprite_y})")
+    print(f"↪ Rotate 90 degrees")`,
         codeLanguage: "python",
-        exercise: "Hãy mở Scratch (scratch.mit.edu) và tạo một chương trình: Khi bấm cờ xanh, nhân vật di chuyển 100 bước, sau đó nói 'Hello World!' trong 2 giây.",
+        exercise: "Open Scratch (scratch.mit.edu) and create a program: When pressing the green flag, the character moves 100 steps, then says 'Hello World!' in 2 seconds.",
         exerciseEn: "Open Scratch (scratch.mit.edu) and create a program: When the green flag is clicked, the sprite moves 100 steps, then says 'Hello World!' for 2 seconds.",
         quiz: [
           { question: "Which organization developed Scratch?", options: ["Google", "MIT", "Microsoft", "Apple"], answer: 1, explanation: "Scratch was developed by the Lifelong Kindergarten group at MIT Media Lab." },
@@ -82,14 +82,14 @@ for i in range(4):
       },
       {
         id: "scratch-2",
-        title: "Vòng lặp và điều kiện trong Scratch",
+        title: "Loops and conditions in Scratch",
         titleEn: "Loops and Conditions in Scratch",
         theory: "**Vòng lặp** giúp thực hiện một hành động nhiều lần mà không cần viết lại code. Hãy tưởng tượng bạn phải viết 'Di chuyển 10 bước, Xoay 90°' tổng cộng 100 lần — mệt lắm phải không? Vòng lặp giải quyết chuyện này! 🔄\n\n**Ví dụ đời thực:**\n- ⏰ Đồng hồ: Kim giây **lặp mãi mãi** (chạy → tick → chạy → tick...)\n- 🏃 Chạy bộ: Lặp lại 10 lần (chạy 1 vòng sân)\n- 🎵 Bài hát: Lặp chorus **cho đến khi** hết nhạc\n\n**Các loại vòng lặp trong Scratch:**\n- 🔄 **Lặp lại N lần:** Giống nói 'Làm việc này 5 lần rồi dừng'. Ví dụ: vẽ ngôi sao 5 cánh = lặp 5 lần (vẽ cạnh + xoay 144°) ⭐\n- 🔄 **Lặp mãi mãi:** Giống quả tim đập — không bao giờ dừng cho đến khi bạn tắt chương trình.\n- 🔄 **Lặp cho đến khi:** Giống chờ xe bus — đứng chờ **cho đến khi** xe đến. 🚌\n\n**Câu điều kiện — Ngã rẽ trong cuộc sống:**\n- 🌧️ **Nếu...thì:** 'Nếu trời mưa → mang ô'. Chỉ có 1 nhánh.\n- ☀️🌧️ **Nếu...thì...nếu không:** 'Nếu trời mưa → mang ô, KHÔNG THÌ → đội nón'. Có 2 nhánh.\n\n**Kết hợp cả hai:**\nLặp mãi mãi:\n  Nếu chạm tường → xoay 180° và bật lại\n→ Đây chính là logic của game Pong! 🏓",
         theoryEn: "**Loops** help repeat actions without rewriting code. Imagine writing 'Move 10 steps, Turn 90°' a total of 100 times — exhausting, right? Loops solve this! 🔄\n\n**Real-life examples:**\n- ⏰ Clock: Second hand **loops forever** (move → tick → move → tick...)\n- 🏃 Running: Repeat 10 times (run 1 lap)\n- 🎵 Song: Repeat chorus **until** music ends\n\n**Loop types in Scratch:**\n- 🔄 **Repeat N times:** Like saying 'Do this 5 times then stop'. Example: draw a 5-pointed star = repeat 5 times (draw edge + turn 144°) ⭐\n- 🔄 **Forever:** Like a heartbeat — never stops until you quit the program.\n- 🔄 **Repeat until:** Like waiting for a bus — wait **until** bus arrives. 🚌\n\n**Conditions — Crossroads in life:**\n- 🌧️ **If...then:** 'If raining → bring umbrella'. Only 1 branch.\n- ☀️🌧️ **If...then...else:** 'If raining → umbrella, ELSE → hat'. Has 2 branches.\n\n**Combining both:**\nForever loop:\n  If touching wall → turn 180° and bounce\n→ This is the logic behind Pong! 🏓",
         code: `# Vòng lặp: Vẽ hình đa giác
 import turtle
 
-# Vẽ hình lục giác (6 cạnh)
+# Draw a hexagon (6 sides)
 so_canh = 6
 do_dai = 60
 
@@ -97,16 +97,16 @@ for i in range(so_canh):
     turtle.forward(do_dai)  # Đi thẳng
     turtle.right(360 / so_canh)  # Xoay
 
-# Câu điều kiện
+# Conditional sentence
 diem = 85
 if diem >= 90:
-    print("🌟 Xuất sắc!")
+    print("🌟 Excellent!")
 elif diem >= 70:
-    print("👍 Giỏi!")
+    print("👍 Good!")
 else:
-    print("💪 Cố gắng thêm!")`,
+    print("💪 Try harder!")`,
         codeLanguage: "python",
-        exercise: "Viết chương trình kiểm tra một số từ 1-100: nếu chia hết cho 3 in 'Fizz', chia hết cho 5 in 'Buzz', chia hết cho cả 3 và 5 in 'FizzBuzz'.",
+        exercise: "Write a program to check a number from 1-100: if it is divisible by 3, print 'Fizz', if it is divisible by 5, print 'Buzz', if it is divisible by both 3 and 5, print 'FizzBuzz'.",
         exerciseEn: "Write a program to check a number from 1-100: if divisible by 3 print 'Fizz', by 5 print 'Buzz', by both print 'FizzBuzz'.",
         quiz: [
           { question: "What Python command is equivalent to the 'Forever' loop?", options: ["for i in range()", "while True:", "repeat:", "loop:"], answer: 1, explanation: "while True: creates an infinite loop, similar to 'Forever' in Scratch." },
@@ -118,31 +118,31 @@ else:
       },
       {
         id: "scratch-3",
-        title: "Biến và danh sách trong Scratch",
+        title: "Variables and lists in Scratch",
         titleEn: "Variables and Lists in Scratch",
         theory: "**Biến (Variable)** là một ô nhớ chứa dữ liệu — hãy tưởng tượng nó như một **chiếc hộp có nhãn dán** 📦. Bạn đặt tên cho hộp (ví dụ: 'điểm_số') và bỏ thứ gì đó vào bên trong (ví dụ: số 0).\n\n**Ví dụ minh họa:**\n```\n📦 điểm_số = 0      → Hộp tên 'điểm_số', bên trong có số 0\n📦 điểm_số = điểm_số + 10  → Mở hộp, lấy 0 ra, cộng 10, bỏ 10 vào lại\n📦 tên = 'Minh'     → Hộp tên 'tên', bên trong có chữ 'Minh'\n```\n\n**Tại sao cần biến?** Giống như bạn chơi game — bạn cần nhớ điểm số, mạng sống, level hiện tại. Biến chính là bộ nhớ của chương trình! 🧠\n\n**Danh sách (List)** là tập hợp nhiều giá trị — giống **dãy tủ locker ở trường** 🗄️. Mỗi tủ có số thứ tự và chứa một vật phẩm.\n```\ntủ_0: ⭐ Sao     (vị trí 0)\ntủ_1: 💎 Kim cương (vị trí 1)\ntủ_2: 🍎 Táo     (vị trí 2)\n```\n\n**Thao tác với danh sách:**\n- 📥 **Thêm** (append): Mở tủ trống tiếp theo, bỏ vật phẩm vào\n- 🗑️ **Xóa** (remove): Lấy vật phẩm ra khỏi tủ\n- 🔍 **Tìm** (index): 'Vật phẩm X ở tủ số mấy?'\n\n**Trò chơi thu thập vật phẩm:**\nBạn đang viết game RPG. Nhân vật có:\n- Biến `mang_song = 3` (3 mạng)\n- Danh sách `tui_do = ['Kiếm', 'Khiên']` (túi đồ)\n- Nhặt đồ mới? → `tui_do.append('Thuốc')` → Túi có 3 vật phẩm!",
         theoryEn: "A **Variable** is a memory cell storing data — think of it as a **labeled box** 📦. You give the box a name (e.g., 'score') and put something inside (e.g., number 0).\n\n**Visual example:**\n```\n📦 score = 0         → Box named 'score', contains 0\n📦 score = score + 10 → Open box, take 0 out, add 10, put 10 back\n📦 name = 'Minh'     → Box named 'name', contains 'Minh'\n```\n\n**Why variables?** Like playing a game — you need to remember score, lives, current level. Variables are your program's memory! 🧠\n\nA **List** is a collection of values — like a **row of school lockers** 🗄️. Each locker has a number and stores an item.\n```\nlocker_0: ⭐ Star      (position 0)\nlocker_1: 💎 Diamond   (position 1)\nlocker_2: 🍎 Apple     (position 2)\n```\n\n**List operations:**\n- 📥 **Add** (append): Open next empty locker, put item in\n- 🗑️ **Remove**: Take item out of locker\n- 🔍 **Find** (index): 'Which locker has item X?'\n\n**Item collection game:**\nYou're writing an RPG. Character has:\n- Variable `lives = 3` (3 lives)\n- List `inventory = ['Sword', 'Shield']`\n- Pick up item? → `inventory.append('Potion')` → Bag now has 3 items!",
         code: `# Biến và danh sách
-# Trò chơi thu thập điểm
+# Game of collecting points
 
 diem = 0
 ten = "Player1"
 danh_sach_vat_pham = []
 
-# Thu thập vật phẩm
-vat_pham_moi = ["⭐ Sao", "💎 Kim cương", "🍎 Táo"]
+# Collect items
+vat_pham_moi = ["⭐ Sao", "💎 Diamonds", "🍎 Apple"]
 
 for vp in vat_pham_moi:
     danh_sach_vat_pham.append(vp)
     diem += 10
-    print(f"Nhặt được: {vp} | Điểm: {diem}")
+    print(f"Picked up: {vp} | Points: {diem}")
 
-print(f"\\n🎒 Túi đồ của {ten}:")
+print(f"\\n🎒 {ten}'s bag:")
 for i, vp in enumerate(danh_sach_vat_pham, 1):
     print(f"  {i}. {vp}")
-print(f"🏆 Tổng điểm: {diem}")`,
+print(f"🏆 Total score: {diem}")`,
         codeLanguage: "python",
-        exercise: "Tạo danh sách 5 con vật yêu thích. In ra số lượng, thêm 1 con vật mới, xóa con vật đầu tiên, và in lại danh sách.",
+        exercise: "Create a list of 5 favorite animals. Print the quantity, add a new animal, delete the first animal, and reprint the list.",
         exerciseEn: "Create a list of 5 favorite animals. Print the count, add 1 new animal, remove the first one, and print the list again.",
         quiz: [
           { question: "How are variables declared in Python?", options: ["var x = 5", "int x = 5", "x = 5", "let x = 5"], answer: 2, explanation: "Python declares variables simply with variable_name = value, without special keywords." },
@@ -156,17 +156,17 @@ print(f"🏆 Tổng điểm: {diem}")`,
   },
   {
     id: "prog-python-basic",
-    title: "Python cơ bản",
+    title: "Basic Python",
     titleEn: "Python Basics",
     icon: "🐍",
     color: "from-green-500/20 to-emerald-500/20",
-    description: "Biến, vòng lặp, hàm và các kiểu dữ liệu cơ bản",
+    description: "Variables, loops, functions, and basic data types",
     descriptionEn: "Variables, loops, functions and basic data types",
     course: "kids",
     lessons: [
       {
         id: "py-basic-1",
-        title: "Biến và kiểu dữ liệu",
+        title: "Variables and data types",
         titleEn: "Variables and Data Types",
         theory: "Python có các kiểu dữ liệu chính — hãy nghĩ chúng như **các loại hộp khác nhau** để chứa các thứ khác nhau:\n\n**🔢 int — Số nguyên** (hộp chỉ chứa số đếm được)\nVí dụ: tuổi = 15, số bạn = 42, nhiệt độ = -7\nGiống số trên bảng điểm — không có phần thập phân.\n\n**📐 float — Số thực** (hộp chứa số có dấu phẩy)\nVí dụ: pi = 3.14159, chiều cao = 1.68, giá = -0.5\nGiống cân nặng trên cân điện tử — chính xác đến phần thập phân.\n\n**📝 str — Chuỗi ký tự** (hộp chứa chữ/từ)\nVí dụ: ten = \"Minh\", loi_chao = 'Xin chào!'\nLuôn nằm trong dấu nháy \" \" hoặc ' '. Giống tin nhắn trong điện thoại 📱\n\n**✅ bool — Logic đúng/sai** (hộp chỉ có 2 trạng thái)\nVí dụ: dang_online = True, da_lam_bai = False\nGiống công tắc đèn 💡 — chỉ có BẬT (True) hoặc TẮT (False).\n\n**🏷️ Quy tắc đặt tên biến:**\n- ✅ `my_score`, `_name`, `player1` → Hợp lệ\n- ❌ `2name` (bắt đầu bằng số), `my-var` (có dấu gạch), `class` (từ khóa Python)\n- 💡 Mẹo: dùng snake_case: `diem_trung_binh` thay vì `diemtrungbinh`\n\n**🔄 Chuyển đổi kiểu — Biến hình dữ liệu:**\n```\nstr(42) → \"42\"    (số → chữ, để nối chuỗi)\nint(\"42\") → 42    (chữ → số, để tính toán)\nfloat(\"3.14\") → 3.14\n```",
         theoryEn: "Python has main data types — think of them as **different types of boxes** for different things:\n\n**🔢 int — Integer** (box for countable numbers)\nExamples: age = 15, friends = 42, temperature = -7\nLike scores on a report card — no decimal points.\n\n**📐 float — Float** (box for decimal numbers)\nExamples: pi = 3.14159, height = 1.68, price = -0.5\nLike weight on a digital scale — precise to decimal places.\n\n**📝 str — String** (box for text/words)\nExamples: name = \"Minh\", greeting = 'Hello!'\nAlways in quotes \" \" or ' '. Like text messages on your phone 📱\n\n**✅ bool — Boolean** (box with only 2 states)\nExamples: is_online = True, homework_done = False\nLike a light switch 💡 — only ON (True) or OFF (False).\n\n**🏷️ Variable naming rules:**\n- ✅ `my_score`, `_name`, `player1` → Valid\n- ❌ `2name` (starts with number), `my-var` (has dash), `class` (Python keyword)\n- 💡 Tip: use snake_case: `average_score` instead of `averagescore`\n\n**🔄 Type conversion — Shapeshifting data:**\n```\nstr(42) → \"42\"    (number → text, for concatenation)\nint(\"42\") → 42    (text → number, for math)\nfloat(\"3.14\") → 3.14\n```",
@@ -176,21 +176,21 @@ tuoi = 12              # int
 chieu_cao = 1.52       # float
 hoc_gioi = True        # bool
 
-# In thông tin
-print(f"Tên: {ten}")
-print(f"Tuổi: {tuoi}")
-print(f"Chiều cao: {chieu_cao}m")
-print(f"Học giỏi: {hoc_gioi}")
+# Print information
+print(f"Name: {name}")
+print(f"Age: {age}")
+print(f"Height: {height}m")
+print(f"Study well: {study_gioi}")
 
-# Kiểm tra kiểu dữ liệu
+# Check the data type
 print(type(ten))       # <class 'str'>
 print(type(tuoi))      # <class 'int'>
 
-# Chuyển đổi kiểu
+# Style conversion
 tuoi_str = str(tuoi)   # int → str
 so = int("42")         # str → int`,
         codeLanguage: "python",
-        exercise: "Khai báo biến chứa: tên, tuổi, điểm trung bình (số thực), và biến kiểm tra có phải học sinh giỏi không. In ra tất cả thông tin bằng f-string.",
+        exercise: "Declare a variable containing: name, age, average score (real number), and variable to check whether a student is good or not. Print out all information using f-string.",
         exerciseEn: "Declare variables for: name, age, average score (float), and whether the student is excellent. Print all info using f-string.",
         quiz: [
           { question: "What is the data type of 3.14?", options: ["int", "str", "float", "bool"], answer: 2, explanation: "3.14 is a real number (with a decimal part), so its type is float." },
@@ -202,7 +202,7 @@ so = int("42")         # str → int`,
       },
       {
         id: "py-basic-2",
-        title: "Hàm (Functions)",
+        title: "Functions",
         titleEn: "Functions",
         theory: "**Hàm** là một khối code có tên, thực hiện một nhiệm vụ cụ thể — giống **công thức nấu ăn** 🍳!\n\nTưởng tượng bạn hay pha trà sữa. Mỗi lần bạn phải: lấy trà → đun nước → pha trà → thêm sữa → thêm đường. Thay vì nhớ 5 bước mỗi lần, bạn viết một 'công thức' tên `pha_tra_sua()` — lần sau chỉ cần gọi tên!\n\n**Cấu trúc hàm:**\n```python\ndef ten_ham(nguyen_lieu):    # Tên + Nguyên liệu\n    # Các bước thực hiện      # Công thức\n    return thanh_pham          # Thành phẩm\n```\n\n**Ví dụ minh họa:**\n```\n🧑‍🍳 def lam_banh(bot, trung, duong):\n      tron(bot, trung, duong)     # Bước 1\n      nuong(180, 30_phut)         # Bước 2\n      return banh_ngon            # Xong!\n\n🍰 banh = lam_banh('bot_mi', 2, '100g')  # Gọi hàm\n```\n\n**3 lợi ích lớn:**\n1. 🔁 **Tái sử dụng:** Viết 1 lần, gọi 100 lần. Không copy-paste!\n2. 📖 **Dễ đọc:** `tinh_diem_tb(8, 9, 7)` rõ nghĩa hơn `(8+9+7)/3`\n3. 🐛 **Dễ sửa lỗi:** Bug ở hàm nào → sửa hàm đó, không ảnh hưởng chỗ khác.\n\n**Tham số mặc định — Đặt sẵn 'mặc định':**\n```python\ndef chao(ten, ngon_ngu='vi'):  # Mặc định tiếng Việt\n    ...\nchao('Minh')          # → 'Xin chào, Minh!'\nchao('John', 'en')    # → 'Hello, John!'\n```\nGiống đặt pizza: nếu không nói gì, mặc định size M. Muốn size L thì nói thêm!",
         theoryEn: "A **Function** is a named block of code that performs a specific task — like a **cooking recipe** 🍳!\n\nImagine you often make bubble tea. Each time: get tea → boil water → brew → add milk → add sugar. Instead of remembering 5 steps each time, write a 'recipe' called `make_bubble_tea()` — next time just call its name!\n\n**Function structure:**\n```python\ndef function_name(ingredients):  # Name + Ingredients\n    # Steps to follow              # Recipe\n    return finished_product        # Done!\n```\n\n**Visual example:**\n```\n🧑‍🍳 def bake_cake(flour, eggs, sugar):\n      mix(flour, eggs, sugar)        # Step 1\n      bake(180, 30_minutes)          # Step 2\n      return delicious_cake          # Done!\n\n🍰 cake = bake_cake('flour', 2, '100g')  # Call function\n```\n\n**3 major benefits:**\n1. 🔁 **Reusable:** Write once, call 100 times. No copy-paste!\n2. 📖 **Readable:** `calc_average(8, 9, 7)` is clearer than `(8+9+7)/3`\n3. 🐛 **Debuggable:** Bug in which function → fix that function, no side effects.\n\n**Default parameters — Pre-set 'defaults':**\n```python\ndef greet(name, language='en'):  # Default English\n    ...\ngreet('Minh')           # → 'Hello, Minh!'\ngreet('Minh', 'vi')     # → 'Xin chào, Minh!'\n```\nLike ordering pizza: if you say nothing, default is Medium. Want Large? Just specify!",
@@ -210,27 +210,27 @@ so = int("42")         # str → int`,
 def dien_tich_hcn(chieu_dai, chieu_rong):
     return chieu_dai * chieu_rong
 
-# Hàm kiểm tra số chẵn/lẻ
+# Function to check even/odd numbers
 def kiem_tra_chan_le(so):
     if so % 2 == 0:
-        return f"{so} là số chẵn ✅"
+        return f"{so} is an even number ✅"
     else:
-        return f"{so} là số lẻ ❌"
+        return f"{so} is an odd number ❌"
 
-# Hàm chào hỏi với giá trị mặc định
+# Greeting function with default value
 def chao(ten, ngon_ngu="vi"):
     if ngon_ngu == "vi":
-        return f"Xin chào, {ten}! 👋"
+        return f"Hello, {ten}! 👋"
     else:
         return f"Hello, {ten}! 👋"
 
-# Sử dụng
+# Use
 print(dien_tich_hcn(5, 3))       # 15
 print(kiem_tra_chan_le(7))         # 7 là số lẻ
 print(chao("Minh"))               # Xin chào, Minh!
 print(chao("John", "en"))         # Hello, John!`,
         codeLanguage: "python",
-        exercise: "Viết 3 hàm: (1) tính chu vi hình tròn, (2) kiểm tra số nguyên tố, (3) đếm số nguyên âm trong chuỗi.",
+        exercise: "Write 3 functions: (1) calculate the circumference of a circle, (2) check for prime numbers, (3) count the number of negative integers in the string.",
         exerciseEn: "Write 3 functions: (1) calculate circle circumference, (2) check if prime number, (3) count vowels in a string.",
         quiz: [
           { question: "Which keyword is used to declare a function?", options: ["func", "function", "def", "method"], answer: 2, explanation: "Python uses 'def' (short for define) to declare functions." },
@@ -242,33 +242,33 @@ print(chao("John", "en"))         # Hello, John!`,
       },
       {
         id: "py-basic-3",
-        title: "Vòng lặp for & while",
+        title: "for & while loops",
         titleEn: "For & While Loops",
         theory: "**Vòng lặp** giúp bạn tự động hóa công việc lặp đi lặp lại — giống **robot làm việc thay bạn** 🤖\n\n**for — Lặp qua dãy đã biết trước:**\nGiống bạn phát bài kiểm tra cho 30 học sinh — bạn biết trước có 30 bạn.\n```\nDanh sách: [An, Bình, Chi, Dũng]\nfor mỗi bạn trong danh sách:\n    phát bài kiểm tra cho bạn đó\n```\n\n**while — Lặp khi điều kiện còn đúng:**\nGiống ăn buffet — bạn ăn **cho đến khi** no. Không biết trước ăn bao nhiêu!\n```\nwhile chưa no:\n    lấy thêm đồ ăn\n    ăn\nprint('No rồi! 🫃')\n```\n\n**🎮 Lệnh điều khiển vòng lặp:**\n- 🚪 **break:** Thoát ngay! Giống kéo còi báo động → dừng mọi thứ.\n  ```python\n  for i in range(100):\n      if i == 5: break  # Dừng ở số 5, không chạy tiếp\n  ```\n- ⏭️ **continue:** Bỏ qua lần này, chạy tiếp! Giống gặp bài khó trong đề thi → bỏ qua, làm bài khác.\n  ```python\n  for i in range(10):\n      if i % 2 == 0: continue  # Bỏ qua số chẵn\n      print(i)  # Chỉ in số lẻ: 1, 3, 5, 7, 9\n  ```\n\n**📊 range() — Tạo dãy số tự động:**\n- `range(5)` → 0️⃣1️⃣2️⃣3️⃣4️⃣ (5 số, bắt đầu từ 0)\n- `range(1, 6)` → 1️⃣2️⃣3️⃣4️⃣5️⃣ (từ 1 đến 5)\n- `range(0, 10, 2)` → 0️⃣2️⃣4️⃣6️⃣8️⃣ (đếm cách 2)\n- `range(10, 0, -1)` → đếm ngược! 🔟9️⃣8️⃣...1️⃣",
         theoryEn: "**Loops** automate repetitive tasks — like a **robot doing work for you** 🤖\n\n**for — Loop through a known sequence:**\nLike handing out tests to 30 students — you know there are exactly 30.\n```\nStudent list: [An, Binh, Chi, Dung]\nfor each student in list:\n    hand out test to that student\n```\n\n**while — Loop while condition is true:**\nLike eating at a buffet — you eat **until** full. Don't know how many plates!\n```\nwhile not full:\n    get more food\n    eat\nprint('Full now! 🫃')\n```\n\n**🎮 Loop control statements:**\n- 🚪 **break:** Exit immediately! Like pulling a fire alarm → stop everything.\n  ```python\n  for i in range(100):\n      if i == 5: break  # Stops at 5, doesn't continue\n  ```\n- ⏭️ **continue:** Skip this round, keep going! Like skipping a hard question on an exam → move on.\n  ```python\n  for i in range(10):\n      if i % 2 == 0: continue  # Skip even numbers\n      print(i)  # Only prints odds: 1, 3, 5, 7, 9\n  ```\n\n**📊 range() — Auto-generate number sequences:**\n- `range(5)` → 0️⃣1️⃣2️⃣3️⃣4️⃣ (5 numbers, starting from 0)\n- `range(1, 6)` → 1️⃣2️⃣3️⃣4️⃣5️⃣ (from 1 to 5)\n- `range(0, 10, 2)` → 0️⃣2️⃣4️⃣6️⃣8️⃣ (step by 2)\n- `range(10, 0, -1)` → count down! 🔟9️⃣8️⃣...1️⃣",
         code: `# Vòng lặp for - In bảng cửu chương
 so = 7
-print(f"📋 Bảng cửu chương {so}:")
+print(f"📋 Multiplication table {so}:")
 for i in range(1, 11):
     print(f"  {so} x {i} = {so * i}")
 
-# Vòng lặp while - Đoán số
+# While loop - Guess the number
 import random
 so_bi_mat = random.randint(1, 20)
 so_lan = 0
 
 while True:
-    du_doan = int(input("Đoán số (1-20): "))
+    du_doan = int(input("Guess the number (1-20):"))
     so_lan += 1
     if du_doan == so_bi_mat:
-        print(f"🎉 Đúng rồi! Bạn đoán {so_lan} lần")
+        print(f"🎉 That's right! You guessed {so_lan} times")
         break
     elif du_doan < so_bi_mat:
-        print("📈 Lớn hơn!")
+        print("📈 Bigger!")
     else:
-        print("📉 Nhỏ hơn!")`,
+        print("📉 Smaller!")`,
         codeLanguage: "python",
-        exercise: "Viết chương trình tính tổng các số từ 1 đến N (nhập từ bàn phím) bằng cả 2 cách: for và while.",
+        exercise: "Write a program to calculate the sum of numbers from 1 to N (entered from the keyboard) using both methods: for and while.",
         exerciseEn: "Write a program to sum numbers from 1 to N (user input) using both for and while loops.",
         quiz: [
           { question: "What sequence of numbers does range(1, 5) create?", options: ["1,2,3,4,5", "0,1,2,3,4", "1,2,3,4", "1,2,3,4,5,6"], answer: 2, explanation: "range(1,5) creates a sequence from 1 to 4 (excluding 5)." },
@@ -282,41 +282,41 @@ while True:
   },
   {
     id: "prog-data-structures",
-    title: "Cấu trúc dữ liệu & Thuật toán",
+    title: "Data Structures & Algorithms",
     titleEn: "Data Structures & Algorithms",
     icon: "🏗️",
     color: "from-blue-500/20 to-cyan-500/20",
-    description: "Array, List, Dictionary, Sorting và Searching",
+    description: "Array, List, Dictionary, Sorting and Searching",
     descriptionEn: "Array, List, Dictionary, Sorting and Searching",
     course: "kids",
     lessons: [
       {
         id: "ds-1",
-        title: "List, Tuple và Dictionary",
+        title: "List, Tuple and Dictionary",
         titleEn: "List, Tuple and Dictionary",
         theory: "Cấu trúc dữ liệu là cách bạn **tổ chức và sắp xếp thông tin** — giống như cách bạn sắp xếp đồ trong phòng! 🏠\n\n**📋 List [] — Danh sách linh hoạt:**\nGiống **danh sách mua sắm** — bạn có thể thêm, xóa, sắp xếp lại bất cứ lúc nào.\n```python\nmua_sam = ['sữa', 'trứng', 'bánh mì']\nmua_sam.append('phô mai')     # Thêm cuối: [..., 'phô mai']\nmua_sam.insert(0, 'nước')     # Thêm đầu: ['nước', ...]\nmua_sam.remove('trứng')       # Xóa: bỏ 'trứng'\nmua_sam.sort()                # Sắp xếp A-Z\n```\n\n**📌 Tuple () — Dữ liệu cố định 'không thể sửa':**\nGiống **tọa độ GPS** — một khi xác định, không ai thay đổi được!\n```python\nha_noi = (21.028511, 105.804817)    # Vĩ độ, Kinh độ\nha_noi[0] = 0  # ❌ LỖI! Tuple không cho sửa!\n```\nDùng khi dữ liệu KHÔNG BAO GIỜ nên thay đổi: ngày sinh, mã quốc gia, hằng số vật lý.\n\n**📖 Dictionary {} — Từ điển tra cứu siêu nhanh:**\nGiống **danh bạ điện thoại** — biết tên → tra ra số ngay lập tức!\n```python\ndanh_ba = {\n    'Minh': '0901234567',     # key: value\n    'An':   '0987654321',\n}\ndanh_ba['Minh']  # → '0901234567' (tra cứu cực nhanh!)\n```\n\n**🤔 Khi nào dùng gì?**\n| Tình huống | Chọn | Lý do |\n|---|---|---|\n| Danh sách học sinh (thêm/bớt) | List | Thay đổi thường xuyên |\n| Tọa độ GPS | Tuple | Không bao giờ đổi |\n| Bảng điểm (tên→điểm) | Dict | Tra cứu nhanh theo tên |",
         theoryEn: "Data structures are how you **organize and arrange information** — like how you arrange things in your room! 🏠\n\n**📋 List [] — Flexible list:**\nLike a **shopping list** — you can add, remove, rearrange anytime.\n```python\nshopping = ['milk', 'eggs', 'bread']\nshopping.append('cheese')      # Add end: [..., 'cheese']\nshopping.insert(0, 'water')    # Add front: ['water', ...]\nshopping.remove('eggs')        # Remove: drop 'eggs'\nshopping.sort()                # Sort A-Z\n```\n\n**📌 Tuple () — Fixed 'read-only' data:**\nLike **GPS coordinates** — once set, nobody can change them!\n```python\nhanoi = (21.028511, 105.804817)    # Latitude, Longitude\nhanoi[0] = 0  # ❌ ERROR! Tuples don't allow changes!\n```\nUse when data should NEVER change: birthday, country code, physics constants.\n\n**📖 Dictionary {} — Ultra-fast lookup book:**\nLike a **phone book** — know the name → get the number instantly!\n```python\ncontacts = {\n    'Minh': '0901234567',     # key: value\n    'An':   '0987654321',\n}\ncontacts['Minh']  # → '0901234567' (blazing fast lookup!)\n```\n\n**🤔 When to use what?**\n| Situation | Choice | Reason |\n|---|---|---|\n| Student roster (add/remove) | List | Changes frequently |\n| GPS coordinates | Tuple | Never changes |\n| Grade book (name→score) | Dict | Fast lookup by name |",
         code: `# LIST - Danh sách học sinh
-hoc_sinh = ["An", "Bình", "Chi", "Dũng"]
+hoc_sinh = ["An", "Jar", "Chi", "Dung"]
 hoc_sinh.append("Em")        # Thêm cuối
 hoc_sinh.insert(0, "Anh")    # Thêm đầu
 hoc_sinh.sort()               # Sắp xếp A-Z
-print(f"Lớp có {len(hoc_sinh)} bạn: {hoc_sinh}")
+print(f"The class has {len(student_student)} friends: {student_student}")
 
-# TUPLE - Tọa độ không đổi
+# TUPLE - Constant coordinates
 vi_tri = (10.762622, 106.660172)  # HCM
-print(f"Tọa độ TP.HCM: {vi_tri}")
+print(f"Ho Chi Minh City coordinates: {vi_tri}")
 
-# DICTIONARY - Điểm số
+# DICTIONARY - Score
 diem = {
-    "An": {"Toán": 9, "Văn": 8, "Anh": 7},
-    "Bình": {"Toán": 7, "Văn": 9, "Anh": 8},
+    "An": {"Maths": 9, "Literature": 8, "Anh": 7},
+    "Jar": {"Maths": 7, "Literature": 9, "Anh": 8},
 }
 for ten, mon in diem.items():
     tb = sum(mon.values()) / len(mon)
     print(f"{ten}: TB = {tb:.1f}")`,
         codeLanguage: "python",
-        exercise: "Tạo dictionary chứa thông tin 3 sản phẩm (tên, giá, số lượng). Viết hàm tính tổng giá trị kho hàng.",
+        exercise: "Create a dictionary containing information about 3 products (name, price, quantity). Write a function to calculate the total warehouse value.",
         exerciseEn: "Create a dictionary with 3 products (name, price, quantity). Write a function to calculate total inventory value.",
         quiz: [
           { question: "Which data type cannot be changed after creation?", options: ["List", "Dictionary", "Tuple", "Set"], answer: 2, explanation: "Tuple is an immutable data type - elements cannot be added, deleted, or modified." },
@@ -328,7 +328,7 @@ for ten, mon in diem.items():
       },
       {
         id: "ds-2",
-        title: "Thuật toán sắp xếp",
+        title: "Sorting algorithm",
         titleEn: "Sorting Algorithms",
         theory: "**Thuật toán sắp xếp** là cách sắp xếp dữ liệu theo thứ tự — giống **xếp hàng học sinh theo chiều cao** trong giờ thể dục! 🏫\n\n**🫧 Bubble Sort — Sắp xếp nổi bọt:**\nTưởng tượng bọt nước trong ly soda — bọt lớn nổi lên trên! 🥤\n- So sánh 2 bạn đứng cạnh nhau\n- Ai cao hơn → đổi chỗ ra sau\n- Lặp lại cho đến khi không cần đổi nữa\n```\nVòng 1: [64, 34, 25, 12] → [34, 25, 12, 64] ← 64 'nổi' lên cuối!\nVòng 2: [34, 25, 12, 64] → [25, 12, 34, 64] ← 34 'nổi' lên\nVòng 3: [25, 12, 34, 64] → [12, 25, 34, 64] ← Xong! ✅\n```\n⏱️ Tốc độ: O(n²) — chậm! Với 1000 phần tử cần ~1 triệu phép so sánh.\n\n**🎯 Selection Sort — Sắp xếp chọn:**\nGiống **chọn đội bóng** — mỗi lượt chọn người giỏi nhất còn lại!\n- Tìm số nhỏ nhất → đặt vào vị trí 1\n- Tìm số nhỏ nhất CÒN LẠI → đặt vào vị trí 2\n- Lặp lại...\n```\n[64, 25, 12, 34] → Tìm min=12, đặt đầu → [12, 25, 64, 34]\n[12, 25, 64, 34] → Tìm min=25, đã đúng → [12, 25, 64, 34]\n[12, 25, 64, 34] → Tìm min=34, đổi → [12, 25, 34, 64] ✅\n```\n\n**🃏 Insertion Sort — Sắp xếp chèn:**\nGiống **xếp bài trên tay** khi chơi tiến lên 🎴:\n- Lấy từng lá bài mới\n- Chèn vào đúng vị trí trong các lá đã sắp xếp\n- Nhanh nhất khi bài gần như đã sắp xếp! O(n) trường hợp tốt nhất.\n\n**⚡ So sánh tốc độ:**\n| Thuật toán | Tốt nhất | Trung bình | Tệ nhất |\n|---|---|---|---|\n| Bubble | O(n) | O(n²) | O(n²) |\n| Selection | O(n²) | O(n²) | O(n²) |\n| Insertion | O(n) ⭐ | O(n²) | O(n²) |",
         theoryEn: "**Sorting algorithms** arrange data in order — like **lining students up by height** in gym class! 🏫\n\n**🫧 Bubble Sort:**\nImagine bubbles in a soda glass — big bubbles float to the top! 🥤\n- Compare 2 adjacent items\n- If wrong order → swap\n- Repeat until no more swaps needed\n```\nPass 1: [64, 34, 25, 12] → [34, 25, 12, 64] ← 64 'bubbles' to end!\nPass 2: [34, 25, 12, 64] → [25, 12, 34, 64] ← 34 'bubbles' up\nPass 3: [25, 12, 34, 64] → [12, 25, 34, 64] ← Done! ✅\n```\n⏱️ Speed: O(n²) — slow! 1000 elements needs ~1 million comparisons.\n\n**🎯 Selection Sort:**\nLike **picking teams** — each turn pick the best remaining player!\n- Find smallest → put in position 1\n- Find smallest REMAINING → put in position 2\n- Repeat...\n```\n[64, 25, 12, 34] → Find min=12, place first → [12, 25, 64, 34]\n[12, 25, 64, 34] → Find min=25, already correct → [12, 25, 64, 34]\n[12, 25, 64, 34] → Find min=34, swap → [12, 25, 34, 64] ✅\n```\n\n**🃏 Insertion Sort:**\nLike **sorting cards in your hand** while playing poker 🎴:\n- Pick up each new card\n- Insert it into the right position among sorted cards\n- Fastest when cards are nearly sorted! O(n) best case.\n\n**⚡ Speed comparison:**\n| Algorithm | Best | Average | Worst |\n|---|---|---|---|\n| Bubble | O(n) | O(n²) | O(n²) |\n| Selection | O(n²) | O(n²) | O(n²) |\n| Insertion | O(n) ⭐ | O(n²) | O(n²) |",
@@ -339,14 +339,14 @@ def bubble_sort(arr):
         for j in range(0, n-i-1):
             if arr[j] > arr[j+1]:
                 arr[j], arr[j+1] = arr[j+1], arr[j]
-        print(f"  Lượt {i+1}: {arr}")
+        print(f"Hit {i+1}: {arr}")
     return arr
 
 diem = [64, 34, 25, 12, 22, 11, 90]
-print(f"Ban đầu: {diem}")
-print(f"Kết quả: {bubble_sort(diem.copy())}")
+print(f"Initial: {diem}")
+print(f"Result: {bubble_sort(diem.copy())}")
 
-# Selection Sort - Sắp xếp chọn
+# Selection Sort - Sort the selection
 def selection_sort(arr):
     for i in range(len(arr)):
         min_idx = i
@@ -358,7 +358,7 @@ def selection_sort(arr):
 
 print(f"Selection: {selection_sort(diem.copy())}")`,
         codeLanguage: "python",
-        exercise: "Viết hàm Insertion Sort và so sánh số lần swap với Bubble Sort trên cùng một mảng 10 phần tử ngẫu nhiên.",
+        exercise: "Write the Insertion Sort function and compare the number of swaps with Bubble Sort on the same array of 10 random elements.",
         exerciseEn: "Write an Insertion Sort function and compare swap counts with Bubble Sort on the same random 10-element array.",
         quiz: [
           { question: "What is the average time complexity of Bubble Sort?", options: ["O(n)", "O(n log n)", "O(n²)", "O(2^n)"], answer: 2, explanation: "Bubble Sort has 2 nested loops, so its complexity is O(n²)." },
@@ -370,7 +370,7 @@ print(f"Selection: {selection_sort(diem.copy())}")`,
       },
       {
         id: "ds-3",
-        title: "Thuật toán tìm kiếm",
+        title: "Search algorithm",
         titleEn: "Searching Algorithms",
         theory: "**Thuật toán tìm kiếm** giúp bạn tìm một thứ cụ thể trong đống dữ liệu — giống **tìm cuốn sách trong thư viện** 📚\n\n**🔍 Linear Search — Tìm kiếm tuần tự:**\nGiống tìm bạn trong lớp học — bạn nhìn từng người một, từ đầu đến cuối.\n```\nDanh sách: [🍎, 🍊, 🍋, 🍇, 🍓]\nTìm 🍇:\n  Nhìn 🍎 → Không phải\n  Nhìn 🍊 → Không phải  \n  Nhìn 🍋 → Không phải\n  Nhìn 🍇 → TÌM THẤY! ✅ (mất 4 bước)\n```\n⏱️ Tốc độ: O(n) — Nếu 1000 trái cây, tệ nhất tìm 1000 lần!\n\n**⚡ Binary Search — Tìm kiếm nhị phân (chia đôi):**\nGiống **tìm từ trong từ điển** — bạn không đọc từ trang 1! Bạn mở giữa, xem từ cần tìm ở nửa trước hay nửa sau.\n```\nDãy đã sắp xếp: [1, 3, 5, 7, 9, 11, 13, 15]\nTìm số 11:\n  Bước 1: Giữa = 7 → 11 > 7 → tìm bên phải [9, 11, 13, 15]\n  Bước 2: Giữa = 11 → TÌM THẤY! ✅ (chỉ 2 bước!)\n```\n\n**⚠️ ĐIỀU KIỆN:** Dữ liệu PHẢI được sắp xếp trước! (Bạn không thể dùng chiến thuật từ điển nếu các từ xếp ngẫu nhiên)\n\n**🏆 So sánh kinh ngạc:**\n| Số phần tử | Linear Search | Binary Search |\n|---|---|---|\n| 100 | tối đa 100 bước | tối đa 7 bước |\n| 1,000 | 1,000 bước | ~10 bước |\n| 1,000,000 | 1 TRIỆU bước | ~20 bước! 🤯 |\n| 1 tỷ | 1 TỶ bước | ~30 bước! |\n\nBinary Search nhanh đến mức khó tin! Với 1 tỷ phần tử, chỉ cần 30 lần 'chia đôi' là tìm thấy!",
         theoryEn: "**Searching algorithms** help you find a specific item in a pile of data — like **finding a book in a library** 📚\n\n**🔍 Linear Search — Sequential search:**\nLike finding a friend in class — you look at each person one by one, start to end.\n```\nList: [🍎, 🍊, 🍋, 🍇, 🍓]\nFind 🍇:\n  Look at 🍎 → Nope\n  Look at 🍊 → Nope  \n  Look at 🍋 → Nope\n  Look at 🍇 → FOUND! ✅ (took 4 steps)\n```\n⏱️ Speed: O(n) — 1000 fruits? Worst case: 1000 checks!\n\n**⚡ Binary Search — Halving search:**\nLike **looking up a word in a dictionary** — you don't read from page 1! You open the middle, check if your word is in the first or second half.\n```\nSorted array: [1, 3, 5, 7, 9, 11, 13, 15]\nFind 11:\n  Step 1: Middle = 7 → 11 > 7 → search right [9, 11, 13, 15]\n  Step 2: Middle = 11 → FOUND! ✅ (only 2 steps!)\n```\n\n**⚠️ REQUIREMENT:** Data MUST be sorted first! (You can't use dictionary strategy if words are randomly arranged)\n\n**🏆 Mind-blowing comparison:**\n| Elements | Linear Search | Binary Search |\n|---|---|---|\n| 100 | max 100 steps | max 7 steps |\n| 1,000 | 1,000 steps | ~10 steps |\n| 1,000,000 | 1 MILLION steps | ~20 steps! 🤯 |\n| 1 billion | 1 BILLION steps | ~30 steps! |\n\nBinary Search is unbelievably fast! With 1 billion elements, just 30 'halves' to find it!",
@@ -381,7 +381,7 @@ def linear_search(arr, target):
             return i
     return -1
 
-# Binary Search - Tìm kiếm nhị phân
+# Binary Search - Binary search
 def binary_search(arr, target):
     left, right = 0, len(arr) - 1
     steps = 0
@@ -389,7 +389,7 @@ def binary_search(arr, target):
         steps += 1
         mid = (left + right) // 2
         if arr[mid] == target:
-            print(f"  ✅ Tìm thấy sau {steps} bước!")
+            print(f"✅ Found after {steps} steps!")
             return mid
         elif arr[mid] < target:
             left = mid + 1
@@ -398,11 +398,11 @@ def binary_search(arr, target):
     return -1
 
 data = list(range(1, 101))  # [1, 2, ..., 100]
-print("Tìm số 73:")
+print("Find number 73:")
 result = binary_search(data, 73)
-print(f"  Vị trí: {result}")`,
+print(f"Location: {result}")`,
         codeLanguage: "python",
-        exercise: "Viết chương trình đo thời gian chạy của Linear Search vs Binary Search trên mảng 100,000 phần tử.",
+        exercise: "Write a program to measure the running time of Linear Search vs Binary Search on an array of 100,000 elements.",
         exerciseEn: "Write a program to measure runtime of Linear Search vs Binary Search on a 100,000-element array.",
         quiz: [
           { question: "What does Binary Search require?", options: ["An empty array", "A sorted array", "An array with an even number of elements", "An array of integers"], answer: 1, explanation: "Binary Search only works on a sorted array because it relies on order to eliminate half of the array." },
@@ -416,51 +416,51 @@ print(f"  Vị trí: {result}")`,
   },
   {
     id: "prog-pygame",
-    title: "Dự án thực tế: Game & Web",
+    title: "Actual project: Game & Web",
     titleEn: "Real Projects: Games & Web",
     icon: "🎮",
     color: "from-pink-500/20 to-rose-500/20",
-    description: "Xây dựng game bằng Pygame và website cá nhân bằng HTML/CSS",
+    description: "Build games with Pygame and personal websites with HTML/CSS",
     descriptionEn: "Build games with Pygame and personal websites with HTML/CSS",
     course: "kids",
     lessons: [
       {
         id: "game-1",
-        title: "Pygame: Tạo cửa sổ game đầu tiên",
+        title: "Pygame: Create the first game window",
         titleEn: "Pygame: Your First Game Window",
         theory: "**Pygame** là thư viện Python để tạo game 2D — biến bạn thành **nhà phát triển game thực thụ** 🎮!\n\n**Hãy tưởng tượng** bạn đang quay phim hoạt hình: camera quay liên tục 60 khung hình/giây. Mỗi khung hình, bạn phải:\n1. Xem khán giả bấm nút gì (sự kiện)\n2. Di chuyển nhân vật theo nút bấm (cập nhật)\n3. Vẽ lại toàn bộ cảnh mới (render)\n\n**🏗️ Cấu trúc game — 4 bước luôn cố định:**\n```\n1. 🔧 Khởi tạo: pygame.init() → Bật 'máy quay'\n2. 📺 Tạo cửa sổ: set_mode((600, 400)) → Mở 'rạp chiếu'\n3. 🔄 Vòng lặp game (60 FPS):\n   ├─ 🎮 Xử lý sự kiện: Nhấn ← → ↑ ↓? Click chuột?\n   ├─ 📐 Cập nhật: Nhân vật di chuyển, va chạm, điểm số\n   └─ 🎨 Vẽ: Xóa màn hình cũ → vẽ nền → vẽ nhân vật → hiển thị\n4. 🚪 Thoát: pygame.quit() → Tắt 'máy quay'\n```\n\n**🎨 Hệ tọa độ trong Pygame:**\n```\n(0,0) ────────→ x (chiều ngang)\n  │  ┌──────────┐\n  │  │ Màn hình  │\n  │  │   game    │\n  ↓  └──────────┘\n  y (chiều dọc)\n```\n⚠️ Chú ý: y đi XUỐNG (ngược với toán học)! Nên `y -= 5` = đi LÊN.\n\n**🕹️ Xử lý phím — Tạo điều khiển mượt mà:**\n```python\nkeys = pygame.key.get_pressed()  # Kiểm tra phím đang nhấn\nif keys[K_LEFT]:  x -= speed      # ← Di chuyển trái\nif keys[K_RIGHT]: x += speed      # → Di chuyển phải\nif keys[K_UP]:    y -= speed      # ↑ Di chuyển lên (y giảm!)\nif keys[K_DOWN]:  y += speed      # ↓ Di chuyển xuống\n```",
         theoryEn: "**Pygame** is a Python library for 2D games — turning you into a **real game developer** 🎮!\n\n**Imagine** you're filming an animation: camera runs continuously at 60 frames/second. Each frame, you must:\n1. Check what buttons the audience pressed (events)\n2. Move characters based on input (update)\n3. Redraw the entire scene (render)\n\n**🏗️ Game structure — 4 fixed steps:**\n```\n1. 🔧 Initialize: pygame.init() → Turn on 'camera'\n2. 📺 Create window: set_mode((600, 400)) → Open 'theater'\n3. 🔄 Game loop (60 FPS):\n   ├─ 🎮 Handle events: Pressed ← → ↑ ↓? Mouse click?\n   ├─ 📐 Update: Character moves, collisions, score\n   └─ 🎨 Draw: Clear old screen → draw background → draw character → display\n4. 🚪 Quit: pygame.quit() → Turn off 'camera'\n```\n\n**🎨 Coordinate system in Pygame:**\n```\n(0,0) ────────→ x (horizontal)\n  │  ┌──────────┐\n  │  │  Game     │\n  │  │  Screen   │\n  ↓  └──────────┘\n  y (vertical)\n```\n⚠️ Note: y goes DOWN (opposite to math)! So `y -= 5` = move UP.\n\n**🕹️ Key handling — Smooth controls:**\n```python\nkeys = pygame.key.get_pressed()  # Check pressed keys\nif keys[K_LEFT]:  x -= speed      # ← Move left\nif keys[K_RIGHT]: x += speed      # → Move right\nif keys[K_UP]:    y -= speed      # ↑ Move up (y decreases!)\nif keys[K_DOWN]:  y += speed      # ↓ Move down\n```",
         code: `import pygame
 import sys
 
-# Khởi tạo
+# Initialization
 pygame.init()
 WIDTH, HEIGHT = 600, 400
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("🎮 Game đầu tiên!")
+pygame.display.set_caption("🎮 First game!")
 clock = pygame.time.Clock()
 
-# Nhân vật
+# Figure
 player_x, player_y = 300, 200
 player_size = 40
 speed = 5
 
-# Vòng lặp game
+# Game loop
 running = True
 while running:
-    # 1. Xử lý sự kiện
+    # 1. Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
     
-    # 2. Di chuyển bằng phím mũi tên
+    # 2. Move with arrow keys
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:  player_x -= speed
     if keys[pygame.K_RIGHT]: player_x += speed
     if keys[pygame.K_UP]:    player_y -= speed
     if keys[pygame.K_DOWN]:  player_y += speed
     
-    # 3. Vẽ
+    # 3. Drawing
     screen.fill((30, 30, 50))  # Nền tối
     pygame.draw.rect(screen, (0, 200, 255),
         (player_x, player_y, player_size, player_size))
@@ -469,7 +469,7 @@ while running:
 
 pygame.quit()`,
         codeLanguage: "python",
-        exercise: "Thêm một 'enemy' (hình tròn đỏ) di chuyển ngẫu nhiên. Nếu player chạm enemy, hiển thị 'Game Over!'.",
+        exercise: "Add an 'enemy' (red circle) that moves randomly. If the player touches an enemy, 'Game Over!' is displayed.",
         exerciseEn: "Add an 'enemy' (red circle) moving randomly. If player touches enemy, display 'Game Over!'.",
         quiz: [
           { question: "How many times per second does the game loop run if clock.tick(60)?", options: ["30", "60", "120", "Unlimited"], answer: 1, explanation: "clock.tick(60) limits the frame rate to 60 FPS (frames per second)." },
@@ -481,7 +481,7 @@ pygame.quit()`,
       },
       {
         id: "game-2",
-        title: "HTML & CSS: Trang web cá nhân",
+        title: "HTML & CSS: Personal website",
         titleEn: "HTML & CSS: Personal Website",
         theory: "**HTML** và **CSS** là bộ đôi xây dựng mọi trang web bạn nhìn thấy! 🌐\n\n**🦴 HTML — Khung xương của trang web:**\nGiống xây nhà: HTML là **khung bê tông** — quyết định nhà có mấy phòng, cửa ở đâu.\n```html\n<h1>Phòng khách lớn</h1>      <!-- Tiêu đề to nhất -->\n<p>Đây là phòng khách.</p>      <!-- Đoạn văn -->\n<img src='anh.jpg'>             <!-- Hình ảnh = treo tranh -->\n<a href='lien-ket'>Cửa đi</a>  <!-- Liên kết = cửa sang phòng khác -->\n```\n\n**👗 CSS — Trang trí nội thất:**\nHTML cho bạn căn nhà thô. CSS **sơn tường, lát gạch, bày đồ nội thất**.\n```css\nbody { background: #1a1a2e; }   /* Sơn tường tối */\nh1 { color: gold; }             /* Chữ màu vàng */\n.card { border-radius: 12px; }  /* Bo tròn góc */\n```\n\n**📋 Thẻ HTML quan trọng — Bộ dụng cụ xây nhà:**\n| Thẻ | Ý nghĩa | Ví dụ thực tế |\n|---|---|---|\n| `<h1>` đến `<h6>` | Tiêu đề lớn→nhỏ | Tên bài báo, mục lục |\n| `<p>` | Đoạn văn | Nội dung bài viết |\n| `<img>` | Hình ảnh | Ảnh sản phẩm, avatar |\n| `<a>` | Liên kết | Nút 'Xem thêm', menu |\n| `<div>` | Nhóm phần tử | 'Phòng' chứa nhiều đồ |\n| `<ul>/<li>` | Danh sách | Menu nhà hàng, to-do list |\n\n**💡 Mẹo thực tế:**\n- Mọi trang web bạn thấy (Facebook, YouTube, Google) đều dùng HTML + CSS\n- Nhấn F12 trên bất kỳ trang web nào để xem code HTML thật! 🔍\n- CSS Flexbox và Grid giúp bố cục responsive (đẹp trên cả điện thoại lẫn máy tính)",
         theoryEn: "**HTML** and **CSS** are the duo that builds every website you see! 🌐\n\n**🦴 HTML — Website skeleton:**\nLike building a house: HTML is the **concrete frame** — determines how many rooms, where doors go.\n```html\n<h1>Big living room</h1>         <!-- Largest heading -->\n<p>This is the living room.</p>   <!-- Paragraph -->\n<img src='photo.jpg'>             <!-- Image = hanging a painting -->\n<a href='link'>Door out</a>       <!-- Link = door to another room -->\n```\n\n**👗 CSS — Interior decoration:**\nHTML gives you a raw house. CSS **paints walls, tiles floors, arranges furniture**.\n```css\nbody { background: #1a1a2e; }   /* Dark wall paint */\nh1 { color: gold; }             /* Gold text */\n.card { border-radius: 12px; }  /* Rounded corners */\n```\n\n**📋 Essential HTML tags — Builder's toolkit:**\n| Tag | Meaning | Real example |\n|---|---|---|\n| `<h1>` to `<h6>` | Headings big→small | Article title, sections |\n| `<p>` | Paragraph | Article content |\n| `<img>` | Image | Product photo, avatar |\n| `<a>` | Link | 'Read more' button, menu |\n| `<div>` | Group elements | 'Room' containing items |\n| `<ul>/<li>` | List | Restaurant menu, to-do list |\n\n**💡 Pro tips:**\n- Every website you see (Facebook, YouTube, Google) uses HTML + CSS\n- Press F12 on any website to see the real HTML code! 🔍\n- CSS Flexbox and Grid enable responsive layouts (looks great on both phone and desktop)",
@@ -528,7 +528,7 @@ pygame.quit()`,
 </body>
 </html>`,
         codeLanguage: "html",
-        exercise: "Tạo trang portfolio cá nhân với: ảnh đại diện, phần giới thiệu, danh sách sở thích, và nút liên hệ.",
+        exercise: "Create a personal portfolio page with: profile picture, introduction, list of interests, and contact button.",
         exerciseEn: "Create a personal portfolio page with: profile image, introduction section, hobbies list, and contact button.",
         quiz: [
           { question: "Which tag is used to create links in HTML?", options: ["<link>", "<a>", "<href>", "<url>"], answer: 1, explanation: "The <a href='...'>Text</a> tag creates an anchor link in HTML." },
@@ -544,17 +544,17 @@ pygame.quit()`,
   // ============ DATA ENGINEERING & AI ============
   {
     id: "prog-sql",
-    title: "SQL & Cơ sở dữ liệu",
+    title: "SQL & Databases",
     titleEn: "SQL & Databases",
     icon: "🗄️",
     color: "from-violet-500/20 to-purple-500/20",
-    description: "Thiết kế bảng, truy vấn, JOIN và indexing với PostgreSQL",
+    description: "Table design, queries, JOINs and indexing with PostgreSQL",
     descriptionEn: "Table design, queries, JOINs and indexing with PostgreSQL",
     course: "data-ai",
     lessons: [
       {
         id: "sql-1",
-        title: "Truy vấn SELECT cơ bản",
+        title: "Basic SELECT query",
         titleEn: "Basic SELECT Queries",
         theory: "**SQL (Structured Query Language)** là ngôn ngữ để 'nói chuyện' với cơ sở dữ liệu — giống **Google cho database**: bạn hỏi, database trả lời! 🔍\n\n**Tại sao SQL quan trọng?**\nMọi ứng dụng (Facebook, Shopee, ngân hàng) đều lưu dữ liệu trong database. SQL là cách duy nhất để truy xuất và thao tác dữ liệu đó.\n\n**🏗️ Cấu trúc truy vấn — Nghĩ như câu tiếng Việt:**\n```sql\nSELECT cột      -- 'Cho tôi xem'\nFROM bảng        -- 'từ bảng'\nWHERE điều_kiện  -- 'mà thỏa điều kiện'\nORDER BY cột     -- 'sắp xếp theo'\nLIMIT 10;        -- 'chỉ 10 dòng đầu'\n```\n\n**Ví dụ thực tế — Quản lý lớp học:**\n```sql\n-- 'Cho tôi xem tên và điểm Toán của học sinh lớp 10A1, ai cao nhất trước'\nSELECT ho_ten, diem_toan\nFROM hoc_sinh\nWHERE lop = '10A1'\nORDER BY diem_toan DESC;\n```\n\n**📊 Các lệnh quan trọng:**\n| Lệnh | Ý nghĩa | Ví dụ đời thực |\n|---|---|---|\n| SELECT | Chọn cột hiển thị | 'Cho tôi xem tên và SĐT' |\n| WHERE | Lọc theo điều kiện | 'Chỉ những ai trên 18 tuổi' |\n| ORDER BY | Sắp xếp | 'Ai điểm cao nhất lên trước' |\n| GROUP BY | Nhóm dữ liệu | 'Đếm số học sinh mỗi lớp' |\n| HAVING | Lọc sau nhóm | 'Chỉ lớp nào có hơn 30 bạn' |\n| LIMIT | Giới hạn kết quả | 'Top 5 thôi' |",
         theoryEn: "**SQL (Structured Query Language)** is the language to 'talk' to databases — like **Google for databases**: you ask, database answers! 🔍\n\n**Why SQL matters?**\nEvery app (Facebook, Amazon, banks) stores data in databases. SQL is THE way to retrieve and manipulate that data.\n\n**🏗️ Query structure — Think like an English sentence:**\n```sql\nSELECT columns    -- 'Show me'\nFROM table         -- 'from the table'\nWHERE condition    -- 'where condition is met'\nORDER BY column    -- 'sorted by'\nLIMIT 10;          -- 'only first 10 rows'\n```\n\n**Real example — Managing a classroom:**\n```sql\n-- 'Show me names and Math scores of class 10A1, highest first'\nSELECT name, math_score\nFROM students\nWHERE class = '10A1'\nORDER BY math_score DESC;\n```\n\n**📊 Key commands:**\n| Command | Meaning | Real-life example |\n|---|---|---|\n| SELECT | Choose columns | 'Show me name and phone' |\n| WHERE | Filter by condition | 'Only those over 18' |\n| ORDER BY | Sort results | 'Highest score first' |\n| GROUP BY | Group data | 'Count students per class' |\n| HAVING | Filter after grouping | 'Only classes with 30+ students' |\n| LIMIT | Cap results | 'Top 5 only' |",
@@ -568,16 +568,16 @@ CREATE TABLE hoc_sinh (
     diem_anh DECIMAL(4,2)
 );
 
--- Chèn dữ liệu
+-- Insert data
 INSERT INTO hoc_sinh (ho_ten, lop, diem_toan, diem_van, diem_anh) VALUES
 ('Nguyễn An', '10A1', 9.0, 8.5, 7.5),
 ('Trần Bình', '10A1', 7.0, 9.0, 8.0),
 ('Lê Chi', '10A2', 8.5, 7.0, 9.5);
 
--- Truy vấn cơ bản
+-- Basic query
 SELECT ho_ten, diem_toan FROM hoc_sinh WHERE diem_toan >= 8.0;
 
--- Tính điểm trung bình theo lớp
+-- Calculate average score by class
 SELECT lop, 
        AVG(diem_toan) AS tb_toan,
        AVG(diem_van) AS tb_van
@@ -585,7 +585,7 @@ FROM hoc_sinh
 GROUP BY lop
 ORDER BY tb_toan DESC;`,
         codeLanguage: "sql",
-        exercise: "Viết truy vấn: (1) Tìm 3 học sinh có điểm trung bình cao nhất, (2) Đếm số học sinh mỗi lớp, (3) Tìm học sinh có điểm Toán trên trung bình lớp.",
+        exercise: "Write a query: (1) Find 3 students with the highest average score, (2) Count the number of students in each class, (3) Find students with Math scores above the class average.",
         exerciseEn: "Write queries: (1) Find top 3 students by average score, (2) Count students per class, (3) Find students with Math above class average.",
         quiz: [
           { question: "Which command is used to filter data based on a condition?", options: ["SELECT", "WHERE", "ORDER BY", "GROUP BY"], answer: 1, explanation: "WHERE is used to filter rows that satisfy a condition before returning the result." },
@@ -597,7 +597,7 @@ ORDER BY tb_toan DESC;`,
       },
       {
         id: "sql-2",
-        title: "JOIN và quan hệ giữa các bảng",
+        title: "JOIN and relationships between tables",
         titleEn: "JOINs and Table Relationships",
         theory: "**JOIN** kết nối dữ liệu từ nhiều bảng — giống **ghép 2 mảnh puzzle** lại với nhau 🧩!\n\n**Tại sao cần JOIN?** Trong thực tế, dữ liệu nằm rải rác ở nhiều bảng:\n- Bảng `khách_hàng`: tên, SĐT, địa chỉ\n- Bảng `đơn_hàng`: sản phẩm, giá, ngày mua\n- JOIN = 'Ghép tên khách hàng vào đơn hàng'\n\n**🎨 Minh họa bằng hình — 4 loại JOIN:**\n```\nBảng A (Khách hàng)    Bảng B (Đơn hàng)\n┌──────────┐            ┌──────────┐\n│ An       │────────────│ Laptop   │  ← An mua Laptop\n│ Bình     │            │ Phone    │  ← Bình mua Phone  \n│ Chi ❌   │            │ Tablet ❌│  ← Tablet chưa ai mua\n└──────────┘            └──────────┘\n  Chi chưa mua gì        Tablet không có người mua\n```\n\n**INNER JOIN** — Chỉ lấy **khớp cả 2 bên** (An+Laptop, Bình+Phone):\n→ Chi bị loại (chưa mua), Tablet bị loại (không ai mua)\n\n**LEFT JOIN** — **Tất cả khách hàng** + đơn hàng (nếu có):\n→ Chi vẫn xuất hiện nhưng đơn hàng = NULL\n→ Dùng khi muốn biết 'Ai CHƯA mua gì?'\n\n**RIGHT JOIN** — Tất cả đơn hàng + khách hàng (nếu có):\n→ Tablet xuất hiện nhưng khách hàng = NULL\n\n**FULL OUTER JOIN** — **Tất cả từ cả 2 bảng**, khớp hoặc không.\n\n**🔑 Foreign Key — Chìa khóa kết nối:**\nGiống **mã học sinh** in trên cả thẻ thư viện và bảng điểm → dùng mã này để ghép 2 bảng!\n```sql\nSELECT kh.ten, dh.san_pham\nFROM khach_hang kh\nINNER JOIN don_hang dh ON kh.id = dh.khach_hang_id;\n--                       ↑ 'Nơi khớp nhau'\n```",
         theoryEn: "**JOIN** connects data from multiple tables — like **fitting 2 puzzle pieces** together 🧩!\n\n**Why JOIN?** In practice, data lives in separate tables:\n- `customers` table: name, phone, address\n- `orders` table: product, price, date\n- JOIN = 'Attach customer name to their order'\n\n**🎨 Visual illustration — 4 JOIN types:**\n```\nTable A (Customers)    Table B (Orders)\n┌──────────┐            ┌──────────┐\n│ An       │────────────│ Laptop   │  ← An bought Laptop\n│ Binh     │            │ Phone    │  ← Binh bought Phone  \n│ Chi ❌   │            │ Tablet ❌│  ← Nobody bought Tablet\n└──────────┘            └──────────┘\n  Chi hasn't bought       Tablet has no buyer\n```\n\n**INNER JOIN** — Only **matching rows** (An+Laptop, Binh+Phone):\n→ Chi excluded (no orders), Tablet excluded (no buyer)\n\n**LEFT JOIN** — **All customers** + orders (if any):\n→ Chi still appears but order = NULL\n→ Use when you want to know 'Who HASN'T bought anything?'\n\n**RIGHT JOIN** — All orders + customers (if any):\n→ Tablet appears but customer = NULL\n\n**FULL OUTER JOIN** — **Everything from both tables**, matched or not.\n\n**🔑 Foreign Key — The linking key:**\nLike a **student ID** printed on both library card and report card → use this ID to join 2 tables!\n```sql\nSELECT c.name, o.product\nFROM customers c\nINNER JOIN orders o ON c.id = o.customer_id;\n--                    ↑ 'Where they match'\n```",
@@ -611,18 +611,18 @@ CREATE TABLE don_hang (
     ngay_dat DATE DEFAULT CURRENT_DATE
 );
 
--- INNER JOIN: Đơn hàng kèm tên khách hàng
+-- INNER JOIN: Order with customer name
 SELECT kh.ho_ten, dh.san_pham, dh.gia
 FROM don_hang dh
 INNER JOIN khach_hang kh ON dh.khach_hang_id = kh.id;
 
--- LEFT JOIN: Tất cả khách hàng (kể cả chưa mua)
+-- LEFT JOIN: All customers (including those who have not yet purchased)
 SELECT kh.ho_ten, COUNT(dh.id) AS so_don
 FROM khach_hang kh
 LEFT JOIN don_hang dh ON kh.id = dh.khach_hang_id
 GROUP BY kh.ho_ten;
 
--- Subquery: Khách hàng chi tiêu nhiều nhất
+-- Subquery: Customers who spend the most
 SELECT ho_ten FROM khach_hang
 WHERE id = (
     SELECT khach_hang_id FROM don_hang
@@ -631,7 +631,7 @@ WHERE id = (
     LIMIT 1
 );`,
         codeLanguage: "sql",
-        exercise: "Tạo 3 bảng (sinh_vien, mon_hoc, diem_thi) và viết truy vấn JOIN để lấy bảng điểm đầy đủ.",
+        exercise: "Create 3 tables (student_student, subject_school, grade_thi) and write a JOIN query to get the full transcript.",
         exerciseEn: "Create 3 tables (students, courses, exam_scores) and write JOIN queries to get a complete grade report.",
         quiz: [
           { question: "What does LEFT JOIN return?", options: ["Only matching rows", "All from left table + matches from right", "All from right table", "No rows"], answer: 1, explanation: "LEFT JOIN returns ALL rows from the left table, and matching rows from the right table (NULL if no match)." },
@@ -643,7 +643,7 @@ WHERE id = (
       },
       {
         id: "sql-3",
-        title: "Hàm tổng hợp & GROUP BY",
+        title: "Aggregate functions & GROUP BY",
         titleEn: "Aggregate Functions & GROUP BY",
         theory: "**Hàm tổng hợp (Aggregate Functions):**\n- COUNT(): Đếm số hàng\n- SUM(): Tính tổng\n- AVG(): Trung bình\n- MIN() / MAX(): Giá trị nhỏ/lớn nhất\n\n**GROUP BY:** Nhóm dữ liệu để tính tổng hợp theo nhóm\n**HAVING:** Lọc sau khi GROUP BY (WHERE lọc trước GROUP BY)\n\n**Thứ tự thực thi:** FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT",
         theoryEn: "**Aggregate Functions:**\n- COUNT(): Count rows\n- SUM(): Calculate total\n- AVG(): Average\n- MIN() / MAX(): Smallest/largest value\n\n**GROUP BY:** Group data for aggregate calculations\n**HAVING:** Filter after GROUP BY (WHERE filters before GROUP BY)\n\n**Execution order:** FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT",
@@ -659,7 +659,7 @@ GROUP BY danh_muc
 HAVING SUM(gia * so_luong) > 1000000
 ORDER BY tong_doanh_thu DESC;
 
--- Thống kê điểm theo lớp
+-- Score statistics by class
 SELECT 
     lop,
     COUNT(*) AS si_so,
@@ -671,7 +671,7 @@ FROM hoc_sinh
 GROUP BY lop
 ORDER BY tb_toan DESC;`,
         codeLanguage: "sql",
-        exercise: "Viết truy vấn thống kê: (1) Top 5 sản phẩm bán chạy nhất, (2) Doanh thu trung bình theo tháng, (3) Danh mục có hơn 10 đơn hàng.",
+        exercise: "Write a statistical query: (1) Top 5 best-selling products, (2) Average monthly revenue, (3) Category with more than 10 orders.",
         exerciseEn: "Write statistical queries: (1) Top 5 best-selling products, (2) Average monthly revenue, (3) Categories with more than 10 orders.",
         quiz: [
           { question: "How does HAVING differ from WHERE?", options: ["No difference", "HAVING filters after GROUP BY", "HAVING is faster", "WHERE is not used with SELECT"], answer: 1, explanation: "WHERE filters data BEFORE grouping, HAVING filters AFTER GROUP BY has executed." },
@@ -694,7 +694,7 @@ WHERE diem_toan > (
     SELECT AVG(diem_toan) FROM hoc_sinh
 );
 
--- CTE: Xếp hạng học sinh
+-- CTE: Student ranking
 WITH xep_hang AS (
     SELECT 
         ho_ten,
@@ -704,7 +704,7 @@ WITH xep_hang AS (
 )
 SELECT * FROM xep_hang WHERE hang <= 5;
 
--- Recursive CTE: Tạo chuỗi ngày
+-- Recursive CTE: Create a date string
 WITH RECURSIVE ngay AS (
     SELECT DATE '2024-01-01' AS d
     UNION ALL
@@ -712,7 +712,7 @@ WITH RECURSIVE ngay AS (
 )
 SELECT d AS ngay_trong_tuan FROM ngay;`,
         codeLanguage: "sql",
-        exercise: "Dùng CTE viết truy vấn: (1) Top 3 khách hàng chi tiêu nhiều nhất, (2) So sánh doanh thu tháng này vs tháng trước.",
+        exercise: "Use CTE to write queries: (1) Top 3 customers spending the most, (2) Compare revenue this month vs last month.",
         exerciseEn: "Use CTE to write: (1) Top 3 highest-spending customers, (2) Compare this month vs last month revenue.",
         quiz: [
           { question: "Which keyword is used to declare a CTE?", options: ["CREATE TEMP", "WITH", "DECLARE", "DEFINE"], answer: 1, explanation: "CTE uses the WITH keyword to define a temporary table, which is more readable than subqueries." },
@@ -724,7 +724,7 @@ SELECT d AS ngay_trong_tuan FROM ngay;`,
       },
       {
         id: "sql-5",
-        title: "Index & Tối ưu truy vấn",
+        title: "Index & Query Optimization",
         titleEn: "Indexing & Query Optimization",
         theory: "**Index** giống mục lục sách — giúp tìm kiếm nhanh hơn.\n\n**Loại Index:**\n- B-tree: Mặc định, tốt cho =, <, >, BETWEEN\n- Hash: Chỉ tốt cho =\n- GIN: Cho mảng, full-text search\n- GiST: Cho dữ liệu không gian\n\n**Khi nào tạo Index:**\n- Cột WHERE, JOIN, ORDER BY thường xuyên\n- Cột có tính chọn lọc cao (nhiều giá trị khác nhau)\n\n**EXPLAIN ANALYZE:** Phân tích kế hoạch truy vấn",
         theoryEn: "**Index** is like a book index — speeds up lookups.\n\n**Index Types:**\n- B-tree: Default, good for =, <, >, BETWEEN\n- Hash: Only good for =\n- GIN: For arrays, full-text search\n- GiST: For spatial data\n\n**When to create Index:**\n- Frequently used WHERE, JOIN, ORDER BY columns\n- High cardinality columns\n\n**EXPLAIN ANALYZE:** Analyze query plan",
@@ -732,32 +732,32 @@ SELECT d AS ngay_trong_tuan FROM ngay;`,
 CREATE INDEX idx_hoc_sinh_lop ON hoc_sinh(lop);
 CREATE INDEX idx_don_hang_ngay ON don_hang(ngay_dat);
 
--- Index composite (nhiều cột)
+-- Index composite (multiple columns)
 CREATE INDEX idx_hs_lop_diem ON hoc_sinh(lop, diem_toan);
 
--- Phân tích kế hoạch truy vấn
+-- Analyze query plans
 EXPLAIN ANALYZE
 SELECT * FROM hoc_sinh WHERE lop = '10A1';
 
--- So sánh: Không có index vs có index
--- Seq Scan (quét tuần tự): O(n) - chậm
+-- Comparison: Without index vs with index
+-- Seq Scan (sequential scan): O(n) - slow
 -- Index Scan: O(log n) - nhanh
 
--- Tối ưu: Tránh SELECT *
--- ❌ Chậm
+-- Optimization: Avoid SELECT *
+-- ❌ Slow
 SELECT * FROM don_hang WHERE ngay_dat > '2024-01-01';
 -- ✅ Nhanh  
 SELECT id, san_pham, gia FROM don_hang WHERE ngay_dat > '2024-01-01';
 
--- Tối ưu: Dùng EXISTS thay IN cho subquery lớn
--- ❌ Chậm với bảng lớn
+-- Optimization: Use EXISTS instead of IN for large subqueries
+-- ❌ Slow with large tables
 SELECT * FROM hoc_sinh WHERE lop IN (SELECT lop FROM lop_hoc WHERE si_so > 30);
--- ✅ Nhanh hơn
+-- ✅ Faster
 SELECT * FROM hoc_sinh hs WHERE EXISTS (
     SELECT 1 FROM lop_hoc lh WHERE lh.lop = hs.lop AND lh.si_so > 30
 );`,
         codeLanguage: "sql",
-        exercise: "Tạo bảng 10,000 hàng, so sánh tốc độ truy vấn trước/sau khi tạo index. Dùng EXPLAIN ANALYZE.",
+        exercise: "Create a table of 10,000 rows, compare query speed before/after creating index. Use EXPLAIN ANALYZE.",
         exerciseEn: "Create a 10,000-row table, compare query speed before/after indexing. Use EXPLAIN ANALYZE.",
         quiz: [
           { question: "Why should you not create indexes on every column?", options: ["Runs out of space", "Slows down INSERT/UPDATE", "No reason", "Indexes are not good"], answer: 1, explanation: "Indexes speed up reads but SLOW DOWN writes (INSERT/UPDATE/DELETE) because the index must also be updated." },
@@ -769,7 +769,7 @@ SELECT * FROM hoc_sinh hs WHERE EXISTS (
       },
       {
         id: "sql-6",
-        title: "Transaction & Bảo mật dữ liệu",
+        title: "Transaction & Data Security",
         titleEn: "Transactions & Data Security",
         theory: "**Transaction** đảm bảo tính toàn vẹn dữ liệu (ACID):\n- Atomicity: Tất cả hoặc không gì cả\n- Consistency: Dữ liệu luôn hợp lệ\n- Isolation: Các transaction độc lập\n- Durability: Thay đổi được lưu vĩnh viễn\n\n**Row Level Security (RLS):**\n- Kiểm soát truy cập ở cấp hàng\n- Mỗi user chỉ thấy dữ liệu của mình\n\n**SQL Injection:** Luôn dùng parameterized queries!",
         theoryEn: "**Transaction** ensures data integrity (ACID):\n- Atomicity: All or nothing\n- Consistency: Data always valid\n- Isolation: Transactions independent\n- Durability: Changes persist\n\n**Row Level Security (RLS):**\n- Control access at row level\n- Each user sees only their data\n\n**SQL Injection:** Always use parameterized queries!",
@@ -777,7 +777,7 @@ SELECT * FROM hoc_sinh hs WHERE EXISTS (
 BEGIN;
 UPDATE tai_khoan SET so_du = so_du - 500000 WHERE id = 1;
 UPDATE tai_khoan SET so_du = so_du + 500000 WHERE id = 2;
--- Kiểm tra: không cho số dư âm
+-- Check: do not give negative balance
 DO $$
 BEGIN
     IF (SELECT so_du FROM tai_khoan WHERE id = 1) < 0 THEN
@@ -795,12 +795,12 @@ CREATE POLICY "Users see own notes" ON notes
 CREATE POLICY "Users create own notes" ON notes
     FOR INSERT WITH CHECK (user_id = auth.uid());
 
--- ❌ SQL Injection nguy hiểm
+-- ❌ SQL Injection is dangerous
 -- query = f"SELECT * FROM users WHERE name = '{input}'"
--- ✅ An toàn: Parameterized query
+-- ✅ Safe: Parameterized query
 -- query = "SELECT * FROM users WHERE name = $1"`,
         codeLanguage: "sql",
-        exercise: "Viết transaction chuyển điểm giữa 2 sinh viên (trừ điểm A, cộng điểm B). Thêm RLS policy cho bảng bài tập.",
+        exercise: "Write a transaction to transfer points between 2 students (subtract point A, add point B). Add RLS policy to the worksheet.",
         exerciseEn: "Write a transaction to transfer points between 2 students. Add RLS policy for assignments table.",
         quiz: [
           { question: "In ACID transactions, what does the letter A stand for?", options: ["Accuracy", "Atomicity", "Authorization", "Availability"], answer: 1, explanation: "Atomicity: a transaction must complete ENTIRELY or ROLLBACK entirely, with no intermediate state." },
@@ -818,46 +818,46 @@ CREATE POLICY "Users create own notes" ON notes
     titleEn: "Data Pipeline (ETL/ELT)",
     icon: "🔄",
     color: "from-amber-500/20 to-orange-500/20",
-    description: "Thu thập, xử lý và lưu trữ dữ liệu tự động",
+    description: "Collect, process and store data automatically",
     descriptionEn: "Automated data collection, processing and storage",
     course: "data-ai",
     lessons: [
       {
         id: "etl-1",
-        title: "ETL vs ELT & Pandas cơ bản",
+        title: "ETL vs ELT & Basic Pandas",
         titleEn: "ETL vs ELT & Pandas Basics",
         theory: "**ETL (Extract-Transform-Load):**\n1. Extract: Lấy dữ liệu từ nguồn (CSV, API, database)\n2. Transform: Làm sạch, chuyển đổi\n3. Load: Nạp vào kho dữ liệu\n\n**ELT** - Load trước, Transform sau (phù hợp cloud)\n\n**Pandas** - Thư viện Python #1 cho phân tích dữ liệu:\n- DataFrame: bảng dữ liệu 2 chiều\n- Series: cột dữ liệu 1 chiều",
         theoryEn: "**ETL (Extract-Transform-Load):**\n1. Extract: Get data from sources (CSV, API, database)\n2. Transform: Clean, convert\n3. Load: Insert into data warehouse\n\n**ELT** - Load first, Transform later (cloud-friendly)\n\n**Pandas** - Python's #1 data analysis library:\n- DataFrame: 2D data table\n- Series: 1D data column",
         code: `import pandas as pd
 
-# EXTRACT: Đọc dữ liệu CSV
+# EXTRACT: Read CSV data
 df = pd.read_csv("doanh_thu.csv")
 
-# Hoặc tạo từ dictionary
+# Or create from dictionary
 data = {
-    "Sản phẩm": ["Laptop", "Điện thoại", "Tablet", "Tai nghe", "Bàn phím"],
-    "Số lượng": [120, 350, 200, 500, 180],
-    "Đơn giá": [15000000, 8000000, 12000000, 500000, 1200000],
-    "Tháng": ["T1", "T1", "T2", "T2", "T3"]
+    "Product": ["Laptop", "Phone", "Tablet", "Tai nghe", "Keyboard"],
+    "Quantity": [120, 350, 200, 500, 180],
+    "Unit price": [15000000, 8000000, 12000000, 500000, 1200000],
+    "Month": ["T1", "T1", "T2", "T2", "T3"]
 }
 df = pd.DataFrame(data)
 
-# TRANSFORM: Tính doanh thu
-df["Doanh thu"] = df["Số lượng"] * df["Đơn giá"]
+# TRANSFORM: Calculate revenue
+df["Doanh thu"] = df["Quantity"] * df["Unit price"]
 
-# Lọc sản phẩm doanh thu > 1 tỷ
+# Filter products with revenue > 1 billion
 hot = df[df["Doanh thu"] > 1_000_000_000]
-print("🔥 Sản phẩm hot:\\n", hot)
+print("🔥 Hot products:\n", hot)
 
-# Thống kê theo tháng
-monthly = df.groupby("Tháng")["Doanh thu"].sum()
-print("\\n📊 Doanh thu theo tháng:\\n", monthly)
+# Statistics by month
+monthly = df.groupby("Month")["Doanh thu"].sum()
+print("\\n📊 Revenue by month:\n", monthly)
 
-# LOAD: Xuất kết quả
+# LOAD: Export results
 df.to_csv("ket_qua.csv", index=False)
-print("\\n✅ Đã lưu file ket_qua.csv")`,
+print("\\n✅ Saved file result_qua.csv")`,
         codeLanguage: "python",
-        exercise: "Tải file CSV mẫu (bán hàng 3 tháng) và thực hiện: (1) Làm sạch dữ liệu null, (2) Tính doanh thu theo danh mục, (3) Vẽ biểu đồ matplotlib.",
+        exercise: "Download the sample CSV file (3 months sales) and perform: (1) Clean null data, (2) Calculate revenue by category, (3) Draw matplotlib chart.",
         exerciseEn: "Load sample CSV (3-month sales) and: (1) Clean null data, (2) Calculate revenue by category, (3) Create matplotlib chart.",
         quiz: [
           { question: "What does ETL stand for?", options: ["Edit-Transfer-Link", "Extract-Transform-Load", "Export-Test-Log", "Enter-Track-List"], answer: 1, explanation: "ETL = Extract - Transform - Load." },
@@ -876,24 +876,24 @@ print("\\n✅ Đã lưu file ket_qua.csv")`,
         code: `import requests
 import json
 
-# Gọi API công khai
+# Call the public API
 url = "https://jsonplaceholder.typicode.com/posts"
 response = requests.get(url)
 posts = response.json()
 
-print(f"Tổng bài viết: {len(posts)}")
+print(f"Total posts: {len(posts)}")
 for post in posts[:3]:
     print(f"  📝 {post['title'][:50]}...")
 
-# Web Scraping với BeautifulSoup
+# Web Scraping with BeautifulSoup
 from bs4 import BeautifulSoup
 
-html = "<html><body><h1>Tiêu đề</h1><p>Nội dung</p></body></html>"
+html = "<html><body><h1>Title</h1><p>Content</p></body></html>"
 soup = BeautifulSoup(html, 'html.parser')
-print(f"\\nTiêu đề: {soup.h1.text}")
-print(f"Nội dung: {soup.p.text}")`,
+print(f"\\nTitle: {soup.h1.text}")
+print(f"Content: {soup.p.text}")`,
         codeLanguage: "python",
-        exercise: "Gọi API thời tiết (OpenWeatherMap) lấy nhiệt độ 5 thành phố, lưu vào DataFrame và xuất CSV.",
+        exercise: "Call weather API (OpenWeatherMap) to get temperature of 5 cities, save to DataFrame and export CSV.",
         exerciseEn: "Call weather API (OpenWeatherMap) for 5 cities' temperatures, save to DataFrame and export CSV.",
         quiz: [
           { question: "What is HTTP GET used for?", options: ["Delete data", "Sending new data", "Retrieving data", "Updating data"], answer: 2, explanation: "A GET request is used to retrieve/read data from the server." },
@@ -905,7 +905,7 @@ print(f"Nội dung: {soup.p.text}")`,
       },
       {
         id: "etl-3",
-        title: "Xử lý dữ liệu nâng cao với Pandas",
+        title: "Advanced data processing with Pandas",
         titleEn: "Advanced Data Processing with Pandas",
         theory: "**Kỹ thuật nâng cao:**\n- merge(): Nối 2 DataFrame (giống SQL JOIN)\n- pivot_table(): Bảng tổng hợp\n- apply(): Áp dụng hàm tùy chỉnh\n- fillna() / dropna(): Xử lý missing data\n\n**Method chaining:** Nối nhiều thao tác liên tục cho code gọn gàng.",
         theoryEn: "**Advanced techniques:**\n- merge(): Join 2 DataFrames (like SQL JOIN)\n- pivot_table(): Summary table\n- apply(): Apply custom functions\n- fillna() / dropna(): Handle missing data\n\n**Method chaining:** Chain multiple operations for clean code.",
@@ -933,7 +933,7 @@ sales = pd.DataFrame({
 pivot = sales.pivot_table(values='Revenue', index='Month', columns='Category', aggfunc='sum')
 print(pivot)`,
         codeLanguage: "python",
-        exercise: "Tải dataset Titanic, làm sạch dữ liệu, tạo pivot table theo Pclass và Sex, tính tỷ lệ sống sót.",
+        exercise: "Download Titanic dataset, clean data, create pivot table according to Pclass and Sex, calculate survival rate.",
         exerciseEn: "Load Titanic dataset, clean data, create pivot table by Pclass and Sex, calculate survival rate.",
         quiz: [
           { question: "Which SQL command is `merge()` in Pandas most similar to?", options: ["SELECT", "WHERE", "JOIN", "GROUP BY"], answer: 2, explanation: "`pd.merge()` connects two DataFrames based on common columns, similar to JOIN in SQL." },
@@ -945,7 +945,7 @@ print(pivot)`,
       },
       {
         id: "etl-4",
-        title: "Airflow & Tự động hóa Pipeline",
+        title: "Airflow & Pipeline Automation",
         titleEn: "Airflow & Pipeline Automation",
         theory: "**Apache Airflow:** Nền tảng tự động hóa workflow\n- DAG (Directed Acyclic Graph): Định nghĩa luồng công việc\n- Task: Đơn vị công việc nhỏ nhất\n- Operator: Loại task (Python, Bash, SQL)\n- Schedule: Lập lịch chạy tự động\n\n**Lợi ích:** Theo dõi, retry tự động, alert khi lỗi",
         theoryEn: "**Apache Airflow:** Workflow automation platform\n- DAG (Directed Acyclic Graph): Define workflow\n- Task: Smallest work unit\n- Operator: Task type (Python, Bash, SQL)\n- Schedule: Automatic scheduling\n\n**Benefits:** Monitoring, auto-retry, error alerts",
@@ -978,7 +978,7 @@ t3 = PythonOperator(task_id='load', python_callable=load, dag=dag)
 
 t1 >> t2 >> t3  # Extract → Transform → Load`,
         codeLanguage: "python",
-        exercise: "Thiết kế DAG thu thập giá cổ phiếu hàng ngày, tính trung bình 7 ngày, lưu vào database.",
+        exercise: "Design a DAG that collects daily stock prices, averages 7 days, and saves to the database.",
         exerciseEn: "Design a DAG to collect daily stock prices, calculate 7-day average, save to database.",
         quiz: [
           { question: "What does DAG stand for?", options: ["Data Analysis Graph", "Directed Acyclic Graph", "Database Access Gateway", "Dynamic API Generator"], answer: 1, explanation: "DAG = Directed Acyclic Graph, describes a workflow." },
@@ -998,7 +998,7 @@ t1 >> t2 >> t3  # Extract → Transform → Load`,
 # Fact Table: sales_fact
 # Dimension Tables: dim_product, dim_time, dim_store
 
-# Mô phỏng Star Schema với Python
+# Simulating Star Schema with Python
 fact_sales = [
     {"date_id": 1, "product_id": 101, "store_id": 1, "quantity": 5, "revenue": 500000},
     {"date_id": 1, "product_id": 102, "store_id": 2, "quantity": 3, "revenue": 900000},
@@ -1009,7 +1009,7 @@ dim_product = {101: "Laptop", 102: "Phone"}
 dim_store = {1: "HCM", 2: "HN"}
 dim_time = {1: "2024-01-15", 2: "2024-01-16"}
 
-# Truy vấn: Doanh thu theo cửa hàng
+# Query: Revenue by store
 from collections import defaultdict
 store_revenue = defaultdict(int)
 for sale in fact_sales:
@@ -1017,9 +1017,9 @@ for sale in fact_sales:
     store_revenue[store] += sale["revenue"]
 
 for store, rev in store_revenue.items():
-    print(f"🏪 {store}: {rev:,.0f} VNĐ")`,
+    print(f"🏪 {store}: {rev:,.0f} VND")`,
         codeLanguage: "python",
-        exercise: "Thiết kế Star Schema cho hệ thống e-commerce với 1 Fact table và 4 Dimension tables. Viết truy vấn phân tích.",
+        exercise: "Design Star Schema for e-commerce system with 1 Fact table and 4 Dimension tables. Write analytical queries.",
         exerciseEn: "Design a Star Schema for e-commerce with 1 Fact and 4 Dimension tables. Write analytical queries.",
         quiz: [
           { question: "How does a Data Lake differ from a Data Warehouse?", options: ["Only stores SQL", "Stores raw data in all formats", "Only stores images", "Faster"], answer: 1, explanation: "A Data Lake stores raw data in all formats, while a Data Warehouse only stores structured data." },
@@ -1033,47 +1033,47 @@ for store, rev in store_revenue.items():
   },
   {
     id: "prog-ml",
-    title: "Machine Learning cơ bản",
+    title: "Basic Machine Learning",
     titleEn: "Basic Machine Learning",
     icon: "🤖",
     color: "from-teal-500/20 to-green-500/20",
-    description: "Regression, Classification, Clustering với scikit-learn",
+    description: "Regression, Classification, Clustering with scikit-learn",
     descriptionEn: "Regression, Classification, Clustering with scikit-learn",
     course: "data-ai",
     lessons: [
       {
         id: "ml-1",
-        title: "ML là gì & Linear Regression",
+        title: "What is ML & Linear Regression",
         titleEn: "What is ML & Linear Regression",
         theory: "**Machine Learning** = Máy tính \"học\" từ dữ liệu để đưa ra dự đoán.\n\n**3 loại chính:**\n- 🎯 Supervised: Học có giám sát (có đáp án)\n  - Regression: Dự đoán số (giá nhà)\n  - Classification: Phân loại (spam/không spam)\n- 🔍 Unsupervised: Học không giám sát (tự tìm nhóm)\n- 🎮 Reinforcement: Học tăng cường (thử-sai)\n\n**Linear Regression:** Tìm đường thẳng y = ax + b phù hợp nhất với dữ liệu.",
         theoryEn: "**Machine Learning** = Computers \"learn\" from data to make predictions.\n\n**3 main types:**\n- 🎯 Supervised: Has labels/answers\n  - Regression: Predict numbers (house prices)\n  - Classification: Categorize (spam/not spam)\n- 🔍 Unsupervised: No labels (find groups)\n- 🎮 Reinforcement: Trial and error\n\n**Linear Regression:** Find best-fit line y = ax + b.",
         code: `from sklearn.linear_model import LinearRegression
 import numpy as np
 
-# Dữ liệu: Diện tích (m²) → Giá nhà (tỷ VNĐ)
+# Data: Area (m²) → House price (billion VND)
 X = np.array([[30], [50], [70], [90], [110], [130]])
 y = np.array([1.2, 2.0, 2.8, 3.5, 4.3, 5.1])
 
-# Huấn luyện mô hình
+# Model training
 model = LinearRegression()
 model.fit(X, y)
 
-# Hệ số
-print(f"Hệ số góc (a): {model.coef_[0]:.4f}")
-print(f"Hệ số chặn (b): {model.intercept_:.4f}")
-print(f"Phương trình: Giá = {model.coef_[0]:.4f} × Diện_tích + {model.intercept_:.4f}")
+# Coefficient
+print(f"Slope coefficient (a): {model.coef_[0]:.4f}")
+print(f"Intercept (b): {model.intercept_:.4f}")
+print(f"Equation: Price = {model.coef_[0]:.4f} × Area + {model.intercept_:.4f}")
 
-# Dự đoán
+# Forecast
 dien_tich_moi = [[80], [150]]
 du_doan = model.predict(dien_tich_moi)
 for dt, gia in zip(dien_tich_moi, du_doan):
-    print(f"\\n🏠 Diện tích {dt[0]}m² → Giá dự đoán: {gia:.2f} tỷ")
+    print(f"\\n🏠 Area {dt[0]}m² → Estimated price: {price:.2f} billion")
 
-# Đánh giá mô hình
+# Evaluate the model
 r2 = model.score(X, y)
-print(f"\\n📊 R² Score: {r2:.4f} ({'Tốt' if r2 > 0.9 else 'Trung bình'})")`,
+print(f"\\n📊 R² Score: {r2:.4f} ({'Good' if r2 > 0.9 else 'Average'})")`,
         codeLanguage: "python",
-        exercise: "Thu thập dữ liệu giá xe ô tô (năm sản xuất, số km, giá bán). Xây dựng mô hình Linear Regression để dự đoán giá.",
+        exercise: "Collect car price data (year of manufacture, number of kilometers, selling price). Build a Linear Regression model to predict prices.",
         exerciseEn: "Collect car price data (year, mileage, price). Build a Linear Regression model to predict price.",
         quiz: [
           { question: "Which ML category does Linear Regression belong to?", options: ["Unsupervised", "Reinforcement", "Supervised - Classification", "Supervised - Regression"], answer: 3, explanation: "Linear Regression is a supervised learning algorithm in the regression category, meaning it learns from labeled data to predict continuous values." },
@@ -1092,7 +1092,7 @@ print(f"\\n📊 R² Score: {r2:.4f} ({'Tốt' if r2 > 0.9 else 'Trung bình'})")
         code: `from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
-# Dữ liệu: [giờ học, giờ ngủ, điểm bài tập] → Đậu/Rớt
+# Data: [class time, sleep time, homework score] → Pass/Fail
 X = [
     [6, 8, 85], [2, 5, 40], [8, 7, 90], [1, 4, 30],
     [5, 7, 70], [7, 8, 80], [3, 6, 55], [4, 7, 65],
@@ -1104,21 +1104,21 @@ y = [1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0]  # 1=Đậu, 0=Rớt
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=42)
 
-# Huấn luyện
+# Train
 tree = DecisionTreeClassifier(max_depth=3)
 tree.fit(X_train, y_train)
 
-# Dự đoán
+# Forecast
 sv_moi = [[5, 7, 60]]
 ket_qua = tree.predict(sv_moi)
-print(f"Sinh viên (5h học, 7h ngủ, 60 điểm BT)")
-print(f"→ Dự đoán: {'✅ ĐẬU' if ket_qua[0] else '❌ RỚT'}")
+print(f"Student (5 hours studying, 7 hours sleeping, 60 BT points)")
+print(f"→ Prediction: {'✅ PASS' if result_pass[0] else '❌ FAIL'}")
 
-# Đánh giá
+# Evaluate
 accuracy = tree.score(X_test, y_test)
 print(f"\n📊 Accuracy: {accuracy:.1%}")`,
         codeLanguage: "python",
-        exercise: "Xây dựng mô hình phân loại email spam/không spam dựa trên: số từ, có link không, có từ 'miễn phí' không.",
+        exercise: "Build a model to classify spam/non-spam emails based on: number of words, whether there is a link, whether there is the word 'free'.",
         exerciseEn: "Build an email spam classifier based on: word count, has link, contains 'free'.",
         quiz: [
           { question: "What is overfitting?", options: ["A model that is too simple", "A model that memorizes the training data and performs poorly on new data", "A model that runs too slowly", "Not enough data"], answer: 1, explanation: "Overfitting happens when a model fits the training data too closely and fails to generalize well to unseen examples." },
@@ -1138,7 +1138,7 @@ print(f"\n📊 Accuracy: {accuracy:.1%}")`,
 from sklearn.model_selection import train_test_split
 import numpy as np
 
-# Dữ liệu: [chiều cao cm, cân nặng kg] → Thể loại
+# Data: [height cm, weight kg] → Category
 X = np.array([
     [170, 70], [165, 55], [180, 85], [160, 50],
     [175, 75], [155, 45], [185, 90], [168, 60],
@@ -1153,13 +1153,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 knn = KNeighborsClassifier(n_neighbors=3)
 knn.fit(X_train, y_train)
 
-# Dự đoán
+# Forecast
 person = [[170, 65]]
 result = knn.predict(person)
-print(f"Người 170cm/65kg → {result[0]}")
+print(f"Person 170cm/65kg → {result[0]}")
 print(f"Accuracy: {knn.score(X_test, y_test):.1%}")`,
         codeLanguage: "python",
-        exercise: "Dùng KNN phân loại hoa Iris (sklearn.datasets). Thử K=1,3,5,7 và vẽ biểu đồ accuracy.",
+        exercise: "Use KNN to classify Iris flowers (sklearn.datasets). Try K=1,3,5,7 and plot the accuracy chart.",
         exerciseEn: "Use KNN to classify Iris flowers (sklearn.datasets). Try K=1,3,5,7 and plot accuracy.",
         quiz: [
           { question: "What type of algorithm is KNN?", options: ["Unsupervised", "Supervised", "Reinforcement", "Semi-supervised"], answer: 1, explanation: "KNN is a supervised learning algorithm because it relies on labeled examples to make predictions." },
@@ -1171,14 +1171,14 @@ print(f"Accuracy: {knn.score(X_test, y_test):.1%}")`,
       },
       {
         id: "ml-4",
-        title: "Clustering với K-Means",
+        title: "Clustering with K-Means",
         titleEn: "Clustering with K-Means",
         theory: "**Clustering** nhóm dữ liệu KHÔNG có nhãn (Unsupervised).\n\n**K-Means:**\n1. Chọn K tâm ngẫu nhiên\n2. Gán mỗi điểm vào tâm gần nhất\n3. Cập nhật tâm = trung bình nhóm\n4. Lặp lại đến khi ổn định\n\n**Ứng dụng:** Phân khúc khách hàng, gom nhóm văn bản, nén ảnh\n\n**Elbow Method:** Chọn K tối ưu bằng đồ thị Inertia",
         theoryEn: "**Clustering** groups UNLABELED data (Unsupervised).\n\n**K-Means:**\n1. Choose K random centroids\n2. Assign each point to nearest centroid\n3. Update centroids = group mean\n4. Repeat until stable\n\n**Applications:** Customer segmentation, text grouping, image compression\n\n**Elbow Method:** Choose optimal K via Inertia plot",
         code: `from sklearn.cluster import KMeans
 import numpy as np
 
-# Dữ liệu khách hàng: [chi tiêu/tháng, số lần mua]
+# Customer data: [spending/month, number of purchases]
 customers = np.array([
     [500, 2], [1500, 8], [300, 1], [2000, 12],
     [800, 4], [100, 1], [1800, 10], [600, 3],
@@ -1189,14 +1189,14 @@ kmeans = KMeans(n_clusters=3, random_state=42)
 kmeans.fit(customers)
 
 labels = kmeans.labels_
-segments = ["💎 VIP", "⭐ Thường xuyên", "👤 Thỉnh thoảng"]
+segments = ["💎 VIP", "⭐ Regularly", "👤 Occasionally"]
 
 for i, (cust, label) in enumerate(zip(customers, labels)):
-    print(f"KH {i+1}: Chi tiêu {cust[0]:,}k, {cust[1]} lần → {segments[label]}")
+    print(f"KH {i+1}: Spend {cust[0]:,}k, {cust[1]} times → {segments[label]}")
 
-print(f"\nTâm cụm: {kmeans.cluster_centers_}")`,
+print(f"\nCluster centers: {kmeans.cluster_centers_}")`,
         codeLanguage: "python",
-        exercise: "Phân cụm dữ liệu điểm thi sinh viên thành 3 nhóm (Giỏi, Khá, Trung bình). Vẽ scatter plot.",
+        exercise: "Clustering student test score data into 3 groups (Excellent, Good, Average). Draw scatter plot.",
         exerciseEn: "Cluster student exam data into 3 groups (Excellent, Good, Average). Draw scatter plot.",
         quiz: [
           { question: "Which ML category does K-Means belong to?", options: ["Supervised", "Unsupervised", "Reinforcement", "Semi-supervised"], answer: 1, explanation: "K-Means is an unsupervised learning algorithm because it works without labeled data." },
@@ -1208,7 +1208,7 @@ print(f"\nTâm cụm: {kmeans.cluster_centers_}")`,
       },
       {
         id: "ml-5",
-        title: "Đánh giá & Triển khai mô hình",
+        title: "Evaluate & Deploy the model",
         titleEn: "Model Evaluation & Deployment",
         theory: "**Metrics đánh giá:**\n- Accuracy: Tỷ lệ đúng tổng thể\n- Precision: Tỷ lệ đúng trong dự đoán dương\n- Recall: Tỷ lệ phát hiện dương thật\n- F1-Score: Trung bình điều hòa Precision & Recall\n- Confusion Matrix: Ma trận nhầm lẫn\n\n**Cross-Validation:** Chia dữ liệu thành K phần, đánh giá K lần\n\n**Triển khai:** Lưu mô hình với joblib/pickle → Flask API",
         theoryEn: "**Evaluation Metrics:**\n- Accuracy: Overall correctness\n- Precision: Correctness of positive predictions\n- Recall: Detection rate of true positives\n- F1-Score: Harmonic mean of Precision & Recall\n- Confusion Matrix\n\n**Cross-Validation:** Split data into K folds, evaluate K times\n\n**Deployment:** Save model with joblib/pickle → Flask API",
@@ -1217,7 +1217,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 
-# Giả sử đã có X_train, X_test, y_train, y_test
+# Suppose we have X_train, X_test, y_train, y_test
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 
@@ -1229,7 +1229,7 @@ model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
-# Báo cáo đánh giá
+# Evaluation report
 print(classification_report(y_test, y_pred,
       target_names=data.target_names))
 
@@ -1237,11 +1237,11 @@ print(classification_report(y_test, y_pred,
 cv_scores = cross_val_score(model, data.data, data.target, cv=5)
 print(f"CV Accuracy: {cv_scores.mean():.2%} ± {cv_scores.std():.2%}")
 
-# Lưu mô hình
+# Save the model
 joblib.dump(model, 'iris_model.pkl')
-print("✅ Mô hình đã lưu!")`,
+print("✅ Model saved!")`,
         codeLanguage: "python",
-        exercise: "Huấn luyện 3 mô hình (KNN, Decision Tree, Random Forest) trên cùng dataset, so sánh metrics.",
+        exercise: "Train 3 models (KNN, Decision Tree, Random Forest) on the same dataset, compare metrics.",
         exerciseEn: "Train 3 models (KNN, Decision Tree, Random Forest) on the same dataset, compare metrics.",
         quiz: [
           { question: "When is precision high?", options: ["When there are many True Positives", "When there are few False Positives", "When there are many False Negatives", "When there are few True Negatives"], answer: 1, explanation: "Precision = TP / (TP + FP), so precision is high when false positives are low." },
@@ -1261,13 +1261,13 @@ print("✅ Mô hình đã lưu!")`,
     titleEn: "AI Foundation",
     icon: "🧠",
     color: "from-indigo-500/20 to-blue-500/20",
-    description: "Nền tảng AI: Lịch sử, LLMs, Prompt Engineering, Ethics và ứng dụng thực tế",
+    description: "AI Foundations: History, LLMs, Prompt Engineering, Ethics and Practical Applications",
     descriptionEn: "AI Fundamentals: History, LLMs, Prompt Engineering, Ethics and real-world applications",
     course: "data-ai",
     lessons: [
       {
         id: "ai-f-1",
-        title: "AI là gì? Lịch sử & Các nhánh chính",
+        title: "What is AI? History & Main Branches",
         titleEn: "What is AI? History & Main Branches",
         theory: "**Trí tuệ nhân tạo (AI)** là lĩnh vực khoa học máy tính nhằm tạo ra hệ thống có khả năng thực hiện các nhiệm vụ đòi hỏi trí thông minh.\n\n**Lịch sử:**\n- 1950: Alan Turing đề xuất 'Turing Test'\n- 1956: Thuật ngữ 'AI' ra đời tại Dartmouth\n- 1997: Deep Blue đánh bại Kasparov (cờ vua)\n- 2012: Deep Learning bùng nổ (ImageNet)\n- 2022: ChatGPT thay đổi cách con người tương tác với AI\n\n**Các nhánh chính:**\n- Machine Learning (Học máy)\n- Deep Learning (Học sâu)\n- NLP (Xử lý ngôn ngữ tự nhiên)\n- Computer Vision (Thị giác máy tính)\n- Robotics (Robot học)",
         theoryEn: "**Artificial Intelligence (AI)** is the field of computer science aiming to create systems capable of performing tasks requiring intelligence.\n\n**History:**\n- 1950: Alan Turing proposed the 'Turing Test'\n- 1956: Term 'AI' coined at Dartmouth\n- 1997: Deep Blue beat Kasparov (chess)\n- 2012: Deep Learning explosion (ImageNet)\n- 2022: ChatGPT changed human-AI interaction\n\n**Main branches:**\n- Machine Learning\n- Deep Learning\n- NLP (Natural Language Processing)\n- Computer Vision\n- Robotics",
@@ -1306,7 +1306,7 @@ print("\\n📊 AI Branches:")
 for branch, subs in branches.items():
     print(f"  📂 {branch}: {', '.join(subs)}")`,
         codeLanguage: "python",
-        exercise: "Tạo một chương trình Python phân loại các ứng dụng AI hàng ngày (Google Translate, Siri, Tesla Autopilot...) vào đúng nhánh AI tương ứng.",
+        exercise: "Create a Python program that classifies everyday AI applications (Google Translate, Siri, Tesla Autopilot...) into the correct AI branch.",
         exerciseEn: "Create a Python program that classifies daily AI applications (Google Translate, Siri, Tesla Autopilot...) into the correct AI branch.",
         quiz: [
           { question: "In what year was AI officially named?", options: ["1943", "1950", "1956", "1997"], answer: 2, explanation: "The term 'Artificial Intelligence' was coined at the Dartmouth Conference in 1956." },
@@ -1318,7 +1318,7 @@ for branch, subs in branches.items():
       },
       {
         id: "ai-f-2",
-        title: "Neural Networks & Deep Learning cơ bản",
+        title: "Basic Neural Networks & Deep Learning",
         titleEn: "Neural Networks & Deep Learning Basics",
         theory: "**Mạng nơ-ron nhân tạo (ANN)** mô phỏng cách bộ não hoạt động.\n\n**Cấu trúc:**\n- Input Layer: Nhận dữ liệu đầu vào\n- Hidden Layers: Xử lý và học đặc trưng\n- Output Layer: Đưa ra kết quả\n\n**Neuron nhân tạo:** Nhận inputs → nhân trọng số → tính tổng → activation function → output\n\n**Deep Learning = Nhiều Hidden Layers:**\n- Có thể học các đặc trưng phức tạp\n- Yêu cầu nhiều dữ liệu và tính toán\n- Kiến trúc phổ biến: CNN (ảnh), RNN (chuỗi), Transformer (ngôn ngữ)",
         theoryEn: "**Artificial Neural Networks (ANN)** mimic how the brain works.\n\n**Structure:**\n- Input Layer: Receives input data\n- Hidden Layers: Process and learn features\n- Output Layer: Produces results\n\n**Artificial Neuron:** Receives inputs → multiply weights → sum → activation function → output\n\n**Deep Learning = Many Hidden Layers:**\n- Can learn complex features\n- Requires lots of data and computation\n- Popular architectures: CNN (images), RNN (sequences), Transformer (language)",
@@ -1362,7 +1362,7 @@ print("\\n📊 Results:")
 for i in range(4):
     print(f"  {X[i]} → {output[i][0]:.3f} (expected: {y[i][0]})")`,
         codeLanguage: "python",
-        exercise: "Sửa đổi mạng nơ-ron trên để giải bài toán AND và OR. So sánh số epoch cần thiết để đạt accuracy > 95%.",
+        exercise: "Modify the above neural network to solve AND and OR problems. Compare the number of epochs needed to achieve accuracy > 95%.",
         exerciseEn: "Modify the neural network above to solve AND and OR problems. Compare epochs needed for >95% accuracy.",
         quiz: [
           { question: "What is an activation function used for?", options: ["Accelerate computation", "Add non-linearity to the network", "Reduce data", "Encrypt data"], answer: 1, explanation: "An activation function adds non-linearity, helping the network learn complex relationships." },
@@ -1410,7 +1410,7 @@ print(f"  '{focus_word}' attends most to:")
 for i, score in top_attention:
     print(f"    → '{tokens[i]}' (score: {score:.3f})")`,
         codeLanguage: "python",
-        exercise: "Tạo một BPE (Byte Pair Encoding) tokenizer đơn giản. Cho 1 đoạn văn bản tiếng Việt, đếm số tokens và so sánh với word-level tokenizer.",
+        exercise: "Create a simple BPE (Byte Pair Encoding) tokenizer. Given a Vietnamese text, count the number of tokens and compare with the word-level tokenizer.",
         exerciseEn: "Create a simple BPE tokenizer. Given a Vietnamese text, count tokens and compare with word-level tokenizer.",
         quiz: [
           { question: "What is the main difference between Transformer and RNN?", options: ["Uses less data", "Processes in parallel instead of sequentially", "Only used for images", "No GPU required"], answer: 1, explanation: "Transformer processes all tokens simultaneously (in parallel) thanks to Self-Attention, whereas RNN processes them sequentially." },
@@ -1422,7 +1422,7 @@ for i, score in top_attention:
       },
       {
         id: "ai-f-4",
-        title: "Prompt Engineering - Nghệ thuật ra lệnh cho AI",
+        title: "Prompt Engineering - The art of giving commands to AI",
         titleEn: "Prompt Engineering - The Art of AI Instructions",
         theory: "**Prompt Engineering** là kỹ năng thiết kế câu lệnh (prompt) để AI trả lời chính xác và hữu ích nhất.\n\n**Nguyên tắc cốt lõi:**\n- 🎯 Rõ ràng & Cụ thể\n- 📋 Cung cấp ngữ cảnh (Context)\n- 📝 Cho ví dụ (Few-shot learning)\n- 🔄 Chia nhỏ nhiệm vụ phức tạp\n\n**Kỹ thuật nâng cao:**\n- Zero-shot: Không cần ví dụ\n- Few-shot: Cho 2-3 ví dụ mẫu\n- Chain-of-Thought: Yêu cầu AI suy luận từng bước\n- Role-playing: Gán vai trò cho AI\n- System prompts: Thiết lập hành vi mặc định",
         theoryEn: "**Prompt Engineering** is the skill of designing instructions for AI to get accurate and useful responses.\n\n**Core principles:**\n- 🎯 Clear & Specific\n- 📋 Provide Context\n- 📝 Give Examples (Few-shot learning)\n- 🔄 Break down complex tasks\n\n**Advanced techniques:**\n- Zero-shot: No examples needed\n- Few-shot: Give 2-3 example patterns\n- Chain-of-Thought: Ask AI to reason step-by-step\n- Role-playing: Assign a role to AI\n- System prompts: Set default behavior",
@@ -1476,7 +1476,7 @@ Now classify: "Best purchase I've ever made!"
 """
 print(few_shot)`,
         codeLanguage: "python",
-        exercise: "Viết 5 prompt khác nhau cho cùng một nhiệm vụ (tóm tắt bài báo) sử dụng 5 kỹ thuật: zero-shot, few-shot, CoT, role-playing, và structured output. Đánh giá chất lượng kết quả.",
+        exercise: "Write 5 different prompts for the same task (article summary) using 5 techniques: zero-shot, few-shot, CoT, role-playing, and structured output. Evaluate the quality of results.",
         exerciseEn: "Write 5 different prompts for the same task (article summarization) using 5 techniques: zero-shot, few-shot, CoT, role-playing, and structured output. Evaluate result quality.",
         quiz: [
           { question: "What is Chain-of-Thought prompting?", options: ["Write the shortest prompt", "Ask the AI to reason step by step", "Give the AI multiple roles", "Write in multiple languages"], answer: 1, explanation: "Chain-of-Thought asks the AI to show its step-by-step reasoning process, which helps improve accuracy for complex tasks." },
@@ -1488,7 +1488,7 @@ print(few_shot)`,
       },
       {
         id: "ai-f-5",
-        title: "API & Xây dựng ứng dụng AI đầu tiên",
+        title: "API & Build your first AI application",
         titleEn: "APIs & Building Your First AI App",
         theory: "**AI API** cho phép bạn tích hợp AI vào ứng dụng mà không cần huấn luyện mô hình.\n\n**Quy trình sử dụng API:**\n1. Đăng ký và lấy API Key\n2. Gửi request (prompt + parameters)\n3. Nhận response (text, JSON, image...)\n4. Xử lý và hiển thị kết quả\n\n**Parameters quan trọng:**\n- model: Chọn mô hình (gpt-4, gemini, ...)\n- temperature: Độ sáng tạo (0=chính xác, 1=sáng tạo)\n- max_tokens: Giới hạn độ dài output\n- system prompt: Thiết lập persona/hành vi\n\n**Lưu ý bảo mật:** KHÔNG BAO GIỜ để API key trong code frontend!",
         theoryEn: "**AI APIs** let you integrate AI into apps without training models.\n\n**API workflow:**\n1. Register and get API Key\n2. Send request (prompt + parameters)\n3. Receive response (text, JSON, image...)\n4. Process and display results\n\n**Important parameters:**\n- model: Choose model (gpt-4, gemini, ...)\n- temperature: Creativity (0=precise, 1=creative)\n- max_tokens: Limit output length\n- system prompt: Set persona/behavior\n\n**Security note:** NEVER put API keys in frontend code!",
@@ -1529,8 +1529,8 @@ print("🤖 AI Tutor App")
 print("=" * 40)
 
 questions = [
-    "Giải thích từ 'ubiquitous' bằng tiếng Việt",
-    "Cho 3 ví dụ sử dụng từ này",
+    "Explain the word 'ubiquitous' in Vietnamese",
+    "Give 3 examples using this word",
 ]
 for q in questions:
     print(f"\\n👤 User: {q}")
@@ -1538,7 +1538,7 @@ for q in questions:
     print(f"🤖 AI: {response}")
     print(f"   (Conversation length: {len(app.conversation)} messages)")`,
         codeLanguage: "python",
-        exercise: "Xây dựng một chatbot CLI đơn giản bằng Python. Chatbot phải: (1) Lưu lịch sử hội thoại, (2) Hỗ trợ lệnh /clear để xóa lịch sử, (3) Hỗ trợ /role để đổi system prompt.",
+        exercise: "Build a simple CLI chatbot in Python. Chatbot must: (1) Save conversation history, (2) Support /clear command to clear history, (3) Support /role to change system prompt.",
         exerciseEn: "Build a simple CLI chatbot in Python. The chatbot must: (1) Save conversation history, (2) Support /clear to reset, (3) Support /role to change system prompt.",
         quiz: [
           { question: "What does Temperature = 0 mean in an AI API?", options: ["The AI stops working", "The most accurate and consistent output", "The most creative output", "The fastest speed"], answer: 1, explanation: "Temperature = 0 results in deterministic output (same input always gives same output), suitable for tasks requiring accuracy." },
@@ -1603,7 +1603,7 @@ prompt = f"Based on this context: {context}\\n\\nAnswer: {query}"
 print(f"\\n📝 Final prompt for LLM:")
 print(f"  {prompt[:200]}...")`,
         codeLanguage: "python",
-        exercise: "Xây dựng một RAG system đơn giản cho tài liệu học Python. Cho trước 20 đoạn kiến thức, implement tìm kiếm bằng TF-IDF thay vì word frequency.",
+        exercise: "Build a simple RAG system for Python learning materials. Given 20 pieces of knowledge, implement search using TF-IDF instead of word frequency.",
         exerciseEn: "Build a simple RAG system for Python learning documents. Given 20 knowledge chunks, implement search using TF-IDF instead of word frequency.",
         quiz: [
           { question: "What problem does RAG solve for LLMs?", options: ["Slow speed", "Hallucination and outdated knowledge", "Poor interface", "High cost"], answer: 1, explanation: "RAG provides factual information from documents, helping LLMs avoid hallucination and access the latest data." },
@@ -1652,7 +1652,7 @@ class SimpleAgent:
         
         # Step 1: Determine which tool to use
         input_lower = user_input.lower()
-        if "weather" in input_lower or "thời tiết" in input_lower:
+        if "weather" in input_lower or "weather" in input_lower:
             tool_name = "get_weather"
             # Extract city name (simplified)
             for city in ["Hanoi", "HCMC", "Da Nang"]:
@@ -1661,10 +1661,10 @@ class SimpleAgent:
                     break
             else:
                 args = "Hanoi"
-        elif any(op in input_lower for op in ["+", "-", "*", "/", "tính"]):
+        elif any(op in input_lower for op in ["+", "-", "*", "/", "count"]):
             tool_name = "calculate"
-            args = input_lower.replace("tính", "").strip()
-        elif "time" in input_lower or "giờ" in input_lower:
+            args = input_lower.replace("count", "").strip()
+        elif "time" in input_lower or "hour" in input_lower:
             tool_name = "get_time"
             args = None
         else:
@@ -1681,7 +1681,7 @@ class SimpleAgent:
 agent = SimpleAgent()
 queries = [
     "What's the weather in HCMC?",
-    "Tính 15 * 24 + 100",
+    "Calculate 15 * 24 + 100",
     "What time is it?",
 ]
 
@@ -1689,7 +1689,7 @@ for q in queries:
     response = agent.process(q)
     print(f"  💬 Response: {response}")`,
         codeLanguage: "python",
-        exercise: "Mở rộng Agent trên: thêm tool 'search_knowledge' (tìm trong list kiến thức), tool 'translate' (dịch Việt-Anh), và xử lý multi-step tasks (ví dụ: 'Dịch thời tiết Hà Nội sang tiếng Anh').",
+        exercise: "Expand the above Agent: add 'search_knowledge' tool (search in knowledge list), 'translate' tool (Vietnamese-English translation), and handle multi-step tasks (for example: 'Translate Hanoi weather into English').",
         exerciseEn: "Extend the Agent: add 'search_knowledge' tool, 'translate' tool (Vietnamese-English), and handle multi-step tasks (e.g., 'Translate Hanoi weather to English').",
         quiz: [
           { question: "What does Function Calling allow AI to do?", options: ["Write code", "Call external tools/APIs", "Self-train", "Generate images"], answer: 1, explanation: "Function Calling gives AI the ability to call external functions/APIs (weather, database, search, etc.) to retrieve real-world data." },
@@ -1701,7 +1701,7 @@ for q in queries:
       },
       {
         id: "ai-f-8",
-        title: "Computer Vision cơ bản",
+        title: "Basic Computer Vision",
         titleEn: "Computer Vision Basics",
         theory: "**Computer Vision** cho máy tính khả năng 'nhìn' và hiểu hình ảnh.\n\n**Ứng dụng:**\n- Nhận dạng khuôn mặt (Face ID)\n- Phát hiện vật thể (Tesla Autopilot)\n- OCR (đọc chữ từ ảnh)\n- Phân loại hình ảnh (Google Photos)\n\n**CNN (Convolutional Neural Network):**\n- Convolutional Layer: Phát hiện đặc trưng (cạnh, góc, texture)\n- Pooling Layer: Giảm kích thước, giữ đặc trưng quan trọng\n- Fully Connected: Phân loại cuối cùng\n\n**Transfer Learning:** Dùng mô hình đã huấn luyện (ResNet, VGG) cho bài toán mới",
         theoryEn: "**Computer Vision** gives computers the ability to 'see' and understand images.\n\n**Applications:**\n- Face recognition (Face ID)\n- Object detection (Tesla Autopilot)\n- OCR (reading text from images)\n- Image classification (Google Photos)\n\n**CNN (Convolutional Neural Network):**\n- Convolutional Layer: Detect features (edges, corners, textures)\n- Pooling Layer: Reduce size, keep important features\n- Fully Connected: Final classification\n\n**Transfer Learning:** Use pre-trained models (ResNet, VGG) for new tasks",
@@ -1758,7 +1758,7 @@ print(f"\\n📐 After Max Pooling (4x4):")
 for row in pooled:
     print("  " + " ".join("⬛" if p > 0 else "⬜" for p in row))`,
         codeLanguage: "python",
-        exercise: "Implement thêm các kernel khác: Blur (trung bình), Sharpen, Emboss. Áp dụng lên ảnh 16x16 và so sánh kết quả.",
+        exercise: "Implement other kernels: Blur (medium), Sharpen, Emboss. Apply to 16x16 photo and compare results.",
         exerciseEn: "Implement additional kernels: Blur (average), Sharpen, Emboss. Apply to a 16x16 image and compare results.",
         quiz: [
           { question: "What does a CNN use a Convolution Layer for?", options: ["Enlarge images", "Detect features (edges, corners, etc.)", "Remove image background", "Compress images"], answer: 1, explanation: "A Convolutional Layer uses a kernel/filter to detect visual features such as edges, corners, and textures." },
@@ -1814,7 +1814,7 @@ for model_name, scorer in [("Biased", biased_score), ("Fair", fair_score)]:
     gap = abs(m_avg - f_avg)
     print(f"  {model_name}: M avg={m_avg:.2f}, F avg={f_avg:.2f}, Gap={gap:.2f} {'⚠️ BIASED' if gap > 0.5 else '✅ FAIR'}")`,
         codeLanguage: "python",
-        exercise: "Thiết kế một 'AI Ethics Checklist' bằng Python. Chương trình nhận mô tả về 1 hệ thống AI và đánh giá 6 tiêu chí (Fairness, Transparency, Privacy, Accountability, Safety, Human Oversight) trên thang 1-5.",
+        exercise: "Design an 'AI Ethics Checklist' in Python. The program receives a description of an AI system and evaluates 6 criteria (Fairness, Transparency, Privacy, Accountability, Safety, Human Oversight) on a scale of 1-5.",
         exerciseEn: "Design an 'AI Ethics Checklist' in Python. The program takes an AI system description and rates 6 criteria (Fairness, Transparency, Privacy, Accountability, Safety, Human Oversight) on a 1-5 scale.",
         quiz: [
           { question: "What problems does Bias in AI cause?", options: ["Consumes more power", "Unfair discrimination", "Runs slowly", "Poor interface"], answer: 1, explanation: "Bias causes AI to make skewed decisions, potentially discriminating based on gender, race, age, etc." },
@@ -1826,7 +1826,7 @@ for model_name, scorer in [("Biased", biased_score), ("Fair", fair_score)]:
       },
       {
         id: "ai-f-10",
-        title: "Dự án: Xây dựng AI Chatbot hoàn chỉnh",
+        title: "Project: Building a complete AI Chatbot",
         titleEn: "Project: Build a Complete AI Chatbot",
         theory: "**Dự án tổng hợp:** Xây dựng một chatbot AI có đầy đủ tính năng.\n\n**Yêu cầu:**\n- Hiểu ngữ cảnh (lưu lịch sử hội thoại)\n- System prompt tùy chỉnh\n- Function calling (tra thời tiết, tính toán)\n- Streaming response (hiện từng chữ)\n- Xử lý lỗi và fallback\n\n**Kiến trúc:**\n- Frontend: Giao diện chat (React/HTML)\n- Backend: API server (Python Flask/FastAPI)\n- AI: LLM API (GPT/Gemini)\n- Database: Lưu conversations (SQLite/PostgreSQL)\n\n**Best Practices:**\n- Rate limiting: Giới hạn số request\n- Input validation: Lọc nội dung độc hại\n- Logging: Ghi lại lỗi và metrics\n- Cost management: Tối ưu tokens",
         theoryEn: "**Capstone Project:** Build a full-featured AI chatbot.\n\n**Requirements:**\n- Context awareness (save conversation history)\n- Custom system prompts\n- Function calling (weather, calculations)\n- Streaming response (show text progressively)\n- Error handling and fallback\n\n**Architecture:**\n- Frontend: Chat UI (React/HTML)\n- Backend: API server (Python Flask/FastAPI)\n- AI: LLM API (GPT/Gemini)\n- Database: Store conversations (SQLite/PostgreSQL)\n\n**Best Practices:**\n- Rate limiting\n- Input validation\n- Logging\n- Cost management",
@@ -1909,9 +1909,9 @@ bot.register_tool("dictionary", lambda m: "Definition: ...", "Word lookup")
 # Simulate session
 session = bot.new_session("user_001")
 messages = [
-    "Xin chào!",
-    "Giải thích 'for loop' trong Python",
-    "Cho ví dụ calculator 5 + 3",
+    "Hello!",
+    "Explain 'for loop' in Python",
+    "Give an example of calculator 5 + 3",
 ]
 
 print("\\n💬 Chat Session:")
@@ -1922,7 +1922,7 @@ for msg in messages:
 
 print(f"\\n📊 Stats: {bot.get_stats()}")`,
         codeLanguage: "python",
-        exercise: "Hoàn thiện chatbot trên: (1) Thêm SQLite lưu conversations, (2) Implement streaming giả lập (in từng ký tự), (3) Thêm tool 'search_lessons' tìm bài học trong HaiEduTech, (4) Viết unit tests.",
+        exercise: "Complete the above chatbot: (1) Add SQLite to save conversations, (2) Implement simulated streaming (printing each character), (3) Add 'search_lessons' tool to find lessons in HaiEduTech, (4) Write unit tests.",
         exerciseEn: "Complete the chatbot: (1) Add SQLite to save conversations, (2) Implement simulated streaming (print char by char), (3) Add 'search_lessons' tool, (4) Write unit tests.",
         quiz: [
           { question: "What is rate limiting used for in chatbots?", options: ["Accelerate processing", "Limit the number of requests to prevent abuse", "Improve quality", "Store data"], answer: 1, explanation: "Rate limiting restricts the number of requests/minute to prevent abuse, protect API keys, and manage costs." },

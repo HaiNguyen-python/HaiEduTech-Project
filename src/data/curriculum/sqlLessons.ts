@@ -5,11 +5,11 @@ import type { ExtendedProgrammingModule } from "./types";
 export const sqlModules: ExtendedProgrammingModule[] = [
   {
     id: "sql-select-basics",
-    title: "SELECT cơ bản",
+    title: "Basic SELECT",
     titleEn: "SELECT Basics",
     icon: "📋",
     color: "from-violet-500 to-purple-600",
-    description: "Truy vấn dữ liệu cơ bản với SELECT, FROM, LIMIT",
+    description: "Basic data query with SELECT, FROM, LIMIT",
     descriptionEn: "Basic data retrieval with SELECT, FROM, LIMIT",
     course: "sql",
     lessons: [
@@ -145,26 +145,26 @@ You write \`SELECT … FROM … WHERE … ORDER BY\` but it runs:
         code: `-- Lấy tất cả các cột (chỉ dùng khi khám phá)
 SELECT * FROM students;
 
--- Chỉ lấy cột cần thiết (cách dùng chuẩn)
+-- Get only the columns needed (standard usage)
 SELECT name, age FROM students;
 
--- Lấy danh sách độ tuổi không trùng
+-- Get a list of different ages
 SELECT DISTINCT age FROM students;
 
--- Chỉ lấy 3 dòng đầu
+-- Take only the first 3 lines
 SELECT name FROM students LIMIT 3;
 
--- Sắp xếp theo điểm giảm dần, lấy trang 2 (5 dòng/trang)
+-- Sort by descending score, take page 2 (5 lines/page)
 SELECT name, score FROM students
 ORDER BY score DESC, id ASC   -- thêm id ASC để thứ tự ổn định
 LIMIT 5 OFFSET 5;`,
         codeLanguage: "sql",
-        exercise: "Viết câu lệnh lấy tên (name) và email của 5 học viên đầu tiên trong bảng students, sắp xếp theo tên A→Z. Gợi ý: dùng ORDER BY name ASC kèm LIMIT 5.",
+        exercise: "Write a command to get the names and emails of the first 5 students in the students table, sorted by name A→Z. Suggestion: use ORDER BY name ASC with LIMIT 5.",
         exerciseEn: "Write a query to get name and email of the first 5 students, sorted alphabetically by name (A→Z). Hint: ORDER BY name ASC + LIMIT 5.",
         testCases: [
-          { input: "SELECT name, email FROM students ORDER BY name LIMIT 5;", expectedOutput: "5 rows", description: "Trả về 5 dòng với 2 cột name và email" }
+          { input: "SELECT name, email FROM students ORDER BY name LIMIT 5;", expectedOutput: "5 rows", description: "Returns 5 rows with 2 columns name and email" }
         ],
-        solutionExplanation: "SELECT chọn 2 cột (name, email), FROM chỉ định bảng (students), ORDER BY name sắp theo thứ tự A→Z (ASC mặc định), LIMIT 5 chỉ lấy 5 dòng đầu.",
+        solutionExplanation: "SELECT selects 2 columns (name, email), FROM specifies the table (students), ORDER BY name is ordered A→Z (default ASC), LIMIT 5 only takes the first 5 rows.",
         quiz: [
           { question: "What does `SELECT * FROM students;` return?", options: ["Only the first column", "All columns and all rows of the table", "Only 10 rows", "An error"], answer: 1, explanation: "The `*` means 'all columns'. Without WHERE or LIMIT, it returns every row." },
           { question: "What is `DISTINCT` used for?", options: ["Sorting data", "Removing duplicate values", "Limiting the number of rows", "Counting rows"], answer: 1, explanation: "DISTINCT removes duplicate rows so each value appears only once." },
@@ -275,20 +275,20 @@ Stick to \`lowercase_snake_case\` to avoid quoting hassles.
 SELECT name AS student_name, age AS student_age
 FROM students;
 
--- Cột tính toán BẮT BUỘC có alias
+-- Calculated columns MUST have an alias
 SELECT name, age, age + 5 AS age_in_5_years
 FROM students;
 
--- Nối chuỗi tạo cột "profile"
+-- Concatenate string to create column "profile"
 SELECT name || ' (Tuổi: ' || age || ')' AS profile
 FROM students;
 
--- Alias cho bảng (rất hữu ích khi có nhiều bảng JOIN)
+-- Alias ​​for the table (very useful when there are multiple JOIN tables)
 SELECT s.name, s.age
 FROM students AS s
 WHERE s.age > 20;`,
         codeLanguage: "sql",
-        exercise: "Viết query hiển thị tên học viên (cột 'name') và tuổi của họ sau 10 năm (cột tính toán đặt tên là 'future_age'). Gợi ý: dùng age + 10 AS future_age.",
+        exercise: "Write a query that displays the student's name (column 'name') and their age in 10 years (column named 'future_age'). Suggestion: use age + 10 AS future_age.",
         exerciseEn: "Write a query showing student names and their age in 10 years (computed column named 'future_age'). Hint: age + 10 AS future_age.",
         quiz: [
           { question: "What is the `AS` keyword used for?", options: ["Filtering data", "Giving a temporary alias to a column or table", "Sorting", "Grouping data"], answer: 1, explanation: "AS assigns a temporary alias — a display name for a column or table in the query result." },
@@ -302,17 +302,17 @@ WHERE s.age > 20;`,
   },
   {
     id: "sql-where-filter",
-    title: "WHERE & Lọc dữ liệu",
+    title: "WHERE & Filter data",
     titleEn: "WHERE & Filtering",
     icon: "🔍",
     color: "from-violet-500 to-purple-600",
-    description: "Lọc dữ liệu với WHERE, AND, OR, IN, BETWEEN, LIKE",
+    description: "Filter data with WHERE, AND, OR, IN, BETWEEN, LIKE",
     descriptionEn: "Filter data with WHERE, AND, OR, IN, BETWEEN, LIKE",
     course: "sql",
     lessons: [
       {
         id: "sql-where-1",
-        title: "WHERE cơ bản",
+        title: "Basic WHERE",
         titleEn: "Basic WHERE Clause",
         level: 1,
         difficulty: "beginner",
@@ -414,29 +414,29 @@ Don't wrap indexed columns in functions:
         code: `-- Lọc cơ bản
 SELECT * FROM students WHERE age > 20;
 
--- Nhiều điều kiện kết hợp bằng AND
+-- Multiple conditions combined using AND
 SELECT * FROM students
 WHERE age >= 18 AND age <= 25;
 
--- IN: thuộc danh sách
+-- IN: belongs to the list
 SELECT * FROM students
 WHERE name IN ('An', 'Bình', 'Chi');
 
--- LIKE: khớp mẫu chuỗi (bắt đầu bằng "N")
+-- LIKE: matches string pattern (starts with "N")
 SELECT * FROM students WHERE name LIKE 'N%';
 
--- Kiểm tra NULL đúng cách
+-- Check for NULL properly
 SELECT * FROM orders WHERE email IS NOT NULL;
 
--- Trộn AND/OR — LUÔN dùng dấu ngoặc
+-- Mixing AND/OR — ALWAYS use parentheses
 SELECT * FROM students
 WHERE (city = 'Hà Nội' OR city = 'TP HCM')
   AND age > 20;`,
         codeLanguage: "sql",
-        exercise: "Lọc các học viên có tuổi từ 18 đến 22 (bao gồm cả 18 và 22) VÀ tên bắt đầu bằng chữ 'T'. Gợi ý: dùng BETWEEN kết hợp LIKE 'T%'.",
+        exercise: "Filter for students whose ages are between 18 and 22 (including 18 and 22) AND whose name begins with the letter 'T'. Suggestion: use BETWEEN combined with LIKE 'T%'.",
         exerciseEn: "Filter students aged 18-22 (inclusive) AND whose names start with 'T'. Hint: BETWEEN combined with LIKE 'T%'.",
         testCases: [
-          { input: "SELECT * FROM students WHERE age BETWEEN 18 AND 22 AND name LIKE 'T%';", expectedOutput: "filtered rows", description: "Kết hợp BETWEEN và LIKE" }
+          { input: "SELECT * FROM students WHERE age BETWEEN 18 AND 22 AND name LIKE 'T%';", expectedOutput: "filtered rows", description: "Combine BETWEEN and LIKE" }
         ],
         quiz: [
           { question: "Which strings match `LIKE 'A%'`?", options: ["Contain the letter A", "Start with the letter A", "End with the letter A", "Equal exactly 'A'"], answer: 1, explanation: "% means 'any sequence of characters'. 'A%' means starts with A, followed by anything." },
@@ -450,11 +450,11 @@ WHERE (city = 'Hà Nội' OR city = 'TP HCM')
   },
   {
     id: "sql-aggregate",
-    title: "Hàm Aggregate",
+    title: "Aggregate function",
     titleEn: "Aggregate Functions",
     icon: "📊",
     color: "from-violet-500 to-purple-600",
-    description: "COUNT, SUM, AVG, MIN, MAX và GROUP BY",
+    description: "COUNT, SUM, AVG, MIN, MAX and GROUP BY",
     descriptionEn: "COUNT, SUM, AVG, MIN, MAX with GROUP BY",
     course: "sql",
     lessons: [
@@ -566,25 +566,25 @@ Counts unique values; expensive at scale → use \`APPROX_COUNT_DISTINCT\` for b
         code: `-- Đếm tổng số học viên
 SELECT COUNT(*) AS so_hoc_vien FROM students;
 
--- Tuổi trung bình (NULL bị bỏ qua tự động)
+-- Average age (NULL automatically omitted)
 SELECT AVG(age) AS tuoi_tb FROM students;
 
--- Đếm số học viên theo từng tuổi (gộp nhóm)
+-- Count the number of students by age (grouped together)
 SELECT age, COUNT(*) AS so_luong
 FROM   students
 GROUP BY age
 ORDER BY so_luong DESC;
 
--- Chỉ giữ các nhóm tuổi có >= 2 học viên (lọc nhóm bằng HAVING)
+-- Only keep age groups with >= 2 students (filter groups using HAVING)
 SELECT age, COUNT(*) AS so_luong
 FROM   students
 GROUP BY age
 HAVING COUNT(*) >= 2;
 
--- Đếm số tuổi khác nhau
+-- Count different ages
 SELECT COUNT(DISTINCT age) AS so_tuoi_khac_nhau FROM students;`,
         codeLanguage: "sql",
-        exercise: "Đếm số đơn hàng theo từng customer_id trong bảng orders, sau đó chỉ hiển thị các khách có >= 3 đơn. Gợi ý: GROUP BY customer_id, lọc bằng HAVING COUNT(*) >= 3.",
+        exercise: "Count the number of orders by each customer_id in the orders table, then only display customers with >= 3 orders. Suggestion: GROUP BY customer_id, filter by HAVING COUNT(*) >= 3.",
         exerciseEn: "Count orders per customer_id, then show only customers with >= 3 orders. Hint: GROUP BY customer_id, HAVING COUNT(*) >= 3.",
         quiz: [
           { question: "What's the difference between HAVING and WHERE?", options: ["No difference", "HAVING filters AFTER GROUP BY (filters groups); WHERE filters BEFORE (filters rows)", "HAVING is faster", "WHERE is used with aggregate functions"], answer: 1, explanation: "WHERE filters individual rows before grouping. HAVING filters groups after aggregation — so it can use aggregates like SUM(), COUNT()." },
@@ -602,7 +602,7 @@ SELECT COUNT(DISTINCT age) AS so_tuoi_khac_nhau FROM students;`,
     titleEn: "JOIN Operations",
     icon: "🔗",
     color: "from-violet-500 to-purple-600",
-    description: "INNER, LEFT, RIGHT, FULL JOIN và CROSS JOIN",
+    description: "INNER, LEFT, RIGHT, FULL JOIN and CROSS JOIN",
     descriptionEn: "INNER, LEFT, RIGHT, FULL JOIN and CROSS JOIN",
     course: "sql",
     lessons: [
@@ -746,19 +746,19 @@ SELECT s.name, o.amount
 FROM   students s
 INNER JOIN orders o ON s.id = o.student_id;
 
--- LEFT JOIN: TẤT CẢ học viên, ai chưa đặt thì amount = 0
+-- LEFT JOIN: ALL students, those who have not placed yet, amount = 0
 SELECT s.name,
        COALESCE(o.amount, 0) AS amount   -- COALESCE: NULL → 0
 FROM   students s
 LEFT JOIN orders o ON s.id = o.student_id;
 
--- Tìm học viên CHƯA đặt đơn nào (mẫu LEFT JOIN + IS NULL)
+-- Find students who have NOT placed any orders yet (form LEFT JOIN + IS NULL)
 SELECT s.name
 FROM   students s
 LEFT JOIN orders o ON s.id = o.student_id
 WHERE  o.id IS NULL;`,
         codeLanguage: "sql",
-        exercise: "Viết 1 câu LEFT JOIN hiển thị tên TẤT CẢ học viên kèm tổng giá trị đơn của họ (SUM amount). Học viên chưa đặt đơn nào thì hiển thị 0. Gợi ý: dùng COALESCE(SUM(o.amount), 0) và GROUP BY s.name.",
+        exercise: "Write a LEFT JOIN sentence that displays the names of ALL students along with their total order value (SUM amount). Students who have not placed any orders will display 0. Suggestion: use COALESCE(SUM(o.amount), 0) and GROUP BY s.name.",
         exerciseEn: "Write a LEFT JOIN query showing every student's name + their total order amount (SUM). Students with no orders show 0. Hint: COALESCE(SUM(o.amount), 0) + GROUP BY s.name.",
         quiz: [
           { question: "What does LEFT JOIN return when no row matches on the right table?", options: ["Skips that row", "Returns NULL for all right-table columns", "Throws an error", "Returns 0 for all columns"], answer: 1, explanation: "LEFT JOIN keeps ALL rows from the left table. When no match exists on the right side, the right-table columns are filled with NULL." },
@@ -776,13 +776,13 @@ WHERE  o.id IS NULL;`,
     titleEn: "Subqueries",
     icon: "🔄",
     color: "from-violet-500 to-purple-600",
-    description: "Truy vấn con trong WHERE, FROM và SELECT",
+    description: "Subqueries in WHERE, FROM and SELECT",
     descriptionEn: "Subqueries in WHERE, FROM and SELECT",
     course: "sql",
     lessons: [
       {
         id: "sql-sub-1",
-        title: "Subquery cơ bản",
+        title: "Basic subquery",
         titleEn: "Basic Subqueries",
         level: 3,
         difficulty: "intermediate",
@@ -1004,27 +1004,27 @@ A non-correlated subquery runs **once**. A *correlated* subquery references a co
 
 Next: **CTEs (\`WITH\`)** — the readable cousin of subqueries.`,
         code: `-- VÍ DỤ 1: Tìm học viên có điểm cao hơn trung bình lớp
--- (subquery scalar trong WHERE — chạy 1 lần)
+-- (scalar subquery in WHERE — runs once)
 SELECT name, score
 FROM students
 WHERE score > (SELECT AVG(score) FROM students);
 
--- VÍ DỤ 2: Lấy tên học viên đã từng đặt đơn hàng
--- (subquery trả 1 cột nhiều dòng → dùng IN)
+-- EXAMPLE 2: Get the name of a student who has placed an order
+-- (subquery returns 1 column with multiple lines → use IN)
 SELECT name
 FROM students
 WHERE id IN (SELECT student_id FROM orders);
 
--- VÍ DỤ 3: Cách an toàn cho "chưa từng đặt đơn"
--- (dùng NOT EXISTS để tránh bẫy NULL)
+-- EXAMPLE 3: Safe way for "never placed an order"
+-- (use NOT EXISTS to avoid NULL traps)
 SELECT s.name
 FROM students s
 WHERE NOT EXISTS (
   SELECT 1 FROM orders o WHERE o.student_id = s.id
 );
 
--- VÍ DỤ 4: Subquery trong FROM (bảng tạm)
--- Đếm số học viên theo thành phố, lọc thành phố > 5 người
+-- EXAMPLE 4: Subquery in FROM (clipboard)
+-- Count the number of students by city, filter cities > 5 people
 SELECT t.city, t.so_hoc_vien
 FROM (
   SELECT city, COUNT(*) AS so_hoc_vien
@@ -1033,7 +1033,7 @@ FROM (
 ) AS t
 WHERE t.so_hoc_vien > 5;`,
         codeLanguage: "sql",
-        exercise: "Tìm những học viên có **tổng giá trị đơn hàng** lớn hơn **trung bình tổng giá trị đơn hàng của tất cả học viên**. Gợi ý: dùng GROUP BY trong subquery để tính tổng theo từng học viên, rồi so sánh với AVG của các tổng đó.",
+        exercise: "Find students whose **total order value** is greater than the **average total order value of all students**. Suggestion: use GROUP BY in the subquery to calculate the total for each student, then compare with the AVG of those totals.",
         exerciseEn: "Find students whose **total order amount** is greater than the **average of all students' total order amounts**. Hint: use GROUP BY inside a subquery to compute totals per student, then compare with the AVG of those totals.",
         quiz: [
           { question: "How do a regular subquery and a correlated subquery differ?", options: ["Correlated runs faster", "A correlated subquery references columns from the outer query and re-runs once for each outer row", "Correlated only works in SELECT", "No difference"], answer: 1, explanation: "A correlated subquery references the outer table, so it runs once per outer row — much slower on large data." },
@@ -1057,7 +1057,7 @@ WHERE t.so_hoc_vien > 5;`,
     lessons: [
       {
         id: "sql-cte-1",
-        title: "WITH & CTE cơ bản",
+        title: "WITH & CTE basic",
         titleEn: "Basic WITH & CTE",
         level: 3,
         difficulty: "intermediate",
@@ -1249,7 +1249,7 @@ FROM students s
 JOIN student_totals st ON st.student_id = s.id
 ORDER BY st.total DESC;
 
--- VÍ DỤ 2: Nhiều CTE nối tiếp — đọc như các bước
+-- EXAMPLE 2: Multiple CTEs in series — read like steps
 WITH
 active_students AS (                                  -- Bước 1
   SELECT id, name FROM students WHERE age < 25
@@ -1261,7 +1261,7 @@ SELECT a.name, b.amount                               -- Câu chính
 FROM active_students a
 JOIN big_orders b ON b.student_id = a.id;
 
--- VÍ DỤ 3: Recursive CTE — đi xuống sơ đồ tổ chức
+-- EXAMPLE 3: Recursive CTE — go down the organizational chart
 WITH RECURSIVE org AS (
   SELECT id, name, manager_id, 1 AS level             -- Anchor
   FROM employees WHERE manager_id IS NULL
@@ -1272,7 +1272,7 @@ WITH RECURSIVE org AS (
 )
 SELECT * FROM org ORDER BY level;`,
         codeLanguage: "sql",
-        exercise: "Dùng CTE đặt tên \`high_spenders\` để chứa các học viên có tổng tiền đơn hàng > 100 (gồm 2 cột: student_id, total). Sau đó JOIN với bảng \`students\` để hiển thị tên kèm tổng tiền, sắp xếp giảm dần.",
+        exercise: "Use a CTE named \`high_spenders\` to contain students with total order amount > 100 (including 2 columns: student_id, total). Then JOIN with table \`students\` to display names with total amount, sorted in descending order.",
         exerciseEn: "Create a CTE named \`high_spenders\` containing students whose total order amount > 100 (columns: student_id, total). Then JOIN with \`students\` to show name + total, sorted descending.",
         quiz: [
           { question: "Does a CTE persist after the statement finishes?", options: ["Yes, stored permanently in the database", "No — a CTE only exists within the executing statement and disappears afterwards", "Yes, if you use PERSIST", "Depends on the database"], answer: 1, explanation: "A CTE is a temporary table scoped to the running statement. Once the statement ends, the CTE is gone." },
@@ -1413,7 +1413,7 @@ SELECT name, age,
   DENSE_RANK() OVER (ORDER BY age DESC) AS dense_rank  -- Hòa cùng hạng, không nhảy
 FROM students;
 
--- Tổng cộng dồn đơn hàng theo từng học viên
+-- Cumulative total of orders for each student
 SELECT student_id, amount,
   SUM(amount) OVER (
     PARTITION BY student_id      -- Cộng dồn riêng cho từng học viên
@@ -1421,7 +1421,7 @@ SELECT student_id, amount,
   ) AS cong_don
 FROM orders;
 
--- So sánh đơn hiện tại với đơn TRƯỚC ĐÓ của cùng 1 học viên
+-- Compare current application with PREVIOUS application of the same student
 SELECT student_id, amount,
   LAG(amount, 1) OVER (
     PARTITION BY student_id ORDER BY id
@@ -1431,7 +1431,7 @@ SELECT student_id, amount,
   ) AS chenh_lech
 FROM orders;`,
         codeLanguage: "sql",
-        exercise: "Xếp hạng các học viên theo TỔNG số tiền họ đã chi (SUM(amount) trên bảng orders) bằng DENSE_RANK. Gợi ý: cần GROUP BY + window function trên kết quả tổng hợp (có thể dùng CTE).",
+        exercise: "Rank students by the TOTAL amount they spent (SUM(amount) on the orders table) using DENSE_RANK. Suggestion: need GROUP BY + window function on aggregate results (can use CTE).",
         exerciseEn: "Rank students by their TOTAL spending (SUM amount across orders) using DENSE_RANK. Hint: GROUP BY + window over the aggregated result (use a CTE).",
         quiz: [
           { question: "What's the difference between `RANK()` and `DENSE_RANK()`?", options: ["No difference", "RANK skips numbers after ties; DENSE_RANK does not skip", "DENSE_RANK is slower", "RANK only works with numbers"], answer: 1, explanation: "If two rows tie at rank 2, RANK gives the next row rank 4 (skipping 3); DENSE_RANK gives rank 3 (no gap)." },
@@ -1455,7 +1455,7 @@ FROM orders;`,
     lessons: [
       {
         id: "sql-idx-1",
-        title: "Index và EXPLAIN",
+        title: "Index and EXPLAIN",
         titleEn: "Indexes & EXPLAIN",
         level: 4,
         difficulty: "advanced",
@@ -1556,26 +1556,26 @@ Every index slows writes (INSERT/UPDATE/DELETE). One team's "just-in-case" index
         code: `-- Tạo index đơn giản trên 1 cột
 CREATE INDEX idx_students_age ON students(age);
 
--- Composite index trên 2 cột (thứ tự QUAN TRỌNG)
+-- Composite index on 2 columns (order IMPORTANT)
 CREATE INDEX idx_orders_student_amount
 ON orders(student_id, amount);
 
--- Xem kế hoạch thực thi để kiểm tra index có được dùng không
+-- View the execution plan to check if the index is used
 EXPLAIN ANALYZE
 SELECT * FROM students WHERE age > 20;
 
--- Unique index: vừa làm chỉ mục vừa chống trùng email
+-- Unique index: both indexes and anti-duplicate emails
 CREATE UNIQUE INDEX idx_students_email
 ON students(email);
 
--- Partial index: chỉ index các dòng thoả điều kiện (tiết kiệm dung lượng)
+-- Partial index: only index rows that meet the condition (saves space)
 CREATE INDEX idx_active ON users(email)
 WHERE active = true;
 
--- Xoá index khi không cần
+-- Delete index when not needed
 DROP INDEX idx_students_age;`,
         codeLanguage: "sql",
-        exercise: "Đề xuất 1 composite index phù hợp cho câu: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC; Gợi ý: cột nào dùng so sánh '=' nên đặt trước, cột range/order đặt sau.",
+        exercise: "Suggest a suitable composite index for the sentence: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC; Suggestion: the column that uses '=' comparison should be placed first, the range/order column should be placed last.",
         exerciseEn: "Propose a composite index for: SELECT * FROM orders WHERE student_id = 1 AND amount > 50 ORDER BY amount DESC; Hint: equality column first, then the range/order column.",
         quiz: [
           { question: "Which index type is best for range queries (BETWEEN, <, >)?", options: ["Hash", "B-Tree", "GIN", "BRIN"], answer: 1, explanation: "B-Tree stores values sorted, making it very efficient for range queries. Hash only supports equality (=)." },
@@ -1589,7 +1589,7 @@ DROP INDEX idx_students_age;`,
   },
   {
     id: "sql-db-design",
-    title: "Thiết kế Database",
+    title: "Database Design",
     titleEn: "Database Design",
     icon: "🏗️",
     color: "from-violet-500 to-purple-600",
@@ -1736,7 +1736,7 @@ CREATE TABLE departments (
   name VARCHAR(100) NOT NULL              -- Tên phòng bắt buộc có
 );
 
--- Bảng nhân viên: 1 nhân viên thuộc 1 phòng (quan hệ 1-N)
+-- Employee table: 1 employee belongs to 1 department (1-N relationship)
 CREATE TABLE employees (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -1746,15 +1746,15 @@ CREATE TABLE employees (
   created_at TIMESTAMP DEFAULT now()      -- Cột audit (theo checklist 6)
 );
 
--- Bảng dự án
+-- Project board
 CREATE TABLE projects (
   id SERIAL PRIMARY KEY,
   title VARCHAR(200) NOT NULL,
   deadline DATE
 );
 
--- Quan hệ N-N: 1 nhân viên làm nhiều dự án, 1 dự án có nhiều nhân viên
--- → BẮT BUỘC dùng bảng trung gian (junction table)
+-- N-N relationship: 1 employee works on many projects, 1 project has many employees
+-- → MANDATORY use of junction table (junction table)
 CREATE TABLE employee_projects (
   employee_id INTEGER REFERENCES employees(id) ON DELETE CASCADE,
   project_id INTEGER REFERENCES projects(id) ON DELETE CASCADE,
@@ -1762,7 +1762,7 @@ CREATE TABLE employee_projects (
   PRIMARY KEY (employee_id, project_id)   -- Composite PK: 1 cặp (nv, dự án) duy nhất
 );`,
         codeLanguage: "sql",
-        exercise: "Thiết kế schema cho hệ thống thư viện gồm: books (sách), authors (tác giả), members (thành viên), borrowings (lượt mượn). Lưu ý: 1 sách có thể có nhiều tác giả (N-N) → cần bảng trung gian. Mỗi bảng phải có PK rõ ràng, FK với ON DELETE phù hợp, và cột created_at.",
+        exercise: "Schema design for the library system includes: books, authors, members, borrowings. Note: 1 book can have many authors (N-N) → requires an intermediate table. Each table must have an explicit PK, FK with appropriate ON DELETE, and created_at column.",
         exerciseEn: "Design a schema for a library system: books, authors, members, borrowings. Note: a book can have many authors (N-N) → junction table needed. Each table must have explicit PK, FK with ON DELETE policy, and a created_at column.",
         quiz: [
           { question: "Which normal form does `orders(id, customer_id, customer_email, customer_city)` violate?", options: ["1NF", "2NF", "3NF", "No violation"], answer: 2, explanation: "It violates 3NF because `customer_email` and `customer_city` depend on `customer_id` (a non-key column), not directly on `id`. Fix: extract a separate `customers` table." },
@@ -1934,13 +1934,13 @@ COMMIT;`,
     titleEn: "Query Optimization",
     icon: "🚀",
     color: "from-violet-500 to-purple-600",
-    description: "Tối ưu hiệu năng truy vấn, anti-patterns",
+    description: "Optimize query performance, anti-patterns",
     descriptionEn: "Query performance tuning, anti-patterns",
     course: "sql",
     lessons: [
       {
         id: "sql-opt-1",
-        title: "Tối ưu truy vấn",
+        title: "Query optimization",
         titleEn: "Query Tuning",
         level: 5,
         difficulty: "advanced",
