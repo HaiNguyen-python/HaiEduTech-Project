@@ -30,6 +30,13 @@ const KATEX_OPTIONS = {
     "\\Q": "\\mathbb{Q}",
     "\\KL": "\\operatorname{KL}",
     "\\norm": "\\left\\| #1 \\right\\|",
+    "\\round": "\\operatorname{round}",
+    "\\sign": "\\operatorname{sign}",
+    "\\Var": "\\operatorname{Var}",
+    "\\Cov": "\\operatorname{Cov}",
+    "\\Bias": "\\operatorname{Bias}",
+    "\\Pr": "\\operatorname{Pr}",
+    "\\indicator": "\\mathbb{1}",
   },
 };
 import {
