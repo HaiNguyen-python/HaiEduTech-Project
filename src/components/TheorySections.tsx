@@ -14,6 +14,8 @@ import Callout from "@/components/lesson-visuals/Callout";
 import LinearRegressionDiagram from "@/components/lesson-visuals/LinearRegressionDiagram";
 import JoinVennDiagram from "@/components/lesson-visuals/JoinVennDiagram";
 import SubqueryDiagram from "@/components/lesson-visuals/SubqueryDiagram";
+import MermaidDiagram from "@/components/lesson-visuals/MermaidDiagram";
+import DeepDive from "@/components/lesson-visuals/DeepDive";
 
 interface TheorySectionsProps {
   markdown: string;
