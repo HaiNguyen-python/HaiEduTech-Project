@@ -24,6 +24,7 @@ import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
 import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserRole } from "@/hooks/useUserRole";
 import CodeBlock from "@/components/CodeBlock";
 import TheorySections from "@/components/TheorySections";
 
@@ -113,6 +114,10 @@ const ProgrammingLessonPage = () => {
   const [useEnhanced, setUseEnhanced] = useState(true);
   // Set of cached lesson keys "moduleId::lessonId" — drives the sidebar ✨ Enhanced badge
   const [cachedLessonKeys, setCachedLessonKeys] = useState<Set<string>>(new Set());
+  // Admin batch illustration generation
+  const { isTeacher } = useUserRole();
+  const [batchRunning, setBatchRunning] = useState(false);
+  const [batchProgress, setBatchProgress] = useState({ done: 0, total: 0 });
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
 
@@ -291,7 +296,25 @@ const ProgrammingLessonPage = () => {
                 <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
               </div>
               {!isMobile && (
-              <button
+              <div className="flex items-center gap-2 flex-wrap">
+                {isTeacher && (
+                  <button
+                    onClick={generateAllIllustrations}
+                    disabled={batchRunning}
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-[0.97] shadow-sm border border-border bg-background text-foreground hover:bg-muted disabled:opacity-60 disabled:cursor-not-allowed"
+                    title="Generate cute infographic illustrations for every Programming lesson (admin only)"
+                  >
+                    {batchRunning ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        🎨 {batchProgress.done} / {batchProgress.total}
+                      </>
+                    ) : (
+                      <>🎨 Generate All Illustrations</>
+                    )}
+                  </button>
+                )}
+                <button
                   onClick={() => setShowIDE(!showIDE)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-[0.97] shadow-sm ${
                     showIDE
@@ -302,6 +325,7 @@ const ProgrammingLessonPage = () => {
                   {showIDE ? <PanelRightClose className="w-4 h-4" /> : <Code2 className="w-4 h-4" />}
                   {showIDE ? "Hide IDE" : "Open Interactive IDE"}
                 </button>
+              </div>
               )}
             </div>
 
