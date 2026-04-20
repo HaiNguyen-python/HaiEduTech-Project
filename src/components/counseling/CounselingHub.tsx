@@ -11,6 +11,7 @@ import ReactMarkdown from "react-markdown";
 import {
   IKIGAI_QUESTIONS, MBTI_QUESTIONS, HOLLAND_QUESTIONS, COMMON_DILEMMAS, MOOD_OPTIONS,
 } from "@/data/ikigaiAndPersonality";
+import MbtiFullTest from "@/components/counseling/MbtiFullTest";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
 
 type Mode = "psychological" | "career";
@@ -842,43 +843,22 @@ const IkigaiSection = ({ userId }: { userId: string }) => {
 const PersonalitySection = ({ userId }: { userId: string }) => {
   const { t, lang } = useLanguage();
   const [test, setTest] = useState<"mbti" | "holland">("mbti");
-  const [mbtiAnswers, setMbtiAnswers] = useState<Record<string, "a" | "b">>({});
   const [hollandScores, setHollandScores] = useState<Record<string, number>>({});
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  const submit = async () => {
-    let payload: any = {};
-    if (test === "mbti") {
-      if (Object.keys(mbtiAnswers).length < MBTI_QUESTIONS.length) {
-        toast.error(t("Trả lời đủ các câu", "Answer all questions"));
-        return;
-      }
-      const code = ["EI", "SN", "TF", "JP"]
-        .map((dim) => {
-          const counts: Record<string, number> = {};
-          MBTI_QUESTIONS.filter((q) => q.dim === dim).forEach((q) => {
-            const choice = mbtiAnswers[q.id];
-            const v = choice === "a" ? q.a.v : q.b.v;
-            counts[v] = (counts[v] || 0) + 1;
-          });
-          return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
-        })
-        .join("");
-      payload = { test: "mbti", code, language: lang };
-    } else {
-      if (Object.keys(hollandScores).length < HOLLAND_QUESTIONS.length) {
-        toast.error(t("Đánh giá đủ các mục", "Rate all items"));
-        return;
-      }
-      const top3 = HOLLAND_QUESTIONS
-        .map((q) => ({ code: q.code, score: hollandScores[q.id] || 0 }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 3)
-        .map((x) => x.code)
-        .join("");
-      payload = { test: "holland", code: top3, language: lang };
+  const submitHolland = async () => {
+    if (Object.keys(hollandScores).length < HOLLAND_QUESTIONS.length) {
+      toast.error(t("Đánh giá đủ các mục", "Rate all items"));
+      return;
     }
+    const top3 = HOLLAND_QUESTIONS
+      .map((q) => ({ code: q.code, score: hollandScores[q.id] || 0 }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3)
+      .map((x) => x.code)
+      .join("");
+    const payload = { test: "holland", code: top3, language: lang };
 
     setLoading(true);
     try {
@@ -899,8 +879,8 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
       setResult(data);
       await supabase.from("career_assessments").insert({
         user_id: userId,
-        assessment_type: test,
-        answers: test === "mbti" ? mbtiAnswers : hollandScores,
+        assessment_type: "holland",
+        answers: hollandScores,
         result: data,
       });
     } catch (e: any) {
@@ -918,72 +898,53 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
           {t("Trắc nghiệm tính cách", "Personality Test")}
         </h3>
         <div className="flex gap-2 mb-5 p-1 bg-secondary/40 rounded-xl w-fit">
-          <button onClick={() => { setTest("mbti"); setResult(null); }} className={`px-4 py-1.5 rounded-lg text-sm font-medium ${test === "mbti" ? "bg-background shadow-sm" : "text-muted-foreground"}`}>MBTI</button>
+          <button onClick={() => { setTest("mbti"); setResult(null); }} className={`px-4 py-1.5 rounded-lg text-sm font-medium ${test === "mbti" ? "bg-background shadow-sm" : "text-muted-foreground"}`}>
+            {t("MBTI (40 câu)", "MBTI (40 Q)")}
+          </button>
           <button onClick={() => { setTest("holland"); setResult(null); }} className={`px-4 py-1.5 rounded-lg text-sm font-medium ${test === "holland" ? "bg-background shadow-sm" : "text-muted-foreground"}`}>Holland Code</button>
         </div>
 
         {test === "mbti" && (
-          <div className="space-y-4">
-            {MBTI_QUESTIONS.map((q, i) => (
-              <div key={q.id} className="border-b border-border last:border-0 pb-3">
-                <p className="text-sm font-medium mb-2">{i + 1}. {lang === "vi" ? q.vi : q.en}</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {(["a", "b"] as const).map((opt) => {
-                    const o = q[opt];
-                    const selected = mbtiAnswers[q.id] === opt;
-                    return (
-                      <button
-                        key={opt}
-                        onClick={() => setMbtiAnswers({ ...mbtiAnswers, [q.id]: opt })}
-                        className={`text-left px-3 py-2 rounded-lg border text-sm transition-all ${
-                          selected ? "border-primary bg-primary/10 text-foreground" : "border-border hover:bg-secondary"
-                        }`}
-                      >
-                        {lang === "vi" ? o.vi : o.en}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
+          <MbtiFullTest userId={userId} />
         )}
 
         {test === "holland" && (
-          <div className="space-y-4">
-            {HOLLAND_QUESTIONS.map((q) => (
-              <div key={q.id} className="border-b border-border last:border-0 pb-3">
-                <p className="text-sm font-medium mb-2">{lang === "vi" ? q.vi : q.en}</p>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <button
-                      key={n}
-                      onClick={() => setHollandScores({ ...hollandScores, [q.id]: n })}
-                      className={`flex-1 py-2 rounded-lg border text-sm font-bold transition-all ${
-                        hollandScores[q.id] === n ? "bg-violet-500 text-white border-violet-500" : "border-border hover:bg-secondary text-muted-foreground"
-                      }`}
-                    >{n}</button>
-                  ))}
+          <>
+            <div className="space-y-4">
+              {HOLLAND_QUESTIONS.map((q) => (
+                <div key={q.id} className="border-b border-border last:border-0 pb-3">
+                  <p className="text-sm font-medium mb-2">{lang === "vi" ? q.vi : q.en}</p>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <button
+                        key={n}
+                        onClick={() => setHollandScores({ ...hollandScores, [q.id]: n })}
+                        className={`flex-1 py-2 rounded-lg border text-sm font-bold transition-all ${
+                          hollandScores[q.id] === n ? "bg-violet-500 text-white border-violet-500" : "border-border hover:bg-secondary text-muted-foreground"
+                        }`}
+                      >{n}</button>
+                    ))}
+                  </div>
+                  <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
+                    <span>{t("Không đồng ý", "Disagree")}</span>
+                    <span>{t("Rất đồng ý", "Strongly agree")}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                  <span>{t("Không đồng ý", "Disagree")}</span>
-                  <span>{t("Rất đồng ý", "Strongly agree")}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
 
-        <button
-          onClick={submit}
-          disabled={loading}
-          className="mt-5 w-full py-3 rounded-xl bg-gradient-to-r from-violet-500 to-pink-500 text-white font-semibold hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2"
-        >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Sparkles className="w-4 h-4" /> {t("Phân tích kết quả", "Analyze Result")}</>}
-        </button>
+            <button
+              onClick={submitHolland}
+              disabled={loading}
+              className="mt-5 w-full py-3 rounded-xl bg-gradient-to-r from-violet-500 to-pink-500 text-white font-semibold hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Sparkles className="w-4 h-4" /> {t("Phân tích kết quả", "Analyze Result")}</>}
+            </button>
+          </>
+        )}
       </div>
 
-      {result && (
+      {result && test === "holland" && (
         <div className="rounded-2xl border border-violet-200/60 dark:border-violet-900/40 bg-gradient-to-br from-violet-50/60 to-pink-50/60 dark:from-violet-950/20 dark:to-pink-950/20 p-6">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-3xl font-display font-bold text-violet-600 dark:text-violet-400">{result.code}</span>
