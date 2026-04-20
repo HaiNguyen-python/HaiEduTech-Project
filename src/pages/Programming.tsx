@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -78,6 +78,24 @@ const pillars = [
     borderColor: "border-sky-500/20",
     accentColor: "text-sky-600",
   },
+  {
+    id: "deep-learning",
+    icon: Brain,
+    emoji: "🧠",
+    color: "from-indigo-500 to-purple-600",
+    bgColor: "bg-indigo-500/8",
+    borderColor: "border-indigo-500/20",
+    accentColor: "text-indigo-600",
+  },
+  {
+    id: "reinforcement-learning",
+    icon: Gamepad2,
+    emoji: "🤖",
+    color: "from-orange-500 to-red-600",
+    bgColor: "bg-orange-500/8",
+    borderColor: "border-orange-500/20",
+    accentColor: "text-orange-600",
+  },
 ];
 
 const Programming = () => {
@@ -150,6 +168,18 @@ const Programming = () => {
       desc: "Lộ trình Cloud Engineer chuyên nghiệp: nền tảng AWS/Azure/GCP, Compute & Storage, Networking & Bảo mật, Serverless, IaC (Terraform), CI/CD, Well-Architected Framework và FinOps tối ưu chi phí.",
       descEn: "Professional Cloud Engineer path: AWS/Azure/GCP fundamentals, Compute & Storage, Networking & Security, Serverless, IaC (Terraform), CI/CD, Well-Architected Framework and FinOps cost optimization.",
       modules: allProgrammingModules.filter(m => m.course === "cloud"),
+    },
+    "deep-learning": {
+      title: "Deep Learning", titleEn: "Deep Learning",
+      desc: "Mạng Neural, PyTorch, CNN cho Computer Vision, RNN/LSTM cho NLP, và Transformers/LLMs — công nghệ đứng sau ChatGPT. Yêu cầu: Python cơ bản + Đại số tuyến tính.",
+      descEn: "Neural Networks, PyTorch, CNNs for Computer Vision, RNN/LSTMs for NLP, and Transformers/LLMs — the tech behind ChatGPT. Prerequisites: Python basics + Linear Algebra.",
+      modules: allProgrammingModules.filter(m => m.course === "dl"),
+    },
+    "reinforcement-learning": {
+      title: "Reinforcement Learning", titleEn: "Reinforcement Learning",
+      desc: "Agent học từ phần thưởng: MDP, Q-Learning/DQN, Policy Gradients (PPO/SAC), ứng dụng robotics, xe tự lái và Game AI (AlphaGo, RLHF của ChatGPT). Yêu cầu: Python + xác suất cơ bản.",
+      descEn: "Agents that learn from rewards: MDPs, Q-Learning/DQN, Policy Gradients (PPO/SAC), and applications in robotics, self-driving cars, and Game AI (AlphaGo, ChatGPT's RLHF). Prerequisites: Python + basic probability.",
+      modules: allProgrammingModules.filter(m => m.course === "rl"),
     },
   };
 
