@@ -1,8 +1,6 @@
 import LessonFeedback from "@/components/LessonFeedback";
 import { boldAndSanitize } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
