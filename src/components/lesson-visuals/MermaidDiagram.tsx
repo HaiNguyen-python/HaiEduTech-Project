@@ -19,22 +19,65 @@ function initMermaid() {
     securityLevel: "loose",
     suppressErrorRendering: true, // ⬅ stops the bomb-icon SVG injection
     fontFamily: "Inter, system-ui, sans-serif",
-    flowchart: { curve: "basis", padding: 20, nodeSpacing: 50, rankSpacing: 50, htmlLabels: true, useMaxWidth: true },
+    flowchart: {
+      curve: "basis",
+      padding: 24,
+      nodeSpacing: 70,
+      rankSpacing: 70,
+      htmlLabels: true,
+      useMaxWidth: true,
+      diagramPadding: 16,
+    },
     themeCSS: `
       .node rect, .node polygon, .node circle, .node ellipse {
-        rx: 8; ry: 8;
+        rx: 10; ry: 10;
+        stroke-width: 1.5px !important;
       }
       .nodeLabel, .edgeLabel, .label {
         white-space: nowrap !important;
-        font-size: 14px !important;
-        padding: 0 6px;
+        font-size: 15px !important;
+        font-weight: 500 !important;
+        line-height: 1.5 !important;
+        padding: 4px 10px !important;
+        letter-spacing: 0.01em;
+      }
+      .edgeLabel {
+        background-color: ${isDark ? "#0f172a" : "#ffffff"} !important;
+        color: ${isDark ? "#f1f5f9" : "#0f172a"} !important;
       }
       foreignObject { overflow: visible !important; }
-      foreignObject div { white-space: nowrap !important; overflow: visible !important; }
+      foreignObject div {
+        white-space: nowrap !important;
+        overflow: visible !important;
+        display: inline-block !important;
+        text-align: center !important;
+      }
+      .cluster rect { rx: 12; ry: 12; }
+      .flowchart-link { stroke-width: 1.5px !important; }
     `,
     themeVariables: isDark
-      ? { primaryColor: "#3b82f6", primaryTextColor: "#f1f5f9", lineColor: "#64748b" }
-      : { primaryColor: "#3b82f6", primaryTextColor: "#0f172a", lineColor: "#64748b" },
+      ? {
+          primaryColor: "#1e3a8a",
+          primaryTextColor: "#f1f5f9",
+          primaryBorderColor: "#3b82f6",
+          lineColor: "#94a3b8",
+          secondaryColor: "#0f172a",
+          tertiaryColor: "#1e293b",
+          background: "#0f172a",
+          mainBkg: "#1e3a8a",
+          nodeBorder: "#3b82f6",
+        }
+      : {
+          primaryColor: "#dbeafe",
+          primaryTextColor: "#0f172a",
+          primaryBorderColor: "#3b82f6",
+          lineColor: "#475569",
+          secondaryColor: "#f1f5f9",
+          tertiaryColor: "#f8fafc",
+          background: "#ffffff",
+          mainBkg: "#dbeafe",
+          nodeBorder: "#3b82f6",
+        },
   });
 }
 
@@ -95,7 +138,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   }
 
   return (
-    <div className="not-prose my-5 rounded-xl border border-border bg-card p-4 overflow-x-auto">
+    <div className="not-prose my-6 rounded-xl border border-border bg-gradient-to-br from-card to-muted/20 p-6 overflow-x-auto shadow-sm">
       {loading && (
         <div className="flex items-center justify-center py-6 text-muted-foreground text-sm">
           <Loader2 className="w-4 h-4 animate-spin mr-2" /> Rendering diagram…
@@ -103,7 +146,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
       )}
       <div
         ref={ref}
-        className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto [&_foreignObject]:!overflow-visible [&_.nodeLabel]:!whitespace-nowrap [&_.label]:!whitespace-nowrap"
+        className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto [&_svg]:mx-auto [&_foreignObject]:!overflow-visible [&_.nodeLabel]:!whitespace-nowrap [&_.label]:!whitespace-nowrap [&_.node]:drop-shadow-sm"
       />
     </div>
   );
