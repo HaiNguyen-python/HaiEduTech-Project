@@ -138,7 +138,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   }
 
   return (
-    <div className="not-prose my-5 rounded-xl border border-border bg-card p-4 overflow-x-auto">
+    <div className="not-prose my-6 rounded-xl border border-border bg-gradient-to-br from-card to-muted/20 p-6 overflow-x-auto shadow-sm">
       {loading && (
         <div className="flex items-center justify-center py-6 text-muted-foreground text-sm">
           <Loader2 className="w-4 h-4 animate-spin mr-2" /> Rendering diagram…
@@ -146,7 +146,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
       )}
       <div
         ref={ref}
-        className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto [&_foreignObject]:!overflow-visible [&_.nodeLabel]:!whitespace-nowrap [&_.label]:!whitespace-nowrap"
+        className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto [&_svg]:mx-auto [&_foreignObject]:!overflow-visible [&_.nodeLabel]:!whitespace-nowrap [&_.label]:!whitespace-nowrap [&_.node]:drop-shadow-sm"
       />
     </div>
   );
