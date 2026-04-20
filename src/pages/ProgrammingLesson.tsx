@@ -27,6 +27,20 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserRole } from "@/hooks/useUserRole";
 import CodeBlock from "@/components/CodeBlock";
 import TheorySections from "@/components/TheorySections";
+import GitBranchingSimulator from "@/components/se/GitBranchingSimulator";
+import { trackLessonCompletion, LEAD_ENGINEER_BADGE } from "@/lib/badgeAwards";
+
+// IDs of every lesson inside the Software Engineering module — used to auto-award
+// the "Lead Engineer" badge once a learner completes the full set.
+const SE_LESSON_IDS = [
+  "se-sdlc",
+  "se-system-design",
+  "se-git",
+  "se-clean-code",
+  "se-testing",
+  "se-cicd",
+  "se-security-patterns",
+];
 
 // Map module IDs to their pillar/course for grouping
 const PILLAR_COURSES: Record<string, string[]> = {
@@ -588,6 +602,19 @@ const ProgrammingLessonPage = () => {
                     />
                   </div>
 
+                  {/* Interactive Git simulator — only on the Git lesson */}
+                  {lesson.id === "se-git" && (
+                    <div className="space-y-3">
+                      <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                        🌿 Interactive Git Playground
+                      </h2>
+                      <p className="text-sm text-muted-foreground">
+                        Bấm các nút bên dưới để commit, tạo branch, hoặc merge — rồi xem đồ thị Gitflow tự cập nhật cùng terminal log JetBrains Mono.
+                      </p>
+                      <GitBranchingSimulator />
+                    </div>
+                  )}
+
                   {/* Code Example */}
                   <CodeBlock code={lesson.code} language={lesson.codeLanguage || "text"} />
 
@@ -649,12 +676,33 @@ const ProgrammingLessonPage = () => {
                       ))}
                     </div>
                     {!showResults && Object.keys(answers).length > 0 && (
-                      <button onClick={() => {
+                      <button onClick={async () => {
                         setShowResults(true);
                         // Track skill score
                         if (mod) {
                           const quizScore = lesson.quiz.reduce((acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0), 0);
                           updateSkillScore(mod.id, quizScore, lesson.quiz.length);
+
+                          // Auto-award the "Lead Engineer" badge when learners pass
+                          // every Software Engineering lesson (≥60% on this quiz counts as completed).
+                          if (mod.id === "se-foundations" && quizScore / lesson.quiz.length >= 0.6) {
+                            try {
+                              const { awarded } = await trackLessonCompletion(
+                                mod.id,
+                                lesson.id,
+                                SE_LESSON_IDS,
+                                LEAD_ENGINEER_BADGE
+                              );
+                              if (awarded) {
+                                toast.success("⚙️ Bạn đã nhận huy hiệu Lead Engineer!", {
+                                  description: "Hoàn thành toàn bộ module Software Engineering.",
+                                  duration: 6000,
+                                });
+                              }
+                            } catch (e) {
+                              console.error("Badge award failed", e);
+                            }
+                          }
                         }
                       }} className="mt-6 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97]">
                         Submit
