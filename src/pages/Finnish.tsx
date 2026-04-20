@@ -61,10 +61,20 @@ const Finnish = () => {
                 )}
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <Link to="/finnish/yki-dashboard">
+                <Link to="/finnish/beginner">
                   <Button size="lg" className="bg-white text-[#003580] hover:bg-white/90 font-semibold gap-2">
+                    🌱 {t("Người mới bắt đầu (A1-A2)", "Beginner (A1-A2)")}
+                  </Button>
+                </Link>
+                <Link to="/finnish/yki-dashboard">
+                  <Button size="lg" variant="outline" className="bg-transparent border-white/60 text-white hover:bg-white/10 font-semibold gap-2">
                     <Snowflake className="w-5 h-5" />
-                    {t("Bắt đầu học", "Start Learning")}
+                    YKI A2
+                  </Button>
+                </Link>
+                <Link to="/finnish/yki-b1">
+                  <Button size="lg" variant="outline" className="bg-transparent border-white/60 text-white hover:bg-white/10 font-semibold gap-2">
+                    🎯 YKI B1
                   </Button>
                 </Link>
               </div>

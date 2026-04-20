@@ -79,6 +79,8 @@ const CambridgeLectureView = lazy(() => import("./pages/CambridgeLectureView.tsx
 const ToeicVocabulary = lazy(() => import("./pages/ToeicVocabulary.tsx"));
 const Finnish = lazy(() => import("./pages/Finnish.tsx"));
 const YkiDashboard = lazy(() => import("./pages/YkiDashboard.tsx"));
+const FinnishBeginner = lazy(() => import("./pages/FinnishBeginner.tsx"));
+const YkiB1Dashboard = lazy(() => import("./pages/YkiB1Dashboard.tsx"));
 const SpeakingCoachPage = lazy(() => import("./pages/SpeakingCoachPage.tsx"));
 const EnglishGrammar = lazy(() => import("./pages/EnglishGrammar.tsx"));
 const NotebookPage = lazy(() => import("./pages/Notebook.tsx"));
@@ -189,6 +191,8 @@ const App = () => (
             <Route path="/knowledge-hub" element={<Navigate to="/global-scholarship" replace />} />
             <Route path="/finnish" element={<LazyRoute><Finnish /></LazyRoute>} />
             <Route path="/finnish/yki-dashboard" element={<LazyRoute><YkiDashboard /></LazyRoute>} />
+            <Route path="/finnish/beginner" element={<LazyRoute><FinnishBeginner /></LazyRoute>} />
+            <Route path="/finnish/yki-b1" element={<LazyRoute><YkiB1Dashboard /></LazyRoute>} />
             <Route path="/speaking-coach/:language" element={<LazyRoute><SpeakingCoachPage /></LazyRoute>} />
             <Route path="/notebook" element={<LazyRoute><NotebookPage /></LazyRoute>} />
             {/* Redirects for old routes */}
