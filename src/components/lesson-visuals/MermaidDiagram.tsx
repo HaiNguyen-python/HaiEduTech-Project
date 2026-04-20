@@ -298,6 +298,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   const [svgMarkup, setSvgMarkup] = useState<string>("");
   const [fitZoom, setFitZoom] = useState(1);
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
+  const [autoFit, setAutoFit] = useState(true);
   const safeId = id || `mmd${Math.random().toString(36).slice(2, 10)}`;
   const kind = detectKind(code);
 
@@ -354,7 +355,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
 
   // Start fullscreen in fit-to-view mode so students see the whole diagram first.
   useEffect(() => {
-    if (!isFullscreen || !viewportRef.current || !svgSize.width || !svgSize.height) return;
+    if (!isFullscreen || !autoFit || !viewportRef.current || !svgSize.width || !svgSize.height) return;
 
     const updateFitZoom = () => {
       const containerWidth = viewportRef.current?.clientWidth ?? 0;
@@ -376,7 +377,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
     resizeObserver.observe(viewportRef.current);
 
     return () => resizeObserver.disconnect();
-  }, [isFullscreen, svgSize]);
+  }, [isFullscreen, svgSize, autoFit]);
 
   // Reset zoom when closing the dialog.
   useEffect(() => {
@@ -384,6 +385,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
       setZoom(1);
       setFitZoom(1);
       setSvgSize({ width: 0, height: 0 });
+      setAutoFit(true);
     }
   }, [isFullscreen]);
 
