@@ -165,6 +165,74 @@ const ProgrammingLessonPage = () => {
     setEnhanceLoading(false);
   };
 
+  // Admin-only: pre-generate AI illustrations for every Programming lesson.
+  // Loops through all modules sequentially with a 4s delay to avoid 429 limits.
+  // Skips lessons already cached (the edge function returns cached results
+  // instantly so re-runs are safe and free).
+  const generateAllIllustrations = async () => {
+    if (batchRunning) return;
+    const allLessons: { mod: ProgrammingModule; lesson: PLType }[] = [];
+    for (const m of allProgrammingModules) {
+      for (const l of m.lessons) allLessons.push({ mod: m, lesson: l });
+    }
+    if (allLessons.length === 0) return;
+
+    setBatchRunning(true);
+    setBatchProgress({ done: 0, total: allLessons.length });
+    toast.info(`🎨 Starting illustration generation for ${allLessons.length} lessons. This will take ~${Math.ceil(allLessons.length * 4 / 60)} min.`);
+
+    let successCount = 0;
+    let failCount = 0;
+    for (let i = 0; i < allLessons.length; i++) {
+      const { mod: m, lesson: l } = allLessons[i];
+      try {
+        const { data, error } = await supabase.functions.invoke("enhance-programming-theory", {
+          body: {
+            module_id: m.id,
+            lesson_id: l.id,
+            lesson_title: l.titleEn || l.title,
+            module_title: m.titleEn || m.title,
+            base_theory: l.theoryEn || l.theory || "",
+            code_language: l.codeLanguage,
+            force_refresh: false,
+          },
+        });
+        if (error) throw error;
+        if (data) successCount++;
+      } catch (e) {
+        console.error("Batch failed for", m.id, l.id, e);
+        failCount++;
+      }
+      setBatchProgress({ done: i + 1, total: allLessons.length });
+      // Throttle: skip the wait on the last item
+      if (i < allLessons.length - 1) {
+        await new Promise((r) => setTimeout(r, 4000));
+      }
+    }
+
+    setBatchRunning(false);
+    toast.success(`🎨 Illustrations done — ${successCount} ok, ${failCount} failed.`);
+    // Refresh sidebar badges
+    const moduleIds = pillarModules.map((mm) => mm.id);
+    if (moduleIds.length > 0) {
+      const { data } = await supabase
+        .from("programming_theory_cache")
+        .select("module_id,lesson_id")
+        .in("module_id", moduleIds);
+      if (data) setCachedLessonKeys(new Set(data.map((r: any) => `${r.module_id}::${r.lesson_id}`)));
+    }
+    // Reload current lesson's enhanced markdown if user is viewing one
+    if (mod && lesson) {
+      const { data: cur } = await supabase
+        .from("programming_theory_cache")
+        .select("enhanced_markdown")
+        .eq("module_id", mod.id)
+        .eq("lesson_id", lesson.id)
+        .maybeSingle();
+      if (cur?.enhanced_markdown) setEnhancedMd(cur.enhanced_markdown);
+    }
+  };
+
   // Get all sibling modules for same pillar
   const pillar = moduleId ? getPillarForModule(moduleId) : null;
   const pillarModules = pillar ? getPillarModules(pillar) : [];
