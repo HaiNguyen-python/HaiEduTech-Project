@@ -946,13 +946,13 @@ render_env.close()`,
 
 ## On-policy vs Off-policy — the key distinction
 
-**Q-Learning** is **off-policy** — its update target uses `max Q(s', a')` regardless of the action actually taken. **SARSA** (Rummery & Niranjan, 1994) is **on-policy** — it uses the action `A'` actually selected by the current ε-greedy policy.
+**Q-Learning** is **off-policy** — its update target uses \`max Q(s', a')\` regardless of the action actually taken. **SARSA** (Rummery & Niranjan, 1994) is **on-policy** — it uses the action \`A'\` actually selected by the current ε-greedy policy.
 
 The name itself is the update tuple: **(S, A, R, S\', A\')**
 
-```text
+\`\`\`text
 Q(S,A) ← Q(S,A) + α · [R + γ · Q(S\', A\') − Q(S,A)]
-```
+\`\`\`
 
 ## The cliff-walking experiment
 
@@ -960,22 +960,22 @@ In a gridworld with a cliff (reward −100 if you fall off):
 - **Q-Learning** learns the *optimal* (cliff-edge) path — but with ε-exploration it falls off frequently → low average reward during training.
 - **SARSA** learns a *safer* (longer) path because its updates account for exploration mistakes.
 
-```mermaid
+\`\`\`mermaid
 flowchart LR
   S[Start] --> P1[ ] --> P2[ ] --> P3[ ] --> G[Goal]
   S -.optimal but risky.-> CLIFF[CLIFF: -100]
   style CLIFF fill:#dc2626,color:#fff
-```
+\`\`\`
 
 > 🎯 **Real-world insight**: When the deployed policy will keep exploring (medical dosing, noisy robotics), on-policy SARSA can be safer.
 
 ## Expected SARSA — smoother variant
 
-```text
+\`\`\`text
 Q(S,A) ← Q(S,A) + α · [R + γ · Σ_a π(a|S\')·Q(S\',a) − Q(S,A)]
-```
+\`\`\`
 
-Replace the sampled `Q(S\',A\')` with its expectation under the policy. Lower variance, basis of modern actor-critic methods.
+Replace the sampled \`Q(S\',A\')\` with its expectation under the policy. Lower variance, basis of modern actor-critic methods.
 
 ## Key Concept
 
@@ -1078,29 +1078,29 @@ It powers: 🤖 OpenAI Five (Dota 2), 🧠 ChatGPT's RLHF, 🦾 robot locomotion
 
 ## The PPO clipped objective
 
-```text
+\`\`\`text
 L^CLIP(θ) = E_t[ min( r_t(θ) · A_t, clip(r_t(θ), 1−ε, 1+ε) · A_t ) ]
-```
+\`\`\`
 
 Where **r_t(θ) = π_θ(a_t|s_t) / π_θ_old(a_t|s_t)** is the probability ratio and **A_t** the advantage (typically GAE-Lambda). **ε** = 0.1–0.2.
 
-```mermaid
+\`\`\`mermaid
 flowchart TB
   A[Old policy π_θ_old] -->|collect rollout| B[Compute advantages with GAE]
   B --> C[For K epochs: optimize clipped objective on minibatches]
   C --> D[θ_old ← θ]
   D --> A
-```
+\`\`\`
 
-**Intuition**: if a new action is much more likely AND has positive advantage, the ratio is clipped to `1+ε` so the gradient stops pushing — preventing catastrophic policy jumps.
+**Intuition**: if a new action is much more likely AND has positive advantage, the ratio is clipped to \`1+ε\` so the gradient stops pushing — preventing catastrophic policy jumps.
 
 ## GAE-Lambda — the perfect partner
 
-```text
+\`\`\`text
 A_t^GAE(λ) = Σ (γλ)^l · δ_{t+l},   δ_t = r_t + γV(s_{t+1}) − V(s_t)
-```
+\`\`\`
 
-`λ` interpolates bias (low) ↔ variance (high). **λ=0.95** is the standard sweet spot.
+\`λ\` interpolates bias (low) ↔ variance (high). **λ=0.95** is the standard sweet spot.
 
 ## 7 essential PPO implementation tricks
 
@@ -1202,7 +1202,7 @@ print("Solved threshold = 200.")`,
 
 Real systems have multiple decision-makers: financial markets, traffic, robot swarms, multi-LLM systems. **Multi-Agent RL (MARL)** studies how multiple agents learn simultaneously while their actions affect each other.
 
-```mermaid
+\`\`\`mermaid
 flowchart LR
   A1[Agent 1] -->|action| ENV[Shared Environment]
   A2[Agent 2] -->|action| ENV
@@ -1210,7 +1210,7 @@ flowchart LR
   ENV -->|obs, reward| A1
   ENV -->|obs, reward| A2
   ENV -->|obs, reward| A3
-```
+\`\`\`
 
 ## Three flavors
 
@@ -1259,7 +1259,7 @@ MARL extends RL to systems with multiple learners whose actions interact. Non-st
 
 ## Practice Task
 
-Use **PettingZoo** to train independent PPO on the cooperative `pursuit_v4` environment. Plot average team reward over 200k timesteps.
+Use **PettingZoo** to train independent PPO on the cooperative \`pursuit_v4\` environment. Plot average team reward over 200k timesteps.
       `,
       theory: "",
       code: `# Multi-agent cooperative pursuit with PettingZoo + Stable-Baselines3
@@ -1342,12 +1342,12 @@ Most real-world RL applications **cannot afford online exploration**:
 
 But these domains have **enormous logged datasets**. **Offline RL** (Batch RL) learns optimal policies purely from this fixed dataset, with **zero new interaction**.
 
-```mermaid
+\`\`\`mermaid
 flowchart LR
   D[(Logged dataset:<br/>states, actions, rewards)] --> ALG[Offline RL Algorithm]
   ALG --> POLICY[Improved Policy π*]
   POLICY -.deploy.-> ENV[Real Environment]
-```
+\`\`\`
 
 ## Why offline RL is hard: distributional shift
 
@@ -1386,7 +1386,7 @@ Offline RL learns optimal policies from a fixed dataset of past interactions, wi
 
 ## Practice Task
 
-Use **D4RL** + **d3rlpy** to train **CQL** on `hopper-medium-v2`. Compare its return against pure behavior cloning — CQL should outperform, demonstrating offline RL improving *beyond* what was demonstrated.
+Use **D4RL** + **d3rlpy** to train **CQL** on \`hopper-medium-v2\`. Compare its return against pure behavior cloning — CQL should outperform, demonstrating offline RL improving *beyond* what was demonstrated.
       `,
       theory: "",
       code: `# Offline RL with d3rlpy on the D4RL benchmark
@@ -1467,14 +1467,14 @@ print("CQL typically reaches ~70-80 normalized score vs ~45 for BC.")`,
 - **Stage 2**: Policy gradient self-play
 - **Stage 3**: **Monte Carlo Tree Search (MCTS)** at inference, guided by policy + value network
 
-```mermaid
+\`\`\`mermaid
 flowchart TB
   ROOT[Current Board] --> SEL[1. Select: traverse tree using UCB]
   SEL --> EXP[2. Expand: add child via policy network]
   EXP --> SIM[3. Evaluate: value network gives V_s]
   SIM --> BACK[4. Backpropagate: update visits and values]
   BACK --> ROOT
-```
+\`\`\`
 
 ### AlphaGo Zero (Oct 2017) — beat AlphaGo 100-0
 - **Zero** human data — pure self-play from random init
@@ -1495,23 +1495,23 @@ Three stages turned a raw LLM into a usable assistant:
 Fine-tune base LLM on human-written demonstrations.
 
 ### Stage 2: Reward Model Training
-Humans rank model outputs. Train a reward model `r_φ(prompt, response)` to predict rankings.
+Humans rank model outputs. Train a reward model \`r_φ(prompt, response)\` to predict rankings.
 
 ### Stage 3: PPO Optimization
-```mermaid
+\`\`\`mermaid
 flowchart LR
   P[Prompt] --> LLM[LLM Policy π_θ]
   LLM -->|response| RM[Reward Model r_φ]
   RM -->|reward| PPO[PPO Update]
   PPO -->|update θ| LLM
   REF[Frozen Reference Policy π_ref] -.KL penalty.-> PPO
-```
+\`\`\`
 
 The objective:
 
-```text
+\`\`\`text
 r_φ(x, y) − β · KL[π_θ(·|x) ‖ π_ref(·|x)]
-```
+\`\`\`
 
 The KL penalty against the frozen pre-RLHF model prevents reward-hacking.
 
