@@ -35,6 +35,8 @@ const PILLAR_COURSES: Record<string, string[]> = {
   "data-eng": ["data-eng"],
   "ml": ["ml"],
   "cloud": ["cloud"],
+  "deep-learning": ["dl"],
+  "reinforcement-learning": ["rl"],
 };
 
 function getPillarForModule(moduleId: string): string | null {
@@ -79,6 +81,8 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
       "cloud-ops-resilience",
       "cloud-strategy-cost",
     ],
+    "deep-learning": ["dl-foundations"],
+    "reinforcement-learning": ["reinforcement-learning"],
   };
   const ids = directIds[pillar] || [];
   return allProgrammingModules.filter(m => courses.includes(m.course) || ids.includes(m.id));
