@@ -435,7 +435,10 @@ const Navbar = () => {
                                     <div className={`flex items-center justify-between px-4 py-2.5 text-sm font-medium cursor-pointer rounded-md mx-1 transition-colors ${
                                       activeSubmenu === sub.groupLabel ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary/80"
                                     }`}>
-                                      <span>{sub.label}</span>
+                                      <span className="flex items-center gap-2.5">
+                                        {sub.icon && <sub.icon className="w-4 h-4 text-primary/70" />}
+                                        <span>{sub.label}</span>
+                                      </span>
                                       <ChevronRight className="w-3.5 h-3.5" />
                                     </div>
                                   </motion.div>
