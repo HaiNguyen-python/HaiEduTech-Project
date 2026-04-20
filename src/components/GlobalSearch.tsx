@@ -56,7 +56,7 @@ const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
     { to: "/study-abroad/motivation-letter", label: t("Motivation Letter Master", "Motivation Letter Guide"), group: "abroad", icon: FileText, keywords: "motivation letter ml master" },
     { to: "/study-abroad/sat", label: t("Lộ trình SAT", "SAT Roadmap"), group: "abroad", icon: Map, keywords: "sat roadmap" },
     { to: "/study-abroad/phd", label: t("PhD Global Pathway", "PhD Pathway"), group: "abroad", icon: GraduationCap, keywords: "phd doctorate cold email research proposal" },
-    { to: "/global-scholarship", label: t("AI Scholarship Advisor", "AI Scholarship Advisor"), group: "abroad", icon: Newspaper, keywords: "scholarship hoc bong perplexity" },
+    { to: "/global-scholarship", label: t("Tư vấn học bổng cùng Mr. Hai", "Scholarship Consulting with Mr. Hai"), group: "abroad", icon: Newspaper, keywords: "scholarship hoc bong mr hai advisor" },
   ];
 
   const learning: SearchEntry[] = [

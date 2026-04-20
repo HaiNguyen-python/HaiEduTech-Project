@@ -164,7 +164,7 @@ const ScholarshipCard = ({
                     className="inline-flex items-center gap-1 text-[11px] font-medium text-primary hover:underline px-2 py-0.5 rounded-md bg-primary/10"
                   >
                     <Sparkles className="h-3 w-3" />
-                    {t("Viết AI", "AI write")}
+                    {t("Mr. Hai viết", "Mr. Hai writes")}
                   </Link>
                 )}
                 {isRecommendation && (
@@ -173,7 +173,7 @@ const ScholarshipCard = ({
                     className="inline-flex items-center gap-1 text-[11px] font-medium text-primary hover:underline px-2 py-0.5 rounded-md bg-primary/10"
                   >
                     <Sparkles className="h-3 w-3" />
-                    {t("Mẫu AI", "AI draft")}
+                    {t("Mr. Hai mẫu", "Mr. Hai drafts")}
                   </Link>
                 )}
               </div>
@@ -262,7 +262,7 @@ const RoadmapResults = ({ data, onReset }: RoadmapResultsProps) => {
         <div className="rounded-xl border border-border bg-muted/30 p-4">
           <h4 className="text-xs font-semibold text-muted-foreground mb-2 flex items-center gap-1.5">
             <MessageSquare className="h-3.5 w-3.5" />
-            {t("Nguồn tham khảo từ AI:", "AI sources:")}
+            {t("Nguồn Mr. Hai tham khảo:", "Mr. Hai's sources:")}
           </h4>
           <ul className="space-y-1">
             {data.citations.slice(0, 8).map((url, i) => (

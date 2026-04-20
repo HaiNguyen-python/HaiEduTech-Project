@@ -76,12 +76,12 @@ const ConsultationBox = ({ onSubmit, loading }: ConsultationBoxProps) => {
         </div>
         <div>
           <h2 className="text-lg sm:text-xl font-bold text-foreground">
-            {t("Tư vấn học bổng AI", "AI Scholarship Consultant")}
+            {t("Tư vấn học bổng cùng Mr. Hai", "Scholarship Consulting with Mr. Hai")}
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground">
             {t(
-              "Điền hồ sơ — AI sẽ tìm 5 học bổng phù hợp & lộ trình ứng tuyển",
-              "Share your profile — AI finds 5 matched scholarships + roadmap",
+              "Điền hồ sơ — Mr. Hai sẽ tìm 5 học bổng phù hợp & lộ trình ứng tuyển",
+              "Share your profile — Mr. Hai finds 5 matched scholarships + roadmap",
             )}
           </p>
         </div>
@@ -104,8 +104,8 @@ const ConsultationBox = ({ onSubmit, loading }: ConsultationBoxProps) => {
         />
         <p className="text-[11px] text-muted-foreground mt-1">
           {t(
-            "💡 Càng chi tiết, AI càng tìm trúng học bổng cho bạn",
-            "💡 The more specific, the better AI matches scholarships",
+            "💡 Càng chi tiết, Mr. Hai càng tìm trúng học bổng cho bạn",
+            "💡 The more specific, the better Mr. Hai matches scholarships",
           )}
         </p>
       </div>
@@ -189,12 +189,12 @@ const ConsultationBox = ({ onSubmit, loading }: ConsultationBoxProps) => {
         {loading ? (
           <>
             <Loader2 className="h-5 w-5 animate-spin" />
-            {t("AI đang tìm học bổng...", "AI is searching...")}
+            {t("Mr. Hai đang tìm học bổng...", "Mr. Hai is searching...")}
           </>
         ) : (
           <>
             <Send className="h-5 w-5" />
-            {t("🚀 Bắt đầu tư vấn AI", "🚀 Start AI Consultation")}
+            {t("🚀 Bắt đầu tư vấn cùng Mr. Hai", "🚀 Start Consultation with Mr. Hai")}
           </>
         )}
       </button>
