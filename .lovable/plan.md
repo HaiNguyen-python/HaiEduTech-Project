@@ -1,79 +1,47 @@
 
+
 ## Vấn đề
-Bài "Lists" (m3-l1) trong ảnh chụp cho thấy nội dung quá ngắn — kiểu ghi chú 1-2 dòng thay vì bài học hoàn chỉnh:
-- **Concept**: chỉ 1 dòng "List = ordered, mutable array..."
-- **Pitfalls**: 2 gạch đầu dòng cụt
-- **Practice task**: 1 câu duy nhất
+Khi mở IDE ở `/programming/...`, layout split-view ép cột nội dung bên trái xuống ~50% chiều rộng → CodeBlock & code trong IDE bị tràn, phải scroll ngang nhiều. Console output trong `PythonIDEPanel` (max-h 160px) và `SqlEditor` (max-h 240px) cũng quá thấp khi chạy query/code dài.
 
-47 bài còn lại trong `src/data/curriculum/pythonPathway.ts` đa số cũng cùng tình trạng này.
+## Giải pháp (gọn, tập trung)
 
-## Câu hỏi cần làm rõ trước khi code
+### 1. Tăng không gian đọc bằng resizable split-view
+File `src/pages/ProgrammingLesson.tsx`:
+- Thay layout `motion.div width: 50%` cứng bằng **`ResizablePanelGroup`** (đã có sẵn `src/components/ui/resizable.tsx`)
+- Mặc định: 60% nội dung lý thuyết / 40% IDE — dễ đọc hơn
+- Người dùng có thể **kéo handle** để mở rộng tùy ý (ví dụ kéo IDE rộng 70% khi viết code dài)
+- Min size: lý thuyết 35%, IDE 30% → không bao giờ bị bóp đến mức không đọc được
+- Giữ animation fade-in nhẹ thay vì width animation (tránh xung đột với resizable)
 
-Vì viết lại 47 bài × 6 fields (concept VI/EN, pitfalls VI/EN, practiceTask VI/EN) là khối lượng rất lớn, cần xác định scope:
+### 2. Fix word-wrap & spacing trong IDE panels
+File `src/components/PythonIDEPanel.tsx`:
+- Console output: tăng `max-h-[160px]` → `max-h-[280px]`, font `text-xs` → `text-sm`
+- Đảm bảo `whitespace-pre-wrap break-words` (dòng dài tự xuống hàng thay vì scroll ngang)
+- AI help box: thêm `break-words` + tăng padding
 
-**Q1 — Phạm vi:**
-- (A) Toàn bộ 47 bài (file sẽ ~6000+ dòng, chia 3-4 lượt edit)
-- (B) Chỉ Module 1-3 (17 bài cơ bản — nơi học sinh mới hay đọc nhất)
-- (C) Chỉ bài đang xem (m3-l1 Lists) làm mẫu → duyệt phong cách → nhân rộng
+File `src/components/SqlEditor.tsx`:
+- Console output: tăng `max-h-[240px]` → `max-h-[360px]`
+- Bảng kết quả SQL: bọc trong `overflow-x-auto` riêng, giữ font-mono nhưng tăng `text-sm` → dễ đọc số liệu
 
-**Q2 — Độ dài mỗi bài:**
-- (A) Vừa phải (~150 từ concept + analogy đời sống VN + 2-3 ví dụ code inline)
-- (B) Chi tiết (~300 từ + 4-5 ví dụ + so sánh sai/đúng + bullet ghi nhớ)
-- (C) Rất chi tiết kiểu sách giáo khoa (~500 từ, nhiều subsection)
+### 3. Mobile: tăng chiều cao IDE
+- IDE drawer mobile hiện tại fix `height: 400` → tăng lên `height: 540` (lesson Python thường cần > 8 dòng code + console)
+- Thêm nút "Expand fullscreen" cho mobile để học sinh có thể tập trung viết code
 
-**Q3 — Ngôn ngữ:**
-- (A) Cả VI + EN đầy đủ
-- (B) Ưu tiên VI chi tiết, EN giữ tóm tắt
+### 4. CodeBlock trong nội dung lý thuyết
+File `src/components/CodeBlock.tsx`:
+- Hiện đã có `overflow-x-auto`, nhưng khi cột bị hẹp → vẫn scroll. Bổ sung `wrapLongLines={true}` cho `SyntaxHighlighter` (giữ syntax color, tự xuống hàng cho dòng > viewport)
+- Tăng `font-size` thực tế từ ~13px lên 14px khi container hẹp
 
-## Đề xuất mặc định (nếu bạn muốn bắt đầu ngay)
+## Phạm vi thay đổi
+| File | Thay đổi |
+|---|---|
+| `src/pages/ProgrammingLesson.tsx` | Resizable split-view + tăng mobile IDE height |
+| `src/components/PythonIDEPanel.tsx` | Console rộng hơn + break-words |
+| `src/components/SqlEditor.tsx` | Console rộng hơn + bảng SQL dễ đọc |
+| `src/components/CodeBlock.tsx` | wrapLongLines cho SyntaxHighlighter |
 
-**Phương án khuyến nghị: B + B + B** (Module 1-3, ~300 từ, ưu tiên VI)
+## Không thay đổi
+- Logic Pyodide / sql.js / AI Debug
+- Layout khi IDE đóng (vẫn full-width đọc thoải mái)
+- Theme màu Dracula của `CodePlayground` (Python Pathway dùng component khác — không bị ảnh hưởng)
 
-### Cấu trúc viết lại mỗi bài
-Mỗi `concept` sẽ theo template:
-1. **Mở đầu hấp dẫn** (1 câu hook) — "Hãy tưởng tượng bạn có một cái kệ sách..."
-2. **Định nghĩa rõ ràng** (2-3 câu) — Khái niệm là gì, dùng để làm gì
-3. **Analogy đời sống VN** — vd List như "danh sách đi chợ", Dict như "danh bạ điện thoại"
-4. **3-4 ví dụ code inline** với Markdown ` ``` ` blocks, mỗi ví dụ 1 mục đích khác nhau
-5. **Mẹo nhớ** — bullet 2-3 ý ngắn
-
-`pitfalls` mở rộng từ 2 dòng → 4-6 cạm bẫy với giải thích "vì sao sai" + "cách sửa".
-
-`practiceTask` mở rộng thành 3 cấp: 🟢 Cơ bản · 🟡 Vừa · 🔴 Thử thách (mỗi cấp 1 yêu cầu cụ thể).
-
-### Ví dụ minh họa (bài Lists - m3-l1)
-
-**Trước (1 dòng):**
-> List = ordered, mutable array. append, insert, remove, indexing, slicing, len().
-
-**Sau (~300 từ với code blocks và analogy):**
-> 📋 **Hãy tưởng tượng** bạn có một cuốn sổ tay ghi danh sách đi chợ: cà chua, hành lá, thịt bò... Bạn có thể thêm món mới vào cuối, chèn vào giữa, xóa món đã mua, hoặc đếm xem còn bao nhiêu món. Trong Python, **List** chính là cuốn sổ tay đó.
-> 
-> **List** là một dãy các phần tử **có thứ tự** (ordered) và **có thể thay đổi** (mutable). Phần tử có thể là số, chuỗi, thậm chí list khác — như một cái túi đựng đủ thứ.
-> 
-> ```python
-> cho = ["cà chua", "hành lá", "thịt bò"]
-> cho.append("trứng")        # thêm cuối: [..., "trứng"]
-> cho.insert(0, "rau muống")  # chèn đầu
-> cho.remove("hành lá")       # xóa theo giá trị
-> print(cho[0])               # truy cập phần tử đầu (index 0)
-> print(cho[-1])              # phần tử cuối
-> print(cho[1:3])             # cắt lát (slicing)
-> print(len(cho))             # đếm số phần tử
-> ```
-> 
-> 💡 **Mẹo nhớ:** index bắt đầu từ **0** (không phải 1). `[-1]` là phần tử cuối. Slicing `[a:b]` lấy từ a đến **trước** b.
-
-## Files thay đổi
-- `src/data/curriculum/pythonPathway.ts` — viết lại 17 bài Module 1-3 (nếu chọn B)
-
-## Không đụng
-- Schema lesson, Pyodide runner, LessonView UI, route paths.
-- Module 4-6 (giữ nguyên đến đợt sau).
-
-## Kết quả mong đợi
-- Mỗi bài có nội dung đủ "đầy" để đọc 3-5 phút, có analogy gần gũi, có code minh họa nhiều cấp.
-- Format Markdown render đẹp trong card xanh "Concept" với `prose` styling đã có sẵn.
-- Build pass `tsc --noEmit`.
-
-**👉 Hãy chọn A/B/C cho mỗi câu hỏi (hoặc xác nhận phương án mặc định B+B+B) để mình bắt tay vào viết.**
