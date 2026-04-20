@@ -174,13 +174,13 @@ sys.stderr = io.StringIO()
             </button>
           )}
         </div>
-        <pre className="px-3 py-2 text-xs font-mono min-h-[80px] max-h-[160px] overflow-auto whitespace-pre-wrap text-green-400">
+        <pre className="px-3 py-2 text-sm font-mono min-h-[80px] max-h-[280px] overflow-auto whitespace-pre-wrap break-words text-green-400 leading-relaxed">
           {loadingPyodide
             ? t("Đang tải Python runtime...", "Loading Python runtime...")
             : output || t("Bấm '▶ Chạy' để thực thi code...", "Press '▶ Run' to execute code...")}
         </pre>
         {aiHelp && (
-          <div className="px-3 py-2 border-t border-slate-800 text-xs text-slate-300 whitespace-pre-wrap">
+          <div className="px-3 py-3 border-t border-slate-800 text-sm text-slate-300 whitespace-pre-wrap break-words leading-relaxed">
             <span className="text-primary font-medium">🤖 AI:</span> {aiHelp}
           </div>
         )}
