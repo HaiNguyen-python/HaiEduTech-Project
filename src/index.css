@@ -215,11 +215,15 @@
    heading scale so headings never overpower body text. */
 .theory-content {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: 16.5px;
+  line-height: 1.78;
   color: hsl(var(--foreground));
   letter-spacing: -0.005em;
-  max-width: 75ch;
+  max-width: 78ch;
+}
+
+@media (min-width: 1280px) {
+  .theory-content { font-size: 17px; line-height: 1.8; }
 }
 
 @media (max-width: 640px) {
@@ -229,10 +233,10 @@
 /* Section card-ification — visually separate H2 blocks */
 .theory-section {
   position: relative;
-  padding: 0.25rem 0 0.5rem;
+  padding: 0.4rem 0 0.75rem;
 }
 .theory-section + .theory-section {
-  margin-top: 1.25rem;
+  margin-top: 1.75rem;
 }
 
 /* Reset overly-large global heading scale within theory */
@@ -380,46 +384,79 @@
 
 /* Tables — clean, scannable, mobile-scrollable */
 .theory-content .theory-table-wrap {
-  margin: 1.25rem 0;
+  margin: 1.5rem 0;
   overflow-x: auto;
   border: 1px solid hsl(var(--border));
-  border-radius: 8px;
+  border-radius: 10px;
   background: hsl(var(--card));
+  box-shadow: 0 1px 3px hsl(var(--foreground) / 0.04);
 }
 .theory-content table {
   width: 100%;
-  min-width: 520px;
+  min-width: 560px;
   border-collapse: collapse;
-  font-size: 0.9375rem;
+  font-size: 0.95rem;
   margin: 0;
 }
 .theory-content thead {
-  background: linear-gradient(90deg, hsl(217 91% 60% / 0.12), hsl(160 84% 39% / 0.10));
-  border-bottom: 2px solid hsl(var(--primary) / 0.25);
+  background: linear-gradient(90deg, hsl(217 91% 60% / 0.14), hsl(160 84% 39% / 0.12));
+  border-bottom: 2px solid hsl(var(--primary) / 0.3);
 }
 .theory-content th {
   text-align: left;
-  padding: 0.7rem 0.9rem;
+  padding: 0.95rem 1.1rem;
   font-weight: 700;
   color: hsl(var(--primary));
-  font-size: 0.9rem;
-  letter-spacing: 0.01em;
+  font-size: 0.92rem;
+  letter-spacing: 0.015em;
+  white-space: nowrap;
 }
 .theory-content td {
-  padding: 0.6rem 0.85rem;
-  border-top: 1px solid hsl(var(--border) / 0.6);
+  padding: 0.85rem 1.1rem;
+  border-top: 1px solid hsl(var(--border) / 0.7);
   vertical-align: top;
-  color: hsl(var(--foreground) / 0.92);
+  color: hsl(var(--foreground) / 0.95);
+  line-height: 1.65;
 }
-.theory-content tbody tr:nth-child(even) { background: hsl(var(--secondary) / 0.45); }
+.theory-content tbody tr:nth-child(even) { background: hsl(var(--secondary) / 0.4); }
 .theory-content tbody tr:hover { background: hsl(var(--primary) / 0.07); transition: background 0.15s ease; }
+
+@media (max-width: 640px) {
+  .theory-content table { min-width: 480px; font-size: 0.9rem; }
+  .theory-content th, .theory-content td { padding: 0.65rem 0.8rem; }
+}
 
 /* When blockquote is rendered as Callout (not-prose), avoid double margin */
 .theory-content .theory-callout + p { margin-top: 0.85rem; }
 
 /* Pre wrapper for CodeBlock should have no extra prose spacing */
 .theory-content pre {
-  margin: 1rem 0;
+  margin: 1.25rem 0;
   padding: 0;
   background: transparent;
+}
+
+/* ===== Mermaid diagram spacing inside theory ===== */
+.theory-content .mermaid-diagram {
+  margin: 2rem 0;
+}
+.theory-content .mermaid-diagram + p,
+.theory-content .mermaid-diagram + ul,
+.theory-content .mermaid-diagram + ol,
+.theory-content .mermaid-diagram + h2,
+.theory-content .mermaid-diagram + h3 {
+  margin-top: 1.5rem;
+}
+.theory-content p + .mermaid-diagram,
+.theory-content ul + .mermaid-diagram,
+.theory-content ol + .mermaid-diagram {
+  margin-top: 1.75rem;
+}
+
+/* Distinct content-type spacing: callouts, deep-dives */
+.theory-content .theory-callout {
+  margin: 1.5rem 0;
+}
+.theory-content .theory-callout + .theory-callout {
+  margin-top: 1rem;
 }

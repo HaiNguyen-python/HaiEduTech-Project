@@ -28,10 +28,17 @@ Define terms in **bold**. Use a bullet list.
 
 ## 4. Detailed Breakdown
 Use ### sub-headings for each sub-topic. Include code snippets in fenced blocks with language tag.
-Where a visual would help, embed a Mermaid diagram using:
+Where a visual genuinely helps comprehension, embed AT MOST ONE simple Mermaid diagram. Diagram rules (STRICT):
+- Prefer \`flowchart LR\` (left-right) or \`flowchart TD\` (top-down). Avoid complex graphs.
+- Maximum 6 nodes. Maximum 7 edges. No nested subgraphs.
+- Each node label MUST be 1-3 short words (a noun phrase). NEVER a sentence. NEVER more than 22 characters.
+- Do NOT use \`<br>\` to stuff multi-line labels — keep labels short instead.
+- If the relationship is better expressed as a comparison or list, SKIP the diagram and use a table or bullets instead.
+Example of an acceptable diagram:
 \`\`\`mermaid
 flowchart LR
   A[Client] --> B[API]
+  B --> C[Database]
 \`\`\`
 
 ## 5. Comparative Table
