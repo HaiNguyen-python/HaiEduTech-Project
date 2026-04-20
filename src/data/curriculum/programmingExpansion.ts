@@ -15,30 +15,30 @@ export const programmingExpansionModules: ExtendedProgrammingModule[] = [
         id: "py-oop-adv-1",
         title: "Inheritance & Polymorphism",
         titleEn: "Inheritance & Polymorphism",
-        theory: `## 1. 🚦 Vấn đề đời thường
+        theory: `## 1. 🚦 Everyday Problem
 
-Bạn quản lý nhân viên: **Nhân viên** có lương, **Quản lý** cũng là nhân viên nhưng có thêm cấp dưới, **Sếp tổng** cũng là quản lý nhưng có thêm cổ phần. Viết 3 class riêng → trùng code. Dùng **kế thừa (inheritance)** → class con tự thừa hưởng + mở rộng.
+You manage employees: **Employee** has salary, **Manager** is also an employee but has subordinates, **CEO** is also a manager but has shares. Writing 3 separate classes → duplicate code. Use **inheritance** → child class automatically inherits + extends.
 
-OOP nâng cao là vũ khí giúp code Python **không lặp lại**, **dễ mở rộng** khi dự án lớn.
+Advanced OOP is the weapon that makes Python code **non-repetitive**, **easy to extend** when the project grows.
 
-## 2. 💡 4 trụ cột OOP
+## 2. 💡 4 OOP Pillars
 
-| Trụ cột | Ý nghĩa | Ví dụ |
-|---------|---------|-------|
-| **Encapsulation** | Giấu chi tiết bên trong | \`_private\`, \`__name_mangled\` |
-| **Inheritance** | Class con thừa hưởng cha | \`Manager(Employee)\` |
-| **Polymorphism** | Cùng tên, khác hành vi | \`area()\` cho Circle/Square |
-| **Abstraction** | Định nghĩa "phải có gì" | \`ABC\`, \`@abstractmethod\` |
+| Pillar | Meaning | Example |
+|--------|---------|---------|
+| **Encapsulation** | Hide internal details | \`_private\`, \`__name_mangled\` |
+| **Inheritance** | Child class inherits from parent | \`Manager(Employee)\` |
+| **Polymorphism** | Same name, different behavior | \`area()\` for Circle/Square |
+| **Abstraction** | Define "what must exist" | \`ABC\`, \`@abstractmethod\` |
 
-## 3. 🧰 Magic methods (dunder) hay dùng
+## 3. 🧰 Commonly Used Magic Methods (dunder)
 
-- \`__init__\`: khởi tạo.
-- \`__str__\` / \`__repr__\`: in ra dễ đọc.
-- \`__eq__\` / \`__lt__\`: so sánh.
-- \`__len__\`: hỗ trợ \`len()\`.
-- \`__enter__\` / \`__exit__\`: hỗ trợ \`with\` block.
+- \`__init__\`: initialization.
+- \`__str__\` / \`__repr__\`: print readable output.
+- \`__eq__\` / \`__lt__\`: comparison.
+- \`__len__\`: support \`len()\`.
+- \`__enter__\` / \`__exit__\`: support \`with\` block.
 
-## 4. 🎯 Ví dụ kế thừa + polymorphism
+## 4. 🎯 Inheritance + Polymorphism Example
 
 \`\`\`python
 from abc import ABC, abstractmethod
@@ -67,39 +67,38 @@ team = [Staff("An", 10_000_000), Manager("Bình", 20_000_000, 5_000_000)]
 for e in team: print(e)
 \`\`\`
 
-## 5. ⚠️ Bẫy thường gặp
+## 5. ⚠️ Common Pitfalls
 
-> ⚠️ **Cảnh báo:** Quên gọi \`super().__init__()\` trong class con → thuộc tính của cha không được khởi tạo → AttributeError lúc chạy.
+> ⚠️ **Warning:** Forgetting to call \`super().__init__()\` in child class → parent attributes not initialized → AttributeError at runtime.
 
-- Kế thừa **5–6 tầng** → debug ác mộng. Quy tắc: tối đa 2–3 tầng.
-- Dùng **multiple inheritance** lung tung → MRO (Method Resolution Order) khó đoán.
-- Đặt mọi attribute là \`__private\` → code khó test, khó mock.
+- **5–6 levels** of inheritance → debugging nightmare. Rule: maximum 2–3 levels.
+- Using **multiple inheritance** carelessly → MRO (Method Resolution Order) unpredictable.
+- Making all attributes \`__private\` → code hard to test, hard to mock.
 
-## 6. ✅ Best practice của thầy Hải
+## 6. ✅ Mr. Hai's Best Practices
 
-> 💡 **Mẹo:** **Composition > Inheritance**. Thay vì \`Car(Engine)\` (kế thừa), hãy \`Car có Engine\` (composition). Linh hoạt hơn, ít coupling hơn.
+> 💡 **Tip:** **Composition > Inheritance**. Instead of \`Car(Engine)\` (inheritance), use \`Car has Engine\` (composition). More flexible, less coupling.
 
-- Dùng \`@dataclass\` cho class chỉ chứa data → tự sinh \`__init__\`, \`__repr__\`, \`__eq__\`.
-- Dùng \`Protocol\` (Python 3.8+) cho duck typing có type hint.
-- Tận dụng \`@property\` thay vì \`get_xxx()\` / \`set_xxx()\` kiểu Java.
+- Use \`@dataclass\` for data-only classes → auto-generates \`__init__\`, \`__repr__\`, \`__eq__\`.
+- Use \`Protocol\` (Python 3.8+) for duck typing with type hints.
+- Use \`@property\` instead of \`get_xxx()\` / \`set_xxx()\` Java-style.
 
-## 7. 🤔 Khi nào dùng / không dùng OOP
+## 7. 🤔 When to Use / Not Use OOP
 
-- ✅ Dự án có **nhiều thực thể có hành vi**: game, ORM, framework.
-- ✅ Cần **mở rộng nhiều phiên bản** (PaymentGateway → Stripe/Paddle/MoMo).
-- ❌ Script ETL ngắn 100 dòng — function thường là đủ.
-- ❌ Data processing — \`pandas\`/\`polars\` đã đủ, đừng wrap class vô nghĩa.
+- ✅ Projects with **many entities with behavior**: games, ORM, frameworks.
+- ✅ Need to **extend many versions** (PaymentGateway → Stripe/Paddle/MoMo).
+- ❌ Short 100-line ETL scripts — regular functions suffice.
+- ❌ Data processing — \`pandas\`/\`polars\` are enough, don't wrap meaningless classes.
 
-## 8. 📌 Tóm tắt 30 giây
+## 8. 📌 30-Second Summary
 
-OOP nâng cao = **encapsulation + inheritance + polymorphism + abstraction** + magic methods. Ưu tiên **composition**, dùng \`@dataclass\` cho data class, \`Protocol\` cho duck typing có hint. Đừng kế thừa quá 3 tầng. OOP đúng chỗ là vũ khí — sai chỗ là gánh nặng.
+Advanced OOP = **encapsulation + inheritance + polymorphism + abstraction** + magic methods. Prioritize **composition**, use \`@dataclass\` for data classes, \`Protocol\` for duck typing with hints. Don't inherit more than 3 levels. OOP in the right place is a weapon — wrong place is a burden.
 `,
         theoryEn: `**Inheritance** and **Polymorphism** are two of OOP's four pillars (with Encapsulation and Abstraction). They enable code reuse and system extensibility without breaking existing code — the Open/Closed principle of SOLID.
 
 ## Why Inheritance?
 
-Imagine modeling employees: all share \`name\`, \`salary\`, \`work()\`. Developers add \`languages\`, Managers add \`team_size\`. Without inheritance, you copy-paste shared fields → DRY violation. Inheritance: shared logic in parent \`Employee\`, children add specifics.
-
+Imagine modeling employees: all share \`name\`, \`salary\`, \`work()\`. Developers add \`languages\`, Managers add \`team_size\`. Without inheritance, you copy-paste shared fields → DRY violation. Inheritance: shared logic in parent \`Employee\`, children add specifics.`,
 ## Syntax & Mechanism
 
 \`\`\`python
