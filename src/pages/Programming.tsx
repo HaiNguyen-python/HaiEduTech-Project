@@ -203,10 +203,10 @@ const Programming = () => {
                     <Icon className="w-5 h-5" />
                   </div>
                   <h3 className={`font-display font-bold text-sm mb-1 ${isActive ? p.accentColor : "text-foreground"}`}>
-                    {data.titleEn}
+                    {t(data.title, data.titleEn)}
                   </h3>
                   <p className="text-[11px] text-muted-foreground line-clamp-2">
-                    {data.isPathway ? "6 modules · ~47 lessons · Pyodide" : `${data.modules.length} modules · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} lessons`}
+                    {data.isPathway ? t("6 module · ~47 bài · Pyodide", "6 modules · ~47 lessons · Pyodide") : `${data.modules.length} ${t("module", "modules")} · ${data.modules.reduce((acc, m) => acc + m.lessons.length, 0)} ${t("bài", "lessons")}`}
                   </p>
                   {isActive && (
                     <motion.div
@@ -238,10 +238,10 @@ const Programming = () => {
                     </div>
                     <div>
                       <h2 className="text-xl font-display font-bold text-foreground mb-1">
-                        {active.titleEn}
+                        {t(active.title, active.titleEn)}
                       </h2>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        {active.descEn}
+                        {t(active.desc, active.descEn)}
                       </p>
                     </div>
                   </div>
@@ -349,16 +349,16 @@ const Programming = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="font-display font-semibold text-foreground text-sm group-hover:text-primary transition-colors truncate">
-                              {mod.titleEn}
+                              {t(mod.title, mod.titleEn)}
                             </h3>
                             <span className="text-xs text-muted-foreground">
-                              {mod.lessons.length} lessons
+                              {mod.lessons.length} {t("bài", "lessons")}
                             </span>
                           </div>
                           <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
                         </div>
                         <p className="text-xs text-muted-foreground line-clamp-2">
-                          {mod.descriptionEn}
+                          {t(mod.description, mod.descriptionEn)}
                         </p>
                         {/* Mini roadmap */}
                         <div className="flex items-center gap-1.5 mt-3">

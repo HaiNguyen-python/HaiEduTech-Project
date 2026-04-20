@@ -86,7 +86,7 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const isMobile = useIsMobile();
   const [mod, setMod] = useState<ProgrammingModule | null>(null);
   const [lesson, setLesson] = useState<PLType | null>(null);
@@ -265,7 +265,7 @@ const ProgrammingLessonPage = () => {
                   Programming
                 </Link>
                 <ChevronRight className="w-3 h-3" />
-                <span className="text-foreground font-medium">{mod.titleEn}</span>
+                <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
               </div>
               {!isMobile && (
               <button
@@ -316,7 +316,7 @@ const ProgrammingLessonPage = () => {
                             }`}
                           >
                             <span className="text-base shrink-0">{pm.icon}</span>
-                            <span className="truncate flex-1">{pm.titleEn}</span>
+                            <span className="truncate flex-1">{t(pm.title, pm.titleEn)}</span>
                             <ChevronDown className={`w-3 h-3 shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                           </button>
                           {isExpanded && (
@@ -347,7 +347,7 @@ const ProgrammingLessonPage = () => {
                                         {i + 1}
                                       </span>
                                     )}
-                                    <span className="truncate">{l.titleEn}</span>
+                                    <span className="truncate">{t(l.title, l.titleEn)}</span>
                                   </button>
                                 );
                               })}
@@ -387,7 +387,7 @@ const ProgrammingLessonPage = () => {
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6" key={lesson.id}>
                   <h1 className="text-2xl font-display font-bold text-foreground">
-                    {mod.icon} {lesson.titleEn}
+                    {mod.icon} {t(lesson.title, lesson.titleEn)}
                   </h1>
 
                   {/* Theory */}
@@ -448,7 +448,7 @@ const ProgrammingLessonPage = () => {
                     <TheorySections
                       markdown={(useEnhanced && enhancedMd
                         ? enhancedMd
-                        : (lesson.theoryEn || lesson.theory || ""))
+                        : (lang === "vi" ? (lesson.theory || lesson.theoryEn || "") : (lesson.theoryEn || lesson.theory || "")))
                         .replace(/\\\$/g, "$")
                         // Strip a leading single "# Lesson Title" since the page already shows the title
                         .replace(/^\s*#\s+[^\n]+\n+/, "")}
@@ -467,7 +467,7 @@ const ProgrammingLessonPage = () => {
                       <Lightbulb className="w-5 h-5 text-amber-500" />
                       Practice Exercise
                     </h2>
-                    <p className="text-sm text-secondary-foreground mb-4">{lesson.exerciseEn || lesson.exercise}</p>
+                    <p className="text-sm text-secondary-foreground mb-4">{t(lesson.exercise, lesson.exerciseEn || lesson.exercise)}</p>
                     <button onClick={() => setShowIDE(true)}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-medium hover:bg-amber-400 transition-colors active:scale-[0.97]">
                       <Play className="w-4 h-4" />
