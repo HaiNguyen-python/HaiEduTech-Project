@@ -65,6 +65,15 @@
   }
 }
 
+@layer utilities {
+  /* Mono font for terminal output, code commands, Git logs, file paths */
+  .font-mono-code {
+    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-feature-settings: "calt" 1, "liga" 1;
+    font-variant-ligatures: contextual;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

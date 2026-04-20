@@ -97,6 +97,7 @@ const SatRoadmap = lazy(() => import("./pages/SatRoadmap.tsx"));
 const PhdGlobalPathway = lazy(() => import("./pages/PhdGlobalPathway.tsx"));
 const MentorHub = lazy(() => import("./pages/MentorHub.tsx"));
 const PreDepartureChecklist = lazy(() => import("./pages/PreDepartureChecklist.tsx"));
+const SoftwareEngInterview = lazy(() => import("./pages/SoftwareEngInterview.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
@@ -198,6 +199,7 @@ const App = () => (
             <Route path="/python-challenges" element={<LazyRoute><PythonChallengeList /></LazyRoute>} />
             <Route path="/python-challenges/:challengeId" element={<LazyRoute><PythonChallengePage /></LazyRoute>} />
             <Route path="/programming/interview-questions" element={<LazyRoute><InterviewQuestions /></LazyRoute>} />
+            <Route path="/programming/software-eng-interview" element={<LazyRoute><SoftwareEngInterview /></LazyRoute>} />
             <Route path="/programming/job-opportunities" element={<LazyRoute><JobOpportunities /></LazyRoute>} />
             <Route path="/pte" element={<LazyRoute><PteHub /></LazyRoute>} />
             <Route path="/pte/speaking" element={<LazyRoute><PteSpeaking /></LazyRoute>} />
