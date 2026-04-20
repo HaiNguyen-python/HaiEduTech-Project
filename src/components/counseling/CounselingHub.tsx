@@ -712,10 +712,6 @@ const JournalSection = ({ userId }: { userId: string }) => {
     load();
   };
 
-  const askAI = (text: string) => {
-    window.dispatchEvent(new CustomEvent("counseling:prefill", { detail: text }));
-    toast.info(t("Mở tab AI Counselor để trao đổi", "Open AI Counselor tab to discuss"));
-  };
 
   return (
     <div className="space-y-5">
