@@ -34,6 +34,15 @@ Where a visual genuinely helps comprehension, embed AT MOST ONE simple Mermaid d
 - Each node label MUST be 1-3 short words (a noun phrase). NEVER a sentence. NEVER more than 22 characters.
 - Do NOT use \`<br>\` to stuff multi-line labels — keep labels short instead.
 - If the relationship is better expressed as a comparison or list, SKIP the diagram and use a table or bullets instead.
+
+MATH RULES (STRICT):
+- For ANY mathematical formula, use proper LaTeX delimiters that KaTeX can render:
+  - Inline math: \`$...$\` (e.g., \`$R^2 = 1 - \\frac{SS_{res}}{SS_{tot}}$\`)
+  - Display math: \`$$...$$\` on its own line.
+- NEVER write formulas as raw parentheses like \`( \\frac{1}{n} \\sum (y - \\hat{y})^2 )\` — they will render as broken text.
+- NEVER use \`\\(\` \`\\)\` or \`\\[\` \`\\]\` — only \`$\` and \`$$\`.
+- Keep each display formula short (1 line). For multi-step derivations, use multiple \`$$...$$\` blocks.
+
 Example of an acceptable diagram:
 \`\`\`mermaid
 flowchart LR
