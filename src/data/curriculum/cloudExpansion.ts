@@ -1154,59 +1154,81 @@ budgets.create_budget(
         id: "cloud-strat-2",
         title: "Multi-Cloud vs Hybrid Cloud",
         titleEn: "Multi-Cloud vs Hybrid Cloud",
-        theory: `## 1. 🚦 Vấn đề đời thường
+        theory: `## 1. 🚦 Khái niệm chính
 
-Gia đình thầy có 2 lựa chọn đi chợ:
-- **Single cloud** = chỉ đi Co.opmart — quen đường, có thẻ thành viên, nhưng hôm nó nghỉ là đói.
-- **Multi-cloud** = lúc Co.opmart, lúc Bách Hoá Xanh, lúc Lotte — không phụ thuộc 1 nơi nhưng phải nhớ 3 layout, 3 thẻ.
-- **Hybrid** = nấu ở nhà (on-prem) + thỉnh thoảng order GrabFood (cloud) — cái gì rẻ/nhanh thì giao, cái gì bí mật thì tự nấu.
+- **Single cloud**: chỉ dùng 1 nhà cung cấp (AWS *hoặc* Azure *hoặc* GCP).
+- **Multi-cloud**: chạy app trên **≥2 public cloud** (ví dụ: AWS + GCP).
+- **Hybrid cloud**: kết hợp **on-prem** (data center riêng) **+ public cloud**.
+- **Multi-region** ≠ multi-cloud: nhiều vùng nhưng vẫn cùng 1 nhà.
 
-## 2. 💡 Khái niệm chính
+> 💡 **Mẹo nhớ:** Multi-cloud trả lời câu hỏi *"phụ thuộc ai?"*, Hybrid trả lời câu hỏi *"data ở đâu?"*.
 
-- **Multi-cloud**: chạy app trên ≥2 nhà cung cấp public cloud (AWS + GCP, Azure + AWS).
-- **Hybrid cloud**: kết hợp **on-prem** (data center riêng) + public cloud.
-- **Multi-region** ≠ multi-cloud: nhiều vùng nhưng cùng 1 nhà.
+## 2. 🧭 Workload Decision Tree
 
-## 3. 🧰 So sánh nhanh
+Khi đứng trước 1 workload mới, hãy đi theo cây quyết định sau:
 
-| Tiêu chí | Single | Multi-cloud | Hybrid |
+\`\`\`mermaid
+flowchart TD
+    A[New Workload] --> B{Public OK?}
+    B -- Yes --> C{Need 2 clouds?}
+    B -- No --> D[On-Prem / Hybrid]
+    C -- No --> E[Single Cloud]
+    C -- Yes --> F[Multi-Cloud]
+    D --> G{Burst Needed?}
+    G -- Yes --> H[Hybrid + Cloud Burst]
+    G -- No --> I[Pure On-Prem]
+\`\`\`
+
+## 3. 🏛️ Hybrid Cloud — đào sâu
+
+### 3.1 Why Hybrid?
+1. Hệ thống legacy không thể migrate (mainframe ngân hàng).
+2. **Data residency**: NHNN, GDPR yêu cầu data ở trong nước.
+3. **Cloud bursting**: peak traffic thì đẩy lên cloud, off-peak chạy on-prem.
+4. Edge computing (IoT, nhà máy sản xuất).
+5. Workload ổn định: sau 3 năm on-prem rẻ hơn cloud.
+
+### 3.2 Connectivity (cách nối on-prem ↔ cloud)
+| Phương án | Latency | Chi phí | Use case |
 |---|---|---|---|
-| Tránh vendor lock-in | ❌ | ✅ | ✅ |
-| Độ phức tạp | Thấp | **Cao** | Cao |
-| Chi phí vận hành | Thấp | Cao (2 đội ngũ) | Trung bình |
-| Compliance (data ở VN) | Khó | Khó | ✅ Dễ nhất |
-| Tận dụng giá tốt | ❌ | ✅ | ✅ |
+| **VPN** (Internet) | 50-200ms | $ | Dev, traffic thấp |
+| **Direct Connect / ExpressRoute** | 5-20ms | $$$ | Production, low-latency |
+| **SD-WAN** | Tùy route | $$ | Multi-site enterprise |
 
-## 4. 🎯 Ví dụ chạy được ngay
+### 3.3 Hybrid Patterns
+- **Cloud bursting** — chạy on-prem, khi peak thì auto scale ra cloud.
+- **Cloud as DR** — production on-prem, disaster recovery trên cloud.
+- **Cloud-first dev** — dev/staging trên cloud, prod on-prem.
 
-\\\`\\\`\\\`yaml
-# Terraform multi-cloud: web ở AWS, ML training ở GCP (TPU rẻ hơn)
-provider "aws"    { region = "ap-southeast-1" }
-provider "google" { project = "ml-prod", region = "asia-southeast1" }
+### 3.4 Tools
+- **Kubernetes** — chạy ở đâu cũng được.
+- **Terraform** — IaC đa cloud.
+- **Anthos** (Google), **Azure Arc**, **AWS Outposts** — đem mặt phẳng cloud xuống on-prem.
+- **HashiCorp Vault** — quản lý secret xuyên môi trường.
 
-resource "aws_lb" "web"           { /* serve user */ }
-resource "google_compute_instance" "ml_trainer" {
-  machine_type = "n1-standard-8"  # gắn TPU
-}
-\\\`\\\`\\\`
+### 3.5 Real-world ví dụ
+- **Netflix**: AWS-only từ 2008 (chống lại trào lưu multi-cloud).
+- **Walmart**: AWS + Azure (không muốn nuôi Amazon).
+- **Apple iCloud**: DC riêng + AWS + GCP.
+- **Ngân hàng VN (BIDV, Vietcombank)**: hybrid bắt buộc theo quy định NHNN.
 
-## 5. ⚠️ Bẫy thường gặp
+## 4. ⚠️ Bẫy thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - **Egress fee cắt cổ**: chuyển 1TB từ AWS sang GCP có thể tốn $90 — multi-cloud không tự nhiên rẻ.
-> - **Lowest common denominator**: chọn dịch vụ có ở cả 2 cloud → mất hết tính năng "xịn" của từng nhà.
+> - **Egress fee cắt cổ**: chuyển 1TB từ AWS sang GCP có thể tốn $90.
+> - **Lowest common denominator**: chỉ dùng dịch vụ có ở cả 2 cloud → mất tính năng "xịn".
 > - **2x team skill**: kỹ sư phải giỏi cả AWS lẫn GCP — lương gấp đôi, tuyển khó gấp ba.
 > - **Hybrid latency**: gọi DB on-prem từ cloud có thể 50-200ms → app chậm.
 
-## 6. ✅ Best practice của thầy Hải
+## 5. ✅ Best practice của thầy Hải
 
 > 💡 **Mẹo:**
-> - **Đừng multi-cloud vì sợ vendor lock-in** — hãy dùng abstraction (Terraform, K8s) trên 1 cloud trước.
-> - Chọn multi-cloud khi có **lý do thật**: compliance (EU dữ liệu phải ở Azure), giá tốt cho 1 dịch vụ cụ thể (TPU GCP, R2 Cloudflare), customer yêu cầu.
-> - Hybrid hợp với: ngân hàng VN (NHNN bắt giữ data trong nước), bệnh viện, doanh nghiệp đã đầu tư on-prem nặng.
-> - **Đo egress fee** trước khi quyết — nó là "chi phí ẩn" giết multi-cloud nhiều dự án.
+> - Đừng multi-cloud vì *sợ* vendor lock-in — hãy dùng abstraction (Terraform, K8s) trên 1 cloud trước.
+> - Chỉ multi-cloud khi có **lý do thật**: compliance, giá tốt cho 1 dịch vụ cụ thể, customer yêu cầu.
+> - Hybrid hợp với: ngân hàng, bệnh viện, doanh nghiệp đã đầu tư on-prem nặng.
+> - **Đo egress fee** trước khi quyết — đây là "chi phí ẩn" giết multi-cloud.
 
-## 7. 🤔 Khi nào dùng / không dùng
+## 6. 🤔 Khi nào dùng / không dùng
 
 | Single cloud | Multi-cloud | Hybrid |
 |---|---|---|
@@ -1214,7 +1236,7 @@ resource "google_compute_instance" "ml_trainer" {
 | Team < 20 kỹ sư | Cần mặc cả giá | On-prem đã có sẵn |
 | Tốc độ ra sản phẩm | Tránh outage 1 cloud | Data nhạy cảm |
 
-## 8. 📌 Tóm tắt 30 giây
+## 7. 📌 Tóm tắt 30 giây
 
 Single = đơn giản, nhanh. Multi-cloud = chống lock-in nhưng đắt + phức tạp. Hybrid = on-prem + cloud, hợp ngân hàng/y tế VN. Đừng "multi-cloud cho oai" — phải có lý do thật và tính được egress fee.
 `,
