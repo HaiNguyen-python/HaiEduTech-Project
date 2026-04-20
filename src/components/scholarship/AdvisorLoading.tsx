@@ -63,8 +63,8 @@ const AdvisorLoading = () => {
 
       <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
         {t(
-          "AI đang quét toàn cầu tìm học bổng phù hợp...",
-          "AI is scanning the globe for matched scholarships...",
+          "Mr. Hai đang quét toàn cầu tìm học bổng phù hợp...",
+          "Mr. Hai is scanning the globe for matched scholarships...",
         )}
       </h3>
       <p className="text-sm text-muted-foreground max-w-md mx-auto">

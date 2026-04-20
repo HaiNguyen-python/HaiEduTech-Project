@@ -46,8 +46,8 @@ const StudyAbroadHub = () => {
       to: "/global-scholarship",
       icon: Briefcase,
       gradient: "from-pink-500 to-rose-600",
-      title: t("AI Scholarship Advisor", "AI Scholarship Advisor"),
-      desc: t("Tư vấn học bổng cá nhân hoá realtime với Perplexity AI.", "Personalized real-time scholarship search with Perplexity AI."),
+      title: t("Tư vấn học bổng cùng Mr. Hai", "Scholarship Consulting with Mr. Hai"),
+      desc: t("Tư vấn học bổng cá nhân hoá realtime cùng Mr. Hai.", "Personalized real-time scholarship search with Mr. Hai."),
     },
     {
       to: "/study-abroad/mentor-hub",
@@ -80,8 +80,8 @@ const StudyAbroadHub = () => {
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
               {t(
-                "Một nơi duy nhất cho hồ sơ, hướng dẫn viết letter, lộ trình SAT, chiến lược PhD và tư vấn học bổng AI.",
-                "One place for your documents, letter guides, SAT roadmap, PhD strategy, and AI scholarship consulting."
+                "Một nơi duy nhất cho hồ sơ, hướng dẫn viết letter, lộ trình SAT, chiến lược PhD và tư vấn học bổng cùng Mr. Hai.",
+                "One place for your documents, letter guides, SAT roadmap, PhD strategy, and scholarship consulting with Mr. Hai."
               )}
             </p>
           </motion.div>
