@@ -101,15 +101,25 @@ function initMermaid() {
       /* SVG-side text rendering for crispness */
       .nodeLabel, .edgeLabel, .messageText, .noteText, text, text.actor, text.actor-man, .titleText, .loopText, .labelText {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-        font-size: 15px !important;
+        font-size: 14px !important;
         font-weight: 600 !important;
-        line-height: 1.45 !important;
+        line-height: 1.4 !important;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
       }
 
-      .nodeLabel {
+      /* HTML-label flowchart nodes: allow wrap, center, padding */
+      .nodeLabel, .nodeLabel p, foreignObject div {
         white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+        text-align: center !important;
+        line-height: 1.4 !important;
+        padding: 2px 4px !important;
+      }
+
+      foreignObject {
+        overflow: visible !important;
       }
 
       .node rect, .node polygon, .node circle, .node ellipse, .node path {
@@ -123,10 +133,12 @@ function initMermaid() {
         color: ${isDark ? "hsl(210 40% 98%)" : "hsl(222 47% 11%)"} !important;
         padding: 3px 7px !important;
         border-radius: 4px !important;
+        font-size: 13px !important;
       }
 
-      .edgeLabel rect {
+      .edgeLabel rect, .edgeLabel foreignObject div {
         fill: ${isDark ? "hsl(222 47% 11%)" : "hsl(0 0% 100%)"} !important;
+        background-color: ${isDark ? "hsl(222 47% 11%)" : "hsl(0 0% 100%)"} !important;
       }
 
       .cluster rect {
