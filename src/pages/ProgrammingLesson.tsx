@@ -107,8 +107,29 @@ const ProgrammingLessonPage = () => {
   const [enhancedMd, setEnhancedMd] = useState<string | null>(null);
   const [enhanceLoading, setEnhanceLoading] = useState(false);
   const [useEnhanced, setUseEnhanced] = useState(true);
+  // Set of cached lesson keys "moduleId::lessonId" — drives the sidebar ✨ Enhanced badge
+  const [cachedLessonKeys, setCachedLessonKeys] = useState<Set<string>>(new Set());
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
+
+  // Load list of all cached lessons in the current pillar (single query) for the sidebar badges
+  useEffect(() => {
+    const moduleIds = (pillar ? getPillarModules(pillar) : []).map((m) => m.id);
+    if (moduleIds.length === 0) return;
+    let cancelled = false;
+    supabase
+      .from("programming_theory_cache")
+      .select("module_id,lesson_id")
+      .in("module_id", moduleIds)
+      .then(({ data }) => {
+        if (cancelled || !data) return;
+        setCachedLessonKeys(new Set(data.map((r: any) => `${r.module_id}::${r.lesson_id}`)));
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pillar]);
 
   // Load cached AI theory whenever the lesson changes
   useEffect(() => {
