@@ -891,6 +891,7 @@ export type Database = {
           enhanced_markdown: string
           generated_by: string | null
           id: string
+          illustrations: Json
           lesson_id: string
           module_id: string
           updated_at: string
@@ -901,6 +902,7 @@ export type Database = {
           enhanced_markdown: string
           generated_by?: string | null
           id?: string
+          illustrations?: Json
           lesson_id: string
           module_id: string
           updated_at?: string
@@ -911,6 +913,7 @@ export type Database = {
           enhanced_markdown?: string
           generated_by?: string | null
           id?: string
+          illustrations?: Json
           lesson_id?: string
           module_id?: string
           updated_at?: string

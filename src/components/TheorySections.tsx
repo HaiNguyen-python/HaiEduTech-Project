@@ -374,6 +374,35 @@ const markdownComponents = (defaultLang: string) => ({
     if (!inline && codeStr.includes("\n")) return <CodeBlock code={codeStr} language={defaultLang} />;
     return <code className={className} {...props}>{children}</code>;
   },
+  // AI-generated lesson illustrations: wrap each <img> in a styled <figure>
+  // with a soft border, rounded corners, drop shadow, and italic caption.
+  // Reserves a 1:1 aspect ratio so the page layout doesn't shift while loading
+  // (preserves the scrollbar-stability behavior).
+  img({ src, alt }: any) {
+    if (!src) return null;
+    const caption = (alt || "").trim();
+    return (
+      <figure className="my-6 mx-auto max-w-[720px] flex flex-col items-center">
+        <div
+          className="w-full overflow-hidden rounded-2xl border border-border/60 bg-muted/20 shadow-md"
+          style={{ aspectRatio: "1 / 1", contain: "layout paint" }}
+        >
+          <img
+            src={src}
+            alt={caption || "Lesson illustration"}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        {caption && (
+          <figcaption className="mt-2 text-sm italic text-muted-foreground text-center">
+            {caption}
+          </figcaption>
+        )}
+      </figure>
+    );
+  },
 });
 
 // Strip an outer ```markdown ... ``` wrapper that some AI providers emit around
