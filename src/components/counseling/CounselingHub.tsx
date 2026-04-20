@@ -756,13 +756,6 @@ const JournalSection = ({ userId }: { userId: string }) => {
                   <X className="w-3.5 h-3.5" />
                 </button>
               </div>
-              <button
-                onClick={() => askAI(e.content)}
-                className="mt-3 inline-flex items-center gap-1 text-xs text-primary hover:underline"
-              >
-                <Sparkles className="w-3 h-3" /> {t("Hỏi AI Counselor về điều này", "Ask AI Counselor about this")}
-                <ArrowRight className="w-3 h-3" />
-              </button>
             </div>
           ))}
         </div>
