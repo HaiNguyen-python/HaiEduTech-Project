@@ -151,17 +151,24 @@ const Navbar = () => {
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/programming?pillar=python-pathway", label: t("💻 Introduction to Programming", "💻 Introduction to Programming") },
-    { to: "/python-challenges", label: t("🏆 150 Thử thách Python", "🏆 150 Python Challenges") },
-    { to: "/programming/prog-ai-foundation", label: "🧠 AI Foundation" },
-    { to: "/programming/prog-sql", label: "🗄️ SQL & Database" },
-    { to: "/programming/prog-data-pipeline", label: "🔄 Data Engineer" },
-    { to: "/programming/cloud-fundamentals", label: "☁️ Cloud Engineer" },
-    { to: "/programming/prog-ml", label: "🤖 Machine Learning Engineer" },
-    { to: "/programming/dl-foundations", label: "🧠 Deep Learning" },
-    { to: "/programming/reinforcement-learning", label: "🎮 Reinforcement Learning" },
-    { to: "/programming/interview-questions", label: t("💼 Câu hỏi Phỏng vấn", "💼 Interview Questions") },
-    { to: "/programming/job-opportunities", label: t("🎯 Cơ hội Việc làm 🇫🇮", "🎯 Job Opportunities 🇫🇮") },
+    { to: "#prog-foundation-group", label: t("🎓 Lộ trình Cơ bản", "🎓 Foundation Track"), groupLabel: "prog-foundation", children: [
+      { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
+      { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges") },
+    ] },
+    { to: "#prog-ai-data-group", label: t("🤖 AI & Data Engineering", "🤖 AI & Data Engineering"), groupLabel: "prog-ai-data", children: [
+      { to: "/programming/prog-ai-foundation", label: "🧠 AI Foundation" },
+      { to: "/programming/prog-ml", label: "🤖 Machine Learning" },
+      { to: "/programming/dl-foundations", label: "🧬 Deep Learning" },
+      { to: "/programming/reinforcement-learning", label: "🎮 Reinforcement Learning" },
+      { to: "#div-ai", label: "", divider: true },
+      { to: "/programming/prog-sql", label: "🗄️ SQL & Database" },
+      { to: "/programming/prog-data-pipeline", label: "🔄 Data Engineer" },
+      { to: "/programming/cloud-fundamentals", label: "☁️ Cloud Engineer" },
+    ] },
+    { to: "#prog-career-group", label: t("💼 Sự nghiệp", "💼 Career"), groupLabel: "prog-career", children: [
+      { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions") },
+      { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮") },
+    ] },
   ];
 
   const studyAbroadSubs: SubItem[] = [
