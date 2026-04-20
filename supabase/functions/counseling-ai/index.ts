@@ -225,21 +225,25 @@ serve(async (req) => {
       });
     }
 
+    // Use lightweight `sonar` for psychological/quote modes (less search-heavy = fewer citations)
+    // Use `sonar-pro` for career & MBTI mapping (needs more reasoning + course knowledge)
+    const modelToUse = mode === "psychological" || mode === "quote" ? "sonar" : "sonar-pro";
+
     const resp = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${PERPLEXITY_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "sonar-pro",
+        model: modelToUse,
         messages: [
           { role: "system", content: systemPrompt },
           ...chatMessages,
         ],
-        temperature: 0.4,
+        temperature: mode === "psychological" ? 0.7 : 0.4,
       }),
     });
 
     if (!resp.ok) {
-      await logUsage("sonar-pro", 0, "error", `HTTP ${resp.status}`);
+      await logUsage(modelToUse, 0, "error", `HTTP ${resp.status}`);
       const txt = await resp.text();
       console.error("Perplexity error:", resp.status, txt);
       return new Response(JSON.stringify({ error: "AI service error" }), {
@@ -251,16 +255,39 @@ serve(async (req) => {
     const raw = data.choices?.[0]?.message?.content || "";
     const parsed = tryParseJSON(raw);
     const tokens = data.usage?.total_tokens || 500;
-    await logUsage("sonar-pro", tokens, "success");
+    await logUsage(modelToUse, tokens, "success");
+
+    // Strip citation markers like [1], [2,3], (1), 【1】 from any text fields
+    const stripCitations = (s: string): string => {
+      if (typeof s !== "string") return s;
+      return s
+        .replace(/\[\s*\d+(\s*[,，]\s*\d+)*\s*\]/g, "") // [1], [1,2], [1, 2, 3]
+        .replace(/\(\s*\d+(\s*[,，]\s*\d+)*\s*\)/g, "") // (1), (1,2)
+        .replace(/【\s*\d+(\s*[,，]\s*\d+)*\s*】/g, "")    // 【1】
+        .replace(/\s+([.,!?;:])/g, "$1") // tidy spacing before punctuation
+        .replace(/\s{2,}/g, " ")
+        .trim();
+    };
 
     if (!parsed) {
-      // Fallback: treat raw as plain reply
-      return new Response(JSON.stringify({ reply: raw, distress_high: false, raw: true }), {
+      return new Response(JSON.stringify({ reply: stripCitations(raw), distress_high: false, raw: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    return new Response(JSON.stringify(parsed), {
+    // Recursively strip citations from all string fields in the parsed JSON
+    const cleanObj = (obj: any): any => {
+      if (typeof obj === "string") return stripCitations(obj);
+      if (Array.isArray(obj)) return obj.map(cleanObj);
+      if (obj && typeof obj === "object") {
+        const out: any = {};
+        for (const k of Object.keys(obj)) out[k] = cleanObj(obj[k]);
+        return out;
+      }
+      return obj;
+    };
+
+    return new Response(JSON.stringify(cleanObj(parsed)), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
