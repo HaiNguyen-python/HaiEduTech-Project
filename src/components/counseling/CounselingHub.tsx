@@ -524,10 +524,65 @@ const MoodSection = ({ userId }: { userId: string }) => {
     load();
   };
 
-  const chartData = [...history]
-    .reverse()
-    .map((h) => ({ date: new Date(h.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric" }), score: h.mood_score }));
+  // Aggregate by day (average score if multiple check-ins per day, keep dominant emoji)
+  const dailyMap = new Map<string, { scores: number[]; moods: string[]; iso: string }>();
+  history.forEach((h) => {
+    const d = new Date(h.created_at);
+    const key = d.toISOString().slice(0, 10);
+    if (!dailyMap.has(key)) dailyMap.set(key, { scores: [], moods: [], iso: key });
+    const entry = dailyMap.get(key)!;
+    entry.scores.push(h.mood_score);
+    entry.moods.push(h.mood);
+  });
+  const chartData = Array.from(dailyMap.values())
+    .sort((a, b) => a.iso.localeCompare(b.iso))
+    .map((d) => {
+      const avgScore = d.scores.reduce((s, x) => s + x, 0) / d.scores.length;
+      // Find emoji matching closest mood option to avg score
+      const closest = MOOD_OPTIONS.reduce((best, m) =>
+        Math.abs(m.score - avgScore) < Math.abs(best.score - avgScore) ? m : best
+      );
+      return {
+        date: new Date(d.iso).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+        score: Number(avgScore.toFixed(2)),
+        emoji: closest.emoji,
+        label: t(closest.vi, closest.en),
+        count: d.scores.length,
+      };
+    });
   const avg = history.length ? (history.reduce((s, h) => s + h.mood_score, 0) / history.length).toFixed(1) : "—";
+
+  // Custom dot renders the emoji
+  const EmojiDot = (props: any) => {
+    const { cx, cy, payload } = props;
+    if (cx == null || cy == null) return null;
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r={12} fill="hsl(var(--card))" stroke="hsl(var(--primary))" strokeWidth={2} />
+        <text x={cx} y={cy + 4} textAnchor="middle" fontSize={13}>{payload.emoji}</text>
+      </g>
+    );
+  };
+
+  const MoodTooltip = ({ active, payload }: any) => {
+    if (!active || !payload?.length) return null;
+    const p = payload[0].payload;
+    return (
+      <div className="rounded-lg border border-border bg-card px-3 py-2 text-xs shadow-lg">
+        <div className="font-medium mb-1">{p.date}</div>
+        <div className="flex items-center gap-2">
+          <span className="text-base">{p.emoji}</span>
+          <span>{p.label}</span>
+          <span className="text-muted-foreground">· {p.score}/5</span>
+        </div>
+        {p.count > 1 && (
+          <div className="text-[10px] text-muted-foreground mt-1">
+            {t(`${p.count} lần ghi nhận`, `${p.count} check-ins`)}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-5">
@@ -563,27 +618,55 @@ const MoodSection = ({ userId }: { userId: string }) => {
         />
       </div>
 
-      {history.length >= 2 && (
+      {chartData.length >= 1 && (
         <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-1">
             <h3 className="font-display font-bold flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-primary" />
-              {t("Xu hướng cảm xúc", "Mood Trend")}
+              {t("Biểu đồ cảm xúc theo ngày", "Daily Mood Chart")}
             </h3>
             <span className="text-xs text-muted-foreground">
               {t("Trung bình:", "Avg:")} <span className="font-bold text-foreground">{avg}/5</span>
             </span>
           </div>
-          <div className="h-48">
+          <p className="text-xs text-muted-foreground mb-4">
+            {t(
+              `${chartData.length} ngày ghi nhận · ${history.length} lượt check-in trong 30 ngày qua`,
+              `${chartData.length} days tracked · ${history.length} check-ins in last 30 days`
+            )}
+          </p>
+          <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData}>
+              <LineChart data={chartData} margin={{ top: 16, right: 16, left: 0, bottom: 8 }}>
                 <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
-                <XAxis dataKey="date" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} />
-                <YAxis domain={[1, 5]} tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} />
-                <Tooltip contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px", fontSize: "12px" }} />
-                <Line type="monotone" dataKey="score" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ r: 4 }} />
+                <XAxis dataKey="date" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} />
+                <YAxis
+                  domain={[1, 5]}
+                  ticks={[1, 2, 3, 4, 5]}
+                  tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+                  tickFormatter={(v) => MOOD_OPTIONS.find((m) => m.score === v)?.emoji || String(v)}
+                  width={36}
+                />
+                <Tooltip content={<MoodTooltip />} />
+                <Line
+                  type="monotone"
+                  dataKey="score"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2.5}
+                  dot={<EmojiDot />}
+                  activeDot={{ r: 14, fill: "hsl(var(--primary) / 0.15)", stroke: "hsl(var(--primary))" }}
+                  isAnimationActive
+                />
               </LineChart>
             </ResponsiveContainer>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-3 text-[11px] text-muted-foreground">
+            {MOOD_OPTIONS.slice().reverse().map((m) => (
+              <span key={m.value} className="inline-flex items-center gap-1">
+                <span>{m.emoji}</span>
+                <span>{m.score} · {t(m.vi, m.en)}</span>
+              </span>
+            ))}
           </div>
         </div>
       )}
