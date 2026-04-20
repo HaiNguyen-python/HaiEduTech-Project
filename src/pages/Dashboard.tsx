@@ -22,112 +22,96 @@ import {
 } from "recharts";
 
 // Types for processed dashboard data
+interface ActivityItem {
+  type: string;
+  domain: string;
+  score: number | null;
+  maxScore: number | null;
+  date: string;
+  timeSpent: number | null;
+}
+
+interface CourseProgress {
+  id: string;
+  title: string;
+  domain: string;
+  completed: number;
+  total: number;
+  pct: number;
+  lastLessonHref: string;
+  nextGoal: string;
+}
+
 interface DashboardStats {
   totalActivities: number;
   totalTimeMinutes: number;
   avgScore: number;
   studyStreak: number;
   domainBreakdown: { domain: string; count: number; avgScore: number }[];
-  skillRadar: { skill: string; value: number }[];
-  weeklyTrend: { week: string; activities: number; avgScore: number }[];
-  heatmap: number[][]; // 52 weeks x 7 days
-  recentActivities: {
-    type: string;
-    domain: string;
-    score: number | null;
-    maxScore: number | null;
-    date: string;
-    timeSpent: number | null;
-  }[];
+  // Skill radar across 4 main programs
+  skillRadar: { skill: string; value: number; fullMark: number }[];
+  // Last 7 days study minutes
+  weeklyMinutes: { day: string; minutes: number }[];
+  recentActivities: ActivityItem[];
+  courses: CourseProgress[];
+  // AI summary text
+  aiSummary: string;
 }
 
 const DOMAIN_LABELS: Record<string, string> = {
   english: "English",
   chinese: "Chinese",
   programming: "Programming",
+  finnish: "Finnish",
 };
 
-const SKILL_MAP: Record<string, string[]> = {
-  english: ["Grammar", "Vocabulary", "Reading", "Writing", "Speaking"],
-  chinese: ["Pinyin", "Hanzi", "Grammar", "Reading", "Vocabulary"],
-  programming: ["Syntax", "Logic", "SQL", "Data", "Algorithms"],
+// Pick the right icon for an activity type
+const getActivityIcon = (type: string) => {
+  if (type.includes("speaking")) return Mic;
+  if (type.includes("writing")) return PenTool;
+  if (type.includes("python") || type.includes("code") || type.includes("programming")) return Code;
+  if (type.includes("game") || type.includes("hsk") || type.includes("vocab")) return Award;
+  if (type.includes("reading") || type.includes("lecture") || type.includes("lesson")) return BookOpen;
+  return Activity;
 };
 
-const heatColors = ["bg-secondary", "bg-primary/20", "bg-primary/40", "bg-primary/60", "bg-primary"];
+// Format relative timestamps
+const formatRelativeTime = (date: string, isVi: boolean) => {
+  const diff = Date.now() - new Date(date).getTime();
+  const mins = Math.floor(diff / 60000);
+  const hours = Math.floor(mins / 60);
+  const days = Math.floor(hours / 24);
+  if (mins < 1) return isVi ? "Vừa xong" : "Just now";
+  if (mins < 60) return isVi ? `${mins} phút trước` : `${mins}m ago`;
+  if (hours < 24) return isVi ? `${hours} giờ trước` : `${hours}h ago`;
+  if (days < 7) return isVi ? `${days} ngày trước` : `${days}d ago`;
+  return new Date(date).toLocaleDateString();
+};
 
-// Overall Leaderboard component
-const OverallLeaderboard = () => {
-  const { t } = useLanguage();
-  const [entries, setEntries] = useState<{ user_id: string; total: number; name: string }[]>([]);
-  const [loading, setLoading] = useState(true);
+// Daily motivation pool — picked deterministically by name + date
+const MOTIVATIONS_VI = [
+  "Mỗi bước nhỏ hôm nay là bước nhảy lớn của ngày mai.",
+  "Học không phải là cuộc đua, mà là hành trình của riêng em.",
+  "Sự kiên trì luôn chiến thắng tài năng đơn thuần.",
+  "Hôm nay học một chút, mai vững vàng hơn nhiều.",
+  "Em làm tốt hơn em nghĩ. Tin vào bản thân nhé!",
+  "Không có gì là không thể với sự cố gắng mỗi ngày.",
+  "Thầy Hải tin rằng em sẽ làm được điều tuyệt vời.",
+];
+const MOTIVATIONS_EN = [
+  "Small steps today become giant leaps tomorrow.",
+  "Learning is not a race — it's your unique journey.",
+  "Consistency beats raw talent every time.",
+  "A little today, much stronger tomorrow.",
+  "You're doing better than you think. Trust yourself!",
+  "Nothing is impossible when you show up daily.",
+  "Teacher Hai believes you will achieve great things.",
+];
 
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const { data } = await supabase
-          .from("game_scores")
-          .select("user_id, score")
-          .order("created_at", { ascending: false })
-          .limit(500);
-
-        if (data && data.length > 0) {
-          const totals = new Map<string, number>();
-          for (const row of data) {
-            totals.set(row.user_id, (totals.get(row.user_id) || 0) + row.score);
-          }
-
-          const userIds = [...totals.keys()];
-          const { data: profiles } = await supabase
-            .from("profiles")
-            .select("id, full_name")
-            .in("id", userIds);
-
-          const nameMap = new Map(profiles?.map((p) => [p.id, p.full_name]) || []);
-
-          const sorted = [...totals.entries()]
-            .map(([uid, total]) => ({ user_id: uid, total, name: nameMap.get(uid) || "Student" }))
-            .sort((a, b) => b.total - a.total)
-            .slice(0, 10);
-
-          setEntries(sorted);
-        }
-      } catch (e) {
-        console.error("Leaderboard error:", e);
-      }
-      setLoading(false);
-    };
-    fetch();
-  }, []);
-
-  if (loading) return null;
-  if (entries.length === 0) return null;
-
-  const medals = ["🥇", "🥈", "🥉"];
-
-  return (
-    <div className="glass-card rounded-xl p-4 mt-6">
-      <h3 className="text-sm font-bold text-foreground flex items-center gap-2 mb-3">
-        <Trophy className="w-4 h-4 text-amber-400" />
-        {t("Bảng xếp hạng tổng hợp", "Overall Leaderboard")}
-      </h3>
-      <div className="space-y-2">
-        {entries.map((entry, i) => (
-          <div
-            key={entry.user_id}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs ${
-              i === 0 ? "bg-amber-500/10 border border-amber-500/30" : "bg-card/50 border border-border/50"
-            }`}
-          >
-            <span className="w-6 flex-shrink-0 text-center">
-              {i < 3 ? medals[i] : <span className="text-muted-foreground font-mono">#{i + 1}</span>}
-            </span>
-            <span className="flex-1 truncate font-medium text-foreground">{entry.name}</span>
-            <span className="font-bold text-primary">{entry.total}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+const pickMotivation = (name: string, isVi: boolean) => {
+  const pool = isVi ? MOTIVATIONS_VI : MOTIVATIONS_EN;
+  const seed = (name + new Date().toDateString()).split("").reduce((s, c) => s + c.charCodeAt(0), 0);
+  return pool[seed % pool.length];
 };
 
 const Dashboard = () => {
