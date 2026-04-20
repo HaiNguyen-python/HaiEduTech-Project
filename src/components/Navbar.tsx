@@ -435,7 +435,10 @@ const Navbar = () => {
                                     <div className={`flex items-center justify-between px-4 py-2.5 text-sm font-medium cursor-pointer rounded-md mx-1 transition-colors ${
                                       activeSubmenu === sub.groupLabel ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-secondary/80"
                                     }`}>
-                                      <span>{sub.label}</span>
+                                      <span className="flex items-center gap-2.5">
+                                        {sub.icon && <sub.icon className="w-4 h-4 text-primary/70" />}
+                                        <span>{sub.label}</span>
+                                      </span>
                                       <ChevronRight className="w-3.5 h-3.5" />
                                     </div>
                                   </motion.div>
@@ -457,6 +460,7 @@ const Navbar = () => {
                                               : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                               : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
                                               : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
+                                              : sub.groupLabel === "prog-software-web" ? "Software & Web Engineering"
                                               : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
                                               : sub.label}
                                           </span>
@@ -491,15 +495,22 @@ const Navbar = () => {
                               );
                             }
 
+                            // Divider
+                            if (sub.divider) {
+                              return <div key={sub.to + i} className="my-1.5 mx-3 h-px bg-border" />;
+                            }
+
                             // Regular sub-item
+                            const SubIcon = sub.icon;
                             return (
                               <motion.div key={sub.to + sub.label}
                                 initial={{ opacity: 0, x: -6 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: i * 0.025, duration: 0.18 }}>
                                 <Link to={sub.to} onClick={() => setDropdown(null)}
-                                  className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors rounded-md mx-1">
-                                  {sub.label}
+                                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors rounded-md mx-1">
+                                  {SubIcon && <SubIcon className="w-4 h-4 text-primary/70" />}
+                                  <span>{sub.label}</span>
                                 </Link>
                               </motion.div>
                             );
