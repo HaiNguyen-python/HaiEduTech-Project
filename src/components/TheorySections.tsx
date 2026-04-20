@@ -4,6 +4,33 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+
+// KaTeX options:
+//  - strict:false + throwOnError:false → unknown commands render in red instead of breaking the page
+//  - macros → map common AI-emitted but non-standard commands to valid KaTeX equivalents
+const KATEX_OPTIONS = {
+  strict: false as const,
+  throwOnError: false,
+  errorColor: "#dc2626",
+  output: "html" as const,
+  macros: {
+    "\\clip": "\\operatorname{clip}",
+    "\\argmin": "\\operatorname{arg\\,min}",
+    "\\argmax": "\\operatorname{arg\\,max}",
+    "\\softmax": "\\operatorname{softmax}",
+    "\\relu": "\\operatorname{ReLU}",
+    "\\sigmoid": "\\operatorname{sigmoid}",
+    "\\tr": "\\operatorname{tr}",
+    "\\diag": "\\operatorname{diag}",
+    "\\rank": "\\operatorname{rank}",
+    "\\E": "\\mathbb{E}",
+    "\\R": "\\mathbb{R}",
+    "\\N": "\\mathbb{N}",
+    "\\Z": "\\mathbb{Z}",
+    "\\Q": "\\mathbb{Q}",
+    "\\KL": "\\operatorname{KL}",
+  },
+};
 import {
   Check, Circle, BookOpenCheck, Lightbulb, Code2, FileCode, AlertTriangle,
   ListChecks, HelpCircle, Zap, GitCompare, Dumbbell, Sparkles, BookOpen,
