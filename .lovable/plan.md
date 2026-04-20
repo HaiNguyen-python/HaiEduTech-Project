@@ -1,29 +1,125 @@
 
-
 ## Goal
-Fix the broken Mermaid diagrams across all Programming lessons (e.g., "Transform: Clean/Mask/Aggre" being clipped, narrow boxes cutting off text) so every diagram renders cleanly and legibly.
+Make the entire Learn Programming experience significantly clearer and more readable, especially in Cloud/Data/AI lessons where Mermaid diagrams and dense theory blocks are still rendering poorly.
 
-## Root cause
-In `src/components/lesson-visuals/MermaidDiagram.tsx` we currently force `white-space: nowrap !important` on every label. But the AI-generated diagrams use `<br/>` line-breaks inside node labels (e.g., `Hidden Layer 1<br/>ReLU + BatchNorm`, `Transform: Clean/Mask/Aggregate`). The combination causes two visible bugs:
+## What is still causing the issue
+The remaining display problems are broader than one Mermaid setting:
 
-1. The HTML label `<div>` ignores `<br/>` width and stretches as one line, but Mermaid sizes the underlying SVG `<rect>` from the original (wrapped) text — so the rendered text overflows and gets clipped at the rect edge.
-2. Long single-word labels still don't fit because node padding is too tight.
+1. `MermaidDiagram.tsx` is currently optimized only at the global config level, but AI-generated diagrams vary a lot in size, direction, and label length. One fixed layout is not enough.
+2. The AI Deep-Dive generator explicitly injects Mermaid blocks, so some diagrams are being generated with structures that are hard to read by default.
+3. `ProgrammingLesson.tsx` packs several dense UI sections together inside similar “glass-card” panels, so even when diagrams render correctly, the lesson can still feel visually heavy.
+4. `TheorySections.tsx` and `.theory-content` styling are good for text, but not yet tuned enough for diagram-heavy technical lessons and wide comparison tables.
 
-## Fix — overhaul `MermaidDiagram.tsx`
+## Implementation plan
 
-1. **Stop forcing `nowrap`.** Allow labels to wrap normally so `<br/>` works and long words break cleanly.
-2. **Use SVG text labels (`htmlLabels: false`)** for flowcharts. SVG text is what Mermaid measures the rect against, so the rect always fits the text — no more "Aggre…" clipping.
-3. **Increase per-diagram padding & spacing**: node padding 18, `nodeSpacing` 80, `rankSpacing` 90, font 15px so multi-line labels breathe.
-4. **Keep contrast strong** in both light and dark themes (current blue palette is good — keep it but raise `primaryTextColor` weight to 600).
-5. **Per-diagram-type tuning** for the few non-flowchart types we use (`timeline`, `sequenceDiagram`): keep their defaults, only inject font-size + colors via `themeCSS`.
-6. **Preserve current safety nets**: `suppressErrorRendering`, `mermaid.parse` pre-validation, orphan `<svg>` cleanup, and the soft "Diagram could not be rendered" fallback.
-7. **Container polish**: keep the gradient card, but add `min-h` so loading state doesn't jump, and ensure horizontal scroll only kicks in on truly oversized diagrams (mobile).
+### 1. Harden Mermaid rendering for readability, not just correctness
+Update `src/components/lesson-visuals/MermaidDiagram.tsx` so diagrams adapt better to different lesson content:
 
-## Verification
-After the change, the diagrams shown in the screenshots ("Source → Extract → Transform: Clean/Mask/Aggregate → Load → Warehouse" and the AI architecture flowcharts) should render with full text visible inside every node, no clipping, no blur, and consistent spacing across light/dark mode.
+- Detect diagram type (`flowchart`, `graph`, `sequenceDiagram`, `timeline`) and apply safer defaults per type.
+- Add stronger SVG-side text rendering rules:
+  - larger font size
+  - clearer line-height behavior
+  - explicit text anchoring/alignment
+  - sharper text rendering where supported
+- Increase node/cluster spacing further for technical diagrams with long labels.
+- Add a centered inner stage wrapper so oversized diagrams scroll horizontally without shrinking or blurring.
+- Constrain visual density:
+  - cap maximum wrapping width
+  - increase node padding
+  - reduce “cramped” edge label placement
+- Keep the existing protections:
+  - `mermaid.parse`
+  - `suppressErrorRendering`
+  - orphan cleanup
+  - graceful fallback state
 
-## Files touched
-- `src/components/lesson-visuals/MermaidDiagram.tsx` (single file, full rewrite of `initMermaid` config + container)
+### 2. Add post-render SVG cleanup for Mermaid output
+Improve `MermaidDiagram.tsx` after `mermaid.render(...)` by normalizing the generated SVG before inserting it:
 
-No changes to cached content, no DB migration, no edge function changes.
+- remove inline width/height behavior that causes awkward scaling
+- enforce `preserveAspectRatio` and stable viewBox-driven layout
+- add readable defaults to generated text nodes and edge labels
+- ensure long labels remain visible instead of being clipped by internal SVG bounds
+- make diagrams align left on narrow/mobile layouts and center only when space allows
 
+This is important because Mermaid’s generated SVG often needs a second pass for polished app UI.
+
+### 3. Improve lesson-page layout hierarchy in Learn Programming
+Refine `src/pages/ProgrammingLesson.tsx` so the lesson feels easier to scan:
+
+- make the theory card more spacious and clearly separated from code / quiz / challenge sections
+- reduce visual crowding between stacked cards
+- improve heading hierarchy and section spacing
+- give the theory area a slightly more document-like reading layout
+- make the roadmap/sidebar visually lighter so it does not compete with the lesson body
+- improve behavior when IDE is open so the reading column still feels comfortable, not compressed
+
+### 4. Tune TheorySections for technical reading
+Update `src/components/TheorySections.tsx` to better support diagram-heavy content:
+
+- add stronger spacing before/after Mermaid blocks
+- visually separate diagrams from surrounding paragraphs and callouts
+- reduce header clutter around each theory section
+- keep progress/read controls, but make them less dominant than the lesson content
+- ensure markdown chunks with diagrams, deep dives, tables, and prose flow cleanly in a predictable order
+
+### 5. Refine global programming lesson typography and table styling
+Adjust the Learn Programming styles in `src/index.css`:
+
+- increase readability for dense technical text:
+  - slightly larger body size on desktop
+  - stronger contrast for paragraph text
+  - better spacing for lists and tables
+- improve technical tables:
+  - more padding
+  - less cramped columns
+  - clearer row separation
+  - safer mobile overflow
+- add dedicated spacing rules for diagram wrappers inside `.theory-content`
+- ensure code blocks, diagrams, callouts, and tables all feel like distinct content types
+
+### 6. Reduce future bad Mermaid output from AI Deep-Dive
+Update `supabase/functions/enhance-programming-theory/index.ts` so AI-generated diagrams are easier to render well:
+
+- instruct the model to prefer simple Mermaid structures
+- avoid overly long node labels
+- prefer short noun phrases over sentence-length labels
+- prefer top-down or left-right layouts with limited branching
+- avoid visually dense diagrams when a comparison table would communicate more clearly
+- keep code comments in English as already required
+
+This reduces future broken or cluttered diagrams at the source.
+
+### 7. Verify across the whole Programming pillar, not just one lesson
+After implementation, test multiple programming lessons that represent different content types:
+
+- Cloud Fundamentals
+- Compute & Storage
+- SQL lessons with tables/diagrams
+- ML lessons with built-in visual blocks
+- AI Deep-Dive content with generated Mermaid diagrams
+
+Verification should confirm:
+- no clipped node text
+- no blurry/scaled-down diagrams
+- no cramped tables
+- clearer section spacing
+- better readability with and without the IDE open
+- acceptable mobile behavior for wide technical content
+
+## Files to update
+- `src/components/lesson-visuals/MermaidDiagram.tsx`
+- `src/components/TheorySections.tsx`
+- `src/pages/ProgrammingLesson.tsx`
+- `src/index.css`
+- `supabase/functions/enhance-programming-theory/index.ts`
+
+## Technical notes
+- The biggest remaining issue is no longer just syntax or orphan SVG injection; it is layout quality after Mermaid renders.
+- The fix should combine:
+  - better Mermaid config
+  - SVG post-processing
+  - page-level spacing improvements
+  - stricter AI prompt guidance for generated diagrams
+- No database migration is required.
+- No auth or RLS changes are required.
