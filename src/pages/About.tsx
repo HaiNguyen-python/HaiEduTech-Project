@@ -75,7 +75,7 @@ const About = () => {
               Hai <span className="text-gradient">Nguyen</span>
             </h1>
             <p className="text-lg text-muted-foreground mb-4">
-              ICT Engineer - Language Trainer - HaiEduTech Founder
+              ICT Engineer - Language Educator - HaiEduTech Founder
             </p>
             <div className="text-secondary-foreground mb-8 space-y-4 text-[15px] leading-relaxed">
               <p>{t("Chào bạn, thầy là Hai Nguyen – Founder của HaiEduTech.", "Hi, I'm Hai Nguyen – Founder of HaiEduTech.")}</p>
