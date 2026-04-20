@@ -14,6 +14,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allToeicLectures } from "@/data/toeicLecturesData";
+import ToeicLectureDiagram from "@/components/toeic/ToeicLectureDiagram";
 
 const LEVEL_LABELS: Record<string, { label: string; labelVi: string }> = {
   foundation: { label: "Foundation", labelVi: "Nền tảng" },
@@ -194,6 +195,10 @@ const ToeicLectureView = () => {
               <h2 className="text-xl font-bold text-blue-300 flex items-center gap-2">
                 <BookOpen className="w-5 h-5" /> {t("Kỹ thuật cốt lõi", "Core Technique")}
               </h2>
+
+              {/* === SVG diagram minh họa (nếu có) === */}
+              <ToeicLectureDiagram lectureId={lecture.id} />
+
               {lecture.coreTechnique.map((step, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
                   className="rounded-xl border border-blue-500/15 bg-white/5 p-5">
