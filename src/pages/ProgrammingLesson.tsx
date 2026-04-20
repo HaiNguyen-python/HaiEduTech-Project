@@ -347,7 +347,7 @@ const ProgrammingLessonPage = () => {
                                         {i + 1}
                                       </span>
                                     )}
-                                    <span className="truncate">{l.titleEn}</span>
+                                    <span className="truncate">{t(l.title, l.titleEn)}</span>
                                   </button>
                                 );
                               })}
