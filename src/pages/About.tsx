@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera } from "lucide-react";
+import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera, BookOpen } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import ClassroomGallery from "@/components/ClassroomGallery";
@@ -18,9 +18,41 @@ const About = () => {
   ];
 
   const achievements = [
-    { icon: GraduationCap, value: "M.A.", label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
-    { icon: Code2, value: "Engineer", label: t("Ngành Dữ liệu & Trí tuệ Nhân tạo", "Data & Artificial Intelligence") },
-    { icon: Users, value: "Founder", label: t("Sáng lập HaiEduTech", "Founded HaiEduTech") },
+    {
+      icon: GraduationCap,
+      value: t("Cử nhân", "B.A."),
+      label: t("TEFL – Giảng dạy Tiếng Anh", "TEFL – Teaching English"),
+      place: t("ĐH Sư phạm TP.HCM", "HCMC University of Education"),
+      year: "2018",
+    },
+    {
+      icon: GraduationCap,
+      value: t("Thạc sĩ", "M.A."),
+      label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture"),
+      place: t("ĐH Đông Phần Lan", "University of Eastern Finland"),
+      year: "2020",
+    },
+    {
+      icon: GraduationCap,
+      value: t("Thạc sĩ", "M.A."),
+      label: t("Công nghệ Ngôn ngữ", "Language Technology"),
+      place: t("ĐH Helsinki", "University of Helsinki"),
+      year: t("Đang học", "Current"),
+    },
+    {
+      icon: Code2,
+      value: t("Kỹ sư", "Engineer"),
+      label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & Artificial Intelligence"),
+      place: t("ĐH Khoa học Ứng dụng Turku", "Turku University of Applied Sciences"),
+      year: "2026",
+    },
+    {
+      icon: BookOpen,
+      value: "15+",
+      label: t("Năm kinh nghiệm giảng dạy", "Years Teaching Experience"),
+      place: t("Việt Nam – Phần Lan", "Vietnam – Finland"),
+      year: t("Từ 2011", "Since 2011"),
+    },
   ];
 
   const skills = [
@@ -61,19 +93,21 @@ const About = () => {
               </p>
             </div>
 
-            {/* Achievements */}
-            <div className="grid grid-cols-3 gap-4 mb-12">
-              {achievements.map((a, i) => (
+            {/* Achievements - synced with HeroSection */}
+            <div className="glass-card grid grid-cols-1 gap-4 rounded-2xl px-5 py-5 sm:grid-cols-2 sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-5 mb-12">
+              {achievements.map((s, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="glass-card rounded-xl p-4 text-center"
+                  transition={{ delay: i * 0.08 }}
+                  className="flex h-full flex-col text-center"
                 >
-                  <a.icon className="w-6 h-6 text-primary mx-auto mb-2" />
-                  <div className="text-xl font-display font-bold text-foreground">{a.value}</div>
-                  <div className="text-xs text-muted-foreground">{a.label}</div>
+                  <s.icon className="mx-auto mb-2 h-6 w-6 text-primary" />
+                  <div className="font-display text-lg font-bold text-foreground sm:text-xl">{s.value}</div>
+                  <div className="mt-1 text-xs font-medium leading-5 text-foreground/90">{s.label}</div>
+                  <div className="mt-0.5 text-[11px] leading-4 text-muted-foreground">{s.place}</div>
+                  <div className="mt-auto pt-2 text-[11px] font-semibold leading-4 text-primary">{s.year}</div>
                 </motion.div>
               ))}
             </div>
