@@ -986,7 +986,7 @@ export const pythonLessons: PythonLesson[] = [
       { type: "mcq", q: "Error type for `10/0`?", qEn: "Error type for `10/0`?",
         options: ["ValueError", "ZeroDivisionError", "TypeError", "KeyError"], optionsEn: ["ValueError", "ZeroDivisionError", "TypeError", "KeyError"], answer: 1 },
       { type: "fill", q: "Fill to raise an error", qEn: "Fill to raise an error",
-        codeBefore: "if x < 0:\n    ", codeAfter: ' ValueError("âm")', answer: "raise" },
+        codeBefore: "if x < 0:\n    ", codeAfter: ' ValueError("negative")', answer: "raise" },
     ],
   }),
 
