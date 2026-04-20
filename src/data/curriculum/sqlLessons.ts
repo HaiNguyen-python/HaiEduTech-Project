@@ -142,21 +142,21 @@ You write \`SELECT … FROM … WHERE … ORDER BY\` but it runs:
 - Use DISTINCT sparingly
 - Remember execution order
 - Next lesson: **AS / Aliases**`,
-        code: `-- Lấy tất cả các cột (chỉ dùng khi khám phá)
+        code: `-- Get all columns (only when exploring)
 SELECT * FROM students;
 
 -- Get only the columns needed (standard usage)
 SELECT name, age FROM students;
 
--- Get a list of different ages
+-- Get a list of distinct ages
 SELECT DISTINCT age FROM students;
 
--- Take only the first 3 lines
+-- Take only the first 3 rows
 SELECT name FROM students LIMIT 3;
 
--- Sort by descending score, take page 2 (5 lines/page)
+-- Sort by descending score, take page 2 (5 rows/page)
 SELECT name, score FROM students
-ORDER BY score DESC, id ASC   -- thêm id ASC để thứ tự ổn định
+ORDER BY score DESC, id ASC   -- add id ASC for stable ordering
 LIMIT 5 OFFSET 5;`,
         codeLanguage: "sql",
         exercise: "Write a command to get the names and emails of the first 5 students in the students table, sorted by name A→Z. Suggestion: use ORDER BY name ASC with LIMIT 5.",
@@ -1758,8 +1758,8 @@ CREATE TABLE projects (
 CREATE TABLE employee_projects (
   employee_id INTEGER REFERENCES employees(id) ON DELETE CASCADE,
   project_id INTEGER REFERENCES projects(id) ON DELETE CASCADE,
-  role VARCHAR(50),                       -- Vai trò trong dự án (lead, member...)
-  PRIMARY KEY (employee_id, project_id)   -- Composite PK: 1 cặp (nv, dự án) duy nhất
+  role VARCHAR(50),                       -- Role on the project (lead, member...)
+  PRIMARY KEY (employee_id, project_id)   -- Composite PK: a single (employee, project) pair
 );`,
         codeLanguage: "sql",
         exercise: "Schema design for the library system includes: books, authors, members, borrowings. Note: 1 book can have many authors (N-N) → requires an intermediate table. Each table must have an explicit PK, FK with appropriate ON DELETE, and created_at column.",
