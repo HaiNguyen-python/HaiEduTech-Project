@@ -857,6 +857,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     },
     "chartConfig": {
+      "data": [],
       "type": "table",
       "columns": [
         "Country",
@@ -984,6 +985,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     },
     "chartConfig": {
+      "data": [],
       "type": "table",
       "columns": [
         "Profession",
@@ -1105,6 +1107,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     },
     "chartConfig": {
+      "data": [],
       "type": "map",
       "stages": [
         {
@@ -1221,6 +1224,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     },
     "chartConfig": {
+      "data": [],
       "type": "map",
       "stages": [
         {
@@ -1337,6 +1341,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     },
     "chartConfig": {
+      "data": [],
       "type": "process",
       "stages": [
         {
@@ -1463,6 +1468,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     },
     "chartConfig": {
+      "data": [],
       "type": "process",
       "stages": [
         {
@@ -2260,6 +2266,7 @@ export const sampleEssaysExpansion: SampleEssay[] = [
       ]
     },
     "chartConfig": {
+      "data": [],
       "type": "table",
       "columns": [
         "Field",
