@@ -97,6 +97,44 @@ const MbtiFullTest = ({ userId }: Props) => {
     setPhase("intro");
   };
 
+  const exportPDF = async () => {
+    if (!printRef.current || !result) return;
+    setExporting(true);
+    try {
+      const element = printRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        windowWidth: element.scrollWidth,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth - 20;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 10;
+      pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight - 20;
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight + 10;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight - 20;
+      }
+      const code = result.code || "MBTI";
+      const date = new Date().toISOString().slice(0, 10);
+      pdf.save(`MBTI_${code}_${date}.pdf`);
+      toast.success(t("Đã tải xuống PDF!", "PDF downloaded!"));
+    } catch (e: any) {
+      toast.error(e.message || "Failed to export");
+    } finally {
+      setExporting(false);
+    }
+  };
+
   // INTRO
   if (phase === "intro") {
     return (
