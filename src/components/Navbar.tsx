@@ -150,12 +150,17 @@ const Navbar = () => {
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Tiếng Việt cho Người Nước Ngoài", "🌏 Vietnamese for Foreigners") },
-    { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
-    { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử & Văn hóa", "📜 History & Culture") },
-    { to: "/learn-vietnamese/national-anthem", label: t("⭐ Quốc ca Việt Nam", "⭐ National Anthem") },
-    { to: "/speaking-coach/vietnamese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
-    { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
+    { to: "#vn-div1", label: "", divider: true },
+    { to: "#vn-curriculum-group", label: t("📚 Chương trình học", "📚 Curriculum"), groupLabel: "vn-curriculum", children: [
+      { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp & Từ vựng", "📝 Grammar & Vocabulary") },
+      { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử & Văn hóa", "📜 History & Culture") },
+      { to: "/learn-vietnamese/national-anthem", label: t("⭐ Quốc ca Việt Nam", "⭐ National Anthem") },
+    ] },
+    { to: "#vn-practice-group", label: t("🎯 Luyện tập & Tương tác", "🎯 Practice & Interactive"), groupLabel: "vn-practice", children: [
+      { to: "/speaking-coach/vietnamese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
+      { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
+    ] },
+    { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Vietnamese for Foreigners", "🌏 Vietnamese for Foreigners") },
   ];
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: t("📚 Tổng quan", "📚 Overview") },
@@ -484,6 +489,8 @@ const Navbar = () => {
                                               : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
                                               : sub.groupLabel === "cn-hsk" ? t("Lộ trình HSK", "HSK Program")
                                               : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
+                                              : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
+                                              : sub.groupLabel === "vn-practice" ? t("Luyện tập & Tương tác", "Practice & Interactive")
                                               : sub.label}
                                           </span>
                                         </div>
