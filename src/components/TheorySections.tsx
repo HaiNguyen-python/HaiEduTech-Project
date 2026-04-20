@@ -116,6 +116,31 @@ const DEEPDIVE_RE = /:::deepdive\s+title=["']([^"']+)["']\s*\n([\s\S]*?):::/g;
  * We rewrite all of these to standard `$...$` / `$$...$$` delimiters,
  * but ONLY outside fenced code blocks so we never corrupt code samples.
  */
+// Common LaTeX command names we expect to see inline. Used to detect bare LaTeX
+// fragments that the AI emitted WITHOUT $...$ delimiters (e.g. "J\theta = \mathbb{E}[R(\tau)]").
+const LATEX_CMDS =
+  "frac|sum|sqrt|hat|bar|tilde|vec|dot|ddot|overline|underline|mathbb|mathbf|mathcal|mathrm|mathit|mathsf|text|operatorname|" +
+  "partial|nabla|infty|emptyset|in|notin|subset|supset|cup|cap|forall|exists|neg|land|lor|" +
+  "leftarrow|rightarrow|leftrightarrow|Leftarrow|Rightarrow|Leftrightarrow|to|mapsto|" +
+  "cdot|cdots|ldots|times|div|pm|mp|ast|star|circ|bullet|" +
+  "leq|geq|neq|equiv|approx|sim|simeq|cong|propto|le|ge|ne|" +
+  "alpha|beta|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|iota|kappa|lambda|mu|nu|xi|omicron|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|" +
+  "Alpha|Beta|Gamma|Delta|Epsilon|Zeta|Eta|Theta|Iota|Kappa|Lambda|Mu|Nu|Xi|Omicron|Pi|Rho|Sigma|Tau|Upsilon|Phi|Chi|Psi|Omega|" +
+  "prod|int|oint|iint|iiint|lim|liminf|limsup|sup|inf|min|max|arg|gcd|lcm|" +
+  "log|ln|exp|sin|cos|tan|cot|sec|csc|arcsin|arccos|arctan|sinh|cosh|tanh|" +
+  "left|right|big|Big|bigg|Bigg|langle|rangle|lvert|rvert|lVert|rVert|lceil|rceil|lfloor|rfloor|" +
+  "begin|end|matrix|pmatrix|bmatrix|vmatrix|Vmatrix|cases|aligned|align|" +
+  "clip|min|max|argmin|argmax|displaystyle|scriptstyle|quad|qquad";
+
+const LATEX_CMD_RE = new RegExp(`\\\\(?:${LATEX_CMDS})\\b`);
+
+/**
+ * Normalize math notation so KaTeX can render it.
+ * AI often outputs `\( ... \)` and `\[ ... \]` (LaTeX delimiters), or raw
+ * LaTeX fragments like `J\theta = \mathbb{E}[R(\tau)]` with NO delimiters at all.
+ * We rewrite all of these to standard `$...$` / `$$...$$` so remark-math + KaTeX render them,
+ * but ONLY outside fenced code blocks so we never corrupt code samples.
+ */
 function normalizeMath(input: string): string {
   if (!input) return input;
 
@@ -130,16 +155,90 @@ function normalizeMath(input: string): string {
       out = out.replace(/\\\[([\s\S]+?)\\\]/g, (_, body) => `$$${body.trim()}$$`);
       // \( ... \)  → $ ... $
       out = out.replace(/\\\(([\s\S]+?)\\\)/g, (_, body) => `$${body.trim()}$`);
-      // ( \frac{..}{..} ... )  /  ( \sum ... )  /  ( \sqrt{..} ... )
-      // — promote inline-paren LaTeX fragments to inline math.
-      out = out.replace(
-        /\(\s*((?:[^()]*\\(?:frac|sum|sqrt|hat|bar|mathbf|partial|leftarrow|rightarrow|cdot|times|leq|geq|neq|alpha|beta|gamma|delta|theta|lambda|mu|sigma|eta|epsilon|infty|in|notin|forall|exists|approx|sim|propto|prod|int|lim|log|ln|sin|cos|tan|text)[^()]*)+)\s*\)/g,
-        (_, body) => `$${body.trim()}$`,
-      );
-      // Standalone references like [1][2] are fine, leave them.
+
+      // ── Wrap BARE LaTeX fragments (no $ delimiters) in inline math. ──
+      // We process the part line-by-line, and within each line we walk through
+      // segments that are NOT already inside `$...$` / `$$...$$` / inline `code`.
+      out = out
+        .split("\n")
+        .map((line) => wrapBareLatexInLine(line))
+        .join("\n");
+
       return out;
     })
     .join("");
+}
+
+/** Split a line into protected (math/code) and unprotected segments,
+ *  then wrap LaTeX-looking runs inside the unprotected ones. */
+function wrapBareLatexInLine(line: string): string {
+  // Quick-out: nothing that looks like LaTeX.
+  if (!/\\[A-Za-z]+|[_^]\{/.test(line)) return line;
+
+  // Tokenize: keep $$...$$, $...$, and `...` as opaque.
+  const TOKEN_RE = /(\$\$[^$]+\$\$|\$[^$\n]+\$|`[^`\n]+`)/g;
+  const segs = line.split(TOKEN_RE);
+
+  return segs
+    .map((seg) => {
+      if (!seg) return seg;
+      if (/^\$\$[\s\S]+\$\$$/.test(seg)) return seg;
+      if (/^\$[^$\n]+\$$/.test(seg)) return seg;
+      if (/^`[^`\n]+`$/.test(seg)) return seg;
+      return wrapLatexRuns(seg);
+    })
+    .join("");
+}
+
+/** Inside an unprotected segment, find runs that contain LaTeX commands and
+ *  wrap each run with $...$ so KaTeX renders them. A "run" is a contiguous
+ *  span of non-space tokens including at least one LaTeX command, optionally
+ *  joined by spaces. We also include neighboring identifiers/operators that
+ *  belong to the same expression (e.g. "J\theta = \mathbb{E}[R(\tau)]"). */
+function wrapLatexRuns(text: string): string {
+  // Pattern for a single math-ish token:
+  //   - \cmd  (with optional {..} or [..] arg, possibly nested one level)
+  //   - {...}
+  //   - identifier with _{..} or ^{..} (e.g. L^{CLIP}, r_t)
+  //   - numbers, single letters, common math operators when adjacent to math
+  const MATH_TOKEN =
+    String.raw`(?:\\[A-Za-z]+(?:\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\[[^\[\]]*\])*` +    // \cmd{..}{..}
+    String.raw`|\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}` +                                    // {..}
+    String.raw`|[A-Za-z](?:_\{[^{}]+\}|\^\{[^{}]+\}|_[A-Za-z0-9]|\^[A-Za-z0-9])+` +   // x_t, L^{CLIP}
+    String.raw`|[=+\-*/<>|,.;:!?()\[\]]` +                                            // operators / punctuation glue
+    String.raw`|[A-Za-z0-9]+` +                                                       // bare ids/numbers
+    String.raw`)`;
+
+  // A run = sequence of MATH_TOKENs separated by single spaces, containing at least one \cmd or _{ / ^{
+  const RUN_RE = new RegExp(
+    String.raw`(?:${MATH_TOKEN})(?:[ \t]+(?:${MATH_TOKEN}))*`,
+    "g",
+  );
+
+  return text.replace(RUN_RE, (run) => {
+    // Skip if no real LaTeX command or sub/sup brace inside.
+    if (!LATEX_CMD_RE.test(run) && !/[_^]\{/.test(run)) return run;
+    // Skip URLs / paths.
+    if (/https?:\/\//.test(run)) return run;
+    // Trim trailing punctuation we don't want inside the math.
+    const trailMatch = run.match(/^([\s\S]*?)([.,;:!?)\]]+)$/);
+    let inner = run;
+    let trail = "";
+    if (trailMatch) {
+      inner = trailMatch[1];
+      trail = trailMatch[2];
+    }
+    // Strip leading punctuation too (rare).
+    const leadMatch = inner.match(/^([(\[]+)([\s\S]+)$/);
+    let lead = "";
+    if (leadMatch) {
+      lead = leadMatch[1];
+      inner = leadMatch[2];
+    }
+    const trimmed = inner.trim();
+    if (!trimmed) return run;
+    return `${lead}$${trimmed}$${trail}`;
+  });
 }
 
 type Chunk =
