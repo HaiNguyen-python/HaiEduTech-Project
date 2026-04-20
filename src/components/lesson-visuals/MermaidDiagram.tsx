@@ -407,7 +407,14 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   return (
     <>
       <div
-        className="mermaid-diagram not-prose group relative my-7 min-h-[180px] overflow-x-auto rounded-xl border border-border bg-gradient-to-br from-card to-muted/20 p-5 sm:p-6 shadow-sm"
+        className="mermaid-diagram not-prose group relative my-7 overflow-x-auto rounded-xl border border-border bg-gradient-to-br from-card to-muted/20 p-5 sm:p-6 shadow-sm"
+        style={{
+          // Reserve a stable height while the diagram is rendering so the page
+          // doesn't shift down (and the scrollbar doesn't shake) when the SVG
+          // finally appears. Once rendered, aspect-ratio on the SVG keeps the
+          // box stable across reflows.
+          minHeight: loading ? 360 : undefined,
+        }}
         data-kind={kind}
       >
         {/* Fullscreen trigger — sticky to top-right so it stays visible when the diagram scrolls horizontally. */}
@@ -415,7 +422,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
           <button
             type="button"
             onClick={() => setIsFullscreen(true)}
-            className="absolute right-2 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/60 bg-background/70 text-muted-foreground opacity-0 shadow-sm backdrop-blur transition hover:bg-primary hover:text-primary-foreground group-hover:opacity-100 focus:opacity-100"
+            className="absolute right-2 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/60 bg-background/90 text-muted-foreground opacity-0 shadow-sm transition hover:bg-primary hover:text-primary-foreground group-hover:opacity-100 focus:opacity-100"
             aria-label="Open diagram fullscreen"
             title="Open fullscreen"
           >
