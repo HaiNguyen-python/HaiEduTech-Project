@@ -442,7 +442,12 @@ const Navbar = () => {
                                         {/* Group header */}
                                         <div className="px-4 py-1.5 mb-1">
                                           <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
-                                            {sub.groupLabel === "ielts" ? "IELTS Program" : t("Luyện thi THPT", "National Exam Prep")}
+                                            {sub.groupLabel === "ielts" ? "IELTS Program"
+                                              : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
+                                              : sub.groupLabel === "prog-foundation" ? t("Lộ trình Cơ bản", "Foundation Track")
+                                              : sub.groupLabel === "prog-ai-data" ? "AI & Data Engineering"
+                                              : sub.groupLabel === "prog-career" ? t("Sự nghiệp", "Career")
+                                              : sub.label}
                                           </span>
                                         </div>
                                         {sub.children.map((child, ci) => {
