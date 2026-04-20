@@ -86,11 +86,21 @@ The fundamental dilemma in RL:
 The classic solution is **ε-greedy**: with probability \`ε\` pick a random action, otherwise pick the best known action. Start with high \`ε\` (explore) and decay it over time (exploit).
 
 > 🚗 **License plate recognition** uses Supervised Learning, but **adaptive cruise control** that learns optimal acceleration patterns uses RL — it must balance smooth driving (exploit) with testing slightly different behaviors (explore) to improve.
+
+## Key Concept
+
+Reinforcement Learning trains agents to make sequential decisions by interacting with an environment and learning from rewards. The five core components (Agent, Environment, State, Action, Reward) form a feedback loop that drives learning.
+
+## Common Pitfalls
+
+**Sparse rewards** make learning slow — if reward only comes at the very end (e.g., winning chess), the agent struggles to credit the right actions. **Reward hacking** is when agents find unintended shortcuts (e.g., a boat-racing AI that endlessly collects bonus points instead of finishing the race). Always design reward functions carefully and test for unexpected behavior.
+
+## Practice Task
+
+Implement a simple agent in the FrozenLake environment that takes random actions for one episode. Print each (state, action, reward) tuple to visualize the RL loop in action.
+      
       `,
       theory: "",
-      conceptEn: `Reinforcement Learning trains agents to make sequential decisions by interacting with an environment and learning from rewards. The five core components (Agent, Environment, State, Action, Reward) form a feedback loop that drives learning.`,
-      pitfallsEn: `**Sparse rewards** make learning slow — if reward only comes at the very end (e.g., winning chess), the agent struggles to credit the right actions. **Reward hacking** is when agents find unintended shortcuts (e.g., a boat-racing AI that endlessly collects bonus points instead of finishing the race). Always design reward functions carefully and test for unexpected behavior.`,
-      practiceTaskEn: `Implement a simple agent in the FrozenLake environment that takes random actions for one episode. Print each (state, action, reward) tuple to visualize the RL loop in action.`,
       code: `# Foundations of RL: The Agent-Environment Loop
 # Using gymnasium (the modern successor to OpenAI Gym)
 import gymnasium as gym
@@ -234,11 +244,21 @@ When \`P\` and \`R\` are known, we can solve the MDP exactly using **Value Itera
 This is **dynamic programming** — and it's the foundation of every RL algorithm.
 
 > ⚠️ **Limitation**: Value iteration requires knowing \`P\` and \`R\`, which is rarely true in real problems. Q-Learning (Lesson 3) lifts this restriction by learning from experience.
+
+## Key Concept
+
+An MDP is a 5-tuple (S, A, P, R, γ) that mathematically formalizes RL. The Markov property — future depends only on the present state — enables recursive value functions via the Bellman equation. Value iteration solves small MDPs exactly when transition dynamics are known.
+
+## Common Pitfalls
+
+**Non-Markov environments** break the math. If your "state" lacks crucial information (e.g., velocity in addition to position), the Markov property fails and convergence is not guaranteed. **Curse of dimensionality**: |S| grows exponentially with state variables — value iteration becomes infeasible beyond a few thousand states.
+
+## Practice Task
+
+Implement Value Iteration for a 4x4 GridWorld where each step costs -1 and reaching the goal gives +10. Print the converged value function as a 4x4 grid.
+      
       `,
       theory: "",
-      conceptEn: `An MDP is a 5-tuple (S, A, P, R, γ) that mathematically formalizes RL. The Markov property — future depends only on the present state — enables recursive value functions via the Bellman equation. Value iteration solves small MDPs exactly when transition dynamics are known.`,
-      pitfallsEn: `**Non-Markov environments** break the math. If your "state" lacks crucial information (e.g., velocity in addition to position), the Markov property fails and convergence is not guaranteed. **Curse of dimensionality**: |S| grows exponentially with state variables — value iteration becomes infeasible beyond a few thousand states.`,
-      practiceTaskEn: `Implement Value Iteration for a 4x4 GridWorld where each step costs -1 and reaching the goal gives +10. Print the converged value function as a 4x4 grid.`,
       code: `# Value Iteration on FrozenLake (known dynamics)
 import numpy as np
 import gymnasium as gym
@@ -409,11 +429,21 @@ if random() < epsilon:
 else:
     action = argmax(Q(state))  # Exploit
 \`\`\`
+
+## Key Concept
+
+Q-Learning is a model-free RL algorithm that learns Q(s,a) — the expected return of each action — via the temporal-difference update Q ← Q + α[r + γ·max Q' − Q]. Deep Q-Networks (DQN) replace the Q-table with a neural network, using experience replay and target networks to stabilize training. DQN powers landmark achievements like Atari mastery and laid the groundwork for AlphaGo.
+
+## Common Pitfalls
+
+**Q-Learning overestimation bias** — the \`max\` operator systematically overestimates Q-values. Use **Double DQN** (decouple action selection and evaluation) to fix this. **Catastrophic forgetting**: NNs can forget old experiences; experience replay mitigates this. **Hyperparameter sensitivity**: learning rate, ε decay, replay buffer size, and target update frequency all matter — tune carefully.
+
+## Practice Task
+
+Train a tabular Q-Learning agent on FrozenLake for 5,000 episodes with ε-greedy exploration. Plot the moving average of episode rewards. You should see the agent learn to reach the goal consistently.
+      
       `,
       theory: "",
-      conceptEn: `Q-Learning is a model-free RL algorithm that learns Q(s,a) — the expected return of each action — via the temporal-difference update Q ← Q + α[r + γ·max Q' − Q]. Deep Q-Networks (DQN) replace the Q-table with a neural network, using experience replay and target networks to stabilize training. DQN powers landmark achievements like Atari mastery and laid the groundwork for AlphaGo.`,
-      pitfallsEn: `**Q-Learning overestimation bias** — the \`max\` operator systematically overestimates Q-values. Use **Double DQN** (decouple action selection and evaluation) to fix this. **Catastrophic forgetting**: NNs can forget old experiences; experience replay mitigates this. **Hyperparameter sensitivity**: learning rate, ε decay, replay buffer size, and target update frequency all matter — tune carefully.`,
-      practiceTaskEn: `Train a tabular Q-Learning agent on FrozenLake for 5,000 episodes with ε-greedy exploration. Plot the moving average of episode rewards. You should see the agent learn to reach the goal consistently.`,
       code: `# Tabular Q-Learning on FrozenLake
 import numpy as np
 import gymnasium as gym
@@ -590,11 +620,21 @@ This is the foundation of state-of-the-art algorithms:
 - **TD3** (Twin Delayed DDPG): robust continuous control
 
 > 🤖 **Real-world**: PPO trained OpenAI Five (Dota 2 world champions). SAC controls robot manipulators. PPO with human feedback (RLHF) is what aligns ChatGPT/Claude to follow instructions.
+
+## Key Concept
+
+Policy Gradient methods directly optimize the policy π(a|s;θ) by gradient ascent on expected return. The Policy Gradient Theorem gives ∇J(θ) = E[∇log π(a|s) · G_t]. Subtracting a baseline (typically V(s)) yields the advantage A(s,a) and reduces variance. Actor-Critic combines a policy network (actor) with a value network (critic), forming the basis of PPO, SAC, and the RLHF used to align large language models like ChatGPT.
+
+## Common Pitfalls
+
+**High variance**: vanilla REINFORCE is extremely noisy — always use baselines. **Sample inefficiency**: PG methods are on-policy, so old data must be discarded after each update (PPO's clipping mitigates this). **Local optima**: poor initialization can trap the policy in a bad mode — use entropy regularization to encourage exploration.
+
+## Practice Task
+
+Implement REINFORCE on CartPole-v1: a 2-layer MLP outputs softmax over 2 actions. Use discount γ=0.99 and a learning rate of 1e-3. Train for 1000 episodes and plot the moving average reward — you should reach 500 (max) within a few hundred episodes.
+      
       `,
       theory: "",
-      conceptEn: `Policy Gradient methods directly optimize the policy π(a|s;θ) by gradient ascent on expected return. The Policy Gradient Theorem gives ∇J(θ) = E[∇log π(a|s) · G_t]. Subtracting a baseline (typically V(s)) yields the advantage A(s,a) and reduces variance. Actor-Critic combines a policy network (actor) with a value network (critic), forming the basis of PPO, SAC, and the RLHF used to align large language models like ChatGPT.`,
-      pitfallsEn: `**High variance**: vanilla REINFORCE is extremely noisy — always use baselines. **Sample inefficiency**: PG methods are on-policy, so old data must be discarded after each update (PPO's clipping mitigates this). **Local optima**: poor initialization can trap the policy in a bad mode — use entropy regularization to encourage exploration.`,
-      practiceTaskEn: `Implement REINFORCE on CartPole-v1: a 2-layer MLP outputs softmax over 2 actions. Use discount γ=0.99 and a learning rate of 1e-3. Train for 1000 episodes and plot the moving average reward — you should reach 500 (max) within a few hundred episodes.`,
       code: `# REINFORCE on CartPole-v1
 import torch
 import torch.nn as nn
@@ -792,11 +832,21 @@ A nice contrast — same domain, different ML:
 - **World models**: learn environment dynamics, plan in imagination (Dreamer V3)
 
 > 🚀 **Your next step**: Pick a real environment from \`gymnasium\` (LunarLander, BipedalWalker, Atari) and train PPO on it. Tools like **Stable-Baselines3** and **CleanRL** give you battle-tested implementations to learn from.
+
+## Key Concept
+
+Real-world RL has moved beyond toy problems: AlphaGo/AlphaZero conquered board games, PPO+RLHF aligned ChatGPT, OpenAI's Rubik's cube hand demonstrated sim-to-real robotics, and DeepMind's RL slashed Google data center cooling costs by 40%. The choice between Supervised Learning and RL hinges on whether your problem is one-shot prediction (use SL) or sequential decision-making with delayed rewards (use RL).
+
+## Common Pitfalls
+
+**Sim-to-real gap**: policies trained in simulation often fail on physical robots — use domain randomization. **Safety**: pure RL exploration can be catastrophic in real systems (a self-driving car can't randomly try driving off-road). Use **safe RL**, **constrained MDPs**, and human oversight. **Reward specification**: defining a good reward is harder than the algorithm itself — see "reward hacking" and Specification Gaming Examples.
+
+## Practice Task
+
+Use Stable-Baselines3 to train PPO on LunarLander-v2 for 200,000 timesteps. Render the trained policy and watch your agent learn to land safely. Try modifying the reward function (e.g., penalize fuel use more) and see how behavior changes.
+      
       `,
       theory: "",
-      conceptEn: `Real-world RL has moved beyond toy problems: AlphaGo/AlphaZero conquered board games, PPO+RLHF aligned ChatGPT, OpenAI's Rubik's cube hand demonstrated sim-to-real robotics, and DeepMind's RL slashed Google data center cooling costs by 40%. The choice between Supervised Learning and RL hinges on whether your problem is one-shot prediction (use SL) or sequential decision-making with delayed rewards (use RL).`,
-      pitfallsEn: `**Sim-to-real gap**: policies trained in simulation often fail on physical robots — use domain randomization. **Safety**: pure RL exploration can be catastrophic in real systems (a self-driving car can't randomly try driving off-road). Use **safe RL**, **constrained MDPs**, and human oversight. **Reward specification**: defining a good reward is harder than the algorithm itself — see "reward hacking" and Specification Gaming Examples.`,
-      practiceTaskEn: `Use Stable-Baselines3 to train PPO on LunarLander-v2 for 200,000 timesteps. Render the trained policy and watch your agent learn to land safely. Try modifying the reward function (e.g., penalize fuel use more) and see how behavior changes.`,
       code: `# Production-grade RL with Stable-Baselines3
 # pip install stable-baselines3[extra] gymnasium
 
