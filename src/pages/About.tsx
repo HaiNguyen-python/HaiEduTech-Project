@@ -18,9 +18,41 @@ const About = () => {
   ];
 
   const achievements = [
-    { icon: GraduationCap, value: "M.A.", label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture") },
-    { icon: Code2, value: "Engineer", label: t("Ngành Dữ liệu & Trí tuệ Nhân tạo", "Data & Artificial Intelligence") },
-    { icon: Users, value: "Founder", label: t("Sáng lập HaiEduTech", "Founded HaiEduTech") },
+    {
+      icon: GraduationCap,
+      value: t("Cử nhân", "B.A."),
+      label: t("TEFL – Giảng dạy Tiếng Anh", "TEFL – Teaching English"),
+      place: t("ĐH Sư phạm TP.HCM", "HCMC University of Education"),
+      year: "2018",
+    },
+    {
+      icon: GraduationCap,
+      value: t("Thạc sĩ", "M.A."),
+      label: t("Ngôn ngữ & Văn hóa Anh", "English Language & Culture"),
+      place: t("ĐH Đông Phần Lan", "University of Eastern Finland"),
+      year: "2020",
+    },
+    {
+      icon: GraduationCap,
+      value: t("Thạc sĩ", "M.A."),
+      label: t("Công nghệ Ngôn ngữ", "Language Technology"),
+      place: t("ĐH Helsinki", "University of Helsinki"),
+      year: t("Đang học", "Current"),
+    },
+    {
+      icon: Code2,
+      value: t("Kỹ sư", "Engineer"),
+      label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & Artificial Intelligence"),
+      place: t("ĐH Khoa học Ứng dụng Turku", "Turku University of Applied Sciences"),
+      year: "2026",
+    },
+    {
+      icon: BookOpen,
+      value: "15+",
+      label: t("Năm kinh nghiệm giảng dạy", "Years Teaching Experience"),
+      place: t("Việt Nam – Phần Lan", "Vietnam – Finland"),
+      year: t("Từ 2011", "Since 2011"),
+    },
   ];
 
   const skills = [
