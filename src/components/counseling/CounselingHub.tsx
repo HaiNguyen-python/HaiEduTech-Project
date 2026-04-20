@@ -989,40 +989,114 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
           <MbtiFullTest userId={userId} />
         )}
 
-        {test === "holland" && (
-          <>
-            <div className="space-y-4">
-              {HOLLAND_QUESTIONS.map((q) => (
-                <div key={q.id} className="border-b border-border last:border-0 pb-3">
-                  <p className="text-sm font-medium mb-2">{lang === "vi" ? q.vi : q.en}</p>
-                  <div className="flex gap-2">
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <button
-                        key={n}
-                        onClick={() => setHollandScores({ ...hollandScores, [q.id]: n })}
-                        className={`flex-1 py-2 rounded-lg border text-sm font-bold transition-all ${
-                          hollandScores[q.id] === n ? "bg-violet-500 text-white border-violet-500" : "border-border hover:bg-secondary text-muted-foreground"
-                        }`}
-                      >{n}</button>
-                    ))}
-                  </div>
-                  <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                    <span>{t("Không đồng ý", "Disagree")}</span>
-                    <span>{t("Rất đồng ý", "Strongly agree")}</span>
-                  </div>
+        {test === "holland" && (() => {
+          const total = HOLLAND_QUESTIONS.length;
+          const current = HOLLAND_QUESTIONS[hollandIdx];
+          const answered = Object.keys(hollandScores).length;
+          const progress = (answered / total) * 100;
+          const setHollandAnswer = (v: number) => {
+            setHollandScores({ ...hollandScores, [current.id]: v });
+            if (hollandIdx < total - 1) setTimeout(() => setHollandIdx(hollandIdx + 1), 200);
+          };
+          return (
+            <div className="rounded-2xl border border-border bg-card p-6">
+              {/* Progress */}
+              <div className="mb-6">
+                <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                  <span>{t("Câu", "Question")} {hollandIdx + 1} / {total}</span>
+                  <span>{Math.round(progress)}%</span>
                 </div>
-              ))}
-            </div>
+                <div className="h-2 rounded-full bg-secondary overflow-hidden">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-violet-500 to-pink-500"
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </div>
+              </div>
 
-            <button
-              onClick={submitHolland}
-              disabled={loading}
-              className="mt-5 w-full py-3 rounded-xl bg-gradient-to-r from-violet-500 to-pink-500 text-white font-semibold hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Sparkles className="w-4 h-4" /> {t("Phân tích kết quả", "Analyze Result")}</>}
-            </button>
-          </>
-        )}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={current.id}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <p className="text-base md:text-lg font-medium leading-relaxed mb-6 min-h-[3rem] text-center">
+                    {lang === "vi" ? current.vi : current.en}
+                  </p>
+
+                  {/* Likert 5-scale emoji */}
+                  <div className="grid grid-cols-5 gap-2 max-w-xl mx-auto">
+                    {HOLLAND_LIKERT.map((opt) => {
+                      const selected = hollandScores[current.id] === opt.value;
+                      const sizeClass = opt.value === 5 || opt.value === 1 ? "w-14 h-14" : opt.value === 4 || opt.value === 2 ? "w-12 h-12" : "w-10 h-10";
+                      return (
+                        <button
+                          key={opt.value}
+                          onClick={() => setHollandAnswer(opt.value)}
+                          className={`flex flex-col items-center gap-1 transition-all ${selected ? "scale-110" : "hover:scale-105 opacity-70 hover:opacity-100"}`}
+                          title={lang === "vi" ? opt.vi : opt.en}
+                        >
+                          <div className={`${sizeClass} rounded-full flex items-center justify-center text-lg transition-all ${
+                            selected
+                              ? opt.value >= 4
+                                ? "bg-emerald-500 text-white ring-4 ring-emerald-300/50"
+                                : opt.value <= 2
+                                ? "bg-rose-500 text-white ring-4 ring-rose-300/50"
+                                : "bg-slate-500 text-white ring-4 ring-slate-300/50"
+                              : opt.value >= 4
+                              ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-2 border-emerald-500/30 hover:bg-emerald-500/25"
+                              : opt.value <= 2
+                              ? "bg-rose-500/15 text-rose-700 dark:text-rose-400 border-2 border-rose-500/30 hover:bg-rose-500/25"
+                              : "bg-secondary border-2 border-border hover:bg-muted"
+                          }`}>
+                            {opt.emoji}
+                          </div>
+                          <span className="text-[9px] text-muted-foreground text-center leading-tight hidden sm:block">{lang === "vi" ? opt.vi : opt.en}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="flex justify-between text-[11px] text-muted-foreground mt-3 max-w-xl mx-auto">
+                    <span>{t("Rất không đồng ý", "Strongly Disagree")}</span>
+                    <span>{t("Trung lập", "Neutral")}</span>
+                    <span>{t("Rất đồng ý", "Strongly Agree")}</span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Navigation */}
+              <div className="flex justify-between items-center mt-8">
+                <button
+                  onClick={() => setHollandIdx(Math.max(0, hollandIdx - 1))}
+                  disabled={hollandIdx === 0}
+                  className="flex items-center gap-1 px-4 py-2 rounded-lg border border-border hover:bg-secondary text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <ArrowRight className="w-4 h-4 rotate-180" /> {t("Trước", "Back")}
+                </button>
+                {hollandIdx < total - 1 ? (
+                  <button
+                    onClick={() => setHollandIdx(Math.min(total - 1, hollandIdx + 1))}
+                    disabled={hollandScores[current.id] === undefined}
+                    className="flex items-center gap-1 px-4 py-2 rounded-lg bg-violet-500 text-white text-sm font-semibold hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {t("Tiếp", "Next")} <ArrowRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={submitHolland}
+                    disabled={loading || answered < total}
+                    className="flex items-center gap-2 px-6 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-pink-500 text-white text-sm font-semibold hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Sparkles className="w-4 h-4" /> {t("Phân tích kết quả", "Analyze")}</>}
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       {result && test === "holland" && (
