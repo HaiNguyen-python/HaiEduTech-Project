@@ -15,72 +15,72 @@ export const aiFoundationModules: ExtendedProgrammingModule[] = [
       {
         id: "ai-hist-1", title: "From Turing to Deep Learning", titleEn: "From Turing to Deep Learning",
         level: 1, difficulty: "beginner",
-        theory: `## 1. 🚦 Everyday Problems
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-70 years ago, "AI" was science fiction — now the phone in your pocket translates Vietnamese-English, suggests routes, draws pictures in 3 seconds. That journey wasn't "sudden" — but a 70-year chain of "winters" + "springs" with world-changing leaps. Understanding AI history helps you predict the next step.
+70 năm trước, "AI" còn là chuyện viễn tưởng — nay điện thoại trong túi bạn dịch tiếng Việt-Anh, gợi ý đường, vẽ tranh trong 3 giây. Hành trình đó không phải "đùng cái có" — mà là chuỗi 70 năm "winter" + "spring" với những bước nhảy thay đổi thế giới. Hiểu lịch sử AI giúp bạn đoán được bước tiếp theo.
 
-## 2. 💡 Core Milestones
+## 2. 💡 Cột mốc cốt lõi
 
-| Year | Event | Significance |
+| Năm | Sự kiện | Ý nghĩa |
 |---|---|---|
-| 1950 | **Turing Test** | "Can machines think?" — foundational question |
-| 1956 | **Dartmouth Conference** | Term "Artificial Intelligence" born |
-| 1958 | **Perceptron** (Rosenblatt) | First neural net |
-| 1969-80 | **AI Winter 1** | Perceptron proven unable to learn XOR |
-| 1986 | **Backpropagation** (Rumelhart) | Saved neural nets |
-| 1997 | **Deep Blue beats Kasparov** | AI wins chess |
-| 2012 | **AlexNet** (ImageNet) | Deep Learning explosion |
-| 2017 | **Transformer** ("Attention is all you need") | Foundation for GPT/BERT |
-| 2020 | **GPT-3** (175B params) | Mainstream LLM |
-| 2022 | **ChatGPT** | AI enters every home |
-| 2024+ | **Multimodal + Agents** | AI acts, not just talks |
+| 1950 | **Turing Test** | "Máy có suy nghĩ?" — đặt câu hỏi nền tảng |
+| 1956 | **Dartmouth Conference** | Thuật ngữ "Artificial Intelligence" ra đời |
+| 1958 | **Perceptron** (Rosenblatt) | Neural net đầu tiên |
+| 1969-80 | **AI Winter 1** | Perceptron bị chứng minh không học XOR |
+| 1986 | **Backpropagation** (Rumelhart) | Cứu neural net |
+| 1997 | **Deep Blue thắng Kasparov** | AI thắng cờ vua |
+| 2012 | **AlexNet** (ImageNet) | Deep Learning bùng nổ |
+| 2017 | **Transformer** ("Attention is all you need") | Nền móng GPT/BERT |
+| 2020 | **GPT-3** (175B params) | LLM đại chúng |
+| 2022 | **ChatGPT** | AI vào mọi nhà |
+| 2024+ | **Multimodal + Agents** | AI hành động, không chỉ nói |
 
-## 3. 🧰 Three Waves
+## 3. 🧰 Ba làn sóng
 
-1. **Symbolic AI** (1950-80): hand-written if-then rules. Strong in logic, weak in perception.
-2. **Machine Learning** (1990-2010): learns from data, requires feature engineering.
-3. **Deep Learning** (2012-present): self-learns features through multiple neural layers.
+1. **Symbolic AI** (1950-80): viết tay luật if-then. Mạnh logic, dở perception.
+2. **Machine Learning** (1990-2010): học từ data, cần feature engineering.
+3. **Deep Learning** (2012-nay): tự học feature qua nhiều lớp neural.
 
-## 4. 🎯 Visual Example
+## 4. 🎯 Ví dụ trực quan
 
-\`\`\`python
-# Symbolic: "If temperature > 38 → fever"
+\\\`\\\`\\\`python
+# Symbolic: "Nếu nhiệt độ > 38 → sốt"
 def is_fever(t): return t > 38
 
-# ML: learn from data
+# ML: học từ data
 from sklearn.tree import DecisionTreeClassifier
 clf = DecisionTreeClassifier().fit(X, y)
 
-# Deep Learning: multiple layers self-learn features
+# Deep Learning: nhiều lớp tự học feature
 import torch.nn as nn
 model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,1))
-\`\`\`
+\\\`\\\`\\\`
 
-## 5. ⚠️ Common Misconceptions
+## 5. ⚠️ Hiểu nhầm thường gặp
 
-> ⚠️ **Warning:**
-> - "AI = Deep Learning" — wrong. DL is 1 branch, ML is broader, AI even broader.
-> - "ChatGPT is truly intelligent AI" — it's an LLM predicting tokens, no consciousness.
-> - "AI Winter won't return" — not certain; each time expectations exceed reality is a winter.
-> - "GPU is the only reason AI exploded" — actually **GPU + Big Data + Backprop + Transformer + Internet**, all 5 factors.
+> ⚠️ **Cảnh báo:**
+> - "AI = Deep Learning" — sai. DL là 1 nhánh, ML rộng hơn, AI rộng hơn nữa.
+> - "ChatGPT là AI thông minh thật" — nó là LLM dự đoán token, không có ý thức.
+> - "AI Winter sẽ không quay lại" — chưa chắc; mỗi lần kỳ vọng vượt thực tế là 1 winter.
+> - "GPU là lý do duy nhất AI bùng nổ" — thật ra là **GPU + Big Data + Backprop + Transformer + Internet**, đủ 5 yếu tố.
 
-## 6. ✅ Mr. Hai's Best Practice
+## 6. ✅ Best practice của thầy Hải
 
-> 💡 **Tip:**
-> - Learn AI in **historical sequence**: Perceptron → MLP → CNN → RNN → Transformer. Each step answers "why need the next?"
-> - Reread short original papers (Turing 1950, Attention is all you need 2017) — many modern terms originate there.
-> - Follow 2 sources: **arXiv sanity** (new papers), **Papers with Code** (paper + repo).
+> 💡 **Mẹo:**
+> - Học AI nên đi theo **trình tự lịch sử**: Perceptron → MLP → CNN → RNN → Transformer. Mỗi bước trả lời 1 câu "tại sao cần cái sau?".
+> - Đọc lại bài báo gốc ngắn (Turing 1950, Attention is all you need 2017) — nhiều thuật ngữ ngày nay vẫn từ đó.
+> - Theo dõi 2 nguồn: **arXiv sanity** (paper mới), **Papers with Code** (paper + repo).
 
-## 7. 🤔 Application
+## 7. 🤔 Áp dụng
 
-When reading a new paper/product, ask:
-1. Which wave does it belong to? (symbolic / ML / DL)
-2. What previous "winter" problem does it solve?
-3. Is there hype risk this time?
+Khi đọc 1 paper/sản phẩm mới, hỏi:
+1. Đây thuộc làn sóng nào? (symbolic / ML / DL)
+2. Vấn đề "winter" trước đây nó giải quyết là gì?
+3. Có rủi ro hype lần này không?
 
-## 8. 📌 30-Second Summary
+## 8. 📌 Tóm tắt 30 giây
 
-AI's 70 years = 3 waves (symbolic → ML → DL), 2 winters, and many leaps: Perceptron, Backprop, AlexNet, Transformer, ChatGPT. Understand history = predict future and avoid hype.
+AI 70 năm = 3 làn sóng (symbolic → ML → DL), 2 mùa đông và nhiều bước nhảy: Perceptron, Backprop, AlexNet, Transformer, ChatGPT. Hiểu lịch sử = đoán được tương lai và tránh hype.
 `,
         theoryEn: `**History of Artificial Intelligence — A Comprehensive Overview**
 
@@ -100,118 +100,110 @@ Artificial Intelligence (AI) has evolved through several distinct eras, each mar
 
 **🤖 The Golden Age (1960s)**
 
-- **1958:** Frank Rosenblatt develops the **Perceptron**, the first neural network model capable of learning.
-- **1959:** Arthur Samuel coins "machine learning" with his checkers program that learns autonomously.
-- **1966:** Joseph Weizenbaum creates **ELIZA**, the first chatbot using natural language processing.
-
-**Symbolic AI Dominance:** Research focused on logic-based systems and rule-based reasoning, with programs like **Logic Theorist** (1955-56) proving mathematical theorems.
+- **1961:** UNIMATE, the first industrial robot.
+- **1964:** ELIZA — the first chatbot, simulating a psychotherapist using pattern matching.
+- Expert systems begin development — rule-based AI encoding human expertise.
 
 ---
 
-**❄️ First AI Winter (1970s)**
+**❄️ AI Winter (1970s-1980s)**
 
-Funding dried up as early promises failed to deliver general intelligence. Limitations of symbolic AI (e.g., inability to handle perception or common sense) became apparent.
+Two major periods of reduced funding and interest:
 
----
+- **First AI Winter (1974-1980):** Over-promising led to funding cuts.
+- **Expert Systems Boom & Bust (1980-1993):** Expensive, brittle systems that couldn't scale.
 
-**🔥 Revival and Expert Systems (1980s)**
-
-- **1986:** **Backpropagation** algorithm popularized, reviving neural networks.[original]
-- Expert systems like **DENDRAL** and **MYCIN** showed commercial promise but were brittle.
-
-**Second AI Winter (Late 1980s-1990s):** Overhyped systems collapsed during economic downturns.
+**Root causes:** Over-promising, computational limits, insufficient data, theoretical limitations.
 
 ---
 
-**📈 Machine Learning Era (1990s-2000s)**
+**🧠 Neural Network Renaissance (1986-2010)**
 
-- **1997:** IBM's **Deep Blue** defeats chess champion Garry Kasparov.[original]
-- Statistical methods and **support vector machines** gained traction over pure logic.
+- **1986:** **Backpropagation** algorithm enables multi-layer neural networks.
+- **1997:** IBM's **Deep Blue** defeats world chess champion Kasparov.
+- **1998:** Yann LeCun's **LeNet-5** for digit recognition.
+- **2006:** Hinton coins "Deep Learning."
 
 ---
 
-**🚀 Deep Learning Revolution (2010s-Present)**
+**📱 The Deep Learning Revolution (2012-Present)**
 
-- **2012:** **AlexNet** wins ImageNet, sparking the deep learning boom via CNNs and GPUs.[original]
-- **2017:** **Transformer** architecture introduced ("Attention is All You Need"), enabling modern LLMs.[original]
-- **2020:** **GPT-3** (175B parameters) demonstrates few-shot learning.[original]
-- **2022:** **ChatGPT** brings AI to mainstream users.[original]
+- **2012:** **AlexNet** wins ImageNet, proving deep CNNs on GPUs.
+- **2014:** **GANs** invented by Ian Goodfellow.
+- **2016:** **AlphaGo** defeats world Go champion.
+- **2017:** **"Attention Is All You Need"** — the Transformer architecture.
+- **2022:** **ChatGPT** reaches 100M users in 2 months.
+- **2023-2024:** GPT-4, Claude, Gemini, open-source LLMs proliferate.
 
-**Current Trends (2024+):** Multimodal models (text+image+video) and AI agents that act in the real world.[original]
+---
 
-**Three Waves Summary:**
-1. **Symbolic AI** (1950s-80s): Rules and logic.
-2. **Statistical ML** (1990s-2010s): Data-driven learning.
-3. **Deep Learning** (2012+): End-to-end neural networks.[original]
+**📊 Key Themes:** Symbolic AI → Expert Systems → Statistical ML → Deep Learning → Foundation Models. Each era had its own approach, strengths, and limitations.`,
+        code: `# AI Timeline Visualization
+timeline = [
+    (1950, "Turing Test", "Alan Turing proposes machine intelligence test"),
+    (1956, "AI Born", "Dartmouth Conference coins 'Artificial Intelligence'"),
+    (1966, "ELIZA", "First chatbot by Joseph Weizenbaum"),
+    (1986, "Backprop", "Backpropagation enables multi-layer neural networks"),
+    (1997, "Deep Blue", "IBM's computer defeats chess champion Kasparov"),
+    (2012, "AlexNet", "CNN wins ImageNet, Deep Learning revolution begins"),
+    (2017, "Transformer", "Attention Is All You Need paper by Google"),
+    (2022, "ChatGPT", "OpenAI's LLM reaches 100M users in 2 months"),
+]
 
-**Lessons from History:**
-- AI progress is cyclical: hype → winter → breakthrough.
-- Success requires **data + compute + algorithms** (e.g., Big Data + GPUs + Transformers).[original]
-- True AGI remains elusive; current AI excels at narrow tasks.
-`,
-        code: "",
-        exercise: {
-          id: "ai-hist-ex-1",
-          title: "Timeline Quiz",
-          titleEn: "Timeline Quiz",
-          instruction: `Tạo timeline tương tác với các mốc AI chính (1950-2024). Sử dụng HTML/CSS/JS thuần.`,
-          instructionEn: `Create an interactive timeline of key AI milestones (1950-2024). Use vanilla HTML/CSS/JS.`
-        },
-        quiz: {
-          id: "ai-hist-quiz-1",
-          title: "AI History Quiz",
-          titleEn: "AI History Quiz",
-          questions: [
-            {
-              question: "Năm nào thuật ngữ 'Artificial Intelligence' chính thức ra đời?",
-              questionEn: "In which year was the term 'Artificial Intelligence' officially coined?",
-              options: ["1943", "1950", "1956", "1969"],
-              answer: 2,
-              explanation: "Dartmouth Conference 1956.",
-              explanationEn: "Dartmouth Conference 1956."
-            },
-            {
-              question: "AI Winter đầu tiên xảy ra khi nào?",
-              questionEn: "When was the first AI Winter?",
-              options: ["1956-60", "1969-80", "1986-95", "2012-15"],
-              answer: 1,
-              explanation: "Perceptron thất bại với XOR[original].",
-              explanationEn: "Perceptron limitations exposed (XOR problem).[original]"
-            },
-            {
-              question: "Cột mốc nào đánh dấu Deep Learning bùng nổ?",
-              questionEn: "Which milestone marked the Deep Learning explosion?",
-              options: ["Deep Blue 1997", "GPT-3 2020", "AlexNet 2012", "Transformer 2017"],
-              answer: 2,
-              explanation: "AlexNet thắng ImageNet[original].",
-              explanationEn: "AlexNet wins ImageNet competition.[original]"
-            }
-          ]
-        }
+print("🤖 AI Timeline")
+print("=" * 60)
+for year, event, desc in timeline:
+    bar = "█" * ((year - 1945) // 5)
+    print(f"  {year} | {bar} {event}")
+    print(f"       └─ {desc}")
+print(f"\\n📊 {len(timeline)} milestones spanning {timeline[-1][0] - timeline[0][0]} years")`,
+        codeLanguage: "python",
+        exercise: "Add 5 more important AI events and create a chart categorized by decade.",
+        exerciseEn: "Add 5 more important AI events and create a chart categorized by decade.",
+        quiz: [
+          { question: "What is AI Winter?", options: ["AI works best in winter", "A period of reduced AI funding and interest due to unmet expectations", "An optimization algorithm", "A new version of AI"], answer: 1, explanation: "AI Winter refers to periods when AI research funding and interest declined because overly ambitious promises failed to materialize." },
+          { question: "When was the Transformer architecture introduced?", options: ["2012", "2015", "2017", "2020"], answer: 2, explanation: "The paper 'Attention Is All You Need' was published by Google in 2017, laying the foundation for GPT, BERT, and modern LLMs." },
+          { question: "What made AlexNet (2012) so significant?", options: ["It was the first AI", "It proved deep CNNs on GPUs could dramatically outperform traditional methods", "It replaced all expert systems", "It was the first chatbot"], answer: 1, explanation: "AlexNet won the ImageNet competition by a massive margin, proving that deep convolutional neural networks trained on GPUs were a game-changer for computer vision." },
+          { question: "What was the Dartmouth Conference (1956)?", options: ["A competition for robots", "The event that officially coined the term 'Artificial Intelligence'", "The first AI Winter conference", "A neural network workshop"], answer: 1, explanation: "The Dartmouth Conference, organized by John McCarthy and others, is considered the founding event of AI as an academic discipline." },
+          { question: "What is the main cause of AI Winters?", options: ["Too much data", "Over-promising and under-delivering, leading to funding cuts", "Hardware too fast", "Too many researchers"], answer: 1, explanation: "AI Winters occurred when researchers over-promised capabilities that couldn't be delivered with existing technology, leading to disappointment and dramatic funding cuts." }
+        ]
       }
     ]
   },
-  // ... 11 more modules follow similar pattern
-];
-I appreciate you sharing this content, but I need to clarify what you're asking me to do.
+  {
+    id: "ai-neural-basics",
+    title: "Basic Neural Network",
+    titleEn: "Neural Network Basics",
+    icon: "🧠",
+    color: "from-rose-500 to-pink-600",
+    description: "Perceptron, layers, forward propagation",
+    descriptionEn: "Perceptron, layers, forward propagation",
+    course: "data-ai",
+    lessons: [
+      {
+        id: "ai-nn-1", title: "Perceptron & Forward Pass", titleEn: "Perceptron & Forward Pass",
+        level: 2, difficulty: "beginner",
+        theory: `## 1. 🚦 Vấn đề đời thường
 
-Based on your instructions, you've asked me to **translate a TypeScript curriculum data file from Vietnamese to English**. However, the query you've provided appears to be:
+Bạn quyết định **đi xem phim hay không** dựa trên 3 yếu tố: phim hay (8/10), giá vé (rẻ hay không), bạn rủ (có hay không). Não bạn cân từng yếu tố theo "trọng số" — phim hay quan trọng nhất, sau đó bạn rủ, cuối cùng là giá. Cộng lại > ngưỡng → đi.
 
-1. **Already in English** (the AI timeline and neural network content)
-2. **Mixed with Vietnamese** (the "Vấn đề đời thường" section and Vietnamese explanations)
-3. **Not formatted as a complete TypeScript curriculum file** with the structure you mentioned (theory, code, exercise, quiz properties)
+Đó **chính xác** là một **Perceptron**: input × weight + bias → activation → output.
 
-To help you effectively, I need clarification:
+## 2. 💡 Khái niệm chính
 
-- **Do you want me to translate the Vietnamese portions** (like "Vấn đề đời thường" → "Real-world problem") **to English while keeping the TypeScript structure intact?**
-- **Should I convert the entire content into a properly formatted TypeScript curriculum object** with all properties (id, title, titleEn, theory, code, exercise, quiz, etc.)?
-- **Do you have the complete Vietnamese source file** you'd like translated?
+- **Perceptron** = neural unit nhỏ nhất: $y = f(w_1 x_1 + w_2 x_2 + ... + b)$
+- **Weight (w)**: tầm quan trọng của input.
+- **Bias (b)**: ngưỡng "nỗ lực tối thiểu" để kích hoạt.
+- **Activation (f)**: hàm bẻ cong tuyến tính → phi tuyến (sigmoid, ReLU).
+- **Forward pass**: tính output từ input qua nhiều lớp.
 
-Please provide:
-1. The full Vietnamese TypeScript curriculum file (or clarify if this mixed content is what needs translation)
-2. Confirmation of the exact output format you need
+## 3. 🧰 Cấu trúc tối thiểu
 
-Once you clarify, I'll translate it following your rules: keeping TypeScript syntax identical, converting Vietnamese text to English, maintaining code structure, and outputting only the translated code without markdown fences or commentary.
+\\\`\\\`\\\`
+Input layer  →  Hidden layer(s)  →  Output layer
+   x1,x2,x3       w·x + b → ReLU       softmax/sigmoid
+\\\`\\\`\\\`
+
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \\\`\\\`\\\`python
