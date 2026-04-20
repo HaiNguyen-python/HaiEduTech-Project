@@ -1166,7 +1166,7 @@ const DilemmasSection = ({ onPick }: { onPick: () => void }) => {
           >
             <p className="text-sm text-foreground leading-relaxed">{lang === "vi" ? d.vi : d.en}</p>
             <span className="mt-2 inline-flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 font-medium group-hover:underline">
-              {t("Hỏi AI", "Ask AI")} <ArrowRight className="w-3 h-3" />
+              {t("Hỏi thầy Hải", "Ask Teacher Hai")} <ArrowRight className="w-3 h-3" />
             </span>
           </button>
         ))}
