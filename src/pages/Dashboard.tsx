@@ -494,6 +494,19 @@ const Dashboard = () => {
               </div>
             </div>
 
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className="grid grid-cols-2 w-full max-w-md mx-auto mb-6">
+                <TabsTrigger value="overview" className="gap-2">
+                  <BarChart3 className="w-4 h-4" />
+                  {t("Tổng quan", "Overview")}
+                </TabsTrigger>
+                <TabsTrigger value="counseling" className="gap-2">
+                  <Heart className="w-4 h-4" />
+                  {t("Tư vấn AI", "Counseling")}
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="overview">
             {dataLoading ? (
               <div className="text-center py-20 text-muted-foreground">
                 <Activity className="w-8 h-8 mx-auto mb-3 animate-pulse text-primary" />
