@@ -294,106 +294,146 @@ const Dashboard = () => {
       avgScore: data.scored > 0 ? Math.round((data.totalPct / data.scored) * 10) / 10 : 0,
     }));
 
-    // Skill radar — aggregate scores by skill tag from metadata
-    const skillScores = new Map<string, { total: number; count: number }>();
-    for (const e of allEvents) {
-      if (e.score === null || !e.maxScore) continue;
-      const pct = (e.score / e.maxScore) * 100;
+    // Build skill radar across 4 main programs (English/Finnish/Chinese/Programming)
+    const programDomains: { skill: string; key: string }[] = [
+      { skill: "English (PTE)", key: "english" },
+      { skill: "Finnish (YKI)", key: "finnish" },
+      { skill: "Chinese (HSK)", key: "chinese" },
+      { skill: "Programming", key: "programming" },
+    ];
+    const skillRadar = programDomains.map(({ skill, key }) => {
+      const evs = allEvents.filter((e) => e.domain === key && e.score !== null && e.maxScore);
+      const avg = evs.length > 0
+        ? Math.round((evs.reduce((s, e) => s + (e.score! / e.maxScore!) * 100, 0) / evs.length))
+        : 0;
+      return { skill, value: avg, fullMark: 100 };
+    });
 
-      // Use metadata skill if available
-      const skill = (e.metadata as any)?.skill || e.type;
-      const domainSkills = SKILL_MAP[e.domain] || [];
-
-      // Map activity type to skill category
-      let skillName = skill;
-      if (e.type.includes("writing")) skillName = "Writing";
-      else if (e.type.includes("speaking")) skillName = "Speaking";
-      else if (e.type.includes("assessment")) {
-        // For assessments, distribute score across domain skills
-        for (const ds of domainSkills) {
-          if (!skillScores.has(ds)) skillScores.set(ds, { total: 0, count: 0 });
-          const s = skillScores.get(ds)!;
-          s.total += pct;
-          s.count++;
-        }
-        continue;
-      }
-
-      if (!skillScores.has(skillName)) skillScores.set(skillName, { total: 0, count: 0 });
-      const s = skillScores.get(skillName)!;
-      s.total += pct;
-      s.count++;
+    // Weekly study minutes — last 7 days
+    const weeklyMinutes: { day: string; minutes: number }[] = [];
+    const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const key = date.toISOString().split("T")[0];
+      const dayEvents = allEvents.filter(
+        (e) => new Date(e.date).toISOString().split("T")[0] === key
+      );
+      const minutes = Math.round(
+        dayEvents.reduce((s, e) => s + (e.timeSpent || 0), 0) / 60
+      );
+      weeklyMinutes.push({ day: dayLabels[date.getDay()], minutes });
     }
 
-    // Build radar from all domains' skills
-    const allSkillNames = new Set<string>();
-    for (const domain of Object.keys(SKILL_MAP)) {
-      for (const s of SKILL_MAP[domain]) allSkillNames.add(s);
-    }
-    const skillRadar = Array.from(allSkillNames).map((skill) => ({
-      skill,
-      value: skillScores.has(skill)
-        ? Math.round(skillScores.get(skill)!.total / skillScores.get(skill)!.count)
-        : 0,
-    })).filter((s) => s.value > 0);
+    // Active course cards — derived from progress in major systems
+    const courses: CourseProgress[] = [];
 
-    // If no skill data, create a placeholder from domain scores
-    if (skillRadar.length === 0 && domainBreakdown.length > 0) {
-      for (const db of domainBreakdown) {
-        skillRadar.push({ skill: db.domain, value: db.avgScore });
-      }
-    }
-
-    // Weekly trend — last 8 weeks
-    const weeklyTrend: { week: string; activities: number; avgScore: number }[] = [];
-    for (let w = 7; w >= 0; w--) {
-      const weekStart = new Date(today);
-      weekStart.setDate(weekStart.getDate() - w * 7 - weekStart.getDay());
-      const weekEnd = new Date(weekStart);
-      weekEnd.setDate(weekEnd.getDate() + 7);
-
-      const weekEvents = allEvents.filter((e) => {
-        const d = new Date(e.date);
-        return d >= weekStart && d < weekEnd;
-      });
-
-      const weekScored = weekEvents.filter((e) => e.score !== null && e.maxScore);
-      const weekAvg =
-        weekScored.length > 0
-          ? Math.round(
-              (weekScored.reduce((s, e) => s + ((e.score! / e.maxScore!) * 100), 0) /
-                weekScored.length) *
-                10
-            ) / 10
-          : 0;
-
-      weeklyTrend.push({
-        week: `W${8 - w}`,
-        activities: weekEvents.length,
-        avgScore: weekAvg,
+    // IELTS Lectures — total ~80
+    if ((ieltsLectureCount || 0) > 0) {
+      const total = 80;
+      const c = Math.min(ieltsLectureCount || 0, total);
+      courses.push({
+        id: "ielts",
+        title: "IELTS Lectures",
+        domain: "english",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/ielts-lectures",
+        nextGoal: `Lecture ${c + 1}/${total}`,
       });
     }
 
-    // Heatmap — last 52 weeks of daily activity counts
-    const heatmap: number[][] = [];
-    for (let w = 51; w >= 0; w--) {
-      const week: number[] = [];
-      for (let d = 0; d < 7; d++) {
-        const date = new Date(today);
-        date.setDate(date.getDate() - w * 7 - (6 - d));
-        const key = date.toISOString().split("T")[0];
-        const count = allEvents.filter(
-          (e) => new Date(e.date).toISOString().split("T")[0] === key
-        ).length;
-        week.push(Math.min(count, 4)); // cap at 4 for color intensity
-      }
-      heatmap.push(week);
+    // TOEIC Lectures — total ~50
+    if ((toeicLectureCount || 0) > 0) {
+      const total = 50;
+      const c = Math.min(toeicLectureCount || 0, total);
+      courses.push({
+        id: "toeic",
+        title: "TOEIC Masterclass",
+        domain: "english",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/toeic-lectures",
+        nextGoal: `Lecture ${c + 1}/${total}`,
+      });
     }
 
-    // Recent activities (last 10)
+    // Programming activities → Python pathway (47 lessons)
+    const programmingActs = allEvents.filter((e) => e.domain === "programming").length;
+    if (programmingActs > 0) {
+      const total = 47;
+      const c = Math.min(programmingActs, total);
+      courses.push({
+        id: "python",
+        title: "Introduction to Programming",
+        domain: "programming",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/programming?pillar=python-pathway",
+        nextGoal: `Lesson ${c + 1}/${total}`,
+      });
+    }
+
+    // Finnish (YKI A2)
+    const finnishActs = allEvents.filter((e) => e.domain === "finnish").length;
+    if (finnishActs > 0) {
+      const total = 18;
+      const c = Math.min(finnishActs, total);
+      courses.push({
+        id: "yki",
+        title: "Finnish YKI A2 Prep",
+        domain: "finnish",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/finnish",
+        nextGoal: `Module ${c + 1}/${total}`,
+      });
+    }
+
+    // Chinese
+    const chineseActs = allEvents.filter((e) => e.domain === "chinese").length;
+    if (chineseActs > 0) {
+      const total = 30;
+      const c = Math.min(chineseActs, total);
+      courses.push({
+        id: "chinese",
+        title: "Chinese HSK Track",
+        domain: "chinese",
+        completed: c,
+        total,
+        pct: Math.round((c / total) * 100),
+        lastLessonHref: "/chinese",
+        nextGoal: `Lesson ${c + 1}/${total}`,
+      });
+    }
+
+    // Recent activities (last 5 only — full log on /activity-log page)
     const recentActivities = [...allEvents]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 10);
+      .slice(0, 5);
+
+    // AI summary — find biggest improvement domain over the last 14 days
+    let aiSummary = "Keep going! Every small step builds your future.";
+    const last14 = allEvents.filter(
+      (e) => Date.now() - new Date(e.date).getTime() < 14 * 86400000
+    );
+    if (last14.length >= 3) {
+      const recentAvg = last14
+        .filter((e) => e.score !== null && e.maxScore)
+        .reduce((s, e, _, arr) => s + (e.score! / e.maxScore!) * 100 / arr.length, 0);
+      if (recentAvg > 0) {
+        const topDomain = programDomains.find((p) =>
+          last14.some((e) => e.domain === p.key)
+        );
+        if (topDomain) {
+          aiSummary = `Great progress in ${topDomain.skill}! You've completed ${last14.length} activities recently with an average of ${Math.round(recentAvg)}%.`;
+        }
+      }
+    }
 
     setStats({
       totalActivities,
@@ -402,9 +442,10 @@ const Dashboard = () => {
       studyStreak: streak,
       domainBreakdown,
       skillRadar,
-      weeklyTrend,
-      heatmap,
+      weeklyMinutes,
       recentActivities,
+      courses: courses.slice(0, 3),
+      aiSummary,
     });
 
     setDataLoading(false);
