@@ -730,7 +730,7 @@ const IkigaiSection = ({ userId }: { userId: string }) => {
           },
           body: JSON.stringify({
             mode: "ikigai",
-            payload: { answers, language },
+            payload: { answers, language: lang },
           }),
         }
       );
@@ -865,7 +865,7 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
           return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
         })
         .join("");
-      payload = { test: "mbti", code, language };
+      payload = { test: "mbti", code, language: lang };
     } else {
       if (Object.keys(hollandScores).length < HOLLAND_QUESTIONS.length) {
         toast.error(t("Đánh giá đủ các mục", "Rate all items"));
@@ -877,7 +877,7 @@ const PersonalitySection = ({ userId }: { userId: string }) => {
         .slice(0, 3)
         .map((x) => x.code)
         .join("");
-      payload = { test: "holland", code: top3, language };
+      payload = { test: "holland", code: top3, language: lang };
     }
 
     setLoading(true);
@@ -1087,7 +1087,7 @@ const QuoteSection = ({ userId }: { userId: string }) => {
           },
           body: JSON.stringify({
             mode: "quote",
-            payload: { mood: latest?.mood || "okay", language },
+            payload: { mood: latest?.mood || "okay", language: lang },
           }),
         }
       );

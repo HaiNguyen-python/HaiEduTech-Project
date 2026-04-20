@@ -3,10 +3,12 @@ import FloatingParticles from "@/components/FloatingParticles";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StudentScheduleWidget from "@/components/StudentScheduleWidget";
+import CounselingHub from "@/components/counseling/CounselingHub";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import {
   Target, TrendingUp, Calendar, Flame, LogIn, BookOpen,
-  BarChart3, Clock, Award, ArrowRight, Activity, Trophy,
+  BarChart3, Clock, Award, ArrowRight, Activity, Trophy, Heart,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useState, useCallback } from "react";
@@ -492,6 +494,19 @@ const Dashboard = () => {
               </div>
             </div>
 
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className="grid grid-cols-2 w-full max-w-md mx-auto mb-6">
+                <TabsTrigger value="overview" className="gap-2">
+                  <BarChart3 className="w-4 h-4" />
+                  {t("Tổng quan", "Overview")}
+                </TabsTrigger>
+                <TabsTrigger value="counseling" className="gap-2">
+                  <Heart className="w-4 h-4" />
+                  {t("Tư vấn AI", "Counseling")}
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="overview">
             {dataLoading ? (
               <div className="text-center py-20 text-muted-foreground">
                 <Activity className="w-8 h-8 mx-auto mb-3 animate-pulse text-primary" />
@@ -744,6 +759,18 @@ const Dashboard = () => {
                 </div>
               </>
             )}
+              </TabsContent>
+
+              <TabsContent value="counseling">
+                {user ? (
+                  <CounselingHub userId={user.id} />
+                ) : (
+                  <div className="text-center py-12 text-muted-foreground">
+                    {t("Vui lòng đăng nhập để truy cập.", "Please sign in to access.")}
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
           </motion.div>
         </div>
       </div>
