@@ -523,33 +523,40 @@ const MoodSection = ({ userId }: { userId: string }) => {
     load();
   };
 
-  // Aggregate by day (average score if multiple check-ins per day, keep dominant emoji)
-  const dailyMap = new Map<string, { scores: number[]; moods: string[]; iso: string }>();
+  // Each day shows ONLY the latest check-in (overwrite, not average).
+  // `history` is sorted DESC by created_at, so we keep the newest per day.
+  const dailyMap = new Map<string, { iso: string; score: number; mood: string; updatedAt: string; total: number }>();
   history.forEach((h) => {
     const d = new Date(h.created_at);
     const key = d.toISOString().slice(0, 10);
-    if (!dailyMap.has(key)) dailyMap.set(key, { scores: [], moods: [], iso: key });
-    const entry = dailyMap.get(key)!;
-    entry.scores.push(h.mood_score);
-    entry.moods.push(h.mood);
+    const existing = dailyMap.get(key);
+    if (!existing) {
+      dailyMap.set(key, { iso: key, score: h.mood_score, mood: h.mood, updatedAt: h.created_at, total: 1 });
+    } else {
+      existing.total += 1;
+      if (new Date(h.created_at).getTime() > new Date(existing.updatedAt).getTime()) {
+        existing.score = h.mood_score;
+        existing.mood = h.mood;
+        existing.updatedAt = h.created_at;
+      }
+    }
   });
   const chartData = Array.from(dailyMap.values())
     .sort((a, b) => a.iso.localeCompare(b.iso))
     .map((d) => {
-      const avgScore = d.scores.reduce((s, x) => s + x, 0) / d.scores.length;
-      // Find emoji matching closest mood option to avg score
-      const closest = MOOD_OPTIONS.reduce((best, m) =>
-        Math.abs(m.score - avgScore) < Math.abs(best.score - avgScore) ? m : best
-      );
+      const moodOpt = MOOD_OPTIONS.find((m) => m.value === d.mood) || MOOD_OPTIONS[2];
       return {
         date: new Date(d.iso).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
-        score: Number(avgScore.toFixed(2)),
-        emoji: closest.emoji,
-        label: t(closest.vi, closest.en),
-        count: d.scores.length,
+        score: d.score,
+        emoji: moodOpt.emoji,
+        label: t(moodOpt.vi, moodOpt.en),
+        updates: d.total,
       };
     });
-  const avg = history.length ? (history.reduce((s, h) => s + h.mood_score, 0) / history.length).toFixed(1) : "—";
+  // Average uses one value per day (the latest), not all check-ins.
+  const avg = chartData.length
+    ? (chartData.reduce((s, d) => s + d.score, 0) / chartData.length).toFixed(1)
+    : "—";
 
   // Custom dot renders the emoji
   const EmojiDot = (props: any) => {
@@ -574,9 +581,9 @@ const MoodSection = ({ userId }: { userId: string }) => {
           <span>{p.label}</span>
           <span className="text-muted-foreground">· {p.score}/5</span>
         </div>
-        {p.count > 1 && (
+        {p.updates > 1 && (
           <div className="text-[10px] text-muted-foreground mt-1">
-            {t(`${p.count} lần ghi nhận`, `${p.count} check-ins`)}
+            {t(`Đã cập nhật ${p.updates} lần (chỉ giữ lần mới nhất)`, `Updated ${p.updates}× (latest kept)`)}
           </div>
         )}
       </div>
