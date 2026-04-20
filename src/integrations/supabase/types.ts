@@ -572,6 +572,45 @@ export type Database = {
         }
         Relationships: []
       }
+      lesson_plan_reviews: {
+        Row: {
+          ai_feedback: Json
+          created_at: string
+          id: string
+          level: string | null
+          original_plan: string
+          quality_score: number | null
+          subject: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_feedback?: Json
+          created_at?: string
+          id?: string
+          level?: string | null
+          original_plan: string
+          quality_score?: number | null
+          subject?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_feedback?: Json
+          created_at?: string
+          id?: string
+          level?: string | null
+          original_plan?: string
+          quality_score?: number | null
+          subject?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       marketing_campaigns: {
         Row: {
           audience: string
@@ -989,6 +1028,48 @@ export type Database = {
           updated_at?: string
           user_id?: string
           work_experience_years?: number | null
+        }
+        Relationships: []
+      }
+      teaching_diary: {
+        Row: {
+          ai_solution: Json
+          challenge: string
+          created_at: string
+          id: string
+          outcome_rating: number | null
+          scenario_type: string
+          student_context: string | null
+          tags: string[] | null
+          teacher_notes: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_solution?: Json
+          challenge: string
+          created_at?: string
+          id?: string
+          outcome_rating?: number | null
+          scenario_type?: string
+          student_context?: string | null
+          tags?: string[] | null
+          teacher_notes?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_solution?: Json
+          challenge?: string
+          created_at?: string
+          id?: string
+          outcome_rating?: number | null
+          scenario_type?: string
+          student_context?: string | null
+          tags?: string[] | null
+          teacher_notes?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }

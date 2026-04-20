@@ -24,6 +24,7 @@ import {
 import { exportStrategyToPdf, exportStrategyToExcel } from "@/lib/strategyExport";
 import AiStrategyOptimizer from "./AiStrategyOptimizer";
 import AiMarketingKit from "./AiMarketingKit";
+import AiPedagogicalCenter from "./AiPedagogicalCenter";
 
 interface AiInsight {
   expansionOpportunity?: { title: string; rationale: string; estimatedRevenue: string };
@@ -493,6 +494,9 @@ export default function BusinessStrategyTab() {
 
       {/* AI Marketing Kit — Lovable AI ad generator */}
       <AiMarketingKit />
+
+      {/* AI Pedagogical Center — Teacher coaching hub */}
+      <AiPedagogicalCenter />
     </div>
   );
 }
