@@ -147,10 +147,16 @@ const ProgrammingLessonPage = () => {
       .then(({ data }) => {
         if (!data?.enhanced_markdown) return;
 
-        setEnhancedMd(data.enhanced_markdown);
+        // Strip Perplexity citation markers like [1][2][3] from previously cached content
+        const cleaned = data.enhanced_markdown
+          .replace(/\s*\[\d+(?:\s*[,\s]\s*\d+)*\]/g, "")
+          .replace(/\n#{1,6}\s*(References|Sources|Citations|Tham khảo|Nguồn)[\s\S]*$/i, "")
+          .replace(/[ \t]+([.,;:!?])/g, "$1")
+          .replace(/[ \t]{2,}/g, " ");
+        setEnhancedMd(cleaned);
 
         const illustrations = Array.isArray(data.illustrations) ? data.illustrations : [];
-        const hasInlineImages = /!\[[^\]]*\]\((https?:\/\/|\/storage\/v1\/object\/public\/)/.test(data.enhanced_markdown);
+        const hasInlineImages = /!\[[^\]]*\]\((https?:\/\/|\/storage\/v1\/object\/public\/)/.test(cleaned);
         if (!hasInlineImages && illustrations.length === 0) {
           void handleEnhanceTheory(true);
         }
