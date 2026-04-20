@@ -20,6 +20,8 @@ const MbtiFullTest = ({ userId }: Props) => {
   const [result, setResult] = useState<any>(null);
   const [history, setHistory] = useState<any[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const printRef = useRef<HTMLDivElement>(null);
 
   const total = MBTI_FULL_QUESTIONS.length;
   const current = MBTI_FULL_QUESTIONS[idx];
