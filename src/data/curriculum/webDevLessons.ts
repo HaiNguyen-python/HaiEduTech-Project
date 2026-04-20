@@ -6,11 +6,11 @@ export const webDevModules: ExtendedProgrammingModule[] = [
   {
     id: "web-dev-foundations",
     title: "Phát triển Web (HTML · CSS · JavaScript)",
-    titleEn: "Web Development (HTML · CSS · JavaScript)",
+    titleEn: "Web Development (HTML · CSS · JavaScript · React)",
     icon: "🌐",
     color: "from-orange-500 to-pink-600",
-    description: "6 bài học từ HTML semantic, CSS hiện đại đến JavaScript & DOM — chuẩn Frontend 2026",
-    descriptionEn: "6 lessons from semantic HTML, modern CSS to JavaScript & the DOM — Frontend 2026 standards",
+    description: "7 bài học từ HTML semantic, CSS hiện đại, JavaScript, DOM đến React Cơ Bản — chuẩn Frontend 2026",
+    descriptionEn: "7 lessons from semantic HTML, modern CSS, JavaScript, the DOM to React Basics — Frontend 2026 standards",
     course: "data-ai",
     lessons: [
       // ──────────────────────────── LESSON 1: HTML ────────────────────────────
@@ -1256,6 +1256,224 @@ export function renderTotal(total) {
           { question: "Bước nào THƯỜNG bị bỏ qua khi build dự án cá nhân?", options: ["Viết HTML", "Test trên mobile thật", "Code JS", "Mở DevTools"], answer: 1, explanation: "Test mobile thật phát hiện vấn đề mà DevTools mô phỏng bỏ sót: keyboard, touch lag, viewport." }
         ]
       },
+      // ──────────────────────────── LESSON 7: REACT ────────────────────────────
+      {
+        id: "web-react-basics",
+        title: "React Cơ Bản — Component, Props, State & Hooks",
+        titleEn: "React Basics — Components, Props, State & Hooks",
+        level: 3,
+        difficulty: "intermediate",
+        codeLanguage: "tsx",
+        theory: `## 1. 🚦 Vấn đề đời thường
+
+Bạn build một trang vanilla JS, mỗi lần dữ liệu đổi lại phải tự gọi \`querySelector\`, \`innerHTML\`, lo race condition... Chỉ 200 dòng đã rối. **React** giải bài toán này: bạn **mô tả UI theo state**, React tự lo cập nhật DOM tối thiểu.
+
+## 2. 💡 Khái niệm chính
+
+**React** = thư viện JavaScript để xây UI bằng **component có thể tái sử dụng**.
+
+| Khái niệm | Ý nghĩa |
+|---|---|
+| **Component** | Hàm trả về JSX, là khối UI tái dùng |
+| **Props** | Dữ liệu truyền từ cha → con (read-only) |
+| **State** | Dữ liệu nội bộ của component, đổi → re-render |
+| **Hook** | Hàm \`use*\` truy cập tính năng React (state, effect, ref...) |
+| **JSX** | Cú pháp giống HTML viết trong JS, biên dịch sang \`React.createElement\` |
+
+## 3. 🧰 Component đầu tiên (TSX)
+
+\`\`\`tsx
+type GreetingProps = { name: string };
+
+function Greeting({ name }: GreetingProps) {
+  return <h1>Xin chào, {name}!</h1>;
+}
+
+export default function App() {
+  return <Greeting name="Hải" />;
+}
+\`\`\`
+
+> Component **luôn viết hoa** chữ cái đầu — \`<greeting/>\` sẽ bị xem là HTML tag.
+
+## 4. ⚡ State với \`useState\`
+
+\`useState\` cho component "nhớ" giá trị giữa các lần render.
+
+\`\`\`tsx
+import { useState } from "react";
+
+export function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Số lần click: {count}</p>
+      <button onClick={() => setCount(c => c + 1)}>+1</button>
+    </div>
+  );
+}
+\`\`\`
+
+**Quy tắc vàng:** *Không bao giờ* đổi state trực tiếp (\`count++\`). Luôn dùng setter — đó là cách React biết phải re-render.
+
+## 5. 🔄 Side effect với \`useEffect\`
+
+Khi cần fetch API, đăng ký event, hay thao tác bên ngoài React → dùng \`useEffect\`.
+
+\`\`\`tsx
+import { useEffect, useState } from "react";
+
+export function UserProfile({ userId }: { userId: string }) {
+  const [user, setUser] = useState<{ name: string } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(\`/api/users/\${userId}\`)
+      .then(r => r.json())
+      .then(data => { if (!cancelled) setUser(data); });
+    return () => { cancelled = true; }; // cleanup tránh memory leak
+  }, [userId]); // chạy lại khi userId đổi
+
+  if (!user) return <p>Loading...</p>;
+  return <h2>{user.name}</h2>;
+}
+\`\`\`
+
+## 6. 🧠 Tư duy "Lifting State Up"
+
+Khi 2 component cần dùng chung state → đẩy state lên cha gần nhất.
+
+\`\`\`tsx
+function Parent() {
+  const [query, setQuery] = useState("");
+  return (
+    <>
+      <SearchBox value={query} onChange={setQuery} />
+      <ResultList query={query} />
+    </>
+  );
+}
+\`\`\`
+
+## 7. 🚀 Best Practices 2026
+
+- **Function components + hooks**, không dùng class.
+- **TypeScript** mặc định cho dự án mới.
+- **Key ổn định** trong list (\`item.id\`, không phải index).
+- Tách logic phức tạp ra **custom hook** (\`useDebounce\`, \`useFetch\`).
+- Dùng **Vite** hoặc **Next.js** — không tự build webpack.
+- State server (API data) → dùng **TanStack Query**, đừng nhét vào \`useState\`.
+
+> ⚠️ **Pitfall:** quên mảng dependency \`[]\` của \`useEffect\` → vòng lặp render vô hạn.`,
+        theoryEn: `## 1. 🚦 The Problem
+
+You built a vanilla JS app: every state change forces manual \`querySelector\` and \`innerHTML\`. **React** solves this by letting you *describe UI as a function of state* — it diffs the virtual DOM and updates the real DOM minimally.
+
+## 2. 💡 Key Concepts
+
+- **Component** — a function returning JSX.
+- **Props** — read-only inputs from parent.
+- **State** — internal mutable data; updates trigger re-render.
+- **Hooks** — \`use*\` functions to tap into React features.
+
+## 3. 🧰 First Component
+\`\`\`tsx
+function Greeting({ name }: { name: string }) {
+  return <h1>Hello, {name}!</h1>;
+}
+\`\`\`
+
+## 4. ⚡ State
+\`\`\`tsx
+const [count, setCount] = useState(0);
+<button onClick={() => setCount(c => c + 1)}>+1</button>
+\`\`\`
+Never mutate state directly — always use the setter.
+
+## 5. 🔄 Side Effects
+\`\`\`tsx
+useEffect(() => {
+  const ctrl = new AbortController();
+  fetch(url, { signal: ctrl.signal }).then(/*...*/);
+  return () => ctrl.abort();
+}, [url]);
+\`\`\`
+
+## 6. 🚀 2026 Best Practices
+- Function components + hooks, never classes.
+- TypeScript by default.
+- Stable keys in lists.
+- Server state via TanStack Query, not \`useState\`.
+- Vite or Next.js; no manual webpack.`,
+        code: `import { useState, useEffect } from "react";
+
+type Todo = { id: string; text: string; done: boolean };
+
+export default function TodoApp() {
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    const saved = localStorage.getItem("todos");
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [input, setInput] = useState("");
+
+  // Persist to localStorage whenever todos change
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  function addTodo() {
+    const text = input.trim();
+    if (!text) return;
+    setTodos(prev => [
+      ...prev,
+      { id: crypto.randomUUID(), text, done: false },
+    ]);
+    setInput("");
+  }
+
+  function toggle(id: string) {
+    setTodos(prev =>
+      prev.map(t => (t.id === id ? { ...t, done: !t.done } : t))
+    );
+  }
+
+  return (
+    <section>
+      <h1>My Todos</h1>
+      <input
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        onKeyDown={e => e.key === "Enter" && addTodo()}
+        placeholder="What needs to be done?"
+      />
+      <button onClick={addTodo}>Add</button>
+      <ul>
+        {todos.map(t => (
+          <li
+            key={t.id}
+            onClick={() => toggle(t.id)}
+            style={{ textDecoration: t.done ? "line-through" : "none" }}
+          >
+            {t.text}
+          </li>
+        ))}
+      </ul>
+      <p>{todos.filter(t => !t.done).length} tasks left</p>
+    </section>
+  );
+}`,
+        exercise: "Mở rộng Todo App: thêm bộ lọc (All/Active/Done), nút xóa từng task, và một custom hook `useLocalStorage<T>(key, initial)` để tái dùng logic lưu trữ. Bonus: thêm `useMemo` để tránh tính lại số task mỗi render.",
+        exerciseEn: "Extend the Todo App: add filters (All/Active/Done), per-item delete, and a `useLocalStorage<T>(key, initial)` custom hook. Bonus: memoize the active count with `useMemo`.",
+        quiz: [
+          { question: "Component name trong React BẮT BUỘC phải:", options: ["Viết thường", "Bắt đầu bằng chữ HOA", "Có ký tự gạch ngang", "Không có quy định"], answer: 1, explanation: "JSX dùng chữ thường cho HTML tag (<div>) và chữ HOA cho component (<MyButton>). Sai → React tưởng là HTML." },
+          { question: "Cách nào đúng để tăng count trong useState?", options: ["count = count + 1", "count++", "setCount(count + 1) hoặc setCount(c => c + 1)", "this.setState({count: count+1})"], answer: 2, explanation: "Luôn dùng setter; functional update `c => c+1` an toàn hơn khi cập nhật dựa trên giá trị cũ." },
+          { question: "useEffect không có dependency array sẽ:", options: ["Chạy 1 lần duy nhất", "Chạy mỗi lần render → dễ vòng lặp", "Không bao giờ chạy", "Báo lỗi compile"], answer: 1, explanation: "Không truyền array → effect chạy sau MỌI render. `[]` = chỉ chạy 1 lần khi mount." },
+          { question: "Khi render list, `key` nên là:", options: ["index của map", "ID ổn định, duy nhất của item", "Math.random()", "Không cần key"], answer: 1, explanation: "Key giúp React diff list hiệu quả. Index gây bug khi reorder; random làm mất state input bên trong item." },
+          { question: "Server state (data fetch từ API) nên quản lý bằng:", options: ["useState + useEffect thủ công", "TanStack Query / SWR", "Redux toàn cục", "localStorage"], answer: 1, explanation: "TanStack Query lo cache, retry, dedupe, invalidate — chuẩn 2026 cho server state." }
+        ]
+      },
     ]
   },
 ];
+
