@@ -1031,7 +1031,7 @@ FROM (
   FROM students
   GROUP BY city
 ) AS t
-WHERE t.so_hoc_vien > 5;`,
+WHERE t.student_count > 5;`,
         codeLanguage: "sql",
         exercise: "Find students whose **total order value** is greater than the **average total order value of all students**. Suggestion: use GROUP BY in the subquery to calculate the total for each student, then compare with the AVG of those totals.",
         exerciseEn: "Find students whose **total order amount** is greater than the **average of all students' total order amounts**. Hint: use GROUP BY inside a subquery to compute totals per student, then compare with the AVG of those totals.",
