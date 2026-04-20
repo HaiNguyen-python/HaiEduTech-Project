@@ -62,7 +62,9 @@ export interface SampleEssay {
   chartConfig?: ChartConfig;
 }
 
-export const sampleEssays: SampleEssay[] = [
+import { sampleEssaysExpansion } from "./ieltsSampleEssaysExpansion";
+
+const baseSampleEssays: SampleEssay[] = [
   {
     "id": "t1-1",
     "taskType": 1,
@@ -1941,3 +1943,5 @@ export const sampleEssays: SampleEssay[] = [
     }
   }
 ];
+
+export const sampleEssays: SampleEssay[] = [...baseSampleEssays, ...sampleEssaysExpansion];
