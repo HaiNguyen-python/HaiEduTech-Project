@@ -272,10 +272,11 @@ export default function UserInsightsTab() {
         </div>
         <div className="flex items-center gap-2">
           <Select value={range} onValueChange={(v) => setRange(v as Range)}>
-            <SelectTrigger className="w-32">
+            <SelectTrigger className="w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="all">{t("Tất cả thời gian", "All-time")}</SelectItem>
               <SelectItem value="1d">{t("24 giờ qua", "Last 24h")}</SelectItem>
               <SelectItem value="7d">{t("7 ngày qua", "Last 7 days")}</SelectItem>
               <SelectItem value="30d">{t("30 ngày qua", "Last 30 days")}</SelectItem>
@@ -287,6 +288,17 @@ export default function UserInsightsTab() {
           </Button>
         </div>
       </div>
+
+      {/* Tracking-since banner */}
+      {trackingSince && (
+        <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/40 border border-border/50 rounded-lg px-3 py-2">
+          <CalendarRange className="w-3.5 h-3.5" />
+          {t(
+            `Hệ thống tracking bắt đầu ghi nhận từ ngày ${trackingSince}. Dữ liệu cũ hơn không có sẵn.`,
+            `Tracking has been recording since ${trackingSince}. Earlier data is not available.`,
+          )}
+        </div>
+      )}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
