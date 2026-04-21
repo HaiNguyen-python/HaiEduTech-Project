@@ -212,6 +212,41 @@ const About = () => {
               )}
             </p>
 
+            {/* Chibi Teacher Hai introducing the philosophy */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="relative flex flex-col items-center mb-8"
+            >
+              <div className="relative">
+                <motion.img
+                  src={teacherHaiChibi}
+                  alt={t("Hình chibi thầy Hải với triết lý giáo dục", "Chibi Mr. Hai with education philosophy")}
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
+                  className="w-48 md:w-56 h-auto drop-shadow-xl"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  className="absolute -top-2 -right-4 md:-right-8"
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <Sparkles className="w-6 h-6 text-amber-400 fill-amber-400/40" />
+                </motion.div>
+              </div>
+              <p className="mt-3 text-sm font-display italic text-muted-foreground text-center max-w-md">
+                {t(
+                  "Cùng thầy Hải khám phá 6 giá trị cốt lõi trong hành trình học tập ✨",
+                  "Discover with Mr. Hai the 6 core values of a meaningful learning journey ✨"
+                )}
+              </p>
+            </motion.div>
+
+            {/* Philosophy quote cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
               {philosophy.map((p, i) => (
                 <motion.div
@@ -219,15 +254,16 @@ const About = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08 }}
-                  className="group relative p-5 rounded-2xl border border-border bg-card hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all"
+                  className={`group relative p-5 rounded-2xl border border-border bg-gradient-to-br ${p.color} hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 transition-all overflow-hidden`}
                 >
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <p.icon className="w-5 h-5 text-primary" />
+                  <Quote className="absolute top-3 right-3 w-5 h-5 text-foreground/10" />
+                  <div className="w-11 h-11 rounded-xl bg-background/80 backdrop-blur-sm flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">
+                    <p.icon className={`w-5 h-5 ${p.iconColor}`} />
                   </div>
-                  <h4 className="text-base font-display font-semibold text-foreground mb-2 leading-snug">
-                    {p.title}
-                  </h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-base font-display font-semibold text-foreground mb-2 leading-snug">
+                    {p.quote}
+                  </p>
+                  <p className="text-sm text-foreground/75 leading-relaxed">
                     {p.desc}
                   </p>
                 </motion.div>
