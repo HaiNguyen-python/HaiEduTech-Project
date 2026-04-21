@@ -436,17 +436,17 @@ const Navbar = () => {
           <div className="flex items-center justify-center h-11 gap-0.5">
             {/* Show logo in nav row when scrolled */}
             {scrolled && (
-              <Link to="/" className="flex items-center gap-2 mr-4 pr-4 border-r border-border/50 shrink-0">
+              <Link to="/" className="flex items-center gap-2.5 mr-4 pr-4 border-r border-border/50 shrink-0">
                 <img
                   src={teacherWave}
                   alt="HaiEduTech"
-                  className="w-8 h-8 rounded-full object-cover border-2 border-primary/40 shadow-sm"
+                  className="w-9 h-9 rounded-full object-cover border-2 border-primary shadow-md"
                   loading="eager"
                   decoding="sync"
                 />
-                <span className="font-display text-base whitespace-nowrap tracking-wider">
-                  <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent font-bold">HaiEdu</span>
-                  <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent font-extrabold">Tech</span>
+                <span className="font-display text-lg whitespace-nowrap tracking-tight leading-none">
+                  <span className="text-[#3B82F6] font-extrabold">HaiEdu</span>
+                  <span className="text-[#10B981] font-extrabold">Tech</span>
                 </span>
               </Link>
             )}
