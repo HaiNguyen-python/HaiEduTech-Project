@@ -111,20 +111,23 @@ const GROUP_COLORS: Record<string, string> = {
 
 export default function UserInsightsTab() {
   const { t } = useLanguage();
-  const [range, setRange] = useState<Range>("7d");
+  const [range, setRange] = useState<Range>("all");
   const [loading, setLoading] = useState(true);
   const [views, setViews] = useState<PageView[]>([]);
 
   const fetchViews = async () => {
     setLoading(true);
-    const since = new Date();
-    since.setDate(since.getDate() - RANGE_DAYS[range]);
-    const { data, error } = await supabase
+    let q = supabase
       .from("page_view_log")
       .select("*")
-      .gte("created_at", since.toISOString())
       .order("created_at", { ascending: false })
-      .limit(5000);
+      .limit(10000);
+    if (range !== "all") {
+      const since = new Date();
+      since.setDate(since.getDate() - RANGE_DAYS[range]);
+      q = q.gte("created_at", since.toISOString());
+    }
+    const { data, error } = await q;
     if (!error && data) setViews(data as any);
     setLoading(false);
   };
