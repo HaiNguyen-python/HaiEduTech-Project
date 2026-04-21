@@ -245,6 +245,12 @@ const IeltsWritingPractice = () => {
             domain: "english",
             metadata: { taskType, wordCount, criteria: data.criteria },
           });
+          // Remove the draft now that the essay has been graded
+          if (currentDraftId) {
+            await supabase.from("writing_drafts").delete().eq("id", currentDraftId);
+            setCurrentDraftId(null);
+            setDraftsReloadKey(k => k + 1);
+          }
         }
       } catch (saveErr) {
         console.error("Error saving attempt:", saveErr);
