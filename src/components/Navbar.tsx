@@ -447,8 +447,16 @@ const Navbar = () => {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 6, scale: 0.97 }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="absolute top-full left-0 mt-1 w-64 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
+                          // Invisible "hover bridge" via pt-2 + ::before pseudo-element keeps the
+                          // pointer inside a hoverable region while traveling from the trigger.
+                          // Re-entering the panel cancels the close timer (intent-based hover).
+                          onMouseEnter={() => {
+                            if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                          }}
+                          onMouseLeave={handleMouseLeave}
+                          className="absolute top-full left-0 pt-2 w-64 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-3"
                         >
+                          <div className="bg-card rounded-xl shadow-xl border border-border py-2">
                           {l.subs.map((sub, i) => {
                             // Nested group with children (IELTS Program)
                             if (sub.children) {
@@ -458,10 +466,11 @@ const Navbar = () => {
                                   className="relative"
                                   onMouseEnter={() => {
                                     if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
+                                    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
                                     setActiveSubmenu(sub.groupLabel!);
                                   }}
                                   onMouseLeave={() => {
-                                    submenuTimeoutRef.current = setTimeout(() => setActiveSubmenu(null), 120);
+                                    submenuTimeoutRef.current = setTimeout(() => setActiveSubmenu(null), HOVER_CLOSE_DELAY);
                                   }}
                                 >
                                   <motion.div
