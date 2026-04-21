@@ -458,6 +458,116 @@ function renderInteractiveLine(line: LyricLine) {
 }
 
 // =====================================================
+// LYRICS HERO BANNER — eye-catching illustration on top of lyrics
+// =====================================================
+function LyricsHero({
+  song,
+  theme,
+}: {
+  song: Song;
+  theme: { from: string; to: string; ring: string; label: string };
+}) {
+  const langEmoji: Record<SongLanguage, string> = {
+    english: "🎤",
+    chinese: "🏮",
+    finnish: "🌲",
+    vietnamese: "🌾",
+  };
+  const moodEmoji: Record<string, string> = {
+    easy: "🌱",
+    intermediate: "✨",
+    advanced: "🔥",
+  };
+
+  if (song.album_art_url) {
+    return (
+      <div className="relative h-40 md:h-52 w-full overflow-hidden">
+        <img
+          src={song.album_art_url}
+          alt={song.title}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+        <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+              {theme.label} · {moodEmoji[song.difficulty] ?? "🎵"} {song.difficulty}
+            </p>
+            <p className="text-sm md:text-base font-display font-bold truncate drop-shadow">
+              {song.title}
+            </p>
+          </div>
+          <span className="text-3xl md:text-4xl drop-shadow-lg" aria-hidden="true">
+            {langEmoji[song.language]}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback: gradient + big emoji
+  return (
+    <div
+      className={`relative h-32 md:h-40 w-full flex items-center justify-center bg-gradient-to-br ${theme.from} ${theme.to} overflow-hidden`}
+    >
+      <span className="text-6xl md:text-7xl opacity-90 drop-shadow-lg" aria-hidden="true">
+        {langEmoji[song.language]}
+      </span>
+      <span className="absolute top-3 left-4 text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+        {theme.label} · {moodEmoji[song.difficulty] ?? "🎵"} {song.difficulty}
+      </span>
+      <span className="absolute bottom-3 right-4 text-2xl opacity-70" aria-hidden="true">
+        🎼
+      </span>
+    </div>
+  );
+}
+
+// Pick a contextual emoji for a lyric line based on keywords across 4 languages.
+// Returns null when no keyword matches → keeps layout clean.
+const LINE_EMOJI_KEYWORDS: { emoji: string; words: string[] }[] = [
+  { emoji: "❤️", words: ["love", "heart", "yêu", "tim", "lòng", "爱", "心", "rakkaus", "sydän", "rakastan"] },
+  { emoji: "👩", words: ["mother", "mom", "mẹ", "má", "妈", "母", "äiti"] },
+  { emoji: "👨", words: ["father", "dad", "cha", "bố", "ba", "爸", "父", "isä"] },
+  { emoji: "👵", words: ["grandma", "grandmother", "bà", "奶奶", "外婆", "mummo", "isoäiti"] },
+  { emoji: "👶", words: ["baby", "child", "cháu", "bé", "孩", "lapsi"] },
+  { emoji: "🏡", words: ["home", "house", "nhà", "quê", "家", "koti"] },
+  { emoji: "🌍", words: ["country", "nation", "world", "đất nước", "quê hương", "国", "maa"] },
+  { emoji: "☀️", words: ["sun", "sunshine", "mặt trời", "nắng", "太阳", "阳光", "aurinko"] },
+  { emoji: "🌙", words: ["moon", "night", "trăng", "đêm", "月", "kuu", "yö"] },
+  { emoji: "⭐", words: ["star", "sao", "星", "tähti"] },
+  { emoji: "🌧️", words: ["rain", "mưa", "雨", "sade"] },
+  { emoji: "❄️", words: ["snow", "winter", "tuyết", "雪", "lumi", "talvi"] },
+  { emoji: "🌸", words: ["flower", "blossom", "hoa", "花", "kukka"] },
+  { emoji: "🌳", words: ["tree", "forest", "cây", "rừng", "树", "森", "puu", "metsä"] },
+  { emoji: "🐦", words: ["bird", "chim", "鸟", "lintu"] },
+  { emoji: "🦆", words: ["duck", "vịt", "鸭"] },
+  { emoji: "🌊", words: ["sea", "ocean", "river", "biển", "sông", "海", "河", "meri", "joki"] },
+  { emoji: "🚗", words: ["go", "road", "đường", "đi", "路", "tie"] },
+  { emoji: "😊", words: ["smile", "happy", "vui", "cười", "笑", "iloinen"] },
+  { emoji: "😢", words: ["cry", "tear", "sad", "buồn", "khóc", "泪", "哭", "surullinen"] },
+  { emoji: "🎶", words: ["sing", "song", "music", "hát", "ca", "歌", "唱", "laulu", "laulaa"] },
+  { emoji: "🤝", words: ["friend", "bạn", "朋友", "ystävä"] },
+  { emoji: "✋", words: ["hand", "tay", "手", "käsi"] },
+  { emoji: "👀", words: ["eye", "see", "mắt", "nhìn", "眼", "看", "silmä"] },
+  { emoji: "🕊️", words: ["dream", "hope", "mơ", "ước", "梦", "希望", "unelma", "toivo"] },
+  { emoji: "⏰", words: ["time", "day", "thời gian", "ngày", "时间", "天", "aika", "päivä"] },
+  { emoji: "🎁", words: ["gift", "present", "quà", "礼物", "lahja"] },
+  { emoji: "🌈", words: ["beautiful", "đẹp", "美", "kaunis"] },
+];
+
+function pickLineEmoji(line: LyricLine): string | null {
+  const haystack = `${line.original} ${line.translation}`.toLowerCase();
+  for (const entry of LINE_EMOJI_KEYWORDS) {
+    if (entry.words.some((w) => haystack.includes(w.toLowerCase()))) {
+      return entry.emoji;
+    }
+  }
+  return null;
+}
+
+// =====================================================
 // FILL IN THE BLANKS QUIZ
 // =====================================================
 function BlanksQuiz({ song }: { song: Song }) {
