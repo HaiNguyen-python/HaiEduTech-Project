@@ -299,21 +299,14 @@ const Navbar = () => {
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 />
-                {/* Brand name — solid colors (no gradient) for maximum crispness, original font-display style */}
-                <span
-                  className="font-display text-lg whitespace-nowrap"
-                  style={{
-                    opacity: 1,
-                    filter: "none",
-                    textShadow: "none",
-                    WebkitFontSmoothing: "antialiased",
-                    MozOsxFontSmoothing: "grayscale",
-                    textRendering: "geometricPrecision",
-                  }}
-                >
-                  <span style={{ fontWeight: 600, color: "#1E40AF" }}>HaiEdu</span>
-                  <span style={{ fontWeight: 700, color: "#047857" }}>Tech</span>
-                </span>
+                {/* Brand wordmark — image-based logo for guaranteed crisp rendering with custom typography */}
+                <img
+                  src={brandWordmark}
+                  alt="HaiEduTech"
+                  className="h-7 lg:h-8 w-auto select-none"
+                  draggable={false}
+                  style={{ imageRendering: "auto" }}
+                />
               </Link>
 
               {/* Slogan centered between logo and auth — with periodic ripple */}
