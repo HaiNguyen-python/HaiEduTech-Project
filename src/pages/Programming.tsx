@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2 } from "lucide-react";
+import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
@@ -95,6 +95,15 @@ const pillars = [
     bgColor: "bg-indigo-500/8",
     borderColor: "border-indigo-500/20",
     accentColor: "text-indigo-600",
+  },
+  {
+    id: "nlp",
+    icon: Languages,
+    emoji: "🗣️",
+    color: "from-cyan-500 to-blue-600",
+    bgColor: "bg-cyan-500/8",
+    borderColor: "border-cyan-500/20",
+    accentColor: "text-cyan-600",
   },
   {
     id: "reinforcement-learning",
@@ -189,6 +198,12 @@ const Programming = () => {
       desc: "Mạng Neural, PyTorch, CNN cho Computer Vision, RNN/LSTM cho NLP, và Transformers/LLMs — công nghệ đứng sau ChatGPT. Yêu cầu: Python cơ bản + Đại số tuyến tính.",
       descEn: "Neural Networks, PyTorch, CNNs for Computer Vision, RNN/LSTMs for NLP, and Transformers/LLMs — the tech behind ChatGPT. Prerequisites: Python basics + Linear Algebra.",
       modules: allProgrammingModules.filter(m => m.course === "dl"),
+    },
+    nlp: {
+      title: "Natural Language Processing", titleEn: "Natural Language Processing",
+      desc: "6 bài học chuyên sâu: tokenization (Anh/Phần Lan/Trung), TF-IDF & Word Embeddings, Sentiment Analysis, RNN/LSTM, và Transformers/BERT/LLM 2026. Capstone: Finnish→English Sentiment Analyser. Mở khóa huy hiệu 'Linguistics Architect'.",
+      descEn: "6 expert lessons: multilingual tokenization (EN/FI/ZH), TF-IDF & Word Embeddings, Sentiment Analysis, RNN/LSTMs, and Transformers/BERT/LLMs (2026). Capstone: a Finnish→English sentiment analyser. Unlocks the 'Linguistics Architect' badge.",
+      modules: allProgrammingModules.filter(m => m.course === "nlp"),
     },
     "reinforcement-learning": {
       title: "Reinforcement Learning", titleEn: "Reinforcement Learning",

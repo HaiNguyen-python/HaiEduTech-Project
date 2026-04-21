@@ -7,13 +7,14 @@ import { programmingExpansionModules } from "./programmingExpansion";
 import { cloudModules } from "./cloudLessons";
 import { cloudExpansionModules } from "./cloudExpansion";
 import { dlModules } from "./dlLessons";
+import { nlpModules } from "./nlpLessons";
 import { rlModules } from "./rlLessons";
 import { softwareEngModules } from "./softwareEngLessons";
 import { webDevModules } from "./webDevLessons";
 import type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase } from "./types";
 
 export type { ExtendedProgrammingModule, ExtendedProgrammingLesson, TestCase };
-export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, rlModules, softwareEngModules, webDevModules };
+export { sqlModules, aiFoundationModules, dataEngModules, mlModules, programmingExpansionModules, cloudModules, cloudExpansionModules, dlModules, nlpModules, rlModules, softwareEngModules, webDevModules };
 
 // Combined expanded modules array
 export const expandedModules: ExtendedProgrammingModule[] = [
@@ -26,6 +27,7 @@ export const expandedModules: ExtendedProgrammingModule[] = [
   ...cloudModules,
   ...cloudExpansionModules,
   ...dlModules,
+  ...nlpModules,
   ...rlModules,
   ...programmingExpansionModules,
 ];
