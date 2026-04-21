@@ -25,7 +25,7 @@ const bandTextColors: Record<string, string> = {
 };
 
 const IeltsLectureExpansionPanel = ({ lectureId }: { lectureId: string }) => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const exp = lectureExpansions[lectureId];
 
   if (!exp) return null;
@@ -62,7 +62,7 @@ const IeltsLectureExpansionPanel = ({ lectureId }: { lectureId: string }) => {
                       </Badge>
                     </div>
                     <ul className="space-y-1.5 text-[15px] text-foreground">
-                      {(language === "vi" ? b.criteriaVi : b.criteria).map((c, j) => (
+                      {(lang === "vi" ? b.criteriaVi : b.criteria).map((c, j) => (
                         <li key={j} className="flex gap-2">
                           <span className={`shrink-0 ${bandTextColors[b.color]}`}>•</span>
                           <span>{c}</span>
