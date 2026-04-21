@@ -324,7 +324,7 @@ const CambridgeLectures = () => {
           </div>
         </section>
 
-        {/* Card Grid */}
+        {/* 🎯 Grouped Lectures — by Level → by Skill */}
         <section className="container mx-auto px-4 pb-16">
           {filtered.length === 0 ? (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
@@ -335,21 +335,13 @@ const CambridgeLectures = () => {
               </Button>
             </motion.div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              <AnimatePresence mode="popLayout">
-                {filtered.map((lecture, i) => (
-                  <CambridgeCard
-                    key={lecture.id}
-                    lecture={lecture}
-                    index={i}
-                    isBookmarked={bookmarked.has(lecture.id)}
-                    isCompleted={completed.has(lecture.id)}
-                    onToggleBookmark={() => toggleBookmark(lecture.id)}
-                    t={t}
-                  />
-                ))}
-              </AnimatePresence>
-            </div>
+            <GroupedLectureSections
+              lectures={filtered}
+              bookmarked={bookmarked}
+              completed={completed as Set<string>}
+              onToggleBookmark={toggleBookmark}
+              t={t}
+            />
           )}
         </section>
       </main>
