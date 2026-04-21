@@ -133,7 +133,12 @@ const ProgrammingLessonPage = () => {
 
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
 
-  // Load cached AI theory whenever the lesson changes
+  // Load cached AI theory whenever the lesson changes.
+  // Auto-trigger Enhance with AI when:
+  //   (a) no cached entry exists at all, OR
+  //   (b) cached markdown exists but is missing inline illustrations.
+  // This guarantees every lesson (especially NLP) opens with the AI Deep-Dive
+  // and cute infographic illustrations rendered.
   useEffect(() => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
@@ -145,7 +150,11 @@ const ProgrammingLessonPage = () => {
       .eq("lesson_id", lesson.id)
       .maybeSingle()
       .then(({ data }) => {
-        if (!data?.enhanced_markdown) return;
+        if (!data?.enhanced_markdown) {
+          // No cache at all — auto-generate Deep-Dive + illustrations on first view
+          void handleEnhanceTheory(false);
+          return;
+        }
 
         // Strip Perplexity citation markers like [1][2][3] from previously cached content
         const cleaned = data.enhanced_markdown
