@@ -71,6 +71,7 @@ const VietnameseDictation = lazy(() => import("./pages/VietnameseDictation.tsx")
 const VietnamesePoetry = lazy(() => import("./pages/VietnamesePoetry.tsx"));
 const VietnameseAlphabet = lazy(() => import("./pages/VietnameseAlphabet.tsx"));
 const NationalAnthem = lazy(() => import("./pages/NationalAnthem.tsx"));
+const VietnameseHolidays = lazy(() => import("./pages/VietnameseHolidays.tsx"));
 const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
 const ToeicLectures = lazy(() => import("./pages/ToeicLectures.tsx"));
@@ -188,6 +189,8 @@ const App = () => (
             <Route path="/learn-vietnamese/dictation" element={<LazyRoute><VietnameseDictation /></LazyRoute>} />
             <Route path="/learn-vietnamese/poetry" element={<LazyRoute><VietnamesePoetry /></LazyRoute>} />
             <Route path="/learn-vietnamese/alphabet" element={<LazyRoute><VietnameseAlphabet /></LazyRoute>} />
+            <Route path="/learn-vietnamese/holidays" element={<LazyRoute><VietnameseHolidays /></LazyRoute>} />
+            <Route path="/learn-vietnamese/holidays/:holidayId" element={<LazyRoute><VietnameseHolidays /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/:moduleId/:lessonId" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
             <Route path="/global-scholarship" element={<LazyRoute><KnowledgeHubPage /></LazyRoute>} />
             <Route path="/knowledge-hub" element={<Navigate to="/global-scholarship" replace />} />
