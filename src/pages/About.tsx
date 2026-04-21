@@ -1,10 +1,11 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera, BookOpen, Heart, Lightbulb, Compass, Sparkles, Globe2, Rocket } from "lucide-react";
+import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera, BookOpen, Heart, Lightbulb, Compass, Sparkles, Globe2, Rocket, Quote } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import ClassroomGallery from "@/components/ClassroomGallery";
+import teacherHaiChibi from "@/assets/teacher-hai-chibi-philosophy.png";
 
 const About = () => {
   const { t } = useLanguage();
@@ -12,50 +13,62 @@ const About = () => {
   const philosophy = [
     {
       icon: Heart,
-      title: t("Học để trưởng thành, không chỉ để đi thi", "Learn to grow, not just to pass exams"),
+      color: "from-rose-400/30 to-pink-300/20",
+      iconColor: "text-rose-500",
+      quote: t("\"Học để trưởng thành, không chỉ để đi thi.\"", "\"Learn to grow, not just to pass exams.\""),
       desc: t(
-        "Thầy tin rằng giáo dục thật sự phải chạm đến trái tim. Mỗi bài học không chỉ là kiến thức, mà còn là cơ hội để các em hiểu mình hơn, mở rộng thế giới quan và trở thành phiên bản tốt hơn của chính mình.",
-        "I believe true education must touch the heart. Every lesson isn't just knowledge — it's a chance for students to understand themselves, broaden their worldview, and become a better version of who they are."
+        "Mỗi bài học là một cơ hội để các em hiểu mình hơn và trở thành phiên bản tốt hơn của chính mình.",
+        "Every lesson is a chance for students to understand themselves and become a better version of who they are."
       ),
     },
     {
       icon: Lightbulb,
-      title: t("Tư duy độc lập trong kỷ nguyên AI", "Independent thinking in the AI era"),
+      color: "from-amber-400/30 to-yellow-300/20",
+      iconColor: "text-amber-500",
+      quote: t("\"Đặt câu hỏi đúng – quan trọng hơn nhớ đáp án.\"", "\"Asking the right question matters more than memorizing the answer.\""),
       desc: t(
-        "Trong thời đại AI bùng nổ, thầy không dạy các em ghi nhớ máy móc, mà rèn cho các em cách đặt câu hỏi đúng, biết phản biện và biết dùng công nghệ như một người bạn đồng hành – chứ không phải kẻ thay thế.",
-        "In the age of AI, I don't teach memorization — I train students to ask the right questions, think critically, and use technology as a companion, not a replacement."
+        "Trong kỷ nguyên AI, thầy rèn cho các em tư duy phản biện và biết dùng công nghệ như người bạn đồng hành.",
+        "In the AI era, I train students to think critically and use technology as a companion, not a replacement."
       ),
     },
     {
       icon: Compass,
-      title: t("Học tập bền vững – đi xa cùng nhau", "Sustainable learning – going far, together"),
+      color: "from-emerald-400/30 to-teal-300/20",
+      iconColor: "text-emerald-500",
+      quote: t("\"Đi chậm, đi đúng – sẽ đi rất xa.\"", "\"Go slow, go right — and you'll go far.\""),
       desc: t(
-        "Thầy tin vào hành trình dài hạn: học mỗi ngày một chút, kiên trì và có chiến lược. Một lộ trình rõ ràng, đúng phương pháp và có người đồng hành sẽ giúp các em đi xa hơn bất kỳ \"khoá học cấp tốc\" nào.",
-        "I believe in the long game: learn a little every day, with patience and strategy. A clear roadmap, the right method, and a mentor by your side will take you further than any \"crash course\" ever could."
+        "Một lộ trình rõ ràng và kiên trì mỗi ngày sẽ thắng mọi \"khoá học cấp tốc\".",
+        "A clear roadmap and daily persistence will outlast any \"crash course\"."
       ),
     },
     {
       icon: Globe2,
-      title: t("Công dân toàn cầu mang hồn Việt", "Global citizens with a Vietnamese soul"),
+      color: "from-sky-400/30 to-blue-300/20",
+      iconColor: "text-sky-500",
+      quote: t("\"Vươn ra thế giới – mà vẫn giữ hồn Việt.\"", "\"Reach the world — keep your Vietnamese soul.\""),
       desc: t(
-        "Đi qua Việt Nam và Phần Lan, thầy thấy rõ: các em hoàn toàn có thể vươn ra thế giới mà vẫn giữ được bản sắc. Học ngôn ngữ và công nghệ chính là tấm hộ chiếu để các em tự tin bước ra biển lớn.",
-        "Living across Vietnam and Finland, I see clearly: our students can reach the world while keeping their roots. Languages and technology are the passport to step confidently onto the global stage."
+        "Ngôn ngữ và công nghệ là tấm hộ chiếu để các em tự tin bước ra biển lớn.",
+        "Languages and technology are the passport to step confidently onto the global stage."
       ),
     },
     {
       icon: Sparkles,
-      title: t("Mỗi học sinh là một vì sao riêng", "Every student is their own star"),
+      color: "from-violet-400/30 to-purple-300/20",
+      iconColor: "text-violet-500",
+      quote: t("\"Không ai dở học – chỉ là chưa tìm đúng cách.\"", "\"No one is bad at learning — they just haven't found their way yet.\""),
       desc: t(
-        "Không có ai \"dở\" – chỉ có người chưa tìm đúng cách học của mình. Thầy cam kết lắng nghe, cá nhân hoá lộ trình và tin vào tiềm năng của từng em, dù xuất phát điểm có ở đâu.",
-        "No one is \"bad at learning\" — they just haven't found their own way yet. I commit to listening, personalizing each roadmap, and believing in every student's potential, no matter where they start."
+        "Thầy cam kết lắng nghe, cá nhân hoá lộ trình và tin vào tiềm năng riêng của từng em.",
+        "I commit to listening, personalizing each roadmap, and believing in every student's potential."
       ),
     },
     {
       icon: Rocket,
-      title: t("Gieo ước mơ – chắp cánh hành động", "Plant dreams – grow wings to act"),
+      color: "from-orange-400/30 to-red-300/20",
+      iconColor: "text-orange-500",
+      quote: t("\"Dám mơ lớn – bắt đầu từ điều nhỏ nhất hôm nay.\"", "\"Dare to dream big — start with the smallest action today.\""),
       desc: t(
-        "Thông điệp thầy muốn gửi đến các em ở Việt Nam và khắp nơi: hãy dám mơ lớn, rồi bắt tay vào làm từ những điều nhỏ nhất hôm nay. Tương lai không chờ ai – nhưng nó luôn mở cửa cho người đủ kiên trì.",
-        "My message to students in Vietnam and around the world: dare to dream big, then start with the smallest action today. The future waits for no one — but it always opens its doors to those who persist."
+        "Tương lai không chờ ai – nhưng luôn mở cửa cho người đủ kiên trì.",
+        "The future waits for no one — but it always opens its doors to those who persist."
       ),
     },
   ];
@@ -199,6 +212,41 @@ const About = () => {
               )}
             </p>
 
+            {/* Chibi Teacher Hai introducing the philosophy */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="relative flex flex-col items-center mb-8"
+            >
+              <div className="relative">
+                <motion.img
+                  src={teacherHaiChibi}
+                  alt={t("Hình chibi thầy Hải với triết lý giáo dục", "Chibi Mr. Hai with education philosophy")}
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
+                  className="w-48 md:w-56 h-auto drop-shadow-xl"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  className="absolute -top-2 -right-4 md:-right-8"
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <Sparkles className="w-6 h-6 text-amber-400 fill-amber-400/40" />
+                </motion.div>
+              </div>
+              <p className="mt-3 text-sm font-display italic text-muted-foreground text-center max-w-md">
+                {t(
+                  "Cùng thầy Hải khám phá 6 giá trị cốt lõi trong hành trình học tập ✨",
+                  "Discover with Mr. Hai the 6 core values of a meaningful learning journey ✨"
+                )}
+              </p>
+            </motion.div>
+
+            {/* Philosophy quote cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
               {philosophy.map((p, i) => (
                 <motion.div
@@ -206,15 +254,16 @@ const About = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08 }}
-                  className="group relative p-5 rounded-2xl border border-border bg-card hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all"
+                  className={`group relative p-5 rounded-2xl border border-border bg-gradient-to-br ${p.color} hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 transition-all overflow-hidden`}
                 >
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <p.icon className="w-5 h-5 text-primary" />
+                  <Quote className="absolute top-3 right-3 w-5 h-5 text-foreground/10" />
+                  <div className="w-11 h-11 rounded-xl bg-background/80 backdrop-blur-sm flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">
+                    <p.icon className={`w-5 h-5 ${p.iconColor}`} />
                   </div>
-                  <h4 className="text-base font-display font-semibold text-foreground mb-2 leading-snug">
-                    {p.title}
-                  </h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-base font-display font-semibold text-foreground mb-2 leading-snug">
+                    {p.quote}
+                  </p>
+                  <p className="text-sm text-foreground/75 leading-relaxed">
                     {p.desc}
                   </p>
                 </motion.div>
