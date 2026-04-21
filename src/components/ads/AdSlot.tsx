@@ -1,19 +1,12 @@
-import { useEffect, useRef, forwardRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface AdSlotProps {
-  /** Google AdSense ad slot ID (data-ad-slot). Leave empty to show a placeholder during setup. */
   slot?: string;
-  /** Layout format. "auto" works for most responsive placements. */
   format?: "auto" | "fluid" | "rectangle" | "horizontal" | "vertical";
-  /** Whether the ad should be full-width responsive. */
   responsive?: boolean;
-  /** Optional layout key for in-feed/in-article ads. */
   layoutKey?: string;
-  /** Optional className applied to the wrapper. */
   className?: string;
-  /** Minimum height to prevent CLS while ad loads. */
   minHeight?: number;
-  /** Caption shown above the ad ("Quảng cáo"). */
   label?: string;
 }
 
@@ -25,15 +18,7 @@ declare global {
 
 const ADSENSE_CLIENT = "ca-pub-6711722743054772";
 
-/**
- * AdSlot — Single Google AdSense unit.
- *
- * Usage policy on HaiEduTech:
- * - ONLY render on static / informational pages (About, Contact, Knowledge Hub, Mentor Hub, blog-style content).
- * - DO NOT render on interactive learning pages (dashboards, exercises, games, speaking coach, code editors).
- * - Always wrap in design-system spacing; never overlay learning content.
- */
-const AdSlot = forwardRef<HTMLDivElement, AdSlotProps>(({
+const AdSlot = ({
   slot,
   format = "auto",
   responsive = true,
@@ -41,7 +26,7 @@ const AdSlot = forwardRef<HTMLDivElement, AdSlotProps>(({
   className = "",
   minHeight = 120,
   label = "Quảng cáo",
-}, ref) => {
+}: AdSlotProps) => {
   const insRef = useRef<HTMLModElement | null>(null);
   const pushed = useRef(false);
 
@@ -52,13 +37,12 @@ const AdSlot = forwardRef<HTMLDivElement, AdSlotProps>(({
       (window.adsbygoogle = window.adsbygoogle || []).push({});
       pushed.current = true;
     } catch (err) {
-      // Silent fail — AdSense often throws when blocked or already initialized.
+      // Silent fail
     }
   }, [slot]);
 
   return (
     <div
-      ref={ref}
       className={`my-8 w-full max-w-3xl mx-auto rounded-xl border border-border/50 bg-muted/30 p-3 ${className}`}
       aria-label="Advertisement"
     >
@@ -86,8 +70,6 @@ const AdSlot = forwardRef<HTMLDivElement, AdSlotProps>(({
       )}
     </div>
   );
-});
-
-AdSlot.displayName = "AdSlot";
+};
 
 export default AdSlot;
