@@ -340,6 +340,44 @@ const MotivationLetterGuide = () => {
           )}
         </div>
       </main>
+
+      {/* Sample letter dialog */}
+      <Dialog open={!!sampleOpen} onOpenChange={(o) => !o && setSampleOpen(null)}>
+        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+          {sampleOpen && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-start gap-3">
+                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${sampleOpen.bandColor} flex items-center justify-center flex-shrink-0`}>
+                    <GraduationCap className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <div className="text-base font-bold">{lang === "vi" ? sampleOpen.titleVi : sampleOpen.title}</div>
+                    <div className="text-xs text-muted-foreground font-normal mt-0.5">{sampleOpen.targetSchool} · {sampleOpen.targetProgram}</div>
+                  </div>
+                </DialogTitle>
+              </DialogHeader>
+              <div className="flex justify-end mb-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    navigator.clipboard.writeText(sampleOpen.content);
+                    toast({ title: t("Đã sao chép", "Copied"), description: t("Bạn có thể paste vào bản nháp của mình", "Paste it into your own draft") });
+                  }}
+                  className="gap-2"
+                >
+                  <Copy className="w-4 h-4" /> {t("Sao chép toàn bộ", "Copy all")}
+                </Button>
+              </div>
+              <div className="whitespace-pre-wrap font-serif text-[15px] leading-relaxed bg-muted/20 rounded-lg p-5 border border-border/60">
+                {sampleOpen.content}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
