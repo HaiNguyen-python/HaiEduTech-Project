@@ -172,11 +172,37 @@ const Finnish = () => {
                 </Link>
               </motion.div>
             ))}
-          </div>
 
-          {/* Songs Library banner */}
-          <div className="mt-8">
-            <SongsBanner language="finnish" delay={0.5} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45, duration: 0.5 }}
+            >
+              <Link to="/songs/finnish" className="block h-full group">
+                <div className="h-full rounded-2xl border-2 border-primary/25 bg-primary/5 p-6 md:p-8 hover:border-primary/40 hover:shadow-xl transition-all duration-300 flex flex-col">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-3xl shadow-md">
+                      🎵
+                    </div>
+                    <Badge className="bg-primary text-primary-foreground border-primary">Songs</Badge>
+                  </div>
+                  <h2 className="text-2xl font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
+                    {t("Học qua bài hát", "Learn through Songs")}
+                  </h2>
+                  <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                    {t("Kho bài hát tiếng Phần Lan với lyrics song ngữ, từ vựng theo câu và bài tập nghe điền từ.", "Finnish song library with bilingual lyrics, line-by-line vocabulary, and listening gap-fill practice.")}
+                  </p>
+                  <ul className="space-y-2 mb-6 flex-1 text-sm text-foreground/80">
+                    <li className="flex items-start gap-2"><span className="text-primary mt-0.5">✓</span><span>Sininen ja valkoinen · Maamme · Muumilaulu</span></li>
+                    <li className="flex items-start gap-2"><span className="text-primary mt-0.5">✓</span><span>Hämä-Hämähäkki · Pieni Ankanpoikanen</span></li>
+                  </ul>
+                  <Button className="w-full gap-2 font-semibold group-hover:gap-3 transition-all">
+                    {t("Mở mục bài hát", "Open Songs")}
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </Link>
+            </motion.div>
           </div>
 
           {/* Bonus: AI Speaking Coach */}

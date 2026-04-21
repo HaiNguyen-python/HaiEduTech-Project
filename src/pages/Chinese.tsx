@@ -144,7 +144,6 @@ const Chinese = () => {
                     ))}
                   </ul>
 
-                  {/* Interactive Curriculum inside Conversational card */}
                   {i === 2 && (
                     <div className="mb-5">
                       <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
@@ -174,6 +173,25 @@ const Chinese = () => {
                   </div>
                 </motion.div>
               ))}
+
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="glass-card rounded-2xl p-6 border-2 border-primary/25 bg-primary/5">
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-lg font-display font-bold text-foreground">🎵 {t("Học qua bài hát", "Learn through Songs")}</h3>
+                  <span className="text-xs px-3 py-1 rounded-full bg-primary text-primary-foreground font-semibold">Songs</span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {t("Mục bài hát tiếng Trung riêng với lyrics, pinyin, giải nghĩa từng từ và quiz điền từ.", "Dedicated Chinese songs section with lyrics, pinyin, word meanings, and fill-in-the-blank quizzes.")}
+                </p>
+                <ul className="space-y-2 mb-5 text-sm text-secondary-foreground">
+                  <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-primary shrink-0" /> 月亮代表我的心 · 小幸运 · 茉莉花</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-primary shrink-0" /> 两只老虎 · 生日快乐歌 · 小毛驴</li>
+                </ul>
+                <div className="flex gap-3">
+                  <Link to="/songs/chinese" className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
+                    {t("Mở mục bài hát", "Open Songs")} <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </motion.div>
             </div>
 
             {/* AI Speaking Coach */}
@@ -317,9 +335,6 @@ const Chinese = () => {
                 ))}
               </div>
             </motion.div>
-
-            {/* Songs Library */}
-            <SongsBanner language="chinese" delay={0.45} />
 
             {/* Skill Assessment */}
             <div className="mb-10">
