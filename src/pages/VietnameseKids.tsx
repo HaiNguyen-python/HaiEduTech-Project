@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Heart, Music, BookOpen } from "lucide-react";
+import { ArrowLeft, Heart, Music, BookOpen, Volume2, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,8 +8,55 @@ import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { kidsLessons, type KidsLesson } from "@/data/vietnamese/kidsOverseasData";
+import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
+
+const SpeakButton = ({ text, label, size = "icon" }: { text: string; label: string; size?: "icon" | "sm" }) => {
+  const [loading, setLoading] = useState(false);
+  const handlePlay = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (loading) {
+      stopVietnameseTts();
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    try {
+      await playVietnameseTts(text);
+    } finally {
+      setLoading(false);
+    }
+  };
+  if (size === "sm") {
+    return (
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        onClick={handlePlay}
+        aria-label={label}
+        className="h-7 gap-1.5 px-2 text-xs"
+      >
+        {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Volume2 className="w-3.5 h-3.5" />}
+        {label}
+      </Button>
+    );
+  }
+  return (
+    <Button
+      type="button"
+      size="icon"
+      variant="ghost"
+      onClick={handlePlay}
+      aria-label={label}
+      className="h-7 w-7 shrink-0 text-primary hover:text-primary hover:bg-primary/10"
+    >
+      {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Volume2 className="w-3.5 h-3.5" />}
+    </Button>
+  );
+};
 
 const ageColor = {
   "3-6": "bg-pink-100 text-pink-800 dark:bg-pink-950 dark:text-pink-200",
