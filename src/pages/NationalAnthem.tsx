@@ -1,11 +1,10 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, RotateCcw, Music, Star, Flag, Info, X } from "lucide-react";
+import { Music, Star, Flag, Info, X, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import flagWaving from "@/assets/vietnam-flag-waving.jpg";
@@ -61,74 +60,12 @@ const vocabItems = [
 ];
 
 const VIDEO_ID = "SK6rHXlKC0A";
-
-declare global {
-  interface Window {
-    YT: any;
-    onYouTubeIframeAPIReady: (() => void) | undefined;
-  }
-}
+const VIDEO_URL = `https://www.youtube.com/watch?v=${VIDEO_ID}`;
+// Use youtube-nocookie domain for better compatibility & privacy; embed URL also avoids the API loader.
+const EMBED_URL = `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?rel=0&modestbranding=1`;
 
 const NationalAnthem = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [showSalute, setShowSalute] = useState(false);
-  const [playerReady, setPlayerReady] = useState(false);
-
-  const playerRef = useRef<any>(null);
-  const playerContainerRef = useRef<HTMLDivElement>(null);
-
-  // Load YouTube IFrame API
-  useEffect(() => {
-    if (window.YT && window.YT.Player) {
-      createPlayer();
-      return;
-    }
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(tag);
-
-    window.onYouTubeIframeAPIReady = () => {
-      createPlayer();
-    };
-
-    return () => {
-      window.onYouTubeIframeAPIReady = undefined;
-    };
-  }, []);
-
-  const createPlayer = () => {
-    if (playerRef.current) return;
-    playerRef.current = new window.YT.Player("yt-player", {
-      videoId: VIDEO_ID,
-      playerVars: {
-        rel: 0,
-        modestbranding: 1,
-        enablejsapi: 1,
-      },
-      events: {
-        onReady: () => setPlayerReady(true),
-      },
-    });
-  };
-
-  const handleStart = useCallback(() => {
-    if (!playerRef.current) return;
-    playerRef.current.playVideo();
-    setIsPlaying(true);
-  }, []);
-
-  const handlePause = useCallback(() => {
-    setIsPlaying(false);
-    if (playerRef.current) playerRef.current.pauseVideo();
-  }, []);
-
-  const handleReplay = useCallback(() => {
-    setIsPlaying(false);
-    if (playerRef.current) {
-      playerRef.current.seekTo(0);
-      playerRef.current.pauseVideo();
-    }
-  }, []);
 
   // Salute animation with trumpet sound
   const handleSalute = useCallback(() => {
