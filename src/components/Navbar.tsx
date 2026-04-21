@@ -299,13 +299,12 @@ const Navbar = () => {
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 />
-                {/* Brand wordmark — image-based logo for guaranteed crisp rendering with custom typography */}
+                {/* Brand wordmark — transparent PNG, larger size for prominence */}
                 <img
                   src={brandWordmark}
                   alt="HaiEduTech"
-                  className="h-7 lg:h-8 w-auto select-none"
+                  className="h-10 lg:h-11 w-auto select-none"
                   draggable={false}
-                  style={{ imageRendering: "auto" }}
                 />
               </Link>
 
