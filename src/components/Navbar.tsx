@@ -160,10 +160,21 @@ const Navbar = () => {
       { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử & Văn hóa", "📜 History & Culture") },
       { to: "/learn-vietnamese/national-anthem", label: t("⭐ Quốc ca Việt Nam", "⭐ National Anthem") },
     ] },
+    { to: "#vn-culture-group", label: t("🎎 Văn hóa & Đời sống", "🎎 Culture & Lifestyle"), groupLabel: "vn-culture", children: [
+      { to: "/learn-vietnamese/cuisine", label: t("🍜 Ẩm thực Việt Nam", "🍜 Vietnamese Cuisine") },
+      { to: "/learn-vietnamese/regions", label: t("🗺️ Du lịch & Vùng miền", "🗺️ Travel & Regions") },
+      { to: "/learn-vietnamese/culture", label: t("🎭 Văn hóa & Phong tục", "🎭 Culture & Customs") },
+      { to: "/learn-vietnamese/films", label: t("🎬 Phim & Hội thoại", "🎬 Films & Conversations") },
+    ] },
     { to: "#vn-practice-group", label: t("🎯 Luyện tập & Tương tác", "🎯 Practice & Interactive"), groupLabel: "vn-practice", children: [
       { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
+      { to: "/learn-vietnamese/daily", label: t("📅 Daily Vietnamese", "📅 Daily Vietnamese") },
+      { to: "/learn-vietnamese/phrasebook", label: t("💬 Phrasebook tình huống", "💬 Situational Phrasebook") },
     ] },
-    { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Vietnamese for Foreigners", "🌏 Vietnamese for Foreigners") },
+    { to: "#vn-foreigners-group", label: t("🌏 Cho người học đặc biệt", "🌏 For Special Learners"), groupLabel: "vn-foreigners", children: [
+      { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Vietnamese for Foreigners", "🌏 Vietnamese for Foreigners") },
+      { to: "/learn-vietnamese/kids-overseas", label: t("👨‍👩‍👧 Cho trẻ Việt kiều", "👨‍👩‍👧 For Overseas Vietnamese Kids") },
+    ] },
     { to: "#vn-div2", label: "", divider: true },
     { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/vietnamese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
@@ -294,10 +305,10 @@ const Navbar = () => {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className="font-display text-lg whitespace-nowrap tracking-wider"
                 >
-                  <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent font-medium">
+                  <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-medium">
                     HaiEdu
                   </span>
-                  <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent font-bold">
+                  <span className="bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent font-bold">
                     Tech
                   </span>
                 </motion.span>
