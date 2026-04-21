@@ -12,7 +12,7 @@ import {
   BookText, Users, Drum, Flame, Castle, Pen, Ship, Anchor,
   Heart, MapPin, Trophy, Rocket, Wifi, HandshakeIcon,
   Lightbulb, TrendingUp, Activity, GraduationCap as GradCap,
-  Utensils, Target, Mic, Headphones, ScrollText, type LucideIcon,
+  Utensils, Target, Mic, Headphones, ScrollText, PartyPopper, type LucideIcon,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -318,6 +318,20 @@ const Vietnamese = () => {
                       <div>
                         <h3 className="text-sm font-bold text-foreground">{t("Bảng chữ cái", "Vietnamese Alphabet")}</h3>
                         <p className="text-xs text-muted-foreground">{t("29 chữ cái & cách viết nét", "29 letters & stroke guide")}</p>
+                      </div>
+                    </div>
+                  </Link>
+                  <Link
+                    to="/learn-vietnamese/holidays"
+                    className="block bg-white/80 dark:bg-card/90 backdrop-blur-md border border-red-500/30 rounded-xl p-5 hover:shadow-lg transition-all group shadow-sm"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
+                        <PartyPopper className="w-5 h-5 text-red-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-foreground">{t("Ngày lễ Việt Nam", "Vietnamese Holidays")}</h3>
+                        <p className="text-xs text-muted-foreground">{t("12 lễ truyền thống & quốc lễ", "12 traditional & national days")}</p>
                       </div>
                     </div>
                   </Link>
