@@ -13,7 +13,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index.tsx";
+import Welcome from "./pages/Welcome.tsx";
 import NotFound from "./pages/NotFound.tsx";
+
+/** Decides whether to show the splash welcome or the home page on `/`. */
+const RootEntry = () => {
+  const welcomed = typeof window !== "undefined" && sessionStorage.getItem("haiedu_welcomed") === "1";
+  return welcomed ? <Index /> : <Welcome />;
+};
 import ChatBot from "./components/ChatBot.tsx";
 import FloatingNotebook from "./components/FloatingNotebook.tsx";
 import LastSessionRecap from "./components/LastSessionRecap.tsx";
@@ -131,7 +138,9 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<RootEntry />} />
+            <Route path="/home" element={<Index />} />
+            <Route path="/welcome" element={<Welcome />} />
             <Route path="/about" element={<LazyRoute><About /></LazyRoute>} />
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
             <Route path="/english/conversational/curriculum" element={<LazyRoute><ConversationalDashboard /></LazyRoute>} />
