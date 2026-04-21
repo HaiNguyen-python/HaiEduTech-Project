@@ -108,9 +108,20 @@ const ClassroomGallery = () => {
 
   return (
     <>
-      <div className="space-y-3">
-        <MarqueeRow images={row1} direction="left" duration={45} onClickImage={setSelected} />
-        <MarqueeRow images={row2} direction="right" duration={50} onClickImage={setSelected} />
+      <div className="relative">
+        {/* Glow auras for shimmer ambiance */}
+        <div className="pointer-events-none absolute -top-8 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+        <div className="pointer-events-none absolute -bottom-8 right-1/4 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1.5s" }} />
+        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 bg-amber-300/10 rounded-full blur-3xl" />
+
+        {/* Side fade masks */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 bg-gradient-to-r from-background to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 bg-gradient-to-l from-background to-transparent z-10" />
+
+        <div className="relative space-y-3">
+          <MarqueeRow images={row1} direction="left" duration={45} onClickImage={setSelected} />
+          <MarqueeRow images={row2} direction="right" duration={50} onClickImage={setSelected} />
+        </div>
       </div>
 
       {/* Lightbox */}
