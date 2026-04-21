@@ -1,6 +1,19 @@
 // Vietnamese major holidays — bilingual content for the Learn Vietnamese hub
 // Each holiday includes lunar/solar date, story, customs, vocab, and quiz.
 
+import imgTet from "@/assets/holidays/tet-nguyen-dan.jpg";
+import imgRam from "@/assets/holidays/ram-thang-gieng.jpg";
+import imgGioTo from "@/assets/holidays/gio-to-hung-vuong.jpg";
+import imgGiaiPhong from "@/assets/holidays/giai-phong-mien-nam.jpg";
+import imgLaoDong from "@/assets/holidays/quoc-te-lao-dong.jpg";
+import imgDoanNgo from "@/assets/holidays/tet-doan-ngo.jpg";
+import imgVuLan from "@/assets/holidays/le-vu-lan.jpg";
+import imgQuocKhanh from "@/assets/holidays/quoc-khanh.jpg";
+import imgTrungThu from "@/assets/holidays/tet-trung-thu.jpg";
+import imgNhaGiao from "@/assets/holidays/ngay-nha-giao.jpg";
+import imgPhuNu from "@/assets/holidays/ngay-phu-nu.jpg";
+import imgThieuNhi from "@/assets/holidays/ngay-thieu-nhi.jpg";
+
 export interface HolidayVocab {
   word: string;
   meaning: string;
