@@ -2,10 +2,12 @@
  * @file MotivationLetterGuide.tsx
  * @description Interactive guide for the Master's motivation letter + AI drafter + downloadable template.
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   FileText, Sparkles, Download, CheckCircle2, XCircle, Loader2, Copy, ChevronRight,
+  BookOpen, FilePlus2, GraduationCap, Lock,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -15,9 +17,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import MotivationLetterDrafts from "@/components/study-profile/MotivationLetterDrafts";
+import { SAMPLE_LETTERS, type SampleLetter } from "@/data/motivationLetterSamples";
 
 interface LetterInput {
   fullName: string;
@@ -38,6 +43,18 @@ const MotivationLetterGuide = () => {
   });
   const [loading, setLoading] = useState(false);
   const [letter, setLetter] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [sampleOpen, setSampleOpen] = useState<SampleLetter | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUserId(data.user?.id ?? null);
+      setAuthChecked(true);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setUserId(s?.user?.id ?? null));
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   const PARAGRAPHS = [
     {
@@ -204,7 +221,76 @@ const MotivationLetterGuide = () => {
             </Card>
           </div>
 
-          {/* AI Drafter */}
+          {/* Sample Letters Library */}
+          <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
+            <BookOpen className="w-6 h-6 text-amber-500" /> {t("Thư mẫu tham khảo", "Sample Letters Library")}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-5">
+            {t(
+              "3 bản Motivation Letter mẫu chuẩn cho từng lĩnh vực — bấm để đọc toàn văn và sao chép cấu trúc.",
+              "3 reference Motivation Letters across fields — click to read in full and borrow the structure.",
+            )}
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            {SAMPLE_LETTERS.map((s, i) => (
+              <motion.button
+                key={s.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                onClick={() => setSampleOpen(s)}
+                className="text-left h-full"
+              >
+                <Card className="h-full hover:shadow-lg hover:border-primary/40 transition-all">
+                  <CardContent className="p-5">
+                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${s.bandColor} flex items-center justify-center mb-3`}>
+                      <GraduationCap className="w-5 h-5 text-white" />
+                    </div>
+                    <Badge variant="outline" className="text-[10px] mb-2">{lang === "vi" ? s.fieldVi : s.field}</Badge>
+                    <h3 className="font-bold text-sm leading-snug mb-1">{lang === "vi" ? s.titleVi : s.title}</h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2">{s.targetProgram}</p>
+                    <div className="flex items-center gap-1 mt-3 text-xs text-primary font-semibold">
+                      {t("Đọc thư mẫu", "Read sample")} <ChevronRight className="w-3 h-3" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.button>
+            ))}
+          </div>
+
+          {/* My Drafts */}
+          <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
+            <FilePlus2 className="w-6 h-6 text-primary" /> {t("Bản nháp của tôi", "My Drafts")}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-5">
+            {t(
+              "Viết, lưu và hoàn thiện nhiều bản nháp theo thời gian. Mỗi bản nháp có thể xin AI gợi ý cải thiện riêng.",
+              "Write, save and refine multiple drafts over time. Each draft can request its own AI feedback.",
+            )}
+          </p>
+          {!authChecked ? (
+            <div className="flex items-center justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
+          ) : !userId ? (
+            <Card className="mb-10 border-dashed">
+              <CardContent className="p-8 text-center">
+                <Lock className="w-10 h-10 mx-auto mb-3 text-muted-foreground/60" />
+                <h3 className="font-bold mb-2">{t("Đăng nhập để lưu bản nháp", "Sign in to save your drafts")}</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {t(
+                    "Tạo tài khoản miễn phí để viết, lưu trữ và nhận đánh giá AI cho từng bản nháp Motivation Letter.",
+                    "Create a free account to write, store and get AI feedback for every Motivation Letter draft.",
+                  )}
+                </p>
+                <Link to="/login">
+                  <Button className="gap-2"><FilePlus2 className="w-4 h-4" />{t("Đăng nhập", "Sign in")}</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="mb-10">
+              <MotivationLetterDrafts userId={userId} />
+            </div>
+          )}
           <Card className="mb-6 border-primary/30 shadow-xl">
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-4">
@@ -254,6 +340,44 @@ const MotivationLetterGuide = () => {
           )}
         </div>
       </main>
+
+      {/* Sample letter dialog */}
+      <Dialog open={!!sampleOpen} onOpenChange={(o) => !o && setSampleOpen(null)}>
+        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+          {sampleOpen && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-start gap-3">
+                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${sampleOpen.bandColor} flex items-center justify-center flex-shrink-0`}>
+                    <GraduationCap className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <div className="text-base font-bold">{lang === "vi" ? sampleOpen.titleVi : sampleOpen.title}</div>
+                    <div className="text-xs text-muted-foreground font-normal mt-0.5">{sampleOpen.targetSchool} · {sampleOpen.targetProgram}</div>
+                  </div>
+                </DialogTitle>
+              </DialogHeader>
+              <div className="flex justify-end mb-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    navigator.clipboard.writeText(sampleOpen.content);
+                    toast({ title: t("Đã sao chép", "Copied"), description: t("Bạn có thể paste vào bản nháp của mình", "Paste it into your own draft") });
+                  }}
+                  className="gap-2"
+                >
+                  <Copy className="w-4 h-4" /> {t("Sao chép toàn bộ", "Copy all")}
+                </Button>
+              </div>
+              <div className="whitespace-pre-wrap font-serif text-[15px] leading-relaxed bg-muted/20 rounded-lg p-5 border border-border/60">
+                {sampleOpen.content}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
