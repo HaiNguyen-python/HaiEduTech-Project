@@ -908,6 +908,42 @@ export type Database = {
         }
         Relationships: []
       }
+      page_view_log: {
+        Row: {
+          created_at: string
+          id: string
+          metadata: Json | null
+          path: string
+          referrer: string | null
+          session_id: string | null
+          time_on_page_seconds: number | null
+          title: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          path: string
+          referrer?: string | null
+          session_id?: string | null
+          time_on_page_seconds?: number | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          path?: string
+          referrer?: string | null
+          session_id?: string | null
+          time_on_page_seconds?: number | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       player_badges: {
         Row: {
           badge_icon: string
