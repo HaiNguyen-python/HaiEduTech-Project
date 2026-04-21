@@ -273,9 +273,7 @@ const Navbar = () => {
     <header className="flex flex-col">
       {/* Row 1: Branding — fixed on all devices */}
       <div
-        className={`w-full z-[60] bg-card border-b border-border transition-all duration-300 fixed ${
-          scrolled ? "lg:-top-12 lg:opacity-0 lg:pointer-events-none top-0" : "top-0"
-        }`}
+        className="w-full z-[60] bg-card border-b border-border fixed top-0"
       >
         <div className="container mx-auto px-4 sm:px-6">
           {/* Mobile/tablet: flex-col layout; Desktop: single row */}
@@ -426,41 +424,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Row 2: Navigation — always sticky (desktop only) */}
+      {/* Row 2: Navigation — always sticky below Row 1 (desktop only) */}
       <nav
-        className={`w-full fixed z-50 bg-card border-b border-border transition-all duration-300 hidden lg:block ${
-          scrolled ? "top-0 shadow-md" : "top-12"
-        }`}
+        className="w-full fixed top-12 z-50 bg-card border-b border-border hidden lg:block"
       >
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-center h-11 gap-0.5">
-            {/* Show logo in nav row when scrolled */}
-            {scrolled && (
-              <Link to="/" className="flex items-center gap-2.5 mr-4 pr-4 border-r border-border/50 shrink-0">
-                <img
-                  src={teacherWave}
-                  alt="HaiEduTech"
-                  className="w-9 h-9 rounded-full object-cover border-2 border-primary shadow-md"
-                  loading="eager"
-                  decoding="sync"
-                />
-                <span
-                  className="text-xl whitespace-nowrap leading-none subpixel-antialiased"
-                  style={{
-                    fontFamily:
-                      '"Inter", "Segoe UI", system-ui, -apple-system, sans-serif',
-                    fontWeight: 900,
-                    letterSpacing: "0.01em",
-                    WebkitFontSmoothing: "antialiased",
-                    textRendering: "geometricPrecision",
-                  }}
-                >
-                  <span style={{ color: "#1E40AF" }}>Hai</span>
-                  <span style={{ color: "#047857" }}>Edu</span>
-                  <span style={{ color: "#1E40AF" }}>Tech</span>
-                </span>
-              </Link>
-            )}
+
             {navLinks.map((l) => {
               const active = location.pathname === l.to;
               if (l.subs) {
@@ -625,59 +595,8 @@ const Navbar = () => {
               );
             })}
 
-            {/* Show auth in nav row when scrolled */}
-            {scrolled && (
-              <div className="flex items-center gap-1.5 ml-4 pl-4 border-l border-border/50">
-                {user ? (
-                  <div className="relative" ref={userMenuRef}>
-                    <button
-                      onClick={() => setUserMenuOpen(!userMenuOpen)}
-                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary"
-                    >
-                      <User className="w-3.5 h-3.5" />
-                      Hello, {displayName.split(" ")[0]}
-                      {streak > 0 && (
-                        <span title={t(`Chuỗi ${streak} ngày liên tục`, `${streak}-day streak`)}
-                          className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-orange-500/15 text-orange-500 text-[10px] font-bold">
-                          <Flame className="w-3 h-3" />{streak}
-                        </span>
-                      )}
-                      <ChevronDown className={`w-3 h-3 transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
-                    </button>
-                    <AnimatePresence>
-                      {userMenuOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -4 }}
-                          className="absolute right-0 top-full mt-1 w-44 bg-card border border-border rounded-xl shadow-lg z-[100] py-1 overflow-hidden"
-                        >
-                          <Link to="/dashboard" onClick={() => setUserMenuOpen(false)}
-                            className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
-                            <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
-                          </Link>
-                          <div className="border-t border-border my-1" />
-                          <button onClick={() => { handleLogout(); setUserMenuOpen(false); }}
-                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors">
-                            <LogOut className="w-3.5 h-3.5" /> {t("Đăng Xuất", "Logout")}
-                          </button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ) : (
-                  <>
-                    <Link to="/login" className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground hover:brightness-110">
-                      <LogIn className="w-3.5 h-3.5" />{t("Đăng Nhập", "Login")}
-                    </Link>
-                  </>
-                )}
-                <button onClick={() => setLang(lang === "vi" ? "en" : "vi")}
-                  className="px-2 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary">
-                  <Globe className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            )}
+
+
           </div>
         </div>
       </nav>
