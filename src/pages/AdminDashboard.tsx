@@ -920,6 +920,11 @@ const AdminDashboard = () => {
                 <SystemStatusTab />
               </TabsContent>
 
+              {/* ===== USER INSIGHTS TAB (Page View Analytics) ===== */}
+              <TabsContent value="insights">
+                <UserInsightsTab />
+              </TabsContent>
+
               {/* ===== BUSINESS STRATEGY TAB (Admin BI) ===== */}
               <TabsContent value="strategy">
                 <BusinessStrategyTab />
