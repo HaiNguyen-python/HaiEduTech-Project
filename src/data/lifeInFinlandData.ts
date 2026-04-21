@@ -52,6 +52,14 @@ import {
   STUDENT_TIPS_GUIDES,
   FIRST_30_DAYS_CHECKLIST_EXPANSION,
 } from "./lifeInFinlandExpansion";
+import {
+  TRANSPORT_GUIDES,
+  BANKING_GUIDES,
+  CULTURE_GUIDES,
+  FAMILY_HEALTH_GUIDES,
+  ADVANCED_HEALTH_GUIDES,
+  FIRST_30_DAYS_CHECKLIST_V2,
+} from "./lifeInFinlandExpansion2";
 
 const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
   {
@@ -420,9 +428,10 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
 // Merge expansion guides (2026) into base categories
 // ============================================================
 export const NEWCOMER_CATEGORIES: NewcomerCategory[] = _NEWCOMER_CATEGORIES_BASE.map((cat) => {
-  if (cat.id === "admin") return { ...cat, guides: [...cat.guides, ...HOUSING_GUIDES] };
-  if (cat.id === "daily") return { ...cat, guides: [...cat.guides, ...SHOPPING_GUIDES, ...SEASONAL_GUIDES] };
-  if (cat.id === "work") return { ...cat, guides: [...cat.guides, ...STUDENT_TIPS_GUIDES] };
+  if (cat.id === "admin") return { ...cat, guides: [...cat.guides, ...HOUSING_GUIDES, ...BANKING_GUIDES] };
+  if (cat.id === "daily") return { ...cat, guides: [...cat.guides, ...SHOPPING_GUIDES, ...SEASONAL_GUIDES, ...TRANSPORT_GUIDES] };
+  if (cat.id === "work") return { ...cat, guides: [...cat.guides, ...STUDENT_TIPS_GUIDES, ...CULTURE_GUIDES] };
+  if (cat.id === "health") return { ...cat, guides: [...cat.guides, ...FAMILY_HEALTH_GUIDES, ...ADVANCED_HEALTH_GUIDES] };
   return cat;
 });
 export interface ChecklistItem {
@@ -453,6 +462,7 @@ export const FIRST_30_DAYS_CHECKLIST: ChecklistItem[] = [
   { key: "recycling-points", vi: "Tìm điểm tái chế (Rinki-piste) gần nhất", en: "Find the nearest Rinki recycling point", category: "daily", week: 4 },
   { key: "language-course", vi: "Đăng ký khóa tiếng Phần Lan miễn phí (kotoutumiskoulutus)", en: "Enroll in free Finnish course (integration training)", category: "work", week: 4 },
   ...FIRST_30_DAYS_CHECKLIST_EXPANSION,
+  ...FIRST_30_DAYS_CHECKLIST_V2,
 ];
 
 // Latest Migri / community resources (2026)
