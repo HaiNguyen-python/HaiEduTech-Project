@@ -19,8 +19,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useStreak } from "@/hooks/useStreak";
 import teacherLogo from "@/assets/teacher-logo.webp";
-import teacherWave from "@/assets/teacher-chibi.png";
-import brandWordmark from "@/assets/haiedutech-wordmark.png";
+import teacherWave from "@/assets/teacher-wave.webp";
 import GlobalSearch from "@/components/GlobalSearch";
 
 // Sub-item with optional icon and nested children
@@ -299,13 +298,20 @@ const Navbar = () => {
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 />
-                {/* Brand wordmark — minimalist isometric 3D logo */}
-                <img
-                  src={brandWordmark}
-                  alt="HaiEduTech"
-                  className="h-10 lg:h-11 w-auto select-none"
-                  draggable={false}
-                />
+                {/* Brand name — same font (Space Grotesk) and color (#10B981) as "LANGUAGE" & "TECHNOLOGY" in slogan */}
+                <span
+                  className="text-lg whitespace-nowrap"
+                  style={{
+                    fontFamily: "'Space Grotesk', 'Inter', sans-serif",
+                    fontWeight: 700,
+                    color: "#10B981",
+                    WebkitFontSmoothing: "antialiased",
+                    MozOsxFontSmoothing: "grayscale",
+                    textRendering: "geometricPrecision",
+                  }}
+                >
+                  HaiEduTech
+                </span>
               </Link>
 
               {/* Slogan centered between logo and auth — with periodic ripple */}
