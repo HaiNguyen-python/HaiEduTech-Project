@@ -239,29 +239,75 @@ const English = () => {
               {dictResult?.error && <p className="text-destructive text-sm">{t("Không tìm thấy từ này.", "Word not found.")}</p>}
             </motion.div>
 
-            {/* Interactive Curriculum Modules */}
+            {/* Interactive Curriculum Modules — grouped by category */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="glass-card rounded-2xl p-8 mb-10">
               <h2 className="text-2xl font-display font-bold text-foreground mb-2 flex items-center gap-2">
                 <GraduationCap className="w-6 h-6 text-primary" />
                 {t("Hệ thống bài học tương tác", "Interactive Learning Modules")}
               </h2>
-              <p className="text-muted-foreground mb-6">{t("Bài học chi tiết với lý thuyết, từ vựng, và bài tập tương tác (Fill-in-blank, Reorder, Dictation, Quiz).", "Detailed lessons with theory, vocabulary, and interactive exercises.")}</p>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {allEnglishModules.map((mod) => (
-                  <Link key={mod.id} to={`/english/learn/${mod.id}`}
-                    className={cn("rounded-xl p-5 bg-gradient-to-br transition-all cursor-pointer group hover:shadow-lg hover:scale-[1.02]", mod.color)}>
-                    <span className="text-3xl mb-3 block">{mod.icon}</span>
-                    <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{t(mod.title, mod.titleEn)}</h4>
-                    <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{t(mod.description, mod.descriptionEn)}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-background/50 border border-border text-muted-foreground uppercase tracking-wide">{mod.category}</span>
-                      <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
-                        {mod.lessons.length} {t("bài", "lessons")} <ArrowRight className="w-3 h-3" />
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+              <p className="text-muted-foreground mb-6">{t("Bài học được phân nhóm theo chuyên đề — chọn nhóm bạn cần để xem.", "Lessons grouped by topic — pick a category to expand.")}</p>
+
+              {(() => {
+                const CATEGORY_META: Record<string, { vi: string; en: string; icon: string; accent: string }> = {
+                  ielts:           { vi: "IELTS",                en: "IELTS",                icon: "🎯", accent: "from-blue-500/10 to-cyan-500/10 border-blue-500/30" },
+                  toeic:           { vi: "TOEIC",                en: "TOEIC",                icon: "💼", accent: "from-amber-500/10 to-orange-500/10 border-amber-500/30" },
+                  cambridge:       { vi: "Cambridge (Trẻ em)",   en: "Cambridge (Kids)",     icon: "🎓", accent: "from-pink-500/10 to-rose-500/10 border-pink-500/30" },
+                  "national-exam": { vi: "Thi THPT Quốc gia",    en: "National Exam",        icon: "📋", accent: "from-red-500/10 to-orange-500/10 border-red-500/30" },
+                  grammar:         { vi: "Ngữ pháp",             en: "Grammar",              icon: "📝", accent: "from-violet-500/10 to-purple-500/10 border-violet-500/30" },
+                  sat:             { vi: "SAT",                  en: "SAT",                  icon: "🎖️", accent: "from-emerald-500/10 to-teal-500/10 border-emerald-500/30" },
+                };
+                const ORDER = ["ielts", "toeic", "cambridge", "national-exam", "grammar", "sat"];
+                const grouped = ORDER
+                  .map((cat) => ({ cat, items: allEnglishModules.filter((m) => m.category === cat) }))
+                  .filter((g) => g.items.length > 0);
+
+                return (
+                  <Accordion type="multiple" defaultValue={["ielts"]} className="space-y-3">
+                    {grouped.map(({ cat, items }) => {
+                      const meta = CATEGORY_META[cat] ?? { vi: cat, en: cat, icon: "📚", accent: "from-secondary to-secondary border-border" };
+                      return (
+                        <AccordionItem
+                          key={cat}
+                          value={cat}
+                          className={cn("rounded-xl border bg-gradient-to-br px-4 overflow-hidden", meta.accent)}
+                        >
+                          <AccordionTrigger className="hover:no-underline py-4">
+                            <div className="flex items-center gap-3 text-left">
+                              <span className="text-2xl">{meta.icon}</span>
+                              <div>
+                                <div className="font-semibold text-foreground">{t(meta.vi, meta.en)}</div>
+                                <div className="text-xs text-muted-foreground font-normal">
+                                  {items.length} {t("chuyên đề", "modules")} · {items.reduce((s, m) => s + m.lessons.length, 0)} {t("bài học", "lessons")}
+                                </div>
+                              </div>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="pb-4">
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                              {items.map((mod) => (
+                                <Link
+                                  key={mod.id}
+                                  to={`/english/learn/${mod.id}`}
+                                  className={cn("rounded-xl p-5 bg-gradient-to-br transition-all cursor-pointer group hover:shadow-lg hover:scale-[1.02]", mod.color)}
+                                >
+                                  <span className="text-3xl mb-3 block">{mod.icon}</span>
+                                  <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{t(mod.title, mod.titleEn)}</h4>
+                                  <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{t(mod.description, mod.descriptionEn)}</p>
+                                  <div className="flex items-center justify-end">
+                                    <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
+                                      {mod.lessons.length} {t("bài", "lessons")} <ArrowRight className="w-3 h-3" />
+                                    </span>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      );
+                    })}
+                  </Accordion>
+                );
+              })()}
             </motion.div>
 
             {/* AI Speaking Coach */}
