@@ -10,7 +10,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cultureTopics, type CultureTopic } from "@/data/vietnamese/cultureData";
+import { cultureTopics as baseTopics, type CultureTopic } from "@/data/vietnamese/cultureData";
+import { cultureExpansion } from "@/data/vietnamese/cultureExpansion";
+const cultureTopics = [...baseTopics, ...cultureExpansion];
 
 const categoryLabels: Record<CultureTopic["category"], { vi: string; en: string }> = {
   attire: { vi: "Trang phục", en: "Attire" },

@@ -8,6 +8,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { regions } from "@/data/vietnamese/regionsData";
+import { travelDestinations } from "@/data/vietnamese/regionsExpansion";
+import { MapPin, Clock, Lightbulb, Utensils } from "lucide-react";
 
 const VietnameseRegions = () => {
   const { t } = useLanguage();

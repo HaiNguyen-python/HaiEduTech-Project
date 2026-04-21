@@ -8,7 +8,9 @@ import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { phrasebookCategories } from "@/data/vietnamese/phrasebookData";
+import { phrasebookCategories as basePhrases } from "@/data/vietnamese/phrasebookData";
+import { phrasebookExpansion } from "@/data/vietnamese/phrasebookExpansion";
+const phrasebookCategories = [...basePhrases, ...phrasebookExpansion];
 import { playVietnameseTts } from "@/lib/vietnameseTts";
 
 const speak = (text: string) => {

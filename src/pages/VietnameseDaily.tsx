@@ -10,7 +10,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { dailyMicroLessons } from "@/data/vietnamese/dailyVietnameseData";
+import { dailyMicroLessons as base } from "@/data/vietnamese/dailyVietnameseData";
+import { dailyMicroLessonsExpansion } from "@/data/vietnamese/dailyVietnameseExpansion";
+const dailyMicroLessons = [...base, ...dailyMicroLessonsExpansion];
 
 const STORAGE_KEY = "haiedu_daily_vietnamese_completed";
 
