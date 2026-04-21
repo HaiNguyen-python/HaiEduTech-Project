@@ -221,7 +221,76 @@ const MotivationLetterGuide = () => {
             </Card>
           </div>
 
-          {/* AI Drafter */}
+          {/* Sample Letters Library */}
+          <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
+            <BookOpen className="w-6 h-6 text-amber-500" /> {t("Thư mẫu tham khảo", "Sample Letters Library")}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-5">
+            {t(
+              "3 bản Motivation Letter mẫu chuẩn cho từng lĩnh vực — bấm để đọc toàn văn và sao chép cấu trúc.",
+              "3 reference Motivation Letters across fields — click to read in full and borrow the structure.",
+            )}
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+            {SAMPLE_LETTERS.map((s, i) => (
+              <motion.button
+                key={s.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                onClick={() => setSampleOpen(s)}
+                className="text-left h-full"
+              >
+                <Card className="h-full hover:shadow-lg hover:border-primary/40 transition-all">
+                  <CardContent className="p-5">
+                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${s.bandColor} flex items-center justify-center mb-3`}>
+                      <GraduationCap className="w-5 h-5 text-white" />
+                    </div>
+                    <Badge variant="outline" className="text-[10px] mb-2">{lang === "vi" ? s.fieldVi : s.field}</Badge>
+                    <h3 className="font-bold text-sm leading-snug mb-1">{lang === "vi" ? s.titleVi : s.title}</h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2">{s.targetProgram}</p>
+                    <div className="flex items-center gap-1 mt-3 text-xs text-primary font-semibold">
+                      {t("Đọc thư mẫu", "Read sample")} <ChevronRight className="w-3 h-3" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.button>
+            ))}
+          </div>
+
+          {/* My Drafts */}
+          <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
+            <FilePlus2 className="w-6 h-6 text-primary" /> {t("Bản nháp của tôi", "My Drafts")}
+          </h2>
+          <p className="text-sm text-muted-foreground mb-5">
+            {t(
+              "Viết, lưu và hoàn thiện nhiều bản nháp theo thời gian. Mỗi bản nháp có thể xin AI gợi ý cải thiện riêng.",
+              "Write, save and refine multiple drafts over time. Each draft can request its own AI feedback.",
+            )}
+          </p>
+          {!authChecked ? (
+            <div className="flex items-center justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
+          ) : !userId ? (
+            <Card className="mb-10 border-dashed">
+              <CardContent className="p-8 text-center">
+                <Lock className="w-10 h-10 mx-auto mb-3 text-muted-foreground/60" />
+                <h3 className="font-bold mb-2">{t("Đăng nhập để lưu bản nháp", "Sign in to save your drafts")}</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {t(
+                    "Tạo tài khoản miễn phí để viết, lưu trữ và nhận đánh giá AI cho từng bản nháp Motivation Letter.",
+                    "Create a free account to write, store and get AI feedback for every Motivation Letter draft.",
+                  )}
+                </p>
+                <Link to="/login">
+                  <Button className="gap-2"><FilePlus2 className="w-4 h-4" />{t("Đăng nhập", "Sign in")}</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="mb-10">
+              <MotivationLetterDrafts userId={userId} />
+            </div>
+          )}
           <Card className="mb-6 border-primary/30 shadow-xl">
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-4">
