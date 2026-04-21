@@ -133,9 +133,9 @@ const IeltsWritingPractice = () => {
       prompt: currentPrompt.prompt,
       prompt_meta: {
         id: currentPrompt.id,
-        essayType: currentPrompt.essayType,
-        chartType: currentPrompt.chartType,
-      } as Record<string, unknown>,
+        essayType: currentPrompt.essayType ?? null,
+        chartType: currentPrompt.chartType ?? null,
+      } as never,
       essay,
       word_count: wordCount,
       title: firstLine,
