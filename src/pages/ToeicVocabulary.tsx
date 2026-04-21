@@ -81,7 +81,7 @@ const shuffle = <T,>(arr: T[]): T[] => {
 const Flashcard = ({ word }: { word: ToeicWord }) => {
   const [flipped, setFlipped] = useState(false);
   return (
-    <div className="cursor-pointer h-64" onClick={() => setFlipped(!flipped)} style={{ perspective: "1000px" }}>
+    <div className="cursor-pointer h-80" onClick={() => setFlipped(!flipped)} style={{ perspective: "1000px" }}>
       <motion.div
         className="relative w-full h-full"
         animate={{ rotateY: flipped ? 180 : 0 }}
@@ -108,7 +108,7 @@ const Flashcard = ({ word }: { word: ToeicWord }) => {
         </div>
         {/* Back */}
         <div
-          className="absolute inset-0 rounded-xl border border-slate-600/50 bg-[#1E293B]/80 p-5 flex flex-col justify-center gap-2 overflow-y-auto"
+          className="absolute inset-0 rounded-xl border border-slate-600/50 bg-[#1E293B]/80 px-5 py-6 flex flex-col justify-start gap-2 overflow-y-auto"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           <p className="text-base font-semibold text-white">{word.definition.en}</p>
