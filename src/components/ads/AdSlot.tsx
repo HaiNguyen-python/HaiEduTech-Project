@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, forwardRef } from "react";
 
 interface AdSlotProps {
   /** Google AdSense ad slot ID (data-ad-slot). Leave empty to show a placeholder during setup. */
@@ -33,7 +33,7 @@ const ADSENSE_CLIENT = "ca-pub-6711722743054772";
  * - DO NOT render on interactive learning pages (dashboards, exercises, games, speaking coach, code editors).
  * - Always wrap in design-system spacing; never overlay learning content.
  */
-const AdSlot = ({
+const AdSlot = forwardRef<HTMLDivElement, AdSlotProps>(({
   slot,
   format = "auto",
   responsive = true,
@@ -41,7 +41,7 @@ const AdSlot = ({
   className = "",
   minHeight = 120,
   label = "Quảng cáo",
-}: AdSlotProps) => {
+}, ref) => {
   const insRef = useRef<HTMLModElement | null>(null);
   const pushed = useRef(false);
 
@@ -58,6 +58,7 @@ const AdSlot = ({
 
   return (
     <div
+      ref={ref}
       className={`my-8 w-full max-w-3xl mx-auto rounded-xl border border-border/50 bg-muted/30 p-3 ${className}`}
       aria-label="Advertisement"
     >
@@ -85,6 +86,8 @@ const AdSlot = ({
       )}
     </div>
   );
-};
+});
+
+AdSlot.displayName = "AdSlot";
 
 export default AdSlot;

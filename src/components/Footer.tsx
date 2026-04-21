@@ -5,6 +5,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  * @license Private / Proprietary - No unauthorized copying or distribution.
  */
+import { forwardRef } from "react";
 import { Brain, Mail, Github, Linkedin, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -15,11 +16,11 @@ const socialLinks = [
   { href: "https://www.linkedin.com/in/hainguyen2401/", icon: Linkedin, label: "LinkedIn" },
 ];
 
-const Footer = () => {
+const Footer = forwardRef<HTMLElement>((_, ref) => {
   const { t } = useLanguage();
 
   return (
-    <footer className="border-t border-border py-12 bg-card">
+    <footer ref={ref} className="border-t border-border py-12 bg-card">
       <div className="container mx-auto px-6">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
@@ -113,6 +114,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;
