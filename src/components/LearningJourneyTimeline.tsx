@@ -168,7 +168,7 @@ const LearningJourneyTimeline = () => {
             initial={{ top: "0%" }}
             animate={{ top: ["0%", "95%", "0%"] }}
             transition={{
-              duration: 20,
+              duration: 34,
               repeat: Infinity,
               ease: "easeInOut",
               times: [0, 0.5, 1],
