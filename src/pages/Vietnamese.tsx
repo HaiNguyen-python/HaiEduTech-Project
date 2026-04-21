@@ -12,7 +12,7 @@ import {
   BookText, Users, Drum, Flame, Castle, Pen, Ship, Anchor,
   Heart, MapPin, Trophy, Rocket, Wifi, HandshakeIcon,
   Lightbulb, TrendingUp, Activity, GraduationCap as GradCap,
-  Utensils, Target, Mic, Headphones, ScrollText, PartyPopper, type LucideIcon,
+  Utensils, Target, Mic, Headphones, ScrollText, PartyPopper, ChefHat, Globe2, Drum as DrumIcon, Film, Heart as HeartIcon, MessageCircle, Calendar as CalendarIcon, type LucideIcon,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";

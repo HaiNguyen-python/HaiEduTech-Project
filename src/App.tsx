@@ -80,6 +80,13 @@ const VietnamesePoetry = lazy(() => import("./pages/VietnamesePoetry.tsx"));
 const VietnameseAlphabet = lazy(() => import("./pages/VietnameseAlphabet.tsx"));
 const NationalAnthem = lazy(() => import("./pages/NationalAnthem.tsx"));
 const VietnameseHolidays = lazy(() => import("./pages/VietnameseHolidays.tsx"));
+const VietnameseCuisine = lazy(() => import("./pages/VietnameseCuisine.tsx"));
+const VietnameseRegions = lazy(() => import("./pages/VietnameseRegions.tsx"));
+const VietnameseCulture = lazy(() => import("./pages/VietnameseCulture.tsx"));
+const VietnameseFilms = lazy(() => import("./pages/VietnameseFilms.tsx"));
+const VietnameseKids = lazy(() => import("./pages/VietnameseKids.tsx"));
+const VietnamesePhrasebook = lazy(() => import("./pages/VietnamesePhrasebook.tsx"));
+const VietnameseDaily = lazy(() => import("./pages/VietnameseDaily.tsx"));
 const IeltsLectures = lazy(() => import("./pages/IeltsLectures.tsx"));
 const IeltsLectureView = lazy(() => import("./pages/IeltsLectureView.tsx"));
 const ToeicLectures = lazy(() => import("./pages/ToeicLectures.tsx"));
@@ -202,6 +209,13 @@ const App = () => (
             <Route path="/learn-vietnamese/alphabet" element={<LazyRoute><VietnameseAlphabet /></LazyRoute>} />
             <Route path="/learn-vietnamese/holidays" element={<LazyRoute><VietnameseHolidays /></LazyRoute>} />
             <Route path="/learn-vietnamese/holidays/:holidayId" element={<LazyRoute><VietnameseHolidays /></LazyRoute>} />
+            <Route path="/learn-vietnamese/cuisine" element={<LazyRoute><VietnameseCuisine /></LazyRoute>} />
+            <Route path="/learn-vietnamese/regions" element={<LazyRoute><VietnameseRegions /></LazyRoute>} />
+            <Route path="/learn-vietnamese/culture" element={<LazyRoute><VietnameseCulture /></LazyRoute>} />
+            <Route path="/learn-vietnamese/films" element={<LazyRoute><VietnameseFilms /></LazyRoute>} />
+            <Route path="/learn-vietnamese/kids-overseas" element={<LazyRoute><VietnameseKids /></LazyRoute>} />
+            <Route path="/learn-vietnamese/phrasebook" element={<LazyRoute><VietnamesePhrasebook /></LazyRoute>} />
+            <Route path="/learn-vietnamese/daily" element={<LazyRoute><VietnameseDaily /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/:moduleId/:lessonId" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
             <Route path="/global-scholarship" element={<LazyRoute><KnowledgeHubPage /></LazyRoute>} />
             <Route path="/knowledge-hub" element={<Navigate to="/global-scholarship" replace />} />
