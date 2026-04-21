@@ -593,6 +593,72 @@ export type Database = {
         }
         Relationships: []
       }
+      language_songs: {
+        Row: {
+          album_art_url: string | null
+          artist: string
+          blanks_quiz: Json
+          core_vocab: Json
+          created_at: string
+          created_by: string | null
+          cultural_note: string | null
+          cultural_note_en: string | null
+          difficulty: string
+          display_order: number
+          id: string
+          is_public_domain: boolean
+          is_published: boolean
+          language: string
+          lyrics: Json
+          spotify_url: string | null
+          title: string
+          updated_at: string
+          youtube_id: string | null
+        }
+        Insert: {
+          album_art_url?: string | null
+          artist: string
+          blanks_quiz?: Json
+          core_vocab?: Json
+          created_at?: string
+          created_by?: string | null
+          cultural_note?: string | null
+          cultural_note_en?: string | null
+          difficulty?: string
+          display_order?: number
+          id?: string
+          is_public_domain?: boolean
+          is_published?: boolean
+          language: string
+          lyrics?: Json
+          spotify_url?: string | null
+          title: string
+          updated_at?: string
+          youtube_id?: string | null
+        }
+        Update: {
+          album_art_url?: string | null
+          artist?: string
+          blanks_quiz?: Json
+          core_vocab?: Json
+          created_at?: string
+          created_by?: string | null
+          cultural_note?: string | null
+          cultural_note_en?: string | null
+          difficulty?: string
+          display_order?: number
+          id?: string
+          is_public_domain?: boolean
+          is_published?: boolean
+          language?: string
+          lyrics?: Json
+          spotify_url?: string | null
+          title?: string
+          updated_at?: string
+          youtube_id?: string | null
+        }
+        Relationships: []
+      }
       learning_materials: {
         Row: {
           content: Json
