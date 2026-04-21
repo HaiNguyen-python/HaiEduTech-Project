@@ -424,41 +424,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Row 2: Navigation — always sticky (desktop only) */}
+      {/* Row 2: Navigation — always sticky below Row 1 (desktop only) */}
       <nav
-        className={`w-full fixed z-50 bg-card border-b border-border transition-all duration-300 hidden lg:block ${
-          scrolled ? "top-0 shadow-md" : "top-12"
-        }`}
+        className="w-full fixed top-12 z-50 bg-card border-b border-border hidden lg:block"
       >
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-center h-11 gap-0.5">
-            {/* Show logo in nav row when scrolled */}
-            {scrolled && (
-              <Link to="/" className="flex items-center gap-2.5 mr-4 pr-4 border-r border-border/50 shrink-0">
-                <img
-                  src={teacherWave}
-                  alt="HaiEduTech"
-                  className="w-9 h-9 rounded-full object-cover border-2 border-primary shadow-md"
-                  loading="eager"
-                  decoding="sync"
-                />
-                <span
-                  className="text-xl whitespace-nowrap leading-none subpixel-antialiased"
-                  style={{
-                    fontFamily:
-                      '"Inter", "Segoe UI", system-ui, -apple-system, sans-serif',
-                    fontWeight: 900,
-                    letterSpacing: "0.01em",
-                    WebkitFontSmoothing: "antialiased",
-                    textRendering: "geometricPrecision",
-                  }}
-                >
-                  <span style={{ color: "#1E40AF" }}>Hai</span>
-                  <span style={{ color: "#047857" }}>Edu</span>
-                  <span style={{ color: "#1E40AF" }}>Tech</span>
-                </span>
-              </Link>
-            )}
+
             {navLinks.map((l) => {
               const active = location.pathname === l.to;
               if (l.subs) {
