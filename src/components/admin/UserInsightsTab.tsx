@@ -10,13 +10,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
-  LineChart, Line, Legend,
+  LineChart, Line, Legend, AreaChart, Area,
 } from "recharts";
 import {
-  Eye, TrendingUp, Users, Clock, Loader2, RefreshCw, MousePointerClick, Lightbulb,
+  Eye, TrendingUp, Users, Clock, Loader2, RefreshCw, MousePointerClick, Lightbulb, CalendarRange,
 } from "lucide-react";
 
-type Range = "1d" | "7d" | "30d" | "90d";
+type Range = "1d" | "7d" | "30d" | "90d" | "all";
 
 interface PageView {
   id: string;
@@ -30,7 +30,7 @@ interface PageView {
   metadata: any;
 }
 
-const RANGE_DAYS: Record<Range, number> = { "1d": 1, "7d": 7, "30d": 30, "90d": 90 };
+const RANGE_DAYS: Record<Range, number> = { "1d": 1, "7d": 7, "30d": 30, "90d": 90, "all": 0 };
 
 // Friendly labels for top routes — used to translate /chinese/hsk-guide → "HSK Guide"
 const ROUTE_LABELS: Record<string, { vi: string; en: string; group: string }> = {
@@ -111,20 +111,23 @@ const GROUP_COLORS: Record<string, string> = {
 
 export default function UserInsightsTab() {
   const { t } = useLanguage();
-  const [range, setRange] = useState<Range>("7d");
+  const [range, setRange] = useState<Range>("all");
   const [loading, setLoading] = useState(true);
   const [views, setViews] = useState<PageView[]>([]);
 
   const fetchViews = async () => {
     setLoading(true);
-    const since = new Date();
-    since.setDate(since.getDate() - RANGE_DAYS[range]);
-    const { data, error } = await supabase
+    let q = supabase
       .from("page_view_log")
       .select("*")
-      .gte("created_at", since.toISOString())
       .order("created_at", { ascending: false })
-      .limit(5000);
+      .limit(10000);
+    if (range !== "all") {
+      const since = new Date();
+      since.setDate(since.getDate() - RANGE_DAYS[range]);
+      q = q.gte("created_at", since.toISOString());
+    }
+    const { data, error } = await q;
     if (!error && data) setViews(data as any);
     setLoading(false);
   };
@@ -196,7 +199,24 @@ export default function UserInsightsTab() {
     }
     return Array.from(map.entries())
       .sort(([a], [b]) => a.localeCompare(b))
-      .map(([day, count]) => ({ day: day.slice(5), views: count }));
+      .map(([day, count]) => ({ day: day.slice(5), fullDay: day, views: count }));
+  }, [views]);
+
+  // Cumulative growth (running total of page views since tracking began)
+  const cumulativeTrend = useMemo(() => {
+    let total = 0;
+    return dailyTrend.map((d) => {
+      total += d.views;
+      return { day: d.day, fullDay: d.fullDay, total };
+    });
+  }, [dailyTrend]);
+
+  // Earliest tracked timestamp (for "tracking since" display)
+  const trackingSince = useMemo(() => {
+    if (views.length === 0) return null;
+    const earliest = views.reduce((min, v) =>
+      v.created_at < min ? v.created_at : min, views[0].created_at);
+    return earliest.slice(0, 10);
   }, [views]);
 
   const recommendations = useMemo(() => {
@@ -252,10 +272,11 @@ export default function UserInsightsTab() {
         </div>
         <div className="flex items-center gap-2">
           <Select value={range} onValueChange={(v) => setRange(v as Range)}>
-            <SelectTrigger className="w-32">
+            <SelectTrigger className="w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="all">{t("Tất cả thời gian", "All-time")}</SelectItem>
               <SelectItem value="1d">{t("24 giờ qua", "Last 24h")}</SelectItem>
               <SelectItem value="7d">{t("7 ngày qua", "Last 7 days")}</SelectItem>
               <SelectItem value="30d">{t("30 ngày qua", "Last 30 days")}</SelectItem>
@@ -267,6 +288,17 @@ export default function UserInsightsTab() {
           </Button>
         </div>
       </div>
+
+      {/* Tracking-since banner */}
+      {trackingSince && (
+        <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/40 border border-border/50 rounded-lg px-3 py-2">
+          <CalendarRange className="w-3.5 h-3.5" />
+          {t(
+            `Hệ thống tracking bắt đầu ghi nhận từ ngày ${trackingSince}. Dữ liệu cũ hơn không có sẵn.`,
+            `Tracking has been recording since ${trackingSince}. Earlier data is not available.`,
+          )}
+        </div>
+      )}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -373,7 +405,38 @@ export default function UserInsightsTab() {
         </CardContent>
       </Card>
 
-      {/* Top Pages Table */}
+      {/* Cumulative Growth */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <TrendingUp className="w-4 h-4 text-emerald-500" />
+            {t("Tăng trưởng tích lũy lượt xem", "Cumulative Page-View Growth")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {cumulativeTrend.length === 0 ? (
+            <div className="h-56 flex items-center justify-center text-sm text-muted-foreground">
+              {t("Chưa có dữ liệu", "No data")}
+            </div>
+          ) : (
+            <ResponsiveContainer width="100%" height={260}>
+              <AreaChart data={cumulativeTrend}>
+                <defs>
+                  <linearGradient id="cumGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(160 84% 39%)" stopOpacity={0.5} />
+                    <stop offset="95%" stopColor="hsl(160 84% 39%)" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8 }} />
+                <Area type="monotone" dataKey="total" stroke="hsl(160 84% 39%)" strokeWidth={2.5} fill="url(#cumGrad)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          )}
+        </CardContent>
+      </Card>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
