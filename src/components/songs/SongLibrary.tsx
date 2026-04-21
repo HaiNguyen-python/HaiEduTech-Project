@@ -571,16 +571,17 @@ function BlanksQuiz({ song }: { song: Song }) {
   );
 }
 
-// ===== YouTubePlayer with thumbnail-first strategy =====
-// Many official artist videos (VEVO, Universal, Sony) block third-party embedding.
-// Show a clickable thumbnail by default; load the iframe only after user clicks Play.
-// This guarantees the user can always reach the video on YouTube even if embed is blocked.
+// ===== YouTubePlayer: External-Only Strategy =====
+// Many official artist videos (VEVO, Universal, Sony, Beatles, Teresa Teng, etc.)
+// strictly block 3rd-party embedding regardless of which embed URL we use
+// (youtube.com/embed, youtube-nocookie.com/embed). Even when the video plays on
+// youtube.com, the embed iframe shows a grey "Video unavailable" box.
+// Solution: show a beautiful clickable thumbnail card that opens YouTube in a new
+// tab. This guarantees 100% of videos work for users, with zero "grey box" failures.
 function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
   const { t } = useLanguage();
-  const [showIframe, setShowIframe] = useState(false);
   const [thumbError, setThumbError] = useState(false);
 
-  // YouTube provides multiple thumbnail qualities; maxresdefault may 404 → fall back to hqdefault
   const thumbSrc = thumbError
     ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
     : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
@@ -588,48 +589,45 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
 
   return (
     <div className="space-y-2">
-      <div className="aspect-video rounded-2xl overflow-hidden border-2 shadow-2xl bg-black relative group">
-        {showIframe ? (
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`}
-            title={title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            referrerPolicy="strict-origin-when-cross-origin"
-            className="w-full h-full"
-          />
-        ) : (
-          <button
-            type="button"
-            onClick={() => setShowIframe(true)}
-            className="w-full h-full relative cursor-pointer"
-            aria-label={t("Phát video", "Play video")}
-          >
-            <img
-              src={thumbSrc}
-              alt={title}
-              loading="lazy"
-              onError={() => setThumbError(true)}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                <Play className="w-10 h-10 text-white fill-white ml-1" />
-              </div>
-            </div>
-            <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between gap-2">
-              <span className="text-white text-sm font-medium drop-shadow-lg line-clamp-1">{title}</span>
-              <span className="text-white/80 text-xs px-2 py-1 rounded bg-black/50">YouTube</span>
-            </div>
-          </button>
-        )}
-      </div>
+      <a
+        href={watchUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block aspect-video rounded-2xl overflow-hidden border-2 shadow-2xl bg-black relative group cursor-pointer"
+        aria-label={t("Mở video trên YouTube", "Open video on YouTube")}
+      >
+        <img
+          src={thumbSrc}
+          alt={title}
+          loading="lazy"
+          onError={() => setThumbError(true)}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+            <Play className="w-10 h-10 text-white fill-white ml-1" />
+          </div>
+        </div>
+        <div className="absolute top-3 right-3">
+          <span className="inline-flex items-center gap-1 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full bg-red-600/90 backdrop-blur-sm shadow-lg">
+            <ExternalLink className="w-3 h-3" />
+            YouTube
+          </span>
+        </div>
+        <div className="absolute bottom-3 left-4 right-4">
+          <p className="text-white text-sm font-semibold drop-shadow-lg line-clamp-1">{title}</p>
+          <p className="text-white/80 text-xs mt-0.5">
+            {t("Bấm để mở trên YouTube ↗", "Click to open on YouTube ↗")}
+          </p>
+        </div>
+      </a>
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <p className="text-xs text-muted-foreground">
-          {showIframe
-            ? t("Nếu hiện ô xám, video bị chặn nhúng — bấm nút bên phải để mở YouTube.", "If a grey box appears, the video blocks embedding — use the button on the right to open YouTube.")
-            : t("Bấm vào ảnh để phát video tại đây, hoặc mở trên YouTube.", "Click the image to play here, or open on YouTube.")}
+          {t(
+            "💡 Video mở trong tab mới để đảm bảo phát mượt mà (một số bản quyền chặn nhúng).",
+            "💡 Video opens in a new tab for smooth playback (some videos block embedding).",
+          )}
         </p>
         <a
           href={watchUrl}
