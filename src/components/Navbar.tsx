@@ -301,11 +301,13 @@ const Navbar = () => {
                 {/* Brand name — Space Grotesk + emerald with shimmer sweep & sparkle */}
                 <span className="relative inline-flex items-center">
                   <span
-                    className="brand-shimmer text-lg whitespace-nowrap"
+                    className="brand-shimmer whitespace-nowrap"
                     style={{
-                      fontFamily: "'Space Grotesk', 'Inter', sans-serif",
-                      fontWeight: 400,
-                      letterSpacing: "0.01em",
+                      fontFamily: "'Dancing Script', 'Brush Script MT', cursive",
+                      fontWeight: 600,
+                      fontSize: "1.6rem",
+                      lineHeight: 1,
+                      letterSpacing: "0.005em",
                       WebkitFontSmoothing: "antialiased",
                       MozOsxFontSmoothing: "grayscale",
                     }}
