@@ -32,7 +32,7 @@ export interface ChartConfig {
   colors?: string[];
   yLabel?: string;
   xLabel?: string;
-  data: ChartDataPoint[];
+  data?: ChartDataPoint[];
   // For pie charts: which key is the label vs the value
   pieNameKey?: string;
   pieValueKey?: string;
