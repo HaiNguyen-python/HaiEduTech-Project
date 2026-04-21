@@ -38,8 +38,8 @@ const About = () => {
       icon: Globe2,
       title: t("Công dân toàn cầu mang hồn Việt", "Global citizens with a Vietnamese soul"),
       desc: t(
-        "Đi qua Việt Nam, Phần Lan, Úc – thầy thấy rõ: các em hoàn toàn có thể vươn ra thế giới mà vẫn giữ được bản sắc. Học ngôn ngữ và công nghệ chính là tấm hộ chiếu để các em tự tin bước ra biển lớn.",
-        "Living across Vietnam, Finland, and Australia, I see clearly: our students can reach the world while keeping their roots. Languages and technology are the passport to step confidently onto the global stage."
+        "Đi qua Việt Nam và Phần Lan, thầy thấy rõ: các em hoàn toàn có thể vươn ra thế giới mà vẫn giữ được bản sắc. Học ngôn ngữ và công nghệ chính là tấm hộ chiếu để các em tự tin bước ra biển lớn.",
+        "Living across Vietnam and Finland, I see clearly: our students can reach the world while keeping their roots. Languages and technology are the passport to step confidently onto the global stage."
       ),
     },
     {
@@ -231,8 +231,8 @@ const About = () => {
               <Sparkles className="absolute top-4 right-4 w-6 h-6 text-primary/40" />
               <p className="text-base md:text-lg font-display italic text-foreground leading-relaxed">
                 {t(
-                  "\"Thầy không chỉ muốn dạy các em một ngôn ngữ hay một dòng code. Thầy muốn cùng các em xây dựng một tư duy học tập suốt đời – để dù mai này các em ở Sài Gòn, Hà Nội, Helsinki hay Melbourne, các em vẫn luôn tự tin học bất cứ điều gì mình muốn.\"",
-                  "\"I don't just want to teach you a language or a line of code. I want to build with you a lifelong learning mindset — so that wherever you are — Saigon, Hanoi, Helsinki or Melbourne — you'll always have the confidence to learn anything you set your heart on.\""
+                  "\"Thầy không chỉ muốn dạy các em một ngôn ngữ hay một dòng code. Thầy muốn cùng các em xây dựng một tư duy học tập suốt đời – để dù mai này các em ở Sài Gòn, Hà Nội hay Helsinki, các em vẫn luôn tự tin học bất cứ điều gì mình muốn.\"",
+                  "\"I don't just want to teach you a language or a line of code. I want to build with you a lifelong learning mindset — so that wherever you are — Saigon, Hanoi or Helsinki — you'll always have the confidence to learn anything you set your heart on.\""
                 )}
               </p>
               <p className="mt-3 text-sm font-semibold text-primary">— Mr. Hai Nguyen</p>
