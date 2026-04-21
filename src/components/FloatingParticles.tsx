@@ -7,6 +7,8 @@ const SYMBOLS = [
   "Hello", "Thanks", "Welcome", "English", "Chinese", "Programming",
   // Vietnamese
   "Vietnamese", "Xin chào", "Cảm ơn",
+  // Identity & places
+  "Engineer", "Educator", "Vietnam", "Finland", "Technology",
   // Tech & AI
   "AI", "Data", "Python", "SQL", "ML",
   // Programming symbols
@@ -53,8 +55,8 @@ function generateParticles(count: number): Particle[] {
     x: Math.random() * 100,
     y: Math.random() * 100,
     size: 13 + Math.random() * 15,
-    duration: 12 + Math.random() * 16,
-    delay: Math.random() * -20,
+    duration: 30 + Math.random() * 30,
+    delay: Math.random() * -40,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
     rotate: Math.random() * 360,
     driftX: (Math.random() - 0.5) * 80,
