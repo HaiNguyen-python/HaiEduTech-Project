@@ -169,6 +169,11 @@ const Finnish = () => {
             ))}
           </div>
 
+          {/* Songs Library banner */}
+          <div className="mt-8">
+            <SongsBanner language="finnish" delay={0.5} />
+          </div>
+
           {/* Bonus: AI Speaking Coach */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
