@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CoursesOverview from "@/components/CoursesOverview";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 
 // Lazy load heavy below-fold components
 const UpcomingCourses = lazy(() => import("@/components/UpcomingCourses"));
@@ -54,6 +55,24 @@ const LazySection = ({ children }: { children: React.ReactNode }) => {
 
 const Index = () => (
   <div className="min-h-screen bg-background">
+    <SEO
+      title="HaiEduTech | Học IELTS, HSK, Tiếng Phần Lan, Python & Tư vấn Du học"
+      description="Nền tảng học IELTS, TOEIC, HSK 1-6, tiếng Phần Lan YKI, lập trình Python với lộ trình cá nhân hóa bằng AI. Tư vấn du học & học bổng quốc tế miễn phí bởi Thầy Hải."
+      path="/"
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Chương trình học HaiEduTech",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Học IELTS", "url": "https://haiedutech.com/english/ielts" },
+          { "@type": "ListItem", "position": 2, "name": "Học HSK", "url": "https://haiedutech.com/chinese/hsk-guide" },
+          { "@type": "ListItem", "position": 3, "name": "Học TOEIC", "url": "https://haiedutech.com/english/toeic" },
+          { "@type": "ListItem", "position": 4, "name": "Học tiếng Phần Lan YKI", "url": "https://haiedutech.com/finnish" },
+          { "@type": "ListItem", "position": 5, "name": "Học lập trình Python", "url": "https://haiedutech.com/programming" },
+          { "@type": "ListItem", "position": 6, "name": "Tư vấn Du học", "url": "https://haiedutech.com/study-abroad" }
+        ]
+      }}
+    />
     <Navbar />
     <HeroSection />
     <CoursesOverview />
