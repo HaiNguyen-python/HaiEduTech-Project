@@ -217,9 +217,23 @@ const Programming = () => {
   const active = pillarData[activePillar];
   const activePillarMeta = pillars.find(p => p.id === activePillar)!;
 
+  const COURSE_LD = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Lập trình Python và AI",
+    "description": "Lộ trình lập trình toàn diện: Python từ cơ bản (47 bài), SQL, Machine Learning, Data Engineering, Software Engineering. Code trực tiếp trên trình duyệt với Pyodide.",
+    "provider": {
+      "@type": "EducationalOrganization",
+      "name": "HaiEduTech",
+      "url": "https://haiedutech.com"
+    },
+    "inLanguage": "vi",
+    "url": "https://haiedutech.com/programming"
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Học Lập Trình Python, SQL, ML, AI Tiếng Việt | HaiEduTech" description="Lộ trình lập trình toàn diện: Python từ cơ bản (47 bài), SQL, Machine Learning, Data Engineering, Software Engineering. Code trực tiếp trên trình duyệt với Pyodide." path="/programming" jsonLd={{"@context":"https://schema.org","@type":"Course","name":"Lập trình Python & AI","description":"Lộ trình lập trình toàn diện: Python từ cơ bản (47 bài), SQL, Machine Learning, Data Engineering, Software Engineering. Code trực tiếp trên trình duyệt với Pyodide.","provider":{{"@type":"EducationalOrganization","name":"HaiEduTech","url":"https://haiedutech.com"}},"inLanguage":"vi","url":"https://haiedutech.com/programming"}} />
+      <SEO title="Học Lập Trình Python, SQL, ML, AI Tiếng Việt | HaiEduTech" description="Lộ trình lập trình toàn diện: Python từ cơ bản (47 bài), SQL, Machine Learning, Data Engineering, Software Engineering. Code trực tiếp trên trình duyệt với Pyodide." path="/programming" jsonLd={COURSE_LD} />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 sm:px-6">

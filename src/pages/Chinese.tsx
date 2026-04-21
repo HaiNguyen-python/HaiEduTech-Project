@@ -106,9 +106,23 @@ const Chinese = () => {
     setDictLoading(false);
   };
 
+  const COURSE_LD = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Tiếng Trung HSK",
+    "description": "Học tiếng Trung từ HSK 1 đến HSK 6 với 1100+ từ vựng, bài giảng tương tác, luyện viết Hanzi và giao tiếp thực tế. Lộ trình AI cá nhân hóa miễn phí.",
+    "provider": {
+      "@type": "EducationalOrganization",
+      "name": "HaiEduTech",
+      "url": "https://haiedutech.com"
+    },
+    "inLanguage": "vi",
+    "url": "https://haiedutech.com/chinese"
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Học Tiếng Trung Online: HSK 1-6, Giao tiếp, Pinyin | HaiEduTech" description="Học tiếng Trung từ HSK 1 đến HSK 6 với 1100+ từ vựng, bài giảng tương tác, luyện viết Hanzi và giao tiếp thực tế. Lộ trình AI cá nhân hóa miễn phí." path="/chinese" jsonLd={{"@context":"https://schema.org","@type":"Course","name":"Tiếng Trung HSK","description":"Học tiếng Trung từ HSK 1 đến HSK 6 với 1100+ từ vựng, bài giảng tương tác, luyện viết Hanzi và giao tiếp thực tế. Lộ trình AI cá nhân hóa miễn phí.","provider":{{"@type":"EducationalOrganization","name":"HaiEduTech","url":"https://haiedutech.com"}},"inLanguage":"vi","url":"https://haiedutech.com/chinese"}} />
+      <SEO title="Học Tiếng Trung Online: HSK 1-6, Giao tiếp, Pinyin | HaiEduTech" description="Học tiếng Trung từ HSK 1 đến HSK 6 với 1100+ từ vựng, bài giảng tương tác, luyện viết Hanzi và giao tiếp thực tế. Lộ trình AI cá nhân hóa miễn phí." path="/chinese" jsonLd={COURSE_LD} />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">
