@@ -8,7 +8,10 @@ import { motion } from "framer-motion";
 import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp, ChevronRight } from "lucide-react";
 import PteShell from "@/components/pte/PteShell";
 import PtePeak from "@/components/pte/PtePeak";
+import PteSkillRings from "@/components/pte/PteSkillRings";
 import { usePteProgress } from "@/hooks/usePteProgress";
+import { usePteSkillStats } from "@/hooks/usePteSkillStats";
+import { Activity, BookMarked, Clock as ClockIcon } from "lucide-react";
 import {
   READ_ALOUD_ALL, REPEAT_SENTENCE_ALL, ESSAY_ALL, DICTATION_ALL,
   MOCK_TESTS, REPEATED_2026_IDS, PTE_TOTAL_TASKS,
@@ -51,6 +54,7 @@ const SKILL_CARDS = [
 
 const PteHub = () => {
   const { progress } = usePteProgress();
+  const skillStats = usePteSkillStats();
   const totalTasks = PTE_TOTAL_TASKS;
 
   return (
@@ -61,6 +65,36 @@ const PteHub = () => {
       backLabel="Learn English"
     >
       <PtePeak completed={progress.completedIds.length} total={totalTasks} />
+
+      {/* Per-skill progress overview — synced with Dashboard */}
+      <section className="mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <h2 className="text-lg sm:text-xl font-bold text-[#003580]">Your Skill Progress</h2>
+            <p className="text-xs text-slate-500">
+              Live tracking across Speaking · Writing · Reading · Listening.
+            </p>
+          </div>
+          <div className="hidden sm:flex items-center gap-3 text-[11px]">
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[#003580]/10 text-[#003580] font-bold">
+              <Activity size={12} /> {skillStats.totalAttempts} attempts
+            </span>
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 font-bold">
+              <BookMarked size={12} /> {skillStats.vocabMastered} vocab
+            </span>
+            {skillStats.totalTimeMinutes > 0 && (
+              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-sky-100 text-sky-700 font-bold">
+                <ClockIcon size={12} /> {skillStats.totalTimeMinutes}m
+              </span>
+            )}
+          </div>
+        </div>
+        <PteSkillRings
+          skills={skillStats.skills}
+          variant="detailed"
+          loading={skillStats.loading}
+        />
+      </section>
 
       {/* Predicted Questions 2026 — high-frequency repeated tasks */}
       <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 rounded-2xl p-5 sm:p-6 border-2 border-orange-300/60 shadow-sm mb-6 relative overflow-hidden">
