@@ -191,6 +191,9 @@ const IeltsLectureView = () => {
 
             {/* === STRATEGY TAB === */}
             <TabsContent value="strategy" className="space-y-6">
+              {/* SVG diagram (only renders when one exists for this lecture) */}
+              <IeltsLectureDiagram lectureId={lecture.id} />
+
               {/* Step-by-Step Strategy */}
               <div className="space-y-4">
                 <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
