@@ -231,8 +231,8 @@ const About = () => {
               <Sparkles className="absolute top-4 right-4 w-6 h-6 text-primary/40" />
               <p className="text-base md:text-lg font-display italic text-foreground leading-relaxed">
                 {t(
-                  "\"Thầy không chỉ muốn dạy các em một ngôn ngữ hay một dòng code. Thầy muốn cùng các em xây dựng một tư duy học tập suốt đời – để dù mai này các em ở Sài Gòn, Hà Nội, Helsinki hay Melbourne, các em vẫn luôn tự tin học bất cứ điều gì mình muốn.\"",
-                  "\"I don't just want to teach you a language or a line of code. I want to build with you a lifelong learning mindset — so that wherever you are — Saigon, Hanoi, Helsinki or Melbourne — you'll always have the confidence to learn anything you set your heart on.\""
+                  "\"Thầy không chỉ muốn dạy các em một ngôn ngữ hay một dòng code. Thầy muốn cùng các em xây dựng một tư duy học tập suốt đời – để dù mai này các em ở Sài Gòn, Hà Nội hay Helsinki, các em vẫn luôn tự tin học bất cứ điều gì mình muốn.\"",
+                  "\"I don't just want to teach you a language or a line of code. I want to build with you a lifelong learning mindset — so that wherever you are — Saigon, Hanoi or Helsinki — you'll always have the confidence to learn anything you set your heart on.\""
                 )}
               </p>
               <p className="mt-3 text-sm font-semibold text-primary">— Mr. Hai Nguyen</p>
