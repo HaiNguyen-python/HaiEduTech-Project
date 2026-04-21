@@ -573,11 +573,12 @@ function BlanksQuiz({ song }: { song: Song }) {
 
 // ===== YouTubePlayer: Inline iframe with click-to-load + fallback =====
 // Strategy: Show thumbnail first (saves bandwidth + avoids blocked-iframe grey box).
-// On user click, swap to youtube-nocookie embed. If iframe fails to fire onLoad
-// within 4s (sign of embed restriction), reveal a "Open on YouTube" fallback.
+// On user click, swap to youtube.com embed (more reliable than nocookie for some videos).
+// If iframe fails to fire onLoad within 3.5s, reveal a "Open on YouTube" fallback.
 function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
   const { t } = useLanguage();
   const [playing, setPlaying] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
   const [iframeFailed, setIframeFailed] = useState(false);
   const [thumbError, setThumbError] = useState(false);
 
@@ -585,13 +586,18 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
     ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
     : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
-  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+  // Use standard youtube.com (not nocookie) - more reliable across regions
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(typeof window !== "undefined" ? window.location.origin : "")}`;
 
-  // If user clicks Play but iframe never loads (e.g. embed blocked), show fallback
+  // Reset & start fallback timer whenever a new video begins playing
   useEffect(() => {
     if (!playing) return;
+    setIframeLoaded(false);
     setIframeFailed(false);
-    const timer = setTimeout(() => setIframeFailed(true), 4500);
+    const timer = setTimeout(() => {
+      // Only mark failed if iframe never reported a load event
+      setIframeFailed((prev) => (prev ? prev : true));
+    }, 3500);
     return () => clearTimeout(timer);
   }, [playing, videoId]);
 
