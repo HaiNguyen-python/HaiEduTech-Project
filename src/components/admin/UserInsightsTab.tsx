@@ -405,7 +405,38 @@ export default function UserInsightsTab() {
         </CardContent>
       </Card>
 
-      {/* Top Pages Table */}
+      {/* Cumulative Growth */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <TrendingUp className="w-4 h-4 text-emerald-500" />
+            {t("Tăng trưởng tích lũy lượt xem", "Cumulative Page-View Growth")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {cumulativeTrend.length === 0 ? (
+            <div className="h-56 flex items-center justify-center text-sm text-muted-foreground">
+              {t("Chưa có dữ liệu", "No data")}
+            </div>
+          ) : (
+            <ResponsiveContainer width="100%" height={260}>
+              <AreaChart data={cumulativeTrend}>
+                <defs>
+                  <linearGradient id="cumGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(160 84% 39%)" stopOpacity={0.5} />
+                    <stop offset="95%" stopColor="hsl(160 84% 39%)" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8 }} />
+                <Area type="monotone" dataKey="total" stroke="hsl(160 84% 39%)" strokeWidth={2.5} fill="url(#cumGrad)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          )}
+        </CardContent>
+      </Card>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
