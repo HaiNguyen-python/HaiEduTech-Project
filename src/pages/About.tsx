@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera, BookOpen } from "lucide-react";
+import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera, BookOpen, Heart, Lightbulb, Compass, Sparkles, Globe2, Rocket } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import ClassroomGallery from "@/components/ClassroomGallery";
