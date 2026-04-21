@@ -59,12 +59,12 @@ function generateParticles(count: number): Particle[] {
     x: Math.random() * 100,
     y: Math.random() * 100,
     size: 13 + Math.random() * 15,
-    duration: 30 + Math.random() * 30,
-    delay: Math.random() * -40,
+    duration: 16 + Math.random() * 16,
+    delay: Math.random() * -20,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
     rotate: Math.random() * 360,
-    driftX: (Math.random() - 0.5) * 80,
-    driftY: (Math.random() - 0.5) * 60,
+    driftX: (Math.random() - 0.5) * 120,
+    driftY: (Math.random() - 0.5) * 90,
   }));
 }
 
