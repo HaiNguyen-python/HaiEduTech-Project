@@ -32,6 +32,38 @@ const LEVEL_COLORS: Record<string, string> = {
   PhD: "bg-violet-500/15 text-violet-700 dark:text-violet-400",
 };
 
+// Group countries by region for cleaner filtering
+const REGIONS = [
+  {
+    value: "north-america",
+    labelEn: "North America",
+    labelVi: "Bắc Mỹ",
+    icon: "🌎",
+    countries: ["USA", "Canada"],
+  },
+  {
+    value: "europe",
+    labelEn: "Europe",
+    labelVi: "Châu Âu",
+    icon: "🇪🇺",
+    countries: ["UK", "Germany", "Finland", "EU", "France", "Switzerland", "Sweden", "Netherlands", "Ireland", "Estonia", "Belgium", "Norway"],
+  },
+  {
+    value: "asia",
+    labelEn: "Asia",
+    labelVi: "Châu Á",
+    icon: "🌏",
+    countries: ["Japan", "South Korea", "Singapore", "China", "India", "Taiwan"],
+  },
+  {
+    value: "oceania",
+    labelEn: "Oceania",
+    labelVi: "Châu Đại Dương",
+    icon: "🏝️",
+    countries: ["Australia", "New Zealand"],
+  },
+] as const;
+
 const KnowledgeHubPage = () => {
   const { t, lang } = useLanguage();
   const [search, setSearch] = useState("");
