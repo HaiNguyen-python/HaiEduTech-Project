@@ -444,10 +444,20 @@ const Navbar = () => {
                   loading="eager"
                   decoding="sync"
                 />
-                <span className="font-display text-lg whitespace-nowrap tracking-tight leading-none">
-                  <span className="text-[#1D4ED8] font-extrabold">Hai</span>
-                  <span className="text-[#047857] font-extrabold">Edu</span>
-                  <span className="text-[#1D4ED8] font-extrabold">Tech</span>
+                <span
+                  className="text-xl whitespace-nowrap leading-none subpixel-antialiased"
+                  style={{
+                    fontFamily:
+                      '"Inter", "Segoe UI", system-ui, -apple-system, sans-serif',
+                    fontWeight: 900,
+                    letterSpacing: "0.01em",
+                    WebkitFontSmoothing: "antialiased",
+                    textRendering: "geometricPrecision",
+                  }}
+                >
+                  <span style={{ color: "#1E40AF" }}>Hai</span>
+                  <span style={{ color: "#047857" }}>Edu</span>
+                  <span style={{ color: "#1E40AF" }}>Tech</span>
                 </span>
               </Link>
             )}
