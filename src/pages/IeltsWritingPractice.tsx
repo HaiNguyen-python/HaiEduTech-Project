@@ -67,6 +67,11 @@ const IeltsWritingPractice = () => {
   const [timerActive, setTimerActive] = useState(false);
   const [timeLeft, setTimeLeft] = useState(TASK2_TIME);
 
+  // Drafts state
+  const [currentDraftId, setCurrentDraftId] = useState<string | null>(null);
+  const [savingDraft, setSavingDraft] = useState(false);
+  const [draftsReloadKey, setDraftsReloadKey] = useState(0);
+
   // Collapsible sections
   const [guideOpen, setGuideOpen] = useState(true);
   const [vocabOpen, setVocabOpen] = useState(false);
