@@ -254,6 +254,9 @@ const IeltsLectureView = () => {
                 ))}
               </div>
 
+              {/* Extended theory: Band descriptors, common mistakes, paraphrase bank, sample sentences, golden tips */}
+              <IeltsLectureExpansionPanel lectureId={lecture.id} />
+
               {/* Teacher Hai's Golden Secret */}
               <Card className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-950/20 dark:to-yellow-950/20 border-amber-300 dark:border-amber-700">
                 <CardContent className="p-5">
