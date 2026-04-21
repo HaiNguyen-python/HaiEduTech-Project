@@ -641,15 +641,23 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
-              onLoad={() => setIframeFailed(false)}
+              onLoad={() => {
+                setIframeLoaded(true);
+                setIframeFailed(false);
+              }}
               className="w-full h-full"
             />
-            {iframeFailed && (
-              <div className="absolute inset-0 bg-black/85 backdrop-blur-sm flex flex-col items-center justify-center gap-2 p-3 text-center">
+            {!iframeLoaded && !iframeFailed && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/40">
+                <Music className="w-8 h-8 text-white/80 animate-pulse" />
+              </div>
+            )}
+            {iframeFailed && !iframeLoaded && (
+              <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center gap-2 p-3 text-center">
                 <p className="text-white text-xs font-semibold">
                   {t(
-                    "Video bị chặn nhúng. Mở trên YouTube ↗",
-                    "Embed blocked. Open on YouTube ↗",
+                    "Video bị chặn nhúng trên web.",
+                    "This video can't be embedded.",
                   )}
                 </p>
                 <a
@@ -659,7 +667,7 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600 text-white text-xs font-semibold hover:bg-red-700 transition-colors shadow-lg"
                 >
                   <ExternalLink className="w-3 h-3" />
-                  {t("Mở YouTube", "Open YouTube")}
+                  {t("Mở trên YouTube", "Open on YouTube")}
                 </a>
               </div>
             )}
