@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -461,13 +461,13 @@ function renderInteractiveLine(line: LyricLine) {
 // =====================================================
 // LYRICS HERO BANNER — eye-catching illustration on top of lyrics
 // =====================================================
-function LyricsHero({
-  song,
-  theme,
-}: {
-  song: Song;
-  theme: { from: string; to: string; ring: string; label: string };
-}) {
+const LyricsHero = React.forwardRef<
+  HTMLDivElement,
+  {
+    song: Song;
+    theme: { from: string; to: string; ring: string; label: string };
+  }
+>(function LyricsHero({ song, theme }, ref) {
   const langEmoji: Record<SongLanguage, string> = {
     english: "🎤",
     chinese: "🏮",
@@ -482,7 +482,7 @@ function LyricsHero({
 
   if (song.album_art_url) {
     return (
-      <div className="relative h-40 md:h-52 w-full overflow-hidden">
+      <div ref={ref} className="relative h-40 md:h-52 w-full overflow-hidden">
         <img
           src={song.album_art_url}
           alt={song.title}
@@ -510,6 +510,7 @@ function LyricsHero({
   // Fallback: gradient + big emoji
   return (
     <div
+      ref={ref}
       className={`relative h-32 md:h-40 w-full flex items-center justify-center bg-gradient-to-br ${theme.from} ${theme.to} overflow-hidden`}
     >
       <span className="text-6xl md:text-7xl opacity-90 drop-shadow-lg" aria-hidden="true">
@@ -523,7 +524,7 @@ function LyricsHero({
       </span>
     </div>
   );
-}
+});
 
 // Fixed rotation of music-themed icons for lyric line decorations.
 // We deliberately avoid keyword-based emojis (which can feel mismatched);
