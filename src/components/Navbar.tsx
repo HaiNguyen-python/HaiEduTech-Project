@@ -298,19 +298,23 @@ const Navbar = () => {
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 />
-                {/* Brand name — same font (Space Grotesk) and color (#10B981) as "LANGUAGE" & "TECHNOLOGY" in slogan */}
-                <span
-                  className="text-lg whitespace-nowrap"
-                  style={{
-                    fontFamily: "'Space Grotesk', 'Inter', sans-serif",
-                    fontWeight: 700,
-                    color: "#10B981",
-                    WebkitFontSmoothing: "antialiased",
-                    MozOsxFontSmoothing: "grayscale",
-                    textRendering: "geometricPrecision",
-                  }}
-                >
-                  HaiEduTech
+                {/* Brand name — Space Grotesk + emerald with shimmer sweep & sparkle */}
+                <span className="relative inline-flex items-center">
+                  <span
+                    className="brand-shimmer text-lg whitespace-nowrap"
+                    style={{
+                      fontFamily: "'Space Grotesk', 'Inter', sans-serif",
+                      fontWeight: 700,
+                      WebkitFontSmoothing: "antialiased",
+                      MozOsxFontSmoothing: "grayscale",
+                    }}
+                  >
+                    HaiEduTech
+                  </span>
+                  <Sparkles
+                    className="brand-sparkle absolute -top-1 -right-3 w-3 h-3 text-amber-400"
+                    style={{ filter: "drop-shadow(0 0 4px rgba(251,191,36,0.7))" }}
+                  />
                 </span>
               </Link>
 
