@@ -498,6 +498,9 @@ const IeltsWritingPractice = () => {
                 </Card>
               </Collapsible>
 
+              {/* Saved Drafts (resume unfinished essays) */}
+              <WritingDraftsPanel onResume={handleResumeDraft} reloadKey={draftsReloadKey} />
+
               {/* Writing History (for logged-in users) */}
               <WritingHistory />
             </motion.div>
