@@ -46,6 +46,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...satExpansionModules2,
   ...satExpansionModules3,
   ...satExpansionModules4,
+  ...satExpansionModules5,
   ...grammarExpansionModules2,
   ...grammarExpansionModules3,
 ];
