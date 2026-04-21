@@ -30,6 +30,10 @@ const AdSlot = ({
   const insRef = useRef<HTMLModElement | null>(null);
   const pushed = useRef(false);
 
+  if (!slot) {
+    return null;
+  }
+
   useEffect(() => {
     if (!slot || pushed.current) return;
     if (typeof window === "undefined") return;
@@ -49,25 +53,16 @@ const AdSlot = ({
       <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2 text-center">
         {label}
       </div>
-      {slot ? (
-        <ins
-          ref={insRef}
-          className="adsbygoogle block"
-          style={{ display: "block", minHeight }}
-          data-ad-client={ADSENSE_CLIENT}
-          data-ad-slot={slot}
-          data-ad-format={format}
-          {...(responsive ? { "data-full-width-responsive": "true" } : {})}
-          {...(layoutKey ? { "data-ad-layout-key": layoutKey } : {})}
-        />
-      ) : (
-        <div
-          className="flex items-center justify-center text-xs text-muted-foreground rounded-md bg-background/50 border border-dashed border-border"
-          style={{ minHeight }}
-        >
-          Ad slot — chưa cấu hình ID (sẽ hiển thị sau khi AdSense duyệt)
-        </div>
-      )}
+      <ins
+        ref={insRef}
+        className="adsbygoogle block"
+        style={{ display: "block", minHeight }}
+        data-ad-client={ADSENSE_CLIENT}
+        data-ad-slot={slot}
+        data-ad-format={format}
+        {...(responsive ? { "data-full-width-responsive": "true" } : {})}
+        {...(layoutKey ? { "data-ad-layout-key": layoutKey } : {})}
+      />
     </div>
   );
 };
