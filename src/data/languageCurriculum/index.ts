@@ -13,6 +13,7 @@ import { satExpansionModules } from "./englishSatExpansion";
 import { satExpansionModules2 } from "./englishSatExpansion2";
 import { satExpansionModules3 } from "./englishSatExpansion3";
 import { satExpansionModules4 } from "./englishSatExpansion4";
+import { satExpansionModules5 } from "./englishSatExpansion5";
 import { grammarExpansionModules2 } from "./englishGrammarExpansion2";
 import { grammarExpansionModules3 } from "./englishGrammarExpansion3";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
@@ -45,6 +46,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...satExpansionModules2,
   ...satExpansionModules3,
   ...satExpansionModules4,
+  ...satExpansionModules5,
   ...grammarExpansionModules2,
   ...grammarExpansionModules3,
 ];
