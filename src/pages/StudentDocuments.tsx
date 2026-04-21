@@ -456,6 +456,8 @@ const StudentDocuments = () => {
               })}
             </div>
           )}
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
 
