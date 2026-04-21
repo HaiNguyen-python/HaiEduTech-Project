@@ -5,8 +5,8 @@ import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMock
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, ArrowUpDown, Heart, Clock,
-  Headphones, FileText, MessageSquare, BookType, ChevronRight,
-  GraduationCap, TrendingUp, Sparkles, Star
+  Headphones, FileText, MessageSquare, BookType, ChevronRight, ChevronDown,
+  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
