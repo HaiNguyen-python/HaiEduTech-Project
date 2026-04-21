@@ -22,10 +22,13 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import GlobalScholarBadge from "@/components/GlobalScholarBadge";
+import MotivationLetterDrafts from "@/components/study-profile/MotivationLetterDrafts";
+import ProfileStrengthAssessment from "@/components/study-profile/ProfileStrengthAssessment";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
 const MAX_FILES_PER_USER = 50;
