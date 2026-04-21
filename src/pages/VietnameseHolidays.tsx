@@ -39,15 +39,28 @@ const HolidayCard = ({ holiday, index }: { holiday: VietnameseHoliday; index: nu
         className="block h-full rounded-2xl overflow-hidden border border-border bg-card hover:shadow-xl transition-all group"
       >
         <div className={`bg-gradient-to-br ${holiday.color} p-6 relative overflow-hidden`}>
-          <div className="absolute top-2 right-3 text-7xl opacity-20 group-hover:opacity-30 transition-opacity">
-            {holiday.icon}
-          </div>
-          <div className="relative z-10">
-            <div className="text-4xl mb-2">{holiday.icon}</div>
-            <h3 className="text-xl font-bold text-white mb-1 drop-shadow">
+          {holiday.image ? (
+            <img
+              src={holiday.image}
+              alt={holiday.nameEn}
+              loading="lazy"
+              width={768}
+              height={512}
+              className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <div className="absolute top-2 right-3 text-7xl opacity-20 group-hover:opacity-30 transition-opacity">
+              {holiday.icon}
+            </div>
+          )}
+          {/* Gradient overlay for text contrast */}
+          <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent`} />
+          <div className="relative z-10 min-h-[140px] flex flex-col justify-end">
+            <div className="text-3xl mb-1 drop-shadow-lg">{holiday.icon}</div>
+            <h3 className="text-xl font-bold text-white mb-1 drop-shadow-lg">
               {t(holiday.name, holiday.nameEn)}
             </h3>
-            <p className="text-sm text-white/90 drop-shadow">
+            <p className="text-sm text-white/95 drop-shadow-lg">
               <Calendar className="inline w-3.5 h-3.5 mr-1" />
               {t(holiday.date, holiday.dateEn)}
             </p>
