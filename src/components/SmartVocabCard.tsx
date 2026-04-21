@@ -4,6 +4,7 @@ import { Volume2, VolumeX } from "lucide-react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { playVietnameseTts } from "@/lib/vietnameseTts";
 import type { VietnameseVocabEntry } from "@/data/vietnamese/types";
 
 // Color-coded part-of-speech badge mapping
@@ -27,17 +28,15 @@ const SmartVocabCard = ({ vocab, index }: SmartVocabCardProps) => {
   const { t } = useLanguage();
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Play Vietnamese pronunciation using SpeechSynthesis
-  const playAudio = () => {
+  // Phát âm tiếng Việt: ưu tiên giọng Google TTS qua edge function, fallback speechSynthesis
+  const playAudio = async () => {
     if (isPlaying) return;
     setIsPlaying(true);
-    const utterance = new SpeechSynthesisUtterance(vocab.word);
-    utterance.lang = "vi-VN";
-    utterance.rate = 0.35;
-    utterance.pitch = 1.12;
-    utterance.onend = () => setIsPlaying(false);
-    utterance.onerror = () => setIsPlaying(false);
-    window.speechSynthesis.speak(utterance);
+    try {
+      await playVietnameseTts(vocab.word, { playbackRate: 0.9, speechRate: 0.55, pitch: 1.1 });
+    } finally {
+      setIsPlaying(false);
+    }
   };
 
   const posClass = posColors[vocab.partOfSpeech?.toLowerCase() || ""] || posColors.noun;
