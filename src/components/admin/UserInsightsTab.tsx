@@ -199,7 +199,24 @@ export default function UserInsightsTab() {
     }
     return Array.from(map.entries())
       .sort(([a], [b]) => a.localeCompare(b))
-      .map(([day, count]) => ({ day: day.slice(5), views: count }));
+      .map(([day, count]) => ({ day: day.slice(5), fullDay: day, views: count }));
+  }, [views]);
+
+  // Cumulative growth (running total of page views since tracking began)
+  const cumulativeTrend = useMemo(() => {
+    let total = 0;
+    return dailyTrend.map((d) => {
+      total += d.views;
+      return { day: d.day, fullDay: d.fullDay, total };
+    });
+  }, [dailyTrend]);
+
+  // Earliest tracked timestamp (for "tracking since" display)
+  const trackingSince = useMemo(() => {
+    if (views.length === 0) return null;
+    const earliest = views.reduce((min, v) =>
+      v.created_at < min ? v.created_at : min, views[0].created_at);
+    return earliest.slice(0, 10);
   }, [views]);
 
   const recommendations = useMemo(() => {
