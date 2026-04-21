@@ -10,7 +10,9 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cuisineDishes } from "@/data/vietnamese/cuisineData";
+import { cuisineDishes as baseCuisine } from "@/data/vietnamese/cuisineData";
+import { cuisineExpansion } from "@/data/vietnamese/cuisineExpansion";
+const cuisineDishes = [...baseCuisine, ...cuisineExpansion];
 
 const regionColors: Record<string, string> = {
   "Bắc": "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200",

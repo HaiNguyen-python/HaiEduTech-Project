@@ -10,7 +10,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { filmClips, type FilmClip } from "@/data/vietnamese/filmsData";
+import { filmClips as baseFilms, type FilmClip } from "@/data/vietnamese/filmsData";
+import { filmsExpansion } from "@/data/vietnamese/filmsExpansion";
+const filmClips = [...baseFilms, ...filmsExpansion];
 
 const levelColor = {
   A2: "bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200",
