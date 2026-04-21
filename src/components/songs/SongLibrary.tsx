@@ -743,29 +743,39 @@ function BlanksQuiz({ song }: { song: Song }) {
   );
 }
 
-// ===== YouTubePlayer: Clean external link card =====
-// We intentionally do NOT embed the iframe — many official MVs block embedding,
-// which results in an unsightly grey/error box. Instead we show a clean link card
-// that opens YouTube in a new tab so learners can listen and sing along reliably.
+// ===== YouTubePlayer: Embedded iframe + external link fallback =====
+// Embed via youtube-nocookie.com for better privacy/CSP compatibility.
+// Always show a "Mở trên YouTube" fallback link in case the specific MV blocks embedding.
 function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
   const { t } = useLanguage();
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
+  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`;
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-2xl mx-auto space-y-3">
+      <div className="relative w-full overflow-hidden rounded-xl border-2 border-red-500/20 shadow-lg bg-black" style={{ aspectRatio: "16 / 9" }}>
+        <iframe
+          src={embedUrl}
+          title={title}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </div>
       <a
         href={watchUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-center gap-3 p-4 rounded-xl border-2 bg-gradient-to-br from-red-500/10 to-rose-500/5 hover:from-red-500/15 hover:to-rose-500/10 hover:border-red-500/40 transition-all shadow-sm hover:shadow-lg"
+        className="group flex items-center gap-3 p-3 rounded-lg border bg-gradient-to-br from-red-500/10 to-rose-500/5 hover:from-red-500/15 hover:to-rose-500/10 hover:border-red-500/40 transition-all"
         aria-label={t("Mở bài hát trên YouTube", "Open song on YouTube")}
       >
-        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-          <Play className="w-6 h-6 text-white fill-white ml-0.5" />
+        <div className="flex-shrink-0 w-9 h-9 rounded-full bg-red-600 flex items-center justify-center shadow group-hover:scale-110 transition-transform">
+          <Play className="w-4 h-4 text-white fill-white ml-0.5" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold leading-tight line-clamp-1">
-            {t("Nghe & hát theo trên YouTube", "Listen & sing along on YouTube")}
+            {t("Mở trên YouTube nếu video không hiển thị", "Open on YouTube if the video doesn't load")}
           </p>
           <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{title}</p>
         </div>
