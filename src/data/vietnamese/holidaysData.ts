@@ -29,6 +29,7 @@ export interface VietnameseHoliday {
   category: "spring" | "summer" | "autumn" | "winter" | "anytime";
   icon: string;        // emoji
   color: string;       // tailwind gradient stops, e.g. "from-rose-500 to-red-600"
+  image?: string;      // chibi illustration url (imported asset)
   shortDesc: string;
   shortDescEn: string;
   story: string;       // 2-4 short paragraphs
