@@ -204,27 +204,30 @@ const NationalAnthem = () => {
 
             {/* Video Player */}
             <Card className="overflow-hidden border-red-100">
-              <div className="aspect-video">
-                <div id="yt-player" ref={playerContainerRef} className="w-full h-full" />
+              <div className="aspect-video bg-black">
+                <iframe
+                  src={EMBED_URL}
+                  title="Quốc ca Việt Nam — Tiến Quân Ca"
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
               </div>
 
-              {/* Controls bar */}
+              {/* Fallback link in case the iframe is blocked by ad blockers / extensions */}
               <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-muted/50">
-                <div className="flex items-center gap-2">
-                  <Button
-                    size="sm"
-                    variant={isPlaying ? "secondary" : "default"}
-                    onClick={isPlaying ? handlePause : handleStart}
-                    disabled={!playerReady}
-                    className="gap-1.5"
-                  >
-                    {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                    {isPlaying ? "Tạm dừng" : "Bắt đầu"}
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={handleReplay} className="gap-1.5">
-                    <RotateCcw className="w-4 h-4" /> Lại từ đầu
-                  </Button>
-                </div>
+                <p className="text-xs text-muted-foreground">
+                  Không thấy video? Có thể tiện ích chặn quảng cáo đang chặn YouTube.
+                </p>
+                <a
+                  href={VIDEO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-red-600 hover:text-red-700 underline-offset-4 hover:underline"
+                >
+                  <ExternalLink className="w-4 h-4" /> Mở trên YouTube
+                </a>
               </div>
             </Card>
 
