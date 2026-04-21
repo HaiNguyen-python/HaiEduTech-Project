@@ -445,8 +445,9 @@ const Navbar = () => {
                   decoding="sync"
                 />
                 <span className="font-display text-lg whitespace-nowrap tracking-tight leading-none">
-                  <span className="text-[#3B82F6] font-extrabold">HaiEdu</span>
-                  <span className="text-[#10B981] font-extrabold">Tech</span>
+                  <span className="text-[#1D4ED8] font-extrabold">Hai</span>
+                  <span className="text-[#047857] font-extrabold">Edu</span>
+                  <span className="text-[#1D4ED8] font-extrabold">Tech</span>
                 </span>
               </Link>
             )}
