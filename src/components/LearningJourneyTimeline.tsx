@@ -31,15 +31,6 @@ const LearningJourneyTimeline = () => {
       color: "from-sky-500 to-blue-500",
     },
     {
-      icon: GraduationCap,
-      value: t("Thạc sĩ", "M.A."),
-      label: t("Công nghệ Ngôn ngữ", "Language Technology"),
-      place: t("ĐH Helsinki", "University of Helsinki"),
-      year: t("Đang học", "Current"),
-      flag: "🇫🇮",
-      color: "from-indigo-500 to-violet-500",
-    },
-    {
       icon: Code2,
       value: t("Kỹ sư", "Engineer"),
       label: t("Dữ Liệu & Trí Tuệ Nhân Tạo", "Data & AI"),
@@ -49,12 +40,21 @@ const LearningJourneyTimeline = () => {
       color: "from-violet-500 to-fuchsia-500",
     },
     {
+      icon: GraduationCap,
+      value: t("Thạc sĩ", "M.A."),
+      label: t("Công nghệ Ngôn ngữ", "Language Technology"),
+      place: t("ĐH Helsinki", "University of Helsinki"),
+      year: t("Đang học", "Current"),
+      flag: "🇫🇮",
+      color: "from-indigo-500 to-violet-500",
+    },
+    {
       icon: BookOpen,
       value: "15+",
       label: t("Năm kinh nghiệm giảng dạy", "Years Teaching Experience"),
       place: t("Việt Nam – Phần Lan", "Vietnam – Finland"),
       year: t("Từ 2011", "Since 2011"),
-      flag: "🌍",
+      flag: "🇻🇳🇫🇮",
       color: "from-amber-500 to-orange-500",
     },
   ];
