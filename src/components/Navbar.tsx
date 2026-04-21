@@ -298,9 +298,9 @@ const Navbar = () => {
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 />
-                {/* Brand name — plain span (no motion transform) for pixel-perfect crisp text */}
+                {/* Brand name — original gradient style, optimized for crisp rendering (no transform, no tracking) */}
                 <span
-                  className="font-display text-lg whitespace-nowrap text-teal-600 hover:text-teal-700 transition-colors duration-200"
+                  className="font-display text-lg whitespace-nowrap"
                   style={{
                     opacity: 1,
                     filter: "none",
@@ -308,12 +308,32 @@ const Navbar = () => {
                     WebkitFontSmoothing: "antialiased",
                     MozOsxFontSmoothing: "grayscale",
                     textRendering: "geometricPrecision",
-                    transform: "translateZ(0)",
-                    backfaceVisibility: "hidden",
                   }}
                 >
-                  <span style={{ fontWeight: 700 }}>HaiEdu</span>
-                  <span style={{ fontWeight: 800 }}>Tech</span>
+                  <span
+                    style={{
+                      fontWeight: 700,
+                      backgroundImage: "linear-gradient(90deg, #1E40AF 0%, #2563EB 100%)",
+                      WebkitBackgroundClip: "text",
+                      backgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      color: "transparent",
+                    }}
+                  >
+                    HaiEdu
+                  </span>
+                  <span
+                    style={{
+                      fontWeight: 800,
+                      backgroundImage: "linear-gradient(90deg, #047857 0%, #059669 100%)",
+                      WebkitBackgroundClip: "text",
+                      backgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      color: "transparent",
+                    }}
+                  >
+                    Tech
+                  </span>
                 </span>
               </Link>
 
