@@ -428,19 +428,25 @@ const Navbar = () => {
 
       {/* Row 2: Navigation — always sticky (desktop only) */}
       <nav
-        className={`w-full fixed z-50 bg-card/95 backdrop-blur-md border-b border-border transition-all duration-300 hidden lg:block ${
-          scrolled ? "top-0 shadow-sm" : "top-12"
+        className={`w-full fixed z-50 bg-card border-b border-border transition-all duration-300 hidden lg:block ${
+          scrolled ? "top-0 shadow-md" : "top-12"
         }`}
       >
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-center h-11 gap-0.5">
             {/* Show logo in nav row when scrolled */}
             {scrolled && (
-              <Link to="/" className="flex items-center gap-2 mr-4 pr-4 border-r border-border/50">
-                <img src={teacherWave} alt="HaiEduTech" className="w-7 h-7 rounded-full object-cover border border-primary/20" />
-                <span className="font-display text-sm whitespace-nowrap tracking-wider">
-                  <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent font-medium">HaiEdu</span>
-                  <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent font-bold">Tech</span>
+              <Link to="/" className="flex items-center gap-2 mr-4 pr-4 border-r border-border/50 shrink-0">
+                <img
+                  src={teacherWave}
+                  alt="HaiEduTech"
+                  className="w-8 h-8 rounded-full object-cover border-2 border-primary/40 shadow-sm"
+                  loading="eager"
+                  decoding="sync"
+                />
+                <span className="font-display text-base whitespace-nowrap tracking-wider">
+                  <span className="bg-gradient-to-r from-[#3B82F6] to-[#10B981] bg-clip-text text-transparent font-bold">HaiEdu</span>
+                  <span className="bg-gradient-to-r from-[#10B981] to-[#3B82F6] bg-clip-text text-transparent font-extrabold">Tech</span>
                 </span>
               </Link>
             )}
