@@ -1336,17 +1336,24 @@ export const DICTATION_EXPANSION_2: PteDictation[] = [
 ];
 
 // ===== Combined banks (existing + all expansions) for pages to consume =====
-export const READ_ALOUD_ALL: PteReadAloud[]            = [...READ_ALOUD_BANK, ...READ_ALOUD_EXPANSION, ...READ_ALOUD_EXPANSION_2];
-export const REPEAT_SENTENCE_ALL: PteRepeatSentence[]  = [...REPEAT_SENTENCE_BANK, ...REPEAT_SENTENCE_EXPANSION, ...REPEAT_SENTENCE_EXPANSION_2];
-export const ESSAY_ALL: PteEssayPrompt[]               = [...ESSAY_BANK, ...ESSAY_EXPANSION, ...ESSAY_EXPANSION_2];
-export const SUMMARIZE_TEXT_ALL: PteSummarizeText[]    = [...SUMMARIZE_TEXT_BANK, ...SUMMARIZE_TEXT_EXPANSION, ...SUMMARIZE_TEXT_EXPANSION_2];
-export const FILL_BLANK_ALL: PteFillBlank[]            = [...FILL_BLANK_BANK, ...FILL_BLANK_EXPANSION, ...FILL_BLANK_EXPANSION_2];
-export const REORDER_ALL: PteReorderItem[]             = [...REORDER_BANK, ...REORDER_EXPANSION];
-export const DICTATION_ALL: PteDictation[]             = [...DICTATION_BANK, ...DICTATION_EXPANSION, ...DICTATION_EXPANSION_2];
-export const SUMMARIZE_SPOKEN_ALL: PteSummarizeSpoken[]= [...SUMMARIZE_SPOKEN_BANK, ...SUMMARIZE_SPOKEN_EXPANSION];
-export const DESCRIBE_IMAGE_ALL: PteDescribeImage[]    = [...DESCRIBE_IMAGE_BANK, ...DESCRIBE_IMAGE_EXPANSION, ...DESCRIBE_IMAGE_EXPANSION_2];
-export const MCQ_ALL: PteMcq[]                         = [...MCQ_BANK, ...MCQ_EXPANSION];
-export const HIGHLIGHT_INCORRECT_ALL: PteHighlightIncorrect[] = [...HIGHLIGHT_INCORRECT_BANK, ...HIGHLIGHT_INCORRECT_EXPANSION];
+// V3 academic expansion (~20 items per task type across 4 themes)
+import {
+  READ_ALOUD_V3, REPEAT_SENTENCE_V3, DESCRIBE_IMAGE_V3,
+  ESSAY_V3, SUMMARIZE_TEXT_V3, SUMMARIZE_SPOKEN_V3, DICTATION_V3,
+  FILL_BLANK_V3, REORDER_V3, MCQ_V3, HIGHLIGHT_INCORRECT_V3,
+} from "./pteExpansionV3";
+
+export const READ_ALOUD_ALL: PteReadAloud[]            = [...READ_ALOUD_BANK, ...READ_ALOUD_EXPANSION, ...READ_ALOUD_EXPANSION_2, ...READ_ALOUD_V3];
+export const REPEAT_SENTENCE_ALL: PteRepeatSentence[]  = [...REPEAT_SENTENCE_BANK, ...REPEAT_SENTENCE_EXPANSION, ...REPEAT_SENTENCE_EXPANSION_2, ...REPEAT_SENTENCE_V3];
+export const ESSAY_ALL: PteEssayPrompt[]               = [...ESSAY_BANK, ...ESSAY_EXPANSION, ...ESSAY_EXPANSION_2, ...ESSAY_V3];
+export const SUMMARIZE_TEXT_ALL: PteSummarizeText[]    = [...SUMMARIZE_TEXT_BANK, ...SUMMARIZE_TEXT_EXPANSION, ...SUMMARIZE_TEXT_EXPANSION_2, ...SUMMARIZE_TEXT_V3];
+export const FILL_BLANK_ALL: PteFillBlank[]            = [...FILL_BLANK_BANK, ...FILL_BLANK_EXPANSION, ...FILL_BLANK_EXPANSION_2, ...FILL_BLANK_V3];
+export const REORDER_ALL: PteReorderItem[]             = [...REORDER_BANK, ...REORDER_EXPANSION, ...REORDER_V3];
+export const DICTATION_ALL: PteDictation[]             = [...DICTATION_BANK, ...DICTATION_EXPANSION, ...DICTATION_EXPANSION_2, ...DICTATION_V3];
+export const SUMMARIZE_SPOKEN_ALL: PteSummarizeSpoken[]= [...SUMMARIZE_SPOKEN_BANK, ...SUMMARIZE_SPOKEN_EXPANSION, ...SUMMARIZE_SPOKEN_V3];
+export const DESCRIBE_IMAGE_ALL: PteDescribeImage[]    = [...DESCRIBE_IMAGE_BANK, ...DESCRIBE_IMAGE_EXPANSION, ...DESCRIBE_IMAGE_EXPANSION_2, ...DESCRIBE_IMAGE_V3];
+export const MCQ_ALL: PteMcq[]                         = [...MCQ_BANK, ...MCQ_EXPANSION, ...MCQ_V3];
+export const HIGHLIGHT_INCORRECT_ALL: PteHighlightIncorrect[] = [...HIGHLIGHT_INCORRECT_BANK, ...HIGHLIGHT_INCORRECT_EXPANSION, ...HIGHLIGHT_INCORRECT_V3];
 
 // Total count of practice items across all task types (used by the PTE Peak progress bar)
 export const PTE_TOTAL_TASKS =
