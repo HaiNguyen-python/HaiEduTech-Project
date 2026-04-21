@@ -108,7 +108,7 @@ const Flashcard = ({ word }: { word: ToeicWord }) => {
         </div>
         {/* Back */}
         <div
-          className="absolute inset-0 rounded-xl border border-slate-600/50 bg-[#1E293B]/80 p-5 flex flex-col justify-center gap-2 overflow-y-auto"
+          className="absolute inset-0 rounded-xl border border-slate-600/50 bg-[#1E293B]/80 px-5 py-6 flex flex-col justify-start gap-2 overflow-y-auto"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           <p className="text-base font-semibold text-white">{word.definition.en}</p>
