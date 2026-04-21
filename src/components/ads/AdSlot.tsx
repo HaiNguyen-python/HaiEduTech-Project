@@ -30,10 +30,6 @@ const AdSlot = ({
   const insRef = useRef<HTMLModElement | null>(null);
   const pushed = useRef(false);
 
-  if (!slot) {
-    return null;
-  }
-
   useEffect(() => {
     if (!slot || pushed.current) return;
     if (typeof window === "undefined") return;
