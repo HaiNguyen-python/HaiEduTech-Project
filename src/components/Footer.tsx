@@ -77,8 +77,11 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-semibold text-sm text-foreground mb-4">{t("Liên hệ", "Contact")}</h4>
             <div className="space-y-2.5">
-              <a href="tel:0962823800" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                <Phone className="w-4 h-4" /> 0962.823.800
+              <a href="tel:+84962823800" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Phone className="w-4 h-4" /> 🇻🇳 +84 962 823 800
+              </a>
+              <a href="tel:+358408175366" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Phone className="w-4 h-4" /> 🇫🇮 +358 40 817 5366
               </a>
               <a href="mailto:contact@haiedutech.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <Mail className="w-4 h-4" /> contact@haiedutech.com
