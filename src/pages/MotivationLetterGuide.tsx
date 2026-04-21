@@ -43,6 +43,18 @@ const MotivationLetterGuide = () => {
   });
   const [loading, setLoading] = useState(false);
   const [letter, setLetter] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [sampleOpen, setSampleOpen] = useState<SampleLetter | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUserId(data.user?.id ?? null);
+      setAuthChecked(true);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setUserId(s?.user?.id ?? null));
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   const PARAGRAPHS = [
     {
