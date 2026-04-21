@@ -75,6 +75,9 @@ export default function SongLibrary({ language }: Props) {
 
   useEffect(() => {
     let mounted = true;
+    // Reset selected song when language changes so users don't stay on a previous-language song
+    setSelected(null);
+    setSongs([]);
     (async () => {
       setLoading(true);
       const { data, error } = await supabase
