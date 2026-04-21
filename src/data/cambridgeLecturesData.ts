@@ -76,6 +76,8 @@ export interface CambridgeLecture {
   parentInfo: string;
   parentInfoVi: string;
   isNew?: boolean;
+  /** Optional key to load a level-themed kid-friendly illustration in the lecture view. */
+  illustrationKey?: "starters" | "movers" | "flyers" | "ket" | "pet";
 }
 
 // === LEVEL COLORS (Vibrant Glow Palette) ===
@@ -905,6 +907,7 @@ import { cambridgeLecturesExpansion } from "./cambridgeLecturesExpansion";
 import { cambridgeLecturesExpansion2 } from "./cambridgeLecturesExpansion2";
 import { cambridgeLecturesExpansion3 } from "./cambridgeLecturesExpansion3";
 import { cambridgeLecturesExpansion4 } from "./cambridgeLecturesExpansion4";
+import { cambridgeLecturesExpansion5 } from "./cambridgeLecturesExpansion5";
 
 // === Export all lectures ===
 export const allCambridgeLectures: CambridgeLecture[] = [
@@ -927,4 +930,5 @@ export const allCambridgeLectures: CambridgeLecture[] = [
   ...cambridgeLecturesExpansion2,
   ...cambridgeLecturesExpansion3,
   ...cambridgeLecturesExpansion4,
+  ...cambridgeLecturesExpansion5,
 ];
