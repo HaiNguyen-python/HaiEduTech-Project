@@ -264,28 +264,9 @@ function SongDetail({
         </div>
       </div>
 
-      {/* YouTube embed — uses privacy-enhanced nocookie domain to avoid content-blocked errors */}
+      {/* YouTube embed with thumbnail fallback — some official artist videos block embedding */}
       {song.youtube_id && (
-        <div className="space-y-2">
-          <div className="aspect-video rounded-2xl overflow-hidden border-2 shadow-2xl bg-black">
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${song.youtube_id}?rel=0&modestbranding=1`}
-              title={song.title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
-              className="w-full h-full"
-            />
-          </div>
-          <a
-            href={`https://www.youtube.com/watch?v=${song.youtube_id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors"
-          >
-            {t("Mở trên YouTube nếu video không hiện", "Open on YouTube if the video does not load")} ↗
-          </a>
-        </div>
+        <YouTubePlayer videoId={song.youtube_id} title={song.title} />
       )}
 
       <Tabs defaultValue="lyrics" className="w-full">
