@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
 
 import classroom1 from "@/assets/classroom-1.jpg";
 import classroom2 from "@/assets/classroom-2.jpg";
@@ -75,17 +76,24 @@ const MarqueeRow = ({
           return (
             <div
               key={`${img.caption}-${i}`}
-              className="relative flex-shrink-0 w-64 h-44 md:w-72 md:h-48 rounded-xl overflow-hidden cursor-pointer group"
+              className="group relative flex-shrink-0 w-64 h-44 md:w-72 md:h-48 rounded-xl cursor-pointer p-[2px] bg-gradient-to-br from-primary/40 via-emerald-400/30 to-amber-300/40 hover:from-primary hover:via-emerald-400 hover:to-amber-300 transition-all duration-500 hover:shadow-[0_0_24px_rgba(59,130,246,0.45)]"
               onClick={() => onClickImage(globalIdx)}
             >
-              <img
-                src={img.src}
-                alt={img.caption}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                <span className="text-white text-xs font-medium">{img.caption}</span>
+              <div className="relative w-full h-full rounded-[10px] overflow-hidden bg-background">
+                <img
+                  src={img.src}
+                  alt={img.caption}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                {/* Shimmer sweep */}
+                <div className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12" />
+                {/* Caption overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                  <span className="text-white text-xs font-medium drop-shadow">{img.caption}</span>
+                </div>
+                {/* Sparkle accent */}
+                <Sparkles className="absolute top-2 right-2 w-4 h-4 text-amber-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse drop-shadow-[0_0_6px_rgba(252,211,77,0.8)]" />
               </div>
             </div>
           );
@@ -100,9 +108,20 @@ const ClassroomGallery = () => {
 
   return (
     <>
-      <div className="space-y-3">
-        <MarqueeRow images={row1} direction="left" duration={45} onClickImage={setSelected} />
-        <MarqueeRow images={row2} direction="right" duration={50} onClickImage={setSelected} />
+      <div className="relative">
+        {/* Glow auras for shimmer ambiance */}
+        <div className="pointer-events-none absolute -top-8 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+        <div className="pointer-events-none absolute -bottom-8 right-1/4 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1.5s" }} />
+        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 bg-amber-300/10 rounded-full blur-3xl" />
+
+        {/* Side fade masks */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 bg-gradient-to-r from-background to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 bg-gradient-to-l from-background to-transparent z-10" />
+
+        <div className="relative space-y-3">
+          <MarqueeRow images={row1} direction="left" duration={45} onClickImage={setSelected} />
+          <MarqueeRow images={row2} direction="right" duration={50} onClickImage={setSelected} />
+        </div>
       </div>
 
       {/* Lightbox */}
