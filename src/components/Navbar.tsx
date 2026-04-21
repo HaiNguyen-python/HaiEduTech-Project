@@ -298,8 +298,8 @@ const Navbar = () => {
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 />
-                {/* Brand name — Space Grotesk + emerald with shimmer sweep & sparkle */}
-                <span className="relative inline-flex items-center">
+                {/* Brand name — handwritten script with shimmer + Education & Technology icons */}
+                <span className="relative inline-flex items-center gap-1.5">
                   <span
                     className="brand-shimmer whitespace-nowrap"
                     style={{
@@ -315,9 +315,22 @@ const Navbar = () => {
                     HaiEduTech
                   </span>
                   <Sparkles
-                    className="brand-sparkle absolute -top-1 -right-3 w-3 h-3 text-amber-400"
+                    className="brand-sparkle absolute -top-1 right-12 w-3 h-3 text-amber-400"
                     style={{ filter: "drop-shadow(0 0 4px rgba(251,191,36,0.7))" }}
                   />
+                  {/* Education + Technology icons */}
+                  <span className="flex items-center gap-1 ml-0.5">
+                    <GraduationCap
+                      className="w-4 h-4 text-emerald-600 transition-transform hover:scale-110"
+                      style={{ filter: "drop-shadow(0 1px 2px rgba(16,185,129,0.35))" }}
+                      aria-label="Education"
+                    />
+                    <Cpu
+                      className="w-4 h-4 text-blue-600 transition-transform hover:scale-110"
+                      style={{ filter: "drop-shadow(0 1px 2px rgba(37,99,235,0.35))" }}
+                      aria-label="Technology"
+                    />
+                  </span>
                 </span>
               </Link>
 
