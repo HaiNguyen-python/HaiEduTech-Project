@@ -388,7 +388,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
   },
   // ===== REPORTED SPEECH EXTRA =====
   {
-    moduleId: "grammar-reported",
+    moduleId: "grammar-reported-speech",
     id: "reported-questions",
     title: "Câu hỏi tường thuật",
     titleEn: "Reported Questions",
@@ -476,7 +476,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
   },
   // ===== RELATIVE CLAUSES EXTRA =====
   {
-    moduleId: "grammar-relative",
+    moduleId: "grammar-relative-clauses",
     id: "relative-prepositions",
     title: "Mệnh đề quan hệ với giới từ",
     titleEn: "Relative Clauses with Prepositions",
@@ -563,7 +563,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
   },
   // ===== ARTICLES EXTRA =====
   {
-    moduleId: "grammar-articles",
+    moduleId: "grammar-articles-prepositions",
     id: "articles-zero",
     title: "Zero Article & Special Cases",
     titleEn: "Zero Article & Special Cases",
@@ -652,7 +652,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
   },
   // ===== ARTICLES/PREPOSITIONS EXTRA =====
   {
-    moduleId: "grammar-articles",
+    moduleId: "grammar-articles-prepositions",
     id: "articles-phrasal-verbs",
     title: "Phrasal Verbs & Dependent Prepositions",
     titleEn: "Phrasal Verbs & Dependent Prepositions",
