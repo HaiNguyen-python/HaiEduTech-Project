@@ -37,7 +37,9 @@ export const interviewCategories: Record<InterviewRole, string[]> = {
   ],
 };
 
-export const interviewQuestions: InterviewQuestion[] = [
+import { interviewQuestionsExpansion } from "./interviewQuestionsExpansion";
+
+const baseInterviewQuestions: InterviewQuestion[] = [
   // ============================================================
   // AI ENGINEER — LLMs & Prompt Engineering
   // ============================================================
