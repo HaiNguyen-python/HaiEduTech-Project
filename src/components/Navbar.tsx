@@ -497,8 +497,15 @@ const Navbar = () => {
                                         animate={{ opacity: 1, x: 0, scale: 1 }}
                                         exit={{ opacity: 0, x: -6, scale: 0.97 }}
                                         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                                        className="absolute left-full top-0 ml-1 w-56 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
+                                        // Horizontal hover bridge (pl-2 + ::before) so the cursor can
+                                        // travel from the parent row into the flyout without escaping.
+                                        onMouseEnter={() => {
+                                          if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
+                                          if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                                        }}
+                                        className="absolute left-full top-0 pl-2 w-56 z-50 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
                                       >
+                                        <div className="bg-card rounded-xl shadow-xl border border-border py-2">
                                         {/* Group header */}
                                         <div className="px-4 py-1.5 mb-1">
                                           <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
