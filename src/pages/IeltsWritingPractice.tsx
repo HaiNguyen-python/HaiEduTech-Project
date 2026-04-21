@@ -528,10 +528,19 @@ const IeltsWritingPractice = () => {
                     )}
                     className="min-h-[350px] text-sm leading-relaxed resize-y"
                   />
-                  <div className="flex gap-2 mt-3">
-                    <Button onClick={handleSubmit} disabled={grading || wordCount < 50} className="flex-1">
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <Button onClick={handleSubmit} disabled={grading || wordCount < 50} className="flex-1 min-w-[160px]">
                       {grading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Send className="w-4 h-4 mr-1" />}
                       {grading ? t("Đang chấm...", "Grading...") : t("Nộp bài & Chấm điểm", "Submit & Grade")}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={handleSaveDraft}
+                      disabled={savingDraft || !essay.trim()}
+                      title={t("Lưu lại để viết tiếp sau", "Save and resume later")}
+                    >
+                      {savingDraft ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
+                      {currentDraftId ? t("Cập nhật nháp", "Update Draft") : t("Lưu nháp", "Save Draft")}
                     </Button>
                     {result && (
                       <Button variant="outline" onClick={handleDownloadPDF}>
@@ -539,6 +548,11 @@ const IeltsWritingPractice = () => {
                       </Button>
                     )}
                   </div>
+                  {currentDraftId && (
+                    <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                      <FolderOpen className="w-3 h-3" /> {t("Đang chỉnh sửa bản nháp đã lưu", "Editing a saved draft")}
+                    </p>
+                  )}
                   {wordCount > 0 && wordCount < 50 && (
                     <p className="text-xs text-destructive mt-2 flex items-center gap-1">
                       <AlertCircle className="w-3 h-3" /> {t("Cần ít nhất 50 từ để chấm điểm", "Need at least 50 words to grade")}
