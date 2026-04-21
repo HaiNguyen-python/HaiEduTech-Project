@@ -35,6 +35,7 @@ import SystemStatusTab from "@/components/SystemStatusTab";
 import IncomeManagement from "@/components/IncomeManagement";
 import ClassScheduleManager from "@/components/admin/ClassScheduleManager";
 import BusinessStrategyTab from "@/components/admin/BusinessStrategyTab";
+import UserInsightsTab from "@/components/admin/UserInsightsTab";
 
 // Priority colors
 const PRIORITY_COLORS = {
@@ -389,6 +390,9 @@ const AdminDashboard = () => {
               <TabsList className="bg-secondary/50 flex-wrap h-auto gap-1 p-1">
                 <TabsTrigger value="overview" className="gap-1.5">
                   <Globe className="w-3.5 h-3.5" /> {t("Tổng quan", "Overview")}
+                </TabsTrigger>
+                <TabsTrigger value="insights" className="gap-1.5">
+                  <Search className="w-3.5 h-3.5" /> {t("Quan tâm người dùng", "User Insights")}
                 </TabsTrigger>
                 <TabsTrigger value="students" className="gap-1.5">
                   <Users className="w-3.5 h-3.5" /> {t("Học sinh", "Students")}
