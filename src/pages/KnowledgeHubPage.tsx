@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
-  GraduationCap, Globe, Search, Calendar, ExternalLink, ChevronDown, ChevronUp, UserCog, Sparkles, Star, X,
+  GraduationCap, Globe, Search, UserCog, Sparkles, Star, X,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
@@ -11,15 +11,14 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { scholarships, COUNTRIES, type Scholarship } from "@/data/globalScholarshipData";
+import { scholarships, COUNTRIES } from "@/data/globalScholarshipData";
 import ConsultationBox, { type AdvisorInput } from "@/components/scholarship/ConsultationBox";
 import AdvisorLoading from "@/components/scholarship/AdvisorLoading";
 import RoadmapResults, { type AdvisorResponse } from "@/components/scholarship/RoadmapResults";
 import ProfileEditorDialog from "@/components/scholarship/ProfileEditorDialog";
 import CompareSchoolsDashboard from "@/components/scholarship/CompareSchoolsDashboard";
-import MatchScoreRing from "@/components/scholarship/MatchScoreRing";
+import ScholarshipCard from "@/components/scholarship/ScholarshipCard";
 import { useStudentProfile } from "@/hooks/useStudentProfile";
-import { computeMatchScore } from "@/lib/scholarshipMatcher";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import AdSlot from "@/components/ads/AdSlot";
