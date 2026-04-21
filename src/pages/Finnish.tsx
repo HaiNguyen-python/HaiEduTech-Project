@@ -122,6 +122,11 @@ const Finnish = () => {
           </div>
         </section>
 
+        {/* 🎵 Songs Library — featured at top for visibility */}
+        <section className="container mx-auto px-4 sm:px-6 pt-10">
+          <SongsBanner language="finnish" delay={0.1} />
+        </section>
+
         {/* 4 Program Cards */}
         <section className="container mx-auto px-4 sm:px-6 py-12 md:py-16">
           <div className="grid md:grid-cols-2 gap-6">
