@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import WritingHistory from "@/components/WritingHistory";
 import WritingDraftsPanel, { type WritingDraft } from "@/components/WritingDraftsPanel";
 import { motion } from "framer-motion";
@@ -323,6 +324,7 @@ const IeltsWritingPractice = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO title="Luyện IELTS Writing Task 1 & 2 với AI Chấm Bài | HaiEduTech" description="Luyện Writing Task 1 & 2 với AI chấm điểm theo 4 tiêu chí IELTS chuẩn. Outline Builder, ngân hàng đề, biểu đồ Recharts, lưu draft tự động." path="/ielts-writing-practice" />
       <Navbar />
       <main className="flex-1 pt-24 pb-12 px-4 max-w-7xl mx-auto w-full">
         {/* Header */}

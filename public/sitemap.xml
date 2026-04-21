@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core / Landing -->
+  <url><loc>https://haiedutech.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://haiedutech.com/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://haiedutech.com/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://haiedutech.com/for-vietnamese-children</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+
+  <!-- English Program -->
+  <url><loc>https://haiedutech.com/english</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://haiedutech.com/english/grammar</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/english/conversational/curriculum</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/english/ielts</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://haiedutech.com/english/toeic</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/english/sat</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/english/cambridge</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- IELTS Suite -->
+  <url><loc>https://haiedutech.com/ielts-lectures</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/ielts-vocabulary</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/ielts-writing-practice</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/ielts-speaking-practice</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/ielts-sample-essays</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/ai-grading</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- TOEIC / Cambridge -->
+  <url><loc>https://haiedutech.com/toeic-lectures</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/toeic-vocabulary</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/cambridge-lectures</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- PTE -->
+  <url><loc>https://haiedutech.com/pte</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/pte/speaking</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/pte/writing</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/pte/reading</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/pte/listening</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/pte/vocabulary</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- Chinese Program -->
+  <url><loc>https://haiedutech.com/chinese</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://haiedutech.com/chinese/conversational/curriculum</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/chinese/hsk/vocabulary</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/chinese/hsk-guide</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/chinese/hsk-guide/hsk1</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://haiedutech.com/chinese/hsk-guide/hsk2</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://haiedutech.com/chinese/hsk-guide/hsk3</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://haiedutech.com/chinese/hsk-guide/hsk4</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://haiedutech.com/chinese/hsk-guide/hsk5</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://haiedutech.com/chinese/hsk-guide/hsk6</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+
+  <!-- Finnish Program -->
+  <url><loc>https://haiedutech.com/finnish</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/finnish/beginner</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/finnish/yki-dashboard</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/finnish/yki-b1</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/finnish/life-in-finland</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Vietnamese Program -->
+  <url><loc>https://haiedutech.com/learn-vietnamese</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/learn-vietnamese/alphabet</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/learn-vietnamese/dictation</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/learn-vietnamese/poetry</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/learn-vietnamese/folklore</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/learn-vietnamese/national-anthem</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://haiedutech.com/learn-vietnamese/holidays</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://haiedutech.com/learn-vietnamese/for-foreigners</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- Programming -->
+  <url><loc>https://haiedutech.com/programming</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://haiedutech.com/python-challenges</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/programming/interview-questions</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://haiedutech.com/programming/software-eng-interview</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://haiedutech.com/programming/job-opportunities</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+
+  <!-- Study Abroad -->
+  <url><loc>https://haiedutech.com/study-abroad</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://haiedutech.com/study-abroad/motivation-letter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/study-abroad/sat</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/study-abroad/phd</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/study-abroad/mentor-hub</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://haiedutech.com/global-scholarship</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+  <!-- National Exam -->
+  <url><loc>https://haiedutech.com/national-exam</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+
+  <!-- Tools / Library -->
+  <url><loc>https://haiedutech.com/ai-library</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://haiedutech.com/vocab-arena</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- Speaking Coach -->
+  <url><loc>https://haiedutech.com/speaking-coach/english</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://haiedutech.com/speaking-coach/chinese</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/speaking-coach/finnish</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://haiedutech.com/speaking-coach/vietnamese</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+</urlset>

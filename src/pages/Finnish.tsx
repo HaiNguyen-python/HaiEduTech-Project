@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ChevronRight, Sprout, Snowflake, Target, Mic, type LucideIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -87,8 +88,23 @@ const Finnish = () => {
     },
   ];
 
+  const COURSE_LD = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Tiếng Phần Lan YKI",
+    "description": "Khóa học tiếng Phần Lan từ Beginner đến YKI B1: 550+ từ vựng, luyện thi YKI, văn hóa Phần Lan, hội thoại đời sống. Lộ trình bởi giáo viên đã sống tại Phần Lan.",
+    "provider": {
+      "@type": "EducationalOrganization",
+      "name": "HaiEduTech",
+      "url": "https://haiedutech.com"
+    },
+    "inLanguage": "vi",
+    "url": "https://haiedutech.com/finnish"
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Học Tiếng Phần Lan Online: YKI A2, B1, Beginner | HaiEduTech" description="Khóa học tiếng Phần Lan từ Beginner đến YKI B1: 550+ từ vựng, luyện thi YKI, văn hóa Phần Lan, hội thoại đời sống. Lộ trình bởi giáo viên đã sống tại Phần Lan." path="/finnish" jsonLd={COURSE_LD} />
       <Navbar />
       <main className="pt-24 lg:pt-28">
         {/* Hero */}

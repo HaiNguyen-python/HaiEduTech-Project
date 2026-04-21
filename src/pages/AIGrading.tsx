@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Brain, FileText, Mic, Send, Loader2, AlertCircle, BookOpen, ChevronDown, ChevronUp, Download, Copy, Check } from "lucide-react";
@@ -166,6 +167,7 @@ ${result.errors.map(e => `
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="AI Chấm IELTS Writing & Speaking Theo 4 Tiêu Chí | HaiEduTech" description="Smart IELTS Grading: AI chấm Writing & Speaking theo 4 tiêu chí chuẩn (TR/CC, LR, GRA, ...). Điểm số dạng decimal (6.5, 7.0), feedback chi tiết, xuất PDF." path="/ai-grading" />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">

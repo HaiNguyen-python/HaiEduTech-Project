@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Database, Workflow, BrainCircuit, ChevronRight, Trophy, BookOpen, ArrowRight, Sparkles, Bot, Briefcase, Cloud, Brain, Gamepad2, Settings2, Languages } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -216,8 +217,23 @@ const Programming = () => {
   const active = pillarData[activePillar];
   const activePillarMeta = pillars.find(p => p.id === activePillar)!;
 
+  const COURSE_LD = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Lập trình Python và AI",
+    "description": "Lộ trình lập trình toàn diện: Python từ cơ bản (47 bài), SQL, Machine Learning, Data Engineering, Software Engineering. Code trực tiếp trên trình duyệt với Pyodide.",
+    "provider": {
+      "@type": "EducationalOrganization",
+      "name": "HaiEduTech",
+      "url": "https://haiedutech.com"
+    },
+    "inLanguage": "vi",
+    "url": "https://haiedutech.com/programming"
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Học Lập Trình Python, SQL, ML, AI Tiếng Việt | HaiEduTech" description="Lộ trình lập trình toàn diện: Python từ cơ bản (47 bài), SQL, Machine Learning, Data Engineering, Software Engineering. Code trực tiếp trên trình duyệt với Pyodide." path="/programming" jsonLd={COURSE_LD} />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 sm:px-6">

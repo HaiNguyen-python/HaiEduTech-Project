@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -28,6 +29,7 @@ const HskHub = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Hướng Dẫn HSK 1-6: Cấu Trúc, Mẹo Thi, HSKK | HaiEduTech" description="Hướng dẫn chi tiết kỳ thi HSK 1 đến HSK 6: cấu trúc đề, mẹo thi, từ vựng cao tần, luyện đọc có thời gian, HSKK Speaking. Cập nhật HSK 3.0." path="/chinese/hsk-guide" />
       <Navbar />
       <main className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero */}

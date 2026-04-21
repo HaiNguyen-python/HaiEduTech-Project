@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useIeltsLectureProgress } from "@/hooks/useIeltsLectureProgress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -174,6 +175,7 @@ const IeltsLectures = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO title="Bài Giảng IELTS Skills: Listening, Reading, Writing, Speaking | HaiEduTech" description="95+ bài giảng IELTS chuyên sâu theo 4 trụ cột: Skill-Based, Tips & Hacks, Thematic Vocab, Test Prep. Mẹo vàng của Thầy Hải, Band 5.0 đến 7.0+." path="/ielts-lectures" />
       <Navbar />
       <main className="flex-1">
         {/* Hero Section */}
