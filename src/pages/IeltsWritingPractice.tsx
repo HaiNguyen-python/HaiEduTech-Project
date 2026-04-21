@@ -1,11 +1,12 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WritingHistory from "@/components/WritingHistory";
+import WritingDraftsPanel, { type WritingDraft } from "@/components/WritingDraftsPanel";
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import {
   BookOpen, Send, Loader2, ChevronDown, ChevronUp,
-  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle
+  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle, Save
 } from "lucide-react";
 
 import WritingGuidePanel from "@/components/WritingGuidePanel";
@@ -18,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
 import { WritingPrompt, getRandomPrompt } from "@/data/ieltsWritingPrompts";
 import Task1Chart from "@/components/Task1Chart";
