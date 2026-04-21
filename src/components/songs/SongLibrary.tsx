@@ -573,11 +573,12 @@ function BlanksQuiz({ song }: { song: Song }) {
 
 // ===== YouTubePlayer: Inline iframe with click-to-load + fallback =====
 // Strategy: Show thumbnail first (saves bandwidth + avoids blocked-iframe grey box).
-// On user click, swap to youtube-nocookie embed. If iframe fails to fire onLoad
-// within 4s (sign of embed restriction), reveal a "Open on YouTube" fallback.
+// On user click, swap to youtube.com embed (more reliable than nocookie for some videos).
+// If iframe fails to fire onLoad within 3.5s, reveal a "Open on YouTube" fallback.
 function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
   const { t } = useLanguage();
   const [playing, setPlaying] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
   const [iframeFailed, setIframeFailed] = useState(false);
   const [thumbError, setThumbError] = useState(false);
 
@@ -585,13 +586,18 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
     ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
     : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
-  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+  // Use standard youtube.com (not nocookie) - more reliable across regions
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(typeof window !== "undefined" ? window.location.origin : "")}`;
 
-  // If user clicks Play but iframe never loads (e.g. embed blocked), show fallback
+  // Reset & start fallback timer whenever a new video begins playing
   useEffect(() => {
     if (!playing) return;
+    setIframeLoaded(false);
     setIframeFailed(false);
-    const timer = setTimeout(() => setIframeFailed(true), 4500);
+    const timer = setTimeout(() => {
+      // Only mark failed if iframe never reported a load event
+      setIframeFailed((prev) => (prev ? prev : true));
+    }, 3500);
     return () => clearTimeout(timer);
   }, [playing, videoId]);
 
@@ -635,15 +641,23 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
-              onLoad={() => setIframeFailed(false)}
+              onLoad={() => {
+                setIframeLoaded(true);
+                setIframeFailed(false);
+              }}
               className="w-full h-full"
             />
-            {iframeFailed && (
-              <div className="absolute inset-0 bg-black/85 backdrop-blur-sm flex flex-col items-center justify-center gap-2 p-3 text-center">
+            {!iframeLoaded && !iframeFailed && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/40">
+                <Music className="w-8 h-8 text-white/80 animate-pulse" />
+              </div>
+            )}
+            {iframeFailed && !iframeLoaded && (
+              <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center gap-2 p-3 text-center">
                 <p className="text-white text-xs font-semibold">
                   {t(
-                    "Video bị chặn nhúng. Mở trên YouTube ↗",
-                    "Embed blocked. Open on YouTube ↗",
+                    "Video bị chặn nhúng trên web.",
+                    "This video can't be embedded.",
                   )}
                 </p>
                 <a
@@ -653,7 +667,7 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600 text-white text-xs font-semibold hover:bg-red-700 transition-colors shadow-lg"
                 >
                   <ExternalLink className="w-3 h-3" />
-                  {t("Mở YouTube", "Open YouTube")}
+                  {t("Mở trên YouTube", "Open on YouTube")}
                 </a>
               </div>
             )}
