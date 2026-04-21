@@ -12,7 +12,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -133,6 +133,7 @@ const Navbar = () => {
     // Vietnamese national exam
     { to: "#national-exam-group", label: t("🏫 Luyện thi THPT", "🏫 National Exam Prep"), groupLabel: "national-exam", children: nationalExamChildren },
     { to: "#en-div2", label: "", divider: true },
+    { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const chineseSubs: SubItem[] = [
@@ -147,6 +148,8 @@ const Navbar = () => {
       { to: "/chinese/conversational", label: t("💬 Giao tiếp", "💬 Conversational") },
       { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
     ] },
+    { to: "#cn-div2", label: "", divider: true },
+    { to: "/songs/chinese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/chinese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const vietnameseSubs: SubItem[] = [
@@ -162,6 +165,7 @@ const Navbar = () => {
     ] },
     { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Vietnamese for Foreigners", "🌏 Vietnamese for Foreigners") },
     { to: "#vn-div2", label: "", divider: true },
+    { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/vietnamese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const finnishSubs: SubItem[] = [
@@ -172,6 +176,7 @@ const Navbar = () => {
     { to: "/finnish/yki-b1", label: t("🎯 YKI B1 Dashboard", "🎯 YKI B1 Dashboard") },
     { to: "/finnish/life-in-finland", label: t("🇫🇮 Cuộc sống ở Phần Lan", "🇫🇮 Life in Finland") },
     { to: "#fi-div2", label: "", divider: true },
+    { to: "/songs/finnish", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/finnish", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
   ];
   const programmingSubs: SubItem[] = [
