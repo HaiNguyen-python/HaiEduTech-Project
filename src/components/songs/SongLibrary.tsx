@@ -525,46 +525,94 @@ function LyricsHero({
 }
 
 // Pick a contextual emoji for a lyric line based on keywords across 4 languages.
-// Returns null when no keyword matches → keeps layout clean.
+// Always returns an emoji — keyword match first, hash-based fallback otherwise.
 const LINE_EMOJI_KEYWORDS: { emoji: string; words: string[] }[] = [
-  { emoji: "❤️", words: ["love", "heart", "yêu", "tim", "lòng", "爱", "心", "rakkaus", "sydän", "rakastan"] },
-  { emoji: "👩", words: ["mother", "mom", "mẹ", "má", "妈", "母", "äiti"] },
-  { emoji: "👨", words: ["father", "dad", "cha", "bố", "ba", "爸", "父", "isä"] },
+  { emoji: "❤️", words: ["love", "heart", "yêu", "thương", "tim", "lòng", "爱", "心", "rakkaus", "sydän", "rakastan", "rakas"] },
+  { emoji: "💕", words: ["miss", "longing", "nhớ", "想", "kaipaan", "ikävä"] },
+  { emoji: "👩", words: ["mother", "mom", "mama", "mẹ", "má", "妈", "母", "äiti"] },
+  { emoji: "👨", words: ["father", "dad", "papa", "cha", "bố", "ba", "爸", "父", "isä"] },
   { emoji: "👵", words: ["grandma", "grandmother", "bà", "奶奶", "外婆", "mummo", "isoäiti"] },
-  { emoji: "👶", words: ["baby", "child", "cháu", "bé", "孩", "lapsi"] },
+  { emoji: "👴", words: ["grandpa", "grandfather", "ông", "爷爷", "外公", "vaari", "isoisä"] },
+  { emoji: "👶", words: ["baby", "child", "kid", "cháu", "bé", "con", "trẻ", "孩", "童", "lapsi", "vauva"] },
+  { emoji: "🧑", words: ["i", "me", "you", "we", "tôi", "tớ", "mình", "bạn", "chúng ta", "我", "你", "minä", "sinä", "me"] },
   { emoji: "🏡", words: ["home", "house", "nhà", "quê", "家", "koti"] },
-  { emoji: "🌍", words: ["country", "nation", "world", "đất nước", "quê hương", "国", "maa"] },
-  { emoji: "☀️", words: ["sun", "sunshine", "mặt trời", "nắng", "太阳", "阳光", "aurinko"] },
-  { emoji: "🌙", words: ["moon", "night", "trăng", "đêm", "月", "kuu", "yö"] },
+  { emoji: "🌍", words: ["country", "nation", "world", "land", "đất nước", "quê hương", "国", "世界", "maa", "maailma"] },
+  { emoji: "🇻🇳", words: ["vietnam", "việt nam", "việt"] },
+  { emoji: "🇨🇳", words: ["china", "中国", "中华"] },
+  { emoji: "🇫🇮", words: ["finland", "suomi"] },
+  { emoji: "☀️", words: ["sun", "sunshine", "mặt trời", "nắng", "太阳", "阳光", "aurinko", "päivä"] },
+  { emoji: "🌙", words: ["moon", "night", "evening", "trăng", "đêm", "tối", "月", "夜", "kuu", "yö", "ilta"] },
   { emoji: "⭐", words: ["star", "sao", "星", "tähti"] },
-  { emoji: "🌧️", words: ["rain", "mưa", "雨", "sade"] },
-  { emoji: "❄️", words: ["snow", "winter", "tuyết", "雪", "lumi", "talvi"] },
+  { emoji: "☁️", words: ["cloud", "sky", "mây", "trời", "云", "天", "pilvi", "taivas"] },
+  { emoji: "🌧️", words: ["rain", "mưa", "雨", "sade", "sataa"] },
+  { emoji: "❄️", words: ["snow", "winter", "tuyết", "đông", "雪", "冬", "lumi", "talvi"] },
   { emoji: "🌸", words: ["flower", "blossom", "hoa", "花", "kukka"] },
-  { emoji: "🌳", words: ["tree", "forest", "cây", "rừng", "树", "森", "puu", "metsä"] },
+  { emoji: "🌳", words: ["tree", "forest", "leaf", "cây", "lá", "rừng", "树", "叶", "森", "puu", "metsä", "lehti"] },
   { emoji: "🐦", words: ["bird", "chim", "鸟", "lintu"] },
   { emoji: "🦆", words: ["duck", "vịt", "鸭"] },
-  { emoji: "🌊", words: ["sea", "ocean", "river", "biển", "sông", "海", "河", "meri", "joki"] },
-  { emoji: "🚗", words: ["go", "road", "đường", "đi", "路", "tie"] },
-  { emoji: "😊", words: ["smile", "happy", "vui", "cười", "笑", "iloinen"] },
-  { emoji: "😢", words: ["cry", "tear", "sad", "buồn", "khóc", "泪", "哭", "surullinen"] },
-  { emoji: "🎶", words: ["sing", "song", "music", "hát", "ca", "歌", "唱", "laulu", "laulaa"] },
-  { emoji: "🤝", words: ["friend", "bạn", "朋友", "ystävä"] },
+  { emoji: "🐱", words: ["cat", "mèo", "猫", "kissa"] },
+  { emoji: "🐶", words: ["dog", "chó", "狗", "koira"] },
+  { emoji: "🐎", words: ["horse", "ngựa", "马", "hevonen"] },
+  { emoji: "🌊", words: ["sea", "ocean", "river", "wave", "biển", "sông", "sóng", "海", "河", "浪", "meri", "joki", "aalto"] },
+  { emoji: "⛰️", words: ["mountain", "hill", "núi", "đồi", "山", "vuori", "tunturi"] },
+  { emoji: "🚗", words: ["go", "road", "way", "street", "đường", "đi", "路", "街", "tie", "katu", "mennä"] },
+  { emoji: "🛤️", words: ["come", "return", "về", "đến", "来", "回", "tulla", "palata"] },
+  { emoji: "😊", words: ["smile", "happy", "joy", "vui", "cười", "hạnh phúc", "笑", "喜", "iloinen", "onnellinen"] },
+  { emoji: "😢", words: ["cry", "tear", "sad", "sorrow", "buồn", "khóc", "lệ", "泪", "哭", "悲", "surullinen", "itku"] },
+  { emoji: "😡", words: ["angry", "giận", "怒", "vihainen"] },
+  { emoji: "🎶", words: ["sing", "song", "music", "melody", "hát", "ca", "nhạc", "歌", "唱", "曲", "laulu", "laulaa", "musiikki"] },
+  { emoji: "🤝", words: ["friend", "bạn", "朋友", "ystävä", "kaveri"] },
   { emoji: "✋", words: ["hand", "tay", "手", "käsi"] },
-  { emoji: "👀", words: ["eye", "see", "mắt", "nhìn", "眼", "看", "silmä"] },
-  { emoji: "🕊️", words: ["dream", "hope", "mơ", "ước", "梦", "希望", "unelma", "toivo"] },
-  { emoji: "⏰", words: ["time", "day", "thời gian", "ngày", "时间", "天", "aika", "päivä"] },
+  { emoji: "👀", words: ["eye", "see", "look", "watch", "mắt", "nhìn", "thấy", "xem", "眼", "看", "见", "silmä", "katso", "nähdä"] },
+  { emoji: "👂", words: ["ear", "hear", "listen", "tai", "nghe", "耳", "听", "korva", "kuulla"] },
+  { emoji: "🗣️", words: ["say", "speak", "talk", "tell", "nói", "kể", "说", "讲", "话", "sanoa", "puhua"] },
+  { emoji: "🕊️", words: ["dream", "hope", "wish", "mơ", "ước", "hy vọng", "梦", "希望", "愿", "unelma", "toivo", "toivoa"] },
+  { emoji: "⏰", words: ["time", "day", "year", "hour", "thời gian", "ngày", "năm", "giờ", "时间", "天", "年", "时", "aika", "päivä", "vuosi", "tunti"] },
   { emoji: "🎁", words: ["gift", "present", "quà", "礼物", "lahja"] },
-  { emoji: "🌈", words: ["beautiful", "đẹp", "美", "kaunis"] },
+  { emoji: "🌈", words: ["beautiful", "pretty", "lovely", "đẹp", "xinh", "美", "丽", "kaunis", "ihana"] },
+  { emoji: "🔥", words: ["fire", "burn", "lửa", "cháy", "火", "tuli", "palaa"] },
+  { emoji: "💧", words: ["water", "drop", "nước", "giọt", "水", "vesi", "pisara"] },
+  { emoji: "🌹", words: ["rose", "hồng", "玫瑰", "ruusu"] },
+  { emoji: "🎂", words: ["birthday", "sinh nhật", "生日", "syntymäpäivä"] },
+  { emoji: "🌟", words: ["light", "shine", "ánh sáng", "sáng", "光", "亮", "valo", "loistaa"] },
+  { emoji: "🌀", words: ["wind", "breeze", "gió", "风", "tuuli"] },
+  { emoji: "🛏️", words: ["sleep", "rest", "ngủ", "nghỉ", "睡", "息", "nukkua", "lepo"] },
+  { emoji: "🍵", words: ["tea", "coffee", "drink", "trà", "cà phê", "uống", "茶", "咖啡", "喝", "tee", "kahvi", "juoda"] },
+  { emoji: "🍚", words: ["rice", "food", "eat", "cơm", "ăn", "饭", "吃", "ruoka", "syödä", "riisi"] },
+  { emoji: "🚪", words: ["door", "window", "cửa", "门", "窗", "ovi", "ikkuna"] },
+  { emoji: "📖", words: ["book", "read", "story", "sách", "đọc", "chuyện", "书", "读", "故事", "kirja", "lukea", "tarina"] },
+  { emoji: "🏫", words: ["school", "study", "learn", "trường", "học", "学", "校", "koulu", "oppia"] },
+  { emoji: "🏞️", words: ["village", "field", "garden", "làng", "đồng", "vườn", "村", "园", "田", "kylä", "puutarha", "pelto"] },
+  { emoji: "🏮", words: ["lantern", "festival", "lễ", "tết", "灯", "节"] },
+  { emoji: "🎭", words: ["life", "world", "đời", "cuộc sống", "生活", "人生", "elämä"] },
+  { emoji: "💫", words: ["forever", "always", "mãi", "永远", "ikuisesti", "aina"] },
+  { emoji: "🙏", words: ["thank", "pray", "cảm ơn", "cầu", "谢", "祈", "kiitos"] },
 ];
 
-function pickLineEmoji(line: LyricLine): string | null {
+// Cycled fallback emojis — guarantees every line gets a decoration even with no keyword match.
+const FALLBACK_EMOJIS = [
+  "🎵", "🎼", "🎤", "🎧", "🎹", "🪕", "🎻", "🥁", "🎺", "🎸",
+  "✨", "🌟", "💫", "🌠", "🎀", "🎐", "🪔", "🍀", "🌷", "🪷",
+];
+
+const hashString = (s: string): number => {
+  let h = 0;
+  for (let i = 0; i < s.length; i += 1) {
+    h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  }
+  return h;
+};
+
+function pickLineEmoji(line: LyricLine, lineIndex = 0): string {
   const haystack = `${line.original} ${line.translation}`.toLowerCase();
   for (const entry of LINE_EMOJI_KEYWORDS) {
     if (entry.words.some((w) => haystack.includes(w.toLowerCase()))) {
       return entry.emoji;
     }
   }
-  return null;
+  // Deterministic fallback so the same line always gets the same emoji
+  const seed = hashString(line.original || `line-${lineIndex}`);
+  return FALLBACK_EMOJIS[seed % FALLBACK_EMOJIS.length];
 }
 
 // =====================================================
