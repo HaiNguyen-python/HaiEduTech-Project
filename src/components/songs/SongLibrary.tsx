@@ -321,7 +321,7 @@ function SongDetail({
             <CardContent className="space-y-4">
               <TooltipProvider delayDuration={150}>
                 {song.lyrics.map((line, i) => {
-                  const decor = pickLineEmoji(line);
+                  const decor = pickLineEmoji(line, i);
                   return (
                     <motion.div
                       key={i}
@@ -337,14 +337,12 @@ function SongDetail({
                           : "border-transparent hover:border-muted-foreground/30"
                       }`}
                     >
-                      {decor && (
-                        <span
-                          aria-hidden="true"
-                          className="text-2xl md:text-3xl leading-none mt-0.5 flex-shrink-0 select-none"
-                        >
-                          {decor}
-                        </span>
-                      )}
+                      <span
+                        aria-hidden="true"
+                        className="text-2xl md:text-3xl leading-none mt-0.5 flex-shrink-0 select-none"
+                      >
+                        {decor}
+                      </span>
                       <div className="flex-1 min-w-0">
                         <div className="text-base md:text-lg font-medium leading-relaxed flex flex-wrap gap-x-1 gap-y-0.5">
                           {renderInteractiveLine(line)}
