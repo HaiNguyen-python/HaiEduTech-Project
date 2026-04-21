@@ -10,6 +10,7 @@ import { vietnameseAlphabet, vietnameseTones, type AlphabetLetter } from "@/data
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { playVietnameseTts } from "@/lib/vietnameseTts";
 
 // ── Congrats messages ──
 const CONGRATS = [

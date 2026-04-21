@@ -9,14 +9,10 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { phrasebookCategories } from "@/data/vietnamese/phrasebookData";
+import { playVietnameseTts } from "@/lib/vietnameseTts";
 
 const speak = (text: string) => {
-  if (typeof window === "undefined" || !window.speechSynthesis) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "vi-VN";
-  u.rate = 0.85;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(u);
+  void playVietnameseTts(text, { playbackRate: 0.92, speechRate: 0.85 });
 };
 
 const VietnamesePhrasebook = () => {
