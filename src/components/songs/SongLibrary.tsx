@@ -482,7 +482,7 @@ const LyricsHero = React.forwardRef<
 
   if (song.album_art_url) {
     return (
-      <div className="relative h-40 md:h-52 w-full overflow-hidden">
+      <div ref={ref} className="relative h-40 md:h-52 w-full overflow-hidden">
         <img
           src={song.album_art_url}
           alt={song.title}
@@ -510,6 +510,7 @@ const LyricsHero = React.forwardRef<
   // Fallback: gradient + big emoji
   return (
     <div
+      ref={ref}
       className={`relative h-32 md:h-40 w-full flex items-center justify-center bg-gradient-to-br ${theme.from} ${theme.to} overflow-hidden`}
     >
       <span className="text-6xl md:text-7xl opacity-90 drop-shadow-lg" aria-hidden="true">
@@ -523,7 +524,7 @@ const LyricsHero = React.forwardRef<
       </span>
     </div>
   );
-}
+});
 
 // Fixed rotation of music-themed icons for lyric line decorations.
 // We deliberately avoid keyword-based emojis (which can feel mismatched);
