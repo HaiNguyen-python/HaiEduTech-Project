@@ -215,6 +215,29 @@ const Vietnamese = () => {
             <TabsContent value="language">
               {/* Songs Library banner */}
               <SongsBanner language="vietnamese" delay={0.1} />
+              <Link
+                to="/songs/vietnamese"
+                className="block rounded-2xl border-2 border-primary/25 bg-primary/5 p-5 mb-6 hover:border-primary/40 hover:shadow-lg transition-all group"
+              >
+                <div className="flex flex-col md:flex-row md:items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-3xl shrink-0">🎵</div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Badge className="bg-primary text-primary-foreground border-primary">Songs</Badge>
+                      <span className="text-xs text-muted-foreground font-medium">{t("Mục học nổi bật", "Featured section")}</span>
+                    </div>
+                    <h2 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                      {t("Học tiếng Việt qua bài hát", "Learn Vietnamese through Songs")}
+                    </h2>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {t("Bèo dạt mây trôi · Trống cơm · Cháu yêu bà · Một con vịt — có lyrics song ngữ, từ vựng và bài tập điền từ.", "Bèo dạt mây trôi · Trống cơm · Cháu yêu bà · Một con vịt — with bilingual lyrics, vocabulary, and fill-in-the-blank practice.")}
+                    </p>
+                  </div>
+                  <div className="inline-flex items-center gap-2 text-sm text-primary font-semibold">
+                    {t("Mở mục bài hát", "Open Songs")} <ChevronRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </Link>
               <div className="relative rounded-2xl overflow-hidden mb-10">
                 {/* Background image */}
                 <img

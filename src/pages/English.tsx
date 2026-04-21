@@ -190,6 +190,25 @@ const English = () => {
                   </div>
                 </motion.div>
               ))}
+
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="glass-card rounded-2xl p-6 border-2 border-primary/25 bg-primary/5">
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-lg font-display font-bold text-foreground">🎵 {t("Học qua bài hát", "Learn through Songs")}</h3>
+                  <span className="text-xs px-3 py-1 rounded-full bg-primary text-primary-foreground font-semibold whitespace-nowrap">Songs</span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {t("Mục bài hát riêng cho tiếng Anh với lyrics song ngữ, karaoke highlight, từ vựng trọng tâm và bài tập điền từ.", "Dedicated song section for English with bilingual lyrics, karaoke highlight, key vocabulary, and fill-in-the-blank practice.")}
+                </p>
+                <ul className="space-y-2 mb-5 text-sm text-secondary-foreground">
+                  <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-primary shrink-0" /> Lemon Tree · Perfect · You Are My Sunshine</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-primary shrink-0" /> Twinkle Twinkle · Old MacDonald · Row Your Boat</li>
+                </ul>
+                <div className="flex gap-3">
+                  <Link to="/songs/english" className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
+                    {t("Mở mục bài hát", "Open Songs")} <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </motion.div>
             </div>
 
             {/* Word of the Day */}
@@ -348,9 +367,6 @@ const English = () => {
                 ))}
               </div>
             </motion.div>
-
-            {/* Songs Library */}
-            <SongsBanner language="english" delay={0.45} />
 
             {/* Skill Assessment */}
             <div className="mb-10">
