@@ -1828,3 +1828,8 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     tags: ["data-contracts", "quality", "architecture"],
   },
 ];
+
+export const interviewQuestions: InterviewQuestion[] = [
+  ...baseInterviewQuestions,
+  ...interviewQuestionsExpansion,
+];
