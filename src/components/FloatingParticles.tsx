@@ -7,6 +7,8 @@ const SYMBOLS = [
   "Hello", "Thanks", "Welcome", "English", "Chinese", "Programming",
   // Vietnamese
   "Vietnamese", "Xin chào", "Cảm ơn",
+  // Identity & places
+  "Engineer", "Educator", "Vietnam", "Finland", "Technology",
   // Tech & AI
   "AI", "Data", "Python", "SQL", "ML",
   // Programming symbols
