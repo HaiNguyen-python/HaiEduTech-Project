@@ -571,123 +571,34 @@ function BlanksQuiz({ song }: { song: Song }) {
   );
 }
 
-// ===== YouTubePlayer: Inline iframe with click-to-load + fallback =====
-// Strategy: Show thumbnail first (saves bandwidth + avoids blocked-iframe grey box).
-// On user click, swap to youtube.com embed (more reliable than nocookie for some videos).
-// If iframe fails to fire onLoad within 3.5s, reveal a "Open on YouTube" fallback.
+// ===== YouTubePlayer: Clean external link card =====
+// We intentionally do NOT embed the iframe — many official MVs block embedding,
+// which results in an unsightly grey/error box. Instead we show a clean link card
+// that opens YouTube in a new tab so learners can listen and sing along reliably.
 function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
   const { t } = useLanguage();
-  const [playing, setPlaying] = useState(false);
-  const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [iframeFailed, setIframeFailed] = useState(false);
-  const [thumbError, setThumbError] = useState(false);
-
-  const thumbSrc = thumbError
-    ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
-    : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
-  // Use standard youtube.com (not nocookie) - more reliable across regions
-  const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(typeof window !== "undefined" ? window.location.origin : "")}`;
-
-  // Reset & start fallback timer whenever a new video begins playing
-  useEffect(() => {
-    if (!playing) return;
-    setIframeLoaded(false);
-    setIframeFailed(false);
-    const timer = setTimeout(() => {
-      // Only mark failed if iframe never reported a load event
-      setIframeFailed((prev) => (prev ? prev : true));
-    }, 3500);
-    return () => clearTimeout(timer);
-  }, [playing, videoId]);
 
   return (
-    <div className="space-y-2 max-w-md mx-auto">
-      <div className="aspect-video rounded-xl overflow-hidden border-2 shadow-xl bg-black relative">
-        {!playing ? (
-          <button
-            type="button"
-            onClick={() => setPlaying(true)}
-            className="block w-full h-full relative group cursor-pointer"
-            aria-label={t("Phát video", "Play video")}
-          >
-            <img
-              src={thumbSrc}
-              alt={title}
-              loading="lazy"
-              onError={() => setThumbError(true)}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                <Play className="w-7 h-7 text-white fill-white ml-0.5" />
-              </div>
-            </div>
-            <div className="absolute bottom-2 left-3 right-3 text-left">
-              <p className="text-white text-xs font-semibold drop-shadow-lg line-clamp-1">{title}</p>
-              <p className="text-white/80 text-[10px] mt-0.5">
-                {t("▶ Bấm để phát", "▶ Click to play")}
-              </p>
-            </div>
-          </button>
-        ) : (
-          <>
-            <iframe
-              key={videoId}
-              src={embedUrl}
-              title={title}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
-              onLoad={() => {
-                setIframeLoaded(true);
-                setIframeFailed(false);
-              }}
-              className="w-full h-full"
-            />
-            {!iframeLoaded && !iframeFailed && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/40">
-                <Music className="w-8 h-8 text-white/80 animate-pulse" />
-              </div>
-            )}
-            {iframeFailed && !iframeLoaded && (
-              <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center gap-2 p-3 text-center">
-                <p className="text-white text-xs font-semibold">
-                  {t(
-                    "Video bị chặn nhúng trên web.",
-                    "This video can't be embedded.",
-                  )}
-                </p>
-                <a
-                  href={watchUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600 text-white text-xs font-semibold hover:bg-red-700 transition-colors shadow-lg"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  {t("Mở trên YouTube", "Open on YouTube")}
-                </a>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-      <div className="flex items-center justify-between gap-2 flex-wrap text-[11px]">
-        <p className="text-muted-foreground">
-          {t("💡 Phát trực tiếp tại đây", "💡 Plays inline here")}
-        </p>
-        <a
-          href={watchUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 font-semibold px-2.5 py-1 rounded-full bg-muted text-foreground hover:bg-muted/80 transition-colors shadow-sm border"
-        >
-          <ExternalLink className="w-3 h-3" />
-          {t("Mở YouTube", "Open YouTube")}
-        </a>
-      </div>
+    <div className="max-w-md mx-auto">
+      <a
+        href={watchUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex items-center gap-3 p-4 rounded-xl border-2 bg-gradient-to-br from-red-500/10 to-rose-500/5 hover:from-red-500/15 hover:to-rose-500/10 hover:border-red-500/40 transition-all shadow-sm hover:shadow-lg"
+        aria-label={t("Mở bài hát trên YouTube", "Open song on YouTube")}
+      >
+        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+          <Play className="w-6 h-6 text-white fill-white ml-0.5" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold leading-tight line-clamp-1">
+            {t("Nghe & hát theo trên YouTube", "Listen & sing along on YouTube")}
+          </p>
+          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{title}</p>
+        </div>
+        <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-red-600 transition-colors flex-shrink-0" />
+      </a>
     </div>
   );
 }
