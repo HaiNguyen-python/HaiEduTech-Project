@@ -716,6 +716,33 @@ const Dashboard = () => {
                   </div>
                 )}
 
+                {/* PTE Skill Progress — synced with /pte */}
+                {(pteStats.totalAttempts > 0 || pteStats.skills.some(s => s.completed > 0)) && (
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                        <Mic className="w-4 h-4 text-primary" />
+                        {t("Tiến độ PTE", "PTE Skill Progress")}
+                        <span className="text-xs font-normal text-muted-foreground">
+                          · {pteStats.overallCompletionPct}% {t("hoàn thành", "complete")}
+                        </span>
+                      </h3>
+                      <Link
+                        to="/pte"
+                        className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1"
+                      >
+                        {t("Mở PTE Hub", "Open PTE Hub")} <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+                    <PteSkillRings
+                      skills={pteStats.skills}
+                      variant="compact"
+                      loading={pteStats.loading}
+                      showLink={false}
+                    />
+                  </div>
+                )}
+
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   {/* Skill Radar — 4 programs */}
                   <div className="rounded-2xl bg-card p-6 border border-border">
