@@ -291,7 +291,10 @@ function SongDetail({
 
         {/* LYRICS */}
         <TabsContent value="lyrics" className="mt-6">
-          <Card>
+          <Card className="overflow-hidden">
+            {/* Hero illustration banner */}
+            <LyricsHero song={song} theme={theme} />
+
             <CardHeader className="flex-row items-center justify-between space-y-0">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Mic className="w-5 h-5 text-primary" />
@@ -317,27 +320,40 @@ function SongDetail({
             </CardHeader>
             <CardContent className="space-y-4">
               <TooltipProvider delayDuration={150}>
-                {song.lyrics.map((line, i) => (
-                  <motion.div
-                    key={i}
-                    animate={{
-                      scale: karaokeIndex === i ? 1.02 : 1,
-                      backgroundColor:
-                        karaokeIndex === i ? "hsl(var(--primary) / 0.08)" : "transparent",
-                    }}
-                    transition={{ duration: 0.3 }}
-                    className={`p-3 rounded-lg border-l-4 ${
-                      karaokeIndex === i
-                        ? "border-primary shadow-md"
-                        : "border-transparent hover:border-muted-foreground/30"
-                    }`}
-                  >
-                    <div className="text-base md:text-lg font-medium leading-relaxed flex flex-wrap gap-x-1 gap-y-0.5">
-                      {renderInteractiveLine(line)}
-                    </div>
-                    <p className="text-sm text-muted-foreground italic mt-1">{line.translation}</p>
-                  </motion.div>
-                ))}
+                {song.lyrics.map((line, i) => {
+                  const decor = pickLineEmoji(line);
+                  return (
+                    <motion.div
+                      key={i}
+                      animate={{
+                        scale: karaokeIndex === i ? 1.02 : 1,
+                        backgroundColor:
+                          karaokeIndex === i ? "hsl(var(--primary) / 0.08)" : "transparent",
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className={`p-3 rounded-lg border-l-4 flex items-start gap-3 ${
+                        karaokeIndex === i
+                          ? "border-primary shadow-md"
+                          : "border-transparent hover:border-muted-foreground/30"
+                      }`}
+                    >
+                      {decor && (
+                        <span
+                          aria-hidden="true"
+                          className="text-2xl md:text-3xl leading-none mt-0.5 flex-shrink-0 select-none"
+                        >
+                          {decor}
+                        </span>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="text-base md:text-lg font-medium leading-relaxed flex flex-wrap gap-x-1 gap-y-0.5">
+                          {renderInteractiveLine(line)}
+                        </div>
+                        <p className="text-sm text-muted-foreground italic mt-1">{line.translation}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </TooltipProvider>
             </CardContent>
           </Card>
