@@ -37,7 +37,7 @@ const SongsLibraryPage = () => {
               {t(back.viLabel, back.enLabel)}
             </Button>
           </Link>
-          <SongLibrary language={language} />
+          <SongLibrary key={language} language={language} />
         </div>
       </main>
       <Footer />
