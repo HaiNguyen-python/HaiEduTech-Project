@@ -298,7 +298,7 @@ const Navbar = () => {
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 />
-                {/* Brand name — original gradient style, optimized for crisp rendering (no transform, no tracking) */}
+                {/* Brand name — solid colors (no gradient) for maximum crispness, original font-display style */}
                 <span
                   className="font-display text-lg whitespace-nowrap"
                   style={{
@@ -310,30 +310,8 @@ const Navbar = () => {
                     textRendering: "geometricPrecision",
                   }}
                 >
-                  <span
-                    style={{
-                      fontWeight: 700,
-                      backgroundImage: "linear-gradient(90deg, #1E40AF 0%, #2563EB 100%)",
-                      WebkitBackgroundClip: "text",
-                      backgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      color: "transparent",
-                    }}
-                  >
-                    HaiEdu
-                  </span>
-                  <span
-                    style={{
-                      fontWeight: 800,
-                      backgroundImage: "linear-gradient(90deg, #047857 0%, #059669 100%)",
-                      WebkitBackgroundClip: "text",
-                      backgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      color: "transparent",
-                    }}
-                  >
-                    Tech
-                  </span>
+                  <span style={{ fontWeight: 600, color: "#1E40AF" }}>HaiEdu</span>
+                  <span style={{ fontWeight: 700, color: "#047857" }}>Tech</span>
                 </span>
               </Link>
 
