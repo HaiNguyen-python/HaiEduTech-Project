@@ -3,12 +3,16 @@ import { motion } from "framer-motion";
 
 // Subject-related floating symbols
 const SYMBOLS = [
+  // Brand
+  "HaiEduTech", "EduTech", "Mr. Hai",
   // English
   "Hello", "Thanks", "Welcome", "English", "Chinese", "Programming",
   // Vietnamese
   "Vietnamese", "Xin chào", "Cảm ơn",
   // Identity & places
-  "Engineer", "Educator", "Vietnam", "Finland", "Technology",
+  "Engineer", "Educator", "Vietnam", "Finland", "Finnish", "Technology",
+  // Exams
+  "IELTS", "TOEIC", "SAT", "PTE", "HSK", "YKI",
   // Tech & AI
   "AI", "Data", "Python", "SQL", "ML",
   // Programming symbols
