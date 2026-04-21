@@ -1582,6 +1582,8 @@ const noWaitMethod: ToeicLecture = {
 };
 
 // Export all TOEIC lectures
+import { toeicExpansionLectures } from "./toeicLecturesExpansion";
+
 export const allToeicLectures: ToeicLecture[] = [
   part1Photos,
   part2Strategy,
@@ -1603,4 +1605,5 @@ export const allToeicLectures: ToeicLecture[] = [
   vocabSynonyms,
   vocabOfficeSupply,
   noWaitMethod,
+  ...toeicExpansionLectures,
 ];
