@@ -97,6 +97,15 @@ const pillars = [
     accentColor: "text-indigo-600",
   },
   {
+    id: "nlp",
+    icon: Languages,
+    emoji: "🗣️",
+    color: "from-cyan-500 to-blue-600",
+    bgColor: "bg-cyan-500/8",
+    borderColor: "border-cyan-500/20",
+    accentColor: "text-cyan-600",
+  },
+  {
     id: "reinforcement-learning",
     icon: Gamepad2,
     emoji: "🤖",
