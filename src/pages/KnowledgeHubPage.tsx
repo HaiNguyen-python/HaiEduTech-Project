@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
-  GraduationCap, Globe, Search, Calendar, ExternalLink, ChevronDown, ChevronUp, UserCog, Sparkles,
+  GraduationCap, Globe, Search, Calendar, ExternalLink, ChevronDown, ChevronUp, UserCog, Sparkles, Star, X,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
