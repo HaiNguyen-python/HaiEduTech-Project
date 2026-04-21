@@ -5,8 +5,8 @@ import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMock
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, BookOpen, ArrowUpDown, Heart, Clock,
-  Headphones, FileText, MessageSquare, BookType, ChevronRight,
-  GraduationCap, TrendingUp, Sparkles, Star
+  Headphones, FileText, MessageSquare, BookType, ChevronRight, ChevronDown,
+  GraduationCap, TrendingUp, Sparkles, Star, PlayCircle, CheckCircle2, Lock
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -324,7 +324,7 @@ const CambridgeLectures = () => {
           </div>
         </section>
 
-        {/* Card Grid */}
+        {/* 🎯 Grouped Lectures — by Level → by Skill */}
         <section className="container mx-auto px-4 pb-16">
           {filtered.length === 0 ? (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
@@ -335,21 +335,13 @@ const CambridgeLectures = () => {
               </Button>
             </motion.div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              <AnimatePresence mode="popLayout">
-                {filtered.map((lecture, i) => (
-                  <CambridgeCard
-                    key={lecture.id}
-                    lecture={lecture}
-                    index={i}
-                    isBookmarked={bookmarked.has(lecture.id)}
-                    isCompleted={completed.has(lecture.id)}
-                    onToggleBookmark={() => toggleBookmark(lecture.id)}
-                    t={t}
-                  />
-                ))}
-              </AnimatePresence>
-            </div>
+            <GroupedLectureSections
+              lectures={filtered}
+              bookmarked={bookmarked}
+              completed={completed as Set<string>}
+              onToggleBookmark={toggleBookmark}
+              t={t}
+            />
           )}
         </section>
       </main>
@@ -477,6 +469,219 @@ const CambridgeCard = ({ lecture, index, isBookmarked, isCompleted, onToggleBook
         </div>
       </Link>
     </motion.div>
+  );
+};
+
+// ============================================================
+// GROUPED LECTURE SECTIONS — by Level → by Skill
+// Lessons numbered for clear "what to learn first" guidance.
+// ============================================================
+const LEVEL_ORDER: CambridgeLevel[] = ["starters", "movers", "flyers", "ket", "pet"];
+const SKILL_ORDER: { key: CambridgeSkill; labelVi: string; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { key: "vocabulary", labelVi: "Từ vựng nền tảng", label: "Vocabulary Foundation", icon: BookType },
+  { key: "listening", labelVi: "Nghe", label: "Listening", icon: Headphones },
+  { key: "reading-writing", labelVi: "Đọc & Viết", label: "Reading & Writing", icon: FileText },
+  { key: "speaking", labelVi: "Nói", label: "Speaking", icon: MessageSquare },
+];
+
+interface GroupedProps {
+  lectures: CambridgeLecture[];
+  bookmarked: Set<string>;
+  completed: Set<string>;
+  onToggleBookmark: (id: string) => void;
+  t: (vi: string, en: string) => string;
+}
+
+const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookmark, t }: GroupedProps) => {
+  // Group by level → skill
+  const byLevel = useMemo(() => {
+    const map: Record<string, CambridgeLecture[]> = {};
+    for (const lec of lectures) {
+      (map[lec.level] ||= []).push(lec);
+    }
+    return map;
+  }, [lectures]);
+
+  // Find the first uncompleted lesson across the whole pathway → "Start here"
+  const startHereId = useMemo(() => {
+    for (const lvl of LEVEL_ORDER) {
+      for (const skill of SKILL_ORDER) {
+        const lessons = (byLevel[lvl] || []).filter(l => l.skill === skill.key);
+        for (const l of lessons) {
+          if (!completed.has(l.id)) return l.id;
+        }
+      }
+    }
+    return null;
+  }, [byLevel, completed]);
+
+  const [openLevels, setOpenLevels] = useState<Set<string>>(() => {
+    // Default: open the first level that has lectures
+    for (const lvl of LEVEL_ORDER) {
+      if ((byLevel[lvl] || []).length > 0) return new Set([lvl]);
+    }
+    return new Set();
+  });
+
+  const toggleLevel = (lvl: string) => {
+    setOpenLevels(prev => {
+      const next = new Set(prev);
+      if (next.has(lvl)) next.delete(lvl); else next.add(lvl);
+      return next;
+    });
+  };
+
+  return (
+    <div className="space-y-6">
+      {LEVEL_ORDER.map((lvl) => {
+        const levelLectures = byLevel[lvl] || [];
+        if (levelLectures.length === 0) return null;
+        const cfg = LEVEL_CONFIG[lvl];
+        const doneCount = levelLectures.filter(l => completed.has(l.id)).length;
+        const pct = Math.round((doneCount / levelLectures.length) * 100);
+        const isOpen = openLevels.has(lvl);
+
+        return (
+          <motion.div
+            key={lvl}
+            layout
+            className="rounded-2xl border backdrop-blur-sm overflow-hidden"
+            style={{
+              background: "rgba(15,18,35,0.5)",
+              borderColor: `${cfg.color}33`,
+            }}
+          >
+            {/* Level header — clickable to expand/collapse */}
+            <button
+              onClick={() => toggleLevel(lvl)}
+              className="w-full px-5 md:px-6 py-5 flex items-center gap-4 hover:bg-white/[0.03] transition-colors text-left"
+              style={{ background: `linear-gradient(90deg, ${cfg.gradientFrom}15, transparent)` }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 border"
+                style={{ background: `${cfg.color}20`, borderColor: `${cfg.color}40` }}
+              >
+                {LEVEL_FILTERS.find(f => f.key === lvl)?.emoji}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <h2 className="text-xl md:text-2xl font-bold text-white">{cfg.label}</h2>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: `${cfg.color}20`, color: cfg.color }}>
+                    {levelLectures.length} {t("bài", "lessons")}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 max-w-xs h-1.5 rounded-full bg-white/10 overflow-hidden">
+                    <div
+                      className="h-full transition-all duration-500"
+                      style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${cfg.gradientFrom}, ${cfg.gradientTo})` }}
+                    />
+                  </div>
+                  <span className="text-xs font-medium text-[#94A3B8] tabular-nums">
+                    {doneCount}/{levelLectures.length}
+                  </span>
+                </div>
+              </div>
+              <ChevronDown className={`w-6 h-6 text-[#94A3B8] shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* Skill sub-sections */}
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-5 md:px-6 pb-6 pt-2 space-y-5">
+                    {SKILL_ORDER.map((skill) => {
+                      const skillLessons = levelLectures.filter(l => l.skill === skill.key);
+                      if (skillLessons.length === 0) return null;
+                      const SkillIcon = skill.icon;
+                      const skillDone = skillLessons.filter(l => completed.has(l.id)).length;
+
+                      return (
+                        <div key={skill.key}>
+                          {/* Skill heading */}
+                          <div className="flex items-center gap-2.5 mb-3 pb-2 border-b border-white/[0.06]">
+                            <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center">
+                              <SkillIcon className="w-4 h-4 text-[#C4B5FD]" />
+                            </div>
+                            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                              {t(skill.labelVi, skill.label)}
+                            </h3>
+                            <span className="text-xs text-[#64748B] tabular-nums ml-auto">
+                              {skillDone}/{skillLessons.length}
+                            </span>
+                          </div>
+
+                          {/* Numbered lesson list */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                            {skillLessons.map((lec, idx) => {
+                              const isDone = completed.has(lec.id);
+                              const isStart = lec.id === startHereId;
+                              return (
+                                <Link
+                                  key={lec.id}
+                                  to={`/cambridge-lectures/${lec.id}`}
+                                  className="group relative flex items-start gap-3 px-3.5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.07] hover:border-white/20 transition-all"
+                                >
+                                  {/* Number / done badge */}
+                                  <div
+                                    className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
+                                      isDone
+                                        ? "bg-emerald-500/20 text-emerald-300"
+                                        : "bg-white/[0.06] text-[#CBD5E1]"
+                                    }`}
+                                  >
+                                    {isDone ? <CheckCircle2 className="w-5 h-5" /> : String(idx + 1).padStart(2, "0")}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                                      {isStart && (
+                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gradient-to-r from-[#A78BFA] to-[#7C3AED] text-white animate-pulse">
+                                          ★ {t("Bắt đầu", "Start")}
+                                        </span>
+                                      )}
+                                      {lec.isNew && (
+                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#FF6B6B]/20 text-[#FCA5A5] border border-[#FF6B6B]/30">
+                                          NEW
+                                        </span>
+                                      )}
+                                    </div>
+                                    <p className="text-sm font-semibold text-white leading-snug line-clamp-2 group-hover:text-[#C4B5FD] transition-colors">
+                                      {t(lec.titleVi, lec.title)}
+                                    </p>
+                                    <div className="flex items-center gap-2 mt-1 text-[11px] text-[#64748B]">
+                                      <span className="flex items-center gap-0.5"><Clock className="w-3 h-3" />{lec.duration}</span>
+                                      <span>•</span>
+                                      <span>{lec.practiceSet.length} {t("BT", "ex")}</span>
+                                    </div>
+                                  </div>
+                                  <button
+                                    onClick={e => { e.preventDefault(); e.stopPropagation(); onToggleBookmark(lec.id); }}
+                                    className="p-1 rounded hover:bg-white/10 transition-colors shrink-0"
+                                    aria-label="Bookmark"
+                                  >
+                                    <Heart className={`w-4 h-4 ${bookmarked.has(lec.id) ? "fill-rose-400 text-rose-400" : "text-[#334155]"}`} />
+                                  </button>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        );
+      })}
+    </div>
   );
 };
 
