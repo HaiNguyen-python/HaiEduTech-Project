@@ -123,6 +123,7 @@ const Dashboard = () => {
   const [dataLoading, setDataLoading] = useState(true);
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [displayName, setDisplayName] = useState("");
+  const pteStats = usePteSkillStats();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
