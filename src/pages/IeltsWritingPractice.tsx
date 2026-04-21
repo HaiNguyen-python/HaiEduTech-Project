@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import {
   BookOpen, Send, Loader2, ChevronDown, ChevronUp,
-  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle, Save
+  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle, Save, FolderOpen
 } from "lucide-react";
 
 import WritingGuidePanel from "@/components/WritingGuidePanel";
