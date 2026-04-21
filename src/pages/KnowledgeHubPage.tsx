@@ -121,6 +121,7 @@ const KnowledgeHubPage = () => {
   const [advisorLoading, setAdvisorLoading] = useState(false);
   const [advisorData, setAdvisorData] = useState<AdvisorResponse | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const { profile, userId } = useStudentProfile();
 
   const handleAdvisorSubmit = async (input: AdvisorInput) => {
@@ -147,17 +148,6 @@ const KnowledgeHubPage = () => {
       setAdvisorLoading(false);
     }
   };
-
-  const filtered = useMemo(() => {
-    return scholarships.filter((s) => {
-      const matchesCountry = activeCountry === "all" || s.country === activeCountry;
-      const matchesLevel = activeLevel === "all" || s.levels.includes(activeLevel as any);
-      const name = lang === "vi" ? s.nameVi : s.name;
-      const summary = lang === "vi" ? s.summaryVi : s.summaryEn;
-      const matchesSearch = !search || name.toLowerCase().includes(search.toLowerCase()) || summary.toLowerCase().includes(search.toLowerCase()) || s.country.toLowerCase().includes(search.toLowerCase());
-      return matchesCountry && matchesLevel && matchesSearch;
-    });
-  }, [search, activeCountry, activeLevel, lang]);
 
   const toggleExpand = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
