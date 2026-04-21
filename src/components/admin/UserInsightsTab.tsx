@@ -10,13 +10,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
-  LineChart, Line, Legend,
+  LineChart, Line, Legend, AreaChart, Area,
 } from "recharts";
 import {
-  Eye, TrendingUp, Users, Clock, Loader2, RefreshCw, MousePointerClick, Lightbulb,
+  Eye, TrendingUp, Users, Clock, Loader2, RefreshCw, MousePointerClick, Lightbulb, CalendarRange,
 } from "lucide-react";
 
-type Range = "1d" | "7d" | "30d" | "90d";
+type Range = "1d" | "7d" | "30d" | "90d" | "all";
 
 interface PageView {
   id: string;
