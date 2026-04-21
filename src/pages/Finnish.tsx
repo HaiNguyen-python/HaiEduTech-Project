@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import SongsBanner from "@/components/songs/SongsBanner";
 import finnishBg from "@/assets/finnish-nordic-bg.jpg";
 
 interface ProgramCard {
@@ -166,6 +167,11 @@ const Finnish = () => {
                 </Link>
               </motion.div>
             ))}
+          </div>
+
+          {/* Songs Library banner */}
+          <div className="mt-8">
+            <SongsBanner language="finnish" delay={0.5} />
           </div>
 
           {/* Bonus: AI Speaking Coach */}
