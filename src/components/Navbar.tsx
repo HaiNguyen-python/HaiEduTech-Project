@@ -20,6 +20,7 @@ import { useUserRole } from "@/hooks/useUserRole";
 import { useStreak } from "@/hooks/useStreak";
 import teacherLogo from "@/assets/teacher-logo.webp";
 import teacherWave from "@/assets/teacher-wave.webp";
+import brandWordmark from "@/assets/haiedutech-wordmark.png";
 import GlobalSearch from "@/components/GlobalSearch";
 
 // Sub-item with optional icon and nested children
