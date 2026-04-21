@@ -186,27 +186,57 @@ const About = () => {
           </div>
 
           <div className="max-w-3xl mx-auto">
-            <h3 className="text-xl font-display font-semibold text-foreground mb-6">{t("Hành trình", "Journey")}</h3>
-            <div className="space-y-4 mb-12">
-              {timeline.map((item, i) => (
+            <div className="flex items-center gap-2 mb-2">
+              <Heart className="w-5 h-5 text-primary" />
+              <h3 className="text-xl font-display font-semibold text-foreground">
+                {t("Triết lý dạy & học của thầy Hải", "My Teaching & Learning Philosophy")}
+              </h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-6">
+              {t(
+                "Những giá trị thầy theo đuổi và muốn gửi gắm đến các em học sinh ở Việt Nam và khắp nơi trên thế giới.",
+                "The values I live by and want to pass on to students in Vietnam and around the world."
+              )}
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+              {philosophy.map((p, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex gap-4 items-start"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.08 }}
+                  className="group relative p-5 rounded-2xl border border-border bg-card hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all"
                 >
-                  <div className="w-10 h-10 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <item.icon className="w-5 h-5 text-primary" />
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <p.icon className="w-5 h-5 text-primary" />
                   </div>
-                  <div>
-                    <div className="text-xs text-primary font-mono">{item.year}</div>
-                    <div className="text-sm font-medium text-foreground">{item.title}</div>
-                    <div className="text-xs text-muted-foreground">{item.place}</div>
-                  </div>
+                  <h4 className="text-base font-display font-semibold text-foreground mb-2 leading-snug">
+                    {p.title}
+                  </h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {p.desc}
+                  </p>
                 </motion.div>
               ))}
             </div>
+
+            {/* Closing message */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="relative overflow-hidden rounded-2xl p-6 md:p-8 mb-12 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20"
+            >
+              <Sparkles className="absolute top-4 right-4 w-6 h-6 text-primary/40" />
+              <p className="text-base md:text-lg font-display italic text-foreground leading-relaxed">
+                {t(
+                  "\"Thầy không chỉ muốn dạy các em một ngôn ngữ hay một dòng code. Thầy muốn cùng các em xây dựng một tư duy học tập suốt đời – để dù mai này các em ở Sài Gòn, Hà Nội, Helsinki hay Melbourne, các em vẫn luôn tự tin học bất cứ điều gì mình muốn.\"",
+                  "\"I don't just want to teach you a language or a line of code. I want to build with you a lifelong learning mindset — so that wherever you are — Saigon, Hanoi, Helsinki or Melbourne — you'll always have the confidence to learn anything you set your heart on.\""
+                )}
+              </p>
+              <p className="mt-3 text-sm font-semibold text-primary">— Mr. Hai Nguyen</p>
+            </motion.div>
 
             {/* Tech skills */}
             <h3 className="text-xl font-display font-semibold text-foreground mb-4">{t("Công nghệ sử dụng", "Tech Stack")}</h3>
