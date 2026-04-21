@@ -8,7 +8,7 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE_URL = "https://haiedutech.com";
-const DEFAULT_OG = `${SITE_URL}/og-image.webp`;
+const DEFAULT_OG = `${SITE_URL}/og-image.webp?v=2`;
 
 interface SEOProps {
   /** Page title — keep under 60 chars, include primary keyword. */
