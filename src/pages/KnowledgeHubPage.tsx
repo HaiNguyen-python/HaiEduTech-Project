@@ -222,193 +222,165 @@ const KnowledgeHubPage = () => {
             </div>
           </div>
 
-          {/* Search */}
-          <div className="mb-6">
-            <div className="relative max-w-md mx-auto">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder={t("Tìm học bổng...", "Search scholarships...")}
-                className="pl-10"
-              />
-            </div>
-          </div>
+          {/* === Compact Filter Toolbar === */}
+          <Card className="mb-6 border-primary/10">
+            <CardContent className="p-4 sm:p-5 space-y-4">
+              {/* Search bar */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t("Tìm theo tên học bổng, quốc gia...", "Search by name, country...")}
+                  className="pl-10"
+                />
+              </div>
 
-          {/* Filters */}
-          <div className="flex flex-col gap-3 mb-8">
-            {/* Level filter */}
-            <div className="flex gap-2 justify-center flex-wrap">
-              <button
-                onClick={() => setActiveLevel("all")}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeLevel === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
-              >
-                {t("Tất cả bậc", "All Levels")}
-              </button>
-              {LEVELS.map((level) => (
-                <button
-                  key={level}
-                  onClick={() => setActiveLevel(level)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeLevel === level ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
-                >
-                  {level}
-                </button>
-              ))}
-            </div>
-            {/* Country filter */}
-            <div className="flex gap-2 justify-center flex-wrap">
-              <button
-                onClick={() => setActiveCountry("all")}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeCountry === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
-              >
-                <Globe className="inline w-3 h-3 mr-1" />
-                {t("Tất cả", "All")}
-              </button>
-              {COUNTRIES.map((c) => (
-                <button
-                  key={c.value}
-                  onClick={() => setActiveCountry(c.value)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeCountry === c.value ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
-                >
-                  {c.flag} {lang === "vi" ? c.labelVi : c.labelEn}
-                </button>
-              ))}
-            </div>
-          </div>
+              {/* Region filter */}
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground mb-2">
+                  🌍 {t("Khu vực", "Region")}
+                </p>
+                <div className="flex gap-2 flex-wrap">
+                  <button
+                    onClick={() => { setActiveRegion("all"); setActiveCountry("all"); }}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeRegion === "all" ? "bg-primary text-primary-foreground shadow-sm" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                  >
+                    <Globe className="inline w-3 h-3 mr-1" />
+                    {t("Toàn cầu", "Worldwide")}
+                  </button>
+                  {REGIONS.map((r) => (
+                    <button
+                      key={r.value}
+                      onClick={() => { setActiveRegion(r.value); setActiveCountry("all"); }}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeRegion === r.value ? "bg-primary text-primary-foreground shadow-sm" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                    >
+                      {r.icon} {lang === "vi" ? r.labelVi : r.labelEn}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-          {/* Results count */}
-          <p className="text-sm text-muted-foreground mb-6 text-center">
-            {t(`Tìm thấy ${filtered.length} học bổng`, `Found ${filtered.length} scholarships`)}
-          </p>
+              {/* Country filter (auto-narrowed by region) */}
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground mb-2">
+                  🏳️ {t("Quốc gia", "Country")}
+                </p>
+                <div className="flex gap-1.5 flex-wrap max-h-24 overflow-y-auto">
+                  <button
+                    onClick={() => setActiveCountry("all")}
+                    className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${activeCountry === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                  >
+                    {t("Tất cả", "All")}
+                  </button>
+                  {visibleCountries.map((c) => (
+                    <button
+                      key={c.value}
+                      onClick={() => setActiveCountry(c.value)}
+                      className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${activeCountry === c.value ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                    >
+                      {c.flag} {lang === "vi" ? c.labelVi : c.labelEn}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Level + Featured row */}
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1 border-t border-border">
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground mb-2">
+                    🎓 {t("Bậc học", "Level")}
+                  </p>
+                  <div className="flex gap-1.5 flex-wrap">
+                    <button
+                      onClick={() => setActiveLevel("all")}
+                      className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${activeLevel === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                    >
+                      {t("Tất cả", "All")}
+                    </button>
+                    {LEVELS.map((level) => (
+                      <button
+                        key={level}
+                        onClick={() => setActiveLevel(level)}
+                        className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${activeLevel === level ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                      >
+                        {level}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground mb-2">
+                    ⭐ {t("Loại", "Type")}
+                  </p>
+                  <button
+                    onClick={() => setFeaturedOnly(!featuredOnly)}
+                    className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1 ${featuredOnly ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                  >
+                    <Star className={`w-3 h-3 ${featuredOnly ? "fill-current" : ""}`} />
+                    {t("Chỉ học bổng nổi bật", "Featured only")}
+                  </button>
+                </div>
+
+                {activeFilterCount > 0 && (
+                  <button
+                    onClick={clearAllFilters}
+                    className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <X className="w-3 h-3" />
+                    {t(`Xóa bộ lọc (${activeFilterCount})`, `Clear filters (${activeFilterCount})`)}
+                  </button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Results summary */}
+          <div className="flex items-center justify-between mb-5 px-1">
+            <p className="text-sm text-muted-foreground">
+              {t(`Tìm thấy `, `Found `)}
+              <span className="font-bold text-foreground">{filtered.length}</span>
+              {t(` học bổng tại `, ` scholarships across `)}
+              <span className="font-bold text-foreground">{groupedByCountry.length}</span>
+              {t(` quốc gia`, ` countries`)}
+            </p>
+          </div>
 
           {/* Empty state */}
           {filtered.length === 0 && (
             <div className="text-center py-20">
               <GraduationCap className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground mb-3">
                 {t("Không tìm thấy học bổng phù hợp.", "No matching scholarships found.")}
               </p>
+              <Button variant="outline" size="sm" onClick={clearAllFilters}>
+                {t("Đặt lại bộ lọc", "Reset filters")}
+              </Button>
             </div>
           )}
 
-          {/* Scholarship cards */}
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((s, i) => {
-              const isExpanded = expandedId === s.id;
-              const matchResult = profile && (profile.gpa || profile.ielts_score || profile.target_country)
-                ? computeMatchScore(profile, s)
-                : null;
+          {/* === Scholarships grouped by country === */}
+          <div className="space-y-10">
+            {groupedByCountry.map(([countryCode, items]) => {
+              const countryMeta = COUNTRIES.find((c) => c.value === countryCode);
               return (
-                <motion.div
-                  key={s.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: Math.min(i * 0.03, 0.3) }}
-                >
-                  <Card className="group hover:shadow-md transition-all h-full flex flex-col">
-                    <CardContent className="p-5 flex flex-col h-full">
-                      {/* Header */}
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-3xl">{s.flag}</span>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs text-muted-foreground font-medium">{t(s.countryVi, s.country)}</p>
-                          {s.isFeatured && (
-                            <Badge variant="outline" className="text-[10px] border-primary/30 text-primary">
-                              ⭐ {t("Nổi bật", "Featured")}
-                            </Badge>
-                          )}
-                        </div>
-                        {matchResult && (
-                          <div className="flex-shrink-0">
-                            <MatchScoreRing result={matchResult} size={56} strokeWidth={6} showLabel={false} />
-                          </div>
-                        )}
-                      </div>
-
-                      {matchResult && matchResult.improvements.length > 0 && (
-                        <div className="mb-3 rounded-lg bg-amber-500/10 border border-amber-500/20 p-2">
-                          <div className="text-[10px] font-bold uppercase text-amber-600 dark:text-amber-400 mb-0.5">
-                            💡 {t("Cách cải thiện", "How to improve")}
-                          </div>
-                          <p className="text-[11px] text-muted-foreground line-clamp-2">
-                            {matchResult.improvements[0]}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Title */}
-                      <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
-                        {t(s.nameVi, s.name)}
-                      </h3>
-
-                      {/* Summary */}
-                      <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                        {t(s.summaryVi, s.summaryEn)}
-                      </p>
-
-                      {/* Levels */}
-                      <div className="flex flex-wrap gap-1.5 mb-3">
-                        {s.levels.map((level) => (
-                          <Badge key={level} variant="secondary" className={`text-xs ${LEVEL_COLORS[level]}`}>
-                            {level}
-                          </Badge>
-                        ))}
-                      </div>
-
-                      {/* Deadline */}
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground mb-3">
-                        <Calendar className="h-3 w-3" />
-                        <span>{t("Hạn nộp: ", "Deadline: ")}{s.deadline}</span>
-                      </div>
-
-                      {/* Expand/Collapse details */}
-                      <button
-                        onClick={() => toggleExpand(s.id)}
-                        className="flex items-center gap-1 text-xs font-medium text-primary mb-2 hover:underline"
-                      >
-                        {isExpanded ? (
-                          <>{t("Thu gọn", "Collapse")} <ChevronUp className="h-3 w-3" /></>
-                        ) : (
-                          <>{t("Xem chi tiết", "View details")} <ChevronDown className="h-3 w-3" /></>
-                        )}
-                      </button>
-
-                      {isExpanded && (
-                        <div className="text-xs space-y-3 mb-3 animate-in fade-in slide-in-from-top-2">
-                          <div>
-                            <p className="font-semibold text-foreground mb-1">{t("Quyền lợi:", "Benefits:")}</p>
-                            <ul className="list-disc list-inside text-muted-foreground space-y-0.5">
-                              {(lang === "vi" ? s.benefitsVi : s.benefitsEn).map((b, idx) => (
-                                <li key={idx}>{b}</li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div>
-                            <p className="font-semibold text-foreground mb-1">{t("Điều kiện:", "Requirements:")}</p>
-                            <ul className="list-disc list-inside text-muted-foreground space-y-0.5">
-                              {(lang === "vi" ? s.requirementsVi : s.requirementsEn).map((r, idx) => (
-                                <li key={idx}>{r}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Apply link */}
-                      <div className="mt-auto pt-2">
-                        <a
-                          href={s.applyUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {t("Nộp hồ sơ", "Apply Now")} <ExternalLink className="h-3 w-3" />
-                        </a>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                <section key={countryCode}>
+                  <div className="flex items-center gap-3 mb-4 pb-2 border-b border-border">
+                    <span className="text-2xl">{countryMeta?.flag || "🏳️"}</span>
+                    <h2 className="text-lg font-bold text-foreground">
+                      {countryMeta ? (lang === "vi" ? countryMeta.labelVi : countryMeta.labelEn) : countryCode}
+                    </h2>
+                    <Badge variant="secondary" className="text-xs">
+                      {items.length} {t("học bổng", items.length === 1 ? "scholarship" : "scholarships")}
+                    </Badge>
+                  </div>
+                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {items.map((s, i) => (
+                      <ScholarshipCard key={s.id} scholarship={s} index={i} profile={profile} />
+                    ))}
+                  </div>
+                </section>
               );
             })}
           </div>
