@@ -8,7 +8,7 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE_URL = "https://haiedutech.com";
-const DEFAULT_OG = `${SITE_URL}/og-image.png`;
+const DEFAULT_OG = `${SITE_URL}/og-image.webp`;
 
 interface SEOProps {
   /** Page title — keep under 60 chars, include primary keyword. */
@@ -17,7 +17,7 @@ interface SEOProps {
   description: string;
   /** Path only, e.g. "/english/ielts" — used to build canonical URL. */
   path?: string;
-  /** Optional OG image (full URL). Defaults to site og-image.png. */
+  /** Optional OG image (full URL). Defaults to site og-image.webp. */
   image?: string;
   /** Optional JSON-LD structured data object — e.g. Course, FAQPage, BreadcrumbList. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];

@@ -464,15 +464,15 @@ const VietnameseAlphabet = () => {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[
-              { src: "/vietnam-beauty-1.png", alt: "Trẻ em chăn trâu trên đồng lúa" },
-              { src: "/vietnam-beauty-2.png", alt: "Ruộng bậc thang Mù Cang Chải" },
-              { src: "/vietnam-beauty-4.png", alt: "Vịnh Hạ Long" },
-              { src: "/vietnam-beauty-5.png", alt: "Bắc Sơn bình minh" },
-              { src: "/vietnam-beauty-7.png", alt: "Khinh khí cầu trên Kinh thành Huế" },
-              { src: "/vietnam-beauty-9.png", alt: "Ngư dân quăng lưới" },
-              { src: "/vietnam-beauty-3.png", alt: "Thành phố Nha Trang về đêm" },
-              { src: "/vietnam-beauty-6.png", alt: "Landmark 81 Sài Gòn" },
-              { src: "/vietnam-beauty-8.png", alt: "Quốc kỳ Việt Nam" },
+              { src: "/vietnam-beauty-1.webp", alt: "Trẻ em chăn trâu trên đồng lúa" },
+              { src: "/vietnam-beauty-2.webp", alt: "Ruộng bậc thang Mù Cang Chải" },
+              { src: "/vietnam-beauty-4.webp", alt: "Vịnh Hạ Long" },
+              { src: "/vietnam-beauty-5.webp", alt: "Bắc Sơn bình minh" },
+              { src: "/vietnam-beauty-7.webp", alt: "Khinh khí cầu trên Kinh thành Huế" },
+              { src: "/vietnam-beauty-9.webp", alt: "Ngư dân quăng lưới" },
+              { src: "/vietnam-beauty-3.webp", alt: "Thành phố Nha Trang về đêm" },
+              { src: "/vietnam-beauty-6.webp", alt: "Landmark 81 Sài Gòn" },
+              { src: "/vietnam-beauty-8.webp", alt: "Quốc kỳ Việt Nam" },
             ].map((img, idx) => (
               <motion.div
                 key={img.src}

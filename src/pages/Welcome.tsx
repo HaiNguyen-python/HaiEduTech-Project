@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
-import logo from "@/assets/teacher-logo.png";
+import logo from "@/assets/teacher-logo.webp";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const AUTO_REDIRECT_MS = 3500;
