@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META } from "@/data/ieltsLecturesData";
 import type { VocabHighlight } from "@/data/ieltsLecturesData";
+import IeltsLectureDiagram from "@/components/ielts/IeltsLectureDiagram";
+import { lectureExpansions } from "@/data/ieltsLectureExpansion";
 
 // Vocab Highlighter component — inline word with click-to-see definition
 const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
