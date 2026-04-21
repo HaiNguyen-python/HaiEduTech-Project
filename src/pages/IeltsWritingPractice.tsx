@@ -202,6 +202,7 @@ const IeltsWritingPractice = () => {
       } as WritingPrompt);
       setResult(null);
       setEssay("");
+      setCurrentDraftId(null);
     } catch (e) {
       console.error("Error generating prompt:", e);
       // Fallback to static
