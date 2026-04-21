@@ -56,20 +56,21 @@ const LazySection = ({ children }: { children: React.ReactNode }) => {
 const Index = () => (
   <div className="min-h-screen bg-background">
     <SEO
-      title="HaiEduTech | Học IELTS, HSK, Tiếng Phần Lan, Python & Tư vấn Du học"
-      description="Nền tảng học IELTS, TOEIC, HSK 1-6, tiếng Phần Lan YKI, lập trình Python với lộ trình cá nhân hóa bằng AI. Tư vấn du học & học bổng quốc tế miễn phí bởi Thầy Hải."
+      title="HaiEduTech | Data-Driven Education & AI-Powered Learning"
+      description="Master English, Chinese & Programming with an AI-powered personalized learning path. Data-driven education by HaiEduTech — IELTS, TOEIC, HSK, Finnish YKI, Python & global study abroad guidance."
       path="/"
+      locale="en_US"
       jsonLd={{
         "@context": "https://schema.org",
         "@type": "ItemList",
-        "name": "Chương trình học HaiEduTech",
+        "name": "HaiEduTech Learning Programs",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Học IELTS", "url": "https://haiedutech.com/english/ielts" },
-          { "@type": "ListItem", "position": 2, "name": "Học HSK", "url": "https://haiedutech.com/chinese/hsk-guide" },
-          { "@type": "ListItem", "position": 3, "name": "Học TOEIC", "url": "https://haiedutech.com/english/toeic" },
-          { "@type": "ListItem", "position": 4, "name": "Học tiếng Phần Lan YKI", "url": "https://haiedutech.com/finnish" },
-          { "@type": "ListItem", "position": 5, "name": "Học lập trình Python", "url": "https://haiedutech.com/programming" },
-          { "@type": "ListItem", "position": 6, "name": "Tư vấn Du học", "url": "https://haiedutech.com/study-abroad" }
+          { "@type": "ListItem", "position": 1, "name": "Learn IELTS", "url": "https://haiedutech.com/english/ielts" },
+          { "@type": "ListItem", "position": 2, "name": "Learn HSK Chinese", "url": "https://haiedutech.com/chinese/hsk-guide" },
+          { "@type": "ListItem", "position": 3, "name": "Learn TOEIC", "url": "https://haiedutech.com/english/toeic" },
+          { "@type": "ListItem", "position": 4, "name": "Learn Finnish YKI", "url": "https://haiedutech.com/finnish" },
+          { "@type": "ListItem", "position": 5, "name": "Learn Python Programming", "url": "https://haiedutech.com/programming" },
+          { "@type": "ListItem", "position": 6, "name": "Study Abroad Consulting", "url": "https://haiedutech.com/study-abroad" }
         ]
       }}
     />
