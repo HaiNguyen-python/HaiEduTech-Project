@@ -16,6 +16,19 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG } from "@/data/cambridgeLecturesData";
+import startersFun from "@/assets/cambridge/starters-fun.jpg";
+import moversFun from "@/assets/cambridge/movers-fun.jpg";
+import flyersFun from "@/assets/cambridge/flyers-fun.jpg";
+import ketFun from "@/assets/cambridge/ket-fun.jpg";
+import petFun from "@/assets/cambridge/pet-fun.jpg";
+
+const ILLUSTRATIONS: Record<string, string> = {
+  starters: startersFun,
+  movers: moversFun,
+  flyers: flyersFun,
+  ket: ketFun,
+  pet: petFun,
+};
 
 const CambridgeLectureView = () => {
   const { lectureId } = useParams();
@@ -139,6 +152,33 @@ const CambridgeLectureView = () => {
               </div>
             </div>
           </motion.div>
+
+          {/* Kid-friendly level illustration */}
+          {(() => {
+            const key = lecture.illustrationKey ?? lecture.level;
+            const src = ILLUSTRATIONS[key];
+            if (!src) return null;
+            return (
+              <motion.figure
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.22 }}
+                className="mb-6 rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02]"
+              >
+                <img
+                  src={src}
+                  alt={`${lecture.level} fun illustration`}
+                  loading="lazy"
+                  width={1024}
+                  height={640}
+                  className="w-full h-auto object-cover"
+                />
+                <figcaption className="text-center text-sm italic text-[#94A3B8] py-2">
+                  {t(`Cùng học ${lecture.level.toUpperCase()} thật vui nhé! 🎉`, `Let's enjoy ${lecture.level.toUpperCase()} together! 🎉`)}
+                </figcaption>
+              </motion.figure>
+            );
+          })()}
 
           {/* Step-by-Step Guide */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
