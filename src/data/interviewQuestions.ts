@@ -37,7 +37,9 @@ export const interviewCategories: Record<InterviewRole, string[]> = {
   ],
 };
 
-export const interviewQuestions: InterviewQuestion[] = [
+import { interviewQuestionsExpansion } from "./interviewQuestionsExpansion";
+
+const baseInterviewQuestions: InterviewQuestion[] = [
   // ============================================================
   // AI ENGINEER — LLMs & Prompt Engineering
   // ============================================================
@@ -1825,4 +1827,9 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     interviewTip: "Frame it: 'Data contracts make data a product. Producers ship a versioned API; consumers depend on it like any other service.'",
     tags: ["data-contracts", "quality", "architecture"],
   },
+];
+
+export const interviewQuestions: InterviewQuestion[] = [
+  ...baseInterviewQuestions,
+  ...interviewQuestionsExpansion,
 ];
