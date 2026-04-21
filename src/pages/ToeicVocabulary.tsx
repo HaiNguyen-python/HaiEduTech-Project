@@ -81,7 +81,7 @@ const shuffle = <T,>(arr: T[]): T[] => {
 const Flashcard = ({ word }: { word: ToeicWord }) => {
   const [flipped, setFlipped] = useState(false);
   return (
-    <div className="cursor-pointer h-64" onClick={() => setFlipped(!flipped)} style={{ perspective: "1000px" }}>
+    <div className="cursor-pointer h-80" onClick={() => setFlipped(!flipped)} style={{ perspective: "1000px" }}>
       <motion.div
         className="relative w-full h-full"
         animate={{ rotateY: flipped ? 180 : 0 }}
