@@ -14,6 +14,7 @@ import { satExpansionModules2 } from "./englishSatExpansion2";
 import { satExpansionModules3 } from "./englishSatExpansion3";
 import { satExpansionModules4 } from "./englishSatExpansion4";
 import { grammarExpansionModules2 } from "./englishGrammarExpansion2";
+import { grammarExpansionModules3 } from "./englishGrammarExpansion3";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
 
 export type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry };
@@ -45,6 +46,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...satExpansionModules3,
   ...satExpansionModules4,
   ...grammarExpansionModules2,
+  ...grammarExpansionModules3,
 ];
 
 // All Chinese modules combined
