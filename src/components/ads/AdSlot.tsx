@@ -45,6 +45,10 @@ const AdSlot = ({
     }
   }, [slot]);
 
+  if (!slot) {
+    return null;
+  }
+
   return (
     <div
       className={`my-8 w-full max-w-3xl mx-auto rounded-xl border border-border/50 bg-muted/30 p-3 ${className}`}
