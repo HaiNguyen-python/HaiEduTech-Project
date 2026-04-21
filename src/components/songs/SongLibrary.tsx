@@ -596,8 +596,8 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
   }, [playing, videoId]);
 
   return (
-    <div className="space-y-2">
-      <div className="aspect-video rounded-2xl overflow-hidden border-2 shadow-2xl bg-black relative">
+    <div className="space-y-2 max-w-md mx-auto">
+      <div className="aspect-video rounded-xl overflow-hidden border-2 shadow-xl bg-black relative">
         {!playing ? (
           <button
             type="button"
@@ -614,14 +614,14 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                <Play className="w-10 h-10 text-white fill-white ml-1" />
+              <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+                <Play className="w-7 h-7 text-white fill-white ml-0.5" />
               </div>
             </div>
-            <div className="absolute bottom-3 left-4 right-4 text-left">
-              <p className="text-white text-sm font-semibold drop-shadow-lg line-clamp-1">{title}</p>
-              <p className="text-white/80 text-xs mt-0.5">
-                {t("▶ Bấm để phát ngay tại đây", "▶ Click to play here")}
+            <div className="absolute bottom-2 left-3 right-3 text-left">
+              <p className="text-white text-xs font-semibold drop-shadow-lg line-clamp-1">{title}</p>
+              <p className="text-white/80 text-[10px] mt-0.5">
+                {t("▶ Bấm để phát", "▶ Click to play")}
               </p>
             </div>
           </button>
@@ -639,41 +639,38 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
               className="w-full h-full"
             />
             {iframeFailed && (
-              <div className="absolute inset-0 bg-black/85 backdrop-blur-sm flex flex-col items-center justify-center gap-3 p-4 text-center">
-                <p className="text-white text-sm font-semibold">
+              <div className="absolute inset-0 bg-black/85 backdrop-blur-sm flex flex-col items-center justify-center gap-2 p-3 text-center">
+                <p className="text-white text-xs font-semibold">
                   {t(
-                    "Video này bị chặn nhúng. Vui lòng mở trên YouTube ↗",
-                    "This video blocks embedding. Please open on YouTube ↗",
+                    "Video bị chặn nhúng. Mở trên YouTube ↗",
+                    "Embed blocked. Open on YouTube ↗",
                   )}
                 </p>
                 <a
                   href={watchUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 text-white font-semibold hover:bg-red-700 transition-colors shadow-lg"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600 text-white text-xs font-semibold hover:bg-red-700 transition-colors shadow-lg"
                 >
-                  <ExternalLink className="w-4 h-4" />
-                  {t("Mở trên YouTube", "Open on YouTube")}
+                  <ExternalLink className="w-3 h-3" />
+                  {t("Mở YouTube", "Open YouTube")}
                 </a>
               </div>
             )}
           </>
         )}
       </div>
-      <div className="flex items-center justify-between gap-3 flex-wrap text-xs">
+      <div className="flex items-center justify-between gap-2 flex-wrap text-[11px]">
         <p className="text-muted-foreground">
-          {t(
-            "💡 Phát trực tiếp tại đây. Nếu lỗi, dùng nút bên phải.",
-            "💡 Plays inline here. If it fails, use the button on the right.",
-          )}
+          {t("💡 Phát trực tiếp tại đây", "💡 Plays inline here")}
         </p>
         <a
           href={watchUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 font-semibold px-3 py-1.5 rounded-full bg-muted text-foreground hover:bg-muted/80 transition-colors shadow-sm border"
+          className="inline-flex items-center gap-1 font-semibold px-2.5 py-1 rounded-full bg-muted text-foreground hover:bg-muted/80 transition-colors shadow-sm border"
         >
-          <ExternalLink className="w-3.5 h-3.5" />
+          <ExternalLink className="w-3 h-3" />
           {t("Mở YouTube", "Open YouTube")}
         </a>
       </div>
