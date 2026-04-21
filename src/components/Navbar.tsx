@@ -304,7 +304,8 @@ const Navbar = () => {
                     className="brand-shimmer text-lg whitespace-nowrap"
                     style={{
                       fontFamily: "'Space Grotesk', 'Inter', sans-serif",
-                      fontWeight: 700,
+                      fontWeight: 400,
+                      letterSpacing: "0.01em",
                       WebkitFontSmoothing: "antialiased",
                       MozOsxFontSmoothing: "grayscale",
                     }}
