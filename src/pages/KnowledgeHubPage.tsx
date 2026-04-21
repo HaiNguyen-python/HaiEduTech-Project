@@ -67,9 +67,57 @@ const REGIONS = [
 const KnowledgeHubPage = () => {
   const { t, lang } = useLanguage();
   const [search, setSearch] = useState("");
+  const [activeRegion, setActiveRegion] = useState<string>("all");
   const [activeCountry, setActiveCountry] = useState("all");
   const [activeLevel, setActiveLevel] = useState<string>("all");
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [featuredOnly, setFeaturedOnly] = useState(false);
+
+  // Countries available based on selected region
+  const visibleCountries = useMemo(() => {
+    if (activeRegion === "all") return COUNTRIES;
+    const region = REGIONS.find((r) => r.value === activeRegion);
+    if (!region) return COUNTRIES;
+    return COUNTRIES.filter((c) => (region.countries as readonly string[]).includes(c.value));
+  }, [activeRegion]);
+
+  const filtered = useMemo(() => {
+    const region = REGIONS.find((r) => r.value === activeRegion);
+    return scholarships.filter((s) => {
+      const matchesRegion = activeRegion === "all" || (region && (region.countries as readonly string[]).includes(s.country));
+      const matchesCountry = activeCountry === "all" || s.country === activeCountry;
+      const matchesLevel = activeLevel === "all" || s.levels.includes(activeLevel as any);
+      const matchesFeatured = !featuredOnly || s.isFeatured;
+      const name = lang === "vi" ? s.nameVi : s.name;
+      const summary = lang === "vi" ? s.summaryVi : s.summaryEn;
+      const matchesSearch = !search || name.toLowerCase().includes(search.toLowerCase()) || summary.toLowerCase().includes(search.toLowerCase()) || s.country.toLowerCase().includes(search.toLowerCase());
+      return matchesRegion && matchesCountry && matchesLevel && matchesFeatured && matchesSearch;
+    });
+  }, [search, activeRegion, activeCountry, activeLevel, featuredOnly, lang]);
+
+  // Group filtered scholarships by country for organized display
+  const groupedByCountry = useMemo(() => {
+    const groups = new Map<string, typeof filtered>();
+    filtered.forEach((s) => {
+      if (!groups.has(s.country)) groups.set(s.country, []);
+      groups.get(s.country)!.push(s);
+    });
+    return Array.from(groups.entries()).sort((a, b) => b[1].length - a[1].length);
+  }, [filtered]);
+
+  const activeFilterCount =
+    (activeRegion !== "all" ? 1 : 0) +
+    (activeCountry !== "all" ? 1 : 0) +
+    (activeLevel !== "all" ? 1 : 0) +
+    (featuredOnly ? 1 : 0) +
+    (search ? 1 : 0);
+
+  const clearAllFilters = () => {
+    setSearch("");
+    setActiveRegion("all");
+    setActiveCountry("all");
+    setActiveLevel("all");
+    setFeaturedOnly(false);
+  };
   const [advisorLoading, setAdvisorLoading] = useState(false);
   const [advisorData, setAdvisorData] = useState<AdvisorResponse | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
