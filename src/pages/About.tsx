@@ -9,13 +9,57 @@ import ClassroomGallery from "@/components/ClassroomGallery";
 const About = () => {
   const { t } = useLanguage();
 
-  const timeline = [
-    { year: "2014–2018", title: t("Cử nhân Sư phạm Tiếng Anh (TESOL)", "B.A. Teaching English (TESOL)"), place: t("ĐH Sư phạm TP.HCM, Việt Nam", "HCMUE, Vietnam"), icon: GraduationCap },
-    { year: "2019–2020", title: t("Thạc sĩ Ngôn ngữ & Văn hóa Anh", "M.A. English Language & Culture"), place: t("ĐH Đông Phần Lan", "Univ. of Eastern Finland"), icon: GraduationCap },
-    { year: "2022–2024", title: t("Giáo viên & Quản lý Trung tâm Ngoại ngữ", "Teacher & Language Center Manager"), place: t("Tiếng Anh Thầy Hải, TP.HCM", "Tieng Anh Thay Hai, HCMC"), icon: Languages },
-    { year: "2024–Nay", title: t("Cử nhân CNTT (chuyên ngành Kỹ thuật Dữ liệu)", "B.Sc. ICT (Data Engineering focus)"), place: t("ĐH KHƯD Turku, Phần Lan", "Turku UAS, Finland"), icon: Code2 },
-    { year: "2025", title: t("ICT Business Analyst", "ICT Business Analyst"), place: t("Flyer Technology, Melbourne", "Flyer Technology, Melbourne"), icon: Briefcase },
+  const philosophy = [
+    {
+      icon: Heart,
+      title: t("Học để trưởng thành, không chỉ để đi thi", "Learn to grow, not just to pass exams"),
+      desc: t(
+        "Thầy tin rằng giáo dục thật sự phải chạm đến trái tim. Mỗi bài học không chỉ là kiến thức, mà còn là cơ hội để các em hiểu mình hơn, mở rộng thế giới quan và trở thành phiên bản tốt hơn của chính mình.",
+        "I believe true education must touch the heart. Every lesson isn't just knowledge — it's a chance for students to understand themselves, broaden their worldview, and become a better version of who they are."
+      ),
+    },
+    {
+      icon: Lightbulb,
+      title: t("Tư duy độc lập trong kỷ nguyên AI", "Independent thinking in the AI era"),
+      desc: t(
+        "Trong thời đại AI bùng nổ, thầy không dạy các em ghi nhớ máy móc, mà rèn cho các em cách đặt câu hỏi đúng, biết phản biện và biết dùng công nghệ như một người bạn đồng hành – chứ không phải kẻ thay thế.",
+        "In the age of AI, I don't teach memorization — I train students to ask the right questions, think critically, and use technology as a companion, not a replacement."
+      ),
+    },
+    {
+      icon: Compass,
+      title: t("Học tập bền vững – đi xa cùng nhau", "Sustainable learning – going far, together"),
+      desc: t(
+        "Thầy tin vào hành trình dài hạn: học mỗi ngày một chút, kiên trì và có chiến lược. Một lộ trình rõ ràng, đúng phương pháp và có người đồng hành sẽ giúp các em đi xa hơn bất kỳ \"khoá học cấp tốc\" nào.",
+        "I believe in the long game: learn a little every day, with patience and strategy. A clear roadmap, the right method, and a mentor by your side will take you further than any \"crash course\" ever could."
+      ),
+    },
+    {
+      icon: Globe2,
+      title: t("Công dân toàn cầu mang hồn Việt", "Global citizens with a Vietnamese soul"),
+      desc: t(
+        "Đi qua Việt Nam, Phần Lan, Úc – thầy thấy rõ: các em hoàn toàn có thể vươn ra thế giới mà vẫn giữ được bản sắc. Học ngôn ngữ và công nghệ chính là tấm hộ chiếu để các em tự tin bước ra biển lớn.",
+        "Living across Vietnam, Finland, and Australia, I see clearly: our students can reach the world while keeping their roots. Languages and technology are the passport to step confidently onto the global stage."
+      ),
+    },
+    {
+      icon: Sparkles,
+      title: t("Mỗi học sinh là một vì sao riêng", "Every student is their own star"),
+      desc: t(
+        "Không có ai \"dở\" – chỉ có người chưa tìm đúng cách học của mình. Thầy cam kết lắng nghe, cá nhân hoá lộ trình và tin vào tiềm năng của từng em, dù xuất phát điểm có ở đâu.",
+        "No one is \"bad at learning\" — they just haven't found their own way yet. I commit to listening, personalizing each roadmap, and believing in every student's potential, no matter where they start."
+      ),
+    },
+    {
+      icon: Rocket,
+      title: t("Gieo ước mơ – chắp cánh hành động", "Plant dreams – grow wings to act"),
+      desc: t(
+        "Thông điệp thầy muốn gửi đến các em ở Việt Nam và khắp nơi: hãy dám mơ lớn, rồi bắt tay vào làm từ những điều nhỏ nhất hôm nay. Tương lai không chờ ai – nhưng nó luôn mở cửa cho người đủ kiên trì.",
+        "My message to students in Vietnam and around the world: dare to dream big, then start with the smallest action today. The future waits for no one — but it always opens its doors to those who persist."
+      ),
+    },
   ];
+
 
   const achievements = [
     {
