@@ -111,6 +111,76 @@ const IeltsWritingPractice = () => {
     setCurrentPrompt(prompt);
     setResult(null);
     setEssay("");
+    setCurrentDraftId(null);
+  };
+
+  const handleSaveDraft = async () => {
+    if (!currentPrompt || !essay.trim()) {
+      toast({ title: t("Chưa có gì để lưu", "Nothing to save"), description: t("Hãy viết vài câu rồi lưu nháp.", "Write something first, then save the draft."), variant: "destructive" });
+      return;
+    }
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast({ title: t("Cần đăng nhập", "Sign in required"), description: t("Đăng nhập để lưu bản nháp và quay lại viết tiếp.", "Sign in to save drafts and resume later."), variant: "destructive" });
+      return;
+    }
+    setSavingDraft(true);
+    const firstLine = essay.trim().split("\n")[0].slice(0, 60) || `Task ${taskType} draft`;
+    const payload = {
+      user_id: user.id,
+      task_type: taskType,
+      sub_type: subType || null,
+      prompt: currentPrompt.prompt,
+      prompt_meta: {
+        id: currentPrompt.id,
+        essayType: currentPrompt.essayType,
+        chartType: currentPrompt.chartType,
+      } as Record<string, unknown>,
+      essay,
+      word_count: wordCount,
+      title: firstLine,
+      time_left_seconds: timeLeft,
+    };
+    if (currentDraftId) {
+      const { error } = await supabase.from("writing_drafts").update(payload).eq("id", currentDraftId);
+      if (error) {
+        toast({ title: t("Lỗi", "Error"), description: error.message, variant: "destructive" });
+      } else {
+        toast({ title: t("Đã cập nhật bản nháp ✅", "Draft updated ✅") });
+        setDraftsReloadKey(k => k + 1);
+      }
+    } else {
+      const { data, error } = await supabase.from("writing_drafts").insert(payload).select("id").maybeSingle();
+      if (error) {
+        toast({ title: t("Lỗi", "Error"), description: error.message, variant: "destructive" });
+      } else {
+        if (data?.id) setCurrentDraftId(data.id);
+        toast({ title: t("Đã lưu nháp ✅", "Draft saved ✅"), description: t("Bạn có thể quay lại viết tiếp bất cứ lúc nào.", "You can resume anytime.") });
+        setDraftsReloadKey(k => k + 1);
+      }
+    }
+    setSavingDraft(false);
+  };
+
+  const handleResumeDraft = (draft: WritingDraft) => {
+    setTaskType(draft.task_type as 1 | 2);
+    setSubType(draft.sub_type || "");
+    const meta = (draft.prompt_meta || {}) as { id?: string; essayType?: string; chartType?: string };
+    setCurrentPrompt({
+      id: meta.id || `draft-${draft.id}`,
+      taskType: draft.task_type as 1 | 2,
+      ...(draft.task_type === 2 ? { essayType: meta.essayType } : { chartType: meta.chartType }),
+      prompt: draft.prompt,
+      writingGuide: [],
+      vocabularyBank: [],
+      brainstormingIdeas: [],
+    } as WritingPrompt);
+    setEssay(draft.essay);
+    setResult(null);
+    setCurrentDraftId(draft.id);
+    if (typeof draft.time_left_seconds === "number") setTimeLeft(draft.time_left_seconds);
+    setTimerActive(false);
+    toast({ title: t("Đã tải bản nháp 📂", "Draft loaded 📂"), description: t("Tiếp tục viết và bấm Lưu nháp khi muốn dừng.", "Keep writing and click Save Draft when you pause.") });
   };
 
   const handleAIPrompt = async () => {
