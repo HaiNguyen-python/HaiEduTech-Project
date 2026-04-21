@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Music, Mic, Languages, Sparkles, BookOpen, Play, ArrowLeft, CheckCircle2, XCircle, Globe } from "lucide-react";
+import { Music, Mic, Languages, Sparkles, BookOpen, Play, ArrowLeft, CheckCircle2, XCircle, Globe, ExternalLink } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 type SongLanguage = "english" | "chinese" | "finnish" | "vietnamese";
