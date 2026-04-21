@@ -228,13 +228,25 @@ const Navbar = () => {
       : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
     : baseLinks;
 
+  // Hover bridge + intent debounce: opening is instant, closing is delayed
+  // (~350ms) so the cursor can travel through the small gap between the
+  // trigger and the dropdown without prematurely dismissing the menu.
+  const HOVER_CLOSE_DELAY = 350;
+
   const handleMouseEnter = (key: string) => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    // If the user moves to a different parent item, switch instantly and
+    // also clear any pending submenu-close timer to avoid stale state.
+    if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
+    if (dropdown !== key) setActiveSubmenu(null);
     setDropdown(key);
   };
 
   const handleMouseLeave = () => {
-    dropdownTimeoutRef.current = setTimeout(() => setDropdown(null), 150);
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setDropdown(null);
+      setActiveSubmenu(null);
+    }, HOVER_CLOSE_DELAY);
   };
 
   const toggleMobileExpand = (key: string) => {
@@ -435,8 +447,16 @@ const Navbar = () => {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 6, scale: 0.97 }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          className="absolute top-full left-0 mt-1 w-64 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
+                          // Invisible "hover bridge" via pt-2 + ::before pseudo-element keeps the
+                          // pointer inside a hoverable region while traveling from the trigger.
+                          // Re-entering the panel cancels the close timer (intent-based hover).
+                          onMouseEnter={() => {
+                            if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                          }}
+                          onMouseLeave={handleMouseLeave}
+                          className="absolute top-full left-0 pt-2 w-64 z-50 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-3"
                         >
+                          <div className="bg-card rounded-xl shadow-xl border border-border py-2">
                           {l.subs.map((sub, i) => {
                             // Nested group with children (IELTS Program)
                             if (sub.children) {
@@ -446,10 +466,11 @@ const Navbar = () => {
                                   className="relative"
                                   onMouseEnter={() => {
                                     if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
+                                    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
                                     setActiveSubmenu(sub.groupLabel!);
                                   }}
                                   onMouseLeave={() => {
-                                    submenuTimeoutRef.current = setTimeout(() => setActiveSubmenu(null), 120);
+                                    submenuTimeoutRef.current = setTimeout(() => setActiveSubmenu(null), HOVER_CLOSE_DELAY);
                                   }}
                                 >
                                   <motion.div
@@ -476,8 +497,15 @@ const Navbar = () => {
                                         animate={{ opacity: 1, x: 0, scale: 1 }}
                                         exit={{ opacity: 0, x: -6, scale: 0.97 }}
                                         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                                        className="absolute left-full top-0 ml-1 w-56 bg-card rounded-xl shadow-xl border border-border py-2 z-50"
+                                        // Horizontal hover bridge (pl-2 + ::before) so the cursor can
+                                        // travel from the parent row into the flyout without escaping.
+                                        onMouseEnter={() => {
+                                          if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
+                                          if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                                        }}
+                                        className="absolute left-full top-0 pl-2 w-56 z-50 before:content-[''] before:absolute before:top-0 before:bottom-0 before:-left-2 before:w-3"
                                       >
+                                        <div className="bg-card rounded-xl shadow-xl border border-border py-2">
                                         {/* Group header */}
                                         <div className="px-4 py-1.5 mb-1">
                                           <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
@@ -519,6 +547,7 @@ const Navbar = () => {
                                             </motion.div>
                                           );
                                         })}
+                                        </div>
                                       </motion.div>
                                     )}
                                   </AnimatePresence>
@@ -546,6 +575,7 @@ const Navbar = () => {
                               </motion.div>
                             );
                           })}
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
