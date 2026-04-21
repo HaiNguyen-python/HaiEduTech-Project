@@ -186,6 +186,12 @@ function normalizeMath(input: string): string {
       if (part.startsWith("```")) return part;
 
       let out = part;
+
+      // Collapse runs of 3+ dollar signs to the canonical `$$` block delimiter.
+      // The AI sometimes emits `$$$expr$$$` which remark-math can't parse and
+      // ends up rendering the raw text (seen in conditional probability snippets).
+      out = out.replace(/\${3,}/g, "$$$$");
+
       // \[ ... \]  → $$ ... $$
       out = out.replace(/\\\[([\s\S]+?)\\\]/g, (_, body) => `$$${body.trim()}$$`);
       // \( ... \)  → $ ... $
@@ -195,6 +201,15 @@ function normalizeMath(input: string): string {
       // (KaTeX doesn't natively render `||...||`). Apply globally outside code.
       // Run twice: once for pairs separated by content, once for stray `||`.
       out = out.replace(/\|\|/g, "\\|");
+
+      // Inside math spans, replace bare `|` with `\mid` so it renders as the
+      // conditional-probability bar AND avoids clashing with GFM table syntax.
+      // Done conservatively: only touches `|` characters that sit between $..$ /
+      // $$..$$ delimiters, leaving Markdown tables untouched.
+      const replacePipes = (mathBody: string) =>
+        mathBody.replace(/(?<!\\)\|/g, "\\mid ");
+      out = out.replace(/\$\$([\s\S]+?)\$\$/g, (_, body) => `$$${replacePipes(body)}$$`);
+      out = out.replace(/(^|[^$])\$([^$\n]+?)\$(?!\$)/g, (_, pre, body) => `${pre}$${replacePipes(body)}$`);
 
       // Repair pass: the AI sometimes wraps a math expression in plain text
       // parentheses without `$...$`, e.g. `(\lambda \|\beta\|^2)` or
