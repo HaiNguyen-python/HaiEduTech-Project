@@ -228,13 +228,25 @@ const Navbar = () => {
       : [...baseLinks, { to: "/dashboard", label: t("Dashboard", "Dashboard"), icon: LayoutDashboard }]
     : baseLinks;
 
+  // Hover bridge + intent debounce: opening is instant, closing is delayed
+  // (~350ms) so the cursor can travel through the small gap between the
+  // trigger and the dropdown without prematurely dismissing the menu.
+  const HOVER_CLOSE_DELAY = 350;
+
   const handleMouseEnter = (key: string) => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    // If the user moves to a different parent item, switch instantly and
+    // also clear any pending submenu-close timer to avoid stale state.
+    if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
+    if (dropdown !== key) setActiveSubmenu(null);
     setDropdown(key);
   };
 
   const handleMouseLeave = () => {
-    dropdownTimeoutRef.current = setTimeout(() => setDropdown(null), 150);
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setDropdown(null);
+      setActiveSubmenu(null);
+    }, HOVER_CLOSE_DELAY);
   };
 
   const toggleMobileExpand = (key: string) => {
