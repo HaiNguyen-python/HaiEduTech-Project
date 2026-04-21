@@ -41,6 +41,10 @@ const AdSlot = ({
     }
   }, [slot]);
 
+  if (!slot) {
+    return null;
+  }
+
   return (
     <div
       className={`my-8 w-full max-w-3xl mx-auto rounded-xl border border-border/50 bg-muted/30 p-3 ${className}`}
@@ -49,25 +53,16 @@ const AdSlot = ({
       <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2 text-center">
         {label}
       </div>
-      {slot ? (
-        <ins
-          ref={insRef}
-          className="adsbygoogle block"
-          style={{ display: "block", minHeight }}
-          data-ad-client={ADSENSE_CLIENT}
-          data-ad-slot={slot}
-          data-ad-format={format}
-          {...(responsive ? { "data-full-width-responsive": "true" } : {})}
-          {...(layoutKey ? { "data-ad-layout-key": layoutKey } : {})}
-        />
-      ) : (
-        <div
-          className="flex items-center justify-center text-xs text-muted-foreground rounded-md bg-background/50 border border-dashed border-border"
-          style={{ minHeight }}
-        >
-          Ad slot — chưa cấu hình ID (sẽ hiển thị sau khi AdSense duyệt)
-        </div>
-      )}
+      <ins
+        ref={insRef}
+        className="adsbygoogle block"
+        style={{ display: "block", minHeight }}
+        data-ad-client={ADSENSE_CLIENT}
+        data-ad-slot={slot}
+        data-ad-format={format}
+        {...(responsive ? { "data-full-width-responsive": "true" } : {})}
+        {...(layoutKey ? { "data-ad-layout-key": layoutKey } : {})}
+      />
     </div>
   );
 };
