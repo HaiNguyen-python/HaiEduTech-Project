@@ -287,7 +287,7 @@ const About = () => {
               <p className="text-base md:text-lg font-display italic text-foreground leading-relaxed">
                 {t(
                   "\"Thầy không chỉ muốn dạy các em một ngôn ngữ hay một dòng code. Thầy muốn cùng các em xây dựng một tư duy học tập suốt đời – để dù mai này các em ở Sài Gòn, Hà Nội hay bất kỳ thành phố nào trên thế giới, các em vẫn luôn tự tin học tập, thành công và tỏa sáng theo cách riêng của mình.\"",
-                  "\"I don't just want to teach you a language or a line of code. I want to build with you a lifelong learning mindset — so that wherever you are — Saigon, Hanoi or Helsinki — you'll always have the confidence to learn anything you set your heart on.\""
+                  "\"I don't just want to teach you a language or a line of code. I want to help you build a lifelong learning mindset — so that whether one day you are in Saigon, Hanoi, or any city in the world, you will always feel confident to keep learning, succeed, and shine in your own way.\""
                 )}
               </p>
               <p className="mt-3 text-sm font-semibold text-primary">— Mr. Hai Nguyen</p>
