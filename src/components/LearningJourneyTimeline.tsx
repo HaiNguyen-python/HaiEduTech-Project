@@ -71,7 +71,7 @@ const LearningJourneyTimeline = () => {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-2">
             <Sparkles className="w-3.5 h-3.5" />
-            {t("Hành trình học tập của Thầy Hải", "Teacher Hai's Learning Journey")}
+            {t("Hành trình học tập & giảng dạy của Thầy Hải", "Teacher Hai's Learning & Teaching Journey")}
           </div>
           <p className="text-sm text-muted-foreground">
             {t("Du hành cùng thầy qua các cột mốc tri thức", "Travel with teacher across knowledge milestones")}
