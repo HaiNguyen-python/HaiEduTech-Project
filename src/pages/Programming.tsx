@@ -199,6 +199,12 @@ const Programming = () => {
       descEn: "Neural Networks, PyTorch, CNNs for Computer Vision, RNN/LSTMs for NLP, and Transformers/LLMs — the tech behind ChatGPT. Prerequisites: Python basics + Linear Algebra.",
       modules: allProgrammingModules.filter(m => m.course === "dl"),
     },
+    nlp: {
+      title: "Natural Language Processing", titleEn: "Natural Language Processing",
+      desc: "6 bài học chuyên sâu: tokenization (Anh/Phần Lan/Trung), TF-IDF & Word Embeddings, Sentiment Analysis, RNN/LSTM, và Transformers/BERT/LLM 2026. Capstone: Finnish→English Sentiment Analyser. Mở khóa huy hiệu 'Linguistics Architect'.",
+      descEn: "6 expert lessons: multilingual tokenization (EN/FI/ZH), TF-IDF & Word Embeddings, Sentiment Analysis, RNN/LSTMs, and Transformers/BERT/LLMs (2026). Capstone: a Finnish→English sentiment analyser. Unlocks the 'Linguistics Architect' badge.",
+      modules: allProgrammingModules.filter(m => m.course === "nlp"),
+    },
     "reinforcement-learning": {
       title: "Reinforcement Learning", titleEn: "Reinforcement Learning",
       desc: "Agent học từ phần thưởng: MDP, Q-Learning/DQN, Policy Gradients (PPO/SAC), ứng dụng robotics, xe tự lái và Game AI (AlphaGo, RLHF của ChatGPT). Yêu cầu: Python + xác suất cơ bản.",
