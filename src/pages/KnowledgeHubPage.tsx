@@ -22,6 +22,7 @@ import { useStudentProfile } from "@/hooks/useStudentProfile";
 import { computeMatchScore } from "@/lib/scholarshipMatcher";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import AdSlot from "@/components/ads/AdSlot";
 
 const LEVELS = ["Bachelor", "Master", "PhD"] as const;
 
@@ -135,6 +136,9 @@ const KnowledgeHubPage = () => {
               <RoadmapResults data={advisorData} onReset={() => setAdvisorData(null)} />
             )}
           </div>
+
+          {/* AdSense — between AI advisor and scholarship library */}
+          <AdSlot />
 
           {/* Browse curated scholarships divider */}
           <div className="relative mb-8">
@@ -338,6 +342,9 @@ const KnowledgeHubPage = () => {
               );
             })}
           </div>
+
+          {/* AdSense — bottom of scholarship library */}
+          <AdSlot />
         </div>
       </main>
       <Footer />
