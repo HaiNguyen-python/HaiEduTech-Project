@@ -15,9 +15,9 @@ import classroom10 from "@/assets/classroom-10.jpg";
 import classroom11 from "@/assets/classroom-11.jpg";
 import classroom12 from "@/assets/classroom-12.jpg";
 import classroom13 from "@/assets/classroom-13.jpg";
-import classroom14 from "@/assets/classroom-14.jpg";
+import classroom14 from "@/assets/classroom-14.webp";
 import classroom15 from "@/assets/classroom-15.jpg";
-import classroom16 from "@/assets/classroom-16.jpg";
+import classroom16 from "@/assets/classroom-16.webp";
 import classroom17 from "@/assets/classroom-17.jpg";
 import classroom18 from "@/assets/classroom-18.jpg";
 

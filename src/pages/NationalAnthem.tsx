@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import flagWaving from "@/assets/vietnam-flag-waving.jpg";
-import soldierFlag from "@/assets/soldier-flag.png";
+import soldierFlag from "@/assets/soldier-flag.webp";
 
 // Lyrics data (static display only)
 const lyricsLines = [

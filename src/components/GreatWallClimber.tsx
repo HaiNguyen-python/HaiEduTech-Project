@@ -1,8 +1,8 @@
 // Great Wall Climber progress visualization — Chinese cultural theme for HSK vocab mastery
 import { useMemo, useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import greatWallBg from "@/assets/great-wall-bg.jpg";
-import scholarImg from "@/assets/chinese-scholar.png";
+import greatWallBg from "@/assets/great-wall-bg.webp";
+import scholarImg from "@/assets/chinese-scholar.webp";
 
 interface FlyingStar {
   id: number;

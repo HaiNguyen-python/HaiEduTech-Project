@@ -3,7 +3,7 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flag, Mountain } from "lucide-react";
 import mountainBg from "@/assets/mountain-climber-bg.png";
-import climberImg from "@/assets/climber-character.png";
+import climberImg from "@/assets/climber-character.webp";
 
 interface FlyingStar {
   id: number;

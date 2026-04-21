@@ -6,7 +6,7 @@ import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera, Book
 import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import ClassroomGallery from "@/components/ClassroomGallery";
-import teacherHaiChibi from "@/assets/teacher-hai-chibi-philosophy.png";
+import teacherHaiChibi from "@/assets/teacher-hai-chibi-philosophy.webp";
 import AdSlot from "@/components/ads/AdSlot";
 
 const About = () => {

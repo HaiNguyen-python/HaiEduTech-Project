@@ -1,8 +1,8 @@
 // Learn Vietnamese main page with language, history, folklore, and game sections
 import { useState, useEffect, useRef } from "react";
-import vietnameseCultureBanner from "@/assets/vietnamese-culture-banner.jpg";
-import vietnameseLanguageBg from "@/assets/vietnamese-language-bg.jpg";
-import vietnamFlag from "@/assets/vietnam-flag.png";
+import vietnameseCultureBanner from "@/assets/vietnamese-culture-banner.webp";
+import vietnameseLanguageBg from "@/assets/vietnamese-language-bg.webp";
+import vietnamFlag from "@/assets/vietnam-flag.webp";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
