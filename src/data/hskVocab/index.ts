@@ -11,8 +11,9 @@ import { hsk3Words } from "./hsk3";
 import { hsk4Words } from "./hsk4";
 import { hsk5Words } from "./hsk5";
 import { hsk6Words } from "./hsk6";
+import { hskExpansionWords } from "./hskExpansion";
 
-// Combined HSK 1-6 vocabulary bank (~1000 words)
+// Combined HSK 1-6 vocabulary bank (~1340 words)
 export const hskVocabData = [
   ...hsk1Words,
   ...hsk2Words,
@@ -20,4 +21,5 @@ export const hskVocabData = [
   ...hsk4Words,
   ...hsk5Words,
   ...hsk6Words,
+  ...hskExpansionWords,
 ];
