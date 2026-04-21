@@ -10,6 +10,7 @@ import { vietnameseAlphabet, vietnameseTones, type AlphabetLetter } from "@/data
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { playVietnameseTts } from "@/lib/vietnameseTts";
 
 // ── Congrats messages ──
 const CONGRATS = [
@@ -228,10 +229,7 @@ const VietnameseAlphabet = () => {
   const [showCanvas, setShowCanvas] = useState(false);
 
   const playSound = (text: string) => {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "vi-VN";
-    u.rate = 0.8;
-    speechSynthesis.speak(u);
+    void playVietnameseTts(text, { playbackRate: 0.85, speechRate: 0.7 });
   };
 
   const selectLetter = (letter: AlphabetLetter) => {
