@@ -38,8 +38,8 @@ const About = () => {
       icon: Globe2,
       title: t("Công dân toàn cầu mang hồn Việt", "Global citizens with a Vietnamese soul"),
       desc: t(
-        "Đi qua Việt Nam, Phần Lan, Úc – thầy thấy rõ: các em hoàn toàn có thể vươn ra thế giới mà vẫn giữ được bản sắc. Học ngôn ngữ và công nghệ chính là tấm hộ chiếu để các em tự tin bước ra biển lớn.",
-        "Living across Vietnam, Finland, and Australia, I see clearly: our students can reach the world while keeping their roots. Languages and technology are the passport to step confidently onto the global stage."
+        "Đi qua Việt Nam và Phần Lan, thầy thấy rõ: các em hoàn toàn có thể vươn ra thế giới mà vẫn giữ được bản sắc. Học ngôn ngữ và công nghệ chính là tấm hộ chiếu để các em tự tin bước ra biển lớn.",
+        "Living across Vietnam and Finland, I see clearly: our students can reach the world while keeping their roots. Languages and technology are the passport to step confidently onto the global stage."
       ),
     },
     {
