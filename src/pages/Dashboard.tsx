@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StudentScheduleWidget from "@/components/StudentScheduleWidget";
 import CounselingHub from "@/components/counseling/CounselingHub";
+import PteSkillRings from "@/components/pte/PteSkillRings";
+import { usePteSkillStats } from "@/hooks/usePteSkillStats";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import {
