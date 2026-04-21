@@ -25,12 +25,6 @@ import AdSlot from "@/components/ads/AdSlot";
 
 const LEVELS = ["Bachelor", "Master", "PhD"] as const;
 
-const LEVEL_COLORS: Record<string, string> = {
-  Bachelor: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400",
-  Master: "bg-sky-500/15 text-sky-700 dark:text-sky-400",
-  PhD: "bg-violet-500/15 text-violet-700 dark:text-violet-400",
-};
-
 // Group countries by region for cleaner filtering
 const REGIONS = [
   {
