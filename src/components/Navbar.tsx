@@ -301,14 +301,19 @@ const Navbar = () => {
                 <motion.span
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="font-display text-lg whitespace-nowrap tracking-wider"
+                  className="text-xl whitespace-nowrap leading-none subpixel-antialiased"
+                  style={{
+                    fontFamily:
+                      '"Inter", "Segoe UI", system-ui, -apple-system, sans-serif',
+                    fontWeight: 900,
+                    letterSpacing: "0.01em",
+                    WebkitFontSmoothing: "antialiased",
+                    textRendering: "geometricPrecision",
+                  }}
                 >
-                  <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-medium">
-                    HaiEdu
-                  </span>
-                  <span className="bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent font-bold">
-                    Tech
-                  </span>
+                  <span style={{ color: "#1E40AF" }}>Hai</span>
+                  <span style={{ color: "#047857" }}>Edu</span>
+                  <span style={{ color: "#1E40AF" }}>Tech</span>
                 </motion.span>
               </Link>
 
