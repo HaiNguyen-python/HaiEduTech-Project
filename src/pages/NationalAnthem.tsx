@@ -1,6 +1,6 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, RotateCcw, Music, Star, Flag, Info, X } from "lucide-react";
+import { Music, Star, Flag, Info, X, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -61,74 +61,12 @@ const vocabItems = [
 ];
 
 const VIDEO_ID = "SK6rHXlKC0A";
-
-declare global {
-  interface Window {
-    YT: any;
-    onYouTubeIframeAPIReady: (() => void) | undefined;
-  }
-}
+const VIDEO_URL = `https://www.youtube.com/watch?v=${VIDEO_ID}`;
+// Use youtube-nocookie domain for better compatibility & privacy; embed URL also avoids the API loader.
+const EMBED_URL = `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?rel=0&modestbranding=1`;
 
 const NationalAnthem = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [showSalute, setShowSalute] = useState(false);
-  const [playerReady, setPlayerReady] = useState(false);
-
-  const playerRef = useRef<any>(null);
-  const playerContainerRef = useRef<HTMLDivElement>(null);
-
-  // Load YouTube IFrame API
-  useEffect(() => {
-    if (window.YT && window.YT.Player) {
-      createPlayer();
-      return;
-    }
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(tag);
-
-    window.onYouTubeIframeAPIReady = () => {
-      createPlayer();
-    };
-
-    return () => {
-      window.onYouTubeIframeAPIReady = undefined;
-    };
-  }, []);
-
-  const createPlayer = () => {
-    if (playerRef.current) return;
-    playerRef.current = new window.YT.Player("yt-player", {
-      videoId: VIDEO_ID,
-      playerVars: {
-        rel: 0,
-        modestbranding: 1,
-        enablejsapi: 1,
-      },
-      events: {
-        onReady: () => setPlayerReady(true),
-      },
-    });
-  };
-
-  const handleStart = useCallback(() => {
-    if (!playerRef.current) return;
-    playerRef.current.playVideo();
-    setIsPlaying(true);
-  }, []);
-
-  const handlePause = useCallback(() => {
-    setIsPlaying(false);
-    if (playerRef.current) playerRef.current.pauseVideo();
-  }, []);
-
-  const handleReplay = useCallback(() => {
-    setIsPlaying(false);
-    if (playerRef.current) {
-      playerRef.current.seekTo(0);
-      playerRef.current.pauseVideo();
-    }
-  }, []);
 
   // Salute animation with trumpet sound
   const handleSalute = useCallback(() => {
@@ -266,27 +204,30 @@ const NationalAnthem = () => {
 
             {/* Video Player */}
             <Card className="overflow-hidden border-red-100">
-              <div className="aspect-video">
-                <div id="yt-player" ref={playerContainerRef} className="w-full h-full" />
+              <div className="aspect-video bg-black">
+                <iframe
+                  src={EMBED_URL}
+                  title="Quốc ca Việt Nam — Tiến Quân Ca"
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
               </div>
 
-              {/* Controls bar */}
+              {/* Fallback link in case the iframe is blocked by ad blockers / extensions */}
               <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-muted/50">
-                <div className="flex items-center gap-2">
-                  <Button
-                    size="sm"
-                    variant={isPlaying ? "secondary" : "default"}
-                    onClick={isPlaying ? handlePause : handleStart}
-                    disabled={!playerReady}
-                    className="gap-1.5"
-                  >
-                    {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                    {isPlaying ? "Tạm dừng" : "Bắt đầu"}
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={handleReplay} className="gap-1.5">
-                    <RotateCcw className="w-4 h-4" /> Lại từ đầu
-                  </Button>
-                </div>
+                <p className="text-xs text-muted-foreground">
+                  Không thấy video? Có thể tiện ích chặn quảng cáo đang chặn YouTube.
+                </p>
+                <a
+                  href={VIDEO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-red-600 hover:text-red-700 underline-offset-4 hover:underline"
+                >
+                  <ExternalLink className="w-4 h-4" /> Mở trên YouTube
+                </a>
               </div>
             </Card>
 
