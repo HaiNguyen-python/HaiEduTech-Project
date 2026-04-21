@@ -1,11 +1,12 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WritingHistory from "@/components/WritingHistory";
+import WritingDraftsPanel, { type WritingDraft } from "@/components/WritingDraftsPanel";
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import {
   BookOpen, Send, Loader2, ChevronDown, ChevronUp,
-  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle
+  Download, Copy, Check, Timer, TimerOff, RefreshCw, AlertCircle, Save, FolderOpen
 } from "lucide-react";
 
 import WritingGuidePanel from "@/components/WritingGuidePanel";
@@ -18,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
 import { WritingPrompt, getRandomPrompt } from "@/data/ieltsWritingPrompts";
 import Task1Chart from "@/components/Task1Chart";
@@ -65,6 +67,11 @@ const IeltsWritingPractice = () => {
   const [timerActive, setTimerActive] = useState(false);
   const [timeLeft, setTimeLeft] = useState(TASK2_TIME);
 
+  // Drafts state
+  const [currentDraftId, setCurrentDraftId] = useState<string | null>(null);
+  const [savingDraft, setSavingDraft] = useState(false);
+  const [draftsReloadKey, setDraftsReloadKey] = useState(0);
+
   // Collapsible sections
   const [guideOpen, setGuideOpen] = useState(true);
   const [vocabOpen, setVocabOpen] = useState(false);
@@ -104,6 +111,76 @@ const IeltsWritingPractice = () => {
     setCurrentPrompt(prompt);
     setResult(null);
     setEssay("");
+    setCurrentDraftId(null);
+  };
+
+  const handleSaveDraft = async () => {
+    if (!currentPrompt || !essay.trim()) {
+      toast({ title: t("Chưa có gì để lưu", "Nothing to save"), description: t("Hãy viết vài câu rồi lưu nháp.", "Write something first, then save the draft."), variant: "destructive" });
+      return;
+    }
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast({ title: t("Cần đăng nhập", "Sign in required"), description: t("Đăng nhập để lưu bản nháp và quay lại viết tiếp.", "Sign in to save drafts and resume later."), variant: "destructive" });
+      return;
+    }
+    setSavingDraft(true);
+    const firstLine = essay.trim().split("\n")[0].slice(0, 60) || `Task ${taskType} draft`;
+    const payload = {
+      user_id: user.id,
+      task_type: taskType,
+      sub_type: subType || null,
+      prompt: currentPrompt.prompt,
+      prompt_meta: {
+        id: currentPrompt.id,
+        essayType: currentPrompt.essayType ?? null,
+        chartType: currentPrompt.chartType ?? null,
+      } as never,
+      essay,
+      word_count: wordCount,
+      title: firstLine,
+      time_left_seconds: timeLeft,
+    };
+    if (currentDraftId) {
+      const { error } = await supabase.from("writing_drafts").update(payload).eq("id", currentDraftId);
+      if (error) {
+        toast({ title: t("Lỗi", "Error"), description: error.message, variant: "destructive" });
+      } else {
+        toast({ title: t("Đã cập nhật bản nháp ✅", "Draft updated ✅") });
+        setDraftsReloadKey(k => k + 1);
+      }
+    } else {
+      const { data, error } = await supabase.from("writing_drafts").insert(payload).select("id").maybeSingle();
+      if (error) {
+        toast({ title: t("Lỗi", "Error"), description: error.message, variant: "destructive" });
+      } else {
+        if (data?.id) setCurrentDraftId(data.id);
+        toast({ title: t("Đã lưu nháp ✅", "Draft saved ✅"), description: t("Bạn có thể quay lại viết tiếp bất cứ lúc nào.", "You can resume anytime.") });
+        setDraftsReloadKey(k => k + 1);
+      }
+    }
+    setSavingDraft(false);
+  };
+
+  const handleResumeDraft = (draft: WritingDraft) => {
+    setTaskType(draft.task_type as 1 | 2);
+    setSubType(draft.sub_type || "");
+    const meta = (draft.prompt_meta || {}) as { id?: string; essayType?: string; chartType?: string };
+    setCurrentPrompt({
+      id: meta.id || `draft-${draft.id}`,
+      taskType: draft.task_type as 1 | 2,
+      ...(draft.task_type === 2 ? { essayType: meta.essayType } : { chartType: meta.chartType }),
+      prompt: draft.prompt,
+      writingGuide: [],
+      vocabularyBank: [],
+      brainstormingIdeas: [],
+    } as WritingPrompt);
+    setEssay(draft.essay);
+    setResult(null);
+    setCurrentDraftId(draft.id);
+    if (typeof draft.time_left_seconds === "number") setTimeLeft(draft.time_left_seconds);
+    setTimerActive(false);
+    toast({ title: t("Đã tải bản nháp 📂", "Draft loaded 📂"), description: t("Tiếp tục viết và bấm Lưu nháp khi muốn dừng.", "Keep writing and click Save Draft when you pause.") });
   };
 
   const handleAIPrompt = async () => {
@@ -125,6 +202,7 @@ const IeltsWritingPractice = () => {
       } as WritingPrompt);
       setResult(null);
       setEssay("");
+      setCurrentDraftId(null);
     } catch (e) {
       console.error("Error generating prompt:", e);
       // Fallback to static
@@ -167,6 +245,12 @@ const IeltsWritingPractice = () => {
             domain: "english",
             metadata: { taskType, wordCount, criteria: data.criteria },
           });
+          // Remove the draft now that the essay has been graded
+          if (currentDraftId) {
+            await supabase.from("writing_drafts").delete().eq("id", currentDraftId);
+            setCurrentDraftId(null);
+            setDraftsReloadKey(k => k + 1);
+          }
         }
       } catch (saveErr) {
         console.error("Error saving attempt:", saveErr);
@@ -414,6 +498,9 @@ const IeltsWritingPractice = () => {
                 </Card>
               </Collapsible>
 
+              {/* Saved Drafts (resume unfinished essays) */}
+              <WritingDraftsPanel onResume={handleResumeDraft} reloadKey={draftsReloadKey} />
+
               {/* Writing History (for logged-in users) */}
               <WritingHistory />
             </motion.div>
@@ -441,10 +528,19 @@ const IeltsWritingPractice = () => {
                     )}
                     className="min-h-[350px] text-sm leading-relaxed resize-y"
                   />
-                  <div className="flex gap-2 mt-3">
-                    <Button onClick={handleSubmit} disabled={grading || wordCount < 50} className="flex-1">
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <Button onClick={handleSubmit} disabled={grading || wordCount < 50} className="flex-1 min-w-[160px]">
                       {grading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Send className="w-4 h-4 mr-1" />}
                       {grading ? t("Đang chấm...", "Grading...") : t("Nộp bài & Chấm điểm", "Submit & Grade")}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={handleSaveDraft}
+                      disabled={savingDraft || !essay.trim()}
+                      title={t("Lưu lại để viết tiếp sau", "Save and resume later")}
+                    >
+                      {savingDraft ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
+                      {currentDraftId ? t("Cập nhật nháp", "Update Draft") : t("Lưu nháp", "Save Draft")}
                     </Button>
                     {result && (
                       <Button variant="outline" onClick={handleDownloadPDF}>
@@ -452,6 +548,11 @@ const IeltsWritingPractice = () => {
                       </Button>
                     )}
                   </div>
+                  {currentDraftId && (
+                    <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                      <FolderOpen className="w-3 h-3" /> {t("Đang chỉnh sửa bản nháp đã lưu", "Editing a saved draft")}
+                    </p>
+                  )}
                   {wordCount > 0 && wordCount < 50 && (
                     <p className="text-xs text-destructive mt-2 flex items-center gap-1">
                       <AlertCircle className="w-3 h-3" /> {t("Cần ít nhất 50 từ để chấm điểm", "Need at least 50 words to grade")}
