@@ -1013,6 +1013,45 @@ export type Database = {
         }
         Relationships: []
       }
+      pte_attempts: {
+        Row: {
+          accuracy: number | null
+          created_at: string
+          id: string
+          max_score: number
+          metadata: Json
+          score: number
+          skill: string
+          task_type: string | null
+          time_spent_seconds: number | null
+          user_id: string
+        }
+        Insert: {
+          accuracy?: number | null
+          created_at?: string
+          id?: string
+          max_score?: number
+          metadata?: Json
+          score?: number
+          skill: string
+          task_type?: string | null
+          time_spent_seconds?: number | null
+          user_id: string
+        }
+        Update: {
+          accuracy?: number | null
+          created_at?: string
+          id?: string
+          max_score?: number
+          metadata?: Json
+          score?: number
+          skill?: string
+          task_type?: string | null
+          time_spent_seconds?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       pte_vocab_mastery: {
         Row: {
           created_at: string
