@@ -800,6 +800,48 @@ export type Database = {
         }
         Relationships: []
       }
+      motivation_letter_drafts: {
+        Row: {
+          ai_polished_at: string | null
+          ai_suggestions: Json
+          content: string
+          created_at: string
+          id: string
+          target_program: string | null
+          target_school: string | null
+          title: string
+          updated_at: string
+          user_id: string
+          word_count: number
+        }
+        Insert: {
+          ai_polished_at?: string | null
+          ai_suggestions?: Json
+          content?: string
+          created_at?: string
+          id?: string
+          target_program?: string | null
+          target_school?: string | null
+          title?: string
+          updated_at?: string
+          user_id: string
+          word_count?: number
+        }
+        Update: {
+          ai_polished_at?: string | null
+          ai_suggestions?: Json
+          content?: string
+          created_at?: string
+          id?: string
+          target_program?: string | null
+          target_school?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          word_count?: number
+        }
+        Relationships: []
+      }
       player_badges: {
         Row: {
           badge_icon: string
@@ -857,6 +899,57 @@ export type Database = {
           task_key?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      profile_strength_assessments: {
+        Row: {
+          academic_score: number
+          context_snapshot: Json
+          created_at: string
+          documents_score: number
+          experience_score: number
+          id: string
+          language_score: number
+          motivation_score: number
+          overall_score: number
+          recommendations: Json
+          strengths: Json
+          summary: string
+          user_id: string
+          weaknesses: Json
+        }
+        Insert: {
+          academic_score?: number
+          context_snapshot?: Json
+          created_at?: string
+          documents_score?: number
+          experience_score?: number
+          id?: string
+          language_score?: number
+          motivation_score?: number
+          overall_score?: number
+          recommendations?: Json
+          strengths?: Json
+          summary?: string
+          user_id: string
+          weaknesses?: Json
+        }
+        Update: {
+          academic_score?: number
+          context_snapshot?: Json
+          created_at?: string
+          documents_score?: number
+          experience_score?: number
+          id?: string
+          language_score?: number
+          motivation_score?: number
+          overall_score?: number
+          recommendations?: Json
+          strengths?: Json
+          summary?: string
+          user_id?: string
+          weaknesses?: Json
         }
         Relationships: []
       }

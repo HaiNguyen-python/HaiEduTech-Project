@@ -22,10 +22,13 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import GlobalScholarBadge from "@/components/GlobalScholarBadge";
+import MotivationLetterDrafts from "@/components/study-profile/MotivationLetterDrafts";
+import ProfileStrengthAssessment from "@/components/study-profile/ProfileStrengthAssessment";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
 const MAX_FILES_PER_USER = 50;
@@ -291,6 +294,23 @@ const StudentDocuments = () => {
             </div>
           </motion.div>
 
+          <Tabs defaultValue="documents" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-4">
+              <TabsTrigger value="documents">📁 {t("Tài liệu", "Documents")}</TabsTrigger>
+              <TabsTrigger value="motivation">✍️ {t("Motivation Letter", "Motivation Letter")}</TabsTrigger>
+              <TabsTrigger value="strength">✨ {t("Đánh giá AI", "AI Assessment")}</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="motivation" className="mt-0">
+              <MotivationLetterDrafts userId={userId} />
+            </TabsContent>
+
+            <TabsContent value="strength" className="mt-0">
+              <ProfileStrengthAssessment userId={userId} />
+            </TabsContent>
+
+            <TabsContent value="documents" className="mt-0 space-y-6">
+
           {/* Categories grid */}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
             <button
@@ -436,6 +456,8 @@ const StudentDocuments = () => {
               })}
             </div>
           )}
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
 
