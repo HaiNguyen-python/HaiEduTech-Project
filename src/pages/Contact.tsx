@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Send, CheckCircle, Mail, Github, Linkedin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import AdSlot from "@/components/ads/AdSlot";
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -122,6 +123,9 @@ const Contact = () => {
               )}
             </div>
           </motion.div>
+
+          {/* AdSense — informational page, below contact form */}
+          <AdSlot />
         </div>
       </div>
       <Footer />

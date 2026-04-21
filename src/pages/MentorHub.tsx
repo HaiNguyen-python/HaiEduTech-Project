@@ -19,6 +19,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { MENTOR_STORIES } from "@/data/mentorStories";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import AdSlot from "@/components/ads/AdSlot";
 
 const MentorHub = () => {
   const { t } = useLanguage();
@@ -291,6 +292,9 @@ const MentorHub = () => {
               </CardContent>
             </Card>
           </motion.div>
+
+          {/* AdSense — informational page, after mentor inquiry form */}
+          <AdSlot />
         </div>
       </main>
       <Footer />

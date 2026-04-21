@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import CertCarousel from "@/components/CertCarousel";
 import ClassroomGallery from "@/components/ClassroomGallery";
 import teacherHaiChibi from "@/assets/teacher-hai-chibi-philosophy.png";
+import AdSlot from "@/components/ads/AdSlot";
 
 const About = () => {
   const { t } = useLanguage();
@@ -173,6 +174,9 @@ const About = () => {
 
           </motion.div>
 
+          {/* AdSense — between intro and certificates (static content area) */}
+          <AdSlot />
+
           {/* Certificate Carousel - full width */}
           <div className="mb-12 -mx-6 md:mx-0">
             <CertCarousel />
@@ -288,6 +292,9 @@ const About = () => {
               </p>
               <p className="mt-3 text-sm font-semibold text-primary">— Mr. Hai Nguyen</p>
             </motion.div>
+
+            {/* AdSense — bottom of long article */}
+            <AdSlot />
 
             {/* Tech skills */}
             <h3 className="text-xl font-display font-semibold text-foreground mb-4">{t("Công nghệ sử dụng", "Tech Stack")}</h3>
