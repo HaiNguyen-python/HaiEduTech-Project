@@ -1182,4 +1182,5 @@ export const toeicVocabData: ToeicWord[] = [
     collocations: ["keynote speaker", "deliver a keynote", "keynote presentation"],
     category: "Events & Hospitality",
   },
+  ...toeicVocabExpansion,
 ];
