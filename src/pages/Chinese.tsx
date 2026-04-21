@@ -125,9 +125,6 @@ const Chinese = () => {
               )}
             </p>
 
-            {/* 🎵 Songs Library — featured at top for visibility */}
-            <SongsBanner language="chinese" delay={0.1} />
-
             <div className="grid md:grid-cols-3 gap-6 mb-16">
               {modules.map((m, i) => (
                 <motion.div key={m.title} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="glass-card rounded-2xl p-6">
