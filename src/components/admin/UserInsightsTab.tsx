@@ -30,7 +30,7 @@ interface PageView {
   metadata: any;
 }
 
-const RANGE_DAYS: Record<Range, number> = { "1d": 1, "7d": 7, "30d": 30, "90d": 90 };
+const RANGE_DAYS: Record<Range, number> = { "1d": 1, "7d": 7, "30d": 30, "90d": 90, "all": 0 };
 
 // Friendly labels for top routes — used to translate /chinese/hsk-guide → "HSK Guide"
 const ROUTE_LABELS: Record<string, { vi: string; en: string; group: string }> = {
