@@ -114,8 +114,7 @@ const KnowledgeHubPage = () => {
   const [advisorLoading, setAdvisorLoading] = useState(false);
   const [advisorData, setAdvisorData] = useState<AdvisorResponse | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const { profile, userId } = useStudentProfile();
+  const { profile } = useStudentProfile();
 
   const handleAdvisorSubmit = async (input: AdvisorInput) => {
     setAdvisorLoading(true);
@@ -140,10 +139,6 @@ const KnowledgeHubPage = () => {
     } finally {
       setAdvisorLoading(false);
     }
-  };
-
-  const toggleExpand = (id: string) => {
-    setExpandedId((prev) => (prev === id ? null : id));
   };
 
   return (
