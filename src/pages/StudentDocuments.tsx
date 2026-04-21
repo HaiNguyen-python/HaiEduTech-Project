@@ -277,7 +277,7 @@ const StudentDocuments = () => {
                 <FolderLock className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold">{t("Hồ sơ của tôi", "My Documents")}</h1>
+                <h1 className="text-2xl md:text-3xl font-bold">{t("Hồ sơ học tập của tôi", "My Study Profile")}</h1>
                 <p className="text-sm text-muted-foreground">
                   {t("Riêng tư & bảo mật. Chỉ bạn mới thấy file của mình.", "Private & secure — only you can see your files.")}
                 </p>
