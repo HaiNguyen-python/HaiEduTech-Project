@@ -298,22 +298,23 @@ const Navbar = () => {
                   }}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 />
-                {/* Brand name — solid teal color, fully opaque, antialiased for crisp Retina rendering */}
-                <motion.span
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="font-display text-lg whitespace-nowrap tracking-wider antialiased subpixel-antialiased text-teal-600 hover:text-teal-700 transition-colors duration-200"
+                {/* Brand name — plain span (no motion transform) for pixel-perfect crisp text */}
+                <span
+                  className="font-display text-lg whitespace-nowrap text-teal-600 hover:text-teal-700 transition-colors duration-200"
                   style={{
                     opacity: 1,
                     filter: "none",
+                    textShadow: "none",
                     WebkitFontSmoothing: "antialiased",
                     MozOsxFontSmoothing: "grayscale",
-                    textShadow: "1px 1px 0px rgba(0,0,0,0.08)",
+                    textRendering: "geometricPrecision",
+                    transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
                   }}
                 >
-                  <span className="font-semibold">HaiEdu</span>
-                  <span className="font-bold">Tech</span>
-                </motion.span>
+                  <span style={{ fontWeight: 700 }}>HaiEdu</span>
+                  <span style={{ fontWeight: 800 }}>Tech</span>
+                </span>
               </Link>
 
               {/* Slogan centered between logo and auth — with periodic ripple */}
