@@ -28,6 +28,7 @@ import {
   historyMonths,
   folkloreItems,
 } from "@/data/vietnameseCurriculumData";
+import SongsBanner from "@/components/songs/SongsBanner";
 
 // Background images for history period cards
 import historyBg1 from "@/assets/history-bg-1.jpg";
@@ -212,6 +213,8 @@ const Vietnamese = () => {
         <div ref={tabsRef} className="container mx-auto px-6">
             {/* =================== LANGUAGE TAB =================== */}
             <TabsContent value="language">
+              {/* Songs Library banner */}
+              <SongsBanner language="vietnamese" delay={0.1} />
               <div className="relative rounded-2xl overflow-hidden mb-10">
                 {/* Background image */}
                 <img

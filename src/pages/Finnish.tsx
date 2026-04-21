@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import SongsBanner from "@/components/songs/SongsBanner";
 import finnishBg from "@/assets/finnish-nordic-bg.jpg";
 
 interface ProgramCard {

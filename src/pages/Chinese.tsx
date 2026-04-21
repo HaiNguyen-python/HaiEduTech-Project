@@ -9,6 +9,7 @@ import { useState } from "react";
 import WordOfTheDay from "@/components/WordOfTheDay";
 import { chineseResources } from "@/data/lessonData";
 import { allChineseModules } from "@/data/languageCurriculum";
+import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
 
 const Chinese = () => {
@@ -313,6 +314,9 @@ const Chinese = () => {
                 ))}
               </div>
             </motion.div>
+
+            {/* Songs Library */}
+            <SongsBanner language="chinese" delay={0.45} />
 
             {/* Skill Assessment */}
             <div className="mb-10">
