@@ -16,20 +16,35 @@ import { satExpansionModules4 } from "./englishSatExpansion4";
 import { satExpansionModules5 } from "./englishSatExpansion5";
 import { grammarExpansionModules2 } from "./englishGrammarExpansion2";
 import { grammarExpansionModules3 } from "./englishGrammarExpansion3";
+import { grammarExtraLessons4, grammarExpansionModules4 } from "./englishGrammarExpansion4";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
 
 export type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry };
 
 export { ieltsModules, toeicModules, cambridgeModules, nationalExamModules, hskModules, chineseConvModules, grammarModules, satModules };
 
-// Merge extra lessons into existing grammar modules
+// Merge extra lessons (from both expansion files) into existing grammar modules
+const allGrammarExtras = [
+  ...grammarExtraLessons.map(l => ({ ...l })),
+  ...grammarExtraLessons4.map(l => ({ ...l })),
+];
 const expandedGrammarModules: LanguageModule[] = grammarModules.map(mod => {
-  const extraLessons = grammarExtraLessons
+  const extraLessons = allGrammarExtras
     .filter(l => l.moduleId === mod.id)
     .map(({ moduleId, ...lesson }) => lesson);
   if (extraLessons.length === 0) return mod;
   return { ...mod, lessons: [...mod.lessons, ...extraLessons] };
 });
+
+// Combined list of all grammar modules (base + every expansion) for the
+// English Grammar landing page.
+export const allGrammarModules: LanguageModule[] = [
+  ...expandedGrammarModules,
+  ...grammarExpansionModules,
+  ...grammarExpansionModules2,
+  ...grammarExpansionModules3,
+  ...grammarExpansionModules4,
+];
 
 // All English modules combined
 export const allEnglishModules: LanguageModule[] = [
@@ -49,6 +64,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...satExpansionModules5,
   ...grammarExpansionModules2,
   ...grammarExpansionModules3,
+  ...grammarExpansionModules4,
 ];
 
 // All Chinese modules combined
