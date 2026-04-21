@@ -26,6 +26,7 @@ import FloatingNotebook from "./components/FloatingNotebook.tsx";
 import LastSessionRecap from "./components/LastSessionRecap.tsx";
 import GlobalSuperDictionary from "./components/GlobalSuperDictionary.tsx";
 import SessionTracker from "./components/SessionTracker.tsx";
+import PageViewTracker from "./components/PageViewTracker.tsx";
 
 // Lazy-load all heavy route components for optimal code splitting
 const About = lazy(() => import("./pages/About.tsx"));
@@ -247,6 +248,7 @@ const App = () => (
           <LastSessionRecap />
           <GlobalSuperDictionary />
           <SessionTracker />
+          <PageViewTracker />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
