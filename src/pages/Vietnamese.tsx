@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -146,6 +147,7 @@ const Vietnamese = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Học Tiếng Việt: Bảng Chữ Cái, Thơ, Ca Dao, Lịch Sử | HaiEduTech" description="Khóa học tiếng Việt cho trẻ em & người nước ngoài: bảng chữ cái, nghe chép chính tả, thơ kinh điển, ca dao folklore, lịch sử Việt Nam, Quốc ca." path="/learn-vietnamese" />
       <Navbar />
       <main className="pt-0 pb-16">
         {/* Hero with illustration banner */}

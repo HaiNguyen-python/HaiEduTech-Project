@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Send, CheckCircle, Mail, Github, Linkedin } from "lucide-react";
@@ -34,6 +35,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Liên Hệ Thầy Hải - HaiEduTech | Tư Vấn Khóa Học" description="Liên hệ Thầy Hải: 0962.823.800, contact@haiedutech.com. Tư vấn IELTS, HSK, TOEIC, du học, lập trình Python miễn phí qua Zalo, Facebook, LinkedIn." path="/contact" />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">

@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { GraduationCap, Briefcase, Code2, Languages, MapPin, Users, Camera, BookOpen, Heart, Lightbulb, Compass, Sparkles, Globe2, Rocket, Quote } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -120,6 +121,7 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Về HaiEduTech & Thầy Hải Nguyễn | 15 Năm Giảng Dạy" description="HaiEduTech được sáng lập bởi Thầy Hải Nguyễn - Thạc sĩ Ngôn ngữ, 15 năm giảng dạy, Data Engineer AI tại Phần Lan. Nhiệm vụ: dân chủ hóa giáo dục bằng AI." path="/about" />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">

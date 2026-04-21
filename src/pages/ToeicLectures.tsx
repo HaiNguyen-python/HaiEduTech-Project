@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Progress } from "@/components/ui/progress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToeicLectureProgress } from "@/hooks/useToeicLectureProgress";
 import { allToeicLectures, type ToeicLecture } from "@/data/toeicLecturesData";
@@ -106,6 +107,7 @@ const ToeicLectures = () => {
 
   return (
     <div className="min-h-screen bg-[#0F172A]">
+      <SEO title="Bài Giảng TOEIC Masterclass Parts 1-7 | HaiEduTech" description="Khóa TOEIC Masterclass: Skills & Strategies cho toàn bộ Parts 1-7. Bài giảng chuyên sâu, mẹo làm bài, từ vựng theo chủ đề công việc." path="/toeic-lectures" />
       <Navbar />
       <main className="pt-24 pb-16">
         {/* Hero Section — Deep Business Blue */}

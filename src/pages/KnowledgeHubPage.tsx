@@ -6,6 +6,7 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -83,6 +84,7 @@ const KnowledgeHubPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO title="60+ Học Bổng Quốc Tế ICT, EdTech, AI | HaiEduTech" description="Cơ sở dữ liệu 60+ học bổng tại 22 quốc gia ngành ICT, EdTech, AI. Tích hợp AI Scholarship Advisor cá nhân hóa lộ trình du học miễn phí." path="/global-scholarship" />
       <Navbar />
       <main className="flex-1 pt-28 lg:pt-32 pb-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">

@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import AssessmentTool from "@/components/AssessmentTool";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle, Star, GraduationCap, Mic } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -129,6 +130,7 @@ const English = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Học Tiếng Anh Online: IELTS, TOEIC, SAT, Cambridge | HaiEduTech" description="Lộ trình học tiếng Anh toàn diện: IELTS, TOEIC, SAT, Cambridge, Grammar và Giao tiếp. Bài giảng AI cá nhân hóa, luyện đề, chấm Writing & Speaking miễn phí." path="/english" jsonLd={{"@context":"https://schema.org","@type":"Course","name":"Tiếng Anh Toàn Diện","description":"Lộ trình học tiếng Anh toàn diện: IELTS, TOEIC, SAT, Cambridge, Grammar và Giao tiếp. Bài giảng AI cá nhân hóa, luyện đề, chấm Writing & Speaking miễn phí.","provider":{{"@type":"EducationalOrganization","name":"HaiEduTech","url":"https://haiedutech.com"}},"inLanguage":"vi","url":"https://haiedutech.com/english"}} />
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">

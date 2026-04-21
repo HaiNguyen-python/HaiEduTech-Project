@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { FolderLock, FileText, GraduationCap, Compass, Briefcase, ArrowRight, Sparkles, Users, Plane } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -67,6 +68,7 @@ const StudyAbroadHub = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO title="Tư Vấn Du Học Miễn Phí: Hồ Sơ, SOP, Học Bổng | HaiEduTech" description="Cổng du học toàn diện: quản lý hồ sơ, motivation letter, SAT roadmap, PhD pathway, mentor hub, pre-departure checklist. Tư vấn 1-1 với Thầy Hải." path="/study-abroad" />
       <Navbar />
       <main className="flex-1 pt-28 lg:pt-32 pb-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
