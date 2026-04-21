@@ -461,13 +461,13 @@ function renderInteractiveLine(line: LyricLine) {
 // =====================================================
 // LYRICS HERO BANNER — eye-catching illustration on top of lyrics
 // =====================================================
-function LyricsHero({
-  song,
-  theme,
-}: {
-  song: Song;
-  theme: { from: string; to: string; ring: string; label: string };
-}) {
+const LyricsHero = React.forwardRef<
+  HTMLDivElement,
+  {
+    song: Song;
+    theme: { from: string; to: string; ring: string; label: string };
+  }
+>(function LyricsHero({ song, theme }, ref) {
   const langEmoji: Record<SongLanguage, string> = {
     english: "🎤",
     chinese: "🏮",
