@@ -146,6 +146,9 @@ const English = () => {
               )}
             </p>
 
+            {/* 🎵 Songs Library — featured at top for visibility */}
+            <SongsBanner language="english" delay={0.1} />
+
             {/* IELTS Writing Practice Banner */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
               className="mb-8 p-4 bg-primary/5 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
