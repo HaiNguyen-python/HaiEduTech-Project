@@ -18,6 +18,9 @@ import {
 } from "lucide-react";
 import { allIeltsLectures, PILLAR_META } from "@/data/ieltsLecturesData";
 import type { VocabHighlight } from "@/data/ieltsLecturesData";
+import IeltsLectureDiagram from "@/components/ielts/IeltsLectureDiagram";
+import IeltsLectureExpansionPanel from "@/components/ielts/IeltsLectureExpansionPanel";
+import { lectureExpansions } from "@/data/ieltsLectureExpansion";
 
 // Vocab Highlighter component — inline word with click-to-see definition
 const VocabWord = ({ vocab }: { vocab: VocabHighlight }) => {
@@ -189,6 +192,9 @@ const IeltsLectureView = () => {
 
             {/* === STRATEGY TAB === */}
             <TabsContent value="strategy" className="space-y-6">
+              {/* SVG diagram (only renders when one exists for this lecture) */}
+              <IeltsLectureDiagram lectureId={lecture.id} />
+
               {/* Step-by-Step Strategy */}
               <div className="space-y-4">
                 <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
@@ -247,6 +253,9 @@ const IeltsLectureView = () => {
                   </Card>
                 ))}
               </div>
+
+              {/* Extended theory: Band descriptors, common mistakes, paraphrase bank, sample sentences, golden tips */}
+              <IeltsLectureExpansionPanel lectureId={lecture.id} />
 
               {/* Teacher Hai's Golden Secret */}
               <Card className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-950/20 dark:to-yellow-950/20 border-amber-300 dark:border-amber-700">
