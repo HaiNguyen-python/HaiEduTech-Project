@@ -1493,6 +1493,51 @@ export type Database = {
         }
         Relationships: []
       }
+      writing_drafts: {
+        Row: {
+          created_at: string
+          essay: string
+          id: string
+          prompt: string
+          prompt_meta: Json
+          sub_type: string | null
+          task_type: number
+          time_left_seconds: number | null
+          title: string
+          updated_at: string
+          user_id: string
+          word_count: number
+        }
+        Insert: {
+          created_at?: string
+          essay?: string
+          id?: string
+          prompt: string
+          prompt_meta?: Json
+          sub_type?: string | null
+          task_type: number
+          time_left_seconds?: number | null
+          title?: string
+          updated_at?: string
+          user_id: string
+          word_count?: number
+        }
+        Update: {
+          created_at?: string
+          essay?: string
+          id?: string
+          prompt?: string
+          prompt_meta?: Json
+          sub_type?: string | null
+          task_type?: number
+          time_left_seconds?: number | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          word_count?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
