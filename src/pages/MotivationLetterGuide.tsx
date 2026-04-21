@@ -2,10 +2,12 @@
  * @file MotivationLetterGuide.tsx
  * @description Interactive guide for the Master's motivation letter + AI drafter + downloadable template.
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   FileText, Sparkles, Download, CheckCircle2, XCircle, Loader2, Copy, ChevronRight,
+  BookOpen, FilePlus2, GraduationCap, Lock,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -15,9 +17,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import MotivationLetterDrafts from "@/components/study-profile/MotivationLetterDrafts";
+import { SAMPLE_LETTERS, type SampleLetter } from "@/data/motivationLetterSamples";
 
 interface LetterInput {
   fullName: string;
