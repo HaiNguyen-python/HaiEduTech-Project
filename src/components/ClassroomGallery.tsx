@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
 
 import classroom1 from "@/assets/classroom-1.jpg";
 import classroom2 from "@/assets/classroom-2.jpg";
@@ -75,17 +76,24 @@ const MarqueeRow = ({
           return (
             <div
               key={`${img.caption}-${i}`}
-              className="relative flex-shrink-0 w-64 h-44 md:w-72 md:h-48 rounded-xl overflow-hidden cursor-pointer group"
+              className="group relative flex-shrink-0 w-64 h-44 md:w-72 md:h-48 rounded-xl cursor-pointer p-[2px] bg-gradient-to-br from-primary/40 via-emerald-400/30 to-amber-300/40 hover:from-primary hover:via-emerald-400 hover:to-amber-300 transition-all duration-500 hover:shadow-[0_0_24px_rgba(59,130,246,0.45)]"
               onClick={() => onClickImage(globalIdx)}
             >
-              <img
-                src={img.src}
-                alt={img.caption}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                <span className="text-white text-xs font-medium">{img.caption}</span>
+              <div className="relative w-full h-full rounded-[10px] overflow-hidden bg-background">
+                <img
+                  src={img.src}
+                  alt={img.caption}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                {/* Shimmer sweep */}
+                <div className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12" />
+                {/* Caption overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                  <span className="text-white text-xs font-medium drop-shadow">{img.caption}</span>
+                </div>
+                {/* Sparkle accent */}
+                <Sparkles className="absolute top-2 right-2 w-4 h-4 text-amber-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse drop-shadow-[0_0_6px_rgba(252,211,77,0.8)]" />
               </div>
             </div>
           );
