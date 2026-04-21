@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Heart, Music, BookOpen } from "lucide-react";
+import { ArrowLeft, Heart, Music, BookOpen, Volume2, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,8 +8,55 @@ import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { kidsLessons, type KidsLesson } from "@/data/vietnamese/kidsOverseasData";
+import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
+
+const SpeakButton = ({ text, label, size = "icon" }: { text: string; label: string; size?: "icon" | "sm" }) => {
+  const [loading, setLoading] = useState(false);
+  const handlePlay = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (loading) {
+      stopVietnameseTts();
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    try {
+      await playVietnameseTts(text);
+    } finally {
+      setLoading(false);
+    }
+  };
+  if (size === "sm") {
+    return (
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        onClick={handlePlay}
+        aria-label={label}
+        className="h-7 gap-1.5 px-2 text-xs"
+      >
+        {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Volume2 className="w-3.5 h-3.5" />}
+        {label}
+      </Button>
+    );
+  }
+  return (
+    <Button
+      type="button"
+      size="icon"
+      variant="ghost"
+      onClick={handlePlay}
+      aria-label={label}
+      className="h-7 w-7 shrink-0 text-primary hover:text-primary hover:bg-primary/10"
+    >
+      {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Volume2 className="w-3.5 h-3.5" />}
+    </Button>
+  );
+};
 
 const ageColor = {
   "3-6": "bg-pink-100 text-pink-800 dark:bg-pink-950 dark:text-pink-200",
@@ -46,10 +93,14 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
                     <div className="font-bold text-foreground text-sm truncate">{v.vi}</div>
                     <div className="text-xs text-muted-foreground truncate">{v.en}</div>
                   </div>
+                  <SpeakButton text={v.vi} label={`Phát âm ${v.vi}`} />
                 </div>
                 {v.example && (
-                  <div className="text-[11px] text-muted-foreground italic mt-1 leading-tight">
-                    "{v.example}"
+                  <div className="flex items-start gap-1.5 mt-1">
+                    <div className="text-[11px] text-muted-foreground italic leading-tight flex-1 whitespace-pre-wrap">
+                      "{v.example}"
+                    </div>
+                    <SpeakButton text={v.example} label="Phát âm ví dụ" />
                   </div>
                 )}
               </div>
@@ -60,28 +111,34 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
         {/* Song */}
         {lesson.song && (
           <div className="bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-950/30 dark:to-rose-950/30 border border-pink-200 dark:border-pink-900 rounded-lg p-4 mb-4">
-            <h4 className="text-sm font-bold text-pink-800 dark:text-pink-300 mb-2 flex items-center gap-1.5">
-              <Music className="w-4 h-4" />
-              🎵 {lesson.song.title}
-            </h4>
-            <pre className="text-sm font-sans whitespace-pre-wrap text-foreground leading-relaxed mb-2">
+            <div className="flex items-center justify-between mb-2 gap-2">
+              <h4 className="text-sm font-bold text-pink-800 dark:text-pink-300 flex items-center gap-1.5">
+                <Music className="w-4 h-4" />
+                🎵 {lesson.song.title}
+              </h4>
+              <SpeakButton text={`${lesson.song.title}. ${lesson.song.lyrics}`} label={t("Hát", "Sing")} size="sm" />
+            </div>
+            <div className="text-sm whitespace-pre-wrap text-foreground leading-relaxed mb-2">
               {lesson.song.lyrics}
-            </pre>
-            <pre className="text-xs font-sans whitespace-pre-wrap text-muted-foreground italic leading-relaxed">
+            </div>
+            <div className="text-xs whitespace-pre-wrap text-muted-foreground italic leading-relaxed">
               {lesson.song.lyricsEn}
-            </pre>
+            </div>
           </div>
         )}
 
         {/* Story */}
         {lesson.story && (
           <div className="bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30 border border-amber-200 dark:border-amber-900 rounded-lg p-4">
-            <h4 className="text-sm font-bold text-amber-800 dark:text-amber-300 mb-2 flex items-center gap-1.5">
-              <BookOpen className="w-4 h-4" />
-              📖 {t(lesson.story.title, lesson.story.titleEn)}
-            </h4>
-            <p className="text-sm text-foreground leading-relaxed mb-2">{lesson.story.text}</p>
-            <p className="text-xs text-muted-foreground italic leading-relaxed">{lesson.story.textEn}</p>
+            <div className="flex items-center justify-between mb-2 gap-2">
+              <h4 className="text-sm font-bold text-amber-800 dark:text-amber-300 flex items-center gap-1.5">
+                <BookOpen className="w-4 h-4" />
+                📖 {t(lesson.story.title, lesson.story.titleEn)}
+              </h4>
+              <SpeakButton text={lesson.story.text} label={t("Đọc", "Read")} size="sm" />
+            </div>
+            <p className="text-sm text-foreground leading-relaxed mb-2 whitespace-pre-wrap">{lesson.story.text}</p>
+            <p className="text-xs text-muted-foreground italic leading-relaxed whitespace-pre-wrap">{lesson.story.textEn}</p>
           </div>
         )}
       </CardContent>
