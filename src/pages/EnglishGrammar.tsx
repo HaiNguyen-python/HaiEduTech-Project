@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { grammarModules } from "@/data/languageCurriculum/englishGrammar";
+import { allGrammarModules } from "@/data/languageCurriculum";
 import { BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -26,7 +26,7 @@ const EnglishGrammar = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {grammarModules.map((mod, i) => (
+          {allGrammarModules.map((mod, i) => (
             <motion.div
               key={mod.id}
               initial={{ opacity: 0, y: 20 }}
