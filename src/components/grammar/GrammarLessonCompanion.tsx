@@ -134,7 +134,7 @@ const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
       exercise.sentences.map((sentence): FillBlankExampleSource => ({
         prompt: sentence.textEn || sentence.text,
         answer: sentence.answer,
-        hint: sentence.hintEn || sentence.hint,
+        hint: ((sentence as { hintEn?: string }).hintEn) || sentence.hint,
       }))
     )
     .slice(0, 3)
