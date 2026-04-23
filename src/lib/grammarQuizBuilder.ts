@@ -112,6 +112,53 @@ const buildQuestion = (question: string, correct: string, options: string[], exp
   explanation,
 });
 
+const replaceBlankWithOption = (template: string, option: string) =>
+  sanitizeSentence(template.replace(/_{3,5}/, option));
+
+const cleanExampleLine = (line: string) =>
+  stripMarkdown(
+    line
+      .replace(/^[-*•]\s*/, "")
+      .replace(/^(?:✅|✔️|✔|Correct:?)\s*/i, "")
+      .replace(/^(?:❌|✘|Wrong:?)\s*/i, "")
+      .replace(/^Example:?\s*/i, "")
+  );
+
+const extractExampleLines = (theory: string) => {
+  const lines = theory.replace(/\r/g, "").split("\n").map((line) => line.trim()).filter(Boolean);
+
+  return {
+    correct: unique(lines
+      .filter((line) => /^(?:[-*•]\s*)?(?:✅|✔️|✔|Correct:?)/i.test(line))
+      .map(cleanExampleLine)
+      .filter((line) => line.split(/\s+/).length >= 3)),
+    wrong: unique(lines
+      .filter((line) => /^(?:[-*•]\s*)?(?:❌|✘|Wrong:?)/i.test(line))
+      .map(cleanExampleLine)
+      .filter((line) => line.split(/\s+/).length >= 3)),
+  };
+};
+
+const scoreQuestionPracticality = (question: MCQExercise) => {
+  const prompt = question.question.toLowerCase();
+  const averageOptionLength = question.options.reduce((sum, option) => sum + option.split(/\s+/).length, 0) / question.options.length;
+
+  let score = averageOptionLength >= 4 ? 2 : 0;
+  if (/choose the best completion|complete the sentence correctly|which sentence/.test(prompt)) score += 6;
+  if (/correct order|best correct order/.test(prompt)) score += 5;
+  if (/apply|context|natural/.test(prompt)) score += 3;
+  if (/which structure|when do we usually use|which rule best explains|review statement|review check/.test(prompt)) score -= 3;
+  if (/most nearly mean|review tip/.test(prompt)) score -= 4;
+
+  return score;
+};
+
+const prioritizePracticalQuestions = (questions: MCQExercise[]) =>
+  questions
+    .map((question, index) => ({ question, index, score: scoreQuestionPracticality(question) }))
+    .sort((a, b) => (b.score - a.score) || (a.index - b.index))
+    .map(({ question }) => question);
+
 const extractSectionMeta = (theory: string) => {
   const normalized = theory.replace(/\r/g, "");
   const matches = [...normalized.matchAll(/^###\s+(.+)$/gm)];
@@ -181,6 +228,22 @@ const buildFillBlankQuestions = (exercise: FillInBlankExercise, lessonAnswers: s
       );
     });
 
+const buildAppliedFillBlankQuestions = (exercise: FillInBlankExercise, lessonAnswers: string[]) =>
+  exercise.sentences
+    .filter((sentence) => sentence.answer && !sentence.answer.includes("/") && (sentence.textEn || sentence.text).includes("___"))
+    .map((sentence, index) => {
+      const template = sentence.textEn || sentence.text;
+      const answer = sentence.answer.trim();
+      const options = buildOptions(answer, lessonAnswers, index + 20);
+
+      return buildQuestion(
+        `Choose the best completion for this real-use sentence: "${sanitizeSentence(template.replace("___", "_____"))}"`,
+        replaceBlankWithOption(template, answer),
+        options.map((option) => replaceBlankWithOption(template, option)),
+        `${sentence.hint ? `${capitalize(stripMarkdown(sentence.hint))}. ` : ""}In natural English, we say: "${replaceBlankWithOption(template, answer)}".`
+      );
+    });
+
 const buildSentenceVariants = (correct: string, scrambled: string[]) => {
   const tokens = correct.replace(/[.?!]$/, "").split(/\s+/);
   const swapped = tokens.length > 3 ? [tokens[1], tokens[0], ...tokens.slice(2)].join(" ") : tokens.slice().reverse().join(" ");
@@ -207,6 +270,27 @@ const buildSentenceReorderQuestions = (exercise: SentenceReorderExercise) =>
       `The correctly ordered sentence is "${correct}".`
     );
   });
+
+const buildCorrectVsWrongQuestions = (lesson: LanguageLesson) => {
+  const { correct, wrong } = extractExampleLines(lesson.theoryEn || lesson.theory);
+  if (!correct.length || !wrong.length) return [];
+
+  return correct.slice(0, 4).map((correctSentence, index) => {
+    const pairedWrong = wrong[index % wrong.length];
+    const additionalWrong = wrong.filter((item) => item !== pairedWrong);
+    const options = rotateOptions(
+      unique([correctSentence, pairedWrong, ...additionalWrong]).slice(0, 4),
+      index + 30
+    );
+
+    return buildQuestion(
+      `Which sentence sounds correct and natural in this grammar context?`,
+      correctSentence,
+      options,
+      `Correct form: "${correctSentence}". Compare it with the incorrect pattern to notice the grammar choice.`
+    );
+  });
+};
 
 const buildVocabularyQuestions = (vocabulary: VocabEntry[]) => {
   const meanings = unique(vocabulary.map((item) => item.meaningEn || item.meaning).filter(Boolean));
@@ -334,13 +418,15 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
 
   const generated = dedupeQuestions([
     ...lesson.quiz,
-    ...buildTheoryQuestions(lesson),
     ...fillInBlankExercises.flatMap((exercise) => buildFillBlankQuestions(exercise, lessonAnswers)),
+    ...fillInBlankExercises.flatMap((exercise) => buildAppliedFillBlankQuestions(exercise, lessonAnswers)),
     ...sentenceReorderExercises.flatMap((exercise) => buildSentenceReorderQuestions(exercise)),
+    ...buildCorrectVsWrongQuestions(lesson),
+    ...buildTheoryQuestions(lesson),
+    ...buildFallbackReviewQuestions(lesson),
     ...buildVocabularyQuestions(lesson.vocabulary || []),
     ...buildProTipQuestions(lesson),
     ...buildExplanationRecapQuestions(lesson),
-    ...buildFallbackReviewQuestions(lesson),
   ]);
 
   while (generated.length < MIN_GRAMMAR_QUIZ_QUESTIONS) {
@@ -376,7 +462,7 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
 
   return {
     ...lesson,
-    quiz: generated.slice(0, Math.max(MIN_GRAMMAR_QUIZ_QUESTIONS, lesson.quiz.length)),
+    quiz: prioritizePracticalQuestions(generated).slice(0, Math.max(MIN_GRAMMAR_QUIZ_QUESTIONS, lesson.quiz.length)),
   };
 };
 
