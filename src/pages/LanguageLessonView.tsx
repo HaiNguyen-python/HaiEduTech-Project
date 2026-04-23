@@ -267,7 +267,6 @@ const LanguageLessonView = () => {
                   {/* Vocabulary */}
                   {lesson.vocabulary && lesson.vocabulary.length > 0 && (
                     <div className="glass-card rounded-xl p-6">
-                      <h2 className="font-semibold text-foreground mb-4">📚 {t("Từ vựng", "Vocabulary")}</h2>
                       <h2 className="font-semibold text-foreground mb-4">📚 {tr("Từ vựng", "Vocabulary")}</h2>
                       <div className="grid sm:grid-cols-2 gap-3">
                         {lesson.vocabulary.map((v, i) => (
