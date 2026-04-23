@@ -143,7 +143,11 @@ export default function LastSessionRecap() {
               .limit(5),
           ]);
 
-          setActivities((actRes.data as Activity[]) || []);
+          const visibleActivities = ((actRes.data as Activity[]) || []).filter(
+            (activity) => activity.activity_type !== "session_heartbeat"
+          );
+
+          setActivities(visibleActivities);
           setWritings((writRes.data as WritingAttempt[]) || []);
           setNotebooks((noteRes.data as Notebook[]) || []);
 
@@ -155,7 +159,7 @@ export default function LastSessionRecap() {
 
           setLoading(false);
 
-          const hasData = (actRes.data?.length || 0) + (writRes.data?.length || 0) + (noteRes.data?.length || 0) + lects.length > 0;
+          const hasData = visibleActivities.length + (writRes.data?.length || 0) + (noteRes.data?.length || 0) + lects.length > 0;
           if (hasData) setOpen(true);
         }
       }
