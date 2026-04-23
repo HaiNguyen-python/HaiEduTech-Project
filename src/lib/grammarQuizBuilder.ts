@@ -13,10 +13,13 @@ const stripMarkdown = (value: string) =>
   value
     .replace(/```[\s\S]*?```/g, "")
     .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+    .replace(/^\|.*\|$/gm, "")
+    .replace(/^\|?[-: ]+\|[-|: ]*$/gm, "")
     .replace(/\*\*|__|`|~~/g, "")
     .replace(/^#+\s*/gm, "")
     .replace(/^>\s*/gm, "")
     .replace(/\[(.*?)\]\([^)]*\)/g, "$1")
+    .replace(/\|/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
