@@ -125,11 +125,11 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
                     </Button>
                   </div>
                   <div className="mt-2 text-xs text-muted-foreground">
-                    {state === "correct"
-                      ? `Correct: ${item.answer}`
-                      : state === "wrong"
-                        ? `Try again. Correct answer: ${item.answer}`
-                        : item.hint || "Focus on the grammar signal in the sentence."}
+                     {state === "correct"
+                       ? `Correct: ${item.answer}`
+                       : state === "wrong"
+                         ? `Try again. Correct answer: ${item.answer}`
+                         : item.hint}
                   </div>
                 </div>
               );
