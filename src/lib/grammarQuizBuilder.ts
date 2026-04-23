@@ -30,6 +30,13 @@ const capitalize = (value: string) => value.charAt(0).toUpperCase() + value.slic
 
 const unique = <T,>(items: T[]) => Array.from(new Set(items));
 
+const VIETNAMESE_CHAR_RE = /[ăâđêôơưàáạảãằắặẳẵầấậẩẫèéẹẻẽềếệểễìíịỉĩòóọỏõồốộổỗờớợởỡùúụủũừứựửữỳýỵỷỹ]/i;
+
+const isEnglishQuizQuestion = (question: MCQExercise) => {
+  const content = [question.question, question.explanation, ...question.options].join(" ");
+  return !VIETNAMESE_CHAR_RE.test(content);
+};
+
 const rotateOptions = (options: string[], seed: number) => {
   if (options.length <= 1) return options;
   const shift = seed % options.length;
@@ -340,10 +347,11 @@ const buildProTipQuestions = (lesson: LanguageLesson) => {
 };
 
 const buildExplanationRecapQuestions = (lesson: LanguageLesson) => {
-  const explanations = unique(lesson.quiz.map((item) => stripMarkdown(item.explanation)).filter(Boolean));
+  const englishQuiz = lesson.quiz.filter(isEnglishQuizQuestion);
+  const explanations = unique(englishQuiz.map((item) => stripMarkdown(item.explanation)).filter(Boolean));
   if (!explanations.length) return [];
 
-  return lesson.quiz.map((item, index) => {
+  return englishQuiz.map((item, index) => {
     const correct = stripMarkdown(item.explanation);
     const options = rotateOptions(
       unique([correct, ...explanations.filter((text) => text !== correct)]).slice(0, 4),
@@ -401,7 +409,7 @@ const dedupeQuestions = (questions: MCQExercise[]) => {
 };
 
 export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLesson => {
-  if (lesson.quiz.length >= MIN_GRAMMAR_QUIZ_QUESTIONS) return lesson;
+  const englishBaseQuiz = lesson.quiz.filter(isEnglishQuizQuestion);
 
   const fillInBlankExercises = lesson.exercises.filter(
     (exercise): exercise is FillInBlankExercise => exercise.type === "fill-in-blank"
@@ -412,12 +420,12 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
 
   const lessonAnswers = unique([
     ...fillInBlankExercises.flatMap((exercise) => exercise.sentences.map((sentence) => sentence.answer.trim())),
-    ...lesson.quiz.flatMap((question) => question.options),
+    ...englishBaseQuiz.flatMap((question) => question.options),
     ...(lesson.vocabulary || []).map((item) => item.word),
   ]);
 
   const generated = dedupeQuestions([
-    ...lesson.quiz,
+    ...englishBaseQuiz,
     ...fillInBlankExercises.flatMap((exercise) => buildFillBlankQuestions(exercise, lessonAnswers)),
     ...fillInBlankExercises.flatMap((exercise) => buildAppliedFillBlankQuestions(exercise, lessonAnswers)),
     ...sentenceReorderExercises.flatMap((exercise) => buildSentenceReorderQuestions(exercise)),
@@ -462,7 +470,7 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
 
   return {
     ...lesson,
-    quiz: prioritizePracticalQuestions(generated).slice(0, Math.max(MIN_GRAMMAR_QUIZ_QUESTIONS, lesson.quiz.length)),
+    quiz: prioritizePracticalQuestions(generated).slice(0, Math.max(MIN_GRAMMAR_QUIZ_QUESTIONS, englishBaseQuiz.length)),
   };
 };
 
