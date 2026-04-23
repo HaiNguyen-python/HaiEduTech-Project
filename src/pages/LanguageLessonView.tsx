@@ -69,6 +69,7 @@ const LanguageLessonView = () => {
   const parentPath = mod.language === "chinese" ? "/chinese" : "/english";
   const parentLabel = mod.language === "chinese" ? t("Tiếng Trung", "Chinese") : t("Tiếng Anh", "English");
   const isEnglishGrammarLesson = mod.category === "grammar" && mod.language === "english";
+  const tr = (vi: string, en: string) => (isEnglishGrammarLesson ? en : t(vi, en));
 
   // Exercise renderer
   const renderExercise = (exercise: InteractiveExercise, idx: number) => {
@@ -118,12 +119,12 @@ const LanguageLessonView = () => {
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6 flex-wrap">
               <Link to={parentPath} className="hover:text-foreground flex items-center gap-1">
                 <ArrowLeft className="w-4 h-4" />
-                {parentLabel}
+                {isEnglishGrammarLesson ? "English" : parentLabel}
               </Link>
               <ChevronRight className="w-3 h-3" />
-              <span className="text-foreground font-medium">{mod.icon} {t(mod.title, mod.titleEn)}</span>
+              <span className="text-foreground font-medium">{mod.icon} {isEnglishGrammarLesson ? mod.titleEn : t(mod.title, mod.titleEn)}</span>
               <ChevronRight className="w-3 h-3" />
-              <span className="text-primary font-medium">{t(lesson.title, lesson.titleEn)}</span>
+              <span className="text-primary font-medium">{isEnglishGrammarLesson ? lesson.titleEn : t(lesson.title, lesson.titleEn)}</span>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-6">
@@ -133,9 +134,9 @@ const LanguageLessonView = () => {
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold text-foreground text-sm flex items-center gap-2">
                       <BookOpen className="w-4 h-4 text-primary" />
-                      {t("Danh sách bài học", "Lessons")}
+                      {tr("Danh sách bài học", "Lessons")}
                     </h3>
-                    <span className="text-xs text-muted-foreground">{mod.lessons.length} {t("bài", "lessons")}</span>
+                    <span className="text-xs text-muted-foreground">{mod.lessons.length} {tr("bài", "lessons")}</span>
                   </div>
                   <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-1">
                     {mod.lessons.map((l, i) => {
@@ -159,11 +160,11 @@ const LanguageLessonView = () => {
                             )}>
                               {i + 1}
                             </span>
-                            <span className="truncate">{t(l.title, l.titleEn)}</span>
+                            <span className="truncate">{isEnglishGrammarLesson ? l.titleEn : t(l.title, l.titleEn)}</span>
                           </div>
                           <div className="flex items-center gap-2 ml-7 mt-1">
                             <span className={cn("text-[10px] px-1.5 py-0.5 rounded border", d.cls)}>
-                              {t(d.labelVi, d.label)}
+                              {isEnglishGrammarLesson ? d.label : t(d.labelVi, d.label)}
                             </span>
                             <div className="flex gap-0.5">
                               {Array.from({ length: 5 }).map((_, si) => (
@@ -190,7 +191,7 @@ const LanguageLessonView = () => {
                   <div className="glass-card rounded-xl p-6">
                     <div className="flex flex-wrap items-center gap-3 mb-3">
                       <span className={cn("text-xs px-2 py-1 rounded-full border font-medium", diff.cls)}>
-                        {t(diff.labelVi, diff.label)}
+                        {isEnglishGrammarLesson ? diff.label : t(diff.labelVi, diff.label)}
                       </span>
                       <div className="flex gap-0.5">
                         {Array.from({ length: 5 }).map((_, i) => (
@@ -200,7 +201,7 @@ const LanguageLessonView = () => {
                       <span className="text-xs text-muted-foreground">Level {lesson.level}</span>
                     </div>
                     <h1 className="text-2xl font-display font-bold text-foreground">
-                      {mod.icon} {t(lesson.title, lesson.titleEn)}
+                      {mod.icon} {isEnglishGrammarLesson ? lesson.titleEn : t(lesson.title, lesson.titleEn)}
                     </h1>
                   </div>
 
@@ -210,7 +211,7 @@ const LanguageLessonView = () => {
                   <div className="glass-card rounded-xl p-6">
                     <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
                       <GraduationCap className="w-5 h-5 text-primary" />
-                      {t("Lý thuyết", "Theory")}
+                      {tr("Lý thuyết", "Theory")}
                     </h2>
                     {isEnglishGrammarLesson ? (
                       <TheorySections
@@ -250,7 +251,7 @@ const LanguageLessonView = () => {
                   {lesson.proTips && lesson.proTips.length > 0 && (
                     <div className="glass-card rounded-xl p-6 border-l-4 border-primary">
                       <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                        💡 {t("Pro Tips", "Pro Tips")}
+                        💡 {tr("Pro Tips", "Pro Tips")}
                       </h2>
                       <ul className="space-y-2">
                         {(lesson.proTipsEn ? lesson.proTipsEn : lesson.proTips)?.map((tip: string, i: number) => (
@@ -267,6 +268,7 @@ const LanguageLessonView = () => {
                   {lesson.vocabulary && lesson.vocabulary.length > 0 && (
                     <div className="glass-card rounded-xl p-6">
                       <h2 className="font-semibold text-foreground mb-4">📚 {t("Từ vựng", "Vocabulary")}</h2>
+                      <h2 className="font-semibold text-foreground mb-4">📚 {tr("Từ vựng", "Vocabulary")}</h2>
                       <div className="grid sm:grid-cols-2 gap-3">
                         {lesson.vocabulary.map((v, i) => (
                           <motion.div
@@ -301,7 +303,7 @@ const LanguageLessonView = () => {
                   {lesson.exercises.length > 0 && (
                     <div className="space-y-6">
                       <h2 className="font-semibold text-foreground text-lg flex items-center gap-2">
-                        🎯 {t("Bài tập tương tác", "Interactive Exercises")}
+                        🎯 {tr("Bài tập tương tác", "Interactive Exercises")}
                       </h2>
                       {lesson.exercises.map((ex, i) => (
                         <div key={i} className="glass-card rounded-xl p-6">
@@ -349,14 +351,14 @@ const LanguageLessonView = () => {
                           quizScore.score >= quizScore.total / 2 ? "👍" : "💪"}
                       </div>
                       <p className="text-lg font-bold text-foreground">
-                        {t("Kết quả", "Result")}: {quizScore.score}/{quizScore.total}
+                        {tr("Kết quả", "Result")}: {quizScore.score}/{quizScore.total}
                       </p>
                       <p className="text-sm text-muted-foreground mt-1">
                         {quizScore.score === quizScore.total
-                          ? t("Xuất sắc! Bạn đã hoàn thành tuyệt vời!", "Excellent! You've done perfectly!")
+                          ? tr("Xuất sắc! Bạn đã hoàn thành tuyệt vời!", "Excellent! You've done perfectly!")
                           : quizScore.score >= quizScore.total / 2
-                            ? t("Khá tốt! Hãy ôn lại những phần chưa chắc.", "Good job! Review the parts you're unsure about.")
-                            : t("Cố gắng thêm! Hãy đọc lại lý thuyết và thử lại.", "Keep trying! Re-read the theory and try again.")}
+                            ? tr("Khá tốt! Hãy ôn lại những phần chưa chắc.", "Good job! Review the parts you're unsure about.")
+                            : tr("Cố gắng thêm! Hãy đọc lại lý thuyết và thử lại.", "Keep trying! Re-read the theory and try again.")}
                       </p>
                     </motion.div>
                   )}
