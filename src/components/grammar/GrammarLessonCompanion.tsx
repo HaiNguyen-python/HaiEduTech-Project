@@ -11,6 +11,12 @@ interface TheorySection {
   body: string;
 }
 
+interface CompanionExample {
+  label: string;
+  value: string;
+  note?: string;
+}
+
 const stripMarkdown = (input: string) =>
   input
     .replace(/```[\s\S]*?```/g, "")
@@ -67,7 +73,7 @@ const extractRuleBullets = (sections: TheorySection[]) =>
     .filter(Boolean)
     .slice(0, 6);
 
-const buildWorkedExamples = (lesson: LanguageLesson) => {
+const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
   const fillBlankExamples = lesson.exercises
     .filter((exercise) => exercise.type === "fill-in-blank")
     .flatMap((exercise) =>
@@ -78,7 +84,7 @@ const buildWorkedExamples = (lesson: LanguageLesson) => {
       }))
     )
     .slice(0, 3)
-    .map((item) => ({
+    .map((item): CompanionExample => ({
       label: "Model answer",
       value: stripMarkdown(item.prompt.replace("___", item.answer)),
       note: item.hint,
@@ -87,7 +93,7 @@ const buildWorkedExamples = (lesson: LanguageLesson) => {
   const reorderExamples = lesson.exercises
     .filter((exercise) => exercise.type === "sentence-reorder")
     .flatMap((exercise) =>
-      exercise.items.map((item) => ({
+      exercise.items.map((item): CompanionExample => ({
         label: "Correct word order",
         value: item.correctEn || item.correct,
       }))

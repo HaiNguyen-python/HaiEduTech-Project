@@ -5,6 +5,7 @@ import { boldAndSanitize } from "@/lib/utils";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import GrammarLessonCompanion from "@/components/grammar/GrammarLessonCompanion";
 import LessonFeedback from "@/components/LessonFeedback";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, Loader2, BookOpen, GraduationCap, Sparkles, Star } from "lucide-react";
@@ -230,6 +231,8 @@ const LanguageLessonView = () => {
                       </ReactMarkdown>
                     </div>
                   </div>
+
+                  <GrammarLessonCompanion lesson={lesson} module={mod} />
 
                   {/* Pro Tips */}
                   {lesson.proTips && lesson.proTips.length > 0 && (
