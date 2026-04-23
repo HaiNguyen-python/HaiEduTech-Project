@@ -343,6 +343,37 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
     ...buildFallbackReviewQuestions(lesson),
   ]);
 
+  while (generated.length < MIN_GRAMMAR_QUIZ_QUESTIONS) {
+    const index = generated.length + 1;
+    const lessonName = lesson.titleEn || lesson.title;
+    const summary = stripMarkdown(lesson.theoryEn || lesson.theory)
+      .split(/(?<=[.!?])\s+/)
+      .find((item) => item.trim().length > 24) || `Review the core rule of ${lessonName}.`;
+
+    generated.push({
+      question: `Review check ${index}: which statement best matches the focus of "${lessonName}"?`,
+      options: rotateOptions(
+        [
+          summary,
+          `Ignore structure and choose only by intuition.`,
+          `Memorize isolated words without checking the grammar frame.`,
+          `Use the same pattern in every sentence regardless of context.`,
+        ],
+        index
+      ),
+      answer: rotateOptions(
+        [
+          summary,
+          `Ignore structure and choose only by intuition.`,
+          `Memorize isolated words without checking the grammar frame.`,
+          `Use the same pattern in every sentence regardless of context.`,
+        ],
+        index
+      ).indexOf(summary),
+      explanation: summary,
+    });
+  }
+
   return {
     ...lesson,
     quiz: generated.slice(0, Math.max(MIN_GRAMMAR_QUIZ_QUESTIONS, lesson.quiz.length)),
