@@ -418,13 +418,15 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
 
   const generated = dedupeQuestions([
     ...lesson.quiz,
-    ...buildTheoryQuestions(lesson),
     ...fillInBlankExercises.flatMap((exercise) => buildFillBlankQuestions(exercise, lessonAnswers)),
+    ...fillInBlankExercises.flatMap((exercise) => buildAppliedFillBlankQuestions(exercise, lessonAnswers)),
     ...sentenceReorderExercises.flatMap((exercise) => buildSentenceReorderQuestions(exercise)),
+    ...buildCorrectVsWrongQuestions(lesson),
+    ...buildTheoryQuestions(lesson),
+    ...buildFallbackReviewQuestions(lesson),
     ...buildVocabularyQuestions(lesson.vocabulary || []),
     ...buildProTipQuestions(lesson),
     ...buildExplanationRecapQuestions(lesson),
-    ...buildFallbackReviewQuestions(lesson),
   ]);
 
   while (generated.length < MIN_GRAMMAR_QUIZ_QUESTIONS) {
@@ -460,7 +462,7 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
 
   return {
     ...lesson,
-    quiz: generated.slice(0, Math.max(MIN_GRAMMAR_QUIZ_QUESTIONS, lesson.quiz.length)),
+    quiz: prioritizePracticalQuestions(generated).slice(0, Math.max(MIN_GRAMMAR_QUIZ_QUESTIONS, lesson.quiz.length)),
   };
 };
 
