@@ -80,6 +80,7 @@ const LanguageLessonView = () => {
             instruction={exercise.instruction}
             instructionEn={exercise.instructionEn}
             sentences={exercise.sentences}
+            forceEnglish={isEnglishGrammarLesson}
           />
         );
       case "sentence-reorder":
@@ -89,6 +90,7 @@ const LanguageLessonView = () => {
             instruction={exercise.instruction}
             instructionEn={exercise.instructionEn}
             items={exercise.items}
+            forceEnglish={isEnglishGrammarLesson}
           />
         );
       case "dictation":
@@ -98,6 +100,7 @@ const LanguageLessonView = () => {
             instruction={exercise.instruction}
             instructionEn={exercise.instructionEn}
             sentences={exercise.sentences}
+            forceEnglish={isEnglishGrammarLesson}
           />
         );
       default:
@@ -315,6 +318,7 @@ const LanguageLessonView = () => {
                     <div className="glass-card rounded-xl p-6">
                       <QuizExercise
                         questions={lesson.quiz}
+                        forceEnglish={isEnglishGrammarLesson}
                         onComplete={(score, total) => {
                           setQuizScore({ score, total });
                           logStudentActivity({
