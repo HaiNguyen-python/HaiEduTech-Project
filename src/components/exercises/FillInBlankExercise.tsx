@@ -16,9 +16,10 @@ interface Props {
   instruction: string;
   instructionEn: string;
   sentences: Sentence[];
+  forceEnglish?: boolean;
 }
 
-const FillInBlankExercise = ({ instruction, instructionEn, sentences }: Props) => {
+const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEnglish = false }: Props) => {
   const { t } = useLanguage();
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -48,7 +49,8 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences }: Props) =
 
   // Render sentence with blank replaced by input
   const renderSentence = (s: Sentence, idx: number) => {
-    const parts = t(s.text, s.textEn).split("___");
+    const displayText = forceEnglish ? (s.textEn || s.text) : t(s.text, s.textEn);
+    const parts = displayText.split("___");
     const userAnswer = answers[idx] || "";
     const isCorrect = userAnswer.trim().toLowerCase() === s.answer.toLowerCase();
 
@@ -99,12 +101,12 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences }: Props) =
               className="text-xs text-primary hover:underline flex items-center gap-1"
             >
               <Lightbulb className="w-3 h-3" />
-              {showHints[idx] ? s.hint : t("Gợi ý", "Hint")}
+              {showHints[idx] ? s.hint : (forceEnglish ? "Hint" : t("Gợi ý", "Hint"))}
             </button>
           )}
           {submitted && !isCorrect && (
             <span className="text-xs text-muted-foreground">
-              ✅ {t("Đáp án", "Answer")}: <span className="font-bold text-primary">{s.answer}</span>
+              ✅ {forceEnglish ? "Answer" : t("Đáp án", "Answer")}: <span className="font-bold text-primary">{s.answer}</span>
             </span>
           )}
         </div>
@@ -113,9 +115,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences }: Props) =
   };
 
   // Separate passage from instruction if present
-  const hasPassage = instruction.includes("\n\nPassage:");
-  const hasPassageEn = instructionEn.includes("\n\nPassage:");
-  const rawInstruction = t(instruction, instructionEn);
+  const rawInstruction = forceEnglish ? instructionEn : t(instruction, instructionEn);
   const [titlePart, ...passageParts] = rawInstruction.split("\n\nPassage:");
   const passage = passageParts.length > 0 ? passageParts.join("\n\nPassage:").trim() : null;
 
@@ -131,10 +131,10 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences }: Props) =
               "text-sm font-bold",
               score === sentences.length ? "text-green-500" : score >= sentences.length / 2 ? "text-yellow-500" : "text-destructive"
             )}>
-              {score}/{sentences.length} {t("đúng", "correct")}
+              {score}/{sentences.length} {forceEnglish ? "correct" : t("đúng", "correct")}
             </span>
             <button onClick={handleReset} className="text-sm text-primary hover:underline flex items-center gap-1">
-              <RotateCcw className="w-3 h-3" /> {t("Làm lại", "Retry")}
+              <RotateCcw className="w-3 h-3" /> {forceEnglish ? "Retry" : t("Làm lại", "Retry")}
             </button>
           </div>
         )}
@@ -158,7 +158,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences }: Props) =
           onClick={handleSubmit}
           className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
         >
-          {t("Kiểm tra", "Check Answers")}
+          {forceEnglish ? "Check Answers" : t("Kiểm tra", "Check Answers")}
         </motion.button>
       )}
     </div>
