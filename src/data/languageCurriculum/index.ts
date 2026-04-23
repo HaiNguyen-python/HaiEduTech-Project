@@ -18,6 +18,7 @@ import { grammarExpansionModules2 } from "./englishGrammarExpansion2";
 import { grammarExpansionModules3 } from "./englishGrammarExpansion3";
 import { grammarExtraLessons4, grammarExpansionModules4 } from "./englishGrammarExpansion4";
 import { grammarExpansionModules5 } from "./englishGrammarExpansion5";
+import { enhanceGrammarModulesWithQuizDepth } from "@/lib/grammarQuizBuilder";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
 
 export type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry };
@@ -39,14 +40,14 @@ const expandedGrammarModules: LanguageModule[] = grammarModules.map(mod => {
 
 // Combined list of all grammar modules (base + every expansion) for the
 // English Grammar landing page.
-export const allGrammarModules: LanguageModule[] = [
+export const allGrammarModules: LanguageModule[] = enhanceGrammarModulesWithQuizDepth([
   ...expandedGrammarModules,
   ...grammarExpansionModules,
   ...grammarExpansionModules2,
   ...grammarExpansionModules3,
   ...grammarExpansionModules4,
   ...grammarExpansionModules5,
-];
+]);
 
 // All English modules combined
 export const allEnglishModules: LanguageModule[] = [
@@ -54,8 +55,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...toeicModules,
   ...cambridgeModules,
   ...nationalExamModules,
-  ...expandedGrammarModules,
-  ...grammarExpansionModules,
+  ...allGrammarModules,
   ...englishExpansion3Modules,
   ...englishExpansion4Modules,
   ...satModules,
@@ -64,10 +64,6 @@ export const allEnglishModules: LanguageModule[] = [
   ...satExpansionModules3,
   ...satExpansionModules4,
   ...satExpansionModules5,
-  ...grammarExpansionModules2,
-  ...grammarExpansionModules3,
-  ...grammarExpansionModules4,
-  ...grammarExpansionModules5,
 ];
 
 // All Chinese modules combined
