@@ -17,7 +17,7 @@ const normalize = (value: string) =>
     .trim();
 
 const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => {
-  if (module.category !== "grammar" || module.language !== "english") return null;
+  const isGrammarLesson = module.category === "grammar" && module.language === "english";
 
   const typingPrompts = useMemo(
     () =>
@@ -68,7 +68,7 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
 
   const totalItems = typingPrompts.length + sentencePrompts.length + vocabPrompts.length;
 
-  if (totalItems === 0) return null;
+  if (!isGrammarLesson || totalItems === 0) return null;
 
   const checkAnswer = (id: string, value: string, answer: string) => {
     const isCorrect = normalize(value) === normalize(answer);
