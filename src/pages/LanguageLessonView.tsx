@@ -17,6 +17,7 @@ import { allLanguageModules } from "@/data/languageCurriculum";
 import type { LanguageModule, LanguageLesson, InteractiveExercise } from "@/data/languageCurriculum";
 import { FillInBlankExercise, SentenceReorderExercise, DictationExercise, QuizExercise } from "@/components/exercises";
 import { cn } from "@/lib/utils";
+import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 
@@ -70,6 +71,9 @@ const LanguageLessonView = () => {
   const parentLabel = mod.language === "chinese" ? t("Tiếng Trung", "Chinese") : t("Tiếng Anh", "English");
   const isEnglishGrammarLesson = mod.category === "grammar" && mod.language === "english";
   const tr = (vi: string, en: string) => (isEnglishGrammarLesson ? en : t(vi, en));
+  const lessonTheory = isEnglishGrammarLesson
+    ? getEnhancedGrammarTheory(lesson, mod).replace(/^\s*#\s+[^\n]+\n+/, "")
+    : (t(lesson.theory, lesson.theoryEn) || "");
 
   // Exercise renderer
   const renderExercise = (exercise: InteractiveExercise, idx: number) => {
@@ -215,7 +219,7 @@ const LanguageLessonView = () => {
                     </h2>
                     {isEnglishGrammarLesson ? (
                       <TheorySections
-                        markdown={(t(lesson.theory, lesson.theoryEn) || "").replace(/^\s*#\s+[^\n]+\n+/, "")}
+                        markdown={lessonTheory}
                         storageKey={`grammar-theory:${mod.id}:${lesson.id}`}
                         defaultCodeLanguage="text"
                       />
@@ -223,7 +227,7 @@ const LanguageLessonView = () => {
                       <div className="prose prose-base max-w-none text-secondary-foreground leading-[1.85] text-[17px] space-y-3 [&_p]:my-3 [&_strong]:text-primary [&_strong]:font-semibold [&_ul]:my-3 [&_ul]:space-y-2 [&_li]:my-1 [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_svg]:my-4 [&_svg]:mx-auto [&_svg]:max-w-full [&_svg]:h-auto [&_figure]:my-5 [&_figure]:text-center [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_figcaption]:mt-2 [&_figcaption]:italic [&_table]:my-4 [&_table]:w-full [&_table]:border-collapse [&_th]:bg-primary/10 [&_th]:text-primary [&_th]:p-2 [&_th]:border [&_th]:border-border [&_td]:p-2 [&_td]:border [&_td]:border-border">
                         <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                           {(() => {
-                            const raw = t(lesson.theory, lesson.theoryEn) || "";
+                            const raw = lessonTheory;
                             return raw
                               .split(/\n{2,}/)
                               .map((para) => {

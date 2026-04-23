@@ -1,5 +1,6 @@
 import type { LanguageLesson, LanguageModule } from "@/data/languageCurriculum";
 import { BookMarked, CheckCircle2, CircleAlert, Lightbulb, ListChecks, ScanSearch, Shapes } from "lucide-react";
+import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
 
 interface GrammarLessonCompanionProps {
   lesson: LanguageLesson;
@@ -208,7 +209,7 @@ const buildSummaryChecklist = (lesson: LanguageLesson, module: LanguageModule) =
 const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps) => {
   if (module.category !== "grammar" || module.language !== "english") return null;
 
-  const theoryText = lesson.theoryEn || lesson.theory || "";
+  const theoryText = getEnhancedGrammarTheory(lesson, module);
   const sections = splitTheorySections(theoryText);
   const coreRules = extractRuleBullets(sections);
   const rulePatterns = extractRulePatterns(theoryText);
