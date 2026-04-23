@@ -88,6 +88,9 @@ function pickIconForTitle(title: string): LucideIcon {
 
 function splitByH2(md: string): Section[] {
   if (!md.trim()) return [];
+  if (!/^##\s+/m.test(md)) {
+    return [{ title: null, rawTitle: null, stepNumber: null, slug: "intro", body: md.trim() }];
+  }
   const lines = md.split("\n");
   const sections: Section[] = [];
   let current: { title: string | null; rawTitle: string | null; stepNumber: string | null; bodyLines: string[] } = {

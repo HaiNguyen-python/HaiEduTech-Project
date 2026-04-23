@@ -15,9 +15,10 @@ interface Props {
   instruction: string;
   instructionEn: string;
   items: ReorderItem[];
+  forceEnglish?: boolean;
 }
 
-const SentenceReorderExercise = ({ instruction, instructionEn, items }: Props) => {
+const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEnglish = false }: Props) => {
   const { t } = useLanguage();
   const [selectedWords, setSelectedWords] = useState<Record<number, string[]>>(
     () => Object.fromEntries(items.map((_, i) => [i, []]))
@@ -44,7 +45,8 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items }: Props) =
 
   const isCorrect = (itemIdx: number) => {
     const userSentence = (selectedWords[itemIdx] || []).join(" ");
-    return userSentence.toLowerCase() === items[itemIdx].correct.toLowerCase();
+    const expected = items[itemIdx].correctEn || items[itemIdx].correct;
+    return userSentence.toLowerCase() === expected.toLowerCase();
   };
 
   const score = items.reduce((acc, _, i) => acc + (isCorrect(i) ? 1 : 0), 0);
@@ -54,7 +56,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items }: Props) =
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-foreground flex items-center gap-2">
           <Shuffle className="w-4 h-4 text-primary" />
-          {t(instruction, instructionEn)}
+          {forceEnglish ? instructionEn : t(instruction, instructionEn)}
         </h3>
         {submitted && (
           <div className="flex items-center gap-3">
@@ -62,10 +64,10 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items }: Props) =
               "text-sm font-bold",
               score === items.length ? "text-green-500" : score >= items.length / 2 ? "text-yellow-500" : "text-destructive"
             )}>
-              {score}/{items.length} {t("đúng", "correct")}
+              {score}/{items.length} {forceEnglish ? "correct" : t("đúng", "correct")}
             </span>
             <button onClick={handleReset} className="text-sm text-primary hover:underline flex items-center gap-1">
-              <RotateCcw className="w-3 h-3" /> {t("Làm lại", "Retry")}
+              <RotateCcw className="w-3 h-3" /> {forceEnglish ? "Retry" : t("Làm lại", "Retry")}
             </button>
           </div>
         )}
@@ -85,7 +87,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items }: Props) =
               transition={{ delay: idx * 0.1 }}
               className="glass-card rounded-xl p-4 space-y-3"
             >
-              <span className="text-xs font-medium text-muted-foreground">{t("Câu", "Sentence")} {idx + 1}</span>
+              <span className="text-xs font-medium text-muted-foreground">{forceEnglish ? "Sentence" : t("Câu", "Sentence")} {idx + 1}</span>
 
               {/* Selected words - the answer area */}
               <div className={cn(
@@ -99,7 +101,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items }: Props) =
                     : "border-border"
               )}>
                 {selected.length === 0 && (
-                  <span className="text-xs text-muted-foreground italic py-1">{t("Nhấn vào các từ bên dưới để sắp xếp...", "Click words below to arrange...")}</span>
+                  <span className="text-xs text-muted-foreground italic py-1">{forceEnglish ? "Click the words below to build the sentence." : t("Nhấn vào các từ bên dưới để sắp xếp...", "Click words below to arrange...")}</span>
                 )}
                 <AnimatePresence>
                   {selected.map((word, wi) => (
@@ -148,7 +150,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items }: Props) =
               {/* Show correct answer if wrong */}
               {submitted && !correct && (
                 <p className="text-xs text-muted-foreground">
-                  ✅ {t("Đáp án", "Answer")}: <span className="font-semibold text-primary">{item.correct}</span>
+                      ✅ {forceEnglish ? "Answer" : t("Đáp án", "Answer")}: <span className="font-semibold text-primary">{item.correctEn || item.correct}</span>
                 </p>
               )}
             </motion.div>
@@ -163,7 +165,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items }: Props) =
           onClick={handleSubmit}
           className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
         >
-          {t("Kiểm tra", "Check Answers")}
+          {forceEnglish ? "Check Answers" : t("Kiểm tra", "Check Answers")}
         </motion.button>
       )}
     </div>

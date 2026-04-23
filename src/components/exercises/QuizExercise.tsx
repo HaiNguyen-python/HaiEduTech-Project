@@ -15,9 +15,10 @@ interface QuizQuestion {
 interface Props {
   questions: QuizQuestion[];
   onComplete?: (score: number, total: number) => void;
+  forceEnglish?: boolean;
 }
 
-const QuizExercise = ({ questions, onComplete }: Props) => {
+const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) => {
   const { t } = useLanguage();
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -43,17 +44,17 @@ const QuizExercise = ({ questions, onComplete }: Props) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-foreground">✏️ {t("Trắc nghiệm", "Quiz")}</h3>
+        <h3 className="font-semibold text-foreground">✏️ {forceEnglish ? "Quiz" : t("Trắc nghiệm", "Quiz")}</h3>
         {submitted && (
           <div className="flex items-center gap-3">
             <span className={cn(
               "text-sm font-bold",
               score === questions.length ? "text-green-500" : score >= questions.length / 2 ? "text-yellow-500" : "text-destructive"
             )}>
-              {score}/{questions.length} {t("đúng", "correct")}
+              {score}/{questions.length} {forceEnglish ? "correct" : t("đúng", "correct")}
             </span>
             <button onClick={handleReset} className="text-sm text-primary hover:underline flex items-center gap-1">
-              <RotateCcw className="w-3 h-3" /> {t("Làm lại", "Retry")}
+              <RotateCcw className="w-3 h-3" /> {forceEnglish ? "Retry" : t("Làm lại", "Retry")}
             </button>
           </div>
         )}
@@ -111,7 +112,7 @@ const QuizExercise = ({ questions, onComplete }: Props) => {
           onClick={handleSubmit}
           className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
         >
-          {t("Nộp bài", "Submit")}
+          {forceEnglish ? "Submit" : t("Nộp bài", "Submit")}
         </motion.button>
       )}
     </div>

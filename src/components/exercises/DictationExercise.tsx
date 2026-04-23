@@ -15,9 +15,10 @@ interface Props {
   instruction: string;
   instructionEn: string;
   sentences: DictationSentence[];
+  forceEnglish?: boolean;
 }
 
-const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => {
+const DictationExercise = ({ instruction, instructionEn, sentences, forceEnglish = false }: Props) => {
   const { t } = useLanguage();
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -60,7 +61,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-foreground flex items-center gap-2">
           <Headphones className="w-4 h-4 text-primary" />
-          {t(instruction, instructionEn)}
+          {forceEnglish ? instructionEn : t(instruction, instructionEn)}
         </h3>
         {submitted && (
           <div className="flex items-center gap-3">
@@ -68,10 +69,10 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
               "text-sm font-bold",
               score === sentences.length ? "text-green-500" : score >= sentences.length / 2 ? "text-yellow-500" : "text-destructive"
             )}>
-              {score}/{sentences.length} {t("đúng", "correct")}
+              {score}/{sentences.length} {forceEnglish ? "correct" : t("đúng", "correct")}
             </span>
             <button onClick={handleReset} className="text-sm text-primary hover:underline flex items-center gap-1">
-              <RotateCcw className="w-3 h-3" /> {t("Làm lại", "Retry")}
+              <RotateCcw className="w-3 h-3" /> {forceEnglish ? "Retry" : t("Làm lại", "Retry")}
             </button>
           </div>
         )}
@@ -98,13 +99,13 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
                 )}
               >
                 <Volume2 className="w-4 h-4" />
-                {playedAudio[idx] ? t("Nghe lại", "Play again") : t("Nghe", "Listen")}
+                {forceEnglish ? (playedAudio[idx] ? "Play again" : "Listen") : (playedAudio[idx] ? t("Nghe lại", "Play again") : t("Nghe", "Listen"))}
               </button>
               <button
                 onClick={() => handlePlayAudio(idx, true)}
                 className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-muted text-muted-foreground hover:bg-muted/80 transition-all border border-border"
               >
-                🐢 {t("Nghe chậm", "Slow")}
+                🐢 {forceEnglish ? "Slow" : t("Nghe chậm", "Slow")}
               </button>
               {s.hint && (
                 <span className="text-xs text-muted-foreground italic">💡 {s.hint}</span>
@@ -115,7 +116,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
               value={answers[idx] || ""}
               onChange={(e) => handleChange(idx, e.target.value)}
               disabled={submitted}
-              placeholder={t("Nghe và viết lại câu bạn nghe được...", "Listen and type what you hear...")}
+              placeholder={forceEnglish ? "Listen and type what you hear..." : t("Nghe và viết lại câu bạn nghe được...", "Listen and type what you hear...")}
               className={cn(
                 "w-full px-4 py-3 rounded-lg border text-sm transition-all outline-none resize-none min-h-[56px]",
                 submitted
@@ -137,7 +138,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
                 <div className="text-xs">
                   {!isCorrect(idx) && (
                     <p className="text-muted-foreground">
-                      ✅ {t("Đáp án", "Answer")}: <span className="font-semibold text-primary">{s.text}</span>
+                      ✅ {forceEnglish ? "Answer" : t("Đáp án", "Answer")}: <span className="font-semibold text-primary">{s.text}</span>
                     </p>
                   )}
                 </div>
@@ -154,7 +155,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences }: Props) => 
           onClick={handleSubmit}
           className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
         >
-          {t("Kiểm tra", "Check Answers")}
+          {forceEnglish ? "Check Answers" : t("Kiểm tra", "Check Answers")}
         </motion.button>
       )}
     </div>

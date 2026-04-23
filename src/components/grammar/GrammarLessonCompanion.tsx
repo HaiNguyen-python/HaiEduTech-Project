@@ -25,12 +25,16 @@ interface RulePattern {
 const stripMarkdown = (input: string) =>
   input
     .replace(/```[\s\S]*?```/g, "")
+    .replace(/^\|.*\|$/gm, "")
+    .replace(/^\|?[-: ]+\|[-|: ]*$/gm, "")
     .replace(/\*\*(.*?)\*\*/g, "$1")
     .replace(/\*(.*?)\*/g, "$1")
     .replace(/`([^`]+)`/g, "$1")
     .replace(/^#+\s*/gm, "")
     .replace(/^>\s*/gm, "")
     .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+    .replace(/\|/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 
 const splitTheorySections = (markdown: string): TheorySection[] => {
