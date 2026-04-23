@@ -17,6 +17,12 @@ interface CompanionExample {
   note?: string;
 }
 
+interface FillBlankExampleSource {
+  prompt: string;
+  answer: string;
+  hint?: string;
+}
+
 interface RulePattern {
   pattern: string;
   use: string;
@@ -125,10 +131,10 @@ const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
   const fillBlankExamples = lesson.exercises
     .filter((exercise) => exercise.type === "fill-in-blank")
     .flatMap((exercise) =>
-      exercise.sentences.map((sentence) => ({
+      exercise.sentences.map((sentence): FillBlankExampleSource => ({
         prompt: sentence.textEn || sentence.text,
         answer: sentence.answer,
-        hint: sentence.hint,
+        hint: ((sentence as { hintEn?: string }).hintEn) || sentence.hint,
       }))
     )
     .slice(0, 3)
