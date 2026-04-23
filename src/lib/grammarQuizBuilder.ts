@@ -228,6 +228,22 @@ const buildFillBlankQuestions = (exercise: FillInBlankExercise, lessonAnswers: s
       );
     });
 
+const buildAppliedFillBlankQuestions = (exercise: FillInBlankExercise, lessonAnswers: string[]) =>
+  exercise.sentences
+    .filter((sentence) => sentence.answer && !sentence.answer.includes("/") && (sentence.textEn || sentence.text).includes("___"))
+    .map((sentence, index) => {
+      const template = sentence.textEn || sentence.text;
+      const answer = sentence.answer.trim();
+      const options = buildOptions(answer, lessonAnswers, index + 20);
+
+      return buildQuestion(
+        `Choose the best completion for this real-use sentence: "${sanitizeSentence(template.replace("___", "_____"))}"`,
+        replaceBlankWithOption(template, answer),
+        options.map((option) => replaceBlankWithOption(template, option)),
+        `${sentence.hint ? `${capitalize(stripMarkdown(sentence.hint))}. ` : ""}In natural English, we say: "${replaceBlankWithOption(template, answer)}".`
+      );
+    });
+
 const buildSentenceVariants = (correct: string, scrambled: string[]) => {
   const tokens = correct.replace(/[.?!]$/, "").split(/\s+/);
   const swapped = tokens.length > 3 ? [tokens[1], tokens[0], ...tokens.slice(2)].join(" ") : tokens.slice().reverse().join(" ");
@@ -254,6 +270,27 @@ const buildSentenceReorderQuestions = (exercise: SentenceReorderExercise) =>
       `The correctly ordered sentence is "${correct}".`
     );
   });
+
+const buildCorrectVsWrongQuestions = (lesson: LanguageLesson) => {
+  const { correct, wrong } = extractExampleLines(lesson.theoryEn || lesson.theory);
+  if (!correct.length || !wrong.length) return [];
+
+  return correct.slice(0, 4).map((correctSentence, index) => {
+    const pairedWrong = wrong[index % wrong.length];
+    const additionalWrong = wrong.filter((item) => item !== pairedWrong);
+    const options = rotateOptions(
+      unique([correctSentence, pairedWrong, ...additionalWrong]).slice(0, 4),
+      index + 30
+    );
+
+    return buildQuestion(
+      `Which sentence sounds correct and natural in this grammar context?`,
+      correctSentence,
+      options,
+      `Correct form: "${correctSentence}". Compare it with the incorrect pattern to notice the grammar choice.`
+    );
+  });
+};
 
 const buildVocabularyQuestions = (vocabulary: VocabEntry[]) => {
   const meanings = unique(vocabulary.map((item) => item.meaningEn || item.meaning).filter(Boolean));
