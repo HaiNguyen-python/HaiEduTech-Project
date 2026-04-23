@@ -42,7 +42,7 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
   const score = questions.reduce((acc, q, i) => acc + (answers[i] === q.answer ? 1 : 0), 0);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-foreground">✏️ {forceEnglish ? "Quiz" : t("Trắc nghiệm", "Quiz")}</h3>
         {submitted && (
@@ -60,17 +60,17 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
         )}
       </div>
 
-      <div className="space-y-5">
+      <div className="space-y-8 md:space-y-10">
         {questions.map((q, qi) => (
           <motion.div
             key={qi}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: qi * 0.08 }}
-            className="space-y-2"
+            className="space-y-4 rounded-xl border border-border bg-card/60 p-4 md:p-5"
           >
-            <p className="text-sm font-medium text-foreground">{qi + 1}. {q.question}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <p className="text-base leading-7 font-medium text-foreground">{qi + 1}. {q.question}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {q.options.map((opt, oi) => {
                 const selected = answers[qi] === oi;
                 const isCorrectOpt = q.answer === oi;
@@ -79,7 +79,7 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
                     key={oi}
                     onClick={() => handleAnswer(qi, oi)}
                     className={cn(
-                      "px-3 py-2 rounded-lg text-sm text-left transition-all border flex items-center gap-2",
+                      "min-h-12 px-4 py-3 rounded-lg text-sm leading-6 text-left transition-all border flex items-start gap-2",
                       submitted
                         ? isCorrectOpt
                           ? "border-green-500 bg-green-500/10 text-green-700"
@@ -99,7 +99,7 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
               })}
             </div>
             {submitted && (
-              <p className="text-xs text-muted-foreground ml-1 mt-1">💬 {q.explanation}</p>
+              <p className="text-xs leading-6 text-muted-foreground ml-1 pt-1">💬 {q.explanation}</p>
             )}
           </motion.div>
         ))}
