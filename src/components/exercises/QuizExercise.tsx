@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { CheckCircle, XCircle, RotateCcw } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { pickEnglishGrammarCopy } from "@/lib/englishGrammarCopy";
 
 interface QuizQuestion {
   question: string;
@@ -69,7 +70,7 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
             transition={{ delay: qi * 0.08 }}
             className="space-y-4 rounded-xl border border-border bg-card/60 p-4 md:p-5"
           >
-            <p className="text-base leading-7 font-medium text-foreground">{qi + 1}. {q.question}</p>
+              <p className="text-base leading-7 font-medium text-foreground">{qi + 1}. {pickEnglishGrammarCopy(q.question, undefined, "Choose the correct answer.")}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {q.options.map((opt, oi) => {
                 const selected = answers[qi] === oi;
@@ -93,13 +94,13 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
                   >
                     {submitted && isCorrectOpt && <CheckCircle className="w-3.5 h-3.5 shrink-0" />}
                     {submitted && selected && !isCorrectOpt && <XCircle className="w-3.5 h-3.5 shrink-0" />}
-                    {opt}
+                     {pickEnglishGrammarCopy(opt, undefined, opt)}
                   </button>
                 );
               })}
             </div>
             {submitted && (
-              <p className="text-xs leading-6 text-muted-foreground ml-1 pt-1">💬 {q.explanation}</p>
+              <p className="text-xs leading-6 text-muted-foreground ml-1 pt-1">💬 {pickEnglishGrammarCopy(q.explanation, undefined, "Review the rule and compare it with the correct answer.")}</p>
             )}
           </motion.div>
         ))}
