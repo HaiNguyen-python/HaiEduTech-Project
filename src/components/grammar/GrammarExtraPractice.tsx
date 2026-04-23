@@ -3,6 +3,7 @@ import type { LanguageLesson, LanguageModule } from "@/data/languageCurriculum";
 import { BadgeCheck, PencilLine, Rows3, SpellCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { pickEnglishGrammarCopy } from "@/lib/englishGrammarCopy";
 
 interface GrammarExtraPracticeProps {
   lesson: LanguageLesson;
@@ -24,11 +25,11 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
       lesson.exercises
         .filter((exercise) => exercise.type === "fill-in-blank")
         .flatMap((exercise) =>
-          exercise.sentences.map((sentence, index) => ({
+            exercise.sentences.map((sentence, index) => ({
             id: `${lesson.id}-typing-${index}`,
             prompt: sentence.textEn || sentence.text,
             answer: sentence.answer,
-            hint: sentence.hint,
+              hint: pickEnglishGrammarCopy(sentence.hint, undefined, "Focus on the grammar signal in the sentence."),
           }))
         )
         .slice(0, 3),

@@ -1,6 +1,7 @@
 import type { LanguageLesson, LanguageModule } from "@/data/languageCurriculum";
 import { BookMarked, CheckCircle2, CircleAlert, Lightbulb, ListChecks, ScanSearch, Shapes } from "lucide-react";
 import { getEnhancedGrammarTheory } from "@/lib/grammarTheoryEnhancer";
+import { pickEnglishGrammarCopy } from "@/lib/englishGrammarCopy";
 
 interface GrammarLessonCompanionProps {
   lesson: LanguageLesson;
@@ -135,7 +136,11 @@ const buildWorkedExamples = (lesson: LanguageLesson): CompanionExample[] => {
       exercise.sentences.map((sentence): FillBlankExampleSource => ({
         prompt: sentence.textEn || sentence.text,
         answer: sentence.answer,
-        hint: ((sentence as { hintEn?: string }).hintEn) || sentence.hint,
+        hint: pickEnglishGrammarCopy(
+          ((sentence as { hintEn?: string }).hintEn) || undefined,
+          sentence.hint,
+          "Focus on the grammar role in this sentence."
+        ),
       }))
     )
     .slice(0, 3)
@@ -167,9 +172,19 @@ const buildCommonMistakes = (lesson: LanguageLesson, theoryText: string) => {
 
   const quizTraps = lesson.quiz
     .slice(0, Math.max(0, 4 - explicitMistakes.length))
-    .map((question) => `${stripMarkdown(question.question)} — ${stripMarkdown(question.explanation)}`);
+    .map((question) => {
+      const questionText = pickEnglishGrammarCopy(question.question, undefined, "Review this grammar question.");
+      const explanationText = pickEnglishGrammarCopy(
+        question.explanation,
+        undefined,
+        "Check why the correct option matches the grammar rule."
+      );
+
+      return `${stripMarkdown(questionText)} — ${stripMarkdown(explanationText)}`;
+    });
 
   const proTips = (lesson.proTipsEn || lesson.proTips || [])
+    .map((tip) => pickEnglishGrammarCopy(tip, undefined, "Check the rule carefully before you answer."))
     .filter((tip) => /not|don't|do not|must|always|never/i.test(tip))
     .slice(0, Math.max(0, 4 - explicitMistakes.length - quizTraps.length));
 
