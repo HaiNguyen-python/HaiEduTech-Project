@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { CheckCircle, XCircle, Lightbulb, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { pickEnglishGrammarCopy } from "@/lib/englishGrammarCopy";
 
 interface Sentence {
   text: string;
@@ -95,13 +96,15 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, forceEngli
         </div>
 
         <div className="flex items-center gap-3 ml-8">
-          {s.hint && !submitted && (
+          {pickEnglishGrammarCopy(s.hint, undefined, "Hint") && !submitted && (
             <button
               onClick={() => toggleHint(idx)}
               className="text-xs text-primary hover:underline flex items-center gap-1"
             >
               <Lightbulb className="w-3 h-3" />
-              {showHints[idx] ? s.hint : (forceEnglish ? "Hint" : t("Gợi ý", "Hint"))}
+              {showHints[idx]
+                ? pickEnglishGrammarCopy(s.hint, undefined, "Focus on the grammar clue.")
+                : (forceEnglish ? "Hint" : t("Gợi ý", "Hint"))}
             </button>
           )}
           {submitted && !isCorrect && (

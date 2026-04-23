@@ -513,9 +513,9 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
 - ❌ Never use "that" after a preposition
 - ❌ Never use "who" after a preposition → use "whom"`,
     proTips: [
-      "Formal: preposition + whom/which. Informal: whom/which/that... preposition cuối.",
-      "KHÔNG dùng 'that' sau giới từ",
-      "whom = object form → dùng sau giới từ cho người"
+      "Formal: preposition + whom/which. Informal: place the preposition at the end.",
+      "Never use 'that' after a preposition.",
+      "Use 'whom' after a preposition when you refer to a person."
     ],
     proTipsEn: [
       "Formal: preposition + whom/which. Informal: ...preposition at end.",
@@ -523,9 +523,9 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       "whom = object form → used after prepositions for people"
     ],
     vocabulary: [
-      { word: "formal", meaning: "trang trọng", example: "The letter was written in a formal tone." },
-      { word: "informal", meaning: "thân mật", example: "The conversation was informal." },
-      { word: "whom", meaning: "ai (tân ngữ)", example: "To whom did you speak?" }
+      { word: "formal", meaning: "formal; suitable for serious or official contexts", example: "The letter was written in a formal tone.", meaningEn: "formal; suitable for serious or official contexts", exampleEn: "The letter was written in a formal tone." },
+      { word: "informal", meaning: "informal; suitable for relaxed conversation", example: "The conversation was informal.", meaningEn: "informal; suitable for relaxed conversation", exampleEn: "The conversation was informal." },
+      { word: "whom", meaning: "object form used for people", example: "To whom did you speak?", meaningEn: "object form used for people", exampleEn: "To whom did you speak?" }
     ],
     exercises: [
       {
@@ -533,10 +533,10 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
         instruction: "Điền đại từ quan hệ + giới từ phù hợp",
         instructionEn: "Fill in the correct relative pronoun with preposition",
         sentences: [
-          { text: "The woman ___ ___ I work is very kind. (formal)", textEn: "The woman ___ ___ I work is very kind. (formal)", answer: "with whom", hint: "Giới từ + whom (formal)" },
-          { text: "The hotel ___ ___ we stayed was excellent. (formal)", textEn: "The hotel ___ ___ we stayed was excellent. (formal)", answer: "in which", hint: "Giới từ + which (formal)" },
+          { text: "The woman ___ ___ I work is very kind. (formal)", textEn: "The woman ___ ___ I work is very kind. (formal)", answer: "with whom", hint: "preposition + whom in formal English" },
+          { text: "The hotel ___ ___ we stayed was excellent. (formal)", textEn: "The hotel ___ ___ we stayed was excellent. (formal)", answer: "in which", hint: "preposition + which in formal English" },
           { text: "That's the reason ___ ___ he left. (formal)", textEn: "That's the reason ___ ___ he left. (formal)", answer: "for which", hint: "for + which" },
-          { text: "The pen ___ I wrote ___ is blue. (informal)", textEn: "The pen ___ I wrote ___ is blue. (informal)", answer: "that with", hint: "Informal: that... preposition cuối" },
+          { text: "The pen ___ I wrote ___ is blue. (informal)", textEn: "The pen ___ I wrote ___ is blue. (informal)", answer: "that with", hint: "informal pattern: pronoun first, preposition at the end" },
           { text: "The person ___ ___ I sent the email didn't reply. (formal)", textEn: "The person ___ ___ I sent the email didn't reply. (formal)", answer: "to whom", hint: "to + whom" },
           { text: "The bridge ___ ___ they walked was very old. (formal)", textEn: "The bridge ___ ___ they walked was very old. (formal)", answer: "across which", hint: "across + which" }
         ]
@@ -554,11 +554,11 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       }
     ],
     quiz: [
-      { question: "'The man ___ I spoke is kind.' (formal)", options: ["to who", "to that", "to whom", "whom to"], answer: 2, explanation: "Formal: preposition + whom cho người." },
-      { question: "Which sentence is WRONG?", options: ["The chair on which she sat.", "The chair to that she sat.", "The chair which she sat on.", "The chair that she sat on."], answer: 1, explanation: "Không dùng 'that' sau giới từ." },
-      { question: "'The reason ___ he left is unclear.' (formal)", options: ["for which", "for that", "which for", "to which"], answer: 0, explanation: "for which = the reason." },
-      { question: "Formal style đặt giới từ ở đâu?", options: ["Cuối mệnh đề", "Trước đại từ quan hệ", "Sau động từ", "Trước chủ ngữ"], answer: 1, explanation: "Formal: giới từ + whom/which." },
-      { question: "'in which' tương đương:", options: ["that... in", "which... in", "where", "Tất cả đều đúng"], answer: 3, explanation: "in which = where = that...in = which...in." }
+      { question: "'The man ___ I spoke is kind.' (formal)", options: ["to who", "to that", "to whom", "whom to"], answer: 2, explanation: "In formal English, use preposition + whom for people." },
+      { question: "Which sentence is wrong?", options: ["The chair on which she sat.", "The chair to that she sat.", "The chair which she sat on.", "The chair that she sat on."], answer: 1, explanation: "Do not use 'that' directly after a preposition." },
+      { question: "'The reason ___ he left is unclear.' (formal)", options: ["for which", "for that", "which for", "to which"], answer: 0, explanation: "'For which' correctly matches the noun 'reason'." },
+      { question: "Where does formal style place the preposition?", options: ["At the end of the clause", "Before the relative pronoun", "After the verb", "Before the subject"], answer: 1, explanation: "Formal style uses preposition + whom/which." },
+      { question: "What can 'in which' also mean?", options: ["that ... in", "which ... in", "where", "all of the above"], answer: 3, explanation: "'In which' can match 'where' and some informal end-preposition patterns." }
     ]
   },
   // ===== ARTICLES EXTRA =====

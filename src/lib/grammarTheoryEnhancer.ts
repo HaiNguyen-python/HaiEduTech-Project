@@ -1,4 +1,5 @@
 import type { LanguageLesson, LanguageModule } from "@/data/languageCurriculum";
+import { pickEnglishGrammarCopy } from "@/lib/englishGrammarCopy";
 
 const stripMarkdown = (value: string) =>
   value
@@ -32,7 +33,11 @@ const buildWorkedExamples = (lesson: LanguageLesson) =>
         return exercise.sentences.map((sentence) => ({
           prompt: sentence.textEn || sentence.text,
           answer: sentence.answer,
-          note: (sentence as { hintEn?: string }).hintEn || sentence.hint,
+          note: pickEnglishGrammarCopy(
+            (sentence as { hintEn?: string }).hintEn,
+            sentence.hint,
+            "Study the grammar role of the missing word."
+          ),
         }));
       }
 
@@ -76,7 +81,15 @@ const extractSectionTitles = (theory: string) =>
 const buildQuizInsights = (lesson: LanguageLesson) =>
   lesson.quiz
     .slice(0, 4)
-    .map((question) => `- ${stripMarkdown(question.explanation) || `Review why the correct answer in \"${stripMarkdown(question.question)}\" works.`}`)
+    .map((question) => {
+      const explanation = pickEnglishGrammarCopy(
+        question.explanation,
+        undefined,
+        `Review why the correct answer in \"${stripMarkdown(question.question)}\" works.`
+      );
+
+      return `- ${stripMarkdown(explanation)}`;
+    })
     .filter((line) => line.length > 10);
 
 const buildVocabularyPointers = (lesson: LanguageLesson) =>
