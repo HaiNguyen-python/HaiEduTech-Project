@@ -363,16 +363,16 @@ In formal writing, "if" can be dropped and the auxiliary moved to the front.
         instruction: "Điền 'of whom' hoặc 'of which'",
         instructionEn: "Fill in 'of whom' or 'of which'",
         sentences: [
-          { text: "She has 50 employees, most ___ work remotely.", textEn: "She has 50 employees, most ___ work remotely.", answer: "of whom", hint: "Người" },
-          { text: "I bought 10 apples, two ___ were rotten.", textEn: "I bought 10 apples, two ___ were rotten.", answer: "of which", hint: "Vật" },
-          { text: "The class has 25 students, all ___ passed the exam.", textEn: "The class has 25 students, all ___ passed the exam.", answer: "of whom", hint: "Người" },
+          { text: "She has 50 employees, most ___ work remotely.", textEn: "She has 50 employees, most ___ work remotely.", answer: "of whom", hint: "people" },
+          { text: "I bought 10 apples, two ___ were rotten.", textEn: "I bought 10 apples, two ___ were rotten.", answer: "of which", hint: "things" },
+          { text: "The class has 25 students, all ___ passed the exam.", textEn: "The class has 25 students, all ___ passed the exam.", answer: "of whom", hint: "people" },
         ],
       },
     ],
     quiz: [
-      { question: "'I have many books, ___ I've never read.'", options: ["some of who", "some of whom", "some of which", "some which"], answer: 2, explanation: "Books = vật → of which" },
-      { question: "Cấu trúc 'most of whom' chỉ dùng được trong:", options: ["Defining clause", "Non-defining clause", "Cả hai", "Không bao giờ"], answer: 1, explanation: "Chỉ trong non-defining (có dấu phẩy)" },
-      { question: "'The 30 students, ___ are international, will graduate soon.'", options: ["many of which", "many of whom", "many whom", "many of who"], answer: 1, explanation: "Students = người → of whom" },
+      { question: "'I have many books, ___ I've never read.'", options: ["some of who", "some of whom", "some of which", "some which"], answer: 2, explanation: "Because 'books' are things, use 'of which'." },
+      { question: "The structure 'most of whom' is used only in:", options: ["defining clauses", "non-defining clauses", "both", "neither"], answer: 1, explanation: "Use it in non-defining clauses with commas." },
+      { question: "'The 30 students, ___ are international, will graduate soon.'", options: ["many of which", "many of whom", "many whom", "many of who"], answer: 1, explanation: "Because 'students' are people, use 'of whom'." },
     ],
   },
 
