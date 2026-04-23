@@ -112,6 +112,53 @@ const buildQuestion = (question: string, correct: string, options: string[], exp
   explanation,
 });
 
+const replaceBlankWithOption = (template: string, option: string) =>
+  sanitizeSentence(template.replace(/_{3,5}/, option));
+
+const cleanExampleLine = (line: string) =>
+  stripMarkdown(
+    line
+      .replace(/^[-*•]\s*/, "")
+      .replace(/^(?:✅|✔️|✔|Correct:?)\s*/i, "")
+      .replace(/^(?:❌|✘|Wrong:?)\s*/i, "")
+      .replace(/^Example:?\s*/i, "")
+  );
+
+const extractExampleLines = (theory: string) => {
+  const lines = theory.replace(/\r/g, "").split("\n").map((line) => line.trim()).filter(Boolean);
+
+  return {
+    correct: unique(lines
+      .filter((line) => /^(?:[-*•]\s*)?(?:✅|✔️|✔|Correct:?)/i.test(line))
+      .map(cleanExampleLine)
+      .filter((line) => line.split(/\s+/).length >= 3)),
+    wrong: unique(lines
+      .filter((line) => /^(?:[-*•]\s*)?(?:❌|✘|Wrong:?)/i.test(line))
+      .map(cleanExampleLine)
+      .filter((line) => line.split(/\s+/).length >= 3)),
+  };
+};
+
+const scoreQuestionPracticality = (question: MCQExercise) => {
+  const prompt = question.question.toLowerCase();
+  const averageOptionLength = question.options.reduce((sum, option) => sum + option.split(/\s+/).length, 0) / question.options.length;
+
+  let score = averageOptionLength >= 4 ? 2 : 0;
+  if (/choose the best completion|complete the sentence correctly|which sentence/.test(prompt)) score += 6;
+  if (/correct order|best correct order/.test(prompt)) score += 5;
+  if (/apply|context|natural/.test(prompt)) score += 3;
+  if (/which structure|when do we usually use|which rule best explains|review statement|review check/.test(prompt)) score -= 3;
+  if (/most nearly mean|review tip/.test(prompt)) score -= 4;
+
+  return score;
+};
+
+const prioritizePracticalQuestions = (questions: MCQExercise[]) =>
+  questions
+    .map((question, index) => ({ question, index, score: scoreQuestionPracticality(question) }))
+    .sort((a, b) => (b.score - a.score) || (a.index - b.index))
+    .map(({ question }) => question);
+
 const extractSectionMeta = (theory: string) => {
   const normalized = theory.replace(/\r/g, "");
   const matches = [...normalized.matchAll(/^###\s+(.+)$/gm)];
