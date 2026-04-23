@@ -255,6 +255,56 @@ const buildProTipQuestions = (lesson: LanguageLesson) => {
   });
 };
 
+const buildExplanationRecapQuestions = (lesson: LanguageLesson) => {
+  const explanations = unique(lesson.quiz.map((item) => stripMarkdown(item.explanation)).filter(Boolean));
+  if (!explanations.length) return [];
+
+  return lesson.quiz.map((item, index) => {
+    const correct = stripMarkdown(item.explanation);
+    const options = rotateOptions(
+      unique([correct, ...explanations.filter((text) => text !== correct)]).slice(0, 4),
+      index + 4
+    );
+
+    return buildQuestion(
+      `Which rule best explains the correct answer to: "${item.question}"?`,
+      correct,
+      options,
+      correct
+    );
+  });
+};
+
+const buildFallbackReviewQuestions = (lesson: LanguageLesson): MCQExercise[] => {
+  const lessonName = lesson.titleEn || lesson.title;
+  const theory = stripMarkdown(lesson.theoryEn || lesson.theory);
+  const sentences = theory
+    .split(/(?<=[.!?])\s+/)
+    .map((item) => item.trim())
+    .filter((item) => item.length > 30)
+    .slice(0, 4);
+
+  const distractorPool = unique([
+    ...sentences,
+    ...stripMarkdown(lesson.theoryEn || lesson.theory).split(/\n+/).map((item) => item.trim()).filter((item) => item.length > 12),
+    ...(lesson.proTipsEn || lesson.proTips || []).map((item) => stripMarkdown(item)),
+  ]);
+
+  return sentences.map((sentence, index) => {
+    const options = rotateOptions(
+      unique([sentence, ...distractorPool.filter((item) => item !== sentence)]).slice(0, 4),
+      index + 6
+    );
+
+    return buildQuestion(
+      `Which review statement matches the lesson "${lessonName}"?`,
+      sentence,
+      options,
+      sentence
+    );
+  });
+};
+
 const dedupeQuestions = (questions: MCQExercise[]) => {
   const seen = new Set<string>();
 
@@ -289,6 +339,8 @@ export const ensureGrammarLessonQuizDepth = (lesson: LanguageLesson): LanguageLe
     ...sentenceReorderExercises.flatMap((exercise) => buildSentenceReorderQuestions(exercise)),
     ...buildVocabularyQuestions(lesson.vocabulary || []),
     ...buildProTipQuestions(lesson),
+    ...buildExplanationRecapQuestions(lesson),
+    ...buildFallbackReviewQuestions(lesson),
   ]);
 
   return {
