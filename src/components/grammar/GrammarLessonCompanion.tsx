@@ -1,5 +1,5 @@
 import type { LanguageLesson, LanguageModule } from "@/data/languageCurriculum";
-import { BookMarked, CheckCircle2, CircleAlert, Lightbulb, ListChecks } from "lucide-react";
+import { BookMarked, CheckCircle2, CircleAlert, Lightbulb, ListChecks, ScanSearch, Shapes } from "lucide-react";
 
 interface GrammarLessonCompanionProps {
   lesson: LanguageLesson;
@@ -15,6 +15,11 @@ interface CompanionExample {
   label: string;
   value: string;
   note?: string;
+}
+
+interface RulePattern {
+  pattern: string;
+  use: string;
 }
 
 const stripMarkdown = (input: string) =>
@@ -48,6 +53,45 @@ const splitTheorySections = (markdown: string): TheorySection[] => {
     const body = lines.slice(1).join("\n").trim();
     return { title, body };
   });
+};
+
+const cleanLine = (line: string) => stripMarkdown(line.replace(/^[-•]\s*/, "").replace(/^\d+\.\s*/, "")).trim();
+
+const extractRulePatterns = (markdown: string): RulePattern[] =>
+  markdown
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => /\*\*Structure:|\*\*Form:|\*\*Cấu trúc:/i.test(line))
+    .map((line) => cleanLine(line))
+    .map((line) => {
+      const [label, ...rest] = line.split(":");
+      return {
+        pattern: rest.join(":").trim(),
+        use: /structure|form/i.test(label) ? "Core grammar frame" : label.trim(),
+      };
+    })
+    .filter((item) => item.pattern.length > 0)
+    .slice(0, 4);
+
+const extractRecognitionSignals = (markdown: string) => {
+  const lines = markdown.split("\n").map((line) => line.trim());
+  const signals: string[] = [];
+
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (/^#{1,3}\s+(Signal Words|Signals|Time Signal Cheatsheet|Dấu hiệu|Lưu ý|Key Differences|Common triggers)/i.test(line)) {
+      for (let j = i + 1; j < lines.length; j += 1) {
+        const next = lines[j];
+        if (!next) continue;
+        if (/^#{1,3}\s+/.test(next)) break;
+        if (/^[-•]/.test(next) || /^\|/.test(next)) {
+          signals.push(cleanLine(next));
+        }
+      }
+    }
+  }
+
+  return signals.filter(Boolean).slice(0, 5);
 };
 
 const extractRuleBullets = (sections: TheorySection[]) =>
@@ -121,6 +165,24 @@ const buildCommonMistakes = (lesson: LanguageLesson, theoryText: string) => {
   return [...explicitMistakes, ...quizTraps, ...proTips].slice(0, 4);
 };
 
+const buildWrongVsRight = (theoryText: string): CompanionExample[] => {
+  const lines = theoryText.split("\n").map((line) => line.trim());
+  const pairs: CompanionExample[] = [];
+
+  for (let i = 0; i < lines.length - 1; i += 1) {
+    const current = lines[i];
+    const next = lines[i + 1];
+    if (current.includes("❌") && next.includes("✅")) {
+      pairs.push({
+        label: "Wrong → Right",
+        value: `${cleanLine(current.replace(/.*❌\s*/, ""))} → ${cleanLine(next.replace(/.*✅\s*/, ""))}`,
+      });
+    }
+  }
+
+  return pairs.slice(0, 3);
+};
+
 const buildSummaryChecklist = (lesson: LanguageLesson, module: LanguageModule) => {
   const practiceTypes = lesson.exercises.map((exercise) => exercise.type.replace(/-/g, " "));
 
@@ -139,8 +201,11 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
   const theoryText = lesson.theoryEn || lesson.theory || "";
   const sections = splitTheorySections(theoryText);
   const coreRules = extractRuleBullets(sections);
+  const rulePatterns = extractRulePatterns(theoryText);
   const workedExamples = buildWorkedExamples(lesson);
   const commonMistakes = buildCommonMistakes(lesson, theoryText);
+  const wrongVsRight = buildWrongVsRight(theoryText);
+  const recognitionSignals = extractRecognitionSignals(theoryText);
   const summaryChecklist = buildSummaryChecklist(lesson, module);
 
   return (
@@ -174,6 +239,23 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
 
         <div className="rounded-xl border border-border bg-card p-6">
           <div className="mb-4 flex items-center gap-2 text-foreground">
+            <Shapes className="h-5 w-5 text-primary" />
+            <h3 className="text-base font-semibold">Rule patterns</h3>
+          </div>
+          <div className="space-y-3 text-sm leading-7 text-foreground">
+            {rulePatterns.length > 0 ? rulePatterns.map((item) => (
+              <div key={item.pattern} className="rounded-lg border border-border bg-secondary/40 p-4">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">{item.use}</p>
+                <p className="font-medium">{item.pattern}</p>
+              </div>
+            )) : (
+              <p className="text-muted-foreground">Read the section headings and example sentences to identify the main grammar frame.</p>
+            )}
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-border bg-card p-6">
+          <div className="mb-4 flex items-center gap-2 text-foreground">
             <CheckCircle2 className="h-5 w-5 text-primary" />
             <h3 className="text-base font-semibold">Correct models</h3>
           </div>
@@ -190,6 +272,22 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
 
         <div className="rounded-xl border border-border bg-card p-6">
           <div className="mb-4 flex items-center gap-2 text-foreground">
+            <ScanSearch className="h-5 w-5 text-primary" />
+            <h3 className="text-base font-semibold">Recognition signals</h3>
+          </div>
+          <ul className="space-y-3 text-sm leading-7 text-foreground">
+            {recognitionSignals.length > 0 ? recognitionSignals.map((item) => (
+              <li key={item} className="rounded-lg border border-border bg-secondary/40 p-4">{item}</li>
+            )) : (
+              <li className="rounded-lg border border-border bg-secondary/40 p-4 text-muted-foreground">
+                Use the examples, time references, and sentence position clues in the lesson to detect when this rule is needed.
+              </li>
+            )}
+          </ul>
+        </div>
+
+        <div className="rounded-xl border border-border bg-card p-6">
+          <div className="mb-4 flex items-center gap-2 text-foreground">
             <CircleAlert className="h-5 w-5 text-primary" />
             <h3 className="text-base font-semibold">Common mistakes to avoid</h3>
           </div>
@@ -200,6 +298,25 @@ const GrammarLessonCompanion = ({ lesson, module }: GrammarLessonCompanionProps)
               </li>
             ))}
           </ul>
+        </div>
+
+        <div className="rounded-xl border border-border bg-card p-6">
+          <div className="mb-4 flex items-center gap-2 text-foreground">
+            <CheckCircle2 className="h-5 w-5 text-primary" />
+            <h3 className="text-base font-semibold">Right vs wrong models</h3>
+          </div>
+          <div className="space-y-3 text-sm leading-7 text-foreground">
+            {wrongVsRight.length > 0 ? wrongVsRight.map((item) => (
+              <div key={item.value} className="rounded-lg border border-border bg-secondary/40 p-4">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">{item.label}</p>
+                <p>{item.value}</p>
+              </div>
+            )) : (
+              <p className="rounded-lg border border-border bg-secondary/40 p-4 text-muted-foreground">
+                Compare the quiz distractors with the worked examples to notice how small grammar choices change the sentence.
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">

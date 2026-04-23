@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import StudentScheduleWidget from "@/components/StudentScheduleWidget";
 import CounselingHub from "@/components/counseling/CounselingHub";
 import PteSkillRings from "@/components/pte/PteSkillRings";
+import GrammarProgressCard from "@/components/dashboard/GrammarProgressCard";
 import { usePteSkillStats } from "@/hooks/usePteSkillStats";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
@@ -17,6 +18,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import { buildGrammarProgressSnapshot, type GrammarProgressSnapshot } from "@/lib/grammarProgress";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer,
   XAxis, YAxis, CartesianGrid, Tooltip,
@@ -58,6 +60,7 @@ interface DashboardStats {
   courses: CourseProgress[];
   // AI summary text
   aiSummary: string;
+  grammarProgress: GrammarProgressSnapshot;
 }
 
 const DOMAIN_LABELS: Record<string, string> = {
@@ -419,6 +422,15 @@ const Dashboard = () => {
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 5);
 
+    const grammarProgress = buildGrammarProgressSnapshot(acts as Array<{
+      activity_type: string;
+      activity_id: string | null;
+      score: number | null;
+      max_score: number | null;
+      created_at: string;
+      metadata?: Record<string, any> | null;
+    }>);
+
     // AI summary — find biggest improvement domain over the last 14 days
     let aiSummary = "Keep going! Every small step builds your future.";
     const last14 = allEvents.filter(
@@ -449,6 +461,7 @@ const Dashboard = () => {
       recentActivities,
       courses: courses.slice(0, 3),
       aiSummary,
+      grammarProgress,
     });
 
     setDataLoading(false);
@@ -742,6 +755,10 @@ const Dashboard = () => {
                     />
                   </div>
                 )}
+
+                <div className="mb-6">
+                  <GrammarProgressCard snapshot={stats!.grammarProgress} isVi={lang === "vi"} />
+                </div>
 
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   {/* Skill Radar — 4 programs */}
