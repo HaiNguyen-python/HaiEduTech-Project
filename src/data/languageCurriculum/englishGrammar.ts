@@ -818,19 +818,19 @@ Add extra information, **with commas**, cannot use **that**.
         exercises: [
           {
             type: "fill-in-blank" as const,
-            instruction: "Rút gọn mệnh đề quan hệ",
+            instruction: "Reduce the relative clause",
             instructionEn: "Reduce the relative clause",
             sentences: [
-              { text: "The boy who is playing guitar → The boy ___ guitar.", textEn: "The boy who is playing guitar → The boy ___ guitar.", answer: "playing", hint: "Chủ động → V-ing" },
-              { text: "The car which was made in Japan → The car ___ in Japan.", textEn: "The car which was made in Japan → The car ___ in Japan.", answer: "made", hint: "Bị động → V3" },
+              { text: "The boy who is playing guitar → The boy ___ guitar.", textEn: "The boy who is playing guitar → The boy ___ guitar.", answer: "playing", hint: "Active clause → V-ing" },
+              { text: "The car which was made in Japan → The car ___ in Japan.", textEn: "The car which was made in Japan → The car ___ in Japan.", answer: "made", hint: "Passive clause → past participle" },
               { text: "He was the last person who left. → He was the last person ___.", textEn: "He was the last person who left. → He was the last person ___.", answer: "to leave", hint: "the last → to V" },
             ],
           },
         ],
         quiz: [
-          { question: "Rút gọn: 'The woman who is sitting there is my mom.'", options: ["The woman sat there is my mom.", "The woman sitting there is my mom.", "The woman to sit there is my mom.", "The woman sit there is my mom."], answer: 1, explanation: "Chủ động → V-ing: who is sitting → sitting" },
-          { question: "Rút gọn: 'The letter which was written by her'", options: ["The letter writing by her", "The letter wrote by her", "The letter written by her", "The letter to write by her"], answer: 2, explanation: "Bị động → V3: which was written → written" },
-          { question: "Khi nào dùng to-infinitive để rút gọn?", options: ["Sau danh từ chỉ người", "Sau the first/last/only", "Khi câu bị động", "Khi có dấu phẩy"], answer: 1, explanation: "Dùng to V sau the first, the last, the only, số thứ tự" },
+          { question: "Reduce the sentence: 'The woman who is sitting there is my mom.'", options: ["The woman sat there is my mom.", "The woman sitting there is my mom.", "The woman to sit there is my mom.", "The woman sit there is my mom."], answer: 1, explanation: "Active clause → V-ing: 'who is sitting' becomes 'sitting'." },
+          { question: "Reduce the phrase: 'The letter which was written by her.'", options: ["The letter writing by her", "The letter wrote by her", "The letter written by her", "The letter to write by her"], answer: 2, explanation: "Passive clause → past participle: 'which was written' becomes 'written'." },
+          { question: "When do we use a to-infinitive in a reduced relative clause?", options: ["After any noun referring to a person", "After the first / last / only and ordinal expressions", "Whenever the clause is passive", "Whenever there is a comma"], answer: 1, explanation: "Use 'to + verb' after expressions like 'the first', 'the last', 'the only', and ordinal numbers." },
         ],
       },
     ],
