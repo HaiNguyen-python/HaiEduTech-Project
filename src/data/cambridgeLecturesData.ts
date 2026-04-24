@@ -908,6 +908,7 @@ import { cambridgeLecturesExpansion2 } from "./cambridgeLecturesExpansion2";
 import { cambridgeLecturesExpansion3 } from "./cambridgeLecturesExpansion3";
 import { cambridgeLecturesExpansion4 } from "./cambridgeLecturesExpansion4";
 import { cambridgeLecturesExpansion5 } from "./cambridgeLecturesExpansion5";
+import { cambridgeLecturesExpansion6 } from "./cambridgeLecturesExpansion6";
 
 // === Export all lectures ===
 export const allCambridgeLectures: CambridgeLecture[] = [
@@ -931,4 +932,5 @@ export const allCambridgeLectures: CambridgeLecture[] = [
   ...cambridgeLecturesExpansion3,
   ...cambridgeLecturesExpansion4,
   ...cambridgeLecturesExpansion5,
+  ...cambridgeLecturesExpansion6,
 ];

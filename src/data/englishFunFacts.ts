@@ -44,7 +44,9 @@ export const FUN_FACT_CATEGORIES: {
   { key: "vietnameseMistakes", labelEn: "VN Speaker Mistakes",  labelVi: "Lỗi hài hước người Việt", tag: "#VNMistakes",  emoji: "😂", gradient: "from-violet-500/15 to-fuchsia-500/10", accent: "violet" },
 ];
 
-export const englishFunFacts: FunFact[] = [
+import { englishFunFactsExpansion } from "./englishFunFactsExpansion";
+
+const baseFunFacts: FunFact[] = [
   // ---------- Word Origins ----------
   {
     id: "alphabet-origin",
@@ -367,6 +369,8 @@ export const englishFunFacts: FunFact[] = [
     exampleVi: "❌ Tank you for tree tings. → ✅ Thank you for three things.",
   },
 ];
+
+export const englishFunFacts: FunFact[] = [...baseFunFacts, ...englishFunFactsExpansion];
 
 /** Returns the fact for a given day, deterministically rotated. */
 export function getDailyFunFact(date: Date = new Date()): FunFact {
