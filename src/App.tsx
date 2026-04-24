@@ -155,6 +155,7 @@ const App = () => (
             <Route path="/about" element={<LazyRoute><About /></LazyRoute>} />
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
             <Route path="/english/fun-facts" element={<LazyRoute><EnglishFunFacts /></LazyRoute>} />
+            <Route path="/english/idioms" element={<LazyRoute><EnglishIdioms /></LazyRoute>} />
             <Route path="/english/conversational/curriculum" element={<LazyRoute><ConversationalDashboard /></LazyRoute>} />
             <Route path="/english/conversational/learn/:lessonId" element={<LazyRoute><ConversationalLessonView /></LazyRoute>} />
             <Route path="/english/grammar" element={<LazyRoute><EnglishGrammar /></LazyRoute>} />
