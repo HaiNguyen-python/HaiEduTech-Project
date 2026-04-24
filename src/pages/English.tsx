@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import WordOfTheDay from "@/components/WordOfTheDay";
+import DailyFunFactWidget from "@/components/english/DailyFunFactWidget";
 import { englishResources } from "@/data/lessonData";
 import { allEnglishModules } from "@/data/languageCurriculum";
 import SongsBanner from "@/components/songs/SongsBanner";
@@ -223,6 +224,9 @@ const English = () => {
                 </div>
               </motion.div>
             </div>
+
+            {/* English Fun Fact of the Day */}
+            <DailyFunFactWidget />
 
             {/* Word of the Day */}
             <WordOfTheDay type="english" />
