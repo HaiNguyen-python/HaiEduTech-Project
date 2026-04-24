@@ -551,14 +551,21 @@ const CambridgeLectureView = () => {
             <TabsContent value="quiz">
               <div className="mb-5 p-4 rounded-xl bg-amber-500/[0.05] border border-amber-500/20 flex items-start gap-3">
                 <Star className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-amber-200 font-bold text-sm mb-1">
-                    {t("Quiz đánh giá nhanh", "Quick Assessment Quiz")}
-                  </p>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <p className="text-amber-200 font-bold text-sm">
+                      {t("Quiz đánh giá nhanh — đã mở rộng", "Quick Assessment Quiz — expanded")}
+                    </p>
+                    {lecture.generatedQuizCount > 0 && (
+                      <Badge variant="outline" className="text-[10px] font-bold uppercase px-2 py-0.5 bg-emerald-500/10 border-emerald-500/30 text-emerald-300">
+                        +{lecture.generatedQuizCount} {t("câu mở rộng", "bonus questions")}
+                      </Badge>
+                    )}
+                  </div>
                   <p className="text-[#94A3B8] text-sm leading-relaxed">
                     {t(
-                      `${lecture.quiz.length} câu hỏi tổng kết toàn bài. Chọn đáp án cho mỗi câu rồi bấm "Nộp bài" ở cuối — bạn sẽ thấy điểm số và giải thích cho từng câu.`,
-                      `${lecture.quiz.length} questions to consolidate the lecture. Select an answer for each, then tap "Submit Quiz" at the bottom — you'll see your score and an explanation for every item.`
+                      `${lecture.quiz.length} câu hỏi tổng kết toàn bài (gồm câu hỏi gốc + câu hỏi mở rộng từ từ vựng, quy tắc và lỗi thường gặp). Chọn đáp án cho mỗi câu rồi bấm "Nộp bài" ở cuối — bạn sẽ thấy điểm số và giải thích cho từng câu.`,
+                      `${lecture.quiz.length} questions to consolidate the lecture (original + bonus questions auto-generated from vocabulary, rules and common mistakes). Select an answer for each, then tap "Submit Quiz" at the bottom — you'll see your score and an explanation for every item.`
                     )}
                   </p>
                 </div>
