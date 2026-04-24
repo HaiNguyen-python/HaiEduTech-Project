@@ -43,7 +43,9 @@ export const IDIOM_THEMES: { key: IdiomEntry["theme"]; labelEn: string; labelVi:
   { key: "love",       labelEn: "Love",        labelVi: "Tình yêu",   emoji: "❤️" },
 ];
 
-export const englishIdioms: IdiomEntry[] = [
+import { englishIdiomsExpansion } from "./englishIdiomsExpansion";
+
+const baseIdioms: IdiomEntry[] = [
   // ============== IDIOMS ==============
   {
     id: "break-a-leg",
@@ -426,3 +428,5 @@ export const englishIdioms: IdiomEntry[] = [
     emoji: "🎈",
   },
 ];
+
+export const englishIdioms: IdiomEntry[] = [...baseIdioms, ...englishIdiomsExpansion];
