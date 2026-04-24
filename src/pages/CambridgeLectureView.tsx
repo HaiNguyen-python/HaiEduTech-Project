@@ -45,7 +45,8 @@ const CambridgeLectureView = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const lecture = useMemo(() => allCambridgeLectures.find(l => l.id === lectureId), [lectureId]);
+  const rawLecture = useMemo(() => allCambridgeLectures.find(l => l.id === lectureId), [lectureId]);
+  const lecture = useMemo(() => (rawLecture ? enrichCambridgeLecture(rawLecture) : null), [rawLecture]);
   const lectureIndex = useMemo(() => allCambridgeLectures.findIndex(l => l.id === lectureId), [lectureId]);
   const nextLecture = lectureIndex >= 0 && lectureIndex < allCambridgeLectures.length - 1 ? allCambridgeLectures[lectureIndex + 1] : null;
 
