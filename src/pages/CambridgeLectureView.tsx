@@ -102,13 +102,35 @@ const CambridgeLectureView = () => {
               <Badge variant="outline" className={`text-sm font-black uppercase tracking-widest px-4 py-1.5 ${levelCfg.bgClass} ${levelCfg.textClass} ${levelCfg.borderClass}`}>
                 {levelCfg.label}
               </Badge>
+              {/* Skill badge with icon */}
+              <Badge variant="outline" className="text-xs font-bold uppercase tracking-wide px-3 py-1.5 bg-white/[0.04] border-white/[0.08] text-[#CBD5E1] flex items-center gap-1.5">
+                {SKILL_META[lecture.skill].icon}
+                <span>{t(SKILL_META[lecture.skill].labelVi, SKILL_META[lecture.skill].labelEn)}</span>
+              </Badge>
+              {/* Duration badge */}
+              <Badge variant="outline" className="text-xs font-semibold px-3 py-1.5 bg-white/[0.04] border-white/[0.08] text-[#94A3B8] flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5" />
+                {lecture.duration}
+              </Badge>
             </div>
-            <h1 className="text-white font-bold mb-3" style={{ fontSize: "22px", lineHeight: "1.5" }}>
+            <h1 className="text-white font-bold mb-3" style={{ fontSize: "26px", lineHeight: "1.4" }}>
               {t(lecture.titleVi, lecture.title)}
             </h1>
-            <p className="text-[#94A3B8]" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+            <p className="text-[#94A3B8]" style={{ fontSize: "18px", lineHeight: "1.8" }}>
               {t(lecture.descriptionVi, lecture.description)}
             </p>
+
+            {/* Lesson context bar — explains what this lecture really is */}
+            <div className="mt-5 flex items-start gap-3 p-4 rounded-xl bg-gradient-to-r from-[#A855F7]/10 to-[#3B82F6]/5 border border-[#A855F7]/20">
+              <GraduationCap className="w-5 h-5 text-[#C4B5FD] flex-shrink-0 mt-0.5" />
+              <p className="text-[#CBD5E1] text-sm leading-relaxed">
+                <span className="font-bold text-white">{t("Bài học này là gì?", "What is this lecture?")} </span>
+                {t(
+                  `Một buổi học tương tác chuẩn Cambridge ${levelCfg.label} giúp bạn hiểu chiến lược làm bài, tránh lỗi thường gặp, và luyện tập với câu hỏi mô phỏng đề thi thật. Hãy đọc theo đúng thứ tự: Mục tiêu → Quy tắc → Cảnh báo → Luyện tập → Quiz.`,
+                  `An interactive Cambridge ${levelCfg.label}-style lesson that walks you through exam strategy, common pitfalls, and exam-style practice. Follow this order: Objective → Rules → Watch Out → Practice → Quiz.`
+                )}
+              </p>
+            </div>
           </motion.div>
 
           {/* Learning Objective + Exam Pattern cards */}
