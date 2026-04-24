@@ -31,6 +31,14 @@ const ILLUSTRATIONS: Record<string, string> = {
   pet: petFun,
 };
 
+/** Skill metadata: gives every lecture a clear context label */
+const SKILL_META: Record<string, { icon: JSX.Element; labelEn: string; labelVi: string }> = {
+  listening: { icon: <Headphones className="w-3.5 h-3.5" />, labelEn: "Listening", labelVi: "Nghe" },
+  "reading-writing": { icon: <PenLine className="w-3.5 h-3.5" />, labelEn: "Reading & Writing", labelVi: "Đọc & Viết" },
+  speaking: { icon: <Mic className="w-3.5 h-3.5" />, labelEn: "Speaking", labelVi: "Nói" },
+  vocabulary: { icon: <BookOpen className="w-3.5 h-3.5" />, labelEn: "Vocabulary", labelVi: "Từ vựng" },
+};
+
 const CambridgeLectureView = () => {
   const { lectureId } = useParams();
   const navigate = useNavigate();
