@@ -506,6 +506,21 @@ const CambridgeLectureView = () => {
 
             {/* Quiz */}
             <TabsContent value="quiz">
+              <div className="mb-5 p-4 rounded-xl bg-amber-500/[0.05] border border-amber-500/20 flex items-start gap-3">
+                <Star className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-amber-200 font-bold text-sm mb-1">
+                    {t("Quiz đánh giá nhanh", "Quick Assessment Quiz")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      `${lecture.quiz.length} câu hỏi tổng kết toàn bài. Chọn đáp án cho mỗi câu rồi bấm "Nộp bài" ở cuối — bạn sẽ thấy điểm số và giải thích cho từng câu.`,
+                      `${lecture.quiz.length} questions to consolidate the lecture. Select an answer for each, then tap "Submit Quiz" at the bottom — you'll see your score and an explanation for every item.`
+                    )}
+                  </p>
+                </div>
+              </div>
+
               {quizSubmitted && (
                 <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
                   className="text-center p-8 mb-6 rounded-2xl border border-amber-500/20"
@@ -531,8 +546,12 @@ const CambridgeLectureView = () => {
               <div className="space-y-4">
                 {lecture.quiz.map((q, qIdx) => (
                   <div key={qIdx} className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                    <p className="text-white font-semibold mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>
-                      <span className="text-amber-400 font-bold mr-2">Q{qIdx + 1}.</span>
+                    <div className="mb-3 flex items-center gap-2">
+                      <span className="bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-lg text-xs font-bold">
+                        {t(`Câu ${qIdx + 1}/${lecture.quiz.length}`, `Question ${qIdx + 1}/${lecture.quiz.length}`)}
+                      </span>
+                    </div>
+                    <p className="text-white font-semibold mb-3" style={{ fontSize: "18px", lineHeight: "1.7" }}>
                       {q.question}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -555,6 +574,7 @@ const CambridgeLectureView = () => {
                                   : "bg-white/[0.02] border-white/[0.06] text-[#CBD5E1] hover:bg-white/[0.04]"
                             }`}
                           >
+                            <span className="font-bold mr-2">{String.fromCharCode(65 + optIdx)}.</span>
                             {opt}
                             {quizSubmitted && isCorrect && <CheckCircle className="inline w-4 h-4 ml-2 text-emerald-400" />}
                             {quizSubmitted && isSelected && !isCorrect && <XCircle className="inline w-4 h-4 ml-2 text-red-400" />}
@@ -563,9 +583,13 @@ const CambridgeLectureView = () => {
                       })}
                     </div>
                     {quizSubmitted && (
-                      <p className="text-sm text-[#94A3B8] mt-3">
-                        <Lightbulb className="inline w-4 h-4 mr-1 text-amber-400" /> {q.explanation}
-                      </p>
+                      <div className="mt-3 p-3.5 rounded-xl bg-amber-500/[0.06] border border-amber-500/20">
+                        <p className="text-xs font-bold text-amber-300 uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
+                          <Lightbulb className="w-4 h-4 text-amber-400" />
+                          {t("Giải thích", "Explanation")}
+                        </p>
+                        <p className="text-amber-100/90 text-sm leading-relaxed">{q.explanation}</p>
+                      </div>
                     )}
                   </div>
                 ))}
@@ -573,7 +597,7 @@ const CambridgeLectureView = () => {
 
               {!quizSubmitted && Object.keys(quizAnswers).length > 0 && (
                 <Button onClick={handleQuizSubmit} className="mt-6 w-full h-12 text-base font-bold" style={{ background: `linear-gradient(90deg, ${levelCfg.gradientFrom}, ${levelCfg.gradientTo})` }}>
-                  <Star className="w-5 h-5 mr-2" /> {t("Nộp bài", "Submit Quiz")}
+                  <Star className="w-5 h-5 mr-2" /> {t(`Nộp bài (${Object.keys(quizAnswers).length}/${lecture.quiz.length})`, `Submit Quiz (${Object.keys(quizAnswers).length}/${lecture.quiz.length})`)}
                 </Button>
               )}
             </TabsContent>
