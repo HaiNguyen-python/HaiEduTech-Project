@@ -250,6 +250,47 @@ const CambridgeLectureView = () => {
             </motion.div>
           )}
 
+          {/* Deep Dive — Strategy Breakdown (auto-enriched, bilingual) */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.27 }}
+            className="mb-8 rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-500/[0.06] to-purple-500/[0.04] overflow-hidden"
+          >
+            <div className="px-5 py-4 border-b border-indigo-500/20 bg-indigo-500/[0.04]">
+              <div className="flex items-center gap-2 mb-1">
+                <Sparkles className="w-5 h-5 text-indigo-300" />
+                <span className="text-sm font-bold text-indigo-200 uppercase tracking-wide">
+                  {t("Phân tích chuyên sâu", "Deep Dive — Strategy Breakdown")}
+                </span>
+              </div>
+              <p className="text-xs text-[#94A3B8] leading-relaxed">
+                {t(
+                  "Bốn góc nhìn giúp bạn hiểu sâu mục đích và chiến thuật của bài học này — đọc trước khi vào phần Quy tắc & Luyện tập.",
+                  "Four perspectives that help you understand the purpose and strategy of this lecture — read this BEFORE going into Rules & Practice."
+                )}
+              </p>
+            </div>
+            <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {lecture.deepDive.map((d, i) => (
+                <div
+                  key={i}
+                  className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">{d.icon}</span>
+                    <h3 className="text-white font-bold text-base">
+                      {t(d.headingVi, d.heading)}
+                    </h3>
+                  </div>
+                  <p className="text-[#CBD5E1]" style={{ fontSize: "15px", lineHeight: "1.85" }}>
+                    {t(d.bodyVi, d.body)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Content Tabs */}
           <Tabs defaultValue="rules" className="space-y-6">
             <TabsList className="bg-white/[0.04] border border-white/[0.06] flex-wrap h-auto gap-1 p-1.5">
