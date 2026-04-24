@@ -468,14 +468,37 @@ const CambridgeLectureView = () => {
 
             {/* Vocab */}
             <TabsContent value="vocab">
+              <div className="mb-5 p-4 rounded-xl bg-emerald-500/[0.05] border border-emerald-500/20 flex items-start gap-3">
+                <BookOpen className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-emerald-200 font-bold text-sm mb-1">
+                    {t("Từ vựng cốt lõi của bài", "Core Vocabulary of this lecture")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      `${lecture.vocabulary.length} từ chính xuất hiện trong bài. Mỗi thẻ gồm: từ tiếng Anh, nghĩa tiếng Việt, và một câu ví dụ thực tế.`,
+                      `${lecture.vocabulary.length} key words featured in this lecture. Each card shows the English word, its meaning, and a real example sentence.`
+                    )}
+                  </p>
+                </div>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {lecture.vocabulary.map((v, i) => (
                   <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
                     className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]"
                   >
-                    <p className="text-white font-bold mb-1" style={{ fontSize: "20px" }}>{v.word}</p>
-                    <p className="text-[#A78BFA] text-sm mb-1.5">{t(v.meaningVi, v.meaning)}</p>
-                    <p className="text-[#475569] text-sm italic">"{v.example}"</p>
+                    <div className="flex items-baseline gap-2 mb-1.5">
+                      <span className="text-emerald-400/70 text-xs font-bold">#{i + 1}</span>
+                      <p className="text-white font-bold" style={{ fontSize: "20px" }}>{v.word}</p>
+                    </div>
+                    <p className="text-[#A78BFA] text-sm mb-2">
+                      <span className="text-[#64748B] uppercase text-[10px] font-bold tracking-wider mr-1.5">{t("Nghĩa", "Meaning")}</span>
+                      {t(v.meaningVi, v.meaning)}
+                    </p>
+                    <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+                      <p className="text-[#64748B] text-[10px] uppercase font-bold tracking-wider mb-0.5">{t("Ví dụ", "Example")}</p>
+                      <p className="text-[#CBD5E1] text-sm italic">"{v.example}"</p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
