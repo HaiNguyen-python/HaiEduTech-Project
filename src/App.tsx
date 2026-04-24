@@ -32,6 +32,7 @@ import PageViewTracker from "./components/PageViewTracker.tsx";
 const About = lazy(() => import("./pages/About.tsx"));
 const English = lazy(() => import("./pages/English.tsx"));
 const EnglishFunFacts = lazy(() => import("./pages/EnglishFunFacts.tsx"));
+const EnglishIdioms = lazy(() => import("./pages/EnglishIdioms.tsx"));
 const EnglishCourse = lazy(() => import("./pages/EnglishCourse.tsx"));
 const Chinese = lazy(() => import("./pages/Chinese.tsx"));
 const ChineseCourse = lazy(() => import("./pages/ChineseCourse.tsx"));
