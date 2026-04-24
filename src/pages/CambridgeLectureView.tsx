@@ -272,22 +272,39 @@ const CambridgeLectureView = () => {
               </p>
             </div>
             <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {lecture.deepDive.map((d, i) => (
-                <div
-                  key={i}
-                  className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-2xl">{d.icon}</span>
-                    <h3 className="text-white font-bold text-base">
-                      {t(d.headingVi, d.heading)}
-                    </h3>
+              {lecture.deepDive.map((d, i) => {
+                const text = t(d.bodyVi, d.body);
+                // Split long paragraphs into individual sentences for breathing room.
+                // Keep punctuation; ignore splits inside parentheses like "(1)", "(2)".
+                const sentences = text
+                  .split(/(?<=[.!?])\s+(?=[A-ZÀ-Ỹ"“(])/)
+                  .map(s => s.trim())
+                  .filter(Boolean);
+                return (
+                  <div
+                    key={i}
+                    className="p-5 rounded-xl bg-white/[0.03] border border-white/[0.06]"
+                  >
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <span className="text-2xl">{d.icon}</span>
+                      <h3 className="text-white font-bold text-base leading-snug">
+                        {t(d.headingVi, d.heading)}
+                      </h3>
+                    </div>
+                    <div className="space-y-3.5">
+                      {sentences.map((s, si) => (
+                        <p
+                          key={si}
+                          className="text-[#CBD5E1]"
+                          style={{ fontSize: "15px", lineHeight: "1.95" }}
+                        >
+                          {s}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-[#CBD5E1]" style={{ fontSize: "15px", lineHeight: "1.85" }}>
-                    {t(d.bodyVi, d.body)}
-                  </p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
 
