@@ -5,7 +5,8 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, ChevronRight, AlertTriangle, BookOpen, Lightbulb,
-  CheckCircle, XCircle, Star, Info, Target, ListChecks, FileSearch
+  CheckCircle, XCircle, Star, Info, Target, ListChecks, FileSearch,
+  Image as ImageIcon, Headphones, PenLine, Mic, Sparkles, Clock, GraduationCap
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
