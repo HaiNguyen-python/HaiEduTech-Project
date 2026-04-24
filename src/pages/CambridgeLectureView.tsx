@@ -5,7 +5,8 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, ChevronRight, AlertTriangle, BookOpen, Lightbulb,
-  CheckCircle, XCircle, Star, Info, Target, ListChecks, FileSearch
+  CheckCircle, XCircle, Star, Info, Target, ListChecks, FileSearch,
+  Image as ImageIcon, Headphones, PenLine, Mic, Sparkles, Clock, GraduationCap
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,14 @@ const ILLUSTRATIONS: Record<string, string> = {
   flyers: flyersFun,
   ket: ketFun,
   pet: petFun,
+};
+
+/** Skill metadata: gives every lecture a clear context label */
+const SKILL_META: Record<string, { icon: JSX.Element; labelEn: string; labelVi: string }> = {
+  listening: { icon: <Headphones className="w-3.5 h-3.5" />, labelEn: "Listening", labelVi: "Nghe" },
+  "reading-writing": { icon: <PenLine className="w-3.5 h-3.5" />, labelEn: "Reading & Writing", labelVi: "Đọc & Viết" },
+  speaking: { icon: <Mic className="w-3.5 h-3.5" />, labelEn: "Speaking", labelVi: "Nói" },
+  vocabulary: { icon: <BookOpen className="w-3.5 h-3.5" />, labelEn: "Vocabulary", labelVi: "Từ vựng" },
 };
 
 const CambridgeLectureView = () => {
@@ -101,13 +110,35 @@ const CambridgeLectureView = () => {
               <Badge variant="outline" className={`text-sm font-black uppercase tracking-widest px-4 py-1.5 ${levelCfg.bgClass} ${levelCfg.textClass} ${levelCfg.borderClass}`}>
                 {levelCfg.label}
               </Badge>
+              {/* Skill badge with icon */}
+              <Badge variant="outline" className="text-xs font-bold uppercase tracking-wide px-3 py-1.5 bg-white/[0.04] border-white/[0.08] text-[#CBD5E1] flex items-center gap-1.5">
+                {SKILL_META[lecture.skill].icon}
+                <span>{t(SKILL_META[lecture.skill].labelVi, SKILL_META[lecture.skill].labelEn)}</span>
+              </Badge>
+              {/* Duration badge */}
+              <Badge variant="outline" className="text-xs font-semibold px-3 py-1.5 bg-white/[0.04] border-white/[0.08] text-[#94A3B8] flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5" />
+                {lecture.duration}
+              </Badge>
             </div>
-            <h1 className="text-white font-bold mb-3" style={{ fontSize: "22px", lineHeight: "1.5" }}>
+            <h1 className="text-white font-bold mb-3" style={{ fontSize: "26px", lineHeight: "1.4" }}>
               {t(lecture.titleVi, lecture.title)}
             </h1>
-            <p className="text-[#94A3B8]" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+            <p className="text-[#94A3B8]" style={{ fontSize: "18px", lineHeight: "1.8" }}>
               {t(lecture.descriptionVi, lecture.description)}
             </p>
+
+            {/* Lesson context bar — explains what this lecture really is */}
+            <div className="mt-5 flex items-start gap-3 p-4 rounded-xl bg-gradient-to-r from-[#A855F7]/10 to-[#3B82F6]/5 border border-[#A855F7]/20">
+              <GraduationCap className="w-5 h-5 text-[#C4B5FD] flex-shrink-0 mt-0.5" />
+              <p className="text-[#CBD5E1] text-sm leading-relaxed">
+                <span className="font-bold text-white">{t("Bài học này là gì?", "What is this lecture?")} </span>
+                {t(
+                  `Một buổi học tương tác chuẩn Cambridge ${levelCfg.label} giúp bạn hiểu chiến lược làm bài, tránh lỗi thường gặp, và luyện tập với câu hỏi mô phỏng đề thi thật. Hãy đọc theo đúng thứ tự: Mục tiêu → Quy tắc → Cảnh báo → Luyện tập → Quiz.`,
+                  `An interactive Cambridge ${levelCfg.label}-style lesson that walks you through exam strategy, common pitfalls, and exam-style practice. Follow this order: Objective → Rules → Watch Out → Practice → Quiz.`
+                )}
+              </p>
+            </div>
           </motion.div>
 
           {/* Learning Objective + Exam Pattern cards */}
@@ -239,6 +270,20 @@ const CambridgeLectureView = () => {
 
             {/* Rules */}
             <TabsContent value="rules">
+              <div className="mb-5 p-4 rounded-xl bg-purple-500/[0.05] border border-purple-500/20 flex items-start gap-3">
+                <BookOpen className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-purple-200 font-bold text-sm mb-1">
+                    {t("Quy tắc cốt lõi", "Core Rules")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      "Đây là những quy tắc và mẫu câu trọng tâm bạn cần ghi nhớ trước khi luyện đề. Mỗi quy tắc đi kèm 1 ví dụ minh họa thực tế.",
+                      "These are the core patterns to remember before tackling exam-style practice. Each rule comes with one concrete example."
+                    )}
+                  </p>
+                </div>
+              </div>
               <div className="space-y-4">
                 {lecture.illustratedRules.map((rule, i) => (
                   <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
@@ -247,10 +292,16 @@ const CambridgeLectureView = () => {
                     <div className="flex items-start gap-4">
                       <span className="text-3xl flex-shrink-0">{rule.icon}</span>
                       <div className="flex-1">
-                        <p className="text-white font-semibold mb-1.5" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                        <p className="text-purple-200/80 text-xs font-bold uppercase tracking-wide mb-1">
+                          {t(`Quy tắc #${i + 1}`, `Rule #${i + 1}`)}
+                        </p>
+                        <p className="text-white font-semibold mb-2" style={{ fontSize: "18px", lineHeight: "1.7" }}>
                           {t(rule.ruleVi, rule.rule)}
                         </p>
-                        <p className="text-[#64748B] text-sm italic">💡 {rule.example}</p>
+                        <div className="p-3 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+                          <p className="text-amber-300/80 text-xs font-bold uppercase tracking-wide mb-1">{t("Ví dụ", "Example")}</p>
+                          <p className="text-[#CBD5E1] text-sm italic">"{rule.example}"</p>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -260,6 +311,20 @@ const CambridgeLectureView = () => {
 
             {/* Watch Out */}
             <TabsContent value="watchout">
+              <div className="mb-5 p-4 rounded-xl bg-red-500/[0.05] border border-red-500/20 flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-red-200 font-bold text-sm mb-1">
+                    {t("Lỗi học sinh hay mắc — đọc kỹ để tránh!", "Common Mistakes — read carefully to avoid them!")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      "Mỗi mục bên dưới gồm: ❌ Lỗi sai phổ biến và ✅ Cách khắc phục mà thầy Hải đã tổng hợp từ hàng trăm bài thi thật.",
+                      "Each item below shows: ❌ The common mistake and ✅ How to fix it — collected by Teacher Hai from hundreds of real exam papers."
+                    )}
+                  </p>
+                </div>
+              </div>
               <div className="space-y-4">
                 {lecture.watchOut.map((w, i) => (
                   <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
@@ -270,13 +335,16 @@ const CambridgeLectureView = () => {
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
                           <AlertTriangle className="w-5 h-5 text-red-400" />
-                          <span className="text-red-300 font-bold text-sm uppercase tracking-wide">{t("Lỗi thường gặp", "Common Mistake")}</span>
+                          <span className="text-red-300 font-bold text-sm uppercase tracking-wide">{t(`Lỗi #${i + 1}: Sai phổ biến`, `Mistake #${i + 1}: Common pitfall`)}</span>
                         </div>
-                        <p className="text-red-200 mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                        <p className="text-red-200 mb-3" style={{ fontSize: "18px", lineHeight: "1.8" }}>
                           ❌ {t(w.mistakeVi, w.mistake)}
                         </p>
                         <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                          <p className="text-emerald-300" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                          <p className="text-emerald-300/80 text-xs font-bold uppercase tracking-wide mb-1">
+                            {t("Cách làm đúng", "The fix")}
+                          </p>
+                          <p className="text-emerald-200" style={{ fontSize: "18px", lineHeight: "1.8" }}>
                             ✅ {t(w.tipVi, w.tip)}
                           </p>
                         </div>
@@ -289,18 +357,62 @@ const CambridgeLectureView = () => {
 
             {/* Practice */}
             <TabsContent value="practice">
+              {/* Context intro for the Practice tab */}
+              <div className="mb-5 p-4 rounded-xl bg-blue-500/[0.05] border border-blue-500/20 flex items-start gap-3">
+                <Sparkles className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-blue-200 font-bold text-sm mb-1">
+                    {t("Luyện tập có hướng dẫn", "Guided Practice")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      "Mỗi câu hỏi mô phỏng đề thi Cambridge thật. Hãy đọc phần MÔ TẢ TRANH/NGỮ CẢNH ở khung xám trước, rồi đọc câu hỏi, chọn đáp án và bấm 'Kiểm tra' để xem giải thích.",
+                      "Each item mirrors a real Cambridge exam question. Read the PICTURE / CONTEXT box first, then the question, choose your answer and tap 'Check' to see the explanation."
+                    )}
+                  </p>
+                </div>
+              </div>
               <div className="space-y-6">
-                {lecture.practiceSet.map((p, i) => (
+                {lecture.practiceSet.map((p, i) => {
+                  const instructionText = t(p.instructionVi, p.instruction);
+                  // Detect picture/context-style instructions vs plain prompts
+                  const isContextual = /picture|tranh|sentence|câu|context|ngữ cảnh|read|nghe|listen/i.test(instructionText);
+                  return (
                   <Card key={i} className="bg-white/[0.02] border-white/[0.06]">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-white text-base flex items-center gap-2">
+                      <CardTitle className="text-white text-base flex items-center gap-2 flex-wrap">
                         <span className="bg-blue-500/20 text-blue-300 px-2.5 py-0.5 rounded-lg text-xs font-bold">Q{i + 1}</span>
-                        {t(p.instructionVi, p.instruction)}
+                        <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wide">
+                          {t("Yêu cầu", "Task")}
+                        </span>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-[#CBD5E1] mb-4" style={{ fontSize: "18px", lineHeight: "1.8" }}>
-                        {p.question}
+                      {/* Picture / context box — visually separated */}
+                      <div className="mb-4 p-4 rounded-xl bg-gradient-to-br from-amber-500/[0.06] to-orange-500/[0.03] border border-amber-500/20">
+                        <div className="flex items-center gap-2 mb-2">
+                          <ImageIcon className="w-4 h-4 text-amber-400" />
+                          <span className="text-amber-300 text-xs font-bold uppercase tracking-wide">
+                            {isContextual ? t("Ngữ cảnh / Mô tả", "Context / Picture") : t("Yêu cầu", "Instruction")}
+                          </span>
+                        </div>
+                        <p className="text-amber-100/90" style={{ fontSize: "16px", lineHeight: "1.7" }}>
+                          {instructionText}
+                        </p>
+                      </div>
+
+                      {/* Actual question prompt */}
+                      <div className="mb-4 p-4 rounded-xl bg-blue-500/[0.05] border border-blue-500/20">
+                        <p className="text-blue-200/90 text-xs font-bold uppercase tracking-wide mb-1.5">
+                          {t("Câu hỏi", "Question")}
+                        </p>
+                        <p className="text-white" style={{ fontSize: "18px", lineHeight: "1.8" }}>
+                          {p.question}
+                        </p>
+                      </div>
+
+                      <p className="text-xs text-[#64748B] mb-2 font-semibold uppercase tracking-wide">
+                        {t("Chọn đáp án đúng", "Choose the correct answer")}
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
                         {p.options.map((opt, optIdx) => {
@@ -333,33 +445,60 @@ const CambridgeLectureView = () => {
                       </div>
                       {!practiceRevealed.has(i) && practiceAnswers[i] !== undefined && (
                         <Button size="sm" onClick={() => revealPractice(i)} className="bg-blue-600 hover:bg-blue-700 text-white">
-                          {t("Kiểm tra", "Check Answer")}
+                          {t("Kiểm tra đáp án", "Check Answer")}
                         </Button>
                       )}
                       {practiceRevealed.has(i) && (
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] mt-3">
-                          <p className="text-sm text-[#94A3B8]">
-                            <Lightbulb className="inline w-4 h-4 mr-1 text-amber-400" />
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/20 mt-3">
+                          <p className="text-xs font-bold text-emerald-300 uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
+                            <Lightbulb className="w-4 h-4 text-amber-400" />
+                            {t("Giải thích của thầy Hải", "Teacher Hai's Explanation")}
+                          </p>
+                          <p className="text-emerald-100/90" style={{ fontSize: "15px", lineHeight: "1.8" }}>
                             {t(p.explanationVi, p.explanation)}
                           </p>
                         </motion.div>
                       )}
                     </CardContent>
                   </Card>
-                ))}
+                  );
+                })}
               </div>
             </TabsContent>
 
             {/* Vocab */}
             <TabsContent value="vocab">
+              <div className="mb-5 p-4 rounded-xl bg-emerald-500/[0.05] border border-emerald-500/20 flex items-start gap-3">
+                <BookOpen className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-emerald-200 font-bold text-sm mb-1">
+                    {t("Từ vựng cốt lõi của bài", "Core Vocabulary of this lecture")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      `${lecture.vocabulary.length} từ chính xuất hiện trong bài. Mỗi thẻ gồm: từ tiếng Anh, nghĩa tiếng Việt, và một câu ví dụ thực tế.`,
+                      `${lecture.vocabulary.length} key words featured in this lecture. Each card shows the English word, its meaning, and a real example sentence.`
+                    )}
+                  </p>
+                </div>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {lecture.vocabulary.map((v, i) => (
                   <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
                     className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]"
                   >
-                    <p className="text-white font-bold mb-1" style={{ fontSize: "20px" }}>{v.word}</p>
-                    <p className="text-[#A78BFA] text-sm mb-1.5">{t(v.meaningVi, v.meaning)}</p>
-                    <p className="text-[#475569] text-sm italic">"{v.example}"</p>
+                    <div className="flex items-baseline gap-2 mb-1.5">
+                      <span className="text-emerald-400/70 text-xs font-bold">#{i + 1}</span>
+                      <p className="text-white font-bold" style={{ fontSize: "20px" }}>{v.word}</p>
+                    </div>
+                    <p className="text-[#A78BFA] text-sm mb-2">
+                      <span className="text-[#64748B] uppercase text-[10px] font-bold tracking-wider mr-1.5">{t("Nghĩa", "Meaning")}</span>
+                      {t(v.meaningVi, v.meaning)}
+                    </p>
+                    <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+                      <p className="text-[#64748B] text-[10px] uppercase font-bold tracking-wider mb-0.5">{t("Ví dụ", "Example")}</p>
+                      <p className="text-[#CBD5E1] text-sm italic">"{v.example}"</p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -367,6 +506,21 @@ const CambridgeLectureView = () => {
 
             {/* Quiz */}
             <TabsContent value="quiz">
+              <div className="mb-5 p-4 rounded-xl bg-amber-500/[0.05] border border-amber-500/20 flex items-start gap-3">
+                <Star className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-amber-200 font-bold text-sm mb-1">
+                    {t("Quiz đánh giá nhanh", "Quick Assessment Quiz")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      `${lecture.quiz.length} câu hỏi tổng kết toàn bài. Chọn đáp án cho mỗi câu rồi bấm "Nộp bài" ở cuối — bạn sẽ thấy điểm số và giải thích cho từng câu.`,
+                      `${lecture.quiz.length} questions to consolidate the lecture. Select an answer for each, then tap "Submit Quiz" at the bottom — you'll see your score and an explanation for every item.`
+                    )}
+                  </p>
+                </div>
+              </div>
+
               {quizSubmitted && (
                 <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
                   className="text-center p-8 mb-6 rounded-2xl border border-amber-500/20"
@@ -392,8 +546,12 @@ const CambridgeLectureView = () => {
               <div className="space-y-4">
                 {lecture.quiz.map((q, qIdx) => (
                   <div key={qIdx} className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                    <p className="text-white font-semibold mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>
-                      <span className="text-amber-400 font-bold mr-2">Q{qIdx + 1}.</span>
+                    <div className="mb-3 flex items-center gap-2">
+                      <span className="bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-lg text-xs font-bold">
+                        {t(`Câu ${qIdx + 1}/${lecture.quiz.length}`, `Question ${qIdx + 1}/${lecture.quiz.length}`)}
+                      </span>
+                    </div>
+                    <p className="text-white font-semibold mb-3" style={{ fontSize: "18px", lineHeight: "1.7" }}>
                       {q.question}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -416,6 +574,7 @@ const CambridgeLectureView = () => {
                                   : "bg-white/[0.02] border-white/[0.06] text-[#CBD5E1] hover:bg-white/[0.04]"
                             }`}
                           >
+                            <span className="font-bold mr-2">{String.fromCharCode(65 + optIdx)}.</span>
                             {opt}
                             {quizSubmitted && isCorrect && <CheckCircle className="inline w-4 h-4 ml-2 text-emerald-400" />}
                             {quizSubmitted && isSelected && !isCorrect && <XCircle className="inline w-4 h-4 ml-2 text-red-400" />}
@@ -424,9 +583,13 @@ const CambridgeLectureView = () => {
                       })}
                     </div>
                     {quizSubmitted && (
-                      <p className="text-sm text-[#94A3B8] mt-3">
-                        <Lightbulb className="inline w-4 h-4 mr-1 text-amber-400" /> {q.explanation}
-                      </p>
+                      <div className="mt-3 p-3.5 rounded-xl bg-amber-500/[0.06] border border-amber-500/20">
+                        <p className="text-xs font-bold text-amber-300 uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
+                          <Lightbulb className="w-4 h-4 text-amber-400" />
+                          {t("Giải thích", "Explanation")}
+                        </p>
+                        <p className="text-amber-100/90 text-sm leading-relaxed">{q.explanation}</p>
+                      </div>
                     )}
                   </div>
                 ))}
@@ -434,7 +597,7 @@ const CambridgeLectureView = () => {
 
               {!quizSubmitted && Object.keys(quizAnswers).length > 0 && (
                 <Button onClick={handleQuizSubmit} className="mt-6 w-full h-12 text-base font-bold" style={{ background: `linear-gradient(90deg, ${levelCfg.gradientFrom}, ${levelCfg.gradientTo})` }}>
-                  <Star className="w-5 h-5 mr-2" /> {t("Nộp bài", "Submit Quiz")}
+                  <Star className="w-5 h-5 mr-2" /> {t(`Nộp bài (${Object.keys(quizAnswers).length}/${lecture.quiz.length})`, `Submit Quiz (${Object.keys(quizAnswers).length}/${lecture.quiz.length})`)}
                 </Button>
               )}
             </TabsContent>
