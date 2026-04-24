@@ -31,6 +31,7 @@ import PageViewTracker from "./components/PageViewTracker.tsx";
 // Lazy-load all heavy route components for optimal code splitting
 const About = lazy(() => import("./pages/About.tsx"));
 const English = lazy(() => import("./pages/English.tsx"));
+const EnglishFunFacts = lazy(() => import("./pages/EnglishFunFacts.tsx"));
 const EnglishCourse = lazy(() => import("./pages/EnglishCourse.tsx"));
 const Chinese = lazy(() => import("./pages/Chinese.tsx"));
 const ChineseCourse = lazy(() => import("./pages/ChineseCourse.tsx"));
@@ -152,6 +153,7 @@ const App = () => (
             <Route path="/welcome" element={<Welcome />} />
             <Route path="/about" element={<LazyRoute><About /></LazyRoute>} />
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
+            <Route path="/english/fun-facts" element={<LazyRoute><EnglishFunFacts /></LazyRoute>} />
             <Route path="/english/conversational/curriculum" element={<LazyRoute><ConversationalDashboard /></LazyRoute>} />
             <Route path="/english/conversational/learn/:lessonId" element={<LazyRoute><ConversationalLessonView /></LazyRoute>} />
             <Route path="/english/grammar" element={<LazyRoute><EnglishGrammar /></LazyRoute>} />
