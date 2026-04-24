@@ -320,18 +320,62 @@ const CambridgeLectureView = () => {
 
             {/* Practice */}
             <TabsContent value="practice">
+              {/* Context intro for the Practice tab */}
+              <div className="mb-5 p-4 rounded-xl bg-blue-500/[0.05] border border-blue-500/20 flex items-start gap-3">
+                <Sparkles className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-blue-200 font-bold text-sm mb-1">
+                    {t("Luyện tập có hướng dẫn", "Guided Practice")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      "Mỗi câu hỏi mô phỏng đề thi Cambridge thật. Hãy đọc phần MÔ TẢ TRANH/NGỮ CẢNH ở khung xám trước, rồi đọc câu hỏi, chọn đáp án và bấm 'Kiểm tra' để xem giải thích.",
+                      "Each item mirrors a real Cambridge exam question. Read the PICTURE / CONTEXT box first, then the question, choose your answer and tap 'Check' to see the explanation."
+                    )}
+                  </p>
+                </div>
+              </div>
               <div className="space-y-6">
-                {lecture.practiceSet.map((p, i) => (
+                {lecture.practiceSet.map((p, i) => {
+                  const instructionText = t(p.instructionVi, p.instruction);
+                  // Detect picture/context-style instructions vs plain prompts
+                  const isContextual = /picture|tranh|sentence|câu|context|ngữ cảnh|read|nghe|listen/i.test(instructionText);
+                  return (
                   <Card key={i} className="bg-white/[0.02] border-white/[0.06]">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-white text-base flex items-center gap-2">
+                      <CardTitle className="text-white text-base flex items-center gap-2 flex-wrap">
                         <span className="bg-blue-500/20 text-blue-300 px-2.5 py-0.5 rounded-lg text-xs font-bold">Q{i + 1}</span>
-                        {t(p.instructionVi, p.instruction)}
+                        <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wide">
+                          {t("Yêu cầu", "Task")}
+                        </span>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-[#CBD5E1] mb-4" style={{ fontSize: "18px", lineHeight: "1.8" }}>
-                        {p.question}
+                      {/* Picture / context box — visually separated */}
+                      <div className="mb-4 p-4 rounded-xl bg-gradient-to-br from-amber-500/[0.06] to-orange-500/[0.03] border border-amber-500/20">
+                        <div className="flex items-center gap-2 mb-2">
+                          <ImageIcon className="w-4 h-4 text-amber-400" />
+                          <span className="text-amber-300 text-xs font-bold uppercase tracking-wide">
+                            {isContextual ? t("Ngữ cảnh / Mô tả", "Context / Picture") : t("Yêu cầu", "Instruction")}
+                          </span>
+                        </div>
+                        <p className="text-amber-100/90" style={{ fontSize: "16px", lineHeight: "1.7" }}>
+                          {instructionText}
+                        </p>
+                      </div>
+
+                      {/* Actual question prompt */}
+                      <div className="mb-4 p-4 rounded-xl bg-blue-500/[0.05] border border-blue-500/20">
+                        <p className="text-blue-200/90 text-xs font-bold uppercase tracking-wide mb-1.5">
+                          {t("Câu hỏi", "Question")}
+                        </p>
+                        <p className="text-white" style={{ fontSize: "18px", lineHeight: "1.8" }}>
+                          {p.question}
+                        </p>
+                      </div>
+
+                      <p className="text-xs text-[#64748B] mb-2 font-semibold uppercase tracking-wide">
+                        {t("Chọn đáp án đúng", "Choose the correct answer")}
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
                         {p.options.map((opt, optIdx) => {
@@ -364,20 +408,24 @@ const CambridgeLectureView = () => {
                       </div>
                       {!practiceRevealed.has(i) && practiceAnswers[i] !== undefined && (
                         <Button size="sm" onClick={() => revealPractice(i)} className="bg-blue-600 hover:bg-blue-700 text-white">
-                          {t("Kiểm tra", "Check Answer")}
+                          {t("Kiểm tra đáp án", "Check Answer")}
                         </Button>
                       )}
                       {practiceRevealed.has(i) && (
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] mt-3">
-                          <p className="text-sm text-[#94A3B8]">
-                            <Lightbulb className="inline w-4 h-4 mr-1 text-amber-400" />
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/20 mt-3">
+                          <p className="text-xs font-bold text-emerald-300 uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
+                            <Lightbulb className="w-4 h-4 text-amber-400" />
+                            {t("Giải thích của thầy Hải", "Teacher Hai's Explanation")}
+                          </p>
+                          <p className="text-emerald-100/90" style={{ fontSize: "15px", lineHeight: "1.8" }}>
                             {t(p.explanationVi, p.explanation)}
                           </p>
                         </motion.div>
                       )}
                     </CardContent>
                   </Card>
-                ))}
+                  );
+                })}
               </div>
             </TabsContent>
 
