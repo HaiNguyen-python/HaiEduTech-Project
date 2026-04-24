@@ -270,6 +270,20 @@ const CambridgeLectureView = () => {
 
             {/* Rules */}
             <TabsContent value="rules">
+              <div className="mb-5 p-4 rounded-xl bg-purple-500/[0.05] border border-purple-500/20 flex items-start gap-3">
+                <BookOpen className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-purple-200 font-bold text-sm mb-1">
+                    {t("Quy tắc cốt lõi", "Core Rules")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      "Đây là những quy tắc và mẫu câu trọng tâm bạn cần ghi nhớ trước khi luyện đề. Mỗi quy tắc đi kèm 1 ví dụ minh họa thực tế.",
+                      "These are the core patterns to remember before tackling exam-style practice. Each rule comes with one concrete example."
+                    )}
+                  </p>
+                </div>
+              </div>
               <div className="space-y-4">
                 {lecture.illustratedRules.map((rule, i) => (
                   <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
@@ -278,10 +292,16 @@ const CambridgeLectureView = () => {
                     <div className="flex items-start gap-4">
                       <span className="text-3xl flex-shrink-0">{rule.icon}</span>
                       <div className="flex-1">
-                        <p className="text-white font-semibold mb-1.5" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                        <p className="text-purple-200/80 text-xs font-bold uppercase tracking-wide mb-1">
+                          {t(`Quy tắc #${i + 1}`, `Rule #${i + 1}`)}
+                        </p>
+                        <p className="text-white font-semibold mb-2" style={{ fontSize: "18px", lineHeight: "1.7" }}>
                           {t(rule.ruleVi, rule.rule)}
                         </p>
-                        <p className="text-[#64748B] text-sm italic">💡 {rule.example}</p>
+                        <div className="p-3 rounded-lg bg-white/[0.03] border border-white/[0.05]">
+                          <p className="text-amber-300/80 text-xs font-bold uppercase tracking-wide mb-1">{t("Ví dụ", "Example")}</p>
+                          <p className="text-[#CBD5E1] text-sm italic">"{rule.example}"</p>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -291,6 +311,20 @@ const CambridgeLectureView = () => {
 
             {/* Watch Out */}
             <TabsContent value="watchout">
+              <div className="mb-5 p-4 rounded-xl bg-red-500/[0.05] border border-red-500/20 flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-red-200 font-bold text-sm mb-1">
+                    {t("Lỗi học sinh hay mắc — đọc kỹ để tránh!", "Common Mistakes — read carefully to avoid them!")}
+                  </p>
+                  <p className="text-[#94A3B8] text-sm leading-relaxed">
+                    {t(
+                      "Mỗi mục bên dưới gồm: ❌ Lỗi sai phổ biến và ✅ Cách khắc phục mà thầy Hải đã tổng hợp từ hàng trăm bài thi thật.",
+                      "Each item below shows: ❌ The common mistake and ✅ How to fix it — collected by Teacher Hai from hundreds of real exam papers."
+                    )}
+                  </p>
+                </div>
+              </div>
               <div className="space-y-4">
                 {lecture.watchOut.map((w, i) => (
                   <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
@@ -301,13 +335,16 @@ const CambridgeLectureView = () => {
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
                           <AlertTriangle className="w-5 h-5 text-red-400" />
-                          <span className="text-red-300 font-bold text-sm uppercase tracking-wide">{t("Lỗi thường gặp", "Common Mistake")}</span>
+                          <span className="text-red-300 font-bold text-sm uppercase tracking-wide">{t(`Lỗi #${i + 1}: Sai phổ biến`, `Mistake #${i + 1}: Common pitfall`)}</span>
                         </div>
-                        <p className="text-red-200 mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                        <p className="text-red-200 mb-3" style={{ fontSize: "18px", lineHeight: "1.8" }}>
                           ❌ {t(w.mistakeVi, w.mistake)}
                         </p>
                         <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                          <p className="text-emerald-300" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                          <p className="text-emerald-300/80 text-xs font-bold uppercase tracking-wide mb-1">
+                            {t("Cách làm đúng", "The fix")}
+                          </p>
+                          <p className="text-emerald-200" style={{ fontSize: "18px", lineHeight: "1.8" }}>
                             ✅ {t(w.tipVi, w.tip)}
                           </p>
                         </div>
