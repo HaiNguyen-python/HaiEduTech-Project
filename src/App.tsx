@@ -124,6 +124,7 @@ const PreDepartureChecklist = lazy(() => import("./pages/PreDepartureChecklist.t
 const SoftwareEngInterview = lazy(() => import("./pages/SoftwareEngInterview.tsx"));
 const SongsLibraryPage = lazy(() => import("./pages/SongsLibraryPage.tsx"));
 const SpecializedLanguage = lazy(() => import("./pages/SpecializedLanguage.tsx"));
+const EnglishPronunciation = lazy(() => import("./pages/EnglishPronunciation.tsx"));
 
 // Shared loading fallback component
 const PageLoader = () => (
