@@ -11,8 +11,12 @@ import {
   Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp, AlertTriangle,
   BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
   Users, MapPin, Package, Calendar, Sparkles, StickyNote, CheckCircle2, Loader2,
-  PenLine
+  PenLine, Star, TrendingUp, Trash2
 } from "lucide-react";
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip,
+  ResponsiveContainer, ReferenceLine, Legend
+} from "recharts";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -121,11 +125,56 @@ const SpeakingPractice = () => {
   const [grammarCheckResult, setGrammarCheckResult] = useState<any>(null);
   const [checkingGrammar, setCheckingGrammar] = useState(false);
   const [notesSaved, setNotesSaved] = useState(false);
+  // Bookmark / practiced questions (per part)
+  const [bookmarkedIds, setBookmarkedIds] = useState<Record<string, boolean>>({});
+  // Score history for progress chart
+  type ScoreEntry = {
+    ts: number;
+    overall: number;
+    fluency?: number;
+    lexical?: number;
+    grammar?: number;
+    pronunciation?: number;
+    part: 1 | 2 | 3;
+    questionId: string;
+    topic: string;
+  };
+  const [scoreHistory, setScoreHistory] = useState<ScoreEntry[]>([]);
 
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+
+  const BOOKMARK_KEY = "ielts-speaking-bookmarks-v1";
+  const HISTORY_KEY = "ielts-speaking-score-history-v1";
+
+  // Load bookmarks + history once
+  useEffect(() => {
+    try {
+      const b = localStorage.getItem(BOOKMARK_KEY);
+      if (b) setBookmarkedIds(JSON.parse(b));
+      const h = localStorage.getItem(HISTORY_KEY);
+      if (h) setScoreHistory(JSON.parse(h));
+    } catch { /* ignore */ }
+  }, []);
+
+  const toggleBookmark = (qId: string) => {
+    setBookmarkedIds((prev) => {
+      const next = { ...prev };
+      if (next[qId]) delete next[qId];
+      else next[qId] = true;
+      try { localStorage.setItem(BOOKMARK_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
+  };
+
+  const clearScoreHistory = () => {
+    setScoreHistory([]);
+    try { localStorage.removeItem(HISTORY_KEY); } catch { /* ignore */ }
+  };
+
+  const bookmarkedCount = Object.keys(bookmarkedIds).filter((k) => bookmarkedIds[k]).length;
 
   // Get questions for current part
   const allQuestions = useMemo(() => {
@@ -289,6 +338,29 @@ const SpeakingPractice = () => {
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
+  // Persist a graded score to the chart history
+  const recordScore = useCallback((r: SpeakingResult) => {
+    if (!currentQ) return;
+    const findScore = (label: string) =>
+      r.criteria.find((c) => c.label.toLowerCase().includes(label))?.score;
+    const entry: ScoreEntry = {
+      ts: Date.now(),
+      overall: r.overall,
+      fluency: findScore("fluency"),
+      lexical: findScore("lexical"),
+      grammar: findScore("grammat"),
+      pronunciation: findScore("pronun"),
+      part: selectedPart,
+      questionId: currentQ.id,
+      topic: currentQ.topic,
+    };
+    setScoreHistory((prev) => {
+      const next = [...prev, entry].slice(-30); // keep last 30
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
+  }, [currentQ, selectedPart]);
+
   // Grading - sends actual transcript to AI
   const handleGrade = async () => {
     if (!audioBlob) return;
@@ -298,13 +370,15 @@ const SpeakingPractice = () => {
         body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: liveTranscript },
       });
       if (error) throw error;
-      setResult(data as SpeakingResult);
+      const graded = data as SpeakingResult;
+      setResult(graded);
+      recordScore(graded);
     } catch {
       // Fallback mock grading
       const base = 5.0 + Math.min(timer / 120, 1) * 2;
       const gs = (b: number, r: number) => Math.max(4, Math.min(9, Math.round((b + (Math.random() - 0.5) * r) * 2) / 2));
       const f = gs(base, 2), l = gs(base - 0.3, 1.5), g = gs(base - 0.2, 1.5), p = gs(base + 0.2, 1.5);
-      setResult({
+      const fallback: SpeakingResult = {
         overall: Math.round(((f + l + g + p) / 4) * 2) / 2,
         criteria: [
           { label: "Fluency & Coherence", score: f, feedback: "Practice speaking continuously and use linking words like 'however', 'furthermore', 'in addition'." },
@@ -319,7 +393,9 @@ const SpeakingPractice = () => {
           "Use the vocabulary suggestions provided for this topic",
           "Shadow the model answer to improve fluency",
         ],
-      });
+      };
+      setResult(fallback);
+      recordScore(fallback);
     }
     setLoading(false);
   };
@@ -505,6 +581,12 @@ const SpeakingPractice = () => {
                   <CardTitle className="text-base">
                     {t(`Ngân hàng Part ${selectedPart}`, `Part ${selectedPart} Question Bank`)}
                     <span className="ml-2 text-sm font-normal text-muted-foreground">({allQuestions.length} Qs)</span>
+                    {bookmarkedCount > 0 && (
+                      <span className="ml-2 inline-flex items-center gap-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                        {bookmarkedCount}
+                      </span>
+                    )}
                   </CardTitle>
                   {showQuestionList ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </div>
@@ -515,21 +597,44 @@ const SpeakingPractice = () => {
                     <CardContent className="pt-0">
                       <div className="h-[300px] overflow-y-auto pr-1 scrollbar-thin">
                         <div className="space-y-1.5">
-                          {allQuestions.map((q, i) => (
-                            <button
-                              key={q.id}
-                              onClick={() => { setSelectedQuestionIdx(i); resetRecording(); setShowModelAnswer(false); }}
-                              className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all ${
-                                selectedQuestionIdx === i
-                                  ? "bg-primary/10 text-primary border border-primary/30"
-                                  : "hover:bg-secondary border border-transparent"
-                              }`}
-                            >
-                              <span className="text-primary/60 mr-1 font-mono text-xs">{i + 1}.</span>
-                              <span className="font-medium">{q.topic}:</span>{" "}
-                              <span className="text-muted-foreground">{q.question}</span>
-                            </button>
-                          ))}
+                          {allQuestions.map((q, i) => {
+                            const isBookmarked = !!bookmarkedIds[q.id];
+                            return (
+                              <div
+                                key={q.id}
+                                className={`group flex items-start gap-2 w-full px-3 py-2.5 rounded-lg text-sm transition-all border ${
+                                  selectedQuestionIdx === i
+                                    ? "bg-primary/10 text-primary border-primary/30"
+                                    : "hover:bg-secondary border-transparent"
+                                }`}
+                              >
+                                <button
+                                  type="button"
+                                  onClick={() => { setSelectedQuestionIdx(i); resetRecording(); setShowModelAnswer(false); }}
+                                  className="flex-1 text-left"
+                                >
+                                  <span className="text-primary/60 mr-1 font-mono text-xs">{i + 1}.</span>
+                                  <span className="font-medium">{q.topic}:</span>{" "}
+                                  <span className="text-muted-foreground">{q.question}</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => { e.stopPropagation(); toggleBookmark(q.id); }}
+                                  className="shrink-0 p-1 rounded-md hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors"
+                                  aria-label={isBookmarked ? t("Bỏ đánh dấu", "Remove bookmark") : t("Đánh dấu đã luyện", "Mark as practiced")}
+                                  title={isBookmarked ? t("Bỏ đánh dấu", "Remove bookmark") : t("Đánh dấu đã luyện", "Mark as practiced")}
+                                >
+                                  <Star
+                                    className={`w-4 h-4 transition-colors ${
+                                      isBookmarked
+                                        ? "fill-amber-400 text-amber-400"
+                                        : "text-muted-foreground/40 group-hover:text-amber-500"
+                                    }`}
+                                  />
+                                </button>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     </CardContent>
@@ -1083,6 +1188,133 @@ const SpeakingPractice = () => {
             </Card>
           </div>
         </div>
+
+        {/* Progress chart - score evolution over practice sessions */}
+        <Card className="mt-8">
+          <CardHeader>
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-primary" />
+                  {t("Tiến trình điểm Speaking", "Speaking Score Progress")}
+                </CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t(
+                    "Theo dõi điểm Overall, Fluency, Lexical, Grammar, Pronunciation qua mỗi lần luyện tập (lưu cục bộ trên thiết bị).",
+                    "Track Overall, Fluency, Lexical, Grammar, Pronunciation across each practice session (stored locally on this device)."
+                  )}
+                </p>
+              </div>
+              {scoreHistory.length > 0 && (
+                <Button variant="outline" size="sm" onClick={clearScoreHistory}>
+                  <Trash2 className="w-4 h-4 mr-1" />
+                  {t("Xóa lịch sử", "Clear history")}
+                </Button>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {scoreHistory.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground">
+                <TrendingUp className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                <p className="text-base font-medium">
+                  {t("Chưa có dữ liệu", "No data yet")}
+                </p>
+                <p className="text-sm mt-1">
+                  {t(
+                    "Hãy ghi âm và bấm 'Grade' để bắt đầu lưu lại tiến trình của bạn.",
+                    "Record an answer and click 'Grade' to start tracking your progress."
+                  )}
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="w-full h-[340px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={scoreHistory.map((s, i) => ({
+                        idx: i + 1,
+                        label: `#${i + 1}`,
+                        Overall: s.overall,
+                        Fluency: s.fluency ?? null,
+                        Lexical: s.lexical ?? null,
+                        Grammar: s.grammar ?? null,
+                        Pronunciation: s.pronunciation ?? null,
+                        topic: s.topic,
+                        part: s.part,
+                        date: new Date(s.ts).toLocaleString(),
+                      }))}
+                      margin={{ top: 10, right: 20, left: 0, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis
+                        dataKey="label"
+                        stroke="hsl(var(--muted-foreground))"
+                        fontSize={12}
+                      />
+                      <YAxis
+                        domain={[4, 9]}
+                        ticks={[4, 5, 6, 7, 8, 9]}
+                        stroke="hsl(var(--muted-foreground))"
+                        fontSize={12}
+                      />
+                      <ReferenceLine y={6.5} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" label={{ value: "B2 / 6.5", position: "right", fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                      <ReferenceLine y={7.5} stroke="hsl(var(--primary))" strokeDasharray="3 3" label={{ value: "Target 7.5", position: "right", fontSize: 11, fill: "hsl(var(--primary))" }} />
+                      <RTooltip
+                        contentStyle={{
+                          backgroundColor: "hsl(var(--popover))",
+                          border: "1px solid hsl(var(--border))",
+                          borderRadius: "0.5rem",
+                          fontSize: "13px",
+                        }}
+                        labelFormatter={(label, payload) => {
+                          const p = payload?.[0]?.payload;
+                          return p ? `${label} • Part ${p.part} • ${p.topic}` : label;
+                        }}
+                      />
+                      <Legend wrapperStyle={{ fontSize: "12px" }} />
+                      <Line type="monotone" dataKey="Overall" stroke="hsl(var(--primary))" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                      <Line type="monotone" dataKey="Fluency" stroke="#10b981" strokeWidth={1.5} dot={{ r: 2 }} connectNulls />
+                      <Line type="monotone" dataKey="Lexical" stroke="#f59e0b" strokeWidth={1.5} dot={{ r: 2 }} connectNulls />
+                      <Line type="monotone" dataKey="Grammar" stroke="#8b5cf6" strokeWidth={1.5} dot={{ r: 2 }} connectNulls />
+                      <Line type="monotone" dataKey="Pronunciation" stroke="#ef4444" strokeWidth={1.5} dot={{ r: 2 }} connectNulls />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Quick stats */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+                  {(() => {
+                    const overalls = scoreHistory.map((s) => s.overall);
+                    const avg = overalls.reduce((a, b) => a + b, 0) / overalls.length;
+                    const best = Math.max(...overalls);
+                    const last = overalls[overalls.length - 1];
+                    const first = overalls[0];
+                    const delta = last - first;
+                    const stat = (label: string, value: string, color = "text-foreground") => (
+                      <div className="bg-secondary/50 rounded-lg p-3 text-center">
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider">{label}</p>
+                        <p className={`text-xl font-bold ${color}`}>{value}</p>
+                      </div>
+                    );
+                    return (
+                      <>
+                        {stat(t("Số lần", "Sessions"), String(scoreHistory.length))}
+                        {stat(t("Trung bình", "Average"), avg.toFixed(1), "text-primary")}
+                        {stat(t("Cao nhất", "Best"), best.toFixed(1), "text-green-600")}
+                        {stat(
+                          t("Tiến bộ", "Progress"),
+                          `${delta >= 0 ? "+" : ""}${delta.toFixed(1)}`,
+                          delta >= 0 ? "text-green-600" : "text-destructive"
+                        )}
+                      </>
+                    );
+                  })()}
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
       </main>
       
       <Footer />
