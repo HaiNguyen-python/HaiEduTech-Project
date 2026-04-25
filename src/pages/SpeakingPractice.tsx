@@ -338,6 +338,29 @@ const SpeakingPractice = () => {
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
 
+  // Persist a graded score to the chart history
+  const recordScore = useCallback((r: SpeakingResult) => {
+    if (!currentQ) return;
+    const findScore = (label: string) =>
+      r.criteria.find((c) => c.label.toLowerCase().includes(label))?.score;
+    const entry: ScoreEntry = {
+      ts: Date.now(),
+      overall: r.overall,
+      fluency: findScore("fluency"),
+      lexical: findScore("lexical"),
+      grammar: findScore("grammat"),
+      pronunciation: findScore("pronun"),
+      part: selectedPart,
+      questionId: currentQ.id,
+      topic: currentQ.topic,
+    };
+    setScoreHistory((prev) => {
+      const next = [...prev, entry].slice(-30); // keep last 30
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
+  }, [currentQ, selectedPart]);
+
   // Grading - sends actual transcript to AI
   const handleGrade = async () => {
     if (!audioBlob) return;
@@ -347,13 +370,15 @@ const SpeakingPractice = () => {
         body: { question: currentQ.question, part: selectedPart, duration: timer, transcript: liveTranscript },
       });
       if (error) throw error;
-      setResult(data as SpeakingResult);
+      const graded = data as SpeakingResult;
+      setResult(graded);
+      recordScore(graded);
     } catch {
       // Fallback mock grading
       const base = 5.0 + Math.min(timer / 120, 1) * 2;
       const gs = (b: number, r: number) => Math.max(4, Math.min(9, Math.round((b + (Math.random() - 0.5) * r) * 2) / 2));
       const f = gs(base, 2), l = gs(base - 0.3, 1.5), g = gs(base - 0.2, 1.5), p = gs(base + 0.2, 1.5);
-      setResult({
+      const fallback: SpeakingResult = {
         overall: Math.round(((f + l + g + p) / 4) * 2) / 2,
         criteria: [
           { label: "Fluency & Coherence", score: f, feedback: "Practice speaking continuously and use linking words like 'however', 'furthermore', 'in addition'." },
@@ -368,7 +393,9 @@ const SpeakingPractice = () => {
           "Use the vocabulary suggestions provided for this topic",
           "Shadow the model answer to improve fluency",
         ],
-      });
+      };
+      setResult(fallback);
+      recordScore(fallback);
     }
     setLoading(false);
   };
