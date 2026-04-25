@@ -253,6 +253,23 @@ const HskExercise = ({ words, t }: { words: HskWord[]; t: (vi: string, en: strin
 
 const HskVocabulary = () => {
   const { t } = useLanguage();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTab = searchParams.get("tab") === "radicals" ? "radicals" : "vocabulary";
+  const [activeTab, setActiveTab] = useState<"vocabulary" | "radicals">(initialTab);
+  // Keep tab and URL in sync (so deep-links from the navbar open the right tab).
+  useEffect(() => {
+    const urlTab = searchParams.get("tab") === "radicals" ? "radicals" : "vocabulary";
+    if (urlTab !== activeTab) setActiveTab(urlTab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+  const handleTabChange = (v: string) => {
+    const next = v === "radicals" ? "radicals" : "vocabulary";
+    setActiveTab(next);
+    const params = new URLSearchParams(searchParams);
+    if (next === "radicals") params.set("tab", "radicals");
+    else params.delete("tab");
+    setSearchParams(params, { replace: true });
+  };
   const [search, setSearch] = useState("");
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
