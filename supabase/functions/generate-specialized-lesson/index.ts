@@ -210,8 +210,8 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
         ],
-        temperature: 0.4,
-        max_tokens: 4000,
+        temperature: 0.3,
+        max_tokens: 8000,
       }),
     });
 
