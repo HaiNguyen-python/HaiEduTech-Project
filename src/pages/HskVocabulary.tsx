@@ -9,11 +9,12 @@ import { hskVocabData, HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/h
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
+import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 12;
