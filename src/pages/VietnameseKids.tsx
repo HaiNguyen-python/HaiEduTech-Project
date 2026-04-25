@@ -181,7 +181,6 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
 };
 
 const VietnameseKids = () => {
-  const { t } = useLanguage();
   const [filter, setFilter] = useState<"all" | "3-6" | "7-10" | "11-14">("all");
 
   const filtered = filter === "all" ? kidsLessons : kidsLessons.filter(l => l.ageGroup === filter);
@@ -194,25 +193,25 @@ const VietnameseKids = () => {
         <div className="container mx-auto px-6 max-w-6xl">
           <Link to="/learn-vietnamese" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
             <ArrowLeft className="w-4 h-4" />
-            {t("Quay lại", "Back")}
+            Quay lại
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
             <div className="flex items-center gap-3 mb-2">
               <Heart className="w-8 h-8 text-rose-500" />
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-                {t("Tiếng Việt cho trẻ Việt kiều", "Vietnamese for Overseas Kids")}
+                Tiếng Việt cho trẻ Việt kiều
               </h1>
             </div>
             <p className="text-muted-foreground text-lg">
-              {t("Giữ tiếng Việt qua gia đình, hát ru, truyện cổ tích — kết nối với cội nguồn", "Keep Vietnamese alive through family, lullabies, fairy tales — connect to your roots")}
+              Giữ tiếng Việt qua gia đình, hát ru, truyện cổ tích — kết nối với cội nguồn
             </p>
           </motion.div>
 
           <Tabs value={filter} onValueChange={(v) => setFilter(v as typeof filter)} className="mb-6">
             <TabsList className="grid grid-cols-4 max-w-md">
-              <TabsTrigger value="all">{t("Tất cả", "All")}</TabsTrigger>
-              <TabsTrigger value="3-6">3–6 {t("tuổi", "yrs")}</TabsTrigger>
+              <TabsTrigger value="all">Tất cả</TabsTrigger>
+              <TabsTrigger value="3-6">3–6 tuổi</TabsTrigger>
               <TabsTrigger value="7-10">7–10</TabsTrigger>
               <TabsTrigger value="11-14">11–14</TabsTrigger>
             </TabsList>
