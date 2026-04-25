@@ -285,7 +285,7 @@ const ToeicLectureView = () => {
 
             {/* Vocabulary Tab */}
             <TabsContent value="vocab" className="space-y-4">
-              <h2 className="text-xl font-bold text-amber-300 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-amber-700 dark:text-amber-300 flex items-center gap-2">
                 <Briefcase className="w-5 h-5" /> {t("Từ vựng kinh doanh", "Business Vocabulary")}
               </h2>
               {lecture.vocabHighlights.length === 0 ? (
