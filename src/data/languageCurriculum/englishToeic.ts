@@ -37,6 +37,68 @@ export const toeicModules: LanguageModule[] = [
         ],
       },
       {
+        id: "toeic-listen-1b",
+        title: "Part 1: People-Centered Photos",
+        titleEn: "Part 1: People-Centered Photos",
+        level: 1,
+        difficulty: "beginner",
+        theory: "**Part 1 với hình có người** chiếm ~70% câu Part 1. Nắm chắc cấu trúc 'be + V-ing' giúp bạn loại đáp án sai trong 2 giây.\n\n**Cấu trúc nghe chuẩn:**\n- 'A man / A woman / People are + V-ing'\n- 'They are + V-ing + tân ngữ'\n\n**Action verbs phổ biến trong Part 1:**\n- examining (đang xem xét), inspecting, reviewing\n- assembling (lắp ráp), arranging (sắp xếp)\n- handing (đưa), passing, distributing\n- gathered around (tụ tập quanh)\n- leaning against (tựa vào)\n\n**Bẫy phổ biến:**\n- Trộn 'has been + V-ed' (đã hoàn thành) với 'is being + V-ed' (đang được)\n- 'is wearing' (đang mặc, trạng thái) vs 'is putting on' (đang xỏ vào, hành động)",
+        theoryEn: "**Part 1 people-focused photos** are ~70% of Part 1 questions. Master 'be + V-ing' to eliminate wrong answers in 2 seconds.",
+        vocabulary: [
+          { word: "examine", ipa: "/ɪɡˈzæmɪn/", meaning: "xem xét kỹ", example: "He is examining a document.", partOfSpeech: "verb" },
+          { word: "assemble", ipa: "/əˈsembəl/", meaning: "lắp ráp, tập hợp", example: "Workers are assembling the equipment.", partOfSpeech: "verb" },
+          { word: "distribute", ipa: "/dɪˈstrɪbjuːt/", meaning: "phân phát", example: "She is distributing handouts.", partOfSpeech: "verb" },
+          { word: "lean against", ipa: "/liːn əˈɡenst/", meaning: "tựa vào", example: "A man is leaning against the wall.", partOfSpeech: "phrase" },
+        ],
+        exercises: [
+          {
+            type: "fill-in-blank",
+            instruction: "Hoàn thành câu mô tả hình ảnh (Part 1 style):",
+            instructionEn: "Complete the photo description (Part 1 style):",
+            sentences: [
+              { text: "A woman ___ examining a document. (be)", textEn: "A woman ___ examining a document.", answer: "is", hint: "Chủ ngữ số ít + V-ing" },
+              { text: "Workers are ___ the new equipment. (assemble)", textEn: "Workers are ___ the equipment.", answer: "assembling", hint: "be + V-ing" },
+              { text: "He is ___ against the railing. (lean)", textEn: "He is ___ against the railing.", answer: "leaning", hint: "be + V-ing" },
+            ],
+          },
+        ],
+        quiz: [
+          { question: "Which structure is most common in Part 1 descriptions?", options: ["Subject + has + V-ed", "Subject + be + V-ing", "Subject + V-s", "Subject + will + V"], answer: 1, explanation: "Part 1 mainly uses present continuous (be + V-ing) to describe ongoing actions in the photo." },
+          { question: "'is wearing' vs 'is putting on' - what is the difference?", options: ["Same meaning", "Wearing = state, Putting on = action of dressing", "Both are wrong", "Wearing = past, putting on = future"], answer: 1, explanation: "'Wearing' = already in the clothes (state). 'Putting on' = the action of dressing right now." },
+        ],
+      },
+      {
+        id: "toeic-listen-1c",
+        title: "Part 1: Object & Scenery Photos",
+        titleEn: "Part 1: Object & Scenery Photos",
+        level: 1,
+        difficulty: "beginner",
+        theory: "**Hình không có người** (~30% Part 1) khó hơn vì dùng cấu trúc bị động.\n\n**Cấu trúc đặc trưng:**\n- 'There is/are + N + (location)' - mô tả vị trí\n- 'N + has been + V-ed' - đã hoàn thành (focus trạng thái)\n- 'N + is being + V-ed' - đang được làm (cần có người làm trong hình)\n\n**SAI điển hình:**\n- 'The chairs are being arranged.' khi hình KHÔNG có người sắp ghế → SAI\n- 'The chairs have been arranged.' khi hình có ghế đã sắp → ĐÚNG\n\n**Từ vựng vị trí:**\n- on display (đang trưng bày)\n- stacked (xếp chồng)\n- piled up (chất đống)\n- scattered (rải rác)\n- mounted on the wall (gắn trên tường)",
+        theoryEn: "**Object/scenery photos** (~30% of Part 1) are harder because they use passive structures.",
+        vocabulary: [
+          { word: "stacked", ipa: "/stækt/", meaning: "xếp chồng", example: "Books are stacked on the shelf.", partOfSpeech: "adjective" },
+          { word: "scattered", ipa: "/ˈskætəd/", meaning: "rải rác", example: "Papers are scattered on the desk.", partOfSpeech: "adjective" },
+          { word: "on display", ipa: "/ɒn dɪˈspleɪ/", meaning: "đang trưng bày", example: "Products are on display in the window.", partOfSpeech: "phrase" },
+          { word: "mounted", ipa: "/ˈmaʊntɪd/", meaning: "gắn lên", example: "A clock is mounted on the wall.", partOfSpeech: "adjective" },
+        ],
+        exercises: [
+          {
+            type: "fill-in-blank",
+            instruction: "Chọn cấu trúc đúng để mô tả vật thể:",
+            instructionEn: "Choose correct passive structure:",
+            sentences: [
+              { text: "Books ___ stacked on the shelf. (be)", textEn: "Books ___ stacked.", answer: "are", hint: "Số nhiều" },
+              { text: "A clock is ___ on the wall. (mount)", textEn: "A clock is ___ on the wall.", answer: "mounted", hint: "be + V-ed (passive)" },
+              { text: "Products are on ___ in the window.", textEn: "Products are on ___.", answer: "display", hint: "trưng bày" },
+            ],
+          },
+        ],
+        quiz: [
+          { question: "When is 'is being + V-ed' correct in Part 1?", options: ["Always", "When the photo shows someone actively doing the action", "Never", "Only with people"], answer: 1, explanation: "'Is being arranged' requires a person actively arranging in the photo. Without a person, use 'has been arranged'." },
+          { question: "Which is correct for an empty room with chairs already in rows?", options: ["The chairs are being set up.", "The chairs have been arranged.", "Someone is arranging chairs.", "Chairs are arranging."], answer: 1, explanation: "No person in photo = use 'have been arranged' (state of completion)." },
+        ],
+      },
+      {
         id: "toeic-listen-2",
         title: "Part 2: Question-Response",
         titleEn: "Part 2: Question-Response",
