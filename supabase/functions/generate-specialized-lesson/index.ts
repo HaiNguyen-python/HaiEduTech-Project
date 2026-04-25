@@ -48,8 +48,44 @@ async function logUsage(
   }
 }
 
+function repairTruncatedJson(s: string): string {
+  // Close unterminated strings, then balance brackets/braces.
+  let str = s;
+  // Count unescaped quotes; if odd, close the string.
+  let inString = false;
+  let escape = false;
+  for (let i = 0; i < str.length; i++) {
+    const c = str[i];
+    if (escape) { escape = false; continue; }
+    if (c === "\\") { escape = true; continue; }
+    if (c === '"') inString = !inString;
+  }
+  if (inString) str += '"';
+
+  // Strip trailing commas/whitespace before closing.
+  str = str.replace(/,\s*$/g, "");
+
+  // Balance brackets and braces by stacking.
+  const stack: string[] = [];
+  inString = false; escape = false;
+  for (let i = 0; i < str.length; i++) {
+    const c = str[i];
+    if (escape) { escape = false; continue; }
+    if (c === "\\") { escape = true; continue; }
+    if (c === '"') { inString = !inString; continue; }
+    if (inString) continue;
+    if (c === "{" || c === "[") stack.push(c);
+    else if (c === "}" && stack[stack.length - 1] === "{") stack.pop();
+    else if (c === "]" && stack[stack.length - 1] === "[") stack.pop();
+  }
+  while (stack.length) {
+    const open = stack.pop();
+    str += open === "{" ? "}" : "]";
+  }
+  return str;
+}
+
 function extractJson(text: string): any {
-  // Strip code fences, <think> tags, and parse the first JSON object found.
   let cleaned = text
     .replace(/<think>[\s\S]*?<\/think>/g, "")
     .replace(/```json\s*|\s*```/g, "")
@@ -58,9 +94,12 @@ function extractJson(text: string): any {
     return JSON.parse(cleaned);
   } catch {
     const match = cleaned.match(/\{[\s\S]*\}/);
-    if (match) {
+    const candidate = match ? match[0] : cleaned;
+    try {
+      return JSON.parse(candidate);
+    } catch {
       try {
-        return JSON.parse(match[0]);
+        return JSON.parse(repairTruncatedJson(candidate));
       } catch (e) {
         console.error("JSON repair failed", e);
       }
