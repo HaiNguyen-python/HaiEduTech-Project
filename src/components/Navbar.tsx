@@ -118,7 +118,6 @@ const Navbar = () => {
       { to: "/english/pronunciation", label: t("Phát âm & Ngữ điệu", "Pronunciation & Intonation"), icon: Mic2 },
       { to: "/english/conversational", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
       { to: "/english/idioms", label: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"), icon: Quote },
-      { to: "/english/cambridge", label: t("Cambridge Starters–PET", "Cambridge Starters–PET"), icon: Map },
       { to: "/cambridge-lectures", label: t("Bài giảng Cambridge", "Cambridge Lectures"), icon: BookOpen },
     ] },
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
