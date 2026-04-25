@@ -48,8 +48,44 @@ async function logUsage(
   }
 }
 
+function repairTruncatedJson(s: string): string {
+  // Close unterminated strings, then balance brackets/braces.
+  let str = s;
+  // Count unescaped quotes; if odd, close the string.
+  let inString = false;
+  let escape = false;
+  for (let i = 0; i < str.length; i++) {
+    const c = str[i];
+    if (escape) { escape = false; continue; }
+    if (c === "\\") { escape = true; continue; }
+    if (c === '"') inString = !inString;
+  }
+  if (inString) str += '"';
+
+  // Strip trailing commas/whitespace before closing.
+  str = str.replace(/,\s*$/g, "");
+
+  // Balance brackets and braces by stacking.
+  const stack: string[] = [];
+  inString = false; escape = false;
+  for (let i = 0; i < str.length; i++) {
+    const c = str[i];
+    if (escape) { escape = false; continue; }
+    if (c === "\\") { escape = true; continue; }
+    if (c === '"') { inString = !inString; continue; }
+    if (inString) continue;
+    if (c === "{" || c === "[") stack.push(c);
+    else if (c === "}" && stack[stack.length - 1] === "{") stack.pop();
+    else if (c === "]" && stack[stack.length - 1] === "[") stack.pop();
+  }
+  while (stack.length) {
+    const open = stack.pop();
+    str += open === "{" ? "}" : "]";
+  }
+  return str;
+}
+
 function extractJson(text: string): any {
-  // Strip code fences, <think> tags, and parse the first JSON object found.
   let cleaned = text
     .replace(/<think>[\s\S]*?<\/think>/g, "")
     .replace(/```json\s*|\s*```/g, "")
@@ -58,9 +94,12 @@ function extractJson(text: string): any {
     return JSON.parse(cleaned);
   } catch {
     const match = cleaned.match(/\{[\s\S]*\}/);
-    if (match) {
+    const candidate = match ? match[0] : cleaned;
+    try {
+      return JSON.parse(candidate);
+    } catch {
       try {
-        return JSON.parse(match[0]);
+        return JSON.parse(repairTruncatedJson(candidate));
       } catch (e) {
         console.error("JSON repair failed", e);
       }
@@ -166,20 +205,20 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "sonar-reasoning",
+        model: "sonar-pro",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
         ],
-        temperature: 0.4,
-        max_tokens: 4000,
+        temperature: 0.3,
+        max_tokens: 8000,
       }),
     });
 
     if (!response.ok) {
       const errText = await response.text();
       console.error("Perplexity error", response.status, errText);
-      await logUsage("generate-specialized-lesson", "sonar-reasoning", 0, "error", errText.slice(0, 500));
+      await logUsage("generate-specialized-lesson", "sonar-pro", 0, "error", errText.slice(0, 500));
       const status = response.status === 429 ? 429 : response.status === 402 ? 402 : 500;
       const msg = status === 429
         ? "Rate limit reached. Please try again in a minute."
@@ -199,14 +238,14 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
 
     const parsed = extractJson(content);
     if (!parsed) {
-      await logUsage("generate-specialized-lesson", "sonar-reasoning", tokens, "parse_error");
+      await logUsage("generate-specialized-lesson", "sonar-pro", tokens, "parse_error");
       return new Response(
         JSON.stringify({ error: "Failed to parse AI response. Please refine your request and try again." }),
         { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
-    await logUsage("generate-specialized-lesson", "sonar-reasoning", tokens, "success");
+    await logUsage("generate-specialized-lesson", "sonar-pro", tokens, "success");
 
     return new Response(
       JSON.stringify({ lesson: parsed, citations, tokens }),
@@ -215,7 +254,7 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     console.error("generate-specialized-lesson error", msg);
-    await logUsage("generate-specialized-lesson", "sonar-reasoning", 0, "error", msg.slice(0, 500));
+    await logUsage("generate-specialized-lesson", "sonar-pro", 0, "error", msg.slice(0, 500));
     return new Response(JSON.stringify({ error: msg }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
