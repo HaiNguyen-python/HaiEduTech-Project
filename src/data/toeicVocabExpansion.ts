@@ -5,7 +5,7 @@
  * @author HaiEduTech
  */
 
-import type { ToeicWord } from "./toeicVocabData";
+import type { ToeicWord } from "./toeicVocabTypes";
 
 export const toeicVocabExpansion: ToeicWord[] = [
   // ═══════════════════════════════════════════

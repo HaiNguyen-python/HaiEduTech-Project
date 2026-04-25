@@ -9,11 +9,12 @@ import { hskVocabData, HSK_LEVELS, HSK_CATEGORIES, type HskWord } from "@/data/h
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
+import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import { supabase } from "@/integrations/supabase/client";
 
 const WORDS_PER_PAGE = 12;
@@ -336,6 +337,12 @@ const HskVocabulary = () => {
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
+          <Tabs defaultValue="vocabulary" className="w-full">
+            <TabsList className="mb-6">
+              <TabsTrigger value="vocabulary">{t("Từ vựng HSK", "HSK Vocabulary")}</TabsTrigger>
+              <TabsTrigger value="radicals">{t("214 Bộ thủ Khang Hi", "214 Kangxi Radicals")}</TabsTrigger>
+            </TabsList>
+            <TabsContent value="vocabulary">
           <div className="flex gap-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-1 min-w-0">
             {/* Great Wall Climber Progress Visualization */}
@@ -494,6 +501,11 @@ const HskVocabulary = () => {
           <div className="lg:hidden mt-6">
             <VocabMasteryLeaderboard subject="hsk" currentCount={mastered.size} />
           </div>
+            </TabsContent>
+            <TabsContent value="radicals">
+              <KangxiRadicalsBrowser />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
       <Footer />
