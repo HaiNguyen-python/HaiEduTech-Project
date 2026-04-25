@@ -238,9 +238,28 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
     <div>
       {/* Filters */}
       <div className="mb-6 space-y-3">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
           <Filter className="w-4 h-4" />
           <span className="font-medium">{t("Lọc & xáo trộn", "Filter & shuffle")}</span>
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-700 dark:text-amber-300 text-xs font-semibold">
+            <Star className="w-3.5 h-3.5 fill-current" />
+            {t(`Đã thuộc: ${learned.size}`, `Learned: ${learned.size}`)}
+          </span>
+          <button
+            onClick={() => setShowLearnedOnly((v) => !v)}
+            className={cn(
+              "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-colors",
+              showLearnedOnly
+                ? "bg-amber-500 text-white border-amber-500 shadow-sm"
+                : "bg-secondary border-border text-foreground hover:bg-amber-500/10 hover:border-amber-500/40",
+            )}
+            title={t("Chỉ hiện các từ đã đánh dấu sao", "Show only starred entries")}
+          >
+            <Star className={cn("w-3.5 h-3.5", showLearnedOnly && "fill-current")} />
+            {showLearnedOnly
+              ? t("Đang xem: Đã thuộc", "Viewing: Learned")
+              : t(`Chỉ Đã thuộc (${learnedCountInView})`, `Only Learned (${learnedCountInView})`)}
+          </button>
           <button
             onClick={() => setShuffleSeed(shuffleSeed + 1)}
             className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-secondary hover:bg-primary/10 hover:border-primary/30 transition-colors text-xs font-medium text-foreground"
