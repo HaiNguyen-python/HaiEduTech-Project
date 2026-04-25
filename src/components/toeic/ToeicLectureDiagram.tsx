@@ -12,8 +12,8 @@ interface Props {
 const Wrapper = ({ title, titleVi, children }: { title: string; titleVi: string; children: React.ReactNode }) => {
   const { t } = useLanguage();
   return (
-    <figure className="rounded-xl border border-white/10 bg-white/[0.03] p-4 md:p-5 my-4">
-      <figcaption className="text-sm font-semibold text-blue-300 mb-3 flex items-center gap-2">
+    <figure className="rounded-xl border border-blue-500/30 bg-blue-50 dark:bg-white/[0.03] p-4 md:p-5 my-4">
+      <figcaption className="text-sm font-semibold text-blue-700 dark:text-blue-300 mb-3 flex items-center gap-2">
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" />
           <circle cx="12" cy="12" r="3" />

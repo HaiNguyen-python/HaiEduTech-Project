@@ -164,27 +164,27 @@ const ToeicLectureView = () => {
 
             {/* Trap Alerts Tab */}
             <TabsContent value="traps" className="space-y-4">
-              <h2 className="text-xl font-bold text-red-300 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-red-700 dark:text-red-300 flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5" /> {t("🚨 Cảnh báo bẫy thường gặp", "🚨 Common Trap Alerts")}
               </h2>
               {lecture.trapAlerts.map((trap, i) => (
                 <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
-                  className="rounded-xl border border-red-500/20 bg-red-500/5 p-5">
-                  <h3 className="text-lg font-semibold text-red-300 mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                  className="rounded-xl border border-red-500/30 bg-red-50 dark:bg-red-500/5 p-5">
+                  <h3 className="text-lg font-semibold text-red-700 dark:text-red-300 mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                     ⚠️ {t(trap.trapVi, trap.trap)}
                   </h3>
-                  <p className="text-muted-foreground" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                  <p className="text-slate-700 dark:text-muted-foreground" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                     {t(trap.whyVi, trap.why)}
                   </p>
                 </motion.div>
               ))}
 
               {/* Business context */}
-              <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-5 mt-6">
-                <h3 className="text-lg font-semibold text-blue-300 flex items-center gap-2 mb-2">
+              <div className="rounded-xl border border-blue-500/30 bg-blue-50 dark:bg-blue-500/5 p-5 mt-6">
+                <h3 className="text-lg font-semibold text-blue-700 dark:text-blue-300 flex items-center gap-2 mb-2">
                   <Briefcase className="w-5 h-5" /> {t("Bối cảnh kinh doanh", "Business Context")}
                 </h3>
-                <p className="text-muted-foreground" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                <p className="text-slate-700 dark:text-muted-foreground" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                   {t(lecture.businessContextVi, lecture.businessContext)}
                 </p>
               </div>
@@ -192,7 +192,7 @@ const ToeicLectureView = () => {
 
             {/* Core Technique Tab */}
             <TabsContent value="technique" className="space-y-4">
-              <h2 className="text-xl font-bold text-blue-300 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-blue-700 dark:text-blue-300 flex items-center gap-2">
                 <BookOpen className="w-5 h-5" /> {t("Kỹ thuật cốt lõi", "Core Technique")}
               </h2>
 
@@ -201,20 +201,20 @@ const ToeicLectureView = () => {
 
               {lecture.coreTechnique.map((step, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                  className="rounded-xl border border-blue-500/15 bg-white/5 p-5">
+                  className="rounded-xl border border-blue-500/30 bg-white dark:bg-white/5 p-5 shadow-sm">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center font-bold text-lg shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-lg shrink-0">
                       {step.step}
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-white mb-1" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                         {t(step.titleVi, step.title)}
                       </h3>
-                      <p className="text-muted-foreground mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                      <p className="text-slate-700 dark:text-muted-foreground mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                         {t(step.descriptionVi, step.description)}
                       </p>
                       {step.example && (
-                        <div className="bg-blue-500/10 rounded-lg p-3 mt-2 text-sm text-blue-200 border border-blue-500/20">
+                        <div className="bg-blue-50 dark:bg-blue-500/10 rounded-lg p-3 mt-2 text-sm text-blue-800 dark:text-blue-200 border border-blue-500/30">
                           💡 {step.example}
                         </div>
                       )}
@@ -224,11 +224,11 @@ const ToeicLectureView = () => {
               ))}
 
               {/* Pro Speed Tip */}
-              <div className="rounded-xl border border-amber-500/20 bg-gradient-to-r from-amber-500/10 to-orange-500/10 p-5 mt-6">
-                <h3 className="text-lg font-semibold text-amber-300 flex items-center gap-2 mb-2">
+              <div className="rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-500/10 dark:to-orange-500/10 p-5 mt-6">
+                <h3 className="text-lg font-semibold text-amber-700 dark:text-amber-300 flex items-center gap-2 mb-2">
                   <Zap className="w-5 h-5" /> Teacher Hai's Pro-Speed Tip
                 </h3>
-                <p className="text-amber-100/80" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                <p className="text-amber-900 dark:text-amber-100/80" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                   {t(lecture.proSpeedTipVi, lecture.proSpeedTip)}
                 </p>
               </div>
@@ -236,7 +236,7 @@ const ToeicLectureView = () => {
 
             {/* Practice Tab */}
             <TabsContent value="practice" className="space-y-4">
-              <h2 className="text-xl font-bold text-emerald-300 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
                 <Target className="w-5 h-5" /> {t("Bài tập thực hành", "Practice Set")}
               </h2>
               {lecture.practiceSet.map((q, i) => (
@@ -285,7 +285,7 @@ const ToeicLectureView = () => {
 
             {/* Vocabulary Tab */}
             <TabsContent value="vocab" className="space-y-4">
-              <h2 className="text-xl font-bold text-amber-300 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-amber-700 dark:text-amber-300 flex items-center gap-2">
                 <Briefcase className="w-5 h-5" /> {t("Từ vựng kinh doanh", "Business Vocabulary")}
               </h2>
               {lecture.vocabHighlights.length === 0 ? (
@@ -312,7 +312,7 @@ const ToeicLectureView = () => {
             {/* Quiz Tab */}
             <TabsContent value="quiz" className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-purple-300 flex items-center gap-2">
+                <h2 className="text-xl font-bold text-purple-700 dark:text-purple-300 flex items-center gap-2">
                   <Zap className="w-5 h-5" /> {t("Kiểm tra nhanh", "Quick Quiz")}
                 </h2>
                 {quizSubmitted && (
