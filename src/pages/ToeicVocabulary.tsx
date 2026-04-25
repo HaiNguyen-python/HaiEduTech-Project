@@ -459,61 +459,84 @@ const ToeicVocabulary = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {paged.map((w, i) => (
-                    <motion.div
-                      key={w.word + w.category}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.03 }}
-                      className="group rounded-xl border border-slate-600/40 bg-[#1e293b] p-6 shadow-lg shadow-black/20 hover:border-blue-400/50 hover:scale-[1.03] hover:shadow-blue-500/10 hover:shadow-xl backdrop-blur-sm transition-all duration-300"
-                    >
-                      {/* Word header */}
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <h3 className="text-xl font-bold text-white">{w.word}</h3>
-                          <p className="text-sm text-blue-200/60 font-mono">{w.ipa}</p>
+                  {paged.map((w, i) => {
+                    const isMastered = mastered.has(w.word);
+                    return (
+                      <motion.div
+                        key={w.word + w.category}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.03 }}
+                        className={`group relative rounded-xl border p-6 shadow-md transition-all duration-300 hover:scale-[1.03] hover:shadow-xl ${
+                          isMastered
+                            ? "border-amber-400/70 bg-gradient-to-br from-amber-50 via-yellow-50 to-white dark:from-amber-950/40 dark:via-slate-800 dark:to-slate-900 hover:shadow-amber-300/40"
+                            : "border-sky-200 bg-gradient-to-br from-white via-sky-50 to-blue-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 hover:border-blue-400/70 hover:shadow-blue-300/40"
+                        }`}
+                      >
+                        {/* Star toggle (top-right) */}
+                        <button
+                          onClick={(e) => handleStarClick(e, w.word)}
+                          className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-amber-100 dark:hover:bg-amber-500/20 transition-colors"
+                          aria-label={isMastered ? "Unmark mastered" : "Mark as mastered"}
+                          title={isMastered ? t("Đã thuộc – bỏ đánh dấu", "Mastered – click to unmark") : t("Đánh dấu đã thuộc", "Mark as mastered")}
+                        >
+                          <Star
+                            className={`w-6 h-6 transition-all ${
+                              isMastered
+                                ? "fill-amber-400 text-amber-500 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                                : "text-slate-400 hover:text-amber-400"
+                            }`}
+                          />
+                        </button>
+
+                        {/* Word header */}
+                        <div className="flex items-start justify-between mb-3 pr-10">
+                          <div>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">{w.word}</h3>
+                            <p className="text-sm text-blue-600 dark:text-blue-200/70 font-mono">{w.ipa}</p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge className={`${wordClassColors[w.wordClass]} border text-xs font-bold uppercase`}>{w.wordClass}</Badge>
+                            <button onClick={() => speak(w.word)} className="p-2 rounded-full hover:bg-blue-100 dark:hover:bg-blue-500/15 transition-colors">
+                              <Volume2 className="w-5 h-5 text-blue-600 dark:text-blue-300" />
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Badge className={`${wordClassColors[w.wordClass]} border text-xs font-bold uppercase`}>{w.wordClass}</Badge>
-                          <button onClick={() => speak(w.word)} className="p-2 rounded-full hover:bg-blue-500/15 transition-colors">
-                            <Volume2 className="w-5 h-5 text-blue-300" />
-                          </button>
+
+                        {/* Level & category */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <Badge className={`${levelColors[w.level]} border text-xs`}>{levelLabels[w.level]}</Badge>
+                          <span className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                            {categoryIcons[w.category]}
+                            {w.category}
+                          </span>
                         </div>
-                      </div>
 
-                      {/* Level & category */}
-                      <div className="flex items-center gap-2 mb-3">
-                        <Badge className={`${levelColors[w.level]} border text-xs`}>{levelLabels[w.level]}</Badge>
-                        <span className="text-xs text-slate-400 flex items-center gap-1">
-                          {categoryIcons[w.category]}
-                          {w.category}
-                        </span>
-                      </div>
+                        {/* Definition */}
+                        <p className="text-base text-slate-900 dark:text-[#f8fafc] font-medium mb-1">{w.definition.en}</p>
+                        <p className="text-base text-blue-700 dark:text-[#93c5fd] mb-3">{w.definition.vi}</p>
 
-                      {/* Definition */}
-                      <p className="text-base text-[#f8fafc] font-medium mb-1">{w.definition.en}</p>
-                      <p className="text-base text-[#93c5fd] mb-3">{w.definition.vi}</p>
+                        {/* Example */}
+                        <p className="text-sm text-slate-700 dark:text-[#cbd5e1] italic mb-3">"{w.example}"</p>
 
-                      {/* Example */}
-                      <p className="text-sm text-[#cbd5e1] italic mb-3">"{w.example}"</p>
+                        {/* Synonyms */}
+                        {w.synonyms.length > 0 && (
+                          <div className="mb-2">
+                            <span className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Synonyms: </span>
+                            <span className="text-sm text-slate-700 dark:text-[#cbd5e1]">{w.synonyms.join(", ")}</span>
+                          </div>
+                        )}
 
-                      {/* Synonyms */}
-                      {w.synonyms.length > 0 && (
-                        <div className="mb-2">
-                          <span className="text-xs text-slate-400 uppercase font-bold">Synonyms: </span>
-                          <span className="text-sm text-[#cbd5e1]">{w.synonyms.join(", ")}</span>
-                        </div>
-                      )}
-
-                      {/* Collocations */}
-                      {w.collocations.length > 0 && (
-                        <div>
-                          <span className="text-xs text-slate-400 uppercase font-bold">Collocations: </span>
-                          <span className="text-sm text-[#93c5fd]">{w.collocations.join(" · ")}</span>
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
+                        {/* Collocations */}
+                        {w.collocations.length > 0 && (
+                          <div>
+                            <span className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Collocations: </span>
+                            <span className="text-sm text-blue-700 dark:text-[#93c5fd]">{w.collocations.join(" · ")}</span>
+                          </div>
+                        )}
+                      </motion.div>
+                    );
+                  })}
                 </div>
               )}
 
