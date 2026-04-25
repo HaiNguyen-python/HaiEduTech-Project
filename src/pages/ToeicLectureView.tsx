@@ -236,7 +236,7 @@ const ToeicLectureView = () => {
 
             {/* Practice Tab */}
             <TabsContent value="practice" className="space-y-4">
-              <h2 className="text-xl font-bold text-emerald-300 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
                 <Target className="w-5 h-5" /> {t("Bài tập thực hành", "Practice Set")}
               </h2>
               {lecture.practiceSet.map((q, i) => (
