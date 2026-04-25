@@ -241,9 +241,9 @@ const ToeicLectureView = () => {
               </h2>
               {lecture.practiceSet.map((q, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                  className="rounded-xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-blue-300/80 mb-2 italic">{t(q.contextVi, q.context)}</p>
-                  <p className="text-white font-medium mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>{q.question}</p>
+                  className="rounded-xl border border-emerald-200 dark:border-white/10 bg-white dark:bg-white/5 p-5 shadow-sm">
+                  <p className="text-sm text-emerald-700 dark:text-blue-300/80 mb-2 italic">{t(q.contextVi, q.context)}</p>
+                  <p className="text-slate-900 dark:text-white font-medium mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>{q.question}</p>
                   <div className="space-y-2 mb-3">
                     {q.options.map((opt, oi) => {
                       const selected = practiceAnswers[i] === oi;
