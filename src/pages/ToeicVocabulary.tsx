@@ -23,6 +23,16 @@ import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 
 const WORDS_PER_PAGE = 24;
 
+// Sort options for the vocabulary list
+type SortKey = "default" | "az" | "za" | "easy" | "hard" | "mastered" | "unmastered";
+
+// Numeric weight for level-based sorting (lower = easier)
+const LEVEL_WEIGHT: Record<string, number> = {
+  basic: 1,
+  intermediate: 2,
+  advanced: 3,
+};
+
 // Category icon mapping
 const categoryIcons: Record<string, React.ReactNode> = {
   "Office & Workplace": <Building2 className="w-5 h-5" />,
