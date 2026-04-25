@@ -193,9 +193,22 @@ interface LibraryViewProps {
   setShuffleSeed: (n: number) => void;
   t: (vi: string, en: string) => string;
 }
+const LEARNED_STORAGE_KEY = "haiedu_learned_idioms_v1";
+
 const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, setFilterTheme, shuffleSeed, setShuffleSeed, t }: LibraryViewProps) => {
   const [revealed, setRevealed] = useState<Set<string>>(new Set());
-  const display = useMemo(() => shuffle(entries, shuffleSeed), [entries, shuffleSeed]);
+  const [learned, setLearned] = useState<Set<string>>(() => {
+    if (typeof window === "undefined") return new Set();
+    try {
+      const raw = localStorage.getItem(LEARNED_STORAGE_KEY);
+      return new Set(raw ? (JSON.parse(raw) as string[]) : []);
+    } catch { return new Set(); }
+  });
+  const [showLearnedOnly, setShowLearnedOnly] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem(LEARNED_STORAGE_KEY, JSON.stringify(Array.from(learned))); } catch { /* noop */ }
+  }, [learned]);
 
   const toggle = (id: string) =>
     setRevealed((p) => {
@@ -204,13 +217,49 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
       return n;
     });
 
+  const toggleLearned = (id: string) =>
+    setLearned((p) => {
+      const n = new Set(p);
+      n.has(id) ? n.delete(id) : n.add(id);
+      return n;
+    });
+
+  const baseDisplay = useMemo(() => shuffle(entries, shuffleSeed), [entries, shuffleSeed]);
+  const display = useMemo(
+    () => (showLearnedOnly ? baseDisplay.filter((e) => learned.has(e.id)) : baseDisplay),
+    [baseDisplay, showLearnedOnly, learned],
+  );
+  const learnedCountInView = useMemo(
+    () => baseDisplay.filter((e) => learned.has(e.id)).length,
+    [baseDisplay, learned],
+  );
+
   return (
     <div>
       {/* Filters */}
       <div className="mb-6 space-y-3">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
           <Filter className="w-4 h-4" />
           <span className="font-medium">{t("Lọc & xáo trộn", "Filter & shuffle")}</span>
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-700 dark:text-amber-300 text-xs font-semibold">
+            <Star className="w-3.5 h-3.5 fill-current" />
+            {t(`Đã thuộc: ${learned.size}`, `Learned: ${learned.size}`)}
+          </span>
+          <button
+            onClick={() => setShowLearnedOnly((v) => !v)}
+            className={cn(
+              "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-colors",
+              showLearnedOnly
+                ? "bg-amber-500 text-white border-amber-500 shadow-sm"
+                : "bg-secondary border-border text-foreground hover:bg-amber-500/10 hover:border-amber-500/40",
+            )}
+            title={t("Chỉ hiện các từ đã đánh dấu sao", "Show only starred entries")}
+          >
+            <Star className={cn("w-3.5 h-3.5", showLearnedOnly && "fill-current")} />
+            {showLearnedOnly
+              ? t("Đang xem: Đã thuộc", "Viewing: Learned")
+              : t(`Chỉ Đã thuộc (${learnedCountInView})`, `Only Learned (${learnedCountInView})`)}
+          </button>
           <button
             onClick={() => setShuffleSeed(shuffleSeed + 1)}
             className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-secondary hover:bg-primary/10 hover:border-primary/30 transition-colors text-xs font-medium text-foreground"
@@ -286,6 +335,7 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           {display.map((entry, idx) => {
             const meta = CATEGORY_META[entry.category];
             const isOpen = revealed.has(entry.id);
+            const isLearned = learned.has(entry.id);
             return (
               <motion.article
                 key={entry.id}
@@ -293,9 +343,27 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: Math.min(idx * 0.02, 0.2) }}
-                className="rounded-2xl border border-border/60 bg-gradient-to-br from-background to-secondary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all p-5 flex flex-col"
+                className={cn(
+                  "rounded-2xl border bg-gradient-to-br from-background to-secondary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all p-5 flex flex-col relative",
+                  isLearned ? "border-amber-500/60 ring-1 ring-amber-500/30" : "border-border/60",
+                )}
               >
-                <div className="flex items-start justify-between gap-3 mb-3">
+                <button
+                  type="button"
+                  onClick={() => toggleLearned(entry.id)}
+                  aria-pressed={isLearned}
+                  aria-label={isLearned ? t("Bỏ đánh dấu Đã thuộc", "Unmark as learned") : t("Đánh dấu Đã thuộc", "Mark as learned")}
+                  title={isLearned ? t("Đã thuộc – nhấn để bỏ", "Learned – click to unmark") : t("Đánh dấu là Đã thuộc", "Mark as learned")}
+                  className={cn(
+                    "absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-all z-10",
+                    isLearned
+                      ? "bg-amber-500 text-white border-amber-500 shadow-md scale-105"
+                      : "bg-background/80 text-muted-foreground border-border hover:text-amber-500 hover:border-amber-500/60 hover:bg-amber-500/10",
+                  )}
+                >
+                  <Star className={cn("w-4 h-4", isLearned && "fill-current")} />
+                </button>
+                <div className="flex items-start justify-between gap-3 mb-3 pr-12">
                   <span className={cn("inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border", meta.chip)}>
                     <span>{meta.emoji}</span>
                     {meta.labelEn}
