@@ -18,6 +18,8 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard, { syncMasteredCount } from "@/components/VocabMasteryLeaderboard";
 import { supabase } from "@/integrations/supabase/client";
 import { Star } from "lucide-react";
+import ToeicMountainClimber from "@/components/ToeicMountainClimber";
+import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 
 const WORDS_PER_PAGE = 24;
 
