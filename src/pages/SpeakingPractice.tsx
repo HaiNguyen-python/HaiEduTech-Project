@@ -125,11 +125,56 @@ const SpeakingPractice = () => {
   const [grammarCheckResult, setGrammarCheckResult] = useState<any>(null);
   const [checkingGrammar, setCheckingGrammar] = useState(false);
   const [notesSaved, setNotesSaved] = useState(false);
+  // Bookmark / practiced questions (per part)
+  const [bookmarkedIds, setBookmarkedIds] = useState<Record<string, boolean>>({});
+  // Score history for progress chart
+  type ScoreEntry = {
+    ts: number;
+    overall: number;
+    fluency?: number;
+    lexical?: number;
+    grammar?: number;
+    pronunciation?: number;
+    part: 1 | 2 | 3;
+    questionId: string;
+    topic: string;
+  };
+  const [scoreHistory, setScoreHistory] = useState<ScoreEntry[]>([]);
 
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
+
+  const BOOKMARK_KEY = "ielts-speaking-bookmarks-v1";
+  const HISTORY_KEY = "ielts-speaking-score-history-v1";
+
+  // Load bookmarks + history once
+  useEffect(() => {
+    try {
+      const b = localStorage.getItem(BOOKMARK_KEY);
+      if (b) setBookmarkedIds(JSON.parse(b));
+      const h = localStorage.getItem(HISTORY_KEY);
+      if (h) setScoreHistory(JSON.parse(h));
+    } catch { /* ignore */ }
+  }, []);
+
+  const toggleBookmark = (qId: string) => {
+    setBookmarkedIds((prev) => {
+      const next = { ...prev };
+      if (next[qId]) delete next[qId];
+      else next[qId] = true;
+      try { localStorage.setItem(BOOKMARK_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
+  };
+
+  const clearScoreHistory = () => {
+    setScoreHistory([]);
+    try { localStorage.removeItem(HISTORY_KEY); } catch { /* ignore */ }
+  };
+
+  const bookmarkedCount = Object.keys(bookmarkedIds).filter((k) => bookmarkedIds[k]).length;
 
   // Get questions for current part
   const allQuestions = useMemo(() => {
