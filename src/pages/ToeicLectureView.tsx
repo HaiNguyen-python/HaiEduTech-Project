@@ -15,6 +15,7 @@ import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allToeicLectures } from "@/data/toeicLecturesData";
 import ToeicLectureDiagram from "@/components/toeic/ToeicLectureDiagram";
+import ToeicPracticeIllustration from "@/components/toeic/ToeicPracticeIllustration";
 
 const LEVEL_LABELS: Record<string, { label: string; labelVi: string }> = {
   foundation: { label: "Foundation", labelVi: "Nền tảng" },
