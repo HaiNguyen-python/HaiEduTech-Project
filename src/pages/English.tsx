@@ -23,20 +23,6 @@ const English = () => {
 
   const programs = [
     {
-      title: "Cambridge Starters–PET",
-      level: t("Mới bắt đầu → Trung cấp", "Beginner → Intermediate"),
-      desc: t(
-        "Chương trình tiếng Anh chuẩn quốc tế dành cho trẻ em từ 6–14 tuổi. Được thiết kế theo khung Cambridge Assessment, giúp trẻ xây dựng nền tảng ngôn ngữ vững chắc qua các hoạt động học tập sinh động và phù hợp lứa tuổi.",
-        "International-standard English program for children aged 6–14. Designed around the Cambridge Assessment framework, building strong language foundations through engaging, age-appropriate learning activities."
-      ),
-      features: [
-        t("Starters → Movers → Flyers → KET → PET: lộ trình rõ ràng theo cấp độ", "Starters → Movers → Flyers → KET → PET: clear progression pathway"),
-        t("4 kỹ năng: Nghe, Nói, Đọc, Viết qua trò chơi và dự án", "4 skills: Listening, Speaking, Reading, Writing through games & projects"),
-        t("Đánh giá định kỳ & phản hồi chi tiết cho phụ huynh", "Regular assessments & detailed parent feedback reports"),
-        t("Lớp học nhỏ (≤8 học sinh) để tối đa tương tác", "Small classes (≤8 students) for maximum interaction"),
-      ],
-    },
-    {
       title: t("Luyện thi IELTS", "IELTS Preparation"),
       level: t("Trung cấp → Nâng cao", "Intermediate → Advanced"),
       desc: t(
@@ -215,7 +201,7 @@ const English = () => {
                     ))}
                   </ul>
                   <div className="flex gap-3">
-                    <Link to={`/english/${["cambridge", "ielts", "toeic", "conversational", "national-exam", "sat"][i]}`} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
+                    <Link to={`/english/${["ielts", "toeic", "conversational", "national-exam", "sat"][i]}`} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
                       {t("Xem chi tiết", "View details")} <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
