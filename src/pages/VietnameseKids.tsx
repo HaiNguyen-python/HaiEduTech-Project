@@ -12,7 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { kidsLessons as baseKids, type KidsLesson } from "@/data/vietnamese/kidsOverseasData";
 import { kidsExpansion } from "@/data/vietnamese/kidsExpansion";
-const kidsLessons = [...baseKids, ...kidsExpansion];
+import { kidsExpansion2 } from "@/data/vietnamese/kidsExpansion2";
+const kidsLessons = [...baseKids, ...kidsExpansion, ...kidsExpansion2];
 import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
 
 const SpeakButton = ({ text, label, size = "icon" }: { text: string; label: string; size?: "icon" | "sm" }) => {
