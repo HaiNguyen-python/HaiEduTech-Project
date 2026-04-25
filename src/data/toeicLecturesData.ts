@@ -1583,6 +1583,7 @@ const noWaitMethod: ToeicLecture = {
 
 // Export all TOEIC lectures
 import { toeicExpansionLectures } from "./toeicLecturesExpansion";
+import { toeicExpansion2Lectures } from "./toeicLecturesExpansion2";
 
 export const allToeicLectures: ToeicLecture[] = [
   part1Photos,
@@ -1606,4 +1607,5 @@ export const allToeicLectures: ToeicLecture[] = [
   vocabOfficeSupply,
   noWaitMethod,
   ...toeicExpansionLectures,
+  ...toeicExpansion2Lectures,
 ];
