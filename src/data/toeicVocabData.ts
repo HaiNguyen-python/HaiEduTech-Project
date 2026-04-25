@@ -1,6 +1,7 @@
 // TOEIC Essential Vocabulary Database - 300+ business keywords
 // Organized by 10 professional categories with IPA, bilingual definitions, examples, synonyms & collocations
 import { toeicVocabExpansion } from "./toeicVocabExpansion";
+import { toeicVocabExpansion2 } from "./toeicVocabExpansion2";
 
 export interface ToeicWord {
   word: string;
@@ -1183,4 +1184,11 @@ export const toeicVocabData: ToeicWord[] = [
     category: "Events & Hospitality",
   },
   ...toeicVocabExpansion,
-];
+  ...toeicVocabExpansion2,
+].sort((a, b) => {
+  // Sort within each category: basic → intermediate → advanced (easy → hard)
+  const levelOrder: Record<string, number> = { basic: 0, intermediate: 1, advanced: 2 };
+  const catOrder = (TOEIC_CATEGORIES as readonly string[]).indexOf(a.category) - (TOEIC_CATEGORIES as readonly string[]).indexOf(b.category);
+  if (catOrder !== 0) return catOrder;
+  return (levelOrder[a.level] ?? 3) - (levelOrder[b.level] ?? 3);
+});
