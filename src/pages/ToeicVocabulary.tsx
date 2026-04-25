@@ -301,29 +301,37 @@ const ToeicVocabulary = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a0f18]">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
         <div className="flex gap-6">
         <div className="flex-1 min-w-0">
         {/* Header */}
         <div className="mb-8">
-          <Link to="/english" className="inline-flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors mb-4 text-base">
+          <Link to="/english" className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-4 text-base">
             <ArrowLeft className="w-4 h-4" />
             {t("Chương trình Tiếng Anh", "English Program")}
           </Link>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
-              📊 TOEIC Essential <span className="text-blue-400">Vocabulary</span>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">
+              📊 TOEIC Essential <span className="text-blue-600 dark:text-blue-400">Vocabulary</span>
             </h1>
-            <p className="text-slate-400 text-lg max-w-3xl">
+            <p className="text-slate-700 dark:text-slate-400 text-lg max-w-3xl">
               {t(
-                "120+ từ vựng thiết yếu cho kỳ thi TOEIC, được phân loại theo 10 chủ đề doanh nghiệp. Bao gồm phiên âm IPA, từ đồng nghĩa, cụm từ đi kèm và ví dụ thực tế.",
-                "120+ essential business vocabulary for the TOEIC exam, organized by 10 professional categories. Includes IPA pronunciation, synonyms, collocations, and real-world examples."
+                "500+ từ vựng thiết yếu cho kỳ thi TOEIC, được phân loại theo 10 chủ đề doanh nghiệp. Bao gồm phiên âm IPA, từ đồng nghĩa, cụm từ đi kèm và ví dụ thực tế.",
+                "500+ essential business vocabulary for the TOEIC exam, organized by 10 professional categories. Includes IPA pronunciation, synonyms, collocations, and real-world examples."
               )}
             </p>
           </motion.div>
         </div>
+
+        {/* TOEIC Career Climber – business-themed motivation */}
+        <ToeicMountainClimber
+          mastered={mastered.size}
+          total={toeicVocabData.length}
+          flyingStars={[]}
+          onStarLanded={() => { /* no-op: stars handled by toast confetti */ }}
+        />
 
         {/* Mode Tabs */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
