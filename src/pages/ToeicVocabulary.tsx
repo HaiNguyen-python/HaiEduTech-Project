@@ -417,13 +417,13 @@ const ToeicVocabulary = () => {
 
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
-              <span className="text-slate-500 text-sm font-bold uppercase self-center mr-2">{t("Chủ đề", "Topic")}:</span>
+              <span className="text-slate-600 dark:text-slate-500 text-sm font-bold uppercase self-center mr-2">{t("Chủ đề", "Topic")}:</span>
               <button
                 onClick={() => { setActiveCategory("All"); setPage(1); }}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border ${
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
                   activeCategory === "All"
                     ? "bg-blue-600 text-white border-blue-500"
-                    : "bg-[#1E293B]/60 text-slate-400 border-slate-700/50 hover:border-blue-500/30"
+                    : "bg-white dark:bg-[#1E293B]/60 text-slate-700 dark:text-slate-400 border-sky-200 dark:border-slate-700/50 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800"
                 }`}
               >
                 {t("Tất cả", "All")} ({categoryStats["All"]})
@@ -432,10 +432,10 @@ const ToeicVocabulary = () => {
                 <button
                   key={cat}
                   onClick={() => { setActiveCategory(cat); setPage(1); }}
-                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border flex items-center gap-2 ${
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm flex items-center gap-2 ${
                     activeCategory === cat
                       ? "bg-blue-600 text-white border-blue-500"
-                      : "bg-[#1E293B]/60 text-slate-400 border-slate-700/50 hover:border-blue-500/30"
+                      : "bg-white dark:bg-[#1E293B]/60 text-slate-700 dark:text-slate-400 border-sky-200 dark:border-slate-700/50 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800"
                   }`}
                 >
                   {categoryIcons[cat]}
