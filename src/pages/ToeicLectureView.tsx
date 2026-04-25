@@ -15,6 +15,7 @@ import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allToeicLectures } from "@/data/toeicLecturesData";
 import ToeicLectureDiagram from "@/components/toeic/ToeicLectureDiagram";
+import ToeicPracticeIllustration from "@/components/toeic/ToeicPracticeIllustration";
 
 const LEVEL_LABELS: Record<string, { label: string; labelVi: string }> = {
   foundation: { label: "Foundation", labelVi: "Nền tảng" },
@@ -242,8 +243,13 @@ const ToeicLectureView = () => {
               {lecture.practiceSet.map((q, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
                   className="rounded-xl border border-emerald-200 dark:border-white/10 bg-white dark:bg-white/5 p-5 shadow-sm">
-                  <p className="text-sm text-emerald-700 dark:text-blue-300/80 mb-2 italic">{t(q.contextVi, q.context)}</p>
-                  <p className="text-slate-900 dark:text-white font-medium mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>{q.question}</p>
+                  <div className="flex flex-col sm:flex-row gap-4 mb-3">
+                    <ToeicPracticeIllustration context={q.context} contextVi={q.contextVi} index={i} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-emerald-700 dark:text-blue-300/80 mb-2 italic">{t(q.contextVi, q.context)}</p>
+                      <p className="text-slate-900 dark:text-white font-medium" style={{ fontSize: "20px", lineHeight: "1.6" }}>{q.question}</p>
+                    </div>
+                  </div>
                   <div className="space-y-2 mb-3">
                     {q.options.map((opt, oi) => {
                       const selected = practiceAnswers[i] === oi;
