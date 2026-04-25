@@ -166,7 +166,7 @@ const English = () => {
 
             {/* IELTS Writing Practice Banner */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-              className="mb-8 p-4 bg-primary/5 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              className="mb-4 p-4 bg-primary/5 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <GraduationCap className="w-5 h-5 text-primary shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-medium text-foreground">
@@ -178,6 +178,23 @@ const English = () => {
               </div>
               <Link to="/ielts-writing-practice" className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shrink-0">
                 {t("Luyện viết ngay", "Start Practice")} <ArrowRight className="w-4 h-4" />
+              </Link>
+            </motion.div>
+
+            {/* Pronunciation & Intonation Banner */}
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}
+              className="mb-8 p-4 bg-gradient-to-r from-sky-500/10 via-primary/5 to-emerald-500/10 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <Mic className="w-5 h-5 text-primary shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-foreground">
+                  {t("🎙️ Pronunciation & Intonation: Phát âm chuẩn 🇬🇧 vs 🇺🇸", "🎙️ Pronunciation & Intonation: Master 🇬🇧 vs 🇺🇸")}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {t("Bảng IPA, minimal pairs, nối âm, weak forms, intonation và quiz nghe phân biệt giọng Anh-Anh và Anh-Mỹ.", "IPA chart, minimal pairs, linking, weak forms, intonation, and listening quiz contrasting British vs American.")}
+                </p>
+              </div>
+              <Link to="/english/pronunciation" className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shrink-0">
+                {t("Học phát âm", "Start Pronunciation")} <ArrowRight className="w-4 h-4" />
               </Link>
             </motion.div>
 
