@@ -309,7 +309,7 @@ const ToeicVocabulary = () => {
     [mastered, toggleWithMotivation]
   );
 
-  // Filtered words
+  // Filtered + sorted words
   const filtered = useMemo(() => {
     let result = toeicVocabData;
     if (activeCategory !== "All") result = result.filter((w) => w.category === activeCategory);
@@ -325,8 +325,39 @@ const ToeicVocabulary = () => {
           w.collocations.some((c) => c.toLowerCase().includes(q))
       );
     }
+
+    // Apply sorting (work on a copy to keep the source data untouched)
+    if (sortBy !== "default") {
+      result = [...result].sort((a, b) => {
+        switch (sortBy) {
+          case "az":
+            return a.word.localeCompare(b.word);
+          case "za":
+            return b.word.localeCompare(a.word);
+          case "easy":
+            return (LEVEL_WEIGHT[a.level] ?? 99) - (LEVEL_WEIGHT[b.level] ?? 99) ||
+              a.word.localeCompare(b.word);
+          case "hard":
+            return (LEVEL_WEIGHT[b.level] ?? 0) - (LEVEL_WEIGHT[a.level] ?? 0) ||
+              a.word.localeCompare(b.word);
+          case "mastered": {
+            const am = mastered.has(a.word) ? 0 : 1;
+            const bm = mastered.has(b.word) ? 0 : 1;
+            return am - bm || a.word.localeCompare(b.word);
+          }
+          case "unmastered": {
+            const am = mastered.has(a.word) ? 1 : 0;
+            const bm = mastered.has(b.word) ? 1 : 0;
+            return am - bm || a.word.localeCompare(b.word);
+          }
+          default:
+            return 0;
+        }
+      });
+    }
+
     return result;
-  }, [activeCategory, activeLevel, search]);
+  }, [activeCategory, activeLevel, search, sortBy, mastered]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / WORDS_PER_PAGE));
   const paged = filtered.slice((page - 1) * WORDS_PER_PAGE, page * WORDS_PER_PAGE);
