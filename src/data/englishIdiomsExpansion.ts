@@ -12,7 +12,7 @@ import type { IdiomEntry } from "./englishIdioms";
 export const englishIdiomsExpansion: IdiomEntry[] = [
   // ===================== IDIOMS (12) =====================
   {
-    id: "hit-the-books",
+    id: "hit-the-books-2",
     category: "idiom",
     phrase: "Hit the books",
     literalVi: "Đánh vào sách",
@@ -25,7 +25,7 @@ export const englishIdiomsExpansion: IdiomEntry[] = [
     emoji: "📚",
   },
   {
-    id: "spill-the-beans",
+    id: "spill-the-beans-2",
     category: "idiom",
     phrase: "Spill the beans",
     literalVi: "Làm đổ hạt đậu",
@@ -196,7 +196,7 @@ export const englishIdiomsExpansion: IdiomEntry[] = [
     emoji: "🧠",
   },
   {
-    id: "practice-makes-perfect",
+    id: "practice-makes-perfect-2",
     category: "proverb",
     phrase: "Practice makes perfect.",
     literalVi: "Luyện tập tạo nên hoàn hảo.",
@@ -393,7 +393,7 @@ export const englishIdiomsExpansion: IdiomEntry[] = [
     emoji: "💼",
   },
   {
-    id: "quote-be-change",
+    id: "quote-be-change-2",
     category: "quote",
     phrase: "Be the change that you wish to see in the world.",
     literalVi: "Hãy trở thành sự thay đổi mà bạn muốn thấy ở thế giới.",
