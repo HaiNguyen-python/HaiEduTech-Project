@@ -268,17 +268,59 @@ const SpecializedLanguage = () => {
       {/* Hero */}
       <section className={`relative overflow-hidden bg-gradient-to-br ${langMeta.gradient} text-white pt-28 pb-12 sm:pt-32 sm:pb-16`}>
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, white 1px, transparent 1px), radial-gradient(circle at 80% 60%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-        <div className="container mx-auto px-4 relative">
-          <div className="flex items-center gap-2 text-sm opacity-90 mb-3">
-            <Sparkles className="w-4 h-4" />
-            <span>AI-Powered · Perplexity Sonar</span>
+        <div className="container mx-auto px-4 relative grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center">
+          <div>
+            <div className="flex items-center gap-2 text-sm opacity-90 mb-3">
+              <Sparkles className="w-4 h-4" />
+              <span>AI-Powered · Perplexity Sonar</span>
+            </div>
+            <h1 className="text-3xl sm:text-5xl font-bold mb-4">
+              Specialized Language Hub <span className="text-2xl sm:text-3xl">{langMeta.flag}</span>
+            </h1>
+            <p className="text-base sm:text-lg max-w-2xl opacity-95">
+              Build a custom industry-ready curriculum in minutes. Tell us your field, role, and goal - the AI tutor crafts vocabulary, scenarios, grammar, and cultural tips tailored to your career.
+            </p>
+            {/* Industry chips */}
+            <div className="hidden sm:flex flex-wrap gap-2 mt-6">
+              {[
+                { icon: "⚕️", label: "Medical" },
+                { icon: "⚖️", label: "Legal" },
+                { icon: "💻", label: "Tech & IT" },
+                { icon: "📈", label: "Finance" },
+                { icon: "✈️", label: "Aviation" },
+                { icon: "🏗️", label: "Engineering" },
+                { icon: "🎓", label: "Academic" },
+              ].map((c) => (
+                <span key={c.label} className="px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 text-sm font-medium">
+                  <span className="mr-1.5">{c.icon}</span>{c.label}
+                </span>
+              ))}
+            </div>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold mb-4">
-            Specialized Language Hub <span className="text-2xl sm:text-3xl">{langMeta.flag}</span>
-          </h1>
-          <p className="text-base sm:text-lg max-w-2xl opacity-95">
-            Build a custom industry-ready curriculum in minutes. Tell us your field, role, and goal - the AI tutor crafts vocabulary, scenarios, grammar, and cultural tips tailored to your career.
-          </p>
+
+          {/* Industry illustration collage */}
+          <div className="hidden lg:block relative h-72 xl:h-80">
+            {[
+              { src: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=420&q=70", alt: "Medical professional", className: "top-0 left-0 w-44 h-52 rotate-[-6deg]", tag: "⚕️ Medical" },
+              { src: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=420&q=70", alt: "Legal documents", className: "top-4 left-44 w-44 h-44 rotate-[4deg]", tag: "⚖️ Legal" },
+              { src: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=420&q=70", alt: "Software engineering", className: "bottom-0 left-8 w-48 h-44 rotate-[2deg]", tag: "💻 Tech" },
+              { src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=420&q=70", alt: "Finance charts", className: "bottom-4 right-4 w-44 h-44 rotate-[-4deg]", tag: "📈 Finance" },
+              { src: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=420&q=70", alt: "Aviation cockpit", className: "top-0 right-0 w-40 h-40 rotate-[6deg]", tag: "✈️ Aviation" },
+            ].map((img, i) => (
+              <figure
+                key={i}
+                className={`absolute ${img.className} rounded-2xl overflow-hidden ring-2 ring-white/40 shadow-2xl transition-transform hover:rotate-0 hover:scale-105 hover:z-10 bg-white/10`}
+              >
+                <img src={img.src} alt={img.alt} loading="lazy" className="w-full h-full object-cover" />
+                <figcaption className="absolute bottom-0 left-0 right-0 px-2 py-1 bg-gradient-to-t from-black/85 to-transparent text-white text-[11px] font-semibold">
+                  {img.tag}
+                </figcaption>
+              </figure>
+            ))}
+            {/* Floating sparkle accent */}
+            <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-white/20 blur-2xl" />
+            <div className="absolute bottom-8 left-2 w-20 h-20 rounded-full bg-white/15 blur-2xl" />
+          </div>
         </div>
       </section>
 
