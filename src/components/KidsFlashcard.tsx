@@ -120,33 +120,27 @@ const KidsFlashcard = ({ items, title }: KidsFlashcardProps) => {
             </div>
             <div className="mt-3 text-xs sm:text-sm text-muted-foreground flex items-center gap-1.5">
               <RotateCw className="w-3.5 h-3.5" />
-              {t("Chạm để xem nghĩa", "Tap to see meaning")}
+              Chạm để xem ví dụ
             </div>
           </div>
 
-          {/* BACK — English meaning + example */}
+          {/* BACK — Vietnamese example & illustration */}
           <div
             className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-sky-50 dark:from-emerald-950/40 dark:to-sky-950/40 rounded-2xl shadow-xl border-4 border-emerald-300 dark:border-emerald-800 flex flex-col items-center justify-center p-5 sm:p-6 text-center"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
             <div className="text-5xl sm:text-6xl mb-3">{current.emoji}</div>
-            <div className="text-2xl sm:text-3xl font-bold text-emerald-700 dark:text-emerald-300 mb-2">
-              {current.en}
-            </div>
-            <div className="text-lg sm:text-xl font-semibold text-foreground mb-3">
+            <div className="text-2xl sm:text-3xl font-extrabold text-emerald-700 dark:text-emerald-300 mb-2">
               {current.vi}
             </div>
-            {current.example && (
+            {current.example ? (
               <div className="bg-white/70 dark:bg-background/40 rounded-xl p-3 sm:p-4 mt-2 max-w-md">
                 <p className="text-base sm:text-lg font-medium text-foreground italic leading-snug">
                   "{current.example}"
                 </p>
-                {current.exampleEn && (
-                  <p className="text-sm text-muted-foreground italic mt-1.5">
-                    "{current.exampleEn}"
-                  </p>
-                )}
               </div>
+            ) : (
+              <p className="text-sm text-muted-foreground italic mt-2">Chạm lại để quay về</p>
             )}
           </div>
         </motion.div>
