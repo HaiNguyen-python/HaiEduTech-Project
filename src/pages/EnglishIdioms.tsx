@@ -193,9 +193,22 @@ interface LibraryViewProps {
   setShuffleSeed: (n: number) => void;
   t: (vi: string, en: string) => string;
 }
+const LEARNED_STORAGE_KEY = "haiedu_learned_idioms_v1";
+
 const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, setFilterTheme, shuffleSeed, setShuffleSeed, t }: LibraryViewProps) => {
   const [revealed, setRevealed] = useState<Set<string>>(new Set());
-  const display = useMemo(() => shuffle(entries, shuffleSeed), [entries, shuffleSeed]);
+  const [learned, setLearned] = useState<Set<string>>(() => {
+    if (typeof window === "undefined") return new Set();
+    try {
+      const raw = localStorage.getItem(LEARNED_STORAGE_KEY);
+      return new Set(raw ? (JSON.parse(raw) as string[]) : []);
+    } catch { return new Set(); }
+  });
+  const [showLearnedOnly, setShowLearnedOnly] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem(LEARNED_STORAGE_KEY, JSON.stringify(Array.from(learned))); } catch { /* noop */ }
+  }, [learned]);
 
   const toggle = (id: string) =>
     setRevealed((p) => {
@@ -203,6 +216,23 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
       n.has(id) ? n.delete(id) : n.add(id);
       return n;
     });
+
+  const toggleLearned = (id: string) =>
+    setLearned((p) => {
+      const n = new Set(p);
+      n.has(id) ? n.delete(id) : n.add(id);
+      return n;
+    });
+
+  const baseDisplay = useMemo(() => shuffle(entries, shuffleSeed), [entries, shuffleSeed]);
+  const display = useMemo(
+    () => (showLearnedOnly ? baseDisplay.filter((e) => learned.has(e.id)) : baseDisplay),
+    [baseDisplay, showLearnedOnly, learned],
+  );
+  const learnedCountInView = useMemo(
+    () => baseDisplay.filter((e) => learned.has(e.id)).length,
+    [baseDisplay, learned],
+  );
 
   return (
     <div>
