@@ -270,12 +270,12 @@ const ToeicLectureView = () => {
                     })}
                   </div>
                   {practiceAnswers[i] !== undefined && !practiceRevealed.has(i) && (
-                    <Button size="sm" onClick={() => revealPractice(i)} className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">
+                    <Button size="sm" onClick={() => revealPractice(i)} className="bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30">
                       {t("Kiểm tra", "Check Answer")}
                     </Button>
                   )}
                   {practiceRevealed.has(i) && (
-                    <div className="mt-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-sm text-blue-200">
+                    <div className="mt-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-sm text-blue-800 dark:text-blue-200">
                       💡 {t(q.explanationVi, q.explanation)}
                     </div>
                   )}
