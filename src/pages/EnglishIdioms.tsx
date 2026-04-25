@@ -335,6 +335,7 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
           {display.map((entry, idx) => {
             const meta = CATEGORY_META[entry.category];
             const isOpen = revealed.has(entry.id);
+            const isLearned = learned.has(entry.id);
             return (
               <motion.article
                 key={entry.id}
@@ -342,9 +343,27 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: Math.min(idx * 0.02, 0.2) }}
-                className="rounded-2xl border border-border/60 bg-gradient-to-br from-background to-secondary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all p-5 flex flex-col"
+                className={cn(
+                  "rounded-2xl border bg-gradient-to-br from-background to-secondary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all p-5 flex flex-col relative",
+                  isLearned ? "border-amber-500/60 ring-1 ring-amber-500/30" : "border-border/60",
+                )}
               >
-                <div className="flex items-start justify-between gap-3 mb-3">
+                <button
+                  type="button"
+                  onClick={() => toggleLearned(entry.id)}
+                  aria-pressed={isLearned}
+                  aria-label={isLearned ? t("Bỏ đánh dấu Đã thuộc", "Unmark as learned") : t("Đánh dấu Đã thuộc", "Mark as learned")}
+                  title={isLearned ? t("Đã thuộc – nhấn để bỏ", "Learned – click to unmark") : t("Đánh dấu là Đã thuộc", "Mark as learned")}
+                  className={cn(
+                    "absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-all z-10",
+                    isLearned
+                      ? "bg-amber-500 text-white border-amber-500 shadow-md scale-105"
+                      : "bg-background/80 text-muted-foreground border-border hover:text-amber-500 hover:border-amber-500/60 hover:bg-amber-500/10",
+                  )}
+                >
+                  <Star className={cn("w-4 h-4", isLearned && "fill-current")} />
+                </button>
+                <div className="flex items-start justify-between gap-3 mb-3 pr-12">
                   <span className={cn("inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border", meta.chip)}>
                     <span>{meta.emoji}</span>
                     {meta.labelEn}
