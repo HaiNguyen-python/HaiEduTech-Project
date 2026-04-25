@@ -581,6 +581,12 @@ const SpeakingPractice = () => {
                   <CardTitle className="text-base">
                     {t(`Ngân hàng Part ${selectedPart}`, `Part ${selectedPart} Question Bank`)}
                     <span className="ml-2 text-sm font-normal text-muted-foreground">({allQuestions.length} Qs)</span>
+                    {bookmarkedCount > 0 && (
+                      <span className="ml-2 inline-flex items-center gap-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                        {bookmarkedCount}
+                      </span>
+                    )}
                   </CardTitle>
                   {showQuestionList ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </div>
@@ -591,21 +597,44 @@ const SpeakingPractice = () => {
                     <CardContent className="pt-0">
                       <div className="h-[300px] overflow-y-auto pr-1 scrollbar-thin">
                         <div className="space-y-1.5">
-                          {allQuestions.map((q, i) => (
-                            <button
-                              key={q.id}
-                              onClick={() => { setSelectedQuestionIdx(i); resetRecording(); setShowModelAnswer(false); }}
-                              className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all ${
-                                selectedQuestionIdx === i
-                                  ? "bg-primary/10 text-primary border border-primary/30"
-                                  : "hover:bg-secondary border border-transparent"
-                              }`}
-                            >
-                              <span className="text-primary/60 mr-1 font-mono text-xs">{i + 1}.</span>
-                              <span className="font-medium">{q.topic}:</span>{" "}
-                              <span className="text-muted-foreground">{q.question}</span>
-                            </button>
-                          ))}
+                          {allQuestions.map((q, i) => {
+                            const isBookmarked = !!bookmarkedIds[q.id];
+                            return (
+                              <div
+                                key={q.id}
+                                className={`group flex items-start gap-2 w-full px-3 py-2.5 rounded-lg text-sm transition-all border ${
+                                  selectedQuestionIdx === i
+                                    ? "bg-primary/10 text-primary border-primary/30"
+                                    : "hover:bg-secondary border-transparent"
+                                }`}
+                              >
+                                <button
+                                  type="button"
+                                  onClick={() => { setSelectedQuestionIdx(i); resetRecording(); setShowModelAnswer(false); }}
+                                  className="flex-1 text-left"
+                                >
+                                  <span className="text-primary/60 mr-1 font-mono text-xs">{i + 1}.</span>
+                                  <span className="font-medium">{q.topic}:</span>{" "}
+                                  <span className="text-muted-foreground">{q.question}</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => { e.stopPropagation(); toggleBookmark(q.id); }}
+                                  className="shrink-0 p-1 rounded-md hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors"
+                                  aria-label={isBookmarked ? t("Bỏ đánh dấu", "Remove bookmark") : t("Đánh dấu đã luyện", "Mark as practiced")}
+                                  title={isBookmarked ? t("Bỏ đánh dấu", "Remove bookmark") : t("Đánh dấu đã luyện", "Mark as practiced")}
+                                >
+                                  <Star
+                                    className={`w-4 h-4 transition-colors ${
+                                      isBookmarked
+                                        ? "fill-amber-400 text-amber-400"
+                                        : "text-muted-foreground/40 group-hover:text-amber-500"
+                                    }`}
+                                  />
+                                </button>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     </CardContent>
