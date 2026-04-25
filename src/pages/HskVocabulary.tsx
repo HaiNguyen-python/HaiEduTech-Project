@@ -501,6 +501,11 @@ const HskVocabulary = () => {
           <div className="lg:hidden mt-6">
             <VocabMasteryLeaderboard subject="hsk" currentCount={mastered.size} />
           </div>
+            </TabsContent>
+            <TabsContent value="radicals">
+              <KangxiRadicalsBrowser />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
       <Footer />
