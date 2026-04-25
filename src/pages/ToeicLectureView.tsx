@@ -164,16 +164,16 @@ const ToeicLectureView = () => {
 
             {/* Trap Alerts Tab */}
             <TabsContent value="traps" className="space-y-4">
-              <h2 className="text-xl font-bold text-red-300 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-red-700 dark:text-red-300 flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5" /> {t("🚨 Cảnh báo bẫy thường gặp", "🚨 Common Trap Alerts")}
               </h2>
               {lecture.trapAlerts.map((trap, i) => (
                 <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
-                  className="rounded-xl border border-red-500/20 bg-red-500/5 p-5">
-                  <h3 className="text-lg font-semibold text-red-300 mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                  className="rounded-xl border border-red-500/30 bg-red-50 dark:bg-red-500/5 p-5">
+                  <h3 className="text-lg font-semibold text-red-700 dark:text-red-300 mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                     ⚠️ {t(trap.trapVi, trap.trap)}
                   </h3>
-                  <p className="text-muted-foreground" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                  <p className="text-slate-700 dark:text-muted-foreground" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                     {t(trap.whyVi, trap.why)}
                   </p>
                 </motion.div>
