@@ -1188,6 +1188,133 @@ const SpeakingPractice = () => {
             </Card>
           </div>
         </div>
+
+        {/* Progress chart - score evolution over practice sessions */}
+        <Card className="mt-8">
+          <CardHeader>
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-primary" />
+                  {t("Tiến trình điểm Speaking", "Speaking Score Progress")}
+                </CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t(
+                    "Theo dõi điểm Overall, Fluency, Lexical, Grammar, Pronunciation qua mỗi lần luyện tập (lưu cục bộ trên thiết bị).",
+                    "Track Overall, Fluency, Lexical, Grammar, Pronunciation across each practice session (stored locally on this device)."
+                  )}
+                </p>
+              </div>
+              {scoreHistory.length > 0 && (
+                <Button variant="outline" size="sm" onClick={clearScoreHistory}>
+                  <Trash2 className="w-4 h-4 mr-1" />
+                  {t("Xóa lịch sử", "Clear history")}
+                </Button>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {scoreHistory.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground">
+                <TrendingUp className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                <p className="text-base font-medium">
+                  {t("Chưa có dữ liệu", "No data yet")}
+                </p>
+                <p className="text-sm mt-1">
+                  {t(
+                    "Hãy ghi âm và bấm 'Grade' để bắt đầu lưu lại tiến trình của bạn.",
+                    "Record an answer and click 'Grade' to start tracking your progress."
+                  )}
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="w-full h-[340px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={scoreHistory.map((s, i) => ({
+                        idx: i + 1,
+                        label: `#${i + 1}`,
+                        Overall: s.overall,
+                        Fluency: s.fluency ?? null,
+                        Lexical: s.lexical ?? null,
+                        Grammar: s.grammar ?? null,
+                        Pronunciation: s.pronunciation ?? null,
+                        topic: s.topic,
+                        part: s.part,
+                        date: new Date(s.ts).toLocaleString(),
+                      }))}
+                      margin={{ top: 10, right: 20, left: 0, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis
+                        dataKey="label"
+                        stroke="hsl(var(--muted-foreground))"
+                        fontSize={12}
+                      />
+                      <YAxis
+                        domain={[4, 9]}
+                        ticks={[4, 5, 6, 7, 8, 9]}
+                        stroke="hsl(var(--muted-foreground))"
+                        fontSize={12}
+                      />
+                      <ReferenceLine y={6.5} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" label={{ value: "B2 / 6.5", position: "right", fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                      <ReferenceLine y={7.5} stroke="hsl(var(--primary))" strokeDasharray="3 3" label={{ value: "Target 7.5", position: "right", fontSize: 11, fill: "hsl(var(--primary))" }} />
+                      <RTooltip
+                        contentStyle={{
+                          backgroundColor: "hsl(var(--popover))",
+                          border: "1px solid hsl(var(--border))",
+                          borderRadius: "0.5rem",
+                          fontSize: "13px",
+                        }}
+                        labelFormatter={(label, payload) => {
+                          const p = payload?.[0]?.payload;
+                          return p ? `${label} • Part ${p.part} • ${p.topic}` : label;
+                        }}
+                      />
+                      <Legend wrapperStyle={{ fontSize: "12px" }} />
+                      <Line type="monotone" dataKey="Overall" stroke="hsl(var(--primary))" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                      <Line type="monotone" dataKey="Fluency" stroke="#10b981" strokeWidth={1.5} dot={{ r: 2 }} connectNulls />
+                      <Line type="monotone" dataKey="Lexical" stroke="#f59e0b" strokeWidth={1.5} dot={{ r: 2 }} connectNulls />
+                      <Line type="monotone" dataKey="Grammar" stroke="#8b5cf6" strokeWidth={1.5} dot={{ r: 2 }} connectNulls />
+                      <Line type="monotone" dataKey="Pronunciation" stroke="#ef4444" strokeWidth={1.5} dot={{ r: 2 }} connectNulls />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Quick stats */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+                  {(() => {
+                    const overalls = scoreHistory.map((s) => s.overall);
+                    const avg = overalls.reduce((a, b) => a + b, 0) / overalls.length;
+                    const best = Math.max(...overalls);
+                    const last = overalls[overalls.length - 1];
+                    const first = overalls[0];
+                    const delta = last - first;
+                    const stat = (label: string, value: string, color = "text-foreground") => (
+                      <div className="bg-secondary/50 rounded-lg p-3 text-center">
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider">{label}</p>
+                        <p className={`text-xl font-bold ${color}`}>{value}</p>
+                      </div>
+                    );
+                    return (
+                      <>
+                        {stat(t("Số lần", "Sessions"), String(scoreHistory.length))}
+                        {stat(t("Trung bình", "Average"), avg.toFixed(1), "text-primary")}
+                        {stat(t("Cao nhất", "Best"), best.toFixed(1), "text-green-600")}
+                        {stat(
+                          t("Tiến bộ", "Progress"),
+                          `${delta >= 0 ? "+" : ""}${delta.toFixed(1)}`,
+                          delta >= 0 ? "text-green-600" : "text-destructive"
+                        )}
+                      </>
+                    );
+                  })()}
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
       </main>
       
       <Footer />
