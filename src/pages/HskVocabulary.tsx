@@ -355,7 +355,7 @@ const HskVocabulary = () => {
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
-          <Tabs defaultValue="vocabulary" className="w-full">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
             <TabsList className="mb-6">
               <TabsTrigger value="vocabulary">{t("Từ vựng HSK", "HSK Vocabulary")}</TabsTrigger>
               <TabsTrigger value="radicals">{t("214 Bộ thủ Khang Hi", "214 Kangxi Radicals")}</TabsTrigger>
