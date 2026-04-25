@@ -15,6 +15,7 @@ import { kidsExpansion } from "@/data/vietnamese/kidsExpansion";
 import { kidsExpansion2 } from "@/data/vietnamese/kidsExpansion2";
 const kidsLessons = [...baseKids, ...kidsExpansion, ...kidsExpansion2];
 import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
+import KidsFlashcard from "@/components/KidsFlashcard";
 
 const SpeakButton = ({ text, label, size = "icon" }: { text: string; label: string; size?: "icon" | "sm" }) => {
   const [loading, setLoading] = useState(false);
