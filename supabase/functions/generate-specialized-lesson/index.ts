@@ -166,7 +166,7 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "sonar-reasoning",
+        model: "sonar-pro",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
@@ -179,7 +179,7 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
     if (!response.ok) {
       const errText = await response.text();
       console.error("Perplexity error", response.status, errText);
-      await logUsage("generate-specialized-lesson", "sonar-reasoning", 0, "error", errText.slice(0, 500));
+      await logUsage("generate-specialized-lesson", "sonar-pro", 0, "error", errText.slice(0, 500));
       const status = response.status === 429 ? 429 : response.status === 402 ? 402 : 500;
       const msg = status === 429
         ? "Rate limit reached. Please try again in a minute."
@@ -199,14 +199,14 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
 
     const parsed = extractJson(content);
     if (!parsed) {
-      await logUsage("generate-specialized-lesson", "sonar-reasoning", tokens, "parse_error");
+      await logUsage("generate-specialized-lesson", "sonar-pro", tokens, "parse_error");
       return new Response(
         JSON.stringify({ error: "Failed to parse AI response. Please refine your request and try again." }),
         { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
-    await logUsage("generate-specialized-lesson", "sonar-reasoning", tokens, "success");
+    await logUsage("generate-specialized-lesson", "sonar-pro", tokens, "success");
 
     return new Response(
       JSON.stringify({ lesson: parsed, citations, tokens }),
@@ -215,7 +215,7 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     console.error("generate-specialized-lesson error", msg);
-    await logUsage("generate-specialized-lesson", "sonar-reasoning", 0, "error", msg.slice(0, 500));
+    await logUsage("generate-specialized-lesson", "sonar-pro", 0, "error", msg.slice(0, 500));
     return new Response(JSON.stringify({ error: msg }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
