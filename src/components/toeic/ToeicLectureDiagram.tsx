@@ -524,6 +524,282 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
+  // ====================================================================
+  // === EXPANSION 2 — 8 NEW LESSON DIAGRAMS ===
+  // ====================================================================
+
+  // 1) Part 1 People & Action — WHO + VERB + OBJECT triangle
+  if (lectureId === "toeic-part1-people-action") {
+    return (
+      <Wrapper title="WHO + VERB + OBJECT Lock" titleVi="Khoá WHO + VERB + OBJECT">
+        <svg viewBox="0 0 600 280" className="w-full max-w-[600px] mx-auto" role="img" aria-label="People-action triangle">
+          <rect x="10" y="10" width="580" height="260" rx="12" fill={C.card} stroke={C.border} />
+          <text x="300" y="38" textAnchor="middle" fill={C.blueLight} fontSize="14" fontWeight="700">Lock these 3 in 4 seconds</text>
+          {/* Triangle */}
+          <polygon points="300,80 130,220 470,220" fill={C.blue} fillOpacity="0.08" stroke={C.blue} strokeWidth="2" />
+          {/* Nodes */}
+          <g>
+            <circle cx="300" cy="80" r="38" fill={C.blue} fillOpacity="0.25" stroke={C.blue} strokeWidth="2" />
+            <text x="300" y="78" textAnchor="middle" fill={C.blueLight} fontSize="13" fontWeight="800">WHO</text>
+            <text x="300" y="94" textAnchor="middle" fill={C.text} fontSize="10">focal person</text>
+          </g>
+          <g>
+            <circle cx="130" cy="220" r="38" fill={C.amber} fillOpacity="0.25" stroke={C.amber} strokeWidth="2" />
+            <text x="130" y="218" textAnchor="middle" fill={C.amberLight} fontSize="13" fontWeight="800">VERB</text>
+            <text x="130" y="234" textAnchor="middle" fill={C.text} fontSize="10">hands/eyes</text>
+          </g>
+          <g>
+            <circle cx="470" cy="220" r="38" fill={C.emerald} fillOpacity="0.25" stroke={C.emerald} strokeWidth="2" />
+            <text x="470" y="218" textAnchor="middle" fill={C.emeraldLight} fontSize="13" fontWeight="800">OBJECT</text>
+            <text x="470" y="234" textAnchor="middle" fill={C.text} fontSize="10">tools/items</text>
+          </g>
+          <text x="300" y="260" textAnchor="middle" fill={C.textMute} fontSize="11" fontStyle="italic">Empty hands → eliminate "holding/carrying"</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // 2) Part 2 Tag & Negative — STRIP method
+  if (lectureId === "toeic-part2-tag-negative") {
+    return (
+      <Wrapper title="STRIP Method: Tag & Negative" titleVi="Phương pháp BỎ ĐUÔI">
+        <svg viewBox="0 0 600 240" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Strip method">
+          <rect x="10" y="10" width="580" height="220" rx="12" fill={C.card} stroke={C.border} />
+          {/* Step 1 - original */}
+          <g transform="translate(30,40)">
+            <rect width="240" height="50" rx="10" fill={C.rose} fillOpacity="0.15" stroke={C.rose} />
+            <text x="120" y="20" textAnchor="middle" fill={C.roseLight} fontSize="11" fontWeight="700">ORIGINAL</text>
+            <text x="120" y="40" textAnchor="middle" fill={C.text} fontSize="12">"Aren't you ready?"</text>
+          </g>
+          {/* Arrow */}
+          <path d="M 280 65 L 320 65" stroke={C.text} strokeWidth="2" markerEnd="url(#arrStrip)" />
+          <defs>
+            <marker id="arrStrip" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <polygon points="0 0, 8 4, 0 8" fill={C.text} />
+            </marker>
+          </defs>
+          {/* Step 2 - stripped */}
+          <g transform="translate(330,40)">
+            <rect width="240" height="50" rx="10" fill={C.emerald} fillOpacity="0.15" stroke={C.emerald} />
+            <text x="120" y="20" textAnchor="middle" fill={C.emeraldLight} fontSize="11" fontWeight="700">STRIPPED</text>
+            <text x="120" y="40" textAnchor="middle" fill={C.text} fontSize="12">"Are you ready?"</text>
+          </g>
+          {/* Step 3 - answer */}
+          <g transform="translate(150,130)">
+            <rect width="300" height="60" rx="10" fill={C.blue} fillOpacity="0.15" stroke={C.blue} />
+            <text x="150" y="22" textAnchor="middle" fill={C.blueLight} fontSize="11" fontWeight="700">ANSWER BY TRUTH</text>
+            <text x="150" y="42" textAnchor="middle" fill={C.text} fontSize="12">If READY → "Yes, I am" ✅</text>
+            <text x="150" y="56" textAnchor="middle" fill={C.text} fontSize="12">If NOT → "No, not yet" ✅</text>
+          </g>
+          <text x="300" y="215" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">⚡ Negative form does NOT flip the answer</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // 3) Part 3 Tone — Iceberg model
+  if (lectureId === "toeic-part3-tone") {
+    return (
+      <Wrapper title="Iceberg of Implied Meaning" titleVi="Tảng băng ý ẩn">
+        <svg viewBox="0 0 600 280" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Iceberg implication">
+          <rect x="10" y="10" width="580" height="260" rx="12" fill={C.card} stroke={C.border} />
+          {/* Water line */}
+          <line x1="40" y1="120" x2="560" y2="120" stroke={C.blue} strokeWidth="1.5" strokeDasharray="6 4" />
+          <text x="50" y="115" fill={C.blueLight} fontSize="10" fontWeight="700">SAID</text>
+          <text x="50" y="135" fill={C.amberLight} fontSize="10" fontWeight="700">MEANT</text>
+          {/* Iceberg above */}
+          <polygon points="300,40 230,120 370,120" fill={C.blue} fillOpacity="0.3" stroke={C.blue} />
+          <text x="300" y="90" textAnchor="middle" fill={C.text} fontSize="11" fontWeight="700">"I'd love to, but…"</text>
+          {/* Iceberg below */}
+          <polygon points="220,120 380,120 410,250 190,250" fill={C.amber} fillOpacity="0.25" stroke={C.amber} />
+          <text x="300" y="170" textAnchor="middle" fill={C.text} fontSize="12" fontWeight="700">Polite refusal = NO</text>
+          <text x="300" y="195" textAnchor="middle" fill={C.text} fontSize="11">Listen to BEFORE line</text>
+          <text x="300" y="215" textAnchor="middle" fill={C.text} fontSize="11">Decode tone words</text>
+          <text x="300" y="235" textAnchor="middle" fill={C.textMute} fontSize="10" fontStyle="italic">90% of meaning is hidden</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // 4) Part 4 Talks — 1/3 - 1/3 - 1/3 timeline
+  if (lectureId === "toeic-part4-talks") {
+    return (
+      <Wrapper title="Talk Timeline: Q1 / Q2 / Q3 Zones" titleVi="Trục thời gian bài nói: Vùng Q1 / Q2 / Q3">
+        <svg viewBox="0 0 600 220" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Talk timeline zones">
+          <rect x="10" y="10" width="580" height="200" rx="12" fill={C.card} stroke={C.border} />
+          {/* Bar */}
+          <g transform="translate(40,80)">
+            <rect width="170" height="50" rx="8" fill={C.blue} fillOpacity="0.25" stroke={C.blue} />
+            <text x="85" y="20" textAnchor="middle" fill={C.blueLight} fontSize="12" fontWeight="700">Q1: TOPIC</text>
+            <text x="85" y="38" textAnchor="middle" fill={C.text} fontSize="10">first 5 seconds</text>
+          </g>
+          <g transform="translate(215,80)">
+            <rect width="170" height="50" rx="8" fill={C.amber} fillOpacity="0.25" stroke={C.amber} />
+            <text x="85" y="20" textAnchor="middle" fill={C.amberLight} fontSize="12" fontWeight="700">Q2: DETAIL</text>
+            <text x="85" y="38" textAnchor="middle" fill={C.text} fontSize="10">middle (numbers/names)</text>
+          </g>
+          <g transform="translate(390,80)">
+            <rect width="170" height="50" rx="8" fill={C.emerald} fillOpacity="0.25" stroke={C.emerald} />
+            <text x="85" y="20" textAnchor="middle" fill={C.emeraldLight} fontSize="12" fontWeight="700">Q3: NEXT ACTION</text>
+            <text x="85" y="38" textAnchor="middle" fill={C.text} fontSize="10">'Finally', 'Don't forget'</text>
+          </g>
+          {/* Time arrow */}
+          <line x1="40" y1="160" x2="560" y2="160" stroke={C.text} strokeWidth="2" markerEnd="url(#arrTalk)" />
+          <defs>
+            <marker id="arrTalk" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <polygon points="0 0, 8 4, 0 8" fill={C.text} />
+            </marker>
+          </defs>
+          <text x="40" y="180" fill={C.textMute} fontSize="10">0:00</text>
+          <text x="555" y="180" textAnchor="end" fill={C.textMute} fontSize="10">end</text>
+          <text x="300" y="200" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">Pre-read all 3 questions before audio plays</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // 5) Part 5 Verb Tense — 5-zone matrix
+  if (lectureId === "toeic-part5-verb-tense") {
+    return (
+      <Wrapper title="Time-Word → Tense Matrix" titleVi="Ma trận Từ thời gian → Thì">
+        <svg viewBox="0 0 600 280" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Verb tense matrix">
+          <rect x="10" y="10" width="580" height="260" rx="12" fill={C.card} stroke={C.border} />
+          {[
+            { y: 40, time: "yesterday / ago / last", tense: "Past simple (V2)", color: C.rose },
+            { y: 85, time: "since / for / already", tense: "Present perfect (have V3)", color: C.amber },
+            { y: 130, time: "by + future date", tense: "Future perfect (will have V3)", color: C.blue },
+            { y: 175, time: "now / currently / right now", tense: "Present continuous (am/is/are V-ing)", color: C.emerald },
+            { y: 220, time: "tomorrow / next / will", tense: "Future simple (will V)", color: C.blue },
+          ].map((row, i) => (
+            <g key={i}>
+              <rect x="30" y={row.y} width="240" height="36" rx="8" fill={row.color} fillOpacity="0.15" stroke={row.color} />
+              <text x="40" y={row.y + 22} fill={C.text} fontSize="11" fontWeight="700">{row.time}</text>
+              <line x1="280" y1={row.y + 18} x2="320" y2={row.y + 18} stroke={C.text} strokeWidth="1.5" markerEnd="url(#arrM)" />
+              <rect x="330" y={row.y} width="240" height="36" rx="8" fill={row.color} fillOpacity="0.25" stroke={row.color} />
+              <text x="340" y={row.y + 22} fill={C.text} fontSize="11" fontWeight="700">{row.tense}</text>
+            </g>
+          ))}
+          <defs>
+            <marker id="arrM" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <polygon points="0 0, 8 4, 0 8" fill={C.text} />
+            </marker>
+          </defs>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // 6) Part 6 Insertion — Bridge before/after
+  if (lectureId === "toeic-part6-insertion") {
+    return (
+      <Wrapper title="Bridge Sentence Test" titleVi="Phép thử câu cầu nối">
+        <svg viewBox="0 0 600 240" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Insertion bridge">
+          <rect x="10" y="10" width="580" height="220" rx="12" fill={C.card} stroke={C.border} />
+          {/* Before */}
+          <g transform="translate(30,50)">
+            <rect width="170" height="60" rx="10" fill={C.blue} fillOpacity="0.2" stroke={C.blue} />
+            <text x="85" y="22" textAnchor="middle" fill={C.blueLight} fontSize="11" fontWeight="700">BEFORE</text>
+            <text x="85" y="40" textAnchor="middle" fill={C.text} fontSize="10">Topic + tense</text>
+            <text x="85" y="54" textAnchor="middle" fill={C.text} fontSize="10">Key noun</text>
+          </g>
+          {/* Bridge */}
+          <g transform="translate(215,50)">
+            <rect width="170" height="60" rx="10" fill={C.amber} fillOpacity="0.3" stroke={C.amber} strokeWidth="2.5" />
+            <text x="85" y="22" textAnchor="middle" fill={C.amberLight} fontSize="11" fontWeight="800">INSERTED</text>
+            <text x="85" y="40" textAnchor="middle" fill={C.text} fontSize="10">Connects ideas</text>
+            <text x="85" y="54" textAnchor="middle" fill={C.text} fontSize="10">No repetition</text>
+          </g>
+          {/* After */}
+          <g transform="translate(400,50)">
+            <rect width="170" height="60" rx="10" fill={C.emerald} fillOpacity="0.2" stroke={C.emerald} />
+            <text x="85" y="22" textAnchor="middle" fill={C.emeraldLight} fontSize="11" fontWeight="700">AFTER</text>
+            <text x="85" y="40" textAnchor="middle" fill={C.text} fontSize="10">Pronouns / signals</text>
+            <text x="85" y="54" textAnchor="middle" fill={C.text} fontSize="10">'However' / 'Therefore'</text>
+          </g>
+          {/* Arrows */}
+          <path d="M 200 80 L 215 80" stroke={C.text} strokeWidth="2" markerEnd="url(#arrI)" />
+          <path d="M 385 80 L 400 80" stroke={C.text} strokeWidth="2" markerEnd="url(#arrI)" />
+          <defs>
+            <marker id="arrI" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <polygon points="0 0, 8 4, 0 8" fill={C.text} />
+            </marker>
+          </defs>
+          {/* Tests */}
+          <g transform="translate(40,150)">
+            <text fill={C.text} fontSize="11" fontWeight="700">✅ Tests:</text>
+            <text x="0" y="20" fill={C.text} fontSize="11">1. Same topic   2. Same tense   3. Pronouns have antecedents   4. Logic flows</text>
+            <text x="0" y="40" fill={C.roseLight} fontSize="11" fontStyle="italic">❌ Eliminate: repeats / topic-jumps / orphan pronouns</text>
+          </g>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // 7) Part 7 Triple — 3-doc bridge map
+  if (lectureId === "toeic-part7-triple-cross") {
+    return (
+      <Wrapper title="3-Document Cross-Reference Map" titleVi="Bản đồ đối chiếu 3 tài liệu">
+        <svg viewBox="0 0 600 280" className="w-full max-w-[600px] mx-auto" role="img" aria-label="Triple passage map">
+          <rect x="10" y="10" width="580" height="260" rx="12" fill={C.card} stroke={C.border} />
+          {/* 3 docs */}
+          {[
+            { x: 60, label: "DOC 1", purpose: "OFFER", color: C.blue },
+            { x: 240, label: "DOC 2", purpose: "REQUEST", color: C.amber },
+            { x: 420, label: "DOC 3", purpose: "CONFIRM", color: C.emerald },
+          ].map((d, i) => (
+            <g key={i}>
+              <rect x={d.x} y="40" width="120" height="80" rx="10" fill={d.color} fillOpacity="0.2" stroke={d.color} strokeWidth="2" />
+              <text x={d.x + 60} y="65" textAnchor="middle" fill={d.color} fontSize="12" fontWeight="800">{d.label}</text>
+              <text x={d.x + 60} y="88" textAnchor="middle" fill={C.text} fontSize="11" fontWeight="700">{d.purpose}</text>
+              <text x={d.x + 60} y="106" textAnchor="middle" fill={C.textMute} fontSize="10">tag with 1 word</text>
+            </g>
+          ))}
+          {/* Bridge arrows */}
+          <path d="M 180 80 L 240 80" stroke={C.amberLight} strokeWidth="2" strokeDasharray="4 3" markerEnd="url(#arrT)" />
+          <path d="M 360 80 L 420 80" stroke={C.amberLight} strokeWidth="2" strokeDasharray="4 3" markerEnd="url(#arrT)" />
+          <defs>
+            <marker id="arrT" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <polygon points="0 0, 8 4, 0 8" fill={C.amberLight} />
+            </marker>
+          </defs>
+          {/* Cross-ref Q */}
+          <g transform="translate(120,160)">
+            <rect width="360" height="70" rx="10" fill={C.rose} fillOpacity="0.15" stroke={C.rose} strokeWidth="2" />
+            <text x="180" y="22" textAnchor="middle" fill={C.roseLight} fontSize="11" fontWeight="800">⚡ CROSS-REF QUESTION (Q4 or Q5)</text>
+            <text x="180" y="42" textAnchor="middle" fill={C.text} fontSize="11">"What discount did the customer apply?"</text>
+            <text x="180" y="58" textAnchor="middle" fill={C.text} fontSize="11">→ Need DOC 1 (rate) + DOC 3 (amount)</text>
+          </g>
+          <text x="300" y="255" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">Single-source answers = TRAP on cross-ref Qs</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
+  // 8) HR & Recruitment — 5-stage funnel
+  if (lectureId === "toeic-hr-recruitment-vocab") {
+    return (
+      <Wrapper title="HR Stages: 5-Step Funnel" titleVi="5 giai đoạn HR">
+        <svg viewBox="0 0 600 260" className="w-full max-w-[600px] mx-auto" role="img" aria-label="HR funnel">
+          <rect x="10" y="10" width="580" height="240" rx="12" fill={C.card} stroke={C.border} />
+          {[
+            { y: 40, w: 520, label: "1. RECRUIT", words: "vacancy · advertise · candidate · applicant", color: C.blue },
+            { y: 80, w: 460, label: "2. INTERVIEW", words: "screen · conduct interview · assess", color: C.amber },
+            { y: 120, w: 400, label: "3. HIRE", words: "extend offer · accept · sign contract", color: C.emerald },
+            { y: 160, w: 340, label: "4. ONBOARD", words: "orientation · training · probation", color: C.blue },
+            { y: 200, w: 280, label: "5. EXIT", words: "resign · lay off · retire · transfer", color: C.rose },
+          ].map((row, i) => (
+            <g key={i} transform={`translate(${(580 - row.w) / 2 + 10}, 0)`}>
+              <rect x="0" y={row.y} width={row.w} height="32" rx="6" fill={row.color} fillOpacity="0.2" stroke={row.color} />
+              <text x="12" y={row.y + 20} fill={row.color} fontSize="12" fontWeight="800">{row.label}</text>
+              <text x="120" y={row.y + 20} fill={C.text} fontSize="10">{row.words}</text>
+            </g>
+          ))}
+          <text x="300" y="240" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">Memorize collocations as 2-word UNITS</text>
+        </svg>
+      </Wrapper>
+    );
+  }
+
   // Default: no diagram for this lecture
   return null;
 };
