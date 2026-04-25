@@ -391,36 +391,25 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                   {t("Dịch nghĩa đen:", "Literal:")} {entry.literalVi}
                 </p>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      key="open"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="rounded-xl bg-background/80 border border-border/60 p-3.5 mb-3 space-y-2.5 text-sm">
-                        <div>
-                          <div className="text-[11px] font-bold uppercase tracking-wide text-primary mb-1">{t("Ý nghĩa thật", "Real meaning")}</div>
-                          <p className="text-foreground leading-relaxed">{t(entry.meaningVi, entry.meaningEn)}</p>
-                        </div>
-                        <div>
-                          <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">{t("Ví dụ", "Example")}</div>
-                          <p className="text-foreground italic leading-relaxed">"{entry.exampleEn}"</p>
-                          <p className="text-muted-foreground text-xs mt-1">{entry.exampleVi}</p>
-                        </div>
-                        {entry.vietnameseEquivalent && (
-                          <div>
-                            <div className="text-[11px] font-bold uppercase tracking-wide text-rose-600 dark:text-rose-400 mb-1">{t("Tương đương tiếng Việt", "Vietnamese equivalent")}</div>
-                            <p className="text-foreground font-semibold">🇻🇳 {entry.vietnameseEquivalent}</p>
-                          </div>
-                        )}
+                {isOpen && (
+                  <div className="rounded-xl bg-background/80 border border-border/60 p-3.5 mb-3 space-y-2.5 text-sm">
+                    <div>
+                      <div className="text-[11px] font-bold uppercase tracking-wide text-primary mb-1">{t("Ý nghĩa thật", "Real meaning")}</div>
+                      <p className="text-foreground leading-relaxed">{t(entry.meaningVi, entry.meaningEn)}</p>
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">{t("Ví dụ", "Example")}</div>
+                      <p className="text-foreground italic leading-relaxed">"{entry.exampleEn}"</p>
+                      <p className="text-muted-foreground text-xs mt-1">{entry.exampleVi}</p>
+                    </div>
+                    {entry.vietnameseEquivalent && (
+                      <div>
+                        <div className="text-[11px] font-bold uppercase tracking-wide text-rose-600 dark:text-rose-400 mb-1">{t("Tương đương tiếng Việt", "Vietnamese equivalent")}</div>
+                        <p className="text-foreground font-semibold">🇻🇳 {entry.vietnameseEquivalent}</p>
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                    )}
+                  </div>
+                )}
 
                 <div className="flex items-center gap-2 mt-auto">
                   <button
