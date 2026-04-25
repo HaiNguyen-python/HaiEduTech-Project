@@ -241,9 +241,9 @@ const ToeicLectureView = () => {
               </h2>
               {lecture.practiceSet.map((q, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                  className="rounded-xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-blue-300/80 mb-2 italic">{t(q.contextVi, q.context)}</p>
-                  <p className="text-white font-medium mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>{q.question}</p>
+                  className="rounded-xl border border-emerald-200 dark:border-white/10 bg-white dark:bg-white/5 p-5 shadow-sm">
+                  <p className="text-sm text-emerald-700 dark:text-blue-300/80 mb-2 italic">{t(q.contextVi, q.context)}</p>
+                  <p className="text-slate-900 dark:text-white font-medium mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>{q.question}</p>
                   <div className="space-y-2 mb-3">
                     {q.options.map((opt, oi) => {
                       const selected = practiceAnswers[i] === oi;
@@ -254,10 +254,10 @@ const ToeicLectureView = () => {
                           key={oi}
                           onClick={() => { if (!revealed) setPracticeAnswers(prev => ({ ...prev, [i]: oi })); }}
                           className={`w-full text-left px-4 py-2.5 rounded-lg border transition-all text-sm ${
-                            revealed && isCorrect ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300" :
-                            revealed && selected && !isCorrect ? "border-red-500/40 bg-red-500/15 text-red-300" :
-                            selected ? "border-blue-500/40 bg-blue-500/15 text-blue-300" :
-                            "border-white/10 bg-white/5 text-foreground hover:bg-white/10"
+                            revealed && isCorrect ? "border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" :
+                            revealed && selected && !isCorrect ? "border-red-500/40 bg-red-50 dark:bg-red-500/15 text-red-700 dark:text-red-300" :
+                            selected ? "border-blue-500/40 bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300" :
+                            "border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-foreground hover:bg-slate-50 dark:hover:bg-white/10"
                           }`}
                           disabled={revealed}
                         >
@@ -270,12 +270,12 @@ const ToeicLectureView = () => {
                     })}
                   </div>
                   {practiceAnswers[i] !== undefined && !practiceRevealed.has(i) && (
-                    <Button size="sm" onClick={() => revealPractice(i)} className="bg-blue-500/20 text-blue-300 hover:bg-blue-500/30">
+                    <Button size="sm" onClick={() => revealPractice(i)} className="bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30">
                       {t("Kiểm tra", "Check Answer")}
                     </Button>
                   )}
                   {practiceRevealed.has(i) && (
-                    <div className="mt-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-sm text-blue-200">
+                    <div className="mt-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-sm text-blue-800 dark:text-blue-200">
                       💡 {t(q.explanationVi, q.explanation)}
                     </div>
                   )}
@@ -294,15 +294,15 @@ const ToeicLectureView = () => {
                 <div className="grid gap-3">
                   {lecture.vocabHighlights.map((v, i) => (
                     <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
-                      className="rounded-xl border border-amber-500/15 bg-white/5 p-4">
+                      className="rounded-xl border border-amber-200 dark:border-amber-500/15 bg-white dark:bg-white/5 p-4 shadow-sm">
                       <div className="flex flex-wrap items-center gap-2 mb-2">
-                        <span className="text-lg font-bold text-amber-300">{v.word}</span>
+                        <span className="text-lg font-bold text-amber-700 dark:text-amber-300">{v.word}</span>
                         {v.businessContext && (
-                          <Badge variant="outline" className="text-xs bg-blue-500/10 text-blue-300 border-blue-500/20">{v.businessContext}</Badge>
+                          <Badge variant="outline" className="text-xs bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-500/20">{v.businessContext}</Badge>
                         )}
                       </div>
-                      <p className="text-sm text-foreground mb-1">{v.definition} - <span className="text-muted-foreground">{v.definitionVi}</span></p>
-                      <p className="text-sm text-muted-foreground italic">📝 {v.example}</p>
+                      <p className="text-sm text-slate-800 dark:text-foreground mb-1">{v.definition} - <span className="text-slate-600 dark:text-muted-foreground">{v.definitionVi}</span></p>
+                      <p className="text-sm text-slate-600 dark:text-muted-foreground italic">📝 {v.example}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -329,8 +329,8 @@ const ToeicLectureView = () => {
 
               {lecture.quiz.map((q, qi) => (
                 <motion.div key={qi} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: qi * 0.05 }}
-                  className="rounded-xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-white font-medium mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                  className="rounded-xl border border-purple-200 dark:border-white/10 bg-white dark:bg-white/5 p-5 shadow-sm">
+                  <p className="text-slate-900 dark:text-white font-medium mb-3" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                     {qi + 1}. {q.question}
                   </p>
                   <div className="space-y-2">
@@ -342,10 +342,10 @@ const ToeicLectureView = () => {
                           key={oi}
                           onClick={() => { if (!quizSubmitted) setQuizAnswers(prev => ({ ...prev, [qi]: oi })); }}
                           className={`w-full text-left px-4 py-2.5 rounded-lg border transition-all text-sm ${
-                            quizSubmitted && isCorrect ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300" :
-                            quizSubmitted && selected && !isCorrect ? "border-red-500/40 bg-red-500/15 text-red-300" :
-                            selected ? "border-blue-500/40 bg-blue-500/15 text-blue-300" :
-                            "border-white/10 bg-white/5 text-foreground hover:bg-white/10"
+                            quizSubmitted && isCorrect ? "border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" :
+                            quizSubmitted && selected && !isCorrect ? "border-red-500/40 bg-red-50 dark:bg-red-500/15 text-red-700 dark:text-red-300" :
+                            selected ? "border-blue-500/40 bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300" :
+                            "border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-foreground hover:bg-slate-50 dark:hover:bg-white/10"
                           }`}
                           disabled={quizSubmitted}
                         >
@@ -357,7 +357,7 @@ const ToeicLectureView = () => {
                     })}
                   </div>
                   {quizSubmitted && (
-                    <p className="mt-2 text-sm text-blue-200/80 bg-blue-500/10 rounded-lg p-3 border border-blue-500/20">
+                    <p className="mt-2 text-sm text-blue-800 dark:text-blue-200/80 bg-blue-50 dark:bg-blue-500/10 rounded-lg p-3 border border-blue-200 dark:border-blue-500/20">
                       💡 {q.explanation}
                     </p>
                   )}
