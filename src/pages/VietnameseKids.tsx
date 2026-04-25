@@ -69,7 +69,6 @@ const ageColor = {
 };
 
 const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
-  const { t } = useLanguage();
   const [view, setView] = useState<"flashcard" | "grid">("flashcard");
 
   return (
@@ -80,13 +79,13 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
           <span className="text-7xl">{lesson.emoji}</span>
           <div className="flex-1">
             <Badge className={`${ageColor[lesson.ageGroup]} text-sm font-bold px-3 py-1`}>
-              {lesson.ageGroup} {t("tuổi", "yrs")}
+              {lesson.ageGroup} tuổi
             </Badge>
             <h3 className="text-2xl md:text-3xl font-extrabold text-foreground mt-2 leading-tight">
-              {t(lesson.title, lesson.titleEn)}
+              {lesson.title}
             </h3>
             <p className="text-base text-muted-foreground italic">
-              {t(lesson.topic, lesson.topicEn)}
+              {lesson.topic}
             </p>
           </div>
         </div>
@@ -96,7 +95,7 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
           <div className="flex items-center justify-between mb-3 gap-2">
             <h4 className="text-sm font-bold uppercase tracking-wide text-muted-foreground flex items-center gap-1.5">
               <BookOpen className="w-4 h-4" />
-              {t("Từ vựng", "Vocabulary")} ({lesson.vocabulary.length})
+              Từ vựng ({lesson.vocabulary.length})
             </h4>
             <div className="inline-flex rounded-full border bg-background p-1 text-xs font-semibold">
               <button
@@ -106,7 +105,7 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
                   view === "flashcard" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
                 }`}
               >
-                🎴 {t("Thẻ", "Cards")}
+                🎴 Thẻ
               </button>
               <button
                 type="button"
@@ -115,7 +114,7 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
                   view === "grid" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
                 }`}
               >
-                📋 {t("Lưới", "Grid")}
+                📋 Lưới
               </button>
             </div>
           </div>
@@ -130,7 +129,6 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
                     <span className="text-4xl">{v.emoji}</span>
                     <div className="flex-1 min-w-0">
                       <div className="font-extrabold text-foreground text-lg leading-tight">{v.vi}</div>
-                      <div className="text-sm text-muted-foreground">{v.en}</div>
                     </div>
                     <SpeakButton text={v.vi} label={`Phát âm ${v.vi}`} />
                   </div>
@@ -156,13 +154,10 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
                 <Music className="w-5 h-5" />
                 🎵 {lesson.song.title}
               </h4>
-              <SpeakButton text={`${lesson.song.title}. ${lesson.song.lyrics}`} label={t("Hát", "Sing")} size="sm" />
+              <SpeakButton text={`${lesson.song.title}. ${lesson.song.lyrics}`} label="Hát" size="sm" />
             </div>
-            <div className="text-base whitespace-pre-wrap text-foreground leading-loose mb-2 font-medium">
+            <div className="text-base whitespace-pre-wrap text-foreground leading-loose font-medium">
               {lesson.song.lyrics}
-            </div>
-            <div className="text-sm whitespace-pre-wrap text-muted-foreground italic leading-relaxed">
-              {lesson.song.lyricsEn}
             </div>
           </div>
         )}
@@ -173,12 +168,11 @@ const KidsCard = ({ lesson }: { lesson: KidsLesson }) => {
             <div className="flex items-center justify-between mb-3 gap-2">
               <h4 className="text-base font-extrabold text-amber-800 dark:text-amber-300 flex items-center gap-1.5">
                 <BookOpen className="w-5 h-5" />
-                📖 {t(lesson.story.title, lesson.story.titleEn)}
+                📖 {lesson.story.title}
               </h4>
-              <SpeakButton text={lesson.story.text} label={t("Đọc", "Read")} size="sm" />
+              <SpeakButton text={lesson.story.text} label="Đọc" size="sm" />
             </div>
-            <p className="text-base text-foreground leading-loose mb-2 whitespace-pre-wrap">{lesson.story.text}</p>
-            <p className="text-sm text-muted-foreground italic leading-relaxed whitespace-pre-wrap">{lesson.story.textEn}</p>
+            <p className="text-base text-foreground leading-loose whitespace-pre-wrap">{lesson.story.text}</p>
           </div>
         )}
       </CardContent>
