@@ -11,8 +11,12 @@ import {
   Mic, Square, RotateCcw, Play, Volume2, ChevronDown, ChevronUp, AlertTriangle,
   BookOpen, Lightbulb, MessageSquare, Eye, EyeOff, Shuffle, Brain, Award,
   Users, MapPin, Package, Calendar, Sparkles, StickyNote, CheckCircle2, Loader2,
-  PenLine
+  PenLine, Star, TrendingUp, Trash2
 } from "lucide-react";
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip,
+  ResponsiveContainer, ReferenceLine, Legend
+} from "recharts";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
