@@ -399,15 +399,15 @@ const ToeicVocabulary = () => {
 
             {/* Level Filter */}
             <div className="flex flex-wrap gap-2">
-              <span className="text-slate-500 text-sm font-bold uppercase self-center mr-2">{t("Cấp độ", "Level")}:</span>
+              <span className="text-slate-600 dark:text-slate-500 text-sm font-bold uppercase self-center mr-2">{t("Cấp độ", "Level")}:</span>
               {["All", ...TOEIC_LEVELS].map((lvl) => (
                 <button
                   key={lvl}
                   onClick={() => { setActiveLevel(lvl); setPage(1); }}
-                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border ${
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all border shadow-sm ${
                     activeLevel === lvl
                       ? "bg-blue-600 text-white border-blue-500"
-                      : "bg-[#1E293B]/60 text-slate-400 border-slate-700/50 hover:border-blue-500/30"
+                      : "bg-white dark:bg-[#1E293B]/60 text-slate-700 dark:text-slate-400 border-sky-200 dark:border-slate-700/50 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800"
                   }`}
                 >
                   {lvl === "All" ? t("Tất cả", "All") : levelLabels[lvl]}
