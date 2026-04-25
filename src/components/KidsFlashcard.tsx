@@ -170,10 +170,10 @@ const KidsFlashcard = ({ items, title }: KidsFlashcardProps) => {
             speak(current.vi);
           }}
           className="h-14 px-6 text-base sm:text-lg font-bold gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-md"
-          aria-label={t("Nghe phát âm", "Listen")}
+          aria-label={"Nghe phát âm"}
         >
           {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Volume2 className="w-6 h-6" />}
-          {t("Nghe", "Listen")}
+          {"Nghe"}
         </Button>
 
         {current.example && (
@@ -186,10 +186,10 @@ const KidsFlashcard = ({ items, title }: KidsFlashcardProps) => {
               speak(current.example!);
             }}
             className="h-14 px-4 text-sm sm:text-base font-semibold gap-2 border-2"
-            aria-label={t("Nghe ví dụ", "Listen example")}
+            aria-label={"Nghe ví dụ"}
           >
             <Volume2 className="w-5 h-5" />
-            {t("Ví dụ", "Example")}
+            {"Ví dụ"}
           </Button>
         )}
 
@@ -202,7 +202,7 @@ const KidsFlashcard = ({ items, title }: KidsFlashcardProps) => {
             toggleStar();
           }}
           className={`h-14 w-14 p-0 border-2 ${starred ? "bg-amber-400 hover:bg-amber-500 text-white border-amber-500" : ""}`}
-          aria-label={t("Yêu thích", "Favorite")}
+          aria-label={"Yêu thích"}
         >
           <Star className={`w-6 h-6 ${starred ? "fill-current" : ""}`} />
         </Button>
@@ -218,7 +218,7 @@ const KidsFlashcard = ({ items, title }: KidsFlashcardProps) => {
           className="h-12 flex-1 gap-2 text-base font-semibold border-2"
         >
           <ChevronLeft className="w-5 h-5" />
-          {t("Trước", "Prev")}
+          {"Trước"}
         </Button>
 
         {/* Progress dots */}
@@ -246,14 +246,14 @@ const KidsFlashcard = ({ items, title }: KidsFlashcardProps) => {
           onClick={handleNext}
           className="h-12 flex-1 gap-2 text-base font-semibold border-2"
         >
-          {t("Tiếp", "Next")}
+          {"Tiếp"}
           <ChevronRight className="w-5 h-5" />
         </Button>
       </div>
 
       {stars.size > 0 && (
         <div className="text-center mt-3 text-sm font-semibold text-amber-600 dark:text-amber-400">
-          ⭐ {stars.size} {t("thẻ yêu thích", "favorite cards")}
+          ⭐ {stars.size} {"thẻ yêu thích"}
         </div>
       )}
     </div>
