@@ -136,6 +136,7 @@ const Navbar = () => {
     { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
     { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/english", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
+    { to: "/specialized-language?lang=english", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
   ];
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -152,6 +153,7 @@ const Navbar = () => {
     { to: "#cn-div2", label: "", divider: true },
     { to: "/songs/chinese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/chinese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
+    { to: "/specialized-language?lang=chinese", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
@@ -179,6 +181,7 @@ const Navbar = () => {
     { to: "#vn-div2", label: "", divider: true },
     { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/vietnamese", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
+    { to: "/specialized-language?lang=vietnamese", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
   ];
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: t("📚 Tổng quan", "📚 Overview") },
@@ -190,6 +193,7 @@ const Navbar = () => {
     { to: "#fi-div2", label: "", divider: true },
     { to: "/songs/finnish", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     { to: "/speaking-coach/finnish", label: t("🎙️ AI Speaking Coach", "🎙️ AI Speaking Coach") },
+    { to: "/specialized-language?lang=finnish", label: t("🧠 AI Ngôn ngữ Chuyên ngành", "🧠 AI Specialized Language") },
   ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Library },
