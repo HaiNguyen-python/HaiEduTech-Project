@@ -254,10 +254,10 @@ const ToeicLectureView = () => {
                           key={oi}
                           onClick={() => { if (!revealed) setPracticeAnswers(prev => ({ ...prev, [i]: oi })); }}
                           className={`w-full text-left px-4 py-2.5 rounded-lg border transition-all text-sm ${
-                            revealed && isCorrect ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300" :
-                            revealed && selected && !isCorrect ? "border-red-500/40 bg-red-500/15 text-red-300" :
-                            selected ? "border-blue-500/40 bg-blue-500/15 text-blue-300" :
-                            "border-white/10 bg-white/5 text-foreground hover:bg-white/10"
+                            revealed && isCorrect ? "border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" :
+                            revealed && selected && !isCorrect ? "border-red-500/40 bg-red-50 dark:bg-red-500/15 text-red-700 dark:text-red-300" :
+                            selected ? "border-blue-500/40 bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300" :
+                            "border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-foreground hover:bg-slate-50 dark:hover:bg-white/10"
                           }`}
                           disabled={revealed}
                         >
