@@ -312,7 +312,7 @@ const ToeicLectureView = () => {
             {/* Quiz Tab */}
             <TabsContent value="quiz" className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-purple-300 flex items-center gap-2">
+                <h2 className="text-xl font-bold text-purple-700 dark:text-purple-300 flex items-center gap-2">
                   <Zap className="w-5 h-5" /> {t("Kiểm tra nhanh", "Quick Quiz")}
                 </h2>
                 {quizSubmitted && (
