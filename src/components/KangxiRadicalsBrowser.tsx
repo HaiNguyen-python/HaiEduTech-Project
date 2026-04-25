@@ -55,8 +55,7 @@ const shuffle = <T,>(arr: T[]): T[] => {
 };
 
 const KangxiRadicalsBrowser = () => {
-  const { language } = useLanguage();
-  const t = (vi: string, en: string) => (language === "vi" ? vi : en);
+  const { t } = useLanguage();
 
   const [view, setView] = useState<ViewMode>("list");
   const [search, setSearch] = useState("");
