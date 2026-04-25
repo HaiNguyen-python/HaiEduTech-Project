@@ -387,13 +387,13 @@ const ToeicVocabulary = () => {
           <div className="space-y-4 mb-8">
             {/* Search */}
             <div className="relative max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                 placeholder={t("Tìm từ vựng, nghĩa, từ đồng nghĩa...", "Search words, meanings, synonyms...")}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#1E293B]/80 border border-slate-700/50 text-white placeholder:text-slate-500 focus:border-blue-500/50 focus:outline-none transition-colors text-base"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-[#1E293B]/80 border border-sky-200 dark:border-slate-700/50 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-500/30 transition-colors text-base shadow-sm"
               />
             </div>
 
