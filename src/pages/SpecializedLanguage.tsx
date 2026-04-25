@@ -270,10 +270,6 @@ const SpecializedLanguage = () => {
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, white 1px, transparent 1px), radial-gradient(circle at 80% 60%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
         <div className="container mx-auto px-4 relative grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center">
           <div>
-            <div className="flex items-center gap-2 text-sm opacity-90 mb-3">
-              <Sparkles className="w-4 h-4" />
-              <span>AI-Powered · Perplexity Sonar</span>
-            </div>
             <h1 className="text-3xl sm:text-5xl font-bold mb-4">
               Specialized Language Hub <span className="text-2xl sm:text-3xl">{langMeta.flag}</span>
             </h1>
