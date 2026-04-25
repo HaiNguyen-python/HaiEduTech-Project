@@ -8,7 +8,7 @@
  *   4. Vietnamese Equivalent (English saying ↔ Vietnamese proverb)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -67,6 +67,14 @@ const EnglishIdioms = () => {
   const [filterCategory, setFilterCategory] = useState<IdiomCategory | "all">("all");
   const [filterTheme, setFilterTheme] = useState<IdiomEntry["theme"] | "all">("all");
   const [shuffleSeed, setShuffleSeed] = useState(1);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const switchTab = (nextTab: Tab) => {
+    setTab(nextTab);
+    window.requestAnimationFrame(() => {
+      contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   const filteredEntries = useMemo(() => {
     return englishIdioms.filter((e) =>
@@ -130,7 +138,7 @@ const EnglishIdioms = () => {
               return (
                 <button
                   key={tabDef.key}
-                  onClick={() => setTab(tabDef.key)}
+                  onClick={() => switchTab(tabDef.key)}
                   className={cn(
                     "flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all",
                     isActive
@@ -146,6 +154,7 @@ const EnglishIdioms = () => {
           </div>
 
           {/* Content */}
+          <div ref={contentRef} className="scroll-mt-24">
           <AnimatePresence mode="wait">
             <motion.div
               key={tab}
@@ -172,6 +181,7 @@ const EnglishIdioms = () => {
               {tab === "equivalent" && <EquivalentExercise t={t} toast={toast} />}
             </motion.div>
           </AnimatePresence>
+          </div>
         </div>
       </div>
 
@@ -381,36 +391,25 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                   {t("Dịch nghĩa đen:", "Literal:")} {entry.literalVi}
                 </p>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      key="open"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="rounded-xl bg-background/80 border border-border/60 p-3.5 mb-3 space-y-2.5 text-sm">
-                        <div>
-                          <div className="text-[11px] font-bold uppercase tracking-wide text-primary mb-1">{t("Ý nghĩa thật", "Real meaning")}</div>
-                          <p className="text-foreground leading-relaxed">{t(entry.meaningVi, entry.meaningEn)}</p>
-                        </div>
-                        <div>
-                          <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">{t("Ví dụ", "Example")}</div>
-                          <p className="text-foreground italic leading-relaxed">"{entry.exampleEn}"</p>
-                          <p className="text-muted-foreground text-xs mt-1">{entry.exampleVi}</p>
-                        </div>
-                        {entry.vietnameseEquivalent && (
-                          <div>
-                            <div className="text-[11px] font-bold uppercase tracking-wide text-rose-600 dark:text-rose-400 mb-1">{t("Tương đương tiếng Việt", "Vietnamese equivalent")}</div>
-                            <p className="text-foreground font-semibold">🇻🇳 {entry.vietnameseEquivalent}</p>
-                          </div>
-                        )}
+                {isOpen && (
+                  <div className="rounded-xl bg-background/80 border border-border/60 p-3.5 mb-3 space-y-2.5 text-sm">
+                    <div>
+                      <div className="text-[11px] font-bold uppercase tracking-wide text-primary mb-1">{t("Ý nghĩa thật", "Real meaning")}</div>
+                      <p className="text-foreground leading-relaxed">{t(entry.meaningVi, entry.meaningEn)}</p>
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">{t("Ví dụ", "Example")}</div>
+                      <p className="text-foreground italic leading-relaxed">"{entry.exampleEn}"</p>
+                      <p className="text-muted-foreground text-xs mt-1">{entry.exampleVi}</p>
+                    </div>
+                    {entry.vietnameseEquivalent && (
+                      <div>
+                        <div className="text-[11px] font-bold uppercase tracking-wide text-rose-600 dark:text-rose-400 mb-1">{t("Tương đương tiếng Việt", "Vietnamese equivalent")}</div>
+                        <p className="text-foreground font-semibold">🇻🇳 {entry.vietnameseEquivalent}</p>
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                    )}
+                  </div>
+                )}
 
                 <div className="flex items-center gap-2 mt-auto">
                   <button
