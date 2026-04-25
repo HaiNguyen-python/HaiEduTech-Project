@@ -251,6 +251,7 @@ const ToeicVocabulary = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeLevel, setActiveLevel] = useState("All");
+  const [sortBy, setSortBy] = useState<SortKey>("default");
   const [page, setPage] = useState(1);
   const [mastered, setMastered] = useState<Set<string>>(() => {
     try {
