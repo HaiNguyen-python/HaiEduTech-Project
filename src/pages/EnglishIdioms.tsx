@@ -8,7 +8,7 @@
  *   4. Vietnamese Equivalent (English saying ↔ Vietnamese proverb)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -67,6 +67,14 @@ const EnglishIdioms = () => {
   const [filterCategory, setFilterCategory] = useState<IdiomCategory | "all">("all");
   const [filterTheme, setFilterTheme] = useState<IdiomEntry["theme"] | "all">("all");
   const [shuffleSeed, setShuffleSeed] = useState(1);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const switchTab = (nextTab: Tab) => {
+    setTab(nextTab);
+    window.requestAnimationFrame(() => {
+      contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   const filteredEntries = useMemo(() => {
     return englishIdioms.filter((e) =>
@@ -130,7 +138,7 @@ const EnglishIdioms = () => {
               return (
                 <button
                   key={tabDef.key}
-                  onClick={() => setTab(tabDef.key)}
+                  onClick={() => switchTab(tabDef.key)}
                   className={cn(
                     "flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all",
                     isActive
@@ -146,6 +154,7 @@ const EnglishIdioms = () => {
           </div>
 
           {/* Content */}
+          <div ref={contentRef} className="scroll-mt-24">
           <AnimatePresence mode="wait">
             <motion.div
               key={tab}
@@ -172,6 +181,7 @@ const EnglishIdioms = () => {
               {tab === "equivalent" && <EquivalentExercise t={t} toast={toast} />}
             </motion.div>
           </AnimatePresence>
+          </div>
         </div>
       </div>
 
