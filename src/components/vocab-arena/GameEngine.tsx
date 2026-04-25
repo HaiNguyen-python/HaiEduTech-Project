@@ -135,7 +135,7 @@ const GameEngine = ({ questions, lives: initialLives, onGameEnd, isSuddenDeath =
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          // Time's up — treat as wrong
+          // Time's up - treat as wrong
           clearInterval(timerRef.current!);
           handleAnswer(-1);
           return 0;

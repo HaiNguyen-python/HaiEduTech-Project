@@ -70,8 +70,8 @@ const skillBasedLectures: IeltsLecture[] = [
     icon: "📖",
     duration: "25 min",
     level: "intermediate",
-    description: "The definitive strategy to ace T/F/NG questions — the most feared question type in IELTS Reading.",
-    descriptionVi: "Chiến lược tối ưu để chinh phục câu hỏi T/F/NG — dạng câu hỏi đáng sợ nhất trong IELTS Reading.",
+    description: "The definitive strategy to ace T/F/NG questions - the most feared question type in IELTS Reading.",
+    descriptionVi: "Chiến lược tối ưu để chinh phục câu hỏi T/F/NG - dạng câu hỏi đáng sợ nhất trong IELTS Reading.",
     strategySteps: [
       {
         step: 1,
@@ -117,7 +117,7 @@ const skillBasedLectures: IeltsLecture[] = [
         contextVi: "Bài đọc thảo luận về lợi ích của chơi game nhưng không bao giờ đề cập sức khỏe thể chất.",
         example: "Statement: 'Playing video games can lead to physical health issues.' → Answer: NOT GIVEN",
         answer: "NOT GIVEN",
-        explanation: "Physical health is never discussed in the passage — we cannot say it's true or false."
+        explanation: "Physical health is never discussed in the passage - we cannot say it's true or false."
       }
     ],
     mistakesToAvoid: [
@@ -140,8 +140,8 @@ const skillBasedLectures: IeltsLecture[] = [
         whyVi: "Nếu không tìm thấy thông tin trong 2 phút, đánh NOT GIVEN và tiếp tục."
       }
     ],
-    goldenSecret: "The order of T/F/NG questions follows the order of the passage. If Q3's answer is in paragraph 2, Q4's answer will be in paragraph 2 or later — NEVER earlier!",
-    goldenSecretVi: "Thứ tự câu hỏi T/F/NG theo thứ tự bài đọc. Nếu đáp án Q3 ở đoạn 2, đáp án Q4 sẽ ở đoạn 2 hoặc sau — KHÔNG BAO GIỜ ở trước!",
+    goldenSecret: "The order of T/F/NG questions follows the order of the passage. If Q3's answer is in paragraph 2, Q4's answer will be in paragraph 2 or later - NEVER earlier!",
+    goldenSecretVi: "Thứ tự câu hỏi T/F/NG theo thứ tự bài đọc. Nếu đáp án Q3 ở đoạn 2, đáp án Q4 sẽ ở đoạn 2 hoặc sau - KHÔNG BAO GIỜ ở trước!",
     vocabHighlights: [
       { word: "cognitive flexibility", definition: "The ability to switch thinking between different concepts", definitionVi: "Khả năng chuyển đổi tư duy giữa các khái niệm khác nhau", example: "Gaming enhances cognitive flexibility in young learners.", band: "7.0+" },
       { word: "exclusively", definition: "Only; limited to one thing", definitionVi: "Chỉ; giới hạn trong một thứ", example: "The course is designed exclusively for advanced students.", band: "6.5+" },
@@ -158,7 +158,7 @@ const skillBasedLectures: IeltsLecture[] = [
         question: "The passage says: 'Most students prefer online learning.' The statement says: 'All students prefer online learning.' What is the answer?",
         options: ["TRUE", "FALSE", "NOT GIVEN"],
         answer: 1,
-        explanation: "'Most' ≠ 'All'. The passage says MOST, but the statement says ALL — this is a contradiction."
+        explanation: "'Most' ≠ 'All'. The passage says MOST, but the statement says ALL - this is a contradiction."
       },
       {
         question: "When should you choose NOT GIVEN?",
@@ -171,8 +171,8 @@ const skillBasedLectures: IeltsLecture[] = [
       "TRUE = passage agrees with statement (possibly using synonyms)",
       "FALSE = passage directly contradicts the statement",
       "NOT GIVEN = information not in the passage at all",
-      "Questions follow passage order — use this to locate answers faster",
-      "Never use personal knowledge — only use what the passage says",
+      "Questions follow passage order - use this to locate answers faster",
+      "Never use personal knowledge - only use what the passage says",
       "Watch for qualifiers: all, some, most, always, never, often"
     ]
   },
@@ -282,16 +282,16 @@ const skillBasedLectures: IeltsLecture[] = [
         question: "What should you NEVER do in a conclusion?",
         options: ["Restate your opinion", "Summarize main points", "Introduce new arguments", "Make a prediction"],
         answer: 2,
-        explanation: "Never introduce new arguments in the conclusion — it should only summarize and restate."
+        explanation: "Never introduce new arguments in the conclusion - it should only summarize and restate."
       }
     ],
     cheatSheetPoints: [
-      "Introduction: 2 sentences — paraphrase + thesis",
+      "Introduction: 2 sentences - paraphrase + thesis",
       "Body 1: Main argument + example + explanation",
       "Body 2: Second argument + example + explanation",
       "Conclusion: Restate position + final thought",
       "Use T.E.E.L for every body paragraph",
-      "Never copy the question — always paraphrase"
+      "Never copy the question - always paraphrase"
     ]
   },
   {
@@ -303,8 +303,8 @@ const skillBasedLectures: IeltsLecture[] = [
     icon: "🎧",
     duration: "20 min",
     level: "intermediate",
-    description: "Learn how to identify and avoid distractors — the sneaky wrong answers designed to trick you in IELTS Listening.",
-    descriptionVi: "Học cách nhận diện và tránh bẫy gây nhiễu — những đáp án sai được thiết kế tinh vi trong IELTS Listening.",
+    description: "Learn how to identify and avoid distractors - the sneaky wrong answers designed to trick you in IELTS Listening.",
+    descriptionVi: "Học cách nhận diện và tránh bẫy gây nhiễu - những đáp án sai được thiết kế tinh vi trong IELTS Listening.",
     strategySteps: [
       {
         step: 1,
@@ -334,14 +334,14 @@ const skillBasedLectures: IeltsLecture[] = [
         contextVi: "Bản ghi âm: 'Tôi nghĩ hạn chót là 15 tháng 3, nhưng thực ra đã dời sang 22 tháng 3.'",
         example: "Question: What is the deadline? → Many students write 'March 15th' but the correct answer is 'March 22nd'",
         answer: "March 22nd",
-        explanation: "The speaker self-corrects using 'actually' — always choose the corrected information."
+        explanation: "The speaker self-corrects using 'actually' - always choose the corrected information."
       },
       {
         context: "Audio: 'The ticket costs $45 for adults, or $30 if you're a student.'",
         contextVi: "Bản ghi: 'Vé giá $45 cho người lớn, hoặc $30 nếu bạn là sinh viên.'",
         example: "Question: How much does a student ticket cost? → Answer: $30 (not $45)",
         answer: "$30",
-        explanation: "You must listen for the SPECIFIC detail asked — student price, not adult price."
+        explanation: "You must listen for the SPECIFIC detail asked - student price, not adult price."
       }
     ],
     mistakesToAvoid: [
@@ -354,8 +354,8 @@ const skillBasedLectures: IeltsLecture[] = [
       {
         mistake: "Ignoring signal words like 'but', 'however', 'actually'",
         mistakeVi: "Bỏ qua các từ tín hiệu như 'but', 'however', 'actually'",
-        why: "These words indicate a change — the REAL answer comes after them.",
-        whyVi: "Các từ này báo hiệu sự thay đổi — đáp án THỰC SỰ đến sau chúng."
+        why: "These words indicate a change - the REAL answer comes after them.",
+        whyVi: "Các từ này báo hiệu sự thay đổi - đáp án THỰC SỰ đến sau chúng."
       }
     ],
     goldenSecret: "In IELTS Listening Section 3 & 4, if two speakers discuss options, the answer is almost always the option they AGREE on, not the one mentioned first. Listen for phrases like 'That sounds good', 'Let's go with that', 'I think that's the best option.'",
@@ -369,24 +369,24 @@ const skillBasedLectures: IeltsLecture[] = [
         question: "Audio says: 'The library closes at 9pm... no wait, it's 8pm on weekdays.' What time does the library close on weekdays?",
         options: ["9pm", "8pm", "10pm", "7pm"],
         answer: 1,
-        explanation: "The speaker self-corrects with 'no wait' — the corrected answer (8pm) is correct."
+        explanation: "The speaker self-corrects with 'no wait' - the corrected answer (8pm) is correct."
       },
       {
         question: "Which signal word tells you the REAL answer is coming?",
         options: ["and", "also", "however", "then"],
         answer: 2,
-        explanation: "'However' signals a contrast — the correct answer typically follows contrast words."
+        explanation: "'However' signals a contrast - the correct answer typically follows contrast words."
       },
       {
         question: "In Section 3, when two speakers discuss options, the answer is usually:",
         options: ["The first option mentioned", "The cheapest option", "The option they agree on", "The last option mentioned"],
         answer: 2,
-        explanation: "The answer is the option both speakers agree on — listen for agreement phrases."
+        explanation: "The answer is the option both speakers agree on - listen for agreement phrases."
       }
     ],
     cheatSheetPoints: [
       "Use preview time to underline keywords and predict answer types",
-      "Never write the first answer you hear — wait for confirmation",
+      "Never write the first answer you hear - wait for confirmation",
       "Signal words (but, however, actually) = answer change incoming",
       "Self-corrections always lead to the REAL answer",
       "In discussions, the agreed-upon option is the answer",
@@ -431,7 +431,7 @@ const skillBasedLectures: IeltsLecture[] = [
       {
         context: "Topic Card: 'Describe a book you recently read'",
         contextVi: "Thẻ chủ đề: 'Mô tả một cuốn sách bạn đọc gần đây'",
-        example: "W: 'It was a novel called Sapiens by Yuval Harari — a fascinating exploration of human history.' H: 'I actually discovered it through a friend's recommendation last summer.' E: 'What struck me most was this overwhelming sense of perspective — it made me feel both humble and inspired.' N: 'To this day, I still find myself referencing ideas from that book in everyday conversations.'",
+        example: "W: 'It was a novel called Sapiens by Yuval Harari - a fascinating exploration of human history.' H: 'I actually discovered it through a friend's recommendation last summer.' E: 'What struck me most was this overwhelming sense of perspective - it made me feel both humble and inspired.' N: 'To this day, I still find myself referencing ideas from that book in everyday conversations.'",
       }
     ],
     mistakesToAvoid: [
@@ -448,8 +448,8 @@ const skillBasedLectures: IeltsLecture[] = [
         whyVi: "Tốc độ ≠ trôi chảy. Nói nhịp tự nhiên với khoảng dừng có chủ đích."
       }
     ],
-    goldenSecret: "If you go blank, use the 'Comparison Technique': compare your topic to something else. 'Unlike most books I've read, this one...' or 'Compared to my previous experience...' — this buys you 20-30 extra seconds every time!",
-    goldenSecretVi: "Nếu quên ý, dùng 'Kỹ thuật So sánh': so sánh chủ đề với thứ khác. 'Không giống hầu hết sách tôi đọc, cuốn này...' hoặc 'So với trải nghiệm trước...' — kỹ thuật này giúp bạn thêm 20-30 giây mỗi lần!",
+    goldenSecret: "If you go blank, use the 'Comparison Technique': compare your topic to something else. 'Unlike most books I've read, this one...' or 'Compared to my previous experience...' - this buys you 20-30 extra seconds every time!",
+    goldenSecretVi: "Nếu quên ý, dùng 'Kỹ thuật So sánh': so sánh chủ đề với thứ khác. 'Không giống hầu hết sách tôi đọc, cuốn này...' hoặc 'So với trải nghiệm trước...' - kỹ thuật này giúp bạn thêm 20-30 giây mỗi lần!",
     vocabHighlights: [
       { word: "fascinating", definition: "Extremely interesting", definitionVi: "Cực kỳ thú vị", example: "The documentary was absolutely fascinating.", band: "6.5+" },
       { word: "struck me", definition: "Made a strong impression on me", definitionVi: "Gây ấn tượng mạnh với tôi", example: "What struck me most was her resilience.", band: "7.0+" },
@@ -460,19 +460,19 @@ const skillBasedLectures: IeltsLecture[] = [
         question: "What does the W in the W.H.E.N framework stand for?",
         options: ["Why", "What", "When", "Where"],
         answer: 1,
-        explanation: "W = What — start by describing WHAT the topic is about."
+        explanation: "W = What - start by describing WHAT the topic is about."
       },
       {
         question: "During the 1-minute preparation, you should write:",
-        options: ["Full sentences", "Keywords only", "A complete script", "Nothing — just think"],
+        options: ["Full sentences", "Keywords only", "A complete script", "Nothing - just think"],
         answer: 1,
-        explanation: "Write keywords only — full sentences waste time and make you sound rehearsed."
+        explanation: "Write keywords only - full sentences waste time and make you sound rehearsed."
       },
       {
         question: "What should you do if you go blank during Part 2?",
         options: ["Stop talking", "Ask the examiner for help", "Use the comparison technique", "Start over from the beginning"],
         answer: 2,
-        explanation: "Compare your topic to something else — this naturally generates more content."
+        explanation: "Compare your topic to something else - this naturally generates more content."
       }
     ],
     cheatSheetPoints: [
@@ -480,7 +480,7 @@ const skillBasedLectures: IeltsLecture[] = [
       "Write KEYWORDS only during preparation",
       "Add sensory details: sights, sounds, smells, textures",
       "Use comparison technique if you go blank",
-      "Speak naturally — don't rush to fill 2 minutes",
+      "Speak naturally - don't rush to fill 2 minutes",
       "End with a strong concluding statement about why it matters"
     ]
   },
@@ -493,15 +493,15 @@ const skillBasedLectures: IeltsLecture[] = [
     icon: "🧩",
     duration: "25 min",
     level: "advanced",
-    description: "Crack the hardest IELTS Reading question type — Matching Headings — with a bulletproof 3-pass technique.",
-    descriptionVi: "Giải mã dạng câu hỏi khó nhất IELTS Reading — Matching Headings — với kỹ thuật 3 lượt không thể sai.",
+    description: "Crack the hardest IELTS Reading question type - Matching Headings - with a bulletproof 3-pass technique.",
+    descriptionVi: "Giải mã dạng câu hỏi khó nhất IELTS Reading - Matching Headings - với kỹ thuật 3 lượt không thể sai.",
     strategySteps: [
       {
         step: 1,
         title: "Read ALL Headings First (The Menu Scan)",
         titleVi: "Đọc TẤT CẢ tiêu đề trước (Quét menu)",
-        description: "Read every heading option BEFORE looking at the paragraphs. Underline the KEY CONCEPT in each heading — usually 2-3 words that capture the main idea.",
-        descriptionVi: "Đọc mọi lựa chọn tiêu đề TRƯỚC KHI nhìn đoạn văn. Gạch chân Ý CHÍNH trong mỗi tiêu đề — thường 2-3 từ nắm bắt ý chính.",
+        description: "Read every heading option BEFORE looking at the paragraphs. Underline the KEY CONCEPT in each heading - usually 2-3 words that capture the main idea.",
+        descriptionVi: "Đọc mọi lựa chọn tiêu đề TRƯỚC KHI nhìn đoạn văn. Gạch chân Ý CHÍNH trong mỗi tiêu đề - thường 2-3 từ nắm bắt ý chính.",
         example: "Heading: 'The unexpected__(benefits)__ of __urban__(farming)__' → Key concept = unexpected benefits + urban farming"
       },
       {
@@ -532,7 +532,7 @@ const skillBasedLectures: IeltsLecture[] = [
         contextVi: "Đoạn bắt đầu: 'Trong khi nông nghiệp truyền thống từ lâu gắn liền với vùng nông thôn, một phong trào đang mang nông nghiệp vào trung tâm thành phố...'",
         example: "Available headings:\nA. The decline of traditional farming\nB. Urban agriculture: A growing trend\nC. The nutritional value of organic food\n→ Answer: B (The paragraph's OVERALL theme is urban farming as a trend, not decline or nutrition)",
         answer: "B",
-        explanation: "The first sentence introduces the key idea: farming moving into cities = 'urban agriculture: a growing trend'. Heading A is a detail trap — decline is mentioned but is NOT the main point."
+        explanation: "The first sentence introduces the key idea: farming moving into cities = 'urban agriculture: a growing trend'. Heading A is a detail trap - decline is mentioned but is NOT the main point."
       },
     ],
     mistakesToAvoid: [
@@ -555,8 +555,8 @@ const skillBasedLectures: IeltsLecture[] = [
         whyVi: "Mỗi tiêu đề dùng MỘT LẦN (trừ khi đề nói khác). Gạch bỏ tiêu đề đã nối để thu hẹp lựa chọn."
       }
     ],
-    goldenSecret: "There are ALWAYS more headings than paragraphs — usually 2-3 extra 'distractor' headings. These distractors often contain words that appear in the passage but DON'T represent the main idea of any paragraph. If a heading sounds too specific (focusing on one example rather than the theme), it's probably a distractor!",
-    goldenSecretVi: "LUÔN có nhiều tiêu đề hơn đoạn văn — thường 2-3 tiêu đề 'bẫy' thừa. Các bẫy này thường chứa từ xuất hiện trong bài đọc nhưng KHÔNG đại diện cho ý chính đoạn nào. Nếu tiêu đề nghe quá cụ thể (tập trung vào một ví dụ thay vì chủ đề), nó có thể là bẫy!",
+    goldenSecret: "There are ALWAYS more headings than paragraphs - usually 2-3 extra 'distractor' headings. These distractors often contain words that appear in the passage but DON'T represent the main idea of any paragraph. If a heading sounds too specific (focusing on one example rather than the theme), it's probably a distractor!",
+    goldenSecretVi: "LUÔN có nhiều tiêu đề hơn đoạn văn - thường 2-3 tiêu đề 'bẫy' thừa. Các bẫy này thường chứa từ xuất hiện trong bài đọc nhưng KHÔNG đại diện cho ý chính đoạn nào. Nếu tiêu đề nghe quá cụ thể (tập trung vào một ví dụ thay vì chủ đề), nó có thể là bẫy!",
     vocabHighlights: [
       { word: "overarching", definition: "Comprehensive; covering everything", definitionVi: "Bao quát; bao trùm tất cả", example: "The overarching theme of the passage is climate change.", band: "8.0+" },
       { word: "nuance", definition: "A subtle difference in meaning", definitionVi: "Sắc thái; sự khác biệt tinh tế", example: "Understanding nuance is key to matching headings correctly.", band: "7.5+" },
@@ -579,11 +579,11 @@ const skillBasedLectures: IeltsLecture[] = [
         question: "Why are there more headings than paragraphs?",
         options: ["It's a mistake", "Extra headings are distractors", "You need to use some twice", "They're for another section"],
         answer: 1,
-        explanation: "Extra headings are deliberate distractors — they contain passage words but don't match any paragraph's MAIN idea."
+        explanation: "Extra headings are deliberate distractors - they contain passage words but don't match any paragraph's MAIN idea."
       },
       {
         question: "A heading matches ONE detail in a paragraph but not the overall theme. You should:",
-        options: ["Choose it — any match counts", "Reject it — it must match the overall theme", "Ask the examiner", "Skip the question"],
+        options: ["Choose it - any match counts", "Reject it - it must match the overall theme", "Ask the examiner", "Skip the question"],
         answer: 1,
         explanation: "The heading must capture the OVERALL theme of the paragraph, not just one detail or example."
       }
@@ -606,8 +606,8 @@ const skillBasedLectures: IeltsLecture[] = [
     icon: "🔄",
     duration: "22 min",
     level: "intermediate",
-    description: "Master the art of describing processes, diagrams, and flow charts — the most overlooked Task 1 question type.",
-    descriptionVi: "Thành thạo nghệ thuật mô tả quy trình, sơ đồ và lưu đồ — dạng Task 1 bị xem nhẹ nhất.",
+    description: "Master the art of describing processes, diagrams, and flow charts - the most overlooked Task 1 question type.",
+    descriptionVi: "Thành thạo nghệ thuật mô tả quy trình, sơ đồ và lưu đồ - dạng Task 1 bị xem nhẹ nhất.",
     strategySteps: [
       {
         step: 1,
@@ -628,8 +628,8 @@ const skillBasedLectures: IeltsLecture[] = [
         step: 3,
         title: "Use Sequencing Language",
         titleVi: "Dùng ngôn ngữ trình tự",
-        description: "Link stages with: 'Initially,...', 'Subsequently,...', 'Following this,...', 'At the final stage,...'. NEVER use 'firstly, secondly, thirdly' — that's for essays, not processes.",
-        descriptionVi: "Liên kết giai đoạn bằng: 'Initially,...', 'Subsequently,...', 'Following this,...', 'At the final stage,...'. KHÔNG dùng 'firstly, secondly, thirdly' — đó dành cho bài luận, không phải quy trình.",
+        description: "Link stages with: 'Initially,...', 'Subsequently,...', 'Following this,...', 'At the final stage,...'. NEVER use 'firstly, secondly, thirdly' - that's for essays, not processes.",
+        descriptionVi: "Liên kết giai đoạn bằng: 'Initially,...', 'Subsequently,...', 'Following this,...', 'At the final stage,...'. KHÔNG dùng 'firstly, secondly, thirdly' - đó dành cho bài luận, không phải quy trình.",
       }
     ],
     practicalExamples: [
@@ -676,7 +676,7 @@ const skillBasedLectures: IeltsLecture[] = [
         question: "What must you include that many students forget?",
         options: ["Your opinion", "An overview paragraph", "A conclusion with recommendation", "Personal experience"],
         answer: 1,
-        explanation: "The overview paragraph states the total stages and what the process begins/ends with — worth 25% of Task Achievement."
+        explanation: "The overview paragraph states the total stages and what the process begins/ends with - worth 25% of Task Achievement."
       },
       {
         question: "Which sequencing phrase is WRONG for a process description?",
@@ -711,8 +711,8 @@ const skillBasedLectures: IeltsLecture[] = [
         step: 1,
         title: "Read Ahead Aggressively",
         titleVi: "Đọc trước thật nhanh",
-        description: "Use every second of reading time. Underline keywords in questions. For Section 4, you get 30 seconds — predict content from headings and blanks.",
-        descriptionVi: "Tận dụng mọi giây đọc trước. Gạch chân từ khóa trong câu hỏi. Phần 4 có 30 giây — dự đoán nội dung từ tiêu đề và chỗ trống.",
+        description: "Use every second of reading time. Underline keywords in questions. For Section 4, you get 30 seconds - predict content from headings and blanks.",
+        descriptionVi: "Tận dụng mọi giây đọc trước. Gạch chân từ khóa trong câu hỏi. Phần 4 có 30 giây - dự đoán nội dung từ tiêu đề và chỗ trống.",
         example: "Q: The professor argues that urban farming can reduce ___. → Predict: pollution / costs / food miles"
       },
       {
@@ -742,20 +742,20 @@ const skillBasedLectures: IeltsLecture[] = [
     ],
     practicalExamples: [
       {
-        context: "Section 3 — Multiple Choice",
-        contextVi: "Phần 3 — Trắc nghiệm",
+        context: "Section 3 - Multiple Choice",
+        contextVi: "Phần 3 - Trắc nghiệm",
         example: "Q: What does Sarah think about the research method?\nA) It's too time-consuming  B) It produces reliable data  C) It needs more participants\nAudio: 'I know some people say surveys take too long, but I actually found them quite efficient and the data was really reliable.'\n→ Answer: B",
         explanation: "Sarah rejects 'too time-consuming' (distractor) and confirms 'reliable data'."
       },
       {
-        context: "Section 4 — Note Completion",
-        contextVi: "Phần 4 — Hoàn thành ghi chú",
+        context: "Section 4 - Note Completion",
+        contextVi: "Phần 4 - Hoàn thành ghi chú",
         example: "Notes: Urban farming benefits:\n- Reduces food ___\n- Creates community ___\nAudio: 'One major advantage is reducing food miles... and it builds a real sense of community cohesion.'\n→ Answers: miles, cohesion",
-        explanation: "Section 4 answers are heard in order — follow the notes sequentially."
+        explanation: "Section 4 answers are heard in order - follow the notes sequentially."
       },
       {
-        context: "Section 3 — Matching",
-        contextVi: "Phần 3 — Nối",
+        context: "Section 3 - Matching",
+        contextVi: "Phần 3 - Nối",
         example: "Match each student with their research topic:\nStudents: Tom, Lisa, Ahmed\nTopics: A) Climate, B) Migration, C) Technology\nListen for each student's final confirmed choice, not initial suggestions.",
         explanation: "Students may discuss multiple topics but confirm only one each."
       }
@@ -780,8 +780,8 @@ const skillBasedLectures: IeltsLecture[] = [
         whyVi: "'Không quá HAI từ' nghĩa là đúng vậy. 'Community cohesion' ✓ nhưng 'strong community cohesion' ✗ (3 từ)."
       }
     ],
-    goldenSecret: "In Section 4, the speaker ALWAYS follows the order of the questions. If you're on Q35, the answer comes AFTER Q34's answer. Never jump ahead — trust the sequence!",
-    goldenSecretVi: "Trong Phần 4, người nói LUÔN theo thứ tự câu hỏi. Nếu bạn ở Q35, đáp án đến SAU đáp án Q34. Đừng nhảy cóc — tin vào trình tự!",
+    goldenSecret: "In Section 4, the speaker ALWAYS follows the order of the questions. If you're on Q35, the answer comes AFTER Q34's answer. Never jump ahead - trust the sequence!",
+    goldenSecretVi: "Trong Phần 4, người nói LUÔN theo thứ tự câu hỏi. Nếu bạn ở Q35, đáp án đến SAU đáp án Q34. Đừng nhảy cóc - tin vào trình tự!",
     vocabHighlights: [
       { word: "cohesion", definition: "The action of forming a united whole", definitionVi: "Sự gắn kết, liên kết thành một thể thống nhất", example: "Social cohesion is vital for community development.", band: "7.0+" },
       { word: "methodology", definition: "A system of methods used in a particular area", definitionVi: "Phương pháp luận, hệ thống phương pháp", example: "The research methodology needs to be clearly explained.", band: "7.0+" },
@@ -809,12 +809,12 @@ const skillBasedLectures: IeltsLecture[] = [
       }
     ],
     cheatSheetPoints: [
-      "S3: Track WHO says WHAT — multiple speakers = opinion traps",
-      "S4: No pause — if you miss one, MOVE ON immediately",
+      "S3: Track WHO says WHAT - multiple speakers = opinion traps",
+      "S4: No pause - if you miss one, MOVE ON immediately",
       "Signpost phrases signal answers: 'The key point is...', 'What matters most...'",
       "Self-corrections: 'Actually...' / 'On second thought...' = real answer follows",
       "ALWAYS check word limit before writing",
-      "Answers in S4 come in ORDER — trust the sequence"
+      "Answers in S4 come in ORDER - trust the sequence"
     ]
   },
 
@@ -859,22 +859,22 @@ const skillBasedLectures: IeltsLecture[] = [
         step: 4,
         title: "Upgrade Your Vocabulary Live",
         titleVi: "Nâng cấp từ vựng ngay lúc nói",
-        description: "Self-correct to show range: 'It's important — or rather, it's absolutely crucial...'. Use topic-specific collocations instead of basic words.",
-        descriptionVi: "Tự sửa để thể hiện vốn từ: 'It's important — or rather, it's absolutely crucial...'. Dùng collocation theo chủ đề thay vì từ cơ bản.",
+        description: "Self-correct to show range: 'It's important - or rather, it's absolutely crucial...'. Use topic-specific collocations instead of basic words.",
+        descriptionVi: "Tự sửa để thể hiện vốn từ: 'It's important - or rather, it's absolutely crucial...'. Dùng collocation theo chủ đề thay vì từ cơ bản.",
         example: "Instead of 'People should help the environment' → 'Citizens have a collective responsibility to mitigate environmental degradation.'"
       }
     ],
     practicalExamples: [
       {
-        context: "Abstract Question — Society",
-        contextVi: "Câu hỏi trừu tượng — Xã hội",
-        example: "Q: 'Why do some people prefer to live in cities rather than rural areas?'\n\nWeak: 'Because cities have more jobs and things to do.'\n\nStrong: 'I think the primary draw of urban living is the abundance of professional opportunities. Cities tend to be economic hubs where industries cluster, offering a wider range of career prospects. Additionally, the cultural amenities — museums, theatres, diverse cuisine — provide a lifestyle that many find appealing. Having said that, there's a growing counter-trend of people seeking the tranquility of rural life, especially after the pandemic normalized remote work.'",
+        context: "Abstract Question - Society",
+        contextVi: "Câu hỏi trừu tượng - Xã hội",
+        example: "Q: 'Why do some people prefer to live in cities rather than rural areas?'\n\nWeak: 'Because cities have more jobs and things to do.'\n\nStrong: 'I think the primary draw of urban living is the abundance of professional opportunities. Cities tend to be economic hubs where industries cluster, offering a wider range of career prospects. Additionally, the cultural amenities - museums, theatres, diverse cuisine - provide a lifestyle that many find appealing. Having said that, there's a growing counter-trend of people seeking the tranquility of rural life, especially after the pandemic normalized remote work.'",
         explanation: "The strong answer uses PEEL, shows both sides, and includes advanced vocabulary."
       },
       {
         context: "Future Prediction Question",
         contextVi: "Câu hỏi dự đoán tương lai",
-        example: "Q: 'How do you think education will change in the future?'\n\n'That's an interesting question. I would imagine that education will become increasingly personalized through AI-driven platforms. It's quite likely that traditional one-size-fits-all curricula will give way to adaptive learning paths. For instance, students might have AI tutors that identify their weak areas and tailor content accordingly. However, I think the human element — the mentor-student relationship — will remain irreplaceable.'",
+        example: "Q: 'How do you think education will change in the future?'\n\n'That's an interesting question. I would imagine that education will become increasingly personalized through AI-driven platforms. It's quite likely that traditional one-size-fits-all curricula will give way to adaptive learning paths. For instance, students might have AI tutors that identify their weak areas and tailor content accordingly. However, I think the human element - the mentor-student relationship - will remain irreplaceable.'",
         explanation: "Uses speculation language, gives a concrete example, and adds a balanced counterpoint."
       }
     ],
@@ -901,7 +901,7 @@ const skillBasedLectures: IeltsLecture[] = [
     goldenSecret: "When you don't know what to say, use the TIME TRAVEL technique: talk about the PAST ('Traditionally...'), the PRESENT ('Nowadays...'), and the FUTURE ('Going forward...'). This instantly gives you a 3-part structure for ANY topic!",
     goldenSecretVi: "Khi không biết nói gì, dùng kỹ thuật DU HÀNH THỜI GIAN: nói về QUÁ KHỨ ('Traditionally...'), HIỆN TẠI ('Nowadays...'), và TƯƠNG LAI ('Going forward...'). Điều này ngay lập tức cho bạn cấu trúc 3 phần cho BẤT KỲ chủ đề nào!",
     vocabHighlights: [
-      { word: "double-edged sword", definition: "Something that has both advantages and disadvantages", definitionVi: "Con dao hai lưỡi — có cả ưu và nhược điểm", example: "Social media is a double-edged sword for teenagers.", band: "7.0+" },
+      { word: "double-edged sword", definition: "Something that has both advantages and disadvantages", definitionVi: "Con dao hai lưỡi - có cả ưu và nhược điểm", example: "Social media is a double-edged sword for teenagers.", band: "7.0+" },
       { word: "paradigm shift", definition: "A fundamental change in approach or thinking", definitionVi: "Sự thay đổi mô hình tư duy căn bản", example: "Remote work has caused a paradigm shift in business culture.", band: "8.0+" },
       { word: "mitigate", definition: "To make something less severe or serious", definitionVi: "Giảm thiểu, làm giảm mức độ nghiêm trọng", example: "Governments must mitigate the effects of climate change.", band: "7.5+" },
       { word: "collective responsibility", definition: "Shared duty among all members of a group", definitionVi: "Trách nhiệm chung của tất cả thành viên", example: "Environmental protection is a collective responsibility.", band: "7.0+" },
@@ -918,7 +918,7 @@ const skillBasedLectures: IeltsLecture[] = [
         question: "Which phrase best shows balanced thinking in Part 3?",
         options: ["'I totally agree because...'", "'It's a double-edged sword because...'", "'I don't know much about this...'", "'My friend told me that...'"],
         answer: 1,
-        explanation: "'Double-edged sword' shows you can see both advantages and disadvantages — exactly what examiners want."
+        explanation: "'Double-edged sword' shows you can see both advantages and disadvantages - exactly what examiners want."
       },
       {
         question: "What is the TIME TRAVEL technique?",
@@ -930,7 +930,7 @@ const skillBasedLectures: IeltsLecture[] = [
         question: "In Part 3, how long should your answers typically be?",
         options: ["1 sentence", "2-3 sentences", "4-6 sentences", "10+ sentences"],
         answer: 2,
-        explanation: "4-6 sentences is the sweet spot — enough to demonstrate depth without rambling."
+        explanation: "4-6 sentences is the sweet spot - enough to demonstrate depth without rambling."
       }
     ],
     cheatSheetPoints: [
@@ -938,8 +938,8 @@ const skillBasedLectures: IeltsLecture[] = [
       "Show BOTH sides: 'On one hand... on the other hand...'",
       "Speculate: 'I would imagine...', 'It's quite likely that...'",
       "TIME TRAVEL: Past → Present → Future for any topic",
-      "Self-correct to show range: 'important — or rather, crucial'",
-      "4-6 sentences per answer — never just one sentence"
+      "Self-correct to show range: 'important - or rather, crucial'",
+      "4-6 sentences per answer - never just one sentence"
     ]
   },
 
@@ -1096,8 +1096,8 @@ const skillBasedLectures: IeltsLecture[] = [
         step: 4,
         title: "Structure Your Essay: Overview is KING",
         titleVi: "Cấu trúc bài viết: Overview là VUA",
-        description: "Paragraph 1: Paraphrase the question. Paragraph 2: OVERVIEW — state the 2 most significant changes. Paragraphs 3-4: Detailed descriptions organized by area or time period.",
-        descriptionVi: "Đoạn 1: Viết lại đề bài. Đoạn 2: TỔNG QUAN — nêu 2 thay đổi đáng kể nhất. Đoạn 3-4: Mô tả chi tiết theo khu vực hoặc giai đoạn.",
+        description: "Paragraph 1: Paraphrase the question. Paragraph 2: OVERVIEW - state the 2 most significant changes. Paragraphs 3-4: Detailed descriptions organized by area or time period.",
+        descriptionVi: "Đoạn 1: Viết lại đề bài. Đoạn 2: TỔNG QUAN - nêu 2 thay đổi đáng kể nhất. Đoạn 3-4: Mô tả chi tiết theo khu vực hoặc giai đoạn.",
         example: "Overview: 'Overall, the town underwent significant urbanization between 1990 and 2020, with agricultural land being replaced by residential and commercial developments, particularly in the southern and eastern areas.'"
       }
     ],
@@ -1166,11 +1166,11 @@ const skillBasedLectures: IeltsLecture[] = [
     ],
     cheatSheetPoints: [
       "2 types: Before-After (past tense) vs. Planned (future/proposed)",
-      "Compass directions ONLY — never 'left/right'",
+      "Compass directions ONLY - never 'left/right'",
       "Transformation verbs: demolished, replaced by, converted into, relocated",
       "Positional: adjacent to, in the vicinity of, on the outskirts of",
       "OVERVIEW is mandatory: What GREW? What SHRANK/DISAPPEARED?",
-      "Don't describe every detail — select the most significant changes"
+      "Don't describe every detail - select the most significant changes"
     ]
   },
 
@@ -1713,8 +1713,8 @@ const skillBasedLectures: IeltsLecture[] = [
     icon: "🎧",
     duration: "20 min",
     level: "foundation",
-    description: "Master the most scoreable sections of the Listening test — everyday conversations and monologues about social situations.",
-    descriptionVi: "Làm chủ phần dễ ghi điểm nhất của bài Listening — hội thoại hàng ngày và độc thoại về tình huống xã hội.",
+    description: "Master the most scoreable sections of the Listening test - everyday conversations and monologues about social situations.",
+    descriptionVi: "Làm chủ phần dễ ghi điểm nhất của bài Listening - hội thoại hàng ngày và độc thoại về tình huống xã hội.",
     strategySteps: [
       {
         step: 1,
@@ -1730,7 +1730,7 @@ const skillBasedLectures: IeltsLecture[] = [
         titleVi: "Nghe ra bẫy chính tả",
         description: "Section 1 frequently tests spelling of names, addresses, and email addresses. Common traps: similar-sounding letters (B/P, M/N, A/E), double letters, and unusual place names.",
         descriptionVi: "Section 1 thường kiểm tra chính tả tên, địa chỉ, email. Bẫy phổ biến: chữ cái phát âm giống nhau (B/P, M/N, A/E), chữ đôi, và tên địa danh lạ.",
-        example: "'My name is Phoebe — that's P-H-O-E-B-E.' If you don't catch the spelling, you lose the mark even if you understood the conversation."
+        example: "'My name is Phoebe - that's P-H-O-E-B-E.' If you don't catch the spelling, you lose the mark even if you understood the conversation."
       },
       {
         step: 3,
@@ -1738,7 +1738,7 @@ const skillBasedLectures: IeltsLecture[] = [
         titleVi: "Chú ý sửa số và giá",
         description: "Speakers often say a number then correct themselves: 'It's $45... no wait, $54.' The SECOND number is always the answer. Also watch for phone numbers given in groups.",
         descriptionVi: "Người nói thường nêu 1 số rồi sửa lại: 'Giá $45... à không, $54.' Số THỨ HAI luôn là đáp án. Cũng chú ý số điện thoại đọc theo nhóm.",
-        example: "'The membership fee is fifteen — oh sorry, I meant fifty pounds.' Answer: 50 (not 15)."
+        example: "'The membership fee is fifteen - oh sorry, I meant fifty pounds.' Answer: 50 (not 15)."
       },
       {
         step: 4,
@@ -1751,15 +1751,15 @@ const skillBasedLectures: IeltsLecture[] = [
     ],
     practicalExamples: [
       {
-        context: "Section 1: Form Completion — Hotel Booking",
-        contextVi: "Section 1: Điền mẫu — Đặt phòng khách sạn",
-        example: "Receptionist: 'Can I take your name please?'\nGuest: 'Yes, it's Harrison — H-A-R-R-I-S-O-N.'\nReceptionist: 'And what date would you like to check in?'\nGuest: 'The 14th of March... actually, make that the 15th.'",
+        context: "Section 1: Form Completion - Hotel Booking",
+        contextVi: "Section 1: Điền mẫu - Đặt phòng khách sạn",
+        example: "Receptionist: 'Can I take your name please?'\nGuest: 'Yes, it's Harrison - H-A-R-R-I-S-O-N.'\nReceptionist: 'And what date would you like to check in?'\nGuest: 'The 14th of March... actually, make that the 15th.'",
         answer: "Name: Harrison | Date: 15th March",
-        explanation: "The name is spelled out (always write exactly as spelled). The date was corrected — use the SECOND date mentioned."
+        explanation: "The name is spelled out (always write exactly as spelled). The date was corrected - use the SECOND date mentioned."
       },
       {
-        context: "Section 2: Multiple Choice — Museum Tour",
-        contextVi: "Section 2: Trắc nghiệm — Tham quan bảo tàng",
+        context: "Section 2: Multiple Choice - Museum Tour",
+        contextVi: "Section 2: Trắc nghiệm - Tham quan bảo tàng",
         example: "Guide: 'The museum was originally built as a private residence in 1850. It was converted into a public gallery in 1920, and underwent major renovations in 2005.'\n\nQ: When did the building become a museum?\nA) 1850  B) 1920  C) 2005",
         answer: "B) 1920",
         explanation: "'Converted into a public gallery' = became a museum. 1850 is a distractor (when it was built). 2005 is a distractor (renovations, not conversion)."
@@ -1785,12 +1785,12 @@ const skillBasedLectures: IeltsLecture[] = [
       { mistake: "Missing the correction and writing the first answer", mistakeVi: "Bỏ lỡ phần sửa và viết đáp án đầu tiên", why: "Speakers ALWAYS correct themselves in Section 1. Train yourself to wait for the final confirmed answer.", whyVi: "Người nói LUÔN tự sửa ở Section 1. Luyện tập chờ đáp án cuối cùng được xác nhận." },
       { mistake: "Not checking the word limit", mistakeVi: "Không kiểm tra giới hạn từ", why: "'No more than ONE word' means writing 'bus stop' loses the mark. You need 'bus' or 'stop' only.", whyVi: "'Không quá MỘT từ' nghĩa là viết 'bus stop' sẽ mất điểm. Bạn chỉ cần 'bus' hoặc 'stop'." }
     ],
-    goldenSecret: "Section 1-2 are your EASIEST 20 marks. The secret? Don't overthink. The answers come in ORDER, the vocabulary is everyday English, and there are NO trick questions — only distractor information. If you miss one answer, MOVE ON immediately to the next question. Never get stuck!",
-    goldenSecretVi: "Section 1-2 là 20 điểm DỄ NHẤT của bạn. Bí quyết? Đừng suy nghĩ quá nhiều. Đáp án đến theo THỨ TỰ, từ vựng là tiếng Anh hàng ngày, và KHÔNG CÓ câu hỏi bẫy — chỉ có thông tin nhiễu. Nếu bỏ lỡ 1 đáp án, CHUYỂN NGAY sang câu tiếp theo. Đừng bao giờ bị kẹt!",
+    goldenSecret: "Section 1-2 are your EASIEST 20 marks. The secret? Don't overthink. The answers come in ORDER, the vocabulary is everyday English, and there are NO trick questions - only distractor information. If you miss one answer, MOVE ON immediately to the next question. Never get stuck!",
+    goldenSecretVi: "Section 1-2 là 20 điểm DỄ NHẤT của bạn. Bí quyết? Đừng suy nghĩ quá nhiều. Đáp án đến theo THỨ TỰ, từ vựng là tiếng Anh hàng ngày, và KHÔNG CÓ câu hỏi bẫy - chỉ có thông tin nhiễu. Nếu bỏ lỡ 1 đáp án, CHUYỂN NGAY sang câu tiếp theo. Đừng bao giờ bị kẹt!",
     quiz: [
       {
         question: "In Section 1, when a speaker corrects a number ('It's $30... no, $35'), which is the answer?",
-        options: ["The first number ($30)", "The second number ($35)", "Both numbers", "Neither — it depends on context"],
+        options: ["The first number ($30)", "The second number ($35)", "Both numbers", "Neither - it depends on context"],
         answer: 1,
         explanation: "Always use the CORRECTED (second) number. This is a classic IELTS listening trap."
       },
@@ -1804,22 +1804,22 @@ const skillBasedLectures: IeltsLecture[] = [
         question: "The instruction says 'Write NO MORE THAN TWO WORDS.' The answer is 'swimming pool'. What do you write?",
         options: ["swimming pool", "swimming-pool", "pool", "a swimming pool"],
         answer: 0,
-        explanation: "'Swimming pool' is two words — within the limit. 'A swimming pool' would be three words (over the limit)."
+        explanation: "'Swimming pool' is two words - within the limit. 'A swimming pool' would be three words (over the limit)."
       },
       {
         question: "In Section 2, what type of audio do you hear?",
         options: ["A conversation between two people", "A monologue by one speaker", "An interview with questions", "A group discussion"],
         answer: 1,
-        explanation: "Section 2 is always a monologue — one person speaking about a social or everyday topic (tour guide, announcement, etc.)."
+        explanation: "Section 2 is always a monologue - one person speaking about a social or everyday topic (tour guide, announcement, etc.)."
       }
     ],
     cheatSheetPoints: [
-      "Section 1: Form/note completion — answers in ORDER, usually names/numbers/dates",
-      "Section 2: Monologue — follow signpost words (firstly, next, finally)",
+      "Section 1: Form/note completion - answers in ORDER, usually names/numbers/dates",
+      "Section 2: Monologue - follow signpost words (firstly, next, finally)",
       "ALWAYS use the corrected/second answer when speakers self-correct",
       "'Double' = repeat the letter/number (double 5 = 55)",
-      "Check word limit BEFORE writing — 'no more than ONE word' is strict",
-      "If you miss an answer, SKIP IT and catch the next one — don't freeze"
+      "Check word limit BEFORE writing - 'no more than ONE word' is strict",
+      "If you miss an answer, SKIP IT and catch the next one - don't freeze"
     ]
   },
   // --- Writing Task 2: Agree/Disagree Essays ---
@@ -1832,8 +1832,8 @@ const skillBasedLectures: IeltsLecture[] = [
     icon: "✍️",
     duration: "25 min",
     level: "intermediate",
-    description: "The most common Task 2 question type — learn the exact structure, idea generation, and Band 7.0+ language for 'To what extent do you agree or disagree?' essays.",
-    descriptionVi: "Dạng câu hỏi Task 2 phổ biến nhất — học cấu trúc chính xác, phát triển ý tưởng, và ngôn ngữ Band 7.0+ cho bài 'Bạn đồng ý hay không đồng ý ở mức độ nào?'",
+    description: "The most common Task 2 question type - learn the exact structure, idea generation, and Band 7.0+ language for 'To what extent do you agree or disagree?' essays.",
+    descriptionVi: "Dạng câu hỏi Task 2 phổ biến nhất - học cấu trúc chính xác, phát triển ý tưởng, và ngôn ngữ Band 7.0+ cho bài 'Bạn đồng ý hay không đồng ý ở mức độ nào?'",
     strategySteps: [
       {
         step: 1,
@@ -1841,7 +1841,7 @@ const skillBasedLectures: IeltsLecture[] = [
         titleVi: "Quyết định lập trường NGAY LẬP TỨC",
         description: "You have 3 options: Fully Agree, Fully Disagree, or Partially Agree. Pick ONE and stick to it. A clear, consistent position scores higher than a confused, fence-sitting response.",
         descriptionVi: "Bạn có 3 lựa chọn: Hoàn toàn đồng ý, Hoàn toàn không đồng ý, hoặc Đồng ý một phần. Chọn MỘT và giữ nguyên. Lập trường rõ ràng, nhất quán được điểm cao hơn lập trường lưỡng lự.",
-        example: "Prompt: 'University education should be free. To what extent do you agree?'\n→ Decide: 'I partially agree — free for some, not all.' Now every paragraph supports THIS position."
+        example: "Prompt: 'University education should be free. To what extent do you agree?'\n→ Decide: 'I partially agree - free for some, not all.' Now every paragraph supports THIS position."
       },
       {
         step: 2,
@@ -1870,15 +1870,15 @@ const skillBasedLectures: IeltsLecture[] = [
     ],
     practicalExamples: [
       {
-        context: "Full Agree Example — Introduction",
-        contextVi: "Ví dụ Đồng ý hoàn toàn — Mở bài",
+        context: "Full Agree Example - Introduction",
+        contextVi: "Ví dụ Đồng ý hoàn toàn - Mở bài",
         example: "Topic: 'Children should start learning a foreign language from primary school.'\n\nIntro: 'Early language acquisition has become a topic of considerable discussion in educational circles. I strongly agree that introducing foreign languages at the primary level is highly beneficial, as young children possess a natural aptitude for absorbing new linguistic patterns.'",
         explanation: "Notice: topic is paraphrased (not copied), position is crystal clear ('I strongly agree'), and a reason preview is given."
       },
       {
-        context: "Partial Agree Example — Body Paragraph 2 (Counter-argument)",
-        contextVi: "Ví dụ Đồng ý một phần — Thân bài 2 (Phản biện)",
-        example: "Body 2: 'However, it would be naive to overlook the potential drawbacks. Implementing free education nationwide would place an enormous financial burden on taxpayers. For instance, Germany's free tuition model has resulted in overcrowded lecture halls and stretched resources, arguably diminishing the quality of education. Therefore, a balanced approach — such as means-tested tuition — may be more sustainable.'",
+        context: "Partial Agree Example - Body Paragraph 2 (Counter-argument)",
+        contextVi: "Ví dụ Đồng ý một phần - Thân bài 2 (Phản biện)",
+        example: "Body 2: 'However, it would be naive to overlook the potential drawbacks. Implementing free education nationwide would place an enormous financial burden on taxpayers. For instance, Germany's free tuition model has resulted in overcrowded lecture halls and stretched resources, arguably diminishing the quality of education. Therefore, a balanced approach - such as means-tested tuition - may be more sustainable.'",
         explanation: "This paragraph shows the OTHER side while still supporting the partial-agree thesis. Using 'However' signals a counter-argument. The example (Germany) adds credibility."
       },
       {
@@ -1901,8 +1901,8 @@ const skillBasedLectures: IeltsLecture[] = [
       { mistake: "Introducing new ideas in the conclusion", mistakeVi: "Đưa ý mới vào kết bài", why: "The conclusion should ONLY summarize and restate. New arguments here show poor planning and hurt your Coherence score.", whyVi: "Kết bài chỉ nên tóm tắt và nhắc lại. Luận điểm mới ở đây cho thấy kế hoạch kém và làm giảm điểm Coherence." },
       { mistake: "Using memorized phrases that don't fit", mistakeVi: "Dùng cụm từ học thuộc không phù hợp", why: "Examiners easily spot template language. 'In this day and age' and 'Since time immemorial' are red flags for Band 6.0.", whyVi: "Giám khảo dễ dàng phát hiện ngôn ngữ mẫu. 'In this day and age' và 'Since time immemorial' là dấu hiệu Band 6.0." }
     ],
-    goldenSecret: "Here's the BIGGEST secret for Agree/Disagree essays: You DON'T need to believe your position! Choose the side you have MORE IDEAS for, not the one you personally agree with. If 'disagree' gives you 3 strong ideas but 'agree' only gives 1, DISAGREE! The examiner doesn't care about your real opinion — only your English ability.",
-    goldenSecretVi: "Đây là BÍ MẬT LỚN NHẤT cho bài Agree/Disagree: Bạn KHÔNG CẦN tin vào lập trường của mình! Chọn phía bạn có NHIỀU Ý TƯỞNG hơn, không phải phía bạn thực sự đồng ý. Nếu 'không đồng ý' cho bạn 3 ý hay nhưng 'đồng ý' chỉ cho 1, hãy KHÔNG ĐỒNG Ý! Giám khảo không quan tâm ý kiến thật của bạn — chỉ quan tâm khả năng tiếng Anh.",
+    goldenSecret: "Here's the BIGGEST secret for Agree/Disagree essays: You DON'T need to believe your position! Choose the side you have MORE IDEAS for, not the one you personally agree with. If 'disagree' gives you 3 strong ideas but 'agree' only gives 1, DISAGREE! The examiner doesn't care about your real opinion - only your English ability.",
+    goldenSecretVi: "Đây là BÍ MẬT LỚN NHẤT cho bài Agree/Disagree: Bạn KHÔNG CẦN tin vào lập trường của mình! Chọn phía bạn có NHIỀU Ý TƯỞNG hơn, không phải phía bạn thực sự đồng ý. Nếu 'không đồng ý' cho bạn 3 ý hay nhưng 'đồng ý' chỉ cho 1, hãy KHÔNG ĐỒNG Ý! Giám khảo không quan tâm ý kiến thật của bạn - chỉ quan tâm khả năng tiếng Anh.",
     quiz: [
       {
         question: "What is the FIRST thing you should do after reading an Agree/Disagree prompt?",
@@ -1930,7 +1930,7 @@ const skillBasedLectures: IeltsLecture[] = [
           "Body 1: Advantages. Body 2: Disadvantages."
         ],
         answer: 1,
-        explanation: "Partial agree requires showing BOTH sides — one paragraph for what you agree with, another for what you disagree with, both connected to your thesis."
+        explanation: "Partial agree requires showing BOTH sides - one paragraph for what you agree with, another for what you disagree with, both connected to your thesis."
       },
       {
         question: "What should you NEVER do in the conclusion?",
@@ -1943,9 +1943,9 @@ const skillBasedLectures: IeltsLecture[] = [
       "Decide position in 1 minute: Fully Agree, Fully Disagree, or Partially Agree",
       "Intro = Paraphrase + Clear Position (2 sentences max)",
       "Each body paragraph follows PEEL: Point, Explain, Example, Link",
-      "Use 'I firmly believe' / 'I am of the opinion that' — NOT 'I think'",
-      "Choose the side with MORE ideas — not your real opinion",
-      "Conclusion: Restate + Future prediction — NEVER add new ideas"
+      "Use 'I firmly believe' / 'I am of the opinion that' - NOT 'I think'",
+      "Choose the side with MORE ideas - not your real opinion",
+      "Conclusion: Restate + Future prediction - NEVER add new ideas"
     ]
   },
 ];
@@ -2025,7 +2025,7 @@ const tipsAndHacks: IeltsLecture[] = [
         question: "What is the FIRST thing you should do with the question?",
         options: ["Copy it", "Paraphrase it using synonyms", "Ignore it", "Translate it"],
         answer: 1,
-        explanation: "Always paraphrase the question — never copy it word for word."
+        explanation: "Always paraphrase the question - never copy it word for word."
       }
     ],
     cheatSheetPoints: [
@@ -2092,8 +2092,8 @@ const tipsAndHacks: IeltsLecture[] = [
         whyVi: "Im lặng > 3 giây ảnh hưởng điểm trôi chảy. Dùng từ đệm để lấp khoảng trống."
       }
     ],
-    goldenSecret: "The examiner doesn't expect perfection — they expect NATURAL speech. A well-placed 'Well, that's actually a great question...' followed by a 2-second pause sounds more natural and confident than rushing into an answer immediately!",
-    goldenSecretVi: "Giám khảo không kỳ vọng hoàn hảo — họ kỳ vọng lời nói TỰ NHIÊN. Một câu 'Well, that's actually a great question...' đúng lúc kèm 2 giây dừng nghe tự nhiên và tự tin hơn là vội vàng trả lời ngay!",
+    goldenSecret: "The examiner doesn't expect perfection - they expect NATURAL speech. A well-placed 'Well, that's actually a great question...' followed by a 2-second pause sounds more natural and confident than rushing into an answer immediately!",
+    goldenSecretVi: "Giám khảo không kỳ vọng hoàn hảo - họ kỳ vọng lời nói TỰ NHIÊN. Một câu 'Well, that's actually a great question...' đúng lúc kèm 2 giây dừng nghe tự nhiên và tự tin hơn là vội vàng trả lời ngay!",
     vocabHighlights: [
       { word: "to be perfectly honest", definition: "Used to introduce a candid opinion", definitionVi: "Dùng để giới thiệu ý kiến thẳng thắn", example: "To be perfectly honest, I find grammar quite challenging.", band: "7.0+" },
       { word: "experimenting with", definition: "Trying new things", definitionVi: "Thử nghiệm những điều mới", example: "I enjoy experimenting with different cooking styles.", band: "6.5+" },
@@ -2136,8 +2136,8 @@ const tipsAndHacks: IeltsLecture[] = [
     icon: "🔑",
     duration: "15 min",
     level: "advanced",
-    description: "The secret weapon for finding answers faster in IELTS Reading — master how the test transforms keywords.",
-    descriptionVi: "Vũ khí bí mật để tìm đáp án nhanh hơn trong IELTS Reading — thành thạo cách đề thi biến đổi từ khóa.",
+    description: "The secret weapon for finding answers faster in IELTS Reading - master how the test transforms keywords.",
+    descriptionVi: "Vũ khí bí mật để tìm đáp án nhanh hơn trong IELTS Reading - thành thạo cách đề thi biến đổi từ khóa.",
     strategySteps: [
       {
         step: 1,
@@ -2188,7 +2188,7 @@ const tipsAndHacks: IeltsLecture[] = [
         question: "Which type of word is NEVER paraphrased in IELTS?",
         options: ["Adjectives", "Verbs", "Proper nouns and numbers", "Adverbs"],
         answer: 2,
-        explanation: "Numbers, dates, and proper nouns always appear exactly as written — use them as anchor points."
+        explanation: "Numbers, dates, and proper nouns always appear exactly as written - use them as anchor points."
       },
       {
         question: "What is a synonym for 'important' in IELTS?",
@@ -2457,7 +2457,7 @@ const thematicVocab: IeltsLecture[] = [
         question: "Which word means 'to make a problem worse'?",
         options: ["Mitigate", "Exacerbate", "Sustain", "Conserve"],
         answer: 1,
-        explanation: "'Exacerbate' means to make worse. 'Mitigate' is the opposite — to reduce."
+        explanation: "'Exacerbate' means to make worse. 'Mitigate' is the opposite - to reduce."
       },
       {
         question: "What is the correct collocation?",
@@ -2522,8 +2522,8 @@ const thematicVocab: IeltsLecture[] = [
         whyVi: "Dùng từ thay thế: 'innovation', 'digital advancement', 'technological breakthrough', 'cutting-edge tools'."
       }
     ],
-    goldenSecret: "The word 'unprecedented' is the Swiss Army knife of IELTS technology essays. 'Unprecedented access to information', 'unprecedented rate of change', 'unprecedented challenges' — it works for almost any technology argument!",
-    goldenSecretVi: "Từ 'unprecedented' là con dao Thụy Sĩ của bài luận công nghệ IELTS. 'Unprecedented access to information', 'unprecedented rate of change', 'unprecedented challenges' — nó hoạt động cho hầu hết mọi luận điểm công nghệ!",
+    goldenSecret: "The word 'unprecedented' is the Swiss Army knife of IELTS technology essays. 'Unprecedented access to information', 'unprecedented rate of change', 'unprecedented challenges' - it works for almost any technology argument!",
+    goldenSecretVi: "Từ 'unprecedented' là con dao Thụy Sĩ của bài luận công nghệ IELTS. 'Unprecedented access to information', 'unprecedented rate of change', 'unprecedented challenges' - nó hoạt động cho hầu hết mọi luận điểm công nghệ!",
     vocabHighlights: [
       { word: "advent", definition: "The arrival or emergence of something notable", definitionVi: "Sự xuất hiện của điều đáng chú ý", example: "The advent of the internet changed everything.", band: "7.5+" },
       { word: "streamline", definition: "To make more efficient", definitionVi: "Làm hiệu quả hơn", example: "AI has streamlined customer service operations.", band: "7.0+" },
@@ -2536,7 +2536,7 @@ const thematicVocab: IeltsLecture[] = [
         question: "What does 'obsolete' mean?",
         options: ["Very modern", "No longer in use", "Expensive", "Popular"],
         answer: 1,
-        explanation: "'Obsolete' means outdated or no longer in use — a key word for technology essays."
+        explanation: "'Obsolete' means outdated or no longer in use - a key word for technology essays."
       },
       {
         question: "Which is a good alternative for 'technology'?",
@@ -2636,13 +2636,13 @@ const thematicVocab: IeltsLecture[] = [
         question: "What is the correct collocation?",
         options: ["Make creativity", "Foster creativity", "Do creativity", "Give creativity"],
         answer: 1,
-        explanation: "'Foster creativity' is the correct collocation — meaning to encourage its development."
+        explanation: "'Foster creativity' is the correct collocation - meaning to encourage its development."
       },
       {
         question: "What does 'pedagogy' mean?",
         options: ["A type of school", "The method of teaching", "A student's grade", "A textbook"],
         answer: 1,
-        explanation: "'Pedagogy' refers to the method and practice of teaching — a Band 8.0 word."
+        explanation: "'Pedagogy' refers to the method and practice of teaching - a Band 8.0 word."
       },
       {
         question: "Which sentence uses 'rote memorization' correctly?",
@@ -2653,7 +2653,7 @@ const thematicVocab: IeltsLecture[] = [
           "Rote memorization is the best teaching method."
         ],
         answer: 2,
-        explanation: "Rote memorization = learning by repetition without understanding — it HINDERS (not helps) deeper comprehension."
+        explanation: "Rote memorization = learning by repetition without understanding - it HINDERS (not helps) deeper comprehension."
       }
     ],
     cheatSheetPoints: [
@@ -2673,8 +2673,8 @@ const thematicVocab: IeltsLecture[] = [
     icon: "⚖️",
     duration: "20 min",
     level: "intermediate",
-    description: "Essential Band 7.0+ vocabulary for Crime & Punishment — one of the trickiest IELTS topics to write about.",
-    descriptionVi: "Từ vựng Band 7.0+ thiết yếu cho Tội phạm & Hình phạt — một trong những chủ đề IELTS khó viết nhất.",
+    description: "Essential Band 7.0+ vocabulary for Crime & Punishment - one of the trickiest IELTS topics to write about.",
+    descriptionVi: "Từ vựng Band 7.0+ thiết yếu cho Tội phạm & Hình phạt - một trong những chủ đề IELTS khó viết nhất.",
     strategySteps: [
       {
         step: 1,
@@ -2724,8 +2724,8 @@ const thematicVocab: IeltsLecture[] = [
         whyVi: "'Criminals deserve to suffer' mang tính chủ quan. 'The justice system should balance deterrence with rehabilitation' mang tính học thuật."
       }
     ],
-    goldenSecret: "The word 'recidivism' (tái phạm) is the ultimate Band 8.0 weapon for ANY crime essay. 'High recidivism rates suggest that current punitive approaches are ineffective at preventing reoffending.' — This one sentence alone shows lexical range and critical thinking!",
-    goldenSecretVi: "Từ 'recidivism' (tái phạm) là vũ khí Band 8.0 tối thượng cho BẤT KỲ bài luận tội phạm nào. 'High recidivism rates suggest that current punitive approaches are ineffective at preventing reoffending.' — Riêng câu này đã thể hiện vốn từ và tư duy phản biện!",
+    goldenSecret: "The word 'recidivism' (tái phạm) is the ultimate Band 8.0 weapon for ANY crime essay. 'High recidivism rates suggest that current punitive approaches are ineffective at preventing reoffending.' - This one sentence alone shows lexical range and critical thinking!",
+    goldenSecretVi: "Từ 'recidivism' (tái phạm) là vũ khí Band 8.0 tối thượng cho BẤT KỲ bài luận tội phạm nào. 'High recidivism rates suggest that current punitive approaches are ineffective at preventing reoffending.' - Riêng câu này đã thể hiện vốn từ và tư duy phản biện!",
     vocabHighlights: [
       { word: "recidivism", definition: "The tendency to reoffend after punishment", definitionVi: "Xu hướng tái phạm sau hình phạt", example: "High recidivism rates prove prison alone doesn't work.", band: "8.0+" },
       { word: "rehabilitation", definition: "The process of reintegrating offenders into society", definitionVi: "Quá trình tái hòa nhập người phạm tội vào xã hội", example: "Rehabilitation reduces long-term crime rates.", band: "7.0+" },
@@ -2741,7 +2741,7 @@ const thematicVocab: IeltsLecture[] = [
         question: "What does 'recidivism' mean?",
         options: ["First-time offending", "The tendency to reoffend", "Rehabilitation", "Crime prevention"],
         answer: 1,
-        explanation: "'Recidivism' = the tendency to reoffend after serving a sentence — a powerful Band 8.0 word."
+        explanation: "'Recidivism' = the tendency to reoffend after serving a sentence - a powerful Band 8.0 word."
       },
       {
         question: "Which is the more academic way to express 'put bad people in jail'?",
@@ -2753,7 +2753,7 @@ const thematicVocab: IeltsLecture[] = [
         question: "Which collocation is CORRECT?",
         options: ["Do a crime", "Make a crime", "Commit an offence", "Take a crime"],
         answer: 2,
-        explanation: "'Commit an offence' is the correct academic collocation — never 'do' or 'make' a crime."
+        explanation: "'Commit an offence' is the correct academic collocation - never 'do' or 'make' a crime."
       }
     ],
     cheatSheetPoints: [
@@ -2774,15 +2774,15 @@ const thematicVocab: IeltsLecture[] = [
     icon: "🏥",
     duration: "22 min",
     level: "intermediate",
-    description: "Essential Band 7.0+ vocabulary for Health, Well-being, and Social Issues — two of the most frequent IELTS topics.",
-    descriptionVi: "Từ vựng Band 7.0+ thiết yếu cho Sức khỏe, Hạnh phúc và Vấn đề Xã hội — hai chủ đề IELTS phổ biến nhất.",
+    description: "Essential Band 7.0+ vocabulary for Health, Well-being, and Social Issues - two of the most frequent IELTS topics.",
+    descriptionVi: "Từ vựng Band 7.0+ thiết yếu cho Sức khỏe, Hạnh phúc và Vấn đề Xã hội - hai chủ đề IELTS phổ biến nhất.",
     strategySteps: [
       {
         step: 1,
         title: "Learn Collocations, Not Isolated Words",
         titleVi: "Học cụm từ, không phải từ đơn lẻ",
-        description: "Don't just learn 'health' — learn 'public health crisis', 'mental health awareness', 'preventive healthcare'. Collocations score higher than individual words.",
-        descriptionVi: "Đừng chỉ học 'health' — học 'public health crisis', 'mental health awareness', 'preventive healthcare'. Cụm từ cho điểm cao hơn từ đơn lẻ.",
+        description: "Don't just learn 'health' - learn 'public health crisis', 'mental health awareness', 'preventive healthcare'. Collocations score higher than individual words.",
+        descriptionVi: "Đừng chỉ học 'health' - học 'public health crisis', 'mental health awareness', 'preventive healthcare'. Cụm từ cho điểm cao hơn từ đơn lẻ.",
         example: "'The government should invest in preventive healthcare rather than reactive treatment.'"
       },
       {
@@ -2812,14 +2812,14 @@ const thematicVocab: IeltsLecture[] = [
     ],
     practicalExamples: [
       {
-        context: "Writing Task 2 — Health Topic",
-        contextVi: "Writing Task 2 — Chủ đề Sức khỏe",
-        example: "Prompt: 'Some people think that governments should ban junk food. To what extent do you agree?'\n\nSample: 'The proliferation of fast food outlets has contributed to a public health crisis, with obesity rates reaching epidemic proportions in many developed nations. While an outright ban may seem draconian, implementing stringent regulations — such as mandatory nutritional labelling and restricting advertising to minors — could be a more pragmatic approach to tackling this issue.'",
-        explanation: "Uses 'proliferation', 'epidemic proportions', 'draconian', 'stringent regulations' — all Band 7.5+ vocabulary."
+        context: "Writing Task 2 - Health Topic",
+        contextVi: "Writing Task 2 - Chủ đề Sức khỏe",
+        example: "Prompt: 'Some people think that governments should ban junk food. To what extent do you agree?'\n\nSample: 'The proliferation of fast food outlets has contributed to a public health crisis, with obesity rates reaching epidemic proportions in many developed nations. While an outright ban may seem draconian, implementing stringent regulations - such as mandatory nutritional labelling and restricting advertising to minors - could be a more pragmatic approach to tackling this issue.'",
+        explanation: "Uses 'proliferation', 'epidemic proportions', 'draconian', 'stringent regulations' - all Band 7.5+ vocabulary."
       },
       {
-        context: "Speaking Part 3 — Society",
-        contextVi: "Speaking Phần 3 — Xã hội",
+        context: "Speaking Part 3 - Society",
+        contextVi: "Speaking Phần 3 - Xã hội",
         example: "Q: 'What are the biggest challenges facing society today?'\n\n'I think one of the most pressing issues is the widening wealth gap between the affluent and the underprivileged. This socioeconomic disparity manifests in unequal access to healthcare, education, and housing. If left unaddressed, it could undermine social cohesion and lead to civil unrest.'",
         explanation: "Demonstrates abstract thinking with precise vocabulary: 'wealth gap', 'underprivileged', 'socioeconomic disparity', 'social cohesion'."
       }
@@ -2834,7 +2834,7 @@ const thematicVocab: IeltsLecture[] = [
       {
         mistake: "Confusing 'health' vocabulary with 'medicine' vocabulary",
         mistakeVi: "Nhầm lẫn từ vựng 'sức khỏe' với 'y học'",
-        why: "IELTS tests public health and lifestyle vocabulary, not medical terminology. Focus on 'well-being', 'lifestyle diseases', 'preventive care' — not 'stethoscope' or 'MRI'.",
+        why: "IELTS tests public health and lifestyle vocabulary, not medical terminology. Focus on 'well-being', 'lifestyle diseases', 'preventive care' - not 'stethoscope' or 'MRI'.",
         whyVi: "IELTS kiểm tra từ vựng sức khỏe cộng đồng và lối sống, không phải thuật ngữ y khoa. Tập trung 'well-being', 'lifestyle diseases', 'preventive care'."
       },
       {
@@ -2844,8 +2844,8 @@ const thematicVocab: IeltsLecture[] = [
         whyVi: "'All poor people are unhealthy' quá rộng. Dùng từ giảm nhẹ: 'tend to', 'are more likely to', 'disproportionately affects'."
       }
     ],
-    goldenSecret: "The IELTS loves the word 'well-being' — it covers physical, mental, and social health in one elegant term. Use it as your anchor word and build collocations around it: 'psychological well-being', 'overall well-being', 'a sense of well-being'. It's Band 7.0+ every time!",
-    goldenSecretVi: "IELTS rất thích từ 'well-being' — nó bao gồm sức khỏe thể chất, tinh thần và xã hội trong một từ thanh lịch. Dùng nó làm từ neo và xây cụm từ: 'psychological well-being', 'overall well-being', 'a sense of well-being'. Luôn đạt Band 7.0+!",
+    goldenSecret: "The IELTS loves the word 'well-being' - it covers physical, mental, and social health in one elegant term. Use it as your anchor word and build collocations around it: 'psychological well-being', 'overall well-being', 'a sense of well-being'. It's Band 7.0+ every time!",
+    goldenSecretVi: "IELTS rất thích từ 'well-being' - nó bao gồm sức khỏe thể chất, tinh thần và xã hội trong một từ thanh lịch. Dùng nó làm từ neo và xây cụm từ: 'psychological well-being', 'overall well-being', 'a sense of well-being'. Luôn đạt Band 7.0+!",
     vocabHighlights: [
       { word: "sedentary lifestyle", definition: "A way of living with little physical activity", definitionVi: "Lối sống ít vận động", example: "A sedentary lifestyle increases the risk of cardiovascular disease.", band: "7.0+" },
       { word: "epidemic proportions", definition: "Affecting a very large number of people", definitionVi: "Đạt mức độ dịch bệnh, lan rộng", example: "Diabetes has reached epidemic proportions in developed countries.", band: "7.5+" },
@@ -2877,7 +2877,7 @@ const thematicVocab: IeltsLecture[] = [
         question: "What is Teacher Hai's 'anchor word' for Health topics?",
         options: ["'healthcare'", "'well-being'", "'disease'", "'fitness'"],
         answer: 1,
-        explanation: "'Well-being' covers physical, mental, and social health — versatile and always Band 7.0+."
+        explanation: "'Well-being' covers physical, mental, and social health - versatile and always Band 7.0+."
       }
     ],
     cheatSheetPoints: [
@@ -2993,8 +2993,8 @@ const appliedGrammar: IeltsLecture[] = [
     icon: "🔄",
     duration: "22 min",
     level: "advanced",
-    description: "Master inversion — the secret grammar weapon that instantly signals Band 8.0+ to the examiner.",
-    descriptionVi: "Thành thạo đảo ngữ — vũ khí ngữ pháp bí mật báo hiệu Band 8.0+ ngay lập tức với giám khảo.",
+    description: "Master inversion - the secret grammar weapon that instantly signals Band 8.0+ to the examiner.",
+    descriptionVi: "Thành thạo đảo ngữ - vũ khí ngữ pháp bí mật báo hiệu Band 8.0+ ngay lập tức với giám khảo.",
     strategySteps: [
       {
         step: 1,
@@ -3040,8 +3040,8 @@ const appliedGrammar: IeltsLecture[] = [
         whyVi: "'Never has he went' là SAI. 'Never has he gone' là ĐÚNG. Động từ chính ở dạng phân từ quá khứ."
       }
     ],
-    goldenSecret: "The easiest inversion to use in ANY essay is 'Not only... but also...'. It works for EVERY topic: 'Not only does social media connect people, but it also serves as a powerful educational tool.' Use it once per essay — guaranteed Band 8.0 grammar boost!",
-    goldenSecretVi: "Đảo ngữ dễ nhất dùng trong BẤT KỲ bài luận nào là 'Not only... but also...'. Nó phù hợp MỌI chủ đề: 'Not only does social media connect people, but it also serves as a powerful educational tool.' Dùng 1 lần mỗi bài — đảm bảo tăng điểm ngữ pháp Band 8.0!",
+    goldenSecret: "The easiest inversion to use in ANY essay is 'Not only... but also...'. It works for EVERY topic: 'Not only does social media connect people, but it also serves as a powerful educational tool.' Use it once per essay - guaranteed Band 8.0 grammar boost!",
+    goldenSecretVi: "Đảo ngữ dễ nhất dùng trong BẤT KỲ bài luận nào là 'Not only... but also...'. Nó phù hợp MỌI chủ đề: 'Not only does social media connect people, but it also serves as a powerful educational tool.' Dùng 1 lần mỗi bài - đảm bảo tăng điểm ngữ pháp Band 8.0!",
     vocabHighlights: [
       { word: "seldom", definition: "Rarely; not often", definitionVi: "Hiếm khi; không thường xuyên", example: "Seldom do we appreciate what we have.", band: "7.0+" },
       { word: "profound", definition: "Very deep or intense", definitionVi: "Rất sâu sắc hoặc mạnh mẽ", example: "Technology has had a profound impact on education.", band: "7.5+" },
@@ -3063,7 +3063,7 @@ const appliedGrammar: IeltsLecture[] = [
         question: "Complete: 'Not only ___ technology improve efficiency, but it also...'",
         options: ["do", "does", "did", "is"],
         answer: 1,
-        explanation: "'Not only does technology improve...' — 'does' is the correct auxiliary for third-person singular."
+        explanation: "'Not only does technology improve...' - 'does' is the correct auxiliary for third-person singular."
       }
     ],
     cheatSheetPoints: [
@@ -3072,7 +3072,7 @@ const appliedGrammar: IeltsLecture[] = [
       "Rarely/Seldom + has/have + subject + past participle",
       "Under no circumstances should...",
       "Only by + gerund + can + subject + verb",
-      "Use 1-2 per essay — no more!"
+      "Use 1-2 per essay - no more!"
     ]
   },
   {
@@ -3124,8 +3124,8 @@ const appliedGrammar: IeltsLecture[] = [
         whyVi: "Đây là mức Band 5-6. Điều kiện hỗn hợp và đảo thể hiện ngữ pháp Band 7.5+."
       }
     ],
-    goldenSecret: "In any essay about problems and solutions, use this template: 'Had [past action been taken], [present result would be different]. Unless [future action], [negative consequence].' This naturally uses BOTH mixed conditional AND 'unless' in two sentences — instant grammar range boost!",
-    goldenSecretVi: "Trong bất kỳ bài luận vấn đề - giải pháp nào, dùng mẫu: 'Had [hành động quá khứ], [kết quả hiện tại sẽ khác]. Unless [hành động tương lai], [hậu quả tiêu cực].' Điều này tự nhiên dùng CẢ điều kiện hỗn hợp VÀ 'unless' trong hai câu — tăng ngữ pháp ngay!",
+    goldenSecret: "In any essay about problems and solutions, use this template: 'Had [past action been taken], [present result would be different]. Unless [future action], [negative consequence].' This naturally uses BOTH mixed conditional AND 'unless' in two sentences - instant grammar range boost!",
+    goldenSecretVi: "Trong bất kỳ bài luận vấn đề - giải pháp nào, dùng mẫu: 'Had [hành động quá khứ], [kết quả hiện tại sẽ khác]. Unless [hành động tương lai], [hậu quả tiêu cực].' Điều này tự nhiên dùng CẢ điều kiện hỗn hợp VÀ 'unless' trong hai câu - tăng ngữ pháp ngay!",
     vocabHighlights: [
       { word: "deteriorate", definition: "To become progressively worse", definitionVi: "Trở nên tồi tệ hơn dần dần", example: "Air quality continues to deteriorate in urban areas.", band: "7.5+" },
       { word: "magnitude", definition: "The great size or importance of something", definitionVi: "Quy mô hoặc tầm quan trọng lớn", example: "The magnitude of the problem cannot be overstated.", band: "8.0+" },
@@ -3172,8 +3172,8 @@ const appliedGrammar: IeltsLecture[] = [
     icon: "🔗",
     duration: "20 min",
     level: "intermediate",
-    description: "Master defining and non-defining relative clauses — the most reliable way to boost your Grammatical Range score.",
-    descriptionVi: "Thành thạo mệnh đề quan hệ xác định và không xác định — cách đáng tin cậy nhất để tăng điểm Grammatical Range.",
+    description: "Master defining and non-defining relative clauses - the most reliable way to boost your Grammatical Range score.",
+    descriptionVi: "Thành thạo mệnh đề quan hệ xác định và không xác định - cách đáng tin cậy nhất để tăng điểm Grammatical Range.",
     strategySteps: [
       {
         step: 1,
@@ -3181,7 +3181,7 @@ const appliedGrammar: IeltsLecture[] = [
         titleVi: "Xác định vs Không xác định: Biết sự khác biệt",
         description: "DEFINING: identifies which one (no commas). 'Students who study hard get better grades.' NON-DEFINING: adds extra info (with commas). 'My teacher, who is from England, speaks three languages.'",
         descriptionVi: "XÁC ĐỊNH: xác định cái nào (không có dấu phẩy). 'Students who study hard get better grades.' KHÔNG XÁC ĐỊNH: thêm thông tin (có dấu phẩy). 'My teacher, who is from England, speaks three languages.'",
-        example: "Defining: 'The book that I read last week was fascinating.' (Which book? The one I read.)\nNon-defining: 'The book, which was published in 2020, has become a bestseller.' (Extra info — remove it and the sentence still makes sense.)"
+        example: "Defining: 'The book that I read last week was fascinating.' (Which book? The one I read.)\nNon-defining: 'The book, which was published in 2020, has become a bestseller.' (Extra info - remove it and the sentence still makes sense.)"
       },
       {
         step: 2,
@@ -3194,8 +3194,8 @@ const appliedGrammar: IeltsLecture[] = [
         step: 3,
         title: "Use Non-Defining Clauses to Add Academic Detail",
         titleVi: "Dùng mệnh đề không xác định để thêm chi tiết học thuật",
-        description: "Non-defining relative clauses let you pack MORE information into a single complex sentence — this is exactly what examiners want to see for Band 7.0+.",
-        descriptionVi: "Mệnh đề quan hệ không xác định cho phép bạn nhồi NHIỀU thông tin hơn vào một câu phức — đây chính xác là điều giám khảo muốn thấy cho Band 7.0+.",
+        description: "Non-defining relative clauses let you pack MORE information into a single complex sentence - this is exactly what examiners want to see for Band 7.0+.",
+        descriptionVi: "Mệnh đề quan hệ không xác định cho phép bạn nhồi NHIỀU thông tin hơn vào một câu phức - đây chính xác là điều giám khảo muốn thấy cho Band 7.0+.",
         example: "'Social media, which has become an integral part of modern life, presents both opportunities and challenges for young people.'"
       },
       {
@@ -3222,14 +3222,14 @@ const appliedGrammar: IeltsLecture[] = [
       {
         mistake: "Using 'that' in non-defining clauses",
         mistakeVi: "Dùng 'that' trong mệnh đề không xác định",
-        why: "'My teacher, that is from England...' is WRONG. Use 'who' or 'which' in non-defining clauses — NEVER 'that'.",
-        whyVi: "'My teacher, that is from England...' là SAI. Dùng 'who' hoặc 'which' trong mệnh đề không xác định — KHÔNG BAO GIỜ dùng 'that'."
+        why: "'My teacher, that is from England...' is WRONG. Use 'who' or 'which' in non-defining clauses - NEVER 'that'.",
+        whyVi: "'My teacher, that is from England...' là SAI. Dùng 'who' hoặc 'which' trong mệnh đề không xác định - KHÔNG BAO GIỜ dùng 'that'."
       },
       {
         mistake: "Forgetting commas in non-defining clauses",
         mistakeVi: "Quên dấu phẩy trong mệnh đề không xác định",
-        why: "Without commas, a non-defining clause becomes a defining one — completely changing the meaning!",
-        whyVi: "Không có dấu phẩy, mệnh đề không xác định trở thành xác định — hoàn toàn thay đổi nghĩa!"
+        why: "Without commas, a non-defining clause becomes a defining one - completely changing the meaning!",
+        whyVi: "Không có dấu phẩy, mệnh đề không xác định trở thành xác định - hoàn toàn thay đổi nghĩa!"
       },
       {
         mistake: "Only using 'who' and 'which'",
@@ -3238,8 +3238,8 @@ const appliedGrammar: IeltsLecture[] = [
         whyVi: "Thể hiện đa dạng! Dùng cả 'where', 'whose', 'when', và mệnh đề rút gọn. Sự đa dạng gây ấn tượng giám khảo."
       }
     ],
-    goldenSecret: "The easiest way to use a non-defining relative clause in ANY essay: take your topic and add a 'which' clause after it. 'Social media → Social media, which has transformed modern communication, ...' 'Education → Education, which is widely regarded as the foundation of social progress, ...' — instant grammatical complexity!",
-    goldenSecretVi: "Cách dễ nhất dùng mệnh đề quan hệ không xác định trong BẤT KỲ bài luận nào: lấy chủ đề và thêm mệnh đề 'which' sau nó. 'Social media → Social media, which has transformed modern communication, ...' 'Education → Education, which is widely regarded as the foundation of social progress, ...' — phức tạp ngữ pháp ngay lập tức!",
+    goldenSecret: "The easiest way to use a non-defining relative clause in ANY essay: take your topic and add a 'which' clause after it. 'Social media → Social media, which has transformed modern communication, ...' 'Education → Education, which is widely regarded as the foundation of social progress, ...' - instant grammatical complexity!",
+    goldenSecretVi: "Cách dễ nhất dùng mệnh đề quan hệ không xác định trong BẤT KỲ bài luận nào: lấy chủ đề và thêm mệnh đề 'which' sau nó. 'Social media → Social media, which has transformed modern communication, ...' 'Education → Education, which is widely regarded as the foundation of social progress, ...' - phức tạp ngữ pháp ngay lập tức!",
     vocabHighlights: [
       { word: "integral", definition: "Essential; necessary for completeness", definitionVi: "Thiết yếu; cần thiết cho sự hoàn chỉnh", example: "Technology has become an integral part of education.", band: "7.5+" },
       { word: "untapped", definition: "Not yet used or exploited", definitionVi: "Chưa được khai thác", example: "Many students have untapped potential.", band: "7.5+" },
@@ -3283,7 +3283,7 @@ const appliedGrammar: IeltsLecture[] = [
     ],
     cheatSheetPoints: [
       "Defining: no commas, identifies WHICH one (who/which/that)",
-      "Non-defining: WITH commas, adds extra info (who/which — NEVER 'that')",
+      "Non-defining: WITH commas, adds extra info (who/which - NEVER 'that')",
       "Reduced: remove who/which + be (Band 7.5+ technique)",
       "WHO = people | WHICH = things | WHERE = places | WHOSE = possession",
       "Trick: add a 'which' clause after your essay topic for instant complexity",
@@ -3298,8 +3298,8 @@ const appliedGrammar: IeltsLecture[] = [
     icon: "🔀",
     duration: "18 min",
     level: "intermediate",
-    description: "Learn when and how to use passive voice effectively — essential for both Writing Task 1 and Task 2.",
-    descriptionVi: "Học khi nào và cách dùng câu bị động hiệu quả — thiết yếu cho cả Writing Task 1 và Task 2.",
+    description: "Learn when and how to use passive voice effectively - essential for both Writing Task 1 and Task 2.",
+    descriptionVi: "Học khi nào và cách dùng câu bị động hiệu quả - thiết yếu cho cả Writing Task 1 và Task 2.",
     strategySteps: [
       {
         step: 1,
@@ -3307,7 +3307,7 @@ const appliedGrammar: IeltsLecture[] = [
         titleVi: "Hiểu khi nào bị động tốt hơn",
         description: "Use passive when: (1) the action is more important than who does it, (2) the doer is unknown, (3) you want to sound more formal/academic.",
         descriptionVi: "Dùng bị động khi: (1) hành động quan trọng hơn người thực hiện, (2) không biết ai làm, (3) muốn nghe trang trọng/học thuật hơn.",
-        example: "Active: 'The government built a new hospital.' → Passive: 'A new hospital was built (by the government).' — Focus shifts to the hospital."
+        example: "Active: 'The government built a new hospital.' → Passive: 'A new hospital was built (by the government).' - Focus shifts to the hospital."
       },
       {
         step: 2,
@@ -3351,8 +3351,8 @@ const appliedGrammar: IeltsLecture[] = [
         whyVi: "'The ball was kicked by the boy' yếu hơn 'The boy kicked the ball' khi người thực hiện quan trọng."
       }
     ],
-    goldenSecret: "Memorize these 5 academic passive starters and you can begin ANY body paragraph: 'It is widely acknowledged that...', 'It has been demonstrated that...', 'It is often contended that...', 'It should be noted that...', 'It can be observed that...' — examiners LOVE this structure!",
-    goldenSecretVi: "Ghi nhớ 5 mẫu mở đầu bị động học thuật và bạn có thể bắt đầu BẤT KỲ đoạn thân bài nào: 'It is widely acknowledged that...', 'It has been demonstrated that...', 'It is often contended that...', 'It should be noted that...', 'It can be observed that...' — giám khảo RẤT THÍCH cấu trúc này!",
+    goldenSecret: "Memorize these 5 academic passive starters and you can begin ANY body paragraph: 'It is widely acknowledged that...', 'It has been demonstrated that...', 'It is often contended that...', 'It should be noted that...', 'It can be observed that...' - examiners LOVE this structure!",
+    goldenSecretVi: "Ghi nhớ 5 mẫu mở đầu bị động học thuật và bạn có thể bắt đầu BẤT KỲ đoạn thân bài nào: 'It is widely acknowledged that...', 'It has been demonstrated that...', 'It is often contended that...', 'It should be noted that...', 'It can be observed that...' - giám khảo RẤT THÍCH cấu trúc này!",
     vocabHighlights: [
       { word: "acknowledged", definition: "Recognized or accepted as true", definitionVi: "Được thừa nhận hoặc chấp nhận là đúng", example: "It is widely acknowledged that exercise improves health.", band: "7.0+" },
       { word: "demonstrated", definition: "Shown or proven clearly", definitionVi: "Được chỉ ra hoặc chứng minh rõ ràng", example: "Research has demonstrated the benefits of early education.", band: "7.0+" },
@@ -3393,7 +3393,7 @@ const appliedGrammar: IeltsLecture[] = [
       "Task 1: 30-40% passive | Task 2: 20-30% passive",
       "'It is + PP + that...' = gold for academic writing",
       "acknowledged / believed / argued / demonstrated / noted",
-      "Don't overuse — mix with active for natural flow",
+      "Don't overuse - mix with active for natural flow",
       "All tenses work: is done, was done, has been done, will be done"
     ]
   },
@@ -3414,8 +3414,8 @@ const appliedGrammar: IeltsLecture[] = [
         step: 1,
         title: "Know ALL Conditional Types",
         titleVi: "Nắm TẤT CẢ các loại điều kiện",
-        description: "Zero (general truth), First (real future), Second (unreal present), Third (unreal past). Most students stop at First Conditional — Band 7.0+ requires Second and Third.",
-        descriptionVi: "Zero (sự thật chung), First (tương lai thực), Second (hiện tại không thực), Third (quá khứ không thực). Hầu hết học sinh dừng ở First — Band 7.0+ cần Second và Third.",
+        description: "Zero (general truth), First (real future), Second (unreal present), Third (unreal past). Most students stop at First Conditional - Band 7.0+ requires Second and Third.",
+        descriptionVi: "Zero (sự thật chung), First (tương lai thực), Second (hiện tại không thực), Third (quá khứ không thực). Hầu hết học sinh dừng ở First - Band 7.0+ cần Second và Third.",
         example: "Zero: 'If you heat water to 100°C, it boils.'\nFirst: 'If the government invests more, education will improve.'\nSecond: 'If I were the president, I would prioritize healthcare.'\nThird: 'If they had acted sooner, the crisis could have been averted.'"
       },
       {
@@ -3445,14 +3445,14 @@ const appliedGrammar: IeltsLecture[] = [
     ],
     practicalExamples: [
       {
-        context: "Writing Task 2 — Using Mixed Conditional",
-        contextVi: "Writing Task 2 — Dùng điều kiện hỗn hợp",
-        example: "Topic: Environmental problems\n\n'Had industrialized nations prioritized sustainable development decades ago, we would not be witnessing the devastating effects of climate change today. This mixed conditional highlights how past inaction has led to present consequences — a powerful argument structure.'",
-        explanation: "Mixed conditional (Third → Second) connects past decisions to current problems — very impressive for examiners."
+        context: "Writing Task 2 - Using Mixed Conditional",
+        contextVi: "Writing Task 2 - Dùng điều kiện hỗn hợp",
+        example: "Topic: Environmental problems\n\n'Had industrialized nations prioritized sustainable development decades ago, we would not be witnessing the devastating effects of climate change today. This mixed conditional highlights how past inaction has led to present consequences - a powerful argument structure.'",
+        explanation: "Mixed conditional (Third → Second) connects past decisions to current problems - very impressive for examiners."
       },
       {
-        context: "Speaking Part 3 — Hypothetical",
-        contextVi: "Speaking Phần 3 — Giả định",
+        context: "Speaking Part 3 - Hypothetical",
+        contextVi: "Speaking Phần 3 - Giả định",
         example: "Q: 'What would happen if all education became online?'\n\n'Were all education to shift online, I believe social skills among young people would deteriorate significantly. Students would miss out on the interpersonal interactions that are crucial for personal development. Having said that, provided that schools implement hybrid models, the negative effects could be mitigated.'",
         explanation: "Uses inverted conditional ('Were all education to shift...') + alternative conditional ('provided that') in one natural answer."
       }
@@ -3473,8 +3473,8 @@ const appliedGrammar: IeltsLecture[] = [
       {
         mistake: "Overcomplicating with too many conditionals",
         mistakeVi: "Phức tạp hóa quá mức với quá nhiều câu điều kiện",
-        why: "Use 2-3 conditionals per essay strategically. Quality over quantity — one well-placed mixed conditional is worth more than five basic ones.",
-        whyVi: "Dùng 2-3 câu điều kiện mỗi bài một cách chiến lược. Chất lượng hơn số lượng — một câu hỗn hợp đúng chỗ giá trị hơn năm câu cơ bản."
+        why: "Use 2-3 conditionals per essay strategically. Quality over quantity - one well-placed mixed conditional is worth more than five basic ones.",
+        whyVi: "Dùng 2-3 câu điều kiện mỗi bài một cách chiến lược. Chất lượng hơn số lượng - một câu hỗn hợp đúng chỗ giá trị hơn năm câu cơ bản."
       }
     ],
     goldenSecret: "The INVERTED THIRD CONDITIONAL is the single most impressive grammar structure in IELTS Writing: 'Had the government invested in education earlier, literacy rates would be significantly higher today.' It combines inversion + mixed conditional + formal register. Use it ONCE in your conclusion for maximum impact!",
@@ -3497,7 +3497,7 @@ const appliedGrammar: IeltsLecture[] = [
         question: "How do you form an INVERTED conditional?",
         options: ["Add 'not' to the sentence", "Remove 'if' and invert subject-verb order", "Use 'would' in both clauses", "Change to passive voice"],
         answer: 1,
-        explanation: "'If they had known' → 'Had they known' — remove 'if', put auxiliary before subject."
+        explanation: "'If they had known' → 'Had they known' - remove 'if', put auxiliary before subject."
       },
       {
         question: "Which is a correct alternative to 'if'?",
@@ -3513,12 +3513,12 @@ const appliedGrammar: IeltsLecture[] = [
       }
     ],
     cheatSheetPoints: [
-      "Band 7.0+ needs Second & Third Conditionals — not just First",
+      "Band 7.0+ needs Second & Third Conditionals - not just First",
       "Mixed: 'Had they acted sooner, we would not be suffering today'",
       "Inverted: Remove 'if' + invert → 'Had...', 'Were...', 'Should...'",
       "Alternatives to 'if': provided that, on condition that, assuming that, unless",
       "NEVER put 'would' in the 'if' clause",
-      "Use 2-3 conditionals per essay — quality over quantity"
+      "Use 2-3 conditionals per essay - quality over quantity"
     ]
   },
   // --- Grammar: Articles (a/an/the) for Band 7.0+ ---
@@ -3568,14 +3568,14 @@ const appliedGrammar: IeltsLecture[] = [
     ],
     practicalExamples: [
       {
-        context: "Common Vietnamese Speaker Errors — Fixed",
-        contextVi: "Lỗi phổ biến của người Việt — Đã sửa",
+        context: "Common Vietnamese Speaker Errors - Fixed",
+        contextVi: "Lỗi phổ biến của người Việt - Đã sửa",
         example: "❌ 'The life is short.' → ✅ 'Life is short.' (general concept)\n❌ 'I like the music.' → ✅ 'I like music.' (general)\n❌ 'She goes to the school every day.' → ✅ 'She goes to school every day.' (institution as concept)\n❌ 'He is teacher.' → ✅ 'He is a teacher.' (countable singular needs article)",
         explanation: "Pattern: General/abstract nouns = no article. Countable singular nouns ALWAYS need an article (a/an/the)."
       },
       {
-        context: "Task 2 Opening Sentences — Article Mastery",
-        contextVi: "Câu mở đầu Task 2 — Sử dụng mạo từ chuẩn",
+        context: "Task 2 Opening Sentences - Article Mastery",
+        contextVi: "Câu mở đầu Task 2 - Sử dụng mạo từ chuẩn",
         example: "✅ 'In the contemporary era, the issue of environmental degradation has become a matter of global concern.'\n✅ 'A growing body of evidence suggests that the benefits of exercise extend beyond physical health.'\n✅ 'The government has a responsibility to ensure that education remains accessible to all citizens.'",
         explanation: "Notice how 'the' is used for specific/unique nouns (the contemporary era, the issue, the government) and 'a' for first-mention indefinites (a matter, a growing body, a responsibility)."
       },
@@ -3618,11 +3618,11 @@ const appliedGrammar: IeltsLecture[] = [
         question: "Which country name requires 'the'?",
         options: ["Vietnam", "Japan", "United Kingdom", "France"],
         answer: 2,
-        explanation: "'The United Kingdom' — because it contains a political word ('United'). Vietnam, Japan, and France are simple proper nouns = no 'the'."
+        explanation: "'The United Kingdom' - because it contains a political word ('United'). Vietnam, Japan, and France are simple proper nouns = no 'the'."
       },
       {
         question: "What's wrong with: 'He is teacher at university'?",
-        options: ["Missing 'the' before 'teacher'", "Missing 'a' before 'teacher' and 'a' before 'university'", "Should be 'the university'", "Nothing — it's correct"],
+        options: ["Missing 'the' before 'teacher'", "Missing 'a' before 'teacher' and 'a' before 'university'", "Should be 'the university'", "Nothing - it's correct"],
         answer: 1,
         explanation: "'Teacher' is a countable singular noun = needs 'a'. 'University' as a general concept = 'a university'. Correct: 'He is a teacher at a university.'"
       }

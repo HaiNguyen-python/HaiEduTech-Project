@@ -1,4 +1,4 @@
-// Mountain Climber progress visualization — uses illustrated background image
+// Mountain Climber progress visualization - uses illustrated background image
 import { useMemo, useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flag, Mountain } from "lucide-react";
@@ -28,7 +28,7 @@ const MILESTONES = [
   { words: 800, label: "Summit", band: "Goal Band 8.0", x: 48, y: 14 },
 ];
 
-// Climber boy speech bubbles — shown randomly when a new word is mastered
+// Climber boy speech bubbles - shown randomly when a new word is mastered
 const CLIMBER_QUOTES = [
   "Let's keep climbing! 💪",
   "One more word, one more step! 🏔️",
@@ -114,7 +114,7 @@ const MountainClimber = ({ mastered, total, flyingStars, onStarLanded, container
       {/* Subtle gradient overlay for readability */}
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 100%)" }} />
 
-      {/* Climber — follows the winding path */}
+      {/* Climber - follows the winding path */}
       <motion.div
         className="absolute z-10"
         animate={{
@@ -208,7 +208,7 @@ const MountainClimber = ({ mastered, total, flyingStars, onStarLanded, container
         animate={{ opacity: 1, x: 0 }}
       >
         <Mountain size={14} className="inline mr-1.5 text-primary" />
-        {currentMilestone.label} — {currentMilestone.band}
+        {currentMilestone.label} - {currentMilestone.band}
       </motion.div>
 
       {/* Flying stars animation */}

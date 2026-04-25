@@ -33,8 +33,8 @@ function getTask1Guide(prompt: WritingPrompt): WritingGuideStep[] {
     bar: ["Group bars by category or time period", "Compare specific values with numbers", "Use comparative language (higher than, twice as much as)"],
     line: ["Describe the first half of the period with key data points", "Describe the second half, noting peaks, troughs, and plateaus", "Mention exact figures at start, end, and turning points"],
     pie: ["Describe the largest segments first with percentages", "Group smaller segments together for conciseness", "Compare proportions using fractions or multiples"],
-    table: ["Organize by rows — describe the top performers first", "Organize by columns — compare across categories", "Highlight outliers and similarities"],
-    map: ["Describe the original layout with key landmarks", "Describe the changes — what was added, removed, or relocated", "Note areas of significant transformation"],
+    table: ["Organize by rows - describe the top performers first", "Organize by columns - compare across categories", "Highlight outliers and similarities"],
+    map: ["Describe the original layout with key landmarks", "Describe the changes - what was added, removed, or relocated", "Note areas of significant transformation"],
     process: ["Describe the first half of the stages in order", "Describe the remaining stages to completion", "Mention inputs, outputs, and any recycling loops"],
   };
 
@@ -100,7 +100,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 1 — Main Argument",
+        title: "Body 1 - Main Argument",
         objective: "Present your strongest argument with a clear example or evidence.",
         logicalFlow: ["Topic sentence (your first reason)", "Explain why", "Give a specific example", "Link back to thesis"],
         sentenceStarters: [
@@ -110,7 +110,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 2 — Counter-argument & Rebuttal",
+        title: "Body 2 - Counter-argument & Rebuttal",
         objective: "Acknowledge the opposing view and explain why your position is stronger.",
         logicalFlow: ["Concede the counter-argument", "Explain its limitations", "Reinforce your position with evidence"],
         sentenceStarters: [
@@ -142,7 +142,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 1 — View A",
+        title: "Body 1 - View A",
         objective: "Present the first viewpoint objectively with supporting evidence.",
         logicalFlow: ["State View A clearly", "Explain the reasoning behind it", "Provide an example or evidence"],
         sentenceStarters: [
@@ -152,7 +152,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 2 — View B",
+        title: "Body 2 - View B",
         objective: "Present the second viewpoint with equal depth and give your opinion.",
         logicalFlow: ["State View B with a transition", "Explain its reasoning", "Add your own evaluation"],
         sentenceStarters: [
@@ -184,7 +184,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 1 — Advantages",
+        title: "Body 1 - Advantages",
         objective: "Present 2-3 clear benefits with explanations and examples.",
         logicalFlow: ["State the main advantage", "Explain with reasoning", "Add a supporting example or statistic"],
         sentenceStarters: [
@@ -194,7 +194,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 2 — Disadvantages",
+        title: "Body 2 - Disadvantages",
         objective: "Present 2-3 clear drawbacks with explanations and examples.",
         logicalFlow: ["Transition to drawbacks", "State the main disadvantage", "Provide evidence or a real-world example"],
         sentenceStarters: [
@@ -226,7 +226,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 1 — Problems / Causes",
+        title: "Body 1 - Problems / Causes",
         objective: "Analyze 2-3 root causes of the problem with clear explanations.",
         logicalFlow: ["State the primary cause", "Explain the mechanism", "Describe secondary causes and their impact"],
         sentenceStarters: [
@@ -236,7 +236,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 2 — Solutions",
+        title: "Body 2 - Solutions",
         objective: "Propose 2-3 realistic solutions, explaining how each addresses the causes.",
         logicalFlow: ["Propose main solution", "Explain how it works", "Add supplementary measures"],
         sentenceStarters: [
@@ -268,7 +268,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 1 — Answer to Question 1",
+        title: "Body 1 - Answer to Question 1",
         objective: "Provide a direct, well-supported answer to the first question.",
         logicalFlow: ["State your answer directly", "Explain your reasoning", "Support with an example"],
         sentenceStarters: [
@@ -278,7 +278,7 @@ function getTask2Guide(prompt: WritingPrompt): WritingGuideStep[] {
         ],
       },
       {
-        title: "Body 2 — Answer to Question 2",
+        title: "Body 2 - Answer to Question 2",
         objective: "Provide a direct, well-supported answer to the second question.",
         logicalFlow: ["Transition to the second question", "State your answer", "Provide evidence or examples"],
         sentenceStarters: [

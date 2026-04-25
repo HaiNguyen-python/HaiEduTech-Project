@@ -55,8 +55,8 @@ const VietnameseDictation = () => {
             {dictationLevels.map(level => (
               <TabsContent key={level.id} value={level.id}>
                 <DictationExercise
-                  instruction={`Nghe và viết lại — ${level.label}`}
-                  instructionEn={`Listen and write — ${level.labelEn}`}
+                  instruction={`Nghe và viết lại - ${level.label}`}
+                  instructionEn={`Listen and write - ${level.labelEn}`}
                   sentences={level.sentences}
                 />
               </TabsContent>

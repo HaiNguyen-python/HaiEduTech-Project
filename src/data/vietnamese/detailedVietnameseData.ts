@@ -82,8 +82,8 @@ export const detailedVFFModules: DetailedModule[] = [
     lessons: [
       {
         id: "vff-pron-1",
-        title: "Anh, Chị, Em — Nền tảng giao tiếp",
-        titleEn: "Anh, Chị, Em — Foundation of Communication",
+        title: "Anh, Chị, Em - Nền tảng giao tiếp",
+        titleEn: "Anh, Chị, Em - Foundation of Communication",
         icon: "🗣️",
         scenario: "Bạn gặp đồng nghiệp mới tại công ty.",
         scenarioEn: "You meet a new colleague at the office.",
@@ -155,8 +155,8 @@ export const detailedVFFModules: DetailedModule[] = [
       },
       {
         id: "vff-pron-2",
-        title: "Cô, Chú, Bác — Đại từ gia đình mở rộng",
-        titleEn: "Cô, Chú, Bác — Extended Family Pronouns",
+        title: "Cô, Chú, Bác - Đại từ gia đình mở rộng",
+        titleEn: "Cô, Chú, Bác - Extended Family Pronouns",
         icon: "👨‍👩‍👧‍👦",
         scenario: "Bạn đến nhà bạn bè Việt Nam chơi và gặp gia đình họ.",
         scenarioEn: "You visit a Vietnamese friend's home and meet their family.",
@@ -184,10 +184,10 @@ export const detailedVFFModules: DetailedModule[] = [
             ],
           },
           {
-            pattern: "Ơi — Hô ngữ (Vocative particle)",
-            patternEn: "'Ơi' — The calling particle",
+            pattern: "Ơi - Hô ngữ (Vocative particle)",
+            patternEn: "'Ơi' - The calling particle",
             explanation: "'Ơi' dùng sau tên hoặc đại từ để gọi ai đó, giống 'Hey' nhưng lịch sự hơn.",
-            explanationEn: "'Ơi' is placed after a name or pronoun to call someone — like 'Hey' but more polite.",
+            explanationEn: "'Ơi' is placed after a name or pronoun to call someone - like 'Hey' but more polite.",
             examples: [
               { vi: "Mẹ ơi!", en: "Mom!", literal: "Mother hey!" },
               { vi: "Em ơi, cho anh hỏi.", en: "Excuse me, may I ask.", literal: "Younger hey, give older-brother ask." },
@@ -197,8 +197,8 @@ export const detailedVFFModules: DetailedModule[] = [
         ],
         culturalNotes: [
           {
-            title: "'Ăn cơm chưa?' — Lời chào bằng thức ăn",
-            titleEn: "'Have you eaten yet?' — Greeting with food",
+            title: "'Ăn cơm chưa?' - Lời chào bằng thức ăn",
+            titleEn: "'Have you eaten yet?' - Greeting with food",
             content: "Khi người Việt hỏi 'Ăn cơm chưa?', họ KHÔNG thật sự hỏi bạn đã ăn chưa. Đó là cách chào thể hiện sự quan tâm, giống như 'How are you?' trong tiếng Anh. Câu trả lời đúng là 'Dạ, cháu ăn rồi ạ' (vâng, cháu đã ăn) hoặc 'Dạ, chưa ạ' (chưa).",
             contentEn: "When Vietnamese ask 'Have you eaten yet?', they DON'T literally want to know. It's a caring greeting, like 'How are you?' in English. The correct answer is 'Dạ, cháu ăn rồi ạ' (yes, I've eaten) or 'Dạ, chưa ạ' (not yet).",
           },
@@ -217,8 +217,8 @@ export const detailedVFFModules: DetailedModule[] = [
       // Lesson 3: Workplace Titles
       {
         id: "vff-pron-3",
-        title: "Thầy, Cô, Bác sĩ — Đại từ nghề nghiệp",
-        titleEn: "Thầy, Cô, Doctor — Professional Title Pronouns",
+        title: "Thầy, Cô, Bác sĩ - Đại từ nghề nghiệp",
+        titleEn: "Thầy, Cô, Doctor - Professional Title Pronouns",
         icon: "🎓",
         scenario: "Bạn đi khám bệnh và gặp bác sĩ, y tá.",
         scenarioEn: "You visit a hospital and interact with a doctor and nurse.",
@@ -249,8 +249,8 @@ export const detailedVFFModules: DetailedModule[] = [
           {
             title: "Văn hóa 'Tôn sư trọng đạo'",
             titleEn: "'Respect teachers, value education' culture",
-            content: "Người Việt rất kính trọng giáo viên và bác sĩ. Ngày 20/11 hàng năm là 'Ngày Nhà giáo Việt Nam' — học sinh tặng hoa và quà cho thầy cô. Khi gặp bác sĩ, luôn dùng 'Dạ/Vâng' và 'ạ' để thể hiện sự tôn trọng.",
-            contentEn: "Vietnamese deeply respect teachers and doctors. November 20th is 'Vietnamese Teachers' Day' — students give flowers and gifts to teachers. When meeting doctors, always use 'Dạ/Vâng' and 'ạ' to show respect.",
+            content: "Người Việt rất kính trọng giáo viên và bác sĩ. Ngày 20/11 hàng năm là 'Ngày Nhà giáo Việt Nam' - học sinh tặng hoa và quà cho thầy cô. Khi gặp bác sĩ, luôn dùng 'Dạ/Vâng' và 'ạ' để thể hiện sự tôn trọng.",
+            contentEn: "Vietnamese deeply respect teachers and doctors. November 20th is 'Vietnamese Teachers' Day' - students give flowers and gifts to teachers. When meeting doctors, always use 'Dạ/Vâng' and 'ạ' to show respect.",
           },
         ],
         practice: {
@@ -301,9 +301,9 @@ export const detailedVFFModules: DetailedModule[] = [
         grammarPoints: [
           {
             pattern: "Cho + [người] + [món]",
-            patternEn: "'Cho' — The ordering pattern",
-            explanation: "'Cho' = 'Give me' — cách gọi món phổ biến nhất ở Việt Nam.",
-            explanationEn: "'Cho' literally means 'give' — it's the most common way to order food in Vietnam.",
+            patternEn: "'Cho' - The ordering pattern",
+            explanation: "'Cho' = 'Give me' - cách gọi món phổ biến nhất ở Việt Nam.",
+            explanationEn: "'Cho' literally means 'give' - it's the most common way to order food in Vietnam.",
             examples: [
               { vi: "Cho anh một ly cà phê.", en: "Give me a cup of coffee.", literal: "Give older-brother one glass coffee." },
               { vi: "Cho em hai tô phở gà.", en: "Give me two bowls of chicken phở.", literal: "Give younger two bowl phở chicken." },
@@ -324,14 +324,14 @@ export const detailedVFFModules: DetailedModule[] = [
         ],
         culturalNotes: [
           {
-            title: "Phở — Nghệ thuật ăn đúng cách",
-            titleEn: "Phở — The art of eating it right",
+            title: "Phở - Nghệ thuật ăn đúng cách",
+            titleEn: "Phở - The art of eating it right",
             content: "Phở được phục vụ kèm đĩa rau sống (giá, húng quế, ngò gai) và gia vị (tương ớt, tương đen, chanh). Bạn tự thêm theo khẩu vị. Xé lá húng quế bằng tay, vắt chanh, và thêm ớt từ từ. ĐỪNG đổ tất cả vào một lúc!",
             contentEn: "Phở is served with a plate of fresh herbs (bean sprouts, basil, sawtooth herb) and condiments (chili sauce, hoisin, lime). You customize it yourself. Tear basil by hand, squeeze lime, and add chili gradually. DON'T dump everything in at once!",
           },
           {
             title: "'Tô' hay 'Bát'?",
-            titleEn: "'Tô' vs 'Bát' — Regional bowl names",
+            titleEn: "'Tô' vs 'Bát' - Regional bowl names",
             content: "Miền Nam gọi là 'tô phở'. Miền Bắc gọi là 'bát phở'. Cùng một thứ, khác tên gọi. Khi ở Hà Nội, nói 'bát'. Khi ở Sài Gòn, nói 'tô'.",
             contentEn: "Southerners say 'tô phở' (bowl of phở). Northerners say 'bát phở'. Same thing, different words. In Hanoi, use 'bát'. In Saigon, use 'tô'.",
           },
@@ -355,7 +355,7 @@ export const detailedVFFModules: DetailedModule[] = [
       },
       {
         id: "vff-food-cafe",
-        title: "Cà phê Việt Nam — Văn hóa cà phê",
+        title: "Cà phê Việt Nam - Văn hóa cà phê",
         titleEn: "Vietnamese Coffee Culture",
         icon: "☕",
         scenario: "Bạn vào một quán cà phê vỉa hè ở Sài Gòn.",
@@ -385,8 +385,8 @@ export const detailedVFFModules: DetailedModule[] = [
         ],
         culturalNotes: [
           {
-            title: "Chuyển khoản — Thanh toán kiểu Việt",
-            titleEn: "Bank Transfer — Vietnamese payment style",
+            title: "Chuyển khoản - Thanh toán kiểu Việt",
+            titleEn: "Bank Transfer - Vietnamese payment style",
             content: "Ở Việt Nam, 'chuyển khoản' (bank transfer via QR code) phổ biến hơn tiền mặt ở thành phố. Hầu hết quán ăn đều có mã QR. Bạn chỉ cần mở app ngân hàng, quét mã và thanh toán.",
             contentEn: "In Vietnam, bank transfer via QR code is more popular than cash in cities. Most food stalls have a QR code. Just open your banking app, scan the code, and pay.",
           },
@@ -405,8 +405,8 @@ export const detailedVFFModules: DetailedModule[] = [
       // Lesson 2: Bánh Mì
       {
         id: "vff-food-banhmi",
-        title: "Bánh Mì — Sandwich Quốc dân",
-        titleEn: "Bánh Mì — Vietnam's National Sandwich",
+        title: "Bánh Mì - Sandwich Quốc dân",
+        titleEn: "Bánh Mì - Vietnam's National Sandwich",
         icon: "🥖",
         scenario: "Bạn mua bánh mì ở xe đẩy trên vỉa hè.",
         scenarioEn: "You buy bánh mì from a street cart on the sidewalk.",
@@ -423,7 +423,7 @@ export const detailedVFFModules: DetailedModule[] = [
         grammarPoints: [
           {
             pattern: "Bao nhiêu + tiền?",
-            patternEn: "'Bao nhiêu tiền?' — Asking the price",
+            patternEn: "'Bao nhiêu tiền?' - Asking the price",
             explanation: "'Bao nhiêu?' = 'How much/many?'. Dùng cho số lượng không xác định.",
             explanationEn: "'Bao nhiêu?' = 'How much/many?'. Used for unspecified quantities.",
             examples: [
@@ -445,8 +445,8 @@ export const detailedVFFModules: DetailedModule[] = [
         ],
         culturalNotes: [
           {
-            title: "Bánh mì — Di sản ẩm thực thế giới",
-            titleEn: "Bánh Mì — A world culinary heritage",
+            title: "Bánh mì - Di sản ẩm thực thế giới",
+            titleEn: "Bánh Mì - A world culinary heritage",
             content: "Bánh mì Việt Nam là sự kết hợp Pháp-Việt: vỏ giòn kiểu baguette Pháp, nhân là đồ Việt (pate, chả lụa, rau mùi, đồ chua). Năm 2012, 'Bánh mì' được thêm vào từ điển Oxford English Dictionary. Giá trung bình chỉ 15.000–30.000 VNĐ (~$0.60–$1.20).",
             contentEn: "Vietnamese bánh mì is a French-Vietnamese fusion: crispy French baguette outside, Vietnamese fillings inside (pâté, pork roll, cilantro, pickled veggies). In 2012, 'Bánh mì' was added to the Oxford English Dictionary. Average price: only 15,000–30,000 VND (~$0.60–$1.20).",
           },
@@ -548,7 +548,7 @@ export const detailedVFFModules: DetailedModule[] = [
         grammarPoints: [
           {
             pattern: "Đang + Verb (Progressive tense)",
-            patternEn: "'Đang' — Present continuous",
+            patternEn: "'Đang' - Present continuous",
             explanation: "'Đang' = đang làm (hiện tại tiếp diễn). Đặt trước động từ.",
             explanationEn: "'Đang' marks the present continuous tense. Place before the verb.",
             examples: [
@@ -560,8 +560,8 @@ export const detailedVFFModules: DetailedModule[] = [
         ],
         culturalNotes: [
           {
-            title: "Grab — Ứng dụng 'bất ly thân' ở Việt Nam",
-            titleEn: "Grab — The must-have app in Vietnam",
+            title: "Grab - Ứng dụng 'bất ly thân' ở Việt Nam",
+            titleEn: "Grab - The must-have app in Vietnam",
             content: "Grab là ứng dụng gọi xe phổ biến nhất Việt Nam (không phải Uber). Có GrabBike (xe máy), GrabCar (ô tô), GrabFood (đặt đồ ăn). Hầu hết người Việt thanh toán qua MoMo hoặc ZaloPay trên Grab.",
             contentEn: "Grab is the most popular ride-hailing app in Vietnam (not Uber). It includes GrabBike (motorcycle), GrabCar (car), and GrabFood (food delivery). Most Vietnamese pay via MoMo or ZaloPay on Grab.",
           },
@@ -691,8 +691,8 @@ export const detailedVFFModules: DetailedModule[] = [
     lessons: [
       {
         id: "vff-social-cafe",
-        title: "'Đi café không?' — Nghệ thuật rủ bạn",
-        titleEn: "'Want to get coffee?' — The art of inviting friends",
+        title: "'Đi café không?' - Nghệ thuật rủ bạn",
+        titleEn: "'Want to get coffee?' - The art of inviting friends",
         icon: "☕",
         scenario: "Bạn muốn rủ đồng nghiệp đi uống cà phê sau giờ làm.",
         scenarioEn: "You want to invite a colleague for coffee after work.",
@@ -709,7 +709,7 @@ export const detailedVFFModules: DetailedModule[] = [
         grammarPoints: [
           {
             pattern: "Verb + không? (Yes/No questions)",
-            patternEn: "'Không' at the end — Yes/No question pattern",
+            patternEn: "'Không' at the end - Yes/No question pattern",
             explanation: "Thêm 'không?' vào cuối câu để tạo câu hỏi Yes/No. Trả lời: 'Có' (Yes) hoặc 'Không' (No).",
             explanationEn: "Add 'không?' at the end of any statement to make a Yes/No question. Answer: 'Có' (Yes) or 'Không' (No).",
             examples: [
@@ -733,10 +733,10 @@ export const detailedVFFModules: DetailedModule[] = [
         ],
         culturalNotes: [
           {
-            title: "'Bao' — Văn hóa trả tiền ở Việt Nam",
-            titleEn: "'Bao' — Vietnamese paying culture",
-            content: "Ở Việt Nam, khi ai đó nói 'Hôm nay mình bao', nghĩa là họ sẽ trả tiền cho tất cả. Đây là cách thể hiện tình bạn và sự hào phóng. Thường thì mọi người luân phiên 'bao' nhau. Đừng cố giành trả tiền — hãy chấp nhận và hứa 'lần sau mình trả'.",
-            contentEn: "In Vietnam, when someone says 'Today I bao', they'll pay for everyone. This shows friendship and generosity. People usually take turns treating each other. Don't fight to pay — accept graciously and promise 'next time I'll pay'.",
+            title: "'Bao' - Văn hóa trả tiền ở Việt Nam",
+            titleEn: "'Bao' - Vietnamese paying culture",
+            content: "Ở Việt Nam, khi ai đó nói 'Hôm nay mình bao', nghĩa là họ sẽ trả tiền cho tất cả. Đây là cách thể hiện tình bạn và sự hào phóng. Thường thì mọi người luân phiên 'bao' nhau. Đừng cố giành trả tiền - hãy chấp nhận và hứa 'lần sau mình trả'.",
+            contentEn: "In Vietnam, when someone says 'Today I bao', they'll pay for everyone. This shows friendship and generosity. People usually take turns treating each other. Don't fight to pay - accept graciously and promise 'next time I'll pay'.",
           },
         ],
         practice: {
@@ -753,8 +753,8 @@ export const detailedVFFModules: DetailedModule[] = [
       },
       {
         id: "vff-social-weekend",
-        title: "Kế hoạch cuối tuần — Đi đâu chơi?",
-        titleEn: "Weekend Plans — Where to go?",
+        title: "Kế hoạch cuối tuần - Đi đâu chơi?",
+        titleEn: "Weekend Plans - Where to go?",
         icon: "🎭",
         scenario: "Bạn và bạn bè lên kế hoạch đi chơi cuối tuần.",
         scenarioEn: "You and friends plan a weekend outing.",
@@ -772,7 +772,7 @@ export const detailedVFFModules: DetailedModule[] = [
         grammarPoints: [
           {
             pattern: "Hay + [suggestion]? (Or/How about?)",
-            patternEn: "'Hay' — Suggesting alternatives",
+            patternEn: "'Hay' - Suggesting alternatives",
             explanation: "'Hay' dùng để đề xuất lựa chọn khác. 'Hay mình đi X?' = 'How about we go to X?'",
             explanationEn: "'Hay' is used to suggest alternatives. 'Hay mình đi X?' = 'How about we go to X?'",
             examples: [
@@ -786,8 +786,8 @@ export const detailedVFFModules: DetailedModule[] = [
           {
             title: "Văn hóa đi phượt của giới trẻ Việt",
             titleEn: "Vietnamese youth backpacking culture",
-            content: "'Đi phượt' là xu hướng du lịch bụi của giới trẻ Việt Nam — tự lái xe máy, mang lều cắm trại, khám phá vùng núi. Đà Lạt, Sapa, Hà Giang là những điểm đến phượt nổi tiếng. Chi phí thường rất rẻ vì chia sẻ phòng và ăn quán bình dân.",
-            contentEn: "'Đi phượt' (backpacking by motorcycle) is a popular trend among Vietnamese youth — riding motorcycles, camping, exploring mountains. Đà Lạt, Sapa, Hà Giang are famous destinations. Costs are usually very low because of room-sharing and eating at local stalls.",
+            content: "'Đi phượt' là xu hướng du lịch bụi của giới trẻ Việt Nam - tự lái xe máy, mang lều cắm trại, khám phá vùng núi. Đà Lạt, Sapa, Hà Giang là những điểm đến phượt nổi tiếng. Chi phí thường rất rẻ vì chia sẻ phòng và ăn quán bình dân.",
+            contentEn: "'Đi phượt' (backpacking by motorcycle) is a popular trend among Vietnamese youth - riding motorcycles, camping, exploring mountains. Đà Lạt, Sapa, Hà Giang are famous destinations. Costs are usually very low because of room-sharing and eating at local stalls.",
           },
         ],
         practice: {
@@ -803,8 +803,8 @@ export const detailedVFFModules: DetailedModule[] = [
       },
       {
         id: "vff-social-birthday",
-        title: "Tiệc sinh nhật — Chúc mừng bạn!",
-        titleEn: "Birthday Party — Happy Birthday!",
+        title: "Tiệc sinh nhật - Chúc mừng bạn!",
+        titleEn: "Birthday Party - Happy Birthday!",
         icon: "🎂",
         scenario: "Bạn được mời dự tiệc sinh nhật của đồng nghiệp Việt Nam.",
         scenarioEn: "You're invited to a Vietnamese colleague's birthday party.",
@@ -813,7 +813,7 @@ export const detailedVFFModules: DetailedModule[] = [
           { speaker: "You", speakerLabel: "Bạn", vi: "Ô, mình nên mua quà gì cho Tuấn?", en: "Oh, what gift should I buy for Tuấn?", literal: "Oh, self should buy gift what for Tuấn?", keyWords: [{ word: "quà", pronunciation: "quà", meaning: "gift/present", tone: "huyen" }] },
           { speaker: "Linh", speakerLabel: "Linh", vi: "Tuấn thích công nghệ. Mua tai nghe hoặc phụ kiện điện thoại đi!", en: "Tuấn likes tech. Buy headphones or phone accessories!", literal: "Tuấn like technology. Buy ear-hear or accessories phone go!" },
           { speaker: "You", speakerLabel: "Bạn", vi: "OK! À, ở Việt Nam có kiêng gì khi tặng quà không?", en: "OK! Are there any taboos about gift-giving in Vietnam?", literal: "OK! Ah, at Vietnam have avoid what when give gift not?", keyWords: [{ word: "kiêng", pronunciation: "kiêng", meaning: "taboo / to avoid (superstition)", tone: "ngang" }] },
-          { speaker: "Linh", speakerLabel: "Linh", vi: "Đừng tặng đồng hồ hay khăn tay — nghĩa xấu lắm! Và đừng gói quà bằng giấy đen nhé.", en: "Don't give clocks or handkerchiefs — bad meaning! And don't wrap gifts in black paper.", literal: "Don't give clock or scarf hand — meaning bad very! And don't wrap gift with paper black ok." },
+          { speaker: "Linh", speakerLabel: "Linh", vi: "Đừng tặng đồng hồ hay khăn tay - nghĩa xấu lắm! Và đừng gói quà bằng giấy đen nhé.", en: "Don't give clocks or handkerchiefs - bad meaning! And don't wrap gifts in black paper.", literal: "Don't give clock or scarf hand - meaning bad very! And don't wrap gift with paper black ok." },
           { speaker: "You", speakerLabel: "Bạn", vi: "(Tại bữa tiệc) Chúc mừng sinh nhật Tuấn! Quà cho bạn nè!", en: "(At the party) Happy birthday Tuấn! Here's your gift!", literal: "(At meal party) Wish celebrate born-day Tuấn! Gift for you here!", keyWords: [{ word: "chúc mừng sinh nhật", pronunciation: "chúc mừng sinh nhật", meaning: "happy birthday", tone: "sac" }] },
           { speaker: "Tuấn", speakerLabel: "Tuấn", vi: "Cảm ơn David! Bạn tốt quá! Vào ăn bánh đi!", en: "Thank you David! You're so kind! Come eat cake!", literal: "Feel-grace David! You good too-much! Enter eat cake go!" },
           { speaker: "You", speakerLabel: "Bạn", vi: "Tiệc vui quá! Chúc Tuấn tuổi mới vạn sự như ý!", en: "Great party! Wishing you all the best in your new year!", literal: "Party fun too-much! Wish Tuấn age new ten-thousand things like wish!", keyWords: [{ word: "vạn sự như ý", pronunciation: "vạn sự như ý", meaning: "may all things go as you wish", tone: "nang" }] },
@@ -822,7 +822,7 @@ export const detailedVFFModules: DetailedModule[] = [
         grammarPoints: [
           {
             pattern: "Chúc + [person] + [wish]",
-            patternEn: "'Chúc' — Making wishes and toasts",
+            patternEn: "'Chúc' - Making wishes and toasts",
             explanation: "'Chúc' = 'Wish'. Dùng trong mọi dịp đặc biệt: sinh nhật, Tết, cưới.",
             explanationEn: "'Chúc' = 'Wish/To wish'. Used for all special occasions: birthdays, Tết, weddings.",
             examples: [
@@ -847,7 +847,7 @@ export const detailedVFFModules: DetailedModule[] = [
           items: [
             { question: "_____ _____ sinh nhật Tuấn! (happy birthday)", answer: "Chúc mừng", explanationEn: "'Chúc mừng sinh nhật' = Happy birthday" },
             { question: "Chúc bạn tuổi mới _____ _____ như ý! (all the best)", answer: "vạn sự", explanationEn: "'Vạn sự như ý' = may all things go as you wish" },
-            { question: "Đừng tặng _____ _____ — nghĩa xấu! (clock)", answer: "đồng hồ", explanationEn: "Clocks are taboo gifts in Vietnam" },
+            { question: "Đừng tặng _____ _____ - nghĩa xấu! (clock)", answer: "đồng hồ", explanationEn: "Clocks are taboo gifts in Vietnam" },
           ],
         },
       },
@@ -888,9 +888,9 @@ export const detailedVFFModules: DetailedModule[] = [
         grammarPoints: [
           {
             pattern: "Cho + [person] + hỏi",
-            patternEn: "'Cho... hỏi' — Polite way to ask",
-            explanation: "'Cho anh hỏi' = 'Xin phép hỏi' — cách hỏi lịch sự, dùng ở mọi tình huống.",
-            explanationEn: "'Cho anh hỏi' = 'May I ask' — a polite way to ask anything, used in all situations.",
+            patternEn: "'Cho... hỏi' - Polite way to ask",
+            explanation: "'Cho anh hỏi' = 'Xin phép hỏi' - cách hỏi lịch sự, dùng ở mọi tình huống.",
+            explanationEn: "'Cho anh hỏi' = 'May I ask' - a polite way to ask anything, used in all situations.",
             examples: [
               { vi: "Cho em hỏi, phòng họp ở đâu ạ?", en: "May I ask, where is the meeting room?", literal: "Give younger ask, room meeting at where polite?" },
               { vi: "Cho anh hỏi, deadline dự án là khi nào?", en: "May I ask, when is the project deadline?", literal: "Give older-brother ask, deadline project is when?" },
@@ -898,7 +898,7 @@ export const detailedVFFModules: DetailedModule[] = [
           },
           {
             pattern: "Cần gì cứ + Verb",
-            patternEn: "'Cần gì cứ...' — Just go ahead and...",
+            patternEn: "'Cần gì cứ...' - Just go ahead and...",
             explanation: "'Cứ' = 'just go ahead'. Dùng để khuyến khích ai đó thoải mái làm việc gì.",
             explanationEn: "'Cứ' = 'just/feel free to'. Used to encourage someone to do something without hesitation.",
             examples: [
@@ -947,9 +947,9 @@ export const detailedVFFModules: DetailedModule[] = [
         grammarPoints: [
           {
             pattern: "Theo + [person] + thấy",
-            patternEn: "'Theo... thấy' — Expressing opinions politely",
-            explanation: "'Theo em thấy' = 'Theo ý kiến của em' — cách đưa ra ý kiến nhẹ nhàng, không áp đặt.",
-            explanationEn: "'Theo em thấy' = 'In my view/opinion' — a gentle, non-imposing way to share opinions.",
+            patternEn: "'Theo... thấy' - Expressing opinions politely",
+            explanation: "'Theo em thấy' = 'Theo ý kiến của em' - cách đưa ra ý kiến nhẹ nhàng, không áp đặt.",
+            explanationEn: "'Theo em thấy' = 'In my view/opinion' - a gentle, non-imposing way to share opinions.",
             examples: [
               { vi: "Theo em thấy, cách này tốt hơn.", en: "In my opinion, this approach is better.", literal: "According younger see, way this good more." },
               { vi: "Theo anh, mình nên họp sớm.", en: "In my view, we should meet earlier.", literal: "According older-brother, self should meeting early." },
@@ -958,10 +958,10 @@ export const detailedVFFModules: DetailedModule[] = [
         ],
         culturalNotes: [
           {
-            title: "Email công sở Việt Nam — Luôn có 'Dạ' và 'ạ'",
-            titleEn: "Vietnamese work emails — Always include 'Dạ' and 'ạ'",
-            content: "Email công sở Việt Nam luôn bắt đầu bằng 'Dạ anh/chị' và kết thúc bằng 'ạ' hoặc 'Trân trọng' (Respectfully). Không bao giờ viết email ngắn gọn kiểu 'OK' hay 'Noted' cho sếp — đó bị coi là thiếu tôn trọng. Luôn viết đầy đủ: 'Dạ anh, em nhận được ạ. Em sẽ xử lý ngay.'",
-            contentEn: "Vietnamese work emails always start with 'Dạ anh/chị' and end with 'ạ' or 'Trân trọng' (Respectfully). Never send short replies like 'OK' or 'Noted' to your boss — that's considered disrespectful. Always write fully: 'Yes sir, I received it. I'll handle it right away.'",
+            title: "Email công sở Việt Nam - Luôn có 'Dạ' và 'ạ'",
+            titleEn: "Vietnamese work emails - Always include 'Dạ' and 'ạ'",
+            content: "Email công sở Việt Nam luôn bắt đầu bằng 'Dạ anh/chị' và kết thúc bằng 'ạ' hoặc 'Trân trọng' (Respectfully). Không bao giờ viết email ngắn gọn kiểu 'OK' hay 'Noted' cho sếp - đó bị coi là thiếu tôn trọng. Luôn viết đầy đủ: 'Dạ anh, em nhận được ạ. Em sẽ xử lý ngay.'",
+            contentEn: "Vietnamese work emails always start with 'Dạ anh/chị' and end with 'ạ' or 'Trân trọng' (Respectfully). Never send short replies like 'OK' or 'Noted' to your boss - that's considered disrespectful. Always write fully: 'Yes sir, I received it. I'll handle it right away.'",
           },
         ],
         practice: {
@@ -997,7 +997,7 @@ export const detailedVFFModules: DetailedModule[] = [
         grammarPoints: [
           {
             pattern: "Một phần + [dish]",
-            patternEn: "'Một phần' — Ordering a set meal",
+            patternEn: "'Một phần' - Ordering a set meal",
             explanation: "'Phần' = portion/serving. 'Một phần cơm sườn' = 1 rib rice set.",
             explanationEn: "'Phần' = portion/serving/set. 'Một phần cơm sườn' = 1 grilled rib rice set.",
             examples: [
@@ -1008,10 +1008,10 @@ export const detailedVFFModules: DetailedModule[] = [
         ],
         culturalNotes: [
           {
-            title: "Trà đá miễn phí — Nét đẹp Việt Nam",
-            titleEn: "Free iced tea — A beautiful Vietnamese custom",
-            content: "Hầu hết quán cơm bình dân ở Việt Nam đều phục vụ trà đá miễn phí. Đó là loại trà xanh pha loãng với đá. Đây là cách quán thể hiện sự hiếu khách và giữ chân khách hàng. Đừng ngạc nhiên khi thấy bình trà to trên bàn — cứ tự rót uống!",
-            contentEn: "Most Vietnamese lunch shops serve free iced tea — a diluted green tea with ice. This is a hospitality gesture to keep customers coming back. Don't be surprised to see a large tea pot on the table — just pour and drink!",
+            title: "Trà đá miễn phí - Nét đẹp Việt Nam",
+            titleEn: "Free iced tea - A beautiful Vietnamese custom",
+            content: "Hầu hết quán cơm bình dân ở Việt Nam đều phục vụ trà đá miễn phí. Đó là loại trà xanh pha loãng với đá. Đây là cách quán thể hiện sự hiếu khách và giữ chân khách hàng. Đừng ngạc nhiên khi thấy bình trà to trên bàn - cứ tự rót uống!",
+            contentEn: "Most Vietnamese lunch shops serve free iced tea - a diluted green tea with ice. This is a hospitality gesture to keep customers coming back. Don't be surprised to see a large tea pot on the table - just pour and drink!",
           },
         ],
         practice: {

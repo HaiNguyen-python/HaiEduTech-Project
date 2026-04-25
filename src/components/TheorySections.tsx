@@ -130,7 +130,7 @@ function splitByH2(md: string): Section[] {
   }
   flush();
 
-  // If there's only ONE numbered section (typically a lone "1."), drop the number —
+  // If there's only ONE numbered section (typically a lone "1."), drop the number -
   // showing a solo "1" badge looks awkward. Fall back to icon-only badge.
   const numbered = sections.filter((s) => s.stepNumber !== null);
   if (numbered.length <= 1) {
@@ -150,7 +150,7 @@ const DEEPDIVE_RE = /:::deepdive\s+title=["']([^"']+)["']\s*\n([\s\S]*?):::/g;
 /**
  * Normalize math notation so KaTeX can render it.
  * AI often outputs `\( ... \)` and `\[ ... \]` (LaTeX delimiters) or raw
- * `( \frac{...}{...} )` fragments — none of which remark-math understands by default.
+ * `( \frac{...}{...} )` fragments - none of which remark-math understands by default.
  * We rewrite all of these to standard `$...$` / `$$...$$` delimiters,
  * but ONLY outside fenced code blocks so we never corrupt code samples.
  */
@@ -422,7 +422,7 @@ const markdownComponents = (defaultLang: string) => ({
       } catch { return ""; }
     })();
     let variant: "tip" | "warning" | "note" | "quote" | "info" | "success" = "quote";
-    // Order matters — check the most specific markers first.
+    // Order matters - check the most specific markers first.
     if (/^(\s|✅|🟢)*(optim|tối ưu|best practice|success|hiệu quả)/i.test(text) || /✅|🟢/.test(text)) variant = "success";
     else if (/^(\s|💡)*(mẹo|tip|pro tip|gợi ý)/i.test(text) || text.includes("💡")) variant = "tip";
     else if (/^(\s|⚠️|🚨)*(cảnh báo|warning|danger|nguy hiểm|chú ý|coi chừng|risk)/i.test(text) || /⚠️|🚨/.test(text)) variant = "warning";

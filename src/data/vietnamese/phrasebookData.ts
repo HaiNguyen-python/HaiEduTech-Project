@@ -1,4 +1,4 @@
-// Situational Phrasebook for foreigners — practical phrases by scenario
+// Situational Phrasebook for foreigners - practical phrases by scenario
 export interface PhrasebookCategory {
   id: string;
   emoji: string;

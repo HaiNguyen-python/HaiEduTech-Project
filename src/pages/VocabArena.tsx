@@ -303,7 +303,7 @@ const VocabArena = () => {
     );
   }
 
-  // CLASSROOM — Student
+  // CLASSROOM - Student
   if (phase === "classroom-student") {
     return (
       <div className="min-h-screen bg-background">
@@ -318,7 +318,7 @@ const VocabArena = () => {
     );
   }
 
-  // CLASSROOM — Teacher
+  // CLASSROOM - Teacher
   if (phase === "classroom-teacher") {
     return (
       <div className="min-h-screen bg-background">

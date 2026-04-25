@@ -1,4 +1,4 @@
-// Teaching Methods Library — curated pedagogical frameworks for HaiEduTech subjects
+// Teaching Methods Library - curated pedagogical frameworks for HaiEduTech subjects
 export interface TeachingMethod {
   id: string;
   name: string;
@@ -62,7 +62,7 @@ export const TEACHING_METHODS: TeachingMethod[] = [
       "Check-in: Khảo sát hiểu biết đầu giờ (2 phút)",
       "Apply: Bài tập ứng dụng theo cặp/nhóm",
       "Deep dive: Thầy giải đáp các điểm khó",
-      "Wrap-up: Exit ticket — 1 điều học được, 1 điều còn thắc mắc",
+      "Wrap-up: Exit ticket - 1 điều học được, 1 điều còn thắc mắc",
     ],
     bestFor: ["Mature learners", "Self-paced study", "Hybrid courses", "Programming"],
   },
@@ -126,7 +126,7 @@ export const TEACHING_METHODS: TeachingMethod[] = [
     subjects: ["Programming"],
     quickRead: "Dạy 4 trụ cột tư duy lập trình: Phân rã, Mẫu, Trừu tượng, Thuật toán.",
     description:
-      "Trước khi gõ code, học sinh học cách: (1) Decomposition — chia nhỏ vấn đề, (2) Pattern recognition — tìm điểm chung, (3) Abstraction — bỏ chi tiết không cần thiết, (4) Algorithm design — viết các bước tuần tự.",
+      "Trước khi gõ code, học sinh học cách: (1) Decomposition - chia nhỏ vấn đề, (2) Pattern recognition - tìm điểm chung, (3) Abstraction - bỏ chi tiết không cần thiết, (4) Algorithm design - viết các bước tuần tự.",
     steps: [
       "Real-world problem: Đưa bài toán đời thực (đặt pizza nhanh nhất)",
       "Decompose: Vẽ sơ đồ các bước con",

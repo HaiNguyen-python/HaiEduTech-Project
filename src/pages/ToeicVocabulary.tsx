@@ -35,7 +35,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
   "Events & Hospitality": <CalendarDays className="w-5 h-5" />,
 };
 
-// Level color mapping — Business Blue palette
+// Level color mapping - Business Blue palette
 const levelColors: Record<string, string> = {
   basic: "bg-sky-500/20 text-sky-300 border-sky-500/30",
   intermediate: "bg-blue-500/20 text-blue-300 border-blue-500/30",

@@ -1,4 +1,4 @@
-// Redesigned Super Dictionary — side panel with size modes, recent searches, keyboard shortcut
+// Redesigned Super Dictionary - side panel with size modes, recent searches, keyboard shortcut
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
   BookMarked,
@@ -84,7 +84,7 @@ const SuperDictionary = () => {
   const dragConstraintsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
 
-  // Resize state — width + height (px). height = 0 means auto.
+  // Resize state - width + height (px). height = 0 means auto.
   const [size, setSize] = useState<{ w: number; h: number }>({ w: DEFAULT_WIDTH, h: DEFAULT_HEIGHT });
   const resizeStartRef = useRef<{ startX: number; startY: number; startW: number; startH: number; mode: "right" | "bottom" | "corner" } | null>(null);
 
@@ -395,7 +395,7 @@ const SuperDictionary = () => {
     );
   };
 
-  // Panel sizing — desktop side panel (resizable), mobile = bottom sheet (no drag/resize on mobile)
+  // Panel sizing - desktop side panel (resizable), mobile = bottom sheet (no drag/resize on mobile)
   // On mobile (<lg) we keep the fixed bottom-sheet sizing; on lg+ we apply width/height via inline styles.
   const panelClasses =
     "fixed inset-x-0 bottom-0 h-[85vh] lg:inset-x-auto lg:left-3 lg:top-20 lg:bottom-auto lg:h-auto z-[60] bg-card rounded-t-2xl lg:rounded-2xl border-2 border-primary/30 shadow-[0_-4px_30px_rgba(0,0,0,0.2)] lg:shadow-[0_10px_40px_rgba(0,0,0,0.18)] flex flex-col";
@@ -440,7 +440,7 @@ const SuperDictionary = () => {
         )}
       </AnimatePresence>
 
-      {/* Drag constraints container — full viewport on lg+ only */}
+      {/* Drag constraints container - full viewport on lg+ only */}
       <div
         ref={dragConstraintsRef}
         className="hidden lg:block fixed inset-0 z-[55] pointer-events-none"
@@ -465,10 +465,10 @@ const SuperDictionary = () => {
               className={panelClasses}
               style={panelStyle}
             >
-              {/* Header — drag handle on lg+ */}
+              {/* Header - drag handle on lg+ */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-primary/5 to-accent/5 shrink-0 rounded-t-2xl">
                 <div className="flex items-center gap-2 min-w-0 flex-1">
-                  {/* Drag grip — only visible/active on lg+ */}
+                  {/* Drag grip - only visible/active on lg+ */}
                   <button
                     onPointerDown={(e) => dragControls.start(e)}
                     className="hidden lg:flex shrink-0 w-6 h-8 items-center justify-center text-muted-foreground hover:text-foreground cursor-grab active:cursor-grabbing rounded hover:bg-muted/60 transition-colors touch-none"
@@ -795,7 +795,7 @@ const SuperDictionary = () => {
                 </Tabs>
               </div>
 
-              {/* Resize handles — only on lg+ */}
+              {/* Resize handles - only on lg+ */}
               {/* Right edge */}
               <div
                 onPointerDown={(e) => handleResizeStart(e, "right")}

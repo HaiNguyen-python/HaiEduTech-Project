@@ -4,12 +4,12 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
   // ── READING SET 4 ──
   {
     id: "yki-mock-reading-set4",
-    title: "Lukeminen — Lisäharjoitukset 4",
-    titleEn: "Reading — Extra Practice Set 4",
+    title: "Lukeminen - Lisäharjoitukset 4",
+    titleEn: "Reading - Extra Practice Set 4",
     icon: "📖",
     color: "from-blue-500 to-blue-700",
-    description: "Virallisia ilmoituksia, mainoksia ja ohjeita — YKI A2 -tason lukeminen",
-    descriptionEn: "Official notices, ads, and instructions — YKI A2 reading comprehension",
+    description: "Virallisia ilmoituksia, mainoksia ja ohjeita - YKI A2 -tason lukeminen",
+    descriptionEn: "Official notices, ads, and instructions - YKI A2 reading comprehension",
     pillar: "mock-exams",
     lessons: [
       {
@@ -34,7 +34,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         icon: "📚",
         level: "A2",
         theory: `## Helsingin kaupunginkirjaston säännöt\n\n**Lainaaminen:**\n- Kirjaston kortti on ilmainen kaikille, jotka asuvat Suomessa.\n- Voit lainata enintään 40 teosta kerrallaan.\n- Kirjat lainataan 28 päiväksi, DVD:t 7 päiväksi.\n- Voit uusia lainat 5 kertaa, jos kukaan ei ole varannut niitä.\n\n**Myöhästymismaksut:**\n- Aikuisten aineisto: 0,20 €/päivä/teos (enintään 6 €/teos).\n- Lasten aineisto: ei myöhästymismaksuja.\n\n**Varaukset:**\n- Varaus maksaa 0,50 €.\n- Noudettava 7 päivän kuluessa.\n\n**Avoinna:**\n- Ma–Pe 8–21, La 10–18, Su 12–18.\n- Itsepalvelualue on auki joka päivä 7–22.`,
-        theoryEn: "Library rules notice — learn about borrowing, fees, and opening hours.",
+        theoryEn: "Library rules notice - learn about borrowing, fees, and opening hours.",
         quiz: [
           { question: "Kuinka monta teosta voi lainata kerrallaan?", options: ["20", "30", "40", "50"], answer: 2, explanation: "Voit lainata enintään 40 teosta kerrallaan." },
           { question: "Kuinka pitkäksi ajaksi DVD:t lainataan?", options: ["3 päiväksi", "7 päiväksi", "14 päiväksi", "28 päiväksi"], answer: 1, explanation: "DVD:t lainataan 7 päiväksi." },
@@ -63,7 +63,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         titleEn: "Event Program",
         icon: "🎭",
         level: "A2",
-        theory: `## Vapun ohjelma — Tampereen keskusta\n\n**30.4. Vappuaatto:**\n- 12:00 Vappulounas Keskustorilla (10 €/hlö, lapset ilmaiseksi)\n- 15:00 Lasten vappukarnevaali Hämeenpuistossa — pelle, kasvomaalaus, ilmapalloja\n- 18:00 Ylioppilaiden lakitus Hämeensillalla\n- 20:00 Vapputanssit Tullikamarin aukiolla (DJ, live-musiikkia)\n\n**1.5. Vappupäivä:**\n- 10:00 Vappumarssit lähtee Keskustorilta\n- 12:00 Vappupiknik Pyynikin kentällä — ota oma matto ja eväät!\n- 14:00 Lastenshow: Taikuri Timppa (Pyynikin näköalatorni)\n- 16:00 Ohjelma päättyy\n\n**Huom!** Tapahtuma peruuntuu kovassa sateessa. Seuraa somea: @tampereevents`,
+        theory: `## Vapun ohjelma - Tampereen keskusta\n\n**30.4. Vappuaatto:**\n- 12:00 Vappulounas Keskustorilla (10 €/hlö, lapset ilmaiseksi)\n- 15:00 Lasten vappukarnevaali Hämeenpuistossa - pelle, kasvomaalaus, ilmapalloja\n- 18:00 Ylioppilaiden lakitus Hämeensillalla\n- 20:00 Vapputanssit Tullikamarin aukiolla (DJ, live-musiikkia)\n\n**1.5. Vappupäivä:**\n- 10:00 Vappumarssit lähtee Keskustorilta\n- 12:00 Vappupiknik Pyynikin kentällä - ota oma matto ja eväät!\n- 14:00 Lastenshow: Taikuri Timppa (Pyynikin näköalatorni)\n- 16:00 Ohjelma päättyy\n\n**Huom!** Tapahtuma peruuntuu kovassa sateessa. Seuraa somea: @tampereevents`,
         theoryEn: "May Day program in Tampere city center. Read and find key information.",
         quiz: [
           { question: "Paljonko vappulounas maksaa lapsille?", options: ["5 €", "10 €", "Se on ilmainen", "3 €"], answer: 2, explanation: "Lapset pääsevät ilmaiseksi vappulounaalle." },
@@ -78,7 +78,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         titleEn: "Medicine Instructions",
         icon: "💊",
         level: "A2",
-        theory: `## Ibuprofen 400 mg — Käyttöohje\n\n**Käyttöaiheet:** Kipu, kuume, tulehdus.\n\n**Annostus (aikuiset):**\n- 1 tabletti 1–3 kertaa päivässä.\n- Ota tabletin ruokailun yhteydessä.\n- Älä ylitä 3 tablettia (1 200 mg) vuorokaudessa.\n- Älä käytä yli 5 päivää ilman lääkärin ohjeita.\n\n**Haittavaikutukset:** Vatsakipu, pahoinvointi, päänsärky. Harvinaisempia: ihottuma, huimaus.\n\n**Varoitukset:**\n- Ei sovi alle 12-vuotiaille ilman lääkärin ohjeita.\n- Älä käytä, jos olet raskaana (viimeinen kolmannes).\n- Älä ota alkoholia samanaikaisesti.\n- Säilytä huoneenlämmössä, lasten ulottumattomissa.\n\nKysy apteekista lisätietoja.`,
+        theory: `## Ibuprofen 400 mg - Käyttöohje\n\n**Käyttöaiheet:** Kipu, kuume, tulehdus.\n\n**Annostus (aikuiset):**\n- 1 tabletti 1–3 kertaa päivässä.\n- Ota tabletin ruokailun yhteydessä.\n- Älä ylitä 3 tablettia (1 200 mg) vuorokaudessa.\n- Älä käytä yli 5 päivää ilman lääkärin ohjeita.\n\n**Haittavaikutukset:** Vatsakipu, pahoinvointi, päänsärky. Harvinaisempia: ihottuma, huimaus.\n\n**Varoitukset:**\n- Ei sovi alle 12-vuotiaille ilman lääkärin ohjeita.\n- Älä käytä, jos olet raskaana (viimeinen kolmannes).\n- Älä ota alkoholia samanaikaisesti.\n- Säilytä huoneenlämmössä, lasten ulottumattomissa.\n\nKysy apteekista lisätietoja.`,
         theoryEn: "Medicine instructions for Ibuprofen 400mg. Read and answer questions about dosage and warnings.",
         quiz: [
           { question: "Kuinka monta tablettia saa ottaa vuorokaudessa enintään?", options: ["2 tablettia", "3 tablettia", "4 tablettia", "5 tablettia"], answer: 1, explanation: "Enintään 3 tablettia (1 200 mg) vuorokaudessa." },
@@ -93,12 +93,12 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
   // ── LISTENING SET 4 ──
   {
     id: "yki-mock-listening-set4",
-    title: "Kuunteleminen — Lisäharjoitukset 4",
-    titleEn: "Listening — Extra Practice Set 4",
+    title: "Kuunteleminen - Lisäharjoitukset 4",
+    titleEn: "Listening - Extra Practice Set 4",
     icon: "🎧",
     color: "from-purple-500 to-purple-700",
-    description: "Kuulutuksia, puheluja ja keskusteluja — YKI A2 -tason kuunteleminen",
-    descriptionEn: "Announcements, phone calls, and conversations — YKI A2 listening comprehension",
+    description: "Kuulutuksia, puheluja ja keskusteluja - YKI A2 -tason kuunteleminen",
+    descriptionEn: "Announcements, phone calls, and conversations - YKI A2 listening comprehension",
     pillar: "mock-exams",
     lessons: [
       {
@@ -150,7 +150,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         titleEn: "Neighbor Conversation",
         icon: "🏘️",
         level: "A2",
-        theory: `## Naapurien keskustelu\n\n> **Liisa:** "Hei Mikko! Pitkästä aikaa. Miten menee?"\n\n> **Mikko:** "Kiitos hyvin! Meillä on iso uutinen — muutetaan uuteen asuntoon ensi kuussa!"\n\n> **Liisa:** "Vai niin! Mihin muutatte?"\n\n> **Mikko:** "Kallioon, lähelle metroa. Asunto on isompi, kolme huonetta ja keittiö."\n\n> **Liisa:** "Kuulostaa hyvältä! Tarvitsetteko apua muutossa?"\n\n> **Mikko:** "Se olisi todella kivaa! Muuttopäivä on lauantaina 15. helmikuuta. Meillä on muuttoauto, mutta tarvitsemme kantoapua."\n\n> **Liisa:** "Voin tulla auttamaan aamupäivällä. Onko kympiltä hyvä aika?"\n\n> **Mikko:** "Täydellinen! Kiitos Liisa, olet paras naapuri!"`,
+        theory: `## Naapurien keskustelu\n\n> **Liisa:** "Hei Mikko! Pitkästä aikaa. Miten menee?"\n\n> **Mikko:** "Kiitos hyvin! Meillä on iso uutinen - muutetaan uuteen asuntoon ensi kuussa!"\n\n> **Liisa:** "Vai niin! Mihin muutatte?"\n\n> **Mikko:** "Kallioon, lähelle metroa. Asunto on isompi, kolme huonetta ja keittiö."\n\n> **Liisa:** "Kuulostaa hyvältä! Tarvitsetteko apua muutossa?"\n\n> **Mikko:** "Se olisi todella kivaa! Muuttopäivä on lauantaina 15. helmikuuta. Meillä on muuttoauto, mutta tarvitsemme kantoapua."\n\n> **Liisa:** "Voin tulla auttamaan aamupäivällä. Onko kympiltä hyvä aika?"\n\n> **Mikko:** "Täydellinen! Kiitos Liisa, olet paras naapuri!"`,
         theoryEn: "A conversation between neighbors about moving to a new apartment.",
         quiz: [
           { question: "Mihin Mikko muuttaa?", options: ["Töölöön", "Kallioon", "Espoon", "Vantaalle"], answer: 1, explanation: "Mikko muuttaa Kallioon, lähelle metroa." },
@@ -179,12 +179,12 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
   // ── WRITING SET 4 ──
   {
     id: "yki-mock-writing-set4",
-    title: "Kirjoittaminen — Lisäharjoitukset 4",
-    titleEn: "Writing — Extra Practice Set 4",
+    title: "Kirjoittaminen - Lisäharjoitukset 4",
+    titleEn: "Writing - Extra Practice Set 4",
     icon: "✍️",
     color: "from-emerald-500 to-emerald-700",
-    description: "Virallisia viestejä ja kirjeitä — YKI A2 -tason kirjoittaminen",
-    descriptionEn: "Formal messages and letters — YKI A2 writing tasks",
+    description: "Virallisia viestejä ja kirjeitä - YKI A2 -tason kirjoittaminen",
+    descriptionEn: "Formal messages and letters - YKI A2 writing tasks",
     pillar: "mock-exams",
     lessons: [
       {
@@ -197,7 +197,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         theoryEn: "Write a complaint email to a housing company about a noisy neighbor.",
         sampleAnswer: `Hyvä isännöitsijä,\n\nKirjoitan asunnosta B 14, osoitteessa Mannerheimintie 45. Haluan valittaa yläkerran naapurin meluamisesta. Naapuri soittaa kovaa musiikkia lähes joka ilta kello 23 jälkeen. Ongelma on jatkunut jo kuukauden ajan.\n\nHiljaisuusaika alkaa kello 22, mutta naapuri ei noudata sitä. Olen yrittänyt puhua naapurille, mutta tilanne ei ole parantunut. Pyydän teitä ystävällisesti puuttumaan asiaan ja muistuttamaan asukkaita järjestyssäännöistä.\n\nYstävällisin terveisin,\n[Nimi]`,
         quiz: [
-          { question: "Mikä on oikea muoto: 'Haluan ___ meluamisesta.'", options: ["valittaa", "valitan", "valitaa", "valitus"], answer: 0, explanation: "'Haluan valittaa' — haluta + perusmuoto (A-infinitiivi)." },
+          { question: "Mikä on oikea muoto: 'Haluan ___ meluamisesta.'", options: ["valittaa", "valitan", "valitaa", "valitus"], answer: 0, explanation: "'Haluan valittaa' - haluta + perusmuoto (A-infinitiivi)." },
         ],
       },
       {
@@ -210,7 +210,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         theoryEn: "Write a short job application for a waiter position at a restaurant.",
         sampleAnswer: `Hei,\n\nHaen tarjoilijan paikkaa ravintolassanne. Olen 25-vuotias opiskelija ja etsin osa-aikatyötä. Minulla on vuoden kokemus kahvilatyöstä. Puhun suomea, englantia ja viroa. Olen ahkera, iloinen ja pidän asiakaspalvelusta.\n\nVoin työskennellä iltaisin ja viikonloppuisin. Voin aloittaa heti 1. maaliskuuta. Puhelinnumeroni on 045-9876543 ja sähköpostini anna@email.fi.\n\nYstävällisin terveisin,\nAnna Kivi`,
         quiz: [
-          { question: "Mikä on oikea muoto: 'Minulla on ___ kahvilatyöstä.'", options: ["kokemus", "kokemusta", "kokenut", "kokea"], answer: 1, explanation: "'Minulla on kokemusta' — partitiivi, koska 'on' + abstrakti asia." },
+          { question: "Mikä on oikea muoto: 'Minulla on ___ kahvilatyöstä.'", options: ["kokemus", "kokemusta", "kokenut", "kokea"], answer: 1, explanation: "'Minulla on kokemusta' - partitiivi, koska 'on' + abstrakti asia." },
         ],
       },
       {
@@ -223,7 +223,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         theoryEn: "Write a message to your child's teacher about an absence due to illness.",
         sampleAnswer: `Hei opettaja Virtanen,\n\nLapseni Ella (luokka 3B) ei voi tulla kouluun tänään. Hänellä on kuumetta ja vatsatauti. Lääkäri sanoi, että Ellan pitää levätä ainakin kaksi päivää. Hän on todennäköisesti poissa tiistaihin asti.\n\nVoisitteko ystävällisesti lähettää Wilman kautta tiedot läksyistä ja kokeista? Ella haluaa tehdä ne kotona, kun voi paremmin.\n\nKiitos!\nYstävällisin terveisin,\n[Nimi]`,
         quiz: [
-          { question: "Mikä on oikea muoto: 'Hänellä on ___.'", options: ["kuume", "kuumetta", "kuumea", "kuumen"], answer: 1, explanation: "'Hänellä on kuumetta' — partitiivi sairauksista puhuttaessa." },
+          { question: "Mikä on oikea muoto: 'Hänellä on ___.'", options: ["kuume", "kuumetta", "kuumea", "kuumen"], answer: 1, explanation: "'Hänellä on kuumetta' - partitiivi sairauksista puhuttaessa." },
         ],
       },
       {
@@ -236,7 +236,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         theoryEn: "Write an email to confirm a cabin reservation and ask additional questions.",
         sampleAnswer: `Hei,\n\nHaluaisin vahvistaa mökkivaraukseni. Tulemme 5.–12. heinäkuuta, eli viikoksi. Meitä on neljä henkilöä: kaksi aikuista ja kaksi lasta (5 v. ja 8 v.). Saavumme perjantaina noin kello 16.\n\nVoisitteko kertoa, ovatko liinavaatteet ja pyyhkeet hinnassa mukana? Onko lemmikkieläimet sallittu? Meillä on pieni koira.\n\nKiitos vastauksesta etukäteen!\nYstävällisin terveisin,\n[Nimi]`,
         quiz: [
-          { question: "Mikä on oikea muoto: 'Meitä on neljä ___.'", options: ["henkilö", "henkilöä", "henkilöt", "henkilöitä"], answer: 1, explanation: "'Neljä henkilöä' — lukusanan jälkeen partitiivi yksikkö." },
+          { question: "Mikä on oikea muoto: 'Meitä on neljä ___.'", options: ["henkilö", "henkilöä", "henkilöt", "henkilöitä"], answer: 1, explanation: "'Neljä henkilöä' - lukusanan jälkeen partitiivi yksikkö." },
         ],
       },
       {
@@ -249,7 +249,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         theoryEn: "Write a feedback form after completing a Finnish language course.",
         sampleAnswer: `Kurssin palaute:\n\nPidin erityisesti ryhmäkeskusteluista ja käytännön harjoituksista. Opettaja oli innostava ja selitti asiat selkeästi. Uusia sanoja oppi paljon, koska teimme monipuolisia tehtäviä.\n\nOlisi ollut hyvä, jos kurssilla olisi ollut enemmän kuunteluharjoituksia. Myös kotiläksyjä olisi voinut olla enemmän.\n\nAnnan arvosanan 4/5. Suosittelen kurssia kaikille, jotka haluavat oppia suomea hauskalla tavalla!\n\n[Nimi]`,
         quiz: [
-          { question: "Mikä on oikea muoto: 'Pidin erityisesti ___.'", options: ["keskustelut", "keskusteluista", "keskusteluja", "keskusteluihin"], answer: 1, explanation: "'Pitää + elatiivi (-sta/-stä)' — Pidin keskusteluista." },
+          { question: "Mikä on oikea muoto: 'Pidin erityisesti ___.'", options: ["keskustelut", "keskusteluista", "keskusteluja", "keskusteluihin"], answer: 1, explanation: "'Pitää + elatiivi (-sta/-stä)' - Pidin keskusteluista." },
         ],
       },
     ],
@@ -258,12 +258,12 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
   // ── SPEAKING SET 4 ──
   {
     id: "yki-mock-speaking-set4",
-    title: "Puhuminen — Lisäharjoitukset 4",
-    titleEn: "Speaking — Extra Practice Set 4",
+    title: "Puhuminen - Lisäharjoitukset 4",
+    titleEn: "Speaking - Extra Practice Set 4",
     icon: "🎙️",
     color: "from-amber-500 to-amber-700",
-    description: "Arkipäivän puhetilanteita — YKI A2 -tason puhuminen",
-    descriptionEn: "Everyday speaking situations — YKI A2 speaking practice",
+    description: "Arkipäivän puhetilanteita - YKI A2 -tason puhuminen",
+    descriptionEn: "Everyday speaking situations - YKI A2 speaking practice",
     pillar: "mock-exams",
     lessons: [
       {
@@ -328,7 +328,7 @@ export const finnishMockExamExpansion4Modules: FinnishModule[] = [
         theoryEn: "Talk about your family members, their ages, jobs, and hobbies.",
         sampleAnswer: `Perheeseeni kuuluu neljä henkilöä: minä, vaimoni, poikamme ja tyttäremme. Vaimoni on 32-vuotias ja hän työskentelee sairaanhoitajana Meilahden sairaalassa. Poikamme Eero on 7-vuotias ja käy ensimmäistä luokkaa. Hän harrastaa jalkapalloa. Tyttäremme Aino on 4-vuotias ja käy päiväkotia. Asumme Vantaalla omakotitalossa. Vapaa-aikana pidämme luonnossa liikkumisesta ja retkeilystä.`,
         quiz: [
-          { question: "Mikä on oikea muoto: '___ kuuluu neljä henkilöä.'", options: ["Perheeni", "Perheeseeni", "Perheestäni", "Perheelläni"], answer: 1, explanation: "'Kuulua + illatiivi' — Perheeseeni kuuluu." },
+          { question: "Mikä on oikea muoto: '___ kuuluu neljä henkilöä.'", options: ["Perheeni", "Perheeseeni", "Perheestäni", "Perheelläni"], answer: 1, explanation: "'Kuulua + illatiivi' - Perheeseeni kuuluu." },
         ],
       },
     ],

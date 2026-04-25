@@ -1,5 +1,5 @@
 // CONTENT STANDARD: every `theory` block MUST contain ≥6 `## H2` sections so TheorySections.tsx can render the per-section "Mark read" UX.
-// Data Engineering curriculum — 12 modules with progressive difficulty
+// Data Engineering curriculum - 12 modules with progressive difficulty
 import type { ExtendedProgrammingModule } from "./types";
 
 export const dataEngModules: ExtendedProgrammingModule[] = [
@@ -26,7 +26,7 @@ Bạn có file Excel danh sách 10.000 đơn hàng Shopee. Mở Excel → lag, l
 
 - **Series**: 1 cột dữ liệu (như cột "Giá" trong Excel).
 - **DataFrame**: bảng 2 chiều (như nguyên 1 sheet Excel) gồm nhiều Series ghép lại.
-- **Index**: số thứ tự dòng (mặc định 0, 1, 2…) — dùng để định danh mỗi dòng.
+- **Index**: số thứ tự dòng (mặc định 0, 1, 2…) - dùng để định danh mỗi dòng.
 
 ## 3. 🧰 Cú pháp cơ bản
 
@@ -51,11 +51,11 @@ print("Tổng doanh thu:", df["amount"].sum())
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** Đừng nhầm \`df["col"]\` (Series) với \`df[["col"]]\` (DataFrame 1 cột) — type khác nhau, lỗi tiếp theo sẽ rất khó debug.
+> ⚠️ **Cảnh báo:** Đừng nhầm \`df["col"]\` (Series) với \`df[["col"]]\` (DataFrame 1 cột) - type khác nhau, lỗi tiếp theo sẽ rất khó debug.
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Luôn \`df.info()\` ngay sau khi đọc dữ liệu để biết kiểu cột và số NaN — tiết kiệm 30 phút debug sau này.
+> 💡 **Mẹo của thầy Hải:** Luôn \`df.info()\` ngay sau khi đọc dữ liệu để biết kiểu cột và số NaN - tiết kiệm 30 phút debug sau này.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -66,7 +66,7 @@ print("Tổng doanh thu:", df["amount"].sum())
 
 Pandas = Excel programmable. Series = 1 cột, DataFrame = bảng. Luôn \`head()\`, \`info()\`, \`describe()\` để khám phá data trước khi xử lý.
 `,
-        theoryEn: `**Pandas** is Python's #1 data manipulation library — 300M+ downloads/month (PyPI 2025), used by 95% of data scientists and 80% of data engineers globally.
+        theoryEn: `**Pandas** is Python's #1 data manipulation library - 300M+ downloads/month (PyPI 2025), used by 95% of data scientists and 80% of data engineers globally.
 
 ## Why Pandas matters
 Before Pandas (2008, Wes McKinney at AQR Capital), Python lagged behind R/MATLAB for data analysis. Pandas brought:
@@ -75,15 +75,15 @@ Before Pandas (2008, Wes McKinney at AQR Capital), Python lagged behind R/MATLAB
 - Integration with the entire ecosystem: NumPy, Matplotlib, scikit-learn, PyTorch, Spark
 - The first step in every data pipeline: ETL, ML feature engineering, EDA, reporting
 
-## Series — 1D building block
-A 1D labeled array — like a single Excel column with row labels.
+## Series - 1D building block
+A 1D labeled array - like a single Excel column with row labels.
 \`\`\`python
 ages = pd.Series([22, 25, 23], index=['An', 'Binh', 'Chi'], name='age')
 \`\`\`
 Properties: \`.values\`, \`.index\`, \`.dtype\`, \`.name\`
 
-## DataFrame — 2D powerhouse
-A 2D table — essentially a dict of Series sharing an index. The main Pandas structure.
+## DataFrame - 2D powerhouse
+A 2D table - essentially a dict of Series sharing an index. The main Pandas structure.
 
 ## Creating DataFrames
 | Source | Method |
@@ -109,7 +109,7 @@ A 2D table — essentially a dict of Series sharing an index. The main Pandas st
 | \`df[df['age'] > 22]\` | boolean filter |
 | \`df.query('age > 22')\` | SQL-like filter |
 
-**iloc vs loc** — getting this wrong = hard-to-find bugs.
+**iloc vs loc** - getting this wrong = hard-to-find bugs.
 
 ## Modify columns (vectorized > apply > iterrows)
 \`\`\`python
@@ -121,7 +121,7 @@ df['tier'] = np.select(
 )
 \`\`\`
 
-## GroupBy — Split-Apply-Combine
+## GroupBy - Split-Apply-Combine
 \`\`\`python
 df.groupby('city').agg(
     avg_score=('score', 'mean'),
@@ -135,7 +135,7 @@ df.groupby('city').agg(
 | Vectorized | ~5 ms |
 | np.where | ~10 ms |
 | apply(lambda) | ~500 ms |
-| iterrows | ~5000 ms — **AVOID** |
+| iterrows | ~5000 ms - **AVOID** |
 
 ## Spotify case study
 Analysts export 1-10M rows from Snowflake → Pandas notebooks → discover features → port to PySpark for 10B-row production. **Pandas for prototyping, Spark for scale.**
@@ -149,9 +149,9 @@ Analysts export 1-10M rows from Snowflake → Pandas notebooks → discover feat
 6. Use \`chunksize\` for files >1GB
 
 ## Anti-patterns
-- ❌ \`iterrows()\` — 1000× slower than vectorized
-- ❌ \`df = df.append()\` in loop — O(n²) memory
-- ❌ Going to \`.values\` numpy then back — error-prone
+- ❌ \`iterrows()\` - 1000× slower than vectorized
+- ❌ \`df = df.append()\` in loop - O(n²) memory
+- ❌ Going to \`.values\` numpy then back - error-prone
 - ❌ Shallow copy when you need deep copy
 - ❌ Reading 10GB CSV without chunksize → OOM
 
@@ -217,7 +217,7 @@ print(df[['name', 'score', 'grade']])`,
 
 Bạn nhận file khách hàng từ sale: có dòng tên trống, có khách bị nhập 2 lần, có số điện thoại "abc123". Đem train AI thẳng → model học rác, dự đoán rác. Phải **dọn data** trước.
 
-> 💡 **Mẹo của thầy Hải:** "Garbage in, garbage out" — 80% thời gian Data Engineer là dọn dữ liệu, không phải code thuật toán.
+> 💡 **Mẹo của thầy Hải:** "Garbage in, garbage out" - 80% thời gian Data Engineer là dọn dữ liệu, không phải code thuật toán.
 
 ## 2. 💡 Khái niệm chính
 
@@ -246,7 +246,7 @@ print("Sau:", len(df))
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** Đừng \`dropna()\` toàn bộ vô tội vạ — có thể mất 80% data. Phải xét từng cột, ưu tiên impute thay vì drop.
+> ⚠️ **Cảnh báo:** Đừng \`dropna()\` toàn bộ vô tội vạ - có thể mất 80% data. Phải xét từng cột, ưu tiên impute thay vì drop.
 
 ## 6. ✅ Best practice
 
@@ -254,17 +254,17 @@ print("Sau:", len(df))
 
 ## 7. 🤔 Khi nào dùng
 
-- ✅ Mọi pipeline ETL — bước cleaning là bắt buộc.
+- ✅ Mọi pipeline ETL - bước cleaning là bắt buộc.
 - ❌ Streaming real-time → cần validation rules ngay tại nguồn.
 
 ## 8. 📌 Tóm tắt 30 giây
 
 NaN → impute (median/mean/mode) > drop. Duplicates → \`drop_duplicates(subset=[key])\`. Luôn backup data gốc và log số dòng trước/sau.
 `,
-        theoryEn: `**Data Cleaning** is the most time-consuming step in any data pipeline — Anaconda's 2023 survey shows data professionals spend **60-80% of their time** on it. **Garbage in, garbage out** — dirty data leads to wrong analysis, broken ML models, and bad business decisions.
+        theoryEn: `**Data Cleaning** is the most time-consuming step in any data pipeline - Anaconda's 2023 survey shows data professionals spend **60-80% of their time** on it. **Garbage in, garbage out** - dirty data leads to wrong analysis, broken ML models, and bad business decisions.
 
-## Why this matters — IBM Watson Health
-IBM invested **$5B** in Watson for Oncology but shut it down in 2018 because the model recommended wrong treatments. Root cause: **training data not cleaned** — different hospitals encoded "tumor stage" differently (1, I, Stage I, stage_1…), missing values defaulted to 0, dates not normalized to timezone. **One cleaning failure = $5B lost.**
+## Why this matters - IBM Watson Health
+IBM invested **$5B** in Watson for Oncology but shut it down in 2018 because the model recommended wrong treatments. Root cause: **training data not cleaned** - different hospitals encoded "tumor stage" differently (1, I, Stage I, stage_1…), missing values defaulted to 0, dates not normalized to timezone. **One cleaning failure = $5B lost.**
 
 ## 6 types of dirty data
 1. Missing values (NaN, None, '', 'N/A', '-')
@@ -299,14 +299,14 @@ msno.matrix(df)                         # missing pattern heatmap
 - Stock data: ffill / bfill
 - Sentinel: 'UNKNOWN' to preserve "was missing" info
 
-## MCAR / MAR / MNAR — you MUST understand
+## MCAR / MAR / MNAR - you MUST understand
 **NEVER** fill NULLs blindly. Understand WHY they're missing:
 
 | Type | Definition | Example | Strategy |
 |------|-----------|---------|----------|
 | MCAR | Pure random | Sensor random failure | Safe to drop/impute |
 | MAR | Depends on observed columns | Men answer fewer emotion questions | Impute by group |
-| MNAR | Depends on missing value itself | High earners hide income | **DANGER** — imputation = bias |
+| MNAR | Depends on missing value itself | High earners hide income | **DANGER** - imputation = bias |
 
 ## 2. Handle duplicates
 \`\`\`python
@@ -321,7 +321,7 @@ df['email_clean'] = df['email'].str.lower().str.strip()
 df = df.drop_duplicates(subset=['email_clean'])
 \`\`\`
 
-## 3. Detect outliers — 3 methods
+## 3. Detect outliers - 3 methods
 
 ### IQR Method (robust)
 \`\`\`python
@@ -367,13 +367,13 @@ def clean_dataframe(df):
 
 ## Real-world cases
 
-### Airbnb — Data Cleaning Pipeline
+### Airbnb - Data Cleaning Pipeline
 - 100M+ listings/booking events/day
 - Found 5% bookings with price=0 (UI bug), 3% duplicate reviews
 - Used Great Expectations + Spark UDF for validation
 - Result: 40% fewer data quality complaints
 
-### Uber — Surge pricing outlier disaster
+### Uber - Surge pricing outlier disaster
 - Surge pricing 1.0× - 5.0× is **legitimate outlier** (don't clean!)
 - 2014: an intern's outlier-cleaning script removed surge data → revenue forecast off by $2M/day for a week
 
@@ -383,17 +383,17 @@ def clean_dataframe(df):
 1. Log every step (rows before/after, % missing, # outliers)
 2. Standardize text BEFORE dedup (catches case-only dupes)
 3. Validate after cleaning (asserts on business rules)
-4. Separate raw vs cleaned tables — never overwrite raw
+4. Separate raw vs cleaned tables - never overwrite raw
 5. Version control cleaning logic
 6. Manual sample check (random 100 rows)
 7. Use proper tools: **Great Expectations**, **dbt tests**, **Pandera**
 
 ## Anti-patterns
-- ❌ \`df.fillna(0)\` for ALL columns — turns NULL dates into 1970
-- ❌ \`df.dropna()\` without subset — loses 80% of data because of one bad column
+- ❌ \`df.fillna(0)\` for ALL columns - turns NULL dates into 1970
+- ❌ \`df.dropna()\` without subset - loses 80% of data because of one bad column
 - ❌ Removing outliers without domain expert input
-- ❌ Cleaning in dashboard query — slow, repeated, not reproducible
-- ❌ No logging — can't trace anomalies later
+- ❌ Cleaning in dashboard query - slow, repeated, not reproducible
+- ❌ No logging - can't trace anomalies later
 
 ## When to clean
 **At pipeline:** before warehouse (single source of truth)
@@ -401,7 +401,7 @@ def clean_dataframe(df):
 **At source if possible:** fix form validation instead of cleaning later
 
 ## Bridge to next
-After learning to clean, the next lesson (**Data Ingestion**) covers HOW to get data in from various sources (CSV, JSON, API, DB) — the first step before cleaning.`,
+After learning to clean, the next lesson (**Data Ingestion**) covers HOW to get data in from various sources (CSV, JSON, API, DB) - the first step before cleaning.`,
         code: `import pandas as pd
 import numpy as np
 
@@ -452,8 +452,8 @@ print(df_clean)`,
     titleEn: "Data Ingestion",
     icon: "📥",
     color: "from-amber-500 to-orange-600",
-    description: "CSV, JSON, API — collect data",
-    descriptionEn: "CSV, JSON, API — data collection",
+    description: "CSV, JSON, API - collect data",
+    descriptionEn: "CSV, JSON, API - data collection",
     course: "data-eng",
     lessons: [
       {
@@ -495,7 +495,7 @@ print(merged.head())
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** CSV tiếng Việt thường bị lỗi encoding — luôn thử \`encoding="utf-8-sig"\` hoặc \`cp1258\` nếu thấy ký tự lạ.
+> ⚠️ **Cảnh báo:** CSV tiếng Việt thường bị lỗi encoding - luôn thử \`encoding="utf-8-sig"\` hoặc \`cp1258\` nếu thấy ký tự lạ.
 
 ## 6. ✅ Best practice
 
@@ -510,7 +510,7 @@ print(merged.head())
 
 \`read_csv/json/sql/excel/parquet\` là 5 hàm phải thuộc. Encoding utf-8 cho VN. File to → \`chunksize\`. Đọc xong luôn \`head()\` + \`info()\`.
 `,
-        theoryEn: `**Data Ingestion** = collecting data from various sources into your platform. It's the **"E" (Extract)** step in ETL/ELT — the first and most critical of any data pipeline. Eye-opening stat: **70% of production pipeline incidents happen at ingestion** (Monte Carlo Data 2024) — because it's the contact point with "the world outside your control".
+        theoryEn: `**Data Ingestion** = collecting data from various sources into your platform. It's the **"E" (Extract)** step in ETL/ELT - the first and most critical of any data pipeline. Eye-opening stat: **70% of production pipeline incidents happen at ingestion** (Monte Carlo Data 2024) - because it's the contact point with "the world outside your control".
 
 ## Why ingestion is the weakest link
 Ingestion faces:
@@ -537,7 +537,7 @@ Ingestion faces:
 | Cloud storage | Parquet, ORC | boto3 | Data lake |
 | Webhooks | JSON push | FastAPI, Lambda | Real-time events |
 
-## 1. Reading CSV — production tricks
+## 1. Reading CSV - production tricks
 
 \`\`\`python
 df = pd.read_csv('data.csv',
@@ -552,7 +552,7 @@ df = pd.read_csv('data.csv',
 \`\`\`
 **Pitfalls:** 10GB CSV without chunksize = OOM; missing dtype = wrong inference (id as float); BOM from Excel needs \`encoding='utf-8-sig'\`; US (MM/DD/YYYY) vs EU (DD/MM/YYYY) date confusion.
 
-## 2. Reading JSON — flat vs nested
+## 2. Reading JSON - flat vs nested
 \`\`\`python
 df = pd.json_normalize(
     raw['data'],
@@ -562,7 +562,7 @@ df = pd.json_normalize(
 )
 \`\`\`
 
-## 3. API ingestion — production pattern
+## 3. API ingestion - production pattern
 \`\`\`python
 session = requests.Session()
 retry = Retry(total=5, backoff_factor=2, status_forcelist=[429,500,502,503,504])
@@ -580,7 +580,7 @@ while True:
     page += 1
 \`\`\`
 
-## 4. Database — chunked + parameterized
+## 4. Database - chunked + parameterized
 \`\`\`python
 df = pd.read_sql(
     "SELECT * FROM users WHERE created_at > %s",
@@ -617,18 +617,18 @@ df_validated = schema.validate(df, lazy=True)
 
 ## Real-world cases
 
-### Stripe — Webhook ingestion at scale
+### Stripe - Webhook ingestion at scale
 - 3B+ webhook events/month
 - Stack: webhook → API Gateway → SQS → Lambda → S3 raw → Snowflake
 - At-least-once delivery + idempotency key
 - 7-year S3 raw retention (compliance)
 
-### Shopify — Multi-source
+### Shopify - Multi-source
 - 50+ pipelines via Airflow + Fivetran + custom Python
 - Confluent Schema Registry for streaming
 - Cost alerts when source ingest >$1000/day
 
-### GitHub — Hybrid webhook + REST
+### GitHub - Hybrid webhook + REST
 - Real-time via webhooks
 - Historical backfill via REST + pagination
 - Respect \`X-RateLimit-Remaining\`, exponential backoff on 429
@@ -654,8 +654,8 @@ df_validated = schema.validate(df, lazy=True)
 - ❌ Ignoring rate limits → IP ban
 
 ## Pull vs Push
-**Pull**: you query (REST, DB query) — simple, can lag
-**Push**: source pushes (webhook, Kafka) — real-time, more complex
+**Pull**: you query (REST, DB query) - simple, can lag
+**Push**: source pushes (webhook, Kafka) - real-time, more complex
 
 ## Bridge to next
 After successful extraction, the next lesson (**ETL Pipeline Design**) covers orchestrating the **full flow** from extract → transform → load with Airflow, idempotency, and monitoring.`,
@@ -706,8 +706,8 @@ print(f"\\n✅ Validation: {len(errors)} errors" if errors else "\\n✅ Schema v
           { question: "What is incremental loading?", options: ["Loading all data every time", "Only loading new or changed data since the last run", "Loading data randomly", "Loading data in parallel"], answer: 1, explanation: "Incremental loading only ingests new or modified records, saving time and compute resources." },
           { question: "Why use chunksize when reading large CSVs?", options: ["It makes reading faster", "It prevents running out of memory by processing in smaller pieces", "It's required for CSV files", "It improves data quality"], answer: 1, explanation: "chunksize reads the file in manageable pieces instead of loading millions of rows into memory at once." },
           { question: "What does pd.json_normalize do?", options: ["Validates JSON", "Flattens nested JSON structures into a flat DataFrame", "Converts DataFrame to JSON", "Normalizes numeric values"], answer: 1, explanation: "json_normalize takes nested JSON (common from APIs) and flattens it into a tabular DataFrame format." },
-          { question: "What is data lineage?", options: ["Data type information", "Tracking where each record came from and how it was transformed", "The age of the data", "Data backup history"], answer: 1, explanation: "Data lineage records the origin, transformations, and movement of data through your pipeline — essential for debugging and compliance." },
-          { question: "Why should data loads be idempotent?", options: ["For faster performance", "So re-running the same load doesn't create duplicates", "It's not important", "For security"], answer: 1, explanation: "Idempotent loads produce the same result regardless of how many times they run — critical for reliable pipelines that may need to retry." }
+          { question: "What is data lineage?", options: ["Data type information", "Tracking where each record came from and how it was transformed", "The age of the data", "Data backup history"], answer: 1, explanation: "Data lineage records the origin, transformations, and movement of data through your pipeline - essential for debugging and compliance." },
+          { question: "Why should data loads be idempotent?", options: ["For faster performance", "So re-running the same load doesn't create duplicates", "It's not important", "For security"], answer: 1, explanation: "Idempotent loads produce the same result regardless of how many times they run - critical for reliable pipelines that may need to retry." }
         ]
       }
     ]
@@ -718,8 +718,8 @@ print(f"\\n✅ Validation: {len(errors)} errors" if errors else "\\n✅ Schema v
     titleEn: "ETL Pipeline Design",
     icon: "🔄",
     color: "from-amber-500 to-orange-600",
-    description: "Extract, Transform, Load — pipeline design",
-    descriptionEn: "Extract, Transform, Load — pipeline design",
+    description: "Extract, Transform, Load - pipeline design",
+    descriptionEn: "Extract, Transform, Load - pipeline design",
     course: "data-eng",
     lessons: [
       {
@@ -771,7 +771,7 @@ daily.to_parquet("daily_sales.parquet")
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Idempotent — chạy pipeline 2 lần phải ra kết quả y hệt. Dùng \`if_exists="replace"\` hoặc upsert thay vì \`append\`.
+> 💡 **Mẹo của thầy Hải:** Idempotent - chạy pipeline 2 lần phải ra kết quả y hệt. Dùng \`if_exists="replace"\` hoặc upsert thay vì \`append\`.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -790,7 +790,7 @@ Every data-driven company needs reliable pipelines from operational systems (Pos
 - **Time to insight**
 - **Reprocessing capability** when logic is wrong
 
-## ETL — Transform before Load
+## ETL - Transform before Load
 \`\`\`
 [Source] → [Extract] → [Staging server] → [Transform: Python/Spark] → [Load] → [Warehouse]
 \`\`\`
@@ -801,7 +801,7 @@ Every data-driven company needs reliable pipelines from operational systems (Pos
 
 **Use ETL when:** on-prem warehouse, GDPR-style PII masking required before storage, small stable schema, need clean data as single source.
 
-## ELT — Load raw, then transform
+## ELT - Load raw, then transform
 \`\`\`
 [Source] → [Extract] → [Load raw] → [Warehouse: raw schema] → [Transform: SQL/dbt] → [Mart schema]
 \`\`\`
@@ -827,7 +827,7 @@ Every data-driven company needs reliable pipelines from operational systems (Pos
 ## Pipeline components
 
 ### 1. Source connectors (Extract)
-- DB CDC (Debezium, AWS DMS) — read binlog for real-time INSERT/UPDATE/DELETE
+- DB CDC (Debezium, AWS DMS) - read binlog for real-time INSERT/UPDATE/DELETE
 - API: REST polling (Stripe, Shopify), webhooks (Slack, GitHub)
 - File watchers: S3 EventBridge, GCS Pub/Sub
 - Streaming: Kafka, Kinesis
@@ -851,18 +851,18 @@ Every data-driven company needs reliable pipelines from operational systems (Pos
 
 ## Real-world cases
 
-### Netflix — ELT on S3 + Spark + Iceberg
+### Netflix - ELT on S3 + Spark + Iceberg
 - 3+ PB/day event data from 250M users
 - Stack: Kafka → S3 raw (parquet) → Spark → Iceberg → Druid
 - Why ELT: reprocess for recommendation logic changes; raw kept 18 months
 - Spot instances for Spark = 70% savings
 
-### Stripe — ETL with Python + Postgres
+### Stripe - ETL with Python + Postgres
 - Financial data needs PII masking before analytics DB (PCI-DSS)
 - Python + Airflow: extract from prod Postgres → mask card numbers → load
 - Chose ETL because compliance > flexibility
 
-### Airbnb — Hybrid
+### Airbnb - Hybrid
 - Real-time pricing (ETL): Spark Streaming → transform → serving DB
 - Reporting (ELT): raw → Hive → dbt → Presto
 - Lesson: use BOTH for different use cases
@@ -889,7 +889,7 @@ Every data-driven company needs reliable pipelines from operational systems (Pos
 **ETL:** PII compliance required, on-prem warehouse, very stable schema, audit demands single source
 
 ## Bridge to next
-After understanding the ETL/ELT architecture, the next lesson (**Data Modeling**) covers HOW to organize tables in the warehouse: Star Schema, Snowflake, fact vs dimension — the foundation of fast queries.`,
+After understanding the ETL/ELT architecture, the next lesson (**Data Modeling**) covers HOW to organize tables in the warehouse: Star Schema, Snowflake, fact vs dimension - the foundation of fast queries.`,
         code: `import json
 from datetime import datetime
 
@@ -950,8 +950,8 @@ pipeline.run(source_data, transforms, "data_warehouse.students")`,
           { question: "How does ELT differ from ETL?", options: ["They are the same", "ELT transforms inside the warehouse after loading raw data", "ETL is faster", "ELT doesn't need transformation"], answer: 1, explanation: "ELT loads raw data first, then uses the warehouse's compute power to transform. ETL transforms before loading." },
           { question: "What is an Upsert loading strategy?", options: ["Delete everything and reload", "Insert new rows and update existing ones", "Only insert, never update", "Create a new table each time"], answer: 1, explanation: "Upsert (merge) inserts new records and updates existing ones based on a key, handling both new and changed data." },
           { question: "What is CDC (Change Data Capture)?", options: ["A data format", "A technique to detect and capture only changed data from sources", "A type of database", "A scheduling tool"], answer: 1, explanation: "CDC captures only the changes (inserts, updates, deletes) from source systems, enabling efficient incremental data pipelines." },
-          { question: "When should you use dbt instead of custom Python ETL?", options: ["For data extraction", "For SQL-based transformations inside a cloud warehouse (ELT pattern)", "For streaming data", "For file processing"], answer: 1, explanation: "dbt is designed for the T in ELT — it transforms data inside the warehouse using SQL, with built-in testing and documentation." },
-          { question: "What is schema drift?", options: ["When tables move to a different database", "When source data columns are added, removed, or change types unexpectedly", "When queries become slower", "A type of data loss"], answer: 1, explanation: "Schema drift occurs when the structure of source data changes without notice — a common cause of pipeline failures." }
+          { question: "When should you use dbt instead of custom Python ETL?", options: ["For data extraction", "For SQL-based transformations inside a cloud warehouse (ELT pattern)", "For streaming data", "For file processing"], answer: 1, explanation: "dbt is designed for the T in ELT - it transforms data inside the warehouse using SQL, with built-in testing and documentation." },
+          { question: "What is schema drift?", options: ["When tables move to a different database", "When source data columns are added, removed, or change types unexpectedly", "When queries become slower", "A type of data loss"], answer: 1, explanation: "Schema drift occurs when the structure of source data changes without notice - a common cause of pipeline failures." }
         ]
       }
     ]
@@ -971,9 +971,9 @@ pipeline.run(source_data, transforms, "data_warehouse.students")`,
         level: 3, difficulty: "intermediate",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn quản lý kho sách: nếu nhồi tất cả thông tin (sách + tác giả + nhà xuất bản + người mượn) vào 1 bảng khổng lồ → tìm sách nào của tác giả X phải lục cả ngàn dòng. Phải **chia bảng theo nghiệp vụ** — đó là **Data Modeling**.
+Bạn quản lý kho sách: nếu nhồi tất cả thông tin (sách + tác giả + nhà xuất bản + người mượn) vào 1 bảng khổng lồ → tìm sách nào của tác giả X phải lục cả ngàn dòng. Phải **chia bảng theo nghiệp vụ** - đó là **Data Modeling**.
 
-> 💡 **Mẹo của thầy Hải:** Star schema = bảng Fact ở giữa (sự kiện), các bảng Dimension xung quanh (mô tả) — như ngôi sao 5 cánh.
+> 💡 **Mẹo của thầy Hải:** Star schema = bảng Fact ở giữa (sự kiện), các bảng Dimension xung quanh (mô tả) - như ngôi sao 5 cánh.
 
 ## 2. 💡 Khái niệm chính
 
@@ -987,7 +987,7 @@ Bạn quản lý kho sách: nếu nhồi tất cả thông tin (sách + tác gi�
 \`\`\`
         dim_customer
               |
-dim_date — fact_sales — dim_product
+dim_date - fact_sales - dim_product
               |
         dim_store
 \`\`\`
@@ -1006,7 +1006,7 @@ GROUP BY d.year, p.category;
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** Đừng nhồi text dài (mô tả 500 chữ) vào fact table — sẽ phình lên hàng GB và query chậm.
+> ⚠️ **Cảnh báo:** Đừng nhồi text dài (mô tả 500 chữ) vào fact table - sẽ phình lên hàng GB và query chậm.
 
 ## 6. ✅ Best practice
 
@@ -1027,7 +1027,7 @@ Fact = số liệu + FK. Dimension = mô tả. Star = đơn giản, nhanh. Snowf
 
 Bad models cause slow dashboards, metric disagreements, and engineer bottlenecks. Good models let non-technical users self-serve. Spotify and Airbnb have both publicly credited dimensional modeling for scaling their analytics teams.
 
-## Fact tables — the "what"
+## Fact tables - the "what"
 
 One row = one event (a sale, a page view). Contains quantitative measures + foreign keys to dimensions. Three additivity types:
 
@@ -1037,7 +1037,7 @@ One row = one event (a sale, a page view). Contains quantitative measures + fore
 | Semi-additive | Some | account balance |
 | Non-additive | None | conversion rate |
 
-## Dimension tables — the "context"
+## Dimension tables - the "context"
 
 Wide and denormalized. Contain who/what/where/when. Common: \`dim_date\`, \`dim_customer\`, \`dim_product\`. Pre-populate \`dim_date\` so you never compute calendar attributes in queries.
 
@@ -1050,7 +1050,7 @@ Wide and denormalized. Contain who/what/where/when. Common: \`dim_date\`, \`dim_
 | BI friendliness | Excellent | Often poor |
 | Default? | **Yes** | Only when storage is critical |
 
->90% of modern warehouses ship star schemas — storage is cheap, engineer time is not.
+>90% of modern warehouses ship star schemas - storage is cheap, engineer time is not.
 
 ## Slowly Changing Dimensions (SCD)
 
@@ -1058,14 +1058,14 @@ How dimension changes are tracked:
 
 - **Type 0** never changes (birthdate).
 - **Type 1** overwrites (typo fix).
-- **Type 2** adds a new row with \`valid_from / valid_to / is_current\` — full history, most common.
+- **Type 2** adds a new row with \`valid_from / valid_to / is_current\` - full history, most common.
 - **Type 3** adds a "previous value" column.
 
-## Case study — Airbnb Minerva
+## Case study - Airbnb Minerva
 
 Airbnb's Minerva metrics layer is a governed star schema serving ~3,000 metrics from a few hundred tables. Before it, every team had its own "active host" definition; after it, one SQL definition powered every dashboard.
 
-## Case study — a fintech failure
+## Case study - a fintech failure
 
 A fintech mixed transactions, refunds, and chargebacks in one fact table with inconsistent grain. A naive sum reported $40M of phantom revenue. Fix: split into three fact tables, one consistent grain each.
 
@@ -1075,7 +1075,7 @@ Declare the grain first; use surrogate keys; conform shared dimensions; thin tal
 
 ## Anti-patterns & next lesson
 
-Avoid god-fact-tables, storing ratios in facts, and using natural keys as primary keys. Next: **Data Warehousing & OLAP** — how Snowflake/BigQuery physically store these models.`,
+Avoid god-fact-tables, storing ratios in facts, and using natural keys as primary keys. Next: **Data Warehousing & OLAP** - how Snowflake/BigQuery physically store these models.`,
         code: `# Star Schema Design
 print("⭐ Star Schema: E-Commerce")
 print("=" * 50)
@@ -1131,7 +1131,7 @@ ORDER BY d.year, d.month;
           { question: "What does a Fact table contain?", options: ["Descriptive attributes", "Quantitative measures like revenue and quantities", "Only primary keys", "Historical data"], answer: 1, explanation: "Fact tables contain measurable business metrics (revenue, quantity, cost) along with foreign keys to dimension tables." },
           { question: "Why is Star Schema preferred over Snowflake in most cases?", options: ["It uses less storage", "Simpler to understand, fewer JOINs, faster queries, better BI tool support", "It's more normalized", "It handles changes better"], answer: 1, explanation: "Star Schema's simplicity (fewer JOINs) makes queries faster and the model easier to understand. Most BI tools optimize for it." },
           { question: "What is SCD Type 2?", options: ["Overwriting old values", "Adding a new row with version dates to track full history", "Adding a column for the previous value", "Never updating dimensions"], answer: 1, explanation: "SCD Type 2 creates a new row for each change with valid_from/valid_to dates, preserving complete history." },
-          { question: "What is a semi-additive fact?", options: ["A fact that can be summed across all dimensions", "A fact that can be summed across some dimensions but not all", "A fact that cannot be summed", "A fact with missing values"], answer: 1, explanation: "Semi-additive facts (like account balance) can be summed across some dimensions (accounts) but not others (time — you'd average instead)." },
+          { question: "What is a semi-additive fact?", options: ["A fact that can be summed across all dimensions", "A fact that can be summed across some dimensions but not all", "A fact that cannot be summed", "A fact with missing values"], answer: 1, explanation: "Semi-additive facts (like account balance) can be summed across some dimensions (accounts) but not others (time - you'd average instead)." },
           { question: "What is the difference between a surrogate key and a natural key in dimensional modeling?", options: ["They are the same", "Surrogate is auto-generated (no meaning); natural is a real-world identifier", "Natural keys are faster", "Surrogate keys come from source systems"], answer: 1, explanation: "Surrogate keys are warehouse-generated integers with no business meaning. Natural keys (like product SKU) come from source systems." }
         ]
       }
@@ -1152,7 +1152,7 @@ ORDER BY d.year, d.month;
         level: 3, difficulty: "intermediate",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Database app (OLTP) như sổ thu chi của shop: ghi liên tục, hỏi "đơn này bao nhiêu". Còn **Data Warehouse** (OLAP) như báo cáo cuối năm của giám đốc: hỏi "doanh thu 5 năm theo vùng miền". Hai loại — hai mục tiêu khác nhau.
+Database app (OLTP) như sổ thu chi của shop: ghi liên tục, hỏi "đơn này bao nhiêu". Còn **Data Warehouse** (OLAP) như báo cáo cuối năm của giám đốc: hỏi "doanh thu 5 năm theo vùng miền". Hai loại - hai mục tiêu khác nhau.
 
 > 💡 **Mẹo của thầy Hải:** OLTP tối ưu **ghi nhanh**, OLAP tối ưu **đọc nhanh trên triệu dòng**. Lẫn lộn là toang.
 
@@ -1188,11 +1188,11 @@ ORDER BY yr;
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** Đừng chạy báo cáo BI trực tiếp lên DB production — sẽ làm app khách hàng lag chết. Phải tách warehouse riêng.
+> ⚠️ **Cảnh báo:** Đừng chạy báo cáo BI trực tiếp lên DB production - sẽ làm app khách hàng lag chết. Phải tách warehouse riêng.
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Cloud warehouse tính tiền theo dữ liệu quét. Luôn \`SELECT cột cần thiết\` thay vì \`SELECT *\` — tiết kiệm $$$.
+> 💡 **Mẹo của thầy Hải:** Cloud warehouse tính tiền theo dữ liệu quét. Luôn \`SELECT cột cần thiết\` thay vì \`SELECT *\` - tiết kiệm $$$.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1237,13 +1237,13 @@ Storage on cheap S3/GCS; ephemeral compute clusters spin up on demand. Enables a
 | Redshift | Provisioned | AWS native | Manual sizing |
 | Databricks | Per-DBU | Lakehouse + ML | Complex pricing |
 
-## Case study — Capital One
+## Case study - Capital One
 
 Migrated from on-prem Teradata to Snowflake. Won on elasticity, not speed. Cut infra ~40% while throughput grew.
 
-## Case study — $700 SELECT *
+## Case study - $700 SELECT *
 
-A junior at a startup ran \`SELECT *\` on a 70 TB BigQuery table — twice. $700 bill. Mature teams enforce partition filters and per-user quotas.
+A junior at a startup ran \`SELECT *\` on a 70 TB BigQuery table - twice. $700 bill. Mature teams enforce partition filters and per-user quotas.
 
 ## Best practices
 
@@ -1251,7 +1251,7 @@ Partition by date; cluster on common filter columns; use materialized views for 
 
 ## Anti-patterns & next lesson
 
-Avoid unpartitioned scans, OLTP-style point lookups, shared warehouses for ML + dashboards. Next: **Batch vs Streaming** — how fresh does the data need to be?`,
+Avoid unpartitioned scans, OLTP-style point lookups, shared warehouses for ML + dashboards. Next: **Batch vs Streaming** - how fresh does the data need to be?`,
         code: `# OLAP Operations Simulation
 import numpy as np
 
@@ -1300,8 +1300,8 @@ for s in q1:
           { question: "When is columnar storage faster than row-based?", options: ["For INSERT operations", "For SELECT * (all columns)", "For aggregations on a few columns (SUM, AVG)", "For UPDATE operations"], answer: 2, explanation: "Columnar storage only reads the columns needed for the query, making aggregations on a few columns much faster." },
           { question: "What does table partitioning do?", options: ["Creates backup copies", "Splits a table into smaller pieces so queries only scan relevant data", "Encrypts data", "Compresses data"], answer: 1, explanation: "Partitioning divides a table (usually by date) so that queries with partition filters only scan the relevant subset." },
           { question: "What makes Snowflake unique compared to BigQuery?", options: ["It's open source", "It separates compute and storage, supports multi-cloud, and offers data sharing", "It's faster", "It's free"], answer: 1, explanation: "Snowflake's key differentiators: separate compute/storage scaling, multi-cloud support, Time Travel, and cross-org data sharing." },
-          { question: "What is the OLAP 'drill-down' operation?", options: ["Aggregating to a higher level", "Going from summary to detail (year → month → day)", "Filtering one dimension", "Rotating axes"], answer: 1, explanation: "Drill-down moves from summary to detail — e.g., clicking on a year total to see monthly breakdowns." },
-          { question: "Why is BigQuery called 'serverless'?", options: ["It doesn't use servers", "Users don't manage infrastructure — Google handles scaling and maintenance", "It runs on the client", "It uses edge computing"], answer: 1, explanation: "Serverless means you don't provision, manage, or scale servers. Google handles all infrastructure; you just run queries." }
+          { question: "What is the OLAP 'drill-down' operation?", options: ["Aggregating to a higher level", "Going from summary to detail (year → month → day)", "Filtering one dimension", "Rotating axes"], answer: 1, explanation: "Drill-down moves from summary to detail - e.g., clicking on a year total to see monthly breakdowns." },
+          { question: "Why is BigQuery called 'serverless'?", options: ["It doesn't use servers", "Users don't manage infrastructure - Google handles scaling and maintenance", "It runs on the client", "It uses edge computing"], answer: 1, explanation: "Serverless means you don't provision, manage, or scale servers. Google handles all infrastructure; you just run queries." }
         ]
       }
     ]
@@ -1321,7 +1321,7 @@ for s in q1:
         level: 4, difficulty: "advanced",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-**Batch**: 12h đêm chạy báo cáo doanh thu cả ngày — như thợ in báo, sáng mai mới có. **Streaming**: phát hiện gian lận thẻ ngay khi quẹt — như cảnh sát giao thông quan sát từng xe real-time.
+**Batch**: 12h đêm chạy báo cáo doanh thu cả ngày - như thợ in báo, sáng mai mới có. **Streaming**: phát hiện gian lận thẻ ngay khi quẹt - như cảnh sát giao thông quan sát từng xe real-time.
 
 > 💡 **Mẹo của thầy Hải:** Cần "biết ngay trong giây" → streaming. Cần "biết sau vài giờ cũng OK" → batch (rẻ hơn 10 lần).
 
@@ -1375,19 +1375,19 @@ Batch = định kỳ, rẻ, độ trễ cao. Streaming = liên tục, đắt, đ
 
 Streaming sounds great but most companies don't need it. Wrong choice = 5–10× operational pain. Ask: cost of being 1 minute late vs 1 hour vs 1 day?
 
-## Batch — the workhorse
+## Batch - the workhorse
 
 Periodic, high-throughput, cheap, easy to recover. Tools: Airflow, Spark, dbt. ~90% of analytics is batch.
 
-## Streaming — the live wire
+## Streaming - the live wire
 
 Per-event, low latency, expensive, hard to recover. Tools: Kafka + Flink, Kinesis. Always-on clusters.
 
 ## Three streaming concepts
 
-1. **Event time vs processing time** — when it happened vs when we got it.
-2. **Windowing** — tumbling / sliding / session.
-3. **Watermarks** — promise that no event older than X will arrive; defines when a window closes.
+1. **Event time vs processing time** - when it happened vs when we got it.
+2. **Windowing** - tumbling / sliding / session.
+3. **Watermarks** - promise that no event older than X will arrive; defines when a window closes.
 
 ## Trade-off table
 
@@ -1400,13 +1400,13 @@ Per-event, low latency, expensive, hard to recover. Tools: Kafka + Flink, Kinesi
 
 ## Lambda vs Kappa
 
-Lambda = batch + streaming in parallel (two codebases — painful). Kappa = streaming only, replay log to backfill (modern preference).
+Lambda = batch + streaming in parallel (two codebases - painful). Kappa = streaming only, replay log to backfill (modern preference).
 
-## Case study — Uber
+## Case study - Uber
 
 Three latency tiers from one Kafka log: <5s for matching, <10s for surge pricing, daily for financial close.
 
-## Case study — wrong-choice streaming
+## Case study - wrong-choice streaming
 
 An e-commerce shop built Kafka + Flink for dashboards that refreshed once per morning. Migrated to dbt + Airflow → saved $200k/year and on-call quieted.
 
@@ -1416,7 +1416,7 @@ Default to batch; one event log feeding both; idempotent processing; explicit la
 
 ## Anti-patterns & next lesson
 
-Avoid streaming for show, missing idempotency, mixing event/processing time. Next: **Data Quality** — making the numbers right.`,
+Avoid streaming for show, missing idempotency, mixing event/processing time. Next: **Data Quality** - making the numbers right.`,
         code: `import time
 from collections import deque
 
@@ -1461,10 +1461,10 @@ for event in data[:10]:
         exerciseEn: "Implement tumbling window (5 events) and sliding window (5 events, slide 2) for stream processor.",
         quiz: [
           { question: "When should you use Stream Processing?", options: ["Monthly reports", "Real-time fraud detection", "Data migration", "Backups"], answer: 1, explanation: "Stream processing is for real-time needs: fraud detection, live monitoring, instant alerts, real-time dashboards." },
-          { question: "What is a tumbling window?", options: ["A window that moves with each event", "A fixed-size, non-overlapping time window", "A window based on user sessions", "A window that grows over time"], answer: 1, explanation: "Tumbling windows are fixed-size and non-overlapping — e.g., every 5 minutes is a separate, complete window." },
+          { question: "What is a tumbling window?", options: ["A window that moves with each event", "A fixed-size, non-overlapping time window", "A window based on user sessions", "A window that grows over time"], answer: 1, explanation: "Tumbling windows are fixed-size and non-overlapping - e.g., every 5 minutes is a separate, complete window." },
           { question: "What problem does the Lambda Architecture solve?", options: ["Data storage", "Providing both accurate batch results and real-time approximations", "Data compression", "Security"], answer: 1, explanation: "Lambda Architecture combines a batch layer (accurate but slow) with a speed layer (fast but approximate) to serve both needs." },
           { question: "What is the difference between event time and processing time?", options: ["They are the same", "Event time is when it happened; processing time is when the system processes it", "Processing time is always first", "Event time is for streaming only"], answer: 1, explanation: "Events may arrive late (network delays). Event time reflects reality; processing time reflects when your system saw it." },
-          { question: "What does 'exactly-once' delivery guarantee mean?", options: ["Messages are sent exactly once", "Each event is processed exactly once, even with retries — no duplicates, no losses", "Events arrive in order", "Processing takes exactly one second"], answer: 1, explanation: "Exactly-once ensures each event affects the final result once — achieved through transactions and idempotent operations." }
+          { question: "What does 'exactly-once' delivery guarantee mean?", options: ["Messages are sent exactly once", "Each event is processed exactly once, even with retries - no duplicates, no losses", "Events arrive in order", "Processing takes exactly one second"], answer: 1, explanation: "Exactly-once ensures each event affects the final result once - achieved through transactions and idempotent operations." }
         ]
       }
     ]
@@ -1519,7 +1519,7 @@ assert df["order_id"].is_unique, "trùng order_id"
 
 ## 5. ⚠️ Bẫy thường gặp
 
-> ⚠️ **Cảnh báo:** Đừng chỉ check khi pipeline fail — phải check **mọi lần chạy**, kể cả khi data trông "có vẻ ổn".
+> ⚠️ **Cảnh báo:** Đừng chỉ check khi pipeline fail - phải check **mọi lần chạy**, kể cả khi data trông "có vẻ ổn".
 
 ## 6. ✅ Best practice
 
@@ -1553,9 +1553,9 @@ Engineers spend ~40% of their time firefighting data quality. Gartner pegs the a
 
 ## Three layers of defense
 
-1. **Schema/contract tests** — dbt, Great Expectations.
-2. **Statistical anomaly detection** — Monte Carlo, Bigeye, Anomalo.
-3. **Business-logic assertions** — owned by analytics engineers.
+1. **Schema/contract tests** - dbt, Great Expectations.
+2. **Statistical anomaly detection** - Monte Carlo, Bigeye, Anomalo.
+3. **Business-logic assertions** - owned by analytics engineers.
 
 ## dbt-style testing
 
@@ -1571,11 +1571,11 @@ A test is a SQL query that *should return zero rows*. Run on every PR + after ev
 | Monte Carlo | Anomaly detection at scale |
 | Anomalo | No-code, business-friendly |
 
-## Case study — Netflix WAP
+## Case study - Netflix WAP
 
 Netflix's Write-Audit-Publish: write to staging, run assertions, swap pointer only on success. Now standard via Apache Iceberg.
 
-## Case study — Unity $110M miss
+## Case study - Unity $110M miss
 
 Unity lost ~$110M in 2022 from bad customer data poisoning their ad ML model. Stock −36% in a day.
 
@@ -1585,7 +1585,7 @@ Tests run on every PR; SLAs per table; quality owned by producers; capture linea
 
 ## Anti-patterns & next lesson
 
-Avoid commented-out tests, silent retries, post-incident-only testing. Next: **Orchestration & DAGs** — running these checks in the right order with retries and observability.`,
+Avoid commented-out tests, silent retries, post-incident-only testing. Next: **Orchestration & DAGs** - running these checks in the right order with retries and observability.`,
         code: `# Data Quality Framework
 class DataQualityChecker:
     def __init__(self, data, schema):
@@ -1643,7 +1643,7 @@ dq.report()`,
         quiz: [
           { question: "What does a Data Contract include?", options: ["Only schema", "Schema + SLA + Ownership + Semantics + Evolution policy", "Only code", "Only documentation"], answer: 1, explanation: "Data Contracts formalize expectations between producers and consumers: schema, quality SLAs, ownership, field semantics, and change policies." },
           { question: "What is a 'hard fail' quality gate?", options: ["A test that always passes", "Pipeline stops completely if a quality check fails", "A warning is logged", "Bad records are quarantined"], answer: 1, explanation: "Hard fail stops the pipeline immediately when a critical quality check fails, preventing bad data from reaching consumers." },
-          { question: "What is data observability?", options: ["Watching data move", "Automatically monitoring data quality, freshness, and volume with alerting on anomalies", "Manual data review", "Data visualization"], answer: 1, explanation: "Data observability provides automated monitoring of data health — detecting quality issues, freshness problems, and volume anomalies." },
+          { question: "What is data observability?", options: ["Watching data move", "Automatically monitoring data quality, freshness, and volume with alerting on anomalies", "Manual data review", "Data visualization"], answer: 1, explanation: "Data observability provides automated monitoring of data health - detecting quality issues, freshness problems, and volume anomalies." },
           { question: "Why is the 'consistency' dimension important?", options: ["For performance", "To ensure the same data is formatted the same way across all systems", "For security", "For storage savings"], answer: 1, explanation: "Inconsistent formatting (USA vs US vs United States) leads to incorrect JOINs, wrong aggregations, and broken reports." },
           { question: "What is data quarantine?", options: ["Deleting bad data", "Routing bad records to a separate table for manual review while the pipeline continues", "Ignoring bad data", "Encrypting sensitive data"], answer: 1, explanation: "Quarantine isolates problematic records so the pipeline can continue processing good data while bad records are reviewed." }
         ]
@@ -1693,7 +1693,7 @@ with DAG("daily_etl", start_date=datetime(2024,1,1),
 
 ## 4. 🎯 Ví dụ chạy được ngay
 
-\`extract >> [clean, validate] >> load\` — clean và validate chạy song song sau extract.
+\`extract >> [clean, validate] >> load\` - clean và validate chạy song song sau extract.
 
 ## 5. ⚠️ Bẫy thường gặp
 
@@ -1720,12 +1720,12 @@ DAG = task + dependency + schedule. Airflow/Prefect/Dagster là 3 tool top. Idem
 
 ## Core concepts
 
-- **Task** — unit of work.
-- **DAG** — directed acyclic graph of tasks.
-- **Scheduler** — decides what runs when.
-- **Executor** — actually runs tasks (locally / Celery / K8s).
-- **Backfill** — re-run for historical dates.
-- **Idempotency** — re-runs produce the same output.
+- **Task** - unit of work.
+- **DAG** - directed acyclic graph of tasks.
+- **Scheduler** - decides what runs when.
+- **Executor** - actually runs tasks (locally / Celery / K8s).
+- **Backfill** - re-run for historical dates.
+- **Idempotency** - re-runs produce the same output.
 
 ## Airflow mental model
 
@@ -1741,11 +1741,11 @@ Declare DAGs in Python with operators and \`>>\` for dependencies. Built-in retr
 | Argo | K8s YAML | K8s integration | Steep outside K8s |
 | Cron + bash | DIY | Free | No observability |
 
-## Case study — Airbnb
+## Case study - Airbnb
 
 Birthplace of Airflow (2015). At ~10k DAGs/day they relied on idempotency, metadata-driven DAG generation, and ownership tags for fast on-call routing.
 
-## Case study — cron jungle
+## Case study - cron jungle
 
 A startup ran 400 cron jobs across 5 EC2 boxes. Buffers stopped being enough as traffic grew → revenue dashboard used stale data for 6 weeks unnoticed.
 
@@ -1755,7 +1755,7 @@ Idempotency mandatory; state lives in object storage/warehouse, not orchestrator
 
 ## Anti-patterns & next lesson
 
-Avoid huge XCom payloads, \`datetime.now()\`, sleep loops, side-by-side cron. Next: **Cloud Platforms** — where these orchestrators live.`,
+Avoid huge XCom payloads, \`datetime.now()\`, sleep loops, side-by-side cron. Next: **Cloud Platforms** - where these orchestrators live.`,
         code: `# DAG Simulator (Airflow-like)
 from datetime import datetime
 
@@ -1823,7 +1823,7 @@ dag.run()`,
         exercise: "Add parallel execution, timeout, and SLA monitoring to the DAG simulator.",
         exerciseEn: "Add parallel execution, timeout, and SLA monitoring to the DAG simulator.",
         quiz: [
-          { question: "What is a DAG in Airflow?", options: ["A database", "A Directed Acyclic Graph — a workflow without circular dependencies", "A Data Access Gateway", "A Dashboard"], answer: 1, explanation: "DAG = Directed Acyclic Graph — tasks connected by one-way dependencies with no cycles/loops." },
+          { question: "What is a DAG in Airflow?", options: ["A database", "A Directed Acyclic Graph - a workflow without circular dependencies", "A Data Access Gateway", "A Dashboard"], answer: 1, explanation: "DAG = Directed Acyclic Graph - tasks connected by one-way dependencies with no cycles/loops." },
           { question: "What is XCom used for in Airflow?", options: ["Executing commands", "Passing small metadata (file paths, counts) between tasks", "Storing large datasets", "Scheduling tasks"], answer: 1, explanation: "XCom passes small metadata between tasks. For large data, use cloud storage (S3, GCS) and pass the file path." },
           { question: "What does a Sensor do in Airflow?", options: ["Monitors CPU usage", "Waits for a condition (file arrival, API availability) before proceeding", "Sends notifications", "Cleans up old runs"], answer: 1, explanation: "Sensors poll for a condition (e.g., file exists in S3) and block execution until the condition is met or timeout occurs." },
           { question: "What does the cron expression '0 2 * * *' mean?", options: ["Every 2 minutes", "Every day at 2:00 AM", "Every 2 hours", "Every Monday at 2 AM"], answer: 1, explanation: "0 2 * * * = minute 0, hour 2, any day of month, any month, any day of week = daily at 2:00 AM." },
@@ -1847,9 +1847,9 @@ dag.run()`,
         level: 4, difficulty: "advanced",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn muốn build data pipeline mà không phải mua server vật lý ngồi cắm cáp. Cloud (AWS, GCP, Azure) cho thuê đủ thứ: storage, compute, warehouse — tính tiền theo phút. **Data Engineer phải biết "menu" cloud** để chọn dịch vụ phù hợp.
+Bạn muốn build data pipeline mà không phải mua server vật lý ngồi cắm cáp. Cloud (AWS, GCP, Azure) cho thuê đủ thứ: storage, compute, warehouse - tính tiền theo phút. **Data Engineer phải biết "menu" cloud** để chọn dịch vụ phù hợp.
 
-> 💡 **Mẹo của thầy Hải:** 3 ông lớn — AWS (thị phần lớn nhất), GCP (mạnh data/AI), Azure (tích hợp Microsoft). Học 1 ông → 80% kiến thức chuyển sang ông kia được.
+> 💡 **Mẹo của thầy Hải:** 3 ông lớn - AWS (thị phần lớn nhất), GCP (mạnh data/AI), Azure (tích hợp Microsoft). Học 1 ông → 80% kiến thức chuyển sang ông kia được.
 
 ## 2. 💡 Bộ tứ Data trên Cloud
 
@@ -1932,11 +1932,11 @@ Iceberg, Delta, Hudi: ACID + time travel + schema evolution on top of Parquet. M
 
 Compute (auto-suspend), storage (lifecycle policies), egress (region-pin). Egress always surprises.
 
-## Case study — Shopify
+## Case study - Shopify
 
 GCP + BigQuery + dbt at >10 PB. Won via immutable raw layer + per-team cost tags.
 
-## Case study — egress disaster
+## Case study - egress disaster
 
 S3 in us-east-1, Snowflake in us-west-2 → $180k/quarter in cross-region egress. Migrated buckets, egress dropped to ~zero.
 
@@ -1995,7 +1995,7 @@ estimate_cost(1000, 10, 200)`,
           { question: "What is a Data Lakehouse?", options: ["A data lake + house", "A system combining data lake flexibility with warehouse ACID transactions and performance", "A type of database", "A visualization tool"], answer: 1, explanation: "Data Lakehouse (Delta Lake, Iceberg) adds warehouse features (ACID, schema, performance) to data lake file storage." },
           { question: "What is the Data Mesh approach?", options: ["A networking technology", "Decentralized data ownership where each domain manages its own data products", "A type of database", "A data pipeline tool"], answer: 1, explanation: "Data Mesh decentralizes data ownership to domain teams who publish data as products with quality guarantees." },
           { question: "What are spot/preemptible instances?", options: ["Always-on servers", "Discounted compute that can be terminated when the cloud provider needs capacity back", "Free trial servers", "Premium high-performance servers"], answer: 1, explanation: "Spot instances use spare cloud capacity at 60-90% discount but can be interrupted. Great for fault-tolerant batch workloads." },
-          { question: "What is the principle of least privilege in IAM?", options: ["Give everyone admin access", "Grant only the minimum permissions needed to perform a task", "Remove all permissions", "Use shared accounts"], answer: 1, explanation: "Least privilege means each user/service gets only the exact permissions needed — reducing the impact of compromised credentials." }
+          { question: "What is the principle of least privilege in IAM?", options: ["Give everyone admin access", "Grant only the minimum permissions needed to perform a task", "Remove all permissions", "Use shared accounts"], answer: 1, explanation: "Least privilege means each user/service gets only the exact permissions needed - reducing the impact of compromised credentials." }
         ]
       }
     ]
@@ -2015,7 +2015,7 @@ estimate_cost(1000, 10, 200)`,
         level: 5, difficulty: "advanced",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Pipeline chạy ngon trên laptop bạn — nhưng deploy production: lỗi mất 1 ngày, không ai biết, sếp phát hiện qua dashboard sai. **Production-grade** = pipeline tự kể được "tôi đang ổn" hay "tôi đang fail" + tự sửa được phần lớn lỗi.
+Pipeline chạy ngon trên laptop bạn - nhưng deploy production: lỗi mất 1 ngày, không ai biết, sếp phát hiện qua dashboard sai. **Production-grade** = pipeline tự kể được "tôi đang ổn" hay "tôi đang fail" + tự sửa được phần lớn lỗi.
 
 > 💡 **Mẹo của thầy Hải:** Code chạy được ≠ code production. Khoảng cách đó = monitoring + retry + alert + docs.
 
@@ -2057,7 +2057,7 @@ WHEN NOT MATCHED THEN INSERT (order_id, amount) VALUES (s.order_id, s.amount);
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Mọi pipeline phải có **runbook** — file mô tả: "khi task X fail, làm 3 bước Y, Z, W". On-call team sẽ cảm ơn bạn lúc 2h sáng.
+> 💡 **Mẹo của thầy Hải:** Mọi pipeline phải có **runbook** - file mô tả: "khi task X fail, làm 3 bước Y, Z, W". On-call team sẽ cảm ơn bạn lúc 2h sáng.
 
 ## 7. 🤔 Khi nào áp dụng
 
@@ -2068,13 +2068,13 @@ WHEN NOT MATCHED THEN INSERT (order_id, amount) VALUES (s.order_id, s.amount);
 
 Production = idempotent + monitor + alert + version + test + docs. Không có 6 thứ này, pipeline chỉ là "demo đẹp", không phải "hệ thống thật".
 `,
-        theoryEn: `Building a pipeline that runs on your laptop is easy. Building one that runs reliably for **years**, recovers unattended, and never silently corrupts data — that is data engineering.
+        theoryEn: `Building a pipeline that runs on your laptop is easy. Building one that runs reliably for **years**, recovers unattended, and never silently corrupts data - that is data engineering.
 
 ## Why this matters
 
-Most pipelines aren't loudly broken — they're *quietly wrong* (stale by 3 days, off by 2%). Silent failures erode trust faster than crashes. Five SLOs: freshness, completeness, correctness, availability, cost predictability.
+Most pipelines aren't loudly broken - they're *quietly wrong* (stale by 3 days, off by 2%). Silent failures erode trust faster than crashes. Five SLOs: freshness, completeness, correctness, availability, cost predictability.
 
-## Idempotency — the cornerstone
+## Idempotency - the cornerstone
 
 10 runs = 1 run, same result. Use MERGE/UPSERT, partitioned overwrite, transactional table formats. Avoid \`now()\` inside tasks, auto-IDs assigned in pipeline, side-effects (email + DB write).
 
@@ -2082,7 +2082,7 @@ Most pipelines aren't loudly broken — they're *quietly wrong* (stale by 3 days
 
 Source control + PR review + CI on dev warehouse + staging + blue/green deploy. Tooling: dbt + GitHub Actions + dev/prod schema split.
 
-## Observability — three pillars
+## Observability - three pillars
 
 | Pillar | Question | Tool |
 |---|---|---|
@@ -2101,13 +2101,13 @@ Source control + PR review + CI on dev warehouse + staging + blue/green deploy. 
 
 ## Security & compliance
 
-PII tagging, row-level access, audit logs, encryption, residency, retention — not optional in 2024.
+PII tagging, row-level access, audit logs, encryption, residency, retention - not optional in 2024.
 
-## Case study — Stripe
+## Case study - Stripe
 
 Pipelines that ship money: end-to-end checksums, dual reconciliation, four-eyes rule on financial deploys.
 
-## Case study — Friday-night deploy
+## Case study - Friday-night deploy
 
 A 6pm Friday dbt change joined on a renamed column. 3 days of conversion data silently dropped. Fix was policy: no Friday afternoon deploys, contract tests on join keys, rollback runbooks.
 
@@ -2190,7 +2190,7 @@ results = pipeline.run(data, transform)`,
         exercise: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",
         exerciseEn: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",
         quiz: [
-          { question: "What does idempotency mean in a data pipeline?", options: ["Runs faster", "Running multiple times with the same input produces the same result without duplicates", "Never fails", "Automatically scales"], answer: 1, explanation: "An idempotent pipeline produces identical results regardless of how many times it runs with the same input — no duplicate records." },
+          { question: "What does idempotency mean in a data pipeline?", options: ["Runs faster", "Running multiple times with the same input produces the same result without duplicates", "Never fails", "Automatically scales"], answer: 1, explanation: "An idempotent pipeline produces identical results regardless of how many times it runs with the same input - no duplicate records." },
           { question: "What is a Dead Letter Queue?", options: ["A queue for deleted messages", "A separate storage for records that failed processing, allowing the pipeline to continue", "A backup queue", "A priority queue"], answer: 1, explanation: "DLQ captures failed records so the pipeline can continue processing good data. Failed records are reviewed separately." },
           { question: "What is the purpose of a postmortem?", options: ["Blame someone", "Document what happened, root cause, and preventive actions for future incidents", "Delete failed data", "Restart the pipeline"], answer: 1, explanation: "Postmortems are blameless reviews that document incidents, identify root causes, and create action items to prevent recurrence." },
           { question: "What is a circuit breaker pattern?", options: ["A physical switch", "Stopping calls to a failing service after a threshold to prevent cascading failures", "A type of encryption", "A retry mechanism"], answer: 1, explanation: "Circuit breakers detect when a service is failing and temporarily stop sending requests, giving it time to recover." },

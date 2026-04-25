@@ -45,7 +45,7 @@ const C = {
 };
 
 const IeltsLectureDiagram = ({ lectureId }: Props) => {
-  // ============== WRITING TASK 2 — OPINION ==============
+  // ============== WRITING TASK 2 - OPINION ==============
   if (lectureId === "writing-task2-opinion") {
     return (
       <Wrapper titleVi="Cấu trúc 4-đoạn cho Opinion Essay" title="4-Paragraph Opinion Essay Structure">
@@ -126,7 +126,7 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // ============== WRITING TASK 2 — AGREE/DISAGREE ==============
+  // ============== WRITING TASK 2 - AGREE/DISAGREE ==============
   if (lectureId === "writing-task2-agree-disagree") {
     return (
       <Wrapper titleVi="Cây quyết định Agree / Disagree / Partially" title="Agree / Disagree / Partially Decision Tree">
@@ -186,7 +186,7 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // ============== WRITING TASK 1 — TRENDS ==============
+  // ============== WRITING TASK 1 - TRENDS ==============
   if (lectureId === "writing-task1-trends") {
     return (
       <Wrapper titleVi="Bánh xe ngôn ngữ mô tả xu hướng" title="Trend Vocabulary Wheel">
@@ -250,7 +250,7 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // ============== WRITING TASK 1 — PROCESS ==============
+  // ============== WRITING TASK 1 - PROCESS ==============
   if (lectureId === "writing-task1-describe-process") {
     return (
       <Wrapper titleVi="Sequencer cho mô tả quy trình" title="Process Description Sequencer">
@@ -285,14 +285,14 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
           <g transform="translate(30,200)">
             <rect width="640" height="55" rx="10" fill={C.cardLight} stroke={C.amber} />
             <text x="20" y="22" fill={C.amberLight} fontSize="12" fontWeight="700">⭐ Mr. Hai's tip:</text>
-            <text x="20" y="40" fill={C.text} fontSize="11">Always use PASSIVE VOICE: "is heated", "are mixed", "is then poured" — sounds objective &amp; technical (Band 7+).</text>
+            <text x="20" y="40" fill={C.text} fontSize="11">Always use PASSIVE VOICE: "is heated", "are mixed", "is then poured" - sounds objective &amp; technical (Band 7+).</text>
           </g>
         </svg>
       </Wrapper>
     );
   }
 
-  // ============== WRITING TASK 1 — MAPS ==============
+  // ============== WRITING TASK 1 - MAPS ==============
   if (lectureId === "writing-task1-maps-diagrams") {
     return (
       <Wrapper titleVi="Khung phân tích Maps: 4 loại thay đổi" title="Maps: 4 Types of Changes Framework">
@@ -345,7 +345,7 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // ============== SPEAKING PART 1 — EXPANDING ==============
+  // ============== SPEAKING PART 1 - EXPANDING ==============
   if (lectureId === "speaking-part1-expanding") {
     return (
       <Wrapper titleVi="Công thức mở rộng PEEL cho Part 1" title="PEEL Expansion Formula for Part 1">
@@ -384,7 +384,7 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // ============== SPEAKING PART 2 — CUE CARD ==============
+  // ============== SPEAKING PART 2 - CUE CARD ==============
   if (lectureId === "speaking-part2-technique") {
     return (
       <Wrapper titleVi="Cấu trúc 1-phút prep + 2-phút trả lời" title="1-min Prep + 2-min Delivery Structure">
@@ -466,7 +466,7 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // ============== SPEAKING PART 3 — DISCUSSION ==============
+  // ============== SPEAKING PART 3 - DISCUSSION ==============
   if (lectureId === "speaking-part3-discussion") {
     return (
       <Wrapper titleVi="Khung trả lời 4 bước (OREO+) cho Part 3" title="OREO+ 4-Step Framework for Part 3">
@@ -511,7 +511,7 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
           {/* Safe column */}
           <g transform="translate(30,30)">
             <rect width="315" height="240" rx="12" fill={C.emerald} fillOpacity="0.12" stroke={C.emerald} />
-            <text x="157" y="26" textAnchor="middle" fill={C.emeraldLight} fontSize="13" fontWeight="700">✅ SAFE — Use these</text>
+            <text x="157" y="26" textAnchor="middle" fill={C.emeraldLight} fontSize="13" fontWeight="700">✅ SAFE - Use these</text>
             <line x1="15" y1="36" x2="300" y2="36" stroke={C.border} />
             <text x="15" y="58" fill={C.amberLight} fontSize="11" fontWeight="700">Buy thinking time:</text>
             <text x="15" y="76" fill={C.text} fontSize="11">• "Well, that's an interesting question..."</text>
@@ -527,7 +527,7 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
           {/* Dangerous column */}
           <g transform="translate(355,30)">
             <rect width="315" height="240" rx="12" fill={C.rose} fillOpacity="0.12" stroke={C.rose} />
-            <text x="157" y="26" textAnchor="middle" fill={C.roseLight} fontSize="13" fontWeight="700">❌ DANGEROUS — Avoid</text>
+            <text x="157" y="26" textAnchor="middle" fill={C.roseLight} fontSize="13" fontWeight="700">❌ DANGEROUS - Avoid</text>
             <line x1="15" y1="36" x2="300" y2="36" stroke={C.border} />
             <text x="15" y="58" fill={C.amberLight} fontSize="11" fontWeight="700">Empty noises:</text>
             <text x="15" y="76" fill={C.text} fontSize="11">• "Uhhh...", "Ummm..." (repeated)</text>
@@ -557,13 +557,13 @@ const IeltsLectureDiagram = ({ lectureId }: Props) => {
           {/* Layer 1: General */}
           <g>
             <rect x="220" y="80" width="260" height="35" rx="6" fill={C.blue} fillOpacity="0.2" stroke={C.blue} />
-            <text x="350" y="100" textAnchor="middle" fill={C.blueLight} fontSize="11" fontWeight="700">🌍 GENERAL — Country &amp; Region</text>
+            <text x="350" y="100" textAnchor="middle" fill={C.blueLight} fontSize="11" fontWeight="700">🌍 GENERAL - Country &amp; Region</text>
             <text x="350" y="113" textAnchor="middle" fill={C.text} fontSize="10" fontStyle="italic">"It's in northern Vietnam..."</text>
           </g>
           {/* Layer 2: City */}
           <g>
             <rect x="245" y="125" width="210" height="35" rx="6" fill={C.emerald} fillOpacity="0.2" stroke={C.emerald} />
-            <text x="350" y="145" textAnchor="middle" fill={C.emeraldLight} fontSize="11" fontWeight="700">🏙️ CITY — Setting</text>
+            <text x="350" y="145" textAnchor="middle" fill={C.emeraldLight} fontSize="11" fontWeight="700">🏙️ CITY - Setting</text>
             <text x="350" y="158" textAnchor="middle" fill={C.text} fontSize="10" fontStyle="italic">"Hanoi, the capital..."</text>
           </g>
           {/* Layer 3: District */}

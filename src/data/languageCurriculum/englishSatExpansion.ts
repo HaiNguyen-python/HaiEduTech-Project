@@ -20,7 +20,7 @@ export const satExpansionModules: LanguageModule[] = [
         difficulty: "intermediate",
         theory: `## Từ Vựng Đại số & Hàm số (Algebra & Functions)
 
-Phần SAT Math sử dụng nhiều thuật ngữ tiếng Anh mà bạn cần hiểu chính xác để giải đề đúng. Không phải kiến thức toán khó — mà là **hiểu đề bài bằng tiếng Anh**.
+Phần SAT Math sử dụng nhiều thuật ngữ tiếng Anh mà bạn cần hiểu chính xác để giải đề đúng. Không phải kiến thức toán khó - mà là **hiểu đề bài bằng tiếng Anh**.
 
 ### Thuật ngữ cốt lõi:
 - **Variable** (biến số): Ký hiệu đại diện cho giá trị chưa biết (x, y)
@@ -32,7 +32,7 @@ Phần SAT Math sử dụng nhiều thuật ngữ tiếng Anh mà bạn cần hi
 - **Range** (miền giá trị): Tập hợp giá trị y (output)`,
         theoryEn: `## Algebra & Functions Vocabulary
 
-The SAT Math section uses English terminology you must understand precisely. It's not about hard math — it's about **understanding the question in English**.
+The SAT Math section uses English terminology you must understand precisely. It's not about hard math - it's about **understanding the question in English**.
 
 ### Core Terms:
 - **Variable**: Symbol representing an unknown value (x, y)
@@ -199,7 +199,7 @@ SAT Math features many questions on **statistics, probability, and data analysis
         proTips: [
           "'Outlier' (giá trị ngoại lai) ảnh hưởng mạnh đến mean nhưng KHÔNG ảnh hưởng median",
           "SAT hay hỏi: 'Which measure of center is most appropriate?' → nếu có outlier, chọn median",
-          "'Random sample' là mẫu ngẫu nhiên — cần thiết để kết quả có tính đại diện",
+          "'Random sample' là mẫu ngẫu nhiên - cần thiết để kết quả có tính đại diện",
         ],
         proTipsEn: [
           "'Outliers' strongly affect the mean but NOT the median",
@@ -248,7 +248,7 @@ SAT Math features many questions on **statistics, probability, and data analysis
         difficulty: "advanced",
         theory: `## Bài Toán Đố & Cụm Từ Quan Trọng (Word Problems)
 
-Phần khó nhất của SAT Math không phải toán — mà là **dịch đề từ tiếng Anh sang phép toán**.
+Phần khó nhất của SAT Math không phải toán - mà là **dịch đề từ tiếng Anh sang phép toán**.
 
 ### Bảng chuyển đổi ngôn ngữ → toán:
 | Tiếng Anh | Phép toán |
@@ -269,7 +269,7 @@ Phần khó nhất của SAT Math không phải toán — mà là **dịch đề
 | "ratio of A to B" | A/B |`,
         theoryEn: `## Word Problems & Key Phrases
 
-The hardest part of SAT Math isn't the math — it's **translating English into mathematical operations**.
+The hardest part of SAT Math isn't the math - it's **translating English into mathematical operations**.
 
 ### Language-to-Math Conversion:
 | English | Operation |
@@ -291,12 +291,12 @@ The hardest part of SAT Math isn't the math — it's **translating English into 
         proTips: [
           "'A number' = biến x (số chưa biết). 'A number increased by 5' = x + 5",
           "'Percent of' = nhân. '30% of 200' = 0.30 × 200 = 60",
-          "Đọc câu cuối TRƯỚC — SAT hay hỏi 'What is the value of 2x?' chứ không phải x",
+          "Đọc câu cuối TRƯỚC - SAT hay hỏi 'What is the value of 2x?' chứ không phải x",
         ],
         proTipsEn: [
           "'A number' = variable x. 'A number increased by 5' = x + 5",
           "'Percent of' = multiply. '30% of 200' = 0.30 × 200 = 60",
-          "Read the last sentence FIRST — SAT often asks for '2x', not x",
+          "Read the last sentence FIRST - SAT often asks for '2x', not x",
         ],
         vocabulary: [
           { word: "quotient", meaning: "thương (kết quả phép chia)", example: "The quotient of 20 and 4 is 5.", partOfSpeech: "noun" },
@@ -329,7 +329,7 @@ The hardest part of SAT Math isn't the math — it's **translating English into 
           { question: "What is the remainder when 23 is divided by 5?", options: ["4", "3", "5", "2"], answer: 1, explanation: "23 ÷ 5 = 4 remainder 3. The remainder is 3." },
           { question: "What does 'The car depreciates by 20% annually' mean?", options: ["The car gains 20% value per year", "The car loses 20% of its value each year", "The car uses 20% less fuel", "The car runs 20% faster"], answer: 1, explanation: "'Depreciate' means to decrease in value. 20% annually = loses 20% value per year." },
           { question: "What does 'no fewer than 15' mean?", options: ["x < 15", "x ≤ 15", "x ≥ 15", "x > 15"], answer: 2, explanation: "'No fewer than 15' = 'at least 15' = x ≥ 15." },
-          { question: "When SAT asks 'What is the value of 3x?', what should you do?", options: ["Find x and stop", "Find x then multiply by 3", "Divide the answer by 3", "Ignore the 3"], answer: 1, explanation: "The SAT often asks for an expression, not just the variable — always complete the final step!" },
+          { question: "When SAT asks 'What is the value of 3x?', what should you do?", options: ["Find x and stop", "Find x then multiply by 3", "Divide the answer by 3", "Ignore the 3"], answer: 1, explanation: "The SAT often asks for an expression, not just the variable - always complete the final step!" },
         ],
       },
     ],
@@ -353,7 +353,7 @@ The hardest part of SAT Math isn't the math — it's **translating English into 
         difficulty: "advanced",
         theory: `## Đoạn Văn Khoa Học (Science Passages)
 
-SAT thường có đoạn văn về **khoa học tự nhiên** (sinh học, hóa học, vật lý, thiên văn). Bạn không cần kiến thức chuyên môn — mọi thứ nằm trong đoạn văn.
+SAT thường có đoạn văn về **khoa học tự nhiên** (sinh học, hóa học, vật lý, thiên văn). Bạn không cần kiến thức chuyên môn - mọi thứ nằm trong đoạn văn.
 
 ### Đặc điểm:
 - Có số liệu, biểu đồ, kết quả thí nghiệm
@@ -361,14 +361,14 @@ SAT thường có đoạn văn về **khoa học tự nhiên** (sinh học, hóa
 - Thường mô tả quá trình, nguyên nhân-kết quả, hoặc so sánh giả thuyết
 
 ### Chiến lược:
-1. **Đọc introduction/conclusion trước** — nắm ý chính
+1. **Đọc introduction/conclusion trước** - nắm ý chính
 2. **Xác định claim chính** của nhà nghiên cứu
-3. **Chú ý đến số liệu** — SAT hay hỏi "theo bảng/biểu đồ, ..."
-4. **Phân biệt fact vs. interpretation** — dữ liệu vs. kết luận tác giả
+3. **Chú ý đến số liệu** - SAT hay hỏi "theo bảng/biểu đồ, ..."
+4. **Phân biệt fact vs. interpretation** - dữ liệu vs. kết luận tác giả
 5. **Tìm từ tín hiệu**: "suggests", "indicates", "demonstrates"`,
         theoryEn: `## Science Passages
 
-The SAT frequently includes **natural science** passages (biology, chemistry, physics, astronomy). You don't need specialized knowledge — everything is in the passage.
+The SAT frequently includes **natural science** passages (biology, chemistry, physics, astronomy). You don't need specialized knowledge - everything is in the passage.
 
 ### Characteristics:
 - Contains data, charts, experimental results
@@ -376,20 +376,20 @@ The SAT frequently includes **natural science** passages (biology, chemistry, ph
 - Describes processes, cause-effect, or compares hypotheses
 
 ### Strategies:
-1. **Read intro/conclusion first** — grasp the main idea
+1. **Read intro/conclusion first** - grasp the main idea
 2. **Identify the main claim** of the researcher
-3. **Pay attention to data** — SAT often asks "according to the table/chart..."
-4. **Distinguish fact vs. interpretation** — data vs. author's conclusions
+3. **Pay attention to data** - SAT often asks "according to the table/chart..."
+4. **Distinguish fact vs. interpretation** - data vs. author's conclusions
 5. **Find signal words**: "suggests", "indicates", "demonstrates"`,
         proTips: [
-          "Đoạn văn khoa học SAT KHÔNG yêu cầu bạn biết khoa học — chỉ cần đọc hiểu",
+          "Đoạn văn khoa học SAT KHÔNG yêu cầu bạn biết khoa học - chỉ cần đọc hiểu",
           "Khi có biểu đồ: đọc title → axes → units → trends TRƯỚC khi trả lời",
-          "Cẩn thận với 'correlation vs causation' — SAT hay bẫy ở đây",
+          "Cẩn thận với 'correlation vs causation' - SAT hay bẫy ở đây",
         ],
         proTipsEn: [
-          "SAT science passages do NOT require prior science knowledge — just reading comprehension",
+          "SAT science passages do NOT require prior science knowledge - just reading comprehension",
           "For charts: read title → axes → units → trends BEFORE answering",
-          "Watch for 'correlation vs causation' — a common SAT trap",
+          "Watch for 'correlation vs causation' - a common SAT trap",
         ],
         vocabulary: [
           { word: "hypothesis", meaning: "giả thuyết", example: "The hypothesis was supported by experimental data.", partOfSpeech: "noun" },
@@ -419,7 +419,7 @@ The SAT frequently includes **natural science** passages (biology, chemistry, ph
         ],
         quiz: [
           { question: "Why is 'correlation does not imply causation' important on the SAT?", options: ["It's not relevant", "Because the SAT often uses trap answers suggesting A causes B when only correlation exists", "Because correlation doesn't exist", "Because the SAT doesn't test science"], answer: 1, explanation: "The SAT often includes trap answers implying a causal relationship when only correlation exists." },
-          { question: "What is the first step when reading a science passage?", options: ["Read from start to finish", "Read the introduction and conclusion first", "Skip the charts", "Read the questions last"], answer: 1, explanation: "The introduction/conclusion gives you the main idea — saving time compared to reading everything." },
+          { question: "What is the first step when reading a science passage?", options: ["Read from start to finish", "Read the introduction and conclusion first", "Skip the charts", "Read the questions last"], answer: 1, explanation: "The introduction/conclusion gives you the main idea - saving time compared to reading everything." },
           { question: "What does 'replicate an experiment' mean?", options: ["Cancel the experiment", "Repeat the experiment to confirm results", "Modify the experiment", "Criticize the experiment"], answer: 1, explanation: "'Replicate' means to repeat the experiment under the same conditions to confirm accuracy." },
           { question: "What is 'equilibrium' in science?", options: ["Imbalance", "A state of stable balance", "A fast reaction", "End of an experiment"], answer: 1, explanation: "'Equilibrium' is a state of balance where opposing forces or reactions are equal." },
           { question: "In an experiment, what is the 'independent variable'?", options: ["The variable being affected", "The variable deliberately changed by the researcher", "A constant variable", "The experimental result"], answer: 1, explanation: "The independent variable is the one deliberately changed by the researcher to observe its effect." },
@@ -460,14 +460,14 @@ The SAT includes passages on **history, politics, economics, psychology, and soc
 2. Read **Passage 2** → answer its questions
 3. Finally answer **comparison questions**`,
         proTips: [
-          "Founding Documents dùng tiếng Anh cổ — tập trung vào LẬP LUẬN, không phải từng từ",
+          "Founding Documents dùng tiếng Anh cổ - tập trung vào LẬP LUẬN, không phải từng từ",
           "Paired passages: xác định điểm ĐỒNG THUẬN và KHÁC BIỆT giữa 2 tác giả",
-          "Tác giả thường có bias — tìm từ tín hiệu thể hiện quan điểm",
+          "Tác giả thường có bias - tìm từ tín hiệu thể hiện quan điểm",
         ],
         proTipsEn: [
-          "Founding Documents use archaic English — focus on ARGUMENTS, not individual words",
+          "Founding Documents use archaic English - focus on ARGUMENTS, not individual words",
           "Paired passages: identify AGREEMENTS and DIFFERENCES between authors",
-          "Authors often have bias — find signal words revealing their viewpoint",
+          "Authors often have bias - find signal words revealing their viewpoint",
         ],
         vocabulary: [
           { word: "democracy", meaning: "dân chủ", example: "Democracy gives citizens the right to vote.", partOfSpeech: "noun" },
@@ -496,10 +496,10 @@ The SAT includes passages on **history, politics, economics, psychology, and soc
           },
         ],
         quiz: [
-          { question: "What is the best strategy for paired passages?", options: ["Read both at once", "Read P1 → answer P1, read P2 → answer P2, then compare", "Only read P2", "Read questions first, skip passages"], answer: 1, explanation: "Process each passage separately first, then answer comparison questions — avoids confusion." },
+          { question: "What is the best strategy for paired passages?", options: ["Read both at once", "Read P1 → answer P1, read P2 → answer P2, then compare", "Only read P2", "Read questions first, skip passages"], answer: 1, explanation: "Process each passage separately first, then answer comparison questions - avoids confusion." },
           { question: "What does 'suffrage' mean?", options: ["Suffering", "The right to vote", "Freedom", "Equality"], answer: 1, explanation: "'Suffrage' means the right to vote. Note: it is NOT related to 'suffering'." },
-          { question: "What does 'dissent' mean in politics?", options: ["Agreement", "Disagreement or opposition", "Voting", "Violent protest"], answer: 1, explanation: "'Dissent' means disagreement or opposition — a protected right." },
-          { question: "When reading Founding Documents, what should you focus on?", options: ["The meaning of every archaic word", "The author's arguments and main ideas", "Old grammar rules", "Statistics and data"], answer: 1, explanation: "Focus on the ARGUMENT — the main reasoning — not on understanding every archaic word." },
+          { question: "What does 'dissent' mean in politics?", options: ["Agreement", "Disagreement or opposition", "Voting", "Violent protest"], answer: 1, explanation: "'Dissent' means disagreement or opposition - a protected right." },
+          { question: "When reading Founding Documents, what should you focus on?", options: ["The meaning of every archaic word", "The author's arguments and main ideas", "Old grammar rules", "Statistics and data"], answer: 1, explanation: "Focus on the ARGUMENT - the main reasoning - not on understanding every archaic word." },
           { question: "What is 'rhetoric'?", options: ["Law", "The art of persuasive communication", "History", "Science"], answer: 1, explanation: "'Rhetoric' is the art of using language effectively to persuade or influence." },
         ],
       },
@@ -521,10 +521,10 @@ SAT có đoạn trích từ **tiểu thuyết, truyện ngắn** hoặc hồi k�
 - **Theme**: Chủ đề ẩn sau câu chuyện
 
 ### Chiến lược:
-1. Xác định **narrator** — ai đang kể? Họ biết gì?
-2. Chú ý **thay đổi cảm xúc** — nhân vật chuyển từ vui → buồn?
-3. Tìm **imagery & metaphor** — SAT hay hỏi về chúng
-4. Đừng đọc quá chi tiết — nắm **arc** (diễn biến chính)`,
+1. Xác định **narrator** - ai đang kể? Họ biết gì?
+2. Chú ý **thay đổi cảm xúc** - nhân vật chuyển từ vui → buồn?
+3. Tìm **imagery & metaphor** - SAT hay hỏi về chúng
+4. Đừng đọc quá chi tiết - nắm **arc** (diễn biến chính)`,
         theoryEn: `## Literary & Narrative Passages
 
 The SAT includes excerpts from **novels, short stories**, or memoirs. This is the section many students find hardest because it requires understanding **emotions, character motivation**, and literary techniques.
@@ -537,19 +537,19 @@ The SAT includes excerpts from **novels, short stories**, or memoirs. This is th
 - **Theme**: Underlying message of the story
 
 ### Strategies:
-1. Identify the **narrator** — who's telling? What do they know?
-2. Note **emotional shifts** — does the character go from happy → sad?
-3. Find **imagery & metaphor** — SAT frequently asks about these
-4. Don't over-read — grasp the **arc** (main progression)`,
+1. Identify the **narrator** - who's telling? What do they know?
+2. Note **emotional shifts** - does the character go from happy → sad?
+3. Find **imagery & metaphor** - SAT frequently asks about these
+4. Don't over-read - grasp the **arc** (main progression)`,
         proTips: [
           "Tone words: somber (u ám), whimsical (kỳ quặc), nostalgic (hoài niệm), sardonic (mỉa mai)",
-          "Câu hỏi 'characterization' — tìm bằng chứng qua HÀNH ĐỘNG, không phải lời tự thuật",
-          "Đoạn văn văn học thường có nghĩa bóng — đừng hiểu literal (theo nghĩa đen)",
+          "Câu hỏi 'characterization' - tìm bằng chứng qua HÀNH ĐỘNG, không phải lời tự thuật",
+          "Đoạn văn văn học thường có nghĩa bóng - đừng hiểu literal (theo nghĩa đen)",
         ],
         proTipsEn: [
-          "Tone words: somber, whimsical, nostalgic, sardonic — learn to identify them",
-          "Characterization questions — find evidence through ACTIONS, not self-description",
-          "Literary passages often use figurative language — don't read literally",
+          "Tone words: somber, whimsical, nostalgic, sardonic - learn to identify them",
+          "Characterization questions - find evidence through ACTIONS, not self-description",
+          "Literary passages often use figurative language - don't read literally",
         ],
         vocabulary: [
           { word: "protagonist", meaning: "nhân vật chính", example: "The protagonist faces a difficult moral choice.", partOfSpeech: "noun" },
@@ -588,10 +588,10 @@ The SAT includes excerpts from **novels, short stories**, or memoirs. This is th
         ],
         quiz: [
           { question: "What is 'irony' in literature?", options: ["Repetition", "When reality is opposite to expectations", "A direct comparison", "Detailed description"], answer: 1, explanation: "Irony occurs when the outcome or situation is the opposite of what is expected." },
-          { question: "What is the best way to identify the 'tone' of a passage?", options: ["Read the title", "Analyze the author's word choice", "Count the sentences", "Find the protagonist"], answer: 1, explanation: "Tone is revealed through word choice — the language an author uses shows their attitude." },
-          { question: "What is the purpose of 'foreshadowing'?", options: ["To end the story", "To hint at future events", "To explain the past", "To describe characters"], answer: 1, explanation: "Foreshadowing provides early hints about what will happen — building suspense in the story." },
+          { question: "What is the best way to identify the 'tone' of a passage?", options: ["Read the title", "Analyze the author's word choice", "Count the sentences", "Find the protagonist"], answer: 1, explanation: "Tone is revealed through word choice - the language an author uses shows their attitude." },
+          { question: "What is the purpose of 'foreshadowing'?", options: ["To end the story", "To hint at future events", "To explain the past", "To describe characters"], answer: 1, explanation: "Foreshadowing provides early hints about what will happen - building suspense in the story." },
           { question: "What emotion does 'nostalgic' describe?", options: ["Anger", "Longing for the past", "Anxiety", "Excitement"], answer: 1, explanation: "'Nostalgic' describes a sentimental longing for the past." },
-          { question: "What do SAT literary passages typically ask about?", options: ["Literary history knowledge", "Character emotions, motivations, and writing techniques", "Author biographies", "Grammar in the passage"], answer: 1, explanation: "The SAT focuses on analyzing characters, tone, and imagery — not literary history knowledge." },
+          { question: "What do SAT literary passages typically ask about?", options: ["Literary history knowledge", "Character emotions, motivations, and writing techniques", "Author biographies", "Grammar in the passage"], answer: 1, explanation: "The SAT focuses on analyzing characters, tone, and imagery - not literary history knowledge." },
         ],
       },
       {
@@ -602,45 +602,45 @@ The SAT includes excerpts from **novels, short stories**, or memoirs. This is th
         difficulty: "advanced",
         theory: `## Phân tích Đa văn bản (Dual Passage & Cross-Text)
 
-Digital SAT có dạng bài **Cross-Text Connections** — hai đoạn văn ngắn về cùng chủ đề nhưng quan điểm khác nhau. Bạn phải phân tích mối quan hệ giữa chúng.
+Digital SAT có dạng bài **Cross-Text Connections** - hai đoạn văn ngắn về cùng chủ đề nhưng quan điểm khác nhau. Bạn phải phân tích mối quan hệ giữa chúng.
 
 ### Các dạng mối quan hệ:
-1. **Agreement** — cả 2 đồng ý nhưng với góc nhìn khác
-2. **Disagreement** — đối lập trực tiếp
-3. **Extension** — Text 2 mở rộng ý Text 1
-4. **Qualification** — Text 2 hạn chế/điều chỉnh claim Text 1
-5. **Application** — Text 2 áp dụng lý thuyết Text 1 vào thực tế
+1. **Agreement** - cả 2 đồng ý nhưng với góc nhìn khác
+2. **Disagreement** - đối lập trực tiếp
+3. **Extension** - Text 2 mở rộng ý Text 1
+4. **Qualification** - Text 2 hạn chế/điều chỉnh claim Text 1
+5. **Application** - Text 2 áp dụng lý thuyết Text 1 vào thực tế
 
 ### Chiến lược:
 1. Xác định **claim chính** của từng text
-2. Tìm **từ khóa chung** — cả 2 đang nói về gì?
+2. Tìm **từ khóa chung** - cả 2 đang nói về gì?
 3. Xác định **mối quan hệ**: đồng ý? phản đối? bổ sung?
-4. Chú ý đến **scope** — Text 1 nói chung, Text 2 nói cụ thể?`,
+4. Chú ý đến **scope** - Text 1 nói chung, Text 2 nói cụ thể?`,
         theoryEn: `## Dual Passage & Cross-Text Analysis
 
-The Digital SAT features **Cross-Text Connections** — two short passages on the same topic with different perspectives. You must analyze the relationship between them.
+The Digital SAT features **Cross-Text Connections** - two short passages on the same topic with different perspectives. You must analyze the relationship between them.
 
 ### Relationship Types:
-1. **Agreement** — both agree but with different angles
-2. **Disagreement** — direct opposition
-3. **Extension** — Text 2 expands on Text 1
-4. **Qualification** — Text 2 limits/modifies Text 1's claim
-5. **Application** — Text 2 applies Text 1's theory to practice
+1. **Agreement** - both agree but with different angles
+2. **Disagreement** - direct opposition
+3. **Extension** - Text 2 expands on Text 1
+4. **Qualification** - Text 2 limits/modifies Text 1's claim
+5. **Application** - Text 2 applies Text 1's theory to practice
 
 ### Strategy:
 1. Identify the **main claim** of each text
-2. Find **shared keywords** — what are both discussing?
+2. Find **shared keywords** - what are both discussing?
 3. Determine the **relationship**: agree? disagree? supplement?
-4. Note the **scope** — Text 1 general, Text 2 specific?`,
+4. Note the **scope** - Text 1 general, Text 2 specific?`,
         proTips: [
-          "Đừng nhầm 'partial agreement' với 'full agreement' — SAT phân biệt rất kỹ",
+          "Đừng nhầm 'partial agreement' với 'full agreement' - SAT phân biệt rất kỹ",
           "Câu hỏi thường: 'How would Author 2 respond to Author 1's claim?'",
-          "'Qualify' không có nghĩa 'đạt chuẩn' ở đây — mà là 'hạn chế, điều chỉnh'",
+          "'Qualify' không có nghĩa 'đạt chuẩn' ở đây - mà là 'hạn chế, điều chỉnh'",
         ],
         proTipsEn: [
-          "Don't confuse 'partial agreement' with 'full agreement' — SAT is precise",
+          "Don't confuse 'partial agreement' with 'full agreement' - SAT is precise",
           "Common question: 'How would Author 2 respond to Author 1's claim?'",
-          "'Qualify' here doesn't mean 'meet standards' — it means 'limit, modify'",
+          "'Qualify' here doesn't mean 'meet standards' - it means 'limit, modify'",
         ],
         vocabulary: [
           { word: "counterargument", meaning: "lập luận phản bác", example: "The author addresses potential counterarguments.", partOfSpeech: "noun" },
@@ -672,7 +672,7 @@ The Digital SAT features **Cross-Text Connections** — two short passages on th
           { question: "In Cross-Text questions, what does 'qualification' mean?", options: ["Full agreement", "Text 2 limits or modifies Text 1's claim", "Text 2 rejects Text 1", "No relationship"], answer: 1, explanation: "Qualification means Text 2 doesn't fully oppose but limits or adds conditions to Text 1's claim." },
           { question: "How do 'diverge' and 'converge' differ?", options: ["They mean the same", "Diverge = differ; Converge = come together", "Diverge = agree; Converge = oppose", "Unrelated"], answer: 1, explanation: "Diverge = move apart, differ. Converge = come together, agree." },
           { question: "What does the question 'How would Author 2 respond?' require?", options: ["Summarize Text 2", "Predict Author 2's reaction to Author 1's claim", "Agree with Author 1", "Write an additional passage"], answer: 1, explanation: "You must infer how Author 2 would react based on the views expressed in Text 2." },
-          { question: "What does 'caveat' mean?", options: ["Conclusion", "A warning or limitation", "Agreement", "Data"], answer: 1, explanation: "'Caveat' is a warning or caution — often pointing out limitations or exceptions to a conclusion." },
+          { question: "What does 'caveat' mean?", options: ["Conclusion", "A warning or limitation", "Agreement", "Data"], answer: 1, explanation: "'Caveat' is a warning or caution - often pointing out limitations or exceptions to a conclusion." },
           { question: "What does 'supersede' mean?", options: ["Supplement", "Replace with something better", "Repeat", "Support"], answer: 1, explanation: "'Supersede' means to replace something old with something newer and better." },
         ],
       },

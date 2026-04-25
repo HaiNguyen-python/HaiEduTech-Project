@@ -1,4 +1,4 @@
-// Kids overseas expansion 2 — 8 bài học mới: màu sắc, động vật, đếm đồ vật, nghề nghiệp,
+// Kids overseas expansion 2 - 8 bài học mới: màu sắc, động vật, đếm đồ vật, nghề nghiệp,
 // trang phục truyền thống, trò chơi dân gian, tình bạn & cảm xúc, danh nhân Việt Nam
 import type { KidsLesson } from "./kidsOverseasData";
 

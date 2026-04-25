@@ -1,6 +1,6 @@
 /**
  * @file EnglishIdioms.tsx
- * @description "Idioms, Proverbs & Quotes" — interactive English Foundation
+ * @description "Idioms, Proverbs & Quotes" - interactive English Foundation
  * module. Browsable bilingual library + four engaging exercises:
  *   1. Meaning Match (English phrase ↔ Vietnamese meaning)
  *   2. Fill the Idiom (missing word in the phrase)
@@ -116,8 +116,8 @@ const EnglishIdioms = () => {
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground max-w-3xl">
               {t(
-                "Học những câu nói hay nhất bằng tiếng Anh — kèm nghĩa thật, ví dụ thực tế và câu tục ngữ Việt tương đương. Sau khi đọc, hãy thử ngay 4 dạng bài tập tương tác để ghi nhớ lâu!",
-                "Master the most beautiful English sayings — with real meanings, natural examples and Vietnamese equivalents. Then test yourself with 4 interactive exercises to make them stick!",
+                "Học những câu nói hay nhất bằng tiếng Anh - kèm nghĩa thật, ví dụ thực tế và câu tục ngữ Việt tương đương. Sau khi đọc, hãy thử ngay 4 dạng bài tập tương tác để ghi nhớ lâu!",
+                "Master the most beautiful English sayings - with real meanings, natural examples and Vietnamese equivalents. Then test yourself with 4 interactive exercises to make them stick!",
               )}
             </p>
           </motion.div>
@@ -307,7 +307,7 @@ const LibraryView = ({ entries, filterCategory, setFilterCategory, filterTheme, 
                   "{entry.phrase}"
                 </p>
                 {entry.author && (
-                  <p className="text-xs text-muted-foreground italic mb-2">— {entry.author}</p>
+                  <p className="text-xs text-muted-foreground italic mb-2">- {entry.author}</p>
                 )}
                 <p className="text-xs text-muted-foreground italic mb-3">
                   {t("Dịch nghĩa đen:", "Literal:")} {entry.literalVi}
@@ -698,7 +698,7 @@ const QuizExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
     } else {
       setStreak(0);
       if (opt === q.trapText) {
-        toast({ title: t("Coi chừng nghĩa đen!", "Beware the literal trap!"), description: t("Đó là dịch từng chữ — không phải nghĩa thật.", "That's the word-for-word meaning — not the real one.") });
+        toast({ title: t("Coi chừng nghĩa đen!", "Beware the literal trap!"), description: t("Đó là dịch từng chữ - không phải nghĩa thật.", "That's the word-for-word meaning - not the real one.") });
       }
     }
   };
@@ -737,7 +737,7 @@ const QuizExercise = ({ t, toast }: { t: (vi: string, en: string) => string; toa
             <Sparkles className="w-6 h-6 text-violet-500" /> {t("Trắc nghiệm cấp tốc", "Quick Quiz")}
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
-            {t("Chọn nghĩa thật — coi chừng bẫy nghĩa đen!", "Pick the real meaning — beware the literal trap!")}
+            {t("Chọn nghĩa thật - coi chừng bẫy nghĩa đen!", "Pick the real meaning - beware the literal trap!")}
           </p>
         </div>
         <div className="flex items-center gap-3">

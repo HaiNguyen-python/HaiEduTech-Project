@@ -13,8 +13,8 @@ export const finnishLessonExpansion3Modules: FinnishModule[] = [
     lessons: [
       {
         id: "partitive-basics",
-        title: "Partitiivi — Perusteet",
-        titleEn: "Partitive — Basics",
+        title: "Partitiivi - Perusteet",
+        titleEn: "Partitive - Basics",
         icon: "📝",
         level: "A2",
         theory: `Partitiivi on yksi suomen kielen tärkeimmistä sijoista. Sitä käytetään erittäin usein.\n\n**Milloin käytetään partitiovia?**\n1. Kieltolauseissa: En osta **autoa**.\n2. Jaottoman aineen kanssa: Juon **kahvia**.\n3. Lukusanan jälkeen: Kolme **kissaa**.\n4. Tunnetilan kanssa: Rakastan **sinua**.`,
@@ -40,13 +40,13 @@ export const finnishLessonExpansion3Modules: FinnishModule[] = [
         quiz: [
           { question: "Mikä on 'auto' partitiivissa?", options: ["autoa", "auton", "autossa", "autolle"], answer: 0, explanation: "auto → autoa (partitiivi yksikkö)" },
           { question: "Milloin käytetään partitiivia?", options: ["Myöntölauseessa aina", "Kieltolauseessa", "Vain monikossa", "Vain verbin kanssa"], answer: 1, explanation: "Kieltolauseessa objekti on aina partitiivissa." },
-          { question: "'Juon kahvia' — miksi partitiivi?", options: ["Kieltolause", "Jaoton aine", "Lukusana", "Tunnetila"], answer: 1, explanation: "Kahvi on jaotonta ainetta, siksi partitiivi." }
+          { question: "'Juon kahvia' - miksi partitiivi?", options: ["Kieltolause", "Jaoton aine", "Lukusana", "Tunnetila"], answer: 1, explanation: "Kahvi on jaotonta ainetta, siksi partitiivi." }
         ]
       },
       {
         id: "partitive-special",
-        title: "Partitiivi — Erikoistapaukset",
-        titleEn: "Partitive — Special Cases",
+        title: "Partitiivi - Erikoistapaukset",
+        titleEn: "Partitive - Special Cases",
         icon: "⚡",
         level: "A2",
         theory: `Jotkut verbit vaativat aina partitiivia:\n\n**Tunneverbit:** rakastaa, vihata, pelätä, ihmetellä\n- Rakastan **Suomea**.\n- Pelkään **hämähäkkejä**.\n\n**Jatkuvuusverbit:** odottaa, etsiä, auttaa\n- Odotan **bussia**.\n\n**Erikoistapaukset:**\n- Väriä ilmaisevat: punaista, sinistä\n- Kielen nimet: suomea, englantia`,
@@ -163,16 +163,16 @@ export const finnishLessonExpansion3Modules: FinnishModule[] = [
             explanation: "Missä, mistä ja minne vastaavat kolmea eri suuntaa: sijainti, lähtöpaikka ja kohde.",
             explanationEn: "Missä, mistä and minne correspond to three directions: location, origin, and destination.",
             examples: [
-              { finnish: "Missä sinä asut? — Helsingissä.", english: "Where do you live? — In Helsinki." },
-              { finnish: "Mistä sinä tulet? — Suomesta.", english: "Where do you come from? — From Finland." },
-              { finnish: "Minne sinä menet? — Kauppaan.", english: "Where are you going? — To the store." }
+              { finnish: "Missä sinä asut? - Helsingissä.", english: "Where do you live? - In Helsinki." },
+              { finnish: "Mistä sinä tulet? - Suomesta.", english: "Where do you come from? - From Finland." },
+              { finnish: "Minne sinä menet? - Kauppaan.", english: "Where are you going? - To the store." }
             ]
           }
         ],
         dialogues: [
           {
-            situation: "Kahvilassa — kysymyksiä",
-            situationEn: "At a café — asking questions",
+            situation: "Kahvilassa - kysymyksiä",
+            situationEn: "At a café - asking questions",
             lines: [
               { speaker: "A", finnish: "Kuka sinä olet?", english: "Who are you?" },
               { speaker: "B", finnish: "Olen Maria. Mistä sinä tulet?", english: "I'm Maria. Where do you come from?" },
@@ -270,8 +270,8 @@ export const finnishLessonExpansion3Modules: FinnishModule[] = [
         titleEn: "Messages & Notices",
         icon: "💬",
         level: "A2",
-        theory: `Arkipäivän viestit: tekstiviestit, muistilaput, ilmoitukset.\n\n**Tekstiviesti — lyhyt ja epävirallinen:**\n- Tuun myöhässä! (I'll be late!) — puhekieli\n- Soita mulle! (Call me!)\n\n**Ilmoitus — selkeä ja virallinen:**\n- Huomio! Hissi on epäkunnossa. (Notice! The elevator is broken.)\n- Kokous on siirretty tiistaille. (The meeting has been moved to Tuesday.)\n\n**Muistilappu:**\n- Muista ostaa maitoa! (Remember to buy milk!)\n- Avain on pöydällä. (The key is on the table.)`,
-        theoryEn: `Everyday messages: text messages, notes, announcements.\n\n**Text message — short and informal:**\n- Tuun myöhässä! (I'll be late!) — spoken Finnish\n- Soita mulle! (Call me!)\n\n**Announcement — clear and formal:**\n- Huomio! Hissi on epäkunnossa. (Notice! The elevator is broken.)\n- Kokous on siirretty tiistaille. (The meeting has been moved to Tuesday.)\n\n**Note:**\n- Muista ostaa maitoa! (Remember to buy milk!)\n- Avain on pöydällä. (The key is on the table.)`,
+        theory: `Arkipäivän viestit: tekstiviestit, muistilaput, ilmoitukset.\n\n**Tekstiviesti - lyhyt ja epävirallinen:**\n- Tuun myöhässä! (I'll be late!) - puhekieli\n- Soita mulle! (Call me!)\n\n**Ilmoitus - selkeä ja virallinen:**\n- Huomio! Hissi on epäkunnossa. (Notice! The elevator is broken.)\n- Kokous on siirretty tiistaille. (The meeting has been moved to Tuesday.)\n\n**Muistilappu:**\n- Muista ostaa maitoa! (Remember to buy milk!)\n- Avain on pöydällä. (The key is on the table.)`,
+        theoryEn: `Everyday messages: text messages, notes, announcements.\n\n**Text message - short and informal:**\n- Tuun myöhässä! (I'll be late!) - spoken Finnish\n- Soita mulle! (Call me!)\n\n**Announcement - clear and formal:**\n- Huomio! Hissi on epäkunnossa. (Notice! The elevator is broken.)\n- Kokous on siirretty tiistaille. (The meeting has been moved to Tuesday.)\n\n**Note:**\n- Muista ostaa maitoa! (Remember to buy milk!)\n- Avain on pöydällä. (The key is on the table.)`,
         vocabulary: [
           { word: "ilmoitus", partOfSpeech: "substantiivi", meaningEn: "announcement, notice", meaningVi: "thông báo", example: "Lue ilmoitus seinältä.", exampleEn: "Read the notice on the wall.", category: "viestintä" },
           { word: "muistilappu", partOfSpeech: "substantiivi", meaningEn: "note, memo", meaningVi: "giấy nhắn", example: "Jätin muistilapun pöydälle.", exampleEn: "I left a note on the table.", category: "viestintä" },

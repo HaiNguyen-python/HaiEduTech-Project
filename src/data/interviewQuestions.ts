@@ -41,7 +41,7 @@ import { interviewQuestionsExpansion } from "./interviewQuestionsExpansion";
 
 const baseInterviewQuestions: InterviewQuestion[] = [
   // ============================================================
-  // AI ENGINEER — LLMs & Prompt Engineering
+  // AI ENGINEER - LLMs & Prompt Engineering
   // ============================================================
   {
     id: "ai-llm-1",
@@ -50,7 +50,7 @@ const baseInterviewQuestions: InterviewQuestion[] = [
     difficulty: "Junior",
     question: "What is a Large Language Model (LLM) and how does it work at a high level?",
     answer:
-      "An LLM is a neural network (typically a Transformer) trained on massive text corpora to predict the next token given prior context. It learns statistical patterns of language and world knowledge implicitly through self-supervised learning. At inference time, it generates text autoregressively — sampling one token at a time conditioned on the prompt and previously generated tokens.",
+      "An LLM is a neural network (typically a Transformer) trained on massive text corpora to predict the next token given prior context. It learns statistical patterns of language and world knowledge implicitly through self-supervised learning. At inference time, it generates text autoregressively - sampling one token at a time conditioned on the prompt and previously generated tokens.",
     keyPoints: [
       "Transformer architecture with self-attention",
       "Self-supervised pretraining on next-token prediction",
@@ -119,7 +119,7 @@ prompt = f"Context:\\n{context}\\n\\nAnswer the question using only the context.
     difficulty: "Senior",
     question: "How do you decide between prompt engineering, RAG, and fine-tuning for a production use case?",
     answer:
-      "Decision framework based on: (1) task type — behavior/style → fine-tune, knowledge → RAG, simple reformulation → prompt; (2) data freshness — dynamic → RAG, static → fine-tune; (3) cost & latency budget — prompt is cheapest; (4) traceability — RAG provides citations; (5) data volume — fine-tune needs ~hundreds to thousands of examples. Typical progression: start with prompt engineering → add RAG when knowledge gaps appear → fine-tune only when prompting hits a quality ceiling. Often combined: fine-tuned model + RAG context.",
+      "Decision framework based on: (1) task type - behavior/style → fine-tune, knowledge → RAG, simple reformulation → prompt; (2) data freshness - dynamic → RAG, static → fine-tune; (3) cost & latency budget - prompt is cheapest; (4) traceability - RAG provides citations; (5) data volume - fine-tune needs ~hundreds to thousands of examples. Typical progression: start with prompt engineering → add RAG when knowledge gaps appear → fine-tune only when prompting hits a quality ceiling. Often combined: fine-tuned model + RAG context.",
     keyPoints: [
       "Always start with prompt engineering (cheapest, fastest)",
       "Add RAG for knowledge-intensive or citation-required tasks",
@@ -164,7 +164,7 @@ prompt = f"Context:\\n{context}\\n\\nAnswer the question using only the context.
     tags: ["CoT", "reasoning"],
   },
   // ============================================================
-  // AI ENGINEER — Machine Learning Fundamentals
+  // AI ENGINEER - Machine Learning Fundamentals
   // ============================================================
   {
     id: "ai-ml-1",
@@ -173,7 +173,7 @@ prompt = f"Context:\\n{context}\\n\\nAnswer the question using only the context.
     difficulty: "Junior",
     question: "Explain overfitting and underfitting. How do you detect and address each?",
     answer:
-      "Overfitting: model memorizes training data and fails on new data — high train accuracy, low validation accuracy. Underfitting: model is too simple to capture patterns — low accuracy on both. Detect via train/validation gap. Address overfitting with: more data, regularization (L1/L2, dropout), early stopping, simpler model, data augmentation. Address underfitting with: bigger model, more features, longer training, less regularization.",
+      "Overfitting: model memorizes training data and fails on new data - high train accuracy, low validation accuracy. Underfitting: model is too simple to capture patterns - low accuracy on both. Detect via train/validation gap. Address overfitting with: more data, regularization (L1/L2, dropout), early stopping, simpler model, data augmentation. Address underfitting with: bigger model, more features, longer training, less regularization.",
     keyPoints: [
       "Plot train vs validation loss curves",
       "Overfit signal: train ↓ but val ↑",
@@ -260,13 +260,13 @@ scores = cross_val_score(pipe, X, y, cv=5)`,
       "Typical k=5 or k=10",
       "Stratified k-fold for classification",
       "Group k-fold when samples cluster (same user/patient)",
-      "Time series: never random — use TimeSeriesSplit",
+      "Time series: never random - use TimeSeriesSplit",
       "Nested CV for hyperparameter tuning + evaluation",
     ],
     tags: ["cross-validation"],
   },
   // ============================================================
-  // AI ENGINEER — Deep Learning & Neural Networks
+  // AI ENGINEER - Deep Learning & Neural Networks
   // ============================================================
   {
     id: "ai-dl-1",
@@ -281,7 +281,7 @@ scores = cross_val_score(pipe, X, y, cv=5)`,
       "Multi-head: parallel attention with different learned projections",
       "Positional encoding compensates for parallel (order-free) processing",
       "Encoder-only (BERT), Decoder-only (GPT), Encoder-Decoder (T5)",
-      "Quadratic cost in sequence length — hence long-context research",
+      "Quadratic cost in sequence length - hence long-context research",
     ],
     tags: ["transformer", "attention"],
   },
@@ -309,7 +309,7 @@ scores = cross_val_score(pipe, X, y, cv=5)`,
     difficulty: "Senior",
     question: "Compare optimizers: SGD, Momentum, Adam. When would you choose each?",
     answer:
-      "SGD: pure stochastic gradient descent — simple, well-understood generalization, but slow and sensitive to learning rate. Momentum: accumulates velocity to dampen oscillations and accelerate in consistent directions. Adam: adaptive per-parameter learning rates via running estimates of first (mean) and second (variance) moments — converges fast on most problems with little tuning. Choose: Adam/AdamW as default for deep learning; SGD+Momentum for vision tasks where it often generalizes better at scale; LAMB/LARS for very large batches; Lion for memory-constrained large models.",
+      "SGD: pure stochastic gradient descent - simple, well-understood generalization, but slow and sensitive to learning rate. Momentum: accumulates velocity to dampen oscillations and accelerate in consistent directions. Adam: adaptive per-parameter learning rates via running estimates of first (mean) and second (variance) moments - converges fast on most problems with little tuning. Choose: Adam/AdamW as default for deep learning; SGD+Momentum for vision tasks where it often generalizes better at scale; LAMB/LARS for very large batches; Lion for memory-constrained large models.",
     keyPoints: [
       "AdamW = Adam + decoupled weight decay (preferred for transformers)",
       "Learning rate warmup helps stability for large models",
@@ -330,14 +330,14 @@ scores = cross_val_score(pipe, X, y, cv=5)`,
     keyPoints: [
       "Pretrained model = feature extractor",
       "Lower learning rate when fine-tuning (avoid catastrophic forgetting)",
-      "LoRA: trains tiny low-rank matrices, freezes base — 100× cheaper",
+      "LoRA: trains tiny low-rank matrices, freezes base - 100× cheaper",
       "Foundation models = pretrained models reused everywhere",
       "Domain adaptation = transfer when source/target distributions differ",
     ],
     tags: ["transfer-learning", "fine-tuning"],
   },
   // ============================================================
-  // AI ENGINEER — System Design & Ethics
+  // AI ENGINEER - System Design & Ethics
   // ============================================================
   {
     id: "ai-sys-1",
@@ -346,7 +346,7 @@ scores = cross_val_score(pipe, X, y, cv=5)`,
     difficulty: "Senior",
     question: "Design a production RAG system serving 1000 QPS over a 10M-document corpus.",
     answer:
-      "Architecture: (1) Ingestion pipeline — chunk documents (500–1000 tokens with overlap), embed with a strong model (e.g., text-embedding-3-large), store vectors + metadata in a managed vector DB (Pinecone, Weaviate, pgvector). (2) Query path — embed query, hybrid search (BM25 + ANN), rerank top 50 → top 5 with a cross-encoder, build prompt, stream LLM response. (3) Infra — separate stateless API tier behind a load balancer, auto-scaling LLM workers (or managed API), Redis cache for embedding+answer cache (high cache-hit on hot queries). (4) Observability — log queries, retrieved chunks, latencies, faithfulness scores. (5) Cost controls — quantized embeddings, batched inference, smaller cheaper LLM for easy queries (router pattern).",
+      "Architecture: (1) Ingestion pipeline - chunk documents (500–1000 tokens with overlap), embed with a strong model (e.g., text-embedding-3-large), store vectors + metadata in a managed vector DB (Pinecone, Weaviate, pgvector). (2) Query path - embed query, hybrid search (BM25 + ANN), rerank top 50 → top 5 with a cross-encoder, build prompt, stream LLM response. (3) Infra - separate stateless API tier behind a load balancer, auto-scaling LLM workers (or managed API), Redis cache for embedding+answer cache (high cache-hit on hot queries). (4) Observability - log queries, retrieved chunks, latencies, faithfulness scores. (5) Cost controls - quantized embeddings, batched inference, smaller cheaper LLM for easy queries (router pattern).",
     keyPoints: [
       "Chunking strategy is the #1 quality lever",
       "Hybrid retrieval (BM25 + vector) outperforms pure vector",
@@ -363,7 +363,7 @@ scores = cross_val_score(pipe, X, y, cv=5)`,
     difficulty: "Mid",
     question: "How do you evaluate an LLM application beyond accuracy?",
     answer:
-      "LLM apps need multi-dimensional eval: (1) Task quality — exact match, ROUGE/BLEU for summarization, LLM-as-judge for open-ended; (2) Faithfulness — does the answer follow from retrieved context (RAGAS, TruLens); (3) Safety — toxicity, jailbreak resistance, PII leaks; (4) Latency — p50, p95, time-to-first-token; (5) Cost — tokens per request × price; (6) User signals — thumbs up/down, edit-rate, session length. Build a 'golden set' of 50–500 representative examples + automated evals on every code change (CI for prompts).",
+      "LLM apps need multi-dimensional eval: (1) Task quality - exact match, ROUGE/BLEU for summarization, LLM-as-judge for open-ended; (2) Faithfulness - does the answer follow from retrieved context (RAGAS, TruLens); (3) Safety - toxicity, jailbreak resistance, PII leaks; (4) Latency - p50, p95, time-to-first-token; (5) Cost - tokens per request × price; (6) User signals - thumbs up/down, edit-rate, session length. Build a 'golden set' of 50–500 representative examples + automated evals on every code change (CI for prompts).",
     keyPoints: [
       "LLM-as-judge for scalable eval (use stronger model)",
       "RAGAS metrics: faithfulness, answer relevance, context precision",
@@ -382,7 +382,7 @@ scores = cross_val_score(pipe, X, y, cv=5)`,
     answer:
       "Bias = systematic, unfair outcomes for certain groups (gender, race, age, geography). Sources: biased training data (historical hiring data favoring men), biased labels (annotator bias), biased features (zip code as proxy for race), biased optimization (majority-class dominance). Mitigations: (1) audit training data composition, (2) fairness metrics (demographic parity, equal opportunity, equalized odds), (3) re-sampling or re-weighting underrepresented groups, (4) adversarial debiasing, (5) post-hoc threshold adjustment per group, (6) document with model cards and datasheets.",
     keyPoints: [
-      "There is no single 'fairness' definition — pick based on context",
+      "There is no single 'fairness' definition - pick based on context",
       "Removing protected attribute alone doesn't fix bias (proxies remain)",
       "Continuous monitoring in production for fairness drift",
       "Diverse review teams catch issues a homogeneous team misses",
@@ -397,7 +397,7 @@ scores = cross_val_score(pipe, X, y, cv=5)`,
     difficulty: "Senior",
     question: "How do you reduce LLM inference latency and cost in production?",
     answer:
-      "Latency: (1) stream tokens — first token arrives in <1s; (2) smaller distilled models for simple queries (router pattern: cheap model classifies, hard queries escalate); (3) speculative decoding — small model drafts, large model verifies; (4) prompt caching (Anthropic, OpenAI); (5) reduce output tokens with stop sequences and concise instructions; (6) batch concurrent requests on self-hosted models. Cost: (1) cache responses (exact + semantic); (2) shorter prompts via summary memory; (3) move from premium to mid-tier model where quality allows; (4) quantization (int8/int4) for self-hosted; (5) negotiate volume pricing or use open-weight models with vLLM/TGI.",
+      "Latency: (1) stream tokens - first token arrives in <1s; (2) smaller distilled models for simple queries (router pattern: cheap model classifies, hard queries escalate); (3) speculative decoding - small model drafts, large model verifies; (4) prompt caching (Anthropic, OpenAI); (5) reduce output tokens with stop sequences and concise instructions; (6) batch concurrent requests on self-hosted models. Cost: (1) cache responses (exact + semantic); (2) shorter prompts via summary memory; (3) move from premium to mid-tier model where quality allows; (4) quantization (int8/int4) for self-hosted; (5) negotiate volume pricing or use open-weight models with vLLM/TGI.",
     keyPoints: [
       "Streaming hides total latency from users",
       "Router: cheap classifier picks model size",
@@ -409,7 +409,7 @@ scores = cross_val_score(pipe, X, y, cv=5)`,
   },
 
   // ============================================================
-  // DATA ENGINEER — SQL & Databases
+  // DATA ENGINEER - SQL & Databases
   // ============================================================
   {
     id: "de-sql-1",
@@ -443,7 +443,7 @@ GROUP BY c.id, c.name;`,
     difficulty: "Mid",
     question: "What is a database index, and what are the tradeoffs?",
     answer:
-      "An index is a separate data structure (typically a B-tree) that maps column values to row locations, enabling fast lookups, range scans, and ORDER BY without full table scans. Tradeoffs: (1) faster reads, slower writes (every INSERT/UPDATE/DELETE updates indexes); (2) extra storage; (3) only helpful when selectivity is high — indexing a boolean is usually pointless. Types: B-tree (default, range queries), Hash (equality only), GIN/GiST (full-text, JSON, geospatial), partial (subset of rows), covering (includes extra columns to avoid table lookup).",
+      "An index is a separate data structure (typically a B-tree) that maps column values to row locations, enabling fast lookups, range scans, and ORDER BY without full table scans. Tradeoffs: (1) faster reads, slower writes (every INSERT/UPDATE/DELETE updates indexes); (2) extra storage; (3) only helpful when selectivity is high - indexing a boolean is usually pointless. Types: B-tree (default, range queries), Hash (equality only), GIN/GiST (full-text, JSON, geospatial), partial (subset of rows), covering (includes extra columns to avoid table lookup).",
     keyPoints: [
       "Index columns used in WHERE, JOIN, ORDER BY",
       "Composite index column order matters: most selective first",
@@ -490,7 +490,7 @@ SELECT * FROM ranked WHERE rn = 1;`,
     difficulty: "Senior",
     question: "Explain database normalization vs. denormalization. When do you choose each?",
     answer:
-      "Normalization splits data into related tables to eliminate redundancy and update anomalies (1NF: atomic columns; 2NF: no partial dependencies; 3NF: no transitive dependencies). Best for OLTP workloads with frequent writes. Denormalization deliberately duplicates data to speed up reads at the cost of storage and write complexity — best for OLAP/analytics where joins on huge tables are expensive. Star schema (denormalized fact + small dim tables) is the standard analytics pattern. Modern lakehouses often denormalize for performance and re-derive via incremental ETL.",
+      "Normalization splits data into related tables to eliminate redundancy and update anomalies (1NF: atomic columns; 2NF: no partial dependencies; 3NF: no transitive dependencies). Best for OLTP workloads with frequent writes. Denormalization deliberately duplicates data to speed up reads at the cost of storage and write complexity - best for OLAP/analytics where joins on huge tables are expensive. Star schema (denormalized fact + small dim tables) is the standard analytics pattern. Modern lakehouses often denormalize for performance and re-derive via incremental ETL.",
     keyPoints: [
       "OLTP → normalized (3NF)",
       "OLAP / data warehouse → denormalized (star/snowflake)",
@@ -533,7 +533,7 @@ DELETE FROM users WHERE id IN (SELECT id FROM ranked WHERE rn > 1);`,
     role: "data-engineer",
     category: "SQL & Databases",
     difficulty: "Senior",
-    question: "ACID properties — explain each and give an example of why they matter.",
+    question: "ACID properties - explain each and give an example of why they matter.",
     answer:
       "Atomicity: a transaction is all-or-nothing (bank transfer either debits AND credits, or neither). Consistency: transactions move the DB from one valid state to another, respecting constraints (FK, CHECK). Isolation: concurrent transactions don't see each other's intermediate state, configurable via isolation levels (Read Committed, Repeatable Read, Serializable). Durability: committed data survives crashes (via WAL/redo log). Without ACID you get phantom reads, double-spending, partial updates, and corruption. NoSQL/distributed systems often relax some properties (BASE) for scale.",
     keyPoints: [
@@ -541,13 +541,13 @@ DELETE FROM users WHERE id IN (SELECT id FROM ranked WHERE rn > 1);`,
       "Read Committed is the most common default",
       "Serializable prevents anomalies but can deadlock",
       "Optimistic concurrency (version columns) avoids locks",
-      "Distributed transactions are hard — prefer idempotency + retries",
+      "Distributed transactions are hard - prefer idempotency + retries",
     ],
     tags: ["ACID", "transactions"],
   },
 
   // ============================================================
-  // DATA ENGINEER — Data Pipelines & ETL
+  // DATA ENGINEER - Data Pipelines & ETL
   // ============================================================
   {
     id: "de-pipe-1",
@@ -599,7 +599,7 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     answer:
       "Airflow orchestrates pipelines as code. DAG (Directed Acyclic Graph): a Python file defining tasks and their dependencies, with a schedule. Task: a single unit of work, an instance of an Operator. Operator: a template for what to do (BashOperator, PythonOperator, KubernetesPodOperator, SnowflakeOperator). Scheduler: continuously parses DAGs, triggers task instances when dependencies and schedule align, and queues them on workers (Celery, Kubernetes, Local). Webserver provides UI; Metadata DB stores state.",
     keyPoints: [
-      "DAGs are Python — version-controlled, testable",
+      "DAGs are Python - version-controlled, testable",
       "Tasks should be idempotent and atomic",
       "Use XCom only for small metadata, not data payloads",
       "Sensors wait for external conditions (file, table)",
@@ -614,7 +614,7 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     difficulty: "Senior",
     question: "Compare batch and stream processing. How do you decide which to use?",
     answer:
-      "Batch: process bounded data on a schedule (hourly, daily) — simple, cheap, easy to backfill, high throughput, high latency. Stream: process unbounded data continuously as events arrive — low latency (seconds), more complex (windowing, watermarks, state management), exactly-once is hard. Choose stream when business value depends on freshness < minutes (fraud detection, real-time dashboards, alerting). Choose batch otherwise. Modern systems use both (Lambda/Kappa architecture) or hybrid micro-batch (Spark Structured Streaming, Flink).",
+      "Batch: process bounded data on a schedule (hourly, daily) - simple, cheap, easy to backfill, high throughput, high latency. Stream: process unbounded data continuously as events arrive - low latency (seconds), more complex (windowing, watermarks, state management), exactly-once is hard. Choose stream when business value depends on freshness < minutes (fraud detection, real-time dashboards, alerting). Choose batch otherwise. Modern systems use both (Lambda/Kappa architecture) or hybrid micro-batch (Spark Structured Streaming, Flink).",
     keyPoints: [
       "Batch: simple, cheap, high latency",
       "Stream: complex, expensive, low latency",
@@ -631,19 +631,19 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     difficulty: "Senior",
     question: "How do you implement and enforce data quality in a pipeline?",
     answer:
-      "Layered approach: (1) Schema enforcement at ingestion (Avro/Protobuf/JSON Schema). (2) In-pipeline assertions: row count vs expected, null rate, uniqueness, referential integrity, value ranges — using Great Expectations, dbt tests, or Soda. (3) Data contracts between producers and consumers (versioned, breaking-change alerts). (4) Quality gates: fail the pipeline if critical checks fail, quarantine bad rows, alert on warnings. (5) Observability: track freshness, volume, distribution drift over time (Monte Carlo, Datadog). (6) Lineage so you can trace 'who broke this' quickly.",
+      "Layered approach: (1) Schema enforcement at ingestion (Avro/Protobuf/JSON Schema). (2) In-pipeline assertions: row count vs expected, null rate, uniqueness, referential integrity, value ranges - using Great Expectations, dbt tests, or Soda. (3) Data contracts between producers and consumers (versioned, breaking-change alerts). (4) Quality gates: fail the pipeline if critical checks fail, quarantine bad rows, alert on warnings. (5) Observability: track freshness, volume, distribution drift over time (Monte Carlo, Datadog). (6) Lineage so you can trace 'who broke this' quickly.",
     keyPoints: [
       "Tests in CI: dbt test, Great Expectations",
       "Quarantine bad rows; don't silently drop",
       "Alert on schema drift from upstream",
       "SLA / freshness monitors on critical tables",
-      "Data contracts shift left — catch issues at the source",
+      "Data contracts shift left - catch issues at the source",
     ],
     tags: ["data-quality"],
   },
 
   // ============================================================
-  // DATA ENGINEER — Big Data & Cloud
+  // DATA ENGINEER - Big Data & Cloud
   // ============================================================
   {
     id: "de-bd-1",
@@ -654,7 +654,7 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     answer:
       "Spark is a distributed compute engine using a driver + executors model. The driver builds a DAG of transformations on RDDs/DataFrames, optimizes it (Catalyst optimizer for DataFrames), and ships tasks to executors that process partitions in parallel. Faster than MapReduce because: (1) keeps data in memory between stages instead of writing to disk, (2) lazy evaluation lets the optimizer fuse operations, (3) richer API (joins, windows, ML) avoids hand-written multi-job pipelines, (4) Tungsten engine + columnar formats (Parquet) accelerate computation.",
     keyPoints: [
-      "Lazy evaluation — actions trigger execution",
+      "Lazy evaluation - actions trigger execution",
       "DataFrames > RDDs (Catalyst optimizer)",
       "Wide vs narrow transformations (shuffle = expensive)",
       "Partitioning controls parallelism and skew",
@@ -669,10 +669,10 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     difficulty: "Senior",
     question: "What is data partitioning in a data lake? How do you choose the partition key?",
     answer:
-      "Partitioning splits a large dataset into subdirectories based on one or more columns (e.g., s3://bucket/events/year=2025/month=01/day=15/). Query engines (Athena, Spark, Trino) prune partitions that don't match the WHERE clause, dramatically reducing scanned data and cost. Choose a key that: (1) is frequently filtered on (almost always a date), (2) has manageable cardinality (avoid millions of tiny partitions — the 'small files problem'), (3) distributes data evenly. Common choice: event_date. Avoid: high-cardinality columns like user_id alone, low-selectivity columns like country (when 90% is one country).",
+      "Partitioning splits a large dataset into subdirectories based on one or more columns (e.g., s3://bucket/events/year=2025/month=01/day=15/). Query engines (Athena, Spark, Trino) prune partitions that don't match the WHERE clause, dramatically reducing scanned data and cost. Choose a key that: (1) is frequently filtered on (almost always a date), (2) has manageable cardinality (avoid millions of tiny partitions - the 'small files problem'), (3) distributes data evenly. Common choice: event_date. Avoid: high-cardinality columns like user_id alone, low-selectivity columns like country (when 90% is one country).",
     keyPoints: [
       "Date partitioning is the default for time-series data",
-      "Small files = high overhead — compact regularly",
+      "Small files = high overhead - compact regularly",
       "Bucketing complements partitioning for joins",
       "Iceberg/Delta/Hudi handle partition evolution gracefully",
       "Always test partition pruning with EXPLAIN",
@@ -684,9 +684,9 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     role: "data-engineer",
     category: "Big Data & Cloud",
     difficulty: "Mid",
-    question: "Data Warehouse vs Data Lake vs Lakehouse — what's the difference?",
+    question: "Data Warehouse vs Data Lake vs Lakehouse - what's the difference?",
     answer:
-      "Data Warehouse: structured, schema-on-write, optimized for SQL analytics (Snowflake, BigQuery, Redshift). High performance and governance, higher cost, less flexibility for unstructured data. Data Lake: cheap object storage (S3, GCS) holding raw files in any format (Parquet, JSON, images), schema-on-read. Flexible and cheap but easy to become a 'data swamp' without governance. Lakehouse: combines both — open table formats (Delta, Iceberg, Hudi) on object storage providing ACID transactions, schema evolution, time travel, and high-performance SQL while preserving lake economics. The current consensus architecture for new builds.",
+      "Data Warehouse: structured, schema-on-write, optimized for SQL analytics (Snowflake, BigQuery, Redshift). High performance and governance, higher cost, less flexibility for unstructured data. Data Lake: cheap object storage (S3, GCS) holding raw files in any format (Parquet, JSON, images), schema-on-read. Flexible and cheap but easy to become a 'data swamp' without governance. Lakehouse: combines both - open table formats (Delta, Iceberg, Hudi) on object storage providing ACID transactions, schema evolution, time travel, and high-performance SQL while preserving lake economics. The current consensus architecture for new builds.",
     keyPoints: [
       "Warehouse = managed, structured, expensive",
       "Lake = cheap, raw, flexible, risky without governance",
@@ -703,7 +703,7 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     difficulty: "Senior",
     question: "How do you optimize cost on a cloud data warehouse like Snowflake or BigQuery?",
     answer:
-      "Compute: (1) right-size warehouses, auto-suspend aggressively (Snowflake), (2) use slot reservations vs on-demand (BigQuery) based on workload, (3) separate workloads into dedicated warehouses to avoid contention. Storage: (1) drop unused tables, (2) tier cold data (Snowflake long-term storage, BQ long-term pricing kicks in automatically), (3) compress with Parquet + clustering. Query: (1) avoid SELECT * — column pruning, (2) partition + cluster on filter columns, (3) materialize expensive repeated CTEs, (4) cache results, (5) approximate functions (APPROX_COUNT_DISTINCT) when exactness isn't required. Governance: (1) tag queries by team for chargeback, (2) alert on query cost > threshold, (3) review top-cost queries weekly.",
+      "Compute: (1) right-size warehouses, auto-suspend aggressively (Snowflake), (2) use slot reservations vs on-demand (BigQuery) based on workload, (3) separate workloads into dedicated warehouses to avoid contention. Storage: (1) drop unused tables, (2) tier cold data (Snowflake long-term storage, BQ long-term pricing kicks in automatically), (3) compress with Parquet + clustering. Query: (1) avoid SELECT * - column pruning, (2) partition + cluster on filter columns, (3) materialize expensive repeated CTEs, (4) cache results, (5) approximate functions (APPROX_COUNT_DISTINCT) when exactness isn't required. Governance: (1) tag queries by team for chargeback, (2) alert on query cost > threshold, (3) review top-cost queries weekly.",
     keyPoints: [
       "Top 10 expensive queries usually = 80% of cost",
       "Auto-suspend / on-demand pricing > always-on",
@@ -715,7 +715,7 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
   },
 
   // ============================================================
-  // DATA ENGINEER — System Design
+  // DATA ENGINEER - System Design
   // ============================================================
   {
     id: "de-sys-1",
@@ -741,12 +741,12 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     difficulty: "Mid",
     question: "What is Change Data Capture (CDC) and when do you use it?",
     answer:
-      "CDC captures row-level changes (insert, update, delete) from a source database and streams them downstream, usually by reading the database's transaction log (Postgres WAL, MySQL binlog). Tools: Debezium (open source), Fivetran, AWS DMS. Use when: (1) you need near-real-time replication of an OLTP DB into your warehouse, (2) you need to track historical changes (audit, SCD Type 2), (3) you need to feed downstream search/cache without polling, (4) you want to avoid load on the source from full table scans. Alternative: incremental ETL via updated_at column — simpler but misses deletes and lags more.",
+      "CDC captures row-level changes (insert, update, delete) from a source database and streams them downstream, usually by reading the database's transaction log (Postgres WAL, MySQL binlog). Tools: Debezium (open source), Fivetran, AWS DMS. Use when: (1) you need near-real-time replication of an OLTP DB into your warehouse, (2) you need to track historical changes (audit, SCD Type 2), (3) you need to feed downstream search/cache without polling, (4) you want to avoid load on the source from full table scans. Alternative: incremental ETL via updated_at column - simpler but misses deletes and lags more.",
     keyPoints: [
       "Log-based CDC > query-based polling",
       "Debezium + Kafka Connect = standard open-source stack",
       "Captures DELETEs (polling can't)",
-      "Watch out for schema changes — handle them gracefully",
+      "Watch out for schema changes - handle them gracefully",
       "Initial snapshot + ongoing stream is the typical pattern",
     ],
     tags: ["CDC", "replication"],
@@ -758,7 +758,7 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     difficulty: "Mid",
     question: "What is data lineage and why is it important?",
     answer:
-      "Data lineage tracks the flow of data from source through transformations to consumers — which tables/columns feed which dashboards/models. It enables: (1) impact analysis ('if I change this column, what breaks?'), (2) root cause analysis ('this dashboard is wrong — which upstream changed?'), (3) compliance (GDPR — where does PII live?), (4) onboarding new engineers. Tools: dbt docs (column-level for SQL transformations), OpenLineage standard, commercial (Atlan, Collibra, Alation, Monte Carlo). Critical for any pipeline beyond a handful of tables.",
+      "Data lineage tracks the flow of data from source through transformations to consumers - which tables/columns feed which dashboards/models. It enables: (1) impact analysis ('if I change this column, what breaks?'), (2) root cause analysis ('this dashboard is wrong - which upstream changed?'), (3) compliance (GDPR - where does PII live?), (4) onboarding new engineers. Tools: dbt docs (column-level for SQL transformations), OpenLineage standard, commercial (Atlan, Collibra, Alation, Monte Carlo). Critical for any pipeline beyond a handful of tables.",
     keyPoints: [
       "Column-level lineage > table-level for impact analysis",
       "OpenLineage = open standard, integrations with Airflow/Spark/dbt",
@@ -775,18 +775,18 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     difficulty: "Senior",
     question: "How do you monitor a production data platform and what alerts would you set up?",
     answer:
-      "Three layers: (1) Infrastructure — job success/failure, runtime, resource utilization, queue depth. (2) Data quality — freshness (last update timestamp), volume (row count vs 7-day baseline ±X%), schema (column added/dropped), distribution drift (mean/null-rate/unique-count). (3) Business — KPI sanity checks (revenue not 0, DAU not negative). Alerts: page on-call only for revenue-impacting failures; everything else goes to a triage channel. Use anomaly detection (not static thresholds) for volume/freshness on hundreds of tables. Dashboards: pipeline health, cost trends, top failures. Tools: Datadog, Monte Carlo, Bigeye, native warehouse monitors, plus Airflow's built-in SLA misses.",
+      "Three layers: (1) Infrastructure - job success/failure, runtime, resource utilization, queue depth. (2) Data quality - freshness (last update timestamp), volume (row count vs 7-day baseline ±X%), schema (column added/dropped), distribution drift (mean/null-rate/unique-count). (3) Business - KPI sanity checks (revenue not 0, DAU not negative). Alerts: page on-call only for revenue-impacting failures; everything else goes to a triage channel. Use anomaly detection (not static thresholds) for volume/freshness on hundreds of tables. Dashboards: pipeline health, cost trends, top failures. Tools: Datadog, Monte Carlo, Bigeye, native warehouse monitors, plus Airflow's built-in SLA misses.",
     keyPoints: [
-      "Don't alert on warnings — only actionable failures",
+      "Don't alert on warnings - only actionable failures",
       "Anomaly detection > static thresholds at scale",
       "Track freshness, volume, schema, distribution",
-      "Runbooks in alert payload — every alert should be actionable",
+      "Runbooks in alert payload - every alert should be actionable",
       "Post-mortems for every Sev-1 → improve detection",
     ],
     tags: ["monitoring", "observability"],
   },
   // ============================================================
-  // AI ENGINEER — Expanded set (LLMs)
+  // AI ENGINEER - Expanded set (LLMs)
   // ============================================================
   {
     id: "ai-llm-ext-1",
@@ -820,7 +820,7 @@ SELECT * FROM staging_orders WHERE event_date = '2025-01-15';`,
     question: "Explain temperature, top-p, and top-k sampling. When would you tune each?",
     tldr: "Three knobs that control randomness vs determinism in token sampling.",
     answer:
-      "After the model produces a probability distribution over the next token, sampling parameters reshape it. Temperature scales the logits before softmax — low (0-0.3) = deterministic, high (>1) = creative/random. Top-k restricts sampling to the k most probable tokens. Top-p (nucleus) keeps the smallest set of tokens whose cumulative probability ≥ p (e.g. 0.9), adapting set size to the distribution's shape. Use low temperature + low top-p for extraction/classification/code; higher values for brainstorming/creative writing.",
+      "After the model produces a probability distribution over the next token, sampling parameters reshape it. Temperature scales the logits before softmax - low (0-0.3) = deterministic, high (>1) = creative/random. Top-k restricts sampling to the k most probable tokens. Top-p (nucleus) keeps the smallest set of tokens whose cumulative probability ≥ p (e.g. 0.9), adapting set size to the distribution's shape. Use low temperature + low top-p for extraction/classification/code; higher values for brainstorming/creative writing.",
     keyPoints: [
       "Temperature 0 = greedy (most likely token every step)",
       "Top-p adapts to distribution; top-k is fixed cutoff",
@@ -862,7 +862,7 @@ response = client.chat.completions.create(
       "Model is fine-tuned to emit valid tool calls",
       "Multi-turn loop: call → observe → reason → answer",
       "Use 'required' and enums to constrain arguments",
-      "Always validate arguments server-side — never trust raw output",
+      "Always validate arguments server-side - never trust raw output",
     ],
     pitfalls: [
       "Exposing dangerous tools (shell, SQL writes) without sandboxing",
@@ -898,10 +898,10 @@ resp = client.chat.completions.create(
     question: "How do you make an LLM return strict, valid JSON?",
     tldr: "Use the provider's structured-output / JSON mode with a schema, plus validation and retries.",
     answer:
-      "Three layers of defense: (1) Use the provider's structured output feature (OpenAI response_format with json_schema, Anthropic tools, or constrained decoding libraries like Outlines/Instructor) which guarantees syntactic validity. (2) Provide an explicit JSON Schema with required fields, types, and enums. (3) Always parse and validate with Pydantic/Zod and implement a single retry that includes the parse error in the prompt. Avoid hand-prompting 'reply only with JSON' — it fails at scale.",
+      "Three layers of defense: (1) Use the provider's structured output feature (OpenAI response_format with json_schema, Anthropic tools, or constrained decoding libraries like Outlines/Instructor) which guarantees syntactic validity. (2) Provide an explicit JSON Schema with required fields, types, and enums. (3) Always parse and validate with Pydantic/Zod and implement a single retry that includes the parse error in the prompt. Avoid hand-prompting 'reply only with JSON' - it fails at scale.",
     keyPoints: [
       "Prefer native structured-output APIs over prompt tricks",
-      "Validate with Pydantic/Zod — never trust the model",
+      "Validate with Pydantic/Zod - never trust the model",
       "Retry with the validation error appended to the prompt",
       "Set temperature=0 for extraction tasks",
       "For local models use grammar-constrained decoding (llama.cpp GBNF, Outlines)",
@@ -922,13 +922,13 @@ resp = client.chat.completions.create(
     question: "How do you reduce LLM token costs in production without hurting quality?",
     tldr: "Smaller models, shorter context, caching, batching, and routing.",
     answer:
-      "A layered strategy: (1) Model routing — cheap model (Haiku/4o-mini) for easy queries, escalate to flagship only when needed via a classifier or confidence check. (2) Prompt compression — remove boilerplate, use concise system prompts, summarize chat history beyond N turns. (3) Prompt caching (Anthropic, OpenAI) for static prefixes like long system prompts and RAG context. (4) Semantic cache for repeated queries (embedding similarity > 0.95). (5) Batch async requests where latency permits. (6) Cap max_tokens. (7) Distill expensive prompts into a fine-tuned smaller model when volume justifies.",
+      "A layered strategy: (1) Model routing - cheap model (Haiku/4o-mini) for easy queries, escalate to flagship only when needed via a classifier or confidence check. (2) Prompt compression - remove boilerplate, use concise system prompts, summarize chat history beyond N turns. (3) Prompt caching (Anthropic, OpenAI) for static prefixes like long system prompts and RAG context. (4) Semantic cache for repeated queries (embedding similarity > 0.95). (5) Batch async requests where latency permits. (6) Cap max_tokens. (7) Distill expensive prompts into a fine-tuned smaller model when volume justifies.",
     keyPoints: [
       "Routing can cut costs 5-10x with minimal quality loss",
       "Prompt caching gives 90% discount on repeated prefixes",
       "Semantic cache for FAQ-style traffic",
       "Track $/request and tokens/request as first-class metrics",
-      "Output tokens cost 3-5x input — cap aggressively",
+      "Output tokens cost 3-5x input - cap aggressively",
     ],
     pitfalls: [
       "Caching responses for personalized prompts → leaking other users' data",
@@ -939,7 +939,7 @@ resp = client.chat.completions.create(
     tags: ["cost", "optimization", "production"],
   },
 
-  // AI ENGINEER — ML Fundamentals (extended)
+  // AI ENGINEER - ML Fundamentals (extended)
   {
     id: "ai-ml-ext-1",
     role: "ai-engineer",
@@ -959,7 +959,7 @@ resp = client.chat.completions.create(
     pitfalls: [
       "Doing feature engineering on full data before splitting → leakage",
       "Using vanilla k-fold on time series (looks at the future)",
-      "Tuning hyperparams on the same folds you report — need nested CV",
+      "Tuning hyperparams on the same folds you report - need nested CV",
     ],
     interviewTip: "Mention nested CV for unbiased hyperparameter tuning, and that it's expensive so most teams use a held-out test set.",
     codeExample: {
@@ -979,9 +979,9 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     category: "Machine Learning Fundamentals",
     difficulty: "Mid",
     question: "How do you handle class imbalance in classification?",
-    tldr: "Resample, reweight, or change the metric/threshold — and never just rely on accuracy.",
+    tldr: "Resample, reweight, or change the metric/threshold - and never just rely on accuracy.",
     answer:
-      "Approaches: (1) Resampling — oversample minority (SMOTE) or undersample majority. SMOTE works for tabular but can hurt text/image. (2) Class weights — pass class_weight='balanced' to penalize errors on the minority class more. (3) Threshold tuning — pick a probability threshold using precision-recall trade-off, not the default 0.5. (4) Use proper metrics: PR-AUC, F1, recall@k instead of accuracy. (5) Anomaly-detection framing for extreme imbalance (fraud, defects). (6) Collect more minority data when feasible.",
+      "Approaches: (1) Resampling - oversample minority (SMOTE) or undersample majority. SMOTE works for tabular but can hurt text/image. (2) Class weights - pass class_weight='balanced' to penalize errors on the minority class more. (3) Threshold tuning - pick a probability threshold using precision-recall trade-off, not the default 0.5. (4) Use proper metrics: PR-AUC, F1, recall@k instead of accuracy. (5) Anomaly-detection framing for extreme imbalance (fraud, defects). (6) Collect more minority data when feasible.",
     keyPoints: [
       "Accuracy is misleading on imbalanced data",
       "PR-AUC > ROC-AUC for highly imbalanced positives",
@@ -1005,7 +1005,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "Explain L1 vs L2 regularization. When would you choose each?",
     tldr: "L1 (Lasso) adds |w| → sparse weights (feature selection). L2 (Ridge) adds w² → small but non-zero weights.",
     answer:
-      "Both shrink weights to fight overfitting by adding a penalty to the loss. L1 has a non-differentiable corner at 0, which drives many weights exactly to zero — performing implicit feature selection and yielding sparse, interpretable models. L2 shrinks all weights smoothly toward zero and handles correlated features more gracefully. ElasticNet combines both. Choose L1 when you suspect many irrelevant features and want a sparse model; L2 when features are mostly informative and correlated; ElasticNet when unsure.",
+      "Both shrink weights to fight overfitting by adding a penalty to the loss. L1 has a non-differentiable corner at 0, which drives many weights exactly to zero - performing implicit feature selection and yielding sparse, interpretable models. L2 shrinks all weights smoothly toward zero and handles correlated features more gracefully. ElasticNet combines both. Choose L1 when you suspect many irrelevant features and want a sparse model; L2 when features are mostly informative and correlated; ElasticNet when unsure.",
     keyPoints: [
       "L1 → sparse, L2 → small dense weights",
       "L2 has a closed-form solution (Ridge regression)",
@@ -1016,9 +1016,9 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     pitfalls: [
       "Forgetting to scale features → penalty hits large-scale features harder",
       "Using L1 with highly correlated predictors → unstable selection",
-      "Not regularizing the bias term — usually you should NOT penalize bias",
+      "Not regularizing the bias term - usually you should NOT penalize bias",
     ],
-    interviewTip: "Draw the L1 diamond vs L2 circle constraint regions — interviewers love the geometric intuition.",
+    interviewTip: "Draw the L1 diamond vs L2 circle constraint regions - interviewers love the geometric intuition.",
     tags: ["regularization", "linear-models"],
   },
   {
@@ -1029,7 +1029,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "What's the difference between SGD, Momentum, RMSProp, and Adam?",
     tldr: "Variants of gradient descent that differ in how they use past gradients to set step direction and size.",
     answer:
-      "SGD updates weights by -lr * grad. Momentum adds a velocity term (exponential moving average of gradients) that smooths updates and accelerates in consistent directions. RMSProp scales each parameter's step by the inverse of a moving average of squared gradients — adapting per-parameter learning rates. Adam combines momentum (1st moment) and RMSProp (2nd moment) with bias correction; it's the de-facto default. AdamW decouples weight decay from the gradient update and generally generalizes better than Adam.",
+      "SGD updates weights by -lr * grad. Momentum adds a velocity term (exponential moving average of gradients) that smooths updates and accelerates in consistent directions. RMSProp scales each parameter's step by the inverse of a moving average of squared gradients - adapting per-parameter learning rates. Adam combines momentum (1st moment) and RMSProp (2nd moment) with bias correction; it's the de-facto default. AdamW decouples weight decay from the gradient update and generally generalizes better than Adam.",
     keyPoints: [
       "SGD + momentum often generalizes best for vision (with proper tuning)",
       "Adam is robust default; AdamW preferred for transformers",
@@ -1053,7 +1053,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "Walk through a feature engineering process for a tabular ML problem.",
     tldr: "Understand the data → create informative features → handle leakage → validate impact.",
     answer:
-      "Step 1: EDA — distributions, missingness, target correlation. Step 2: cleaning — impute (median for numeric, 'missing' category for categorical), cap outliers (winsorize). Step 3: encode — one-hot for low-cardinality, target/frequency encoding for high-cardinality (with out-of-fold to prevent leakage). Step 4: derive — ratios, differences, time-since-event, aggregations over groups (mean target by user_id over last 30 days). Step 5: interactions — manually for known business logic, automatically via gradient boosters. Step 6: validate each feature group's lift via ablation. Step 7: lock the pipeline (feature store / sklearn Pipeline) so train and serve match exactly.",
+      "Step 1: EDA - distributions, missingness, target correlation. Step 2: cleaning - impute (median for numeric, 'missing' category for categorical), cap outliers (winsorize). Step 3: encode - one-hot for low-cardinality, target/frequency encoding for high-cardinality (with out-of-fold to prevent leakage). Step 4: derive - ratios, differences, time-since-event, aggregations over groups (mean target by user_id over last 30 days). Step 5: interactions - manually for known business logic, automatically via gradient boosters. Step 6: validate each feature group's lift via ablation. Step 7: lock the pipeline (feature store / sklearn Pipeline) so train and serve match exactly.",
     keyPoints: [
       "Out-of-fold target encoding to prevent leakage",
       "Time-aware features for time series (no future info)",
@@ -1070,7 +1070,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     tags: ["feature-engineering", "tabular"],
   },
 
-  // AI ENGINEER — Deep Learning (extended)
+  // AI ENGINEER - Deep Learning (extended)
   {
     id: "ai-dl-ext-1",
     role: "ai-engineer",
@@ -1079,7 +1079,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "What is Dropout and why does it work?",
     tldr: "Randomly zero out neurons during training to prevent co-adaptation and reduce overfitting.",
     answer:
-      "Dropout randomly sets a fraction p of activations to zero during each training forward pass, then scales remaining activations by 1/(1-p) so expected magnitudes match. At inference, all neurons are active. This forces the network to develop redundant representations and not over-rely on any single neuron — acting as an implicit ensemble of subnetworks. Typical p: 0.1-0.5 (higher in fully-connected, lower in conv). For transformers, dropout is often used inside attention and FFN blocks.",
+      "Dropout randomly sets a fraction p of activations to zero during each training forward pass, then scales remaining activations by 1/(1-p) so expected magnitudes match. At inference, all neurons are active. This forces the network to develop redundant representations and not over-rely on any single neuron - acting as an implicit ensemble of subnetworks. Typical p: 0.1-0.5 (higher in fully-connected, lower in conv). For transformers, dropout is often used inside attention and FFN blocks.",
     keyPoints: [
       "Active only during training, off at inference",
       "Approximates ensembling exponentially many subnetworks",
@@ -1107,8 +1107,8 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     keyPoints: [
       "BatchNorm: depends on batch, has train/eval mode difference",
       "LayerNorm: per-sample, no batch dependency",
-      "RMSNorm: drops the mean centering, faster — used in Llama, Mistral",
-      "Pre-norm vs post-norm in transformers — pre-norm trains more stably",
+      "RMSNorm: drops the mean centering, faster - used in Llama, Mistral",
+      "Pre-norm vs post-norm in transformers - pre-norm trains more stably",
       "BN reduces internal covariate shift and acts as a slight regularizer",
     ],
     pitfalls: [
@@ -1116,7 +1116,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
       "Forgetting to switch to eval mode → uses noisy batch stats at inference",
       "Mixing BatchNorm with gradient accumulation incorrectly",
     ],
-    interviewTip: "Mention RMSNorm and the pre-norm vs post-norm debate — signals you've read modern transformer papers.",
+    interviewTip: "Mention RMSNorm and the pre-norm vs post-norm debate - signals you've read modern transformer papers.",
     tags: ["normalization", "transformers"],
   },
   {
@@ -1125,18 +1125,18 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     category: "Deep Learning & Neural Networks",
     difficulty: "Senior",
     question: "Compare CNNs, RNNs, and Transformers. Why have transformers largely replaced RNNs?",
-    tldr: "CNNs exploit locality, RNNs process sequentially, Transformers attend globally in parallel — winning on scale.",
+    tldr: "CNNs exploit locality, RNNs process sequentially, Transformers attend globally in parallel - winning on scale.",
     answer:
-      "CNNs use shared local kernels — great for spatial data (images, audio spectrograms). RNNs/LSTMs process tokens one at a time, maintaining a hidden state — modeled long sequences before transformers but suffer from sequential computation (no parallelism), vanishing gradients on long contexts, and limited effective receptive field. Transformers replace recurrence with self-attention: every token directly attends to every other token, enabling full parallel training and arbitrary-distance dependencies. Combined with their favorable scaling laws, this made transformers dominate NLP and increasingly vision (ViT) and audio.",
+      "CNNs use shared local kernels - great for spatial data (images, audio spectrograms). RNNs/LSTMs process tokens one at a time, maintaining a hidden state - modeled long sequences before transformers but suffer from sequential computation (no parallelism), vanishing gradients on long contexts, and limited effective receptive field. Transformers replace recurrence with self-attention: every token directly attends to every other token, enabling full parallel training and arbitrary-distance dependencies. Combined with their favorable scaling laws, this made transformers dominate NLP and increasingly vision (ViT) and audio.",
     keyPoints: [
-      "Self-attention is O(n²) in sequence length — cost grows fast",
+      "Self-attention is O(n²) in sequence length - cost grows fast",
       "Transformers parallelize across tokens; RNNs cannot",
       "Positional encodings replace recurrence's implicit order",
       "Hybrid models (Mamba, RWKV) revisit linear-time recurrence for long context",
       "CNNs still win on small data and edge inference",
     ],
     pitfalls: [
-      "Claiming transformers are 'always better' — they need lots of data",
+      "Claiming transformers are 'always better' - they need lots of data",
       "Ignoring O(n²) attention cost for long documents",
       "Forgetting positional encoding when implementing attention from scratch",
     ],
@@ -1151,20 +1151,20 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "What is transfer learning and how do you decide between feature extraction, fine-tuning, and LoRA?",
     tldr: "Reuse a pretrained model. Freeze for tiny data, full fine-tune for lots of data, LoRA for efficient adaptation.",
     answer:
-      "Transfer learning leverages a model pretrained on a large corpus (ImageNet, web text) and adapts it to your task. Three regimes: (1) Feature extraction — freeze the backbone, train only a new head. Best for very small datasets and when distribution is similar. (2) Full fine-tuning — unfreeze all weights, train with a small learning rate (often layer-wise discriminative LRs). Best for large in-domain data. (3) Parameter-efficient fine-tuning (PEFT) like LoRA — inject low-rank trainable adapters while freezing the base. Trains <1% of parameters, fits on a single GPU, is composable (swap LoRAs per task), and approaches full-FT quality on most tasks.",
+      "Transfer learning leverages a model pretrained on a large corpus (ImageNet, web text) and adapts it to your task. Three regimes: (1) Feature extraction - freeze the backbone, train only a new head. Best for very small datasets and when distribution is similar. (2) Full fine-tuning - unfreeze all weights, train with a small learning rate (often layer-wise discriminative LRs). Best for large in-domain data. (3) Parameter-efficient fine-tuning (PEFT) like LoRA - inject low-rank trainable adapters while freezing the base. Trains <1% of parameters, fits on a single GPU, is composable (swap LoRAs per task), and approaches full-FT quality on most tasks.",
     keyPoints: [
       "Smaller LR for pretrained layers (e.g. 10x smaller than head)",
       "LoRA: rank 8-64 typical; QLoRA quantizes base to 4-bit",
       "Catastrophic forgetting risk with full fine-tune on small data",
       "Adapter swapping enables multi-tenant model serving",
-      "Always evaluate vs zero-shot baseline — sometimes prompting wins",
+      "Always evaluate vs zero-shot baseline - sometimes prompting wins",
     ],
     pitfalls: [
       "Fine-tuning a 70B model on 100 examples → overfit + waste",
       "Forgetting to merge LoRA weights for inference if latency matters",
       "Mixing instruction-tuned base with raw fine-tuning data → quality regression",
     ],
-    interviewTip: "Mention QLoRA — it lets you fine-tune 70B models on a single 48GB GPU and is the go-to for cost-conscious teams.",
+    interviewTip: "Mention QLoRA - it lets you fine-tune 70B models on a single 48GB GPU and is the go-to for cost-conscious teams.",
     tags: ["transfer-learning", "fine-tuning", "LoRA"],
   },
   {
@@ -1192,16 +1192,16 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     tags: ["training", "scheduling"],
   },
 
-  // AI ENGINEER — System Design (extended)
+  // AI ENGINEER - System Design (extended)
   {
     id: "ai-sys-ext-1",
     role: "ai-engineer",
     category: "AI System Design & Ethics",
     difficulty: "Mid",
     question: "How do you detect and respond to model drift in production?",
-    tldr: "Monitor input distribution, output distribution, and ground-truth performance — alert on shifts.",
+    tldr: "Monitor input distribution, output distribution, and ground-truth performance - alert on shifts.",
     answer:
-      "Three drift types to monitor: (1) Data drift — input feature distributions change (PSI, KS test, KL divergence vs training reference). (2) Concept drift — relationship between X and y changes (the world moved on). Detect via lagged ground truth or proxy metrics. (3) Prediction drift — output distribution changes (often the first signal you can compute without labels). Respond with: alerting on drift score thresholds, triggering retraining pipelines, A/B testing the retrained model, rolling back if metrics regress, and shadow-deploying new candidates before promotion.",
+      "Three drift types to monitor: (1) Data drift - input feature distributions change (PSI, KS test, KL divergence vs training reference). (2) Concept drift - relationship between X and y changes (the world moved on). Detect via lagged ground truth or proxy metrics. (3) Prediction drift - output distribution changes (often the first signal you can compute without labels). Respond with: alerting on drift score thresholds, triggering retraining pipelines, A/B testing the retrained model, rolling back if metrics regress, and shadow-deploying new candidates before promotion.",
     keyPoints: [
       "PSI > 0.2 → significant drift on tabular features",
       "Prediction drift is label-free and fast to compute",
@@ -1225,7 +1225,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "Design an end-to-end MLOps pipeline. What are the key components?",
     tldr: "Data → features → training → registry → deployment → monitoring → feedback, all reproducible and CI-driven.",
     answer:
-      "Components: (1) Data versioning (DVC, LakeFS, Delta Lake) — every training run pinned to a snapshot. (2) Feature store (Feast/Tecton) for train/serve consistency. (3) Experiment tracking (MLflow, W&B) — params, metrics, artifacts. (4) Training orchestration (Airflow/Kubeflow/Vertex/SageMaker Pipelines). (5) Model registry — versioned, staged (dev → staging → prod) with approval gates. (6) CI/CD — automated tests on PRs (data validation, model quality, latency). (7) Serving (KServe, BentoML, vLLM, Triton) with autoscaling. (8) Monitoring — drift, performance, cost. (9) Feedback collection back into training data. (10) IaC (Terraform) for the whole stack.",
+      "Components: (1) Data versioning (DVC, LakeFS, Delta Lake) - every training run pinned to a snapshot. (2) Feature store (Feast/Tecton) for train/serve consistency. (3) Experiment tracking (MLflow, W&B) - params, metrics, artifacts. (4) Training orchestration (Airflow/Kubeflow/Vertex/SageMaker Pipelines). (5) Model registry - versioned, staged (dev → staging → prod) with approval gates. (6) CI/CD - automated tests on PRs (data validation, model quality, latency). (7) Serving (KServe, BentoML, vLLM, Triton) with autoscaling. (8) Monitoring - drift, performance, cost. (9) Feedback collection back into training data. (10) IaC (Terraform) for the whole stack.",
     keyPoints: [
       "Reproducibility = data version + code version + env + seed",
       "Test data quality, model quality, AND inference contract in CI",
@@ -1238,7 +1238,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
       "Training in notebooks → not reproducible",
       "Storing models on a single engineer's laptop or random S3 bucket",
     ],
-    interviewTip: "Draw the pipeline as a diagram on the whiteboard — interviewers want to see you think in systems, not just models.",
+    interviewTip: "Draw the pipeline as a diagram on the whiteboard - interviewers want to see you think in systems, not just models.",
     tags: ["mlops", "system-design"],
   },
   {
@@ -1249,7 +1249,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "How do you A/B test an ML model in production?",
     tldr: "Randomly assign users to control/treatment, run long enough for statistical power, compare a primary metric.",
     answer:
-      "Split traffic at user/session level (not request level — same user must see consistent model). Define one primary success metric upfront (revenue, CTR, retention) plus 2-3 guardrails (latency, error rate, fairness). Compute required sample size from baseline rate, MDE, alpha=0.05, power=0.8. Run until pre-registered duration and sample reached — don't peek and stop early (inflates false positives). Use sequential testing (always-valid p-values) or CUPED variance reduction if you must monitor continuously. Analyze with two-sample test or regression with controls. Watch for SRM (sample ratio mismatch) — a sign of bucketing bug.",
+      "Split traffic at user/session level (not request level - same user must see consistent model). Define one primary success metric upfront (revenue, CTR, retention) plus 2-3 guardrails (latency, error rate, fairness). Compute required sample size from baseline rate, MDE, alpha=0.05, power=0.8. Run until pre-registered duration and sample reached - don't peek and stop early (inflates false positives). Use sequential testing (always-valid p-values) or CUPED variance reduction if you must monitor continuously. Analyze with two-sample test or regression with controls. Watch for SRM (sample ratio mismatch) - a sign of bucketing bug.",
     keyPoints: [
       "Hash user_id → bucket assignment for stickiness",
       "One primary metric + guardrails; pre-register before launch",
@@ -1260,9 +1260,9 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     pitfalls: [
       "Stopping early when results 'look significant' → false positives",
       "Different feature flags creating overlapping experiments",
-      "Reporting a 0.3% lift that's within noise — needs power analysis",
+      "Reporting a 0.3% lift that's within noise - needs power analysis",
     ],
-    interviewTip: "Mention CUPED — it can cut required sample size 50% by adjusting for pre-experiment metric variance.",
+    interviewTip: "Mention CUPED - it can cut required sample size 50% by adjusting for pre-experiment metric variance.",
     tags: ["ab-testing", "experimentation"],
   },
   {
@@ -1273,7 +1273,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "How do you serve LLMs efficiently at scale?",
     tldr: "Use a dedicated inference engine (vLLM, TGI, TensorRT-LLM) with continuous batching, KV cache, and quantization.",
     answer:
-      "Key techniques: (1) Continuous batching — schedule new requests into a running batch instead of waiting for the slowest one (PagedAttention in vLLM). 5-10x throughput vs naive batching. (2) KV cache reuse — cache attention keys/values across decoding steps; share prefixes across requests via prefix caching. (3) Quantization — INT8/FP8/INT4 weights cut memory and boost throughput with small quality loss (AWQ, GPTQ, FP8). (4) Tensor/pipeline parallelism for models too big for one GPU. (5) Speculative decoding — small draft model proposes tokens, big model verifies in one pass. (6) Autoscaling on queue depth and time-to-first-token. (7) Separate prefill (compute-bound) from decode (memory-bound) workloads.",
+      "Key techniques: (1) Continuous batching - schedule new requests into a running batch instead of waiting for the slowest one (PagedAttention in vLLM). 5-10x throughput vs naive batching. (2) KV cache reuse - cache attention keys/values across decoding steps; share prefixes across requests via prefix caching. (3) Quantization - INT8/FP8/INT4 weights cut memory and boost throughput with small quality loss (AWQ, GPTQ, FP8). (4) Tensor/pipeline parallelism for models too big for one GPU. (5) Speculative decoding - small draft model proposes tokens, big model verifies in one pass. (6) Autoscaling on queue depth and time-to-first-token. (7) Separate prefill (compute-bound) from decode (memory-bound) workloads.",
     keyPoints: [
       "vLLM / TGI / TensorRT-LLM are the standard engines",
       "Prefix caching huge win for chat with long system prompts",
@@ -1297,9 +1297,9 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "How do you evaluate an LLM application beyond just 'looks good'?",
     tldr: "Build an eval set, define metrics (rule-based + LLM-as-judge + human), run on every change.",
     answer:
-      "(1) Build a diverse eval set of 100-1000 representative inputs covering happy paths, edge cases, and known failure modes. Version it. (2) Define metrics: deterministic checks (regex, schema validation, exact-match for facts), embedding similarity for semantic, LLM-as-judge with a strong rubric for subjective quality, and human review for the top quintile. (3) Compute pass-rate per category, not just overall. (4) Run evals in CI — block PRs that regress >X%. (5) For RAG, evaluate retrieval (recall@k, MRR) and generation (faithfulness, answer relevance) separately — RAGAS is a good framework. (6) Track win-rate vs the previous version in pairwise comparisons. (7) Continuously add real production failures to the eval set.",
+      "(1) Build a diverse eval set of 100-1000 representative inputs covering happy paths, edge cases, and known failure modes. Version it. (2) Define metrics: deterministic checks (regex, schema validation, exact-match for facts), embedding similarity for semantic, LLM-as-judge with a strong rubric for subjective quality, and human review for the top quintile. (3) Compute pass-rate per category, not just overall. (4) Run evals in CI - block PRs that regress >X%. (5) For RAG, evaluate retrieval (recall@k, MRR) and generation (faithfulness, answer relevance) separately - RAGAS is a good framework. (6) Track win-rate vs the previous version in pairwise comparisons. (7) Continuously add real production failures to the eval set.",
     keyPoints: [
-      "Eval set is your most valuable asset — invest in it",
+      "Eval set is your most valuable asset - invest in it",
       "Per-category metrics surface failures hidden in averages",
       "LLM-as-judge needs its own rubric eval to avoid bias",
       "Pairwise > absolute for subjective tasks",
@@ -1315,7 +1315,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
   },
 
   // ============================================================
-  // DATA ENGINEER — Expanded set (SQL)
+  // DATA ENGINEER - Expanded set (SQL)
   // ============================================================
   {
     id: "de-sql-ext-1",
@@ -1325,7 +1325,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
     question: "Explain the difference between WHERE and HAVING.",
     tldr: "WHERE filters rows before aggregation; HAVING filters groups after aggregation.",
     answer:
-      "WHERE applies to individual rows before any GROUP BY happens — you cannot reference aggregate functions in WHERE. HAVING applies to grouped results after aggregation, so you can filter on SUM/COUNT/AVG. Logical execution order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY. For performance, push filters into WHERE whenever possible because they reduce the rows the engine has to group.",
+      "WHERE applies to individual rows before any GROUP BY happens - you cannot reference aggregate functions in WHERE. HAVING applies to grouped results after aggregation, so you can filter on SUM/COUNT/AVG. Logical execution order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY. For performance, push filters into WHERE whenever possible because they reduce the rows the engine has to group.",
     keyPoints: [
       "WHERE: row-level, before grouping",
       "HAVING: group-level, after aggregation",
@@ -1338,7 +1338,7 @@ print(f"F1: {scores.mean():.3f} ± {scores.std():.3f}")`,
       "Filtering on grouped column in HAVING when WHERE would be faster",
       "Forgetting GROUP BY when using HAVING",
     ],
-    interviewTip: "If asked 'where would you put country = US' in a sales-by-country query, the answer is WHERE — never HAVING.",
+    interviewTip: "If asked 'where would you put country = US' in a sales-by-country query, the answer is WHERE - never HAVING.",
     codeExample: {
       language: "sql",
       code: `SELECT country, SUM(amount) AS total
@@ -1370,7 +1370,7 @@ HAVING SUM(amount) > 100000;        -- filter groups after`,
       "Nesting subqueries 5 levels deep → unreadable, hard to debug",
       "Creating temp tables in high-concurrency OLTP without cleanup",
     ],
-    interviewTip: "Mention WITH RECURSIVE for tree traversal — interviewers love seeing you reach for it on org-chart problems.",
+    interviewTip: "Mention WITH RECURSIVE for tree traversal - interviewers love seeing you reach for it on org-chart problems.",
     tags: ["sql", "cte", "optimization"],
   },
   {
@@ -1381,7 +1381,7 @@ HAVING SUM(amount) > 100000;        -- filter groups after`,
     question: "What is a materialized view and how does it differ from a regular view?",
     tldr: "A regular view is a saved query (recomputed each time); a materialized view stores the result physically.",
     answer:
-      "A regular VIEW is a stored SELECT statement — every time you query it, the underlying SQL runs. A MATERIALIZED VIEW stores the precomputed results on disk like a table, trading freshness for speed. You refresh it on a schedule (REFRESH MATERIALIZED VIEW), incrementally if the engine supports it, or via triggers. Use cases: expensive aggregations queried frequently, dashboard backends, denormalized lookups. Trade-offs: stale data between refreshes, storage cost, refresh latency. Snowflake's dynamic tables and BigQuery's materialized views support automatic incremental refresh.",
+      "A regular VIEW is a stored SELECT statement - every time you query it, the underlying SQL runs. A MATERIALIZED VIEW stores the precomputed results on disk like a table, trading freshness for speed. You refresh it on a schedule (REFRESH MATERIALIZED VIEW), incrementally if the engine supports it, or via triggers. Use cases: expensive aggregations queried frequently, dashboard backends, denormalized lookups. Trade-offs: stale data between refreshes, storage cost, refresh latency. Snowflake's dynamic tables and BigQuery's materialized views support automatic incremental refresh.",
     keyPoints: [
       "View = logical, MV = physical/cached",
       "Refresh strategies: complete vs incremental, manual vs scheduled",
@@ -1394,7 +1394,7 @@ HAVING SUM(amount) > 100000;        -- filter groups after`,
       "Full refresh on huge MVs → long downtime; use incremental",
       "Building MVs on top of MVs → fragile dependency chains",
     ],
-    interviewTip: "Mention dbt incremental models as the modern equivalent in the warehouse world — shows you know current tooling.",
+    interviewTip: "Mention dbt incremental models as the modern equivalent in the warehouse world - shows you know current tooling.",
     tags: ["sql", "materialized-view", "performance"],
   },
   {
@@ -1405,11 +1405,11 @@ HAVING SUM(amount) > 100000;        -- filter groups after`,
     question: "How do you diagnose and fix a slow SQL query?",
     tldr: "EXPLAIN ANALYZE → find the expensive operator → fix with index, rewrite, or stats refresh.",
     answer:
-      "Process: (1) Run EXPLAIN (ANALYZE, BUFFERS) — actual vs estimated rows reveal stale stats. (2) Identify the dominant cost: full table scan, nested loop on huge sets, hash spill to disk, expensive sort. (3) Common fixes: add covering index for filter+join columns, rewrite correlated subquery as JOIN, replace SELECT * with needed columns, partition large tables by date, use EXISTS instead of IN for big lists, push aggregations down. (4) Update statistics (ANALYZE/VACUUM in Postgres). (5) Consider materialization (CTE → temp table). (6) For warehouses, check clustering/sort keys and pruning effectiveness.",
+      "Process: (1) Run EXPLAIN (ANALYZE, BUFFERS) - actual vs estimated rows reveal stale stats. (2) Identify the dominant cost: full table scan, nested loop on huge sets, hash spill to disk, expensive sort. (3) Common fixes: add covering index for filter+join columns, rewrite correlated subquery as JOIN, replace SELECT * with needed columns, partition large tables by date, use EXISTS instead of IN for big lists, push aggregations down. (4) Update statistics (ANALYZE/VACUUM in Postgres). (5) Consider materialization (CTE → temp table). (6) For warehouses, check clustering/sort keys and pruning effectiveness.",
     keyPoints: [
       "Estimated vs actual row mismatch → run ANALYZE",
       "Sequential scan isn't always bad (small tables, high selectivity)",
-      "Indexes hurt writes — measure both sides",
+      "Indexes hurt writes - measure both sides",
       "Composite index column order matters (most selective first or filter-first)",
       "Warehouse queries: check pruning, clustering, partition filter pushdown",
     ],
@@ -1429,13 +1429,13 @@ HAVING SUM(amount) > 100000;        -- filter groups after`,
     question: "Explain ACID vs BASE. When would you choose a NoSQL store?",
     tldr: "ACID = strong consistency for transactions (RDBMS). BASE = eventual consistency for scale (many NoSQL).",
     answer:
-      "ACID (Atomicity, Consistency, Isolation, Durability) guarantees transactional correctness — Postgres, MySQL, SQL Server. BASE (Basically Available, Soft state, Eventually consistent) trades immediate consistency for availability and partition tolerance — Cassandra, DynamoDB. CAP theorem: under network partition you must choose consistency or availability. Use ACID for money, inventory, anything where reading stale data is unacceptable. Use NoSQL when: massive horizontal scale needed (>TB writes/day), schema is genuinely flexible (events, documents), single-key lookup dominates (DynamoDB, Redis), or graph traversals are core (Neo4j). Many systems are now hybrid: Spanner/CockroachDB give ACID at scale; DynamoDB added transactions.",
+      "ACID (Atomicity, Consistency, Isolation, Durability) guarantees transactional correctness - Postgres, MySQL, SQL Server. BASE (Basically Available, Soft state, Eventually consistent) trades immediate consistency for availability and partition tolerance - Cassandra, DynamoDB. CAP theorem: under network partition you must choose consistency or availability. Use ACID for money, inventory, anything where reading stale data is unacceptable. Use NoSQL when: massive horizontal scale needed (>TB writes/day), schema is genuinely flexible (events, documents), single-key lookup dominates (DynamoDB, Redis), or graph traversals are core (Neo4j). Many systems are now hybrid: Spanner/CockroachDB give ACID at scale; DynamoDB added transactions.",
     keyPoints: [
       "ACID transactions need coordination → harder to scale horizontally",
       "Eventual consistency requires conflict resolution strategy",
       "Pick storage by access pattern, not hype",
       "NewSQL (Spanner, CockroachDB) bridges the gap",
-      "Document DBs ≠ schema-less in practice — you still need a schema mentally",
+      "Document DBs ≠ schema-less in practice - you still need a schema mentally",
     ],
     pitfalls: [
       "Choosing MongoDB for relational workloads → painful joins",
@@ -1446,16 +1446,16 @@ HAVING SUM(amount) > 100000;        -- filter groups after`,
     tags: ["acid", "nosql", "architecture"],
   },
 
-  // DATA ENGINEER — Pipelines (extended)
+  // DATA ENGINEER - Pipelines (extended)
   {
     id: "de-pipe-ext-1",
     role: "data-engineer",
     category: "Data Pipelines & ETL",
     difficulty: "Mid",
     question: "What does it mean for a pipeline to be idempotent and why does it matter?",
-    tldr: "Running the same task multiple times produces the same result — critical for safe retries.",
+    tldr: "Running the same task multiple times produces the same result - critical for safe retries.",
     answer:
-      "An idempotent task can be re-run without causing duplicates, double-counting, or side effects. This matters because pipelines fail constantly (network, OOM, upstream delays) and orchestrators retry them. If your task isn't idempotent, retries corrupt the data. Implementation patterns: (1) Overwrite-by-partition — wipe the date partition then write fresh (most common in batch). (2) MERGE/UPSERT keyed on a natural or hash key. (3) Use deterministic IDs (hash of business keys + event time) to dedupe. (4) Store a processed-watermark and skip already-handled inputs. (5) Two-phase commit / staging table → atomic swap.",
+      "An idempotent task can be re-run without causing duplicates, double-counting, or side effects. This matters because pipelines fail constantly (network, OOM, upstream delays) and orchestrators retry them. If your task isn't idempotent, retries corrupt the data. Implementation patterns: (1) Overwrite-by-partition - wipe the date partition then write fresh (most common in batch). (2) MERGE/UPSERT keyed on a natural or hash key. (3) Use deterministic IDs (hash of business keys + event time) to dedupe. (4) Store a processed-watermark and skip already-handled inputs. (5) Two-phase commit / staging table → atomic swap.",
     keyPoints: [
       "Overwrite-by-partition is the most idempotent batch pattern",
       "MERGE solves upserts in modern warehouses",
@@ -1465,10 +1465,10 @@ HAVING SUM(amount) > 100000;        -- filter groups after`,
     ],
     pitfalls: [
       "INSERT-only without dedup → duplicates on retry",
-      "Using 'now()' inside the task — non-deterministic",
+      "Using 'now()' inside the task - non-deterministic",
       "Side effects (sending emails) inside otherwise-idempotent tasks",
     ],
-    interviewTip: "Say: 'Every Airflow task I write is idempotent — partition overwrite is my default pattern.'",
+    interviewTip: "Say: 'Every Airflow task I write is idempotent - partition overwrite is my default pattern.'",
     codeExample: {
       language: "sql",
       code: `-- Idempotent partition overwrite (BigQuery/Snowflake style)
@@ -1487,7 +1487,7 @@ WHERE event_date = '2024-04-15';`,
     question: "How do you handle schema evolution in a data pipeline?",
     tldr: "Use a format that supports schema evolution (Parquet/Avro/Delta), version your contracts, and add columns additively.",
     answer:
-      "Strategy: (1) Use formats with native schema evolution — Avro, Parquet, Delta Lake, Iceberg. (2) Prefer additive changes (add nullable columns) — never reorder or rename in place. (3) For breaking changes, version the table (events_v2) and migrate consumers gradually. (4) Enforce schemas at ingestion with a schema registry (Confluent, Glue) — reject malformed records to a DLQ. (5) Use data contracts: producers commit to schema + SLAs; CI rejects breaking PRs. (6) For renames/type changes, do expand-migrate-contract: add new column, dual-write, backfill, switch readers, drop old. (7) Document changes in CHANGELOG; alert downstream owners.",
+      "Strategy: (1) Use formats with native schema evolution - Avro, Parquet, Delta Lake, Iceberg. (2) Prefer additive changes (add nullable columns) - never reorder or rename in place. (3) For breaking changes, version the table (events_v2) and migrate consumers gradually. (4) Enforce schemas at ingestion with a schema registry (Confluent, Glue) - reject malformed records to a DLQ. (5) Use data contracts: producers commit to schema + SLAs; CI rejects breaking PRs. (6) For renames/type changes, do expand-migrate-contract: add new column, dual-write, backfill, switch readers, drop old. (7) Document changes in CHANGELOG; alert downstream owners.",
     keyPoints: [
       "Additive (add nullable) = safe; rename/drop = breaking",
       "Schema registry prevents bad data at the source",
@@ -1500,7 +1500,7 @@ WHERE event_date = '2024-04-15';`,
       "Implicit type coercion (string → int) silently dropping bad rows",
       "No schema registry → garbage data lands in the lake",
     ],
-    interviewTip: "Bring up data contracts and the expand-migrate-contract pattern — both are hot topics in modern data eng.",
+    interviewTip: "Bring up data contracts and the expand-migrate-contract pattern - both are hot topics in modern data eng.",
     tags: ["schema-evolution", "data-contracts"],
   },
   {
@@ -1511,7 +1511,7 @@ WHERE event_date = '2024-04-15';`,
     question: "How do you backfill a pipeline for historical data?",
     tldr: "Run the same idempotent task across past partitions in parallel-bounded batches.",
     answer:
-      "Backfill plan: (1) Confirm the task is idempotent. (2) Decide scope — date range, specific entities. (3) Estimate cost (rows × per-task cost) and plan in chunks (e.g. month at a time) so a failure doesn't restart everything. (4) Throttle concurrency to protect upstream sources and downstream consumers (e.g. max 5 concurrent days in Airflow). (5) Run in a separate environment or off-peak hours if shared resources. (6) Monitor — log rows processed per partition, validate counts vs source. (7) Validate downstream consumers see the new data correctly. In Airflow, use `airflow dags backfill` with --max-active-runs; in dbt, use `--vars 'start_date: ...'` with incremental models.",
+      "Backfill plan: (1) Confirm the task is idempotent. (2) Decide scope - date range, specific entities. (3) Estimate cost (rows × per-task cost) and plan in chunks (e.g. month at a time) so a failure doesn't restart everything. (4) Throttle concurrency to protect upstream sources and downstream consumers (e.g. max 5 concurrent days in Airflow). (5) Run in a separate environment or off-peak hours if shared resources. (6) Monitor - log rows processed per partition, validate counts vs source. (7) Validate downstream consumers see the new data correctly. In Airflow, use `airflow dags backfill` with --max-active-runs; in dbt, use `--vars 'start_date: ...'` with incremental models.",
     keyPoints: [
       "Idempotency is non-negotiable for backfills",
       "Throttle to avoid hammering APIs/warehouse",
@@ -1524,7 +1524,7 @@ WHERE event_date = '2024-04-15';`,
       "Backfilling 3 years in one DAG run → no recovery point",
       "Forgetting to disable downstream alerts during the backfill",
     ],
-    interviewTip: "Mention 'backfill DAG' as a separate, throttled instance of the production DAG — shows operational maturity.",
+    interviewTip: "Mention 'backfill DAG' as a separate, throttled instance of the production DAG - shows operational maturity.",
     tags: ["backfill", "operations"],
   },
   {
@@ -1535,12 +1535,12 @@ WHERE event_date = '2024-04-15';`,
     question: "What is a Dead Letter Queue (DLQ) and how do you operate one?",
     tldr: "A holding area for messages that failed processing, so the main pipeline isn't blocked.",
     answer:
-      "A DLQ stores messages/records that couldn't be processed after N retries — bad schema, parse error, business-rule failure. The main consumer continues; failed records don't block the queue or get silently dropped. Operating a DLQ: (1) Always include error reason and original payload. (2) Alert on DLQ depth and rate of arrivals. (3) Provide tooling to replay (after fix) or manually correct then re-emit. (4) Set TTL — old messages either get processed or expire. (5) Monitor DLQ-to-main ratio as a quality KPI. (6) Build dashboards by error type to find systemic issues fast.",
+      "A DLQ stores messages/records that couldn't be processed after N retries - bad schema, parse error, business-rule failure. The main consumer continues; failed records don't block the queue or get silently dropped. Operating a DLQ: (1) Always include error reason and original payload. (2) Alert on DLQ depth and rate of arrivals. (3) Provide tooling to replay (after fix) or manually correct then re-emit. (4) Set TTL - old messages either get processed or expire. (5) Monitor DLQ-to-main ratio as a quality KPI. (6) Build dashboards by error type to find systemic issues fast.",
     keyPoints: [
       "Decouples failures from happy path",
       "Always log original payload + reason + timestamp",
       "Alert on rate AND depth",
-      "Replay tooling is mandatory — DLQs without replay are graveyards",
+      "Replay tooling is mandatory - DLQs without replay are graveyards",
       "Common in Kafka, SQS, RabbitMQ, Pub/Sub",
     ],
     pitfalls: [
@@ -1548,7 +1548,7 @@ WHERE event_date = '2024-04-15';`,
       "No metadata → impossible to debug or replay",
       "Same poison message sent back to main repeatedly without circuit breaker",
     ],
-    interviewTip: "Mention you'd page on-call when DLQ rate exceeds 1% of throughput — a concrete operational threshold.",
+    interviewTip: "Mention you'd page on-call when DLQ rate exceeds 1% of throughput - a concrete operational threshold.",
     tags: ["dlq", "messaging", "reliability"],
   },
   {
@@ -1559,10 +1559,10 @@ WHERE event_date = '2024-04-15';`,
     question: "How do you design SLAs and SLOs for data pipelines?",
     tldr: "SLA = promise to consumers; SLO = internal target you measure; SLI = the actual metric.",
     answer:
-      "SLI (Service Level Indicator) is what you measure — e.g. 'data freshness = max(now - max(updated_at))', 'pipeline success rate'. SLO is the internal target — e.g. '99% of days, daily_sales table fresh by 8am'. SLA is the contractual or social promise to consumers (often slightly looser than SLO). Process: (1) Talk to consumers — what's their workflow, what breaks them? (2) Define 2-3 SLIs per critical dataset (freshness, completeness, accuracy). (3) Set SLO with error budget. (4) Instrument and dashboard. (5) When error budget is burned, freeze risky changes until restored. (6) Quarterly review with consumers.",
+      "SLI (Service Level Indicator) is what you measure - e.g. 'data freshness = max(now - max(updated_at))', 'pipeline success rate'. SLO is the internal target - e.g. '99% of days, daily_sales table fresh by 8am'. SLA is the contractual or social promise to consumers (often slightly looser than SLO). Process: (1) Talk to consumers - what's their workflow, what breaks them? (2) Define 2-3 SLIs per critical dataset (freshness, completeness, accuracy). (3) Set SLO with error budget. (4) Instrument and dashboard. (5) When error budget is burned, freeze risky changes until restored. (6) Quarterly review with consumers.",
     keyPoints: [
       "SLI < SLO < SLA (each looser than the next)",
-      "Error budget = (1 - SLO) — quantifies risk capacity",
+      "Error budget = (1 - SLO) - quantifies risk capacity",
       "Freshness, completeness, accuracy are the big three SLIs",
       "Dashboards must show SLO compliance at a glance",
       "Review and renegotiate quarterly with consumers",
@@ -1572,11 +1572,11 @@ WHERE event_date = '2024-04-15';`,
       "No error budget policy → no consequences for missing SLOs",
       "SLOs that no one consumes → wasted instrumentation",
     ],
-    interviewTip: "Mention error budget policy: 'When we burn 50% of monthly budget, we freeze risky changes' — shows SRE maturity.",
+    interviewTip: "Mention error budget policy: 'When we burn 50% of monthly budget, we freeze risky changes' - shows SRE maturity.",
     tags: ["sla", "slo", "reliability"],
   },
 
-  // DATA ENGINEER — Big Data (extended)
+  // DATA ENGINEER - Big Data (extended)
   {
     id: "de-bd-ext-1",
     role: "data-engineer",
@@ -1585,20 +1585,20 @@ WHERE event_date = '2024-04-15';`,
     question: "Explain shuffle vs broadcast join in Spark. When would you use each?",
     tldr: "Shuffle join repartitions both sides by key (expensive). Broadcast sends a small table to every executor (cheap if it fits).",
     answer:
-      "Shuffle (sort-merge or shuffle-hash) join repartitions both DataFrames by the join key across the cluster — heavy network and disk I/O. Broadcast hash join ships a small dataset to every executor's memory and joins locally with the partitioned big side — eliminates shuffle. Use broadcast when one side is small (default threshold spark.sql.autoBroadcastJoinThreshold = 10 MB; tune to ~100 MB). Force with broadcast(df). For two huge tables, you can't broadcast — instead pre-bucket on the join key, use Adaptive Query Execution (AQE) which auto-converts to broadcast at runtime when stats reveal it's small, or pre-aggregate one side.",
+      "Shuffle (sort-merge or shuffle-hash) join repartitions both DataFrames by the join key across the cluster - heavy network and disk I/O. Broadcast hash join ships a small dataset to every executor's memory and joins locally with the partitioned big side - eliminates shuffle. Use broadcast when one side is small (default threshold spark.sql.autoBroadcastJoinThreshold = 10 MB; tune to ~100 MB). Force with broadcast(df). For two huge tables, you can't broadcast - instead pre-bucket on the join key, use Adaptive Query Execution (AQE) which auto-converts to broadcast at runtime when stats reveal it's small, or pre-aggregate one side.",
     keyPoints: [
       "Broadcast eliminates shuffle but uses memory on every executor",
       "AQE in Spark 3+ converts shuffle joins to broadcast at runtime",
       "Bucketing both tables on the join key avoids shuffle for repeated joins",
-      "Skewed keys ruin shuffle joins — use salting or AQE skew join",
+      "Skewed keys ruin shuffle joins - use salting or AQE skew join",
       "Always check the physical plan with explain()",
     ],
     pitfalls: [
       "Broadcasting a table that's too big → OOM on executors",
       "Joining on highly-skewed keys without skew handling → one stuck task",
-      "Disabling AQE in modern Spark — usually a regression",
+      "Disabling AQE in modern Spark - usually a regression",
     ],
-    interviewTip: "Mention skew join handling and AQE — both signal modern Spark experience.",
+    interviewTip: "Mention skew join handling and AQE - both signal modern Spark experience.",
     codeExample: {
       language: "python",
       code: `from pyspark.sql.functions import broadcast
@@ -1617,7 +1617,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     question: "What is partitioning vs clustering in a data warehouse, and how do you choose partition keys?",
     tldr: "Partition splits files by a coarse key (date) for pruning; clustering sorts within partitions for skipping.",
     answer:
-      "Partitioning splits a table into separate physical files/folders by a low-cardinality column — usually a date (event_date, ingestion_date). Queries with WHERE on the partition column skip whole partitions (pruning). Clustering (BigQuery) / sort keys (Redshift) / Z-ordering (Delta) sort data within partitions on additional columns, enabling block-level skipping. Partition rules: (1) Cardinality 100-10,000 — too many = small files & metadata overhead; too few = poor pruning. (2) Always include in WHERE clause queries. (3) Avoid high-cardinality columns (user_id) — use clustering instead.",
+      "Partitioning splits a table into separate physical files/folders by a low-cardinality column - usually a date (event_date, ingestion_date). Queries with WHERE on the partition column skip whole partitions (pruning). Clustering (BigQuery) / sort keys (Redshift) / Z-ordering (Delta) sort data within partitions on additional columns, enabling block-level skipping. Partition rules: (1) Cardinality 100-10,000 - too many = small files & metadata overhead; too few = poor pruning. (2) Always include in WHERE clause queries. (3) Avoid high-cardinality columns (user_id) - use clustering instead.",
     keyPoints: [
       "Partition for pruning, cluster for skipping within partition",
       "Date is the most common and usually best partition key",
@@ -1630,7 +1630,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
       "Querying without the partition filter → full scan",
       "Forgetting to compact small files in streaming pipelines",
     ],
-    interviewTip: "Bring up the small-files problem — every senior data eng has been burned by it.",
+    interviewTip: "Bring up the small-files problem - every senior data eng has been burned by it.",
     tags: ["partitioning", "warehouse", "performance"],
   },
   {
@@ -1641,7 +1641,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     question: "Compare Delta Lake, Apache Iceberg, and Apache Hudi.",
     tldr: "All three add ACID transactions, time travel, and schema evolution to data lakes. Differences are in maturity, ecosystem, and write patterns.",
     answer:
-      "Delta Lake (Databricks, OSS): tightest integration with Spark, mature DML, strong on batch with Auto Loader for streaming. Default in Databricks. Iceberg (Apache, originated at Netflix): truly engine-agnostic — Spark, Trino, Flink, Snowflake, BigQuery, DuckDB read it. Best for multi-engine architectures. Strong hidden partitioning. Hudi (originated at Uber): built for incremental upserts and CDC ingestion, with COW (copy-on-write) and MOR (merge-on-read) table types. Best for high-velocity streaming inserts. All support: ACID, time travel, schema evolution, partition evolution. Iceberg is winning the 'open lakehouse' battle in 2024-2025; Delta still dominant in Databricks shops.",
+      "Delta Lake (Databricks, OSS): tightest integration with Spark, mature DML, strong on batch with Auto Loader for streaming. Default in Databricks. Iceberg (Apache, originated at Netflix): truly engine-agnostic - Spark, Trino, Flink, Snowflake, BigQuery, DuckDB read it. Best for multi-engine architectures. Strong hidden partitioning. Hudi (originated at Uber): built for incremental upserts and CDC ingestion, with COW (copy-on-write) and MOR (merge-on-read) table types. Best for high-velocity streaming inserts. All support: ACID, time travel, schema evolution, partition evolution. Iceberg is winning the 'open lakehouse' battle in 2024-2025; Delta still dominant in Databricks shops.",
     keyPoints: [
       "All three: ACID + time travel + schema evolution",
       "Iceberg: most engine-agnostic, fastest growing",
@@ -1665,13 +1665,13 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     question: "How do you optimize cloud data warehouse costs (Snowflake/BigQuery)?",
     tldr: "Right-size compute, prune scans, kill bad queries, use materialized layers, and chargeback by team.",
     answer:
-      "(1) Right-size warehouses/slots — most teams run 2x what they need. Use auto-suspend (60s idle) and auto-resume. (2) Reduce bytes scanned — partition + cluster, SELECT only needed columns, push filters early. BigQuery charges per TB scanned. (3) Set query/timeout limits and cost guards (BigQuery max bytes billed, Snowflake resource monitors). (4) Materialize expensive aggregations (dbt incremental, materialized views, Snowflake dynamic tables). (5) Separate workloads by warehouse/reservation — don't let an analyst's bad query starve production. (6) Chargeback: tag queries by team/job, send weekly cost reports. (7) Periodic query audits — top 10 by cost almost always reveal easy wins.",
+      "(1) Right-size warehouses/slots - most teams run 2x what they need. Use auto-suspend (60s idle) and auto-resume. (2) Reduce bytes scanned - partition + cluster, SELECT only needed columns, push filters early. BigQuery charges per TB scanned. (3) Set query/timeout limits and cost guards (BigQuery max bytes billed, Snowflake resource monitors). (4) Materialize expensive aggregations (dbt incremental, materialized views, Snowflake dynamic tables). (5) Separate workloads by warehouse/reservation - don't let an analyst's bad query starve production. (6) Chargeback: tag queries by team/job, send weekly cost reports. (7) Periodic query audits - top 10 by cost almost always reveal easy wins.",
     keyPoints: [
       "Auto-suspend + right-sizing = biggest quick wins",
       "Partition pruning is the highest-leverage optimization",
       "Resource monitors / cost caps prevent blowups",
       "Workload isolation prevents noisy neighbors",
-      "Chargeback creates incentives — costs drop when teams see them",
+      "Chargeback creates incentives - costs drop when teams see them",
     ],
     pitfalls: [
       "Always-on XL warehouse for a job that runs 5 minutes/hour",
@@ -1689,7 +1689,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     question: "Explain exactly-once semantics in streaming. How is it actually achieved?",
     tldr: "Combine idempotent producers, transactional writes, and consumer offset commits in the same atomic unit.",
     answer:
-      "Exactly-once doesn't mean 'each message physically delivered once' — it means 'each message has exactly-once effect on the output state.' Achieved via: (1) Idempotent producer (Kafka's enable.idempotence=true) — dedup retries by producer ID + sequence number. (2) Transactional writes — producer writes to output topic AND commits consumer offsets atomically. (3) On the read side, consumers in 'read_committed' mode only see committed messages. Flink achieves it via two-phase commit checkpoints to sinks that support it (Kafka, Iceberg). For sinks without transactions, achieve effectively-once by writing with deterministic keys + downstream dedup (UPSERT on primary key).",
+      "Exactly-once doesn't mean 'each message physically delivered once' - it means 'each message has exactly-once effect on the output state.' Achieved via: (1) Idempotent producer (Kafka's enable.idempotence=true) - dedup retries by producer ID + sequence number. (2) Transactional writes - producer writes to output topic AND commits consumer offsets atomically. (3) On the read side, consumers in 'read_committed' mode only see committed messages. Flink achieves it via two-phase commit checkpoints to sinks that support it (Kafka, Iceberg). For sinks without transactions, achieve effectively-once by writing with deterministic keys + downstream dedup (UPSERT on primary key).",
     keyPoints: [
       "Exactly-once = exactly-once effect, not exactly-once delivery",
       "Kafka EOS: idempotent producer + transactions + read_committed",
@@ -1706,7 +1706,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     tags: ["streaming", "kafka", "flink", "exactly-once"],
   },
 
-  // DATA ENGINEER — System Design (extended)
+  // DATA ENGINEER - System Design (extended)
   {
     id: "de-sys-ext-1",
     role: "data-engineer",
@@ -1715,7 +1715,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     question: "Compare star schema vs snowflake schema. Which would you pick for a BI workload?",
     tldr: "Star = one fact + denormalized dimensions (fast, simple). Snowflake = normalized dimensions (less storage, more joins).",
     answer:
-      "Star schema: a central fact table (events, orders) joined to dimension tables (customer, product, date) that are denormalized — each dim is one wide flat table. Snowflake schema normalizes dimensions further (product → category → department as separate tables). Star is the standard for analytics: fewer joins, simpler queries, faster on columnar warehouses where storage is cheap. Snowflake saves storage and enforces consistency but adds join complexity. Modern columnar warehouses (BigQuery, Snowflake, Redshift) compress denormalized data extremely well, so storage savings are minor — pick star for nearly all BI use cases.",
+      "Star schema: a central fact table (events, orders) joined to dimension tables (customer, product, date) that are denormalized - each dim is one wide flat table. Snowflake schema normalizes dimensions further (product → category → department as separate tables). Star is the standard for analytics: fewer joins, simpler queries, faster on columnar warehouses where storage is cheap. Snowflake saves storage and enforces consistency but adds join complexity. Modern columnar warehouses (BigQuery, Snowflake, Redshift) compress denormalized data extremely well, so storage savings are minor - pick star for nearly all BI use cases.",
     keyPoints: [
       "Star = denormalized dims, snowflake = normalized dims",
       "Star: fewer joins, faster queries, simpler for BI tools",
@@ -1725,7 +1725,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     ],
     pitfalls: [
       "Snowflaking everything → tableau-killer query plans",
-      "Forgetting a date dimension table — most underrated dim",
+      "Forgetting a date dimension table - most underrated dim",
       "Inconsistent grain in fact table → wrong aggregations",
     ],
     interviewTip: "Always ask: 'What's the grain of the fact table?' first. Senior interviewers expect this.",
@@ -1739,7 +1739,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     question: "Explain Slowly Changing Dimensions (SCD) Type 1, 2, and 3.",
     tldr: "Type 1 overwrites; Type 2 keeps full history with versioned rows; Type 3 keeps limited history in extra columns.",
     answer:
-      "SCD Type 1: overwrite the dimension on change. Loses history. Simplest. Use when history doesn't matter (typo fixes). Type 2: insert a new row per change with effective_from/effective_to dates and an is_current flag (or a surrogate key). Preserves full history — facts join to the version valid at the event time. Most common for analytics. Type 3: add 'previous_value' column(s) — preserves only the last N changes. Rarely used. Type 4 (less common): split rapidly-changing attributes into a mini-dimension. Type 6 = 1+2+3 hybrid. Modern implementations: dbt snapshots automate SCD2; Iceberg/Delta time travel lets you query 'as of' a timestamp without explicit SCD2.",
+      "SCD Type 1: overwrite the dimension on change. Loses history. Simplest. Use when history doesn't matter (typo fixes). Type 2: insert a new row per change with effective_from/effective_to dates and an is_current flag (or a surrogate key). Preserves full history - facts join to the version valid at the event time. Most common for analytics. Type 3: add 'previous_value' column(s) - preserves only the last N changes. Rarely used. Type 4 (less common): split rapidly-changing attributes into a mini-dimension. Type 6 = 1+2+3 hybrid. Modern implementations: dbt snapshots automate SCD2; Iceberg/Delta time travel lets you query 'as of' a timestamp without explicit SCD2.",
     keyPoints: [
       "SCD2 is the workhorse for historical analytics",
       "Use surrogate keys with SCD2 (natural key changes break things)",
@@ -1752,7 +1752,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
       "SCD2 on a dimension that changes 1000x/day → row explosion",
       "Forgetting to handle late-arriving facts (back-dating)",
     ],
-    interviewTip: "Mention dbt snapshots — they're the de-facto modern way to implement SCD2 in a warehouse.",
+    interviewTip: "Mention dbt snapshots - they're the de-facto modern way to implement SCD2 in a warehouse.",
     tags: ["scd", "modeling", "dimensional"],
   },
   {
@@ -1763,10 +1763,10 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     question: "What is Change Data Capture (CDC) and how does it compare to batch ingestion?",
     tldr: "CDC streams every insert/update/delete from a source DB in near-real-time, vs batch which pulls snapshots periodically.",
     answer:
-      "CDC reads the database transaction log (Postgres WAL, MySQL binlog, Oracle redo) and emits each row change as an event — typically into Kafka. Tools: Debezium, AWS DMS, Fivetran, Airbyte. Benefits over batch: (1) Near-real-time freshness (seconds vs hours). (2) No load on source from heavy SELECT queries. (3) Captures deletes (batch often misses them). (4) Lower volume than snapshots after initial load. Trade-offs: more operational complexity, must handle schema changes, ordering guarantees per key only, exactly-once requires careful sink design. Common pattern: CDC into Kafka → stream processor → upsert into Iceberg/Delta with MERGE.",
+      "CDC reads the database transaction log (Postgres WAL, MySQL binlog, Oracle redo) and emits each row change as an event - typically into Kafka. Tools: Debezium, AWS DMS, Fivetran, Airbyte. Benefits over batch: (1) Near-real-time freshness (seconds vs hours). (2) No load on source from heavy SELECT queries. (3) Captures deletes (batch often misses them). (4) Lower volume than snapshots after initial load. Trade-offs: more operational complexity, must handle schema changes, ordering guarantees per key only, exactly-once requires careful sink design. Common pattern: CDC into Kafka → stream processor → upsert into Iceberg/Delta with MERGE.",
     keyPoints: [
       "Reads DB log, doesn't query the DB itself",
-      "Captures deletes — batch SELECTs cannot",
+      "Captures deletes - batch SELECTs cannot",
       "Per-key ordering is guaranteed; global ordering is not",
       "Initial snapshot + ongoing log-based replication",
       "MERGE on the sink to apply CDC stream into a table",
@@ -1776,7 +1776,7 @@ joined = big.join(broadcast(small), "country_code", "left")`,
       "Replication slot fills disk if consumer is down (Postgres)",
       "Assuming global ordering across keys",
     ],
-    interviewTip: "Mention Debezium and the typical 'CDC → Kafka → Iceberg MERGE' lakehouse pattern — it's the modern standard.",
+    interviewTip: "Mention Debezium and the typical 'CDC → Kafka → Iceberg MERGE' lakehouse pattern - it's the modern standard.",
     tags: ["cdc", "debezium", "streaming"],
   },
   {
@@ -1787,20 +1787,20 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     question: "How would you design data lineage for a large data platform?",
     tldr: "Capture column-level dependencies automatically from query logs / ETL DAGs, store in a graph, expose via UI and APIs.",
     answer:
-      "Components: (1) Collectors — parse SQL from warehouses (Snowflake query history, BigQuery audit logs), DAG metadata from Airflow, models from dbt. Use sqlglot/sqllineage for column-level parsing. (2) Storage — graph DB (Neo4j) or specialized catalog (DataHub, OpenLineage, Atlan, Collibra). (3) Standards — emit OpenLineage events from every job. (4) UI — table/column upstream and downstream views, impact analysis. (5) Use cases: impact analysis before changes ('who breaks if I drop this column?'), incident triage ('what dashboards depend on this failed job?'), regulatory (PII flow tracking), cost attribution.",
+      "Components: (1) Collectors - parse SQL from warehouses (Snowflake query history, BigQuery audit logs), DAG metadata from Airflow, models from dbt. Use sqlglot/sqllineage for column-level parsing. (2) Storage - graph DB (Neo4j) or specialized catalog (DataHub, OpenLineage, Atlan, Collibra). (3) Standards - emit OpenLineage events from every job. (4) UI - table/column upstream and downstream views, impact analysis. (5) Use cases: impact analysis before changes ('who breaks if I drop this column?'), incident triage ('what dashboards depend on this failed job?'), regulatory (PII flow tracking), cost attribution.",
     keyPoints: [
       "Column-level lineage > table-level for impact analysis",
       "OpenLineage is the emerging open standard",
       "DataHub and OpenMetadata are leading open-source catalogs",
-      "Automate collection — manual lineage rots immediately",
+      "Automate collection - manual lineage rots immediately",
       "Integrate with on-call: link incidents to lineage automatically",
     ],
     pitfalls: [
       "Manually documenting lineage → outdated within a week",
       "Table-level only → can't answer 'is this column used downstream?'",
-      "Lineage UI no one uses — invest in workflows that surface it",
+      "Lineage UI no one uses - invest in workflows that surface it",
     ],
-    interviewTip: "Mention sqlglot for column-level parsing and OpenLineage as the standard — shows current tooling knowledge.",
+    interviewTip: "Mention sqlglot for column-level parsing and OpenLineage as the standard - shows current tooling knowledge.",
     tags: ["lineage", "catalog", "governance"],
   },
   {
@@ -1811,13 +1811,13 @@ joined = big.join(broadcast(small), "country_code", "left")`,
     question: "What are data contracts and why are they important?",
     tldr: "Producer-owned, versioned schemas + SLAs that downstream teams depend on, enforced in CI.",
     answer:
-      "Data contracts shift data quality 'left' — to the producer (the application or upstream service) instead of fixing problems downstream. A contract specifies: schema (fields, types, nullability), semantics (what each field means), SLAs (freshness, completeness), ownership, and change policy (versioning, deprecation window). Enforced via: schema registry rejecting non-conforming events at ingestion, CI checks on producer PRs, and tests on the consumer side. Benefits: stops the 'analytics engineer fixes upstream bugs forever' anti-pattern, makes data a true product, enables stable downstream investments. Tools: Confluent Schema Registry, Avro/Protobuf, dbt source contracts, custom registries.",
+      "Data contracts shift data quality 'left' - to the producer (the application or upstream service) instead of fixing problems downstream. A contract specifies: schema (fields, types, nullability), semantics (what each field means), SLAs (freshness, completeness), ownership, and change policy (versioning, deprecation window). Enforced via: schema registry rejecting non-conforming events at ingestion, CI checks on producer PRs, and tests on the consumer side. Benefits: stops the 'analytics engineer fixes upstream bugs forever' anti-pattern, makes data a true product, enables stable downstream investments. Tools: Confluent Schema Registry, Avro/Protobuf, dbt source contracts, custom registries.",
     keyPoints: [
       "Producer owns the contract, not the consumer",
       "Versioning + deprecation window for breaking changes",
       "CI rejects breaking schema changes pre-merge",
       "Pairs naturally with event-driven architectures",
-      "Treat data like APIs — backward compatibility matters",
+      "Treat data like APIs - backward compatibility matters",
     ],
     pitfalls: [
       "Imposing contracts top-down without producer buy-in → ignored",

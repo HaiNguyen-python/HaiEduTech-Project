@@ -136,8 +136,8 @@ const Chinese = () => {
             </h1>
             <p className="text-lg text-muted-foreground mb-10">
               {t(
-                "Từ con số 0 đến giao tiếp tự tin — chương trình bài bản từ Nền tảng, HSK đến Giao tiếp thực tế, kết hợp văn hóa và công nghệ.",
-                "From zero to confident communication — structured modules from Foundation to HSK to real-world Conversation, blending culture and technology."
+                "Từ con số 0 đến giao tiếp tự tin - chương trình bài bản từ Nền tảng, HSK đến Giao tiếp thực tế, kết hợp văn hóa và công nghệ.",
+                "From zero to confident communication - structured modules from Foundation to HSK to real-world Conversation, blending culture and technology."
               )}
             </p>
 
@@ -215,12 +215,12 @@ const Chinese = () => {
                 </div>
                 <div className="flex-1">
                   <h2 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
-                    🎙️ AI Speaking Coach — 中文
+                    🎙️ AI Speaking Coach - 中文
                   </h2>
                   <p className="text-sm text-muted-foreground mt-1">
                     {t(
-                      "Luyện phát âm tiếng Trung với AI — phản hồi màu sắc theo thời gian thực, Pinyin chi tiết và hệ thống thử lại thông minh",
-                      "Practice Chinese pronunciation with AI — real-time color-coded feedback, detailed Pinyin, and smart retry system"
+                      "Luyện phát âm tiếng Trung với AI - phản hồi màu sắc theo thời gian thực, Pinyin chi tiết và hệ thống thử lại thông minh",
+                      "Practice Chinese pronunciation with AI - real-time color-coded feedback, detailed Pinyin, and smart retry system"
                     )}
                   </p>
                 </div>

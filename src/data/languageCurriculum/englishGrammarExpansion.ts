@@ -58,12 +58,12 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
 | Past Perfect | Before a past point | I had read the book before the exam |`,
     proTips: [
       "Dùng 'for' + khoảng thời gian, 'since' + mốc thời gian với Present Perfect Continuous",
-      "Past Perfect = 'the past of the past' — luôn có 2 mốc thời gian",
+      "Past Perfect = 'the past of the past' - luôn có 2 mốc thời gian",
       "Stative verbs (know, like, own) KHÔNG dùng ở dạng Continuous"
     ],
     proTipsEn: [
       "Use 'for' + duration, 'since' + point in time with Present Perfect Continuous",
-      "Past Perfect = 'the past of the past' — always involves 2 time references",
+      "Past Perfect = 'the past of the past' - always involves 2 time references",
       "Stative verbs (know, like, own) do NOT use Continuous form"
     ],
     vocabulary: [
@@ -108,7 +108,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       { question: "'By the time she arrived, he ___ the report.'", options: ["has finished", "had finished", "have been finishing", "finished"], answer: 1, explanation: "Past Perfect because the action was completed before the past moment 'she arrived'." },
       { question: "'We ___ for 3 hours when the bus finally came.' Choose the correct answer:", options: ["have been waiting", "had been waiting", "waited", "are waiting"], answer: 1, explanation: "Past Perfect Continuous: a process continuing up to a past moment." },
       { question: "Which sentence uses Present Perfect Continuous correctly?", options: ["She has been reading since 2 PM.", "She has been owning this car for 5 years.", "I have been believing in you.", "They have been seeming happy."], answer: 0, explanation: "Only 'read' is an action verb usable in Continuous. Own, believe, seem are stative verbs." },
-      { question: "'I ___ English for 5 years.' — emphasizing the ongoing process:", options: ["study", "have studied", "have been studying", "had studied"], answer: 2, explanation: "Present Perfect Continuous emphasizes an ongoing process up to the present." }
+      { question: "'I ___ English for 5 years.' - emphasizing the ongoing process:", options: ["study", "have studied", "have been studying", "had studied"], answer: 2, explanation: "Present Perfect Continuous emphasizes an ongoing process up to the present." }
     ]
   },
   {
@@ -203,7 +203,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     titleEn: "Wish & If only",
     level: 4,
     difficulty: "advanced",
-    theory: `## Wish & If only — Câu ước
+    theory: `## Wish & If only - Câu ước
 
 ### 1. Ước ở hiện tại (không có thật)
 - **Cấu trúc:** S + wish/if only + S + V2/ed (past simple)
@@ -218,7 +218,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
 ### 3. Ước về tương lai (mong muốn thay đổi)
 - **Cấu trúc:** S + wish + S + would + V
 - VD: *I **wish** it **would stop** raining.* (Ước gì trời ngừng mưa)
-- ⚠️ Không dùng "I wish I would" — dùng "I wish I could"
+- ⚠️ Không dùng "I wish I would" - dùng "I wish I could"
 
 ### Lưu ý quan trọng
 - "wish + were" (không dùng "was" trong formal English)
@@ -236,7 +236,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
 ### 3. Wish about the future (desire for change)
 - **Structure:** S + wish + S + would + V
 - E.g.: *I **wish** it **would stop** raining.*
-- ⚠️ Don't use "I wish I would" — use "I wish I could"`,
+- ⚠️ Don't use "I wish I would" - use "I wish I could"`,
     proTips: [
       "Wish + were (KHÔNG phải 'was') trong formal English",
       "If only = I wish nhưng cảm xúc mạnh hơn",
@@ -299,12 +299,12 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     titleEn: "Causative Have/Get",
     level: 4,
     difficulty: "advanced",
-    theory: `## Causative Have/Get — Thể sai khiến
+    theory: `## Causative Have/Get - Thể sai khiến
 
 ### 1. Have something done
 - **Cấu trúc:** S + have + O (vật) + V3/ed
 - **Nghĩa:** nhờ/thuê ai đó làm gì
-- VD: *I **had** my hair **cut** yesterday.* (Tôi đi cắt tóc — nhờ thợ cắt)
+- VD: *I **had** my hair **cut** yesterday.* (Tôi đi cắt tóc - nhờ thợ cắt)
 - VD: *She **had** her car **repaired**.* (Cô ấy mang xe đi sửa)
 
 ### 2. Get something done
@@ -379,7 +379,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       }
     ],
     quiz: [
-      { question: "'I ___ my hair cut.' — Correct form:", options: ["have", "had", "got", "All are correct"], answer: 3, explanation: "Have, had (past), and got are all correct in causative structures." },
+      { question: "'I ___ my hair cut.' - Correct form:", options: ["have", "had", "got", "All are correct"], answer: 3, explanation: "Have, had (past), and got are all correct in causative structures." },
       { question: "'I had my friend ___ me.'", options: ["help", "to help", "helped", "helping"], answer: 0, explanation: "Have + sb + V(bare infinitive)." },
       { question: "'I got my friend ___ me.'", options: ["help", "to help", "helped", "helping"], answer: 1, explanation: "Get + sb + TO + V(infinitive)." },
       { question: "'I cut my hair' nghĩa là:", options: ["Tôi nhờ thợ cắt tóc", "Tôi tự cắt tóc", "Tóc tôi bị cắt", "Tôi sẽ cắt tóc"], answer: 1, explanation: "Không có causative → tự làm." },
@@ -394,7 +394,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
     titleEn: "Reported Questions",
     level: 3,
     difficulty: "intermediate",
-    theory: `## Reported Questions — Câu hỏi tường thuật
+    theory: `## Reported Questions - Câu hỏi tường thuật
 
 ### 1. Yes/No Questions
 - **Trực tiếp:** "Do you like coffee?"
@@ -426,12 +426,12 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
 - ❌ He asked where did I live.
 - ✅ He asked where I lived.`,
     proTips: [
-      "Câu hỏi tường thuật KHÔNG đảo ngữ — dùng trật tự câu khẳng định",
+      "Câu hỏi tường thuật KHÔNG đảo ngữ - dùng trật tự câu khẳng định",
       "Yes/No → dùng if hoặc whether",
       "Wh-questions → giữ nguyên từ hỏi, bỏ do/does/did"
     ],
     proTipsEn: [
-      "Reported questions use STATEMENT order — no inversion",
+      "Reported questions use STATEMENT order - no inversion",
       "Yes/No → use if or whether",
       "Wh-questions → keep the question word, drop do/does/did"
     ],
@@ -643,7 +643,7 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       }
     ],
     quiz: [
-      { question: "'___ water is essential.' — Điền:", options: ["A", "An", "The", "Ø (không mạo từ)"], answer: 3, explanation: "Danh từ không đếm được, nói chung → không mạo từ." },
+      { question: "'___ water is essential.' - Điền:", options: ["A", "An", "The", "Ø (không mạo từ)"], answer: 3, explanation: "Danh từ không đếm được, nói chung → không mạo từ." },
       { question: "'She plays ___ guitar.'", options: ["a", "an", "the", "Ø"], answer: 2, explanation: "The + nhạc cụ." },
       { question: "'We traveled by ___ train.'", options: ["a", "the", "an", "Ø"], answer: 3, explanation: "By + phương tiện → không mạo từ." },
       { question: "'___ Philippines is in Southeast Asia.'", options: ["A", "The", "An", "Ø"], answer: 1, explanation: "The + quốc gia có nhiều đảo/Republic/States." },
@@ -698,13 +698,13 @@ export const grammarExtraLessons: GrammarExtraLesson[] = [
       "Phrasal verbs có thể tách được (separable) hoặc không tách (inseparable)",
       "Separable: Turn off the light = Turn the light off",
       "Inseparable: Look after ≠ Look the baby after",
-      "Dependent prepositions: phải học thuộc — không có quy tắc chung"
+      "Dependent prepositions: phải học thuộc - không có quy tắc chung"
     ],
     proTipsEn: [
       "Phrasal verbs can be separable or inseparable",
       "Separable: Turn off the light = Turn the light off",
       "Inseparable: Look after ≠ Look the baby after",
-      "Dependent prepositions: must be memorized — no general rule"
+      "Dependent prepositions: must be memorized - no general rule"
     ],
     vocabulary: [
       { word: "give up", meaning: "từ bỏ", example: "Never give up on your dreams." },
@@ -772,7 +772,7 @@ export const grammarExpansionModules: LanguageModule[] = [
         titleEn: "Basic Modal Verbs",
         level: 2,
         difficulty: "beginner",
-        theory: `## Modal Verbs — Động từ khuyết thiếu cơ bản
+        theory: `## Modal Verbs - Động từ khuyết thiếu cơ bản
 
 ### Đặc điểm chung
 - Không chia (không thêm s/es/ed/ing)
@@ -855,7 +855,7 @@ export const grammarExpansionModules: LanguageModule[] = [
         ],
         quiz: [
           { question: "'You ___ smoke here.' (cấm)", options: ["mustn't", "shouldn't", "can't", "don't have to"], answer: 0, explanation: "mustn't = cấm (prohibition)." },
-          { question: "'___ you help me?' — lịch sự nhất:", options: ["Can", "Will", "Could", "Do"], answer: 2, explanation: "Could là cách hỏi lịch sự nhất." },
+          { question: "'___ you help me?' - lịch sự nhất:", options: ["Can", "Will", "Could", "Do"], answer: 2, explanation: "Could là cách hỏi lịch sự nhất." },
           { question: "Must vs Should:", options: ["Giống nhau", "Must mạnh hơn Should", "Should mạnh hơn Must", "Không liên quan"], answer: 1, explanation: "Must = bắt buộc, Should = nên (nhẹ hơn)." },
           { question: "'She ___ swim when she was 3.'", options: ["can", "could", "may", "must"], answer: 1, explanation: "Could = khả năng trong quá khứ." },
           { question: "Câu nào đúng?", options: ["She can to swim.", "She can swim.", "She can swimming.", "She cans swim."], answer: 1, explanation: "Modal + V(bare infinitive), không chia." }
@@ -867,7 +867,7 @@ export const grammarExpansionModules: LanguageModule[] = [
         titleEn: "Advanced Modal Verbs",
         level: 4,
         difficulty: "advanced",
-        theory: `## Modal Verbs nâng cao — Suy đoán & Quá khứ
+        theory: `## Modal Verbs nâng cao - Suy đoán & Quá khứ
 
 ### 1. Modals of Deduction (Suy đoán)
 | Modal | Mức chắc chắn | Ví dụ |
@@ -884,11 +884,11 @@ export const grammarExpansionModules: LanguageModule[] = [
 - **needn't have V3:** không cần phải đã... → *You needn't have hurried.* (Không cần vội)
 
 ### 3. Must vs Have to
-- **Must:** bắt buộc (cá nhân, nội tại) → *I must study.* (Tôi phải học — tự ý thức)
-- **Have to:** bắt buộc (ngoại lực, quy định) → *I have to wear a uniform.* (Tôi phải mặc đồng phục — quy định)
+- **Must:** bắt buộc (cá nhân, nội tại) → *I must study.* (Tôi phải học - tự ý thức)
+- **Have to:** bắt buộc (ngoại lực, quy định) → *I have to wear a uniform.* (Tôi phải mặc đồng phục - quy định)
 - **Mustn't:** KHÔNG ĐƯỢC → *You mustn't lie.*
 - **Don't have to:** KHÔNG CẦN → *You don't have to come.* (Không cần đến)`,
-        theoryEn: `## Advanced Modal Verbs — Deduction & Past Modals
+        theoryEn: `## Advanced Modal Verbs - Deduction & Past Modals
 
 ### 1. Modals of Deduction
 | Modal | Certainty | Example |
@@ -967,8 +967,8 @@ export const grammarExpansionModules: LanguageModule[] = [
     titleEn: "Gerunds & Infinitives",
     icon: "🔄",
     color: "from-teal-500 to-emerald-500",
-    description: "V-ing vs To V — khi nào dùng gì?",
-    descriptionEn: "V-ing vs To V — when to use which?",
+    description: "V-ing vs To V - khi nào dùng gì?",
+    descriptionEn: "V-ing vs To V - when to use which?",
     category: "grammar",
     language: "english",
     lessons: [
@@ -978,15 +978,15 @@ export const grammarExpansionModules: LanguageModule[] = [
         titleEn: "Basic Gerunds vs Infinitives",
         level: 2,
         difficulty: "beginner",
-        theory: `## Gerunds vs Infinitives — V-ing vs To V
+        theory: `## Gerunds vs Infinitives - V-ing vs To V
 
-### Gerund (V-ing) — Danh động từ
+### Gerund (V-ing) - Danh động từ
 Dùng sau:
 1. **Động từ:** enjoy, finish, avoid, mind, suggest, keep, practice, consider, deny, admit, imagine
 2. **Giới từ:** interested in, good at, tired of, look forward to
 3. **Làm chủ ngữ:** *Swimming is fun.*
 
-### Infinitive (To V) — Động từ nguyên mẫu
+### Infinitive (To V) - Động từ nguyên mẫu
 Dùng sau:
 1. **Động từ:** want, need, decide, hope, plan, promise, agree, refuse, offer, learn, expect, afford
 2. **Tính từ:** happy to, easy to, difficult to, ready to
@@ -1082,7 +1082,7 @@ Purpose: *I study hard to pass the exam.*
         titleEn: "Advanced Gerunds & Infinitives",
         level: 4,
         difficulty: "advanced",
-        theory: `## Gerunds & Infinitives — Nâng cao
+        theory: `## Gerunds & Infinitives - Nâng cao
 
 ### Verbs with different meanings
 | Verb | + V-ing | + To V |
@@ -1110,7 +1110,7 @@ Purpose: *I study hard to pass the exam.*
         theoryEn: `## Advanced Gerunds & Infinitives
 
 ### Verbs with different meanings (V-ing vs To V)
-stop, remember, forget, try, regret, go on — each has different meaning with V-ing vs To V
+stop, remember, forget, try, regret, go on - each has different meaning with V-ing vs To V
 
 ### V + O + To V
 want/ask/tell/advise/allow sb to do
@@ -1123,12 +1123,12 @@ He wants to be promoted.`,
         proTips: [
           "regret + V-ing = tiếc đã làm. regret + to V = tiếc phải (formal thông báo)",
           "make/let + O + V(bare): She made him clean (KHÔNG có 'to')",
-          "Passive infinitive: to be V3 — He wants to be promoted"
+          "Passive infinitive: to be V3 - He wants to be promoted"
         ],
         proTipsEn: [
           "regret + V-ing = regret past action. regret + to V = regret to inform (formal)",
           "make/let + O + V(bare): She made him clean (NO 'to')",
-          "Passive infinitive: to be V3 — He wants to be promoted"
+          "Passive infinitive: to be V3 - He wants to be promoted"
         ],
         vocabulary: [
           { word: "regret", meaning: "hối tiếc", example: "I regret saying that." },
@@ -1192,7 +1192,7 @@ He wants to be promoted.`,
         titleEn: "Comparative & Superlative",
         level: 2,
         difficulty: "beginner",
-        theory: `## Comparative & Superlative — So sánh
+        theory: `## Comparative & Superlative - So sánh
 
 ### 1. So sánh hơn (Comparative)
 **Tính từ ngắn:** adj + ER + than
@@ -1370,7 +1370,7 @@ He wants to be promoted.`,
         titleEn: "Inversion Patterns",
         level: 5,
         difficulty: "advanced",
-        theory: `## Inversion — Đảo ngữ
+        theory: `## Inversion - Đảo ngữ
 
 ### Khi nào đảo ngữ?
 Đảo trợ động từ lên trước chủ ngữ để nhấn mạnh.

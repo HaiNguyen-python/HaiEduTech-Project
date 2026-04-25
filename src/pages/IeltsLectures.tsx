@@ -1,4 +1,4 @@
-// IELTS Lectures Dashboard — Advanced filtering, search, sort, bookmarks, and responsive grid
+// IELTS Lectures Dashboard - Advanced filtering, search, sort, bookmarks, and responsive grid
 import { useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";

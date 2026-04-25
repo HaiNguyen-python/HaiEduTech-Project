@@ -310,7 +310,7 @@ const CambridgeMockExam = () => {
           </AnimatePresence>
         </div>
 
-        {/* Answer grid sidebar — desktop */}
+        {/* Answer grid sidebar - desktop */}
         <div className="hidden lg:block w-64 border-l border-white/10 p-4">
           <h3 className="text-sm font-bold text-[#94A3B8] mb-3">{t("Bảng đáp án", "Answer Grid")}</h3>
           <div className="grid grid-cols-5 gap-2">

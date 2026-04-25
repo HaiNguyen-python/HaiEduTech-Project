@@ -72,7 +72,7 @@ const ClipCard = ({ clip }: { clip: FilmClip }) => {
               {clip.vocabHighlight.map((v, i) => (
                 <div key={i} className="text-xs">
                   <span className="font-semibold text-foreground">{v.vi}</span>
-                  <span className="text-muted-foreground"> — {v.en}</span>
+                  <span className="text-muted-foreground"> - {v.en}</span>
                   {v.note && <div className="text-[11px] text-muted-foreground/80 italic">{v.note}</div>}
                 </div>
               ))}

@@ -3,7 +3,7 @@ import type { FinnishModule } from "./types";
 export const finnishLessonExpansion4Modules: FinnishModule[] = [
   {
     id: "yki-int-work",
-    title: "Työelämä — Workplace Finnish",
+    title: "Työelämä - Workplace Finnish",
     titleEn: "Workplace Finnish",
     icon: "💼",
     color: "from-blue-600 to-blue-800",
@@ -20,17 +20,17 @@ export const finnishLessonExpansion4Modules: FinnishModule[] = [
         theory: `# Työnhaku (Job Searching)
 
 ## Hyödyllisiä sanoja
-- **työpaikkailmoitus** — job advertisement
-- **ansioluettelo / CV** — curriculum vitae
-- **työhakemus** — job application
-- **työhaastattelu** — job interview
-- **palkka** — salary
-- **työsopimus** — employment contract
+- **työpaikkailmoitus** - job advertisement
+- **ansioluettelo / CV** - curriculum vitae
+- **työhakemus** - job application
+- **työhaastattelu** - job interview
+- **palkka** - salary
+- **työsopimus** - employment contract
 
 ## Fraaseja
-- "Haen töitä..." — I'm looking for a job...
-- "Minulla on kokemusta..." — I have experience in...
-- "Olen kiinnostunut tästä työpaikasta." — I'm interested in this position.`,
+- "Haen töitä..." - I'm looking for a job...
+- "Minulla on kokemusta..." - I have experience in...
+- "Olen kiinnostunut tästä työpaikasta." - I'm interested in this position.`,
         theoryEn: `# Job Searching in Finnish
 Key vocabulary: työpaikkailmoitus (job ad), ansioluettelo (CV), työhakemus (application), työhaastattelu (interview), palkka (salary), työsopimus (contract).`,
         vocabulary: [
@@ -65,18 +65,18 @@ Key vocabulary: työpaikkailmoitus (job ad), ansioluettelo (CV), työhakemus (ap
         theory: `# Työpaikalla (At the Workplace)
 
 ## Arkipäiväisiä fraaseja
-- "Hyvää huomenta!" — Good morning!
-- "Voisitko auttaa minua?" — Could you help me?
-- "Milloin on tauko?" — When is the break?
-- "Minulla on kokous kello 10." — I have a meeting at 10.
-- "Voisinko puhua esihenkilön kanssa?" — Could I speak with the supervisor?
+- "Hyvää huomenta!" - Good morning!
+- "Voisitko auttaa minua?" - Could you help me?
+- "Milloin on tauko?" - When is the break?
+- "Minulla on kokous kello 10." - I have a meeting at 10.
+- "Voisinko puhua esihenkilön kanssa?" - Could I speak with the supervisor?
 
 ## Työpaikan sanastoa
-- **kokous** — meeting
-- **tauko** — break
-- **esihenkilö** — supervisor
-- **työvuoro** — shift
-- **ylityö** — overtime`,
+- **kokous** - meeting
+- **tauko** - break
+- **esihenkilö** - supervisor
+- **työvuoro** - shift
+- **ylityö** - overtime`,
         theoryEn: `# At the Workplace
 Common phrases for daily work interactions and key vocabulary like kokous (meeting), tauko (break), esihenkilö (supervisor).`,
         vocabulary: [
@@ -105,7 +105,7 @@ Common phrases for daily work interactions and key vocabulary like kokous (meeti
   },
   {
     id: "yki-int-health",
-    title: "Terveys — Health",
+    title: "Terveys - Health",
     titleEn: "Health & Doctor Visits",
     icon: "🏥",
     color: "from-green-500 to-green-700",
@@ -122,17 +122,17 @@ Common phrases for daily work interactions and key vocabulary like kokous (meeti
         theory: `# Lääkärissä (At the Doctor)
 
 ## Oireita (Symptoms)
-- Minulla on **kuumetta**. — I have a fever.
-- Minua **särkee** päätä. — I have a headache.
-- **Vatsaani** koskee. — My stomach hurts.
-- Minulla on **yskää**. — I have a cough.
-- Minulla on **nuhaa**. — I have a runny nose.
-- Olen **allerginen** pölylle. — I'm allergic to dust.
+- Minulla on **kuumetta**. - I have a fever.
+- Minua **särkee** päätä. - I have a headache.
+- **Vatsaani** koskee. - My stomach hurts.
+- Minulla on **yskää**. - I have a cough.
+- Minulla on **nuhaa**. - I have a runny nose.
+- Olen **allerginen** pölylle. - I'm allergic to dust.
 
 ## Lääkärille puhuminen
-- "Minulle tuli huono olo eilen." — I started feeling bad yesterday.
-- "Voitteko kirjoittaa reseptin?" — Can you write a prescription?
-- "Pitääkö minun ottaa lääkettä?" — Do I need to take medicine?`,
+- "Minulle tuli huono olo eilen." - I started feeling bad yesterday.
+- "Voitteko kirjoittaa reseptin?" - Can you write a prescription?
+- "Pitääkö minun ottaa lääkettä?" - Do I need to take medicine?`,
         theoryEn: `# At the Doctor
 Symptoms: kuume (fever), päänsärky (headache), yskä (cough), nuha (runny nose).
 Key phrases for describing symptoms and asking questions.`,
@@ -168,17 +168,17 @@ Key phrases for describing symptoms and asking questions.`,
         theory: `# Apteekissa (At the Pharmacy)
 
 ## Hyödyllisiä fraaseja
-- "Minulla on resepti." — I have a prescription.
-- "Tarvitsen särkylääkettä." — I need painkillers.
-- "Onko tätä lääkettä ilman reseptiä?" — Is this medicine available without prescription?
-- "Kuinka usein pitää ottaa tätä?" — How often should I take this?
+- "Minulla on resepti." - I have a prescription.
+- "Tarvitsen särkylääkettä." - I need painkillers.
+- "Onko tätä lääkettä ilman reseptiä?" - Is this medicine available without prescription?
+- "Kuinka usein pitää ottaa tätä?" - How often should I take this?
 
 ## Lääkkeitä
-- **särkylääke** — painkiller
-- **kuumelääke** — fever medicine
-- **antibiootti** — antibiotic
-- **voide** — ointment/cream
-- **laastari** — band-aid`,
+- **särkylääke** - painkiller
+- **kuumelääke** - fever medicine
+- **antibiootti** - antibiotic
+- **voide** - ointment/cream
+- **laastari** - band-aid`,
         theoryEn: `# At the Pharmacy
 Phrases for buying medicine, asking about dosage, and common medicine types.`,
         vocabulary: [
@@ -206,7 +206,7 @@ Phrases for buying medicine, asking about dosage, and common medicine types.`,
   },
   {
     id: "yki-int-housing",
-    title: "Asuminen — Housing",
+    title: "Asuminen - Housing",
     titleEn: "Housing & Rental",
     icon: "🏠",
     color: "from-yellow-500 to-yellow-700",
@@ -223,20 +223,20 @@ Phrases for buying medicine, asking about dosage, and common medicine types.`,
         theory: `# Asunnon etsiminen (Finding an Apartment)
 
 ## Asuntoilmoituksen sanastoa
-- **vuokra-asunto** — rental apartment
-- **yksiö** — studio / one-room apartment
-- **kaksio** — two-room apartment
-- **kolmio** — three-room apartment
-- **vuokra** — rent
-- **takuuvuokra** — security deposit
-- **sähkö** — electricity
-- **vesi** — water
+- **vuokra-asunto** - rental apartment
+- **yksiö** - studio / one-room apartment
+- **kaksio** - two-room apartment
+- **kolmio** - three-room apartment
+- **vuokra** - rent
+- **takuuvuokra** - security deposit
+- **sähkö** - electricity
+- **vesi** - water
 
 ## Fraaseja
-- "Etsin vuokra-asuntoa." — I'm looking for a rental apartment.
-- "Paljonko vuokra on?" — How much is the rent?
-- "Sisältyykö vesi vuokraan?" — Is water included in the rent?
-- "Milloin voin muuttaa sisään?" — When can I move in?`,
+- "Etsin vuokra-asuntoa." - I'm looking for a rental apartment.
+- "Paljonko vuokra on?" - How much is the rent?
+- "Sisältyykö vesi vuokraan?" - Is water included in the rent?
+- "Milloin voin muuttaa sisään?" - When can I move in?`,
         theoryEn: `# Finding an Apartment
 Apartment types: yksiö (studio), kaksio (2-room), kolmio (3-room).
 Key phrases for inquiring about rentals.`,
@@ -278,13 +278,13 @@ Key phrases for inquiring about rentals.`,
 - **Jätteiden lajittelu**: bio, paperi, muovi, metalli, sekajäte (Waste sorting)
 
 ## Naapureiden kanssa
-- "Hei, olen uusi naapuri." — Hi, I'm a new neighbor.
-- "Anteeksi häiriöstä." — Sorry for the disturbance.
-- "Voisitko olla hiljempaa?" — Could you be quieter?
+- "Hei, olen uusi naapuri." - Hi, I'm a new neighbor.
+- "Anteeksi häiriöstä." - Sorry for the disturbance.
+- "Voisitko olla hiljempaa?" - Could you be quieter?
 
 ## Vikailmoitus
-- "Hana vuotaa." — The faucet is leaking.
-- "Lämmitys ei toimi." — The heating isn't working.`,
+- "Hana vuotaa." - The faucet is leaking.
+- "Lämmitys ei toimi." - The heating isn't working.`,
         theoryEn: `# Living & Neighbors
 House rules: quiet hours, laundry room booking, sauna schedule, waste sorting.
 Phrases for interacting with neighbors and reporting maintenance issues.`,
@@ -306,14 +306,14 @@ Phrases for interacting with neighbors and reporting maintenance issues.`,
         ],
         quiz: [
           { question: "In Finnish apartments, 'hiljaisuusaika' is typically:", options: ["6 AM – 8 PM", "10 PM – 7 AM", "All day Sunday", "No specific time"], answer: 1, explanation: "Quiet hours (hiljaisuusaika) are typically from 10 PM to 7 AM." },
-          { question: "'Jätteiden lajittelu' refers to:", options: ["Waste sorting/recycling", "Cleaning the apartment", "Paying bills", "Moving out"], answer: 0, explanation: "Jätteiden lajittelu means waste sorting — an important part of Finnish daily life." },
+          { question: "'Jätteiden lajittelu' refers to:", options: ["Waste sorting/recycling", "Cleaning the apartment", "Paying bills", "Moving out"], answer: 0, explanation: "Jätteiden lajittelu means waste sorting - an important part of Finnish daily life." },
         ],
       },
     ],
   },
   {
     id: "yki-adv-topics",
-    title: "Edistynyt — Advanced Finnish",
+    title: "Edistynyt - Advanced Finnish",
     titleEn: "Advanced Finnish Topics",
     icon: "🎓",
     color: "from-purple-600 to-purple-800",
@@ -330,17 +330,17 @@ Phrases for interacting with neighbors and reporting maintenance issues.`,
         theory: `# Uutisten ymmärtäminen (Understanding Finnish News)
 
 ## Uutisten rakenne
-1. **Otsikko** — Headline (short, present tense)
-2. **Ingressi** — Lead paragraph (key facts)
-3. **Leipäteksti** — Body text (details)
+1. **Otsikko** - Headline (short, present tense)
+2. **Ingressi** - Lead paragraph (key facts)
+3. **Leipäteksti** - Body text (details)
 
 ## Yleisiä uutissanoja
-- **hallitus** — government
-- **eduskunta** — parliament
-- **talous** — economy
-- **työllisyys** — employment
-- **ilmastonmuutos** — climate change
-- **tutkimus** — research/study
+- **hallitus** - government
+- **eduskunta** - parliament
+- **talous** - economy
+- **työllisyys** - employment
+- **ilmastonmuutos** - climate change
+- **tutkimus** - research/study
 
 ## Lukuvinkkejä
 - Lue otsikko ja ingressi ensin
@@ -387,9 +387,9 @@ Structure: headline, lead, body. Common news words: hallitus (government), edusk
 7. **Allekirjoitus**: Oma nimi
 
 ## Esimerkkifraaseja
-- "Kirjoitan tiedustellakseni..." — I'm writing to inquire...
-- "Pyydän ystävällisesti..." — I kindly request...
-- "Kiitos vastauksestanne etukäteen." — Thank you for your reply in advance.`,
+- "Kirjoitan tiedustellakseni..." - I'm writing to inquire...
+- "Pyydän ystävällisesti..." - I kindly request...
+- "Kiitos vastauksestanne etukäteen." - Thank you for your reply in advance.`,
         theoryEn: `# Formal Letter Writing
 Structure: date, recipient, subject line, greeting, body, closing, signature.
 Key phrases for formal correspondence.`,
@@ -406,7 +406,7 @@ Key phrases for formal correspondence.`,
         ],
         quiz: [
           { question: "A formal Finnish letter starts with:", options: ["Hei!", "Moi!", "Hyvä vastaanottaja", "Terve!"], answer: 2, explanation: "'Hyvä vastaanottaja' (Dear recipient) is the formal greeting." },
-          { question: "'Kunnioittavasti' means:", options: ["Sincerely/Respectfully", "Hello", "Thank you", "Goodbye"], answer: 0, explanation: "'Kunnioittavasti' means 'respectfully' — a very formal closing." },
+          { question: "'Kunnioittavasti' means:", options: ["Sincerely/Respectfully", "Hello", "Thank you", "Goodbye"], answer: 0, explanation: "'Kunnioittavasti' means 'respectfully' - a very formal closing." },
         ],
       },
     ],

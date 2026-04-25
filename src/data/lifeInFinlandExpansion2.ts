@@ -25,8 +25,8 @@ export const TRANSPORT_GUIDES: NewcomerGuide[] = [
       "Finland's public transport runs like clockwork. Helsinki student monthly pass ~€37/month (2026) covers bus, tram, metro, ferry, and HSL city bikes.",
     steps: [
       {
-        vi: "📱 Cài app HSL (Helsinki) / Nysse (Tampere) / Föli (Turku) — mua vé bằng MobilePay hoặc thẻ ngân hàng trong 30 giây.",
-        en: "📱 Install HSL (Helsinki) / Nysse (Tampere) / Föli (Turku) — buy tickets with MobilePay or card in 30 seconds.",
+        vi: "📱 Cài app HSL (Helsinki) / Nysse (Tampere) / Föli (Turku) - mua vé bằng MobilePay hoặc thẻ ngân hàng trong 30 giây.",
+        en: "📱 Install HSL (Helsinki) / Nysse (Tampere) / Föli (Turku) - buy tickets with MobilePay or card in 30 seconds.",
       },
       {
         vi: "🎟️ Loại vé: Đơn (3.10€/80 phút), Ngày (9€), Tháng người lớn (75€), Tháng sinh viên (37€). Trẻ <7 tuổi miễn phí.",
@@ -62,8 +62,8 @@ export const TRANSPORT_GUIDES: NewcomerGuide[] = [
       { fi: "Onko tämä juna Tampereelle?", vi: "Tàu này có đi Tampere không?", en: "Is this train going to Tampere?" },
     ],
     proTip: {
-      vi: "💡 Sinh viên dưới 30 tuổi mua thẻ HSL có ảnh + chứng minh sinh viên một lần — sau đó chỉ cần nạp vé tháng 37€ thay vì 75€. Tiết kiệm 456€/năm.",
-      en: "💡 Students under 30: get an HSL card with photo + student proof once — then top up at €37/month instead of €75. Saves €456/year.",
+      vi: "💡 Sinh viên dưới 30 tuổi mua thẻ HSL có ảnh + chứng minh sinh viên một lần - sau đó chỉ cần nạp vé tháng 37€ thay vì 75€. Tiết kiệm 456€/năm.",
+      en: "💡 Students under 30: get an HSL card with photo + student proof once - then top up at €37/month instead of €75. Saves €456/year.",
     },
     mapLinks: [
       { label: "HSL Helsinki", url: "https://www.hsl.fi/en" },
@@ -83,17 +83,17 @@ export const BANKING_GUIDES: NewcomerGuide[] = [
     title: "Ngân hàng & BankID (Pankkitunnukset)",
     titleEn: "Banking & BankID (Pankkitunnukset)",
     summary:
-      "BankID (pankkitunnukset) là chìa khóa số ở Phần Lan — đăng nhập Kela, Vero, Migri, OmaPosti, OmaKanta đều cần. Mở tài khoản cần Henkilötunnus + hợp đồng thuê nhà/lao động.",
+      "BankID (pankkitunnukset) là chìa khóa số ở Phần Lan - đăng nhập Kela, Vero, Migri, OmaPosti, OmaKanta đều cần. Mở tài khoản cần Henkilötunnus + hợp đồng thuê nhà/lao động.",
     summaryEn:
-      "BankID (pankkitunnukset) is your digital key in Finland — Kela, Vero, Migri, OmaPosti, OmaKanta all require it. Opening an account needs Henkilötunnus + rental/employment contract.",
+      "BankID (pankkitunnukset) is your digital key in Finland - Kela, Vero, Migri, OmaPosti, OmaKanta all require it. Opening an account needs Henkilötunnus + rental/employment contract.",
     steps: [
       {
         vi: "🏛️ 4 ngân hàng chính: OP (lớn nhất, app tốt), Nordea (đa quốc gia), Danske Bank, S-Pankki (S-Group, dễ duyệt nhất cho người mới).",
         en: "🏛️ 4 main banks: OP (largest, best app), Nordea (international), Danske Bank, S-Pankki (S-Group, easiest approval for newcomers).",
       },
       {
-        vi: "📅 Đặt lịch hẹn online — KHÔNG đến quầy bừa. S-Pankki & Nordea thường duyệt nhanh hơn cho non-EU.",
-        en: "📅 Book online — don't walk in. S-Pankki & Nordea usually approve faster for non-EU residents.",
+        vi: "📅 Đặt lịch hẹn online - KHÔNG đến quầy bừa. S-Pankki & Nordea thường duyệt nhanh hơn cho non-EU.",
+        en: "📅 Book online - don't walk in. S-Pankki & Nordea usually approve faster for non-EU residents.",
       },
       {
         vi: "📋 Mang theo: passport + Henkilötunnus + hợp đồng thuê nhà + thư mời học/làm + 50€ phí mở thẻ.",
@@ -104,8 +104,8 @@ export const BANKING_GUIDES: NewcomerGuide[] = [
         en: "🔐 In 1–2 weeks you receive: Visa Debit + BankID codes sent in 2 separate envelopes (for security).",
       },
       {
-        vi: "📲 Cài app ngân hàng + MobilePay (~98% người Phần Lan dùng) — chuyển tiền giữa bạn bè miễn phí, tức thì.",
-        en: "📲 Install your bank app + MobilePay (~98% of Finns use it) — instant free transfers between friends.",
+        vi: "📲 Cài app ngân hàng + MobilePay (~98% người Phần Lan dùng) - chuyển tiền giữa bạn bè miễn phí, tức thì.",
+        en: "📲 Install your bank app + MobilePay (~98% of Finns use it) - instant free transfers between friends.",
       },
       {
         vi: "💳 Phần Lan ~99% cashless. Nhiều cửa hàng KHÔNG nhận tiền mặt. Ưu tiên thẻ contactless / Apple Pay / Google Pay.",
@@ -125,8 +125,8 @@ export const BANKING_GUIDES: NewcomerGuide[] = [
       { fi: "Voinko maksaa MobilePaylla?", vi: "Tôi trả bằng MobilePay được không?", en: "Can I pay with MobilePay?" },
     ],
     proTip: {
-      vi: "💡 ĐỪNG bao giờ chia sẻ mã BankID. Lừa đảo phổ biến: 'Cảnh sát/ngân hàng gọi xin mã để xác minh' — cảnh sát thật KHÔNG BAO GIỜ hỏi mã. Báo ngay 0295 419 800.",
-      en: "💡 NEVER share your BankID codes. Common scam: 'Police/bank calling for verification' — real police NEVER ask for codes. Report immediately: 0295 419 800.",
+      vi: "💡 ĐỪNG bao giờ chia sẻ mã BankID. Lừa đảo phổ biến: 'Cảnh sát/ngân hàng gọi xin mã để xác minh' - cảnh sát thật KHÔNG BAO GIỜ hỏi mã. Báo ngay 0295 419 800.",
+      en: "💡 NEVER share your BankID codes. Common scam: 'Police/bank calling for verification' - real police NEVER ask for codes. Report immediately: 0295 419 800.",
     },
   },
 ];
@@ -142,13 +142,13 @@ export const CULTURE_GUIDES: NewcomerGuide[] = [
     title: "Văn hóa giao tiếp Phần Lan & Sisu",
     titleEn: "Finnish Social Etiquette & Sisu",
     summary:
-      "Phần Lan = im lặng tôn trọng + bình đẳng tuyệt đối + đúng giờ tuyệt đối. 'Sisu' là tinh thần kiên cường đặc trưng — bạn càng hiểu, càng được tôn trọng.",
+      "Phần Lan = im lặng tôn trọng + bình đẳng tuyệt đối + đúng giờ tuyệt đối. 'Sisu' là tinh thần kiên cường đặc trưng - bạn càng hiểu, càng được tôn trọng.",
     summaryEn:
-      "Finland = respectful silence + radical equality + radical punctuality. 'Sisu' is the legendary grit — the more you grasp it, the more you're respected.",
+      "Finland = respectful silence + radical equality + radical punctuality. 'Sisu' is the legendary grit - the more you grasp it, the more you're respected.",
     steps: [
       {
-        vi: "🤐 Im lặng KHÔNG phải khó xử — đó là tôn trọng. Người Phần Lan thoải mái với 5–10 giây im lặng giữa câu.",
-        en: "🤐 Silence is NOT awkward — it's respect. Finns are fine with 5–10s pauses mid-conversation.",
+        vi: "🤐 Im lặng KHÔNG phải khó xử - đó là tôn trọng. Người Phần Lan thoải mái với 5–10 giây im lặng giữa câu.",
+        en: "🤐 Silence is NOT awkward - it's respect. Finns are fine with 5–10s pauses mid-conversation.",
       },
       {
         vi: "👋 Bắt tay chắc + nhìn mắt khi gặp lần đầu. KHÔNG ôm/hôn má dù thân quen, kể cả với người nhà.",
@@ -167,8 +167,8 @@ export const CULTURE_GUIDES: NewcomerGuide[] = [
         en: "🪪 Personal space: 1.5–2m in queues. Standing closer = rude (per Aalto 2023 study).",
       },
       {
-        vi: "💪 'Sisu' — tinh thần kiên trì: làm xong việc dù khó, không than vãn, tự lực, hoàn thành lời hứa. Cốt lõi văn hóa Phần Lan.",
-        en: "💪 'Sisu' — grit: finish the job, no whining, self-reliance, keep promises. Core Finnish value.",
+        vi: "💪 'Sisu' - tinh thần kiên trì: làm xong việc dù khó, không than vãn, tự lực, hoàn thành lời hứa. Cốt lõi văn hóa Phần Lan.",
+        en: "💪 'Sisu' - grit: finish the job, no whining, self-reliance, keep promises. Core Finnish value.",
       },
       {
         vi: "🍻 Drinks sau giờ làm: thân tình hơn nhiều so với trong văn phòng. Đây là lúc người Phần Lan mở lòng.",
@@ -199,27 +199,27 @@ export const CULTURE_GUIDES: NewcomerGuide[] = [
 ];
 
 // ============================================================
-// GIA ĐÌNH & TRẺ EM — NEUVOLA (Health pillar)
+// GIA ĐÌNH & TRẺ EM - NEUVOLA (Health pillar)
 // ============================================================
 export const FAMILY_HEALTH_GUIDES: NewcomerGuide[] = [
   {
     id: "neuvola-family-2026",
     icon: "Baby",
     emoji: "👶",
-    title: "Neuvola — Trung tâm chăm sóc mẹ và bé miễn phí",
-    titleEn: "Neuvola — Free Maternal & Child Health Center",
+    title: "Neuvola - Trung tâm chăm sóc mẹ và bé miễn phí",
+    titleEn: "Neuvola - Free Maternal & Child Health Center",
     summary:
       "Neuvola là dịch vụ Phần Lan độc đáo: theo dõi mẹ + bé MIỄN PHÍ từ thai 8 tuần đến 6 tuổi. Bao gồm khám thai, vaccine, dinh dưỡng, hỗ trợ tâm lý sau sinh.",
     summaryEn:
       "Neuvola is uniquely Finnish: FREE care for mother + child from 8 weeks pregnancy to age 6. Covers prenatal, vaccines, nutrition, postnatal mental health.",
     steps: [
       {
-        vi: "🤰 Thai 8–10 tuần: gọi Neuvola (số ở omakanta.fi) đặt buổi đầu tiên — y tá sẽ là người đồng hành suốt thai kỳ.",
-        en: "🤰 Week 8–10 pregnancy: call your Neuvola (number on omakanta.fi) — the nurse becomes your partner through pregnancy.",
+        vi: "🤰 Thai 8–10 tuần: gọi Neuvola (số ở omakanta.fi) đặt buổi đầu tiên - y tá sẽ là người đồng hành suốt thai kỳ.",
+        en: "🤰 Week 8–10 pregnancy: call your Neuvola (number on omakanta.fi) - the nurse becomes your partner through pregnancy.",
       },
       {
-        vi: "🎁 Tuần 22: nhận 'Äitiyspakkaus' (Maternity Box) MIỄN PHÍ từ Kela — hộp nhu yếu phẩm cho bé (quần áo, tã, sách) trị giá ~400€. Hoặc nhận 170€ tiền mặt.",
-        en: "🎁 Week 22: receive the famous 'Maternity Box' (Äitiyspakkaus) FREE from Kela — baby essentials worth ~€400. Or take €170 cash instead.",
+        vi: "🎁 Tuần 22: nhận 'Äitiyspakkaus' (Maternity Box) MIỄN PHÍ từ Kela - hộp nhu yếu phẩm cho bé (quần áo, tã, sách) trị giá ~400€. Hoặc nhận 170€ tiền mặt.",
+        en: "🎁 Week 22: receive the famous 'Maternity Box' (Äitiyspakkaus) FREE from Kela - baby essentials worth ~€400. Or take €170 cash instead.",
       },
       {
         vi: "🏥 Sinh con: bệnh viện công MIỄN PHÍ (chỉ trả ~50€ phí ngày đầu nếu ở phòng riêng).",
@@ -250,8 +250,8 @@ export const FAMILY_HEALTH_GUIDES: NewcomerGuide[] = [
       { fi: "Milloin saan äitiyspakkauksen?", vi: "Khi nào tôi nhận được Maternity Box?", en: "When will I receive the maternity box?" },
     ],
     proTip: {
-      vi: "💡 Người Việt thường ngại nhờ trợ cấp — đừng. Đây là quyền của bạn, đã đóng thuế. Áp dụng đầy đủ Kela giúp gia đình Việt tại Phần Lan tiết kiệm 5,000–10,000€/năm.",
-      en: "💡 Vietnamese parents often hesitate to claim benefits — don't. It's your right and you paid taxes for it. Full Kela use saves Vietnamese families €5,000–10,000/year.",
+      vi: "💡 Người Việt thường ngại nhờ trợ cấp - đừng. Đây là quyền của bạn, đã đóng thuế. Áp dụng đầy đủ Kela giúp gia đình Việt tại Phần Lan tiết kiệm 5,000–10,000€/năm.",
+      en: "💡 Vietnamese parents often hesitate to claim benefits - don't. It's your right and you paid taxes for it. Full Kela use saves Vietnamese families €5,000–10,000/year.",
     },
   },
 ];
@@ -265,7 +265,7 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
     icon: "Smile",
     emoji: "🦷",
     title: "Nha khoa công + tư (Hammashoito)",
-    titleEn: "Dental Care — Public + Private",
+    titleEn: "Dental Care - Public + Private",
     summary:
       "Nha khoa Phần Lan đắt nhưng chất lượng cao. Công (Terveyskeskus) rẻ + chờ lâu (1–6 tháng). Tư (Mehiläinen, Terveystalo) nhanh + đắt 2–3 lần.",
     summaryEn:
@@ -288,8 +288,8 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
         en: "👶 Children <18: 100% FREE at public dentist, including braces.",
       },
       {
-        vi: "✈️ Du lịch nha khoa: nhiều người Phần Lan bay sang Estonia (Tallinn ferry 2h) — rẻ 50–70%, chất lượng tương đương.",
-        en: "✈️ Dental tourism: many Finns ferry to Tallinn, Estonia (2h) — 50–70% cheaper, similar quality.",
+        vi: "✈️ Du lịch nha khoa: nhiều người Phần Lan bay sang Estonia (Tallinn ferry 2h) - rẻ 50–70%, chất lượng tương đương.",
+        en: "✈️ Dental tourism: many Finns ferry to Tallinn, Estonia (2h) - 50–70% cheaper, similar quality.",
       },
     ],
     keyTerms: [
@@ -304,8 +304,8 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
       { fi: "Tarvitsen hammaslääkärin tarkastuksen.", vi: "Tôi cần khám răng định kỳ.", en: "I need a dental checkup." },
     ],
     proTip: {
-      vi: "💡 Khám răng đầu tiên SAU KHI nhận Henkilötunnus — Kela mới hoàn tiền. Đặt lịch sớm, chờ 1–3 tháng là bình thường.",
-      en: "💡 Book your first dental visit AFTER receiving Henkilötunnus — Kela only reimburses then. Book early, 1–3 month wait is normal.",
+      vi: "💡 Khám răng đầu tiên SAU KHI nhận Henkilötunnus - Kela mới hoàn tiền. Đặt lịch sớm, chờ 1–3 tháng là bình thường.",
+      en: "💡 Book your first dental visit AFTER receiving Henkilötunnus - Kela only reimburses then. Book early, 1–3 month wait is normal.",
     },
   },
   {
@@ -317,7 +317,7 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
     summary:
       "Phần Lan hàng đầu thế giới về phá bỏ stigma sức khỏe tâm thần. Có nhiều kênh hỗ trợ MIỄN PHÍ bằng tiếng Anh, đặc biệt cho du học sinh chống cô đơn + SAD mùa đông.",
     summaryEn:
-      "Finland leads the world in destigmatizing mental health. Multiple FREE English-language support channels — especially valuable for students fighting loneliness + winter SAD.",
+      "Finland leads the world in destigmatizing mental health. Multiple FREE English-language support channels - especially valuable for students fighting loneliness + winter SAD.",
     steps: [
       {
         vi: "📞 Mieli Crisis Helpline: 09 2525 0113 (tiếng Anh, T2-T6 9:00–15:00). Khẩn cấp 24/7: 09 2525 0111 (tiếng Phần).",
@@ -340,8 +340,8 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
         en: "🌞 Beat SAD: 10,000 lux lamp 30 min/morning, vitamin D 100µg, 30 min outdoor walk (even when cold).",
       },
       {
-        vi: "🤝 Cộng đồng: Vietnamese Students Association (VSAF) + nhóm 'Vietnamese Mental Health in Finland' (FB) — chia sẻ + hỗ trợ ngang hàng.",
-        en: "🤝 Community: VSAF + 'Vietnamese Mental Health in Finland' FB group — peer sharing + support.",
+        vi: "🤝 Cộng đồng: Vietnamese Students Association (VSAF) + nhóm 'Vietnamese Mental Health in Finland' (FB) - chia sẻ + hỗ trợ ngang hàng.",
+        en: "🤝 Community: VSAF + 'Vietnamese Mental Health in Finland' FB group - peer sharing + support.",
       },
     ],
     keyTerms: [
@@ -357,8 +357,8 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
       { fi: "Voinko saada lähetteen terapeutille?", vi: "Tôi xin giấy giới thiệu đến nhà trị liệu được không?", en: "Can I get a referral to a therapist?" },
     ],
     proTip: {
-      vi: "💡 Quan trọng: nhờ giúp KHÔNG phải yếu đuối — Phần Lan tôn trọng người dám đi khám tâm lý. 'Sisu' không phải chịu đựng một mình mà là biết khi nào cần giúp đỡ.",
-      en: "💡 Crucial: asking for help is NOT weakness — Finns respect those who seek therapy. True 'sisu' isn't suffering alone; it's knowing when to ask for help.",
+      vi: "💡 Quan trọng: nhờ giúp KHÔNG phải yếu đuối - Phần Lan tôn trọng người dám đi khám tâm lý. 'Sisu' không phải chịu đựng một mình mà là biết khi nào cần giúp đỡ.",
+      en: "💡 Crucial: asking for help is NOT weakness - Finns respect those who seek therapy. True 'sisu' isn't suffering alone; it's knowing when to ask for help.",
     },
   },
 ];

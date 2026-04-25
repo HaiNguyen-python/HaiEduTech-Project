@@ -1,4 +1,4 @@
-// Lightweight exam metadata index — NO question data loaded here
+// Lightweight exam metadata index - NO question data loaded here
 // Used by the listing page to avoid loading 800+ questions into memory at once
 
 export interface ExamMeta {
@@ -34,7 +34,7 @@ export const examIndex: ExamMeta[] = [
   { id: "thpt-20", title: "Đề thi thử số 20", titleEn: "Practice Test 20", code: "1126", duration: 50, totalQuestions: 40 },
 ];
 
-// Dynamic loader — fetches full exam data only when a student starts a specific exam
+// Dynamic loader - fetches full exam data only when a student starts a specific exam
 const examCache = new Map<string, any>();
 
 export async function loadExamById(examId: string) {

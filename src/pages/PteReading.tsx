@@ -1,6 +1,6 @@
 /**
  * @file PteReading.tsx
- * @description PTE Reading module — Fill in the Blanks (drag-drop) & Re-order Paragraphs.
+ * @description PTE Reading module - Fill in the Blanks (drag-drop) & Re-order Paragraphs.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";
@@ -104,7 +104,7 @@ const PteReading = () => {
                 "border-[#003580]/30 focus:border-[#003580] focus:ring-2 focus:ring-[#003580]/20"
               }`}
             >
-              <option value="">— select —</option>
+              <option value="">- select -</option>
               {item.options.map(opt => (
                 <option key={opt} value={opt}>{opt}</option>
               ))}

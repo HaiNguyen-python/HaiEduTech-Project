@@ -11,10 +11,10 @@ import type {
 } from "./finnishBeginnerData";
 
 // =============================================================
-// PHÁT ÂM MỞ RỘNG — diphthong & nguyên âm dài
+// PHÁT ÂM MỞ RỘNG - diphthong & nguyên âm dài
 // =============================================================
 export const ALPHABET_SOUNDS_EXTRA: AlphabetSound[] = [
-  { letter: "AA", ipa: "/ɑː/", example: "maa", exampleEn: "land", exampleVi: "đất, đất nước", group: "vowel-back", tip: "Long 'a' — hold twice as long", tipVi: "Âm 'a' dài, kéo dài gấp đôi" },
+  { letter: "AA", ipa: "/ɑː/", example: "maa", exampleEn: "land", exampleVi: "đất, đất nước", group: "vowel-back", tip: "Long 'a' - hold twice as long", tipVi: "Âm 'a' dài, kéo dài gấp đôi" },
   { letter: "ÄÄ", ipa: "/æː/", example: "pää", exampleEn: "head", exampleVi: "đầu", group: "vowel-front", tip: "Long bright 'ä', smile while saying it", tipVi: "Âm 'ä' dài, cười khi phát âm" },
   { letter: "OO", ipa: "/oː/", example: "koo", exampleEn: "size", exampleVi: "kích cỡ", group: "vowel-back", tip: "Long 'o', tense lips", tipVi: "'o' dài, môi tròn căng" },
   { letter: "UU", ipa: "/uː/", example: "puu", exampleEn: "tree", exampleVi: "cây", group: "vowel-back", tip: "Long 'u', round lips firmly", tipVi: "'u' dài, môi tròn mạnh" },
@@ -25,7 +25,7 @@ export const ALPHABET_SOUNDS_EXTRA: AlphabetSound[] = [
   { letter: "UO", ipa: "/uo/", example: "tuoli", exampleEn: "chair", exampleVi: "ghế", group: "vowel-back", tip: "Glide u→o, very Finnish", tipVi: "Lướt u→o, rất Phần Lan" },
   { letter: "YÖ", ipa: "/yø/", example: "työ", exampleEn: "work", exampleVi: "công việc", group: "vowel-front", tip: "Front diphthong y→ö", tipVi: "Đôi nguyên âm trước y→ö" },
   { letter: "IE", ipa: "/ie/", example: "tie", exampleEn: "road", exampleVi: "con đường", group: "vowel-front", tip: "Glide i→e", tipVi: "Lướt i→e" },
-  { letter: "NG", ipa: "/ŋː/", example: "kengät", exampleEn: "shoes", exampleVi: "giày", group: "double-consonant", tip: "Long nasal 'ng' — never 'n+g'", tipVi: "Âm mũi 'ng' kéo dài, không phải 'n+g'" },
+  { letter: "NG", ipa: "/ŋː/", example: "kengät", exampleEn: "shoes", exampleVi: "giày", group: "double-consonant", tip: "Long nasal 'ng' - never 'n+g'", tipVi: "Âm mũi 'ng' kéo dài, không phải 'n+g'" },
 ];
 
 // =============================================================
@@ -122,7 +122,7 @@ export const KPT_PAIRS_EXTRA: KptPair[] = [
   { strong: "nt", weak: "nn", example: "ranta → rannan", meaning: "shore (gen.)", meaningVi: "bờ biển (sở hữu)" },
   { strong: "mp", weak: "mm", example: "kampa → kamman", meaning: "comb (gen.)", meaningVi: "lược (sở hữu)" },
   { strong: "nk", weak: "ng", example: "Helsinki → Helsingin", meaning: "Helsinki (of)", meaningVi: "của Helsinki" },
-  { strong: "k (between vowels)", weak: "— (drops)", example: "lukea → luen", meaning: "to read → I read", meaningVi: "đọc → tôi đọc" },
+  { strong: "k (between vowels)", weak: "- (drops)", example: "lukea → luen", meaning: "to read → I read", meaningVi: "đọc → tôi đọc" },
 ];
 
 // =============================================================
@@ -227,7 +227,7 @@ export const BEGINNER_VOCAB_EXTRA: BeginnerVocab[] = [
 export const VIETNAMESE_PITFALLS_EXTRA: VietnamesePitfall[] = [
   {
     mistake: "Nói 'Minä rakastan sinä' để nói 'Anh yêu em'.",
-    why: "Tân ngữ sau động từ cảm xúc phải chia partitive — không dùng dạng nguyên (nominative).",
+    why: "Tân ngữ sau động từ cảm xúc phải chia partitive - không dùng dạng nguyên (nominative).",
     correct: "Minä rakastan sinua.",
     tip: "Mọi động từ cảm xúc (rakastaa, vihata, pitää) đều ép tân ngữ vào partitive: -a / -ä / -ta / -tä.",
   },
@@ -235,7 +235,7 @@ export const VIETNAMESE_PITFALLS_EXTRA: VietnamesePitfall[] = [
     mistake: "Đọc 'tuli' và 'tuuli' giống nhau.",
     why: "Người Việt không quen độ dài âm. Trong tiếng Phần Lan, độ dài làm thay đổi nghĩa hoàn toàn (tuli = lửa, tuuli = gió).",
     correct: "Kéo dài uu gấp đôi: tuu-u-li.",
-    tip: "Luyện minimal pairs: tuli/tuuli, kuka/kukka, tapa/tappaa — đếm nhịp khi luyện.",
+    tip: "Luyện minimal pairs: tuli/tuuli, kuka/kukka, tapa/tappaa - đếm nhịp khi luyện.",
   },
   {
     mistake: "Quên dùng -ko/-kö để hỏi yes/no, chỉ lên giọng cuối câu.",
@@ -252,7 +252,7 @@ export const VIETNAMESE_PITFALLS_EXTRA: VietnamesePitfall[] = [
   {
     mistake: "Phát âm 'h' câm như tiếng Pháp.",
     why: "Người Việt thường bỏ /h/. Tiếng Phần Lan luôn phát âm /h/ rõ ràng, kể cả giữa từ.",
-    correct: "Hyvää huomenta — nói rõ cả 3 chữ h.",
+    correct: "Hyvää huomenta - nói rõ cả 3 chữ h.",
     tip: "Tập thở mạnh ra khi gặp 'h': hää, hyvä, hauska.",
   },
   {
@@ -264,7 +264,7 @@ export const VIETNAMESE_PITFALLS_EXTRA: VietnamesePitfall[] = [
   {
     mistake: "Phát âm 'r' yếu như 'r' Hà Nội.",
     why: "'R' tiếng Phần Lan là rung lưỡi mạnh (rolled R) như tiếng Tây Ban Nha.",
-    correct: "Rakastan sinua — rung lưỡi đầu chữ.",
+    correct: "Rakastan sinua - rung lưỡi đầu chữ.",
     tip: "Tập rrr với 1 ly nước: ngậm nước rồi rung lưỡi 5 giây/ngày.",
   },
 ];

@@ -1,4 +1,4 @@
-// IELTS Phrase Bank — high-level (B1+) phrases for Writing Task 1 & 2 practice
+// IELTS Phrase Bank - high-level (B1+) phrases for Writing Task 1 & 2 practice
 export type PhraseLevel = "B1" | "B2" | "C1";
 export type PhraseCategoryT1 = "trends" | "comparisons" | "process-map" | "overview";
 export type PhraseCategoryT2 =
@@ -283,7 +283,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t2-tc-11", phrase: "be susceptible to misinformation", meaning: "dễ bị ảnh hưởng bởi thông tin sai lệch", meaningEn: "be vulnerable to fake news", example: "Social media users are particularly susceptible to misinformation during election cycles.", level: "C1", taskType: 2, category: "technology" },
   { id: "t2-tc-12", phrase: "displace human workers", meaning: "thay thế lao động con người", meaningEn: "replace human workers", example: "Automation threatens to displace human workers in the manufacturing and logistics sectors.", level: "B2", taskType: 2, category: "technology" },
 
-  // ===== TASK 1 EXPANSION — TRENDS (10) =====
+  // ===== TASK 1 EXPANSION - TRENDS (10) =====
   { id: "t1-tr-21", phrase: "rocketed exponentially", meaning: "tăng vọt theo cấp số nhân", meaningEn: "increased extremely rapidly", example: "Cryptocurrency adoption rocketed exponentially between 2017 and 2021.", level: "C1", taskType: 1, category: "trends" },
   { id: "t1-tr-22", phrase: "edged upwards", meaning: "nhích lên từ từ", meaningEn: "rose very gradually", example: "Average household income edged upwards by just 1% per year.", level: "B2", taskType: 1, category: "trends" },
   { id: "t1-tr-23", phrase: "took a downward turn", meaning: "có xu hướng đi xuống", meaningEn: "started to decline", example: "Manufacturing output took a downward turn after the 2008 crisis.", level: "B2", taskType: 1, category: "trends" },
@@ -295,7 +295,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t1-tr-29", phrase: "tripled in value", meaning: "tăng gấp ba giá trị", meaningEn: "became three times larger", example: "The average property price tripled in value over the twenty-year period.", level: "B2", taskType: 1, category: "trends" },
   { id: "t1-tr-30", phrase: "halved over the period", meaning: "giảm một nửa qua giai đoạn", meaningEn: "decreased by 50%", example: "Smoking rates among teenagers halved over the period in question.", level: "B2", taskType: 1, category: "trends" },
 
-  // ===== TASK 1 EXPANSION — COMPARISONS (10) =====
+  // ===== TASK 1 EXPANSION - COMPARISONS (10) =====
   { id: "t1-cp-21", phrase: "vastly outnumbered", meaning: "vượt trội về số lượng", meaningEn: "were far more numerous than", example: "Online users vastly outnumbered offline customers by the end of the period.", level: "C1", taskType: 1, category: "comparisons" },
   { id: "t1-cp-22", phrase: "lagged significantly behind", meaning: "tụt lại đáng kể so với", meaningEn: "fell far behind", example: "Rural broadband speeds lagged significantly behind those in urban areas.", level: "B2", taskType: 1, category: "comparisons" },
   { id: "t1-cp-23", phrase: "in stark contrast to", meaning: "trái ngược hoàn toàn với", meaningEn: "completely different from", example: "In stark contrast to men, women preferred public transport in all three cities.", level: "C1", taskType: 1, category: "comparisons" },
@@ -307,7 +307,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t1-cp-29", phrase: "stood out as the most prominent", meaning: "nổi bật như là yếu tố nổi trội nhất", meaningEn: "was the most notable", example: "China stood out as the most prominent producer of solar panels worldwide.", level: "C1", taskType: 1, category: "comparisons" },
   { id: "t1-cp-30", phrase: "exceeded the figure for", meaning: "vượt quá con số của", meaningEn: "was higher than", example: "Spending on entertainment exceeded the figure for clothing in every age group.", level: "B2", taskType: 1, category: "comparisons" },
 
-  // ===== TASK 1 EXPANSION — PROCESS & MAP (10) =====
+  // ===== TASK 1 EXPANSION - PROCESS & MAP (10) =====
   { id: "t1-pm-21", phrase: "undergoes a series of transformations", meaning: "trải qua một loạt biến đổi", meaningEn: "goes through several changes", example: "The raw material undergoes a series of transformations before reaching the final stage.", level: "C1", taskType: 1, category: "process-map" },
   { id: "t1-pm-22", phrase: "is funneled into", meaning: "được dẫn vào", meaningEn: "is channelled into", example: "The processed liquid is funneled into large fermentation tanks.", level: "C1", taskType: 1, category: "process-map" },
   { id: "t1-pm-23", phrase: "the area was redeveloped", meaning: "khu vực được tái phát triển", meaningEn: "the area was rebuilt", example: "The area was completely redeveloped, with old factories replaced by parks.", level: "B2", taskType: 1, category: "process-map" },
@@ -319,7 +319,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t1-pm-29", phrase: "located in the vicinity of", meaning: "nằm trong khu vực lân cận", meaningEn: "near to", example: "A new shopping centre is located in the vicinity of the train station.", level: "B2", taskType: 1, category: "process-map" },
   { id: "t1-pm-30", phrase: "the procedure culminates in", meaning: "quy trình kết thúc bằng", meaningEn: "the process ends with", example: "The procedure culminates in the packaging and labelling of the finished product.", level: "C1", taskType: 1, category: "process-map" },
 
-  // ===== TASK 1 EXPANSION — OVERVIEW (10) =====
+  // ===== TASK 1 EXPANSION - OVERVIEW (10) =====
   { id: "t1-ov-21", phrase: "the most striking feature is", meaning: "đặc điểm nổi bật nhất là", meaningEn: "the most notable thing is", example: "The most striking feature is the dramatic shift from manufacturing to services.", level: "C1", taskType: 1, category: "overview" },
   { id: "t1-ov-22", phrase: "broadly speaking, the data reveals", meaning: "nhìn chung, dữ liệu cho thấy", meaningEn: "in general, the data shows", example: "Broadly speaking, the data reveals a clear preference for renewable energy.", level: "C1", taskType: 1, category: "overview" },
   { id: "t1-ov-23", phrase: "an upward trend dominated", meaning: "xu hướng tăng chiếm ưu thế", meaningEn: "rising values were the main pattern", example: "An upward trend dominated all four indicators over the surveyed period.", level: "B2", taskType: 1, category: "overview" },
@@ -331,7 +331,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t1-ov-29", phrase: "warrants particular attention", meaning: "đáng được chú ý đặc biệt", meaningEn: "deserves special focus", example: "The dramatic decline in fertility rates warrants particular attention.", level: "C1", taskType: 1, category: "overview" },
   { id: "t1-ov-30", phrase: "remains the dominant", meaning: "vẫn là yếu tố chủ đạo", meaningEn: "is still the main one", example: "Coal remains the dominant source of electricity in many emerging economies.", level: "B2", taskType: 1, category: "overview" },
 
-  // ===== TASK 2 EXPANSION — OPINION (8) =====
+  // ===== TASK 2 EXPANSION - OPINION (8) =====
   { id: "t2-op-9x", phrase: "I am firmly convinced that", meaning: "Tôi tin chắc rằng", meaningEn: "I strongly believe that", example: "I am firmly convinced that early language learning yields lifelong cognitive benefits.", level: "C1", taskType: 2, category: "opinion" },
   { id: "t2-op-10x", phrase: "from my perspective", meaning: "theo quan điểm của tôi", meaningEn: "in my view", example: "From my perspective, government investment in renewables should take priority.", level: "B2", taskType: 2, category: "opinion" },
   { id: "t2-op-11x", phrase: "there is little doubt that", meaning: "không còn nghi ngờ gì rằng", meaningEn: "it is clear that", example: "There is little doubt that climate change is largely driven by human activity.", level: "C1", taskType: 2, category: "opinion" },
@@ -341,7 +341,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t2-op-15x", phrase: "lean towards the belief that", meaning: "nghiêng về quan điểm rằng", meaningEn: "tend to believe that", example: "I lean towards the belief that flexible working hours boost productivity.", level: "C1", taskType: 2, category: "opinion" },
   { id: "t2-op-16x", phrase: "from an objective standpoint", meaning: "từ góc nhìn khách quan", meaningEn: "objectively speaking", example: "From an objective standpoint, both policies have measurable benefits and drawbacks.", level: "C1", taskType: 2, category: "opinion" },
 
-  // ===== TASK 2 EXPANSION — CAUSE-EFFECT (8) =====
+  // ===== TASK 2 EXPANSION - CAUSE-EFFECT (8) =====
   { id: "t2-ce-9x", phrase: "give rise to a host of issues", meaning: "làm phát sinh hàng loạt vấn đề", meaningEn: "cause many problems", example: "Rapid urbanisation gives rise to a host of issues, from pollution to housing shortages.", level: "C1", taskType: 2, category: "cause-effect" },
   { id: "t2-ce-10x", phrase: "have far-reaching consequences", meaning: "gây ra hệ quả sâu rộng", meaningEn: "have wide effects", example: "Deforestation has far-reaching consequences for global biodiversity.", level: "C1", taskType: 2, category: "cause-effect" },
   { id: "t2-ce-11x", phrase: "trigger a chain reaction", meaning: "kích hoạt phản ứng dây chuyền", meaningEn: "start a series of effects", example: "A single bank failure can trigger a chain reaction across the global economy.", level: "C1", taskType: 2, category: "cause-effect" },
@@ -351,7 +351,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t2-ce-15x", phrase: "stem largely from", meaning: "bắt nguồn chủ yếu từ", meaningEn: "originate mainly from", example: "Childhood obesity stems largely from poor diet and limited physical activity.", level: "C1", taskType: 2, category: "cause-effect" },
   { id: "t2-ce-16x", phrase: "lay the groundwork for", meaning: "đặt nền móng cho", meaningEn: "create conditions for", example: "Early literacy programmes lay the groundwork for academic success later in life.", level: "C1", taskType: 2, category: "cause-effect" },
 
-  // ===== TASK 2 EXPANSION — ARGUMENT (8) =====
+  // ===== TASK 2 EXPANSION - ARGUMENT (8) =====
   { id: "t2-ar-9x", phrase: "this argument falls short", meaning: "lập luận này thiếu thuyết phục", meaningEn: "this argument is weak", example: "This argument falls short when one considers the evidence from Nordic countries.", level: "C1", taskType: 2, category: "argument" },
   { id: "t2-ar-10x", phrase: "carry significant weight", meaning: "có sức nặng đáng kể", meaningEn: "be very persuasive", example: "Studies from Harvard carry significant weight in the academic debate.", level: "C1", taskType: 2, category: "argument" },
   { id: "t2-ar-11x", phrase: "a compelling case can be made", meaning: "có thể đưa ra lập luận thuyết phục", meaningEn: "a strong argument can be made", example: "A compelling case can be made for increasing the minimum wage.", level: "C1", taskType: 2, category: "argument" },
@@ -361,7 +361,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t2-ar-15x", phrase: "overlook the underlying issue", meaning: "bỏ qua vấn đề cốt lõi", meaningEn: "miss the real problem", example: "Critics often overlook the underlying issue of structural inequality.", level: "C1", taskType: 2, category: "argument" },
   { id: "t2-ar-16x", phrase: "warrant serious consideration", meaning: "đáng được xem xét nghiêm túc", meaningEn: "deserve careful thought", example: "Both perspectives warrant serious consideration before any policy is enacted.", level: "C1", taskType: 2, category: "argument" },
 
-  // ===== TASK 2 EXPANSION — SOLUTIONS (8) =====
+  // ===== TASK 2 EXPANSION - SOLUTIONS (8) =====
   { id: "t2-so-9x", phrase: "implement stringent regulations", meaning: "áp dụng các quy định nghiêm ngặt", meaningEn: "enforce strict rules", example: "Governments must implement stringent regulations on plastic packaging.", level: "C1", taskType: 2, category: "solutions" },
   { id: "t2-so-10x", phrase: "adopt a multi-pronged approach", meaning: "áp dụng cách tiếp cận đa diện", meaningEn: "use multiple methods", example: "Tackling youth unemployment requires a multi-pronged approach involving training and incentives.", level: "C1", taskType: 2, category: "solutions" },
   { id: "t2-so-11x", phrase: "raise public awareness", meaning: "nâng cao nhận thức cộng đồng", meaningEn: "educate the public", example: "Campaigns to raise public awareness of mental health have proven highly effective.", level: "B2", taskType: 2, category: "solutions" },
@@ -371,7 +371,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t2-so-15x", phrase: "tackle the root cause", meaning: "giải quyết tận gốc nguyên nhân", meaningEn: "address the underlying cause", example: "Long-term policies must tackle the root cause of homelessness, not just its symptoms.", level: "C1", taskType: 2, category: "solutions" },
   { id: "t2-so-16x", phrase: "roll out nationwide initiatives", meaning: "triển khai sáng kiến toàn quốc", meaningEn: "launch programmes across the country", example: "The ministry plans to roll out nationwide initiatives to combat childhood obesity.", level: "C1", taskType: 2, category: "solutions" },
 
-  // ===== TASK 2 EXPANSION — EDUCATION (8) =====
+  // ===== TASK 2 EXPANSION - EDUCATION (8) =====
   { id: "t2-ed-9x", phrase: "cultivate critical thinking skills", meaning: "rèn luyện kỹ năng tư duy phản biện", meaningEn: "develop critical thinking", example: "Modern curricula should cultivate critical thinking skills from an early age.", level: "C1", taskType: 2, category: "education" },
   { id: "t2-ed-10x", phrase: "bridge the achievement gap", meaning: "thu hẹp khoảng cách thành tích", meaningEn: "reduce the gap in academic results", example: "Targeted tutoring programmes can help bridge the achievement gap between social classes.", level: "C1", taskType: 2, category: "education" },
   { id: "t2-ed-11x", phrase: "lay a solid academic foundation", meaning: "tạo nền tảng học thuật vững chắc", meaningEn: "build strong academic basics", example: "Primary education should lay a solid academic foundation in literacy and numeracy.", level: "C1", taskType: 2, category: "education" },
@@ -381,7 +381,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t2-ed-15x", phrase: "stifle creativity and curiosity", meaning: "kìm hãm sự sáng tạo và tò mò", meaningEn: "suppress creativity", example: "Rigid teaching methods can stifle creativity and curiosity in young learners.", level: "C1", taskType: 2, category: "education" },
   { id: "t2-ed-16x", phrase: "promote inclusive learning environments", meaning: "thúc đẩy môi trường học tập hòa nhập", meaningEn: "create environments where everyone is included", example: "Schools must promote inclusive learning environments for students of all backgrounds.", level: "C1", taskType: 2, category: "education" },
 
-  // ===== TASK 2 EXPANSION — WORKPLACE (8) =====
+  // ===== TASK 2 EXPANSION - WORKPLACE (8) =====
   { id: "t2-wk-9x", phrase: "foster a conducive working atmosphere", meaning: "tạo môi trường làm việc thuận lợi", meaningEn: "create a positive work environment", example: "Modern leaders strive to foster a conducive working atmosphere where staff can thrive.", level: "C1", taskType: 2, category: "workplace" },
   { id: "t2-wk-10x", phrase: "boost employee morale", meaning: "nâng cao tinh thần nhân viên", meaningEn: "improve staff motivation", example: "Recognition programmes are an effective way to boost employee morale.", level: "B2", taskType: 2, category: "workplace" },
   { id: "t2-wk-11x", phrase: "embrace remote working arrangements", meaning: "chấp nhận hình thức làm việc từ xa", meaningEn: "accept remote work", example: "An increasing number of firms have embraced remote working arrangements since 2020.", level: "C1", taskType: 2, category: "workplace" },
@@ -391,7 +391,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t2-wk-15x", phrase: "diversify the workforce", meaning: "đa dạng hóa lực lượng lao động", meaningEn: "make staff more diverse", example: "Tech firms have made significant efforts to diversify the workforce in recent years.", level: "C1", taskType: 2, category: "workplace" },
   { id: "t2-wk-16x", phrase: "set ambitious yet attainable targets", meaning: "đặt mục tiêu tham vọng nhưng khả thi", meaningEn: "set high but realistic goals", example: "Effective managers set ambitious yet attainable targets for their teams.", level: "C1", taskType: 2, category: "workplace" },
 
-  // ===== TASK 2 EXPANSION — TOURISM & GLOBAL (8) =====
+  // ===== TASK 2 EXPANSION - TOURISM & GLOBAL (8) =====
   { id: "t2-tr-9x", phrase: "visitors from all corners of the globe", meaning: "du khách từ khắp nơi trên thế giới", meaningEn: "tourists from everywhere", example: "Each summer, Paris welcomes visitors from all corners of the globe.", level: "C1", taskType: 2, category: "tourism" },
   { id: "t2-tr-10x", phrase: "boost the local economy", meaning: "thúc đẩy kinh tế địa phương", meaningEn: "improve the local economy", example: "Cultural festivals significantly boost the local economy in coastal towns.", level: "B2", taskType: 2, category: "tourism" },
   { id: "t2-tr-11x", phrase: "preserve cultural heritage", meaning: "bảo tồn di sản văn hóa", meaningEn: "protect cultural heritage", example: "UNESCO funding helps preserve cultural heritage in vulnerable regions.", level: "B2", taskType: 2, category: "tourism" },
@@ -401,7 +401,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t2-tr-15x", phrase: "erode local traditions", meaning: "làm xói mòn truyền thống địa phương", meaningEn: "weaken local customs", example: "Unchecked globalisation may erode local traditions in indigenous communities.", level: "C1", taskType: 2, category: "tourism" },
   { id: "t2-tr-16x", phrase: "stimulate cross-cultural exchange", meaning: "thúc đẩy giao lưu văn hóa", meaningEn: "encourage cultural exchange", example: "International events stimulate cross-cultural exchange among participants.", level: "C1", taskType: 2, category: "tourism" },
 
-  // ===== TASK 2 EXPANSION — ENVIRONMENT (8) =====
+  // ===== TASK 2 EXPANSION - ENVIRONMENT (8) =====
   { id: "t2-en-9x", phrase: "dissolve the problems caused by", meaning: "giải quyết các vấn đề do ... gây ra", meaningEn: "solve problems caused by", example: "Stricter laws are needed to dissolve the problems caused by industrial waste.", level: "C1", taskType: 2, category: "environment" },
   { id: "t2-en-10x", phrase: "curb greenhouse gas emissions", meaning: "hạn chế khí thải nhà kính", meaningEn: "reduce greenhouse gases", example: "Switching to electric vehicles can significantly curb greenhouse gas emissions.", level: "C1", taskType: 2, category: "environment" },
   { id: "t2-en-11x", phrase: "deplete natural resources", meaning: "làm cạn kiệt tài nguyên thiên nhiên", meaningEn: "use up natural resources", example: "Overfishing continues to deplete natural resources in the world's oceans.", level: "C1", taskType: 2, category: "environment" },
@@ -411,7 +411,7 @@ export const IELTS_PHRASES: IELTSPhrase[] = [
   { id: "t2-en-15x", phrase: "safeguard biodiversity", meaning: "bảo vệ đa dạng sinh học", meaningEn: "protect biodiversity", example: "National parks play a vital role in safeguarding biodiversity.", level: "C1", taskType: 2, category: "environment" },
   { id: "t2-en-16x", phrase: "leave a lasting environmental footprint", meaning: "để lại dấu chân môi trường lâu dài", meaningEn: "have a long environmental impact", example: "Single-use plastics leave a lasting environmental footprint on marine life.", level: "C1", taskType: 2, category: "environment" },
 
-  // ===== TASK 2 EXPANSION — TECHNOLOGY (8) =====
+  // ===== TASK 2 EXPANSION - TECHNOLOGY (8) =====
   { id: "t2-tc-13x", phrase: "harness the power of artificial intelligence", meaning: "khai thác sức mạnh của trí tuệ nhân tạo", meaningEn: "use AI effectively", example: "Hospitals are beginning to harness the power of artificial intelligence to diagnose diseases.", level: "C1", taskType: 2, category: "technology" },
   { id: "t2-tc-14x", phrase: "blur the line between work and personal life", meaning: "làm mờ ranh giới giữa công việc và cuộc sống", meaningEn: "make work-life boundaries unclear", example: "Smartphones blur the line between work and personal life for many professionals.", level: "C1", taskType: 2, category: "technology" },
   { id: "t2-tc-15x", phrase: "fuel the spread of misinformation", meaning: "thúc đẩy lan truyền thông tin sai lệch", meaningEn: "speed up the spread of fake news", example: "Algorithm-driven feeds can fuel the spread of misinformation online.", level: "C1", taskType: 2, category: "technology" },

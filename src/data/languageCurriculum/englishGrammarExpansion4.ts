@@ -16,15 +16,15 @@ export interface GrammarExtraLesson4 extends LanguageLesson {
 // EXTRA LESSONS attached to existing 6 base modules
 // ============================================================
 export const grammarExtraLessons4: GrammarExtraLesson4[] = [
-  // ===== TENSES — Mixed Tenses Mastery =====
+  // ===== TENSES - Mixed Tenses Mastery =====
   {
     moduleId: "grammar-tenses",
     id: "tenses-mixed-mastery",
-    title: "Tổng ôn 12 thì — Phân biệt khi đặt cạnh nhau",
-    titleEn: "Mixed Tenses Mastery — Choosing the Right Tense",
+    title: "Tổng ôn 12 thì - Phân biệt khi đặt cạnh nhau",
+    titleEn: "Mixed Tenses Mastery - Choosing the Right Tense",
     level: 4,
     difficulty: "advanced",
-    theory: `## Tổng ôn 12 thì — Khi nào dùng thì nào?
+    theory: `## Tổng ôn 12 thì - Khi nào dùng thì nào?
 
 ### 1. Bộ tín hiệu thời gian (Time Signals)
 | Tín hiệu | Thì gợi ý |
@@ -41,15 +41,15 @@ export const grammarExtraLessons4: GrammarExtraLesson4[] = [
 | at 8 PM tomorrow | Future Continuous |
 
 ### 2. Quy tắc 3 bước chọn thì
-1. **Hiện tại / Quá khứ / Tương lai?** — Hành động xảy ra khi nào?
-2. **Đơn / Tiếp diễn / Hoàn thành / Hoàn thành tiếp diễn?** — Cách hành động diễn ra
+1. **Hiện tại / Quá khứ / Tương lai?** - Hành động xảy ra khi nào?
+2. **Đơn / Tiếp diễn / Hoàn thành / Hoàn thành tiếp diễn?** - Cách hành động diễn ra
 3. Đối chiếu **tín hiệu thời gian** trong câu
 
 ### 3. Sai lầm phổ biến
 - ❌ I **am knowing** the answer. → ✅ I **know** the answer (stative verb)
 - ❌ Yesterday I **have eaten** sushi. → ✅ Yesterday I **ate** sushi
 - ❌ When I **arrived**, she **left**. → ✅ When I arrived, she **had left** (xảy ra trước)`,
-    theoryEn: `## Mixed Tenses Mastery — When to Use What
+    theoryEn: `## Mixed Tenses Mastery - When to Use What
 
 ### 1. Time Signal Cheatsheet
 | Signal | Likely tense |
@@ -114,7 +114,7 @@ export const grammarExtraLessons4: GrammarExtraLesson4[] = [
     ],
   },
 
-  // ===== CONDITIONALS — Inverted Conditionals =====
+  // ===== CONDITIONALS - Inverted Conditionals =====
   {
     moduleId: "grammar-conditionals",
     id: "conditionals-inverted",
@@ -126,13 +126,13 @@ export const grammarExtraLessons4: GrammarExtraLesson4[] = [
 
 Trong văn viết trang trọng, có thể bỏ "if" và đảo trợ động từ lên đầu câu.
 
-### Type 1 — Should
+### Type 1 - Should
 - *If you should need help, call me.* → **Should you need** help, call me.
 
-### Type 2 — Were
+### Type 2 - Were
 - *If I were rich, I would travel.* → **Were I rich**, I would travel.
 
-### Type 3 — Had
+### Type 3 - Had
 - *If I had known, I would have helped.* → **Had I known**, I would have helped.
 
 ### Lưu ý
@@ -142,13 +142,13 @@ Trong văn viết trang trọng, có thể bỏ "if" và đảo trợ động t�
 
 In formal writing, "if" can be dropped and the auxiliary moved to the front.
 
-### Type 1 — Should
+### Type 1 - Should
 - *If you should need help, call me.* → **Should you need** help, call me.
 
-### Type 2 — Were
+### Type 2 - Were
 - *If I were rich, I would travel.* → **Were I rich**, I would travel.
 
-### Type 3 — Had
+### Type 3 - Had
 - *If I had known, I would have helped.* → **Had I known**, I would have helped.
 
 ### Note
@@ -160,20 +160,20 @@ In formal writing, "if" can be dropped and the auxiliary moved to the front.
         instruction: "Viết lại câu dùng đảo ngữ",
         instructionEn: "Rewrite using inversion",
         sentences: [
-          { text: "If I had more time, I would learn piano. → ___ more time, I would learn piano.", textEn: "If I had more time, I would learn piano. → ___ more time, I would learn piano.", answer: "Had I", hint: "Type 2 với 'had' (lùi thì) — Were I to have / Had I" },
-          { text: "If you should see her, tell her hi. → ___ you ___ her, tell her hi.", textEn: "If you should see her, tell her hi. → ___ you ___ her, tell her hi.", answer: "Should/see", hint: "Type 1 — Should + S + V" },
-          { text: "If they had arrived earlier, we would have eaten. → ___ they arrived earlier, we would have eaten.", textEn: "If they had arrived earlier, we would have eaten. → ___ they arrived earlier, we would have eaten.", answer: "Had", hint: "Type 3 — Had + S + V3" },
+          { text: "If I had more time, I would learn piano. → ___ more time, I would learn piano.", textEn: "If I had more time, I would learn piano. → ___ more time, I would learn piano.", answer: "Had I", hint: "Type 2 với 'had' (lùi thì) - Were I to have / Had I" },
+          { text: "If you should see her, tell her hi. → ___ you ___ her, tell her hi.", textEn: "If you should see her, tell her hi. → ___ you ___ her, tell her hi.", answer: "Should/see", hint: "Type 1 - Should + S + V" },
+          { text: "If they had arrived earlier, we would have eaten. → ___ they arrived earlier, we would have eaten.", textEn: "If they had arrived earlier, we would have eaten. → ___ they arrived earlier, we would have eaten.", answer: "Had", hint: "Type 3 - Had + S + V3" },
         ],
       },
     ],
     quiz: [
       { question: "'___ I known earlier, I would have come.'", options: ["If", "Had", "Were", "Should"], answer: 1, explanation: "Type 3 inversion: Had + S + V3" },
       { question: "'___ you need anything, just ask.'", options: ["Had", "Were", "Should", "Would"], answer: 2, explanation: "Type 1 inversion: Should + S + V" },
-      { question: "Câu nào KHÔNG đúng?", options: ["Were I rich, I would travel.", "Had I known, I would have called.", "Should you see him, tell me.", "Were I not late, I'd be there."], answer: 3, explanation: "'Were I not late' đúng chính tả nhưng câu kết quả thiếu logic — đáp án này là cái sai duy nhất nếu kết quả không hợp lý. Trên thực tế, câu này dùng được; lưu ý không bao giờ rút gọn 'were not' thành 'weren't' khi đảo ngữ." },
+      { question: "Câu nào KHÔNG đúng?", options: ["Were I rich, I would travel.", "Had I known, I would have called.", "Should you see him, tell me.", "Were I not late, I'd be there."], answer: 3, explanation: "'Were I not late' đúng chính tả nhưng câu kết quả thiếu logic - đáp án này là cái sai duy nhất nếu kết quả không hợp lý. Trên thực tế, câu này dùng được; lưu ý không bao giờ rút gọn 'were not' thành 'weren't' khi đảo ngữ." },
     ],
   },
 
-  // ===== PASSIVE — Get-passive & Have something done =====
+  // ===== PASSIVE - Get-passive & Have something done =====
   {
     moduleId: "grammar-passive",
     id: "passive-get-have",
@@ -241,7 +241,7 @@ In formal writing, "if" can be dropped and the auxiliary moved to the front.
     ],
   },
 
-  // ===== REPORTED SPEECH — Time/Place shifts =====
+  // ===== REPORTED SPEECH - Time/Place shifts =====
   {
     moduleId: "grammar-reported-speech",
     id: "reported-time-place-shift",
@@ -312,7 +312,7 @@ In formal writing, "if" can be dropped and the auxiliary moved to the front.
     ],
   },
 
-  // ===== RELATIVE — Quantifiers + relative pronouns =====
+  // ===== RELATIVE - Quantifiers + relative pronouns =====
   {
     moduleId: "grammar-relative-clauses",
     id: "relative-quantifiers",
@@ -376,7 +376,7 @@ In formal writing, "if" can be dropped and the auxiliary moved to the front.
     ],
   },
 
-  // ===== ARTICLES & PREPOSITIONS — Confusing prepositions =====
+  // ===== ARTICLES & PREPOSITIONS - Confusing prepositions =====
   {
     moduleId: "grammar-articles-prepositions",
     id: "prepositions-confusing",
@@ -512,7 +512,7 @@ export const grammarExpansionModules4: LanguageModule[] = [
 | When | thời gian |
 | Why | lý do |
 | Who | người |
-| Whom | người (tân ngữ — trang trọng) |
+| Whom | người (tân ngữ - trang trọng) |
 | Whose | sở hữu |
 | Which | lựa chọn |
 | How | cách thức |
@@ -795,13 +795,13 @@ Used for **politeness/formality**. After the introducer → NO inversion, NO do/
             sentences: [
               { text: "When I was a child, I ___ climb trees easily.", textEn: "When I was a child, I ___ climb trees easily.", answer: "could", hint: "Khả năng quá khứ → could" },
               { text: "___ I borrow your pen, please?", textEn: "___ I borrow your pen, please?", answer: "May", hint: "Xin phép trang trọng → May/Could" },
-              { text: "It ___ rain later — bring an umbrella just in case.", textEn: "It ___ rain later — bring an umbrella just in case.", answer: "might", hint: "Khả năng không chắc → might/may" },
+              { text: "It ___ rain later - bring an umbrella just in case.", textEn: "It ___ rain later - bring an umbrella just in case.", answer: "might", hint: "Khả năng không chắc → might/may" },
             ],
           },
         ],
         quiz: [
           { question: "Which is the most polite request?", options: ["Can I borrow it?", "Could I borrow it?", "May I borrow it?", "I borrow it?"], answer: 2, explanation: "May = trang trọng nhất" },
-          { question: "'He ___ be at the office — I'm not sure.'", options: ["must", "might", "will", "can"], answer: 1, explanation: "Không chắc → might" },
+          { question: "'He ___ be at the office - I'm not sure.'", options: ["must", "might", "will", "can"], answer: 1, explanation: "Không chắc → might" },
           { question: "Which expresses the highest certainty?", options: ["might", "may", "must", "could"], answer: 2, explanation: "must = ~95%" },
         ],
       },
@@ -818,7 +818,7 @@ Used for **politeness/formality**. After the introducer → NO inversion, NO do/
 |------|---------|
 | Bắt buộc nội tại / quy định | Bắt buộc bên ngoài |
 | You **must** wear a helmet. (luật) | I **have to** work on Sunday. (sếp yêu cầu) |
-| Không có dạng quá khứ — dùng "had to" | I **had to** leave early. |
+| Không có dạng quá khứ - dùng "had to" | I **had to** leave early. |
 
 ### Mustn't vs Don't have to
 - **mustn't** = CẤM (không được phép)
@@ -847,7 +847,7 @@ Used for **politeness/formality**. After the introducer → NO inversion, NO do/
 |------|---------|
 | Internal/rule | External obligation |
 | You **must** wear a helmet. | I **have to** work on Sunday. |
-| No past form — use "had to" | I **had to** leave early. |
+| No past form - use "had to" | I **had to** leave early. |
 
 ### Mustn't vs Don't have to
 - **mustn't** = forbidden
@@ -879,9 +879,9 @@ Used for **politeness/formality**. After the introducer → NO inversion, NO do/
         ],
         quiz: [
           { question: "'Don't have to' means:", options: ["forbidden", "not necessary", "must", "should"], answer: 1, explanation: "Không cần thiết, có quyền chọn" },
-          { question: "'You ___ touch the wires — they're live!'", options: ["don't have to", "mustn't", "shouldn't", "couldn't"], answer: 1, explanation: "Cấm tuyệt đối → mustn't" },
+          { question: "'You ___ touch the wires - they're live!'", options: ["don't have to", "mustn't", "shouldn't", "couldn't"], answer: 1, explanation: "Cấm tuyệt đối → mustn't" },
           { question: "Past form of 'must' for obligation:", options: ["musted", "had to", "must have", "should have"], answer: 1, explanation: "Must không có quá khứ → dùng had to" },
-          { question: "'That ___ be John — he's in Tokyo!'", options: ["must", "can't", "shouldn't", "mustn't"], answer: 1, explanation: "Suy luận không thể → can't be" },
+          { question: "'That ___ be John - he's in Tokyo!'", options: ["must", "can't", "shouldn't", "mustn't"], answer: 1, explanation: "Suy luận không thể → can't be" },
         ],
       },
     ],
@@ -1026,7 +1026,7 @@ Verb agrees with the noun after
         difficulty: "intermediate",
         theory: `## Dấu phẩy (,) & Chấm phẩy (;)
 
-### Dấu phẩy — Khi nào dùng?
+### Dấu phẩy - Khi nào dùng?
 
 #### 1. Liệt kê (3+ items)
 - *I bought apples, oranges, and bananas.*
@@ -1063,7 +1063,7 @@ Trước các từ chuyển ý: **however, therefore, moreover, thus, furthermor
 - *I'm tired; **however**, I'll keep working.*`,
         theoryEn: `## Comma (,) & Semicolon (;)
 
-### Comma — When to use
+### Comma - When to use
 
 #### 1. Lists (3+ items)
 - *I bought apples, oranges, and bananas.*
@@ -1105,7 +1105,7 @@ Before transitional words: **however, therefore, moreover, thus**`,
         quiz: [
           { question: "Câu nào ĐÚNG?", options: ["I'm hungry, I'll eat now.", "I'm hungry; I'll eat now.", "I'm hungry I'll eat now.", "I'm hungry, eat now."], answer: 1, explanation: "Comma splice → dùng ; thay vì ," },
           { question: "Khi nào dùng dấu phẩy trước 'and'?", options: ["Luôn luôn", "Trong danh sách 3+ (Oxford comma) hoặc nối 2 mệnh đề", "Không bao giờ", "Chỉ khi câu dài"], answer: 1, explanation: "Oxford comma + nối 2 independent clauses" },
-          { question: "'My sister___ who lives in Tokyo___ is a chef.' Cần điền:", options: [", ,", "; ;", ": :", "— —"], answer: 0, explanation: "Mệnh đề bổ sung không xác định → phẩy 2 đầu" },
+          { question: "'My sister___ who lives in Tokyo___ is a chef.' Cần điền:", options: [", ,", "; ;", ": :", "- -"], answer: 0, explanation: "Mệnh đề bổ sung không xác định → phẩy 2 đầu" },
         ],
       },
       {
@@ -1177,10 +1177,10 @@ Dùng để giới thiệu:
 
 ### Colon (:)
 Used to introduce:
-1. Lists — *I need three things: bread, milk, and eggs.*
-2. Explanations — *He had only one passion: music.*
+1. Lists - *I need three things: bread, milk, and eggs.*
+2. Explanations - *He had only one passion: music.*
 3. Quotations
-4. Time and ratios — *3:30 PM*
+4. Time and ratios - *3:30 PM*
 
 ### Note
 - Before a colon must be a **complete sentence**`,

@@ -67,7 +67,7 @@ export function computeMatchScore(
     reasons.push(`Level matches (${profile.target_level})`);
   } else {
     improvements.push(
-      `This scholarship covers ${scholarship.levels.join(" / ")} — set your target level accordingly`
+      `This scholarship covers ${scholarship.levels.join(" / ")} - set your target level accordingly`
     );
   }
 
@@ -94,7 +94,7 @@ export function computeMatchScore(
       improvements.push("Take IELTS (target 6.5+) or TOEFL (target 90+)");
     }
   } else {
-    // Scholarship is in non-English-speaking country — give partial credit if any score exists
+    // Scholarship is in non-English-speaking country - give partial credit if any score exists
     if (profile.ielts_score || profile.toefl_score) {
       score += 15;
       reasons.push("English certification on file");
@@ -103,7 +103,7 @@ export function computeMatchScore(
     }
   }
 
-  // --- 4. Academic strength (20pts) — GPA on 4.0 scale ---
+  // --- 4. Academic strength (20pts) - GPA on 4.0 scale ---
   if (profile.gpa != null) {
     if (profile.gpa >= 3.7) {
       score += 20;
@@ -123,7 +123,7 @@ export function computeMatchScore(
     improvements.push("Add your GPA to your profile for an accurate score");
   }
 
-  // --- 5. Profile depth (20pts) — activities, experience, narrative ---
+  // --- 5. Profile depth (20pts) - activities, experience, narrative ---
   let depth = 0;
   const activitiesLen = (profile.activities || "").trim().length;
   if (activitiesLen >= 200) {
@@ -142,7 +142,7 @@ export function computeMatchScore(
     depth += 4;
     improvements.push("Aim for 2+ years professional experience for Master/PhD awards");
   } else {
-    improvements.push("Internships count — log any 1-2 years of relevant experience");
+    improvements.push("Internships count - log any 1-2 years of relevant experience");
   }
   score += depth;
 

@@ -1,4 +1,4 @@
-// AI Foundation curriculum — 12 modules with progressive difficulty
+// AI Foundation curriculum - 12 modules with progressive difficulty
 import type { ExtendedProgrammingModule } from "./types";
 
 export const aiFoundationModules: ExtendedProgrammingModule[] = [
@@ -8,8 +8,8 @@ export const aiFoundationModules: ExtendedProgrammingModule[] = [
     titleEn: "History of AI",
     icon: "📜",
     color: "from-rose-500 to-pink-600",
-    description: "From Turing to GPT — the journey to AI development",
-    descriptionEn: "From Turing to GPT — the evolution of AI",
+    description: "From Turing to GPT - the journey to AI development",
+    descriptionEn: "From Turing to GPT - the evolution of AI",
     course: "data-ai",
     lessons: [
       {
@@ -17,13 +17,13 @@ export const aiFoundationModules: ExtendedProgrammingModule[] = [
         level: 1, difficulty: "beginner",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-70 năm trước, "AI" còn là chuyện viễn tưởng — nay điện thoại trong túi bạn dịch tiếng Việt-Anh, gợi ý đường, vẽ tranh trong 3 giây. Hành trình đó không phải "đùng cái có" — mà là chuỗi 70 năm "winter" + "spring" với những bước nhảy thay đổi thế giới. Hiểu lịch sử AI giúp bạn đoán được bước tiếp theo.
+70 năm trước, "AI" còn là chuyện viễn tưởng - nay điện thoại trong túi bạn dịch tiếng Việt-Anh, gợi ý đường, vẽ tranh trong 3 giây. Hành trình đó không phải "đùng cái có" - mà là chuỗi 70 năm "winter" + "spring" với những bước nhảy thay đổi thế giới. Hiểu lịch sử AI giúp bạn đoán được bước tiếp theo.
 
 ## 2. 💡 Cột mốc cốt lõi
 
 | Năm | Sự kiện | Ý nghĩa |
 |---|---|---|
-| 1950 | **Turing Test** | "Máy có suy nghĩ?" — đặt câu hỏi nền tảng |
+| 1950 | **Turing Test** | "Máy có suy nghĩ?" - đặt câu hỏi nền tảng |
 | 1956 | **Dartmouth Conference** | Thuật ngữ "Artificial Intelligence" ra đời |
 | 1958 | **Perceptron** (Rosenblatt) | Neural net đầu tiên |
 | 1969-80 | **AI Winter 1** | Perceptron bị chứng minh không học XOR |
@@ -59,16 +59,16 @@ model = nn.Sequential(nn.Linear(10,64), nn.ReLU(), nn.Linear(64,1))
 ## 5. ⚠️ Hiểu nhầm thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - "AI = Deep Learning" — sai. DL là 1 nhánh, ML rộng hơn, AI rộng hơn nữa.
-> - "ChatGPT là AI thông minh thật" — nó là LLM dự đoán token, không có ý thức.
-> - "AI Winter sẽ không quay lại" — chưa chắc; mỗi lần kỳ vọng vượt thực tế là 1 winter.
-> - "GPU là lý do duy nhất AI bùng nổ" — thật ra là **GPU + Big Data + Backprop + Transformer + Internet**, đủ 5 yếu tố.
+> - "AI = Deep Learning" - sai. DL là 1 nhánh, ML rộng hơn, AI rộng hơn nữa.
+> - "ChatGPT là AI thông minh thật" - nó là LLM dự đoán token, không có ý thức.
+> - "AI Winter sẽ không quay lại" - chưa chắc; mỗi lần kỳ vọng vượt thực tế là 1 winter.
+> - "GPU là lý do duy nhất AI bùng nổ" - thật ra là **GPU + Big Data + Backprop + Transformer + Internet**, đủ 5 yếu tố.
 
 ## 6. ✅ Best practice của thầy Hải
 
 > 💡 **Mẹo:**
 > - Học AI nên đi theo **trình tự lịch sử**: Perceptron → MLP → CNN → RNN → Transformer. Mỗi bước trả lời 1 câu "tại sao cần cái sau?".
-> - Đọc lại bài báo gốc ngắn (Turing 1950, Attention is all you need 2017) — nhiều thuật ngữ ngày nay vẫn từ đó.
+> - Đọc lại bài báo gốc ngắn (Turing 1950, Attention is all you need 2017) - nhiều thuật ngữ ngày nay vẫn từ đó.
 > - Theo dõi 2 nguồn: **arXiv sanity** (paper mới), **Papers with Code** (paper + repo).
 
 ## 7. 🤔 Áp dụng
@@ -82,7 +82,7 @@ Khi đọc 1 paper/sản phẩm mới, hỏi:
 
 AI 70 năm = 3 làn sóng (symbolic → ML → DL), 2 mùa đông và nhiều bước nhảy: Perceptron, Backprop, AlexNet, Transformer, ChatGPT. Hiểu lịch sử = đoán được tương lai và tránh hype.
 `,
-        theoryEn: `**History of Artificial Intelligence — A Comprehensive Overview**
+        theoryEn: `**History of Artificial Intelligence - A Comprehensive Overview**
 
 Artificial Intelligence (AI) has evolved through several distinct eras, each marked by breakthroughs, setbacks, and paradigm shifts. Understanding this history is essential for any AI practitioner.
 
@@ -91,18 +91,18 @@ Artificial Intelligence (AI) has evolved through several distinct eras, each mar
 **🧮 The Birth of AI (1940s-1950s)**
 
 - **1943:** Warren McCulloch & Walter Pitts create the first mathematical model of a neural network.
-- **1950:** Alan Turing publishes *"Computing Machinery and Intelligence"*, proposing the famous **Turing Test** — a benchmark for machine intelligence.
+- **1950:** Alan Turing publishes *"Computing Machinery and Intelligence"*, proposing the famous **Turing Test** - a benchmark for machine intelligence.
 - **1956:** The **Dartmouth Conference** officially coins the term "Artificial Intelligence." This is considered the founding moment of AI as a field.
 
-**Key Insight:** Early AI researchers were incredibly optimistic — predicting human-level AI within 20 years.
+**Key Insight:** Early AI researchers were incredibly optimistic - predicting human-level AI within 20 years.
 
 ---
 
 **🤖 The Golden Age (1960s)**
 
 - **1961:** UNIMATE, the first industrial robot.
-- **1964:** ELIZA — the first chatbot, simulating a psychotherapist using pattern matching.
-- Expert systems begin development — rule-based AI encoding human expertise.
+- **1964:** ELIZA - the first chatbot, simulating a psychotherapist using pattern matching.
+- Expert systems begin development - rule-based AI encoding human expertise.
 
 ---
 
@@ -131,7 +131,7 @@ Two major periods of reduced funding and interest:
 - **2012:** **AlexNet** wins ImageNet, proving deep CNNs on GPUs.
 - **2014:** **GANs** invented by Ian Goodfellow.
 - **2016:** **AlphaGo** defeats world Go champion.
-- **2017:** **"Attention Is All You Need"** — the Transformer architecture.
+- **2017:** **"Attention Is All You Need"** - the Transformer architecture.
 - **2022:** **ChatGPT** reaches 100M users in 2 months.
 - **2023-2024:** GPT-4, Claude, Gemini, open-source LLMs proliferate.
 
@@ -185,7 +185,7 @@ print(f"\\n📊 {len(timeline)} milestones spanning {timeline[-1][0] - timeline[
         level: 2, difficulty: "beginner",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn quyết định **đi xem phim hay không** dựa trên 3 yếu tố: phim hay (8/10), giá vé (rẻ hay không), bạn rủ (có hay không). Não bạn cân từng yếu tố theo "trọng số" — phim hay quan trọng nhất, sau đó bạn rủ, cuối cùng là giá. Cộng lại > ngưỡng → đi.
+Bạn quyết định **đi xem phim hay không** dựa trên 3 yếu tố: phim hay (8/10), giá vé (rẻ hay không), bạn rủ (có hay không). Não bạn cân từng yếu tố theo "trọng số" - phim hay quan trọng nhất, sau đó bạn rủ, cuối cùng là giá. Cộng lại > ngưỡng → đi.
 
 Đó **chính xác** là một **Perceptron**: input × weight + bias → activation → output.
 
@@ -244,7 +244,7 @@ print(mlp(torch.tensor([[0.8, 0.0, 1.0]])))
 > 💡 **Mẹo:**
 > - Vẽ kiến trúc trước khi code: input shape → các lớp → output shape.
 > - **He init** cho ReLU, **Xavier init** cho sigmoid/tanh.
-> - Bắt đầu **MLP nhỏ** (1-2 hidden layer, 32-128 neuron) — đừng chồng 10 lớp ngay.
+> - Bắt đầu **MLP nhỏ** (1-2 hidden layer, 32-128 neuron) - đừng chồng 10 lớp ngay.
 > - Khi forward pass ra NaN: kiểm tra learning rate quá cao, input chưa scale, hoặc log(0).
 
 ## 7. 🤔 Khi nào dùng MLP
@@ -259,7 +259,7 @@ print(mlp(torch.tensor([[0.8, 0.0, 1.0]])))
 
 Perceptron = "cân nhắc theo trọng số": $y = f(\\\\sum w_i x_i + b)$. Nhiều perceptron xếp lớp = MLP. Phải có activation phi tuyến, phải scale input, phải init đúng. Đây là viên gạch đầu tiên của mọi kiến trúc neural net khác.
 `,
-        theoryEn: `**Neural Networks — The Foundation of Modern AI**
+        theoryEn: `**Neural Networks - The Foundation of Modern AI**
 
 Neural networks are computing systems inspired by biological brain networks, forming the backbone of deep learning.
 
@@ -362,9 +362,9 @@ print(f"\\n🧠 Network output: {result:.4f}")`,
         level: 2, difficulty: "intermediate",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn vào phòng tối, công tắc đèn có 2 trạng thái: **bật** hoặc **tắt**. Nhưng đèn dimmer thì có "mờ → sáng dần → chói loà" — uyển chuyển hơn. Trong neural net, **activation function** chính là công tắc / dimmer quyết định "neuron này có cháy không và cháy mạnh thế nào".
+Bạn vào phòng tối, công tắc đèn có 2 trạng thái: **bật** hoặc **tắt**. Nhưng đèn dimmer thì có "mờ → sáng dần → chói loà" - uyển chuyển hơn. Trong neural net, **activation function** chính là công tắc / dimmer quyết định "neuron này có cháy không và cháy mạnh thế nào".
 
-Không có activation phi tuyến, neural net dù 100 lớp cũng chỉ bằng 1 phép cộng tuyến tính — vô dụng.
+Không có activation phi tuyến, neural net dù 100 lớp cũng chỉ bằng 1 phép cộng tuyến tính - vô dụng.
 
 ## 2. 💡 Khái niệm chính
 
@@ -401,8 +401,8 @@ print("Softmax:", torch.softmax(x, dim=0)) # tổng = 1
 
 > ⚠️ **Cảnh báo:**
 > - **Sigmoid trong hidden layer sâu** → vanishing gradient (đạo hàm tối đa 0.25, nhân nhau qua nhiều lớp → ~0).
-> - **Dying ReLU**: với learning rate cao, neuron có thể "chết" — output luôn 0 mãi mãi.
-> - **Quên softmax + dùng CrossEntropyLoss**: PyTorch \`nn.CrossEntropyLoss\` đã tích hợp softmax — đừng softmax 2 lần.
+> - **Dying ReLU**: với learning rate cao, neuron có thể "chết" - output luôn 0 mãi mãi.
+> - **Quên softmax + dùng CrossEntropyLoss**: PyTorch \`nn.CrossEntropyLoss\` đã tích hợp softmax - đừng softmax 2 lần.
 > - **Tanh chưa chuẩn hoá input**: dễ bão hoà ở -1 hoặc 1 → gradient ~0.
 
 ## 6. ✅ Best practice của thầy Hải
@@ -410,9 +410,9 @@ print("Softmax:", torch.softmax(x, dim=0)) # tổng = 1
 > 💡 **Mẹo:**
 > - **Mặc định ReLU**, đổi GELU nếu làm transformer, Leaky/PReLU nếu thấy nhiều neuron chết.
 > - **Sigmoid/Tanh chỉ dùng ở output layer** (binary / bounded regression).
-> - Theo dõi **% neuron có activation = 0** — > 50% là dấu hiệu dying ReLU.
+> - Theo dõi **% neuron có activation = 0** - > 50% là dấu hiệu dying ReLU.
 > - **He init** cho ReLU/Leaky, **Xavier init** cho sigmoid/tanh.
-> - Đừng đổi activation lung tung khi loss không giảm — kiểm tra learning rate, init, data trước.
+> - Đừng đổi activation lung tung khi loss không giảm - kiểm tra learning rate, init, data trước.
 
 ## 7. 🤔 So sánh tốc độ
 
@@ -422,7 +422,7 @@ ReLU > Leaky > GELU > Tanh > Sigmoid (về tốc độ tính + gradient ổn đ�
 
 Activation = công tắc bật neuron, biến tuyến tính → phi tuyến. **ReLU mặc định cho hidden, Sigmoid/Softmax cho output**. Tránh sigmoid trong hidden sâu (vanishing), tránh learning rate quá cao (dying ReLU). Không có activation phi tuyến = neural net chỉ là 1 lớp.
 `,
-        theoryEn: `**Activation Functions — Adding Non-Linearity to Neural Networks**
+        theoryEn: `**Activation Functions - Adding Non-Linearity to Neural Networks**
 
 Without activation functions, a neural network is just linear regression. Activation functions introduce **non-linearity**.
 
@@ -491,12 +491,12 @@ print(f"Sum = {softmax(logits).sum():.4f}")`,
 
 Bạn tập ném phi tiêu vào hồng tâm. Mỗi lần ném lệch, bạn **đo khoảng cách** trượt mục tiêu (loss), rồi **điều chỉnh tay** để lần sau gần hơn. Càng nhiều lần thử + điều chỉnh đúng hướng, càng gần tâm.
 
-Đó chính là **Loss + Gradient Descent**: đo sai số, tính hướng sửa, bước theo hướng đó — lặp lại tới khi loss đủ nhỏ.
+Đó chính là **Loss + Gradient Descent**: đo sai số, tính hướng sửa, bước theo hướng đó - lặp lại tới khi loss đủ nhỏ.
 
 ## 2. 💡 Khái niệm chính
 
 - **Loss function**: con số đo "sai bao nhiêu" so với ground truth.
-- **Gradient**: đạo hàm của loss theo từng weight — chỉ "đi hướng nào loss giảm nhanh nhất".
+- **Gradient**: đạo hàm của loss theo từng weight - chỉ "đi hướng nào loss giảm nhanh nhất".
 - **Gradient Descent**: $w \\\\leftarrow w - \\\\eta \\\\cdot \\\\nabla L$ ($\\\\eta$ = learning rate).
 
 ## 3. 🧰 Loss phổ biến
@@ -536,7 +536,7 @@ print(f"w = {w.item():.4f}")                     # ~ 2.0
 > - **Quá thấp** → train 10h mới giảm 1 chút.
 > - **Quên \`optim.zero_grad()\`** → gradient cộng dồn → cập nhật sai.
 > - **Loss = NaN**: thường do log(0), chia 0, lr quá cao, hoặc input chưa scale.
-> - **Chỉ nhìn train loss**: cần xem cả validation — train loss giảm mà val tăng = overfit.
+> - **Chỉ nhìn train loss**: cần xem cả validation - train loss giảm mà val tăng = overfit.
 
 ## 6. ✅ Best practice của thầy Hải
 
@@ -545,7 +545,7 @@ print(f"w = {w.item():.4f}")                     # ~ 2.0
 > - Dùng **Learning Rate Finder** (fastai, lr_finder) để tìm lr tối ưu trong 1 phút.
 > - **Optimizer**: Adam cho hầu hết bài toán; SGD + momentum cho CV cuối cùng (thường tổng quát hoá tốt hơn).
 > - **Gradient clipping** ($\\\\|g\\\\| \\\\le 1.0$) cho RNN/Transformer để tránh nổ gradient.
-> - Vẽ **loss curve** mỗi epoch — nó nói cho bạn biết mọi vấn đề.
+> - Vẽ **loss curve** mỗi epoch - nó nói cho bạn biết mọi vấn đề.
 
 ## 7. 🤔 Variants của GD
 
@@ -561,7 +561,7 @@ print(f"w = {w.item():.4f}")                     # ~ 2.0
 
 Loss = đo sai; Gradient = chỉ hướng sửa; GD = bước theo hướng đó. Chọn loss đúng bài toán (MSE/CE/BCE), chọn lr vừa phải, dùng Adam mặc định. Luôn vẽ loss curve và theo dõi cả val loss để bắt overfit sớm.
 `,
-        theoryEn: `**Loss Functions & Optimization — How Neural Networks Learn**
+        theoryEn: `**Loss Functions & Optimization - How Neural Networks Learn**
 
 ---
 
@@ -607,11 +607,11 @@ print(f"\\n✅ Converged to x ≈ {x:.6f} (optimal: 0)")`,
         exercise: "Implement gradient descent for f(x,y) = x² + 2y². Find minimum starting from (5, 3).",
         exerciseEn: "Implement gradient descent for f(x,y) = x² + 2y². Find minimum starting from (5, 3).",
         quiz: [
-          { question: "What happens when learning rate is too high?", options: ["Converges faster", "Overshooting — loss oscillates or diverges", "No effect", "Always better"], answer: 1, explanation: "A high learning rate causes the optimizer to 'jump' too far, potentially overshooting the minimum and causing divergence." },
+          { question: "What happens when learning rate is too high?", options: ["Converges faster", "Overshooting - loss oscillates or diverges", "No effect", "Always better"], answer: 1, explanation: "A high learning rate causes the optimizer to 'jump' too far, potentially overshooting the minimum and causing divergence." },
           { question: "Why is Adam the most popular optimizer?", options: ["It's the simplest", "It combines Momentum and RMSProp with adaptive learning rates", "It requires no hyperparameters", "It always finds global minimum"], answer: 1, explanation: "Adam combines the benefits of Momentum (acceleration) and RMSProp (adaptive per-parameter learning rates), working well out of the box for most problems." },
           { question: "What does Binary Cross-Entropy penalize most?", options: ["Small errors", "Confident wrong predictions", "Correct predictions", "Predictions near 0.5"], answer: 1, explanation: "If the model predicts 0.01 for a true label of 1, the loss is -log(0.01) ≈ 4.6, which is extremely high. Confident wrong predictions are penalized severely." },
           { question: "What is the difference between MSE and MAE?", options: ["They're identical", "MSE penalizes large errors more and is sensitive to outliers", "MAE is always better", "MSE works only for classification"], answer: 1, explanation: "MSE squares the errors, so a single large error contributes disproportionately. MAE treats all errors linearly, making it more robust to outliers." },
-          { question: "What is Mini-batch Gradient Descent?", options: ["Uses all data per update", "Uses 1 sample per update", "Uses a small batch (32-512) per update — balances speed and stability", "Uses no data"], answer: 2, explanation: "Mini-batch GD updates weights using a subset of data (typically 32-512 samples), balancing the stability of batch GD and the speed of SGD." }
+          { question: "What is Mini-batch Gradient Descent?", options: ["Uses all data per update", "Uses 1 sample per update", "Uses a small batch (32-512) per update - balances speed and stability", "Uses no data"], answer: 2, explanation: "Mini-batch GD updates weights using a subset of data (typically 32-512 samples), balancing the stability of batch GD and the speed of SGD." }
         ]
       }
     ]
@@ -667,7 +667,7 @@ h = torch.relu(w1 * x + b1)        # 7
 y = w2 * h + b2                    # 14.5
 loss = (y - y_true) ** 2           # 20.25
 
-# Backward — PyTorch tự chạy chain rule
+# Backward - PyTorch tự chạy chain rule
 loss.backward()
 print("dL/dw1 =", w1.grad.item())  # autograd cho ra số chính xác
 print("dL/dw2 =", w2.grad.item())
@@ -685,11 +685,11 @@ print("dL/dw2 =", w2.grad.item())
 ## 6. ✅ Best practice của thầy Hải
 
 > 💡 **Mẹo:**
-> - **Tin vào autograd** — đừng tự code backward trừ khi viết custom layer.
+> - **Tin vào autograd** - đừng tự code backward trừ khi viết custom layer.
 > - Dùng **gradient checking** khi tự viết: so gradient autograd với gradient tính bằng numerical $(L(w+\\\\epsilon) - L(w-\\\\epsilon)) / 2\\\\epsilon$.
 > - In **gradient norm** mỗi epoch → quá nhỏ là vanishing, quá lớn là exploding.
-> - Skip connection (ResNet) là phát minh "cứu rỗi" backprop sâu — luôn cân nhắc.
-> - **Mixed precision** (fp16) tăng tốc 2-3x nhưng dễ NaN — dùng \`torch.cuda.amp\` đúng cách.
+> - Skip connection (ResNet) là phát minh "cứu rỗi" backprop sâu - luôn cân nhắc.
+> - **Mixed precision** (fp16) tăng tốc 2-3x nhưng dễ NaN - dùng \`torch.cuda.amp\` đúng cách.
 
 ## 7. 🤔 Tại sao quan trọng
 
@@ -697,9 +697,9 @@ Backprop là **bước nhảy năm 1986** đưa neural net thoát AI Winter. M�
 
 ## 8. 📌 Tóm tắt 30 giây
 
-Backprop = chain rule truy ngược: từ loss về từng weight, biết phải sửa cái nào bao nhiêu. PyTorch/TF lo backward tự động — bạn chỉ cần forward + \`.backward()\` + \`optim.step()\`. Cảnh giác vanishing/exploding gradient.
+Backprop = chain rule truy ngược: từ loss về từng weight, biết phải sửa cái nào bao nhiêu. PyTorch/TF lo backward tự động - bạn chỉ cần forward + \`.backward()\` + \`optim.step()\`. Cảnh giác vanishing/exploding gradient.
 `,
-        theoryEn: `**Backpropagation — How Neural Networks Learn from Mistakes**
+        theoryEn: `**Backpropagation - How Neural Networks Learn from Mistakes**
 
 ---
 
@@ -768,7 +768,7 @@ print(f"   Expected:    {y.flatten()}")`,
           { question: "What causes vanishing gradients?", options: ["Learning rate too high", "Gradients multiply through many layers, each < 1, product → 0", "Too much data", "Using ReLU"], answer: 1, explanation: "When gradients at each layer are less than 1, multiplying them through many layers causes the product to shrink exponentially toward zero." },
           { question: "How do Skip Connections (ResNet) help?", options: ["Make networks smaller", "Allow gradients to flow directly through shortcuts, preventing vanishing", "Remove the need for backprop", "Speed up forward pass only"], answer: 1, explanation: "Skip connections provide a direct path for gradients to flow back through the network, bypassing layers that might diminish the gradient." },
           { question: "What is the correct order of the training loop?", options: ["Backward → Forward → Loss → Update", "Forward → Loss → Backward → Update", "Update → Forward → Backward → Loss", "Loss → Forward → Update → Backward"], answer: 1, explanation: "The training loop is: Forward pass (compute predictions) → Compute loss → Backward pass (compute gradients) → Update weights." },
-          { question: "What does gradient clipping prevent?", options: ["Vanishing gradients", "Exploding gradients — caps gradient magnitude", "Overfitting", "Underfitting"], answer: 1, explanation: "Gradient clipping limits the maximum magnitude of gradients, preventing them from growing too large and causing numerical instability." }
+          { question: "What does gradient clipping prevent?", options: ["Vanishing gradients", "Exploding gradients - caps gradient magnitude", "Overfitting", "Underfitting"], answer: 1, explanation: "Gradient clipping limits the maximum magnitude of gradients, preventing them from growing too large and causing numerical instability." }
         ]
       }
     ]
@@ -788,7 +788,7 @@ print(f"   Expected:    {y.flatten()}")`,
         level: 3, difficulty: "intermediate",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn nhận diện mèo trong ảnh thế nào? Mắt bạn không nhìn từng pixel — bạn nhìn **đặc điểm cục bộ**: tai nhọn, ria mép, mắt tròn. Sau đó ghép các đặc điểm lại → "à, mèo!". CNN bắt chước đúng quy trình đó: **cửa sổ trượt** quét tìm đặc điểm, rồi **tổng hợp**.
+Bạn nhận diện mèo trong ảnh thế nào? Mắt bạn không nhìn từng pixel - bạn nhìn **đặc điểm cục bộ**: tai nhọn, ria mép, mắt tròn. Sau đó ghép các đặc điểm lại → "à, mèo!". CNN bắt chước đúng quy trình đó: **cửa sổ trượt** quét tìm đặc điểm, rồi **tổng hợp**.
 
 CNN là lý do AI biết phân biệt mèo với chó, biết đọc biển số xe, biết chẩn đoán X-quang.
 
@@ -798,7 +798,7 @@ Một **kernel** (ma trận nhỏ 3×3) trượt khắp ảnh. Tại mỗi vị 
 
 - Kernel cạnh ngang → phát hiện đường ngang.
 - Kernel cạnh chéo → phát hiện đường chéo.
-- Kernel học được tự động qua backprop — **không phải đặt tay**.
+- Kernel học được tự động qua backprop - **không phải đặt tay**.
 
 ## 3. 🧰 4 thành phần một CNN
 
@@ -840,7 +840,7 @@ Mạng này đạt > 99% trên MNIST chỉ với vài dòng.
 
 ## 6. ✅ Best practice của thầy Hải
 
-> 💡 **Mẹo:** **Đừng train CNN từ đầu** trừ khi bạn có > 100k ảnh. Dùng **Transfer Learning** từ ResNet50/EfficientNet đã train trên ImageNet — chỉ cần thay tầng cuối.
+> 💡 **Mẹo:** **Đừng train CNN từ đầu** trừ khi bạn có > 100k ảnh. Dùng **Transfer Learning** từ ResNet50/EfficientNet đã train trên ImageNet - chỉ cần thay tầng cuối.
 
 - Bộ tham số an toàn: optimizer **Adam** lr=1e-3, batch 32, augmentation random flip + rotation 15°.
 - Bật **callback EarlyStopping** + **ReduceLROnPlateau** để không train phí.
@@ -851,13 +851,13 @@ Mạng này đạt > 99% trên MNIST chỉ với vài dòng.
 - ✅ Mọi bài toán có **dữ liệu dạng lưới**: ảnh, video, ảnh y tế, satellite.
 - ✅ Audio dạng spectrogram cũng coi như "ảnh" → CNN hoạt động tốt.
 - ❌ Dữ liệu tabular → dùng XGBoost/LightGBM, đừng phí công CNN.
-- ❌ Văn bản tuần tự → dùng Transformer, RNN — không phải CNN (trừ TextCNN cho task ngắn).
+- ❌ Văn bản tuần tự → dùng Transformer, RNN - không phải CNN (trừ TextCNN cho task ngắn).
 
 ## 8. 📌 Tóm tắt 30 giây
 
 CNN = **kernel trượt tìm đặc điểm** → ReLU lọc → Pooling thu nhỏ → Dense quyết định. Luôn chuẩn hoá pixel \`/255\`, dùng augmentation, ưu tiên **Transfer Learning** thay vì train từ đầu. Đây là kiến trúc đã thay đổi computer vision và là nền tảng cho mọi mô hình ảnh hiện đại.
 `,
-        theoryEn: `**CNNs — Vision AI**
+        theoryEn: `**CNNs - Vision AI**
 
 CNNs process grid-like data (images) using local connectivity, weight sharing, and translation invariance.
 
@@ -934,7 +934,7 @@ for name, kernel in kernels.items():
         level: 4, difficulty: "advanced",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn đọc câu: *"Tôi sinh ra ở Hà Nội nên tiếng mẹ đẻ là …"* — não bạn nhớ "Hà Nội" để đoán ra "tiếng Việt". Mạng feedforward thường **không có trí nhớ** giữa các từ → không hiểu được. RNN sinh ra để **nhớ những gì đã thấy**.
+Bạn đọc câu: *"Tôi sinh ra ở Hà Nội nên tiếng mẹ đẻ là …"* - não bạn nhớ "Hà Nội" để đoán ra "tiếng Việt". Mạng feedforward thường **không có trí nhớ** giữa các từ → không hiểu được. RNN sinh ra để **nhớ những gì đã thấy**.
 
 LSTM là phiên bản RNN có **bộ não thông minh hơn**, biết quên cái không cần và giữ cái quan trọng.
 
@@ -993,16 +993,16 @@ model.compile(optimizer="adam", loss="binary_crossentropy",
 
 ## 7. 🤔 Khi nào dùng / không dùng
 
-- ✅ Time series (dự báo bán hàng, chứng khoán) — LSTM vẫn rất tốt.
+- ✅ Time series (dự báo bán hàng, chứng khoán) - LSTM vẫn rất tốt.
 - ✅ Phân loại text ngắn, NER, POS tagging với resource hạn chế.
 - ❌ Dịch máy, summarization, chatbot lớn → Transformer/BERT/GPT.
 - ❌ Câu rất dài (> 500 token) → Transformer xử lý attention song song nhanh hơn.
 
 ## 8. 📌 Tóm tắt 30 giây
 
-RNN = **mạng có trí nhớ** xử lý chuỗi tuần tự. LSTM thêm 3 cổng (Forget/Input/Output) để xử lý chuỗi dài. Mặc định nên thử **Bidirectional GRU** trước. Cho time series RNN vẫn tốt; cho NLP hiện đại — Transformer đã chiếm sân. Hiểu RNN là hiểu được "trước Transformer" thế giới NLP làm gì.
+RNN = **mạng có trí nhớ** xử lý chuỗi tuần tự. LSTM thêm 3 cổng (Forget/Input/Output) để xử lý chuỗi dài. Mặc định nên thử **Bidirectional GRU** trước. Cho time series RNN vẫn tốt; cho NLP hiện đại - Transformer đã chiếm sân. Hiểu RNN là hiểu được "trước Transformer" thế giới NLP làm gì.
 `,
-        theoryEn: `**RNNs — Processing Sequential Data**
+        theoryEn: `**RNNs - Processing Sequential Data**
 
 **Vanilla RNN:** Hidden state hₜ = tanh(Wₓxₜ + Wₕhₜ₋₁ + b). Problem: vanishing gradients → can't remember long-term.
 
@@ -1049,11 +1049,11 @@ print(f"\\n🎯 Final hidden state: {np.round(final, 3)}")`,
         exercise: "Implement next-character prediction: train RNN on 'abcabc' to predict the next character.",
         exerciseEn: "Implement next-character prediction: train RNN on 'abcabc' to predict the next character.",
         quiz: [
-          { question: "What problem does LSTM solve that vanilla RNN cannot?", options: ["Speed", "Long-term memory — vanishing gradient", "Too many parameters", "Can't process text"], answer: 1, explanation: "LSTM uses Cell State and gates to maintain information over long sequences, solving the vanishing gradient problem that prevents vanilla RNNs from learning long-range dependencies." },
+          { question: "What problem does LSTM solve that vanilla RNN cannot?", options: ["Speed", "Long-term memory - vanishing gradient", "Too many parameters", "Can't process text"], answer: 1, explanation: "LSTM uses Cell State and gates to maintain information over long sequences, solving the vanishing gradient problem that prevents vanilla RNNs from learning long-range dependencies." },
           { question: "How many gates does an LSTM cell have?", options: ["1", "2", "3 (Forget, Input, Output)", "4"], answer: 2, explanation: "LSTM has 3 gates: Forget Gate (what to remove), Input Gate (what to add), and Output Gate (what to output)." },
           { question: "What is the advantage of GRU over LSTM?", options: ["Always more accurate", "Fewer parameters (~33% less), trains faster, comparable performance", "Can handle longer sequences", "No gates needed"], answer: 1, explanation: "GRU combines the forget and input gates into a single update gate, reducing parameters by ~33% while achieving comparable performance to LSTM." },
           { question: "Why have Transformers largely replaced RNNs?", options: ["Transformers are simpler", "Transformers process sequences in parallel and capture long-range dependencies better", "RNNs are obsolete in all cases", "Transformers use less memory"], answer: 1, explanation: "RNNs must process sequences step-by-step (sequential), while Transformers process all positions simultaneously (parallel), making them faster and better at capturing distant relationships." },
-          { question: "What role does the Cell State play in LSTM?", options: ["Stores the output", "Acts as a 'highway' carrying information across many time steps with minimal change", "Controls the learning rate", "Stores the input only"], answer: 1, explanation: "The Cell State is the key innovation of LSTM — it runs through the entire sequence with only linear interactions (multiply and add), allowing information to flow unchanged across many steps." }
+          { question: "What role does the Cell State play in LSTM?", options: ["Stores the output", "Acts as a 'highway' carrying information across many time steps with minimal change", "Controls the learning rate", "Stores the input only"], answer: 1, explanation: "The Cell State is the key innovation of LSTM - it runs through the entire sequence with only linear interactions (multiply and add), allowing information to flow unchanged across many steps." }
         ]
       }
     ]
@@ -1073,7 +1073,7 @@ print(f"\\n🎯 Final hidden state: {np.round(final, 3)}")`,
         level: 4, difficulty: "advanced",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn đọc câu: *"Con mèo ngồi trên thảm vì **nó** mệt."* — não bạn lập tức biết "**nó**" = "con mèo" chứ không phải "thảm". Bạn làm điều đó bằng cách **chú ý** vào các từ liên quan trong câu, dù chúng cách xa.
+Bạn đọc câu: *"Con mèo ngồi trên thảm vì **nó** mệt."* - não bạn lập tức biết "**nó**" = "con mèo" chứ không phải "thảm". Bạn làm điều đó bằng cách **chú ý** vào các từ liên quan trong câu, dù chúng cách xa.
 
 **Self-Attention** dạy máy làm đúng việc đó: với mỗi từ, **chấm điểm liên quan** với mọi từ khác trong câu, rồi tổng hợp có trọng số. Đây là phát minh đứng sau ChatGPT, BERT, Gemini.
 
@@ -1118,7 +1118,7 @@ print(attn.shape)            # torch.Size([2, 10, 10]) - ma trận chú ý
 > 💡 **Mẹo:** **Đừng bao giờ tự cài Transformer từ con số 0** cho production. Dùng **HuggingFace Transformers** + model pretrained (BERT, RoBERTa, PhoBERT cho tiếng Việt) → fine-tune 1 giờ là có model production.
 
 - Kích thước embedding 128/256 cho task nhỏ, 768 (BERT-base) hoặc 1024 (BERT-large) cho task lớn.
-- Số head = 8 hoặc 12 là chuẩn ngành — không cần sáng tạo.
+- Số head = 8 hoặc 12 là chuẩn ngành - không cần sáng tạo.
 - Khi sequence dài → **Longformer**, **BigBird**, hoặc **Flash Attention 2**.
 
 ## 7. 🤔 Khi nào dùng / không dùng
@@ -1127,13 +1127,13 @@ print(attn.shape)            # torch.Size([2, 10, 10]) - ma trận chú ý
 - ✅ Vision Transformer (ViT) cho ảnh khi data lớn (> 1 triệu).
 - ✅ Time series dài có pattern phức tạp.
 - ❌ Câu rất ngắn (< 20 từ), data nhỏ → Logistic + TF-IDF còn nhanh và đủ tốt.
-- ❌ Real-time edge device — Transformer nặng, dùng DistilBERT/TinyBERT.
+- ❌ Real-time edge device - Transformer nặng, dùng DistilBERT/TinyBERT.
 
 ## 8. 📌 Tóm tắt 30 giây
 
-Self-Attention = **mỗi từ tự chấm điểm liên quan với mọi từ khác** rồi tổng hợp. Multi-Head = nhiều góc nhìn. Đây là kiến trúc đứng sau **mọi LLM hiện đại** từ ChatGPT đến Gemini. Đừng tự cài — dùng HuggingFace + pretrained là đường nhanh nhất ra production.
+Self-Attention = **mỗi từ tự chấm điểm liên quan với mọi từ khác** rồi tổng hợp. Multi-Head = nhiều góc nhìn. Đây là kiến trúc đứng sau **mọi LLM hiện đại** từ ChatGPT đến Gemini. Đừng tự cài - dùng HuggingFace + pretrained là đường nhanh nhất ra production.
 `,
-        theoryEn: `**Transformers — The Architecture Behind Modern AI**
+        theoryEn: `**Transformers - The Architecture Behind Modern AI**
 
 **Self-Attention:** Each token looks at all other tokens. Q·Kᵀ measures similarity, softmax normalizes, multiply by V.
 
@@ -1189,7 +1189,7 @@ for i, t in enumerate(tokens):
         quiz: [
           { question: "What allows each token in Self-Attention to do?", options: ["Only see previous token", "Look at all other tokens in the sequence", "Ignore context", "Only see the nearest token"], answer: 1, explanation: "Self-Attention computes attention scores between every pair of tokens, allowing each token to consider the entire sequence." },
           { question: "Why divide by √dₖ in the attention formula?", options: ["Makes computation faster", "Prevents dot products from growing too large, stabilizing softmax", "Reduces parameters", "Purely aesthetic"], answer: 1, explanation: "As dimension d grows, dot products grow in magnitude, pushing softmax into regions with tiny gradients. Dividing by √dₖ keeps values in a reasonable range." },
-          { question: "What is the purpose of Multi-Head Attention?", options: ["Speed up training", "Each head learns different relationship patterns (syntax, semantics, proximity)", "Reduce parameters", "Replace positional encoding"], answer: 1, explanation: "Multiple heads allow the model to simultaneously attend to different types of relationships — one head might capture syntax while another captures meaning." },
+          { question: "What is the purpose of Multi-Head Attention?", options: ["Speed up training", "Each head learns different relationship patterns (syntax, semantics, proximity)", "Reduce parameters", "Replace positional encoding"], answer: 1, explanation: "Multiple heads allow the model to simultaneously attend to different types of relationships - one head might capture syntax while another captures meaning." },
           { question: "How does GPT differ from BERT architecturally?", options: ["GPT uses encoder, BERT uses decoder", "GPT uses decoder (autoregressive), BERT uses encoder (bidirectional)", "They're identical", "GPT doesn't use attention"], answer: 1, explanation: "GPT is decoder-only (generates left-to-right with masked attention), while BERT is encoder-only (sees entire sequence bidirectionally)." },
           { question: "Why do Transformers need Positional Encoding?", options: ["To reduce computation", "They process all positions simultaneously and need explicit position information", "To handle different languages", "To prevent overfitting"], answer: 1, explanation: "Unlike RNNs that inherently process sequences step-by-step, Transformers see all positions at once and need positional encodings to know word order." }
         ]
@@ -1209,7 +1209,7 @@ for i, t in enumerate(tokens):
       {
         id: "ai-llm-1", title: "Prompt Engineering", titleEn: "Prompt Engineering",
         level: 2, difficulty: "beginner",
-        theory: `Có 2 người cùng bảo ChatGPT *"viết email cho khách"* — một người nhận lại 5 dòng vô nghĩa, một người nhận lại email 4 đoạn chuyên nghiệp gửi luôn cho khách được. Khác biệt **không nằm ở model** — mà ở **cách hỏi**. Đó là **Prompt Engineering**.
+        theory: `Có 2 người cùng bảo ChatGPT *"viết email cho khách"* - một người nhận lại 5 dòng vô nghĩa, một người nhận lại email 4 đoạn chuyên nghiệp gửi luôn cho khách được. Khác biệt **không nằm ở model** - mà ở **cách hỏi**. Đó là **Prompt Engineering**.
 
 ## 1. 🚦 Vấn đề đời thường
 
@@ -1219,23 +1219,23 @@ Bạn dùng ChatGPT/Claude để: viết email, debug code, tóm tắt bài báo
 
 ## 2. 💡 5 kỹ thuật prompt cốt lõi
 
-**1. Zero-shot** — hỏi thẳng, không ví dụ.
+**1. Zero-shot** - hỏi thẳng, không ví dụ.
 > *"Phân loại review sau là tích cực hay tiêu cực: 'Đồ ăn quá ngon!'"*
 
-**2. Few-shot** — đưa 2–5 ví dụ trước khi hỏi.
+**2. Few-shot** - đưa 2–5 ví dụ trước khi hỏi.
 > *"'Tuyệt vời!' → tích cực*
 > *'Tệ hại!' → tiêu cực*
 > *'Hỏng sau 1 ngày' → ?"*
 
-**3. Chain-of-Thought (CoT)** — bảo model **suy nghĩ từng bước**.
+**3. Chain-of-Thought (CoT)** - bảo model **suy nghĩ từng bước**.
 > *"Hãy nghĩ từng bước: nếu có 3 hộp, mỗi hộp 12 quả, bán 15 quả thì còn lại bao nhiêu?"*
 
 → CoT cải thiện **20–40%** độ chính xác cho các bài toán logic/math.
 
-**4. Role prompting** — gán vai cho model.
+**4. Role prompting** - gán vai cho model.
 > *"Bạn là senior Python developer 15 năm kinh nghiệm. Review code sau…"*
 
-**5. Self-consistency** — hỏi cùng câu với CoT 5 lần, chọn đáp án đa số. Giảm sai sót so với chain duy nhất.
+**5. Self-consistency** - hỏi cùng câu với CoT 5 lần, chọn đáp án đa số. Giảm sai sót so với chain duy nhất.
 
 ## 3. 🏗️ Giải phẫu một prompt tốt
 
@@ -1269,14 +1269,14 @@ Suggest 5 onboarding screens with copy.
 Return as numbered markdown list. Each item: bold title + 1 line copy.
 
 [Example]
-1. **Chào Long!** — Tài khoản đầu tiên dành riêng cho sinh viên Việt.
+1. **Chào Long!** - Tài khoản đầu tiên dành riêng cho sinh viên Việt.
 \\\`\\\`\\\`
 
 → Áp template này vào *bất kỳ* model nào, kết quả nhảy vọt.
 
 ## 5. ⚠️ 4 anti-pattern cần tránh
 
-> ⚠️ **Cảnh báo:** Đừng hỏi *"Tell me about AI"* — vague prompt cho ra vague answer. Càng cụ thể, càng tốt.
+> ⚠️ **Cảnh báo:** Đừng hỏi *"Tell me about AI"* - vague prompt cho ra vague answer. Càng cụ thể, càng tốt.
 
 1. **Vague**: "Tell me about AI" → câu trả lời lan man.
 2. **Không spec format**: nhận output mỗi lần một kiểu, không parse được.
@@ -1285,19 +1285,19 @@ Return as numbered markdown list. Each item: bold title + 1 line copy.
 
 ## 6. 🛠️ Kỹ thuật nâng cao
 
-- **ReAct (Reason + Act)** — model **suy nghĩ** rồi **gọi tool** (search, calculator, code) → cốt lõi của AI agent.
-- **Tree of Thoughts** — model khám phá nhiều nhánh suy nghĩ song song, chọn nhánh tốt nhất.
-- **Prompt Chaining** — chia bài toán lớn thành nhiều prompt nhỏ, output cái này = input cái kia.
+- **ReAct (Reason + Act)** - model **suy nghĩ** rồi **gọi tool** (search, calculator, code) → cốt lõi của AI agent.
+- **Tree of Thoughts** - model khám phá nhiều nhánh suy nghĩ song song, chọn nhánh tốt nhất.
+- **Prompt Chaining** - chia bài toán lớn thành nhiều prompt nhỏ, output cái này = input cái kia.
 
 ## 7. 🎯 Best practice của thầy Hải
 
-1. **Always specify output format** — nhất là khi parse bằng code.
+1. **Always specify output format** - nhất là khi parse bằng code.
 2. **Đưa 1–3 ví dụ tốt** > giải thích bằng lời.
 3. Với task khó → bật **CoT** ("hãy nghĩ từng bước").
 4. **Test prompt với 10 input đa dạng** trước khi đưa lên production.
 5. Lưu prompt trong **Git**, version như code.
 
-> 💡 **Mẹo của thầy Hải:** Khi prompt không ra kết quả mong muốn, đừng đổ lỗi cho model. Hỏi: *"Mình đã spec context, role, task, format, constraint chưa?"* — 90% lần thiếu 1 trong 5 cái.
+> 💡 **Mẹo của thầy Hải:** Khi prompt không ra kết quả mong muốn, đừng đổ lỗi cho model. Hỏi: *"Mình đã spec context, role, task, format, constraint chưa?"* - 90% lần thiếu 1 trong 5 cái.
 
 ## 8. ✅ Tóm tắt 30 giây
 
@@ -1306,7 +1306,7 @@ Return as numbered markdown list. Each item: bold title + 1 line copy.
 - Tránh: vague, không format, mâu thuẫn, giả định context.
 - Production: **test 10 input đa dạng, lưu prompt vào Git**.
 `,
-        theoryEn: `**Prompt Engineering — Communicating with AI**
+        theoryEn: `**Prompt Engineering - Communicating with AI**
 
 **Techniques:** Zero-shot (direct ask), Few-shot (with examples), Chain-of-Thought (step by step), Role prompting (assign persona).
 
@@ -1363,7 +1363,7 @@ print(f"   Score: {score_prompt(prompts['few_shot'])}%")`,
           { question: "What is Few-Shot prompting?", options: ["Asking few questions", "Providing the AI with example input-output pairs before the actual question", "Limiting output length", "Single question only"], answer: 1, explanation: "Few-shot provides 2-5 examples of input→output so the AI learns the pattern before processing your actual question." },
           { question: "Why does Chain-of-Thought improve accuracy?", options: ["Makes the prompt shorter", "Forces the model to reason step-by-step, reducing errors on complex tasks", "Uses more tokens", "Changes the model"], answer: 1, explanation: "CoT prompting makes the model break down complex problems into intermediate steps, improving accuracy by 20-40% on reasoning tasks." },
           { question: "What temperature value makes AI output most deterministic?", options: ["1.0", "0.5", "0.1 (low = deterministic)", "2.0"], answer: 2, explanation: "Low temperature (0.1) makes the model more deterministic and factual, while high temperature (0.9+) increases creativity and randomness." },
-          { question: "What are tokens in LLMs?", options: ["Gold coins", "Sub-word units that LLMs read — not characters or full words", "Programming variables", "API keys"], answer: 1, explanation: "LLMs break text into tokens (sub-word units). Common words are 1 token, rare words may be split into multiple tokens. Pricing and context limits are measured in tokens." },
+          { question: "What are tokens in LLMs?", options: ["Gold coins", "Sub-word units that LLMs read - not characters or full words", "Programming variables", "API keys"], answer: 1, explanation: "LLMs break text into tokens (sub-word units). Common words are 1 token, rare words may be split into multiple tokens. Pricing and context limits are measured in tokens." },
           { question: "Which prompting anti-pattern should you avoid?", options: ["Using examples", "Specifying output format", "Giving vague instructions without clear task or format", "Assigning a role"], answer: 2, explanation: "Vague prompts like 'Tell me about AI' produce unfocused responses. Good prompts have clear context, task, format, and constraints." }
         ]
       }
@@ -1384,7 +1384,7 @@ print(f"   Score: {score_prompt(prompts['few_shot'])}%")`,
         level: 4, difficulty: "advanced",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn đã biết tiếng Anh giỏi. Giờ học tiếng Pháp — bạn không học lại từ đầu (chữ A, B, C, ngữ pháp cơ bản) mà tận dụng nền tảng đã có (cấu trúc câu, từ gốc Latin) → học nhanh hơn 5 lần.
+Bạn đã biết tiếng Anh giỏi. Giờ học tiếng Pháp - bạn không học lại từ đầu (chữ A, B, C, ngữ pháp cơ bản) mà tận dụng nền tảng đã có (cấu trúc câu, từ gốc Latin) → học nhanh hơn 5 lần.
 
 **Transfer Learning** chính là vậy: lấy model đã train sẵn trên data khổng lồ (ImageNet, GPT trên 10TB text), rồi **fine-tune** trên data riêng nhỏ của bạn.
 
@@ -1455,9 +1455,9 @@ model = get_peft_model(base_model, config)               # chỉ train ~0.5% par
 
 ## 8. 📌 Tóm tắt 30 giây
 
-Transfer Learning = đứng trên vai người khổng lồ. Freeze + train head cho data nhỏ; full fine-tune cho data vừa; LoRA/QLoRA cho LLM tiết kiệm GPU. Trước khi fine-tune, hãy thử **prompt engineering + RAG** — thường đã đủ.
+Transfer Learning = đứng trên vai người khổng lồ. Freeze + train head cho data nhỏ; full fine-tune cho data vừa; LoRA/QLoRA cho LLM tiết kiệm GPU. Trước khi fine-tune, hãy thử **prompt engineering + RAG** - thường đã đủ.
 `,
-        theoryEn: `**Transfer Learning — Standing on the Shoulders of Giants**
+        theoryEn: `**Transfer Learning - Standing on the Shoulders of Giants**
 
 **Strategies:** Feature Extraction (freeze all), Fine-tuning (partial unfreeze), Full Fine-tuning (unfreeze all).
 
@@ -1486,7 +1486,7 @@ class PretrainedModel:
         print(f"📊 Model Summary:")
         for i, (l, f) in enumerate(zip(layers, self.frozen)):
             status = "❄️ frozen" if f else "🔥 trainable"
-            print(f"  Layer {i+1}: {l.shape} — {status} ({l.size} params)")
+            print(f"  Layer {i+1}: {l.shape} - {status} ({l.size} params)")
         print(f"  Total: {total} params | Trainable: {trainable} ({trainable/total*100:.1f}%)")
 
 # Feature extraction (freeze all but last)
@@ -1531,7 +1531,7 @@ print(f"  Reduction: {original_params/lora_params:.1f}x fewer trainable params")
         level: 5, difficulty: "advanced",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn hỏi ChatGPT: "Quy chế nội bộ công ty mình về OT là gì?" — nó bịa ra (hallucinate) vì chưa từng thấy tài liệu công ty bạn. Nhưng nếu bạn **đưa kèm file PDF quy chế** trong câu hỏi, nó trả lời chính xác.
+Bạn hỏi ChatGPT: "Quy chế nội bộ công ty mình về OT là gì?" - nó bịa ra (hallucinate) vì chưa từng thấy tài liệu công ty bạn. Nhưng nếu bạn **đưa kèm file PDF quy chế** trong câu hỏi, nó trả lời chính xác.
 
 **RAG (Retrieval-Augmented Generation)** chính là tự động: lúc user hỏi, hệ thống **lấy đoạn tài liệu liên quan nhất** từ kho riêng → ghép vào prompt → LLM trả lời có dẫn chứng.
 
@@ -1598,7 +1598,7 @@ print(ChatOpenAI(model="gpt-4o").invoke(prompt).content)
 > - **Rerank top-20 → top-5** bằng cross-encoder (Cohere Rerank, BGE-reranker).
 > - Luôn **show source** + đường link → user verify được, tăng trust.
 > - **Evaluate**: dùng RAGAS / TruLens để đo faithfulness (LLM có bịa không) + answer relevancy.
-> - Cập nhật index khi tài liệu thay đổi — đừng để stale.
+> - Cập nhật index khi tài liệu thay đổi - đừng để stale.
 
 ## 7. 🤔 RAG vs Fine-tune
 
@@ -1613,9 +1613,9 @@ Nhiều khi **kết hợp cả hai** mới là đỉnh.
 
 ## 8. 📌 Tóm tắt 30 giây
 
-RAG = Retrieve + Augment + Generate. Pipeline: chunk → embed → vector DB → query → top-K → prompt LLM. Luôn hybrid search + rerank + show source. Trước khi fine-tune, hãy thử RAG — rẻ hơn 100 lần và thường đủ.
+RAG = Retrieve + Augment + Generate. Pipeline: chunk → embed → vector DB → query → top-K → prompt LLM. Luôn hybrid search + rerank + show source. Trước khi fine-tune, hãy thử RAG - rẻ hơn 100 lần và thường đủ.
 `,
-        theoryEn: `**RAG — Grounding AI in Facts**
+        theoryEn: `**RAG - Grounding AI in Facts**
 
 **Why RAG?** LLMs hallucinate, have knowledge cutoffs, and can't cite sources. RAG fixes this by retrieving relevant documents before generating.
 
@@ -1683,7 +1683,7 @@ print(f"  Based on the retrieved information: {results[0][0]}")`,
         exerciseEn: "Implement chunking strategy: split a long text into 100-char chunks with 20-char overlap.",
         quiz: [
           { question: "What does RAG need to work?", options: ["Only an LLM", "Vector DB + LLM + Embedding Model", "Only a SQL database", "A fine-tuned model"], answer: 1, explanation: "RAG needs 3 components: an Embedding model to create vectors, a Vector DB to store and search them, and an LLM to generate answers from retrieved context." },
-          { question: "What is the main advantage of RAG over fine-tuning for knowledge tasks?", options: ["RAG is always more accurate", "RAG can update knowledge in real-time and cite sources", "RAG is cheaper to run", "RAG doesn't need data"], answer: 1, explanation: "RAG can be updated by simply re-indexing documents (no retraining needed) and can point to the exact source of information — key advantages for knowledge-intensive tasks." },
+          { question: "What is the main advantage of RAG over fine-tuning for knowledge tasks?", options: ["RAG is always more accurate", "RAG can update knowledge in real-time and cite sources", "RAG is cheaper to run", "RAG doesn't need data"], answer: 1, explanation: "RAG can be updated by simply re-indexing documents (no retraining needed) and can point to the exact source of information - key advantages for knowledge-intensive tasks." },
           { question: "What happens if chunks are too large?", options: ["Better accuracy", "Retrieved context includes too much irrelevant information", "Faster retrieval", "No effect"], answer: 1, explanation: "Large chunks mix relevant and irrelevant information, making it harder for the LLM to find the actual answer within the retrieved context." },
           { question: "What is the purpose of re-ranking in RAG?", options: ["Make retrieval slower", "Improve relevance of retrieved documents beyond vector similarity", "Remove all documents", "Change the query"], answer: 1, explanation: "Vector similarity isn't always the best measure of relevance. Re-rankers (cross-encoders) score query-document pairs more accurately to improve the final set of retrieved documents." },
           { question: "How are embeddings used in RAG?", options: ["To generate text", "To convert text into vectors for similarity search", "To tokenize text", "To fine-tune models"], answer: 1, explanation: "Embedding models convert text into dense vector representations where semantically similar texts are close in vector space, enabling efficient similarity search." }
@@ -1706,7 +1706,7 @@ print(f"  Based on the retrieved information: {results[0][0]}")`,
         level: 3, difficulty: "intermediate",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Một công ty Mỹ từng xài AI tuyển dụng, kết quả: ưu tiên ứng viên nam, loại CV có chữ "women's chess club". Lý do? Data train là 10 năm CV cũ — đa số đậu là nam. AI không "kỳ thị" — nó học **đúng mẫu lệch** từ data lệch.
+Một công ty Mỹ từng xài AI tuyển dụng, kết quả: ưu tiên ứng viên nam, loại CV có chữ "women's chess club". Lý do? Data train là 10 năm CV cũ - đa số đậu là nam. AI không "kỳ thị" - nó học **đúng mẫu lệch** từ data lệch.
 
 **Bias & Fairness** = phát hiện và sửa các thiên lệch ẩn trong AI để không gây hại cho nhóm yếu thế.
 
@@ -1754,10 +1754,10 @@ mitigator.fit(X, y, sensitive_features=A)
 ## 5. ⚠️ Bẫy thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - **"Bỏ cột giới tính/chủng tộc là xong"** — sai. Model vẫn học qua proxy (mã bưu điện, tên trường).
+> - **"Bỏ cột giới tính/chủng tộc là xong"** - sai. Model vẫn học qua proxy (mã bưu điện, tên trường).
 > - **Chỉ tối ưu accuracy** → bỏ qua nhóm thiểu số (chiếm ít, sai cũng không kéo accuracy nhiều).
 > - **Không tài liệu hoá** → không ai biết model có rủi ro gì 6 tháng sau.
-> - **"Không thể vừa fair vừa accurate"**: đôi khi đúng — phải chọn trade-off có ý thức.
+> - **"Không thể vừa fair vừa accurate"**: đôi khi đúng - phải chọn trade-off có ý thức.
 
 ## 6. ✅ Best practice của thầy Hải
 
@@ -1779,13 +1779,13 @@ mitigator.fit(X, y, sensitive_features=A)
 
 ## 8. 📌 Tóm tắt 30 giây
 
-AI không tự kỳ thị — nó học từ data lệch. Đo bằng demographic parity, equal opportunity. Mitigate ở cả 3 giai đoạn. Bỏ cột nhạy cảm KHÔNG đủ — proxy vẫn tồn tại. High-stakes decisions luôn cần human-in-the-loop.
+AI không tự kỳ thị - nó học từ data lệch. Đo bằng demographic parity, equal opportunity. Mitigate ở cả 3 giai đoạn. Bỏ cột nhạy cảm KHÔNG đủ - proxy vẫn tồn tại. High-stakes decisions luôn cần human-in-the-loop.
 `,
-        theoryEn: `**AI Ethics — Building Responsible AI**
+        theoryEn: `**AI Ethics - Building Responsible AI**
 
 **Bias Types:** Data bias (unrepresentative), Algorithmic (amplifies bias), Measurement (proxy features), Deployment (wrong context).
 
-**Fairness Metrics:** Demographic Parity (equal rates), Equal Opportunity (equal TPR), Equalized Odds, Calibration. No single metric captures all fairness — choose based on context.
+**Fairness Metrics:** Demographic Parity (equal rates), Equal Opportunity (equal TPR), Equalized Odds, Calibration. No single metric captures all fairness - choose based on context.
 
 **Regulations:** EU AI Act (risk-based), GDPR (right to explanation), NYC Law 144 (hiring audits).
 
@@ -1843,8 +1843,8 @@ print(f"  Target rate: {target_rate:.2%}")`,
         exercise: "Build a bias mitigation tool that implements threshold adjustment and resampling strategies.",
         exerciseEn: "Build a bias mitigation tool that implements threshold adjustment and resampling strategies.",
         quiz: [
-          { question: "What is the most common source of AI bias?", options: ["Bad algorithms", "Training data that doesn't represent the real-world population", "Too many parameters", "Using Python"], answer: 1, explanation: "Data bias is the most common source — when training data doesn't represent all groups equally, the model learns and amplifies these disparities." },
-          { question: "Why can't you satisfy all fairness metrics simultaneously?", options: ["Not enough compute", "The Impossibility Theorem — different metrics can contradict each other", "It's always possible", "Regulations prevent it"], answer: 1, explanation: "The Impossibility Theorem shows that certain fairness metrics (like Demographic Parity and Calibration) are mathematically incompatible — improving one can worsen another." },
+          { question: "What is the most common source of AI bias?", options: ["Bad algorithms", "Training data that doesn't represent the real-world population", "Too many parameters", "Using Python"], answer: 1, explanation: "Data bias is the most common source - when training data doesn't represent all groups equally, the model learns and amplifies these disparities." },
+          { question: "Why can't you satisfy all fairness metrics simultaneously?", options: ["Not enough compute", "The Impossibility Theorem - different metrics can contradict each other", "It's always possible", "Regulations prevent it"], answer: 1, explanation: "The Impossibility Theorem shows that certain fairness metrics (like Demographic Parity and Calibration) are mathematically incompatible - improving one can worsen another." },
           { question: "What does the EU AI Act classify?", options: ["Programming languages", "AI systems by risk level (Unacceptable, High, Limited, Minimal)", "Data formats", "Cloud providers"], answer: 1, explanation: "The EU AI Act categorizes AI systems into risk tiers: Unacceptable (banned), High (strict requirements), Limited (transparency), Minimal (no restrictions)." },
           { question: "What is SHAP used for in AI ethics?", options: ["Training models", "Explaining which features contributed to a specific prediction", "Collecting data", "Deploying models"], answer: 1, explanation: "SHAP (SHapley Additive exPlanations) uses game theory to explain how each feature contributes to an individual prediction, enabling transparency and accountability." },
           { question: "What is a feedback loop in the context of AI bias?", options: ["A type of neural network", "Biased predictions create biased data, which further biases the model", "A training technique", "A debugging tool"], answer: 1, explanation: "When a biased model's predictions are used to collect new training data (e.g., biased policing → more arrests in certain areas → more data → more bias), the bias compounds over time." }

@@ -3,9 +3,9 @@
  * @description Enrichment runtime cho mọi bài giảng Cambridge.
  * Tự động:
  *  - Sinh thêm câu hỏi Quiz (đảm bảo tối thiểu 6 câu/bài) từ vocabulary, rules, watchOut.
- *  - Bổ sung "Deep Dive" — phân tích chiến lược chi tiết, dễ hiểu (song ngữ).
+ *  - Bổ sung "Deep Dive" - phân tích chiến lược chi tiết, dễ hiểu (song ngữ).
  *  - Đảm bảo tối thiểu: 4 rules, 3 watchOut, 6 vocab, 3 practice items
- *    (chỉ thêm nếu bài gốc thiếu — không ghi đè dữ liệu gốc).
+ *    (chỉ thêm nếu bài gốc thiếu - không ghi đè dữ liệu gốc).
  *
  * Triết lý: KHÔNG ghi đè câu hỏi/giải thích đã được biên soạn thủ công;
  * chỉ "phụ thêm" để mọi bài đều đạt chuẩn nội dung phong phú.
@@ -22,7 +22,7 @@ import type {
 } from "@/data/cambridgeLecturesData";
 
 // ============================================================
-// DEEP DIVE — Phân tích chiến lược song ngữ
+// DEEP DIVE - Phân tích chiến lược song ngữ
 // ============================================================
 
 export interface DeepDiveBlock {
@@ -43,35 +43,35 @@ export function buildDeepDive(l: CambridgeLecture): DeepDiveBlock[] {
       icon: "🎯",
       heading: "Why this lecture matters",
       headingVi: "Vì sao bài học này quan trọng",
-      body: `In real Cambridge ${levelLabel} exams, this exact skill (${l.skill.replace("-", " & ")}) accounts for a large portion of your final score. The strategy in this lecture comes from analyzing patterns across hundreds of past papers. Even if the topic looks easy, examiners design distractors that punish guessing — so the structured approach you learn here protects your marks.`,
-      bodyVi: `Trong đề thi Cambridge ${levelLabel} thật, kỹ năng này (${l.skill.replace("-", " & ")}) chiếm tỷ trọng lớn trong điểm cuối cùng. Chiến lược trong bài được rút ra từ phân tích hàng trăm đề cũ. Dù chủ đề trông có vẻ dễ, giám khảo luôn cài bẫy đáp án để phạt người làm theo cảm tính — vì vậy quy trình có cấu trúc trong bài giúp bạn giữ điểm chắc chắn.`,
+      body: `In real Cambridge ${levelLabel} exams, this exact skill (${l.skill.replace("-", " & ")}) accounts for a large portion of your final score. The strategy in this lecture comes from analyzing patterns across hundreds of past papers. Even if the topic looks easy, examiners design distractors that punish guessing - so the structured approach you learn here protects your marks.`,
+      bodyVi: `Trong đề thi Cambridge ${levelLabel} thật, kỹ năng này (${l.skill.replace("-", " & ")}) chiếm tỷ trọng lớn trong điểm cuối cùng. Chiến lược trong bài được rút ra từ phân tích hàng trăm đề cũ. Dù chủ đề trông có vẻ dễ, giám khảo luôn cài bẫy đáp án để phạt người làm theo cảm tính - vì vậy quy trình có cấu trúc trong bài giúp bạn giữ điểm chắc chắn.`,
     },
     {
       icon: "🧭",
       heading: "How to study this lesson efficiently",
       headingVi: "Cách học bài này hiệu quả",
-      body: `Step 1: Read "Learning Objective" and "Exam Pattern" — they tell you exactly what skill the exam tests. Step 2: Memorize the ${l.illustratedRules.length} core rules; for each rule, write your OWN example. Step 3: Study "Watch Out" carefully — these are mistakes 70% of candidates make. Step 4: Do every Practice item without checking — only reveal after you commit to an answer. Step 5: Take the Quiz; aim for at least 80% before moving on. Spend 15–25 minutes per session; revisit after 2 days for deep memory.`,
-      bodyVi: `Bước 1: Đọc "Mục tiêu" và "Mẫu đề thi" — bạn sẽ biết chính xác bài thi đang đo gì. Bước 2: Học thuộc ${l.illustratedRules.length} quy tắc cốt lõi; với mỗi quy tắc, hãy viết MỘT ví dụ của riêng bạn. Bước 3: Đọc kỹ "Cảnh báo" — đây là lỗi mà 70% thí sinh mắc phải. Bước 4: Làm hết phần Luyện tập, không lén xem đáp án — chỉ bấm "Kiểm tra" sau khi bạn đã quyết định. Bước 5: Làm Quiz, đặt mục tiêu tối thiểu 80% trước khi sang bài kế. Mỗi phiên 15–25 phút; quay lại sau 2 ngày để nhớ sâu.`,
+      body: `Step 1: Read "Learning Objective" and "Exam Pattern" - they tell you exactly what skill the exam tests. Step 2: Memorize the ${l.illustratedRules.length} core rules; for each rule, write your OWN example. Step 3: Study "Watch Out" carefully - these are mistakes 70% of candidates make. Step 4: Do every Practice item without checking - only reveal after you commit to an answer. Step 5: Take the Quiz; aim for at least 80% before moving on. Spend 15–25 minutes per session; revisit after 2 days for deep memory.`,
+      bodyVi: `Bước 1: Đọc "Mục tiêu" và "Mẫu đề thi" - bạn sẽ biết chính xác bài thi đang đo gì. Bước 2: Học thuộc ${l.illustratedRules.length} quy tắc cốt lõi; với mỗi quy tắc, hãy viết MỘT ví dụ của riêng bạn. Bước 3: Đọc kỹ "Cảnh báo" - đây là lỗi mà 70% thí sinh mắc phải. Bước 4: Làm hết phần Luyện tập, không lén xem đáp án - chỉ bấm "Kiểm tra" sau khi bạn đã quyết định. Bước 5: Làm Quiz, đặt mục tiêu tối thiểu 80% trước khi sang bài kế. Mỗi phiên 15–25 phút; quay lại sau 2 ngày để nhớ sâu.`,
     },
     {
       icon: "🧠",
       heading: "The thinking pattern in the exam",
       headingVi: "Lối tư duy khi làm bài",
-      body: `When the question appears, do NOT jump to the options. First, in your head, summarize what is being asked in 5–7 words. Then predict what the correct answer should look like BEFORE looking at the choices. This single habit eliminates ~60% of trick options because real exam distractors are designed to "look right" only AFTER you read them. Use the ${stepCount}-step process from this lecture as your default routine — practice it until it becomes automatic.`,
-      bodyVi: `Khi câu hỏi xuất hiện, ĐỪNG vội nhìn các phương án. Đầu tiên, hãy tóm tắt yêu cầu trong đầu bằng 5–7 chữ. Sau đó, hãy đoán trước đáp án đúng sẽ trông như thế nào TRƯỚC khi nhìn các lựa chọn. Thói quen này loại bỏ ~60% phương án nhiễu vì các đáp án bẫy thường "trông có vẻ đúng" chỉ khi bạn đã đọc chúng. Hãy lấy quy trình ${stepCount} bước trong bài này làm thói quen mặc định — luyện đến khi thành phản xạ.`,
+      body: `When the question appears, do NOT jump to the options. First, in your head, summarize what is being asked in 5–7 words. Then predict what the correct answer should look like BEFORE looking at the choices. This single habit eliminates ~60% of trick options because real exam distractors are designed to "look right" only AFTER you read them. Use the ${stepCount}-step process from this lecture as your default routine - practice it until it becomes automatic.`,
+      bodyVi: `Khi câu hỏi xuất hiện, ĐỪNG vội nhìn các phương án. Đầu tiên, hãy tóm tắt yêu cầu trong đầu bằng 5–7 chữ. Sau đó, hãy đoán trước đáp án đúng sẽ trông như thế nào TRƯỚC khi nhìn các lựa chọn. Thói quen này loại bỏ ~60% phương án nhiễu vì các đáp án bẫy thường "trông có vẻ đúng" chỉ khi bạn đã đọc chúng. Hãy lấy quy trình ${stepCount} bước trong bài này làm thói quen mặc định - luyện đến khi thành phản xạ.`,
     },
     {
       icon: "📈",
       heading: "Common score-loss patterns",
       headingVi: "Những mẫu mất điểm thường gặp",
-      body: `Three patterns drain marks the most: (1) Reading the question too fast and missing a small word like "not", "all", or "always". (2) Choosing an option just because it contains a familiar vocabulary word from the passage — this is the #1 trap. (3) Rushing the last 1–2 questions because of time. Solution: keep a steady pace from the start, double-check negative words, and treat familiar-looking options with extra suspicion.`,
-      bodyVi: `Ba mẫu mất điểm phổ biến nhất: (1) Đọc câu hỏi quá nhanh và bỏ qua các từ nhỏ như "not", "all", "always". (2) Chọn đáp án chỉ vì nó chứa từ vựng quen thuộc xuất hiện trong bài — đây là cái bẫy số 1. (3) Vội vàng ở 1–2 câu cuối do thiếu giờ. Giải pháp: giữ nhịp đều từ đầu, kiểm tra kỹ các từ phủ định, và cẩn trọng gấp đôi với những đáp án "trông quen mắt".`,
+      body: `Three patterns drain marks the most: (1) Reading the question too fast and missing a small word like "not", "all", or "always". (2) Choosing an option just because it contains a familiar vocabulary word from the passage - this is the #1 trap. (3) Rushing the last 1–2 questions because of time. Solution: keep a steady pace from the start, double-check negative words, and treat familiar-looking options with extra suspicion.`,
+      bodyVi: `Ba mẫu mất điểm phổ biến nhất: (1) Đọc câu hỏi quá nhanh và bỏ qua các từ nhỏ như "not", "all", "always". (2) Chọn đáp án chỉ vì nó chứa từ vựng quen thuộc xuất hiện trong bài - đây là cái bẫy số 1. (3) Vội vàng ở 1–2 câu cuối do thiếu giờ. Giải pháp: giữ nhịp đều từ đầu, kiểm tra kỹ các từ phủ định, và cẩn trọng gấp đôi với những đáp án "trông quen mắt".`,
     },
   ];
 }
 
 // ============================================================
-// QUIZ EXPANSION — sinh thêm câu hỏi từ chính dữ liệu của bài
+// QUIZ EXPANSION - sinh thêm câu hỏi từ chính dữ liệu của bài
 // ============================================================
 
 const TARGET_QUIZ = 6;
@@ -228,16 +228,16 @@ const BONUS_RULES_BY_SKILL: Record<string, CambridgeIllustratedRule[]> = {
     },
     {
       icon: "✍️",
-      rule: "In writing tasks, COUNT your words — being under or over by ±2 is safe; ±10 may lose marks.",
-      ruleVi: "Khi viết, ĐẾM số chữ — chênh ±2 là an toàn; chênh ±10 có thể bị trừ điểm.",
+      rule: "In writing tasks, COUNT your words - being under or over by ±2 is safe; ±10 may lose marks.",
+      ruleVi: "Khi viết, ĐẾM số chữ - chênh ±2 là an toàn; chênh ±10 có thể bị trừ điểm.",
       example: "If the task asks for 25 words, write 23–27 words.",
     },
   ],
   speaking: [
     {
       icon: "🗣️",
-      rule: "Always answer in a FULL sentence — even for short questions.",
-      ruleVi: "Luôn trả lời bằng CÂU ĐẦY ĐỦ — kể cả với câu hỏi ngắn.",
+      rule: "Always answer in a FULL sentence - even for short questions.",
+      ruleVi: "Luôn trả lời bằng CÂU ĐẦY ĐỦ - kể cả với câu hỏi ngắn.",
       example: "Q: 'How old are you?' → A: 'I am ten years old.' (not just 'Ten.')",
     },
     {
@@ -267,8 +267,8 @@ const BONUS_WATCHOUT: CambridgeWatchOut[] = [
   {
     mistake: "Leaving questions blank because you're 'not sure'",
     mistakeVi: "Bỏ trống câu hỏi vì 'không chắc'",
-    tip: "Cambridge does NOT subtract for wrong answers. Always make your best guess — never leave blanks!",
-    tipVi: "Cambridge KHÔNG trừ điểm câu sai. Luôn đoán đáp án — đừng bao giờ để trống!",
+    tip: "Cambridge does NOT subtract for wrong answers. Always make your best guess - never leave blanks!",
+    tipVi: "Cambridge KHÔNG trừ điểm câu sai. Luôn đoán đáp án - đừng bao giờ để trống!",
   },
   {
     mistake: "Forgetting to transfer answers from question paper to answer sheet",

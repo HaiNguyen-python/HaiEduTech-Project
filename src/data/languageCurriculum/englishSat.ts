@@ -20,7 +20,7 @@ export const satModules: LanguageModule[] = [
         difficulty: "intermediate",
         theory: `## Đọc hiểu dựa trên bằng chứng (Evidence-Based Reading)
 
-Phần Reading của Digital SAT (chiếm **~54%** tổng điểm Verbal) đòi hỏi bạn đọc đoạn văn ngắn (25-150 từ) và trả lời **MỘT** câu hỏi duy nhất dựa trên **bằng chứng** trong bài. Quy tắc bất di bất dịch: **không suy đoán** — mọi đáp án đúng đều phải được "chống lưng" bởi câu chữ trong đoạn.
+Phần Reading của Digital SAT (chiếm **~54%** tổng điểm Verbal) đòi hỏi bạn đọc đoạn văn ngắn (25-150 từ) và trả lời **MỘT** câu hỏi duy nhất dựa trên **bằng chứng** trong bài. Quy tắc bất di bất dịch: **không suy đoán** - mọi đáp án đúng đều phải được "chống lưng" bởi câu chữ trong đoạn.
 
 <figure>
 <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quy trình 4 bước đọc bằng chứng">
@@ -66,7 +66,7 @@ Phần Reading của Digital SAT (chiếm **~54%** tổng điểm Verbal) đòi 
     </marker>
   </defs>
 </svg>
-<figcaption>Quy trình 4 bước "Evidence Loop" — chiến thuật chuẩn của thầy Hải</figcaption>
+<figcaption>Quy trình 4 bước "Evidence Loop" - chiến thuật chuẩn của thầy Hải</figcaption>
 </figure>
 
 ### 🎯 4 dạng câu hỏi PHỔ BIẾN nhất
@@ -74,7 +74,7 @@ Phần Reading của Digital SAT (chiếm **~54%** tổng điểm Verbal) đòi 
 | Dạng | Tỉ lệ | Cách nhận diện | Bẫy thường gặp |
 |------|-------|----------------|----------------|
 | **Main Idea** | ~25% | "central idea", "main purpose" | Chọn chi tiết hẹp thay vì ý bao trùm |
-| **Detail** | ~30% | "according to the text" | Đáp án "gần đúng" — sai 1 từ |
+| **Detail** | ~30% | "according to the text" | Đáp án "gần đúng" - sai 1 từ |
 | **Inference** | ~20% | "most strongly suggests" | Suy luận quá xa, dùng kiến thức ngoài |
 | **Purpose** | ~15% | "primary purpose of the passage" | Nhầm chủ đề (topic) với mục đích (purpose) |
 
@@ -97,7 +97,7 @@ Phần Reading của Digital SAT (chiếm **~54%** tổng điểm Verbal) đòi 
 5. **Right answer, wrong question**: đúng nhưng không trả lời câu hỏi`,
         theoryEn: `## Evidence-Based Reading
 
-The Digital SAT Reading section (~54% of Verbal score) requires you to read short passages (25-150 words) and answer **ONE** question based purely on **evidence in the text**. The rule is absolute: **no guessing** — every correct answer must be backed by words in the passage.
+The Digital SAT Reading section (~54% of Verbal score) requires you to read short passages (25-150 words) and answer **ONE** question based purely on **evidence in the text**. The rule is absolute: **no guessing** - every correct answer must be backed by words in the passage.
 
 <figure>
 <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="4-step evidence reading process">
@@ -129,7 +129,7 @@ The Digital SAT Reading section (~54% of Verbal score) requires you to read shor
     <text x="560" y="160" fill="hsl(220 9% 30%)">Verify in text</text>
   </g>
 </svg>
-<figcaption>The 4-step "Evidence Loop" — Teacher Hai's signature method</figcaption>
+<figcaption>The 4-step "Evidence Loop" - Teacher Hai's signature method</figcaption>
 </figure>
 
 ### 🎯 The 4 Most Common Question Types
@@ -137,7 +137,7 @@ The Digital SAT Reading section (~54% of Verbal score) requires you to read shor
 | Type | Frequency | How to Spot | Common Trap |
 |------|-----------|-------------|-------------|
 | **Main Idea** | ~25% | "central idea", "main purpose" | Picking a narrow detail instead of the umbrella idea |
-| **Detail** | ~30% | "according to the text" | "Almost right" — one word off |
+| **Detail** | ~30% | "according to the text" | "Almost right" - one word off |
 | **Inference** | ~20% | "most strongly suggests" | Inferring too far, using outside knowledge |
 | **Purpose** | ~15% | "primary purpose of the passage" | Confusing topic with purpose |
 
@@ -159,18 +159,18 @@ The Digital SAT Reading section (~54% of Verbal score) requires you to read shor
 4. **Reverse**: opposite of the author's view
 5. **Right answer, wrong question**: correct fact but doesn't answer the question`,
         proTips: [
-          "Đừng bao giờ chọn đáp án chỉ vì nó 'nghe đúng' — phải có bằng chứng từ đoạn văn",
+          "Đừng bao giờ chọn đáp án chỉ vì nó 'nghe đúng' - phải có bằng chứng từ đoạn văn",
           "Đáp án đúng thường là paraphrase (diễn đạt lại) chứ không copy nguyên văn",
           "Nếu phân vân giữa 2 đáp án, chọn đáp án cụ thể hơn, ít cực đoan hơn",
-          "Câu hỏi 'most strongly suggests' luôn yêu cầu suy luận GẦN — đừng đi xa khỏi đoạn văn",
-          "Mỗi câu hỏi chỉ có 1 đoạn văn riêng — không liên kết các đoạn với nhau",
+          "Câu hỏi 'most strongly suggests' luôn yêu cầu suy luận GẦN - đừng đi xa khỏi đoạn văn",
+          "Mỗi câu hỏi chỉ có 1 đoạn văn riêng - không liên kết các đoạn với nhau",
         ],
         proTipsEn: [
-          "Never choose an answer just because it 'sounds right' — evidence from the passage is required",
+          "Never choose an answer just because it 'sounds right' - evidence from the passage is required",
           "Correct answers are often paraphrases, not direct quotes",
           "When torn between 2 answers, choose the more specific, less extreme one",
-          "'Most strongly suggests' questions always need a CLOSE inference — don't drift from the text",
-          "Each question has its own standalone passage — don't link multiple passages together",
+          "'Most strongly suggests' questions always need a CLOSE inference - don't drift from the text",
+          "Each question has its own standalone passage - don't link multiple passages together",
         ],
         vocabulary: [
           { word: "evidence", meaning: "bằng chứng", example: "The evidence in the passage supports this conclusion.", partOfSpeech: "noun" },
@@ -253,7 +253,7 @@ Dạng bài **Command of Evidence** chiếm khoảng **12-14%** Reading & Writin
 ### 🔍 Kỹ thuật làm bài "5 giây loại trừ"
 
 1. **Đọc kết luận** trước, **gạch chân từ khóa** (claim words)
-2. **Đọc đáp án** dưới góc nhìn của claim — đáp án phải **trực tiếp** support
+2. **Đọc đáp án** dưới góc nhìn của claim - đáp án phải **trực tiếp** support
 3. **Loại 3 bẫy phổ biến**:
    - 🚫 **Tangent**: liên quan chủ đề nhưng không support claim
    - 🚫 **Reverse**: support kết luận **ngược lại**
@@ -302,7 +302,7 @@ Dạng bài **Command of Evidence** chiếm khoảng **12-14%** Reading & Writin
 ### 🔍 The "5-Second Elimination" Technique
 
 1. **Read the claim** first; **underline keywords** (claim words)
-2. **Read each answer** through the lens of the claim — must **directly** support it
+2. **Read each answer** through the lens of the claim - must **directly** support it
 3. **Eliminate the 3 common traps**:
    - 🚫 **Tangent**: related to the topic but doesn't support the claim
    - 🚫 **Reverse**: supports the **opposite** conclusion
@@ -322,13 +322,13 @@ Dạng bài **Command of Evidence** chiếm khoảng **12-14%** Reading & Writin
 The right answer must **directly compare** new-curriculum schools (A, C: +33, +34) with old (B: +6) → supports "faster". Wrong answers will cite a single isolated number or mention an irrelevant school.`,
         proTips: [
           "Paired questions: trả lời câu hỏi chính trước, sau đó tìm bằng chứng",
-          "Bằng chứng tốt nhất là bằng chứng TRỰC TIẾP hỗ trợ — không gián tiếp",
+          "Bằng chứng tốt nhất là bằng chứng TRỰC TIẾP hỗ trợ - không gián tiếp",
           "Với bảng dữ liệu: kiểm tra cả ROW (hàng) lẫn COLUMN (cột) trước khi chọn",
           "Đề cập 'most directly' = chọn đáp án ngắn gọn, đi thẳng vào vấn đề",
         ],
         proTipsEn: [
           "Paired questions: answer the main question first, then find evidence",
-          "Best evidence DIRECTLY supports the claim — not indirectly",
+          "Best evidence DIRECTLY supports the claim - not indirectly",
           "For data tables: check both ROWS and COLUMNS before answering",
           "When you see 'most directly', pick the most concise, on-point answer",
         ],
@@ -372,7 +372,7 @@ The right answer must **directly compare** new-curriculum schools (A, C: +33, +3
           { question: "What does 'refute' mean?", options: ["Agree", "Disprove", "Summarize", "Expand"], answer: 1, explanation: "'Refute' means to disprove or prove something wrong." },
           { question: "How should you approach paired questions?", options: ["Skip the first question", "Answer the main question first, then find evidence", "Only answer the last question", "Guess both"], answer: 1, explanation: "Answering the main question first helps you know what evidence to look for." },
           { question: "What type of evidence is 'empirical evidence'?", options: ["Based on personal opinion", "Gathered through observation and experiments", "Only from textbooks", "Does not need verification"], answer: 1, explanation: "Empirical evidence is gathered through direct observation or experimentation." },
-          { question: "What characterizes the best evidence on the SAT?", options: ["Indirectly related", "Directly supports the argument", "Contains difficult vocabulary", "Located at the end of the passage"], answer: 1, explanation: "The best evidence must directly support the claim — not indirectly or vaguely." },
+          { question: "What characterizes the best evidence on the SAT?", options: ["Indirectly related", "Directly supports the argument", "Contains difficult vocabulary", "Located at the end of the passage"], answer: 1, explanation: "The best evidence must directly support the claim - not indirectly or vaguely." },
         ],
       },
       {
@@ -383,7 +383,7 @@ The right answer must **directly compare** new-curriculum schools (A, C: +33, +3
         difficulty: "advanced",
         theory: `## Từ vựng trong Ngữ cảnh (Words in Context)
 
-SAT KHÔNG kiểm tra từ vựng đơn lẻ — mà kiểm tra **nghĩa của từ trong ngữ cảnh cụ thể**. Phần lớn từ trong câu hỏi này là **từ quen thuộc** dùng với **nghĩa ít phổ biến**, hoặc từ học thuật mà bạn cần hiểu sắc thái.
+SAT KHÔNG kiểm tra từ vựng đơn lẻ - mà kiểm tra **nghĩa của từ trong ngữ cảnh cụ thể**. Phần lớn từ trong câu hỏi này là **từ quen thuộc** dùng với **nghĩa ít phổ biến**, hoặc từ học thuật mà bạn cần hiểu sắc thái.
 
 <figure>
 <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quy trình Words in Context">
@@ -417,7 +417,7 @@ SAT KHÔNG kiểm tra từ vựng đơn lẻ — mà kiểm tra **nghĩa của t
     </marker>
   </defs>
 </svg>
-<figcaption>Quy trình "Cover-Predict-Match" — chiến thuật vàng cho Words in Context</figcaption>
+<figcaption>Quy trình "Cover-Predict-Match" - chiến thuật vàng cho Words in Context</figcaption>
 </figure>
 
 ### 🎯 Phân loại từ đa nghĩa thường gặp
@@ -441,11 +441,11 @@ SAT KHÔNG kiểm tra từ vựng đơn lẻ — mà kiểm tra **nghĩa của t
 ✅ Nghĩa SAT: "**hoãn lại, gác lại**" → hợp lý với "until next month"
 
 ### ⚠️ Bẫy thường gặp
-- **Đáp án "đẹp" nhất** thường là bẫy — chọn đáp án **chính xác về sắc thái**, không phải đáp án nghe sang
-- **Connotation matters**: "thrifty" (tiết kiệm — tích cực) ≠ "stingy" (keo kiệt — tiêu cực)`,
+- **Đáp án "đẹp" nhất** thường là bẫy - chọn đáp án **chính xác về sắc thái**, không phải đáp án nghe sang
+- **Connotation matters**: "thrifty" (tiết kiệm - tích cực) ≠ "stingy" (keo kiệt - tiêu cực)`,
         theoryEn: `## Words in Context
 
-The SAT does NOT test vocabulary in isolation — it tests **meaning in specific context**. Most words in these questions are **familiar words with less-common meanings**, or academic words where you need to grasp the nuance.
+The SAT does NOT test vocabulary in isolation - it tests **meaning in specific context**. Most words in these questions are **familiar words with less-common meanings**, or academic words where you need to grasp the nuance.
 
 <figure>
 <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Words in Context process">
@@ -479,7 +479,7 @@ The SAT does NOT test vocabulary in isolation — it tests **meaning in specific
     </marker>
   </defs>
 </svg>
-<figcaption>The "Cover-Predict-Match" workflow — gold-standard for Words in Context</figcaption>
+<figcaption>The "Cover-Predict-Match" workflow - gold-standard for Words in Context</figcaption>
 </figure>
 
 ### 🎯 Common Polysemous Words
@@ -503,19 +503,19 @@ The SAT does NOT test vocabulary in isolation — it tests **meaning in specific
 ✅ SAT meaning: "**postpone, set aside**" → logical with "until next month"
 
 ### ⚠️ Common Trap
-- The "fanciest" answer is usually a trap — choose the option that **fits the nuance**, not the impressive-sounding word
-- **Connotation matters**: "thrifty" (frugal — positive) ≠ "stingy" (cheap — negative)`,
+- The "fanciest" answer is usually a trap - choose the option that **fits the nuance**, not the impressive-sounding word
+- **Connotation matters**: "thrifty" (frugal - positive) ≠ "stingy" (cheap - negative)`,
         proTips: [
-          "Thay thế từ gốc bằng từng đáp án — đáp án đúng không thay đổi ý nghĩa câu",
+          "Thay thế từ gốc bằng từng đáp án - đáp án đúng không thay đổi ý nghĩa câu",
           "Từ quen thuộc thường được dùng với nghĩa ít phổ biến hơn trong SAT",
           "Connotation (sắc thái) là chìa khóa: tích cực vs trung tính vs tiêu cực",
-          "Đừng chọn từ 'sang' nhất — chọn từ ĐÚNG sắc thái nhất",
+          "Đừng chọn từ 'sang' nhất - chọn từ ĐÚNG sắc thái nhất",
         ],
         proTipsEn: [
-          "Replace the original word with each option — the correct one doesn't change sentence meaning",
+          "Replace the original word with each option - the correct one doesn't change sentence meaning",
           "Familiar words are often used with less common meanings on the SAT",
           "Connotation is key: positive vs neutral vs negative",
-          "Don't pick the fanciest word — pick the one with the right tone",
+          "Don't pick the fanciest word - pick the one with the right tone",
         ],
         vocabulary: [
           { word: "acute", meaning: "nhạy bén / cấp tính / nghiêm trọng", example: "She has an acute sense of observation.", partOfSpeech: "adjective" },
@@ -557,7 +557,7 @@ The SAT does NOT test vocabulary in isolation — it tests **meaning in specific
           { question: "What is the most effective strategy for Words in Context?", options: ["Memorize the dictionary", "Substitute each option into the sentence and check logic", "Choose the most common meaning", "Ignore the context"], answer: 1, explanation: "Substitution helps you check which meaning fits best in the given context." },
           { question: "What does 'entertain' mean in 'entertain the idea'?", options: ["Amuse", "Consider or contemplate", "Reject", "Present"], answer: 1, explanation: "'Entertain an idea' means to consider or contemplate a possibility." },
           { question: "What does 'currency' mean in 'the idea gained currency'?", options: ["Money", "Widespread acceptance", "Value", "Speed"], answer: 1, explanation: "'Gain currency' means to become widely accepted or popular." },
-          { question: "Why does the SAT use familiar words with uncommon meanings?", options: ["To trick students", "To test real contextual understanding", "Because there aren't enough new words", "To save time"], answer: 1, explanation: "The SAT tests the ability to infer meaning from context — a core reading comprehension skill." },
+          { question: "Why does the SAT use familiar words with uncommon meanings?", options: ["To trick students", "To test real contextual understanding", "Because there aren't enough new words", "To save time"], answer: 1, explanation: "The SAT tests the ability to infer meaning from context - a core reading comprehension skill." },
         ],
       },
       {
@@ -568,7 +568,7 @@ The SAT does NOT test vocabulary in isolation — it tests **meaning in specific
         difficulty: "intermediate",
         theory: `## Quy tắc Tiếng Anh Chuẩn (Standard English Conventions)
 
-Phần này chiếm **~26%** của Reading & Writing (~14 câu / 54 câu). Chủ yếu kiểm tra: ngữ pháp, dấu câu, parallel structure. Tin vui: nhóm chủ đề **HẸP** và lặp đi lặp lại — nắm vững 6 chủ đề dưới đây = "ăn" trọn phần này.
+Phần này chiếm **~26%** của Reading & Writing (~14 câu / 54 câu). Chủ yếu kiểm tra: ngữ pháp, dấu câu, parallel structure. Tin vui: nhóm chủ đề **HẸP** và lặp đi lặp lại - nắm vững 6 chủ đề dưới đây = "ăn" trọn phần này.
 
 <figure>
 <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tần suất các chủ đề Standard English Conventions">
@@ -608,7 +608,7 @@ Phần này chiếm **~26%** của Reading & Writing (~14 câu / 54 câu). Chủ
 | **,** (comma) | Tách item, mệnh đề phụ | I read a book, drank tea, and slept. |
 | **;** (semicolon) | Nối 2 IC* mà không dùng FANBOYS | She studied hard; she passed. |
 | **:** (colon) | Giới thiệu list/giải thích | I love three things: art, music, math. |
-| **—** (em dash) | Chèn giải thích mạnh | Her solution—elegant and bold—worked. |
+| **-** (em dash) | Chèn giải thích mạnh | Her solution-elegant and bold-worked. |
 
 *IC = Independent Clause (mệnh đề độc lập)
 
@@ -630,7 +630,7 @@ Phần này chiếm **~26%** của Reading & Writing (~14 câu / 54 câu). Chủ
 - Tính từ đứng cạnh danh từ nó bổ nghĩa`,
         theoryEn: `## Standard English Conventions
 
-This section is **~26%** of Reading & Writing (~14/54 questions). It tests: grammar, punctuation, parallel structure. Good news: the topic pool is **NARROW** and repetitive — master the 6 topics below and you'll ace this section.
+This section is **~26%** of Reading & Writing (~14/54 questions). It tests: grammar, punctuation, parallel structure. Good news: the topic pool is **NARROW** and repetitive - master the 6 topics below and you'll ace this section.
 
 <figure>
 <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Frequency of Standard English Conventions topics">
@@ -670,7 +670,7 @@ This section is **~26%** of Reading & Writing (~14/54 questions). It tests: gram
 | **,** (comma) | Separate items, dependent clauses | I read a book, drank tea, and slept. |
 | **;** (semicolon) | Joins 2 ICs* without FANBOYS | She studied hard; she passed. |
 | **:** (colon) | Introduces list/explanation | I love three things: art, music, math. |
-| **—** (em dash) | Strong parenthetical insertion | Her solution—elegant and bold—worked. |
+| **-** (em dash) | Strong parenthetical insertion | Her solution-elegant and bold-worked. |
 
 *IC = Independent Clause
 
@@ -691,18 +691,18 @@ This section is **~26%** of Reading & Writing (~14/54 questions). It tests: gram
 - Avoid **dangling modifier**: "Walking down the street, the trees were beautiful." → who's walking?
 - Adjectives sit next to the noun they modify`,
         proTips: [
-          "Tìm chủ ngữ thật — bỏ qua các cụm chèn giữa để tránh lỗi agreement",
-          "Semicolon (;) chỉ nối 2 mệnh đề độc lập — không dùng trước 'because', 'although'",
+          "Tìm chủ ngữ thật - bỏ qua các cụm chèn giữa để tránh lỗi agreement",
+          "Semicolon (;) chỉ nối 2 mệnh đề độc lập - không dùng trước 'because', 'although'",
           "Parallel structure: running, swimming, AND cycling (không phải 'to cycle')",
           "Khi thấy ; trong đáp án, kiểm tra cả 2 vế đều có thể đứng độc lập",
           "Dấu : luôn theo sau IC (mệnh đề độc lập), KHÔNG theo sau verb hoặc preposition",
         ],
         proTipsEn: [
-          "Find the real subject — skip intervening phrases to avoid agreement errors",
-          "Semicolons (;) only join 2 independent clauses — not before 'because', 'although'",
+          "Find the real subject - skip intervening phrases to avoid agreement errors",
+          "Semicolons (;) only join 2 independent clauses - not before 'because', 'although'",
           "Parallel structure: running, swimming, AND cycling (not 'to cycle')",
           "When you see ; in an answer, check both sides could stand alone",
-          "Colons (:) always follow an IC — never after a verb or preposition",
+          "Colons (:) always follow an IC - never after a verb or preposition",
         ],
         vocabulary: [
           { word: "modifier", meaning: "bổ ngữ, từ bổ nghĩa", example: "A dangling modifier creates confusion in a sentence.", partOfSpeech: "noun" },
@@ -765,7 +765,7 @@ Theo phân tích **3000+ câu SAT** (2017-2025), nhóm 100 từ "Tier-1" này xu
 <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Đường cong ghi nhớ Spaced Repetition">
   <rect width="600" height="240" fill="hsl(217 91% 60% / 0.04)" rx="12"/>
   <g font-family="ui-sans-serif, system-ui" font-size="11">
-    <text x="300" y="24" text-anchor="middle" font-weight="700" font-size="14" fill="hsl(220 9% 25%)">Spaced Repetition Curve — Đường cong ghi nhớ</text>
+    <text x="300" y="24" text-anchor="middle" font-weight="700" font-size="14" fill="hsl(220 9% 25%)">Spaced Repetition Curve - Đường cong ghi nhớ</text>
     <line x1="60" y1="200" x2="560" y2="200" stroke="hsl(220 9% 60%)" stroke-width="1.5"/>
     <line x1="60" y1="60" x2="60" y2="200" stroke="hsl(220 9% 60%)" stroke-width="1.5"/>
     <text x="40" y="70" text-anchor="end" fill="hsl(220 9% 50%)">100%</text>
@@ -851,12 +851,12 @@ Based on analysis of **3000+ SAT questions** (2017-2025), this "Tier-1" 100-word
 | Word + active writing/speaking | **90%+** |`,
         proTips: [
           "Mỗi ngày học 5 từ mới + ôn lại 10 từ cũ = 150 từ/tháng",
-          "Dùng từ mới trong câu tự tạo — ghi nhớ sâu hơn 3 lần",
+          "Dùng từ mới trong câu tự tạo - ghi nhớ sâu hơn 3 lần",
           "Học word families giúp \"ăn\" được 4-5 từ với 1 lần học gốc",
         ],
         proTipsEn: [
           "Learn 5 new words + review 10 old ones daily = 150 words/month",
-          "Use new words in self-created sentences — 3x deeper retention",
+          "Use new words in self-created sentences - 3x deeper retention",
           "Studying word families gets you 4-5 words for the effort of 1 root",
         ],
         vocabulary: [
@@ -910,7 +910,7 @@ Based on analysis of **3000+ SAT questions** (2017-2025), this "Tier-1" 100-word
         difficulty: "advanced",
         theory: `## Từ Vựng SAT Tần Suất Cao – Phần 2
 
-Set 2 gồm các từ **tier 2-3**: thường xuất hiện trong đoạn văn về **khoa học tự nhiên** và **lịch sử/triết học** — hai chủ đề chiếm 50% Reading.
+Set 2 gồm các từ **tier 2-3**: thường xuất hiện trong đoạn văn về **khoa học tự nhiên** và **lịch sử/triết học** - hai chủ đề chiếm 50% Reading.
 
 <figure>
 <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cặp từ trái nghĩa SAT">
@@ -952,10 +952,10 @@ Khi gặp từ chưa biết trong bài Reading:
 1. **Đoán nghĩa qua context** (đủ ý chính)
 2. **Note lại từ + câu chứa nó** vào sổ
 3. **Tối hôm đó**: tra từ điển, ghi nghĩa + 1 câu mới
-4. **3 ngày sau**: ôn lại — nếu nhớ → bỏ vào "deck Long-term"`,
+4. **3 ngày sau**: ôn lại - nếu nhớ → bỏ vào "deck Long-term"`,
         theoryEn: `## High-Frequency SAT Words – Set 2
 
-Set 2 contains **tier 2-3** words: frequently appearing in passages about **natural sciences** and **history/philosophy** — the two topics making up 50% of Reading content.
+Set 2 contains **tier 2-3** words: frequently appearing in passages about **natural sciences** and **history/philosophy** - the two topics making up 50% of Reading content.
 
 <figure>
 <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SAT antonym pairs">
@@ -997,7 +997,7 @@ When you encounter an unknown word in Reading:
 1. **Guess meaning from context** (just enough for the gist)
 2. **Note the word + its sentence** in your notebook
 3. **That evening**: dictionary lookup, write meaning + new sentence
-4. **3 days later**: review — if remembered → move to "Long-term deck"`,
+4. **3 days later**: review - if remembered → move to "Long-term deck"`,
         vocabulary: [
           { word: "ephemeral", meaning: "phù du, thoáng qua", example: "Social media fame is often ephemeral.", partOfSpeech: "adjective" },
           { word: "juxtapose", meaning: "đặt cạnh nhau để so sánh", example: "The artist juxtaposed old and new techniques.", partOfSpeech: "verb" },
@@ -1209,7 +1209,7 @@ Root **"spec/spect"** (look):
           { question: "What does the root 'spec' mean?", options: ["Hear", "Write", "Look/See", "Carry"], answer: 2, explanation: "'Spec' means to look or see. Examples: inspect, spectacle, retrospect." },
           { question: "How do 'benevolent' and 'malevolent' differ?", options: ["Prefix: bene (good) vs mal (bad)", "Different suffixes", "Different roots", "Unrelated"], answer: 0, explanation: "Both share the root 'vol' (will) but differ in prefix: bene (good) → kind, mal (bad) → evil." },
           { question: "What does 'preclude' mean?", options: ["Include", "Prevent from happening", "Conclude", "Predict"], answer: 1, explanation: "'Pre-' (before) + 'clud' (close) → to prevent something from happening." },
-          { question: "Why is learning word roots important for the SAT?", options: ["To write more beautifully", "To guess meanings of unknown words in passages", "To speak better", "It's not important"], answer: 1, explanation: "Knowing word roots helps you guess meanings of unfamiliar words — an essential SAT Reading skill." },
+          { question: "Why is learning word roots important for the SAT?", options: ["To write more beautifully", "To guess meanings of unknown words in passages", "To speak better", "It's not important"], answer: 1, explanation: "Knowing word roots helps you guess meanings of unfamiliar words - an essential SAT Reading skill." },
         ],
       },
     ],
@@ -1233,7 +1233,7 @@ Root **"spec/spect"** (look):
         difficulty: "advanced",
         theory: `## Diễn đạt Ý tưởng (Expression of Ideas)
 
-Phần Expression of Ideas chiếm **~20%** Reading & Writing. Đề kiểm tra khả năng **xây dựng đoạn văn hiệu quả** — chọn câu/cụm từ giúp đoạn văn LOGIC, MẠCH LẠC và SÚC TÍCH hơn.
+Phần Expression of Ideas chiếm **~20%** Reading & Writing. Đề kiểm tra khả năng **xây dựng đoạn văn hiệu quả** - chọn câu/cụm từ giúp đoạn văn LOGIC, MẠCH LẠC và SÚC TÍCH hơn.
 
 <figure>
 <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="3 nhánh Expression of Ideas">
@@ -1293,7 +1293,7 @@ SAT **luôn luôn** ưu tiên đáp án **NGẮN NHẤT** mà vẫn đủ ý.
 4. **"Which choice most logically transitions...?"** → Transitions (xem bài Transitions)`,
         theoryEn: `## Expression of Ideas
 
-Expression of Ideas is ~20% of Reading & Writing. It tests your ability to **build effective paragraphs** — choosing the sentence/phrase that makes the paragraph more LOGICAL, COHERENT, and CONCISE.
+Expression of Ideas is ~20% of Reading & Writing. It tests your ability to **build effective paragraphs** - choosing the sentence/phrase that makes the paragraph more LOGICAL, COHERENT, and CONCISE.
 
 <figure>
 <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="3 branches of Expression of Ideas">
@@ -1348,17 +1348,17 @@ The SAT **always** prefers the **SHORTEST** option that fully expresses the idea
 3. **"Which choice best emphasizes/contrasts/synthesizes...?"** → Read the purpose carefully
 4. **"Which choice most logically transitions...?"** → Transitions (see Transitions lesson)`,
         proTips: [
-          "Đọc cả đoạn văn trước khi trả lời — hiểu big picture",
+          "Đọc cả đoạn văn trước khi trả lời - hiểu big picture",
           "Câu thêm vào phải liên kết với câu trước VÀ câu sau",
-          "Chọn đáp án ngắn gọn nhất mà vẫn đủ nghĩa — SAT ưu tiên conciseness",
-          "Loại ngay đáp án có \"due to the fact that\", \"in spite of\" — luôn có cách viết ngắn hơn",
+          "Chọn đáp án ngắn gọn nhất mà vẫn đủ nghĩa - SAT ưu tiên conciseness",
+          "Loại ngay đáp án có \"due to the fact that\", \"in spite of\" - luôn có cách viết ngắn hơn",
           "Câu hỏi 'most logically' = áp dụng Bridge Test (cây cầu giữa câu trước và sau)",
         ],
         proTipsEn: [
-          "Read the full paragraph before answering — understand the big picture",
+          "Read the full paragraph before answering - understand the big picture",
           "Added sentences must connect to BOTH the preceding and following sentences",
-          "Choose the most concise option that conveys full meaning — SAT values conciseness",
-          "Immediately reject options with \"due to the fact that\" or \"in spite of\" — there's always a shorter version",
+          "Choose the most concise option that conveys full meaning - SAT values conciseness",
+          "Immediately reject options with \"due to the fact that\" or \"in spite of\" - there's always a shorter version",
           "'Most logically' = apply the Bridge Test (bridge between before and after)",
         ],
         vocabulary: [
@@ -1388,7 +1388,7 @@ The SAT **always** prefers the **SHORTEST** option that fully expresses the idea
           },
         ],
         quiz: [
-          { question: "What type of writing does the SAT favor?", options: ["Verbose and complex", "Concise yet complete in meaning", "Using many difficult words", "The longer the sentence, the better"], answer: 1, explanation: "The SAT always favors conciseness — expressing ideas fully with the fewest words possible." },
+          { question: "What type of writing does the SAT favor?", options: ["Verbose and complex", "Concise yet complete in meaning", "Using many difficult words", "The longer the sentence, the better"], answer: 1, explanation: "The SAT always favors conciseness - expressing ideas fully with the fewest words possible." },
           { question: "How do 'cohesion' and 'coherence' differ?", options: ["They mean the same thing", "Cohesion = sentence/paragraph links; Coherence = overall logical flow", "Coherence = correct grammar", "No difference"], answer: 1, explanation: "Cohesion is the linking between sentences/paragraphs (micro); coherence is overall logical flow (macro)." },
           { question: "Which word is the opposite of 'verbose'?", options: ["Eloquent", "Succinct", "Elaborate", "Articulate"], answer: 1, explanation: "'Verbose' (wordy) is the opposite of 'succinct' (brief and clear)." },
           { question: "When adding a sentence to a paragraph, what should you check?", options: ["Whether the sentence is long", "Whether it connects to both the preceding AND following sentences", "Whether it has difficult words", "Whether it contains examples"], answer: 1, explanation: "An added sentence must create a logical bridge between the sentence before and after it." },
@@ -1403,7 +1403,7 @@ The SAT **always** prefers the **SHORTEST** option that fully expresses the idea
         difficulty: "advanced",
         theory: `## Tổng hợp Tu từ (Rhetorical Synthesis)
 
-Đây là dạng câu hỏi **mới** và **đặc trưng** của Digital SAT — chiếm khoảng **6-8 câu** mỗi đề. Đề cho **4-6 ghi chú (notes)** về một chủ đề và yêu cầu chọn câu **tổng hợp** thông tin theo một **mục đích cụ thể**.
+Đây là dạng câu hỏi **mới** và **đặc trưng** của Digital SAT - chiếm khoảng **6-8 câu** mỗi đề. Đề cho **4-6 ghi chú (notes)** về một chủ đề và yêu cầu chọn câu **tổng hợp** thông tin theo một **mục đích cụ thể**.
 
 <figure>
 <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quy trình Rhetorical Synthesis">
@@ -1439,19 +1439,19 @@ The SAT **always** prefers the **SHORTEST** option that fully expresses the idea
 >
 > **Goal**: *Emphasize Marie Curie's groundbreaking achievements in science.*
 
-❌ A. *"Marie Curie was born in 1867 in Warsaw."* — không emphasize achievements
-❌ B. *"Marie Curie discovered polonium and radium."* — chỉ 1 thành tựu, chưa đủ "groundbreaking"
-✅ C. *"Marie Curie not only discovered polonium and radium but also became the first person to win Nobel Prizes in two different sciences."* — TỔNG HỢP nhiều thành tựu + nhấn mạnh tính tiên phong
-❌ D. *"Marie Curie's birthplace was Warsaw, Poland."* — sai purpose hoàn toàn
+❌ A. *"Marie Curie was born in 1867 in Warsaw."* - không emphasize achievements
+❌ B. *"Marie Curie discovered polonium and radium."* - chỉ 1 thành tựu, chưa đủ "groundbreaking"
+✅ C. *"Marie Curie not only discovered polonium and radium but also became the first person to win Nobel Prizes in two different sciences."* - TỔNG HỢP nhiều thành tựu + nhấn mạnh tính tiên phong
+❌ D. *"Marie Curie's birthplace was Warsaw, Poland."* - sai purpose hoàn toàn
 
 ### 🚫 4 loại bẫy phổ biến
-1. **Sai sự thật** (factual error) — đáp án viết khác note
-2. **Thiếu purpose** — đúng nhưng không emphasize/compare như đề yêu cầu
-3. **Quá chi tiết** — đáp án chỉ trích 1 fact nhỏ
-4. **Quá chung chung** — đáp án bay xa, không có data từ notes`,
+1. **Sai sự thật** (factual error) - đáp án viết khác note
+2. **Thiếu purpose** - đúng nhưng không emphasize/compare như đề yêu cầu
+3. **Quá chi tiết** - đáp án chỉ trích 1 fact nhỏ
+4. **Quá chung chung** - đáp án bay xa, không có data từ notes`,
         theoryEn: `## Rhetorical Synthesis
 
-This is a **new** and **signature** Digital SAT question type — about **6-8 questions** per test. You're given **4-6 notes** about a topic and must choose the sentence that **synthesizes** the information for a **specific purpose**.
+This is a **new** and **signature** Digital SAT question type - about **6-8 questions** per test. You're given **4-6 notes** about a topic and must choose the sentence that **synthesizes** the information for a **specific purpose**.
 
 <figure>
 <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rhetorical Synthesis workflow">
@@ -1485,16 +1485,16 @@ This is a **new** and **signature** Digital SAT question type — about **6-8 qu
 >
 > **Goal**: *Emphasize Marie Curie's groundbreaking achievements in science.*
 
-❌ A. *"Marie Curie was born in 1867 in Warsaw."* — doesn't emphasize achievements
-❌ B. *"Marie Curie discovered polonium and radium."* — only one achievement, not "groundbreaking" enough
-✅ C. *"Marie Curie not only discovered polonium and radium but also became the first person to win Nobel Prizes in two different sciences."* — SYNTHESIZES multiple achievements + highlights pioneering nature
-❌ D. *"Marie Curie's birthplace was Warsaw, Poland."* — completely wrong purpose
+❌ A. *"Marie Curie was born in 1867 in Warsaw."* - doesn't emphasize achievements
+❌ B. *"Marie Curie discovered polonium and radium."* - only one achievement, not "groundbreaking" enough
+✅ C. *"Marie Curie not only discovered polonium and radium but also became the first person to win Nobel Prizes in two different sciences."* - SYNTHESIZES multiple achievements + highlights pioneering nature
+❌ D. *"Marie Curie's birthplace was Warsaw, Poland."* - completely wrong purpose
 
 ### 🚫 4 Common Trap Types
-1. **Factual error** — answer contradicts the notes
-2. **Missing purpose** — correct but doesn't emphasize/compare as required
-3. **Too narrow** — answer cites just one minor fact
-4. **Too vague** — answer drifts away, no data from notes`,
+1. **Factual error** - answer contradicts the notes
+2. **Missing purpose** - correct but doesn't emphasize/compare as required
+3. **Too narrow** - answer cites just one minor fact
+4. **Too vague** - answer drifts away, no data from notes`,
         vocabulary: [
           { word: "rhetorical", meaning: "tu từ, liên quan đến nghệ thuật diễn đạt", example: "The rhetorical question was meant to provoke thought.", partOfSpeech: "adjective" },
           { word: "synthesis", meaning: "sự tổng hợp", example: "The paper is a synthesis of several research studies.", partOfSpeech: "noun" },
@@ -1537,7 +1537,7 @@ This is a **new** and **signature** Digital SAT question type — about **6-8 qu
         difficulty: "intermediate",
         theory: `## Từ nối & Mạch văn (Transitions & Flow)
 
-Transitions chiếm khoảng **5-7 câu** mỗi đề SAT — và là dạng câu **dễ ghi điểm nhất** nếu bạn nhớ bảng phân loại bên dưới.
+Transitions chiếm khoảng **5-7 câu** mỗi đề SAT - và là dạng câu **dễ ghi điểm nhất** nếu bạn nhớ bảng phân loại bên dưới.
 
 <figure>
 <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phân loại transitions theo mối quan hệ">
@@ -1592,12 +1592,12 @@ Transitions chiếm khoảng **5-7 câu** mỗi đề SAT — và là dạng câ
     <text x="300" y="290" text-anchor="middle" font-size="11" fill="hsl(220 9% 50%)" font-style="italic">→ Chọn transition đúng nhóm. Đừng bao giờ chọn dựa vào "nghe hay"</text>
   </g>
 </svg>
-<figcaption>Bản đồ 6 nhóm transitions — học thuộc 18 từ này = trả lời được mọi câu transition</figcaption>
+<figcaption>Bản đồ 6 nhóm transitions - học thuộc 18 từ này = trả lời được mọi câu transition</figcaption>
 </figure>
 
 ### 🎯 Quy trình 3 bước
-1. Đọc câu **TRƯỚC** chỗ trống — nắm ý
-2. Đọc câu **SAU** chỗ trống — nắm ý
+1. Đọc câu **TRƯỚC** chỗ trống - nắm ý
+2. Đọc câu **SAU** chỗ trống - nắm ý
 3. Hỏi: "Mối quan hệ giữa 2 câu là gì?" → Chọn nhóm transition phù hợp
 
 ### 📝 Ví dụ phân tích
@@ -1619,7 +1619,7 @@ Transitions chiếm khoảng **5-7 câu** mỗi đề SAT — và là dạng câ
 - "Indeed" / "in fact" → KHẲNG ĐỊNH lại + làm sâu hơn (không phải contrast)`,
         theoryEn: `## Transitions & Flow
 
-Transitions account for **5-7 questions** per SAT test — and they're the **easiest points** to grab if you memorize the table below.
+Transitions account for **5-7 questions** per SAT test - and they're the **easiest points** to grab if you memorize the table below.
 
 <figure>
 <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Transition categories by relationship">
@@ -1672,12 +1672,12 @@ Transitions account for **5-7 questions** per SAT test — and they're the **eas
     <text x="300" y="290" text-anchor="middle" font-size="11" fill="hsl(220 9% 50%)" font-style="italic">→ Pick the right group. Never pick based on what "sounds nice"</text>
   </g>
 </svg>
-<figcaption>Map of 6 transition groups — memorize these 18 words to nail every transition question</figcaption>
+<figcaption>Map of 6 transition groups - memorize these 18 words to nail every transition question</figcaption>
 </figure>
 
 ### 🎯 The 3-Step Process
-1. Read the **BEFORE** sentence — get the idea
-2. Read the **AFTER** sentence — get the idea
+1. Read the **BEFORE** sentence - get the idea
+2. Read the **AFTER** sentence - get the idea
 3. Ask: "What's the relationship?" → Pick the matching transition group
 
 ### 📝 Worked Examples

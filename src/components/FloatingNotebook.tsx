@@ -12,22 +12,22 @@ const NOTE_TEMPLATES: { id: string; label: string; subject: string; title: strin
     id: "se-case-study",
     label: "📘 Case Study (SE)",
     subject: "programming",
-    title: "Case Study — [Project Name]",
+    title: "Case Study - [Project Name]",
     html: `<h3>🎯 Context</h3><p>Briefly describe the company, product, and the problem being solved.</p><h3>👥 Team & Stack</h3><ul><li>Team size: </li><li>Tech stack: </li><li>Methodology (Agile/Scrum/Waterfall): </li></ul><h3>🧩 Challenge</h3><p>What technical or business challenge did the team face?</p><h3>🛠️ Solution</h3><ol><li>Approach taken</li><li>Key trade-offs</li><li>Tools / patterns used</li></ol><h3>📊 Outcome</h3><ul><li>Quantitative result (latency, revenue, MAU…)</li><li>Lessons learned</li></ul><h3>🔁 Reflection</h3><p>What would you do differently next time?</p>`,
   },
   {
     id: "se-project-doc",
     label: "📐 Project Documentation",
     subject: "programming",
-    title: "Project Documentation — [Project Name]",
+    title: "Project Documentation - [Project Name]",
     html: `<h2>1. Overview</h2><p>One-paragraph description of the project, target users, and value proposition.</p><h2>2. Goals & Non-Goals</h2><ul><li><strong>Goals:</strong> </li><li><strong>Non-goals:</strong> </li></ul><h2>3. Architecture</h2><p>High-level diagram description (Monolith / Microservices / Serverless). Include components and data flow.</p><h2>4. Tech Stack</h2><table><thead><tr><th>Layer</th><th>Technology</th><th>Why</th></tr></thead><tbody><tr><td>Frontend</td><td></td><td></td></tr><tr><td>Backend</td><td></td><td></td></tr><tr><td>Database</td><td></td><td></td></tr><tr><td>Infra / CI-CD</td><td></td><td></td></tr></tbody></table><h2>5. API Contracts</h2><p>List the main endpoints, request/response schema, and auth rules.</p><h2>6. Risks & Mitigations</h2><ul><li>Risk: → Mitigation: </li></ul><h2>7. Milestones</h2><ol><li>MVP</li><li>Beta</li><li>GA</li></ol>`,
   },
   {
     id: "se-code-review",
     label: "🔍 Code Review Checklist",
     subject: "programming",
-    title: "Code Review — [PR Title]",
-    html: `<h3>✅ Functionality</h3><ul><li>Does the code do what the PR description says?</li><li>Edge cases handled?</li></ul><h3>🧹 Clean Code (SOLID)</h3><ul><li>Single Responsibility respected?</li><li>Naming clear, no dead code?</li></ul><h3>🧪 Tests</h3><ul><li>Unit tests added/updated?</li><li>Test coverage acceptable?</li></ul><h3>🔐 Security</h3><ul><li>Input validated? (OWASP Top 10)</li><li>Secrets not hard-coded?</li></ul><h3>📝 Comments / Suggestions</h3><p>—</p>`,
+    title: "Code Review - [PR Title]",
+    html: `<h3>✅ Functionality</h3><ul><li>Does the code do what the PR description says?</li><li>Edge cases handled?</li></ul><h3>🧹 Clean Code (SOLID)</h3><ul><li>Single Responsibility respected?</li><li>Naming clear, no dead code?</li></ul><h3>🧪 Tests</h3><ul><li>Unit tests added/updated?</li><li>Test coverage acceptable?</li></ul><h3>🔐 Security</h3><ul><li>Input validated? (OWASP Top 10)</li><li>Secrets not hard-coded?</li></ul><h3>📝 Comments / Suggestions</h3><p>-</p>`,
   },
 ];
 import { motion, AnimatePresence } from "framer-motion";
@@ -263,7 +263,7 @@ const FloatingNotebook = () => {
           .eq("id", selectedId)
           .maybeSingle();
         if (remote && lastSyncedUpdatedAt.current && remote.updated_at && remote.updated_at > lastSyncedUpdatedAt.current) {
-          // Newer version exists on server — pull it instead of overwriting.
+          // Newer version exists on server - pull it instead of overwriting.
           skipNextAutoSave.current = true;
           const html = remote.content.includes("<") ? remote.content : `<p>${remote.content}</p>`;
           editor?.commands.setContent(html);
@@ -399,7 +399,7 @@ const FloatingNotebook = () => {
 
   return (
     <>
-      {/* Floating button — hidden when chatbot is open to avoid overlap */}
+      {/* Floating button - hidden when chatbot is open to avoid overlap */}
       {!chatbotOpen && (
         <motion.button
           onClick={() => setOpen(!open)}

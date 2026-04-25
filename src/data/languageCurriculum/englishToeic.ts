@@ -19,7 +19,7 @@ export const toeicModules: LanguageModule[] = [
         titleEn: "Part 1: Photographs",
         level: 1,
         difficulty: "beginner",
-        theory: "**Part 1 - Photographs** (6 câu): Nghe 4 mô tả, chọn mô tả đúng nhất với hình ảnh.\n\n**Chiến lược:**\n1. Quan sát kỹ hình TRƯỚC khi nghe\n2. Chú ý: người, hành động, vị trí, đồ vật\n3. Cẩn thận với **distractor** — từ phát âm gần giống\n4. Loại trừ đáp án sai ngay khi nghe\n\n**Bẫy thường gặp:**\n- Dùng từ có trong hình nhưng mô tả SAI hành động\n- Dùng từ phát âm giống nhau (homophones)\n- Mô tả quá chi tiết hoặc suy luận\n\n**Ví dụ:**\nHình: Một người đang ngồi đọc sách ở công viên\n(A) A woman is reading in a library. ❌ (sai địa điểm)\n(B) A woman is sitting on a bench reading. ✅\n(C) A woman is buying a book. ❌ (sai hành động)\n(D) A woman is sleeping on a bench. ❌ (sai hành động)",
+        theory: "**Part 1 - Photographs** (6 câu): Nghe 4 mô tả, chọn mô tả đúng nhất với hình ảnh.\n\n**Chiến lược:**\n1. Quan sát kỹ hình TRƯỚC khi nghe\n2. Chú ý: người, hành động, vị trí, đồ vật\n3. Cẩn thận với **distractor** - từ phát âm gần giống\n4. Loại trừ đáp án sai ngay khi nghe\n\n**Bẫy thường gặp:**\n- Dùng từ có trong hình nhưng mô tả SAI hành động\n- Dùng từ phát âm giống nhau (homophones)\n- Mô tả quá chi tiết hoặc suy luận\n\n**Ví dụ:**\nHình: Một người đang ngồi đọc sách ở công viên\n(A) A woman is reading in a library. ❌ (sai địa điểm)\n(B) A woman is sitting on a bench reading. ✅\n(C) A woman is buying a book. ❌ (sai hành động)\n(D) A woman is sleeping on a bench. ❌ (sai hành động)",
         theoryEn: "**Part 1 - Photographs** (6 questions): Listen to 4 descriptions, choose the best match.\n\n**Strategy:**\n1. Observe the photo carefully BEFORE listening\n2. Focus on: people, actions, locations, objects\n3. Watch for distractors\n4. Eliminate wrong answers immediately",
         exercises: [
           {
@@ -42,7 +42,7 @@ export const toeicModules: LanguageModule[] = [
         titleEn: "Part 2: Question-Response",
         level: 1,
         difficulty: "beginner",
-        theory: "**Part 2 - Question-Response** (25 câu): Nghe câu hỏi, chọn câu trả lời phù hợp nhất.\n\n**Dạng câu hỏi phổ biến:**\n- **Wh-questions:** Where, When, Who, What, Why, How\n- **Yes/No questions:** Do you...? Is it...? Can we...?\n- **Tag questions:** ..., isn't it? ..., don't you?\n- **Statements/Offers:** Would you like...? Let me...\n\n**Chiến lược:**\n1. Nghe rõ **từ đầu tiên** — xác định loại câu hỏi\n2. Loại trừ đáp án **lặp lại từ** trong câu hỏi (thường là bẫy)\n3. Cẩn thận với câu trả lời **gián tiếp**\n\n**Ví dụ:**\nQ: 'Where is the meeting room?'\n(A) At 3 o'clock. ❌ (trả lời When)\n(B) On the second floor. ✅\n(C) Yes, we had a meeting. ❌ (lặp từ 'meeting')",
+        theory: "**Part 2 - Question-Response** (25 câu): Nghe câu hỏi, chọn câu trả lời phù hợp nhất.\n\n**Dạng câu hỏi phổ biến:**\n- **Wh-questions:** Where, When, Who, What, Why, How\n- **Yes/No questions:** Do you...? Is it...? Can we...?\n- **Tag questions:** ..., isn't it? ..., don't you?\n- **Statements/Offers:** Would you like...? Let me...\n\n**Chiến lược:**\n1. Nghe rõ **từ đầu tiên** - xác định loại câu hỏi\n2. Loại trừ đáp án **lặp lại từ** trong câu hỏi (thường là bẫy)\n3. Cẩn thận với câu trả lời **gián tiếp**\n\n**Ví dụ:**\nQ: 'Where is the meeting room?'\n(A) At 3 o'clock. ❌ (trả lời When)\n(B) On the second floor. ✅\n(C) Yes, we had a meeting. ❌ (lặp từ 'meeting')",
         theoryEn: "**Part 2 - Question-Response** (25 questions): Listen to a question, choose the best response.\n\n**Strategy:**\n1. Focus on the FIRST WORD to identify question type\n2. Eliminate answers that repeat words from the question\n3. Watch for indirect answers",
         exercises: [
           {
@@ -57,7 +57,7 @@ export const toeicModules: LanguageModule[] = [
         ],
         quiz: [
           { question: "In Part 2, what is the most important thing when listening?", options: ["Listen to the whole sentence", "Hear the FIRST WORD clearly", "Listen to the last word", "Predict the answer"], answer: 1, explanation: "The first word identifies the question type (Where → location, When → time, Who → person)." },
-          { question: "When an answer repeats words from the question, you should?", options: ["Choose it immediately", "Be careful — it is often a trap", "Skip it", "Choose if you hear clearly"], answer: 1, explanation: "Answers repeating words from the question are often DISTRACTORS — listen carefully to the meaning." },
+          { question: "When an answer repeats words from the question, you should?", options: ["Choose it immediately", "Be careful - it is often a trap", "Skip it", "Choose if you hear clearly"], answer: 1, explanation: "Answers repeating words from the question are often DISTRACTORS - listen carefully to the meaning." },
         ],
       },
     ],

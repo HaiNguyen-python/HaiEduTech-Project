@@ -20,8 +20,8 @@ const courseData: Record<string, {
   foundation: {
     title: "Tiếng Trung Nền tảng", titleEn: "Foundation Chinese",
     level: "Mới bắt đầu", levelEn: "Beginner",
-    heroDesc: "Từ con số 0 đến giao tiếp cơ bản trong 5 tháng! Khóa học xây dựng nền tảng vững chắc từ Pinyin, thanh điệu đến 300+ chữ Hán thiết yếu — giúp bạn tự tin chào hỏi, mua sắm và hỏi đường bằng tiếng Trung.",
-    heroDescEn: "From zero to basic communication in 5 months! Build a solid foundation from Pinyin, tones to 300+ essential characters — confidently greet, shop and ask directions in Chinese.",
+    heroDesc: "Từ con số 0 đến giao tiếp cơ bản trong 5 tháng! Khóa học xây dựng nền tảng vững chắc từ Pinyin, thanh điệu đến 300+ chữ Hán thiết yếu - giúp bạn tự tin chào hỏi, mua sắm và hỏi đường bằng tiếng Trung.",
+    heroDescEn: "From zero to basic communication in 5 months! Build a solid foundation from Pinyin, tones to 300+ essential characters - confidently greet, shop and ask directions in Chinese.",
     stats: [
       { label: "Chữ Hán cơ bản", labelEn: "Basic characters", value: "300+" },
       { label: "Mẫu hội thoại", labelEn: "Dialogue patterns", value: "50+" },
@@ -30,20 +30,20 @@ const courseData: Record<string, {
     ],
     features: [
       { vi: "Hệ thống Pinyin & 4 thanh điệu chuẩn xác với luyện tập audio hàng ngày", en: "Pinyin system & 4 tones with daily audio practice drills" },
-      { vi: "300+ chữ Hán thiết yếu — ghi nhớ qua phương pháp bộ thủ & liên tưởng", en: "300+ essential characters — memorized through radical & mnemonic methods" },
+      { vi: "300+ chữ Hán thiết yếu - ghi nhớ qua phương pháp bộ thủ & liên tưởng", en: "300+ essential characters - memorized through radical & mnemonic methods" },
       { vi: "50+ mẫu hội thoại thực tế: chào hỏi, mua sắm, ăn uống, hỏi đường", en: "50+ real-world dialogues: greetings, shopping, dining, asking directions" },
       { vi: "Bài tập viết chữ Hán theo nét & thứ tự nét chuẩn", en: "Character writing with correct stroke order" },
-      { vi: "Văn hóa Trung Quốc: phong tục, lễ hội, ứng xử — hiểu để giao tiếp tốt hơn", en: "Chinese culture: customs, festivals, etiquette — understand to communicate better" },
+      { vi: "Văn hóa Trung Quốc: phong tục, lễ hội, ứng xử - hiểu để giao tiếp tốt hơn", en: "Chinese culture: customs, festivals, etiquette - understand to communicate better" },
     ],
     curriculum: [
       { vi: "Tháng 1: Pinyin, thanh điệu & 50 chữ Hán đầu tiên", en: "Month 1: Pinyin, tones & first 50 characters", detail: "Luyện phát âm hàng ngày • Flashcard 每日练习", detailEn: "Daily pronunciation drills • Flashcard 每日练习" },
       { vi: "Tháng 2: Chào hỏi, giới thiệu bản thân, số đếm & thời gian", en: "Month 2: Greetings, self-introduction, numbers & time", detail: "你好、我叫...、几点了？• Roleplay tình huống", detailEn: "你好、我叫...、几点了？• Situational roleplay" },
-      { vi: "Tháng 3: Mua sắm, ăn uống, hỏi đường — giao tiếp du lịch", en: "Month 3: Shopping, dining, directions — travel communication", detail: "多少钱？在哪里？• Thực hành tại nhà hàng Trung", detailEn: "多少钱？在哪里？• Practice at Chinese restaurants" },
+      { vi: "Tháng 3: Mua sắm, ăn uống, hỏi đường - giao tiếp du lịch", en: "Month 3: Shopping, dining, directions - travel communication", detail: "多少钱？在哪里？• Thực hành tại nhà hàng Trung", detailEn: "多少钱？在哪里？• Practice at Chinese restaurants" },
       { vi: "Tháng 4: Ngữ pháp cơ bản & viết câu đơn hoàn chỉnh", en: "Month 4: Basic grammar & complete simple sentences", detail: "的/了/过 • Cấu trúc câu Chủ-Vị-Tân", detailEn: "的/了/过 • SVO sentence structure" },
       { vi: "Tháng 5: Ôn tập tổng hợp & chuẩn bị thi HSK 1", en: "Month 5: Comprehensive review & HSK 1 preparation", detail: "Mock test HSK 1 • Đánh giá đầu ra", detailEn: "HSK 1 mock test • Output assessment" },
     ],
     audience: [
-      { vi: "Người hoàn toàn mới — chưa biết gì về tiếng Trung", en: "Complete beginners — zero Chinese knowledge" },
+      { vi: "Người hoàn toàn mới - chưa biết gì về tiếng Trung", en: "Complete beginners - zero Chinese knowledge" },
       { vi: "Người chuẩn bị du lịch hoặc làm việc tại Trung Quốc/Đài Loan", en: "People planning to travel or work in China/Taiwan" },
       { vi: "Sinh viên muốn bắt đầu học tiếng Trung một cách bài bản", en: "Students wanting to start Chinese systematically" },
     ],
@@ -57,8 +57,8 @@ const courseData: Record<string, {
   hsk: {
     title: "Luyện thi HSK", titleEn: "HSK Preparation",
     level: "HSK 1–6", levelEn: "HSK 1–6",
-    heroDesc: "Chinh phục kỳ thi năng lực Hán ngữ quốc tế HSK — từ HSK 1 (150 từ) đến HSK 6 (5000+ từ). Lộ trình rõ ràng, kho đề thi phong phú và phương pháp ghi nhớ từ vựng khoa học giúp bạn đạt chứng chỉ chắc chắn.",
-    heroDescEn: "Conquer the international HSK Chinese proficiency exam — from HSK 1 (150 words) to HSK 6 (5000+ words). Clear roadmap, extensive test banks and scientific vocabulary methods for guaranteed certification.",
+    heroDesc: "Chinh phục kỳ thi năng lực Hán ngữ quốc tế HSK - từ HSK 1 (150 từ) đến HSK 6 (5000+ từ). Lộ trình rõ ràng, kho đề thi phong phú và phương pháp ghi nhớ từ vựng khoa học giúp bạn đạt chứng chỉ chắc chắn.",
+    heroDescEn: "Conquer the international HSK Chinese proficiency exam - from HSK 1 (150 words) to HSK 6 (5000+ words). Clear roadmap, extensive test banks and scientific vocabulary methods for guaranteed certification.",
     stats: [
       { label: "Từ vựng HSK 6", labelEn: "HSK 6 vocabulary", value: "5000+" },
       { label: "Đề thi luyện tập", labelEn: "Practice tests", value: "200+" },
@@ -92,8 +92,8 @@ const courseData: Record<string, {
   conversational: {
     title: "Tiếng Trung Giao tiếp", titleEn: "Conversational Chinese",
     level: "Tất cả trình độ", levelEn: "All Levels",
-    heroDesc: "Nói tiếng Trung tự tin trong 4 tháng! Khóa học tập trung vào nói và nghe trong tình huống thực tế — du lịch, kinh doanh với đối tác Trung Quốc, và cuộc sống hàng ngày.",
-    heroDescEn: "Speak Chinese confidently in 4 months! Focused on speaking and listening in real situations — travel, business with Chinese partners, and daily life.",
+    heroDesc: "Nói tiếng Trung tự tin trong 4 tháng! Khóa học tập trung vào nói và nghe trong tình huống thực tế - du lịch, kinh doanh với đối tác Trung Quốc, và cuộc sống hàng ngày.",
+    heroDescEn: "Speak Chinese confidently in 4 months! Focused on speaking and listening in real situations - travel, business with Chinese partners, and daily life.",
     stats: [
       { label: "Chủ đề giao tiếp", labelEn: "Conversation topics", value: "30+" },
       { label: "Thời lượng", labelEn: "Duration", value: "4 tháng" },
@@ -108,10 +108,10 @@ const courseData: Record<string, {
       { vi: "Slang, thành ngữ & cách nói tự nhiên trong đời sống hàng ngày", en: "Slang, idioms & natural daily expressions" },
     ],
     curriculum: [
-      { vi: "Tháng 1: Giao tiếp cơ bản — chào hỏi, giới thiệu, mua sắm", en: "Month 1: Basic — greetings, introductions, shopping", detail: "请问...、我要买...、多少钱？", detailEn: "请问...、我要买...、多少钱？" },
-      { vi: "Tháng 2: Du lịch — khách sạn, nhà hàng, phương tiện giao thông", en: "Month 2: Travel — hotels, restaurants, transportation", detail: "我要订房、菜单在哪里？、坐出租车", detailEn: "我要订房、菜单在哪里？、坐出租车" },
-      { vi: "Tháng 3: Công việc — phỏng vấn, họp, email bằng tiếng Trung", en: "Month 3: Work — interviews, meetings, emails in Chinese", detail: "Business Chinese • 商务邮件 • 面试技巧", detailEn: "Business Chinese • 商务邮件 • Interview skills" },
-      { vi: "Tháng 4: Nâng cao — tranh luận, văn hóa, tin tức & chủ đề xã hội", en: "Month 4: Advanced — debates, culture, news & social topics", detail: "Xem tin tức CCTV • Thảo luận thành ngữ", detailEn: "Watch CCTV news • Discuss idioms" },
+      { vi: "Tháng 1: Giao tiếp cơ bản - chào hỏi, giới thiệu, mua sắm", en: "Month 1: Basic - greetings, introductions, shopping", detail: "请问...、我要买...、多少钱？", detailEn: "请问...、我要买...、多少钱？" },
+      { vi: "Tháng 2: Du lịch - khách sạn, nhà hàng, phương tiện giao thông", en: "Month 2: Travel - hotels, restaurants, transportation", detail: "我要订房、菜单在哪里？、坐出租车", detailEn: "我要订房、菜单在哪里？、坐出租车" },
+      { vi: "Tháng 3: Công việc - phỏng vấn, họp, email bằng tiếng Trung", en: "Month 3: Work - interviews, meetings, emails in Chinese", detail: "Business Chinese • 商务邮件 • 面试技巧", detailEn: "Business Chinese • 商务邮件 • Interview skills" },
+      { vi: "Tháng 4: Nâng cao - tranh luận, văn hóa, tin tức & chủ đề xã hội", en: "Month 4: Advanced - debates, culture, news & social topics", detail: "Xem tin tức CCTV • Thảo luận thành ngữ", detailEn: "Watch CCTV news • Discuss idioms" },
     ],
     audience: [
       { vi: "Bất kỳ ai muốn giao tiếp tiếng Trung tự tin và tự nhiên", en: "Anyone wanting confident, natural Chinese communication" },
@@ -245,7 +245,7 @@ const ChineseCourse = () => {
                   {course.testimonials.map((tm, i) => (
                     <div key={i} className="border-l-4 border-red-500/20 pl-4 py-2">
                       <p className="text-secondary-foreground italic leading-relaxed mb-2">"{t(tm.text, tm.textEn)}"</p>
-                      <p className="text-sm text-red-500 font-semibold">— {tm.name}</p>
+                      <p className="text-sm text-red-500 font-semibold">- {tm.name}</p>
                     </div>
                   ))}
                 </div>

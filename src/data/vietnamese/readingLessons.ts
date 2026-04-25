@@ -1,4 +1,4 @@
-// Vietnamese reading comprehension lessons — 20 immersive lessons across 2 modules
+// Vietnamese reading comprehension lessons - 20 immersive lessons across 2 modules
 // Each lesson: 300-500 word narrative, 10+ vocab, 5+ quiz, teacher insight
 import type { VietnameseModule } from "./types";
 
@@ -1058,7 +1058,7 @@ Vietnamese Gen Z isn't a "rootless" generation. They are the "rooted but flying"
   },
 ];
 
-// Module: Đọc hiểu nâng cao — Văn hóa đương đại
+// Module: Đọc hiểu nâng cao - Văn hóa đương đại
 export const advancedReadingModule: VietnameseModule = {
   id: "vn-reading-adv",
   title: "Đọc hiểu nâng cao",

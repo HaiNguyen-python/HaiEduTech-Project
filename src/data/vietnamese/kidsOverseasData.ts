@@ -1,4 +1,4 @@
-// For Vietnamese kids overseas — family vocab, daily greetings, lullabies, simple stories
+// For Vietnamese kids overseas - family vocab, daily greetings, lullabies, simple stories
 export interface KidsLesson {
   id: string;
   emoji: string;

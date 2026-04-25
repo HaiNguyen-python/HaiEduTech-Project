@@ -16,7 +16,7 @@ const completedKey = (moduleId: string) => `haiedu_module_completed_${moduleId}`
 
 /**
  * Mark a lesson as completed locally and, when every lesson in the list is done,
- * award the badge in Supabase (idempotent — duplicates are ignored).
+ * award the badge in Supabase (idempotent - duplicates are ignored).
  */
 export async function trackLessonCompletion(
   moduleId: string,

@@ -261,8 +261,8 @@ const VietnameseAlphabet = () => {
             </h1>
           </div>
           <p className="text-muted-foreground ml-12">
-            {t("29 chữ cái + 6 dấu thanh — bấm vào để nghe phát âm và luyện viết",
-               "29 letters + 6 tone marks — click to hear pronunciation and practice writing")}
+            {t("29 chữ cái + 6 dấu thanh - bấm vào để nghe phát âm và luyện viết",
+               "29 letters + 6 tone marks - click to hear pronunciation and practice writing")}
           </p>
         </motion.div>
 
@@ -316,7 +316,7 @@ const VietnameseAlphabet = () => {
                             {selectedLetter.uppercase} {selectedLetter.letter}
                           </h2>
                           <p className="text-sm text-muted-foreground mt-1">
-                            {t(selectedLetter.name, selectedLetter.nameEn)} — {selectedLetter.ipa}
+                            {t(selectedLetter.name, selectedLetter.nameEn)} - {selectedLetter.ipa}
                           </p>
                         </div>
                         <Button size="icon" variant="outline" onClick={() => playSound(selectedLetter.letter)}>
@@ -458,7 +458,7 @@ const VietnameseAlphabet = () => {
             {t("Những nét đẹp của Việt Nam", "The Beauty of Vietnam")}
           </h2>
           <p className="text-center text-sm text-muted-foreground mb-6 italic">
-            {t("Đất nước con người — từ đồng quê đến thành phố", "Land and people — from countryside to city")}
+            {t("Đất nước con người - từ đồng quê đến thành phố", "Land and people - from countryside to city")}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[

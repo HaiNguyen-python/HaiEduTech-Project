@@ -84,10 +84,10 @@ export const grammarModules: LanguageModule[] = [
             instruction: "Điền đúng dạng động từ vào chỗ trống",
             instructionEn: "Fill in the correct verb form",
             sentences: [
-              { text: "She ___ (go) to school every morning.", textEn: "She ___ (go) to school every morning.", answer: "goes", hint: "Present Simple — thói quen" },
-              { text: "They ___ (study) English right now.", textEn: "They ___ (study) English right now.", answer: "are studying", hint: "Present Continuous — đang xảy ra" },
-              { text: "I ___ (visit) Japan three times.", textEn: "I ___ (visit) Japan three times.", answer: "have visited", hint: "Present Perfect — kinh nghiệm" },
-              { text: "He ___ (not/like) coffee.", textEn: "He ___ (not/like) coffee.", answer: "doesn't like", hint: "Present Simple — sở thích" },
+              { text: "She ___ (go) to school every morning.", textEn: "She ___ (go) to school every morning.", answer: "goes", hint: "Present Simple - thói quen" },
+              { text: "They ___ (study) English right now.", textEn: "They ___ (study) English right now.", answer: "are studying", hint: "Present Continuous - đang xảy ra" },
+              { text: "I ___ (visit) Japan three times.", textEn: "I ___ (visit) Japan three times.", answer: "have visited", hint: "Present Perfect - kinh nghiệm" },
+              { text: "He ___ (not/like) coffee.", textEn: "He ___ (not/like) coffee.", answer: "doesn't like", hint: "Present Simple - sở thích" },
             ],
           },
           {
@@ -102,7 +102,7 @@ export const grammarModules: LanguageModule[] = [
         ],
         quiz: [
           { question: "Choose the correct sentence:", options: ["She go to school every day.", "She goes to school every day.", "She going to school every day.", "She is go to school every day."], answer: 1, explanation: "Present Simple: 3rd person singular adds -s/-es" },
-          { question: "'I ___ (live) here since 2010.' — Choose the correct answer:", options: ["live", "am living", "have lived", "lived"], answer: 2, explanation: "Since + point in time → Present Perfect" },
+          { question: "'I ___ (live) here since 2010.' - Choose the correct answer:", options: ["live", "am living", "have lived", "lived"], answer: 2, explanation: "Since + point in time → Present Perfect" },
           { question: "Which verb is NOT used in continuous tenses?", options: ["run", "swim", "believe", "cook"], answer: 2, explanation: "'Believe' is a stative verb, not used in continuous tenses" },
         ],
       },
@@ -159,8 +159,8 @@ export const grammarModules: LanguageModule[] = [
             instructionEn: "Use the correct past tense",
             sentences: [
               { text: "I ___ (see) that movie last week.", textEn: "I ___ (see) that movie last week.", answer: "saw", hint: "Past Simple" },
-              { text: "She ___ (cook) when the phone rang.", textEn: "She ___ (cook) when the phone rang.", answer: "was cooking", hint: "Past Continuous — bị gián đoạn" },
-              { text: "They ___ (already/finish) dinner before we arrived.", textEn: "They ___ (already/finish) dinner before we arrived.", answer: "had already finished", hint: "Past Perfect — xảy ra trước" },
+              { text: "She ___ (cook) when the phone rang.", textEn: "She ___ (cook) when the phone rang.", answer: "was cooking", hint: "Past Continuous - bị gián đoạn" },
+              { text: "They ___ (already/finish) dinner before we arrived.", textEn: "They ___ (already/finish) dinner before we arrived.", answer: "had already finished", hint: "Past Perfect - xảy ra trước" },
             ],
           },
         ],
@@ -186,7 +186,7 @@ export const grammarModules: LanguageModule[] = [
 ### 2. Be going to
 - **Cấu trúc:** S + am/is/are + going to + V + O
 - **Dùng khi:** kế hoạch đã định, dự đoán có căn cứ
-- VD: *It **is going to** rain — look at those clouds!*
+- VD: *It **is going to** rain - look at those clouds!*
 
 ### 3. Future Continuous
 - **Cấu trúc:** S + will be + V-ing
@@ -209,7 +209,7 @@ export const grammarModules: LanguageModule[] = [
 ### 2. Be going to
 - **Structure:** S + am/is/are + going to + V + O
 - **Usage:** planned actions, evidence-based predictions
-- E.g.: *It **is going to** rain — look at those clouds!*
+- E.g.: *It **is going to** rain - look at those clouds!*
 
 ### 3. Future Continuous
 - **Structure:** S + will be + V-ing
@@ -235,7 +235,7 @@ export const grammarModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'I promise I ___ be late.' — Choose the correct answer:", options: ["am not going to", "won't", "am not", "don't"], answer: 1, explanation: "Promises → use 'will' (won't = will not)" },
+          { question: "'I promise I ___ be late.' - Choose the correct answer:", options: ["am not going to", "won't", "am not", "don't"], answer: 1, explanation: "Promises → use 'will' (won't = will not)" },
           { question: "When do we use 'be going to'?", options: ["Instant decisions", "Promises", "Pre-planned actions", "General truths"], answer: 2, explanation: "'Be going to' is used for pre-planned actions" },
           { question: "This time tomorrow, I ___ on the beach.", options: ["will lie", "will be lying", "am going to lie", "lie"], answer: 1, explanation: "An action in progress at a future time → Future Continuous" },
         ],
@@ -297,9 +297,9 @@ export const grammarModules: LanguageModule[] = [
             instruction: "Chia động từ cho phù hợp với loại câu điều kiện",
             instructionEn: "Use the correct verb form for the conditional type",
             sentences: [
-              { text: "If you ___ (mix) red and blue, you get purple.", textEn: "If you ___ (mix) red and blue, you get purple.", answer: "mix", hint: "Type 0 — sự thật" },
-              { text: "If she ___ (study) hard, she will pass.", textEn: "If she ___ (study) hard, she will pass.", answer: "studies", hint: "Type 1 — có thể xảy ra" },
-              { text: "If I ___ (be) rich, I would travel the world.", textEn: "If I ___ (be) rich, I would travel the world.", answer: "were", hint: "Type 2 — không có thật" },
+              { text: "If you ___ (mix) red and blue, you get purple.", textEn: "If you ___ (mix) red and blue, you get purple.", answer: "mix", hint: "Type 0 - sự thật" },
+              { text: "If she ___ (study) hard, she will pass.", textEn: "If she ___ (study) hard, she will pass.", answer: "studies", hint: "Type 1 - có thể xảy ra" },
+              { text: "If I ___ (be) rich, I would travel the world.", textEn: "If I ___ (be) rich, I would travel the world.", answer: "were", hint: "Type 2 - không có thật" },
             ],
           },
         ],
@@ -353,7 +353,7 @@ export const grammarModules: LanguageModule[] = [
             instruction: "Hoàn thành câu điều kiện loại 3 hoặc Mixed",
             instructionEn: "Complete Type 3 or Mixed conditionals",
             sentences: [
-              { text: "If I ___ (know) about the party, I would have come.", textEn: "If I ___ (know) about the party, I would have come.", answer: "had known", hint: "Type 3 — quá khứ không có thật" },
+              { text: "If I ___ (know) about the party, I would have come.", textEn: "If I ___ (know) about the party, I would have come.", answer: "had known", hint: "Type 3 - quá khứ không có thật" },
               { text: "If she had saved money, she ___ (be) rich now.", textEn: "If she had saved money, she ___ (be) rich now.", answer: "would be", hint: "Mixed: quá khứ → hiện tại" },
             ],
           },
@@ -495,9 +495,9 @@ export const grammarModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "'It is reported that the economy is improving.' — What structure is this?", options: ["Causative", "Passive with reporting verb", "Mixed conditional", "Relative clause"], answer: 1, explanation: "It + be + V3 (reporting verb) + that clause" },
+          { question: "'It is reported that the economy is improving.' - What structure is this?", options: ["Causative", "Passive with reporting verb", "Mixed conditional", "Relative clause"], answer: 1, explanation: "It + be + V3 (reporting verb) + that clause" },
           { question: "'I had my car washed.' means:", options: ["I washed my car", "I had someone wash my car", "My car broke down", "I am washing my car"], answer: 1, explanation: "Causative: have + O + V3 = arrange for someone to do something" },
-          { question: "Convert to passive: 'They gave her a prize.'", options: ["A prize was gave to her.", "She was given a prize.", "Her was given a prize.", "A prize given to her."], answer: 1, explanation: "Passive with two objects — emphasizing the receiver" },
+          { question: "Convert to passive: 'They gave her a prize.'", options: ["A prize was gave to her.", "She was given a prize.", "Her was given a prize.", "A prize given to her."], answer: 1, explanation: "Passive with two objects - emphasizing the receiver" },
         ],
       },
     ],
@@ -709,8 +709,8 @@ Used to identify the noun before them, **no commas**.
             instruction: "Điền đại từ quan hệ phù hợp",
             instructionEn: "Fill in the correct relative pronoun",
             sentences: [
-              { text: "The woman ___ lives next door is a teacher.", textEn: "The woman ___ lives next door is a teacher.", answer: "who", hint: "person — subject" },
-              { text: "The movie ___ we watched was boring.", textEn: "The movie ___ we watched was boring.", answer: "which", hint: "thing — object (or that)" },
+              { text: "The woman ___ lives next door is a teacher.", textEn: "The woman ___ lives next door is a teacher.", answer: "who", hint: "person - subject" },
+              { text: "The movie ___ we watched was boring.", textEn: "The movie ___ we watched was boring.", answer: "which", hint: "thing - object (or that)" },
               { text: "The man ___ car is red is my uncle.", textEn: "The man ___ car is red is my uncle.", answer: "whose", hint: "possession" },
               { text: "The restaurant ___ we had dinner was expensive.", textEn: "The restaurant ___ we had dinner was expensive.", answer: "where", hint: "place" },
             ],
@@ -765,7 +765,7 @@ Add extra information, **with commas**, cannot use **that**.
             instructionEn: "Fill in who or which (non-defining clause)",
             sentences: [
               { text: "My brother, ___ is 25, works at Google.", textEn: "My brother, ___ is 25, works at Google.", answer: "who", hint: "person" },
-              { text: "The Eiffel Tower, ___ is in Paris, attracts millions of visitors.", textEn: "The Eiffel Tower, ___ is in Paris, attracts millions of visitors.", answer: "which", hint: "thing — do not use that" },
+              { text: "The Eiffel Tower, ___ is in Paris, attracts millions of visitors.", textEn: "The Eiffel Tower, ___ is in Paris, attracts millions of visitors.", answer: "which", hint: "thing - do not use that" },
             ],
           },
         ],
@@ -908,7 +908,7 @@ Used when:
         quiz: [
           { question: "Chọn đáp án đúng: '___ honest man'", options: ["A honest man", "An honest man", "The honest man", "Honest man"], answer: 1, explanation: "'Honest' có h câm → bắt đầu bằng nguyên âm → an" },
           { question: "Khi nào KHÔNG dùng mạo từ?", options: ["Trước danh từ đã xác định", "Trước so sánh nhất", "Trước tên ngôn ngữ nói chung", "Trước danh từ duy nhất"], answer: 2, explanation: "Ngôn ngữ nói chung: English, not the English" },
-          { question: "'I need ___ umbrella.' — Đáp án?", options: ["a", "an", "the", "–"], answer: 1, explanation: "Umbrella bắt đầu bằng nguyên âm /ʌ/ → an" },
+          { question: "'I need ___ umbrella.' - Đáp án?", options: ["a", "an", "the", "–"], answer: 1, explanation: "Umbrella bắt đầu bằng nguyên âm /ʌ/ → an" },
         ],
       },
       {
@@ -958,8 +958,8 @@ Used when:
 | **in** | enclosed spaces | in the room, in Vietnam |
 
 ### Common Prepositional Phrases
-- **depend on** — **interested in** — **good at**
-- **afraid of** — **listen to** — **look for** — **look after**`,
+- **depend on** - **interested in** - **good at**
+- **afraid of** - **listen to** - **look for** - **look after**`,
         exercises: [
           {
             type: "fill-in-blank" as const,
@@ -974,9 +974,9 @@ Used when:
           },
         ],
         quiz: [
-          { question: "'I arrived ___ Monday morning.' — Chọn đúng:", options: ["in", "at", "on", "by"], answer: 2, explanation: "Ngày/thứ → on (on Monday)" },
+          { question: "'I arrived ___ Monday morning.' - Chọn đúng:", options: ["in", "at", "on", "by"], answer: 2, explanation: "Ngày/thứ → on (on Monday)" },
           { question: "'She is interested ___ science.'", options: ["on", "at", "in", "of"], answer: 2, explanation: "interested IN = quan tâm đến" },
-          { question: "'at night' nhưng 'in the morning' — tại sao?", options: ["Không có lý do, phải học thuộc", "Night là thời điểm cụ thể, morning là khoảng thời gian", "At dùng cho tối, in dùng cho sáng", "Cả hai đều đúng nếu đổi chỗ"], answer: 1, explanation: "'Night' được coi là thời điểm, còn 'morning/afternoon/evening' là khoảng thời gian → in" },
+          { question: "'at night' nhưng 'in the morning' - tại sao?", options: ["Không có lý do, phải học thuộc", "Night là thời điểm cụ thể, morning là khoảng thời gian", "At dùng cho tối, in dùng cho sáng", "Cả hai đều đúng nếu đổi chỗ"], answer: 1, explanation: "'Night' được coi là thời điểm, còn 'morning/afternoon/evening' là khoảng thời gian → in" },
         ],
       },
     ],

@@ -1,12 +1,12 @@
 // ============================================================
-// HSK Vocabulary Expansion — +300 additional words
+// HSK Vocabulary Expansion - +300 additional words
 // 50 new words per HSK level (1-6), curated to avoid duplicates
 // ============================================================
 import type { HskWord } from "./types";
 
 export const hskExpansionWords: HskWord[] = [
   // ============================================================
-  // HSK 1 EXPANSION (+50 words) — Daily essentials
+  // HSK 1 EXPANSION (+50 words) - Daily essentials
   // ============================================================
   { character: "中午", pinyin: "zhōngwǔ", level: "HSK 1", definition: { vi: "Buổi trưa", en: "Noon" }, example: "中午吃饭。", examplePinyin: "Zhōngwǔ chī fàn.", category: "Time" },
   { character: "白天", pinyin: "báitiān", level: "HSK 1", definition: { vi: "Ban ngày", en: "Daytime" }, example: "白天工作。", examplePinyin: "Báitiān gōngzuò.", category: "Time" },
@@ -107,7 +107,7 @@ export const hskExpansionWords: HskWord[] = [
   { character: "回忆", pinyin: "huíyì", level: "HSK 5", definition: { vi: "Hồi tưởng", en: "Recall" }, example: "回忆过去。", examplePinyin: "Huíyì guòqù.", category: "Actions" },
 
   // ============================================================
-  // HSK 6 EXPANSION (+50 words) — Advanced
+  // HSK 6 EXPANSION (+50 words) - Advanced
   // ============================================================
   { character: "辩证", pinyin: "biànzhèng", level: "HSK 6", definition: { vi: "Biện chứng", en: "Dialectical" }, example: "辩证思维。", examplePinyin: "Biànzhèng sīwéi.", category: "Academic" },
   { character: "范畴", pinyin: "fànchóu", level: "HSK 6", definition: { vi: "Phạm trù", en: "Category" }, example: "属于这个范畴。", examplePinyin: "Shǔyú zhège fànchóu.", category: "Abstract" },
@@ -142,7 +142,7 @@ export const hskExpansionWords: HskWord[] = [
   { character: "震撼", pinyin: "zhènhàn", level: "HSK 6", definition: { vi: "Chấn động", en: "Shake / shock" }, example: "心灵震撼。", examplePinyin: "Xīnlíng zhènhàn.", category: "Emotions" },
   { character: "感慨", pinyin: "gǎnkǎi", level: "HSK 6", definition: { vi: "Cảm khái", en: "Sigh with emotion" }, example: "深有感慨。", examplePinyin: "Shēn yǒu gǎnkǎi.", category: "Emotions" },
   { character: "依恋", pinyin: "yīliàn", level: "HSK 6", definition: { vi: "Quyến luyến", en: "Be attached to" }, example: "依恋家人。", examplePinyin: "Yīliàn jiārén.", category: "Emotions" },
-  // Batch 2 — additional unique words
+  // Batch 2 - additional unique words
   { character: "饭", pinyin: "fàn", level: "HSK 1", definition: { vi: "Cơm", en: "Rice / meal" }, example: "吃饭了。", examplePinyin: "Chī fàn le.", category: "Food & Drink" },
   { character: "水果", pinyin: "shuǐguǒ", level: "HSK 1", definition: { vi: "Trái cây", en: "Fruit" }, example: "水果很甜。", examplePinyin: "Shuǐguǒ hěn tián.", category: "Food & Drink" },
   { character: "香蕉", pinyin: "xiāngjiāo", level: "HSK 1", definition: { vi: "Chuối", en: "Banana" }, example: "香蕉黄色。", examplePinyin: "Xiāngjiāo huángsè.", category: "Food & Drink" },

@@ -1,6 +1,6 @@
 /**
  * @file PtePeak.tsx
- * @description PTE Peak gamification — climber heading toward Band 90 summit.
+ * @description PTE Peak gamification - climber heading toward Band 90 summit.
  *              Reuses MountainClimber visual but with PTE band milestones.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
@@ -20,11 +20,11 @@ interface PtePeakProps {
 // PTE band milestones along the climb
 const PTE_MILESTONES = [
   { tasksRatio: 0.0, band: 30, label: "Base Camp" },
-  { tasksRatio: 0.2, band: 50, label: "Ledge 1 — Band 50" },
-  { tasksRatio: 0.45, band: 65, label: "Ledge 2 — Band 65" },
-  { tasksRatio: 0.7, band: 79, label: "Ledge 3 — Band 79" },
-  { tasksRatio: 0.9, band: 85, label: "Near Summit — Band 85" },
-  { tasksRatio: 1.0, band: 90, label: "Summit — Band 90 🏆" },
+  { tasksRatio: 0.2, band: 50, label: "Ledge 1 - Band 50" },
+  { tasksRatio: 0.45, band: 65, label: "Ledge 2 - Band 65" },
+  { tasksRatio: 0.7, band: 79, label: "Ledge 3 - Band 79" },
+  { tasksRatio: 0.9, band: 85, label: "Near Summit - Band 85" },
+  { tasksRatio: 1.0, band: 90, label: "Summit - Band 90 🏆" },
 ];
 
 const PATH_POINTS = [
@@ -88,7 +88,7 @@ const PtePeak = ({ completed, total }: PtePeakProps) => {
         {currentMilestone.label}
       </div>
       <div className="absolute top-3 left-4 rounded-lg px-3 py-1.5 text-xs font-bold bg-[#003580] text-white shadow">
-        🎯 PTE Peak — Climb to Band 90
+        🎯 PTE Peak - Climb to Band 90
       </div>
     </div>
   );

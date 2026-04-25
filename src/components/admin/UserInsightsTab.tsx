@@ -32,7 +32,7 @@ interface PageView {
 
 const RANGE_DAYS: Record<Range, number> = { "1d": 1, "7d": 7, "30d": 30, "90d": 90, "all": 0 };
 
-// Friendly labels for top routes — used to translate /chinese/hsk-guide → "HSK Guide"
+// Friendly labels for top routes - used to translate /chinese/hsk-guide → "HSK Guide"
 const ROUTE_LABELS: Record<string, { vi: string; en: string; group: string }> = {
   "/": { vi: "Trang chủ", en: "Home", group: "Home" },
   "/home": { vi: "Trang chủ", en: "Home", group: "Home" },
@@ -247,8 +247,8 @@ export default function UserInsightsTab() {
       recs.push({
         type: "grow",
         text: t(
-          `⏱️ Người dùng dành nhiều thời gian trên: ${longPages.map((p) => p.label).join(", ")}. Đây là nội dung "sticky" — hãy nhân rộng.`,
-          `⏱️ Users spend long time on: ${longPages.map((p) => p.label).join(", ")}. These are sticky pages — replicate the format.`,
+          `⏱️ Người dùng dành nhiều thời gian trên: ${longPages.map((p) => p.label).join(", ")}. Đây là nội dung "sticky" - hãy nhân rộng.`,
+          `⏱️ Users spend long time on: ${longPages.map((p) => p.label).join(", ")}. These are sticky pages - replicate the format.`,
         ),
       });
     }
@@ -316,7 +316,7 @@ export default function UserInsightsTab() {
                   <span className="text-xs text-muted-foreground">{s.label}</span>
                 </div>
                 <p className="text-2xl font-bold tabular-nums text-foreground">
-                  {loading ? "—" : s.value}
+                  {loading ? "-" : s.value}
                 </p>
               </CardContent>
             </Card>

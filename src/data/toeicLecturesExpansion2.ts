@@ -5,14 +5,14 @@
  *              ≥6 vocabHighlights và ≥6 quiz questions, kèm SVG diagram riêng.
  *
  * Topics:
- *   1. Part 1 — People & Action focus
- *   2. Part 2 — Tag questions & negative questions
- *   3. Part 3 — Speaker's tone & implication
- *   4. Part 4 — Talks & broadcasts (announcements decoder)
- *   5. Part 5 — Verb tense matrix
- *   6. Part 6 — Sentence insertion
- *   7. Part 7 — Triple passages cross-reference
- *   8. Business Vocabulary — HR & Recruitment
+ *   1. Part 1 - People & Action focus
+ *   2. Part 2 - Tag questions & negative questions
+ *   3. Part 3 - Speaker's tone & implication
+ *   4. Part 4 - Talks & broadcasts (announcements decoder)
+ *   5. Part 5 - Verb tense matrix
+ *   6. Part 6 - Sentence insertion
+ *   7. Part 7 - Triple passages cross-reference
+ *   8. Business Vocabulary - HR & Recruitment
  *
  * @copyright 2026 HaiEduTech
  */
@@ -20,7 +20,7 @@
 import type { ToeicLecture } from "./toeicLecturesData";
 
 // ============================================================
-// 1. Part 1 — People & Action focus
+// 1. Part 1 - People & Action focus
 // ============================================================
 const part1PeopleAction: ToeicLecture = {
   id: "toeic-part1-people-action",
@@ -33,9 +33,9 @@ const part1PeopleAction: ToeicLecture = {
   level: "foundation",
   targetScore: "450+",
   description:
-    "Master the most common Part 1 photo type — people performing workplace actions. Learn to lock onto the subject, the verb, and the object in 4 seconds.",
+    "Master the most common Part 1 photo type - people performing workplace actions. Learn to lock onto the subject, the verb, and the object in 4 seconds.",
   descriptionVi:
-    "Làm chủ dạng ảnh Part 1 phổ biến nhất — người đang làm việc. Học cách 'khóa' chủ ngữ, động từ và tân ngữ trong 4 giây.",
+    "Làm chủ dạng ảnh Part 1 phổ biến nhất - người đang làm việc. Học cách 'khóa' chủ ngữ, động từ và tân ngữ trong 4 giây.",
   trapAlerts: [
     {
       trap: "Multiple people but only one is the subject of the verb",
@@ -58,8 +58,8 @@ const part1PeopleAction: ToeicLecture = {
     {
       trap: "Action verbs that LOOK similar but aren't",
       trapVi: "Động từ trông giống nhưng khác hẳn",
-      why: "'Pouring' (rót xuống) vs. 'sipping' (nhấp ngụm) vs. 'serving' (phục vụ) — all coffee-related.",
-      whyVi: "'Pouring' (rót) vs. 'sipping' (nhấp) vs. 'serving' (phục vụ) — đều liên quan cà phê.",
+      why: "'Pouring' (rót xuống) vs. 'sipping' (nhấp ngụm) vs. 'serving' (phục vụ) - all coffee-related.",
+      whyVi: "'Pouring' (rót) vs. 'sipping' (nhấp) vs. 'serving' (phục vụ) - đều liên quan cà phê.",
     },
   ],
   coreTechnique: [
@@ -123,8 +123,8 @@ const part1PeopleAction: ToeicLecture = {
         "She is opening a refrigerator.",
       ],
       answer: 1,
-      explanation: "'Preparing food' is general enough to cover cutting vegetables — safe correct choice.",
-      explanationVi: "'Preparing food' đủ tổng quát để bao gồm thái rau — đáp án an toàn nhất.",
+      explanation: "'Preparing food' is general enough to cover cutting vegetables - safe correct choice.",
+      explanationVi: "'Preparing food' đủ tổng quát để bao gồm thái rau - đáp án an toàn nhất.",
     },
     {
       context: "Photo: Two men in suits standing face to face, hands joined.",
@@ -220,7 +220,7 @@ const part1PeopleAction: ToeicLecture = {
 };
 
 // ============================================================
-// 2. Part 2 — Tag & Negative questions
+// 2. Part 2 - Tag & Negative questions
 // ============================================================
 const part2TagNegative: ToeicLecture = {
   id: "toeic-part2-tag-negative",
@@ -240,26 +240,26 @@ const part2TagNegative: ToeicLecture = {
     {
       trap: "Treating tag question literally",
       trapVi: "Hiểu câu hỏi đuôi theo nghĩa đen",
-      why: "'You're going, aren't you?' is just 'Are you going?' — answer with Yes/No about going, not about the tag.",
-      whyVi: "'You're going, aren't you?' chính là 'Are you going?' — trả lời Yes/No về việc đi, không phải về đuôi.",
+      why: "'You're going, aren't you?' is just 'Are you going?' - answer with Yes/No about going, not about the tag.",
+      whyVi: "'You're going, aren't you?' chính là 'Are you going?' - trả lời Yes/No về việc đi, không phải về đuôi.",
     },
     {
       trap: "Reversing logic on negative questions",
       trapVi: "Lật ngược logic câu phủ định",
-      why: "'Aren't you tired?' — if you ARE tired, say 'Yes (I am tired)'. The negative form doesn't flip the answer.",
-      whyVi: "'Aren't you tired?' — nếu bạn MỆT, trả lời 'Yes (I am tired)'. Phủ định không đảo đáp án.",
+      why: "'Aren't you tired?' - if you ARE tired, say 'Yes (I am tired)'. The negative form doesn't flip the answer.",
+      whyVi: "'Aren't you tired?' - nếu bạn MỆT, trả lời 'Yes (I am tired)'. Phủ định không đảo đáp án.",
     },
     {
       trap: "Distractor with same tag word",
       trapVi: "Đáp án bẫy chứa từ trong đuôi",
-      why: "Question: 'It is hot, isn't it?' Trap: 'No, it isn't morning.' — uses 'isn't' to confuse you.",
-      whyVi: "Câu hỏi: 'It is hot, isn't it?' Bẫy: 'No, it isn't morning.' — dùng 'isn't' để gây nhầm.",
+      why: "Question: 'It is hot, isn't it?' Trap: 'No, it isn't morning.' - uses 'isn't' to confuse you.",
+      whyVi: "Câu hỏi: 'It is hot, isn't it?' Bẫy: 'No, it isn't morning.' - dùng 'isn't' để gây nhầm.",
     },
     {
       trap: "Indirect agreement responses",
       trapVi: "Đáp án đồng ý gián tiếp",
-      why: "Tag answers may skip Yes/No: 'It sure is.' / 'Definitely.' / 'I think so.' — all valid agreements.",
-      whyVi: "Đáp tag có thể bỏ Yes/No: 'It sure is.' / 'Definitely.' / 'I think so.' — đều đồng ý.",
+      why: "Tag answers may skip Yes/No: 'It sure is.' / 'Definitely.' / 'I think so.' - all valid agreements.",
+      whyVi: "Đáp tag có thể bỏ Yes/No: 'It sure is.' / 'Definitely.' / 'I think so.' - đều đồng ý.",
     },
   ],
   coreTechnique: [
@@ -349,12 +349,12 @@ const part2TagNegative: ToeicLecture = {
   businessContextVi:
     "Câu đuôi và phủ định kiểm tra xác nhận trong hội thoại công việc: họp, lịch, hạn nộp.",
   proSpeedTip:
-    "💡 The moment you hear a tag, mentally turn it into a Yes/No question. Don't translate — STRIP.",
+    "💡 The moment you hear a tag, mentally turn it into a Yes/No question. Don't translate - STRIP.",
   proSpeedTipVi:
-    "💡 Vừa nghe đuôi → ngay lập tức biến thành câu Yes/No trong đầu. Đừng dịch — BỎ ĐUÔI.",
+    "💡 Vừa nghe đuôi → ngay lập tức biến thành câu Yes/No trong đầu. Đừng dịch - BỎ ĐUÔI.",
   vocabHighlights: [
     { word: "definitely", definition: "without doubt", definitionVi: "chắc chắn", example: "Definitely, I'll be there." },
-    { word: "I doubt it", definition: "I don't think so", definitionVi: "tôi nghi vậy", example: "I doubt it — they're closed." },
+    { word: "I doubt it", definition: "I don't think so", definitionVi: "tôi nghi vậy", example: "I doubt it - they're closed." },
     { word: "sure is", definition: "strong yes", definitionVi: "đúng vậy", example: "It sure is hot today." },
     { word: "not really", definition: "softer no", definitionVi: "không hẳn", example: "Not really, only a few." },
     { word: "of course", definition: "obviously yes", definitionVi: "tất nhiên", example: "Of course, I can help." },
@@ -362,13 +362,13 @@ const part2TagNegative: ToeicLecture = {
   ],
   quiz: [
     {
-      question: "'Aren't you ready?' — you ARE ready. Best answer:",
+      question: "'Aren't you ready?' - you ARE ready. Best answer:",
       options: ["No, I'm ready.", "Yes, I'm ready.", "Yes, I'm not.", "No, I'm not ready."],
       answer: 1,
       explanation: "Truth = ready → Yes (regardless of negative question form).",
     },
     {
-      question: "'You signed the form, didn't you?' — you didn't. Best answer:",
+      question: "'You signed the form, didn't you?' - you didn't. Best answer:",
       options: ["Yes, I did.", "No, not yet.", "Didn't I?", "Sure I did."],
       answer: 1,
       explanation: "Truth = not signed → 'No, not yet'.",
@@ -409,7 +409,7 @@ const part2TagNegative: ToeicLecture = {
 };
 
 // ============================================================
-// 3. Part 3 — Speaker tone & implication
+// 3. Part 3 - Speaker tone & implication
 // ============================================================
 const part3Tone: ToeicLecture = {
   id: "toeic-part3-tone",
@@ -554,7 +554,7 @@ const part3Tone: ToeicLecture = {
     "💡 Câu hỏi ý ẩn là câu hỏi NGỮ CẢNH. Nghe phần TRƯỚC câu được hỏi, đừng chỉ nghe mình câu đó.",
   vocabHighlights: [
     { word: "I'd love to, but...", definition: "polite refusal", definitionVi: "từ chối lịch sự", example: "I'd love to, but I'm busy." },
-    { word: "Maybe another time", definition: "polite no", definitionVi: "có thể lúc khác", example: "Maybe another time — I have plans." },
+    { word: "Maybe another time", definition: "polite no", definitionVi: "có thể lúc khác", example: "Maybe another time - I have plans." },
     { word: "Actually...", definition: "introducing correction", definitionVi: "thật ra", example: "Actually, the meeting is at 3." },
     { word: "Honestly...", definition: "stating blunt truth", definitionVi: "thành thật mà nói", example: "Honestly, I disagree." },
     { word: "fair enough", definition: "I accept that", definitionVi: "cũng hợp lý", example: "Fair enough, let's move on." },
@@ -609,7 +609,7 @@ const part3Tone: ToeicLecture = {
 };
 
 // ============================================================
-// 4. Part 4 — Talks & Broadcast (Announcements decoder)
+// 4. Part 4 - Talks & Broadcast (Announcements decoder)
 // ============================================================
 const part4Talks: ToeicLecture = {
   id: "toeic-part4-talks",
@@ -739,9 +739,9 @@ const part4Talks: ToeicLecture = {
   businessContextVi:
     "Bài nói Part 4 mô phỏng thực tế: loa thông báo, quảng cáo, mở đầu khoá học, voicemail.",
   proSpeedTip:
-    "💡 Decide the TALK TYPE in 5 seconds — it tells you what vocabulary and structure to expect.",
+    "💡 Decide the TALK TYPE in 5 seconds - it tells you what vocabulary and structure to expect.",
   proSpeedTipVi:
-    "💡 Quyết định DẠNG BÀI NÓI trong 5 giây — nó báo trước từ vựng và cấu trúc cần nghe.",
+    "💡 Quyết định DẠNG BÀI NÓI trong 5 giây - nó báo trước từ vựng và cấu trúc cần nghe.",
   vocabHighlights: [
     { word: "attention", definition: "request to listen", definitionVi: "chú ý", example: "Attention all staff…", businessContext: "PA announcement" },
     { word: "delayed", definition: "postponed", definitionVi: "trễ/hoãn", example: "The flight is delayed.", businessContext: "travel" },
@@ -785,7 +785,7 @@ const part4Talks: ToeicLecture = {
       question: "Best response when multiple numbers appear:",
       options: ["Pick the loudest", "Match number to question keyword", "Pick the first", "Pick the last"],
       answer: 1,
-      explanation: "Each number has a label — match to the right one.",
+      explanation: "Each number has a label - match to the right one.",
     },
   ],
   cheatSheetPoints: [
@@ -799,7 +799,7 @@ const part4Talks: ToeicLecture = {
 };
 
 // ============================================================
-// 5. Part 5 — Verb Tense Matrix
+// 5. Part 5 - Verb Tense Matrix
 // ============================================================
 const part5VerbTense: ToeicLecture = {
   id: "toeic-part5-verb-tense",
@@ -819,8 +819,8 @@ const part5VerbTense: ToeicLecture = {
     {
       trap: "Time signal hidden at end of sentence",
       trapVi: "Tín hiệu thời gian ẩn cuối câu",
-      why: "'Mr. Lee ___ the report yesterday.' — 'yesterday' at the end forces past simple. Don't rush.",
-      whyVi: "'Mr. Lee ___ the report yesterday.' — 'yesterday' cuối câu ép thì quá khứ đơn. Đừng vội.",
+      why: "'Mr. Lee ___ the report yesterday.' - 'yesterday' at the end forces past simple. Don't rush.",
+      whyVi: "'Mr. Lee ___ the report yesterday.' - 'yesterday' cuối câu ép thì quá khứ đơn. Đừng vội.",
     },
     {
       trap: "Confusing 'for' (duration) with 'since' (start point)",
@@ -922,9 +922,9 @@ const part5VerbTense: ToeicLecture = {
   businessContextVi:
     "Câu thì Part 5 xuất hiện 8-12 lần/đề. Làm chủ tín hiệu giúp tiết kiệm thời gian và tăng độ chính xác.",
   proSpeedTip:
-    "💡 The TIME WORD usually decides the tense — find it FIRST, before reading anything else.",
+    "💡 The TIME WORD usually decides the tense - find it FIRST, before reading anything else.",
   proSpeedTipVi:
-    "💡 TỪ CHỈ THỜI GIAN thường quyết định thì — tìm nó TRƯỚC khi đọc bất cứ gì khác.",
+    "💡 TỪ CHỈ THỜI GIAN thường quyết định thì - tìm nó TRƯỚC khi đọc bất cứ gì khác.",
   vocabHighlights: [
     { word: "since", definition: "from a starting time", definitionVi: "kể từ", example: "Since 2020, prices have risen." },
     { word: "for", definition: "duration of time", definitionVi: "trong khoảng", example: "For 5 hours straight." },
@@ -983,7 +983,7 @@ const part5VerbTense: ToeicLecture = {
 };
 
 // ============================================================
-// 6. Part 6 — Sentence insertion
+// 6. Part 6 - Sentence insertion
 // ============================================================
 const part6Insertion: ToeicLecture = {
   id: "toeic-part6-insertion",
@@ -1003,8 +1003,8 @@ const part6Insertion: ToeicLecture = {
     {
       trap: "Choosing the prettiest-sounding sentence",
       trapVi: "Chọn câu nghe 'hay nhất'",
-      why: "Beautiful prose isn't the goal — COHESION is. The right sentence MUST connect to surrounding ideas.",
-      whyVi: "Câu hay không phải mục tiêu — LIÊN KẾT mới quan trọng. Câu đúng PHẢI nối với ý xung quanh.",
+      why: "Beautiful prose isn't the goal - COHESION is. The right sentence MUST connect to surrounding ideas.",
+      whyVi: "Câu hay không phải mục tiêu - LIÊN KẾT mới quan trọng. Câu đúng PHẢI nối với ý xung quanh.",
     },
     {
       trap: "Repeating info already stated",
@@ -1093,8 +1093,8 @@ const part6Insertion: ToeicLecture = {
         "Our office is closed on Sundays.",
       ],
       answer: 1,
-      explanation: "'However' contrasts the difficulty with commitment — sentence must set up the difficulty.",
-      explanationVi: "'However' đối lập khó khăn với cam kết — câu chèn phải nêu khó khăn.",
+      explanation: "'However' contrasts the difficulty with commitment - sentence must set up the difficulty.",
+      explanationVi: "'However' đối lập khó khăn với cam kết - câu chèn phải nêu khó khăn.",
     },
     {
       context:
@@ -1178,12 +1178,12 @@ const part6Insertion: ToeicLecture = {
 };
 
 // ============================================================
-// 7. Part 7 — Triple passages cross-reference
+// 7. Part 7 - Triple passages cross-reference
 // ============================================================
 const part7TripleCrossRef: ToeicLecture = {
   id: "toeic-part7-triple-cross",
-  title: "Part 7: Triple Passages — Cross-Reference Mastery",
-  titleVi: "Part 7: Bài 3 đoạn — Làm chủ kỹ thuật đối chiếu",
+  title: "Part 7: Triple Passages - Cross-Reference Mastery",
+  titleVi: "Part 7: Bài 3 đoạn - Làm chủ kỹ thuật đối chiếu",
   category: "reading",
   parts: ["Part 7"],
   icon: "🔗",
@@ -1216,8 +1216,8 @@ const part7TripleCrossRef: ToeicLecture = {
     {
       trap: "Name traps across documents",
       trapVi: "Bẫy tên giữa các tài liệu",
-      why: "Mr. Kim writes the email; Mr. Park is the recipient. Question asks about RECIPIENT — find the right name.",
-      whyVi: "Ông Kim viết email; ông Park nhận. Câu hỏi về NGƯỜI NHẬN — tìm đúng tên.",
+      why: "Mr. Kim writes the email; Mr. Park is the recipient. Question asks about RECIPIENT - find the right name.",
+      whyVi: "Ông Kim viết email; ông Park nhận. Câu hỏi về NGƯỜI NHẬN - tìm đúng tên.",
     },
   ],
   coreTechnique: [
@@ -1372,7 +1372,7 @@ const part7TripleCrossRef: ToeicLecture = {
 };
 
 // ============================================================
-// 8. Business Vocabulary — HR & Recruitment
+// 8. Business Vocabulary - HR & Recruitment
 // ============================================================
 const hrRecruitVocab: ToeicLecture = {
   id: "toeic-hr-recruitment-vocab",

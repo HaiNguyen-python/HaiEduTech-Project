@@ -1,6 +1,6 @@
 /**
  * @file vocabularyExpansion.ts
- * @description Massive vocabulary expansion for YKI A2 — Public Services, Emergency, Socializing, Culture/Geography.
+ * @description Massive vocabulary expansion for YKI A2 - Public Services, Emergency, Socializing, Culture/Geography.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  * @license Private / Proprietary - No unauthorized copying or distribution.
@@ -15,8 +15,8 @@ export const finnishVocabExpansionModules: FinnishModule[] = [
     titleEn: "Public Services",
     icon: "🏛️",
     color: "from-blue-600 to-indigo-600",
-    description: "Kela, Posti, TE-toimisto ja muut tärkeät virastot — sanasto ja fraasit.",
-    descriptionEn: "Kela, Post Office, TE Office and other essential public services — vocabulary and phrases.",
+    description: "Kela, Posti, TE-toimisto ja muut tärkeät virastot - sanasto ja fraasit.",
+    descriptionEn: "Kela, Post Office, TE Office and other essential public services - vocabulary and phrases.",
     pillar: "vocabulary",
     lessons: [
       {
@@ -131,8 +131,8 @@ export const finnishVocabExpansionModules: FinnishModule[] = [
     titleEn: "Emergency Situations",
     icon: "🚨",
     color: "from-red-500 to-rose-600",
-    description: "Hätänumero 112, poliisi, palokunta ja ensiapu — kriittiset sanat ja fraasit.",
-    descriptionEn: "Emergency number 112, police, fire department and first aid — critical words and phrases.",
+    description: "Hätänumero 112, poliisi, palokunta ja ensiapu - kriittiset sanat ja fraasit.",
+    descriptionEn: "Emergency number 112, police, fire department and first aid - critical words and phrases.",
     pillar: "vocabulary",
     lessons: [
       {
@@ -301,8 +301,8 @@ export const finnishVocabExpansionModules: FinnishModule[] = [
     titleEn: "Finnish Culture & Geography",
     icon: "🇫🇮",
     color: "from-cyan-500 to-blue-600",
-    description: "Suomalaiset juhlapäivät, perinteet, luonto ja maantiede — kulttuurisanasto.",
-    descriptionEn: "Finnish holidays, traditions, nature and geography — cultural vocabulary.",
+    description: "Suomalaiset juhlapäivät, perinteet, luonto ja maantiede - kulttuurisanasto.",
+    descriptionEn: "Finnish holidays, traditions, nature and geography - cultural vocabulary.",
     pillar: "vocabulary",
     lessons: [
       {

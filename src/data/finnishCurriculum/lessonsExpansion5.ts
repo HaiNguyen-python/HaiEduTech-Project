@@ -1,4 +1,4 @@
-// YKI A2 Finnish — Conversational Real-life Situations (18 lessons)
+// YKI A2 Finnish - Conversational Real-life Situations (18 lessons)
 import type { FinnishModule } from "./types";
 
 export const finnishLessonExpansion5Modules: FinnishModule[] = [
@@ -23,11 +23,11 @@ export const finnishLessonExpansion5Modules: FinnishModule[] = [
 Useful phrases for shopping in a Finnish supermarket. Learn to ask for items, quantities, and understand labels.
 
 **Key vocabulary:**
-- **Kassa** — cashier/checkout
-- **Tarjous** — offer/sale
-- **Hedelmät** — fruits
-- **Vihannekset** — vegetables
-- **Maitohylly** — dairy section`,
+- **Kassa** - cashier/checkout
+- **Tarjous** - offer/sale
+- **Hedelmät** - fruits
+- **Vihannekset** - vegetables
+- **Maitohylly** - dairy section`,
         theoryEn: `### At the Supermarket
 
 Useful phrases for shopping in a Finnish supermarket. Learn to ask for items, quantities, and understand labels.`,
@@ -89,9 +89,9 @@ Useful phrases for shopping in a Finnish supermarket. Learn to ask for items, qu
 Learn to describe symptoms, ask for medication, and understand dosage instructions in Finnish.
 
 **Key phrases:**
-- **Minulla on päänsärkyä** — I have a headache
-- **Tarvitsen lääkettä** — I need medicine
-- **Onko tämä reseptilääke?** — Is this a prescription medicine?`,
+- **Minulla on päänsärkyä** - I have a headache
+- **Tarvitsen lääkettä** - I need medicine
+- **Onko tämä reseptilääke?** - Is this a prescription medicine?`,
         theoryEn: `### At the Pharmacy\n\nLearn to describe symptoms, ask for medication, and understand dosage instructions in Finnish.`,
         dialogues: [
           {
@@ -150,9 +150,9 @@ Learn to describe symptoms, ask for medication, and understand dosage instructio
 Essential phrases for visiting a doctor in Finland. Learn to describe pain, duration of symptoms, and understand medical advice.
 
 **Key structures:**
-- **Minua sattuu tähän** — It hurts here
-- **Olen ollut sairas kolme päivää** — I've been sick for three days
-- **Milloin oireet alkoivat?** — When did the symptoms start?`,
+- **Minua sattuu tähän** - It hurts here
+- **Olen ollut sairas kolme päivää** - I've been sick for three days
+- **Milloin oireet alkoivat?** - When did the symptoms start?`,
         theoryEn: `### At the Doctor's Office\n\nEssential phrases for visiting a doctor in Finland.`,
         dialogues: [
           {
@@ -334,10 +334,10 @@ Learn to send packages, buy stamps, and handle mail in Finnish.`,
 Kela is the Social Insurance Institution of Finland. Learn to apply for benefits, understand forms, and communicate with Kela staff.
 
 **Common Kela services:**
-- **Asumistuki** — housing benefit
-- **Opintotuki** — student benefit
-- **Sairauspäiväraha** — sickness allowance
-- **Työttömyysturva** — unemployment benefit`,
+- **Asumistuki** - housing benefit
+- **Opintotuki** - student benefit
+- **Sairauspäiväraha** - sickness allowance
+- **Työttömyysturva** - unemployment benefit`,
         theoryEn: `### At Kela (Social Insurance)\n\nKela is Finland's Social Insurance Institution. Learn essential vocabulary and phrases for Kela services.`,
         dialogues: [
           {
@@ -499,7 +499,7 @@ Coffee culture is central to Finnish life. Learn to order, chat, and enjoy a caf
         ],
         quiz: [
           { question: "Mitä 'ruokalista' tarkoittaa?", options: ["Shopping list", "Menu", "Recipe", "Bill"], answer: 1, explanation: "Ruokalista = menu (thực đơn)" },
-          { question: "Miten tilaat ravintolassa?", options: ["Otan tämän", "Annan tämän", "Vien tämän", "Teen tämän"], answer: 0, explanation: "'Otan tämän' = I'll take this — common way to order" },
+          { question: "Miten tilaat ravintolassa?", options: ["Otan tämän", "Annan tämän", "Vien tämän", "Teen tämän"], answer: 0, explanation: "'Otan tämän' = I'll take this - common way to order" },
           { question: "Mikä on 'lohikeitto'?", options: ["Fish soup", "Salmon soup", "Chicken soup", "Vegetable soup"], answer: 1, explanation: "Lohikeitto = salmon soup (súp cá hồi)" },
           { question: "Pitääkö Suomessa antaa tippiä?", options: ["Aina", "Joskus", "Ei ole pakollista", "Kyllä, 20%"], answer: 2, explanation: "Tipping is not mandatory (not required) in Finland" },
           { question: "Mitä 'erikoisruokavalio' tarkoittaa?", options: ["Regular menu", "Special diet", "Children's menu", "Lunch offer"], answer: 1, explanation: "Erikoisruokavalio = special diet (chế độ ăn đặc biệt)" },
@@ -661,7 +661,7 @@ Coffee culture is central to Finnish life. Learn to order, chat, and enjoy a caf
           { question: "Mitä 'kuntosali' tarkoittaa?", options: ["Swimming pool", "Gym", "Stadium", "Park"], answer: 1, explanation: "Kuntosali = gym (phòng gym)" },
           { question: "Mikä on 'uimahalli'?", options: ["Lake", "Beach", "Swimming pool", "Water park"], answer: 2, explanation: "Uimahalli = swimming pool (bể bơi)" },
           { question: "Miten sanot 'I swim'?", options: ["Uin", "Juoksen", "Kävelen", "Harjoittelen"], answer: 0, explanation: "Uin = I swim" },
-          { question: "Mikä on 'sauna'?", options: ["Shower", "Sauna", "Bath", "Hot tub"], answer: 1, explanation: "Sauna is a Finnish invention — a steam bath" },
+          { question: "Mikä on 'sauna'?", options: ["Shower", "Sauna", "Bath", "Hot tub"], answer: 1, explanation: "Sauna is a Finnish invention - a steam bath" },
           { question: "Mitä 'venyttely' tarkoittaa?", options: ["Running", "Lifting", "Stretching", "Swimming"], answer: 2, explanation: "Venyttely = stretching (giãn cơ)" },
         ],
       },
@@ -791,7 +791,7 @@ Coffee culture is central to Finnish life. Learn to order, chat, and enjoy a caf
         icon: "🌦️",
         level: "A2",
         theory: `### Säästä puhuminen (Talking About Weather)\n\nWeather talk is essential in Finland! Learn seasons, temperatures, and weather small talk.`,
-        theoryEn: `### Talking About Weather\n\nWeather is a universal topic in Finland — learn essential weather vocabulary.`,
+        theoryEn: `### Talking About Weather\n\nWeather is a universal topic in Finland - learn essential weather vocabulary.`,
         dialogues: [
           {
             situation: "Sääjuttu naapurin kanssa",

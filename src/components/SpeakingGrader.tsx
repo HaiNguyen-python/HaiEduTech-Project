@@ -306,7 +306,7 @@ const SpeakingGrader = () => {
             <span
               key={i}
               className={`${errorColors[seg.error.type] || "bg-muted"} px-0.5 rounded cursor-help relative group`}
-              title={`${seg.error.type}: ${seg.error.correction} — ${seg.error.explanation}`}
+              title={`${seg.error.type}: ${seg.error.correction} - ${seg.error.explanation}`}
             >
               {seg.text}
               <span className="hidden group-hover:block absolute bottom-full left-0 bg-popover text-popover-foreground text-xs p-2 rounded-lg shadow-lg border border-border z-10 min-w-[200px] max-w-[300px]">

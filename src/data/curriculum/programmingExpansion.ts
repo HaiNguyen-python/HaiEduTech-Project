@@ -87,14 +87,14 @@ for e in team: print(e)
 
 - ✅ Dự án có **nhiều thực thể có hành vi**: game, ORM, framework.
 - ✅ Cần **mở rộng nhiều phiên bản** (PaymentGateway → Stripe/Paddle/MoMo).
-- ❌ Script ETL ngắn 100 dòng — function thường là đủ.
-- ❌ Data processing — \`pandas\`/\`polars\` đã đủ, đừng wrap class vô nghĩa.
+- ❌ Script ETL ngắn 100 dòng - function thường là đủ.
+- ❌ Data processing - \`pandas\`/\`polars\` đã đủ, đừng wrap class vô nghĩa.
 
 ## 8. 📌 Tóm tắt 30 giây
 
-OOP nâng cao = **encapsulation + inheritance + polymorphism + abstraction** + magic methods. Ưu tiên **composition**, dùng \`@dataclass\` cho data class, \`Protocol\` cho duck typing có hint. Đừng kế thừa quá 3 tầng. OOP đúng chỗ là vũ khí — sai chỗ là gánh nặng.
+OOP nâng cao = **encapsulation + inheritance + polymorphism + abstraction** + magic methods. Ưu tiên **composition**, dùng \`@dataclass\` cho data class, \`Protocol\` cho duck typing có hint. Đừng kế thừa quá 3 tầng. OOP đúng chỗ là vũ khí - sai chỗ là gánh nặng.
 `,
-        theoryEn: `**Inheritance** and **Polymorphism** are two of OOP's four pillars (with Encapsulation and Abstraction). They enable code reuse and system extensibility without breaking existing code — the Open/Closed principle of SOLID.
+        theoryEn: `**Inheritance** and **Polymorphism** are two of OOP's four pillars (with Encapsulation and Abstraction). They enable code reuse and system extensibility without breaking existing code - the Open/Closed principle of SOLID.
 
 ## Why Inheritance?
 
@@ -130,7 +130,7 @@ class Developer(Employee):            # Child / Subclass
 
 Python supports multiple inheritance (unlike Java) but watch for the **diamond problem**.
 
-## Polymorphism — Same interface, different behavior
+## Polymorphism - Same interface, different behavior
 
 \`\`\`python
 def make_them_work(employees: list[Employee]):
@@ -138,7 +138,7 @@ def make_them_work(employees: list[Employee]):
         print(emp.work())   # Calls correct version automatically
 \`\`\`
 
-**Duck Typing** (Pythonic): "If it walks like a duck..." — no inheritance required, just matching methods.
+**Duck Typing** (Pythonic): "If it walks like a duck..." - no inheritance required, just matching methods.
 
 ## Abstract Classes
 
@@ -159,7 +159,7 @@ Forces children to implement specified methods.
 | Coupling | Tight | Loose |
 | Recommendation | When relationship is clear | Default preference |
 
-> **Composition over Inheritance** — GoF Design Patterns principle.
+> **Composition over Inheritance** - GoF Design Patterns principle.
 
 ## Real-world: Django ORM
 
@@ -186,7 +186,7 @@ Django models inherit from \`models.Model\` → gain \`save()\`, \`delete()\`, q
 
 ## Bridge
 
-Next: **Decorators & Generators** — high-level Python tools for elegant, performant code beyond traditional OOP.`,
+Next: **Decorators & Generators** - high-level Python tools for elegant, performant code beyond traditional OOP.`,
         code: `class Animal:
     def __init__(self, name):
         self.name = name
@@ -229,7 +229,7 @@ for animal in animals:
         id: "py-dec-1",
         title: "Decorators",
         titleEn: "Decorators",
-        theory: `**Decorator** giống như **giấy gói quà sinh nhật** — bạn không sửa món quà bên trong, chỉ thêm lớp giấy đẹp ở ngoài. Trong Python, decorator cho phép bạn **thêm chức năng cho function mà không sửa code gốc** — hiện thân của nguyên tắc Open/Closed (mở để mở rộng, đóng để sửa đổi).
+        theory: `**Decorator** giống như **giấy gói quà sinh nhật** - bạn không sửa món quà bên trong, chỉ thêm lớp giấy đẹp ở ngoài. Trong Python, decorator cho phép bạn **thêm chức năng cho function mà không sửa code gốc** - hiện thân của nguyên tắc Open/Closed (mở để mở rộng, đóng để sửa đổi).
 
 ## 1. 🚦 Vấn đề đời thường
 
@@ -241,11 +241,11 @@ Bạn có 50 API endpoint trong project FastAPI. Mỗi endpoint cần:
 
 Cách "ngu ngốc": copy-paste code log/auth/cache vào **50 chỗ** → 50 lần sửa khi đổi logic. 💀
 
-Cách Pythonic: viết **1 decorator**, dùng \\\`@auth\\\`, \\\`@log\\\`, \\\`@cache\\\` — sạch và DRY.
+Cách Pythonic: viết **1 decorator**, dùng \\\`@auth\\\`, \\\`@log\\\`, \\\`@cache\\\` - sạch và DRY.
 
 ## 2. 💡 Cơ chế: Function là "first-class citizen"
 
-Trong Python, function là **object** — gán vào biến, truyền làm tham số, return từ function khác:
+Trong Python, function là **object** - gán vào biến, truyền làm tham số, return từ function khác:
 
 \\\`\\\`\\\`python
 def greet(name):
@@ -278,7 +278,7 @@ def add(a, b):
 # add(2, 3) tương đương add = log_calls(add); add(2, 3)
 \\\`\\\`\\\`
 
-\\\`@functools.wraps\\\` **rất quan trọng** — không có nó, \\\`add.__name__\\\` sẽ thành \\\`"wrapper"\\\`, làm hỏng debugging và introspection.
+\\\`@functools.wraps\\\` **rất quan trọng** - không có nó, \\\`add.__name__\\\` sẽ thành \\\`"wrapper"\\\`, làm hỏng debugging và introspection.
 
 ## 4. 🎁 Decorator có tham số
 
@@ -302,21 +302,21 @@ def call_api():
     return requests.get("https://api.example.com").json()
 \\\`\\\`\\\`
 
-3 tầng function: **factory → decorator → wrapper**. Khó nhớ lúc đầu — đọc 5 lần là quen.
+3 tầng function: **factory → decorator → wrapper**. Khó nhớ lúc đầu - đọc 5 lần là quen.
 
 ## 5. 🛠️ 5 use case thường gặp
 
-1. **Logging** — log mỗi function call.
-2. **Authentication** — check token trước khi chạy endpoint.
-3. **Caching** — \\\`@functools.lru_cache(maxsize=128)\\\` cho function pure.
-4. **Timing / profiling** — đo thời gian chạy.
-5. **Validation** — check input trước khi chạy.
+1. **Logging** - log mỗi function call.
+2. **Authentication** - check token trước khi chạy endpoint.
+3. **Caching** - \\\`@functools.lru_cache(maxsize=128)\\\` cho function pure.
+4. **Timing / profiling** - đo thời gian chạy.
+5. **Validation** - check input trước khi chạy.
 
 Một số decorator built-in **PHẢI biết**:
-- \\\`@property\\\` — biến method thành attribute.
-- \\\`@classmethod\\\` / \\\`@staticmethod\\\` — method không cần self.
-- \\\`@functools.lru_cache\\\` — memoize function pure.
-- \\\`@dataclass\\\` — auto generate \\\`__init__\\\`, \\\`__repr__\\\`, \\\`__eq__\\\`.
+- \\\`@property\\\` - biến method thành attribute.
+- \\\`@classmethod\\\` / \\\`@staticmethod\\\` - method không cần self.
+- \\\`@functools.lru_cache\\\` - memoize function pure.
+- \\\`@dataclass\\\` - auto generate \\\`__init__\\\`, \\\`__repr__\\\`, \\\`__eq__\\\`.
 
 ## 6. ⚠️ Bẫy thường gặp
 
@@ -329,29 +329,29 @@ Bẫy khác:
 
 ## 7. 🎯 Best practice của thầy Hải
 
-1. **LUÔN \\\`@functools.wraps\\\`** — không có ngoại lệ.
-2. Decorator **làm 1 việc duy nhất** (Single Responsibility) — log riêng, cache riêng, auth riêng.
-3. Stateless > stateful — tránh global mutation.
+1. **LUÔN \\\`@functools.wraps\\\`** - không có ngoại lệ.
+2. Decorator **làm 1 việc duy nhất** (Single Responsibility) - log riêng, cache riêng, auth riêng.
+3. Stateless > stateful - tránh global mutation.
 4. Nếu cần param → cấu trúc 3 tầng (factory → decorator → wrapper).
-5. Test decorator **độc lập** — viết unit test cho riêng nó.
+5. Test decorator **độc lập** - viết unit test cho riêng nó.
 6. Document rõ: tham số, side effect, exception có thể raise.
 
-> 💡 **Mẹo của thầy Hải:** Trước khi tự viết decorator, check \\\`functools\\\` và \\\`itertools\\\` — Python đã build-in 80% case bạn cần (\\\`lru_cache\\\`, \\\`partial\\\`, \\\`reduce\\\`, \\\`wraps\\\`).
+> 💡 **Mẹo của thầy Hải:** Trước khi tự viết decorator, check \\\`functools\\\` và \\\`itertools\\\` - Python đã build-in 80% case bạn cần (\\\`lru_cache\\\`, \\\`partial\\\`, \\\`reduce\\\`, \\\`wraps\\\`).
 
 ## 8. ✅ Tóm tắt 30 giây
 
-- Decorator = **lớp giấy gói quà** — thêm chức năng mà không sửa function gốc.
+- Decorator = **lớp giấy gói quà** - thêm chức năng mà không sửa function gốc.
 - Cơ chế: **nhận function, return function mới**.
 - Pattern chuẩn: \\\`functools.wraps\\\` + \\\`*args, **kwargs\\\` trong wrapper.
 - 3 tầng cho decorator có param.
 - Use case: log, auth, cache, timing, validation.
-- Single Responsibility — mỗi decorator 1 việc.
+- Single Responsibility - mỗi decorator 1 việc.
 `,
-        theoryEn: `**Decorator** is one of Python's most powerful features — it adds functionality to functions/classes **without modifying source** (Open/Closed principle).
+        theoryEn: `**Decorator** is one of Python's most powerful features - it adds functionality to functions/classes **without modifying source** (Open/Closed principle).
 
 ## Why Decorators?
 
-50 API endpoints needing logging, auth, caching? Without decorators: copy-paste 50 times. With decorators: \`@auth\`, \`@log\`, \`@cache\` — clean and DRY.
+50 API endpoints needing logging, auth, caching? Without decorators: copy-paste 50 times. With decorators: \`@auth\`, \`@log\`, \`@cache\` - clean and DRY.
 
 ## Mechanism: Functions are First-class
 
@@ -380,7 +380,7 @@ def log_calls(func):
 def add(a, b): return a + b
 \`\`\`
 
-Without \`@functools.wraps\`, \`add.__name__\` becomes \`"wrapper"\` — breaks debugging.
+Without \`@functools.wraps\`, \`add.__name__\` becomes \`"wrapper"\` - breaks debugging.
 
 ## Parametrized Decorators
 
@@ -437,7 +437,7 @@ A fintech startup added \`@lru_cache(maxsize=10000)\` to \`get_exchange_rate()\`
 
 ## Bridge
 
-Next: **Generators** — process huge datasets without loading into RAM.`,
+Next: **Generators** - process huge datasets without loading into RAM.`,
         code: `import time
 
 def timer(func):
@@ -468,7 +468,7 @@ print(f"Result: {result}")`,
         id: "py-gen-1",
         title: "Generators & Yield",
         titleEn: "Generators & Yield",
-        theory: `**Generator** giống như **máy ATM** — bạn rút **từng tờ tiền khi cần**, chứ không phải đem về cả két 1 tỷ rồi mới đếm. Đây là chìa khoá xử lý dữ liệu lớn (hàng tỷ record) trên RAM hạn chế.
+        theory: `**Generator** giống như **máy ATM** - bạn rút **từng tờ tiền khi cần**, chứ không phải đem về cả két 1 tỷ rồi mới đếm. Đây là chìa khoá xử lý dữ liệu lớn (hàng tỷ record) trên RAM hạn chế.
 
 ## 1. 🚦 Vấn đề đời thường
 
@@ -511,9 +511,9 @@ print(next(g))  # "After yield 2" → 3
 print(next(g))  # StopIteration exception
 \\\`\\\`\\\`
 
-Mỗi \\\`next()\\\` chạy đến \\\`yield\\\` tiếp theo rồi **dừng** — như "tạm dừng thời gian". Cực kỳ tiết kiệm RAM.
+Mỗi \\\`next()\\\` chạy đến \\\`yield\\\` tiếp theo rồi **dừng** - như "tạm dừng thời gian". Cực kỳ tiết kiệm RAM.
 
-## 3. ⚡ Generator Expression — One-liner
+## 3. ⚡ Generator Expression - One-liner
 
 \\\`\\\`\\\`python
 # List comprehension (tạo full list ngay)
@@ -523,7 +523,7 @@ squares_list = [x**2 for x in range(1_000_000)]   # ~32MB RAM
 squares_gen = (x**2 for x in range(1_000_000))    # ~200 bytes!
 \\\`\\\`\\\`
 
-Chỉ khác \\\`[]\\\` → \\\`()\\\` — nhưng tiết kiệm RAM **hàng nghìn lần**.
+Chỉ khác \\\`[]\\\` → \\\`()\\\` - nhưng tiết kiệm RAM **hàng nghìn lần**.
 
 ## 4. ⚖️ Generator vs List
 
@@ -538,7 +538,7 @@ Chỉ khác \\\`[]\\\` → \\\`()\\\` — nhưng tiết kiệm RAM **hàng nghì
 
 > 💡 **Mẹo của thầy Hải:** Mặc định **dùng generator** cho mọi pipeline xử lý data. Chỉ chuyển sang list khi **cần index, len, hoặc lặp nhiều lần**.
 
-## 5. 🔗 \\\`yield from\\\` — Delegate generator
+## 5. 🔗 \\\`yield from\\\` - Delegate generator
 
 \\\`\\\`\\\`python
 def small_gen():
@@ -554,15 +554,15 @@ def big_gen():
 list(big_gen())  # [1, 2, 3, 1, 2, 3, 99]
 \\\`\\\`\\\`
 
-Gộp nhiều generator thành 1 — sạch hơn nested for loop.
+Gộp nhiều generator thành 1 - sạch hơn nested for loop.
 
 ## 6. 🛠️ 5 use case kinh điển
 
-1. **Đọc file lớn** — log, CSV nhiều GB.
-2. **Stream từ API** với pagination — \\\`yield\\\` từng trang.
-3. **Pipeline ETL** — chain nhiều generator: extract → transform → load.
-4. **Infinite sequence** — Fibonacci, prime number.
-5. **Memory-efficient batch** trong ML — feed batch cho neural network.
+1. **Đọc file lớn** - log, CSV nhiều GB.
+2. **Stream từ API** với pagination - \\\`yield\\\` từng trang.
+3. **Pipeline ETL** - chain nhiều generator: extract → transform → load.
+4. **Infinite sequence** - Fibonacci, prime number.
+5. **Memory-efficient batch** trong ML - feed batch cho neural network.
 
 \\\`\\\`\\\`python
 def etl_pipeline(filepath):
@@ -579,7 +579,7 @@ for record in etl_pipeline("orders.csv"):
 
 ## 7. ⚠️ Bẫy thường gặp & 🎯 Best practice
 
-> ⚠️ **Cảnh báo:** Bẫy số 1: **dùng generator 2 lần**. Generator **chỉ chạy được 1 lần** — lần 2 trả về rỗng. Nếu cần lặp 2 lần → \\\`list()\\\` nó hoặc gọi function tạo generator mới.
+> ⚠️ **Cảnh báo:** Bẫy số 1: **dùng generator 2 lần**. Generator **chỉ chạy được 1 lần** - lần 2 trả về rỗng. Nếu cần lặp 2 lần → \\\`list()\\\` nó hoặc gọi function tạo generator mới.
 
 \\\`\\\`\\\`python
 gen = (x for x in range(5))
@@ -604,10 +604,10 @@ Best practice của thầy Hải:
 - Generator = **máy ATM**, sản sinh giá trị **từng cái khi cần** (lazy).
 - Cơ chế: \\\`yield\\\` đóng băng trạng thái, \\\`next()\\\` mở băng.
 - Tiết kiệm RAM **hàng nghìn lần** so với list.
-- **Chỉ tiêu thụ được 1 lần** — đây là bẫy phổ biến nhất.
+- **Chỉ tiêu thụ được 1 lần** - đây là bẫy phổ biến nhất.
 - Default cho data pipeline; convert sang list chỉ khi cần index/len/lặp lại.
 `,
-        theoryEn: `**Generators** use \`yield\` instead of \`return\` to produce values **lazily** — only computed when needed. The key to processing massive datasets on limited RAM.
+        theoryEn: `**Generators** use \`yield\` instead of \`return\` to produce values **lazily** - only computed when needed. The key to processing massive datasets on limited RAM.
 
 ## The Problem They Solve
 
@@ -635,7 +635,7 @@ next(g)  # 2 (resumes after yield 1)
 
 \`\`\`python
 squares = (x**2 for x in range(1_000_000))   # ~200 bytes
-# vs [x**2 for x in range(1_000_000)] — ~32MB
+# vs [x**2 for x in range(1_000_000)] - ~32MB
 \`\`\`
 
 ## Generator vs List
@@ -654,9 +654,9 @@ squares = (x**2 for x in range(1_000_000))   # ~200 bytes
 errors = filter_errors(parse_json(read_lines("logs.jsonl")))
 \`\`\`
 
-Composable, memory-efficient — same pattern as Spark, Kafka Streams.
+Composable, memory-efficient - same pattern as Spark, Kafka Streams.
 
-## yield from — Delegation
+## yield from - Delegation
 
 \`\`\`python
 def main_gen():
@@ -679,7 +679,7 @@ Used heavily in asyncio.
 
 ## Anti-patterns ❌
 
-- Immediately \`list(gen)\` — defeats purpose
+- Immediately \`list(gen)\` - defeats purpose
 - Re-iterating consumed generators
 - Using generators when random access needed
 
@@ -690,7 +690,7 @@ Used heavily in asyncio.
 
 ## Bridge
 
-Next: **File I/O** — combined with generators, build pipelines for huge CSV/JSON files with minimal memory.`,
+Next: **File I/O** - combined with generators, build pipelines for huge CSV/JSON files with minimal memory.`,
         code: `def count_up(start=0):
     """Generator counts up infinitely"""
     n = start
@@ -741,7 +741,7 @@ Quy tắc vàng: **luôn dùng \`with\`** để Python tự đóng file kể c�
 \`\`\`python
 with open("data.txt", "r", encoding="utf-8") as f:
     content = f.read()
-# file tự đóng ở đây — dù có exception bên trên
+# file tự đóng ở đây - dù có exception bên trên
 \`\`\`
 
 ## 3. 🧰 7 mode phải nhớ
@@ -791,7 +791,7 @@ with open("big.log", "r", encoding="utf-8") as f:
 
 ## 6. ✅ Best practice của thầy Hải
 
-> 💡 **Mẹo:** Dùng **\`pathlib.Path\`** thay vì \`os.path\` — code sạch hơn, cross-platform.
+> 💡 **Mẹo:** Dùng **\`pathlib.Path\`** thay vì \`os.path\` - code sạch hơn, cross-platform.
 > 
 > \`\`\`python
 > from pathlib import Path
@@ -808,13 +808,13 @@ with open("big.log", "r", encoding="utf-8") as f:
 - **JSON**: cấu hình, API, dữ liệu lồng nhau.
 - **CSV**: bảng tính phẳng, import vào Excel/DB.
 - **Parquet**: data lớn (> 100 MB), cần nén và đọc nhanh.
-- **Pickle**: chỉ dùng nội bộ — **không bao giờ unpickle file lạ** (RCE!).
+- **Pickle**: chỉ dùng nội bộ - **không bao giờ unpickle file lạ** (RCE!).
 
 ## 8. 📌 Tóm tắt 30 giây
 
 \`with open(..., encoding="utf-8")\` là quy tắc vàng. Chọn đúng mode (\`r/w/a/x\`), luôn ghi atomic cho file quan trọng, đọc từng dòng cho file lớn. Dùng \`pathlib\` thay \`os.path\`. Nắm 5 dòng code này là xử lý được 90% bài toán file trong Python.
 `,
-        theoryEn: `**File I/O** is foundational — every app reads/writes files (config, logs, data, exports). Python's API is simple but has pitfalls around encoding, performance, and resource leaks.
+        theoryEn: `**File I/O** is foundational - every app reads/writes files (config, logs, data, exports). Python's API is simple but has pitfalls around encoding, performance, and resource leaks.
 
 ## Why File I/O Matters
 
@@ -828,7 +828,7 @@ with open("data.txt", "r", encoding="utf-8") as f:
 # Auto-closed even on exception
 \`\`\`
 
-Linux limits ~1024 file handles per process — leaks are disaster.
+Linux limits ~1024 file handles per process - leaks are disaster.
 
 ## File Modes
 
@@ -837,8 +837,8 @@ Linux limits ~1024 file handles per process — leaks are disaster.
 | \`r\` | Read (default) | ❌ | ❌ |
 | \`w\` | Write | ✅ | ✅ |
 | \`a\` | Append | ✅ | ❌ |
-| \`x\` | Exclusive write | ✅ (errors if exists) | — |
-| \`b\` | Binary | — | — |
+| \`x\` | Exclusive write | ✅ (errors if exists) | - |
+| \`b\` | Binary | - | - |
 
 Use \`x\` over \`w\` to avoid overwriting.
 
@@ -875,7 +875,7 @@ with open("data.csv", encoding="utf-8") as f:
         print(row["name"])
 \`\`\`
 
-Don't manually split on \`,\` — fails with quoted commas. For >100MB, use \`pd.read_csv(chunksize=)\`.
+Don't manually split on \`,\` - fails with quoted commas. For >100MB, use \`pd.read_csv(chunksize=)\`.
 
 ## JSON: load vs loads
 
@@ -883,7 +883,7 @@ Don't manually split on \`,\` — fails with quoted commas. For >100MB, use \`pd
 |----------|-------|--------|
 | \`json.load(file)\` | File | Object |
 | \`json.loads(str)\` | String | Object |
-| \`json.dump(obj, file)\` | Save to file | — |
+| \`json.dump(obj, file)\` | Save to file | - |
 | \`json.dumps(obj)\` | Object → str | str |
 
 \`\`\`python
@@ -912,7 +912,7 @@ def atomic_write(path, data):
     os.replace(tmp, path)        # atomic on POSIX
 \`\`\`
 
-Either old or new file — never half-written.
+Either old or new file - never half-written.
 
 ## Best Practices ✅
 
@@ -937,7 +937,7 @@ Either old or new file — never half-written.
 
 ## Bridge
 
-Next: **Advanced SQL Window Functions** — once data is in DB, how to rank, compute running totals, moving averages efficiently.`,
+Next: **Advanced SQL Window Functions** - once data is in DB, how to rank, compute running totals, moving averages efficiently.`,
         code: `import json
 import csv
 from io import StringIO
@@ -985,7 +985,7 @@ for row in reader:
         titleEn: "Window Frame & Advanced Functions",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Sếp hỏi: "Bảng xếp hạng nhân viên theo phòng ban, mỗi phòng ai cao nhất?". \`GROUP BY\` trả 1 dòng/phòng — mất chi tiết. **Window function** = "vừa giữ chi tiết từng dòng, vừa tính toán theo nhóm".
+Sếp hỏi: "Bảng xếp hạng nhân viên theo phòng ban, mỗi phòng ai cao nhất?". \`GROUP BY\` trả 1 dòng/phòng - mất chi tiết. **Window function** = "vừa giữ chi tiết từng dòng, vừa tính toán theo nhóm".
 
 > 💡 **Mẹo của thầy Hải:** \`OVER()\` = "mở cửa sổ nhìn các dòng xung quanh mà không gộp lại".
 
@@ -1036,7 +1036,7 @@ SELECT * FROM r WHERE rn = 1;
 
 \`OVER(PARTITION BY … ORDER BY …)\` = nhóm cửa sổ + sắp xếp. Lọc theo kết quả window phải bọc CTE. Cực mạnh cho BI.
 `,
-        theoryEn: `**Window Functions** are SQL's most powerful modern feature — compute over **a window of related rows** without collapsing them (unlike GROUP BY). Must-have skill for data analysts and BI devs.
+        theoryEn: `**Window Functions** are SQL's most powerful modern feature - compute over **a window of related rows** without collapsing them (unlike GROUP BY). Must-have skill for data analysts and BI devs.
 
 ## Why They Matter
 
@@ -1060,7 +1060,7 @@ function() OVER (
 | **Aggregate** | SUM/AVG/COUNT/MIN/MAX OVER() |
 | **Value/Offset** | LAG, LEAD, FIRST_VALUE, LAST_VALUE, NTH_VALUE |
 
-## Frame Clause — The Heart
+## Frame Clause - The Heart
 
 \`\`\`sql
 ROWS BETWEEN <start> AND <end>
@@ -1123,7 +1123,7 @@ Stripe uses window functions heavily: MRR running totals, cohort retention via \
 
 - Missing \`ORDER BY\` for LAG/LEAD → non-deterministic
 - Default RANGE frame surprises (when ORDER BY present)
-- Window in \`WHERE\` clause (illegal — wrap in CTE)
+- Window in \`WHERE\` clause (illegal - wrap in CTE)
 
 ## When to Use
 
@@ -1132,7 +1132,7 @@ Stripe uses window functions heavily: MRR running totals, cohort retention via \
 
 ## Bridge
 
-Next: **Recursive CTE** — for tree/graph data (org charts, nested categories), window functions aren't enough.`,
+Next: **Recursive CTE** - for tree/graph data (org charts, nested categories), window functions aren't enough.`,
         code: `-- Advanced window functions demo
 SELECT 
   employee_name,
@@ -1225,7 +1225,7 @@ SELECT COUNT(*) FROM sub;
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Thêm cột \`depth\` để giới hạn (\`WHERE depth < 50\`) — phòng ngừa lặp vô tận.
+> 💡 **Mẹo của thầy Hải:** Thêm cột \`depth\` để giới hạn (\`WHERE depth < 50\`) - phòng ngừa lặp vô tận.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1236,7 +1236,7 @@ SELECT COUNT(*) FROM sub;
 
 \`WITH RECURSIVE\` = anchor + UNION ALL + recursive. Dùng cho cây/đồ thị. Nhớ đặt giới hạn depth tránh loop vô hạn.
 `,
-        theoryEn: `**Recursive CTE** is SQL's secret weapon for **hierarchical** and **graph** data — things normal SQL struggles with. It lets a CTE reference itself.
+        theoryEn: `**Recursive CTE** is SQL's secret weapon for **hierarchical** and **graph** data - things normal SQL struggles with. It lets a CTE reference itself.
 
 ## Why Recursive CTE?
 
@@ -1246,18 +1246,18 @@ Try answering with regular SQL:
 - "Shortest path between two cities"
 - "Generate 100 consecutive dates"
 
-All require iteration until termination — recursion. Recursive CTE solves all in one query.
+All require iteration until termination - recursion. Recursive CTE solves all in one query.
 
 ## Syntax & Two Required Parts
 
 \`\`\`sql
 WITH RECURSIVE cte_name AS (
-  -- 1️⃣ ANCHOR (base case) — runs once
+  -- 1️⃣ ANCHOR (base case) - runs once
   SELECT initial_values WHERE start_condition
 
   UNION ALL                  -- must be UNION ALL, not UNION
 
-  -- 2️⃣ RECURSIVE — references cte_name
+  -- 2️⃣ RECURSIVE - references cte_name
   SELECT new_values FROM table JOIN cte_name ON ...
   WHERE termination_condition  -- REQUIRED termination
 )
@@ -1317,7 +1317,7 @@ Use \`UNION\` (not ALL) to dedupe in cycles.
 
 ## Case Study: GitLab Nested Groups
 
-GitLab uses recursive CTE on PostgreSQL to check access through nested group hierarchies — no separate graph DB needed.
+GitLab uses recursive CTE on PostgreSQL to check access through nested group hierarchies - no separate graph DB needed.
 
 ## Best Practices ✅
 
@@ -1341,7 +1341,7 @@ GitLab uses recursive CTE on PostgreSQL to check access through nested group hie
 
 ## Bridge
 
-Next: **Apache Spark** — when data exceeds single DB (>1TB), distribute across a cluster. Spark is the industry #1 big data framework.`,
+Next: **Apache Spark** - when data exceeds single DB (>1TB), distribute across a cluster. Spark is the industry #1 big data framework.`,
         code: `-- Recursive CTE: Generate a number series
 WITH RECURSIVE numbers AS (
   SELECT 1 AS n
@@ -1388,7 +1388,7 @@ SELECT depth, path FROM category_tree ORDER BY path;`,
         titleEn: "Introduction to Apache Spark",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Pandas xử lý 10 triệu dòng còn ổn — đến 1 tỷ dòng thì laptop cháy. **Apache Spark** = pandas chạy phân tán trên 100 máy, xử lý petabyte trong vài phút. Netflix, Uber, Shopee đều dùng.
+Pandas xử lý 10 triệu dòng còn ổn - đến 1 tỷ dòng thì laptop cháy. **Apache Spark** = pandas chạy phân tán trên 100 máy, xử lý petabyte trong vài phút. Netflix, Uber, Shopee đều dùng.
 
 > 💡 **Mẹo của thầy Hải:** Spark = "pandas cho big data". Cú pháp PySpark gần như Pandas, nhưng chạy phân tán.
 
@@ -1424,7 +1424,7 @@ df.groupBy("status").count().show()
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo của thầy Hải:** Lưu format **Parquet** (cột nén) thay CSV — nhỏ hơn 10 lần, nhanh hơn 100 lần khi đọc cột chọn lọc.
+> 💡 **Mẹo của thầy Hải:** Lưu format **Parquet** (cột nén) thay CSV - nhỏ hơn 10 lần, nhanh hơn 100 lần khi đọc cột chọn lọc.
 
 ## 7. 🤔 Khi nào dùng
 
@@ -1435,7 +1435,7 @@ df.groupBy("status").count().show()
 
 Spark = pandas phân tán. Lazy evaluation. Action mới chạy thật. Tránh \`collect()\`. Parquet > CSV. Cú pháp DataFrame quen Pandas là dùng được.
 `,
-        theoryEn: `**Apache Spark** is the industry's #1 distributed data processing framework — used by Netflix, Uber, Airbnb to process petabytes daily.
+        theoryEn: `**Apache Spark** is the industry's #1 distributed data processing framework - used by Netflix, Uber, Airbnb to process petabytes daily.
 
 ## Why Spark Replaced MapReduce
 
@@ -1491,11 +1491,11 @@ result.write.mode("overwrite").parquet("s3://bucket/out/")
 
 > Always use **Parquet** in production.
 
-## Case Study: Netflix — 1 EB/day
+## Case Study: Netflix - 1 EB/day
 
 Netflix processes **1 exabyte/day** on Spark + S3 + Iceberg for personalization (250M users), A/B testing, billing. Thousands of nodes with AQE.
 
-## Case Study: Uber — 15T messages/day
+## Case Study: Uber - 15T messages/day
 
 Uber uses Spark Structured Streaming with Kafka for surge pricing, driver matching, fraud detection. Sub-second end-to-end latency.
 

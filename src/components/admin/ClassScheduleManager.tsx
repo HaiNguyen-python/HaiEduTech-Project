@@ -314,7 +314,7 @@ export default function ClassScheduleManager() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle className="text-base flex items-center gap-2">
               <CalendarIcon className="w-4 h-4 text-primary" />
-              {fmtDate(weekStart)} — {fmtDate(addDays(weekStart, 6))}
+              {fmtDate(weekStart)} - {fmtDate(addDays(weekStart, 6))}
             </CardTitle>
             <div className="flex items-center gap-1">
               <Button size="sm" variant="ghost" onClick={() => setWeekStart(addDays(weekStart, -7))}><ChevronLeft className="w-4 h-4" /></Button>

@@ -32,8 +32,8 @@ const courseData: Record<string, {
     title: "Cambridge Starters–PET", titleEn: "Cambridge Starters–PET",
     level: "Mới bắt đầu → Trung cấp", levelEn: "Beginner → Intermediate",
     image: cambridgeImg,
-    heroDesc: "Chương trình tiếng Anh chuẩn quốc tế dành cho trẻ em từ 6–14 tuổi. Lộ trình 5 cấp độ được thiết kế theo khung Cambridge Assessment — trẻ vừa học vừa chơi, vừa thi lấy chứng chỉ quốc tế được công nhận toàn cầu.",
-    heroDescEn: "International-standard English for children aged 6–14. A 5-level pathway built on the Cambridge Assessment framework — children learn through play while earning globally recognized certificates.",
+    heroDesc: "Chương trình tiếng Anh chuẩn quốc tế dành cho trẻ em từ 6–14 tuổi. Lộ trình 5 cấp độ được thiết kế theo khung Cambridge Assessment - trẻ vừa học vừa chơi, vừa thi lấy chứng chỉ quốc tế được công nhận toàn cầu.",
+    heroDescEn: "International-standard English for children aged 6–14. A 5-level pathway built on the Cambridge Assessment framework - children learn through play while earning globally recognized certificates.",
     stats: [
       { label: "Học sinh đã tốt nghiệp", labelEn: "Graduates", value: "200+" },
       { label: "Tỷ lệ đạt chứng chỉ", labelEn: "Pass rate", value: "95%" },
@@ -42,7 +42,7 @@ const courseData: Record<string, {
     ],
     features: [
       { vi: "Lộ trình Starters → Movers → Flyers → KET → PET rõ ràng từng bước", en: "Clear Starters → Movers → Flyers → KET → PET progression" },
-      { vi: "Học qua trò chơi, bài hát, dự án sáng tạo — trẻ yêu thích việc học", en: "Learning through games, songs, creative projects — children love learning" },
+      { vi: "Học qua trò chơi, bài hát, dự án sáng tạo - trẻ yêu thích việc học", en: "Learning through games, songs, creative projects - children love learning" },
       { vi: "Đánh giá định kỳ mỗi 4 tuần & báo cáo chi tiết cho phụ huynh", en: "Assessments every 4 weeks & detailed parent reports" },
       { vi: "Giáo viên có chứng chỉ quốc tế, nhiệt huyết với trẻ em", en: "Internationally certified teachers, passionate about children" },
       { vi: "Tài liệu Cambridge chính hãng kết hợp công nghệ AI", en: "Authentic Cambridge materials combined with AI technology" },
@@ -71,8 +71,8 @@ const courseData: Record<string, {
     title: "Luyện thi IELTS", titleEn: "IELTS Preparation",
     level: "Trung cấp → Nâng cao", levelEn: "Intermediate → Advanced",
     image: ieltsImg,
-    heroDesc: "Khóa luyện thi IELTS toàn diện với mục tiêu band 6.5–8.0+. Kết hợp phương pháp giảng dạy truyền thống với công nghệ AI chấm điểm Writing & Speaking — giúp học viên nhận phản hồi chi tiết theo tiêu chí IELTS chính thức và cải thiện nhanh gấp 3 lần.",
-    heroDescEn: "Comprehensive IELTS prep targeting band 6.5–8.0+. Combines traditional teaching with AI-powered Writing & Speaking grading — delivering detailed feedback per official IELTS criteria for 3x faster improvement.",
+    heroDesc: "Khóa luyện thi IELTS toàn diện với mục tiêu band 6.5–8.0+. Kết hợp phương pháp giảng dạy truyền thống với công nghệ AI chấm điểm Writing & Speaking - giúp học viên nhận phản hồi chi tiết theo tiêu chí IELTS chính thức và cải thiện nhanh gấp 3 lần.",
+    heroDescEn: "Comprehensive IELTS prep targeting band 6.5–8.0+. Combines traditional teaching with AI-powered Writing & Speaking grading - delivering detailed feedback per official IELTS criteria for 3x faster improvement.",
     stats: [
       { label: "Điểm trung bình đầu ra", labelEn: "Average output score", value: "7.0+" },
       { label: "Học viên đạt target", labelEn: "Students hitting target", value: "92%" },
@@ -83,14 +83,14 @@ const courseData: Record<string, {
       { vi: "Chiến lược riêng cho từng phần: Listening, Reading, Writing, Speaking", en: "Dedicated strategies for each skill: Listening, Reading, Writing, Speaking" },
       { vi: "AI chấm & phân tích bài Writing Task 1 & Task 2 theo 4 tiêu chí IELTS", en: "AI grading of Writing Task 1 & 2 across 4 IELTS criteria" },
       { vi: "AI đánh giá Speaking: phát âm, ngữ pháp, từ vựng, lưu loát", en: "AI Speaking evaluation: pronunciation, grammar, vocabulary, fluency" },
-      { vi: "Thi thử mô phỏng thực tế hàng tuần — phân tích điểm mạnh/yếu chi tiết", en: "Weekly mock tests — detailed strength/weakness analysis" },
+      { vi: "Thi thử mô phỏng thực tế hàng tuần - phân tích điểm mạnh/yếu chi tiết", en: "Weekly mock tests - detailed strength/weakness analysis" },
       { vi: "Kho 1000+ bài mẫu Writing band 6.5–8.5 & Speaking topics kèm model answers", en: "1000+ Writing samples (band 6.5–8.5) & Speaking topics with model answers" },
     ],
     curriculum: [
       { vi: "Tuần 1–4: Đánh giá trình độ & xây dựng nền tảng 4 kỹ năng", en: "Weeks 1–4: Level assessment & building foundation in 4 skills", detail: "Diagnostic test • Lập lộ trình cá nhân hóa", detailEn: "Diagnostic test • Personalized roadmap" },
-      { vi: "Tuần 5–8: Listening & Reading — Chiến lược & luyện đề chuyên sâu", en: "Weeks 5–8: Listening & Reading — Intensive strategies & practice", detail: "Skimming/Scanning • Signal words • Paraphrasing skills", detailEn: "Skimming/Scanning • Signal words • Paraphrasing skills" },
-      { vi: "Tuần 9–12: Writing Task 1 & 2 — Cấu trúc bài, từ vựng & AI Feedback", en: "Weeks 9–12: Writing Task 1 & 2 — Structure, vocabulary & AI Feedback", detail: "Cohesion & Coherence • Task Achievement • Lexical Resource", detailEn: "Cohesion & Coherence • Task Achievement • Lexical Resource" },
-      { vi: "Tuần 13–16: Speaking — Phát âm, trả lời Part 1-2-3 & phản xạ tự nhiên", en: "Weeks 13–16: Speaking — Pronunciation, Part 1-2-3 responses & fluency", detail: "Cue card strategies • Topic development • Idea generation", detailEn: "Cue card strategies • Topic development • Idea generation" },
+      { vi: "Tuần 5–8: Listening & Reading - Chiến lược & luyện đề chuyên sâu", en: "Weeks 5–8: Listening & Reading - Intensive strategies & practice", detail: "Skimming/Scanning • Signal words • Paraphrasing skills", detailEn: "Skimming/Scanning • Signal words • Paraphrasing skills" },
+      { vi: "Tuần 9–12: Writing Task 1 & 2 - Cấu trúc bài, từ vựng & AI Feedback", en: "Weeks 9–12: Writing Task 1 & 2 - Structure, vocabulary & AI Feedback", detail: "Cohesion & Coherence • Task Achievement • Lexical Resource", detailEn: "Cohesion & Coherence • Task Achievement • Lexical Resource" },
+      { vi: "Tuần 13–16: Speaking - Phát âm, trả lời Part 1-2-3 & phản xạ tự nhiên", en: "Weeks 13–16: Speaking - Pronunciation, Part 1-2-3 responses & fluency", detail: "Cue card strategies • Topic development • Idea generation", detailEn: "Cue card strategies • Topic development • Idea generation" },
       { vi: "Tuần 17–20: Thi thử tổng hợp & tập trung chỉnh sửa điểm yếu", en: "Weeks 17–20: Full mock tests & targeted weakness correction", detail: "3 bài thi thử hoàn chỉnh • 1-on-1 feedback sessions", detailEn: "3 complete mock tests • 1-on-1 feedback sessions" },
     ],
     audience: [
@@ -110,8 +110,8 @@ const courseData: Record<string, {
     title: "Chương trình TOEIC", titleEn: "TOEIC Program",
     level: "Trung cấp", levelEn: "Intermediate",
     image: toeicImg,
-    heroDesc: "Chương trình TOEIC chuyên sâu dành cho người đi làm và sinh viên. Tập trung vào kỹ năng Nghe & Đọc trong bối cảnh doanh nghiệp thực tế — giúp bạn đạt 700+ điểm chỉ sau 3 tháng.",
-    heroDescEn: "Intensive TOEIC program for professionals and students. Focused on Listening & Reading in real business contexts — reach 700+ in just 3 months.",
+    heroDesc: "Chương trình TOEIC chuyên sâu dành cho người đi làm và sinh viên. Tập trung vào kỹ năng Nghe & Đọc trong bối cảnh doanh nghiệp thực tế - giúp bạn đạt 700+ điểm chỉ sau 3 tháng.",
+    heroDescEn: "Intensive TOEIC program for professionals and students. Focused on Listening & Reading in real business contexts - reach 700+ in just 3 months.",
     stats: [
       { label: "Mục tiêu điểm", labelEn: "Target score", value: "700+" },
       { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
@@ -121,12 +121,12 @@ const courseData: Record<string, {
     features: [
       { vi: "Phân tích chi tiết 7 dạng bài Part 1–7 với chiến thuật riêng", en: "Detailed 7 question type analysis (Part 1–7) with specific tactics" },
       { vi: "Từ vựng & ngữ pháp thương mại: email, hợp đồng, báo cáo, họp", en: "Business vocabulary & grammar: emails, contracts, reports, meetings" },
-      { vi: "Luyện nghe với accent Mỹ, Anh, Úc, Canada — đa dạng giọng nói", en: "Multi-accent listening: American, British, Australian, Canadian" },
+      { vi: "Luyện nghe với accent Mỹ, Anh, Úc, Canada - đa dạng giọng nói", en: "Multi-accent listening: American, British, Australian, Canadian" },
       { vi: "Thi thử tính giờ mỗi tuần + phân tích lỗi sai chi tiết từng part", en: "Weekly timed mocks + detailed error analysis per part" },
     ],
     curriculum: [
-      { vi: "Tuần 1–3: Listening Part 1–4 — chiến lược & luyện tập chuyên sâu", en: "Weeks 1–3: Listening Part 1–4 — strategies & intensive practice", detail: "Photographs • Q&A • Conversations • Short talks", detailEn: "Photographs • Q&A • Conversations • Short talks" },
-      { vi: "Tuần 4–6: Reading Part 5–7 — kỹ thuật đọc nhanh & chính xác", en: "Weeks 4–6: Reading Part 5–7 — speed reading & accuracy techniques", detail: "Incomplete sentences • Text completion • Reading comprehension", detailEn: "Incomplete sentences • Text completion • Reading comprehension" },
+      { vi: "Tuần 1–3: Listening Part 1–4 - chiến lược & luyện tập chuyên sâu", en: "Weeks 1–3: Listening Part 1–4 - strategies & intensive practice", detail: "Photographs • Q&A • Conversations • Short talks", detailEn: "Photographs • Q&A • Conversations • Short talks" },
+      { vi: "Tuần 4–6: Reading Part 5–7 - kỹ thuật đọc nhanh & chính xác", en: "Weeks 4–6: Reading Part 5–7 - speed reading & accuracy techniques", detail: "Incomplete sentences • Text completion • Reading comprehension", detailEn: "Incomplete sentences • Text completion • Reading comprehension" },
       { vi: "Tuần 7–9: Từ vựng thương mại theo 20 chủ đề thực tế", en: "Weeks 7–9: Business vocabulary across 20 real-world topics", detail: "Marketing • Finance • HR • Manufacturing • Technology", detailEn: "Marketing • Finance • HR • Manufacturing • Technology" },
       { vi: "Tuần 10–12: Thi thử tổng hợp & tăng tốc độ làm bài", en: "Weeks 10–12: Full mock tests & speed optimization", detail: "200 câu / 120 phút • Chiến thuật quản lý thời gian", detailEn: "200 questions / 120 minutes • Time management tactics" },
     ],
@@ -145,8 +145,8 @@ const courseData: Record<string, {
     title: "Tiếng Anh Giao tiếp", titleEn: "Conversational English",
     level: "Tất cả trình độ", levelEn: "All Levels",
     image: conversationImg,
-    heroDesc: "Nói tiếng Anh tự tin trong 4 tháng — không cần học ngữ pháp khô khan! Khóa học giao tiếp thực tế giúp bạn tự tin trong mọi tình huống: du lịch, phỏng vấn, công việc quốc tế.",
-    heroDescEn: "Speak English confidently in 4 months — no dry grammar drills! Practical communication course for travel, interviews, and international work.",
+    heroDesc: "Nói tiếng Anh tự tin trong 4 tháng - không cần học ngữ pháp khô khan! Khóa học giao tiếp thực tế giúp bạn tự tin trong mọi tình huống: du lịch, phỏng vấn, công việc quốc tế.",
+    heroDescEn: "Speak English confidently in 4 months - no dry grammar drills! Practical communication course for travel, interviews, and international work.",
     stats: [
       { label: "Chủ đề giao tiếp", labelEn: "Conversation topics", value: "20+" },
       { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
@@ -156,14 +156,14 @@ const courseData: Record<string, {
     features: [
       { vi: "20+ chủ đề giao tiếp thực tế: mua sắm, du lịch, phỏng vấn, thuyết trình", en: "20+ topics: shopping, travel, interviews, presentations" },
       { vi: "Luyện phát âm chuẩn IPA với phản hồi chi tiết bằng AI", en: "IPA pronunciation training with detailed AI feedback" },
-      { vi: "Roleplay mỗi buổi học — nói nhiều hơn nghe giảng", en: "Roleplay every session — speak more than lecture" },
+      { vi: "Roleplay mỗi buổi học - nói nhiều hơn nghe giảng", en: "Roleplay every session - speak more than lecture" },
       { vi: "Idioms, phrasal verbs tự nhiên như người bản xứ", en: "Natural idioms & phrasal verbs like a native speaker" },
     ],
     curriculum: [
-      { vi: "Tháng 1: Giao tiếp hàng ngày — chào hỏi, mua sắm, nhà hàng", en: "Month 1: Daily life — greetings, shopping, dining" },
-      { vi: "Tháng 2: Du lịch & Khách sạn — đặt phòng, hỏi đường, sân bay", en: "Month 2: Travel — booking, directions, airports" },
-      { vi: "Tháng 3: Công việc — phỏng vấn, email, thuyết trình bằng tiếng Anh", en: "Month 3: Work — interviews, emails, presentations" },
-      { vi: "Tháng 4: Nâng cao — tranh luận, tin tức, văn hóa & sự kiện", en: "Month 4: Advanced — debates, news, culture & events" },
+      { vi: "Tháng 1: Giao tiếp hàng ngày - chào hỏi, mua sắm, nhà hàng", en: "Month 1: Daily life - greetings, shopping, dining" },
+      { vi: "Tháng 2: Du lịch & Khách sạn - đặt phòng, hỏi đường, sân bay", en: "Month 2: Travel - booking, directions, airports" },
+      { vi: "Tháng 3: Công việc - phỏng vấn, email, thuyết trình bằng tiếng Anh", en: "Month 3: Work - interviews, emails, presentations" },
+      { vi: "Tháng 4: Nâng cao - tranh luận, tin tức, văn hóa & sự kiện", en: "Month 4: Advanced - debates, news, culture & events" },
     ],
     audience: [
       { vi: "Bất kỳ ai muốn nói tiếng Anh tự tin và tự nhiên", en: "Anyone wanting to speak English confidently and naturally" },
@@ -189,7 +189,7 @@ const courseData: Record<string, {
       { label: "Thời lượng", labelEn: "Duration", value: "Linh hoạt" },
     ],
     features: [
-      { vi: "Hệ thống hóa 24 chuyên đề ngữ pháp trọng tâm — từ dễ đến khó", en: "24 core grammar topics systematized — easy to hard" },
+      { vi: "Hệ thống hóa 24 chuyên đề ngữ pháp trọng tâm - từ dễ đến khó", en: "24 core grammar topics systematized - easy to hard" },
       { vi: "3000+ từ vựng theo chương trình SGK lớp 10–12", en: "3000+ vocabulary from Grade 10–12 textbooks" },
       { vi: "Luyện đề theo cấu trúc thi thực tế (50 câu / 60 phút)", en: "Practice matching real exam format (50 questions / 60 minutes)" },
       { vi: "Phân tích đề thi các năm gần nhất & dự đoán xu hướng ra đề", en: "Recent past exam analysis & question trend predictions" },
@@ -217,8 +217,8 @@ const courseData: Record<string, {
     title: "Luyện thi SAT", titleEn: "SAT Preparation",
     level: "Trung cấp → Nâng cao", levelEn: "Intermediate → Advanced",
     image: ieltsImg,
-    heroDesc: "Chương trình luyện thi SAT toàn diện giúp học sinh Việt Nam đạt điểm cao trong kỳ thi SAT Digital. Tập trung vào Reading & Writing, từ vựng nâng cao và chiến lược làm bài thông minh — mở cổng vào các trường đại học hàng đầu tại Mỹ.",
-    heroDescEn: "Comprehensive SAT preparation helping Vietnamese students achieve high scores on the Digital SAT. Focused on Reading & Writing, advanced vocabulary, and smart test strategies — your gateway to top US universities.",
+    heroDesc: "Chương trình luyện thi SAT toàn diện giúp học sinh Việt Nam đạt điểm cao trong kỳ thi SAT Digital. Tập trung vào Reading & Writing, từ vựng nâng cao và chiến lược làm bài thông minh - mở cổng vào các trường đại học hàng đầu tại Mỹ.",
+    heroDescEn: "Comprehensive SAT preparation helping Vietnamese students achieve high scores on the Digital SAT. Focused on Reading & Writing, advanced vocabulary, and smart test strategies - your gateway to top US universities.",
     stats: [
       { label: "Từ vựng nâng cao", labelEn: "Advanced vocabulary", value: "500+" },
       { label: "Bài học tương tác", labelEn: "Interactive lessons", value: "10+" },
@@ -229,7 +229,7 @@ const courseData: Record<string, {
       { vi: "Evidence-Based Reading: chiến lược đọc hiểu dựa trên bằng chứng văn bản", en: "Evidence-Based Reading: text-based comprehension strategies" },
       { vi: "Words in Context: từ đa nghĩa, sắc thái ngữ nghĩa trong ngữ cảnh thực", en: "Words in Context: polysemy and semantic nuance in real contexts" },
       { vi: "Standard English Conventions: ngữ pháp, dấu câu, parallel structure", en: "Standard English Conventions: grammar, punctuation, parallel structure" },
-      { vi: "Rhetorical Synthesis: dạng bài mới trong Digital SAT — tổng hợp thông tin", en: "Rhetorical Synthesis: new Digital SAT type — information synthesis" },
+      { vi: "Rhetorical Synthesis: dạng bài mới trong Digital SAT - tổng hợp thông tin", en: "Rhetorical Synthesis: new Digital SAT type - information synthesis" },
       { vi: "500+ từ vựng SAT nâng cao với gốc từ Latin/Greek", en: "500+ advanced SAT vocabulary with Latin/Greek roots" },
     ],
     curriculum: [
@@ -413,7 +413,7 @@ const EnglishCourse = () => {
                   {course.testimonials.map((tm, i) => (
                     <div key={i} className="border-l-4 border-primary/20 pl-4 py-2">
                       <p className="text-secondary-foreground italic leading-relaxed mb-2">"{t(tm.text, tm.textEn)}"</p>
-                      <p className="text-sm text-primary font-semibold">— {tm.name}</p>
+                      <p className="text-sm text-primary font-semibold">- {tm.name}</p>
                     </div>
                   ))}
                 </div>
@@ -431,8 +431,8 @@ const EnglishCourse = () => {
                   </h2>
                   <p className="text-muted-foreground mb-6 text-sm">
                     {t(
-                      `${satModules.length} module — ${totalLessons} bài học tương tác với lý thuyết, từ vựng, bài tập & quiz`,
-                      `${satModules.length} modules — ${totalLessons} interactive lessons with theory, vocabulary, exercises & quizzes`
+                      `${satModules.length} module - ${totalLessons} bài học tương tác với lý thuyết, từ vựng, bài tập & quiz`,
+                      `${satModules.length} modules - ${totalLessons} interactive lessons with theory, vocabulary, exercises & quizzes`
                     )}
                   </p>
                   <div className="space-y-6">

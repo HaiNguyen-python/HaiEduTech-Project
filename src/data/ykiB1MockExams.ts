@@ -1,6 +1,6 @@
 /**
  * @file ykiB1MockExams.ts
- * @description 2 đề thi YKI B1 (Keskitaso) hoàn chỉnh — 4 sections mỗi đề.
+ * @description 2 đề thi YKI B1 (Keskitaso) hoàn chỉnh - 4 sections mỗi đề.
  *   Reading 50 phút · Listening 30 phút · Writing 70 phút · Speaking 20 phút.
  * @author Teacher Hai (HaiEduTech)
  */
@@ -62,14 +62,14 @@ const writingRubric = [
 ];
 
 /* ============================================================
- * MOCK EXAM 1 — Standard difficulty
+ * MOCK EXAM 1 - Standard difficulty
  * ============================================================ */
 const exam1: YkiB1MockExam = {
   id: "mock-1",
-  title: "YKI B1 Mock Exam #1 — Arki ja työ",
-  titleVi: "Đề thi mẫu YKI B1 #1 — Đời sống & công việc",
-  difficultyNote: "Standard B1 difficulty — themes from daily life and work.",
-  difficultyNoteVi: "Độ khó B1 chuẩn — chủ đề đời sống và công việc.",
+  title: "YKI B1 Mock Exam #1 - Arki ja työ",
+  titleVi: "Đề thi mẫu YKI B1 #1 - Đời sống & công việc",
+  difficultyNote: "Standard B1 difficulty - themes from daily life and work.",
+  difficultyNoteVi: "Độ khó B1 chuẩn - chủ đề đời sống và công việc.",
   reading: {
     timeMinutes: 50,
     passages: [
@@ -78,7 +78,7 @@ const exam1: YkiB1MockExam = {
         title: "Ilmoitus: Talon kerhohuone",
         type: "notice",
         textFi:
-          "Hyvät asukkaat,\n\nKerhohuone on käytettävissä maanantaista perjantaihin klo 10–22 ja viikonloppuisin klo 12–20. Varaaminen tapahtuu isännöitsijän toimistossa tai sähköpostilla viimeistään 3 päivää ennen tapahtumaa. Käyttömaksu on 15 euroa/ilta. Muista siivota tila käytön jälkeen — muuten peritään 50 euron lisämaksu.\n\nIsännöitsijä Pekka Virtanen",
+          "Hyvät asukkaat,\n\nKerhohuone on käytettävissä maanantaista perjantaihin klo 10–22 ja viikonloppuisin klo 12–20. Varaaminen tapahtuu isännöitsijän toimistossa tai sähköpostilla viimeistään 3 päivää ennen tapahtumaa. Käyttömaksu on 15 euroa/ilta. Muista siivota tila käytön jälkeen - muuten peritään 50 euron lisämaksu.\n\nIsännöitsijä Pekka Virtanen",
         questions: [
           {
             q: "Mihin aikaan kerhohuone aukeaa lauantaina?",
@@ -105,7 +105,7 @@ const exam1: YkiB1MockExam = {
         title: "Sähköposti: Lääkäriaika",
         type: "email",
         textFi:
-          "Hei Maria,\n\nKiitos viestistäsi. Voin tarjota sinulle ajan keskiviikkona 12.10. klo 14:30. Vastaanotto sijaitsee Kalevankatu 12, 3. kerros. Muista ottaa Kela-kortti mukaan. Jos et pääse paikalle, peruuta aika viimeistään 24 tuntia ennen — muuten peritään 30 euron sakkomaksu.\n\nTerveisin,\nTohtori Lehtinen",
+          "Hei Maria,\n\nKiitos viestistäsi. Voin tarjota sinulle ajan keskiviikkona 12.10. klo 14:30. Vastaanotto sijaitsee Kalevankatu 12, 3. kerros. Muista ottaa Kela-kortti mukaan. Jos et pääse paikalle, peruuta aika viimeistään 24 tuntia ennen - muuten peritään 30 euron sakkomaksu.\n\nTerveisin,\nTohtori Lehtinen",
         questions: [
           {
             q: "Milloin Marian aika on?",
@@ -165,7 +165,7 @@ const exam1: YkiB1MockExam = {
         title: "Mainos: Kuntosali Aktiivi",
         type: "advertisement",
         textFi:
-          "Tervetuloa Kuntosali Aktiiviin! Avoinna joka päivä klo 6–23. Tarjoamme yli 50 erilaista ryhmäliikuntatuntia viikossa, henkilökohtaista valmennusta ja modernit laitteet. Uusille jäsenille ensimmäinen kuukausi vain 19 euroa! Normaali jäsenmaksu on 49 €/kk. Liittyminen tapahtuu netissä tai paikan päällä. Ei sitoutumista — voit lopettaa milloin vain.",
+          "Tervetuloa Kuntosali Aktiiviin! Avoinna joka päivä klo 6–23. Tarjoamme yli 50 erilaista ryhmäliikuntatuntia viikossa, henkilökohtaista valmennusta ja modernit laitteet. Uusille jäsenille ensimmäinen kuukausi vain 19 euroa! Normaali jäsenmaksu on 49 €/kk. Liittyminen tapahtuu netissä tai paikan päällä. Ei sitoutumista - voit lopettaa milloin vain.",
         questions: [
           {
             q: "Mihin aikaan sali sulkeutuu?",
@@ -183,7 +183,7 @@ const exam1: YkiB1MockExam = {
             q: "Voiko jäsenyyden lopettaa milloin tahansa?",
             options: ["Ei voi", "Vain vuoden jälkeen", "Kyllä, milloin vain", "6 kuukauden jälkeen"],
             answer: 2,
-            explanationFi: "'Ei sitoutumista — voit lopettaa milloin vain'.",
+            explanationFi: "'Ei sitoutumista - voit lopettaa milloin vain'.",
           },
         ],
       },
@@ -266,7 +266,7 @@ const exam1: YkiB1MockExam = {
         title: "Sääennuste",
         scenarioFi: "Radion sääennuste viikonloppua varten.",
         scriptFi:
-          "Tervetuloa kuulemaan viikonlopun sääennuste. Lauantaina koko Suomessa on aurinkoista, lämpötila nousee viiteentoista asteeseen. Sunnuntaina sää muuttuu — etelässä sataa vettä iltapäivällä. Pohjoisessa pysyy kuivaa mutta kylmenee — voi olla jopa nolla astetta. Suosittelemme ottamaan sateenvarjon mukaan, jos liikut etelä-Suomessa.",
+          "Tervetuloa kuulemaan viikonlopun sääennuste. Lauantaina koko Suomessa on aurinkoista, lämpötila nousee viiteentoista asteeseen. Sunnuntaina sää muuttuu - etelässä sataa vettä iltapäivällä. Pohjoisessa pysyy kuivaa mutta kylmenee - voi olla jopa nolla astetta. Suosittelemme ottamaan sateenvarjon mukaan, jos liikut etelä-Suomessa.",
         questions: [
           {
             q: "Millainen sää on lauantaina?",
@@ -358,7 +358,7 @@ const exam1: YkiB1MockExam = {
       },
       {
         id: "m1-s3",
-        title: "Osa 3: Tilanne — Apteekissa (4 min)",
+        title: "Osa 3: Tilanne - Apteekissa (4 min)",
         scenarioFi: "Sinulla on flunssa. Menet apteekkiin ostamaan lääkkeitä.",
         scenarioVi: "Bạn bị cảm. Đến hiệu thuốc mua thuốc.",
         taskFi: "Kerro oireesi, kysy suosituksia, ota selvää annostuksesta ja hinnasta. Tutkija on apteekkari.",
@@ -379,14 +379,14 @@ const exam1: YkiB1MockExam = {
 };
 
 /* ============================================================
- * MOCK EXAM 2 — Slightly harder
+ * MOCK EXAM 2 - Slightly harder
  * ============================================================ */
 const exam2: YkiB1MockExam = {
   id: "mock-2",
-  title: "YKI B1 Mock Exam #2 — Yhteiskunta ja kulttuuri",
-  titleVi: "Đề thi mẫu YKI B1 #2 — Xã hội & văn hóa",
-  difficultyNote: "Slightly harder — abstract topics like environment, culture, well-being.",
-  difficultyNoteVi: "Khó hơn chút — chủ đề trừu tượng như môi trường, văn hóa, sức khỏe tinh thần.",
+  title: "YKI B1 Mock Exam #2 - Yhteiskunta ja kulttuuri",
+  titleVi: "Đề thi mẫu YKI B1 #2 - Xã hội & văn hóa",
+  difficultyNote: "Slightly harder - abstract topics like environment, culture, well-being.",
+  difficultyNoteVi: "Khó hơn chút - chủ đề trừu tượng như môi trường, văn hóa, sức khỏe tinh thần.",
   reading: {
     timeMinutes: 50,
     passages: [
@@ -635,7 +635,7 @@ const exam2: YkiB1MockExam = {
       },
       {
         id: "m2-s3",
-        title: "Osa 3: Tilanne — Vuokranantaja (4 min)",
+        title: "Osa 3: Tilanne - Vuokranantaja (4 min)",
         scenarioFi: "Asunnossasi on rikkinäinen vesihana. Soitat vuokranantajalle.",
         scenarioVi: "Vòi nước trong căn hộ bị hỏng. Bạn gọi cho chủ nhà.",
         taskFi: "Selitä ongelma, pyydä korjaajaa, sovi aika. Tutkija on vuokranantaja.",

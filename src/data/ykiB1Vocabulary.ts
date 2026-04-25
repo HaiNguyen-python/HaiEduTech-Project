@@ -1,6 +1,6 @@
 /**
  * @file ykiB1Vocabulary.ts
- * @description YKI B1 (Keskitaso) thematic vocabulary bank — 6 modules × ~25 words.
+ * @description YKI B1 (Keskitaso) thematic vocabulary bank - 6 modules × ~25 words.
  *   Each entry is a B1-level Finnish word usable in YKI Reading/Writing/Speaking.
  * @author Teacher Hai (HaiEduTech)
  */
@@ -27,7 +27,7 @@ export interface B1VocabModule {
 }
 
 /* ============================================================
- * 1. SOCIETY & NEWS — báo chí, xã hội
+ * 1. SOCIETY & NEWS - báo chí, xã hội
  * ============================================================ */
 const society: B1VocabEntry[] = [
   { fi: "yhteiskunta", partOfSpeech: "noun", meaningEn: "society", meaningVi: "xã hội", exampleFi: "Suomalainen yhteiskunta arvostaa tasa-arvoa.", exampleEn: "Finnish society values equality.", exampleVi: "Xã hội Phần Lan coi trọng bình đẳng." },
@@ -58,7 +58,7 @@ const society: B1VocabEntry[] = [
 ];
 
 /* ============================================================
- * 2. WORK & CAREER — công việc, sự nghiệp
+ * 2. WORK & CAREER - công việc, sự nghiệp
  * ============================================================ */
 const work: B1VocabEntry[] = [
   { fi: "ammatti", partOfSpeech: "noun", meaningEn: "profession", meaningVi: "nghề nghiệp", exampleFi: "Ammattini on opettaja.", exampleEn: "My profession is teacher.", exampleVi: "Nghề của tôi là giáo viên." },
@@ -89,7 +89,7 @@ const work: B1VocabEntry[] = [
 ];
 
 /* ============================================================
- * 3. ENVIRONMENT & SUSTAINABILITY — môi trường, bền vững
+ * 3. ENVIRONMENT & SUSTAINABILITY - môi trường, bền vững
  * ============================================================ */
 const environment: B1VocabEntry[] = [
   { fi: "ympäristö", partOfSpeech: "noun", meaningEn: "environment", meaningVi: "môi trường", exampleFi: "Meidän pitää suojella ympäristöä.", exampleEn: "We must protect the environment.", exampleVi: "Chúng ta phải bảo vệ môi trường." },
@@ -120,7 +120,7 @@ const environment: B1VocabEntry[] = [
 ];
 
 /* ============================================================
- * 4. TECHNOLOGY & DIGITAL LIFE — công nghệ, số hoá
+ * 4. TECHNOLOGY & DIGITAL LIFE - công nghệ, số hoá
  * ============================================================ */
 const technology: B1VocabEntry[] = [
   { fi: "tekniikka", partOfSpeech: "noun", meaningEn: "technology", meaningVi: "công nghệ", exampleFi: "Tekniikka kehittyy nopeasti.", exampleEn: "Technology develops fast.", exampleVi: "Công nghệ phát triển nhanh." },
@@ -182,7 +182,7 @@ const education: B1VocabEntry[] = [
 ];
 
 /* ============================================================
- * 6. HEALTH & WELLBEING — sức khoẻ
+ * 6. HEALTH & WELLBEING - sức khoẻ
  * ============================================================ */
 const health: B1VocabEntry[] = [
   { fi: "terveys", partOfSpeech: "noun", meaningEn: "health", meaningVi: "sức khoẻ", exampleFi: "Terveys on tärkein asia.", exampleEn: "Health is the most important thing.", exampleVi: "Sức khoẻ là quan trọng nhất." },
@@ -213,7 +213,7 @@ const health: B1VocabEntry[] = [
 ];
 
 /* ============================================================
- * EXPORT — 6 modules · ~150 words
+ * EXPORT - 6 modules · ~150 words
  * ============================================================ */
 export const B1_VOCAB_MODULES: B1VocabModule[] = [
   {
@@ -242,8 +242,8 @@ export const B1_VOCAB_MODULES: B1VocabModule[] = [
     titleEn: "Environment & Climate",
     titleVi: "Môi trường & Khí hậu",
     emoji: "🌿",
-    description: "Climate change, recycling, sustainability — frequent YKI Reading topics.",
-    descriptionVi: "Biến đổi khí hậu, tái chế, bền vững — chủ đề thường gặp.",
+    description: "Climate change, recycling, sustainability - frequent YKI Reading topics.",
+    descriptionVi: "Biến đổi khí hậu, tái chế, bền vững - chủ đề thường gặp.",
     words: environment,
   },
   {

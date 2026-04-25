@@ -4,8 +4,8 @@ import type { LanguageModule } from "./types";
 const toeicExpansionModules: LanguageModule[] = [
   {
     id: "toeic-listening-exp",
-    title: "TOEIC Nghe — Nâng cao",
-    titleEn: "TOEIC Listening — Advanced",
+    title: "TOEIC Nghe - Nâng cao",
+    titleEn: "TOEIC Listening - Advanced",
     icon: "🎧",
     color: "from-blue-500 to-cyan-500",
     description: "Luyện nghe Part 3 & Part 4 nâng cao",
@@ -68,14 +68,14 @@ const toeicExpansionModules: LanguageModule[] = [
         titleEn: "Part 4: Short Talks",
         level: 4,
         difficulty: "advanced",
-        theory: `## Part 4: Short Talks\n\nPart 4 gồm 10 bài nói đơn (monologue), mỗi bài có 3 câu hỏi. Các dạng phổ biến:\n- **Announcement**: thông báo tại sân bay, công ty\n- **Advertisement**: quảng cáo sản phẩm/dịch vụ\n- **News report**: bản tin\n- **Voicemail**: tin nhắn thoại\n- **Introduction**: giới thiệu diễn giả\n\n### Chiến lược:\n1. Xác định **dạng bài nói** từ câu đầu tiên\n2. Ghi nhớ **chi tiết số liệu**: giá, thời gian, số điện thoại\n3. Chú ý **câu cuối** — thường chứa đáp án "What will happen next?"`,
-        theoryEn: `## Part 4: Short Talks\n\nPart 4 has 10 monologues, each with 3 questions. Common types:\n- **Announcement**: airport, company announcements\n- **Advertisement**: product/service ads\n- **News report**: news bulletins\n- **Voicemail**: voice messages\n- **Introduction**: speaker introductions\n\n### Strategies:\n1. Identify the **talk type** from the first sentence\n2. Remember **numerical details**: prices, times, phone numbers\n3. Pay attention to **the last sentence** — often contains "What will happen next?" answers`,
+        theory: `## Part 4: Short Talks\n\nPart 4 gồm 10 bài nói đơn (monologue), mỗi bài có 3 câu hỏi. Các dạng phổ biến:\n- **Announcement**: thông báo tại sân bay, công ty\n- **Advertisement**: quảng cáo sản phẩm/dịch vụ\n- **News report**: bản tin\n- **Voicemail**: tin nhắn thoại\n- **Introduction**: giới thiệu diễn giả\n\n### Chiến lược:\n1. Xác định **dạng bài nói** từ câu đầu tiên\n2. Ghi nhớ **chi tiết số liệu**: giá, thời gian, số điện thoại\n3. Chú ý **câu cuối** - thường chứa đáp án "What will happen next?"`,
+        theoryEn: `## Part 4: Short Talks\n\nPart 4 has 10 monologues, each with 3 questions. Common types:\n- **Announcement**: airport, company announcements\n- **Advertisement**: product/service ads\n- **News report**: news bulletins\n- **Voicemail**: voice messages\n- **Introduction**: speaker introductions\n\n### Strategies:\n1. Identify the **talk type** from the first sentence\n2. Remember **numerical details**: prices, times, phone numbers\n3. Pay attention to **the last sentence** - often contains "What will happen next?" answers`,
         proTips: [
-          "Câu hỏi 'What is the purpose of this talk?' — nghe 2 câu đầu tiên",
+          "Câu hỏi 'What is the purpose of this talk?' - nghe 2 câu đầu tiên",
           "Câu hỏi graphic: đọc bảng/biểu đồ trước khi nghe"
         ],
         proTipsEn: [
-          "'What is the purpose of this talk?' — listen to the first 2 sentences",
+          "'What is the purpose of this talk?' - listen to the first 2 sentences",
           "Graphic questions: read the table/chart before listening"
         ],
         vocabulary: [
@@ -106,8 +106,8 @@ const toeicExpansionModules: LanguageModule[] = [
   },
   {
     id: "toeic-reading-exp",
-    title: "TOEIC Đọc — Nâng cao",
-    titleEn: "TOEIC Reading — Advanced",
+    title: "TOEIC Đọc - Nâng cao",
+    titleEn: "TOEIC Reading - Advanced",
     icon: "📖",
     color: "from-indigo-500 to-blue-500",
     description: "Luyện đọc Part 6 & Part 7 chuyên sâu",
@@ -183,8 +183,8 @@ const toeicExpansionModules: LanguageModule[] = [
 const ieltsExpansionModules: LanguageModule[] = [
   {
     id: "ielts-speaking-exp",
-    title: "IELTS Nói — Nâng cao",
-    titleEn: "IELTS Speaking — Advanced",
+    title: "IELTS Nói - Nâng cao",
+    titleEn: "IELTS Speaking - Advanced",
     icon: "🎙️",
     color: "from-purple-500 to-pink-500",
     description: "Luyện Speaking Part 2 Cue Cards & Part 3 Discussion",
@@ -258,8 +258,8 @@ const ieltsExpansionModules: LanguageModule[] = [
   },
   {
     id: "ielts-writing-exp2",
-    title: "IELTS Viết — Mở rộng",
-    titleEn: "IELTS Writing — Expansion",
+    title: "IELTS Viết - Mở rộng",
+    titleEn: "IELTS Writing - Expansion",
     icon: "✍️",
     color: "from-orange-500 to-red-500",
     description: "Task 1 Charts/Maps & Task 2 Agree/Disagree",
@@ -332,8 +332,8 @@ const ieltsExpansionModules: LanguageModule[] = [
   },
   {
     id: "ielts-vocab-exp2",
-    title: "IELTS Từ vựng — Chủ đề mới",
-    titleEn: "IELTS Vocabulary — New Topics",
+    title: "IELTS Từ vựng - Chủ đề mới",
+    titleEn: "IELTS Vocabulary - New Topics",
     icon: "📚",
     color: "from-teal-500 to-green-500",
     description: "Từ vựng chủ đề Health & Technology",
@@ -411,8 +411,8 @@ const ieltsExpansionModules: LanguageModule[] = [
 const cambridgeExpansionModules: LanguageModule[] = [
   {
     id: "cambridge-movers-exp",
-    title: "Cambridge Movers — Mở rộng",
-    titleEn: "Cambridge Movers — Expansion",
+    title: "Cambridge Movers - Mở rộng",
+    titleEn: "Cambridge Movers - Expansion",
     icon: "🏃",
     color: "from-green-500 to-emerald-500",
     description: "Luyện Reading, Writing & Speaking cho Movers",
@@ -481,8 +481,8 @@ const cambridgeExpansionModules: LanguageModule[] = [
   },
   {
     id: "cambridge-flyers-exp",
-    title: "Cambridge Flyers — Mở rộng",
-    titleEn: "Cambridge Flyers — Expansion",
+    title: "Cambridge Flyers - Mở rộng",
+    titleEn: "Cambridge Flyers - Expansion",
     icon: "✈️",
     color: "from-sky-500 to-blue-600",
     description: "Ngữ pháp & Đọc hiểu cho Flyers",
@@ -554,8 +554,8 @@ const cambridgeExpansionModules: LanguageModule[] = [
 const nationalExamExpansionModules: LanguageModule[] = [
   {
     id: "national-exam-exp",
-    title: "Thi THPT QG — Mở rộng",
-    titleEn: "National Exam — Expansion",
+    title: "Thi THPT QG - Mở rộng",
+    titleEn: "National Exam - Expansion",
     icon: "🎓",
     color: "from-red-500 to-orange-500",
     description: "Từ vựng & Viết cho thi THPT Quốc gia",
@@ -601,8 +601,8 @@ const nationalExamExpansionModules: LanguageModule[] = [
         titleEn: "Paragraph Writing",
         level: 4,
         difficulty: "advanced",
-        theory: `## Viết đoạn văn — Thi THPT QG\n\n### Dạng 1: Viết lại câu (Sentence transformation)\n- Giữ nguyên nghĩa, dùng từ/cấu trúc cho trước\n- Ví dụ: Active → Passive, Direct → Reported speech\n\n### Dạng 2: Viết đoạn văn 120-150 từ\n- **Topic sentence**: Câu chủ đề\n- **Supporting sentences**: 2-3 ý + ví dụ\n- **Concluding sentence**: Kết luận\n\n### Lưu ý:\n- Dùng **linking words**: Firstly, Moreover, In conclusion\n- Tránh **lặp từ**: dùng synonyms\n- Chú ý **grammar**: thì, số ít/nhiều, articles`,
-        theoryEn: `## Paragraph Writing — National Exam\n\n### Type 1: Sentence transformation\n- Keep the same meaning using given word/structure\n- Examples: Active → Passive, Direct → Reported speech\n\n### Type 2: Write a 120-150 word paragraph\n- **Topic sentence**: Main idea\n- **Supporting sentences**: 2-3 points + examples\n- **Concluding sentence**: Conclusion\n\n### Notes:\n- Use **linking words**: Firstly, Moreover, In conclusion\n- Avoid **repetition**: use synonyms\n- Watch **grammar**: tenses, singular/plural, articles`,
+        theory: `## Viết đoạn văn - Thi THPT QG\n\n### Dạng 1: Viết lại câu (Sentence transformation)\n- Giữ nguyên nghĩa, dùng từ/cấu trúc cho trước\n- Ví dụ: Active → Passive, Direct → Reported speech\n\n### Dạng 2: Viết đoạn văn 120-150 từ\n- **Topic sentence**: Câu chủ đề\n- **Supporting sentences**: 2-3 ý + ví dụ\n- **Concluding sentence**: Kết luận\n\n### Lưu ý:\n- Dùng **linking words**: Firstly, Moreover, In conclusion\n- Tránh **lặp từ**: dùng synonyms\n- Chú ý **grammar**: thì, số ít/nhiều, articles`,
+        theoryEn: `## Paragraph Writing - National Exam\n\n### Type 1: Sentence transformation\n- Keep the same meaning using given word/structure\n- Examples: Active → Passive, Direct → Reported speech\n\n### Type 2: Write a 120-150 word paragraph\n- **Topic sentence**: Main idea\n- **Supporting sentences**: 2-3 points + examples\n- **Concluding sentence**: Conclusion\n\n### Notes:\n- Use **linking words**: Firstly, Moreover, In conclusion\n- Avoid **repetition**: use synonyms\n- Watch **grammar**: tenses, singular/plural, articles`,
         vocabulary: [
           { word: "moreover", meaning: "hơn nữa", meaningEn: "in addition", example: "Moreover, exercise reduces stress.", exampleEn: "Moreover, exercise reduces stress.", partOfSpeech: "adverb" },
           { word: "consequently", meaning: "do đó", meaningEn: "as a result", example: "He didn't study. Consequently, he failed.", exampleEn: "He didn't study. Consequently, he failed.", partOfSpeech: "adverb" }
@@ -669,7 +669,7 @@ const grammarExpansion3Modules: LanguageModule[] = [
         ],
         quiz: [
           { question: "'Turn down' means:", options: ["Bật lên", "Từ chối", "Tìm kiếm", "Bỏ đi"], answer: 1, explanation: "'Turn down' = từ chối (an offer, invitation)." },
-          { question: "'Come up with' is:", options: ["Separable", "Inseparable", "Intransitive", "Linking verb"], answer: 1, explanation: "'Come up with' là inseparable — không thể tách particle." },
+          { question: "'Come up with' is:", options: ["Separable", "Inseparable", "Intransitive", "Linking verb"], answer: 1, explanation: "'Come up with' là inseparable - không thể tách particle." },
           { question: "'Carry out an experiment' means:", options: ["Hủy thí nghiệm", "Thực hiện thí nghiệm", "Thiết kế thí nghiệm", "Mang thí nghiệm đi"], answer: 1, explanation: "'Carry out' = thực hiện, tiến hành." }
         ]
       },

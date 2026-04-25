@@ -8,7 +8,7 @@
 export const normalizeText = (text: string): string => {
   return text
     .toLowerCase()
-    .replace(/[.,!?;:"'`()\[\]{}—–-]/g, " ")
+    .replace(/[.,!?;:"'`()\[\]{}-–-]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 };
@@ -17,7 +17,7 @@ export const normalizeText = (text: string): string => {
 export const tokenize = (text: string): string[] =>
   normalizeText(text).split(" ").filter(Boolean);
 
-// Levenshtein distance — used for word-level fuzzy matching
+// Levenshtein distance - used for word-level fuzzy matching
 const levenshtein = (a: string, b: string): number => {
   if (a === b) return 0;
   if (!a.length) return b.length;
@@ -87,7 +87,7 @@ export const diffWords = (expected: string, actual: string): WordDiff[] => {
   return result;
 };
 
-// Keyword coverage — for Describe Image / Summarize tasks
+// Keyword coverage - for Describe Image / Summarize tasks
 export const keywordCoverage = (response: string, keywords: string[]): { hits: string[]; coverage: number } => {
   const normalized = normalizeText(response);
   const hits = keywords.filter(kw => {

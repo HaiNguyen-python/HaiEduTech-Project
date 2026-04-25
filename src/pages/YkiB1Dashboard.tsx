@@ -123,8 +123,8 @@ const YkiB1Dashboard = () => {
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-3xl">
             {t(
-              "Luyện 4 kỹ năng theo chuẩn YKI Keskitaso. Đắm mình trong tiếng Phần Lan — gợi ý tiếng Việt chỉ hiện khi bạn cần.",
-              "Train all 4 skills aligned with YKI Keskitaso. Immerse in Finnish — Vietnamese hints only appear if you ask."
+              "Luyện 4 kỹ năng theo chuẩn YKI Keskitaso. Đắm mình trong tiếng Phần Lan - gợi ý tiếng Việt chỉ hiện khi bạn cần.",
+              "Train all 4 skills aligned with YKI Keskitaso. Immerse in Finnish - Vietnamese hints only appear if you ask."
             )}
           </p>
         </motion.div>
@@ -142,8 +142,8 @@ const YkiB1Dashboard = () => {
             <Badge variant="outline">{word.partOfSpeech}</Badge>
             <span className="text-sm text-muted-foreground">{lang === "vi" ? word.meaningVi : word.meaningEn}</span>
           </div>
-          <p className="text-sm mt-2 italic">"{word.exampleFi}" — <span className="text-muted-foreground">{word.exampleEn}</span></p>
-          <Button size="sm" variant="outline" className="mt-3" onClick={() => saveToNotebook(`B1 Word: ${word.fi}`, `${word.fi} (${word.partOfSpeech}) — ${word.meaningEn}\nVi: ${word.meaningVi}\nEx: ${word.exampleFi} = ${word.exampleEn}`)}>
+          <p className="text-sm mt-2 italic">"{word.exampleFi}" - <span className="text-muted-foreground">{word.exampleEn}</span></p>
+          <Button size="sm" variant="outline" className="mt-3" onClick={() => saveToNotebook(`B1 Word: ${word.fi}`, `${word.fi} (${word.partOfSpeech}) - ${word.meaningEn}\nVi: ${word.meaningVi}\nEx: ${word.exampleFi} = ${word.exampleEn}`)}>
             <NotebookPen className="w-3 h-3 mr-1" /> {t("Lưu vào Sổ tay", "Save to Notebook")}
           </Button>
         </Card>
@@ -294,7 +294,7 @@ const YkiB1Dashboard = () => {
               <div className="space-y-2 mb-4">
                 {activeWriting.structure.map((s, i) => (
                   <div key={i} className="text-sm p-2 bg-secondary/40 rounded">
-                    <p className="font-semibold">{s.step} — <span className="text-muted-foreground font-normal">{s.stepFi}</span></p>
+                    <p className="font-semibold">{s.step} - <span className="text-muted-foreground font-normal">{s.stepFi}</span></p>
                     <p className="text-xs italic text-foreground/80 mt-0.5">{s.example}</p>
                   </div>
                 ))}
@@ -326,7 +326,7 @@ const YkiB1Dashboard = () => {
                 <Button onClick={gradeEssay} disabled={grading} className="bg-[#003580] hover:bg-[#003580]/90">
                   {grading ? t("Đang chấm…", "Grading…") : t("AI Chấm bài", "AI Grade")}
                 </Button>
-                <Button variant="outline" onClick={() => saveToNotebook(`YKI B1 — ${activeWriting.title}`, essay)}>
+                <Button variant="outline" onClick={() => saveToNotebook(`YKI B1 - ${activeWriting.title}`, essay)}>
                   <NotebookPen className="w-4 h-4 mr-1" /> {t("Lưu vào Sổ tay", "Save to Notebook")}
                 </Button>
               </div>

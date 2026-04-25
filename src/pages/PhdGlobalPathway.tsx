@@ -1,6 +1,6 @@
 /**
  * @file PhdGlobalPathway.tsx
- * @description PhD scholarship strategy — country guides + research proposal + AI cold email generator.
+ * @description PhD scholarship strategy - country guides + research proposal + AI cold email generator.
  */
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -66,7 +66,7 @@ const PhdGlobalPathway = () => {
       tips: [
         t("Cần Research Proposal mạnh (5-10 trang)", "Strong Research Proposal required (5-10 pages)"),
         t("Tìm supervisor có cùng hướng nghiên cứu trước", "Find supervisor with matching research first"),
-        t("Apply RTP (Research Training Program) — full funding", "Apply RTP (Research Training Program) — full funding"),
+        t("Apply RTP (Research Training Program) - full funding", "Apply RTP (Research Training Program) - full funding"),
         t("Group of Eight (Go8): Melbourne, ANU, Sydney, UNSW...", "Group of Eight (Go8): Melbourne, ANU, Sydney, UNSW..."),
         t("IELTS >6.5 (overall), no band <6.0", "IELTS >6.5 (overall), no band <6.0"),
       ],

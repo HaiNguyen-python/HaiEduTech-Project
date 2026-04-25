@@ -1,6 +1,6 @@
 /**
  * @file SatRoadmap.tsx
- * @description SAT Success Path — 3-phase timeline with milestones and curated resources.
+ * @description SAT Success Path - 3-phase timeline with milestones and curated resources.
  */
 import { motion } from "framer-motion";
 import { Compass, BookOpen, Calculator, Target, Clock, FileText, ChevronRight, ExternalLink, CheckCircle2 } from "lucide-react";
@@ -25,12 +25,12 @@ const SatRoadmap = () => {
       milestones: [
         t("Học hết 30 luật ngữ pháp SAT (Subject-Verb, Pronoun, Modifier...)", "Master 30 SAT grammar rules (SV agreement, pronouns, modifiers...)"),
         t("Ôn lại Algebra I + II, Linear Equations, Functions", "Review Algebra I + II, Linear Equations, Functions"),
-        t("Đọc 2 passage/ngày — gạch main idea, tone", "Read 2 passages/day — highlight main idea, tone"),
+        t("Đọc 2 passage/ngày - gạch main idea, tone", "Read 2 passages/day - highlight main idea, tone"),
         t("Build vocab: 500 từ học thuật cao tần", "Build vocab: 500 high-frequency academic words"),
       ],
       resources: [
         { label: "Khan Academy SAT (free official)", url: "https://www.khanacademy.org/test-prep/v2-sat" },
-        { label: "Erica Meltzer — The Critical Reader", url: "https://thecriticalreader.com/" },
+        { label: "Erica Meltzer - The Critical Reader", url: "https://thecriticalreader.com/" },
       ],
     },
     {

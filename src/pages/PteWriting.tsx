@@ -1,6 +1,6 @@
 /**
  * @file PteWriting.tsx
- * @description PTE Writing module — Essay & Summarize Written Text with timer, word counter, AI scoring, Notebook save.
+ * @description PTE Writing module - Essay & Summarize Written Text with timer, word counter, AI scoring, Notebook save.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";

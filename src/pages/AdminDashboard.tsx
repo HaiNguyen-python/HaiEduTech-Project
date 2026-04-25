@@ -349,7 +349,7 @@ const AdminDashboard = () => {
                         <span className="text-xs text-muted-foreground">{s.label}</span>
                       </div>
                       <p className="text-2xl font-bold text-foreground tabular-nums">
-                        {loadingData ? "—" : s.value}
+                        {loadingData ? "-" : s.value}
                       </p>
                     </CardContent>
                   </Card>
@@ -554,7 +554,7 @@ const AdminDashboard = () => {
                                     </div>
                                   </TableCell>
                                   <TableCell className="text-xs text-muted-foreground max-w-[200px] truncate">
-                                    {topRec ? t(topRec.actionVi, topRec.action) : "—"}
+                                    {topRec ? t(topRec.actionVi, topRec.action) : "-"}
                                   </TableCell>
                                 </TableRow>
                               );
@@ -622,7 +622,7 @@ const AdminDashboard = () => {
                                       <TableCell className="text-center tabular-nums">{state.totalActivities}</TableCell>
                                       <TableCell className="text-center">
                                         <span className={`font-bold tabular-nums ${state.avgScore >= 7 ? "text-green-600" : state.avgScore >= 5 ? "text-yellow-600" : "text-red-600"}`}>
-                                          {state.avgScore > 0 ? state.avgScore : "—"}
+                                          {state.avgScore > 0 ? state.avgScore : "-"}
                                         </span>
                                       </TableCell>
                                       <TableCell className="text-center">
@@ -683,7 +683,7 @@ const AdminDashboard = () => {
                                   <div className="flex-1">
                                     <div className="flex justify-between text-xs mb-0.5">
                                       <span className="text-muted-foreground">{t(DOMAIN_LABELS[domain].vi, DOMAIN_LABELS[domain].en)}</span>
-                                      <span className="font-bold">{data.count > 0 ? `${data.avgScore}/10` : "—"}</span>
+                                      <span className="font-bold">{data.count > 0 ? `${data.avgScore}/10` : "-"}</span>
                                     </div>
                                     <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                                       <div

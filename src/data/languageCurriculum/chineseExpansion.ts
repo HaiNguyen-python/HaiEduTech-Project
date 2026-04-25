@@ -23,24 +23,24 @@ export const chineseExpansionModules: LanguageModule[] = [
 Bổ ngữ kết quả đặt sau động từ, chỉ kết quả của hành động.
 
 ## Cấu trúc: 动词 + 结果补语
-- 看**见** (kàn jiàn) — nhìn thấy
-- 听**懂** (tīng dǒng) — nghe hiểu
-- 做**完** (zuò wán) — làm xong
-- 学**会** (xué huì) — học được
+- 看**见** (kàn jiàn) - nhìn thấy
+- 听**懂** (tīng dǒng) - nghe hiểu
+- 做**完** (zuò wán) - làm xong
+- 学**会** (xué huì) - học được
 
 ## 程度补语 (Degree Complement)
 - Cấu trúc: 动词/形容词 + 得 + 程度
-- 她唱**得很好** — Cô ấy hát rất hay
-- 他跑**得很快** — Anh ấy chạy rất nhanh
-- 我累**得不想动** — Tôi mệt đến mức không muốn cử động`,
+- 她唱**得很好** - Cô ấy hát rất hay
+- 他跑**得很快** - Anh ấy chạy rất nhanh
+- 我累**得不想动** - Tôi mệt đến mức không muốn cử động`,
         theoryEn: `# Result & Degree Complements
 
 ## Result Complement: Verb + Result
 - 看见 (see), 听懂 (understand by listening), 做完 (finish doing)
 
 ## Degree Complement: Verb/Adj + 得 + Degree
-- 她唱得很好 — She sings very well
-- 他跑得很快 — He runs very fast`,
+- 她唱得很好 - She sings very well
+- 他跑得很快 - He runs very fast`,
         vocabulary: [
           { word: "看见", pinyin: "kàn jiàn", meaning: "nhìn thấy", example: "我看见他了。", partOfSpeech: "verb" },
           { word: "听懂", pinyin: "tīng dǒng", meaning: "nghe hiểu", example: "你听懂了吗？", partOfSpeech: "verb" },
@@ -60,22 +60,22 @@ Bổ ngữ kết quả đặt sau động từ, chỉ kết quả của hành đ
           },
         ],
         quiz: [
-          { question: "看见 (kàn jiàn) means:", options: ["to look", "to see (successfully)", "to watch TV", "to read"], answer: 1, explanation: "看见 means to see/spot something — the result complement 见 indicates successful seeing." },
-          { question: "她唱得很好 — what does 得 do here?", options: ["Possession marker", "Degree complement marker", "Past tense marker", "Question marker"], answer: 1, explanation: "得 connects the verb to a degree complement describing how well." },
+          { question: "看见 (kàn jiàn) means:", options: ["to look", "to see (successfully)", "to watch TV", "to read"], answer: 1, explanation: "看见 means to see/spot something - the result complement 见 indicates successful seeing." },
+          { question: "她唱得很好 - what does 得 do here?", options: ["Possession marker", "Degree complement marker", "Past tense marker", "Question marker"], answer: 1, explanation: "得 connects the verb to a degree complement describing how well." },
         ],
       },
       {
         id: "hsk3-exp-passive",
-        title: "被字句 — Câu bị động",
+        title: "被字句 - Câu bị động",
         titleEn: "Passive Sentences with 被",
         level: 3,
         difficulty: "intermediate",
         theory: `# 被字句 (Passive Voice with 被)
 
 ## Cấu trúc: 受事 + 被 + (施事) + 动词 + 其他
-- 我的手机**被**偷了。— Điện thoại tôi bị trộm mất.
-- 蛋糕**被**弟弟吃了。— Bánh bị em trai ăn mất.
-- 那本书**被**借走了。— Quyển sách đó đã bị mượn đi.
+- 我的手机**被**偷了。- Điện thoại tôi bị trộm mất.
+- 蛋糕**被**弟弟吃了。- Bánh bị em trai ăn mất.
+- 那本书**被**借走了。- Quyển sách đó đã bị mượn đi.
 
 ## Khi nào dùng 被?
 1. Khi muốn nhấn mạnh người/vật bị ảnh hưởng
@@ -84,11 +84,11 @@ Bổ ngữ kết quả đặt sau động từ, chỉ kết quả của hành đ
 
 ## So sánh với tiếng Việt
 - 被 ≈ "bị" (tiêu cực) hoặc "được" (tích cực)
-- 他被选为班长 — Anh ấy **được** chọn làm lớp trưởng`,
+- 他被选为班长 - Anh ấy **được** chọn làm lớp trưởng`,
         theoryEn: `# Passive Voice with 被
 
 Structure: Object + 被 + (Agent) + Verb + Other
-- 我的手机被偷了 — My phone was stolen
+- 我的手机被偷了 - My phone was stolen
 - Usually carries negative meaning
 - Agent can be omitted`,
         vocabulary: [
@@ -114,28 +114,28 @@ Structure: Object + 被 + (Agent) + Verb + Other
       },
       {
         id: "hsk3-exp-comparison",
-        title: "比较句型 — So sánh",
+        title: "比较句型 - So sánh",
         titleEn: "Comparison Patterns",
         level: 3,
         difficulty: "intermediate",
         theory: `# 比较句型 (Comparison Patterns)
 
 ## 1. A 比 B + Adj
-- 他**比**我高。— Anh ấy cao hơn tôi.
-- 今天**比**昨天冷。— Hôm nay lạnh hơn hôm qua.
+- 他**比**我高。- Anh ấy cao hơn tôi.
+- 今天**比**昨天冷。- Hôm nay lạnh hơn hôm qua.
 
 ## 2. A 比 B + Adj + 具体差距
-- 他比我高**五厘米**。— Anh ấy cao hơn tôi 5cm.
-- 她比我大**两岁**。— Cô ấy lớn hơn tôi 2 tuổi.
+- 他比我高**五厘米**。- Anh ấy cao hơn tôi 5cm.
+- 她比我大**两岁**。- Cô ấy lớn hơn tôi 2 tuổi.
 
 ## 3. A 没有 B + Adj (phủ định)
-- 我没有他高。— Tôi không cao bằng anh ấy.
+- 我没有他高。- Tôi không cao bằng anh ấy.
 
 ## 4. A 跟 B 一样 + Adj (bằng nhau)
-- 我跟他一样高。— Tôi cao bằng anh ấy.
+- 我跟他一样高。- Tôi cao bằng anh ấy.
 
 ## 5. A 不如 B (kém hơn)
-- 我的中文不如他好。— Tiếng Trung của tôi không tốt bằng anh ấy.`,
+- 我的中文不如他好。- Tiếng Trung của tôi không tốt bằng anh ấy.`,
         theoryEn: `# Comparison Patterns
 1. A 比 B + Adj (A is more... than B)
 2. A 没有 B + Adj (A is not as... as B)
@@ -160,7 +160,7 @@ Structure: Object + 被 + (Agent) + Verb + Other
       },
       {
         id: "hsk3-exp-duration",
-        title: "时量补语 — Thời lượng",
+        title: "时量补语 - Thời lượng",
         titleEn: "Duration Expressions",
         level: 3,
         difficulty: "intermediate",
@@ -170,25 +170,25 @@ Structure: Object + 被 + (Agent) + Verb + Other
 动词 + 时量 (+ 的 + 宾语)
 
 ## Ví dụ
-- 我学了**三年**中文。— Tôi đã học tiếng Trung 3 năm.
-- 他等了**两个小时**。— Anh ấy đã đợi 2 tiếng.
-- 我看了**一个下午**的书。— Tôi đã đọc sách cả buổi chiều.
+- 我学了**三年**中文。- Tôi đã học tiếng Trung 3 năm.
+- 他等了**两个小时**。- Anh ấy đã đợi 2 tiếng.
+- 我看了**一个下午**的书。- Tôi đã đọc sách cả buổi chiều.
 
 ## Đơn vị thời gian
-- 分钟 (fēn zhōng) — phút
-- 小时 (xiǎo shí) — giờ
-- 天 (tiān) — ngày
-- 星期/周 (xīng qī/zhōu) — tuần
-- 月 (yuè) — tháng
-- 年 (nián) — năm
+- 分钟 (fēn zhōng) - phút
+- 小时 (xiǎo shí) - giờ
+- 天 (tiān) - ngày
+- 星期/周 (xīng qī/zhōu) - tuần
+- 月 (yuè) - tháng
+- 年 (nián) - năm
 
 ## Lưu ý
 - Nếu có tân ngữ: 动词 + 了 + 时量 + 的 + 宾语
 - 我看了三个小时**的**电视。`,
         theoryEn: `# Duration Complement
 Structure: Verb + Duration (+ 的 + Object)
-- 我学了三年中文 — I studied Chinese for 3 years
-- 他等了两个小时 — He waited for 2 hours`,
+- 我学了三年中文 - I studied Chinese for 3 years
+- 他等了两个小时 - He waited for 2 hours`,
         exercises: [
           {
             type: "fill-in-blank",
@@ -201,7 +201,7 @@ Structure: Verb + Duration (+ 的 + Object)
           },
         ],
         quiz: [
-          { question: "我看了三个小时的电视 — why is 的 needed here?", options: ["Because it's past tense", "Because there's an object after the duration", "Because it's a question", "It's optional"], answer: 1, explanation: "When there's an object after the duration, 的 connects them." },
+          { question: "我看了三个小时的电视 - why is 的 needed here?", options: ["Because it's past tense", "Because there's an object after the duration", "Because it's a question", "It's optional"], answer: 1, explanation: "When there's an object after the duration, 的 connects them." },
           { question: "小时 means:", options: ["minute", "hour", "day", "week"], answer: 1, explanation: "小时 (xiǎo shí) means 'hour'." },
         ],
       },
@@ -220,26 +220,26 @@ Structure: Verb + Duration (+ 的 + Object)
     lessons: [
       {
         id: "hsk4-exp-complex",
-        title: "复句 — Câu phức",
+        title: "复句 - Câu phức",
         titleEn: "Complex Sentences",
         level: 4,
         difficulty: "advanced",
         theory: `# 复句 (Complex Sentences)
 
 ## 1. 因为...所以... (vì...nên...)
-- **因为**下雨了，**所以**我没去。— Vì trời mưa nên tôi không đi.
+- **因为**下雨了，**所以**我没去。- Vì trời mưa nên tôi không đi.
 
 ## 2. 虽然...但是... (mặc dù...nhưng...)
-- **虽然**他很忙，**但是**他还是来了。— Mặc dù anh ấy bận nhưng vẫn đến.
+- **虽然**他很忙，**但是**他还是来了。- Mặc dù anh ấy bận nhưng vẫn đến.
 
 ## 3. 不但...而且... (không những...mà còn...)
-- 她**不但**漂亮，**而且**聪明。— Cô ấy không những đẹp mà còn thông minh.
+- 她**不但**漂亮，**而且**聪明。- Cô ấy không những đẹp mà còn thông minh.
 
 ## 4. 如果...就... (nếu...thì...)
-- **如果**明天下雨，我**就**不去了。— Nếu ngày mai mưa thì tôi không đi.
+- **如果**明天下雨，我**就**不去了。- Nếu ngày mai mưa thì tôi không đi.
 
 ## 5. 只要...就... (chỉ cần...thì...)
-- **只要**你努力，**就**能成功。— Chỉ cần bạn cố gắng thì sẽ thành công.`,
+- **只要**你努力，**就**能成功。- Chỉ cần bạn cố gắng thì sẽ thành công.`,
         theoryEn: `# Complex Sentences
 1. 因为...所以... (because...so...)
 2. 虽然...但是... (although...but...)
@@ -265,7 +265,7 @@ Structure: Verb + Duration (+ 的 + Object)
       },
       {
         id: "hsk4-exp-idioms",
-        title: "常用成语 — Thành ngữ thường dùng",
+        title: "常用成语 - Thành ngữ thường dùng",
         titleEn: "Common Chinese Idioms",
         level: 4,
         difficulty: "advanced",
@@ -318,7 +318,7 @@ Structure: Verb + Duration (+ 的 + Object)
       },
       {
         id: "hsk4-exp-formal",
-        title: "正式写作 — Văn viết trang trọng",
+        title: "正式写作 - Văn viết trang trọng",
         titleEn: "Formal Writing",
         level: 4,
         difficulty: "advanced",
@@ -391,19 +391,19 @@ Structure: Verb + Duration (+ 的 + Object)
         theory: `# HSK5 高级语法句式
 
 ## 1. 与其...不如... (thà...còn hơn...)
-- 与其抱怨，不如行动。— Thà hành động còn hơn than phiền.
+- 与其抱怨，不如行动。- Thà hành động còn hơn than phiền.
 
 ## 2. 即使...也... (dù cho...cũng...)
-- 即使下雨，我也要去。— Dù trời mưa, tôi cũng sẽ đi.
+- 即使下雨，我也要去。- Dù trời mưa, tôi cũng sẽ đi.
 
 ## 3. 无论...都... (bất kể...đều...)
-- 无论多难，我都不放弃。— Bất kể khó đến đâu, tôi đều không bỏ cuộc.
+- 无论多难，我都不放弃。- Bất kể khó đến đâu, tôi đều không bỏ cuộc.
 
 ## 4. 既然...就... (đã...thì...)
-- 既然来了，就好好玩。— Đã đến rồi thì chơi cho vui.
+- 既然来了，就好好玩。- Đã đến rồi thì chơi cho vui.
 
 ## 5. 不是...而是... (không phải...mà là...)
-- 不是我不想去，而是没时间。— Không phải tôi không muốn đi, mà là không có thời gian.`,
+- 不是我不想去，而是没时间。- Không phải tôi không muốn đi, mà là không có thời gian.`,
         theoryEn: `# HSK5 Advanced Grammar Patterns
 1. 与其...不如... (rather than X, better to Y)
 2. 即使...也... (even if X, still Y)
@@ -448,8 +448,8 @@ Structure: Verb + Duration (+ 的 + Object)
 ## Ví dụ nổi tiếng
 ### 学而时习之 (Học nhi thời tập chi)
 - 学 (học) 而 (và/rồi) 时 (thường xuyên) 习 (ôn tập) 之 (nó/điều đó)
-- Nghĩa: Học rồi thường xuyên ôn tập — chẳng phải vui sao?
-- Nguồn: Luận Ngữ (论语) — Khổng Tử
+- Nghĩa: Học rồi thường xuyên ôn tập - chẳng phải vui sao?
+- Nguồn: Luận Ngữ (论语) - Khổng Tử
 
 ### 三人行必有我师 (Tam nhân hành tất hữu ngã sư)
 - Ba người đi cùng, ắt có người là thầy ta
@@ -470,19 +470,19 @@ Structure: Verb + Duration (+ 的 + Object)
             instruction: "Dịch câu cổ văn",
             instructionEn: "Translate the classical Chinese phrase",
             sentences: [
-              { text: "学而时习之 — Học rồi thường xuyên ___。", textEn: "Study and regularly ___.", answer: "ôn tập", hint: "review/practice" },
-              { text: "三人行必有我___ — Ba người đi cùng ắt có người là thầy ta.", textEn: "Among three, there's always my ___.", answer: "师", hint: "teacher" },
+              { text: "学而时习之 - Học rồi thường xuyên ___。", textEn: "Study and regularly ___.", answer: "ôn tập", hint: "review/practice" },
+              { text: "三人行必有我___ - Ba người đi cùng ắt có người là thầy ta.", textEn: "Among three, there's always my ___.", answer: "师", hint: "teacher" },
             ],
           },
         ],
         quiz: [
-          { question: "In classical Chinese, 之 can mean:", options: ["Only 'of'", "Only 'go'", "'it', 'of', or 'go to' depending on context", "Nothing, it's just a filler"], answer: 2, explanation: "之 is polysemous in classical Chinese — meaning depends on context." },
-          { question: "三人行必有我师 teaches:", options: ["Three is a lucky number", "You can always learn from others", "Teachers must walk together", "Study in groups of three"], answer: 1, explanation: "Among any three people, one can be your teacher — always learn from others." },
+          { question: "In classical Chinese, 之 can mean:", options: ["Only 'of'", "Only 'go'", "'it', 'of', or 'go to' depending on context", "Nothing, it's just a filler"], answer: 2, explanation: "之 is polysemous in classical Chinese - meaning depends on context." },
+          { question: "三人行必有我师 teaches:", options: ["Three is a lucky number", "You can always learn from others", "Teachers must walk together", "Study in groups of three"], answer: 1, explanation: "Among any three people, one can be your teacher - always learn from others." },
         ],
       },
       {
         id: "hsk5-exp-news",
-        title: "新闻阅读 — Đọc tin tức",
+        title: "新闻阅读 - Đọc tin tức",
         titleEn: "News Reading",
         level: 4,
         difficulty: "advanced",
@@ -495,12 +495,12 @@ Structure: Verb + Duration (+ 的 + Object)
 4. **结尾 (Kết)**: Nhận xét, dự đoán
 
 ## Từ vựng báo chí thường gặp
-- 据报道 (jù bào dào) — Theo báo cáo
-- 有关部门 (yǒu guān bù mén) — Cơ quan liên quan
-- 日前 (rì qián) — Gần đây
-- 预计 (yù jì) — Dự kiến
-- 呼吁 (hū yù) — Kêu gọi
-- 措施 (cuò shī) — Biện pháp
+- 据报道 (jù bào dào) - Theo báo cáo
+- 有关部门 (yǒu guān bù mén) - Cơ quan liên quan
+- 日前 (rì qián) - Gần đây
+- 预计 (yù jì) - Dự kiến
+- 呼吁 (hū yù) - Kêu gọi
+- 措施 (cuò shī) - Biện pháp
 
 ## Mẹo đọc tin
 - Đọc tiêu đề và lead trước

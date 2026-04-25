@@ -1,4 +1,4 @@
-// Daily Vietnamese expansion — 30 ngày tiếp theo (31-60), chủ đề nâng cao
+// Daily Vietnamese expansion - 30 ngày tiếp theo (31-60), chủ đề nâng cao
 import type { DailyMicroLesson } from "./dailyVietnameseData";
 
 export const dailyMicroLessonsExpansion: DailyMicroLesson[] = [

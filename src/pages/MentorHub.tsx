@@ -1,6 +1,6 @@
 /**
  * @file MentorHub.tsx
- * @description Mentor Hub — static success stories from HaiEduTech alumni
+ * @description Mentor Hub - static success stories from HaiEduTech alumni
  *   plus an inquiry form that emails Teacher Hai (contact_messages table).
  */
 import { useState } from "react";
@@ -90,7 +90,7 @@ const MentorHub = () => {
               {t("Học từ những người đã đi trước", "Learn from those who've been there")}
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-emerald-600 bg-clip-text text-transparent">
-              {t("Mentor Hub — Cộng đồng cựu học viên", "Mentor Hub — Alumni Community")}
+              {t("Mentor Hub - Cộng đồng cựu học viên", "Mentor Hub - Alumni Community")}
             </h1>
             <p className="text-base text-muted-foreground max-w-2xl mx-auto">
               {t(
@@ -293,7 +293,7 @@ const MentorHub = () => {
             </Card>
           </motion.div>
 
-          {/* AdSense — informational page, after mentor inquiry form */}
+          {/* AdSense - informational page, after mentor inquiry form */}
           <AdSlot />
         </div>
       </main>

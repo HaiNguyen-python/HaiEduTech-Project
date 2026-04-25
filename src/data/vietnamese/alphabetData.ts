@@ -1,4 +1,4 @@
-// Vietnamese Alphabet Data — 29 letters + 6 tones
+// Vietnamese Alphabet Data - 29 letters + 6 tones
 
 export interface AlphabetLetter {
   letter: string;
@@ -51,7 +51,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokePaths: [
       "M18,24 C8,24 4,30 4,38 C4,46 8,52 18,52 C28,52 32,46 32,38 C32,30 28,24 18,24",
       "M32,24 L32,52",
-      "M12,14 Q20,22 28,14"  // breve ˘ — concave down arc
+      "M12,14 Q20,22 28,14"  // breve ˘ - concave down arc
     ]
   },
   // ── â ──
@@ -255,7 +255,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokeCount: 2,
     strokePaths: [
       "M20,24 C10,24 4,30 4,38 C4,46 10,52 20,52 C30,52 36,46 36,38 C36,30 30,24 20,24",
-      "M32,26 C32,22 34,18 38,16 C36,20 36,24 34,26"  // horn — smooth curve from oval top-right, curling outward then back
+      "M32,26 C32,22 34,18 38,16 C36,20 36,24 34,26"  // horn - smooth curve from oval top-right, curling outward then back
     ]
   },
   // ── p ──
@@ -339,7 +339,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
     strokePaths: [
       "M10,24 L10,42 C10,52 30,52 30,42",
       "M30,24 L30,52",
-      "M30,24 C30,20 32,16 36,14 C34,18 34,22 32,24"  // horn — smooth curve from stem top, curling outward then back
+      "M30,24 C30,20 32,16 36,14 C34,18 34,22 32,24"  // horn - smooth curve from stem top, curling outward then back
     ]
   },
   // ── v ──
@@ -383,7 +383,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
 export const vietnameseTones: ToneMark[] = [
   {
     name: "Thanh ngang (không dấu)", nameEn: "Level tone (no mark)",
-    mark: "—", example: "ma", exampleMeaning: "ma (hồn ma)", exampleMeaningEn: "ghost",
+    mark: "-", example: "ma", exampleMeaning: "ma (hồn ma)", exampleMeaningEn: "ghost",
     description: "Giọng bằng phẳng, cao vừa, giữ đều từ đầu đến cuối",
     descriptionEn: "Flat, mid-level pitch, held steady from start to end",
     pitchDirection: "flat"

@@ -97,7 +97,7 @@ const CompareSchoolsDashboard = () => {
     }
   };
 
-  const fmtUsd = (n: number) => n > 0 ? `$${n.toLocaleString()}` : "—";
+  const fmtUsd = (n: number) => n > 0 ? `$${n.toLocaleString()}` : "-";
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -216,7 +216,7 @@ const CompareSchoolsDashboard = () => {
                           <tr className="border-b">
                             <td className="p-3 font-medium flex items-center gap-2"><Award className="w-4 h-4 text-violet-500" />{t("QS Ranking", "QS Ranking")}</td>
                             {selected.map((u) => (
-                              <td key={u.id} className="p-3 font-bold">#{u.qsRanking < 9999 ? u.qsRanking : "—"}</td>
+                              <td key={u.id} className="p-3 font-bold">#{u.qsRanking < 9999 ? u.qsRanking : "-"}</td>
                             ))}
                           </tr>
                           <tr className="border-b">
@@ -234,7 +234,7 @@ const CompareSchoolsDashboard = () => {
                           <tr className="border-b">
                             <td className="p-3 font-medium flex items-center gap-2"><Plane className="w-4 h-4 text-amber-500" />{t("Visa làm việc", "Post-study visa")}</td>
                             {selected.map((u) => (
-                              <td key={u.id} className="p-3">{u.postStudyVisaMonths > 0 ? `${u.postStudyVisaMonths} ${t("tháng", "months")}` : "—"}</td>
+                              <td key={u.id} className="p-3">{u.postStudyVisaMonths > 0 ? `${u.postStudyVisaMonths} ${t("tháng", "months")}` : "-"}</td>
                             ))}
                           </tr>
                           <tr className="border-b">
@@ -265,7 +265,7 @@ const CompareSchoolsDashboard = () => {
                                   <a href={u.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1 text-xs">
                                     {t("Mở", "Open")} <ExternalLink className="w-3 h-3" />
                                   </a>
-                                ) : "—"}
+                                ) : "-"}
                               </td>
                             ))}
                           </tr>

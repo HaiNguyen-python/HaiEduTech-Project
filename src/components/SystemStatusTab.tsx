@@ -227,7 +227,7 @@ const SystemStatusTab = () => {
           { icon: Activity, label: t("Tổng token", "Total Tokens"), value: totalTokens.toLocaleString(), color: "text-emerald-500" },
           { icon: DollarSign, label: t("Chi phí ước tính", "Est. Cost"), value: `$${totalCost.toFixed(4)}`, color: "text-amber-500" },
           { icon: TrendingUp, label: t("Tỷ lệ thành công", "Success Rate"), value: `${successRate}%`, color: successRate >= 95 ? "text-emerald-500" : "text-red-500" },
-          { icon: DollarSign, label: t("Số dư còn lại", "Remaining Balance"), value: currentBalance !== null ? `$${currentBalance.toFixed(2)}` : "—", color: isLowBalance ? "text-red-500" : "text-emerald-500" },
+          { icon: DollarSign, label: t("Số dư còn lại", "Remaining Balance"), value: currentBalance !== null ? `$${currentBalance.toFixed(2)}` : "-", color: isLowBalance ? "text-red-500" : "text-emerald-500" },
         ].map((m, i) => (
           <Card key={i} className={isLowBalance && i === 4 ? "border-destructive/50 bg-destructive/5" : ""}>
             <CardContent className="p-4">
@@ -235,7 +235,7 @@ const SystemStatusTab = () => {
                 <m.icon className={`w-4 h-4 ${m.color}`} />
                 <span className="text-xs text-muted-foreground">{m.label}</span>
               </div>
-              <p className="text-xl font-bold text-foreground tabular-nums">{loading ? "—" : m.value}</p>
+              <p className="text-xl font-bold text-foreground tabular-nums">{loading ? "-" : m.value}</p>
             </CardContent>
           </Card>
         ))}
@@ -398,7 +398,7 @@ const SystemStatusTab = () => {
                 <p className="text-2xl font-bold text-foreground tabular-nums">${balance.balance.toFixed(2)}</p>
                 <p className="text-xs text-muted-foreground mt-1">
                   {t("Cập nhật", "Updated")}: {new Date(balance.updated_at).toLocaleString()}
-                  {balance.note && ` — ${balance.note}`}
+                  {balance.note && ` - ${balance.note}`}
                 </p>
               </div>
             )}
@@ -455,7 +455,7 @@ const SystemStatusTab = () => {
                       <TableCell className="text-xs tabular-nums">{new Date(err.created_at).toLocaleString()}</TableCell>
                       <TableCell className="text-sm">{FUNCTION_REGISTRY[err.function_name]?.label || err.function_name}</TableCell>
                       <TableCell><Badge variant="destructive" className="text-xs">{err.status}</Badge></TableCell>
-                      <TableCell className="text-xs text-muted-foreground max-w-[200px] truncate">{err.error_message || "—"}</TableCell>
+                      <TableCell className="text-xs text-muted-foreground max-w-[200px] truncate">{err.error_message || "-"}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

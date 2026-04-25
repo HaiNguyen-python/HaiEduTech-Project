@@ -102,7 +102,7 @@ const VietnamesePoetry = () => {
                 </button>
               </div>
 
-              {/* Poem text — use div instead of pre to fix Vietnamese diacritics */}
+              {/* Poem text - use div instead of pre to fix Vietnamese diacritics */}
               <Card className="p-6 md:p-8 mb-6">
                 <div className="whitespace-pre-wrap font-sans text-lg md:text-xl leading-loose text-foreground">{selectedPoem.text}</div>
                 <hr className="my-4 border-border/60" />
@@ -137,7 +137,7 @@ const VietnamesePoetry = () => {
                   {selectedPoem.vocabulary.map((v, i) => (
                     <div key={i} className="flex items-start gap-2 p-2 rounded-lg bg-muted/50">
                       <span className="font-bold text-primary text-sm">{v.word}</span>
-                      <span className="text-sm text-muted-foreground">— {t(v.meaning, v.meaningEn)}</span>
+                      <span className="text-sm text-muted-foreground">- {t(v.meaning, v.meaningEn)}</span>
                     </div>
                   ))}
                 </div>

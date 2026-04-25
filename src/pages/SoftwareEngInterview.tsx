@@ -98,7 +98,7 @@ const SoftwareEngInterview = () => {
             <div className="text-sm">
               <p className="font-semibold text-foreground mb-1">{t("Phương pháp STAR", "The STAR Method")}</p>
               <p className="text-muted-foreground leading-relaxed">
-                <strong>S</strong>ituation · <strong>T</strong>ask · <strong>A</strong>ction · <strong>R</strong>esult — {t(
+                <strong>S</strong>ituation · <strong>T</strong>ask · <strong>A</strong>ction · <strong>R</strong>esult - {t(
                   "khung trả lời câu hỏi behavioral hiệu quả nhất. Mỗi câu nên có số liệu cụ thể (ví dụ: 'giảm latency 40% từ 800ms xuống 480ms').",
                   "the most effective frame for behavioral questions. Always include concrete numbers (e.g. 'cut latency 40% from 800ms to 480ms')."
                 )}

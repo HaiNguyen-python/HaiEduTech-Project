@@ -522,11 +522,11 @@ export const scholarships: Scholarship[] = [
 
   // ===== ICT / TECH SCHOLARSHIPS =====
 
-  // EU — Erasmus Mundus ICT Innovation
+  // EU - Erasmus Mundus ICT Innovation
   {
     id: "erasmus-mundus-ict",
-    name: "Erasmus Mundus — EIT Digital (ICT Innovation)",
-    nameVi: "Erasmus Mundus — EIT Digital (Đổi mới ICT)",
+    name: "Erasmus Mundus - EIT Digital (ICT Innovation)",
+    nameVi: "Erasmus Mundus - EIT Digital (Đổi mới ICT)",
     country: "EU",
     countryVi: "Liên minh Châu Âu",
     flag: "🇪🇺",
@@ -542,7 +542,7 @@ export const scholarships: Scholarship[] = [
     isFeatured: true,
   },
 
-  // Sweden — SI Scholarships
+  // Sweden - SI Scholarships
   {
     id: "si-sweden",
     name: "Swedish Institute Scholarships for Global Professionals (SISGP)",
@@ -562,7 +562,7 @@ export const scholarships: Scholarship[] = [
     isFeatured: true,
   },
 
-  // Netherlands — Holland Scholarship
+  // Netherlands - Holland Scholarship
   {
     id: "holland-scholarship",
     name: "Holland Scholarship",
@@ -581,7 +581,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.studyinholland.nl/finances/scholarships/highlighted-scholarships/holland-scholarship",
   },
 
-  // Netherlands — Orange Knowledge Programme
+  // Netherlands - Orange Knowledge Programme
   {
     id: "orange-knowledge",
     name: "Orange Knowledge Programme (OKP)",
@@ -600,7 +600,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.nuffic.nl/en/subjects/orange-knowledge-programme",
   },
 
-  // Ireland — Government of Ireland Scholarships
+  // Ireland - Government of Ireland Scholarships
   {
     id: "ireland-gov",
     name: "Government of Ireland International Education Scholarships",
@@ -619,7 +619,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://hea.ie/policy/internationalisation/government-of-ireland-international-education-scholarships/",
   },
 
-  // Estonia — IT Academy
+  // Estonia - IT Academy
   {
     id: "estonia-ict",
     name: "Estonia ICT Scholarship (IT Academy)",
@@ -638,7 +638,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.studyinestonia.ee/scholarships",
   },
 
-  // India — ICCR Scholarship
+  // India - ICCR Scholarship
   {
     id: "iccr-india",
     name: "ICCR Scholarship (Indian Council for Cultural Relations)",
@@ -657,7 +657,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://iccr.gov.in/scholarship",
   },
 
-  // Taiwan — ICDF Scholarship
+  // Taiwan - ICDF Scholarship
   {
     id: "taiwan-icdf",
     name: "Taiwan ICDF International Higher Education Scholarship",
@@ -676,7 +676,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.icdf.org.tw/ct.asp?xItem=12505&CtNode=29842&mp=2",
   },
 
-  // South Korea — KAIST
+  // South Korea - KAIST
   {
     id: "kaist-ict",
     name: "KAIST International Student Scholarship",
@@ -696,7 +696,7 @@ export const scholarships: Scholarship[] = [
     isFeatured: true,
   },
 
-  // Japan — ADB-Japan
+  // Japan - ADB-Japan
   {
     id: "adb-japan",
     name: "ADB-Japan Scholarship Program",
@@ -715,7 +715,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.adb.org/what-we-do/japan-scholarship-program",
   },
 
-  // USA — Google Generation Scholarship
+  // USA - Google Generation Scholarship
   {
     id: "google-generation",
     name: "Google Generation Scholarship (Asia Pacific)",
@@ -736,7 +736,7 @@ export const scholarships: Scholarship[] = [
 
   // ===== EDUCATION / EDTECH SCHOLARSHIPS =====
 
-  // UK — Commonwealth Scholarship (Education)
+  // UK - Commonwealth Scholarship (Education)
   {
     id: "commonwealth-education",
     name: "Commonwealth Scholarship (Education & EdTech Focus)",
@@ -756,11 +756,11 @@ export const scholarships: Scholarship[] = [
     isFeatured: true,
   },
 
-  // Australia — Australia Awards (Education)
+  // Australia - Australia Awards (Education)
   {
     id: "australia-awards-education",
-    name: "Australia Awards — Education Sector",
-    nameVi: "Học bổng Australia Awards — Ngành Giáo dục",
+    name: "Australia Awards - Education Sector",
+    nameVi: "Học bổng Australia Awards - Ngành Giáo dục",
     country: "Australia",
     countryVi: "Úc",
     flag: "🇦🇺",
@@ -775,11 +775,11 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.dfat.gov.au/people-to-people/australia-awards",
   },
 
-  // Finland — Government Scholarship (Education PhD)
+  // Finland - Government Scholarship (Education PhD)
   {
     id: "finland-education-phd",
-    name: "Finland Government Scholarship — Education Research",
-    nameVi: "Học bổng Chính phủ Phần Lan — Nghiên cứu Giáo dục",
+    name: "Finland Government Scholarship - Education Research",
+    nameVi: "Học bổng Chính phủ Phần Lan - Nghiên cứu Giáo dục",
     country: "Finland",
     countryVi: "Phần Lan",
     flag: "🇫🇮",
@@ -794,7 +794,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.studyinfinland.fi/scholarships",
   },
 
-  // New Zealand — NZ-ASEAN Scholars Awards
+  // New Zealand - NZ-ASEAN Scholars Awards
   {
     id: "nz-asean",
     name: "NZ-ASEAN Scholars Awards",
@@ -813,11 +813,11 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.nzscholarships.govt.nz/",
   },
 
-  // Germany — DAAD Digital Education & ICT
+  // Germany - DAAD Digital Education & ICT
   {
     id: "daad-digital-education",
-    name: "DAAD Scholarship — Digital Education & ICT",
-    nameVi: "Học bổng DAAD — Giáo dục Số & ICT",
+    name: "DAAD Scholarship - Digital Education & ICT",
+    nameVi: "Học bổng DAAD - Giáo dục Số & ICT",
     country: "Germany",
     countryVi: "Đức",
     flag: "🇩🇪",
@@ -832,7 +832,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.daad.de/en/study-and-research-in-germany/scholarships/",
   },
 
-  // Canada — Vanier
+  // Canada - Vanier
   {
     id: "vanier-canada",
     name: "Vanier Canada Graduate Scholarships",
@@ -852,7 +852,7 @@ export const scholarships: Scholarship[] = [
     isFeatured: true,
   },
 
-  // Singapore — SUTD
+  // Singapore - SUTD
   {
     id: "sutd-fellowship",
     name: "SUTD President's Graduate Fellowship",
@@ -871,7 +871,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.sutd.edu.sg/Admissions/Graduate/Scholarships",
   },
 
-  // China — Confucius Institute
+  // China - Confucius Institute
   {
     id: "confucius-scholarship",
     name: "Confucius Institute Scholarship (CIS)",
@@ -890,7 +890,7 @@ export const scholarships: Scholarship[] = [
     applyUrl: "https://www.chinesescholarshipcouncil.com/confucius-institute-scholarship.html",
   },
 
-  // Belgium — VLIR-UOS
+  // Belgium - VLIR-UOS
   {
     id: "vlir-uos",
     name: "VLIR-UOS Scholarship (Belgium)",
@@ -910,7 +910,7 @@ export const scholarships: Scholarship[] = [
     isFeatured: true,
   },
 
-  // Norway — NORPART
+  // Norway - NORPART
   {
     id: "norpart-norway",
     name: "Norwegian Partnership Programme (NORPART)",

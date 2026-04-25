@@ -1,6 +1,6 @@
 /**
  * @file englishSatExpansion5.ts
- * @description Deep-dive SAT Math expansion — Algebra/Functions, Statistics & Data Analysis,
+ * @description Deep-dive SAT Math expansion - Algebra/Functions, Statistics & Data Analysis,
  *              and Geometry & Trigonometry with detailed bilingual theory and inline SVG
  *              diagrams (function graphs, geometric figures, distribution charts).
  * @author Teacher Hai (HaiEduTech)
@@ -158,7 +158,7 @@ const SVG_SIMILAR_TRIANGLES = `
 `.trim();
 
 /* ============================================================
- * SAT Math Expansion 5 — Detailed bilingual theory + SVG visuals
+ * SAT Math Expansion 5 - Detailed bilingual theory + SVG visuals
  * ============================================================ */
 export const satExpansionModules5: LanguageModule[] = [
   /* ============= ALGEBRA & FUNCTIONS ============= */
@@ -179,7 +179,7 @@ export const satExpansionModules5: LanguageModule[] = [
         titleEn: "Reading Quadratic Function Graphs",
         level: 4,
         difficulty: "intermediate",
-        theory: `## Đồ thị Parabola — Đọc & Giải bằng tiếng Anh
+        theory: `## Đồ thị Parabola - Đọc & Giải bằng tiếng Anh
 
 Khoảng **15-20% câu Math** trên Digital SAT yêu cầu đọc hoặc phân tích parabola. Hãy nhớ ba dạng phổ biến:
 
@@ -194,12 +194,12 @@ Khoảng **15-20% câu Math** trên Digital SAT yêu cầu đọc hoặc phân t
 
 ${SVG_PARABOLA}
 
-- **Vertex** (đỉnh): điểm (2, −3) — vì h = 2, k = −3
+- **Vertex** (đỉnh): điểm (2, −3) - vì h = 2, k = −3
 - **Axis of symmetry**: đường thẳng x = 2
 - **Direction**: parabola mở lên vì a = 1 > 0
 - **y-intercept**: thay x = 0 → y = (0 − 2)² − 3 = 4 − 3 = 1
 
-### Discriminant (biệt thức) — Δ = b² − 4ac
+### Discriminant (biệt thức) - Δ = b² − 4ac
 - Δ > 0 → 2 nghiệm thực phân biệt (cắt trục x tại 2 điểm)
 - Δ = 0 → 1 nghiệm kép (tiếp xúc trục x)
 - Δ < 0 → vô nghiệm thực (không cắt trục x)
@@ -208,7 +208,7 @@ ${SVG_PARABOLA}
 - "The parabola opens upward/downward" → a > 0 hoặc a < 0
 - "The minimum/maximum value" → giá trị y tại đỉnh
 - "The graph is symmetric about the line x = h" → trục đối xứng`,
-        theoryEn: `## Parabola Graphs — Reading & Solving in English
+        theoryEn: `## Parabola Graphs - Reading & Solving in English
 
 Roughly **15-20% of Digital SAT Math** asks you to read or analyse a parabola. Master three common forms:
 
@@ -228,7 +228,7 @@ ${SVG_PARABOLA}
 - **Direction**: opens upward because a = 1 > 0
 - **y-intercept**: substitute x = 0 → y = (0 − 2)² − 3 = 4 − 3 = 1
 
-### Discriminant — Δ = b² − 4ac
+### Discriminant - Δ = b² − 4ac
 - Δ > 0 → 2 distinct real roots (parabola crosses x-axis twice)
 - Δ = 0 → 1 double root (tangent to x-axis)
 - Δ < 0 → no real roots (does not touch x-axis)
@@ -239,12 +239,12 @@ ${SVG_PARABOLA}
 - "The graph is symmetric about the line x = h" → axis of symmetry`,
         proTips: [
           "Vertex form chuyển nhanh: y = a(x − h)² + k → đỉnh là (h, k), nhớ dấu trừ trong ngoặc.",
-          "Biệt thức Δ = b² − 4ac quyết định số nghiệm — đừng cần giải hết!",
+          "Biệt thức Δ = b² − 4ac quyết định số nghiệm - đừng cần giải hết!",
           "Nếu đề hỏi 'minimum value of y', câu trả lời chính là k của vertex form.",
         ],
         proTipsEn: [
           "Convert quickly to vertex form: y = a(x − h)² + k → vertex (h, k); mind the minus sign.",
-          "The discriminant Δ = b² − 4ac decides the number of roots — no need to solve fully.",
+          "The discriminant Δ = b² − 4ac decides the number of roots - no need to solve fully.",
           "If asked for 'minimum value of y', the answer is k from vertex form.",
         ],
         vocabulary: [
@@ -287,7 +287,7 @@ ${SVG_PARABOLA}
         difficulty: "intermediate",
         theory: `## Hệ phương trình tuyến tính
 
-Một hệ hai phương trình tuyến tính với hai ẩn x và y có thể có **một**, **không**, hoặc **vô số** nghiệm — tùy thuộc vào quan hệ hình học giữa hai đường thẳng.
+Một hệ hai phương trình tuyến tính với hai ẩn x và y có thể có **một**, **không**, hoặc **vô số** nghiệm - tùy thuộc vào quan hệ hình học giữa hai đường thẳng.
 
 ### Ba trường hợp
 | Trường hợp | Đồ thị | Slope | Intercept |
@@ -338,12 +338,12 @@ System: \`y = x − 1\` and \`y = −x + 5\`. Add the two equations → 2y = 4 �
         proTips: [
           "Đưa cả hai phương trình về dạng y = mx + b để so sánh slope nhanh.",
           "Nếu đề có 'k' là tham số, giải bằng cách đặt slope/intercept bằng nhau.",
-          "Khi cộng/trừ, mục tiêu là triệt tiêu một biến — chọn hệ số có cùng giá trị tuyệt đối.",
+          "Khi cộng/trừ, mục tiêu là triệt tiêu một biến - chọn hệ số có cùng giá trị tuyệt đối.",
         ],
         proTipsEn: [
           "Rewrite both equations as y = mx + b to compare slopes quickly.",
           "If the prompt has parameter 'k', set slopes/intercepts equal to solve.",
-          "When eliminating, your goal is to cancel one variable — pick coefficients with equal absolute value.",
+          "When eliminating, your goal is to cancel one variable - pick coefficients with equal absolute value.",
         ],
         vocabulary: [
           { word: "system of equations", partOfSpeech: "noun", meaning: "hệ phương trình", meaningEn: "two or more equations solved together", example: "Solve the system to find x and y.", exampleEn: "Solve the system to find x and y." },
@@ -408,7 +408,7 @@ Phần Statistics chiếm khoảng **15% Digital SAT Math**. Hai họ khái ni�
 - **Interquartile range (IQR)**: Q3 − Q1
 - **Standard deviation** (độ lệch chuẩn): mức độ dữ liệu lệch khỏi mean
 
-### Box plot — đọc nhanh 5 con số
+### Box plot - đọc nhanh 5 con số
 
 ${SVG_BOXPLOT}
 
@@ -440,7 +440,7 @@ Statistics is roughly **15% of Digital SAT Math**. Two essential concept familie
 - **Interquartile range (IQR)**: Q3 − Q1
 - **Standard deviation**: how far data deviate from the mean
 
-### Box plot — reading the 5-number summary
+### Box plot - reading the 5-number summary
 
 ${SVG_BOXPLOT}
 
@@ -459,7 +459,7 @@ If a prompt mentions "the data set has an outlier", the median is usually the mo
 - "Adding a value greater than the current max" → mean rises, median may stay the same.
 - "Removing the smallest value" → both mean and median may rise.`,
         proTips: [
-          "Mean nhạy cảm với outliers — median thì không. Đề thi rất thích bẫy này.",
+          "Mean nhạy cảm với outliers - median thì không. Đề thi rất thích bẫy này.",
           "Để tìm median của n số: nếu n lẻ → giá trị thứ (n+1)/2; nếu n chẵn → trung bình của hai giá trị giữa.",
           "Standard deviation lớn nghĩa là dữ liệu phân tán rộng quanh mean.",
         ],
@@ -577,14 +577,14 @@ A scatter plot shows the relationship between two variables. The **line of best 
 - "Based on the line of best fit, predict y when x = ..." → plug x into the equation
 - "Which equation best models the data?" → match slope and intercept`,
         proTips: [
-          "Quy tắc 68-95-99.7 là cứu cánh — học thuộc và biết áp dụng đối xứng (vd: 34% mỗi bên trong ±1σ).",
+          "Quy tắc 68-95-99.7 là cứu cánh - học thuộc và biết áp dụng đối xứng (vd: 34% mỗi bên trong ±1σ).",
           "Right-skewed: mean > median; Left-skewed: mean < median. Đây là bẫy SAT cực kỳ phổ biến.",
-          "Khi đề cho line of best fit, đáp án thường là số nguyên gần — không cần tính chính xác đến hàng thập phân.",
+          "Khi đề cho line of best fit, đáp án thường là số nguyên gần - không cần tính chính xác đến hàng thập phân.",
         ],
         proTipsEn: [
           "Memorise 68-95-99.7 and apply symmetry (e.g., 34% on each side within ±1σ).",
           "Right-skewed: mean > median; Left-skewed: mean < median. A very common SAT trap.",
-          "When given a line of best fit, the answer is usually a clean integer — no need for exact decimals.",
+          "When given a line of best fit, the answer is usually a clean integer - no need for exact decimals.",
         ],
         vocabulary: [
           { word: "normal distribution", partOfSpeech: "noun", meaning: "phân phối chuẩn", meaningEn: "symmetric bell-shaped distribution", example: "Test scores often follow a normal distribution.", exampleEn: "Test scores often follow a normal distribution." },
@@ -655,13 +655,13 @@ ${SVG_TRIANGLE_RIGHT}
 | **8-15-17** | 64 + 225 = 289 ✓ |
 | **7-24-25** | 49 + 576 = 625 ✓ |
 
-Nhớ các bộ này giúp tiết kiệm thời gian — không cần tính căn bậc hai!
+Nhớ các bộ này giúp tiết kiệm thời gian - không cần tính căn bậc hai!
 
 ### Tam giác đặc biệt
 - **45-45-90**: cạnh : cạnh : cạnh huyền = 1 : 1 : √2
 - **30-60-90**: cạnh đối 30° : cạnh đối 60° : cạnh huyền = 1 : √3 : 2
 
-### Đường tròn — công thức cốt lõi
+### Đường tròn - công thức cốt lõi
 
 ${SVG_CIRCLE}
 
@@ -696,13 +696,13 @@ ${SVG_TRIANGLE_RIGHT}
 | **8-15-17** | 64 + 225 = 289 ✓ |
 | **7-24-25** | 49 + 576 = 625 ✓ |
 
-Memorising these saves time — no square roots needed!
+Memorising these saves time - no square roots needed!
 
 ### Special right triangles
 - **45-45-90**: leg : leg : hypotenuse = 1 : 1 : √2
 - **30-60-90**: side opposite 30° : 60° : hypotenuse = 1 : √3 : 2
 
-### Circles — core formulas
+### Circles - core formulas
 
 ${SVG_CIRCLE}
 
@@ -722,12 +722,12 @@ where (h, k) is the centre and r is the radius.
 - "An inscribed angle" → half the intercepted arc
 - "A tangent line" → perpendicular to the radius at the point of tangency`,
         proTips: [
-          "Học thuộc bộ ba 3-4-5, 5-12-13 — tiết kiệm hàng phút trên đề thi.",
+          "Học thuộc bộ ba 3-4-5, 5-12-13 - tiết kiệm hàng phút trên đề thi.",
           "Khi đề cho phương trình đường tròn không ở dạng chuẩn, dùng 'completing the square'.",
           "Inscribed angle = ½ central angle khi cùng chắn một cung.",
         ],
         proTipsEn: [
-          "Memorise 3-4-5 and 5-12-13 triples — saves minutes on test day.",
+          "Memorise 3-4-5 and 5-12-13 triples - saves minutes on test day.",
           "If the circle equation isn't in standard form, complete the square.",
           "Inscribed angle = ½ central angle subtending the same arc.",
         ],
@@ -788,7 +788,7 @@ Nếu △ABC ~ △DEF với tỉ lệ k:
 
 > Ví dụ: hai tam giác đồng dạng có tỉ lệ cạnh 1:2 → tỉ lệ diện tích 1:4.
 
-## Lượng giác cơ bản — SOH CAH TOA
+## Lượng giác cơ bản - SOH CAH TOA
 
 Trong tam giác vuông với góc nhọn θ:
 
@@ -836,7 +836,7 @@ If △ABC ~ △DEF with ratio k:
 
 > Example: two similar triangles with side ratio 1:2 → area ratio 1:4.
 
-## Basic Trigonometry — SOH CAH TOA
+## Basic Trigonometry - SOH CAH TOA
 
 In a right triangle with acute angle θ:
 
@@ -866,12 +866,12 @@ The unit circle (radius 1) is centred at the origin. Each point on the circle ha
 - "Find the angle whose tangent is..." → use arctan
 - "If sin A = cos B, then A + B = ?" → 90°`,
         proTips: [
-          "Tỉ lệ diện tích = bình phương tỉ lệ cạnh — bẫy SAT cực kỳ phổ biến.",
+          "Tỉ lệ diện tích = bình phương tỉ lệ cạnh - bẫy SAT cực kỳ phổ biến.",
           "SOH CAH TOA: Sin = Opp/Hyp, Cos = Adj/Hyp, Tan = Opp/Adj.",
           "Nếu sin A = cos B trong cùng tam giác vuông → A và B phụ nhau (A + B = 90°).",
         ],
         proTipsEn: [
-          "Area ratio = (side ratio)² — a very common SAT trap.",
+          "Area ratio = (side ratio)² - a very common SAT trap.",
           "SOH CAH TOA: Sin = Opp/Hyp, Cos = Adj/Hyp, Tan = Opp/Adj.",
           "If sin A = cos B in the same right triangle → A and B are complementary (A + B = 90°).",
         ],

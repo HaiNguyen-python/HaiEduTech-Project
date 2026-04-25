@@ -1,4 +1,4 @@
-// Vietnamese major holidays — bilingual content for the Learn Vietnamese hub
+// Vietnamese major holidays - bilingual content for the Learn Vietnamese hub
 // Each holiday includes lunar/solar date, story, customs, vocab, and quiz.
 
 import imgTet from "@/assets/holidays/tet-nguyen-dan.jpg";
@@ -71,9 +71,9 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-rose-500 to-red-600",
     image: imgTet,
     shortDesc: "Lễ hội lớn nhất trong năm – đoàn tụ gia đình, đón năm mới với hy vọng may mắn, sức khoẻ và tài lộc.",
-    shortDescEn: "The biggest festival of the year — family reunion welcoming the new year with hope for luck, health, and prosperity.",
+    shortDescEn: "The biggest festival of the year - family reunion welcoming the new year with hope for luck, health, and prosperity.",
     story: `Tết Nguyên Đán (gọi tắt là Tết) đánh dấu thời khắc giao thoa giữa năm cũ và năm mới theo Âm lịch. Đây là dịp lễ thiêng liêng nhất của người Việt, kéo dài chính thức 3 ngày nhưng thường được chuẩn bị và ăn mừng cả tuần.\n\nTrước Tết, mọi nhà dọn dẹp, lau bàn thờ, mua hoa đào (miền Bắc) hoặc hoa mai (miền Nam) để bày trong nhà. Đêm 30 (giao thừa), gia đình quây quần bên nồi bánh chưng, bánh tét – tượng trưng cho trời tròn và đất vuông theo truyền thuyết Lang Liêu.\n\nSáng mùng 1, con cháu chúc Tết ông bà, nhận lì xì (phong bao đỏ chứa tiền may mắn) và cùng nhau đi lễ chùa, đi chợ Tết. Mùng 1 Tết cha, mùng 2 Tết mẹ, mùng 3 Tết thầy – câu nói thể hiện đạo lý 'uống nước nhớ nguồn'.`,
-    storyEn: `Tết Nguyên Đán (Tết) marks the transition between the old and new year on the lunar calendar. It is the most sacred holiday of the Vietnamese, officially lasting 3 days but typically celebrated for a whole week.\n\nBefore Tết, families clean the house, polish the ancestor altar, and decorate with peach blossoms (in the North) or yellow apricot flowers (in the South). On New Year's Eve, families gather around boiling pots of bánh chưng and bánh tét — symbolizing the round sky and square earth from the legend of Lang Liêu.\n\nOn the morning of the 1st day, children pay respects to grandparents, receive lì xì (red envelopes with lucky money), and visit pagodas and Tết markets. The saying "1st day for father, 2nd day for mother, 3rd day for teacher" reflects the philosophy of remembering one's roots.`,
+    storyEn: `Tết Nguyên Đán (Tết) marks the transition between the old and new year on the lunar calendar. It is the most sacred holiday of the Vietnamese, officially lasting 3 days but typically celebrated for a whole week.\n\nBefore Tết, families clean the house, polish the ancestor altar, and decorate with peach blossoms (in the North) or yellow apricot flowers (in the South). On New Year's Eve, families gather around boiling pots of bánh chưng and bánh tét - symbolizing the round sky and square earth from the legend of Lang Liêu.\n\nOn the morning of the 1st day, children pay respects to grandparents, receive lì xì (red envelopes with lucky money), and visit pagodas and Tết markets. The saying "1st day for father, 2nd day for mother, 3rd day for teacher" reflects the philosophy of remembering one's roots.`,
     customs: [
       "Cúng giao thừa lúc nửa đêm – tiễn năm cũ, đón năm mới",
       "Xông đất: người đầu tiên bước vào nhà sáng mùng 1 mang lại vận khí cả năm",
@@ -127,7 +127,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
       },
     ],
     funFact: "Theo phong tục, người ta kiêng quét nhà 3 ngày Tết vì sợ quét đi vận may!",
-    funFactEn: "Tradition says you shouldn't sweep the house during the first 3 days of Tết — it sweeps away good luck!",
+    funFactEn: "Tradition says you shouldn't sweep the house during the first 3 days of Tết - it sweeps away good luck!",
   },
 
   // ===== 2. RẰM THÁNG GIÊNG (TẾT NGUYÊN TIÊU) =====
@@ -143,9 +143,9 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-amber-400 to-orange-500",
     image: imgRam,
     shortDesc: "Đêm rằm đầu tiên của năm mới – ngày lễ Phật quan trọng, người Việt đi chùa cầu an, thả đèn hoa đăng.",
-    shortDescEn: "The first full moon of the year — an important Buddhist day when Vietnamese visit pagodas to pray for peace and release lotus lanterns.",
+    shortDescEn: "The first full moon of the year - an important Buddhist day when Vietnamese visit pagodas to pray for peace and release lotus lanterns.",
     story: `Tết Nguyên Tiêu là rằm đầu tiên trong năm Âm lịch, thường gọi là 'Tết Thượng Nguyên'. Câu nói 'Lễ Phật quanh năm không bằng Rằm tháng Giêng' cho thấy tầm quan trọng đặc biệt của ngày này trong đời sống tâm linh người Việt.\n\nTừ sáng sớm, các chùa lớn nhỏ đều tổ chức lễ cầu an, dâng sao giải hạn cho gia chủ. Chiều tối, gia đình cúng rằm tại nhà với mâm cỗ chay hoặc mặn tuỳ phong tục. Tại Hội An, đêm rằm tháng Giêng tắt điện, phố cổ chỉ thắp đèn lồng – tạo nên khung cảnh huyền ảo nổi tiếng.\n\nNgười Hoa và một số vùng Việt Nam còn gọi đây là Lễ hội Đèn Lồng (Lantern Festival), với truyền thống thả đèn hoa đăng trên sông và ăn bánh trôi tàu (chè trôi nước).`,
-    storyEn: `Tết Nguyên Tiêu is the first full moon of the lunar year, also called 'Upper First Festival'. The proverb "Worshipping Buddha all year doesn't match the 1st-month full moon" shows its special importance in Vietnamese spiritual life.\n\nFrom early morning, pagodas hold ceremonies for peace and to ward off bad stars. In the evening, families perform full-moon rituals at home with vegetarian or meat dishes depending on tradition. In Hội An, lights are turned off on this night and the ancient town glows only with lanterns — creating its famous magical scene.\n\nEthnic Chinese and some Vietnamese regions call it the Lantern Festival, with traditions of releasing floating lanterns on rivers and eating sweet glutinous rice ball soup.`,
+    storyEn: `Tết Nguyên Tiêu is the first full moon of the lunar year, also called 'Upper First Festival'. The proverb "Worshipping Buddha all year doesn't match the 1st-month full moon" shows its special importance in Vietnamese spiritual life.\n\nFrom early morning, pagodas hold ceremonies for peace and to ward off bad stars. In the evening, families perform full-moon rituals at home with vegetarian or meat dishes depending on tradition. In Hội An, lights are turned off on this night and the ancient town glows only with lanterns - creating its famous magical scene.\n\nEthnic Chinese and some Vietnamese regions call it the Lantern Festival, with traditions of releasing floating lanterns on rivers and eating sweet glutinous rice ball soup.`,
     customs: [
       "Đi chùa lễ Phật, dâng sao giải hạn",
       "Cúng rằm với hương hoa, trái cây",
@@ -185,7 +185,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
         optionsEn: ["Hà Nội", "Hội An", "Đà Lạt", "Sa Pa"],
         answer: 1,
         explanation: "Hội An tắt điện và thắp đèn lồng vào các đêm rằm hằng tháng, đặc biệt rằm tháng Giêng.",
-        explanationEn: "Hội An turns off lights and lights lanterns on every full moon — especially the 1st-month one.",
+        explanationEn: "Hội An turns off lights and lights lanterns on every full moon - especially the 1st-month one.",
       },
     ],
   },
@@ -203,9 +203,9 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-yellow-500 to-amber-600",
     image: imgGioTo,
     shortDesc: "Quốc lễ tưởng nhớ các Vua Hùng – những người sáng lập nhà nước Văn Lang đầu tiên của dân tộc Việt.",
-    shortDescEn: "National holiday honoring the Hung Kings — founders of Văn Lang, Vietnam's first state.",
+    shortDescEn: "National holiday honoring the Hung Kings - founders of Văn Lang, Vietnam's first state.",
     story: `'Dù ai đi ngược về xuôi / Nhớ ngày Giỗ Tổ mùng Mười tháng Ba' – câu ca dao quen thuộc nhắc người Việt khắp nơi hướng về Đền Hùng (Phú Thọ) vào ngày 10/3 Âm lịch để tưởng nhớ 18 đời Vua Hùng.\n\nTheo truyền thuyết, Lạc Long Quân (giống Rồng) và Âu Cơ (giống Tiên) sinh ra bọc trăm trứng, nở thành 100 người con. 50 người theo cha xuống biển, 50 người theo mẹ lên núi. Người con cả lên ngôi, lập nước Văn Lang, xưng là Hùng Vương thứ nhất.\n\nLễ hội Đền Hùng được UNESCO công nhận là Di sản Văn hoá Phi vật thể đại diện của nhân loại năm 2012. Vào ngày này, hàng vạn người hành hương về núi Nghĩa Lĩnh dâng hương, dâng bánh chưng – bánh dày tưởng nhớ tổ tiên.`,
-    storyEn: `"Wherever you go, north or south / Remember Ancestor's Day — the 10th of the 3rd month" — a familiar folk saying reminding Vietnamese to turn toward the Hùng Temples in Phú Thọ on the 10th day of the 3rd lunar month to honor the 18 generations of Hùng Kings.\n\nLegend says Lạc Long Quân (Dragon lineage) and Âu Cơ (Fairy lineage) bore a sack of 100 eggs, hatching 100 children. 50 followed the father to the sea, 50 followed the mother to the mountains. The eldest became the first Hùng King and founded Văn Lang.\n\nThe Hùng Temple Festival was recognized by UNESCO as Representative Intangible Cultural Heritage of Humanity in 2012. On this day, tens of thousands pilgrim to Nghĩa Lĩnh Mountain to offer incense and bánh chưng – bánh dày in honor of the ancestors.`,
+    storyEn: `"Wherever you go, north or south / Remember Ancestor's Day - the 10th of the 3rd month" - a familiar folk saying reminding Vietnamese to turn toward the Hùng Temples in Phú Thọ on the 10th day of the 3rd lunar month to honor the 18 generations of Hùng Kings.\n\nLegend says Lạc Long Quân (Dragon lineage) and Âu Cơ (Fairy lineage) bore a sack of 100 eggs, hatching 100 children. 50 followed the father to the sea, 50 followed the mother to the mountains. The eldest became the first Hùng King and founded Văn Lang.\n\nThe Hùng Temple Festival was recognized by UNESCO as Representative Intangible Cultural Heritage of Humanity in 2012. On this day, tens of thousands pilgrim to Nghĩa Lĩnh Mountain to offer incense and bánh chưng – bánh dày in honor of the ancestors.`,
     customs: [
       "Hành hương về Đền Hùng, Phú Thọ",
       "Dâng hương, dâng bánh chưng – bánh dày tại các đền",
@@ -224,7 +224,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
       { word: "Vua Hùng", meaning: "các vị vua đầu tiên của nước Văn Lang", meaningEn: "Hung Kings, founders of Văn Lang", example: "Đền Hùng thờ 18 đời Vua Hùng.", exampleEn: "The Hùng Temples worship 18 generations of Hùng Kings." },
       { word: "tổ tiên", meaning: "ông bà các đời trước", meaningEn: "ancestors", example: "Người Việt rất tôn kính tổ tiên.", exampleEn: "Vietnamese deeply revere their ancestors." },
       { word: "hành hương", meaning: "đi đến nơi linh thiêng để lễ bái", meaningEn: "to pilgrimage", example: "Mỗi năm tôi hành hương về Đền Hùng.", exampleEn: "Every year I pilgrimage to the Hùng Temples." },
-      { word: "bánh dày", meaning: "bánh tròn dẻo từ gạo nếp – tượng trưng trời", meaningEn: "round sticky rice cake — symbolizing the sky", example: "Bánh dày kẹp giò ăn rất ngon.", exampleEn: "Bánh dày with Vietnamese ham is delicious." },
+      { word: "bánh dày", meaning: "bánh tròn dẻo từ gạo nếp – tượng trưng trời", meaningEn: "round sticky rice cake - symbolizing the sky", example: "Bánh dày kẹp giò ăn rất ngon.", exampleEn: "Bánh dày with Vietnamese ham is delicious." },
     ],
     quiz: [
       {
@@ -321,7 +321,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-red-500 to-rose-600",
     image: imgLaoDong,
     shortDesc: "Ngày tôn vinh người lao động trên toàn thế giới – tại Việt Nam là ngày nghỉ chính thức tiếp nối 30/4.",
-    shortDescEn: "A worldwide day honoring workers — in Vietnam, an official holiday following April 30.",
+    shortDescEn: "A worldwide day honoring workers - in Vietnam, an official holiday following April 30.",
     story: `Quốc tế Lao động (May Day) ra đời từ phong trào đấu tranh đòi giảm giờ làm việc xuống còn 8 tiếng/ngày của công nhân Mỹ năm 1886. Sau cuộc biểu tình lớn ở Chicago, Quốc tế Cộng sản chọn ngày 1/5 hàng năm làm ngày đoàn kết của công nhân toàn thế giới.\n\nTại Việt Nam, ngày 1/5 được công nhận là ngày lễ chính thức từ năm 1946. Cùng với ngày 30/4, đây là kỳ nghỉ lễ dài thứ hai trong năm sau Tết, người dân thường tận dụng để đi du lịch trong nước.\n\nNgày này còn là dịp các tổ chức công đoàn vinh danh người lao động xuất sắc, tổ chức các hoạt động chăm lo đời sống công nhân.`,
     storyEn: `International Workers' Day (May Day) emerged from American workers' struggle for an 8-hour workday in 1886. After the large Chicago protests, the Communist International chose May 1 as the day of solidarity for workers worldwide.\n\nIn Vietnam, May 1 has been an official holiday since 1946. Together with April 30, it forms the second-longest holiday of the year after Tết, often used for domestic travel.\n\nIt is also when trade unions honor outstanding workers and organize activities supporting workers' welfare.`,
     customs: [
@@ -369,9 +369,9 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-lime-500 to-green-600",
     image: imgDoanNgo,
     shortDesc: "Lễ giữa năm – ăn rượu nếp, hoa quả chua diệt sâu bọ trong người, cầu sức khoẻ mùa hè.",
-    shortDescEn: "Mid-year festival — eat sticky rice wine and sour fruits to 'kill insects' in the body and ensure summer health.",
+    shortDescEn: "Mid-year festival - eat sticky rice wine and sour fruits to 'kill insects' in the body and ensure summer health.",
     story: `Tết Đoan Ngọ (mùng 5/5 Âm lịch) còn gọi là Tết Diệt Sâu Bọ vì người xưa tin rằng giữa mùa hè, sâu bọ trong người sinh sôi, gây bệnh. Vào sáng sớm ngày này, cả nhà ăn rượu nếp cẩm, mận, vải, xoài… để 'giết sâu bọ' khi bụng còn đói.\n\nGiờ Đoan Ngọ là giữa trưa (chính ngọ) – thời điểm dương khí mạnh nhất. Người ta hái lá mùng 5 (lá tía tô, ngải cứu, mơ) để làm thuốc, vì tin rằng lá hái giờ này có dược tính cao nhất.\n\nỞ một số vùng, trẻ em được nhuộm móng tay màu đỏ bằng lá móng để xua đuổi tà ma. Đoan Ngọ cũng là dịp gia đình sum họp, chuẩn bị mâm cúng tổ tiên với hoa quả, bánh tro, thịt vịt.`,
-    storyEn: `Tết Đoan Ngọ (5th day of 5th lunar month) is also called 'Killing Insects Day'. Ancients believed that mid-summer, insects multiply in the body, causing illness. On this morning, families eat sticky rice wine, plums, lychee, and mango on an empty stomach to 'kill the insects'.\n\nĐoan Ngọ hour is noon (chính ngọ) — when yang energy peaks. People pick herbs like perilla, mugwort, and ngải cứu on this day, believing they have the strongest medicinal properties.\n\nIn some regions, children's nails are dyed red with henna leaves to ward off evil. Đoan Ngọ is also a family reunion with offerings of fruits, bánh tro, and duck meat to ancestors.`,
+    storyEn: `Tết Đoan Ngọ (5th day of 5th lunar month) is also called 'Killing Insects Day'. Ancients believed that mid-summer, insects multiply in the body, causing illness. On this morning, families eat sticky rice wine, plums, lychee, and mango on an empty stomach to 'kill the insects'.\n\nĐoan Ngọ hour is noon (chính ngọ) - when yang energy peaks. People pick herbs like perilla, mugwort, and ngải cứu on this day, believing they have the strongest medicinal properties.\n\nIn some regions, children's nails are dyed red with henna leaves to ward off evil. Đoan Ngọ is also a family reunion with offerings of fruits, bánh tro, and duck meat to ancestors.`,
     customs: [
       "Ăn rượu nếp, mận, vải sáng sớm khi bụng đói",
       "Hái lá thuốc (ngải cứu, tía tô) vào giờ ngọ",
@@ -399,7 +399,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
         optionsEn: ["3/3 lunar", "5/5 lunar", "7/7 lunar", "15/8 lunar"],
         answer: 1,
         explanation: "Tết Đoan Ngọ – mùng 5 tháng 5 Âm lịch, cũng gọi là Tết Diệt Sâu Bọ.",
-        explanationEn: "Đoan Ngọ — 5th of 5th lunar month, also Killing Insects Day.",
+        explanationEn: "Đoan Ngọ - 5th of 5th lunar month, also Killing Insects Day.",
       },
       {
         question: "Món ăn chính của Tết Đoan Ngọ là gì?",
@@ -426,9 +426,9 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-pink-500 to-rose-600",
     image: imgVuLan,
     shortDesc: "Mùa báo hiếu cha mẹ – cài hoa hồng đỏ nếu mẹ còn, hoa trắng nếu mẹ đã khuất.",
-    shortDescEn: "The season of filial piety — wear a red rose if your mother is alive, a white rose if she has passed.",
+    shortDescEn: "The season of filial piety - wear a red rose if your mother is alive, a white rose if she has passed.",
     story: `Lễ Vu Lan bắt nguồn từ tích Phật Mục Kiền Liên cứu mẹ ra khỏi địa ngục bằng lòng hiếu thảo và sự giúp đỡ của chư Tăng. Ngày Rằm tháng 7 trở thành ngày con cháu báo hiếu cha mẹ và cầu siêu cho ông bà tổ tiên.\n\nTại Việt Nam, vào ngày Vu Lan, các chùa tổ chức nghi lễ 'Bông hồng cài áo': ai còn mẹ cài hoa hồng đỏ, ai mất mẹ cài hoa hồng trắng – một nghi thức xúc động khiến nhiều người rơi nước mắt.\n\nĐây cũng là 'Tháng cô hồn' – nhiều gia đình cúng cô hồn, bố thí thức ăn cho những vong linh không nơi nương tựa. Một số người kiêng cưới hỏi, mua nhà, khởi sự lớn trong tháng này.`,
-    storyEn: `Vu Lan originates from the Buddhist tale of Mục Kiền Liên saving his mother from hell through filial piety and the help of monks. The 15th of the 7th lunar month became a day for children to honor parents and pray for ancestors.\n\nIn Vietnam, pagodas hold the 'Rose Pinning' ritual: those whose mothers are alive wear a red rose; those whose mothers have passed wear a white rose — a touching ceremony that often brings tears.\n\nIt is also 'Ghost Month' — many families offer food to wandering spirits. Some avoid weddings, buying houses, or starting big ventures during this month.`,
+    storyEn: `Vu Lan originates from the Buddhist tale of Mục Kiền Liên saving his mother from hell through filial piety and the help of monks. The 15th of the 7th lunar month became a day for children to honor parents and pray for ancestors.\n\nIn Vietnam, pagodas hold the 'Rose Pinning' ritual: those whose mothers are alive wear a red rose; those whose mothers have passed wear a white rose - a touching ceremony that often brings tears.\n\nIt is also 'Ghost Month' - many families offer food to wandering spirits. Some avoid weddings, buying houses, or starting big ventures during this month.`,
     customs: [
       "Đi chùa nghe pháp, cài hoa hồng đỏ/trắng",
       "Cúng cô hồn ngoài sân (cháo trắng, gạo, muối, bánh kẹo)",
@@ -457,7 +457,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
         optionsEn: ["Mother is alive", "Mother has passed", "Married", "Single"],
         answer: 1,
         explanation: "Hoa trắng – tưởng nhớ mẹ đã khuất; hoa đỏ – mẹ còn sống.",
-        explanationEn: "White rose — in memory of a deceased mother; red — mother alive.",
+        explanationEn: "White rose - in memory of a deceased mother; red - mother alive.",
       },
       {
         question: "Lễ Vu Lan bắt nguồn từ tích Phật nào?",
@@ -486,7 +486,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     shortDesc: "Ngày Chủ tịch Hồ Chí Minh đọc bản Tuyên ngôn Độc lập tại Quảng trường Ba Đình năm 1945.",
     shortDescEn: "The day President Hồ Chí Minh read the Declaration of Independence at Ba Đình Square in 1945.",
     story: `Sáng 2/9/1945, tại Quảng trường Ba Đình – Hà Nội, Chủ tịch Hồ Chí Minh đọc bản Tuyên ngôn Độc lập, khai sinh ra nước Việt Nam Dân chủ Cộng hoà – nhà nước công nông đầu tiên ở Đông Nam Á.\n\nMở đầu bản tuyên ngôn, Bác trích Tuyên ngôn Độc lập của Mỹ (1776) và Tuyên ngôn Nhân quyền và Dân quyền của Pháp (1791): 'Tất cả mọi người sinh ra đều có quyền bình đẳng…' – một thông điệp ngoại giao thông minh và sâu sắc.\n\nNgày 2/9 trở thành Quốc khánh chính thức của Việt Nam. Hằng năm, cả nước treo cờ, các cơ quan tổ chức lễ kỷ niệm, Hà Nội bắn pháo hoa tại nhiều điểm. Quảng trường Ba Đình – nơi đặt Lăng Bác – là điểm hành hương trang nghiêm.`,
-    storyEn: `On the morning of September 2, 1945, at Ba Đình Square in Hanoi, President Hồ Chí Minh read the Declaration of Independence, founding the Democratic Republic of Vietnam — Southeast Asia's first worker-peasant state.\n\nThe declaration began by quoting the U.S. Declaration of Independence (1776) and France's Declaration of Rights of Man (1791): "All men are created equal…" — a brilliant diplomatic message.\n\nSeptember 2 became Vietnam's official National Day. Each year, the country flies flags, agencies hold ceremonies, and Hanoi launches fireworks at many sites. Ba Đình Square — where Hồ Chí Minh's Mausoleum stands — is a solemn pilgrimage site.`,
+    storyEn: `On the morning of September 2, 1945, at Ba Đình Square in Hanoi, President Hồ Chí Minh read the Declaration of Independence, founding the Democratic Republic of Vietnam - Southeast Asia's first worker-peasant state.\n\nThe declaration began by quoting the U.S. Declaration of Independence (1776) and France's Declaration of Rights of Man (1791): "All men are created equal…" - a brilliant diplomatic message.\n\nSeptember 2 became Vietnam's official National Day. Each year, the country flies flags, agencies hold ceremonies, and Hanoi launches fireworks at many sites. Ba Đình Square - where Hồ Chí Minh's Mausoleum stands - is a solemn pilgrimage site.`,
     customs: [
       "Treo cờ Tổ quốc tại nhà và cơ quan",
       "Bắn pháo hoa tại Hà Nội, TP.HCM và nhiều tỉnh",
@@ -526,7 +526,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
         optionsEn: ["April 30", "May 1", "September 2", "November 20"],
         answer: 2,
         explanation: "Ngày 2/9/1945 – ngày khai sinh nước Việt Nam Dân chủ Cộng hoà.",
-        explanationEn: "September 2, 1945 — the founding of the Democratic Republic of Vietnam.",
+        explanationEn: "September 2, 1945 - the founding of the Democratic Republic of Vietnam.",
       },
     ],
   },
@@ -544,9 +544,9 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-orange-500 to-amber-500",
     image: imgTrungThu,
     shortDesc: "Tết của trẻ em – rước đèn ông sao, phá cỗ, ngắm trăng và thưởng thức bánh trung thu.",
-    shortDescEn: "Children's festival — star-lantern parades, feast-breaking, moon-gazing, and mooncakes.",
+    shortDescEn: "Children's festival - star-lantern parades, feast-breaking, moon-gazing, and mooncakes.",
     story: `Tết Trung Thu rơi vào đêm trăng tròn nhất năm – Rằm tháng 8 Âm lịch. Ở Việt Nam, đây trước tiên là 'Tết của trẻ em', khi cha mẹ tặng đèn lồng, bánh trung thu và tổ chức rước đèn quanh xóm.\n\nTruyền thuyết kể về chú Cuội ngồi gốc cây đa trên cung trăng vì vô tình kéo cây bay lên trời. Ngày nay, hình ảnh chú Cuội, chị Hằng, con thỏ ngọc xuất hiện khắp nơi vào dịp này.\n\nMâm cỗ Trung Thu gồm bánh nướng, bánh dẻo, bưởi, na, hồng. Trẻ em mặc đẹp, cầm đèn ông sao, đèn cá chép, đèn kéo quân đi rước trong tiếng trống lân rộn rã. Múa lân – sư – rồng là tiết mục không thể thiếu.`,
-    storyEn: `Tết Trung Thu falls on the year's brightest full moon — the 15th of the 8th lunar month. In Vietnam, it is primarily 'Children's Festival', when parents give lanterns and mooncakes and organize neighborhood parades.\n\nLegend tells of Uncle Cuội sitting under a banyan tree on the moon after accidentally pulling the tree skyward. Today, images of Uncle Cuội, Lady Hằng, and the jade rabbit appear everywhere.\n\nThe Trung Thu altar features baked and sticky mooncakes, pomelo, custard apple, and persimmon. Children dress up, carry star, carp, or rotating-army lanterns through the streets to drum beats. Lion-unicorn-dragon dances are a must.`,
+    storyEn: `Tết Trung Thu falls on the year's brightest full moon - the 15th of the 8th lunar month. In Vietnam, it is primarily 'Children's Festival', when parents give lanterns and mooncakes and organize neighborhood parades.\n\nLegend tells of Uncle Cuội sitting under a banyan tree on the moon after accidentally pulling the tree skyward. Today, images of Uncle Cuội, Lady Hằng, and the jade rabbit appear everywhere.\n\nThe Trung Thu altar features baked and sticky mooncakes, pomelo, custard apple, and persimmon. Children dress up, carry star, carp, or rotating-army lanterns through the streets to drum beats. Lion-unicorn-dragon dances are a must.`,
     customs: [
       "Rước đèn ông sao, đèn lồng quanh phố",
       "Múa lân, múa sư, múa rồng",
@@ -616,7 +616,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-blue-500 to-indigo-600",
     image: imgNhaGiao,
     shortDesc: "Ngày tri ân thầy cô – truyền thống 'Tôn sư trọng đạo' đẹp đẽ của người Việt.",
-    shortDescEn: "Teachers' Day — the beautiful Vietnamese tradition of honoring teachers.",
+    shortDescEn: "Teachers' Day - the beautiful Vietnamese tradition of honoring teachers.",
     story: `Ngày 20/11 được Hội đồng Bộ trưởng nước Việt Nam DCCH chọn làm Ngày Nhà giáo Việt Nam vào năm 1982, lấy cảm hứng từ Ngày Quốc tế Hiến chương các Nhà giáo (20/11/1958).\n\nTừ tháng 10, các trường học khắp cả nước rộn ràng chuẩn bị: học sinh tập văn nghệ, làm báo tường, viết thiệp tặng thầy cô. Ngày 20/11, học sinh đến trường thăm thầy cô cũ, mang hoa, quà nhỏ và những lời chúc chân thành.\n\nTriết lý 'Tôn sư trọng đạo' (kính trọng thầy, coi trọng đạo lý) là giá trị văn hoá lâu đời. Câu 'Mùng 1 Tết cha, mùng 2 Tết mẹ, mùng 3 Tết thầy' cho thấy người thầy được đặt ngang hàng với cha mẹ trong xã hội Việt.`,
     storyEn: `November 20 was chosen as Vietnamese Teachers' Day in 1982 by the Council of Ministers, inspired by the International Charter of Teachers' Day (Nov 20, 1958).\n\nFrom October, schools nationwide bustle with preparations: students rehearse performances, make wall newspapers, and write cards. On Nov 20, students visit former teachers with flowers, small gifts, and sincere wishes.\n\nThe philosophy 'Tôn sư trọng đạo' (respect teachers, value the way) is a long-standing cultural value. The saying "1st day for father, 2nd for mother, 3rd for teacher" shows teachers are placed alongside parents in Vietnamese society.`,
     customs: [
@@ -646,7 +646,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
         optionsEn: ["Oct 20", "Nov 20", "Mar 8", "Jun 1"],
         answer: 1,
         explanation: "Ngày 20/11 hằng năm – truyền thống tri ân thầy cô.",
-        explanationEn: "November 20 each year — tradition of honoring teachers.",
+        explanationEn: "November 20 each year - tradition of honoring teachers.",
       },
     ],
     funFact: "Câu 'Một chữ cũng là thầy, nửa chữ cũng là thầy' nói lên sự tôn kính tuyệt đối với người dạy mình.",
@@ -666,9 +666,9 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-pink-500 to-fuchsia-600",
     image: imgPhuNu,
     shortDesc: "Hai ngày tôn vinh phụ nữ – các nam giới tặng hoa, quà, lời chúc cho mẹ, vợ, chị em, đồng nghiệp nữ.",
-    shortDescEn: "Two days honoring women — men give flowers, gifts, and wishes to mothers, wives, sisters, and female colleagues.",
+    shortDescEn: "Two days honoring women - men give flowers, gifts, and wishes to mothers, wives, sisters, and female colleagues.",
     story: `Việt Nam có tới hai ngày tôn vinh phụ nữ trong năm. Ngày 8/3 là Quốc tế Phụ nữ – kỷ niệm phong trào đấu tranh vì quyền bình đẳng và quyền lao động của phụ nữ thế giới (từ 1910). Ngày 20/10 là Ngày Phụ nữ Việt Nam, kỷ niệm thành lập Hội Phụ nữ Việt Nam (1930) – tổ chức bảo vệ quyền lợi phụ nữ trong nước.\n\nVào hai ngày này, nam giới Việt thường tặng hoa hồng, hoa cẩm chướng cho mẹ, vợ, người yêu, đồng nghiệp nữ. Cơ quan, công ty tổ chức tiệc nhỏ, văn nghệ, tặng quà.\n\nTrong gia đình, đàn ông, con trai có thể vào bếp nấu ăn, làm việc nhà 'thay ca' để tỏ lòng biết ơn người phụ nữ thân yêu.`,
-    storyEn: `Vietnam has two days honoring women each year. March 8 is International Women's Day — commemorating the global movement for women's equality and labor rights (since 1910). October 20 is Vietnamese Women's Day, marking the founding of the Vietnam Women's Union (1930), which protects women's rights nationally.\n\nOn both days, Vietnamese men typically gift roses or carnations to mothers, wives, partners, and female colleagues. Companies organize small parties, performances, and gifts.\n\nAt home, men and sons may cook and do housework as a 'shift change' to express gratitude to the women they love.`,
+    storyEn: `Vietnam has two days honoring women each year. March 8 is International Women's Day - commemorating the global movement for women's equality and labor rights (since 1910). October 20 is Vietnamese Women's Day, marking the founding of the Vietnam Women's Union (1930), which protects women's rights nationally.\n\nOn both days, Vietnamese men typically gift roses or carnations to mothers, wives, partners, and female colleagues. Companies organize small parties, performances, and gifts.\n\nAt home, men and sons may cook and do housework as a 'shift change' to express gratitude to the women they love.`,
     customs: [
       "Tặng hoa hồng (đỏ, hồng, vàng) cho phụ nữ",
       "Cơ quan tổ chức liên hoan, tặng quà",
@@ -696,7 +696,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
         optionsEn: ["Mar 8", "Oct 20", "Nov 20", "Jun 1"],
         answer: 1,
         explanation: "20/10 – kỷ niệm thành lập Hội Phụ nữ Việt Nam (1930).",
-        explanationEn: "Oct 20 — anniversary of the Vietnam Women's Union (1930).",
+        explanationEn: "Oct 20 - anniversary of the Vietnam Women's Union (1930).",
       },
       {
         question: "Quốc tế Phụ nữ 8/3 bắt nguồn từ phong trào nào?",
@@ -723,9 +723,9 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
     color: "from-cyan-400 to-sky-500",
     image: imgThieuNhi,
     shortDesc: "Ngày của trẻ em – các gia đình tặng quà, tổ chức tiệc và đưa các em đi chơi công viên, sở thú.",
-    shortDescEn: "A day for children — families give gifts, host parties, and take kids to parks and zoos.",
+    shortDescEn: "A day for children - families give gifts, host parties, and take kids to parks and zoos.",
     story: `Ngày 1/6 được Liên đoàn Phụ nữ Quốc tế Dân chủ chọn làm Ngày Quốc tế Thiếu nhi vào năm 1949 nhằm bảo vệ quyền trẻ em sau Chiến tranh Thế giới thứ Hai. Việt Nam chính thức kỷ niệm ngày này từ năm 1950.\n\nVào dịp này, cha mẹ thường tặng quà, tổ chức sinh nhật nhỏ, đưa con đi nhà sách, công viên, sở thú, khu vui chơi. Các trường mẫu giáo, tiểu học tổ chức biểu diễn văn nghệ, phát quà.\n\nỞ Việt Nam, trẻ em được coi là 'mầm non tương lai của đất nước'. Bác Hồ từng viết thư cho thiếu nhi nhân ngày 1/6 với lời căn dặn nổi tiếng: 'Trẻ em như búp trên cành / Biết ăn ngủ, biết học hành là ngoan'.`,
-    storyEn: `June 1 was chosen as International Children's Day by the Women's International Democratic Federation in 1949 to protect children's rights after WWII. Vietnam has officially celebrated since 1950.\n\nOn this day, parents give gifts, host small birthday parties, and take children to bookstores, parks, zoos, and play areas. Kindergartens and primary schools hold performances and distribute gifts.\n\nIn Vietnam, children are seen as 'the future buds of the nation'. Uncle Hồ wrote letters to children on June 1 with the famous lines: "Children like buds on a branch / Eat, sleep, study — that's being good".`,
+    storyEn: `June 1 was chosen as International Children's Day by the Women's International Democratic Federation in 1949 to protect children's rights after WWII. Vietnam has officially celebrated since 1950.\n\nOn this day, parents give gifts, host small birthday parties, and take children to bookstores, parks, zoos, and play areas. Kindergartens and primary schools hold performances and distribute gifts.\n\nIn Vietnam, children are seen as 'the future buds of the nation'. Uncle Hồ wrote letters to children on June 1 with the famous lines: "Children like buds on a branch / Eat, sleep, study - that's being good".`,
     customs: [
       "Tặng quà, đồ chơi, sách cho con",
       "Đưa con đi công viên, sở thú, khu vui chơi",
@@ -753,7 +753,7 @@ export const vietnameseHolidays: VietnameseHoliday[] = [
         optionsEn: ["May 1", "June 1", "Sep 1", "Nov 20"],
         answer: 1,
         explanation: "1/6 – ngày dành cho trẻ em trên toàn thế giới.",
-        explanationEn: "June 1 — a day for children worldwide.",
+        explanationEn: "June 1 - a day for children worldwide.",
       },
     ],
   },

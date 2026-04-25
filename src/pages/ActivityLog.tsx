@@ -1,4 +1,4 @@
-// Full activity log page — all student activities with filters
+// Full activity log page - all student activities with filters
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";

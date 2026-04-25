@@ -195,7 +195,7 @@ const KnowledgeHubPage = () => {
             )}
           </div>
 
-          {/* AdSense — between AI advisor and scholarship library */}
+          {/* AdSense - between AI advisor and scholarship library */}
           <AdSlot />
 
           {/* Browse curated scholarships divider */}
@@ -373,7 +373,7 @@ const KnowledgeHubPage = () => {
             })}
           </div>
 
-          {/* AdSense — bottom of scholarship library */}
+          {/* AdSense - bottom of scholarship library */}
           <AdSlot />
         </div>
       </main>

@@ -1,6 +1,6 @@
 /**
  * @file PteListening.tsx
- * @description PTE Listening — Dictation (strict input) & Summarize Spoken Text (notepad).
+ * @description PTE Listening - Dictation (strict input) & Summarize Spoken Text (notepad).
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useRef, useState } from "react";

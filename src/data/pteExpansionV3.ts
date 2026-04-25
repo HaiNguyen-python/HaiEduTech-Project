@@ -1,6 +1,6 @@
 /**
  * @file pteExpansionV3.ts
- * @description PTE Academic v3 expansion — ~20 items per task type across 4 academic themes
+ * @description PTE Academic v3 expansion - ~20 items per task type across 4 academic themes
  *              (Science/Tech, Education/Society, Business/Economy, Health/Environment).
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
@@ -12,7 +12,7 @@ import type {
 } from "./pteData";
 
 /* ============================================================
- * SPEAKING — Read Aloud (20 items, 5 per theme)
+ * SPEAKING - Read Aloud (20 items, 5 per theme)
  * ============================================================ */
 export const READ_ALOUD_V3: PteReadAloud[] = [
   // Science & Tech
@@ -65,7 +65,7 @@ export const READ_ALOUD_V3: PteReadAloud[] = [
 ];
 
 /* ============================================================
- * SPEAKING — Repeat Sentence (20 items)
+ * SPEAKING - Repeat Sentence (20 items)
  * ============================================================ */
 export const REPEAT_SENTENCE_V3: PteRepeatSentence[] = [
   { id: "rs-v3-01", recordSeconds: 15, accent: "US", text: "Quantum encryption could one day make standard internet communication virtually unbreakable." },
@@ -91,7 +91,7 @@ export const REPEAT_SENTENCE_V3: PteRepeatSentence[] = [
 ];
 
 /* ============================================================
- * SPEAKING — Describe Image (10 items)
+ * SPEAKING - Describe Image (10 items)
  * ============================================================ */
 export const DESCRIBE_IMAGE_V3: PteDescribeImage[] = [
   { id: "di-v3-01", title: "Bar chart: AI investment by sector 2026", chartType: "bar", prepSeconds: 25, recordSeconds: 40, targetBand: "65",
@@ -137,49 +137,49 @@ export const DESCRIBE_IMAGE_V3: PteDescribeImage[] = [
 ];
 
 /* ============================================================
- * WRITING — Essay (12 items, 3 per theme)
+ * WRITING - Essay (12 items, 3 per theme)
  * ============================================================ */
 export const ESSAY_V3: PteEssayPrompt[] = [
   { id: "es-v3-01", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "65",
     prompt: "Some people argue that artificial intelligence will create more jobs than it destroys, while others fear widespread unemployment. Discuss both views and give your own opinion.",
-    modelOutline: "Intro · paraphrase + thesis (cautiously optimistic).\nBody 1: Job creation — historical pattern, new industries (AI engineering, prompt design, data ethics), productivity boosts.\nBody 2: Job loss — routine cognitive tasks, transitional displacement of administrative roles.\nConclusion: Net impact depends on retraining policy and education reform." },
+    modelOutline: "Intro · paraphrase + thesis (cautiously optimistic).\nBody 1: Job creation - historical pattern, new industries (AI engineering, prompt design, data ethics), productivity boosts.\nBody 2: Job loss - routine cognitive tasks, transitional displacement of administrative roles.\nConclusion: Net impact depends on retraining policy and education reform." },
   { id: "es-v3-02", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "79+",
     prompt: "Many governments are increasing investment in renewable energy. To what extent do you agree that this is the most effective response to climate change?",
-    modelOutline: "Intro · acknowledge urgency + partially agree.\nBody 1: Why renewables matter — emissions cuts, energy security, falling costs.\nBody 2: Other essential measures — efficiency standards, carbon pricing, behavioural change.\nConclusion: Renewables are necessary but insufficient on their own." },
+    modelOutline: "Intro · acknowledge urgency + partially agree.\nBody 1: Why renewables matter - emissions cuts, energy security, falling costs.\nBody 2: Other essential measures - efficiency standards, carbon pricing, behavioural change.\nConclusion: Renewables are necessary but insufficient on their own." },
   { id: "es-v3-03", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "65",
     prompt: "Space exploration is extremely expensive. Some argue the money should instead address problems on Earth. Discuss both views and present your opinion.",
-    modelOutline: "Intro · framing the trade-off.\nBody 1: Case for redirecting funds — poverty, healthcare, climate adaptation.\nBody 2: Case for space — spin-off technology, GPS, climate monitoring satellites, long-term species survival.\nConclusion: Balanced portfolio rather than either-or." },
+    modelOutline: "Intro · framing the trade-off.\nBody 1: Case for redirecting funds - poverty, healthcare, climate adaptation.\nBody 2: Case for space - spin-off technology, GPS, climate monitoring satellites, long-term species survival.\nConclusion: Balanced portfolio rather than either-or." },
   { id: "es-v3-04", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "65",
     prompt: "Online learning has become a standard part of higher education. Do the advantages outweigh the disadvantages?",
-    modelOutline: "Intro · advantages outweigh, with caveats.\nBody 1: Advantages — flexibility, lower cost, global access, recorded lectures.\nBody 2: Disadvantages — reduced peer interaction, digital divide, motivation problems.\nConclusion: Hybrid models maximise benefits." },
+    modelOutline: "Intro · advantages outweigh, with caveats.\nBody 1: Advantages - flexibility, lower cost, global access, recorded lectures.\nBody 2: Disadvantages - reduced peer interaction, digital divide, motivation problems.\nConclusion: Hybrid models maximise benefits." },
   { id: "es-v3-05", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "79+",
     prompt: "Some people believe universities should focus only on academic subjects, while others believe practical job skills are equally important. Discuss both views.",
-    modelOutline: "Intro · both perspectives valid in different contexts.\nBody 1: Academic focus — critical thinking, research literacy, foundational knowledge.\nBody 2: Job skills — internships, project work, employability after graduation.\nConclusion: Integrated curriculum that combines theory with applied projects." },
+    modelOutline: "Intro · both perspectives valid in different contexts.\nBody 1: Academic focus - critical thinking, research literacy, foundational knowledge.\nBody 2: Job skills - internships, project work, employability after graduation.\nConclusion: Integrated curriculum that combines theory with applied projects." },
   { id: "es-v3-06", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "65",
     prompt: "Living in big cities has many benefits but also serious drawbacks. Discuss both sides and give your opinion.",
-    modelOutline: "Intro · benefits slightly outweigh in long run.\nBody 1: Benefits — jobs, cultural amenities, healthcare access.\nBody 2: Drawbacks — high cost of living, pollution, congestion.\nConclusion: Smart-city planning can mitigate the worst drawbacks." },
+    modelOutline: "Intro · benefits slightly outweigh in long run.\nBody 1: Benefits - jobs, cultural amenities, healthcare access.\nBody 2: Drawbacks - high cost of living, pollution, congestion.\nConclusion: Smart-city planning can mitigate the worst drawbacks." },
   { id: "es-v3-07", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "65",
     prompt: "Globalisation has both positive and negative effects on local cultures. Discuss the impact and suggest how cultures can be preserved.",
-    modelOutline: "Intro · double-edged sword.\nBody 1: Positives — cultural exchange, tourism revenue, language learning.\nBody 2: Negatives — homogenisation, loss of dialects, threatened crafts.\nConclusion: Government grants, education and digital archives." },
+    modelOutline: "Intro · double-edged sword.\nBody 1: Positives - cultural exchange, tourism revenue, language learning.\nBody 2: Negatives - homogenisation, loss of dialects, threatened crafts.\nConclusion: Government grants, education and digital archives." },
   { id: "es-v3-08", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "79+",
     prompt: "The gig economy is reshaping employment. Should governments intervene to protect gig workers, or should the market decide?",
-    modelOutline: "Intro · regulated middle path.\nBody 1: Case for intervention — sick pay, pensions, minimum income protection.\nBody 2: Case for market freedom — flexibility valued by workers, innovation by platforms.\nConclusion: Portable benefits and minimum standards without rigid employee classification." },
+    modelOutline: "Intro · regulated middle path.\nBody 1: Case for intervention - sick pay, pensions, minimum income protection.\nBody 2: Case for market freedom - flexibility valued by workers, innovation by platforms.\nConclusion: Portable benefits and minimum standards without rigid employee classification." },
   { id: "es-v3-09", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "65",
     prompt: "Some argue that companies should prioritise sustainability over profit. To what extent do you agree?",
-    modelOutline: "Intro · agree they are not mutually exclusive.\nBody 1: Why sustainability matters — long-term profit, regulatory risk, brand value.\nBody 2: Practical levers — circular supply chains, carbon-aware product design.\nConclusion: Profit and sustainability reinforce each other in mature firms." },
+    modelOutline: "Intro · agree they are not mutually exclusive.\nBody 1: Why sustainability matters - long-term profit, regulatory risk, brand value.\nBody 2: Practical levers - circular supply chains, carbon-aware product design.\nConclusion: Profit and sustainability reinforce each other in mature firms." },
   { id: "es-v3-10", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "65",
     prompt: "Mental health problems are on the rise globally. What are the causes, and what can governments and individuals do to address them?",
-    modelOutline: "Intro · multifactorial issue.\nBody 1: Causes — social media pressure, work stress, urban isolation, post-pandemic effects.\nBody 2: Solutions — public funding for therapy, school programs, individual habits like exercise and mindfulness.\nConclusion: Combined societal and personal action." },
+    modelOutline: "Intro · multifactorial issue.\nBody 1: Causes - social media pressure, work stress, urban isolation, post-pandemic effects.\nBody 2: Solutions - public funding for therapy, school programs, individual habits like exercise and mindfulness.\nConclusion: Combined societal and personal action." },
   { id: "es-v3-11", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "79+",
     prompt: "Air pollution causes millions of premature deaths each year. Discuss the most effective strategies governments can adopt to reduce it.",
-    modelOutline: "Intro · multi-pronged strategy.\nBody 1: Transport — electrification, public transit, congestion charges.\nBody 2: Industry & energy — emissions caps, cleaner fuels, monitoring.\nConclusion: Policy mix tailored to local pollution sources." },
+    modelOutline: "Intro · multi-pronged strategy.\nBody 1: Transport - electrification, public transit, congestion charges.\nBody 2: Industry & energy - emissions caps, cleaner fuels, monitoring.\nConclusion: Policy mix tailored to local pollution sources." },
   { id: "es-v3-12", minWords: 200, maxWords: 300, timeMinutes: 20, targetBand: "65",
     prompt: "Vaccination programs have eradicated several deadly diseases. Should vaccination be made compulsory? Discuss.",
-    modelOutline: "Intro · qualified support for compulsion.\nBody 1: Public health benefits — herd immunity, protection of immunocompromised.\nBody 2: Concerns — bodily autonomy, religious objections, trust in institutions.\nConclusion: Mandate for school entry plus strong communication campaign." },
+    modelOutline: "Intro · qualified support for compulsion.\nBody 1: Public health benefits - herd immunity, protection of immunocompromised.\nBody 2: Concerns - bodily autonomy, religious objections, trust in institutions.\nConclusion: Mandate for school entry plus strong communication campaign." },
 ];
 
 /* ============================================================
- * WRITING — Summarize Written Text (12 items)
+ * WRITING - Summarize Written Text (12 items)
  * ============================================================ */
 export const SUMMARIZE_TEXT_V3: PteSummarizeText[] = [
   { id: "sw-v3-01", minWords: 5, maxWords: 75, timeMinutes: 10, targetBand: "65",
@@ -221,7 +221,7 @@ export const SUMMARIZE_TEXT_V3: PteSummarizeText[] = [
 ];
 
 /* ============================================================
- * WRITING / READING — Summarize Spoken Text & Dictation
+ * WRITING / READING - Summarize Spoken Text & Dictation
  * ============================================================ */
 export const SUMMARIZE_SPOKEN_V3: PteSummarizeSpoken[] = [
   { id: "ss-v3-01", minWords: 50, maxWords: 70,
@@ -253,7 +253,7 @@ export const DICTATION_V3: PteDictation[] = [
 ];
 
 /* ============================================================
- * READING — Fill Blank, Reorder, MCQ, Highlight Incorrect
+ * READING - Fill Blank, Reorder, MCQ, Highlight Incorrect
  * ============================================================ */
 export const FILL_BLANK_V3: PteFillBlank[] = [
   { id: "fb-v3-01", targetBand: "65",

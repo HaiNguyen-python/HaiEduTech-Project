@@ -1,4 +1,4 @@
-// Vietnamese grammar lessons — 40 lessons across 4 modules (10+ words, 5+ quizzes each)
+// Vietnamese grammar lessons - 40 lessons across 4 modules (10+ words, 5+ quizzes each)
 import type { VietnameseModule } from "./types";
 
 export const grammarModules: VietnameseModule[] = [

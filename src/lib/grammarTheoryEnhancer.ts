@@ -57,7 +57,7 @@ const buildWorkedExamples = (lesson: LanguageLesson) =>
         ? item.prompt.replace(/_{3,5}/, `**${item.answer}**`)
         : item.prompt;
 
-      return `- ${example}${item.note ? ` — ${toSentence(stripMarkdown(item.note)).replace(/\.$/, "")}` : ""}`;
+      return `- ${example}${item.note ? ` - ${toSentence(stripMarkdown(item.note)).replace(/\.$/, "")}` : ""}`;
     });
 
 const extractRuleBullets = (theory: string) => {

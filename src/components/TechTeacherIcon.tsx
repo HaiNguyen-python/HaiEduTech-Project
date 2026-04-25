@@ -37,7 +37,7 @@ const TechTeacherIcon: React.FC<{ size?: number }> = ({ size = 36 }) => {
       transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
       whileHover={{ scale: 1.1 }}
     >
-      {/* Monitor/Head — rounded rectangle */}
+      {/* Monitor/Head - rounded rectangle */}
       <rect x={6} y={1} width={28} height={20} rx={3} fill="#1E293B" stroke="url(#iconGrad)" strokeWidth={1.5} />
 
       {/* Screen glare highlight */}
@@ -65,11 +65,11 @@ const TechTeacherIcon: React.FC<{ size?: number }> = ({ size = 36 }) => {
       {/* Monitor base */}
       <rect x={13} y={24} width={14} height={2} rx={1} fill="#94A3B8" />
 
-      {/* Body/shoulders — simple friendly shape */}
+      {/* Body/shoulders - simple friendly shape */}
       <path d="M10 32 C10 27, 20 26, 20 26 C20 26, 30 27, 30 32 L30 36 Q30 38 28 38 L12 38 Q10 38 10 36 Z"
         fill="url(#iconGrad)" opacity={0.9} />
 
-      {/* Waving hand — right side */}
+      {/* Waving hand - right side */}
       <motion.g
         animate={{ rotate: [0, 20, -10, 15, 0] }}
         transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 5, ease: "easeInOut" }}

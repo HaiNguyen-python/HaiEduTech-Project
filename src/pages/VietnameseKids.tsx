@@ -187,7 +187,7 @@ const VietnameseKids = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Tiếng Việt cho trẻ Việt kiều | HaiEduTech" description="Bài học tiếng Việt cho trẻ em Việt kiều: gia đình, chào hỏi, hát ru, truyện ngắn — kết nối tổ tiên." path="/learn-vietnamese/kids-overseas" />
+      <SEO title="Tiếng Việt cho trẻ Việt kiều | HaiEduTech" description="Bài học tiếng Việt cho trẻ em Việt kiều: gia đình, chào hỏi, hát ru, truyện ngắn - kết nối tổ tiên." path="/learn-vietnamese/kids-overseas" />
       <Navbar />
       <main className="pt-6 pb-16">
         <div className="container mx-auto px-6 max-w-6xl">
@@ -204,7 +204,7 @@ const VietnameseKids = () => {
               </h1>
             </div>
             <p className="text-muted-foreground text-lg">
-              Giữ tiếng Việt qua gia đình, hát ru, truyện cổ tích — kết nối với cội nguồn
+              Giữ tiếng Việt qua gia đình, hát ru, truyện cổ tích - kết nối với cội nguồn
             </p>
           </motion.div>
 

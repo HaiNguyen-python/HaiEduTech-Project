@@ -180,7 +180,7 @@ const buildCommonMistakes = (lesson: LanguageLesson, theoryText: string) => {
         "Check why the correct option matches the grammar rule."
       );
 
-      return `${stripMarkdown(questionText)} — ${stripMarkdown(explanationText)}`;
+      return `${stripMarkdown(questionText)} - ${stripMarkdown(explanationText)}`;
     });
 
   const proTips = (lesson.proTipsEn || lesson.proTips || [])

@@ -241,7 +241,7 @@ const IELTSChart = ({ config }: Props) => {
       className="glass-card rounded-xl p-5 md:p-6"
     >
       <h2 className="text-sm font-semibold text-primary mb-4 flex items-center gap-2">
-        📊 Visual Data — {config.type === "map" || config.type === "process" ? "Diagram" : "Chart"}
+        📊 Visual Data - {config.type === "map" || config.type === "process" ? "Diagram" : "Chart"}
       </h2>
       {renderer}
     </motion.div>

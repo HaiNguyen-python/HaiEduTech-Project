@@ -206,7 +206,7 @@ export default function SongLibrary({ language }: Props) {
 }
 
 // =====================================================
-// SONG DETAIL — Player + Lyrics + Vocab + Quiz
+// SONG DETAIL - Player + Lyrics + Vocab + Quiz
 // =====================================================
 function SongDetail({
   song,
@@ -267,7 +267,7 @@ function SongDetail({
         </div>
       </div>
 
-      {/* YouTube embed with thumbnail fallback — some official artist videos block embedding */}
+      {/* YouTube embed with thumbnail fallback - some official artist videos block embedding */}
       {song.youtube_id && (
         <YouTubePlayer videoId={song.youtube_id} title={song.title} />
       )}
@@ -459,7 +459,7 @@ function renderInteractiveLine(line: LyricLine) {
 }
 
 // =====================================================
-// LYRICS HERO BANNER — eye-catching illustration on top of lyrics
+// LYRICS HERO BANNER - eye-catching illustration on top of lyrics
 // =====================================================
 const LyricsHero = React.forwardRef<
   HTMLDivElement,

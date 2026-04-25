@@ -1,11 +1,11 @@
-// Culture expansion — 6 chủ đề thêm về văn hóa, tín ngưỡng, lễ hội
+// Culture expansion - 6 chủ đề thêm về văn hóa, tín ngưỡng, lễ hội
 import type { CultureTopic } from "./cultureData";
 
 export const cultureExpansion: CultureTopic[] = [
   {
     id: "mid-autumn",
     emoji: "🥮",
-    title: "Tết Trung Thu — Lễ hội trăng rằm",
+    title: "Tết Trung Thu - Lễ hội trăng rằm",
     titleEn: "Mid-Autumn Festival",
     category: "festival",
     summary: "Lễ rằm tháng 8 dành cho trẻ em: rước đèn lồng, múa lân, ăn bánh nướng & bánh dẻo, ngắm trăng tròn.",
@@ -44,14 +44,14 @@ export const cultureExpansion: CultureTopic[] = [
     title: "Văn hóa trà Việt",
     titleEn: "Vietnamese Tea Culture",
     category: "ritual",
-    summary: "Trà là cầu nối giao tiếp: trà sen Tây Hồ, trà Thái Nguyên, trà đá vỉa hè — từ tinh tế đến bình dân.",
-    summaryEn: "Tea is a social bridge: West Lake lotus tea, Thai Nguyen green tea, sidewalk iced tea — from refined to everyday.",
+    summary: "Trà là cầu nối giao tiếp: trà sen Tây Hồ, trà Thái Nguyên, trà đá vỉa hè - từ tinh tế đến bình dân.",
+    summaryEn: "Tea is a social bridge: West Lake lotus tea, Thai Nguyen green tea, sidewalk iced tea - from refined to everyday.",
     details: [
       {
         heading: "Trà sen Tây Hồ",
         headingEn: "West Lake Lotus Tea",
-        body: "Ướp trà mạn trong hoa sen tươi qua đêm, lặp lại 7 lần. 1kg trà cần ~1500 hoa sen — quà biếu cao cấp.",
-        bodyEn: "Black tea infused inside fresh lotus flowers overnight, repeated 7 times. 1kg tea needs ~1500 flowers — a luxury gift.",
+        body: "Ướp trà mạn trong hoa sen tươi qua đêm, lặp lại 7 lần. 1kg trà cần ~1500 hoa sen - quà biếu cao cấp.",
+        bodyEn: "Black tea infused inside fresh lotus flowers overnight, repeated 7 times. 1kg tea needs ~1500 flowers - a luxury gift.",
       },
       {
         heading: "Trà đá",
@@ -74,8 +74,8 @@ export const cultureExpansion: CultureTopic[] = [
     title: "Đi chùa & Lễ Phật",
     titleEn: "Pagoda Visits & Buddhist Practice",
     category: "belief",
-    summary: "Đi chùa đầu năm cầu may, rằm/mùng 1 thắp hương — Phật giáo Đại thừa hòa quyện đời sống Việt.",
-    summaryEn: "Pagoda visits at New Year for blessings, incense on full moon and 1st — Mahayana Buddhism blends with daily life.",
+    summary: "Đi chùa đầu năm cầu may, rằm/mùng 1 thắp hương - Phật giáo Đại thừa hòa quyện đời sống Việt.",
+    summaryEn: "Pagoda visits at New Year for blessings, incense on full moon and 1st - Mahayana Buddhism blends with daily life.",
     details: [
       {
         heading: "Quy tắc khi vào chùa",
@@ -130,11 +130,11 @@ export const cultureExpansion: CultureTopic[] = [
   {
     id: "non-la",
     emoji: "👒",
-    title: "Nón lá — Biểu tượng Việt",
-    titleEn: "Conical Hat — Vietnamese Icon",
+    title: "Nón lá - Biểu tượng Việt",
+    titleEn: "Conical Hat - Vietnamese Icon",
     category: "attire",
-    summary: "Nón lá đan từ lá cọ, che mưa nắng, gắn với hình ảnh người phụ nữ Việt — di sản hơn 3000 năm.",
-    summaryEn: "Conical hat woven from palm leaves, shields from sun and rain, iconic with Vietnamese women — over 3,000 years of heritage.",
+    summary: "Nón lá đan từ lá cọ, che mưa nắng, gắn với hình ảnh người phụ nữ Việt - di sản hơn 3000 năm.",
+    summaryEn: "Conical hat woven from palm leaves, shields from sun and rain, iconic with Vietnamese women - over 3,000 years of heritage.",
     details: [
       {
         heading: "Cách làm nón",
@@ -145,8 +145,8 @@ export const cultureExpansion: CultureTopic[] = [
       {
         heading: "Nón bài thơ Huế",
         headingEn: "Hue Poetic Hat",
-        body: "Đặc sản Huế: ép giữa 2 lớp lá là bài thơ hoặc tranh — soi nắng mới hiện ra, lãng mạn và tinh tế.",
-        bodyEn: "Hue specialty: poetry or painting pressed between leaf layers — visible only against sunlight, romantic and refined.",
+        body: "Đặc sản Huế: ép giữa 2 lớp lá là bài thơ hoặc tranh - soi nắng mới hiện ra, lãng mạn và tinh tế.",
+        bodyEn: "Hue specialty: poetry or painting pressed between leaf layers - visible only against sunlight, romantic and refined.",
       },
     ],
     vocabulary: [
@@ -162,8 +162,8 @@ export const cultureExpansion: CultureTopic[] = [
     title: "12 Con Giáp & Tử vi",
     titleEn: "12 Zodiac & Astrology",
     category: "belief",
-    summary: "12 con giáp giống Trung Hoa nhưng có Mèo (thay Thỏ) và Trâu (thay Bò) — ảnh hưởng tuổi cưới, làm nhà.",
-    summaryEn: "12 zodiacs similar to Chinese but with Cat (instead of Rabbit) and Buffalo (instead of Ox) — affecting marriage and house-building age.",
+    summary: "12 con giáp giống Trung Hoa nhưng có Mèo (thay Thỏ) và Trâu (thay Bò) - ảnh hưởng tuổi cưới, làm nhà.",
+    summaryEn: "12 zodiacs similar to Chinese but with Cat (instead of Rabbit) and Buffalo (instead of Ox) - affecting marriage and house-building age.",
     details: [
       {
         heading: "12 con giáp Việt",
@@ -174,8 +174,8 @@ export const cultureExpansion: CultureTopic[] = [
       {
         heading: "Tuổi xung khắc & hợp",
         headingEn: "Compatible & Conflicting Ages",
-        body: "Trước cưới hỏi, làm nhà, mua xe — gia đình thường xem tuổi với thầy phong thủy: tránh 'tam tai', 'kim lâu'.",
-        bodyEn: "Before marriage, building, or buying a car — families often consult feng shui experts to avoid bad-luck years.",
+        body: "Trước cưới hỏi, làm nhà, mua xe - gia đình thường xem tuổi với thầy phong thủy: tránh 'tam tai', 'kim lâu'.",
+        bodyEn: "Before marriage, building, or buying a car - families often consult feng shui experts to avoid bad-luck years.",
       },
     ],
     vocabulary: [

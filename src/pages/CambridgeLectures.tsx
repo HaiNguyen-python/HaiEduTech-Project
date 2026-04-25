@@ -1,4 +1,4 @@
-// Cambridge Journey Dashboard — Vibrant Dark Theme with Rainbow Glow
+// Cambridge Journey Dashboard - Vibrant Dark Theme with Rainbow Glow
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMockExamData";
@@ -114,7 +114,7 @@ const CambridgeLectures = () => {
     <div className="min-h-screen bg-[#0A0E1A]">
       <Navbar />
       <main className="pt-24 pb-16">
-        {/* Hero Section — Vibrant Dark */}
+        {/* Hero Section - Vibrant Dark */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a2e] via-[#0A0E1A] to-[#0a1628]" />
           {/* Animated glow orbs */}
@@ -324,7 +324,7 @@ const CambridgeLectures = () => {
           </div>
         </section>
 
-        {/* 🎯 Grouped Lectures — by Level → by Skill */}
+        {/* 🎯 Grouped Lectures - by Level → by Skill */}
         <section className="container mx-auto px-4 pb-16">
           {filtered.length === 0 ? (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
@@ -414,12 +414,12 @@ const CambridgeCard = ({ lecture, index, isBookmarked, isCompleted, onToggleBook
             </button>
           </div>
 
-          {/* Title — 22px */}
+          {/* Title - 22px */}
           <h3 className="font-bold text-white mb-2.5 group-hover:text-[#C4B5FD] transition-colors leading-snug" style={{ fontSize: "22px", lineHeight: "1.5" }}>
             {t(lecture.titleVi, lecture.title)}
           </h3>
 
-          {/* Description — 18px */}
+          {/* Description - 18px */}
           <p className="text-[#94A3B8] mb-5 line-clamp-3" style={{ fontSize: "18px", lineHeight: "1.8" }}>
             {t(lecture.descriptionVi, lecture.description)}
           </p>
@@ -473,7 +473,7 @@ const CambridgeCard = ({ lecture, index, isBookmarked, isCompleted, onToggleBook
 };
 
 // ============================================================
-// GROUPED LECTURE SECTIONS — by Level → by Skill
+// GROUPED LECTURE SECTIONS - by Level → by Skill
 // Lessons numbered for clear "what to learn first" guidance.
 // ============================================================
 const LEVEL_ORDER: CambridgeLevel[] = ["starters", "movers", "flyers", "ket", "pet"];
@@ -551,7 +551,7 @@ const GroupedLectureSections = ({ lectures, bookmarked, completed, onToggleBookm
               borderColor: `${cfg.color}33`,
             }}
           >
-            {/* Level header — clickable to expand/collapse */}
+            {/* Level header - clickable to expand/collapse */}
             <button
               onClick={() => toggleLevel(lvl)}
               className="w-full px-5 md:px-6 py-5 flex items-center gap-4 hover:bg-white/[0.03] transition-colors text-left"

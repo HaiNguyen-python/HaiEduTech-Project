@@ -93,7 +93,7 @@ const WritingHistory = () => {
                 <FileText className="w-4 h-4 text-muted-foreground" />
                 <div>
                   <p className="text-sm font-medium">
-                    Task {attempt.task_type} — {attempt.word_count} {t("từ", "words")}
+                    Task {attempt.task_type} - {attempt.word_count} {t("từ", "words")}
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {new Date(attempt.created_at).toLocaleDateString("vi-VN", {

@@ -1,6 +1,6 @@
 /**
  * @file PteSpeaking.tsx
- * @description PTE Speaking practice — Read Aloud, Repeat Sentence, Describe Image, Retell Lecture.
+ * @description PTE Speaking practice - Read Aloud, Repeat Sentence, Describe Image, Retell Lecture.
  *              Uses Web Speech API for recognition + keyword-based content scoring for image/lecture tasks.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
@@ -246,7 +246,7 @@ const PteSpeaking = () => {
           </div>
         </div>
 
-        {/* Prompt area — varies by mode */}
+        {/* Prompt area - varies by mode */}
         {mode === "read-aloud" && (
           <p className="text-lg sm:text-xl leading-relaxed text-slate-800 font-medium bg-[#f4f7fb] rounded-xl p-4 border border-[#003580]/10">
             {(item as any).text}
@@ -297,7 +297,7 @@ const PteSpeaking = () => {
               </button>
             </div>
             <p className="mt-2 text-[11px] text-slate-500">
-              Listen carefully — you will retell the lecture in your own words after a 10-second prep.
+              Listen carefully - you will retell the lecture in your own words after a 10-second prep.
             </p>
             {phase === "done" && (
               <details className="mt-3 text-sm text-slate-700">
@@ -402,7 +402,7 @@ const PteSpeaking = () => {
           </div>
         )}
 
-        {/* Next button — strict PTE flow: cannot go back */}
+        {/* Next button - strict PTE flow: cannot go back */}
         <div className="mt-5 flex justify-between gap-2">
           <button
             onClick={handleRetry}

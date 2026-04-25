@@ -121,11 +121,11 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
         </div>
       </div>
 
-      {/* Loading banner — only shown on first load so user knows it's working */}
+      {/* Loading banner - only shown on first load so user knows it's working */}
       {loading && !ready && (
         <div className="px-3 py-2 bg-[#bd93f9]/10 border-b border-[#44475a] text-xs text-[#bd93f9] flex items-center gap-2">
           <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
-          <span className="flex-1">{status} — first run downloads ~10MB, then it's instant.</span>
+          <span className="flex-1">{status} - first run downloads ~10MB, then it's instant.</span>
         </div>
       )}
 

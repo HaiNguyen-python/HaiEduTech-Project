@@ -1,4 +1,4 @@
-// Finnish landing hub — 4 distinct programs as separate cards
+// Finnish landing hub - 4 distinct programs as separate cards
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronRight, Sprout, Snowflake, Target, Mic, type LucideIcon } from "lucide-react";
@@ -126,7 +126,7 @@ const Finnish = () => {
                 </Badge>
               </div>
               <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-                {t("Học Tiếng Phần Lan — 4 Chương trình", "Learn Finnish — 4 Programs")}
+                {t("Học Tiếng Phần Lan - 4 Chương trình", "Learn Finnish - 4 Programs")}
               </h1>
               <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
                 {t(
@@ -231,7 +231,7 @@ const Finnish = () => {
                 <div className="flex-1">
                   <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
                     <Mic className="w-4 h-4" />
-                    {t("AI Speaking Coach — Tiếng Phần Lan", "AI Speaking Coach — Finnish")}
+                    {t("AI Speaking Coach - Tiếng Phần Lan", "AI Speaking Coach - Finnish")}
                   </h3>
                   <p className="text-sm text-muted-foreground mt-1">
                     {t(

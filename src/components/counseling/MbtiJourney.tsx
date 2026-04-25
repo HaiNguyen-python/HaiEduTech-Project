@@ -1,6 +1,6 @@
 /**
  * @file MbtiJourney.tsx
- * @description Hành trình MBTI — so sánh kết quả qua nhiều lần test:
+ * @description Hành trình MBTI - so sánh kết quả qua nhiều lần test:
  *   - Timeline kiểu hành trình (mốc thời gian + type code + ghi chú)
  *   - Line chart 4 chiều (E%, S%, T%, J%) qua thời gian
  *   - Nút "Hỏi Compass AI" để nhận phân tích sự trưởng thành nhận thức
@@ -251,8 +251,8 @@ export default function MbtiJourney({ history }: MbtiJourneyProps) {
                 {t("Em đã trưởng thành! ", "You've grown! ")}
               </span>
               {t(
-                `Từ ${firstCode} đến ${latestCode} — đó là dấu hiệu của sự khám phá bản thân.`,
-                `From ${firstCode} to ${latestCode} — a sign of deep self-exploration.`
+                `Từ ${firstCode} đến ${latestCode} - đó là dấu hiệu của sự khám phá bản thân.`,
+                `From ${firstCode} to ${latestCode} - a sign of deep self-exploration.`
               )}
             </p>
           </div>

@@ -87,10 +87,10 @@ export interface PteVocabWord {
   example: string;
 }
 
-// Describe Image — 25s prep + 40s record. Keyword-based content scoring.
+// Describe Image - 25s prep + 40s record. Keyword-based content scoring.
 export interface PteDescribeImage extends PteTags {
   id: string;
-  imageUrl?: string;       // imported asset URL (optional — fallback to emojiVisual)
+  imageUrl?: string;       // imported asset URL (optional - fallback to emojiVisual)
   emojiVisual?: string;    // fallback emoji/SVG-style ASCII visual when no image
   title: string;          // short label of the visual (e.g., "Bar chart: Renewable energy")
   chartType: "bar" | "pie" | "line" | "process" | "map" | "table";
@@ -100,7 +100,7 @@ export interface PteDescribeImage extends PteTags {
   modelAnswer: string;    // band-90 sample answer
 }
 
-// Retell Lecture — 10s prep + 40s record after listening.
+// Retell Lecture - 10s prep + 40s record after listening.
 export interface PteRetellLecture extends PteTags {
   id: string;
   topic: string;
@@ -111,7 +111,7 @@ export interface PteRetellLecture extends PteTags {
   modelAnswer: string;    // band-90 sample retell
 }
 
-// Multiple Choice (single + multi answer) — Reading
+// Multiple Choice (single + multi answer) - Reading
 export interface PteMcq extends PteTags {
   id: string;
   passage: string;
@@ -121,7 +121,7 @@ export interface PteMcq extends PteTags {
   topic: string;
 }
 
-// Highlight Incorrect Words — Listening
+// Highlight Incorrect Words - Listening
 // Audio is the correct version; transcript shows altered words students must click.
 export interface PteHighlightIncorrect extends PteTags {
   id: string;
@@ -350,13 +350,13 @@ export interface PteMockTest {
 }
 
 export const MOCK_TESTS: PteMockTest[] = [
-  { id: "mt-1", title: "Mock Test 1 — Foundation", description: "Mixed difficulty, suitable for first attempt.",
+  { id: "mt-1", title: "Mock Test 1 - Foundation", description: "Mixed difficulty, suitable for first attempt.",
     readAloudIds: ["ra-1", "ra-2"], repeatSentenceIds: ["rs-1", "rs-2"], essayIds: ["es-1"], summarizeTextIds: ["sw-1"],
     fillBlankIds: ["fb-1", "fb-2"], reorderIds: ["ro-1"], dictationIds: ["dc-1", "dc-2"], summarizeSpokenIds: ["ss-1"] },
-  { id: "mt-2", title: "Mock Test 2 — Academic Focus", description: "Heavy on academic vocabulary and synthesis.",
+  { id: "mt-2", title: "Mock Test 2 - Academic Focus", description: "Heavy on academic vocabulary and synthesis.",
     readAloudIds: ["ra-3", "ra-4"], repeatSentenceIds: ["rs-3", "rs-4"], essayIds: ["es-2"], summarizeTextIds: ["sw-2"],
     fillBlankIds: ["fb-3", "fb-4"], reorderIds: ["ro-2"], dictationIds: ["dc-3", "dc-4"], summarizeSpokenIds: ["ss-2"] },
-  { id: "mt-3", title: "Mock Test 3 — Advanced Trends 2026", description: "Predictive set based on 2026 high-frequency questions.",
+  { id: "mt-3", title: "Mock Test 3 - Advanced Trends 2026", description: "Predictive set based on 2026 high-frequency questions.",
     readAloudIds: ["ra-5", "ra-6"], repeatSentenceIds: ["rs-5", "rs-6"], essayIds: ["es-3"], summarizeTextIds: ["sw-3"],
     fillBlankIds: ["fb-5", "fb-6"], reorderIds: ["ro-3"], dictationIds: ["dc-5", "dc-6"], summarizeSpokenIds: ["ss-3"] },
 ];
@@ -528,7 +528,7 @@ export const PTE_VOCAB_BANK: PteVocabWord[] = [
   { word: "warrant", partOfSpeech: "verb", meaning: "justify", example: "The case warrants action." },
 ];
 
-// ===== Describe Image bank (4 items) — PTE 25s prep + 40s record =====
+// ===== Describe Image bank (4 items) - PTE 25s prep + 40s record =====
 import describeImg1 from "@/assets/pte/describe-image-1.jpg";
 import describeImg2 from "@/assets/pte/describe-image-2.jpg";
 import describeImg3 from "@/assets/pte/describe-image-3.jpg";
@@ -581,7 +581,7 @@ export const DESCRIBE_IMAGE_BANK: PteDescribeImage[] = [
   },
 ];
 
-// ===== Retell Lecture bank (4 items) — PTE 10s prep + 40s record =====
+// ===== Retell Lecture bank (4 items) - PTE 10s prep + 40s record =====
 export const RETELL_LECTURE_BANK: PteRetellLecture[] = [
   {
     id: "rl-1",
@@ -625,13 +625,13 @@ export const RETELL_LECTURE_BANK: PteRetellLecture[] = [
       "Microplastics are tiny plastic fragments smaller than five millimetres that have spread throughout the environment. They originate from the breakdown of larger plastics, synthetic clothing fibres, and personal care products such as exfoliating scrubs. Scientists have detected microplastics in oceans, drinking water, and even human blood. Although their long-term health effects are still being studied, governments are responding with bans on single-use plastics and microbeads in cosmetics.",
     keywords: ["microplastics", "fragments", "synthetic", "fibres", "oceans", "drinking water", "human blood", "single-use", "regulations"],
     modelAnswer:
-      "The lecture described microplastics — plastic fragments under five millimetres found throughout the environment. They come from broken-down plastics, synthetic clothing fibres, and personal care products. Microplastics have been detected in oceans, drinking water, and human blood. Governments are now banning single-use plastics and cosmetic microbeads while research on health effects continues.",
+      "The lecture described microplastics - plastic fragments under five millimetres found throughout the environment. They come from broken-down plastics, synthetic clothing fibres, and personal care products. Microplastics have been detected in oceans, drinking water, and human blood. Governments are now banning single-use plastics and cosmetic microbeads while research on health effects continues.",
   },
 ];
 
 
 // ===========================================================
-// MASSIVE EXPANSION (Auto-generated batch — 2026 content drop)
+// MASSIVE EXPANSION (Auto-generated batch - 2026 content drop)
 // All comments in English. Existing items above remain untouched.
 // ===========================================================
 
@@ -1058,7 +1058,7 @@ export const DESCRIBE_IMAGE_EXPANSION: PteDescribeImage[] = [
     modelAnswer: "The table compares tourism arrivals in three major cities in 2023 and 2024. Bangkok recorded the highest figures in both years, rising from 22 million to 25 million visitors. Paris also saw an increase, climbing from 18 million to 20 million, while Dubai grew from 15 million to 18 million arrivals. Overall, all three cities experienced notable growth, reflecting a strong recovery in international tourism." }
 ];
 
-// ===== Multiple Choice (Reading) — 20 items =====
+// ===== Multiple Choice (Reading) - 20 items =====
 export const MCQ_BANK: PteMcq[] = [
   { id: "mcq-1", topic: "Marine biology", targetBand: "65", category: "daily",
     passage: "Coral reefs are biologically diverse ecosystems that support nearly a quarter of all marine life. Rising sea temperatures, ocean acidification, and pollution have caused widespread bleaching events.",
@@ -1162,7 +1162,7 @@ export const MCQ_BANK: PteMcq[] = [
     correctIndices: [1] }
 ];
 
-// ===== Highlight Incorrect Words (Listening) — 15 items =====
+// ===== Highlight Incorrect Words (Listening) - 15 items =====
 export const HIGHLIGHT_INCORRECT_BANK: PteHighlightIncorrect[] = [
   { id: "hi-1", topic: "Daily life", targetBand: "65", category: "daily", accent: "UK",
     audioText: "The library will close earlier on public holidays.",
@@ -1227,7 +1227,7 @@ export const HIGHLIGHT_INCORRECT_BANK: PteHighlightIncorrect[] = [
 ];
 
 
-// ===== 2026 Expansion 2 — additional task bank for SAT/PTE/Grammar refresh =====
+// ===== 2026 Expansion 2 - additional task bank for SAT/PTE/Grammar refresh =====
 export const READ_ALOUD_EXPANSION_2: PteReadAloud[] = [
   { id: "ra-36", topic: "Technology", difficulty: "hard", prepSeconds: 35, recordSeconds: 40, targetBand: "79+", realExam2026: true, category: "prediction", text: "Generative artificial intelligence has reshaped creative industries by producing text, images, and music in seconds. While critics worry about authenticity and copyright, supporters argue that the technology will democratise creative expression and accelerate productivity." },
   { id: "ra-37", topic: "Health", difficulty: "medium", prepSeconds: 35, recordSeconds: 40, targetBand: "65", realExam2026: true, category: "daily", text: "Researchers have linked regular physical activity to a substantial reduction in the risk of cardiovascular disease. Even short walks taken several times a week can lower blood pressure and improve overall cardiac function." },

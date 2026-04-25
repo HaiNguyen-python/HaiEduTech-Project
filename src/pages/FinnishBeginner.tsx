@@ -57,7 +57,7 @@ const FinnishBeginner = () => {
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <Badge className="bg-[#003580] text-white mb-3">A1 — A2 · Aloittelijoille</Badge>
+          <Badge className="bg-[#003580] text-white mb-3">A1 - A2 · Aloittelijoille</Badge>
           <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-[#003580] to-sky-500 bg-clip-text text-transparent">
             {t("Tiếng Phần Lan cho người mới bắt đầu", "Finnish for Beginners")}
           </h1>
@@ -139,7 +139,7 @@ const FinnishBeginner = () => {
             {/* KPT */}
             <section>
               <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-                <h2 className="text-2xl font-bold">🔄 KPT — {t("Biến đổi phụ âm", "Consonant Gradation")}</h2>
+                <h2 className="text-2xl font-bold">🔄 KPT - {t("Biến đổi phụ âm", "Consonant Gradation")}</h2>
                 <Button variant="outline" size="sm" onClick={() => saveToNotebook(
                   "KPT Consonant Gradation",
                   KPT_PAIRS.map(k => `${k.strong} → ${k.weak}: ${k.example} (${k.meaning})`).join("\n")
@@ -171,7 +171,7 @@ const FinnishBeginner = () => {
 
             {/* Partitive */}
             <section>
-              <h2 className="text-2xl font-bold mb-3">🎯 Partitive — {t("Cách bộ phận", "Partitive Case")}</h2>
+              <h2 className="text-2xl font-bold mb-3">🎯 Partitive - {t("Cách bộ phận", "Partitive Case")}</h2>
               <div className="grid md:grid-cols-3 gap-3">
                 {PARTITIVE_CASES.map((p, i) => (
                   <Card key={i} className="p-4">
@@ -212,7 +212,7 @@ const FinnishBeginner = () => {
             </div>
           </TabsContent>
 
-          {/* VOCAB — illustration on the right */}
+          {/* VOCAB - illustration on the right */}
           <TabsContent value="vocab" className="mt-6">
             <h2 className="text-2xl font-bold mb-4">🖼️ {t("Từ vựng có hình minh họa", "Visual Vocabulary")}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">

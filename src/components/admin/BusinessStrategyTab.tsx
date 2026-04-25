@@ -1,4 +1,4 @@
-// Business Strategy Tab — full BI dashboard for HaiEduTech admin
+// Business Strategy Tab - full BI dashboard for HaiEduTech admin
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
@@ -321,7 +321,7 @@ export default function BusinessStrategyTab() {
                           return (
                             <div
                               key={s.month}
-                              title={`${s.month}: ${intensity}/100 — ${s.reason}`}
+                              title={`${s.month}: ${intensity}/100 - ${s.reason}`}
                               className="flex-1 h-10 rounded flex items-center justify-center text-[10px] font-bold text-white cursor-help"
                               style={{ backgroundColor: SECTOR_COLORS[cat], opacity: 0.2 + opacity * 0.8 }}
                             >
@@ -410,7 +410,7 @@ export default function BusinessStrategyTab() {
               </Table>
               <div className="mt-3 p-2 rounded bg-amber-500/10 text-xs text-amber-700 dark:text-amber-300 flex items-start gap-2">
                 <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                <span>Re-engagement tip: students churning after month 1 — send personalized "Free 1-week refresher" email + AI study plan.</span>
+                <span>Re-engagement tip: students churning after month 1 - send personalized "Free 1-week refresher" email + AI study plan.</span>
               </div>
             </CardContent>
           </Card>
@@ -487,15 +487,15 @@ export default function BusinessStrategyTab() {
         </Card>
       </div>
 
-      {/* AI Strategy Optimizer — Perplexity-powered consultant */}
+      {/* AI Strategy Optimizer - Perplexity-powered consultant */}
       <AiStrategyOptimizer
         metrics={{ studentCounts, revenueByCategory }}
       />
 
-      {/* AI Marketing Kit — Lovable AI ad generator */}
+      {/* AI Marketing Kit - Lovable AI ad generator */}
       <AiMarketingKit />
 
-      {/* AI Pedagogical Center — Teacher coaching hub */}
+      {/* AI Pedagogical Center - Teacher coaching hub */}
       <AiPedagogicalCenter />
     </div>
   );

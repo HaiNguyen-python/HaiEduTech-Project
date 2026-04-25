@@ -233,7 +233,7 @@ function postProcessSvg(svg: string): string {
   const root = doc.documentElement;
   if (!root || root.nodeName.toLowerCase() !== "svg") return svg;
 
-  // 1. Enforce viewBox-driven layout — drop fixed width/height that cause shrinking.
+  // 1. Enforce viewBox-driven layout - drop fixed width/height that cause shrinking.
   const widthAttr = root.getAttribute("width");
   const heightAttr = root.getAttribute("height");
   const viewBox = root.getAttribute("viewBox");
@@ -417,7 +417,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
         }}
         data-kind={kind}
       >
-        {/* Fullscreen trigger — sticky to top-right so it stays visible when the diagram scrolls horizontally. */}
+        {/* Fullscreen trigger - sticky to top-right so it stays visible when the diagram scrolls horizontally. */}
         {!loading && !error && (
           <button
             type="button"
@@ -490,7 +490,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
             </div>
           </div>
 
-          {/* Scrollable canvas — pan via native scrollbars when the diagram is zoomed in. */}
+          {/* Scrollable canvas - pan via native scrollbars when the diagram is zoomed in. */}
           <div ref={viewportRef} className="flex-1 overflow-auto bg-gradient-to-br from-card/40 to-muted/20 p-6">
             <div
               style={{

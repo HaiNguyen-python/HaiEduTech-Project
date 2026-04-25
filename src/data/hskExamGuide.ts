@@ -76,7 +76,7 @@ export const HSK_3_UPDATES = {
   titleVi: "Cập nhật theo chuẩn HSK 3.0",
   bullets: [
     {
-      en: "HSK 3.0 expands to 9 levels (3 bands × 3 levels) instead of 6 — the classic 6-level system is still widely accepted internationally through 2025.",
+      en: "HSK 3.0 expands to 9 levels (3 bands × 3 levels) instead of 6 - the classic 6-level system is still widely accepted internationally through 2025.",
       vi: "HSK 3.0 mở rộng thành 9 cấp độ (3 bậc × 3 cấp), thay cho hệ 6 cấp. Hệ HSK 6 cấp truyền thống vẫn được công nhận quốc tế đến 2025.",
     },
     {
@@ -101,8 +101,8 @@ const GENERAL_TIPS: ProTip[] = [
   {
     title: "Time Management",
     titleVi: "Quản lý thời gian",
-    body: "Allocate ~45 seconds per Listening question and ~50 seconds per Reading question. Never spend more than 90 seconds on a single item — mark and move on.",
-    bodyVi: "Dành ~45 giây mỗi câu Nghe và ~50 giây mỗi câu Đọc. Không bao giờ dành quá 90 giây cho một câu — đánh dấu và bỏ qua.",
+    body: "Allocate ~45 seconds per Listening question and ~50 seconds per Reading question. Never spend more than 90 seconds on a single item - mark and move on.",
+    bodyVi: "Dành ~45 giây mỗi câu Nghe và ~50 giây mỗi câu Đọc. Không bao giờ dành quá 90 giây cho một câu - đánh dấu và bỏ qua.",
   },
   {
     title: "Keyword Scanning",
@@ -113,8 +113,8 @@ const GENERAL_TIPS: ProTip[] = [
   {
     title: "Unfamiliar Hanzi",
     titleVi: "Chữ Hán lạ",
-    body: "If a character is unknown, look at the radical (部首) for meaning hint, then guess from context. Never leave blanks — eliminate 1-2 wrong options and pick.",
-    bodyVi: "Nếu gặp chữ lạ, nhìn bộ thủ (部首) để đoán nghĩa, sau đó dựa vào ngữ cảnh. Đừng bao giờ để trống — loại 1-2 đáp án sai rồi chọn.",
+    body: "If a character is unknown, look at the radical (部首) for meaning hint, then guess from context. Never leave blanks - eliminate 1-2 wrong options and pick.",
+    bodyVi: "Nếu gặp chữ lạ, nhìn bộ thủ (部首) để đoán nghĩa, sau đó dựa vào ngữ cảnh. Đừng bao giờ để trống - loại 1-2 đáp án sai rồi chọn.",
   },
 ];
 
@@ -124,8 +124,8 @@ const GENERAL_TIPS: ProTip[] = [
 const HSK1: HskLevelGuide = {
   level: 1,
   badge: "🏮",
-  title: "HSK 1 — Beginner Foundation",
-  titleVi: "HSK 1 — Nền tảng sơ cấp",
+  title: "HSK 1 - Beginner Foundation",
+  titleVi: "HSK 1 - Nền tảng sơ cấp",
   vocabSize: 150,
   totalQuestions: 40,
   totalDuration: "40 minutes (incl. instructions)",
@@ -139,7 +139,7 @@ const HSK1: HskLevelGuide = {
       parts: [
         { part: "Part 1", questions: 5, format: "Match audio sentence to picture (✓/✗)", formatVi: "Nghe câu, đối chiếu với hình ảnh (Đúng/Sai)" },
         { part: "Part 2", questions: 5, format: "Listen and choose the matching picture from 3 options", formatVi: "Nghe rồi chọn hình phù hợp trong 3 lựa chọn" },
-        { part: "Part 3", questions: 5, format: "Short dialogues — match to picture", formatVi: "Hội thoại ngắn — chọn hình tương ứng" },
+        { part: "Part 3", questions: 5, format: "Short dialogues - match to picture", formatVi: "Hội thoại ngắn - chọn hình tương ứng" },
         { part: "Part 4", questions: 5, format: "Question + 3 written options (one heard)", formatVi: "Câu hỏi + 3 đáp án viết, chọn 1 đáp án nghe được" },
       ],
     },
@@ -152,7 +152,7 @@ const HSK1: HskLevelGuide = {
         { part: "Part 1", questions: 5, format: "Match Hanzi word to picture", formatVi: "Đối chiếu từ Hán tự với hình ảnh" },
         { part: "Part 2", questions: 5, format: "Match sentence to picture", formatVi: "Đối chiếu câu với hình ảnh" },
         { part: "Part 3", questions: 5, format: "Match question to response", formatVi: "Nối câu hỏi với câu trả lời" },
-        { part: "Part 4", questions: 5, format: "Fill the blank — choose 1 of 6 words", formatVi: "Điền vào chỗ trống — chọn 1 trong 6 từ" },
+        { part: "Part 4", questions: 5, format: "Fill the blank - choose 1 of 6 words", formatVi: "Điền vào chỗ trống - chọn 1 trong 6 từ" },
       ],
     },
   ],
@@ -167,8 +167,8 @@ const HSK1: HskLevelGuide = {
     {
       title: "Image association",
       titleVi: "Liên tưởng hình ảnh",
-      body: "Listening Parts 2-3 are 100% picture-matching. Build a flashcard set with Hanzi + image (no translation) — your brain will react in 0.3s.",
-      bodyVi: "Phần Nghe 2-3 hoàn toàn là chọn hình. Tạo flashcard với Hán tự + hình (không dịch) — não phản xạ trong 0.3 giây.",
+      body: "Listening Parts 2-3 are 100% picture-matching. Build a flashcard set with Hanzi + image (no translation) - your brain will react in 0.3s.",
+      bodyVi: "Phần Nghe 2-3 hoàn toàn là chọn hình. Tạo flashcard với Hán tự + hình (không dịch) - não phản xạ trong 0.3 giây.",
     },
   ],
   frequentWords: [
@@ -204,8 +204,8 @@ const HSK1: HskLevelGuide = {
 const HSK2: HskLevelGuide = {
   level: 2,
   badge: "🏯",
-  title: "HSK 2 — Elementary Communication",
-  titleVi: "HSK 2 — Giao tiếp cơ bản",
+  title: "HSK 2 - Elementary Communication",
+  titleVi: "HSK 2 - Giao tiếp cơ bản",
   vocabSize: 300,
   totalQuestions: 60,
   totalDuration: "55 minutes",
@@ -231,7 +231,7 @@ const HSK2: HskLevelGuide = {
       parts: [
         { part: "Part 1", questions: 5, format: "Match sentence to picture (6 pictures)", formatVi: "Nối câu với hình (6 hình)" },
         { part: "Part 2", questions: 5, format: "Fill in the blank from word bank", formatVi: "Điền từ từ ngân hàng từ" },
-        { part: "Part 3", questions: 5, format: "True/False — short statements", formatVi: "Đúng/Sai cho câu ngắn" },
+        { part: "Part 3", questions: 5, format: "True/False - short statements", formatVi: "Đúng/Sai cho câu ngắn" },
         { part: "Part 4", questions: 10, format: "Match question to response", formatVi: "Nối câu hỏi với câu trả lời" },
       ],
     },
@@ -284,8 +284,8 @@ const HSK2: HskLevelGuide = {
 const HSK3: HskLevelGuide = {
   level: 3,
   badge: "⛩️",
-  title: "HSK 3 — Intermediate Bridge",
-  titleVi: "HSK 3 — Cầu nối trung cấp",
+  title: "HSK 3 - Intermediate Bridge",
+  titleVi: "HSK 3 - Cầu nối trung cấp",
   vocabSize: 600,
   totalQuestions: 80,
   totalDuration: "90 minutes",
@@ -310,7 +310,7 @@ const HSK3: HskLevelGuide = {
       totalQuestions: 30,
       parts: [
         { part: "Part 1", questions: 10, format: "Match question/statement to response (20 sentences)", formatVi: "Ghép câu hỏi với câu trả lời (20 câu)" },
-        { part: "Part 2", questions: 10, format: "Cloze — fill blank from word bank", formatVi: "Điền chỗ trống từ ngân hàng từ" },
+        { part: "Part 2", questions: 10, format: "Cloze - fill blank from word bank", formatVi: "Điền chỗ trống từ ngân hàng từ" },
         { part: "Part 3", questions: 10, format: "Short passage + multiple choice question", formatVi: "Đoạn ngắn + câu hỏi trắc nghiệm" },
       ],
     },
@@ -326,8 +326,8 @@ const HSK3: HskLevelGuide = {
     },
   ],
   writingFocus: {
-    description: "HSK 3 introduces handwriting Hanzi from Pinyin and sentence re-ordering. Practice stroke order daily — partial-credit handwriting can save your overall score.",
-    descriptionVi: "HSK 3 bắt đầu yêu cầu viết tay Hán tự từ Pinyin và sắp xếp câu. Luyện thứ tự nét mỗi ngày — chữ viết đủ tốt có thể cứu điểm tổng.",
+    description: "HSK 3 introduces handwriting Hanzi from Pinyin and sentence re-ordering. Practice stroke order daily - partial-credit handwriting can save your overall score.",
+    descriptionVi: "HSK 3 bắt đầu yêu cầu viết tay Hán tự từ Pinyin và sắp xếp câu. Luyện thứ tự nét mỗi ngày - chữ viết đủ tốt có thể cứu điểm tổng.",
   },
   generalTips: GENERAL_TIPS,
   levelTips: [
@@ -377,8 +377,8 @@ const HSK3: HskLevelGuide = {
 const HSK4: HskLevelGuide = {
   level: 4,
   badge: "🎓",
-  title: "HSK 4 — Upper Intermediate",
-  titleVi: "HSK 4 — Trung cấp cao",
+  title: "HSK 4 - Upper Intermediate",
+  titleVi: "HSK 4 - Trung cấp cao",
   vocabSize: 1200,
   totalQuestions: 100,
   totalDuration: "105 minutes",
@@ -401,7 +401,7 @@ const HSK4: HskLevelGuide = {
       duration: "40 min",
       totalQuestions: 40,
       parts: [
-        { part: "Part 1", questions: 10, format: "Cloze — fill word into sentence (4 options)", formatVi: "Điền từ vào câu (4 lựa chọn)" },
+        { part: "Part 1", questions: 10, format: "Cloze - fill word into sentence (4 options)", formatVi: "Điền từ vào câu (4 lựa chọn)" },
         { part: "Part 2", questions: 10, format: "Re-order 3 sentences into coherent paragraph", formatVi: "Sắp xếp 3 câu thành đoạn văn mạch lạc" },
         { part: "Part 3", questions: 20, format: "Short passage + 1-2 comprehension questions", formatVi: "Đoạn ngắn + 1-2 câu hỏi đọc hiểu" },
       ],
@@ -426,8 +426,8 @@ const HSK4: HskLevelGuide = {
     {
       title: "Sentence reordering = find the topic noun",
       titleVi: "Sắp xếp câu = tìm danh từ chủ đề",
-      body: "Reading Part 2: locate the sentence introducing the main NOUN/SUBJECT — that's sentence #1. The other two follow logical/time order.",
-      bodyVi: "Đọc Phần 2: tìm câu giới thiệu DANH TỪ/CHỦ NGỮ chính — đó là câu #1. Hai câu còn lại theo trình tự logic/thời gian.",
+      body: "Reading Part 2: locate the sentence introducing the main NOUN/SUBJECT - that's sentence #1. The other two follow logical/time order.",
+      bodyVi: "Đọc Phần 2: tìm câu giới thiệu DANH TỪ/CHỦ NGỮ chính - đó là câu #1. Hai câu còn lại theo trình tự logic/thời gian.",
     },
     {
       title: "Listening: 70% paraphrase",
@@ -491,8 +491,8 @@ const HSK4: HskLevelGuide = {
 const HSK5: HskLevelGuide = {
   level: 5,
   badge: "🏛️",
-  title: "HSK 5 — Advanced Mastery",
-  titleVi: "HSK 5 — Thành thạo cao cấp",
+  title: "HSK 5 - Advanced Mastery",
+  titleVi: "HSK 5 - Thành thạo cao cấp",
   vocabSize: 2500,
   totalQuestions: 100,
   totalDuration: "125 minutes",
@@ -599,8 +599,8 @@ const HSK5: HskLevelGuide = {
 const HSK6: HskLevelGuide = {
   level: 6,
   badge: "🐉",
-  title: "HSK 6 — Native-Like Proficiency",
-  titleVi: "HSK 6 — Trình độ gần bản xứ",
+  title: "HSK 6 - Native-Like Proficiency",
+  titleVi: "HSK 6 - Trình độ gần bản xứ",
   vocabSize: 5000,
   totalQuestions: 101,
   totalDuration: "140 minutes",
@@ -654,8 +654,8 @@ const HSK6: HskLevelGuide = {
     {
       title: "Note-taking template for the 1000-char essay",
       titleVi: "Khung ghi chú cho bài 1000 chữ",
-      body: "While reading, jot only: TITLE, 5 KEY NOUNS, MAIN ACTION VERB per paragraph. After 10 min, you have a skeleton — flesh out into 400 chars.",
-      bodyVi: "Khi đọc, chỉ ghi: TIÊU ĐỀ, 5 DANH TỪ CHỦ ĐẠO, ĐỘNG TỪ CHÍNH mỗi đoạn. Sau 10 phút bạn có khung — phát triển thành 400 chữ.",
+      body: "While reading, jot only: TITLE, 5 KEY NOUNS, MAIN ACTION VERB per paragraph. After 10 min, you have a skeleton - flesh out into 400 chars.",
+      bodyVi: "Khi đọc, chỉ ghi: TIÊU ĐỀ, 5 DANH TỪ CHỦ ĐẠO, ĐỘNG TỪ CHÍNH mỗi đoạn. Sau 10 phút bạn có khung - phát triển thành 400 chữ.",
     },
   ],
   frequentWords: [

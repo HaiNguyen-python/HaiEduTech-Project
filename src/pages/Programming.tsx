@@ -196,8 +196,8 @@ const Programming = () => {
     },
     "deep-learning": {
       title: "Deep Learning", titleEn: "Deep Learning",
-      desc: "Mạng Neural, PyTorch, CNN cho Computer Vision, RNN/LSTM cho NLP, và Transformers/LLMs — công nghệ đứng sau ChatGPT. Yêu cầu: Python cơ bản + Đại số tuyến tính.",
-      descEn: "Neural Networks, PyTorch, CNNs for Computer Vision, RNN/LSTMs for NLP, and Transformers/LLMs — the tech behind ChatGPT. Prerequisites: Python basics + Linear Algebra.",
+      desc: "Mạng Neural, PyTorch, CNN cho Computer Vision, RNN/LSTM cho NLP, và Transformers/LLMs - công nghệ đứng sau ChatGPT. Yêu cầu: Python cơ bản + Đại số tuyến tính.",
+      descEn: "Neural Networks, PyTorch, CNNs for Computer Vision, RNN/LSTMs for NLP, and Transformers/LLMs - the tech behind ChatGPT. Prerequisites: Python basics + Linear Algebra.",
       modules: allProgrammingModules.filter(m => m.course === "dl"),
     },
     nlp: {
@@ -357,7 +357,7 @@ const Programming = () => {
                   </Link>
                 )}
 
-                {/* Interview Questions Section — for AI & Data roles */}
+                {/* Interview Questions Section - for AI & Data roles */}
                 {(activePillar === "ai-foundation" || activePillar === "data-eng" || activePillar === "ml") && (
                   <>
                     <Link
@@ -393,7 +393,7 @@ const Programming = () => {
                           </div>
                           <div>
                             <h3 className="font-display font-bold text-foreground text-sm group-hover:text-primary transition-colors">
-                              Job Opportunities — Find tech jobs in Finland 🇫🇮
+                              Job Opportunities - Find tech jobs in Finland 🇫🇮
                             </h3>
                             <p className="text-xs text-muted-foreground">
                               60+ companies · Data / AI / Language Tech · Career page + Live LinkedIn jobs

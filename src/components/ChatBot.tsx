@@ -161,7 +161,7 @@ function containsProfanity(text: string): boolean {
   });
 }
 
-// Topic filter removed — students can ask freely about any subject
+// Topic filter removed - students can ask freely about any subject
 
 // ── Speech Recognition type shim ──
 interface ISpeechRecognition extends EventTarget {
@@ -391,7 +391,7 @@ const ChatBot = () => {
       return;
     }
 
-    // Topic filter removed — students can ask freely
+    // Topic filter removed - students can ask freely
 
     const allMessages = [...messages, userMsg];
     setMessages(allMessages);

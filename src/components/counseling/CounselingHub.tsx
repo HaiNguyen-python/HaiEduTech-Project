@@ -419,7 +419,7 @@ const TalkToTeacherDialog = ({
               {t("Liên hệ Thầy Hải", "Talk to Teacher Hai")}
             </h3>
             <p className="text-xs text-muted-foreground mt-1">
-              {t("Tin nhắn riêng tư chỉ Thầy đọc được", "Private message — only Teacher Hai can read")}
+              {t("Tin nhắn riêng tư chỉ Thầy đọc được", "Private message - only Teacher Hai can read")}
             </p>
           </div>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-secondary"><X className="w-4 h-4" /></button>
@@ -556,7 +556,7 @@ const MoodSection = ({ userId }: { userId: string }) => {
   // Average uses one value per day (the latest), not all check-ins.
   const avg = chartData.length
     ? (chartData.reduce((s, d) => s + d.score, 0) / chartData.length).toFixed(1)
-    : "—";
+    : "-";
 
   // Custom dot renders the emoji
   const EmojiDot = (props: any) => {
@@ -724,12 +724,12 @@ const JournalSection = ({ userId }: { userId: string }) => {
       <div className="rounded-2xl border border-border bg-card p-6">
         <h3 className="font-display font-bold flex items-center gap-2 mb-3">
           <BookHeart className="w-5 h-5 text-rose-500" />
-          {t("My Thoughts — Suy nghĩ của em", "My Thoughts")}
+          {t("My Thoughts - Suy nghĩ của em", "My Thoughts")}
         </h3>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder={t("Hôm nay em đang nghĩ gì? Hãy viết tự do, không ai khác đọc được.", "What's on your mind? Write freely — no one else can read this.")}
+          placeholder={t("Hôm nay em đang nghĩ gì? Hãy viết tự do, không ai khác đọc được.", "What's on your mind? Write freely - no one else can read this.")}
           className="w-full px-3 py-3 rounded-xl border border-input bg-background text-sm min-h-[120px] resize-none focus:ring-2 focus:ring-primary/30 focus:outline-none"
           maxLength={3000}
         />
@@ -1343,7 +1343,7 @@ const QuoteSection = ({ userId }: { userId: string }) => {
           <p className="text-xl md:text-2xl font-display font-medium text-foreground italic leading-relaxed mb-4">
             "{quote.quote}"
           </p>
-          <p className="text-sm text-muted-foreground font-medium mb-5">— {quote.author}</p>
+          <p className="text-sm text-muted-foreground font-medium mb-5">- {quote.author}</p>
           {quote.reflection && (
             <p className="text-sm text-foreground/80 max-w-xl mx-auto bg-background/60 rounded-xl p-4 leading-relaxed">
               💭 {quote.reflection}

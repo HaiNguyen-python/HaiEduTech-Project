@@ -119,7 +119,7 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "window shopping", meaning: "đi xem hàng (không mua)", meaningEn: "looking at items without buying", type: "expression", example: "Let's go window shopping this weekend.", exampleVi: "Cuối tuần mình đi dạo xem hàng nhé." },
           { term: "a steal", meaning: "món hời", meaningEn: "a great bargain", type: "slang", example: "This bag was a steal at only $10!", exampleVi: "Cái túi này chỉ $10, hời quá!" },
           { term: "try on", meaning: "thử (quần áo)", meaningEn: "to put on clothing to test fit", type: "phrasal-verb", example: "Can I try on these shoes?", exampleVi: "Cho tôi thử đôi giày này được không?" },
-          { term: "rip someone off", meaning: "chặt chém, bán đắt", meaningEn: "to overcharge someone", type: "phrasal-verb", example: "That shop ripped me off — $50 for a t-shirt!", exampleVi: "Cửa hàng đó chặt chém tôi — $50 cho một cái áo thun!" },
+          { term: "rip someone off", meaning: "chặt chém, bán đắt", meaningEn: "to overcharge someone", type: "phrasal-verb", example: "That shop ripped me off - $50 for a t-shirt!", exampleVi: "Cửa hàng đó chặt chém tôi - $50 cho một cái áo thun!" },
           { term: "bang for your buck", meaning: "đáng đồng tiền bát gạo", meaningEn: "value for money", type: "idiom", example: "This phone gives great bang for your buck.", exampleVi: "Cái điện thoại này rất đáng đồng tiền." },
           { term: "shop around", meaning: "so sánh giá nhiều nơi", meaningEn: "compare prices at different stores", type: "phrasal-verb", example: "You should shop around before buying a laptop.", exampleVi: "Bạn nên so sánh giá nhiều nơi trước khi mua laptop." },
           { term: "splurge on", meaning: "vung tiền cho", meaningEn: "spend a lot of money on something", type: "phrasal-verb", example: "I splurged on a designer handbag.", exampleVi: "Tôi vung tiền mua túi hàng hiệu." },
@@ -127,7 +127,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "At the Checkout Counter",
           titleVi: "Tại quầy thanh toán",
-          transcript: "Staff: That'll be $45.99. Would you like a bag? Customer: Yes, please. Can I pay by card? Staff: Sure, tap or insert. Would you like the receipt emailed? Customer: Email is fine, thanks. Staff: Great, I've also applied your loyalty discount — you saved $5 today.",
+          transcript: "Staff: That'll be $45.99. Would you like a bag? Customer: Yes, please. Can I pay by card? Staff: Sure, tap or insert. Would you like the receipt emailed? Customer: Email is fine, thanks. Staff: Great, I've also applied your loyalty discount - you saved $5 today.",
           questions: [
             { q: "How much is the total?", qVi: "Tổng tiền là bao nhiêu?", options: ["$45.99", "$49.95", "$54.99", "$40.59"], answer: 0 },
             { q: "How does the customer want to receive the receipt?", qVi: "Khách hàng muốn nhận hóa đơn bằng cách nào?", options: ["Printed", "By email", "No receipt", "By text"], answer: 1 },
@@ -190,8 +190,8 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "grab a bite", meaning: "ăn nhanh cái gì đó", meaningEn: "eat something quickly", type: "idiom", example: "Want to grab a bite before the movie?", exampleVi: "Muốn ăn gì nhanh trước khi xem phim không?" },
           { term: "doggy bag", meaning: "hộp mang phần ăn thừa về", meaningEn: "container for leftover food", type: "expression", example: "Can I get a doggy bag for the rest?", exampleVi: "Cho tôi hộp mang phần còn lại về được không?" },
           { term: "split the bill", meaning: "chia hóa đơn", meaningEn: "divide payment equally", type: "expression", example: "Should we split the bill?", exampleVi: "Mình chia hóa đơn nhé?" },
-          { term: "have a sweet tooth", meaning: "thích ăn ngọt", meaningEn: "enjoy sweet foods", type: "idiom", example: "I have a real sweet tooth — I can't resist chocolate cake.", exampleVi: "Tôi rất thích ăn ngọt — không cưỡng nổi bánh chocolate." },
-          { term: "dig in", meaning: "bắt đầu ăn", meaningEn: "start eating enthusiastically", type: "phrasal-verb", example: "The food is here — dig in!", exampleVi: "Đồ ăn lên rồi — ăn thôi!" },
+          { term: "have a sweet tooth", meaning: "thích ăn ngọt", meaningEn: "enjoy sweet foods", type: "idiom", example: "I have a real sweet tooth - I can't resist chocolate cake.", exampleVi: "Tôi rất thích ăn ngọt - không cưỡng nổi bánh chocolate." },
+          { term: "dig in", meaning: "bắt đầu ăn", meaningEn: "start eating enthusiastically", type: "phrasal-verb", example: "The food is here - dig in!", exampleVi: "Đồ ăn lên rồi - ăn thôi!" },
         ],
         listeningChallenge: {
           title: "Making a Reservation",
@@ -224,7 +224,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "You", line: "Excuse me, could you tell me how to get to the museum?" },
               { speaker: "Local", line: "Sure! Go straight for two blocks, then turn left." },
               { speaker: "You", line: "Is it within walking distance?" },
-              { speaker: "Local", line: "About 10 minutes on foot, or take the bus — stop is right there." },
+              { speaker: "Local", line: "About 10 minutes on foot, or take the bus - stop is right there." },
             ],
           },
           {
@@ -290,7 +290,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "You", line: "That's really interesting! How did you get into photography?" },
               { speaker: "Friend", line: "I started during a trip to Japan and got hooked." },
               { speaker: "You", line: "Japan! I've always wanted to go. What was the highlight for you?" },
-              { speaker: "Friend", line: "Definitely Kyoto — the temples are magical." },
+              { speaker: "Friend", line: "Definitely Kyoto - the temples are magical." },
             ],
           },
         ],
@@ -353,12 +353,12 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "work out", meaning: "tập thể dục", meaningEn: "to exercise", type: "phrasal-verb", example: "I work out three times a week.", exampleVi: "Tôi tập thể dục ba lần một tuần." },
           { term: "pull a muscle", meaning: "bị căng cơ", meaningEn: "strain a muscle", type: "expression", example: "I pulled a muscle during yoga.", exampleVi: "Tôi bị căng cơ khi tập yoga." },
           { term: "burn out", meaning: "kiệt sức", meaningEn: "become exhausted from overwork", type: "phrasal-verb", example: "I'm starting to burn out from working too much.", exampleVi: "Tôi bắt đầu kiệt sức vì làm việc quá nhiều." },
-          { term: "in good shape", meaning: "khỏe mạnh, cân đối", meaningEn: "physically fit", type: "expression", example: "She's in really good shape — she runs every morning.", exampleVi: "Cô ấy rất khỏe — chạy bộ mỗi sáng." },
+          { term: "in good shape", meaning: "khỏe mạnh, cân đối", meaningEn: "physically fit", type: "expression", example: "She's in really good shape - she runs every morning.", exampleVi: "Cô ấy rất khỏe - chạy bộ mỗi sáng." },
         ],
         listeningChallenge: {
           title: "Pharmacy Visit",
           titleVi: "Đến nhà thuốc",
-          transcript: "Pharmacist: How can I help? Customer: I need something for a cold. Pharmacist: I recommend this — take two tablets every 6 hours with food. Customer: Any side effects? Pharmacist: It may cause drowsiness, so avoid driving after taking it. Customer: And how long should I take it? Pharmacist: For 5 days, then see a doctor if symptoms persist.",
+          transcript: "Pharmacist: How can I help? Customer: I need something for a cold. Pharmacist: I recommend this - take two tablets every 6 hours with food. Customer: Any side effects? Pharmacist: It may cause drowsiness, so avoid driving after taking it. Customer: And how long should I take it? Pharmacist: For 5 days, then see a doctor if symptoms persist.",
           questions: [
             { q: "How often should the medication be taken?", qVi: "Thuốc uống cách bao lâu?", options: ["Every 4 hours", "Every 6 hours", "Twice a day", "Once a day"], answer: 1 },
             { q: "What side effect was mentioned?", qVi: "Tác dụng phụ được đề cập là gì?", options: ["Nausea", "Drowsiness", "Headache", "Dizziness"], answer: 1 },
@@ -460,13 +460,13 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "jet lag", meaning: "lệch múi giờ", meaningEn: "tiredness from time zone change", type: "expression", example: "I'm still dealing with jet lag.", exampleVi: "Tôi vẫn đang bị lệch múi giờ." },
           { term: "off the beaten path", meaning: "nơi ít người biết đến", meaningEn: "a less popular destination", type: "idiom", example: "We found a café off the beaten path.", exampleVi: "Chúng tôi tìm được một quán cà phê ít người biết." },
           { term: "check in / check out", meaning: "nhận phòng / trả phòng", meaningEn: "register/leave a hotel", type: "phrasal-verb", example: "Check-out is at 11 AM.", exampleVi: "Trả phòng lúc 11 giờ sáng." },
-          { term: "travel light", meaning: "đi du lịch nhẹ nhàng (ít hành lý)", meaningEn: "carry minimal luggage", type: "expression", example: "I prefer to travel light — just a backpack.", exampleVi: "Tôi thích đi nhẹ — chỉ một balo." },
+          { term: "travel light", meaning: "đi du lịch nhẹ nhàng (ít hành lý)", meaningEn: "carry minimal luggage", type: "expression", example: "I prefer to travel light - just a backpack.", exampleVi: "Tôi thích đi nhẹ - chỉ một balo." },
           { term: "layover", meaning: "quá cảnh", meaningEn: "a stop between flights", type: "expression", example: "We have a 4-hour layover in Singapore.", exampleVi: "Chúng tôi quá cảnh 4 tiếng ở Singapore." },
         ],
         listeningChallenge: {
           title: "Hotel Check-in",
           titleVi: "Nhận phòng Khách sạn",
-          transcript: "Receptionist: Welcome! Do you have a reservation? Guest: Yes, under the name Nguyen. Receptionist: I see it — a double room for 3 nights. Breakfast is from 7 to 9 AM. Guest: Is there a pool? Receptionist: Yes, on the 5th floor. Open till 10 PM. The gym is on the same floor.",
+          transcript: "Receptionist: Welcome! Do you have a reservation? Guest: Yes, under the name Nguyen. Receptionist: I see it - a double room for 3 nights. Breakfast is from 7 to 9 AM. Guest: Is there a pool? Receptionist: Yes, on the 5th floor. Open till 10 PM. The gym is on the same floor.",
           questions: [
             { q: "How many nights is the reservation?", qVi: "Đặt phòng mấy đêm?", options: ["1", "2", "3", "4"], answer: 2 },
             { q: "Where is the pool?", qVi: "Hồ bơi ở đâu?", options: ["3rd floor", "4th floor", "5th floor", "Rooftop"], answer: 2 },
@@ -574,7 +574,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "Landlord's Rules",
           titleVi: "Nội quy của Chủ nhà",
-          transcript: "Landlord: No pets allowed. Rent is due on the 1st of every month. Quiet hours are from 10 PM to 7 AM. Any maintenance issues, text me first. Also, please sort your recycling — bins are in the basement.",
+          transcript: "Landlord: No pets allowed. Rent is due on the 1st of every month. Quiet hours are from 10 PM to 7 AM. Any maintenance issues, text me first. Also, please sort your recycling - bins are in the basement.",
           questions: [
             { q: "When is rent due?", qVi: "Tiền thuê đến hạn khi nào?", options: ["15th", "Last day", "1st", "5th"], answer: 2 },
             { q: "Where are the recycling bins?", qVi: "Thùng tái chế ở đâu?", options: ["Kitchen", "Garage", "Basement", "Front yard"], answer: 2 },
@@ -656,7 +656,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "Friend", line: "How small should I cut them?" },
               { speaker: "You", line: "About half an inch. Then we sauté them until golden." },
               { speaker: "Friend", line: "Should I add the garlic at the same time?" },
-              { speaker: "You", line: "No, add garlic last — it burns easily." },
+              { speaker: "You", line: "No, add garlic last - it burns easily." },
             ],
           },
           {
@@ -667,7 +667,7 @@ export const conversationalPillars: ConvPillar[] = [
             sampleDialogue: [
               { speaker: "Instructor", line: "Now fold the dough gently. Don't overwork it." },
               { speaker: "You", line: "Like this? Is it supposed to be this sticky?" },
-              { speaker: "Instructor", line: "Add a little more flour. Perfect — now let it rest for 20 minutes." },
+              { speaker: "Instructor", line: "Add a little more flour. Perfect - now let it rest for 20 minutes." },
             ],
           },
         ],
@@ -681,7 +681,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "Cooking Show Instructions",
           titleVi: "Hướng dẫn Chương trình Nấu ăn",
-          transcript: "Chef: Today we're making a classic risotto. First, heat the olive oil in a large pan. Add the arborio rice and stir for two minutes. Then gradually add warm chicken broth, one ladle at a time. Stir constantly — the whole process takes about 18 minutes. Finish with butter and parmesan.",
+          transcript: "Chef: Today we're making a classic risotto. First, heat the olive oil in a large pan. Add the arborio rice and stir for two minutes. Then gradually add warm chicken broth, one ladle at a time. Stir constantly - the whole process takes about 18 minutes. Finish with butter and parmesan.",
           questions: [
             { q: "What type of rice is used?", qVi: "Dùng loại gạo gì?", options: ["Basmati", "Jasmine", "Arborio", "Brown rice"], answer: 2 },
             { q: "How long does the process take?", qVi: "Quá trình mất bao lâu?", options: ["10 minutes", "15 minutes", "18 minutes", "25 minutes"], answer: 2 },
@@ -719,7 +719,7 @@ export const conversationalPillars: ConvPillar[] = [
             descriptionVi: "Hỏi tư vấn về đồ dùng cho thú cưng",
             sampleDialogue: [
               { speaker: "You", line: "I just adopted a kitten. What food do you recommend?" },
-              { speaker: "Staff", line: "For kittens, I suggest this brand — it's high in protein." },
+              { speaker: "Staff", line: "For kittens, I suggest this brand - it's high in protein." },
               { speaker: "You", line: "How often should I feed her?" },
               { speaker: "Staff", line: "Three times a day until she's 6 months old, then twice." },
             ],
@@ -781,7 +781,7 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "binge-watch", meaning: "cày phim liên tục", meaningEn: "watch many episodes in one sitting", type: "slang", example: "I binge-watched the entire season in one day.", exampleVi: "Tôi cày hết cả mùa phim trong một ngày." },
           { term: "page-turner", meaning: "sách hấp dẫn không đặt xuống được", meaningEn: "an exciting book", type: "expression", example: "That novel is a real page-turner.", exampleVi: "Cuốn tiểu thuyết đó hấp dẫn không đặt xuống được." },
           { term: "jam out", meaning: "nghe nhạc sôi động, chơi nhạc", meaningEn: "listen to or play music energetically", type: "slang", example: "We jammed out to rock music all night.", exampleVi: "Chúng tôi nghe nhạc rock cả đêm." },
-          { term: "on a roll", meaning: "đang thắng liên tục, đang hưng phấn", meaningEn: "experiencing a series of successes", type: "idiom", example: "Our team is on a roll — 5 wins in a row!", exampleVi: "Đội mình đang thắng liên tục — 5 trận liền!" },
+          { term: "on a roll", meaning: "đang thắng liên tục, đang hưng phấn", meaningEn: "experiencing a series of successes", type: "idiom", example: "Our team is on a roll - 5 wins in a row!", exampleVi: "Đội mình đang thắng liên tục - 5 trận liền!" },
         ],
         listeningChallenge: {
           title: "Concert Ticket Purchase",
@@ -811,9 +811,9 @@ export const conversationalPillars: ConvPillar[] = [
             descriptionVi: "Lên kế hoạch dựa theo dự báo thời tiết",
             sampleDialogue: [
               { speaker: "Friend", line: "Should we have the barbecue on Saturday?" },
-              { speaker: "You", line: "I checked the forecast — it says 70% chance of rain." },
+              { speaker: "You", line: "I checked the forecast - it says 70% chance of rain." },
               { speaker: "Friend", line: "That's too risky. What about Sunday?" },
-              { speaker: "You", line: "Sunday looks perfect — sunny and 25 degrees." },
+              { speaker: "You", line: "Sunday looks perfect - sunny and 25 degrees." },
               { speaker: "Friend", line: "Let's do Sunday then. I'll bring the grill." },
             ],
           },
@@ -833,7 +833,7 @@ export const conversationalPillars: ConvPillar[] = [
         vocabulary: [
           { term: "under the weather", meaning: "không khỏe", meaningEn: "feeling ill", type: "idiom", example: "I'm feeling a bit under the weather today.", exampleVi: "Hôm nay tôi hơi không khỏe." },
           { term: "rain or shine", meaning: "dù thời tiết thế nào", meaningEn: "regardless of weather conditions", type: "idiom", example: "The festival will happen rain or shine.", exampleVi: "Lễ hội sẽ diễn ra dù trời mưa hay nắng." },
-          { term: "sweater weather", meaning: "thời tiết mát mẻ để mặc áo len", meaningEn: "cool enough for a sweater", type: "slang", example: "Fall is finally here — sweater weather!", exampleVi: "Cuối cùng cũng đến mùa thu — thời tiết mặc áo len!" },
+          { term: "sweater weather", meaning: "thời tiết mát mẻ để mặc áo len", meaningEn: "cool enough for a sweater", type: "slang", example: "Fall is finally here - sweater weather!", exampleVi: "Cuối cùng cũng đến mùa thu - thời tiết mặc áo len!" },
           { term: "heatwave", meaning: "đợt nóng kéo dài", meaningEn: "prolonged period of extreme heat", type: "expression", example: "We're in the middle of a heatwave.", exampleVi: "Chúng ta đang ở giữa đợt nóng." },
         ],
         listeningChallenge: {
@@ -877,7 +877,7 @@ export const conversationalPillars: ConvPillar[] = [
             descriptionVi: "Kể cho bạn nước ngoài về Tết và các lễ hội khác",
             sampleDialogue: [
               { speaker: "Friend", line: "What's Tet? I keep seeing decorations everywhere." },
-              { speaker: "You", line: "Tet is Vietnamese New Year — it's the biggest holiday here." },
+              { speaker: "You", line: "Tet is Vietnamese New Year - it's the biggest holiday here." },
               { speaker: "Friend", line: "What do people usually do?" },
               { speaker: "You", line: "Families gather, eat traditional food, and give lucky money in red envelopes." },
               { speaker: "Friend", line: "That sounds amazing! Can I join your family celebration?" },
@@ -936,7 +936,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "Interviewer", line: "Tell me about yourself." },
               { speaker: "You", line: "I'm a marketing professional with 3 years of experience in digital campaigns. I specialize in social media strategy and data analytics." },
               { speaker: "Interviewer", line: "What's your greatest strength?" },
-              { speaker: "You", line: "I'm highly adaptable — I thrive in fast-changing environments." },
+              { speaker: "You", line: "I'm highly adaptable - I thrive in fast-changing environments." },
               { speaker: "Interviewer", line: "Can you give me an example?" },
               { speaker: "You", line: "When our team shifted to remote work, I redesigned our workflow and increased productivity by 20%." },
             ],
@@ -1055,7 +1055,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "You", line: "Thanks for joining. The purpose of today's meeting is to align on the product launch timeline." },
               { speaker: "Marketing", line: "We need the final assets by March 20th." },
               { speaker: "Engineering", line: "That's tight. Can we push to March 25th?" },
-              { speaker: "You", line: "Let's compromise — March 22nd. Does that work for everyone?" },
+              { speaker: "You", line: "Let's compromise - March 22nd. Does that work for everyone?" },
             ],
           },
         ],
@@ -1069,7 +1069,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "Meeting Agenda Review",
           titleVi: "Xem lại Chương trình Cuộc họp",
-          transcript: "Manager: Today's agenda has three items: budget review, project timeline, and team assignments. Let's keep each topic to 10 minutes. I want us out of here by 3:30. Let's start with the budget — Tom, can you share your screen? Tom: Sure, pulling it up now.",
+          transcript: "Manager: Today's agenda has three items: budget review, project timeline, and team assignments. Let's keep each topic to 10 minutes. I want us out of here by 3:30. Let's start with the budget - Tom, can you share your screen? Tom: Sure, pulling it up now.",
           questions: [
             { q: "How many agenda items are there?", qVi: "Có bao nhiêu mục trong chương trình?", options: ["2", "3", "4", "5"], answer: 1 },
             { q: "When does the manager want to finish?", qVi: "Quản lý muốn kết thúc lúc mấy giờ?", options: ["3:00", "3:15", "3:30", "4:00"], answer: 2 },
@@ -1095,7 +1095,7 @@ export const conversationalPillars: ConvPillar[] = [
             sampleDialogue: [
               { speaker: "You", line: "Good morning, everyone. Today I'm going to talk about three trends shaping our industry in 2025." },
               { speaker: "You", line: "By the end of this presentation, you'll have actionable strategies you can implement right away." },
-              { speaker: "You", line: "Let me start with a quick question — how many of you have used AI at work this year?" },
+              { speaker: "You", line: "Let me start with a quick question - how many of you have used AI at work this year?" },
             ],
           },
           {
@@ -1112,7 +1112,7 @@ export const conversationalPillars: ConvPillar[] = [
           },
         ],
         vocabulary: [
-          { term: "cut to the chase", meaning: "đi thẳng vào vấn đề", meaningEn: "get to the point directly", type: "idiom", example: "Let me cut to the chase — here are the results.", exampleVi: "Để tôi đi thẳng vào vấn đề — đây là kết quả." },
+          { term: "cut to the chase", meaning: "đi thẳng vào vấn đề", meaningEn: "get to the point directly", type: "idiom", example: "Let me cut to the chase - here are the results.", exampleVi: "Để tôi đi thẳng vào vấn đề - đây là kết quả." },
           { term: "run through", meaning: "trình bày tóm tắt", meaningEn: "go over quickly", type: "phrasal-verb", example: "Let me run through the key points.", exampleVi: "Để tôi trình bày qua các điểm chính." },
           { term: "break it down", meaning: "phân tích chi tiết", meaningEn: "explain in simpler parts", type: "phrasal-verb", example: "Let me break it down for you.", exampleVi: "Để tôi phân tích chi tiết cho bạn." },
           { term: "take away", meaning: "điểm cần nhớ", meaningEn: "key point to remember", type: "expression", example: "The main takeaway from today is this chart.", exampleVi: "Điểm chính cần nhớ hôm nay là biểu đồ này." },
@@ -1144,7 +1144,7 @@ export const conversationalPillars: ConvPillar[] = [
             description: "Writing concise follow-up emails",
             descriptionVi: "Viết email theo dõi ngắn gọn",
             sampleDialogue: [
-              { speaker: "Subject", line: "Follow-up: Q3 Strategy Meeting — Action Items" },
+              { speaker: "Subject", line: "Follow-up: Q3 Strategy Meeting - Action Items" },
               { speaker: "Body", line: "Hi Team, Thank you for a productive meeting. Please find below the action items we agreed on. Deadline for all items is October 15th." },
               { speaker: "Body", line: "1. Sarah: Update the marketing deck. 2. Tom: Run the financial projections. 3. Lisa: Schedule client demos." },
             ],
@@ -1165,7 +1165,7 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "as per our conversation", meaning: "như đã trao đổi", meaningEn: "as we discussed", type: "expression", example: "As per our conversation, I've attached the report.", exampleVi: "Như đã trao đổi, tôi đính kèm báo cáo." },
           { term: "loop someone in", meaning: "thêm ai đó vào cuộc trao đổi", meaningEn: "include someone in communication", type: "phrasal-verb", example: "Please loop in the marketing team.", exampleVi: "Vui lòng thêm đội marketing vào email." },
           { term: "touch base", meaning: "liên lạc ngắn", meaningEn: "make brief contact", type: "idiom", example: "Just wanted to touch base on the project status.", exampleVi: "Chỉ muốn liên lạc nhanh về tình trạng dự án." },
-          { term: "heads up", meaning: "thông báo trước", meaningEn: "advance notice or warning", type: "slang", example: "Just a heads up — the meeting is moved to 3 PM.", exampleVi: "Thông báo trước — cuộc họp chuyển sang 3 giờ chiều." },
+          { term: "heads up", meaning: "thông báo trước", meaningEn: "advance notice or warning", type: "slang", example: "Just a heads up - the meeting is moved to 3 PM.", exampleVi: "Thông báo trước - cuộc họp chuyển sang 3 giờ chiều." },
         ],
         listeningChallenge: {
           title: "Voicemail Message",
@@ -1275,7 +1275,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "Supplier Negotiation",
           titleVi: "Đàm phán với Nhà cung cấp",
-          transcript: "Buyer: We need faster delivery — 5 days instead of 10. Supplier: That's possible but will cost 8% more. Buyer: We can accept 5% extra for orders over 1,000 units. Supplier: Deal. We'll also throw in free packaging for the first order.",
+          transcript: "Buyer: We need faster delivery - 5 days instead of 10. Supplier: That's possible but will cost 8% more. Buyer: We can accept 5% extra for orders over 1,000 units. Supplier: Deal. We'll also throw in free packaging for the first order.",
           questions: [
             { q: "What delivery time does the buyer want?", qVi: "Người mua muốn giao hàng trong bao lâu?", options: ["3 days", "5 days", "7 days", "10 days"], answer: 1 },
             { q: "What extra bonus does the supplier offer?", qVi: "Nhà cung cấp thêm ưu đãi gì?", options: ["Free shipping", "Free packaging", "Extra discount", "Free samples"], answer: 1 },
@@ -1313,20 +1313,20 @@ export const conversationalPillars: ConvPillar[] = [
             sampleDialogue: [
               { speaker: "You", line: "Hey team, I'm signing off for the day (it's 6 PM my time). Here's my status update:" },
               { speaker: "You", line: "✅ Completed the wireframes. ⏳ Waiting for copy from Sarah. 🚫 Blocked on API access." },
-              { speaker: "You", line: "Sarah, no rush — just drop the copy in the doc when you can. I'll pick it up tomorrow morning." },
+              { speaker: "You", line: "Sarah, no rush - just drop the copy in the doc when you can. I'll pick it up tomorrow morning." },
             ],
           },
         ],
         vocabulary: [
           { term: "you're on mute", meaning: "bạn đang tắt mic", meaningEn: "your microphone is off", type: "expression", example: "Tom, you're on mute again!", exampleVi: "Tom, bạn lại tắt mic rồi!" },
           { term: "drop off the call", meaning: "rời cuộc gọi", meaningEn: "leave a video/phone call", type: "expression", example: "I need to drop off at 3 PM.", exampleVi: "Tôi cần rời cuộc gọi lúc 3 giờ." },
-          { term: "async", meaning: "bất đồng bộ", meaningEn: "communication not in real-time", type: "slang", example: "Let's handle this async — no need for a meeting.", exampleVi: "Mình xử lý bất đồng bộ đi — không cần họp." },
+          { term: "async", meaning: "bất đồng bộ", meaningEn: "communication not in real-time", type: "slang", example: "Let's handle this async - no need for a meeting.", exampleVi: "Mình xử lý bất đồng bộ đi - không cần họp." },
           { term: "deep work", meaning: "làm việc tập trung sâu", meaningEn: "focused, uninterrupted work", type: "expression", example: "I block mornings for deep work.", exampleVi: "Tôi dành buổi sáng để làm việc tập trung sâu." },
         ],
         listeningChallenge: {
           title: "Stand-up Meeting on Zoom",
           titleVi: "Họp nhanh trên Zoom",
-          transcript: "Manager: Quick updates — Sarah finished the mockups. Tom is blocked by the API issue. Lisa, can you help Tom today? Lisa: Sure, I'll pair program with him this afternoon. Manager: Perfect. Also, Friday is our team retrospective at 4 PM. Please come prepared with feedback.",
+          transcript: "Manager: Quick updates - Sarah finished the mockups. Tom is blocked by the API issue. Lisa, can you help Tom today? Lisa: Sure, I'll pair program with him this afternoon. Manager: Perfect. Also, Friday is our team retrospective at 4 PM. Please come prepared with feedback.",
           questions: [
             { q: "Who is blocked?", qVi: "Ai bị vướng mắc?", options: ["Sarah", "Lisa", "Tom", "Manager"], answer: 2 },
             { q: "What happens on Friday?", qVi: "Thứ Sáu có gì?", options: ["Team lunch", "Demo day", "Retrospective", "Planning"], answer: 2 },
@@ -1365,7 +1365,7 @@ export const conversationalPillars: ConvPillar[] = [
             sampleDialogue: [
               { speaker: "You", line: "Since you're buying the laptop, would you like our protection plan? It covers accidental damage for 2 years." },
               { speaker: "Customer", line: "How much does it cost?" },
-              { speaker: "You", line: "Only $79 — a fraction of the repair cost. It also includes free tech support." },
+              { speaker: "You", line: "Only $79 - a fraction of the repair cost. It also includes free tech support." },
               { speaker: "Customer", line: "That sounds like a good deal. I'll take it." },
             ],
           },
@@ -1374,7 +1374,7 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "bear with me", meaning: "vui lòng chờ tôi một chút", meaningEn: "please be patient", type: "expression", example: "Bear with me while I look this up.", exampleVi: "Vui lòng chờ tôi tra cứu." },
           { term: "go the extra mile", meaning: "làm nhiều hơn mong đợi", meaningEn: "do more than expected", type: "idiom", example: "We always go the extra mile for our customers.", exampleVi: "Chúng tôi luôn làm nhiều hơn mong đợi cho khách hàng." },
           { term: "get back to you", meaning: "liên lạc lại sau", meaningEn: "respond later with information", type: "phrasal-verb", example: "Let me look into this and get back to you.", exampleVi: "Để tôi kiểm tra và liên lạc lại với bạn." },
-          { term: "make it right", meaning: "sửa sai, bù đắp", meaningEn: "correct a mistake or fix a problem", type: "expression", example: "We'll make it right — here's a refund and a free replacement.", exampleVi: "Chúng tôi sẽ bù đắp — đây là hoàn tiền và sản phẩm thay thế miễn phí." },
+          { term: "make it right", meaning: "sửa sai, bù đắp", meaningEn: "correct a mistake or fix a problem", type: "expression", example: "We'll make it right - here's a refund and a free replacement.", exampleVi: "Chúng tôi sẽ bù đắp - đây là hoàn tiền và sản phẩm thay thế miễn phí." },
         ],
         listeningChallenge: {
           title: "Customer Feedback Call",
@@ -1404,9 +1404,9 @@ export const conversationalPillars: ConvPillar[] = [
             descriptionVi: "Sử dụng kỹ thuật phản hồi sandwich",
             sampleDialogue: [
               { speaker: "You", line: "Sarah, your report was well-researched and very thorough." },
-              { speaker: "You", line: "One area to improve — the executive summary could be more concise. Focus on the top 3 findings." },
+              { speaker: "You", line: "One area to improve - the executive summary could be more concise. Focus on the top 3 findings." },
               { speaker: "You", line: "Overall, great work. Keep pushing the quality higher!" },
-              { speaker: "Sarah", line: "Thank you — I'll tighten up the summary." },
+              { speaker: "Sarah", line: "Thank you - I'll tighten up the summary." },
             ],
           },
           {
@@ -1424,14 +1424,14 @@ export const conversationalPillars: ConvPillar[] = [
         ],
         vocabulary: [
           { term: "step up", meaning: "đứng lên chịu trách nhiệm", meaningEn: "take responsibility or leadership", type: "phrasal-verb", example: "It's time to step up and lead.", exampleVi: "Đã đến lúc đứng lên và dẫn dắt." },
-          { term: "the ball is in your court", meaning: "đến lượt bạn quyết định", meaningEn: "it's your turn to act", type: "idiom", example: "I've given you the resources — the ball is in your court.", exampleVi: "Tôi đã cung cấp nguồn lực — giờ đến lượt bạn." },
+          { term: "the ball is in your court", meaning: "đến lượt bạn quyết định", meaningEn: "it's your turn to act", type: "idiom", example: "I've given you the resources - the ball is in your court.", exampleVi: "Tôi đã cung cấp nguồn lực - giờ đến lượt bạn." },
           { term: "lead by example", meaning: "nêu gương bằng hành động", meaningEn: "demonstrate through personal behavior", type: "expression", example: "Great leaders lead by example.", exampleVi: "Nhà lãnh đạo giỏi nêu gương bằng hành động." },
           { term: "empower", meaning: "trao quyền", meaningEn: "give authority or confidence to act", type: "expression", example: "We need to empower our team to make decisions.", exampleVi: "Chúng ta cần trao quyền cho đội nhóm để ra quyết định." },
         ],
         listeningChallenge: {
           title: "Team Motivation Speech",
           titleVi: "Bài phát biểu Tạo động lực cho Đội nhóm",
-          transcript: "Team, I know this quarter has been tough. But look at what we've achieved — we exceeded our target by 12%. Each of you contributed to this success. Next quarter, let's aim even higher. I believe in every one of you. Let's celebrate tonight — dinner is on the company!",
+          transcript: "Team, I know this quarter has been tough. But look at what we've achieved - we exceeded our target by 12%. Each of you contributed to this success. Next quarter, let's aim even higher. I believe in every one of you. Let's celebrate tonight - dinner is on the company!",
           questions: [
             { q: "By how much did the team exceed the target?", qVi: "Đội vượt mục tiêu bao nhiêu?", options: ["5%", "8%", "10%", "12%"], answer: 3 },
             { q: "How will the team celebrate?", qVi: "Đội sẽ ăn mừng thế nào?", options: ["Bonus", "Day off", "Company dinner", "Party"], answer: 2 },
@@ -1460,7 +1460,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "You", line: "Thank you! I'm really excited to be here." },
               { speaker: "HR", line: "This is the marketing floor. Your desk is by the window." },
               { speaker: "You", line: "Great! Who should I reach out to if I have questions about the project?" },
-              { speaker: "HR", line: "Your buddy is Tom — he'll help you during your first week." },
+              { speaker: "HR", line: "Your buddy is Tom - he'll help you during your first week." },
             ],
           },
           {
@@ -1485,7 +1485,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "Office Tour",
           titleVi: "Tham quan Văn phòng",
-          transcript: "HR: The kitchen is on this floor — help yourself to coffee and snacks. The meeting rooms are on the 3rd floor, bookable through the app. Quiet rooms for calls are on the 2nd floor. Parking is in the basement — use your badge to access. Lunch break is from 12 to 1 PM, but it's flexible.",
+          transcript: "HR: The kitchen is on this floor - help yourself to coffee and snacks. The meeting rooms are on the 3rd floor, bookable through the app. Quiet rooms for calls are on the 2nd floor. Parking is in the basement - use your badge to access. Lunch break is from 12 to 1 PM, but it's flexible.",
           questions: [
             { q: "Where are the meeting rooms?", qVi: "Phòng họp ở đâu?", options: ["1st floor", "2nd floor", "3rd floor", "4th floor"], answer: 2 },
             { q: "How do you access parking?", qVi: "Dùng gì để vào bãi đậu xe?", options: ["Key", "Badge", "Code", "Ticket"], answer: 1 },
@@ -1524,14 +1524,14 @@ export const conversationalPillars: ConvPillar[] = [
             descriptionVi: "Quản lý yêu cầu phát sinh và thanh toán trễ",
             sampleDialogue: [
               { speaker: "Client", line: "Can you also add a blog section? Same price?" },
-              { speaker: "You", line: "I'd love to! That would be outside the original scope, so I'd add it as a separate item — around $500." },
+              { speaker: "You", line: "I'd love to! That would be outside the original scope, so I'd add it as a separate item - around $500." },
               { speaker: "Client", line: "Fair enough. Let's include it." },
             ],
           },
         ],
         vocabulary: [
           { term: "scope creep", meaning: "yêu cầu phát sinh ngoài phạm vi", meaningEn: "gradual expansion of project requirements", type: "expression", example: "We need to avoid scope creep on this project.", exampleVi: "Chúng ta cần tránh yêu cầu phát sinh ngoài phạm vi." },
-          { term: "hustle", meaning: "làm việc chăm chỉ, xoay xở", meaningEn: "work hard and energetically", type: "slang", example: "She's always hustling — 3 clients and a full-time job.", exampleVi: "Cô ấy luôn xoay xở — 3 khách hàng cùng một công việc toàn thời gian." },
+          { term: "hustle", meaning: "làm việc chăm chỉ, xoay xở", meaningEn: "work hard and energetically", type: "slang", example: "She's always hustling - 3 clients and a full-time job.", exampleVi: "Cô ấy luôn xoay xở - 3 khách hàng cùng một công việc toàn thời gian." },
           { term: "retainer", meaning: "hợp đồng duy trì hàng tháng", meaningEn: "ongoing monthly agreement", type: "expression", example: "They hired me on a monthly retainer.", exampleVi: "Họ thuê tôi theo hợp đồng duy trì hàng tháng." },
           { term: "deliverable", meaning: "sản phẩm bàn giao", meaningEn: "completed work product", type: "expression", example: "The final deliverable is a complete brand guide.", exampleVi: "Sản phẩm bàn giao cuối cùng là bộ nhận diện thương hiệu hoàn chỉnh." },
         ],
@@ -1590,7 +1590,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "HR Orientation",
           titleVi: "Buổi Định hướng HR",
-          transcript: "HR: Welcome to our company culture overview. We value transparency, collaboration, and work-life balance. Flex hours start at 8 or 9 AM — your choice. We have monthly team outings and quarterly town halls. Our open-door policy means you can approach any manager with concerns.",
+          transcript: "HR: Welcome to our company culture overview. We value transparency, collaboration, and work-life balance. Flex hours start at 8 or 9 AM - your choice. We have monthly team outings and quarterly town halls. Our open-door policy means you can approach any manager with concerns.",
           questions: [
             { q: "What values does the company emphasize?", qVi: "Công ty đề cao giá trị nào?", options: ["Speed and competition", "Transparency and collaboration", "Profit and growth", "Independence"], answer: 1 },
             { q: "How often are town halls held?", qVi: "Town hall diễn ra bao lâu một lần?", options: ["Weekly", "Monthly", "Quarterly", "Annually"], answer: 2 },
@@ -1633,7 +1633,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "For", line: "Children are highly vulnerable to cyberbullying and misinformation." },
               { speaker: "Against", line: "A blanket ban is unrealistic. We need digital literacy education instead." },
               { speaker: "For", line: "While education helps, the addictive design of these platforms is the core issue." },
-              { speaker: "Against", line: "Banning won't stop access — they'll find workarounds. Regulation and education work better." },
+              { speaker: "Against", line: "Banning won't stop access - they'll find workarounds. Regulation and education work better." },
             ],
           },
           {
@@ -1654,7 +1654,7 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "hold water", meaning: "có cơ sở, thuyết phục", meaningEn: "be logically valid", type: "idiom", example: "That argument doesn't hold water.", exampleVi: "Luận điểm đó không có cơ sở." },
           { term: "on the other hand", meaning: "mặt khác", meaningEn: "presenting a contrasting viewpoint", type: "expression", example: "On the other hand, technology creates new jobs.", exampleVi: "Mặt khác, công nghệ tạo ra việc làm mới." },
           { term: "draw the line", meaning: "đặt giới hạn", meaningEn: "set a boundary", type: "idiom", example: "We need to draw the line somewhere.", exampleVi: "Chúng ta cần đặt giới hạn ở đâu đó." },
-          { term: "strawman argument", meaning: "ngụy biện bù nhìn", meaningEn: "misrepresenting someone's argument to attack it", type: "expression", example: "That's a strawman — I never said we should ban all technology.", exampleVi: "Đó là ngụy biện — tôi chưa bao giờ nói cấm toàn bộ công nghệ." },
+          { term: "strawman argument", meaning: "ngụy biện bù nhìn", meaningEn: "misrepresenting someone's argument to attack it", type: "expression", example: "That's a strawman - I never said we should ban all technology.", exampleVi: "Đó là ngụy biện - tôi chưa bao giờ nói cấm toàn bộ công nghệ." },
         ],
         listeningChallenge: {
           title: "Debate Introduction",
@@ -1711,7 +1711,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "TED Talk Excerpt",
           titleVi: "Trích đoạn TED Talk",
-          transcript: "Speaker: I believe the greatest challenge of our generation isn't climate change or AI — it's our inability to have productive conversations with people we disagree with. If we can't talk, we can't solve anything. We need to rebuild the art of civil discourse — listening to understand, not to respond.",
+          transcript: "Speaker: I believe the greatest challenge of our generation isn't climate change or AI - it's our inability to have productive conversations with people we disagree with. If we can't talk, we can't solve anything. We need to rebuild the art of civil discourse - listening to understand, not to respond.",
           questions: [
             { q: "What does the speaker consider the greatest challenge?", qVi: "Diễn giả cho rằng thách thức lớn nhất là gì?", options: ["Climate change", "AI risks", "Inability to have productive conversations", "Poverty"], answer: 2 },
             { q: "What does the speaker want to rebuild?", qVi: "Diễn giả muốn xây dựng lại điều gì?", options: ["Education system", "Civil discourse", "Technology", "Government"], answer: 1 },
@@ -1739,7 +1739,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "You", line: "I'm interested in taking an elective in Data Science." },
               { speaker: "Advisor", line: "Great choice. You'll need to complete the prerequisite first." },
               { speaker: "You", line: "When is the deadline for course registration?" },
-              { speaker: "Advisor", line: "Registration closes on September 1st. I recommend signing up early — popular classes fill fast." },
+              { speaker: "Advisor", line: "Registration closes on September 1st. I recommend signing up early - popular classes fill fast." },
             ],
           },
           {
@@ -1756,7 +1756,7 @@ export const conversationalPillars: ConvPillar[] = [
           },
         ],
         vocabulary: [
-          { term: "hit the books", meaning: "học chăm chỉ", meaningEn: "study hard", type: "idiom", example: "Time to hit the books — finals are next week.", exampleVi: "Đến lúc học chăm rồi — tuần sau thi cuối kỳ." },
+          { term: "hit the books", meaning: "học chăm chỉ", meaningEn: "study hard", type: "idiom", example: "Time to hit the books - finals are next week.", exampleVi: "Đến lúc học chăm rồi - tuần sau thi cuối kỳ." },
           { term: "drop a class", meaning: "bỏ một môn học", meaningEn: "withdraw from a course", type: "expression", example: "I had to drop a class because it was too advanced.", exampleVi: "Tôi phải bỏ một môn vì nó quá nâng cao." },
           { term: "pull an all-nighter", meaning: "thức trắng đêm (để học)", meaningEn: "stay up all night studying", type: "idiom", example: "I pulled an all-nighter before the exam.", exampleVi: "Tôi thức trắng đêm trước kỳ thi." },
           { term: "cram", meaning: "học nhồi nhét trước thi", meaningEn: "study intensively before an exam", type: "slang", example: "I need to cram for tomorrow's test.", exampleVi: "Tôi cần nhồi nhét kiến thức cho bài thi ngày mai." },
@@ -1765,7 +1765,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "Student Services Announcement",
           titleVi: "Thông báo Dịch vụ Sinh viên",
-          transcript: "Attention students: The writing center offers free tutoring Monday through Friday, 9 AM to 5 PM. Drop-ins are welcome, but appointments are recommended. Visit room 302 in the library building. The career center is also open for resume reviews — walk-ins every Wednesday afternoon.",
+          transcript: "Attention students: The writing center offers free tutoring Monday through Friday, 9 AM to 5 PM. Drop-ins are welcome, but appointments are recommended. Visit room 302 in the library building. The career center is also open for resume reviews - walk-ins every Wednesday afternoon.",
           questions: [
             { q: "Where is the writing center?", qVi: "Trung tâm viết ở đâu?", options: ["Student center", "Library room 302", "Science building", "Online only"], answer: 1 },
             { q: "When can you get a resume review without appointment?", qVi: "Khi nào có thể xem xét CV không cần hẹn?", options: ["Monday", "Tuesday", "Wednesday afternoon", "Friday"], answer: 2 },
@@ -1803,21 +1803,21 @@ export const conversationalPillars: ConvPillar[] = [
             sampleDialogue: [
               { speaker: "Host", line: "Please, make yourself at home. Would you like to take off your shoes?" },
               { speaker: "You", line: "Oh, should I? In Vietnam, we always take off shoes before entering." },
-              { speaker: "Host", line: "Here it varies — some families do, some don't. Feel free either way." },
+              { speaker: "Host", line: "Here it varies - some families do, some don't. Feel free either way." },
               { speaker: "You", line: "I'll take them off. Old habits die hard!" },
             ],
           },
         ],
         vocabulary: [
           { term: "culture shock", meaning: "sốc văn hóa", meaningEn: "disorientation when experiencing a new culture", type: "expression", example: "I experienced culture shock when I first moved to Japan.", exampleVi: "Tôi bị sốc văn hóa khi mới đến Nhật." },
-          { term: "when in Rome, do as the Romans do", meaning: "nhập gia tùy tục", meaningEn: "adapt to local customs", type: "idiom", example: "I started bowing — when in Rome, right?", exampleVi: "Tôi bắt đầu cúi chào — nhập gia tùy tục mà." },
+          { term: "when in Rome, do as the Romans do", meaning: "nhập gia tùy tục", meaningEn: "adapt to local customs", type: "idiom", example: "I started bowing - when in Rome, right?", exampleVi: "Tôi bắt đầu cúi chào - nhập gia tùy tục mà." },
           { term: "lost in translation", meaning: "bị hiểu sai do ngôn ngữ/văn hóa", meaningEn: "meaning changed due to language/culture differences", type: "expression", example: "My joke was lost in translation.", exampleVi: "Câu đùa của tôi bị hiểu sai do ngôn ngữ." },
           { term: "melting pot", meaning: "nơi hòa trộn văn hóa", meaningEn: "a place where many cultures mix", type: "idiom", example: "New York is a real melting pot.", exampleVi: "New York là nơi hòa trộn văn hóa thực sự." },
         ],
         listeningChallenge: {
           title: "International Student Forum",
           titleVi: "Diễn đàn Sinh viên Quốc tế",
-          transcript: "Host: What surprised you most about studying in the UK? Student: The directness. In my country, we're more indirect. But I've learned that here, being direct is simply efficient — not rude. It's about understanding the intent behind the words, not just the words themselves.",
+          transcript: "Host: What surprised you most about studying in the UK? Student: The directness. In my country, we're more indirect. But I've learned that here, being direct is simply efficient - not rude. It's about understanding the intent behind the words, not just the words themselves.",
           questions: [
             { q: "What surprised the student?", qVi: "Điều gì làm sinh viên ngạc nhiên?", options: ["The food", "The weather", "The directness", "The schedule"], answer: 2 },
             { q: "How does the student now view directness?", qVi: "Sinh viên giờ nhìn nhận sự thẳng thắn thế nào?", options: ["Still rude", "Efficient", "Unnecessary", "Confusing"], answer: 1 },
@@ -1842,7 +1842,7 @@ export const conversationalPillars: ConvPillar[] = [
             descriptionVi: "Nói về các giải pháp môi trường",
             sampleDialogue: [
               { speaker: "Friend", line: "Do you think individuals can make a difference for the environment?" },
-              { speaker: "You", line: "Absolutely. Small actions add up — reducing plastic, using public transport." },
+              { speaker: "You", line: "Absolutely. Small actions add up - reducing plastic, using public transport." },
               { speaker: "Friend", line: "But isn't it mostly the big corporations?" },
               { speaker: "You", line: "True, but consumer demand drives corporate behavior. We have more power than we think." },
             ],
@@ -1919,12 +1919,12 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "disruptive technology", meaning: "công nghệ đột phá", meaningEn: "innovation that significantly changes industries", type: "expression", example: "Electric vehicles are a disruptive technology.", exampleVi: "Xe điện là công nghệ đột phá." },
           { term: "digital divide", meaning: "khoảng cách số", meaningEn: "gap between those with and without technology access", type: "expression", example: "The digital divide affects rural communities.", exampleVi: "Khoảng cách số ảnh hưởng đến cộng đồng nông thôn." },
           { term: "cutting-edge", meaning: "tiên tiến nhất", meaningEn: "at the forefront of innovation", type: "expression", example: "They're using cutting-edge AI technology.", exampleVi: "Họ đang dùng công nghệ AI tiên tiến nhất." },
-          { term: "early adopter", meaning: "người sử dụng sớm", meaningEn: "person who uses new technology first", type: "expression", example: "I'm an early adopter — I always buy the latest gadgets.", exampleVi: "Tôi là người sử dụng sớm — luôn mua đồ công nghệ mới nhất." },
+          { term: "early adopter", meaning: "người sử dụng sớm", meaningEn: "person who uses new technology first", type: "expression", example: "I'm an early adopter - I always buy the latest gadgets.", exampleVi: "Tôi là người sử dụng sớm - luôn mua đồ công nghệ mới nhất." },
         ],
         listeningChallenge: {
           title: "Tech Conference Keynote",
           titleVi: "Bài phát biểu Hội nghị Công nghệ",
-          transcript: "Speaker: By 2030, we estimate that 85 million jobs will be displaced by automation. But 97 million new roles will emerge — in AI training, data analysis, digital marketing, and green energy. The net gain is positive, but only if we prepare through education and policy. Governments and businesses must collaborate on reskilling initiatives. The future belongs to the adaptable.",
+          transcript: "Speaker: By 2030, we estimate that 85 million jobs will be displaced by automation. But 97 million new roles will emerge - in AI training, data analysis, digital marketing, and green energy. The net gain is positive, but only if we prepare through education and policy. Governments and businesses must collaborate on reskilling initiatives. The future belongs to the adaptable.",
           questions: [
             { q: "How many jobs will be displaced by 2030?", qVi: "Bao nhiêu việc làm sẽ bị thay thế đến 2030?", options: ["50 million", "65 million", "85 million", "97 million"], answer: 2 },
             { q: "How many new roles will emerge?", qVi: "Bao nhiêu vị trí mới sẽ xuất hiện?", options: ["50 million", "75 million", "85 million", "97 million"], answer: 3 },
@@ -1951,7 +1951,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "Professor", line: "What's your thesis statement?" },
               { speaker: "You", line: "I argue that bilingual education improves cognitive flexibility in children aged 5-10." },
               { speaker: "Professor", line: "Interesting. What methodology are you using?" },
-              { speaker: "You", line: "A mixed-methods approach — quantitative test scores plus qualitative interviews with teachers." },
+              { speaker: "You", line: "A mixed-methods approach - quantitative test scores plus qualitative interviews with teachers." },
               { speaker: "Professor", line: "Strong approach. Make sure your sample size is large enough for statistical significance." },
             ],
           },
@@ -2029,7 +2029,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "News Podcast Excerpt",
           titleVi: "Trích đoạn Podcast Tin tức",
-          transcript: "Host: Today we're discussing the global refugee crisis. According to the UN, there are now over 110 million forcibly displaced people worldwide — the highest number on record. The main drivers are conflict, violence, and climate change. Guest: What's often overlooked is that 76% of refugees are hosted by developing countries, not wealthy nations.",
+          transcript: "Host: Today we're discussing the global refugee crisis. According to the UN, there are now over 110 million forcibly displaced people worldwide - the highest number on record. The main drivers are conflict, violence, and climate change. Guest: What's often overlooked is that 76% of refugees are hosted by developing countries, not wealthy nations.",
           questions: [
             { q: "How many displaced people are there worldwide?", qVi: "Có bao nhiêu người bị buộc phải di dời trên thế giới?", options: ["50 million", "80 million", "110 million", "150 million"], answer: 2 },
             { q: "What percentage of refugees are hosted by developing countries?", qVi: "Bao nhiêu phần trăm người tị nạn được các nước đang phát triển tiếp nhận?", options: ["50%", "62%", "76%", "85%"], answer: 2 },
@@ -2053,7 +2053,7 @@ export const conversationalPillars: ConvPillar[] = [
             description: "Analyzing whether a news story is reliable",
             descriptionVi: "Phân tích liệu bài báo có đáng tin cậy",
             sampleDialogue: [
-              { speaker: "Friend", line: "Look at this article — it says coffee cures cancer!" },
+              { speaker: "Friend", line: "Look at this article - it says coffee cures cancer!" },
               { speaker: "You", line: "Let me check the source. It's from a blog, not a medical journal." },
               { speaker: "Friend", line: "But it says 'scientists found'..." },
               { speaker: "You", line: "The phrase 'scientists found' is vague. Reliable articles cite specific studies and researchers." },
@@ -2082,7 +2082,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "Media Literacy Workshop",
           titleVi: "Hội thảo Hiểu biết Truyền thông",
-          transcript: "Instructor: Here are 5 red flags for fake news. First, check the URL — fake sites often mimic real ones with slight changes. Second, look for an author and publication date. Third, verify with other sources. Fourth, watch for emotional language designed to trigger reactions. Fifth, check if the image is actually from the story — reverse image search is your friend.",
+          transcript: "Instructor: Here are 5 red flags for fake news. First, check the URL - fake sites often mimic real ones with slight changes. Second, look for an author and publication date. Third, verify with other sources. Fourth, watch for emotional language designed to trigger reactions. Fifth, check if the image is actually from the story - reverse image search is your friend.",
           questions: [
             { q: "How many red flags are mentioned?", qVi: "Có bao nhiêu dấu hiệu cảnh báo?", options: ["3", "4", "5", "6"], answer: 2 },
             { q: "What tool is recommended for checking images?", qVi: "Công cụ nào được gợi ý để kiểm tra hình ảnh?", options: ["Photo editor", "Reverse image search", "AI detector", "Screenshot tool"], answer: 1 },
@@ -2109,7 +2109,7 @@ export const conversationalPillars: ConvPillar[] = [
               { speaker: "Friend", line: "Have you set your goals for this year?" },
               { speaker: "You", line: "Yes! I want to improve my English to C1 level and read 24 books." },
               { speaker: "Friend", line: "That's ambitious! How will you track progress?" },
-              { speaker: "You", line: "I'm using the SMART goal framework — each goal is specific, measurable, and has a deadline." },
+              { speaker: "You", line: "I'm using the SMART goal framework - each goal is specific, measurable, and has a deadline." },
               { speaker: "Friend", line: "Smart approach! I should do the same." },
             ],
           },
@@ -2136,7 +2136,7 @@ export const conversationalPillars: ConvPillar[] = [
         listeningChallenge: {
           title: "Motivational Podcast",
           titleVi: "Podcast Tạo động lực",
-          transcript: "Host: Today's guest went from a $0 bank account to building a $2 million business in 5 years. Guest: The secret isn't talent — it's consistency. I committed to working on my business for just 2 hours every day before my regular job. After 6 months, I had my first paying customer. After 2 years, I quit my day job. The key was showing up every single day, even when I didn't feel like it.",
+          transcript: "Host: Today's guest went from a $0 bank account to building a $2 million business in 5 years. Guest: The secret isn't talent - it's consistency. I committed to working on my business for just 2 hours every day before my regular job. After 6 months, I had my first paying customer. After 2 years, I quit my day job. The key was showing up every single day, even when I didn't feel like it.",
           questions: [
             { q: "How long did it take to build the business?", qVi: "Mất bao lâu để xây dựng doanh nghiệp?", options: ["2 years", "3 years", "5 years", "10 years"], answer: 2 },
             { q: "How many hours a day did the guest commit initially?", qVi: "Khách mời dành bao nhiêu giờ mỗi ngày ban đầu?", options: ["1 hour", "2 hours", "3 hours", "4 hours"], answer: 1 },

@@ -1,4 +1,4 @@
-// YKI A2 Mock Exam Data — 5 sets per skill, Finnish-only exam content
+// YKI A2 Mock Exam Data - 5 sets per skill, Finnish-only exam content
 import type { FinnishModule } from "./types";
 
 export const finnishMockExamModules: FinnishModule[] = [
@@ -39,11 +39,11 @@ Anna`,
 
 (Finnish A2-level email about moving to Tampere, new job, and inviting a friend to visit.)`,
         quiz: [
-          { question: "Mihin Anna muutti?", options: ["Helsinkiin", "Turkuun", "Tampereelle", "Ouluun"], answer: 2, explanation: "'Minä muutin Tampereelle' — Anna moved to Tampere." },
+          { question: "Mihin Anna muutti?", options: ["Helsinkiin", "Turkuun", "Tampereelle", "Ouluun"], answer: 2, explanation: "'Minä muutin Tampereelle' - Anna moved to Tampere." },
           { question: "Millainen asunto Annalla on?", options: ["Yksiö", "Kaksio", "Kolmio", "Omakotitalo"], answer: 1, explanation: "'Uusi asuntoni on kaksio Hervannassa.'" },
           { question: "Missä Anna työskentelee?", options: ["Sairaalassa", "Koulussa", "Kirjastossa", "Kaupassa"], answer: 2, explanation: "'Työskentelen kirjastossa.'" },
           { question: "Kuinka kauan Annan työmatka kestää?", options: ["5 minuuttia", "15 minuuttia", "30 minuuttia", "1 tunti"], answer: 1, explanation: "'Työmatka kestää vain 15 minuuttia bussilla.'" },
-          { question: "Oikein vai väärin: Anna pyytää Liisaa käymään ensi viikolla.", options: ["Oikein", "Väärin — ensi viikonloppuna"], answer: 1, explanation: "'Haluaisitko tulla käymään ensi viikonloppuna?' — next weekend, not next week." },
+          { question: "Oikein vai väärin: Anna pyytää Liisaa käymään ensi viikolla.", options: ["Oikein", "Väärin - ensi viikonloppuna"], answer: 1, explanation: "'Haluaisitko tulla käymään ensi viikonloppuna?' - next weekend, not next week." },
         ],
       },
       {
@@ -54,7 +54,7 @@ Anna`,
         level: "A2",
         theory: `### Lue työpaikkailmoitus ja vastaa kysymyksiin.
 
-**MYYJÄ — K-Market Kallio, Helsinki**
+**MYYJÄ - K-Market Kallio, Helsinki**
 
 Etsimme osa-aikaista myyjää K-Market Kallioon. Työ sisältää kassatyötä, hyllyjen täyttämistä ja asiakaspalvelua.
 
@@ -116,7 +116,7 @@ Puisto on avoinna joka päivä kello 7–21.`,
         level: "A2",
         theory: `### Lue kirje ja vastaa kysymyksiin.
 
-**Kela — Päätös asumistuesta**
+**Kela - Päätös asumistuesta**
 
 Arvoisa asiakas,
 
@@ -134,7 +134,7 @@ Kelan asumistukiyksikkö`,
 
 (A Kela (Social Insurance) decision letter about housing benefit.)`,
         quiz: [
-          { question: "Mistä kirje on?", options: ["Verotoimistosta", "Kelasta", "Pankista", "Työvoimatoimistosta"], answer: 1, explanation: "'Kela — Päätös asumistuesta'" },
+          { question: "Mistä kirje on?", options: ["Verotoimistosta", "Kelasta", "Pankista", "Työvoimatoimistosta"], answer: 1, explanation: "'Kela - Päätös asumistuesta'" },
           { question: "Kuinka paljon asumistukea maksetaan kuukaudessa?", options: ["180 €", "280 €", "380 €", "480 €"], answer: 1, explanation: "'Tuen määrä on 280 euroa kuukaudessa.'" },
           { question: "Milloin tuki maksetaan?", options: ["Kuun alussa", "Kuun puolivälissä", "Kuun lopussa", "Kerran vuodessa"], answer: 0, explanation: "'Tuki maksetaan kuun alussa tilillenne.'" },
           { question: "Kuinka nopeasti muutoksista pitää ilmoittaa?", options: ["Viikon kuluessa", "Kuukauden kuluessa", "Kolmen kuukauden kuluessa", "Vuoden kuluessa"], answer: 1, explanation: "'Teidän tulee ilmoittaa muutoksista kuukauden kuluessa.'" },
@@ -148,7 +148,7 @@ Kelan asumistukiyksikkö`,
         level: "A2",
         theory: `### Lue kirjaston tiedote ja vastaa kysymyksiin.
 
-**Helsingin kaupunginkirjasto — Oodi**
+**Helsingin kaupunginkirjasto - Oodi**
 
 Hyvät asiakkaat!
 
@@ -179,8 +179,8 @@ Tervetuloa kirjastoon!`,
     titleEn: "Listening Comprehension",
     icon: "🎧",
     color: "from-purple-500 to-violet-600",
-    description: "Everyday Finnish dialogues and announcements — train, doctor, market, weather.",
-    descriptionEn: "Everyday Finnish dialogues and announcements — train, doctor, market, weather.",
+    description: "Everyday Finnish dialogues and announcements - train, doctor, market, weather.",
+    descriptionEn: "Everyday Finnish dialogues and announcements - train, doctor, market, weather.",
     pillar: "mock-exams",
     lessons: [
       {
@@ -334,8 +334,8 @@ Tervetuloa kirjastoon!`,
     titleEn: "Writing",
     icon: "✍️",
     color: "from-emerald-500 to-green-600",
-    description: "YKI writing tasks: informal emails, messages, complaints, and invitations — all in Finnish.",
-    descriptionEn: "YKI writing tasks: informal emails, messages, complaints, and invitations — all in Finnish.",
+    description: "YKI writing tasks: informal emails, messages, complaints, and invitations - all in Finnish.",
+    descriptionEn: "YKI writing tasks: informal emails, messages, complaints, and invitations - all in Finnish.",
     pillar: "mock-exams",
     lessons: [
       {
@@ -533,7 +533,7 @@ Time: 20 minutes | Word count: 50–80 words`,
         icon: "💊",
         level: "A2",
         sampleAnswer: "Hei, minulla on kovaa päänsärkyä ja tarvitsen särkylääkettä. Mitä lääkettä suosittelette? Ei, minulla ei ole allergioita. Paljonko tämä lääke maksaa? Kahdeksan euroa viisikymmentä senttiä, selvä. Otan sen, kiitos paljon!",
-        theory: `### Puhumistehtävä 2: Reagoi tilanteeseen — Apteekissa
+        theory: `### Puhumistehtävä 2: Reagoi tilanteeseen - Apteekissa
 
 **Ohje:** Olet apteekissa. Sinulla on **30 sekuntia** aikaa vastata jokaiseen kohtaan.
 
@@ -549,7 +549,7 @@ Time: 20 minutes | Word count: 50–80 words`,
 **Kohta C:** Työntekijä kertoo:
 - "Tämä lääke maksaa 8,50 euroa. Ottakaa yksi tabletti kolme kertaa päivässä."
 - Kiitä ja kysy muuta tarvittavaa`,
-        theoryEn: `### Speaking Task 2: React to a situation — At the pharmacy (30 seconds per part)`,
+        theoryEn: `### Speaking Task 2: React to a situation - At the pharmacy (30 seconds per part)`,
         quiz: [
           { question: "'Onko teillä allergioita?' tarkoittaa...", options: ["Do you have insurance?", "Do you have allergies?", "Do you have a prescription?", "Do you have pain?"], answer: 1, explanation: "'Onko teillä allergioita?' = Do you have any allergies?" },
         ],
@@ -580,7 +580,7 @@ Time: 20 minutes | Word count: 50–80 words`,
 - Mielestäni vuodenaika on [kesä/talvi]`,
         theoryEn: `### Speaking Task 3: Describe an image (40 seconds)
 
-Describe a family in a park — activities, weather, season.`,
+Describe a family in a park - activities, weather, season.`,
         quiz: [
           { question: "Miten aloitat kuvan kuvailun?", options: ["Tässä on kuva.", "Kuvassa on / Kuvassa näkyy...", "Katso kuvaa.", "Minä näen..."], answer: 1, explanation: "'Kuvassa on...' or 'Kuvassa näkyy...' are natural ways to start describing an image." },
         ],
@@ -592,7 +592,7 @@ Describe a family in a park — activities, weather, season.`,
         icon: "👔",
         level: "A2",
         sampleAnswer: "Nimeni on Anna ja olen kotoisin Vietnamista. Minulla on kokemusta myyjän työstä kaksi vuotta. Hain tätä työpaikkaa, koska pidän asiakaspalvelusta ja haluan kehittyä. Olen ahkera, luotettava ja ystävällinen. Kyllä, voin työskennellä viikonloppuisin.",
-        theory: `### Puhumistehtävä 4: Reagoi tilanteeseen — Työhaastattelu
+        theory: `### Puhumistehtävä 4: Reagoi tilanteeseen - Työhaastattelu
 
 **Ohje:** Olet työhaastattelussa. Vastaa kysymyksiin. **30 sekuntia** per kysymys.
 
@@ -621,7 +621,7 @@ Describe a family in a park — activities, weather, season.`,
         icon: "🏘️",
         level: "A2",
         sampleAnswer: "Hei! Mitä kuuluu? Kiitos hyvää! Viikonloppuna kävin perheen kanssa Nuuksiossa. Kävimme kävelemässä ja grillasimme makkaraa. Oli todella mukavaa! Entäs sinulla, mitä teit viikonloppuna? Onpa kylmä tänään, eikö? Mukava jutella! Hyvää päivän jatkoa!",
-        theory: `### Puhumistehtävä 5: Reagoi tilanteeseen — Naapurin kanssa
+        theory: `### Puhumistehtävä 5: Reagoi tilanteeseen - Naapurin kanssa
 
 **Ohje:** Tapaat naapurisi rappukäytävässä. **40 sekuntia.**
 

@@ -72,8 +72,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
     titleZh: "生活常用",
     icon: "Coffee",
     color: "from-red-500 to-orange-500",
-    description: "Practical Chinese for everyday situations — greetings, food, shopping, transport, health",
-    descriptionVi: "Tiếng Trung thực tế cho các tình huống hàng ngày — chào hỏi, ăn uống, mua sắm, di chuyển, sức khỏe",
+    description: "Practical Chinese for everyday situations - greetings, food, shopping, transport, health",
+    descriptionVi: "Tiếng Trung thực tế cho các tình huống hàng ngày - chào hỏi, ăn uống, mua sắm, di chuyển, sức khỏe",
     lessons: [
       // ──── Lesson 1: Greetings ────
       {
@@ -93,7 +93,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Gặp gỡ người mới",
             description: "Introducing yourself at a social gathering",
             descriptionVi: "Giới thiệu bản thân tại buổi gặp mặt xã hội",
-            culturalNote: "In Chinese culture, exchanging business cards (名片 míngpiàn) with both hands shows respect. Age and titles matter — address people as 先生 (xiānsheng) or 女士 (nǚshì).",
+            culturalNote: "In Chinese culture, exchanging business cards (名片 míngpiàn) with both hands shows respect. Age and titles matter - address people as 先生 (xiānsheng) or 女士 (nǚshì).",
             culturalNoteVi: "Trong văn hóa Trung Quốc, trao đổi danh thiếp (名片) bằng hai tay thể hiện sự tôn trọng. Tuổi tác và danh xưng rất quan trọng.",
             sampleDialogue: [
               { speaker: "A", line: "你好！我叫王明。你叫什么名字？", pinyin: "Nǐ hǎo! Wǒ jiào Wáng Míng. Nǐ jiào shénme míngzi?", translationVi: "Xin chào! Tôi tên Vương Minh. Bạn tên gì?" },
@@ -326,8 +326,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Trả giá ở chợ",
             description: "Negotiate prices at a traditional market",
             descriptionVi: "Thương lượng giá ở chợ truyền thống",
-            culturalNote: "Bargaining (砍价 kǎnjià) is expected at markets and small shops in China. Start by offering 50-60% of the asking price. Always smile and be friendly — it's part of the fun!",
-            culturalNoteVi: "Trả giá (砍价) là bình thường ở chợ và tiệm nhỏ tại Trung Quốc. Bắt đầu bằng 50-60% giá hỏi. Luôn mỉm cười — đó là một phần của niềm vui!",
+            culturalNote: "Bargaining (砍价 kǎnjià) is expected at markets and small shops in China. Start by offering 50-60% of the asking price. Always smile and be friendly - it's part of the fun!",
+            culturalNoteVi: "Trả giá (砍价) là bình thường ở chợ và tiệm nhỏ tại Trung Quốc. Bắt đầu bằng 50-60% giá hỏi. Luôn mỉm cười - đó là một phần của niềm vui!",
             sampleDialogue: [
               { speaker: "You", line: "老板，这个多少钱？", pinyin: "Lǎobǎn, zhège duōshao qián?", translationVi: "Anh ơi, cái này bao nhiêu tiền?" },
               { speaker: "老板", line: "这个一百块。", pinyin: "Zhège yī bǎi kuài.", translationVi: "Cái này 100 tệ." },
@@ -356,8 +356,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Mua sắm trực tuyến",
             description: "Navigate Taobao/JD.com and handle delivery",
             descriptionVi: "Mua hàng trên Taobao/JD và nhận hàng giao",
-            culturalNote: "Online shopping in China is dominated by 淘宝 (Táobǎo), 京东 (Jīngdōng/JD), and 拼多多 (Pīnduōduō). Double 11 (11/11) is the biggest shopping day — bigger than Black Friday!",
-            culturalNoteVi: "Mua sắm online ở Trung Quốc chủ yếu trên 淘宝, 京东 và 拼多多. Ngày 11/11 là ngày mua sắm lớn nhất — lớn hơn cả Black Friday!",
+            culturalNote: "Online shopping in China is dominated by 淘宝 (Táobǎo), 京东 (Jīngdōng/JD), and 拼多多 (Pīnduōduō). Double 11 (11/11) is the biggest shopping day - bigger than Black Friday!",
+            culturalNoteVi: "Mua sắm online ở Trung Quốc chủ yếu trên 淘宝, 京东 và 拼多多. Ngày 11/11 là ngày mua sắm lớn nhất - lớn hơn cả Black Friday!",
             sampleDialogue: [
               { speaker: "A", line: "你在淘宝买过东西吗？", pinyin: "Nǐ zài Táobǎo mǎi guò dōngxi ma?", translationVi: "Bạn mua đồ trên Taobao bao giờ chưa?" },
               { speaker: "B", line: "买过啊，经常买。双十一的时候打折特别多。", pinyin: "Mǎi guò a, jīngcháng mǎi. Shuāng shíyī de shíhou dǎzhé tèbié duō.", translationVi: "Mua rồi, mua thường xuyên. Ngày 11/11 giảm giá đặc biệt nhiều." },
@@ -541,8 +541,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Đi khám bác sĩ",
             description: "Describe your symptoms and understand medical advice",
             descriptionVi: "Mô tả triệu chứng và hiểu lời khuyên y tế",
-            culturalNote: "In China, hospitals are the primary place for healthcare — even for minor issues. You need to register (挂号 guàhào) first. Traditional Chinese Medicine (中医 zhōngyī) is also popular alongside Western medicine.",
-            culturalNoteVi: "Ở Trung Quốc, bệnh viện là nơi chính để khám bệnh — ngay cả bệnh nhẹ. Bạn cần đăng ký (挂号) trước. Đông y (中医) cũng rất phổ biến bên cạnh Tây y.",
+            culturalNote: "In China, hospitals are the primary place for healthcare - even for minor issues. You need to register (挂号 guàhào) first. Traditional Chinese Medicine (中医 zhōngyī) is also popular alongside Western medicine.",
+            culturalNoteVi: "Ở Trung Quốc, bệnh viện là nơi chính để khám bệnh - ngay cả bệnh nhẹ. Bạn cần đăng ký (挂号) trước. Đông y (中医) cũng rất phổ biến bên cạnh Tây y.",
             sampleDialogue: [
               { speaker: "You", line: "医生，我头疼，还有点发烧。", pinyin: "Yīshēng, wǒ tóu téng, hái yǒudiǎn fā shāo.", translationVi: "Bác sĩ, tôi đau đầu và hơi sốt." },
               { speaker: "医生", line: "发烧多少度？", pinyin: "Fā shāo duōshao dù?", translationVi: "Sốt bao nhiêu độ?" },
@@ -648,7 +648,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Nói về thời tiết hôm nay",
             description: "Common phrases for discussing current weather",
             descriptionVi: "Cụm từ phổ biến để nói về thời tiết hiện tại",
-            culturalNote: "Weather is a universal conversation starter in China too. Northern China (北方 běifāng) has extreme winters while Southern China (南方 nánfāng) is humid and warm. The 梅雨季节 (méiyǔ jìjié — plum rain season) in June-July is a major seasonal event.",
+            culturalNote: "Weather is a universal conversation starter in China too. Northern China (北方 běifāng) has extreme winters while Southern China (南方 nánfāng) is humid and warm. The 梅雨季节 (méiyǔ jìjié - plum rain season) in June-July is a major seasonal event.",
             culturalNoteVi: "Thời tiết là chủ đề mở đầu cuộc trò chuyện phổ biến ở Trung Quốc. Miền Bắc 北方 có mùa đông khắc nghiệt, miền Nam 南方 ẩm ướt và ấm áp. Mùa mưa ngâu 梅雨季节 vào tháng 6-7 là sự kiện theo mùa quan trọng.",
             sampleDialogue: [
               { speaker: "A", line: "今天天气怎么样？", pinyin: "Jīntiān tiānqì zěnmeyàng?", translationVi: "Hôm nay thời tiết thế nào?" },
@@ -727,8 +727,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Xem nhà",
             description: "Visit an apartment and ask about details",
             descriptionVi: "Đi xem nhà và hỏi chi tiết",
-            culturalNote: "In China, rent is usually paid monthly or quarterly (季付 jì fù). Deposits are typically '押一付三' — one month deposit + three months rent upfront. Apps like 贝壳 (Bèiké) and 自如 (Zìrú) are popular for finding rentals.",
-            culturalNoteVi: "Ở Trung Quốc, tiền thuê thường trả theo tháng hoặc quý (季付). Tiền cọc thường '押一付三' — cọc 1 tháng + trả trước 3 tháng. App 贝壳 và 自如 rất phổ biến để tìm nhà.",
+            culturalNote: "In China, rent is usually paid monthly or quarterly (季付 jì fù). Deposits are typically '押一付三' - one month deposit + three months rent upfront. Apps like 贝壳 (Bèiké) and 自如 (Zìrú) are popular for finding rentals.",
+            culturalNoteVi: "Ở Trung Quốc, tiền thuê thường trả theo tháng hoặc quý (季付). Tiền cọc thường '押一付三' - cọc 1 tháng + trả trước 3 tháng. App 贝壳 và 自如 rất phổ biến để tìm nhà.",
             sampleDialogue: [
               { speaker: "中介", line: "这套房子两室一厅，月租四千块。", pinyin: "Zhè tào fángzi liǎng shì yī tīng, yuè zū sì qiān kuài.", translationVi: "Căn hộ này 2 phòng ngủ 1 phòng khách, thuê tháng 4000 tệ." },
               { speaker: "You", line: "包不包水电费？", pinyin: "Bāo bu bāo shuǐdiàn fèi?", translationVi: "Có bao tiền điện nước không?" },
@@ -1116,7 +1116,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           {
             pattern: "Adj + 一点",
             patternPinyin: "Adj + yìdiǎn",
-            explanation: "A bit more [adjective] — softens requests",
+            explanation: "A bit more [adjective] - softens requests",
             explanationVi: "Hơn một chút (cách yêu cầu nhẹ nhàng)",
             examples: [
               { zh: "短一点。", pinyin: "Duǎn yìdiǎn.", vi: "Ngắn một chút." },
@@ -1203,8 +1203,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
           {
             pattern: "Object + 坏了，能 + Verb + 吗？",
             patternPinyin: "Object + huài le, néng + Verb + ma?",
-            explanation: "X is broken — can you fix/do Y?",
-            explanationVi: "X bị hỏng rồi — có thể làm/sửa Y không?",
+            explanation: "X is broken - can you fix/do Y?",
+            explanationVi: "X bị hỏng rồi - có thể làm/sửa Y không?",
             examples: [
               { zh: "拉链坏了，能修吗？", pinyin: "Lāliàn huài le, néng xiū ma?", vi: "Khóa kéo hỏng, sửa được không?" },
               { zh: "电脑坏了，能修吗？", pinyin: "Diànnǎo huài le, néng xiū ma?", vi: "Máy tính hỏng, sửa được không?" },
@@ -1444,7 +1444,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Bắt đầu cuộc họp",
             description: "Opening phrases and setting the agenda",
             descriptionVi: "Cụm từ mở đầu và thiết lập chương trình họp",
-            culturalNote: "In Chinese business culture, building relationships (关系 guānxi) is more important than the deal itself. Small talk before meetings is expected. Never refuse tea when offered — it shows trust.",
+            culturalNote: "In Chinese business culture, building relationships (关系 guānxi) is more important than the deal itself. Small talk before meetings is expected. Never refuse tea when offered - it shows trust.",
             culturalNoteVi: "Trong văn hóa kinh doanh Trung Quốc, xây dựng mối quan hệ (关系) quan trọng hơn thương vụ. Nói chuyện phiếm trước cuộc họp là bình thường.",
             sampleDialogue: [
               { speaker: "主持", line: "各位，会议现在开始。今天我们讨论第三季度的销售报告。", pinyin: "Gè wèi, huìyì xiànzài kāishǐ. Jīntiān wǒmen tǎolùn dì sān jìdù de xiāoshòu bàogào.", translationVi: "Các vị, cuộc họp bắt đầu. Hôm nay chúng ta thảo luận báo cáo bán hàng quý 3." },
@@ -1638,7 +1638,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Viết email công việc",
             description: "Common email phrases and formats",
             descriptionVi: "Các cụm từ và định dạng email phổ biến",
-            culturalNote: "Chinese business emails often start with 尊敬的 (zūnjìng de — Dear/Respected) for formal contacts. End with 此致敬礼 (cǐzhì jìnglǐ — Best regards). WeChat is increasingly used alongside email for quick work communication.",
+            culturalNote: "Chinese business emails often start with 尊敬的 (zūnjìng de - Dear/Respected) for formal contacts. End with 此致敬礼 (cǐzhì jìnglǐ - Best regards). WeChat is increasingly used alongside email for quick work communication.",
             culturalNoteVi: "Email công việc Trung Quốc thường bắt đầu bằng 尊敬的 (Kính gửi). Kết thúc bằng 此致敬礼 (Trân trọng). WeChat ngày càng được dùng song song với email.",
             sampleDialogue: [
               { speaker: "You", line: "我给客户发邮件了，但是还没收到回复。", pinyin: "Wǒ gěi kèhù fā yóujiàn le, dànshì hái méi shōu dào huífù.", translationVi: "Tôi đã gửi email cho khách hàng nhưng chưa nhận được phản hồi." },
@@ -1729,7 +1729,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Đặt chuyến công tác",
             description: "Arrange travel and accommodation for work",
             descriptionVi: "Sắp xếp di chuyển và chỗ ở cho công việc",
-            culturalNote: "In Chinese business culture, 出差 (chūchāi — business trip) is very common. Many companies use 钉钉 (DīngDīng) or 飞书 (Fēishū) for travel requests. '差旅报销' (chāilǚ bàoxiāo) — travel expense reimbursement — is a key phrase to know.",
+            culturalNote: "In Chinese business culture, 出差 (chūchāi - business trip) is very common. Many companies use 钉钉 (DīngDīng) or 飞书 (Fēishū) for travel requests. '差旅报销' (chāilǚ bàoxiāo) - travel expense reimbursement - is a key phrase to know.",
             culturalNoteVi: "Trong văn hóa kinh doanh Trung Quốc, 出差 rất phổ biến. Nhiều công ty dùng 钉钉 hoặc 飞书 để yêu cầu đi công tác. '差旅报销' (hoàn trả chi phí công tác) là cụm từ quan trọng cần biết.",
             sampleDialogue: [
               { speaker: "A", line: "下周我要去上海出差。", pinyin: "Xià zhōu wǒ yào qù Shànghǎi chūchāi.", translationVi: "Tuần sau tôi phải đi công tác ở Thượng Hải." },
@@ -1795,7 +1795,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Tự giới thiệu trong phỏng vấn",
             description: "Impress with a structured self-introduction",
             descriptionVi: "Gây ấn tượng với phần tự giới thiệu có cấu trúc",
-            culturalNote: "Chinese interviewers often ask about your 稳定性 (wěndìng xìng — stability). They value loyalty and long-term commitment. Hopping between jobs too frequently is viewed negatively.",
+            culturalNote: "Chinese interviewers often ask about your 稳定性 (wěndìng xìng - stability). They value loyalty and long-term commitment. Hopping between jobs too frequently is viewed negatively.",
             culturalNoteVi: "Nhà tuyển dụng Trung Quốc thường hỏi về 稳定性 (sự ổn định). Họ đánh giá cao sự trung thành và cam kết lâu dài. Nhảy việc quá nhiều bị đánh giá tiêu cực.",
             sampleDialogue: [
               { speaker: "面试官", line: "请先自我介绍一下。", pinyin: "Qǐng xiān zìwǒ jièshào yíxià.", translationVi: "Xin hãy tự giới thiệu trước." },
@@ -1917,8 +1917,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         keySituations: [{
           title: "Opening a Presentation", titleVi: "Mở đầu thuyết trình",
           description: "Greet the audience and introduce your topic", descriptionVi: "Chào khán giả và giới thiệu chủ đề",
-          culturalNote: "In China, audiences value humility — start with 谢谢大家 (thank you all) and acknowledge senior attendees by title.",
-          culturalNoteVi: "Khán giả Trung Quốc đề cao sự khiêm tốn — bắt đầu bằng 谢谢大家 và chào những người cấp cao theo chức danh.",
+          culturalNote: "In China, audiences value humility - start with 谢谢大家 (thank you all) and acknowledge senior attendees by title.",
+          culturalNoteVi: "Khán giả Trung Quốc đề cao sự khiêm tốn - bắt đầu bằng 谢谢大家 và chào những người cấp cao theo chức danh.",
           sampleDialogue: [
             { speaker: "A", line: "各位领导、各位同事，大家好！", pinyin: "Gèwèi lǐngdǎo, gèwèi tóngshì, dàjiā hǎo!", translationVi: "Kính thưa các vị lãnh đạo, các đồng nghiệp, xin chào!" },
             { speaker: "A", line: "今天我向大家汇报第三季度的销售情况。", pinyin: "Jīntiān wǒ xiàng dàjiā huìbào dì-sān jìdù de xiāoshòu qíngkuàng.", translationVi: "Hôm nay tôi báo cáo tình hình bán hàng quý 3." },
@@ -2009,7 +2009,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         keySituations: [{
           title: "Product Pitch", titleVi: "Pitch sản phẩm",
           description: "Introduce a product to potential clients", descriptionVi: "Giới thiệu sản phẩm cho khách hàng tiềm năng",
-          culturalNote: "Building 关系 (guānxi — relationships) is critical in Chinese sales. Many deals close over dinner.",
+          culturalNote: "Building 关系 (guānxi - relationships) is critical in Chinese sales. Many deals close over dinner.",
           culturalNoteVi: "Xây dựng 关系 rất quan trọng trong bán hàng tại Trung Quốc. Nhiều giao dịch chốt qua bữa tối.",
           sampleDialogue: [
             { speaker: "A", line: "我们的新产品有三大优势。", pinyin: "Wǒmen de xīn chǎnpǐn yǒu sān dà yōushì.", translationVi: "Sản phẩm mới của chúng tôi có 3 lợi thế lớn." },
@@ -2055,8 +2055,8 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
         keySituations: [{
           title: "Pitching to Investors", titleVi: "Pitch nhà đầu tư",
           description: "Present your startup to potential investors", descriptionVi: "Trình bày startup cho nhà đầu tư tiềm năng",
-          culturalNote: "China's VC scene is huge — Sequoia China, Hillhouse, and Tencent are major players. A clear business model and traction matter most.",
-          culturalNoteVi: "Giới VC Trung Quốc khổng lồ — Sequoia China, Hillhouse, Tencent là các tay chơi lớn. Mô hình kinh doanh rõ ràng và traction quan trọng nhất.",
+          culturalNote: "China's VC scene is huge - Sequoia China, Hillhouse, and Tencent are major players. A clear business model and traction matter most.",
+          culturalNoteVi: "Giới VC Trung Quốc khổng lồ - Sequoia China, Hillhouse, Tencent là các tay chơi lớn. Mô hình kinh doanh rõ ràng và traction quan trọng nhất.",
           sampleDialogue: [
             { speaker: "A", line: "我们正在进行A轮融资。", pinyin: "Wǒmen zhèngzài jìnxíng A lún róngzī.", translationVi: "Chúng tôi đang gọi vốn vòng A." },
             { speaker: "B", line: "估值多少？", pinyin: "Gūzhí duōshǎo?", translationVi: "Định giá bao nhiêu?" },
@@ -2421,7 +2421,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Chat trên app hẹn hò",
             description: "Modern dating vocabulary and expressions",
             descriptionVi: "Từ vựng và cách nói hẹn hò hiện đại",
-            culturalNote: "Popular dating apps in China: 探探 (Tàntàn, like Tinder), 陌陌 (Mòmò). Chinese dating culture often involves parents' approval. '相亲' (xiāngqīn — arranged dating) is still common for adults over 25.",
+            culturalNote: "Popular dating apps in China: 探探 (Tàntàn, like Tinder), 陌陌 (Mòmò). Chinese dating culture often involves parents' approval. '相亲' (xiāngqīn - arranged dating) is still common for adults over 25.",
             culturalNoteVi: "App hẹn hò phổ biến ở Trung Quốc: 探探 (như Tinder), 陌陌. Văn hóa hẹn hò Trung Quốc thường cần sự đồng ý của bố mẹ. '相亲' (mai mối) vẫn phổ biến cho người trên 25 tuổi.",
             sampleDialogue: [
               { speaker: "A", line: "你是做什么工作的？看你的照片，好像很喜欢旅游。", pinyin: "Nǐ shì zuò shénme gōngzuò de? Kàn nǐ de zhàopiàn, hǎoxiàng hěn xǐhuan lǚyóu.", translationVi: "Bạn làm nghề gì? Nhìn ảnh bạn có vẻ rất thích du lịch." },
@@ -2500,7 +2500,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Đón Tết Nguyên đán",
             description: "Discuss Chinese New Year customs and greetings",
             descriptionVi: "Thảo luận phong tục và lời chúc Tết Nguyên đán",
-            culturalNote: "春节 (Chūnjié — Spring Festival) is the most important holiday. Families gather for 年夜饭 (niányè fàn — New Year's Eve dinner). Red envelopes (红包 hóngbāo) with money are given to children and unmarried adults.",
+            culturalNote: "春节 (Chūnjié - Spring Festival) is the most important holiday. Families gather for 年夜饭 (niányè fàn - New Year's Eve dinner). Red envelopes (红包 hóngbāo) with money are given to children and unmarried adults.",
             culturalNoteVi: "春节 (Tết Nguyên đán) là ngày lễ quan trọng nhất. Gia đình sum họp ăn 年夜饭 (bữa cơm tất niên). 红包 (lì xì) được tặng cho trẻ em và người chưa kết hôn.",
             sampleDialogue: [
               { speaker: "A", line: "新年快乐！恭喜发财！", pinyin: "Xīn nián kuài lè! Gōngxǐ fā cái!", translationVi: "Chúc mừng năm mới! Cung hỷ phát tài!" },
@@ -2670,7 +2670,7 @@ export const chineseConversationalPillars: ChineseConvPillar[] = [
             titleVi: "Ở phòng tập",
             description: "Communicate at a gym or fitness center",
             descriptionVi: "Giao tiếp tại phòng tập gym",
-            culturalNote: "Fitness culture is booming in China. 健身房 (jiànshēn fáng) gyms and 瑜伽 (yújiā) yoga studios are very popular in cities. The concept of 打卡 (dǎkǎ — check-in) motivates people to post their workouts on social media.",
+            culturalNote: "Fitness culture is booming in China. 健身房 (jiànshēn fáng) gyms and 瑜伽 (yújiā) yoga studios are very popular in cities. The concept of 打卡 (dǎkǎ - check-in) motivates people to post their workouts on social media.",
             culturalNoteVi: "Văn hóa tập luyện đang bùng nổ ở Trung Quốc. Phòng gym 健身房 và studio yoga 瑜伽 rất phổ biến ở thành phố. Khái niệm '打卡' (check-in) thúc đẩy mọi người đăng bài tập lên mạng xã hội.",
             sampleDialogue: [
               { speaker: "A", line: "你今天练什么？", pinyin: "Nǐ jīntiān liàn shénme?", translationVi: "Hôm nay bạn tập gì?" },

@@ -1,4 +1,4 @@
-// AI Speaking Coach — pronunciation practice with Web Speech API and real-time color-coded feedback
+// AI Speaking Coach - pronunciation practice with Web Speech API and real-time color-coded feedback
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, Volume2, RotateCcw, ChevronRight, ChevronLeft, CheckCircle, XCircle, AlertTriangle, Info, Trophy, Star, Award, Flame, Target, Zap } from "lucide-react";
@@ -146,11 +146,11 @@ const isSpokenEquivalent = (a: string, b: string): boolean => {
   return false;
 };
 
-// Normalize text for comparison — strip punctuation & lowercase
+// Normalize text for comparison - strip punctuation & lowercase
 const normalize = (text: string): string[] =>
   text
     .toLowerCase()
-    .replace(/[.,!?;:'"()（）。，！？、""''—…·\-]/g, "")
+    .replace(/[.,!?;:'"()（）。，！？、""''-…·\-]/g, "")
     .split(/\s+/)
     .filter(Boolean);
 
@@ -169,7 +169,7 @@ const levenshtein = (a: string, b: string): number => {
   return dp[a.length][b.length];
 };
 
-// Compare spoken words with target — produce color-coded results
+// Compare spoken words with target - produce color-coded results
 const compareWords = (target: string, spoken: string): WordResult[] => {
   const targetWords = normalize(target);
   const spokenWords = normalize(spoken);
@@ -187,7 +187,7 @@ const compareWords = (target: string, spoken: string): WordResult[] => {
     // Contraction / spoken equivalence (e.g., "I'm" == "I am")
     if (isSpokenEquivalent(spokenWord, expected)) return { word: spokenWord, expected, status: "correct" as const };
 
-    // Fuzzy match — allow 1-2 char difference based on word length
+    // Fuzzy match - allow 1-2 char difference based on word length
     const dist = levenshtein(spokenWord, expected);
     const threshold = expected.length <= 3 ? 1 : expected.length <= 6 ? 2 : 3;
     if (dist <= threshold) return { word: spokenWord, expected, status: "close" as const };
@@ -752,7 +752,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
         </div>
       </div>
 
-      {/* Navigation — moved up for convenience */}
+      {/* Navigation - moved up for convenience */}
       <div className="flex items-center justify-between">
         <Button
           variant="outline"
@@ -825,7 +825,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                     </Badge>
                   </div>
 
-                  {/* Display sentence — color-coded if results available */}
+                  {/* Display sentence - color-coded if results available */}
                   <div className="min-h-[4rem] flex items-center justify-center">
                     {results ? (
                       <div className="flex flex-wrap items-center justify-center gap-1.5">
@@ -852,7 +852,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                                 </div>
                                 {r.status !== "correct" && (
                                   <p className="text-sm text-muted-foreground">
-                                    {t("Bạn nói", "You said")}: <span className="font-medium text-foreground">{r.word || "—"}</span>
+                                    {t("Bạn nói", "You said")}: <span className="font-medium text-foreground">{r.word || "-"}</span>
                                   </p>
                                 )}
                                 {currentSentence.ipa && (

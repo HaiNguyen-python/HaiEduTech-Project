@@ -253,12 +253,12 @@ export const ieltsModules: LanguageModule[] = [
         theory: "**IELTS Writing Task 1** yêu cầu mô tả biểu đồ/bảng/quy trình trong 150+ từ (20 phút).\n\n**Các loại biểu đồ:**\n- Line graph (biểu đồ đường)\n- Bar chart (biểu đồ cột)\n- Pie chart (biểu đồ tròn)\n- Table (bảng số liệu)\n- Process diagram (sơ đồ quy trình)\n- Map (bản đồ)\n\n**Cấu trúc:**\n1. **Introduction**: Paraphrase mô tả biểu đồ\n2. **Overview**: 2 xu hướng/đặc điểm nổi bật nhất\n3. **Detail 1**: Mô tả cụ thể với số liệu\n4. **Detail 2**: Mô tả cụ thể với số liệu\n\n**Từ vựng mô tả xu hướng:**\n- Tăng: increase, rise, grow, surge, soar\n- Giảm: decrease, decline, drop, plummet, fall\n- Ổn định: remain stable, level off, plateau\n- Dao động: fluctuate, vary\n- Đạt đỉnh: peak, reach a peak/high of...\n- Chạm đáy: bottom out, reach a low of...",
         theoryEn: "**IELTS Writing Task 1** requires describing a chart/table/process in 150+ words (20 min).\n\n**Trend vocabulary:**\n- Increase: rise, grow, surge, soar\n- Decrease: decline, drop, plummet\n- Stable: remain stable, level off, plateau\n- Fluctuate: vary, oscillate\n- Peak: reach a peak/high\n- Bottom out: reach a low",
         proTips: [
-          "PHẢI có Overview paragraph — không có sẽ mất điểm nặng",
+          "PHẢI có Overview paragraph - không có sẽ mất điểm nặng",
           "Dùng 'approximately', 'roughly', 'around' khi số liệu không chính xác",
           "So sánh các mục, đừng chỉ liệt kê số liệu",
         ],
         proTipsEn: [
-          "MUST include an Overview paragraph — omitting it loses significant marks",
+          "MUST include an Overview paragraph - omitting it loses significant marks",
           "Use 'approximately', 'roughly', 'around' for approximate figures",
           "Compare items, don't just list data",
         ],
@@ -306,7 +306,7 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "What percentage of the Writing score does Cohesion & Coherence account for?", options: ["10%", "25%", "50%", "75%"], answer: 1, explanation: "CC accounts for 25% — equal to the other 3 criteria: Task Achievement, Lexical Resource, Grammatical Range." },
+          { question: "What percentage of the Writing score does Cohesion & Coherence account for?", options: ["10%", "25%", "50%", "75%"], answer: 1, explanation: "CC accounts for 25% - equal to the other 3 criteria: Task Achievement, Lexical Resource, Grammatical Range." },
           { question: "Which technique improves cohesion?", options: ["Write longer sentences", "Use pronoun reference", "Use more difficult words", "Write more paragraphs"], answer: 1, explanation: "Pronoun reference (this, these, such) creates natural cohesion rather than repeating words." },
         ],
       },
@@ -332,12 +332,12 @@ export const ieltsModules: LanguageModule[] = [
         theory: "**Skimming** = đọc lướt để nắm ý chính.\n**Scanning** = tìm thông tin cụ thể.\n\n**Khi nào dùng Skimming:**\n- Đọc lần đầu để hiểu chủ đề\n- Xác định cấu trúc bài\n- Matching headings\n\n**Khi nào dùng Scanning:**\n- True/False/Not Given\n- Sentence completion\n- Short answer questions\n\n**Kỹ thuật Skimming:**\n1. Đọc tiêu đề + câu đầu mỗi đoạn\n2. Chú ý từ khóa in đậm/nghiêng\n3. Đọc câu kết luận\n\n**Kỹ thuật Scanning:**\n1. Xác định keyword trong câu hỏi\n2. Tìm synonym/paraphrase trong bài\n3. Đọc kỹ câu chứa keyword",
         theoryEn: "**Skimming** = reading quickly for main ideas.\n**Scanning** = searching for specific information.\n\n**When to skim:**\n- First reading for topic understanding\n- Matching headings\n\n**When to scan:**\n- True/False/Not Given\n- Sentence completion",
         proTips: [
-          "Không cần đọc hiểu 100% bài — IELTS là bài thi tốc độ",
+          "Không cần đọc hiểu 100% bài - IELTS là bài thi tốc độ",
           "Luôn tìm synonym, đề bài HIẾM KHI dùng đúng từ trong bài đọc",
           "Dành 2 phút skimming trước khi làm bất kỳ câu hỏi nào",
         ],
         proTipsEn: [
-          "You don't need to understand 100% — IELTS is a speed test",
+          "You don't need to understand 100% - IELTS is a speed test",
           "Always look for synonyms; questions RARELY use the exact words from the passage",
           "Spend 2 minutes skimming before attempting any questions",
         ],
@@ -454,7 +454,7 @@ export const ieltsModules: LanguageModule[] = [
           },
         ],
         quiz: [
-          { question: "Which structure is correct for advanced Passive?", options: ["It is widely acknowledge", "It is widely acknowledged", "It is wide acknowledged", "It was widely acknowledge"], answer: 1, explanation: "'It is widely acknowledged that...' — acknowledged must be in past participle form." },
+          { question: "Which structure is correct for advanced Passive?", options: ["It is widely acknowledge", "It is widely acknowledged", "It is wide acknowledged", "It was widely acknowledge"], answer: 1, explanation: "'It is widely acknowledged that...' - acknowledged must be in past participle form." },
           { question: "When should Passive be used in Task 1?", options: ["Always", "When describing processes", "Never", "Only in bar charts"], answer: 1, explanation: "Passive voice is particularly useful for process diagrams where 'who does it' is unimportant." },
         ],
       },
@@ -477,8 +477,8 @@ export const ieltsModules: LanguageModule[] = [
         titleEn: "Section 1 & 2: Everyday English",
         level: 2,
         difficulty: "beginner",
-        theory: "**Section 1:** Hội thoại giữa 2 người về chủ đề hàng ngày.\n**Section 2:** Độc thoại về chủ đề xã hội.\n\n**Dạng câu hỏi phổ biến:**\n- Form completion (điền thông tin)\n- Multiple choice\n- Matching\n\n**Chiến lược:**\n1. **Đọc câu hỏi trước** khi nghe (30 giây)\n2. **Predict** loại thông tin cần nghe (tên, số, ngày)\n3. **Chú ý spelling** — viết sai chính tả = mất điểm\n4. **Nghe distractor** — đáp án thường đến SAU thông tin gây nhiễu\n\n**Lưu ý chính tả:**\n- Tên riêng luôn viết HOA\n- Số điện thoại: viết từng số hoặc từng cặp\n- Ngày tháng: 15th March / March 15th đều được",
-        theoryEn: "**Section 1:** Conversation between 2 people about everyday topics.\n**Section 2:** Monologue about social topics.\n\n**Strategies:**\n1. Read questions BEFORE listening\n2. Predict information type (name, number, date)\n3. Watch spelling — wrong spelling = lost marks\n4. Listen for distractors — answer often comes AFTER misleading info",
+        theory: "**Section 1:** Hội thoại giữa 2 người về chủ đề hàng ngày.\n**Section 2:** Độc thoại về chủ đề xã hội.\n\n**Dạng câu hỏi phổ biến:**\n- Form completion (điền thông tin)\n- Multiple choice\n- Matching\n\n**Chiến lược:**\n1. **Đọc câu hỏi trước** khi nghe (30 giây)\n2. **Predict** loại thông tin cần nghe (tên, số, ngày)\n3. **Chú ý spelling** - viết sai chính tả = mất điểm\n4. **Nghe distractor** - đáp án thường đến SAU thông tin gây nhiễu\n\n**Lưu ý chính tả:**\n- Tên riêng luôn viết HOA\n- Số điện thoại: viết từng số hoặc từng cặp\n- Ngày tháng: 15th March / March 15th đều được",
+        theoryEn: "**Section 1:** Conversation between 2 people about everyday topics.\n**Section 2:** Monologue about social topics.\n\n**Strategies:**\n1. Read questions BEFORE listening\n2. Predict information type (name, number, date)\n3. Watch spelling - wrong spelling = lost marks\n4. Listen for distractors - answer often comes AFTER misleading info",
         exercises: [
           {
             type: "fill-in-blank",
@@ -539,7 +539,7 @@ export const ieltsModules: LanguageModule[] = [
         ],
         quiz: [
           { question: "What steps does the AREA technique include?", options: ["Answer-Reason-Example-Alternative", "Ask-Read-Explain-Answer", "Analyze-Review-Edit-Apply", "Answer-Repeat-Elaborate-Add"], answer: 0, explanation: "AREA = Answer → Reason → Example → Alternative (additional point)." },
-          { question: "How long should Part 1 answers be?", options: ["1 sentence", "2-4 sentences", "A long paragraph", "As long as possible"], answer: 1, explanation: "Part 1 answers should be 2-4 sentences — long enough to show skills but not too long (examiner will cut you off)." },
+          { question: "How long should Part 1 answers be?", options: ["1 sentence", "2-4 sentences", "A long paragraph", "As long as possible"], answer: 1, explanation: "Part 1 answers should be 2-4 sentences - long enough to show skills but not too long (examiner will cut you off)." },
         ],
       },
     ],

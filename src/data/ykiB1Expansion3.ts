@@ -12,7 +12,7 @@ import type {
 } from "./ykiB1Data";
 
 /* ============================================================
- * READING — 12 bài thực hành mới
+ * READING - 12 bài thực hành mới
  * ============================================================ */
 export const B1_READING_EXP3: B1ReadingPassage[] = [
   {
@@ -20,7 +20,7 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
     title: "Uutinen: Sähköpyörien suosio kasvaa",
     type: "news",
     timeMinutes: 7,
-    textFi: "Sähköpyörien myynti on kasvanut Suomessa nopeasti. Viime vuonna myytiin yli 100 000 sähköpyörää, mikä on kaksinkertainen määrä verrattuna kahden vuoden takaiseen. Käyttäjät arvostavat erityisesti sitä, että pitkätkin matkat sujuvat helpommin ilman hikoilua. Hinnat alkavat noin 1 500 eurosta, mutta käyttökustannukset ovat pienet — sähkö maksaa vain muutaman euron sadalle kilometrille.",
+    textFi: "Sähköpyörien myynti on kasvanut Suomessa nopeasti. Viime vuonna myytiin yli 100 000 sähköpyörää, mikä on kaksinkertainen määrä verrattuna kahden vuoden takaiseen. Käyttäjät arvostavat erityisesti sitä, että pitkätkin matkat sujuvat helpommin ilman hikoilua. Hinnat alkavat noin 1 500 eurosta, mutta käyttökustannukset ovat pienet - sähkö maksaa vain muutaman euron sadalle kilometrille.",
     questions: [
       { q: "Kuinka monta sähköpyörää myytiin viime vuonna?", options: ["50 000", "Yli 100 000", "200 000", "Yli 500 000"], answer: 1, explanationFi: "'myytiin yli 100 000 sähköpyörää'." },
       { q: "Miksi sähköpyörät ovat suosittuja?", options: ["Halpoja", "Pitkät matkat helppoja", "Nopeita", "Pieniä"], answer: 1, explanationFi: "'pitkätkin matkat sujuvat helpommin'." },
@@ -91,7 +91,7 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
     title: "Uutinen: Suomalaiset ja kahvi",
     type: "news",
     timeMinutes: 6,
-    textFi: "Suomalaiset juovat keskimäärin 9 kupillista kahvia päivässä — enemmän kuin missään muussa maassa. Kahvia juodaan aamulla töissä, lounaan jälkeen ja iltapäiväkahveina työpaikalla. Tutkijat muistuttavat, että kohtuullinen määrä (3–4 kuppia) on terveellistä, mutta liika kahvi voi aiheuttaa unihäiriöitä.",
+    textFi: "Suomalaiset juovat keskimäärin 9 kupillista kahvia päivässä - enemmän kuin missään muussa maassa. Kahvia juodaan aamulla töissä, lounaan jälkeen ja iltapäiväkahveina työpaikalla. Tutkijat muistuttavat, että kohtuullinen määrä (3–4 kuppia) on terveellistä, mutta liika kahvi voi aiheuttaa unihäiriöitä.",
     questions: [
       { q: "Kuinka paljon suomalaiset juovat kahvia päivässä?", options: ["3 kuppia", "5 kuppia", "9 kuppia", "15 kuppia"], answer: 2, explanationFi: "'9 kupillista kahvia päivässä'." },
       { q: "Mikä on kohtuullinen määrä?", options: ["1 kuppi", "3–4 kuppia", "8 kuppia", "12 kuppia"], answer: 1, explanationFi: "'kohtuullinen määrä (3–4 kuppia)'." },
@@ -159,7 +159,7 @@ export const B1_READING_EXP3: B1ReadingPassage[] = [
 ];
 
 /* ============================================================
- * LISTENING — 12 bài thực hành mới
+ * LISTENING - 12 bài thực hành mới
  * ============================================================ */
 export const B1_LISTENING_EXP3: B1ListeningClip[] = [
   {
@@ -178,7 +178,7 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
     title: "Bussipysäkillä",
     scenarioFi: "Kaksi ystävää keskustelee bussiaikataulusta.",
     durationSeconds: 35,
-    scriptFi: "Liisa: Mihin aikaan seuraava bussi tulee? Olli: Tarkistin äsken — viisitoista minuutin päästä, eli puoli kahdelta. Liisa: Voi ei, olemme myöhässä kokouksesta! Olli: Ehditään vielä, kokous alkaa vasta kahdelta. Liisa: Hyvä juttu.",
+    scriptFi: "Liisa: Mihin aikaan seuraava bussi tulee? Olli: Tarkistin äsken - viisitoista minuutin päästä, eli puoli kahdelta. Liisa: Voi ei, olemme myöhässä kokouksesta! Olli: Ehditään vielä, kokous alkaa vasta kahdelta. Liisa: Hyvä juttu.",
     questions: [
       { q: "Mihin aikaan bussi tulee?", options: ["13:15", "13:30", "13:45", "14:00"], answer: 1 },
       { q: "Mihin aikaan kokous alkaa?", options: ["13:30", "14:00", "14:15", "14:30"], answer: 1 },
@@ -261,7 +261,7 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
     title: "Sähköpostin sanelu",
     scenarioFi: "Esimies sanelee viestin sihteerille.",
     durationSeconds: 50,
-    scriptFi: "Hei kaikki, kokous on siirretty perjantailta maanantaille klo 10. Paikka pysyy samana — neuvotteluhuone 2. Tuokaa mukanne edellisen kokouksen muistiinpanot. Mikäli ette pääse paikalle, ilmoittakaa minulle perjantaihin mennessä. Kiitos.",
+    scriptFi: "Hei kaikki, kokous on siirretty perjantailta maanantaille klo 10. Paikka pysyy samana - neuvotteluhuone 2. Tuokaa mukanne edellisen kokouksen muistiinpanot. Mikäli ette pääse paikalle, ilmoittakaa minulle perjantaihin mennessä. Kiitos.",
     questions: [
       { q: "Mihin päivään kokous siirrettiin?", options: ["Torstai", "Perjantai", "Maanantai", "Tiistai"], answer: 2 },
       { q: "Mihin aikaan kokous on?", options: ["9", "10", "11", "12"], answer: 1 },
@@ -305,7 +305,7 @@ export const B1_LISTENING_EXP3: B1ListeningClip[] = [
 ];
 
 /* ============================================================
- * WRITING — 8 mẫu mới
+ * WRITING - 8 mẫu mới
  * ============================================================ */
 export const B1_WRITING_EXP3: B1WritingTemplate[] = [
   {
@@ -330,8 +330,8 @@ export const B1_WRITING_EXP3: B1WritingTemplate[] = [
       { fi: "Toisaalta", meaning: "On the other hand" },
       { fi: "Yhteenvetona", meaning: "In summary" },
     ],
-    teacherTipFi: "Käytä konkreettinen esimerkki omasta elämästä — se nostaa pisteitä!",
-    teacherTipVi: "Dùng ví dụ cụ thể từ đời sống — sẽ tăng điểm!",
+    teacherTipFi: "Käytä konkreettinen esimerkki omasta elämästä - se nostaa pisteitä!",
+    teacherTipVi: "Dùng ví dụ cụ thể từ đời sống - sẽ tăng điểm!",
   },
   {
     id: "write-exp3-2",
@@ -354,8 +354,8 @@ export const B1_WRITING_EXP3: B1WritingTemplate[] = [
       { fi: "Pyydän, että...", meaning: "I request that…" },
       { fi: "Toivon nopeaa vastausta", meaning: "I expect a quick reply" },
     ],
-    teacherTipFi: "Pidä sävy kohtelias mutta vakaa — älä huuda kirjaimilla.",
-    teacherTipVi: "Giữ giọng văn lịch sự nhưng kiên định — đừng dùng chữ in HOA để 'hét'.",
+    teacherTipFi: "Pidä sävy kohtelias mutta vakaa - älä huuda kirjaimilla.",
+    teacherTipVi: "Giữ giọng văn lịch sự nhưng kiên định - đừng dùng chữ in HOA để 'hét'.",
   },
   {
     id: "write-exp3-3",
@@ -369,7 +369,7 @@ export const B1_WRITING_EXP3: B1WritingTemplate[] = [
       { step: "Intro", stepFi: "Johdanto", example: "Yhä useampi suomalainen valitsee kasvisruoan. Onko se parempi vaihtoehto?" },
       { step: "Reason 1", stepFi: "Terveys", example: "Kasvisruoka on usein terveellisempää, koska siinä on vähemmän rasvaa." },
       { step: "Reason 2", stepFi: "Ympäristö", example: "Lisäksi se kuormittaa ympäristöä vähemmän kuin lihan tuotanto." },
-      { step: "Conclusion", stepFi: "Päätelmä", example: "Mielestäni tasapaino on tärkeintä — molempia voi syödä kohtuudella." },
+      { step: "Conclusion", stepFi: "Päätelmä", example: "Mielestäni tasapaino on tärkeintä - molempia voi syödä kohtuudella." },
     ],
     phrases: [
       { fi: "Yhä useampi", meaning: "More and more" },
@@ -377,8 +377,8 @@ export const B1_WRITING_EXP3: B1WritingTemplate[] = [
       { fi: "Kuormittaa ympäristöä", meaning: "Burdens the environment" },
       { fi: "Tasapaino on tärkeintä", meaning: "Balance is most important" },
     ],
-    teacherTipFi: "Ympäristöteema on YKI:ssä yleinen — opettele 5 sanaa: ilmasto, päästö, kierrätys, luonto, kestävä.",
-    teacherTipVi: "Chủ đề môi trường rất phổ biến trong YKI — học 5 từ: ilmasto, päästö, kierrätys, luonto, kestävä.",
+    teacherTipFi: "Ympäristöteema on YKI:ssä yleinen - opettele 5 sanaa: ilmasto, päästö, kierrätys, luonto, kestävä.",
+    teacherTipVi: "Chủ đề môi trường rất phổ biến trong YKI - học 5 từ: ilmasto, päästö, kierrätys, luonto, kestävä.",
   },
   {
     id: "write-exp3-4",
@@ -390,7 +390,7 @@ export const B1_WRITING_EXP3: B1WritingTemplate[] = [
     timeMinutes: 25,
     structure: [
       { step: "Intro", stepFi: "Johdanto", example: "Ostin kahvinkeittimen liikkeestänne 5.10." },
-      { step: "Problem", stepFi: "Ongelma", example: "Valitettavasti laite ei toimi — vesi ei lämpene." },
+      { step: "Problem", stepFi: "Ongelma", example: "Valitettavasti laite ei toimi - vesi ei lämpene." },
       { step: "Demand", stepFi: "Vaatimus", example: "Pyydän vaihtoa tai rahojen palautusta." },
       { step: "Closing", stepFi: "Lopetus", example: "Liitän mukaan ostokuitin. Toivon nopeaa vastausta." },
     ],
@@ -400,8 +400,8 @@ export const B1_WRITING_EXP3: B1WritingTemplate[] = [
       { fi: "Rahojen palautus", meaning: "Refund" },
       { fi: "Ostokuitti", meaning: "Receipt" },
     ],
-    teacherTipFi: "Lyhyessä viestissä mene suoraan asiaan — ei pitkää johdantoa.",
-    teacherTipVi: "Trong tin nhắn ngắn, vào thẳng vấn đề — không cần mở dài dòng.",
+    teacherTipFi: "Lyhyessä viestissä mene suoraan asiaan - ei pitkää johdantoa.",
+    teacherTipVi: "Trong tin nhắn ngắn, vào thẳng vấn đề - không cần mở dài dòng.",
   },
   {
     id: "write-exp3-5",
@@ -423,8 +423,8 @@ export const B1_WRITING_EXP3: B1WritingTemplate[] = [
       { fi: "Aiheuttaa unihäiriöitä", meaning: "Causes sleep issues" },
       { fi: "Tärkeintä on", meaning: "The most important is" },
     ],
-    teacherTipFi: "Kun kysytään 'hyvä vai huono', anna molempia näkökulmia — ei vain yhtä.",
-    teacherTipVi: "Khi được hỏi 'tốt hay xấu', đưa cả hai góc nhìn — không chỉ một.",
+    teacherTipFi: "Kun kysytään 'hyvä vai huono', anna molempia näkökulmia - ei vain yhtä.",
+    teacherTipVi: "Khi được hỏi 'tốt hay xấu', đưa cả hai góc nhìn - không chỉ một.",
   },
   {
     id: "write-exp3-6",
@@ -446,8 +446,8 @@ export const B1_WRITING_EXP3: B1WritingTemplate[] = [
       { fi: "Itsenäinen", meaning: "Independent" },
       { fi: "Yhtä tärkeä kuin", meaning: "As important as" },
     ],
-    teacherTipFi: "Vertaa konkreettisiin esimerkkeihin (matematiikka, äidinkieli) — vahvistaa argumenttia.",
-    teacherTipVi: "So sánh với các ví dụ cụ thể (toán, văn) — củng cố lập luận.",
+    teacherTipFi: "Vertaa konkreettisiin esimerkkeihin (matematiikka, äidinkieli) - vahvistaa argumenttia.",
+    teacherTipVi: "So sánh với các ví dụ cụ thể (toán, văn) - củng cố lập luận.",
   },
   {
     id: "write-exp3-7",
@@ -491,13 +491,13 @@ export const B1_WRITING_EXP3: B1WritingTemplate[] = [
       { fi: "Verot nousisivat", meaning: "Taxes would rise" },
       { fi: "Hyvä kompromissi", meaning: "A good compromise" },
     ],
-    teacherTipFi: "Käytä konditionaalimuotoja (-isi-): 'olisi', 'vähentäisi' — näyttää B1-tason kielioppia.",
-    teacherTipVi: "Dùng dạng điều kiện (-isi-): 'olisi', 'vähentäisi' — thể hiện ngữ pháp B1.",
+    teacherTipFi: "Käytä konditionaalimuotoja (-isi-): 'olisi', 'vähentäisi' - näyttää B1-tason kielioppia.",
+    teacherTipVi: "Dùng dạng điều kiện (-isi-): 'olisi', 'vähentäisi' - thể hiện ngữ pháp B1.",
   },
 ];
 
 /* ============================================================
- * SPEAKING — 12 tình huống mới
+ * SPEAKING - 12 tình huống mới
  * ============================================================ */
 export const B1_SPEAKING_EXP3: B1SpeakingSituation[] = [
   {
@@ -592,7 +592,7 @@ export const B1_SPEAKING_EXP3: B1SpeakingSituation[] = [
   },
   {
     id: "speak-exp3-10",
-    title: "Asuntoasiamies — Asunnon esittely",
+    title: "Asuntoasiamies - Asunnon esittely",
     scenarioFi: "Olet katsomassa vuokra-asuntoa.",
     scenarioVi: "Bạn đang đi xem căn hộ cho thuê.",
     taskFi: "Kysy asunnon kunnosta, vuokrasta, naapureista, julkisesta liikenteestä.",
@@ -602,7 +602,7 @@ export const B1_SPEAKING_EXP3: B1SpeakingSituation[] = [
   },
   {
     id: "speak-exp3-11",
-    title: "Festivaaleilla — Lipun osto",
+    title: "Festivaaleilla - Lipun osto",
     scenarioFi: "Ostat festivaalilipun lipunmyynnistä.",
     scenarioVi: "Mua vé lễ hội ở quầy.",
     taskFi: "Kysy hinnasta, päivittäisistä esiintyjistä, opiskelija-alennuksesta.",
@@ -612,7 +612,7 @@ export const B1_SPEAKING_EXP3: B1SpeakingSituation[] = [
   },
   {
     id: "speak-exp3-12",
-    title: "Sukulaisille — Onnittelut",
+    title: "Sukulaisille - Onnittelut",
     scenarioFi: "Soitat tädillesi onnitellaksesi syntymäpäivänä.",
     scenarioVi: "Gọi cô để chúc mừng sinh nhật.",
     taskFi: "Onnittele lämpimästi, kysy juhlista ja terveydestä, sovi tapaaminen.",

@@ -1,4 +1,4 @@
-// Vietnamese vocabulary lessons — 40 lessons across 4 modules (10+ words, 5 quizzes each)
+// Vietnamese vocabulary lessons - 40 lessons across 4 modules (10+ words, 5 quizzes each)
 import type { VietnameseModule } from "./types";
 
 export const vocabularyModules: VietnameseModule[] = [

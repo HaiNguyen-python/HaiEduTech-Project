@@ -11,7 +11,7 @@ import chibiTraveler from "@/assets/teacher-hai-chibi-traveler.png";
 
 const LearningJourneyTimeline = () => {
   const { t } = useLanguage();
-  // Single hovered index — switching directly between nodes prevents flicker
+  // Single hovered index - switching directly between nodes prevents flicker
   // because the previous tooltip is replaced atomically (no in-between null).
   const [hovered, setHovered] = useState<number | null>(null);
 
@@ -83,7 +83,7 @@ const LearningJourneyTimeline = () => {
     },
   ];
 
-  // Floating tooltip card — rendered above the node circle on desktop.
+  // Floating tooltip card - rendered above the node circle on desktop.
   const Tooltip = ({ text, position = "top" }: { text: string; position?: "top" | "bottom" }) => (
     <motion.div
       initial={{ opacity: 0, y: position === "top" ? 10 : -10, scale: 0.96 }}
@@ -155,7 +155,7 @@ const LearningJourneyTimeline = () => {
           {/* Dashed overlay for path effect */}
           <div className="absolute left-12 right-12 top-1/2 -translate-y-1/2 h-0.5 border-t-2 border-dashed border-white/40 dark:border-white/20" />
 
-          {/* Chibi traveler — animated infinite loop */}
+          {/* Chibi traveler - animated infinite loop */}
           <motion.div
             className="absolute top-1/2 -translate-y-[calc(50%+60px)] z-30 pointer-events-none"
             initial={{ left: "3%" }}
@@ -203,7 +203,7 @@ const LearningJourneyTimeline = () => {
                   transition={{ delay: 0.1 * i, duration: 0.5 }}
                   className="flex flex-col items-center group relative"
                 >
-                  {/* Year badge above — bolder, darker for higher contrast */}
+                  {/* Year badge above - bolder, darker for higher contrast */}
                   <div className="mb-3 px-2.5 py-0.5 rounded-full bg-background border border-border text-[11px] font-bold text-slate-700 dark:text-slate-200 shadow-sm">
                     {m.year}
                   </div>
@@ -230,7 +230,7 @@ const LearningJourneyTimeline = () => {
                       )}
                     </AnimatePresence>
                   </div>
-                  {/* Info card — bolder degree, darker location for clarity */}
+                  {/* Info card - bolder degree, darker location for clarity */}
                   <div className="mt-4 text-center px-1">
                     <div className="font-display text-base font-bold text-foreground tracking-tight">{m.value}</div>
                     <div className="mt-0.5 text-[11px] font-semibold leading-4 text-slate-700 dark:text-slate-200 line-clamp-2">{m.label}</div>
@@ -292,7 +292,7 @@ const LearningJourneyTimeline = () => {
                     <Icon className="w-5 h-5 text-white" />
                     <span className="absolute -top-1 -right-1 text-sm">{m.flag}</span>
                   </div>
-                  {/* Card — description always visible on mobile (no hover) */}
+                  {/* Card - description always visible on mobile (no hover) */}
                   <div className="flex-1 bg-card/60 border border-border rounded-xl p-3 shadow-sm">
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-display text-base font-bold text-foreground tracking-tight">{m.value}</span>

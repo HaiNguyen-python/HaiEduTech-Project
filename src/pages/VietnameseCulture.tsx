@@ -109,7 +109,7 @@ const VietnameseCulture = () => {
                         {topic.vocabulary.map((v, i) => (
                           <div key={i} className="text-xs">
                             <span className="font-medium text-foreground">{v.vi}</span>
-                            <span className="text-muted-foreground"> — {v.en}</span>
+                            <span className="text-muted-foreground"> - {v.en}</span>
                           </div>
                         ))}
                       </div>

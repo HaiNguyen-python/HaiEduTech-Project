@@ -4,8 +4,8 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
   // READING
   {
     id: "yki-mock-reading-exp3",
-    title: "Luetun ymmärtäminen — Lisäharjoitukset 3",
-    titleEn: "Reading Comprehension — Extra Sets 3",
+    title: "Luetun ymmärtäminen - Lisäharjoitukset 3",
+    titleEn: "Reading Comprehension - Extra Sets 3",
     icon: "📰",
     color: "from-blue-500 to-indigo-600",
     description: "Lisää lukutehtäviä YKI A2 -tasolla",
@@ -19,7 +19,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         quiz: [
           { question: "Kuinka monta huonetta asunnossa on?", options: ["1", "2", "3", "4"], answer: 1, explanation: "Ilmoituksessa lukee '2 huoneen asunto'." },
           { question: "Paljonko vuokra on?", options: ["550 €", "650 €", "750 €", "850 €"], answer: 2, explanation: "Vuokra on 750 €/kk + sähkö." },
-          { question: "Saako asunnossa pitää lemmikkieläimiä?", options: ["Kyllä", "Ei", "Ei mainita", "Vain kissoja"], answer: 0, explanation: "'Lemmikkieläimet sallittu' — kyllä saa." },
+          { question: "Saako asunnossa pitää lemmikkieläimiä?", options: ["Kyllä", "Ei", "Ei mainita", "Vain kissoja"], answer: 0, explanation: "'Lemmikkieläimet sallittu' - kyllä saa." },
         ],
       },
       {
@@ -47,8 +47,8 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
   // LISTENING
   {
     id: "yki-mock-listening-exp3",
-    title: "Kuullun ymmärtäminen — Lisäharjoitukset 3",
-    titleEn: "Listening Comprehension — Extra Sets 3",
+    title: "Kuullun ymmärtäminen - Lisäharjoitukset 3",
+    titleEn: "Listening Comprehension - Extra Sets 3",
     icon: "🎧",
     color: "from-purple-500 to-violet-600",
     description: "Lisää kuuntelutehtäviä YKI A2 -tasolla",
@@ -67,7 +67,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
       },
       {
         id: "yki-mock-listening-exp3-2", title: "Puhelinvaraus", titleEn: "Phone Reservation", icon: "📞", level: "A2",
-        theory: `### Kuuntele puhelinvaraus.\n\n— Ravintola Savoy, päivää!\n— Päivää. Haluaisin varata pöydän perjantai-illaksi.\n— Monelle hengelle?\n— Neljälle, kiitos.\n— Mihin aikaan?\n— Kello 19.\n— Hienoa, pöytä neljälle klo 19. Millä nimellä?\n— Virtanen.\n— Kiitos, varaus on tehty!`,
+        theory: `### Kuuntele puhelinvaraus.\n\n- Ravintola Savoy, päivää!\n- Päivää. Haluaisin varata pöydän perjantai-illaksi.\n- Monelle hengelle?\n- Neljälle, kiitos.\n- Mihin aikaan?\n- Kello 19.\n- Hienoa, pöytä neljälle klo 19. Millä nimellä?\n- Virtanen.\n- Kiitos, varaus on tehty!`,
         theoryEn: "Listen to the phone reservation.",
         quiz: [
           { question: "Monelle hengelle pöytä varataan?", options: ["2", "3", "4", "5"], answer: 2, explanation: "Neljälle hengelle." },
@@ -90,8 +90,8 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
   // WRITING
   {
     id: "yki-mock-writing-exp3",
-    title: "Kirjoittaminen — Lisäharjoitukset 3",
-    titleEn: "Writing — Extra Sets 3",
+    title: "Kirjoittaminen - Lisäharjoitukset 3",
+    titleEn: "Writing - Extra Sets 3",
     icon: "✍️",
     color: "from-emerald-500 to-green-600",
     description: "Lisää kirjoitustehtäviä YKI A2 -tasolla",
@@ -148,8 +148,8 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
   // SPEAKING
   {
     id: "yki-mock-speaking-exp3",
-    title: "Puhuminen — Lisäharjoitukset 3",
-    titleEn: "Speaking — Extra Sets 3",
+    title: "Puhuminen - Lisäharjoitukset 3",
+    titleEn: "Speaking - Extra Sets 3",
     icon: "🎙️",
     color: "from-rose-500 to-pink-600",
     description: "Lisää puhetehtäviä YKI A2 -tasolla",
@@ -180,7 +180,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         theoryEn: "Talk about your hobbies.",
         sampleAnswer: "Harrastan uimista ja lukemista. Käyn uimassa kaksi kertaa viikossa uimahallissa. Pidän uimisesta, koska se on hyvää liikuntaa ja rentouttavaa. Suosittelen uimista kaikille, koska se on hauskaa ja terveellistä!",
         quiz: [
-          { question: "'Harrastan uimista' — mikä sijamuoto?", options: ["partitiivi", "genetiivi", "illatiivi", "inessiivi"], answer: 0, explanation: "Harrastaa + partitiivi → uimista." },
+          { question: "'Harrastan uimista' - mikä sijamuoto?", options: ["partitiivi", "genetiivi", "illatiivi", "inessiivi"], answer: 0, explanation: "Harrastaa + partitiivi → uimista." },
         ],
       },
       {
@@ -189,7 +189,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         theoryEn: "Role-play: Ordering food at a restaurant.",
         sampleAnswer: "Saisinko ruokalistan, kiitos? Haluaisin tilata alkuruoaksi keittoa ja pääruoaksi lohta perunoiden kanssa. Onko teillä jälkiruokaa? Haluaisin kahvia myös. Saisinko laskun, kiitos!",
         quiz: [
-          { question: "'Saisinko laskun?' on...", options: ["käsky", "kohtelias pyyntö", "kysymys hinnasta", "valitus"], answer: 1, explanation: "'Saisinko' on konditionaali — kohtelias pyyntö." },
+          { question: "'Saisinko laskun?' on...", options: ["käsky", "kohtelias pyyntö", "kysymys hinnasta", "valitus"], answer: 1, explanation: "'Saisinko' on konditionaali - kohtelias pyyntö." },
         ],
       },
       {
@@ -198,7 +198,7 @@ export const finnishMockExamExpansion3Modules: FinnishModule[] = [
         theoryEn: "Role-play: Describing symptoms at the health center.",
         sampleAnswer: "Päivää! Minulla on kuumetta ja yskää. Oireet alkoivat kolme päivää sitten. En käytä mitään lääkkeitä. Onko minun otettava jotain lääkettä? Milloin tulen uudelleen vastaanotolle? Kiitos!",
         quiz: [
-          { question: "'Minulla on kuumetta' — mitä verbiä käytetään?", options: ["olen", "minulla on", "tulen", "menen"], answer: 1, explanation: "'Minulla on' — omistusrakenne tuntemuksille." },
+          { question: "'Minulla on kuumetta' - mitä verbiä käytetään?", options: ["olen", "minulla on", "tulen", "menen"], answer: 1, explanation: "'Minulla on' - omistusrakenne tuntemuksille." },
         ],
       },
     ],

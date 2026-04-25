@@ -238,7 +238,7 @@ const NationalExamRoom = () => {
         <div className="container mx-auto px-4 py-6 max-w-4xl">
           <div className="flex items-center gap-3 mb-6">
             <Button variant="ghost" size="sm" onClick={() => setPhase("result")}><ArrowLeft className="w-4 h-4 mr-1" /> {t("Kết quả", "Results")}</Button>
-            <h1 className="text-xl font-bold text-foreground">{t("Xem lại bài làm", "Review Answers")} — {t(exam.title, exam.titleEn)}</h1>
+            <h1 className="text-xl font-bold text-foreground">{t("Xem lại bài làm", "Review Answers")} - {t(exam.title, exam.titleEn)}</h1>
           </div>
 
           <ScrollArea className="h-[calc(100vh-120px)]">
@@ -362,7 +362,7 @@ const NationalExamRoom = () => {
         <div className="flex-1 min-w-0">
           <AnimatePresence mode="wait">
             <motion.div key={currentQ} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.15 }}>
-              {/* Passage if applicable — show maintenance badge if placeholder */}
+              {/* Passage if applicable - show maintenance badge if placeholder */}
               {relatedPassage && (
                 <div className="glass-card rounded-xl p-6 mb-4">
                   <h3 className="font-extrabold text-foreground text-lg md:text-xl mb-3">{relatedPassage.title}</h3>

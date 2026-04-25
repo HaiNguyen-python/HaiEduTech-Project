@@ -59,7 +59,7 @@ export interface B1WordOfDay {
 }
 
 /* ============================================================
- * READING — news, emails, letters
+ * READING - news, emails, letters
  * ============================================================ */
 export const B1_READING: B1ReadingPassage[] = [
   {
@@ -130,12 +130,12 @@ export const B1_READING: B1ReadingPassage[] = [
     type: "news",
     timeMinutes: 7,
     textFi:
-      "Tutkimuksen mukaan yli 80 prosenttia suomalaisista käy saunassa vähintään kerran viikossa. Sauna on tärkeä osa suomalaista kulttuuria — se on paikka, jossa rentoudutaan, jutellaan ja jopa pidetään työpalavereita. Erityisen suosittu on perinteinen puulämmitteinen sauna, vaikka kaupungeissa sähkösauna on yleisempi. Monet suomalaiset sanovat, että ilman saunaa heidän viikkonsa tuntuisi vaillinaiselta.",
+      "Tutkimuksen mukaan yli 80 prosenttia suomalaisista käy saunassa vähintään kerran viikossa. Sauna on tärkeä osa suomalaista kulttuuria - se on paikka, jossa rentoudutaan, jutellaan ja jopa pidetään työpalavereita. Erityisen suosittu on perinteinen puulämmitteinen sauna, vaikka kaupungeissa sähkösauna on yleisempi. Monet suomalaiset sanovat, että ilman saunaa heidän viikkonsa tuntuisi vaillinaiselta.",
     hintVi: "Tin tức về văn hoá tắm sauna của người Phần Lan.",
     questions: [
       { q: "Kuinka usein suomalaiset käyvät saunassa?", options: ["Kerran kuukaudessa", "Vähintään kerran viikossa", "Joka päivä", "Vain kesällä"], answer: 1, explanationFi: "'vähintään kerran viikossa' = at least once a week." },
       { q: "Mikä sauna on suosituin?", options: ["Sähkösauna", "Höyrysauna", "Puulämmitteinen sauna", "Infrapunasauna"], answer: 2, explanationFi: "'Erityisen suosittu on perinteinen puulämmitteinen sauna'." },
-      { q: "Mitä saunassa ei tekstin mukaan tehdä?", options: ["Rentoudutaan", "Jutellaan", "Pidetään palavereita", "Syödään päivällinen"], answer: 3, explanationFi: "Teksti mainitsee rentoutumisen, juttelun ja palaverit — ei päivällistä." },
+      { q: "Mitä saunassa ei tekstin mukaan tehdä?", options: ["Rentoudutaan", "Jutellaan", "Pidetään palavereita", "Syödään päivällinen"], answer: 3, explanationFi: "Teksti mainitsee rentoutumisen, juttelun ja palaverit - ei päivällistä." },
     ],
   },
   {
@@ -144,7 +144,7 @@ export const B1_READING: B1ReadingPassage[] = [
     type: "notice",
     timeMinutes: 5,
     textFi:
-      "Hyvät asukkaat! Talon piha-alueelle on asennettu uudet kierrätysastiat. Muovi, lasi ja paperi on lajiteltava omiin astioihinsa. Sekajätettä saa laittaa vain mustaan astiaan. Pahvilaatikot on litistettävä ennen astiaan laittamista. Kiitos yhteistyöstä! — Taloyhtiön hallitus",
+      "Hyvät asukkaat! Talon piha-alueelle on asennettu uudet kierrätysastiat. Muovi, lasi ja paperi on lajiteltava omiin astioihinsa. Sekajätettä saa laittaa vain mustaan astiaan. Pahvilaatikot on litistettävä ennen astiaan laittamista. Kiitos yhteistyöstä! - Taloyhtiön hallitus",
     hintVi: "Thông báo về phân loại rác tại chung cư.",
     questions: [
       { q: "Mihin astiaan menee sekajäte?", options: ["Vihreään", "Mustaan", "Siniseen", "Keltaiseen"], answer: 1, explanationFi: "'Sekajätettä saa laittaa vain mustaan astiaan'." },
@@ -183,7 +183,7 @@ export const B1_READING: B1ReadingPassage[] = [
 ];
 
 /* ============================================================
- * LISTENING — short authentic dialogues (TTS-driven)
+ * LISTENING - short authentic dialogues (TTS-driven)
  * ============================================================ */
 export const B1_LISTENING: B1ListeningClip[] = [
   {
@@ -254,13 +254,13 @@ export const B1_LISTENING: B1ListeningClip[] = [
 ];
 
 /* ============================================================
- * WRITING — Mielipide & Valitus templates
+ * WRITING - Mielipide & Valitus templates
  * ============================================================ */
 export const B1_WRITING: B1WritingTemplate[] = [
   {
     id: "write-mielipide",
     type: "mielipide",
-    title: "Mielipidekirjoitus — Opinion text",
+    title: "Mielipidekirjoitus - Opinion text",
     promptFi:
       "Kirjoita mielipidekirjoitus aiheesta 'Pitäisikö julkisen liikenteen olla ilmainen?'. Perustele mielipiteesi 2–3 syyllä.",
     promptVi:
@@ -287,7 +287,7 @@ export const B1_WRITING: B1WritingTemplate[] = [
   {
     id: "write-valitus",
     type: "valitus",
-    title: "Valituskirje — Complaint letter",
+    title: "Valituskirje - Complaint letter",
     promptFi:
       "Ostit netistä kengät, mutta ne saapuivat rikkoutuneina. Kirjoita valituskirje yritykselle. Pyydä uudet kengät tai rahat takaisin.",
     promptVi:
@@ -314,7 +314,7 @@ export const B1_WRITING: B1WritingTemplate[] = [
   {
     id: "write-email-formal",
     type: "mielipide",
-    title: "Muodollinen sähköposti — Formal email",
+    title: "Muodollinen sähköposti - Formal email",
     promptFi:
       "Kirjoita sähköposti opettajallesi. Pyydä lisäaikaa kotitehtävän palauttamiseen ja perustele syy.",
     promptVi: "Viết email cho giáo viên xin gia hạn nộp bài tập và giải thích lý do.",
@@ -334,20 +334,20 @@ export const B1_WRITING: B1WritingTemplate[] = [
       { fi: "Pahoittelen vaivaa", meaning: "I apologize for the inconvenience" },
       { fi: "Kiittäen", meaning: "With thanks" },
     ],
-    teacherTipFi: "Pidä viesti lyhyenä — opettajat lukevat satoja sähköposteja. Yksi syy + yksi pyyntö riittää.",
-    teacherTipVi: "Giữ email ngắn gọn — giáo viên đọc hàng trăm email. Một lý do + một yêu cầu là đủ.",
+    teacherTipFi: "Pidä viesti lyhyenä - opettajat lukevat satoja sähköposteja. Yksi syy + yksi pyyntö riittää.",
+    teacherTipVi: "Giữ email ngắn gọn - giáo viên đọc hàng trăm email. Một lý do + một yêu cầu là đủ.",
   },
   {
     id: "write-blog",
     type: "mielipide",
-    title: "Blogiteksti — Blog post",
+    title: "Blogiteksti - Blog post",
     promptFi:
       "Kirjoita blogiteksti aiheesta 'Paras matkani Suomeen'. Kerro mitä teit, mistä pidit ja mitä opit.",
     promptVi: "Viết bài blog 'Chuyến đi Phần Lan đáng nhớ nhất của tôi'. Kể bạn đã làm gì, thích gì và học được gì.",
     minWords: 100,
     timeMinutes: 30,
     structure: [
-      { step: "1. Otsikko", stepFi: "Houkutteleva", example: "Kolme päivää Lapissa — unohtumaton kokemus" },
+      { step: "1. Otsikko", stepFi: "Houkutteleva", example: "Kolme päivää Lapissa - unohtumaton kokemus" },
       { step: "2. Aloitus", stepFi: "Aseta lukija mukaan", example: "Viime talvena matkustin Lappiin perheeni kanssa." },
       { step: "3. Tarina", stepFi: "Kerro 2–3 muistoa", example: "Näimme revontulia ja ajoimme moottorikelkalla." },
       { step: "4. Tunteet", stepFi: "Mitä tunsit", example: "Olin yllättynyt, kuinka hiljainen metsä oli." },
@@ -366,7 +366,7 @@ export const B1_WRITING: B1WritingTemplate[] = [
 ];
 
 /* ============================================================
- * SPEAKING — Tilanneharjoitus
+ * SPEAKING - Tilanneharjoitus
  * ============================================================ */
 export const B1_SPEAKING: B1SpeakingSituation[] = [
   {

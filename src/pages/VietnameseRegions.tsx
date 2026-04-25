@@ -48,7 +48,7 @@ const VietnameseRegions = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
             <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
               <Flag className="w-5 h-5 text-primary" />
-              {t("Việt Nam — Tổng quan nhanh", "Vietnam — Quick Facts")}
+              {t("Việt Nam - Tổng quan nhanh", "Vietnam - Quick Facts")}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {countryStats.map((s, i) => (

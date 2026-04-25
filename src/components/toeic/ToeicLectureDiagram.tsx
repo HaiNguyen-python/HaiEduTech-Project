@@ -518,17 +518,17 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
               <polygon points="0 0, 8 4, 0 8" fill={C.text} />
             </marker>
           </defs>
-          <text x="300" y="200" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">⚡ Không bao giờ chờ — luôn đi trước audio 1 bước</text>
+          <text x="300" y="200" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">⚡ Không bao giờ chờ - luôn đi trước audio 1 bước</text>
         </svg>
       </Wrapper>
     );
   }
 
   // ====================================================================
-  // === EXPANSION 2 — 8 NEW LESSON DIAGRAMS ===
+  // === EXPANSION 2 - 8 NEW LESSON DIAGRAMS ===
   // ====================================================================
 
-  // 1) Part 1 People & Action — WHO + VERB + OBJECT triangle
+  // 1) Part 1 People & Action - WHO + VERB + OBJECT triangle
   if (lectureId === "toeic-part1-people-action") {
     return (
       <Wrapper title="WHO + VERB + OBJECT Lock" titleVi="Khoá WHO + VERB + OBJECT">
@@ -559,7 +559,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // 2) Part 2 Tag & Negative — STRIP method
+  // 2) Part 2 Tag & Negative - STRIP method
   if (lectureId === "toeic-part2-tag-negative") {
     return (
       <Wrapper title="STRIP Method: Tag & Negative" titleVi="Phương pháp BỎ ĐUÔI">
@@ -597,7 +597,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // 3) Part 3 Tone — Iceberg model
+  // 3) Part 3 Tone - Iceberg model
   if (lectureId === "toeic-part3-tone") {
     return (
       <Wrapper title="Iceberg of Implied Meaning" titleVi="Tảng băng ý ẩn">
@@ -621,7 +621,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // 4) Part 4 Talks — 1/3 - 1/3 - 1/3 timeline
+  // 4) Part 4 Talks - 1/3 - 1/3 - 1/3 timeline
   if (lectureId === "toeic-part4-talks") {
     return (
       <Wrapper title="Talk Timeline: Q1 / Q2 / Q3 Zones" titleVi="Trục thời gian bài nói: Vùng Q1 / Q2 / Q3">
@@ -658,7 +658,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // 5) Part 5 Verb Tense — 5-zone matrix
+  // 5) Part 5 Verb Tense - 5-zone matrix
   if (lectureId === "toeic-part5-verb-tense") {
     return (
       <Wrapper title="Time-Word → Tense Matrix" titleVi="Ma trận Từ thời gian → Thì">
@@ -689,7 +689,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // 6) Part 6 Insertion — Bridge before/after
+  // 6) Part 6 Insertion - Bridge before/after
   if (lectureId === "toeic-part6-insertion") {
     return (
       <Wrapper title="Bridge Sentence Test" titleVi="Phép thử câu cầu nối">
@@ -735,7 +735,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // 7) Part 7 Triple — 3-doc bridge map
+  // 7) Part 7 Triple - 3-doc bridge map
   if (lectureId === "toeic-part7-triple-cross") {
     return (
       <Wrapper title="3-Document Cross-Reference Map" titleVi="Bản đồ đối chiếu 3 tài liệu">
@@ -775,7 +775,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
     );
   }
 
-  // 8) HR & Recruitment — 5-stage funnel
+  // 8) HR & Recruitment - 5-stage funnel
   if (lectureId === "toeic-hr-recruitment-vocab") {
     return (
       <Wrapper title="HR Stages: 5-Step Funnel" titleVi="5 giai đoạn HR">

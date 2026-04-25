@@ -15,7 +15,7 @@ export interface WritingPrompt {
 }
 
 export const writingPrompts: WritingPrompt[] = [
-  // ========== TASK 2 — Opinion ===========
+  // ========== TASK 2 - Opinion ===========
   {
     id: 't2-op-1',
     taskType: 2,
@@ -35,7 +35,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Some fields (medicine, engineering) need both academic and practical training.',
       'Soft skills like teamwork and communication are increasingly valued by employers.',
       'Research-focused universities drive innovation and economic growth.',
-      'Many successful entrepreneurs dropped out — questioning the traditional purpose of university.',
+      'Many successful entrepreneurs dropped out - questioning the traditional purpose of university.',
       'A blend of theory and practice produces well-rounded, adaptable graduates.',
       'Government funding often favors academic research over vocational programs.',
       'Online platforms now offer career-specific training more efficiently than universities.',
@@ -83,7 +83,7 @@ export const writingPrompts: WritingPrompt[] = [
       'Play is essential for creativity, imagination, and emotional growth.',
       'Scandinavian countries start formal education at 7 and rank highly in education.',
       'Academic pressure too early can cause burnout and stress in children.',
-      'Different children develop at different rates — one size doesn\'t fit all.',
+      'Different children develop at different rates - one size doesn\'t fit all.',
       'Research shows free play significantly improves problem-solving skills.',
       'Structured preschool programs can reduce inequality in educational outcomes.',
       'Excessive homework at young ages leads to anxiety and family stress.',
@@ -145,7 +145,7 @@ export const writingPrompts: WritingPrompt[] = [
     brainstormingIdeas: ['Encouragement builds confidence and risk-taking.', 'Ignores systemic barriers (poverty, discrimination).', 'Failure despite effort can damage self-esteem.', 'Balanced messaging acknowledges effort AND circumstances.'],
   },
 
-  // ========== TASK 2 — Discussion ===========
+  // ========== TASK 2 - Discussion ===========
   {
     id: 't2-disc-1',
     taskType: 2,
@@ -175,7 +175,7 @@ export const writingPrompts: WritingPrompt[] = [
     brainstormingIdeas: ['Olympics promote international friendship.', 'Rivalries can escalate into nationalism.', 'Host cities face massive debt.', 'Athletes become role models across cultures.'],
   },
 
-  // ========== TASK 2 — Advantage/Disadvantage ===========
+  // ========== TASK 2 - Advantage/Disadvantage ===========
   {
     id: 't2-adv-1',
     taskType: 2,
@@ -205,7 +205,7 @@ export const writingPrompts: WritingPrompt[] = [
     brainstormingIdeas: ['Full control over daily routine.', 'Higher cost of living without shared expenses.', 'Can lead to loneliness, especially for elderly.', 'Encourages independence and problem-solving.'],
   },
 
-  // ========== TASK 2 — Problem/Solution ===========
+  // ========== TASK 2 - Problem/Solution ===========
   {
     id: 't2-ps-1',
     taskType: 2,
@@ -235,7 +235,7 @@ export const writingPrompts: WritingPrompt[] = [
     brainstormingIdeas: ['Rural areas lose young workforce.', 'Cities become overcrowded with housing shortages.', 'Government can create rural job incentives.', 'Improve internet and services in countryside.'],
   },
 
-  // ========== TASK 2 — Direct Question ===========
+  // ========== TASK 2 - Direct Question ===========
   {
     id: 't2-dq-1',
     taskType: 2,
@@ -265,7 +265,7 @@ export const writingPrompts: WritingPrompt[] = [
     brainstormingIdeas: ['Convenience of shopping from home 24/7.', 'Local shops struggle to compete.', 'Environmental cost of packaging and delivery.', 'Greater product variety and price transparency.'],
   },
 
-  // ========== TASK 1 — Charts & Visuals (with dynamic chart data) ===========
+  // ========== TASK 1 - Charts & Visuals (with dynamic chart data) ===========
   {
     id: 't1-bar-1',
     taskType: 1,
@@ -274,7 +274,7 @@ export const writingPrompts: WritingPrompt[] = [
     imageDescription: 'Bar chart with 5 grouped bars for years 2000, 2005, 2010, 2015, 2020. Categories: Desktop Computer, Laptop, Smartphone, Tablet, Smart TV.',
     chartData: {
       chart_type: "bar",
-      title: "Household Technology Ownership (%) — 2000–2020",
+      title: "Household Technology Ownership (%) - 2000–2020",
       x_axis: "Year",
       y_axis: "Percentage (%)",
       series: ["Desktop", "Laptop", "Smartphone", "Tablet", "Smart TV"],
@@ -303,7 +303,7 @@ export const writingPrompts: WritingPrompt[] = [
     imageDescription: 'Line graph with 4 lines (USA, UK, Australia, Germany). X-axis: 1995-2020. Y-axis: Number of students (thousands).',
     chartData: {
       chart_type: "line",
-      title: "International Students Enrolled (thousands) — 1995–2020",
+      title: "International Students Enrolled (thousands) - 1995–2020",
       x_axis: "Year",
       y_axis: "Students (thousands)",
       series: ["USA", "UK", "Australia", "Germany"],
@@ -333,7 +333,7 @@ export const writingPrompts: WritingPrompt[] = [
     imageDescription: 'Two pie charts side by side. 2000: Coal 45%, Oil 30%, Gas 15%, Nuclear 5%, Renewables 5%. 2020: Coal 20%, Oil 15%, Gas 25%, Nuclear 10%, Renewables 30%.',
     chartData: {
       chart_type: "pie",
-      title: "Energy Sources Distribution — 2020",
+      title: "Energy Sources Distribution - 2020",
       x_axis: "Source",
       y_axis: "Percentage",
       series: ["Percentage"],
@@ -362,7 +362,7 @@ export const writingPrompts: WritingPrompt[] = [
     imageDescription: 'Table with 5 countries and 4 time periods.',
     chartData: {
       chart_type: "bar",
-      title: "Literacy Rates (%) in Developing Countries — 1990–2020",
+      title: "Literacy Rates (%) in Developing Countries - 1990–2020",
       x_axis: "Country",
       y_axis: "Literacy Rate (%)",
       series: ["1990", "2000", "2010", "2020"],
@@ -421,7 +421,7 @@ export const writingPrompts: WritingPrompt[] = [
     imageDescription: 'Grouped bar chart showing monthly rainfall for London, Cairo, and Tokyo.',
     chartData: {
       chart_type: "bar",
-      title: "Average Monthly Rainfall (mm) — London, Cairo, Tokyo",
+      title: "Average Monthly Rainfall (mm) - London, Cairo, Tokyo",
       x_axis: "Month",
       y_axis: "Rainfall (mm)",
       series: ["London", "Cairo", "Tokyo"],
@@ -451,7 +451,7 @@ export const writingPrompts: WritingPrompt[] = [
     imageDescription: 'Line graph showing internet usage growth across four regions.',
     chartData: {
       chart_type: "line",
-      title: "Internet Usage by Region (%) — 2000–2023",
+      title: "Internet Usage by Region (%) - 2000–2023",
       x_axis: "Year",
       y_axis: "Population (%)",
       series: ["North America", "Europe", "Asia", "Africa"],
@@ -478,11 +478,11 @@ export const writingPrompts: WritingPrompt[] = [
     id: 't1-area-1',
     taskType: 1,
     chartType: 'line',
-    prompt: 'The graph below shows the total CO2 emissions (in million tonnes) from three sectors — Transport, Industry, and Residential — in a European country from 1990 to 2020. Summarise the information.',
+    prompt: 'The graph below shows the total CO2 emissions (in million tonnes) from three sectors - Transport, Industry, and Residential - in a European country from 1990 to 2020. Summarise the information.',
     imageDescription: 'Area graph showing CO2 emissions from three sectors over 30 years.',
     chartData: {
       chart_type: "area",
-      title: "CO2 Emissions by Sector (million tonnes) — 1990–2020",
+      title: "CO2 Emissions by Sector (million tonnes) - 1990–2020",
       x_axis: "Year",
       y_axis: "Million Tonnes",
       series: ["Transport", "Industry", "Residential"],
@@ -513,7 +513,7 @@ export const writingPrompts: WritingPrompt[] = [
     imageDescription: 'Pie chart showing university budget allocation by department.',
     chartData: {
       chart_type: "pie",
-      title: "University Budget Allocation — 2023",
+      title: "University Budget Allocation - 2023",
       x_axis: "Department",
       y_axis: "Percentage",
       series: ["Budget"],
@@ -543,7 +543,7 @@ export const writingPrompts: WritingPrompt[] = [
     imageDescription: 'Grouped bar chart comparing tourist arrivals in 2019 and 2023 for five Asian countries.',
     chartData: {
       chart_type: "bar",
-      title: "Tourist Arrivals in Asia (millions) — 2019 vs 2023",
+      title: "Tourist Arrivals in Asia (millions) - 2019 vs 2023",
       x_axis: "Country",
       y_axis: "Tourists (millions)",
       series: ["2019", "2023"],
@@ -584,7 +584,7 @@ const extraBrainstormingPool: Record<string, string[]> = {
     'Think about how this issue has evolved over the past decade.',
     'Consider the role of government regulation vs. individual responsibility.',
     'Use specific case studies from different countries to illustrate points.',
-    'Acknowledge complexity — most real-world issues are not black and white.',
+    'Acknowledge complexity - most real-world issues are not black and white.',
     'Think about generational differences in how people view this topic.',
     'Consider unintended consequences of policies related to this issue.',
   ],
@@ -593,7 +593,7 @@ const extraBrainstormingPool: Record<string, string[]> = {
     'Consider who benefits most and who is most negatively affected.',
     'Think about unintended consequences that are often overlooked.',
     'Compare with alternative approaches that might offer better outcomes.',
-    'Consider the scale — does this apply equally to all demographics?',
+    'Consider the scale - does this apply equally to all demographics?',
     'Real-world success and failure stories make compelling evidence.',
     'Think about the financial cost vs. social benefit trade-off.',
     'Consider how technology might change the equation in the future.',

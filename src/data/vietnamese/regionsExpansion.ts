@@ -1,4 +1,4 @@
-// Regions expansion — Top travel destinations với chi tiết & itinerary
+// Regions expansion - Top travel destinations với chi tiết & itinerary
 export interface TravelDestination {
   id: string;
   name: string;
@@ -30,16 +30,16 @@ export const travelDestinations: TravelDestination[] = [
     duringEn: "2–3 days",
     highlights: [
       { vi: "Tour du thuyền 2N1Đ ngủ trên vịnh", en: "2D1N overnight cruise on the bay" },
-      { vi: "Hang Sửng Sốt — hang động lớn nhất", en: "Sung Sot Cave — the largest cave" },
-      { vi: "Đảo Ti Tốp — leo núi ngắm vịnh", en: "Ti Top Island — hike for panoramic views" },
+      { vi: "Hang Sửng Sốt - hang động lớn nhất", en: "Sung Sot Cave - the largest cave" },
+      { vi: "Đảo Ti Tốp - leo núi ngắm vịnh", en: "Ti Top Island - hike for panoramic views" },
       { vi: "Chèo kayak qua hang Luồn", en: "Kayak through Luon Cave" },
     ],
     mustEat: [
       { vi: "Chả mực Hạ Long", en: "Halong squid cake" },
       { vi: "Sá sùng nướng", en: "Grilled peanut worm" },
     ],
-    tip: "Chọn tour du thuyền uy tín (Bhaya, Paradise) — tránh ngày thời tiết xấu để không bị hủy chuyến.",
-    tipEn: "Book reputable cruises (Bhaya, Paradise) — avoid bad weather days to prevent cancellation.",
+    tip: "Chọn tour du thuyền uy tín (Bhaya, Paradise) - tránh ngày thời tiết xấu để không bị hủy chuyến.",
+    tipEn: "Book reputable cruises (Bhaya, Paradise) - avoid bad weather days to prevent cancellation.",
   },
   {
     id: "sapa",
@@ -54,7 +54,7 @@ export const travelDestinations: TravelDestination[] = [
     duringEn: "3 days 2 nights",
     highlights: [
       { vi: "Trekking bản Cát Cát, Tả Van", en: "Trek to Cat Cat, Ta Van villages" },
-      { vi: "Cáp treo Fansipan — nóc nhà Đông Dương 3143m", en: "Fansipan cable car — roof of Indochina 3,143m" },
+      { vi: "Cáp treo Fansipan - nóc nhà Đông Dương 3143m", en: "Fansipan cable car - roof of Indochina 3,143m" },
       { vi: "Ruộng bậc thang Mường Hoa", en: "Muong Hoa terraced rice fields" },
       { vi: "Chợ tình Sapa thứ 7", en: "Sapa love market on Saturdays" },
     ],
@@ -64,7 +64,7 @@ export const travelDestinations: TravelDestination[] = [
       { vi: "Cơm lam", en: "Bamboo-tube sticky rice" },
     ],
     tip: "Mang áo ấm cả mùa hè vì đêm lạnh. Thuê hướng dẫn viên người H'mong địa phương để hiểu sâu văn hóa.",
-    tipEn: "Bring warm clothes even in summer — nights are cold. Hire a local H'mong guide for deeper cultural insight.",
+    tipEn: "Bring warm clothes even in summer - nights are cold. Hire a local H'mong guide for deeper cultural insight.",
   },
   {
     id: "hoian",
@@ -78,9 +78,9 @@ export const travelDestinations: TravelDestination[] = [
     duration: "2 ngày",
     duringEn: "2 days",
     highlights: [
-      { vi: "Đi bộ phố cổ buổi tối — đèn lồng đẹp huyền ảo", en: "Walk old town at night — magical lantern lights" },
+      { vi: "Đi bộ phố cổ buổi tối - đèn lồng đẹp huyền ảo", en: "Walk old town at night - magical lantern lights" },
       { vi: "Thuê áo dài chụp ảnh", en: "Rent áo dài for photos" },
-      { vi: "Tham quan Chùa Cầu — biểu tượng Hội An", en: "Visit Japanese Bridge — Hoi An's icon" },
+      { vi: "Tham quan Chùa Cầu - biểu tượng Hội An", en: "Visit Japanese Bridge - Hoi An's icon" },
       { vi: "Đi thuyền thả đèn hoa đăng đêm rằm", en: "Boat ride and float lanterns on full moon nights" },
       { vi: "May áo dài, comple chỉ trong 24h", en: "Tailor-made áo dài or suit in 24 hours" },
     ],
@@ -89,12 +89,12 @@ export const travelDestinations: TravelDestination[] = [
       { vi: "Cơm gà Hội An", en: "Hoi An chicken rice" },
       { vi: "Bánh mì Phượng (huyền thoại)", en: "Banh Mi Phuong (legendary)" },
     ],
-    tip: "Mua vé tham quan phố cổ (120k VND) cho 5 di tích. Tránh trưa nóng — đi sáng sớm hoặc chiều muộn.",
-    tipEn: "Buy old town pass (120k VND) for 5 attractions. Avoid hot midday — go early morning or late afternoon.",
+    tip: "Mua vé tham quan phố cổ (120k VND) cho 5 di tích. Tránh trưa nóng - đi sáng sớm hoặc chiều muộn.",
+    tipEn: "Buy old town pass (120k VND) for 5 attractions. Avoid hot midday - go early morning or late afternoon.",
   },
   {
     id: "phongnha",
-    name: "Phong Nha — Kẻ Bàng",
+    name: "Phong Nha - Kẻ Bàng",
     nameEn: "Phong Nha-Ke Bang",
     emoji: "🕳️",
     region: "central",
@@ -104,9 +104,9 @@ export const travelDestinations: TravelDestination[] = [
     duration: "2–3 ngày",
     duringEn: "2–3 days",
     highlights: [
-      { vi: "Hang Sơn Đoòng — hang lớn nhất thế giới (tour 4N3Đ, ~3000 USD)", en: "Son Doong — world's largest cave (4D3N tour, ~$3000)" },
-      { vi: "Hang Thiên Đường dài 31km", en: "Paradise Cave — 31km long" },
-      { vi: "Sông Chày — Hang Tối: zipline + bơi suối", en: "Chay River — Dark Cave: zipline + swimming" },
+      { vi: "Hang Sơn Đoòng - hang lớn nhất thế giới (tour 4N3Đ, ~3000 USD)", en: "Son Doong - world's largest cave (4D3N tour, ~$3000)" },
+      { vi: "Hang Thiên Đường dài 31km", en: "Paradise Cave - 31km long" },
+      { vi: "Sông Chày - Hang Tối: zipline + bơi suối", en: "Chay River - Dark Cave: zipline + swimming" },
       { vi: "Suối Mooc nước trong xanh", en: "Mooc Spring crystal-clear water" },
     ],
     mustEat: [
@@ -128,11 +128,11 @@ export const travelDestinations: TravelDestination[] = [
     duration: "4–5 ngày",
     duringEn: "4–5 days",
     highlights: [
-      { vi: "Bãi Sao — bãi biển đẹp nhất Phú Quốc", en: "Sao Beach — most beautiful beach" },
-      { vi: "Cáp treo Hòn Thơm dài nhất thế giới (7.9km)", en: "Hon Thom cable car — world's longest (7.9km)" },
+      { vi: "Bãi Sao - bãi biển đẹp nhất Phú Quốc", en: "Sao Beach - most beautiful beach" },
+      { vi: "Cáp treo Hòn Thơm dài nhất thế giới (7.9km)", en: "Hon Thom cable car - world's longest (7.9km)" },
       { vi: "Lặn ngắm san hô Nam Đảo", en: "Snorkel coral reefs in southern islands" },
       { vi: "Chợ đêm Dinh Cậu", en: "Dinh Cau night market" },
-      { vi: "Vinpearl Safari — vườn thú bán hoang dã", en: "Vinpearl Safari — semi-wild zoo" },
+      { vi: "Vinpearl Safari - vườn thú bán hoang dã", en: "Vinpearl Safari - semi-wild zoo" },
     ],
     mustEat: [
       { vi: "Bún kèn", en: "Phu Quoc fish noodle soup" },
@@ -149,15 +149,15 @@ export const travelDestinations: TravelDestination[] = [
     emoji: "🌷",
     region: "south",
     type: "city",
-    bestTime: "Quanh năm — đẹp nhất 11–3",
-    bestTimeEn: "Year-round — best Nov–Mar",
+    bestTime: "Quanh năm - đẹp nhất 11–3",
+    bestTimeEn: "Year-round - best Nov–Mar",
     duration: "3 ngày",
     duringEn: "3 days",
     highlights: [
       { vi: "Vườn hoa thành phố, đồi chè Cầu Đất", en: "City flower garden, Cau Dat tea hills" },
-      { vi: "Quảng trường Lâm Viên — bông hoa khổng lồ", en: "Lam Vien Square — giant artichoke flower" },
+      { vi: "Quảng trường Lâm Viên - bông hoa khổng lồ", en: "Lam Vien Square - giant artichoke flower" },
       { vi: "Thiền viện Trúc Lâm + cáp treo", en: "Truc Lam Zen Monastery + cable car" },
-      { vi: "Hồ Tuyền Lâm — chèo kayak yên tĩnh", en: "Tuyen Lam Lake — peaceful kayaking" },
+      { vi: "Hồ Tuyền Lâm - chèo kayak yên tĩnh", en: "Tuyen Lam Lake - peaceful kayaking" },
       { vi: "Săn mây Cầu Đất lúc 5h sáng", en: "Cloud-hunting at Cau Dat at 5am" },
     ],
     mustEat: [
@@ -166,8 +166,8 @@ export const travelDestinations: TravelDestination[] = [
       { vi: "Atisô (artichoke) ngọt mát", en: "Cooling artichoke" },
       { vi: "Sữa đậu nành nóng", en: "Hot soy milk" },
     ],
-    tip: "Đà Lạt mát quanh năm 18-25°C — mang áo khoác mỏng. Cuối tuần đông kín khách, đặt hostel sớm.",
-    tipEn: "Da Lat is cool year-round 18-25°C — bring light jacket. Weekends crowded, book hostels early.",
+    tip: "Đà Lạt mát quanh năm 18-25°C - mang áo khoác mỏng. Cuối tuần đông kín khách, đặt hostel sớm.",
+    tipEn: "Da Lat is cool year-round 18-25°C - bring light jacket. Weekends crowded, book hostels early.",
   },
   {
     id: "mekong",
@@ -181,11 +181,11 @@ export const travelDestinations: TravelDestination[] = [
     duration: "2–3 ngày",
     duringEn: "2–3 days",
     highlights: [
-      { vi: "Chợ nổi Cái Răng (Cần Thơ) — đi từ 5h sáng", en: "Cai Rang Floating Market — start at 5am" },
-      { vi: "Vườn trái cây Mỹ Tho — ăn buffet trái cây", en: "My Tho fruit gardens — fruit buffet" },
+      { vi: "Chợ nổi Cái Răng (Cần Thơ) - đi từ 5h sáng", en: "Cai Rang Floating Market - start at 5am" },
+      { vi: "Vườn trái cây Mỹ Tho - ăn buffet trái cây", en: "My Tho fruit gardens - fruit buffet" },
       { vi: "Đi thuyền len lỏi rừng dừa Bến Tre", en: "Boat through Ben Tre coconut groves" },
-      { vi: "Làng nổi Châu Đốc — chợ Việt-Cam-Chăm", en: "Chau Doc floating village — Viet-Khmer-Cham market" },
-      { vi: "Rừng tràm Trà Sư — chèo xuồng ba lá", en: "Tra Su cajuput forest — sampan ride" },
+      { vi: "Làng nổi Châu Đốc - chợ Việt-Cam-Chăm", en: "Chau Doc floating village - Viet-Khmer-Cham market" },
+      { vi: "Rừng tràm Trà Sư - chèo xuồng ba lá", en: "Tra Su cajuput forest - sampan ride" },
     ],
     mustEat: [
       { vi: "Bún cá Châu Đốc", en: "Chau Doc fish noodle soup" },
@@ -193,7 +193,7 @@ export const travelDestinations: TravelDestination[] = [
       { vi: "Canh chua cá linh bông điên điển", en: "Sour soup with linh fish & Sesbania flower" },
     ],
     tip: "Đặt tour homestay 2N1Đ để trải nghiệm thật. Nói trước nếu không ăn được rắn, ếch, chuột đồng.",
-    tipEn: "Book 2D1N homestay tour for authentic experience. Mention dietary limits — locals serve snake/frog/field rat.",
+    tipEn: "Book 2D1N homestay tour for authentic experience. Mention dietary limits - locals serve snake/frog/field rat.",
   },
   {
     id: "haggiang",
@@ -207,9 +207,9 @@ export const travelDestinations: TravelDestination[] = [
     duration: "4–5 ngày",
     duringEn: "4–5 days",
     highlights: [
-      { vi: "Đèo Mã Pí Lèng — 1 trong 'tứ đại đỉnh đèo' Việt Nam", en: "Ma Pi Leng Pass — top 4 mountain passes" },
-      { vi: "Cao nguyên đá Đồng Văn — Công viên địa chất UNESCO", en: "Dong Van Karst Plateau — UNESCO Geopark" },
-      { vi: "Cột cờ Lũng Cú — điểm cực Bắc Tổ quốc", en: "Lung Cu Flag Tower — northernmost point of Vietnam" },
+      { vi: "Đèo Mã Pí Lèng - 1 trong 'tứ đại đỉnh đèo' Việt Nam", en: "Ma Pi Leng Pass - top 4 mountain passes" },
+      { vi: "Cao nguyên đá Đồng Văn - Công viên địa chất UNESCO", en: "Dong Van Karst Plateau - UNESCO Geopark" },
+      { vi: "Cột cờ Lũng Cú - điểm cực Bắc Tổ quốc", en: "Lung Cu Flag Tower - northernmost point of Vietnam" },
       { vi: "Chợ phiên Đồng Văn chủ nhật", en: "Sunday Dong Van market" },
       { vi: "Mùa hoa tam giác mạch tháng 10–11", en: "Buckwheat flower season Oct–Nov" },
     ],

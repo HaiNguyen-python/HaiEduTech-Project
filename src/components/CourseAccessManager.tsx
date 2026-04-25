@@ -124,7 +124,7 @@ const CourseAccessManager = () => {
           {t("Quản lý Quyền truy cập Khóa học", "Course Access Management")}
         </CardTitle>
         <p className="text-sm text-muted-foreground">
-          {t("Conversational English — Bật/tắt quyền truy cập chương trình tương tác cho từng học sinh", "Conversational English — Toggle interactive curriculum access for each student")}
+          {t("Conversational English - Bật/tắt quyền truy cập chương trình tương tác cho từng học sinh", "Conversational English - Toggle interactive curriculum access for each student")}
         </p>
       </CardHeader>
       <CardContent>

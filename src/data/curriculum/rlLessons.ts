@@ -1,6 +1,6 @@
 /**
  * @file rlLessons.ts
- * @description Reinforcement Learning curriculum — 5 long-read English lessons.
+ * @description Reinforcement Learning curriculum - 5 long-read English lessons.
  *              Covers RL foundations → MDP → Q-Learning/DQN → Policy Gradients → Real-world applications.
  *              Each lesson follows the ExtendedProgrammingLesson schema with Mermaid flowcharts,
  *              Python examples (gymnasium / numpy / pytorch), and 3-question quizzes.
@@ -20,7 +20,7 @@ export const rlModule: ExtendedProgrammingModule = {
   course: "rl",
   lessons: [
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 1 — Foundations of RL
+    // Lesson 1 - Foundations of RL
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-01-foundations",
@@ -35,7 +35,7 @@ export const rlModule: ExtendedProgrammingModule = {
 
 ## What is Reinforcement Learning?
 
-**Reinforcement Learning (RL)** is the science of decision-making. Unlike Supervised Learning (which learns from labeled examples) or Unsupervised Learning (which finds hidden patterns), RL learns by **trial and error** — the agent interacts with an environment and receives **rewards** or **penalties** based on its actions.
+**Reinforcement Learning (RL)** is the science of decision-making. Unlike Supervised Learning (which learns from labeled examples) or Unsupervised Learning (which finds hidden patterns), RL learns by **trial and error** - the agent interacts with an environment and receives **rewards** or **penalties** based on its actions.
 
 > 🎯 **Real-world analogy**: Training a dog. You don't show it 10,000 labeled photos of "sit" vs "stand". You give it a treat (reward) when it sits on command. Over time, it learns the policy: "command 'sit' → action 'sit' → tasty reward."
 
@@ -45,8 +45,8 @@ Every RL problem is built from five core components:
 
 | Component | Symbol | Description | Example (self-driving car) |
 |-----------|--------|-------------|----------------------------|
-| **Agent** | — | The learner / decision-maker | The car's AI brain |
-| **Environment** | — | The world the agent interacts with | The road, traffic, weather |
+| **Agent** | - | The learner / decision-maker | The car's AI brain |
+| **Environment** | - | The world the agent interacts with | The road, traffic, weather |
 | **State** | \`s\` | Current situation | Speed, position, nearby cars |
 | **Action** | \`a\` | What the agent can do | Accelerate, brake, turn |
 | **Reward** | \`r\` | Feedback signal | +1 for safe driving, -100 for crash |
@@ -72,7 +72,7 @@ At each timestep \`t\`:
 
 ## Key Terminology
 
-- **Policy (π)**: The agent's strategy — a mapping from states to actions. Can be deterministic (\`a = π(s)\`) or stochastic (\`π(a|s) = probability\`).
+- **Policy (π)**: The agent's strategy - a mapping from states to actions. Can be deterministic (\`a = π(s)\`) or stochastic (\`π(a|s) = probability\`).
 - **Episode**: One complete sequence from start to terminal state (e.g., one game of chess).
 - **Return (G)**: Total accumulated reward from time \`t\` onward, often discounted: \`G_t = r_{t+1} + γ·r_{t+2} + γ²·r_{t+3} + ...\` where \`γ ∈ [0,1]\` is the discount factor.
 - **Value Function V(s)**: Expected return starting from state \`s\` and following policy \`π\`.
@@ -82,11 +82,11 @@ At each timestep \`t\`:
 
 The fundamental dilemma in RL:
 - **Exploit**: Pick the action that currently looks best (greedy).
-- **Explore**: Try something new — maybe it's even better.
+- **Explore**: Try something new - maybe it's even better.
 
 The classic solution is **ε-greedy**: with probability \`ε\` pick a random action, otherwise pick the best known action. Start with high \`ε\` (explore) and decay it over time (exploit).
 
-> 🚗 **License plate recognition** uses Supervised Learning, but **adaptive cruise control** that learns optimal acceleration patterns uses RL — it must balance smooth driving (exploit) with testing slightly different behaviors (explore) to improve.
+> 🚗 **License plate recognition** uses Supervised Learning, but **adaptive cruise control** that learns optimal acceleration patterns uses RL - it must balance smooth driving (exploit) with testing slightly different behaviors (explore) to improve.
 
 ## Key Concept
 
@@ -94,7 +94,7 @@ Reinforcement Learning trains agents to make sequential decisions by interacting
 
 ## Common Pitfalls
 
-**Sparse rewards** make learning slow — if reward only comes at the very end (e.g., winning chess), the agent struggles to credit the right actions. **Reward hacking** is when agents find unintended shortcuts (e.g., a boat-racing AI that endlessly collects bonus points instead of finishing the race). Always design reward functions carefully and test for unexpected behavior.
+**Sparse rewards** make learning slow - if reward only comes at the very end (e.g., winning chess), the agent struggles to credit the right actions. **Reward hacking** is when agents find unintended shortcuts (e.g., a boat-racing AI that endlessly collects bonus points instead of finishing the race). Always design reward functions carefully and test for unexpected behavior.
 
 ## Practice Task
 
@@ -135,13 +135,13 @@ while not done:
 print(f"\\nEpisode finished. Total reward: {total_reward}")
 env.close()`,
       exercise: "",
-      exerciseEn: `Modify the code above to run **100 random episodes** and print the average total reward. You'll see why random policies are terrible — most episodes end with reward 0 because the agent falls into a hole before reaching the goal.`,
+      exerciseEn: `Modify the code above to run **100 random episodes** and print the average total reward. You'll see why random policies are terrible - most episodes end with reward 0 because the agent falls into a hole before reaching the goal.`,
       quiz: [
         {
           question: "What is the primary signal that an RL agent uses to learn?",
           options: ["Labeled examples", "Reward", "Cluster assignments", "Pre-trained weights"],
           answer: 1,
-          explanation: "RL agents learn from a scalar reward signal received from the environment after each action — no labels are needed.",
+          explanation: "RL agents learn from a scalar reward signal received from the environment after each action - no labels are needed.",
         },
         {
           question: "What does the discount factor γ (gamma) control?",
@@ -164,7 +164,7 @@ env.close()`,
     },
 
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 2 — Markov Decision Process (MDP)
+    // Lesson 2 - Markov Decision Process (MDP)
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-02-mdp",
@@ -189,7 +189,7 @@ A process is **Markov** if the future depends only on the present, not the past:
 
 In plain English: **"Given the current state, the past is irrelevant for predicting the future."** This dramatically simplifies the math.
 
-> 🎯 **Real-world example**: In chess, the current board position contains *all* information needed to decide the next move — you don't need to remember how you got there. The state is Markov.
+> 🎯 **Real-world example**: In chess, the current board position contains *all* information needed to decide the next move - you don't need to remember how you got there. The state is Markov.
 
 ## Definition: MDP as a 5-Tuple
 
@@ -199,9 +199,9 @@ An MDP is formally defined as **(S, A, P, R, γ)**:
 |--------|------|-------------|
 | \`S\` | State space | Set of all possible states |
 | \`A\` | Action space | Set of all possible actions |
-| \`P\` | Transition probability | \`P(s' \\| s, a)\` — probability of next state \`s'\` |
-| \`R\` | Reward function | \`R(s, a, s')\` — reward for transition |
-| \`γ\` | Discount factor | \`γ ∈ [0,1]\` — future reward weighting |
+| \`P\` | Transition probability | \`P(s' \\| s, a)\` - probability of next state \`s'\` |
+| \`R\` | Reward function | \`R(s, a, s')\` - reward for transition |
+| \`γ\` | Discount factor | \`γ ∈ [0,1]\` - future reward weighting |
 
 ## The MDP Loop, Visualized
 
@@ -217,7 +217,7 @@ flowchart TB
   style R1 fill:#10b981,color:#fff
 \`\`\`
 
-## The Bellman Equation — The Heart of RL
+## The Bellman Equation - The Heart of RL
 
 The **value** of being in state \`s\` under policy \`π\` is the expected discounted return:
 
@@ -242,17 +242,17 @@ When \`P\` and \`R\` are known, we can solve the MDP exactly using **Value Itera
    - For each state \`s\`, update: \`V(s) ← max_a Σ_{s'} P(s'|s,a) [R + γV(s')]\`
 3. Extract policy from final \`V\`
 
-This is **dynamic programming** — and it's the foundation of every RL algorithm.
+This is **dynamic programming** - and it's the foundation of every RL algorithm.
 
 > ⚠️ **Limitation**: Value iteration requires knowing \`P\` and \`R\`, which is rarely true in real problems. Q-Learning (Lesson 3) lifts this restriction by learning from experience.
 
 ## Key Concept
 
-An MDP is a 5-tuple (S, A, P, R, γ) that mathematically formalizes RL. The Markov property — future depends only on the present state — enables recursive value functions via the Bellman equation. Value iteration solves small MDPs exactly when transition dynamics are known.
+An MDP is a 5-tuple (S, A, P, R, γ) that mathematically formalizes RL. The Markov property - future depends only on the present state - enables recursive value functions via the Bellman equation. Value iteration solves small MDPs exactly when transition dynamics are known.
 
 ## Common Pitfalls
 
-**Non-Markov environments** break the math. If your "state" lacks crucial information (e.g., velocity in addition to position), the Markov property fails and convergence is not guaranteed. **Curse of dimensionality**: |S| grows exponentially with state variables — value iteration becomes infeasible beyond a few thousand states.
+**Non-Markov environments** break the math. If your "state" lacks crucial information (e.g., velocity in addition to position), the Markov property fails and convergence is not guaranteed. **Curse of dimensionality**: |S| grows exponentially with state variables - value iteration becomes infeasible beyond a few thousand states.
 
 ## Practice Task
 
@@ -344,13 +344,13 @@ for row in policy.reshape(4, 4):
             "It always finds suboptimal policies",
           ],
           answer: 1,
-          explanation: "Value Iteration is model-based — it needs P(s'|s,a) and R(s,a,s'). In real-world problems these are unknown, motivating model-free methods like Q-Learning.",
+          explanation: "Value Iteration is model-based - it needs P(s'|s,a) and R(s,a,s'). In real-world problems these are unknown, motivating model-free methods like Q-Learning.",
         },
       ],
     },
 
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 3 — Q-Learning & DQN
+    // Lesson 3 - Q-Learning & DQN
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-03-qlearning-dqn",
@@ -365,7 +365,7 @@ for row in policy.reshape(4, 4):
 
 ## From Model-Based to Model-Free
 
-Value Iteration is powerful but needs full knowledge of \`P\` and \`R\`. In reality (e.g., Atari games, robotics), we don't know the dynamics — we just **interact and observe**. This is **model-free RL**.
+Value Iteration is powerful but needs full knowledge of \`P\` and \`R\`. In reality (e.g., Atari games, robotics), we don't know the dynamics - we just **interact and observe**. This is **model-free RL**.
 
 **Q-Learning** (Watkins, 1989) is the breakthrough algorithm that learns optimal action-values directly from experience.
 
@@ -405,11 +405,11 @@ This is **off-policy** learning: we update based on the *greedy* future action, 
 
 Q-Tables work when |S| × |A| is small (FrozenLake has 16 × 4 = 64 entries). But Atari has ~10⁷⁰ possible screens. We can't tabulate that.
 
-**Solution**: Approximate \`Q(s, a)\` with a **neural network** \`Q(s, a; θ)\`. This is **Deep Q-Network (DQN)** — DeepMind's 2015 breakthrough that mastered 49 Atari games.
+**Solution**: Approximate \`Q(s, a)\` with a **neural network** \`Q(s, a; θ)\`. This is **Deep Q-Network (DQN)** - DeepMind's 2015 breakthrough that mastered 49 Atari games.
 
 ## Two Critical DQN Tricks
 
-DQN doesn't just bolt a NN onto Q-Learning — that's unstable. Two innovations make it work:
+DQN doesn't just bolt a NN onto Q-Learning - that's unstable. Two innovations make it work:
 
 ### 1. Experience Replay
 Store transitions \`(s, a, r, s', done)\` in a replay buffer. Sample random minibatches to train on. This **decorrelates samples** and **reuses experience**, drastically improving sample efficiency.
@@ -433,11 +433,11 @@ else:
 
 ## Key Concept
 
-Q-Learning is a model-free RL algorithm that learns Q(s,a) — the expected return of each action — via the temporal-difference update Q ← Q + α[r + γ·max Q' − Q]. Deep Q-Networks (DQN) replace the Q-table with a neural network, using experience replay and target networks to stabilize training. DQN powers landmark achievements like Atari mastery and laid the groundwork for AlphaGo.
+Q-Learning is a model-free RL algorithm that learns Q(s,a) - the expected return of each action - via the temporal-difference update Q ← Q + α[r + γ·max Q' − Q]. Deep Q-Networks (DQN) replace the Q-table with a neural network, using experience replay and target networks to stabilize training. DQN powers landmark achievements like Atari mastery and laid the groundwork for AlphaGo.
 
 ## Common Pitfalls
 
-**Q-Learning overestimation bias** — the \`max\` operator systematically overestimates Q-values. Use **Double DQN** (decouple action selection and evaluation) to fix this. **Catastrophic forgetting**: NNs can forget old experiences; experience replay mitigates this. **Hyperparameter sensitivity**: learning rate, ε decay, replay buffer size, and target update frequency all matter — tune carefully.
+**Q-Learning overestimation bias** - the \`max\` operator systematically overestimates Q-values. Use **Double DQN** (decouple action selection and evaluation) to fix this. **Catastrophic forgetting**: NNs can forget old experiences; experience replay mitigates this. **Hyperparameter sensitivity**: learning rate, ε decay, replay buffer size, and target update frequency all matter - tune carefully.
 
 ## Practice Task
 
@@ -505,7 +505,7 @@ for row in policy:
 
 env.close()`,
       exercise: "",
-      exerciseEn: `Extend the agent to **CartPole-v1** by replacing the Q-table with a small PyTorch network (2 hidden layers of 64 units). Implement experience replay (buffer size 10,000, batch size 64) and a target network updated every 100 steps. Train for 500 episodes — you should reach the 500-step solve threshold.`,
+      exerciseEn: `Extend the agent to **CartPole-v1** by replacing the Q-table with a small PyTorch network (2 hidden layers of 64 units). Implement experience replay (buffer size 10,000, batch size 64) and a target network updated every 100 steps. Train for 500 episodes - you should reach the 500-step solve threshold.`,
       quiz: [
         {
           question: "What is the key difference between Value Iteration and Q-Learning?",
@@ -544,7 +544,7 @@ env.close()`,
     },
 
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 4 — Policy Gradients
+    // Lesson 4 - Policy Gradients
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-04-policy-gradients",
@@ -560,9 +560,9 @@ env.close()`,
 ## Why Not Just Use Q-Learning?
 
 DQN works great for **discrete** action spaces (4 directions, 18 Atari buttons). But what about:
-- **Continuous control** — robot joint angles, steering wheel positions
-- **Stochastic policies** — rock-paper-scissors needs randomness
-- **High-dimensional actions** — humanoid robots have ~30 motors
+- **Continuous control** - robot joint angles, steering wheel positions
+- **Stochastic policies** - rock-paper-scissors needs randomness
+- **High-dimensional actions** - humanoid robots have ~30 motors
 
 For these, we need **Policy Gradient (PG) methods**: directly parameterize and optimize the policy \`π(a|s; θ)\`.
 
@@ -578,7 +578,7 @@ The gradient w.r.t. policy parameters θ is (Sutton et al., 2000):
 
 In plain English: *"Increase the log-probability of actions that led to high returns; decrease it for actions that led to low returns."*
 
-## REINFORCE — The Simplest PG Algorithm
+## REINFORCE - The Simplest PG Algorithm
 
 \`\`\`mermaid
 flowchart TB
@@ -601,7 +601,7 @@ flowchart TB
 
 ## Variance Reduction: Baselines
 
-REINFORCE has **high variance** — returns depend on whole episodes, so gradients are noisy. The fix: subtract a **baseline** \`b(s)\` from \`G_t\`:
+REINFORCE has **high variance** - returns depend on whole episodes, so gradients are noisy. The fix: subtract a **baseline** \`b(s)\` from \`G_t\`:
 
 > **∇J(θ) = E[ Σ_t ∇log π(a_t|s_t) · (G_t − b(s_t)) ]**
 
@@ -628,11 +628,11 @@ Policy Gradient methods directly optimize the policy π(a|s;θ) by gradient asce
 
 ## Common Pitfalls
 
-**High variance**: vanilla REINFORCE is extremely noisy — always use baselines. **Sample inefficiency**: PG methods are on-policy, so old data must be discarded after each update (PPO's clipping mitigates this). **Local optima**: poor initialization can trap the policy in a bad mode — use entropy regularization to encourage exploration.
+**High variance**: vanilla REINFORCE is extremely noisy - always use baselines. **Sample inefficiency**: PG methods are on-policy, so old data must be discarded after each update (PPO's clipping mitigates this). **Local optima**: poor initialization can trap the policy in a bad mode - use entropy regularization to encourage exploration.
 
 ## Practice Task
 
-Implement REINFORCE on CartPole-v1: a 2-layer MLP outputs softmax over 2 actions. Use discount γ=0.99 and a learning rate of 1e-3. Train for 1000 episodes and plot the moving average reward — you should reach 500 (max) within a few hundred episodes.
+Implement REINFORCE on CartPole-v1: a 2-layer MLP outputs softmax over 2 actions. Use discount γ=0.99 and a learning rate of 1e-3. Train for 1000 episodes and plot the moving average reward - you should reach 500 (max) within a few hundred episodes.
       
       `,
       code: `# REINFORCE on CartPole-v1
@@ -710,7 +710,7 @@ for episode in range(n_episodes):
 
 env.close()`,
       exercise: "",
-      exerciseEn: `Add a **value baseline** to the REINFORCE agent: a second small network V(s; φ) trained with MSE against the actual returns. Use \`A(s,a) = G_t − V(s)\` instead of normalized returns in the policy loss. You should see faster, more stable learning — congratulations, you've just built an Advantage Actor-Critic (A2C)!`,
+      exerciseEn: `Add a **value baseline** to the REINFORCE agent: a second small network V(s; φ) trained with MSE against the actual returns. Use \`A(s,a) = G_t − V(s)\` instead of normalized returns in the policy loss. You should see faster, more stable learning - congratulations, you've just built an Advantage Actor-Critic (A2C)!`,
       quiz: [
         {
           question: "Why are Policy Gradient methods preferred over Q-Learning for continuous action spaces?",
@@ -738,13 +738,13 @@ env.close()`,
           question: "Which algorithm is used by RLHF (the technique that aligned ChatGPT)?",
           options: ["DQN", "Q-Learning", "PPO (Proximal Policy Optimization)", "Value Iteration"],
           answer: 2,
-          explanation: "PPO is the workhorse of RLHF — it stably fine-tunes large language models against a learned reward model derived from human preferences.",
+          explanation: "PPO is the workhorse of RLHF - it stably fine-tunes large language models against a learned reward model derived from human preferences.",
         },
       ],
     },
 
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 5 — Real-world Applications
+    // Lesson 5 - Real-world Applications
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-05-applications",
@@ -757,11 +757,11 @@ env.close()`,
       theoryEn: `
 > **Prerequisites**: Lessons 1–4. This lesson surveys industrial RL deployments and the engineering challenges that come with them.
 
-## RL in the Wild — A 2025 Snapshot
+## RL in the Wild - A 2025 Snapshot
 
 RL has graduated from academic toy problems to powering some of the most impressive AI systems in production. Let's tour four domains where RL delivers measurable value.
 
-## 1. Game AI — From Atari to AlphaGo to GPT-RLHF
+## 1. Game AI - From Atari to AlphaGo to GPT-RLHF
 
 \`\`\`mermaid
 flowchart LR
@@ -779,9 +779,9 @@ flowchart LR
 - **AlphaGo / AlphaZero**: Deep RL + Monte Carlo Tree Search + self-play. Mastered Go, Chess, and Shogi from scratch.
 - **OpenAI Five**: PPO + LSTM at massive scale (~180 years of game time per day). Defeated Dota 2 world champions.
 - **AlphaStar**: Multi-agent RL on StarCraft II with population-based training.
-- **RLHF (ChatGPT/Claude)**: PPO fine-tunes LLMs on a learned reward model derived from human preference rankings — *the* breakthrough that made aligned chatbots possible.
+- **RLHF (ChatGPT/Claude)**: PPO fine-tunes LLMs on a learned reward model derived from human preference rankings - *the* breakthrough that made aligned chatbots possible.
 
-## 2. Robotics — From Simulation to Reality
+## 2. Robotics - From Simulation to Reality
 
 Modern robot learning uses **massive parallel simulation** (Isaac Gym, MuJoCo) followed by **sim-to-real transfer**:
 
@@ -790,11 +790,11 @@ Modern robot learning uses **massive parallel simulation** (Isaac Gym, MuJoCo) f
 - **OpenAI Rubik's Cube hand**: PPO + domain randomization solved a Rubik's cube one-handed (2019)
 - **DeepMind RGB-Stacking**: zero-shot sim-to-real via massive randomization
 
-> 🛠️ **Engineering challenge**: The **reality gap** — policies trained in simulation often fail in the real world due to physics differences, sensor noise, and unmodeled dynamics. Solutions include domain randomization, system identification, and meta-learning.
+> 🛠️ **Engineering challenge**: The **reality gap** - policies trained in simulation often fail in the real world due to physics differences, sensor noise, and unmodeled dynamics. Solutions include domain randomization, system identification, and meta-learning.
 
-## 3. Self-Driving Cars — RL as One Tool Among Many
+## 3. Self-Driving Cars - RL as One Tool Among Many
 
-Despite Hollywood hype, no commercial self-driving stack uses pure end-to-end RL — it's not safe enough yet. But RL plays specific roles:
+Despite Hollywood hype, no commercial self-driving stack uses pure end-to-end RL - it's not safe enough yet. But RL plays specific roles:
 
 - **Trajectory planning**: choosing safe, smooth paths through traffic
 - **Adaptive cruise control**: learning optimal acceleration profiles for fuel efficiency
@@ -803,7 +803,7 @@ Despite Hollywood hype, no commercial self-driving stack uses pure end-to-end RL
 
 The rest of the stack (perception, prediction, low-level control) uses supervised learning, classical optimization, and rule-based systems.
 
-## 4. Industrial Optimization — Where RL Quietly Wins
+## 4. Industrial Optimization - Where RL Quietly Wins
 
 RL shines in well-defined optimization problems with cheap simulators:
 
@@ -815,7 +815,7 @@ RL shines in well-defined optimization problems with cheap simulators:
 
 ## License Plate Recognition vs Adaptive Driving
 
-A nice contrast — same domain, different ML:
+A nice contrast - same domain, different ML:
 
 | Task | Best Approach | Why |
 |------|---------------|-----|
@@ -824,7 +824,7 @@ A nice contrast — same domain, different ML:
 
 > 💡 **Heuristic**: Use Supervised Learning when you have (input, label) pairs. Use RL when you have **(state, action) → reward** and decisions affect future states.
 
-## The Frontier — 2025 and Beyond
+## The Frontier - 2025 and Beyond
 
 - **Foundation models for RL**: pre-train on vast offline data, fine-tune online
 - **Multi-agent RL**: cooperative AI teams, market simulations
@@ -840,7 +840,7 @@ Real-world RL has moved beyond toy problems: AlphaGo/AlphaZero conquered board g
 
 ## Common Pitfalls
 
-**Sim-to-real gap**: policies trained in simulation often fail on physical robots — use domain randomization. **Safety**: pure RL exploration can be catastrophic in real systems (a self-driving car can't randomly try driving off-road). Use **safe RL**, **constrained MDPs**, and human oversight. **Reward specification**: defining a good reward is harder than the algorithm itself — see "reward hacking" and Specification Gaming Examples.
+**Sim-to-real gap**: policies trained in simulation often fail on physical robots - use domain randomization. **Safety**: pure RL exploration can be catastrophic in real systems (a self-driving car can't randomly try driving off-road). Use **safe RL**, **constrained MDPs**, and human oversight. **Reward specification**: defining a good reward is harder than the algorithm itself - see "reward hacking" and Specification Gaming Examples.
 
 ## Practice Task
 
@@ -894,7 +894,7 @@ while not done:
     done = terminated or truncated
 render_env.close()`,
       exercise: "",
-      exerciseEn: `Train PPO on **BipedalWalker-v3** (continuous control of a 2D walker). This is harder — you may need 1M+ timesteps. Compare convergence speed with **SAC** (also in Stable-Baselines3). Which performs better and why? Hint: SAC's max-entropy objective often wins on continuous control.`,
+      exerciseEn: `Train PPO on **BipedalWalker-v3** (continuous control of a 2D walker). This is harder - you may need 1M+ timesteps. Compare convergence speed with **SAC** (also in Stable-Baselines3). Which performs better and why? Hint: SAC's max-entropy objective often wins on continuous control.`,
       quiz: [
         {
           question: "Which RL technique was the key innovation that aligned ChatGPT to follow instructions?",
@@ -916,7 +916,7 @@ render_env.close()`,
             "The size difference between simulated and real action spaces",
           ],
           answer: 1,
-          explanation: "Simulators imperfectly model physics, sensor noise, and friction. Policies that work in sim often fail on real robots — domain randomization helps bridge this gap.",
+          explanation: "Simulators imperfectly model physics, sensor noise, and friction. Policies that work in sim often fail on real robots - domain randomization helps bridge this gap.",
         },
         {
           question: "Which problem is BEST suited for RL rather than Supervised Learning?",
@@ -932,7 +932,7 @@ render_env.close()`,
       ],
     },
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 6 — SARSA: On-Policy TD Control
+    // Lesson 6 - SARSA: On-Policy TD Control
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-06-sarsa",
@@ -945,9 +945,9 @@ render_env.close()`,
       theoryEn: `
 > **Prerequisites**: Lesson 3 (Q-Learning).
 
-## On-policy vs Off-policy — the key distinction
+## On-policy vs Off-policy - the key distinction
 
-**Q-Learning** is **off-policy** — its update target uses \`max Q(s', a')\` regardless of the action actually taken. **SARSA** (Rummery & Niranjan, 1994) is **on-policy** — it uses the action \`A'\` actually selected by the current ε-greedy policy.
+**Q-Learning** is **off-policy** - its update target uses \`max Q(s', a')\` regardless of the action actually taken. **SARSA** (Rummery & Niranjan, 1994) is **on-policy** - it uses the action \`A'\` actually selected by the current ε-greedy policy.
 
 The name itself is the update tuple: **(S, A, R, S\', A\')**
 
@@ -958,7 +958,7 @@ Q(S,A) ← Q(S,A) + α · [R + γ · Q(S\', A\') − Q(S,A)]
 ## The cliff-walking experiment
 
 In a gridworld with a cliff (reward −100 if you fall off):
-- **Q-Learning** learns the *optimal* (cliff-edge) path — but with ε-exploration it falls off frequently → low average reward during training.
+- **Q-Learning** learns the *optimal* (cliff-edge) path - but with ε-exploration it falls off frequently → low average reward during training.
 - **SARSA** learns a *safer* (longer) path because its updates account for exploration mistakes.
 
 \`\`\`mermaid
@@ -970,7 +970,7 @@ flowchart LR
 
 > 🎯 **Real-world insight**: When the deployed policy will keep exploring (medical dosing, noisy robotics), on-policy SARSA can be safer.
 
-## Expected SARSA — smoother variant
+## Expected SARSA - smoother variant
 
 \`\`\`text
 Q(S,A) ← Q(S,A) + α · [R + γ · Σ_a π(a|S\')·Q(S\',a) − Q(S,A)]
@@ -980,11 +980,11 @@ Replace the sampled \`Q(S\',A\')\` with its expectation under the policy. Lower 
 
 ## Key Concept
 
-SARSA is the on-policy cousin of Q-Learning. Its update target uses the *next action actually selected* by the current ε-greedy policy, so SARSA learns the value of exploration-aware behavior — making it safer for real-world deployment in robotics and safety-critical domains.
+SARSA is the on-policy cousin of Q-Learning. Its update target uses the *next action actually selected* by the current ε-greedy policy, so SARSA learns the value of exploration-aware behavior - making it safer for real-world deployment in robotics and safety-critical domains.
 
 ## Common Pitfalls
 
-**Slow convergence** vs Q-Learning when the deployment policy is greedy. **ε decay matters more** — if ε stays high, SARSA converges to a very conservative policy. Tune ε schedule carefully.
+**Slow convergence** vs Q-Learning when the deployment policy is greedy. **ε decay matters more** - if ε stays high, SARSA converges to a very conservative policy. Tune ε schedule carefully.
 
 ## Practice Task
 
@@ -1019,7 +1019,7 @@ for episode in range(500):
         done = terminated or truncated
         # Pick A' using the SAME policy (on-policy)
         next_action = epsilon_greedy(next_state, epsilon)
-        # SARSA update: uses Q(S', A') — NOT max Q(S', .)
+        # SARSA update: uses Q(S', A') - NOT max Q(S', .)
         td_target = reward + gamma * Q[next_state, next_action] * (not done)
         Q[state, action] += alpha * (td_target - Q[state, action])
         state, action = next_state, next_action
@@ -1052,13 +1052,13 @@ for row in np.argmax(Q, axis=1).reshape(4, 12):
           question: "Advantage of Expected SARSA?",
           options: ["Skips exploration", "Replaces sampled Q(S\',A\') with an expectation, reducing variance", "Eliminates the Q-table", "Only for continuous actions"],
           answer: 1,
-          explanation: "Expected SARSA averages over all next actions weighted by policy probability — lower variance, still on-policy.",
+          explanation: "Expected SARSA averages over all next actions weighted by policy probability - lower variance, still on-policy.",
         },
       ],
     },
 
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 7 — PPO Deep Dive
+    // Lesson 7 - PPO Deep Dive
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-07-ppo-deep-dive",
@@ -1073,7 +1073,7 @@ for row in np.argmax(Q, axis=1).reshape(4, 12):
 
 ## Why PPO took over
 
-REINFORCE is brittle — one bad step collapses the policy. **TRPO** (2015) fixed this with a complex KL-divergence trust region. **PPO** (Schulman et al., 2017) keeps TRPO's safety using a tiny clipping trick that fits in 10 lines of code — the default RL algorithm at OpenAI, DeepMind, and Anthropic ever since.
+REINFORCE is brittle - one bad step collapses the policy. **TRPO** (2015) fixed this with a complex KL-divergence trust region. **PPO** (Schulman et al., 2017) keeps TRPO's safety using a tiny clipping trick that fits in 10 lines of code - the default RL algorithm at OpenAI, DeepMind, and Anthropic ever since.
 
 It powers: 🤖 OpenAI Five (Dota 2), 🧠 ChatGPT's RLHF, 🦾 robot locomotion, 🎮 most production game AIs.
 
@@ -1093,9 +1093,9 @@ flowchart TB
   D --> A
 \`\`\`
 
-**Intuition**: if a new action is much more likely AND has positive advantage, the ratio is clipped to \`1+ε\` so the gradient stops pushing — preventing catastrophic policy jumps.
+**Intuition**: if a new action is much more likely AND has positive advantage, the ratio is clipped to \`1+ε\` so the gradient stops pushing - preventing catastrophic policy jumps.
 
-## GAE-Lambda — the perfect partner
+## GAE-Lambda - the perfect partner
 
 \`\`\`text
 A_t^GAE(λ) = Σ (γλ)^l · δ_{t+l},   δ_t = r_t + γV(s_{t+1}) − V(s_t)
@@ -1119,11 +1119,11 @@ PPO clips the policy update ratio so no single optimization step moves the polic
 
 ## Common Pitfalls
 
-**Hyperparameter sensitivity** — wrong batch size or rollout length silently degrades performance. **Reward scaling** is critical — always normalize. **Off-the-shelf libraries** (Stable-Baselines3, CleanRL) embed all 7 tricks; reinventing PPO from scratch usually produces worse results.
+**Hyperparameter sensitivity** - wrong batch size or rollout length silently degrades performance. **Reward scaling** is critical - always normalize. **Off-the-shelf libraries** (Stable-Baselines3, CleanRL) embed all 7 tricks; reinventing PPO from scratch usually produces worse results.
 
 ## Practice Task
 
-Train PPO on **LunarLander-v2** with Stable-Baselines3 for 500k timesteps. Compare wall-clock time and final return against your REINFORCE from Lesson 4 — PPO should reach the 200-reward solve threshold ~10× faster.
+Train PPO on **LunarLander-v2** with Stable-Baselines3 for 500k timesteps. Compare wall-clock time and final return against your REINFORCE from Lesson 4 - PPO should reach the 200-reward solve threshold ~10× faster.
       `,
       code: `# Production-grade PPO with Stable-Baselines3
 # pip install stable-baselines3[extra] gymnasium
@@ -1162,13 +1162,13 @@ mean_reward, std_reward = evaluate_policy(model, env, n_eval_episodes=20)
 print(f"Mean reward: {mean_reward:.1f} ± {std_reward:.1f}")
 print("Solved threshold = 200.")`,
       exercise: "",
-      exerciseEn: "Train on **BipedalWalker-v3** for 1M+ timesteps. Compare convergence with **SAC** (off-policy max-entropy method) — which wins on this harder continuous task?",
+      exerciseEn: "Train on **BipedalWalker-v3** for 1M+ timesteps. Compare convergence with **SAC** (off-policy max-entropy method) - which wins on this harder continuous task?",
       quiz: [
         {
           question: "Main purpose of clipping in PPO's objective?",
           options: ["Reduce computational cost", "Prevent overly large policy updates that destabilize training", "Eliminate the value function", "Handle continuous spaces"],
           answer: 1,
-          explanation: "Clipping the ratio to [1−ε, 1+ε] caps the per-step policy change — replicating TRPO's trust region with a much simpler implementation.",
+          explanation: "Clipping the ratio to [1−ε, 1+ε] caps the per-step policy change - replicating TRPO's trust region with a much simpler implementation.",
         },
         {
           question: "What does GAE-Lambda's λ trade off?",
@@ -1186,7 +1186,7 @@ print("Solved threshold = 200.")`,
     },
 
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 8 — Multi-Agent RL
+    // Lesson 8 - Multi-Agent RL
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-08-multi-agent",
@@ -1225,7 +1225,7 @@ flowchart LR
 
 You **cannot** just run independent DQN per agent. Three challenges:
 
-1. **Non-stationarity**: from agent A's view, agent B is *itself learning and changing* — the MDP becomes non-Markov.
+1. **Non-stationarity**: from agent A's view, agent B is *itself learning and changing* - the MDP becomes non-Markov.
 2. **Credit assignment**: when team reward is high, *which agent* deserves credit?
 3. **Partial observability**: each agent sees only local info.
 
@@ -1237,7 +1237,7 @@ The dominant 2025 paradigm:
 
 Architecture behind **MADDPG**, **QMIX**, **MAPPO**.
 
-## Self-play — the engine of superhuman AI
+## Self-play - the engine of superhuman AI
 
 The most stunning MARL successes use **self-play**: an agent plays against past versions of itself. Opponent always matches current skill → automatic curriculum.
 
@@ -1256,7 +1256,7 @@ MARL extends RL to systems with multiple learners whose actions interact. Non-st
 
 ## Common Pitfalls
 
-**Reward shaping** is even harder than single-agent — credit assignment is ambiguous. **Population-based training** matters: training against only one opponent risks overfitting to its quirks.
+**Reward shaping** is even harder than single-agent - credit assignment is ambiguous. **Population-based training** matters: training against only one opponent risks overfitting to its quirks.
 
 ## Practice Task
 
@@ -1277,7 +1277,7 @@ env = ss.pad_action_space_v0(env)
 env = ss.pettingzoo_env_to_vec_env_v1(env)
 env = ss.concat_vec_envs_v1(env, num_vec_envs=4, base_class="stable_baselines3")
 
-# Shared-parameter PPO — all predators use the same policy
+# Shared-parameter PPO - all predators use the same policy
 model = PPO(
     policy="MlpPolicy",
     env=env,
@@ -1296,31 +1296,31 @@ print("Training cooperative predator team for 200k timesteps...")
 model.learn(total_timesteps=200_000)
 model.save("ppo_pursuit_team")`,
       exercise: "",
-      exerciseEn: "Switch to **competitive** `connect_four_v3`. Implement self-play: train P1 against frozen P2 for 50k steps, then swap. Repeat 5 cycles. Measure win-rate vs random opponent — does it grow monotonically?",
+      exerciseEn: "Switch to **competitive** `connect_four_v3`. Implement self-play: train P1 against frozen P2 for 50k steps, then swap. Repeat 5 cycles. Measure win-rate vs random opponent - does it grow monotonically?",
       quiz: [
         {
           question: "Why is naive independent Q-Learning unstable in multi-agent envs?",
           options: ["Q-tables too large", "From each agent's view the env is non-stationary because other agents are also learning", "Discount factor must be negative", "Rewards cannot be shared"],
           answer: 1,
-          explanation: "If agent B keeps changing while A learns, A's transition dynamics are non-stationary — breaking the Markov assumption.",
+          explanation: "If agent B keeps changing while A learns, A's transition dynamics are non-stationary - breaking the Markov assumption.",
         },
         {
           question: "What does CTDE mean?",
           options: ["All agents share one network at execution", "Centralized critic with global info during training; agents act on local obs at deployment", "All agents communicate every step", "Cloud training, on-device execution"],
           answer: 1,
-          explanation: "CTDE gives stable learning (global critic) + scalable execution (local policies) — the paradigm behind MADDPG, QMIX, MAPPO.",
+          explanation: "CTDE gives stable learning (global critic) + scalable execution (local policies) - the paradigm behind MADDPG, QMIX, MAPPO.",
         },
         {
           question: "Which technique enabled AlphaZero to master Go/Chess/Shogi without human games?",
           options: ["Imitation learning", "Self-play", "Reward shaping", "Curriculum learning"],
           answer: 1,
-          explanation: "Pure self-play creates an automatic curriculum — opponents always match current skill — enabling AlphaZero to surpass humans in days.",
+          explanation: "Pure self-play creates an automatic curriculum - opponents always match current skill - enabling AlphaZero to surpass humans in days.",
         },
       ],
     },
 
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 9 — Offline RL
+    // Lesson 9 - Offline RL
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-09-offline-rl",
@@ -1336,10 +1336,10 @@ model.save("ppo_pursuit_team")`,
 ## The most important RL paradigm for industry
 
 Most real-world RL applications **cannot afford online exploration**:
-- 🏥 Healthcare — cannot test random treatments on patients
-- 💰 Finance — random trades lose millions
-- 🚗 Autonomous driving — random actions cause crashes
-- 🏭 Industrial control — random commands destroy equipment
+- 🏥 Healthcare - cannot test random treatments on patients
+- 💰 Finance - random trades lose millions
+- 🚗 Autonomous driving - random actions cause crashes
+- 🏭 Industrial control - random commands destroy equipment
 
 But these domains have **enormous logged datasets**. **Offline RL** (Batch RL) learns optimal policies purely from this fixed dataset, with **zero new interaction**.
 
@@ -1352,7 +1352,7 @@ flowchart LR
 
 ## Why offline RL is hard: distributional shift
 
-Naive Q-Learning on logged data **catastrophically overestimates** Q-values for actions never taken — there's no online feedback to correct optimism. Deploy → policy picks unseen actions → fails.
+Naive Q-Learning on logged data **catastrophically overestimates** Q-values for actions never taken - there's no online feedback to correct optimism. Deploy → policy picks unseen actions → fails.
 
 ## Three families of solutions
 
@@ -1363,7 +1363,7 @@ Restrict the learned policy to stay close to the behavior policy.
 Penalize Q-values for out-of-distribution actions. Explicitly **lower-bounds** the true Q.
 
 ### 3. Sequence Modeling (Decision Transformer, 2021)
-Treat RL as **autoregressive sequence modeling** — feed (return-to-go, state, action) tuples to a Transformer, predict the next action. No Bellman backups, no distributional shift.
+Treat RL as **autoregressive sequence modeling** - feed (return-to-go, state, action) tuples to a Transformer, predict the next action. No Bellman backups, no distributional shift.
 
 ## Offline → Online Fine-Tuning (modern recipe)
 
@@ -1379,15 +1379,15 @@ Treat RL as **autoregressive sequence modeling** — feed (return-to-go, state, 
 
 ## Key Concept
 
-Offline RL learns optimal policies from a fixed dataset of past interactions, with no new environment access. The core challenge — distributional shift — is addressed by either constraining the policy (BCQ, TD3+BC), being pessimistic about unseen actions (CQL), or treating RL as sequence modeling (Decision Transformer).
+Offline RL learns optimal policies from a fixed dataset of past interactions, with no new environment access. The core challenge - distributional shift - is addressed by either constraining the policy (BCQ, TD3+BC), being pessimistic about unseen actions (CQL), or treating RL as sequence modeling (Decision Transformer).
 
 ## Common Pitfalls
 
-**Insufficient state coverage** in the dataset → policy can't generalize. **Reward signal quality** — if logged rewards are biased (e.g., only logged successful sessions), the policy inherits the bias. **Always evaluate offline** with techniques like FQE before deployment.
+**Insufficient state coverage** in the dataset → policy can't generalize. **Reward signal quality** - if logged rewards are biased (e.g., only logged successful sessions), the policy inherits the bias. **Always evaluate offline** with techniques like FQE before deployment.
 
 ## Practice Task
 
-Use **D4RL** + **d3rlpy** to train **CQL** on \`hopper-medium-v2\`. Compare its return against pure behavior cloning — CQL should outperform, demonstrating offline RL improving *beyond* what was demonstrated.
+Use **D4RL** + **d3rlpy** to train **CQL** on \`hopper-medium-v2\`. Compare its return against pure behavior cloning - CQL should outperform, demonstrating offline RL improving *beyond* what was demonstrated.
       `,
       code: `# Offline RL with d3rlpy on the D4RL benchmark
 # pip install d3rlpy gymnasium
@@ -1398,7 +1398,7 @@ from d3rlpy.algos import CQLConfig
 dataset, env = d3rlpy.datasets.get_dataset("hopper-medium-v2")
 print(f"Loaded {len(dataset.episodes)} episodes")
 
-# Conservative Q-Learning — penalizes Q for out-of-distribution actions
+# Conservative Q-Learning - penalizes Q for out-of-distribution actions
 cql = CQLConfig(
     actor_learning_rate=1e-4,
     critic_learning_rate=3e-4,
@@ -1409,7 +1409,7 @@ cql = CQLConfig(
     conservative_weight=5.0,    # the key CQL hyperparameter
 ).create(device="cuda:0")        # or "cpu:0"
 
-# Train offline — NO interaction with env during training
+# Train offline - NO interaction with env during training
 cql.fit(
     dataset,
     n_steps=500_000,
@@ -1420,13 +1420,13 @@ cql.fit(
 cql.save("cql_hopper_medium.d3")
 print("CQL typically reaches ~70-80 normalized score vs ~45 for BC.")`,
       exercise: "",
-      exerciseEn: "Train **Behavior Cloning** (`d3rlpy.algos.BCConfig`) on the same dataset. Compare returns vs CQL. Try `hopper-medium-replay-v2` — on which dataset does CQL's improvement over BC become larger and why?",
+      exerciseEn: "Train **Behavior Cloning** (`d3rlpy.algos.BCConfig`) on the same dataset. Compare returns vs CQL. Try `hopper-medium-replay-v2` - on which dataset does CQL's improvement over BC become larger and why?",
       quiz: [
         {
           question: "Defining constraint of offline RL?",
           options: ["Must use deep NNs", "Learns purely from a fixed dataset, no new environment interaction", "Only for continuous actions", "Requires a perfect simulator"],
           answer: 1,
-          explanation: "Offline RL operates on a frozen dataset of (s,a,r,s') tuples — no additional rollouts allowed.",
+          explanation: "Offline RL operates on a frozen dataset of (s,a,r,s') tuples - no additional rollouts allowed.",
         },
         {
           question: "What is 'distributional shift' in offline RL?",
@@ -1444,7 +1444,7 @@ print("CQL typically reaches ~70-80 normalized score vs ~45 for BC.")`,
     },
 
     // ────────────────────────────────────────────────────────────────────────
-    // Lesson 10 — RLHF & AlphaGo Deep Dive
+    // Lesson 10 - RLHF & AlphaGo Deep Dive
     // ────────────────────────────────────────────────────────────────────────
     {
       id: "rl-10-rlhf-alphago",
@@ -1459,11 +1459,11 @@ print("CQL typically reaches ~70-80 normalized score vs ~45 for BC.")`,
 
 ## Two RL achievements that defined modern AI
 
-**AlphaGo** (board games — discrete, perfect information) and **RLHF** (LLM alignment — continuous, partial-information, human-preference-based) showcase the breadth of modern RL.
+**AlphaGo** (board games - discrete, perfect information) and **RLHF** (LLM alignment - continuous, partial-information, human-preference-based) showcase the breadth of modern RL.
 
 ## Case Study 1: AlphaGo → AlphaZero → MuZero
 
-### AlphaGo (March 2016) — defeated Lee Sedol 4-1
+### AlphaGo (March 2016) - defeated Lee Sedol 4-1
 - **Stage 1**: Supervised learning on ~30M human Go moves
 - **Stage 2**: Policy gradient self-play
 - **Stage 3**: **Monte Carlo Tree Search (MCTS)** at inference, guided by policy + value network
@@ -1477,18 +1477,18 @@ flowchart TB
   BACK --> ROOT
 \`\`\`
 
-### AlphaGo Zero (Oct 2017) — beat AlphaGo 100-0
-- **Zero** human data — pure self-play from random init
+### AlphaGo Zero (Oct 2017) - beat AlphaGo 100-0
+- **Zero** human data - pure self-play from random init
 - Single network outputs both policy and value
 - Surpassed all previous Go AIs in 40 days
 
-### AlphaZero (Dec 2017) — generalized to Chess and Shogi
-Same algorithm, three games — superhuman in 24 hours.
+### AlphaZero (Dec 2017) - generalized to Chess and Shogi
+Same algorithm, three games - superhuman in 24 hours.
 
-### MuZero (Dec 2019) — learned the rules from scratch
+### MuZero (Dec 2019) - learned the rules from scratch
 Combined model-based RL + MCTS, never told the rules.
 
-## Case Study 2: RLHF — How ChatGPT Was Aligned
+## Case Study 2: RLHF - How ChatGPT Was Aligned
 
 Three stages turned a raw LLM into a usable assistant:
 
@@ -1518,20 +1518,20 @@ The KL penalty against the frozen pre-RLHF model prevents reward-hacking.
 
 ## RLHF beyond ChatGPT
 
-- **Claude**: Constitutional AI — uses AI feedback (RLAIF)
+- **Claude**: Constitutional AI - uses AI feedback (RLAIF)
 - **Llama 2/3**: standard RLHF with two reward models (helpful + safe)
 - **Gemini**: combines RLHF, distillation, and DPO
 
-## DPO (2023) — Direct Preference Optimization
+## DPO (2023) - Direct Preference Optimization
 Trains the LLM directly on preference pairs **without** a separate reward model. Simpler, more stable.
 
 ## Key Concept
 
-AlphaGo combines policy/value networks with MCTS, then improves via pure self-play — discovering strategies beyond human knowledge. RLHF aligns LLMs by training a reward model from human preferences and fine-tuning with PPO under a KL constraint. Together they powered the two most-discussed AI breakthroughs of the past decade.
+AlphaGo combines policy/value networks with MCTS, then improves via pure self-play - discovering strategies beyond human knowledge. RLHF aligns LLMs by training a reward model from human preferences and fine-tuning with PPO under a KL constraint. Together they powered the two most-discussed AI breakthroughs of the past decade.
 
 ## Common Pitfalls
 
-**RLHF reward hacking** — without strong KL penalty, the model exploits reward-model weaknesses (overuse of certain phrases, sycophancy). **AlphaZero compute** — requires massive distributed self-play; can't be replicated on a laptop.
+**RLHF reward hacking** - without strong KL penalty, the model exploits reward-model weaknesses (overuse of certain phrases, sycophancy). **AlphaZero compute** - requires massive distributed self-play; can't be replicated on a laptop.
 
 ## Practice Task
 
@@ -1549,7 +1549,7 @@ tokenizer.pad_token = tokenizer.eos_token
 model = AutoModelForCausalLMWithValueHead.from_pretrained(MODEL)
 ref_model = AutoModelForCausalLMWithValueHead.from_pretrained(MODEL)
 
-# Reward model — sentiment as stand-in for human-trained reward
+# Reward model - sentiment as stand-in for human-trained reward
 reward_pipe = pipeline("sentiment-analysis", model="lvwerra/distilbert-imdb")
 
 def reward_fn(text):
@@ -1584,13 +1584,13 @@ for epoch in range(50):
         mean_r = sum(r.item() for r in rewards) / len(rewards)
         print(f"Epoch {epoch} | mean reward={mean_r:.3f} | KL={stats['objective/kl']:.3f}")`,
       exercise: "",
-      exerciseEn: "Implement simplified **MCTS** for Tic-Tac-Toe in pure Python (no NN). For each move, run 1000 random rollouts and pick the action with the highest win rate. Test vs random opponent — should win >95%.",
+      exerciseEn: "Implement simplified **MCTS** for Tic-Tac-Toe in pure Python (no NN). For each move, run 1000 random rollouts and pick the action with the highest win rate. Test vs random opponent - should win >95%.",
       quiz: [
         {
           question: "Key innovation of AlphaGo Zero vs AlphaGo?",
           options: ["Larger NN", "Learned purely from self-play with zero human game data", "Single GPU", "Used SARSA"],
           answer: 1,
-          explanation: "AlphaGo Zero discarded human-game pretraining, starting from random weights — yet surpassed AlphaGo in 40 days.",
+          explanation: "AlphaGo Zero discarded human-game pretraining, starting from random weights - yet surpassed AlphaGo in 40 days.",
         },
         {
           question: "Role of KL penalty in RLHF?",
@@ -1602,14 +1602,14 @@ for epoch in range(50):
           question: "What does DPO replace in the RLHF pipeline?",
           options: ["The base LLM", "The separate reward model and PPO step (trains directly on preference pairs)", "The SFT stage", "The tokenizer"],
           answer: 1,
-          explanation: "DPO derives a closed-form objective from (winning, losing) pairs — no reward model, no PPO loop.",
+          explanation: "DPO derives a closed-form objective from (winning, losing) pairs - no reward model, no PPO loop.",
         },
       ],
     },
     {
       id: "rl-11-exploration",
-      title: "Advanced Exploration — Beyond ε-Greedy",
-      titleEn: "Advanced Exploration — Beyond ε-Greedy",
+      title: "Advanced Exploration - Beyond ε-Greedy",
+      titleEn: "Advanced Exploration - Beyond ε-Greedy",
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
@@ -1619,7 +1619,7 @@ for epoch in range(50):
 
 ## Why ε-greedy is not enough
 
-Random exploration scales **exponentially** badly with state-space size. In Montezuma's Revenge (the famous 1984 Atari game), an ε-greedy DQN agent scores **0** even after 200 M frames — the room with the first key requires a 100-step coordinated sequence whose probability under random exploration is ≈ 10⁻²⁰.
+Random exploration scales **exponentially** badly with state-space size. In Montezuma's Revenge (the famous 1984 Atari game), an ε-greedy DQN agent scores **0** even after 200 M frames - the room with the first key requires a 100-step coordinated sequence whose probability under random exploration is ≈ 10⁻²⁰.
 
 ## The exploration zoo
 
@@ -1633,7 +1633,7 @@ flowchart LR
 \`\`\`
 
 ### 1. Upper Confidence Bound (UCB)
-Pick action that maximises \`Q(s,a) + c · sqrt(log N / N(s,a))\`. The bonus shrinks as you visit (s,a) more — natural decay, no schedule needed.
+Pick action that maximises \`Q(s,a) + c · sqrt(log N / N(s,a))\`. The bonus shrinks as you visit (s,a) more - natural decay, no schedule needed.
 
 ### 2. Thompson Sampling
 Maintain a **distribution** over Q values (e.g., Bayesian DQN). Sample from it, act greedily. Naturally trades off exploration ↔ exploitation.
@@ -1649,9 +1649,9 @@ Add a bonus \`r⁺\` to environment reward when the agent encounters something *
 A search engine crawler must discover new pages. ε-greedy revisits popular pages forever. UCB-based crawlers (Google's "Caffeine" was rumored to use Bandit-style scheduling) prioritise pages with **high uncertainty** about freshness, dramatically reducing time-to-index.
 
 ## Common Pitfalls
-- **Decaying ε too fast** — agent commits before learning; lock training in a local optimum.
-- **Exploration bonuses that never decay** — agent wanders forever; tasks like Atari Pong overshoot.
-- **Noisy nets with batch norm** — destroys the per-sample noise; use layer norm instead.
+- **Decaying ε too fast** - agent commits before learning; lock training in a local optimum.
+- **Exploration bonuses that never decay** - agent wanders forever; tasks like Atari Pong overshoot.
+- **Noisy nets with batch norm** - destroys the per-sample noise; use layer norm instead.
 
 ## Practice Task
 Implement UCB-1 for a 10-armed Bernoulli bandit and compare cumulative regret vs ε=0.1 greedy over 5 000 steps. Plot both curves.`,
@@ -1684,7 +1684,7 @@ print(f"UCB-1   regret: {run('ucb'):8.1f}")
       quiz: [
         {
           question: "Main advantage of UCB over ε-greedy?",
-          options: ["Faster compute", "Exploration bonus naturally shrinks with visit count — no manual schedule", "Works only on continuous actions", "Requires a neural network"],
+          options: ["Faster compute", "Exploration bonus naturally shrinks with visit count - no manual schedule", "Works only on continuous actions", "Requires a neural network"],
           answer: 1,
           explanation: "The √(log t / N) term automatically decays for well-explored arms.",
         },
@@ -1692,7 +1692,7 @@ print(f"UCB-1   regret: {run('ucb'):8.1f}")
           question: "Noisy Networks add learnable noise to:",
           options: ["The reward signal", "The network weights", "The replay buffer", "The discount factor γ"],
           answer: 1,
-          explanation: "σ parameters control per-weight noise magnitude — the agent learns how much exploration each state needs.",
+          explanation: "σ parameters control per-weight noise magnitude - the agent learns how much exploration each state needs.",
         },
         {
           question: "In Bayesian Thompson Sampling for DQN, an action is selected by:",
@@ -1704,8 +1704,8 @@ print(f"UCB-1   regret: {run('ucb'):8.1f}")
     },
     {
       id: "rl-12-curiosity",
-      title: "Curiosity-Driven RL — RND, ICM & Empowerment",
-      titleEn: "Curiosity-Driven RL — RND, ICM & Empowerment",
+      title: "Curiosity-Driven RL - RND, ICM & Empowerment",
+      titleEn: "Curiosity-Driven RL - RND, ICM & Empowerment",
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
@@ -1755,9 +1755,9 @@ Maximise mutual information between actions and future states: be in a state whe
 Reinforcement learning agents proposing new molecules suffer from sparse reward (most molecules are useless). RND-style curiosity over molecular embeddings encourages **structural diversity**, accelerating hit-finding 4–10× over random baselines.
 
 ## Common Pitfalls
-- **The "noisy TV" problem** — a TV showing static is forever novel; ICM gets stuck staring at it. RND avoids this because random targets do not depend on actions.
-- **Curiosity dominates extrinsic** — anneal the bonus or extrinsic reward will be ignored.
-- **Forgetting normalisation** — divide intrinsic reward by its running std; raw scale ruins PPO updates.
+- **The "noisy TV" problem** - a TV showing static is forever novel; ICM gets stuck staring at it. RND avoids this because random targets do not depend on actions.
+- **Curiosity dominates extrinsic** - anneal the bonus or extrinsic reward will be ignored.
+- **Forgetting normalisation** - divide intrinsic reward by its running std; raw scale ruins PPO updates.
 
 ## Practice Task
 Design a curiosity bonus for a robot vacuum cleaner. State = (room id, dirt sensor, battery). Argue whether RND or ICM is better and how you would prevent the bonus from preventing the robot from ever recharging.`,
@@ -1824,8 +1824,8 @@ print("novelty (after training): ", intrinsic_reward(states).mean().item())  # �
     },
     {
       id: "rl-13-hierarchical",
-      title: "Hierarchical RL — Options, HIRO & Goal-Conditioned Policies",
-      titleEn: "Hierarchical RL — Options, HIRO & Goal-Conditioned Policies",
+      title: "Hierarchical RL - Options, HIRO & Goal-Conditioned Policies",
+      titleEn: "Hierarchical RL - Options, HIRO & Goal-Conditioned Policies",
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
@@ -1844,7 +1844,7 @@ An **option** \`ω = (I_ω, π_ω, β_ω)\` is:
 - \`π_ω\`: internal policy
 - \`β_ω(s)\`: probability the option terminates in state \`s\`
 
-The **policy over options** picks an option, runs it until termination, then picks the next option. This is a Semi-MDP — Bellman equations still hold over option-completion times.
+The **policy over options** picks an option, runs it until termination, then picks the next option. This is a Semi-MDP - Bellman equations still hold over option-completion times.
 
 ## Modern hierarchical architectures
 
@@ -1866,7 +1866,7 @@ flowchart TB
 
 ## Hindsight Experience Replay (HER, Andrychowicz 2017)
 
-Failed trajectories are gold mines: if the agent reached state \`s'\` instead of the goal, **relabel** the trajectory as if \`s'\` were the goal — now it is a success! HER turns sparse-reward robotics from "doesn't work" to "trains in hours".
+Failed trajectories are gold mines: if the agent reached state \`s'\` instead of the goal, **relabel** the trajectory as if \`s'\` were the goal - now it is a success! HER turns sparse-reward robotics from "doesn't work" to "trains in hours".
 
 ## Real-world examples
 - **Robot manipulation**: OpenAI's solved Rubik's cube (2019) used hierarchical control: high-level cube-state planner + low-level finger-policy trained with PPO.
@@ -1874,9 +1874,9 @@ Failed trajectories are gold mines: if the agent reached state \`s'\` instead of
 - **Game NPCs**: Skyrim-style RPGs use behaviour trees that map naturally to options.
 
 ## Common Pitfalls
-- **Subgoal collapse** — high-level policy proposes the same goal forever. Cure: entropy bonus on goal distribution.
-- **Stale low-level policy** — when low-level changes, high-level value estimates become wrong. HIRO solves this with off-policy correction.
-- **HER on stochastic environments** — relabelling can teach incorrect dynamics; use future strategy not random.
+- **Subgoal collapse** - high-level policy proposes the same goal forever. Cure: entropy bonus on goal distribution.
+- **Stale low-level policy** - when low-level changes, high-level value estimates become wrong. HIRO solves this with off-policy correction.
+- **HER on stochastic environments** - relabelling can teach incorrect dynamics; use future strategy not random.
 
 ## Practice Task
 For a household robot ("make tea"), define 4 reasonable options with their initiation set, internal policy goal, and termination condition. Diagram which option calls which.`,
@@ -1943,8 +1943,8 @@ print(f"Successful transitions in buffer: {successes} / {len(buffer)} "
     },
     {
       id: "rl-14-inverse-rl",
-      title: "Inverse RL & Imitation Learning — Learning from Demonstrations",
-      titleEn: "Inverse RL & Imitation Learning — Learning from Demonstrations",
+      title: "Inverse RL & Imitation Learning - Learning from Demonstrations",
+      titleEn: "Inverse RL & Imitation Learning - Learning from Demonstrations",
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
@@ -1975,7 +1975,7 @@ Iteratively roll out the policy, **let the expert relabel** the visited states. 
 Adversarial: a **discriminator** distinguishes expert vs policy trajectories. The policy is trained (with PPO) to **fool** the discriminator → matches the expert state-action distribution without ever defining a reward.
 
 ### 4. Inverse RL
-Assume the expert is optimal under some unknown reward \`R\`. Recover \`R\` such that the expert's policy is optimal. Once you have \`R\`, you can train new agents that **transfer** to new environments — power that pure imitation lacks.
+Assume the expert is optimal under some unknown reward \`R\`. Recover \`R\` such that the expert's policy is optimal. Once you have \`R\`, you can train new agents that **transfer** to new environments - power that pure imitation lacks.
 
 ## Real-world examples
 - **Self-driving (Waymo, Wayve)**: trained on millions of human-driven hours via combined BC + GAIL.
@@ -1984,9 +1984,9 @@ Assume the expert is optimal under some unknown reward \`R\`. Recover \`R\` such
 - **LLM alignment**: SFT before RLHF is essentially behavioural cloning of human chat data.
 
 ## Common Pitfalls
-- **BC on long horizons** — error compounds linearly with horizon → quadratic regret in T.
-- **GAIL mode collapse** — discriminator overpowers; policy ignores rare expert behaviours. Cure: gradient penalty (WGAIL).
-- **IRL ambiguity** — many rewards explain the same behaviour. Maximum-entropy IRL picks the one with highest action entropy.
+- **BC on long horizons** - error compounds linearly with horizon → quadratic regret in T.
+- **GAIL mode collapse** - discriminator overpowers; policy ignores rare expert behaviours. Cure: gradient penalty (WGAIL).
+- **IRL ambiguity** - many rewards explain the same behaviour. Maximum-entropy IRL picks the one with highest action entropy.
 
 ## Practice Task
 You have 50 hours of expert chess gameplay logs but no engine evaluations. Compare BC, GAIL, and IRL approaches. Which would you ship to production and why?`,
@@ -2026,7 +2026,7 @@ for epoch in range(3):
         opt.zero_grad(); loss.backward(); opt.step()
         total += loss.item() * len(xb)
     print(f"epoch {epoch}: avg MSE = {total/N:.4f}")
-# Caveat: BC will *not* recover from off-distribution states — DAgger needed for highway driving`,
+# Caveat: BC will *not* recover from off-distribution states - DAgger needed for highway driving`,
       exercise: "Explain why BC suffers from quadratic regret in horizon T while DAgger achieves linear regret. Use the term 'covariate shift'.",
       exerciseEn: "",
       quiz: [
@@ -2046,14 +2046,14 @@ for epoch in range(3):
           question: "Why is Inverse RL valuable beyond imitation?",
           options: ["It is faster to train", "Recovering the reward enables transfer to new environments and agents", "It has fewer hyperparameters", "It does not require demonstrations"],
           answer: 1,
-          explanation: "A learned reward can be reused — a learned policy cannot generalise across embodiments.",
+          explanation: "A learned reward can be reused - a learned policy cannot generalise across embodiments.",
         },
       ],
     },
     {
       id: "rl-15-world-models",
-      title: "Model-Based RL & World Models — Dreamer, MuZero & Beyond",
-      titleEn: "Model-Based RL & World Models — Dreamer, MuZero & Beyond",
+      title: "Model-Based RL & World Models - Dreamer, MuZero & Beyond",
+      titleEn: "Model-Based RL & World Models - Dreamer, MuZero & Beyond",
       level: 5,
       difficulty: "advanced",
       codeLanguage: "python",
@@ -2080,12 +2080,12 @@ flowchart LR
 
 ### A. Dreamer (Hafner 2020-2023)
 - **Recurrent State-Space Model (RSSM)** with deterministic + stochastic latent.
-- **Actor-critic in latent space** — never touches pixels at training time → enormous compute savings.
+- **Actor-critic in latent space** - never touches pixels at training time → enormous compute savings.
 - **DreamerV3** (2023): one set of hyperparameters solves 150+ tasks (Atari, Crafter, Minecraft diamonds in 17 days vs 20 years for prior work).
 
 ### B. MuZero (Schrittwieser 2019)
-- World model is **implicit**: learns latent dynamics that only need to predict reward, value, and policy — **not pixels**.
-- Combines model + MCTS — same algorithm conquered Go, Chess, Shogi, Atari, **without being told the rules**.
+- World model is **implicit**: learns latent dynamics that only need to predict reward, value, and policy - **not pixels**.
+- Combines model + MCTS - same algorithm conquered Go, Chess, Shogi, Atari, **without being told the rules**.
 - Powers Alphabet's chip floorplan tool and YouTube video compression (-4 % bandwidth).
 
 ## Pixel-prediction vs reward-prediction
@@ -2098,20 +2098,20 @@ flowchart LR
 | Sample efficiency | Excellent | Excellent |
 
 ## Real-world examples
-- **DeepMind's controller for nuclear fusion plasma** (TCV tokamak, 2022): trained inside a simulator + Dreamer-style world model — sustained novel plasma shapes for the first time.
+- **DeepMind's controller for nuclear fusion plasma** (TCV tokamak, 2022): trained inside a simulator + Dreamer-style world model - sustained novel plasma shapes for the first time.
 - **Tesla's "FSD V12"**: end-to-end driving leverages neural simulation of traffic.
-- **Google's Genie (2024)**: a world model that turns a single image into a playable 2D platformer environment — generative RL training data.
+- **Google's Genie (2024)**: a world model that turns a single image into a playable 2D platformer environment - generative RL training data.
 
 ## Why hasn't model-based replaced model-free everywhere?
 
-- **Model bias** — small dynamics errors compound in long imagination rollouts.
-- **Hard environments** — deformable objects, fluid dynamics resist accurate models.
-- **Cost** — training the world model itself can dwarf the policy training.
+- **Model bias** - small dynamics errors compound in long imagination rollouts.
+- **Hard environments** - deformable objects, fluid dynamics resist accurate models.
+- **Cost** - training the world model itself can dwarf the policy training.
 
 ## Common Pitfalls
-- **Imagination horizon too long** — stack predictions amplify model error; usually 15–50 steps.
-- **No uncertainty estimates** — without an ensemble of models the agent over-trusts the dream. Cure: ensemble disagreement as bonus or constraint.
-- **Forgetting to ground** — periodically interleave with real-environment data or the policy diverges.
+- **Imagination horizon too long** - stack predictions amplify model error; usually 15–50 steps.
+- **No uncertainty estimates** - without an ensemble of models the agent over-trusts the dream. Cure: ensemble disagreement as bonus or constraint.
+- **Forgetting to ground** - periodically interleave with real-environment data or the policy diverges.
 
 ## Practice Task
 A robotic arm has a slow simulator (5 Hz) but a perfect digital twin in PyBullet (200 Hz). Argue whether you should still bother learning a world model with Dreamer, or just train PPO inside PyBullet. Discuss reality gap.`,
@@ -2177,7 +2177,7 @@ print("Imagined return:", imagine(wm, s, policy).mean().item())`,
           question: "Sample efficiency advantage of model-based RL is largest when:",
           options: ["The simulator is free and infinitely fast", "Real-world interaction is expensive and a learned model is cheap", "Reward is dense", "Action space is discrete"],
           answer: 1,
-          explanation: "Robotics, scientific control, healthcare — exactly where each real interaction is costly.",
+          explanation: "Robotics, scientific control, healthcare - exactly where each real interaction is costly.",
         },
       ],
     },

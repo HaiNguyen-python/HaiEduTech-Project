@@ -1,4 +1,4 @@
-// AI Marketing Kit — Admin tool that generates 3 ad copy variations + matching illustration
+// AI Marketing Kit - Admin tool that generates 3 ad copy variations + matching illustration
 // Uses Lovable AI (Gemini Pro for copy + Nano Banana for image)
 
 import { useState, useEffect } from "react";

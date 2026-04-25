@@ -1,6 +1,6 @@
 /**
  * @file ykiB1Expansion2.ts
- * @description Second wave of YKI B1 content — extra reading, listening, writing,
+ * @description Second wave of YKI B1 content - extra reading, listening, writing,
  *   speaking, and word-of-the-day pool. Doubles the practice volume.
  * @author Teacher Hai (HaiEduTech)
  */
@@ -14,7 +14,7 @@ import type {
 } from "./ykiB1Data";
 
 /* ============================================================
- * READING — wave 2
+ * READING - wave 2
  * ============================================================ */
 export const B1_READING_EXPANSION2: B1ReadingPassage[] = [
   {
@@ -90,7 +90,7 @@ export const B1_READING_EXPANSION2: B1ReadingPassage[] = [
 ];
 
 /* ============================================================
- * LISTENING — wave 2
+ * LISTENING - wave 2
  * ============================================================ */
 export const B1_LISTENING_EXPANSION2: B1ListeningClip[] = [
   {
@@ -158,19 +158,19 @@ export const B1_LISTENING_EXPANSION2: B1ListeningClip[] = [
 ];
 
 /* ============================================================
- * WRITING — wave 2 (3 templates)
+ * WRITING - wave 2 (3 templates)
  * ============================================================ */
 export const B1_WRITING_EXPANSION2: B1WritingTemplate[] = [
   {
     id: "write-blogi",
     type: "mielipide",
-    title: "Blogiteksti — Blog post",
+    title: "Blogiteksti - Blog post",
     promptFi: "Kirjoita blogiteksti aiheesta 'Mikä tekee elämästä onnellisen?'. Jaa omat ajatuksesi ja anna neuvoja lukijoille.",
     promptVi: "Viết blog về 'Điều gì làm cuộc sống hạnh phúc?'. Chia sẻ suy nghĩ và lời khuyên.",
     minWords: 100,
     timeMinutes: 25,
     structure: [
-      { step: "1. Otsikko & koukku", stepFi: "Henkilökohtainen avaus", example: "Onnellisuus — pieniä asioita, suuria valintoja." },
+      { step: "1. Otsikko & koukku", stepFi: "Henkilökohtainen avaus", example: "Onnellisuus - pieniä asioita, suuria valintoja." },
       { step: "2. Oma kokemus", stepFi: "Kerro lyhyesti itsestäsi", example: "Olen pohtinut tätä viime aikoina paljon." },
       { step: "3. Pääajatukset 2–3", stepFi: "Listamuotoiset neuvot", example: "Ensinnäkin: vietä aikaa läheisten kanssa. Toiseksi: liiku ulkona." },
       { step: "4. Esimerkki", stepFi: "Konkreettinen tarina", example: "Esimerkiksi viime sunnuntaina kävelin metsässä ja tunsin oloni rauhalliseksi." },
@@ -183,8 +183,8 @@ export const B1_WRITING_EXPANSION2: B1WritingTemplate[] = [
       { fi: "Mikä toimii sinulle?", meaning: "What works for you?" },
       { fi: "Pieni asia voi muuttaa paljon.", meaning: "A small thing can change a lot." },
     ],
-    teacherTipFi: "Käytä puhuttelua ('sinä', 'me') ja kysymyksiä — ne pitävät lukijan mukana. Älä unohda otsikkoa.",
-    teacherTipVi: "Dùng đại từ 'sinä/me' và câu hỏi — giữ độc giả tham gia. Đừng quên tiêu đề.",
+    teacherTipFi: "Käytä puhuttelua ('sinä', 'me') ja kysymyksiä - ne pitävät lukijan mukana. Älä unohda otsikkoa.",
+    teacherTipVi: "Dùng đại từ 'sinä/me' và câu hỏi - giữ độc giả tham gia. Đừng quên tiêu đề.",
   },
   {
     id: "write-formal-email",
@@ -208,13 +208,13 @@ export const B1_WRITING_EXPANSION2: B1WritingTemplate[] = [
       { fi: "Kiitän etukäteen…", meaning: "I thank you in advance…" },
       { fi: "Ystävällisin terveisin", meaning: "Best regards" },
     ],
-    teacherTipFi: "Käytä teitittelyä (te, teidän) viranomaisille. Pidä viesti lyhyenä — yksi kappale per asia.",
+    teacherTipFi: "Käytä teitittelyä (te, teidän) viranomaisille. Pidä viesti lyhyenä - yksi kappale per asia.",
     teacherTipVi: "Dùng cách xưng hô lịch sự (te/teidän) với cơ quan. Email ngắn gọn, mỗi đoạn 1 ý.",
   },
   {
     id: "write-vertailu",
     type: "mielipide",
-    title: "Vertailu — Comparing two things",
+    title: "Vertailu - Comparing two things",
     promptFi: "Vertaile kahta asiaa: kaupunkielämää ja maaseutuelämää. Mitä etuja ja haittoja kummassakin on?",
     promptVi: "So sánh sống thành phố và nông thôn. Ưu nhược điểm mỗi nơi.",
     minWords: 100,
@@ -233,13 +233,13 @@ export const B1_WRITING_EXPANSION2: B1WritingTemplate[] = [
       { fi: "Toisaalta… toisaalta…", meaning: "On one hand… on the other…" },
       { fi: "Loppujen lopuksi…", meaning: "In the end…" },
     ],
-    teacherTipFi: "Käytä vertailusanoja (toisaalta, sen sijaan, kummassakin). Älä luettele — peilaa rakenteita: ensin etu, sitten haitta.",
-    teacherTipVi: "Dùng từ so sánh. Đừng liệt kê khô khan — đối chiếu: ưu rồi nhược.",
+    teacherTipFi: "Käytä vertailusanoja (toisaalta, sen sijaan, kummassakin). Älä luettele - peilaa rakenteita: ensin etu, sitten haitta.",
+    teacherTipVi: "Dùng từ so sánh. Đừng liệt kê khô khan - đối chiếu: ưu rồi nhược.",
   },
 ];
 
 /* ============================================================
- * SPEAKING — wave 2
+ * SPEAKING - wave 2
  * ============================================================ */
 export const B1_SPEAKING_EXPANSION2: B1SpeakingSituation[] = [
   {
@@ -305,7 +305,7 @@ export const B1_SPEAKING_EXPANSION2: B1SpeakingSituation[] = [
 ];
 
 /* ============================================================
- * WORD POOL — wave 2 (extra 30 words)
+ * WORD POOL - wave 2 (extra 30 words)
  * ============================================================ */
 export const B1_WORD_POOL_EXPANSION2: B1WordOfDay[] = [
   { fi: "tasapaino", partOfSpeech: "noun", meaningEn: "balance", meaningVi: "cân bằng", exampleFi: "Tasapaino työn ja vapaa-ajan välillä on tärkeää.", exampleEn: "Balance between work and free time is important." },

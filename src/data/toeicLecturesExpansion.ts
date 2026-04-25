@@ -23,8 +23,8 @@ const part1StateAction: ToeicLecture = {
   duration: "20 min",
   level: "intermediate",
   targetScore: "600+",
-  description: "Distinguish between 'is being done' (action in progress) and 'has been done' (state/result) — the #1 trap in advanced Part 1.",
-  descriptionVi: "Phân biệt 'is being done' (đang xảy ra) và 'has been done' (đã xong/trạng thái) — bẫy lớn nhất Part 1 nâng cao.",
+  description: "Distinguish between 'is being done' (action in progress) and 'has been done' (state/result) - the #1 trap in advanced Part 1.",
+  descriptionVi: "Phân biệt 'is being done' (đang xảy ra) và 'has been done' (đã xong/trạng thái) - bẫy lớn nhất Part 1 nâng cao.",
   trapAlerts: [
     {
       trap: "'The car is being washed' when no one is in the photo",
@@ -57,7 +57,7 @@ const part1StateAction: ToeicLecture = {
   ],
   businessContext: "Office and workplace photos dominate Part 1. Knowing passive states helps describe environments.",
   businessContextVi: "Ảnh văn phòng chiếm đa số Part 1. Hiểu thể bị động giúp mô tả môi trường chính xác.",
-  proSpeedTip: "💡 If you hear 'is being' but see no person, eliminate immediately — saves 3 seconds per question.",
+  proSpeedTip: "💡 If you hear 'is being' but see no person, eliminate immediately - saves 3 seconds per question.",
   proSpeedTipVi: "💡 Nghe 'is being' mà không thấy người → loại ngay, tiết kiệm 3 giây/câu.",
   vocabHighlights: [
     { word: "stacked", definition: "piled on top of each other", definitionVi: "xếp chồng", example: "Boxes are stacked in the corner.", businessContext: "warehouse/office" },
@@ -82,15 +82,15 @@ const part1StateAction: ToeicLecture = {
 const part2WhDecoder: ToeicLecture = {
   id: "toeic-part2-wh-decoder",
   title: "Part 2 Wh-Question Decoder: First Word Wins",
-  titleVi: "Part 2: Giải mã câu hỏi Wh — chữ đầu là chìa khóa",
+  titleVi: "Part 2: Giải mã câu hỏi Wh - chữ đầu là chìa khóa",
   category: "listening",
   parts: ["Part 2"],
   icon: "❓",
   duration: "18 min",
   level: "foundation",
   targetScore: "450+",
-  description: "Master the 7 Wh-words (Who/What/When/Where/Why/Which/How) — each demands a SPECIFIC answer type.",
-  descriptionVi: "Làm chủ 7 từ Wh — mỗi từ yêu cầu một loại trả lời CỤ THỂ.",
+  description: "Master the 7 Wh-words (Who/What/When/Where/Why/Which/How) - each demands a SPECIFIC answer type.",
+  descriptionVi: "Làm chủ 7 từ Wh - mỗi từ yêu cầu một loại trả lời CỤ THỂ.",
   trapAlerts: [
     { trap: "Answering 'Where' question with 'Yes/No'", trapVi: "Trả lời câu 'Where' bằng 'Yes/No'", why: "Wh-questions NEVER take Yes/No.", whyVi: "Câu Wh KHÔNG BAO GIỜ trả lời Yes/No." },
     { trap: "Repeating words from the question", trapVi: "Lặp từ trong câu hỏi", why: "Repeated words = 90% wrong (distractor trap).", whyVi: "Từ lặp = 90% sai (bẫy)." },
@@ -137,15 +137,15 @@ const part2WhDecoder: ToeicLecture = {
 const part3Intent: ToeicLecture = {
   id: "toeic-part3-intent",
   title: "Part 3 Intent Questions: Why Did the Speaker Say...?",
-  titleVi: "Part 3: Câu hỏi ý định — Vì sao người nói nói câu đó?",
+  titleVi: "Part 3: Câu hỏi ý định - Vì sao người nói nói câu đó?",
   category: "listening",
   parts: ["Part 3"],
   icon: "💭",
   duration: "22 min",
   level: "advanced",
   targetScore: "750+",
-  description: "Decode 'What does the speaker mean when she says...?' — the hardest question type in Part 3.",
-  descriptionVi: "Giải mã 'Người nói có ý gì khi nói...?' — dạng khó nhất Part 3.",
+  description: "Decode 'What does the speaker mean when she says...?' - the hardest question type in Part 3.",
+  descriptionVi: "Giải mã 'Người nói có ý gì khi nói...?' - dạng khó nhất Part 3.",
   trapAlerts: [
     { trap: "Choosing the LITERAL meaning", trapVi: "Chọn nghĩa ĐEN", why: "Intent questions test implication, not surface meaning.", whyVi: "Câu hỏi ý định kiểm tra hàm ý, không phải nghĩa đen." },
     { trap: "Ignoring tone of voice", trapVi: "Bỏ qua giọng điệu", why: "Sarcasm, hesitation, surprise change the meaning entirely.", whyVi: "Mỉa mai, ngập ngừng, ngạc nhiên đổi hoàn toàn nghĩa." },
@@ -192,7 +192,7 @@ const part3Intent: ToeicLecture = {
 const part4Announcements: ToeicLecture = {
   id: "toeic-part4-announcements",
   title: "Part 4 Announcement Patterns: Airport, Store, Office",
-  titleVi: "Part 4: Mẫu thông báo công cộng — Sân bay, cửa hàng, văn phòng",
+  titleVi: "Part 4: Mẫu thông báo công cộng - Sân bay, cửa hàng, văn phòng",
   category: "listening",
   parts: ["Part 4"],
   icon: "📢",
@@ -220,7 +220,7 @@ const part4Announcements: ToeicLecture = {
       explanationVi: "Gợi ý trực tiếp: 'khu điện tử'.",
     },
   ],
-  businessContext: "Announcements are everyday business communication — shoppers, employees, travelers all hear them.",
+  businessContext: "Announcements are everyday business communication - shoppers, employees, travelers all hear them.",
   businessContextVi: "Thông báo là giao tiếp công sở hằng ngày.",
   proSpeedTip: "💡 First 10 words = location & purpose. Skip the rest if running out of time.",
   proSpeedTipVi: "💡 10 từ đầu = địa điểm + mục đích. Bỏ phần còn lại nếu hết giờ.",
@@ -240,27 +240,27 @@ const part4Announcements: ToeicLecture = {
 };
 
 // ============================================================
-// 5. Part 5 Word Forms — Suffixes Decoded
+// 5. Part 5 Word Forms - Suffixes Decoded
 // ============================================================
 const part5WordForms: ToeicLecture = {
   id: "toeic-part5-word-forms",
   title: "Part 5 Word Forms: Suffixes Decode Position",
-  titleVi: "Part 5: Hình thức từ — Hậu tố giải mã vị trí",
+  titleVi: "Part 5: Hình thức từ - Hậu tố giải mã vị trí",
   category: "grammar",
   parts: ["Part 5"],
   icon: "🔤",
   duration: "25 min",
   level: "foundation",
   targetScore: "450+",
-  description: "Identify noun/verb/adjective/adverb instantly from suffixes — answer Part 5 word-form questions in 5 seconds.",
-  descriptionVi: "Nhận diện danh/động/tính/trạng từ tức thì qua hậu tố — trả lời Part 5 trong 5 giây.",
+  description: "Identify noun/verb/adjective/adverb instantly from suffixes - answer Part 5 word-form questions in 5 seconds.",
+  descriptionVi: "Nhận diện danh/động/tính/trạng từ tức thì qua hậu tố - trả lời Part 5 trong 5 giây.",
   trapAlerts: [
     { trap: "Confusing -ly adjectives with adverbs", trapVi: "Nhầm tính từ -ly với trạng từ", why: "'Friendly', 'lovely', 'lonely' are ADJECTIVES despite -ly ending.", whyVi: "'Friendly', 'lovely', 'lonely' là TÍNH TỪ dù có -ly." },
   ],
   coreTechnique: [
     { step: 1, title: "Memorize suffix → part of speech map", titleVi: "Thuộc bảng hậu tố → từ loại", description: "Noun: -tion, -ment, -ness, -ity. Verb: -ize, -ate, -ify. Adj: -ful, -ous, -ive, -al. Adv: -ly (most cases).", descriptionVi: "DT: -tion, -ment, -ness, -ity. ĐT: -ize, -ate, -ify. TT: -ful, -ous, -ive, -al. TrT: -ly." },
     { step: 2, title: "Identify the blank's role", titleVi: "Xác định vai trò của chỗ trống", description: "Subject/object → noun. Modifies noun → adjective. Modifies verb/adj → adverb.", descriptionVi: "Chủ ngữ/tân ngữ → DT. Bổ nghĩa DT → TT. Bổ nghĩa ĐT/TT → TrT." },
-    { step: 3, title: "Match form to slot — 5-sec rule", titleVi: "Khớp dạng từ với vị trí — quy tắc 5 giây", description: "If sure within 5s, mark and move on. Don't re-read.", descriptionVi: "Chắc chắn trong 5 giây, chọn và đi. Đừng đọc lại." },
+    { step: 3, title: "Match form to slot - 5-sec rule", titleVi: "Khớp dạng từ với vị trí - quy tắc 5 giây", description: "If sure within 5s, mark and move on. Don't re-read.", descriptionVi: "Chắc chắn trong 5 giây, chọn và đi. Đừng đọc lại." },
   ],
   practiceSet: [
     {
@@ -275,8 +275,8 @@ const part5WordForms: ToeicLecture = {
   ],
   businessContext: "Word-form questions = ~10 of 30 Part 5 questions. Mastering this alone adds 30+ points.",
   businessContextVi: "Câu word-form = ~10/30 câu Part 5. Chỉ luyện cái này đã +30 điểm.",
-  proSpeedTip: "💡 Cover the 4 options. Predict the part of speech FIRST, then match — 2× faster.",
-  proSpeedTipVi: "💡 Che 4 đáp án, đoán từ loại TRƯỚC, rồi khớp — nhanh gấp 2.",
+  proSpeedTip: "💡 Cover the 4 options. Predict the part of speech FIRST, then match - 2× faster.",
+  proSpeedTipVi: "💡 Che 4 đáp án, đoán từ loại TRƯỚC, rồi khớp - nhanh gấp 2.",
   vocabHighlights: [
     { word: "implement (V) → implementation (N)", definition: "to put into effect", definitionVi: "triển khai", example: "We will implement the new system. The implementation took 3 months." },
     { word: "compete (V) → competition (N) → competitive (Adj)", definition: "rivalry", definitionVi: "cạnh tranh", example: "The competitive market demands competition." },
@@ -299,7 +299,7 @@ const part5WordForms: ToeicLecture = {
 const part6Cohesion: ToeicLecture = {
   id: "toeic-part6-cohesion",
   title: "Part 6 Cohesion: The Sentence Insertion Trap",
-  titleVi: "Part 6: Mạch văn — Bẫy chèn câu",
+  titleVi: "Part 6: Mạch văn - Bẫy chèn câu",
   category: "reading",
   parts: ["Part 6"],
   icon: "🧩",
@@ -327,9 +327,9 @@ const part6Cohesion: ToeicLecture = {
       explanationVi: "Nối phàn nàn (trước) và mở rộng (sau).",
     },
   ],
-  businessContext: "Memos, emails, notices — all require coherent flow. This skill transfers directly to writing tasks.",
-  businessContextVi: "Memo, email, thông báo — đều cần mạch văn logic.",
-  proSpeedTip: "💡 If 3 options share a topic word and 1 doesn't — the odd one out is usually wrong; among the 3, pick the one with a connecting transition.",
+  businessContext: "Memos, emails, notices - all require coherent flow. This skill transfers directly to writing tasks.",
+  businessContextVi: "Memo, email, thông báo - đều cần mạch văn logic.",
+  proSpeedTip: "💡 If 3 options share a topic word and 1 doesn't - the odd one out is usually wrong; among the 3, pick the one with a connecting transition.",
   proSpeedTipVi: "💡 3 đáp án cùng từ chủ đề, 1 khác → đáp án khác thường sai; chọn câu có từ nối.",
   vocabHighlights: [
     { word: "moreover", definition: "in addition", definitionVi: "hơn nữa", example: "Moreover, sales increased 20%." },
@@ -353,21 +353,21 @@ const part6Cohesion: ToeicLecture = {
 const part7Not: ToeicLecture = {
   id: "toeic-part7-not-questions",
   title: "Part 7 NOT-Questions: Eliminate, Don't Confirm",
-  titleVi: "Part 7: Câu hỏi NOT — Loại trừ chứ không xác nhận",
+  titleVi: "Part 7: Câu hỏi NOT - Loại trừ chứ không xác nhận",
   category: "reading",
   parts: ["Part 7"],
   icon: "❌",
   duration: "20 min",
   level: "intermediate",
   targetScore: "600+",
-  description: "Master 'Which is NOT mentioned?' questions — the time-sink that derails 30% of test takers.",
-  descriptionVi: "Làm chủ 'Câu nào KHÔNG được đề cập?' — bẫy thời gian khiến 30% thí sinh lệch giờ.",
+  description: "Master 'Which is NOT mentioned?' questions - the time-sink that derails 30% of test takers.",
+  descriptionVi: "Làm chủ 'Câu nào KHÔNG được đề cập?' - bẫy thời gian khiến 30% thí sinh lệch giờ.",
   trapAlerts: [
     { trap: "Trying to confirm the NOT-mentioned option directly", trapVi: "Cố tìm đáp án KHÔNG có", why: "You can't search for what's absent. You must verify what IS present.", whyVi: "Không thể tìm cái không có. Phải xác minh cái CÓ." },
   ],
   coreTechnique: [
-    { step: 1, title: "Convert to 3 elimination tasks", titleVi: "Chuyển thành 3 nhiệm vụ loại trừ", description: "For each of A, B, C, find evidence in passage. Whichever has NO evidence = answer.", descriptionVi: "Với A, B, C — tìm bằng chứng. Cái KHÔNG có = đáp án." },
-    { step: 2, title: "Scan for keywords, not synonyms", titleVi: "Quét từ khóa, không quét từ đồng nghĩa", description: "TOEIC paraphrases — the 'mentioned' options will appear as synonyms.", descriptionVi: "TOEIC dùng từ đồng nghĩa — đáp án 'có' sẽ là từ tương đương." },
+    { step: 1, title: "Convert to 3 elimination tasks", titleVi: "Chuyển thành 3 nhiệm vụ loại trừ", description: "For each of A, B, C, find evidence in passage. Whichever has NO evidence = answer.", descriptionVi: "Với A, B, C - tìm bằng chứng. Cái KHÔNG có = đáp án." },
+    { step: 2, title: "Scan for keywords, not synonyms", titleVi: "Quét từ khóa, không quét từ đồng nghĩa", description: "TOEIC paraphrases - the 'mentioned' options will appear as synonyms.", descriptionVi: "TOEIC dùng từ đồng nghĩa - đáp án 'có' sẽ là từ tương đương." },
     { step: 3, title: "Set 90-second timer", titleVi: "Đặt timer 90 giây", description: "If not solved in 90s, mark B and move on. NOT questions are the slowest type.", descriptionVi: "Quá 90 giây → đánh B và đi. Câu NOT là dạng chậm nhất." },
   ],
   practiceSet: [
@@ -381,7 +381,7 @@ const part7Not: ToeicLecture = {
       explanationVi: "'Bữa ăn miễn phí' không có từ tương đương trong bài.",
     },
   ],
-  businessContext: "Job ads, product descriptions, policy memos all use lists — NOT questions probe attention to detail.",
+  businessContext: "Job ads, product descriptions, policy memos all use lists - NOT questions probe attention to detail.",
   businessContextVi: "Tin tuyển dụng, mô tả sản phẩm, memo chính sách dùng danh sách.",
   proSpeedTip: "💡 NOT-questions take 2× longer. Do them LAST in each passage to protect your time on easier questions.",
   proSpeedTipVi: "💡 Câu NOT mất gấp đôi. Làm CUỐI trong mỗi bài để bảo vệ thời gian.",
@@ -391,7 +391,7 @@ const part7Not: ToeicLecture = {
   ],
   quiz: [
     { question: "Strategy for NOT questions:", options: ["Find what's missing", "Eliminate options that ARE in the passage", "Pick the longest option", "Always pick C"], answer: 1, explanation: "Eliminate-the-present is the only reliable method." },
-    { question: "Time budget per NOT question:", options: ["30 seconds", "60 seconds", "90 seconds max", "Unlimited"], answer: 2, explanation: "Hard cap 90s — guess and move on." },
+    { question: "Time budget per NOT question:", options: ["30 seconds", "60 seconds", "90 seconds max", "Unlimited"], answer: 2, explanation: "Hard cap 90s - guess and move on." },
   ],
   cheatSheetPoints: [
     "🔍 Verify what IS, not what isn't",
@@ -414,10 +414,10 @@ const businessEmailVocab: ToeicLecture = {
   duration: "25 min",
   level: "intermediate",
   targetScore: "600+",
-  description: "Learn the 50 most-tested email phrases — opening lines, requests, closings, and tone-matching.",
-  descriptionVi: "Học 50 cụm email được test nhiều nhất — câu mở, đề nghị, kết thư, khớp tông giọng.",
+  description: "Learn the 50 most-tested email phrases - opening lines, requests, closings, and tone-matching.",
+  descriptionVi: "Học 50 cụm email được test nhiều nhất - câu mở, đề nghị, kết thư, khớp tông giọng.",
   trapAlerts: [
-    { trap: "Using 'Dear Sir/Madam' in an internal email", trapVi: "Dùng 'Dear Sir/Madam' trong email nội bộ", why: "Too formal — TOEIC tests register-matching.", whyVi: "Quá trang trọng — TOEIC kiểm tra mức độ phù hợp." },
+    { trap: "Using 'Dear Sir/Madam' in an internal email", trapVi: "Dùng 'Dear Sir/Madam' trong email nội bộ", why: "Too formal - TOEIC tests register-matching.", whyVi: "Quá trang trọng - TOEIC kiểm tra mức độ phù hợp." },
   ],
   coreTechnique: [
     { step: 1, title: "Identify email type from subject + greeting", titleVi: "Nhận diện loại email từ chủ đề + lời chào", description: "External (formal), internal team (semi-formal), close colleague (informal).", descriptionVi: "Đối ngoại (trang trọng), nội bộ (bán trang trọng), đồng nghiệp thân (thân mật)." },
@@ -494,8 +494,8 @@ const meetingNegotiationVocab: ToeicLecture = {
   ],
   businessContext: "Meeting dialogues are 30% of Part 3/4 content.",
   businessContextVi: "Hội thoại họp chiếm 30% Part 3/4.",
-  proSpeedTip: "💡 'Let's circle back' = revisit later. 'Touch base' = brief check-in. Memorize the 10 idioms — they're tested every test.",
-  proSpeedTipVi: "💡 'Let's circle back' = quay lại sau. 'Touch base' = trao đổi nhanh. Học 10 thành ngữ — luôn xuất hiện.",
+  proSpeedTip: "💡 'Let's circle back' = revisit later. 'Touch base' = brief check-in. Memorize the 10 idioms - they're tested every test.",
+  proSpeedTipVi: "💡 'Let's circle back' = quay lại sau. 'Touch base' = trao đổi nhanh. Học 10 thành ngữ - luôn xuất hiện.",
   vocabHighlights: [
     { word: "agenda", definition: "list of meeting topics", definitionVi: "chương trình họp", example: "Today's agenda has 5 items." },
     { word: "minutes", definition: "written meeting record", definitionVi: "biên bản họp", example: "Sarah will take the minutes." },
@@ -529,8 +529,8 @@ const score900Mindset: ToeicLecture = {
   duration: "20 min",
   level: "advanced",
   targetScore: "900+",
-  description: "Beyond skills — the test-day strategy used by 990 scorers: pacing per part, triage rules, confidence anchors.",
-  descriptionVi: "Vượt kỹ năng — chiến lược ngày thi của thí sinh 990: nhịp độ/phần, quy tắc phân loại, neo tự tin.",
+  description: "Beyond skills - the test-day strategy used by 990 scorers: pacing per part, triage rules, confidence anchors.",
+  descriptionVi: "Vượt kỹ năng - chiến lược ngày thi của thí sinh 990: nhịp độ/phần, quy tắc phân loại, neo tự tin.",
   trapAlerts: [
     { trap: "Re-checking answers when finishing early", trapVi: "Xem lại bài khi xong sớm", why: "Statistics show 60% of changes go from RIGHT to WRONG.", whyVi: "Thống kê: 60% sửa đổi đi từ ĐÚNG sang SAI." },
     { trap: "Spending >75 sec on a single Part 5 question", trapVi: "Mất >75 giây cho một câu Part 5", why: "Breaks pacing for the entire Reading section.", whyVi: "Phá nhịp cả phần Reading." },

@@ -63,9 +63,9 @@ In Finnish, possession can be expressed with possessive suffixes added to the en
           },
         ],
         quiz: [
-          { question: "'Minun kirjani' — mikä on omistusliite?", options: ["-ni", "-si", "-nsa", "-mme"], answer: 0, explanation: "Minä → -ni: kirjani" },
+          { question: "'Minun kirjani' - mikä on omistusliite?", options: ["-ni", "-si", "-nsa", "-mme"], answer: 0, explanation: "Minä → -ni: kirjani" },
           { question: "Täydennä: 'Missä on avain___?' (sinä)", options: ["-ni", "-si", "-nsa", "-mme"], answer: 1, explanation: "Sinä → -si: avaimesi" },
-          { question: "'Meidän talomme' — mikä suffiksi?", options: ["-nne", "-mme", "-nsa", "-ni"], answer: 1, explanation: "Me → -mme: talomme" },
+          { question: "'Meidän talomme' - mikä suffiksi?", options: ["-nne", "-mme", "-nsa", "-ni"], answer: 1, explanation: "Me → -mme: talomme" },
           { question: "Valitse oikea: 'Hän otti ___ (his bag)'", options: ["laukkunsa", "laukkuni", "laukkumme", "laukkunne"], answer: 0, explanation: "Hän → -nsa: laukkunsa" },
         ],
       },
@@ -87,7 +87,7 @@ In Finnish, possession can be expressed with possessive suffixes added to the en
         titleEn: "Rection Basics",
         icon: "📐",
         level: "A2",
-        theory: `### Rektio — Verbin vaatima sija
+        theory: `### Rektio - Verbin vaatima sija
 
 Jokaisella verbillä on oma rektionsa. Se tarkoittaa, että verbi vaatii tietyn sijamuodon.
 
@@ -109,7 +109,7 @@ Jokaisella verbillä on oma rektionsa. Se tarkoittaa, että verbi vaatii tietyn 
 **Allatiivi (-lle):**
 - soittaa + allatiivi → Soitan **kaverille**.
 - kertoa + allatiivi → Kerron **opettajalle**.`,
-        theoryEn: `### Verb Rection — Which case does the verb require?
+        theoryEn: `### Verb Rection - Which case does the verb require?
 
 Each Finnish verb requires a specific grammatical case for its object or complement.
 
@@ -141,7 +141,7 @@ Each Finnish verb requires a specific grammatical case for its object or complem
           },
         ],
         quiz: [
-          { question: "'Pidän ___' (kahvi) — mikä sija?", options: ["kahvia", "kahvista", "kahviin", "kahville"], answer: 1, explanation: "pitää + elatiivi → kahvista" },
+          { question: "'Pidän ___' (kahvi) - mikä sija?", options: ["kahvia", "kahvista", "kahviin", "kahville"], answer: 1, explanation: "pitää + elatiivi → kahvista" },
           { question: "'Odotan ___' (bussi)", options: ["bussista", "bussiin", "bussia", "bussille"], answer: 2, explanation: "odottaa + partitiivi → bussia" },
           { question: "'Soitan ___' (kaveri)", options: ["kaveria", "kaverista", "kaveriin", "kaverille"], answer: 3, explanation: "soittaa + allatiivi → kaverille" },
           { question: "'Tutustun ___' (kaupunki)", options: ["kaupunkia", "kaupungista", "kaupunkiin", "kaupungille"], answer: 2, explanation: "tutustua + illatiivi → kaupunkiin" },
@@ -174,15 +174,15 @@ Suomen kielen perus sanajärjestys on **SVO** (Subjekti – Verbi – Objekti), 
 - **Koira juoksee puistossa.** (The dog runs in the park.)
 
 **Kysymyslause:**
-- **Luetko sinä kirjaa?** (Do you read a book?) — Verbi ensin!
-- **Missä sinä asut?** (Where do you live?) — Kysymyssana ensin.
+- **Luetko sinä kirjaa?** (Do you read a book?) - Verbi ensin!
+- **Missä sinä asut?** (Where do you live?) - Kysymyssana ensin.
 
 **Kielteinen lause:**
 - **Minä en lue kirjaa.** (I don't read a book.)
 - **Hän ei asu Helsingissä.** (He/she doesn't live in Helsinki.)
 
 **Painotus (korostaminen):**
-- **Kirjaa minä luen.** (It's a book that I read.) — Objekti ensin = painotus.
+- **Kirjaa minä luen.** (It's a book that I read.) - Objekti ensin = painotus.
 - **Helsingissä minä asun.** (It's in Helsinki that I live.)`,
         theoryEn: `### Finnish Word Order
 
@@ -219,7 +219,7 @@ Basic word order is **SVO** (Subject – Verb – Object), but flexible.
         quiz: [
           { question: "Mikä on suomen perus sanajärjestys?", options: ["SOV", "VSO", "SVO", "OVS"], answer: 2, explanation: "Suomen perus sanajärjestys on SVO." },
           { question: "Miten muodostetaan kyllä/ei-kysymys?", options: ["Subjekti ensin", "Verbi ensin", "Objekti ensin", "Adverbi ensin"], answer: 1, explanation: "Kyllä/ei-kysymyksissä verbi tulee ensin: Puhutko suomea?" },
-          { question: "Mikä on oikein: 'Missä ___ asut?'", options: ["sinä", "asutko", "asut sinä", "sinä asut"], answer: 0, explanation: "Missä sinä asut? — kysymyssana + subjekti + verbi" },
+          { question: "Mikä on oikein: 'Missä ___ asut?'", options: ["sinä", "asutko", "asut sinä", "sinä asut"], answer: 0, explanation: "Missä sinä asut? - kysymyssana + subjekti + verbi" },
           { question: "'Minä en ___ suomea.' (puhua)", options: ["puhun", "puhu", "puhui", "puhua"], answer: 1, explanation: "Kielteisessä: en + verbin vartalo: en puhu" },
         ],
       },
@@ -335,15 +335,15 @@ Suomen kielen opettaja`,
         level: "A2",
         theory: `### Kuuntele dialogi ja vastaa kysymyksiin.
 
-— Hyvää päivää. Mikä vaivaa?
-— Päivää. Minulla on kova päänsärky ja kuumetta.
-— Kuinka kauan oireet ovat kestäneet?
-— Kolme päivää.
-— Onko sinulla yskää tai nuhaa?
-— Kyllä, yskää on vähän.
-— Selvä. Kirjoitan sinulle reseptin. Ota lääkettä kaksi kertaa päivässä. Ja lepää hyvin.
-— Kiitos, lääkäri.
-— Ole hyvä. Jos kuume ei laske viikossa, tule uudelleen.
+- Hyvää päivää. Mikä vaivaa?
+- Päivää. Minulla on kova päänsärky ja kuumetta.
+- Kuinka kauan oireet ovat kestäneet?
+- Kolme päivää.
+- Onko sinulla yskää tai nuhaa?
+- Kyllä, yskää on vähän.
+- Selvä. Kirjoitan sinulle reseptin. Ota lääkettä kaksi kertaa päivässä. Ja lepää hyvin.
+- Kiitos, lääkäri.
+- Ole hyvä. Jos kuume ei laske viikossa, tule uudelleen.
 
 **Sanasto:**
 - vaivaa = ails / is wrong

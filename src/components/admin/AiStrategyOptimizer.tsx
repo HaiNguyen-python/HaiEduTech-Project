@@ -1,4 +1,4 @@
-// AI Strategy Optimizer — integrated into BusinessStrategyTab
+// AI Strategy Optimizer - integrated into BusinessStrategyTab
 // Features: AI Forecaster, Dynamic Pricing, Market Intel (Perplexity), Executive Report, Chat, What-if slider, Hot Leads
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";

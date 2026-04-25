@@ -24,9 +24,9 @@ export const satExpansionModules2: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "SAT thường giấu chủ ngữ thật sau các cụm giới từ, mệnh đề quan hệ, hoặc danh từ tập hợp (collective nouns). Quy tắc cốt lõi: động từ phải hòa hợp với CHỦ NGỮ THẬT, không phải danh từ gần nó nhất.\n\n**1. Cụm chen giữa (Intervening phrases):** 'The box of chocolates IS on the table.' (chủ ngữ là 'box', không phải 'chocolates').\n\n**2. Danh từ tập hợp (Collective nouns):** team, family, committee, jury — thường dùng số ít trong SAT: 'The committee HAS decided.'\n\n**3. Đại từ bất định (Indefinite pronouns):** everyone, anyone, each, neither, either → SỐ ÍT. 'Each of the students IS responsible.'\n\n**4. 'Either... or' / 'Neither... nor':** động từ chia theo CHỦ NGỮ GẦN HƠN. 'Neither the teacher nor the students ARE here.'",
+          "SAT thường giấu chủ ngữ thật sau các cụm giới từ, mệnh đề quan hệ, hoặc danh từ tập hợp (collective nouns). Quy tắc cốt lõi: động từ phải hòa hợp với CHỦ NGỮ THẬT, không phải danh từ gần nó nhất.\n\n**1. Cụm chen giữa (Intervening phrases):** 'The box of chocolates IS on the table.' (chủ ngữ là 'box', không phải 'chocolates').\n\n**2. Danh từ tập hợp (Collective nouns):** team, family, committee, jury - thường dùng số ít trong SAT: 'The committee HAS decided.'\n\n**3. Đại từ bất định (Indefinite pronouns):** everyone, anyone, each, neither, either → SỐ ÍT. 'Each of the students IS responsible.'\n\n**4. 'Either... or' / 'Neither... nor':** động từ chia theo CHỦ NGỮ GẦN HƠN. 'Neither the teacher nor the students ARE here.'",
         theoryEn:
-          "The SAT often hides the true subject behind prepositional phrases, relative clauses, or collective nouns. Core rule: the verb must agree with the TRUE subject, not the nearest noun.\n\n**1. Intervening phrases:** 'The box of chocolates IS on the table.' (subject = 'box').\n\n**2. Collective nouns:** team, family, committee, jury — usually singular on the SAT.\n\n**3. Indefinite pronouns:** everyone, anyone, each, neither, either → SINGULAR.\n\n**4. 'Either... or' / 'Neither... nor':** verb agrees with the CLOSER subject.",
+          "The SAT often hides the true subject behind prepositional phrases, relative clauses, or collective nouns. Core rule: the verb must agree with the TRUE subject, not the nearest noun.\n\n**1. Intervening phrases:** 'The box of chocolates IS on the table.' (subject = 'box').\n\n**2. Collective nouns:** team, family, committee, jury - usually singular on the SAT.\n\n**3. Indefinite pronouns:** everyone, anyone, each, neither, either → SINGULAR.\n\n**4. 'Either... or' / 'Neither... nor':** verb agrees with the CLOSER subject.",
         proTips: [
           "Gạch chéo cụm giới từ chen giữa để lộ chủ ngữ thật.",
           "Danh từ tập hợp = số ít trên SAT (99% trường hợp).",
@@ -103,9 +103,9 @@ export const satExpansionModules2: LanguageModule[] = [
         theory:
           "SAT kiểm tra 3 lỗi đại từ chính:\n\n**1. Antecedent mơ hồ:** 'When Sara met Lisa, she smiled' → 'she' chỉ ai? SAT sẽ chấm điểm phương án viết lại rõ ràng.\n\n**2. Hòa hợp về số:** 'A student should bring THEIR book' → SAT chấp nhận 'their' singular hoặc viết lại 'Students should bring THEIR books.'\n\n**3. Who vs Whom:** Who = chủ ngữ; Whom = tân ngữ. Mẹo: thay he/him → he = who, him = whom.\n\n**4. That vs Which:**\n- That: mệnh đề xác định, KHÔNG dấu phẩy.\n- Which: mệnh đề bổ sung, CÓ dấu phẩy.\n'The book that I read was great.' / 'The book, which I read yesterday, was great.'",
         theoryEn:
-          "The SAT tests three pronoun errors:\n\n**1. Ambiguous antecedent:** 'When Sara met Lisa, she smiled' — who is 'she'?\n\n**2. Number agreement:** 'A student should bring their book' — modern SAT accepts singular 'they' or rewrite plural.\n\n**3. Who vs Whom:** Trick: replace with he/him → he = who, him = whom.\n\n**4. That vs Which:**\n- That = restrictive (no comma).\n- Which = nonrestrictive (with commas).",
+          "The SAT tests three pronoun errors:\n\n**1. Ambiguous antecedent:** 'When Sara met Lisa, she smiled' - who is 'she'?\n\n**2. Number agreement:** 'A student should bring their book' - modern SAT accepts singular 'they' or rewrite plural.\n\n**3. Who vs Whom:** Trick: replace with he/him → he = who, him = whom.\n\n**4. That vs Which:**\n- That = restrictive (no comma).\n- Which = nonrestrictive (with commas).",
         proTips: [
-          "Mỗi đại từ cần MỘT antecedent rõ ràng — nếu có hai danh từ phù hợp, viết lại.",
+          "Mỗi đại từ cần MỘT antecedent rõ ràng - nếu có hai danh từ phù hợp, viết lại.",
           "Mẹo who/whom: thay thế bằng he/him.",
           "That = không phẩy. Which = có phẩy.",
         ],
@@ -182,12 +182,12 @@ export const satExpansionModules2: LanguageModule[] = [
         theoryEn:
           "**Dangling modifier:** An opening modifier phrase must modify the SUBJECT right after the comma.\n\n❌ 'Walking down the street, the trees were beautiful.' (Trees can't walk!)\n✅ 'Walking down the street, I saw beautiful trees.'\n\n**Misplaced modifier:** Place modifiers near the words they modify.\n\n**SAT golden rule:** After an opening participial phrase (Walking, Having seen, To succeed...), the next SUBJECT must be the doer.",
         proTips: [
-          "Sau dấu phẩy mở đầu, hỏi: 'Ai đang làm hành động này?' — đó phải là chủ ngữ.",
+          "Sau dấu phẩy mở đầu, hỏi: 'Ai đang làm hành động này?' - đó phải là chủ ngữ.",
           "Almost / only / just đặt ngay TRƯỚC từ chúng bổ nghĩa.",
           "Khi thấy '-ing' mở đầu câu, kiểm tra ngay chủ ngữ tiếp theo.",
         ],
         proTipsEn: [
-          "After an opening comma, ask: 'Who is doing this?' — that must be the subject.",
+          "After an opening comma, ask: 'Who is doing this?' - that must be the subject.",
           "Almost / only / just go right BEFORE the word they modify.",
           "Always check the subject after an '-ing' opener.",
         ],
@@ -220,7 +220,7 @@ export const satExpansionModules2: LanguageModule[] = [
               "Walking to school, my backpack got wet.",
             ],
             answer: 1,
-            explanation: "'I' is the one walking — the modifier matches the subject.",
+            explanation: "'I' is the one walking - the modifier matches the subject.",
           },
           {
             question: "Pick the best version:",
@@ -242,7 +242,7 @@ export const satExpansionModules2: LanguageModule[] = [
               "Having finished the test, time passed quickly.",
             ],
             answer: 1,
-            explanation: "'The students' did the finishing — modifier matches subject.",
+            explanation: "'The students' did the finishing - modifier matches subject.",
           },
         ],
       },
@@ -255,14 +255,14 @@ export const satExpansionModules2: LanguageModule[] = [
         theory:
           "Khi liệt kê hoặc so sánh, các phần phải có CÙNG DẠNG NGỮ PHÁP.\n\n**1. Trong danh sách:**\n❌ 'I like swimming, hiking, and to bike.'\n✅ 'I like swimming, hiking, and biking.'\n\n**2. So sánh:**\n❌ 'Reading is more fun than to watch TV.'\n✅ 'Reading is more fun than watching TV.'\n\n**3. Liên từ tương quan (Correlative conjunctions): both...and / either...or / neither...nor / not only...but also**\nDạng sau từ thứ nhất phải GIỐNG dạng sau từ thứ hai.\n❌ 'She is not only smart but also works hard.'\n✅ 'She is not only smart but also hardworking.'\n\n**4. Giới từ song song:**\n❌ 'I'm interested in art and history.' (OK)\n❌ 'I succeeded by working hard and luck.'\n✅ 'I succeeded by working hard and by being lucky.'",
         theoryEn:
-          "When listing or comparing, items must share the SAME GRAMMATICAL FORM.\n\n**1. In lists:** Match -ing with -ing, infinitive with infinitive.\n\n**2. Comparisons:** Match nouns with nouns, gerunds with gerunds.\n\n**3. Correlative conjunctions:** both...and / either...or / not only...but also — what follows each must mirror the other.\n\n**4. Parallel prepositions:** repeat the preposition for clarity.",
+          "When listing or comparing, items must share the SAME GRAMMATICAL FORM.\n\n**1. In lists:** Match -ing with -ing, infinitive with infinitive.\n\n**2. Comparisons:** Match nouns with nouns, gerunds with gerunds.\n\n**3. Correlative conjunctions:** both...and / either...or / not only...but also - what follows each must mirror the other.\n\n**4. Parallel prepositions:** repeat the preposition for clarity.",
         proTips: [
-          "Đếm các mục trong danh sách — tất cả phải cùng loại từ.",
+          "Đếm các mục trong danh sách - tất cả phải cùng loại từ.",
           "Sau 'not only' đến đâu thì sau 'but also' đến đó.",
           "So sánh giữa danh từ với danh từ, hành động với hành động.",
         ],
         proTipsEn: [
-          "Count items in a list — all must be the same word class.",
+          "Count items in a list - all must be the same word class.",
           "Whatever follows 'not only' must mirror what follows 'but also'.",
           "Compare noun to noun, action to action.",
         ],
@@ -416,16 +416,16 @@ export const satExpansionModules2: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "SAT thường hỏi về 'tone' (giọng văn) — tính từ giúp bạn xác định nhanh.\n\n**Tích cực:** pragmatic, meticulous, judicious, astute.\n**Tiêu cực:** ambiguous, ephemeral, dubious, superfluous.\n**Trung lập/phân tích:** inherent, nuanced, paradoxical, intrinsic.\n\nMẹo: nếu câu hỏi yêu cầu 'tone of the passage', loại bỏ ngay các đáp án có tính từ cực đoan (ecstatic, contemptuous) — SAT hiếm khi chọn các tính từ quá mạnh.",
+          "SAT thường hỏi về 'tone' (giọng văn) - tính từ giúp bạn xác định nhanh.\n\n**Tích cực:** pragmatic, meticulous, judicious, astute.\n**Tiêu cực:** ambiguous, ephemeral, dubious, superfluous.\n**Trung lập/phân tích:** inherent, nuanced, paradoxical, intrinsic.\n\nMẹo: nếu câu hỏi yêu cầu 'tone of the passage', loại bỏ ngay các đáp án có tính từ cực đoan (ecstatic, contemptuous) - SAT hiếm khi chọn các tính từ quá mạnh.",
         theoryEn:
-          "The SAT often asks about tone — adjectives help you decide fast.\n\n**Positive:** pragmatic, meticulous, judicious, astute.\n**Negative:** ambiguous, ephemeral, dubious, superfluous.\n**Neutral/analytical:** inherent, nuanced, paradoxical, intrinsic.",
+          "The SAT often asks about tone - adjectives help you decide fast.\n\n**Positive:** pragmatic, meticulous, judicious, astute.\n**Negative:** ambiguous, ephemeral, dubious, superfluous.\n**Neutral/analytical:** inherent, nuanced, paradoxical, intrinsic.",
         proTips: [
-          "SAT tránh tone cực đoan — chọn tone vừa phải.",
+          "SAT tránh tone cực đoan - chọn tone vừa phải.",
           "Học 5 cặp đối nghĩa: pragmatic ↔ idealistic, meticulous ↔ careless.",
           "Gạch chân tính từ chính trong câu chủ đề khi đọc.",
         ],
         proTipsEn: [
-          "SAT avoids extreme tones — pick moderate ones.",
+          "SAT avoids extreme tones - pick moderate ones.",
           "Learn 5 antonym pairs.",
           "Underline key adjectives in topic sentences.",
         ],
@@ -554,11 +554,11 @@ export const satExpansionModules2: LanguageModule[] = [
         theory:
           "Từ nối là 'kim chỉ nam' của SAT Reading & Writing. Chúng cho biết hướng đi của câu/đoạn.\n\n**Đối lập:** however, nevertheless, notwithstanding, albeit.\n**Bổ sung:** moreover, furthermore, henceforth, likewise.\n**Nguyên nhân/Kết quả:** consequently, thus, hence, therefore.\n**Sắc thái nghi vấn:** ostensibly, supposedly, allegedly, presumably.\n\nKhi SAT yêu cầu chọn từ nối, hãy hỏi: 'Câu này CÙNG HƯỚNG hay NGƯỢC HƯỚNG với câu trước?'",
         theoryEn:
-          "Transitions are signposts in SAT Reading & Writing — they show the direction of ideas.\n\n**Contrast:** however, nevertheless, notwithstanding, albeit.\n**Addition:** moreover, furthermore, henceforth, likewise.\n**Cause/Effect:** consequently, thus, hence, therefore.\n**Skeptical tone:** ostensibly, supposedly, allegedly, presumably.",
+          "Transitions are signposts in SAT Reading & Writing - they show the direction of ideas.\n\n**Contrast:** however, nevertheless, notwithstanding, albeit.\n**Addition:** moreover, furthermore, henceforth, likewise.\n**Cause/Effect:** consequently, thus, hence, therefore.\n**Skeptical tone:** ostensibly, supposedly, allegedly, presumably.",
         proTips: [
           "Trước khi chọn transition, vẽ mũi tên: → cùng hướng, ↔ ngược hướng.",
           "'Ostensibly' = bề ngoài có vẻ nhưng thực ra... (gợi ý phản đề sau đó).",
-          "Notwithstanding = mặc dù — mạnh và trang trọng hơn 'although'.",
+          "Notwithstanding = mặc dù - mạnh và trang trọng hơn 'although'.",
         ],
         proTipsEn: [
           "Draw an arrow before choosing: → same direction, ↔ contrast.",
@@ -626,8 +626,8 @@ export const satExpansionModules2: LanguageModule[] = [
     titleEn: "SAT Punctuation & Mechanics",
     icon: "✏️",
     color: "violet",
-    description: "Quy tắc dấu phẩy, chấm phẩy, hai chấm, dấu nháy đơn, gạch ngang — kiểu câu hỏi hay xuất hiện nhất trên SAT Writing.",
-    descriptionEn: "Master commas, semicolons, colons, apostrophes, and dashes — the most-tested SAT Writing topics.",
+    description: "Quy tắc dấu phẩy, chấm phẩy, hai chấm, dấu nháy đơn, gạch ngang - kiểu câu hỏi hay xuất hiện nhất trên SAT Writing.",
+    descriptionEn: "Master commas, semicolons, colons, apostrophes, and dashes - the most-tested SAT Writing topics.",
     category: "sat",
     language: "english",
     lessons: [
@@ -642,12 +642,12 @@ export const satExpansionModules2: LanguageModule[] = [
         theoryEn:
           "**Commas:** before FANBOYS connecting clauses, after intro phrases, in lists, around nonrestrictive info.\n\n**Semicolons:** join two independent clauses; separate items containing commas.\n\n**Colons:** introduce list/explanation after a complete clause.",
         proTips: [
-          "Chấm phẩy = dấu chấm yếu — hai bên phải đứng độc lập.",
+          "Chấm phẩy = dấu chấm yếu - hai bên phải đứng độc lập.",
           "Trước hai chấm phải là MỘT CÂU HOÀN CHỈNH.",
           "Comma splice (nối hai mệnh đề chỉ bằng dấu phẩy) = SAI.",
         ],
         proTipsEn: [
-          "Semicolon = weak period — both sides must stand alone.",
+          "Semicolon = weak period - both sides must stand alone.",
           "Before a colon must be a COMPLETE sentence.",
           "Comma splice = WRONG.",
         ],
@@ -721,7 +721,7 @@ export const satExpansionModules2: LanguageModule[] = [
         proTips: [
           "ITS = sở hữu, IT'S = it is. Test: thay 'it is' xem có hợp không.",
           "Đại từ sở hữu KHÔNG BAO GIỜ có nháy: hers, ours, theirs, its.",
-          "Tên kết thúc bằng s: thường vẫn thêm 's (James's book) — SAT chấp nhận cả hai.",
+          "Tên kết thúc bằng s: thường vẫn thêm 's (James's book) - SAT chấp nhận cả hai.",
         ],
         proTipsEn: [
           "ITS = possessive, IT'S = it is. Substitute 'it is' to test.",
@@ -741,7 +741,7 @@ export const satExpansionModules2: LanguageModule[] = [
             instruction: "Điền dạng đúng (its / it's / their / they're / there / your / you're).",
             instructionEn: "Fill in the correct form.",
             sentences: [
-              { text: "The dog wagged ___ tail.", textEn: "The dog wagged ___ tail.", answer: "its", hint: "Sở hữu — không nháy." },
+              { text: "The dog wagged ___ tail.", textEn: "The dog wagged ___ tail.", answer: "its", hint: "Sở hữu - không nháy." },
               { text: "___ going to rain tomorrow.", textEn: "___ going to rain tomorrow.", answer: "It's", hint: "It is = ?" },
               { text: "The students forgot ___ books.", textEn: "The students forgot ___ books.", answer: "their", hint: "Sở hữu của họ." },
               { text: "___ welcome to join us.", textEn: "___ welcome to join us.", answer: "You're", hint: "You are = ?" },
@@ -792,16 +792,16 @@ export const satExpansionModules2: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "**1. Gạch ngang dài (—) cô lập thông tin nonessential:** \n'My brother — who lives in NY — called.'\n→ Có thể thay bằng dấu phẩy hoặc ngoặc đơn.\n\n**Quy tắc cặp:** Hai dấu phải KHỚP NHAU — nếu mở bằng gạch ngang, đóng bằng gạch ngang. KHÔNG trộn '— , —' hoặc ', — ,'.\n\n**2. Ngoặc đơn ( ):** thông tin phụ, ít quan trọng hơn dấu phẩy.\n'The author (a Nobel laureate) gave a speech.'\n\n**3. Gạch ngang đơn để giới thiệu:**\n'I have one goal — to win.'\n→ Tương đương dấu hai chấm.\n\n**SAT thường gài bẫy:** trộn dấu mở/đóng khác loại. Luôn kiểm tra cặp đối xứng.",
+          "**1. Gạch ngang dài (-) cô lập thông tin nonessential:** \n'My brother - who lives in NY - called.'\n→ Có thể thay bằng dấu phẩy hoặc ngoặc đơn.\n\n**Quy tắc cặp:** Hai dấu phải KHỚP NHAU - nếu mở bằng gạch ngang, đóng bằng gạch ngang. KHÔNG trộn '- , -' hoặc ', - ,'.\n\n**2. Ngoặc đơn ( ):** thông tin phụ, ít quan trọng hơn dấu phẩy.\n'The author (a Nobel laureate) gave a speech.'\n\n**3. Gạch ngang đơn để giới thiệu:**\n'I have one goal - to win.'\n→ Tương đương dấu hai chấm.\n\n**SAT thường gài bẫy:** trộn dấu mở/đóng khác loại. Luôn kiểm tra cặp đối xứng.",
         theoryEn:
-          "**Em-dashes (—)** isolate nonessential info — must be PAIRED (— ... —), not mixed with commas.\n\n**Parentheses ( )** add subordinate info.\n\n**Single dash** can introduce, like a colon.\n\nSAT trap: mismatched opening/closing punctuation.",
+          "**Em-dashes (-)** isolate nonessential info - must be PAIRED (- ... -), not mixed with commas.\n\n**Parentheses ( )** add subordinate info.\n\n**Single dash** can introduce, like a colon.\n\nSAT trap: mismatched opening/closing punctuation.",
         proTips: [
           "Mở bằng gạch ngang → đóng bằng gạch ngang. Không trộn.",
           "Ngoặc đơn = thầm thì (whisper); gạch ngang = nhấn mạnh (shout).",
           "Một gạch ngang đơn = colon thay thế.",
         ],
         proTipsEn: [
-          "Match dashes with dashes — never mix.",
+          "Match dashes with dashes - never mix.",
           "Parentheses whisper; dashes shout.",
           "Single dash can replace a colon.",
         ],
@@ -815,14 +815,14 @@ export const satExpansionModules2: LanguageModule[] = [
         exercises: [
           {
             type: "fill-in-blank",
-            instruction: "Chọn dấu câu đúng để hoàn thành cặp (—, , hoặc )).",
+            instruction: "Chọn dấu câu đúng để hoàn thành cặp (-, , hoặc )).",
             instructionEn: "Choose the correct punctuation to complete the pair.",
             sentences: [
-              { text: "The book — a bestseller in 2020 ___ won three awards.", textEn: "The book — a bestseller in 2020 ___ won three awards.", answer: "—", hint: "Mở bằng gạch ngang → đóng bằng gạch ngang." },
+              { text: "The book - a bestseller in 2020 ___ won three awards.", textEn: "The book - a bestseller in 2020 ___ won three awards.", answer: "-", hint: "Mở bằng gạch ngang → đóng bằng gạch ngang." },
               { text: "My friend, an artist ___ paints landscapes.", textEn: "My friend, an artist ___ paints landscapes.", answer: ",", hint: "Mở bằng phẩy → đóng bằng phẩy." },
               { text: "The result (after months of work ___ surprised everyone.", textEn: "The result (after months of work ___ surprised everyone.", answer: ")", hint: "Mở ngoặc → đóng ngoặc." },
-              { text: "I have one wish — to travel the world ___", textEn: "I have one wish — to travel the world ___", answer: ".", hint: "Gạch ngang đơn không cần đóng cặp." },
-              { text: "She — despite the obstacles ___ never gave up.", textEn: "She — despite the obstacles ___ never gave up.", answer: "—", hint: "Cặp gạch ngang." },
+              { text: "I have one wish - to travel the world ___", textEn: "I have one wish - to travel the world ___", answer: ".", hint: "Gạch ngang đơn không cần đóng cặp." },
+              { text: "She - despite the obstacles ___ never gave up.", textEn: "She - despite the obstacles ___ never gave up.", answer: "-", hint: "Cặp gạch ngang." },
             ],
           },
         ],
@@ -830,13 +830,13 @@ export const satExpansionModules2: LanguageModule[] = [
           {
             question: "Which is correctly punctuated?",
             options: [
-              "The plan — though risky, was approved.",
-              "The plan, though risky — was approved.",
-              "The plan — though risky — was approved.",
-              "The plan, though risky, — was approved.",
+              "The plan - though risky, was approved.",
+              "The plan, though risky - was approved.",
+              "The plan - though risky - was approved.",
+              "The plan, though risky, - was approved.",
             ],
             answer: 2,
-            explanation: "Dashes must be paired — both sides match.",
+            explanation: "Dashes must be paired - both sides match.",
           },
           {
             question: "Choose the correct sentence:",
@@ -844,7 +844,7 @@ export const satExpansionModules2: LanguageModule[] = [
               "The author (a Nobel laureate, gave a speech.",
               "The author (a Nobel laureate) gave a speech.",
               "The author a Nobel laureate) gave a speech.",
-              "The author — a Nobel laureate) gave a speech.",
+              "The author - a Nobel laureate) gave a speech.",
             ],
             answer: 1,
             explanation: "Parentheses must come in pairs.",
@@ -852,10 +852,10 @@ export const satExpansionModules2: LanguageModule[] = [
           {
             question: "Which best uses a single dash?",
             options: [
-              "I want — only one thing — peace.",
-              "I want one thing — peace.",
-              "I want, one thing — peace.",
-              "I want one thing, peace —.",
+              "I want - only one thing - peace.",
+              "I want one thing - peace.",
+              "I want, one thing - peace.",
+              "I want one thing, peace -.",
             ],
             answer: 1,
             explanation: "A single dash can introduce information like a colon.",
@@ -886,16 +886,16 @@ export const satExpansionModules2: LanguageModule[] = [
         level: 4,
         difficulty: "advanced",
         theory:
-          "**Mục đích tác giả (Purpose)** thường rơi vào 4 nhóm: \n- **Inform** (thông tin): trình bày sự thật, dữ liệu.\n- **Persuade** (thuyết phục): muốn người đọc đồng ý.\n- **Analyze** (phân tích): chia nhỏ để hiểu.\n- **Critique** (phê bình): đánh giá ưu/nhược.\n\n**Giọng văn (Tone)** thể hiện qua TỪ NGỮ:\n- Tích cực: optimistic, admiring, enthusiastic.\n- Tiêu cực: skeptical, critical, dismissive.\n- Trung lập: objective, analytical, descriptive.\n- Cảm xúc: nostalgic, melancholic, hopeful.\n\n**Mẹo SAT:** loại các đáp án có tone CỰC ĐOAN (furious, ecstatic) — tác giả học thuật hiếm khi dùng tone này.",
+          "**Mục đích tác giả (Purpose)** thường rơi vào 4 nhóm: \n- **Inform** (thông tin): trình bày sự thật, dữ liệu.\n- **Persuade** (thuyết phục): muốn người đọc đồng ý.\n- **Analyze** (phân tích): chia nhỏ để hiểu.\n- **Critique** (phê bình): đánh giá ưu/nhược.\n\n**Giọng văn (Tone)** thể hiện qua TỪ NGỮ:\n- Tích cực: optimistic, admiring, enthusiastic.\n- Tiêu cực: skeptical, critical, dismissive.\n- Trung lập: objective, analytical, descriptive.\n- Cảm xúc: nostalgic, melancholic, hopeful.\n\n**Mẹo SAT:** loại các đáp án có tone CỰC ĐOAN (furious, ecstatic) - tác giả học thuật hiếm khi dùng tone này.",
         theoryEn:
           "**Purpose** usually falls into Inform / Persuade / Analyze / Critique.\n\n**Tone** is revealed through WORD CHOICE.\n\n**SAT trick:** eliminate extreme tones (furious, ecstatic).",
         proTips: [
-          "Đọc câu đầu và câu cuối — chúng tiết lộ purpose.",
+          "Đọc câu đầu và câu cuối - chúng tiết lộ purpose.",
           "Gạch chân tính từ và trạng từ để xác định tone.",
           "Loại các đáp án 'too strong' hoặc 'too weak'.",
         ],
         proTipsEn: [
-          "Read the first and last sentences — they reveal purpose.",
+          "Read the first and last sentences - they reveal purpose.",
           "Underline adjectives/adverbs to find tone.",
           "Eliminate too-strong or too-weak options.",
         ],
@@ -912,11 +912,11 @@ export const satExpansionModules2: LanguageModule[] = [
             instruction: "Đọc câu và xác định tone (objective / skeptical / admiring / critical).",
             instructionEn: "Identify the tone (objective / skeptical / admiring / critical).",
             sentences: [
-              { text: "'The data clearly shows a 15% increase.' — tone: ___", textEn: "'The data clearly shows a 15% increase.' — tone: ___", answer: "objective", hint: "Trình bày sự thật." },
-              { text: "'Such an unfounded claim deserves scrutiny.' — tone: ___", textEn: "'Such an unfounded claim deserves scrutiny.' — tone: ___", answer: "skeptical", hint: "Nghi ngờ." },
-              { text: "'Her brilliant insight transformed the field.' — tone: ___", textEn: "'Her brilliant insight transformed the field.' — tone: ___", answer: "admiring", hint: "Khen ngợi." },
-              { text: "'The policy is poorly designed and inefficient.' — tone: ___", textEn: "'The policy is poorly designed and inefficient.' — tone: ___", answer: "critical", hint: "Phê phán." },
-              { text: "'The study was conducted over five years.' — tone: ___", textEn: "'The study was conducted over five years.' — tone: ___", answer: "objective", hint: "Trung lập." },
+              { text: "'The data clearly shows a 15% increase.' - tone: ___", textEn: "'The data clearly shows a 15% increase.' - tone: ___", answer: "objective", hint: "Trình bày sự thật." },
+              { text: "'Such an unfounded claim deserves scrutiny.' - tone: ___", textEn: "'Such an unfounded claim deserves scrutiny.' - tone: ___", answer: "skeptical", hint: "Nghi ngờ." },
+              { text: "'Her brilliant insight transformed the field.' - tone: ___", textEn: "'Her brilliant insight transformed the field.' - tone: ___", answer: "admiring", hint: "Khen ngợi." },
+              { text: "'The policy is poorly designed and inefficient.' - tone: ___", textEn: "'The policy is poorly designed and inefficient.' - tone: ___", answer: "critical", hint: "Phê phán." },
+              { text: "'The study was conducted over five years.' - tone: ___", textEn: "'The study was conducted over five years.' - tone: ___", answer: "objective", hint: "Trung lập." },
             ],
           },
         ],
@@ -976,11 +976,11 @@ export const satExpansionModules2: LanguageModule[] = [
             instruction: "Xác định biện pháp tu từ (ethos / pathos / logos / analogy / anecdote).",
             instructionEn: "Identify the rhetorical device.",
             sentences: [
-              { text: "'As a 30-year cardiologist, I urge you...' — ___", textEn: "'As a 30-year cardiologist, I urge you...' — ___", answer: "ethos", hint: "Uy tín." },
-              { text: "'Imagine the agony of a starving child.' — ___", textEn: "'Imagine the agony of a starving child.' — ___", answer: "pathos", hint: "Cảm xúc." },
-              { text: "'Data from 50 studies confirm that...' — ___", textEn: "'Data from 50 studies confirm that...' — ___", answer: "logos", hint: "Logic + dữ liệu." },
-              { text: "'The mind is a garden — what you plant grows.' — ___", textEn: "'The mind is a garden — what you plant grows.' — ___", answer: "analogy", hint: "So sánh." },
-              { text: "'I once met a boy who taught me everything about courage...' — ___", textEn: "'I once met a boy who taught me everything about courage...' — ___", answer: "anecdote", hint: "Câu chuyện minh họa." },
+              { text: "'As a 30-year cardiologist, I urge you...' - ___", textEn: "'As a 30-year cardiologist, I urge you...' - ___", answer: "ethos", hint: "Uy tín." },
+              { text: "'Imagine the agony of a starving child.' - ___", textEn: "'Imagine the agony of a starving child.' - ___", answer: "pathos", hint: "Cảm xúc." },
+              { text: "'Data from 50 studies confirm that...' - ___", textEn: "'Data from 50 studies confirm that...' - ___", answer: "logos", hint: "Logic + dữ liệu." },
+              { text: "'The mind is a garden - what you plant grows.' - ___", textEn: "'The mind is a garden - what you plant grows.' - ___", answer: "analogy", hint: "So sánh." },
+              { text: "'I once met a boy who taught me everything about courage...' - ___", textEn: "'I once met a boy who taught me everything about courage...' - ___", answer: "anecdote", hint: "Câu chuyện minh họa." },
             ],
           },
         ],
@@ -1023,12 +1023,12 @@ export const satExpansionModules2: LanguageModule[] = [
         proTips: [
           "Trong câu hỏi 'paired evidence', làm Q2 trước nếu Q1 khó.",
           "Loại bằng chứng quá chung chung hoặc không liên quan trực tiếp.",
-          "Reasoning là cầu nối — luôn hỏi: 'TẠI SAO bằng chứng này ủng hộ claim?'",
+          "Reasoning là cầu nối - luôn hỏi: 'TẠI SAO bằng chứng này ủng hộ claim?'",
         ],
         proTipsEn: [
           "On paired evidence questions, do Q2 first if Q1 is hard.",
           "Eliminate evidence that is too general or off-topic.",
-          "Reasoning is the bridge — always ask 'WHY does this evidence support the claim?'",
+          "Reasoning is the bridge - always ask 'WHY does this evidence support the claim?'",
         ],
         vocabulary: [
           { word: "claim", ipa: "/kleɪm/", meaning: "luận điểm", meaningEn: "main point argued", example: "State your claim clearly.", exampleEn: "State your claim clearly.", partOfSpeech: "noun" },

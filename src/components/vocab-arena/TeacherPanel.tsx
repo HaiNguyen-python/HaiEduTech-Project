@@ -220,7 +220,7 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
     );
   }
 
-  // WAITING / PLAYING / ENDED — Teacher dashboard
+  // WAITING / PLAYING / ENDED - Teacher dashboard
   const analytics = getWordAnalytics();
   const finished = participants.filter((p) => p.finished_at).length;
 
@@ -314,7 +314,7 @@ const TeacherPanel = ({ onBack }: TeacherPanelProps) => {
         )}
       </div>
 
-      {/* Word analytics — show after game ends */}
+      {/* Word analytics - show after game ends */}
       {roomStatus === "ended" && analytics.length > 0 && (
         <div>
           <h3 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">

@@ -328,7 +328,7 @@ const AssessmentTool = ({ preSelectedSubject, inline }: AssessmentToolProps) => 
 
   return (
     <>
-      {/* CTA Section — hidden when inline */}
+      {/* CTA Section - hidden when inline */}
       {!inline && (
         <section className="relative py-20 sm:py-24">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
@@ -350,8 +350,8 @@ const AssessmentTool = ({ preSelectedSubject, inline }: AssessmentToolProps) => 
               </h2>
               <p className="mx-auto mb-8 max-w-lg text-sm leading-7 text-muted-foreground sm:text-base">
                 {t(
-                  "Chọn môn học và làm bài kiểm tra 5 phút để biết trình độ hiện tại — nhận lộ trình cá nhân hóa từ hệ thống RL",
-                  "Choose your subject and take a 5-minute test to discover your level — get a personalized roadmap from our RL Engine"
+                  "Chọn môn học và làm bài kiểm tra 5 phút để biết trình độ hiện tại - nhận lộ trình cá nhân hóa từ hệ thống RL",
+                  "Choose your subject and take a 5-minute test to discover your level - get a personalized roadmap from our RL Engine"
                 )}
               </p>
               {renderButton()}

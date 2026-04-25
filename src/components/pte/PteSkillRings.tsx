@@ -124,7 +124,7 @@ const PteSkillRings = ({ skills, variant = "detailed", loading, showLink = true 
           : Math.round((s.avgScore / 90) * 100);
         const centerLabel = variant === "compact"
           ? `${s.completionPct}%`
-          : (s.avgScore > 0 ? s.avgScore.toFixed(0) : "—");
+          : (s.avgScore > 0 ? s.avgScore.toFixed(0) : "-");
         const centerSub = variant === "compact"
           ? `${s.completed}/${s.total}`
           : (s.avgScore > 0 ? "/ 90" : "no data");
@@ -168,7 +168,7 @@ const PteSkillRings = ({ skills, variant = "detailed", loading, showLink = true 
                 </div>
                 <div className="flex items-center justify-between text-muted-foreground">
                   <span>Accuracy</span>
-                  <span className="font-bold text-foreground">{s.accuracy > 0 ? `${s.accuracy}%` : "—"}</span>
+                  <span className="font-bold text-foreground">{s.accuracy > 0 ? `${s.accuracy}%` : "-"}</span>
                 </div>
                 {s.timeSpentSeconds > 0 && (
                   <div className="flex items-center justify-between text-muted-foreground">
@@ -192,7 +192,7 @@ const PteSkillRings = ({ skills, variant = "detailed", loading, showLink = true 
             {variant === "compact" && (
               <div className="text-[11px] text-muted-foreground text-center">
                 {s.attempts > 0
-                  ? `${s.attempts} attempt${s.attempts === 1 ? "" : "s"} · avg ${s.avgScore || "—"}`
+                  ? `${s.attempts} attempt${s.attempts === 1 ? "" : "s"} · avg ${s.avgScore || "-"}`
                   : "Start practicing"}
               </div>
             )}
