@@ -1,19 +1,11 @@
-// TOEIC Essential Vocabulary Database - 300+ business keywords
+// TOEIC Essential Vocabulary Database - 500+ business keywords
 // Organized by 10 professional categories with IPA, bilingual definitions, examples, synonyms & collocations
 import { toeicVocabExpansion } from "./toeicVocabExpansion";
 import { toeicVocabExpansion2 } from "./toeicVocabExpansion2";
+import type { ToeicWord } from "./toeicVocabTypes";
 
-export interface ToeicWord {
-  word: string;
-  wordClass: string; // n, v, adj, adv
-  ipa: string;
-  level: "basic" | "intermediate" | "advanced";
-  definition: { en: string; vi: string };
-  example: string;
-  synonyms: string[];
-  collocations: string[];
-  category: string;
-}
+// Re-export the shared type so existing consumers keep working.
+export type { ToeicWord } from "./toeicVocabTypes";
 
 export const TOEIC_CATEGORIES = [
   "Office & Workplace",
